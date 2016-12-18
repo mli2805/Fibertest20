@@ -93,6 +93,31 @@ this.ScenarioSetup(scenarioInfo);
             this.ScenarioCleanup();
         }
         
+        [Xunit.FactAttribute(DisplayName="Update node")]
+        [Xunit.TraitAttribute("FeatureTitle", "Nodes")]
+        [Xunit.TraitAttribute("Description", "Update node")]
+        public virtual void UpdateNode()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Update node", ((string[])(null)));
+#line 25
+this.ScenarioSetup(scenarioInfo);
+#line 26
+ testRunner.Given("I call CreateNode(1.23, 1.23)", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 27
+ testRunner.And("I call UpdateNode", "\t\t\t\t\"Id\" : 0,\r\n\t\t\t\t\"Title\" : \"Hello world!\",\r\n                \"Coordinates\": {\r\n\t" +
+                    "\t\t\t\t\"Latitude\" : 1.23,\r\n\t\t\t\t\t\"Longitude\" : 1.23\r\n\t\t\t\t}", ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 36
+ testRunner.When("I call GetGraph()", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 37
+ testRunner.Then("the return value should be", "   { \r\n      \"Nodes\": [\r\n             { \r\n\t\t\t\t\"Id\" : 0,\r\n\t\t\t\t\"Title\" : \"Hello wor" +
+                    "ld!\",\r\n                \"Coordinates\": {\r\n\t\t\t\t\t\"Latitude\" : 1.23,\r\n\t\t\t\t\t\"Longitud" +
+                    "e\" : 1.23\r\n\t\t\t\t}\r\n             }\r\n      ]\r\n   }", ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.1.0.0")]
         [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : System.IDisposable
