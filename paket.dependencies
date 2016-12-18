@@ -1,0 +1,30 @@
+source https://api.nuget.org/v3/index.json
+framework >= net452
+
+nuget Autofac
+nuget Automapper
+nuget Autofac.Owin
+nuget Autofac.WebApi2
+nuget Microsoft.AspNet.WebApi.Client // Test client
+nuget Microsoft.AspNet.WebApi.Owin // UseWebApi
+nuget Serilog.Sinks.Seq
+nuget Microsoft.Owin.Host.SystemWeb
+nuget Swashbuckle.Core
+nuget Microsoft.EntityFrameworkCore.Sqlite 
+nuget Microsoft.Extensions.Primitives
+
+group Test
+	source https://api.nuget.org/v3/index.json
+	framework >= net452
+
+	nuget xunit
+	nuget FluentAssertions
+	nuget Microsoft.Owin.Testing
+	nuget Serilog.Sinks.Literate
+	nuget SpecFlow.xUnit
+	nuget DeepComparison.Json
+
+group Build
+	source https://api.nuget.org/v3/index.json
+	nuget FAKE
+	nuget xunit.runner.console 

@@ -1,0 +1,11 @@
+Autofac.Owin
+Autofac.WebApi2
+Microsoft.AspNet.WebApi.Client
+Microsoft.AspNet.WebApi.Owin
+Swashbuckle.Core
+Serilog.Sinks.Seq
+Microsoft.EntityFrameworkCore.Sqlite 
+Microsoft.Extensions.Primitives
+
+Microsoft.Owin.Host.SystemWeb
+Swashbuckle.Core
