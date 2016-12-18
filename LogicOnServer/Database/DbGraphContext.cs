@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Logic.Database
+namespace LogicOnServer.Database
 {
     public class DbGraphContext : DbContext
     {

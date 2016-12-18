@@ -1,4 +1,4 @@
-﻿namespace Logic.Database
+﻿namespace LogicOnServer.Database
 {
     public class DbNode
     {

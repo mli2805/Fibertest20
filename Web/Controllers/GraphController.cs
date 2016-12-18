@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using System.Web.Http;
 using Fibertest.Datacenter.Web.Domain;
-using Logic.Database;
+using LogicOnServer.Database;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 

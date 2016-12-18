@@ -7,8 +7,8 @@
     <ProjectGuid>{15A42BD6-ACB6-45CC-B993-FAEB2904BB5C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Logic</RootNamespace>
-    <AssemblyName>Logic</AssemblyName>
+    <RootNamespace>LogicOnServer</RootNamespace>
+    <AssemblyName>LogicOnServer</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
