@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Client;
+using Client.Domain;
 using FluentAssertions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;

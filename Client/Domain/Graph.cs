@@ -1,15 +1,10 @@
 ﻿using System.Collections.Generic;
 
-namespace Client
+namespace Client.Domain
 {
     public class Graph
     {
         public List<Node> Nodes { get; set; }
 
-    }
-
-    public class Node
-    {
-        public Coordinates Coordinates { get; set; }
     }
 }

@@ -1,5 +1,5 @@
 ﻿
-namespace Fibertest.Datacenter.Web.Controllers
+namespace Fibertest.Datacenter.Web.Domain
 {
     /// <summary>
     /// Argument
@@ -16,6 +16,4 @@ namespace Fibertest.Datacenter.Web.Controllers
         public double Longitude { get; set; }
 
     }
-
-  
 }

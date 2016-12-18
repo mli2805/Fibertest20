@@ -28,14 +28,14 @@ namespace Tests
             _server = TestServer.Create(startup.Configuration);
             Client = new FtHttpClient(_server.HttpClient);
         }
-        private static DbContextOptions<GraphContext> GetOptions()
+        private static DbContextOptions<DbGraphContext> GetOptions()
         {
             var inMemorySqlite = new SqliteConnection("Data Source=:memory:");
             inMemorySqlite.Open();
-            var optionsBuilder = new DbContextOptionsBuilder<GraphContext>();
+            var optionsBuilder = new DbContextOptionsBuilder<DbGraphContext>();
             optionsBuilder.UseSqlite(inMemorySqlite);
             var options = optionsBuilder.Options;
-            using (var ctx = new GraphContext(options))
+            using (var ctx = new DbGraphContext(options))
                 ctx.Database.EnsureCreated();
             return options;
         }

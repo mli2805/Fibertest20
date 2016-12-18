@@ -1,4 +1,4 @@
-﻿namespace Client
+﻿namespace Client.Domain
 {
     public class Coordinates
     {
@@ -11,4 +11,5 @@
             Longitude = longitude;
         }
     }
+   
 }

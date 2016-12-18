@@ -1,7 +1,7 @@
 ﻿Feature: Nodes
 	In order to know where geographically placed my equipment
 	As a root user
-	I want to be able to create nodes
+	I want to be able to create, update and delete nodes
 
 Scenario: Create node
 	Given I call CreateNode(1.23, 1.23)
@@ -11,6 +11,8 @@ Scenario: Create node
 	   { 
 	      "Nodes": [
 	             { 
+					"Id" : 0,
+					"Title" : null,
 	                "Coordinates": {
 						"Latitude" : 1.23,
 						"Longitude" : 1.23

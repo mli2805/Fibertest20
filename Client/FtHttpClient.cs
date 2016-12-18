@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Dynamic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Client.Domain;
 using Newtonsoft.Json;
 
 namespace Client
@@ -16,11 +16,15 @@ namespace Client
             _http = http;
         }
 
-        public Task CreateNode(Coordinates coordinates)
+        public Task<int> CreateNode(Coordinates coordinates)
         {
             return Post("api/graph/node", coordinates);
         }
 
+        public void UpdateNode(Node node)
+        {
+            Put($"api/graph/node/{node.Id}", node);
+        }
         public Task RemoveNode(int id)
         {
             return Delete("api/graph/node/id");

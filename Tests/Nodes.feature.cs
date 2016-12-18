@@ -34,7 +34,7 @@ namespace Tests
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Nodes", "\tIn order to know where geographically placed my equipment\r\n\tAs a root user\r\n\tI w" +
-                    "ant to be able to create nodes", ProgrammingLanguage.CSharp, ((string[])(null)));
+                    "ant to be able to create, update and delete nodes", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -86,9 +86,9 @@ this.ScenarioSetup(scenarioInfo);
  testRunner.When("I call GetGraph()", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 9
- testRunner.Then("the return value should be", "   { \r\n      \"Nodes\": [\r\n             { \r\n                \"Coordinates\": {\r\n\t\t\t\t\t" +
-                    "\"Latitude\" : 1.23,\r\n\t\t\t\t\t\"Longitude\" : 1.23\r\n\t\t\t\t}\r\n             }\r\n      ]\r\n   " +
-                    "}", ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the return value should be", "   { \r\n      \"Nodes\": [\r\n             { \r\n\t\t\t\t\"Id\" : 0,\r\n\t\t\t\t\"Title\" : null,\r\n   " +
+                    "             \"Coordinates\": {\r\n\t\t\t\t\t\"Latitude\" : 1.23,\r\n\t\t\t\t\t\"Longitude\" : 1.23\r" +
+                    "\n\t\t\t\t}\r\n             }\r\n      ]\r\n   }", ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

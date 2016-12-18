@@ -40,8 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Graph.cs" />
-    <Compile Include="Coordinates.cs" />
+    <Compile Include="Domain\Graph.cs" />
+    <Compile Include="Domain\Coordinates.cs" />
+    <Compile Include="Domain\Node.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FtHttpClient.cs" />
   </ItemGroup>

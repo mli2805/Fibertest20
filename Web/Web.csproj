@@ -70,7 +70,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutofacWeb.cs" />
-    <Compile Include="Controllers\CoordinatesArg.cs" />
+    <Compile Include="Domain\CoordinatesArg.cs" />
+    <Compile Include="Domain\NodeArg.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Controllers\GraphController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
