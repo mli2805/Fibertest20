@@ -26,12 +26,14 @@ Scenario: Update node
 	Given I call CreateNode(1.23, 1.23)
 	And I call UpdateNode
 	"""
+	{
 					"Id" : 0,
 					"Title" : "Hello world!",
 	                "Coordinates": {
 						"Latitude" : 1.23,
 						"Longitude" : 1.23
 					}
+	}
 	"""
 	When I call GetGraph()
 	Then the return value should be

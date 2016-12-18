@@ -21,9 +21,10 @@ namespace Client
             return Post("api/graph/node", coordinates);
         }
 
-        public void UpdateNode(Node node)
+        public Task UpdateNode(Node node)
         {
-            Put($"api/graph/node/{node.Id}", node);
+            var url = $"api/graph/node/{node.Id}";
+            return Put(url, node);
         }
         public Task RemoveNode(int id)
         {
@@ -52,7 +53,7 @@ namespace Client
             return Int32.Parse(response);
         }
 
-        private async void Put<T>(string url, T body)
+        private async Task Put<T>(string url, T body)
         {
             var result = await _http.PutAsync(url,
                 new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json"));

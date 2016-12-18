@@ -20,6 +20,12 @@ namespace Tests
             node.Wait();
         }
 
+        [Given(@"I call UpdateNode")]
+        public void UpdateNode(string updatedNode)
+        {
+            _host.Client.UpdateNode(JsonConvert.DeserializeObject<Node>(updatedNode));
+        }
+
         [When(@"I call GetGraph\(\)")]
         public void GetGraph()
         {
