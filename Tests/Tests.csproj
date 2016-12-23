@@ -63,9 +63,9 @@
       <Project>{CE5001F4-244C-4BB5-935D-59AEF5D45CAB}</Project>
       <Name>Client</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LogicOnServer\LogicOnServer.csproj">
-      <Project>{15A42BD6-ACB6-45CC-B993-FAEB2904BB5C}</Project>
-      <Name>LogicOnServer</Name>
+    <ProjectReference Include="..\CommonLogic\CommonLogic.csproj">
+      <Project>{15a42bd6-acb6-45cc-b993-faeb2904bb5c}</Project>
+      <Name>CommonLogic</Name>
     </ProjectReference>
     <ProjectReference Include="..\Web\Web.csproj">
       <Project>{8AA402BB-C9E8-4BC3-80F3-4DF5438817EA}</Project>

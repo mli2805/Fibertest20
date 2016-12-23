@@ -4,7 +4,7 @@ namespace Client.Domain
 {
     public class Graph
     {
-        public List<Node> Nodes { get; set; }
+        public List<ClientNode> Nodes { get; set; }
 
     }
 }

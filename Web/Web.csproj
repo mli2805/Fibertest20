@@ -71,7 +71,6 @@
   <ItemGroup>
     <Compile Include="AutofacWeb.cs" />
     <Compile Include="Domain\CoordinatesArg.cs" />
-    <Compile Include="Domain\NodeArg.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Controllers\GraphController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -86,9 +85,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LogicOnServer\LogicOnServer.csproj">
-      <Project>{15A42BD6-ACB6-45CC-B993-FAEB2904BB5C}</Project>
-      <Name>LogicOnServer</Name>
+    <ProjectReference Include="..\CommonLogic\CommonLogic.csproj">
+      <Project>{15a42bd6-acb6-45cc-b993-faeb2904bb5c}</Project>
+      <Name>CommonLogic</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

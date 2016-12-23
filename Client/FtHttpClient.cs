@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Client.Domain;
+using CommonLogic.Database;
 using Newtonsoft.Json;
 
 namespace Client
@@ -16,15 +17,23 @@ namespace Client
             _http = http;
         }
 
-        public Task<int> CreateNode(Coordinates coordinates)
+        public ClientNode CreateNode(ClientNode clientNode)
         {
-            return Post("api/graph/node", coordinates);
+            DbNode dbNode = new DbNode();
+
+            // mapping
+
+            dbNode = Post("api/graph/node", dbNode).Result;
+
+            // mapping 
+
+            return clientNode;
         }
 
-        public Task<int> UpdateNode(Node node)
+        public void UpdateNode(ClientNode clientNode)
         {
-            var url = $"api/graph/node/{node.Id}";
-            return Put(url, node);
+            var url = $"api/graph/node/{clientNode.Id}";
+            Put(url, clientNode);
         }
         public Task RemoveNode(int id)
         {
@@ -43,23 +52,20 @@ namespace Client
             return JsonConvert.DeserializeObject<T>(response);
         }
 
-        private async Task<int> Post<T>(string url, T body)
+        private async Task<T> Post<T>(string url, T body)
         {
             var result = await _http.PostAsync(url,
                 new StringContent(JsonConvert.SerializeObject(body),
                     Encoding.UTF8, "application/json"));
             result.EnsureSuccessStatusCode();
             var response = await result.Content.ReadAsStringAsync();
-            return Int32.Parse(response);
+            return JsonConvert.DeserializeObject<T>(response);
         }
 
-        private async Task<int> Put<T>(string url, T body)
+        private async void Put<T>(string url, T body)
         {
-            var result = await _http.PutAsync(url,
+            var response = await _http.PutAsync(url,
                 new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json"));
-            result.EnsureSuccessStatusCode();
-            var response = await result. Content.ReadAsStringAsync();
-            return Int32.Parse(response);
         }
         private async Task Delete(string url)
         {

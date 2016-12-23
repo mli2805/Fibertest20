@@ -1,8 +1,8 @@
 ﻿using System;
 using Autofac;
 using Client;
+using CommonLogic.Database;
 using Fibertest.Datacenter.Web;
-using LogicOnServer.Database;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Owin.Testing;

@@ -16,14 +16,14 @@ namespace Tests
         [Given(@"I call CreateNode\((.*), (.*)\)")]
         public void CreateNode(double latitude, double longitude)
         {
-            var node = _host.Client.CreateNode(new Coordinates(latitude, longitude));
-            node.Wait();
+            var node = new ClientNode() {Latitude = latitude, Longitude = longitude};
+            node = _host.Client.CreateNode(node);
         }
 
         [Given(@"I call UpdateNode")]
         public void UpdateNode(string updatedNode)
         {
-            _host.Client.UpdateNode(JsonConvert.DeserializeObject<Node>(updatedNode));
+            _host.Client.UpdateNode(JsonConvert.DeserializeObject<ClientNode>(updatedNode));
         }
 
         [When(@"I call GetGraph\(\)")]
