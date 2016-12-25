@@ -112,11 +112,11 @@ public class SystemUnderTest
         Aggregate.Events.Clear();
     }
 
-    public void UpdateNode(Guid NodeId, string title)
+    public void UpdateNode(Guid nodeId, string title)
     {
         var cmd = new UpdateNode()
         {
-            Id = NodeId,
+            Id = nodeId,
             Title = title,
         };
 

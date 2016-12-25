@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfClient", "WpfClient.cspr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Graph", "..\Graph\Graph.csproj", "{A734876E-977B-4DDA-B6A4-AD1DD525C6D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphTests", "GraphTests\GraphTests.csproj", "{DA64B469-E062-498C-8748-F298AAED44B2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Graph.Tests", "..\Graph.Tests\Graph.Tests.csproj", "{456F0424-B6BD-452C-A4B9-53DEB92E829C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{A734876E-977B-4DDA-B6A4-AD1DD525C6D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A734876E-977B-4DDA-B6A4-AD1DD525C6D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A734876E-977B-4DDA-B6A4-AD1DD525C6D1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DA64B469-E062-498C-8748-F298AAED44B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DA64B469-E062-498C-8748-F298AAED44B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DA64B469-E062-498C-8748-F298AAED44B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DA64B469-E062-498C-8748-F298AAED44B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{456F0424-B6BD-452C-A4B9-53DEB92E829C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{456F0424-B6BD-452C-A4B9-53DEB92E829C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{456F0424-B6BD-452C-A4B9-53DEB92E829C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{456F0424-B6BD-452C-A4B9-53DEB92E829C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
