@@ -12,29 +12,29 @@ namespace Iit.Fibertest.GraphTests
     public sealed class NodeSteps
     {
         private readonly SystemUnderTest _sut = new SystemUnderTest();
-        private Guid _saidNode;
+        private Guid _saidNodeId;
         private UpdateNodeViewModel _window;
         private int _cutOff;
 
         [Given(@"A node created")]
         public void CreateNode()
         {
-            _saidNode = _sut.AddNode();
+            _saidNodeId = _sut.AddNode();
             _cutOff = _sut.CurrentEventNumber;
         }
 
         [Given(@"A node created with title (.*)")]
         public void CreateNode(string title)
         {
-            _saidNode = _sut.AddNode();
-            _sut.UpdateNode(_saidNode, title);
+            _saidNodeId = _sut.AddNode();
+            _sut.UpdateNode(_saidNodeId, title);
             _cutOff = _sut.CurrentEventNumber;
         }
 
         [Given(@"An update window opened for said node")]
         public void OpenWindow()
         {
-            _window = new UpdateNodeViewModel(_saidNode, _sut.ReadModel, _sut.Aggregate);
+            _window = new UpdateNodeViewModel(_saidNodeId, _sut.ReadModel, _sut.Aggregate);
         }
         [Given(@"Title was set to (.*)")]
         public void GivenTitleWasSetToBlah_Blah(string title)
