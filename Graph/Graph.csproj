@@ -41,9 +41,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Aggregate.cs" />
+    <Compile Include="Commands\Fiber\AddFiber.cs" />
+    <Compile Include="Commands\Node\AddNode.cs" />
+    <Compile Include="Commands\Node\RemoveNode.cs" />
+    <Compile Include="Commands\Node\UpdateNode.cs" />
+    <Compile Include="Events\Fiber\FiberAdded.cs" />
+    <Compile Include="Events\Node\NodeAdded.cs" />
+    <Compile Include="Events\Node\NodeRemoved.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
