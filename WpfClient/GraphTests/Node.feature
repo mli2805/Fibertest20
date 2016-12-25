@@ -20,6 +20,8 @@ Scenario: Save with changes
 	Then The window gets closed
 
 Scenario: Save with an existing title
+	Given A node created with title blah-blah
+	Given Title was set to blah-blah
 	When Save button pressed
 	Then Title field is red
 	Then The window is not closed

@@ -18,6 +18,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
         private readonly Node _originalNode;
         public Guid Id { get; set; }
+        public bool IsClosed { get; set; }
 
         public UpdateNodeViewModel(Guid id, ReadModel model, Aggregate aggregate)
         {
@@ -25,6 +26,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             _aggregate = aggregate;
             Id = id;
             _originalNode = model.Nodes.Single(n => n.Id == id);
+            IsClosed = false;
         }
 
         public string Title
@@ -40,11 +42,26 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
         public void Save()
         {
-            if (IsChanged())
-            _aggregate.When(new UpdateNode
+            if (!IsChanged())
             {
-                
+                CloseView();
+                return;
+            }
+
+            Error = _aggregate.When(new UpdateNode
+            {
+                Title = _title
             });
+            if (Error != null)
+                return;
+
+            CloseView();
+        }
+
+        private void CloseView()
+        {
+            IsClosed = true;
+            TryClose();
         }
 
         public string this[string columnName]
@@ -52,13 +69,13 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             get { throw new NotImplementedException(); }
         }
 
-        public string Error { get; }
+        public string Error { get; set; }
 
         private bool IsChanged()
         {
             if (_title != _originalNode.Title)
                 return true;
-            return 
+            return
                 false;
         }
     }

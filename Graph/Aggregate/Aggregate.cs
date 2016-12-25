@@ -46,11 +46,12 @@ namespace Iit.Fibertest.Graph
                 Id = cmd.Id,
             });
         }
-        public void When(UpdateNode cmd)
+        public string When(UpdateNode cmd)
         {
             if (!NodeTitles.Add(cmd.Title))
-                throw new Exception("node title already exists");
+                return "node title already exists";
             Events.Add(_mapper.Map<NodeUpdated>(cmd));
+            return null;
         }
     }
 }

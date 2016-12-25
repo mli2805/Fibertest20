@@ -27,6 +27,14 @@ namespace Iit.Fibertest.GraphTests
             _cutOff = _sut.CurrentEventNumber;
         }
 
+        [Given(@"A node created with title (.*)")]
+        public void CreateNode(string title)
+        {
+            _saidNode = _sut.AddNode();
+            _sut.UpdateNode(_saidNode, title);
+            _cutOff = _sut.CurrentEventNumber;
+        }
+
         [Given(@"An update window opened for said node")]
         public void OpenWindow()
         {
@@ -51,7 +59,7 @@ namespace Iit.Fibertest.GraphTests
         [Then(@"The window gets closed")]
         public void AssertTheWindowIsClosed()
         {
-            _window.IsActive.Should().BeFalse();
+            _window.IsClosed.Should().BeTrue();
         }
         [Then(@"The change gets saved")]
         public void AssertThereAreNewEvents()
@@ -68,7 +76,7 @@ namespace Iit.Fibertest.GraphTests
         [Then(@"The window is not closed")]
         public void ThenTheWindowIsNotClosed()
         {
-            _window.IsActive.Should().BeTrue();
+            _window.IsClosed.Should().BeFalse();
         }
 
     }
@@ -102,6 +110,19 @@ public class SystemUnderTest
             ReadModel.AsDynamic().Apply(e);
         _currentEventNumber += Aggregate.Events.Count;
         Aggregate.Events.Clear();
+    }
+
+    public void UpdateNode(Guid NodeId, string title)
+    {
+        var cmd = new UpdateNode()
+        {
+            Id = NodeId,
+            Title = title,
+        };
+
+        Aggregate.When(cmd);
+
+        Apply();
     }
 }
 
