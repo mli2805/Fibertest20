@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using FluentAssertions;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
 using Iit.Fibertest.WpfClient.ViewModels;
-using Iit.Fibertest.WpfClient.Views;
 using PrivateReflectionUsingDynamic;
 using TechTalk.SpecFlow;
 
