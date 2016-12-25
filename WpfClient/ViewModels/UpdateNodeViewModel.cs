@@ -5,17 +5,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using Iit.Fibertest.Graph;
+using Iit.Fibertest.Graph.Commands;
 
 namespace Iit.Fibertest.WpfClient.ViewModels
 {
     public class UpdateNodeViewModel : Screen, IDataErrorInfo
     {
+        private readonly ReadModel _model;
+        private readonly Aggregate _aggregate;
         private string _title;
+
+        private Node _originalNode;
         public Guid Id { get; set; }
 
-        public UpdateNodeViewModel(Guid id)
+        public UpdateNodeViewModel(Guid id, ReadModel model, Aggregate aggregate)
         {
+            _model = model;
+            _aggregate = aggregate;
             Id = id;
+            _originalNode = model.Nodes.Single(n => n.Id == id);
         }
 
         public string Title
@@ -31,7 +40,11 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
         public void Save()
         {
-            
+            if (IsChanged())
+            _aggregate.When(new UpdateNode
+            {
+                
+            });
         }
 
         public string this[string columnName]
@@ -40,5 +53,11 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         }
 
         public string Error { get; }
+
+        private bool IsChanged()
+        {
+            if (_title != _originalNode.Title) return true;
+            return false;
+        }
     }
 }

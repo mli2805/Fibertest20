@@ -7,6 +7,7 @@ using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
 using Iit.Fibertest.WpfClient.ViewModels;
 using Iit.Fibertest.WpfClient.Views;
+using PrivateReflectionUsingDynamic;
 using TechTalk.SpecFlow;
 
 namespace Iit.Fibertest.GraphTests
@@ -29,7 +30,7 @@ namespace Iit.Fibertest.GraphTests
         [Given(@"An update window opened for said node")]
         public void OpenWindow()
         {
-            _window = new UpdateNodeViewModel(_saidNode);
+            _window = new UpdateNodeViewModel(_saidNode, _sut.ReadModel, _sut.Aggregate);
         }
         [When(@"Save button pressed")]
         public void Save()
@@ -70,6 +71,7 @@ namespace Iit.Fibertest.GraphTests
 public class SystemUnderTest
 {
     public Aggregate Aggregate { get; } = new Aggregate();
+    public ReadModel ReadModel { get; } = new ReadModel();
     public int CurrentEvent => Aggregate.Events.Count;
 
     public Guid AddNode()
@@ -79,8 +81,19 @@ public class SystemUnderTest
         {
             Id = newGuid
         };
+
         Aggregate.When(cmd);
+
+        Apply();
+
         return newGuid;
+    }
+
+    private void Apply()
+    {
+        foreach (var e in Aggregate.Events)
+            ReadModel.AsDynamic().Apply(e);
+        Aggregate.Events.Clear();
     }
 }
 

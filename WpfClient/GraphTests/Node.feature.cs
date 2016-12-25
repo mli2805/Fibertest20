@@ -87,15 +87,15 @@ namespace Iit.Fibertest.GraphTests
         public virtual void SaveWithoutChanges()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Save without changes", ((string[])(null)));
-#line 7
+#line 11
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 8
+#line 12
  testRunner.When("Save button pressed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 9
+#line 13
  testRunner.Then("Nothing gets saved", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 10
+#line 14
  testRunner.Then("The window gets closed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -107,15 +107,15 @@ this.FeatureBackground();
         public virtual void SaveWithChanges()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Save with changes", ((string[])(null)));
-#line 12
+#line 16
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 13
+#line 17
  testRunner.When("Save button pressed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 14
+#line 18
  testRunner.Then("The change gets saved", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 15
+#line 19
  testRunner.Then("The window gets closed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -127,15 +127,15 @@ this.FeatureBackground();
         public virtual void SaveWithAnExistingTitle()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Save with an existing title", ((string[])(null)));
-#line 17
+#line 21
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 18
+#line 22
  testRunner.When("Save button pressed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 19
+#line 23
  testRunner.Then("Title field is red", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 20
+#line 24
  testRunner.Then("The window is not closed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

@@ -4,6 +4,10 @@ Background:
 	Given A node created
 	Given An update window opened for said node
 
+# TODO: what is the title initialized with?
+
+
+
 Scenario: Save without changes
 	When Save button pressed
 	Then Nothing gets saved
