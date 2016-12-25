@@ -17,7 +17,7 @@ namespace Iit.Fibertest.GraphTests
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.1.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class NodeFeature : Xunit.IClassFixture<NodeFeature.FixtureData>, System.IDisposable
+    public partial class UpdateNodeFeature : Xunit.IClassFixture<UpdateNodeFeature.FixtureData>, System.IDisposable
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
@@ -25,7 +25,7 @@ namespace Iit.Fibertest.GraphTests
 #line 1 "Node.feature"
 #line hidden
         
-        public NodeFeature()
+        public UpdateNodeFeature()
         {
             this.TestInitialize();
         }
@@ -33,8 +33,7 @@ namespace Iit.Fibertest.GraphTests
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Node", "\tIn order to avoid silly mistakes\r\n\tAs a math idiot\r\n\tI want to be told the sum o" +
-                    "f two numbers", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "UpdateNode", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -63,7 +62,17 @@ namespace Iit.Fibertest.GraphTests
             testRunner.CollectScenarioErrors();
         }
         
-        public virtual void SetFixture(NodeFeature.FixtureData fixtureData)
+        public virtual void FeatureBackground()
+        {
+#line 3
+#line 4
+ testRunner.Given("A node created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 5
+ testRunner.Given("An update window opened for said node", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+        }
+        
+        public virtual void SetFixture(UpdateNodeFeature.FixtureData fixtureData)
         {
         }
         
@@ -72,24 +81,62 @@ namespace Iit.Fibertest.GraphTests
             this.ScenarioTearDown();
         }
         
-        [Xunit.FactAttribute(DisplayName="Add two numbers")]
-        [Xunit.TraitAttribute("FeatureTitle", "Node")]
-        [Xunit.TraitAttribute("Description", "Add two numbers")]
-        [Xunit.TraitAttribute("Category", "mytag")]
-        public virtual void AddTwoNumbers()
+        [Xunit.FactAttribute(DisplayName="Save without changes")]
+        [Xunit.TraitAttribute("FeatureTitle", "UpdateNode")]
+        [Xunit.TraitAttribute("Description", "Save without changes")]
+        public virtual void SaveWithoutChanges()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add two numbers", new string[] {
-                        "mytag"});
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Save without changes", ((string[])(null)));
 #line 7
 this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
 #line 8
- testRunner.Given("I have entered 50 into the calculator", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.When("Save button pressed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 9
- testRunner.And("I have entered 70 into the calculator", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("Nothing gets saved", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 10
- testRunner.When("I press add", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 11
- testRunner.Then("the result should be 120 on the screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("The window gets closed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Save with changes")]
+        [Xunit.TraitAttribute("FeatureTitle", "UpdateNode")]
+        [Xunit.TraitAttribute("Description", "Save with changes")]
+        public virtual void SaveWithChanges()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Save with changes", ((string[])(null)));
+#line 12
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 13
+ testRunner.When("Save button pressed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 14
+ testRunner.Then("The change gets saved", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 15
+ testRunner.Then("The window gets closed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Save with an existing title")]
+        [Xunit.TraitAttribute("FeatureTitle", "UpdateNode")]
+        [Xunit.TraitAttribute("Description", "Save with an existing title")]
+        public virtual void SaveWithAnExistingTitle()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Save with an existing title", ((string[])(null)));
+#line 17
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 18
+ testRunner.When("Save button pressed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 19
+ testRunner.Then("Title field is red", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 20
+ testRunner.Then("The window is not closed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -101,12 +148,12 @@ this.ScenarioSetup(scenarioInfo);
             
             public FixtureData()
             {
-                NodeFeature.FeatureSetup();
+                UpdateNodeFeature.FeatureSetup();
             }
             
             void System.IDisposable.Dispose()
             {
-                NodeFeature.FeatureTearDown();
+                UpdateNodeFeature.FeatureTearDown();
             }
         }
     }

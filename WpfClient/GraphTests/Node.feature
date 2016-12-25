@@ -1,11 +1,20 @@
-﻿Feature: Node
-	In order to avoid silly mistakes
-	As a math idiot
-	I want to be told the sum of two numbers
+﻿Feature: UpdateNode
 
-@mytag
-Scenario: Add two numbers
-	Given I have entered 50 into the calculator
-	And I have entered 70 into the calculator
-	When I press add
-	Then the result should be 120 on the screen
+Background:
+	Given A node created
+	Given An update window opened for said node
+
+Scenario: Save without changes
+	When Save button pressed
+	Then Nothing gets saved
+	Then The window gets closed
+
+Scenario: Save with changes
+	When Save button pressed
+	Then The change gets saved
+	Then The window gets closed
+
+Scenario: Save with an existing title
+	When Save button pressed
+	Then Title field is red
+	Then The window is not closed
