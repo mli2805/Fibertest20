@@ -16,7 +16,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         private readonly Aggregate _aggregate;
         private string _title;
 
-        private Node _originalNode;
+        private readonly Node _originalNode;
         public Guid Id { get; set; }
 
         public UpdateNodeViewModel(Guid id, ReadModel model, Aggregate aggregate)
@@ -56,8 +56,10 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
         private bool IsChanged()
         {
-            if (_title != _originalNode.Title) return true;
-            return false;
+            if (_title != _originalNode.Title)
+                return true;
+            return 
+                false;
         }
     }
 }

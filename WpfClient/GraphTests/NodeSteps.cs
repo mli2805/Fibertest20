@@ -24,7 +24,7 @@ namespace Iit.Fibertest.GraphTests
         public void CreateNode()
         {
             _saidNode = _sut.AddNode();
-            _cutOff = _sut.CurrentEvent;
+            _cutOff = _sut.CurrentEventNumber;
         }
 
         [Given(@"An update window opened for said node")]
@@ -32,6 +32,12 @@ namespace Iit.Fibertest.GraphTests
         {
             _window = new UpdateNodeViewModel(_saidNode, _sut.ReadModel, _sut.Aggregate);
         }
+        [Given(@"Title was set to (.*)")]
+        public void GivenTitleWasSetToBlah_Blah(string title)
+        {
+            _window.Title = title;
+        }
+
         [When(@"Save button pressed")]
         public void Save()
         {
@@ -40,7 +46,7 @@ namespace Iit.Fibertest.GraphTests
         [Then(@"Nothing gets saved")]
         public void AssertThereAreNoNewEvents()
         {
-            _sut.CurrentEvent.Should().Be(_cutOff);
+            _sut.CurrentEventNumber.Should().Be(_cutOff);
         }
         [Then(@"The window gets closed")]
         public void AssertTheWindowIsClosed()
@@ -51,7 +57,7 @@ namespace Iit.Fibertest.GraphTests
         public void AssertThereAreNewEvents()
         {
             //TODO: replace with an actual check with UI
-            _sut.CurrentEvent.Should().BeGreaterThan(_cutOff);
+            _sut.CurrentEventNumber.Should().BeGreaterThan(_cutOff);
         }
 
         [Then(@"Title field is red")]
@@ -72,7 +78,8 @@ public class SystemUnderTest
 {
     public Aggregate Aggregate { get; } = new Aggregate();
     public ReadModel ReadModel { get; } = new ReadModel();
-    public int CurrentEvent => Aggregate.Events.Count;
+    private int _currentEventNumber;
+    public int CurrentEventNumber => _currentEventNumber + Aggregate.Events.Count;
 
     public Guid AddNode()
     {
@@ -93,6 +100,7 @@ public class SystemUnderTest
     {
         foreach (var e in Aggregate.Events)
             ReadModel.AsDynamic().Apply(e);
+        _currentEventNumber += Aggregate.Events.Count;
         Aggregate.Events.Clear();
     }
 }

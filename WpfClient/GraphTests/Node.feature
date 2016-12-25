@@ -14,6 +14,7 @@ Scenario: Save without changes
 	Then The window gets closed
 
 Scenario: Save with changes
+	Given Title was set to blah-blah
 	When Save button pressed
 	Then The change gets saved
 	Then The window gets closed
