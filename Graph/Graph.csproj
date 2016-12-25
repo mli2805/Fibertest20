@@ -49,6 +49,7 @@
     <Compile Include="Events\Fiber\FiberAdded.cs" />
     <Compile Include="Events\Node\NodeAdded.cs" />
     <Compile Include="Events\Node\NodeRemoved.cs" />
+    <Compile Include="Events\Node\NodeUpdated.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

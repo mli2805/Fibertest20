@@ -7,8 +7,9 @@ namespace Iit.Fibertest.Graph
 {
     public class Aggregate
     {
-        public List<object> Events { get; } = new List<object>(); 
-        public readonly HashSet<NodePairKey> FibersByNodePairs =new HashSet<NodePairKey>();
+        public List<object> Events { get; } = new List<object>();
+        public readonly HashSet<NodePairKey> FibersByNodePairs = new HashSet<NodePairKey>();
+        public readonly HashSet<string> NodeTitles = new HashSet<string>();
         public void When(AddNode cmd)
         {
             Events.Add(new NodeAdded
@@ -26,9 +27,9 @@ namespace Iit.Fibertest.Graph
 
             Events.Add(new FiberAdded
             {
-               Id = cmd.Id,
-               Node1 = cmd.Node1,
-               Node2 = cmd.Node2,
+                Id = cmd.Id,
+                Node1 = cmd.Node1,
+                Node2 = cmd.Node2,
             });
         }
 
@@ -41,7 +42,15 @@ namespace Iit.Fibertest.Graph
         }
         public void When(UpdateNode cmd)
         {
-            
+            if (!NodeTitles.Add(cmd.Title))
+                throw new Exception("node title already exists");
+            Events.Add(new NodeUpdated()
+            {
+                Id = cmd.Id,
+                Title = cmd.Title,
+                Latitude = cmd.Latitude,
+                Longitude = cmd.Longitude,
+            });
         }
     }
 
