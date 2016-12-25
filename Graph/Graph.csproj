@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=5.0.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\WpfClient\packages\AutoMapper.5.0.2\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,7 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Aggregate.cs" />
+    <Compile Include="Aggregate\Aggregate.cs" />
+    <Compile Include="CommandAndEventsProfile.cs" />
     <Compile Include="Commands\Fiber\AddFiber.cs" />
     <Compile Include="Commands\Node\AddNode.cs" />
     <Compile Include="Commands\Node\RemoveNode.cs" />
@@ -50,7 +55,13 @@
     <Compile Include="Events\Node\NodeAdded.cs" />
     <Compile Include="Events\Node\NodeRemoved.cs" />
     <Compile Include="Events\Node\NodeUpdated.cs" />
+    <Compile Include="ReadModel\Node.cs" />
+    <Compile Include="Aggregate\NodePairKey.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReadModel\ReadModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
