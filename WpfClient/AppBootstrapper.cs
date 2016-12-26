@@ -1,11 +1,13 @@
 using Iit.Fibertest.WpfClient.ViewModels;
 
-namespace Iit.Fibertest.WpfClient {
+namespace Iit.Fibertest.WpfClient
+{
     using System;
     using System.Collections.Generic;
     using Caliburn.Micro;
 
-    public class AppBootstrapper : BootstrapperBase {
+    public class AppBootstrapper : BootstrapperBase
+    {
         SimpleContainer container;
 
         public AppBootstrapper() {
