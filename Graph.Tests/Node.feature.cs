@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Iit.Fibertest.GraphTests
+namespace Graph.Tests
 {
     using TechTalk.SpecFlow;
     
@@ -143,6 +143,26 @@ this.FeatureBackground();
  testRunner.Then("Title field is red", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 27
  testRunner.Then("The window is not closed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Cancel any changes")]
+        [Xunit.TraitAttribute("FeatureTitle", "UpdateNode")]
+        [Xunit.TraitAttribute("Description", "Cancel any changes")]
+        public virtual void CancelAnyChanges()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Cancel any changes", ((string[])(null)));
+#line 29
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 30
+ testRunner.When("Cancel button pressed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 31
+ testRunner.Then("Nothing gets saved", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 32
+ testRunner.Then("The window gets closed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

@@ -25,3 +25,9 @@ Scenario: Save with an existing title
 	When Save button pressed
 	Then Title field is red
 	Then The window is not closed
+
+Scenario: Cancel any changes
+	When Cancel button pressed
+	Then Nothing gets saved
+	Then The window gets closed
+	

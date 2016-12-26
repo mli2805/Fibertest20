@@ -55,6 +55,11 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             CloseView();
         }
 
+        public void Cancel()
+        {
+            CloseView();
+        }
+
         private void CloseView()
         {
             IsClosed = true;

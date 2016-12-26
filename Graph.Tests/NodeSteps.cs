@@ -47,6 +47,13 @@ namespace Iit.Fibertest.GraphTests
         {
             _window.Save();
         }
+
+        [When(@"Cancel button pressed")]
+        public void WhenCancelButtonPressed()
+        {
+            _window.Cancel();
+        }
+
         [Then(@"Nothing gets saved")]
         public void AssertThereAreNoNewEvents()
         {
