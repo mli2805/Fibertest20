@@ -71,10 +71,26 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddEquipment.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AddEquipment.feature</DependentUpon>
+    </Compile>
+    <Compile Include="AddEquipmentSteps.cs">
+      <DependentUpon>AddEquipment.feature</DependentUpon>
+    </Compile>
     <Compile Include="Node.feature.cs">
       <DependentUpon>Node.feature</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="NodeCreatingSteps.cs">
+      <DependentUpon>NodeCreating.feature</DependentUpon>
+    </Compile>
+    <Compile Include="NodeCreating.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NodeCreating.feature</DependentUpon>
     </Compile>
     <Compile Include="NodeSteps.cs">
       <DependentUpon>Node.feature</DependentUpon>
@@ -82,10 +98,18 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="AddEquipment.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>AddEquipment.feature.cs</LastGenOutput>
+    </None>
     <None Include="App.config" />
     <None Include="Node.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Node.feature.cs</LastGenOutput>
+    </None>
+    <None Include="NodeCreating.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>NodeCreating.feature.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
   </ItemGroup>

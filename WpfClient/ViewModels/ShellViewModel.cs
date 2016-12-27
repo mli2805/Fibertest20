@@ -20,10 +20,21 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             node.Id = Guid.NewGuid();
             _readModel.Nodes.Add(node);
 
-
             var windowManager = IoC.Get<IWindowManager>();
             var updateNodeViewModel = new UpdateNodeViewModel(node.Id, _readModel, _aggregate);
             windowManager.ShowDialog(updateNodeViewModel);
+
+        }
+
+        public void LaunchAddEquipmentView()
+        {
+            var node = new Node();
+            node.Id = Guid.NewGuid();
+            _readModel.Nodes.Add(node);
+
+            var windowManager = IoC.Get<IWindowManager>();
+            var addEquipmentViewModel = new AddEquipmentViewModel(node.Id, _readModel, _aggregate);
+            windowManager.ShowDialog(addEquipmentViewModel);
 
         }
     }

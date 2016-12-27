@@ -47,15 +47,18 @@
   <ItemGroup>
     <Compile Include="Aggregate\Aggregate.cs" />
     <Compile Include="CommandAndEventsProfile.cs" />
+    <Compile Include="Commands\Equipment\AddEquipment.cs" />
     <Compile Include="Commands\Fiber\AddFiber.cs" />
     <Compile Include="Commands\Node\AddNode.cs" />
     <Compile Include="Commands\Node\RemoveNode.cs" />
     <Compile Include="Commands\Node\UpdateNode.cs" />
+    <Compile Include="Events\Equipment\EquipmentAdded.cs" />
     <Compile Include="Events\Fiber\FiberAdded.cs" />
     <Compile Include="Events\Node\NodeAdded.cs" />
     <Compile Include="Events\Node\NodeRemoved.cs" />
     <Compile Include="Events\Node\NodeUpdated.cs" />
     <Compile Include="Magic\PrivateReflectionDynamicObject.cs" />
+    <Compile Include="ReadModel\Equipment.cs" />
     <Compile Include="ReadModel\Node.cs" />
     <Compile Include="Aggregate\NodePairKey.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

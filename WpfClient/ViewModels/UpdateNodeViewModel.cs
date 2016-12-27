@@ -11,21 +11,13 @@ namespace Iit.Fibertest.WpfClient.ViewModels
     {
         private readonly ReadModel _model;
         private readonly Aggregate _aggregate;
-        private string _title;
 
         private readonly Node _originalNode;
-        public Guid Id { get; set; }
         public bool IsClosed { get; set; }
 
-        public UpdateNodeViewModel(Guid id, ReadModel model, Aggregate aggregate)
-        {
-            _model = model;
-            _aggregate = aggregate;
-            Id = id;
-            _originalNode = model.Nodes.Single(n => n.Id == id);
-            IsClosed = false;
-        }
+        public Guid Id { get; set; }
 
+        private string _title;
         public string Title
         {
             get { return _title; }
@@ -36,6 +28,15 @@ namespace Iit.Fibertest.WpfClient.ViewModels
                 NotifyOfPropertyChange();
             }
         }
+        public UpdateNodeViewModel(Guid id, ReadModel model, Aggregate aggregate)
+        {
+            _model = model;
+            _aggregate = aggregate;
+            Id = id;
+            _originalNode = model.Nodes.Single(n => n.Id == id);
+            IsClosed = false;
+        }
+
 
         public void Save()
         {

@@ -3,9 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Iit.Fibertest.WpfClient.Views"
         mc:Ignorable="d"
-        Title="UpdateNodeView" SizeToContent="Height" Width="300">
+        Title="UpdateNodeView" SizeToContent="Height" Width="300" WindowStartupLocation="CenterScreen">
     <StackPanel Orientation="Vertical">
         <TextBlock Margin="5" Text="Id"/>
         <TextBlock Margin="5" Text="{Binding Id}" />
@@ -13,7 +12,7 @@
         <TextBox Margin="5" Text="{Binding Title}" />
         <TextBlock Margin="5" Text="Comment" />
         <TextBox Margin="5" Text="{Binding Comment}" />
-        <StackPanel Orientation="Horizontal">
+        <StackPanel Orientation="Horizontal" Margin="5,15">
             <Button Name="Save" Height="25" Width="100" Margin="5" Content="Сохранить"/>
             <Button Name="Cancel" Height="25" Width="100" Content="Отменить"/>
         </StackPanel>

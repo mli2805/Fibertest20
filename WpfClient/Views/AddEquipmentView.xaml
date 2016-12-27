@@ -1,0 +1,28 @@
+﻿<Window x:Class="Iit.Fibertest.WpfClient.Views.AddEquipmentView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="AddEquipmentView" SizeToContent="Height" Width="300" WindowStartupLocation="CenterScreen">
+    <StackPanel>
+        <TextBlock Margin="5" >Title</TextBlock> 
+        <TextBox Margin="5" Text="{Binding Title}"/>
+        <TextBlock Margin="5" >Equipment type</TextBlock>
+        <RadioButton Margin="5" GroupName="equipment" IsChecked="{Binding CableReserve.IsSelected}" Content="{Binding CableReserve.Title}" />
+        <RadioButton Margin="5" GroupName="equipment" IsChecked="{Binding Sleeve.IsSelected}" Content="{Binding Sleeve.Title}" />
+        <RadioButton Margin="5" GroupName="equipment" IsChecked="{Binding Cross.IsSelected}" Content="{Binding Cross.Title}" />
+        <RadioButton Margin="5" GroupName="equipment" IsChecked="{Binding Terminal.IsSelected}" Content="{Binding Terminal.Title}" />
+        <RadioButton Margin="5" GroupName="equipment" IsChecked="{Binding Other.IsSelected}" Content="{Binding Other.Title}" />
+        <TextBlock Margin="5" >Cable reserve to the left, m</TextBlock>
+        <TextBox Margin="5" Text="{Binding CableReserveLeft}"/>
+        <TextBlock Margin="5" >Cable reserve to the right, m</TextBlock>
+        <TextBox Margin="5" Text="{Binding CableReserveRight}"/>
+        <TextBlock Margin="5" >Comment</TextBlock>
+        <TextBox Margin="5" Text="{Binding Comment}"/>
+        <StackPanel Orientation="Horizontal" Margin="5,15">
+            <Button Name="Save" Height="25" Width="100" Margin="5" Content="Сохранить"/>
+            <Button Name="Cancel" Height="25" Width="100" Content="Отменить"/>
+        </StackPanel>
+    </StackPanel>
+</Window>
