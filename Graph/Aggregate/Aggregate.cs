@@ -10,8 +10,8 @@ namespace Iit.Fibertest.Graph
     {
 
         public List<object> Events { get; } = new List<object>();
-        private readonly HashSet<NodePairKey> FibersByNodePairs = new HashSet<NodePairKey>();
-        private readonly HashSet<string> NodeTitles = new HashSet<string>();
+        private readonly HashSet<NodePairKey> _fibersByNodePairs = new HashSet<NodePairKey>();
+        private readonly HashSet<string> _nodeTitles = new HashSet<string>();
 
         private readonly IMapper _mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<CommandAndEventsProfile>()).CreateMapper();
@@ -28,7 +28,7 @@ namespace Iit.Fibertest.Graph
 
         public void When(AddFiber cmd)
         {
-            if (!FibersByNodePairs.Add(new NodePairKey(cmd.Node1, cmd.Node2)))
+            if (!_fibersByNodePairs.Add(new NodePairKey(cmd.Node1, cmd.Node2)))
                 throw new Exception("already exists");
 
             Events.Add(new FiberAdded
@@ -53,7 +53,7 @@ namespace Iit.Fibertest.Graph
         }
         public string When(UpdateNode cmd)
         {
-            if (!NodeTitles.Add(cmd.Title))
+            if (!_nodeTitles.Add(cmd.Title))
                 return "node title already exists";
             Events.Add(_mapper.Map<NodeUpdated>(cmd));
             return null;
