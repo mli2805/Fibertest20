@@ -13,6 +13,7 @@ namespace Iit.Fibertest.Graph
         Sleeve,
         Cross,
         Rtu,
+        Other,
         Terminal,
     }
     public class Equipment
