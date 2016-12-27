@@ -27,9 +27,15 @@ namespace Graph.Tests
         }
 
         [When(@"When Save button on Add Equipment window pressed")]
-        public void WhenWhenSaveButtonOnAddEquipmentWindowPressed()
+        public void WhenSaveButtonOnAddEquipmentWindowPressed()
         {
             _window.Save();
+        }
+
+        [When(@"When Cancel button on Add Equipment window pressed")]
+        public void WhenCancelButtonOnAddEquipmentWindowPressed()
+        {
+            _window.Cancel();
         }
 
         [Then(@"The new piece of equipment gets saved")]
