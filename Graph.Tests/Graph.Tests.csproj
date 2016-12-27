@@ -79,6 +79,14 @@
     <Compile Include="AddEquipmentSteps.cs">
       <DependentUpon>AddEquipment.feature</DependentUpon>
     </Compile>
+    <Compile Include="FiberAdding.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FiberAdding.feature</DependentUpon>
+    </Compile>
+    <Compile Include="FiberAddingSteps.cs">
+      <DependentUpon>FiberAdding.feature</DependentUpon>
+    </Compile>
     <Compile Include="Node.feature.cs">
       <DependentUpon>Node.feature</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -104,6 +112,10 @@
       <LastGenOutput>AddEquipment.feature.cs</LastGenOutput>
     </None>
     <None Include="App.config" />
+    <None Include="FiberAdding.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>FiberAdding.feature.cs</LastGenOutput>
+    </None>
     <None Include="Node.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Node.feature.cs</LastGenOutput>
