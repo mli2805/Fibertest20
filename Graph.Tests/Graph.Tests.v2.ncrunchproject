@@ -28,5 +28,8 @@
     <NamedTestSelector>
       <TestName>Graph.Tests.NodeCreatingFeature.AddTwoNumbers</TestName>
     </NamedTestSelector>
+    <NamedTestSelector>
+      <TestName>Graph.Tests.FiberAddingFeature.AddFiber</TestName>
+    </NamedTestSelector>
   </IgnoredTests>
 </ProjectConfiguration>
