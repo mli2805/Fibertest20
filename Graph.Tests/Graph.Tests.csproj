@@ -96,6 +96,7 @@
       <DependentUpon>Node.feature</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SystemUnderTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AddEquipment.feature">
@@ -122,6 +123,9 @@
       <Project>{ef7ad573-e50d-4d9b-82ed-7bc44e7b7b43}</Project>
       <Name>WpfClient</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
