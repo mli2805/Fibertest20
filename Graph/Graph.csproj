@@ -60,6 +60,7 @@
     <Compile Include="Magic\PrivateReflectionDynamicObject.cs" />
     <Compile Include="MappingEventToDomainModelProfile.cs" />
     <Compile Include="ReadModel\Equipment.cs" />
+    <Compile Include="ReadModel\Fiber.cs" />
     <Compile Include="ReadModel\Node.cs" />
     <Compile Include="Aggregate\NodePairKey.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

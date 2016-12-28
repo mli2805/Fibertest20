@@ -28,7 +28,7 @@ namespace Graph.Tests
         [When(@"User clicked Add fiber")]
         public void WhenUserClickedAddFiber()
         {
-            //
+            _sut.AddFiber(_leftNodeId, _rightNodeId);
         }
 
         [Then(@"New event persisted")]

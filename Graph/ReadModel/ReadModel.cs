@@ -11,6 +11,9 @@ namespace Iit.Fibertest.Graph
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
 
         public List<Node> Nodes { get; } = new List<Node>();
+        public List<Fiber> Fibers { get; } = new List<Fiber>();
+        public List<Equipment> Equipments { get; } = new List<Equipment>();
+
         public void Apply(NodeAdded e)
         {
             Node node = _mapper.Map<Node>(e);
@@ -27,6 +30,18 @@ namespace Iit.Fibertest.Graph
         {
             Node node = Nodes.Single(n=>n.Id == e.Id);
             Nodes.Remove(node);
+        }
+
+        public void Apply(FiberAdded e)
+        {
+            Fiber fiber = _mapper.Map<Fiber>(e);
+            Fibers.Add(fiber);
+        }
+
+        public void Apply(EquipmentAdded e)
+        {
+            Equipment equipment = _mapper.Map<Equipment>(e);
+            Equipments.Add(equipment);
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Iit.Fibertest.Graph.Events
+namespace Iit.Fibertest.Graph
 {
-    public class FiberAdded
+    public class Fiber
     {
         public Guid Id { get; set; }
         public Guid Node1 { get; set; }

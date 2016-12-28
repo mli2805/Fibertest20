@@ -29,6 +29,7 @@ namespace Graph.Tests
         [When(@"When Save button on Add Equipment window pressed")]
         public void WhenSaveButtonOnAddEquipmentWindowPressed()
         {
+            _sut.AddEquipment();
             _window.Save();
         }
 

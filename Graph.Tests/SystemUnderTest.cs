@@ -22,17 +22,31 @@ namespace Graph.Tests
 
             Aggregate.When(cmd);
 
-            Apply();
+            MakeReadModelApplyEventsGeneratedByAggregate();
 
             return newGuid;
         }
 
-        private void Apply()
+        public void AddFiber(Guid left, Guid right)
         {
-            foreach (var e in Aggregate.Events)
-                ReadModel.AsDynamic().Apply(e);
-            _currentEventNumber += Aggregate.Events.Count;
-            Aggregate.Events.Clear();
+            var newGuid = Guid.NewGuid();
+            var cmd = new AddFiber()
+            {
+                Id = newGuid,
+                Node1 = left,
+                Node2 = right
+            };
+
+            Aggregate.When(cmd);
+
+            MakeReadModelApplyEventsGeneratedByAggregate();
+        }
+
+        public void AddEquipment()
+        {
+            var cmd = new AddEquipment();
+            Aggregate.When(cmd);
+            MakeReadModelApplyEventsGeneratedByAggregate();
         }
 
         public void UpdateNode(Guid nodeId, string title)
@@ -45,7 +59,15 @@ namespace Graph.Tests
 
             Aggregate.When(cmd);
 
-            Apply();
+            MakeReadModelApplyEventsGeneratedByAggregate();
+        }
+
+        private void MakeReadModelApplyEventsGeneratedByAggregate()
+        {
+            foreach (var e in Aggregate.Events)
+                ReadModel.AsDynamic().Apply(e);
+            _currentEventNumber += Aggregate.Events.Count;
+            Aggregate.Events.Clear();
         }
     }
 }
