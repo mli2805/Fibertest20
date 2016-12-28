@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 
 namespace Iit.Fibertest.Graph.Events
 {
-    public class RtuAdded
+    public class RtuAddedAtGpsLocation
     {
         public Guid Id { get; set; }
         public Guid NodeId { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+
     }
 }

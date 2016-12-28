@@ -13,6 +13,7 @@ namespace Iit.Fibertest.Graph
         public List<Node> Nodes { get; } = new List<Node>();
         public List<Fiber> Fibers { get; } = new List<Fiber>();
         public List<Equipment> Equipments { get; } = new List<Equipment>();
+        public List<Rtu> Rtus { get; } = new List<Rtu>();
 
         public void Apply(NodeAdded e)
         {
@@ -42,6 +43,14 @@ namespace Iit.Fibertest.Graph
         {
             Equipment equipment = _mapper.Map<Equipment>(e);
             Equipments.Add(equipment);
+        }
+
+        public void Apply(RtuAddedAtGpsLocation e)
+        {
+            Node node = new Node() {Id = e.NodeId};
+            Nodes.Add(node);
+            Rtu rtu = _mapper.Map<Rtu>(e);
+            Rtus.Add(rtu);
         }
     }
 }

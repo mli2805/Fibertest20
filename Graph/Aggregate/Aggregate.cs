@@ -41,6 +41,11 @@ namespace Iit.Fibertest.Graph
                 Id = cmd.Id,
             });
         }
+
+        public void When(AddRtuAtGpsLocation cmd)
+        {
+            Events.Add(_mapper.Map<RtuAddedAtGpsLocation>(cmd));
+        }
         public string When(UpdateNode cmd)
         {
             if (!IsNodeTitleValid(cmd.Title))
