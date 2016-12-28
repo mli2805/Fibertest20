@@ -17,15 +17,15 @@ namespace Graph.Tests
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.1.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class NodeCreatingFeature : Xunit.IClassFixture<NodeCreatingFeature.FixtureData>, System.IDisposable
+    public partial class FiberAddedFeature : Xunit.IClassFixture<FiberAddedFeature.FixtureData>, System.IDisposable
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
         
-#line 1 "NodeCreating.feature"
+#line 1 "FiberAdded.feature"
 #line hidden
         
-        public NodeCreatingFeature()
+        public FiberAddedFeature()
         {
             this.TestInitialize();
         }
@@ -33,7 +33,7 @@ namespace Graph.Tests
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "NodeCreating", null, ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "FiberAdded", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -62,7 +62,15 @@ namespace Graph.Tests
             testRunner.CollectScenarioErrors();
         }
         
-        public virtual void SetFixture(NodeCreatingFeature.FixtureData fixtureData)
+        public virtual void FeatureBackground()
+        {
+#line 3
+#line 4
+ testRunner.Given("Левый и правый узлы созданы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+        }
+        
+        public virtual void SetFixture(FiberAddedFeature.FixtureData fixtureData)
         {
         }
         
@@ -71,20 +79,22 @@ namespace Graph.Tests
             this.ScenarioTearDown();
         }
         
-        [Xunit.FactAttribute(DisplayName="Добавление узла")]
-        [Xunit.TraitAttribute("FeatureTitle", "NodeCreating")]
-        [Xunit.TraitAttribute("Description", "Добавление узла")]
+        [Xunit.FactAttribute(DisplayName="Добавление отрезка")]
+        [Xunit.TraitAttribute("FeatureTitle", "FiberAdded")]
+        [Xunit.TraitAttribute("Description", "Добавление отрезка")]
         [Xunit.TraitAttribute("Category", "mytag")]
-        public virtual void ДобавлениеУзла()
+        public virtual void ДобавлениеОтрезка()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление узла", new string[] {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление отрезка", new string[] {
                         "mytag"});
-#line 5
-this.ScenarioSetup(scenarioInfo);
-#line 6
- testRunner.When("Пользователь кликает добавить узел", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 7
- testRunner.Then("Новый узел сохраняется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 8
+ testRunner.When("Пользователь кликает добавить отрезок", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 9
+ testRunner.Then("Новый отрезок сохранен", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -96,12 +106,12 @@ this.ScenarioSetup(scenarioInfo);
             
             public FixtureData()
             {
-                NodeCreatingFeature.FeatureSetup();
+                FiberAddedFeature.FeatureSetup();
             }
             
             void System.IDisposable.Dispose()
             {
-                NodeCreatingFeature.FeatureTearDown();
+                FiberAddedFeature.FeatureTearDown();
             }
         }
     }

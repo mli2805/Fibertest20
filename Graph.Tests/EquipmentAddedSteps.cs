@@ -6,46 +6,46 @@ using TechTalk.SpecFlow;
 namespace Graph.Tests
 {
     [Binding]
-    public sealed class AddEquipmentSteps
+    public sealed class EquipmentAddedSteps
     {
         private readonly SystemUnderTest _sut = new SystemUnderTest();
         private Guid _saidNodeId;
         private AddEquipmentViewModel _window;
         private int _cutOff;
 
-        [Given(@"A container-node created")]
+        [Given(@"Добавлен некий узел")]
         public void GivenAContainer_NodeCreated()
         {
             _saidNodeId = _sut.AddNode();
             _cutOff = _sut.CurrentEventNumber;
         }
 
-        [Given(@"An Add Equipment window opened for said node")]
+        [Given(@"Открыто окно для добавления оборудования в этот узел")]
         public void GivenAnAddEquipmentWindowOpenedForSaidNode()
         {
             _window = new AddEquipmentViewModel(_saidNodeId, _sut.ReadModel, _sut.Aggregate);
         }
 
-        [When(@"When Save button on Add Equipment window pressed")]
+        [When(@"Нажата клавиша Сохранить в окне добавления оборудования")]
         public void WhenSaveButtonOnAddEquipmentWindowPressed()
         {
             _sut.AddEquipment();
             _window.Save();
         }
 
-        [When(@"When Cancel button on Add Equipment window pressed")]
+        [When(@"Нажата клавиша Отменить в окне добавления оборудования")]
         public void WhenCancelButtonOnAddEquipmentWindowPressed()
         {
             _window.Cancel();
         }
 
-        [Then(@"The new piece of equipment gets saved")]
+        [Then(@"Новое оборудование сохраняется")]
         public void ThenTheNewPieceOfEquipmentGetsSaved()
         {
             _sut.CurrentEventNumber.Should().BeGreaterThan(_cutOff);
         }
 
-        [Then(@"The Add Equipment window gets closed")]
+        [Then(@"Окно добавления оборудования закрывается")]
         public void ThenTheAddEquipmentWindowGetsClosed()
         {
             _window.IsClosed.Should().BeTrue();

@@ -4,7 +4,7 @@ using TechTalk.SpecFlow;
 namespace Graph.Tests
 {
     [Binding]
-    public sealed class NodeCreatingSteps
+    public sealed class NodeAddedSteps
     {
         private readonly SystemUnderTest _sut = new SystemUnderTest();
         private int _cutOff;

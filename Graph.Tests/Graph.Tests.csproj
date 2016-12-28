@@ -71,58 +71,58 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddEquipment.feature.cs">
+    <Compile Include="EquipmentAdded.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>AddEquipment.feature</DependentUpon>
+      <DependentUpon>EquipmentAdded.feature</DependentUpon>
     </Compile>
-    <Compile Include="AddEquipmentSteps.cs">
-      <DependentUpon>AddEquipment.feature</DependentUpon>
+    <Compile Include="EquipmentAddedSteps.cs">
+      <DependentUpon>EquipmentAdded.feature</DependentUpon>
     </Compile>
-    <Compile Include="FiberAdding.feature.cs">
+    <Compile Include="FiberAdded.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>FiberAdding.feature</DependentUpon>
+      <DependentUpon>FiberAdded.feature</DependentUpon>
     </Compile>
     <Compile Include="FiberAddingSteps.cs">
-      <DependentUpon>FiberAdding.feature</DependentUpon>
+      <DependentUpon>FiberAdded.feature</DependentUpon>
     </Compile>
-    <Compile Include="Node.feature.cs">
-      <DependentUpon>Node.feature</DependentUpon>
+    <Compile Include="NodeUpdated.feature.cs">
+      <DependentUpon>NodeUpdated.feature</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="NodeCreatingSteps.cs">
-      <DependentUpon>NodeCreating.feature</DependentUpon>
+    <Compile Include="NodeAddedSteps.cs">
+      <DependentUpon>NodeAdded.feature</DependentUpon>
     </Compile>
-    <Compile Include="NodeCreating.feature.cs">
+    <Compile Include="NodeAdded.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>NodeCreating.feature</DependentUpon>
+      <DependentUpon>NodeAdded.feature</DependentUpon>
     </Compile>
-    <Compile Include="NodeSteps.cs">
-      <DependentUpon>Node.feature</DependentUpon>
+    <Compile Include="NodeUpdatedSteps.cs">
+      <DependentUpon>NodeUpdated.feature</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SystemUnderTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="AddEquipment.feature">
+    <None Include="EquipmentAdded.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>AddEquipment.feature.cs</LastGenOutput>
+      <LastGenOutput>EquipmentAdded.feature.cs</LastGenOutput>
     </None>
     <None Include="App.config" />
-    <None Include="FiberAdding.feature">
+    <None Include="FiberAdded.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>FiberAdding.feature.cs</LastGenOutput>
+      <LastGenOutput>FiberAdded.feature.cs</LastGenOutput>
     </None>
-    <None Include="Node.feature">
+    <None Include="NodeUpdated.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>Node.feature.cs</LastGenOutput>
+      <LastGenOutput>NodeUpdated.feature.cs</LastGenOutput>
     </None>
-    <None Include="NodeCreating.feature">
+    <None Include="NodeAdded.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>NodeCreating.feature.cs</LastGenOutput>
+      <LastGenOutput>NodeAdded.feature.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
   </ItemGroup>

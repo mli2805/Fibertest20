@@ -1,22 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FluentAssertions;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
 {
     [Binding]
-    public sealed class FiberAddingSteps
+    public sealed class FiberAddedSteps
     {
         private readonly SystemUnderTest _sut = new SystemUnderTest();
         private Guid _leftNodeId;
         private Guid _rightNodeId;
         private int _cutOff;
 
-        [Given(@"Left and right nodes created")]
+        [Given(@"Левый и правый узлы созданы")]
         public void GivenALeftAndRightNodesCreated()
         {
             _leftNodeId = _sut.AddNode();
@@ -25,18 +21,17 @@ namespace Graph.Tests
             _cutOff = _sut.CurrentEventNumber;
         }
 
-        [When(@"User clicked Add fiber")]
+        [When(@"Пользователь кликает добавить отрезок")]
         public void WhenUserClickedAddFiber()
         {
             _sut.AddFiber(_leftNodeId, _rightNodeId);
         }
 
-        [Then(@"New event persisted")]
+        [Then(@"Новый отрезок сохранен")]
         public void ThenNewEventPersisted()
         {
             _sut.CurrentEventNumber.Should().BeGreaterThan(_cutOff);
         }
-
 
     }
 }
