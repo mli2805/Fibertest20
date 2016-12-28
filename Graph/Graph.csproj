@@ -46,7 +46,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aggregate\Aggregate.cs" />
+    <Compile Include="Commands\Node\MoveNode.cs" />
     <Compile Include="Commands\Rtu\AddRtuAtGpsLocation.cs" />
+    <Compile Include="Events\Node\NodeMoved.cs" />
     <Compile Include="Events\Rtu\RtuAddedAtGpsLocation.cs" />
     <Compile Include="MappingCmdToEventProfile.cs" />
     <Compile Include="Commands\Equipment\AddEquipment.cs" />

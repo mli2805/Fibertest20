@@ -10,6 +10,7 @@ namespace Iit.Fibertest.Graph
         {
             CreateMap<AddNode, NodeAdded>();
             CreateMap<UpdateNode, NodeUpdated>();
+            CreateMap<MoveNode, NodeMoved>();
 
             CreateMap<AddEquipment, EquipmentAdded>();
 

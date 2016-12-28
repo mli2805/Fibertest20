@@ -34,6 +34,11 @@ namespace Iit.Fibertest.Graph
             Events.Add(_mapper.Map<EquipmentAdded>(cmd));
         }
 
+        public void When(MoveNode cmd)
+        {
+            Events.Add(_mapper.Map<NodeMoved>(cmd));
+        }
+
         public void When(RemoveNode cmd)
         {
             Events.Add(new NodeRemoved

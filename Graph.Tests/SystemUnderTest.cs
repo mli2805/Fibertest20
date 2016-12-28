@@ -49,6 +49,13 @@ namespace Graph.Tests
             MakeReadModelApplyEventsGeneratedByAggregate();
         }
 
+        public void MoveNode(Guid id)
+        {
+            var cmd = new MoveNode() {Id = id};
+            Aggregate.When(cmd);
+            MakeReadModelApplyEventsGeneratedByAggregate();
+        }
+
         public void AddEquipment()
         {
             var cmd = new AddEquipment();

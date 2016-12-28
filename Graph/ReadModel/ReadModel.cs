@@ -27,6 +27,11 @@ namespace Iit.Fibertest.Graph
             _mapper.Map(source, destination);
         }
 
+        public void Apply(NodeMoved newLocation)
+        {
+            Node oldLocation = Nodes.Single(n => n.Id == newLocation.Id);
+            _mapper.Map(newLocation, oldLocation);
+        }
         public void Apply(NodeRemoved e)
         {
             Node node = Nodes.Single(n=>n.Id == e.Id);
