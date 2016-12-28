@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
@@ -41,6 +42,23 @@ namespace Iit.Fibertest.Graph
         public void Apply(FiberAdded e)
         {
             Fiber fiber = _mapper.Map<Fiber>(e);
+            Fibers.Add(fiber);
+        }
+
+        public void Apply(FiberWithNodesAdded e)
+        {
+            Fiber fiber = new Fiber() { Id = Guid.NewGuid(), Node1 = e.Node1 };
+
+            for (int i = 0; i < e.IntermediateNodesCount-1; i++)
+            {
+                Node node = new Node() {Id = Guid.NewGuid()};
+                Nodes.Add(node);
+                fiber.Node2 = node.Id;
+                Fibers.Add(fiber);
+                fiber = new Fiber() {Id = Guid.NewGuid(), Node1 = node.Id};
+            }
+
+            fiber.Node2 = e.Node2;
             Fibers.Add(fiber);
         }
 

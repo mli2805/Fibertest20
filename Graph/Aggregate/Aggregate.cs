@@ -29,6 +29,15 @@ namespace Iit.Fibertest.Graph
             Events.Add(_mapper.Map<FiberAdded>(cmd));
         }
 
+        public void When(AddFiberWithNodes cmd)
+        {
+            if (!_fibersByNodePairs.Add(new NodePairKey(cmd.Node1, cmd.Node2)))
+                throw new Exception("already exists");
+
+            Events.Add(_mapper.Map<FiberWithNodesAdded>(cmd));
+        }
+
+
         public void When(AddEquipment cmd)
         {
             Events.Add(_mapper.Map<EquipmentAdded>(cmd));
