@@ -27,6 +27,13 @@ namespace Graph.Tests
             return newGuid;
         }
 
+        public void AddRtuAtGpsLocation()
+        {
+            var cmd = new AddRtuAtGpsLocation();
+            Aggregate.When(cmd);
+            MakeReadModelApplyEventsGeneratedByAggregate();
+        }
+
         public void AddFiber(Guid left, Guid right)
         {
             var newGuid = Guid.NewGuid();
