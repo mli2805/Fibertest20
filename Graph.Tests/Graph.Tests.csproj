@@ -79,44 +79,60 @@
     <Compile Include="EquipmentAddedSteps.cs">
       <DependentUpon>EquipmentAdded.feature</DependentUpon>
     </Compile>
-    <Compile Include="FiberAdded.feature.cs">
+    <Compile Include="Fiber\FiberAdded.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>FiberAdded.feature</DependentUpon>
     </Compile>
-    <Compile Include="FiberAddingSteps.cs">
+    <Compile Include="Fiber\FiberAddingSteps.cs">
       <DependentUpon>FiberAdded.feature</DependentUpon>
     </Compile>
-    <Compile Include="FiberWithNodesAdded.feature.cs">
+    <Compile Include="Fiber\FiberRemoved.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FiberRemoved.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber\FiberRemovedSteps.cs">
+      <DependentUpon>FiberRemoved.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber\FiberWithNodesAdded.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>FiberWithNodesAdded.feature</DependentUpon>
     </Compile>
-    <Compile Include="FiberWithNodesSteps.cs">
+    <Compile Include="Fiber\FiberWithNodesSteps.cs">
       <DependentUpon>FiberWithNodesAdded.feature</DependentUpon>
     </Compile>
-    <Compile Include="NodeMoved.feature.cs">
+    <Compile Include="Node\NodeIntoFiberAdded.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NodeIntoFiberAdded.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Node\NodeIntoFiberAddedSteps.cs">
+      <DependentUpon>NodeIntoFiberAdded.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Node\NodeMoved.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>NodeMoved.feature</DependentUpon>
     </Compile>
-    <Compile Include="NodeMovedSteps.cs">
+    <Compile Include="Node\NodeMovedSteps.cs">
       <DependentUpon>NodeMoved.feature</DependentUpon>
     </Compile>
-    <Compile Include="NodeUpdated.feature.cs">
+    <Compile Include="Node\NodeUpdated.feature.cs">
       <DependentUpon>NodeUpdated.feature</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="NodeAddedSteps.cs">
+    <Compile Include="Node\NodeAddedSteps.cs">
       <DependentUpon>NodeAdded.feature</DependentUpon>
     </Compile>
-    <Compile Include="NodeAdded.feature.cs">
+    <Compile Include="Node\NodeAdded.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>NodeAdded.feature</DependentUpon>
     </Compile>
-    <Compile Include="NodeUpdatedSteps.cs">
+    <Compile Include="Node\NodeUpdatedSteps.cs">
       <DependentUpon>NodeUpdated.feature</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -136,23 +152,31 @@
       <LastGenOutput>EquipmentAdded.feature.cs</LastGenOutput>
     </None>
     <None Include="App.config" />
-    <None Include="FiberAdded.feature">
+    <None Include="Fiber\FiberAdded.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>FiberAdded.feature.cs</LastGenOutput>
     </None>
-    <None Include="FiberWithNodesAdded.feature">
+    <None Include="Fiber\FiberRemoved.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>FiberRemoved.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Fiber\FiberWithNodesAdded.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>FiberWithNodesAdded.feature.cs</LastGenOutput>
     </None>
-    <None Include="NodeMoved.feature">
+    <None Include="Node\NodeIntoFiberAdded.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>NodeIntoFiberAdded.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Node\NodeMoved.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>NodeMoved.feature.cs</LastGenOutput>
     </None>
-    <None Include="NodeUpdated.feature">
+    <None Include="Node\NodeUpdated.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>NodeUpdated.feature.cs</LastGenOutput>
     </None>
-    <None Include="NodeAdded.feature">
+    <None Include="Node\NodeAdded.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>NodeAdded.feature.cs</LastGenOutput>
     </None>
@@ -175,6 +199,7 @@
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

@@ -54,6 +54,13 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
+        public string When(RemoveFiber cmd)
+        {
+            if (IsFiberContainedInTraceWithBase(cmd.Id))
+                return "It's impossible to change trace with base reflectogram";
+            Events.Add(_mapper.Map<FiberRemoved>(cmd));
+            return null;
+        }
 
         public void When(AddEquipment cmd)
         {

@@ -2,9 +2,8 @@
 
 namespace Iit.Fibertest.Graph.Events
 {
-    public class NodeIntoFiberAdded
+    public class FiberRemoved
     {
         public Guid Id { get; set; }
-        public Guid FiberId { get; set; }
     }
 }

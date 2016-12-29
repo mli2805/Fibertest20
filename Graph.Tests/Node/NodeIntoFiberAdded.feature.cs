@@ -10,22 +10,22 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Graph.Tests
+namespace Graph.Tests.Node
 {
     using TechTalk.SpecFlow;
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.1.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class NodeMovedFeature : Xunit.IClassFixture<NodeMovedFeature.FixtureData>, System.IDisposable
+    public partial class NodeIntoFiberAddedFeature : Xunit.IClassFixture<NodeIntoFiberAddedFeature.FixtureData>, System.IDisposable
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
         
-#line 1 "NodeMoved.feature"
+#line 1 "NodeIntoFiberAdded.feature"
 #line hidden
         
-        public NodeMovedFeature()
+        public NodeIntoFiberAddedFeature()
         {
             this.TestInitialize();
         }
@@ -33,7 +33,7 @@ namespace Graph.Tests
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "NodeMoved", null, ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "NodeIntoFiberAdded", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -66,11 +66,11 @@ namespace Graph.Tests
         {
 #line 3
 #line 4
- testRunner.Given("Создан узел", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Есть левый и правый узлы и отрезок между ними", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
         }
         
-        public virtual void SetFixture(NodeMovedFeature.FixtureData fixtureData)
+        public virtual void SetFixture(NodeIntoFiberAddedFeature.FixtureData fixtureData)
         {
         }
         
@@ -79,20 +79,20 @@ namespace Graph.Tests
             this.ScenarioTearDown();
         }
         
-        [Xunit.FactAttribute(DisplayName="Узел подвинут на карте")]
-        [Xunit.TraitAttribute("FeatureTitle", "NodeMoved")]
-        [Xunit.TraitAttribute("Description", "Узел подвинут на карте")]
-        public virtual void УзелПодвинутНаКарте()
+        [Xunit.FactAttribute(DisplayName="Добавление узла в отрезок")]
+        [Xunit.TraitAttribute("FeatureTitle", "NodeIntoFiberAdded")]
+        [Xunit.TraitAttribute("Description", "Добавление узла в отрезок")]
+        public virtual void ДобавлениеУзлаВОтрезок()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Узел подвинут на карте", ((string[])(null)));
-#line 7
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление узла в отрезок", ((string[])(null)));
+#line 6
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
+#line 7
+ testRunner.When("Пользователь кликает добавить узел в отрезок", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 8
- testRunner.When("Пользователь подвинул узел", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 9
- testRunner.Then("Новые координаты должны быть сохранены", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("Вместо отрезка образуется два новых и новый узел связывающий их", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -104,12 +104,12 @@ this.FeatureBackground();
             
             public FixtureData()
             {
-                NodeMovedFeature.FeatureSetup();
+                NodeIntoFiberAddedFeature.FeatureSetup();
             }
             
             void System.IDisposable.Dispose()
             {
-                NodeMovedFeature.FeatureTearDown();
+                NodeIntoFiberAddedFeature.FeatureTearDown();
             }
         }
     }

@@ -88,6 +88,12 @@ namespace Iit.Fibertest.Graph
             Fibers.Add(fiber);
         }
 
+        public void Apply(FiberRemoved e)
+        {
+            var fiber = Fibers.Single(f => f.Id == e.Id);
+            Fibers.Remove(fiber);
+        }
+
         public void Apply(EquipmentAdded e)
         {
             Equipment equipment = _mapper.Map<Equipment>(e);

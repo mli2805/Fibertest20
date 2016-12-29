@@ -27,6 +27,12 @@ namespace Graph.Tests
             return newGuid;
         }
 
+        public void AddNodeIntoFiber(Guid fiberId)
+        {
+            var nodeId = AddNode();
+
+        }
+
         public void AddRtuAtGpsLocation()
         {
             var cmd = new AddRtuAtGpsLocation();
@@ -34,7 +40,7 @@ namespace Graph.Tests
             MakeReadModelApplyEventsGeneratedByAggregate();
         }
 
-        public void AddFiber(Guid left, Guid right)
+        public Guid AddFiber(Guid left, Guid right)
         {
             var newGuid = Guid.NewGuid();
             var cmd = new AddFiber()
@@ -45,9 +51,10 @@ namespace Graph.Tests
             };
 
             if (Aggregate.When(cmd) != null)
-                return;
+                return Guid.Empty;
 
             MakeReadModelApplyEventsGeneratedByAggregate();
+            return newGuid;
         }
 
         public void AddFiberWithNodes(Guid left, Guid right, int intermediateNodeCount, EquipmentType equipmentType)
@@ -64,6 +71,13 @@ namespace Graph.Tests
             if (Aggregate.When(cmd) != null)
                 return;
 
+            MakeReadModelApplyEventsGeneratedByAggregate();
+        }
+
+        public void RemoveFiber(Guid fiberId)
+        {
+            var cmd = new RemoveFiber() {Id = fiberId};
+            Aggregate.When(cmd);
             MakeReadModelApplyEventsGeneratedByAggregate();
         }
 

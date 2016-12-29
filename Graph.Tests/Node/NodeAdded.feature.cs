@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Graph.Tests
+namespace Graph.Tests.Node
 {
     using TechTalk.SpecFlow;
     
@@ -84,7 +84,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 6
  testRunner.When("Пользователь кликает добавить узел", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 7
- testRunner.Then("Событие сохранено", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("Новый узел сохраняется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
