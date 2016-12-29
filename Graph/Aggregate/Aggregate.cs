@@ -8,10 +8,11 @@ namespace Iit.Fibertest.Graph
 {
     public class Aggregate
     {
-
         public List<object> Events { get; } = new List<object>();
+
         private readonly HashSet<NodePairKey> _fibersByNodePairs = new HashSet<NodePairKey>();
         private readonly HashSet<string> _nodeTitles = new HashSet<string>();
+        private readonly List<Guid> _nodes = new List<Guid>();
         private readonly List<Trace> _traces = new List<Trace>();
         private readonly List<Rtu> _rtus = new List<Rtu>();
 
@@ -19,21 +20,53 @@ namespace Iit.Fibertest.Graph
         private readonly IMapper _mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingCmdToEventProfile>()).CreateMapper();
 
+        #region Node
         public void When(AddNode cmd)
         {
             Events.Add(_mapper.Map<NodeAdded>(cmd));
+            _nodes.Add(cmd.Id);
         }
 
-        private bool IsFiberContainedInTraceWithBase(Guid fiberId)
-        {
-            return false;
-        }
         public string When(AddNodeIntoFiber cmd)
         {
             if (IsFiberContainedInTraceWithBase(cmd.FiberId))
                 return "It's impossible to change trace with base reflectogram";
             Events.Add(_mapper.Map<NodeIntoFiberAdded>(cmd));
             return null;
+        }
+
+        public string When(UpdateNode cmd)
+        {
+            if (!IsNodeTitleValid(cmd.Title))
+                return "node title already exists";
+            Events.Add(_mapper.Map<NodeUpdated>(cmd));
+            return null;
+        }
+
+        private bool IsNodeTitleValid(string title)
+        {
+            return _nodeTitles.Add(title);
+        }
+        public void When(MoveNode cmd)
+        {
+            Events.Add(_mapper.Map<NodeMoved>(cmd));
+        }
+
+        public void When(RemoveNode cmd)
+        {
+            Events.Add(new NodeRemoved
+            {
+                Id = cmd.Id,
+            });
+        }
+
+        #endregion
+
+        #region Fiber
+
+        private bool IsFiberContainedInTraceWithBase(Guid fiberId)
+        {
+            return false;
         }
 
         public string When(AddFiber cmd)
@@ -62,39 +95,26 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
+        #endregion
+
         public void When(AddEquipment cmd)
         {
             Events.Add(_mapper.Map<EquipmentAdded>(cmd));
-        }
-
-        public void When(MoveNode cmd)
-        {
-            Events.Add(_mapper.Map<NodeMoved>(cmd));
-        }
-
-        public void When(RemoveNode cmd)
-        {
-            Events.Add(new NodeRemoved
-            {
-                Id = cmd.Id,
-            });
         }
 
         public void When(AddRtuAtGpsLocation cmd)
         {
             Events.Add(_mapper.Map<RtuAddedAtGpsLocation>(cmd));
         }
-        public string When(UpdateNode cmd)
-        {
-            if (!IsNodeTitleValid(cmd.Title))
-                return "node title already exists";
-            Events.Add(_mapper.Map<NodeUpdated>(cmd));
-            return null;
-        }
 
-        private bool IsNodeTitleValid(string title)
+        private List<Guid> FindPath(DefineTrace param)
         {
-            return _nodeTitles.Add(title);
+            var result = new List<Guid>();
+            result.Add(param.NodeWithRtuId);
+            return result;
+        }
+        public void When(DefineTrace cmd)
+        {
         }
     }
 }
