@@ -92,7 +92,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FiberWithNodesAdded.feature</DependentUpon>
     </Compile>
-    <Compile Include="FiberWithNodesSteps.cs" />
+    <Compile Include="FiberWithNodesSteps.cs">
+      <DependentUpon>FiberWithNodesAdded.feature</DependentUpon>
+    </Compile>
     <Compile Include="NodeMoved.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

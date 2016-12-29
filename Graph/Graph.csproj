@@ -68,7 +68,7 @@
     <Compile Include="ReadModel\Equipment.cs" />
     <Compile Include="ReadModel\Fiber.cs" />
     <Compile Include="ReadModel\Node.cs" />
-    <Compile Include="Aggregate\NodePairKey.cs" />
+    <Compile Include="ReadModel\NodePairKey.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReadModel\ReadModel.cs" />
     <Compile Include="ReadModel\Rtu.cs" />
