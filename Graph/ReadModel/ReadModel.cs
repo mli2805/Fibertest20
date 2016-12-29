@@ -15,10 +15,29 @@ namespace Iit.Fibertest.Graph
         public List<Fiber> Fibers { get; } = new List<Fiber>();
         public List<Equipment> Equipments { get; } = new List<Equipment>();
         public List<Rtu> Rtus { get; } = new List<Rtu>();
+        public List<Trace> Traces { get; } = new List<Trace>();
 
         public void Apply(NodeAdded e)
         {
             Node node = _mapper.Map<Node>(e);
+            Nodes.Add(node);
+        }
+
+        private Tuple<double, double> GetFiberCenter(Guid fiberId)
+        {
+            var fiber = Fibers.Single(f => f.Id == fiberId);
+            var node1 = Nodes.Single(n => n.Id == fiber.Node1);
+            var node2 = Nodes.Single(n => n.Id == fiber.Node2);
+            var latitude = Math.Abs(node1.Latitude - node2.Latitude) / 2;
+            var longitude = Math.Abs(node1.Longitude - node2.Longitude) / 2;
+            return new Tuple<double, double>(latitude, longitude);
+        }
+        public void Apply(NodeIntoFiberAdded e)
+        {
+            Node node = _mapper.Map<Node>(e);
+            var coors = GetFiberCenter(e.FiberId);
+            node.Latitude = coors.Item1;
+            node.Longitude = coors.Item2;
             Nodes.Add(node);
         }
 

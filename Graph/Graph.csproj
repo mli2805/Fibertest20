@@ -47,9 +47,11 @@
   <ItemGroup>
     <Compile Include="Aggregate\Aggregate.cs" />
     <Compile Include="Commands\Fiber\AddFiberWithNodes.cs" />
+    <Compile Include="Commands\Node\AddNodeIntoFiber.cs" />
     <Compile Include="Commands\Node\MoveNode.cs" />
     <Compile Include="Commands\Rtu\AddRtuAtGpsLocation.cs" />
     <Compile Include="Events\Fiber\FiberWithNodesAdded.cs" />
+    <Compile Include="Events\Node\NodeIntoFiberAdded.cs" />
     <Compile Include="Events\Node\NodeMoved.cs" />
     <Compile Include="Events\Rtu\RtuAddedAtGpsLocation.cs" />
     <Compile Include="MappingCmdToEventProfile.cs" />
@@ -67,11 +69,13 @@
     <Compile Include="MappingEventToDomainModelProfile.cs" />
     <Compile Include="ReadModel\Equipment.cs" />
     <Compile Include="ReadModel\Fiber.cs" />
+    <Compile Include="ReadModel\Gps.cs" />
     <Compile Include="ReadModel\Node.cs" />
     <Compile Include="ReadModel\NodePairKey.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReadModel\ReadModel.cs" />
     <Compile Include="ReadModel\Rtu.cs" />
+    <Compile Include="ReadModel\Trace.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

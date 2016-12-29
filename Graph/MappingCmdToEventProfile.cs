@@ -9,6 +9,7 @@ namespace Iit.Fibertest.Graph
         public MappingCmdToEventProfile()
         {
             CreateMap<AddNode, NodeAdded>();
+            CreateMap<AddNodeIntoFiber, NodeIntoFiberAdded>();
             CreateMap<UpdateNode, NodeUpdated>();
             CreateMap<MoveNode, NodeMoved>();
 

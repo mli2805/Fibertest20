@@ -12,6 +12,9 @@ namespace Iit.Fibertest.Graph
         public List<object> Events { get; } = new List<object>();
         private readonly HashSet<NodePairKey> _fibersByNodePairs = new HashSet<NodePairKey>();
         private readonly HashSet<string> _nodeTitles = new HashSet<string>();
+        private readonly List<Trace> _traces = new List<Trace>();
+        private readonly List<Rtu> _rtus = new List<Rtu>();
+
 
         private readonly IMapper _mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingCmdToEventProfile>()).CreateMapper();
@@ -19,6 +22,18 @@ namespace Iit.Fibertest.Graph
         public void When(AddNode cmd)
         {
             Events.Add(_mapper.Map<NodeAdded>(cmd));
+        }
+
+        private bool IsFiberContainedInTraceWithBase(Guid fiberId)
+        {
+            return false;
+        }
+        public string When(AddNodeIntoFiber cmd)
+        {
+            if (IsFiberContainedInTraceWithBase(cmd.FiberId))
+                return "It's impossible to change trace with base reflectogram";
+            Events.Add(_mapper.Map<NodeIntoFiberAdded>(cmd));
+            return null;
         }
 
         public string When(AddFiber cmd)
