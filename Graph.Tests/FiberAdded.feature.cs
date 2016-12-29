@@ -82,18 +82,16 @@ namespace Graph.Tests
         [Xunit.FactAttribute(DisplayName="Добавление отрезка")]
         [Xunit.TraitAttribute("FeatureTitle", "FiberAdded")]
         [Xunit.TraitAttribute("Description", "Добавление отрезка")]
-        [Xunit.TraitAttribute("Category", "mytag")]
         public virtual void ДобавлениеОтрезка()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление отрезка", new string[] {
-                        "mytag"});
-#line 7
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление отрезка", ((string[])(null)));
+#line 6
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 8
+#line 7
  testRunner.When("Пользователь кликает добавить отрезок", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 9
+#line 8
  testRunner.Then("Новый отрезок сохранен", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -105,15 +103,15 @@ this.FeatureBackground();
         public virtual void ДобавлениеОтрезкаТамГдеОнЕсть()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление отрезка там где он есть", ((string[])(null)));
-#line 11
+#line 10
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 12
+#line 11
  testRunner.Given("Отрезок между левым и правым узлом уже добавлен", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 13
+#line 12
  testRunner.When("Пользователь кликает добавить отрезок", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 14
+#line 13
  testRunner.Then("Новый отрезок не создается", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

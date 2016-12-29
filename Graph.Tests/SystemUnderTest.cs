@@ -50,6 +50,23 @@ namespace Graph.Tests
             MakeReadModelApplyEventsGeneratedByAggregate();
         }
 
+        public void AddFiberWithNodes(Guid left, Guid right, int intermediateNodeCount, EquipmentType equipmentType)
+        {
+            var cmd = new AddFiberWithNodes()
+            {
+                Id = Guid.NewGuid(),
+                Node1 = left,
+                Node2 = right,
+                IntermediateNodesCount = intermediateNodeCount,
+                EquipmentInIntermediateNodesType = equipmentType,
+            };
+
+            if (Aggregate.When(cmd) != null)
+                return;
+
+            MakeReadModelApplyEventsGeneratedByAggregate();
+        }
+
         public void MoveNode(Guid id)
         {
             var cmd = new MoveNode() {Id = id};
