@@ -49,10 +49,17 @@ namespace Iit.Fibertest.Graph
         {
             Fiber fiber = new Fiber() { Id = Guid.NewGuid(), Node1 = e.Node1 };
 
-            for (int i = 0; i < e.IntermediateNodesCount-1; i++)
+            for (int i = 0; i < e.IntermediateNodesCount; i++)
             {
                 Node node = new Node() {Id = Guid.NewGuid()};
                 Nodes.Add(node);
+
+                Equipment equipment = new Equipment()
+                {
+                    Id = Guid.NewGuid(), NodeId = node.Id, Type = e.EquipmentInIntermediateNodesType,
+                };
+                Equipments.Add(equipment);
+
                 fiber.Node2 = node.Id;
                 Fibers.Add(fiber);
                 fiber = new Fiber() {Id = Guid.NewGuid(), Node1 = node.Id};

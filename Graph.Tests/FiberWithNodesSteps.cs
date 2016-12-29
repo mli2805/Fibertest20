@@ -15,22 +15,26 @@ namespace Graph.Tests
         private readonly SystemUnderTest _sut = new SystemUnderTest();
         private Guid _leftNodeId;
         private Guid _rightNodeId;
-        private int _cutOff;
+        private int _nodesCountCutOff;
+        private int _fibersCountCutOff;
+        private int _sleeveCountcutOff;
+        
 
         [Given(@"Левый и правый узлы уже созданы")]
         public void GivenЛевыйИПравыйУзлыУжеСозданы()
         {
             _leftNodeId = _sut.AddNode();
-            _cutOff = _sut.CurrentEventNumber;
             _rightNodeId = _sut.AddNode();
-            _cutOff = _sut.CurrentEventNumber;
+            _nodesCountCutOff = _sut.ReadModel.Nodes.Count;
+            _fibersCountCutOff = _sut.ReadModel.Fibers.Count;
+            _sleeveCountcutOff = _sut.ReadModel.Equipments.Count(e => e.Type == EquipmentType.Sleeve);
         }
 
         [Given(@"Между левым и правым узлом уже добавлен отрезок")]
         public void GivenМеждуЛевымИПравымУзломУжеДобавленОтрезок()
         {
             _sut.AddFiber(_leftNodeId, _rightNodeId);
-            _cutOff = _sut.CurrentEventNumber;
+            _fibersCountCutOff = _sut.ReadModel.Fibers.Count;
         }
 
         [When(@"Пользователь кликает добавить отрезок с узлами")]
@@ -46,9 +50,7 @@ namespace Graph.Tests
         {
             const EquipmentType doesntMatter = EquipmentType.Other;
             _sut.AddFiberWithNodes(_leftNodeId, _rightNodeId, 0, doesntMatter);
-
         }
-
 
         [When(@"Пользователь кликает добавить отрезок с (.*) пустыми узлами")]
         public void WhenПользовательКликаетДобавитьОтрезокСПустымиУзлами(int p0)
@@ -56,38 +58,38 @@ namespace Graph.Tests
             _sut.AddFiberWithNodes(_leftNodeId, _rightNodeId, p0, EquipmentType.None);
         }
 
-        [When(@"Пользователь кликает добавить отрезок с N узлов с оборудованием")]
-        public void WhenПользовательКликаетДобавитьОтрезокСnУзловСОборудованием()
+        [When(@"Пользователь кликает добавить отрезок с (.*) узлами с муфтами")]
+        public void WhenПользовательКликаетДобавитьОтрезокСУзламиСОборудованием(int p0)
         {
-            const int moreThan0 = 3;
-            const EquipmentType anyButNone = EquipmentType.Other;
-            _sut.AddFiberWithNodes(_leftNodeId, _rightNodeId, moreThan0, anyButNone);
+            _sut.AddFiberWithNodes(_leftNodeId, _rightNodeId, p0, EquipmentType.Sleeve);
         }
 
 
         [Then(@"Новый отрезок не сохраняется")]
         public void ThenНовыйОтрезокНеСохраняется()
         {
-            _sut.CurrentEventNumber.Should().Be(_cutOff);
+            _sut.ReadModel.Fibers.Count.Should().Be(_fibersCountCutOff);
         }
 
         [Then(@"Новый отрезок сохраняется")]
         public void ThenНовыйОтрезокСохраняется()
         {
-            _sut.CurrentEventNumber.Should().BeGreaterThan(_cutOff);
+            _sut.ReadModel.Fibers.Count.Should().Be(_fibersCountCutOff+1);
         }
 
-        [Then(@"Сохраняется (.*) узла и (.*) отрезка")]
-        public void ThenСохраняетсяУзлаИОтрезка(int p0, int p1)
+        [Then(@"Создается (.*) узла и (.*) отрезка")]
+        public void ThenСоздаетсяУзлаИОтрезка(int p0, int p1)
         {
-            _sut.CurrentEventNumber.Should().Be(_cutOff + p0 + p1);
+            _sut.ReadModel.Nodes.Count.Should().Be(_nodesCountCutOff + p0);
+            _sut.ReadModel.Fibers.Count.Should().Be(_fibersCountCutOff + p1);
         }
 
-        [Then(@"Сохраняется N узлов N элементов оборудования и на один больше отрезков")]
-        public void ThenСохраняетсяNУзловNЭлементовОборудованияИНаОдинБольшеОтрезков()
+        [Then(@"Создается (.*) узла столько же оборудования и (.*) отрезка")]
+        public void ThenСоздаетсяУзлаСтолькоЖеОборудованияИОтрезка(int p0, int p1)
         {
-            _sut.CurrentEventNumber.Should().Be(_cutOff);
+            _sut.ReadModel.Nodes.Count.Should().Be(_nodesCountCutOff + p0);
+            _sut.ReadModel.Equipments.Count(e => e.Type == EquipmentType.Sleeve).Should().Be(_sleeveCountcutOff + p0);
+            _sut.ReadModel.Fibers.Count.Should().Be(_fibersCountCutOff + p1);
         }
-
     }
 }
