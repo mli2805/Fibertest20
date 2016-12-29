@@ -21,20 +21,22 @@ namespace Iit.Fibertest.Graph
             Events.Add(_mapper.Map<NodeAdded>(cmd));
         }
 
-        public void When(AddFiber cmd)
+        public string When(AddFiber cmd)
         {
             if (!_fibersByNodePairs.Add(new NodePairKey(cmd.Node1, cmd.Node2)))
-                throw new Exception("already exists");
+                return "Fiber already exists";
 
             Events.Add(_mapper.Map<FiberAdded>(cmd));
+            return null;
         }
 
-        public void When(AddFiberWithNodes cmd)
+        public string When(AddFiberWithNodes cmd)
         {
             if (!_fibersByNodePairs.Add(new NodePairKey(cmd.Node1, cmd.Node2)))
-                throw new Exception("already exists");
+                return "Fiber already exists";
 
             Events.Add(_mapper.Map<FiberWithNodesAdded>(cmd));
+            return null;
         }
 
 

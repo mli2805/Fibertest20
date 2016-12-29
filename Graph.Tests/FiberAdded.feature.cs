@@ -110,8 +110,10 @@ this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
 #line 12
- testRunner.When("Пользователь кликает добавить отрезок", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Given("Отрезок между левым и правым узлом уже добавлен", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 13
+ testRunner.When("Пользователь кликает добавить отрезок", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 14
  testRunner.Then("Новый отрезок не создается", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

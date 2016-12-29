@@ -44,7 +44,8 @@ namespace Graph.Tests
                 Node2 = right
             };
 
-            Aggregate.When(cmd);
+            if (Aggregate.When(cmd) != null)
+                return;
 
             MakeReadModelApplyEventsGeneratedByAggregate();
         }
