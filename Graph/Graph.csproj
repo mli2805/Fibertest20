@@ -58,6 +58,7 @@
     <Compile Include="Events\Node\NodeMoved.cs" />
     <Compile Include="Events\Rtu\RtuAddedAtGpsLocation.cs" />
     <Compile Include="Events\Trace\TraceDefined.cs" />
+    <Compile Include="Magic\PathFinder.cs" />
     <Compile Include="MappingCmdToEventProfile.cs" />
     <Compile Include="Commands\Equipment\AddEquipment.cs" />
     <Compile Include="Commands\Fiber\AddFiber.cs" />

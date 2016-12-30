@@ -103,6 +103,7 @@
     <Compile Include="Fiber\FiberWithNodesSteps.cs">
       <DependentUpon>FiberWithNodesAdded.feature</DependentUpon>
     </Compile>
+    <Compile Include="Magic\PathFinderFacts.cs" />
     <Compile Include="Node\NodeIntoFiberAdded.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
