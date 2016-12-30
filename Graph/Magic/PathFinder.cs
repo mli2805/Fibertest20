@@ -68,22 +68,20 @@ namespace Iit.Fibertest.Graph.Magic
         private static int DiscoverDistances<T>(T start, T end,
             Func<T, IEnumerable<T>> adjacentNodes, out Dictionary<T, int> distances)
         {
-            var stepNumber = 0;
             distances = new Dictionary<T, int>();
             var current = new HashSet<T> { start };
             var next = new HashSet<T>();
-            while (true)
+            for (var generation = 0; ; generation++)
             {
                 foreach (var node in current)
                 {
-                    distances[node] = stepNumber;
-                    if (Equals(node, end)) return stepNumber;
+                    distances[node] = generation;
+                    if (Equals(node, end)) return generation;
                 }
 
                 NextGeneration(distances, current, next, adjacentNodes);
-                if (next.Count == 0) return stepNumber;
+                if (next.Count == 0) return generation;
                 ClearCurrentAndSwapItWithNext(ref current, ref next);
-                stepNumber++;
             }
         }
 
