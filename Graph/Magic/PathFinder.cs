@@ -54,34 +54,33 @@ namespace Iit.Fibertest.Graph.Magic
         }
 
         public static IEnumerable<T> FindPathTo<T>(
-            this T start, T end, Func<T, IEnumerable<T>> adjacentNodes)
+            this T start, T end, Func<T, IEnumerable<T>> getAdjacentNodes)
         {
             if (Equals(start, end)) return new[] { start };
             Dictionary<T, int> distances;
-            var maxDistance = DiscoverDistances(start, end, adjacentNodes, out distances);
-            if (!distances.ContainsKey(end)) return Enumerable.Empty<T>();
-            return TraverseBack(end, maxDistance, adjacentNodes, distances)
-                .Reverse()
-                .Concat(new[] { end });
+            var maxDistance = DiscoverDistances(start, end, getAdjacentNodes, out distances);
+            return distances.ContainsKey(end) 
+                ? TraverseBack(end, maxDistance, getAdjacentNodes, distances).Reverse() 
+                : Enumerable.Empty<T>();
         }
 
         private static int DiscoverDistances<T>(T start, T end,
-            Func<T, IEnumerable<T>> adjacentNodes, out Dictionary<T, int> distances)
+            Func<T, IEnumerable<T>> getAdjacentNodes, out Dictionary<T, int> nodeDistances)
         {
-            distances = new Dictionary<T, int>();
-            var current = new HashSet<T> { start };
-            var next = new HashSet<T>();
-            for (var generation = 0; ; generation++)
+            nodeDistances = new Dictionary<T, int>();
+            var currentGeneration = new HashSet<T> { start };
+            for (var distance = 0; ; distance++)
             {
-                foreach (var node in current)
+                foreach (var node in currentGeneration)
                 {
-                    distances[node] = generation;
-                    if (Equals(node, end)) return generation;
+                    nodeDistances[node] = distance;
+                    if (Equals(node, end)) return distance;
                 }
 
-                NextGeneration(distances, current, next, adjacentNodes);
-                if (next.Count == 0) return generation;
-                ClearCurrentAndSwapItWithNext(ref current, ref next);
+                var next = new HashSet<T>(
+                    GetNextGeneration(currentGeneration, nodeDistances, getAdjacentNodes));
+                if (next.Count == 0) return distance;
+                currentGeneration = next;
             }
         }
 
@@ -89,31 +88,19 @@ namespace Iit.Fibertest.Graph.Magic
             Func<T, IEnumerable<T>> adjacentNodes, Dictionary<T, int> distances)
         {
             var current = end;
+            yield return current;
             for (var i = pathLength - 1; i >= 0; i--)
                 yield return current = adjacentNodes(current)
                     .First(n => distances[n] == i);
         }
 
-        /// <summary>Discover all the new nodes adjacent to the nodes in the current generation
-        ///     and push them into the <paramref name="nextGeneration"/> list
-        /// </summary>
-        private static void NextGeneration<T>(Dictionary<T, int> distances,
-            HashSet<T> currentGeneration, HashSet<T> nextGeneration,
-            Func<T, IEnumerable<T>> adjacentNodes)
+        private static IEnumerable<T> GetNextGeneration<T>(HashSet<T> source, Dictionary<T, int> distances, Func<T, IEnumerable<T>> adjacentNodes)
         {
-            foreach (var node in currentGeneration)
-                foreach (var adjacent in adjacentNodes(node))
-                    if (!distances.ContainsKey(adjacent))
-                        if (!currentGeneration.Contains(adjacent))
-                            nextGeneration.Add(adjacent);
-        }
-
-        private static void ClearCurrentAndSwapItWithNext<T>(ref HashSet<T> current, ref HashSet<T> next)
-        {
-            current.Clear();
-            var temp = current;
-            current = next;
-            next = temp;
+            return from node in source
+                from adjacent in adjacentNodes(node)
+                where !distances.ContainsKey(adjacent)
+                where !source.Contains(adjacent)
+                select adjacent;
         }
     }
 }
