@@ -57,26 +57,26 @@ namespace Iit.Fibertest.Graph.Magic
             this T start, T end, Func<T, IEnumerable<T>> adjacentNodes)
         {
             if (Equals(start, end)) return new[] {start};
-            var step = 0;
+            var stepNumber = 0;
             var distances = new Dictionary<T, int> { { start, 0 } };
             var current = new HashSet<T> { start };
             var next = new HashSet<T>();
             while (current.Count != 0)
             {
-                DiscoverNextGeneration(step++, distances, current, next, adjacentNodes);
+                DiscoverNextGeneration(stepNumber++, distances, current, next, adjacentNodes);
                 ClearAndSwap(ref current, ref next);
             }
             if (!distances.ContainsKey(end)) return Enumerable.Empty<T>();
-            return TraverseBack(end, step - 1, adjacentNodes, distances)
+            return TraverseBack(end, stepNumber - 1, adjacentNodes, distances)
                 .Reverse()
                 .Concat(new[] { end });
         }
 
-        private static IEnumerable<T> TraverseBack<T>(T end, int step,
+        private static IEnumerable<T> TraverseBack<T>(T end, int pathLength,
             Func<T, IEnumerable<T>> adjacentNodes, Dictionary<T, int> distances)
         {
             var current = end;
-            for (var i = step - 1; i >= 0; i--)
+            for (var i = pathLength - 1; i >= 0; i--)
                 yield return current = adjacentNodes(current)
                     .First(n => distances[n] == i);
         }
