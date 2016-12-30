@@ -56,7 +56,7 @@ namespace Iit.Fibertest.Graph.Magic
         public static IEnumerable<T> FindPathTo<T>(
             this T start, T end, Func<T, IEnumerable<T>> adjacentNodes)
         {
-            if (Equals(start, end)) return new[] {start};
+            if (Equals(start, end)) return new[] { start };
             Dictionary<T, int> distances;
             var maxDistance = DiscoverDistances(start, end, adjacentNodes, out distances);
             if (!distances.ContainsKey(end)) return Enumerable.Empty<T>();
@@ -70,16 +70,21 @@ namespace Iit.Fibertest.Graph.Magic
         {
             var stepNumber = 0;
             distances = new Dictionary<T, int>();
-            var current = new HashSet<T> {start};
+            var current = new HashSet<T> { start };
             var next = new HashSet<T>();
-            while (current.Count != 0)
+            while (true)
             {
-                if (FindEndInTheNextGeneration(
-                    stepNumber++, end, distances, current, next, adjacentNodes))
-                    break;
+                foreach (var node in current)
+                {
+                    distances[node] = stepNumber;
+                    if (Equals(node, end)) return stepNumber;
+                }
+
+                NextGeneration(distances, current, next, adjacentNodes);
+                if (next.Count == 0) return stepNumber;
                 ClearCurrentAndSwapItWithNext(ref current, ref next);
+                stepNumber++;
             }
-            return stepNumber-1;
         }
 
         private static IEnumerable<T> TraverseBack<T>(T end, int pathLength,
@@ -91,20 +96,18 @@ namespace Iit.Fibertest.Graph.Magic
                     .First(n => distances[n] == i);
         }
 
-        private static bool FindEndInTheNextGeneration<T>(int stepNumber, T end,
-            Dictionary<T, int> distances, HashSet<T> current, HashSet<T> next,
+        /// <summary>Discover all the new nodes adjacent to the nodes in the current generation
+        ///     and push them into the <paramref name="nextGeneration"/> list
+        /// </summary>
+        private static void NextGeneration<T>(Dictionary<T, int> distances,
+            HashSet<T> currentGeneration, HashSet<T> nextGeneration,
             Func<T, IEnumerable<T>> adjacentNodes)
         {
-            foreach (var node in current)
-            {
-                distances[node] = stepNumber;
-                if (Equals(node, end)) return true;
+            foreach (var node in currentGeneration)
                 foreach (var adjacent in adjacentNodes(node))
                     if (!distances.ContainsKey(adjacent))
-                        if (!current.Contains(adjacent))
-                            next.Add(adjacent);
-            }
-            return false;
+                        if (!currentGeneration.Contains(adjacent))
+                            nextGeneration.Add(adjacent);
         }
 
         private static void ClearCurrentAndSwapItWithNext<T>(ref HashSet<T> current, ref HashSet<T> next)
