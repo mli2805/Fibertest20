@@ -49,5 +49,27 @@ namespace Graph.Tests.Magic
             4.BadFindPathTo(7, x => GraphSample[x])
                 .Should().Equal(4, 5, 6, 7); // it could be 4, 5, 7
         }
+        [Fact]
+        public void Good_FindPathTo_Finds_Shorter_Path()
+        {
+            4.FindPathTo(7, x => GraphSample[x])
+                .Should().Equal(4, 5, 7); 
+        }
+        [Fact]
+        public void Good_FindPathTo_No_Path()
+        {
+            1.FindPathTo(7, x => GraphSample[x])
+                .Should().BeEmpty();
+        }
+        [Fact]
+        public void Good_FindPathTo_Start_Equals_End()
+        {
+            5.FindPathTo(5, x => GraphSample[x]).Should().Equal(5);
+        }
+        [Fact]
+        public void Good_FindPathTo_Short_Path()
+        {
+            2.FindPathTo(3, x => GraphSample[x]).Should().Equal(2,3);
+        }
     }
 }

@@ -27,12 +27,11 @@ namespace Iit.Fibertest.Graph.Magic
             this T start, T end, Func<T, IEnumerable<T>> adjacentNodes)
         {
             var path = new Stack<T>();
-            path.Push( start);
-            FindPathRecursive(end, path, adjacentNodes);
+            path.Push(start);
+            BadFindPathRecursive(end, path, adjacentNodes);
             return path.Reverse();
         }
-
-        private static void FindPathRecursive<T>(T end, Stack<T> path, 
+        private static void BadFindPathRecursive<T>(T end, Stack<T> path,
             Func<T, IEnumerable<T>> adjacentNodes)
         {
             var previous = path.Peek();
@@ -47,11 +46,63 @@ namespace Iit.Fibertest.Graph.Magic
                     continue;
 
                 path.Push(adjacent);
-                FindPathRecursive(end, path, adjacentNodes);
+                BadFindPathRecursive(end, path, adjacentNodes);
 
                 if (Equals(path.Peek(), end)) return;
                 path.Pop();
             }
+        }
+
+        public static IEnumerable<T> FindPathTo<T>(
+            this T start, T end, Func<T, IEnumerable<T>> adjacentNodes)
+        {
+            if (Equals(start, end)) return new[] {start};
+            var step = 0;
+            var distances = new Dictionary<T, int> { { start, 0 } };
+            var current = new HashSet<T> { start };
+            var next = new HashSet<T>();
+            while (current.Count != 0)
+            {
+                DiscoverNextGeneration(step++, distances, current, next, adjacentNodes);
+                ClearAndSwap(ref current, ref next);
+            }
+            if (!distances.ContainsKey(end)) return Enumerable.Empty<T>();
+            return TraverseBack(end, step - 1, adjacentNodes, distances)
+                .Reverse()
+                .Concat(new[] { end });
+        }
+
+        private static IEnumerable<T> TraverseBack<T>(T end, int step,
+            Func<T, IEnumerable<T>> adjacentNodes, Dictionary<T, int> distances)
+        {
+            var current = end;
+            for (var i = step - 1; i >= 0; i--)
+                yield return current = adjacentNodes(current)
+                    .First(n => distances[n] == i);
+        }
+
+        private static void DiscoverNextGeneration<T>(int stepNumber,
+            Dictionary<T, int> distances,
+            HashSet<T> current, HashSet<T> next,
+            Func<T, IEnumerable<T>> adjacentNodes)
+        {
+            foreach (var node in current)
+            {
+                distances[node] = stepNumber;
+                if (Equals(current, node)) return;
+                foreach (var adjacent in adjacentNodes(node))
+                    if (!distances.ContainsKey(adjacent))
+                        if (!current.Contains(adjacent))
+                            next.Add(adjacent);
+            }
+        }
+
+        private static void ClearAndSwap<T>(ref HashSet<T> current, ref HashSet<T> next)
+        {
+            current.Clear();
+            var temp = current;
+            current = next;
+            next = temp;
         }
     }
 }
