@@ -65,22 +65,22 @@ namespace Iit.Fibertest.Graph.Magic
         }
 
         private static int DiscoverDistances<T>(T start, T end,
-            Func<T, IEnumerable<T>> getAdjacentNodes, out Dictionary<T, int> nodeDistances)
+            Func<T, IEnumerable<T>> getAdjacentNodes, out Dictionary<T, int> distancesToNodes)
         {
-            nodeDistances = new Dictionary<T, int>();
+            distancesToNodes = new Dictionary<T, int>();
             var currentGeneration = new HashSet<T> { start };
-            for (var distance = 0; ; distance++)
+            for (var distance = 0; currentGeneration.Count != 0; distance++)
             {
                 foreach (var node in currentGeneration)
-                {
-                    nodeDistances[node] = distance;
-                    if (Equals(node, end)) return distance;
-                }
+                    distancesToNodes[node] = distance;
 
-                currentGeneration = new HashSet<T>(
-                    GetNextGeneration(currentGeneration, nodeDistances, getAdjacentNodes));
-                if (currentGeneration.Count == 0) return distance;
+                if (currentGeneration.Contains(end))
+                    return distance;
+
+                currentGeneration = NextGeneration(currentGeneration, distancesToNodes, getAdjacentNodes)
+                    .ToHashSet();
             }
+            return -1;
         }
 
         private static IEnumerable<T> TraverseBack<T>(T current, int pathLength,
@@ -92,7 +92,7 @@ namespace Iit.Fibertest.Graph.Magic
                     .First(n => distances[n] == i);
         }
 
-        private static IEnumerable<T> GetNextGeneration<T>(HashSet<T> source, Dictionary<T, int> distances, Func<T, IEnumerable<T>> adjacentNodes)
+        private static IEnumerable<T> NextGeneration<T>(HashSet<T> source, Dictionary<T, int> distances, Func<T, IEnumerable<T>> adjacentNodes)
         {
             return from node in source
                 from adjacent in adjacentNodes(node)
@@ -100,5 +100,7 @@ namespace Iit.Fibertest.Graph.Magic
                 where !source.Contains(adjacent)
                 select adjacent;
         }
+        private static HashSet<T> ToHashSet<T>(this IEnumerable<T> src)
+            => new HashSet<T>(src);
     }
 }
