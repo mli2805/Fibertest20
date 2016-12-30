@@ -59,7 +59,7 @@ namespace Iit.Fibertest.Graph.Magic
             if (Equals(start, end)) return new[] { start };
             Dictionary<T, int> distances;
             var maxDistance = DiscoverDistances(start, end, getAdjacentNodes, out distances);
-            return distances.ContainsKey(end) 
+            return maxDistance != -1
                 ? TraverseBack(end, maxDistance, getAdjacentNodes, distances).Reverse() 
                 : Enumerable.Empty<T>();
         }
