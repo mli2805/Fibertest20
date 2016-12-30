@@ -77,17 +77,15 @@ namespace Iit.Fibertest.Graph.Magic
                     if (Equals(node, end)) return distance;
                 }
 
-                var next = new HashSet<T>(
+                currentGeneration = new HashSet<T>(
                     GetNextGeneration(currentGeneration, nodeDistances, getAdjacentNodes));
-                if (next.Count == 0) return distance;
-                currentGeneration = next;
+                if (currentGeneration.Count == 0) return distance;
             }
         }
 
-        private static IEnumerable<T> TraverseBack<T>(T end, int pathLength,
+        private static IEnumerable<T> TraverseBack<T>(T current, int pathLength,
             Func<T, IEnumerable<T>> adjacentNodes, Dictionary<T, int> distances)
         {
-            var current = end;
             yield return current;
             for (var i = pathLength - 1; i >= 0; i--)
                 yield return current = adjacentNodes(current)
