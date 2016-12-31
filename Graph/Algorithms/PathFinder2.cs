@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Iit.Fibertest.Graph.Magic
+namespace Iit.Fibertest.Graph
 {
-    public static class PathFinder
+    public static class PathFinder2
     {
         public static Func<Guid, IEnumerable<Guid>> GetAdjacentNodes(
             this ReadModel readModel)

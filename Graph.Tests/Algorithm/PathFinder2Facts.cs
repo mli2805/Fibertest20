@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using FluentAssertions;
-using Iit.Fibertest.Graph.Magic;
+using Iit.Fibertest.Graph;
 using Xunit;
 
-namespace Graph.Tests.Magic
+namespace Graph.Tests
 {
-    public sealed class PathFinderFacts
+    public sealed class PathFinder2Facts
     {
         private static readonly Dictionary<int, HashSet<int>> GraphSample
             = new Dictionary<int, HashSet<int>>();
 
-        static PathFinderFacts()
+        static PathFinder2Facts()
         {
             GraphSample.Add(1, new HashSet<int>());
             E(2, 3);
