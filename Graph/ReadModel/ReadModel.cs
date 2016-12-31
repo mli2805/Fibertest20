@@ -17,28 +17,62 @@ namespace Iit.Fibertest.Graph
         public List<Rtu> Rtus { get; } = new List<Rtu>();
         public List<Trace> Traces { get; } = new List<Trace>();
 
+
+        #region Node
+
         public void Apply(NodeAdded e)
         {
             Node node = _mapper.Map<Node>(e);
             Nodes.Add(node);
         }
 
-        private Tuple<double, double> GetFiberCenter(Guid fiberId)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="trace">Trace could contain the same fiber more then once</param>
+        /// <param name="fiber">The object to locate</param>
+        /// <returns>The zero-based index of the first occurence of the fiber within the entire list of fibers in trace if found; otherwise, -1</returns>
+        private int GetFiberIndexInTrace(Trace trace, Fiber fiber)
         {
-            var fiber = Fibers.Single(f => f.Id == fiberId);
-            var node1 = Nodes.Single(n => n.Id == fiber.Node1);
-            var node2 = Nodes.Single(n => n.Id == fiber.Node2);
-            var latitude = Math.Abs(node1.Latitude - node2.Latitude) / 2;
-            var longitude = Math.Abs(node1.Longitude - node2.Longitude) / 2;
-            return new Tuple<double, double>(latitude, longitude);
+            var idxInTrace1 = trace.Nodes.IndexOf(fiber.Node1);
+            if (idxInTrace1 == -1)
+                return -1;
+            var idxInTrace2 = trace.Nodes.IndexOf(fiber.Node2);
+            if (idxInTrace2 == -1)
+                return -1;
+            if (idxInTrace2 - idxInTrace1 == 1)
+                return idxInTrace1;
+            if (idxInTrace1 - idxInTrace2 == 1)
+                return idxInTrace2;
+            return -1;
         }
         public void Apply(NodeIntoFiberAdded e)
         {
             Node node = _mapper.Map<Node>(e);
-            var coors = GetFiberCenter(e.FiberId);
-            node.Latitude = coors.Item1;
-            node.Longitude = coors.Item2;
+
+            var fiber = Fibers.Single(f => f.Id == e.FiberId);
+            var node1 = Nodes.Single(n => n.Id == fiber.Node1);
+            var node2 = Nodes.Single(n => n.Id == fiber.Node2);
+
+            node.Latitude = Math.Abs(node1.Latitude - node2.Latitude) / 2;
+            node.Longitude = Math.Abs(node1.Longitude - node2.Longitude) / 2;
             Nodes.Add(node);
+
+            var leftFiber = new Fiber() {Id = Guid.NewGuid(), Node1 = node1.Id, Node2 = node.Id};
+            Fibers.Add(leftFiber);
+            var rightFiber = new Fiber() {Id = Guid.NewGuid(), Node1 = node.Id, Node2 = node2.Id};
+            Fibers.Add(rightFiber);
+
+            foreach (var trace in Traces)
+            {
+                int idx;
+                while ((idx = GetFiberIndexInTrace(trace, fiber)) != -1)
+                {
+                    trace.Nodes.Insert(idx+1, node.Id);
+                }
+            }
+
+            Fibers.Remove(fiber);
         }
 
         public void Apply(NodeUpdated source)
@@ -58,6 +92,9 @@ namespace Iit.Fibertest.Graph
             Nodes.Remove(node);
         }
 
+        #endregion
+
+        #region Fiber
         public void Apply(FiberAdded e)
         {
             Fiber fiber = _mapper.Map<Fiber>(e);
@@ -93,6 +130,7 @@ namespace Iit.Fibertest.Graph
             var fiber = Fibers.Single(f => f.Id == e.Id);
             Fibers.Remove(fiber);
         }
+        #endregion
 
         public void Apply(EquipmentAdded e)
         {
@@ -106,6 +144,18 @@ namespace Iit.Fibertest.Graph
             Nodes.Add(node);
             Rtu rtu = _mapper.Map<Rtu>(e);
             Rtus.Add(rtu);
+        }
+
+        public void Apply(TraceAdded e)
+        {
+            Trace trace = _mapper.Map<Trace>(e);
+            Traces.Add(trace);
+        }
+
+        public void Apply(PreciseAdded e)
+        {
+            Trace trace = Traces.Single(t => t.Id == e.TraceId);
+            trace.PreciseId = e.Id;
         }
     }
 }

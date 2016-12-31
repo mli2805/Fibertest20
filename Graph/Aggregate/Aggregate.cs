@@ -107,14 +107,14 @@ namespace Iit.Fibertest.Graph
             Events.Add(_mapper.Map<RtuAddedAtGpsLocation>(cmd));
         }
 
-        private List<Guid> FindPath(DefineTrace param)
+        public void When(AddTrace cmd)
         {
-            var result = new List<Guid>();
-            result.Add(param.NodeWithRtuId);
-            return result;
+            Events.Add(_mapper.Map<TraceAdded>(cmd));
         }
-        public void When(DefineTrace cmd)
+
+        public void When(AddPrecise cmd)
         {
+            Events.Add(_mapper.Map<PreciseAdded>(cmd));
         }
     }
 }

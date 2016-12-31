@@ -20,7 +20,7 @@ namespace Iit.Fibertest.Graph
 
             CreateMap<RtuAddedAtGpsLocation, Rtu>();
 
-            CreateMap<TraceDefined, Trace>();
+            CreateMap<TraceAdded, Trace>();
         }
     }
 }

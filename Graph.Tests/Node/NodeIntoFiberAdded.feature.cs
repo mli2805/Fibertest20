@@ -66,7 +66,7 @@ namespace Graph.Tests.Node
         {
 #line 3
 #line 4
- testRunner.Given("Есть левый и правый узлы и отрезок между ними", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Есть трасса", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
         }
         
@@ -79,20 +79,44 @@ namespace Graph.Tests.Node
             this.ScenarioTearDown();
         }
         
-        [Xunit.FactAttribute(DisplayName="Добавление узла в отрезок")]
+        [Xunit.FactAttribute(DisplayName="Добавление узла в отрезок трассы")]
         [Xunit.TraitAttribute("FeatureTitle", "NodeIntoFiberAdded")]
-        [Xunit.TraitAttribute("Description", "Добавление узла в отрезок")]
-        public virtual void ДобавлениеУзлаВОтрезок()
+        [Xunit.TraitAttribute("Description", "Добавление узла в отрезок трассы")]
+        public virtual void ДобавлениеУзлаВОтрезокТрассы()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление узла в отрезок", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление узла в отрезок трассы", ((string[])(null)));
 #line 6
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
 #line 7
- testRunner.When("Пользователь кликает добавить узел в отрезок", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("Пользователь кликает добавить узел в отрезок этой трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 8
- testRunner.Then("Вместо отрезка образуется два новых и новый узел связывающий их", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("Старый отрезок удаляется и добавляются два новых и новый узел связывает их", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 9
+ testRunner.Then("Новый узел входит в трассу", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Добавление узла в отрезок трассы с базовой")]
+        [Xunit.TraitAttribute("FeatureTitle", "NodeIntoFiberAdded")]
+        [Xunit.TraitAttribute("Description", "Добавление узла в отрезок трассы с базовой")]
+        public virtual void ДобавлениеУзлаВОтрезокТрассыСБазовой()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление узла в отрезок трассы с базовой", ((string[])(null)));
+#line 11
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 12
+ testRunner.Given("Для трассы задана базовая", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 13
+ testRunner.When("Пользователь кликает добавить узел в отрезок этой трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 14
+ testRunner.Then("Нельзя добавлять узел в трассу с заданной базовой", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 15
+ testRunner.Then("Команда добавления не подается", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

@@ -10,22 +10,22 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Graph.Tests.Node
+namespace Graph.Tests
 {
     using TechTalk.SpecFlow;
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.1.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class NodeAddedFeature : Xunit.IClassFixture<NodeAddedFeature.FixtureData>, System.IDisposable
+    public partial class TraceAddedFeature : Xunit.IClassFixture<TraceAddedFeature.FixtureData>, System.IDisposable
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
         
-#line 1 "NodeAdded.feature"
+#line 1 "TraceAdded.feature"
 #line hidden
         
-        public NodeAddedFeature()
+        public TraceAddedFeature()
         {
             this.TestInitialize();
         }
@@ -33,7 +33,7 @@ namespace Graph.Tests.Node
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "NodeAdded", null, ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "TraceAdded", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -62,7 +62,7 @@ namespace Graph.Tests.Node
             testRunner.CollectScenarioErrors();
         }
         
-        public virtual void SetFixture(NodeAddedFeature.FixtureData fixtureData)
+        public virtual void SetFixture(TraceAddedFeature.FixtureData fixtureData)
         {
         }
         
@@ -71,18 +71,18 @@ namespace Graph.Tests.Node
             this.ScenarioTearDown();
         }
         
-        [Xunit.FactAttribute(DisplayName="Добавление узла")]
-        [Xunit.TraitAttribute("FeatureTitle", "NodeAdded")]
-        [Xunit.TraitAttribute("Description", "Добавление узла")]
-        public virtual void ДобавлениеУзла()
+        [Xunit.FactAttribute(DisplayName="Добавление трассы")]
+        [Xunit.TraitAttribute("FeatureTitle", "TraceAdded")]
+        [Xunit.TraitAttribute("Description", "Добавление трассы")]
+        public virtual void ДобавлениеТрассы()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление узла", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление трассы", ((string[])(null)));
 #line 3
 this.ScenarioSetup(scenarioInfo);
 #line 4
- testRunner.When("Пользователь кликает добавить узел", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("Пользователь подтверждает создание трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 5
- testRunner.Then("Новый узел сохраняется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("Новая трасса сохраняется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -94,12 +94,12 @@ this.ScenarioSetup(scenarioInfo);
             
             public FixtureData()
             {
-                NodeAddedFeature.FeatureSetup();
+                TraceAddedFeature.FeatureSetup();
             }
             
             void System.IDisposable.Dispose()
             {
-                NodeAddedFeature.FeatureTearDown();
+                TraceAddedFeature.FeatureTearDown();
             }
         }
     }
