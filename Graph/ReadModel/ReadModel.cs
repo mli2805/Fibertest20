@@ -86,12 +86,61 @@ namespace Iit.Fibertest.Graph
             Node oldLocation = Nodes.Single(n => n.Id == newLocation.Id);
             _mapper.Map(newLocation, oldLocation);
         }
+
+        private bool IsLastNodeForTrace(int idxInTrace, Trace trace)
+        {
+            return idxInTrace == trace.Nodes.Count - 1;
+        }
+        private void CreateDetourIfAbsent(Trace trace, int idxInTrace)
+        {
+            var nodeBefore = trace.Nodes[idxInTrace - 1];
+            var nodeAfter = trace.Nodes[idxInTrace + 1];
+
+            List<Fiber> sp = GetFibersFromNode(nodeBefore);
+            if (!sp.Any(f => f.Node1 == nodeAfter || f.Node2 == nodeAfter))
+            {
+                Apply(new FiberAdded() { Id = Guid.NewGuid(), Node1 = nodeBefore, Node2 = nodeAfter });
+            }
+        }
+
+        private List<Fiber> GetFibersFromNode(Guid nodeBefore)
+        {
+            return Fibers.Where(fiber => fiber.Node1 == nodeBefore || fiber.Node2 == nodeBefore).ToList();
+        }
+
         public void Apply(NodeRemoved e)
         {
+            List<Guid> equipmentInNode = new List<Guid>();
+            foreach (var trace in Traces)
+            {
+                var idxInTrace = trace.Nodes.IndexOf(e.Id);
+                if (idxInTrace == -1)
+                    continue;
+                if (!IsLastNodeForTrace(idxInTrace, trace))
+                    CreateDetourIfAbsent(trace, idxInTrace);
+
+                equipmentInNode.Add(trace.Equipments[idxInTrace]);
+                trace.Equipments.RemoveAt(idxInTrace);
+                trace.Nodes.RemoveAt(idxInTrace);
+            }
+            foreach (var equipmentId in equipmentInNode)
+            {
+                if (equipmentId != Guid.Empty)
+                {
+                    var equipment = Equipments.FirstOrDefault(p => p.Id == equipmentId);
+                    if (equipment != null)
+                        Equipments.Remove(equipment);
+                }
+            }
+
+            var fibers = GetFibersFromNode(e.Id);
+            foreach (var fiber in fibers)
+            {
+                Fibers.Remove(fiber);
+            }
             Node node = Nodes.Single(n=>n.Id == e.Id);
             Nodes.Remove(node);
         }
-
         #endregion
 
         #region Fiber
