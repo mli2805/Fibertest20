@@ -146,13 +146,29 @@
       <DependentUpon>RtuAddedAtGpsLocation.feature</DependentUpon>
     </Compile>
     <Compile Include="SystemUnderTest.cs" />
-    <Compile Include="TraceAdded.feature.cs">
+    <Compile Include="Trace\TraceAdded.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>TraceAdded.feature</DependentUpon>
     </Compile>
-    <Compile Include="TraceAddedSteps.cs">
+    <Compile Include="Trace\TraceAddedSteps.cs">
       <DependentUpon>TraceAdded.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Trace\TraceAttached.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TraceAttached.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Trace\TraceAttachedSteps.cs">
+      <DependentUpon>TraceAttached.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Trace\TraceDetached.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TraceDetached.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Trace\TraceDetachedSteps.cs">
+      <DependentUpon>TraceDetached.feature</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -194,9 +210,17 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>RtuAddedAtGpsLocation.feature.cs</LastGenOutput>
     </None>
-    <None Include="TraceAdded.feature">
+    <None Include="Trace\TraceAdded.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>TraceAdded.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Trace\TraceAttached.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>TraceAttached.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Trace\TraceDetached.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>TraceDetached.feature.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

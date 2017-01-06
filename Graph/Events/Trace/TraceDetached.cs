@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Iit.Fibertest.Graph.Commands
+namespace Iit.Fibertest.Graph.Events
 {
-    public class AddPrecise
+    public class TraceDetached
     {
-        public Guid Id { get; set; }
         public Guid TraceId { get; set; }
-        public byte[] Content { get; set; }
     }
 }

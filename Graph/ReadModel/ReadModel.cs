@@ -146,13 +146,26 @@ namespace Iit.Fibertest.Graph
             Rtus.Add(rtu);
         }
 
+        public void Apply(TraceAttached e)
+        {
+            var trace = Traces.Single(t => t.Id == e.TraceId);
+            trace.Port = e.Port;
+        }
+
+        public void Apply(TraceDetached e)
+        {
+            var trace = Traces.Single(t => t.Id == e.TraceId);
+            trace.Port = -1;
+        }
+
         public void Apply(TraceAdded e)
         {
             Trace trace = _mapper.Map<Trace>(e);
             Traces.Add(trace);
         }
 
-        public void Apply(PreciseAdded e)
+
+        public void Apply(BaseRefAssigned e)
         {
             Trace trace = Traces.Single(t => t.Id == e.TraceId);
             trace.PreciseId = e.Id;

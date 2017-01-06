@@ -6,6 +6,7 @@ namespace Iit.Fibertest.Graph
     public class Trace
     {
         public Guid Id { get; set; }
+        public int Port { get; set; } = -1;
 
         public List<Guid> Nodes { get; set; } = new List<Guid>();
         public List<Guid> Equipments { get; set; } = new List<Guid>();

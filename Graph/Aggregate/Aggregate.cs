@@ -112,9 +112,19 @@ namespace Iit.Fibertest.Graph
             Events.Add(_mapper.Map<TraceAdded>(cmd));
         }
 
-        public void When(AddPrecise cmd)
+        public void When(AttachTrace cmd)
         {
-            Events.Add(_mapper.Map<PreciseAdded>(cmd));
+            Events.Add(_mapper.Map<TraceAttached>(cmd));
+        }
+
+        public void When(DetachTrace cmd)
+        {
+            Events.Add(_mapper.Map<TraceDetached>(cmd));
+        }
+
+        public void When(AssignBaseRef cmd)
+        {
+            Events.Add(_mapper.Map<BaseRefAssigned>(cmd));
         }
     }
 }

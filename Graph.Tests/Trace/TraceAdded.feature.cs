@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Graph.Tests
+namespace Graph.Tests.Trace
 {
     using TechTalk.SpecFlow;
     

@@ -20,9 +20,11 @@ namespace Iit.Fibertest.Graph
             CreateMap<RemoveFiber, FiberRemoved>();
 
             CreateMap<AddRtuAtGpsLocation, RtuAddedAtGpsLocation>();
+            CreateMap<AttachTrace, TraceAttached>();
+            CreateMap<DetachTrace, TraceDetached>();
 
             CreateMap<AddTrace, TraceAdded>();
-            CreateMap<AddPrecise, PreciseAdded>();
+            CreateMap<AssignBaseRef, BaseRefAssigned>();
 
         }
     }

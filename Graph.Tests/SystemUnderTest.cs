@@ -119,6 +119,18 @@ namespace Graph.Tests
             MakeReadModelApplyEventsGeneratedByAggregate();
         }
 
+        public void AttachTrace(AttachTrace cmd)
+        {
+            Aggregate.When(cmd);
+            MakeReadModelApplyEventsGeneratedByAggregate();
+        }
+
+        public void DetachTrace(DetachTrace cmd)
+        {
+            Aggregate.When(cmd);
+            MakeReadModelApplyEventsGeneratedByAggregate();
+        }
+
         private void MakeReadModelApplyEventsGeneratedByAggregate()
         {
             foreach (var e in Aggregate.Events)
