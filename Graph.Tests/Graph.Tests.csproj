@@ -146,6 +146,12 @@
       <DependentUpon>RtuAddedAtGpsLocation.feature</DependentUpon>
     </Compile>
     <Compile Include="SystemUnderTest.cs" />
+    <Compile Include="Trace\BaseRefAssigned.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BaseRefAssigned.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Trace\BaseRefAssignedSteps.cs" />
     <Compile Include="Trace\TraceAdded.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -209,6 +215,10 @@
     <None Include="RtuAddedAtGpsLocation.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>RtuAddedAtGpsLocation.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Trace\BaseRefAssigned.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>BaseRefAssigned.feature.cs</LastGenOutput>
     </None>
     <None Include="Trace\TraceAdded.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

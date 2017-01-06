@@ -10,22 +10,22 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Graph.Tests.Node
+namespace Graph.Tests.Trace
 {
     using TechTalk.SpecFlow;
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.1.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class NodeIntoFiberAddedFeature : Xunit.IClassFixture<NodeIntoFiberAddedFeature.FixtureData>, System.IDisposable
+    public partial class BaseRefAssignedFeature : Xunit.IClassFixture<BaseRefAssignedFeature.FixtureData>, System.IDisposable
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
         
-#line 1 "NodeIntoFiberAdded.feature"
+#line 1 "BaseRefAssigned.feature"
 #line hidden
         
-        public NodeIntoFiberAddedFeature()
+        public BaseRefAssignedFeature()
         {
             this.TestInitialize();
         }
@@ -33,7 +33,7 @@ namespace Graph.Tests.Node
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "NodeIntoFiberAdded", null, ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "BaseRefAssigned", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -62,15 +62,7 @@ namespace Graph.Tests.Node
             testRunner.CollectScenarioErrors();
         }
         
-        public virtual void FeatureBackground()
-        {
-#line 3
-#line 4
- testRunner.Given("Есть трасса", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
-        }
-        
-        public virtual void SetFixture(NodeIntoFiberAddedFeature.FixtureData fixtureData)
+        public virtual void SetFixture(BaseRefAssignedFeature.FixtureData fixtureData)
         {
         }
         
@@ -79,22 +71,22 @@ namespace Graph.Tests.Node
             this.ScenarioTearDown();
         }
         
-        [Xunit.FactAttribute(DisplayName="Добавление узла в отрезок трассы")]
-        [Xunit.TraitAttribute("FeatureTitle", "NodeIntoFiberAdded")]
-        [Xunit.TraitAttribute("Description", "Добавление узла в отрезок трассы")]
-        public virtual void ДобавлениеУзлаВОтрезокТрассы()
+        [Xunit.FactAttribute(DisplayName="Задание базовой рефлектограммы")]
+        [Xunit.TraitAttribute("FeatureTitle", "BaseRefAssigned")]
+        [Xunit.TraitAttribute("Description", "Задание базовой рефлектограммы")]
+        public virtual void ЗаданиеБазовойРефлектограммы()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление узла в отрезок трассы", ((string[])(null)));
-#line 6
-this.ScenarioSetup(scenarioInfo);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Задание базовой рефлектограммы", ((string[])(null)));
 #line 3
-this.FeatureBackground();
+this.ScenarioSetup(scenarioInfo);
+#line 4
+ testRunner.Given("I have entered 50 into the calculator", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 5
+ testRunner.And("I have entered 70 into the calculator", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 6
+ testRunner.When("I press add", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 7
- testRunner.When("Пользователь кликает добавить узел в отрезок этой трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 8
- testRunner.Then("Старый отрезок удаляется и добавляются два новых и новый узел связывает их", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 9
- testRunner.Then("Новый узел входит в трассу", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the result should be 120 on the screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -106,12 +98,12 @@ this.FeatureBackground();
             
             public FixtureData()
             {
-                NodeIntoFiberAddedFeature.FeatureSetup();
+                BaseRefAssignedFeature.FeatureSetup();
             }
             
             void System.IDisposable.Dispose()
             {
-                NodeIntoFiberAddedFeature.FeatureTearDown();
+                BaseRefAssignedFeature.FeatureTearDown();
             }
         }
     }

@@ -146,6 +146,13 @@ namespace Iit.Fibertest.Graph
             Rtus.Add(rtu);
         }
 
+        #region MyRegion
+        public void Apply(TraceAdded e)
+        {
+            Trace trace = _mapper.Map<Trace>(e);
+            Traces.Add(trace);
+        }
+
         public void Apply(TraceAttached e)
         {
             var trace = Traces.Single(t => t.Id == e.TraceId);
@@ -158,17 +165,11 @@ namespace Iit.Fibertest.Graph
             trace.Port = -1;
         }
 
-        public void Apply(TraceAdded e)
-        {
-            Trace trace = _mapper.Map<Trace>(e);
-            Traces.Add(trace);
-        }
-
-
         public void Apply(BaseRefAssigned e)
         {
             Trace trace = Traces.Single(t => t.Id == e.TraceId);
             trace.PreciseId = e.Id;
         }
+        #endregion
     }
 }

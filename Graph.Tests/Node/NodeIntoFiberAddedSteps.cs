@@ -57,26 +57,5 @@ namespace Graph.Tests
 
         }
 
-        [Given(@"Для трассы задана базовая")]
-        public void GivenДляТрассыЗаданаБазовая()
-        {
-
-            _cutOff = _sut.CurrentEventNumber;
-        }
-
-        [Then(@"Нельзя добавлять узел в трассу с заданной базовой")]
-        public void ThenНельзяДобавлятьУзелВТрассуСЗаданнойБазовой()
-        {
-            ScenarioContext.Current.Pending();
-        }
-
-        [Then(@"Команда добавления не подается")]
-        public void ThenКомандаДобавленияНеПодается()
-        {
-            _sut.CurrentEventNumber.Should().Be(_cutOff);
-
-        }
-
-
     }
 }
