@@ -26,7 +26,6 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             if (_aggregate.When(cmd) != null)
                 return Guid.Empty;
 
-         //   MakeReadModelApplyEventsGeneratedByAggregate();
             return newGuid;
         }
     }

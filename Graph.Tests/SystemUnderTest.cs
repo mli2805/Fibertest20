@@ -51,23 +51,6 @@ namespace Graph.Tests
             return nodeId;
         }
 
-        public Guid AddFiber(Guid left, Guid right)
-        {
-            var newGuid = Guid.NewGuid();
-            var cmd = new AddFiber()
-            {
-                Id = newGuid,
-                Node1 = left,
-                Node2 = right
-            };
-
-            if (Aggregate.When(cmd) != null)
-                return Guid.Empty;
-
-            Poller.Tick();
-            return newGuid;
-        }
-
         public void AddFiberWithNodes(Guid left, Guid right, int intermediateNodeCount, EquipmentType equipmentType)
         {
             var cmd = new AddFiberWithNodes()

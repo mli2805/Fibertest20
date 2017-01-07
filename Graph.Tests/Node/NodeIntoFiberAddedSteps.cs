@@ -3,6 +3,7 @@ using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
+using Iit.Fibertest.WpfClient.ViewModels;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -11,6 +12,7 @@ namespace Graph.Tests
     public sealed class NodeIntoFiberAddedSteps
     {
         private readonly SystemUnderTest _sut = new SystemUnderTest();
+        private readonly MapViewModel _vm;
         private Guid _nodeForRtuId;
         private Guid _firstNodeId;
         private Guid _nodeId;
@@ -18,6 +20,10 @@ namespace Graph.Tests
         private Guid _traceId;
         private int _cutOff;
 
+        public NodeIntoFiberAddedSteps()
+        {
+            _vm = new MapViewModel(_sut.Aggregate);
+        }
 
         [Given(@"Есть трасса")]
         public void GivenЕстьТрасса()
@@ -25,8 +31,8 @@ namespace Graph.Tests
             _nodeForRtuId = _sut.AddRtuAtGpsLocation();
             _firstNodeId = _sut.AddNode();
             var secondNodeId = _sut.AddNode();
-            _fiberId = _sut.AddFiber(_nodeForRtuId, _firstNodeId);
-            var fiberId2 = _sut.AddFiber(_firstNodeId, secondNodeId);
+            _fiberId = _vm.AddFiber(_nodeForRtuId, _firstNodeId);
+            var fiberId2 = _vm.AddFiber(_firstNodeId, secondNodeId);
             _traceId = Guid.NewGuid();
             var cmd = new AddTrace() {Id = _traceId, Nodes = { _nodeForRtuId, _firstNodeId, secondNodeId}};
             _sut.AddTrace(cmd);
