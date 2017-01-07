@@ -32,7 +32,7 @@ namespace Graph.Tests
         }
 
         [Given(@"Отрезок между левым и правым узлом уже добавлен")]
-        public void GivenОтрезокМеждуЛевымИПравымУзломУжеДобавлен()
+        public void AddFiber()
         {
             _vm.AddFiber(_leftNodeId, _rightNodeId);
             _cutOff = _sut.CurrentEventNumber;
