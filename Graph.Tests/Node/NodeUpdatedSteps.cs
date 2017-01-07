@@ -65,6 +65,7 @@ namespace Graph.Tests
         public void AssertThereAreNewEvents()
         {
             //TODO: replace with an actual check with UI
+            _sut.Poller.Tick();
             _sut.CurrentEventNumber.Should().BeGreaterThan(_cutOff);
         }
 

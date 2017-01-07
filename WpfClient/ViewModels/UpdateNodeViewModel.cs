@@ -48,6 +48,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
             Error = _aggregate.When(new UpdateNode
             {
+                Id = Id,
                 Title = _title
             });
             if (Error != null)
