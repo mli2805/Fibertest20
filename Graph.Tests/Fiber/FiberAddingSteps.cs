@@ -22,9 +22,9 @@ namespace Graph.Tests
         [Given(@"Левый и правый узлы созданы")]
         public void GivenALeftAndRightNodesCreated()
         {
-            _leftNodeId = _sut.AddNode();
+            _leftNodeId = _vm.AddNode();
             _cutOff = _sut.CurrentEventNumber;
-            _rightNodeId = _sut.AddNode();
+            _rightNodeId = _vm.AddNode();
             _cutOff = _sut.CurrentEventNumber;
         }
 

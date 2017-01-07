@@ -26,8 +26,9 @@ namespace Graph.Tests
         [Given(@"Левый и правый узлы уже созданы")]
         public void GivenЛевыйИПравыйУзлыУжеСозданы()
         {
-            _leftNodeId = _sut.AddNode();
-            _rightNodeId = _sut.AddNode();
+            _leftNodeId = _vm.AddNode();
+            _rightNodeId = _vm.AddNode();
+            _sut.Poller.Tick();
             _nodesCountCutOff = _sut.ReadModel.Nodes.Count;
             _fibersCountCutOff = _sut.ReadModel.Fibers.Count;
             _sleeveCountcutOff = _sut.ReadModel.Equipments.Count(e => e.Type == EquipmentType.Sleeve);

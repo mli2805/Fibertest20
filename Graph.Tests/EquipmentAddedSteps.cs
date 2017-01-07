@@ -10,13 +10,19 @@ namespace Graph.Tests
     {
         private readonly SystemUnderTest _sut = new SystemUnderTest();
         private Guid _saidNodeId;
+        private MapViewModel _mapViewModel;
         private AddEquipmentViewModel _window;
         private int _cutOff;
+
+        public EquipmentAddedSteps()
+        {
+            _mapViewModel = new MapViewModel(_sut.Aggregate);
+        }
 
         [Given(@"Добавлен некий узел")]
         public void GivenAContainer_NodeCreated()
         {
-            _saidNodeId = _sut.AddNode();
+            _saidNodeId = _mapViewModel.AddNode();
             _cutOff = _sut.CurrentEventNumber;
         }
 

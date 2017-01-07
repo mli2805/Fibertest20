@@ -23,8 +23,8 @@ namespace Graph.Tests.Fiber
         [Given(@"Есть два узла и отрезок между ними")]
         public void GivenЕстьДваУзлаИОтрезокМеждуНими()
         {
-            _leftNodeId = _sut.AddNode();
-            _rightNodeId = _sut.AddNode();
+            _leftNodeId = _vm.AddNode();
+            _rightNodeId = _vm.AddNode();
             _vm.AddFiber(_leftNodeId, _rightNodeId);
             _sut.Poller.Tick();
             _fiberId = _sut.ReadModel.Fibers.Single().Id;

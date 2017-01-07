@@ -29,8 +29,8 @@ namespace Graph.Tests
         public void GivenЕстьТрасса()
         {
             _nodeForRtuId = _sut.AddRtuAtGpsLocation();
-            _firstNodeId = _sut.AddNode();
-            var secondNodeId = _sut.AddNode();
+            _firstNodeId = _vm.AddNode();
+            var secondNodeId = _vm.AddNode();
             _vm.AddFiber(_nodeForRtuId, _firstNodeId);
             _vm.AddFiber(_firstNodeId, secondNodeId);
             _sut.Poller.Tick();

@@ -12,18 +12,25 @@ namespace Graph.Tests
         private Guid _saidNodeId;
         private UpdateNodeViewModel _window;
         private int _cutOff;
+        private MapViewModel _mapViewModel;
+
+        public NodeUpdatedSteps()
+        {
+            _mapViewModel = new MapViewModel(_sut.Aggregate);
+        }
 
         [Given(@"Добавлен узел")]
         public void CreateNode()
         {
-            _saidNodeId = _sut.AddNode();
+            _saidNodeId = _mapViewModel.AddNode();
+            _sut.Poller.Tick();
             _cutOff = _sut.CurrentEventNumber;
         }
 
         [Given(@"Ранее был создан узел с именем (.*)")]
         public void CreateNode(string title)
         {
-            _saidNodeId = _sut.AddNode();
+            _saidNodeId = _mapViewModel.AddNode();
             _sut.UpdateNode(_saidNodeId, title);
             _cutOff = _sut.CurrentEventNumber;
         }

@@ -14,6 +14,20 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             _aggregate = aggregate;
         }
 
+        public Guid AddNode()
+        {
+            var newGuid = Guid.NewGuid();
+            var cmd = new AddNode
+            {
+                Id = newGuid
+            };
+
+            _aggregate.When(cmd);
+
+            return newGuid;
+        }
+
+
         public void AddFiber(Guid left, Guid right)
         {
             var newGuid = Guid.NewGuid();
