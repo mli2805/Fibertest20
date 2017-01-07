@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.WpfClient.ViewModels;
 using TechTalk.SpecFlow;
@@ -22,7 +23,9 @@ namespace Graph.Tests
         [Given(@"Создан узел")]
         public void GivenNodeAdded()
         {
-            _nodeId = _mapViewModel.AddNode();
+            _mapViewModel.AddNode();
+            _sut.Poller.Tick();
+            _nodeId = _sut.ReadModel.Nodes.Single().Id;
         }
 
         [When(@"Пользователь подвинул узел")]

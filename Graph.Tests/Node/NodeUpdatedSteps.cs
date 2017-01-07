@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.WpfClient.ViewModels;
 using TechTalk.SpecFlow;
@@ -22,15 +23,19 @@ namespace Graph.Tests
         [Given(@"Добавлен узел")]
         public void CreateNode()
         {
-            _saidNodeId = _mapViewModel.AddNode();
+             _mapViewModel.AddNode();
             _sut.Poller.Tick();
+            _saidNodeId = _sut.ReadModel.Nodes.Single().Id;
+
             _cutOff = _sut.CurrentEventNumber;
         }
 
         [Given(@"Ранее был создан узел с именем (.*)")]
         public void CreateNode(string title)
         {
-            _saidNodeId = _mapViewModel.AddNode();
+            _mapViewModel.AddNode();
+            _sut.Poller.Tick();
+            _saidNodeId = _sut.ReadModel.Nodes.Last().Id;
             _sut.UpdateNode(_saidNodeId, title);
             _cutOff = _sut.CurrentEventNumber;
         }

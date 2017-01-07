@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.WpfClient.ViewModels;
 using TechTalk.SpecFlow;
@@ -22,9 +23,11 @@ namespace Graph.Tests
         [Given(@"Левый и правый узлы созданы")]
         public void GivenALeftAndRightNodesCreated()
         {
-            _leftNodeId = _vm.AddNode();
-            _cutOff = _sut.CurrentEventNumber;
-            _rightNodeId = _vm.AddNode();
+            _vm.AddNode();
+            _vm.AddNode();
+            _sut.Poller.Tick();
+            _leftNodeId = _sut.ReadModel.Nodes.First().Id;
+            _rightNodeId = _sut.ReadModel.Nodes.Last().Id;
             _cutOff = _sut.CurrentEventNumber;
         }
 

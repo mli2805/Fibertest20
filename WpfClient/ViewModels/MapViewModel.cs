@@ -14,17 +14,14 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             _aggregate = aggregate;
         }
 
-        public Guid AddNode()
+        public void AddNode()
         {
-            var newGuid = Guid.NewGuid();
             var cmd = new AddNode
             {
-                Id = newGuid
+                Id = Guid.NewGuid()
             };
 
             _aggregate.When(cmd);
-
-            return newGuid;
         }
 
 
