@@ -31,8 +31,10 @@ namespace Graph.Tests
             _nodeForRtuId = _sut.AddRtuAtGpsLocation();
             _firstNodeId = _sut.AddNode();
             var secondNodeId = _sut.AddNode();
-            _fiberId = _vm.AddFiber(_nodeForRtuId, _firstNodeId);
-            var fiberId2 = _vm.AddFiber(_firstNodeId, secondNodeId);
+            _vm.AddFiber(_nodeForRtuId, _firstNodeId);
+            _vm.AddFiber(_firstNodeId, secondNodeId);
+            _sut.Poller.Tick();
+            _fiberId = _sut.ReadModel.Fibers.First().Id;
             _traceId = Guid.NewGuid();
             var cmd = new AddTrace() {Id = _traceId, Nodes = { _nodeForRtuId, _firstNodeId, secondNodeId}};
             _sut.AddTrace(cmd);

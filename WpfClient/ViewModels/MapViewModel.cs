@@ -1,10 +1,11 @@
 ﻿using System;
+using System.ComponentModel;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
 
 namespace Iit.Fibertest.WpfClient.ViewModels
 {
-    public sealed class MapViewModel
+    public sealed class MapViewModel : IDataErrorInfo
     {
         private readonly Aggregate _aggregate;
 
@@ -13,7 +14,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             _aggregate = aggregate;
         }
 
-        public Guid AddFiber(Guid left, Guid right)
+        public void AddFiber(Guid left, Guid right)
         {
             var newGuid = Guid.NewGuid();
             var cmd = new AddFiber()
@@ -23,10 +24,14 @@ namespace Iit.Fibertest.WpfClient.ViewModels
                 Node2 = right
             };
 
-            if (_aggregate.When(cmd) != null)
-                return Guid.Empty;
-
-            return newGuid;
+            Error = _aggregate.When(cmd);
         }
+
+        public string this[string columnName]
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public string Error { get; private set; }
     }
 }

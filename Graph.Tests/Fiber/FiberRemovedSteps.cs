@@ -25,7 +25,9 @@ namespace Graph.Tests.Fiber
         {
             _leftNodeId = _sut.AddNode();
             _rightNodeId = _sut.AddNode();
-            _fiberId = _vm.AddFiber(_leftNodeId, _rightNodeId);
+            _vm.AddFiber(_leftNodeId, _rightNodeId);
+            _sut.Poller.Tick();
+            _fiberId = _sut.ReadModel.Fibers.Single().Id;
         }
 
         [When(@"Пользователь кликает удалить отрезок")]
