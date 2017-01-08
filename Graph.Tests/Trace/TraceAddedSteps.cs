@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using FluentAssertions;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
+using Iit.Fibertest.WpfClient.ViewModels;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -9,19 +13,61 @@ namespace Graph.Tests
     public sealed class TraceAddedSteps
     {
         private readonly SystemUnderTest _sut = new SystemUnderTest();
+        private readonly MapViewModel _mapViewModel;
+        private AddTraceViewModel _addTraceViewModel;
+        private Guid _rtuNodeId;
+        private Guid _lastNodeId;
+        private List<Guid> _traceNodes;
+
+
         private int _cutOff;
 
-        [When(@"Пользователь подтверждает создание трассы")]
-        public void WhenПользовательПодтверждаетСозданиеТрассы()
+        public TraceAddedSteps()
         {
-            var cmd = new AddTrace() {Id = Guid.NewGuid()};
-            _sut.AddTrace(cmd);
+            _mapViewModel = new MapViewModel(_sut.Aggregate);
+        }
+
+        [Given(@"Существует два узла")]
+        public void GivenСуществуетДваУзла()
+        {
+            _mapViewModel.AddRtuAtGpsLocation();
+            _mapViewModel.AddNode();
+            _sut.Poller.Tick();
+            _rtuNodeId = _sut.ReadModel.Nodes.First().Id;
+            _lastNodeId = _sut.ReadModel.Nodes.Last().Id;
+        }
+
+        [Given(@"Между этими узлами есть путь")]
+        public void GivenМеждуЭтимиУзламиЕстьПуть()
+        {
+            _mapViewModel.AddFiber(_rtuNodeId, _lastNodeId);
+            _sut.Poller.Tick();
+        }
+
+        [Given(@"Пользователь выбрал два узла и кликнул определить трассу")]
+        public void GivenПользовательВыбралДваУзлаИКликнулОпределитьТрассу()
+        {
+            _traceNodes = new PathFinder(_sut.ReadModel).FindPath(_rtuNodeId, _lastNodeId).ToList();
+            _addTraceViewModel = new AddTraceViewModel(_sut.ReadModel, _sut.Aggregate, _traceNodes);
+        }
+
+        [Then(@"Открывается окно добавления трассы")]
+        public void ThenОткрываетсяОкноДобавленияТрассы()
+        {
+            _addTraceViewModel.IsClosed.Should().BeFalse();
+        }
+
+        [When(@"Пользователь вводит название трассы и жмет Сохранить")]
+        public void WhenПользовательВводитНазваниеТрассыИЖметСохранить()
+        {
+            _addTraceViewModel.Save();
+            _sut.Poller.Tick();
         }
 
         [Then(@"Новая трасса сохраняется")]
         public void ThenНоваяТрассаСохраняется()
         {
-            _sut.CurrentEventNumber.Should().BeGreaterThan(_cutOff);
+            _sut.ReadModel.Traces.Count.Should().Be(1);
         }
 
     }

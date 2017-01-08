@@ -74,6 +74,7 @@
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="IShell.cs" />
     <Compile Include="ViewModels\AddEquipmentViewModel.cs" />
+    <Compile Include="ViewModels\AddTraceViewModel.cs" />
     <Compile Include="ViewModels\MapViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="App.xaml.cs">
@@ -84,10 +85,17 @@
     <Compile Include="Views\AddEquipmentView.xaml.cs">
       <DependentUpon>AddEquipmentView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\AddTraceView.xaml.cs">
+      <DependentUpon>AddTraceView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UpdateNodeView.xaml.cs">
       <DependentUpon>UpdateNodeView.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\AddEquipmentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddTraceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

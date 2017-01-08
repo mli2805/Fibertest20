@@ -62,6 +62,14 @@ namespace Graph.Tests.Trace
             testRunner.CollectScenarioErrors();
         }
         
+        public virtual void FeatureBackground()
+        {
+#line 3
+#line 4
+ testRunner.Given("Существует два узла", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+        }
+        
         public virtual void SetFixture(TraceAddedFeature.FixtureData fixtureData)
         {
         }
@@ -77,11 +85,19 @@ namespace Graph.Tests.Trace
         public virtual void ДобавлениеТрассы()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление трассы", ((string[])(null)));
-#line 3
+#line 6
 this.ScenarioSetup(scenarioInfo);
-#line 4
- testRunner.When("Пользователь подтверждает создание трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 5
+#line 3
+this.FeatureBackground();
+#line 7
+ testRunner.Given("Между этими узлами есть путь", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 8
+ testRunner.Given("Пользователь выбрал два узла и кликнул определить трассу", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 9
+ testRunner.Then("Открывается окно добавления трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 10
+ testRunner.When("Пользователь вводит название трассы и жмет Сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 11
  testRunner.Then("Новая трасса сохраняется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

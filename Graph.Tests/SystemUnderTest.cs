@@ -32,13 +32,6 @@ namespace Graph.Tests
             Poller.Tick();
         }
 
-        public void AddEquipment()
-        {
-            var cmd = new AddEquipment();
-            Aggregate.When(cmd);
-            Poller.Tick();
-        }
-
         public void UpdateNode(Guid nodeId, string title)
         {
             var cmd = new UpdateNode()
@@ -49,12 +42,6 @@ namespace Graph.Tests
 
             Aggregate.When(cmd);
 
-            Poller.Tick();
-        }
-
-        public void AddTrace(AddTrace cmd)
-        {
-            Aggregate.When(cmd);
             Poller.Tick();
         }
 

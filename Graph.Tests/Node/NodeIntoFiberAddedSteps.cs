@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Graph;
@@ -17,8 +18,6 @@ namespace Graph.Tests
         private Guid _firstNodeId;
         private Guid _nodeId;
         private Guid _fiberId;
-        private Guid _traceId;
-        private int _cutOff;
 
         public NodeIntoFiberAddedSteps()
         {
@@ -40,9 +39,8 @@ namespace Graph.Tests
             _vm.AddFiber(_firstNodeId, secondNodeId);
             _sut.Poller.Tick();
             _fiberId = _sut.ReadModel.Fibers.First().Id;
-            _traceId = Guid.NewGuid();
-            var cmd = new AddTrace() {Id = _traceId, Nodes = { _nodeForRtuId, _firstNodeId, secondNodeId}};
-            _sut.AddTrace(cmd);
+            var addTraceViewModel = new AddTraceViewModel(_sut.ReadModel, _sut.Aggregate, new List<Guid>(){ _nodeForRtuId, _firstNodeId, secondNodeId });
+            addTraceViewModel.Save();
             _sut.Poller.Tick();
         }
 
@@ -67,7 +65,7 @@ namespace Graph.Tests
         [Then(@"Новый узел входит в трассу")]
         public void ThenНовыйУзелВходитВТрассуАСвязностьТрассыСохраняется()
         {
-            var trace = _sut.ReadModel.Traces.Single(t => t.Id == _traceId);
+            var trace = _sut.ReadModel.Traces.First();
             trace.Nodes.Should().Contain(_nodeId);
 
         }

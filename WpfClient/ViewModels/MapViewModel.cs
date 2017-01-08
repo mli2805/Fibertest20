@@ -13,6 +13,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
     public sealed class MapViewModel : IDataErrorInfo
     {
         private readonly Aggregate _aggregate;
+        private readonly ReadModel _readModel;
         private GpsCoors _currentMousePosition = new GpsCoors();
 
         public MapViewModel(Aggregate aggregate)
@@ -32,6 +33,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         }
         #endregion
 
+        #region Fiber
         public void AddFiber(Guid left, Guid right)
         {
             Error = _aggregate.When(new AddFiber()
@@ -56,6 +58,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             if (_aggregate.When(cmd) != null)
                 return;
         }
+        #endregion
 
         public void AddRtuAtGpsLocation()
         {
@@ -64,6 +67,13 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         public void AddEquipmentAtGpsLocation()
         {
             _aggregate.When(new AddEquipmentAtGpsLocation() { Id = Guid.NewGuid(), NodeId = Guid.NewGuid(), Latitude = _currentMousePosition.Latitude, Longitude = _currentMousePosition.Longitude } );
+        }
+
+        public void DefineTrace()
+        {
+            var rtuNodeId = Guid.NewGuid();
+            var lastNodeId = Guid.NewGuid();
+            new PathFinder(_readModel).FindPath(rtuNodeId, lastNodeId);
         }
 
         public string this[string columnName]
