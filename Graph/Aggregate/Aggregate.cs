@@ -107,7 +107,7 @@ namespace Iit.Fibertest.Graph
             Events.Add(_mapper.Map<RtuAddedAtGpsLocation>(cmd));
         }
 
-        #region MyRegion
+        #region Trace
         public void When(AddTrace cmd)
         {
             Events.Add(_mapper.Map<TraceAdded>(cmd));
