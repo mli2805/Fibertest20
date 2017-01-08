@@ -8,11 +8,11 @@
         Title="AddTraceView" SizeToContent="Height" Width="300" WindowStartupLocation="CenterScreen">
     <StackPanel>
         <TextBlock Margin="5" >Title</TextBlock>
-        <TextBox Margin="5" Text="{Binding Title}"/>
+        <TextBox Margin="5" Text="{Binding Title, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBlock Margin="5" >Comment</TextBlock>
         <TextBox Margin="5" Text="{Binding Comment}"/>
         <StackPanel Orientation="Horizontal" Margin="5,15">
-            <Button Name="Save" Height="25" Width="100" Margin="5" Content="Сохранить"/>
+            <Button Name="Save" Height="25" Width="100" Margin="5" Content="Сохранить" IsEnabled="{Binding IsButtonSaveEnabled}"/>
             <Button Name="Cancel" Height="25" Width="100" Content="Отменить"/>
         </StackPanel>
 

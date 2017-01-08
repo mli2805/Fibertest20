@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
 
 namespace Iit.Fibertest.WpfClient.ViewModels
 {
-    public class AddTraceViewModel : Screen
+    public class AddTraceViewModel : Screen, IDataErrorInfo
     {
         private readonly ReadModel _readModel;
         private readonly Aggregate _aggregate;
@@ -23,6 +24,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
                 if (value == _title) return;
                 _title = value;
                 NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(IsButtonSaveEnabled));
             }
         }
 
@@ -37,6 +39,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             }
         }
 
+        public bool IsButtonSaveEnabled => !string.IsNullOrEmpty(_title);
 
         public bool IsClosed { get; set; }
 
@@ -75,5 +78,23 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             TryClose();
         }
 
+        public string this[string columnName]
+        {
+            get {
+                String errorMessage = String.Empty;
+                switch (columnName)
+                {
+                    case "Title":
+                        if (String.IsNullOrEmpty(Title))
+                        {
+                            errorMessage = "Title is required";
+                        }
+                        break;
+                }
+                return errorMessage;
+            }
+        }
+
+        public string Error { get; }
     }
 }

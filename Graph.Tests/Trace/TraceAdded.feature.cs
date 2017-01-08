@@ -120,9 +120,9 @@ this.FeatureBackground();
 #line 16
  testRunner.Then("Открывается окно добавления трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 17
- testRunner.When("Пользователь НЕ вводит название трассы и жмет Сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("Пользователь жмет Отмена", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 18
- testRunner.Then("Выдается ошибка трасса без имени и окно НЕ закрывается", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("Окно закрывается и трасса не сохраняется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

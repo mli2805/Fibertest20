@@ -71,18 +71,17 @@ namespace Graph.Tests
             _addTraceViewModel.IsClosed = true;
         }
 
-        [When(@"Пользователь НЕ вводит название трассы и жмет Сохранить")]
-        public void WhenПользовательНЕВводитНазваниеТрассыИЖметСохранить()
+        [When(@"Пользователь жмет Отмена")]
+        public void WhenПользовательЖметОтмена()
         {
-            _addTraceViewModel.Save();
-            _sut.Poller.Tick();
+            _addTraceViewModel.Cancel();
         }
 
-        [Then(@"Выдается ошибка трасса без имени и окно НЕ закрывается")]
-        public void ThenВыдаетсяОшибкаТрассаБезИмениИОкноНЕЗакрывается()
+        [Then(@"Окно закрывается и трасса не сохраняется")]
+        public void ThenОкноЗакрываетсяИТрассаНеСохраняется()
         {
-            _addTraceViewModel.IsClosed = false;
-
+            _sut.ReadModel.Traces.Count.Should().Be(0);
+            _addTraceViewModel.IsClosed = true;
         }
 
 
