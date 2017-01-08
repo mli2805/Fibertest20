@@ -195,7 +195,7 @@ namespace Iit.Fibertest.Graph
             Rtus.Add(rtu);
         }
 
-        #region MyRegion
+        #region Trace
         public void Apply(TraceAdded e)
         {
             Trace trace = _mapper.Map<Trace>(e);

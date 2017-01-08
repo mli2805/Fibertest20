@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using FluentAssertions;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.WpfClient.ViewModels;
 using TechTalk.SpecFlow;
 
@@ -35,6 +36,7 @@ namespace Graph.Tests
         public void AddFiber()
         {
             _vm.AddFiber(_leftNodeId, _rightNodeId);
+            _sut.Poller.Tick();
             _cutOff = _sut.CurrentEventNumber;
         }
 
@@ -42,13 +44,13 @@ namespace Graph.Tests
         public void WhenUserClickedAddFiber()
         {
             _vm.AddFiber(_leftNodeId, _rightNodeId);
+            _sut.Poller.Tick();
         }
 
         [Then(@"Новый отрезок сохранен")]
         public void ThenNewEventPersisted()
         {
-            _sut.Poller.Tick();
-            _sut.CurrentEventNumber.Should().BeGreaterThan(_cutOff);
+            _sut.ReadModel.FindFiberByNodes(_leftNodeId, _rightNodeId).Should().NotBe(Guid.Empty);
         }
 
         [Then(@"Новый отрезок не создается")]

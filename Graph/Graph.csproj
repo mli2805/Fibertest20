@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aggregate\Aggregate.cs" />
+    <Compile Include="Algorithms\Find.cs" />
     <Compile Include="Algorithms\PathFinderExperiment.cs" />
     <Compile Include="Commands\Fiber\AddFiberWithNodes.cs" />
     <Compile Include="Commands\Fiber\RemoveFiber.cs" />
