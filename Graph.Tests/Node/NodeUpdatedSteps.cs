@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.WpfClient.ViewModels;
 using TechTalk.SpecFlow;
@@ -12,18 +13,29 @@ namespace Graph.Tests
         private Guid _saidNodeId;
         private UpdateNodeViewModel _window;
         private int _cutOff;
+        private MapViewModel _mapViewModel;
+
+        public NodeUpdatedSteps()
+        {
+            _mapViewModel = new MapViewModel(_sut.Aggregate);
+        }
 
         [Given(@"Добавлен узел")]
         public void CreateNode()
         {
-            _saidNodeId = _sut.AddNode();
+             _mapViewModel.AddNode();
+            _sut.Poller.Tick();
+            _saidNodeId = _sut.ReadModel.Nodes.Single().Id;
+
             _cutOff = _sut.CurrentEventNumber;
         }
 
         [Given(@"Ранее был создан узел с именем (.*)")]
         public void CreateNode(string title)
         {
-            _saidNodeId = _sut.AddNode();
+            _mapViewModel.AddNode();
+            _sut.Poller.Tick();
+            _saidNodeId = _sut.ReadModel.Nodes.Last().Id;
             _sut.UpdateNode(_saidNodeId, title);
             _cutOff = _sut.CurrentEventNumber;
         }
@@ -65,6 +77,7 @@ namespace Graph.Tests
         public void AssertThereAreNewEvents()
         {
             //TODO: replace with an actual check with UI
+            _sut.Poller.Tick();
             _sut.CurrentEventNumber.Should().BeGreaterThan(_cutOff);
         }
 

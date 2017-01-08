@@ -2,6 +2,7 @@
 using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.WpfClient.ViewModels;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -10,18 +11,27 @@ namespace Graph.Tests
     public sealed class FiberWithNodesSteps
     {
         private readonly SystemUnderTest _sut = new SystemUnderTest();
+        private readonly MapViewModel _vm;
         private Guid _leftNodeId;
         private Guid _rightNodeId;
         private int _nodesCountCutOff;
         private int _fibersCountCutOff;
         private int _sleeveCountcutOff;
-        
+
+        public FiberWithNodesSteps()
+        {
+            _vm = new MapViewModel(_sut.Aggregate);
+        }
 
         [Given(@"Левый и правый узлы уже созданы")]
         public void GivenЛевыйИПравыйУзлыУжеСозданы()
         {
-            _leftNodeId = _sut.AddNode();
-            _rightNodeId = _sut.AddNode();
+            _vm.AddNode();
+            _vm.AddNode();
+            _sut.Poller.Tick();
+            _leftNodeId = _sut.ReadModel.Nodes.First().Id;
+            _rightNodeId = _sut.ReadModel.Nodes.Last().Id;
+            _sut.Poller.Tick();
             _nodesCountCutOff = _sut.ReadModel.Nodes.Count;
             _fibersCountCutOff = _sut.ReadModel.Fibers.Count;
             _sleeveCountcutOff = _sut.ReadModel.Equipments.Count(e => e.Type == EquipmentType.Sleeve);
@@ -30,7 +40,7 @@ namespace Graph.Tests
         [Given(@"Между левым и правым узлом уже добавлен отрезок")]
         public void GivenМеждуЛевымИПравымУзломУжеДобавленОтрезок()
         {
-            _sut.AddFiber(_leftNodeId, _rightNodeId);
+            _vm.AddFiber(_leftNodeId, _rightNodeId);
             _fibersCountCutOff = _sut.ReadModel.Fibers.Count;
         }
 

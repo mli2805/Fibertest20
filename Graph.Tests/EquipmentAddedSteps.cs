@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.WpfClient.ViewModels;
 using TechTalk.SpecFlow;
@@ -10,13 +11,21 @@ namespace Graph.Tests
     {
         private readonly SystemUnderTest _sut = new SystemUnderTest();
         private Guid _saidNodeId;
+        private MapViewModel _mapViewModel;
         private AddEquipmentViewModel _window;
         private int _cutOff;
+
+        public EquipmentAddedSteps()
+        {
+            _mapViewModel = new MapViewModel(_sut.Aggregate);
+        }
 
         [Given(@"Добавлен некий узел")]
         public void GivenAContainer_NodeCreated()
         {
-            _saidNodeId = _sut.AddNode();
+            _mapViewModel.AddNode();
+            _sut.Poller.Tick();
+            _saidNodeId = _sut.ReadModel.Nodes.Single().Id;
             _cutOff = _sut.CurrentEventNumber;
         }
 
