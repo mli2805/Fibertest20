@@ -19,5 +19,14 @@ namespace Iit.Fibertest.Graph
             }
             return Guid.Empty;
         }
+
+        public static IEnumerable<Guid> FindEquipmentsByNode(this ReadModel readModel, Guid nodeId)
+        {
+            foreach (var equipment in readModel.Equipments)
+            {
+                if (equipment.NodeId == nodeId)
+                    yield return equipment.Id;
+            }
+        }
     }
 }

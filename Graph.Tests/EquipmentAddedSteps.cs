@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using FluentAssertions;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.WpfClient.ViewModels;
 using TechTalk.SpecFlow;
 
@@ -12,7 +13,7 @@ namespace Graph.Tests
         private readonly SystemUnderTest _sut = new SystemUnderTest();
         private Guid _saidNodeId;
         private MapViewModel _mapViewModel;
-        private AddEquipmentViewModel _window;
+        private AddEquipmentViewModel _updateEquipmentViewModel;
         private int _cutOff;
 
         public EquipmentAddedSteps()
@@ -32,32 +33,32 @@ namespace Graph.Tests
         [Given(@"Открыто окно для добавления оборудования в этот узел")]
         public void GivenAnAddEquipmentWindowOpenedForSaidNode()
         {
-            _window = new AddEquipmentViewModel(_saidNodeId, _sut.ReadModel, _sut.Aggregate);
+            _updateEquipmentViewModel = new AddEquipmentViewModel(_saidNodeId, _sut.ReadModel, _sut.Aggregate);
         }
 
         [When(@"Нажата клавиша Сохранить в окне добавления оборудования")]
         public void WhenSaveButtonOnAddEquipmentWindowPressed()
         {
-            _sut.AddEquipment();
-            _window.Save();
+            _updateEquipmentViewModel.Save();
+            _sut.Poller.Tick();
         }
 
         [When(@"Нажата клавиша Отменить в окне добавления оборудования")]
         public void WhenCancelButtonOnAddEquipmentWindowPressed()
         {
-            _window.Cancel();
+            _updateEquipmentViewModel.Cancel();
         }
 
         [Then(@"Новое оборудование сохраняется")]
         public void ThenTheNewPieceOfEquipmentGetsSaved()
         {
-            _sut.CurrentEventNumber.Should().BeGreaterThan(_cutOff);
+            _sut.ReadModel.FindEquipmentsByNode(_saidNodeId).Count().Should().Be(1);
         }
 
         [Then(@"Окно добавления оборудования закрывается")]
         public void ThenTheAddEquipmentWindowGetsClosed()
         {
-            _window.IsClosed.Should().BeTrue();
+            _updateEquipmentViewModel.IsClosed.Should().BeTrue();
         }
 
     }
