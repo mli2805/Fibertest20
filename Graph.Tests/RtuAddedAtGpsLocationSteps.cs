@@ -1,4 +1,7 @@
-﻿using FluentAssertions;
+﻿using System;
+using System.Linq;
+using FluentAssertions;
+using Iit.Fibertest.WpfClient.ViewModels;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -7,18 +10,27 @@ namespace Graph.Tests
     public sealed class RtuAddedAtGpsLocationSteps
     {
         private readonly SystemUnderTest _sut = new SystemUnderTest();
-        private int _cutOff;
+        private readonly MapViewModel _vm;
+        private Guid _rtuId;
+
+        public RtuAddedAtGpsLocationSteps()
+        {
+            _vm = new MapViewModel(_sut.Aggregate);
+
+        }
 
         [When(@"Пользователь кликает добавить РТУ")]
         public void WhenUserClicksAddRtu()
         {
-            _sut.AddRtuAtGpsLocation();
+            _vm.AddRtuAtGpsLocation();
+            _sut.Poller.Tick();
+            _rtuId = _sut.ReadModel.Rtus.Single().Id;
         }
 
         [Then(@"Новый РТУ сохраняется")]
         public void ThenNewRtuPersisted()
         {
-            _sut.CurrentEventNumber.Should().BeGreaterThan(_cutOff);
+            _sut.ReadModel.Rtus.Single().Id.Should().Be(_rtuId);
         }
 
 

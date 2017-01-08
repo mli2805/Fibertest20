@@ -36,6 +36,11 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             });
         }
 
+        public void AddRtuAtGpsLocation()
+        {
+            _aggregate.When(new AddRtuAtGpsLocation() { Id = Guid.NewGuid(), NodeId = Guid.NewGuid() });
+        }
+
         public string this[string columnName]
         {
             get { throw new NotImplementedException(); }

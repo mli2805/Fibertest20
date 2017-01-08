@@ -28,7 +28,9 @@ namespace Graph.Tests
         [Given(@"Есть трасса")]
         public void GivenЕстьТрасса()
         {
-            _nodeForRtuId = _sut.AddRtuAtGpsLocation();
+            _vm.AddRtuAtGpsLocation();
+            _sut.Poller.Tick();
+            _nodeForRtuId = _sut.ReadModel.Nodes.Single().Id;
             _vm.AddNode();
             _vm.AddNode();
             _sut.Poller.Tick();
