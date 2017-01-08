@@ -134,9 +134,14 @@ namespace Iit.Fibertest.Graph
             Db.Add(_mapper.Map<EquipmentAdded>(cmd));
         }
 
+        public void When(AddEquipmentAtGpsLocation cmd)
+        {
+            Db.Add(_mapper.Map<EquipmentAtGpsLocationAdded>(cmd));
+        }
+
         public void When(AddRtuAtGpsLocation cmd)
         {
-            Db.Add(_mapper.Map<RtuAddedAtGpsLocation>(cmd));
+            Db.Add(_mapper.Map<RtuAtGpsLocationAdded>(cmd));
         }
 
         #region Trace

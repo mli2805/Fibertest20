@@ -187,9 +187,17 @@ namespace Iit.Fibertest.Graph
             Equipments.Add(equipment);
         }
 
-        public void Apply(RtuAddedAtGpsLocation e)
+        public void Apply(EquipmentAtGpsLocationAdded e)
         {
-            Node node = new Node() {Id = e.NodeId};
+            Node node = new Node() { Id = e.NodeId, Latitude = e.Latitude, Longitude = e.Longitude };
+            Nodes.Add(node);
+            Equipment equipment = _mapper.Map<Equipment>(e);
+            Equipments.Add(equipment);
+        }
+
+        public void Apply(RtuAtGpsLocationAdded e)
+        {
+            Node node = new Node() {Id = e.NodeId, Latitude = e.Latitude, Longitude = e.Longitude};
             Nodes.Add(node);
             Rtu rtu = _mapper.Map<Rtu>(e);
             Rtus.Add(rtu);

@@ -14,12 +14,13 @@ namespace Iit.Fibertest.Graph
             CreateMap<MoveNode, NodeMoved>();
 
             CreateMap<AddEquipment, EquipmentAdded>();
+            CreateMap<AddEquipmentAtGpsLocation, EquipmentAtGpsLocationAdded>();
 
             CreateMap<AddFiber, FiberAdded>();
             CreateMap<AddFiberWithNodes, FiberWithNodesAdded>();
             CreateMap<RemoveFiber, FiberRemoved>();
 
-            CreateMap<AddRtuAtGpsLocation, RtuAddedAtGpsLocation>();
+            CreateMap<AddRtuAtGpsLocation, RtuAtGpsLocationAdded>();
             CreateMap<AttachTrace, TraceAttached>();
             CreateMap<DetachTrace, TraceDetached>();
 

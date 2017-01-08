@@ -2,7 +2,7 @@
 
 namespace Iit.Fibertest.Graph.Events
 {
-    public class RtuAddedAtGpsLocation
+    public class RtuAtGpsLocationAdded
     {
         public Guid Id { get; set; }
         public Guid NodeId { get; set; }

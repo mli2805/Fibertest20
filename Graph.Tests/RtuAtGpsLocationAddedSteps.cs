@@ -7,13 +7,12 @@ using TechTalk.SpecFlow;
 namespace Graph.Tests
 {
     [Binding]
-    public sealed class RtuAddedAtGpsLocationSteps
+    public sealed class RtuAtGpsLocationAddedSteps
     {
         private readonly SystemUnderTest _sut = new SystemUnderTest();
         private readonly MapViewModel _vm;
-        private Guid _rtuId;
 
-        public RtuAddedAtGpsLocationSteps()
+        public RtuAtGpsLocationAddedSteps()
         {
             _vm = new MapViewModel(_sut.Aggregate);
 
@@ -24,13 +23,12 @@ namespace Graph.Tests
         {
             _vm.AddRtuAtGpsLocation();
             _sut.Poller.Tick();
-            _rtuId = _sut.ReadModel.Rtus.Single().Id;
         }
 
         [Then(@"Новый РТУ сохраняется")]
         public void ThenNewRtuPersisted()
         {
-            _sut.ReadModel.Rtus.Single().Id.Should().Be(_rtuId);
+            _sut.ReadModel.Rtus.Count.Should().Be(1);
         }
 
 

@@ -48,6 +48,7 @@
     <Compile Include="Aggregate\Aggregate.cs" />
     <Compile Include="Algorithms\Find.cs" />
     <Compile Include="Algorithms\PathFinderExperiment.cs" />
+    <Compile Include="Commands\Equipment\AddEquipmentAtGpsLocation.cs" />
     <Compile Include="Commands\Fiber\AddFiberWithNodes.cs" />
     <Compile Include="Commands\Fiber\RemoveFiber.cs" />
     <Compile Include="Commands\Node\AddNodeIntoFiber.cs" />
@@ -59,11 +60,12 @@
     <Compile Include="Commands\Trace\DetachTrace.cs" />
     <Compile Include="DomainModel\Enums\BaseRefType.cs" />
     <Compile Include="DomainModel\Enums\EquipmentType.cs" />
+    <Compile Include="Events\Equipment\EquipmentAtGpsLocationAdded.cs" />
     <Compile Include="Events\Fiber\FiberRemoved.cs" />
     <Compile Include="Events\Fiber\FiberWithNodesAdded.cs" />
     <Compile Include="Events\Node\NodeIntoFiberAdded.cs" />
     <Compile Include="Events\Node\NodeMoved.cs" />
-    <Compile Include="Events\Rtu\RtuAddedAtGpsLocation.cs" />
+    <Compile Include="Events\Rtu\RtuAtGpsLocationAdded.cs" />
     <Compile Include="Events\Trace\TraceAttached.cs" />
     <Compile Include="Events\Trace\BaseRefAssigned.cs" />
     <Compile Include="Events\Trace\TraceAdded.cs" />

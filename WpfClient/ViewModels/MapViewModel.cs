@@ -5,9 +5,15 @@ using Iit.Fibertest.Graph.Commands;
 
 namespace Iit.Fibertest.WpfClient.ViewModels
 {
+    public class GpsCoors
+    {
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+    }
     public sealed class MapViewModel : IDataErrorInfo
     {
         private readonly Aggregate _aggregate;
+        private GpsCoors _currentMousePosition = new GpsCoors();
 
         public MapViewModel(Aggregate aggregate)
         {
@@ -53,7 +59,11 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
         public void AddRtuAtGpsLocation()
         {
-            _aggregate.When(new AddRtuAtGpsLocation() { Id = Guid.NewGuid(), NodeId = Guid.NewGuid() });
+            _aggregate.When(new AddRtuAtGpsLocation() { Id = Guid.NewGuid(), NodeId = Guid.NewGuid(), Latitude = _currentMousePosition.Latitude, Longitude = _currentMousePosition.Longitude} );
+        }
+        public void AddEquipmentAtGpsLocation()
+        {
+            _aggregate.When(new AddEquipmentAtGpsLocation() { Id = Guid.NewGuid(), NodeId = Guid.NewGuid(), Latitude = _currentMousePosition.Latitude, Longitude = _currentMousePosition.Longitude } );
         }
 
         public string this[string columnName]

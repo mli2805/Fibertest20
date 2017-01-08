@@ -10,22 +10,22 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Graph.Tests
+namespace Graph.Tests.Equipment
 {
     using TechTalk.SpecFlow;
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.1.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class RtuAddedAtGpsLocationFeature : Xunit.IClassFixture<RtuAddedAtGpsLocationFeature.FixtureData>, System.IDisposable
+    public partial class EquipmentAtGpsLocationAddedFeature : Xunit.IClassFixture<EquipmentAtGpsLocationAddedFeature.FixtureData>, System.IDisposable
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
         
-#line 1 "RtuAddedAtGpsLocation.feature"
+#line 1 "EquipmentAtGpsLocationAdded.feature"
 #line hidden
         
-        public RtuAddedAtGpsLocationFeature()
+        public EquipmentAtGpsLocationAddedFeature()
         {
             this.TestInitialize();
         }
@@ -33,7 +33,7 @@ namespace Graph.Tests
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "RtuAddedAtGpsLocation", null, ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "EquipmentAtGpsLocationAdded", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -62,7 +62,7 @@ namespace Graph.Tests
             testRunner.CollectScenarioErrors();
         }
         
-        public virtual void SetFixture(RtuAddedAtGpsLocationFeature.FixtureData fixtureData)
+        public virtual void SetFixture(EquipmentAtGpsLocationAddedFeature.FixtureData fixtureData)
         {
         }
         
@@ -71,20 +71,18 @@ namespace Graph.Tests
             this.ScenarioTearDown();
         }
         
-        [Xunit.FactAttribute(DisplayName="Добавление РТУ")]
-        [Xunit.TraitAttribute("FeatureTitle", "RtuAddedAtGpsLocation")]
-        [Xunit.TraitAttribute("Description", "Добавление РТУ")]
-        [Xunit.TraitAttribute("Category", "mytag")]
-        public virtual void ДобавлениеРТУ()
+        [Xunit.FactAttribute(DisplayName="Добавление узла с оборудованием")]
+        [Xunit.TraitAttribute("FeatureTitle", "EquipmentAtGpsLocationAdded")]
+        [Xunit.TraitAttribute("Description", "Добавление узла с оборудованием")]
+        public virtual void ДобавлениеУзлаСОборудованием()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление РТУ", new string[] {
-                        "mytag"});
-#line 5
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление узла с оборудованием", ((string[])(null)));
+#line 3
 this.ScenarioSetup(scenarioInfo);
-#line 6
- testRunner.When("Пользователь кликает добавить РТУ", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 7
- testRunner.Then("Новый РТУ сохраняется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 4
+ testRunner.When("Пользователь кликает добавить узел с оборудованием", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 5
+ testRunner.Then("Новый узел с оборудованием сохраняется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -96,12 +94,12 @@ this.ScenarioSetup(scenarioInfo);
             
             public FixtureData()
             {
-                RtuAddedAtGpsLocationFeature.FeatureSetup();
+                EquipmentAtGpsLocationAddedFeature.FeatureSetup();
             }
             
             void System.IDisposable.Dispose()
             {
-                RtuAddedAtGpsLocationFeature.FeatureTearDown();
+                EquipmentAtGpsLocationAddedFeature.FeatureTearDown();
             }
         }
     }
