@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 
@@ -39,7 +41,27 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
         public void DefineTrace()
         {
-            PathFinderExperiment.Run(_readModel);
+            Guid rtuNodeId;
+            Guid lastNodeId;
+            var ee = new PathFinderExperiment(_readModel);
+            ee.PopulateReadModelForExperiment(out rtuNodeId, out lastNodeId);
+
+
+            var path = new PathFinder(_readModel).FindPath(rtuNodeId, lastNodeId).ToList();
+
+            if (path.Count == 0)
+                MessageBox.Show("Path couldn't be found");
+            else
+            {
+                foreach (var guid in path)
+                {
+                    Console.WriteLine($"{_readModel.Nodes.Single(n => n.Id == guid).Title}");
+                }
+                var windowManager = IoC.Get<IWindowManager>();
+                var addEquipmentViewModel = new AddTraceViewModel(_readModel, _aggregate, path);
+                windowManager.ShowDialog(addEquipmentViewModel);
+            }
+
         }
     }
 }

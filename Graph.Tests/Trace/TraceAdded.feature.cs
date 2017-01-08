@@ -98,7 +98,31 @@ this.FeatureBackground();
 #line 10
  testRunner.When("Пользователь вводит название трассы и жмет Сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 11
- testRunner.Then("Новая трасса сохраняется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("Новая трасса сохраняется и окно закрывается", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Добавление без имени трассы")]
+        [Xunit.TraitAttribute("FeatureTitle", "TraceAdded")]
+        [Xunit.TraitAttribute("Description", "Добавление без имени трассы")]
+        public virtual void ДобавлениеБезИмениТрассы()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление без имени трассы", ((string[])(null)));
+#line 13
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 14
+ testRunner.Given("Между этими узлами есть путь", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 15
+ testRunner.Given("Пользователь выбрал два узла и кликнул определить трассу", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 16
+ testRunner.Then("Открывается окно добавления трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 17
+ testRunner.When("Пользователь НЕ вводит название трассы и жмет Сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 18
+ testRunner.Then("Выдается ошибка трасса без имени и окно НЕ закрывается", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

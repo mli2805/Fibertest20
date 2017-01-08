@@ -64,11 +64,28 @@ namespace Graph.Tests
             _sut.Poller.Tick();
         }
 
-        [Then(@"Новая трасса сохраняется")]
-        public void ThenНоваяТрассаСохраняется()
+        [Then(@"Новая трасса сохраняется и окно закрывается")]
+        public void ThenНоваяТрассаСохраняетсяИОкноЗакрывается()
         {
             _sut.ReadModel.Traces.Count.Should().Be(1);
+            _addTraceViewModel.IsClosed = true;
         }
+
+        [When(@"Пользователь НЕ вводит название трассы и жмет Сохранить")]
+        public void WhenПользовательНЕВводитНазваниеТрассыИЖметСохранить()
+        {
+            _addTraceViewModel.Save();
+            _sut.Poller.Tick();
+        }
+
+        [Then(@"Выдается ошибка трасса без имени и окно НЕ закрывается")]
+        public void ThenВыдаетсяОшибкаТрассаБезИмениИОкноНЕЗакрывается()
+        {
+            _addTraceViewModel.IsClosed = false;
+
+        }
+
+
 
     }
 }
