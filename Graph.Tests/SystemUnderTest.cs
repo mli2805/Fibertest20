@@ -18,23 +18,6 @@ namespace Graph.Tests
             Poller = new ClientPoller(Aggregate.Db, new List<object> { ReadModel }); 
         }
 
-        public void AddFiberWithNodes(Guid left, Guid right, int intermediateNodeCount, EquipmentType equipmentType)
-        {
-            var cmd = new AddFiberWithNodes()
-            {
-                Id = Guid.NewGuid(),
-                Node1 = left,
-                Node2 = right,
-                IntermediateNodesCount = intermediateNodeCount,
-                EquipmentInIntermediateNodesType = equipmentType,
-            };
-
-            if (Aggregate.When(cmd) != null)
-                return;
-
-            Poller.Tick();
-        }
-
         public void RemoveFiber(Guid fiberId)
         {
             var cmd = new RemoveFiber() {Id = fiberId};

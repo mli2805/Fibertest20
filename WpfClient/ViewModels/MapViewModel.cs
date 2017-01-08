@@ -36,6 +36,21 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             });
         }
 
+        public void AddFiberWithNodes(Guid left, Guid right, int intermediateNodeCount, EquipmentType equipmentType)
+        {
+            var cmd = new AddFiberWithNodes()
+            {
+                Id = Guid.NewGuid(),
+                Node1 = left,
+                Node2 = right,
+                IntermediateNodesCount = intermediateNodeCount,
+                EquipmentInIntermediateNodesType = equipmentType,
+            };
+
+            if (_aggregate.When(cmd) != null)
+                return;
+        }
+
         public void AddRtuAtGpsLocation()
         {
             _aggregate.When(new AddRtuAtGpsLocation() { Id = Guid.NewGuid(), NodeId = Guid.NewGuid() });
