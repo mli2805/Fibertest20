@@ -14,28 +14,26 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             _aggregate = aggregate;
         }
 
+        #region Node
         public void AddNode()
         {
-            var cmd = new AddNode
-            {
-                Id = Guid.NewGuid()
-            };
-
-            _aggregate.When(cmd);
+            _aggregate.When(new AddNode { Id = Guid.NewGuid() });
         }
 
+        public void AddNodeIntoFiber(Guid fiberId)
+        {
+            _aggregate.When(new AddNodeIntoFiber() { Id = Guid.NewGuid(), FiberId = fiberId });
+        }
+        #endregion
 
         public void AddFiber(Guid left, Guid right)
         {
-            var newGuid = Guid.NewGuid();
-            var cmd = new AddFiber()
+            Error = _aggregate.When(new AddFiber()
             {
-                Id = newGuid,
+                Id = Guid.NewGuid(),
                 Node1 = left,
                 Node2 = right
-            };
-
-            Error = _aggregate.When(cmd);
+            });
         }
 
         public string this[string columnName]

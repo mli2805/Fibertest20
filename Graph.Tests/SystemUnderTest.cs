@@ -18,15 +18,6 @@ namespace Graph.Tests
             Poller = new ClientPoller(Aggregate.Db, new List<object> { ReadModel }); 
         }
 
-        public Guid AddNodeIntoFiber(Guid fiberId)
-        {
-            var nodeId = Guid.NewGuid();
-            var cmd = new AddNodeIntoFiber() {Id = nodeId, FiberId = fiberId };
-            Aggregate.When(cmd);
-            Poller.Tick();
-            return nodeId;
-        }
-
         public Guid AddRtuAtGpsLocation()
         {
             var nodeId = Guid.NewGuid();

@@ -41,13 +41,15 @@ namespace Graph.Tests
             _traceId = Guid.NewGuid();
             var cmd = new AddTrace() {Id = _traceId, Nodes = { _nodeForRtuId, _firstNodeId, secondNodeId}};
             _sut.AddTrace(cmd);
-
+            _sut.Poller.Tick();
         }
 
         [When(@"Пользователь кликает добавить узел в отрезок этой трассы")]
         public void WhenПользовательКликаетДобавитьУзелВОтрезок()
         {
-            _nodeId = _sut.AddNodeIntoFiber(_fiberId);
+            _vm.AddNodeIntoFiber(_fiberId);
+            _sut.Poller.Tick();
+            _nodeId = _sut.ReadModel.Nodes.Last().Id;
         }
 
         [Then(@"Старый отрезок удаляется и добавляются два новых и новый узел связывает их")]
