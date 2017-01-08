@@ -15,6 +15,7 @@ namespace Graph.Tests
         private readonly SystemUnderTest _sut = new SystemUnderTest();
         private readonly MapViewModel _mapViewModel;
         private AddTraceViewModel _addTraceViewModel;
+        private ErrorNotificationViewModel _errorNotificationViewModel;
         private Guid _rtuNodeId;
         private Guid _lastNodeId;
         private List<Guid> _traceNodes;
@@ -47,9 +48,24 @@ namespace Graph.Tests
         [Given(@"Пользователь выбрал два узла и кликнул определить трассу")]
         public void GivenПользовательВыбралДваУзлаИКликнулОпределитьТрассу()
         {
-            _traceNodes = new PathFinder(_sut.ReadModel).FindPath(_rtuNodeId, _lastNodeId).ToList();
-            _addTraceViewModel = new AddTraceViewModel(_sut.ReadModel, _sut.Aggregate, _traceNodes);
+            var path = new PathFinder(_sut.ReadModel).FindPath(_rtuNodeId, _lastNodeId);
+            if (path != null)
+            {
+                _traceNodes = path.ToList();
+                _addTraceViewModel = new AddTraceViewModel(_sut.ReadModel, _sut.Aggregate, _traceNodes);
+            }
+            else
+            {
+                _errorNotificationViewModel = new ErrorNotificationViewModel("Path couldn't be found!");
+            }
         }
+
+        [Then(@"Сообщение о отсутствии пути")]
+        public void ThenСообщениеООтсутствииПути()
+        {
+            _errorNotificationViewModel.IsClosed.Should().BeFalse();
+        }
+
 
         [Then(@"Открывается окно добавления трассы")]
         public void ThenОткрываетсяОкноДобавленияТрассы()
