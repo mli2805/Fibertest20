@@ -166,7 +166,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BaseRefAssigned.feature</DependentUpon>
     </Compile>
-    <Compile Include="Trace\BaseRefAssignedSteps.cs" />
+    <Compile Include="Trace\BaseRefAssignedSteps.cs">
+      <DependentUpon>BaseRefAssigned.feature</DependentUpon>
+    </Compile>
     <Compile Include="Trace\TraceAdded.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

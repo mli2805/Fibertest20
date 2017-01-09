@@ -49,14 +49,14 @@ namespace Graph.Tests
                 Port = 3,
                 TraceId = _traceId
             };
-            _sut.AttachTrace(cmd2);
+            _vm.AttachTrace(cmd2);
         }
 
         [When(@"Пользователь отсоединяет трассу")]
         public void WhenПользовательОтсоединяетТрассу()
         {
             var cmd = new DetachTrace() {TraceId = _traceId};
-            _sut.DetachTrace(cmd);
+            _vm.DetachTrace(cmd);
         }
 
         [Then(@"Трасса отсоединена")]

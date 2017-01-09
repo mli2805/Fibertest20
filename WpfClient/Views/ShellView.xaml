@@ -8,6 +8,8 @@
         <Button Name="LaunchUpdateFiberView" Height="25" Width="180" Margin="5" Content="Launch UpdateFiberView"/>
         <Button Name="LaunchAddEquipmentView" Height="25" Width="180" Margin="5" Content="Launch AddEquipmentView"/>
         <Button Name="DefineTrace" Height="25" Width="180" Margin="5" Content="Define Trace"/>
+        <Button Name="AttachTrace" Height="25" Width="180" Margin="5" Content="Attach Trace"/>
+        <Button Name="DetachTrace" Height="25" Width="180" Margin="5" Content="Detach Trace"/>
         <Button Name="AssignBaseRefs" Height="25" Width="180" Margin="5" Content="Assign Base Refs"/>
     </StackPanel>
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
 
@@ -85,6 +86,16 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             var rtuNodeId = Guid.NewGuid();
             var lastNodeId = Guid.NewGuid();
             new PathFinder(_readModel).FindPath(rtuNodeId, lastNodeId);
+        }
+
+        public void AttachTrace(AttachTrace cmd)
+        {
+            _aggregate.When(cmd);
+        }
+
+        public void DetachTrace(DetachTrace cmd)
+        {
+            _aggregate.When(cmd);
         }
 
         public string this[string columnName]

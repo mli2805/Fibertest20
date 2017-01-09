@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.Graph.Commands;
 
 namespace Iit.Fibertest.WpfClient.ViewModels
 {
@@ -78,7 +79,6 @@ namespace Iit.Fibertest.WpfClient.ViewModels
                 var addEquipmentViewModel = new AddTraceViewModel(_readModel, _aggregate, path.ToList());
                 windowManager.ShowDialog(addEquipmentViewModel);
             }
-
         }
 
         public void AssignBaseRefs()
