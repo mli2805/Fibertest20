@@ -31,6 +31,11 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         {
             _aggregate.When(new AddNodeIntoFiber() { Id = Guid.NewGuid(), FiberId = fiberId });
         }
+        public void MoveNode(Guid id)
+        {
+            var cmd = new MoveNode() { Id = id, Latitude = _currentMousePosition.Latitude, Longitude = _currentMousePosition.Longitude };
+            _aggregate.When(cmd);
+        }
         #endregion
 
         #region Fiber

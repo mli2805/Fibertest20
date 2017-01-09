@@ -46,7 +46,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             var ee = new PathFinderExperiment(_readModel);
             ee.PopulateReadModelForExperiment(out rtuNodeId, out lastNodeId);
 
-            lastNodeId = Guid.Empty;
+//            lastNodeId = Guid.Empty;
 
             var path = new PathFinder(_readModel).FindPath(rtuNodeId, lastNodeId);
 

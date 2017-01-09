@@ -18,6 +18,9 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         public Guid Id { get; set; }
 
         private string _title;
+        private string _comment;
+        private bool _isButtonSaveEnabled;
+
         public string Title
         {
             get { return _title; }
@@ -28,6 +31,37 @@ namespace Iit.Fibertest.WpfClient.ViewModels
                 NotifyOfPropertyChange();
             }
         }
+
+        public string Comment
+        {
+            get { return _comment; }
+            set
+            {
+                if (value == _comment) return;
+                _comment = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        private bool IsChanged()
+        {
+            if (_title != _originalNode.Title)
+                return true;
+            return
+                false;
+        }
+
+        public bool IsButtonSaveEnabled
+        {
+            get { return _isButtonSaveEnabled; }
+            set
+            {
+                if (value == _isButtonSaveEnabled) return;
+                _isButtonSaveEnabled = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public UpdateNodeViewModel(Guid id, ReadModel model, Aggregate aggregate)
         {
             _model = model;
@@ -70,17 +104,24 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
         public string this[string columnName]
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                var  errorMessage = string.Empty;
+                switch (columnName)
+                {
+                    case "Title":
+                        if (string.IsNullOrEmpty(_title))
+                            errorMessage = "Title is required";
+                        if (_model.Nodes.Any(n=>n.Title == _title))
+                            errorMessage = "There is a node with the same title";
+                        IsButtonSaveEnabled = errorMessage == string.Empty;
+                        break;
+                }
+                return errorMessage;
+            }
         }
 
         public string Error { get; set; }
 
-        private bool IsChanged()
-        {
-            if (_title != _originalNode.Title)
-                return true;
-            return
-                false;
-        }
     }
 }

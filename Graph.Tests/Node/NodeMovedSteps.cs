@@ -31,7 +31,7 @@ namespace Graph.Tests
         [When(@"Пользователь подвинул узел")]
         public void WhenUserMovedNode()
         {
-            _sut.MoveNode(_nodeId);
+            _mapViewModel.MoveNode(_nodeId);
         }
 
         [Then(@"Новые координаты должны быть сохранены")]

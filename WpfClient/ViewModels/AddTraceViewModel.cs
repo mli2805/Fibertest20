@@ -80,7 +80,8 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
         public string this[string columnName]
         {
-            get {
+            get
+            {
                 String errorMessage = String.Empty;
                 switch (columnName)
                 {

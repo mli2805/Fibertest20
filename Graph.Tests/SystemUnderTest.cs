@@ -25,26 +25,6 @@ namespace Graph.Tests
             Poller.Tick();
         }
 
-        public void MoveNode(Guid id)
-        {
-            var cmd = new MoveNode() {Id = id};
-            Aggregate.When(cmd);
-            Poller.Tick();
-        }
-
-        public void UpdateNode(Guid nodeId, string title)
-        {
-            var cmd = new UpdateNode()
-            {
-                Id = nodeId,
-                Title = title,
-            };
-
-            Aggregate.When(cmd);
-
-            Poller.Tick();
-        }
-
         public void AttachTrace(AttachTrace cmd)
         {
             Aggregate.When(cmd);

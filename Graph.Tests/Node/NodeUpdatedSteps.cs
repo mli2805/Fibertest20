@@ -20,24 +20,25 @@ namespace Graph.Tests
             _mapViewModel = new MapViewModel(_sut.Aggregate);
         }
 
-        [Given(@"Добавлен узел")]
-        public void CreateNode()
-        {
-             _mapViewModel.AddNode();
-            _sut.Poller.Tick();
-            _saidNodeId = _sut.ReadModel.Nodes.Single().Id;
-
-            _cutOff = _sut.CurrentEventNumber;
-        }
-
         [Given(@"Ранее был создан узел с именем (.*)")]
         public void CreateNode(string title)
         {
             _mapViewModel.AddNode();
             _sut.Poller.Tick();
-            _saidNodeId = _sut.ReadModel.Nodes.Last().Id;
-            _sut.UpdateNode(_saidNodeId, title);
             _cutOff = _sut.CurrentEventNumber;
+
+            var previousNode = _sut.ReadModel.Nodes.Last();
+            previousNode.Title = title;
+        }
+
+        [Given(@"Добавлен узел")]
+        public void CreateNode()
+        {
+             _mapViewModel.AddNode();
+            _sut.Poller.Tick();
+            _cutOff = _sut.CurrentEventNumber;
+
+            _saidNodeId = _sut.ReadModel.Nodes.Last().Id;
         }
 
         [Given(@"Открыто окно для изменения данного узла")]
@@ -55,6 +56,7 @@ namespace Graph.Tests
         public void Save()
         {
             _window.Save();
+            _sut.Poller.Tick();
         }
 
         [When(@"Нажата клавиша отменить")]
@@ -68,11 +70,6 @@ namespace Graph.Tests
         {
             _sut.CurrentEventNumber.Should().Be(_cutOff);
         }
-        [Then(@"Окно закрывается")]
-        public void AssertTheWindowIsClosed()
-        {
-            _window.IsClosed.Should().BeTrue();
-        }
         [Then(@"Измененный узел сохраняется")]
         public void AssertThereAreNewEvents()
         {
@@ -84,13 +81,7 @@ namespace Graph.Tests
         [Then(@"Некая сигнализация ошибки")]
         public void ThenSomeAlert()
         {
-            _window.Error.Should().NotBeNullOrEmpty();
+            _window["Title"].Should().NotBeNullOrEmpty();
         }
-        [Then(@"Окно не закрывается")]
-        public void ThenTheWindowIsNotClosed()
-        {
-            _window.IsClosed.Should().BeFalse();
-        }
-
     }
 }
