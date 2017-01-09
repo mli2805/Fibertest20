@@ -63,6 +63,12 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             if (_aggregate.When(cmd) != null)
                 return;
         }
+        public void RemoveFiber(Guid fiberId)
+        {
+            var cmd = new RemoveFiber() { Id = fiberId };
+            _aggregate.When(cmd);
+        }
+
         #endregion
 
         public void AddRtuAtGpsLocation()

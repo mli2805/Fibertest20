@@ -36,7 +36,8 @@ namespace Graph.Tests.Fiber
         [When(@"Пользователь кликает удалить отрезок")]
         public void WhenПользовательКликаетУдалитьОтрезок()
         {
-            _sut.RemoveFiber(_fiberId);
+            _vm.RemoveFiber(_fiberId);
+            _sut.Poller.Tick();
         }
 
         [Then(@"Отрезок удаляется")]

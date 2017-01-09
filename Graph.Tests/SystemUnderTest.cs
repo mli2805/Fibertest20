@@ -18,13 +18,6 @@ namespace Graph.Tests
             Poller = new ClientPoller(Aggregate.Db, new List<object> { ReadModel }); 
         }
 
-        public void RemoveFiber(Guid fiberId)
-        {
-            var cmd = new RemoveFiber() {Id = fiberId};
-            Aggregate.When(cmd);
-            Poller.Tick();
-        }
-
         public void AttachTrace(AttachTrace cmd)
         {
             Aggregate.When(cmd);
