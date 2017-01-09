@@ -119,7 +119,6 @@
     <Compile Include="Fiber\FiberWithNodesSteps.cs">
       <DependentUpon>FiberWithNodesAdded.feature</DependentUpon>
     </Compile>
-    <Compile Include="Algorithm\PathFinder2Facts.cs" />
     <Compile Include="Node\NodeIntoFiberAdded.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -71,7 +71,6 @@
     <Compile Include="Events\Trace\TraceAttached.cs" />
     <Compile Include="Events\Trace\BaseRefAssigned.cs" />
     <Compile Include="Events\Trace\TraceAdded.cs" />
-    <Compile Include="Algorithms\PathFinder2.cs" />
     <Compile Include="Events\Trace\TraceDetached.cs" />
     <Compile Include="MappingCmdToEventProfile.cs" />
     <Compile Include="Commands\Equipment\AddEquipment.cs" />
