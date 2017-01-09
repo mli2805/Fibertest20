@@ -103,6 +103,14 @@
     <Compile Include="Fiber\FiberRemovedSteps.cs">
       <DependentUpon>FiberRemoved.feature</DependentUpon>
     </Compile>
+    <Compile Include="Fiber\FiberUpdated.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FiberUpdated.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber\FiberUpdatedSteps.cs">
+      <DependentUpon>FiberUpdated.feature</DependentUpon>
+    </Compile>
     <Compile Include="Fiber\FiberWithNodesAdded.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -202,6 +210,10 @@
     <None Include="Fiber\FiberRemoved.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>FiberRemoved.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Fiber\FiberUpdated.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>FiberUpdated.feature.cs</LastGenOutput>
     </None>
     <None Include="Fiber\FiberWithNodesAdded.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
