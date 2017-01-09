@@ -80,5 +80,14 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             }
 
         }
+
+        public void AssignBaseRefs()
+        {
+            var trace = _readModel.Traces.FirstOrDefault();
+
+            var windowManager = IoC.Get<IWindowManager>();
+            var addEquipmentViewModel = new AssignBaseRefsViewModel(trace.Id, _readModel, _aggregate);
+            windowManager.ShowDialog(addEquipmentViewModel);
+        }
     }
 }

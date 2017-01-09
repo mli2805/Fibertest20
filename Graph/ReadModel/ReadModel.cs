@@ -16,6 +16,7 @@ namespace Iit.Fibertest.Graph
         public List<Equipment> Equipments { get; } = new List<Equipment>();
         public List<Rtu> Rtus { get; } = new List<Rtu>();
         public List<Trace> Traces { get; } = new List<Trace>();
+        public List<BaseRef> BaseRefs { get; } = new List<BaseRef>();
 
 
         #region Node
@@ -145,8 +146,7 @@ namespace Iit.Fibertest.Graph
         #region Fiber
         public void Apply(FiberAdded e)
         {
-            Fiber fiber = _mapper.Map<Fiber>(e);
-            Fibers.Add(fiber);
+            Fibers.Add(_mapper.Map<Fiber>(e));
         }
 
         public void Apply(FiberWithNodesAdded e)
@@ -229,8 +229,7 @@ namespace Iit.Fibertest.Graph
 
         public void Apply(BaseRefAssigned e)
         {
-            Trace trace = Traces.Single(t => t.Id == e.TraceId);
-            trace.PreciseId = e.Id;
+            BaseRefs.Add(_mapper.Map<BaseRef>(e));
         }
         #endregion
     }

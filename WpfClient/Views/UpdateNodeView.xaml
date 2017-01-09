@@ -16,6 +16,5 @@
             <Button Name="Save" Height="25" Width="100" Margin="5" Content="Сохранить" IsEnabled="{Binding IsButtonSaveEnabled}"/>
             <Button Name="Cancel" Height="25" Width="100" Content="Отменить"/>
         </StackPanel>
-
     </StackPanel>
 </Window>

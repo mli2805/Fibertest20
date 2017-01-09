@@ -46,7 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aggregate\Aggregate.cs" />
-    <Compile Include="Algorithms\Find.cs" />
+    <Compile Include="Algorithms\Topo.cs" />
     <Compile Include="Algorithms\PathFinderExperiment.cs" />
     <Compile Include="Commands\Equipment\AddEquipmentAtGpsLocation.cs" />
     <Compile Include="Commands\Fiber\AddFiberWithNodes.cs" />
@@ -59,6 +59,7 @@
     <Compile Include="Commands\Trace\AssignBaseRef.cs" />
     <Compile Include="Commands\Trace\AddTrace.cs" />
     <Compile Include="Commands\Trace\DetachTrace.cs" />
+    <Compile Include="DomainModel\BaseRef.cs" />
     <Compile Include="DomainModel\Enums\BaseRefType.cs" />
     <Compile Include="DomainModel\Enums\EquipmentType.cs" />
     <Compile Include="Events\Equipment\EquipmentAtGpsLocationAdded.cs" />

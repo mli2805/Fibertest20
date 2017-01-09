@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Iit.Fibertest.Graph
 {
-    public static class Find
+    public static class Topo
     {
         public static Guid FindFiberByNodes(this ReadModel readModel, Guid leftNode, Guid rightNode)
         {
@@ -27,6 +27,12 @@ namespace Iit.Fibertest.Graph
                 if (equipment.NodeId == nodeId)
                     yield return equipment.Id;
             }
+        }
+
+        public static Rtu FindRtuByTrace(this ReadModel readModel, Guid traceId)
+        {
+            var trace = readModel.Traces.FirstOrDefault(t => t.Id == traceId);
+            return trace == null ? null : readModel.Rtus.FirstOrDefault(r => r.NodeId == trace.Nodes[0]);
         }
     }
 }

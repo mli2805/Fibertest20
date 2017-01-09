@@ -72,6 +72,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
+    <Compile Include="ViewModels\AssignBaseRefsViewModel.cs" />
     <Compile Include="ViewModels\ErrorNotificationViewModel.cs" />
     <Compile Include="IShell.cs" />
     <Compile Include="ViewModels\AddEquipmentViewModel.cs" />
@@ -90,6 +91,9 @@
     <Compile Include="Views\AddTraceView.xaml.cs">
       <DependentUpon>AddTraceView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\AssignBaseRefsView.xaml.cs">
+      <DependentUpon>AssignBaseRefsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ErrorNotificationView.xaml.cs">
       <DependentUpon>ErrorNotificationView.xaml</DependentUpon>
     </Compile>
@@ -104,6 +108,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AddTraceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AssignBaseRefsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
