@@ -5,6 +5,7 @@
 
     <StackPanel>
         <Button Name="LaunchUpdateNodeView" Height="25" Width="180" Margin="5" Content="Launch UpdateNodeView"/>
+        <Button Name="LaunchUpdateFiberView" Height="25" Width="180" Margin="5" Content="Launch UpdateFiberView"/>
         <Button Name="LaunchAddEquipmentView" Height="25" Width="180" Margin="5" Content="Launch AddEquipmentView"/>
         <Button Name="DefineTrace" Height="25" Width="180" Margin="5" Content="DefineTrace"/>
     </StackPanel>

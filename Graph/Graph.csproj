@@ -51,6 +51,7 @@
     <Compile Include="Commands\Equipment\AddEquipmentAtGpsLocation.cs" />
     <Compile Include="Commands\Fiber\AddFiberWithNodes.cs" />
     <Compile Include="Commands\Fiber\RemoveFiber.cs" />
+    <Compile Include="Commands\Fiber\UpdateFiber.cs" />
     <Compile Include="Commands\Node\AddNodeIntoFiber.cs" />
     <Compile Include="Commands\Node\MoveNode.cs" />
     <Compile Include="Commands\Rtu\AddRtuAtGpsLocation.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="DomainModel\Enums\BaseRefType.cs" />
     <Compile Include="DomainModel\Enums\EquipmentType.cs" />
     <Compile Include="Events\Equipment\EquipmentAtGpsLocationAdded.cs" />
+    <Compile Include="Events\Fiber\FiberUpdated.cs" />
     <Compile Include="Events\Fiber\FiberRemoved.cs" />
     <Compile Include="Events\Fiber\FiberWithNodesAdded.cs" />
     <Compile Include="Events\Node\NodeIntoFiberAdded.cs" />

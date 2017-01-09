@@ -82,6 +82,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ViewModels\UpdateFiberViewModel.cs" />
     <Compile Include="ViewModels\UpdateNodeViewModel.cs" />
     <Compile Include="Views\AddEquipmentView.xaml.cs">
       <DependentUpon>AddEquipmentView.xaml</DependentUpon>
@@ -91,6 +92,9 @@
     </Compile>
     <Compile Include="Views\ErrorNotificationView.xaml.cs">
       <DependentUpon>ErrorNotificationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UpdateFiberView.xaml.cs">
+      <DependentUpon>UpdateFiberView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UpdateNodeView.xaml.cs">
       <DependentUpon>UpdateNodeView.xaml</DependentUpon>
@@ -110,6 +114,10 @@
     <Page Include="Views\ShellView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UpdateFiberView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UpdateNodeView.xaml">
       <SubType>Designer</SubType>

@@ -119,6 +119,10 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
+        public void When(UpdateFiber cmd)
+        {
+            Db.Add(_mapper.Map<FiberUpdated>(cmd));
+        }
         public string When(RemoveFiber cmd)
         {
             if (IsFiberContainedInTraceWithBase(cmd.Id))

@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 
@@ -8,8 +7,8 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 {
     public class ShellViewModel : Caliburn.Micro.PropertyChangedBase, IShell
     {
-        private Aggregate _aggregate;
-        private ReadModel _readModel;
+        private readonly Aggregate _aggregate;
+        private readonly ReadModel _readModel;
         public ShellViewModel()
         {
             _aggregate = new Aggregate();
@@ -18,8 +17,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
         public void LaunchUpdateNodeView()
         {
-            var node = new Node();
-            node.Id = Guid.NewGuid();
+            var node = new Node {Id = Guid.NewGuid()};
             _readModel.Nodes.Add(node);
 
             var windowManager = IoC.Get<IWindowManager>();
@@ -28,10 +26,24 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
         }
 
+        public void LaunchUpdateFiberView()
+        {
+            var node1 = new Node { Id = Guid.NewGuid() };
+            _readModel.Nodes.Add(node1);
+            var node2 = new Node { Id = Guid.NewGuid() };
+            _readModel.Nodes.Add(node2);
+            var fiber = new Fiber {Id = Guid.NewGuid(), Node1 = node1.Id, Node2 = node2.Id};
+            _readModel.Fibers.Add(fiber);
+
+            var windowManager = IoC.Get<IWindowManager>();
+            var updateFiberViewModel = new UpdateFiberViewModel(fiber.Id, _readModel, _aggregate);
+            windowManager.ShowDialog(updateFiberViewModel);
+
+        }
+
         public void LaunchAddEquipmentView()
         {
-            var node = new Node();
-            node.Id = Guid.NewGuid();
+            var node = new Node {Id = Guid.NewGuid()};
             _readModel.Nodes.Add(node);
 
             var windowManager = IoC.Get<IWindowManager>();

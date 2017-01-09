@@ -19,7 +19,6 @@ namespace Iit.Fibertest.Graph
 
 
         #region Node
-
         public void Apply(NodeAdded e)
         {
             Node node = _mapper.Map<Node>(e);
@@ -172,6 +171,12 @@ namespace Iit.Fibertest.Graph
 
             fiber.Node2 = e.Node2;
             Fibers.Add(fiber);
+        }
+
+        public void Apply(FiberUpdated source)
+        {
+            var destination = Fibers.Single(f => f.Id == source.Id);
+            _mapper.Map(source, destination);
         }
 
         public void Apply(FiberRemoved e)
