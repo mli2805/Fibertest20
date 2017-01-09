@@ -24,9 +24,4 @@
   <UseCPUArchitecture>AutoDetect</UseCPUArchitecture>
   <MSTestThreadApartmentState>STA</MSTestThreadApartmentState>
   <BuildProcessArchitecture>x86</BuildProcessArchitecture>
-  <IgnoredTests>
-    <NamedTestSelector>
-      <TestName>Graph.Tests.Trace.BaseRefAssignedFeature.ЗаданиеБазовойРефлектограммы</TestName>
-    </NamedTestSelector>
-  </IgnoredTests>
 </ProjectConfiguration>
