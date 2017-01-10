@@ -1,7 +1,9 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.Graph.Commands;
 
 namespace Iit.Fibertest.WpfClient.ViewModels
 {
@@ -43,8 +45,27 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             AdditionalBaseFilename = _trace.AdditionalId == Guid.Empty ? "" : SavedInDb;
         }
 
+        private void SendAssingBaseRef(string filename, BaseRefType type)
+        {
+            _aggregate.When(new AssignBaseRef()
+            {
+                TraceId = _trace.Id, Type = type, Content = filename != "" ? File.ReadAllBytes(filename) : null
+            } );
+        }
+
+        private bool IsFilenameChanged(string filename, Guid previousBaseRefId, BaseRefType type)
+        {
+            return ((filename != "" && filename != SavedInDb) || (filename == "" && previousBaseRefId != Guid.Empty));
+        }
+
         public void Save()
         {
+            if (IsFilenameChanged(PreciseBaseFilename, _trace.PreciseId, BaseRefType.Precise))
+                SendAssingBaseRef(PreciseBaseFilename, BaseRefType.Precise);
+            if (IsFilenameChanged(FastBaseFilename, _trace.FastId, BaseRefType.Fast))
+                SendAssingBaseRef(FastBaseFilename, BaseRefType.Fast);
+            if (IsFilenameChanged(AdditionalBaseFilename, _trace.AdditionalId, BaseRefType.Additional))
+                SendAssingBaseRef(AdditionalBaseFilename, BaseRefType.Additional);
             TryClose();
         }
 

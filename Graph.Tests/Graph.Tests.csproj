@@ -158,12 +158,12 @@
       <DependentUpon>NodeUpdated.feature</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RtuAtGpsLocationAdded.feature.cs">
+    <Compile Include="Rtu\RtuAtGpsLocationAdded.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>RtuAtGpsLocationAdded.feature</DependentUpon>
     </Compile>
-    <Compile Include="RtuAtGpsLocationAddedSteps.cs">
+    <Compile Include="Rtu\RtuAtGpsLocationAddedSteps.cs">
       <DependentUpon>RtuAtGpsLocationAdded.feature</DependentUpon>
     </Compile>
     <Compile Include="SystemUnderTest.cs" />
@@ -172,7 +172,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BaseRefAssigned.feature</DependentUpon>
     </Compile>
-    <Compile Include="Trace\BaseRefAssignedSteps.cs" />
+    <Compile Include="Trace\BaseRefAssignedSteps.cs">
+      <DependentUpon>BaseRefAssigned.feature</DependentUpon>
+    </Compile>
     <Compile Include="Trace\TraceAdded.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -245,7 +247,7 @@
       <LastGenOutput>NodeAdded.feature.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
-    <None Include="RtuAtGpsLocationAdded.feature">
+    <None Include="Rtu\RtuAtGpsLocationAdded.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>RtuAtGpsLocationAdded.feature.cs</LastGenOutput>
     </None>

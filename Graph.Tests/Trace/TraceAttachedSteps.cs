@@ -56,7 +56,8 @@ namespace Graph.Tests
                 Port = _portNumber,
                 TraceId = _traceId
             };
-            _sut.AttachTrace(cmd);
+            _vm.AttachTrace(cmd);
+            _sut.Poller.Tick();
         }
 
         [Then(@"Трасса присоединяется к порту РТУ")]

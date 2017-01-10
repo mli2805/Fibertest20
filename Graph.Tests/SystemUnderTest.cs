@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.Graph.Commands;
-using PrivateReflectionUsingDynamic;
 
 namespace Graph.Tests
 {
@@ -16,18 +13,6 @@ namespace Graph.Tests
         public SystemUnderTest()
         {
             Poller = new ClientPoller(Aggregate.Db, new List<object> { ReadModel }); 
-        }
-
-        public void AttachTrace(AttachTrace cmd)
-        {
-            Aggregate.When(cmd);
-            Poller.Tick();
-        }
-
-        public void DetachTrace(DetachTrace cmd)
-        {
-            Aggregate.When(cmd);
-            Poller.Tick();
         }
     }
 }
