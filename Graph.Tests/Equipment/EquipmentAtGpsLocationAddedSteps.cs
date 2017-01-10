@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.WpfClient.ViewModels;
 using TechTalk.SpecFlow;
@@ -17,7 +13,7 @@ namespace Graph.Tests.Equipment
 
         public EquipmentAtGpsLocationAddedSteps()
         {
-            _vm = new MapViewModel(_sut.Aggregate);
+            _vm = new MapViewModel(_sut.Aggregate, _sut.ReadModel);
         }
 
         [When(@"Пользователь кликает добавить узел с оборудованием")]

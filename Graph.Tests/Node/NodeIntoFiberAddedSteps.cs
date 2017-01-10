@@ -21,7 +21,7 @@ namespace Graph.Tests
 
         public NodeIntoFiberAddedSteps()
         {
-            _vm = new MapViewModel(_sut.Aggregate);
+            _vm = new MapViewModel(_sut.Aggregate, _sut.ReadModel);
         }
 
         [Given(@"Есть трасса")]

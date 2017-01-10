@@ -17,7 +17,7 @@ namespace Graph.Tests.Fiber
 
         public FiberUpdatedSteps()
         {
-            _mapViewModel = new MapViewModel(_sut.Aggregate);
+            _mapViewModel = new MapViewModel(_sut.Aggregate, _sut.ReadModel);
         }
 
         [Given(@"Существует отрезок")]

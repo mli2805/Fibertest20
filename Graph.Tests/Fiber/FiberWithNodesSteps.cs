@@ -20,7 +20,7 @@ namespace Graph.Tests
 
         public FiberWithNodesSteps()
         {
-            _vm = new MapViewModel(_sut.Aggregate);
+            _vm = new MapViewModel(_sut.Aggregate, _sut.ReadModel);
         }
 
         [Given(@"Левый и правый узлы уже созданы")]

@@ -23,7 +23,7 @@ namespace Graph.Tests
 
         public TraceDetachedSteps()
         {
-            _vm = new MapViewModel(_sut.Aggregate);
+            _vm = new MapViewModel(_sut.Aggregate, _sut.ReadModel);
         }
 
         [Given(@"Есть трасса присоединенная к порту РТУ")]

@@ -17,7 +17,7 @@ namespace Graph.Tests
 
         public NodeUpdatedSteps()
         {
-            _mapViewModel = new MapViewModel(_sut.Aggregate);
+            _mapViewModel = new MapViewModel(_sut.Aggregate, _sut.ReadModel);
         }
 
         [Given(@"Ранее был создан узел с именем (.*)")]

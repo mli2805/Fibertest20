@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
 
@@ -16,9 +19,10 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         private readonly ReadModel _readModel;
         private GpsCoors _currentMousePosition = new GpsCoors();
 
-        public MapViewModel(Aggregate aggregate)
+        public MapViewModel(Aggregate aggregate, ReadModel readModel)
         {
             _aggregate = aggregate;
+            _readModel = readModel;
         }
 
         #region Node
@@ -85,11 +89,21 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             _aggregate.When(new AddEquipmentAtGpsLocation() { Id = Guid.NewGuid(), NodeId = Guid.NewGuid(), Latitude = _currentMousePosition.Latitude, Longitude = _currentMousePosition.Longitude } );
         }
 
-        public void DefineTrace()
+        public void DefineTrace(Guid rtuNodeId, Guid lastNodeId)
         {
-            var rtuNodeId = Guid.NewGuid();
-            var lastNodeId = Guid.NewGuid();
-            new PathFinder(_readModel).FindPath(rtuNodeId, lastNodeId);
+            var path = new PathFinder(_readModel).FindPath(rtuNodeId, lastNodeId);
+            if (path == null)
+            {
+                var windowManager = IoC.Get<IWindowManager>();
+                var addEquipmentViewModel = new ErrorNotificationViewModel("Path couldn't be found");
+                windowManager.ShowDialog(addEquipmentViewModel);
+            }
+            else
+            {
+                var windowManager = IoC.Get<IWindowManager>();
+                var addEquipmentViewModel = new AddTraceViewModel(_readModel, _aggregate, path.ToList());
+                windowManager.ShowDialog(addEquipmentViewModel);
+            }
         }
 
         public string this[string columnName]

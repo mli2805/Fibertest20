@@ -112,7 +112,33 @@ this.FeatureBackground();
 #line 12
  testRunner.When("Пользователь кликает удалить узел", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 13
- testRunner.Then("Удаляется отрезок и узел", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("Удаляется отрезок", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 14
+ testRunner.Then("Узел удаляется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Удаление узла последнего для трассы")]
+        [Xunit.TraitAttribute("FeatureTitle", "NodeRemoved")]
+        [Xunit.TraitAttribute("Description", "Удаление узла последнего для трассы")]
+        public virtual void УдалениеУзлаПоследнегоДляТрассы()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Удаление узла последнего для трассы", ((string[])(null)));
+#line 16
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 17
+ testRunner.Given("Данный узел последний в трассе", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 18
+ testRunner.When("Пользователь кликает удалить узел", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 19
+ testRunner.Then("Корректируются списки узлов и оборудования трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 20
+ testRunner.Then("Удаляется отрезок", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 21
+ testRunner.Then("Узел удаляется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

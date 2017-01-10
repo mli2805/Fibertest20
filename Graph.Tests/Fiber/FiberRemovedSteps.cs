@@ -17,7 +17,7 @@ namespace Graph.Tests.Fiber
 
         public FiberRemovedSteps()
         {
-            _vm = new MapViewModel(_sut.Aggregate);
+            _vm = new MapViewModel(_sut.Aggregate, _sut.ReadModel);
         }
 
         [Given(@"Есть два узла и отрезок между ними")]

@@ -14,7 +14,7 @@ namespace Graph.Tests
 
         public RtuAtGpsLocationAddedSteps()
         {
-            _vm = new MapViewModel(_sut.Aggregate);
+            _vm = new MapViewModel(_sut.Aggregate, _sut.ReadModel);
 
         }
 

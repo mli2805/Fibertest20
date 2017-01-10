@@ -17,7 +17,7 @@ namespace Graph.Tests
 
         public NodeMovedSteps()
         {
-            _mapViewModel = new MapViewModel(_sut.Aggregate);
+            _mapViewModel = new MapViewModel(_sut.Aggregate, _sut.ReadModel);
         }
 
         [Given(@"Создан узел")]

@@ -25,7 +25,7 @@ namespace Graph.Tests
 
         public TraceAddedSteps()
         {
-            _mapViewModel = new MapViewModel(_sut.Aggregate);
+            _mapViewModel = new MapViewModel(_sut.Aggregate, _sut.ReadModel);
         }
 
         [Given(@"Существует два узла")]

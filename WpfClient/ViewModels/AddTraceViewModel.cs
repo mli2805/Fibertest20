@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
@@ -49,8 +50,19 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             _readModel = readModel;
             _aggregate = aggregate;
             _nodes = nodes;
+            CollectEquipmentForTrace();
 
             IsClosed = false;
+        }
+
+        //TODO: требуется реальное наполнение c запросами пользователю и проверкой, что последний узел содержит оборудование
+        private void CollectEquipmentForTrace()
+        {
+            foreach (var nodeId in _nodes)
+            {
+                var equipment = _readModel.Equipments.FirstOrDefault(e=>e.NodeId == nodeId);
+                _equipments.Add(equipment?.Id ?? Guid.Empty);
+            }
         }
 
         public void Save()

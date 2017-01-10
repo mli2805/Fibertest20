@@ -18,7 +18,7 @@ namespace Graph.Tests
 
         public EquipmentAddedSteps()
         {
-            _mapViewModel = new MapViewModel(_sut.Aggregate);
+            _mapViewModel = new MapViewModel(_sut.Aggregate, _sut.ReadModel);
         }
 
         [Given(@"Добавлен некий узел")]
