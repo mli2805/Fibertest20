@@ -52,7 +52,8 @@ namespace Graph.Tests
             if (path != null)
             {
                 _traceNodes = path.ToList();
-                _addTraceViewModel = new AddTraceViewModel(_sut.ReadModel, _sut.Aggregate, _traceNodes);
+                var equipments = new List<Guid>();
+                _addTraceViewModel = new AddTraceViewModel(_sut.ReadModel, _sut.Aggregate, _traceNodes, equipments);
             }
             else
             {

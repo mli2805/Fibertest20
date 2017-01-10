@@ -84,6 +84,8 @@ namespace Iit.Fibertest.Graph
             Db.Add(_mapper.Map<NodeMoved>(cmd));
         }
 
+
+
         public void When(RemoveNode cmd)
         {
             Db.Add(_mapper.Map<NodeRemoved>(cmd));

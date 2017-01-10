@@ -13,7 +13,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         private readonly ReadModel _readModel;
         private readonly Aggregate _aggregate;
         private readonly List<Guid> _nodes;
-        private List<Guid> _equipments = new List<Guid>();
+        private readonly List<Guid> _equipments;
         private string _title;
         private string _comment;
 
@@ -45,24 +45,14 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         public bool IsClosed { get; set; }
 
 
-        public AddTraceViewModel(ReadModel readModel, Aggregate aggregate, List<Guid> nodes)
+        public AddTraceViewModel(ReadModel readModel, Aggregate aggregate, List<Guid> nodes, List<Guid> equipments)
         {
             _readModel = readModel;
             _aggregate = aggregate;
             _nodes = nodes;
-            CollectEquipmentForTrace();
+            _equipments = equipments;
 
             IsClosed = false;
-        }
-
-        //TODO: требуется реальное наполнение c запросами пользователю и проверкой, что последний узел содержит оборудование
-        private void CollectEquipmentForTrace()
-        {
-            foreach (var nodeId in _nodes)
-            {
-                var equipment = _readModel.Equipments.FirstOrDefault(e=>e.NodeId == nodeId);
-                _equipments.Add(equipment?.Id ?? Guid.Empty);
-            }
         }
 
         public void Save()

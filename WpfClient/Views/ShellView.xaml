@@ -7,8 +7,7 @@
         <Button Name="LaunchUpdateNodeView" Height="25" Width="180" Margin="5" Content="Launch UpdateNodeView"/>
         <Button Name="LaunchUpdateFiberView" Height="25" Width="180" Margin="5" Content="Launch UpdateFiberView"/>
         <Button Name="LaunchAddEquipmentView" Height="25" Width="180" Margin="5" Content="Launch AddEquipmentView"/>
-        <Button Name="DefineTrace" Height="25" Width="180" Margin="5" Content="Define Trace"/>
-        <Button Name="AssignBaseRefs" Height="25" Width="180" Margin="5" Content="Assign Base Refs"/>
+        <Button Name="LaunchAssignBaseRefs" Height="25" Width="180" Margin="5" Content="Launch AssignBaseRefs"/>
     </StackPanel>
 
 </Window>

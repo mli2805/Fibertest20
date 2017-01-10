@@ -43,7 +43,8 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
         public void RemoveNode(Guid id)
         {
-            _aggregate.When(new RemoveNode() {Id = id});
+            if (_readModel.CouldNodeBeRemoved(id))
+                _aggregate.When(new RemoveNode() {Id = id});
         }
         #endregion
 
@@ -100,11 +101,29 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             }
             else
             {
+                var nodes = path.ToList();
+                var equipments = CollectEquipmentForTrace(nodes);
+                if (equipments == null)
+                    return;
+
                 var windowManager = IoC.Get<IWindowManager>();
-                var addEquipmentViewModel = new AddTraceViewModel(_readModel, _aggregate, path.ToList());
+                var addEquipmentViewModel = new AddTraceViewModel(_readModel, _aggregate, nodes, equipments);
                 windowManager.ShowDialog(addEquipmentViewModel);
             }
         }
+
+        //TODO: требуется реальное наполнение c запросами пользователю и проверкой, что последний узел содержит оборудование
+        private List<Guid> CollectEquipmentForTrace(List<Guid> nodes)
+        {
+            var equipments = new List<Guid>();
+            foreach (var nodeId in nodes)
+            {
+                var equipment = _readModel.Equipments.FirstOrDefault(e => e.NodeId == nodeId);
+                equipments.Add(equipment?.Id ?? Guid.Empty);
+            }
+            return equipments;
+        }
+
 
         public string this[string columnName]
         {

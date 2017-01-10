@@ -39,7 +39,8 @@ namespace Graph.Tests
             _vm.AddFiber(_firstNodeId, secondNodeId);
             _sut.Poller.Tick();
             _fiberId = _sut.ReadModel.Fibers.First().Id;
-            var addTraceViewModel = new AddTraceViewModel(_sut.ReadModel, _sut.Aggregate, new List<Guid>(){ _nodeForRtuId, _firstNodeId, secondNodeId });
+            var equipments = new List<Guid>();
+            var addTraceViewModel = new AddTraceViewModel(_sut.ReadModel, _sut.Aggregate, new List<Guid>(){ _nodeForRtuId, _firstNodeId, secondNodeId }, equipments);
             addTraceViewModel.Save();
             _sut.Poller.Tick();
         }

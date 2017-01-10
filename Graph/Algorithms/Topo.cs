@@ -34,5 +34,21 @@ namespace Iit.Fibertest.Graph
             var trace = readModel.Traces.FirstOrDefault(t => t.Id == traceId);
             return trace == null ? null : readModel.Rtus.FirstOrDefault(r => r.NodeId == trace.Nodes[0]);
         }
+
+        public static List<Trace> GetTracesWithNodeAtLastPosition(this ReadModel readModel, Guid nodeId)
+        {
+            return readModel.Traces.Where(t => t.Nodes.Last() == nodeId).ToList();
+        }
+
+        public static bool CouldNodeBeRemoved(this ReadModel readModel, Guid nodeId)
+        {
+            foreach (var trace in readModel.GetTracesWithNodeAtLastPosition(nodeId))
+            {
+                if (trace.Nodes.Count == 2) return false;
+                if (!readModel.FindEquipmentsByNode(trace.Nodes[trace.Nodes.Count - 2]).Any()) return false;
+            }
+            return true;
+        }
+
     }
 }
