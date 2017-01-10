@@ -135,6 +135,12 @@
     <Compile Include="Node\NodeMovedSteps.cs">
       <DependentUpon>NodeMoved.feature</DependentUpon>
     </Compile>
+    <Compile Include="Node\NodeRemoved.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NodeRemoved.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Node\NodeRemovedSteps.cs" />
     <Compile Include="Node\NodeUpdated.feature.cs">
       <DependentUpon>NodeUpdated.feature</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -225,6 +231,10 @@
     <None Include="Node\NodeMoved.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>NodeMoved.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Node\NodeRemoved.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>NodeRemoved.feature.cs</LastGenOutput>
     </None>
     <None Include="Node\NodeUpdated.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

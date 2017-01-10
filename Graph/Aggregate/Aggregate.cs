@@ -86,10 +86,7 @@ namespace Iit.Fibertest.Graph
 
         public void When(RemoveNode cmd)
         {
-            Db.Add(new NodeRemoved
-            {
-                Id = cmd.Id,
-            });
+            Db.Add(_mapper.Map<NodeRemoved>(cmd));
         }
 
         #endregion

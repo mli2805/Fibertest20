@@ -36,6 +36,11 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             var cmd = new MoveNode() { Id = id, Latitude = _currentMousePosition.Latitude, Longitude = _currentMousePosition.Longitude };
             _aggregate.When(cmd);
         }
+
+        public void RemoveNode(Guid id)
+        {
+            _aggregate.When(new RemoveNode() {Id = id});
+        }
         #endregion
 
         #region Fiber

@@ -79,12 +79,12 @@ namespace Graph.Tests.Node
             this.ScenarioTearDown();
         }
         
-        [Xunit.FactAttribute(DisplayName="Узел подвинут на карте")]
+        [Xunit.FactAttribute(DisplayName="Таскание узла на карте")]
         [Xunit.TraitAttribute("FeatureTitle", "NodeMoved")]
-        [Xunit.TraitAttribute("Description", "Узел подвинут на карте")]
-        public virtual void УзелПодвинутНаКарте()
+        [Xunit.TraitAttribute("Description", "Таскание узла на карте")]
+        public virtual void ТасканиеУзлаНаКарте()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Узел подвинут на карте", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Таскание узла на карте", ((string[])(null)));
 #line 7
 this.ScenarioSetup(scenarioInfo);
 #line 3
