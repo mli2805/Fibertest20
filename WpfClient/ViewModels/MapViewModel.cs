@@ -43,8 +43,11 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
         public void RemoveNode(Guid id)
         {
-            if (_readModel.Traces.All(t => t.Nodes.Last() != id)) // It's prohibited to remove last node from trace
-                _aggregate.When(new RemoveNode() {Id = id});
+            if (_readModel.Traces.Any(t => t.Nodes.Last() == id))
+                return; // It's prohibited to remove last node from trace
+            if (_readModel.Traces.Any(t => t.Nodes.Contains(id) && t.HasBase))
+                return; // It's prohibited to remove any node from trace with base ref
+            _aggregate.When(new RemoveNode() {Id = id});
         }
         #endregion
 

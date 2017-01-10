@@ -165,6 +165,28 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
+        [Xunit.FactAttribute(DisplayName="Попытка удаления узла из трассы с базовой")]
+        [Xunit.TraitAttribute("FeatureTitle", "NodeRemoved")]
+        [Xunit.TraitAttribute("Description", "Попытка удаления узла из трассы с базовой")]
+        public virtual void ПопыткаУдаленияУзлаИзТрассыСБазовой()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Попытка удаления узла из трассы с базовой", ((string[])(null)));
+#line 29
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 30
+ testRunner.Given("Данный узел НЕ последний в трассе", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 31
+ testRunner.Given("Для трассы задана базовая", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 32
+ testRunner.When("Пользователь кликает удалить узел", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 33
+ testRunner.Then("Удаление не происходит", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.1.0.0")]
         [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : System.IDisposable

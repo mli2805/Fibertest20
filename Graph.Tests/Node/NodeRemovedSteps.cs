@@ -87,6 +87,12 @@ namespace Graph.Tests
             _trace = _sut.ReadModel.Traces.Last();
         }
 
+        [Given(@"Для трассы задана базовая")]
+        public void GivenДляТрассыЗаданаБазовая()
+        {
+            _trace.PreciseId = Guid.NewGuid();
+        }
+
         [When(@"Пользователь кликает удалить узел")]
         public void WhenПользовательКликаетУдалитьУзел()
         {
@@ -107,6 +113,7 @@ namespace Graph.Tests
         public void ThenКорректируютсяСпискиУзловИОборудованияТрассы()
         {
             _trace.Nodes.Contains(_nodeId).Should().BeFalse();
+            _trace.Nodes.Count.Should().Be(_trace.Equipments.Count);
         }
 
         [Then(@"Отрезки связанные с исходным узлом удаляются")]
