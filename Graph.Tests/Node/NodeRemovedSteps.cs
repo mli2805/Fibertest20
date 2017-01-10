@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.WpfClient.ViewModels;
 using TechTalk.SpecFlow;
 
@@ -13,6 +14,7 @@ namespace Graph.Tests
         private readonly SystemUnderTest _sut = new SystemUnderTest();
         private readonly MapViewModel _vm;
         private Guid _nodeId;
+        private Guid _rtuNodeId;
         private Guid _anotherNodeId;
         private Guid _fiberId;
         private Iit.Fibertest.Graph.Trace _trace;
@@ -63,11 +65,26 @@ namespace Graph.Tests
             _trace = _sut.ReadModel.Traces.Last();
         }
 
-        [Given(@"Предпоследний узел в трассе с оборудованием")]
-        public void GivenПредпоследнийУзелВТрассеСОборудованием()
+        [Given(@"Данный узел НЕ последний в трассе")]
+        public void GivenДанныйУзелНЕПоследнийВТрассе()
         {
+            _vm.AddRtuAtGpsLocation();
+            _sut.Poller.Tick();
+            _rtuNodeId = _sut.ReadModel.Nodes.Last().Id;
+            var rtuId = _sut.ReadModel.Rtus.Last().Id;
+            _vm.AddFiber(_rtuNodeId, _nodeId);
+            _sut.Poller.Tick();
             new AddEquipmentViewModel(_anotherNodeId, _sut.ReadModel, _sut.Aggregate).Save();
             _sut.Poller.Tick();
+            var equipmentId = _sut.ReadModel.Equipments.Last().Id;
+
+            var nodes = new List<Guid>() { _rtuNodeId, _nodeId, _anotherNodeId };
+            var equipments = new List<Guid>() { rtuId, Guid.Empty, equipmentId };
+
+            var addTraceViewModel = new AddTraceViewModel(_sut.ReadModel, _sut.Aggregate, nodes, equipments);
+            addTraceViewModel.Save();
+            _sut.Poller.Tick();
+            _trace = _sut.ReadModel.Traces.Last();
         }
 
         [When(@"Пользователь кликает удалить узел")]
@@ -77,16 +94,25 @@ namespace Graph.Tests
             _sut.Poller.Tick();
         }
 
+        [Then(@"Создается отрезок между соседними с данным узлами")]
+        public void ThenСоздаетсяОтрезокМеждуСоседнимиСДаннымУзлами()
+        {
+            _sut.ReadModel.Fibers.FirstOrDefault(
+                f =>
+                    f.Node1 == _rtuNodeId && f.Node2 == _anotherNodeId ||
+                    f.Node1 == _anotherNodeId && f.Node2 == _rtuNodeId).Should().NotBe(null);
+        }
+
         [Then(@"Корректируются списки узлов и оборудования трассы")]
         public void ThenКорректируютсяСпискиУзловИОборудованияТрассы()
         {
             _trace.Nodes.Contains(_nodeId).Should().BeFalse();
         }
 
-        [Then(@"Удаляется отрезок")]
-        public void ThenУдаляетсяОтрезок()
+        [Then(@"Отрезки связанные с исходным узлом удаляются")]
+        public void ThenОтрезкиСвязанныеСИсходнымУзломУдаляются()
         {
-            _sut.ReadModel.Fibers.FirstOrDefault(f => f.Id == _fiberId).Should().Be(null);
+            _sut.ReadModel.Fibers.FirstOrDefault(f => f.Node1 == _nodeId || f.Node2 == _nodeId).Should().Be(null);
         }
 
         [Then(@"Узел удаляется")]
