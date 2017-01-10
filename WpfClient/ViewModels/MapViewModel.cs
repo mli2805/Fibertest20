@@ -127,6 +127,16 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             return equipments;
         }
 
+        public void AttachTrace(AttachTrace cmd)
+        {
+            _aggregate.When(cmd);
+        }
+
+        public void DetachTrace(DetachTrace cmd)
+        {
+            _aggregate.When(cmd);
+        }
+
 
         public string this[string columnName]
         {

@@ -17,7 +17,7 @@ namespace Graph.Tests
 
         public BaseRefAssignedSteps()
         {
-            _mapViewModel = new MapViewModel(_sut.Aggregate);
+            _mapViewModel = new MapViewModel(_sut.Aggregate, _sut.ReadModel);
         }
 
         [Given(@"Существует трасса")]
@@ -31,7 +31,7 @@ namespace Graph.Tests
             _mapViewModel.AddFiber(rtuNodeId, lastNodeId);
             _sut.Poller.Tick();
             var traceNodes = new PathFinder(_sut.ReadModel).FindPath(rtuNodeId, lastNodeId).ToList();
-            var addTraceViewModel = new AddTraceViewModel(_sut.ReadModel, _sut.Aggregate, traceNodes);
+            var addTraceViewModel = new AddTraceViewModel(_sut.ReadModel, _sut.Aggregate, traceNodes, new List<Guid>());
             addTraceViewModel.Save();
             _sut.Poller.Tick();
             _traceId = _sut.ReadModel.Traces.First().Id;
