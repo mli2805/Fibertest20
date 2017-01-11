@@ -87,6 +87,14 @@
     <Compile Include="Equipment\EquipmentAtGpsLocationAddedSteps.cs">
       <DependentUpon>EquipmentAtGpsLocationAdded.feature</DependentUpon>
     </Compile>
+    <Compile Include="Equipment\EquipmentRemoved.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EquipmentRemoved.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Equipment\EquipmentRemovedSteps.cs">
+      <DependentUpon>EquipmentRemoved.feature</DependentUpon>
+    </Compile>
     <Compile Include="Fiber\FiberAdded.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -217,6 +225,10 @@
     <None Include="Equipment\EquipmentAtGpsLocationAdded.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>EquipmentAtGpsLocationAdded.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Equipment\EquipmentRemoved.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>EquipmentRemoved.feature.cs</LastGenOutput>
     </None>
     <None Include="Fiber\FiberAdded.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

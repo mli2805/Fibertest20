@@ -16,7 +16,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         private readonly Node _originalNode;
         public bool IsClosed { get; set; }
 
-        public Guid Id { get; set; }
+        public Guid NodeId { get; set; }
 
         private string _title;
         private string _comment;
@@ -63,26 +63,26 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             }
         }
 
-        public UpdateNodeViewModel(Guid id, ReadModel readModel, Aggregate aggregate)
+        public UpdateNodeViewModel(Guid nodeId, ReadModel readModel, Aggregate aggregate)
         {
             _readModel = readModel;
             _aggregate = aggregate;
-            Id = id;
-            _originalNode = readModel.Nodes.Single(n => n.Id == id);
+            NodeId = nodeId;
+            _originalNode = readModel.Nodes.Single(n => n.Id == nodeId);
             IsClosed = false;
         }
 
-        public void RemoveEquipment(Guid id)
+        public void RemoveEquipment(Guid equipmentId)
         {
-            var traces = _readModel.Traces.Where(t => t.Equipments.Contains(id)).ToList();
+            var traces = _readModel.Traces.Where(t => t.Equipments.Contains(equipmentId)).ToList();
             if (traces.Any(t => t.HasBase))
                 return;
             foreach (var trace in traces)
             {
-                var idx = trace.Equipments.IndexOf(id);
+                var idx = trace.Equipments.IndexOf(equipmentId);
                 trace.Equipments[idx] = Guid.Empty;
             }
-            _readModel.Equipments.Remove(_readModel.Equipments.Single(e => e.Id == id));
+            _readModel.Equipments.Remove(_readModel.Equipments.Single(e => e.Id == equipmentId));
         }
 
 
@@ -96,7 +96,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
             Error = _aggregate.When(new UpdateNode
             {
-                Id = Id,
+                Id = NodeId,
                 Title = _title
             });
             if (Error != null)

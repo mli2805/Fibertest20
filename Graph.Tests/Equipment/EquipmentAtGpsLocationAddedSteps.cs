@@ -4,7 +4,7 @@ using Iit.Fibertest.Graph;
 using Iit.Fibertest.WpfClient.ViewModels;
 using TechTalk.SpecFlow;
 
-namespace Graph.Tests.Equipment
+namespace Graph.Tests
 {
     [Binding]
     public sealed class EquipmentAtGpsLocationAddedSteps
