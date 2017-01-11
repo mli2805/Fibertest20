@@ -87,7 +87,10 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         #region Rtu
         public void AddRtuAtGpsLocation()
         {
-            _aggregate.When(new AddRtuAtGpsLocation() { Id = Guid.NewGuid(), NodeId = Guid.NewGuid(), Latitude = _currentMousePosition.Latitude, Longitude = _currentMousePosition.Longitude} );
+            _aggregate.When(new AddRtuAtGpsLocation()
+            {
+                Id = Guid.NewGuid(), NodeId = Guid.NewGuid(), Latitude = _currentMousePosition.Latitude, Longitude = _currentMousePosition.Longitude
+            } );
         }
 
         public void RemoveRtu(Guid rtuId)
@@ -99,9 +102,12 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         #endregion
 
         #region Equipment
-        public void AddEquipmentAtGpsLocation()
+        public void AddEquipmentAtGpsLocation(EquipmentType type)
         {
-            _aggregate.When(new AddEquipmentAtGpsLocation() { Id = Guid.NewGuid(), NodeId = Guid.NewGuid(), Latitude = _currentMousePosition.Latitude, Longitude = _currentMousePosition.Longitude } );
+            _aggregate.When(new AddEquipmentAtGpsLocation()
+            {
+                Id = Guid.NewGuid(), NodeId = Guid.NewGuid(), Type = type, Latitude = _currentMousePosition.Latitude, Longitude = _currentMousePosition.Longitude
+            } );
         }
         #endregion
 

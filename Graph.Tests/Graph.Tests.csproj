@@ -166,6 +166,14 @@
     <Compile Include="Rtu\RtuAtGpsLocationAddedSteps.cs">
       <DependentUpon>RtuAtGpsLocationAdded.feature</DependentUpon>
     </Compile>
+    <Compile Include="Rtu\RtuRemoved.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RtuRemoved.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Rtu\RtuRemovedSteps.cs">
+      <DependentUpon>RtuRemoved.feature</DependentUpon>
+    </Compile>
     <Compile Include="SystemUnderTest.cs" />
     <Compile Include="Trace\BaseRefAssigned.feature.cs">
       <AutoGen>True</AutoGen>
@@ -250,6 +258,10 @@
     <None Include="Rtu\RtuAtGpsLocationAdded.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>RtuAtGpsLocationAdded.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Rtu\RtuRemoved.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>RtuRemoved.feature.cs</LastGenOutput>
     </None>
     <None Include="Trace\BaseRefAssigned.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
