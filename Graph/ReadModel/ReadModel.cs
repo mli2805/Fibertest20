@@ -110,10 +110,28 @@ namespace Iit.Fibertest.Graph
 
         public void Apply(NodeRemoved e)
         {
+            ExcludeNodeFromAllTraces(e.Id);
+
+            RemoveNodeWhereTracesDoNotPassThrough(e.Id);
+        }
+
+        private void RemoveNodeWhereTracesDoNotPassThrough(Guid nodeId)
+        {
+            var fibers = GetFibersFromNode(nodeId);
+            foreach (var fiber in fibers)
+            {
+                Fibers.Remove(fiber);
+            }
+            Node node = Nodes.Single(n => n.Id == nodeId);
+            Nodes.Remove(node);
+        }
+
+        private void ExcludeNodeFromAllTraces(Guid nodeId)
+        {
             List<Guid> equipmentInNode = new List<Guid>();
             foreach (var trace in Traces)
             {
-                var idxInTrace = trace.Nodes.IndexOf(e.Id);
+                var idxInTrace = trace.Nodes.IndexOf(nodeId);
                 if (idxInTrace == -1)
                     continue;
                 if (!IsLastNodeForTrace(idxInTrace, trace))
@@ -132,15 +150,8 @@ namespace Iit.Fibertest.Graph
                         Equipments.Remove(equipment);
                 }
             }
-
-            var fibers = GetFibersFromNode(e.Id);
-            foreach (var fiber in fibers)
-            {
-                Fibers.Remove(fiber);
-            }
-            Node node = Nodes.Single(n=>n.Id == e.Id);
-            Nodes.Remove(node);
         }
+
         #endregion
 
         #region Fiber
@@ -186,6 +197,7 @@ namespace Iit.Fibertest.Graph
         }
         #endregion
 
+        #region Equipment
         public void Apply(EquipmentAdded e)
         {
             Equipment equipment = _mapper.Map<Equipment>(e);
@@ -199,7 +211,9 @@ namespace Iit.Fibertest.Graph
             Equipment equipment = _mapper.Map<Equipment>(e);
             Equipments.Add(equipment);
         }
+        #endregion
 
+        #region Rtu
         public void Apply(RtuAtGpsLocationAdded e)
         {
             Node node = new Node() {Id = e.NodeId, Latitude = e.Latitude, Longitude = e.Longitude};
@@ -207,6 +221,15 @@ namespace Iit.Fibertest.Graph
             Rtu rtu = _mapper.Map<Rtu>(e);
             Rtus.Add(rtu);
         }
+
+        public void Apply(RtuRemoved e)
+        {
+            var rtu = Rtus.First(r => r.Id == e.Id);
+            var nodeId = rtu.NodeId;
+            Rtus.Remove(rtu);
+            RemoveNodeWhereTracesDoNotPassThrough(nodeId);
+        }
+        #endregion
 
         #region Trace
         public void Apply(TraceAdded e)

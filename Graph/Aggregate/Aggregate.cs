@@ -132,6 +132,7 @@ namespace Iit.Fibertest.Graph
 
         #endregion
 
+        #region Equipment
         public void When(AddEquipment cmd)
         {
             Db.Add(_mapper.Map<EquipmentAdded>(cmd));
@@ -141,11 +142,19 @@ namespace Iit.Fibertest.Graph
         {
             Db.Add(_mapper.Map<EquipmentAtGpsLocationAdded>(cmd));
         }
+        #endregion
 
+        #region Rtu
         public void When(AddRtuAtGpsLocation cmd)
         {
             Db.Add(_mapper.Map<RtuAtGpsLocationAdded>(cmd));
         }
+
+        public void When(RemoveRtu cmd)
+        {
+            Db.Add(_mapper.Map<RtuRemoved>(cmd));
+        }
+        #endregion
 
         #region Trace
         public void When(AddTrace cmd)

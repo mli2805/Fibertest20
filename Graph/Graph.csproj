@@ -55,6 +55,7 @@
     <Compile Include="Commands\Node\AddNodeIntoFiber.cs" />
     <Compile Include="Commands\Node\MoveNode.cs" />
     <Compile Include="Commands\Rtu\AddRtuAtGpsLocation.cs" />
+    <Compile Include="Commands\Rtu\RemoveRtu.cs" />
     <Compile Include="Commands\Trace\AttachTrace.cs" />
     <Compile Include="Commands\Trace\AssignBaseRef.cs" />
     <Compile Include="Commands\Trace\AddTrace.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="Events\Node\NodeIntoFiberAdded.cs" />
     <Compile Include="Events\Node\NodeMoved.cs" />
     <Compile Include="Events\Rtu\RtuAtGpsLocationAdded.cs" />
+    <Compile Include="Events\Rtu\RtuRemoved.cs" />
     <Compile Include="Events\Trace\TraceAttached.cs" />
     <Compile Include="Events\Trace\BaseRefAssigned.cs" />
     <Compile Include="Events\Trace\TraceAdded.cs" />

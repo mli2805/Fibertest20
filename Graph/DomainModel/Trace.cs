@@ -17,6 +17,7 @@ namespace Iit.Fibertest.Graph
         public Guid AdditionalId { get; set; } = Guid.Empty;
         public string Comment { get; set; }
 
+        public Guid RtuId => Nodes.Count == 0 ? Guid.Empty : Nodes[0];
         public bool HasBase => PreciseId != Guid.Empty || FastId != Guid.Empty || AdditionalId != Guid.Empty;
     }
 }

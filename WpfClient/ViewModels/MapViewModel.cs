@@ -84,15 +84,28 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
         #endregion
 
+        #region Rtu
         public void AddRtuAtGpsLocation()
         {
             _aggregate.When(new AddRtuAtGpsLocation() { Id = Guid.NewGuid(), NodeId = Guid.NewGuid(), Latitude = _currentMousePosition.Latitude, Longitude = _currentMousePosition.Longitude} );
         }
+
+        public void RemoveRtu(Guid rtuId)
+        {
+            if (_readModel.Traces.Any(t=>t.RtuId == rtuId)) // эта проверка должна быть еще раньше - при показе контекстного меню РТУ
+                return;
+            _aggregate.When(new RemoveRtu() {Id = rtuId});
+        }
+        #endregion
+
+        #region Equipment
         public void AddEquipmentAtGpsLocation()
         {
             _aggregate.When(new AddEquipmentAtGpsLocation() { Id = Guid.NewGuid(), NodeId = Guid.NewGuid(), Latitude = _currentMousePosition.Latitude, Longitude = _currentMousePosition.Longitude } );
         }
+        #endregion
 
+        #region Trace
         public void DefineTrace(Guid rtuNodeId, Guid lastNodeId)
         {
             var path = new PathFinder(_readModel).FindPath(rtuNodeId, lastNodeId);
@@ -136,6 +149,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         {
             _aggregate.When(cmd);
         }
+        #endregion
 
 
         public string this[string columnName]
