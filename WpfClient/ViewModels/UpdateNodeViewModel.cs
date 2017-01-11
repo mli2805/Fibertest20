@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using AutoMapper;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
@@ -70,6 +71,30 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             NodeId = nodeId;
             _originalNode = readModel.Nodes.Single(n => n.Id == nodeId);
             IsClosed = false;
+        }
+
+        public void LaunchAddEquipmentView()
+        {
+            var windowManager = IoC.Get<IWindowManager>();
+            var addEquipmentViewModel = new AddEquipmentViewModel(NodeId, Guid.Empty, _readModel, _aggregate);
+            windowManager.ShowDialog(addEquipmentViewModel);
+        }
+
+        public void LaunchUpdateEquipmentView()
+        {
+            // как будто оборудование уже существовало и пользователь хочет его редактировать
+            Equipment eq = new Equipment() {Id = Guid.NewGuid(), NodeId = NodeId, Type = EquipmentType.Other, Title = "Изменяемое оборудование", Comment = "Передается маппером", CableReserveLeft = 10};
+            _readModel.Equipments.Add(eq);
+
+
+            var windowManager = IoC.Get<IWindowManager>();
+            var addEquipmentViewModel = new AddEquipmentViewModel(NodeId, eq.Id, _readModel, _aggregate);
+
+            IMapper mapper = new MapperConfiguration(
+                    cfg => cfg.AddProfile<MappingDomainModelToViewModel>()).CreateMapper();
+            mapper.Map(addEquipmentViewModel, eq);
+
+            windowManager.ShowDialog(addEquipmentViewModel);
         }
 
         public void RemoveEquipment(Guid equipmentId)

@@ -33,7 +33,7 @@ namespace Graph.Tests
         [Given(@"Открыто окно для добавления оборудования в этот узел")]
         public void GivenAnAddEquipmentWindowOpenedForSaidNode()
         {
-            _updateEquipmentViewModel = new AddEquipmentViewModel(_saidNodeId, _sut.ReadModel, _sut.Aggregate);
+            _updateEquipmentViewModel = new AddEquipmentViewModel(_saidNodeId, Guid.Empty, _sut.ReadModel, _sut.Aggregate);
         }
 
         [When(@"Нажата клавиша Сохранить в окне добавления оборудования")]

@@ -41,16 +41,6 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
         }
 
-        public void LaunchAddEquipmentView()
-        {
-            var node = new Node {Id = Guid.NewGuid()};
-            _readModel.Nodes.Add(node);
-
-            var windowManager = IoC.Get<IWindowManager>();
-            var addEquipmentViewModel = new AddEquipmentViewModel(node.Id, _readModel, _aggregate);
-            windowManager.ShowDialog(addEquipmentViewModel);
-        }
-
         public void LaunchAssignBaseRefs()
         {
             var trace = _readModel.Traces.FirstOrDefault();

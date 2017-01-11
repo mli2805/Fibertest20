@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
@@ -65,6 +66,8 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             }
         }
 
+        private Equipment _originalEquipment;
+
         public RadioButton CableReserve { get; } = new RadioButton() {Title = "CableReserve", IsSelected = false};
         public RadioButton Sleeve { get; } = new RadioButton() {Title = "Sleeve", IsSelected = true};
         public RadioButton Cross { get; } = new RadioButton() {Title = "Cross", IsSelected = false};
@@ -72,11 +75,16 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         public RadioButton Other { get; } = new RadioButton() {Title = "Other", IsSelected = false};
 
         public bool IsClosed { get; set; }
-        public AddEquipmentViewModel(Guid nodeId, ReadModel readModel, Aggregate aggregate)
+        public AddEquipmentViewModel(Guid nodeId, Guid equipmentId, ReadModel readModel, Aggregate aggregate)
         {
             _nodeId = nodeId;
             _readModel = readModel;
             _aggregate = aggregate;
+
+            if (equipmentId != Guid.Empty)
+            {
+                _originalEquipment = _readModel.Equipments.Single(e => e.Id == equipmentId);
+            }
 
             IsClosed = false;
         }
