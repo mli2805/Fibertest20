@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using Caliburn.Micro;
@@ -9,7 +10,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 {
     public class UpdateNodeViewModel : Screen, IDataErrorInfo
     {
-        private readonly ReadModel _model;
+        private readonly ReadModel _readModel;
         private readonly Aggregate _aggregate;
 
         private readonly Node _originalNode;
@@ -62,13 +63,26 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             }
         }
 
-        public UpdateNodeViewModel(Guid id, ReadModel model, Aggregate aggregate)
+        public UpdateNodeViewModel(Guid id, ReadModel readModel, Aggregate aggregate)
         {
-            _model = model;
+            _readModel = readModel;
             _aggregate = aggregate;
             Id = id;
-            _originalNode = model.Nodes.Single(n => n.Id == id);
+            _originalNode = readModel.Nodes.Single(n => n.Id == id);
             IsClosed = false;
+        }
+
+        public void RemoveEquipment(Guid id)
+        {
+            var traces = _readModel.Traces.Where(t => t.Equipments.Contains(id)).ToList();
+            if (traces.Any(t => t.HasBase))
+                return;
+            foreach (var trace in traces)
+            {
+                var idx = trace.Equipments.IndexOf(id);
+                trace.Equipments[idx] = Guid.Empty;
+            }
+            _readModel.Equipments.Remove(_readModel.Equipments.Single(e => e.Id == id));
         }
 
 
@@ -112,7 +126,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
                     case "Title":
                         if (string.IsNullOrEmpty(_title))
                             errorMessage = "Title is required";
-                        if (_model.Nodes.Any(n=>n.Title == _title))
+                        if (_readModel.Nodes.Any(n=>n.Title == _title))
                             errorMessage = "There is a node with the same title";
                         IsButtonSaveEnabled = errorMessage == string.Empty;
                         break;

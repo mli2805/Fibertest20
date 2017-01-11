@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices;
 using AutoMapper;
 using Iit.Fibertest.Graph.Commands;
 using Iit.Fibertest.Graph.Events;
@@ -17,6 +16,7 @@ namespace Iit.Fibertest.Graph
 
             CreateMap<AddEquipment, EquipmentAdded>();
             CreateMap<AddEquipmentAtGpsLocation, EquipmentAtGpsLocationAdded>();
+            CreateMap<RemoveEquipment, EquipmentRemoved>();
 
             CreateMap<AddFiber, FiberAdded>();
             CreateMap<AddFiberWithNodes, FiberWithNodesAdded>();
