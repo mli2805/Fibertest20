@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
-using Iit.Fibertest.Graph;
 using Iit.Fibertest.WpfClient.ViewModels;
 using TechTalk.SpecFlow;
 
@@ -11,38 +9,23 @@ namespace Graph.Tests
     [Binding]
     public sealed class BaseRefAssignedSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest();
+        private readonly SystemUnderTest _sut;
         private readonly MapViewModel _mapViewModel;
         private AssignBaseRefsViewModel _assignBaseRefsViewModel;
         private Guid _traceId;
         private Guid _oldPreciseId;
 
-        public BaseRefAssignedSteps()
+        public BaseRefAssignedSteps(SystemUnderTest sut)
         {
+            _sut = sut;
             _mapViewModel = new MapViewModel(_sut.Aggregate, _sut.ReadModel);
-        }
-
-        [Given(@"Существует трасса")]
-        public void GivenСуществуетТрасса()
-        {
-            _mapViewModel.AddRtuAtGpsLocation();
-            _mapViewModel.AddNode();
-            _sut.Poller.Tick();
-            var rtuNodeId = _sut.ReadModel.Nodes.First().Id;
-            var lastNodeId = _sut.ReadModel.Nodes.Last().Id;
-            _mapViewModel.AddFiber(rtuNodeId, lastNodeId);
-            _sut.Poller.Tick();
-            var traceNodes = new PathFinder(_sut.ReadModel).FindPath(rtuNodeId, lastNodeId).ToList();
-            var addTraceViewModel = new AddTraceViewModel(_sut.ReadModel, _sut.Aggregate, traceNodes, new List<Guid>());
-            addTraceViewModel.Save();
-            _sut.Poller.Tick();
-            _traceId = _sut.ReadModel.Traces.First().Id;
         }
 
         [Given(@"И для нее заданы точная и быстрая базовые")]
         public void GivenИДляНееЗаданыВсеТриБазовые()
         {
-            var trace = _sut.ReadModel.Traces.Single(t => t.Id == _traceId);
+            var trace = _sut.ReadModel.Traces.Single();
+            _traceId = trace.Id;
             trace.PreciseId = Guid.NewGuid();
             _oldPreciseId = trace.PreciseId;
             trace.FastId = Guid.NewGuid();

@@ -80,7 +80,7 @@ namespace Graph.Tests.Trace
 #line 3
 this.ScenarioSetup(scenarioInfo);
 #line 4
- testRunner.Given("Есть трасса1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Есть трасса", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 5
  testRunner.When("Пользователь присоедининяет трассу к порту РТУ", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 6

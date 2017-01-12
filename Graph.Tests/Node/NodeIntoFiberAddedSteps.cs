@@ -11,15 +11,17 @@ namespace Graph.Tests
     [Binding]
     public sealed class NodeIntoFiberAddedSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest();
+//        private readonly SystemUnderTest _sut = new SystemUnderTest();
+        private readonly SystemUnderTest _sut;
         private readonly MapViewModel _vm;
         private Guid _nodeForRtuId;
         private Guid _firstNodeId;
         private Guid _nodeId;
         private Guid _fiberId;
 
-        public NodeIntoFiberAddedSteps()
+        public NodeIntoFiberAddedSteps(SystemUnderTest sut)
         {
+            _sut = sut;
             _vm = new MapViewModel(_sut.Aggregate, _sut.ReadModel);
         }
 

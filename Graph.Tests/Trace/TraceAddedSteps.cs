@@ -19,9 +19,6 @@ namespace Graph.Tests
         private Guid _lastNodeId;
         private List<Guid> _traceNodes;
 
-
-        private int _cutOff;
-
         public TraceAddedSteps()
         {
             _mapViewModel = new MapViewModel(_sut.Aggregate, _sut.ReadModel);
@@ -99,8 +96,6 @@ namespace Graph.Tests
             _sut.ReadModel.Traces.Count.Should().Be(0);
             _addTraceViewModel.IsClosed = true;
         }
-
-
 
     }
 }
