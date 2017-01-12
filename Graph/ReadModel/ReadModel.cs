@@ -272,6 +272,13 @@ namespace Iit.Fibertest.Graph
         public void Apply(BaseRefAssigned e)
         {
             BaseRefs.Add(_mapper.Map<BaseRef>(e));
+            var trace = Traces.Single(t => t.Id == e.TraceId);
+            if (e.Type == BaseRefType.Precise)
+                trace.PreciseId = e.Id;
+            else if (e.Type == BaseRefType.Fast)
+                trace.FastId = e.Id;
+            else if (e.Type == BaseRefType.Additional)
+                trace.AdditionalId = e.Id;
         }
         #endregion
     }

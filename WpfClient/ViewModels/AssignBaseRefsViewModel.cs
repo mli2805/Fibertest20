@@ -49,7 +49,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         {
             _aggregate.When(new AssignBaseRef()
             {
-                TraceId = _trace.Id, Type = type, Content = filename != "" ? File.ReadAllBytes(filename) : null
+                Id = filename != "" ? Guid.NewGuid() : Guid.Empty, TraceId = _trace.Id, Type = type, Content = filename != "" ? File.ReadAllBytes(filename) : null
             } );
         }
 
