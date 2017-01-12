@@ -88,13 +88,13 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
 
             var windowManager = IoC.Get<IWindowManager>();
-            var addEquipmentViewModel = new EquipmentViewModel(NodeId, eq.Id, _readModel, _aggregate);
+            var equipmentViewModel = new EquipmentViewModel(NodeId, eq.Id, _readModel, _aggregate);
 
             IMapper mapper = new MapperConfiguration(
                     cfg => cfg.AddProfile<MappingDomainModelToViewModel>()).CreateMapper();
-            mapper.Map(eq, addEquipmentViewModel);
+            mapper.Map(eq, equipmentViewModel);
 
-            windowManager.ShowDialog(addEquipmentViewModel);
+            windowManager.ShowDialog(equipmentViewModel);
         }
 
         public void RemoveEquipment(Guid equipmentId)

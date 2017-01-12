@@ -31,6 +31,7 @@ namespace Graph.Tests
         {
             _mapViewModel.AddEquipmentAtGpsLocation(EquipmentType.Terminal);
             _sut.Poller.Tick();
+            _equipmentId = _sut.ReadModel.Equipments.Single().Id;
         }
 
         [Given(@"Открыта форма для изменения сущ оборудования")]

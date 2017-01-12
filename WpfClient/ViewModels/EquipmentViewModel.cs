@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using AutoMapper;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
@@ -101,19 +102,22 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
         public void Save()
         {
+            IMapper mapper = new MapperConfiguration(
+              cfg => cfg.AddProfile<MappingDomainModelToViewModel>()).CreateMapper();
+
             if (_equipmentId == Guid.Empty)
-                _aggregate.When(new AddEquipment()
-                {
-                    Id = new Guid(),
-                    NodeId = _nodeIdOnlyForAddEquipmentCase,
-                    Title = _title,
-                    Type = GetSelectedRadioButton(),
-                    CableReserveLeft = _cableReserveLeft,
-                    CableReserveRight = _cableReserveRight,
-                    Comment = _comment
-                });
+            {
+                var cmd = mapper.Map<AddEquipment>(this);
+                cmd.Id = Guid.NewGuid();
+                cmd.NodeId = _nodeIdOnlyForAddEquipmentCase;
+                _aggregate.When(cmd);
+            }
             else
-                _aggregate.When(new UpdateEquipment() {Id = _equipmentId});
+            {
+                var cmd = mapper.Map<UpdateEquipment>(this);
+                cmd.Id = _equipmentId;
+                _aggregate.When(cmd);
+            }
 
             CloseView();
         }
