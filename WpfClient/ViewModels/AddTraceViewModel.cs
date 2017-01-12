@@ -59,7 +59,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         {
             _aggregate.When(new AddTrace()
             {
-                Id = new Guid(),
+                Id = Guid.NewGuid(),
                 RtuId = _readModel.Rtus.Single(r=>r.NodeId == _nodes[0]).Id,
                 Title = _title,
                 Nodes = _nodes,

@@ -42,6 +42,7 @@ namespace Graph.Tests
             var addTraceViewModel = new AddTraceViewModel(_sut.ReadModel, _sut.Aggregate, new List<Guid>() { _nodeForRtuId, _firstNodeId, secondNodeId }, equipments);
             addTraceViewModel.Save();
             _sut.Poller.Tick();
+            _traceId = _sut.ReadModel.Traces.Single().Id;
 
             var cmd2 = new AttachTrace()
             {
@@ -49,6 +50,7 @@ namespace Graph.Tests
                 TraceId = _traceId
             };
             _vm.AttachTrace(cmd2);
+            _sut.Poller.Tick();
         }
 
         [When(@"Пользователь отсоединяет трассу")]
@@ -56,6 +58,7 @@ namespace Graph.Tests
         {
             var cmd = new DetachTrace() {TraceId = _traceId};
             _vm.DetachTrace(cmd);
+            _sut.Poller.Tick();
         }
 
         [Then(@"Трасса отсоединена")]
