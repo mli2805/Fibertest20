@@ -76,7 +76,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         public void LaunchAddEquipmentView()
         {
             var windowManager = IoC.Get<IWindowManager>();
-            var addEquipmentViewModel = new AddEquipmentViewModel(NodeId, Guid.Empty, _readModel, _aggregate);
+            var addEquipmentViewModel = new EquipmentViewModel(NodeId, Guid.Empty, _readModel, _aggregate);
             windowManager.ShowDialog(addEquipmentViewModel);
         }
 
@@ -88,28 +88,19 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
 
             var windowManager = IoC.Get<IWindowManager>();
-            var addEquipmentViewModel = new AddEquipmentViewModel(NodeId, eq.Id, _readModel, _aggregate);
+            var addEquipmentViewModel = new EquipmentViewModel(NodeId, eq.Id, _readModel, _aggregate);
 
             IMapper mapper = new MapperConfiguration(
                     cfg => cfg.AddProfile<MappingDomainModelToViewModel>()).CreateMapper();
-            mapper.Map(addEquipmentViewModel, eq);
+            mapper.Map(eq, addEquipmentViewModel);
 
             windowManager.ShowDialog(addEquipmentViewModel);
         }
 
         public void RemoveEquipment(Guid equipmentId)
         {
-            var traces = _readModel.Traces.Where(t => t.Equipments.Contains(equipmentId)).ToList();
-            if (traces.Any(t => t.HasBase))
-                return;
-            foreach (var trace in traces)
-            {
-                var idx = trace.Equipments.IndexOf(equipmentId);
-                trace.Equipments[idx] = Guid.Empty;
-            }
-            _readModel.Equipments.Remove(_readModel.Equipments.Single(e => e.Id == equipmentId));
+            _aggregate.When(new RemoveEquipment() {Id = equipmentId});
         }
-
 
         public void Save()
         {

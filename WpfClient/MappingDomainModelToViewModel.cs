@@ -7,7 +7,7 @@ namespace Iit.Fibertest.Graph
     {
         public MappingDomainModelToViewModel()
         {
-            CreateMap<Equipment, AddEquipmentViewModel>();
+            CreateMap<Equipment, EquipmentViewModel>();
         }
     }
 }

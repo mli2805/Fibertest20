@@ -19,6 +19,7 @@ namespace Iit.Fibertest.Graph
 
             CreateMap<EquipmentAdded, Equipment>();
             CreateMap<EquipmentAtGpsLocationAdded, Equipment>();
+            CreateMap<EquipmentUpdated, Equipment>();
 
             CreateMap<RtuAtGpsLocationAdded, Rtu>();
 

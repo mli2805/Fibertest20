@@ -6,14 +6,14 @@ using Iit.Fibertest.Graph.Commands;
 
 namespace Iit.Fibertest.WpfClient.ViewModels
 {
-    public struct RadioButton
+    public class RadioButton
     {
         public string Title { get; set; }
         public bool IsSelected { get; set; }
     }
-    public class AddEquipmentViewModel : Screen
+    public class EquipmentViewModel : Screen
     {
-        private readonly Guid _nodeId;
+        private readonly Guid _nodeIdOnlyForAddEquipmentCase;
         private readonly ReadModel _readModel;
         private readonly Aggregate _aggregate;
         private string _title;
@@ -55,6 +55,15 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             }
         }
 
+        public EquipmentType Type
+        {
+            get { return GetSelectedRadioButton(); }
+            set
+            {
+                SetSelectedRadioButton(value);
+            }
+        }
+
         public string Comment
         {
             get { return _comment; }
@@ -66,41 +75,45 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             }
         }
 
-        private Equipment _originalEquipment;
+        private Guid _equipmentId;
 
-        public RadioButton CableReserve { get; } = new RadioButton() {Title = "CableReserve", IsSelected = false};
+        public RadioButton CableReserve { get; set; } = new RadioButton() {Title = "CableReserve", IsSelected = false};
         public RadioButton Sleeve { get; } = new RadioButton() {Title = "Sleeve", IsSelected = true};
         public RadioButton Cross { get; } = new RadioButton() {Title = "Cross", IsSelected = false};
         public RadioButton Terminal { get; } = new RadioButton() {Title = "Terminal", IsSelected = false};
         public RadioButton Other { get; } = new RadioButton() {Title = "Other", IsSelected = false};
 
         public bool IsClosed { get; set; }
-        public AddEquipmentViewModel(Guid nodeId, Guid equipmentId, ReadModel readModel, Aggregate aggregate)
+        public EquipmentViewModel(Guid nodeId, Guid equipmentId, ReadModel readModel, Aggregate aggregate)
         {
-            _nodeId = nodeId;
+            _nodeIdOnlyForAddEquipmentCase = nodeId;
             _readModel = readModel;
             _aggregate = aggregate;
-
-            if (equipmentId != Guid.Empty)
-            {
-                _originalEquipment = _readModel.Equipments.Single(e => e.Id == equipmentId);
-            }
+            _equipmentId = equipmentId;
 
             IsClosed = false;
         }
 
+        protected override void OnViewLoaded(object view)
+        {
+            DisplayName = _equipmentId == Guid.Empty ? "Добавление" : "Изменение";
+        }
+
         public void Save()
         {
-            _aggregate.When(new AddEquipment()
-            {
-                Id = new Guid(),
-                NodeId = _nodeId,
-                Title = _title,
-                Type = GetSelectedRadioButton(),
-                CableReserveLeft = _cableReserveLeft,
-                CableReserveRight = _cableReserveRight,
-                Comment = _comment
-            });
+            if (_equipmentId == Guid.Empty)
+                _aggregate.When(new AddEquipment()
+                {
+                    Id = new Guid(),
+                    NodeId = _nodeIdOnlyForAddEquipmentCase,
+                    Title = _title,
+                    Type = GetSelectedRadioButton(),
+                    CableReserveLeft = _cableReserveLeft,
+                    CableReserveRight = _cableReserveRight,
+                    Comment = _comment
+                });
+            else
+                _aggregate.When(new UpdateEquipment() {Id = _equipmentId});
 
             CloseView();
         }
@@ -128,6 +141,29 @@ namespace Iit.Fibertest.WpfClient.ViewModels
                 return EquipmentType.Terminal;
             //else if (Other.IsSelected)
             return EquipmentType.Other;
+        }
+        private void SetSelectedRadioButton(EquipmentType type)
+        {
+            CleanSelectedRadioButton();
+            if (type == EquipmentType.CableReserve)
+                CableReserve.IsSelected = true;
+            else if (type == EquipmentType.Sleeve)
+                Sleeve.IsSelected = true;
+            else if (type == EquipmentType.Cross)
+                Cross.IsSelected = true;
+            else if (type == EquipmentType.Terminal)
+                Terminal.IsSelected = true;
+            else if (type == EquipmentType.Other)
+                Other.IsSelected = true;
+        }
+
+        private void CleanSelectedRadioButton()
+        {
+            CableReserve.IsSelected = false;
+            Sleeve.IsSelected = false;
+            Cross.IsSelected = false;
+            Terminal.IsSelected = false;
+            Other.IsSelected = false;
         }
     }
 }

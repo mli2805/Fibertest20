@@ -142,6 +142,15 @@ namespace Iit.Fibertest.Graph
         {
             Db.Add(_mapper.Map<EquipmentAtGpsLocationAdded>(cmd));
         }
+
+        public void When(UpdateEquipment cmd)
+        {
+            Db.Add(_mapper.Map<EquipmentUpdated>(cmd));
+        }
+        public void When(RemoveEquipment cmd)
+        {
+            Db.Add(_mapper.Map<EquipmentRemoved>(cmd));
+        }
         #endregion
 
         #region Rtu

@@ -59,6 +59,7 @@ namespace Graph.Tests
         public void WhenПользовательНажимаетУдалитьОборудование()
         {
             new UpdateNodeViewModel(_nodeId, _sut.ReadModel, _sut.Aggregate).RemoveEquipment(_equipmentId);
+            _sut.Poller.Tick();
         }
 
         [Then(@"Оборудование удаляется из трассы")]

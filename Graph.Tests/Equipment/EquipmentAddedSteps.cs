@@ -13,8 +13,13 @@ namespace Graph.Tests
         private readonly SystemUnderTest _sut = new SystemUnderTest();
         private Guid _saidNodeId;
         private MapViewModel _mapViewModel;
-        private AddEquipmentViewModel _updateEquipmentViewModel;
-        private int _cutOff;
+        private EquipmentViewModel _equipmentViewModel;
+
+        private const string TitleForTest = "Name for equipment";
+        private const EquipmentType TypeForTest = EquipmentType.CableReserve;
+        private const int LeftCableReserve = 2;
+        private const int RightCableReserve = 14;
+        private const string CommentForTest = "Comment for equipment";
 
         public EquipmentAddedSteps()
         {
@@ -27,38 +32,47 @@ namespace Graph.Tests
             _mapViewModel.AddNode();
             _sut.Poller.Tick();
             _saidNodeId = _sut.ReadModel.Nodes.Single().Id;
-            _cutOff = _sut.CurrentEventNumber;
         }
 
         [Given(@"Открыто окно для добавления оборудования в этот узел")]
         public void GivenAnAddEquipmentWindowOpenedForSaidNode()
         {
-            _updateEquipmentViewModel = new AddEquipmentViewModel(_saidNodeId, Guid.Empty, _sut.ReadModel, _sut.Aggregate);
+            _equipmentViewModel = new EquipmentViewModel(_saidNodeId, Guid.Empty, _sut.ReadModel, _sut.Aggregate);
+            _equipmentViewModel.Title = TitleForTest;
+            _equipmentViewModel.Type = TypeForTest;
+            _equipmentViewModel.CableReserveLeft = LeftCableReserve;
+            _equipmentViewModel.CableReserveRight = RightCableReserve;
+            _equipmentViewModel.Comment = CommentForTest;
         }
 
         [When(@"Нажата клавиша Сохранить в окне добавления оборудования")]
         public void WhenSaveButtonOnAddEquipmentWindowPressed()
         {
-            _updateEquipmentViewModel.Save();
+            _equipmentViewModel.Save();
             _sut.Poller.Tick();
         }
 
         [When(@"Нажата клавиша Отменить в окне добавления оборудования")]
         public void WhenCancelButtonOnAddEquipmentWindowPressed()
         {
-            _updateEquipmentViewModel.Cancel();
+            _equipmentViewModel.Cancel();
         }
 
         [Then(@"Новое оборудование сохраняется")]
         public void ThenTheNewPieceOfEquipmentGetsSaved()
         {
-            _sut.ReadModel.FindEquipmentsByNode(_saidNodeId).Count().Should().Be(1);
+            var equipment = _sut.ReadModel.Equipments.Last();
+            equipment.Title.Should().Be(TitleForTest);
+            equipment.Type.Should().Be(TypeForTest);
+            equipment.CableReserveLeft.Should().Be(LeftCableReserve);
+            equipment.CableReserveRight.Should().Be(RightCableReserve);
+            equipment.Comment.Should().Be(CommentForTest);
         }
 
         [Then(@"Окно добавления оборудования закрывается")]
         public void ThenTheAddEquipmentWindowGetsClosed()
         {
-            _updateEquipmentViewModel.IsClosed.Should().BeTrue();
+            _equipmentViewModel.IsClosed.Should().BeTrue();
         }
 
     }

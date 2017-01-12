@@ -50,6 +50,7 @@
     <Compile Include="Algorithms\PathFinderExperiment.cs" />
     <Compile Include="Commands\Equipment\AddEquipmentAtGpsLocation.cs" />
     <Compile Include="Commands\Equipment\RemoveEquipment.cs" />
+    <Compile Include="Commands\Equipment\UpdateEquipment.cs" />
     <Compile Include="Commands\Fiber\AddFiberWithNodes.cs" />
     <Compile Include="Commands\Fiber\RemoveFiber.cs" />
     <Compile Include="Commands\Fiber\UpdateFiber.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="DomainModel\Enums\EquipmentType.cs" />
     <Compile Include="Events\Equipment\EquipmentAtGpsLocationAdded.cs" />
     <Compile Include="Events\Equipment\EquipmentRemoved.cs" />
+    <Compile Include="Events\Equipment\EquipmentUpdated.cs" />
     <Compile Include="Events\Fiber\FiberUpdated.cs" />
     <Compile Include="Events\Fiber\FiberRemoved.cs" />
     <Compile Include="Events\Fiber\FiberWithNodesAdded.cs" />

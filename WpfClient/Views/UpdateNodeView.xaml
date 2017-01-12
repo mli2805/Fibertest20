@@ -6,10 +6,12 @@
         mc:Ignorable="d"
         Title="UpdateNodeView" SizeToContent="Height" Width="300" WindowStartupLocation="CenterScreen">
     <StackPanel Orientation="Vertical">
-        <TextBlock Margin="5" Text="Id"/>
-        <TextBlock Margin="5" Text="{Binding Id}" />
         <TextBlock Margin="5" Text="Title" />
         <TextBox Margin="5" Text="{Binding Title, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+        <StackPanel Orientation="Horizontal" Margin="5,15">
+            <Button Name="LaunchAddEquipmentView" Height="25" Width="120" Margin="5" Content="Add Equipment"/>
+            <Button Name="LaunchUpdateEquipmentView" Height="25" Width="120" Margin="5" Content="Update Equipment"/>
+        </StackPanel>
         <TextBlock Margin="5" Text="Comment" />
         <TextBox Margin="5" Text="{Binding Comment}" />
         <StackPanel Orientation="Horizontal" Margin="5,15">

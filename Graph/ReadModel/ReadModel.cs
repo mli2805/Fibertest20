@@ -211,6 +211,25 @@ namespace Iit.Fibertest.Graph
             Equipment equipment = _mapper.Map<Equipment>(e);
             Equipments.Add(equipment);
         }
+
+        public void Apply(EquipmentUpdated e)
+        {
+            var equipment = Equipments.Single(eq => eq.Id == e.Id);
+            _mapper.Map(e, equipment);
+        }
+
+        public void Apply(EquipmentRemoved e)
+        {
+            var traces = Traces.Where(t => t.Equipments.Contains(e.Id)).ToList();
+            if (traces.Any(t => t.HasBase))
+                return;
+            foreach (var trace in traces)
+            {
+                var idx = trace.Equipments.IndexOf(e.Id);
+                trace.Equipments[idx] = Guid.Empty;
+            }
+            Equipments.Remove(Equipments.Single(eq => eq.Id == e.Id));
+        }
         #endregion
 
         #region Rtu

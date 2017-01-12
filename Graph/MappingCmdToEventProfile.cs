@@ -16,6 +16,7 @@ namespace Iit.Fibertest.Graph
 
             CreateMap<AddEquipment, EquipmentAdded>();
             CreateMap<AddEquipmentAtGpsLocation, EquipmentAtGpsLocationAdded>();
+            CreateMap<UpdateEquipment, EquipmentUpdated>();
             CreateMap<RemoveEquipment, EquipmentRemoved>();
 
             CreateMap<AddFiber, FiberAdded>();

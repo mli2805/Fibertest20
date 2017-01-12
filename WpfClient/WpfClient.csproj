@@ -80,7 +80,7 @@
     <Compile Include="ViewModels\AssignBaseRefsViewModel.cs" />
     <Compile Include="ViewModels\ErrorNotificationViewModel.cs" />
     <Compile Include="IShell.cs" />
-    <Compile Include="ViewModels\AddEquipmentViewModel.cs" />
+    <Compile Include="ViewModels\EquipmentViewModel.cs" />
     <Compile Include="ViewModels\AddTraceViewModel.cs" />
     <Compile Include="ViewModels\MapViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
