@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Iit.Fibertest.Graph.Commands
 {
@@ -11,5 +12,7 @@ namespace Iit.Fibertest.Graph.Commands
         public int CableReserveLeft { get; set; }
         public int CableReserveRight { get; set; }
         public string Comment { get; set; }
+
+        public List<Guid> InfluencedTraces { get; set; } = new List<Guid>();
     }
 }

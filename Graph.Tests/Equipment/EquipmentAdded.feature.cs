@@ -66,9 +66,9 @@ namespace Graph.Tests.Equipment
         {
 #line 3
 #line 4
- testRunner.Given("Добавлен некий узел", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Есть трасса", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 5
- testRunner.Given("Открыто окно для добавления оборудования в этот узел", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Открыто окно для добавления оборудования во второй узел трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
         }
         
@@ -81,22 +81,104 @@ namespace Graph.Tests.Equipment
             this.ScenarioTearDown();
         }
         
-        [Xunit.FactAttribute(DisplayName="Сохранение оборудования")]
+        [Xunit.FactAttribute(DisplayName="Добавление в узел трассы но не в трассу")]
         [Xunit.TraitAttribute("FeatureTitle", "EquipmentAdded")]
-        [Xunit.TraitAttribute("Description", "Сохранение оборудования")]
-        public virtual void СохранениеОборудования()
+        [Xunit.TraitAttribute("Description", "Добавление в узел трассы но не в трассу")]
+        public virtual void ДобавлениеВУзелТрассыНоНеВТрассу()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Сохранение оборудования", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление в узел трассы но не в трассу", ((string[])(null)));
 #line 7
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
 #line 8
- testRunner.When("Нажата клавиша Сохранить в окне добавления оборудования", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Given("Пользователь НЕ выбрал добавление оборудования в трассу", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 9
- testRunner.Then("Новое оборудование сохраняется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("Нажата клавиша Сохранить в окне добавления оборудования", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 10
+ testRunner.Then("Новое оборудование сохраняется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 11
+ testRunner.Then("Новое оборудование НЕ добавляется в трассу", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 12
  testRunner.Then("Окно добавления оборудования закрывается", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Добавление в трассу")]
+        [Xunit.TraitAttribute("FeatureTitle", "EquipmentAdded")]
+        [Xunit.TraitAttribute("Description", "Добавление в трассу")]
+        public virtual void ДобавлениеВТрассу()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление в трассу", ((string[])(null)));
+#line 14
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 15
+ testRunner.Given("Пользователь выбрал добавление оборудования в трассу", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 16
+ testRunner.Given("У трассы во втором узле нет оборудования", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 17
+ testRunner.When("Нажата клавиша Сохранить в окне добавления оборудования", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 18
+ testRunner.Then("Новое оборудование сохраняется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 19
+ testRunner.Then("Новое оборудование добавляется в трассу", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 20
+ testRunner.Then("Окно добавления оборудования закрывается", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Добавление в узел где у трассы есть оборудование")]
+        [Xunit.TraitAttribute("FeatureTitle", "EquipmentAdded")]
+        [Xunit.TraitAttribute("Description", "Добавление в узел где у трассы есть оборудование")]
+        public virtual void ДобавлениеВУзелГдеУТрассыЕстьОборудование()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление в узел где у трассы есть оборудование", ((string[])(null)));
+#line 22
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 23
+ testRunner.Given("Пользователь выбрал добавление оборудования в трассу", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 24
+ testRunner.Given("В данном узле есть оборудование принадлежащее данной трассе", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 25
+ testRunner.When("Нажата клавиша Сохранить в окне добавления оборудования", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 26
+ testRunner.Then("Новое оборудование НЕ сохраняется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 27
+ testRunner.Then("Новое оборудование НЕ добавляется в трассу", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 28
+ testRunner.Then("Окно добавления оборудования НЕ закрывается", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Добавление в трассу с заданной базовой")]
+        [Xunit.TraitAttribute("FeatureTitle", "EquipmentAdded")]
+        [Xunit.TraitAttribute("Description", "Добавление в трассу с заданной базовой")]
+        public virtual void ДобавлениеВТрассуСЗаданнойБазовой()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление в трассу с заданной базовой", ((string[])(null)));
+#line 30
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 31
+ testRunner.Given("Пользователь выбрал добавление оборудования в трассу", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 32
+ testRunner.Given("Для трассы задана базовая", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 33
+ testRunner.When("Нажата клавиша Сохранить в окне добавления оборудования", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 34
+ testRunner.Then("Новое оборудование НЕ сохраняется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 35
+ testRunner.Then("Новое оборудование НЕ добавляется в трассу", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 36
+ testRunner.Then("Окно добавления оборудования НЕ закрывается", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -107,15 +189,15 @@ this.FeatureBackground();
         public virtual void ОтказОтДобавленияОборудования()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Отказ от добавления оборудования", ((string[])(null)));
-#line 12
+#line 38
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 13
+#line 39
  testRunner.When("Нажата клавиша Отменить в окне добавления оборудования", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 16
+#line 40
  testRunner.Then("Никаких команд не подается", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 17
+#line 41
  testRunner.Then("Окно добавления оборудования закрывается", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

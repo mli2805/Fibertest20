@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using Caliburn.Micro;
@@ -75,6 +76,8 @@ namespace Iit.Fibertest.WpfClient.ViewModels
                 NotifyOfPropertyChange();
             }
         }
+
+        public List<Guid> InfluencedTraces { get; set; }
 
         private Guid _equipmentId;
 

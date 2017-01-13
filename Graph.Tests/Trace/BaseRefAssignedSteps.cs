@@ -10,7 +10,6 @@ namespace Graph.Tests
     public sealed class BaseRefAssignedSteps
     {
         private readonly SystemUnderTest _sut;
-        private readonly MapViewModel _mapViewModel;
         private AssignBaseRefsViewModel _assignBaseRefsViewModel;
         private Guid _traceId;
         private Guid _oldPreciseId;
@@ -18,7 +17,6 @@ namespace Graph.Tests
         public BaseRefAssignedSteps(SystemUnderTest sut)
         {
             _sut = sut;
-            _mapViewModel = new MapViewModel(_sut.Aggregate, _sut.ReadModel);
         }
 
         [Given(@"И для нее заданы точная и быстрая базовые")]

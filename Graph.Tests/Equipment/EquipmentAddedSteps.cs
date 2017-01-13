@@ -10,9 +10,8 @@ namespace Graph.Tests
     [Binding]
     public sealed class EquipmentAddedSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest();
+        private readonly SystemUnderTest _sut;
         private Guid _saidNodeId;
-        private MapViewModel _mapViewModel;
         private EquipmentViewModel _equipmentViewModel;
 
         private const string TitleForTest = "Name for equipment";
@@ -21,20 +20,12 @@ namespace Graph.Tests
         private const int RightCableReserve = 14;
         private const string CommentForTest = "Comment for equipment";
 
-        public EquipmentAddedSteps()
+        public EquipmentAddedSteps(SystemUnderTest sut)
         {
-            _mapViewModel = new MapViewModel(_sut.Aggregate, _sut.ReadModel);
+            _sut = sut;
         }
 
-        [Given(@"Добавлен некий узел")]
-        public void GivenAContainer_NodeCreated()
-        {
-            _mapViewModel.AddNode();
-            _sut.Poller.Tick();
-            _saidNodeId = _sut.ReadModel.Nodes.Single().Id;
-        }
-
-        [Given(@"Открыто окно для добавления оборудования в этот узел")]
+        [Given(@"Открыто окно для добавления оборудования во второй узел трассы")]
         public void GivenAnAddEquipmentWindowOpenedForSaidNode()
         {
             _equipmentViewModel = new EquipmentViewModel(_saidNodeId, Guid.Empty, _sut.ReadModel, _sut.Aggregate);
@@ -43,6 +34,17 @@ namespace Graph.Tests
             _equipmentViewModel.CableReserveLeft = LeftCableReserve;
             _equipmentViewModel.CableReserveRight = RightCableReserve;
             _equipmentViewModel.Comment = CommentForTest;
+        }
+
+        [Given(@"Пользователь НЕ выбрал добавление оборудования в трассу")]
+        public void GivenПользовательНЕВыбралДобавлениеОборудованияВТрассу()
+        {
+        }
+
+        [Given(@"Пользователь выбрал добавление оборудования в трассу")]
+        public void GivenПользовательВыбралДобавлениеОборудованияВТрассу()
+        {
+            _equipmentViewModel.InfluencedTraces.Add(_sut.ReadModel.Traces.Single().Id);
         }
 
         [When(@"Нажата клавиша Сохранить в окне добавления оборудования")]
@@ -74,6 +76,5 @@ namespace Graph.Tests
         {
             _equipmentViewModel.IsClosed.Should().BeTrue();
         }
-
     }
 }
