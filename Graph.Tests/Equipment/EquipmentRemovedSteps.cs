@@ -44,7 +44,7 @@ namespace Graph.Tests
 
             var path = new PathFinder(_sut.ReadModel).FindPath(rtuNodeId, _nodeId);
             var traceNodes = path.ToList();
-            var equipments = new List<Guid>() {Guid.Empty, _equipmentId};
+            var equipments = new List<Guid>() {_sut.ReadModel.Rtus.Single().Id, _equipmentId};
             new AddTraceViewModel(_sut.ReadModel, _sut.Aggregate, traceNodes, equipments).Save();
             _sut.Poller.Tick();
         }

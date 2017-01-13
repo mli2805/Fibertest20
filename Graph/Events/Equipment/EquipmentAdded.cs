@@ -13,6 +13,6 @@ namespace Iit.Fibertest.Graph.Events
         public int CableReserveRight { get; set; }
         public string Comment { get; set; }
 
-        public List<Guid> InfluencedTraces { get; set; } = new List<Guid>();
+        public List<Guid> TracesForInsertion { get; set; } = new List<Guid>();
     }
 }

@@ -118,8 +118,8 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             if (path == null)
             {
                 var windowManager = IoC.Get<IWindowManager>();
-                var addEquipmentViewModel = new ErrorNotificationViewModel("Path couldn't be found");
-                windowManager.ShowDialog(addEquipmentViewModel);
+                var errorNotificationViewModel = new ErrorNotificationViewModel("Path couldn't be found");
+                windowManager.ShowDialog(errorNotificationViewModel);
             }
             else
             {

@@ -32,7 +32,16 @@ namespace Iit.Fibertest.Graph
 
             CreateMap<AddTrace, TraceAdded>();
             CreateMap<AssignBaseRef, BaseRefAssigned>();
+        }
+    }
 
+    public class MappingCmdToDomainModelProfile : Profile
+    {
+        public MappingCmdToDomainModelProfile()
+        {
+            CreateMap<AddRtuAtGpsLocation, Rtu>();
+
+            CreateMap<AddTrace, Trace>();
         }
     }
 }

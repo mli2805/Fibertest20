@@ -51,6 +51,9 @@ namespace Iit.Fibertest.Graph
 
         private readonly IMapper _mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingCmdToEventProfile>()).CreateMapper();
+        private readonly IMapper _mapper2 = new MapperConfiguration(
+            cfg => cfg.AddProfile<MappingCmdToDomainModelProfile>()).CreateMapper();
+
 
         #region Node
         public void When(AddNode cmd)
@@ -133,9 +136,27 @@ namespace Iit.Fibertest.Graph
         #endregion
 
         #region Equipment
-        public void When(AddEquipment cmd)
+        public string When(AddEquipment cmd)
         {
+            foreach (var traceId in cmd.TracesForInsertion)
+            {
+                var trace = _traces.Single(t => t.Id == traceId);
+                if (trace.HasBase)
+                    return "Base ref is set for trace";
+
+                var idx = trace.Nodes.IndexOf(cmd.NodeId);
+                if (trace.Equipments[idx] != Guid.Empty)
+                    return "Node contains equipment for trace already";
+            }
             Db.Add(_mapper.Map<EquipmentAdded>(cmd));
+
+            foreach (var traceId in cmd.TracesForInsertion)
+            {
+                var trace = _traces.Single(t => t.Id == traceId);
+                var idx = trace.Nodes.IndexOf(cmd.NodeId);
+                trace.Equipments[idx] = cmd.Id;
+            }
+            return null;
         }
 
         public void When(AddEquipmentAtGpsLocation cmd)
@@ -157,6 +178,7 @@ namespace Iit.Fibertest.Graph
         public void When(AddRtuAtGpsLocation cmd)
         {
             Db.Add(_mapper.Map<RtuAtGpsLocationAdded>(cmd));
+            _rtus.Add(_mapper2.Map<Rtu>(cmd));
         }
 
         public void When(RemoveRtu cmd)
@@ -168,7 +190,13 @@ namespace Iit.Fibertest.Graph
         #region Trace
         public void When(AddTrace cmd)
         {
+            if ((_rtus.FirstOrDefault(r=>r.Id == cmd.RtuId) == null)
+                || (cmd.Equipments[0] != cmd.RtuId)
+                || (cmd.Nodes.Count != cmd.Equipments.Count)
+                || (cmd.Equipments.Last() == Guid.Empty))
+                return;
             Db.Add(_mapper.Map<TraceAdded>(cmd));
+            _traces.Add(_mapper2.Map<Trace>(cmd));
         }
 
         public void When(AttachTrace cmd)
@@ -184,6 +212,13 @@ namespace Iit.Fibertest.Graph
         public void When(AssignBaseRef cmd)
         {
             Db.Add(_mapper.Map<BaseRefAssigned>(cmd));
+            var trace = _traces.Single(t => t.Id == cmd.TraceId);
+            if (cmd.Type == BaseRefType.Precise)
+                trace.PreciseId = cmd.Id;
+            else if (cmd.Type == BaseRefType.Fast)
+                trace.FastId = cmd.Id;
+            else if (cmd.Type == BaseRefType.Additional)
+                trace.AdditionalId = cmd.Id;
         }
         #endregion
     }

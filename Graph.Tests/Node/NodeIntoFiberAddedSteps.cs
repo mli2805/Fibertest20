@@ -28,19 +28,22 @@ namespace Graph.Tests
         [Given(@"Есть трасса")]
         public void GivenЕстьТрасса()
         {
+            var equipments = new List<Guid>();
             _vm.AddRtuAtGpsLocation();
             _sut.Poller.Tick();
             _nodeForRtuId = _sut.ReadModel.Nodes.Single().Id;
+            equipments.Add(_sut.ReadModel.Rtus.Single().Id);
             _vm.AddNode();
-            _vm.AddNode();
+            _vm.AddEquipmentAtGpsLocation(EquipmentType.Terminal);
             _sut.Poller.Tick();
             _firstNodeId = _sut.ReadModel.Nodes[1].Id;
             var secondNodeId = _sut.ReadModel.Nodes.Last().Id;
+            equipments.Add(Guid.Empty);
+            equipments.Add(_sut.ReadModel.Equipments.Last().Id);
             _vm.AddFiber(_nodeForRtuId, _firstNodeId);
             _vm.AddFiber(_firstNodeId, secondNodeId);
             _sut.Poller.Tick();
             _fiberId = _sut.ReadModel.Fibers.First().Id;
-            var equipments = new List<Guid>();
             var addTraceViewModel = new AddTraceViewModel(_sut.ReadModel, _sut.Aggregate, new List<Guid>(){ _nodeForRtuId, _firstNodeId, secondNodeId }, equipments);
             addTraceViewModel.Save();
             _sut.Poller.Tick();

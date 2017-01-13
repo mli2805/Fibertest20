@@ -77,9 +77,9 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             }
         }
 
-        public List<Guid> InfluencedTraces { get; set; }
+        public List<Guid> TracesForInsertion { get; set; }
 
-        private Guid _equipmentId;
+        public Guid EquipmentId { get; set; }
 
         public RadioButton CableReserve { get; set; } = new RadioButton() {Title = "CableReserve", IsSelected = false};
         public RadioButton Sleeve { get; } = new RadioButton() {Title = "Sleeve", IsSelected = true};
@@ -88,19 +88,20 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         public RadioButton Other { get; } = new RadioButton() {Title = "Other", IsSelected = false};
 
         public bool IsClosed { get; set; }
-        public EquipmentViewModel(Guid nodeId, Guid equipmentId, ReadModel readModel, Aggregate aggregate)
+        public EquipmentViewModel(Guid nodeId, Guid equipmentId, List<Guid> tracesForInsertion, ReadModel readModel, Aggregate aggregate)
         {
             _nodeIdOnlyForAddEquipmentCase = nodeId;
             _readModel = readModel;
             _aggregate = aggregate;
-            _equipmentId = equipmentId;
+            EquipmentId = equipmentId;
+            TracesForInsertion = tracesForInsertion;
 
             IsClosed = false;
         }
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = _equipmentId == Guid.Empty ? "Добавление" : "Изменение";
+            DisplayName = EquipmentId == Guid.Empty ? "Добавление" : "Изменение";
         }
 
         public void Save()
@@ -108,17 +109,23 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             IMapper mapper = new MapperConfiguration(
               cfg => cfg.AddProfile<MappingDomainModelToViewModel>()).CreateMapper();
 
-            if (_equipmentId == Guid.Empty)
+            if (EquipmentId == Guid.Empty) // добавление нового оборудования
             {
+                EquipmentId = Guid.NewGuid();
                 var cmd = mapper.Map<AddEquipment>(this);
-                cmd.Id = Guid.NewGuid();
+                cmd.Id = EquipmentId;
                 cmd.NodeId = _nodeIdOnlyForAddEquipmentCase;
-                _aggregate.When(cmd);
+                cmd.TracesForInsertion = TracesForInsertion;
+                var result = _aggregate.When(cmd);
+                if (result != null)
+                {
+                    return;
+                }
             }
-            else
+            else  // редактирование существовавшего
             {
                 var cmd = mapper.Map<UpdateEquipment>(this);
-                cmd.Id = _equipmentId;
+                cmd.Id = EquipmentId;
                 _aggregate.When(cmd);
             }
 

@@ -15,6 +15,8 @@ namespace Graph.Tests
         private readonly MapViewModel _vm;
         private Iit.Fibertest.Graph.Rtu _rtu;
         private Guid _rtuNodeId; // нужно сохранить отдельно, т.к. после удаления РТУ негде взять
+        private List<Guid> _traceEquipment = new List<Guid>();
+
         private Iit.Fibertest.Graph.Node _endTraceNode;
 
 
@@ -30,6 +32,7 @@ namespace Graph.Tests
             _sut.Poller.Tick();
             _rtu = _sut.ReadModel.Rtus.Single();
             _rtuNodeId = _rtu.NodeId;
+            _traceEquipment = new List<Guid>() {_rtu.Id};
         }
 
         [Given(@"Существует несколько отрезков от РТУ")]
@@ -38,12 +41,14 @@ namespace Graph.Tests
             _vm.AddNode();
             _sut.Poller.Tick();
             var n1 = _sut.ReadModel.Nodes.Last();
+            _traceEquipment.Add(Guid.Empty);
             _vm.AddNode();
             _sut.Poller.Tick();
             var n2 = _sut.ReadModel.Nodes.Last();
             _vm.AddEquipmentAtGpsLocation(EquipmentType.Terminal);
             _sut.Poller.Tick();
             _endTraceNode = _sut.ReadModel.Nodes.Last();
+            _traceEquipment.Add(_sut.ReadModel.Equipments.Last().Id);
             _vm.AddFiber(_rtu.NodeId, n1.Id);
             _vm.AddFiber(n1.Id, _endTraceNode.Id);
             _vm.AddFiber(_rtu.NodeId, n2.Id);
@@ -54,7 +59,7 @@ namespace Graph.Tests
         public void GivenСуществуетТрассаОтДанногоРТУ()
         {
             var traceNodes = new PathFinder(_sut.ReadModel).FindPath(_rtu.NodeId, _endTraceNode.Id).ToList();
-            new AddTraceViewModel(_sut.ReadModel, _sut.Aggregate, traceNodes, new List<Guid>()).Save();
+            new AddTraceViewModel(_sut.ReadModel, _sut.Aggregate, traceNodes, _traceEquipment).Save();
             _sut.Poller.Tick();
         }
 

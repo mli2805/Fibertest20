@@ -11,7 +11,6 @@ namespace Graph.Tests
     [Binding]
     public sealed class TraceAttachedSteps
     {
-//        private readonly SystemUnderTest _sut = new SystemUnderTest();
         private readonly SystemUnderTest _sut;
         private Guid _traceId;
         private int _portNumber;
@@ -23,7 +22,6 @@ namespace Graph.Tests
             _sut = sut;
             _vm = new MapViewModel(_sut.Aggregate, _sut.ReadModel);
         }
-
 
         [When(@"Пользователь присоедининяет трассу к порту РТУ")]
         public void WhenПользовательПрисоедининяетТрассуКПортуРТУ()

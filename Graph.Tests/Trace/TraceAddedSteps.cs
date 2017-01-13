@@ -18,6 +18,7 @@ namespace Graph.Tests
         private Guid _rtuNodeId;
         private Guid _lastNodeId;
         private List<Guid> _traceNodes;
+        private List<Guid> _traceEquipments;
 
         public TraceAddedSteps()
         {
@@ -28,9 +29,10 @@ namespace Graph.Tests
         public void GivenСуществуетДваУзла()
         {
             _mapViewModel.AddRtuAtGpsLocation();
-            _mapViewModel.AddNode();
+            _mapViewModel.AddEquipmentAtGpsLocation(EquipmentType.Cross);
             _sut.Poller.Tick();
             _rtuNodeId = _sut.ReadModel.Nodes.First().Id;
+            _traceEquipments = new List<Guid>() {_sut.ReadModel.Rtus.Single().Id, _sut.ReadModel.Equipments.Single().Id};
             _lastNodeId = _sut.ReadModel.Nodes.Last().Id;
         }
 
@@ -48,8 +50,7 @@ namespace Graph.Tests
             if (path != null)
             {
                 _traceNodes = path.ToList();
-                var equipments = new List<Guid>();
-                _addTraceViewModel = new AddTraceViewModel(_sut.ReadModel, _sut.Aggregate, _traceNodes, equipments);
+                _addTraceViewModel = new AddTraceViewModel(_sut.ReadModel, _sut.Aggregate, _traceNodes, _traceEquipments);
             }
             else
             {

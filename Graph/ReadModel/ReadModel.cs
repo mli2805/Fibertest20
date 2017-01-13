@@ -202,6 +202,12 @@ namespace Iit.Fibertest.Graph
         {
             Equipment equipment = _mapper.Map<Equipment>(e);
             Equipments.Add(equipment);
+            foreach (var traceId in e.TracesForInsertion)
+            {
+                var trace = Traces.Single(t => t.Id == traceId);
+                var idx = trace.Nodes.IndexOf(e.NodeId);
+                trace.Equipments[idx] = e.Id;
+            }
         }
 
         public void Apply(EquipmentAtGpsLocationAdded e)

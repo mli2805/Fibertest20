@@ -11,7 +11,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class TraceDetachedSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest();
+        private readonly SystemUnderTest _sut;
         private Guid _traceId;
         private int _portNumber;
 
@@ -19,31 +19,16 @@ namespace Graph.Tests
         private Guid _nodeForRtuId;
         private Guid _firstNodeId;
 
-        public TraceDetachedSteps()
+        public TraceDetachedSteps(SystemUnderTest sut)
         {
+            _sut = sut;
             _vm = new MapViewModel(_sut.Aggregate, _sut.ReadModel);
         }
 
-        [Given(@"Есть трасса присоединенная к порту РТУ")]
-        public void GivenЕстьТрассаПрисоединеннаяКПортуРТУ()
+        [Given(@"Трасса присоединена к порту РТУ")]
+        public void GivenТрассаПрисоединенаКПортуРТУ()
         {
-            _vm.AddRtuAtGpsLocation();
-            _sut.Poller.Tick();
-            _nodeForRtuId = _sut.ReadModel.Nodes.Single().Id;
-            _vm.AddNode();
-            _vm.AddNode();
-            _sut.Poller.Tick();
-            _firstNodeId = _sut.ReadModel.Nodes[1].Id;
-            var secondNodeId = _sut.ReadModel.Nodes.Last().Id;
-            _vm.AddFiber(_nodeForRtuId, _firstNodeId);
-            _vm.AddFiber(_firstNodeId, secondNodeId);
-            _sut.Poller.Tick();
-            var equipments = new List<Guid>();
-            var addTraceViewModel = new AddTraceViewModel(_sut.ReadModel, _sut.Aggregate, new List<Guid>() { _nodeForRtuId, _firstNodeId, secondNodeId }, equipments);
-            addTraceViewModel.Save();
-            _sut.Poller.Tick();
             _traceId = _sut.ReadModel.Traces.Single().Id;
-
             var cmd2 = new AttachTrace()
             {
                 Port = 3,
