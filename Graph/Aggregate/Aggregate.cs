@@ -45,6 +45,7 @@ namespace Iit.Fibertest.Graph
         private readonly HashSet<NodePairKey> _fibersByNodePairs = new HashSet<NodePairKey>();
         private readonly HashSet<string> _nodeTitles = new HashSet<string>();
         private readonly List<Guid> _nodes = new List<Guid>();
+        private readonly List<Fiber> _fibers = new List<Fiber>();
         private readonly List<Trace> _traces = new List<Trace>();
         private readonly List<Rtu> _rtus = new List<Rtu>();
 
@@ -100,6 +101,19 @@ namespace Iit.Fibertest.Graph
 
         private bool IsFiberContainedInTraceWithBase(Guid fiberId)
         {
+            var tracesWithBase = _traces.Where(t => t.HasBase);
+            var fiber = _fibers.Single(f => f.Id == fiberId);
+            foreach (var trace in tracesWithBase)
+            {
+                var idx = trace.Nodes.IndexOf(fiber.Node1);
+                if (idx == -1)
+                    continue;
+                if ((idx == 0 && trace.Nodes[1] == fiber.Node2)
+                    || (idx == trace.Nodes.Count-1 && trace.Nodes[idx-1] == fiber.Node2)
+                    || (trace.Nodes[idx-1] == fiber.Node2)
+                    || (trace.Nodes[idx+1] == fiber.Node2) )
+                return true;
+            }
             return false;
         }
 
@@ -109,6 +123,7 @@ namespace Iit.Fibertest.Graph
                 return "Fiber already exists";
 
             Db.Add(_mapper.Map<FiberAdded>(cmd));
+            _fibers.Add(_mapper2.Map<Fiber>(cmd));
             return null;
         }
 
