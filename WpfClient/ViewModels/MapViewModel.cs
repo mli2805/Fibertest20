@@ -33,7 +33,13 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
         public void AddNodeIntoFiber(Guid fiberId)
         {
-            _aggregate.When(new AddNodeIntoFiber() { Id = Guid.NewGuid(), FiberId = fiberId });
+            var result = _aggregate.When(new AddNodeIntoFiber() { Id = Guid.NewGuid(), FiberId = fiberId });
+            if (result != null)
+            {
+//                var windowManager = IoC.Get<IWindowManager>();
+//                var errorNotificationViewModel = new ErrorNotificationViewModel(result);
+//                windowManager.ShowDialog(errorNotificationViewModel);
+            }
         }
         public void MoveNode(Guid id)
         {

@@ -26,26 +26,6 @@ namespace Iit.Fibertest.Graph
             Nodes.Add(node);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="trace">Trace could contain the same fiber more then once</param>
-        /// <param name="fiber">The object to locate</param>
-        /// <returns>The zero-based index of the first occurence of the fiber within the entire list of fibers in trace if found; otherwise, -1</returns>
-        private int GetFiberIndexInTrace(Trace trace, Fiber fiber)
-        {
-            var idxInTrace1 = trace.Nodes.IndexOf(fiber.Node1);
-            if (idxInTrace1 == -1)
-                return -1;
-            var idxInTrace2 = trace.Nodes.IndexOf(fiber.Node2);
-            if (idxInTrace2 == -1)
-                return -1;
-            if (idxInTrace2 - idxInTrace1 == 1)
-                return idxInTrace1;
-            if (idxInTrace1 - idxInTrace2 == 1)
-                return idxInTrace2;
-            return -1;
-        }
         public void Apply(NodeIntoFiberAdded e)
         {
             Node node = _mapper.Map<Node>(e);
@@ -66,7 +46,7 @@ namespace Iit.Fibertest.Graph
             foreach (var trace in Traces)
             {
                 int idx;
-                while ((idx = GetFiberIndexInTrace(trace, fiber)) != -1)
+                while ((idx = Topo.GetFiberIndexInTrace(trace, fiber)) != -1)
                 {
                     trace.Nodes.Insert(idx+1, node.Id);
                 }

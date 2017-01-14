@@ -47,6 +47,7 @@ namespace Graph.Tests
             var addTraceViewModel = new AddTraceViewModel(_sut.ReadModel, _sut.Aggregate, new List<Guid>(){ _nodeForRtuId, _firstNodeId, secondNodeId }, equipments);
             addTraceViewModel.Save();
             _sut.Poller.Tick();
+           
         }
 
         [When(@"Пользователь кликает добавить узел в отрезок этой трассы")]
@@ -72,8 +73,11 @@ namespace Graph.Tests
         {
             var trace = _sut.ReadModel.Traces.First();
             trace.Nodes.Should().Contain(_nodeId);
-
         }
 
+        [Then(@"Отказ с сообщением")]
+        public void ThenОтказССообщением()
+        {
+        }
     }
 }

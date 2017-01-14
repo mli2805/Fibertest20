@@ -105,14 +105,8 @@ namespace Iit.Fibertest.Graph
             var fiber = _fibers.Single(f => f.Id == fiberId);
             foreach (var trace in tracesWithBase)
             {
-                var idx = trace.Nodes.IndexOf(fiber.Node1);
-                if (idx == -1)
-                    continue;
-                if ((idx == 0 && trace.Nodes[1] == fiber.Node2)
-                    || (idx == trace.Nodes.Count-1 && trace.Nodes[idx-1] == fiber.Node2)
-                    || (trace.Nodes[idx-1] == fiber.Node2)
-                    || (trace.Nodes[idx+1] == fiber.Node2) )
-                return true;
+                if (Topo.GetFiberIndexInTrace(trace, fiber) != -1)
+                    return true;
             }
             return false;
         }
