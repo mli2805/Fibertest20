@@ -66,7 +66,6 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         {
             var cmd = new AddFiberWithNodes()
             {
-                Id = Guid.NewGuid(),
                 Node1 = left,
                 Node2 = right,
                 IntermediateNodesCount = intermediateNodeCount,

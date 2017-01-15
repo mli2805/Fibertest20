@@ -160,30 +160,6 @@ namespace Iit.Fibertest.Graph
             Fibers.Add(_mapper.Map<Fiber>(e));
         }
 
-        public void Apply(FiberWithNodesAdded e)
-        {
-            Fiber fiber = new Fiber() { Id = Guid.NewGuid(), Node1 = e.Node1 };
-
-            for (int i = 0; i < e.IntermediateNodesCount; i++)
-            {
-                Node node = new Node() {Id = Guid.NewGuid()};
-                Nodes.Add(node);
-
-                Equipment equipment = new Equipment()
-                {
-                    Id = Guid.NewGuid(), NodeId = node.Id, Type = e.EquipmentInIntermediateNodesType,
-                };
-                Equipments.Add(equipment);
-
-                fiber.Node2 = node.Id;
-                Fibers.Add(fiber);
-                fiber = new Fiber() {Id = Guid.NewGuid(), Node1 = node.Id};
-            }
-
-            fiber.Node2 = e.Node2;
-            Fibers.Add(fiber);
-        }
-
         public void Apply(FiberUpdated source)
         {
             var destination = Fibers.Single(f => f.Id == source.Id);

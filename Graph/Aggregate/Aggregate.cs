@@ -44,7 +44,9 @@ namespace Iit.Fibertest.Graph
 
         private readonly HashSet<NodePairKey> _fibersByNodePairs = new HashSet<NodePairKey>();
         private readonly HashSet<string> _nodeTitles = new HashSet<string>();
-        private readonly List<Guid> _nodes = new List<Guid>();
+        private readonly List<Node> _nodes = new List<Node>();
+        private readonly List<Fiber> _fibers = new List<Fiber>();
+        private readonly List<Equipment> _equipments = new List<Equipment>();
         private readonly List<Trace> _traces = new List<Trace>();
         private readonly List<Rtu> _rtus = new List<Rtu>();
 
@@ -59,7 +61,7 @@ namespace Iit.Fibertest.Graph
         public void When(AddNode cmd)
         {
             Db.Add(_mapper.Map<NodeAdded>(cmd));
-            _nodes.Add(cmd.Id);
+           // _nodes.Add(cmd.Id);
         }
 
         public string When(AddNodeIntoFiber cmd)
@@ -117,7 +119,29 @@ namespace Iit.Fibertest.Graph
             if (!_fibersByNodePairs.Add(new NodePairKey(cmd.Node1, cmd.Node2)))
                 return "Fiber already exists";
 
-            Db.Add(_mapper.Map<FiberWithNodesAdded>(cmd));
+
+            Fiber fiber = new Fiber() { Id = Guid.NewGuid(), Node1 = cmd.Node1 };
+
+            for (int i = 0; i < cmd.IntermediateNodesCount; i++)
+            {
+                var newNodeId = Guid.NewGuid();
+                //TODO: add coors calculation
+                
+                // TODO: cmd.EquipmentInIntermediateNodesType != EquipmentType.None
+                Db.Add(new EquipmentAtGpsLocationAdded()
+                {
+                    Id = Guid.NewGuid(),
+                    NodeId = newNodeId,
+                    Type = cmd.EquipmentInIntermediateNodesType,
+                });
+
+                fiber.Node2 = newNodeId;
+                Db.Add(new FiberAdded() {Id = fiber.Id, Node1 = fiber.Node1, Node2 = fiber.Node2});
+                fiber = new Fiber() { Id = Guid.NewGuid(), Node1 = newNodeId };
+            }
+
+            fiber.Node2 = cmd.Node2;
+            Db.Add(new FiberAdded() { Id = fiber.Id, Node1 = fiber.Node1, Node2 = fiber.Node2 });
             return null;
         }
 

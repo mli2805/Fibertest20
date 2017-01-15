@@ -70,7 +70,6 @@
     <Compile Include="Events\Equipment\EquipmentUpdated.cs" />
     <Compile Include="Events\Fiber\FiberUpdated.cs" />
     <Compile Include="Events\Fiber\FiberRemoved.cs" />
-    <Compile Include="Events\Fiber\FiberWithNodesAdded.cs" />
     <Compile Include="Events\Node\NodeIntoFiberAdded.cs" />
     <Compile Include="Events\Node\NodeMoved.cs" />
     <Compile Include="Events\Rtu\RtuAtGpsLocationAdded.cs" />
