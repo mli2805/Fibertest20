@@ -18,11 +18,15 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         private readonly Aggregate _aggregate;
         private readonly ReadModel _readModel;
         private GpsCoors _currentMousePosition = new GpsCoors();
+        private readonly IWindowManager _windowManager;
 
-        public MapViewModel(Aggregate aggregate, ReadModel readModel)
+        public MapViewModel(
+            Aggregate aggregate, ReadModel readModel, 
+            IWindowManager windowManager)
         {
             _aggregate = aggregate;
             _readModel = readModel;
+            _windowManager = windowManager;
         }
 
         #region Node
@@ -72,7 +76,6 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         {
             var cmd = new AddFiberWithNodes()
             {
-                Id = Guid.NewGuid(),
                 Node1 = left,
                 Node2 = right,
                 IntermediateNodesCount = intermediateNodeCount,
@@ -123,9 +126,9 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             var path = new PathFinder(_readModel).FindPath(rtuNodeId, lastNodeId);
             if (path == null)
             {
-                var windowManager = IoC.Get<IWindowManager>();
-                var errorNotificationViewModel = new ErrorNotificationViewModel("Path couldn't be found");
-                windowManager.ShowDialog(errorNotificationViewModel);
+                var errorNotificationViewModel = 
+                    new ErrorNotificationViewModel("Path couldn't be found");
+                _windowManager.ShowDialog(errorNotificationViewModel);
             }
             else
             {

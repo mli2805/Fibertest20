@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Caliburn.Micro;
 using FluentAssertions;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.WpfClient.ViewModels;
@@ -11,9 +12,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class NodeIntoFiberAddedSteps
     {
-//        private readonly SystemUnderTest _sut = new SystemUnderTest();
         private readonly SystemUnderTest _sut;
-        private readonly MapViewModel _vm;
         private Guid _nodeForRtuId;
         private Guid _firstNodeId;
         private Guid _nodeId;
@@ -22,26 +21,25 @@ namespace Graph.Tests
         public NodeIntoFiberAddedSteps(SystemUnderTest sut)
         {
             _sut = sut;
-            _vm = new MapViewModel(_sut.Aggregate, _sut.ReadModel);
         }
 
         [Given(@"Есть трасса")]
         public void GivenЕстьТрасса()
         {
             var equipments = new List<Guid>();
-            _vm.AddRtuAtGpsLocation();
+            _sut.Map.AddRtuAtGpsLocation();
             _sut.Poller.Tick();
             _nodeForRtuId = _sut.ReadModel.Nodes.Single().Id;
             equipments.Add(_sut.ReadModel.Rtus.Single().Id);
-            _vm.AddNode();
-            _vm.AddEquipmentAtGpsLocation(EquipmentType.Terminal);
+            _sut.Map.AddNode();
+            _sut.Map.AddEquipmentAtGpsLocation(EquipmentType.Terminal);
             _sut.Poller.Tick();
             _firstNodeId = _sut.ReadModel.Nodes[1].Id;
             var secondNodeId = _sut.ReadModel.Nodes.Last().Id;
             equipments.Add(Guid.Empty);
             equipments.Add(_sut.ReadModel.Equipments.Last().Id);
-            _vm.AddFiber(_nodeForRtuId, _firstNodeId);
-            _vm.AddFiber(_firstNodeId, secondNodeId);
+            _sut.Map.AddFiber(_nodeForRtuId, _firstNodeId);
+            _sut.Map.AddFiber(_firstNodeId, secondNodeId);
             _sut.Poller.Tick();
             _fiberId = _sut.ReadModel.Fibers.First().Id;
             var addTraceViewModel = new AddTraceViewModel(_sut.ReadModel, _sut.Aggregate, new List<Guid>(){ _nodeForRtuId, _firstNodeId, secondNodeId }, equipments);
@@ -53,7 +51,7 @@ namespace Graph.Tests
         [When(@"Пользователь кликает добавить узел в отрезок этой трассы")]
         public void WhenПользовательКликаетДобавитьУзелВОтрезок()
         {
-            _vm.AddNodeIntoFiber(_fiberId);
+            _sut.Map.AddNodeIntoFiber(_fiberId);
             _sut.Poller.Tick();
             _nodeId = _sut.ReadModel.Nodes.Last().Id;
         }

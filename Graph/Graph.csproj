@@ -46,6 +46,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aggregate\Aggregate.cs" />
+    <Compile Include="Aggregate\ClientPoller.cs" />
+    <Compile Include="Aggregate\Db.cs" />
+    <Compile Include="Aggregate\WriteModel.cs" />
     <Compile Include="Algorithms\Topo.cs" />
     <Compile Include="Algorithms\PathFinderExperiment.cs" />
     <Compile Include="Commands\Equipment\AddEquipmentAtGpsLocation.cs" />
@@ -70,7 +73,6 @@
     <Compile Include="Events\Equipment\EquipmentUpdated.cs" />
     <Compile Include="Events\Fiber\FiberUpdated.cs" />
     <Compile Include="Events\Fiber\FiberRemoved.cs" />
-    <Compile Include="Events\Fiber\FiberWithNodesAdded.cs" />
     <Compile Include="Events\Node\NodeIntoFiberAdded.cs" />
     <Compile Include="Events\Node\NodeMoved.cs" />
     <Compile Include="Events\Rtu\RtuAtGpsLocationAdded.cs" />
