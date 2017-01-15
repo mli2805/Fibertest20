@@ -94,13 +94,25 @@ namespace Graph.Tests
             _addTraceViewModel.IsClosed = true;
         }
 
+        [Then(@"\?\?\?(.*)")]
+        public void Then(string expected)
+        {
+            _sut.FakeWindowManager.Log
+                .OfType<ErrorNotificationViewModel>()
+                .Last()
+                .ErrorMessage
+                .Should().Be(expected);
+        }
+
     }
 
     public class FakeWindowManager : IWindowManager
     {
+        public List<object> Log = new List<object>();
         public bool? ShowDialog(object rootModel, object context = null, IDictionary<string, object> settings = null)
         {
-            throw new NotImplementedException();
+            Log.Add(rootModel);
+            return null;
         }
 
         public void ShowWindow(object rootModel, object context = null, IDictionary<string, object> settings = null)
