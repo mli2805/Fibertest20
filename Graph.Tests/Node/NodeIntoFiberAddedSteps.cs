@@ -59,10 +59,8 @@ namespace Graph.Tests
         public void ThenВместоОтрезкаОбразуетсяДваНовыхИНовыйУзелСвязывающийИх()
         {
             _sut.ReadModel.Fibers.FirstOrDefault(f => f.Id == _fiberId).Should().Be(null);
-            _sut.ReadModel.Fibers.FirstOrDefault(f => new NodePairKey(f.Node1, f.Node2).
-                        Equals(new NodePairKey(_firstNodeId,_nodeId))).Should().NotBe(null);
-            _sut.ReadModel.Fibers.FirstOrDefault(f => new NodePairKey(f.Node1, f.Node2).
-                        Equals(new NodePairKey(_nodeForRtuId, _nodeId))).Should().NotBe(null);
+            _sut.ReadModel.HasFiberBetween(_firstNodeId, _nodeId).Should().BeTrue();
+            _sut.ReadModel.HasFiberBetween(_nodeForRtuId, _nodeId).Should().BeTrue();
         }
 
         [Then(@"Новый узел входит в трассу")]

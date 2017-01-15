@@ -16,7 +16,7 @@ namespace Iit.Fibertest.Graph
 
         private readonly List<Node> _nodes = new List<Node>();
         private readonly List<Fiber> _fibers = new List<Fiber>();
-        private readonly List<Equipment> _equipments = new List<Equipment>();
+//        private readonly List<Equipment> _equipments = new List<Equipment>();
         private readonly List<Trace> _traces = new List<Trace>();
         private readonly List<Rtu> _rtus = new List<Rtu>();
 
@@ -119,7 +119,6 @@ namespace Iit.Fibertest.Graph
 
         public void Apply(EquipmentAtGpsLocationAdded e)
         {
-            _equipments.Add(_mapper.Map<Equipment>(e));
        //  TODO:   _nodes.Add(_mapper.Map<Node>(e));
         }
 

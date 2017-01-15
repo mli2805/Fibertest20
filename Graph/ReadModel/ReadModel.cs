@@ -135,6 +135,13 @@ namespace Iit.Fibertest.Graph
         #endregion
 
         #region Fiber
+        public bool HasFiberBetween(Guid a, Guid b)
+        {
+            return Fibers.Any(f =>
+                f.Node1 == a && f.Node2 == b ||
+                f.Node1 == b && f.Node2 == a);
+        }
+
         public void Apply(FiberAdded e)
         {
             Fibers.Add(_mapper.Map<Fiber>(e));
