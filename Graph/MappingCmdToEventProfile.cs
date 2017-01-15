@@ -38,6 +38,9 @@ namespace Iit.Fibertest.Graph
     {
         public MappingCmdToDomainModelProfile()
         {
+            CreateMap<AddNode, Node>();
+            CreateMap<AddEquipment, Equipment>();
+            CreateMap<AddFiber, Fiber>();
             CreateMap<AddRtuAtGpsLocation, Rtu>();
 
             CreateMap<AddTrace, Trace>();

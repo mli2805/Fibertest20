@@ -86,9 +86,9 @@ namespace Graph.Tests
         [Given(@"Для данной трассы задана базовая")]
         public void GivenДляДаннойТрассыЗаданаБазовая()
         {
-            var _vm = new AssignBaseRefsViewModel(_saidTrace.Id, _sut.ReadModel, _sut.Aggregate);
-            _vm.PreciseBaseFilename = @"..\..\base.sor";
-            _vm.Save();
+            var vm = new AssignBaseRefsViewModel(_sut.ReadModel.Traces.Single().Id, _sut.ReadModel, _sut.Aggregate);
+            vm.PreciseBaseFilename = @"..\..\base.sor";
+            vm.Save();
             _sut.Poller.Tick();
         }
 

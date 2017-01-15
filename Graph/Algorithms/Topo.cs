@@ -13,39 +13,35 @@ namespace Iit.Fibertest.Graph
                 if ((fiber.Node1 == leftNode || fiber.Node1 == rightNode) &&
                     (fiber.Node2 == leftNode || fiber.Node2 == rightNode))
                     return fiber.Id;
-
             }
             return Guid.Empty;
-        }
-
-        public static IEnumerable<Guid> FindEquipmentsByNode(this ReadModel readModel, Guid nodeId)
-        {
-            foreach (var equipment in readModel.Equipments)
-            {
-                if (equipment.NodeId == nodeId)
-                    yield return equipment.Id;
-            }
         }
 
         public static Rtu FindRtuByTrace(this ReadModel readModel, Guid traceId)
         {
             var trace = readModel.Traces.FirstOrDefault(t => t.Id == traceId);
-            return trace == null ? null : readModel.Rtus.FirstOrDefault(r => r.NodeId == trace.Nodes[0]);
+            return trace == null ? null : readModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId);
         }
 
-        public static List<Trace> GetTracesWithNodeAtLastPosition(this ReadModel readModel, Guid nodeId)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="trace">Trace could contain the same fiber more then once</param>
+        /// <param name="fiber">The object to locate</param>
+        /// <returns>The zero-based index of the first occurence of the fiber within the entire list of fibers in trace if found; otherwise, -1</returns>
+        public static int GetFiberIndexInTrace(Trace trace, Fiber fiber)
         {
-            return readModel.Traces.Where(t => t.Nodes.Last() == nodeId).ToList();
-        }
-
-        public static bool CouldNodeBeRemoved(this ReadModel readModel, Guid nodeId)
-        {
-            foreach (var trace in readModel.GetTracesWithNodeAtLastPosition(nodeId))
-            {
-                if (trace.Nodes.Count == 2) return false;
-                if (!readModel.FindEquipmentsByNode(trace.Nodes[trace.Nodes.Count - 2]).Any()) return false;
-            }
-            return true;
+            var idxInTrace1 = trace.Nodes.IndexOf(fiber.Node1);
+            if (idxInTrace1 == -1)
+                return -1;
+            var idxInTrace2 = trace.Nodes.IndexOf(fiber.Node2);
+            if (idxInTrace2 == -1)
+                return -1;
+            if (idxInTrace2 - idxInTrace1 == 1)
+                return idxInTrace1;
+            if (idxInTrace1 - idxInTrace2 == 1)
+                return idxInTrace2;
+            return -1;
         }
 
     }
