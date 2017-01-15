@@ -11,7 +11,7 @@ namespace Graph.Tests
     {
         private readonly SystemUnderTest _sut = new SystemUnderTest();
         private Guid _saidNodeId;
-        private UpdateNodeViewModel _window;
+        private UpdateNodeViewModel _updateVm;
         private int _cutOff;
         private MapViewModel _mapViewModel;
 
@@ -25,10 +25,12 @@ namespace Graph.Tests
         {
             _mapViewModel.AddNode();
             _sut.Poller.Tick();
+            // TODO: Extract into page object
+            _updateVm = new UpdateNodeViewModel(
+                _sut.ReadModel.Nodes.Last().Id, _sut.ReadModel, _sut.Aggregate);
+            _updateVm.Title = title;
+            _updateVm.Save();
             _cutOff = _sut.CurrentEventNumber;
-
-            var previousNode = _sut.ReadModel.Nodes.Last();
-            previousNode.Title = title;
         }
 
         [Given(@"Добавлен узел")]
@@ -44,25 +46,25 @@ namespace Graph.Tests
         [Given(@"Открыто окно для изменения данного узла")]
         public void OpenWindow()
         {
-            _window = new UpdateNodeViewModel(_saidNodeId, _sut.ReadModel, _sut.Aggregate);
+            _updateVm = new UpdateNodeViewModel(_saidNodeId, _sut.ReadModel, _sut.Aggregate);
         }
         [Given(@"Пользователь ввел название узла (.*)")]
         public void GivenTitleWasSetToBlah_Blah(string title)
         {
-            _window.Title = title;
+            _updateVm.Title = title;
         }
 
         [When(@"Нажата клавиша сохранить")]
         public void Save()
         {
-            _window.Save();
+            _updateVm.Save();
             _sut.Poller.Tick();
         }
 
         [When(@"Нажата клавиша отменить")]
         public void WhenCancelButtonPressed()
         {
-            _window.Cancel();
+            _updateVm.Cancel();
         }
 
         [Then(@"Никаких команд не подается")]
@@ -81,7 +83,7 @@ namespace Graph.Tests
         [Then(@"Некая сигнализация ошибки")]
         public void ThenSomeAlert()
         {
-            _window["Title"].Should().NotBeNullOrEmpty();
+            _updateVm["Title"].Should().NotBeNullOrEmpty();
         }
     }
 }

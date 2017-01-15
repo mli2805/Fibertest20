@@ -12,7 +12,7 @@ namespace Graph.Tests
 
         public SystemUnderTest()
         {
-            Poller = new ClientPoller(Aggregate.Db, new List<object> { ReadModel }); 
+            Poller = new ClientPoller(Aggregate.WriteModel.Db, new List<object> { ReadModel }); 
         }
     }
 }
