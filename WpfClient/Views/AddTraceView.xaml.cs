@@ -1,11 +1,9 @@
-﻿using System.Windows;
-
-namespace Iit.Fibertest.WpfClient.Views
+﻿namespace Iit.Fibertest.WpfClient.Views
 {
     /// <summary>
     /// Interaction logic for AddTraceView.xaml
     /// </summary>
-    public partial class AddTraceView : Window
+    public partial class AddTraceView
     {
         public AddTraceView()
         {

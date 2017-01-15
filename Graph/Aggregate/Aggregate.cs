@@ -22,7 +22,7 @@ namespace Iit.Fibertest.Graph
 
         public string When(AddNodeIntoFiber cmd)
         {
-            if (IsFiberContainedInTraceWithBase(cmd.FiberId))
+            if (WriteModel.IsFiberContainedInTraceWithBase(cmd.FiberId))
                 return "It's impossible to change trace with base reflectogram";
             WriteModel.AddAndCommit(_mapper.Map<NodeIntoFiberAdded>(cmd));
             return null;
@@ -55,17 +55,6 @@ namespace Iit.Fibertest.Graph
 
         #region Fiber
 
-        private bool IsFiberContainedInTraceWithBase(Guid fiberId)
-        {
-//            var tracesWithBase = _traces.Where(t => t.HasBase);
-//            var fiber = _fibers.Single(f => f.Id == fiberId);
-//            foreach (var trace in tracesWithBase)
-//            {
-//                if (Topo.GetFiberIndexInTrace(trace, fiber) != -1)
-//                    return true;
-//            }
-            return false;
-        }
         public string When(AddFiber cmd)
         {
             if (WriteModel.HasFiberBetween(cmd.Node1, cmd.Node2))
@@ -112,7 +101,7 @@ namespace Iit.Fibertest.Graph
         }
         public string When(RemoveFiber cmd)
         {
-            if (IsFiberContainedInTraceWithBase(cmd.Id))
+            if (WriteModel.IsFiberContainedInTraceWithBase(cmd.Id))
                 return "It's impossible to change trace with base reflectogram";
             WriteModel.AddAndCommit(_mapper.Map<FiberRemoved>(cmd));
             return null;

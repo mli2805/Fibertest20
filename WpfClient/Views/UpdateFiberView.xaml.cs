@@ -1,11 +1,9 @@
-﻿using System.Windows;
-
-namespace Iit.Fibertest.WpfClient.Views
+﻿namespace Iit.Fibertest.WpfClient.Views
 {
     /// <summary>
     /// Interaction logic for UpdateFiberView.xaml
     /// </summary>
-    public partial class UpdateFiberView : Window
+    public partial class UpdateFiberView
     {
         public UpdateFiberView()
         {

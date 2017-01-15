@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
@@ -38,9 +39,34 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             return GetGpsLength(n1, n2);
         }
 
+        /// <summary>
+        /// вычисляет расстояние между двумя точками с координатами в градусах
+        /// </summary>
+        /// <param name="n1"></param>
+        /// <param name="n2"></param>
+        /// <returns>расстояние в км</returns>
         private double GetGpsLength(Node n1, Node n2)
         {
-            return 1.0;
+            const double latitude1M = 8.981e-6;
+
+            // растояние по вертикали не зависит от широты
+            const double latitude1Gr = 1 / latitude1M / 1000; // это км в градусе
+                                                              // он же расстояние и по горизонтали , если мерять на экваторе
+                                                              // иначе домножать на косинус широты на которой меряется
+            double lat1 = n1.Latitude;
+            double lat2 = n2.Latitude;
+            double lon1 = n1.Longitude;
+            double lon2 = n2.Longitude;
+
+            // расстояние между двуми точками находящимися на одной долготе
+            double d1 = (lat2 - lat1) * latitude1Gr;
+            // расстояние между двуми точками находящимися на одной широте надо домножать на косинус широты
+            double coslat = Math.Cos((lat1 + lat2) / 2);
+            double d2 = (lon2 - lon1) * latitude1Gr * coslat;
+            // расстояние между двуми точками по теореме пифагора
+            double l = Math.Sqrt(d1 * d1 + d2 * d2);
+
+            return l;
         }
         public UpdateFiberViewModel(Guid fiberId, ReadModel readModel, Aggregate aggregate)
         {
@@ -50,7 +76,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             _fiber = _readModel.Fibers.Single(f => f.Id == fiberId);
             GpsLength = GetGpsLength(_fiber);
             OpticalLength = _fiber.OpticalLength;
-            UserInputedLength = _fiber.UserInputedLength.ToString();
+            UserInputedLength = _fiber.UserInputedLength.ToString(CultureInfo.InvariantCulture);
         }
 
         public void Save()
