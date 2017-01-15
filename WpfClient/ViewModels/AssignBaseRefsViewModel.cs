@@ -53,18 +53,18 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             } );
         }
 
-        private bool IsFilenameChanged(string filename, Guid previousBaseRefId, BaseRefType type)
+        private bool IsFilenameChanged(string filename, Guid previousBaseRefId)
         {
             return ((filename != "" && filename != SavedInDb) || (filename == "" && previousBaseRefId != Guid.Empty));
         }
 
         public void Save()
         {
-            if (IsFilenameChanged(PreciseBaseFilename, _trace.PreciseId, BaseRefType.Precise))
+            if (IsFilenameChanged(PreciseBaseFilename, _trace.PreciseId))
                 SendAssingBaseRef(PreciseBaseFilename, BaseRefType.Precise);
-            if (IsFilenameChanged(FastBaseFilename, _trace.FastId, BaseRefType.Fast))
+            if (IsFilenameChanged(FastBaseFilename, _trace.FastId))
                 SendAssingBaseRef(FastBaseFilename, BaseRefType.Fast);
-            if (IsFilenameChanged(AdditionalBaseFilename, _trace.AdditionalId, BaseRefType.Additional))
+            if (IsFilenameChanged(AdditionalBaseFilename, _trace.AdditionalId))
                 SendAssingBaseRef(AdditionalBaseFilename, BaseRefType.Additional);
             TryClose();
         }

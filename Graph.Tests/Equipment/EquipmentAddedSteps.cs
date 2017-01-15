@@ -39,7 +39,7 @@ namespace Graph.Tests
         }
 
         [Given(@"Пользователь НЕ выбрал добавление оборудования в трассу")]
-        public void GivenПользовательНЕВыбралДобавлениеОборудованияВТрассу()
+        public void GivenПользовательНеВыбралДобавлениеОборудованияВТрассу()
         {
             _tracesForInsertion = new List<Guid>();
         }
@@ -53,7 +53,7 @@ namespace Graph.Tests
         [Given(@"Открывыется окно для добавления оборудования во второй узел")]
         public void GivenAnAddEquipmentWindowOpenedForSaidNode()
         {
-            _equipmentViewModel = new EquipmentViewModel(_nodeWithoutEquipmentId, Guid.Empty, _tracesForInsertion, _sut.ReadModel, _sut.Aggregate);
+            _equipmentViewModel = new EquipmentViewModel(_nodeWithoutEquipmentId, Guid.Empty, _tracesForInsertion, _sut.Aggregate);
             _equipmentViewModel.Title = TitleForTest;
             _equipmentViewModel.Type = TypeForTest;
             _equipmentViewModel.CableReserveLeft = LeftCableReserve;
@@ -64,7 +64,7 @@ namespace Graph.Tests
         [Given(@"Открывыется окно для добавления оборудования в третий узел")]
         public void GivenОткрывыетсяОкноДляДобавленияОборудованияВТретийУзел()
         {
-            _equipmentViewModel = new EquipmentViewModel(_nodeWithEquipmentId, Guid.Empty, _tracesForInsertion, _sut.ReadModel, _sut.Aggregate);
+            _equipmentViewModel = new EquipmentViewModel(_nodeWithEquipmentId, Guid.Empty, _tracesForInsertion, _sut.Aggregate);
             _equipmentViewModel.Title = TitleForTest;
             _equipmentViewModel.Type = TypeForTest;
             _equipmentViewModel.CableReserveLeft = LeftCableReserve;
@@ -118,13 +118,13 @@ namespace Graph.Tests
         }
 
         [Then(@"Новое оборудование НЕ сохраняется")]
-        public void ThenНовоеОборудованиеНЕСохраняется()
+        public void ThenНовоеОборудованиеНеСохраняется()
         {
             _sut.ReadModel.Equipments.FirstOrDefault(e => e.Id == _equipmentId).Should().BeNull();
         }
 
         [Then(@"Новое оборудование НЕ добавляется в трассу")]
-        public void ThenНовоеОборудованиеНЕДобавляетсяВТрассу()
+        public void ThenНовоеОборудованиеНеДобавляетсяВТрассу()
         {
             var trace = _sut.ReadModel.Traces.Single();
             trace.Equipments[1].Should().NotBe(_equipmentId);
@@ -144,7 +144,7 @@ namespace Graph.Tests
         }
 
         [Then(@"Окно добавления оборудования НЕ закрывается")]
-        public void ThenОкноДобавленияОборудованияНЕЗакрывается()
+        public void ThenОкноДобавленияОборудованияНеЗакрывается()
         {
             _equipmentViewModel.IsClosed.Should().BeFalse();
         }

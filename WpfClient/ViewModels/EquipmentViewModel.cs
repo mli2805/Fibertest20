@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using AutoMapper;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
@@ -16,7 +15,6 @@ namespace Iit.Fibertest.WpfClient.ViewModels
     public class EquipmentViewModel : Screen
     {
         private readonly Guid _nodeIdOnlyForAddEquipmentCase;
-        private readonly ReadModel _readModel;
         private readonly Aggregate _aggregate;
         private string _title;
         private int _cableReserveLeft;
@@ -88,10 +86,9 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         public RadioButton Other { get; } = new RadioButton() {Title = "Other", IsSelected = false};
 
         public bool IsClosed { get; set; }
-        public EquipmentViewModel(Guid nodeId, Guid equipmentId, List<Guid> tracesForInsertion, ReadModel readModel, Aggregate aggregate)
+        public EquipmentViewModel(Guid nodeId, Guid equipmentId, List<Guid> tracesForInsertion, Aggregate aggregate)
         {
             _nodeIdOnlyForAddEquipmentCase = nodeId;
-            _readModel = readModel;
             _aggregate = aggregate;
             EquipmentId = equipmentId;
             TracesForInsertion = tracesForInsertion;

@@ -1,6 +1,4 @@
-﻿using Caliburn.Micro;
-using FluentAssertions;
-using Iit.Fibertest.WpfClient.ViewModels;
+﻿using FluentAssertions;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests

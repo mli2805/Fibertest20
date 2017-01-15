@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Caliburn.Micro;
 using FluentAssertions;
-using Iit.Fibertest.WpfClient.ViewModels;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -20,6 +18,7 @@ namespace Graph.Tests
         {
             _sut.Map.AddNode();
             _sut.Poller.Tick();
+            _cutOff = _sut.CurrentEventNumber;
             _nodeId = _sut.ReadModel.Nodes.Single().Id;
         }
 
@@ -27,6 +26,7 @@ namespace Graph.Tests
         public void WhenUserMovedNode()
         {
             _sut.Map.MoveNode(_nodeId);
+            _sut.Poller.Tick();
         }
 
         [Then(@"Новые координаты должны быть сохранены")]

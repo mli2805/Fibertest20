@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using Caliburn.Micro;
 using FluentAssertions;
 using Iit.Fibertest.Graph.Commands;
-using Iit.Fibertest.WpfClient.ViewModels;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -14,10 +11,6 @@ namespace Graph.Tests
     {
         private readonly SystemUnderTest _sut;
         private Guid _traceId;
-        private int _portNumber;
-
-        private Guid _nodeForRtuId;
-        private Guid _firstNodeId;
 
         public TraceDetachedSteps(SystemUnderTest sut)
         {
@@ -25,7 +18,7 @@ namespace Graph.Tests
         }
 
         [Given(@"Трасса присоединена к порту РТУ")]
-        public void GivenТрассаПрисоединенаКПортуРТУ()
+        public void GivenТрассаПрисоединенаКПортуРту()
         {
             _traceId = _sut.ReadModel.Traces.Single().Id;
             var cmd2 = new AttachTrace()

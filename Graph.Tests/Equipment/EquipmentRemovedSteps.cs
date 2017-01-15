@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Caliburn.Micro;
 using FluentAssertions;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.WpfClient.ViewModels;
@@ -15,8 +14,6 @@ namespace Graph.Tests
         private readonly SystemUnderTest _sut = new SystemUnderTest();
         private Guid _nodeId;
         private Guid _equipmentId;
-
-        private UpdateNodeViewModel _updateNodeViewModel;
 
         [Given(@"Существует узел с оборудованием")]
         public void GivenСуществуетУзелСОборудованием()
@@ -71,7 +68,7 @@ namespace Graph.Tests
         }
 
         [Then(@"Оборудование НЕ удаляется")]
-        public void ThenОборудованиеНЕУдаляется()
+        public void ThenОборудованиеНеУдаляется()
         {
             _sut.ReadModel.Traces.Where(t => t.Equipments.Contains(_equipmentId)).Should().NotBeEmpty();
             _sut.ReadModel.Equipments.FirstOrDefault(e => e.Id == _equipmentId).Should().NotBeNull();

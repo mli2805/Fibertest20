@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Caliburn.Micro;
 using FluentAssertions;
 using Iit.Fibertest.WpfClient.ViewModels;
 using TechTalk.SpecFlow;

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Caliburn.Micro;
 using FluentAssertions;
 using Iit.Fibertest.WpfClient.ViewModels;
 using TechTalk.SpecFlow;
@@ -15,7 +14,6 @@ namespace Graph.Tests
         private Guid _nodeId;
         private Guid _rtuNodeId;
         private Guid _anotherNodeId;
-        private Guid _fiberId;
         private Iit.Fibertest.Graph.Trace _trace;
 
 
@@ -35,7 +33,6 @@ namespace Graph.Tests
             _anotherNodeId = _sut.ReadModel.Nodes.Last().Id;
             _sut.Map.AddFiber(_nodeId, _anotherNodeId);
             _sut.Poller.Tick();
-            _fiberId = _sut.ReadModel.Fibers.Last().Id;
         }
 
         [Given(@"Данный узел последний в трассе")]
@@ -47,7 +44,7 @@ namespace Graph.Tests
             var rtuId = _sut.ReadModel.Rtus.Last().Id;
             _sut.Map.AddFiber(rtuNodeId, _anotherNodeId);
             _sut.Poller.Tick();
-            new EquipmentViewModel(_nodeId, Guid.Empty, new List<Guid>(),  _sut.ReadModel, _sut.Aggregate).Save();
+            new EquipmentViewModel(_nodeId, Guid.Empty, new List<Guid>(), _sut.Aggregate).Save();
             _sut.Poller.Tick();
             var equipmentId = _sut.ReadModel.Equipments.Last().Id;
 
@@ -61,7 +58,7 @@ namespace Graph.Tests
         }
 
         [Given(@"Данный узел НЕ последний в трассе")]
-        public void GivenДанныйУзелНЕПоследнийВТрассе()
+        public void GivenДанныйУзелНеПоследнийВТрассе()
         {
             _sut.Map.AddRtuAtGpsLocation();
             _sut.Poller.Tick();
@@ -69,7 +66,7 @@ namespace Graph.Tests
             var rtuId = _sut.ReadModel.Rtus.Last().Id;
             _sut.Map.AddFiber(_rtuNodeId, _nodeId);
             _sut.Poller.Tick();
-            new EquipmentViewModel(_anotherNodeId, Guid.Empty, new List<Guid>(), _sut.ReadModel, _sut.Aggregate).Save();
+            new EquipmentViewModel(_anotherNodeId, Guid.Empty, new List<Guid>(), _sut.Aggregate).Save();
             _sut.Poller.Tick();
             var equipmentId = _sut.ReadModel.Equipments.Last().Id;
 

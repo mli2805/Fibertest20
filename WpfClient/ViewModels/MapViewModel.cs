@@ -72,7 +72,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             });
         }
 
-        public void AddFiberWithNodes(Guid left, Guid right, int intermediateNodeCount, EquipmentType equipmentType)
+        public string AddFiberWithNodes(Guid left, Guid right, int intermediateNodeCount, EquipmentType equipmentType)
         {
             var cmd = new AddFiberWithNodes()
             {
@@ -82,8 +82,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
                 EquipmentInIntermediateNodesType = equipmentType,
             };
 
-            if (_aggregate.When(cmd) != null)
-                return;
+            return _aggregate.When(cmd);
         }
         public void RemoveFiber(Guid fiberId)
         {

@@ -5,7 +5,7 @@ using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.WpfClient.ViewModels
 {
-    public class ShellViewModel : Caliburn.Micro.PropertyChangedBase, IShell
+    public class ShellViewModel : PropertyChangedBase, IShell
     {
         private readonly Aggregate _aggregate;
         private readonly ReadModel _readModel;
@@ -43,7 +43,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
         public void LaunchAssignBaseRefs()
         {
-            var trace = _readModel.Traces.FirstOrDefault();
+            var trace = _readModel.Traces.First();
 
             var windowManager = IoC.Get<IWindowManager>();
             var addEquipmentViewModel = new AssignBaseRefsViewModel(trace.Id, _readModel, _aggregate);

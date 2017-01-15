@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Caliburn.Micro;
 using FluentAssertions;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.WpfClient.ViewModels;
@@ -21,7 +20,7 @@ namespace Graph.Tests
 
 
         [Given(@"Существует РТУ")]
-        public void GivenСуществуетРТУ()
+        public void GivenСуществуетРту()
         {
             _sut.Map.AddRtuAtGpsLocation();
             _sut.Poller.Tick();
@@ -31,7 +30,7 @@ namespace Graph.Tests
         }
 
         [Given(@"Существует несколько отрезков от РТУ")]
-        public void GivenСуществуетНесколькоОтрезковОтРТУ()
+        public void GivenСуществуетНесколькоОтрезковОтРту()
         {
             _sut.Map.AddNode();
             _sut.Poller.Tick();
@@ -51,7 +50,7 @@ namespace Graph.Tests
         }
 
         [Given(@"Существует трасса от данного РТУ")]
-        public void GivenСуществуетТрассаОтДанногоРТУ()
+        public void GivenСуществуетТрассаОтДанногоРту()
         {
             var traceNodes = new PathFinder(_sut.ReadModel).FindPath(_rtu.NodeId, _endTraceNode.Id).ToList();
             new AddTraceViewModel(_sut.ReadModel, _sut.Aggregate, traceNodes, _traceEquipment).Save();
@@ -59,27 +58,27 @@ namespace Graph.Tests
         }
 
         [When(@"Пользователь кликает на РТУ удалить")]
-        public void WhenПользовательКликаетНаРТУУдалить()
+        public void WhenПользовательКликаетНаРтуУдалить()
         {
             _sut.Map.RemoveRtu(_rtu.Id);
             _sut.Poller.Tick();
         }
 
         [Then(@"РТУ удаляется")]
-        public void ThenРТУУдаляется()
+        public void ThenРтуУдаляется()
         {
             _sut.ReadModel.Rtus.Count.Should().Be(0);
         }
 
         [Then(@"Узел под РТУ и присоединенные к нему отрезки удаляются")]
-        public void ThenУзелПодРТУИПрисоединенныеКНемуОтрезкиУдаляются()
+        public void ThenУзелПодРтуиПрисоединенныеКНемуОтрезкиУдаляются()
         {
             _sut.ReadModel.Nodes.FirstOrDefault(n => n.Id == _rtuNodeId).Should().Be(null);
             _sut.ReadModel.Fibers.FirstOrDefault(f => f.Node1 == _rtuNodeId || f.Node2 == _rtuNodeId).Should().BeNull();
         }
 
         [Then(@"Удаление РТУ не происходит")]
-        public void ThenУдалениеРТУНеПроисходит()
+        public void ThenУдалениеРтуНеПроисходит()
         {
             _sut.ReadModel.Rtus.FirstOrDefault(r => r.Id == _rtu.Id).Should().NotBeNull();
         }

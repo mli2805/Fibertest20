@@ -1,6 +1,4 @@
-﻿using Caliburn.Micro;
-using FluentAssertions;
-using Iit.Fibertest.WpfClient.ViewModels;
+﻿using FluentAssertions;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -15,6 +13,7 @@ namespace Graph.Tests
         [When(@"Пользователь кликает добавить узел")]
         public void WhenUserClicksAddNode()
         {
+            _cutOff = _sut.ReadModel.Nodes.Count;
             _sut.Map.AddNode();
         }
 
@@ -22,7 +21,7 @@ namespace Graph.Tests
         public void ThenTheNewNodeGetSaved()
         {
             _sut.Poller.Tick();
-            _sut.CurrentEventNumber.Should().BeGreaterThan(_cutOff);
+            _sut.ReadModel.Nodes.Count.Should().BeGreaterThan(_cutOff);
         }
 
     }
