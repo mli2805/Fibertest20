@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Caliburn.Micro;
 using FluentAssertions;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.WpfClient.ViewModels;
@@ -11,21 +12,16 @@ namespace Graph.Tests
     public sealed class FiberAddedSteps
     {
         private readonly SystemUnderTest _sut = new SystemUnderTest();
-        private readonly MapViewModel _vm;
         private Guid _leftNodeId;
         private Guid _rightNodeId;
         private int _cutOff;
 
-        public FiberAddedSteps()
-        {
-            _vm = new MapViewModel(_sut.Aggregate, _sut.ReadModel);
-        }
 
         [Given(@"Левый и правый узлы созданы")]
         public void GivenALeftAndRightNodesCreated()
         {
-            _vm.AddNode();
-            _vm.AddNode();
+            _sut.Map.AddNode();
+            _sut.Map.AddNode();
             _sut.Poller.Tick();
             _leftNodeId = _sut.ReadModel.Nodes.First().Id;
             _rightNodeId = _sut.ReadModel.Nodes.Last().Id;
@@ -35,7 +31,7 @@ namespace Graph.Tests
         [Given(@"Отрезок между левым и правым узлом уже добавлен")]
         public void AddFiber()
         {
-            _vm.AddFiber(_leftNodeId, _rightNodeId);
+            _sut.Map.AddFiber(_leftNodeId, _rightNodeId);
             _sut.Poller.Tick();
             _cutOff = _sut.CurrentEventNumber;
         }
@@ -43,7 +39,7 @@ namespace Graph.Tests
         [When(@"Пользователь кликает добавить отрезок")]
         public void WhenUserClickedAddFiber()
         {
-            _vm.AddFiber(_leftNodeId, _rightNodeId);
+            _sut.Map.AddFiber(_leftNodeId, _rightNodeId);
             _sut.Poller.Tick();
         }
 

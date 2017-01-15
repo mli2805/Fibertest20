@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Caliburn.Micro;
 using FluentAssertions;
 using Iit.Fibertest.WpfClient.ViewModels;
 using TechTalk.SpecFlow;
@@ -10,20 +11,14 @@ namespace Graph.Tests
     public sealed class NodeMovedSteps
     {
         private readonly SystemUnderTest _sut = new SystemUnderTest();
-        private MapViewModel _mapViewModel;
 
         private Guid _nodeId;
         private int _cutOff;
 
-        public NodeMovedSteps()
-        {
-            _mapViewModel = new MapViewModel(_sut.Aggregate, _sut.ReadModel);
-        }
-
         [Given(@"Создан узел")]
         public void GivenNodeAdded()
         {
-            _mapViewModel.AddNode();
+            _sut.Map.AddNode();
             _sut.Poller.Tick();
             _nodeId = _sut.ReadModel.Nodes.Single().Id;
         }
@@ -31,7 +26,7 @@ namespace Graph.Tests
         [When(@"Пользователь подвинул узел")]
         public void WhenUserMovedNode()
         {
-            _mapViewModel.MoveNode(_nodeId);
+            _sut.Map.MoveNode(_nodeId);
         }
 
         [Then(@"Новые координаты должны быть сохранены")]

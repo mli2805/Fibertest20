@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Caliburn.Micro;
 using FluentAssertions;
 using Iit.Fibertest.WpfClient.ViewModels;
 using TechTalk.SpecFlow;
@@ -10,28 +11,23 @@ namespace Graph.Tests.Fiber
     public sealed class FiberUpdatedSteps
     {
         private readonly SystemUnderTest _sut = new SystemUnderTest();
-        private MapViewModel _mapViewModel;
         private UpdateFiberViewModel _window;
         private Guid _saidFiberId;
         private int _cutOff;
 
-        public FiberUpdatedSteps()
-        {
-            _mapViewModel = new MapViewModel(_sut.Aggregate, _sut.ReadModel);
-        }
-
+        
         [Given(@"Существует отрезок")]
         public void GivenСуществуетОтрезок()
         {
-            _mapViewModel.AddNode();
+            _sut.Map.AddNode();
             _sut.Poller.Tick();
             var n1 = _sut.ReadModel.Nodes.Last().Id;
 
-            _mapViewModel.AddNode();
+            _sut.Map.AddNode();
             _sut.Poller.Tick();
             var n2 = _sut.ReadModel.Nodes.Last().Id;
 
-            _mapViewModel.AddFiber(n1,n2);
+            _sut.Map.AddFiber(n1,n2);
             _sut.Poller.Tick();
             _saidFiberId = _sut.ReadModel.Fibers.Last().Id;
 

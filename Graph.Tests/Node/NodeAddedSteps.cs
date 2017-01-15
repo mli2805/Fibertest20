@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using Caliburn.Micro;
+using FluentAssertions;
 using Iit.Fibertest.WpfClient.ViewModels;
 using TechTalk.SpecFlow;
 
@@ -7,20 +8,14 @@ namespace Graph.Tests
     [Binding]
     public sealed class NodeAddedSteps
     {
-        private MapViewModel _mapViewModel;
         private readonly SystemUnderTest _sut = new SystemUnderTest();
         private int _cutOff;
-
-        public NodeAddedSteps()
-        {
-            _mapViewModel = new MapViewModel(_sut.Aggregate, _sut.ReadModel);
-
-        }
+      
 
         [When(@"Пользователь кликает добавить узел")]
         public void WhenUserClicksAddNode()
         {
-            _mapViewModel.AddNode();
+            _sut.Map.AddNode();
         }
 
         [Then(@"Новый узел сохраняется")]

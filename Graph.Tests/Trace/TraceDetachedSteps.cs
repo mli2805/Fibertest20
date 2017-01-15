@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Caliburn.Micro;
 using FluentAssertions;
 using Iit.Fibertest.Graph.Commands;
 using Iit.Fibertest.WpfClient.ViewModels;
@@ -15,14 +16,12 @@ namespace Graph.Tests
         private Guid _traceId;
         private int _portNumber;
 
-        private readonly MapViewModel _vm;
         private Guid _nodeForRtuId;
         private Guid _firstNodeId;
 
         public TraceDetachedSteps(SystemUnderTest sut)
         {
             _sut = sut;
-            _vm = new MapViewModel(_sut.Aggregate, _sut.ReadModel);
         }
 
         [Given(@"Трасса присоединена к порту РТУ")]
@@ -34,7 +33,7 @@ namespace Graph.Tests
                 Port = 3,
                 TraceId = _traceId
             };
-            _vm.AttachTrace(cmd2);
+            _sut.Map.AttachTrace(cmd2);
             _sut.Poller.Tick();
         }
 
@@ -42,7 +41,7 @@ namespace Graph.Tests
         public void WhenПользовательОтсоединяетТрассу()
         {
             var cmd = new DetachTrace() {TraceId = _traceId};
-            _vm.DetachTrace(cmd);
+            _sut.Map.DetachTrace(cmd);
             _sut.Poller.Tick();
         }
 

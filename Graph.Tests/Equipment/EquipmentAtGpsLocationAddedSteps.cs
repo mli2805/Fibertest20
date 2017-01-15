@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Caliburn.Micro;
 using FluentAssertions;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.WpfClient.ViewModels;
@@ -10,17 +11,11 @@ namespace Graph.Tests
     public sealed class EquipmentAtGpsLocationAddedSteps
     {
         private readonly SystemUnderTest _sut = new SystemUnderTest();
-        private readonly MapViewModel _vm;
-
-        public EquipmentAtGpsLocationAddedSteps()
-        {
-            _vm = new MapViewModel(_sut.Aggregate, _sut.ReadModel);
-        }
 
         [When(@"Пользователь кликает добавить узел с оборудованием")]
         public void WhenПользовательКликаетДобавитьУзелСОборудованием()
         {
-            _vm.AddEquipmentAtGpsLocation(EquipmentType.Terminal);
+            _sut.Map.AddEquipmentAtGpsLocation(EquipmentType.Terminal);
             _sut.Poller.Tick();
         }
 

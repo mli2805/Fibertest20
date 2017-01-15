@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.WpfClient.ViewModels;
 
 namespace Graph.Tests
 {
@@ -9,10 +10,14 @@ namespace Graph.Tests
         public ReadModel ReadModel { get; } = new ReadModel();
         public ClientPoller Poller { get; }
         public int CurrentEventNumber => Poller.CurrentEventNumber;
+        public MapViewModel Map { get; }
+        public FakeWindowManager FakeWindowManager { get; }
 
         public SystemUnderTest()
         {
-            Poller = new ClientPoller(Aggregate.WriteModel.Db, new List<object> { ReadModel }); 
+            Poller = new ClientPoller(Aggregate.WriteModel.Db, new List<object> { ReadModel });
+            FakeWindowManager = new FakeWindowManager();
+            Map = new MapViewModel(Aggregate, ReadModel, FakeWindowManager);
         }
     }
 }

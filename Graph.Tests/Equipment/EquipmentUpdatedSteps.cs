@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Caliburn.Micro;
 using FluentAssertions;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.WpfClient.ViewModels;
@@ -12,7 +13,6 @@ namespace Graph.Tests
     {
         private readonly SystemUnderTest _sut = new SystemUnderTest();
         private Guid _equipmentId;
-        private MapViewModel _mapViewModel;
         private EquipmentViewModel _equipmentViewModel;
 
         private const string NewTitleForTest = "New name for old equipment";
@@ -21,15 +21,10 @@ namespace Graph.Tests
         private const int NewRightCableReserve = 7;
         private const string NewCommentForTest = "New comment for old equipment";
 
-        public EquipmentUpdatedSteps()
-        {
-            _mapViewModel = new MapViewModel(_sut.Aggregate, _sut.ReadModel);
-        }
-
         [Given(@"Существует оборудование")]
         public void GivenСуществуетОборудование()
         {
-            _mapViewModel.AddEquipmentAtGpsLocation(EquipmentType.Terminal);
+            _sut.Map.AddEquipmentAtGpsLocation(EquipmentType.Terminal);
             _sut.Poller.Tick();
             _equipmentId = _sut.ReadModel.Equipments.Single().Id;
         }

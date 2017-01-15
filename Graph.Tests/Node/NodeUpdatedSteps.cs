@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Caliburn.Micro;
 using FluentAssertions;
 using Iit.Fibertest.WpfClient.ViewModels;
 using TechTalk.SpecFlow;
@@ -13,17 +14,12 @@ namespace Graph.Tests
         private Guid _saidNodeId;
         private UpdateNodeViewModel _updateVm;
         private int _cutOff;
-        private MapViewModel _mapViewModel;
 
-        public NodeUpdatedSteps()
-        {
-            _mapViewModel = new MapViewModel(_sut.Aggregate, _sut.ReadModel);
-        }
 
         [Given(@"Ранее был создан узел с именем (.*)")]
         public void CreateNode(string title)
         {
-            _mapViewModel.AddNode();
+            _sut.Map.AddNode();
             _sut.Poller.Tick();
             // TODO: Extract into page object
             _updateVm = new UpdateNodeViewModel(
@@ -36,7 +32,7 @@ namespace Graph.Tests
         [Given(@"Добавлен узел")]
         public void CreateNode()
         {
-             _mapViewModel.AddNode();
+            _sut.Map.AddNode();
             _sut.Poller.Tick();
             _cutOff = _sut.CurrentEventNumber;
 

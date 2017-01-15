@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Caliburn.Micro;
 using FluentAssertions;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.WpfClient.ViewModels;
@@ -12,7 +13,6 @@ namespace Graph.Tests
     public sealed class TraceAddedSteps
     {
         private readonly SystemUnderTest _sut = new SystemUnderTest();
-        private readonly MapViewModel _mapViewModel;
         private AddTraceViewModel _addTraceViewModel;
         private ErrorNotificationViewModel _errorNotificationViewModel;
         private Guid _rtuNodeId;
@@ -20,16 +20,12 @@ namespace Graph.Tests
         private List<Guid> _traceNodes;
         private List<Guid> _traceEquipments;
 
-        public TraceAddedSteps()
-        {
-            _mapViewModel = new MapViewModel(_sut.Aggregate, _sut.ReadModel);
-        }
 
         [Given(@"Существует два узла")]
         public void GivenСуществуетДваУзла()
         {
-            _mapViewModel.AddRtuAtGpsLocation();
-            _mapViewModel.AddEquipmentAtGpsLocation(EquipmentType.Cross);
+            _sut.Map.AddRtuAtGpsLocation();
+            _sut.Map.AddEquipmentAtGpsLocation(EquipmentType.Cross);
             _sut.Poller.Tick();
             _rtuNodeId = _sut.ReadModel.Nodes.First().Id;
             _traceEquipments = new List<Guid>() {_sut.ReadModel.Rtus.Single().Id, _sut.ReadModel.Equipments.Single().Id};
@@ -39,7 +35,7 @@ namespace Graph.Tests
         [Given(@"Между этими узлами есть путь")]
         public void GivenМеждуЭтимиУзламиЕстьПуть()
         {
-            _mapViewModel.AddFiber(_rtuNodeId, _lastNodeId);
+            _sut.Map.AddFiber(_rtuNodeId, _lastNodeId);
             _sut.Poller.Tick();
         }
 
@@ -98,5 +94,23 @@ namespace Graph.Tests
             _addTraceViewModel.IsClosed = true;
         }
 
+    }
+
+    public class FakeWindowManager : IWindowManager
+    {
+        public bool? ShowDialog(object rootModel, object context = null, IDictionary<string, object> settings = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ShowWindow(object rootModel, object context = null, IDictionary<string, object> settings = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ShowPopup(object rootModel, object context = null, IDictionary<string, object> settings = null)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

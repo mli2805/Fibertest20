@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using Caliburn.Micro;
+using FluentAssertions;
 using Iit.Fibertest.WpfClient.ViewModels;
 using TechTalk.SpecFlow;
 
@@ -8,18 +9,11 @@ namespace Graph.Tests
     public sealed class RtuAtGpsLocationAddedSteps
     {
         private readonly SystemUnderTest _sut = new SystemUnderTest();
-        private readonly MapViewModel _vm;
-
-        public RtuAtGpsLocationAddedSteps()
-        {
-            _vm = new MapViewModel(_sut.Aggregate, _sut.ReadModel);
-
-        }
 
         [When(@"Пользователь кликает добавить РТУ")]
         public void WhenUserClicksAddRtu()
         {
-            _vm.AddRtuAtGpsLocation();
+            _sut.Map.AddRtuAtGpsLocation();
             _sut.Poller.Tick();
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Caliburn.Micro;
 using FluentAssertions;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.WpfClient.ViewModels;
@@ -12,7 +13,6 @@ namespace Graph.Tests
     public sealed class RtuRemovedSteps
     {
         private readonly SystemUnderTest _sut = new SystemUnderTest();
-        private readonly MapViewModel _vm;
         private Iit.Fibertest.Graph.Rtu _rtu;
         private Guid _rtuNodeId; // нужно сохранить отдельно, т.к. после удаления РТУ негде взять
         private List<Guid> _traceEquipment = new List<Guid>();
@@ -20,15 +20,10 @@ namespace Graph.Tests
         private Iit.Fibertest.Graph.Node _endTraceNode;
 
 
-        public RtuRemovedSteps()
-        {
-            _vm = new MapViewModel(_sut.Aggregate, _sut.ReadModel);
-        }
-
         [Given(@"Существует РТУ")]
         public void GivenСуществуетРТУ()
         {
-            _vm.AddRtuAtGpsLocation();
+            _sut.Map.AddRtuAtGpsLocation();
             _sut.Poller.Tick();
             _rtu = _sut.ReadModel.Rtus.Single();
             _rtuNodeId = _rtu.NodeId;
@@ -38,20 +33,20 @@ namespace Graph.Tests
         [Given(@"Существует несколько отрезков от РТУ")]
         public void GivenСуществуетНесколькоОтрезковОтРТУ()
         {
-            _vm.AddNode();
+            _sut.Map.AddNode();
             _sut.Poller.Tick();
             var n1 = _sut.ReadModel.Nodes.Last();
             _traceEquipment.Add(Guid.Empty);
-            _vm.AddNode();
+            _sut.Map.AddNode();
             _sut.Poller.Tick();
             var n2 = _sut.ReadModel.Nodes.Last();
-            _vm.AddEquipmentAtGpsLocation(EquipmentType.Terminal);
+            _sut.Map.AddEquipmentAtGpsLocation(EquipmentType.Terminal);
             _sut.Poller.Tick();
             _endTraceNode = _sut.ReadModel.Nodes.Last();
             _traceEquipment.Add(_sut.ReadModel.Equipments.Last().Id);
-            _vm.AddFiber(_rtu.NodeId, n1.Id);
-            _vm.AddFiber(n1.Id, _endTraceNode.Id);
-            _vm.AddFiber(_rtu.NodeId, n2.Id);
+            _sut.Map.AddFiber(_rtu.NodeId, n1.Id);
+            _sut.Map.AddFiber(n1.Id, _endTraceNode.Id);
+            _sut.Map.AddFiber(_rtu.NodeId, n2.Id);
             _sut.Poller.Tick();
         }
 
@@ -66,7 +61,7 @@ namespace Graph.Tests
         [When(@"Пользователь кликает на РТУ удалить")]
         public void WhenПользовательКликаетНаРТУУдалить()
         {
-            _vm.RemoveRtu(_rtu.Id);
+            _sut.Map.RemoveRtu(_rtu.Id);
             _sut.Poller.Tick();
         }
 

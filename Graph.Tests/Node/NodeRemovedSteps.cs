@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Caliburn.Micro;
 using FluentAssertions;
 using Iit.Fibertest.WpfClient.ViewModels;
 using TechTalk.SpecFlow;
@@ -11,22 +12,17 @@ namespace Graph.Tests
     public sealed class NodeRemovedSteps
     {
         private readonly SystemUnderTest _sut = new SystemUnderTest();
-        private readonly MapViewModel _vm;
         private Guid _nodeId;
         private Guid _rtuNodeId;
         private Guid _anotherNodeId;
         private Guid _fiberId;
         private Iit.Fibertest.Graph.Trace _trace;
 
-        public NodeRemovedSteps()
-        {
-            _vm = new MapViewModel(_sut.Aggregate, _sut.ReadModel);
-        }
 
         [Given(@"Существует узел")]
         public void GivenСуществуетУзел()
         {
-            _vm.AddNode();
+            _sut.Map.AddNode();
             _sut.Poller.Tick();
             _nodeId = _sut.ReadModel.Nodes.First().Id;
         }
@@ -34,10 +30,10 @@ namespace Graph.Tests
         [Given(@"К данному узлу присоединен отрезок")]
         public void GivenКДанномуУзлуПрисоединенОтрезок()
         {
-            _vm.AddNode();
+            _sut.Map.AddNode();
             _sut.Poller.Tick();
             _anotherNodeId = _sut.ReadModel.Nodes.Last().Id;
-            _vm.AddFiber(_nodeId, _anotherNodeId);
+            _sut.Map.AddFiber(_nodeId, _anotherNodeId);
             _sut.Poller.Tick();
             _fiberId = _sut.ReadModel.Fibers.Last().Id;
         }
@@ -45,11 +41,11 @@ namespace Graph.Tests
         [Given(@"Данный узел последний в трассе")]
         public void GivenДанныйУзелПоследнийВТрассе()
         {
-            _vm.AddRtuAtGpsLocation();
+            _sut.Map.AddRtuAtGpsLocation();
             _sut.Poller.Tick();
             var rtuNodeId = _sut.ReadModel.Nodes.Last().Id;
             var rtuId = _sut.ReadModel.Rtus.Last().Id;
-            _vm.AddFiber(rtuNodeId, _anotherNodeId);
+            _sut.Map.AddFiber(rtuNodeId, _anotherNodeId);
             _sut.Poller.Tick();
             new EquipmentViewModel(_nodeId, Guid.Empty, new List<Guid>(),  _sut.ReadModel, _sut.Aggregate).Save();
             _sut.Poller.Tick();
@@ -67,11 +63,11 @@ namespace Graph.Tests
         [Given(@"Данный узел НЕ последний в трассе")]
         public void GivenДанныйУзелНЕПоследнийВТрассе()
         {
-            _vm.AddRtuAtGpsLocation();
+            _sut.Map.AddRtuAtGpsLocation();
             _sut.Poller.Tick();
             _rtuNodeId = _sut.ReadModel.Nodes.Last().Id;
             var rtuId = _sut.ReadModel.Rtus.Last().Id;
-            _vm.AddFiber(_rtuNodeId, _nodeId);
+            _sut.Map.AddFiber(_rtuNodeId, _nodeId);
             _sut.Poller.Tick();
             new EquipmentViewModel(_anotherNodeId, Guid.Empty, new List<Guid>(), _sut.ReadModel, _sut.Aggregate).Save();
             _sut.Poller.Tick();
@@ -95,7 +91,7 @@ namespace Graph.Tests
         [When(@"Пользователь кликает удалить узел")]
         public void WhenПользовательКликаетУдалитьУзел()
         {
-            _vm.RemoveNode(_nodeId);
+            _sut.Map.RemoveNode(_nodeId);
             _sut.Poller.Tick();
         }
 
