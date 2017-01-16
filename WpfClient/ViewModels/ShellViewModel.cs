@@ -49,5 +49,6 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             var addEquipmentViewModel = new AssignBaseRefsViewModel(trace.Id, _readModel, _aggregate);
             windowManager.ShowDialog(addEquipmentViewModel);
         }
+
     }
 }

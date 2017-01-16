@@ -164,6 +164,17 @@ namespace Iit.Fibertest.Graph
                 f.Node1 == a && f.Node2 == b ||
                 f.Node1 == b && f.Node2 == a);
         }
+        public bool IsFiberContainedInTraceWithBase(Guid fiberId)
+        {
+            var tracesWithBase = Traces.Where(t => t.HasBase);
+            var fiber = Fibers.Single(f => f.Id == fiberId);
+            foreach (var trace in tracesWithBase)
+            {
+                if (Topo.GetFiberIndexInTrace(trace, fiber) != -1)
+                    return true;
+            }
+            return false;
+        }
 
         public void Apply(FiberAdded e)
         {

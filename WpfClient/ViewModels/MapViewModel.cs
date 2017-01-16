@@ -31,6 +31,17 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         }
 
 
+        public bool IsAddNodeIntoFiberMenuItemEnabled(int x, int y)
+        {
+            // как будто пользователь кликнул на файбере правой кнопкой
+            // должно быть построено попап меню, в котором надо решить
+            // кнопка Добавить узел в отрезок/трассы доступна или нет
+//            Guid fiberId = GetFiberFromMouse(x, y);
+            Guid fiberId = Guid.NewGuid();
+
+            return !_readModel.IsFiberContainedInTraceWithBase(fiberId);
+        }
+
         /// <summary>
         /// узел (GPS location) будет добавлен во все трассы , поэтому если  хоть одна с базовой - отклоняем
         /// 
