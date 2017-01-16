@@ -47,10 +47,8 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
         private bool IsChanged()
         {
-            if (_title != _originalNode.Title)
-                return true;
-            return
-                false;
+            return _title != _originalNode.Title 
+                   || _comment != _originalNode.Comment;
         }
 
         public bool IsButtonSaveEnabled
@@ -113,7 +111,8 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             Error = _aggregate.When(new UpdateNode
             {
                 Id = NodeId,
-                Title = _title
+                Title = _title,
+                Comment = _comment,
             });
             if (Error != null)
                 return;

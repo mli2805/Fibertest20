@@ -44,9 +44,9 @@ namespace Iit.Fibertest.Graph
             Events.Clear();
         }
 
-        public bool HasNodeWithTitle(string title)
+        public bool HasAnotherNodeWithTitle(string title, Guid id)
         {
-            return _nodes.Any(n => n.Title == title);
+            return _nodes.Any(n => n.Title == title && n.Id != id);
         }
 
         public bool HasFiberBetween(Guid a, Guid b)

@@ -121,21 +121,41 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
+        [Xunit.FactAttribute(DisplayName="Сохранение изменений комментария")]
+        [Xunit.TraitAttribute("FeatureTitle", "NodeUpdated")]
+        [Xunit.TraitAttribute("Description", "Сохранение изменений комментария")]
+        public virtual void СохранениеИзмененийКомментария()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Сохранение изменений комментария", ((string[])(null)));
+#line 21
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 22
+ testRunner.Given("Пользователь ввел какой-то комментарий к узлу", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 23
+ testRunner.When("Нажата клавиша сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 24
+ testRunner.Then("Измененный узел сохраняется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
         [Xunit.FactAttribute(DisplayName="Сохранение с существующим именем узла")]
         [Xunit.TraitAttribute("FeatureTitle", "NodeUpdated")]
         [Xunit.TraitAttribute("Description", "Сохранение с существующим именем узла")]
         public virtual void СохранениеССуществующимИменемУзла()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Сохранение с существующим именем узла", ((string[])(null)));
-#line 21
+#line 26
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 22
+#line 27
  testRunner.Given("Пользователь ввел название узла blah-blah", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 23
+#line 28
  testRunner.When("Нажата клавиша сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 24
+#line 29
  testRunner.Then("Некая сигнализация ошибки", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -147,13 +167,13 @@ this.FeatureBackground();
         public virtual void ОтказОтИзмененияУзла()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Отказ от изменения узла", ((string[])(null)));
-#line 26
+#line 31
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 27
+#line 32
  testRunner.When("Нажата клавиша отменить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 28
+#line 33
  testRunner.Then("Никаких команд не подается", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

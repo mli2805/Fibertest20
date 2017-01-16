@@ -49,6 +49,12 @@ namespace Graph.Tests
             _updateVm.Title = title;
         }
 
+        [Given(@"Пользователь ввел какой-то комментарий к узлу")]
+        public void GivenПользовательВвелКакой_ТоКомментарийКУзлу()
+        {
+            _updateVm.Comment = "Doesn't matter";
+        }
+
         [When(@"Нажата клавиша сохранить")]
         public void Save()
         {
