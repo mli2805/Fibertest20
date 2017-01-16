@@ -3,7 +3,7 @@ using System.Linq;
 using FluentAssertions;
 using TechTalk.SpecFlow;
 
-namespace Graph.Tests.Fiber
+namespace Graph.Tests
 {
     [Binding]
     public sealed class FiberRemovedSteps

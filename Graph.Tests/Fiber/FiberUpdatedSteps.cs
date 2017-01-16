@@ -4,7 +4,7 @@ using FluentAssertions;
 using Iit.Fibertest.WpfClient.ViewModels;
 using TechTalk.SpecFlow;
 
-namespace Graph.Tests.Fiber
+namespace Graph.Tests
 {
     [Binding]
     public sealed class FiberUpdatedSteps
