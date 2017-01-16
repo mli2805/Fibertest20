@@ -22,7 +22,7 @@ namespace Iit.Fibertest.Graph
 
         public string When(AddNodeIntoFiber cmd)
         {
-            if (WriteModel.IsFiberContainedInTraceWithBase(cmd.FiberId))
+            if (WriteModel.IsFiberContainedInAnyTraceWithBase(cmd.FiberId))
                 return "It's impossible to change trace with base reflectogram";
 
             WriteModel.AddAndCommit(_mapper.Map<NodeIntoFiberAdded>(cmd));
@@ -45,13 +45,16 @@ namespace Iit.Fibertest.Graph
             WriteModel.AddAndCommit(_mapper.Map<NodeMoved>(cmd));
         }
 
-
-
-        public void When(RemoveNode cmd)
+        public string When(RemoveNode cmd)
         {
-            WriteModel.AddAndCommit(_mapper.Map<NodeRemoved>(cmd));
-        }
+            if (WriteModel.IsNodeLastForAnyTrace(cmd.Id))
+                return "It's prohibited to remove last node from trace";
+            if (WriteModel.IsNodeContainedInAnyTraceWithBase(cmd.Id))
+                return "It's impossible to change trace with base reflectogram";
 
+            WriteModel.AddAndCommit(_mapper.Map<NodeRemoved>(cmd));
+            return null;
+        }
         #endregion
 
         #region Fiber
@@ -102,7 +105,7 @@ namespace Iit.Fibertest.Graph
         }
         public string When(RemoveFiber cmd)
         {
-            if (WriteModel.IsFiberContainedInTraceWithBase(cmd.Id))
+            if (WriteModel.IsFiberContainedInAnyTraceWithBase(cmd.Id))
                 return "It's impossible to change trace with base reflectogram";
             WriteModel.AddAndCommit(_mapper.Map<FiberRemoved>(cmd));
             return null;

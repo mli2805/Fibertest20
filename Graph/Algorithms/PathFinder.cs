@@ -13,7 +13,7 @@ namespace Iit.Fibertest.Graph
             _readModel = readModel;
         }
 
-        IEnumerable<Guid> GetAdjacentNodes(Guid nodeId)
+        private IEnumerable<Guid> GetAdjacentNodes(Guid nodeId)
         {
             foreach (var fiber in _readModel.Fibers)
             {

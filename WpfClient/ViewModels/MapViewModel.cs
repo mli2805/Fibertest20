@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
@@ -69,7 +70,6 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             });
             if (result != null)
             {
-//                var windowManager = IoC.Get<IWindowManager>();
                 var errorNotificationViewModel = new ErrorNotificationViewModel(result);
                 _windowManager.ShowDialog(errorNotificationViewModel);
             }
@@ -95,7 +95,9 @@ namespace Iit.Fibertest.WpfClient.ViewModels
                 return; // It's prohibited to remove last node from trace
             if (_readModel.Traces.Any(t => t.Nodes.Contains(id) && t.HasBase))
                 return; // It's prohibited to remove any node from trace with base ref
-            _aggregate.When(new RemoveNode() {Id = id});
+
+            var dictionary = _readModel.Traces.Where(t => t.Nodes.Contains(id)).ToDictionary(trace => trace.Id, trace => Guid.NewGuid());
+            _aggregate.When(new RemoveNode() {Id = id, TraceFiberPairForDetour = dictionary });
         }
         #endregion
 

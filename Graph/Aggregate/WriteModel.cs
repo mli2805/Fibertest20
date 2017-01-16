@@ -16,7 +16,7 @@ namespace Iit.Fibertest.Graph
 
         private readonly List<Node> _nodes = new List<Node>();
         private readonly List<Fiber> _fibers = new List<Fiber>();
-//        private readonly List<Equipment> _equipments = new List<Equipment>();
+        private readonly List<Equipment> _equipments = new List<Equipment>();
         private readonly List<Trace> _traces = new List<Trace>();
         private readonly List<Rtu> _rtus = new List<Rtu>();
 
@@ -46,7 +46,7 @@ namespace Iit.Fibertest.Graph
 
         public bool HasNodeWithTitle(string title)
         {
-            return _nodes.Any(n => n.Title ==  title);
+            return _nodes.Any(n => n.Title == title);
         }
 
         public bool HasFiberBetween(Guid a, Guid b)
@@ -63,7 +63,7 @@ namespace Iit.Fibertest.Graph
 
         public Rtu GetRtu(Guid id)
         {
-            return _rtus.FirstOrDefault(r => r.Id == id) ;
+            return _rtus.FirstOrDefault(r => r.Id == id);
         }
 
         #region Node
@@ -76,12 +76,12 @@ namespace Iit.Fibertest.Graph
         public void Apply(NodeIntoFiberAdded e)
         {
             AddNodeIntoCenterOfFiber(e.Id, e.FiberId);
-            // в ReadModel не забыть добавить оборудование
-            // здесь не добавляем новое оборудование т.к. пока не придумано зачем оно здесь может понадобиться
+            _equipments.Add(new Equipment() { Id = e.EquipmentId, Type = e.EqType, NodeId = e.Id });
             AddTwoFibersToNewNode(e);
             FixTracesWhichContainedOldFiber(e);
             _fibers.Remove(_fibers.Single(f => f.Id == e.FiberId));
         }
+
         private void FixTracesWhichContainedOldFiber(NodeIntoFiberAdded e)
         {
             foreach (var trace in _traces)
@@ -107,7 +107,7 @@ namespace Iit.Fibertest.Graph
         private void AddNodeIntoCenterOfFiber(Guid newNodeId, Guid fiberId)
         {
             var center = GetFiberCenter(fiberId);
-            _nodes.Add(new Node(){ Id = newNodeId, Latitude = center.Latitude, Longitude = center.Longitude });
+            _nodes.Add(new Node() { Id = newNodeId, Latitude = center.Latitude, Longitude = center.Longitude });
         }
 
 
@@ -121,14 +121,50 @@ namespace Iit.Fibertest.Graph
 
         public void Apply(NodeRemoved e)
         {
-            
+            foreach (var trace in _traces.Where(t => t.Nodes.Contains(e.Id)))
+                ExcludeNodeFromTrace(trace, e.TraceFiberPairForDetour[trace.Id], e.Id);
+
+            RemoveNodeWithAllHis(e.Id);
         }
 
+        private void ExcludeNodeFromTrace(Trace trace, Guid fiberId, Guid nodeId)
+        {
+            var idxInTrace = trace.Nodes.IndexOf(nodeId);
+            CreateDetourIfAbsent(trace, fiberId, idxInTrace);
 
+            trace.Equipments.RemoveAt(idxInTrace);
+            trace.Nodes.RemoveAt(idxInTrace);
+        }
+
+        private void RemoveNodeWithAllHis(Guid nodeId)
+        {
+            _fibers.RemoveAll(f => f.Node1 == nodeId || f.Node2 == nodeId);
+            _equipments.RemoveAll(e => e.NodeId == nodeId);
+            _nodes.Remove(_nodes.Single(n => n.Id == nodeId));
+        }
+
+        private void CreateDetourIfAbsent(Trace trace, Guid fiberId, int idxInTrace)
+        {
+            var nodeBefore = trace.Nodes[idxInTrace - 1];
+            var nodeAfter = trace.Nodes[idxInTrace + 1];
+
+            if (!_fibers.Any(f=>f.Node1 == nodeBefore && f.Node2 == nodeAfter
+                               || f.Node2 == nodeBefore && f.Node1 == nodeAfter))
+                Apply(new FiberAdded() { Id =  fiberId, Node1 = nodeBefore, Node2 = nodeAfter });
+        }
+
+        public bool IsNodeContainedInAnyTraceWithBase(Guid nodeId)
+        {
+            return _traces.Any(t => t.HasBase && t.Nodes.Contains(nodeId));
+        }
+        public bool IsNodeLastForAnyTrace(Guid nodeId)
+        {
+            return _traces.Any(t => t.Nodes.Last() == nodeId);
+        }
         #endregion
 
         #region Fiber
-        public bool IsFiberContainedInTraceWithBase(Guid fiberId)
+        public bool IsFiberContainedInAnyTraceWithBase(Guid fiberId)
         {
             var tracesWithBase = _traces.Where(t => t.HasBase);
             var fiber = _fibers.Single(f => f.Id == fiberId);
@@ -154,7 +190,7 @@ namespace Iit.Fibertest.Graph
             nodeId2 = _fibers.Single(f => f.Id == fiberId).Node2;
         }
 
-        
+
 
         public void Apply(FiberAdded e)
         {
@@ -183,7 +219,7 @@ namespace Iit.Fibertest.Graph
 
         public void Apply(RtuAtGpsLocationAdded e)
         {
-            _nodes.Add(new Node() {Id = e.NodeId, Latitude = e.Latitude, Longitude = e.Longitude});
+            _nodes.Add(new Node() { Id = e.NodeId, Latitude = e.Latitude, Longitude = e.Longitude });
             _rtus.Add(_mapper.Map<Rtu>(e));
         }
 
@@ -202,7 +238,7 @@ namespace Iit.Fibertest.Graph
 
         public void Apply(TraceDetached e) { }
 
-        public void Apply(BaseRefAssigned e){}
+        public void Apply(BaseRefAssigned e) { }
         #endregion
 
     }

@@ -90,71 +90,39 @@ namespace Iit.Fibertest.Graph
             _mapper.Map(newLocation, oldLocation);
         }
 
-        private bool IsLastNodeForTrace(int idxInTrace, Trace trace)
+        public void Apply(NodeRemoved e)
         {
-            return idxInTrace == trace.Nodes.Count - 1;
+            foreach (var trace in Traces.Where(t => t.Nodes.Contains(e.Id)))
+                ExcludeNodeFromTrace(trace, e.TraceFiberPairForDetour[trace.Id], e.Id);
+
+            RemoveNodeWithAllHis(e.Id);
         }
-        private void CreateDetourIfAbsent(Trace trace, int idxInTrace)
+
+        private void ExcludeNodeFromTrace(Trace trace, Guid fiberId, Guid nodeId)
+        {
+            var idxInTrace = trace.Nodes.IndexOf(nodeId);
+            CreateDetourIfAbsent(trace, fiberId, idxInTrace);
+
+            trace.Equipments.RemoveAt(idxInTrace);
+            trace.Nodes.RemoveAt(idxInTrace);
+        }
+
+        private void RemoveNodeWithAllHis(Guid nodeId)
+        {
+            Fibers.RemoveAll(f => f.Node1 == nodeId || f.Node2 == nodeId);
+            Equipments.RemoveAll(e => e.NodeId == nodeId);
+            Nodes.Remove(Nodes.Single(n => n.Id == nodeId));
+        }
+
+        private void CreateDetourIfAbsent(Trace trace, Guid fiberId, int idxInTrace)
         {
             var nodeBefore = trace.Nodes[idxInTrace - 1];
             var nodeAfter = trace.Nodes[idxInTrace + 1];
 
-            List<Fiber> sp = GetFibersFromNode(nodeBefore);
-            if (!sp.Any(f => f.Node1 == nodeAfter || f.Node2 == nodeAfter))
-            {
-                Apply(new FiberAdded() { Id = Guid.NewGuid(), Node1 = nodeBefore, Node2 = nodeAfter });
-            }
+            if (!Fibers.Any(f => f.Node1 == nodeBefore && f.Node2 == nodeAfter
+                               || f.Node2 == nodeBefore && f.Node1 == nodeAfter))
+                Apply(new FiberAdded() { Id = fiberId, Node1 = nodeBefore, Node2 = nodeAfter });
         }
-
-        private List<Fiber> GetFibersFromNode(Guid nodeBefore)
-        {
-            return Fibers.Where(fiber => fiber.Node1 == nodeBefore || fiber.Node2 == nodeBefore).ToList();
-        }
-
-        public void Apply(NodeRemoved e)
-        {
-            ExcludeNodeFromAllTraces(e.Id);
-
-            RemoveNodeWhereTracesDoNotPassThrough(e.Id);
-        }
-
-        private void RemoveNodeWhereTracesDoNotPassThrough(Guid nodeId)
-        {
-            var fibers = GetFibersFromNode(nodeId);
-            foreach (var fiber in fibers)
-            {
-                Fibers.Remove(fiber);
-            }
-            Node node = Nodes.Single(n => n.Id == nodeId);
-            Nodes.Remove(node);
-        }
-
-        private void ExcludeNodeFromAllTraces(Guid nodeId)
-        {
-            List<Guid> equipmentInNode = new List<Guid>();
-            foreach (var trace in Traces)
-            {
-                var idxInTrace = trace.Nodes.IndexOf(nodeId);
-                if (idxInTrace == -1)
-                    continue;
-                if (!IsLastNodeForTrace(idxInTrace, trace))
-                    CreateDetourIfAbsent(trace, idxInTrace);
-
-                equipmentInNode.Add(trace.Equipments[idxInTrace]);
-                trace.Equipments.RemoveAt(idxInTrace);
-                trace.Nodes.RemoveAt(idxInTrace);
-            }
-            foreach (var equipmentId in equipmentInNode)
-            {
-                if (equipmentId != Guid.Empty)
-                {
-                    var equipment = Equipments.FirstOrDefault(p => p.Id == equipmentId);
-                    if (equipment != null)
-                        Equipments.Remove(equipment);
-                }
-            }
-        }
-
         #endregion
 
         #region Fiber
@@ -249,7 +217,7 @@ namespace Iit.Fibertest.Graph
             var rtu = Rtus.First(r => r.Id == e.Id);
             var nodeId = rtu.NodeId;
             Rtus.Remove(rtu);
-            RemoveNodeWhereTracesDoNotPassThrough(nodeId);
+            RemoveNodeWithAllHis(nodeId);
         }
         #endregion
 
