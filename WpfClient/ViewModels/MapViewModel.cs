@@ -58,9 +58,9 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             });
             if (result != null)
             {
-                var windowManager = IoC.Get<IWindowManager>();
+//                var windowManager = IoC.Get<IWindowManager>();
                 var errorNotificationViewModel = new ErrorNotificationViewModel(result);
-                windowManager.ShowDialog(errorNotificationViewModel);
+                _windowManager.ShowDialog(errorNotificationViewModel);
             }
         }
 
