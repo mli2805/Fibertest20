@@ -18,8 +18,8 @@ namespace Graph.Tests
         [Given(@"Левый и правый узлы созданы")]
         public void GivenALeftAndRightNodesCreated()
         {
-            _sut.Map.AddNode();
-            _sut.Map.AddNode();
+            _sut.MapVm.AddNode();
+            _sut.MapVm.AddNode();
             _sut.Poller.Tick();
             _leftNodeId = _sut.ReadModel.Nodes.First().Id;
             _rightNodeId = _sut.ReadModel.Nodes.Last().Id;
@@ -29,7 +29,7 @@ namespace Graph.Tests
         [Given(@"Отрезок между левым и правым узлом уже добавлен")]
         public void AddFiber()
         {
-            _sut.Map.AddFiber(_leftNodeId, _rightNodeId);
+            _sut.MapVm.AddFiber(_leftNodeId, _rightNodeId);
             _sut.Poller.Tick();
             _cutOff = _sut.CurrentEventNumber;
         }
@@ -37,7 +37,7 @@ namespace Graph.Tests
         [When(@"Пользователь кликает добавить отрезок")]
         public void WhenUserClickedAddFiber()
         {
-            _sut.Map.AddFiber(_leftNodeId, _rightNodeId);
+            _sut.MapVm.AddFiber(_leftNodeId, _rightNodeId);
             _sut.Poller.Tick();
         }
 

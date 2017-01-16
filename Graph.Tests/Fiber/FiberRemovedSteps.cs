@@ -17,12 +17,12 @@ namespace Graph.Tests
         [Given(@"Есть два узла и отрезок между ними")]
         public void GivenЕстьДваУзлаИОтрезокМеждуНими()
         {
-            _sut.Map.AddNode();
-            _sut.Map.AddNode();
+            _sut.MapVm.AddNode();
+            _sut.MapVm.AddNode();
             _sut.Poller.Tick();
             _leftNodeId = _sut.ReadModel.Nodes.First().Id;
             _rightNodeId = _sut.ReadModel.Nodes.Last().Id;
-            _sut.Map.AddFiber(_leftNodeId, _rightNodeId);
+            _sut.MapVm.AddFiber(_leftNodeId, _rightNodeId);
             _sut.Poller.Tick();
             _fiberId = _sut.ReadModel.Fibers.Single().Id;
         }
@@ -30,7 +30,7 @@ namespace Graph.Tests
         [When(@"Пользователь кликает удалить отрезок")]
         public void WhenПользовательКликаетУдалитьОтрезок()
         {
-            _sut.Map.RemoveFiber(_fiberId);
+            _sut.MapVm.RemoveFiber(_fiberId);
             _sut.Poller.Tick();
         }
 

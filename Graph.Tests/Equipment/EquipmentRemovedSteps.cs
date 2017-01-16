@@ -18,7 +18,7 @@ namespace Graph.Tests
         [Given(@"Существует узел с оборудованием")]
         public void GivenСуществуетУзелСОборудованием()
         {
-            _sut.Map.AddEquipmentAtGpsLocation(EquipmentType.Sleeve);
+            _sut.MapVm.AddEquipmentAtGpsLocation(EquipmentType.Sleeve);
             _sut.Poller.Tick();
             _nodeId = _sut.ReadModel.Nodes.Single().Id;
             _equipmentId = _sut.ReadModel.Equipments.Single().Id;
@@ -27,11 +27,11 @@ namespace Graph.Tests
         [Given(@"Существует трасса использующая данное оборудование")]
         public void GivenСуществуетТрассаИспользующаяДанноеОборудование()
         {
-            _sut.Map.AddRtuAtGpsLocation();
+            _sut.MapVm.AddRtuAtGpsLocation();
             _sut.Poller.Tick();
             Guid rtuNodeId = _sut.ReadModel.Nodes.Last().Id;
 
-            _sut.Map.AddFiber(rtuNodeId, _nodeId);
+            _sut.MapVm.AddFiber(rtuNodeId, _nodeId);
             _sut.Poller.Tick();
 
             var path = new PathFinder(_sut.ReadModel).FindPath(rtuNodeId, _nodeId);

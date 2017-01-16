@@ -18,15 +18,15 @@ namespace Graph.Tests
         [Given(@"Существует отрезок")]
         public void GivenСуществуетОтрезок()
         {
-            _sut.Map.AddNode();
+            _sut.MapVm.AddNode();
             _sut.Poller.Tick();
             var n1 = _sut.ReadModel.Nodes.Last().Id;
 
-            _sut.Map.AddNode();
+            _sut.MapVm.AddNode();
             _sut.Poller.Tick();
             var n2 = _sut.ReadModel.Nodes.Last().Id;
 
-            _sut.Map.AddFiber(n1,n2);
+            _sut.MapVm.AddFiber(n1,n2);
             _sut.Poller.Tick();
             _saidFiberId = _sut.ReadModel.Fibers.Last().Id;
 

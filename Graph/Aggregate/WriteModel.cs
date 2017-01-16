@@ -73,7 +73,42 @@ namespace Iit.Fibertest.Graph
             _nodes.Add(_mapper.Map<Node>(e));
         }
 
-        public void Apply(NodeIntoFiberAdded e) { }
+        public void Apply(NodeIntoFiberAdded e)
+        {
+            AddNodeIntoCenterOfFiber(e.Id, e.FiberId);
+            // в ReadModel не забыть добавить оборудование
+            // здесь не добавляем новое оборудование т.к. пока не придумано зачем оно здесь может понадобиться
+            AddTwoFibersToNewNode(e);
+            FixTracesWhichContainedOldFiber(e);
+        }
+        private void FixTracesWhichContainedOldFiber(NodeIntoFiberAdded e)
+        {
+            foreach (var trace in _traces)
+            {
+                int idx;
+                while ((idx = Topo.GetFiberIndexInTrace(trace, _fibers.Single(f => f.Id == e.FiberId))) != -1)
+                {
+                    trace.Nodes.Insert(idx + 1, e.Id); // GPS location добавляется во все трассы
+                    // а оборудование только в те, которые выбрал пользователь
+                    trace.Equipments.Insert(idx + 1,
+                        e.TracesConsumingEquipment.Contains(trace.Id) ? e.EquipmentId : Guid.Empty);
+                }
+            }
+        }
+        private void AddTwoFibersToNewNode(NodeIntoFiberAdded e)
+        {
+            Guid nodeId1, nodeId2;
+            GetNodesForFiber(e.FiberId, out nodeId1, out nodeId2);
+            _fibers.Add(new Fiber() { Id = e.NewFiberId1, Node1 = nodeId1, Node2 = e.Id });
+            _fibers.Add(new Fiber() { Id = e.NewFiberId2, Node1 = e.Id, Node2 = nodeId2 });
+        }
+
+        private void AddNodeIntoCenterOfFiber(Guid newNodeId, Guid fiberId)
+        {
+            var center = GetFiberCenter(fiberId);
+            _nodes.Add(new Node(){ Id = newNodeId, Latitude = center.Latitude, Longitude = center.Longitude });
+        }
+
 
         public void Apply(NodeUpdated source)
         {
@@ -103,6 +138,22 @@ namespace Iit.Fibertest.Graph
             }
             return false;
         }
+
+        private GpsLocation GetFiberCenter(Guid fiberId)
+        {
+            var fiber = _fibers.Single(f => f.Id == fiberId);
+            var node1 = _nodes.Single(n => n.Id == fiber.Node1);
+            var node2 = _nodes.Single(n => n.Id == fiber.Node2);
+            return new GpsLocation() { Latitude = (node1.Latitude + node2.Latitude) / 2, Longitude = (node1.Longitude + node2.Longitude) / 2 };
+        }
+
+        private void GetNodesForFiber(Guid fiberId, out Guid nodeId1, out Guid nodeId2)
+        {
+            nodeId1 = _fibers.Single(f => f.Id == fiberId).Node1;
+            nodeId2 = _fibers.Single(f => f.Id == fiberId).Node2;
+        }
+
+        
 
         public void Apply(FiberAdded e)
         {

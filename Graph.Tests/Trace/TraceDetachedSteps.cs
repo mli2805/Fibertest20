@@ -26,7 +26,7 @@ namespace Graph.Tests
                 Port = 3,
                 TraceId = _traceId
             };
-            _sut.Map.AttachTrace(cmd2);
+            _sut.MapVm.AttachTrace(cmd2);
             _sut.Poller.Tick();
         }
 
@@ -34,7 +34,7 @@ namespace Graph.Tests
         public void WhenПользовательОтсоединяетТрассу()
         {
             var cmd = new DetachTrace() {TraceId = _traceId};
-            _sut.Map.DetachTrace(cmd);
+            _sut.MapVm.DetachTrace(cmd);
             _sut.Poller.Tick();
         }
 

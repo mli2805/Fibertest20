@@ -26,19 +26,19 @@ namespace Graph.Tests
         public void GivenЕстьТрасса()
         {
             var equipments = new List<Guid>();
-            _sut.Map.AddRtuAtGpsLocation();
+            _sut.MapVm.AddRtuAtGpsLocation();
             _sut.Poller.Tick();
             _nodeForRtuId = _sut.ReadModel.Nodes.Single().Id;
             equipments.Add(_sut.ReadModel.Rtus.Single().Id);
-            _sut.Map.AddNode();
-            _sut.Map.AddEquipmentAtGpsLocation(EquipmentType.Terminal);
+            _sut.MapVm.AddNode();
+            _sut.MapVm.AddEquipmentAtGpsLocation(EquipmentType.Terminal);
             _sut.Poller.Tick();
             _firstNodeId = _sut.ReadModel.Nodes[1].Id;
             var secondNodeId = _sut.ReadModel.Nodes.Last().Id;
             equipments.Add(Guid.Empty);
             equipments.Add(_sut.ReadModel.Equipments.Last().Id);
-            _sut.Map.AddFiber(_nodeForRtuId, _firstNodeId);
-            _sut.Map.AddFiber(_firstNodeId, secondNodeId);
+            _sut.MapVm.AddFiber(_nodeForRtuId, _firstNodeId);
+            _sut.MapVm.AddFiber(_firstNodeId, secondNodeId);
             _sut.Poller.Tick();
             _fiberId = _sut.ReadModel.Fibers.First().Id;
             var addTraceViewModel = new AddTraceViewModel(_sut.ReadModel, _sut.Aggregate, new List<Guid>(){ _nodeForRtuId, _firstNodeId, secondNodeId }, equipments);
@@ -50,7 +50,7 @@ namespace Graph.Tests
         [When(@"Пользователь кликает добавить узел в отрезок этой трассы")]
         public void WhenПользовательКликаетДобавитьУзелВОтрезок()
         {
-            _sut.Map.AddNodeIntoFiber(_fiberId);
+            _sut.MapVm.AddNodeIntoFiber(_fiberId);
             _sut.Poller.Tick();
             _nodeId = _sut.ReadModel.Nodes.Last().Id;
         }

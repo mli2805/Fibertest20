@@ -23,7 +23,7 @@ namespace Graph.Tests
         [Given(@"Существует оборудование")]
         public void GivenСуществуетОборудование()
         {
-            _sut.Map.AddEquipmentAtGpsLocation(EquipmentType.Terminal);
+            _sut.MapVm.AddEquipmentAtGpsLocation(EquipmentType.Terminal);
             _sut.Poller.Tick();
             _equipmentId = _sut.ReadModel.Equipments.Single().Id;
         }

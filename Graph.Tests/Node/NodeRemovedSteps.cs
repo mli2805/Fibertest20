@@ -20,7 +20,7 @@ namespace Graph.Tests
         [Given(@"Существует узел")]
         public void GivenСуществуетУзел()
         {
-            _sut.Map.AddNode();
+            _sut.MapVm.AddNode();
             _sut.Poller.Tick();
             _nodeId = _sut.ReadModel.Nodes.First().Id;
         }
@@ -28,21 +28,21 @@ namespace Graph.Tests
         [Given(@"К данному узлу присоединен отрезок")]
         public void GivenКДанномуУзлуПрисоединенОтрезок()
         {
-            _sut.Map.AddNode();
+            _sut.MapVm.AddNode();
             _sut.Poller.Tick();
             _anotherNodeId = _sut.ReadModel.Nodes.Last().Id;
-            _sut.Map.AddFiber(_nodeId, _anotherNodeId);
+            _sut.MapVm.AddFiber(_nodeId, _anotherNodeId);
             _sut.Poller.Tick();
         }
 
         [Given(@"Данный узел последний в трассе")]
         public void GivenДанныйУзелПоследнийВТрассе()
         {
-            _sut.Map.AddRtuAtGpsLocation();
+            _sut.MapVm.AddRtuAtGpsLocation();
             _sut.Poller.Tick();
             var rtuNodeId = _sut.ReadModel.Nodes.Last().Id;
             var rtuId = _sut.ReadModel.Rtus.Last().Id;
-            _sut.Map.AddFiber(rtuNodeId, _anotherNodeId);
+            _sut.MapVm.AddFiber(rtuNodeId, _anotherNodeId);
             _sut.Poller.Tick();
             new EquipmentViewModel(_nodeId, Guid.Empty, new List<Guid>(), _sut.Aggregate).Save();
             _sut.Poller.Tick();
@@ -60,11 +60,11 @@ namespace Graph.Tests
         [Given(@"Данный узел НЕ последний в трассе")]
         public void GivenДанныйУзелНеПоследнийВТрассе()
         {
-            _sut.Map.AddRtuAtGpsLocation();
+            _sut.MapVm.AddRtuAtGpsLocation();
             _sut.Poller.Tick();
             _rtuNodeId = _sut.ReadModel.Nodes.Last().Id;
             var rtuId = _sut.ReadModel.Rtus.Last().Id;
-            _sut.Map.AddFiber(_rtuNodeId, _nodeId);
+            _sut.MapVm.AddFiber(_rtuNodeId, _nodeId);
             _sut.Poller.Tick();
             new EquipmentViewModel(_anotherNodeId, Guid.Empty, new List<Guid>(), _sut.Aggregate).Save();
             _sut.Poller.Tick();
@@ -88,7 +88,7 @@ namespace Graph.Tests
         [When(@"Пользователь кликает удалить узел")]
         public void WhenПользовательКликаетУдалитьУзел()
         {
-            _sut.Map.RemoveNode(_nodeId);
+            _sut.MapVm.RemoveNode(_nodeId);
             _sut.Poller.Tick();
         }
 

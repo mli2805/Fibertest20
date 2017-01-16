@@ -18,7 +18,7 @@ namespace Graph.Tests
         [Given(@"Ранее был создан узел с именем (.*)")]
         public void CreateNode(string title)
         {
-            _sut.Map.AddNode();
+            _sut.MapVm.AddNode();
             _sut.Poller.Tick();
             // TODO: Extract into page object
             _updateVm = new UpdateNodeViewModel(
@@ -31,7 +31,7 @@ namespace Graph.Tests
         [Given(@"Добавлен узел")]
         public void CreateNode()
         {
-            _sut.Map.AddNode();
+            _sut.MapVm.AddNode();
             _sut.Poller.Tick();
             _cutOff = _sut.CurrentEventNumber;
 

@@ -7,11 +7,6 @@ using Iit.Fibertest.Graph.Commands;
 
 namespace Iit.Fibertest.WpfClient.ViewModels
 {
-    public class RadioButton
-    {
-        public string Title { get; set; }
-        public bool IsSelected { get; set; }
-    }
     public class EquipmentViewModel : Screen
     {
         private readonly Guid _nodeIdOnlyForAddEquipmentCase;

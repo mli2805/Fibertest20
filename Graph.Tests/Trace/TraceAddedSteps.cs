@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Caliburn.Micro;
 using FluentAssertions;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.WpfClient.ViewModels;
@@ -24,8 +23,8 @@ namespace Graph.Tests
         [Given(@"Существует два узла")]
         public void GivenСуществуетДваУзла()
         {
-            _sut.Map.AddRtuAtGpsLocation();
-            _sut.Map.AddEquipmentAtGpsLocation(EquipmentType.Cross);
+            _sut.MapVm.AddRtuAtGpsLocation();
+            _sut.MapVm.AddEquipmentAtGpsLocation(EquipmentType.Cross);
             _sut.Poller.Tick();
             _rtuNodeId = _sut.ReadModel.Nodes.First().Id;
             _traceEquipments = new List<Guid>() {_sut.ReadModel.Rtus.Single().Id, _sut.ReadModel.Equipments.Single().Id};
@@ -35,7 +34,7 @@ namespace Graph.Tests
         [Given(@"Между этими узлами есть путь")]
         public void GivenМеждуЭтимиУзламиЕстьПуть()
         {
-            _sut.Map.AddFiber(_rtuNodeId, _lastNodeId);
+            _sut.MapVm.AddFiber(_rtuNodeId, _lastNodeId);
             _sut.Poller.Tick();
         }
 
@@ -106,23 +105,5 @@ namespace Graph.Tests
 
     }
 
-    public class FakeWindowManager : IWindowManager
-    {
-        public List<object> Log = new List<object>();
-        public bool? ShowDialog(object rootModel, object context = null, IDictionary<string, object> settings = null)
-        {
-            Log.Add(rootModel);
-            return null;
-        }
-
-        public void ShowWindow(object rootModel, object context = null, IDictionary<string, object> settings = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ShowPopup(object rootModel, object context = null, IDictionary<string, object> settings = null)
-        {
-            throw new NotImplementedException();
-        }
-    }
+    
 }

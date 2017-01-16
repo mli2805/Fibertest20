@@ -16,7 +16,7 @@ namespace Graph.Tests
         [Given(@"Создан узел")]
         public void GivenNodeAdded()
         {
-            _sut.Map.AddNode();
+            _sut.MapVm.AddNode();
             _sut.Poller.Tick();
             _cutOff = _sut.CurrentEventNumber;
             _nodeId = _sut.ReadModel.Nodes.Single().Id;
@@ -25,7 +25,7 @@ namespace Graph.Tests
         [When(@"Пользователь подвинул узел")]
         public void WhenUserMovedNode()
         {
-            _sut.Map.MoveNode(_nodeId);
+            _sut.MapVm.MoveNode(_nodeId);
             _sut.Poller.Tick();
         }
 

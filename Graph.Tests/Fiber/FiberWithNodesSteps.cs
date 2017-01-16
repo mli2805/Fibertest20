@@ -20,8 +20,8 @@ namespace Graph.Tests
         [Given(@"Левый и правый узлы уже созданы")]
         public void GivenЛевыйИПравыйУзлыУжеСозданы()
         {
-            _sut.Map.AddNode();
-            _sut.Map.AddNode();
+            _sut.MapVm.AddNode();
+            _sut.MapVm.AddNode();
             _sut.Poller.Tick();
             _leftNodeId = _sut.ReadModel.Nodes.First().Id;
             _rightNodeId = _sut.ReadModel.Nodes.Last().Id;
@@ -34,7 +34,7 @@ namespace Graph.Tests
         [Given(@"Между левым и правым узлом уже добавлен отрезок")]
         public void GivenМеждуЛевымИПравымУзломУжеДобавленОтрезок()
         {
-            _sut.Map.AddFiber(_leftNodeId, _rightNodeId);
+            _sut.MapVm.AddFiber(_leftNodeId, _rightNodeId);
             _sut.Poller.Tick();
             _fibersCountCutOff = _sut.ReadModel.Fibers.Count;
         }
@@ -44,7 +44,7 @@ namespace Graph.Tests
         {
             const int neverMind = -1;
             const EquipmentType doesntMatter = EquipmentType.Other;
-            _sut.Map.AddFiberWithNodes(_leftNodeId, _rightNodeId, neverMind, doesntMatter);
+            _sut.MapVm.AddFiberWithNodes(_leftNodeId, _rightNodeId, neverMind, doesntMatter);
             _sut.Poller.Tick();
         }
 
@@ -52,21 +52,21 @@ namespace Graph.Tests
         public void WhenПользовательКликаетДобавитьОтрезокСнулемУзлов()
         {
             const EquipmentType doesntMatter = EquipmentType.Other;
-            _sut.Map.AddFiberWithNodes(_leftNodeId, _rightNodeId, 0, doesntMatter);
+            _sut.MapVm.AddFiberWithNodes(_leftNodeId, _rightNodeId, 0, doesntMatter);
             _sut.Poller.Tick();
         }
 
         [When(@"Пользователь кликает добавить отрезок с (.*) пустыми узлами")]
         public void WhenПользовательКликаетДобавитьОтрезокСПустымиУзлами(int p0)
         {
-            _sut.Map.AddFiberWithNodes(_leftNodeId, _rightNodeId, p0, EquipmentType.None);
+            _sut.MapVm.AddFiberWithNodes(_leftNodeId, _rightNodeId, p0, EquipmentType.None);
             _sut.Poller.Tick();
         }
 
         [When(@"Пользователь кликает добавить отрезок с (.*) узлами с муфтами")]
         public void WhenПользовательКликаетДобавитьОтрезокСУзламиСОборудованием(int p0)
         {
-            _sut.Map.AddFiberWithNodes(_leftNodeId, _rightNodeId, p0, EquipmentType.Sleeve);
+            _sut.MapVm.AddFiberWithNodes(_leftNodeId, _rightNodeId, p0, EquipmentType.Sleeve);
             _sut.Poller.Tick();
         }
 

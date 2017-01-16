@@ -28,7 +28,7 @@ namespace Graph.Tests
                 Port = _portNumber,
                 TraceId = _traceId
             };
-            _sut.Map.AttachTrace(cmd);
+            _sut.MapVm.AttachTrace(cmd);
             _sut.Poller.Tick();
         }
 

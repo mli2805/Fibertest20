@@ -68,6 +68,7 @@
     <Compile Include="DomainModel\BaseRef.cs" />
     <Compile Include="DomainModel\Enums\BaseRefType.cs" />
     <Compile Include="DomainModel\Enums\EquipmentType.cs" />
+    <Compile Include="DomainModel\LowLevel\GpsLocation.cs" />
     <Compile Include="Events\Equipment\EquipmentAtGpsLocationAdded.cs" />
     <Compile Include="Events\Equipment\EquipmentRemoved.cs" />
     <Compile Include="Events\Equipment\EquipmentUpdated.cs" />

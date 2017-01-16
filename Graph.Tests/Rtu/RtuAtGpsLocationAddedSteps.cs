@@ -11,7 +11,7 @@ namespace Graph.Tests
         [When(@"Пользователь кликает добавить РТУ")]
         public void WhenUserClicksAddRtu()
         {
-            _sut.Map.AddRtuAtGpsLocation();
+            _sut.MapVm.AddRtuAtGpsLocation();
             _sut.Poller.Tick();
         }
 

@@ -24,6 +24,7 @@ namespace Iit.Fibertest.Graph
         {
             if (WriteModel.IsFiberContainedInTraceWithBase(cmd.FiberId))
                 return "It's impossible to change trace with base reflectogram";
+
             WriteModel.AddAndCommit(_mapper.Map<NodeIntoFiberAdded>(cmd));
             return null;
         }

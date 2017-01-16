@@ -13,7 +13,7 @@ namespace Graph.Tests
         [When(@"Пользователь кликает добавить узел с оборудованием")]
         public void WhenПользовательКликаетДобавитьУзелСОборудованием()
         {
-            _sut.Map.AddEquipmentAtGpsLocation(EquipmentType.Terminal);
+            _sut.MapVm.AddEquipmentAtGpsLocation(EquipmentType.Terminal);
             _sut.Poller.Tick();
         }
 

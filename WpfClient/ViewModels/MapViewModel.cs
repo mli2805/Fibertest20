@@ -8,16 +8,11 @@ using Iit.Fibertest.Graph.Commands;
 
 namespace Iit.Fibertest.WpfClient.ViewModels
 {
-    public class GpsCoors
-    {
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
-    }
     public sealed class MapViewModel : IDataErrorInfo
     {
         private readonly Aggregate _aggregate;
         private readonly ReadModel _readModel;
-        private GpsCoors _currentMousePosition = new GpsCoors();
+        private GpsLocation _currentMousePosition = new GpsLocation();
         private readonly IWindowManager _windowManager;
 
         public MapViewModel(
@@ -35,16 +30,48 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             _aggregate.When(new AddNode { Id = Guid.NewGuid() });
         }
 
+
+        /// <summary>
+        /// узел (GPS location) будет добавлен во все трассы , поэтому если  хоть одна с базовой - отклоняем
+        /// 
+        /// а еще пользователь может сразу добавить оборудование в узел
+        /// и выбрать какие трассы должны использовать это оборудование, может быть ни одна
+        /// </summary>
+        /// <param name="fiberId"></param>
         public void AddNodeIntoFiber(Guid fiberId)
         {
-            var result = _aggregate.When(new AddNodeIntoFiber() { Id = Guid.NewGuid(), FiberId = fiberId });
+            var center = GetFiberCenter(fiberId);
+
+            var userChoice = EquipmentType.CableReserve;
+            var equipmentId = userChoice == EquipmentType.None ? Guid.Empty : Guid.NewGuid();
+            var userList = new List<Guid>(); // список трасс куда должно быть добавлено оборудование
+
+            var result = _aggregate.When(new AddNodeIntoFiber()
+            {
+                Id = Guid.NewGuid(),
+                FiberId = fiberId,
+                NewFiberId1 = Guid.NewGuid(),
+                NewFiberId2 = Guid.NewGuid(),
+                Latitude = center.Latitude, Longitude = center.Longitude,
+                EqType = userChoice, EquipmentId = equipmentId,
+                TracesConsumingEquipment = userList
+            });
             if (result != null)
             {
-//                var windowManager = IoC.Get<IWindowManager>();
-//                var errorNotificationViewModel = new ErrorNotificationViewModel(result);
-//                windowManager.ShowDialog(errorNotificationViewModel);
+                var windowManager = IoC.Get<IWindowManager>();
+                var errorNotificationViewModel = new ErrorNotificationViewModel(result);
+                windowManager.ShowDialog(errorNotificationViewModel);
             }
         }
+
+        private GpsLocation GetFiberCenter(Guid fiberId)
+        {
+            var fiber = _readModel.Fibers.Single(f => f.Id == fiberId);
+            var node1 = _readModel.Nodes.Single(n => n.Id == fiber.Node1);
+            var node2 = _readModel.Nodes.Single(n => n.Id == fiber.Node2);
+            return new GpsLocation() {Latitude = (node1.Latitude + node2.Latitude)/2, Longitude = (node1.Longitude + node2.Longitude)/2};
+        }
+
         public void MoveNode(Guid id)
         {
             var cmd = new MoveNode() { Id = id, Latitude = _currentMousePosition.Latitude, Longitude = _currentMousePosition.Longitude };

@@ -14,7 +14,7 @@ namespace Graph.Tests
         public void WhenUserClicksAddNode()
         {
             _cutOff = _sut.ReadModel.Nodes.Count;
-            _sut.Map.AddNode();
+            _sut.MapVm.AddNode();
         }
 
         [Then(@"Новый узел сохраняется")]
