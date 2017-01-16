@@ -33,6 +33,7 @@ namespace Iit.Fibertest.Graph
             // здесь не добавляем новое оборудование т.к. пока не придумано зачем оно здесь может понадобиться
             AddTwoFibersToNewNode(e);
             FixTracesWhichContainedOldFiber(e);
+            Fibers.Remove(Fibers.Single(f => f.Id == e.FiberId));
         }
         private void FixTracesWhichContainedOldFiber(NodeIntoFiberAdded e)
         {

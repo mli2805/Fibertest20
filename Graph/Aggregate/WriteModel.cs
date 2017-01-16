@@ -80,6 +80,7 @@ namespace Iit.Fibertest.Graph
             // здесь не добавляем новое оборудование т.к. пока не придумано зачем оно здесь может понадобиться
             AddTwoFibersToNewNode(e);
             FixTracesWhichContainedOldFiber(e);
+            _fibers.Remove(_fibers.Single(f => f.Id == e.FiberId));
         }
         private void FixTracesWhichContainedOldFiber(NodeIntoFiberAdded e)
         {
@@ -170,7 +171,7 @@ namespace Iit.Fibertest.Graph
 
         public void Apply(EquipmentAtGpsLocationAdded e)
         {
-       //  TODO:   _nodes.Add(_mapper.Map<Node>(e));
+            _nodes.Add(new Node() { Id = e.NodeId, Latitude = e.Latitude, Longitude = e.Longitude });
         }
 
         public void Apply(EquipmentUpdated e) { }
@@ -182,6 +183,7 @@ namespace Iit.Fibertest.Graph
 
         public void Apply(RtuAtGpsLocationAdded e)
         {
+            _nodes.Add(new Node() {Id = e.NodeId, Latitude = e.Latitude, Longitude = e.Longitude});
             _rtus.Add(_mapper.Map<Rtu>(e));
         }
 
