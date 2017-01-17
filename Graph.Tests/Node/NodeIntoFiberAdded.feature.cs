@@ -90,7 +90,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
 #line 7
- testRunner.When("Пользователь кликает добавить узел в отрезок этой трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("Пользователь кликает добавить узел в первый отрезок этой трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 8
  testRunner.Then("Старый отрезок удаляется и добавляются два новых и новый узел связывает их", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 9
@@ -112,7 +112,7 @@ this.FeatureBackground();
 #line 12
  testRunner.Given("Для данной трассы задана базовая", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 13
- testRunner.When("Пользователь кликает добавить узел в отрезок этой трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("Пользователь кликает добавить узел в первый отрезок этой трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 14
  testRunner.Then("Отказ с сообщением", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
