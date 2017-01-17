@@ -66,7 +66,7 @@ namespace Graph.Tests.Node
         {
 #line 3
 #line 4
- testRunner.Given("Есть трасса", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Две трассы проходят через отрезок и две нет", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
         }
         
@@ -99,22 +99,22 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [Xunit.FactAttribute(DisplayName="Добавление в трассу с заданной базовой")]
+        [Xunit.FactAttribute(DisplayName="Добавление затрагивает трассу с заданной базовой")]
         [Xunit.TraitAttribute("FeatureTitle", "NodeIntoFiberAdded")]
-        [Xunit.TraitAttribute("Description", "Добавление в трассу с заданной базовой")]
-        public virtual void ДобавлениеВТрассуСЗаданнойБазовой()
+        [Xunit.TraitAttribute("Description", "Добавление затрагивает трассу с заданной базовой")]
+        public virtual void ДобавлениеЗатрагиваетТрассуСЗаданнойБазовой()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление в трассу с заданной базовой", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление затрагивает трассу с заданной базовой", ((string[])(null)));
 #line 11
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
 #line 12
- testRunner.Given("Для данной трассы задана базовая", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Для трассы проходящей по данному отрезку задана базовая", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 13
  testRunner.When("Пользователь кликает добавить узел в первый отрезок этой трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 14
- testRunner.Then("Отказ с сообщением", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("Отказ с сообщением It\'s impossible to change trace with base reflectogram", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

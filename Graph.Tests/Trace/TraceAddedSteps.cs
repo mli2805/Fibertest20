@@ -81,18 +81,6 @@ namespace Graph.Tests
                 .ErrorMessage
                 .Should().Be(message);
         }
-
-
-        [Then(@"\?\?\?(.*)")]
-        public void Then(string expected)
-        {
-            _sut.FakeWindowManager.Log
-                .OfType<ErrorNotificationViewModel>()
-                .Last()
-                .ErrorMessage
-                .Should().Be(expected);
-        }
-
     }
 
 

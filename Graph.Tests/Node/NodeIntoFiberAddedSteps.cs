@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using FluentAssertions;
+using Iit.Fibertest.WpfClient.ViewModels;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -9,8 +10,8 @@ namespace Graph.Tests
     public sealed class NodeIntoFiberAddedSteps
     {
         private readonly SystemUnderTest _sut;
-        private Guid _nodeForRtuId;
-        private Guid _firstNodeId;
+        private Guid _a1Id;
+        private Guid _b1Id;
         private Guid _nodeId;
         private Guid _fiberId;
 
@@ -19,14 +20,22 @@ namespace Graph.Tests
             _sut = sut;
         }
 
-        [Given(@"Есть трасса")]
-        public void GivenЕстьТрасса()
+        [Given(@"Две трассы проходят через отрезок и две нет")]
+        public void GivenЕстьДвеТрассыПроходящиеЧерезОтрезокИОднаНе()
         {
-
-            _sut.CreateTraceRtuEmptyTerminal();
-            _nodeForRtuId = _sut.ReadModel.Traces.First().Nodes[0];
-            _firstNodeId = _sut.ReadModel.Traces.First().Nodes[1];
+            _sut.CreatePositionForAddNodeIntoFiberTest();
             _fiberId = _sut.ReadModel.Fibers.First().Id;
+            _a1Id = _sut.ReadModel.Traces.First().Nodes[1];
+            _b1Id = _sut.ReadModel.Traces.First().Nodes[2];
+        }
+
+        [Given(@"Для трассы проходящей по данному отрезку задана базовая")]
+        public void GivenДляДаннойТрассыЗаданаБазовая()
+        {
+            var vm = new AssignBaseRefsViewModel(_sut.ReadModel.Traces.First().Id, _sut.ReadModel, _sut.Aggregate);
+            vm.PreciseBaseFilename = @"..\..\base.sor";
+            vm.Save();
+            _sut.Poller.Tick();
         }
 
         [When(@"Пользователь кликает добавить узел в первый отрезок этой трассы")]
@@ -41,8 +50,8 @@ namespace Graph.Tests
         public void ThenВместоОтрезкаОбразуетсяДваНовыхИНовыйУзелСвязывающийИх()
         {
             _sut.ReadModel.Fibers.FirstOrDefault(f => f.Id == _fiberId).Should().Be(null);
-            _sut.ReadModel.HasFiberBetween(_firstNodeId, _nodeId).Should().BeTrue();
-            _sut.ReadModel.HasFiberBetween(_nodeForRtuId, _nodeId).Should().BeTrue();
+            _sut.ReadModel.HasFiberBetween(_b1Id, _nodeId).Should().BeTrue();
+            _sut.ReadModel.HasFiberBetween(_a1Id, _nodeId).Should().BeTrue();
         }
 
         [Then(@"Новый узел входит в трассу")]
@@ -52,9 +61,14 @@ namespace Graph.Tests
             trace.Nodes.Should().Contain(_nodeId);
         }
 
-        [Then(@"Отказ с сообщением")]
-        public void ThenОтказССообщением()
+        [Then(@"Отказ с сообщением (.*)")]
+        public void ThenСообщение(string message)
         {
+            _sut.FakeWindowManager.Log
+                .OfType<ErrorNotificationViewModel>()
+                .Last()
+                .ErrorMessage
+                .Should().Be(message);
         }
     }
 }

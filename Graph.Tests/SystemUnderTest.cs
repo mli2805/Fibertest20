@@ -44,6 +44,62 @@ namespace Graph.Tests
             Poller.Tick();
         }
 
+        public void CreatePositionForAddNodeIntoFiberTest()
+        {
+            MapVm.AddRtuAtGpsLocation();
+            Poller.Tick();
+            var nodeForRtuId = ReadModel.Rtus.Last().NodeId;
+            MapVm.AddNode();
+            Poller.Tick();
+            var a1 = ReadModel.Nodes.Last().Id;
+            MapVm.AddNode();
+            Poller.Tick();
+            var b1 = ReadModel.Nodes.Last().Id;
+            MapVm.AddFiber(a1, b1); // fiber for insertion
+            Poller.Tick();
+
+            MapVm.AddEquipmentAtGpsLocation(EquipmentType.Terminal);
+            Poller.Tick();
+            var a2 = ReadModel.Nodes.Last().Id;
+            MapVm.AddEquipmentAtGpsLocation(EquipmentType.Terminal);
+            Poller.Tick();
+            var b2 = ReadModel.Nodes.Last().Id;
+            MapVm.AddEquipmentAtGpsLocation(EquipmentType.Terminal);
+            Poller.Tick();
+            var c2 = ReadModel.Nodes.Last().Id;
+            MapVm.AddEquipmentAtGpsLocation(EquipmentType.Terminal);
+            Poller.Tick();
+            var d2 = ReadModel.Nodes.Last().Id;
+
+            MapVm.AddFiber(nodeForRtuId, a1);
+            MapVm.AddFiber(nodeForRtuId, b1);
+            MapVm.AddFiber(a1, b2);
+            MapVm.AddFiber(a1, c2);
+            MapVm.AddFiber(nodeForRtuId, d2);
+            MapVm.AddFiber(b1, a2);
+            Poller.Tick();
+
+            var equipments = new List<Guid> {ReadModel.Rtus.Last().Id, Guid.Empty, Guid.Empty, ReadModel.Equipments.Single(e=>e.NodeId == a2).Id};
+            var addTraceViewModel = new AddTraceViewModel(FakeWindowManager, ReadModel, Aggregate, new List<Guid>() { nodeForRtuId, a1, b1, a2 }, equipments);
+            addTraceViewModel.Save();
+            Poller.Tick();
+
+            equipments = new List<Guid> {ReadModel.Rtus.Last().Id, Guid.Empty, Guid.Empty, ReadModel.Equipments.Single(e=>e.NodeId == b2).Id};
+            addTraceViewModel = new AddTraceViewModel(FakeWindowManager, ReadModel, Aggregate, new List<Guid>() { nodeForRtuId, b1, a1, b2 }, equipments);
+            addTraceViewModel.Save();
+            Poller.Tick();
+
+            equipments = new List<Guid> { ReadModel.Rtus.Last().Id, Guid.Empty, ReadModel.Equipments.Single(e => e.NodeId == c2).Id };
+            addTraceViewModel = new AddTraceViewModel(FakeWindowManager, ReadModel, Aggregate, new List<Guid>() { nodeForRtuId, a1, c2 }, equipments);
+            addTraceViewModel.Save();
+            Poller.Tick();
+
+            equipments = new List<Guid> { ReadModel.Rtus.Last().Id, ReadModel.Equipments.Single(e => e.NodeId == d2).Id };
+            addTraceViewModel = new AddTraceViewModel(FakeWindowManager, ReadModel, Aggregate, new List<Guid>() { nodeForRtuId, d2 }, equipments);
+            addTraceViewModel.Save();
+            Poller.Tick();
+        }
+
 
         public void CreateFieldForPathFinderTest(Guid startId, Guid finishId)
         {
@@ -98,8 +154,6 @@ namespace Graph.Tests
             ReadModel.Fibers.Add(new Iit.Fibertest.Graph.Fiber() { Id = new Guid(), Node1 = e1.Id, Node2 = d1.Id });
             ReadModel.Fibers.Add(new Iit.Fibertest.Graph.Fiber() { Id = new Guid(), Node1 = e2.Id, Node2 = d2.Id });
 
-//            ReadModel.Fibers.Add(new Iit.Fibertest.Graph.Fiber() { Id = new Guid(), Node1 = e0.Id, Node2 = e1.Id });
-//            ReadModel.Fibers.Add(new Iit.Fibertest.Graph.Fiber() { Id = new Guid(), Node1 = e1.Id, Node2 = nn.Id });
             ReadModel.Fibers.Add(new Iit.Fibertest.Graph.Fiber() { Id = new Guid(), Node1 = e2.Id, Node2 = nn.Id });
 
             ReadModel.Fibers.Add(new Iit.Fibertest.Graph.Fiber() { Id = new Guid(), Node1 = zz.Id, Node2 = z2.Id });

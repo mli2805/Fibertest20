@@ -30,6 +30,13 @@ namespace Graph.Tests
             _sut = sut;
         }
 
+        [Given(@"Есть трасса")]
+        public void GivenЕстьТрасса()
+        {
+        
+            _sut.CreateTraceRtuEmptyTerminal();
+        }
+
         [Given(@"Трасса проходит через узел на котором пользователь кликает Добавить оборудование")]
         public void GivenТрассаПроходитЧерезНекоторыйУзел()
         {
@@ -86,7 +93,7 @@ namespace Graph.Tests
         [Given(@"Для данной трассы задана базовая")]
         public void GivenДляДаннойТрассыЗаданаБазовая()
         {
-            var vm = new AssignBaseRefsViewModel(_sut.ReadModel.Traces.Single().Id, _sut.ReadModel, _sut.Aggregate);
+            var vm = new AssignBaseRefsViewModel(_sut.ReadModel.Traces.First().Id, _sut.ReadModel, _sut.Aggregate);
             vm.PreciseBaseFilename = @"..\..\base.sor";
             vm.Save();
             _sut.Poller.Tick();
