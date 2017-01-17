@@ -33,17 +33,4 @@ namespace Iit.Fibertest.Graph
             CreateMap<AssignBaseRef, BaseRefAssigned>();
         }
     }
-
-    public class MappingCmdToDomainModelProfile : Profile
-    {
-        public MappingCmdToDomainModelProfile()
-        {
-            CreateMap<AddNode, Node>();
-            CreateMap<AddEquipment, Equipment>();
-            CreateMap<AddFiber, Fiber>();
-            CreateMap<AddRtuAtGpsLocation, Rtu>();
-
-            CreateMap<AddTrace, Trace>();
-        }
-    }
 }
