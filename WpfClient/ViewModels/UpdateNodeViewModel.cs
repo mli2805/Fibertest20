@@ -89,7 +89,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             var equipmentViewModel = new EquipmentViewModel(NodeId, eq.Id, null, _aggregate);
 
             IMapper mapper = new MapperConfiguration(
-                    cfg => cfg.AddProfile<MappingDomainModelToViewModel>()).CreateMapper();
+                    cfg => cfg.AddProfile<MappingDomainEntityToViewModel>()).CreateMapper();
             mapper.Map(eq, equipmentViewModel);
 
             windowManager.ShowDialog(equipmentViewModel);

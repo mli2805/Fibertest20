@@ -142,9 +142,12 @@ namespace Iit.Fibertest.Graph
             WriteModel.AddAndCommit(_mapper.Map<EquipmentAtGpsLocationAdded>(cmd));
         }
 
-        public void When(UpdateEquipment cmd)
+        public string When(UpdateEquipment cmd)
         {
+//            if (WriteModel.GetEquipment(cmd.Id) == null)
+//                return "Somebody removed this equipment while you updated it";
             WriteModel.AddAndCommit(_mapper.Map<EquipmentUpdated>(cmd));
+            return null;
         }
         public void When(RemoveEquipment cmd)
         {

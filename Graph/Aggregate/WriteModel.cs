@@ -210,6 +210,7 @@ namespace Iit.Fibertest.Graph
             _nodes.Add(new Node() { Id = e.NodeId, Latitude = e.Latitude, Longitude = e.Longitude });
         }
 
+        public Equipment GetEquipment(Guid id) { return _equipments.SingleOrDefault(e=>e.Id == id); }
         public void Apply(EquipmentUpdated e) { }
 
         public void Apply(EquipmentRemoved e) { }

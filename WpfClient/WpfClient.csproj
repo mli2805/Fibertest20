@@ -76,7 +76,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
-    <Compile Include="MappingDomainModelToViewModel.cs" />
+    <Compile Include="MappingDomainEntityToViewModel.cs" />
+    <Compile Include="MappingViewModeltoDomainEntity.cs" />
     <Compile Include="ViewModels\AssignBaseRefsViewModel.cs" />
     <Compile Include="ViewModels\ErrorNotificationViewModel.cs" />
     <Compile Include="IShell.cs" />
@@ -91,8 +92,8 @@
     </Compile>
     <Compile Include="ViewModels\UpdateFiberViewModel.cs" />
     <Compile Include="ViewModels\UpdateNodeViewModel.cs" />
-    <Compile Include="Views\AddEquipmentView.xaml.cs">
-      <DependentUpon>AddEquipmentView.xaml</DependentUpon>
+    <Compile Include="Views\EquipmentView.xaml.cs">
+      <DependentUpon>EquipmentView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\AddTraceView.xaml.cs">
       <DependentUpon>AddTraceView.xaml</DependentUpon>
@@ -109,7 +110,7 @@
     <Compile Include="Views\UpdateNodeView.xaml.cs">
       <DependentUpon>UpdateNodeView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\AddEquipmentView.xaml">
+    <Page Include="Views\EquipmentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -99,7 +99,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         public void Save()
         {
             IMapper mapper = new MapperConfiguration(
-              cfg => cfg.AddProfile<MappingDomainModelToViewModel>()).CreateMapper();
+              cfg => cfg.AddProfile<MappingViewModeltoDomainEntity>()).CreateMapper();
 
             if (EquipmentId == Guid.Empty) // добавление нового оборудования
             {
