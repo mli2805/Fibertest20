@@ -65,10 +65,10 @@
     <Compile Include="Commands\Trace\AssignBaseRef.cs" />
     <Compile Include="Commands\Trace\AddTrace.cs" />
     <Compile Include="Commands\Trace\DetachTrace.cs" />
-    <Compile Include="DomainModel\BaseRef.cs" />
-    <Compile Include="DomainModel\Enums\BaseRefType.cs" />
-    <Compile Include="DomainModel\Enums\EquipmentType.cs" />
-    <Compile Include="DomainModel\LowLevel\GpsLocation.cs" />
+    <Compile Include="DomainEntities\BaseRef.cs" />
+    <Compile Include="DomainEntities\Enums\BaseRefType.cs" />
+    <Compile Include="DomainEntities\Enums\EquipmentType.cs" />
+    <Compile Include="DomainEntities\LowLevel\GpsLocation.cs" />
     <Compile Include="Events\Equipment\EquipmentAtGpsLocationAdded.cs" />
     <Compile Include="Events\Equipment\EquipmentRemoved.cs" />
     <Compile Include="Events\Equipment\EquipmentUpdated.cs" />
@@ -95,14 +95,14 @@
     <Compile Include="Events\Node\NodeUpdated.cs" />
     <Compile Include="Magic\PrivateReflectionDynamicObject.cs" />
     <Compile Include="MappingEventToDomainModelProfile.cs" />
-    <Compile Include="DomainModel\Equipment.cs" />
-    <Compile Include="DomainModel\Fiber.cs" />
-    <Compile Include="DomainModel\Node.cs" />
+    <Compile Include="DomainEntities\Equipment.cs" />
+    <Compile Include="DomainEntities\Fiber.cs" />
+    <Compile Include="DomainEntities\Node.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Algorithms\PathFinder.cs" />
     <Compile Include="ReadModel\ReadModel.cs" />
-    <Compile Include="DomainModel\Rtu.cs" />
-    <Compile Include="DomainModel\Trace.cs" />
+    <Compile Include="DomainEntities\Rtu.cs" />
+    <Compile Include="DomainEntities\Trace.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
