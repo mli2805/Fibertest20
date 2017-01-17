@@ -5,17 +5,6 @@ namespace Iit.Fibertest.Graph
 {
     public static class Topo
     {
-        public static Guid FindFiberByNodes(this ReadModel readModel, Guid leftNode, Guid rightNode)
-        {
-            foreach (var fiber in readModel.Fibers)
-            {
-                if ((fiber.Node1 == leftNode || fiber.Node1 == rightNode) &&
-                    (fiber.Node2 == leftNode || fiber.Node2 == rightNode))
-                    return fiber.Id;
-            }
-            return Guid.Empty;
-        }
-
         public static Rtu FindRtuByTrace(this ReadModel readModel, Guid traceId)
         {
             var trace = readModel.Traces.FirstOrDefault(t => t.Id == traceId);

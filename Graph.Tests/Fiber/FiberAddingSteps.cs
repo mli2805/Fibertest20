@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using FluentAssertions;
-using Iit.Fibertest.Graph;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -44,7 +43,8 @@ namespace Graph.Tests
         [Then(@"Новый отрезок сохранен")]
         public void ThenNewEventPersisted()
         {
-            _sut.ReadModel.FindFiberByNodes(_leftNodeId, _rightNodeId).Should().NotBe(Guid.Empty);
+            _sut.ReadModel.Fibers.Where(f => f.Node1 == _leftNodeId && f.Node2 == _rightNodeId ||
+                                             f.Node2 == _leftNodeId && f.Node1 == _rightNodeId).Should().NotBeNull();
         }
 
         [Then(@"Новый отрезок не создается")]
