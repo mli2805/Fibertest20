@@ -64,7 +64,6 @@
     <Compile Include="Commands\Trace\AssignBaseRef.cs" />
     <Compile Include="Commands\Trace\AddTrace.cs" />
     <Compile Include="Commands\Trace\DetachTrace.cs" />
-    <Compile Include="DomainEntities\BaseRef.cs" />
     <Compile Include="DomainEntities\Enums\BaseRefType.cs" />
     <Compile Include="DomainEntities\Enums\EquipmentType.cs" />
     <Compile Include="DomainEntities\LowLevel\GpsLocation.cs" />
