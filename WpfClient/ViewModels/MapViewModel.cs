@@ -14,6 +14,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         private readonly ReadModel _readModel;
         private GpsLocation _currentMousePosition = new GpsLocation();
         private readonly IWindowManager _windowManager;
+        public AddTraceViewModel AddTraceViewModel;
 
         public MapViewModel(
             Aggregate aggregate, ReadModel readModel, 
@@ -172,20 +173,16 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             {
                 var nodes = path.ToList();
                 var equipments = CollectEquipmentForTrace(nodes);
-                if (equipments == null)
-                    return;
-
-                var windowManager = IoC.Get<IWindowManager>();
-                var addEquipmentViewModel = new AddTraceViewModel(_readModel, _aggregate, nodes, equipments);
-                windowManager.ShowDialog(addEquipmentViewModel);
+                AddTraceViewModel = new AddTraceViewModel(_windowManager, _readModel, _aggregate, nodes, equipments);
+                _windowManager.ShowDialog(AddTraceViewModel);
             }
         }
 
         //TODO: требуется реальное наполнение c запросами пользователю и проверкой, что последний узел содержит оборудование
-        private List<Guid> CollectEquipmentForTrace(List<Guid> nodes)
+        public List<Guid> CollectEquipmentForTrace(List<Guid> nodes)
         {
-            var equipments = new List<Guid>();
-            foreach (var nodeId in nodes)
+            var equipments = new List<Guid> {_readModel.Rtus.Single(r => r.NodeId == nodes[0]).Id};
+            foreach (var nodeId in nodes.Skip(1))
             {
                 var equipment = _readModel.Equipments.FirstOrDefault(e => e.NodeId == nodeId);
                 equipments.Add(equipment?.Id ?? Guid.Empty);

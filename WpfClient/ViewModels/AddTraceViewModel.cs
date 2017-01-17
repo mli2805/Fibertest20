@@ -10,6 +10,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 {
     public class AddTraceViewModel : Screen, IDataErrorInfo
     {
+        private readonly IWindowManager _windowManager;
         private readonly ReadModel _readModel;
         private readonly Aggregate _aggregate;
         private readonly List<Guid> _nodes;
@@ -45,8 +46,9 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         public bool IsClosed { get; set; }
 
 
-        public AddTraceViewModel(ReadModel readModel, Aggregate aggregate, List<Guid> nodes, List<Guid> equipments)
+        public AddTraceViewModel(IWindowManager windowManager, ReadModel readModel, Aggregate aggregate, List<Guid> nodes, List<Guid> equipments)
         {
+            _windowManager = windowManager;
             _readModel = readModel;
             _aggregate = aggregate;
             _nodes = nodes;
@@ -57,7 +59,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
         public void Save()
         {
-            _aggregate.When(new AddTrace()
+            var error = _aggregate.When(new AddTrace()
             {
                 Id = Guid.NewGuid(),
                 RtuId = _readModel.Rtus.Single(r=>r.NodeId == _nodes[0]).Id,
@@ -66,6 +68,12 @@ namespace Iit.Fibertest.WpfClient.ViewModels
                 Equipments = _equipments,
                 Comment = _comment
             });
+
+            if (error != null)
+            {
+                _windowManager.ShowDialog(new ErrorNotificationViewModel(error));
+                return;
+            }
 
             CloseView();
         }

@@ -23,7 +23,7 @@ namespace Graph.Tests
         public void GivenЕстьТрасса()
         {
 
-            _sut.CreateTrace();
+            _sut.CreateTraceRtuEmptyTerminal();
             _nodeForRtuId = _sut.ReadModel.Traces.First().Nodes[0];
             _firstNodeId = _sut.ReadModel.Traces.First().Nodes[1];
             _fiberId = _sut.ReadModel.Fibers.First().Id;

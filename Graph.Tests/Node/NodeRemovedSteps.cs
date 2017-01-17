@@ -51,7 +51,7 @@ namespace Graph.Tests
             var nodes = new List<Guid>() { rtuNodeId, _anotherNodeId, _nodeId };
             var equipments = new List<Guid>() {rtuId, Guid.Empty, equipmentId };
 
-            var addTraceViewModel = new AddTraceViewModel(_sut.ReadModel, _sut.Aggregate, nodes, equipments);
+            var addTraceViewModel = new AddTraceViewModel(_sut.FakeWindowManager, _sut.ReadModel, _sut.Aggregate, nodes, equipments);
             addTraceViewModel.Save();
             _sut.Poller.Tick();
             _trace = _sut.ReadModel.Traces.Last();
@@ -73,7 +73,7 @@ namespace Graph.Tests
             var nodes = new List<Guid>() { _rtuNodeId, _nodeId, _anotherNodeId };
             var equipments = new List<Guid>() { rtuId, Guid.Empty, equipmentId };
 
-            var addTraceViewModel = new AddTraceViewModel(_sut.ReadModel, _sut.Aggregate, nodes, equipments);
+            var addTraceViewModel = new AddTraceViewModel(_sut.FakeWindowManager, _sut.ReadModel, _sut.Aggregate, nodes, equipments);
             addTraceViewModel.Save();
             _sut.Poller.Tick();
             _trace = _sut.ReadModel.Traces.Last();

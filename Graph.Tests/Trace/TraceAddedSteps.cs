@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Graph;
@@ -12,64 +11,44 @@ namespace Graph.Tests
     public sealed class TraceAddedSteps
     {
         private readonly SystemUnderTest _sut = new SystemUnderTest();
-        private AddTraceViewModel _addTraceViewModel;
-        private ErrorNotificationViewModel _errorNotificationViewModel;
         private Guid _rtuNodeId;
         private Guid _lastNodeId;
-        private List<Guid> _traceNodes;
-        private List<Guid> _traceEquipments;
 
-
-        [Given(@"Существует два узла")]
-        public void GivenСуществуетДваУзла()
+        [Given(@"Существует набор узлов и отрезков")]
+        public void GivenСуществуетНаборУзловИОтрезков()
         {
             _sut.MapVm.AddRtuAtGpsLocation();
-            _sut.MapVm.AddEquipmentAtGpsLocation(EquipmentType.Cross);
             _sut.Poller.Tick();
-            _rtuNodeId = _sut.ReadModel.Nodes.First().Id;
-            _traceEquipments = new List<Guid>() {_sut.ReadModel.Rtus.Single().Id, _sut.ReadModel.Equipments.Single().Id};
-            _lastNodeId = _sut.ReadModel.Nodes.Last().Id;
+            _rtuNodeId = _sut.ReadModel.Rtus.Last().NodeId;
+            _sut.MapVm.AddEquipmentAtGpsLocation(EquipmentType.Terminal);
+            _sut.Poller.Tick();
+            _lastNodeId = _sut.ReadModel.Equipments.Last().NodeId;
+
+            _sut.CreateFieldForPathFinderTest(_rtuNodeId, _lastNodeId);
         }
 
-        [Given(@"Между этими узлами есть путь")]
-        public void GivenМеждуЭтимиУзламиЕстьПуть()
+        [Given(@"Между выбираемыми узлами нет пути")]
+        public void GivenМеждуВыбираемымиУзламиНетПути()
         {
-            _sut.MapVm.AddFiber(_rtuNodeId, _lastNodeId);
-            _sut.Poller.Tick();
+            _sut.ReadModel.Fibers.RemoveAt(2);
         }
 
         [Given(@"Пользователь выбрал два узла и кликнул определить трассу")]
         public void GivenПользовательВыбралДваУзлаИКликнулОпределитьТрассу()
         {
-            var path = new PathFinder(_sut.ReadModel).FindPath(_rtuNodeId, _lastNodeId);
-            if (path != null)
-            {
-                _traceNodes = path.ToList();
-                _addTraceViewModel = new AddTraceViewModel(_sut.ReadModel, _sut.Aggregate, _traceNodes, _traceEquipments);
-            }
-            else
-            {
-                _errorNotificationViewModel = new ErrorNotificationViewModel("Path couldn't be found!");
-            }
+            _sut.MapVm.DefineTrace(_rtuNodeId, _lastNodeId);
         }
-
-        [Then(@"Сообщение о отсутствии пути")]
-        public void ThenСообщениеООтсутствииПути()
-        {
-            _errorNotificationViewModel.IsClosed.Should().BeFalse();
-        }
-
 
         [Then(@"Открывается окно добавления трассы")]
         public void ThenОткрываетсяОкноДобавленияТрассы()
         {
-            _addTraceViewModel.IsClosed.Should().BeFalse();
+            _sut.MapVm.AddTraceViewModel.IsClosed.Should().BeFalse();
         }
 
         [When(@"Пользователь вводит название трассы и жмет Сохранить")]
         public void WhenПользовательВводитНазваниеТрассыИЖметСохранить()
         {
-            _addTraceViewModel.Save();
+            _sut.MapVm.AddTraceViewModel.Save();
             _sut.Poller.Tick();
         }
 
@@ -77,21 +56,32 @@ namespace Graph.Tests
         public void ThenНоваяТрассаСохраняетсяИОкноЗакрывается()
         {
             _sut.ReadModel.Traces.Count.Should().Be(1);
-            _addTraceViewModel.IsClosed = true;
+            _sut.MapVm.AddTraceViewModel.IsClosed = true;
         }
 
         [When(@"Пользователь жмет Отмена")]
         public void WhenПользовательЖметОтмена()
         {
-            _addTraceViewModel.Cancel();
+            _sut.MapVm.AddTraceViewModel.Cancel();
         }
 
         [Then(@"Окно закрывается и трасса не сохраняется")]
         public void ThenОкноЗакрываетсяИТрассаНеСохраняется()
         {
             _sut.ReadModel.Traces.Count.Should().Be(0);
-            _addTraceViewModel.IsClosed = true;
+            _sut.MapVm.AddTraceViewModel.IsClosed = true;
         }
+
+        [Then(@"Сообщение (.*)")]
+        public void ThenСообщение(string message)
+        {
+            _sut.FakeWindowManager.Log
+                .OfType<ErrorNotificationViewModel>()
+                .Last()
+                .ErrorMessage
+                .Should().Be(message);
+        }
+
 
         [Then(@"\?\?\?(.*)")]
         public void Then(string expected)
@@ -105,5 +95,5 @@ namespace Graph.Tests
 
     }
 
-    
+
 }

@@ -168,15 +168,16 @@ namespace Iit.Fibertest.Graph
         #endregion
 
         #region Trace
-        public void When(AddTrace cmd)
+        public string When(AddTrace cmd)
         {
             var rtu = WriteModel.GetRtu(cmd.RtuId);
-            if (rtu == null) return; // RTU is not found
+            if (rtu == null) return "RTU is not found";
             if (cmd.Equipments[0] != cmd.RtuId ||
                 cmd.Nodes.Count != cmd.Equipments.Count ||
-                cmd.Equipments.Last() == Guid.Empty) return;
+                cmd.Equipments.Last() == Guid.Empty) return "Validation faulted!";
 
             WriteModel.AddAndCommit(_mapper.Map<TraceAdded>(cmd));
+            return null;
             //_traces.Add(_mapper2.Map<Trace>(cmd));
         }
 

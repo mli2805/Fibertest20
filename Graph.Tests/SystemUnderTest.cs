@@ -22,7 +22,7 @@ namespace Graph.Tests
             MapVm = new MapViewModel(Aggregate, ReadModel, FakeWindowManager);
         }
 
-        public void CreateTrace()
+        public void CreateTraceRtuEmptyTerminal()
         {
             var equipments = new List<Guid>();
             MapVm.AddRtuAtGpsLocation();
@@ -39,9 +39,71 @@ namespace Graph.Tests
             MapVm.AddFiber(nodeForRtuId, firstNodeId);
             MapVm.AddFiber(firstNodeId, secondNodeId);
             Poller.Tick();
-            var addTraceViewModel = new AddTraceViewModel(ReadModel, Aggregate, new List<Guid>() { nodeForRtuId, firstNodeId, secondNodeId }, equipments);
+            var addTraceViewModel = new AddTraceViewModel(FakeWindowManager, ReadModel, Aggregate, new List<Guid>() { nodeForRtuId, firstNodeId, secondNodeId }, equipments);
             addTraceViewModel.Save();
             Poller.Tick();
         }
+
+
+        public void CreateFieldForPathFinderTest(Guid startId, Guid finishId)
+        {
+            var a0 = ReadModel.Nodes.Single(n => n.Id == startId);
+
+            var b0 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid(), Title = "b0" };
+            ReadModel.Nodes.Add(b0);
+            var b1 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid(), Title = "b1" };
+            ReadModel.Nodes.Add(b1);
+            var b2 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid(), Title = "b2" };
+            ReadModel.Nodes.Add(b2);
+            var c0 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid(), Title = "c0" };
+            ReadModel.Nodes.Add(c0);
+            var c1 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid(), Title = "c1" };
+            ReadModel.Nodes.Add(c1);
+            var c2 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid(), Title = "c2" };
+            ReadModel.Nodes.Add(c2);
+            var d0 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid(), Title = "d0" };
+            ReadModel.Nodes.Add(d0);
+            var d1 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid(), Title = "d1" };
+            ReadModel.Nodes.Add(d1);
+            var d2 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid(), Title = "d2" };
+            ReadModel.Nodes.Add(d2);
+            var e0 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid(), Title = "e0" };
+            ReadModel.Nodes.Add(e0);
+            var e1 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid(), Title = "e1" };
+            ReadModel.Nodes.Add(e1);
+            var e2 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid(), Title = "e2" };
+            ReadModel.Nodes.Add(e2);
+
+            var nn = ReadModel.Nodes.Single(n => n.Id == finishId);
+
+            var zz = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid(), Title = "zz" };
+            ReadModel.Nodes.Add(zz);
+            var z2 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid(), Title = "z2" };
+            ReadModel.Nodes.Add(z2);
+
+
+            ReadModel.Fibers.Add(new Iit.Fibertest.Graph.Fiber() { Id = new Guid(), Node1 = a0.Id, Node2 = b0.Id });
+            ReadModel.Fibers.Add(new Iit.Fibertest.Graph.Fiber() { Id = new Guid(), Node1 = a0.Id, Node2 = b1.Id });
+            ReadModel.Fibers.Add(new Iit.Fibertest.Graph.Fiber() { Id = new Guid(), Node1 = a0.Id, Node2 = b2.Id });
+
+            ReadModel.Fibers.Add(new Iit.Fibertest.Graph.Fiber() { Id = new Guid(), Node1 = c0.Id, Node2 = b0.Id });
+            ReadModel.Fibers.Add(new Iit.Fibertest.Graph.Fiber() { Id = new Guid(), Node1 = c1.Id, Node2 = b1.Id });
+            ReadModel.Fibers.Add(new Iit.Fibertest.Graph.Fiber() { Id = new Guid(), Node1 = c2.Id, Node2 = b2.Id });
+
+            ReadModel.Fibers.Add(new Iit.Fibertest.Graph.Fiber() { Id = new Guid(), Node1 = c0.Id, Node2 = d0.Id });
+            ReadModel.Fibers.Add(new Iit.Fibertest.Graph.Fiber() { Id = new Guid(), Node1 = c1.Id, Node2 = d1.Id });
+            ReadModel.Fibers.Add(new Iit.Fibertest.Graph.Fiber() { Id = new Guid(), Node1 = c2.Id, Node2 = d2.Id });
+
+            ReadModel.Fibers.Add(new Iit.Fibertest.Graph.Fiber() { Id = new Guid(), Node1 = e0.Id, Node2 = d0.Id });
+            ReadModel.Fibers.Add(new Iit.Fibertest.Graph.Fiber() { Id = new Guid(), Node1 = e1.Id, Node2 = d1.Id });
+            ReadModel.Fibers.Add(new Iit.Fibertest.Graph.Fiber() { Id = new Guid(), Node1 = e2.Id, Node2 = d2.Id });
+
+//            ReadModel.Fibers.Add(new Iit.Fibertest.Graph.Fiber() { Id = new Guid(), Node1 = e0.Id, Node2 = e1.Id });
+//            ReadModel.Fibers.Add(new Iit.Fibertest.Graph.Fiber() { Id = new Guid(), Node1 = e1.Id, Node2 = nn.Id });
+            ReadModel.Fibers.Add(new Iit.Fibertest.Graph.Fiber() { Id = new Guid(), Node1 = e2.Id, Node2 = nn.Id });
+
+            ReadModel.Fibers.Add(new Iit.Fibertest.Graph.Fiber() { Id = new Guid(), Node1 = zz.Id, Node2 = z2.Id });
+        }
+
     }
 }

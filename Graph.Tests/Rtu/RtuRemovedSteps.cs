@@ -53,7 +53,7 @@ namespace Graph.Tests
         public void GivenСуществуетТрассаОтДанногоРту()
         {
             var traceNodes = new PathFinder(_sut.ReadModel).FindPath(_rtu.NodeId, _endTraceNode.Id).ToList();
-            new AddTraceViewModel(_sut.ReadModel, _sut.Aggregate, traceNodes, _traceEquipment).Save();
+            new AddTraceViewModel(_sut.FakeWindowManager, _sut.ReadModel, _sut.Aggregate, traceNodes, _traceEquipment).Save();
             _sut.Poller.Tick();
         }
 
