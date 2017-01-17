@@ -16,8 +16,6 @@ namespace Iit.Fibertest.Graph
         public List<Equipment> Equipments { get; } = new List<Equipment>();
         public List<Rtu> Rtus { get; } = new List<Rtu>();
         public List<Trace> Traces { get; } = new List<Trace>();
-        public List<BaseRef> BaseRefs { get; } = new List<BaseRef>();
-
 
         #region Node
         public void Apply(NodeAdded e)
@@ -242,7 +240,9 @@ namespace Iit.Fibertest.Graph
 
         public void Apply(BaseRefAssigned e)
         {
-            BaseRefs.Add(_mapper.Map<BaseRef>(e));
+            // базовая не хранится на клиенте, а получается по запросу
+            // в полях трассы хранятся id ее базовых
+            // BaseRefs.Add(_mapper.Map<BaseRef>(e));
             var trace = Traces.Single(t => t.Id == e.TraceId);
             if (e.Type == BaseRefType.Precise)
                 trace.PreciseId = e.Id;
