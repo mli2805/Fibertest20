@@ -171,10 +171,14 @@ namespace Iit.Fibertest.Graph
         public string When(AddTrace cmd)
         {
             var rtu = WriteModel.GetRtu(cmd.RtuId);
-            if (rtu == null) return "RTU is not found";
-            if (cmd.Equipments[0] != cmd.RtuId ||
-                cmd.Nodes.Count != cmd.Equipments.Count ||
-                cmd.Equipments.Last() == Guid.Empty) return "Validation faulted!";
+            if (rtu == null)
+                return "RTU is not found";
+            if (cmd.Equipments[0] != cmd.RtuId)
+                return "Trace should start from RTU";
+            if (cmd.Nodes.Count != cmd.Equipments.Count)
+                return "Equipments count in trace should match nodes count";
+            if (cmd.Equipments.Last() == Guid.Empty)
+                return "Last node of trace must contain equipment";
 
             WriteModel.AddAndCommit(_mapper.Map<TraceAdded>(cmd));
             return null;

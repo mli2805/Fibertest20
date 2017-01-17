@@ -9,6 +9,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 {
     public class EquipmentViewModel : Screen
     {
+        private readonly IWindowManager _windowManager;
         private readonly Guid _nodeIdOnlyForAddEquipmentCase;
         private readonly Aggregate _aggregate;
         private string _title;
@@ -74,15 +75,16 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
         public Guid EquipmentId { get; set; }
 
-        public RadioButton CableReserve { get; set; } = new RadioButton() {Title = "CableReserve", IsSelected = false};
-        public RadioButton Sleeve { get; } = new RadioButton() {Title = "Sleeve", IsSelected = true};
-        public RadioButton Cross { get; } = new RadioButton() {Title = "Cross", IsSelected = false};
-        public RadioButton Terminal { get; } = new RadioButton() {Title = "Terminal", IsSelected = false};
-        public RadioButton Other { get; } = new RadioButton() {Title = "Other", IsSelected = false};
+        public RadioButton CableReserve { get; set; } = new RadioButton() { Title = "CableReserve", IsSelected = false };
+        public RadioButton Sleeve { get; } = new RadioButton() { Title = "Sleeve", IsSelected = true };
+        public RadioButton Cross { get; } = new RadioButton() { Title = "Cross", IsSelected = false };
+        public RadioButton Terminal { get; } = new RadioButton() { Title = "Terminal", IsSelected = false };
+        public RadioButton Other { get; } = new RadioButton() { Title = "Other", IsSelected = false };
 
         public bool IsClosed { get; set; }
-        public EquipmentViewModel(Guid nodeId, Guid equipmentId, List<Guid> tracesForInsertion, Aggregate aggregate)
+        public EquipmentViewModel(IWindowManager windowManager, Guid nodeId, Guid equipmentId, List<Guid> tracesForInsertion, Aggregate aggregate)
         {
+            _windowManager = windowManager;
             _nodeIdOnlyForAddEquipmentCase = nodeId;
             _aggregate = aggregate;
             EquipmentId = equipmentId;
@@ -111,9 +113,8 @@ namespace Iit.Fibertest.WpfClient.ViewModels
                 var result = _aggregate.When(cmd);
                 if (result != null)
                 {
-                    //                var windowManager = IoC.Get<IWindowManager>();
-                    //                var errorNotificationViewModel = new ErrorNotificationViewModel(result);
-                    //                windowManager.ShowDialog(errorNotificationViewModel);
+                    var errorNotificationViewModel = new ErrorNotificationViewModel(result);
+                    _windowManager.ShowDialog(errorNotificationViewModel);
                     return;
                 }
             }

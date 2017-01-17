@@ -44,7 +44,7 @@ namespace Graph.Tests
             var rtuId = _sut.ReadModel.Rtus.Last().Id;
             _sut.MapVm.AddFiber(rtuNodeId, _anotherNodeId);
             _sut.Poller.Tick();
-            new EquipmentViewModel(_nodeId, Guid.Empty, new List<Guid>(), _sut.Aggregate).Save();
+            new EquipmentViewModel(_sut.FakeWindowManager, _nodeId, Guid.Empty, new List<Guid>(), _sut.Aggregate).Save();
             _sut.Poller.Tick();
             var equipmentId = _sut.ReadModel.Equipments.Last().Id;
 
@@ -66,7 +66,7 @@ namespace Graph.Tests
             var rtuId = _sut.ReadModel.Rtus.Last().Id;
             _sut.MapVm.AddFiber(_rtuNodeId, _nodeId);
             _sut.Poller.Tick();
-            new EquipmentViewModel(_anotherNodeId, Guid.Empty, new List<Guid>(), _sut.Aggregate).Save();
+            new EquipmentViewModel(_sut.FakeWindowManager, _anotherNodeId, Guid.Empty, new List<Guid>(), _sut.Aggregate).Save();
             _sut.Poller.Tick();
             var equipmentId = _sut.ReadModel.Equipments.Last().Id;
 

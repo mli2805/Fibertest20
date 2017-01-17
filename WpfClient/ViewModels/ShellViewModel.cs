@@ -48,7 +48,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             var equipment = new Equipment() {Id = Guid.NewGuid(), NodeId = node.Id, Type = EquipmentType.Cross};
 
             var windowManager = IoC.Get<IWindowManager>();
-            var equipmentViewModel = new EquipmentViewModel(Guid.Empty, equipment.Id, null, _aggregate);
+            var equipmentViewModel = new EquipmentViewModel(windowManager, Guid.Empty, equipment.Id, null, _aggregate);
             windowManager.ShowDialog(equipmentViewModel);
 
         }

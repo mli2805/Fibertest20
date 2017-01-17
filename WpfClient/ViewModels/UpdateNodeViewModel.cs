@@ -74,7 +74,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         public void LaunchAddEquipmentView()
         {
             var windowManager = IoC.Get<IWindowManager>();
-            var addEquipmentViewModel = new EquipmentViewModel(NodeId, Guid.Empty, new List<Guid>(),  _aggregate);
+            var addEquipmentViewModel = new EquipmentViewModel(windowManager, NodeId, Guid.Empty, new List<Guid>(),  _aggregate);
             windowManager.ShowDialog(addEquipmentViewModel);
         }
 
@@ -86,7 +86,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
 
             var windowManager = IoC.Get<IWindowManager>();
-            var equipmentViewModel = new EquipmentViewModel(NodeId, eq.Id, null, _aggregate);
+            var equipmentViewModel = new EquipmentViewModel(windowManager, NodeId, eq.Id, null, _aggregate);
 
             IMapper mapper = new MapperConfiguration(
                     cfg => cfg.AddProfile<MappingDomainEntityToViewModel>()).CreateMapper();

@@ -39,6 +39,13 @@ namespace Graph.Tests
             _sut.MapVm.DefineTrace(_rtuNodeId, _lastNodeId);
         }
 
+        [Given(@"Другой пользователь удалил РТУ")]
+        public void GivenДругойПользовательУдалилРТУ()
+        {
+            _sut.MapVm.RemoveRtu(_sut.ReadModel.Rtus.Last().Id);
+            _sut.Poller.Tick();
+        }
+
         [Then(@"Открывается окно добавления трассы")]
         public void ThenОткрываетсяОкноДобавленияТрассы()
         {
