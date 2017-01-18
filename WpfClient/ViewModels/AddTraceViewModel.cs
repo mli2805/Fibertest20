@@ -59,7 +59,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
         public void Save()
         {
-            var error = _aggregate.When(new AddTrace()
+            var error = _aggregate.When(new AddTrace
             {
                 Id = Guid.NewGuid(),
                 RtuId = _readModel.Rtus.Single(r=>r.NodeId == _nodes[0]).Id,

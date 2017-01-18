@@ -75,11 +75,11 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
         public Guid EquipmentId { get; set; }
 
-        public MyRadioButton CableReserve { get; set; } = new MyRadioButton() { Title = "CableReserve", IsSelected = false };
-        public MyRadioButton Sleeve { get; } = new MyRadioButton() { Title = "Sleeve", IsSelected = true };
-        public MyRadioButton Cross { get; } = new MyRadioButton() { Title = "Cross", IsSelected = false };
-        public MyRadioButton Terminal { get; } = new MyRadioButton() { Title = "Terminal", IsSelected = false };
-        public MyRadioButton Other { get; } = new MyRadioButton() { Title = "Other", IsSelected = false };
+        public MyRadioButton CableReserve { get; set; } = new MyRadioButton { Title = "CableReserve", IsSelected = false };
+        public MyRadioButton Sleeve { get; } = new MyRadioButton { Title = "Sleeve", IsSelected = true };
+        public MyRadioButton Cross { get; } = new MyRadioButton { Title = "Cross", IsSelected = false };
+        public MyRadioButton Terminal { get; } = new MyRadioButton { Title = "Terminal", IsSelected = false };
+        public MyRadioButton Other { get; } = new MyRadioButton { Title = "Other", IsSelected = false };
 
         public bool IsClosed { get; set; }
         public EquipmentViewModel(IWindowManager windowManager, Guid nodeId, Guid equipmentId, List<Guid> tracesForInsertion, Aggregate aggregate)
@@ -143,11 +143,11 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         {
             if (CableReserve.IsSelected)
                 return EquipmentType.CableReserve;
-            else if (Sleeve.IsSelected)
+            if (Sleeve.IsSelected)
                 return EquipmentType.Sleeve;
-            else if (Cross.IsSelected)
+            if (Cross.IsSelected)
                 return EquipmentType.Cross;
-            else if (Terminal.IsSelected)
+            if (Terminal.IsSelected)
                 return EquipmentType.Terminal;
             //else if (Other.IsSelected)
             return EquipmentType.Other;

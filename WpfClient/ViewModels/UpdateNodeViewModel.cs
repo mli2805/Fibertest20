@@ -81,7 +81,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         public void LaunchUpdateEquipmentView()
         {
             // как будто оборудование уже существовало и пользователь хочет его редактировать
-            Equipment eq = new Equipment() {Id = Guid.NewGuid(), NodeId = NodeId, Type = EquipmentType.Other, Title = "Изменяемое оборудование", Comment = "Передается маппером", CableReserveLeft = 10};
+            Equipment eq = new Equipment {Id = Guid.NewGuid(), NodeId = NodeId, Type = EquipmentType.Other, Title = "Изменяемое оборудование", Comment = "Передается маппером", CableReserveLeft = 10};
             _readModel.Equipments.Add(eq);
 
 
@@ -97,7 +97,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
         public void RemoveEquipment(Guid equipmentId)
         {
-            _aggregate.When(new RemoveEquipment() {Id = equipmentId});
+            _aggregate.When(new RemoveEquipment {Id = equipmentId});
         }
 
         public void Save()
@@ -112,7 +112,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             {
                 Id = NodeId,
                 Title = _title,
-                Comment = _comment,
+                Comment = _comment
             });
             if (Error != null)
                 return;

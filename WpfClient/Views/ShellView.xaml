@@ -4,11 +4,12 @@
         Width="300" SizeToContent="Height" WindowStartupLocation="CenterScreen">
 
     <StackPanel>
-        <Button Name="LaunchUpdateNodeView" Height="25" Width="180" Margin="5" Content="Launch UpdateNodeView"/>
+        <Button Name="LaunchUpdateNodeView" Height="25" Width="180" Margin="5,25,5,5" Content="Launch UpdateNodeView"/>
         <Button Name="LaunchUpdateFiberView" Height="25" Width="180" Margin="5" Content="Launch UpdateFiberView"/>
         <Button Name="LaunchEquipmentView" Height="25" Width="180" Margin="5" Content="Launch EquipmentView"/>
         <Button Name="LaunchAssignBaseRefs" Height="25" Width="180" Margin="5" Content="Launch AssignBaseRefs"/>
         <Button Name="FakeAddNodeIntoFiber" Height="25" Width="180" Margin="5,25,5,5" Content="Fake AddNodeIntoFiber"/>
+        <Button Name="FakeTraceDefine" Height="25" Width="180" Margin="5,5,5,25" Content="Fake TraceDefine"/>
     </StackPanel>
 
 </Window>

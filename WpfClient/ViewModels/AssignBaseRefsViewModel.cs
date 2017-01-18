@@ -47,7 +47,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
         private void SendAssingBaseRef(string filename, BaseRefType type)
         {
-            _aggregate.When(new AssignBaseRef()
+            _aggregate.When(new AssignBaseRef
             {
                 Id = filename != "" ? Guid.NewGuid() : Guid.Empty, TraceId = _trace.Id, Type = type, Content = filename != "" ? File.ReadAllBytes(filename) : null
             } );

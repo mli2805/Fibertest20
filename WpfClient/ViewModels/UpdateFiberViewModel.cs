@@ -81,7 +81,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
         public void Save()
         {
-            var cmd = new UpdateFiber() {Id = _fiber.Id, UserInputedLength = double.Parse(_userInputedLength)};
+            var cmd = new UpdateFiber {Id = _fiber.Id, UserInputedLength = double.Parse(_userInputedLength)};
             _aggregate.When(cmd);
             TryClose();
         }

@@ -29,9 +29,9 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             Choices = new List<MyRadioButton>();
             foreach (var equipment in _possibleEquipment)
             {
-                Choices.Add(new MyRadioButton() {Title = equipment.Title, IsSelected = equipment == _possibleEquipment.First()});
+                Choices.Add(new MyRadioButton {Title = equipment.Title, IsSelected = equipment == _possibleEquipment.First()});
             }
-            Choices.Add(new MyRadioButton() {Title = "Не использовать", IsSelected = false, IsEnabled = !_isLastNode});
+            Choices.Add(new MyRadioButton {Title = "Не использовать", IsSelected = false, IsEnabled = !_isLastNode});
         }
 
         public Guid GetSelectedGuid()
