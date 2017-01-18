@@ -17,7 +17,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         public AddTraceViewModel AddTraceViewModel;
 
         public MapViewModel(
-            Aggregate aggregate, ReadModel readModel, 
+            Aggregate aggregate, ReadModel readModel,
             IWindowManager windowManager)
         {
             Aggregate = aggregate;
@@ -37,7 +37,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             // как будто пользователь кликнул на файбере правой кнопкой
             // должно быть построено попап меню, в котором надо решить
             // кнопка Добавить узел в отрезок/трассы доступна или нет
-//            Guid fiberId = GetFiberFromMouse(x, y);
+            //            Guid fiberId = GetFiberFromMouse(x, y);
             Guid fiberId = Guid.NewGuid();
 
             return !ReadModel.IsFiberContainedInTraceWithBase(fiberId);
@@ -64,8 +64,10 @@ namespace Iit.Fibertest.WpfClient.ViewModels
                 FiberId = fiberId,
                 NewFiberId1 = Guid.NewGuid(),
                 NewFiberId2 = Guid.NewGuid(),
-                Latitude = center.Latitude, Longitude = center.Longitude,
-                EqType = userChoice, EquipmentId = equipmentId,
+                Latitude = center.Latitude,
+                Longitude = center.Longitude,
+                EqType = userChoice,
+                EquipmentId = equipmentId,
                 TracesConsumingEquipment = userList
             });
             if (result != null)
@@ -80,7 +82,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             var fiber = ReadModel.Fibers.Single(f => f.Id == fiberId);
             var node1 = ReadModel.Nodes.Single(n => n.Id == fiber.Node1);
             var node2 = ReadModel.Nodes.Single(n => n.Id == fiber.Node2);
-            return new GpsLocation() {Latitude = (node1.Latitude + node2.Latitude)/2, Longitude = (node1.Longitude + node2.Longitude)/2};
+            return new GpsLocation() { Latitude = (node1.Latitude + node2.Latitude) / 2, Longitude = (node1.Longitude + node2.Longitude) / 2 };
         }
 
         public void MoveNode(Guid id)
@@ -97,7 +99,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
                 return; // It's prohibited to remove any node from trace with base ref
 
             var dictionary = ReadModel.Traces.Where(t => t.Nodes.Contains(id)).ToDictionary(trace => trace.Id, trace => Guid.NewGuid());
-            Aggregate.When(new RemoveNode() {Id = id, TraceFiberPairForDetour = dictionary });
+            Aggregate.When(new RemoveNode() { Id = id, TraceFiberPairForDetour = dictionary });
         }
         #endregion
 
@@ -137,15 +139,18 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         {
             Aggregate.When(new AddRtuAtGpsLocation()
             {
-                Id = Guid.NewGuid(), NodeId = Guid.NewGuid(), Latitude = _currentMousePosition.Latitude, Longitude = _currentMousePosition.Longitude
-            } );
+                Id = Guid.NewGuid(),
+                NodeId = Guid.NewGuid(),
+                Latitude = _currentMousePosition.Latitude,
+                Longitude = _currentMousePosition.Longitude
+            });
         }
 
         public void RemoveRtu(Guid rtuId)
         {
-            if (ReadModel.Traces.Any(t=>t.RtuId == rtuId)) // эта проверка должна быть еще раньше - при показе контекстного меню РТУ
+            if (ReadModel.Traces.Any(t => t.RtuId == rtuId)) // эта проверка должна быть еще раньше - при показе контекстного меню РТУ
                 return;
-            Aggregate.When(new RemoveRtu() {Id = rtuId});
+            Aggregate.When(new RemoveRtu() { Id = rtuId });
         }
         #endregion
 
@@ -154,12 +159,25 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         {
             Aggregate.When(new AddEquipmentAtGpsLocation()
             {
-                Id = Guid.NewGuid(), NodeId = Guid.NewGuid(), Type = type, Latitude = _currentMousePosition.Latitude, Longitude = _currentMousePosition.Longitude
-            } );
+                Id = Guid.NewGuid(),
+                NodeId = Guid.NewGuid(),
+                Type = type,
+                Latitude = _currentMousePosition.Latitude,
+                Longitude = _currentMousePosition.Longitude
+            });
         }
         #endregion
 
         #region Trace
+
+        public void DefineTraceClick()
+        {
+            // использование этого варианта требует сделать ReadModel и Aggregate public
+            this.DefineTrace(_windowManager, ReadModel.Rtus.First().Id, ReadModel.Nodes.Last().Id);
+
+            // при использовании этого варианта ReadModel и Aggregate остаются private, но не понятно как тестировать запуск формы AddTraceViewModel
+//            MapTraceDefineProcess.DefineTrace(ReadModel, Aggregate, _windowManager, ReadModel.Rtus.First().Id, ReadModel.Nodes.Last().Id);
+        }
 
         public void AttachTrace(AttachTrace cmd)
         {
