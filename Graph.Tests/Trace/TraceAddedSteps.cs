@@ -36,7 +36,7 @@ namespace Graph.Tests
         [Given(@"Пользователь выбрал два узла и кликнул определить трассу")]
         public void GivenПользовательВыбралДваУзлаИКликнулОпределитьТрассу()
         {
-            _sut.MapVm.DefineTrace(_rtuNodeId, _lastNodeId);
+            _sut.MapVm.DefineTrace(_sut.FakeWindowManager, _rtuNodeId, _lastNodeId);
         }
 
         [Given(@"Другой пользователь удалил РТУ")]
