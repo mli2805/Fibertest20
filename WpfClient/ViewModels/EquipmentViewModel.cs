@@ -75,11 +75,11 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
         public Guid EquipmentId { get; set; }
 
-        public RadioButton CableReserve { get; set; } = new RadioButton() { Title = "CableReserve", IsSelected = false };
-        public RadioButton Sleeve { get; } = new RadioButton() { Title = "Sleeve", IsSelected = true };
-        public RadioButton Cross { get; } = new RadioButton() { Title = "Cross", IsSelected = false };
-        public RadioButton Terminal { get; } = new RadioButton() { Title = "Terminal", IsSelected = false };
-        public RadioButton Other { get; } = new RadioButton() { Title = "Other", IsSelected = false };
+        public MyRadioButton CableReserve { get; set; } = new MyRadioButton() { Title = "CableReserve", IsSelected = false };
+        public MyRadioButton Sleeve { get; } = new MyRadioButton() { Title = "Sleeve", IsSelected = true };
+        public MyRadioButton Cross { get; } = new MyRadioButton() { Title = "Cross", IsSelected = false };
+        public MyRadioButton Terminal { get; } = new MyRadioButton() { Title = "Terminal", IsSelected = false };
+        public MyRadioButton Other { get; } = new MyRadioButton() { Title = "Other", IsSelected = false };
 
         public bool IsClosed { get; set; }
         public EquipmentViewModel(IWindowManager windowManager, Guid nodeId, Guid equipmentId, List<Guid> tracesForInsertion, Aggregate aggregate)

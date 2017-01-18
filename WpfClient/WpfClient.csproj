@@ -78,6 +78,7 @@
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="MappingDomainEntityToViewModel.cs" />
     <Compile Include="MappingViewModeltoDomainEntity.cs" />
+    <Compile Include="ViewModels\AskEquipmentUsageInTraceViewModel.cs" />
     <Compile Include="ViewModels\AssignBaseRefsViewModel.cs" />
     <Compile Include="ViewModels\ErrorNotificationViewModel.cs" />
     <Compile Include="IShell.cs" />
@@ -85,7 +86,8 @@
     <Compile Include="ViewModels\AddTraceViewModel.cs" />
     <Compile Include="ViewModels\MapViewModel\MapTraceDefine.cs" />
     <Compile Include="ViewModels\MapViewModel\MapViewModel.cs" />
-    <Compile Include="ViewModels\RadioButton.cs" />
+    <Compile Include="ViewModels\QuestionViewModel.cs" />
+    <Compile Include="ViewModels\MyRadioButton.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -93,6 +95,9 @@
     </Compile>
     <Compile Include="ViewModels\UpdateFiberViewModel.cs" />
     <Compile Include="ViewModels\UpdateNodeViewModel.cs" />
+    <Compile Include="Views\AskEquipmentUsageInTraceView.xaml.cs">
+      <DependentUpon>AskEquipmentUsageInTraceView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\EquipmentView.xaml.cs">
       <DependentUpon>EquipmentView.xaml</DependentUpon>
     </Compile>
@@ -105,12 +110,19 @@
     <Compile Include="Views\ErrorNotificationView.xaml.cs">
       <DependentUpon>ErrorNotificationView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\QuestionView.xaml.cs">
+      <DependentUpon>QuestionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UpdateFiberView.xaml.cs">
       <DependentUpon>UpdateFiberView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UpdateNodeView.xaml.cs">
       <DependentUpon>UpdateNodeView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\AskEquipmentUsageInTraceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\EquipmentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -124,6 +136,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ErrorNotificationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\QuestionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
