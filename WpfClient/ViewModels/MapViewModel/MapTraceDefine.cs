@@ -37,8 +37,10 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             if (equipments == null) // пользователь прервал процесс, отказавшись выбирать оборудование
                 return;
 
-            mapViewModel.AddTraceViewModel = new AddTraceViewModel(windowManager, mapViewModel.ReadModel, mapViewModel.Aggregate, nodes, equipments);
-            windowManager.ShowDialog(mapViewModel.AddTraceViewModel);
+//            mapViewModel.AddTraceViewModel = new AddTraceViewModel(windowManager, mapViewModel.ReadModel, mapViewModel.Aggregate, nodes, equipments);
+//            windowManager.ShowDialog(mapViewModel.AddTraceViewModel);
+            var addTraceViewModel = new AddTraceViewModel(windowManager, mapViewModel.ReadModel, mapViewModel.Aggregate, nodes, equipments);
+            windowManager.ShowDialog(addTraceViewModel);
         }
 
         public static List<Guid> CollectEquipmentForTrace(this MapViewModel mapViewModel, IWindowManager windowManager, List<Guid> nodes)

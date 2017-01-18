@@ -13,6 +13,7 @@ namespace Graph.Tests
         private readonly SystemUnderTest _sut = new SystemUnderTest();
         private Guid _rtuNodeId;
         private Guid _lastNodeId;
+        private AddTraceViewModel _addTraceViewModel;
 
         [Given(@"Существует набор узлов и отрезков")]
         public void GivenСуществуетНаборУзловИОтрезков()
@@ -27,35 +28,50 @@ namespace Graph.Tests
             _sut.CreateFieldForPathFinderTest(_rtuNodeId, _lastNodeId);
         }
 
+        [Given(@"Пользователь выбрал узел где нет оборудования")]
+        public void GivenПользовательКликнулНаУзлеГдеНетОборудования()
+        {
+            _lastNodeId = _sut.ReadModel.Nodes[5].Id;
+        }
+
+        [Given(@"Пользователь выбрал узел где есть оборудование")]
+        public void GivenПользовательКликнулНаУзлеГдеЕстьОборудование()
+        {
+            _lastNodeId = _sut.ReadModel.Equipments.Last().NodeId;
+        }
+
         [Given(@"Между выбираемыми узлами нет пути")]
         public void GivenМеждуВыбираемымиУзламиНетПути()
         {
             _sut.ReadModel.Fibers.RemoveAt(2);
         }
 
-        [Given(@"Пользователь выбрал два узла и кликнул определить трассу")]
+        [Given(@"И кликнул определить трассу")]
         public void GivenПользовательВыбралДваУзлаИКликнулОпределитьТрассу()
         {
             _sut.MapVm.DefineTrace(_sut.FakeWindowManager, _rtuNodeId, _lastNodeId);
         }
 
-        [Given(@"Другой пользователь удалил РТУ")]
-        public void GivenДругойПользовательУдалилРТУ()
-        {
-            _sut.MapVm.RemoveRtu(_sut.ReadModel.Rtus.Last().Id);
-            _sut.Poller.Tick();
-        }
-
         [Then(@"Открывается окно добавления трассы")]
         public void ThenОткрываетсяОкноДобавленияТрассы()
         {
-            _sut.MapVm.AddTraceViewModel.IsClosed.Should().BeFalse();
+            _addTraceViewModel = _sut.FakeWindowManager.Log.OfType<AddTraceViewModel>().Last();
+            _addTraceViewModel.IsClosed.Should().BeFalse();
+        }
+
+        [When(@"Пользователь НЕ вводит имя трассы и жмет Сохранить")]
+        public void WhenПользовательНеВводитНазваниеТрассыИЖметСохранить()
+        {
+            _addTraceViewModel.Title = "";
+            _addTraceViewModel.Save();
+            _sut.Poller.Tick();
         }
 
         [When(@"Пользователь вводит название трассы и жмет Сохранить")]
         public void WhenПользовательВводитНазваниеТрассыИЖметСохранить()
         {
-            _sut.MapVm.AddTraceViewModel.Save();
+            _addTraceViewModel.Title = "Doesn't matter";
+            _addTraceViewModel.Save();
             _sut.Poller.Tick();
         }
 
@@ -63,20 +79,31 @@ namespace Graph.Tests
         public void ThenНоваяТрассаСохраняетсяИОкноЗакрывается()
         {
             _sut.ReadModel.Traces.Count.Should().Be(1);
-            _sut.MapVm.AddTraceViewModel.IsClosed = true;
+            _addTraceViewModel.IsClosed = true;
         }
 
         [When(@"Пользователь жмет Отмена")]
         public void WhenПользовательЖметОтмена()
         {
-            _sut.MapVm.AddTraceViewModel.Cancel();
+            _addTraceViewModel.Cancel();
         }
 
-        [Then(@"Окно закрывается и трасса не сохраняется")]
-        public void ThenОкноЗакрываетсяИТрассаНеСохраняется()
+        [Then(@"Окно не закрывается")]
+        public void ThenОкноНеЗакрывается()
+        {
+            _addTraceViewModel.IsClosed = false;
+        }
+
+        [Then(@"Окно закрывается")]
+        public void ThenОкноЗакрывается()
+        {
+            _addTraceViewModel.IsClosed = true;
+        }
+
+        [Then(@"Трасса не сохраняется")]
+        public void ThenТрассаНеСохраняется()
         {
             _sut.ReadModel.Traces.Count.Should().Be(0);
-            _sut.MapVm.AddTraceViewModel.IsClosed = true;
         }
 
         [Then(@"Сообщение (.*)")]
@@ -88,6 +115,33 @@ namespace Graph.Tests
                 .ErrorMessage
                 .Should().Be(message);
         }
+
+        [Then(@"Вопрос (.*)")]
+        public void ThenВопрос(string question)
+        {
+            var questionViewModel = _sut.FakeWindowManager.Log.OfType<QuestionViewModel>().Last();
+            questionViewModel.QuestionMessage.Should().Be(question);
+        }
+
+        [Given(@"Пользователь ответил нет")]
+        public void GivenПользовательОтветилНет()
+        {
+            _sut.FakeWindowManager.Log
+                .OfType<QuestionViewModel>()
+                .Last()
+                .CancelButton();
+        }
+
+        [Given(@"Пользователь ответил да")]
+        public void GivenПользовательОтветилДа()
+        {
+            var questionViewModel = _sut.FakeWindowManager.Log
+                .OfType<QuestionViewModel>()
+                .Last();
+
+            questionViewModel.OkButton();
+        }
+
     }
 
 
