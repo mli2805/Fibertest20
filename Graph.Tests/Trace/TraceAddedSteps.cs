@@ -126,20 +126,13 @@ namespace Graph.Tests
         [Given(@"Пользователь ответил нет")]
         public void GivenПользовательОтветилНет()
         {
-            _sut.FakeWindowManager.Log
-                .OfType<QuestionViewModel>()
-                .Last()
-                .CancelButton();
+            _sut.FakeWindowManager.RegisterHandler(_sut.PressCancelForQuestion);
         }
 
         [Given(@"Пользователь ответил да")]
         public void GivenПользовательОтветилДа()
         {
-            var questionViewModel = _sut.FakeWindowManager.Log
-                .OfType<QuestionViewModel>()
-                .Last();
-
-            questionViewModel.OkButton();
+            _sut.FakeWindowManager.RegisterHandler(_sut.PressOkForQuestion);
         }
 
     }
