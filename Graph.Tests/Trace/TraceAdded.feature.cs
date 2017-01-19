@@ -132,7 +132,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
 #line 18
- testRunner.Given("Пользователь ответил да", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Пользователь ответил нет", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 19
  testRunner.Given("Пользователь выбрал узел где есть оборудование", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 20
@@ -156,11 +156,11 @@ this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
 #line 25
- testRunner.Given("Пользователь выбрал узел где есть оборудование", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 26
- testRunner.Given("И кликнул определить трассу", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 27
  testRunner.Given("Пользователь ответил да", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 26
+ testRunner.Given("Пользователь выбрал узел где есть оборудование", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 27
+ testRunner.Given("И кликнул определить трассу", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 28
  testRunner.Then("Вопрос Accept the path?", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 29

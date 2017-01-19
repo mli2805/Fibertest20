@@ -30,6 +30,11 @@ namespace Graph.Tests
             (model as QuestionViewModel)?.OkButton();
         }
 
+        public void PressUseForAskEquipment(object model)
+        {
+            (model as AskEquipmentUsageInTraceViewModel)?.UseButton();
+        }
+
         public void PressCancelForQuestion(object model)
         {
             (model as QuestionViewModel)?.CancelButton();
