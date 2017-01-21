@@ -134,12 +134,7 @@ namespace Iit.Fibertest.Graph
         {
             var tracesWithBase = Traces.Where(t => t.HasBase);
             var fiber = Fibers.Single(f => f.Id == fiberId);
-            foreach (var trace in tracesWithBase)
-            {
-                if (Topo.GetFiberIndexInTrace(trace, fiber) != -1)
-                    return true;
-            }
-            return false;
+            return tracesWithBase.Any(trace => Topo.GetFiberIndexInTrace(trace, fiber) != -1);
         }
 
         public void Apply(FiberAdded e)
