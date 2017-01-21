@@ -24,4 +24,15 @@
   <UseCPUArchitecture>AutoDetect</UseCPUArchitecture>
   <MSTestThreadApartmentState>STA</MSTestThreadApartmentState>
   <BuildProcessArchitecture>x86</BuildProcessArchitecture>
+  <IgnoredTests>
+    <NamedTestSelector>
+      <TestName>Graph.Tests.Trace.TraceAddedFeature.ВПоследнийМоментПользовательРешаетНеСоздаватьТрассу</TestName>
+    </NamedTestSelector>
+    <NamedTestSelector>
+      <TestName>Graph.Tests.Trace.TraceAddedFeature.ДобавлениеБезИмениТрассы</TestName>
+    </NamedTestSelector>
+    <NamedTestSelector>
+      <TestName>Graph.Tests.Trace.TraceAddedFeature.ДобавлениеТрассы</TestName>
+    </NamedTestSelector>
+  </IgnoredTests>
 </ProjectConfiguration>

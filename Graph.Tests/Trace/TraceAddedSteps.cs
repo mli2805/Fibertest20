@@ -49,7 +49,8 @@ namespace Graph.Tests
         [Given(@"И кликнул определить трассу")]
         public void GivenПользовательВыбралДваУзлаИКликнулОпределитьТрассу()
         {
-            _sut.MapVm.DefineTrace(_sut.FakeWindowManager, _rtuNodeId, _lastNodeId);
+            _sut.MapVm.DefineTraceClick(_rtuNodeId, _lastNodeId);
+
         }
 
         [Then(@"Открывается окно добавления трассы")]

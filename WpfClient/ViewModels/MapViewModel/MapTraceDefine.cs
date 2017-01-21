@@ -8,49 +8,48 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 {
     public static class MapTraceDefine
     {
-        public static void DefineTrace(this MapViewModel mapViewModel, IWindowManager windowManager, Guid rtuNodeId, Guid lastNodeId)
+        public static bool DefineTrace(this ReadModel readModel, IWindowManager windowManager, Guid rtuNodeId, Guid lastNodeId, out List<Guid> nodes, out List<Guid> equipments)
         {
-            if (mapViewModel.ReadModel.Equipments.All(e => e.NodeId != lastNodeId))
+            nodes = new List<Guid>();
+            equipments = new List<Guid>();
+            if (readModel.Equipments.All(e => e.NodeId != lastNodeId))
             {
                 var errorNotificationViewModel =
                     new ErrorNotificationViewModel("Last node of trace must contain some equipment");
                 windowManager.ShowDialog(errorNotificationViewModel);
-                return;
+                return false;
             }
 
-            var path = new PathFinder(mapViewModel.ReadModel).FindPath(rtuNodeId, lastNodeId);
+            var path = new PathFinder(readModel).FindPath(rtuNodeId, lastNodeId);
             if (path == null)
             {
                 var errorNotificationViewModel =
                     new ErrorNotificationViewModel("Path couldn't be found");
                 windowManager.ShowDialog(errorNotificationViewModel);
-                return;
+                return false;
             }
 
-         //   string pathstring = path.Aggregate("", (current, guid) => current + (mapViewModel.ReadModel.Nodes.First(n => n.Id == guid).Title + "   "));
+            //   string pathstring = path.Aggregate("", (current, guid) => current + (mapViewModel.ReadModel.Nodes.First(n => n.Id == guid).Title + "   "));
             //var questionViewModel = new QuestionViewModel(pathstring + "Accept the path?");
             var questionViewModel = new QuestionViewModel("Accept the path?");
             windowManager.ShowDialog(questionViewModel);
             if (!questionViewModel.IsAnswerPositive)
-                return;
+                return false;
 
-            var nodes = path.ToList();
-            var equipments = mapViewModel.CollectEquipmentForTrace(windowManager, nodes);
+            nodes = path.ToList();
+            equipments = CollectEquipmentForTrace(windowManager, nodes, readModel);
             if (equipments == null) // пользователь прервал процесс, отказавшись выбирать оборудование
-                return;
+                return false;
+            return true;
 
-//            mapViewModel.AddTraceViewModel = new AddTraceViewModel(windowManager, mapViewModel.ReadModel, mapViewModel.Aggregate, nodes, equipments);
-//            windowManager.ShowDialog(mapViewModel.AddTraceViewModel);
-            var addTraceViewModel = new AddTraceViewModel(windowManager, mapViewModel.ReadModel, mapViewModel.Aggregate, nodes, equipments);
-            windowManager.ShowDialog(addTraceViewModel);
         }
 
-        public static List<Guid> CollectEquipmentForTrace(this MapViewModel mapViewModel, IWindowManager windowManager, List<Guid> nodes)
+        public static List<Guid> CollectEquipmentForTrace(IWindowManager windowManager, List<Guid> nodes, ReadModel readModel)
         {
-            var equipments = new List<Guid> { mapViewModel.ReadModel.Rtus.Single(r => r.NodeId == nodes[0]).Id };
+            var equipments = new List<Guid> { readModel.Rtus.Single(r => r.NodeId == nodes[0]).Id };
             foreach (var nodeId in nodes.Skip(1))
             {
-                var possibleEquipments = mapViewModel.ReadModel.Equipments.Where(e => e.NodeId == nodeId).ToList();
+                var possibleEquipments = readModel.Equipments.Where(e => e.NodeId == nodeId).ToList();
                 if (possibleEquipments.Count == 0)
                     equipments.Add(Guid.Empty);
                 else
