@@ -134,6 +134,11 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             readModel.Fibers.Add(new Fiber { Id = new Guid(), Node1 = e2.Id, Node2 = nn.Id });
 
             readModel.Fibers.Add(new Fiber { Id = new Guid(), Node1 = zz.Id, Node2 = z2.Id });
+
+            readModel.Equipments.Add(new Equipment() {Id = Guid.NewGuid(), NodeId = d2.Id, Type = EquipmentType.Cross, Title = "C1"});
+            readModel.Equipments.Add(new Equipment() {Id = Guid.NewGuid(), NodeId = d2.Id, Type = EquipmentType.Sleeve, Title = "M1"});
+
+            readModel.Equipments.Add(new Equipment() {Id = Guid.NewGuid(), NodeId = c2.Id, Type = EquipmentType.Other, Title = "O1"});
         }
     }
 }

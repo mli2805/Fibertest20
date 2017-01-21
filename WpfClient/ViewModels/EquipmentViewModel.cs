@@ -75,11 +75,11 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
         public Guid EquipmentId { get; set; }
 
-        public MyRadioButton CableReserve { get; set; } = new MyRadioButton { Title = "CableReserve", IsSelected = false };
-        public MyRadioButton Sleeve { get; } = new MyRadioButton { Title = "Sleeve", IsSelected = true };
-        public MyRadioButton Cross { get; } = new MyRadioButton { Title = "Cross", IsSelected = false };
-        public MyRadioButton Terminal { get; } = new MyRadioButton { Title = "Terminal", IsSelected = false };
-        public MyRadioButton Other { get; } = new MyRadioButton { Title = "Other", IsSelected = false };
+        public RadioButtonModel CableReserve { get; set; } = new RadioButtonModel { Title = "CableReserve", IsChecked = false };
+        public RadioButtonModel Sleeve { get; } = new RadioButtonModel { Title = "Sleeve", IsChecked = true };
+        public RadioButtonModel Cross { get; } = new RadioButtonModel { Title = "Cross", IsChecked = false };
+        public RadioButtonModel Terminal { get; } = new RadioButtonModel { Title = "Terminal", IsChecked = false };
+        public RadioButtonModel Other { get; } = new RadioButtonModel { Title = "Other", IsChecked = false };
 
         public bool IsClosed { get; set; }
         public EquipmentViewModel(IWindowManager windowManager, Guid nodeId, Guid equipmentId, List<Guid> tracesForInsertion, Aggregate aggregate)
@@ -141,13 +141,13 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
         private EquipmentType GetSelectedRadioButton()
         {
-            if (CableReserve.IsSelected)
+            if (CableReserve.IsChecked)
                 return EquipmentType.CableReserve;
-            if (Sleeve.IsSelected)
+            if (Sleeve.IsChecked)
                 return EquipmentType.Sleeve;
-            if (Cross.IsSelected)
+            if (Cross.IsChecked)
                 return EquipmentType.Cross;
-            if (Terminal.IsSelected)
+            if (Terminal.IsChecked)
                 return EquipmentType.Terminal;
             //else if (Other.IsSelected)
             return EquipmentType.Other;
@@ -156,24 +156,24 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         {
             CleanSelectedRadioButton();
             if (type == EquipmentType.CableReserve)
-                CableReserve.IsSelected = true;
+                CableReserve.IsChecked = true;
             else if (type == EquipmentType.Sleeve)
-                Sleeve.IsSelected = true;
+                Sleeve.IsChecked = true;
             else if (type == EquipmentType.Cross)
-                Cross.IsSelected = true;
+                Cross.IsChecked = true;
             else if (type == EquipmentType.Terminal)
-                Terminal.IsSelected = true;
+                Terminal.IsChecked = true;
             else if (type == EquipmentType.Other)
-                Other.IsSelected = true;
+                Other.IsChecked = true;
         }
 
         private void CleanSelectedRadioButton()
         {
-            CableReserve.IsSelected = false;
-            Sleeve.IsSelected = false;
-            Cross.IsSelected = false;
-            Terminal.IsSelected = false;
-            Other.IsSelected = false;
+            CableReserve.IsChecked = false;
+            Sleeve.IsChecked = false;
+            Cross.IsChecked = false;
+            Terminal.IsChecked = false;
+            Other.IsChecked = false;
         }
     }
 }

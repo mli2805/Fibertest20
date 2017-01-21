@@ -78,7 +78,7 @@
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="MappingDomainEntityToViewModel.cs" />
     <Compile Include="MappingViewModeltoDomainEntity.cs" />
-    <Compile Include="ViewModels\AskEquipmentUsageInTraceViewModel.cs" />
+    <Compile Include="ViewModels\EquipmentChoiceViewModel.cs" />
     <Compile Include="ViewModels\AssignBaseRefsViewModel.cs" />
     <Compile Include="ViewModels\ErrorNotificationViewModel.cs" />
     <Compile Include="IShell.cs" />
@@ -88,7 +88,7 @@
     <Compile Include="ViewModels\MapViewModel\MapTraceDefineProcess.cs" />
     <Compile Include="ViewModels\MapViewModel\MapViewModel.cs" />
     <Compile Include="ViewModels\QuestionViewModel.cs" />
-    <Compile Include="ViewModels\MyRadioButton.cs" />
+    <Compile Include="ViewModels\RadioButtonModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -96,8 +96,8 @@
     </Compile>
     <Compile Include="ViewModels\UpdateFiberViewModel.cs" />
     <Compile Include="ViewModels\UpdateNodeViewModel.cs" />
-    <Compile Include="Views\AskEquipmentUsageInTraceView.xaml.cs">
-      <DependentUpon>AskEquipmentUsageInTraceView.xaml</DependentUpon>
+    <Compile Include="Views\EquipmentChoiceView.xaml.cs">
+      <DependentUpon>EquipmentChoiceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\EquipmentView.xaml.cs">
       <DependentUpon>EquipmentView.xaml</DependentUpon>
@@ -120,7 +120,7 @@
     <Compile Include="Views\UpdateNodeView.xaml.cs">
       <DependentUpon>UpdateNodeView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\AskEquipmentUsageInTraceView.xaml">
+    <Page Include="Views\EquipmentChoiceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

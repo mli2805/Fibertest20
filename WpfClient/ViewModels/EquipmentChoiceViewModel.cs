@@ -1,23 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.WpfClient.ViewModels
 {
-    public class AskEquipmentUsageInTraceViewModel : Screen
+    public class EquipmentChoiceViewModel : Screen
     {
         private readonly List<Equipment> _possibleEquipment;
         private readonly bool _isLastNode;
         public bool IsClosed { get; set; }
 
-        public List<MyRadioButton> Choices { get; set; } // for binding
+        public string Caption { get; set; }
+        public List<RadioButtonModel> Choices { get; set; } // for binding
 
         public bool ShouldWeContinue { get; set; }
         public bool ShouldEquipmentViewBeOpen { get; set; }
 
-        public AskEquipmentUsageInTraceViewModel(List<Equipment> possibleEquipment, bool isLastNode)
+        public EquipmentChoiceViewModel(List<Equipment> possibleEquipment, bool isLastNode)
         {
             _possibleEquipment = possibleEquipment;
             _isLastNode = isLastNode;
@@ -26,14 +28,28 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
         private void InitializeChoices()
         {
-            Choices = new List<MyRadioButton>();
+            Caption = "Выберите оборудование для трассы";
+            Choices = new List<RadioButtonModel>();
             foreach (var equipment in _possibleEquipment)
             {
-                Choices.Add(new MyRadioButton {Title = equipment.Title, IsSelected = equipment == _possibleEquipment.First()});
+                var radioButtonModel = new RadioButtonModel {Title = equipment.Title, IsChecked = equipment == _possibleEquipment.First()};
+                radioButtonModel.PropertyChanged += RadioButtonModel_PropertyChanged;
+                Choices.Add(radioButtonModel);
             }
-            Choices.Add(new MyRadioButton {Title = "Не использовать", IsSelected = false, IsEnabled = !_isLastNode});
+            Choices.Add(new RadioButtonModel {Title = "Не использовать", IsChecked = false, IsEnabled = !_isLastNode});
         }
 
+        private void RadioButtonModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            RadioButtonModel model = (RadioButtonModel)sender;
+            if (e.PropertyName == "IsChecked" && model.IsChecked)
+            {
+                foreach (var radioButtonModel in Choices.Where(m => m != model))
+                {
+                    radioButtonModel.IsChecked = false;
+                }
+            }
+        }
         public Guid GetSelectedGuid()
         {
             return GetSelectedRadioButton() == _possibleEquipment.Count ? Guid.Empty : _possibleEquipment[GetSelectedRadioButton()].Id;
@@ -43,7 +59,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         {
             foreach (var myRadioButton in Choices)
             {
-                if (myRadioButton.IsSelected)
+                if (myRadioButton.IsChecked)
                     return Choices.IndexOf(myRadioButton);
             }
             return -1; 
@@ -56,7 +72,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             CloseView();
         }
 
-        public void UseAndChangeButton()
+        public void UseAndSetupNameButton()
         {
             ShouldWeContinue = true;
             ShouldEquipmentViewBeOpen = true;

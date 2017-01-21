@@ -3,9 +3,9 @@
     /// <summary>
     /// Interaction logic for AskEquipmentUsageInTraceView.xaml
     /// </summary>
-    public partial class AskEquipmentUsageInTraceView 
+    public partial class EquipmentChoiceView 
     {
-        public AskEquipmentUsageInTraceView()
+        public EquipmentChoiceView()
         {
             InitializeComponent();
         }

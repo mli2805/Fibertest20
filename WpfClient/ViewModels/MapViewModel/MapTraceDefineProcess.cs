@@ -54,7 +54,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
                     equipments.Add(Guid.Empty);
                 else
                 {
-                    var askEquipmentUsageViewModel = new AskEquipmentUsageInTraceViewModel(possibleEquipments, nodeId == nodes.Last());
+                    var askEquipmentUsageViewModel = new EquipmentChoiceViewModel(possibleEquipments, nodeId == nodes.Last());
                     windowManager.ShowDialog(askEquipmentUsageViewModel);
                     if (!askEquipmentUsageViewModel.ShouldWeContinue) // пользователь прервал процесс, отказавшись выбирать оборудование
                         return null;
