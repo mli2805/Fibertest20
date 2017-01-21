@@ -1,4 +1,5 @@
-﻿using Caliburn.Micro;
+﻿using System.Diagnostics.CodeAnalysis;
+using Caliburn.Micro;
 
 namespace Iit.Fibertest.WpfClient.ViewModels
 {
@@ -35,6 +36,12 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         {
             IsClosed = true;
             TryClose();
+        }
+        /// <summary>Just for debug purposes </summary>
+        [ExcludeFromCodeCoverage]
+        public override string ToString()
+        {
+            return "QuestionViewModel:" + QuestionMessage;
         }
     }
 }

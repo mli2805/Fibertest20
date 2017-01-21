@@ -111,6 +111,6 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             }
         }
 
-        public string Error { get; }
+        public string Error { get; } = null;
     }
 }

@@ -18,27 +18,12 @@ namespace Graph.Tests
             Poller = new ClientPoller(Aggregate.WriteModel.Db, new List<object> { ReadModel });
             FakeWindowManager = new FakeWindowManager();
             MapVm = new MapViewModel(Aggregate, ReadModel, FakeWindowManager);
-//            FakeWindowManager.RegisterHandler(PressCancelForQuestion);
         }
 
         public MapViewModel MapVm { get; }
 
         public FakeWindowManager FakeWindowManager { get; }
 
-        public void PressOkForQuestion(object model)
-        {
-            (model as QuestionViewModel)?.OkButton();
-        }
-
-        public void PressUseForAskEquipment(object model)
-        {
-            (model as EquipmentChoiceViewModel)?.UseButton();
-        }
-
-        public void PressCancelForQuestion(object model)
-        {
-            (model as QuestionViewModel)?.CancelButton();
-        }
 
         public void CreateTraceRtuEmptyTerminal()
         {

@@ -27,8 +27,9 @@ namespace Iit.Fibertest.WpfClient.ViewModels
                 return;
             }
 
-            string pathstring = path.Aggregate("", (current, guid) => current + (mapViewModel.ReadModel.Nodes.First(n => n.Id == guid).Title + "   "));
-            var questionViewModel = new QuestionViewModel(pathstring + "Accept the path?");
+         //   string pathstring = path.Aggregate("", (current, guid) => current + (mapViewModel.ReadModel.Nodes.First(n => n.Id == guid).Title + "   "));
+            //var questionViewModel = new QuestionViewModel(pathstring + "Accept the path?");
+            var questionViewModel = new QuestionViewModel("Accept the path?");
             windowManager.ShowDialog(questionViewModel);
             if (!questionViewModel.IsAnswerPositive)
                 return;

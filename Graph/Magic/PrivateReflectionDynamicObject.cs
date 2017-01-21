@@ -5,12 +5,13 @@ using System.Linq;
 using System.Dynamic;
 using System.Reflection;
 
+// ReSharper disable once CheckNamespace
 namespace PrivateReflectionUsingDynamic
 {
     class PrivateReflectionDynamicObject : DynamicObject
     {
 
-        private static IDictionary<Type, IDictionary<string, IProperty>> _propertiesOnType = new ConcurrentDictionary<Type, IDictionary<string, IProperty>>();
+        private static readonly IDictionary<Type, IDictionary<string, IProperty>> PropertiesOnType = new ConcurrentDictionary<Type, IDictionary<string, IProperty>>();
 
         // Simple abstraction to make field and property access consistent
         interface IProperty
@@ -49,13 +50,7 @@ namespace PrivateReflectionUsingDynamic
         {
             internal FieldInfo FieldInfo { get; set; }
 
-            string IProperty.Name
-            {
-                get
-                {
-                    return FieldInfo.Name;
-                }
-            }
+            string IProperty.Name => FieldInfo.Name;
 
 
             object IProperty.GetValue(object obj, object[] index)
@@ -71,7 +66,7 @@ namespace PrivateReflectionUsingDynamic
 
 
         private object RealObject { get; set; }
-        private const BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+        private const BindingFlags BindingFlags = System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic;
 
         internal static object WrapObjectIfNeeded(object o)
         {
@@ -181,7 +176,7 @@ namespace PrivateReflectionUsingDynamic
         {
             // First, check if we already have it cached
             IDictionary<string, IProperty> typeProperties;
-            if (_propertiesOnType.TryGetValue(type, out typeProperties))
+            if (PropertiesOnType.TryGetValue(type, out typeProperties))
             {
                 return typeProperties;
             }
@@ -191,13 +186,13 @@ namespace PrivateReflectionUsingDynamic
             typeProperties = new ConcurrentDictionary<string, IProperty>();
 
             // First, add all the properties
-            foreach (PropertyInfo prop in type.GetProperties(bindingFlags).Where(p => p.DeclaringType == type))
+            foreach (PropertyInfo prop in type.GetProperties(BindingFlags).Where(p => p.DeclaringType == type))
             {
                 typeProperties[prop.Name] = new Property() { PropertyInfo = prop };
             }
 
             // Now, add all the fields
-            foreach (FieldInfo field in type.GetFields(bindingFlags).Where(p => p.DeclaringType == type))
+            foreach (FieldInfo field in type.GetFields(BindingFlags).Where(p => p.DeclaringType == type))
             {
                 typeProperties[field.Name] = new Field() { FieldInfo = field };
             }
@@ -212,7 +207,7 @@ namespace PrivateReflectionUsingDynamic
             }
 
             // Cache it for next time
-            _propertiesOnType[type] = typeProperties;
+            PropertiesOnType[type] = typeProperties;
 
             return typeProperties;
         }
@@ -224,7 +219,7 @@ namespace PrivateReflectionUsingDynamic
                 // Try to incoke the method
                 return type.InvokeMember(
                     name,
-                    BindingFlags.InvokeMethod | bindingFlags,
+                    BindingFlags.InvokeMethod | BindingFlags,
                     null,
                     target,
                     args);

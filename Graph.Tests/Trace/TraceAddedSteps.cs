@@ -116,26 +116,61 @@ namespace Graph.Tests
                 .Should().Be(message);
         }
 
-        [Then(@"Вопрос (.*)")]
-        public void ThenВопрос(string question)
+        [Then(@"На вопрос: ""(.*)"" собираются ответить: ""(.*)""")]
+        public void DefineQuestionAnswer(string question, Answer answer)
         {
-            var questionViewModel = _sut.FakeWindowManager.Log.OfType<QuestionViewModel>().Last();
-            questionViewModel.QuestionMessage.Should().Be(question);
-        }
+            _sut.FakeWindowManager.RegisterHandler(model =>
+                {
+                    var vm = model as QuestionViewModel;
+                    if (vm == null) return false;
+                    if (vm.QuestionMessage != question) return false;
+                    switch (answer)
+                    {
+                        case Answer.Yes:
+                            vm.OkButton();
+                            return true;
+                        case Answer.Cancel:
+                            vm.CancelButton();
+                            return true;
+                        default:
+                            return false;
+                    }
+                });
 
-        [Given(@"Пользователь ответил нет")]
-        public void GivenПользовательОтветилНет()
-        {
-            _sut.FakeWindowManager.RegisterHandler(_sut.PressCancelForQuestion);
         }
-
-        [Given(@"Пользователь ответил да")]
-        public void GivenПользовательОтветилДа()
+        [Then(@"На предложение выбрать оборудование собираются ответить: ""(.*)""")]
+        public void DefineEquipmentChoiceAnswer(EquipmentChoiceAnswer answer)
         {
-            _sut.FakeWindowManager.RegisterHandler(_sut.PressOkForQuestion);
+            _sut.FakeWindowManager.RegisterHandler(model =>
+                {
+                    var vm = model as EquipmentChoiceViewModel;
+                    if (vm == null) return false;
+                    switch (answer)
+                    {
+                        case EquipmentChoiceAnswer.Use:
+                            vm.UseButton();
+                            return true;
+                        case EquipmentChoiceAnswer.UseAndSetupName:
+                            vm.UseAndSetupNameButton();
+                            return true;
+                        case EquipmentChoiceAnswer.Cancel:
+                            vm.CancelButton();
+                            return true;
+                        default:
+                            return false;
+                    }
+                });
+
         }
 
     }
 
-
+    public enum EquipmentChoiceAnswer
+    {
+        Use, UseAndSetupName, Cancel
+    }
+    public enum Answer
+    {
+        Yes, Cancel
+    }
 }

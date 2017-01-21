@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.WpfClient.ViewModels;
 
@@ -7,12 +8,17 @@ namespace Graph.Tests
 {
     public class FakeWindowManager : IWindowManager
     {
-        public List<object> Log = new List<object>();
+        private readonly List<Func<object, bool>> _handlersQueue =
+            new List<Func<object, bool>>();
+        public readonly List<object> Log = new List<object>();
         public bool? ShowDialog(object rootModel, object context = null, IDictionary<string, object> settings = null)
         {
-            _del?.Invoke(rootModel);
-
             Log.Add(rootModel);
+            var one = _handlersQueue.FirstOrDefault(handler => handler(rootModel));
+            if (one == null)
+                throw new InvalidOperationException(
+                    "We have forgotten to predefine handler for the following model: " + rootModel);
+            _handlersQueue.Remove(one);
             return null;
         }
 
@@ -26,13 +32,15 @@ namespace Graph.Tests
             throw new NotImplementedException();
         }
 
-        public delegate void DelegateHandler(object model);
-
-        DelegateHandler _del;
-
-        public void RegisterHandler(DelegateHandler del)
+        public FakeWindowManager()
         {
-            _del = del;
+            RegisterHandler(m => m is ErrorNotificationViewModel);
+        }
+
+        public void RegisterHandler(Func<object, bool> del)
+        {
+            if (del == null) throw new ArgumentNullException(nameof(del));
+            _handlersQueue.Add(del);
         }
     }
 }
