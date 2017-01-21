@@ -12,14 +12,32 @@ namespace Graph.Tests
         public ReadModel ReadModel { get; } = new ReadModel();
         public ClientPoller Poller { get; }
         public int CurrentEventNumber => Poller.CurrentEventNumber;
-        public MapViewModel MapVm { get; }
-        public FakeWindowManager FakeWindowManager { get; }
 
         public SystemUnderTest()
         {
             Poller = new ClientPoller(Aggregate.WriteModel.Db, new List<object> { ReadModel });
             FakeWindowManager = new FakeWindowManager();
             MapVm = new MapViewModel(Aggregate, ReadModel, FakeWindowManager);
+//            FakeWindowManager.RegisterHandler(PressCancelForQuestion);
+        }
+
+        public MapViewModel MapVm { get; }
+
+        public FakeWindowManager FakeWindowManager { get; }
+
+        public void PressOkForQuestion(object model)
+        {
+            (model as QuestionViewModel)?.OkButton();
+        }
+
+        public void PressUseForAskEquipment(object model)
+        {
+            (model as AskEquipmentUsageInTraceViewModel)?.UseButton();
+        }
+
+        public void PressCancelForQuestion(object model)
+        {
+            (model as QuestionViewModel)?.CancelButton();
         }
 
         public void CreateTraceRtuEmptyTerminal()

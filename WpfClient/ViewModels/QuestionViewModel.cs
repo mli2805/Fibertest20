@@ -11,7 +11,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         public QuestionViewModel(string questionMessage)
         {
             QuestionMessage = questionMessage;
-            IsAnswerPositive = false;
+            IsAnswerPositive = true;
         }
 
         protected override void OnViewLoaded(object view)

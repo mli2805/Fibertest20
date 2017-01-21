@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfClient", "WpfClient.csproj", "{EF7AD573-E50D-4D9B-82ED-7BC44E7B7B43}"
 EndProject
@@ -13,6 +13,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		..\.gitattributes = ..\.gitattributes
 		..\.gitignore = ..\.gitignore
+		..\Event sourcing scheme 3.gdoc = ..\Event sourcing scheme 3.gdoc
+		..\Fibersharp Questions.gdoc = ..\Fibersharp Questions.gdoc
+		..\Операции.gsheet = ..\Операции.gsheet
 	EndProjectSection
 EndProject
 Global
