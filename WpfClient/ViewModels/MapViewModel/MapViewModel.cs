@@ -10,25 +10,24 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 {
     public sealed class MapViewModel : IDataErrorInfo
     {
-        public readonly Aggregate Aggregate;
-        public readonly ReadModel ReadModel;
-        private GpsLocation _currentMousePosition = new GpsLocation();
+        private readonly Aggregate _aggregate;
+        private readonly ReadModel _readModel;
+        private readonly GpsLocation _currentMousePosition = new GpsLocation();
         private readonly IWindowManager _windowManager;
-        public AddTraceViewModel AddTraceViewModel;
 
         public MapViewModel(
             Aggregate aggregate, ReadModel readModel,
             IWindowManager windowManager)
         {
-            Aggregate = aggregate;
-            ReadModel = readModel;
+            _aggregate = aggregate;
+            _readModel = readModel;
             _windowManager = windowManager;
         }
 
         #region Node
         public void AddNode()
         {
-            Aggregate.When(new AddNode { Id = Guid.NewGuid() });
+            _aggregate.When(new AddNode { Id = Guid.NewGuid() });
         }
 
 
@@ -40,7 +39,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             //            Guid fiberId = GetFiberFromMouse(x, y);
             Guid fiberId = Guid.NewGuid();
 
-            return !ReadModel.IsFiberContainedInTraceWithBase(fiberId);
+            return !_readModel.IsFiberContainedInTraceWithBase(fiberId);
         }
 
         /// <summary>
@@ -58,7 +57,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             var equipmentId = userChoice == EquipmentType.None ? Guid.Empty : Guid.NewGuid();
             var userList = new List<Guid>(); // список трасс куда должно быть добавлено оборудование
 
-            var result = Aggregate.When(new AddNodeIntoFiber
+            var result = _aggregate.When(new AddNodeIntoFiber
             {
                 Id = Guid.NewGuid(),
                 FiberId = fiberId,
@@ -79,34 +78,34 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
         private GpsLocation GetFiberCenter(Guid fiberId)
         {
-            var fiber = ReadModel.Fibers.Single(f => f.Id == fiberId);
-            var node1 = ReadModel.Nodes.Single(n => n.Id == fiber.Node1);
-            var node2 = ReadModel.Nodes.Single(n => n.Id == fiber.Node2);
+            var fiber = _readModel.Fibers.Single(f => f.Id == fiberId);
+            var node1 = _readModel.Nodes.Single(n => n.Id == fiber.Node1);
+            var node2 = _readModel.Nodes.Single(n => n.Id == fiber.Node2);
             return new GpsLocation { Latitude = (node1.Latitude + node2.Latitude) / 2, Longitude = (node1.Longitude + node2.Longitude) / 2 };
         }
 
         public void MoveNode(Guid id)
         {
             var cmd = new MoveNode { Id = id, Latitude = _currentMousePosition.Latitude, Longitude = _currentMousePosition.Longitude };
-            Aggregate.When(cmd);
+            _aggregate.When(cmd);
         }
 
         public void RemoveNode(Guid id)
         {
-            if (ReadModel.Traces.Any(t => t.Nodes.Last() == id))
+            if (_readModel.Traces.Any(t => t.Nodes.Last() == id))
                 return; // It's prohibited to remove last node from trace
-            if (ReadModel.Traces.Any(t => t.Nodes.Contains(id) && t.HasBase))
+            if (_readModel.Traces.Any(t => t.Nodes.Contains(id) && t.HasBase))
                 return; // It's prohibited to remove any node from trace with base ref
 
-            var dictionary = ReadModel.Traces.Where(t => t.Nodes.Contains(id)).ToDictionary(trace => trace.Id, trace => Guid.NewGuid());
-            Aggregate.When(new RemoveNode { Id = id, TraceFiberPairForDetour = dictionary });
+            var dictionary = _readModel.Traces.Where(t => t.Nodes.Contains(id)).ToDictionary(trace => trace.Id, trace => Guid.NewGuid());
+            _aggregate.When(new RemoveNode { Id = id, TraceFiberPairForDetour = dictionary });
         }
         #endregion
 
         #region Fiber
         public void AddFiber(Guid left, Guid right)
         {
-            Error = Aggregate.When(new AddFiber
+            Error = _aggregate.When(new AddFiber
             {
                 Id = Guid.NewGuid(),
                 Node1 = left,
@@ -124,12 +123,12 @@ namespace Iit.Fibertest.WpfClient.ViewModels
                 EquipmentInIntermediateNodesType = equipmentType
             };
 
-            return Aggregate.When(cmd);
+            return _aggregate.When(cmd);
         }
         public void RemoveFiber(Guid fiberId)
         {
             var cmd = new RemoveFiber { Id = fiberId };
-            Aggregate.When(cmd);
+            _aggregate.When(cmd);
         }
 
         #endregion
@@ -137,7 +136,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         #region Rtu
         public void AddRtuAtGpsLocation()
         {
-            Aggregate.When(new AddRtuAtGpsLocation
+            _aggregate.When(new AddRtuAtGpsLocation
             {
                 Id = Guid.NewGuid(),
                 NodeId = Guid.NewGuid(),
@@ -148,16 +147,16 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
         public void RemoveRtu(Guid rtuId)
         {
-            if (ReadModel.Traces.Any(t => t.RtuId == rtuId)) // эта проверка должна быть еще раньше - при показе контекстного меню РТУ
+            if (_readModel.Traces.Any(t => t.RtuId == rtuId)) // эта проверка должна быть еще раньше - при показе контекстного меню РТУ
                 return;
-            Aggregate.When(new RemoveRtu { Id = rtuId });
+            _aggregate.When(new RemoveRtu { Id = rtuId });
         }
         #endregion
 
         #region Equipment
         public void AddEquipmentAtGpsLocation(EquipmentType type)
         {
-            Aggregate.When(new AddEquipmentAtGpsLocation
+            _aggregate.When(new AddEquipmentAtGpsLocation
             {
                 Id = Guid.NewGuid(),
                 NodeId = Guid.NewGuid(),
@@ -174,11 +173,11 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         {
             List<Guid> nodes;
             List<Guid> equipments;
-            if (!ReadModel.DefineTrace(_windowManager, rtuNodeId, lastNodeId, out nodes, out equipments))
+            if (!_readModel.DefineTrace(_windowManager, rtuNodeId, lastNodeId, out nodes, out equipments))
                 return;
 
             var addTraceViewModel = new AddTraceViewModel(_windowManager,
-                ReadModel, Aggregate, nodes, equipments);
+                _readModel, _aggregate, nodes, equipments);
             _windowManager.ShowDialog(addTraceViewModel);
 
             // при использовании этого варианта ReadModel и Aggregate остаются private, но не понятно как тестировать запуск формы AddTraceViewModel
@@ -187,12 +186,12 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
         public void AttachTrace(AttachTrace cmd)
         {
-            Aggregate.When(cmd);
+            _aggregate.When(cmd);
         }
 
         public void DetachTrace(DetachTrace cmd)
         {
-            Aggregate.When(cmd);
+            _aggregate.When(cmd);
         }
         #endregion
 
