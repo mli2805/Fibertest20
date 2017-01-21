@@ -170,10 +170,10 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
         #region Trace
 
-        public void DefineTraceClick()
+        public void DefineTraceClick(Guid rtuNodeId, Guid lastNodeId)
         {
             // использование этого варианта требует сделать ReadModel и Aggregate public
-            this.DefineTrace(_windowManager, ReadModel.Rtus.First().NodeId, ReadModel.Equipments.Last().NodeId);
+            this.DefineTrace(_windowManager, rtuNodeId, lastNodeId);
 
             // при использовании этого варианта ReadModel и Aggregate остаются private, но не понятно как тестировать запуск формы AddTraceViewModel
 //            MapTraceDefineProcess.DefineTrace(ReadModel, Aggregate, _windowManager, ReadModel.Rtus.First().Id, ReadModel.Nodes.Last().Id);

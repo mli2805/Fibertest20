@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModels="clr-namespace:Iit.Fibertest.WpfClient.ViewModels"
         mc:Ignorable="d"
-        Title="AskEquipmentUsageInTraceView" SizeToContent="Height" Width="500" WindowStartupLocation="CenterScreen">
+        SizeToContent="Height" Width="500" WindowStartupLocation="CenterScreen">
     <StackPanel>
         <TextBlock Text="{Binding Caption}"  TextWrapping="Wrap" Margin="5, 20, 5,20" />
         <ItemsControl ItemsSource="{Binding Choices}" Margin="5,5,5,20">

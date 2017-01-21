@@ -10,7 +10,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
     {
         public static void DefineTrace(this MapViewModel mapViewModel, IWindowManager windowManager, Guid rtuNodeId, Guid lastNodeId)
         {
-            if (!mapViewModel.ReadModel.Equipments.Any(e=>e.NodeId == lastNodeId))
+            if (mapViewModel.ReadModel.Equipments.All(e => e.NodeId != lastNodeId))
             {
                 var errorNotificationViewModel =
                     new ErrorNotificationViewModel("Last node of trace must contain some equipment");
@@ -27,7 +27,8 @@ namespace Iit.Fibertest.WpfClient.ViewModels
                 return;
             }
 
-            var questionViewModel = new QuestionViewModel("Accept the path?");
+            string pathstring = path.Aggregate("", (current, guid) => current + (mapViewModel.ReadModel.Nodes.First(n => n.Id == guid).Title + "   "));
+            var questionViewModel = new QuestionViewModel(pathstring + "Accept the path?");
             windowManager.ShowDialog(questionViewModel);
             if (!questionViewModel.IsAnswerPositive)
                 return;
@@ -58,7 +59,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
                     if (!askEquipmentUsageViewModel.ShouldWeContinue) // пользователь прервал процесс, отказавшись выбирать оборудование
                         return null;
 
-                    equipments.Add(askEquipmentUsageViewModel.GetSelectedGuid());
+                    equipments.Add(askEquipmentUsageViewModel.GetSelectedEquipmentGuid());
                 }
             }
             return equipments;

@@ -67,20 +67,19 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             var mapVm = new MapViewModel(_aggregate, _readModel, IoC.Get<IWindowManager>());
 
             var rtuNodeId = Guid.NewGuid();
-            _readModel.Nodes.Add(new Node {Id = rtuNodeId});
-            _readModel.Rtus.Add(new Rtu {Id = Guid.NewGuid(), NodeId = rtuNodeId});
+            _readModel.Nodes.Add(new Node {Id = rtuNodeId, Title = "Первый РТУ" });
+            _readModel.Rtus.Add(new Rtu {Id = Guid.NewGuid(), NodeId = rtuNodeId, Title = "Первый РТУ"});
 
             var lastNodeId = Guid.NewGuid();
-            _readModel.Nodes.Add(new Node { Id = lastNodeId });
-            _readModel.Equipments.Add(new Equipment { Id = Guid.NewGuid(), NodeId = lastNodeId });
+            _readModel.Nodes.Add(new Node { Id = lastNodeId , Title = "оконечный кросс" });
+            _readModel.Equipments.Add(new Equipment { Id = Guid.NewGuid(), NodeId = lastNodeId, Type = EquipmentType.Terminal, Title = "оконечный кросс"});
 
             CreateFieldForPathFinderTest(_readModel, rtuNodeId, lastNodeId);
 
-            mapVm.DefineTraceClick();
+            mapVm.DefineTraceClick(rtuNodeId, lastNodeId);
         }
         public void CreateFieldForPathFinderTest(ReadModel readModel, Guid startId, Guid finishId)
         {
-            var a0 = readModel.Nodes.Single(n => n.Id == startId);
 
             var b0 = new Node { Id = Guid.NewGuid(), Title = "b0" };
             readModel.Nodes.Add(b0);
@@ -107,17 +106,15 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             var e2 = new Node { Id = Guid.NewGuid(), Title = "e2" };
             readModel.Nodes.Add(e2);
 
-            var nn = readModel.Nodes.Single(n => n.Id == finishId);
-
             var zz = new Node { Id = Guid.NewGuid(), Title = "zz" };
             readModel.Nodes.Add(zz);
             var z2 = new Node { Id = Guid.NewGuid(), Title = "z2" };
             readModel.Nodes.Add(z2);
 
 
-            readModel.Fibers.Add(new Fiber { Id = new Guid(), Node1 = a0.Id, Node2 = b0.Id });
-            readModel.Fibers.Add(new Fiber { Id = new Guid(), Node1 = a0.Id, Node2 = b1.Id });
-            readModel.Fibers.Add(new Fiber { Id = new Guid(), Node1 = a0.Id, Node2 = b2.Id });
+            readModel.Fibers.Add(new Fiber { Id = new Guid(), Node1 = startId, Node2 = b0.Id });
+            readModel.Fibers.Add(new Fiber { Id = new Guid(), Node1 = startId, Node2 = b1.Id });
+            readModel.Fibers.Add(new Fiber { Id = new Guid(), Node1 = startId, Node2 = b2.Id });
 
             readModel.Fibers.Add(new Fiber { Id = new Guid(), Node1 = c0.Id, Node2 = b0.Id });
             readModel.Fibers.Add(new Fiber { Id = new Guid(), Node1 = c1.Id, Node2 = b1.Id });
@@ -131,7 +128,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             readModel.Fibers.Add(new Fiber { Id = new Guid(), Node1 = e1.Id, Node2 = d1.Id });
             readModel.Fibers.Add(new Fiber { Id = new Guid(), Node1 = e2.Id, Node2 = d2.Id });
 
-            readModel.Fibers.Add(new Fiber { Id = new Guid(), Node1 = e2.Id, Node2 = nn.Id });
+            readModel.Fibers.Add(new Fiber { Id = new Guid(), Node1 = e2.Id, Node2 = finishId });
 
             readModel.Fibers.Add(new Fiber { Id = new Guid(), Node1 = zz.Id, Node2 = z2.Id });
 

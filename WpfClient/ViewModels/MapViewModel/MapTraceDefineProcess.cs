@@ -59,7 +59,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
                     if (!askEquipmentUsageViewModel.ShouldWeContinue) // пользователь прервал процесс, отказавшись выбирать оборудование
                         return null;
 
-                    equipments.Add(askEquipmentUsageViewModel.GetSelectedGuid());
+                    equipments.Add(askEquipmentUsageViewModel.GetSelectedEquipmentGuid());
                 }
             }
             return equipments;

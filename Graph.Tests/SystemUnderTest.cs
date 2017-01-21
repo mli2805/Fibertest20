@@ -32,7 +32,7 @@ namespace Graph.Tests
 
         public void PressUseForAskEquipment(object model)
         {
-            (model as AskEquipmentUsageInTraceViewModel)?.UseButton();
+            (model as EquipmentChoiceViewModel)?.UseButton();
         }
 
         public void PressCancelForQuestion(object model)

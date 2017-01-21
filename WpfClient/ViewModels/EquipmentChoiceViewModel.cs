@@ -39,6 +39,11 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             Choices.Add(new RadioButtonModel {Title = "Не использовать", IsChecked = false, IsEnabled = !_isLastNode});
         }
 
+        protected override void OnViewLoaded(object view)
+        {
+            DisplayName = "Выбор оборудования";
+        }
+
         private void RadioButtonModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             RadioButtonModel model = (RadioButtonModel)sender;
@@ -50,12 +55,12 @@ namespace Iit.Fibertest.WpfClient.ViewModels
                 }
             }
         }
-        public Guid GetSelectedGuid()
+        public Guid GetSelectedEquipmentGuid()
         {
-            return GetSelectedRadioButton() == _possibleEquipment.Count ? Guid.Empty : _possibleEquipment[GetSelectedRadioButton()].Id;
+            return GetCheckedRadioButton() == _possibleEquipment.Count ? Guid.Empty : _possibleEquipment[GetCheckedRadioButton()].Id;
         }
 
-        private int GetSelectedRadioButton()
+        private int GetCheckedRadioButton()
         {
             foreach (var myRadioButton in Choices)
             {
