@@ -85,7 +85,6 @@
     <Compile Include="ViewModels\EquipmentViewModel.cs" />
     <Compile Include="ViewModels\AddTraceViewModel.cs" />
     <Compile Include="ViewModels\MapViewModel\MapTraceDefine.cs" />
-    <Compile Include="ViewModels\MapViewModel\MapTraceDefineProcess.cs" />
     <Compile Include="ViewModels\MapViewModel\MapViewModel.cs" />
     <Compile Include="ViewModels\QuestionViewModel.cs" />
     <Compile Include="ViewModels\RadioButtonModel.cs" />

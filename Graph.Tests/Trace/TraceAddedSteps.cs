@@ -18,32 +18,14 @@ namespace Graph.Tests
         [Given(@"Существует набор узлов и отрезков")]
         public void GivenСуществуетНаборУзловИОтрезков()
         {
-            _sut.MapVm.AddRtuAtGpsLocation();
-            _sut.Poller.Tick();
-            _rtuNodeId = _sut.ReadModel.Rtus.Last().NodeId;
-            _sut.MapVm.AddEquipmentAtGpsLocation(EquipmentType.Terminal);
-            _sut.Poller.Tick();
-            _lastNodeId = _sut.ReadModel.Equipments.Last().NodeId;
-
-            _sut.CreateFieldForPathFinderTest(_rtuNodeId, _lastNodeId);
+            _sut.CreateFieldForPathFinderTest(out _rtuNodeId, out _lastNodeId);
         }
 
-        [Given(@"Пользователь выбрал узел где нет оборудования")]
-        public void GivenПользовательКликнулНаУзлеГдеНетОборудования()
-        {
-            _lastNodeId = _sut.ReadModel.Nodes[5].Id;
-        }
 
         [Given(@"Пользователь выбрал узел где есть оборудование")]
         public void GivenПользовательКликнулНаУзлеГдеЕстьОборудование()
         {
             _lastNodeId = _sut.ReadModel.Equipments.Last().NodeId;
-        }
-
-        [Given(@"Между выбираемыми узлами нет пути")]
-        public void GivenМеждуВыбираемымиУзламиНетПути()
-        {
-            _sut.ReadModel.Fibers.RemoveAt(2);
         }
 
         [Given(@"И кликнул определить трассу")]
@@ -105,16 +87,6 @@ namespace Graph.Tests
         public void ThenТрассаНеСохраняется()
         {
             _sut.ReadModel.Traces.Count.Should().Be(0);
-        }
-
-        [Then(@"Сообщение (.*)")]
-        public void ThenСообщение(string message)
-        {
-            _sut.FakeWindowManager.Log
-                .OfType<ErrorNotificationViewModel>()
-                .Last()
-                .ErrorMessage
-                .Should().Be(message);
         }
 
         [Then(@"На вопрос: ""(.*)"" собираются ответить: ""(.*)""")]

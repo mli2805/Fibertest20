@@ -104,9 +104,13 @@ namespace Graph.Tests
         }
 
 
-        public void CreateFieldForPathFinderTest(Guid startId, Guid finishId)
+        public void CreateFieldForPathFinderTest(out Guid startId, out Guid finishId)
         {
-            var a0 = ReadModel.Nodes.Single(n => n.Id == startId);
+
+            var a0 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid(), Title = "a0" };
+            ReadModel.Nodes.Add(a0);
+            startId = a0.Id;
+            ReadModel.Rtus.Add(new Iit.Fibertest.Graph.Rtu() { Id = Guid.NewGuid(), NodeId = startId, Title = "Rtu"});
 
             var b0 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid(), Title = "b0" };
             ReadModel.Nodes.Add(b0);
@@ -133,12 +137,20 @@ namespace Graph.Tests
             var e2 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid(), Title = "e2" };
             ReadModel.Nodes.Add(e2);
 
-            var nn = ReadModel.Nodes.Single(n => n.Id == finishId);
+            var nn = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid(), Title = "nn" };
+            ReadModel.Nodes.Add(nn);
+            finishId = nn.Id;
+            ReadModel.Equipments.Add(new Iit.Fibertest.Graph.Equipment() { Id = Guid.NewGuid(), NodeId = finishId, Title = "Terminal", Type = EquipmentType.Terminal});
 
             var zz = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid(), Title = "zz" };
             ReadModel.Nodes.Add(zz);
             var z2 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid(), Title = "z2" };
             ReadModel.Nodes.Add(z2);
+
+            ReadModel.Equipments.Add(new Iit.Fibertest.Graph.Equipment() { Id = Guid.NewGuid(), NodeId = c2.Id, Title = "Some sleeve", Type = EquipmentType.Sleeve });
+            ReadModel.Equipments.Add(new Iit.Fibertest.Graph.Equipment() { Id = Guid.NewGuid(), NodeId = c2.Id, Title = "Some cross", Type = EquipmentType.Cross });
+
+            ReadModel.Equipments.Add(new Iit.Fibertest.Graph.Equipment() { Id = Guid.NewGuid(), NodeId = d2.Id, Title = "Another sleeve", Type = EquipmentType.Sleeve });
 
 
             ReadModel.Fibers.Add(new Iit.Fibertest.Graph.Fiber() { Id = new Guid(), Node1 = a0.Id, Node2 = b0.Id });
