@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using FluentAssertions;
-using Iit.Fibertest.Graph;
 using Iit.Fibertest.WpfClient.ViewModels;
 using TechTalk.SpecFlow;
 
@@ -56,7 +55,7 @@ namespace Graph.Tests
         }
 
         [Given(@"На вопрос: ""(.*)"" пользователь ответил: ""(.*)""")]
-        public void DefineQuestionAnswer(string question, Answer answer)
+        public void DefineQuestionAnswer(string question, TraceAddedSteps.Answer answer)
         {
             _sut.FakeWindowManager.RegisterHandler(model =>
             {
@@ -65,10 +64,10 @@ namespace Graph.Tests
                 if (vm.QuestionMessage != question) return false;
                 switch (answer)
                 {
-                    case Answer.Yes:
+                    case TraceAddedSteps.Answer.Yes:
                         vm.OkButton();
                         return true;
-                    case Answer.Cancel:
+                    case TraceAddedSteps.Answer.Cancel:
                         vm.CancelButton();
                         return true;
                     default:

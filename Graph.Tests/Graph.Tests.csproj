@@ -217,6 +217,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TraceAddedFirstStage.feature</DependentUpon>
     </Compile>
+    <Compile Include="Trace\TraceAddedSecondStage.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TraceAddedSecondStage.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Trace\TraceAddedSecondStageSteps.cs">
+      <DependentUpon>TraceAddedSecondStage.feature</DependentUpon>
+    </Compile>
     <Compile Include="Trace\TraceAddedSteps.cs">
       <DependentUpon>TraceAdded.feature</DependentUpon>
     </Compile>
@@ -311,6 +319,10 @@
     <None Include="Trace\TraceAddedFirstStage.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>TraceAddedFirstStage.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Trace\TraceAddedSecondStage.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>TraceAddedSecondStage.feature.cs</LastGenOutput>
     </None>
     <None Include="Trace\TraceAttached.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

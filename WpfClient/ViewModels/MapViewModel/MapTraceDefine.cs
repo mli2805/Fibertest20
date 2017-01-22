@@ -52,12 +52,12 @@ namespace Iit.Fibertest.WpfClient.ViewModels
                     equipments.Add(Guid.Empty);
                 else
                 {
-                    var askEquipmentUsageViewModel = new EquipmentChoiceViewModel(possibleEquipments, nodeId == nodes.Last());
-                    windowManager.ShowDialog(askEquipmentUsageViewModel);
-                    if (!askEquipmentUsageViewModel.ShouldWeContinue) // пользователь прервал процесс, отказавшись выбирать оборудование
+                    var equipmentChoiceViewModel = new EquipmentChoiceViewModel(possibleEquipments, nodeId == nodes.Last());
+                    windowManager.ShowDialog(equipmentChoiceViewModel);
+                    if (!equipmentChoiceViewModel.ShouldWeContinue) // пользователь прервал процесс, отказавшись выбирать оборудование
                         return null;
 
-                    equipments.Add(askEquipmentUsageViewModel.GetSelectedEquipmentGuid());
+                    equipments.Add(equipmentChoiceViewModel.GetSelectedEquipmentGuid());
                 }
             }
             return equipments;

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using FluentAssertions;
-using Iit.Fibertest.Graph;
 using Iit.Fibertest.WpfClient.ViewModels;
 using TechTalk.SpecFlow;
 
@@ -93,57 +92,29 @@ namespace Graph.Tests
         public void DefineQuestionAnswer(string question, Answer answer)
         {
             _sut.FakeWindowManager.RegisterHandler(model =>
+            {
+                var vm = model as QuestionViewModel;
+                if (vm == null) return false;
+                if (vm.QuestionMessage != question) return false;
+                switch (answer)
                 {
-                    var vm = model as QuestionViewModel;
-                    if (vm == null) return false;
-                    if (vm.QuestionMessage != question) return false;
-                    switch (answer)
-                    {
-                        case Answer.Yes:
-                            vm.OkButton();
-                            return true;
-                        case Answer.Cancel:
-                            vm.CancelButton();
-                            return true;
-                        default:
-                            return false;
-                    }
-                });
+                    case Answer.Yes:
+                        vm.OkButton();
+                        return true;
+                    case Answer.Cancel:
+                        vm.CancelButton();
+                        return true;
+                    default:
+                        return false;
+                }
+            });
 
         }
-        [Then(@"На предложение выбрать оборудование собираются ответить: ""(.*)""")]
-        public void DefineEquipmentChoiceAnswer(EquipmentChoiceAnswer answer)
+
+        public enum Answer
         {
-            _sut.FakeWindowManager.RegisterHandler(model =>
-                {
-                    var vm = model as EquipmentChoiceViewModel;
-                    if (vm == null) return false;
-                    switch (answer)
-                    {
-                        case EquipmentChoiceAnswer.Use:
-                            vm.UseButton();
-                            return true;
-                        case EquipmentChoiceAnswer.UseAndSetupName:
-                            vm.UseAndSetupNameButton();
-                            return true;
-                        case EquipmentChoiceAnswer.Cancel:
-                            vm.CancelButton();
-                            return true;
-                        default:
-                            return false;
-                    }
-                });
-
+            Yes,
+            Cancel
         }
-
-    }
-
-    public enum EquipmentChoiceAnswer
-    {
-        Use, UseAndSetupName, Cancel
-    }
-    public enum Answer
-    {
-        Yes, Cancel
     }
 }
