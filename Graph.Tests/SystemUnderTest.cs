@@ -172,5 +172,64 @@ namespace Graph.Tests
             ReadModel.Fibers.Add(new Iit.Fibertest.Graph.Fiber() { Id = new Guid(), Node1 = zz.Id, Node2 = z2.Id });
         }
 
+        public bool QuestionAnswer(string question, Answer answer, object model)
+        {
+            var vm = model as QuestionViewModel;
+            if (vm == null) return false;
+            if (vm.QuestionMessage != question) return false;
+            switch (answer)
+            {
+                case Answer.Yes:
+                    vm.OkButton();
+                    return true;
+                case Answer.Cancel:
+                    vm.CancelButton();
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        public  bool EquipmentChoiceHandler(EquipmentChoiceAnswer answer, object model)
+        {
+            var vm = model as EquipmentChoiceViewModel;
+            if (vm == null) return false;
+            switch (answer)
+            {
+                case EquipmentChoiceAnswer.Use:
+                    vm.UseButton();
+                    return true;
+                case EquipmentChoiceAnswer.UseAndSetupName:
+                    vm.UseAndSetupNameButton();
+                    return true;
+                case EquipmentChoiceAnswer.Cancel:
+                    vm.CancelButton();
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        public bool AddTraceViewHandler(object model, string title, string comment, Answer button)
+        {
+            var vm = model as AddTraceViewModel;
+            if (vm == null) return false;
+            vm.Title = title;
+            vm.Comment = comment;
+            if (button == Answer.Yes)
+                vm.Save();
+            else
+                vm.Cancel();
+            return true;
+        }
+    }
+
+    public enum Answer
+    {
+        Yes, Cancel
+    }
+    public enum EquipmentChoiceAnswer
+    {
+        Use, UseAndSetupName, Cancel
     }
 }

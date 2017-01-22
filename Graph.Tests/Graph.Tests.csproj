@@ -212,6 +212,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TraceAddedFirstStage.feature</DependentUpon>
     </Compile>
+    <Compile Include="Trace\TraceAddedIntegrational.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TraceAddedIntegrational.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Trace\TraceAddedIntegrationalSteps.cs">
+      <DependentUpon>TraceAddedIntegrational.feature</DependentUpon>
+    </Compile>
     <Compile Include="Trace\TraceAddedSecondStage.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -313,6 +321,10 @@
     <None Include="Trace\TraceAddedFirstStage.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>TraceAddedFirstStage.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Trace\TraceAddedIntegrational.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>TraceAddedIntegrational.feature.cs</LastGenOutput>
     </None>
     <None Include="Trace\TraceAddedSecondStage.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

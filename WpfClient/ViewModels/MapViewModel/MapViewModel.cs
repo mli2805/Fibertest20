@@ -179,9 +179,6 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             var addTraceViewModel = new AddTraceViewModel(_windowManager,
                 _readModel, _aggregate, nodes, equipments);
             _windowManager.ShowDialog(addTraceViewModel);
-
-            // при использовании этого варианта ReadModel и Aggregate остаются private, но не понятно как тестировать запуск формы AddTraceViewModel
-            //            MapTraceDefineProcess.DefineTrace(ReadModel, Aggregate, _windowManager, ReadModel.Rtus.First().Id, ReadModel.Nodes.Last().Id);
         }
 
         public void AttachTrace(AttachTrace cmd)

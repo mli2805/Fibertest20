@@ -30,36 +30,16 @@ namespace Graph.Tests
         [Given(@"На предложение выбрать оборудование пользователь отвечает: ""(.*)""")]
         public void DefineEquipmentChoiceAnswer(EquipmentChoiceAnswer answer)
         {
-            _sut.FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(answer, model));
-        }
-
-        private static bool EquipmentChoiceHandler(EquipmentChoiceAnswer answer, object model)
-        {
-            var vm = model as EquipmentChoiceViewModel;
-            if (vm == null) return false;
-            switch (answer)
-            {
-                case EquipmentChoiceAnswer.Use:
-                    vm.UseButton();
-                    return true;
-                case EquipmentChoiceAnswer.UseAndSetupName:
-                    vm.UseAndSetupNameButton();
-                    return true;
-                case EquipmentChoiceAnswer.Cancel:
-                    vm.CancelButton();
-                    return true;
-                default:
-                    return false;
-            }
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentChoiceHandler(answer, model));
         }
 
 
         [Given(@"Пользователь делает выбор для каждого предложенного узла")]
         public void GivenПользовательДелаетВыборДляКаждогоПредложенногоУзла()
         {
-            _sut.FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(EquipmentChoiceAnswer.Use, model));
-            _sut.FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(EquipmentChoiceAnswer.UseAndSetupName, model));
-            _sut.FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(EquipmentChoiceAnswer.Use, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentChoiceHandler(EquipmentChoiceAnswer.Use, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentChoiceHandler(EquipmentChoiceAnswer.UseAndSetupName, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentChoiceHandler(EquipmentChoiceAnswer.Use, model));
         }
 
         [Then(@"Список оборудования для трассы содержит выбранное пользователем оборудование")]
@@ -76,9 +56,5 @@ namespace Graph.Tests
         }
     }
 
-    public enum EquipmentChoiceAnswer
-    {
-        Use, UseAndSetupName, Cancel
-    }
 }
 

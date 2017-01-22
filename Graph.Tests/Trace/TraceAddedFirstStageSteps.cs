@@ -57,23 +57,7 @@ namespace Graph.Tests
         [Given(@"На вопрос: ""(.*)"" пользователь ответил: ""(.*)""")]
         public void DefineQuestionAnswer(string question, Answer answer)
         {
-            _sut.FakeWindowManager.RegisterHandler(model =>
-            {
-                var vm = model as QuestionViewModel;
-                if (vm == null) return false;
-                if (vm.QuestionMessage != question) return false;
-                switch (answer)
-                {
-                    case Answer.Yes:
-                        vm.OkButton();
-                        return true;
-                    case Answer.Cancel:
-                        vm.CancelButton();
-                        return true;
-                    default:
-                        return false;
-                }
-            });
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.QuestionAnswer(question, answer, model));
         }
 
         [Then(@"Новая трасса не сохраняется")]
@@ -84,9 +68,4 @@ namespace Graph.Tests
 
     }
 
-    public enum Answer
-    {
-        Yes,
-        Cancel
-    }
 }
