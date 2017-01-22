@@ -106,11 +106,9 @@ namespace Graph.Tests
 
         public void CreateFieldForPathFinderTest(out Guid startId, out Guid finishId)
         {
-
-            var a0 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid(), Title = "a0" };
-            ReadModel.Nodes.Add(a0);
-            startId = a0.Id;
-            ReadModel.Rtus.Add(new Iit.Fibertest.Graph.Rtu() { Id = Guid.NewGuid(), NodeId = startId, Title = "Rtu"});
+            MapVm.AddRtuAtGpsLocation();
+            Poller.Tick();
+            startId = ReadModel.Rtus.Last().NodeId;
 
             var b0 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid(), Title = "b0" };
             ReadModel.Nodes.Add(b0);
@@ -153,9 +151,9 @@ namespace Graph.Tests
             ReadModel.Equipments.Add(new Iit.Fibertest.Graph.Equipment() { Id = Guid.NewGuid(), NodeId = d2.Id, Title = "Another sleeve", Type = EquipmentType.Sleeve });
 
 
-            ReadModel.Fibers.Add(new Iit.Fibertest.Graph.Fiber() { Id = new Guid(), Node1 = a0.Id, Node2 = b0.Id });
-            ReadModel.Fibers.Add(new Iit.Fibertest.Graph.Fiber() { Id = new Guid(), Node1 = a0.Id, Node2 = b1.Id });
-            ReadModel.Fibers.Add(new Iit.Fibertest.Graph.Fiber() { Id = new Guid(), Node1 = a0.Id, Node2 = b2.Id });
+            ReadModel.Fibers.Add(new Iit.Fibertest.Graph.Fiber() { Id = new Guid(), Node1 = startId, Node2 = b0.Id });
+            ReadModel.Fibers.Add(new Iit.Fibertest.Graph.Fiber() { Id = new Guid(), Node1 = startId, Node2 = b1.Id });
+            ReadModel.Fibers.Add(new Iit.Fibertest.Graph.Fiber() { Id = new Guid(), Node1 = startId, Node2 = b2.Id });
 
             ReadModel.Fibers.Add(new Iit.Fibertest.Graph.Fiber() { Id = new Guid(), Node1 = c0.Id, Node2 = b0.Id });
             ReadModel.Fibers.Add(new Iit.Fibertest.Graph.Fiber() { Id = new Guid(), Node1 = c1.Id, Node2 = b1.Id });

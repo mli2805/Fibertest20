@@ -17,15 +17,15 @@ namespace Graph.Tests.Trace
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.1.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class TraceAddedFeature : Xunit.IClassFixture<TraceAddedFeature.FixtureData>, System.IDisposable
+    public partial class TraceAddedThirdStageFeature : Xunit.IClassFixture<TraceAddedThirdStageFeature.FixtureData>, System.IDisposable
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
         
-#line 1 "TraceAdded.feature"
+#line 1 "TraceAddedThirdStage.feature"
 #line hidden
         
-        public TraceAddedFeature()
+        public TraceAddedThirdStageFeature()
         {
             this.TestInitialize();
         }
@@ -33,7 +33,7 @@ namespace Graph.Tests.Trace
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "TraceAdded", null, ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "TraceAddedThirdStage", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -66,11 +66,11 @@ namespace Graph.Tests.Trace
         {
 #line 3
 #line 4
- testRunner.Given("Существует набор узлов и отрезков", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Сформирован набор данных трассы и открыто окно создания трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
         }
         
-        public virtual void SetFixture(TraceAddedFeature.FixtureData fixtureData)
+        public virtual void SetFixture(TraceAddedThirdStageFeature.FixtureData fixtureData)
         {
         }
         
@@ -80,7 +80,7 @@ namespace Graph.Tests.Trace
         }
         
         [Xunit.FactAttribute(DisplayName="Добавление без имени трассы")]
-        [Xunit.TraitAttribute("FeatureTitle", "TraceAdded")]
+        [Xunit.TraitAttribute("FeatureTitle", "TraceAddedThirdStage")]
         [Xunit.TraitAttribute("Description", "Добавление без имени трассы")]
         public virtual void ДобавлениеБезИмениТрассы()
         {
@@ -90,70 +90,48 @@ this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
 #line 7
- testRunner.Given("Пользователь выбрал узел где есть оборудование", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.When("Пользователь жмет Применить при пустом имени трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 8
- testRunner.Then("На вопрос: \"Accept the path?\" собираются ответить: \"Yes\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 9
- testRunner.Then("На предложение выбрать оборудование собираются ответить: \"Use\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 10
- testRunner.Given("И кликнул определить трассу", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 11
- testRunner.Then("Открывается окно добавления трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 12
- testRunner.When("Пользователь НЕ вводит имя трассы и жмет Сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 13
  testRunner.Then("Окно не закрывается", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 14
+#line 9
  testRunner.Then("Трасса не сохраняется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
         
         [Xunit.FactAttribute(DisplayName="В последний момент пользователь решает не создавать трассу")]
-        [Xunit.TraitAttribute("FeatureTitle", "TraceAdded")]
+        [Xunit.TraitAttribute("FeatureTitle", "TraceAddedThirdStage")]
         [Xunit.TraitAttribute("Description", "В последний момент пользователь решает не создавать трассу")]
         public virtual void ВПоследнийМоментПользовательРешаетНеСоздаватьТрассу()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("В последний момент пользователь решает не создавать трассу", ((string[])(null)));
-#line 16
+#line 11
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 17
- testRunner.Given("Пользователь выбрал узел где есть оборудование", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 18
- testRunner.Then("На вопрос: \"Accept the path?\" собираются ответить: \"Yes\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 19
- testRunner.Given("И кликнул определить трассу", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 20
- testRunner.Then("Открывается окно добавления трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 21
+#line 12
  testRunner.When("Пользователь жмет Отмена", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 22
+#line 13
  testRunner.Then("Окно закрывается", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 23
+#line 14
  testRunner.Then("Трасса не сохраняется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
         
         [Xunit.FactAttribute(DisplayName="Добавление трассы")]
-        [Xunit.TraitAttribute("FeatureTitle", "TraceAdded")]
+        [Xunit.TraitAttribute("FeatureTitle", "TraceAddedThirdStage")]
         [Xunit.TraitAttribute("Description", "Добавление трассы")]
         public virtual void ДобавлениеТрассы()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление трассы", ((string[])(null)));
-#line 25
+#line 16
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 26
- testRunner.Given("И кликнул определить трассу", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 27
- testRunner.Then("Открывается окно добавления трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 28
+#line 17
  testRunner.When("Пользователь вводит название трассы и жмет Сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 29
+#line 18
  testRunner.Then("Новая трасса сохраняется и окно закрывается", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -166,12 +144,12 @@ this.FeatureBackground();
             
             public FixtureData()
             {
-                TraceAddedFeature.FeatureSetup();
+                TraceAddedThirdStageFeature.FeatureSetup();
             }
             
             void System.IDisposable.Dispose()
             {
-                TraceAddedFeature.FeatureTearDown();
+                TraceAddedThirdStageFeature.FeatureTearDown();
             }
         }
     }

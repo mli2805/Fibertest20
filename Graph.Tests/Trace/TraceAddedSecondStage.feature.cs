@@ -80,7 +80,7 @@ namespace Graph.Tests.Trace
 #line 3
 this.ScenarioSetup(scenarioInfo);
 #line 4
- testRunner.Given("На предложение выбрать оборудование собираются ответить: \"Cancel\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("На предложение выбрать оборудование пользователь отвечает: \"Cancel\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 5
  testRunner.Given("После того как принял предложенный маршрут трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 6

@@ -27,7 +27,7 @@ namespace Graph.Tests
             _equipments = MapTraceDefine.CollectEquipmentForTrace(_sut.FakeWindowManager, _nodes, _sut.ReadModel);
         }
 
-        [Given(@"На предложение выбрать оборудование собираются ответить: ""(.*)""")]
+        [Given(@"На предложение выбрать оборудование пользователь отвечает: ""(.*)""")]
         public void DefineEquipmentChoiceAnswer(EquipmentChoiceAnswer answer)
         {
             _sut.FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(answer, model));

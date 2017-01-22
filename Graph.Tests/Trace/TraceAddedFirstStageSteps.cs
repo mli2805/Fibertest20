@@ -14,7 +14,7 @@ namespace Graph.Tests
         private Guid _lastNodeId;
 
         [Given(@"Существуют РТУ оборудование узлы и отрезки между ними")]
-        public void GivenСуществуютРТУУзлыИОтрезкиМеждуНими()
+        public void GivenСуществуютРтуУзлыИОтрезкиМеждуНими()
         {
             _sut.CreateFieldForPathFinderTest(out _rtuNodeId, out _lastNodeId);
         }
@@ -55,7 +55,7 @@ namespace Graph.Tests
         }
 
         [Given(@"На вопрос: ""(.*)"" пользователь ответил: ""(.*)""")]
-        public void DefineQuestionAnswer(string question, TraceAddedSteps.Answer answer)
+        public void DefineQuestionAnswer(string question, Answer answer)
         {
             _sut.FakeWindowManager.RegisterHandler(model =>
             {
@@ -64,10 +64,10 @@ namespace Graph.Tests
                 if (vm.QuestionMessage != question) return false;
                 switch (answer)
                 {
-                    case TraceAddedSteps.Answer.Yes:
+                    case Answer.Yes:
                         vm.OkButton();
                         return true;
-                    case TraceAddedSteps.Answer.Cancel:
+                    case Answer.Cancel:
                         vm.CancelButton();
                         return true;
                     default:
@@ -82,5 +82,11 @@ namespace Graph.Tests
             _sut.ReadModel.Traces.Count.Should().Be(0);
         }
 
+    }
+
+    public enum Answer
+    {
+        Yes,
+        Cancel
     }
 }
