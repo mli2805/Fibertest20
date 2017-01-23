@@ -4,18 +4,20 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 {
     public class NotificationViewModel : Screen
     {
+        private readonly string _caption;
         public string Message { get; set; }
         public bool IsClosed { get; set; }
 
-        public NotificationViewModel(string message)
+        public NotificationViewModel(string caption, string message)
         {
+            _caption = caption;
             Message = message;
             IsClosed = false;
         }
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = "Error!";
+            DisplayName = _caption;
         }
 
         public void CloseView()

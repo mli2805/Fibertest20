@@ -15,7 +15,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             if (readModel.Equipments.All(e => e.NodeId != lastNodeId))
             {
                 var errorNotificationViewModel =
-                    new NotificationViewModel("Last node of trace must contain some equipment");
+                    new NotificationViewModel("Ошибка!", "Last node of trace must contain some equipment");
                 windowManager.ShowDialog(errorNotificationViewModel);
                 return false;
             }
@@ -24,7 +24,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             if (path == null)
             {
                 var errorNotificationViewModel =
-                    new NotificationViewModel("Path couldn't be found");
+                    new NotificationViewModel("Ошибка!", "Path couldn't be found");
                 windowManager.ShowDialog(errorNotificationViewModel);
                 return false;
             }

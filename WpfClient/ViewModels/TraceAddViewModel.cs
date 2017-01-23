@@ -71,7 +71,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
             if (error != null)
             {
-                _windowManager.ShowDialog(new NotificationViewModel(error));
+                _windowManager.ShowDialog(new NotificationViewModel("Ошибка!", error));
                 return;
             }
 
