@@ -1,11 +1,11 @@
 ﻿namespace Iit.Fibertest.WpfClient.Views
 {
     /// <summary>
-    /// Interaction logic for ErrorNotificationView.xaml
+    /// Interaction logic for FiberUpdateView.xaml
     /// </summary>
-    public partial class ErrorNotificationView
+    public partial class FiberUpdateView
     {
-        public ErrorNotificationView()
+        public FiberUpdateView()
         {
             InitializeComponent();
         }

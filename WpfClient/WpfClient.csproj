@@ -79,45 +79,45 @@
     <Compile Include="MappingDomainEntityToViewModel.cs" />
     <Compile Include="MappingViewModeltoDomainEntity.cs" />
     <Compile Include="ViewModels\EquipmentChoiceViewModel.cs" />
-    <Compile Include="ViewModels\AssignBaseRefsViewModel.cs" />
-    <Compile Include="ViewModels\ErrorNotificationViewModel.cs" />
+    <Compile Include="ViewModels\BaseRefsAssignViewModel.cs" />
+    <Compile Include="ViewModels\UniversalViewModels\NotificationViewModel.cs" />
     <Compile Include="IShell.cs" />
     <Compile Include="ViewModels\EquipmentViewModel.cs" />
-    <Compile Include="ViewModels\AddTraceViewModel.cs" />
+    <Compile Include="ViewModels\TraceAddViewModel.cs" />
     <Compile Include="ViewModels\MapViewModel\MapTraceDefine.cs" />
     <Compile Include="ViewModels\MapViewModel\MapViewModel.cs" />
-    <Compile Include="ViewModels\QuestionViewModel.cs" />
+    <Compile Include="ViewModels\UniversalViewModels\QuestionViewModel.cs" />
     <Compile Include="ViewModels\RadioButtonModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModels\UpdateFiberViewModel.cs" />
-    <Compile Include="ViewModels\UpdateNodeViewModel.cs" />
+    <Compile Include="ViewModels\FiberUpdateViewModel.cs" />
+    <Compile Include="ViewModels\NodeUpdateViewModel.cs" />
     <Compile Include="Views\EquipmentChoiceView.xaml.cs">
       <DependentUpon>EquipmentChoiceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\EquipmentView.xaml.cs">
       <DependentUpon>EquipmentView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AddTraceView.xaml.cs">
-      <DependentUpon>AddTraceView.xaml</DependentUpon>
+    <Compile Include="Views\BaseRefsAssignView.xaml.cs">
+      <DependentUpon>BaseRefsAssignView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AssignBaseRefsView.xaml.cs">
-      <DependentUpon>AssignBaseRefsView.xaml</DependentUpon>
+    <Compile Include="Views\UniversalViews\NotificationView.xaml.cs">
+      <DependentUpon>NotificationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ErrorNotificationView.xaml.cs">
-      <DependentUpon>ErrorNotificationView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\QuestionView.xaml.cs">
+    <Compile Include="Views\UniversalViews\QuestionView.xaml.cs">
       <DependentUpon>QuestionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UpdateFiberView.xaml.cs">
-      <DependentUpon>UpdateFiberView.xaml</DependentUpon>
+    <Compile Include="Views\TraceAddView.xaml.cs">
+      <DependentUpon>TraceAddView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UpdateNodeView.xaml.cs">
-      <DependentUpon>UpdateNodeView.xaml</DependentUpon>
+    <Compile Include="Views\FiberUpdateView.xaml.cs">
+      <DependentUpon>FiberUpdateView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NodeUpdateView.xaml.cs">
+      <DependentUpon>NodeUpdateView.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\EquipmentChoiceView.xaml">
       <SubType>Designer</SubType>
@@ -127,19 +127,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AddTraceView.xaml">
+    <Page Include="Views\BaseRefsAssignView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AssignBaseRefsView.xaml">
+    <Page Include="Views\UniversalViews\NotificationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ErrorNotificationView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\QuestionView.xaml">
+    <Page Include="Views\UniversalViews\QuestionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -147,11 +143,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\UpdateFiberView.xaml">
+    <Page Include="Views\TraceAddView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\FiberUpdateView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\UpdateNodeView.xaml">
+    <Page Include="Views\NodeUpdateView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

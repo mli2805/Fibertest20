@@ -1,11 +1,11 @@
 ﻿namespace Iit.Fibertest.WpfClient.Views
 {
     /// <summary>
-    /// Interaction logic for TraceAddView.xaml
+    /// Interaction logic for BaseRefsAssignView.xaml
     /// </summary>
-    public partial class TraceAddView
+    public partial class BaseRefsAssignView
     {
-        public TraceAddView()
+        public BaseRefsAssignView()
         {
             InitializeComponent();
         }

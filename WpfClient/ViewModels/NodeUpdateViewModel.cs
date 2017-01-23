@@ -9,7 +9,7 @@ using Iit.Fibertest.Graph.Commands;
 
 namespace Iit.Fibertest.WpfClient.ViewModels
 {
-    public class UpdateNodeViewModel : Screen, IDataErrorInfo
+    public class NodeUpdateViewModel : Screen, IDataErrorInfo
     {
         private readonly ReadModel _readModel;
         private readonly Aggregate _aggregate;
@@ -62,7 +62,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             }
         }
 
-        public UpdateNodeViewModel(Guid nodeId, ReadModel readModel, Aggregate aggregate)
+        public NodeUpdateViewModel(Guid nodeId, ReadModel readModel, Aggregate aggregate)
         {
             _readModel = readModel;
             _aggregate = aggregate;

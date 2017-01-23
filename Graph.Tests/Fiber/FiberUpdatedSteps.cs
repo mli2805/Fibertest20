@@ -10,7 +10,7 @@ namespace Graph.Tests
     public sealed class FiberUpdatedSteps
     {
         private readonly SystemUnderTest _sut = new SystemUnderTest();
-        private UpdateFiberViewModel _window;
+        private FiberUpdateViewModel _window;
         private Guid _saidFiberId;
         private int _cutOff;
 
@@ -36,7 +36,7 @@ namespace Graph.Tests
         [Given(@"Пользователь открывает форму редактирования отрезка")]
         public void GivenПользовательОткрываетФормуРедактированияОтрезка()
         {
-            _window = new UpdateFiberViewModel(_saidFiberId, _sut.ReadModel, _sut.Aggregate);
+            _window = new FiberUpdateViewModel(_saidFiberId, _sut.ReadModel, _sut.Aggregate);
         }
 
         [When(@"Пользователь нажал сохранить")]

@@ -48,9 +48,9 @@ namespace Graph.Tests
         public void ThenСообщение(string message)
         {
             _sut.FakeWindowManager.Log
-                .OfType<ErrorNotificationViewModel>()
+                .OfType<NotificationViewModel>()
                 .Last()
-                .ErrorMessage
+                .Message
                 .Should().Be(message);
         }
 

@@ -34,7 +34,7 @@ namespace Graph.Tests
 
         public FakeWindowManager()
         {
-            RegisterHandler(m => m is ErrorNotificationViewModel);
+            RegisterHandler(m => m is NotificationViewModel);
         }
 
         public void RegisterHandler(Func<object, bool> del)

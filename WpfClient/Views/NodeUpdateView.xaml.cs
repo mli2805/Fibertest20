@@ -1,11 +1,11 @@
 ﻿namespace Iit.Fibertest.WpfClient.Views
 {
     /// <summary>
-    /// Interaction logic for UpdateFiberView.xaml
+    /// Interaction logic for NodeUpdateView.xaml
     /// </summary>
-    public partial class UpdateFiberView
+    public partial class NodeUpdateView
     {
-        public UpdateFiberView()
+        public NodeUpdateView()
         {
             InitializeComponent();
         }

@@ -21,7 +21,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             _readModel.Nodes.Add(node);
 
             var windowManager = IoC.Get<IWindowManager>();
-            var updateNodeViewModel = new UpdateNodeViewModel(node.Id, _readModel, _aggregate);
+            var updateNodeViewModel = new NodeUpdateViewModel(node.Id, _readModel, _aggregate);
             windowManager.ShowDialog(updateNodeViewModel);
 
         }
@@ -36,7 +36,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             _readModel.Fibers.Add(fiber);
 
             var windowManager = IoC.Get<IWindowManager>();
-            var updateFiberViewModel = new UpdateFiberViewModel(fiber.Id, _readModel, _aggregate);
+            var updateFiberViewModel = new FiberUpdateViewModel(fiber.Id, _readModel, _aggregate);
             windowManager.ShowDialog(updateFiberViewModel);
 
         }
@@ -58,7 +58,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             var trace = _readModel.Traces.First();
 
             var windowManager = IoC.Get<IWindowManager>();
-            var addEquipmentViewModel = new AssignBaseRefsViewModel(trace.Id, _readModel, _aggregate);
+            var addEquipmentViewModel = new BaseRefsAssignViewModel(trace.Id, _readModel, _aggregate);
             windowManager.ShowDialog(addEquipmentViewModel);
         }
 

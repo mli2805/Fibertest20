@@ -42,7 +42,7 @@ namespace Graph.Tests
             MapVm.AddFiber(nodeForRtuId, firstNodeId);
             MapVm.AddFiber(firstNodeId, secondNodeId);
             Poller.Tick();
-            var addTraceViewModel = new AddTraceViewModel(FakeWindowManager, ReadModel, Aggregate, new List<Guid>() { nodeForRtuId, firstNodeId, secondNodeId }, equipments);
+            var addTraceViewModel = new TraceAddViewModel(FakeWindowManager, ReadModel, Aggregate, new List<Guid>() { nodeForRtuId, firstNodeId, secondNodeId }, equipments);
             addTraceViewModel.Save();
             Poller.Tick();
         }
@@ -83,22 +83,22 @@ namespace Graph.Tests
             Poller.Tick();
 
             var equipments = new List<Guid> {ReadModel.Rtus.Last().Id, Guid.Empty, Guid.Empty, ReadModel.Equipments.Single(e=>e.NodeId == a2).Id};
-            var addTraceViewModel = new AddTraceViewModel(FakeWindowManager, ReadModel, Aggregate, new List<Guid>() { nodeForRtuId, a1, b1, a2 }, equipments);
+            var addTraceViewModel = new TraceAddViewModel(FakeWindowManager, ReadModel, Aggregate, new List<Guid>() { nodeForRtuId, a1, b1, a2 }, equipments);
             addTraceViewModel.Save();
             Poller.Tick();
 
             equipments = new List<Guid> {ReadModel.Rtus.Last().Id, Guid.Empty, Guid.Empty, ReadModel.Equipments.Single(e=>e.NodeId == b2).Id};
-            addTraceViewModel = new AddTraceViewModel(FakeWindowManager, ReadModel, Aggregate, new List<Guid>() { nodeForRtuId, b1, a1, b2 }, equipments);
+            addTraceViewModel = new TraceAddViewModel(FakeWindowManager, ReadModel, Aggregate, new List<Guid>() { nodeForRtuId, b1, a1, b2 }, equipments);
             addTraceViewModel.Save();
             Poller.Tick();
 
             equipments = new List<Guid> { ReadModel.Rtus.Last().Id, Guid.Empty, ReadModel.Equipments.Single(e => e.NodeId == c2).Id };
-            addTraceViewModel = new AddTraceViewModel(FakeWindowManager, ReadModel, Aggregate, new List<Guid>() { nodeForRtuId, a1, c2 }, equipments);
+            addTraceViewModel = new TraceAddViewModel(FakeWindowManager, ReadModel, Aggregate, new List<Guid>() { nodeForRtuId, a1, c2 }, equipments);
             addTraceViewModel.Save();
             Poller.Tick();
 
             equipments = new List<Guid> { ReadModel.Rtus.Last().Id, ReadModel.Equipments.Single(e => e.NodeId == d2).Id };
-            addTraceViewModel = new AddTraceViewModel(FakeWindowManager, ReadModel, Aggregate, new List<Guid>() { nodeForRtuId, d2 }, equipments);
+            addTraceViewModel = new TraceAddViewModel(FakeWindowManager, ReadModel, Aggregate, new List<Guid>() { nodeForRtuId, d2 }, equipments);
             addTraceViewModel.Save();
             Poller.Tick();
         }
@@ -212,7 +212,7 @@ namespace Graph.Tests
 
         public bool AddTraceViewHandler(object model, string title, string comment, Answer button)
         {
-            var vm = model as AddTraceViewModel;
+            var vm = model as TraceAddViewModel;
             if (vm == null) return false;
             vm.Title = title;
             vm.Comment = comment;

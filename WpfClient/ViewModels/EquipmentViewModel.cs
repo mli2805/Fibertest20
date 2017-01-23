@@ -113,7 +113,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
                 var result = _aggregate.When(cmd);
                 if (result != null)
                 {
-                    var errorNotificationViewModel = new ErrorNotificationViewModel(result);
+                    var errorNotificationViewModel = new NotificationViewModel(result);
                     _windowManager.ShowDialog(errorNotificationViewModel);
                     return;
                 }

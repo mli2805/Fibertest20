@@ -10,7 +10,7 @@ namespace Graph.Tests
     public sealed class BaseRefAssignedSteps
     {
         private readonly SystemUnderTest _sut;
-        private AssignBaseRefsViewModel _assignBaseRefsViewModel;
+        private BaseRefsAssignViewModel _baseRefsAssignViewModel;
         private Guid _traceId;
         private Guid _oldPreciseId;
 
@@ -33,38 +33,38 @@ namespace Graph.Tests
         [When(@"Открыта форма для задания базовых")]
         public void GivenОткрытаФормаДляЗаданияБазовых()
         {
-            _assignBaseRefsViewModel = new AssignBaseRefsViewModel(_traceId,_sut.ReadModel, _sut.Aggregate);
+            _baseRefsAssignViewModel = new BaseRefsAssignViewModel(_traceId,_sut.ReadModel, _sut.Aggregate);
         }
 
         [When(@"Пользователь меняет точную базовую")]
         public void WhenПользовательМеняетТочнуюБазовую()
         {
-            _assignBaseRefsViewModel.PreciseBaseFilename = @"..\..\base.sor";
+            _baseRefsAssignViewModel.PreciseBaseFilename = @"..\..\base.sor";
         }
 
         [When(@"Пользователь сбрасывает быструю базовую")]
         public void WhenПользовательСбрасываетБыструюБазовую()
         {
-            _assignBaseRefsViewModel.FastBaseFilename = "";
+            _baseRefsAssignViewModel.FastBaseFilename = "";
         }
 
         [When(@"Пользователь задает дополнительную базовую")]
         public void WhenПользовательЗадаетДополнительнуюБазовую()
         {
-            _assignBaseRefsViewModel.AdditionalBaseFilename = @"..\..\base.sor";
+            _baseRefsAssignViewModel.AdditionalBaseFilename = @"..\..\base.sor";
         }
 
         [When(@"Пользователь жмет сохранить")]
         public void WhenПользовательЖметСохранить()
         {
-            _assignBaseRefsViewModel.Save();
+            _baseRefsAssignViewModel.Save();
             _sut.Poller.Tick();
         }
 
         [When(@"Пользователь жмет отмена")]
         public void WhenПользовательЖметОтмена()
         {
-            _assignBaseRefsViewModel.Cancel();
+            _baseRefsAssignViewModel.Cancel();
             _sut.Poller.Tick();
         }
 

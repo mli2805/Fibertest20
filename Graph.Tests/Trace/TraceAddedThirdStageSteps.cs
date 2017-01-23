@@ -15,7 +15,7 @@ namespace Graph.Tests
         private Guid _rtuNodeId;
         private Guid _lastNodeId;
 
-        private AddTraceViewModel _addTraceViewModel;
+        private TraceAddViewModel _traceAddViewModel;
 
         private List<Guid> _nodes;
         private List<Guid> _equipments = new List<Guid>();
@@ -32,47 +32,47 @@ namespace Graph.Tests
                 _equipments.Add(_sut.ReadModel.Equipments.FirstOrDefault(e=>e.NodeId == nodeId) == null ? Guid.Empty : Guid.NewGuid());
             }
 
-            _addTraceViewModel = new AddTraceViewModel(_sut.FakeWindowManager, _sut.ReadModel, _sut.Aggregate, _nodes, _equipments);
+            _traceAddViewModel = new TraceAddViewModel(_sut.FakeWindowManager, _sut.ReadModel, _sut.Aggregate, _nodes, _equipments);
         }
 
         [When(@"Пользователь жмет Применить при пустом имени трассы")]
         public void GivenПользовательЖметПрименитьПриПустомИмениТрассы()
         {
-            _addTraceViewModel.Title = "";
-            _addTraceViewModel.Save();
+            _traceAddViewModel.Title = "";
+            _traceAddViewModel.Save();
         }
 
         [When(@"Пользователь вводит название трассы и жмет Сохранить")]
         public void WhenПользовательВводитНазваниеТрассыИЖметСохранить()
         {
-            _addTraceViewModel.Title = "Doesn't matter";
-            _addTraceViewModel.Save();
+            _traceAddViewModel.Title = "Doesn't matter";
+            _traceAddViewModel.Save();
             _sut.Poller.Tick();
         }
 
         [When(@"Пользователь жмет Отмена")]
         public void WhenПользовательЖметОтмена()
         {
-            _addTraceViewModel.Cancel();
+            _traceAddViewModel.Cancel();
         }
 
         [Then(@"Окно не закрывается")]
         public void ThenОкноНеЗакрывается()
         {
-            _addTraceViewModel.IsClosed = false;
+            _traceAddViewModel.IsClosed = false;
         }
 
         [Then(@"Окно закрывается")]
         public void ThenОкноЗакрывается()
         {
-            _addTraceViewModel.IsClosed = true;
+            _traceAddViewModel.IsClosed = true;
         }
 
         [Then(@"Новая трасса сохраняется и окно закрывается")]
         public void ThenНоваяТрассаСохраняетсяИОкноЗакрывается()
         {
             _sut.ReadModel.Traces.Count.Should().Be(1);
-            _addTraceViewModel.IsClosed = true;
+            _traceAddViewModel.IsClosed = true;
         }
 
         [Then(@"Трасса не сохраняется")]

@@ -32,7 +32,7 @@ namespace Graph.Tests
         [Given(@"Для трассы проходящей по данному отрезку задана базовая")]
         public void GivenДляДаннойТрассыЗаданаБазовая()
         {
-            var vm = new AssignBaseRefsViewModel(_sut.ReadModel.Traces.First().Id, _sut.ReadModel, _sut.Aggregate);
+            var vm = new BaseRefsAssignViewModel(_sut.ReadModel.Traces.First().Id, _sut.ReadModel, _sut.Aggregate);
             vm.PreciseBaseFilename = @"..\..\base.sor";
             vm.Save();
             _sut.Poller.Tick();
@@ -65,9 +65,9 @@ namespace Graph.Tests
         public void ThenСообщение(string message)
         {
             _sut.FakeWindowManager.Log
-                .OfType<ErrorNotificationViewModel>()
+                .OfType<NotificationViewModel>()
                 .Last()
-                .ErrorMessage
+                .Message
                 .Should().Be(message);
         }
     }

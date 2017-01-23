@@ -37,7 +37,7 @@ namespace Graph.Tests
             var path = new PathFinder(_sut.ReadModel).FindPath(rtuNodeId, _nodeId);
             var traceNodes = path.ToList();
             var equipments = new List<Guid>() {_sut.ReadModel.Rtus.Single().Id, _equipmentId};
-            new AddTraceViewModel(_sut.FakeWindowManager, _sut.ReadModel, _sut.Aggregate, traceNodes, equipments).Save();
+            new TraceAddViewModel(_sut.FakeWindowManager, _sut.ReadModel, _sut.Aggregate, traceNodes, equipments).Save();
             _sut.Poller.Tick();
         }
 
@@ -50,7 +50,7 @@ namespace Graph.Tests
         [When(@"Пользователь нажимает удалить оборудование")]
         public void WhenПользовательНажимаетУдалитьОборудование()
         {
-            new UpdateNodeViewModel(_nodeId, _sut.ReadModel, _sut.Aggregate).RemoveEquipment(_equipmentId);
+            new NodeUpdateViewModel(_nodeId, _sut.ReadModel, _sut.Aggregate).RemoveEquipment(_equipmentId);
             _sut.Poller.Tick();
         }
 

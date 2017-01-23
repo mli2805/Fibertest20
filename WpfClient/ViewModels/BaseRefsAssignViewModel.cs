@@ -7,7 +7,7 @@ using Iit.Fibertest.Graph.Commands;
 
 namespace Iit.Fibertest.WpfClient.ViewModels
 {
-    public class AssignBaseRefsViewModel : Screen
+    public class BaseRefsAssignViewModel : Screen
     {
         private readonly ReadModel _readModel;
         private readonly Aggregate _aggregate;
@@ -23,7 +23,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         public string FastBaseFilename { get; set; }
         public string AdditionalBaseFilename { get; set; }
 
-        public AssignBaseRefsViewModel(Guid traceId, ReadModel readModel, Aggregate aggregate)
+        public BaseRefsAssignViewModel(Guid traceId, ReadModel readModel, Aggregate aggregate)
         {
             _readModel = readModel;
             _aggregate = aggregate;

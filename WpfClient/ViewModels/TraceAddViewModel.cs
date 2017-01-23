@@ -8,7 +8,7 @@ using Iit.Fibertest.Graph.Commands;
 
 namespace Iit.Fibertest.WpfClient.ViewModels
 {
-    public class AddTraceViewModel : Screen, IDataErrorInfo
+    public class TraceAddViewModel : Screen, IDataErrorInfo
     {
         private readonly IWindowManager _windowManager;
         private readonly ReadModel _readModel;
@@ -46,7 +46,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         public bool IsClosed { get; set; }
 
 
-        public AddTraceViewModel(IWindowManager windowManager, ReadModel readModel, Aggregate aggregate, List<Guid> nodes, List<Guid> equipments)
+        public TraceAddViewModel(IWindowManager windowManager, ReadModel readModel, Aggregate aggregate, List<Guid> nodes, List<Guid> equipments)
         {
             _windowManager = windowManager;
             _readModel = readModel;
@@ -71,7 +71,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
             if (error != null)
             {
-                _windowManager.ShowDialog(new ErrorNotificationViewModel(error));
+                _windowManager.ShowDialog(new NotificationViewModel(error));
                 return;
             }
 

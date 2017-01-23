@@ -2,14 +2,14 @@
 
 namespace Iit.Fibertest.WpfClient.ViewModels
 {
-    public class ErrorNotificationViewModel : Screen
+    public class NotificationViewModel : Screen
     {
-        public string ErrorMessage { get; set; }
+        public string Message { get; set; }
         public bool IsClosed { get; set; }
 
-        public ErrorNotificationViewModel(string errorMessage)
+        public NotificationViewModel(string message)
         {
-            ErrorMessage = errorMessage;
+            Message = message;
             IsClosed = false;
         }
 

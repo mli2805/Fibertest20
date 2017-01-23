@@ -11,7 +11,7 @@ namespace Graph.Tests
     {
         private readonly SystemUnderTest _sut = new SystemUnderTest();
         private Guid _saidNodeId;
-        private UpdateNodeViewModel _updateVm;
+        private NodeUpdateViewModel _nodeUpdateVm;
         private int _cutOff;
 
 
@@ -21,10 +21,10 @@ namespace Graph.Tests
             _sut.MapVm.AddNode();
             _sut.Poller.Tick();
             // TODO: Extract into page object
-            _updateVm = new UpdateNodeViewModel(
+            _nodeUpdateVm = new NodeUpdateViewModel(
                 _sut.ReadModel.Nodes.Last().Id, _sut.ReadModel, _sut.Aggregate);
-            _updateVm.Title = title;
-            _updateVm.Save();
+            _nodeUpdateVm.Title = title;
+            _nodeUpdateVm.Save();
             _cutOff = _sut.CurrentEventNumber;
         }
 
@@ -41,31 +41,31 @@ namespace Graph.Tests
         [Given(@"Открыто окно для изменения данного узла")]
         public void OpenWindow()
         {
-            _updateVm = new UpdateNodeViewModel(_saidNodeId, _sut.ReadModel, _sut.Aggregate);
+            _nodeUpdateVm = new NodeUpdateViewModel(_saidNodeId, _sut.ReadModel, _sut.Aggregate);
         }
         [Given(@"Пользователь ввел название узла (.*)")]
         public void GivenTitleWasSetToBlah_Blah(string title)
         {
-            _updateVm.Title = title;
+            _nodeUpdateVm.Title = title;
         }
 
         [Given(@"Пользователь ввел какой-то комментарий к узлу")]
         public void GivenПользовательВвелКакой_ТоКомментарийКУзлу()
         {
-            _updateVm.Comment = "Doesn't matter";
+            _nodeUpdateVm.Comment = "Doesn't matter";
         }
 
         [When(@"Нажата клавиша сохранить")]
         public void Save()
         {
-            _updateVm.Save();
+            _nodeUpdateVm.Save();
             _sut.Poller.Tick();
         }
 
         [When(@"Нажата клавиша отменить")]
         public void WhenCancelButtonPressed()
         {
-            _updateVm.Cancel();
+            _nodeUpdateVm.Cancel();
         }
 
         [Then(@"Никаких команд не подается")]
@@ -84,7 +84,7 @@ namespace Graph.Tests
         [Then(@"Некая сигнализация ошибки")]
         public void ThenSomeAlert()
         {
-            _updateVm["Title"].Should().NotBeNullOrEmpty();
+            _nodeUpdateVm["Title"].Should().NotBeNullOrEmpty();
         }
     }
 }
