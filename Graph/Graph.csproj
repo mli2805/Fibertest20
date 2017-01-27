@@ -66,6 +66,7 @@
     <Compile Include="Commands\Trace\DetachTrace.cs" />
     <Compile Include="DomainEntities\Enums\BaseRefType.cs" />
     <Compile Include="DomainEntities\Enums\EquipmentType.cs" />
+    <Compile Include="DomainEntities\Enums\FiberState.cs" />
     <Compile Include="DomainEntities\LowLevel\GpsLocation.cs" />
     <Compile Include="Events\Equipment\EquipmentAtGpsLocationAdded.cs" />
     <Compile Include="Events\Equipment\EquipmentRemoved.cs" />

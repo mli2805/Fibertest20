@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="Iit.Fibertest.TestBench.MapUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:testBench="clr-namespace:Iit.Fibertest.TestBench"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Control.Resources>
+        <ContextMenu x:Key="MapContextMenu">
+            <MenuItem Header="Добавить узел" Tag="5" Click="AddNodeOnClick"/>
+            <MenuItem Header="Добавить узел-точку только для рисования" Tag="7" Click="AddNodeOnClick"/>
+            <Separator />
+            <MenuItem Header="Добавить узел с кабельным резервом" Tag="1" Click="AddNodeOnClick"/>
+            <MenuItem Header="Добавить узел с муфтой" Tag="2" Click="AddNodeOnClick"/>
+            <MenuItem Header="Добавить узел с проключением" Tag="3" Click="AddNodeOnClick"/>
+            <MenuItem Header="Добавить узел с оконечным кроссом" Tag="6" Click="AddNodeOnClick"/>
+            <MenuItem Header="Добавить узел с другим оборудованием" Tag="0" Click="AddNodeOnClick"/>
+            <Separator />
+            <MenuItem Header="Добавить РТУ" Tag="4" Click="AddNodeOnClick"/>
+        </ContextMenu>
+        <ContextMenu x:Key="RouteContextMenu">
+            <MenuItem Header="Информация" Tag="1" Click="RouteOnMouseRightClick"/>
+            <MenuItem Header="Добавить узел" Tag="2" Click="RouteOnMouseRightClick"/>
+            <MenuItem Header="Удалить участок" Tag="3" Click="RouteOnMouseRightClick"/>
+        </ContextMenu>
+    </Control.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
+        <testBench:Map x:Name="MainMap" Zoom="13" MaxZoom="19" MinZoom="1"/>
+        <TextBlock Grid.Row="1" Height="20" Text="{Binding CurrentMousePosition, Mode=TwoWay}"/>
+    </Grid>
+</UserControl>

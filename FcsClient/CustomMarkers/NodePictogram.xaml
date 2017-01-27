@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="Iit.Fibertest.TestBench.CustomMarkers.NodePictogram"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	Height="28" Width="40" Opacity="10">
+    <Control.Resources>
+        <ContextMenu x:Key="MarkerContextMenu">
+            <MenuItem Header="Информация" Tag="1" Click="MarkerContextMenuOnClick"/>
+            <MenuItem Header="Добавить оборудование" Tag="2" Click="MarkerContextMenuOnClick"/>
+            <MenuItem Header="Ориентиры" Tag="3" Click="MarkerContextMenuOnClick"/>
+            <MenuItem Header="Удалить узел" Tag="4" Click="MarkerContextMenuOnClick" IsEnabled="{Binding IsRemoveNodeEnabled}"/>
+            <Separator />
+            <MenuItem Header="Участок" Tag="5" Click="MarkerContextMenuOnClick"/>
+            <MenuItem Header="Участок с узламии" Tag="6" Click="MarkerContextMenuOnClick"/>
+        </ContextMenu>
+    </Control.Resources>
+
+    <Image Name="Icon" Source="Resources/RtuOk.png" VerticalAlignment="Center" HorizontalAlignment="Center" />
+</UserControl>
