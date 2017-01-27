@@ -61,8 +61,16 @@ namespace Iit.Fibertest.TestBench
                 ApplyToMap((AddEquipmentAtGpsLocation)GraphVm.Command);
             if (GraphVm.Command is RemoveFiber)
                 ApplyToMap((RemoveFiber)GraphVm.Command);
+            if (GraphVm.Command is MoveNode)
+                ApplyToMap((MoveNode)GraphVm.Command);
 
             //TODO Send Command to Aggregate
+        }
+
+        private void ApplyToMap(MoveNode cmd)
+        {
+            var nodeVm = GraphVm.Nodes.Single(n => n.Id == cmd.Id);
+            nodeVm.Position = new PointLatLng(cmd.Latitude, cmd.Longitude);
         }
 
         private void ApplyToMap(AddFiberWithNodes cmd)

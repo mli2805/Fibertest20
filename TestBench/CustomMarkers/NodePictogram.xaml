@@ -7,7 +7,7 @@
             <MenuItem Header="Информация" Tag="1" Click="MarkerContextMenuOnClick"/>
             <MenuItem Header="Добавить оборудование" Tag="2" Click="MarkerContextMenuOnClick"/>
             <MenuItem Header="Ориентиры" Tag="3" Click="MarkerContextMenuOnClick"/>
-            <MenuItem Header="Удалить узел" Tag="4" Click="MarkerContextMenuOnClick" IsEnabled="{Binding IsRemoveNodeEnabled}"/>
+            <MenuItem Header="Удалить узел" Tag="4" Click="MarkerContextMenuOnClick" IsEnabled="{Binding IsMenuItemRemoveNodeEnabled}"/>
             <Separator />
             <MenuItem Header="Участок" Tag="5" Click="MarkerContextMenuOnClick"/>
             <MenuItem Header="Участок с узламии" Tag="6" Click="MarkerContextMenuOnClick"/>

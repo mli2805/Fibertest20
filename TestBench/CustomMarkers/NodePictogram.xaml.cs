@@ -207,7 +207,7 @@ namespace Iit.Fibertest.TestBench.CustomMarkers
                 _popup.IsOpen = true;
         }
 
-        public bool IsRemoveNodeEnabled { get; set; }
+        public bool IsMenuItemRemoveNodeEnabled { get; set; }
         private void MarkerContextMenuOnClick(object sender, RoutedEventArgs e)
         {
             var item = sender as MenuItem;
