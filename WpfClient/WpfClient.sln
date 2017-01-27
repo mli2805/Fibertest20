@@ -13,16 +13,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		..\.gitattributes = ..\.gitattributes
 		..\.gitignore = ..\.gitignore
-		..\Event sourcing scheme 3.gdoc = ..\Event sourcing scheme 3.gdoc
-		..\Fibersharp Questions.gdoc = ..\Fibersharp Questions.gdoc
-		..\Операции.gsheet = ..\Операции.gsheet
+		..\Links.txt = ..\Links.txt
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GMap.NET.Core", "..\GMap.NET.Core\GMap.NET.Core.csproj", "{D0C39D9D-BED0-418B-9A5E-713176CAF40C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GMap.NET.WindowsPresentation", "..\GMap.NET.WindowsPresentation\GMap.NET.WindowsPresentation.csproj", "{644FE7D4-0184-400F-B2D7-99CB41360658}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FcsClient", "..\FcsClient\FcsClient.csproj", "{0A6DFC12-DC4A-4C44-923F-CEE3DD6B3521}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestBench", "..\FcsClient\TestBench.csproj", "{0A6DFC12-DC4A-4C44-923F-CEE3DD6B3521}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
