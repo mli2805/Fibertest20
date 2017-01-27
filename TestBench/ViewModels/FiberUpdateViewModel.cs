@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using Caliburn.Micro;
-using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
 
 namespace Iit.Fibertest.TestBench.ViewModels

@@ -72,8 +72,15 @@ namespace Iit.Fibertest.TestBench.CustomMarkers
 
         private void NodePictogram_PreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
-            var contextMenu = FindResource("MarkerContextMenu") as ContextMenu;
+            ContextMenu contextMenu;
+            if (_type == EquipmentType.Rtu)
+                contextMenu = FindResource("RtuContextMenu") as ContextMenu;
+            else
+                contextMenu = FindResource("NodeContextMenu") as ContextMenu;
             if (contextMenu == null) return;
+
+            var item = new MenuItem() {Header = "from code", Tag = 78};
+            contextMenu.Items.Add(item);
 
             //TODO define which menu items are disabled
             contextMenu.IsOpen = true;
