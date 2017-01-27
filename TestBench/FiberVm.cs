@@ -10,5 +10,7 @@ namespace Iit.Fibertest.TestBench
         public NodeVm NodeB { get; set; }
 
         public FiberState State { get; set; }
+
+        public int UserInputedLength { get; set; }
     }
 }

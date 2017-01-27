@@ -6,16 +6,18 @@ using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
 
-namespace Iit.Fibertest.WpfClient.ViewModels
+namespace Iit.Fibertest.TestBench.ViewModels
 {
     public class FiberUpdateViewModel : Screen, IDataErrorInfo
     {
-        private ReadModel _readModel;
-        private readonly Aggregate _aggregate;
-        private Fiber _fiber;
+        private readonly GraphVm _graphVm;
+        private FiberVm _fiber;
         private string _userInputedLength;
 
-        public double GpsLength { get; set; }
+        public string NodeAtitle { get; set; }
+        public string NodeBtitle { get; set; }
+
+        public string GpsLength { get; set; }
 
         public double OpticalLength { get; set; }
 
@@ -31,32 +33,26 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         }
 
         public bool IsButtonSaveEnabled = true;
-
-        private double GetGpsLength(Fiber fiber)
-        {
-            var n1 = _readModel.Nodes.Single(n => n.Id == fiber.Node1);
-            var n2 = _readModel.Nodes.Single(n => n.Id == fiber.Node2);
-            return GetGpsLength(n1, n2);
-        }
+        public UpdateFiber Command { get; set; }
 
         /// <summary>
         /// вычисляет расстояние между двумя точками с координатами в градусах
         /// </summary>
         /// <param name="n1"></param>
         /// <param name="n2"></param>
-        /// <returns>расстояние в км</returns>
-        private double GetGpsLength(Node n1, Node n2)
+        /// <returns>расстояние в метрах</returns>
+        private double GetGpsLength(NodeVm n1, NodeVm n2)
         {
             const double latitude1M = 8.981e-6;
 
             // растояние по вертикали не зависит от широты
-            const double latitude1Gr = 1 / latitude1M / 1000; // это км в градусе
+            const double latitude1Gr = 1 / latitude1M ; // это метров в градусе
                                                               // он же расстояние и по горизонтали , если мерять на экваторе
                                                               // иначе домножать на косинус широты на которой меряется
-            double lat1 = n1.Latitude;
-            double lat2 = n2.Latitude;
-            double lon1 = n1.Longitude;
-            double lon2 = n2.Longitude;
+            double lat1 = n1.Position.Lat;
+            double lat2 = n2.Position.Lat;
+            double lon1 = n1.Position.Lng;
+            double lon2 = n2.Position.Lng;
 
             // расстояние между двуми точками находящимися на одной долготе
             double d1 = (lat2 - lat1) * latitude1Gr;
@@ -68,26 +64,38 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
             return l;
         }
-        public FiberUpdateViewModel(Guid fiberId, ReadModel readModel, Aggregate aggregate)
+        public FiberUpdateViewModel(Guid fiberId, GraphVm graphVm)
         {
-            _readModel = readModel;
-            _aggregate = aggregate;
+            _graphVm = graphVm;
+            _fiber = graphVm.Edges.Single(f => f.Id == fiberId);
+            Initialize();
+        }
 
-            _fiber = _readModel.Fibers.Single(f => f.Id == fiberId);
-            GpsLength = GetGpsLength(_fiber);
-            OpticalLength = _fiber.OpticalLength;
+        private void Initialize()
+        {
+            var n1 = _graphVm.Nodes.Single(n => n.Id == _fiber.NodeA.Id);
+            var n2 = _graphVm.Nodes.Single(n => n.Id == _fiber.NodeB.Id);
+            NodeAtitle = n1.Title;
+            NodeBtitle = n2.Title;
+            GpsLength = $"{GetGpsLength(n1, n2):#,##0}";
+//            OpticalLength = _fiber.OpticalLength; // потом из базовых брать
             UserInputedLength = _fiber.UserInputedLength.ToString(CultureInfo.InvariantCulture);
+        }
+
+        protected override void OnViewLoaded(object view)
+        {
+            DisplayName = "Отрезок";
         }
 
         public void Save()
         {
-            var cmd = new UpdateFiber {Id = _fiber.Id, UserInputedLength = int.Parse(_userInputedLength)};
-            _aggregate.When(cmd);
+            Command = new UpdateFiber {Id = _fiber.Id, UserInputedLength = int.Parse(_userInputedLength)};
             TryClose();
         }
 
         public void Cancel()
         {
+            Command = null;
             TryClose();
         }
 

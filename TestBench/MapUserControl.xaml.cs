@@ -20,7 +20,7 @@ namespace Iit.Fibertest.TestBench
     /// </summary>
     public partial class MapUserControl
     {
-        public GraphVm GraphVm => (GraphVm) DataContext;
+        public GraphVm GraphVm => (GraphVm)DataContext;
 
         public MapUserControl()
         {
@@ -47,7 +47,7 @@ namespace Iit.Fibertest.TestBench
         {
             if (e.NewValue == null)
                 return;
-            var graph = (GraphVm) e.NewValue;
+            var graph = (GraphVm)e.NewValue;
 
             graph.Nodes.CollectionChanged += Nodes_CollectionChanged;
             graph.Edges.CollectionChanged += Edges_CollectionChanged;
@@ -99,9 +99,9 @@ namespace Iit.Fibertest.TestBench
         {
             foreach (var newItem in newItems)
             {
-                var edgeVm = (FiberVm) newItem;
+                var edgeVm = (FiberVm)newItem;
                 var route = new GMapRoute(edgeVm.Id, edgeVm.NodeA.Id, edgeVm.NodeB.Id, Utils.StateToBrush(edgeVm.State),
-                    2, new List<PointLatLng>() {edgeVm.NodeA.Position, edgeVm.NodeB.Position});
+                    2, new List<PointLatLng>() { edgeVm.NodeA.Position, edgeVm.NodeB.Position });
                 MainMap.Markers.Add(route);
             }
         }
@@ -110,7 +110,7 @@ namespace Iit.Fibertest.TestBench
         {
             foreach (var oldItem in oldItems)
             {
-                var edgeVm = (FiberVm) oldItem;
+                var edgeVm = (FiberVm)oldItem;
                 var route = MainMap.Markers.Single(r => r.Id == edgeVm.Id);
                 MainMap.Markers.Remove(route);
             }
@@ -120,7 +120,7 @@ namespace Iit.Fibertest.TestBench
         {
             foreach (var newItem in newItems)
             {
-                var nodeVm = (NodeVm) newItem;
+                var nodeVm = (NodeVm)newItem;
                 var marker = new GMapMarker(nodeVm.Id, nodeVm.Position);
                 marker.ZIndex = 2;
                 var nodePictogram = new NodePictogram(MainMap, marker, nodeVm.Type, nodeVm.Title);
@@ -135,7 +135,7 @@ namespace Iit.Fibertest.TestBench
         {
             foreach (var oldItem in oldItems)
             {
-                var nodeVm = (NodeVm) oldItem;
+                var nodeVm = (NodeVm)oldItem;
                 var route = MainMap.Markers.Single(r => r.Id == nodeVm.Id);
                 MainMap.Markers.Remove(route);
             }
@@ -144,14 +144,14 @@ namespace Iit.Fibertest.TestBench
         private void NodePictogram_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "Command")
-                GraphVm.Command = ((NodePictogram) sender).Command;
+                GraphVm.Command = ((NodePictogram)sender).Command;
         }
 
         void MainMap_MouseMove(object sender, MouseEventArgs e)
         {
             var p = e.GetPosition(MainMap);
             GraphVm.CurrentMousePosition =
-                MainMap.FromLocalToLatLng((int) p.X, (int) p.Y).ToString();
+                MainMap.FromLocalToLatLng((int)p.X, (int)p.Y).ToString();
         }
 
         void MainMap_MouseEnter(object sender, MouseEventArgs e)
@@ -163,22 +163,22 @@ namespace Iit.Fibertest.TestBench
         {
             var item = sender as MenuItem;
             if (item == null) return;
-            var code = int.Parse((string) item.Tag);
+            var code = int.Parse((string)item.Tag);
             var position = MainMap.FromLocalToLatLng(MainMap.ContextMenuPoint);
 
-            if ((EquipmentType) code == EquipmentType.Rtu)
-                GraphVm.Command = new AddRtuAtGpsLocation() {Latitude = position.Lat, Longitude = position.Lng};
-            else if ((EquipmentType) code == EquipmentType.Well || (EquipmentType) code == EquipmentType.Invisible)
+            if ((EquipmentType)code == EquipmentType.Rtu)
+                GraphVm.Command = new AddRtuAtGpsLocation() { Latitude = position.Lat, Longitude = position.Lng };
+            else if ((EquipmentType)code == EquipmentType.Well || (EquipmentType)code == EquipmentType.Invisible)
                 GraphVm.Command = new AddNode()
                 {
                     Latitude = position.Lat,
                     Longitude = position.Lng,
-                    IsJustForCurvature = (EquipmentType) code == EquipmentType.Invisible
+                    IsJustForCurvature = (EquipmentType)code == EquipmentType.Invisible
                 };
             else
                 GraphVm.Command = new AddEquipmentAtGpsLocation()
                 {
-                    Type = (EquipmentType) code,
+                    Type = (EquipmentType)code,
                     Latitude = position.Lat,
                     Longitude = position.Lng
                 };
@@ -188,19 +188,17 @@ namespace Iit.Fibertest.TestBench
         {
             var item = sender as MenuItem;
             if (item == null) return;
-            var code = int.Parse((string) item.Tag);
+            var code = int.Parse((string)item.Tag);
 
             switch (code)
             {
+                case 1:
+                    GraphVm.Command = new UpdateFiber() { Id = MainMap.ContextMenuCapturedRoute };
+                    return;
                 case 3:
-                    RemoveNodeOnClick();
+                    GraphVm.Command = new RemoveFiber() { Id = MainMap.ContextMenuCapturedRoute };
                     return;
             }
-        }
-
-        private void RemoveNodeOnClick()
-        {
-            GraphVm.Command = new RemoveFiber() {Id = MainMap.ContextMenuCapturedRoute};
         }
     }
 }

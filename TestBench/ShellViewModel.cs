@@ -63,6 +63,8 @@ namespace Iit.Fibertest.TestBench
                 ApplyToMap((AddFiberWithNodes)GraphVm.Command);
             if (GraphVm.Command is AddFiber)
                 ApplyToMap((AddFiber)GraphVm.Command);
+            if (GraphVm.Command is UpdateFiber)
+                ApplyToMap((UpdateFiber)GraphVm.Command);
             if (GraphVm.Command is RemoveFiber)
                 ApplyToMap((RemoveFiber)GraphVm.Command);
             #endregion
@@ -154,6 +156,14 @@ namespace Iit.Fibertest.TestBench
             return false;
         }
 
+        private void ApplyToMap(UpdateFiber cmd)
+        {
+            var vm = new FiberUpdateViewModel(cmd.Id, GraphVm);
+            new WindowManager().ShowDialog(vm);
+
+            if (cmd != null)
+                GraphVm.Edges.Single(e => e.Id == cmd.Id).UserInputedLength = cmd.UserInputedLength;
+        }
         private void ApplyToMap(RemoveFiber cmd)
         {
             GraphVm.Edges.Remove(GraphVm.Edges.Single(f => f.Id == cmd.Id));

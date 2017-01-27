@@ -95,9 +95,13 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModels\AddFiberWithNodesViewModel.cs" />
+    <Compile Include="ViewModels\FiberUpdateViewModel.cs" />
     <Compile Include="ViewModels\RadioButtonModel.cs" />
     <Compile Include="Views\AddFiberWithNodesView.xaml.cs">
       <DependentUpon>AddFiberWithNodesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FiberUpdateView.xaml.cs">
+      <DependentUpon>FiberUpdateView.xaml</DependentUpon>
     </Compile>
     <Page Include="CustomMarkers\NodePictogram.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -114,6 +118,10 @@
     <Page Include="Views\AddFiberWithNodesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FiberUpdateView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
