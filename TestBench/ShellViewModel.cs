@@ -49,22 +49,37 @@ namespace Iit.Fibertest.TestBench
             if (e.PropertyName != "Command")
                 return;
 
+            #region Node
+            if (GraphVm.Command is AddNode)
+                ApplyToMap((AddNode)GraphVm.Command);
+            if (GraphVm.Command is MoveNode)
+                ApplyToMap((MoveNode)GraphVm.Command);
+            if (GraphVm.Command is RemoveNode)
+                ApplyToMap((RemoveNode)GraphVm.Command);
+            #endregion
+
+            #region Fiber
             if (GraphVm.Command is AddFiberWithNodes)
                 ApplyToMap((AddFiberWithNodes)GraphVm.Command);
             if (GraphVm.Command is AddFiber)
                 ApplyToMap((AddFiber)GraphVm.Command);
-            if (GraphVm.Command is AddNode)
-                ApplyToMap((AddNode)GraphVm.Command);
+            if (GraphVm.Command is RemoveFiber)
+                ApplyToMap((RemoveFiber)GraphVm.Command);
+            #endregion
+
             if (GraphVm.Command is AddRtuAtGpsLocation)
                 ApplyToMap((AddRtuAtGpsLocation)GraphVm.Command);
             if (GraphVm.Command is AddEquipmentAtGpsLocation)
                 ApplyToMap((AddEquipmentAtGpsLocation)GraphVm.Command);
-            if (GraphVm.Command is RemoveFiber)
-                ApplyToMap((RemoveFiber)GraphVm.Command);
-            if (GraphVm.Command is MoveNode)
-                ApplyToMap((MoveNode)GraphVm.Command);
 
             //TODO Send Command to Aggregate
+        }
+
+        #region Node
+        private void ApplyToMap(AddNode cmd)
+        {
+            var nodeVm = new NodeVm() { Id = Guid.NewGuid(), State = FiberState.Ok, Type = EquipmentType.Well, Position = new PointLatLng(cmd.Latitude, cmd.Longitude) };
+            GraphVm.Nodes.Add(nodeVm);
         }
 
         private void ApplyToMap(MoveNode cmd)
@@ -73,6 +88,18 @@ namespace Iit.Fibertest.TestBench
             nodeVm.Position = new PointLatLng(cmd.Latitude, cmd.Longitude);
         }
 
+        private void ApplyToMap(RemoveNode cmd)
+        {
+            var fiberVms = GraphVm.Edges.Where(e => e.NodeA.Id == cmd.Id || e.NodeB.Id == cmd.Id).ToList();
+            foreach (var fiberVm in fiberVms)
+            {
+                GraphVm.Edges.Remove(fiberVm);
+            }
+            GraphVm.Nodes.Remove(GraphVm.Nodes.Single(n => n.Id == cmd.Id));
+        }
+        #endregion
+
+        #region Fiber
         private void ApplyToMap(AddFiberWithNodes cmd)
         {
             if (!Validate(cmd))
@@ -127,29 +154,10 @@ namespace Iit.Fibertest.TestBench
             return false;
         }
 
-        private void ApplyToMap(AddNode cmd)
-        {
-            var nodeVm = new NodeVm() { Id = Guid.NewGuid(), State = FiberState.Ok, Type = EquipmentType.Well, Position = new PointLatLng(cmd.Latitude, cmd.Longitude) };
-            GraphVm.Nodes.Add(nodeVm);
-        }
-
-        private void ApplyToMap(AddRtuAtGpsLocation cmd)
-        {
-            var nodeVm = new NodeVm() { Id = Guid.NewGuid(), State = FiberState.Ok, Type = EquipmentType.Rtu, Position = new PointLatLng(cmd.Latitude, cmd.Longitude) };
-            GraphVm.Nodes.Add(nodeVm);
-        }
-
-        private void ApplyToMap(AddEquipmentAtGpsLocation cmd)
-        {
-            var nodeVm = new NodeVm() { Id = Guid.NewGuid(), State = FiberState.Ok, Type = cmd.Type, Position = new PointLatLng(cmd.Latitude, cmd.Longitude) };
-            GraphVm.Nodes.Add(nodeVm);
-        }
-
         private void ApplyToMap(RemoveFiber cmd)
         {
             GraphVm.Edges.Remove(GraphVm.Edges.Single(f => f.Id == cmd.Id));
         }
-
 
         private void EndFiberCreationMany(NodeVm startMarker, NodeVm finishMarker, int fiberCreateWithNodesCount, EquipmentType intermediateNodeType)
         {
@@ -190,6 +198,18 @@ namespace Iit.Fibertest.TestBench
                 GraphVm.Edges.Add(fiberVm);
             }
         }
+        #endregion
 
+        private void ApplyToMap(AddRtuAtGpsLocation cmd)
+        {
+            var nodeVm = new NodeVm() { Id = Guid.NewGuid(), State = FiberState.Ok, Type = EquipmentType.Rtu, Position = new PointLatLng(cmd.Latitude, cmd.Longitude) };
+            GraphVm.Nodes.Add(nodeVm);
+        }
+
+        private void ApplyToMap(AddEquipmentAtGpsLocation cmd)
+        {
+            var nodeVm = new NodeVm() { Id = Guid.NewGuid(), State = FiberState.Ok, Type = cmd.Type, Position = new PointLatLng(cmd.Latitude, cmd.Longitude) };
+            GraphVm.Nodes.Add(nodeVm);
+        }
     }
 }

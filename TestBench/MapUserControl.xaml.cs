@@ -74,7 +74,6 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
-
         private void Nodes_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             switch (e.Action)
@@ -136,7 +135,7 @@ namespace Iit.Fibertest.TestBench
         {
             foreach (var oldItem in oldItems)
             {
-                var nodeVm = (FiberVm) oldItem;
+                var nodeVm = (NodeVm) oldItem;
                 var route = MainMap.Markers.Single(r => r.Id == nodeVm.Id);
                 MainMap.Markers.Remove(route);
             }
