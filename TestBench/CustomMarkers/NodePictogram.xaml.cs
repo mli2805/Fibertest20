@@ -23,6 +23,7 @@ namespace Iit.Fibertest.TestBench.CustomMarkers
         private Label _label;
         private readonly GMapMarker _marker;
         private readonly EquipmentType _type;
+        private readonly string _title;
         private readonly Map _mainMap;
 
         private object _command;
@@ -43,10 +44,14 @@ namespace Iit.Fibertest.TestBench.CustomMarkers
             _mainMap = mainMap;
             _marker = marker;
             _type = type;
+            _title = title;
 
-            _popup = new Popup();
-            _label = new Label();
+            Subscribe();
+            InitializePopup();
+        }
 
+        private void Subscribe()
+        {
             Unloaded += NodePictogram_Unloaded;
             Loaded += NodePictogram_Loaded;
             SizeChanged += NodePictogram_SizeChanged;
@@ -57,19 +62,12 @@ namespace Iit.Fibertest.TestBench.CustomMarkers
             PreviewMouseLeftButtonUp += NodePictogram_PreviewMouseLeftButtonUp;
             PreviewMouseLeftButtonDown += NodePictogram_PreviewMouseLeftButtonDown;
             PreviewMouseRightButtonUp += NodePictogram_PreviewMouseRightButtonUp;
+        }
 
-            _popup.Placement = PlacementMode.Mouse;
-            {
-                _label.Background = Brushes.White;
-                _label.Foreground = Brushes.Black;
-                //                            _label.Opacity = 0.2;
-                //                            _label.BorderBrush = Brushes.WhiteSmoke;
-                //                            _label.BorderThickness = new Thickness(2);
-                //                            _label.Padding = new Thickness(5);
-                _label.FontSize = 14;
-                _label.Content = title;
-            }
-            _popup.Child = _label;
+        private void InitializePopup()
+        {
+            _label = new Label { Background = Brushes.White, Foreground = Brushes.Black, FontSize = 14, Content = _title, };
+            _popup = new Popup { Placement = PlacementMode.Mouse, Child = _label, };
         }
 
         private void NodePictogram_PreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)
@@ -137,11 +135,11 @@ namespace Iit.Fibertest.TestBench.CustomMarkers
         private void DragMarkerWithItsFibers(MouseEventArgs e)
         {
             Point p = e.GetPosition(_mainMap);
-            _marker.Position = _mainMap.FromLocalToLatLng((int) (p.X), (int) (p.Y));
+            _marker.Position = _mainMap.FromLocalToLatLng((int)(p.X), (int)(p.Y));
 
             foreach (var route in _mainMap.Markers.Where(m => m is GMapRoute))
             {
-                var r = (GMapRoute) route;
+                var r = (GMapRoute)route;
                 if (r.LeftId != _marker.Id && r.RightId != _marker.Id)
                     continue;
                 if (r.LeftId == _marker.Id)
@@ -183,9 +181,9 @@ namespace Iit.Fibertest.TestBench.CustomMarkers
             _mainMap.Markers.Remove(_mainMap.Markers.Single(m => m.Id == _mainMap.FiberUnderCreation));
 
             if (!_mainMap.IsFiberWithNodes)
-                Command = new AddFiber() {Node1 = _mainMap.StartNode.Id, Node2 = _marker.Id};
+                Command = new AddFiber() { Node1 = _mainMap.StartNode.Id, Node2 = _marker.Id };
             else
-                Command = new AddFiberWithNodes() { Node1 = _mainMap.StartNode.Id, Node2 = _marker.Id,  };
+                Command = new AddFiberWithNodes() { Node1 = _mainMap.StartNode.Id, Node2 = _marker.Id, };
 
             _mainMap.FiberUnderCreation = Guid.Empty;
             Cursor = Cursors.Arrow;
@@ -196,7 +194,8 @@ namespace Iit.Fibertest.TestBench.CustomMarkers
         {
             _marker.ZIndex -= 10000;
             Cursor = Cursors.Arrow;
-            _popup.IsOpen = false;
+            if (!string.IsNullOrEmpty(_title))
+                _popup.IsOpen = false;
         }
 
         void NodePictogram_MouseEnter(object sender, MouseEventArgs e)
@@ -204,7 +203,8 @@ namespace Iit.Fibertest.TestBench.CustomMarkers
             _marker.ZIndex += 10000;
             Cursor = Cursors.Hand;
 
-            _popup.IsOpen = true;
+            if (!string.IsNullOrEmpty(_title))
+                _popup.IsOpen = true;
         }
 
         public int FiberCreateWithNodesCount { get; set; }
@@ -220,7 +220,7 @@ namespace Iit.Fibertest.TestBench.CustomMarkers
             switch (code)
             {
                 case 4:
-                    Command = new RemoveNode() {Id = _marker.Id};
+                    Command = new RemoveNode() { Id = _marker.Id };
                     return;
                 case 5:
                     _mainMap.IsFiberWithNodes = false;
