@@ -207,9 +207,6 @@ namespace Iit.Fibertest.TestBench.CustomMarkers
                 _popup.IsOpen = true;
         }
 
-        public int FiberCreateWithNodesCount { get; set; }
-        public EquipmentType FiberCreateWithNodesType { get; set; }
-
         public bool IsRemoveNodeEnabled { get; set; }
         private void MarkerContextMenuOnClick(object sender, RoutedEventArgs e)
         {
