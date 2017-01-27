@@ -20,7 +20,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GMap.NET.Core", "..\GMap.NE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GMap.NET.WindowsPresentation", "..\GMap.NET.WindowsPresentation\GMap.NET.WindowsPresentation.csproj", "{644FE7D4-0184-400F-B2D7-99CB41360658}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestBench", "..\FcsClient\TestBench.csproj", "{0A6DFC12-DC4A-4C44-923F-CEE3DD6B3521}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestBench", "..\TestBench\TestBench.csproj", "{0A6DFC12-DC4A-4C44-923F-CEE3DD6B3521}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
