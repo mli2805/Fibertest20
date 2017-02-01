@@ -6,7 +6,10 @@ namespace Iit.Fibertest.TestBench
     public class GraphVm : PropertyChangedBase
     {
         public ObservableCollection<NodeVm> Nodes { get; }
-        public ObservableCollection<FiberVm> Edges { get; }
+        public ObservableCollection<FiberVm> Fibers { get; }
+        public ObservableCollection<RtuVm> Rtus { get; }
+        public ObservableCollection<EquipmentVm> Equipments { get; }
+        public ObservableCollection<TraceVm> Traces { get; }
 
         private string _currentMousePosition;
         public string CurrentMousePosition
@@ -35,7 +38,10 @@ namespace Iit.Fibertest.TestBench
         public GraphVm()
         {
             Nodes = new ObservableCollection<NodeVm>();
-            Edges = new ObservableCollection<FiberVm>();
+            Fibers = new ObservableCollection<FiberVm>();
+            Rtus = new ObservableCollection<RtuVm>();
+            Equipments = new ObservableCollection<EquipmentVm>();
+            Traces = new ObservableCollection<TraceVm>();
         }
 
     }

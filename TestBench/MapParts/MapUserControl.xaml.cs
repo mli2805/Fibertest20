@@ -45,7 +45,7 @@ namespace Iit.Fibertest.TestBench
             var graph = (GraphVm)e.NewValue;
 
             graph.Nodes.CollectionChanged += Nodes_CollectionChanged;
-            graph.Edges.CollectionChanged += Edges_CollectionChanged;
+            graph.Fibers.CollectionChanged += Edges_CollectionChanged;
         }
 
         private void Edges_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

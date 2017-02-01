@@ -85,17 +85,18 @@
     <Compile Include="MapParts\MarkerControl.xaml.cs">
       <DependentUpon>MarkerControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FiberVm.cs" />
-    <Compile Include="GraphVm.cs" />
+    <Compile Include="VM\EquipmentVm.cs" />
+    <Compile Include="VM\FiberVm.cs" />
+    <Compile Include="VM\GraphVm.cs" />
     <Compile Include="IShell.cs" />
     <Compile Include="Logic\Utils.cs" />
     <Compile Include="MapParts\Map.cs" />
     <Compile Include="MapParts\MapUserControl.xaml.cs">
       <DependentUpon>MapUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NodeVm.cs" />
+    <Compile Include="VM\NodeVm.cs" />
     <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="ViewModels\ContextMenuAction.cs" />
+    <Compile Include="ContextMenuAction.cs" />
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
@@ -117,6 +118,8 @@
     <Compile Include="Views\UpdateRtuView.xaml.cs">
       <DependentUpon>UpdateRtuView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="VM\RtuVm.cs" />
+    <Compile Include="VM\TraceVm.cs" />
     <Page Include="GpsInputControl\GpsInputControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

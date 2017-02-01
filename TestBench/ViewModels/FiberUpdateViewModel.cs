@@ -66,7 +66,7 @@ namespace Iit.Fibertest.TestBench
         public FiberUpdateViewModel(Guid fiberId, GraphVm graphVm)
         {
             _graphVm = graphVm;
-            _fiber = graphVm.Edges.Single(f => f.Id == fiberId);
+            _fiber = graphVm.Fibers.Single(f => f.Id == fiberId);
             Initialize();
         }
 

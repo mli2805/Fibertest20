@@ -28,8 +28,8 @@ namespace Iit.Fibertest.TestBench
             var horizSleeve = new NodeVm() { Id = Guid.NewGuid(), Title = "horiz sleeve", State = FiberState.Ok, Type = EquipmentType.Sleeve, Position = new PointLatLng(53.287345, 31.016841) };
             GraphVm.Nodes.Add(horizSleeve);
 
-            GraphVm.Edges.Add(new FiberVm() { Id = Guid.NewGuid(), NodeA = rtu, NodeB = vertSleeve, State = FiberState.Critical });
-            GraphVm.Edges.Add(new FiberVm() { Id = Guid.NewGuid(), NodeA = rtu, NodeB = horizSleeve, State = FiberState.Ok });
+            GraphVm.Fibers.Add(new FiberVm() { Id = Guid.NewGuid(), NodeA = rtu, NodeB = vertSleeve, State = FiberState.Critical });
+            GraphVm.Fibers.Add(new FiberVm() { Id = Guid.NewGuid(), NodeA = rtu, NodeB = horizSleeve, State = FiberState.Ok });
         }
 
         protected override void OnViewLoaded(object view)
@@ -86,10 +86,10 @@ namespace Iit.Fibertest.TestBench
 
         private void ApplyToMap(RemoveNode cmd)
         {
-            var fiberVms = GraphVm.Edges.Where(e => e.NodeA.Id == cmd.Id || e.NodeB.Id == cmd.Id).ToList();
+            var fiberVms = GraphVm.Fibers.Where(e => e.NodeA.Id == cmd.Id || e.NodeB.Id == cmd.Id).ToList();
             foreach (var fiberVm in fiberVms)
             {
-                GraphVm.Edges.Remove(fiberVm);
+                GraphVm.Fibers.Remove(fiberVm);
             }
             GraphVm.Nodes.Remove(GraphVm.Nodes.Single(n => n.Id == cmd.Id));
         }
@@ -119,7 +119,7 @@ namespace Iit.Fibertest.TestBench
             if (cmd.Node1 == cmd.Node2)
                 return false;
             var fiber =
-                GraphVm.Edges.FirstOrDefault(
+                GraphVm.Fibers.FirstOrDefault(
                     f =>
                         f.NodeA.Id == cmd.Node1 && f.NodeB.Id == cmd.Node2 ||
                         f.NodeA.Id == cmd.Node2 && f.NodeB.Id == cmd.Node1);
@@ -140,7 +140,7 @@ namespace Iit.Fibertest.TestBench
             if (cmd.Node1 == cmd.Node2)
                 return false;
             var fiber =
-                GraphVm.Edges.FirstOrDefault(
+                GraphVm.Fibers.FirstOrDefault(
                     f =>
                         f.NodeA.Id == cmd.Node1 && f.NodeB.Id == cmd.Node2 ||
                         f.NodeA.Id == cmd.Node2 && f.NodeB.Id == cmd.Node1);
@@ -155,11 +155,11 @@ namespace Iit.Fibertest.TestBench
             var vm = new FiberUpdateViewModel(cmd.Id, GraphVm);
             new WindowManager().ShowDialog(vm);
 
-            GraphVm.Edges.Single(e => e.Id == cmd.Id).UserInputedLength = cmd.UserInputedLength;
+            GraphVm.Fibers.Single(e => e.Id == cmd.Id).UserInputedLength = cmd.UserInputedLength;
         }
         private void ApplyToMap(RemoveFiber cmd)
         {
-            GraphVm.Edges.Remove(GraphVm.Edges.Single(f => f.Id == cmd.Id));
+            GraphVm.Fibers.Remove(GraphVm.Fibers.Single(f => f.Id == cmd.Id));
         }
 
         private void EndFiberCreationMany(NodeVm startMarker, NodeVm finishMarker, int fiberCreateWithNodesCount, EquipmentType intermediateNodeType)
@@ -172,7 +172,7 @@ namespace Iit.Fibertest.TestBench
 
         private void EndFiberCreationOne(NodeVm startMarker, NodeVm finishMarker)
         {
-            GraphVm.Edges.Add(new FiberVm() { Id = Guid.NewGuid(), NodeA = startMarker, NodeB = finishMarker, State = FiberState.NotInTrace });
+            GraphVm.Fibers.Add(new FiberVm() { Id = Guid.NewGuid(), NodeA = startMarker, NodeB = finishMarker, State = FiberState.NotInTrace });
         }
 
         private List<NodeVm> CreateMidNodes(NodeVm startMarker,
@@ -198,7 +198,7 @@ namespace Iit.Fibertest.TestBench
             for (int i = 0; i <= fiberCreateWithNodesCount; i++)
             {
                 FiberVm fiberVm = new FiberVm() { Id = Guid.NewGuid(), NodeA = nodes[i], NodeB = nodes[i + 1], State = FiberState.NotInTrace };
-                GraphVm.Edges.Add(fiberVm);
+                GraphVm.Fibers.Add(fiberVm);
             }
         }
         #endregion
