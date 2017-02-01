@@ -40,10 +40,10 @@ namespace GMap.NET.WindowsPresentation
             StrokeThickness = thickness;
             Points.AddRange(points);
             RegenerateShape(null);
-
-            ContextMenu = new ContextMenu();
-            ContextMenu.DataContext = this;
-            ContextMenu.Items.Add(new MenuItem() { Header = "bluh" });
+//
+//            ContextMenu = new ContextMenu();
+//            ContextMenu.DataContext = this;
+//            ContextMenu.Items.Add(new MenuItem() { Header = "bluh" });
 
         }
 

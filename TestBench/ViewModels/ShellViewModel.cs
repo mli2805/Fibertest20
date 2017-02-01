@@ -32,11 +32,6 @@ namespace Iit.Fibertest.TestBench
             GraphVm.Edges.Add(new FiberVm() { Id = Guid.NewGuid(), NodeA = rtu, NodeB = horizSleeve, State = FiberState.Ok });
         }
 
-        public ShellViewModel()
-        {
-
-        }
-
         protected override void OnViewLoaded(object view)
         {
             base.OnViewLoaded(view);
@@ -160,8 +155,7 @@ namespace Iit.Fibertest.TestBench
             var vm = new FiberUpdateViewModel(cmd.Id, GraphVm);
             new WindowManager().ShowDialog(vm);
 
-            if (cmd != null)
-                GraphVm.Edges.Single(e => e.Id == cmd.Id).UserInputedLength = cmd.UserInputedLength;
+            GraphVm.Edges.Single(e => e.Id == cmd.Id).UserInputedLength = cmd.UserInputedLength;
         }
         private void ApplyToMap(RemoveFiber cmd)
         {

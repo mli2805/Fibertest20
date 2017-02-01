@@ -10,15 +10,10 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <StackPanel>
-            <Button Width="120" Height="25" Name="AddOneNode"
-                Content="Add One Node" />
-            <Button Width="120" Height="25" Name="Populate"
-                Content="Populate" />
-
+            <Button Width="120" Height="25" Name="AddOneNode" Content="Add One Node" />
+            <Button Width="120" Height="25" Name="Populate" Content="Populate" />
         </StackPanel>
-        
-        
-        <GroupBox Grid.Column="1" Name="mapBox">
+        <GroupBox Grid.Column="1" Name="MapBox">
             <testBench:MapUserControl DataContext="{Binding GraphVm}"/>
         </GroupBox>
     </Grid>

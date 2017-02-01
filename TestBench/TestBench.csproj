@@ -81,23 +81,25 @@
     <Compile Include="GpsInputControl\OneGpsCoorInputControl.xaml.cs">
       <DependentUpon>OneGpsCoorInputControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MarkerControl.xaml.cs">
+    <Compile Include="MapParts\MapUserControlRouteContextMenu.cs" />
+    <Compile Include="MapParts\MarkerControl.xaml.cs">
       <DependentUpon>MarkerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="FiberVm.cs" />
     <Compile Include="GraphVm.cs" />
     <Compile Include="IShell.cs" />
     <Compile Include="Logic\Utils.cs" />
-    <Compile Include="Map.cs" />
-    <Compile Include="MapUserControl.xaml.cs">
+    <Compile Include="MapParts\Map.cs" />
+    <Compile Include="MapParts\MapUserControl.xaml.cs">
       <DependentUpon>MapUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="NodeVm.cs" />
     <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="ShellView.xaml.cs">
+    <Compile Include="ViewModels\ContextMenuAction.cs" />
+    <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ShellViewModel.cs" />
+    <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -123,15 +125,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MarkerControl.xaml">
+    <Page Include="MapParts\MarkerControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MapUserControl.xaml">
+    <Page Include="MapParts\MapUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ShellView.xaml">
+    <Page Include="Views\ShellView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

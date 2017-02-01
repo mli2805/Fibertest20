@@ -15,9 +15,9 @@ using Iit.Fibertest.Graph.Commands;
 namespace Iit.Fibertest.TestBench
 {
     /// <summary>
-    /// Interaction logic for MapUserControl.xaml
-    /// </summary>
-    public partial class MapUserControl
+        /// Interaction logic for MapUserControl.xaml
+        /// </summary>
+        public partial class MapUserControl
     {
         public GraphVm GraphVm => (GraphVm)DataContext;
 
@@ -34,12 +34,8 @@ namespace Iit.Fibertest.TestBench
         private void ConfigureMap()
         {
             MainMap.MapProvider = GMapProviders.OpenStreetMap;
-            // positioning map
             MainMap.Position = new PointLatLng(53.856, 27.49);
             MainMap.Zoom = 7;
-            // another way positioning map
-            // RectLatLng rect = new RectLatLng(53.01848, 31.019362, 0.3, 0.3);
-            // MainMap.SetZoomToFitRect(rect);
         }
 
         private void MapUserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -101,28 +97,9 @@ namespace Iit.Fibertest.TestBench
                 var edgeVm = (FiberVm)newItem;
                 var route = new GMapRoute(edgeVm.Id, edgeVm.NodeA.Id, edgeVm.NodeB.Id, Utils.StateToBrush(edgeVm.State),
                     2, new List<PointLatLng>() { edgeVm.NodeA.Position, edgeVm.NodeB.Position });
-                route.ContextMenu.Opened += ContextMenu_Opened;
                 route.PropertyChanged += Route_PropertyChanged;
                 MainMap.Markers.Add(route);
             }
-        }
-
-        private void Route_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "AskContextMenu")
-            {
-                var route = (GMapRoute)sender;
-                route.ContextMenu = new ContextMenu();
-                route.ContextMenu.Items.Add(new MenuItem() { Header = $"real menu {route.Id}" });
-            }
-        }
-
-        private void ContextMenu_Opened(object sender, RoutedEventArgs e)
-        {
-            var contextMenu = (ContextMenu)sender;
-            var route = (GMapRoute)contextMenu.DataContext;
-            route.ContextMenu = new ContextMenu();
-            route.ContextMenu.Items.Add(new MenuItem() {Header = $"real menu {route.Id}"});
         }
 
         private void ApplyRemovedEdges(IList oldItems)
@@ -203,21 +180,5 @@ namespace Iit.Fibertest.TestBench
                 };
         }
 
-        private void RouteOnMouseRightClick(object sender, RoutedEventArgs e)
-        {
-            var item = sender as MenuItem;
-            if (item == null) return;
-            var code = int.Parse((string)item.Tag);
-
-            switch (code)
-            {
-                case 1:
-                    GraphVm.Command = new UpdateFiber() { Id = MainMap.ContextMenuCapturedRoute };
-                    return;
-                case 3:
-                    GraphVm.Command = new RemoveFiber() { Id = MainMap.ContextMenuCapturedRoute };
-                    return;
-            }
-        }
     }
 }
