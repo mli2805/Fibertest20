@@ -18,17 +18,19 @@ namespace GMap.NET.WindowsPresentation
         public Guid LeftId { get; set; }
         public Guid RightId { get; set; }
 
-        private ContextMenu _contextMenu;
-        public ContextMenu ContextMenu
+        private int _askContextMenu;
+        public int AskContextMenu
         {
-            get { return _contextMenu; }
+            get { return _askContextMenu; }
             set
             {
-                _contextMenu = value;
-                OnPropertyChanged("ContextMenu");
+                _askContextMenu = value;
+                OnPropertyChanged("AskContextMenu");
             }
         }
 
+        public ContextMenu ContextMenu { get; set; }
+        
         public GMapRoute(Guid id, Guid leftId, Guid rightId, Brush color, double thickness, IEnumerable<PointLatLng> points)
         {
             Id = id;

@@ -19,11 +19,6 @@
             <Separator />
             <MenuItem Header="Добавить РТУ" Tag="4" Click="AddNodeOnClick"/>
         </ContextMenu>
-        <ContextMenu x:Key="RouteContextMenu">
-            <MenuItem Header="Информация" Tag="1" Click="RouteOnMouseRightClick"/>
-            <MenuItem Header="Добавить узел" Tag="2" Click="RouteOnMouseRightClick"/>
-            <MenuItem Header="Удалить участок" Tag="3" Click="RouteOnMouseRightClick"/>
-        </ContextMenu>
     </Control.Resources>
     <Grid>
         <Grid.RowDefinitions>

@@ -109,12 +109,11 @@ namespace Iit.Fibertest.TestBench
 
         private void Route_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "ContextMenu")
+            if (e.PropertyName == "AskContextMenu")
             {
                 var route = (GMapRoute)sender;
                 route.ContextMenu = new ContextMenu();
                 route.ContextMenu.Items.Add(new MenuItem() { Header = $"real menu {route.Id}" });
-
             }
         }
 
