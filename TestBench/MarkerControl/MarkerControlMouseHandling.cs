@@ -72,7 +72,7 @@ namespace Iit.Fibertest.TestBench
             if (IsMouseCaptured)
             {
                 Mouse.Capture(null);
-                Command = new MoveNode() { Id = _marker.Id, Latitude = _marker.Position.Lat, Longitude = _marker.Position.Lng };
+                _owner.GraphVm.Command = new MoveNode() { Id = _marker.Id, Latitude = _marker.Position.Lat, Longitude = _marker.Position.Lng };
             }
 
             if (_mainMap.IsInFiberCreationMode)
@@ -89,9 +89,9 @@ namespace Iit.Fibertest.TestBench
             _mainMap.Markers.Remove(_mainMap.Markers.Single(m => m.Id == _mainMap.FiberUnderCreation));
 
             if (!_mainMap.IsFiberWithNodes)
-                Command = new AddFiber() { Node1 = _mainMap.StartNode.Id, Node2 = _marker.Id };
+                _owner.GraphVm.Command = new AddFiber() { Node1 = _mainMap.StartNode.Id, Node2 = _marker.Id };
             else
-                Command = new AddFiberWithNodes() { Node1 = _mainMap.StartNode.Id, Node2 = _marker.Id, };
+                _owner.GraphVm.Command = new AddFiberWithNodes() { Node1 = _mainMap.StartNode.Id, Node2 = _marker.Id, };
 
             _mainMap.FiberUnderCreation = Guid.Empty;
             Cursor = Cursors.Arrow;

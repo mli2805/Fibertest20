@@ -12,8 +12,7 @@ namespace Iit.Fibertest.TestBench
         {
             var nodeId = (Guid)parameter;
 
-            _mainMap.
-            Command = new UpdateNode() { Id = nodeId };
+            _owner.GraphVm.Command = new UpdateNode() { Id = nodeId };
         }
         private void OpenNodeContextMenu()
         {

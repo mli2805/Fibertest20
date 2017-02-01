@@ -11,7 +11,7 @@ namespace Iit.Fibertest.TestBench
         private void AskUpdateRtue(object parameter)
         {
             var nodeId = (Guid)parameter;
-            Command = new UpdateNode() { Id = nodeId };
+            _owner.GraphVm.Command = new UpdateNode() { Id = nodeId };
         }
         private void OpenRtuContextMenu()
         {

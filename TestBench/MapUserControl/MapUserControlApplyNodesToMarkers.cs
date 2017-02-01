@@ -39,23 +39,10 @@ namespace Iit.Fibertest.TestBench
                 var nodeVm = (NodeVm)newItem;
                 var marker = new GMapMarker(nodeVm.Id, nodeVm.Position);
                 marker.ZIndex = 2;
-                var markerControl = new MarkerControl(MainMap, marker, nodeVm.Type, nodeVm.Title);
+                var markerControl = new MarkerControl(this, marker, nodeVm.Type, nodeVm.Title);
                 marker.Shape = markerControl;
                 MainMap.Markers.Add(marker);
-
-                markerControl.PropertyChanged += MarkerControlPropertyChanged;
             }
-        }
-
-        /// <summary>
-        /// retranslate Commands from every Marker through MapUserControl to the ShellVM 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MarkerControlPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "Command")
-                GraphVm.Command = ((MarkerControl)sender).Command;
         }
 
         private void ApplyRemovedNodes(IList oldItems)

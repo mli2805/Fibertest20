@@ -1,19 +1,16 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using GMap.NET.WindowsPresentation;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.TestBench.Properties;
 
 namespace Iit.Fibertest.TestBench
 {
     /// <summary>
     /// Interaction logic for MarkerControl.xaml
     /// </summary>
-    public partial class MarkerControl : INotifyPropertyChanged
+    public partial class MarkerControl 
     {
         private Popup _popup;
         private Label _label;
@@ -21,25 +18,15 @@ namespace Iit.Fibertest.TestBench
         private readonly EquipmentType _type;
         private readonly string _title;
         private readonly Map _mainMap;
-
-        private object _command;
-        public object Command
-        {
-            get { return _command; }
-            set
-            {
-                if (Equals(value, _command)) return;
-                _command = value;
-                OnPropertyChanged();
-            }
-        }
+        private readonly MapUserControl _owner;
 
         public new ContextMenu ContextMenu { get; set; }
 
-        public MarkerControl(Map mainMap, GMapMarker marker, EquipmentType type, string title)
+        public MarkerControl(MapUserControl owner, GMapMarker marker, EquipmentType type, string title)
         {
             InitializeComponent();
-            _mainMap = mainMap;
+            _owner = owner;
+            _mainMap = owner.MainMap;
             _marker = marker;
             _type = type;
             _title = title;
@@ -100,14 +87,6 @@ namespace Iit.Fibertest.TestBench
             Icon = null;
             _popup = null;
             _label = null;
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
