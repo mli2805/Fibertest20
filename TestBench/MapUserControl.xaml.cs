@@ -101,8 +101,29 @@ namespace Iit.Fibertest.TestBench
                 var edgeVm = (FiberVm)newItem;
                 var route = new GMapRoute(edgeVm.Id, edgeVm.NodeA.Id, edgeVm.NodeB.Id, Utils.StateToBrush(edgeVm.State),
                     2, new List<PointLatLng>() { edgeVm.NodeA.Position, edgeVm.NodeB.Position });
+                route.ContextMenu.Opened += ContextMenu_Opened;
+                route.PropertyChanged += Route_PropertyChanged;
                 MainMap.Markers.Add(route);
             }
+        }
+
+        private void Route_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "ContextMenu")
+            {
+                var route = (GMapRoute)sender;
+                route.ContextMenu = new ContextMenu();
+                route.ContextMenu.Items.Add(new MenuItem() { Header = $"real menu {route.Id}" });
+
+            }
+        }
+
+        private void ContextMenu_Opened(object sender, RoutedEventArgs e)
+        {
+            var contextMenu = (ContextMenu)sender;
+            var route = (GMapRoute)contextMenu.DataContext;
+            route.ContextMenu = new ContextMenu();
+            route.ContextMenu.Items.Add(new MenuItem() {Header = $"real menu {route.Id}"});
         }
 
         private void ApplyRemovedEdges(IList oldItems)

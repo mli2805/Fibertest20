@@ -1665,7 +1665,10 @@
                 ContextMenu contextMenu;
                 if (RouteUnderMouse != Guid.Empty)
                 {
-                    contextMenu = FindResource("RouteContextMenu") as ContextMenu;
+                    var route = (GMapRoute)Markers.First(m => m.Id == RouteUnderMouse);
+                    route.ContextMenu = new ContextMenu();
+                    contextMenu = route.ContextMenu;
+//                    contextMenu = FindResource("RouteContextMenu") as ContextMenu;
                 }
                 else
                 {
