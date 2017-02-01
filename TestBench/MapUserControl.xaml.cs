@@ -11,7 +11,6 @@ using GMap.NET.MapProviders;
 using GMap.NET.WindowsPresentation;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
-using Iit.Fibertest.TestBench.CustomMarkers;
 
 namespace Iit.Fibertest.TestBench
 {

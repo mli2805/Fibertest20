@@ -12,7 +12,7 @@ using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
 using Iit.Fibertest.TestBench.Properties;
 
-namespace Iit.Fibertest.TestBench.CustomMarkers
+namespace Iit.Fibertest.TestBench
 {
     /// <summary>
     /// Interaction logic for MarkerControl.xaml

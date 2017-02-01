@@ -1,4 +1,4 @@
-﻿namespace Iit.Fibertest.TestBench.Views
+﻿namespace Iit.Fibertest.TestBench
 {
     /// <summary>
     /// Interaction logic for AddFiberWithNodesView.xaml

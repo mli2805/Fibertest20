@@ -73,7 +73,15 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
-    <Compile Include="CustomMarkers\MarkerControl.xaml.cs">
+    <Compile Include="GpsInputControl\GpsInputControl.xaml.cs">
+      <DependentUpon>GpsInputControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GpsInputControl\GpsInputMode.cs" />
+    <Compile Include="GpsInputControl\LatOrLng.cs" />
+    <Compile Include="GpsInputControl\OneGpsCoorInputControl.xaml.cs">
+      <DependentUpon>OneGpsCoorInputControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MarkerControl.xaml.cs">
       <DependentUpon>MarkerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="FiberVm.cs" />
@@ -97,13 +105,25 @@
     <Compile Include="ViewModels\AddFiberWithNodesViewModel.cs" />
     <Compile Include="ViewModels\FiberUpdateViewModel.cs" />
     <Compile Include="ViewModels\RadioButtonModel.cs" />
+    <Compile Include="ViewModels\UpdateRtuViewModel.cs" />
     <Compile Include="Views\AddFiberWithNodesView.xaml.cs">
       <DependentUpon>AddFiberWithNodesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FiberUpdateView.xaml.cs">
       <DependentUpon>FiberUpdateView.xaml</DependentUpon>
     </Compile>
-    <Page Include="CustomMarkers\MarkerControl.xaml">
+    <Compile Include="Views\UpdateRtuView.xaml.cs">
+      <DependentUpon>UpdateRtuView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="GpsInputControl\GpsInputControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="GpsInputControl\OneGpsCoorInputControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MarkerControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -120,6 +140,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\FiberUpdateView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UpdateRtuView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

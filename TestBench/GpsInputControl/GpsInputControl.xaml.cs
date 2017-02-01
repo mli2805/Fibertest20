@@ -1,11 +1,11 @@
 ﻿namespace Iit.Fibertest.TestBench
 {
     /// <summary>
-    /// Interaction logic for FiberUpdateView.xaml
+    /// Interaction logic for GpsInputControl.xaml
     /// </summary>
-    public partial class FiberUpdateView
+    public partial class GpsInputControl
     {
-        public FiberUpdateView()
+        public GpsInputControl()
         {
             InitializeComponent();
         }

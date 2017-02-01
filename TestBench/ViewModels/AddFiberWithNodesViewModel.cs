@@ -1,7 +1,7 @@
 ﻿using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 
-namespace Iit.Fibertest.TestBench.ViewModels
+namespace Iit.Fibertest.TestBench
 {
     public class AddFiberWithNodesViewModel : Screen
     {

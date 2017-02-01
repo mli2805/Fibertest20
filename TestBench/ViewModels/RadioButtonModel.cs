@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Iit.Fibertest.TestBench.ViewModels
+namespace Iit.Fibertest.TestBench
 {
     public class RadioButtonModel : INotifyPropertyChanged
     {

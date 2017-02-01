@@ -1,11 +1,11 @@
 ﻿namespace Iit.Fibertest.TestBench
 {
     /// <summary>
-    /// Interaction logic for FiberUpdateView.xaml
+    /// Interaction logic for UpdateRtuView.xaml
     /// </summary>
-    public partial class FiberUpdateView
+    public partial class UpdateRtuView
     {
-        public FiberUpdateView()
+        public UpdateRtuView()
         {
             InitializeComponent();
         }
