@@ -1,23 +1,19 @@
-﻿using System;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Input;
 using System.Windows.Media;
 using GMap.NET.WindowsPresentation;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.Graph.Commands;
 using Iit.Fibertest.TestBench.Properties;
 
 namespace Iit.Fibertest.TestBench
 {
     /// <summary>
-        /// Interaction logic for MarkerControl.xaml
-        /// </summary>
-        public partial class MarkerControl : INotifyPropertyChanged
+    /// Interaction logic for MarkerControl.xaml
+    /// </summary>
+    public partial class MarkerControl : INotifyPropertyChanged
     {
         private Popup _popup;
         private Label _label;
@@ -38,6 +34,8 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
+        public new ContextMenu ContextMenu { get; set; }
+
         public MarkerControl(Map mainMap, GMapMarker marker, EquipmentType type, string title)
         {
             InitializeComponent();
@@ -57,7 +55,6 @@ namespace Iit.Fibertest.TestBench
             SizeChanged += MarkerControl_SizeChanged;
             MouseEnter += MarkerControl_MouseEnter;
             MouseLeave += MarkerControl_MouseLeave;
-
             PreviewMouseMove += MarkerControl_PreviewMouseMove;
             PreviewMouseLeftButtonUp += MarkerControl_PreviewMouseLeftButtonUp;
             PreviewMouseLeftButtonDown += MarkerControl_PreviewMouseLeftButtonDown;
@@ -76,6 +73,7 @@ namespace Iit.Fibertest.TestBench
             pictogram.Height = _type == EquipmentType.Rtu ? 28 : 8;
 
             pictogram.Source = Utils.GetPictogramBitmapImage(_type, FiberState.Ok);
+            pictogram.ContextMenu = ContextMenu;
         }
 
         void MarkerControl_Loaded(object sender, RoutedEventArgs e)
@@ -92,7 +90,6 @@ namespace Iit.Fibertest.TestBench
             SizeChanged -= MarkerControl_SizeChanged;
             MouseEnter -= MarkerControl_MouseEnter;
             MouseLeave -= MarkerControl_MouseLeave;
-
             PreviewMouseMove -= MarkerControl_PreviewMouseMove;
             PreviewMouseLeftButtonUp -= MarkerControl_PreviewMouseLeftButtonUp;
             PreviewMouseLeftButtonDown -= MarkerControl_PreviewMouseLeftButtonDown;
@@ -103,34 +100,6 @@ namespace Iit.Fibertest.TestBench
             Icon = null;
             _popup = null;
             _label = null;
-        }
-
-
-        public bool IsMenuItemRemoveNodeEnabled { get; set; }
-        private void MarkerContextMenuOnClick(object sender, RoutedEventArgs e)
-        {
-            var item = sender as MenuItem;
-            if (item == null) return;
-            var code = int.Parse((string)item.Tag);
-
-            switch (code)
-            {
-                case 4:
-                    Command = new RemoveNode() { Id = _marker.Id };
-                    return;
-                case 5:
-                    _mainMap.IsFiberWithNodes = false;
-                    _mainMap.IsInFiberCreationMode = true;
-                    _mainMap.StartNode = _marker;
-                    Cursor = Cursors.Pen;
-                    return;
-                case 6:
-                    _mainMap.IsFiberWithNodes = true;
-                    _mainMap.IsInFiberCreationMode = true;
-                    _mainMap.StartNode = _marker;
-                    Cursor = Cursors.Pen;
-                    return;
-            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

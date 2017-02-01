@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using GMap.NET.WindowsPresentation;
 using Iit.Fibertest.Graph;
@@ -9,22 +8,18 @@ using Iit.Fibertest.Graph.Commands;
 
 namespace Iit.Fibertest.TestBench
 {
+    /// <summary>
+    /// MarkerControl's mouse handlers
+    /// </summary>
     public partial class MarkerControl
     {
         private void MarkerControl_PreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
-            ContextMenu contextMenu;
             if (_type == EquipmentType.Rtu)
-                contextMenu = FindResource("RtuContextMenu") as ContextMenu;
+                OpenRtuContextMenu();
             else
-                contextMenu = FindResource("NodeContextMenu") as ContextMenu;
-            if (contextMenu == null) return;
-
-            var item = new MenuItem() { Header = "from code", Tag = 78 };
-            contextMenu.Items.Add(item);
-
-            //TODO define which menu items are disabled
-            contextMenu.IsOpen = true;
+                OpenNodeContextMenu();
+            e.Handled = true;
         }
 
         // происходит при запуске приложения поэтому используется для инициализации offset
@@ -42,7 +37,6 @@ namespace Iit.Fibertest.TestBench
                 _popup.IsOpen = false;
                 DragMarkerWithItsFibers(e);
             }
-
             e.Handled = true;
         }
 
@@ -103,7 +97,6 @@ namespace Iit.Fibertest.TestBench
             Cursor = Cursors.Arrow;
         }
 
-
         void MarkerControl_MouseLeave(object sender, MouseEventArgs e)
         {
             _marker.ZIndex -= 10000;
@@ -121,5 +114,4 @@ namespace Iit.Fibertest.TestBench
                 _popup.IsOpen = true;
         }
     }
-
 }

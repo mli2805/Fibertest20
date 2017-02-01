@@ -46,6 +46,12 @@ namespace Iit.Fibertest.TestBench
                 markerControl.PropertyChanged += MarkerControlPropertyChanged;
             }
         }
+
+        /// <summary>
+        /// retranslate Commands from every Marker through MapUserControl to the ShellVM 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MarkerControlPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "Command")

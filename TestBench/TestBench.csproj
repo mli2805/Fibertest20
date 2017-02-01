@@ -89,6 +89,8 @@
       <DependentUpon>MarkerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="MarkerControl\MarkerControlMouseHandling.cs" />
+    <Compile Include="MarkerControl\MarkerControlNodeContextMenu.cs" />
+    <Compile Include="MarkerControl\MarkerControlRtuContextMenu.cs" />
     <Compile Include="VM\EquipmentVm.cs" />
     <Compile Include="VM\FiberVm.cs" />
     <Compile Include="VM\GraphVm.cs" />
