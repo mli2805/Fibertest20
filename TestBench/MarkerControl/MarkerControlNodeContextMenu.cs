@@ -11,6 +11,8 @@ namespace Iit.Fibertest.TestBench
         private void AskUpdateNode(object parameter)
         {
             var nodeId = (Guid)parameter;
+
+            _mainMap.
             Command = new UpdateNode() { Id = nodeId };
         }
         private void OpenNodeContextMenu()

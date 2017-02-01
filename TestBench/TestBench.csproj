@@ -91,16 +91,16 @@
     <Compile Include="MarkerControl\MarkerControlMouseHandling.cs" />
     <Compile Include="MarkerControl\MarkerControlNodeContextMenu.cs" />
     <Compile Include="MarkerControl\MarkerControlRtuContextMenu.cs" />
-    <Compile Include="VM\EquipmentVm.cs" />
-    <Compile Include="VM\FiberVm.cs" />
-    <Compile Include="VM\GraphVm.cs" />
+    <Compile Include="Vms\EquipmentVm.cs" />
+    <Compile Include="Vms\FiberVm.cs" />
+    <Compile Include="Vms\GraphVm.cs" />
     <Compile Include="IShell.cs" />
     <Compile Include="Logic\Utils.cs" />
     <Compile Include="MapUserControl\Map.cs" />
     <Compile Include="MapUserControl\MapUserControl.xaml.cs">
       <DependentUpon>MapUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="VM\NodeVm.cs" />
+    <Compile Include="Vms\NodeVm.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ContextMenuAction.cs" />
     <Compile Include="Views\ShellView.xaml.cs">
@@ -124,8 +124,8 @@
     <Compile Include="Views\UpdateRtuView.xaml.cs">
       <DependentUpon>UpdateRtuView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="VM\RtuVm.cs" />
-    <Compile Include="VM\TraceVm.cs" />
+    <Compile Include="Vms\RtuVm.cs" />
+    <Compile Include="Vms\TraceVm.cs" />
     <Page Include="GpsInputControl\GpsInputControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
