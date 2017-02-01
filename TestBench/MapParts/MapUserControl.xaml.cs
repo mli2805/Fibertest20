@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows;
 using System.Windows.Input;
 using GMap.NET;
 using GMap.NET.MapProviders;
-using GMap.NET.WindowsPresentation;
-using Iit.Fibertest.Graph;
-using Iit.Fibertest.Graph.Commands;
 
 namespace Iit.Fibertest.TestBench
 {
@@ -44,104 +35,11 @@ namespace Iit.Fibertest.TestBench
                 return;
             var graph = (GraphVm)e.NewValue;
 
-            graph.Nodes.CollectionChanged += Nodes_CollectionChanged;
-            graph.Fibers.CollectionChanged += Edges_CollectionChanged;
+            graph.Nodes.CollectionChanged += NodesCollectionChanged;
+            graph.Fibers.CollectionChanged += FibersCollectionChanged;
         }
 
-        private void Edges_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            switch (e.Action)
-            {
-                case NotifyCollectionChangedAction.Add:
-                    ApplyAddedEdges(e.NewItems);
-                    break;
-                case NotifyCollectionChangedAction.Remove:
-                    ApplyRemovedEdges(e.OldItems);
-                    break;
-                case NotifyCollectionChangedAction.Replace:
-                    break;
-                case NotifyCollectionChangedAction.Move:
-                    break;
-                case NotifyCollectionChangedAction.Reset:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
 
-        private void Nodes_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            switch (e.Action)
-            {
-                case NotifyCollectionChangedAction.Add:
-                    ApplyAddedNodes(e.NewItems);
-                    break;
-                case NotifyCollectionChangedAction.Remove:
-                    ApplyRemovedNodes(e.OldItems);
-                    break;
-                case NotifyCollectionChangedAction.Replace:
-                    break;
-                case NotifyCollectionChangedAction.Move:
-                    break;
-                case NotifyCollectionChangedAction.Reset:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        private void ApplyAddedEdges(IList newItems)
-        {
-            foreach (var newItem in newItems)
-            {
-                var edgeVm = (FiberVm)newItem;
-                var route = new GMapRoute(edgeVm.Id, edgeVm.NodeA.Id, edgeVm.NodeB.Id, Utils.StateToBrush(edgeVm.State),
-                    2, new List<PointLatLng>() { edgeVm.NodeA.Position, edgeVm.NodeB.Position });
-                route.PropertyChanged += Route_PropertyChanged;
-                MainMap.Markers.Add(route);
-            }
-        }
-
-        private void ApplyRemovedEdges(IList oldItems)
-        {
-            foreach (var oldItem in oldItems)
-            {
-                var edgeVm = (FiberVm)oldItem;
-                var route = MainMap.Markers.Single(r => r.Id == edgeVm.Id);
-                MainMap.Markers.Remove(route);
-            }
-        }
-
-        private void ApplyAddedNodes(IList newItems)
-        {
-            foreach (var newItem in newItems)
-            {
-                var nodeVm = (NodeVm)newItem;
-                var marker = new GMapMarker(nodeVm.Id, nodeVm.Position);
-                marker.ZIndex = 2;
-                var nodePictogram = new MarkerControl(MainMap, marker, nodeVm.Type, nodeVm.Title);
-                marker.Shape = nodePictogram;
-                MainMap.Markers.Add(marker);
-
-                nodePictogram.PropertyChanged += NodePictogram_PropertyChanged;
-            }
-        }
-
-        private void ApplyRemovedNodes(IList oldItems)
-        {
-            foreach (var oldItem in oldItems)
-            {
-                var nodeVm = (NodeVm)oldItem;
-                var route = MainMap.Markers.Single(r => r.Id == nodeVm.Id);
-                MainMap.Markers.Remove(route);
-            }
-        }
-
-        private void NodePictogram_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "Command")
-                GraphVm.Command = ((MarkerControl)sender).Command;
-        }
 
         void MainMap_MouseMove(object sender, MouseEventArgs e)
         {

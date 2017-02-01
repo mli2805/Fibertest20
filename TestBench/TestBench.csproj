@@ -81,6 +81,8 @@
     <Compile Include="GpsInputControl\OneGpsCoorInputControl.xaml.cs">
       <DependentUpon>OneGpsCoorInputControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MapParts\MapUserControlApplyFibersToRoutes.cs" />
+    <Compile Include="MapParts\MapUserControlApplyNodesToMarkers.cs" />
     <Compile Include="MapParts\MapUserControlMapContextMenu.cs" />
     <Compile Include="MapParts\MapUserControlRouteContextMenu.cs" />
     <Compile Include="MapParts\MarkerControl.xaml.cs">

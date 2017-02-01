@@ -5,9 +5,11 @@ using Iit.Fibertest.Graph.Commands;
 namespace Iit.Fibertest.TestBench
 {
     /// <summary>
-    /// on route creation subscribes on event that means user clicked right mouse button on this route -
+    /// on route creation subscribes on event that means 
+    /// user clicked right mouse button on this route 
     /// 
-    /// here we build ContextMenu for this particular route and react on chosen MenuItem
+    /// here we build ContextMenu for this particular route in runtime
+    /// and here are reactions on MenuItems
     /// </summary>
     public partial class MapUserControl
     {
