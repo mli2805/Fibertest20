@@ -39,8 +39,6 @@ namespace Iit.Fibertest.TestBench
             graph.Fibers.CollectionChanged += FibersCollectionChanged;
         }
 
-
-
         void MainMap_MouseMove(object sender, MouseEventArgs e)
         {
             var p = e.GetPosition(MainMap);
@@ -52,6 +50,5 @@ namespace Iit.Fibertest.TestBench
         {
             MainMap.Focus();
         }
-
     }
 }

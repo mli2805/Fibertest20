@@ -81,11 +81,11 @@
     <Compile Include="GpsInputControl\OneGpsCoorInputControl.xaml.cs">
       <DependentUpon>OneGpsCoorInputControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MapParts\MapUserControlApplyFibersToRoutes.cs" />
-    <Compile Include="MapParts\MapUserControlApplyNodesToMarkers.cs" />
-    <Compile Include="MapParts\MapUserControlMapContextMenu.cs" />
-    <Compile Include="MapParts\MapUserControlRouteContextMenu.cs" />
-    <Compile Include="MapParts\MarkerControl.xaml.cs">
+    <Compile Include="MapUserControl\MapUserControlApplyFibersToRoutes.cs" />
+    <Compile Include="MapUserControl\MapUserControlApplyNodesToMarkers.cs" />
+    <Compile Include="MapUserControl\MapUserControlMapContextMenu.cs" />
+    <Compile Include="MapUserControl\MapUserControlRouteContextMenu.cs" />
+    <Compile Include="MarkerControl\MarkerControl.xaml.cs">
       <DependentUpon>MarkerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="VM\EquipmentVm.cs" />
@@ -93,8 +93,8 @@
     <Compile Include="VM\GraphVm.cs" />
     <Compile Include="IShell.cs" />
     <Compile Include="Logic\Utils.cs" />
-    <Compile Include="MapParts\Map.cs" />
-    <Compile Include="MapParts\MapUserControl.xaml.cs">
+    <Compile Include="MapUserControl\Map.cs" />
+    <Compile Include="MapUserControl\MapUserControl.xaml.cs">
       <DependentUpon>MapUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="VM\NodeVm.cs" />
@@ -131,11 +131,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MapParts\MarkerControl.xaml">
+    <Page Include="MarkerControl\MarkerControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MapParts\MapUserControl.xaml">
+    <Page Include="MapUserControl\MapUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -52,16 +52,16 @@ namespace Iit.Fibertest.TestBench
 
         private void Subscribe()
         {
-            Unloaded += NodePictogram_Unloaded;
-            Loaded += NodePictogram_Loaded;
-            SizeChanged += NodePictogram_SizeChanged;
-            MouseEnter += NodePictogram_MouseEnter;
-            MouseLeave += NodePictogram_MouseLeave;
+            Unloaded += MarkerControl_Unloaded;
+            Loaded += MarkerControl_Loaded;
+            SizeChanged += MarkerControl_SizeChanged;
+            MouseEnter += MarkerControl_MouseEnter;
+            MouseLeave += MarkerControl_MouseLeave;
 
-            PreviewMouseMove += NodePictogram_PreviewMouseMove;
-            PreviewMouseLeftButtonUp += NodePictogram_PreviewMouseLeftButtonUp;
-            PreviewMouseLeftButtonDown += NodePictogram_PreviewMouseLeftButtonDown;
-            PreviewMouseRightButtonUp += NodePictogram_PreviewMouseRightButtonUp;
+            PreviewMouseMove += MarkerControl_PreviewMouseMove;
+            PreviewMouseLeftButtonUp += MarkerControl_PreviewMouseLeftButtonUp;
+            PreviewMouseLeftButtonDown += MarkerControl_PreviewMouseLeftButtonDown;
+            PreviewMouseRightButtonUp += MarkerControl_PreviewMouseRightButtonUp;
         }
 
         private void InitializePopup()
@@ -70,7 +70,7 @@ namespace Iit.Fibertest.TestBench
             _popup = new Popup { Placement = PlacementMode.Mouse, Child = _label, };
         }
 
-        private void NodePictogram_PreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        private void MarkerControl_PreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
             ContextMenu contextMenu;
             if (_type == EquipmentType.Rtu)
@@ -94,25 +94,25 @@ namespace Iit.Fibertest.TestBench
             pictogram.Source = Utils.GetPictogramBitmapImage(_type, FiberState.Ok);
         }
 
-        void NodePictogram_Loaded(object sender, RoutedEventArgs e)
+        void MarkerControl_Loaded(object sender, RoutedEventArgs e)
         {
             AssignBitmapImage(Icon);
             if (Icon.Source.CanFreeze)
                 Icon.Source.Freeze();
         }
 
-        void NodePictogram_Unloaded(object sender, RoutedEventArgs e)
+        void MarkerControl_Unloaded(object sender, RoutedEventArgs e)
         {
-            Unloaded -= NodePictogram_Unloaded;
-            Loaded -= NodePictogram_Loaded;
-            SizeChanged -= NodePictogram_SizeChanged;
-            MouseEnter -= NodePictogram_MouseEnter;
-            MouseLeave -= NodePictogram_MouseLeave;
+            Unloaded -= MarkerControl_Unloaded;
+            Loaded -= MarkerControl_Loaded;
+            SizeChanged -= MarkerControl_SizeChanged;
+            MouseEnter -= MarkerControl_MouseEnter;
+            MouseLeave -= MarkerControl_MouseLeave;
 
-            PreviewMouseMove -= NodePictogram_PreviewMouseMove;
-            PreviewMouseLeftButtonUp -= NodePictogram_PreviewMouseLeftButtonUp;
-            PreviewMouseLeftButtonDown -= NodePictogram_PreviewMouseLeftButtonDown;
-            PreviewMouseRightButtonUp -= NodePictogram_PreviewMouseRightButtonUp;
+            PreviewMouseMove -= MarkerControl_PreviewMouseMove;
+            PreviewMouseLeftButtonUp -= MarkerControl_PreviewMouseLeftButtonUp;
+            PreviewMouseLeftButtonDown -= MarkerControl_PreviewMouseLeftButtonDown;
+            PreviewMouseRightButtonUp -= MarkerControl_PreviewMouseRightButtonUp;
 
             _marker.Shape = null;
             Icon.Source = null;
@@ -123,13 +123,13 @@ namespace Iit.Fibertest.TestBench
 
         // происходит при запуске приложения поэтому используется для инициализации offset
         // offset задает смещение пиктограммы относительно координат
-        void NodePictogram_SizeChanged(object sender, SizeChangedEventArgs e)
+        void MarkerControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             _marker.Offset = new Point(-e.NewSize.Width / 2, -e.NewSize.Height / 2);
         }
 
         // при нажатом Ctrl левая кнопка таскает данный маркер
-        private void NodePictogram_PreviewMouseMove(object sender, MouseEventArgs e)
+        private void MarkerControl_PreviewMouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed && IsMouseCaptured && (Keyboard.Modifiers & ModifierKeys.Control) != 0)
             {
@@ -158,7 +158,7 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
-        void NodePictogram_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        void MarkerControl_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (!IsMouseCaptured && (Keyboard.Modifiers & ModifierKeys.Control) != 0)
             {
@@ -167,7 +167,7 @@ namespace Iit.Fibertest.TestBench
             e.Handled = true;
         }
 
-        void NodePictogram_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        void MarkerControl_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             if (IsMouseCaptured)
             {
@@ -198,7 +198,7 @@ namespace Iit.Fibertest.TestBench
         }
 
 
-        void NodePictogram_MouseLeave(object sender, MouseEventArgs e)
+        void MarkerControl_MouseLeave(object sender, MouseEventArgs e)
         {
             _marker.ZIndex -= 10000;
             Cursor = Cursors.Arrow;
@@ -206,7 +206,7 @@ namespace Iit.Fibertest.TestBench
                 _popup.IsOpen = false;
         }
 
-        void NodePictogram_MouseEnter(object sender, MouseEventArgs e)
+        void MarkerControl_MouseEnter(object sender, MouseEventArgs e)
         {
             _marker.ZIndex += 10000;
             Cursor = Cursors.Hand;
