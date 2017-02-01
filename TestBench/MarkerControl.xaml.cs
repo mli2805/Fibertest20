@@ -133,6 +133,7 @@ namespace Iit.Fibertest.TestBench
         {
             if (e.LeftButton == MouseButtonState.Pressed && IsMouseCaptured && (Keyboard.Modifiers & ModifierKeys.Control) != 0)
             {
+                _popup.IsOpen = false;
                 DragMarkerWithItsFibers(e);
             }
 
