@@ -123,7 +123,7 @@ namespace Iit.Fibertest.TestBench
                 var nodeVm = (NodeVm)newItem;
                 var marker = new GMapMarker(nodeVm.Id, nodeVm.Position);
                 marker.ZIndex = 2;
-                var nodePictogram = new NodePictogram(MainMap, marker, nodeVm.Type, nodeVm.Title);
+                var nodePictogram = new MarkerControl(MainMap, marker, nodeVm.Type, nodeVm.Title);
                 marker.Shape = nodePictogram;
                 MainMap.Markers.Add(marker);
 
@@ -144,7 +144,7 @@ namespace Iit.Fibertest.TestBench
         private void NodePictogram_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "Command")
-                GraphVm.Command = ((NodePictogram)sender).Command;
+                GraphVm.Command = ((MarkerControl)sender).Command;
         }
 
         void MainMap_MouseMove(object sender, MouseEventArgs e)

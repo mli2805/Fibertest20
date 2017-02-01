@@ -73,8 +73,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
-    <Compile Include="CustomMarkers\NodePictogram.xaml.cs">
-      <DependentUpon>NodePictogram.xaml</DependentUpon>
+    <Compile Include="CustomMarkers\MarkerControl.xaml.cs">
+      <DependentUpon>MarkerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="FiberVm.cs" />
     <Compile Include="GraphVm.cs" />
@@ -103,7 +103,7 @@
     <Compile Include="Views\FiberUpdateView.xaml.cs">
       <DependentUpon>FiberUpdateView.xaml</DependentUpon>
     </Compile>
-    <Page Include="CustomMarkers\NodePictogram.xaml">
+    <Page Include="CustomMarkers\MarkerControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

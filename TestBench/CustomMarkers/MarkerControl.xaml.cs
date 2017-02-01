@@ -15,9 +15,9 @@ using Iit.Fibertest.TestBench.Properties;
 namespace Iit.Fibertest.TestBench.CustomMarkers
 {
     /// <summary>
-    /// Interaction logic for NodePictogram.xaml
+    /// Interaction logic for MarkerControl.xaml
     /// </summary>
-    public partial class NodePictogram : INotifyPropertyChanged
+    public partial class MarkerControl : INotifyPropertyChanged
     {
         private Popup _popup;
         private Label _label;
@@ -38,7 +38,7 @@ namespace Iit.Fibertest.TestBench.CustomMarkers
             }
         }
 
-        public NodePictogram(Map mainMap, GMapMarker marker, EquipmentType type, string title)
+        public MarkerControl(Map mainMap, GMapMarker marker, EquipmentType type, string title)
         {
             InitializeComponent();
             _mainMap = mainMap;

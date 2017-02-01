@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Iit.Fibertest.TestBench.CustomMarkers.NodePictogram"
+﻿<UserControl x:Class="Iit.Fibertest.TestBench.CustomMarkers.MarkerControl"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	Height="28" Width="40" Opacity="10">
