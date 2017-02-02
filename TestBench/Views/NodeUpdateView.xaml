@@ -1,0 +1,22 @@
+﻿<Window x:Class="Iit.Fibertest.TestBench.NodeUpdateView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="NodeUpdateView" SizeToContent="Height" Width="300" WindowStartupLocation="CenterScreen">
+    <StackPanel Orientation="Vertical">
+        <TextBlock Margin="5" Text="Title" />
+        <TextBox Margin="5" Text="{Binding Title, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+        <StackPanel Orientation="Horizontal" Margin="5,15">
+            <Button Name="LaunchAddEquipmentView" Height="25" Width="120" Margin="5" Content="Add Equipment"/>
+            <Button Name="LaunchUpdateEquipmentView" Height="25" Width="120" Margin="5" Content="Update Equipment"/>
+        </StackPanel>
+        <TextBlock Margin="5" Text="Comment" />
+        <TextBox Margin="5" Text="{Binding Comment}" />
+        <StackPanel Orientation="Horizontal" Margin="5,15">
+            <Button Name="Save" Height="25" Width="100" Margin="5" Content="Сохранить" IsEnabled="{Binding IsButtonSaveEnabled}"/>
+            <Button Name="Cancel" Height="25" Width="100" Content="Отменить"/>
+        </StackPanel>
+    </StackPanel>
+</Window>

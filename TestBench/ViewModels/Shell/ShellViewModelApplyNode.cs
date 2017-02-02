@@ -22,7 +22,7 @@ namespace Iit.Fibertest.TestBench
 
         private void ApplyToMap(AddNodeIntoFiber cmd)
         {
-            var fiber = GraphVm.Fibers.First(f => f.Id == cmd.Id);
+//            var fiber = GraphVm.Fibers.First(f => f.Id == cmd.Id);
         }
 
         private void ApplyToMap(MoveNode cmd)

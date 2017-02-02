@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Windows.Controls;
-using System.Windows.Media;
 using GMap.NET.WindowsPresentation;
 
 namespace Iit.Fibertest.TestBench

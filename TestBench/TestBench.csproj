@@ -36,6 +36,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=5.0.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\WpfClient\packages\AutoMapper.5.0.2\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Caliburn.Micro, Version=3.0.3.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
       <HintPath>..\WpfClient\packages\Caliburn.Micro.Core.3.0.3\lib\net45\Caliburn.Micro.dll</HintPath>
       <Private>True</Private>
@@ -82,6 +86,8 @@
       <DependentUpon>OneGpsCoorInputControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Logic\PointLatLngExtensions.cs" />
+    <Compile Include="MappingDomainEntityToViewModel.cs" />
+    <Compile Include="MappingViewModeltoDomainEntity.cs" />
     <Compile Include="MapUserControl\MapUserControlApplyFibersToRoutes.cs" />
     <Compile Include="MapUserControl\MapUserControlApplyNodesToMarkers.cs" />
     <Compile Include="MapUserControl\MapUserControlMapContextMenu.cs" />
@@ -92,8 +98,24 @@
     <Compile Include="MarkerControl\MarkerControlMouseHandling.cs" />
     <Compile Include="MarkerControl\MarkerControlNodeContextMenu.cs" />
     <Compile Include="MarkerControl\MarkerControlRtuContextMenu.cs" />
+    <Compile Include="ViewModels\EquipmentViewModel.cs" />
+    <Compile Include="ViewModels\NodeUpdateViewModel.cs" />
     <Compile Include="ViewModels\Shell\ShellViewModelApplyFiber.cs" />
     <Compile Include="ViewModels\Shell\ShellViewModelApplyNode.cs" />
+    <Compile Include="ViewModels\UniversalViewModels\NotificationViewModel.cs" />
+    <Compile Include="ViewModels\UniversalViewModels\QuestionViewModel.cs" />
+    <Compile Include="Views\EquipmentView.xaml.cs">
+      <DependentUpon>EquipmentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NodeUpdateView.xaml.cs">
+      <DependentUpon>NodeUpdateView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UniversalViews\NotificationView.xaml.cs">
+      <DependentUpon>NotificationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UniversalViews\QuestionView.xaml.cs">
+      <DependentUpon>QuestionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vms\EquipmentVm.cs" />
     <Compile Include="Vms\FiberVm.cs" />
     <Compile Include="Vms\GraphVisibilityVm.cs" />
@@ -147,6 +169,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\EquipmentView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\NodeUpdateView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\ShellView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -156,6 +186,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\FiberUpdateView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UniversalViews\NotificationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UniversalViews\QuestionView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
