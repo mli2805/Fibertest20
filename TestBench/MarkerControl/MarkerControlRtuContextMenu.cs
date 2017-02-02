@@ -83,5 +83,4 @@ namespace Iit.Fibertest.TestBench
             ContextMenu.IsOpen = true;
         }
     }
-
 }

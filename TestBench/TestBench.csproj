@@ -91,10 +91,12 @@
     <Compile Include="MarkerControl\MarkerControlMouseHandling.cs" />
     <Compile Include="MarkerControl\MarkerControlNodeContextMenu.cs" />
     <Compile Include="MarkerControl\MarkerControlRtuContextMenu.cs" />
+    <Compile Include="ViewModels\Shell\ShellViewModelApplyFiber.cs" />
+    <Compile Include="ViewModels\Shell\ShellViewModelApplyNode.cs" />
     <Compile Include="Vms\EquipmentVm.cs" />
     <Compile Include="Vms\FiberVm.cs" />
     <Compile Include="Vms\GraphVm.cs" />
-    <Compile Include="IShell.cs" />
+    <Compile Include="ViewModels\Shell\IShell.cs" />
     <Compile Include="Logic\Utils.cs" />
     <Compile Include="MapUserControl\Map.cs" />
     <Compile Include="MapUserControl\MapUserControl.xaml.cs">
@@ -106,7 +108,7 @@
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\ShellViewModel.cs" />
+    <Compile Include="ViewModels\Shell\ShellViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>

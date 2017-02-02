@@ -23,7 +23,7 @@ namespace Iit.Fibertest.TestBench
 
         private bool CanAddNodeIntoFiber(object parameter)
         {
-            return false;
+            return true;
         }
         private void AskAddNodeIntoFiber(object parameter)
         {
