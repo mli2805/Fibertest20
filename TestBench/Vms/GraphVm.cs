@@ -10,6 +10,7 @@ namespace Iit.Fibertest.TestBench
         public ObservableCollection<RtuVm> Rtus { get; }
         public ObservableCollection<EquipmentVm> Equipments { get; }
         public ObservableCollection<TraceVm> Traces { get; }
+        public ObservableCollection<MarkerVm> MarkerVms { get; }
 
         private string _currentMousePosition;
         public string CurrentMousePosition
@@ -44,6 +45,7 @@ namespace Iit.Fibertest.TestBench
             Rtus = new ObservableCollection<RtuVm>();
             Equipments = new ObservableCollection<EquipmentVm>();
             Traces = new ObservableCollection<TraceVm>();
+            MarkerVms = new ObservableCollection<MarkerVm>();
 
             IsEquipmentVisible = true;
         }

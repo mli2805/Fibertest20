@@ -39,6 +39,8 @@ namespace Iit.Fibertest.TestBench
         {
             if (e.PropertyName != "Command")
                 return;
+            if (GraphVm.Command is AddMarker)
+                ApplyToMap((AddMarker)GraphVm.Command);
 
             #region Node
             if (GraphVm.Command is AddNode)
@@ -83,6 +85,14 @@ namespace Iit.Fibertest.TestBench
                 ApplyToMap((AddEquipmentAtGpsLocation)GraphVm.Command);
 
             //TODO Send Command to Aggregate
+        }
+
+
+
+        private void ApplyToMap(AddMarker cmd)
+        {
+            var markerVm = new MarkerVm() { Id = Guid.NewGuid(), Position = new PointLatLng(cmd.Latitude, cmd.Longitude) };
+            GraphVm.MarkerVms.Add(markerVm);
         }
 
         private void ApplyToMap(AddRtuAtGpsLocation cmd)

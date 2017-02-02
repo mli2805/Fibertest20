@@ -104,6 +104,7 @@
     <Compile Include="MapUserControl\MapUserControl.xaml.cs">
       <DependentUpon>MapUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vms\MarkerVm.cs" />
     <Compile Include="Vms\NodeVm.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ContextMenuAction.cs" />
