@@ -97,10 +97,13 @@ namespace Iit.Fibertest.TestBench
             Cursor = Cursors.Arrow;
         }
 
+
+        private Cursor _cursorBeforeEnter;
         void MarkerControl_MouseLeave(object sender, MouseEventArgs e)
         {
             _marker.ZIndex -= 10000;
-            Cursor = Cursors.Arrow;
+//            Cursor = Cursors.Arrow;
+            Cursor = _cursorBeforeEnter;
             if (!string.IsNullOrEmpty(_title))
                 _popup.IsOpen = false;
         }
@@ -108,6 +111,7 @@ namespace Iit.Fibertest.TestBench
         void MarkerControl_MouseEnter(object sender, MouseEventArgs e)
         {
             _marker.ZIndex += 10000;
+            _cursorBeforeEnter = Cursor;
             Cursor = Cursors.Hand;
 
             if (!string.IsNullOrEmpty(_title))

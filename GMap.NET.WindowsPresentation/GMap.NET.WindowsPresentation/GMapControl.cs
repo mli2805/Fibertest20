@@ -1771,7 +1771,6 @@
             }
             else
             {
-
                 RouteUnderMouse = IsMouseOverRoute(GetPointFromPosition(e));
 
                 if (renderHelperLine)
@@ -1818,7 +1817,6 @@
 
         private GPoint TransformXtoY(GPoint p) { return new GPoint(p.Y, p.X); }
         private Point TransformXtoY(Point p) { return new Point(p.Y, p.X); }
-
 
         /// <summary>
         /// 

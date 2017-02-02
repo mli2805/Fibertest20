@@ -74,7 +74,13 @@ namespace Iit.Fibertest.TestBench
         #region Node
         private void ApplyToMap(AddNode cmd)
         {
-            var nodeVm = new NodeVm() { Id = Guid.NewGuid(), State = FiberState.Ok, Type = EquipmentType.Well, Position = new PointLatLng(cmd.Latitude, cmd.Longitude) };
+            var nodeVm = new NodeVm()
+            {
+                Id = Guid.NewGuid(),
+                State = FiberState.Ok,
+                Type = cmd.IsJustForCurvature ? EquipmentType.Invisible : EquipmentType.Well,
+                Position = new PointLatLng(cmd.Latitude, cmd.Longitude)
+            };
             GraphVm.Nodes.Add(nodeVm);
         }
 
