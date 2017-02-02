@@ -3,7 +3,7 @@ using Caliburn.Micro;
 
 namespace Iit.Fibertest.TestBench
 {
-    public class GraphVm : PropertyChangedBase
+    public partial class GraphVm : PropertyChangedBase
     {
         public ObservableCollection<NodeVm> Nodes { get; }
         public ObservableCollection<FiberVm> Fibers { get; }
@@ -23,7 +23,9 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
+
         private object _command;
+
         public object Command
         {
             get { return _command; }
@@ -42,6 +44,8 @@ namespace Iit.Fibertest.TestBench
             Rtus = new ObservableCollection<RtuVm>();
             Equipments = new ObservableCollection<EquipmentVm>();
             Traces = new ObservableCollection<TraceVm>();
+
+            IsEquipmentVisible = true;
         }
 
     }

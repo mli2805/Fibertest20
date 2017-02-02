@@ -33,6 +33,7 @@ namespace Iit.Fibertest.TestBench
 
             Subscribe();
             InitializePopup();
+
         }
 
         private void Subscribe()
@@ -58,7 +59,7 @@ namespace Iit.Fibertest.TestBench
         {
             pictogram.Width = _type == EquipmentType.Rtu ? 40 : 8;
             pictogram.Height = _type == EquipmentType.Rtu ? 28 : 8;
-
+            
             pictogram.Source = Utils.GetPictogramBitmapImage(_type, FiberState.Ok);
             pictogram.ContextMenu = ContextMenu;
         }
@@ -68,6 +69,7 @@ namespace Iit.Fibertest.TestBench
             AssignBitmapImage(Icon);
             if (Icon.Source.CanFreeze)
                 Icon.Source.Freeze();
+            Icon.Visibility = _owner.GraphVm.EquipmentVisibility;
         }
 
         void MarkerControl_Unloaded(object sender, RoutedEventArgs e)

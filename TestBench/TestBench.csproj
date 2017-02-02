@@ -81,6 +81,7 @@
     <Compile Include="GpsInputControl\OneGpsCoorInputControl.xaml.cs">
       <DependentUpon>OneGpsCoorInputControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Logic\PointLatLngExtensions.cs" />
     <Compile Include="MapUserControl\MapUserControlApplyFibersToRoutes.cs" />
     <Compile Include="MapUserControl\MapUserControlApplyNodesToMarkers.cs" />
     <Compile Include="MapUserControl\MapUserControlMapContextMenu.cs" />
@@ -95,6 +96,7 @@
     <Compile Include="ViewModels\Shell\ShellViewModelApplyNode.cs" />
     <Compile Include="Vms\EquipmentVm.cs" />
     <Compile Include="Vms\FiberVm.cs" />
+    <Compile Include="Vms\GraphVisibilityVm.cs" />
     <Compile Include="Vms\GraphVm.cs" />
     <Compile Include="ViewModels\Shell\IShell.cs" />
     <Compile Include="Logic\Utils.cs" />

@@ -23,9 +23,13 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="15"/>
+            <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
         <testBench:Map x:Name="MainMap" Zoom="13" MaxZoom="19" MinZoom="1"/>
-        <TextBlock Grid.Row="1" Text="{Binding CurrentMousePosition, Mode=TwoWay}"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" >
+            <TextBlock Text="{Binding CurrentMousePosition, Mode=TwoWay}" Margin="0,2,20,0"/>
+            <RadioButton GroupName="1" Margin="0,3,0,0" IsChecked="{Binding IsEquipmentVisible, Mode=TwoWay}"/>
+            <RadioButton GroupName="1" Margin="0,3,0,0" IsChecked="{Binding IsWellVisible, Mode=TwoWay}"/>
+        </StackPanel>
     </Grid>
 </UserControl>

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Input;
 using GMap.NET;
 using GMap.NET.MapProviders;
@@ -34,6 +35,7 @@ namespace Iit.Fibertest.TestBench
             if (e.NewValue == null)
                 return;
             var graph = (GraphVm)e.NewValue;
+            graph.CurrentMousePosition = MainMap.Position.ToStringInDegrees();
 
             graph.Nodes.CollectionChanged += NodesCollectionChanged;
             graph.Fibers.CollectionChanged += FibersCollectionChanged;
@@ -42,8 +44,8 @@ namespace Iit.Fibertest.TestBench
         void MainMap_MouseMove(object sender, MouseEventArgs e)
         {
             var p = e.GetPosition(MainMap);
-            GraphVm.CurrentMousePosition =
-                MainMap.FromLocalToLatLng((int)p.X, (int)p.Y).ToString();
+            GraphVm.CurrentMousePosition = 
+                MainMap.FromLocalToLatLng((int)p.X, (int)p.Y).ToStringInDegrees();
         }
 
         void MainMap_MouseEnter(object sender, MouseEventArgs e)

@@ -18,9 +18,9 @@ namespace Iit.Fibertest.TestBench
 
         public void Populate()
         {
-            var rtu = new NodeVm() { Id = Guid.NewGuid(), Title = "first rtu", State = FiberState.Ok, Type = EquipmentType.Rtu, Position = new PointLatLng(53.288345, 30.019362) };
+            var rtu = new NodeVm() { Id = Guid.NewGuid(), Title = "first rtu", State = FiberState.Ok, Type = EquipmentType.Rtu, Position = new PointLatLng(55.088345, 25.019362) };
             GraphVm.Nodes.Add(rtu);
-            var vertSleeve = new NodeVm() { Id = Guid.NewGuid(), Title = "vert sleeve", State = FiberState.Critical, Type = EquipmentType.Sleeve, Position = new PointLatLng(52.301848, 30.018362) };
+            var vertSleeve = new NodeVm() { Id = Guid.NewGuid(), Title = "vert sleeve", State = FiberState.Critical, Type = EquipmentType.Sleeve, Position = new PointLatLng(52.301848, 27.018362) };
             GraphVm.Nodes.Add(vertSleeve);
             var horizSleeve = new NodeVm() { Id = Guid.NewGuid(), Title = "horiz sleeve", State = FiberState.Ok, Type = EquipmentType.Sleeve, Position = new PointLatLng(53.287345, 31.016841) };
             GraphVm.Nodes.Add(horizSleeve);
