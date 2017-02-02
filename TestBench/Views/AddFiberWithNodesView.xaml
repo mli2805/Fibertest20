@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         SizeToContent="Height" Width="350" WindowStartupLocation="CenterOwner">
-    <StackPanel>
+    <StackPanel FocusManager.FocusedElement="{Binding ElementName=Count}">
         <StackPanel Orientation="Horizontal" Margin="5">
             <TextBlock Text="{Binding CountLabel}" Margin="0,0,15,0"/>
-            <TextBox Width="40"  Text="{Binding Count}"/>
+            <TextBox x:Name="Count" Width="40"  Text="{Binding Count}"/>
         </StackPanel>
         <GroupBox Header="{Binding Type}" Margin="0,5" Padding="0,15,0,0">
             <StackPanel>

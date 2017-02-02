@@ -1619,7 +1619,7 @@
             {
                 Markers.Remove(Markers.Single(m => m.Id == FiberUnderCreation));
                 FiberUnderCreation = Guid.Empty;
-                Cursor = Cursors.Arrow;
+                Cursor = cursorBefore;
                 IsInFiberCreationMode = false;
             }
 
@@ -1744,14 +1744,12 @@
             if (IsInFiberCreationMode)
             {
                 if (FiberUnderCreation == Guid.Empty)
-                {
-                    Cursor = Cursors.Pen;
                     FiberUnderCreation = Guid.NewGuid();
-                }
                 else
                     Markers.Remove(Markers.Single(m => m.Id == FiberUnderCreation));
 
-                Markers.Add(new GMapRoute(FiberUnderCreation, StartNode.Id, Guid.Empty, Brushes.Black, 1, new List<PointLatLng>() { StartNode.Position, FromLocalToLatLng(GetPointFromPosition(e)) }));
+                Markers.Add(new GMapRoute(FiberUnderCreation, StartNode.Id, Guid.Empty, Brushes.Black, 1, 
+                    new List<PointLatLng>() { StartNode.Position, FromLocalToLatLng(GetPointFromPosition(e)) }));
             }
             if (!Core.IsDragging && !Core.mouseDown.IsEmpty)
             {
@@ -1779,6 +1777,8 @@
         }
 
         public Guid ContextMenuCapturedRoute { get; set; }
+
+        private Guid _routeUnderMouse;
         public Guid RouteUnderMouse
         {
             get { return _routeUnderMouse; }
@@ -2263,7 +2263,6 @@
         }
 
         bool isDragging = false;
-        private Guid _routeUnderMouse;
 
         [Browsable(false)]
         public bool IsDragging

@@ -38,7 +38,7 @@ namespace Iit.Fibertest.TestBench
         private void AskRemoveFiber(object parameter)
         {
             var route = (GMapRoute)parameter;
-            GraphVm.Command = new AddNodeIntoFiber() { FiberId = route.Id };
+            GraphVm.Command = new RemoveFiber() { Id = route.Id };
         }
 
         private void Route_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

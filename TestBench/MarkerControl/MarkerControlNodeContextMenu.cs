@@ -37,7 +37,6 @@ namespace Iit.Fibertest.TestBench
             _mainMap.IsFiberWithNodes = false;
             _mainMap.IsInFiberCreationMode = true;
             _mainMap.StartNode = _marker;
-            Cursor = Cursors.Pen;
         }
 
         private bool CanStartAddFiberWithNodes(object parameter) { return true; }
@@ -46,7 +45,6 @@ namespace Iit.Fibertest.TestBench
             _mainMap.IsFiberWithNodes = true;
             _mainMap.IsInFiberCreationMode = true;
             _mainMap.StartNode = _marker;
-            Cursor = Cursors.Pen;
         }
 
         private void OpenNodeContextMenu()
