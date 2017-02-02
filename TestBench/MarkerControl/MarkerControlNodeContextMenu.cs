@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Controls;
-using System.Windows.Input;
 using Iit.Fibertest.Graph.Commands;
 
 namespace Iit.Fibertest.TestBench

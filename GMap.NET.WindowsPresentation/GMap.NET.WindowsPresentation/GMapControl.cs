@@ -1728,6 +1728,7 @@
         }
 
         public bool IsInFiberCreationMode { get; set; } = false;
+        public bool IsInTraceDefiningMode { get; set; } = false;
         public bool IsFiberWithNodes { get; set; } = false;
         public GMapMarker StartNode { get; set; }
         public Guid FiberUnderCreation { get; set; } = Guid.Empty;
