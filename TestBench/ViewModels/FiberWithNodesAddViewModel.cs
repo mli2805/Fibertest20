@@ -3,7 +3,7 @@ using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.TestBench
 {
-    public class AddFiberWithNodesViewModel : Screen
+    public class FiberWithNodesAddViewModel : Screen
     {
         public string CountLabel { get; set; } = "Количество";
         public string Type { get; set; } = "Тип";

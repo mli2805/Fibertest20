@@ -75,11 +75,17 @@ namespace Iit.Fibertest.TestBench
                 _owner.GraphVm.Command = new MoveNode() { Id = _marker.Id, Latitude = _marker.Position.Lat, Longitude = _marker.Position.Lng };
             }
 
-            if (_mainMap.IsInFiberCreationMode)
-            {
+            if (_mainMap.IsInTraceDefiningMode)
+                EndTraceDefinition();
+            else if (_mainMap.IsInFiberCreationMode)
                 EndFiberCreation();
-            }
             e.Handled = true;
+        }
+
+        private void EndTraceDefinition()
+        {
+            _mainMap.IsInTraceDefiningMode = false;
+            _owner.GraphVm.Command = new AskAddTrace() {NodeWithRtuId = _mainMap.StartNode.Id, LastNodeId = _marker.Id};
         }
 
         private void EndFiberCreation()

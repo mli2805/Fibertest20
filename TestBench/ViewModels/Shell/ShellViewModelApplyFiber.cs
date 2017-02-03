@@ -16,7 +16,7 @@ namespace Iit.Fibertest.TestBench
             if (!Validate(cmd))
                 return;
 
-            var vm = new AddFiberWithNodesViewModel();
+            var vm = new FiberWithNodesAddViewModel();
             new WindowManager().ShowDialog(vm);
             if (!vm.Result)
                 return;

@@ -2,12 +2,12 @@
 
 namespace Iit.Fibertest.TestBench
 {
-    public class UpdateRtuViewModel : Screen
+    public class RtuUpdateViewModel : Screen
     {
         public double Latitude { get; set; }
         public double Longitude { get; set; }
 
-        public UpdateRtuViewModel()
+        public RtuUpdateViewModel()
         {
             Latitude = 53.5;
             Longitude = 28.5;
