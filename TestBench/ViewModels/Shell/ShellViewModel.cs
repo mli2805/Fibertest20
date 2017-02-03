@@ -87,22 +87,25 @@ namespace Iit.Fibertest.TestBench
 
         private void GraphVm_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName != "Command")
-                return;
-            if (GraphVm.Command is AddMarker)
-                ApplyToMap((AddMarker)GraphVm.Command);
+            if (e.PropertyName == "Ask")
+                ProcessAsk(GraphVm.Ask);
+        }
+        private void ProcessAsk(object ask)
+        {
+            if (ask is AddMarker)
+                ApplyToMap((AddMarker)ask);
 
             #region Node
 
-            if (GraphVm.Command is AddNode)
+            if (ask is AddNode)
             {
-                var cmd = (AddNode)GraphVm.Command;
+                var cmd = (AddNode)ask;
                 cmd.Id = Guid.NewGuid();
                 Aggregate.When(cmd);
                 ClientPoller.Tick();
                 ApplyToMap(cmd);
             }
-            if (GraphVm.Command is AddNodeIntoFiber)
+            if (ask is AddNodeIntoFiber)
             {
                 // validation if fiber used by trace with base 
                 // was applied inside context menu
@@ -117,20 +120,20 @@ namespace Iit.Fibertest.TestBench
                 // and ReadModel will apply them
 
                 // 
-                ApplyToMap((AddNodeIntoFiber)GraphVm.Command);
+                ApplyToMap((AddNodeIntoFiber)ask);
             }
-            if (GraphVm.Command is MoveNode)
-                ApplyToMap((MoveNode)GraphVm.Command);
-            if (GraphVm.Command is RemoveNode)
-                ApplyToMap((RemoveNode)GraphVm.Command);
+            if (ask is MoveNode)
+                ApplyToMap((MoveNode)ask);
+            if (ask is RemoveNode)
+                ApplyToMap((RemoveNode)ask);
 
             #endregion
 
             #region Fiber
 
-            if (GraphVm.Command is AskAddFiberWithNodes)
+            if (ask is AskAddFiberWithNodes)
             {
-                var cmd = PrepareCommand((AskAddFiberWithNodes)GraphVm.Command);
+                var cmd = PrepareCommand((AskAddFiberWithNodes)ask);
                 if (cmd == null)
                     return;
                 var message = Aggregate.When(cmd);
@@ -142,31 +145,31 @@ namespace Iit.Fibertest.TestBench
                 ClientPoller.Tick();
                 ApplyToMap(cmd);
             }
-            if (GraphVm.Command is AddFiber)
+            if (ask is AddFiber)
             {
-                Aggregate.When((AddFiber)GraphVm.Command);
+                Aggregate.When((AddFiber)ask);
                 ClientPoller.Tick();
-                ApplyToMap((AddFiber)GraphVm.Command);
+                ApplyToMap((AddFiber)ask);
             }
-            if (GraphVm.Command is UpdateFiber)
-                ApplyToMap((UpdateFiber)GraphVm.Command);
-            if (GraphVm.Command is RemoveFiber)
-                ApplyToMap((RemoveFiber)GraphVm.Command);
+            if (ask is UpdateFiber)
+                ApplyToMap((UpdateFiber)ask);
+            if (ask is RemoveFiber)
+                ApplyToMap((RemoveFiber)ask);
 
             #endregion
 
-            if (GraphVm.Command is AddRtuAtGpsLocation)
+            if (ask is AddRtuAtGpsLocation)
             {
-                var cmd = (AddRtuAtGpsLocation)GraphVm.Command;
+                var cmd = (AddRtuAtGpsLocation)ask;
                 cmd.Id = Guid.NewGuid();
                 cmd.NodeId = Guid.NewGuid();
                 Aggregate.When(cmd);
                 ClientPoller.Tick();
                 ApplyToMap(cmd);
             }
-            if (GraphVm.Command is AddEquipmentAtGpsLocation)
+            if (ask is AddEquipmentAtGpsLocation)
             {
-                var cmd = (AddEquipmentAtGpsLocation)GraphVm.Command;
+                var cmd = (AddEquipmentAtGpsLocation)ask;
                 cmd.Id = Guid.NewGuid();
                 cmd.NodeId = Guid.NewGuid();
                 Aggregate.When(cmd);
@@ -174,9 +177,9 @@ namespace Iit.Fibertest.TestBench
                 ApplyToMap(cmd);
             }
 
-            if (GraphVm.Command is AskAddTrace)
+            if (ask is AskAddTrace)
             {
-                var cmd = PrepareCommand((AskAddTrace)GraphVm.Command);
+                var cmd = PrepareCommand((AskAddTrace)ask);
                 if (cmd == null)
                     return;
                 var message = Aggregate.When(cmd);

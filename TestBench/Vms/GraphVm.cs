@@ -25,15 +25,15 @@ namespace Iit.Fibertest.TestBench
         }
 
 
-        private object _command;
+        private object _ask;
 
-        public object Command
+        public object Ask
         {
-            get { return _command; }
+            get { return _ask; }
             set
             {
-                if (Equals(value, _command)) return;
-                _command = value;
+                if (Equals(value, _ask)) return;
+                _ask = value;
                 NotifyOfPropertyChange();
             }
         }

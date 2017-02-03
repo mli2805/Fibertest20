@@ -10,7 +10,7 @@ namespace Iit.Fibertest.TestBench
         private void AskUpdateNode(object parameter)
         {
             var nodeId = (Guid)parameter;
-            _owner.GraphVm.Command = new UpdateNode() { Id = nodeId };
+            _owner.GraphVm.Ask = new UpdateNode() { Id = nodeId };
         }
 
         private bool CanAddEquipment(object parameter) { return false; }
@@ -27,7 +27,7 @@ namespace Iit.Fibertest.TestBench
         private void AskRemoveNode(object parameter)
         {
             var nodeId = (Guid)parameter;
-            _owner.GraphVm.Command = new RemoveNode() { Id = nodeId };
+            _owner.GraphVm.Ask = new RemoveNode() { Id = nodeId };
         }
 
         private bool CanStartAddFiber(object parameter) { return true; }
