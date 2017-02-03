@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Iit.Fibertest.Graph.Commands
 {
@@ -7,8 +8,9 @@ namespace Iit.Fibertest.Graph.Commands
         public Guid Node1 { get; set; }
         public Guid Node2 { get; set; }
 
-        public int IntermediateNodesCount { get; set; }
-        public EquipmentType EquipmentInIntermediateNodesType { get; set; } = EquipmentType.None;
+        public List<AddNode> AddNodes { get; set; }
+        public List<AddEquipmentAtGpsLocation> AddEquipments { get; set; }
+        public List<AddFiber> AddFibers { get; set; }
 
     }
 }

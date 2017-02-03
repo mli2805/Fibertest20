@@ -119,8 +119,6 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             {
                 Node1 = left,
                 Node2 = right,
-                IntermediateNodesCount = intermediateNodeCount,
-                EquipmentInIntermediateNodesType = equipmentType
             };
 
             return _aggregate.When(cmd);

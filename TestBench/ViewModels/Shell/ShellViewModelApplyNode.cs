@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using GMap.NET;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
@@ -12,7 +11,7 @@ namespace Iit.Fibertest.TestBench
         {
             var nodeVm = new NodeVm()
             {
-                Id = Guid.NewGuid(),
+                Id = cmd.Id,
                 State = FiberState.Ok,
                 Type = cmd.IsJustForCurvature ? EquipmentType.Invisible : EquipmentType.Well,
                 Position = new PointLatLng(cmd.Latitude, cmd.Longitude)

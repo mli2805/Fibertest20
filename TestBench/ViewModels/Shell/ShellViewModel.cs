@@ -189,7 +189,6 @@ namespace Iit.Fibertest.TestBench
                 ApplyToMap(cmd);
             }
 
-            //TODO Send Command to Aggregate
         }
 
 
@@ -204,7 +203,7 @@ namespace Iit.Fibertest.TestBench
         {
             var nodeVm = new NodeVm()
             {
-                Id = Guid.NewGuid(),
+                Id = cmd.NodeId,
                 State = FiberState.Ok,
                 Type = EquipmentType.Rtu,
                 Position = new PointLatLng(cmd.Latitude, cmd.Longitude)
@@ -216,7 +215,7 @@ namespace Iit.Fibertest.TestBench
         {
             var nodeVm = new NodeVm()
             {
-                Id = Guid.NewGuid(),
+                Id = cmd.NodeId,
                 State = FiberState.Ok,
                 Type = cmd.Type,
                 Position = new PointLatLng(cmd.Latitude, cmd.Longitude)

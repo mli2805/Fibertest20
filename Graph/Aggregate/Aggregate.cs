@@ -73,28 +73,16 @@ namespace Iit.Fibertest.Graph
             if (WriteModel.HasFiberBetween(cmd.Node1, cmd.Node2))
                 return "Fiber already exists";
             
-            Fiber fiber = new Fiber() { Id = Guid.NewGuid(), Node1 = cmd.Node1 };
+            if (cmd.AddNodes != null)
+                foreach (var cmdAddNode in cmd.AddNodes)
+                    WriteModel.Add(_mapper.Map<NodeAdded>(cmdAddNode));
+            else
+                foreach (var cmdAddEquipmentAtGpsLocation in cmd.AddEquipments)
+                    WriteModel.Add(_mapper.Map<EquipmentAtGpsLocationAdded>(cmdAddEquipmentAtGpsLocation));
 
-            for (int i = 0; i < cmd.IntermediateNodesCount; i++)
-            {
-                var newNodeId = Guid.NewGuid();
-                //TODO: add coors calculation
-                
-                // TODO: cmd.EquipmentInIntermediateNodesType != EquipmentType.None
-                WriteModel.Add(new EquipmentAtGpsLocationAdded()
-                {
-                    Id = Guid.NewGuid(),
-                    NodeId = newNodeId,
-                    Type = cmd.EquipmentInIntermediateNodesType,
-                });
+            foreach (var cmdAddFiber in cmd.AddFibers)
+                WriteModel.Add(_mapper.Map<FiberAdded>(cmdAddFiber));
 
-                fiber.Node2 = newNodeId;
-                WriteModel.Add(new FiberAdded() {Id = fiber.Id, Node1 = fiber.Node1, Node2 = fiber.Node2});
-                fiber = new Fiber() { Id = Guid.NewGuid(), Node1 = newNodeId };
-            }
-
-            fiber.Node2 = cmd.Node2;
-            WriteModel.Add(new FiberAdded() { Id = fiber.Id, Node1 = fiber.Node1, Node2 = fiber.Node2 });
             WriteModel.Commit();
             return null;
         }
