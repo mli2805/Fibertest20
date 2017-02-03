@@ -13,31 +13,40 @@ namespace Iit.Fibertest.TestBench
     {
         private void ApplyToMap(AddFiberWithNodes cmd)
         {
-            if (!Validate(cmd))
-                return;
-
-            var vm = new FiberWithNodesAddViewModel();
-            new WindowManager().ShowDialog(vm);
-            if (!vm.Result)
-                return;
-
-            cmd.IntermediateNodesCount = vm.Count;
-            cmd.EquipmentInIntermediateNodesType = vm.GetSelectedType();
-
             EndFiberCreationMany(GraphVm.Nodes.Single(m => m.Id == cmd.Node1),
                 GraphVm.Nodes.First(m => m.Id == cmd.Node2),
                 cmd.IntermediateNodesCount, cmd.EquipmentInIntermediateNodesType);
         }
 
-        private bool Validate(AddFiberWithNodes cmd)
+        private AddFiberWithNodes PrepareCommand(AskAddFiberWithNodes ask)
         {
-            if (cmd.Node1 == cmd.Node2)
+            if (!Validate(ask))
+                return null;
+
+            var vm = new FiberWithNodesAddViewModel();
+            new WindowManager().ShowDialog(vm);
+            if (!vm.Result)
+                return null;
+
+            var cmd = new AddFiberWithNodes
+            {
+                Node1 = ask.Node1,
+                Node2 = ask.Node2,
+                IntermediateNodesCount = vm.Count,
+                EquipmentInIntermediateNodesType = vm.GetSelectedType(),
+            };
+            return cmd;
+        }
+
+        private bool Validate(AskAddFiberWithNodes ask)
+        {
+            if (ask.Node1 == ask.Node2)
                 return false;
             var fiber =
                 GraphVm.Fibers.FirstOrDefault(
                     f =>
-                        f.NodeA.Id == cmd.Node1 && f.NodeB.Id == cmd.Node2 ||
-                        f.NodeA.Id == cmd.Node2 && f.NodeB.Id == cmd.Node1);
+                        f.NodeA.Id == ask.Node1 && f.NodeB.Id == ask.Node2 ||
+                        f.NodeA.Id == ask.Node2 && f.NodeB.Id == ask.Node1);
             if (fiber == null)
                 return true;
             MessageBox.Show("Уже есть такое волокно");

@@ -13,6 +13,12 @@ namespace Iit.Fibertest.TestBench
         public GraphVm GraphVm { get; set; } = new GraphVm();
         public ReadModel ReadModel { get; set; } = new ReadModel();
         public Aggregate Aggregate { get; set; } = new Aggregate();
+        public ClientPoller ClientPoller { get; set; }
+
+        public ShellViewModel()
+        {
+            ClientPoller = new ClientPoller(Aggregate.WriteModel.Db, new List<object> { ReadModel });
+        }
 
         public void AddOneNode()
         {
@@ -84,12 +90,18 @@ namespace Iit.Fibertest.TestBench
             if (e.PropertyName != "Command")
                 return;
             if (GraphVm.Command is AddMarker)
-                ApplyToMap((AddMarker) GraphVm.Command);
+                ApplyToMap((AddMarker)GraphVm.Command);
 
             #region Node
 
             if (GraphVm.Command is AddNode)
-                ApplyToMap((AddNode) GraphVm.Command);
+            {
+                var cmd = (AddNode)GraphVm.Command;
+                cmd.Id = Guid.NewGuid();
+                Aggregate.When(cmd);
+                ClientPoller.Tick();
+                ApplyToMap(cmd);
+            }
             if (GraphVm.Command is AddNodeIntoFiber)
             {
                 // validation if fiber used by trace with base 
@@ -105,38 +117,76 @@ namespace Iit.Fibertest.TestBench
                 // and ReadModel will apply them
 
                 // 
-                ApplyToMap((AddNodeIntoFiber) GraphVm.Command);
+                ApplyToMap((AddNodeIntoFiber)GraphVm.Command);
             }
             if (GraphVm.Command is MoveNode)
-                ApplyToMap((MoveNode) GraphVm.Command);
+                ApplyToMap((MoveNode)GraphVm.Command);
             if (GraphVm.Command is RemoveNode)
-                ApplyToMap((RemoveNode) GraphVm.Command);
+                ApplyToMap((RemoveNode)GraphVm.Command);
 
             #endregion
 
             #region Fiber
 
-            if (GraphVm.Command is AddFiberWithNodes)
-                ApplyToMap((AddFiberWithNodes) GraphVm.Command);
+            if (GraphVm.Command is AskAddFiberWithNodes)
+            {
+                var cmd = PrepareCommand((AskAddFiberWithNodes)GraphVm.Command);
+                if (cmd == null)
+                    return;
+                var message = Aggregate.When(cmd);
+                if (message != null)
+                {
+                    new WindowManager().ShowDialog(new NotificationViewModel("Œ¯Ë·Í‡!", message));
+                    return;
+                }
+                ClientPoller.Tick();
+                ApplyToMap(cmd);
+            }
             if (GraphVm.Command is AddFiber)
-                ApplyToMap((AddFiber) GraphVm.Command);
+            {
+                Aggregate.When((AddFiber)GraphVm.Command);
+                ClientPoller.Tick();
+                ApplyToMap((AddFiber)GraphVm.Command);
+            }
             if (GraphVm.Command is UpdateFiber)
-                ApplyToMap((UpdateFiber) GraphVm.Command);
+                ApplyToMap((UpdateFiber)GraphVm.Command);
             if (GraphVm.Command is RemoveFiber)
-                ApplyToMap((RemoveFiber) GraphVm.Command);
+                ApplyToMap((RemoveFiber)GraphVm.Command);
 
             #endregion
 
             if (GraphVm.Command is AddRtuAtGpsLocation)
-                ApplyToMap((AddRtuAtGpsLocation) GraphVm.Command);
+            {
+                var cmd = (AddRtuAtGpsLocation)GraphVm.Command;
+                cmd.Id = Guid.NewGuid();
+                cmd.NodeId = Guid.NewGuid();
+                Aggregate.When(cmd);
+                ClientPoller.Tick();
+                ApplyToMap(cmd);
+            }
             if (GraphVm.Command is AddEquipmentAtGpsLocation)
-                ApplyToMap((AddEquipmentAtGpsLocation) GraphVm.Command);
+            {
+                var cmd = (AddEquipmentAtGpsLocation)GraphVm.Command;
+                cmd.Id = Guid.NewGuid();
+                cmd.NodeId = Guid.NewGuid();
+                Aggregate.When(cmd);
+                ClientPoller.Tick();
+                ApplyToMap(cmd);
+            }
 
             if (GraphVm.Command is AskAddTrace)
             {
                 var cmd = PrepareCommand((AskAddTrace)GraphVm.Command);
-                if (Aggregate.When(cmd) == null)
-                    ApplyToMap(cmd);
+                if (cmd == null)
+                    return;
+                var message = Aggregate.When(cmd);
+                if (message != null)
+                {
+                    new WindowManager().ShowDialog(new NotificationViewModel("Œ¯Ë·Í‡!", message));
+                    return;
+                }
+                ClientPoller.Tick();
+                ApplyToMap(cmd);
             }
 
             //TODO Send Command to Aggregate
@@ -146,7 +196,7 @@ namespace Iit.Fibertest.TestBench
 
         private void ApplyToMap(AddMarker cmd)
         {
-            var markerVm = new MarkerVm() {Id = Guid.NewGuid(), Position = new PointLatLng(cmd.Latitude, cmd.Longitude)};
+            var markerVm = new MarkerVm() { Id = Guid.NewGuid(), Position = new PointLatLng(cmd.Latitude, cmd.Longitude) };
             GraphVm.MarkerVms.Add(markerVm);
         }
 
@@ -178,9 +228,8 @@ namespace Iit.Fibertest.TestBench
         {
             List<Guid> traceNodes;
             List<Guid> traceEquipments;
-            if (
-                !ReadModel.DefineTrace(new WindowManager(), ask.NodeWithRtuId, ask.LastNodeId, out traceNodes,
-                    out traceEquipments))
+            if (!ReadModel.DefineTrace(new WindowManager(), ask.NodeWithRtuId, ask.LastNodeId,
+                out traceNodes, out traceEquipments))
                 return null;
             var traceAddViewModel = new TraceAddViewModel();
             new WindowManager().ShowDialog(traceAddViewModel);
@@ -201,7 +250,7 @@ namespace Iit.Fibertest.TestBench
 
         private void ApplyToMap(AddTrace cmd)
         {
-            GraphVm.Traces.Add(new TraceVm() {Id = cmd.Id, Nodes = cmd.Nodes});
+            GraphVm.Traces.Add(new TraceVm() { Id = cmd.Id, Nodes = cmd.Nodes });
         }
     }
 }

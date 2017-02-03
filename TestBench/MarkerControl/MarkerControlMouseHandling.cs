@@ -97,7 +97,7 @@ namespace Iit.Fibertest.TestBench
             if (!_mainMap.IsFiberWithNodes)
                 _owner.GraphVm.Command = new AddFiber() { Node1 = _mainMap.StartNode.Id, Node2 = _marker.Id };
             else
-                _owner.GraphVm.Command = new AddFiberWithNodes() { Node1 = _mainMap.StartNode.Id, Node2 = _marker.Id, };
+                _owner.GraphVm.Command = new AskAddFiberWithNodes() { Node1 = _mainMap.StartNode.Id, Node2 = _marker.Id, };
 
             _mainMap.FiberUnderCreation = Guid.Empty;
             Cursor = Cursors.Arrow;
