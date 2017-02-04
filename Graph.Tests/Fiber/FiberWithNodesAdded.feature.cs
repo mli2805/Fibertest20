@@ -92,9 +92,9 @@ this.FeatureBackground();
 #line 7
  testRunner.Given("Между левым и правым узлом уже добавлен отрезок", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 8
- testRunner.When("Пользователь кликает добавить отрезок с узлами", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 9
  testRunner.Then("Выдается сообщение Уже есть такое волокно", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 9
+ testRunner.When("Пользователь кликает добавить отрезок с узлами", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 10
  testRunner.Then("Новый отрезок не сохраняется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
