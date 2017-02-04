@@ -6,7 +6,6 @@ namespace GMap.NET.Internals
     using System.Diagnostics;
     using System.Threading;
     using GMap.NET.Projections;
-    using System.IO;
     using GMap.NET.MapProviders;
     using System.ComponentModel;
 

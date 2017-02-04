@@ -6,10 +6,8 @@ namespace GMap.NET.CacheProviders
    using System.Collections.Generic;
    using System.Data.Common;
    using System.IO;
-   using System.Text;
    using System;
    using System.Diagnostics;
-   using System.Globalization;
    using GMap.NET.MapProviders;
    using System.Threading;
 

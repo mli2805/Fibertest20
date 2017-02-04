@@ -1,7 +1,5 @@
 ﻿namespace GMap.NET.Internals
 {
-   using System.IO;
-   using System;
     using System.Collections.Generic;
 
    /// <summary>

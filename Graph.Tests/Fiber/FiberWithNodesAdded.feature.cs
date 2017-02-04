@@ -94,6 +94,8 @@ this.FeatureBackground();
 #line 8
  testRunner.When("Пользователь кликает добавить отрезок с узлами", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 9
+ testRunner.Then("Выдается сообщение Уже есть такое волокно", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 10
  testRunner.Then("Новый отрезок не сохраняется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -105,13 +107,13 @@ this.FeatureBackground();
         public virtual void ДобавлениеОтрезкаС0Узлов()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление отрезка с 0 узлов", ((string[])(null)));
-#line 11
+#line 12
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 12
- testRunner.When("Пользователь кликает добавить отрезок с нулем узлов", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 13
+ testRunner.When("Пользователь кликает добавить отрезок с нулем узлов", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 14
  testRunner.Then("Новый отрезок сохраняется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -123,13 +125,13 @@ this.FeatureBackground();
         public virtual void ДобавлениеОтрезкаСNПустыхУзлов()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление отрезка с N пустых узлов", ((string[])(null)));
-#line 15
+#line 16
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 16
- testRunner.When("Пользователь кликает добавить отрезок с 3 пустыми узлами", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 17
+ testRunner.When("Пользователь кликает добавить отрезок с 3 пустыми узлами", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 18
  testRunner.Then("Создается 3 узла и 4 отрезка", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -141,13 +143,13 @@ this.FeatureBackground();
         public virtual void ДобавлениеОтрезкаСNУзловCОборудованием()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление отрезка с N узлов c оборудованием", ((string[])(null)));
-#line 19
+#line 20
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 20
- testRunner.When("Пользователь кликает добавить отрезок с 3 узлами с муфтами", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 21
+ testRunner.When("Пользователь кликает добавить отрезок с 3 узлами с муфтами", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 22
  testRunner.Then("Создается 3 узла столько же оборудования и 4 отрезка", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

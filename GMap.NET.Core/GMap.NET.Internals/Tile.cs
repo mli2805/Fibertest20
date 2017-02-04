@@ -3,7 +3,6 @@ namespace GMap.NET.Internals
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Threading;
 
     /// <summary>

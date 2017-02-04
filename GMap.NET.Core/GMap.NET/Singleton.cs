@@ -3,9 +3,8 @@ namespace GMap.NET
 {
    using System;
    using System.Diagnostics;
-   using System.Reflection;
 
-   /// <summary>
+    /// <summary>
    /// generic for singletons
    /// </summary>
    /// <typeparam name="T"></typeparam>

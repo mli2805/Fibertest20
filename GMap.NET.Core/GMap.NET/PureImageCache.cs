@@ -1,8 +1,7 @@
 ﻿
 namespace GMap.NET
 {
-   using System.IO;
-   using System;
+    using System;
 
    /// <summary>
    /// pure abstraction for image cache

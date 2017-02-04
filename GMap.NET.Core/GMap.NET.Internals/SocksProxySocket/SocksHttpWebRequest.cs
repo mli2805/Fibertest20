@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GMap.NET.Internals
+﻿namespace GMap.NET.Internals
 {
     using System;
     using System.Collections.Specialized;

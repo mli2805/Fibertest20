@@ -5,7 +5,6 @@
 namespace GMap.NET.Internals
 {
     using System;
-    using System.Threading;
 #if !MONO
     using System.Runtime.InteropServices;
 #endif

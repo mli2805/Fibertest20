@@ -2,7 +2,6 @@
 namespace GMap.NET.Internals
 {
    using System.Collections.Generic;
-   using System.IO;
    using System;
    using System.Diagnostics;
 

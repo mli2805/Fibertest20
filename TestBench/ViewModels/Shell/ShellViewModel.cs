@@ -10,13 +10,18 @@ namespace Iit.Fibertest.TestBench
 {
     public partial class ShellViewModel : Screen, IShell
     {
+        private readonly IWindowManager _windowManager;
         public GraphVm GraphVm { get; set; } = new GraphVm();
         public ReadModel ReadModel { get; set; } = new ReadModel();
         public Aggregate Aggregate { get; set; } = new Aggregate();
         public ClientPoller ClientPoller { get; set; }
 
-        public ShellViewModel()
+        public ShellViewModel(IWindowManager windowManager)
         {
+            if (windowManager == null)
+                _windowManager = new WindowManager();
+            else
+                _windowManager = windowManager;
             ClientPoller = new ClientPoller(Aggregate.WriteModel.Db, new List<object> { ReadModel });
         }
 
@@ -90,7 +95,7 @@ namespace Iit.Fibertest.TestBench
             if (e.PropertyName == "Ask")
                 ProcessAsk(GraphVm.Ask);
         }
-        private void ProcessAsk(object ask)
+        public void ProcessAsk(object ask)
         {
             if (ask is AddMarker)
                 ApplyToMap((AddMarker)ask);
@@ -139,7 +144,7 @@ namespace Iit.Fibertest.TestBench
                 var message = Aggregate.When(cmd);
                 if (message != null)
                 {
-                    new WindowManager().ShowDialog(new NotificationViewModel("Ошибка!", message));
+                    _windowManager.ShowDialog(new NotificationViewModel("Ошибка!", message));
                     return;
                 }
                 ClientPoller.Tick();
@@ -185,7 +190,7 @@ namespace Iit.Fibertest.TestBench
                 var message = Aggregate.When(cmd);
                 if (message != null)
                 {
-                    new WindowManager().ShowDialog(new NotificationViewModel("Ошибка!", message));
+                    _windowManager.ShowDialog(new NotificationViewModel("Ошибка!", message));
                     return;
                 }
                 ClientPoller.Tick();
@@ -230,11 +235,11 @@ namespace Iit.Fibertest.TestBench
         {
             List<Guid> traceNodes;
             List<Guid> traceEquipments;
-            if (!ReadModel.DefineTrace(new WindowManager(), ask.NodeWithRtuId, ask.LastNodeId,
+            if (!ReadModel.DefineTrace(_windowManager, ask.NodeWithRtuId, ask.LastNodeId,
                 out traceNodes, out traceEquipments))
                 return null;
             var traceAddViewModel = new TraceAddViewModel();
-            new WindowManager().ShowDialog(traceAddViewModel);
+            _windowManager.ShowDialog(traceAddViewModel);
 
             if (!traceAddViewModel.IsUserClickedSave)
                 return null;

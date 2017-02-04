@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.WpfClient.ViewModels;
+using EquipmentChoiceViewModel = Iit.Fibertest.WpfClient.ViewModels.EquipmentChoiceViewModel;
+using QuestionViewModel = Iit.Fibertest.WpfClient.ViewModels.QuestionViewModel;
+using TraceAddViewModel = Iit.Fibertest.WpfClient.ViewModels.TraceAddViewModel;
 
 namespace Graph.Tests
 {
@@ -11,6 +14,8 @@ namespace Graph.Tests
         public Aggregate Aggregate { get; } = new Aggregate();
         public ReadModel ReadModel { get; } = new ReadModel();
         public ClientPoller Poller { get; }
+        public MapViewModel MapVm { get; }
+        public FakeWindowManager FakeWindowManager { get; }
         public int CurrentEventNumber => Poller.CurrentEventNumber;
 
         public SystemUnderTest()
@@ -19,11 +24,6 @@ namespace Graph.Tests
             FakeWindowManager = new FakeWindowManager();
             MapVm = new MapViewModel(Aggregate, ReadModel, FakeWindowManager);
         }
-
-        public MapViewModel MapVm { get; }
-
-        public FakeWindowManager FakeWindowManager { get; }
-
 
         public void CreateTraceRtuEmptyTerminal()
         {
@@ -222,14 +222,5 @@ namespace Graph.Tests
                 vm.Cancel();
             return true;
         }
-    }
-
-    public enum Answer
-    {
-        Yes, Cancel
-    }
-    public enum EquipmentChoiceAnswer
-    {
-        Use, UseAndSetupName, Cancel
     }
 }

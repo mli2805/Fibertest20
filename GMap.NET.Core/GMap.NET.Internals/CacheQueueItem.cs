@@ -1,10 +1,7 @@
 ﻿
 namespace GMap.NET.Internals
 {
-   using System.IO;
-   using System;
-
-   /// <summary>
+    /// <summary>
    /// cache queue item
    /// </summary>
    internal struct CacheQueueItem

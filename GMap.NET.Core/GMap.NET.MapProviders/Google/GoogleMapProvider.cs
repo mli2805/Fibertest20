@@ -5,8 +5,6 @@ namespace GMap.NET.MapProviders
     using GMap.NET.Projections;
     using System.Security.Cryptography;
     using System.Diagnostics;
-    using System.Net;
-    using System.IO;
     using System.Text.RegularExpressions;
     using System.Threading;
     using GMap.NET.Internals;
