@@ -5,7 +5,6 @@ using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
 using Iit.Fibertest.TestBench;
 using TechTalk.SpecFlow;
-using NotificationViewModel = Iit.Fibertest.WpfClient.ViewModels.NotificationViewModel;
 
 namespace Graph.Tests
 {

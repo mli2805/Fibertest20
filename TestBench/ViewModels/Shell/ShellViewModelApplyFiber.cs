@@ -83,8 +83,7 @@ namespace Iit.Fibertest.TestBench
                 return null;
 
             var vm = new FiberWithNodesAddViewModel();
-            // BUG: Use IWindowsManager from ctor
-            new WindowManager().ShowDialog(vm);
+            _windowManager.ShowDialog(vm);
             if (!vm.Result)
                 return null;
 
@@ -102,7 +101,7 @@ namespace Iit.Fibertest.TestBench
                         f.NodeA.Id == ask.Node2 && f.NodeB.Id == ask.Node1);
             if (fiber == null)
                 return true;
-            MessageBox.Show("Уже есть такое волокно");
+            _windowManager.ShowDialog(new NotificationViewModel("", "Уже есть такое волокно"));
             return false;
         }
 
