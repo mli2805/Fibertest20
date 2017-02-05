@@ -83,6 +83,7 @@ namespace Iit.Fibertest.TestBench
                 return null;
 
             var vm = new FiberWithNodesAddViewModel();
+            // BUG: Use IWindowsManager from ctor
             new WindowManager().ShowDialog(vm);
             if (!vm.Result)
                 return null;
