@@ -12,7 +12,8 @@ namespace Iit.Fibertest.Graph
             builder.RegisterType<Db>().SingleInstance();
             builder.RegisterType<Bus>().SingleInstance();
             builder.Register(ioc => new ClientPoller(
-                ioc.Resolve<Db>(), new List<object> { ioc.Resolve<ReadModel>() }));
+                ioc.Resolve<Db>(), new List<object> { ioc.Resolve<ReadModel>() }))
+                .SingleInstance();
         }
     }
 }
