@@ -19,11 +19,6 @@ namespace Iit.Fibertest.TestBench
             GraphVm.Nodes.Add(nodeVm);
         }
 
-        private void ApplyToMap(AddNodeIntoFiber cmd)
-        {
-//            var fiber = GraphVm.Fibers.First(f => f.Id == cmd.Id);
-        }
-
         private void ApplyToMap(MoveNode cmd)
         {
             var nodeVm = GraphVm.Nodes.Single(n => n.Id == cmd.Id);

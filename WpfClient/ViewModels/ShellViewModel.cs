@@ -9,10 +9,11 @@ namespace Iit.Fibertest.WpfClient.ViewModels
     {
         private readonly Aggregate _aggregate;
         private readonly ReadModel _readModel;
-        public ShellViewModel()
+
+        public ShellViewModel(Aggregate aggregate, ReadModel readModel)
         {
-            _aggregate = new Aggregate();
-            _readModel = new ReadModel();
+            _aggregate = aggregate;
+            _readModel = readModel;
         }
 
         public void LaunchUpdateNodeView()

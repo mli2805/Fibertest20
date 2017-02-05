@@ -9,6 +9,7 @@ namespace Iit.Fibertest.Graph
         {
             builder.RegisterType<Aggregate>().SingleInstance();
             builder.RegisterType<ReadModel>().SingleInstance();
+            builder.RegisterType<WriteModel>().SingleInstance();
             builder.RegisterType<Db>().SingleInstance();
             builder.RegisterType<Bus>().SingleInstance();
             builder.Register(ioc => new ClientPoller(

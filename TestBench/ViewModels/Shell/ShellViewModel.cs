@@ -123,8 +123,7 @@ namespace Iit.Fibertest.TestBench
                 // if Aggregate executed it new events will appeare
                 // and ReadModel will apply them
 
-                // 
-                ApplyToMap((AddNodeIntoFiber)ask);
+                // TODO: ApplyToMap((AddNodeIntoFiber)ask);
             }
             if (ask is MoveNode)
                 ApplyToMap((MoveNode)ask);

@@ -25,6 +25,7 @@ namespace Graph.Tests
         {
             _sut.ShellVm.ProcessAsk(new AddNode()).Wait();
             _sut.ShellVm.ProcessAsk(new AddNode()).Wait();
+            _sut.Poller.Tick();
             _leftNodeId = _sut.ShellVm.ReadModel.Nodes.First().Id;
             _rightNodeId = _sut.ShellVm.ReadModel.Nodes.Last().Id;
             _nodesCountCutOff = _sut.ShellVm.ReadModel.Nodes.Count;
@@ -48,7 +49,7 @@ namespace Graph.Tests
         [When(@"Пользователь кликает добавить отрезок с нулем узлов")]
         public void WhenПользовательКликаетДобавитьОтрезокСнулемУзлов()
         {
-            const EquipmentType doesntMatter = EquipmentType.Other;
+            //const EquipmentType doesntMatter = EquipmentType.Other;
 //            _sut.MapVm.AddFiberWithNodes(_leftNodeId, _rightNodeId, 0, doesntMatter);
             _sut.ShellVm.ProcessAsk(new AskAddFiberWithNodes() {Node1 = _leftNodeId, Node2 = _rightNodeId}).Wait();
         }

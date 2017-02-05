@@ -26,11 +26,16 @@ namespace Iit.Fibertest.Graph
     }
     public class Aggregate
     {
-        public WriteModel WriteModel { get; } = new WriteModel(new Db());
+
+        public WriteModel WriteModel { get; } 
 
         private readonly IMapper _mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingCmdToEventProfile>()).CreateMapper();
 
+        public Aggregate(WriteModel writeModel)
+        {
+            WriteModel = writeModel;
+        }
 
         #region Node
         public void When(AddNode cmd)

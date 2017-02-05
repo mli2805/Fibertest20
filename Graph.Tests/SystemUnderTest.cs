@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Autofac;
+using Caliburn.Micro;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.TestBench;
 using Iit.Fibertest.WpfClient.ViewModels;
 using EquipmentChoiceViewModel = Iit.Fibertest.WpfClient.ViewModels.EquipmentChoiceViewModel;
 using QuestionViewModel = Iit.Fibertest.WpfClient.ViewModels.QuestionViewModel;
@@ -11,8 +14,8 @@ namespace Graph.Tests
 {
     public class SystemUnderTest
     {
-        public Aggregate Aggregate { get; } = new Aggregate();
-        public ReadModel ReadModel { get; } = new ReadModel();
+        public Aggregate Aggregate { get; } 
+        public ReadModel ReadModel { get; }
         public ClientPoller Poller { get; }
         public MapViewModel MapVm { get; }
         public FakeWindowManager FakeWindowManager { get; }
@@ -20,9 +23,18 @@ namespace Graph.Tests
 
         public SystemUnderTest()
         {
-            Poller = new ClientPoller(Aggregate.WriteModel.Db, new List<object> { ReadModel });
-            FakeWindowManager = new FakeWindowManager();
-            MapVm = new MapViewModel(Aggregate, ReadModel, FakeWindowManager);
+            var builder = new ContainerBuilder();
+            builder.RegisterModule<AutofacEventSourcing>();
+            builder.RegisterModule<AutofacUi>();
+            builder.RegisterType<MapViewModel>();
+            builder.RegisterType<FakeWindowManager>().As<IWindowManager>().SingleInstance();
+
+            var container = builder.Build();
+            Poller = container.Resolve<ClientPoller>();
+            FakeWindowManager = (FakeWindowManager)container.Resolve<IWindowManager>();
+            Aggregate = container.Resolve<Aggregate>();
+            ReadModel = container.Resolve<ReadModel>();
+            MapVm = container.Resolve<MapViewModel>();
         }
 
         public void CreateTraceRtuEmptyTerminal()

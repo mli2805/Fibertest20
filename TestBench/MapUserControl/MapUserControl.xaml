@@ -7,6 +7,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Control.Resources>
+        <!-- call this resource from code -->
+        <!-- ReSharper disable once Xaml.RedundantResource -->
         <ContextMenu x:Key="MapContextMenu">
             <MenuItem Header="Добавить маркер" Tag="99" Click="AddNodeOnClick"/>
             <MenuItem Header="Добавить узел" Tag="5" Click="AddNodeOnClick"/>

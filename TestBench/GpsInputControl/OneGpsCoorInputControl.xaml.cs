@@ -17,7 +17,7 @@ namespace Iit.Fibertest.TestBench
             set
             {
                 SetValue(ValueProperty, value);
-                ApplyValue(value);
+                // TODO: ApplyValue(value);
             }
         }
 
@@ -103,9 +103,5 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
-        private void ApplyValue(double value)
-        {
-
-        }
     }
 }
