@@ -150,7 +150,7 @@ namespace Iit.Fibertest.TestBench
             }
             if (ask is AddFiber)
             {
-                Bus.SendCommand((AddFiber)ask);
+                await Bus.SendCommand((AddFiber)ask);
                 ApplyToMap((AddFiber)ask);
             }
             if (ask is UpdateFiber)
