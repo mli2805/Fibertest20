@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Caliburn.Micro;
 using GMap.NET;
 using Iit.Fibertest.Graph;
@@ -12,17 +13,14 @@ namespace Iit.Fibertest.TestBench
     {
         private readonly IWindowManager _windowManager;
         public GraphVm GraphVm { get; set; } = new GraphVm();
-        public ReadModel ReadModel { get; set; } = new ReadModel();
-        public Aggregate Aggregate { get; set; } = new Aggregate();
-        public ClientPoller ClientPoller { get; set; }
+        public ReadModel ReadModel { get; } 
+        public Bus Bus { get;  }
 
-        public ShellViewModel(IWindowManager windowManager)
+        public ShellViewModel(IWindowManager windowManager, ReadModel readModel, Bus bus)
         {
-            if (windowManager == null)
-                _windowManager = new WindowManager();
-            else
-                _windowManager = windowManager;
-            ClientPoller = new ClientPoller(Aggregate.WriteModel.Db, new List<object> { ReadModel });
+            ReadModel = readModel;
+            Bus = bus;
+             _windowManager = windowManager;
         }
 
         public void AddOneNode()
@@ -93,9 +91,11 @@ namespace Iit.Fibertest.TestBench
         private void GraphVm_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "Ask")
-                ProcessAsk(GraphVm.Ask);
+                ProcessAsk(GraphVm.Ask)
+                    // This call is needed so there's no warning
+                    .ConfigureAwait(false);
         }
-        public void ProcessAsk(object ask)
+        public async Task ProcessAsk(object ask)
         {
             if (ask is AddMarker)
                 ApplyToMap((AddMarker)ask);
@@ -106,8 +106,7 @@ namespace Iit.Fibertest.TestBench
             {
                 var cmd = (AddNode)ask;
                 cmd.Id = Guid.NewGuid();
-                Aggregate.When(cmd);
-                ClientPoller.Tick();
+                await Bus.SendCommand(cmd);
                 ApplyToMap(cmd);
             }
             if (ask is AddNodeIntoFiber)
@@ -120,7 +119,7 @@ namespace Iit.Fibertest.TestBench
                 // which traces if there any should use equipment if it was added
                 // after this we have fully filled in AddFiberWithNodes command
 
-                // next we should send this command to Aggregate and
+                // next we should send this command to Bus and
                 // if Aggregate executed it new events will appeare
                 // and ReadModel will apply them
 
@@ -141,19 +140,17 @@ namespace Iit.Fibertest.TestBench
                 var cmd = PrepareCommand((AskAddFiberWithNodes)ask);
                 if (cmd == null)
                     return;
-                var message = Aggregate.When(cmd);
+                var message = await Bus.SendCommand(cmd);
                 if (message != null)
                 {
                     _windowManager.ShowDialog(new NotificationViewModel("Œ¯Ë·Í‡!", message));
                     return;
                 }
-                ClientPoller.Tick();
                 ApplyToMap(cmd);
             }
             if (ask is AddFiber)
             {
-                Aggregate.When((AddFiber)ask);
-                ClientPoller.Tick();
+                Bus.SendCommand((AddFiber)ask);
                 ApplyToMap((AddFiber)ask);
             }
             if (ask is UpdateFiber)
@@ -168,8 +165,7 @@ namespace Iit.Fibertest.TestBench
                 var cmd = PrepareCommand((AskUpdateRtu) ask);
                 if (cmd == null)
                     return;
-                Aggregate.When(cmd);
-                ClientPoller.Tick();
+                await Bus.SendCommand(cmd);
                 ApplyToMap(cmd);
             }
 
@@ -178,8 +174,7 @@ namespace Iit.Fibertest.TestBench
                 var cmd = (AddRtuAtGpsLocation)ask;
                 cmd.Id = Guid.NewGuid();
                 cmd.NodeId = Guid.NewGuid();
-                Aggregate.When(cmd);
-                ClientPoller.Tick();
+                await Bus.SendCommand(cmd);
                 ApplyToMap(cmd);
             }
             if (ask is AddEquipmentAtGpsLocation)
@@ -187,8 +182,7 @@ namespace Iit.Fibertest.TestBench
                 var cmd = (AddEquipmentAtGpsLocation)ask;
                 cmd.Id = Guid.NewGuid();
                 cmd.NodeId = Guid.NewGuid();
-                Aggregate.When(cmd);
-                ClientPoller.Tick();
+                await Bus.SendCommand(cmd);
                 ApplyToMap(cmd);
             }
 
@@ -197,13 +191,13 @@ namespace Iit.Fibertest.TestBench
                 var cmd = PrepareCommand((AskAddTrace)ask);
                 if (cmd == null)
                     return;
-                var message = Aggregate.When(cmd);
+                var message = await Bus.SendCommand(cmd);
                 if (message != null)
                 {
                     _windowManager.ShowDialog(new NotificationViewModel("Œ¯Ë·Í‡!", message));
                     return;
                 }
-                ClientPoller.Tick();
+                
                 ApplyToMap(cmd);
             }
 

@@ -1,11 +1,28 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using Iit.Fibertest.Graph.Commands;
 using Iit.Fibertest.Graph.Events;
+using PrivateReflectionUsingDynamic;
 
 namespace Iit.Fibertest.Graph
 {
+    public sealed class Bus
+    {
+        private readonly Aggregate _aggregate;
+
+        public Bus(Aggregate aggregate)
+        {
+            _aggregate = aggregate;
+        }
+
+        public Task<string> SendCommand(object cmd)
+        {
+            var result = (string)_aggregate.AsDynamic().When(cmd);
+            return Task.FromResult(result);
+        }
+    }
     public class Aggregate
     {
         public WriteModel WriteModel { get; } = new WriteModel(new Db());
