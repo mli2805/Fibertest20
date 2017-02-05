@@ -55,5 +55,34 @@ namespace Iit.Fibertest.TestBench
             //else if (Other.IsSelected)
             return EquipmentType.Other;
         }
+
+        public void SetSelectedType(EquipmentType type)
+        {
+            switch (type)
+            {
+                case EquipmentType.Well:
+                    Well.IsChecked = true;
+                    break;
+                case EquipmentType.Invisible:
+                    Invisible.IsChecked = true;
+                    break;
+                case EquipmentType.CableReserve:
+                    CableReserve.IsChecked = true;
+                    break;
+                case EquipmentType.Cross:
+                    Cross.IsChecked = true;
+                    break;
+                case EquipmentType.Terminal:
+                    Terminal.IsChecked = true;
+                    break;
+                case EquipmentType.Other:
+                    Other.IsChecked = true;
+                    break;
+                case EquipmentType.Sleeve:
+                    Sleeve.IsChecked = true;
+                    break;
+
+            }
+        }
     }
 }

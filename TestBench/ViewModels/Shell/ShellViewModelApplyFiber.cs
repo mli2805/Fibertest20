@@ -12,14 +12,15 @@ namespace Iit.Fibertest.TestBench
     {
         private void ApplyToMap(AddFiberWithNodes cmd)
         {
-            foreach (var cmdAddFiber in cmd.AddFibers)
-                ApplyToMap(cmdAddFiber);
-            if (cmd.AddNodes != null)
+            if (cmd.AddNodes.Count > 0)
                 foreach (var cmdAddNode in cmd.AddNodes)
                     ApplyToMap(cmdAddNode);
             else
                 foreach (var cmdAddEquipment in cmd.AddEquipments)
                     ApplyToMap(cmdAddEquipment);
+
+            foreach (var cmdAddFiber in cmd.AddFibers)
+                ApplyToMap(cmdAddFiber);
         }
 
         private AddFiberWithNodes EndFiberCreationMany(AskAddFiberWithNodes ask, int count, EquipmentType type)
@@ -64,9 +65,9 @@ namespace Iit.Fibertest.TestBench
                 double lng = startNode.Longitude + deltaLng * (i + 1);
 
                 if (type == EquipmentType.Well || type == EquipmentType.Invisible)
-                    yield return new AddNode() { Latitude = lat, Longitude = lng, IsJustForCurvature = type == EquipmentType.Invisible};
+                    yield return new AddNode() { Id = Guid.NewGuid(), Latitude = lat, Longitude = lng, IsJustForCurvature = type == EquipmentType.Invisible};
                 else
-                    yield return new AddEquipmentAtGpsLocation() { Latitude = lat, Longitude = lng, Type = type };
+                    yield return new AddEquipmentAtGpsLocation() { Id = Guid.NewGuid(), NodeId = Guid.NewGuid(), Latitude = lat, Longitude = lng, Type = type };
             }
 
         }

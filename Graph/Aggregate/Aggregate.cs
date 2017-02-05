@@ -96,7 +96,7 @@ namespace Iit.Fibertest.Graph
             if (WriteModel.HasFiberBetween(cmd.Node1, cmd.Node2))
                 return "Fiber already exists";
             
-            if (cmd.AddNodes != null)
+            if (cmd.AddNodes.Count > 0)
                 foreach (var cmdAddNode in cmd.AddNodes)
                     WriteModel.Add(_mapper.Map<NodeAdded>(cmdAddNode));
             else

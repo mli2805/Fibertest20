@@ -24,15 +24,4 @@
   <UseCPUArchitecture>AutoDetect</UseCPUArchitecture>
   <MSTestThreadApartmentState>STA</MSTestThreadApartmentState>
   <BuildProcessArchitecture>x86</BuildProcessArchitecture>
-  <IgnoredTests>
-    <NamedTestSelector>
-      <TestName>Graph.Tests.Fiber.FiberWithNodesAddedFeature.ДобавлениеОтрезкаСNПустыхУзлов</TestName>
-    </NamedTestSelector>
-    <NamedTestSelector>
-      <TestName>Graph.Tests.Fiber.FiberWithNodesAddedFeature.ДобавлениеОтрезкаСNУзловCОборудованием</TestName>
-    </NamedTestSelector>
-    <NamedTestSelector>
-      <TestName>Graph.Tests.Fiber.FiberWithNodesAddedFeature.ДобавлениеОтрезкаСУзламиТамГдеОнЕсть</TestName>
-    </NamedTestSelector>
-  </IgnoredTests>
 </ProjectConfiguration>

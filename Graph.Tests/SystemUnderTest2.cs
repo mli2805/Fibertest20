@@ -23,5 +23,19 @@ namespace Graph.Tests
             FakeWindowManager =(FakeWindowManager) container.Resolve<IWindowManager>();
             ShellVm =(ShellViewModel) container.Resolve<IShell>();
         }
+
+        public bool FiberWithNodesAdditionHandler(object model, int count, EquipmentType type, Answer answer)
+        {
+            var vm = model as FiberWithNodesAddViewModel;
+            if (vm == null) return false;
+            vm.Count = count;
+            vm.SetSelectedType(type);
+            if (answer == Answer.Yes)
+                vm.Ok();
+            else
+                vm.Cancel();
+            return true;
+        }
     }
+
 }

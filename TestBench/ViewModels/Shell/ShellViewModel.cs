@@ -220,6 +220,8 @@ namespace Iit.Fibertest.TestBench
                 Position = new PointLatLng(cmd.Latitude, cmd.Longitude)
             };
             GraphVm.Nodes.Add(nodeVm);
+
+            GraphVm.Equipments.Add(new EquipmentVm() {Id = cmd.Id, Node = nodeVm, Type = cmd.Type});
         }
 
         private AddTrace PrepareCommand(AskAddTrace ask)
