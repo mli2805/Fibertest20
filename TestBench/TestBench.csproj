@@ -85,11 +85,12 @@
     <Compile Include="Asks\AskAddTrace.cs" />
     <Compile Include="Asks\AskUpdateRtu.cs" />
     <Compile Include="AutofacUi.cs" />
-    <Compile Include="GpsInputControl\GpsInputControl.xaml.cs">
-      <DependentUpon>GpsInputControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="GpsInputControl\GpsInputMode.cs" />
     <Compile Include="GpsInputControl\LatOrLng.cs" />
+    <Compile Include="GpsInputControl\OneCoorView.xaml.cs">
+      <DependentUpon>OneCoorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GpsInputControl\OneCoorViewModel.cs" />
     <Compile Include="GpsInputControl\OneGpsCoorInputControl.xaml.cs">
       <DependentUpon>OneGpsCoorInputControl.xaml</DependentUpon>
     </Compile>
@@ -172,9 +173,9 @@
     </Compile>
     <Compile Include="Vms\RtuVm.cs" />
     <Compile Include="Vms\TraceVm.cs" />
-    <Page Include="GpsInputControl\GpsInputControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="GpsInputControl\OneCoorView.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="GpsInputControl\OneGpsCoorInputControl.xaml">
       <Generator>MSBuild:Compile</Generator>
