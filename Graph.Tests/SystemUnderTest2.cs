@@ -1,25 +1,27 @@
-using System.Collections.Generic;
+using Autofac;
+using Caliburn.Micro;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.TestBench;
 
 namespace Graph.Tests
 {
     public class SystemUnderTest2
     {
-        public Aggregate Aggregate { get; } = new Aggregate();
-        public ReadModel ReadModel { get; } = new ReadModel();
         public ClientPoller Poller { get; }
-
         public FakeWindowManager FakeWindowManager { get; }
-
-        public Iit.Fibertest.TestBench.ShellViewModel ShellVm { get; }
+        public ShellViewModel ShellVm { get; }
 
         public SystemUnderTest2()
         {
-            Poller = new ClientPoller(Aggregate.WriteModel.Db, new List<object> { ReadModel });
-            FakeWindowManager = new FakeWindowManager();
-            ShellVm = new Iit.Fibertest.TestBench.ShellViewModel(
-                FakeWindowManager, ReadModel, new Bus(Aggregate));
-        }
+            var builder = new ContainerBuilder();
+            builder.RegisterModule<AutofacEventSourcing>();
+            builder.RegisterModule<AutofacUi>();
+            builder.RegisterType<FakeWindowManager>().As<IWindowManager>().SingleInstance();
 
+            var container = builder.Build();
+            Poller = container.Resolve<ClientPoller>();
+            FakeWindowManager =(FakeWindowManager) container.Resolve<IWindowManager>();
+            ShellVm =(ShellViewModel) container.Resolve<IShell>();
+        }
     }
 }

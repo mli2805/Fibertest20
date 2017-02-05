@@ -84,6 +84,7 @@
     <Compile Include="Asks\AskAddFiberWithNodes.cs" />
     <Compile Include="Asks\AskAddTrace.cs" />
     <Compile Include="Asks\AskUpdateRtu.cs" />
+    <Compile Include="AutofacUi.cs" />
     <Compile Include="GpsInputControl\GpsInputControl.xaml.cs">
       <DependentUpon>GpsInputControl.xaml</DependentUpon>
     </Compile>

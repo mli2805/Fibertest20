@@ -16,12 +16,8 @@ namespace Iit.Fibertest.TestBench {
         protected override void Configure() {
             var builder = new ContainerBuilder();
             builder.RegisterModule<AutofacEventSourcing>();
-            builder.RegisterType<WindowManager>().As<IWindowManager>().SingleInstance();
-            builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
-            builder.RegisterType<ShellViewModel>().As<IShell>();
-
+            builder.RegisterModule<AutofacUi>();
             container = builder.Build();
-
         }
 
 
