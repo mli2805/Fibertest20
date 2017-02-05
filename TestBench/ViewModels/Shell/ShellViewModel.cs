@@ -163,6 +163,16 @@ namespace Iit.Fibertest.TestBench
 
             #endregion
 
+            if (ask is AskUpdateRtu)
+            {
+                var cmd = PrepareCommand((AskUpdateRtu) ask);
+                if (cmd == null)
+                    return;
+                Aggregate.When(cmd);
+                ClientPoller.Tick();
+                ApplyToMap(cmd);
+            }
+
             if (ask is AddRtuAtGpsLocation)
             {
                 var cmd = (AddRtuAtGpsLocation)ask;
@@ -205,18 +215,6 @@ namespace Iit.Fibertest.TestBench
         {
             var markerVm = new MarkerVm() { Id = Guid.NewGuid(), Position = new PointLatLng(cmd.Latitude, cmd.Longitude) };
             GraphVm.MarkerVms.Add(markerVm);
-        }
-
-        private void ApplyToMap(AddRtuAtGpsLocation cmd)
-        {
-            var nodeVm = new NodeVm()
-            {
-                Id = cmd.NodeId,
-                State = FiberState.Ok,
-                Type = EquipmentType.Rtu,
-                Position = new PointLatLng(cmd.Latitude, cmd.Longitude)
-            };
-            GraphVm.Nodes.Add(nodeVm);
         }
 
         private void ApplyToMap(AddEquipmentAtGpsLocation cmd)

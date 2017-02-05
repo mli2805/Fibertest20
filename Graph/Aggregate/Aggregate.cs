@@ -149,6 +149,11 @@ namespace Iit.Fibertest.Graph
             WriteModel.AddAndCommit(_mapper.Map<RtuAtGpsLocationAdded>(cmd));
         }
 
+        public void When(UpdateRtu cmd)
+        {
+            WriteModel.AddAndCommit(_mapper.Map<RtuUpdated>(cmd));
+        }
+
         public void When(RemoveRtu cmd)
         {
             WriteModel.AddAndCommit(_mapper.Map<RtuRemoved>(cmd));

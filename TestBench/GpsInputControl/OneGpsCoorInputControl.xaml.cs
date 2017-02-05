@@ -22,7 +22,6 @@ namespace Iit.Fibertest.TestBench
         }
 
 
-
         public static readonly DependencyProperty InputModeProperty =
             DependencyProperty.Register("InputMode", typeof(GpsInputMode),
                 typeof(OneGpsCoorInputControl), new FrameworkPropertyMetadata(GpsInputMode.Degrees));

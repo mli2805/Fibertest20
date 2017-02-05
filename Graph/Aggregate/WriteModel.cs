@@ -224,6 +224,7 @@ namespace Iit.Fibertest.Graph
             _rtus.Add(_mapper.Map<Rtu>(e));
         }
 
+        public void Apply(RtuUpdated e) { }
         public void Apply(RtuRemoved e) { }
         #endregion
 

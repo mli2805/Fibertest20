@@ -79,6 +79,7 @@
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Asks\AskAddFiberWithNodes.cs" />
     <Compile Include="Asks\AskAddTrace.cs" />
+    <Compile Include="Asks\AskUpdateRtu.cs" />
     <Compile Include="GpsInputControl\GpsInputControl.xaml.cs">
       <DependentUpon>GpsInputControl.xaml</DependentUpon>
     </Compile>
@@ -90,6 +91,7 @@
     <Compile Include="Logic\MapTraceDefine.cs" />
     <Compile Include="Logic\PointLatLngExtensions.cs" />
     <Compile Include="MappingDomainEntityToViewModel.cs" />
+    <Compile Include="MappingViewModelToCommand.cs" />
     <Compile Include="MappingViewModeltoDomainEntity.cs" />
     <Compile Include="MapUserControl\MapUserControlApplyFibersToRoutes.cs" />
     <Compile Include="MapUserControl\MapUserControlApplyNodesToMarkers.cs" />
@@ -106,6 +108,7 @@
     <Compile Include="ViewModels\NodeUpdateViewModel.cs" />
     <Compile Include="ViewModels\Shell\ShellViewModelApplyFiber.cs" />
     <Compile Include="ViewModels\Shell\ShellViewModelApplyNode.cs" />
+    <Compile Include="ViewModels\Shell\ShellViewModelApplyRtu.cs" />
     <Compile Include="ViewModels\TraceAddViewModel.cs" />
     <Compile Include="ViewModels\UniversalViewModels\NotificationViewModel.cs" />
     <Compile Include="ViewModels\UniversalViewModels\QuestionViewModel.cs" />
