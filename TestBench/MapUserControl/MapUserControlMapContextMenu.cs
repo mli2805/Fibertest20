@@ -20,19 +20,19 @@ namespace Iit.Fibertest.TestBench
             var position = MainMap.FromLocalToLatLng(MainMap.ContextMenuPoint);
 
             if (code == 99)
-                GraphVm.Ask = new AddMarker() { Latitude = position.Lat, Longitude = position.Lng};
+                GraphVm.Request = new AddMarker() { Latitude = position.Lat, Longitude = position.Lng};
 
             if ((EquipmentType)code == EquipmentType.Rtu)
-                GraphVm.Ask = new AddRtuAtGpsLocation() { Latitude = position.Lat, Longitude = position.Lng };
+                GraphVm.Request = new AddRtuAtGpsLocation() { Latitude = position.Lat, Longitude = position.Lng };
             else if ((EquipmentType)code == EquipmentType.Well || (EquipmentType)code == EquipmentType.Invisible)
-                GraphVm.Ask = new AddNode()
+                GraphVm.Request = new AddNode()
                 {
                     Latitude = position.Lat,
                     Longitude = position.Lng,
                     IsJustForCurvature = (EquipmentType)code == EquipmentType.Invisible
                 };
             else
-                GraphVm.Ask = new AddEquipmentAtGpsLocation()
+                GraphVm.Request = new AddEquipmentAtGpsLocation()
                 {
                     Type = (EquipmentType)code,
                     Latitude = position.Lat,

@@ -6,6 +6,7 @@ using Caliburn.Micro;
 using GMap.NET;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
+using PrivateReflectionUsingDynamic;
 
 namespace Iit.Fibertest.TestBench
 {
@@ -13,14 +14,14 @@ namespace Iit.Fibertest.TestBench
     {
         private readonly IWindowManager _windowManager;
         public GraphVm GraphVm { get; set; } = new GraphVm();
-        public ReadModel ReadModel { get; } 
-        public Bus Bus { get;  }
+        public ReadModel ReadModel { get; }
+        public Bus Bus { get; }
 
         public ShellViewModel(IWindowManager windowManager, ReadModel readModel, Bus bus)
         {
             ReadModel = readModel;
             Bus = bus;
-             _windowManager = windowManager;
+            _windowManager = windowManager;
         }
 
         public void AddOneNode()
@@ -90,124 +91,108 @@ namespace Iit.Fibertest.TestBench
 
         private void GraphVm_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Ask")
-                ProcessAsk(GraphVm.Ask)
+            if (e.PropertyName == "Request")
+                this.AsDynamic().ComplyWithRequest(GraphVm.Request)
                     // This call is needed so there's no warning
                     .ConfigureAwait(false);
         }
-        public async Task ProcessAsk(object ask)
+
+        public async Task ComplyWithRequest(AddNode request)
         {
-            if (ask is AddMarker)
-                ApplyToMap((AddMarker)ask);
-
-            #region Node
-
-            if (ask is AddNode)
-            {
-                var cmd = (AddNode)ask;
-                cmd.Id = Guid.NewGuid();
-                await Bus.SendCommand(cmd);
-                ApplyToMap(cmd);
-            }
-            if (ask is AddNodeIntoFiber)
-            {
-                // validation if fiber used by trace with base 
-                // was applied inside context menu
-
-                // here should be many requests to user - 
-                // type of node visible or not, add equipment or not, 
-                // which traces if there any should use equipment if it was added
-                // after this we have fully filled in AddFiberWithNodes command
-
-                // next we should send this command to Bus and
-                // if Aggregate executed it new events will appeare
-                // and ReadModel will apply them
-
-                // TODO: ApplyToMap((AddNodeIntoFiber)ask);
-            }
-            if (ask is MoveNode)
-                ApplyToMap((MoveNode)ask);
-            if (ask is RemoveNode)
-                ApplyToMap((RemoveNode)ask);
-
-            #endregion
-
-            #region Fiber
-
-            if (ask is AskAddFiberWithNodes)
-            {
-                var cmd = PrepareCommand((AskAddFiberWithNodes)ask);
-                if (cmd == null)
-                    return;
-                var message = await Bus.SendCommand(cmd);
-                if (message != null)
-                {
-                    _windowManager.ShowDialog(new NotificationViewModel("Ошибка!", message));
-                    return;
-                }
-                ApplyToMap(cmd);
-            }
-            if (ask is AddFiber)
-            {
-                await Bus.SendCommand((AddFiber)ask);
-                ApplyToMap((AddFiber)ask);
-            }
-            if (ask is UpdateFiber)
-                ApplyToMap((UpdateFiber)ask);
-            if (ask is RemoveFiber)
-                ApplyToMap((RemoveFiber)ask);
-
-            #endregion
-
-            if (ask is AskUpdateRtu)
-            {
-                var cmd = PrepareCommand((AskUpdateRtu) ask);
-                if (cmd == null)
-                    return;
-                await Bus.SendCommand(cmd);
-                ApplyToMap(cmd);
-            }
-
-            if (ask is AddRtuAtGpsLocation)
-            {
-                var cmd = (AddRtuAtGpsLocation)ask;
-                cmd.Id = Guid.NewGuid();
-                cmd.NodeId = Guid.NewGuid();
-                await Bus.SendCommand(cmd);
-                ApplyToMap(cmd);
-            }
-            if (ask is AddEquipmentAtGpsLocation)
-            {
-                var cmd = (AddEquipmentAtGpsLocation)ask;
-                cmd.Id = Guid.NewGuid();
-                cmd.NodeId = Guid.NewGuid();
-                await Bus.SendCommand(cmd);
-                ApplyToMap(cmd);
-            }
-
-            if (ask is AskAddTrace)
-            {
-                var cmd = PrepareCommand((AskAddTrace)ask);
-                if (cmd == null)
-                    return;
-                var message = await Bus.SendCommand(cmd);
-                if (message != null)
-                {
-                    _windowManager.ShowDialog(new NotificationViewModel("Ошибка!", message));
-                    return;
-                }
-                
-                ApplyToMap(cmd);
-            }
-
+            var cmd = request;
+            cmd.Id = Guid.NewGuid();
+            await Bus.SendCommand(cmd);
+            ApplyToMap(cmd);
         }
 
-
-
-        private void ApplyToMap(AddMarker cmd)
+        public async Task ComplyWithRequest(MoveNode request)
         {
-            var markerVm = new MarkerVm() { Id = Guid.NewGuid(), Position = new PointLatLng(cmd.Latitude, cmd.Longitude) };
-            GraphVm.MarkerVms.Add(markerVm);
+            var cmd = request;
+            await Bus.SendCommand(cmd);
+            ApplyToMap(request);
+        }
+
+        public async Task ComplyWithRequest(RemoveNode request)
+        {
+            var cmd = request;
+            await Bus.SendCommand(cmd);
+            ApplyToMap(request);
+        }
+
+        public async Task ComplyWithRequest(AddFiber request)
+        {
+            var cmd = request;
+            await Bus.SendCommand(cmd);
+            ApplyToMap(request);
+        }
+
+        public async Task ComplyWithRequest(AskAddFiberWithNodes request)
+        {
+                var cmd = PrepareCommand(request);
+                if (cmd == null)
+                    return;
+                var message = await Bus.SendCommand(cmd);
+                if (message != null)
+                {
+                    _windowManager.ShowDialog(new NotificationViewModel("Ошибка!", message));
+                    return;
+                }
+                ApplyToMap(cmd);
+        }
+
+        public async Task ComplyWithRequest(UpdateFiber request)
+        {
+            var cmd = request;
+            await Bus.SendCommand(cmd);
+            ApplyToMap(request);
+        }
+
+        public async Task ComplyWithRequest(RemoveFiber request)
+        {
+            var cmd = request;
+            await Bus.SendCommand(cmd);
+            ApplyToMap(request);
+        }
+
+        public async Task ComplyWithRequest(AskUpdateRtu request)
+        {
+            var cmd = PrepareCommand(request);
+            if (cmd == null)
+                return;
+            await Bus.SendCommand(cmd);
+            ApplyToMap(cmd);
+        }
+
+        public async Task ComplyWithRequest(AddRtuAtGpsLocation request)
+        {
+            var cmd = request;
+            cmd.Id = Guid.NewGuid();
+            cmd.NodeId = Guid.NewGuid();
+            await Bus.SendCommand(cmd);
+            ApplyToMap(cmd);
+        }
+
+        public async Task ComplyWithRequest(AddEquipmentAtGpsLocation request)
+        {
+            var cmd = request;
+            cmd.Id = Guid.NewGuid();
+            cmd.NodeId = Guid.NewGuid();
+            await Bus.SendCommand(cmd);
+            ApplyToMap(cmd);
+        }
+
+        public async Task ComplyWithRequest(AskAddTrace request)
+        {
+            var cmd = PrepareCommand(request);
+            if (cmd == null)
+                return;
+            var message = await Bus.SendCommand(cmd);
+            if (message != null)
+            {
+                _windowManager.ShowDialog(new NotificationViewModel("Ошибка!", message));
+                return;
+            }
+            ApplyToMap(cmd);
         }
 
         private void ApplyToMap(AddEquipmentAtGpsLocation cmd)
@@ -221,7 +206,7 @@ namespace Iit.Fibertest.TestBench
             };
             GraphVm.Nodes.Add(nodeVm);
 
-            GraphVm.Equipments.Add(new EquipmentVm() {Id = cmd.Id, Node = nodeVm, Type = cmd.Type});
+            GraphVm.Equipments.Add(new EquipmentVm() { Id = cmd.Id, Node = nodeVm, Type = cmd.Type });
         }
 
         private AddTrace PrepareCommand(AskAddTrace ask)

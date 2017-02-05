@@ -18,7 +18,7 @@ namespace Iit.Fibertest.TestBench
         private void AskUpdateFiber(object parameter)
         {
             var route = (GMapRoute)parameter;
-            GraphVm.Ask = new UpdateFiber() { Id = route.Id };
+            GraphVm.Request = new UpdateFiber() { Id = route.Id };
         }
 
         private bool CanAddNodeIntoFiber(object parameter)
@@ -28,7 +28,7 @@ namespace Iit.Fibertest.TestBench
         private void AskAddNodeIntoFiber(object parameter)
         {
             var route = (GMapRoute)parameter;
-            GraphVm.Ask = new AddNodeIntoFiber() { FiberId = route.Id };
+            GraphVm.Request = new AddNodeIntoFiber() { FiberId = route.Id };
         }
 
         private bool CanRemoveFiber(object parameter)
@@ -38,7 +38,7 @@ namespace Iit.Fibertest.TestBench
         private void AskRemoveFiber(object parameter)
         {
             var route = (GMapRoute)parameter;
-            GraphVm.Ask = new RemoveFiber() { Id = route.Id };
+            GraphVm.Request = new RemoveFiber() { Id = route.Id };
         }
 
         private void Route_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

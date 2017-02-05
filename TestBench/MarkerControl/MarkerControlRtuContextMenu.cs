@@ -10,21 +10,21 @@ namespace Iit.Fibertest.TestBench
         private void AskUpdateRtu(object parameter)
         {
             var nodeId = (Guid)parameter;
-            _owner.GraphVm.Ask = new AskUpdateRtu() { NodeId = nodeId };
+            _owner.GraphVm.Request = new AskUpdateRtu() { NodeId = nodeId };
         }
 
         private bool CanShowRtu(object parameter) { return true; }
         private void AskShowRtu(object parameter)
         {
             var nodeId = (Guid)parameter;
-            _owner.GraphVm.Ask = new UpdateNode() { Id = nodeId };
+            _owner.GraphVm.Request = new UpdateNode() { Id = nodeId };
         }
 
         private bool CanRemoveRtu(object parameter) { return true; }
         private void AskRemoveRtu(object parameter)
         {
             var nodeId = (Guid)parameter;
-            _owner.GraphVm.Ask = new UpdateNode() { Id = nodeId };
+            _owner.GraphVm.Request = new UpdateNode() { Id = nodeId };
         }
 
         private bool CanStartDefineTrace(object parameter) { return true; }
