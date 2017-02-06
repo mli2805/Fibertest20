@@ -8,13 +8,13 @@
              d:DesignHeight="240" d:DesignWidth="400" d:DataContext="{d:DesignInstance testBench:GpsInputViewModel}">
     <StackPanel>
         <ComboBox ItemsSource="{Binding GpsInputModes}" SelectedItem="{Binding SelectedGpsInputMode, Mode=TwoWay}" Width="150" Height="25" Margin="5"/>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,60,0">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,55,0">
             <TextBlock Text="Широта" VerticalAlignment="Center" Margin="5" ToolTip="-90..90"/>
-            <testBench:OneCoorView Margin="5" DataContext="OneCoorViewModelLatitude"/>
+            <testBench:OneCoorView Margin="5" DataContext="{Binding OneCoorViewModelLatitude}"/>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,60,0">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,55,0">
             <TextBlock Text="Долгота" VerticalAlignment="Center" Margin="5" ToolTip="-180..180"/>
-            <testBench:OneCoorView Margin="5" DataContext="OneCoorViewModelLongitude"/>
+            <testBench:OneCoorView Margin="5" DataContext="{Binding OneCoorViewModelLongitude}"/>
         </StackPanel>
         <Button Name="Cancel" Content="Отменить изменения" Width="150" Margin="5" Height="25"/>
         <TextBlock Text="{Binding Coors}"/>

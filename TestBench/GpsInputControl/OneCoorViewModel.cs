@@ -5,9 +5,38 @@ namespace Iit.Fibertest.TestBench
 {
     public class OneCoorViewModel : PropertyChangedBase
     {
-        public string Degrees { get; set; }
-        public string Minutes { get; set; }
-        public string Seconds { get; set; }
+        public string Degrees
+        {
+            get { return _degrees; }
+            set
+            {
+                if (value == _degrees) return;
+                _degrees = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public string Minutes
+        {
+            get { return _minutes; }
+            set
+            {
+                if (value == _minutes) return;
+                _minutes = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public string Seconds
+        {
+            get { return _seconds; }
+            set
+            {
+                if (value == _seconds) return;
+                _seconds = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         public Visibility DegreesModeVisibility
         {
@@ -43,20 +72,21 @@ namespace Iit.Fibertest.TestBench
         }
 
 
-        private GpsInputMode _gpsInputMode;
-        public GpsInputMode GpsInputMode
+        private GpsInputMode _currentGpsInputMode;
+        public GpsInputMode CurrentGpsInputMode
         {
-            get { return _gpsInputMode; }
+            get { return _currentGpsInputMode; }
             set
             {
-                _gpsInputMode = value;
+                _currentGpsInputMode = value;
                 ChangeVisibilities();
+                ValueToStrings();
             }
         }
 
         private void ChangeVisibilities()
         {
-            switch (_gpsInputMode)
+            switch (_currentGpsInputMode)
             {
                 case GpsInputMode.Degrees:
                     DegreesModeVisibility = Visibility.Visible;
@@ -80,6 +110,9 @@ namespace Iit.Fibertest.TestBench
         private Visibility _degreesModeVisibility;
         private Visibility _degreesAndMinutesModeVisibility;
         private Visibility _degreesMinutesAndSecondsModeVisibility;
+        private string _degrees;
+        private string _minutes;
+        private string _seconds;
 
         public double Value
         {
@@ -93,18 +126,18 @@ namespace Iit.Fibertest.TestBench
 
         private void ValueToStrings()
         {
-            if (GpsInputMode == GpsInputMode.Degrees)
+            if (CurrentGpsInputMode == GpsInputMode.Degrees)
             {
                 Degrees = $"{Value:#0.000000}";
             }
-            else if (GpsInputMode == GpsInputMode.DegreesAndMinutes)
+            else if (CurrentGpsInputMode == GpsInputMode.DegreesAndMinutes)
             {
                 int d = (int)Value;
                 Degrees = $"{d:#0}";
                 double m = (Value - d) * 60;
                 Minutes = $"{m:#0.0000}";
             }
-            else if (GpsInputMode == GpsInputMode.DegreesMinutesAndSeconds)
+            else if (CurrentGpsInputMode == GpsInputMode.DegreesMinutesAndSeconds)
             {
                 int d = (int)Value;
                 Degrees = $"{d:#0}";
@@ -115,10 +148,10 @@ namespace Iit.Fibertest.TestBench
                 Seconds = $"{s:#0.00}";
             }
         }
-        public OneCoorViewModel(GpsInputMode gpsInputMode, double value)
+        public OneCoorViewModel(GpsInputMode currentGpsInputMode, double value)
         {
             Value = value;
-            GpsInputMode = gpsInputMode;
+            CurrentGpsInputMode = currentGpsInputMode;
         }
     }
 }

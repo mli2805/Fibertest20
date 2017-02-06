@@ -25,8 +25,8 @@ namespace Iit.Fibertest.TestBench
             {
                 if (value == _selectedGpsInputMode) return;
                 _selectedGpsInputMode = value;
-                OneCoorViewModelLatitude.GpsInputMode = value;
-                OneCoorViewModelLongitude.GpsInputMode = value;
+                OneCoorViewModelLatitude.CurrentGpsInputMode = value;
+                OneCoorViewModelLongitude.CurrentGpsInputMode = value;
             }
         }
 
