@@ -20,9 +20,6 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         public Guid NodeId { get; set; }
 
         private string _title;
-        private string _comment;
-        private bool _isButtonSaveEnabled;
-
         public string Title
         {
             get { return _title; }
@@ -34,6 +31,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             }
         }
 
+        private string _comment;
         public string Comment
         {
             get { return _comment; }
@@ -51,6 +49,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
                    || _comment != _originalNode.Comment;
         }
 
+        private bool _isButtonSaveEnabled;
         public bool IsButtonSaveEnabled
         {
             get { return _isButtonSaveEnabled; }

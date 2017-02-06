@@ -1,9 +1,10 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Windows;
 using Caliburn.Micro;
 
 namespace Iit.Fibertest.TestBench
 {
-    public class OneCoorViewModel : PropertyChangedBase
+    public class OneCoorViewModel : PropertyChangedBase, IDataErrorInfo
     {
         public string Degrees
         {
@@ -165,5 +166,26 @@ namespace Iit.Fibertest.TestBench
             ChangeVisibilities();
             Value = value;
         }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                var errorMessage = string.Empty;
+                switch (columnName)
+                {
+                    case "Degrees":
+                        if (string.IsNullOrEmpty(Degrees))
+                            errorMessage = "Degrees is required";
+                        double t;
+                        if (!double.TryParse(Degrees, out t))
+                            errorMessage = "Invalid input";
+                        break;
+                }
+                return errorMessage;
+            }
+        }
+
+        public string Error { get; }
     }
 }
