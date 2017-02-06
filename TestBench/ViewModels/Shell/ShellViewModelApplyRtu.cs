@@ -32,7 +32,7 @@ namespace Iit.Fibertest.TestBench
         {
             var vm = new RtuUpdateViewModel(ask.NodeId, GraphVm);
             _windowManager.ShowDialog(vm);
-            return vm.Command;
+            return vm.Request;
         }
     }
 }

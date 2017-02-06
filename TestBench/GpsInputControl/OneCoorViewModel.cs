@@ -1,22 +1,46 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows;
-using Iit.Fibertest.TestBench.Properties;
+﻿using System.Windows;
+using Caliburn.Micro;
 
 namespace Iit.Fibertest.TestBench
 {
-    public class OneCoorViewModel : INotifyPropertyChanged
+    public class OneCoorViewModel : PropertyChangedBase
     {
         public string Degrees { get; set; }
         public string Minutes { get; set; }
         public string Seconds { get; set; }
 
-        public string LeftRadioButtonLabel { get; set; }
-        public string RightRadioButtonLabel { get; set; }
+        public Visibility DegreesModeVisibility
+        {
+            get { return _degreesModeVisibility; }
+            set
+            {
+                if (value == _degreesModeVisibility) return;
+                _degreesModeVisibility = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
-        public Visibility DegreesModeVisibility { get; set; }
-        public Visibility DegreesAndMinutesModeVisibility { get; set; }
-        public Visibility DegreesMinutesAndSecondsModeVisibility { get; set; }
+        public Visibility DegreesAndMinutesModeVisibility
+        {
+            get { return _degreesAndMinutesModeVisibility; }
+            set
+            {
+                if (value == _degreesAndMinutesModeVisibility) return;
+                _degreesAndMinutesModeVisibility = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public Visibility DegreesMinutesAndSecondsModeVisibility
+        {
+            get { return _degreesMinutesAndSecondsModeVisibility; }
+            set
+            {
+                if (value == _degreesMinutesAndSecondsModeVisibility) return;
+                _degreesMinutesAndSecondsModeVisibility = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
 
         private GpsInputMode _gpsInputMode;
@@ -52,8 +76,10 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
-        private readonly LatOrLng _coorType;
         private double _value;
+        private Visibility _degreesModeVisibility;
+        private Visibility _degreesAndMinutesModeVisibility;
+        private Visibility _degreesMinutesAndSecondsModeVisibility;
 
         public double Value
         {
@@ -89,34 +115,10 @@ namespace Iit.Fibertest.TestBench
                 Seconds = $"{s:#0.00}";
             }
         }
-        public OneCoorViewModel(GpsInputMode gpsInputMode, LatOrLng coorType, double value)
+        public OneCoorViewModel(GpsInputMode gpsInputMode, double value)
         {
-            _coorType = coorType;
             Value = value;
             GpsInputMode = gpsInputMode;
-
-            Initialize();
-        }
-
-        private void Initialize()
-        {
-            if (_coorType == LatOrLng.Latitude)
-            {
-                LeftRadioButtonLabel = "N";
-                RightRadioButtonLabel = "S";
-            }
-            else
-            {
-                LeftRadioButtonLabel = "E";
-                RightRadioButtonLabel = "W";
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

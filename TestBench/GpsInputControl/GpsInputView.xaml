@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="Iit.Fibertest.TestBench.GpsInputView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:testBench="clr-namespace:Iit.Fibertest.TestBench"
+             mc:Ignorable="d" 
+             d:DesignHeight="140" d:DesignWidth="400" d:DataContext="{d:DesignInstance testBench:GpsInputViewModel}">
+    <StackPanel>
+        <ComboBox ItemsSource="{Binding GpsInputModes}" SelectedItem="{Binding SelectedGpsInputMode, Mode=TwoWay}" Width="150" Height="25" Margin="5"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,60,0">
+            <TextBlock Text="Широта" VerticalAlignment="Center" Margin="5" ToolTip="-90..90"/>
+            <testBench:OneCoorView Margin="5" DataContext="OneCoorViewModelLatitude"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,60,0">
+            <TextBlock Text="Долгота" VerticalAlignment="Center" Margin="5" ToolTip="-180..180"/>
+            <testBench:OneCoorView Margin="5" DataContext="OneCoorViewModelLongitude"/>
+        </StackPanel>
+        <Button Name="Cancel" Content="Отменить изменения" Width="150" Margin="5" Height="25"/>
+    </StackPanel>
+</UserControl>

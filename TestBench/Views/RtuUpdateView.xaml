@@ -5,14 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:testBench="clr-namespace:Iit.Fibertest.TestBench"
         mc:Ignorable="d"
-        Height="300" Width="300" WindowStartupLocation="CenterOwner"
+        Height="365" Width="400" WindowStartupLocation="CenterOwner"
         d:DataContext="{d:DesignInstance testBench:RtuUpdateViewModel}">
     <StackPanel >
-        <testBench:OneGpsCoorInputControl x:Name="Lng" Margin="5,30,5,5"  Value="{Binding Longitude, Mode=TwoWay}" LatOrLng="Longitude" InputMode="DegreesAndMinutes"/>
+        <StackPanel>
+            <TextBlock Text="Название" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,5,5,5" Width="80"/>
+            <TextBox Text="{Binding Title}" Margin="15,0,5,15" Width="350" Height="25" HorizontalAlignment="Left"/>
+        </StackPanel>
+        
+        <testBench:GpsInputView x:Name="GpsInputView" DataContext="{Binding GpsInputViewModel}"/>
 
-        <StackPanel Orientation="Horizontal" Margin="5,15">
+        <StackPanel>
+            <TextBlock Text="Коментарий" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,5,5,5" Width="80"/>
+            <TextBox Text="{Binding Comment}" Margin="15,0,5,15" Width="350" Height="25" HorizontalAlignment="Left"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="5,5,5,10" HorizontalAlignment="Center">
             <Button Name="Save" Height="25" Width="100" Margin="5" Content="Сохранить"/>
-            <Button Name="Cancel" Height="25" Width="100" Content="Отменить"/>
+            <Button Name="Preview" Height="25" Width="100" Margin="5" Content="Предпросмотр"/>
+            <Button Name="Cancel" Height="25" Width="100" Margin="5" Content="Отменить"/>
         </StackPanel>
     </StackPanel>
 </Window>

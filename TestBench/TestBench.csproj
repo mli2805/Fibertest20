@@ -86,14 +86,15 @@
     <Compile Include="Asks\AskUpdateRtu.cs" />
     <Compile Include="AutofacUi.cs" />
     <Compile Include="GpsInputControl\GpsInputMode.cs" />
+    <Compile Include="GpsInputControl\GpsInputView.xaml.cs">
+      <DependentUpon>GpsInputView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GpsInputControl\GpsInputViewModel.cs" />
     <Compile Include="GpsInputControl\LatOrLng.cs" />
     <Compile Include="GpsInputControl\OneCoorView.xaml.cs">
       <DependentUpon>OneCoorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="GpsInputControl\OneCoorViewModel.cs" />
-    <Compile Include="GpsInputControl\OneGpsCoorInputControl.xaml.cs">
-      <DependentUpon>OneGpsCoorInputControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Logic\MapTraceDefine.cs" />
     <Compile Include="Logic\PointLatLngExtensions.cs" />
     <Compile Include="MappingDomainEntityToViewModel.cs" />
@@ -173,13 +174,13 @@
     </Compile>
     <Compile Include="Vms\RtuVm.cs" />
     <Compile Include="Vms\TraceVm.cs" />
-    <Page Include="GpsInputControl\OneCoorView.xaml">
+    <Page Include="GpsInputControl\GpsInputView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="GpsInputControl\OneGpsCoorInputControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="GpsInputControl\OneCoorView.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MarkerControl\MarkerControl.xaml">
       <Generator>MSBuild:Compile</Generator>

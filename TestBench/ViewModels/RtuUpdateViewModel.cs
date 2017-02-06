@@ -8,20 +8,19 @@ namespace Iit.Fibertest.TestBench
 {
     public class RtuUpdateViewModel : Screen
     {
-        public Guid Id { get; set; }
-        public Guid NodeId { get; set; }
+        private readonly Guid _nodeId;
         private readonly GraphVm _graphVm;
 
         public string Title { get; set; }
         public string Comment { get; set; }
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
 
-        public UpdateRtu Command { get; set; }
+        public GpsInputViewModel GpsInputViewModel { get; set; }
+
+        public UpdateRtu Request { get; set; }
 
         public RtuUpdateViewModel(Guid nodeId, GraphVm graphVm)
         {
-            NodeId = nodeId;
+            _nodeId = nodeId;
             _graphVm = graphVm;
 
             Initilize();
@@ -29,11 +28,14 @@ namespace Iit.Fibertest.TestBench
 
         private void Initilize()
         {
-            var rtu = _graphVm.Rtus.First(r => r.Node.Id == NodeId);
-            Id = rtu.Id;
+            var rtu = _graphVm.Rtus.First(r => r.Node.Id == _nodeId);
+            rtu.Title = "bluh-blah";
+
             var node = rtu.Node;
-            Latitude = node.Position.Lat;
-            Longitude = node.Position.Lng;
+            GpsInputViewModel = new GpsInputViewModel(GpsInputMode.DegreesAndMinutes, node.Position);
+
+            Title = rtu.Title;
+            Comment = rtu.Comment;
         }
 
         protected override void OnViewLoaded(object view)
@@ -43,7 +45,7 @@ namespace Iit.Fibertest.TestBench
         public void Save()
         {
             IMapper mapper = new MapperConfiguration(cfg => cfg.AddProfile<MappingViewModelToCommand>()).CreateMapper();
-            Command = mapper.Map<UpdateRtu>(this);
+            Request = mapper.Map<UpdateRtu>(this);
             TryClose();
         }
 
