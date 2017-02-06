@@ -6,22 +6,28 @@
              xmlns:testBench="clr-namespace:Iit.Fibertest.TestBench"
              mc:Ignorable="d" 
              d:DesignHeight="75" d:DesignWidth="300" d:DataContext="{d:DesignInstance testBench:OneCoorViewModel}">
-        <StackPanel>
-            <StackPanel Name="DegreesMode" Orientation="Horizontal" Height="25"
+    <StackPanel>
+        <StackPanel Name="DegreesMode" Orientation="Horizontal" Height="25"
                         Visibility="{Binding DegreesModeVisibility, Mode=TwoWay}"  VerticalAlignment="Center" HorizontalAlignment="Center">
-                <TextBox Width="100" Margin="5,0,5,0" Text="{Binding Degrees, Mode=TwoWay}" TextAlignment="Center" VerticalContentAlignment="Center" ForceCursor="True"/>
-            </StackPanel>
-            <StackPanel Name="DegreesAndMinutesMode" Orientation="Horizontal" Height="25"
-                        Visibility="{Binding DegreesAndMinutesModeVisibility, Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <TextBox Width="50" Margin="5,0,5,0" Text="{Binding Degrees, Mode=TwoWay}" TextAlignment="Center" VerticalContentAlignment="Center" ForceCursor="True"/>
-                <TextBox Width="75" Margin="5,0,5,0" Text="{Binding Minutes, Mode=TwoWay}" TextAlignment="Center" VerticalContentAlignment="Center"/>
-            </StackPanel>
-            <StackPanel Name="DegreesMinutesAndSecondsMode" Orientation="Horizontal" Height="25"
-                        Visibility="{Binding DegreesMinutesAndSecondsModeVisibility, Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <TextBox Width="50" Margin="5,0,5,0" Text="{Binding Degrees, Mode=TwoWay}" TextAlignment="Center" VerticalContentAlignment="Center" ForceCursor="True"/>
-                <TextBox Width="50" Margin="5,0,5,0" Text="{Binding Minutes, Mode=TwoWay}" TextAlignment="Center" VerticalContentAlignment="Center"/>
-                <TextBox Width="50" Margin="5,0,5,0" Text="{Binding Seconds, Mode=TwoWay}" TextAlignment="Center" VerticalContentAlignment="Center"
-                         Visibility="{Binding DegreesMinutesAndSecondsModeVisibility, Mode=TwoWay}"/>
-            </StackPanel>
+            <TextBox Width="100" Margin="5,0,5,0" Text="{Binding Degrees, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                         TextAlignment="Center" VerticalContentAlignment="Center" ForceCursor="True"/>
         </StackPanel>
+        <StackPanel Name="DegreesAndMinutesMode" Orientation="Horizontal" Height="25"
+                        Visibility="{Binding DegreesAndMinutesModeVisibility, Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBox Width="50" Margin="5,0,5,0" Text="{Binding Degrees, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                         TextAlignment="Center" VerticalContentAlignment="Center" ForceCursor="True"/>
+            <TextBox Width="75" Margin="5,0,5,0" Text="{Binding Minutes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                         TextAlignment="Center" VerticalContentAlignment="Center"/>
+        </StackPanel>
+        <StackPanel Name="DegreesMinutesAndSecondsMode" Orientation="Horizontal" Height="25"
+                        Visibility="{Binding DegreesMinutesAndSecondsModeVisibility, Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBox Width="50" Margin="5,0,5,0" Text="{Binding Degrees, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                         TextAlignment="Center" VerticalContentAlignment="Center" ForceCursor="True"/>
+            <TextBox Width="50" Margin="5,0,5,0" Text="{Binding Minutes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                         TextAlignment="Center" VerticalContentAlignment="Center"/>
+            <TextBox Width="50" Margin="5,0,5,0" Text="{Binding Seconds, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                         TextAlignment="Center" VerticalContentAlignment="Center"
+                         Visibility="{Binding DegreesMinutesAndSecondsModeVisibility, Mode=TwoWay}"/>
+        </StackPanel>
+    </StackPanel>
 </UserControl>

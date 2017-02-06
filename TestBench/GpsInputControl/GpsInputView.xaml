@@ -4,8 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:testBench="clr-namespace:Iit.Fibertest.TestBench"
+             xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" 
-             d:DesignHeight="240" d:DesignWidth="400" d:DataContext="{d:DesignInstance testBench:GpsInputViewModel}">
+             d:DesignHeight="240" d:DesignWidth="400" d:DataContext="{d:DesignInstance testBench:GpsInputViewModel}"
+             cal:Bind.ModelWithoutContext="{Binding .}">
     <StackPanel>
         <ComboBox ItemsSource="{Binding GpsInputModes}" SelectedItem="{Binding SelectedGpsInputMode, Mode=TwoWay}" Width="150" Height="25" Margin="5"/>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,55,0">
@@ -16,6 +18,6 @@
             <TextBlock Text="Долгота" VerticalAlignment="Center" Margin="5" ToolTip="-180..180"/>
             <testBench:OneCoorView Margin="5" DataContext="{Binding OneCoorViewModelLongitude}"/>
         </StackPanel>
-        <Button Name="Cancel" Content="Отменить изменения" Width="150" Margin="5" Height="25"/>
+        <Button Name="DropChanges" Content="Отменить изменения" Width="150" Margin="5" Height="25"/>
     </StackPanel>
 </UserControl>

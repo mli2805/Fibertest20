@@ -26,13 +26,15 @@ namespace Iit.Fibertest.TestBench
             Initilize();
         }
 
+        public NodeVm NodeVm { get; set; }
+
         private void Initilize()
         {
             var rtu = _graphVm.Rtus.First(r => r.Node.Id == _nodeId);
-            rtu.Title = "bluh-blah";
 
-            var node = rtu.Node;
-            GpsInputViewModel = new GpsInputViewModel(GpsInputMode.DegreesAndMinutes, node.Position);
+            var currentMode = GpsInputMode.DegreesAndMinutes; // somewhere in configuration file...
+            NodeVm = rtu.Node;
+            GpsInputViewModel = new GpsInputViewModel(currentMode, NodeVm.Position);
 
             Title = rtu.Title;
             Comment = rtu.Comment;
@@ -48,8 +50,8 @@ namespace Iit.Fibertest.TestBench
             Request = mapper.Map<UpdateRtu>(this);
             Request.NodeId = _nodeId;
             Request.Id = _graphVm.Rtus.First(r => r.Node.Id == _nodeId).Id;
-            Request.Latitude = GpsInputViewModel.Coors.Lat;
-            Request.Longitude = GpsInputViewModel.Coors.Lng;
+            Request.Latitude = GpsInputViewModel.OneCoorViewModelLatitude.StringsToValue();
+            Request.Longitude = GpsInputViewModel.OneCoorViewModelLongitude.StringsToValue();
             TryClose();
         }
 

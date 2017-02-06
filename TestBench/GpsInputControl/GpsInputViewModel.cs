@@ -31,7 +31,7 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
-        public void Cancel()
+        public void DropChanges()
         {
             OneCoorViewModelLatitude.Value = Coors.Lat;
             OneCoorViewModelLongitude.Value = Coors.Lng;

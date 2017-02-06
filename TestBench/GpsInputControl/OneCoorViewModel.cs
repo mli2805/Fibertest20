@@ -78,9 +78,10 @@ namespace Iit.Fibertest.TestBench
             get { return _currentGpsInputMode; }
             set
             {
+                var temp = StringsToValue();
                 _currentGpsInputMode = value;
                 ChangeVisibilities();
-                ValueToStrings();
+                Value = temp;
             }
         }
 
@@ -106,7 +107,6 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
-        private double _value;
         private Visibility _degreesModeVisibility;
         private Visibility _degreesAndMinutesModeVisibility;
         private Visibility _degreesMinutesAndSecondsModeVisibility;
@@ -114,6 +114,7 @@ namespace Iit.Fibertest.TestBench
         private string _minutes;
         private string _seconds;
 
+        private double _value;
         public double Value
         {
             get { return _value; }
@@ -148,10 +149,21 @@ namespace Iit.Fibertest.TestBench
                 Seconds = $"{s:#0.00}";
             }
         }
+
+        public double StringsToValue()
+        {
+            if (CurrentGpsInputMode == GpsInputMode.Degrees)
+                return double.Parse(Degrees);
+            else if (CurrentGpsInputMode == GpsInputMode.DegreesAndMinutes)
+                return double.Parse(Degrees) + double.Parse(Minutes) / 60;
+            else
+                return double.Parse(Degrees) + double.Parse(Minutes) / 60 + double.Parse(Seconds) / 3600;
+        }
         public OneCoorViewModel(GpsInputMode currentGpsInputMode, double value)
         {
+            _currentGpsInputMode = currentGpsInputMode;
+            ChangeVisibilities();
             Value = value;
-            CurrentGpsInputMode = currentGpsInputMode;
         }
     }
 }
