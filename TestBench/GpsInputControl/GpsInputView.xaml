@@ -17,6 +17,5 @@
             <testBench:OneCoorView Margin="5" DataContext="{Binding OneCoorViewModelLongitude}"/>
         </StackPanel>
         <Button Name="Cancel" Content="Отменить изменения" Width="150" Margin="5" Height="25"/>
-        <TextBlock Text="{Binding Coors}"/>
     </StackPanel>
 </UserControl>

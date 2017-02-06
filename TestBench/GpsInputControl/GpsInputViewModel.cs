@@ -8,40 +8,42 @@ namespace Iit.Fibertest.TestBench
 {
     public class GpsInputViewModel : PropertyChangedBase
     {
-        private GpsInputMode _selectedGpsInputMode;
+        private GpsInputModeComboItem _selectedGpsInputMode;
 
         public OneCoorViewModel OneCoorViewModelLatitude { get; set; }
         public OneCoorViewModel OneCoorViewModelLongitude { get; set; }
 
         public PointLatLng Coors { get; set; }
 
-        public List<GpsInputMode> GpsInputModes { get; set; } =
-            Enum.GetValues(typeof(GpsInputMode)).OfType<GpsInputMode>().ToList();
+        public List<GpsInputModeComboItem> GpsInputModes { get; set; } =
+        (from mode in Enum.GetValues(typeof(GpsInputMode)).OfType<GpsInputMode>().ToList()
+            select new GpsInputModeComboItem(mode)).ToList();
 
-        public GpsInputMode SelectedGpsInputMode
+        public GpsInputModeComboItem SelectedGpsInputMode
         {
             get { return _selectedGpsInputMode; }
             set
             {
-                if (value == _selectedGpsInputMode) return;
+                if (Equals(value, _selectedGpsInputMode)) return;
                 _selectedGpsInputMode = value;
-                OneCoorViewModelLatitude.CurrentGpsInputMode = value;
-                OneCoorViewModelLongitude.CurrentGpsInputMode = value;
+                OneCoorViewModelLatitude.CurrentGpsInputMode = value.Mode;
+                OneCoorViewModelLongitude.CurrentGpsInputMode = value.Mode;
             }
         }
 
         public void Cancel()
         {
-            
+            OneCoorViewModelLatitude.Value = Coors.Lat;
+            OneCoorViewModelLongitude.Value = Coors.Lng;
         }
 
         public GpsInputViewModel(GpsInputMode mode, PointLatLng coors)
         {
             Coors = coors;
-            _selectedGpsInputMode = mode;
+            _selectedGpsInputMode = GpsInputModes.First(item => item.Mode == mode);
 
-            OneCoorViewModelLatitude = new OneCoorViewModel(SelectedGpsInputMode, Coors.Lat);
-            OneCoorViewModelLongitude = new OneCoorViewModel(SelectedGpsInputMode, Coors.Lng);
+            OneCoorViewModelLatitude = new OneCoorViewModel(SelectedGpsInputMode.Mode, Coors.Lat);
+            OneCoorViewModelLongitude = new OneCoorViewModel(SelectedGpsInputMode.Mode, Coors.Lng);
         }
     }
 }
