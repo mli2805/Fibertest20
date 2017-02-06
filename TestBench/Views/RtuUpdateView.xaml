@@ -10,7 +10,7 @@
     <StackPanel >
         <StackPanel>
             <TextBlock Text="Название" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,5,5,5" Width="80"/>
-            <TextBox Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" Margin="15,0,5,15" Width="350" Height="25" HorizontalAlignment="Left"/>
+            <TextBox Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="15,0,5,15" Width="350" Height="25" HorizontalAlignment="Left"/>
         </StackPanel>
         
         <testBench:GpsInputView x:Name="GpsInputView" DataContext="{Binding GpsInputViewModel}"/>
@@ -21,7 +21,7 @@
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Margin="5,5,5,10" HorizontalAlignment="Center">
-            <Button Name="Save" Height="25" Width="100" Margin="5" Content="Сохранить" IsEnabled="{Binding IsButtonSaveEnabled}"/>
+            <Button Name="Save" Height="25" Width="100" Margin="5" Content="Сохранить"/>
             <Button Name="Preview" Height="25" Width="100" Margin="5" Content="Предпросмотр"/>
             <Button Name="Cancel" Height="25" Width="100" Margin="5" Content="Отменить"/>
         </StackPanel>
