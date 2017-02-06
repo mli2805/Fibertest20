@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 using Caliburn.Micro;
+using Iit.Fibertest.TestBench.Properties;
 
 namespace Iit.Fibertest.TestBench
 {
@@ -160,6 +161,10 @@ namespace Iit.Fibertest.TestBench
             else
                 return double.Parse(Degrees) + double.Parse(Minutes) / 60 + double.Parse(Seconds) / 3600;
         }
+
+        [UsedImplicitly/*by VS designer*/]
+        public OneCoorViewModel() { }
+
         public OneCoorViewModel(GpsInputMode currentGpsInputMode, double value)
         {
             _currentGpsInputMode = currentGpsInputMode;

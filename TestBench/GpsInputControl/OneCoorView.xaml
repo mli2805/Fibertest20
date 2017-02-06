@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:testBench="clr-namespace:Iit.Fibertest.TestBench"
              mc:Ignorable="d" 
-             d:DesignHeight="75" d:DesignWidth="300" d:DataContext="{d:DesignInstance testBench:OneCoorViewModel}">
+             d:DesignHeight="75" d:DesignWidth="300" 
+             d:DataContext="{d:DesignInstance testBench:OneCoorViewModel}">
     <StackPanel>
         <StackPanel Name="DegreesMode" Orientation="Horizontal" Height="25"
                         Visibility="{Binding DegreesModeVisibility, Mode=TwoWay}"  VerticalAlignment="Center" HorizontalAlignment="Center">
