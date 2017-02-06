@@ -90,7 +90,6 @@
       <DependentUpon>GpsInputView.xaml</DependentUpon>
     </Compile>
     <Compile Include="GpsInputControl\GpsInputViewModel.cs" />
-    <Compile Include="GpsInputControl\LatOrLng.cs" />
     <Compile Include="GpsInputControl\OneCoorView.xaml.cs">
       <DependentUpon>OneCoorView.xaml</DependentUpon>
     </Compile>

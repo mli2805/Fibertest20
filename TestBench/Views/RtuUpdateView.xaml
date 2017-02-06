@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:testBench="clr-namespace:Iit.Fibertest.TestBench"
         mc:Ignorable="d"
-        Height="365" Width="400" WindowStartupLocation="CenterOwner"
+        Height="465" Width="400" WindowStartupLocation="CenterOwner"
         d:DataContext="{d:DesignInstance testBench:RtuUpdateViewModel}">
     <StackPanel >
         <StackPanel>

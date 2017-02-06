@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:testBench="clr-namespace:Iit.Fibertest.TestBench"
              mc:Ignorable="d" 
-             d:DesignHeight="140" d:DesignWidth="400" d:DataContext="{d:DesignInstance testBench:GpsInputViewModel}">
+             d:DesignHeight="240" d:DesignWidth="400" d:DataContext="{d:DesignInstance testBench:GpsInputViewModel}">
     <StackPanel>
         <ComboBox ItemsSource="{Binding GpsInputModes}" SelectedItem="{Binding SelectedGpsInputMode, Mode=TwoWay}" Width="150" Height="25" Margin="5"/>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,60,0">
@@ -17,5 +17,6 @@
             <testBench:OneCoorView Margin="5" DataContext="OneCoorViewModelLongitude"/>
         </StackPanel>
         <Button Name="Cancel" Content="Отменить изменения" Width="150" Margin="5" Height="25"/>
+        <TextBlock Text="{Binding Coors}"/>
     </StackPanel>
 </UserControl>
