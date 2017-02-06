@@ -95,7 +95,7 @@ namespace Iit.Fibertest.TestBench
                         if (string.IsNullOrEmpty(Title))
                             errorMessage = "Title is required";
                         if (_graphVm.Rtus.Any(n => n.Title == Title))
-                            errorMessage = "There is a node with the same title";
+                            errorMessage = "There is a rtu with the same title";
                         break;
                 }
                 return errorMessage;

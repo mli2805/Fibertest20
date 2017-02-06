@@ -16,7 +16,7 @@ namespace Iit.Fibertest.TestBench
         public PointLatLng Coors { get; set; }
 
         public List<GpsInputModeComboItem> GpsInputModes { get; set; } =
-        (from mode in Enum.GetValues(typeof(GpsInputMode)).OfType<GpsInputMode>().ToList()
+        (from mode in Enum.GetValues(typeof(GpsInputMode)).OfType<GpsInputMode>()
             select new GpsInputModeComboItem(mode)).ToList();
 
         public GpsInputModeComboItem SelectedGpsInputMode
