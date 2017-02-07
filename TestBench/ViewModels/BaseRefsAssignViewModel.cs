@@ -45,23 +45,12 @@ namespace Iit.Fibertest.TestBench
             AdditionalBaseFilename = _trace.AdditionalId == Guid.Empty ? "" : SavedInDb;
         }
 
-        private void SendAssingBaseRef(ref AssignBaseRef cmd, string filename, BaseRefType type)
+        private void SendAssingBaseRef(string filename, BaseRefType type)
         {
-            switch (type)
-            {
-                case BaseRefType.Precise:
-                    cmd.PreciseId = filename != "" ? Guid.NewGuid() : Guid.Empty;
-                    cmd.PreciseContent = filename != "" ? File.ReadAllBytes(filename) : null;
-                    break;
-                case BaseRefType.Fast:
-                    cmd.FastId = filename != "" ? Guid.NewGuid() : Guid.Empty;
-                    cmd.FastContent = filename != "" ? File.ReadAllBytes(filename) : null;
-                    break;
-                case BaseRefType.Additional:
-                    cmd.AdditionalId = filename != "" ? Guid.NewGuid() : Guid.Empty;
-                    cmd.AdditionalContent = filename != "" ? File.ReadAllBytes(filename) : null;
-                    break;
-            }
+            var guid = filename != "" ? Guid.NewGuid() : Guid.Empty;
+            Command.Ids.Add(type, guid);
+            var content = filename != "" ? File.ReadAllBytes(filename) : null;
+            Command.Contents.Add(guid, content);
         }
 
         private bool IsFilenameChanged(string filename, Guid previousBaseRefId)
@@ -71,27 +60,13 @@ namespace Iit.Fibertest.TestBench
 
         public void Save()
         {
-            var cmd = new AssignBaseRef() { TraceId = _trace.Id };
-            var flag = false;
-
+            Command = new AssignBaseRef() {TraceId = _trace.Id};
             if (IsFilenameChanged(PreciseBaseFilename, _trace.PreciseId))
-            {
-                SendAssingBaseRef(ref cmd, PreciseBaseFilename, BaseRefType.Precise);
-                flag = true;
-            }
+                SendAssingBaseRef(PreciseBaseFilename, BaseRefType.Precise);
             if (IsFilenameChanged(FastBaseFilename, _trace.FastId))
-            {
-                SendAssingBaseRef(ref cmd, FastBaseFilename, BaseRefType.Fast);
-                flag = true;
-            }
+                SendAssingBaseRef(FastBaseFilename, BaseRefType.Fast);
             if (IsFilenameChanged(AdditionalBaseFilename, _trace.AdditionalId))
-            {
-                SendAssingBaseRef(ref cmd, AdditionalBaseFilename, BaseRefType.Additional);
-                flag = true;
-            }
-
-            if (flag)
-                Command = cmd;
+                SendAssingBaseRef(AdditionalBaseFilename, BaseRefType.Additional);
 
             TryClose();
         }

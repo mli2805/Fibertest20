@@ -10,98 +10,65 @@ namespace Graph.Tests
     public sealed class BaseRefAssignedSteps
     {
         private readonly SystemUnderTest2 _sut;
-        private BaseRefsAssignViewModel _baseRefsAssignViewModel;
+        private const string Path = @"..\..\base.sor";
         private Guid _traceId;
+        private Iit.Fibertest.Graph.Trace _trace;
         private Guid _oldPreciseId;
+        private Guid _oldFastId;
 
         public BaseRefAssignedSteps(SystemUnderTest2 sut)
         {
             _sut = sut;
         }
 
-        [Given(@"И для нее заданы точная и быстрая базовые")]
-        public void GivenИДляНееЗаданыВсеТриБазовые()
+        [When(@"Пользователь указывает пути к точной и быстрой базовам и жмет сохранить")]
+        public void WhenПользовательУказываетПутиКТочнойИБыстройБазовамИЖметСохранить()
         {
-            var trace = _sut.ReadModel.Traces.Single();
-            _traceId = trace.Id;
-            trace.PreciseId = Guid.NewGuid();
-            _oldPreciseId = trace.PreciseId;
-            trace.FastId = Guid.NewGuid();
-        }
-
-
-        [When(@"Открыта форма для задания базовых")]
-        public void GivenОткрытаФормаДляЗаданияБазовых()
-        {
-            _baseRefsAssignViewModel = new BaseRefsAssignViewModel(_traceId,_sut.ReadModel);
-        }
-
-        [When(@"Пользователь меняет точную базовую")]
-        public void WhenПользовательМеняетТочнуюБазовую()
-        {
-            _baseRefsAssignViewModel.PreciseBaseFilename = @"..\..\base.sor";
-        }
-
-        [When(@"Пользователь сбрасывает быструю базовую")]
-        public void WhenПользовательСбрасываетБыструюБазовую()
-        {
-            _baseRefsAssignViewModel.FastBaseFilename = "";
-        }
-
-        [When(@"Пользователь задает дополнительную базовую")]
-        public void WhenПользовательЗадаетДополнительнуюБазовую()
-        {
-            _baseRefsAssignViewModel.AdditionalBaseFilename = @"..\..\base.sor";
-        }
-
-        [When(@"Пользователь жмет сохранить")]
-        public void WhenПользовательЖметСохранить()
-        {
-            _baseRefsAssignViewModel.Save();
+            _trace = _sut.ReadModel.Traces.Single();
+            _traceId = _trace.Id;
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, Path, Path, null, Answer.Yes));
+            _sut.ShellVm.ComplyWithRequest(new AskAssignBaseRef() {TraceId = _traceId}).Wait();
             _sut.Poller.Tick();
         }
 
-        [When(@"Пользователь жмет отмена")]
-        public void WhenПользовательЖметОтмена()
+        [Then(@"У трассы заданы точная и быстрая базовые")]
+        public void ThenУТрассыЗаданыТочнаяИБыстраяБазовые()
         {
-            _baseRefsAssignViewModel.Cancel();
+            _trace.PreciseId.Should().NotBe(Guid.Empty);
+            _trace.FastId.Should().NotBe(Guid.Empty);
+
+        }
+
+        [When(@"Пользователь изменяет быструю и жмет сохранить")]
+        public void WhenПользовательИзменяетБыструюИЖметСохранить()
+        {
+            _oldPreciseId = _trace.PreciseId;
+            _oldFastId = _trace.FastId;
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, null, Path, null, Answer.Yes));
+            _sut.ShellVm.ComplyWithRequest(new AskAssignBaseRef() { TraceId = _traceId }).Wait();
             _sut.Poller.Tick();
         }
 
-        [Then(@"У трассы новая точная базовая")]
-        public void ThenУТрассыНоваяТочнаяБазовая()
+        [Then(@"У трассы старая точная и новая быстрая базовые")]
+        public void ThenУТрассыСтараяТочнаяИНоваяБыстраяБызовые()
         {
-            _sut.ReadModel.Traces.Single(t => t.Id == _traceId).PreciseId.Should().NotBe(Guid.Empty);
+            _trace.PreciseId.Should().Be(_oldPreciseId);
+            _trace.FastId.Should().NotBe(_oldFastId);
         }
 
-        [Then(@"У трассы не задана быстрая базовая")]
-        public void ThenУТрассыНеЗаданаБыстраяБазовая()
+        [When(@"Пользователь сбрасывает точную и задает дополнительную и жмет сохранить")]
+        public void WhenПользовательСбрасываетТочнуюЗадаетДополнительнуюИЖметСохранить()
         {
-            _sut.ReadModel.Traces.Single(t => t.Id == _traceId).FastId.Should().Be(Guid.Empty);
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, "", null, Path, Answer.Yes));
+            _sut.ShellVm.ComplyWithRequest(new AskAssignBaseRef() { TraceId = _traceId }).Wait();
+            _sut.Poller.Tick();
         }
 
-        [Then(@"У трассы задана дополнительная базовая")]
-        public void ThenУТрассыЗаданаДополнительнаяБазовая()
+        [Then(@"У трассы не задана точная и старая быстрая и есть дополнительная базовые")]
+        public void ThenУТрассыНеЗаданаТочнаяСтараяБыстраяИЕстьДополнительнаяБазовые()
         {
-            _sut.ReadModel.Traces.Single(t => t.Id == _traceId).AdditionalId.Should().NotBe(Guid.Empty);
-        }
-
-        [Then(@"У трассы старая точная базовая")]
-        public void ThenУТрассыСтараяТочнаяБазовая()
-        {
-            _sut.ReadModel.Traces.Single(t => t.Id == _traceId).PreciseId.Should().Be(_oldPreciseId);
-        }
-
-        [Then(@"У трассы задана быстрая базовая")]
-        public void ThenУТрассыЗаданаБыстраяБазовая()
-        {
-            _sut.ReadModel.Traces.Single(t => t.Id == _traceId).FastId.Should().NotBe(Guid.Empty);
-        }
-
-        [Then(@"У трассы не задана дополнительная базовая")]
-        public void ThenУТрассыНеЗаданаДополнительнаяБазовая()
-        {
-            _sut.ReadModel.Traces.Single(t => t.Id == _traceId).AdditionalId.Should().Be(Guid.Empty);
+            _trace.PreciseId.Should().Be(Guid.Empty);
+            _trace.AdditionalId.Should().NotBe(Guid.Empty);
         }
     }
 }

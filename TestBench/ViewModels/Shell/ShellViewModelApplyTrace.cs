@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
 
 namespace Iit.Fibertest.TestBench
@@ -46,9 +47,13 @@ namespace Iit.Fibertest.TestBench
         private void ApplyToMap(AssignBaseRef cmd)
         {
             var traceVm = GraphVm.Traces.First(t => t.Id == cmd.TraceId);
-            traceVm.PreciseId = cmd.PreciseId;
-            traceVm.FastId = cmd.FastId;
-            traceVm.AdditionalId = cmd.AdditionalId;
+
+            if (cmd.Ids.ContainsKey(BaseRefType.Precise))
+                traceVm.PreciseId = cmd.Ids[BaseRefType.Precise];
+            if (cmd.Ids.ContainsKey(BaseRefType.Fast))
+                traceVm.FastId = cmd.Ids[BaseRefType.Fast];
+            if (cmd.Ids.ContainsKey(BaseRefType.Additional))
+                traceVm.AdditionalId = cmd.Ids[BaseRefType.Additional];
         }
 
     }

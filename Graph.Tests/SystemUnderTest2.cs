@@ -255,6 +255,23 @@ namespace Graph.Tests
                 vm.Cancel();
             return true;
         }
+
+        public bool BaseRefAssignHandler(object model, string preciseFilename, string fastFilename, string additionalFilename, Answer answer)
+        {
+            var vm = model as BaseRefsAssignViewModel;
+            if (vm == null) return false;
+            if (preciseFilename != null)
+                vm.PreciseBaseFilename = preciseFilename;
+            if (fastFilename != null)
+                vm.FastBaseFilename = fastFilename;
+            if (additionalFilename != null)
+                vm.AdditionalBaseFilename = additionalFilename;
+            if (answer == Answer.Yes)
+                vm.Save();
+            else
+                vm.Cancel();
+            return true;
+        }
     }
 
 }

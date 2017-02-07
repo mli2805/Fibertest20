@@ -247,12 +247,13 @@ namespace Iit.Fibertest.Graph
             // в полях трассы хранятся id ее базовых
             // BaseRefs.Add(_mapper.Map<BaseRef>(e));
             var trace = Traces.Single(t => t.Id == e.TraceId);
-            if (e.Type == BaseRefType.Precise)
-                trace.PreciseId = e.Id;
-            else if (e.Type == BaseRefType.Fast)
-                trace.FastId = e.Id;
-            else if (e.Type == BaseRefType.Additional)
-                trace.AdditionalId = e.Id;
+
+            if (e.Ids.ContainsKey(BaseRefType.Precise))
+                trace.PreciseId = e.Ids[BaseRefType.Precise];
+            if (e.Ids.ContainsKey(BaseRefType.Fast))
+                trace.FastId = e.Ids[BaseRefType.Fast];
+            if (e.Ids.ContainsKey(BaseRefType.Additional))
+                trace.AdditionalId = e.Ids[BaseRefType.Additional];
         }
         #endregion
     }

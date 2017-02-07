@@ -67,16 +67,6 @@ namespace Graph.Tests.Trace
 #line 3
 #line 4
  testRunner.Given("Есть трасса", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 5
- testRunner.Given("И для нее заданы точная и быстрая базовые", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 6
- testRunner.When("Открыта форма для задания базовых", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 7
- testRunner.And("Пользователь меняет точную базовую", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 8
- testRunner.And("Пользователь сбрасывает быструю базовую", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 9
- testRunner.And("Пользователь задает дополнительную базовую", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
         }
         
@@ -89,46 +79,28 @@ namespace Graph.Tests.Trace
             this.ScenarioTearDown();
         }
         
-        [Xunit.FactAttribute(DisplayName="Задание и сброс базовых рефлектограмм")]
+        [Xunit.FactAttribute(DisplayName="Работа с базовыми")]
         [Xunit.TraitAttribute("FeatureTitle", "BaseRefAssigned")]
-        [Xunit.TraitAttribute("Description", "Задание и сброс базовых рефлектограмм")]
-        public virtual void ЗаданиеИСбросБазовыхРефлектограмм()
+        [Xunit.TraitAttribute("Description", "Работа с базовыми")]
+        public virtual void РаботаСБазовыми()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Задание и сброс базовых рефлектограмм", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Работа с базовыми", ((string[])(null)));
+#line 6
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 7
+ testRunner.When("Пользователь указывает пути к точной и быстрой базовам и жмет сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 8
+ testRunner.Then("У трассы заданы точная и быстрая базовые", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 9
+ testRunner.When("Пользователь изменяет быструю и жмет сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 10
+ testRunner.Then("У трассы старая точная и новая быстрая базовые", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 11
-this.ScenarioSetup(scenarioInfo);
-#line 3
-this.FeatureBackground();
+ testRunner.When("Пользователь сбрасывает точную и задает дополнительную и жмет сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 12
- testRunner.When("Пользователь жмет сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 13
- testRunner.Then("У трассы новая точная базовая", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 14
- testRunner.Then("У трассы не задана быстрая базовая", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 15
- testRunner.Then("У трассы задана дополнительная базовая", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-            this.ScenarioCleanup();
-        }
-        
-        [Xunit.FactAttribute(DisplayName="Отмена задания базовых рефлектограмм")]
-        [Xunit.TraitAttribute("FeatureTitle", "BaseRefAssigned")]
-        [Xunit.TraitAttribute("Description", "Отмена задания базовых рефлектограмм")]
-        public virtual void ОтменаЗаданияБазовыхРефлектограмм()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Отмена задания базовых рефлектограмм", ((string[])(null)));
-#line 17
-this.ScenarioSetup(scenarioInfo);
-#line 3
-this.FeatureBackground();
-#line 18
- testRunner.When("Пользователь жмет отмена", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 19
- testRunner.Then("У трассы старая точная базовая", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 20
- testRunner.Then("У трассы задана быстрая базовая", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 21
- testRunner.Then("У трассы не задана дополнительная базовая", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("У трассы не задана точная и старая быстрая и есть дополнительная базовые", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Iit.Fibertest.Graph.Commands
 {
@@ -6,12 +7,8 @@ namespace Iit.Fibertest.Graph.Commands
     {
         public Guid TraceId { get; set; }
 
-        public Guid PreciseId { get; set; }
-        public Guid FastId { get; set; }
-        public Guid AdditionalId { get; set; }
+        public Dictionary<BaseRefType, Guid> Ids { get; set; } = new Dictionary<BaseRefType, Guid>();
+        public Dictionary<Guid, byte[]> Contents { get; set; } = new Dictionary<Guid, byte[]>();
 
-        public byte[] PreciseContent { get; set; }
-        public byte[] FastContent { get; set; }
-        public byte[] AdditionalContent { get; set; }
     }
 }
