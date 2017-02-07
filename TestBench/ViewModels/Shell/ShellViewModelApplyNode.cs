@@ -55,10 +55,6 @@ namespace Iit.Fibertest.TestBench
                 _windowManager.ShowDialog(new NotificationViewModel("", "It's impossible to change trace with base reflectogram"));
                 return null;
             }
-
-
-            var fiberVms = GraphVm.Fibers.First(f => f.Id == request.FiberId);
-
             return new AddNodeIntoFiber() {FiberId = request.FiberId};
         }
 
