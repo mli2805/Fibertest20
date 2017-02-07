@@ -105,6 +105,14 @@ namespace Iit.Fibertest.TestBench
             ApplyToMap(cmd);
         }
 
+        public async Task ComplyWithRequest(AddNodeIntoFiber request)
+        {
+            var cmd = request;
+            cmd.Id = Guid.NewGuid();
+            await Bus.SendCommand(cmd);
+            ApplyToMap(cmd);
+        }
+
         public async Task ComplyWithRequest(MoveNode request)
         {
             var cmd = request;
@@ -128,16 +136,16 @@ namespace Iit.Fibertest.TestBench
 
         public async Task ComplyWithRequest(AskAddFiberWithNodes request)
         {
-                var cmd = PrepareCommand(request);
-                if (cmd == null)
-                    return;
-                var message = await Bus.SendCommand(cmd);
-                if (message != null)
-                {
-                    _windowManager.ShowDialog(new NotificationViewModel("Îøèáêà!", message));
-                    return;
-                }
-                ApplyToMap(cmd);
+            var cmd = PrepareCommand(request);
+            if (cmd == null)
+                return;
+            var message = await Bus.SendCommand(cmd);
+            if (message != null)
+            {
+                _windowManager.ShowDialog(new NotificationViewModel("Îøèáêà!", message));
+                return;
+            }
+            ApplyToMap(cmd);
         }
 
         public async Task ComplyWithRequest(UpdateFiber request)
@@ -157,6 +165,15 @@ namespace Iit.Fibertest.TestBench
         public async Task ComplyWithRequest(AskUpdateRtu request)
         {
             var cmd = PrepareCommand(request);
+            if (cmd == null)
+                return;
+            await Bus.SendCommand(cmd);
+            ApplyToMap(cmd);
+        }
+
+        public async Task ComplyWithRequest(RemoveRtu request)
+        {
+            var cmd = request;
             if (cmd == null)
                 return;
             await Bus.SendCommand(cmd);
@@ -202,9 +219,9 @@ namespace Iit.Fibertest.TestBench
             if (message != null)
             {
                 _windowManager.ShowDialog(new NotificationViewModel("Îøèáêà!", message));
-                return;
+//                return;
             }
-//            ApplyToMap(cmd);
+            //            ApplyToMap(cmd);
         }
 
         public async Task ComplyWithRequest(DetachTrace request)
@@ -214,11 +231,18 @@ namespace Iit.Fibertest.TestBench
             if (message != null)
             {
                 _windowManager.ShowDialog(new NotificationViewModel("Îøèáêà!", message));
-                return;
+//                return;
             }
             //            ApplyToMap(cmd);
         }
 
+        private void ApplyToMap(RemoveRtu cmd)
+        {
+            var rtuVm = GraphVm.Rtus.First(r => r.Id == cmd.Id);
+            var nodeVm = rtuVm.Node;
+            GraphVm.Rtus.Remove(rtuVm);
+            GraphVm.Nodes.Remove(nodeVm);
+        }
 
         private void ApplyToMap(AddEquipmentAtGpsLocation cmd)
         {
@@ -241,7 +265,7 @@ namespace Iit.Fibertest.TestBench
             if (!ReadModel.DefineTrace(_windowManager, ask.NodeWithRtuId, ask.LastNodeId,
                 out traceNodes, out traceEquipments))
                 return null;
-            var traceAddViewModel = new TraceAddViewModel();
+            var traceAddViewModel = new TraceAddViewModel(_windowManager, ReadModel, traceNodes, traceEquipments);
             _windowManager.ShowDialog(traceAddViewModel);
 
             if (!traceAddViewModel.IsUserClickedSave)

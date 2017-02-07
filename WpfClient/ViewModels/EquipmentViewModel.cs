@@ -9,7 +9,7 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 {
     public class EquipmentViewModel : Screen
     {
-        private readonly IWindowManager _windowManager;
+//        private readonly IWindowManager _windowManager;
         private readonly Guid _nodeIdOnlyForAddEquipmentCase;
         private readonly Aggregate _aggregate;
         private string _title;
@@ -84,7 +84,6 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         public bool IsClosed { get; set; }
         public EquipmentViewModel(IWindowManager windowManager, Guid nodeId, Guid equipmentId, List<Guid> tracesForInsertion, Aggregate aggregate)
         {
-            _windowManager = windowManager;
             _nodeIdOnlyForAddEquipmentCase = nodeId;
             _aggregate = aggregate;
             EquipmentId = equipmentId;
@@ -113,9 +112,9 @@ namespace Iit.Fibertest.WpfClient.ViewModels
                 var result = _aggregate.When(cmd);
                 if (result != null)
                 {
-                    var errorNotificationViewModel = new NotificationViewModel("Ошибка!", result);
-                    _windowManager.ShowDialog(errorNotificationViewModel);
-                    return;
+//                    var errorNotificationViewModel = new NotificationViewModel("Ошибка!", result);
+//                    _windowManager.ShowDialog(errorNotificationViewModel);
+//                    return;
                 }
             }
             else  // редактирование существовавшего

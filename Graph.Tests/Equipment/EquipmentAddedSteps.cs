@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.TestBench;
 using Iit.Fibertest.WpfClient.ViewModels;
 using TechTalk.SpecFlow;
 

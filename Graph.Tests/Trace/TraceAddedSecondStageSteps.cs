@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.WpfClient.ViewModels;
+using Iit.Fibertest.TestBench;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -11,7 +11,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class TraceAddedSecondStageSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest();
+        private readonly SystemUnderTest2 _sut = new SystemUnderTest2();
         private Guid _rtuNodeId;
         private Guid _lastNodeId;
 

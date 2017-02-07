@@ -3,7 +3,7 @@ using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
-using Iit.Fibertest.WpfClient.ViewModels;
+using Iit.Fibertest.TestBench;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests

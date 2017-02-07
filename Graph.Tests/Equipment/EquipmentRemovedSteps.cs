@@ -4,7 +4,7 @@ using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
-using Iit.Fibertest.WpfClient.ViewModels;
+using Iit.Fibertest.TestBench;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -38,7 +38,7 @@ namespace Graph.Tests
             var path = new PathFinder(_sut.ReadModel).FindPath(rtuNodeId, _nodeId);
             var traceNodes = path.ToList();
             var equipments = new List<Guid>() {_sut.ReadModel.Rtus.Single().Id, _equipmentId};
-            new TraceAddViewModel(_sut.FakeWindowManager, _sut.ReadModel, _sut.Aggregate, traceNodes, equipments).Save();
+            new TraceAddViewModel(_sut.FakeWindowManager, _sut.ReadModel, traceNodes, equipments).Save();
             _sut.Poller.Tick();
         }
 

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.WpfClient.ViewModels;
+using Iit.Fibertest.Graph.Commands;
+using Iit.Fibertest.TestBench;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -11,7 +12,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class RtuRemovedSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest();
+        private readonly SystemUnderTest2 _sut = new SystemUnderTest2();
         private Iit.Fibertest.Graph.Rtu _rtu;
         private Guid _rtuNodeId; // нужно сохранить отдельно, т.к. после удаления РТУ негде взять
         private List<Guid> _traceEquipment = new List<Guid>();
@@ -22,7 +23,7 @@ namespace Graph.Tests
         [Given(@"Существует РТУ")]
         public void GivenСуществуетРту()
         {
-            _sut.MapVm.AddRtuAtGpsLocation();
+            _sut.ShellVm.ComplyWithRequest(new AddRtuAtGpsLocation()).Wait();
             _sut.Poller.Tick();
             _rtu = _sut.ReadModel.Rtus.Single();
             _rtuNodeId = _rtu.NodeId;
@@ -32,20 +33,20 @@ namespace Graph.Tests
         [Given(@"Существует несколько отрезков от РТУ")]
         public void GivenСуществуетНесколькоОтрезковОтРту()
         {
-            _sut.MapVm.AddNode();
+            _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
             _sut.Poller.Tick();
             var n1 = _sut.ReadModel.Nodes.Last();
             _traceEquipment.Add(Guid.Empty);
-            _sut.MapVm.AddNode();
+            _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
             _sut.Poller.Tick();
             var n2 = _sut.ReadModel.Nodes.Last();
-            _sut.MapVm.AddEquipmentAtGpsLocation(EquipmentType.Terminal);
+            _sut.ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() {Type= EquipmentType.Terminal}).Wait();
             _sut.Poller.Tick();
             _endTraceNode = _sut.ReadModel.Nodes.Last();
             _traceEquipment.Add(_sut.ReadModel.Equipments.Last().Id);
-            _sut.MapVm.AddFiber(_rtu.NodeId, n1.Id);
-            _sut.MapVm.AddFiber(n1.Id, _endTraceNode.Id);
-            _sut.MapVm.AddFiber(_rtu.NodeId, n2.Id);
+            _sut.ShellVm.ComplyWithRequest(new AddFiber() {Node1 = _rtu.NodeId , Node2 = n1.Id }).Wait();
+            _sut.ShellVm.ComplyWithRequest(new AddFiber() {Node1 = n1.Id, Node2 = _endTraceNode.Id }).Wait();
+            _sut.ShellVm.ComplyWithRequest(new AddFiber() {Node1 = _rtu.NodeId , Node2 = n2.Id }).Wait();
             _sut.Poller.Tick();
         }
 
@@ -53,14 +54,14 @@ namespace Graph.Tests
         public void GivenСуществуетТрассаОтДанногоРту()
         {
             var traceNodes = new PathFinder(_sut.ReadModel).FindPath(_rtu.NodeId, _endTraceNode.Id).ToList();
-            new TraceAddViewModel(_sut.FakeWindowManager, _sut.ReadModel, _sut.Aggregate, traceNodes, _traceEquipment).Save();
+            new TraceAddViewModel(_sut.FakeWindowManager, _sut.ReadModel, traceNodes, _traceEquipment).Save();
             _sut.Poller.Tick();
         }
 
         [When(@"Пользователь кликает на РТУ удалить")]
         public void WhenПользовательКликаетНаРтуУдалить()
         {
-            _sut.MapVm.RemoveRtu(_rtu.Id);
+            _sut.ShellVm.ComplyWithRequest(new RemoveRtu() {Id = _rtu.Id}).Wait();
             _sut.Poller.Tick();
         }
 

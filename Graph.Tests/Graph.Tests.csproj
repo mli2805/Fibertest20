@@ -209,7 +209,6 @@
     <Compile Include="Rtu\RtuRemovedSteps.cs">
       <DependentUpon>RtuRemoved.feature</DependentUpon>
     </Compile>
-    <Compile Include="SystemUnderTest.cs" />
     <Compile Include="SystemUnderTest2.cs" />
     <Compile Include="Trace\BaseRefAssigned.feature.cs">
       <AutoGen>True</AutoGen>
@@ -366,10 +365,6 @@
     <ProjectReference Include="..\TestBench\TestBench.csproj">
       <Project>{0a6dfc12-dc4a-4c44-923f-cee3dd6b3521}</Project>
       <Name>TestBench</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WpfClient\WpfClient.csproj">
-      <Project>{ef7ad573-e50d-4d9b-82ed-7bc44e7b7b43}</Project>
-      <Name>WpfClient</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -6,9 +6,6 @@ using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
 using Iit.Fibertest.TestBench;
-using EquipmentChoiceViewModel = Iit.Fibertest.WpfClient.ViewModels.EquipmentChoiceViewModel;
-using QuestionViewModel = Iit.Fibertest.WpfClient.ViewModels.QuestionViewModel;
-using TraceAddViewModel = Iit.Fibertest.WpfClient.ViewModels.TraceAddViewModel;
 
 namespace Graph.Tests
 {
@@ -19,6 +16,7 @@ namespace Graph.Tests
         public ClientPoller Poller { get; }
         public FakeWindowManager FakeWindowManager { get; }
         public ShellViewModel ShellVm { get; }
+        public int CurrentEventNumber => Poller.CurrentEventNumber;
 
         public SystemUnderTest2()
         {
@@ -52,7 +50,7 @@ namespace Graph.Tests
             ShellVm.ComplyWithRequest(new AddFiber() {Node1 = nodeForRtuId, Node2 = firstNodeId}).Wait();
             ShellVm.ComplyWithRequest(new AddFiber() {Node1 = firstNodeId, Node2 = secondNodeId }).Wait();
             Poller.Tick();
-            var addTraceViewModel = new TraceAddViewModel(FakeWindowManager, ReadModel, Aggregate, new List<Guid>() { nodeForRtuId, firstNodeId, secondNodeId }, equipments);
+            var addTraceViewModel = new TraceAddViewModel(FakeWindowManager, ReadModel, new List<Guid>() { nodeForRtuId, firstNodeId, secondNodeId }, equipments);
             addTraceViewModel.Save();
             Poller.Tick();
         }
@@ -94,22 +92,22 @@ namespace Graph.Tests
             Poller.Tick();
 
             var equipments = new List<Guid> { ReadModel.Rtus.Last().Id, Guid.Empty, Guid.Empty, ReadModel.Equipments.Single(e => e.NodeId == a2).Id };
-            var addTraceViewModel = new TraceAddViewModel(FakeWindowManager, ReadModel, Aggregate, new List<Guid>() { nodeForRtuId, a1, b1, a2 }, equipments);
+            var addTraceViewModel = new TraceAddViewModel(FakeWindowManager, ReadModel, new List<Guid>() { nodeForRtuId, a1, b1, a2 }, equipments);
             addTraceViewModel.Save();
             Poller.Tick();
 
             equipments = new List<Guid> { ReadModel.Rtus.Last().Id, Guid.Empty, Guid.Empty, ReadModel.Equipments.Single(e => e.NodeId == b2).Id };
-            addTraceViewModel = new TraceAddViewModel(FakeWindowManager, ReadModel, Aggregate, new List<Guid>() { nodeForRtuId, b1, a1, b2 }, equipments);
+            addTraceViewModel = new TraceAddViewModel(FakeWindowManager, ReadModel, new List<Guid>() { nodeForRtuId, b1, a1, b2 }, equipments);
             addTraceViewModel.Save();
             Poller.Tick();
 
             equipments = new List<Guid> { ReadModel.Rtus.Last().Id, Guid.Empty, ReadModel.Equipments.Single(e => e.NodeId == c2).Id };
-            addTraceViewModel = new TraceAddViewModel(FakeWindowManager, ReadModel, Aggregate, new List<Guid>() { nodeForRtuId, a1, c2 }, equipments);
+            addTraceViewModel = new TraceAddViewModel(FakeWindowManager, ReadModel, new List<Guid>() { nodeForRtuId, a1, c2 }, equipments);
             addTraceViewModel.Save();
             Poller.Tick();
 
             equipments = new List<Guid> { ReadModel.Rtus.Last().Id, ReadModel.Equipments.Single(e => e.NodeId == d2).Id };
-            addTraceViewModel = new TraceAddViewModel(FakeWindowManager, ReadModel, Aggregate, new List<Guid>() { nodeForRtuId, d2 }, equipments);
+            addTraceViewModel = new TraceAddViewModel(FakeWindowManager, ReadModel, new List<Guid>() { nodeForRtuId, d2 }, equipments);
             addTraceViewModel.Save();
             Poller.Tick();
         }

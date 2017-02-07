@@ -71,8 +71,8 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             });
             if (result != null)
             {
-                var errorNotificationViewModel = new NotificationViewModel("Ошибка!", result);
-                _windowManager.ShowDialog(errorNotificationViewModel);
+//                var errorNotificationViewModel = new NotificationViewModel("Ошибка!", result);
+//                _windowManager.ShowDialog(errorNotificationViewModel);
             }
         }
 
@@ -174,9 +174,9 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             if (!_readModel.DefineTrace(_windowManager, rtuNodeId, lastNodeId, out nodes, out equipments))
                 return;
 
-            var addTraceViewModel = new TraceAddViewModel(_windowManager,
-                _readModel, _aggregate, nodes, equipments);
-            _windowManager.ShowDialog(addTraceViewModel);
+//            var addTraceViewModel = new TraceAddViewModel(_windowManager,
+//                _readModel, nodes, equipments);
+//            _windowManager.ShowDialog(addTraceViewModel);
         }
 
         public void AttachTrace(AttachTrace cmd)

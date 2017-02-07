@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Linq;
 using FluentAssertions;
-using Iit.Fibertest.WpfClient.ViewModels;
+using Iit.Fibertest.Graph.Commands;
+using Iit.Fibertest.TestBench;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -9,7 +10,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class FiberUpdatedSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest();
+        private readonly SystemUnderTest2 _sut = new SystemUnderTest2();
         private FiberUpdateViewModel _window;
         private Guid _saidFiberId;
         private int _cutOff;
@@ -18,15 +19,15 @@ namespace Graph.Tests
         [Given(@"Существует отрезок")]
         public void GivenСуществуетОтрезок()
         {
-            _sut.MapVm.AddNode();
+            _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
             _sut.Poller.Tick();
             var n1 = _sut.ReadModel.Nodes.Last().Id;
 
-            _sut.MapVm.AddNode();
+            _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
             _sut.Poller.Tick();
             var n2 = _sut.ReadModel.Nodes.Last().Id;
 
-            _sut.MapVm.AddFiber(n1,n2);
+            _sut.ShellVm.ComplyWithRequest(new AddFiber() {Node1 = n1, Node2 = n2}).Wait();
             _sut.Poller.Tick();
             _saidFiberId = _sut.ReadModel.Fibers.Last().Id;
 
@@ -36,7 +37,7 @@ namespace Graph.Tests
         [Given(@"Пользователь открывает форму редактирования отрезка")]
         public void GivenПользовательОткрываетФормуРедактированияОтрезка()
         {
-            _window = new FiberUpdateViewModel(_saidFiberId, _sut.ReadModel, _sut.Aggregate);
+            _window = new FiberUpdateViewModel(_saidFiberId, _sut.ShellVm.GraphVm);
         }
 
         [When(@"Пользователь нажал сохранить")]

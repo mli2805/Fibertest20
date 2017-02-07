@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Caliburn.Micro;
-using Iit.Fibertest.WpfClient.ViewModels;
 
 namespace Graph.Tests
 {
@@ -34,7 +33,6 @@ namespace Graph.Tests
 
         public FakeWindowManager()
         {
-            RegisterHandler(m => m is NotificationViewModel);
             RegisterHandler(m => m is Iit.Fibertest.TestBench.NotificationViewModel);
         }
 

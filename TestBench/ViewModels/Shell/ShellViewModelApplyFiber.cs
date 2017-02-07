@@ -123,7 +123,7 @@ namespace Iit.Fibertest.TestBench
                         f.NodeA.Id == cmd.Node2 && f.NodeB.Id == cmd.Node1);
             if (fiber == null)
                 return true;
-            MessageBox.Show("Уже есть такое волокно");
+            _windowManager.ShowDialog(new NotificationViewModel("", "Уже есть такое волокно"));
             return false;
         }
 

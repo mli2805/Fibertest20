@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
-using Iit.Fibertest.WpfClient.ViewModels;
+using Iit.Fibertest.Graph.Commands;
+using Iit.Fibertest.TestBench;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -10,7 +11,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class NodeRemovedSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest();
+        private readonly SystemUnderTest2 _sut = new SystemUnderTest2();
         private Guid _nodeId;
         private Guid _rtuNodeId;
         private Guid _anotherNodeId;
@@ -20,7 +21,7 @@ namespace Graph.Tests
         [Given(@"Существует узел")]
         public void GivenСуществуетУзел()
         {
-            _sut.MapVm.AddNode();
+            _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
             _sut.Poller.Tick();
             _nodeId = _sut.ReadModel.Nodes.First().Id;
         }
@@ -28,21 +29,21 @@ namespace Graph.Tests
         [Given(@"К данному узлу присоединен отрезок")]
         public void GivenКДанномуУзлуПрисоединенОтрезок()
         {
-            _sut.MapVm.AddNode();
+            _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
             _sut.Poller.Tick();
             _anotherNodeId = _sut.ReadModel.Nodes.Last().Id;
-            _sut.MapVm.AddFiber(_nodeId, _anotherNodeId);
+            _sut.ShellVm.ComplyWithRequest(new AddFiber() {Node1 = _nodeId, Node2 = _anotherNodeId}).Wait();
             _sut.Poller.Tick();
         }
 
         [Given(@"Данный узел последний в трассе")]
         public void GivenДанныйУзелПоследнийВТрассе()
         {
-            _sut.MapVm.AddRtuAtGpsLocation();
+            _sut.ShellVm.ComplyWithRequest(new AddRtuAtGpsLocation()).Wait();
             _sut.Poller.Tick();
             var rtuNodeId = _sut.ReadModel.Nodes.Last().Id;
             var rtuId = _sut.ReadModel.Rtus.Last().Id;
-            _sut.MapVm.AddFiber(rtuNodeId, _anotherNodeId);
+            _sut.ShellVm.ComplyWithRequest(new AddFiber() {Node1 = rtuNodeId, Node2 = _anotherNodeId}).Wait();
             _sut.Poller.Tick();
             new EquipmentViewModel(_sut.FakeWindowManager, _nodeId, Guid.Empty, new List<Guid>(), _sut.Aggregate).Save();
             _sut.Poller.Tick();
@@ -51,7 +52,7 @@ namespace Graph.Tests
             var nodes = new List<Guid>() { rtuNodeId, _anotherNodeId, _nodeId };
             var equipments = new List<Guid>() {rtuId, Guid.Empty, equipmentId };
 
-            var addTraceViewModel = new TraceAddViewModel(_sut.FakeWindowManager, _sut.ReadModel, _sut.Aggregate, nodes, equipments);
+            var addTraceViewModel = new TraceAddViewModel(_sut.FakeWindowManager, _sut.ReadModel, nodes, equipments);
             addTraceViewModel.Save();
             _sut.Poller.Tick();
             _trace = _sut.ReadModel.Traces.Last();
@@ -60,11 +61,11 @@ namespace Graph.Tests
         [Given(@"Данный узел НЕ последний в трассе")]
         public void GivenДанныйУзелНеПоследнийВТрассе()
         {
-            _sut.MapVm.AddRtuAtGpsLocation();
+            _sut.ShellVm.ComplyWithRequest(new AddRtuAtGpsLocation()).Wait();
             _sut.Poller.Tick();
             _rtuNodeId = _sut.ReadModel.Nodes.Last().Id;
             var rtuId = _sut.ReadModel.Rtus.Last().Id;
-            _sut.MapVm.AddFiber(_rtuNodeId, _nodeId);
+            _sut.ShellVm.ComplyWithRequest(new AddFiber() {Node1 = _rtuNodeId, Node2 = _nodeId }).Wait();
             _sut.Poller.Tick();
             new EquipmentViewModel(_sut.FakeWindowManager, _anotherNodeId, Guid.Empty, new List<Guid>(), _sut.Aggregate).Save();
             _sut.Poller.Tick();
@@ -73,7 +74,7 @@ namespace Graph.Tests
             var nodes = new List<Guid>() { _rtuNodeId, _nodeId, _anotherNodeId };
             var equipments = new List<Guid>() { rtuId, Guid.Empty, equipmentId };
 
-            var addTraceViewModel = new TraceAddViewModel(_sut.FakeWindowManager, _sut.ReadModel, _sut.Aggregate, nodes, equipments);
+            var addTraceViewModel = new TraceAddViewModel(_sut.FakeWindowManager, _sut.ReadModel, nodes, equipments);
             addTraceViewModel.Save();
             _sut.Poller.Tick();
             _trace = _sut.ReadModel.Traces.Last();
@@ -88,7 +89,7 @@ namespace Graph.Tests
         [When(@"Пользователь кликает удалить узел")]
         public void WhenПользовательКликаетУдалитьУзел()
         {
-            _sut.MapVm.RemoveNode(_nodeId);
+            _sut.ShellVm.ComplyWithRequest(new RemoveNode() {Id = _nodeId}).Wait();
             _sut.Poller.Tick();
         }
 

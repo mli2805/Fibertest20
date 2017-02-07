@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using FluentAssertions;
+using Iit.Fibertest.Graph.Commands;
+using Iit.Fibertest.TestBench;
 using Iit.Fibertest.WpfClient.ViewModels;
 using TechTalk.SpecFlow;
 
@@ -9,13 +11,13 @@ namespace Graph.Tests
     [Binding]
     public sealed class NodeIntoFiberAddedSteps
     {
-        private readonly SystemUnderTest _sut;
+        private readonly SystemUnderTest2 _sut;
         private Guid _a1Id;
         private Guid _b1Id;
         private Guid _nodeId;
         private Guid _fiberId;
 
-        public NodeIntoFiberAddedSteps(SystemUnderTest sut)
+        public NodeIntoFiberAddedSteps(SystemUnderTest2 sut)
         {
             _sut = sut;
         }
@@ -41,7 +43,7 @@ namespace Graph.Tests
         [When(@"Пользователь кликает добавить узел в первый отрезок этой трассы")]
         public void WhenПользовательКликаетДобавитьУзелВОтрезок()
         {
-            _sut.MapVm.AddNodeIntoFiber(_fiberId);
+            _sut.ShellVm.ComplyWithRequest(new AddNodeIntoFiber() {FiberId = _fiberId}).Wait();
             _sut.Poller.Tick();
             _nodeId = _sut.ReadModel.Nodes.Last().Id;
         }

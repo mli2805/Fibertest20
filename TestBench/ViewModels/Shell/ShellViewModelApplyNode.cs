@@ -34,6 +34,11 @@ namespace Iit.Fibertest.TestBench
             }
             GraphVm.Nodes.Remove(GraphVm.Nodes.Single(n => n.Id == cmd.Id));
         }
+
+        private void ApplyToMap(AddNodeIntoFiber cmd)
+        {
+            
+        }
     }
 
 }

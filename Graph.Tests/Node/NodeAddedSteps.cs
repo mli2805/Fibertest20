@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Iit.Fibertest.Graph.Commands;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -6,7 +7,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class NodeAddedSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest();
+        private readonly SystemUnderTest2 _sut = new SystemUnderTest2();
         private int _cutOff;
       
 
@@ -14,7 +15,7 @@ namespace Graph.Tests
         public void WhenUserClicksAddNode()
         {
             _cutOff = _sut.ReadModel.Nodes.Count;
-            _sut.MapVm.AddNode();
+            _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
         }
 
         [Then(@"Новый узел сохраняется")]

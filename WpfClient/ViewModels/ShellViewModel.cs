@@ -58,9 +58,9 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         {
             var trace = _readModel.Traces.First();
 
-            var windowManager = IoC.Get<IWindowManager>();
-            var addEquipmentViewModel = new BaseRefsAssignViewModel(trace.Id, _readModel, _aggregate);
-            windowManager.ShowDialog(addEquipmentViewModel);
+//            var windowManager = IoC.Get<IWindowManager>();
+//            var addEquipmentViewModel = new BaseRefsAssignViewModel(trace.Id, _readModel, _aggregate);
+//            windowManager.ShowDialog(addEquipmentViewModel);
         }
 
         public void FakeTraceDefine()

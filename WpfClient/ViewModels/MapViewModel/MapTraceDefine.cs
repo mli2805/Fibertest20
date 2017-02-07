@@ -14,25 +14,25 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             equipments = new List<Guid>();
             if (readModel.Equipments.All(e => e.NodeId != lastNodeId))
             {
-                var errorNotificationViewModel =
-                    new NotificationViewModel("Ошибка!", "Last node of trace must contain some equipment");
-                windowManager.ShowDialog(errorNotificationViewModel);
+//                var errorNotificationViewModel =
+//                    new NotificationViewModel("Ошибка!", "Last node of trace must contain some equipment");
+//                windowManager.ShowDialog(errorNotificationViewModel);
                 return false;
             }
 
             var path = new PathFinder(readModel).FindPath(rtuNodeId, lastNodeId);
             if (path == null)
             {
-                var errorNotificationViewModel =
-                    new NotificationViewModel("Ошибка!", "Path couldn't be found");
-                windowManager.ShowDialog(errorNotificationViewModel);
+//                var errorNotificationViewModel =
+//                    new NotificationViewModel("Ошибка!", "Path couldn't be found");
+//                windowManager.ShowDialog(errorNotificationViewModel);
                 return false;
             }
 
-            var questionViewModel = new QuestionViewModel("Accept the path?");
-            windowManager.ShowDialog(questionViewModel);
-            if (!questionViewModel.IsAnswerPositive)
-                return false;
+//            var questionViewModel = new QuestionViewModel("Accept the path?");
+//            windowManager.ShowDialog(questionViewModel);
+//            if (!questionViewModel.IsAnswerPositive)
+//                return false;
 
             nodes = path.ToList();
             equipments = CollectEquipmentForTrace(windowManager, nodes, readModel);

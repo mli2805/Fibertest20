@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Linq;
 using FluentAssertions;
-using Iit.Fibertest.WpfClient.ViewModels;
+using Iit.Fibertest.Graph.Commands;
+using Iit.Fibertest.TestBench;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -9,7 +10,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class NodeUpdatedSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest();
+        private readonly SystemUnderTest2 _sut = new SystemUnderTest2();
         private Guid _saidNodeId;
         private NodeUpdateViewModel _nodeUpdateVm;
         private int _cutOff;
@@ -18,7 +19,7 @@ namespace Graph.Tests
         [Given(@"Ранее был создан узел с именем (.*)")]
         public void CreateNode(string title)
         {
-            _sut.MapVm.AddNode();
+            _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
             _sut.Poller.Tick();
             // TODO: Extract into page object
             _nodeUpdateVm = new NodeUpdateViewModel(
@@ -31,7 +32,7 @@ namespace Graph.Tests
         [Given(@"Добавлен узел")]
         public void CreateNode()
         {
-            _sut.MapVm.AddNode();
+            _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
             _sut.Poller.Tick();
             _cutOff = _sut.CurrentEventNumber;
 

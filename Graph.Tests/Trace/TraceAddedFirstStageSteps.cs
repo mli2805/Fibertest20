@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using FluentAssertions;
-using Iit.Fibertest.WpfClient.ViewModels;
+using Iit.Fibertest.TestBench;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -9,7 +9,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class TraceAddedFirstStageSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest();
+        private readonly SystemUnderTest2 _sut = new SystemUnderTest2();
         private Guid _rtuNodeId;
         private Guid _lastNodeId;
 
@@ -23,7 +23,8 @@ namespace Graph.Tests
         public void GivenИКликнулОпределитьТрассуНаУзлеГдеНетОборудования()
         {
             _lastNodeId = _sut.ReadModel.Nodes[5].Id;
-            _sut.MapVm.DefineTraceClick(_rtuNodeId, _lastNodeId);
+            _sut.ShellVm.ComplyWithRequest(new AskAddTrace() {LastNodeId = _lastNodeId, NodeWithRtuId = _rtuNodeId})
+                .Wait();
         }
 
         [Given(@"Между выбираемыми узлами нет пути")]
@@ -35,13 +36,15 @@ namespace Graph.Tests
         [Given(@"Но пользователь выбрал узел где есть оборудование и кликнул определить трассу")]
         public void GivenНоПользовательВыбралУзелГдеЕстьОборудованиеИКликнулОпределитьТрассу()
         {
-            _sut.MapVm.DefineTraceClick(_rtuNodeId, _lastNodeId);
+            _sut.ShellVm.ComplyWithRequest(new AskAddTrace() { LastNodeId = _lastNodeId, NodeWithRtuId = _rtuNodeId })
+                .Wait();
         }
 
         [Given(@"Хотя кликнул определить трассу на узле с оборудованием и путь между узлами существует")]
         public void GivenХотяКликнулОпределитьТрассуНаУзлеСОборудованиемИПутьМеждуУзламиСуществует()
         {
-            _sut.MapVm.DefineTraceClick(_rtuNodeId, _lastNodeId);
+            _sut.ShellVm.ComplyWithRequest(new AskAddTrace() { LastNodeId = _lastNodeId, NodeWithRtuId = _rtuNodeId })
+                .Wait();
         }
 
         [Then(@"Сообщение (.*)")]

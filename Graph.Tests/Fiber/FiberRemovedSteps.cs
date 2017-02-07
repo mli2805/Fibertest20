@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using FluentAssertions;
+using Iit.Fibertest.Graph.Commands;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -8,7 +9,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class FiberRemovedSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest();
+        private readonly SystemUnderTest2 _sut = new SystemUnderTest2();
         private Guid _leftNodeId;
         private Guid _rightNodeId;
         private Guid _fiberId;
@@ -17,12 +18,12 @@ namespace Graph.Tests
         [Given(@"Есть два узла и отрезок между ними")]
         public void GivenЕстьДваУзлаИОтрезокМеждуНими()
         {
-            _sut.MapVm.AddNode();
-            _sut.MapVm.AddNode();
+            _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
+            _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
             _sut.Poller.Tick();
             _leftNodeId = _sut.ReadModel.Nodes.First().Id;
             _rightNodeId = _sut.ReadModel.Nodes.Last().Id;
-            _sut.MapVm.AddFiber(_leftNodeId, _rightNodeId);
+            _sut.ShellVm.ComplyWithRequest(new AddFiber() {Node1 = _leftNodeId, Node2 = _rightNodeId}).Wait();
             _sut.Poller.Tick();
             _fiberId = _sut.ReadModel.Fibers.Single().Id;
         }
@@ -30,7 +31,7 @@ namespace Graph.Tests
         [When(@"Пользователь кликает удалить отрезок")]
         public void WhenПользовательКликаетУдалитьОтрезок()
         {
-            _sut.MapVm.RemoveFiber(_fiberId);
+            _sut.ShellVm.ComplyWithRequest(new RemoveFiber() {Id = _fiberId}).Wait();
             _sut.Poller.Tick();
         }
 

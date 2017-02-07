@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using FluentAssertions;
+using Iit.Fibertest.TestBench;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -8,7 +9,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class TraceAddedIntegrationalSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest();
+        private readonly SystemUnderTest2 _sut = new SystemUnderTest2();
         private Guid _rtuNodeId;
         private Guid _lastNodeId;
 
@@ -32,7 +33,7 @@ namespace Graph.Tests
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.AddTraceViewHandler(model, TraceTitle, TraceComment, Answer.Yes));
 
-            _sut.MapVm.DefineTraceClick(_rtuNodeId, _lastNodeId);
+            _sut.ShellVm.ComplyWithRequest(new AskAddTrace() {LastNodeId = _lastNodeId, NodeWithRtuId = _rtuNodeId}).Wait();
             _sut.Poller.Tick();
         }
 
