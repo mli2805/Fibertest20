@@ -11,6 +11,7 @@ namespace Graph.Tests
     public sealed class NodeIntoFiberAddedSteps
     {
         private readonly SystemUnderTest2 _sut;
+        private const string Path = @"..\..\base.sor";
         private Guid _a1Id;
         private Guid _b1Id;
         private Guid _nodeId;
@@ -33,16 +34,15 @@ namespace Graph.Tests
         [Given(@"Для трассы проходящей по данному отрезку задана базовая")]
         public void GivenДляДаннойТрассыЗаданаБазовая()
         {
-            var vm = new BaseRefsAssignViewModel(_sut.ReadModel.Traces.First().Id, _sut.ReadModel);
-            vm.PreciseBaseFilename = @"..\..\base.sor";
-            vm.Save();
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, Path, Path, null, Answer.Yes));
+            _sut.ShellVm.ComplyWithRequest(new AskAssignBaseRef() { TraceId = _sut.ReadModel.Traces.First().Id }).Wait();
             _sut.Poller.Tick();
         }
 
         [When(@"Пользователь кликает добавить узел в первый отрезок этой трассы")]
         public void WhenПользовательКликаетДобавитьУзелВОтрезок()
         {
-            _sut.ShellVm.ComplyWithRequest(new AddNodeIntoFiber() {FiberId = _fiberId}).Wait();
+            _sut.ShellVm.ComplyWithRequest(new AskAddNodeIntoFiber() {FiberId = _fiberId}).Wait();
             _sut.Poller.Tick();
             _nodeId = _sut.ReadModel.Nodes.Last().Id;
         }

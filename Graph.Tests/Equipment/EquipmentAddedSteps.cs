@@ -12,6 +12,7 @@ namespace Graph.Tests
     public sealed class EquipmentAddedSteps
     {
         private readonly SystemUnderTest2 _sut;
+        private const string Path = @"..\..\base.sor";
         private EquipmentViewModel _equipmentViewModel;
         private Iit.Fibertest.Graph.Trace _saidTrace;
         private Guid _nodeWithoutEquipmentId;
@@ -93,9 +94,8 @@ namespace Graph.Tests
         [Given(@"Для данной трассы задана базовая")]
         public void GivenДляДаннойТрассыЗаданаБазовая()
         {
-            var vm = new BaseRefsAssignViewModel(_sut.ReadModel.Traces.First().Id, _sut.ReadModel);
-            vm.PreciseBaseFilename = @"..\..\base.sor";
-            vm.Save();
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, Path, Path, null, Answer.Yes));
+            _sut.ShellVm.ComplyWithRequest(new AskAssignBaseRef() { TraceId = _sut.ReadModel.Traces.First().Id }).Wait();
             _sut.Poller.Tick();
         }
 

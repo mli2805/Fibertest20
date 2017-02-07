@@ -116,11 +116,17 @@ namespace Iit.Fibertest.TestBench
             ApplyToMap(cmd);
         }
 
-        public async Task ComplyWithRequest(AddNodeIntoFiber request)
+        public async Task ComplyWithRequest(AskAddNodeIntoFiber request)
         {
-            var cmd = request;
-            cmd.Id = Guid.NewGuid();
-            await Bus.SendCommand(cmd);
+            var cmd = PrepareCommand(request);
+            if (cmd == null)
+                return;
+            var message = await Bus.SendCommand(cmd);
+            if (message != null)
+            {
+                _windowManager.ShowDialog(new NotificationViewModel("Ошибка!", message));
+                return;
+            }
             ApplyToMap(cmd);
         }
 

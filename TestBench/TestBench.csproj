@@ -82,6 +82,7 @@
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Asks\AskAddFiberWithNodes.cs" />
+    <Compile Include="Asks\AskAddNodeIntoFiber.cs" />
     <Compile Include="Asks\AskAddTrace.cs" />
     <Compile Include="Asks\AskAssignBaseRef.cs" />
     <Compile Include="Asks\AskRemoveNode.cs" />

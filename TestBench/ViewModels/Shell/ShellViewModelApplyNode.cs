@@ -48,6 +48,46 @@ namespace Iit.Fibertest.TestBench
             GraphVm.Nodes.Remove(GraphVm.Nodes.Single(n => n.Id == cmd.Id));
         }
 
+        private AddNodeIntoFiber PrepareCommand(AskAddNodeIntoFiber request)
+        {
+            if (IsFiberContainedInAnyTraceWithBase(request.FiberId))
+            {
+                _windowManager.ShowDialog(new NotificationViewModel("", "It's impossible to change trace with base reflectogram"));
+                return null;
+            }
+
+
+            var fiberVms = GraphVm.Fibers.First(f => f.Id == request.FiberId);
+
+            return new AddNodeIntoFiber() {FiberId = request.FiberId};
+        }
+
+        private bool IsFiberContainedInAnyTraceWithBase(Guid fiberId)
+        {
+            var tracesWithBase = GraphVm.Traces.Where(t => t.HasBase);
+            var fiber = GraphVm.Fibers.Single(f => f.Id == fiberId);
+            foreach (var trace in tracesWithBase)
+            {
+                if (GetFiberIndexInTrace(trace, fiber) != -1)
+                    return true;
+            }
+            return false;
+        }
+        private int GetFiberIndexInTrace(TraceVm trace, FiberVm fiber)
+        {
+            var idxInTrace1 = trace.Nodes.IndexOf(fiber.NodeA.Id);
+            if (idxInTrace1 == -1)
+                return -1;
+            var idxInTrace2 = trace.Nodes.IndexOf(fiber.NodeB.Id);
+            if (idxInTrace2 == -1)
+                return -1;
+            if (idxInTrace2 - idxInTrace1 == 1)
+                return idxInTrace1;
+            if (idxInTrace1 - idxInTrace2 == 1)
+                return idxInTrace2;
+            return -1;
+        }
+
         private void ApplyToMap(AddNodeIntoFiber cmd)
         {
             

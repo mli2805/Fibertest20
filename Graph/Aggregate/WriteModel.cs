@@ -153,17 +153,6 @@ namespace Iit.Fibertest.Graph
                 Apply(new FiberAdded() { Id =  fiberId, Node1 = nodeBefore, Node2 = nodeAfter });
         }
 
-        public bool IsNodeContainedInAnyTraceWithBase(Guid nodeId)
-        {
-            return _traces.Any(t => t.HasBase && t.Nodes.Contains(nodeId));
-        }
-        public bool IsNodeLastForAnyTrace(Guid nodeId)
-        {
-            return _traces.Any(t => t.Nodes.Last() == nodeId);
-        }
-        #endregion
-
-        #region Fiber
         public bool IsFiberContainedInAnyTraceWithBase(Guid fiberId)
         {
             var tracesWithBase = _traces.Where(t => t.HasBase);
@@ -175,7 +164,17 @@ namespace Iit.Fibertest.Graph
             }
             return false;
         }
+        public bool IsNodeContainedInAnyTraceWithBase(Guid nodeId)
+        {
+            return _traces.Any(t => t.HasBase && t.Nodes.Contains(nodeId));
+        }
+        public bool IsNodeLastForAnyTrace(Guid nodeId)
+        {
+            return _traces.Any(t => t.Nodes.Last() == nodeId);
+        }
+        #endregion
 
+        #region Fiber
         private GpsLocation GetFiberCenter(Guid fiberId)
         {
             var fiber = _fibers.Single(f => f.Id == fiberId);
