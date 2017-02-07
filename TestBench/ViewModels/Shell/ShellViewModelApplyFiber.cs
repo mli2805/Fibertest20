@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows;
-using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
 
@@ -109,7 +107,7 @@ namespace Iit.Fibertest.TestBench
         private void ApplyToMap(AddFiber cmd)
         {
             if (Validate(cmd))
-                EndFiberCreationOne(GraphVm.Nodes.Single(m => m.Id == cmd.Node1), GraphVm.Nodes.Single(m => m.Id == cmd.Node2));
+                EndFiberCreationOne(cmd.Id, GraphVm.Nodes.Single(m => m.Id == cmd.Node1), GraphVm.Nodes.Single(m => m.Id == cmd.Node2));
         }
 
         private bool Validate(AddFiber cmd)
@@ -127,10 +125,15 @@ namespace Iit.Fibertest.TestBench
             return false;
         }
 
+        private UpdateFiber PrepareCommand(AskUpdateFiber request)
+        {
+            var vm = new FiberUpdateViewModel(request.Id, GraphVm);
+            _windowManager.ShowDialog(vm);
+
+            return vm.Command;
+        }
         private void ApplyToMap(UpdateFiber cmd)
         {
-            var vm = new FiberUpdateViewModel(cmd.Id, GraphVm);
-            new WindowManager().ShowDialog(vm);
 
             GraphVm.Fibers.Single(e => e.Id == cmd.Id).UserInputedLength = cmd.UserInputedLength;
         }
@@ -139,9 +142,9 @@ namespace Iit.Fibertest.TestBench
             GraphVm.Fibers.Remove(GraphVm.Fibers.Single(f => f.Id == cmd.Id));
         }
 
-        private void EndFiberCreationOne(NodeVm startMarker, NodeVm finishMarker)
+        private void EndFiberCreationOne(Guid fiberId, NodeVm startMarker, NodeVm finishMarker)
         {
-            GraphVm.Fibers.Add(new FiberVm() { Id = Guid.NewGuid(), NodeA = startMarker, NodeB = finishMarker, State = FiberState.NotInTrace });
+            GraphVm.Fibers.Add(new FiberVm() { Id = fiberId, NodeA = startMarker, NodeB = finishMarker, State = FiberState.NotInTrace });
         }
 
     }

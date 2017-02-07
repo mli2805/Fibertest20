@@ -1,19 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using Caliburn.Micro;
-using Iit.Fibertest.Graph;
-using Iit.Fibertest.Graph.Commands;
 
 namespace Iit.Fibertest.TestBench
 {
     public class TraceAddViewModel : Screen, IDataErrorInfo
     {
-        private readonly IWindowManager _windowManager;
-        private readonly ReadModel _readModel;
-        private readonly List<Guid> _nodes;
-        private readonly List<Guid> _equipments;
         private string _title;
         private string _comment;
 
@@ -46,13 +38,8 @@ namespace Iit.Fibertest.TestBench
         public bool IsClosed { get; set; }
 
 
-        public TraceAddViewModel(IWindowManager windowManager, ReadModel readModel, List<Guid> nodes, List<Guid> equipments)
+        public TraceAddViewModel()
         {
-            _windowManager = windowManager;
-            _readModel = readModel;
-            _nodes = nodes;
-            _equipments = equipments;
-
             IsClosed = false;
         }
 

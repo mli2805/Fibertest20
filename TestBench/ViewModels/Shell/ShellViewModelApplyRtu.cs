@@ -34,5 +34,13 @@ namespace Iit.Fibertest.TestBench
             _windowManager.ShowDialog(vm);
             return vm.Request;
         }
+        private void ApplyToMap(RemoveRtu cmd)
+        {
+            var rtuVm = GraphVm.Rtus.First(r => r.Id == cmd.Id);
+            var nodeVm = rtuVm.Node;
+            GraphVm.Rtus.Remove(rtuVm);
+            GraphVm.Nodes.Remove(nodeVm);
+        }
+
     }
 }

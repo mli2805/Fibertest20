@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Graph;
@@ -34,12 +33,14 @@ namespace Graph.Tests
 
             _sut.ShellVm.ComplyWithRequest(new AddFiber() {Node1 = rtuNodeId, Node2 = _nodeId}).Wait();
             _sut.Poller.Tick();
+            
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.QuestionAnswer("Accept the path?", Answer.Yes, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentChoiceHandler(EquipmentChoiceAnswer.Use, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.AddTraceViewHandler(model, "some title", "", Answer.Yes));
 
-            var path = new PathFinder(_sut.ReadModel).FindPath(rtuNodeId, _nodeId);
-            var traceNodes = path.ToList();
-            var equipments = new List<Guid>() {_sut.ReadModel.Rtus.Single().Id, _equipmentId};
-            new TraceAddViewModel(_sut.FakeWindowManager, _sut.ReadModel, traceNodes, equipments).Save();
+            _sut.ShellVm.ComplyWithRequest(new AskAddTrace() { LastNodeId = _nodeId, NodeWithRtuId = rtuNodeId }).Wait();
             _sut.Poller.Tick();
+
         }
 
         [Given(@"Для этой трассы задана базовая")]

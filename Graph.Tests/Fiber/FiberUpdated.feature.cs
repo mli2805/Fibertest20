@@ -67,8 +67,6 @@ namespace Graph.Tests.Fiber
 #line 4
 #line 5
  testRunner.Given("Существует отрезок", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 6
- testRunner.And("Пользователь открывает форму редактирования отрезка", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
         }
         
@@ -87,13 +85,13 @@ namespace Graph.Tests.Fiber
         public virtual void СохранениеИзмененияПользователемДлиныОтрезка()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Сохранение изменения пользователем длины отрезка", ((string[])(null)));
-#line 8
+#line 7
 this.ScenarioSetup(scenarioInfo);
 #line 4
 this.FeatureBackground();
+#line 8
+ testRunner.When("Пользователь открыл форму редактирования и нажал сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 9
- testRunner.When("Пользователь нажал сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 10
  testRunner.Then("Отрезок должен измениться", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -105,13 +103,13 @@ this.FeatureBackground();
         public virtual void ОтказОтСохраненияНовойДлиныОтрезка()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Отказ от сохранения новой длины отрезка", ((string[])(null)));
-#line 12
+#line 11
 this.ScenarioSetup(scenarioInfo);
 #line 4
 this.FeatureBackground();
+#line 12
+ testRunner.When("Пользователь открыл форму редактирования и нажал отмена", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 13
- testRunner.When("Пользователь нажал отмена", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 14
  testRunner.Then("Команда не отсылается", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

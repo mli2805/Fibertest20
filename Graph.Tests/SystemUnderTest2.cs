@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Autofac;
 using Caliburn.Micro;
@@ -35,23 +34,24 @@ namespace Graph.Tests
 
         public void CreateTraceRtuEmptyTerminal()
         {
-            var equipments = new List<Guid>();
             ShellVm.ComplyWithRequest(new AddRtuAtGpsLocation() {Latitude = 55, Longitude = 30}).Wait();
             Poller.Tick();
             var nodeForRtuId = ReadModel.Rtus.Last().NodeId;
-            equipments.Add(ReadModel.Rtus.Last().Id);
             ShellVm.ComplyWithRequest(new AddNode()).Wait();
             ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() {Type = EquipmentType.Terminal}).Wait();
             Poller.Tick();
             var firstNodeId = ReadModel.Nodes[1].Id;
             var secondNodeId = ReadModel.Nodes.Last().Id;
-            equipments.Add(Guid.Empty);
-            equipments.Add(ReadModel.Equipments.Last().Id);
             ShellVm.ComplyWithRequest(new AddFiber() {Node1 = nodeForRtuId, Node2 = firstNodeId}).Wait();
             ShellVm.ComplyWithRequest(new AddFiber() {Node1 = firstNodeId, Node2 = secondNodeId }).Wait();
             Poller.Tick();
-            var addTraceViewModel = new TraceAddViewModel(FakeWindowManager, ReadModel, new List<Guid>() { nodeForRtuId, firstNodeId, secondNodeId }, equipments);
-            addTraceViewModel.Save();
+
+
+            FakeWindowManager.RegisterHandler(model => QuestionAnswer("Accept the path?", Answer.Yes, model));
+            FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(EquipmentChoiceAnswer.Use, model));
+            FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, "some title", "", Answer.Yes));
+
+            ShellVm.ComplyWithRequest(new AskAddTrace() { LastNodeId = secondNodeId, NodeWithRtuId = nodeForRtuId }).Wait();
             Poller.Tick();
         }
 
@@ -91,24 +91,25 @@ namespace Graph.Tests
             ShellVm.ComplyWithRequest(new AddFiber() {Node1 = b1, Node2 = a2 }).Wait();
             Poller.Tick();
 
-            var equipments = new List<Guid> { ReadModel.Rtus.Last().Id, Guid.Empty, Guid.Empty, ReadModel.Equipments.Single(e => e.NodeId == a2).Id };
-            var addTraceViewModel = new TraceAddViewModel(FakeWindowManager, ReadModel, new List<Guid>() { nodeForRtuId, a1, b1, a2 }, equipments);
-            addTraceViewModel.Save();
+            FakeWindowManager.RegisterHandler(model => QuestionAnswer("Accept the path?", Answer.Yes, model));
+            FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(EquipmentChoiceAnswer.Use, model));
+            FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, "some title", "", Answer.Yes));
+
+            ShellVm.ComplyWithRequest(new AskAddTrace() { LastNodeId = a2, NodeWithRtuId = nodeForRtuId }).Wait();
             Poller.Tick();
 
-            equipments = new List<Guid> { ReadModel.Rtus.Last().Id, Guid.Empty, Guid.Empty, ReadModel.Equipments.Single(e => e.NodeId == b2).Id };
-            addTraceViewModel = new TraceAddViewModel(FakeWindowManager, ReadModel, new List<Guid>() { nodeForRtuId, b1, a1, b2 }, equipments);
-            addTraceViewModel.Save();
+            FakeWindowManager.RegisterHandler(model => QuestionAnswer("Accept the path?", Answer.Yes, model));
+            FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(EquipmentChoiceAnswer.Use, model));
+            FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, "some title", "", Answer.Yes));
+
+            ShellVm.ComplyWithRequest(new AskAddTrace() { LastNodeId = c2, NodeWithRtuId = nodeForRtuId }).Wait();
             Poller.Tick();
 
-            equipments = new List<Guid> { ReadModel.Rtus.Last().Id, Guid.Empty, ReadModel.Equipments.Single(e => e.NodeId == c2).Id };
-            addTraceViewModel = new TraceAddViewModel(FakeWindowManager, ReadModel, new List<Guid>() { nodeForRtuId, a1, c2 }, equipments);
-            addTraceViewModel.Save();
-            Poller.Tick();
+            FakeWindowManager.RegisterHandler(model => QuestionAnswer("Accept the path?", Answer.Yes, model));
+            FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(EquipmentChoiceAnswer.Use, model));
+            FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, "some title", "", Answer.Yes));
 
-            equipments = new List<Guid> { ReadModel.Rtus.Last().Id, ReadModel.Equipments.Single(e => e.NodeId == d2).Id };
-            addTraceViewModel = new TraceAddViewModel(FakeWindowManager, ReadModel, new List<Guid>() { nodeForRtuId, d2 }, equipments);
-            addTraceViewModel.Save();
+            ShellVm.ComplyWithRequest(new AskAddTrace() { LastNodeId = d2, NodeWithRtuId = nodeForRtuId }).Wait();
             Poller.Tick();
         }
 
@@ -239,6 +240,17 @@ namespace Graph.Tests
             vm.SetSelectedType(type);
             if (answer == Answer.Yes)
                 vm.Ok();
+            else
+                vm.Cancel();
+            return true;
+        }
+
+        public bool FiberUpdateHandler(object model, Answer answer)
+        {
+            var vm = model as FiberUpdateViewModel;
+            if (vm == null) return false;
+            if (answer == Answer.Yes)
+                vm.Save();
             else
                 vm.Cancel();
             return true;

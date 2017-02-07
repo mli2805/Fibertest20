@@ -11,7 +11,6 @@ namespace Graph.Tests
     public sealed class FiberUpdatedSteps
     {
         private readonly SystemUnderTest2 _sut = new SystemUnderTest2();
-        private FiberUpdateViewModel _window;
         private Guid _saidFiberId;
         private int _cutOff;
 
@@ -34,22 +33,20 @@ namespace Graph.Tests
             _cutOff = _sut.CurrentEventNumber;
         }
 
-        [Given(@"Пользователь открывает форму редактирования отрезка")]
-        public void GivenПользовательОткрываетФормуРедактированияОтрезка()
-        {
-            _window = new FiberUpdateViewModel(_saidFiberId, _sut.ShellVm.GraphVm);
-        }
-
-        [When(@"Пользователь нажал сохранить")]
+        [When(@"Пользователь открыл форму редактирования и нажал сохранить")]
         public void WhenПользовательНажалСохранить()
         {
-            _window.Save();
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.FiberUpdateHandler(model, Answer.Yes));
+            _sut.ShellVm.ComplyWithRequest(new AskUpdateFiber() {Id = _saidFiberId}).Wait();
+            _sut.Poller.Tick();
         }
 
-        [When(@"Пользователь нажал отмена")]
+        [When(@"Пользователь открыл форму редактирования и нажал отмена")]
         public void WhenПользовательНажалОтмена()
         {
-            _window.Cancel();
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.FiberUpdateHandler(model, Answer.Cancel));
+            _sut.ShellVm.ComplyWithRequest(new AskUpdateFiber() { Id = _saidFiberId }).Wait();
+            _sut.Poller.Tick();
         }
 
         [Then(@"Отрезок должен измениться")]

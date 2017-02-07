@@ -5,12 +5,11 @@ using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
 
-namespace Iit.Fibertest.WpfClient.ViewModels
+namespace Iit.Fibertest.TestBench
 {
     public class BaseRefsAssignViewModel : Screen
     {
         private readonly ReadModel _readModel;
-        private readonly Aggregate _aggregate;
         private Trace _trace;
 
         private const string SavedInDb = "Сохранено в БД";
@@ -23,10 +22,11 @@ namespace Iit.Fibertest.WpfClient.ViewModels
         public string FastBaseFilename { get; set; }
         public string AdditionalBaseFilename { get; set; }
 
-        public BaseRefsAssignViewModel(Guid traceId, ReadModel readModel, Aggregate aggregate)
+        public AssignBaseRef Command { get; set; }
+
+        public BaseRefsAssignViewModel(Guid traceId, ReadModel readModel)
         {
             _readModel = readModel;
-            _aggregate = aggregate;
 
             Initialize(traceId);
         }
@@ -40,17 +40,28 @@ namespace Iit.Fibertest.WpfClient.ViewModels
             RtuTitle = rtu.Title;
             RtuPort = _trace.Port.ToString();
 
-            PreciseBaseFilename    = _trace.PreciseId    == Guid.Empty ? "" : SavedInDb;
-            FastBaseFilename       = _trace.FastId       == Guid.Empty ? "" : SavedInDb;
+            PreciseBaseFilename = _trace.PreciseId == Guid.Empty ? "" : SavedInDb;
+            FastBaseFilename = _trace.FastId == Guid.Empty ? "" : SavedInDb;
             AdditionalBaseFilename = _trace.AdditionalId == Guid.Empty ? "" : SavedInDb;
         }
 
-        private void SendAssingBaseRef(string filename, BaseRefType type)
+        private void SendAssingBaseRef(ref AssignBaseRef cmd, string filename, BaseRefType type)
         {
-            _aggregate.When(new AssignBaseRef
+            switch (type)
             {
-                Id = filename != "" ? Guid.NewGuid() : Guid.Empty, TraceId = _trace.Id, Type = type, Content = filename != "" ? File.ReadAllBytes(filename) : null
-            } );
+                case BaseRefType.Precise:
+                    cmd.PreciseId = filename != "" ? Guid.NewGuid() : Guid.Empty;
+                    cmd.PreciseContent = filename != "" ? File.ReadAllBytes(filename) : null;
+                    break;
+                case BaseRefType.Fast:
+                    cmd.FastId = filename != "" ? Guid.NewGuid() : Guid.Empty;
+                    cmd.FastContent = filename != "" ? File.ReadAllBytes(filename) : null;
+                    break;
+                case BaseRefType.Additional:
+                    cmd.AdditionalId = filename != "" ? Guid.NewGuid() : Guid.Empty;
+                    cmd.AdditionalContent = filename != "" ? File.ReadAllBytes(filename) : null;
+                    break;
+            }
         }
 
         private bool IsFilenameChanged(string filename, Guid previousBaseRefId)
@@ -60,12 +71,28 @@ namespace Iit.Fibertest.WpfClient.ViewModels
 
         public void Save()
         {
+            var cmd = new AssignBaseRef() { TraceId = _trace.Id };
+            var flag = false;
+
             if (IsFilenameChanged(PreciseBaseFilename, _trace.PreciseId))
-                SendAssingBaseRef(PreciseBaseFilename, BaseRefType.Precise);
+            {
+                SendAssingBaseRef(ref cmd, PreciseBaseFilename, BaseRefType.Precise);
+                flag = true;
+            }
             if (IsFilenameChanged(FastBaseFilename, _trace.FastId))
-                SendAssingBaseRef(FastBaseFilename, BaseRefType.Fast);
+            {
+                SendAssingBaseRef(ref cmd, FastBaseFilename, BaseRefType.Fast);
+                flag = true;
+            }
             if (IsFilenameChanged(AdditionalBaseFilename, _trace.AdditionalId))
-                SendAssingBaseRef(AdditionalBaseFilename, BaseRefType.Additional);
+            {
+                SendAssingBaseRef(ref cmd, AdditionalBaseFilename, BaseRefType.Additional);
+                flag = true;
+            }
+
+            if (flag)
+                Command = cmd;
+
             TryClose();
         }
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using FluentAssertions;
-using Iit.Fibertest.WpfClient.ViewModels;
+using Iit.Fibertest.TestBench;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -33,7 +33,7 @@ namespace Graph.Tests
         [When(@"Открыта форма для задания базовых")]
         public void GivenОткрытаФормаДляЗаданияБазовых()
         {
-            _baseRefsAssignViewModel = new BaseRefsAssignViewModel(_traceId,_sut.ReadModel, _sut.Aggregate);
+            _baseRefsAssignViewModel = new BaseRefsAssignViewModel(_traceId,_sut.ReadModel);
         }
 
         [When(@"Пользователь меняет точную базовую")]

@@ -101,26 +101,6 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [Xunit.FactAttribute(DisplayName="Попытка удаления РТУ с трассами")]
-        [Xunit.TraitAttribute("FeatureTitle", "RtuRemoved")]
-        [Xunit.TraitAttribute("Description", "Попытка удаления РТУ с трассами")]
-        public virtual void ПопыткаУдаленияРТУСТрассами()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Попытка удаления РТУ с трассами", ((string[])(null)));
-#line 12
-this.ScenarioSetup(scenarioInfo);
-#line 3
-this.FeatureBackground();
-#line 13
- testRunner.Given("Существует трасса от данного РТУ", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 14
- testRunner.When("Пользователь кликает на РТУ удалить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 15
- testRunner.Then("Удаление РТУ не происходит", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-            this.ScenarioCleanup();
-        }
-        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.1.0.0")]
         [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : System.IDisposable

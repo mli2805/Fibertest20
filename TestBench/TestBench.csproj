@@ -83,6 +83,9 @@
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Asks\AskAddFiberWithNodes.cs" />
     <Compile Include="Asks\AskAddTrace.cs" />
+    <Compile Include="Asks\AskAssignBaseRef.cs" />
+    <Compile Include="Asks\AskRemoveNode.cs" />
+    <Compile Include="Asks\AskUpdateFiber.cs" />
     <Compile Include="Asks\AskUpdateRtu.cs" />
     <Compile Include="AutofacUi.cs" />
     <Compile Include="GpsInputControl\GpsInputMode.cs" />
@@ -113,9 +116,11 @@
     <Compile Include="ViewModels\EquipmentChoiceViewModel.cs" />
     <Compile Include="ViewModels\EquipmentViewModel.cs" />
     <Compile Include="ViewModels\NodeUpdateViewModel.cs" />
+    <Compile Include="ViewModels\Shell\ShellViewModelApplyEquipment.cs" />
     <Compile Include="ViewModels\Shell\ShellViewModelApplyFiber.cs" />
     <Compile Include="ViewModels\Shell\ShellViewModelApplyNode.cs" />
     <Compile Include="ViewModels\Shell\ShellViewModelApplyRtu.cs" />
+    <Compile Include="ViewModels\Shell\ShellViewModelApplyTrace.cs" />
     <Compile Include="ViewModels\TraceAddViewModel.cs" />
     <Compile Include="ViewModels\UniversalViewModels\NotificationViewModel.cs" />
     <Compile Include="ViewModels\UniversalViewModels\QuestionViewModel.cs" />

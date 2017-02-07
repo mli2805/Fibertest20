@@ -1,4 +1,4 @@
-﻿namespace Iit.Fibertest.WpfClient.Views
+﻿namespace Iit.Fibertest.TestBench
 {
     /// <summary>
     /// Interaction logic for BaseRefsAssignView.xaml

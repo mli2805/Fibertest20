@@ -32,7 +32,7 @@ namespace Graph.Tests
             _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
             _sut.Poller.Tick();
             _anotherNodeId = _sut.ReadModel.Nodes.Last().Id;
-            _sut.ShellVm.ComplyWithRequest(new AddFiber() {Node1 = _nodeId, Node2 = _anotherNodeId}).Wait();
+            _sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = _nodeId, Node2 = _anotherNodeId }).Wait();
             _sut.Poller.Tick();
         }
 
@@ -41,20 +41,18 @@ namespace Graph.Tests
         {
             _sut.ShellVm.ComplyWithRequest(new AddRtuAtGpsLocation()).Wait();
             _sut.Poller.Tick();
-            var rtuNodeId = _sut.ReadModel.Nodes.Last().Id;
-            var rtuId = _sut.ReadModel.Rtus.Last().Id;
-            _sut.ShellVm.ComplyWithRequest(new AddFiber() {Node1 = rtuNodeId, Node2 = _anotherNodeId}).Wait();
+            _rtuNodeId = _sut.ReadModel.Nodes.Last().Id;
+            _sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = _rtuNodeId, Node2 = _nodeId }).Wait();
             _sut.Poller.Tick();
             new EquipmentViewModel(_sut.FakeWindowManager, _nodeId, Guid.Empty, new List<Guid>(), _sut.Aggregate).Save();
             _sut.Poller.Tick();
-            var equipmentId = _sut.ReadModel.Equipments.Last().Id;
 
-            var nodes = new List<Guid>() { rtuNodeId, _anotherNodeId, _nodeId };
-            var equipments = new List<Guid>() {rtuId, Guid.Empty, equipmentId };
-
-            var addTraceViewModel = new TraceAddViewModel(_sut.FakeWindowManager, _sut.ReadModel, nodes, equipments);
-            addTraceViewModel.Save();
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentChoiceHandler(EquipmentChoiceAnswer.Use, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.QuestionAnswer("Accept the path?", Answer.Yes, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.AddTraceViewHandler(model, "some title", "", Answer.Yes));
+            _sut.ShellVm.ComplyWithRequest(new AskAddTrace() { LastNodeId = _nodeId, NodeWithRtuId = _rtuNodeId }).Wait();
             _sut.Poller.Tick();
+
             _trace = _sut.ReadModel.Traces.Last();
         }
 
@@ -64,18 +62,15 @@ namespace Graph.Tests
             _sut.ShellVm.ComplyWithRequest(new AddRtuAtGpsLocation()).Wait();
             _sut.Poller.Tick();
             _rtuNodeId = _sut.ReadModel.Nodes.Last().Id;
-            var rtuId = _sut.ReadModel.Rtus.Last().Id;
-            _sut.ShellVm.ComplyWithRequest(new AddFiber() {Node1 = _rtuNodeId, Node2 = _nodeId }).Wait();
+            _sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = _rtuNodeId, Node2 = _nodeId }).Wait();
             _sut.Poller.Tick();
             new EquipmentViewModel(_sut.FakeWindowManager, _anotherNodeId, Guid.Empty, new List<Guid>(), _sut.Aggregate).Save();
             _sut.Poller.Tick();
-            var equipmentId = _sut.ReadModel.Equipments.Last().Id;
 
-            var nodes = new List<Guid>() { _rtuNodeId, _nodeId, _anotherNodeId };
-            var equipments = new List<Guid>() { rtuId, Guid.Empty, equipmentId };
-
-            var addTraceViewModel = new TraceAddViewModel(_sut.FakeWindowManager, _sut.ReadModel, nodes, equipments);
-            addTraceViewModel.Save();
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentChoiceHandler(EquipmentChoiceAnswer.Use, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.AddTraceViewHandler(model, "some title", "", Answer.Yes));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.QuestionAnswer("Accept the path?", Answer.Yes, model));
+            _sut.ShellVm.ComplyWithRequest(new AskAddTrace() { LastNodeId = _anotherNodeId, NodeWithRtuId = _rtuNodeId }).Wait();
             _sut.Poller.Tick();
             _trace = _sut.ReadModel.Traces.Last();
         }
@@ -89,7 +84,7 @@ namespace Graph.Tests
         [When(@"Пользователь кликает удалить узел")]
         public void WhenПользовательКликаетУдалитьУзел()
         {
-            _sut.ShellVm.ComplyWithRequest(new RemoveNode() {Id = _nodeId}).Wait();
+            _sut.ShellVm.ComplyWithRequest(new AskRemoveNode() { Id = _nodeId }).Wait();
             _sut.Poller.Tick();
         }
 

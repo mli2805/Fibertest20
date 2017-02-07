@@ -27,7 +27,7 @@ namespace Iit.Fibertest.Graph
     public class Aggregate
     {
 
-        public WriteModel WriteModel { get; } 
+        public WriteModel WriteModel { get; }
 
         private readonly IMapper _mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingCmdToEventProfile>()).CreateMapper();
@@ -95,7 +95,7 @@ namespace Iit.Fibertest.Graph
         {
             if (WriteModel.HasFiberBetween(cmd.Node1, cmd.Node2))
                 return "Fiber already exists";
-            
+
             if (cmd.AddNodes.Count > 0)
                 foreach (var cmdAddNode in cmd.AddNodes)
                     WriteModel.Add(_mapper.Map<NodeAdded>(cmdAddNode));
@@ -155,8 +155,8 @@ namespace Iit.Fibertest.Graph
 
         public string When(UpdateEquipment cmd)
         {
-//            if (WriteModel.GetEquipment(cmd.Id) == null)
-//                return "Somebody removed this equipment while you updated it";
+            //            if (WriteModel.GetEquipment(cmd.Id) == null)
+            //                return "Somebody removed this equipment while you updated it";
             WriteModel.AddAndCommit(_mapper.Map<EquipmentUpdated>(cmd));
             return null;
         }
@@ -215,12 +215,9 @@ namespace Iit.Fibertest.Graph
         {
             WriteModel.AddAndCommit(_mapper.Map<BaseRefAssigned>(cmd));
             var trace = WriteModel.GetTrace(cmd.TraceId);
-            if (cmd.Type == BaseRefType.Precise)
-                trace.PreciseId = cmd.Id;
-            else if (cmd.Type == BaseRefType.Fast)
-                trace.FastId = cmd.Id;
-            else if (cmd.Type == BaseRefType.Additional)
-                trace.AdditionalId = cmd.Id;
+            trace.PreciseId = cmd.PreciseId;
+            trace.FastId = cmd.FastId;
+            trace.AdditionalId = cmd.AdditionalId;
         }
         #endregion
     }

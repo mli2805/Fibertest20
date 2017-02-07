@@ -4,7 +4,6 @@ using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.TestBench;
-using Iit.Fibertest.WpfClient.ViewModels;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -94,7 +93,7 @@ namespace Graph.Tests
         [Given(@"Для данной трассы задана базовая")]
         public void GivenДляДаннойТрассыЗаданаБазовая()
         {
-            var vm = new BaseRefsAssignViewModel(_sut.ReadModel.Traces.First().Id, _sut.ReadModel, _sut.Aggregate);
+            var vm = new BaseRefsAssignViewModel(_sut.ReadModel.Traces.First().Id, _sut.ReadModel);
             vm.PreciseBaseFilename = @"..\..\base.sor";
             vm.Save();
             _sut.Poller.Tick();
