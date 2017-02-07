@@ -9,12 +9,12 @@ namespace Graph.Tests
     [Binding]
     public sealed class BaseRefAssignedSteps
     {
-        private readonly SystemUnderTest _sut;
+        private readonly SystemUnderTest2 _sut;
         private BaseRefsAssignViewModel _baseRefsAssignViewModel;
         private Guid _traceId;
         private Guid _oldPreciseId;
 
-        public BaseRefAssignedSteps(SystemUnderTest sut)
+        public BaseRefAssignedSteps(SystemUnderTest2 sut)
         {
             _sut = sut;
         }

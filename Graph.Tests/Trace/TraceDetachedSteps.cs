@@ -9,10 +9,10 @@ namespace Graph.Tests
     [Binding]
     public sealed class TraceDetachedSteps
     {
-        private readonly SystemUnderTest _sut;
+        private readonly SystemUnderTest2 _sut;
         private Guid _traceId;
 
-        public TraceDetachedSteps(SystemUnderTest sut)
+        public TraceDetachedSteps(SystemUnderTest2 sut)
         {
             _sut = sut;
         }
@@ -26,7 +26,7 @@ namespace Graph.Tests
                 Port = 3,
                 TraceId = _traceId
             };
-            _sut.MapVm.AttachTrace(cmd2);
+            _sut.ShellVm.ComplyWithRequest(cmd2).Wait();
             _sut.Poller.Tick();
         }
 
@@ -34,7 +34,7 @@ namespace Graph.Tests
         public void WhenПользовательОтсоединяетТрассу()
         {
             var cmd = new DetachTrace() {TraceId = _traceId};
-            _sut.MapVm.DetachTrace(cmd);
+            _sut.ShellVm.ComplyWithRequest(cmd).Wait();
             _sut.Poller.Tick();
         }
 

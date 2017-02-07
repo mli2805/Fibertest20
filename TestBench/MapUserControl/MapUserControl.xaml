@@ -10,7 +10,6 @@
         <!-- call this resource from code -->
         <!-- ReSharper disable once Xaml.RedundantResource -->
         <ContextMenu x:Key="MapContextMenu">
-            <MenuItem Header="Добавить маркер" Tag="99" Click="AddNodeOnClick"/>
             <MenuItem Header="Добавить узел" Tag="5" Click="AddNodeOnClick"/>
             <MenuItem Header="Добавить узел-точку только для рисования" Tag="7" Click="AddNodeOnClick"/>
             <Separator />

@@ -11,7 +11,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class EquipmentAddedSteps
     {
-        private readonly SystemUnderTest _sut;
+        private readonly SystemUnderTest2 _sut;
         private EquipmentViewModel _equipmentViewModel;
         private Iit.Fibertest.Graph.Trace _saidTrace;
         private Guid _nodeWithoutEquipmentId;
@@ -25,7 +25,7 @@ namespace Graph.Tests
         private const int RightCableReserve = 14;
         private const string CommentForTest = "Comment for equipment";
 
-        public EquipmentAddedSteps(SystemUnderTest sut)
+        public EquipmentAddedSteps(SystemUnderTest2 sut)
         {
             _sut = sut;
         }

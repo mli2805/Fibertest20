@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.Graph.Commands;
 using Iit.Fibertest.WpfClient.ViewModels;
 using TechTalk.SpecFlow;
 
@@ -11,14 +12,14 @@ namespace Graph.Tests
     [Binding]
     public sealed class EquipmentRemovedSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest();
+        private readonly SystemUnderTest2 _sut = new SystemUnderTest2();
         private Guid _nodeId;
         private Guid _equipmentId;
 
         [Given(@"Существует узел с оборудованием")]
         public void GivenСуществуетУзелСОборудованием()
         {
-            _sut.MapVm.AddEquipmentAtGpsLocation(EquipmentType.Sleeve);
+            _sut.ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() {Type = EquipmentType.Sleeve}).Wait();
             _sut.Poller.Tick();
             _nodeId = _sut.ReadModel.Nodes.Single().Id;
             _equipmentId = _sut.ReadModel.Equipments.Single().Id;
@@ -27,11 +28,11 @@ namespace Graph.Tests
         [Given(@"Существует трасса использующая данное оборудование")]
         public void GivenСуществуетТрассаИспользующаяДанноеОборудование()
         {
-            _sut.MapVm.AddRtuAtGpsLocation();
+            _sut.ShellVm.ComplyWithRequest(new AddRtuAtGpsLocation()).Wait();
             _sut.Poller.Tick();
             Guid rtuNodeId = _sut.ReadModel.Nodes.Last().Id;
 
-            _sut.MapVm.AddFiber(rtuNodeId, _nodeId);
+            _sut.ShellVm.ComplyWithRequest(new AddFiber() {Node1 = rtuNodeId, Node2 = _nodeId}).Wait();
             _sut.Poller.Tick();
 
             var path = new PathFinder(_sut.ReadModel).FindPath(rtuNodeId, _nodeId);

@@ -2,6 +2,7 @@
 using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.Graph.Commands;
 using Iit.Fibertest.WpfClient.ViewModels;
 using TechTalk.SpecFlow;
 
@@ -10,7 +11,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class EquipmentUpdatedSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest();
+        private readonly SystemUnderTest2 _sut = new SystemUnderTest2();
         private Guid _equipmentId;
         private EquipmentViewModel _equipmentViewModel;
 
@@ -23,7 +24,7 @@ namespace Graph.Tests
         [Given(@"Существует оборудование")]
         public void GivenСуществуетОборудование()
         {
-            _sut.MapVm.AddEquipmentAtGpsLocation(EquipmentType.Terminal);
+            _sut.ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() {Type = EquipmentType.Terminal}).Wait();
             _sut.Poller.Tick();
             _equipmentId = _sut.ReadModel.Equipments.Single().Id;
         }

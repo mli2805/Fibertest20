@@ -195,6 +195,31 @@ namespace Iit.Fibertest.TestBench
             ApplyToMap(cmd);
         }
 
+        public async Task ComplyWithRequest(AttachTrace request)
+        {
+            var cmd = request;
+            var message = await Bus.SendCommand(cmd);
+            if (message != null)
+            {
+                _windowManager.ShowDialog(new NotificationViewModel("Ошибка!", message));
+                return;
+            }
+//            ApplyToMap(cmd);
+        }
+
+        public async Task ComplyWithRequest(DetachTrace request)
+        {
+            var cmd = request;
+            var message = await Bus.SendCommand(cmd);
+            if (message != null)
+            {
+                _windowManager.ShowDialog(new NotificationViewModel("Ошибка!", message));
+                return;
+            }
+            //            ApplyToMap(cmd);
+        }
+
+
         private void ApplyToMap(AddEquipmentAtGpsLocation cmd)
         {
             var nodeVm = new NodeVm()

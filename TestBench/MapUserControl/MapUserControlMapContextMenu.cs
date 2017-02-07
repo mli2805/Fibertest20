@@ -19,9 +19,6 @@ namespace Iit.Fibertest.TestBench
             var code = int.Parse((string)item.Tag);
             var position = MainMap.FromLocalToLatLng(MainMap.ContextMenuPoint);
 
-            if (code == 99)
-                GraphVm.Request = new AddMarker() { Latitude = position.Lat, Longitude = position.Lng};
-
             if ((EquipmentType)code == EquipmentType.Rtu)
                 GraphVm.Request = new AddRtuAtGpsLocation() { Latitude = position.Lat, Longitude = position.Lng };
             else if ((EquipmentType)code == EquipmentType.Well || (EquipmentType)code == EquipmentType.Invisible)
@@ -41,9 +38,4 @@ namespace Iit.Fibertest.TestBench
         }
     }
 
-    public class AddMarker
-    {
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
-    }
 }

@@ -9,11 +9,11 @@ namespace Graph.Tests
     [Binding]
     public sealed class TraceAttachedSteps
     {
-        private readonly SystemUnderTest _sut;
+        private readonly SystemUnderTest2 _sut;
         private Guid _traceId;
         private int _portNumber;
 
-        public TraceAttachedSteps(SystemUnderTest sut)
+        public TraceAttachedSteps(SystemUnderTest2 sut)
         {
             _sut = sut;
         }
@@ -28,7 +28,7 @@ namespace Graph.Tests
                 Port = _portNumber,
                 TraceId = _traceId
             };
-            _sut.MapVm.AttachTrace(cmd);
+            _sut.ShellVm.ComplyWithRequest(cmd).Wait();
             _sut.Poller.Tick();
         }
 
