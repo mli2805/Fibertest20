@@ -185,12 +185,13 @@ namespace Iit.Fibertest.TestBench
                         double t;
                         if (!double.TryParse(Degrees, out t))
                             errorMessage = "Invalid input";
+                            Error = "Invalid input";
                         break;
                 }
                 return errorMessage;
             }
         }
 
-        public string Error { get; }
+        public string Error { get; set; }
     }
 }
