@@ -8,11 +8,11 @@ namespace Iit.Fibertest.TestBench
 {
     public partial class ShellViewModel
     {
-        private AddTrace PrepareCommand(AskAddTrace ask)
+        private AddTrace PrepareCommand(RequestAddTrace request)
         {
             List<Guid> traceNodes;
             List<Guid> traceEquipments;
-            if (!ReadModel.DefineTrace(_windowManager, ask.NodeWithRtuId, ask.LastNodeId,
+            if (!ReadModel.DefineTrace(_windowManager, request.NodeWithRtuId, request.LastNodeId,
                 out traceNodes, out traceEquipments))
                 return null;
             var traceAddViewModel = new TraceAddViewModel();
@@ -24,7 +24,7 @@ namespace Iit.Fibertest.TestBench
             return new AddTrace()
             {
                 Id = Guid.NewGuid(),
-                RtuId = ReadModel.Rtus.First(r => r.NodeId == ask.NodeWithRtuId).Id,
+                RtuId = ReadModel.Rtus.First(r => r.NodeId == request.NodeWithRtuId).Id,
                 Title = traceAddViewModel.Title,
                 Nodes = traceNodes,
                 Equipments = traceEquipments,
@@ -37,7 +37,7 @@ namespace Iit.Fibertest.TestBench
             GraphVm.Traces.Add(new TraceVm() { Id = cmd.Id, Nodes = cmd.Nodes });
         }
 
-        private AssignBaseRef PrepareCommand(AskAssignBaseRef request)
+        private AssignBaseRef PrepareCommand(RequestAssignBaseRef request)
         {
             var vm = new BaseRefsAssignViewModel(request.TraceId, ReadModel);
             _windowManager.ShowDialog(vm);

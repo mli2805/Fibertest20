@@ -42,7 +42,7 @@ namespace Graph.Tests
         [When(@"Пользователь кликает добавить отрезок с узлами")]
         public void WhenПользовательКликаетДобавитьОтрезокСУзлами()
         {
-            _sut.ShellVm.ComplyWithRequest(new AskAddFiberWithNodes() {Node1 = _leftNodeId, Node2 = _rightNodeId}).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAddFiberWithNodes() {Node1 = _leftNodeId, Node2 = _rightNodeId}).Wait();
         }
 
         [When(@"Пользователь кликает добавить отрезок с нулем узлов")]
@@ -50,7 +50,7 @@ namespace Graph.Tests
         {
             var bluh = EquipmentType.Cross;
             _sut.FakeWindowManager.RegisterHandler(model => _sut.FiberWithNodesAdditionHandler(model, 0, bluh, Answer.Yes));
-            _sut.ShellVm.ComplyWithRequest(new AskAddFiberWithNodes() {Node1 = _leftNodeId, Node2 = _rightNodeId}).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAddFiberWithNodes() {Node1 = _leftNodeId, Node2 = _rightNodeId}).Wait();
             _sut.Poller.Tick();
         }
 
@@ -58,7 +58,7 @@ namespace Graph.Tests
         public void WhenПользовательКликаетДобавитьОтрезокСПустымиУзлами(int p0)
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.FiberWithNodesAdditionHandler(model, p0, EquipmentType.Well, Answer.Yes));
-            _sut.ShellVm.ComplyWithRequest(new AskAddFiberWithNodes() {Node1 = _leftNodeId, Node2 = _rightNodeId}).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAddFiberWithNodes() {Node1 = _leftNodeId, Node2 = _rightNodeId}).Wait();
             _sut.Poller.Tick();
         }
 
@@ -66,7 +66,7 @@ namespace Graph.Tests
         public void WhenПользовательКликаетДобавитьОтрезокСУзламиСОборудованием(int p0)
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.FiberWithNodesAdditionHandler(model, p0, EquipmentType.Sleeve, Answer.Yes));
-            _sut.ShellVm.ComplyWithRequest(new AskAddFiberWithNodes() {Node1 = _leftNodeId, Node2 = _rightNodeId}).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAddFiberWithNodes() {Node1 = _leftNodeId, Node2 = _rightNodeId}).Wait();
             _sut.Poller.Tick();
         }
 

@@ -28,9 +28,9 @@ namespace Iit.Fibertest.TestBench
             rtu.Node.Position = new PointLatLng(cmd.Latitude, cmd.Longitude);
         }
 
-        private UpdateRtu PrepareCommand(AskUpdateRtu ask)
+        private UpdateRtu PrepareCommand(RequestUpdateRtu request)
         {
-            var vm = new RtuUpdateViewModel(ask.NodeId, GraphVm);
+            var vm = new RtuUpdateViewModel(request.NodeId, GraphVm);
             _windowManager.ShowDialog(vm);
             return vm.Request;
         }

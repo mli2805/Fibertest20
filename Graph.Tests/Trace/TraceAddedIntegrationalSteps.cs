@@ -33,7 +33,7 @@ namespace Graph.Tests
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.AddTraceViewHandler(model, TraceTitle, TraceComment, Answer.Yes));
 
-            _sut.ShellVm.ComplyWithRequest(new AskAddTrace() {LastNodeId = _lastNodeId, NodeWithRtuId = _rtuNodeId}).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAddTrace() {LastNodeId = _lastNodeId, NodeWithRtuId = _rtuNodeId}).Wait();
             _sut.Poller.Tick();
         }
 
@@ -50,7 +50,7 @@ namespace Graph.Tests
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.AddTraceViewHandler(model, TraceTitle, TraceComment, Answer.Cancel));
 
-            _sut.ShellVm.ComplyWithRequest(new AskAddTrace() { LastNodeId = _lastNodeId, NodeWithRtuId = _rtuNodeId }).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = _lastNodeId, NodeWithRtuId = _rtuNodeId }).Wait();
             _sut.Poller.Tick();
         }
 

@@ -2,7 +2,7 @@
 
 namespace Iit.Fibertest.TestBench
 {
-    public class AskAssignBaseRef
+    public class RequestAssignBaseRef
     {
         public Guid TraceId { get; set; }
     }

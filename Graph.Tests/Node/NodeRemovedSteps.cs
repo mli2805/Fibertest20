@@ -50,7 +50,7 @@ namespace Graph.Tests
             _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentChoiceHandler(EquipmentChoiceAnswer.Use, model));
             _sut.FakeWindowManager.RegisterHandler(model => _sut.QuestionAnswer("Accept the path?", Answer.Yes, model));
             _sut.FakeWindowManager.RegisterHandler(model => _sut.AddTraceViewHandler(model, "some title", "", Answer.Yes));
-            _sut.ShellVm.ComplyWithRequest(new AskAddTrace() { LastNodeId = _nodeId, NodeWithRtuId = _rtuNodeId }).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = _nodeId, NodeWithRtuId = _rtuNodeId }).Wait();
             _sut.Poller.Tick();
 
             _trace = _sut.ReadModel.Traces.Last();
@@ -70,7 +70,7 @@ namespace Graph.Tests
             _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentChoiceHandler(EquipmentChoiceAnswer.Use, model));
             _sut.FakeWindowManager.RegisterHandler(model => _sut.AddTraceViewHandler(model, "some title", "", Answer.Yes));
             _sut.FakeWindowManager.RegisterHandler(model => _sut.QuestionAnswer("Accept the path?", Answer.Yes, model));
-            _sut.ShellVm.ComplyWithRequest(new AskAddTrace() { LastNodeId = _anotherNodeId, NodeWithRtuId = _rtuNodeId }).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = _anotherNodeId, NodeWithRtuId = _rtuNodeId }).Wait();
             _sut.Poller.Tick();
             _trace = _sut.ReadModel.Traces.Last();
         }
@@ -79,14 +79,14 @@ namespace Graph.Tests
         public void GivenДляТрассыЗаданаБазовая()
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, SystemUnderTest2.Path, SystemUnderTest2.Path, null, Answer.Yes));
-            _sut.ShellVm.ComplyWithRequest(new AskAssignBaseRef() { TraceId = _trace.Id }).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAssignBaseRef() { TraceId = _trace.Id }).Wait();
             _sut.Poller.Tick();
         }
 
         [When(@"Пользователь кликает удалить узел")]
         public void WhenПользовательКликаетУдалитьУзел()
         {
-            _sut.ShellVm.ComplyWithRequest(new AskRemoveNode() { Id = _nodeId }).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestRemoveNode() { Id = _nodeId }).Wait();
             _sut.Poller.Tick();
         }
 

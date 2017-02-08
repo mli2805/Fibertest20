@@ -34,14 +34,14 @@ namespace Graph.Tests
         public void GivenДляДаннойТрассыЗаданаБазовая()
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, SystemUnderTest2.Path, SystemUnderTest2.Path, null, Answer.Yes));
-            _sut.ShellVm.ComplyWithRequest(new AskAssignBaseRef() { TraceId = _sut.ReadModel.Traces.First().Id }).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAssignBaseRef() { TraceId = _sut.ReadModel.Traces.First().Id }).Wait();
             _sut.Poller.Tick();
         }
 
         [When(@"Пользователь кликает добавить узел в первый отрезок этой трассы")]
         public void WhenПользовательКликаетДобавитьУзелВОтрезок()
         {
-            _sut.ShellVm.ComplyWithRequest(new AskAddNodeIntoFiber() {FiberId = _fiberId}).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAddNodeIntoFiber() {FiberId = _fiberId}).Wait();
             _sut.Poller.Tick();
             _nodeId = _sut.ReadModel.Nodes.Last().Id;
         }

@@ -116,7 +116,7 @@ namespace Iit.Fibertest.TestBench
             ApplyToMap(cmd);
         }
 
-        public async Task ComplyWithRequest(AskAddNodeIntoFiber request)
+        public async Task ComplyWithRequest(RequestAddNodeIntoFiber request)
         {
             var cmd = PrepareCommand(request);
             if (cmd == null)
@@ -137,7 +137,7 @@ namespace Iit.Fibertest.TestBench
             ApplyToMap(request);
         }
 
-        public async Task ComplyWithRequest(AskRemoveNode request)
+        public async Task ComplyWithRequest(RequestRemoveNode request)
         {
             var cmd = PrepareCommand(request);
             if (cmd == null)
@@ -161,7 +161,7 @@ namespace Iit.Fibertest.TestBench
             ApplyToMap(request);
         }
 
-        public async Task ComplyWithRequest(AskAddFiberWithNodes request)
+        public async Task ComplyWithRequest(RequestAddFiberWithNodes request)
         {
             var cmd = PrepareCommand(request);
             if (cmd == null)
@@ -175,7 +175,7 @@ namespace Iit.Fibertest.TestBench
             ApplyToMap(cmd);
         }
 
-        public async Task ComplyWithRequest(AskUpdateFiber request)
+        public async Task ComplyWithRequest(RequestUpdateFiber request)
         {
             var cmd = PrepareCommand(request);
             if (cmd == null)
@@ -201,7 +201,7 @@ namespace Iit.Fibertest.TestBench
             await Bus.SendCommand(cmd);
             ApplyToMap(cmd);
         }
-        public async Task ComplyWithRequest(AskUpdateRtu request)
+        public async Task ComplyWithRequest(RequestUpdateRtu request)
         {
             var cmd = PrepareCommand(request);
             if (cmd == null)
@@ -232,7 +232,7 @@ namespace Iit.Fibertest.TestBench
         #endregion
 
         #region Trace
-        public async Task ComplyWithRequest(AskAddTrace request)
+        public async Task ComplyWithRequest(RequestAddTrace request)
         {
             var cmd = PrepareCommand(request);
             if (cmd == null)
@@ -270,7 +270,7 @@ namespace Iit.Fibertest.TestBench
             //            ApplyToMap(cmd);
         }
 
-        public async Task ComplyWithRequest(AskAssignBaseRef request)
+        public async Task ComplyWithRequest(RequestAssignBaseRef request)
         {
             var cmd = PrepareCommand(request);
             if (cmd == null)

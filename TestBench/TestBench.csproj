@@ -81,13 +81,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
-    <Compile Include="Asks\AskAddFiberWithNodes.cs" />
-    <Compile Include="Asks\AskAddNodeIntoFiber.cs" />
-    <Compile Include="Asks\AskAddTrace.cs" />
-    <Compile Include="Asks\AskAssignBaseRef.cs" />
-    <Compile Include="Asks\AskRemoveNode.cs" />
-    <Compile Include="Asks\AskUpdateFiber.cs" />
-    <Compile Include="Asks\AskUpdateRtu.cs" />
+    <Compile Include="UserRequests\RequestAddFiberWithNodes.cs" />
+    <Compile Include="UserRequests\RequestAddNodeIntoFiber.cs" />
+    <Compile Include="UserRequests\RequestAddTrace.cs" />
+    <Compile Include="UserRequests\RequestAssignBaseRef.cs" />
+    <Compile Include="UserRequests\RequestRemoveNode.cs" />
+    <Compile Include="UserRequests\RequestUpdateFiber.cs" />
+    <Compile Include="UserRequests\RequestUpdateRtu.cs" />
     <Compile Include="AutofacUi.cs" />
     <Compile Include="GpsInputControl\GpsInputMode.cs" />
     <Compile Include="GpsInputControl\GpsInputView.xaml.cs">

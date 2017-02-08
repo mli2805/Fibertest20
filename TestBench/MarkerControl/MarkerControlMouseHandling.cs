@@ -85,7 +85,7 @@ namespace Iit.Fibertest.TestBench
         private void EndTraceDefinition()
         {
             _mainMap.IsInTraceDefiningMode = false;
-            _owner.GraphVm.Request = new AskAddTrace() {NodeWithRtuId = _mainMap.StartNode.Id, LastNodeId = _marker.Id};
+            _owner.GraphVm.Request = new RequestAddTrace() {NodeWithRtuId = _mainMap.StartNode.Id, LastNodeId = _marker.Id};
         }
 
         private void EndFiberCreation()
@@ -97,7 +97,7 @@ namespace Iit.Fibertest.TestBench
             if (!_mainMap.IsFiberWithNodes)
                 _owner.GraphVm.Request = new AddFiber() { Node1 = _mainMap.StartNode.Id, Node2 = _marker.Id };
             else
-                _owner.GraphVm.Request = new AskAddFiberWithNodes() { Node1 = _mainMap.StartNode.Id, Node2 = _marker.Id, };
+                _owner.GraphVm.Request = new RequestAddFiberWithNodes() { Node1 = _mainMap.StartNode.Id, Node2 = _marker.Id, };
 
             _mainMap.FiberUnderCreation = Guid.Empty;
             Cursor = Cursors.Arrow;

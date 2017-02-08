@@ -26,7 +26,7 @@ namespace Graph.Tests
             _trace = _sut.ReadModel.Traces.Single();
             _traceId = _trace.Id;
             _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, SystemUnderTest2.Path, SystemUnderTest2.Path, null, Answer.Yes));
-            _sut.ShellVm.ComplyWithRequest(new AskAssignBaseRef() {TraceId = _traceId}).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAssignBaseRef() {TraceId = _traceId}).Wait();
             _sut.Poller.Tick();
         }
 
@@ -44,7 +44,7 @@ namespace Graph.Tests
             _oldPreciseId = _trace.PreciseId;
             _oldFastId = _trace.FastId;
             _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, null, SystemUnderTest2.Path, null, Answer.Yes));
-            _sut.ShellVm.ComplyWithRequest(new AskAssignBaseRef() { TraceId = _traceId }).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAssignBaseRef() { TraceId = _traceId }).Wait();
             _sut.Poller.Tick();
         }
 
@@ -59,7 +59,7 @@ namespace Graph.Tests
         public void WhenПользовательСбрасываетТочнуюЗадаетДополнительнуюИЖметСохранить()
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, "", null, SystemUnderTest2.Path, Answer.Yes));
-            _sut.ShellVm.ComplyWithRequest(new AskAssignBaseRef() { TraceId = _traceId }).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAssignBaseRef() { TraceId = _traceId }).Wait();
             _sut.Poller.Tick();
         }
 

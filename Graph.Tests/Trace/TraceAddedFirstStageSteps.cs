@@ -23,7 +23,7 @@ namespace Graph.Tests
         public void GivenИКликнулОпределитьТрассуНаУзлеГдеНетОборудования()
         {
             _lastNodeId = _sut.ReadModel.Nodes[5].Id;
-            _sut.ShellVm.ComplyWithRequest(new AskAddTrace() {LastNodeId = _lastNodeId, NodeWithRtuId = _rtuNodeId})
+            _sut.ShellVm.ComplyWithRequest(new RequestAddTrace() {LastNodeId = _lastNodeId, NodeWithRtuId = _rtuNodeId})
                 .Wait();
         }
 
@@ -36,14 +36,14 @@ namespace Graph.Tests
         [Given(@"Но пользователь выбрал узел где есть оборудование и кликнул определить трассу")]
         public void GivenНоПользовательВыбралУзелГдеЕстьОборудованиеИКликнулОпределитьТрассу()
         {
-            _sut.ShellVm.ComplyWithRequest(new AskAddTrace() { LastNodeId = _lastNodeId, NodeWithRtuId = _rtuNodeId })
+            _sut.ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = _lastNodeId, NodeWithRtuId = _rtuNodeId })
                 .Wait();
         }
 
         [Given(@"Хотя кликнул определить трассу на узле с оборудованием и путь между узлами существует")]
         public void GivenХотяКликнулОпределитьТрассуНаУзлеСОборудованиемИПутьМеждуУзламиСуществует()
         {
-            _sut.ShellVm.ComplyWithRequest(new AskAddTrace() { LastNodeId = _lastNodeId, NodeWithRtuId = _rtuNodeId })
+            _sut.ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = _lastNodeId, NodeWithRtuId = _rtuNodeId })
                 .Wait();
         }
 

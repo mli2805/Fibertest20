@@ -2,8 +2,9 @@
 
 namespace Iit.Fibertest.TestBench
 {
-    public class AskRemoveNode
+    public class RequestUpdateRtu
     {
         public Guid Id { get; set; }
+        public Guid NodeId { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace Iit.Fibertest.TestBench
         private void AskUpdateRtu(object parameter)
         {
             var nodeId = (Guid)parameter;
-            _owner.GraphVm.Request = new AskUpdateRtu() { NodeId = nodeId };
+            _owner.GraphVm.Request = new RequestUpdateRtu() { NodeId = nodeId };
         }
 
         private bool CanShowRtu(object parameter) { return true; }

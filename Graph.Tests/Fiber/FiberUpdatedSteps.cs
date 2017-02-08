@@ -37,7 +37,7 @@ namespace Graph.Tests
         public void WhenПользовательНажалСохранить()
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.FiberUpdateHandler(model, Answer.Yes));
-            _sut.ShellVm.ComplyWithRequest(new AskUpdateFiber() {Id = _saidFiberId}).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestUpdateFiber() {Id = _saidFiberId}).Wait();
             _sut.Poller.Tick();
         }
 
@@ -45,7 +45,7 @@ namespace Graph.Tests
         public void WhenПользовательНажалОтмена()
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.FiberUpdateHandler(model, Answer.Cancel));
-            _sut.ShellVm.ComplyWithRequest(new AskUpdateFiber() { Id = _saidFiberId }).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestUpdateFiber() { Id = _saidFiberId }).Wait();
             _sut.Poller.Tick();
         }
 

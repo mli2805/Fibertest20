@@ -21,15 +21,15 @@ namespace Iit.Fibertest.TestBench
                 ApplyToMap(cmdAddFiber);
         }
 
-        private AddFiberWithNodes EndFiberCreationMany(AskAddFiberWithNodes ask, int count, EquipmentType type)
+        private AddFiberWithNodes EndFiberCreationMany(RequestAddFiberWithNodes request, int count, EquipmentType type)
         {
             var result = new AddFiberWithNodes()
             {
-                Node1 = ask.Node1, Node2 = ask.Node2, AddNodes = new List<AddNode>(), AddEquipments = new List<AddEquipmentAtGpsLocation>()
+                Node1 = request.Node1, Node2 = request.Node2, AddNodes = new List<AddNode>(), AddEquipments = new List<AddEquipmentAtGpsLocation>()
             };
             List<Guid> nodeIds = new List<Guid>();
 
-            foreach (var o in CreateMidNodes(ask.Node1, ask.Node2, count, type))
+            foreach (var o in CreateMidNodes(request.Node1, request.Node2, count, type))
             {
                 if (type == EquipmentType.Well || type == EquipmentType.Invisible)
                 {
@@ -43,8 +43,8 @@ namespace Iit.Fibertest.TestBench
                 }
             }
 
-            nodeIds.Insert(0, ask.Node1);
-            nodeIds.Add(ask.Node2);
+            nodeIds.Insert(0, request.Node1);
+            nodeIds.Add(request.Node2);
             result.AddFibers = CreateMidFibers(nodeIds, count).ToList();
             return result;
         }
@@ -76,9 +76,9 @@ namespace Iit.Fibertest.TestBench
                 yield return new AddFiber() {Id = Guid.NewGuid(), Node1 = nodes[i], Node2 = nodes[i+1]};
         }
 
-        private AddFiberWithNodes PrepareCommand(AskAddFiberWithNodes ask)
+        private AddFiberWithNodes PrepareCommand(RequestAddFiberWithNodes request)
         {
-            if (!Validate(ask))
+            if (!Validate(request))
                 return null;
 
             var vm = new FiberWithNodesAddViewModel();
@@ -86,18 +86,18 @@ namespace Iit.Fibertest.TestBench
             if (!vm.Result)
                 return null;
 
-            return EndFiberCreationMany(ask, vm.Count, vm.GetSelectedType());
+            return EndFiberCreationMany(request, vm.Count, vm.GetSelectedType());
         }
 
-        private bool Validate(AskAddFiberWithNodes ask)
+        private bool Validate(RequestAddFiberWithNodes request)
         {
-            if (ask.Node1 == ask.Node2)
+            if (request.Node1 == request.Node2)
                 return false;
             var fiber =
                 GraphVm.Fibers.FirstOrDefault(
                     f =>
-                        f.Node1.Id == ask.Node1 && f.Node2.Id == ask.Node2 ||
-                        f.Node1.Id == ask.Node2 && f.Node2.Id == ask.Node1);
+                        f.Node1.Id == request.Node1 && f.Node2.Id == request.Node2 ||
+                        f.Node1.Id == request.Node2 && f.Node2.Id == request.Node1);
             if (fiber == null)
                 return true;
             _windowManager.ShowDialog(new NotificationViewModel("", "Уже есть такое волокно"));
@@ -125,7 +125,7 @@ namespace Iit.Fibertest.TestBench
             return false;
         }
 
-        private UpdateFiber PrepareCommand(AskUpdateFiber request)
+        private UpdateFiber PrepareCommand(RequestUpdateFiber request)
         {
             var vm = new FiberUpdateViewModel(request.Id, GraphVm);
             _windowManager.ShowDialog(vm);

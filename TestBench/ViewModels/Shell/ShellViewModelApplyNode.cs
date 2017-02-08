@@ -27,7 +27,7 @@ namespace Iit.Fibertest.TestBench
         }
 
 
-        private RemoveNode PrepareCommand(AskRemoveNode request)
+        private RemoveNode PrepareCommand(RequestRemoveNode request)
         {
             if (GraphVm.Traces.Any(t => t.Nodes.Last() == request.Id))
                 return null; // It's prohibited to remove last node from trace
@@ -54,7 +54,7 @@ namespace Iit.Fibertest.TestBench
         /// This command for add node (well) only!
         /// Equipment should be added by separate command!
         /// </summary>
-        private AddNodeIntoFiber PrepareCommand(AskAddNodeIntoFiber request)
+        private AddNodeIntoFiber PrepareCommand(RequestAddNodeIntoFiber request)
         {
             if (IsFiberContainedInAnyTraceWithBase(request.FiberId))
             {

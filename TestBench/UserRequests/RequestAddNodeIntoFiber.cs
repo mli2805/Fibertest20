@@ -2,7 +2,7 @@
 
 namespace Iit.Fibertest.TestBench
 {
-    public class AskAddNodeIntoFiber
+    public class RequestAddNodeIntoFiber
     {
         public Guid FiberId { get; set; }
     }
