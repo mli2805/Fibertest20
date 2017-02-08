@@ -14,13 +14,15 @@ namespace TreeVision
 
         private void Initialize()
         {
-            RootCollection = new ObservableCollection<Leaf>
-            {
-                new Leaf() {Id = Guid.NewGuid(), Title = "fase45g543aq25 sd4e5qws"},
-                new Leaf() {Id = Guid.NewGuid(), Title = "as980q92 q098wf df"},
-                new Leaf() {Id = Guid.NewGuid(), Title = "1241234c1w ds"},
-                new Leaf() {Id = Guid.NewGuid(), Title = "גûאש839 3ףרגנ3רד4נ ס"}
-            };
+            RootCollection = new ObservableCollection<Leaf>();
+            var server = new Leaf() {Id = Guid.NewGuid(), Title = "Server"};
+            var rtu = new Leaf() { Id = Guid.NewGuid(), Title = "Rtu" };
+            rtu.Children.Add(new Leaf() { Id = Guid.NewGuid(), Title = "Trace" });
+            server.Children.Add(rtu);
+            RootCollection.Add(server);
+            server.Children.Add(new Leaf() {Id = Guid.NewGuid(), Title = "Rtu2"});
+            server.Children.Add(new Leaf() {Id = Guid.NewGuid(), Title = "Rtu3"});
+            server.Children.Add(new Leaf() {Id = Guid.NewGuid(), Title = "Rtu4"});
         }
     }
 }
