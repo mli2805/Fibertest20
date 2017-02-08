@@ -84,13 +84,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Views\TreeView.xaml.cs">
-      <DependentUpon>TreeView.xaml</DependentUpon>
+    <Compile Include="Views\LeftPanelView.xaml.cs">
+      <DependentUpon>LeftPanelView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\TreeViewModel.cs" />
-    <Compile Include="Vms\NodeVm.cs" />
-    <Compile Include="Vms\RtuVm.cs" />
-    <Compile Include="Vms\TraceVm.cs" />
+    <Compile Include="ViewModels\LeftPanelViewModel.cs" />
+    <Compile Include="Vms\Leaf.cs" />
     <Page Include="Views\MainMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -99,7 +97,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\TreeView.xaml">
+    <Page Include="Views\LeftPanelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

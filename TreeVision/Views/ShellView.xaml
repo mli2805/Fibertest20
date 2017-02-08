@@ -1,12 +1,13 @@
 <Window x:Class="TreeVision.ShellView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:treeVision="clr-namespace:TreeVision">
+        xmlns:treeVision="clr-namespace:TreeVision"
+        Width="800" WindowStartupLocation="CenterScreen">
 
     <DockPanel>
-        <treeVision:MainMenuView DockPanel.Dock="Top" />
+        <treeVision:MainMenuView DockPanel.Dock="Top"/>
             
-        <TreeView DockPanel.Dock="Left"/>
+        <treeVision:LeftPanelView DockPanel.Dock="Left" Width="200" />
     </DockPanel>
 
 </Window>

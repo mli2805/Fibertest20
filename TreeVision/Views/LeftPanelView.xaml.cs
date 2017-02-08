@@ -1,11 +1,11 @@
 ﻿namespace TreeVision
 {
     /// <summary>
-    /// Interaction logic for TreeView.xaml
+    /// Interaction logic for LeftPanelView.xaml
     /// </summary>
-    public partial class TreeView
+    public partial class LeftPanelView
     {
-        public TreeView()
+        public LeftPanelView()
         {
             InitializeComponent();
         }
