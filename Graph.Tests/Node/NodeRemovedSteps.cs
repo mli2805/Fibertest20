@@ -12,7 +12,6 @@ namespace Graph.Tests
     public sealed class NodeRemovedSteps
     {
         private readonly SystemUnderTest2 _sut = new SystemUnderTest2();
-        private const string Path = @"..\..\base.sor";
         private Guid _nodeId;
         private Guid _rtuNodeId;
         private Guid _anotherNodeId;
@@ -79,7 +78,7 @@ namespace Graph.Tests
         [Given(@"Для трассы задана базовая")]
         public void GivenДляТрассыЗаданаБазовая()
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, Path, Path, null, Answer.Yes));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, SystemUnderTest2.Path, SystemUnderTest2.Path, null, Answer.Yes));
             _sut.ShellVm.ComplyWithRequest(new AskAssignBaseRef() { TraceId = _trace.Id }).Wait();
             _sut.Poller.Tick();
         }

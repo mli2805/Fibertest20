@@ -87,8 +87,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Answer.cs" />
-    <Compile Include="EquipmentChoiceAnswer.cs" />
+    <Compile Include="Sut\Answer.cs" />
+    <Compile Include="Sut\EquipmentChoiceAnswer.cs" />
     <Compile Include="Equipment\EquipmentAdded.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -121,7 +121,7 @@
     <Compile Include="Equipment\EquipmentUpdatedSteps.cs">
       <DependentUpon>EquipmentUpdated.feature</DependentUpon>
     </Compile>
-    <Compile Include="FakeWindowManager.cs" />
+    <Compile Include="Sut\FakeWindowManager.cs" />
     <Compile Include="Fiber\FiberAdded.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -209,7 +209,7 @@
     <Compile Include="Rtu\RtuRemovedSteps.cs">
       <DependentUpon>RtuRemoved.feature</DependentUpon>
     </Compile>
-    <Compile Include="SystemUnderTest2.cs" />
+    <Compile Include="Sut\SystemUnderTest2.cs" />
     <Compile Include="Trace\BaseRefAssigned.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -361,7 +361,7 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="base.sor" />
+    <Content Include="Sut\base.sor" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

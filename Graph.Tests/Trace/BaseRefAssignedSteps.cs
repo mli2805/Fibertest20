@@ -10,7 +10,6 @@ namespace Graph.Tests
     public sealed class BaseRefAssignedSteps
     {
         private readonly SystemUnderTest2 _sut;
-        private const string Path = @"..\..\base.sor";
         private Guid _traceId;
         private Iit.Fibertest.Graph.Trace _trace;
         private Guid _oldPreciseId;
@@ -26,7 +25,7 @@ namespace Graph.Tests
         {
             _trace = _sut.ReadModel.Traces.Single();
             _traceId = _trace.Id;
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, Path, Path, null, Answer.Yes));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, SystemUnderTest2.Path, SystemUnderTest2.Path, null, Answer.Yes));
             _sut.ShellVm.ComplyWithRequest(new AskAssignBaseRef() {TraceId = _traceId}).Wait();
             _sut.Poller.Tick();
         }
@@ -44,7 +43,7 @@ namespace Graph.Tests
         {
             _oldPreciseId = _trace.PreciseId;
             _oldFastId = _trace.FastId;
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, null, Path, null, Answer.Yes));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, null, SystemUnderTest2.Path, null, Answer.Yes));
             _sut.ShellVm.ComplyWithRequest(new AskAssignBaseRef() { TraceId = _traceId }).Wait();
             _sut.Poller.Tick();
         }
@@ -59,7 +58,7 @@ namespace Graph.Tests
         [When(@"Пользователь сбрасывает точную и задает дополнительную и жмет сохранить")]
         public void WhenПользовательСбрасываетТочнуюЗадаетДополнительнуюИЖметСохранить()
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, "", null, Path, Answer.Yes));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, "", null, SystemUnderTest2.Path, Answer.Yes));
             _sut.ShellVm.ComplyWithRequest(new AskAssignBaseRef() { TraceId = _traceId }).Wait();
             _sut.Poller.Tick();
         }

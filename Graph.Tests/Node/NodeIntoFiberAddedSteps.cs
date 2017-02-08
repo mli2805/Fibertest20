@@ -10,7 +10,6 @@ namespace Graph.Tests
     public sealed class NodeIntoFiberAddedSteps
     {
         private readonly SystemUnderTest2 _sut;
-        private const string Path = @"..\..\base.sor";
         private Guid _a1Id;
         private Guid _b1Id;
         private Guid _nodeId;
@@ -33,7 +32,7 @@ namespace Graph.Tests
         [Given(@"Для трассы проходящей по данному отрезку задана базовая")]
         public void GivenДляДаннойТрассыЗаданаБазовая()
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, Path, Path, null, Answer.Yes));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, SystemUnderTest2.Path, SystemUnderTest2.Path, null, Answer.Yes));
             _sut.ShellVm.ComplyWithRequest(new AskAssignBaseRef() { TraceId = _sut.ReadModel.Traces.First().Id }).Wait();
             _sut.Poller.Tick();
         }

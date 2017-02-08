@@ -16,6 +16,7 @@ namespace Graph.Tests
         public FakeWindowManager FakeWindowManager { get; }
         public ShellViewModel ShellVm { get; }
         public int CurrentEventNumber => Poller.CurrentEventNumber;
+        public const string Path = @"..\..\Sut\base.sor";
 
         public SystemUnderTest2()
         {
