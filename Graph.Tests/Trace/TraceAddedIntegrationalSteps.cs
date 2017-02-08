@@ -45,5 +45,19 @@ namespace Graph.Tests
             trace.Comment.Should().Be(TraceComment);
         }
 
+        [When(@"Пользователь что-то вводит но жмет Отмена")]
+        public void WhenПользовательЧто_ТоВводитНоЖметОтмена()
+        {
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.AddTraceViewHandler(model, TraceTitle, TraceComment, Answer.Cancel));
+
+            _sut.ShellVm.ComplyWithRequest(new AskAddTrace() { LastNodeId = _lastNodeId, NodeWithRtuId = _rtuNodeId }).Wait();
+            _sut.Poller.Tick();
+        }
+
+        [Then(@"Трасса не сохраняется")]
+        public void ThenТрассаНеСохраняется()
+        {
+            _sut.ReadModel.Traces.Count.Should().Be(0);
+        }
     }
 }
