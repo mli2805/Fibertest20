@@ -96,8 +96,8 @@ namespace Iit.Fibertest.TestBench
             var fiber =
                 GraphVm.Fibers.FirstOrDefault(
                     f =>
-                        f.NodeA.Id == ask.Node1 && f.NodeB.Id == ask.Node2 ||
-                        f.NodeA.Id == ask.Node2 && f.NodeB.Id == ask.Node1);
+                        f.Node1.Id == ask.Node1 && f.Node2.Id == ask.Node2 ||
+                        f.Node1.Id == ask.Node2 && f.Node2.Id == ask.Node1);
             if (fiber == null)
                 return true;
             _windowManager.ShowDialog(new NotificationViewModel("", "Уже есть такое волокно"));
@@ -117,8 +117,8 @@ namespace Iit.Fibertest.TestBench
             var fiber =
                 GraphVm.Fibers.FirstOrDefault(
                     f =>
-                        f.NodeA.Id == cmd.Node1 && f.NodeB.Id == cmd.Node2 ||
-                        f.NodeA.Id == cmd.Node2 && f.NodeB.Id == cmd.Node1);
+                        f.Node1.Id == cmd.Node1 && f.Node2.Id == cmd.Node2 ||
+                        f.Node1.Id == cmd.Node2 && f.Node2.Id == cmd.Node1);
             if (fiber == null)
                 return true;
             _windowManager.ShowDialog(new NotificationViewModel("", "Уже есть такое волокно"));
@@ -144,7 +144,7 @@ namespace Iit.Fibertest.TestBench
 
         private void EndFiberCreationOne(Guid fiberId, NodeVm startMarker, NodeVm finishMarker)
         {
-            GraphVm.Fibers.Add(new FiberVm() { Id = fiberId, NodeA = startMarker, NodeB = finishMarker, State = FiberState.NotInTrace });
+            GraphVm.Fibers.Add(new FiberVm() { Id = fiberId, Node1 = startMarker, Node2 = finishMarker, State = FiberState.NotInTrace });
         }
 
     }

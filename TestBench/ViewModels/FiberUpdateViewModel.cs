@@ -72,8 +72,8 @@ namespace Iit.Fibertest.TestBench
 
         private void Initialize()
         {
-            var n1 = _graphVm.Nodes.Single(n => n.Id == _fiber.NodeA.Id);
-            var n2 = _graphVm.Nodes.Single(n => n.Id == _fiber.NodeB.Id);
+            var n1 = _graphVm.Nodes.Single(n => n.Id == _fiber.Node1.Id);
+            var n2 = _graphVm.Nodes.Single(n => n.Id == _fiber.Node2.Id);
             NodeAtitle = n1.Title;
             NodeBtitle = n2.Title;
             GpsLength = $"{GetGpsLength(n1, n2):#,##0}";

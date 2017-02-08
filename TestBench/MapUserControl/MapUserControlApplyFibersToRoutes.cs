@@ -40,8 +40,8 @@ namespace Iit.Fibertest.TestBench
             foreach (var newItem in newItems)
             {
                 var fiberVm = (FiberVm)newItem;
-                var route = new GMapRoute(fiberVm.Id, fiberVm.NodeA.Id, fiberVm.NodeB.Id, Utils.StateToBrush(fiberVm.State),
-                    2, new List<PointLatLng>() { fiberVm.NodeA.Position, fiberVm.NodeB.Position });
+                var route = new GMapRoute(fiberVm.Id, fiberVm.Node1.Id, fiberVm.Node2.Id, Utils.StateToBrush(fiberVm.State),
+                    2, new List<PointLatLng>() { fiberVm.Node1.Position, fiberVm.Node2.Position });
                 route.PropertyChanged += Route_PropertyChanged;
                 MainMap.Markers.Add(route);
             }

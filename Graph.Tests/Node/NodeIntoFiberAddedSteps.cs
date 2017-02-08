@@ -24,9 +24,10 @@ namespace Graph.Tests
         public void GivenЕстьДвеТрассыПроходящиеЧерезОтрезокИОднаНе()
         {
             _sut.CreatePositionForAddNodeIntoFiberTest();
+            var fiber = _sut.ReadModel.Fibers.First();
             _fiberId = _sut.ReadModel.Fibers.First().Id;
-            _a1Id = _sut.ReadModel.Traces.First().Nodes[1];
-            _b1Id = _sut.ReadModel.Traces.First().Nodes[2];
+            _a1Id = fiber.Node1;
+            _b1Id = fiber.Node2;
         }
 
         [Given(@"Для трассы проходящей по данному отрезку задана базовая")]

@@ -40,7 +40,7 @@ namespace Iit.Fibertest.TestBench
         }
         private void ApplyToMap(RemoveNode cmd)
         {
-            var fiberVms = GraphVm.Fibers.Where(e => e.NodeA.Id == cmd.Id || e.NodeB.Id == cmd.Id).ToList();
+            var fiberVms = GraphVm.Fibers.Where(e => e.Node1.Id == cmd.Id || e.Node2.Id == cmd.Id).ToList();
             foreach (var fiberVm in fiberVms)
             {
                 GraphVm.Fibers.Remove(fiberVm);
@@ -48,6 +48,12 @@ namespace Iit.Fibertest.TestBench
             GraphVm.Nodes.Remove(GraphVm.Nodes.Single(n => n.Id == cmd.Id));
         }
 
+        #region AddNodeIntoFiber
+        /// <summary>
+        /// Attention! Mind the difference with Fibertest 1.5
+        /// This command for add node (well) only!
+        /// Equipment should be added by separate command!
+        /// </summary>
         private AddNodeIntoFiber PrepareCommand(AskAddNodeIntoFiber request)
         {
             if (IsFiberContainedInAnyTraceWithBase(request.FiberId))
@@ -55,7 +61,15 @@ namespace Iit.Fibertest.TestBench
                 _windowManager.ShowDialog(new NotificationViewModel("", "It's impossible to change trace with base reflectogram"));
                 return null;
             }
-            return new AddNodeIntoFiber() {FiberId = request.FiberId};
+
+            return new AddNodeIntoFiber()
+            {
+                Id = Guid.NewGuid(),
+                Position = GetFiberCenter(request.FiberId),
+                FiberId = request.FiberId,
+                NewFiberId1 = Guid.NewGuid(),
+                NewFiberId2 = Guid.NewGuid()
+            };
         }
 
         private bool IsFiberContainedInAnyTraceWithBase(Guid fiberId)
@@ -71,10 +85,10 @@ namespace Iit.Fibertest.TestBench
         }
         private int GetFiberIndexInTrace(TraceVm trace, FiberVm fiber)
         {
-            var idxInTrace1 = trace.Nodes.IndexOf(fiber.NodeA.Id);
+            var idxInTrace1 = trace.Nodes.IndexOf(fiber.Node1.Id);
             if (idxInTrace1 == -1)
                 return -1;
-            var idxInTrace2 = trace.Nodes.IndexOf(fiber.NodeB.Id);
+            var idxInTrace2 = trace.Nodes.IndexOf(fiber.Node2.Id);
             if (idxInTrace2 == -1)
                 return -1;
             if (idxInTrace2 - idxInTrace1 == 1)
@@ -86,8 +100,42 @@ namespace Iit.Fibertest.TestBench
 
         private void ApplyToMap(AddNodeIntoFiber cmd)
         {
-            
+
+            GraphVm.Nodes.Add(new NodeVm() { Id = cmd.Id, Position = new PointLatLng(cmd.Position.Latitude, cmd.Position.Longitude) });
+            AddTwoFibersToNewNode(cmd);
+            FixTracesWhichContainedOldFiber(cmd);
+            GraphVm.Fibers.Remove(GraphVm.Fibers.Single(f => f.Id == cmd.FiberId));
         }
+
+        private void AddTwoFibersToNewNode(AddNodeIntoFiber cmd)
+        {
+            var nodeVm = GraphVm.Nodes.First(n => n.Id == cmd.Id);
+            NodeVm node1 = GraphVm.Fibers.Single(f => f.Id == cmd.FiberId).Node1;
+            NodeVm node2 = GraphVm.Fibers.Single(f => f.Id == cmd.FiberId).Node2;
+            GraphVm.Fibers.Add(new FiberVm() { Id = cmd.NewFiberId1, Node1 = node1, Node2 = nodeVm });
+            GraphVm.Fibers.Add(new FiberVm() { Id = cmd.NewFiberId2, Node1 = nodeVm, Node2 = node2 });
+        }
+        private void FixTracesWhichContainedOldFiber(AddNodeIntoFiber cmd)
+        {
+            foreach (var trace in GraphVm.Traces)
+            {
+                int idx;
+                while ((idx = GetFiberIndexInTrace(trace, GraphVm.Fibers.Single(f => f.Id == cmd.FiberId))) != -1)
+                {
+                    trace.Nodes.Insert(idx + 1, cmd.Id); // GPS location добавляется во все трассы
+                }
+            }
+        }
+
+        private GpsLocation GetFiberCenter(Guid fiberId)
+        {
+            var fiber = GraphVm.Fibers.Single(f => f.Id == fiberId);
+            var node1 = GraphVm.Nodes.Single(n => n.Id == fiber.Node1.Id);
+            var node2 = GraphVm.Nodes.Single(n => n.Id == fiber.Node2.Id);
+            return new GpsLocation() { Latitude = (node1.Position.Lat + node2.Position.Lat) / 2, Longitude = (node1.Position.Lng + node2.Position.Lng) / 2 };
+        }
+        #endregion
+
     }
 
 }

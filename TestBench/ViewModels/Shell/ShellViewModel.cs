@@ -69,15 +69,15 @@ namespace Iit.Fibertest.TestBench
             GraphVm.Fibers.Add(new FiberVm()
             {
                 Id = Guid.NewGuid(),
-                NodeA = rtu,
-                NodeB = vertSleeve,
+                Node1 = rtu,
+                Node2 = vertSleeve,
                 State = FiberState.Critical
             });
             GraphVm.Fibers.Add(new FiberVm()
             {
                 Id = Guid.NewGuid(),
-                NodeA = rtu,
-                NodeB = horizSleeve,
+                Node1 = rtu,
+                Node2 = horizSleeve,
                 State = FiberState.Ok
             });
         }

@@ -85,9 +85,9 @@ namespace Graph.Tests
             var d2 = ReadModel.Nodes.Last().Id;
 
             ShellVm.ComplyWithRequest(new AddFiber() {Node1 = nodeForRtuId, Node2 = a1 }).Wait();
-            ShellVm.ComplyWithRequest(new AddFiber() {Node1 = nodeForRtuId, Node2 = b1 }).Wait();
-            ShellVm.ComplyWithRequest(new AddFiber() {Node1 = a1, Node2 = b2 }).Wait();
-            ShellVm.ComplyWithRequest(new AddFiber() {Node1 = a1, Node2 = c2 }).Wait();
+            ShellVm.ComplyWithRequest(new AddFiber() {Node1 = a1, Node2 = a2 }).Wait();
+            ShellVm.ComplyWithRequest(new AddFiber() {Node1 = b1, Node2 = b2 }).Wait();
+            ShellVm.ComplyWithRequest(new AddFiber() {Node1 = b1, Node2 = c2 }).Wait();
             ShellVm.ComplyWithRequest(new AddFiber() {Node1 = nodeForRtuId, Node2 = d2 }).Wait();
             ShellVm.ComplyWithRequest(new AddFiber() {Node1 = b1, Node2 = a2 }).Wait();
             Poller.Tick();
@@ -95,25 +95,27 @@ namespace Graph.Tests
             FakeWindowManager.RegisterHandler(model => QuestionAnswer("Accept the path?", Answer.Yes, model));
             FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(EquipmentChoiceAnswer.Use, model));
             FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, "some title", "", Answer.Yes));
-
             ShellVm.ComplyWithRequest(new AskAddTrace() { LastNodeId = a2, NodeWithRtuId = nodeForRtuId }).Wait();
             Poller.Tick();
 
             FakeWindowManager.RegisterHandler(model => QuestionAnswer("Accept the path?", Answer.Yes, model));
             FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(EquipmentChoiceAnswer.Use, model));
             FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, "some title", "", Answer.Yes));
+            ShellVm.ComplyWithRequest(new AskAddTrace() { LastNodeId = b2, NodeWithRtuId = nodeForRtuId }).Wait();
+            Poller.Tick();
 
+            FakeWindowManager.RegisterHandler(model => QuestionAnswer("Accept the path?", Answer.Yes, model));
+            FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(EquipmentChoiceAnswer.Use, model));
+            FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, "some title", "", Answer.Yes));
             ShellVm.ComplyWithRequest(new AskAddTrace() { LastNodeId = c2, NodeWithRtuId = nodeForRtuId }).Wait();
             Poller.Tick();
 
             FakeWindowManager.RegisterHandler(model => QuestionAnswer("Accept the path?", Answer.Yes, model));
             FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(EquipmentChoiceAnswer.Use, model));
             FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, "some title", "", Answer.Yes));
-
             ShellVm.ComplyWithRequest(new AskAddTrace() { LastNodeId = d2, NodeWithRtuId = nodeForRtuId }).Wait();
             Poller.Tick();
         }
-
 
         public void CreateFieldForPathFinderTest(out Guid startId, out Guid finishId)
         {

@@ -8,6 +8,7 @@ namespace Iit.Fibertest.TestBench
         public Guid Id { get; set; }
 
         public List<Guid> Nodes { get; set; }
+        public List<Guid> Equipments { get; set; }
         public Guid PreciseId { get; set; } = Guid.Empty;
         public Guid FastId { get; set; } = Guid.Empty;
         public Guid AdditionalId { get; set; } = Guid.Empty;
