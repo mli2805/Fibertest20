@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Graph", "..\Graph\Graph.csproj", "{A734876E-977B-4DDA-B6A4-AD1DD525C6D1}"
 EndProject
@@ -19,6 +19,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GMap.NET.WindowsPresentation", "..\GMap.NET.WindowsPresentation\GMap.NET.WindowsPresentation.csproj", "{644FE7D4-0184-400F-B2D7-99CB41360658}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestBench", "..\TestBench\TestBench.csproj", "{0A6DFC12-DC4A-4C44-923F-CEE3DD6B3521}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreeVision", "..\TreeVision\TreeVision.csproj", "{CD3A198D-90AA-411D-B165-331209719686}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -68,6 +70,14 @@ Global
 		{0A6DFC12-DC4A-4C44-923F-CEE3DD6B3521}.v4.0-Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A6DFC12-DC4A-4C44-923F-CEE3DD6B3521}.v4.0-Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A6DFC12-DC4A-4C44-923F-CEE3DD6B3521}.v4.0-Release|Any CPU.Build.0 = Release|Any CPU
+		{CD3A198D-90AA-411D-B165-331209719686}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD3A198D-90AA-411D-B165-331209719686}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD3A198D-90AA-411D-B165-331209719686}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD3A198D-90AA-411D-B165-331209719686}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD3A198D-90AA-411D-B165-331209719686}.v4.0-Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD3A198D-90AA-411D-B165-331209719686}.v4.0-Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD3A198D-90AA-411D-B165-331209719686}.v4.0-Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD3A198D-90AA-411D-B165-331209719686}.v4.0-Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
