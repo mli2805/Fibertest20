@@ -29,6 +29,7 @@ namespace TreeVision
 
         public FiberState State { get; set; }
         public Brush Color { get; set; }
+        public ImageSource Pic1 { get; set; }
 
 
         #region implementation of ITreeViewItemModel
