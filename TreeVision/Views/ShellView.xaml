@@ -6,6 +6,7 @@
 
     <DockPanel>
         <treeVision:MainMenuView DockPanel.Dock="Top"/>
+<!--        <treeVision:LeftPanelView DockPanel.Dock="Left" Width="400" DataContext="MyLeftPanelViewModel" />-->
         <treeVision:LeftPanelView DockPanel.Dock="Left" Width="400" />
         <StackPanel Name="LastElementNeedToBeSetForDockPanel" Background="Transparent"></StackPanel>
     </DockPanel>

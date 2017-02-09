@@ -19,7 +19,7 @@
     </UserControl.Resources>
     
     <Grid>
-        <TreeView ItemsSource="{Binding LeftPanelViewModel.RootCollection}" ItemTemplate="{DynamicResource LeafTemplate}"
+        <TreeView ItemsSource="{Binding MyLeftPanelViewModel.RootCollection}" ItemTemplate="{DynamicResource LeafTemplate}"
                   Background="AntiqueWhite" Foreground="Black"/>
     </Grid>
 </UserControl>
