@@ -60,6 +60,11 @@ namespace Iit.Fibertest.TestBench
             return path;
         }
 
+        private void HighlightTrace(List<Guid> nodes)
+        {
+            var fibers = ReadModel.GetFibersByNodes(nodes);
+        }
+
         private List<Guid> CollectEquipment(List<Guid> nodes)
         {
             var equipments = new List<Guid> { ReadModel.Rtus.Single(r => r.NodeId == nodes[0]).Id };

@@ -34,7 +34,7 @@ namespace Iit.Fibertest.TestBench
         private void Initialize(Guid traceId)
         {
             _trace = _readModel.Traces.First(t => t.Id == traceId);
-            var rtu = _readModel.FindRtuByTrace(traceId);
+            var rtu = _readModel.Rtus.First(r => r.Id == _trace.RtuId);
 
             TraceTitle = _trace.Title;
             RtuTitle = rtu.Title;
