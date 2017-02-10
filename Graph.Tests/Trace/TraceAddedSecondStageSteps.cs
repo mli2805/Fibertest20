@@ -22,7 +22,7 @@ namespace Graph.Tests
         public void GivenХотяПринялПредложенныйМаршрутТрассы()
         {
             _sut.CreateFieldForPathFinderTest(out _rtuNodeId, out _lastNodeId);
-            _nodes = new PathFinder(_sut.ReadModel).FindPath(_rtuNodeId, _lastNodeId).ToList();
+            new PathFinder(_sut.ReadModel).FindPath(_rtuNodeId, _lastNodeId, out _nodes);
 
             _equipments = MapTraceDefine.CollectEquipmentForTrace(_sut.FakeWindowManager, _nodes, _sut.ReadModel);
         }

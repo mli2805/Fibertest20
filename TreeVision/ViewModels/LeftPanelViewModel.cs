@@ -18,7 +18,8 @@ namespace TreeVision
         {
             RootCollection = new ObservableCollection<Leaf>();
             var server = new Leaf() {Id = Guid.NewGuid(), Title = "ServerOnLeftPanel", Color = Brushes.Black };
-            var rtu = new Leaf() { Id = Guid.NewGuid(), Title = "Rtu", Color = Brushes.Black};
+            // or better inherit from an abstract class LEAF 
+            var rtu = new Leaf() { Id = Guid.NewGuid(), Title = "Rtu", Color = Brushes.Black, LeafType = LeafType.Rtu};
             
             var path = "pack://application:,,,/Resources/Rtu/blue_sphere_16.jpg";
             rtu.Pic1 = new BitmapImage(new Uri(path));

@@ -8,39 +8,6 @@ namespace Iit.Fibertest.TestBench
 {
     public static class MapTraceDefine
     {
-        public static bool DefineTrace(this ReadModel readModel, IWindowManager windowManager, Guid rtuNodeId, Guid lastNodeId, out List<Guid> nodes, out List<Guid> equipments)
-        {
-            nodes = new List<Guid>();
-            equipments = new List<Guid>();
-            if (readModel.Equipments.All(e => e.NodeId != lastNodeId))
-            {
-                var errorNotificationViewModel =
-                    new NotificationViewModel("Ошибка!", "Last node of trace must contain some equipment");
-                windowManager.ShowDialog(errorNotificationViewModel);
-                return false;
-            }
-
-            var path = new PathFinder(readModel).FindPath(rtuNodeId, lastNodeId);
-            if (path == null)
-            {
-                var errorNotificationViewModel =
-                    new NotificationViewModel("Ошибка!", "Path couldn't be found");
-                windowManager.ShowDialog(errorNotificationViewModel);
-                return false;
-            }
-
-            var questionViewModel = new QuestionViewModel("Accept the path?");
-            windowManager.ShowDialog(questionViewModel);
-            if (!questionViewModel.IsAnswerPositive)
-                return false;
-
-            nodes = path.ToList();
-            equipments = CollectEquipmentForTrace(windowManager, nodes, readModel);
-            if (equipments == null) // пользователь прервал процесс, отказавшись выбирать оборудование
-                return false;
-            return true;
-
-        }
 
         public static List<Guid> CollectEquipmentForTrace(IWindowManager windowManager, List<Guid> nodes, ReadModel readModel)
         {

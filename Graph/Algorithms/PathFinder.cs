@@ -47,12 +47,14 @@ namespace Iit.Fibertest.Graph
             }
         }
 
-        public IEnumerable<Guid> FindPath(Guid start, Guid end)
+        public bool FindPath(Guid start, Guid end, out List<Guid> path)
         {
-            var path = new List<Guid> {start};
+            path = new List<Guid> {start};
 
             FindPathRecursive(end, path);
-            return path.Last() != end ? null : path;
+            if (path.Last() != end)
+                path = null;
+            return path != null;
         }
     }
 }
