@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Graph", "..\Graph\Graph.csproj", "{A734876E-977B-4DDA-B6A4-AD1DD525C6D1}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Graph.Tests", "..\Graph.Tests\Graph.Tests.csproj", "{456F0424-B6BD-452C-A4B9-53DEB92E829C}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F02BD296-187F-4C67-A229-3B66E321C764}"
 	ProjectSection(SolutionItems) = preProject
 		..\.gitattributes = ..\.gitattributes
@@ -14,13 +10,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\Links.txt = ..\Links.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GMap.NET.Core", "..\GMap.NET.Core\GMap.NET.Core.csproj", "{D0C39D9D-BED0-418B-9A5E-713176CAF40C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GMap.NET.Core", "GMap.NET.Core\GMap.NET.Core.csproj", "{D0C39D9D-BED0-418B-9A5E-713176CAF40C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GMap.NET.WindowsPresentation", "..\GMap.NET.WindowsPresentation\GMap.NET.WindowsPresentation.csproj", "{644FE7D4-0184-400F-B2D7-99CB41360658}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GMap.NET.WindowsPresentation", "GMap.NET.WindowsPresentation\GMap.NET.WindowsPresentation.csproj", "{644FE7D4-0184-400F-B2D7-99CB41360658}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestBench", "..\TestBench\TestBench.csproj", "{0A6DFC12-DC4A-4C44-923F-CEE3DD6B3521}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Graph", "Graph\Graph.csproj", "{A734876E-977B-4DDA-B6A4-AD1DD525C6D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreeVision", "..\TreeVision\TreeVision.csproj", "{CD3A198D-90AA-411D-B165-331209719686}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Graph.Tests", "Graph.Tests\Graph.Tests.csproj", "{456F0424-B6BD-452C-A4B9-53DEB92E829C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestBench", "TestBench\TestBench.csproj", "{0A6DFC12-DC4A-4C44-923F-CEE3DD6B3521}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreeVision", "TreeVision\TreeVision.csproj", "{CD3A198D-90AA-411D-B165-331209719686}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,22 +30,6 @@ Global
 		v4.0-Release|Any CPU = v4.0-Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A734876E-977B-4DDA-B6A4-AD1DD525C6D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A734876E-977B-4DDA-B6A4-AD1DD525C6D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A734876E-977B-4DDA-B6A4-AD1DD525C6D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A734876E-977B-4DDA-B6A4-AD1DD525C6D1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A734876E-977B-4DDA-B6A4-AD1DD525C6D1}.v4.0-Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A734876E-977B-4DDA-B6A4-AD1DD525C6D1}.v4.0-Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A734876E-977B-4DDA-B6A4-AD1DD525C6D1}.v4.0-Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A734876E-977B-4DDA-B6A4-AD1DD525C6D1}.v4.0-Release|Any CPU.Build.0 = Release|Any CPU
-		{456F0424-B6BD-452C-A4B9-53DEB92E829C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{456F0424-B6BD-452C-A4B9-53DEB92E829C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{456F0424-B6BD-452C-A4B9-53DEB92E829C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{456F0424-B6BD-452C-A4B9-53DEB92E829C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{456F0424-B6BD-452C-A4B9-53DEB92E829C}.v4.0-Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{456F0424-B6BD-452C-A4B9-53DEB92E829C}.v4.0-Debug|Any CPU.Build.0 = Debug|Any CPU
-		{456F0424-B6BD-452C-A4B9-53DEB92E829C}.v4.0-Release|Any CPU.ActiveCfg = Release|Any CPU
-		{456F0424-B6BD-452C-A4B9-53DEB92E829C}.v4.0-Release|Any CPU.Build.0 = Release|Any CPU
 		{D0C39D9D-BED0-418B-9A5E-713176CAF40C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D0C39D9D-BED0-418B-9A5E-713176CAF40C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0C39D9D-BED0-418B-9A5E-713176CAF40C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -62,6 +46,22 @@ Global
 		{644FE7D4-0184-400F-B2D7-99CB41360658}.v4.0-Debug|Any CPU.Build.0 = v4.0-Debug|Any CPU
 		{644FE7D4-0184-400F-B2D7-99CB41360658}.v4.0-Release|Any CPU.ActiveCfg = v4.0-Release|Any CPU
 		{644FE7D4-0184-400F-B2D7-99CB41360658}.v4.0-Release|Any CPU.Build.0 = v4.0-Release|Any CPU
+		{A734876E-977B-4DDA-B6A4-AD1DD525C6D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A734876E-977B-4DDA-B6A4-AD1DD525C6D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A734876E-977B-4DDA-B6A4-AD1DD525C6D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A734876E-977B-4DDA-B6A4-AD1DD525C6D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A734876E-977B-4DDA-B6A4-AD1DD525C6D1}.v4.0-Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A734876E-977B-4DDA-B6A4-AD1DD525C6D1}.v4.0-Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A734876E-977B-4DDA-B6A4-AD1DD525C6D1}.v4.0-Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A734876E-977B-4DDA-B6A4-AD1DD525C6D1}.v4.0-Release|Any CPU.Build.0 = Release|Any CPU
+		{456F0424-B6BD-452C-A4B9-53DEB92E829C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{456F0424-B6BD-452C-A4B9-53DEB92E829C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{456F0424-B6BD-452C-A4B9-53DEB92E829C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{456F0424-B6BD-452C-A4B9-53DEB92E829C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{456F0424-B6BD-452C-A4B9-53DEB92E829C}.v4.0-Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{456F0424-B6BD-452C-A4B9-53DEB92E829C}.v4.0-Debug|Any CPU.Build.0 = Debug|Any CPU
+		{456F0424-B6BD-452C-A4B9-53DEB92E829C}.v4.0-Release|Any CPU.ActiveCfg = Release|Any CPU
+		{456F0424-B6BD-452C-A4B9-53DEB92E829C}.v4.0-Release|Any CPU.Build.0 = Release|Any CPU
 		{0A6DFC12-DC4A-4C44-923F-CEE3DD6B3521}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0A6DFC12-DC4A-4C44-923F-CEE3DD6B3521}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A6DFC12-DC4A-4C44-923F-CEE3DD6B3521}.Release|Any CPU.ActiveCfg = Release|Any CPU
