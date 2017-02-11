@@ -7,7 +7,8 @@
              xmlns:cal="http://www.caliburnproject.org"
              cal:Bind.ModelWithoutContext="{Binding .}"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" d:DataContext="{d:DesignInstance treeVision:LeftPanelViewModel}">
+             d:DesignHeight="300" d:DesignWidth="300" 
+             d:DataContext="{d:DesignInstance treeVision:LeftPanelViewModel}">
 
     <UserControl.Resources>
         <HierarchicalDataTemplate x:Key="LeafTemplate" DataType="treeVision:Leaf" ItemsSource="{Binding Children}">
@@ -19,7 +20,8 @@
     </UserControl.Resources>
     
     <Grid>
-        <TreeView ItemsSource="{Binding MyLeftPanelViewModel.RootCollection}" ItemTemplate="{DynamicResource LeafTemplate}"
+        <TreeView ItemsSource="{Binding RootCollection}" 
+                  ItemTemplate="{DynamicResource LeafTemplate}"
                   Background="AntiqueWhite" Foreground="Black"/>
     </Grid>
 </UserControl>

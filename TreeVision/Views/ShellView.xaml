@@ -1,14 +1,16 @@
 <Window x:Class="TreeVision.ShellView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:treeVision="clr-namespace:TreeVision"
-        Width="1400" WindowStartupLocation="CenterScreen">
+        xmlns:treeVision="clr-namespace:TreeVision" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+        Width="1400" WindowStartupLocation="CenterScreen" d:DataContext="{d:DesignInstance treeVision:ShellViewModel}">
 
     <DockPanel>
         <treeVision:MainMenuView DockPanel.Dock="Top"/>
 <!--        <treeVision:LeftPanelView DockPanel.Dock="Left" Width="400" DataContext="MyLeftPanelViewModel" />-->
-        <treeVision:LeftPanelView DockPanel.Dock="Left" Width="400" />
-        <StackPanel Name="LastElementNeedToBeSetForDockPanel" Background="Transparent"></StackPanel>
+        <treeVision:LeftPanelView DockPanel.Dock="Left" Width="400"
+                                  DataContext="{Binding MyLeftPanelViewModel}"/>
+        <StackPanel Background="Transparent"></StackPanel>
     </DockPanel>
 
 </Window>
