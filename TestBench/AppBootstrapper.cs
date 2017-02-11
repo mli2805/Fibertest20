@@ -8,7 +8,7 @@ using Iit.Fibertest.Graph;
 namespace Iit.Fibertest.TestBench {
     public class AppBootstrapper : BootstrapperBase
     {
-        private ILifetimeScope container;
+        private ILifetimeScope _container;
 
         public AppBootstrapper() {
             Initialize();
@@ -18,9 +18,9 @@ namespace Iit.Fibertest.TestBench {
             var builder = new ContainerBuilder();
             builder.RegisterModule<AutofacEventSourcing>();
             builder.RegisterModule<AutofacUi>();
-            container = builder.Build();
+            _container = builder.Build();
 
-            var clientPoller = container.Resolve<ClientPoller>();
+            var clientPoller = _container.Resolve<ClientPoller>();
             GC.KeepAlive(new DispatcherTimer(
                 TimeSpan.FromSeconds(1), 
                 DispatcherPriority.Background, 
@@ -32,18 +32,18 @@ namespace Iit.Fibertest.TestBench {
         protected override object GetInstance(Type service, string key)
         {
             return string.IsNullOrWhiteSpace(key) ?
-                container.Resolve(service) :
-                container.ResolveNamed(key, service);
+                _container.Resolve(service) :
+                _container.ResolveNamed(key, service);
         }
 
         protected override IEnumerable<object> GetAllInstances(Type service)
         {
-            return container.Resolve(typeof(IEnumerable<>).MakeGenericType(service)) as IEnumerable<object>;
+            return _container.Resolve(typeof(IEnumerable<>).MakeGenericType(service)) as IEnumerable<object>;
         }
 
         protected override void BuildUp(object instance)
         {
-            container.InjectProperties(instance);
+            _container.InjectProperties(instance);
         }
 
         protected override void OnStartup(object sender, System.Windows.StartupEventArgs e) {
