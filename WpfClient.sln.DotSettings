@@ -6,4 +6,5 @@
 	<s:String x:Key="/Default/Environment/InjectedLayers/FileInjectedLayer/=3C1C7235B441664B9FBFFAF9E2A47519/AbsolutePath/@EntryValue">C:\Users\marho\Source\Repos\Fibersharp\Team.DotSettings</s:String>
 	<s:String x:Key="/Default/Environment/InjectedLayers/FileInjectedLayer/=3C1C7235B441664B9FBFFAF9E2A47519/RelativePath/@EntryValue">..\..\Team.DotSettings</s:String>
 	<s:Boolean x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=File3C1C7235B441664B9FBFFAF9E2A47519/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=File3C1C7235B441664B9FBFFAF9E2A47519/IsOn/@EntryValue">False</s:Boolean>
 	<s:Double x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=File3C1C7235B441664B9FBFFAF9E2A47519/RelativePriority/@EntryValue">1</s:Double></wpf:ResourceDictionary>
