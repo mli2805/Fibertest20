@@ -116,6 +116,8 @@
     <Compile Include="ViewModels\BaseRefsAssignViewModel.cs" />
     <Compile Include="ViewModels\EquipmentChoiceViewModel.cs" />
     <Compile Include="ViewModels\EquipmentViewModel.cs" />
+    <Compile Include="ViewModels\LeftPanelViewModel.cs" />
+    <Compile Include="ViewModels\MainMenuViewModel.cs" />
     <Compile Include="ViewModels\NodeUpdateViewModel.cs" />
     <Compile Include="ViewModels\Shell\ShellViewModelApplyEquipment.cs" />
     <Compile Include="ViewModels\Shell\ShellViewModelApplyFiber.cs" />
@@ -133,6 +135,12 @@
     </Compile>
     <Compile Include="Views\EquipmentView.xaml.cs">
       <DependentUpon>EquipmentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LeftPanelView.xaml.cs">
+      <DependentUpon>LeftPanelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainMenuView.xaml.cs">
+      <DependentUpon>MainMenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\NodeUpdateView.xaml.cs">
       <DependentUpon>NodeUpdateView.xaml</DependentUpon>
@@ -156,6 +164,8 @@
     <Compile Include="MapUserControl\MapUserControl.xaml.cs">
       <DependentUpon>MapUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vms\ITreeViewItemModel.cs" />
+    <Compile Include="Vms\Leaf.cs" />
     <Compile Include="Vms\MarkerVm.cs" />
     <Compile Include="Vms\NodeVm.cs" />
     <Compile Include="Properties\Annotations.cs" />
@@ -208,6 +218,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\EquipmentView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\LeftPanelView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\MainMenuView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -356,7 +374,9 @@
   <ItemGroup>
     <Resource Include="Resources\CableReserveOk.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\LeftPanel\blue_sphere_16.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -4,19 +4,23 @@
     xmlns:testBench="clr-namespace:Iit.Fibertest.TestBench"
     Width="1000">
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="300"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <StackPanel>
-            <Button Width="120" Height="25" Name="AddOneNode" Content="Add One Node" />
-            <Button Width="120" Height="25" Name="Populate" Content="Populate" />
-            <Button Width="120" Height="25" Name="AssignBase" Content="AssignBase" />
-        </StackPanel>
-        <GroupBox Grid.Column="1" Name="MapBox">
-            <testBench:MapUserControl DataContext="{Binding GraphVm}"/>
-        </GroupBox>
-    </Grid>
+    <DockPanel>
+        <testBench:MainMenuView DockPanel.Dock="Top"/>
+        <testBench:LeftPanelView DockPanel.Dock="Left" Width="400"
+                                  DataContext="{Binding MyLeftPanelViewModel}"/>
+
+        <TabControl>
+            <TabItem Header="SysEvents">
+                <StackPanel>
+                    <Button Width="120" Height="25" Name="AddOneNode" Content="Add One Node" />
+                    <Button Width="120" Height="25" Name="Populate" Content="Populate" />
+                    <Button Width="120" Height="25" Name="AssignBase" Content="AssignBase" />
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Map" IsSelected="True">
+                <testBench:MapUserControl DataContext="{Binding GraphVm}"/>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
 
 </Window>

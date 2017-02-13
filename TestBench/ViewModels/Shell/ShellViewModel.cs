@@ -11,6 +11,9 @@ namespace Iit.Fibertest.TestBench
 {
     public partial class ShellViewModel : Screen, IShell
     {
+        public LeftPanelViewModel MyLeftPanelViewModel { get; set; } = new LeftPanelViewModel();
+
+
         private readonly IWindowManager _windowManager;
         public GraphVm GraphVm { get; set; } = new GraphVm();
         public ReadModel ReadModel { get; }
