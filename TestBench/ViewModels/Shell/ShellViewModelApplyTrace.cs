@@ -17,6 +17,8 @@ namespace Iit.Fibertest.TestBench
             if (traceNodes == null)
                 return null;
 
+            HighlightTrace(traceNodes);
+
             var questionViewModel = new QuestionViewModel("Accept the path?");
             _windowManager.ShowDialog(questionViewModel);
             if (!questionViewModel.IsAnswerPositive)
