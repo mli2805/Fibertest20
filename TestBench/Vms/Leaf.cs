@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Caliburn.Micro;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.TestBench.Properties;
 
 namespace Iit.Fibertest.TestBench
 {
@@ -18,18 +16,43 @@ namespace Iit.Fibertest.TestBench
         Bop,
         Trace
     }
-    public class Leaf : ITreeViewItemModel
+    public class Leaf : PropertyChangedBase, ITreeViewItemModel
     {
-        public string Title { get; set; }
+        private string _title;
+        public string Title
+        {
+            get { return _title; }
+            set
+            {
+                if (value == _title) return;
+                _title = value;
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(SelectedValuePath));
+                NotifyOfPropertyChange(nameof(DisplayValuePath));
+            }
+        }
 
         public Leaf Parent { get; set; }
         public ObservableCollection<Leaf> Children { get; set; } = new ObservableCollection<Leaf>();
 
         public Guid Id { get; set; }
         public LeafType LeafType { get; set; }
+        public int PortNumber { get; set; }
 
         public FiberState State { get; set; }
-        public Brush Color { get; set; }
+
+        private Brush _color;
+        public Brush Color
+        {
+            get { return _color; }
+            set
+            {
+                if (Equals(value, _color)) return;
+                _color = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public ImageSource Pic1 { get; set; }
 
         public ContextMenu ContextMenu => BuildContextMenu();
@@ -69,13 +92,5 @@ namespace Iit.Fibertest.TestBench
             return Children;
         }
         #endregion
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
 }

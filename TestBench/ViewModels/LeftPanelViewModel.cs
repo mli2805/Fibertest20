@@ -9,9 +9,16 @@ namespace Iit.Fibertest.TestBench
     {
         public ObservableCollection<Leaf> RootCollection { get; set; }
 
-        public LeftPanelViewModel()
+
+        public LeftPanelViewModel(TreeReadModel treeReadModel)
         {
-            Initialize();
+            RootCollection = treeReadModel.Tree;
+            RootCollection.CollectionChanged += RootCollection_CollectionChanged;
+//            Initialize();
+        }
+
+        private void RootCollection_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
         }
 
         private void Initialize()

@@ -81,6 +81,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
+    <Compile Include="AutofacEventSourcing.cs" />
+    <Compile Include="TreeReadModel.cs" />
     <Compile Include="UserRequests\RequestAddFiberWithNodes.cs" />
     <Compile Include="UserRequests\RequestAddNodeIntoFiber.cs" />
     <Compile Include="UserRequests\RequestAddTrace.cs" />
@@ -193,6 +195,7 @@
     </Compile>
     <Compile Include="Vms\RtuVm.cs" />
     <Compile Include="Vms\TraceVm.cs" />
+    <Compile Include="Vms\TreeExtensions.cs" />
     <Page Include="GpsInputControl\GpsInputView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

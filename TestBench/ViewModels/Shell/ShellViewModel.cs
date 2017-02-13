@@ -11,7 +11,7 @@ namespace Iit.Fibertest.TestBench
 {
     public partial class ShellViewModel : Screen, IShell
     {
-        public LeftPanelViewModel MyLeftPanelViewModel { get; set; } = new LeftPanelViewModel();
+        public LeftPanelViewModel MyLeftPanelViewModel { get; set; }
 
 
         private readonly IWindowManager _windowManager;
@@ -19,9 +19,10 @@ namespace Iit.Fibertest.TestBench
         public ReadModel ReadModel { get; }
         public Bus Bus { get; }
 
-        public ShellViewModel(IWindowManager windowManager, ReadModel readModel, Bus bus)
+        public ShellViewModel(IWindowManager windowManager, ReadModel readModel, TreeReadModel treeReadModel, Bus bus)
         {
             ReadModel = readModel;
+            MyLeftPanelViewModel = new LeftPanelViewModel(treeReadModel);
             Bus = bus;
             _windowManager = windowManager;
         }

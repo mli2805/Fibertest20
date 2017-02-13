@@ -50,7 +50,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aggregate\Aggregate.cs" />
-    <Compile Include="Aggregate\AutofacEventSourcing.cs" />
     <Compile Include="Aggregate\Bus.cs" />
     <Compile Include="Aggregate\ClientPoller.cs" />
     <Compile Include="Aggregate\Db.cs" />
