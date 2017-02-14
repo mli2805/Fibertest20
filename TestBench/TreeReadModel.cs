@@ -65,7 +65,7 @@ namespace Iit.Fibertest.TestBench
         #region Rtu
         public void Apply(RtuAtGpsLocationAdded e)
         {
-            var leaf = new Leaf() {Id = e.Id, LeafType = LeafType.Rtu, Title = "noname RTU"};
+            var leaf = new Leaf() {Id = e.Id, LeafType = LeafType.Rtu, Title = "noname RTU", Color = Brushes.DarkGray};
             Tree.Add(leaf);
         }
 

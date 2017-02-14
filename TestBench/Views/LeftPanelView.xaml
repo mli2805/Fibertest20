@@ -7,8 +7,7 @@
              xmlns:testBench="clr-namespace:Iit.Fibertest.TestBench"
              cal:Bind.ModelWithoutContext="{Binding .}"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" 
-             >
+             d:DesignHeight="300" d:DesignWidth="300" d:DataContext="{d:DesignInstance testBench:LeftPanelViewModel}">
 
     <UserControl.Resources>
         <HierarchicalDataTemplate x:Key="LeafTemplate" DataType="testBench:Leaf" ItemsSource="{Binding Children}">
@@ -20,7 +19,7 @@
     </UserControl.Resources>
     
     <Grid>
-        <TreeView ItemsSource="{Binding RootCollection}" 
+        <TreeView ItemsSource="{Binding TreeReadModel.Tree}" 
                   ItemTemplate="{DynamicResource LeafTemplate}"
                   Background="AntiqueWhite" Foreground="Black"/>
     </Grid>
