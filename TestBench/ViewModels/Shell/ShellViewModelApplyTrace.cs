@@ -65,6 +65,10 @@ namespace Iit.Fibertest.TestBench
         private void HighlightTrace(List<Guid> nodes)
         {
             var fibers = ReadModel.GetFibersByNodes(nodes);
+            foreach (var fiber in fibers)
+            {
+                Console.WriteLine(fiber);
+            }
         }
 
         private List<Guid> CollectEquipment(List<Guid> nodes)

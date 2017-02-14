@@ -14,7 +14,8 @@ namespace Iit.Fibertest.TestBench {
             Initialize();
         }
 
-        protected override void Configure() {
+        protected override void Configure()
+        {
             var builder = new ContainerBuilder();
             builder.RegisterModule<AutofacEventSourcing>();
             builder.RegisterModule<AutofacUi>();

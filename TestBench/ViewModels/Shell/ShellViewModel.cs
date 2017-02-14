@@ -6,6 +6,8 @@ using GMap.NET;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
 using PrivateReflectionUsingDynamic;
+using Serilog;
+using Serilog.Core;
 
 namespace Iit.Fibertest.TestBench
 {
@@ -13,18 +15,22 @@ namespace Iit.Fibertest.TestBench
     {
         public LeftPanelViewModel MyLeftPanelViewModel { get; set; }
 
+        public Logger Log { get; set; }
 
         private readonly IWindowManager _windowManager;
         public GraphVm GraphVm { get; set; } = new GraphVm();
         public ReadModel ReadModel { get; }
         public Bus Bus { get; }
 
-        public ShellViewModel(IWindowManager windowManager, ReadModel readModel, TreeReadModel treeReadModel, Bus bus)
+        public ShellViewModel(ReadModel readModel, TreeReadModel treeReadModel, Bus bus, IWindowManager windowManager, ClientLogger clientLogger)
         {
             ReadModel = readModel;
             MyLeftPanelViewModel = new LeftPanelViewModel(treeReadModel);
             Bus = bus;
             _windowManager = windowManager;
+
+            Log = clientLogger.Logger;
+            Log.Information("Client started!");
         }
 
         public void AddOneNode()
