@@ -12,7 +12,10 @@
     <UserControl.Resources>
         <HierarchicalDataTemplate x:Key="LeafTemplate" DataType="testBench:Leaf" ItemsSource="{Binding Children}">
             <StackPanel Orientation="Horizontal" ContextMenu="{Binding ContextMenu}">
-                <Image Source="{Binding Pic1}" Height="12" Width="12"></Image>
+                <Image Source="{Binding Pic1}" Height="12" Width="12" Margin="0,0,4,0"></Image>
+                <Image Source="{Binding Pic2}" Height="12" Width="12" Margin="0,0,4,0"></Image>
+                <Image Source="{Binding Pic3}" Height="12" Width="12" Margin="0,0,4,0" Visibility="{Binding Pic3Visibility}"></Image>
+                <Image Source="{Binding Pic4}" Height="12" Width="12" Margin="0,0,4,0" Visibility="{Binding Pic4Visibility}"></Image>
                 <TextBlock Text="{Binding Title}" Foreground="{Binding Color}" Margin="0,0,20,0"/>
             </StackPanel>
         </HierarchicalDataTemplate>
@@ -21,6 +24,6 @@
     <Grid>
         <TreeView ItemsSource="{Binding TreeReadModel.Tree}" 
                   ItemTemplate="{DynamicResource LeafTemplate}"
-                  Background="AntiqueWhite" Foreground="Black"/>
+                  Background="Transparent" Foreground="Black"/>
     </Grid>
 </UserControl>

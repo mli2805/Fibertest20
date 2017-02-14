@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Caliburn.Micro;
@@ -54,6 +55,13 @@ namespace Iit.Fibertest.TestBench
         }
 
         public ImageSource Pic1 { get; set; }
+        public ImageSource Pic2 { get; set; }
+        public ImageSource Pic3 { get; set; }
+        public ImageSource Pic4 { get; set; }
+
+//        public Visibility Pic3Visibility => LeafType == LeafType.Rtu ? Visibility.Visible : Visibility.Collapsed;
+        public Visibility Pic3Visibility => Pic3 != null ? Visibility.Visible : Visibility.Collapsed;
+        public Visibility Pic4Visibility => LeafType == LeafType.Rtu ? Visibility.Visible : Visibility.Collapsed;
 
         public ContextMenu ContextMenu => BuildContextMenu();
 

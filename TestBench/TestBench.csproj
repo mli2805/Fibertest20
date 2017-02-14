@@ -380,6 +380,15 @@
   <ItemGroup>
     <Resource Include="Resources\LeftPanel\blue_sphere_16.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\LeftPanel\Green_ball_16.jpg" />
+    <Resource Include="Resources\LeftPanel\Red_ball_16.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\LeftPanel\Monitoring_Blue.png" />
+    <Resource Include="Resources\LeftPanel\Monitoring_Grey.png" />
+    <Resource Include="Resources\LeftPanel\wifi_green.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
