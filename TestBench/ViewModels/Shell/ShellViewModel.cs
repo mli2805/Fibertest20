@@ -6,7 +6,6 @@ using GMap.NET;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
 using PrivateReflectionUsingDynamic;
-using Serilog;
 using Serilog.Core;
 
 namespace Iit.Fibertest.TestBench
