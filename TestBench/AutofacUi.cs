@@ -11,17 +11,12 @@ namespace Iit.Fibertest.TestBench
             builder.RegisterType<WindowManager>().As<IWindowManager>().SingleInstance();
             builder.RegisterType<ShellViewModel>().As<IShell>();
 
-            builder.RegisterType<ClientLogger>().SingleInstance();
+            builder.RegisterInstance<ILogger>(
+                new LoggerConfiguration()
+                    .WriteTo.RollingFile("logs\\client.log")
+                    .CreateLogger());
         }
     }
 
-    public class ClientLogger
-    {
-        public Serilog.Core.Logger Logger { get; set; }
-
-        public ClientLogger()
-        {
-            Logger = new LoggerConfiguration().WriteTo.RollingFile("logs\\client.log").CreateLogger();
-        }
-    }
+  
 }
