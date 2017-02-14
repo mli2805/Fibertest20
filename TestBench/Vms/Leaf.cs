@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 
@@ -17,9 +18,11 @@ namespace Iit.Fibertest.TestBench
         Bop,
         Trace
     }
+
     public class Leaf : PropertyChangedBase, ITreeViewItemModel
     {
         private string _title;
+
         public string Title
         {
             get { return _title; }
@@ -43,6 +46,7 @@ namespace Iit.Fibertest.TestBench
         public FiberState State { get; set; }
 
         private Brush _color;
+
         public Brush Color
         {
             get { return _color; }
@@ -54,12 +58,63 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
-        public ImageSource Pic1 { get; set; }
-        public ImageSource Pic2 { get; set; }
-        public ImageSource Pic3 { get; set; }
-        public ImageSource Pic4 { get; set; }
+        public ImageSource Pic1
+        {
+            get
+            {
+                switch (LeafType)
+                {
+                    case LeafType.Rtu:
+                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/wifi_green.png"));
+                    case LeafType.Trace:
+                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/Monitoring_Grey.png"));
+                    default:
+                        return null;
+                }
+            }
+        }
 
-//        public Visibility Pic3Visibility => LeafType == LeafType.Rtu ? Visibility.Visible : Visibility.Collapsed;
+        public ImageSource Pic2
+        {
+            get
+            {
+                switch (LeafType)
+                {
+                    case LeafType.Rtu:
+                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/Monitoring_Blue.png"));
+                    case LeafType.Trace:
+                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/Monitoring_Grey.png"));
+                    default:
+                        return null;
+                }
+            }
+        }
+        public ImageSource Pic3
+        {
+            get
+            {
+                switch (LeafType)
+                {
+                    default:
+                        return null;
+                }
+            }
+        }
+        public ImageSource Pic4
+        {
+            get
+            {
+                switch (LeafType)
+                {
+                    case LeafType.Trace:
+                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/Red_Ball_16.jpg"));
+                    default:
+                        return null;
+                }
+            }
+        }
+
+        //        public Visibility Pic3Visibility => LeafType == LeafType.Rtu ? Visibility.Visible : Visibility.Collapsed;
         public Visibility Pic3Visibility => Pic3 != null ? Visibility.Visible : Visibility.Collapsed;
         public Visibility Pic4Visibility => LeafType == LeafType.Rtu ? Visibility.Visible : Visibility.Collapsed;
 
@@ -68,11 +123,12 @@ namespace Iit.Fibertest.TestBench
         private ContextMenu BuildContextMenu()
         {
             var contextMenu = new ContextMenu();
-            contextMenu.Items.Add(new MenuItem() {Header = "Bluh"});
+            contextMenu.Items.Add(new MenuItem() { Header = "Bluh" });
             return contextMenu;
         }
 
         #region implementation of ITreeViewItemModel
+
         public string SelectedValuePath => Title;
         public string DisplayValuePath => Title;
 
@@ -90,6 +146,7 @@ namespace Iit.Fibertest.TestBench
                 account = account.Parent;
             }
         }
+
         public IEnumerable<ITreeViewItemModel> GetHierarchy()
         {
             return GetAscendingHierarchy().Reverse();
@@ -99,6 +156,7 @@ namespace Iit.Fibertest.TestBench
         {
             return Children;
         }
+
         #endregion
     }
 }

@@ -67,17 +67,10 @@ namespace Iit.Fibertest.TestBench
         #region Rtu
         public void Apply(RtuAtGpsLocationAdded e)
         {
-            var path1 = "pack://application:,,,/Resources/LeftPanel/wifi_green.png";
-            var imageSource1 = new BitmapImage(new Uri(path1));
-            var path2 = "pack://application:,,,/Resources/LeftPanel/Monitoring_Blue.png";
-            var imageSource2 = new BitmapImage(new Uri(path2));
-            var path4 = "pack://application:,,,/Resources/LeftPanel/Red_Ball_16.jpg";
-            var imageSource4 = new BitmapImage(new Uri(path4));
-
             var leaf = new Leaf()
             {
                 Id = e.Id, LeafType = LeafType.Rtu, Title = "noname RTU", Color = Brushes.DarkGray,
-                Pic1 = imageSource2, Pic2 = imageSource1, Pic4 = imageSource4
+
             };
             Tree.Add(leaf);
         }
@@ -97,14 +90,9 @@ namespace Iit.Fibertest.TestBench
         #region Trace
         public void Apply(TraceAdded e)
         {
-            var path = "pack://application:,,,/Resources/LeftPanel/Monitoring_Grey.png";
-            var imageSource = new BitmapImage(new Uri(path));
-
             var trace = new Leaf()
             {
                 Id = e.Id, LeafType = LeafType.Trace, Title = e.Title, Color = Brushes.Blue,
-                Pic1 = imageSource,
-                Pic2 = imageSource
             };
             var rtu = Tree.GetById(e.RtuId);
             rtu.Children.Add(trace);
