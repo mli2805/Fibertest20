@@ -11,9 +11,13 @@ namespace Iit.Fibertest.TestBench
             builder.RegisterType<WindowManager>().As<IWindowManager>().SingleInstance();
             builder.RegisterType<ShellViewModel>().As<IShell>();
 
+//            builder.RegisterInstance<ILogger>(
+//                new LoggerConfiguration()
+//                    .WriteTo.RollingFile("logs\\client.log")
+//                    .CreateLogger());
             builder.RegisterInstance<ILogger>(
                 new LoggerConfiguration()
-                    .WriteTo.RollingFile("logs\\client.log")
+                    .WriteTo.Seq("http://localhost:5341")
                     .CreateLogger());
         }
     }
