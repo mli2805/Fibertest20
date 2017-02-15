@@ -38,6 +38,26 @@ namespace Iit.Fibertest.TestBench
             return new RemoveNode { Id = request.Id, TraceFiberPairForDetour = dictionary };
 
         }
+
+        private UpdateNode PrepareCommand(UpdateNode request)
+        {
+            var vm = new NodeUpdateViewModel(request.Id, GraphVm, _windowManager);
+            vm.PropertyChanged += Vm_PropertyChanged;
+            _windowManager.ShowDialog(vm);
+            return vm.Command != null ? (UpdateNode)vm.Command : null;
+        }
+
+        private void Vm_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName != "Command")
+                return;
+            var vm = (NodeUpdateViewModel)sender;
+            
+            if (vm.Command is RemoveEquipment)
+                ApplyToMap((RemoveEquipment)vm.Command); 
+            //TODO how to send to aggregate, implement other types of command   
+        }
+
         private void ApplyToMap(RemoveNode cmd)
         {
             var fiberVms = GraphVm.Fibers.Where(e => e.Node1.Id == cmd.Id || e.Node2.Id == cmd.Id).ToList();

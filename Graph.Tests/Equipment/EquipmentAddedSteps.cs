@@ -12,7 +12,7 @@ namespace Graph.Tests
     public sealed class EquipmentAddedSteps
     {
         private readonly SystemUnderTest2 _sut;
-        private EquipmentViewModel _equipmentViewModel;
+        private EquipmentUpdateViewModel _equipmentUpdateViewModel;
         private Iit.Fibertest.Graph.Trace _saidTrace;
         private Guid _nodeWithoutEquipmentId;
         private Guid _nodeWithEquipmentId;
@@ -60,23 +60,23 @@ namespace Graph.Tests
         [Given(@"Открывыется окно для добавления оборудования во второй узел")]
         public void GivenAnAddEquipmentWindowOpenedForSaidNode()
         {
-            _equipmentViewModel = new EquipmentViewModel(_sut.FakeWindowManager, _nodeWithoutEquipmentId, Guid.Empty, _tracesForInsertion, _sut.Aggregate);
-            _equipmentViewModel.Title = TitleForTest;
-            _equipmentViewModel.Type = TypeForTest;
-            _equipmentViewModel.CableReserveLeft = LeftCableReserve;
-            _equipmentViewModel.CableReserveRight = RightCableReserve;
-            _equipmentViewModel.Comment = CommentForTest;
+            _equipmentUpdateViewModel = new EquipmentUpdateViewModel(_sut.FakeWindowManager, _nodeWithoutEquipmentId, Guid.Empty, _tracesForInsertion, _sut.ShellVm.GraphVm);
+            _equipmentUpdateViewModel.Title = TitleForTest;
+            _equipmentUpdateViewModel.Type = TypeForTest;
+            _equipmentUpdateViewModel.CableReserveLeft = LeftCableReserve;
+            _equipmentUpdateViewModel.CableReserveRight = RightCableReserve;
+            _equipmentUpdateViewModel.Comment = CommentForTest;
         }
 
         [Given(@"Открывыется окно для добавления оборудования в третий узел")]
         public void GivenОткрывыетсяОкноДляДобавленияОборудованияВТретийУзел()
         {
-            _equipmentViewModel = new EquipmentViewModel(_sut.FakeWindowManager, _nodeWithEquipmentId, Guid.Empty, _tracesForInsertion, _sut.Aggregate);
-            _equipmentViewModel.Title = TitleForTest;
-            _equipmentViewModel.Type = TypeForTest;
-            _equipmentViewModel.CableReserveLeft = LeftCableReserve;
-            _equipmentViewModel.CableReserveRight = RightCableReserve;
-            _equipmentViewModel.Comment = CommentForTest;
+            _equipmentUpdateViewModel = new EquipmentUpdateViewModel(_sut.FakeWindowManager, _nodeWithEquipmentId, Guid.Empty, _tracesForInsertion, _sut.ShellVm.GraphVm);
+            _equipmentUpdateViewModel.Title = TitleForTest;
+            _equipmentUpdateViewModel.Type = TypeForTest;
+            _equipmentUpdateViewModel.CableReserveLeft = LeftCableReserve;
+            _equipmentUpdateViewModel.CableReserveRight = RightCableReserve;
+            _equipmentUpdateViewModel.Comment = CommentForTest;
         }
 
         [Given(@"У трассы во втором узле нет оборудования")]
@@ -101,15 +101,15 @@ namespace Graph.Tests
         [When(@"Нажата клавиша Сохранить в окне добавления оборудования")]
         public void WhenSaveButtonOnAddEquipmentWindowPressed()
         {
-            _equipmentViewModel.Save();
-            _equipmentId = _equipmentViewModel.EquipmentId;
+            _equipmentUpdateViewModel.Save();
+            _equipmentId = _equipmentUpdateViewModel.EquipmentId;
             _sut.Poller.Tick();
         }
 
         [When(@"Нажата клавиша Отменить в окне добавления оборудования")]
         public void WhenCancelButtonOnAddEquipmentWindowPressed()
         {
-            _equipmentViewModel.Cancel();
+            _equipmentUpdateViewModel.Cancel();
         }
 
         [Then(@"Новое оборудование сохраняется")]
@@ -146,13 +146,13 @@ namespace Graph.Tests
         [Then(@"Окно добавления оборудования закрывается")]
         public void ThenTheAddEquipmentWindowGetsClosed()
         {
-            _equipmentViewModel.IsClosed.Should().BeTrue();
+            _equipmentUpdateViewModel.IsClosed.Should().BeTrue();
         }
 
         [Then(@"Окно добавления оборудования НЕ закрывается")]
         public void ThenОкноДобавленияОборудованияНеЗакрывается()
         {
-            _equipmentViewModel.IsClosed.Should().BeFalse();
+            _equipmentUpdateViewModel.IsClosed.Should().BeFalse();
         }
     }
 }

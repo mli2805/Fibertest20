@@ -19,5 +19,10 @@ namespace Iit.Fibertest.TestBench
 
             GraphVm.Equipments.Add(new EquipmentVm() { Id = cmd.Id, Node = nodeVm, Type = cmd.Type });
         }
+
+        private void ApplyToMap(RemoveEquipment cmd)
+        {
+            
+        }
     }
 }

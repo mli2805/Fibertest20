@@ -13,7 +13,7 @@ namespace Graph.Tests
     {
         private readonly SystemUnderTest2 _sut = new SystemUnderTest2();
         private Guid _equipmentId;
-        private EquipmentViewModel _equipmentViewModel;
+        private EquipmentUpdateViewModel _equipmentUpdateViewModel;
 
         private const string NewTitleForTest = "New name for old equipment";
         private const EquipmentType NewTypeForTest = EquipmentType.Cross;
@@ -32,30 +32,30 @@ namespace Graph.Tests
         [Given(@"Открыта форма для изменения сущ оборудования")]
         public void GivenОткрытаФормаДляИзмененияСущОборудования()
         {
-            _equipmentViewModel = new EquipmentViewModel(_sut.FakeWindowManager, Guid.Empty, _equipmentId, null, _sut.Aggregate);
+            _equipmentUpdateViewModel = new EquipmentUpdateViewModel(_sut.FakeWindowManager, Guid.Empty, _equipmentId, null, _sut.ShellVm.GraphVm);
         }
 
         [Given(@"Пользователь производит изменения")]
         public void GivenПользовательПроизводитИзменения()
         {
-            _equipmentViewModel.Title = NewTitleForTest;
-            _equipmentViewModel.Type = NewTypeForTest;
-            _equipmentViewModel.CableReserveLeft = NewLeftCableReserve;
-            _equipmentViewModel.CableReserveRight = NewRightCableReserve;
-            _equipmentViewModel.Comment = NewCommentForTest;
+            _equipmentUpdateViewModel.Title = NewTitleForTest;
+            _equipmentUpdateViewModel.Type = NewTypeForTest;
+            _equipmentUpdateViewModel.CableReserveLeft = NewLeftCableReserve;
+            _equipmentUpdateViewModel.CableReserveRight = NewRightCableReserve;
+            _equipmentUpdateViewModel.Comment = NewCommentForTest;
         }
 
         [When(@"Жмет сохранить")]
         public void WhenЖметСохранить()
         {
-            _equipmentViewModel.Save();
+            _equipmentUpdateViewModel.Save();
             _sut.Poller.Tick();
         }
 
         [When(@"Жмет Отмена")]
         public void WhenЖметОтмена()
         {
-            _equipmentViewModel.Cancel();
+            _equipmentUpdateViewModel.Cancel();
             _sut.Poller.Tick();
         }
 

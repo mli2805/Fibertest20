@@ -7,7 +7,7 @@ namespace Iit.Fibertest.TestBench
     {
         public MappingDomainEntityToViewModel()
         {
-            CreateMap<Equipment, EquipmentViewModel>();
+            CreateMap<Equipment, EquipmentUpdateViewModel>();
         }
     }
 }

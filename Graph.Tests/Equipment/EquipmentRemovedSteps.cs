@@ -52,7 +52,7 @@ namespace Graph.Tests
         [When(@"Пользователь нажимает удалить оборудование")]
         public void WhenПользовательНажимаетУдалитьОборудование()
         {
-            new NodeUpdateViewModel(_nodeId, _sut.ReadModel, _sut.Aggregate).RemoveEquipment(_equipmentId);
+            new NodeUpdateViewModel(_nodeId, _sut.ShellVm.GraphVm, new FakeWindowManager()).RemoveEquipment(_equipmentId);
             _sut.Poller.Tick();
         }
 

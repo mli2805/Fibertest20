@@ -141,7 +141,7 @@
     <Compile Include="MarkerControl\MarkerControlRtuContextMenu.cs" />
     <Compile Include="ViewModels\BaseRefsAssignViewModel.cs" />
     <Compile Include="ViewModels\EquipmentChoiceViewModel.cs" />
-    <Compile Include="ViewModels\EquipmentViewModel.cs" />
+    <Compile Include="ViewModels\EquipmentUpdateViewModel.cs" />
     <Compile Include="ViewModels\LeftPanelViewModel.cs" />
     <Compile Include="ViewModels\MainMenuViewModel.cs" />
     <Compile Include="ViewModels\NodeUpdateViewModel.cs" />
@@ -159,8 +159,8 @@
     <Compile Include="Views\EquipmentChoiceView.xaml.cs">
       <DependentUpon>EquipmentChoiceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\EquipmentView.xaml.cs">
-      <DependentUpon>EquipmentView.xaml</DependentUpon>
+    <Compile Include="Views\EquipmentUpdateView.xaml.cs">
+      <DependentUpon>EquipmentUpdateView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LeftPanelView.xaml.cs">
       <DependentUpon>LeftPanelView.xaml</DependentUpon>
@@ -244,7 +244,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\EquipmentView.xaml">
+    <Page Include="Views\EquipmentUpdateView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

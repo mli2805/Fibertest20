@@ -146,6 +146,14 @@ namespace Iit.Fibertest.TestBench
             ApplyToMap(request);
         }
 
+        public async Task ComplyWithRequest(UpdateNode request)
+        {
+            var cmd = PrepareCommand(request);
+            if (cmd == null)
+                return;
+            await Bus.SendCommand(cmd);
+        }
+
         public async Task ComplyWithRequest(RequestRemoveNode request)
         {
             var cmd = PrepareCommand(request);

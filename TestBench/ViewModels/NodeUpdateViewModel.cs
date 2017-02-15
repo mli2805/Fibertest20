@@ -11,10 +11,10 @@ namespace Iit.Fibertest.TestBench
 {
     public class NodeUpdateViewModel : Screen, IDataErrorInfo
     {
-        private readonly ReadModel _readModel;
-        private readonly Aggregate _aggregate;
+        private readonly GraphVm _graphVm;
+        private readonly IWindowManager _windowManager;
 
-        private readonly Node _originalNode;
+        private readonly NodeVm _originalNode;
         public bool IsClosed { get; set; }
 
         public Guid NodeId { get; set; }
@@ -22,6 +22,7 @@ namespace Iit.Fibertest.TestBench
         private string _title;
         private string _comment;
         private bool _isButtonSaveEnabled;
+        private object _command;
 
         public string Title
         {
@@ -47,7 +48,7 @@ namespace Iit.Fibertest.TestBench
 
         private bool IsChanged()
         {
-            return _title != _originalNode.Title 
+            return _title != _originalNode.Title
                    || _comment != _originalNode.Comment;
         }
 
@@ -62,60 +63,71 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
-        public NodeUpdateViewModel(Guid nodeId, ReadModel readModel, Aggregate aggregate)
+        public object Command
         {
-            _readModel = readModel;
-            _aggregate = aggregate;
+            get { return _command; }
+            set
+            {
+                if (Equals(value, _command)) return;
+                _command = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public NodeUpdateViewModel(Guid nodeId, GraphVm graphVm, IWindowManager windowManager)
+        {
+            _graphVm = graphVm;
+            _windowManager = windowManager;
             NodeId = nodeId;
-            _originalNode = readModel.Nodes.Single(n => n.Id == nodeId);
+            _originalNode = _graphVm.Nodes.First(n => n.Id == nodeId);
             IsClosed = false;
         }
 
         public void LaunchAddEquipmentView()
         {
-            var windowManager = IoC.Get<IWindowManager>();
-            var addEquipmentViewModel = new EquipmentViewModel(windowManager, NodeId, Guid.Empty, new List<Guid>(),  _aggregate);
-            windowManager.ShowDialog(addEquipmentViewModel);
+            var addEquipmentViewModel = new EquipmentUpdateViewModel(_windowManager, NodeId, Guid.Empty, new List<Guid>(), _graphVm);
+            _windowManager.ShowDialog(addEquipmentViewModel);
         }
 
         public void LaunchUpdateEquipmentView()
         {
             // как будто оборудование уже существовало и пользователь хочет его редактировать
-            Equipment eq = new Equipment {Id = Guid.NewGuid(), NodeId = NodeId, Type = EquipmentType.Other, Title = "Изменяемое оборудование", Comment = "Передается маппером", CableReserveLeft = 10};
-            _readModel.Equipments.Add(eq);
+            EquipmentVm eq = new EquipmentVm()
+            {
+                Id = Guid.NewGuid(),
+                Node = _originalNode,
+                Type = EquipmentType.Other,
+                Title = "Изменяемое оборудование",
+                Comment = "Передается маппером",
+                CableReserveLeft = 10
+            };
+            _graphVm.Equipments.Add(eq);
 
 
-            var windowManager = IoC.Get<IWindowManager>();
-            var equipmentViewModel = new EquipmentViewModel(windowManager, NodeId, eq.Id, null, _aggregate);
+            var equipmentViewModel = new EquipmentUpdateViewModel(_windowManager, NodeId, eq.Id, null, _graphVm);
 
             IMapper mapper = new MapperConfiguration(
                     cfg => cfg.AddProfile<MappingDomainEntityToViewModel>()).CreateMapper();
             mapper.Map(eq, equipmentViewModel);
 
-            windowManager.ShowDialog(equipmentViewModel);
+            _windowManager.ShowDialog(equipmentViewModel);
         }
 
         public void RemoveEquipment(Guid equipmentId)
         {
-            _aggregate.When(new RemoveEquipment {Id = equipmentId});
+            Command = new RemoveEquipment { Id = equipmentId };
         }
 
         public void Save()
         {
-            if (!IsChanged())
-            {
-                CloseView();
-                return;
-            }
-
-            Error = _aggregate.When(new UpdateNode
-            {
-                Id = NodeId,
-                Title = _title,
-                Comment = _comment
-            });
-            if (Error != null)
-                return;
+            Command = IsChanged() ?
+                new UpdateNode
+                {
+                    Id = NodeId,
+                    Title = _title,
+                    Comment = _comment
+                } 
+                : null;
 
             CloseView();
         }
@@ -135,13 +147,13 @@ namespace Iit.Fibertest.TestBench
         {
             get
             {
-                var  errorMessage = string.Empty;
+                var errorMessage = string.Empty;
                 switch (columnName)
                 {
                     case "Title":
                         if (string.IsNullOrEmpty(_title))
                             errorMessage = "Title is required";
-                        if (_readModel.Nodes.Any(n=>n.Title == _title))
+                        if (_graphVm.Nodes.Any(n => n.Title == _title))
                             errorMessage = "There is a node with the same title";
                         IsButtonSaveEnabled = errorMessage == string.Empty;
                         break;

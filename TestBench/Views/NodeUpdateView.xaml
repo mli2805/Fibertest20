@@ -4,13 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="NodeUpdateView" SizeToContent="Height" Width="300" WindowStartupLocation="CenterScreen">
+        Title="NodeUpdateView" SizeToContent="Height" Width="400" WindowStartupLocation="CenterScreen">
     <StackPanel Orientation="Vertical">
         <TextBlock Margin="5" Text="Title" />
         <TextBox Margin="5" Text="{Binding Title, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
         <StackPanel Orientation="Horizontal" Margin="5,15">
-            <Button Name="LaunchAddEquipmentView" Height="25" Width="120" Margin="5" Content="Add Equipment"/>
-            <Button Name="LaunchUpdateEquipmentView" Height="25" Width="120" Margin="5" Content="Update Equipment"/>
+            <Button Name="LaunchAddEquipmentView" Height="25" Width="110" Margin="5" Content="Add Equipment"/>
+            <Button Name="LaunchUpdateEquipmentView" Height="25" Width="110" Margin="5" Content="Update Equipment"/>
+            <Button Name="RemoveEquipment" Height="25" Width="110" Margin="5" Content="Remove Equipment"/>
         </StackPanel>
         <TextBlock Margin="5" Text="Comment" />
         <TextBox Margin="5" Text="{Binding Comment}" />

@@ -22,18 +22,19 @@ namespace Iit.Fibertest.TestBench
             GraphVm.Rtus.Add(rtuVm);
         }
 
+        private UpdateRtu PrepareCommand(RequestUpdateRtu request)
+        {
+            var vm = new RtuUpdateViewModel(request.NodeId, GraphVm);
+            _windowManager.ShowDialog(vm);
+            return vm.Command;
+        }
+
         private void ApplyToMap(UpdateRtu cmd)
         {
             var rtu = GraphVm.Rtus.First(r => r.Id == cmd.Id);
             rtu.Node.Position = new PointLatLng(cmd.Latitude, cmd.Longitude);
         }
 
-        private UpdateRtu PrepareCommand(RequestUpdateRtu request)
-        {
-            var vm = new RtuUpdateViewModel(request.NodeId, GraphVm);
-            _windowManager.ShowDialog(vm);
-            return vm.Request;
-        }
         private void ApplyToMap(RemoveRtu cmd)
         {
             var rtuVm = GraphVm.Rtus.First(r => r.Id == cmd.Id);

@@ -23,7 +23,7 @@ namespace Graph.Tests
             _sut.Poller.Tick();
             // TODO: Extract into page object
             _nodeUpdateVm = new NodeUpdateViewModel(
-                _sut.ReadModel.Nodes.Last().Id, _sut.ReadModel, _sut.Aggregate);
+                _sut.ReadModel.Nodes.Last().Id, _sut.ShellVm.GraphVm, new FakeWindowManager());
             _nodeUpdateVm.Title = title;
             _nodeUpdateVm.Save();
             _cutOff = _sut.CurrentEventNumber;
@@ -42,7 +42,7 @@ namespace Graph.Tests
         [Given(@"Открыто окно для изменения данного узла")]
         public void OpenWindow()
         {
-            _nodeUpdateVm = new NodeUpdateViewModel(_saidNodeId, _sut.ReadModel, _sut.Aggregate);
+            _nodeUpdateVm = new NodeUpdateViewModel(_saidNodeId, _sut.ShellVm.GraphVm, new FakeWindowManager());
         }
         [Given(@"Пользователь ввел название узла (.*)")]
         public void GivenTitleWasSetToBlah_Blah(string title)

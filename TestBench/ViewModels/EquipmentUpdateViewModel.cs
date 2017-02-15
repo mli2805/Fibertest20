@@ -7,11 +7,11 @@ using Iit.Fibertest.Graph.Commands;
 
 namespace Iit.Fibertest.TestBench
 {
-    public class EquipmentViewModel : Screen
+    public class EquipmentUpdateViewModel : Screen
     {
         private readonly IWindowManager _windowManager;
         private readonly Guid _nodeIdOnlyForAddEquipmentCase;
-        private readonly Aggregate _aggregate;
+        private readonly GraphVm _graphVm;
         private string _title;
         private int _cableReserveLeft;
         private int _cableReserveRight;
@@ -82,11 +82,13 @@ namespace Iit.Fibertest.TestBench
         public RadioButtonModel Other { get; } = new RadioButtonModel { Title = "Other", IsChecked = false };
 
         public bool IsClosed { get; set; }
-        public EquipmentViewModel(IWindowManager windowManager, Guid nodeId, Guid equipmentId, List<Guid> tracesForInsertion, Aggregate aggregate)
+
+        public object Command { get; set; }
+        public EquipmentUpdateViewModel(IWindowManager windowManager, Guid nodeId, Guid equipmentId, List<Guid> tracesForInsertion, GraphVm graphVm)
         {
             _windowManager = windowManager;
             _nodeIdOnlyForAddEquipmentCase = nodeId;
-            _aggregate = aggregate;
+            _graphVm = graphVm;
             EquipmentId = equipmentId;
             TracesForInsertion = tracesForInsertion;
 
@@ -110,19 +112,13 @@ namespace Iit.Fibertest.TestBench
                 cmd.Id = EquipmentId;
                 cmd.NodeId = _nodeIdOnlyForAddEquipmentCase;
                 cmd.TracesForInsertion = TracesForInsertion;
-                var result = _aggregate.When(cmd);
-                if (result != null)
-                {
-                    var errorNotificationViewModel = new NotificationViewModel("Ошибка!", result);
-                    _windowManager.ShowDialog(errorNotificationViewModel);
-                    return;
-                }
+                Command = cmd;
             }
             else  // редактирование существовавшего
             {
                 var cmd = mapper.Map<UpdateEquipment>(this);
                 cmd.Id = EquipmentId;
-                _aggregate.When(cmd);
+                Command = cmd;
             }
 
             CloseView();
