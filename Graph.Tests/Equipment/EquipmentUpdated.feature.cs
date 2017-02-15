@@ -69,8 +69,6 @@ namespace Graph.Tests.Equipment
  testRunner.Given("Существует оборудование", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 5
  testRunner.Given("Открыта форма для изменения сущ оборудования", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 6
- testRunner.Given("Пользователь производит изменения", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
         }
         
@@ -89,12 +87,14 @@ namespace Graph.Tests.Equipment
         public virtual void ИзменениеСуществующегоОборудования()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Изменение существующего оборудования", ((string[])(null)));
-#line 8
+#line 7
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 9
+#line 8
  testRunner.When("Жмет сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 9
+ testRunner.Given("Пользователь производит изменения", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 10
  testRunner.Then("Все должно быть сохранено", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
@@ -113,7 +113,9 @@ this.ScenarioSetup(scenarioInfo);
 this.FeatureBackground();
 #line 13
  testRunner.When("Жмет Отмена", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 15
+#line 14
+ testRunner.Given("Пользователь производит изменения", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 16
  testRunner.Then("Никаких команд не подается", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

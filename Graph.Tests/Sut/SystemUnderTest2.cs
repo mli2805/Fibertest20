@@ -38,15 +38,18 @@ namespace Graph.Tests
             ShellVm.ComplyWithRequest(new AddRtuAtGpsLocation() {Latitude = 55, Longitude = 30}).Wait();
             Poller.Tick();
             var nodeForRtuId = ReadModel.Rtus.Last().NodeId;
+
             ShellVm.ComplyWithRequest(new AddNode()).Wait();
+            Poller.Tick();
+            var firstNodeId = ReadModel.Nodes.Last().Id;
+
             ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() {Type = EquipmentType.Terminal}).Wait();
             Poller.Tick();
-            var firstNodeId = ReadModel.Nodes[1].Id;
             var secondNodeId = ReadModel.Nodes.Last().Id;
+
             ShellVm.ComplyWithRequest(new AddFiber() {Node1 = nodeForRtuId, Node2 = firstNodeId}).Wait();
             ShellVm.ComplyWithRequest(new AddFiber() {Node1 = firstNodeId, Node2 = secondNodeId }).Wait();
             Poller.Tick();
-
 
             FakeWindowManager.RegisterHandler(model => QuestionAnswer("Accept the path?", Answer.Yes, model));
             FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(EquipmentChoiceAnswer.Use, model));
@@ -230,6 +233,17 @@ namespace Graph.Tests
             vm.Title = title;
             vm.Comment = comment;
             if (button == Answer.Yes)
+                vm.Save();
+            else
+                vm.Cancel();
+            return true;
+        }
+
+        public bool EquipmentUpdateHandler(object model, Answer answer)
+        {
+            var vm = model as EquipmentUpdateViewModel;
+            if (vm == null) return false;
+            if (answer == Answer.Yes)
                 vm.Save();
             else
                 vm.Cancel();

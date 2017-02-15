@@ -15,6 +15,7 @@ namespace Graph.Tests
         private Guid _nodeId;
         private Guid _rtuNodeId;
         private Guid _anotherNodeId;
+        private Guid _lastNodeId;
         private Iit.Fibertest.Graph.Trace _trace;
 
 
@@ -36,43 +37,25 @@ namespace Graph.Tests
             _sut.Poller.Tick();
         }
 
+        [Given(@"Задана трасса")]
+        public void GivenЗаданаТрасса()
+        {
+            _sut.CreateTraceRtuEmptyTerminal();
+            _trace = _sut.ReadModel.Traces.Last();
+            _rtuNodeId = _trace.Nodes[0];
+            _lastNodeId = _trace.Nodes.Last();
+        }
+
         [Given(@"Данный узел последний в трассе")]
         public void GivenДанныйУзелПоследнийВТрассе()
         {
-            _sut.ShellVm.ComplyWithRequest(new AddRtuAtGpsLocation()).Wait();
-            _sut.Poller.Tick();
-            _rtuNodeId = _sut.ReadModel.Nodes.Last().Id;
-            _sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = _rtuNodeId, Node2 = _nodeId }).Wait();
-            _sut.Poller.Tick();
-            new EquipmentUpdateViewModel(_sut.FakeWindowManager, _nodeId, Guid.Empty, new List<Guid>(), _sut.ShellVm.GraphVm).Save();
-            _sut.Poller.Tick();
-
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentChoiceHandler(EquipmentChoiceAnswer.Use, model));
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.QuestionAnswer("Accept the path?", Answer.Yes, model));
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.AddTraceViewHandler(model, "some title", "", Answer.Yes));
-            _sut.ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = _nodeId, NodeWithRtuId = _rtuNodeId }).Wait();
-            _sut.Poller.Tick();
-
-            _trace = _sut.ReadModel.Traces.Last();
+            _nodeId = _trace.Nodes.Last();
         }
 
         [Given(@"Данный узел НЕ последний в трассе")]
         public void GivenДанныйУзелНеПоследнийВТрассе()
         {
-            _sut.ShellVm.ComplyWithRequest(new AddRtuAtGpsLocation()).Wait();
-            _sut.Poller.Tick();
-            _rtuNodeId = _sut.ReadModel.Nodes.Last().Id;
-            _sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = _rtuNodeId, Node2 = _nodeId }).Wait();
-            _sut.Poller.Tick();
-            new EquipmentUpdateViewModel(_sut.FakeWindowManager, _anotherNodeId, Guid.Empty, new List<Guid>(), _sut.ShellVm.GraphVm).Save();
-            _sut.Poller.Tick();
-
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentChoiceHandler(EquipmentChoiceAnswer.Use, model));
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.AddTraceViewHandler(model, "some title", "", Answer.Yes));
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.QuestionAnswer("Accept the path?", Answer.Yes, model));
-            _sut.ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = _anotherNodeId, NodeWithRtuId = _rtuNodeId }).Wait();
-            _sut.Poller.Tick();
-            _trace = _sut.ReadModel.Traces.Last();
+            _nodeId = _trace.Nodes[1];
         }
 
         [Given(@"Для трассы задана базовая")]
@@ -95,8 +78,8 @@ namespace Graph.Tests
         {
             _sut.ReadModel.Fibers.FirstOrDefault(
                 f =>
-                    f.Node1 == _rtuNodeId && f.Node2 == _anotherNodeId ||
-                    f.Node1 == _anotherNodeId && f.Node2 == _rtuNodeId).Should().NotBe(null);
+                    f.Node1 == _rtuNodeId && f.Node2 == _lastNodeId ||
+                    f.Node1 == _lastNodeId && f.Node2 == _rtuNodeId).Should().NotBe(null);
         }
 
         [Then(@"Корректируются списки узлов и оборудования трассы")]

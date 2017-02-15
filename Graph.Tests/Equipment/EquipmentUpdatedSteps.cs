@@ -48,15 +48,13 @@ namespace Graph.Tests
         [When(@"Жмет сохранить")]
         public void WhenЖметСохранить()
         {
-            _equipmentUpdateViewModel.Save();
-            _sut.Poller.Tick();
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentUpdateHandler(model, Answer.Yes));
         }
 
         [When(@"Жмет Отмена")]
         public void WhenЖметОтмена()
         {
-            _equipmentUpdateViewModel.Cancel();
-            _sut.Poller.Tick();
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentUpdateHandler(model, Answer.Cancel));
         }
 
         [Then(@"Все должно быть сохранено")]
