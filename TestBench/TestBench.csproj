@@ -142,6 +142,7 @@
     <Compile Include="MarkerControl\MarkerControlNodeContextMenu.cs" />
     <Compile Include="MarkerControl\MarkerControlRtuContextMenu.cs" />
     <Compile Include="ViewModels\BaseRefsAssignViewModel.cs" />
+    <Compile Include="ViewModels\CheckBoxModel.cs" />
     <Compile Include="ViewModels\EquipmentChoiceViewModel.cs" />
     <Compile Include="ViewModels\EquipmentUpdateViewModel.cs" />
     <Compile Include="ViewModels\LeftPanelViewModel.cs" />
@@ -153,6 +154,7 @@
     <Compile Include="ViewModels\Shell\ShellViewModelApplyRtu.cs" />
     <Compile Include="ViewModels\Shell\ShellViewModelApplyTrace.cs" />
     <Compile Include="ViewModels\TraceAddViewModel.cs" />
+    <Compile Include="ViewModels\TraceChoiceViewModel.cs" />
     <Compile Include="ViewModels\UniversalViewModels\NotificationViewModel.cs" />
     <Compile Include="ViewModels\UniversalViewModels\QuestionViewModel.cs" />
     <Compile Include="Views\BaseRefsAssignView.xaml.cs">
@@ -175,6 +177,9 @@
     </Compile>
     <Compile Include="Views\TraceAddView.xaml.cs">
       <DependentUpon>TraceAddView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TraceChoiceView.xaml.cs">
+      <DependentUpon>TraceChoiceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UniversalViews\NotificationView.xaml.cs">
       <DependentUpon>NotificationView.xaml</DependentUpon>
@@ -277,6 +282,10 @@
     <Page Include="Views\TraceAddView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\TraceChoiceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UniversalViews\NotificationView.xaml">
       <Generator>MSBuild:Compile</Generator>

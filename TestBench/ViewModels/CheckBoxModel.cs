@@ -1,13 +1,15 @@
-﻿using Caliburn.Micro;
+﻿using System;
+using Caliburn.Micro;
 
 namespace Iit.Fibertest.TestBench
 {
-    public class RadioButtonModel : PropertyChangedBase
+    public class CheckBoxModel : PropertyChangedBase
     {
+        private bool _isChecked;
+        public Guid Id { get; set; }
         public string Title { get; set; }
         public bool IsEnabled { get; set; } = true;
 
-        private bool _isChecked;
         public bool IsChecked
         {
             get { return _isChecked; }
@@ -18,6 +20,5 @@ namespace Iit.Fibertest.TestBench
                 NotifyOfPropertyChange();
             }
         }
-
     }
 }
