@@ -13,7 +13,6 @@ namespace Iit.Fibertest.TestBench
     {
         private readonly GraphVm _graphVm;
         private readonly IWindowManager _windowManager;
-
         private readonly NodeVm _originalNode;
         public bool IsClosed { get; set; }
 
@@ -45,6 +44,11 @@ namespace Iit.Fibertest.TestBench
                 NotifyOfPropertyChange();
             }
         }
+
+        public List<EquipmentVm> EquipmentsInNode { get; set; }
+        public EquipmentVm SelectedEquipment { get; set; }
+
+        public List<TraceVm> TracesInNode { get; set; }
 
         private bool IsChanged()
         {
@@ -82,6 +86,10 @@ namespace Iit.Fibertest.TestBench
             _originalNode = _graphVm.Nodes.First(n => n.Id == nodeId);
             Title = _originalNode.Title;
             Comment = _originalNode.Comment;
+
+            TracesInNode = _graphVm.Traces.Where(t => t.Nodes.Contains(nodeId)).ToList();
+            EquipmentsInNode = _graphVm.Equipments.Where(e => e.Node.Id == nodeId).ToList();
+
             IsClosed = false;
         }
 

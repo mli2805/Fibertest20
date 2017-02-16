@@ -6,15 +6,28 @@
         mc:Ignorable="d"
         Title="NodeUpdateView" SizeToContent="Height" Width="400" WindowStartupLocation="CenterScreen">
     <StackPanel Orientation="Vertical">
-        <TextBlock Margin="5" Text="Title" />
-        <TextBox Margin="5" Text="{Binding Title, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-        <StackPanel Orientation="Horizontal" Margin="5,15">
-            <Button Name="LaunchAddEquipmentView" Height="25" Width="110" Margin="5" Content="Add Equipment"/>
-            <Button Name="LaunchUpdateEquipmentView" Height="25" Width="110" Margin="5" Content="Update Equipment"/>
-            <Button Name="RemoveEquipment" Height="25" Width="110" Margin="5" Content="Remove Equipment"/>
-        </StackPanel>
-        <TextBlock Margin="5" Text="Comment" />
-        <TextBox Margin="5" Text="{Binding Comment}" />
+        <GroupBox Margin="5" Header="Узел">
+            <StackPanel>
+                <DockPanel>
+                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="Title" />
+                    <TextBox Margin="5" Text="{Binding Title, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                </DockPanel>
+                <DockPanel>
+                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="Comment" />
+                    <TextBox Margin="5" Text="{Binding Comment}" />
+                </DockPanel>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Margin="5" Header="Оборудование в узле">
+            <ListBox Height="80" Margin="0,5,0,0"
+            ItemsSource="{Binding EquipmentsInNode}" SelectedItem="{Binding SelectedEquipment}">
+            </ListBox>
+        </GroupBox>
+        <GroupBox Margin="5" Header="Трассы в узле">
+            <ListBox Height="80" Margin="0,5,0,0"
+            ItemsSource="{Binding TracesInNode}">
+            </ListBox>
+        </GroupBox>
         <StackPanel Orientation="Horizontal" Margin="5,15">
             <Button Name="Save" Height="25" Width="100" Margin="5" Content="Сохранить" IsEnabled="{Binding IsButtonSaveEnabled}"/>
             <Button Name="Cancel" Height="25" Width="100" Content="Отменить"/>
