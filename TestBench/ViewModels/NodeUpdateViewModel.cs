@@ -80,12 +80,14 @@ namespace Iit.Fibertest.TestBench
             _windowManager = windowManager;
             NodeId = nodeId;
             _originalNode = _graphVm.Nodes.First(n => n.Id == nodeId);
+            Title = _originalNode.Title;
+            Comment = _originalNode.Comment;
             IsClosed = false;
         }
 
         public void LaunchAddEquipmentView()
         {
-            var addEquipmentViewModel = new EquipmentUpdateViewModel(_windowManager, NodeId, Guid.Empty, new List<Guid>(), _graphVm);
+            var addEquipmentViewModel = new EquipmentUpdateViewModel(NodeId, Guid.Empty, new List<Guid>());
             _windowManager.ShowDialog(addEquipmentViewModel);
         }
 
@@ -104,7 +106,7 @@ namespace Iit.Fibertest.TestBench
             _graphVm.Equipments.Add(eq);
 
 
-            var equipmentViewModel = new EquipmentUpdateViewModel(_windowManager, NodeId, eq.Id, null, _graphVm);
+            var equipmentViewModel = new EquipmentUpdateViewModel(NodeId, eq.Id, null);
 
             IMapper mapper = new MapperConfiguration(
                     cfg => cfg.AddProfile<MappingDomainEntityToViewModel>()).CreateMapper();
@@ -134,6 +136,7 @@ namespace Iit.Fibertest.TestBench
 
         public void Cancel()
         {
+            Command = null;
             CloseView();
         }
 
@@ -153,7 +156,7 @@ namespace Iit.Fibertest.TestBench
                     case "Title":
                         if (string.IsNullOrEmpty(_title))
                             errorMessage = "Title is required";
-                        if (_graphVm.Nodes.Any(n => n.Title == _title))
+                        if (_graphVm.Nodes.Any(n => n.Title == _title && n.Id != _originalNode.Id))
                             errorMessage = "There is a node with the same title";
                         IsButtonSaveEnabled = errorMessage == string.Empty;
                         break;
@@ -161,6 +164,11 @@ namespace Iit.Fibertest.TestBench
                 return errorMessage;
             }
         }
+
+//        private bool ContainsSuchTitle()
+//        {
+//            return _graphVm.Nodes.FirstOrDefault(n=>n.Title == _title)
+//        }
 
         public string Error { get; set; }
 

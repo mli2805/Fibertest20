@@ -143,7 +143,7 @@ namespace Iit.Fibertest.TestBench
         {
             var cmd = request;
             await Bus.SendCommand(cmd);
-            ApplyToMap(request);
+            ApplyToMap(cmd);
         }
 
         public async Task ComplyWithRequest(UpdateNode request)
@@ -152,6 +152,7 @@ namespace Iit.Fibertest.TestBench
             if (cmd == null)
                 return;
             await Bus.SendCommand(cmd);
+            ApplyToMap(cmd);
         }
 
         public async Task ComplyWithRequest(RequestRemoveNode request)

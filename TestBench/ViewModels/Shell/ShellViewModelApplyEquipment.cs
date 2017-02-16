@@ -1,4 +1,5 @@
-﻿using GMap.NET;
+﻿using System.Linq;
+using GMap.NET;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
 
@@ -22,7 +23,7 @@ namespace Iit.Fibertest.TestBench
 
         private void ApplyToMap(RemoveEquipment cmd)
         {
-            
+            GraphVm.Equipments.Remove(GraphVm.Equipments.First(e => e.Id == cmd.Id));
         }
     }
 }

@@ -9,9 +9,7 @@ namespace Iit.Fibertest.TestBench
 {
     public class EquipmentUpdateViewModel : Screen
     {
-        private readonly IWindowManager _windowManager;
         private readonly Guid _nodeIdOnlyForAddEquipmentCase;
-        private readonly GraphVm _graphVm;
         private string _title;
         private int _cableReserveLeft;
         private int _cableReserveRight;
@@ -84,11 +82,9 @@ namespace Iit.Fibertest.TestBench
         public bool IsClosed { get; set; }
 
         public object Command { get; set; }
-        public EquipmentUpdateViewModel(IWindowManager windowManager, Guid nodeId, Guid equipmentId, List<Guid> tracesForInsertion, GraphVm graphVm)
+        public EquipmentUpdateViewModel(Guid nodeId, Guid equipmentId, List<Guid> tracesForInsertion)
         {
-            _windowManager = windowManager;
             _nodeIdOnlyForAddEquipmentCase = nodeId;
-            _graphVm = graphVm;
             EquipmentId = equipmentId;
             TracesForInsertion = tracesForInsertion;
 

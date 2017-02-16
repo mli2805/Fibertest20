@@ -206,6 +206,21 @@ namespace Graph.Tests
             }
         }
 
+        public bool NodeUpdateHandler(object model, string title, string comment, Answer button)
+        {
+            var vm = model as NodeUpdateViewModel;
+            if (vm == null) return false;
+            if (title != null)
+                vm.Title = title;
+            if (comment != null)
+                vm.Comment = comment;
+            if (button == Answer.Yes)
+                vm.Save();
+            else
+                vm.Cancel();
+            return true;
+        }
+
         public bool EquipmentChoiceHandler(EquipmentChoiceAnswer answer, object model)
         {
             var vm = model as EquipmentChoiceViewModel;

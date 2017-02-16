@@ -60,7 +60,7 @@ namespace Graph.Tests
         [Given(@"Открывыется окно для добавления оборудования во второй узел")]
         public void GivenAnAddEquipmentWindowOpenedForSaidNode()
         {
-            _equipmentUpdateViewModel = new EquipmentUpdateViewModel(_sut.FakeWindowManager, _nodeWithoutEquipmentId, Guid.Empty, _tracesForInsertion, _sut.ShellVm.GraphVm);
+            _equipmentUpdateViewModel = new EquipmentUpdateViewModel(_nodeWithoutEquipmentId, Guid.Empty, _tracesForInsertion);
             _equipmentUpdateViewModel.Title = TitleForTest;
             _equipmentUpdateViewModel.Type = TypeForTest;
             _equipmentUpdateViewModel.CableReserveLeft = LeftCableReserve;
@@ -71,7 +71,7 @@ namespace Graph.Tests
         [Given(@"Открывыется окно для добавления оборудования в третий узел")]
         public void GivenОткрывыетсяОкноДляДобавленияОборудованияВТретийУзел()
         {
-            _equipmentUpdateViewModel = new EquipmentUpdateViewModel(_sut.FakeWindowManager, _nodeWithEquipmentId, Guid.Empty, _tracesForInsertion, _sut.ShellVm.GraphVm);
+            _equipmentUpdateViewModel = new EquipmentUpdateViewModel(_nodeWithEquipmentId, Guid.Empty, _tracesForInsertion);
             _equipmentUpdateViewModel.Title = TitleForTest;
             _equipmentUpdateViewModel.Type = TypeForTest;
             _equipmentUpdateViewModel.CableReserveLeft = LeftCableReserve;

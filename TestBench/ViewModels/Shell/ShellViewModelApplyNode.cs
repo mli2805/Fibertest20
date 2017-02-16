@@ -26,6 +26,12 @@ namespace Iit.Fibertest.TestBench
             nodeVm.Position = new PointLatLng(cmd.Latitude, cmd.Longitude);
         }
 
+        private void ApplyToMap(UpdateNode cmd)
+        {
+            var nodeVm = GraphVm.Nodes.Single(n => n.Id == cmd.Id);
+            nodeVm.Title = cmd.Title;
+            nodeVm.Comment = cmd.Comment;
+        }
 
         private RemoveNode PrepareCommand(RequestRemoveNode request)
         {

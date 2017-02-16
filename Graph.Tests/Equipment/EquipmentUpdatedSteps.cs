@@ -32,7 +32,7 @@ namespace Graph.Tests
         [Given(@"Открыта форма для изменения сущ оборудования")]
         public void GivenОткрытаФормаДляИзмененияСущОборудования()
         {
-            _equipmentUpdateViewModel = new EquipmentUpdateViewModel(_sut.FakeWindowManager, Guid.Empty, _equipmentId, null, _sut.ShellVm.GraphVm);
+            _equipmentUpdateViewModel = new EquipmentUpdateViewModel(Guid.Empty, _equipmentId, null);
         }
 
         [Given(@"Пользователь производит изменения")]
