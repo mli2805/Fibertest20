@@ -12,6 +12,7 @@ namespace Iit.Fibertest.TestBench
         public Guid PreciseId { get; set; } = Guid.Empty;
         public Guid FastId { get; set; } = Guid.Empty;
         public Guid AdditionalId { get; set; } = Guid.Empty;
+        public string Title { get; set; }
         public string Comment { get; set; }
 
         public bool HasBase => PreciseId != Guid.Empty || FastId != Guid.Empty || AdditionalId != Guid.Empty;

@@ -9,6 +9,14 @@ using Iit.Fibertest.Graph.Commands;
 
 namespace Iit.Fibertest.TestBench
 {
+    public class EqItem
+    {
+        public string Type { get; set; }
+        public string Title { get; set; }
+        public string Comment { get; set; }
+        public string Traces { get; set; }
+    }
+
     public class NodeUpdateViewModel : Screen, IDataErrorInfo
     {
         private readonly GraphVm _graphVm;
@@ -45,7 +53,7 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
-        public List<EquipmentVm> EquipmentsInNode { get; set; }
+        public List<EqItem> EquipmentsInNode { get; set; }
         public EquipmentVm SelectedEquipment { get; set; }
 
         public List<TraceVm> TracesInNode { get; set; }
@@ -88,7 +96,18 @@ namespace Iit.Fibertest.TestBench
             Comment = _originalNode.Comment;
 
             TracesInNode = _graphVm.Traces.Where(t => t.Nodes.Contains(nodeId)).ToList();
-            EquipmentsInNode = _graphVm.Equipments.Where(e => e.Node.Id == nodeId).ToList();
+
+            EquipmentsInNode = new List<EqItem>();
+            foreach (var equipmentVm in _graphVm.Equipments.Where(e => e.Node.Id == nodeId))
+            {
+                EquipmentsInNode.Add(new EqItem()
+                {
+                    Type = equipmentVm.Type.ToString(),
+                    Title = equipmentVm.Title,
+                    Comment = equipmentVm.Comment,
+                    Traces = _graphVm.Traces.Where(t => t.Equipments.Contains(equipmentVm.Id)).Aggregate("", (current, traceVm) => current + (traceVm.Title + " ;  "))
+            });
+            }
 
             IsClosed = false;
         }
