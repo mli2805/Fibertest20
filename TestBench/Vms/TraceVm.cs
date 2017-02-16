@@ -16,5 +16,10 @@ namespace Iit.Fibertest.TestBench
         public string Comment { get; set; }
 
         public bool HasBase => PreciseId != Guid.Empty || FastId != Guid.Empty || AdditionalId != Guid.Empty;
+
+        public override string ToString()
+        {
+            return Title;
+        }
     }
 }

@@ -20,7 +20,7 @@ namespace Graph.Tests
         private List<Guid> _tracesForInsertion;
 
         private const string TitleForTest = "Name for equipment";
-        private const EquipmentType TypeForTest = EquipmentType.CableReserve;
+        private const EquipmentType TypeForTest = EquipmentType.Other;
         private const int LeftCableReserve = 2;
         private const int RightCableReserve = 14;
         private const string CommentForTest = "Comment for equipment";

@@ -100,13 +100,15 @@ namespace Iit.Fibertest.TestBench
             EquipmentsInNode = new List<EqItem>();
             foreach (var equipmentVm in _graphVm.Equipments.Where(e => e.Node.Id == nodeId))
             {
-                EquipmentsInNode.Add(new EqItem()
+                var tracesNames = _graphVm.Traces.Where(t => t.Equipments.Contains(equipmentVm.Id)).Aggregate("", (current, traceVm) => current + (traceVm.Title + " ;  "));
+                var eqItem = new EqItem()
                 {
                     Type = equipmentVm.Type.ToString(),
                     Title = equipmentVm.Title,
                     Comment = equipmentVm.Comment,
-                    Traces = _graphVm.Traces.Where(t => t.Equipments.Contains(equipmentVm.Id)).Aggregate("", (current, traceVm) => current + (traceVm.Title + " ;  "))
-            });
+                    Traces = tracesNames
+                };
+                EquipmentsInNode.Add(eqItem);
             }
 
             IsClosed = false;

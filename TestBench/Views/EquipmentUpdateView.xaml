@@ -9,11 +9,11 @@
         <TextBlock Margin="5" >Title</TextBlock> 
         <TextBox Margin="5" Text="{Binding Title}"/>
         <TextBlock Margin="5" >Equipment type</TextBlock>
-        <RadioButton Margin="5" GroupName="equipment" IsChecked="{Binding CableReserve.IsSelected}" Content="{Binding CableReserve.Title}" />
-        <RadioButton Margin="5" GroupName="equipment" IsChecked="{Binding Sleeve.IsSelected}" Content="{Binding Sleeve.Title}" />
-        <RadioButton Margin="5" GroupName="equipment" IsChecked="{Binding Cross.IsSelected}" Content="{Binding Cross.Title}" />
-        <RadioButton Margin="5" GroupName="equipment" IsChecked="{Binding Terminal.IsSelected}" Content="{Binding Terminal.Title}" />
-        <RadioButton Margin="5" GroupName="equipment" IsChecked="{Binding Other.IsSelected}" Content="{Binding Other.Title}" />
+        <RadioButton Margin="5" GroupName="equipment" IsChecked="{Binding CableReserve.IsChecked, Mode=TwoWay}" Content="{Binding CableReserve.Title}" />
+        <RadioButton Margin="5" GroupName="equipment" IsChecked="{Binding Sleeve.IsChecked, Mode=TwoWay}" Content="{Binding Sleeve.Title}" />
+        <RadioButton Margin="5" GroupName="equipment" IsChecked="{Binding Cross.IsChecked, Mode=TwoWay}" Content="{Binding Cross.Title}" />
+        <RadioButton Margin="5" GroupName="equipment" IsChecked="{Binding Terminal.IsChecked, Mode=TwoWay}" Content="{Binding Terminal.Title}" />
+        <RadioButton Margin="5" GroupName="equipment" IsChecked="{Binding Other.IsChecked, Mode=TwoWay}" Content="{Binding Other.Title}" />
         <TextBlock Margin="5" >Cable reserve to the left, m</TextBlock>
         <TextBox Margin="5" Text="{Binding CableReserveLeft}"/>
         <TextBlock Margin="5" >Cable reserve to the right, m</TextBlock>

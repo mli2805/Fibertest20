@@ -73,7 +73,7 @@ namespace Iit.Fibertest.TestBench
 
         public Guid EquipmentId { get; set; }
 
-        public RadioButtonModel CableReserve { get; set; } = new RadioButtonModel { Title = "CableReserve", IsChecked = false };
+        public RadioButtonModel CableReserve { get; } = new RadioButtonModel { Title = "CableReserve", IsChecked = false };
         public RadioButtonModel Sleeve { get; } = new RadioButtonModel { Title = "Sleeve", IsChecked = true };
         public RadioButtonModel Cross { get; } = new RadioButtonModel { Title = "Cross", IsChecked = false };
         public RadioButtonModel Terminal { get; } = new RadioButtonModel { Title = "Terminal", IsChecked = false };

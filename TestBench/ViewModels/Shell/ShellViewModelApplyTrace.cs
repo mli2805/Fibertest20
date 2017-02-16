@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
 
@@ -94,7 +95,10 @@ namespace Iit.Fibertest.TestBench
 
         private void ApplyToMap(AddTrace cmd)
         {
-            GraphVm.Traces.Add(new TraceVm() { Id = cmd.Id, Nodes = cmd.Nodes });
+            IMapper mapper = new MapperConfiguration(
+                    cfg => cfg.AddProfile<MappingCommandToVm>()).CreateMapper();
+            var traceVm = mapper.Map<TraceVm>(cmd);
+            GraphVm.Traces.Add(traceVm);
         }
 
         private AssignBaseRef PrepareCommand(RequestAssignBaseRef request)
