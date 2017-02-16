@@ -26,9 +26,21 @@ namespace Iit.Fibertest.TestBench
 
         private AddEquipment PrepareCommand(RequestAddEquipmentIntoNode request)
         {
+            var tracesInNode = GraphVm.Traces.Where(t => t.Nodes.Contains(request.NodeId)).ToList();
+            TraceChoiceViewModel traceChoiceVm = null;
+            if (tracesInNode.Count > 0)
+            {
+                traceChoiceVm = new TraceChoiceViewModel(tracesInNode);
+                _windowManager.ShowDialog(traceChoiceVm);
+                if (!traceChoiceVm.ShouldWeContinue)
+                    return null;
+            }
             var vm = new EquipmentUpdateViewModel(request.NodeId, Guid.Empty, new List<Guid>());
             _windowManager.ShowDialog(vm);
-            return (AddEquipment) vm.Command;
+            var command = (AddEquipment) vm.Command;
+            if (traceChoiceVm != null)
+                command.TracesForInsertion = traceChoiceVm.GetChosenTraces();
+            return command;
         }
 
         private void ApplyToMap(AddEquipment cmd)

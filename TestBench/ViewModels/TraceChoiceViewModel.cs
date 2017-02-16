@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Caliburn.Micro;
 
 namespace Iit.Fibertest.TestBench
@@ -31,6 +33,11 @@ namespace Iit.Fibertest.TestBench
         protected override void OnViewLoaded(object view)
         {
             DisplayName = "Выбор трасс для оборудования";
+        }
+
+        public List<Guid> GetChosenTraces()
+        {
+            return (from checkBoxModel in Choices where checkBoxModel.IsChecked select checkBoxModel.Id).ToList();
         }
 
         public void Accept()
