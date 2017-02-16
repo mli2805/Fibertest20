@@ -21,7 +21,8 @@ namespace Graph.Tests
         [Given(@"Существует узел")]
         public void GivenСуществуетУзел()
         {
-            _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
+//            _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
+            _sut.ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation()).Wait();
             _sut.Poller.Tick();
             _nodeId = _sut.ReadModel.Nodes.First().Id;
         }
@@ -98,6 +99,7 @@ namespace Graph.Tests
         public void ThenУзелУдаляется()
         {
             _sut.ReadModel.Nodes.FirstOrDefault(n => n.Id == _nodeId).Should().Be(null);
+            _sut.ReadModel.Equipments.FirstOrDefault(e => e.NodeId == _nodeId).Should().Be(null);
         }
 
         [Then(@"Удаление не происходит")]
