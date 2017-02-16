@@ -3,7 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d"
+             xmlns:cal="http://www.caliburnproject.org"
+             mc:Ignorable="d"
+        cal:Bind.ModelWithoutContext="{Binding .}"
         Title="NodeUpdateView" SizeToContent="Height" Width="400" WindowStartupLocation="CenterScreen">
     <StackPanel Orientation="Vertical">
         <GroupBox Margin="5" Header="Узел">
@@ -20,9 +22,20 @@
         </GroupBox>
         <GroupBox Margin="5" Header="Оборудование в узле">
             <ListBox Height="80" Margin="5" ItemsSource="{Binding EquipmentsInNode}" SelectedItem="{Binding SelectedEquipment}">
+                <ListBox.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Add" cal:Message.Attach="AddEquipment"/>
+                    </ContextMenu>
+                </ListBox.ContextMenu>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
+                            <Grid.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Update" cal:Message.Attach="UpdateEquipment"/>
+                                    <MenuItem Header="Remove" cal:Message.Attach="RemoveEquipment" IsEnabled="{Binding IsRemoveEnabled}"/>
+                                </ContextMenu>
+                            </Grid.ContextMenu>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="80"/>
                                 <ColumnDefinition Width="80"/>

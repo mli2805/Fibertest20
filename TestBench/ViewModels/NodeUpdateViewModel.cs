@@ -9,12 +9,37 @@ using Iit.Fibertest.Graph.Commands;
 
 namespace Iit.Fibertest.TestBench
 {
-    public class EqItem
+    public class EqItem : PropertyChangedBase
     {
+        public Guid Id { get; set; }
         public string Type { get; set; }
         public string Title { get; set; }
         public string Comment { get; set; }
         public string Traces { get; set; }
+
+        public bool IsRemoveEnabled { get; set; } = false;
+
+        private object _command;
+        public object Command
+        {
+            get { return _command; }
+            set
+            {
+                if (Equals(value, _command)) return;
+                _command = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public void UpdateEquipment()
+        {
+            Command = new UpdateEquipment { Id = Id };
+        }
+
+        public void RemoveEquipment()
+        {
+            Command = new RemoveEquipment { Id = Id };
+        }
     }
 
     public class NodeUpdateViewModel : Screen, IDataErrorInfo
@@ -54,7 +79,7 @@ namespace Iit.Fibertest.TestBench
         }
 
         public List<EqItem> EquipmentsInNode { get; set; }
-        public EquipmentVm SelectedEquipment { get; set; }
+        public EqItem SelectedEquipment { get; set; }
 
         public List<TraceVm> TracesInNode { get; set; }
 
@@ -103,15 +128,28 @@ namespace Iit.Fibertest.TestBench
                 var tracesNames = _graphVm.Traces.Where(t => t.Equipments.Contains(equipmentVm.Id)).Aggregate("", (current, traceVm) => current + (traceVm.Title + " ;  "));
                 var eqItem = new EqItem()
                 {
+                    Id = equipmentVm.Id,
                     Type = equipmentVm.Type.ToString(),
                     Title = equipmentVm.Title,
                     Comment = equipmentVm.Comment,
                     Traces = tracesNames
                 };
+                eqItem.PropertyChanged += EqItem_PropertyChanged;
                 EquipmentsInNode.Add(eqItem);
             }
 
             IsClosed = false;
+        }
+
+        private void EqItem_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName != "Command")
+                return;
+            var cmd = ((EqItem) sender).Command;
+            if (cmd is UpdateEquipment)
+                LaunchUpdateEquipmentView(((UpdateEquipment)cmd).Id);
+            else
+                RemoveEquipment((RemoveEquipment)cmd); 
         }
 
         public void LaunchAddEquipmentView()
@@ -120,23 +158,10 @@ namespace Iit.Fibertest.TestBench
             _windowManager.ShowDialog(addEquipmentViewModel);
         }
 
-        public void LaunchUpdateEquipmentView()
+        private void LaunchUpdateEquipmentView(Guid id)
         {
-            // как будто оборудование уже существовало и пользователь хочет его редактировать
-            EquipmentVm eq = new EquipmentVm()
-            {
-                Id = Guid.NewGuid(),
-                Node = _originalNode,
-                Type = EquipmentType.Other,
-                Title = "Изменяемое оборудование",
-                Comment = "Передается маппером",
-                CableReserveLeft = 10
-            };
-            _graphVm.Equipments.Add(eq);
-
-
-            var equipmentViewModel = new EquipmentUpdateViewModel(NodeId, eq.Id, null);
-
+            var equipmentViewModel = new EquipmentUpdateViewModel(NodeId, id, null);
+            var eq = _graphVm.Equipments.First(e => e.Id == id);
             IMapper mapper = new MapperConfiguration(
                     cfg => cfg.AddProfile<MappingDomainEntityToViewModel>()).CreateMapper();
             mapper.Map(eq, equipmentViewModel);
@@ -144,9 +169,10 @@ namespace Iit.Fibertest.TestBench
             _windowManager.ShowDialog(equipmentViewModel);
         }
 
-        public void RemoveEquipment(Guid equipmentId)
+        public void RemoveEquipment(RemoveEquipment cmd)
         {
-            Command = new RemoveEquipment { Id = equipmentId };
+            Command = cmd;
+            EquipmentsInNode.Remove(EquipmentsInNode.First(e => e.Id == cmd.Id));
         }
 
         public void Save()
@@ -193,11 +219,6 @@ namespace Iit.Fibertest.TestBench
                 return errorMessage;
             }
         }
-
-//        private bool ContainsSuchTitle()
-//        {
-//            return _graphVm.Nodes.FirstOrDefault(n=>n.Title == _title)
-//        }
 
         public string Error { get; set; }
 
