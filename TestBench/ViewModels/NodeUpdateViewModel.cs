@@ -133,7 +133,8 @@ namespace Iit.Fibertest.TestBench
             var tracesNames = _graphVm.Traces.Where(t => t.Equipments.Contains(equipmentVm.Id))
                 .Aggregate("", (current, traceVm) => current + (traceVm.Title + " ;  "));
 
-            bool isLastForSomeTrace = _graphVm.Traces.Any(t => t.Equipments.Last() == equipmentVm.Id);
+            var isLastForSomeTrace = _graphVm.Traces.Any(t => t.Equipments.Last() == equipmentVm.Id);
+            var isPartOfTraceWithBase = _graphVm.Traces.Any(t => t.Equipments.Contains(equipmentVm.Id) && t.HasBase);
 
             var eqItem = new EqItem()
             {
@@ -142,7 +143,7 @@ namespace Iit.Fibertest.TestBench
                 Title = equipmentVm.Title,
                 Comment = equipmentVm.Comment,
                 Traces = tracesNames,
-                IsRemoveEnabled = !isLastForSomeTrace,
+                IsRemoveEnabled = !isLastForSomeTrace && !isPartOfTraceWithBase,
             };
             eqItem.PropertyChanged += EqItem_PropertyChanged;
             return eqItem;
