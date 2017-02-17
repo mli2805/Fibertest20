@@ -41,7 +41,6 @@ namespace Graph.Tests
         }
 
         [Given(@"Трасса проходит в узле но не использует данное оборудование")]
-
         public void GivenТрассаПроходитВУзлеНоНеИспользуетДанноеОборудование()
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.QuestionAnswer("Accept the path?", Answer.Yes, model));
@@ -78,12 +77,6 @@ namespace Graph.Tests
             _sut.Poller.Tick();
         }
 
-        [Then(@"Пункт Удалить недоступен для данного оборудования")]
-        public void ThenПунктУдалитьНедоступенДляДанногоОборудования()
-        {
-            var vm = new NodeUpdateViewModel(_nodeId, _sut.ShellVm.GraphVm, _sut.FakeWindowManager);
-            vm.EquipmentsInNode.First(e => e.Id == _equipmentId).IsRemoveEnabled.Should().BeFalse();
-        }
 
         [Given(@"Для этой трассы задана базовая")]
         public void GivenДляЭтойТрассыЗаданаБазовая()
@@ -93,11 +86,21 @@ namespace Graph.Tests
             _sut.Poller.Tick();
         }
 
+        [Then(@"Пункт Удалить недоступен для данного оборудования")]
+        public void ThenПунктУдалитьНедоступенДляДанногоОборудования()
+        {
+            var vm = new NodeUpdateViewModel(_nodeId, _sut.ShellVm.GraphVm, _sut.FakeWindowManager);
+            vm.EquipmentsInNode.First(e => e.Id == _equipmentId).IsRemoveEnabled.Should().BeFalse();
+        }
+
         [When(@"Пользователь нажимает удалить оборудование")]
         public void WhenПользовательНажимаетУдалитьОборудование()
         {
-
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.NodeUpdateHandler(model));
+            // не  работает , т.к. некому реагировать на RemoveEquipment
+            // надо начинать с ShellVM
+            var vm = new NodeUpdateViewModel(_nodeId, _sut.ShellVm.GraphVm, _sut.FakeWindowManager);
+            vm.RemoveEquipment(new RemoveEquipment() {Id = _equipmentId});
+            vm.Cancel();
             _sut.Poller.Tick();
         }
 
