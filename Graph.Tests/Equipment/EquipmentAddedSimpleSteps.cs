@@ -42,14 +42,14 @@ namespace Graph.Tests
         public void ThenПользовательВводитТипИДругиеПараметрыОборудования()
         {
             _sut.FakeWindowManager.RegisterHandler(model => 
-                _sut.EquipmentUpdateHandler(model, EquipmentType, Title, Comment, LeftReserve, RightReserve, Answer.Yes));
+                _sut.EquipmentUpdateHandler(model, _nodeId, EquipmentType, Title, Comment, LeftReserve, RightReserve, Answer.Yes));
         }
 
         [Then(@"Пользователь вводит тип и другие параметры оборудования но жмет Отмена")]
         public void ThenПользовательВводитТипИДругиеПараметрыОборудованияНоЖметОтмена()
         {
             _sut.FakeWindowManager.RegisterHandler(model =>
-                _sut.EquipmentUpdateHandler(model, EquipmentType, Title, Comment, LeftReserve, RightReserve, Answer.Cancel));
+                _sut.EquipmentUpdateHandler(model, _nodeId, EquipmentType, Title, Comment, LeftReserve, RightReserve, Answer.Cancel));
         }
 
         [Then(@"На форме Добавить оборудование")]

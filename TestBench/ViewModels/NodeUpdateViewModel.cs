@@ -162,7 +162,7 @@ namespace Iit.Fibertest.TestBench
 
         public void AddEquipment()
         {
-            var addEquipmentViewModel = new EquipmentUpdateViewModel(NodeId, Guid.Empty, new List<Guid>());
+            var addEquipmentViewModel = new EquipmentUpdateViewModel(NodeId, Guid.Empty);
             _windowManager.ShowDialog(addEquipmentViewModel);
             if (addEquipmentViewModel.Command == null)
                 return;
@@ -178,7 +178,7 @@ namespace Iit.Fibertest.TestBench
         {
             var equipmentVm = _graphVm.Equipments.First(e => e.Id == id);
 
-            var updateEquipmentViewModel = new EquipmentUpdateViewModel(NodeId, id, null);
+            var updateEquipmentViewModel = new EquipmentUpdateViewModel(NodeId, id);
             IMapper mapperToViewModel = new MapperConfiguration(
                     cfg => cfg.AddProfile<MappingVmToViewModel>()).CreateMapper();
             mapperToViewModel.Map(Command, updateEquipmentViewModel);

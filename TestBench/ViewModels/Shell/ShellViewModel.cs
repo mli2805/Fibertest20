@@ -93,8 +93,8 @@ namespace Iit.Fibertest.TestBench
 
         public void AssignBase()
         {
-            var traceId = GraphVm.Traces.First().Id;
-            var vm = new BaseRefsAssignViewModel(traceId, ReadModel);
+            var traceVm = GraphVm.Traces.First();
+            var vm = new BaseRefsAssignViewModel(traceVm, GraphVm.Rtus.First(r=>r.Id == traceVm.RtuId));
             _windowManager.ShowDialog(vm);
 
             if (vm.Command != null)

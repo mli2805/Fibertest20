@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Autofac;
 using Caliburn.Micro;
@@ -262,10 +263,30 @@ namespace Graph.Tests
             return vm != null;
         }
 
-        public bool EquipmentUpdateHandler(object model, EquipmentType type, string title, string comment, int leftReserve, int rightReserve, Answer answer)
+        public bool TraceChoiceHandler(object model, List<Guid> chosenTraces, Answer answer)
+        {
+            var vm = model as TraceChoiceViewModel;
+            if (vm == null) return false;
+            foreach (var chosenTrace in chosenTraces)
+            {
+                foreach (var checkbox in vm.Choices)
+                {
+                    if (checkbox.Id == chosenTrace)
+                        checkbox.IsChecked = true;
+                }
+            }
+            if (answer == Answer.Yes)
+                vm.Accept();
+            else
+                vm.Cancel();
+            return true;
+        }
+
+        public bool EquipmentUpdateHandler(object model, Guid nodeId, EquipmentType type, string title, string comment, int leftReserve, int rightReserve, Answer answer)
         {
             var vm = model as EquipmentUpdateViewModel;
             if (vm == null) return false;
+            vm.NodeId = nodeId;
             vm.Type = type;
             vm.Title = title;
             vm.Comment = comment;

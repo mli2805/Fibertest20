@@ -9,7 +9,7 @@ namespace Iit.Fibertest.TestBench
 {
     public class EquipmentUpdateViewModel : Screen
     {
-        private readonly Guid _nodeId;
+        public Guid NodeId;
         private string _title;
         private int _cableReserveLeft;
         private int _cableReserveRight;
@@ -69,8 +69,6 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
-        public List<Guid> TracesForInsertion { get; set; }
-
         public Guid EquipmentId { get; set; }
 
         public RadioButtonModel CableReserve { get; } = new RadioButtonModel() {Title = "CableReserve" };
@@ -83,11 +81,10 @@ namespace Iit.Fibertest.TestBench
         public bool IsSaveEnabled => GetSelectedRadioButton() != EquipmentType.None;
 
         public object Command { get; set; }
-        public EquipmentUpdateViewModel(Guid nodeId, Guid equipmentId, List<Guid> tracesForInsertion)
+        public EquipmentUpdateViewModel(Guid nodeId, Guid equipmentId)
         {
-            _nodeId = nodeId;
+            NodeId = nodeId;
             EquipmentId = equipmentId;
-            TracesForInsertion = tracesForInsertion;
 
             IsClosed = false;
         }
@@ -107,8 +104,7 @@ namespace Iit.Fibertest.TestBench
                 EquipmentId = Guid.NewGuid();
                 var cmd = mapper.Map<AddEquipmentIntoNode>(this);
                 cmd.Id = EquipmentId;
-                cmd.NodeId = _nodeId;
-                cmd.TracesForInsertion = TracesForInsertion;
+                cmd.NodeId = NodeId;
                 Command = cmd;
             }
             else  // редактирование существовавшего

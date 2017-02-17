@@ -35,8 +35,10 @@ namespace Iit.Fibertest.TestBench
                 if (!traceChoiceVm.ShouldWeContinue)
                     return null;
             }
-            var vm = new EquipmentUpdateViewModel(request.NodeId, Guid.Empty, new List<Guid>());
+            var vm = new EquipmentUpdateViewModel(request.NodeId, Guid.Empty);
             _windowManager.ShowDialog(vm);
+            if (vm.Command == null)
+                return null;
             var command = (AddEquipmentIntoNode) vm.Command;
             if (traceChoiceVm != null)
                 command.TracesForInsertion = traceChoiceVm.GetChosenTraces();

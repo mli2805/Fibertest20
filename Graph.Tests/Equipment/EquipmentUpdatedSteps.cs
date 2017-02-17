@@ -12,7 +12,7 @@ namespace Graph.Tests
     public sealed class EquipmentUpdatedSteps
     {
         private readonly SystemUnderTest2 _sut = new SystemUnderTest2();
-        private Guid _equipmentId;
+        private Guid _nodeId, _equipmentId;
         private EquipmentUpdateViewModel _equipmentUpdateViewModel;
 
         private const string NewTitleForTest = "New name for old equipment";
@@ -27,12 +27,13 @@ namespace Graph.Tests
             _sut.ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() {Type = EquipmentType.Terminal}).Wait();
             _sut.Poller.Tick();
             _equipmentId = _sut.ReadModel.Equipments.Single().Id;
+            _nodeId = _sut.ReadModel.Equipments.Single().NodeId;
         }
 
         [Given(@"Открыта форма для изменения сущ оборудования")]
         public void GivenОткрытаФормаДляИзмененияСущОборудования()
         {
-            _equipmentUpdateViewModel = new EquipmentUpdateViewModel(Guid.Empty, _equipmentId, null);
+            _equipmentUpdateViewModel = new EquipmentUpdateViewModel(Guid.Empty, _equipmentId);
         }
 
         [Given(@"Пользователь производит изменения")]
@@ -49,14 +50,14 @@ namespace Graph.Tests
         public void WhenЖметСохранить()
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentUpdateHandler(
-                    model, NewTypeForTest, NewTitleForTest, NewCommentForTest, NewLeftCableReserve, NewRightCableReserve, Answer.Yes));
+                    model, _nodeId, NewTypeForTest, NewTitleForTest, NewCommentForTest, NewLeftCableReserve, NewRightCableReserve, Answer.Yes));
         }
 
         [When(@"Жмет Отмена")]
         public void WhenЖметОтмена()
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentUpdateHandler(
-                    model, NewTypeForTest, NewTitleForTest, NewCommentForTest, NewLeftCableReserve, NewRightCableReserve, Answer.Cancel));
+                    model, _nodeId, NewTypeForTest, NewTitleForTest, NewCommentForTest, NewLeftCableReserve, NewRightCableReserve, Answer.Cancel));
         }
 
         [Then(@"Все должно быть сохранено")]

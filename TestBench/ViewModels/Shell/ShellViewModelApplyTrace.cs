@@ -68,7 +68,8 @@ namespace Iit.Fibertest.TestBench
             var fibers = ReadModel.GetFibersByNodes(nodes);
             foreach (var fiber in fibers)
             {
-                Console.WriteLine(fiber);
+                if (fiber == Guid.NewGuid()) // always false
+                    Console.WriteLine(fiber);
             }
         }
 
@@ -103,7 +104,8 @@ namespace Iit.Fibertest.TestBench
 
         private AssignBaseRef PrepareCommand(RequestAssignBaseRef request)
         {
-            var vm = new BaseRefsAssignViewModel(request.TraceId, ReadModel);
+            var traceVm = GraphVm.Traces.First(t => t.Id == request.TraceId);
+            var vm = new BaseRefsAssignViewModel(traceVm, GraphVm.Rtus.First(r=>r.Id == traceVm.RtuId));
             _windowManager.ShowDialog(vm);
             return vm.Command;
         }
