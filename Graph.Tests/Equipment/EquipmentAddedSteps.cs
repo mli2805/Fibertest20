@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.Graph.Commands;
 using Iit.Fibertest.TestBench;
 using TechTalk.SpecFlow;
 
@@ -11,7 +12,10 @@ namespace Graph.Tests
     [Binding]
     public sealed class EquipmentAddedSteps
     {
-        private readonly SystemUnderTest2 _sut;
+        private readonly SystemUnderTest2 _sut = new SystemUnderTest2();
+        private Guid _nodeId, _rtuNodeId, _anotherNodeId;
+
+
         private EquipmentUpdateViewModel _equipmentUpdateViewModel;
         private Iit.Fibertest.Graph.Trace _saidTrace;
         private Guid _nodeWithoutEquipmentId;
@@ -25,17 +29,29 @@ namespace Graph.Tests
         private const int RightCableReserve = 14;
         private const string CommentForTest = "Comment for equipment";
 
-        public EquipmentAddedSteps(SystemUnderTest2 sut)
+        [Given(@"Есть узел РТУ еще узлы и волокна")]
+        public void GivenЕстьУзелРтуЕщеУзлыИВолокна()
         {
-            _sut = sut;
+            _sut.ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() {Type = EquipmentType.Sleeve}).Wait();
+            _sut.Poller.Tick();
+            _nodeId = _sut.ReadModel.Nodes.Last().Id;
+            _equipmentId = _sut.ReadModel.Equipments.Last().Id;
+
+            _sut.ShellVm.ComplyWithRequest(new AddRtuAtGpsLocation()).Wait();
+            _sut.Poller.Tick();
+            _rtuNodeId = _sut.ReadModel.Nodes.Last().Id;
+
+            _sut.ShellVm.ComplyWithRequest(new AddFiber() {Node1 = _rtuNodeId, Node2 = _nodeId}).Wait();
+            _sut.Poller.Tick();
+
+            _sut.ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() {Type = EquipmentType.Terminal}).Wait();
+            _sut.Poller.Tick();
+            _anotherNodeId = _sut.ReadModel.Nodes.Last().Id;
+
+            _sut.ShellVm.ComplyWithRequest(new AddFiber() {Node1 = _anotherNodeId, Node2 = _nodeId}).Wait();
+            _sut.Poller.Tick();
         }
 
-        [Given(@"Есть трасса")]
-        public void GivenЕстьТрасса()
-        {
-        
-            _sut.CreateTraceRtuEmptyTerminal();
-        }
 
         [Given(@"Трасса проходит через узел на котором пользователь кликает Добавить оборудование")]
         public void GivenТрассаПроходитЧерезНекоторыйУзел()
@@ -60,7 +76,8 @@ namespace Graph.Tests
         [Given(@"Открывыется окно для добавления оборудования во второй узел")]
         public void GivenAnAddEquipmentWindowOpenedForSaidNode()
         {
-            _equipmentUpdateViewModel = new EquipmentUpdateViewModel(_nodeWithoutEquipmentId, Guid.Empty, _tracesForInsertion);
+            _equipmentUpdateViewModel = new EquipmentUpdateViewModel(_nodeWithoutEquipmentId, Guid.Empty,
+                _tracesForInsertion);
             _equipmentUpdateViewModel.Title = TitleForTest;
             _equipmentUpdateViewModel.Type = TypeForTest;
             _equipmentUpdateViewModel.CableReserveLeft = LeftCableReserve;
@@ -71,7 +88,8 @@ namespace Graph.Tests
         [Given(@"Открывыется окно для добавления оборудования в третий узел")]
         public void GivenОткрывыетсяОкноДляДобавленияОборудованияВТретийУзел()
         {
-            _equipmentUpdateViewModel = new EquipmentUpdateViewModel(_nodeWithEquipmentId, Guid.Empty, _tracesForInsertion);
+            _equipmentUpdateViewModel = new EquipmentUpdateViewModel(_nodeWithEquipmentId, Guid.Empty,
+                _tracesForInsertion);
             _equipmentUpdateViewModel.Title = TitleForTest;
             _equipmentUpdateViewModel.Type = TypeForTest;
             _equipmentUpdateViewModel.CableReserveLeft = LeftCableReserve;
@@ -93,8 +111,11 @@ namespace Graph.Tests
         [Given(@"Для данной трассы задана базовая")]
         public void GivenДляДаннойТрассыЗаданаБазовая()
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, SystemUnderTest2.Path, SystemUnderTest2.Path, null, Answer.Yes));
-            _sut.ShellVm.ComplyWithRequest(new RequestAssignBaseRef() { TraceId = _sut.ReadModel.Traces.First().Id }).Wait();
+            _sut.FakeWindowManager.RegisterHandler(
+                model =>
+                    _sut.BaseRefAssignHandler(model, SystemUnderTest2.Path, SystemUnderTest2.Path, null, Answer.Yes));
+            _sut.ShellVm.ComplyWithRequest(new RequestAssignBaseRef() {TraceId = _sut.ReadModel.Traces.First().Id})
+                .Wait();
             _sut.Poller.Tick();
         }
 
@@ -115,7 +136,7 @@ namespace Graph.Tests
         [Then(@"Новое оборудование сохраняется")]
         public void ThenTheNewPieceOfEquipmentGetsSaved()
         {
-            var equipment = _sut.ReadModel.Equipments.Single(e=>e.Id == _equipmentId);
+            var equipment = _sut.ReadModel.Equipments.Single(e => e.Id == _equipmentId);
             equipment.Title.Should().Be(TitleForTest);
             equipment.Type.Should().Be(TypeForTest);
             equipment.CableReserveLeft.Should().Be(LeftCableReserve);

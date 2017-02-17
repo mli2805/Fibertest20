@@ -1,7 +1,7 @@
 ﻿Feature: BaseRefAssigned
 
 Background: 
-	Given Есть трасса
+	Given Была создана трасса
 
 Scenario: Работа с базовыми
 	When Пользователь указывает пути к точной и быстрой базовам и жмет сохранить

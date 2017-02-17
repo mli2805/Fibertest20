@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Graph.Tests.Equipment
+namespace Graph.Tests
 {
     using TechTalk.SpecFlow;
     
@@ -33,7 +33,7 @@ namespace Graph.Tests.Equipment
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "EquipmentIntoNodeAdded", null, ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "EquipmentAdded", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -66,7 +66,7 @@ namespace Graph.Tests.Equipment
         {
 #line 3
 #line 4
- testRunner.Given("Есть трасса", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Есть узел РТУ еще узлы и волокна", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 5
  testRunner.Given("Трасса проходит через узел на котором пользователь кликает Добавить оборудование", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
@@ -82,7 +82,7 @@ namespace Graph.Tests.Equipment
         }
         
         [Xunit.FactAttribute(DisplayName="Добавление в узел трассы но не в трассу")]
-        [Xunit.TraitAttribute("FeatureTitle", "EquipmentIntoNodeAdded")]
+        [Xunit.TraitAttribute("FeatureTitle", "EquipmentAdded")]
         [Xunit.TraitAttribute("Description", "Добавление в узел трассы но не в трассу")]
         public virtual void ДобавлениеВУзелТрассыНоНеВТрассу()
         {
@@ -108,7 +108,7 @@ this.FeatureBackground();
         }
         
         [Xunit.FactAttribute(DisplayName="Добавление в трассу")]
-        [Xunit.TraitAttribute("FeatureTitle", "EquipmentIntoNodeAdded")]
+        [Xunit.TraitAttribute("FeatureTitle", "EquipmentAdded")]
         [Xunit.TraitAttribute("Description", "Добавление в трассу")]
         public virtual void ДобавлениеВТрассу()
         {
@@ -136,7 +136,7 @@ this.FeatureBackground();
         }
         
         [Xunit.FactAttribute(DisplayName="Добавление в узел где у трассы есть оборудование")]
-        [Xunit.TraitAttribute("FeatureTitle", "EquipmentIntoNodeAdded")]
+        [Xunit.TraitAttribute("FeatureTitle", "EquipmentAdded")]
         [Xunit.TraitAttribute("Description", "Добавление в узел где у трассы есть оборудование")]
         public virtual void ДобавлениеВУзелГдеУТрассыЕстьОборудование()
         {
@@ -164,7 +164,7 @@ this.FeatureBackground();
         }
         
         [Xunit.FactAttribute(DisplayName="Добавление в трассу с заданной базовой")]
-        [Xunit.TraitAttribute("FeatureTitle", "EquipmentIntoNodeAdded")]
+        [Xunit.TraitAttribute("FeatureTitle", "EquipmentAdded")]
         [Xunit.TraitAttribute("Description", "Добавление в трассу с заданной базовой")]
         public virtual void ДобавлениеВТрассуСЗаданнойБазовой()
         {
@@ -192,7 +192,7 @@ this.FeatureBackground();
         }
         
         [Xunit.FactAttribute(DisplayName="Отказ от добавления оборудования")]
-        [Xunit.TraitAttribute("FeatureTitle", "EquipmentIntoNodeAdded")]
+        [Xunit.TraitAttribute("FeatureTitle", "EquipmentAdded")]
         [Xunit.TraitAttribute("Description", "Отказ от добавления оборудования")]
         public virtual void ОтказОтДобавленияОборудования()
         {

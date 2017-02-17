@@ -262,10 +262,15 @@ namespace Graph.Tests
             return vm != null;
         }
 
-        public bool EquipmentUpdateHandler(object model, Answer answer)
+        public bool EquipmentUpdateHandler(object model, EquipmentType type, string title, string comment, int leftReserve, int rightReserve, Answer answer)
         {
             var vm = model as EquipmentUpdateViewModel;
             if (vm == null) return false;
+            vm.Type = type;
+            vm.Title = title;
+            vm.Comment = comment;
+            vm.CableReserveLeft = leftReserve;
+            vm.CableReserveRight = rightReserve;
             if (answer == Answer.Yes)
                 vm.Save();
             else

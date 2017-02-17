@@ -9,18 +9,20 @@ namespace Graph.Tests
     [Binding]
     public sealed class TraceDetachedSteps
     {
-        private readonly SystemUnderTest2 _sut;
+        private readonly SystemUnderTest2 _sut = new SystemUnderTest2();
         private Guid _traceId;
 
-        public TraceDetachedSteps(SystemUnderTest2 sut)
+        [Given(@"Создана трассу")]
+        public void GivenСозданаТрассу()
         {
-            _sut = sut;
+            _sut.CreateTraceRtuEmptyTerminal();
+            _sut.Poller.Tick();
+            _traceId = _sut.ReadModel.Traces.Last().Id;
         }
 
         [Given(@"Трасса присоединена к порту РТУ")]
         public void GivenТрассаПрисоединенаКПортуРту()
         {
-            _traceId = _sut.ReadModel.Traces.Single().Id;
             var cmd2 = new AttachTrace()
             {
                 Port = 3,

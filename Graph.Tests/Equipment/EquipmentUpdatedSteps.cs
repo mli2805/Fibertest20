@@ -48,13 +48,15 @@ namespace Graph.Tests
         [When(@"Жмет сохранить")]
         public void WhenЖметСохранить()
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentUpdateHandler(model, Answer.Yes));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentUpdateHandler(
+                    model, NewTypeForTest, NewTitleForTest, NewCommentForTest, NewLeftCableReserve, NewRightCableReserve, Answer.Yes));
         }
 
         [When(@"Жмет Отмена")]
         public void WhenЖметОтмена()
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentUpdateHandler(model, Answer.Cancel));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentUpdateHandler(
+                    model, NewTypeForTest, NewTitleForTest, NewCommentForTest, NewLeftCableReserve, NewRightCableReserve, Answer.Cancel));
         }
 
         [Then(@"Все должно быть сохранено")]
