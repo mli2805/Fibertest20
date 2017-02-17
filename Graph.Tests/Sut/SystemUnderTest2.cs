@@ -52,7 +52,7 @@ namespace Graph.Tests
             Poller.Tick();
 
             FakeWindowManager.RegisterHandler(model => QuestionAnswer("Accept the path?", Answer.Yes, model));
-            FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(EquipmentChoiceAnswer.Use, model));
+            FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
             FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, "some title", "", Answer.Yes));
 
             ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = secondNodeId, NodeWithRtuId = nodeForRtuId }).Wait();
@@ -96,25 +96,25 @@ namespace Graph.Tests
             Poller.Tick();
 
             FakeWindowManager.RegisterHandler(model => QuestionAnswer("Accept the path?", Answer.Yes, model));
-            FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(EquipmentChoiceAnswer.Use, model));
+            FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
             FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, "some title", "", Answer.Yes));
             ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = a2, NodeWithRtuId = nodeForRtuId }).Wait();
             Poller.Tick();
 
             FakeWindowManager.RegisterHandler(model => QuestionAnswer("Accept the path?", Answer.Yes, model));
-            FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(EquipmentChoiceAnswer.Use, model));
+            FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
             FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, "some title", "", Answer.Yes));
             ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = b2, NodeWithRtuId = nodeForRtuId }).Wait();
             Poller.Tick();
 
             FakeWindowManager.RegisterHandler(model => QuestionAnswer("Accept the path?", Answer.Yes, model));
-            FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(EquipmentChoiceAnswer.Use, model));
+            FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
             FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, "some title", "", Answer.Yes));
             ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = c2, NodeWithRtuId = nodeForRtuId }).Wait();
             Poller.Tick();
 
             FakeWindowManager.RegisterHandler(model => QuestionAnswer("Accept the path?", Answer.Yes, model));
-            FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(EquipmentChoiceAnswer.Use, model));
+            FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
             FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, "some title", "", Answer.Yes));
             ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = d2, NodeWithRtuId = nodeForRtuId }).Wait();
             Poller.Tick();
@@ -221,16 +221,18 @@ namespace Graph.Tests
             return true;
         }
 
-        public bool EquipmentChoiceHandler(EquipmentChoiceAnswer answer, object model)
+        public bool EquipmentChoiceHandler(object model, EquipmentChoiceAnswer answer, int chosenEquipmentNumber)
         {
             var vm = model as EquipmentChoiceViewModel;
             if (vm == null) return false;
             switch (answer)
             {
-                case EquipmentChoiceAnswer.Use:
+                case EquipmentChoiceAnswer.Continue:
+                    vm.Choices[chosenEquipmentNumber].IsChecked = true;
                     vm.UseButton();
                     return true;
-                case EquipmentChoiceAnswer.UseAndSetupName:
+                case EquipmentChoiceAnswer.SetupNameAndContinue:
+                    vm.Choices[chosenEquipmentNumber].IsChecked = true;
                     vm.UseAndSetupNameButton();
                     return true;
                 case EquipmentChoiceAnswer.Cancel:
@@ -254,6 +256,12 @@ namespace Graph.Tests
             return true;
         }
 
+        public bool NodeUpdateHandler(object model)
+        {
+            var vm = model as NodeUpdateViewModel;
+            return vm != null;
+        }
+
         public bool EquipmentUpdateHandler(object model, Answer answer)
         {
             var vm = model as EquipmentUpdateViewModel;
@@ -264,6 +272,7 @@ namespace Graph.Tests
                 vm.Cancel();
             return true;
         }
+
         public bool FiberWithNodesAdditionHandler(object model, int count, EquipmentType type, Answer answer)
         {
             var vm = model as FiberWithNodesAddViewModel;
