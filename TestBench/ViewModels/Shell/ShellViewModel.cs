@@ -256,6 +256,24 @@ namespace Iit.Fibertest.TestBench
             await Bus.SendCommand(cmd);
             ApplyToMap(cmd);
         }
+        public async Task ComplyWithRequest(UpdateEquipment request)
+        {
+            var cmd = PrepareCommand(request);
+            if (cmd == null)
+                return;
+            await Bus.SendCommand(cmd);
+            ApplyToMap(cmd);
+        }
+
+        public async Task ComplyWithRequest(RemoveEquipment request)
+        {
+            var cmd = PrepareCommand(request);
+            if (cmd == null)
+                return;
+            await Bus.SendCommand(cmd);
+            ApplyToMap(cmd);
+
+        }
         #endregion
 
         #region Trace

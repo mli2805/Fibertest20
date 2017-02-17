@@ -107,7 +107,7 @@ namespace Iit.Fibertest.Graph
         #endregion
 
         #region Equipment
-        public string When(AddEquipment cmd)
+        public string When(AddEquipmentIntoNode cmd)
         {
             foreach (var traceId in cmd.TracesForInsertion)
             {
@@ -119,7 +119,7 @@ namespace Iit.Fibertest.Graph
                 if (trace.Equipments[idx] != Guid.Empty)
                     return "Node contains equipment for trace already";
             }
-            WriteModel.AddAndCommit(_mapper.Map<EquipmentAdded>(cmd));
+            WriteModel.AddAndCommit(_mapper.Map<EquipmentIntoNodeAdded>(cmd));
 
             foreach (var traceId in cmd.TracesForInsertion)
             {

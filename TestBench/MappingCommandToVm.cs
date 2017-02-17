@@ -7,7 +7,8 @@ namespace Iit.Fibertest.TestBench
     {
         public MappingCommandToVm()
         {
-            CreateMap<AddEquipment, EquipmentVm>();
+            CreateMap<AddEquipmentIntoNode, EquipmentVm>();
+            CreateMap<UpdateEquipment, EquipmentVm>();
             CreateMap<AddTrace, TraceVm>();
         }
     }

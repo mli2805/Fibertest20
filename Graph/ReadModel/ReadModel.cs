@@ -132,7 +132,7 @@ namespace Iit.Fibertest.Graph
         #endregion
 
         #region Equipment
-        public void Apply(EquipmentAdded e)
+        public void Apply(EquipmentIntoNodeAdded e)
         {
             Equipment equipment = _mapper.Map<Equipment>(e);
             Equipments.Add(equipment);

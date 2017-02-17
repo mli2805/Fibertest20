@@ -89,12 +89,12 @@
     <Compile Include="Events\Trace\TraceAdded.cs" />
     <Compile Include="Events\Trace\TraceDetached.cs" />
     <Compile Include="MappingCmdToEventProfile.cs" />
-    <Compile Include="Commands\Equipment\AddEquipment.cs" />
+    <Compile Include="Commands\Equipment\AddEquipmentIntoNode.cs" />
     <Compile Include="Commands\Fiber\AddFiber.cs" />
     <Compile Include="Commands\Node\AddNode.cs" />
     <Compile Include="Commands\Node\RemoveNode.cs" />
     <Compile Include="Commands\Node\UpdateNode.cs" />
-    <Compile Include="Events\Equipment\EquipmentAdded.cs" />
+    <Compile Include="Events\Equipment\EquipmentIntoNodeAdded.cs" />
     <Compile Include="Events\Fiber\FiberAdded.cs" />
     <Compile Include="Events\Node\NodeAdded.cs" />
     <Compile Include="Events\Node\NodeRemoved.cs" />

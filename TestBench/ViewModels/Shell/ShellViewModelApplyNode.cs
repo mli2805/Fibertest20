@@ -58,10 +58,21 @@ namespace Iit.Fibertest.TestBench
             if (e.PropertyName != "Command")
                 return;
             var vm = (NodeUpdateViewModel)sender;
-            
+
+            if (vm.Command is AddEquipmentIntoNode)
+            {
+                Bus.SendCommand((AddEquipmentIntoNode)vm.Command);
+                ApplyToMap((AddEquipmentIntoNode)vm.Command);
+            }
+
+            if (vm.Command is UpdateEquipment)
+            {
+                Bus.SendCommand((UpdateEquipment)vm.Command);
+                ApplyToMap((UpdateEquipment)vm.Command);
+            }
+
             if (vm.Command is RemoveEquipment)
-                ApplyToMap((RemoveEquipment)vm.Command); 
-            //TODO how to send to aggregate, implement other types of command   
+                ComplyWithRequest((RemoveEquipment)vm.Command).Wait();
         }
 
         private void ApplyToMap(RemoveNode cmd)

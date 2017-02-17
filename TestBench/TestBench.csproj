@@ -128,9 +128,8 @@
     <Compile Include="GpsInputControl\OneCoorViewModel.cs" />
     <Compile Include="Logic\MapTraceDefine.cs" />
     <Compile Include="Logic\PointLatLngExtensions.cs" />
-    <Compile Include="MappingDomainEntityToViewModel.cs" />
+    <Compile Include="MappingVmToViewModel.cs" />
     <Compile Include="MappingViewModelToCommand.cs" />
-    <Compile Include="MappingViewModeltoDomainEntity.cs" />
     <Compile Include="MapUserControl\MapUserControlApplyFibersToRoutes.cs" />
     <Compile Include="MapUserControl\MapUserControlApplyNodesToMarkers.cs" />
     <Compile Include="MapUserControl\MapUserControlMapContextMenu.cs" />

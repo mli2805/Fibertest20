@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using AutoMapper;
 using Caliburn.Micro;
-using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
 
 namespace Iit.Fibertest.TestBench
@@ -78,7 +78,7 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
-        public List<EqItem> EquipmentsInNode { get; set; }
+        public ObservableCollection<EqItem> EquipmentsInNode { get; set; }
         public EqItem SelectedEquipment { get; set; }
 
         public List<TraceVm> TracesInNode { get; set; }
@@ -122,23 +122,30 @@ namespace Iit.Fibertest.TestBench
 
             TracesInNode = _graphVm.Traces.Where(t => t.Nodes.Contains(nodeId)).ToList();
 
-            EquipmentsInNode = new List<EqItem>();
-            foreach (var equipmentVm in _graphVm.Equipments.Where(e => e.Node.Id == nodeId))
-            {
-                var tracesNames = _graphVm.Traces.Where(t => t.Equipments.Contains(equipmentVm.Id)).Aggregate("", (current, traceVm) => current + (traceVm.Title + " ;  "));
-                var eqItem = new EqItem()
-                {
-                    Id = equipmentVm.Id,
-                    Type = equipmentVm.Type.ToString(),
-                    Title = equipmentVm.Title,
-                    Comment = equipmentVm.Comment,
-                    Traces = tracesNames
-                };
-                eqItem.PropertyChanged += EqItem_PropertyChanged;
-                EquipmentsInNode.Add(eqItem);
-            }
+            EquipmentsInNode = new ObservableCollection<EqItem>(
+                _graphVm.Equipments.Where(e => e.Node.Id == NodeId).Select(equipmentVm => CreateEqItem(equipmentVm)));
 
             IsClosed = false;
+        }
+
+        private EqItem CreateEqItem(EquipmentVm equipmentVm)
+        {
+            var tracesNames = _graphVm.Traces.Where(t => t.Equipments.Contains(equipmentVm.Id))
+                .Aggregate("", (current, traceVm) => current + (traceVm.Title + " ;  "));
+
+            bool isLastForSomeTrace = _graphVm.Traces.Any(t => t.Equipments.Last() == equipmentVm.Id);
+
+            var eqItem = new EqItem()
+            {
+                Id = equipmentVm.Id,
+                Type = equipmentVm.Type.ToString(),
+                Title = equipmentVm.Title,
+                Comment = equipmentVm.Comment,
+                Traces = tracesNames,
+                IsRemoveEnabled = !isLastForSomeTrace,
+            };
+            eqItem.PropertyChanged += EqItem_PropertyChanged;
+            return eqItem;
         }
 
         private void EqItem_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -152,21 +159,40 @@ namespace Iit.Fibertest.TestBench
                 RemoveEquipment((RemoveEquipment)cmd); 
         }
 
-        public void LaunchAddEquipmentView()
+        public void AddEquipment()
         {
             var addEquipmentViewModel = new EquipmentUpdateViewModel(NodeId, Guid.Empty, new List<Guid>());
             _windowManager.ShowDialog(addEquipmentViewModel);
+            if (addEquipmentViewModel.Command == null)
+                return;
+            Command = addEquipmentViewModel.Command;
+
+            IMapper mapper = new MapperConfiguration(
+                    cfg => cfg.AddProfile<MappingCommandToVm>()).CreateMapper();
+            var equipmentVm = mapper.Map<EquipmentVm>(Command);
+            EquipmentsInNode.Add(CreateEqItem(equipmentVm));
         }
 
         private void LaunchUpdateEquipmentView(Guid id)
         {
-            var equipmentViewModel = new EquipmentUpdateViewModel(NodeId, id, null);
-            var eq = _graphVm.Equipments.First(e => e.Id == id);
-            IMapper mapper = new MapperConfiguration(
-                    cfg => cfg.AddProfile<MappingDomainEntityToViewModel>()).CreateMapper();
-            mapper.Map(eq, equipmentViewModel);
+            var equipmentVm = _graphVm.Equipments.First(e => e.Id == id);
 
-            _windowManager.ShowDialog(equipmentViewModel);
+            var updateEquipmentViewModel = new EquipmentUpdateViewModel(NodeId, id, null);
+            IMapper mapperToViewModel = new MapperConfiguration(
+                    cfg => cfg.AddProfile<MappingVmToViewModel>()).CreateMapper();
+            mapperToViewModel.Map(Command, updateEquipmentViewModel);
+            _windowManager.ShowDialog(updateEquipmentViewModel);
+
+            if (updateEquipmentViewModel.Command == null)
+                return;
+            Command = updateEquipmentViewModel.Command;
+
+            IMapper mapper = new MapperConfiguration(
+                    cfg => cfg.AddProfile<MappingCommandToVm>()).CreateMapper();
+            mapper.Map(Command, equipmentVm);
+
+            EquipmentsInNode.Remove(EquipmentsInNode.First(e => e.Id == equipmentVm.Id));
+            EquipmentsInNode.Add(CreateEqItem(equipmentVm));
         }
 
         public void RemoveEquipment(RemoveEquipment cmd)

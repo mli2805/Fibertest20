@@ -45,7 +45,7 @@ namespace Iit.Fibertest.TestBench
         #endregion
 
         #region Equipment
-        public void Apply(EquipmentAdded e)
+        public void Apply(EquipmentIntoNodeAdded e)
         {
         }
 

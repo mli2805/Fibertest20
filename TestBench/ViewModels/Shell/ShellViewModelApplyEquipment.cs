@@ -24,7 +24,7 @@ namespace Iit.Fibertest.TestBench
             GraphVm.Equipments.Add(new EquipmentVm() { Id = cmd.Id, Node = nodeVm, Type = cmd.Type });
         }
 
-        private AddEquipment PrepareCommand(RequestAddEquipmentIntoNode request)
+        private AddEquipmentIntoNode PrepareCommand(RequestAddEquipmentIntoNode request)
         {
             var tracesInNode = GraphVm.Traces.Where(t => t.Nodes.Contains(request.NodeId)).ToList();
             TraceChoiceViewModel traceChoiceVm = null;
@@ -37,13 +37,13 @@ namespace Iit.Fibertest.TestBench
             }
             var vm = new EquipmentUpdateViewModel(request.NodeId, Guid.Empty, new List<Guid>());
             _windowManager.ShowDialog(vm);
-            var command = (AddEquipment) vm.Command;
+            var command = (AddEquipmentIntoNode) vm.Command;
             if (traceChoiceVm != null)
                 command.TracesForInsertion = traceChoiceVm.GetChosenTraces();
             return command;
         }
 
-        private void ApplyToMap(AddEquipment cmd)
+        private void ApplyToMap(AddEquipmentIntoNode cmd)
         {
             IMapper mapper = new MapperConfiguration(cfg => cfg.AddProfile<MappingCommandToVm>()).CreateMapper();
             var equipmentVm = mapper.Map<EquipmentVm>(cmd);
@@ -51,6 +51,25 @@ namespace Iit.Fibertest.TestBench
 
             GraphVm.Equipments.Add(equipmentVm);
             // TODO change node pictogram
+        }
+
+        private UpdateEquipment PrepareCommand(UpdateEquipment request)
+        {
+            var cmd = new UpdateEquipment();
+            return cmd;
+        }
+
+        private void ApplyToMap(UpdateEquipment cmd)
+        {
+            var equipmentVm = GraphVm.Equipments.First(e => e.Id == cmd.Id);
+            IMapper mapper = new MapperConfiguration(cfg => cfg.AddProfile<MappingCommandToVm>()).CreateMapper();
+            mapper.Map(cmd, equipmentVm);
+        }
+
+        private RemoveEquipment PrepareCommand(RemoveEquipment request)
+        {
+            var cmd = new RemoveEquipment() {Id = request.Id};
+            return cmd;
         }
 
         private void ApplyToMap(RemoveEquipment cmd)
