@@ -16,7 +16,7 @@ namespace Iit.Fibertest.TestBench
             return new BitmapImage(new Uri(path));
         }
 
-        public static Brush StateToBrush(FiberState state)
+        public static Brush GetBrush(this FiberState state)
         {
             switch (state)
             {
@@ -46,6 +46,29 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
+        public static ImageSource GetPictogram(this FiberState state)
+        {
+            switch (state)
+            {
+                case FiberState.NotJoined:
+                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
+                case FiberState.Ok:
+                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
+                case FiberState.Minor:
+                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
+                case FiberState.Major:
+                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
+                case FiberState.User:
+                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreenSquare.png"));
+                case FiberState.Critical:
+                case FiberState.FiberBreak:
+                case FiberState.NoFiber:
+                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/RedSquare.png"));
+                default:
+                    return null;
+            }
+        }
+
         public static string ToLocalizedString(this EquipmentType type)
         {
             switch (type)
@@ -66,6 +89,36 @@ namespace Iit.Fibertest.TestBench
                     return Resources.SID_CableReserve;
             }
             return Resources.SID_Switch_ended_unexpectedly;
+        }
+
+        public static ImageSource GetPictogram(this RtuPartState state)
+        {
+            switch (state)
+            {
+                case RtuPartState.Broken:
+                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/RedSquare.png"));
+                case RtuPartState.None:
+                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
+                case RtuPartState.Normal:
+                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreenSquare.png"));
+                default:
+                    return null;
+            }
+        }
+
+        public static ImageSource GetPictogram(this MonitoringState state)
+        {
+            switch (state)
+            {
+                case MonitoringState.Off:
+                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
+                case MonitoringState.OffButReady:
+                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreySquare.png"));
+                case MonitoringState.On:
+                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/BlueSquare.png"));
+                default:
+                    return null;
+            }
         }
     }
 }

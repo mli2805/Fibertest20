@@ -6,7 +6,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.TestBench.Properties;
@@ -64,100 +63,11 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
-        public ImageSource MonitoringPictogram
-        {
-            get
-            {
-                switch (MonitoringState)
-                {
-                    case MonitoringState.Off:
-                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
-                    case MonitoringState.OffButReady:
-                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreySquare.png"));
-                    case MonitoringState.On:
-                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/BlueSquare.png"));
-                    default:
-                        return null;
-                }
-            }
-        }
-
-        public ImageSource BopPictogram
-        {
-            get
-            {
-                switch (BopState)
-                {
-                    case RtuPartState.Broken:
-                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/RedSquare.png"));
-                    case RtuPartState.None:
-                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
-                    case RtuPartState.Normal:
-                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreenSquare.png"));
-                    default:
-                        return null;
-                }
-            }
-        }
-        public ImageSource MainChannelPictogram
-        {
-            get
-            {
-                switch (MainChannelState)
-                {
-                    case RtuPartState.Broken:
-                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/RedSquare.png"));
-                    case RtuPartState.None:
-                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
-                    case RtuPartState.Normal:
-                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreenSquare.png"));
-                    default:
-                        return null;
-                }
-            }
-        }
-        public ImageSource ReserveChannelPictogram
-        {
-            get
-            {
-                switch (ReserveChannelState)
-                {
-                    case RtuPartState.Broken:
-                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/RedSquare.png"));
-                    case RtuPartState.None:
-                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
-                    case RtuPartState.Normal:
-                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreenSquare.png"));
-                    default:
-                        return null;
-                }
-            }
-        }
-        public ImageSource TraceStatePictogram
-        {
-            get
-            {
-                switch (TraceState)
-                {
-                    case FiberState.NotJoined:
-                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
-                    case FiberState.Ok:
-                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
-                    case FiberState.Minor:
-                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
-                    case FiberState.Major:
-                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
-                    case FiberState.User:
-                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreenSquare.png"));
-                    case FiberState.Critical:
-                    case FiberState.FiberBreak:
-                    case FiberState.NoFiber:
-                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/RedSquare.png"));
-                    default:
-                        return null;
-                }
-            }
-        }
+        public ImageSource MonitoringPictogram => MonitoringState.GetPictogram();
+        public ImageSource BopPictogram => BopState.GetPictogram();
+        public ImageSource MainChannelPictogram => MainChannelState.GetPictogram();
+        public ImageSource ReserveChannelPictogram => ReserveChannelState.GetPictogram();
+        public ImageSource TraceStatePictogram => TraceState.GetPictogram();
 
         public Visibility BopVisibility => LeafType == LeafType.Rtu ? Visibility.Visible : Visibility.Collapsed;
         public Visibility MainChannelVisibility => LeafType == LeafType.Rtu ? Visibility.Visible : Visibility.Collapsed;
