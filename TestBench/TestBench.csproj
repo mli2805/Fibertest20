@@ -186,20 +186,20 @@
     <Compile Include="Views\UniversalViews\QuestionView.xaml.cs">
       <DependentUpon>QuestionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Vms\EquipmentVm.cs" />
-    <Compile Include="Vms\FiberVm.cs" />
-    <Compile Include="Vms\GraphVisibilityVm.cs" />
-    <Compile Include="Vms\GraphVm.cs" />
+    <Compile Include="Vms\Graph\EquipmentVm.cs" />
+    <Compile Include="Vms\Graph\FiberVm.cs" />
+    <Compile Include="Vms\Graph\GraphVisibilityVm.cs" />
+    <Compile Include="Vms\Graph\GraphVm.cs" />
     <Compile Include="ViewModels\Shell\IShell.cs" />
     <Compile Include="Logic\Utils.cs" />
     <Compile Include="MapUserControl\Map.cs" />
     <Compile Include="MapUserControl\MapUserControl.xaml.cs">
       <DependentUpon>MapUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Vms\ITreeViewItemModel.cs" />
-    <Compile Include="Vms\Leaf.cs" />
-    <Compile Include="Vms\MarkerVm.cs" />
-    <Compile Include="Vms\NodeVm.cs" />
+    <Compile Include="Vms\Tree\ITreeViewItemModel.cs" />
+    <Compile Include="Vms\Tree\Leaf.cs" />
+    <Compile Include="Vms\Graph\MarkerVm.cs" />
+    <Compile Include="Vms\Graph\NodeVm.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModels\Primitive\ContextMenuAction.cs" />
     <Compile Include="Views\ShellView.xaml.cs">
@@ -223,9 +223,9 @@
     <Compile Include="Views\RtuUpdateView.xaml.cs">
       <DependentUpon>RtuUpdateView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Vms\RtuVm.cs" />
-    <Compile Include="Vms\TraceVm.cs" />
-    <Compile Include="Vms\TreeExtensions.cs" />
+    <Compile Include="Vms\Graph\RtuVm.cs" />
+    <Compile Include="Vms\Graph\TraceVm.cs" />
+    <Compile Include="Vms\Tree\TreeExtensions.cs" />
     <Page Include="GpsInputControl\GpsInputView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -424,6 +424,7 @@
     <Resource Include="Resources\LeftPanel\Monitoring_Grey.png" />
     <Resource Include="Resources\LeftPanel\wifi_green.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

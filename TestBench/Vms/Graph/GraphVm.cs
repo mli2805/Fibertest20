@@ -24,9 +24,7 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
-
         private object _request;
-
         public object Request
         {
             get { return _request; }
