@@ -66,6 +66,7 @@ namespace Iit.Fibertest.TestBench
 
         protected override void OnViewLoaded(object view)
         {
+            DisplayName = "RTU";
         }
 
         public void Save()

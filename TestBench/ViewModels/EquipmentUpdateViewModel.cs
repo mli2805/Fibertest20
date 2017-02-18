@@ -4,6 +4,7 @@ using AutoMapper;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
+using Iit.Fibertest.TestBench.Properties;
 
 namespace Iit.Fibertest.TestBench
 {
@@ -92,6 +93,7 @@ namespace Iit.Fibertest.TestBench
         protected override void OnViewLoaded(object view)
         {
             DisplayName = EquipmentId == Guid.Empty ? "Добавление" : "Изменение";
+            Console.WriteLine(Resources.SID_Test_string);
         }
 
         public void Save()
