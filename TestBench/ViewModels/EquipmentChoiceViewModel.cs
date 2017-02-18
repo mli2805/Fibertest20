@@ -14,7 +14,7 @@ namespace Iit.Fibertest.TestBench
         private readonly bool _isLastNode;
         public bool IsClosed { get; set; }
 
-        public string Caption { get; set; }
+        public string Explanation { get; set; }
         public List<RadioButtonModel> Choices { get; set; } // for binding
 
         public bool ShouldWeContinue { get; set; }
@@ -29,15 +29,23 @@ namespace Iit.Fibertest.TestBench
 
         private void InitializeChoices()
         {
-            Caption = Resources.SID_Select_equipment_for_trace;
+            Explanation = Resources.SID_Select_equipment_for_trace;
             Choices = new List<RadioButtonModel>();
             foreach (var equipment in _possibleEquipment)
             {
-                var radioButtonModel = new RadioButtonModel {Title = equipment.Title, IsChecked = equipment == _possibleEquipment.First()};
+                var radioButtonModel = new RadioButtonModel
+                {
+                    Title = string.IsNullOrEmpty(equipment.Title) 
+                        ? string.Format(Resources.SID_equipment_without_name, equipment.Type) 
+                        : equipment.Title,
+                    IsChecked = equipment == _possibleEquipment.First()
+                };
                 radioButtonModel.PropertyChanged += RadioButtonModel_PropertyChanged;
                 Choices.Add(radioButtonModel);
             }
-            Choices.Add(new RadioButtonModel {Title = Resources.SID_Do_not_use, IsChecked = false, IsEnabled = !_isLastNode});
+            var doNotUseModel = new RadioButtonModel {Title = Resources.SID_Do_not_use, IsChecked = false, IsEnabled = !_isLastNode};
+            doNotUseModel.PropertyChanged += RadioButtonModel_PropertyChanged;
+            Choices.Add(doNotUseModel);
         }
 
         protected override void OnViewLoaded(object view)
@@ -71,14 +79,14 @@ namespace Iit.Fibertest.TestBench
             return -1; 
         }
 
-        public void UseButton()
+        public void SelectButton()
         {
             ShouldWeContinue = true;
             ShouldEquipmentViewBeOpen = false;
             CloseView();
         }
 
-        public void UseAndSetupNameButton()
+        public void SelectAndSetupNameButton()
         {
             ShouldWeContinue = true;
             ShouldEquipmentViewBeOpen = true;

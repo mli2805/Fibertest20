@@ -15,7 +15,6 @@ namespace Iit.Fibertest.TestBench
         private int _cableReserveRight;
         private string _comment;
 
-
         public string Title
         {
             get { return _title; }

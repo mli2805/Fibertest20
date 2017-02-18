@@ -17,8 +17,10 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
 	из NodeUpdateViewModel вызываются AddEquipment and UpdateEquipment -
 	результат их работы применяется до закрытия материнской формы
 
-3.
+3. TreeReadModel - где должна быть определена, если ReadModel-ей может быть несколько
+    в библиотеке Graph? 
 
+4. биндинги в LeftPanel вроде работают, но варнинги решарпера...
 
 
 

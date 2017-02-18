@@ -230,11 +230,11 @@ namespace Graph.Tests
             {
                 case EquipmentChoiceAnswer.Continue:
                     vm.Choices[chosenEquipmentNumber].IsChecked = true;
-                    vm.UseButton();
+                    vm.SelectButton();
                     return true;
                 case EquipmentChoiceAnswer.SetupNameAndContinue:
                     vm.Choices[chosenEquipmentNumber].IsChecked = true;
-                    vm.UseAndSetupNameButton();
+                    vm.SelectAndSetupNameButton();
                     return true;
                 case EquipmentChoiceAnswer.Cancel:
                     vm.CancelButton();

@@ -5,20 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModels="clr-namespace:Iit.Fibertest.TestBench"
         mc:Ignorable="d"
-        SizeToContent="Height" Width="500" WindowStartupLocation="CenterScreen">
+        SizeToContent="Height" Width="500" WindowStartupLocation="CenterScreen" 
+        d:DataContext="{d:DesignInstance viewModels:EquipmentChoiceViewModel}">
     <StackPanel>
-        <TextBlock Text="{Binding Caption}"  TextWrapping="Wrap" Margin="5, 20, 5,20" />
+        <TextBlock Text="{Binding Explanation}" TextWrapping="Wrap" Margin="5, 20, 5,20" />
         <ItemsControl ItemsSource="{Binding Choices}" Margin="5,5,5,20">
             <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="viewModels:RadioButtonModel">
-                    <RadioButton Content="{Binding Title}" IsChecked="{Binding IsChecked, Mode=TwoWay}" IsEnabled="{Binding IsEnabled}" Margin="5"/>
+                    <RadioButton Content="{Binding Title}" IsChecked="{Binding IsChecked, Mode=TwoWay}"
+                                 IsEnabled="{Binding IsEnabled}" Margin="5" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <StackPanel Orientation="Horizontal">
-            <Button Name="UseButton"  Content="Выбрать" Margin="5" HorizontalAlignment="Center" Width="100"/>
-            <Button Name="UseAndSetupNameButton"  Content="Выбрать и задать имя" Margin="5" HorizontalAlignment="Center" Width="150" IsEnabled="{Binding IsUseAndSetupNameButtonEnabled}"/>
-            <Button Name="CancelButton"  Content="Выйти" Margin="5" HorizontalAlignment="Center" Width="100"/>
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+            <Button Name="SelectButton" Content="Выбрать" Margin="5" HorizontalAlignment="Center" Width="100" />
+            <Button Name="SelectAndSetupNameButton" Content="Выбрать и задать имя" Margin="5"
+                    HorizontalAlignment="Center" Width="150"/>
+            <Button Name="CancelButton" Content="Выйти" Margin="5" HorizontalAlignment="Center" Width="100" />
         </StackPanel>
     </StackPanel>
 </Window>

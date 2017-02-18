@@ -8,7 +8,7 @@ namespace Iit.Fibertest.TestBench
 {
     public class TraceChoiceViewModel : Screen
     {
-        public string Caption { get; set; }
+        public string Explanation { get; set; }
         public List<CheckBoxModel> Choices { get; set; } // for binding
         public bool ShouldWeContinue { get; set; }
         public bool IsClosed { get; set; }
@@ -22,7 +22,7 @@ namespace Iit.Fibertest.TestBench
 
         private void InitializeChoices()
         {
-            Caption = Resources.SID_Select_traces_which_will_use;
+            Explanation = Resources.SID_Select_traces_which_will_use;
             Choices = new List<CheckBoxModel>();
             foreach (var trace in _tracesInNode)
             {

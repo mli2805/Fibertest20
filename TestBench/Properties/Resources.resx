@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-	<!-- 
+  <!-- 
     Microsoft ResX Schema 
     
     Version 2.0
@@ -59,195 +59,199 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-		<xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-		<xsd:element name="root" msdata:IsDataSet="true">
-			<xsd:complexType>
-				<xsd:choice maxOccurs="unbounded">
-					<xsd:element name="metadata">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" />
-							</xsd:sequence>
-							<xsd:attribute name="name" use="required" type="xsd:string" />
-							<xsd:attribute name="type" type="xsd:string" />
-							<xsd:attribute name="mimetype" type="xsd:string" />
-							<xsd:attribute ref="xml:space" />
-						</xsd:complexType>
-					</xsd:element>
-					<xsd:element name="assembly">
-						<xsd:complexType>
-							<xsd:attribute name="alias" type="xsd:string" />
-							<xsd:attribute name="name" type="xsd:string" />
-						</xsd:complexType>
-					</xsd:element>
-					<xsd:element name="data">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-							</xsd:sequence>
-							<xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-							<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-							<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-							<xsd:attribute ref="xml:space" />
-						</xsd:complexType>
-					</xsd:element>
-					<xsd:element name="resheader">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-							</xsd:sequence>
-							<xsd:attribute name="name" type="xsd:string" use="required" />
-						</xsd:complexType>
-					</xsd:element>
-				</xsd:choice>
-			</xsd:complexType>
-		</xsd:element>
-	</xsd:schema>
-	<resheader name="resmimetype">
-		<value>text/microsoft-resx</value>
-	</resheader>
-	<resheader name="version">
-		<value>2.0</value>
-	</resheader>
-	<resheader name="reader">
-		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
-	<resheader name="writer">
-		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
-	<data name="SID_CableReserve" xml:space="preserve">
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="SID_CableReserve" xml:space="preserve">
     <value>CableReserve</value>
   </data>
-	<data name="SID_Sleeve" xml:space="preserve">
+  <data name="SID_Sleeve" xml:space="preserve">
     <value>Sleeve</value>
   </data>
-	<data name="SID_Cross" xml:space="preserve">
+  <data name="SID_Cross" xml:space="preserve">
     <value>Cross</value>
   </data>
-	<data name="SID_Terminal" xml:space="preserve">
+  <data name="SID_Terminal" xml:space="preserve">
     <value>Terminal</value>
   </data>
-	<data name="SID_Other" xml:space="preserve">
+  <data name="SID_Other" xml:space="preserve">
     <value>Other</value>
   </data>
-	<data name="SID_Add_Equipment" xml:space="preserve">
+  <data name="SID_Add_Equipment" xml:space="preserve">
     <value>Add Equipment</value>
   </data>
-	<data name="SID_Edit_Equipment" xml:space="preserve">
+  <data name="SID_Edit_Equipment" xml:space="preserve">
     <value>Edit Equipment</value>
   </data>
-	<data name="SID_Error" xml:space="preserve">
+  <data name="SID_Error" xml:space="preserve">
     <value>Error!</value>
   </data>
-	<data name="SID_Last_node_of_trace_must_contain_some_equipment" xml:space="preserve">
+  <data name="SID_Last_node_of_trace_must_contain_some_equipment" xml:space="preserve">
     <value>Last node of trace must contain some equipment</value>
   </data>
-	<data name="SID_Path_couldn_t_be_found" xml:space="preserve">
+  <data name="SID_Path_couldn_t_be_found" xml:space="preserve">
     <value>Path couldn't be found</value>
   </data>
-	<data name="SID_Title_is_required" xml:space="preserve">
+  <data name="SID_Title_is_required" xml:space="preserve">
     <value>Title is required</value>
   </data>
-	<data name="SID_There_is_a_node_with_the_same_title" xml:space="preserve">
+  <data name="SID_There_is_a_node_with_the_same_title" xml:space="preserve">
     <value>There is a node with the same title</value>
   </data>
-	<data name="SID_There_s_such_a_fiber_already" xml:space="preserve">
+  <data name="SID_There_s_such_a_fiber_already" xml:space="preserve">
     <value>There's such a fiber already</value>
   </data>
-	<data name="SID_Information" xml:space="preserve">
+  <data name="SID_Information" xml:space="preserve">
     <value>Information</value>
   </data>
-	<data name="SID_Show_RTU" xml:space="preserve">
+  <data name="SID_Show_RTU" xml:space="preserve">
     <value>Show RTU</value>
   </data>
-	<data name="SID_Accept_the_path" xml:space="preserve">
+  <data name="SID_Accept_the_path" xml:space="preserve">
     <value>Accept the path?</value>
   </data>
-	<data name="SID_It_s_impossible_to_change_trace_with_base_reflectogram" xml:space="preserve">
+  <data name="SID_It_s_impossible_to_change_trace_with_base_reflectogram" xml:space="preserve">
     <value>It's impossible to change trace with base reflectogram</value>
   </data>
-	<data name="SID_Fiber" xml:space="preserve">
+  <data name="SID_Fiber" xml:space="preserve">
     <value>Section</value>
   </data>
-	<data name="SID_Length_should_be_a_number" xml:space="preserve">
+  <data name="SID_Length_should_be_a_number" xml:space="preserve">
     <value>Length should be a number</value>
   </data>
-	<data name="SID_Degrees_is_required" xml:space="preserve">
+  <data name="SID_Degrees_is_required" xml:space="preserve">
     <value>Degrees is required</value>
   </data>
-	<data name="SID_Invalid_input" xml:space="preserve">
+  <data name="SID_Invalid_input" xml:space="preserve">
     <value>Invalid input</value>
   </data>
-	<data name="SID_Add_node" xml:space="preserve">
+  <data name="SID_Add_node" xml:space="preserve">
     <value>Add node</value>
   </data>
-	<data name="SID_Remove_section" xml:space="preserve">
+  <data name="SID_Remove_section" xml:space="preserve">
     <value>Remove section</value>
   </data>
-	<data name="SID_Landmarks" xml:space="preserve">
+  <data name="SID_Landmarks" xml:space="preserve">
     <value>Landmarks</value>
   </data>
-	<data name="SID_Remove_node" xml:space="preserve">
+  <data name="SID_Remove_node" xml:space="preserve">
     <value>Remove node</value>
   </data>
-	<data name="SID_Section" xml:space="preserve">
+  <data name="SID_Section" xml:space="preserve">
     <value>Section</value>
   </data>
-	<data name="SID_Section_with_nodes" xml:space="preserve">
+  <data name="SID_Section_with_nodes" xml:space="preserve">
     <value>Section with nodes</value>
   </data>
-	<data name="SID_noname_RTU" xml:space="preserve">
+  <data name="SID_noname_RTU" xml:space="preserve">
     <value>noname RTU</value>
   </data>
-	<data name="SID_Select_equipment_for_trace" xml:space="preserve">
+  <data name="SID_Select_equipment_for_trace" xml:space="preserve">
     <value>Select equipment for trace</value>
   </data>
-	<data name="SID_Do_not_use" xml:space="preserve">
+  <data name="SID_Do_not_use" xml:space="preserve">
     <value>Do not use</value>
   </data>
-	<data name="SID_Select_equipment" xml:space="preserve">
+  <data name="SID_Select_equipment" xml:space="preserve">
     <value>Select equipment</value>
   </data>
-	<data name="SID_Quantity" xml:space="preserve">
+  <data name="SID_Quantity" xml:space="preserve">
     <value>Quantity</value>
   </data>
-	<data name="SID_Type" xml:space="preserve">
+  <data name="SID_Type" xml:space="preserve">
     <value>Type</value>
   </data>
-	<data name="SID_Well" xml:space="preserve">
+  <data name="SID_Well" xml:space="preserve">
     <value>Well</value>
   </data>
-	<data name="SID_Invisible" xml:space="preserve">
+  <data name="SID_Invisible" xml:space="preserve">
     <value>Invisible</value>
   </data>
-	<data name="SID_There_is_a_rtu_with_the_same_title" xml:space="preserve">
+  <data name="SID_There_is_a_rtu_with_the_same_title" xml:space="preserve">
     <value>There is a rtu with the same title</value>
   </data>
-	<data name="SID_Select_traces_for_equipment" xml:space="preserve">
+  <data name="SID_Select_traces_for_equipment" xml:space="preserve">
     <value>Select traces for equipment</value>
   </data>
-	<data name="SID_Select_traces_which_will_use" xml:space="preserve">
+  <data name="SID_Select_traces_which_will_use" xml:space="preserve">
     <value>Select traces which will use added equipment 
 If chosen trace use some equipment in this node it will be replaced</value>
+    <comment>Shift+Enter for CR/LF insertion</comment>
   </data>
-	<data name="SID_Question" xml:space="preserve">
+  <data name="SID_Question" xml:space="preserve">
     <value>Question!</value>
   </data>
-	<data name="SID_Trace" xml:space="preserve">
+  <data name="SID_Trace" xml:space="preserve">
     <value>Trace</value>
   </data>
-	<data name="SID_Remove" xml:space="preserve">
+  <data name="SID_Remove" xml:space="preserve">
     <value>Remove</value>
   </data>
-	<data name="SID_Define_trace" xml:space="preserve">
+  <data name="SID_Define_trace" xml:space="preserve">
     <value>Define trace</value>
   </data>
-	<data name="SID_Map" xml:space="preserve">
+  <data name="SID_Map" xml:space="preserve">
     <value>Map</value>
   </data>
-	<data name="SID_System_events" xml:space="preserve">
+  <data name="SID_System_events" xml:space="preserve">
     <value>System events</value>
+  </data>
+  <data name="SID_equipment_without_name" xml:space="preserve">
+    <value>{0} without name</value>
   </data>
 </root>
