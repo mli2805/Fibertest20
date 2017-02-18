@@ -105,18 +105,18 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
-    <Compile Include="AutofacEventSourcing.cs" />
-    <Compile Include="MappingCommandToVm.cs" />
+    <Compile Include="Autofac\AutofacEventSourcing.cs" />
+    <Compile Include="Mappings\MappingCommandToVm.cs" />
     <Compile Include="TreeReadModel.cs" />
-    <Compile Include="UserRequests\RequestAddEquipmentIntoNode.cs" />
-    <Compile Include="UserRequests\RequestAddFiberWithNodes.cs" />
-    <Compile Include="UserRequests\RequestAddNodeIntoFiber.cs" />
-    <Compile Include="UserRequests\RequestAddTrace.cs" />
-    <Compile Include="UserRequests\RequestAssignBaseRef.cs" />
-    <Compile Include="UserRequests\RequestRemoveNode.cs" />
-    <Compile Include="UserRequests\RequestUpdateFiber.cs" />
-    <Compile Include="UserRequests\RequestUpdateRtu.cs" />
-    <Compile Include="AutofacUi.cs" />
+    <Compile Include="Requests\RequestAddEquipmentIntoNode.cs" />
+    <Compile Include="Requests\RequestAddFiberWithNodes.cs" />
+    <Compile Include="Requests\RequestAddNodeIntoFiber.cs" />
+    <Compile Include="Requests\RequestAddTrace.cs" />
+    <Compile Include="Requests\RequestAssignBaseRef.cs" />
+    <Compile Include="Requests\RequestRemoveNode.cs" />
+    <Compile Include="Requests\RequestUpdateFiber.cs" />
+    <Compile Include="Requests\RequestUpdateRtu.cs" />
+    <Compile Include="Autofac\AutofacUi.cs" />
     <Compile Include="GpsInputControl\GpsInputMode.cs" />
     <Compile Include="GpsInputControl\GpsInputView.xaml.cs">
       <DependentUpon>GpsInputView.xaml</DependentUpon>
@@ -128,8 +128,8 @@
     <Compile Include="GpsInputControl\OneCoorViewModel.cs" />
     <Compile Include="Logic\MapTraceDefine.cs" />
     <Compile Include="Logic\PointLatLngExtensions.cs" />
-    <Compile Include="MappingVmToViewModel.cs" />
-    <Compile Include="MappingViewModelToCommand.cs" />
+    <Compile Include="Mappings\MappingVmToViewModel.cs" />
+    <Compile Include="Mappings\MappingViewModelToCommand.cs" />
     <Compile Include="MapUserControl\MapUserControlApplyFibersToRoutes.cs" />
     <Compile Include="MapUserControl\MapUserControlApplyNodesToMarkers.cs" />
     <Compile Include="MapUserControl\MapUserControlMapContextMenu.cs" />
@@ -141,7 +141,7 @@
     <Compile Include="MarkerControl\MarkerControlNodeContextMenu.cs" />
     <Compile Include="MarkerControl\MarkerControlRtuContextMenu.cs" />
     <Compile Include="ViewModels\BaseRefsAssignViewModel.cs" />
-    <Compile Include="ViewModels\CheckBoxModel.cs" />
+    <Compile Include="ViewModels\Primitive\CheckBoxModel.cs" />
     <Compile Include="ViewModels\EquipmentChoiceViewModel.cs" />
     <Compile Include="ViewModels\EquipmentUpdateViewModel.cs" />
     <Compile Include="ViewModels\LeftPanelViewModel.cs" />
@@ -201,7 +201,7 @@
     <Compile Include="Vms\MarkerVm.cs" />
     <Compile Include="Vms\NodeVm.cs" />
     <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="ContextMenuAction.cs" />
+    <Compile Include="ViewModels\Primitive\ContextMenuAction.cs" />
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
@@ -212,7 +212,7 @@
     </Compile>
     <Compile Include="ViewModels\FiberWithNodesAddViewModel.cs" />
     <Compile Include="ViewModels\FiberUpdateViewModel.cs" />
-    <Compile Include="ViewModels\RadioButtonModel.cs" />
+    <Compile Include="ViewModels\Primitive\RadioButtonModel.cs" />
     <Compile Include="ViewModels\RtuUpdateViewModel.cs" />
     <Compile Include="Views\FiberWithNodesAddView.xaml.cs">
       <DependentUpon>FiberWithNodesAddView.xaml</DependentUpon>
