@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Threading;
 using System.Windows.Threading;
 using Autofac;
 using Caliburn.Micro;
@@ -16,6 +18,9 @@ namespace Iit.Fibertest.TestBench {
 
         protected override void Configure()
         {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("ru-RU");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("ru-RU");
+
             var builder = new ContainerBuilder();
             builder.RegisterModule<AutofacEventSourcing>();
             builder.RegisterModule<AutofacUi>();

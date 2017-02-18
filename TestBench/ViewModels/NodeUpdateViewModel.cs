@@ -181,7 +181,7 @@ namespace Iit.Fibertest.TestBench
             var updateEquipmentViewModel = new EquipmentUpdateViewModel(NodeId, id);
             IMapper mapperToViewModel = new MapperConfiguration(
                     cfg => cfg.AddProfile<MappingVmToViewModel>()).CreateMapper();
-            mapperToViewModel.Map(Command, updateEquipmentViewModel);
+            mapperToViewModel.Map(equipmentVm, updateEquipmentViewModel);
             _windowManager.ShowDialog(updateEquipmentViewModel);
 
             if (updateEquipmentViewModel.Command == null)

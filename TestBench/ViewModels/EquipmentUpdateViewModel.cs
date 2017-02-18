@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
 using AutoMapper;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
@@ -92,8 +93,18 @@ namespace Iit.Fibertest.TestBench
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = EquipmentId == Guid.Empty ? "Добавление" : "Изменение";
+            const string addition = "Доба вление";
+            const string editing = "Изменение";
+            DisplayName = EquipmentId == Guid.Empty ? addition : editing;
             Console.WriteLine(Resources.SID_Test_string);
+            f("some string");
+            MessageBox.Show("какая-то строка","caption");
+            Console.WriteLine("some string");
+        }
+
+        private void f(string param)
+        {
+            MessageBox.Show(param);
         }
 
         public void Save()
