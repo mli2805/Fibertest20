@@ -1,11 +1,11 @@
 ﻿namespace Iit.Fibertest.TestBench
 {
     /// <summary>
-    /// Interaction logic for EquipmentView.xaml
+    /// Interaction logic for EquipmentUpdateView.xaml
     /// </summary>
-    public partial class EquipmentView
+    public partial class EquipmentUpdateView
     {
-        public EquipmentView()
+        public EquipmentUpdateView()
         {
             InitializeComponent();
         }

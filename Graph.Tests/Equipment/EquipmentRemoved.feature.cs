@@ -67,8 +67,6 @@ namespace Graph.Tests.Equipment
 #line 3
 #line 4
  testRunner.Given("Существует узел с оборудованием", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 5
- testRunner.And("Существует трасса использующая данное оборудование", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
         }
         
@@ -81,42 +79,100 @@ namespace Graph.Tests.Equipment
             this.ScenarioTearDown();
         }
         
-        [Xunit.FactAttribute(DisplayName="Удаление оборудования")]
+        [Xunit.FactAttribute(DisplayName="Удаление оборудования в узле невходящем в трассы")]
         [Xunit.TraitAttribute("FeatureTitle", "EquipmentRemoved")]
-        [Xunit.TraitAttribute("Description", "Удаление оборудования")]
-        public virtual void УдалениеОборудования()
+        [Xunit.TraitAttribute("Description", "Удаление оборудования в узле невходящем в трассы")]
+        public virtual void УдалениеОборудованияВУзлеНевходящемВТрассы()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Удаление оборудования", ((string[])(null)));
-#line 7
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Удаление оборудования в узле невходящем в трассы", ((string[])(null)));
+#line 6
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 8
+#line 7
  testRunner.When("Пользователь нажимает удалить оборудование", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 9
- testRunner.Then("Оборудование удаляется из трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 10
+#line 8
  testRunner.Then("Оборудование удаляется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
         
-        [Xunit.FactAttribute(DisplayName="Удаление оборудования из трассы с базовой")]
+        [Xunit.FactAttribute(DisplayName="Удаление оборудования не входящего в трассы")]
         [Xunit.TraitAttribute("FeatureTitle", "EquipmentRemoved")]
-        [Xunit.TraitAttribute("Description", "Удаление оборудования из трассы с базовой")]
-        public virtual void УдалениеОборудованияИзТрассыСБазовой()
+        [Xunit.TraitAttribute("Description", "Удаление оборудования не входящего в трассы")]
+        public virtual void УдалениеОборудованияНеВходящегоВТрассы()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Удаление оборудования из трассы с базовой", ((string[])(null)));
-#line 12
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Удаление оборудования не входящего в трассы", ((string[])(null)));
+#line 10
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 13
- testRunner.Given("Для этой трассы задана базовая", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 14
+#line 11
+ testRunner.Given("Трасса проходит в узле но не использует данное оборудование", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 12
  testRunner.When("Пользователь нажимает удалить оборудование", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 13
+ testRunner.Then("Оборудование удаляется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Удаление оборудования не последнего для любой трассы")]
+        [Xunit.TraitAttribute("FeatureTitle", "EquipmentRemoved")]
+        [Xunit.TraitAttribute("Description", "Удаление оборудования не последнего для любой трассы")]
+        public virtual void УдалениеОборудованияНеПоследнегоДляЛюбойТрассы()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Удаление оборудования не последнего для любой трассы", ((string[])(null)));
 #line 15
- testRunner.Then("Оборудование НЕ удаляется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 16
+ testRunner.Given("Существует трасса c данным оборудованием в середине", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 17
+ testRunner.When("Пользователь нажимает удалить оборудование", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 18
+ testRunner.Then("Оборудование удаляется из трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 19
+ testRunner.Then("Оборудование удаляется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Попытка удалить последнее оборудование трассы")]
+        [Xunit.TraitAttribute("FeatureTitle", "EquipmentRemoved")]
+        [Xunit.TraitAttribute("Description", "Попытка удалить последнее оборудование трассы")]
+        public virtual void ПопыткаУдалитьПоследнееОборудованиеТрассы()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Попытка удалить последнее оборудование трассы", ((string[])(null)));
+#line 21
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 22
+ testRunner.Given("Существует трасса c данным оборудованием в конце", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 23
+ testRunner.Then("Пункт Удалить недоступен для данного оборудования", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Попытка удаления оборудования из трассы с базовой")]
+        [Xunit.TraitAttribute("FeatureTitle", "EquipmentRemoved")]
+        [Xunit.TraitAttribute("Description", "Попытка удаления оборудования из трассы с базовой")]
+        public virtual void ПопыткаУдаленияОборудованияИзТрассыСБазовой()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Попытка удаления оборудования из трассы с базовой", ((string[])(null)));
+#line 25
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 26
+ testRunner.Given("Существует трасса c данным оборудованием в середине", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 27
+ testRunner.Given("Для этой трассы задана базовая", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 28
+ testRunner.Then("Пункт Удалить недоступен для данного оборудования", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

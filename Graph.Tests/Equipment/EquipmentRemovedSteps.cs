@@ -12,47 +12,95 @@ namespace Graph.Tests
     public sealed class EquipmentRemovedSteps
     {
         private readonly SystemUnderTest2 _sut = new SystemUnderTest2();
-        private Guid _nodeId;
+        private Guid _nodeId, _rtuNodeId, _anotherNodeId;
         private Guid _equipmentId;
+        private Guid _traceId;
+
 
         [Given(@"Существует узел с оборудованием")]
         public void GivenСуществуетУзелСОборудованием()
         {
             _sut.ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() {Type = EquipmentType.Sleeve}).Wait();
             _sut.Poller.Tick();
-            _nodeId = _sut.ReadModel.Nodes.Single().Id;
-            _equipmentId = _sut.ReadModel.Equipments.Single().Id;
-        }
+            _nodeId = _sut.ReadModel.Nodes.Last().Id;
+            _equipmentId = _sut.ReadModel.Equipments.Last().Id;
 
-        [Given(@"Существует трасса использующая данное оборудование")]
-        public void GivenСуществуетТрассаИспользующаяДанноеОборудование()
-        {
             _sut.ShellVm.ComplyWithRequest(new AddRtuAtGpsLocation()).Wait();
             _sut.Poller.Tick();
-            Guid rtuNodeId = _sut.ReadModel.Nodes.Last().Id;
+            _rtuNodeId = _sut.ReadModel.Nodes.Last().Id;
 
-            _sut.ShellVm.ComplyWithRequest(new AddFiber() {Node1 = rtuNodeId, Node2 = _nodeId}).Wait();
+            _sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = _rtuNodeId, Node2 = _nodeId }).Wait();
             _sut.Poller.Tick();
-            
+
+            _sut.ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait();
+            _sut.Poller.Tick();
+            _anotherNodeId = _sut.ReadModel.Nodes.Last().Id;
+
+            _sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = _anotherNodeId, Node2 = _nodeId }).Wait();
+            _sut.Poller.Tick();
+        }
+
+        [Given(@"Трасса проходит в узле но не использует данное оборудование")]
+        public void GivenТрассаПроходитВУзлеНоНеИспользуетДанноеОборудование()
+        {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.QuestionAnswer("Accept the path?", Answer.Yes, model));
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentChoiceHandler(EquipmentChoiceAnswer.Use, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 1));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
             _sut.FakeWindowManager.RegisterHandler(model => _sut.AddTraceViewHandler(model, "some title", "", Answer.Yes));
 
-            _sut.ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = _nodeId, NodeWithRtuId = rtuNodeId }).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = _anotherNodeId, NodeWithRtuId = _rtuNodeId }).Wait();
             _sut.Poller.Tick();
-
+            _traceId = _sut.ReadModel.Traces.Last().Id;
         }
+
+        [Given(@"Существует трасса c данным оборудованием в середине")]
+        public void GivenСуществуетТрассаCДаннымОборудованиемВСередине()
+        {
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.QuestionAnswer("Accept the path?", Answer.Yes, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.AddTraceViewHandler(model, "some title", "", Answer.Yes));
+
+            _sut.ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = _anotherNodeId, NodeWithRtuId = _rtuNodeId }).Wait();
+            _sut.Poller.Tick();
+            _traceId = _sut.ReadModel.Traces.Last().Id;
+        }
+
+        [Given(@"Существует трасса c данным оборудованием в конце")]
+        public void GivenСуществуетТрассаCДаннымОборудованиемВКонце()
+        {
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.QuestionAnswer("Accept the path?", Answer.Yes, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.AddTraceViewHandler(model, "some title", "", Answer.Yes));
+
+            _sut.ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = _nodeId, NodeWithRtuId = _rtuNodeId }).Wait();
+            _sut.Poller.Tick();
+        }
+
 
         [Given(@"Для этой трассы задана базовая")]
         public void GivenДляЭтойТрассыЗаданаБазовая()
         {
-            _sut.ReadModel.Traces.Single().PreciseId = Guid.NewGuid();
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, SystemUnderTest2.Path, SystemUnderTest2.Path, null, Answer.Yes));
+            _sut.ShellVm.ComplyWithRequest(new RequestAssignBaseRef() { TraceId = _traceId }).Wait();
+            _sut.Poller.Tick();
+        }
+
+        [Then(@"Пункт Удалить недоступен для данного оборудования")]
+        public void ThenПунктУдалитьНедоступенДляДанногоОборудования()
+        {
+            var vm = new NodeUpdateViewModel(_nodeId, _sut.ShellVm.GraphVm, _sut.FakeWindowManager);
+            vm.EquipmentsInNode.First(e => e.Id == _equipmentId).IsRemoveEnabled.Should().BeFalse();
         }
 
         [When(@"Пользователь нажимает удалить оборудование")]
         public void WhenПользовательНажимаетУдалитьОборудование()
         {
-            new NodeUpdateViewModel(_nodeId, _sut.ReadModel, _sut.Aggregate).RemoveEquipment(_equipmentId);
+            // не  работает , т.к. некому реагировать на RemoveEquipment
+            // надо начинать с ShellVM
+            var vm = new NodeUpdateViewModel(_nodeId, _sut.ShellVm.GraphVm, _sut.FakeWindowManager);
+            vm.RemoveEquipment(new RemoveEquipment() {Id = _equipmentId});
+            vm.Cancel();
             _sut.Poller.Tick();
         }
 

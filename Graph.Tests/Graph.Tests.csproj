@@ -87,6 +87,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Equipment\EquipmentAddedSimple.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EquipmentAddedSimple.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Equipment\EquipmentAddedSimpleSteps.cs">
+      <DependentUpon>EquipmentAddedSimple.feature</DependentUpon>
+    </Compile>
     <Compile Include="Sut\Answer.cs" />
     <Compile Include="Sut\EquipmentChoiceAnswer.cs" />
     <Compile Include="Equipment\EquipmentAdded.feature.cs">
@@ -266,6 +274,10 @@
     </None>
     <None Include="App.config">
       <SubType>Designer</SubType>
+    </None>
+    <None Include="Equipment\EquipmentAddedSimple.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>EquipmentAddedSimple.feature.cs</LastGenOutput>
     </None>
     <None Include="Equipment\EquipmentAtGpsLocationAdded.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

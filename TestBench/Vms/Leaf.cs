@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Caliburn.Micro;
@@ -118,13 +119,45 @@ namespace Iit.Fibertest.TestBench
         public Visibility Pic3Visibility => Pic3 != null ? Visibility.Visible : Visibility.Collapsed;
         public Visibility Pic4Visibility => LeafType == LeafType.Rtu ? Visibility.Visible : Visibility.Collapsed;
 
-        public ContextMenu ContextMenu => BuildContextMenu();
+        public  List<MyMenuItem> MyContextMenu => GetMenuItems();
+        public  List<MenuItemEx> MyContextMenuEx => GetMenuItemsEx();
 
-        private ContextMenu BuildContextMenu()
+        public List<MyMenuItem> GetMenuItems()
         {
-            var contextMenu = new ContextMenu();
-            contextMenu.Items.Add(new MenuItem() { Header = "Bluh" });
-            return contextMenu;
+            var menu = new List<MyMenuItem>();
+
+            var menuItem = new MyMenuItem() {Header = "Information" };
+            var subItem = new MyMenuItem() { Header = "SubItem 1", Command = new ContextMenuAction(SomeMenuItemAction, CanSomeAction), CommandParameter = this };
+            menuItem.Children.Add(subItem);
+            menu.Add(menuItem);
+            var menuItem2 = new MyMenuItem() { Header = "Show RTU", Command = new ContextMenuAction(SomeMenuItemAction, CanSomeAction), CommandParameter = this };
+            menu.Add(menuItem2);
+            return menu;
+        }
+
+        public List<MenuItemEx> GetMenuItemsEx()
+        {
+            var menu = new List<MenuItemEx>();
+
+            var menuItem = new MenuItemEx() { Header = "Information" };
+            var subItem = new MenuItemEx() { Header = "SubItem 1", Command = new ContextMenuAction(SomeMenuItemActionEx, CanSomeAction), CommandParameter = this };
+            menuItem.Children.Add(subItem);
+            menu.Add(menuItem);
+            var menuItem2 = new MenuItemEx() { Header = "Show RTU", Command = new ContextMenuAction(SomeMenuItemActionEx, CanSomeAction), CommandParameter = this };
+            menu.Add(menuItem2);
+            return menu;
+        }
+
+
+        private bool CanSomeAction(object param) { return true;}
+        private void SomeMenuItemAction(object param)
+        {
+            Console.WriteLine($"owner is {Title}");
+        }
+        private void SomeMenuItemActionEx(object param)
+        {
+            var item = (MenuItemEx) param;
+            Console.WriteLine($"menu item {item.Header} was clicked");
         }
 
         #region implementation of ITreeViewItemModel
@@ -158,5 +191,24 @@ namespace Iit.Fibertest.TestBench
         }
 
         #endregion
+    }
+
+    public class MyMenuItem
+    {
+        public string Header { get; set; }
+        public List<MyMenuItem> Children { get; private set; }
+        public ICommand Command { get; set; }
+        public object CommandParameter { get; set; }
+
+        public MyMenuItem()
+        {
+            Children = new List<MyMenuItem>();
+        }
+    }
+
+    public class MenuItemEx : MenuItem
+    {
+        public List<MenuItemEx> Children { get; private set; } = new List<MenuItemEx>();
+
     }
 }

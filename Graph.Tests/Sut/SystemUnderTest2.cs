@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Autofac;
 using Caliburn.Micro;
@@ -38,18 +39,21 @@ namespace Graph.Tests
             ShellVm.ComplyWithRequest(new AddRtuAtGpsLocation() {Latitude = 55, Longitude = 30}).Wait();
             Poller.Tick();
             var nodeForRtuId = ReadModel.Rtus.Last().NodeId;
+
             ShellVm.ComplyWithRequest(new AddNode()).Wait();
+            Poller.Tick();
+            var firstNodeId = ReadModel.Nodes.Last().Id;
+
             ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() {Type = EquipmentType.Terminal}).Wait();
             Poller.Tick();
-            var firstNodeId = ReadModel.Nodes[1].Id;
             var secondNodeId = ReadModel.Nodes.Last().Id;
+
             ShellVm.ComplyWithRequest(new AddFiber() {Node1 = nodeForRtuId, Node2 = firstNodeId}).Wait();
             ShellVm.ComplyWithRequest(new AddFiber() {Node1 = firstNodeId, Node2 = secondNodeId }).Wait();
             Poller.Tick();
 
-
             FakeWindowManager.RegisterHandler(model => QuestionAnswer("Accept the path?", Answer.Yes, model));
-            FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(EquipmentChoiceAnswer.Use, model));
+            FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
             FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, "some title", "", Answer.Yes));
 
             ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = secondNodeId, NodeWithRtuId = nodeForRtuId }).Wait();
@@ -93,25 +97,25 @@ namespace Graph.Tests
             Poller.Tick();
 
             FakeWindowManager.RegisterHandler(model => QuestionAnswer("Accept the path?", Answer.Yes, model));
-            FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(EquipmentChoiceAnswer.Use, model));
+            FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
             FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, "some title", "", Answer.Yes));
             ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = a2, NodeWithRtuId = nodeForRtuId }).Wait();
             Poller.Tick();
 
             FakeWindowManager.RegisterHandler(model => QuestionAnswer("Accept the path?", Answer.Yes, model));
-            FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(EquipmentChoiceAnswer.Use, model));
+            FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
             FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, "some title", "", Answer.Yes));
             ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = b2, NodeWithRtuId = nodeForRtuId }).Wait();
             Poller.Tick();
 
             FakeWindowManager.RegisterHandler(model => QuestionAnswer("Accept the path?", Answer.Yes, model));
-            FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(EquipmentChoiceAnswer.Use, model));
+            FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
             FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, "some title", "", Answer.Yes));
             ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = c2, NodeWithRtuId = nodeForRtuId }).Wait();
             Poller.Tick();
 
             FakeWindowManager.RegisterHandler(model => QuestionAnswer("Accept the path?", Answer.Yes, model));
-            FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(EquipmentChoiceAnswer.Use, model));
+            FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
             FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, "some title", "", Answer.Yes));
             ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = d2, NodeWithRtuId = nodeForRtuId }).Wait();
             Poller.Tick();
@@ -203,16 +207,33 @@ namespace Graph.Tests
             }
         }
 
-        public bool EquipmentChoiceHandler(EquipmentChoiceAnswer answer, object model)
+        public bool NodeUpdateHandler(object model, string title, string comment, Answer button)
+        {
+            var vm = model as NodeUpdateViewModel;
+            if (vm == null) return false;
+            if (title != null)
+                vm.Title = title;
+            if (comment != null)
+                vm.Comment = comment;
+            if (button == Answer.Yes)
+                vm.Save();
+            else
+                vm.Cancel();
+            return true;
+        }
+
+        public bool EquipmentChoiceHandler(object model, EquipmentChoiceAnswer answer, int chosenEquipmentNumber)
         {
             var vm = model as EquipmentChoiceViewModel;
             if (vm == null) return false;
             switch (answer)
             {
-                case EquipmentChoiceAnswer.Use:
+                case EquipmentChoiceAnswer.Continue:
+                    vm.Choices[chosenEquipmentNumber].IsChecked = true;
                     vm.UseButton();
                     return true;
-                case EquipmentChoiceAnswer.UseAndSetupName:
+                case EquipmentChoiceAnswer.SetupNameAndContinue:
+                    vm.Choices[chosenEquipmentNumber].IsChecked = true;
                     vm.UseAndSetupNameButton();
                     return true;
                 case EquipmentChoiceAnswer.Cancel:
@@ -235,6 +256,49 @@ namespace Graph.Tests
                 vm.Cancel();
             return true;
         }
+
+        public bool NodeUpdateHandler(object model)
+        {
+            var vm = model as NodeUpdateViewModel;
+            return vm != null;
+        }
+
+        public bool TraceChoiceHandler(object model, List<Guid> chosenTraces, Answer answer)
+        {
+            var vm = model as TraceChoiceViewModel;
+            if (vm == null) return false;
+            foreach (var chosenTrace in chosenTraces)
+            {
+                foreach (var checkbox in vm.Choices)
+                {
+                    if (checkbox.Id == chosenTrace)
+                        checkbox.IsChecked = true;
+                }
+            }
+            if (answer == Answer.Yes)
+                vm.Accept();
+            else
+                vm.Cancel();
+            return true;
+        }
+
+        public bool EquipmentUpdateHandler(object model, Guid nodeId, EquipmentType type, string title, string comment, int leftReserve, int rightReserve, Answer answer)
+        {
+            var vm = model as EquipmentUpdateViewModel;
+            if (vm == null) return false;
+            vm.NodeId = nodeId;
+            vm.Type = type;
+            vm.Title = title;
+            vm.Comment = comment;
+            vm.CableReserveLeft = leftReserve;
+            vm.CableReserveRight = rightReserve;
+            if (answer == Answer.Yes)
+                vm.Save();
+            else
+                vm.Cancel();
+            return true;
+        }
+
         public bool FiberWithNodesAdditionHandler(object model, int count, EquipmentType type, Answer answer)
         {
             var vm = model as FiberWithNodesAddViewModel;

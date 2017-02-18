@@ -7,6 +7,8 @@ namespace Iit.Fibertest.TestBench
     {
         public MappingViewModelToCommand()
         {
+            CreateMap<EquipmentUpdateViewModel, AddEquipmentIntoNode>();
+            CreateMap<EquipmentUpdateViewModel, UpdateEquipment>();
             CreateMap<RtuUpdateViewModel, UpdateRtu>();
         }
     }

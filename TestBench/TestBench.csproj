@@ -106,7 +106,9 @@
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="AutofacEventSourcing.cs" />
+    <Compile Include="MappingCommandToVm.cs" />
     <Compile Include="TreeReadModel.cs" />
+    <Compile Include="UserRequests\RequestAddEquipmentIntoNode.cs" />
     <Compile Include="UserRequests\RequestAddFiberWithNodes.cs" />
     <Compile Include="UserRequests\RequestAddNodeIntoFiber.cs" />
     <Compile Include="UserRequests\RequestAddTrace.cs" />
@@ -126,9 +128,8 @@
     <Compile Include="GpsInputControl\OneCoorViewModel.cs" />
     <Compile Include="Logic\MapTraceDefine.cs" />
     <Compile Include="Logic\PointLatLngExtensions.cs" />
-    <Compile Include="MappingDomainEntityToViewModel.cs" />
+    <Compile Include="MappingVmToViewModel.cs" />
     <Compile Include="MappingViewModelToCommand.cs" />
-    <Compile Include="MappingViewModeltoDomainEntity.cs" />
     <Compile Include="MapUserControl\MapUserControlApplyFibersToRoutes.cs" />
     <Compile Include="MapUserControl\MapUserControlApplyNodesToMarkers.cs" />
     <Compile Include="MapUserControl\MapUserControlMapContextMenu.cs" />
@@ -140,8 +141,9 @@
     <Compile Include="MarkerControl\MarkerControlNodeContextMenu.cs" />
     <Compile Include="MarkerControl\MarkerControlRtuContextMenu.cs" />
     <Compile Include="ViewModels\BaseRefsAssignViewModel.cs" />
+    <Compile Include="ViewModels\CheckBoxModel.cs" />
     <Compile Include="ViewModels\EquipmentChoiceViewModel.cs" />
-    <Compile Include="ViewModels\EquipmentViewModel.cs" />
+    <Compile Include="ViewModels\EquipmentUpdateViewModel.cs" />
     <Compile Include="ViewModels\LeftPanelViewModel.cs" />
     <Compile Include="ViewModels\MainMenuViewModel.cs" />
     <Compile Include="ViewModels\NodeUpdateViewModel.cs" />
@@ -151,6 +153,7 @@
     <Compile Include="ViewModels\Shell\ShellViewModelApplyRtu.cs" />
     <Compile Include="ViewModels\Shell\ShellViewModelApplyTrace.cs" />
     <Compile Include="ViewModels\TraceAddViewModel.cs" />
+    <Compile Include="ViewModels\TraceChoiceViewModel.cs" />
     <Compile Include="ViewModels\UniversalViewModels\NotificationViewModel.cs" />
     <Compile Include="ViewModels\UniversalViewModels\QuestionViewModel.cs" />
     <Compile Include="Views\BaseRefsAssignView.xaml.cs">
@@ -159,8 +162,8 @@
     <Compile Include="Views\EquipmentChoiceView.xaml.cs">
       <DependentUpon>EquipmentChoiceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\EquipmentView.xaml.cs">
-      <DependentUpon>EquipmentView.xaml</DependentUpon>
+    <Compile Include="Views\EquipmentUpdateView.xaml.cs">
+      <DependentUpon>EquipmentUpdateView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LeftPanelView.xaml.cs">
       <DependentUpon>LeftPanelView.xaml</DependentUpon>
@@ -173,6 +176,9 @@
     </Compile>
     <Compile Include="Views\TraceAddView.xaml.cs">
       <DependentUpon>TraceAddView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TraceChoiceView.xaml.cs">
+      <DependentUpon>TraceChoiceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UniversalViews\NotificationView.xaml.cs">
       <DependentUpon>NotificationView.xaml</DependentUpon>
@@ -244,7 +250,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\EquipmentView.xaml">
+    <Page Include="Views\EquipmentUpdateView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -275,6 +281,10 @@
     <Page Include="Views\TraceAddView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\TraceChoiceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UniversalViews\NotificationView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -307,6 +317,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.ru-RU.resx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

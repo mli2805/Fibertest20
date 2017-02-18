@@ -10,7 +10,8 @@ namespace Iit.Fibertest.TestBench
     public class BaseRefsAssignViewModel : Screen
     {
         private readonly ReadModel _readModel;
-        private Trace _trace;
+        private TraceVm _traceVm;
+        private RtuVm _rtuVm;
 
         private const string SavedInDb = "Сохранено в БД";
 
@@ -24,25 +25,23 @@ namespace Iit.Fibertest.TestBench
 
         public AssignBaseRef Command { get; set; }
 
-        public BaseRefsAssignViewModel(Guid traceId, ReadModel readModel)
+        public BaseRefsAssignViewModel(TraceVm traceVm, RtuVm rtuVm)
         {
-            _readModel = readModel;
+            _traceVm = traceVm;
+            _rtuVm = rtuVm;
 
-            Initialize(traceId);
+            Initialize();
         }
 
-        private void Initialize(Guid traceId)
+        private void Initialize()
         {
-            _trace = _readModel.Traces.First(t => t.Id == traceId);
-            var rtu = _readModel.Rtus.First(r => r.Id == _trace.RtuId);
+            TraceTitle = _traceVm.Title;
+            RtuTitle = _rtuVm.Title;
+            RtuPort = _traceVm.Port.ToString();
 
-            TraceTitle = _trace.Title;
-            RtuTitle = rtu.Title;
-            RtuPort = _trace.Port.ToString();
-
-            PreciseBaseFilename = _trace.PreciseId == Guid.Empty ? "" : SavedInDb;
-            FastBaseFilename = _trace.FastId == Guid.Empty ? "" : SavedInDb;
-            AdditionalBaseFilename = _trace.AdditionalId == Guid.Empty ? "" : SavedInDb;
+            PreciseBaseFilename = _traceVm.PreciseId == Guid.Empty ? "" : SavedInDb;
+            FastBaseFilename = _traceVm.FastId == Guid.Empty ? "" : SavedInDb;
+            AdditionalBaseFilename = _traceVm.AdditionalId == Guid.Empty ? "" : SavedInDb;
         }
 
         private void SendAssingBaseRef(string filename, BaseRefType type)
@@ -60,12 +59,12 @@ namespace Iit.Fibertest.TestBench
 
         public void Save()
         {
-            Command = new AssignBaseRef() {TraceId = _trace.Id};
-            if (IsFilenameChanged(PreciseBaseFilename, _trace.PreciseId))
+            Command = new AssignBaseRef() {TraceId = _traceVm.Id};
+            if (IsFilenameChanged(PreciseBaseFilename, _traceVm.PreciseId))
                 SendAssingBaseRef(PreciseBaseFilename, BaseRefType.Precise);
-            if (IsFilenameChanged(FastBaseFilename, _trace.FastId))
+            if (IsFilenameChanged(FastBaseFilename, _traceVm.FastId))
                 SendAssingBaseRef(FastBaseFilename, BaseRefType.Fast);
-            if (IsFilenameChanged(AdditionalBaseFilename, _trace.AdditionalId))
+            if (IsFilenameChanged(AdditionalBaseFilename, _traceVm.AdditionalId))
                 SendAssingBaseRef(AdditionalBaseFilename, BaseRefType.Additional);
 
             TryClose();

@@ -13,9 +13,10 @@ namespace Iit.Fibertest.TestBench
             _owner.GraphVm.Request = new UpdateNode() { Id = nodeId };
         }
 
-        private bool CanAddEquipment(object parameter) { return false; }
+        private bool CanAddEquipment(object parameter) { return true; }
         private void AskAddEquipment(object parameter)
         {
+            _owner.GraphVm.Request = new RequestAddEquipmentIntoNode() {NodeId = (Guid)parameter};
         }
 
         private bool CanLandmarks(object parameter) { return false; }

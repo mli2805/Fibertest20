@@ -14,7 +14,7 @@ namespace Iit.Fibertest.Graph
             CreateMap<MoveNode, NodeMoved>();
             CreateMap<RemoveNode, NodeRemoved>();
 
-            CreateMap<AddEquipment, EquipmentAdded>();
+            CreateMap<AddEquipmentIntoNode, EquipmentIntoNodeAdded>();
             CreateMap<AddEquipmentAtGpsLocation, EquipmentAtGpsLocationAdded>();
             CreateMap<UpdateEquipment, EquipmentUpdated>();
             CreateMap<RemoveEquipment, EquipmentRemoved>();

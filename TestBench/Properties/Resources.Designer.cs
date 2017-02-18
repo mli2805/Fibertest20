@@ -59,5 +59,14 @@ namespace Iit.Fibertest.TestBench.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Test string.
+        /// </summary>
+        internal static string SID_Test_string {
+            get {
+                return ResourceManager.GetString("SID_Test_string", resourceCulture);
+            }
+        }
     }
 }

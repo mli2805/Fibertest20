@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
 using AutoMapper;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
+using Iit.Fibertest.TestBench.Properties;
 
 namespace Iit.Fibertest.TestBench
 {
-    public class EquipmentViewModel : Screen
+    public class EquipmentUpdateViewModel : Screen
     {
-        private readonly IWindowManager _windowManager;
-        private readonly Guid _nodeIdOnlyForAddEquipmentCase;
-        private readonly Aggregate _aggregate;
+        public Guid NodeId;
         private string _title;
         private int _cableReserveLeft;
         private int _cableReserveRight;
@@ -71,58 +71,60 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
-        public List<Guid> TracesForInsertion { get; set; }
-
         public Guid EquipmentId { get; set; }
 
-        public RadioButtonModel CableReserve { get; set; } = new RadioButtonModel { Title = "CableReserve", IsChecked = false };
-        public RadioButtonModel Sleeve { get; } = new RadioButtonModel { Title = "Sleeve", IsChecked = true };
-        public RadioButtonModel Cross { get; } = new RadioButtonModel { Title = "Cross", IsChecked = false };
-        public RadioButtonModel Terminal { get; } = new RadioButtonModel { Title = "Terminal", IsChecked = false };
-        public RadioButtonModel Other { get; } = new RadioButtonModel { Title = "Other", IsChecked = false };
+        public RadioButtonModel CableReserve { get; } = new RadioButtonModel() {Title = "CableReserve" };
+        public RadioButtonModel Sleeve { get; } = new RadioButtonModel() { Title = "Sleeve" };
+        public RadioButtonModel Cross { get; } = new RadioButtonModel() { Title = "Cross" };
+        public RadioButtonModel Terminal { get; } = new RadioButtonModel() { Title = "Terminal" };
+        public RadioButtonModel Other { get; } = new RadioButtonModel() { Title = "Other" };
 
         public bool IsClosed { get; set; }
-        public EquipmentViewModel(IWindowManager windowManager, Guid nodeId, Guid equipmentId, List<Guid> tracesForInsertion, Aggregate aggregate)
+        public bool IsSaveEnabled => GetSelectedRadioButton() != EquipmentType.None;
+
+        public object Command { get; set; }
+        public EquipmentUpdateViewModel(Guid nodeId, Guid equipmentId)
         {
-            _windowManager = windowManager;
-            _nodeIdOnlyForAddEquipmentCase = nodeId;
-            _aggregate = aggregate;
+            NodeId = nodeId;
             EquipmentId = equipmentId;
-            TracesForInsertion = tracesForInsertion;
 
             IsClosed = false;
         }
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = EquipmentId == Guid.Empty ? "Добавление" : "Изменение";
+            const string addition = "Доба вление";
+            const string editing = "Изменение";
+            DisplayName = EquipmentId == Guid.Empty ? addition : editing;
+            Console.WriteLine(Resources.SID_Test_string);
+            f("some string");
+            MessageBox.Show("какая-то строка","caption");
+            Console.WriteLine("some string");
+        }
+
+        private void f(string param)
+        {
+            MessageBox.Show(param);
         }
 
         public void Save()
         {
             IMapper mapper = new MapperConfiguration(
-              cfg => cfg.AddProfile<MappingViewModeltoDomainEntity>()).CreateMapper();
+              cfg => cfg.AddProfile<MappingViewModelToCommand>()).CreateMapper();
 
             if (EquipmentId == Guid.Empty) // добавление нового оборудования
             {
                 EquipmentId = Guid.NewGuid();
-                var cmd = mapper.Map<AddEquipment>(this);
+                var cmd = mapper.Map<AddEquipmentIntoNode>(this);
                 cmd.Id = EquipmentId;
-                cmd.NodeId = _nodeIdOnlyForAddEquipmentCase;
-                cmd.TracesForInsertion = TracesForInsertion;
-                var result = _aggregate.When(cmd);
-                if (result != null)
-                {
-                    var errorNotificationViewModel = new NotificationViewModel("Ошибка!", result);
-                    _windowManager.ShowDialog(errorNotificationViewModel);
-                    return;
-                }
+                cmd.NodeId = NodeId;
+                Command = cmd;
             }
             else  // редактирование существовавшего
             {
                 var cmd = mapper.Map<UpdateEquipment>(this);
                 cmd.Id = EquipmentId;
-                _aggregate.When(cmd);
+                Command = cmd;
             }
 
             CloseView();
@@ -149,8 +151,9 @@ namespace Iit.Fibertest.TestBench
                 return EquipmentType.Cross;
             if (Terminal.IsChecked)
                 return EquipmentType.Terminal;
-            //else if (Other.IsSelected)
-            return EquipmentType.Other;
+            if (Other.IsChecked)
+                return EquipmentType.Other;
+            return EquipmentType.None;
         }
         private void SetSelectedRadioButton(EquipmentType type)
         {

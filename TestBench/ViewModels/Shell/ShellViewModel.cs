@@ -93,8 +93,8 @@ namespace Iit.Fibertest.TestBench
 
         public void AssignBase()
         {
-            var traceId = GraphVm.Traces.First().Id;
-            var vm = new BaseRefsAssignViewModel(traceId, ReadModel);
+            var traceVm = GraphVm.Traces.First();
+            var vm = new BaseRefsAssignViewModel(traceVm, GraphVm.Rtus.First(r=>r.Id == traceVm.RtuId));
             _windowManager.ShowDialog(vm);
 
             if (vm.Command != null)
@@ -143,7 +143,16 @@ namespace Iit.Fibertest.TestBench
         {
             var cmd = request;
             await Bus.SendCommand(cmd);
-            ApplyToMap(request);
+            ApplyToMap(cmd);
+        }
+
+        public async Task ComplyWithRequest(UpdateNode request)
+        {
+            var cmd = PrepareCommand(request);
+            if (cmd == null)
+                return;
+            await Bus.SendCommand(cmd);
+            ApplyToMap(cmd);
         }
 
         public async Task ComplyWithRequest(RequestRemoveNode request)
@@ -237,6 +246,33 @@ namespace Iit.Fibertest.TestBench
             cmd.NodeId = Guid.NewGuid();
             await Bus.SendCommand(cmd);
             ApplyToMap(cmd);
+        }
+
+        public async Task ComplyWithRequest(RequestAddEquipmentIntoNode request)
+        {
+            var cmd = PrepareCommand(request);
+            if (cmd == null)
+                return;
+            await Bus.SendCommand(cmd);
+            ApplyToMap(cmd);
+        }
+        public async Task ComplyWithRequest(UpdateEquipment request)
+        {
+            var cmd = PrepareCommand(request);
+            if (cmd == null)
+                return;
+            await Bus.SendCommand(cmd);
+            ApplyToMap(cmd);
+        }
+
+        public async Task ComplyWithRequest(RemoveEquipment request)
+        {
+            var cmd = PrepareCommand(request);
+            if (cmd == null)
+                return;
+            await Bus.SendCommand(cmd);
+            ApplyToMap(cmd);
+
         }
         #endregion
 

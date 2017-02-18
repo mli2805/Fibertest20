@@ -66,7 +66,7 @@ namespace Graph.Tests.Trace
         {
 #line 3
 #line 4
- testRunner.Given("Есть трасса", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Была создана трасса", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
         }
         

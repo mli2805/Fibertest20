@@ -26,6 +26,12 @@ namespace Iit.Fibertest.TestBench
             nodeVm.Position = new PointLatLng(cmd.Latitude, cmd.Longitude);
         }
 
+        private void ApplyToMap(UpdateNode cmd)
+        {
+            var nodeVm = GraphVm.Nodes.Single(n => n.Id == cmd.Id);
+            nodeVm.Title = cmd.Title;
+            nodeVm.Comment = cmd.Comment;
+        }
 
         private RemoveNode PrepareCommand(RequestRemoveNode request)
         {
@@ -38,6 +44,37 @@ namespace Iit.Fibertest.TestBench
             return new RemoveNode { Id = request.Id, TraceFiberPairForDetour = dictionary };
 
         }
+
+        private UpdateNode PrepareCommand(UpdateNode request)
+        {
+            var vm = new NodeUpdateViewModel(request.Id, GraphVm, _windowManager);
+            vm.PropertyChanged += Vm_PropertyChanged;
+            _windowManager.ShowDialog(vm);
+            return vm.Command != null ? (UpdateNode)vm.Command : null;
+        }
+
+        private void Vm_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName != "Command")
+                return;
+            var vm = (NodeUpdateViewModel)sender;
+
+            if (vm.Command is AddEquipmentIntoNode)
+            {
+                Bus.SendCommand((AddEquipmentIntoNode)vm.Command);
+                ApplyToMap((AddEquipmentIntoNode)vm.Command);
+            }
+
+            if (vm.Command is UpdateEquipment)
+            {
+                Bus.SendCommand((UpdateEquipment)vm.Command);
+                ApplyToMap((UpdateEquipment)vm.Command);
+            }
+
+            if (vm.Command is RemoveEquipment)
+                ComplyWithRequest((RemoveEquipment)vm.Command).Wait();
+        }
+
         private void ApplyToMap(RemoveNode cmd)
         {
             var fiberVms = GraphVm.Fibers.Where(e => e.Node1.Id == cmd.Id || e.Node2.Id == cmd.Id).ToList();

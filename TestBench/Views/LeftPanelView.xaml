@@ -10,8 +10,16 @@
              d:DesignHeight="300" d:DesignWidth="300" d:DataContext="{d:DesignInstance testBench:LeftPanelViewModel}">
 
     <UserControl.Resources>
+        <Style x:Key="ContextMenuItemStyle">
+            <Setter Property="MenuItem.Header" Value="{Binding Header}"/>
+            <Setter Property="MenuItem.ItemsSource" Value="{Binding Children}"/>
+            <Setter Property="MenuItem.Command" Value="{Binding Command}" />
+        </Style>
         <HierarchicalDataTemplate x:Key="LeafTemplate" DataType="testBench:Leaf" ItemsSource="{Binding Children}">
-            <StackPanel Orientation="Horizontal" ContextMenu="{Binding ContextMenu}">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel.ContextMenu>
+                    <ContextMenu ItemContainerStyle="{StaticResource ContextMenuItemStyle}" ItemsSource="{Binding MyContextMenu}"/>
+                </StackPanel.ContextMenu>
                 <Image Source="{Binding Pic1}" Height="12" Width="12" Margin="0,0,4,0"></Image>
                 <Image Source="{Binding Pic2}" Height="12" Width="12" Margin="0,0,4,0"></Image>
                 <Image Source="{Binding Pic3}" Height="12" Width="12" Margin="0,0,4,0" Visibility="{Binding Pic3Visibility}"></Image>

@@ -40,7 +40,7 @@ namespace Iit.Fibertest.TestBench
         }
         public GpsInputViewModel GpsInputViewModel { get; set; }
 
-        public UpdateRtu Request { get; set; }
+        public UpdateRtu Command { get; set; }
 
         public RtuUpdateViewModel(Guid nodeId, GraphVm graphVm)
         {
@@ -66,16 +66,17 @@ namespace Iit.Fibertest.TestBench
 
         protected override void OnViewLoaded(object view)
         {
+            DisplayName = "RTU";
         }
 
         public void Save()
         {
             IMapper mapper = new MapperConfiguration(cfg => cfg.AddProfile<MappingViewModelToCommand>()).CreateMapper();
-            Request = mapper.Map<UpdateRtu>(this);
-            Request.NodeId = _nodeId;
-            Request.Id = _graphVm.Rtus.First(r => r.Node.Id == _nodeId).Id;
-            Request.Latitude = GpsInputViewModel.OneCoorViewModelLatitude.StringsToValue();
-            Request.Longitude = GpsInputViewModel.OneCoorViewModelLongitude.StringsToValue();
+            Command = mapper.Map<UpdateRtu>(this);
+            Command.NodeId = _nodeId;
+            Command.Id = _graphVm.Rtus.First(r => r.Node.Id == _nodeId).Id;
+            Command.Latitude = GpsInputViewModel.OneCoorViewModelLatitude.StringsToValue();
+            Command.Longitude = GpsInputViewModel.OneCoorViewModelLongitude.StringsToValue();
             TryClose();
         }
 

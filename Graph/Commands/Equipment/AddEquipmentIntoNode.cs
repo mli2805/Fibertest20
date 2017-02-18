@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Iit.Fibertest.Graph.Commands
 {
-    public class AddEquipment
+    public class AddEquipmentIntoNode
     {
         public Guid Id { get; set; }
         public Guid NodeId { get; set; }

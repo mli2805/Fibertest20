@@ -12,8 +12,8 @@ namespace Graph.Tests
     public sealed class EquipmentUpdatedSteps
     {
         private readonly SystemUnderTest2 _sut = new SystemUnderTest2();
-        private Guid _equipmentId;
-        private EquipmentViewModel _equipmentViewModel;
+        private Guid _nodeId, _equipmentId;
+        private EquipmentUpdateViewModel _equipmentUpdateViewModel;
 
         private const string NewTitleForTest = "New name for old equipment";
         private const EquipmentType NewTypeForTest = EquipmentType.Cross;
@@ -27,36 +27,37 @@ namespace Graph.Tests
             _sut.ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() {Type = EquipmentType.Terminal}).Wait();
             _sut.Poller.Tick();
             _equipmentId = _sut.ReadModel.Equipments.Single().Id;
+            _nodeId = _sut.ReadModel.Equipments.Single().NodeId;
         }
 
         [Given(@"Открыта форма для изменения сущ оборудования")]
         public void GivenОткрытаФормаДляИзмененияСущОборудования()
         {
-            _equipmentViewModel = new EquipmentViewModel(_sut.FakeWindowManager, Guid.Empty, _equipmentId, null, _sut.Aggregate);
+            _equipmentUpdateViewModel = new EquipmentUpdateViewModel(Guid.Empty, _equipmentId);
         }
 
         [Given(@"Пользователь производит изменения")]
         public void GivenПользовательПроизводитИзменения()
         {
-            _equipmentViewModel.Title = NewTitleForTest;
-            _equipmentViewModel.Type = NewTypeForTest;
-            _equipmentViewModel.CableReserveLeft = NewLeftCableReserve;
-            _equipmentViewModel.CableReserveRight = NewRightCableReserve;
-            _equipmentViewModel.Comment = NewCommentForTest;
+            _equipmentUpdateViewModel.Title = NewTitleForTest;
+            _equipmentUpdateViewModel.Type = NewTypeForTest;
+            _equipmentUpdateViewModel.CableReserveLeft = NewLeftCableReserve;
+            _equipmentUpdateViewModel.CableReserveRight = NewRightCableReserve;
+            _equipmentUpdateViewModel.Comment = NewCommentForTest;
         }
 
         [When(@"Жмет сохранить")]
         public void WhenЖметСохранить()
         {
-            _equipmentViewModel.Save();
-            _sut.Poller.Tick();
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentUpdateHandler(
+                    model, _nodeId, NewTypeForTest, NewTitleForTest, NewCommentForTest, NewLeftCableReserve, NewRightCableReserve, Answer.Yes));
         }
 
         [When(@"Жмет Отмена")]
         public void WhenЖметОтмена()
         {
-            _equipmentViewModel.Cancel();
-            _sut.Poller.Tick();
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentUpdateHandler(
+                    model, _nodeId, NewTypeForTest, NewTitleForTest, NewCommentForTest, NewLeftCableReserve, NewRightCableReserve, Answer.Cancel));
         }
 
         [Then(@"Все должно быть сохранено")]

@@ -174,7 +174,7 @@ namespace Iit.Fibertest.Graph
         #endregion
 
         #region Equipment
-        public void Apply(EquipmentAdded e) { _equipments.Add(new Equipment() {Id = e.Id, Type = e.Type, NodeId = e.NodeId}); }
+        public void Apply(EquipmentIntoNodeAdded e) { _equipments.Add(new Equipment() {Id = e.Id, Type = e.Type, NodeId = e.NodeId}); }
 
         public void Apply(EquipmentAtGpsLocationAdded e)
         {
