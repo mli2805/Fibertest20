@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.TestBench
 {
@@ -8,6 +9,7 @@ namespace Iit.Fibertest.TestBench
         public Guid Id { get; set; }
         public Guid RtuId { get; set; }
 
+        public FiberState State { get; set; } = FiberState.NotJoined;
         public int Port { get; set; }
         public List<Guid> Nodes { get; set; }
         public List<Guid> Equipments { get; set; }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Media;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Events;
 using Iit.Fibertest.TestBench.Properties;
 
@@ -91,7 +92,7 @@ namespace Iit.Fibertest.TestBench
         {
             var trace = new Leaf()
             {
-                Id = e.Id, LeafType = LeafType.Trace, Title = e.Title, Color = Brushes.Blue,
+                Id = e.Id, LeafType = LeafType.Trace, Title = e.Title, TraceState = FiberState.NotJoined, Color = Brushes.Blue,
             };
             var rtu = Tree.GetById(e.RtuId);
             rtu.Children.Add(trace);
