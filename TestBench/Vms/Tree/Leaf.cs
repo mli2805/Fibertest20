@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
@@ -12,14 +10,6 @@ using Iit.Fibertest.TestBench.Properties;
 
 namespace Iit.Fibertest.TestBench
 {
-    public enum LeafType
-    {
-        DataCenter,
-        Rtu,
-        Bop,
-        Trace
-    }
-
     public class Leaf : PropertyChangedBase, ITreeViewItemModel
     {
         private string _title;
@@ -51,7 +41,6 @@ namespace Iit.Fibertest.TestBench
         public FiberState TraceState { get; set; }
 
         private Brush _color;
-
         public Brush Color
         {
             get { return _color; }
@@ -146,24 +135,5 @@ namespace Iit.Fibertest.TestBench
         }
 
         #endregion
-    }
-
-    public class MyMenuItem
-    {
-        public string Header { get; set; }
-        public List<MyMenuItem> Children { get; private set; }
-        public ICommand Command { get; set; }
-        public object CommandParameter { get; set; }
-
-        public MyMenuItem()
-        {
-            Children = new List<MyMenuItem>();
-        }
-    }
-
-    public class MenuItemEx : MenuItem
-    {
-        public List<MenuItemEx> Children { get; private set; } = new List<MenuItemEx>();
-
     }
 }

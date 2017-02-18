@@ -8,7 +8,7 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
 
 
 
-1. —троковые константы в Graph(Aggregate) и Graph.Tests a Resource.resx в Testbench
+1. —троковые константы в Graph(Aggregate) и Graph.Tests, a Resource.resx в Testbench
 	? выделение в отдельную dll ?
 
 1а. »з xaml решарпер не предлагает вынести константы - надо руками, есть ли способ автоматизировать?
@@ -17,12 +17,12 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
 	из NodeUpdateViewModel вызываютс€ AddEquipment and UpdateEquipment -
 	результат их работы примен€етс€ до закрыти€ материнской формы
 
-3. TreeReadModel - где должна быть определена, если ReadModel-ей может быть несколько
+3. TreeReadModel - где должна быть определена, если ReadModel-ей может быть несколько?
     в библиотеке Graph? 
 
 4. биндинги в LeftPanel вроде работают, но варнинги решарпера...
 	2 варианта подключени€ контекстного меню
 
-5. web client limited
+5. теоретически: + web client limited
 
 
