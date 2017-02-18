@@ -7,9 +7,7 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
 Операции https://docs.google.com/open?id=1vEk-U0RBY3aNtYu4amWjvQSyVfcIrcAhglXG35Nf6PQ
 
 
-Packages from WpfClient
 
-языки
-конфигуратор (ини файл)
-лог
+Строковые константы в Aggregate a Resource.resx в Testbench
+
 

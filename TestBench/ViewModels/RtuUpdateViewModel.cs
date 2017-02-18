@@ -4,6 +4,7 @@ using System.Linq;
 using AutoMapper;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph.Commands;
+using Iit.Fibertest.TestBench.Properties;
 
 namespace Iit.Fibertest.TestBench
 {
@@ -94,9 +95,9 @@ namespace Iit.Fibertest.TestBench
                 {
                     case "Title":
                         if (string.IsNullOrEmpty(Title))
-                            errorMessage = "Title is required";
+                            errorMessage = Resources.SID_Title_is_required;
                         if (_graphVm.Rtus.Any(n => n.Title == Title))
-                            errorMessage = "There is a rtu with the same title";
+                            errorMessage = Resources.SID_There_is_a_rtu_with_the_same_title;
                         break;
                 }
                 return errorMessage;

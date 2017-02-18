@@ -61,11 +61,381 @@ namespace Iit.Fibertest.TestBench.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Test string.
+        ///   Looks up a localized string similar to Accept the path?.
         /// </summary>
-        internal static string SID_Test_string {
+        internal static string SID_Accept_the_path {
             get {
-                return ResourceManager.GetString("SID_Test_string", resourceCulture);
+                return ResourceManager.GetString("SID_Accept_the_path", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Equipment.
+        /// </summary>
+        internal static string SID_Add_Equipment {
+            get {
+                return ResourceManager.GetString("SID_Add_Equipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add node.
+        /// </summary>
+        internal static string SID_Add_node {
+            get {
+                return ResourceManager.GetString("SID_Add_node", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CableReserve.
+        /// </summary>
+        internal static string SID_CableReserve {
+            get {
+                return ResourceManager.GetString("SID_CableReserve", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cross.
+        /// </summary>
+        internal static string SID_Cross {
+            get {
+                return ResourceManager.GetString("SID_Cross", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Define trace.
+        /// </summary>
+        internal static string SID_Define_trace {
+            get {
+                return ResourceManager.GetString("SID_Define_trace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Degrees is required.
+        /// </summary>
+        internal static string SID_Degrees_is_required {
+            get {
+                return ResourceManager.GetString("SID_Degrees_is_required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do not use.
+        /// </summary>
+        internal static string SID_Do_not_use {
+            get {
+                return ResourceManager.GetString("SID_Do_not_use", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Equipment.
+        /// </summary>
+        internal static string SID_Edit_Equipment {
+            get {
+                return ResourceManager.GetString("SID_Edit_Equipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error!.
+        /// </summary>
+        internal static string SID_Error {
+            get {
+                return ResourceManager.GetString("SID_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Section.
+        /// </summary>
+        internal static string SID_Fiber {
+            get {
+                return ResourceManager.GetString("SID_Fiber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Information.
+        /// </summary>
+        internal static string SID_Information {
+            get {
+                return ResourceManager.GetString("SID_Information", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid input.
+        /// </summary>
+        internal static string SID_Invalid_input {
+            get {
+                return ResourceManager.GetString("SID_Invalid_input", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invisible.
+        /// </summary>
+        internal static string SID_Invisible {
+            get {
+                return ResourceManager.GetString("SID_Invisible", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to It&apos;s impossible to change trace with base reflectogram.
+        /// </summary>
+        internal static string SID_It_s_impossible_to_change_trace_with_base_reflectogram {
+            get {
+                return ResourceManager.GetString("SID_It_s_impossible_to_change_trace_with_base_reflectogram", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Landmarks.
+        /// </summary>
+        internal static string SID_Landmarks {
+            get {
+                return ResourceManager.GetString("SID_Landmarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last node of trace must contain some equipment.
+        /// </summary>
+        internal static string SID_Last_node_of_trace_must_contain_some_equipment {
+            get {
+                return ResourceManager.GetString("SID_Last_node_of_trace_must_contain_some_equipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Length should be a number.
+        /// </summary>
+        internal static string SID_Length_should_be_a_number {
+            get {
+                return ResourceManager.GetString("SID_Length_should_be_a_number", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to noname RTU.
+        /// </summary>
+        internal static string SID_noname_RTU {
+            get {
+                return ResourceManager.GetString("SID_noname_RTU", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Other.
+        /// </summary>
+        internal static string SID_Other {
+            get {
+                return ResourceManager.GetString("SID_Other", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Path couldn&apos;t be found.
+        /// </summary>
+        internal static string SID_Path_couldn_t_be_found {
+            get {
+                return ResourceManager.GetString("SID_Path_couldn_t_be_found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quantity.
+        /// </summary>
+        internal static string SID_Quantity {
+            get {
+                return ResourceManager.GetString("SID_Quantity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Question!.
+        /// </summary>
+        internal static string SID_Question {
+            get {
+                return ResourceManager.GetString("SID_Question", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove.
+        /// </summary>
+        internal static string SID_Remove {
+            get {
+                return ResourceManager.GetString("SID_Remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove node.
+        /// </summary>
+        internal static string SID_Remove_node {
+            get {
+                return ResourceManager.GetString("SID_Remove_node", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove section.
+        /// </summary>
+        internal static string SID_Remove_section {
+            get {
+                return ResourceManager.GetString("SID_Remove_section", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Section.
+        /// </summary>
+        internal static string SID_Section {
+            get {
+                return ResourceManager.GetString("SID_Section", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Section with nodes.
+        /// </summary>
+        internal static string SID_Section_with_nodes {
+            get {
+                return ResourceManager.GetString("SID_Section_with_nodes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select equipment.
+        /// </summary>
+        internal static string SID_Select_equipment {
+            get {
+                return ResourceManager.GetString("SID_Select_equipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select equipment for trace.
+        /// </summary>
+        internal static string SID_Select_equipment_for_trace {
+            get {
+                return ResourceManager.GetString("SID_Select_equipment_for_trace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select traces for equipment.
+        /// </summary>
+        internal static string SID_Select_traces_for_equipment {
+            get {
+                return ResourceManager.GetString("SID_Select_traces_for_equipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select traces which will use added equipment 
+        ///If chosen trace use some equipment in this node it will be replaced.
+        /// </summary>
+        internal static string SID_Select_traces_which_will_use {
+            get {
+                return ResourceManager.GetString("SID_Select_traces_which_will_use", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show RTU.
+        /// </summary>
+        internal static string SID_Show_RTU {
+            get {
+                return ResourceManager.GetString("SID_Show_RTU", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sleeve.
+        /// </summary>
+        internal static string SID_Sleeve {
+            get {
+                return ResourceManager.GetString("SID_Sleeve", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Terminal.
+        /// </summary>
+        internal static string SID_Terminal {
+            get {
+                return ResourceManager.GetString("SID_Terminal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There is a node with the same title.
+        /// </summary>
+        internal static string SID_There_is_a_node_with_the_same_title {
+            get {
+                return ResourceManager.GetString("SID_There_is_a_node_with_the_same_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There is a rtu with the same title.
+        /// </summary>
+        internal static string SID_There_is_a_rtu_with_the_same_title {
+            get {
+                return ResourceManager.GetString("SID_There_is_a_rtu_with_the_same_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There&apos;s such a fiber already.
+        /// </summary>
+        internal static string SID_There_s_such_a_fiber_already {
+            get {
+                return ResourceManager.GetString("SID_There_s_such_a_fiber_already", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Title is required.
+        /// </summary>
+        internal static string SID_Title_is_required {
+            get {
+                return ResourceManager.GetString("SID_Title_is_required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trace.
+        /// </summary>
+        internal static string SID_Trace {
+            get {
+                return ResourceManager.GetString("SID_Trace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        internal static string SID_Type {
+            get {
+                return ResourceManager.GetString("SID_Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Well.
+        /// </summary>
+        internal static string SID_Well {
+            get {
+                return ResourceManager.GetString("SID_Well", resourceCulture);
             }
         }
     }

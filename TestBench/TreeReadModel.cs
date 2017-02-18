@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Media;
 using Iit.Fibertest.Graph.Events;
+using Iit.Fibertest.TestBench.Properties;
 
 namespace Iit.Fibertest.TestBench
 {
@@ -67,7 +68,7 @@ namespace Iit.Fibertest.TestBench
         {
             var leaf = new Leaf()
             {
-                Id = e.Id, LeafType = LeafType.Rtu, Title = "noname RTU", Color = Brushes.DarkGray,
+                Id = e.Id, LeafType = LeafType.Rtu, Title = Resources.SID_noname_RTU, Color = Brushes.DarkGray,
 
             };
             Tree.Add(leaf);

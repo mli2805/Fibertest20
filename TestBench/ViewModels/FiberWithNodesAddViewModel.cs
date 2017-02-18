@@ -1,28 +1,29 @@
 ﻿using Caliburn.Micro;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.TestBench.Properties;
 
 namespace Iit.Fibertest.TestBench
 {
     public class FiberWithNodesAddViewModel : Screen
     {
-        public string CountLabel { get; set; } = "Количество";
-        public string Type { get; set; } = "Тип";
+        public string CountLabel { get; set; } = Resources.SID_Quantity;
+        public string Type { get; set; } = Resources.SID_Type;
 
         public bool Result { get; set; }
         public int Count { get; set; }
 
 
-        public RadioButtonModel Well { get; set; } = new RadioButtonModel { Title = "Well", IsChecked = false };
-        public RadioButtonModel Invisible { get; } = new RadioButtonModel { Title = "Invisible", IsChecked = false };
-        public RadioButtonModel CableReserve { get; set; } = new RadioButtonModel { Title = "CableReserve", IsChecked = false };
-        public RadioButtonModel Sleeve { get; } = new RadioButtonModel { Title = "Sleeve", IsChecked = true };
-        public RadioButtonModel Cross { get; } = new RadioButtonModel { Title = "Cross", IsChecked = false };
-        public RadioButtonModel Terminal { get; } = new RadioButtonModel { Title = "Terminal", IsChecked = false };
-        public RadioButtonModel Other { get; } = new RadioButtonModel { Title = "Other", IsChecked = false };
+        public RadioButtonModel Well { get; set; } = new RadioButtonModel { Title = Resources.SID_Well, IsChecked = false };
+        public RadioButtonModel Invisible { get; } = new RadioButtonModel { Title = Resources.SID_Invisible, IsChecked = false };
+        public RadioButtonModel CableReserve { get; set; } = new RadioButtonModel { Title = Resources.SID_CableReserve, IsChecked = false };
+        public RadioButtonModel Sleeve { get; } = new RadioButtonModel { Title = Resources.SID_Sleeve, IsChecked = true };
+        public RadioButtonModel Cross { get; } = new RadioButtonModel { Title = Resources.SID_Cross, IsChecked = false };
+        public RadioButtonModel Terminal { get; } = new RadioButtonModel { Title = Resources.SID_Terminal, IsChecked = false };
+        public RadioButtonModel Other { get; } = new RadioButtonModel { Title = Resources.SID_Other, IsChecked = false };
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = "Участок с узлами";
+            DisplayName = Resources.SID_Section_with_nodes;
         }
 
         public void Ok()

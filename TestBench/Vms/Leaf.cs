@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.TestBench.Properties;
 
 namespace Iit.Fibertest.TestBench
 {
@@ -126,11 +127,11 @@ namespace Iit.Fibertest.TestBench
         {
             var menu = new List<MyMenuItem>();
 
-            var menuItem = new MyMenuItem() {Header = "Information" };
-            var subItem = new MyMenuItem() { Header = "SubItem 1", Command = new ContextMenuAction(SomeMenuItemAction, CanSomeAction), CommandParameter = this };
+            var menuItem = new MyMenuItem() {Header = Resources.SID_Information };
+            var subItem = new MyMenuItem() { Header = Resources.SID_Trace, Command = new ContextMenuAction(SomeMenuItemAction, CanSomeAction), CommandParameter = this };
             menuItem.Children.Add(subItem);
             menu.Add(menuItem);
-            var menuItem2 = new MyMenuItem() { Header = "Show RTU", Command = new ContextMenuAction(SomeMenuItemAction, CanSomeAction), CommandParameter = this };
+            var menuItem2 = new MyMenuItem() { Header = Resources.SID_Show_RTU, Command = new ContextMenuAction(SomeMenuItemAction, CanSomeAction), CommandParameter = this };
             menu.Add(menuItem2);
             return menu;
         }
@@ -139,11 +140,11 @@ namespace Iit.Fibertest.TestBench
         {
             var menu = new List<MenuItemEx>();
 
-            var menuItem = new MenuItemEx() { Header = "Information" };
-            var subItem = new MenuItemEx() { Header = "SubItem 1", Command = new ContextMenuAction(SomeMenuItemActionEx, CanSomeAction), CommandParameter = this };
+            var menuItem = new MenuItemEx() { Header = Resources.SID_Information };
+            var subItem = new MenuItemEx() { Header = Resources.SID_Trace, Command = new ContextMenuAction(SomeMenuItemActionEx, CanSomeAction), CommandParameter = this };
             menuItem.Children.Add(subItem);
             menu.Add(menuItem);
-            var menuItem2 = new MenuItemEx() { Header = "Show RTU", Command = new ContextMenuAction(SomeMenuItemActionEx, CanSomeAction), CommandParameter = this };
+            var menuItem2 = new MenuItemEx() { Header = Resources.SID_Show_RTU, Command = new ContextMenuAction(SomeMenuItemActionEx, CanSomeAction), CommandParameter = this };
             menu.Add(menuItem2);
             return menu;
         }

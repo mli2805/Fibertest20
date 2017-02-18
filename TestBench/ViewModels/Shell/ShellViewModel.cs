@@ -5,6 +5,7 @@ using Caliburn.Micro;
 using GMap.NET;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
+using Iit.Fibertest.TestBench.Properties;
 using PrivateReflectionUsingDynamic;
 using Serilog;
 
@@ -29,7 +30,7 @@ namespace Iit.Fibertest.TestBench
             _windowManager = windowManager;
 
             Log = clientLogger;
-            Log.Information("Client started!");
+            Log.Information(@"Client started!");
         }
 
         public void AddOneNode()
@@ -133,7 +134,7 @@ namespace Iit.Fibertest.TestBench
             var message = await Bus.SendCommand(cmd);
             if (message != null)
             {
-                _windowManager.ShowDialog(new NotificationViewModel("Ошибка!", message));
+                _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, message));
                 return;
             }
             ApplyToMap(cmd);
@@ -163,7 +164,7 @@ namespace Iit.Fibertest.TestBench
             var message = await Bus.SendCommand(cmd);
             if (message != null)
             {
-                _windowManager.ShowDialog(new NotificationViewModel("Ошибка!", message));
+                _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, message));
                 return;
             }
             ApplyToMap(cmd);
@@ -187,7 +188,7 @@ namespace Iit.Fibertest.TestBench
             var message = await Bus.SendCommand(cmd);
             if (message != null)
             {
-                _windowManager.ShowDialog(new NotificationViewModel("Ошибка!", message));
+                _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, message));
                 return;
             }
             ApplyToMap(cmd);
@@ -285,7 +286,7 @@ namespace Iit.Fibertest.TestBench
             var message = await Bus.SendCommand(cmd);
             if (message != null)
             {
-                _windowManager.ShowDialog(new NotificationViewModel("Ошибка!", message));
+                _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, message));
                 return;
             }
             ApplyToMap(cmd);
@@ -297,7 +298,7 @@ namespace Iit.Fibertest.TestBench
             var message = await Bus.SendCommand(cmd);
             if (message != null)
             {
-                _windowManager.ShowDialog(new NotificationViewModel("Ошибка!", message));
+                _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, message));
 //                return;
             }
             //            ApplyToMap(cmd);
@@ -309,7 +310,7 @@ namespace Iit.Fibertest.TestBench
             var message = await Bus.SendCommand(cmd);
             if (message != null)
             {
-                _windowManager.ShowDialog(new NotificationViewModel("Ошибка!", message));
+                _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, message));
 //                return;
             }
             //            ApplyToMap(cmd);
@@ -323,7 +324,7 @@ namespace Iit.Fibertest.TestBench
             var message = await Bus.SendCommand(cmd);
             if (message != null)
             {
-                _windowManager.ShowDialog(new NotificationViewModel("Ошибка!", message));
+                _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, message));
                 return;
             }
             ApplyToMap(cmd);

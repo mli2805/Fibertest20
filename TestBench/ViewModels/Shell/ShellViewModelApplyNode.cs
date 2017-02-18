@@ -3,6 +3,7 @@ using System.Linq;
 using GMap.NET;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
+using Iit.Fibertest.TestBench.Properties;
 
 namespace Iit.Fibertest.TestBench
 {
@@ -95,7 +96,7 @@ namespace Iit.Fibertest.TestBench
         {
             if (IsFiberContainedInAnyTraceWithBase(request.FiberId))
             {
-                _windowManager.ShowDialog(new NotificationViewModel("", "It's impossible to change trace with base reflectogram"));
+                _windowManager.ShowDialog(new NotificationViewModel("", Resources.SID_It_s_impossible_to_change_trace_with_base_reflectogram));
                 return null;
             }
 

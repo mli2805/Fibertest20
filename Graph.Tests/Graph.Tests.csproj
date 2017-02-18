@@ -95,6 +95,9 @@
     <Compile Include="Equipment\EquipmentAddedSimpleSteps.cs">
       <DependentUpon>EquipmentAddedSimple.feature</DependentUpon>
     </Compile>
+    <Compile Include="Node\NodeRemovedSteps.cs">
+      <DependentUpon>NodeRemoved.feature</DependentUpon>
+    </Compile>
     <Compile Include="Sut\Answer.cs" />
     <Compile Include="Sut\EquipmentChoiceAnswer.cs" />
     <Compile Include="Equipment\EquipmentAdded.feature.cs">
@@ -183,7 +186,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>NodeRemoved.feature</DependentUpon>
     </Compile>
-    <Compile Include="Node\NodeRemovedSteps.cs" />
     <Compile Include="Node\NodeUpdated.feature.cs">
       <DependentUpon>NodeUpdated.feature</DependentUpon>
       <AutoGen>True</AutoGen>

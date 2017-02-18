@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Windows;
 using AutoMapper;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
@@ -73,11 +71,11 @@ namespace Iit.Fibertest.TestBench
 
         public Guid EquipmentId { get; set; }
 
-        public RadioButtonModel CableReserve { get; } = new RadioButtonModel() {Title = "CableReserve" };
-        public RadioButtonModel Sleeve { get; } = new RadioButtonModel() { Title = "Sleeve" };
-        public RadioButtonModel Cross { get; } = new RadioButtonModel() { Title = "Cross" };
-        public RadioButtonModel Terminal { get; } = new RadioButtonModel() { Title = "Terminal" };
-        public RadioButtonModel Other { get; } = new RadioButtonModel() { Title = "Other" };
+        public RadioButtonModel CableReserve { get; } = new RadioButtonModel() {Title = Resources.SID_CableReserve };
+        public RadioButtonModel Sleeve { get; } = new RadioButtonModel() { Title = Resources.SID_Sleeve };
+        public RadioButtonModel Cross { get; } = new RadioButtonModel() { Title = Resources.SID_Cross };
+        public RadioButtonModel Terminal { get; } = new RadioButtonModel() { Title = Resources.SID_Terminal };
+        public RadioButtonModel Other { get; } = new RadioButtonModel() { Title = Resources.SID_Other };
 
         public bool IsClosed { get; set; }
         public bool IsSaveEnabled => GetSelectedRadioButton() != EquipmentType.None;
@@ -93,18 +91,7 @@ namespace Iit.Fibertest.TestBench
 
         protected override void OnViewLoaded(object view)
         {
-            const string addition = "Доба вление";
-            const string editing = "Изменение";
-            DisplayName = EquipmentId == Guid.Empty ? addition : editing;
-            Console.WriteLine(Resources.SID_Test_string);
-            f("some string");
-            MessageBox.Show("какая-то строка","caption");
-            Console.WriteLine("some string");
-        }
-
-        private void f(string param)
-        {
-            MessageBox.Show(param);
+            DisplayName = EquipmentId == Guid.Empty ? Resources.SID_Add_Equipment : Resources.SID_Edit_Equipment;
         }
 
         public void Save()

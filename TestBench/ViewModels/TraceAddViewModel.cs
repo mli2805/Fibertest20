@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using Caliburn.Micro;
+using Iit.Fibertest.TestBench.Properties;
 
 namespace Iit.Fibertest.TestBench
 {
@@ -70,7 +71,7 @@ namespace Iit.Fibertest.TestBench
                     case "Title":
                         if (String.IsNullOrEmpty(Title))
                         {
-                            errorMessage = "Title is required";
+                            errorMessage = Resources.SID_Title_is_required;
                         }
                         break;
                 }

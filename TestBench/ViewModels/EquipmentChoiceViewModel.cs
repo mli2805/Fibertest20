@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.TestBench.Properties;
 
 namespace Iit.Fibertest.TestBench
 {
@@ -28,7 +29,7 @@ namespace Iit.Fibertest.TestBench
 
         private void InitializeChoices()
         {
-            Caption = "Выберите оборудование для трассы";
+            Caption = Resources.SID_Select_equipment_for_trace;
             Choices = new List<RadioButtonModel>();
             foreach (var equipment in _possibleEquipment)
             {
@@ -36,12 +37,12 @@ namespace Iit.Fibertest.TestBench
                 radioButtonModel.PropertyChanged += RadioButtonModel_PropertyChanged;
                 Choices.Add(radioButtonModel);
             }
-            Choices.Add(new RadioButtonModel {Title = "Не использовать", IsChecked = false, IsEnabled = !_isLastNode});
+            Choices.Add(new RadioButtonModel {Title = Resources.SID_Do_not_use, IsChecked = false, IsEnabled = !_isLastNode});
         }
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = "Выбор оборудования";
+            DisplayName = Resources.SID_Select_equipment;
         }
 
         private void RadioButtonModel_PropertyChanged(object sender, PropertyChangedEventArgs e)

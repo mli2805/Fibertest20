@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
+using Iit.Fibertest.TestBench.Properties;
 
 namespace Iit.Fibertest.TestBench
 {
@@ -100,7 +101,7 @@ namespace Iit.Fibertest.TestBench
                         f.Node1.Id == request.Node2 && f.Node2.Id == request.Node1);
             if (fiber == null)
                 return true;
-            _windowManager.ShowDialog(new NotificationViewModel("", "Уже есть такое волокно"));
+            _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, Resources.SID_There_s_such_a_fiber_already));
             return false;
         }
 
@@ -121,7 +122,7 @@ namespace Iit.Fibertest.TestBench
                         f.Node1.Id == cmd.Node2 && f.Node2.Id == cmd.Node1);
             if (fiber == null)
                 return true;
-            _windowManager.ShowDialog(new NotificationViewModel("", "Уже есть такое волокно"));
+            _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, Resources.SID_There_s_such_a_fiber_already));
             return false;
         }
 

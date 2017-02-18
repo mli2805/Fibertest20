@@ -1,5 +1,7 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using Caliburn.Micro;
+using Iit.Fibertest.TestBench.Properties;
 
 namespace Iit.Fibertest.TestBench
 {
@@ -17,7 +19,7 @@ namespace Iit.Fibertest.TestBench
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = "Question!";
+            DisplayName = Resources.SID_Question;
         }
 
         public void OkButton()
@@ -38,6 +40,7 @@ namespace Iit.Fibertest.TestBench
             TryClose();
         }
         /// <summary>Just for debug purposes </summary>
+        [Localizable(false)]
         [ExcludeFromCodeCoverage]
         public override string ToString()
         {

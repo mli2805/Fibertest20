@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph.Commands;
+using Iit.Fibertest.TestBench.Properties;
 
 namespace Iit.Fibertest.TestBench
 {
@@ -83,7 +84,7 @@ namespace Iit.Fibertest.TestBench
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = "Отрезок";
+            DisplayName = Resources.SID_Fiber;
         }
 
         public void Save()
@@ -109,7 +110,7 @@ namespace Iit.Fibertest.TestBench
                         double length;
                         if (!double.TryParse(_userInputedLength, out length))
                         {
-                            errorMessage = "Length should be a number";
+                            errorMessage = Resources.SID_Length_should_be_a_number;
                         }
                         IsButtonSaveEnabled = errorMessage == string.Empty;
                         break;

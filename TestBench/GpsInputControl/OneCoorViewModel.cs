@@ -181,11 +181,11 @@ namespace Iit.Fibertest.TestBench
                 {
                     case "Degrees":
                         if (string.IsNullOrEmpty(Degrees))
-                            errorMessage = "Degrees is required";
+                            errorMessage = Resources.SID_Degrees_is_required;
                         double t;
                         if (!double.TryParse(Degrees, out t))
-                            errorMessage = "Invalid input";
-                            Error = "Invalid input";
+                            errorMessage = Resources.SID_Invalid_input;
+                            Error = Resources.SID_Invalid_input;
                         break;
                 }
                 return errorMessage;

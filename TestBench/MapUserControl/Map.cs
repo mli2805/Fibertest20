@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
@@ -9,6 +10,7 @@ namespace Iit.Fibertest.TestBench
     /// <summary>
     /// the custom map of GMapControl 
     /// </summary>
+    [Localizable(false)]
     public class Map : GMapControl
     {
         public long ElapsedMilliseconds;

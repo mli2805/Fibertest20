@@ -6,6 +6,7 @@ using System.Linq;
 using AutoMapper;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph.Commands;
+using Iit.Fibertest.TestBench.Properties;
 
 namespace Iit.Fibertest.TestBench
 {
@@ -17,7 +18,7 @@ namespace Iit.Fibertest.TestBench
         public string Comment { get; set; }
         public string Traces { get; set; }
 
-        public bool IsRemoveEnabled { get; set; } = false;
+        public bool IsRemoveEnabled { get; set; }
 
         private object _command;
         public object Command
@@ -237,9 +238,9 @@ namespace Iit.Fibertest.TestBench
                 {
                     case "Title":
                         if (string.IsNullOrEmpty(_title))
-                            errorMessage = "Title is required";
+                            errorMessage = Resources.SID_Title_is_required;
                         if (_graphVm.Nodes.Any(n => n.Title == _title && n.Id != _originalNode.Id))
-                            errorMessage = "There is a node with the same title";
+                            errorMessage = Resources.SID_There_is_a_node_with_the_same_title;
                         IsButtonSaveEnabled = errorMessage == string.Empty;
                         break;
                 }

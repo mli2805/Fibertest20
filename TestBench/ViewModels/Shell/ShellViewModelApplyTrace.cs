@@ -4,6 +4,7 @@ using System.Linq;
 using AutoMapper;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
+using Iit.Fibertest.TestBench.Properties;
 
 namespace Iit.Fibertest.TestBench
 {
@@ -20,7 +21,7 @@ namespace Iit.Fibertest.TestBench
 
             HighlightTrace(traceNodes);
 
-            var questionViewModel = new QuestionViewModel("Accept the path?");
+            var questionViewModel = new QuestionViewModel(Resources.SID_Accept_the_path);
             _windowManager.ShowDialog(questionViewModel);
             if (!questionViewModel.IsAnswerPositive)
                 return null;
@@ -50,7 +51,7 @@ namespace Iit.Fibertest.TestBench
         {
             if (ReadModel.Equipments.Any(e => e.NodeId == request.LastNodeId)) return true;
 
-            _windowManager.ShowDialog(new NotificationViewModel("Ошибка!", "Last node of trace must contain some equipment"));
+            _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, Resources.SID_Last_node_of_trace_must_contain_some_equipment));
             return false;
         }
 
@@ -58,7 +59,7 @@ namespace Iit.Fibertest.TestBench
         {
             List<Guid> path;
             if (!new PathFinder(ReadModel).FindPath(request.NodeWithRtuId, request.LastNodeId, out path))
-                _windowManager.ShowDialog(new NotificationViewModel("Ошибка!", "Path couldn't be found"));
+                _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, Resources.SID_Path_couldn_t_be_found));
 
             return path;
         }

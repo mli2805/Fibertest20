@@ -49,19 +49,19 @@ namespace Iit.Fibertest.TestBench
                 route.ContextMenu = new ContextMenu();
                 route.ContextMenu.Items.Add(new MenuItem()
                 {
-                    Header = "Информация",
+                    Header = Properties.Resources.SID_Information,
                     Command = new ContextMenuAction(AskUpdateFiber, CanUpdateFiber),
                     CommandParameter = route
                 });
                 route.ContextMenu.Items.Add(new MenuItem()
                 {
-                    Header = "Добавить узел",
+                    Header = Properties.Resources.SID_Add_node,
                     Command = new ContextMenuAction(AskAddNodeIntoFiber, CanAddNodeIntoFiber),
                     CommandParameter = route
                 });
                 route.ContextMenu.Items.Add(new MenuItem()
                 {
-                    Header = "Удалить участок",
+                    Header = Properties.Resources.SID_Remove_section,
                     Command = new ContextMenuAction(AskRemoveFiber, CanRemoveFiber),
                     CommandParameter = route
                 });

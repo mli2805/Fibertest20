@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Dynamic;
 using System.Reflection;
@@ -8,6 +9,7 @@ using System.Reflection;
 // ReSharper disable once CheckNamespace
 namespace PrivateReflectionUsingDynamic
 {
+    [Localizable(false)]
     class PrivateReflectionDynamicObject : DynamicObject
     {
 

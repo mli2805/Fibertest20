@@ -52,38 +52,38 @@ namespace Iit.Fibertest.TestBench
             ContextMenu = new ContextMenu();
             ContextMenu.Items.Add(new MenuItem()
             {
-                Header = "Информация",
+                Header = Properties.Resources.SID_Information,
                 Command = new ContextMenuAction(AskUpdateNode, CanUpdateNode),
                 CommandParameter = _marker.Id
             });
             ContextMenu.Items.Add(new MenuItem()
             {
-                Header = "Добавить оборудование",
+                Header = Properties.Resources.SID_Add_Equipment,
                 Command = new ContextMenuAction(AskAddEquipment, CanAddEquipment),
                 CommandParameter = _marker.Id
             });
             ContextMenu.Items.Add(new MenuItem()
             {
-                Header = "Ориентиры",
+                Header = Properties.Resources.SID_Landmarks,
                 Command = new ContextMenuAction(AskLandmarks, CanLandmarks),
                 CommandParameter = _marker.Id
             });
             ContextMenu.Items.Add(new MenuItem()
             {
-                Header = "Удалить узел",
+                Header = Properties.Resources.SID_Remove_node,
                 Command = new ContextMenuAction(AskRemoveNode, CanRemoveNode),
                 CommandParameter = _marker.Id
             });
             ContextMenu.Items.Add(new Separator());
             ContextMenu.Items.Add(new MenuItem()
             {
-                Header = "Участок",
+                Header = Properties.Resources.SID_Section,
                 Command = new ContextMenuAction(StartAddFiber, CanStartAddFiber),
                 CommandParameter = _marker.Id
             });
             ContextMenu.Items.Add(new MenuItem()
             {
-                Header = "Участок с узламии",
+                Header = Properties.Resources.SID_Section_with_nodes,
                 Command = new ContextMenuAction(StartAddFiberWithNodes, CanStartAddFiberWithNodes),
                 CommandParameter = _marker.Id
             });

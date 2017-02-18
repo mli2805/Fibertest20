@@ -38,45 +38,45 @@ namespace Iit.Fibertest.TestBench
             ContextMenu = new ContextMenu();
             ContextMenu.Items.Add(new MenuItem()
             {
-                Header = "Информация",
+                Header = Properties.Resources.SID_Information,
                 Command = new ContextMenuAction(AskUpdateRtu, CanUpdateRtu),
                 CommandParameter = _marker.Id
             });
             ContextMenu.Items.Add(new MenuItem()
             {
-                Header = "Показать RTU",
+                Header = Properties.Resources.SID_Show_RTU,
                 Command = new ContextMenuAction(AskShowRtu, CanShowRtu),
                 CommandParameter = _marker.Id
             });
             ContextMenu.Items.Add(new MenuItem()
             {
-                Header = "Ориентиры",
+                Header = Properties.Resources.SID_Landmarks,
                 Command = new ContextMenuAction(AskLandmarks, CanLandmarks),
                 CommandParameter = _marker.Id
             });
             ContextMenu.Items.Add(new MenuItem()
             {
-                Header = "Удалить",
+                Header = Properties.Resources.SID_Remove,
                 Command = new ContextMenuAction(AskRemoveRtu, CanRemoveRtu),
                 CommandParameter = _marker.Id
             });
             ContextMenu.Items.Add(new Separator());
             ContextMenu.Items.Add(new MenuItem()
             {
-                Header = "Участок",
+                Header = Properties.Resources.SID_Section,
                 Command = new ContextMenuAction(StartAddFiber, CanStartAddFiber),
                 CommandParameter = _marker.Id
             });
             ContextMenu.Items.Add(new MenuItem()
             {
-                Header = "Участок с узламии",
+                Header = Properties.Resources.SID_Section_with_nodes,
                 Command = new ContextMenuAction(StartAddFiberWithNodes, CanStartAddFiberWithNodes),
                 CommandParameter = _marker.Id
             });
             ContextMenu.Items.Add(new Separator());
             ContextMenu.Items.Add(new MenuItem()
             {
-                Header = "Определить трассу",
+                Header = Properties.Resources.SID_Define_trace,
                 Command = new ContextMenuAction(StartDefineTrace, CanStartDefineTrace),
                 CommandParameter = _marker.Id
             });

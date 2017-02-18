@@ -1,6 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
+	<!-- 
     Microsoft ResX Schema 
     
     Version 2.0
@@ -59,65 +59,188 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-    <xsd:element name="root" msdata:IsDataSet="true">
-      <xsd:complexType>
-        <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="data">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="resheader">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
-            </xsd:complexType>
-          </xsd:element>
-        </xsd:choice>
-      </xsd:complexType>
-    </xsd:element>
-  </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <data name="SID_Test_string" xml:space="preserve">
-    <value>Тестовая строка</value>
-  </data>
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="metadata">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" />
+							</xsd:sequence>
+							<xsd:attribute name="name" use="required" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+							<xsd:attribute ref="xml:space" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="assembly">
+						<xsd:complexType>
+							<xsd:attribute name="alias" type="xsd:string" />
+							<xsd:attribute name="name" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+							<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+							<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+							<xsd:attribute ref="xml:space" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="resmimetype">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="version">
+		<value>2.0</value>
+	</resheader>
+	<resheader name="reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="SID_CableReserve" xml:space="preserve">
+		<value>Запас кабеля</value>
+	</data>
+	<data name="SID_Sleeve" xml:space="preserve">
+		<value>Муфта</value>
+	</data>
+	<data name="SID_Cross" xml:space="preserve">
+		<value>Проключение</value>
+	</data>
+	<data name="SID_Other" xml:space="preserve">
+		<value>Другое</value>
+	</data>
+	<data name="SID_Terminal" xml:space="preserve">
+		<value>Оконечный кросс</value>
+	</data>
+	<data name="SID_Add_Equipment" xml:space="preserve">
+		<value>Добавить оборудование</value>
+	</data>
+	<data name="SID_Edit_Equipment" xml:space="preserve">
+		<value>Изменить оборудование</value>
+	</data>
+	<data name="SID_Error" xml:space="preserve">
+		<value>Ошибка!</value>
+	</data>
+	<data name="SID_Last_node_of_trace_must_contain_some_equipment" xml:space="preserve">
+		<value>Последний узел трассы должен содержать оборудование</value>
+	</data>
+	<data name="SID_Path_couldn_t_be_found" xml:space="preserve">
+		<value>Путь не найден</value>
+	</data>
+	<data name="SID_Title_is_required" xml:space="preserve">
+		<value>Не задано название</value>
+	</data>
+	<data name="SID_There_is_a_node_with_the_same_title" xml:space="preserve">
+		<value>Существует узел с таким названием</value>
+	</data>
+	<data name="SID_There_s_such_a_fiber_already" xml:space="preserve">
+		<value>Такой отрезок уже существует</value>
+	</data>
+	<data name="SID_Information" xml:space="preserve">
+		<value>Информация</value>
+	</data>
+	<data name="SID_Show_RTU" xml:space="preserve">
+		<value>Показать RTU</value>
+	</data>
+	<data name="SID_Accept_the_path" xml:space="preserve">
+		<value>Принять путь?</value>
+	</data>
+	<data name="SID_It_s_impossible_to_change_trace_with_base_reflectogram" xml:space="preserve">
+		<value>Нельзя изменять трассу с заданной базовой рефлектограммой</value>
+	</data>
+	<data name="SID_Fiber" xml:space="preserve">
+		<value>Отрезок</value>
+	</data>
+	<data name="SID_Length_should_be_a_number" xml:space="preserve">
+		<value>Длина должна быть числом</value>
+	</data>
+	<data name="SID_Degrees_is_required" xml:space="preserve">
+		<value>Градусы должны быть заполнены</value>
+	</data>
+	<data name="SID_Invalid_input" xml:space="preserve">
+		<value>Некорректный ввод</value>
+	</data>
+	<data name="SID_Add_node" xml:space="preserve">
+		<value>Добавить узел</value>
+	</data>
+	<data name="SID_Remove_section" xml:space="preserve">
+		<value>Удалить отрезок</value>
+	</data>
+	<data name="SID_Landmarks" xml:space="preserve">
+		<value>Ориентиры</value>
+	</data>
+	<data name="SID_Remove_node" xml:space="preserve">
+		<value>Удалить узел</value>
+	</data>
+	<data name="SID_Section" xml:space="preserve">
+		<value>Отрезок</value>
+	</data>
+	<data name="SID_Section_with_nodes" xml:space="preserve">
+		<value>Отрезок с узлами</value>
+	</data>
+	<data name="SID_noname_RTU" xml:space="preserve">
+		<value>RTU без имени</value>
+	</data>
+	<data name="SID_Select_equipment_for_trace" xml:space="preserve">
+		<value>Выберите оборудование для трассы</value>
+	</data>
+	<data name="SID_Do_not_use" xml:space="preserve">
+		<value>Не использовать</value>
+	</data>
+	<data name="SID_Select_equipment" xml:space="preserve">
+		<value>Выбор оборудования</value>
+	</data>
+	<data name="SID_Quantity" xml:space="preserve">
+		<value>Количество</value>
+	</data>
+	<data name="SID_Type" xml:space="preserve">
+		<value>Тип</value>
+	</data>
+	<data name="SID_Well" xml:space="preserve">
+		<value>Колодец</value>
+	</data>
+	<data name="SID_Invisible" xml:space="preserve">
+		<value>Невидимый</value>
+	</data>
+	<data name="SID_There_is_a_rtu_with_the_same_title" xml:space="preserve">
+		<value>Существует RTU с таким именем</value>
+	</data>
+	<data name="SID_Select_traces_for_equipment" xml:space="preserve">
+		<value>Выберите трассы для оборудования</value>
+	</data>
+	<data name="SID_Select_traces_which_will_use" xml:space="preserve">
+		<value>Выберите трассы, которые будут использовать добавляемое оборудование. \nЕсли отмеченная трасса используют какое-либо оборудование в данном узле, оно будет заменено</value>
+	</data>
+	<data name="SID_Question" xml:space="preserve">
+		<value>Вопрос!</value>
+	</data>
+	<data name="SID_Trace" xml:space="preserve">
+		<value>Трасса</value>
+	</data>
+	<data name="SID_Remove" xml:space="preserve">
+		<value>Удалить</value>
+	</data>
+	<data name="SID_Define_trace" xml:space="preserve">
+		<value>Определить трассу</value>
+	</data>
 </root>

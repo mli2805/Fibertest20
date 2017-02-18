@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Caliburn.Micro;
+using Iit.Fibertest.TestBench.Properties;
 
 namespace Iit.Fibertest.TestBench
 {
@@ -21,7 +22,7 @@ namespace Iit.Fibertest.TestBench
 
         private void InitializeChoices()
         {
-            Caption = "Укажите трассы, которые будут использовать добавляемое оборудование \n Если выбранная трасса уже содержит оборудование в данном узле, оно будет заменено";
+            Caption = Resources.SID_Select_traces_which_will_use;
             Choices = new List<CheckBoxModel>();
             foreach (var trace in _tracesInNode)
             {
@@ -32,7 +33,7 @@ namespace Iit.Fibertest.TestBench
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = "Выбор трасс для оборудования";
+            DisplayName = Resources.SID_Select_traces_for_equipment;
         }
 
         public List<Guid> GetChosenTraces()
