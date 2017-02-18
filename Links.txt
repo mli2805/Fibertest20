@@ -8,6 +8,18 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
 
 
 
-Строковые константы в Aggregate a Resource.resx в Testbench
+1. Строковые константы в Graph(Aggregate) и Graph.Tests a Resource.resx в Testbench
+	? выделение в отдельную dll ?
+
+1а. Из xaml решарпер не предлагает вынести константы - надо руками
+
+2. Тестирование результатов работы формы вызванной из формы 
+	- из NodeUpdateViewModel вызываются AddEquipment and UpdateEquipment
+	- результат их работы применяется до закрытия материнской формы
+
+3.
+
+
+
 
 
