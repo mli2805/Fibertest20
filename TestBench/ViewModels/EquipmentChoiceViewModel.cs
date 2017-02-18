@@ -36,7 +36,7 @@ namespace Iit.Fibertest.TestBench
                 var radioButtonModel = new RadioButtonModel
                 {
                     Title = string.IsNullOrEmpty(equipment.Title) 
-                        ? string.Format(Resources.SID_equipment_without_name, equipment.Type) 
+                        ? string.Format(Resources.SID_equipment_without_name, equipment.Type.ToLocalizedString()) 
                         : equipment.Title,
                     IsChecked = equipment == _possibleEquipment.First()
                 };

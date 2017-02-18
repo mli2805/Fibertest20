@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -253,5 +253,8 @@ If chosen trace use some equipment in this node it will be replaced</value>
   </data>
   <data name="SID_equipment_without_name" xml:space="preserve">
     <value>{0} without name</value>
+  </data>
+  <data name="SID_Switch_ended_unexpectedly" xml:space="preserve">
+    <value>Switch ended unexpectedly</value>
   </data>
 </root>

@@ -386,6 +386,15 @@ namespace Iit.Fibertest.TestBench.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Switch ended unexpectedly.
+        /// </summary>
+        public static string SID_Switch_ended_unexpectedly {
+            get {
+                return ResourceManager.GetString("SID_Switch_ended_unexpectedly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to System events.
         /// </summary>
         public static string SID_System_events {
