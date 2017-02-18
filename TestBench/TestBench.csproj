@@ -424,7 +424,17 @@
     <Resource Include="Resources\LeftPanel\Monitoring_Grey.png" />
     <Resource Include="Resources\LeftPanel\wifi_green.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\LeftPanel\EmptySquare.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\LeftPanel\GreenSquare.png" />
+    <Resource Include="Resources\LeftPanel\RedSquare.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\LeftPanel\BlueSquare.png" />
+    <Resource Include="Resources\LeftPanel\GreySquare.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

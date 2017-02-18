@@ -45,7 +45,11 @@ namespace Iit.Fibertest.TestBench
         public LeafType LeafType { get; set; }
         public int PortNumber { get; set; }
 
-        public FiberState State { get; set; }
+        public MonitoringState MonitoringState { get; set; }
+        public RtuPartState BopState { get; set; }
+        public RtuPartState MainChannelState { get; set; }
+        public RtuPartState ReserveChannelState { get; set; }
+        public FiberState TraceState { get; set; }
 
         private Brush _color;
 
@@ -60,65 +64,105 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
-        public ImageSource Pic1
+        public ImageSource MonitoringPictogram
         {
             get
             {
-                switch (LeafType)
+                switch (MonitoringState)
                 {
-                    case LeafType.Rtu:
-                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/wifi_green.png"));
-                    case LeafType.Trace:
-                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/Monitoring_Grey.png"));
+                    case MonitoringState.Off:
+                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
+                    case MonitoringState.OffButReady:
+                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreySquare.png"));
+                    case MonitoringState.On:
+                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/BlueSquare.png"));
                     default:
                         return null;
                 }
             }
         }
 
-        public ImageSource Pic2
+        public ImageSource BopPictogram
         {
             get
             {
-                switch (LeafType)
+                switch (BopState)
                 {
-                    case LeafType.Rtu:
-                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/Monitoring_Blue.png"));
-                    case LeafType.Trace:
-                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/Monitoring_Grey.png"));
+                    case RtuPartState.Broken:
+                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/RedSquare.png"));
+                    case RtuPartState.None:
+                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
+                    case RtuPartState.Normal:
+                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreenSquare.png"));
                     default:
                         return null;
                 }
             }
         }
-        public ImageSource Pic3
+        public ImageSource MainChannelPictogram
         {
             get
             {
-                switch (LeafType)
+                switch (MainChannelState)
                 {
+                    case RtuPartState.Broken:
+                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/RedSquare.png"));
+                    case RtuPartState.None:
+                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
+                    case RtuPartState.Normal:
+                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreenSquare.png"));
                     default:
                         return null;
                 }
             }
         }
-        public ImageSource Pic4
+        public ImageSource ReserveChannelPictogram
         {
             get
             {
-                switch (LeafType)
+                switch (ReserveChannelState)
                 {
-                    case LeafType.Trace:
-                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/Red_Ball_16.jpg"));
+                    case RtuPartState.Broken:
+                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/RedSquare.png"));
+                    case RtuPartState.None:
+                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
+                    case RtuPartState.Normal:
+                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreenSquare.png"));
+                    default:
+                        return null;
+                }
+            }
+        }
+        public ImageSource TraceStatePictogram
+        {
+            get
+            {
+                switch (TraceState)
+                {
+                    case FiberState.NotJoined:
+                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
+                    case FiberState.Ok:
+                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
+                    case FiberState.Minor:
+                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
+                    case FiberState.Major:
+                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
+                    case FiberState.User:
+                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreenSquare.png"));
+                    case FiberState.Critical:
+                    case FiberState.FiberBreak:
+                    case FiberState.NoFiber:
+                        return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/RedSquare.png"));
                     default:
                         return null;
                 }
             }
         }
 
-        //        public Visibility Pic3Visibility => LeafType == LeafType.Rtu ? Visibility.Visible : Visibility.Collapsed;
-        public Visibility Pic3Visibility => Pic3 != null ? Visibility.Visible : Visibility.Collapsed;
-        public Visibility Pic4Visibility => LeafType == LeafType.Rtu ? Visibility.Visible : Visibility.Collapsed;
+        public Visibility BopVisibility => LeafType == LeafType.Rtu ? Visibility.Visible : Visibility.Collapsed;
+        public Visibility MainChannelVisibility => LeafType == LeafType.Rtu ? Visibility.Visible : Visibility.Collapsed;
+        public Visibility ReserveChannelVisibility => LeafType == LeafType.Rtu ? Visibility.Visible : Visibility.Collapsed;
+        public Visibility TraceStateVisibility => LeafType == LeafType.Trace ? Visibility.Visible : Visibility.Collapsed;
 
         public  List<MyMenuItem> MyContextMenu => GetMenuItems();
         public  List<MenuItemEx> MyContextMenuEx => GetMenuItemsEx();

@@ -21,7 +21,8 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
     в библиотеке Graph? 
 
 4. биндинги в LeftPanel вроде работают, но варнинги решарпера...
+	2 варианта подключения контекстного меню
 
-
+5. web client limited
 
 
