@@ -1,28 +1,28 @@
-Event sourcing scheme 3 https://docs.google.com/open?id=1elmGMdKnNYGCkMavLgT6ViI1W9wa8NUw2IzEFd-DosM
+п»їEvent sourcing scheme 3 https://docs.google.com/open?id=1elmGMdKnNYGCkMavLgT6ViI1W9wa8NUw2IzEFd-DosM
 
 Client scheme https://docs.google.com/document/d/1kkl5jx77wnFhvV_w8EABgECvDMlZLrUQbxPXnEtfYIU/edit
 
 Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlFtQffganXN_LgeUeQk
 
-Операции https://docs.google.com/open?id=1vEk-U0RBY3aNtYu4amWjvQSyVfcIrcAhglXG35Nf6PQ
+РћРїРµСЂР°С†РёРё https://docs.google.com/open?id=1vEk-U0RBY3aNtYu4amWjvQSyVfcIrcAhglXG35Nf6PQ
 
 
 
-1. Строковые константы в Graph(Aggregate) и Graph.Tests, a Resource.resx в Testbench
-	? выделение в отдельную dll ?
+1. РЎС‚СЂРѕРєРѕРІС‹Рµ РєРѕРЅСЃС‚Р°РЅС‚С‹ РІ Graph(Aggregate) Рё Graph.Tests, a Resource.resx РІ Testbench
+	? РІС‹РґРµР»РµРЅРёРµ РІ РѕС‚РґРµР»СЊРЅСѓСЋ dll ?
 
-1а. Из xaml решарпер не предлагает вынести константы - надо руками, есть ли способ автоматизировать?
+1Р°. РР· xaml СЂРµС€Р°СЂРїРµСЂ РЅРµ РїСЂРµРґР»Р°РіР°РµС‚ РІС‹РЅРµСЃС‚Рё РєРѕРЅСЃС‚Р°РЅС‚С‹ - РЅР°РґРѕ СЂСѓРєР°РјРё, РµСЃС‚СЊ Р»Рё СЃРїРѕСЃРѕР± Р°РІС‚РѕРјР°С‚РёР·РёСЂРѕРІР°С‚СЊ?
 
-2. Тестирование результатов работы формы, вызванной из формы -
-	из NodeUpdateViewModel вызываются AddEquipment and UpdateEquipment -
-	результат их работы применяется до закрытия материнской формы
+2. РўРµСЃС‚РёСЂРѕРІР°РЅРёРµ СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ СЂР°Р±РѕС‚С‹ С„РѕСЂРјС‹, РІС‹Р·РІР°РЅРЅРѕР№ РёР· С„РѕСЂРјС‹ -
+	РёР· NodeUpdateViewModel РІС‹Р·С‹РІР°СЋС‚СЃСЏ AddEquipment and UpdateEquipment -
+	СЂРµР·СѓР»СЊС‚Р°С‚ РёС… СЂР°Р±РѕС‚С‹ РїСЂРёРјРµРЅСЏРµС‚СЃСЏ РґРѕ Р·Р°РєСЂС‹С‚РёСЏ РјР°С‚РµСЂРёРЅСЃРєРѕР№ С„РѕСЂРјС‹
 
-3. TreeReadModel - где должна быть определена, если ReadModel-ей может быть несколько?
-    в библиотеке Graph? 
+3. TreeReadModel - РіРґРµ РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РѕРїСЂРµРґРµР»РµРЅР°, РµСЃР»Рё ReadModel-РµР№ РјРѕР¶РµС‚ Р±С‹С‚СЊ РЅРµСЃРєРѕР»СЊРєРѕ?
+    РІ Р±РёР±Р»РёРѕС‚РµРєРµ Graph? 
 
-4. биндинги в LeftPanel вроде работают, но варнинги решарпера...
-	2 варианта подключения контекстного меню
+4. Р±РёРЅРґРёРЅРіРё РІ LeftPanel РІСЂРѕРґРµ СЂР°Р±РѕС‚Р°СЋС‚, РЅРѕ РІР°СЂРЅРёРЅРіРё СЂРµС€Р°СЂРїРµСЂР°...
+	2 РІР°СЂРёР°РЅС‚Р° РїРѕРґРєР»СЋС‡РµРЅРёСЏ РєРѕРЅС‚РµРєСЃС‚РЅРѕРіРѕ РјРµРЅСЋ
 
-5. теоретически: + web client limited
+5. С‚РµРѕСЂРµС‚РёС‡РµСЃРєРё: + web client limited
 
 

@@ -131,24 +131,24 @@ namespace Iit.Fibertest.TestBench
         {
             if (CurrentGpsInputMode == GpsInputMode.Degrees)
             {
-                Degrees = $"{Value:#0.000000}";
+                Degrees = $@"{Value:#0.000000}";
             }
             else if (CurrentGpsInputMode == GpsInputMode.DegreesAndMinutes)
             {
                 int d = (int)Value;
-                Degrees = $"{d:#0}";
+                Degrees = $@"{d:#0}";
                 double m = (Value - d) * 60;
-                Minutes = $"{m:#0.0000}";
+                Minutes = $@"{m:#0.0000}";
             }
             else if (CurrentGpsInputMode == GpsInputMode.DegreesMinutesAndSeconds)
             {
                 int d = (int)Value;
-                Degrees = $"{d:#0}";
+                Degrees = $@"{d:#0}";
                 double m = (Value - d) * 60;
                 int mi = (int) m;
-                Minutes = $"{mi:#0}";
+                Minutes = $@"{mi:#0}";
                 double s = (m - mi) * 60;
-                Seconds = $"{s:#0.00}";
+                Seconds = $@"{s:#0.00}";
             }
         }
 

@@ -12,7 +12,7 @@ namespace Iit.Fibertest.TestBench
         {
             string stateName = state.ToString();
             string typeName = type.ToString();
-            var path = $"pack://application:,,,/Resources/{typeName}{stateName}.png";
+            var path = $@"pack://application:,,,/Resources/{typeName}{stateName}.png";
             return new BitmapImage(new Uri(path));
         }
 
