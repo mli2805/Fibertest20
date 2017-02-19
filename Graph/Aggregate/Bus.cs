@@ -16,6 +16,7 @@ namespace Iit.Fibertest.Graph
         {
             // If you have an exception here consider checking then When method to return string
             var result = (string)_aggregate.AsDynamic().When(cmd);
+            // TODO code from tick
             return Task.FromResult(result);
         }
     }
