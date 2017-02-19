@@ -25,7 +25,7 @@ namespace Graph.Tests
         [When(@"Пользователь указывает пути к точной и быстрой базовам и жмет сохранить")]
         public void WhenПользовательУказываетПутиКТочнойИБыстройБазовамИЖметСохранить()
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, SystemUnderTest2.Path, SystemUnderTest2.Path, null, Answer.Yes));
+            _sut.FakeWindowManager.BaseIsSet();
             _sut.ShellVm.ComplyWithRequest(new RequestAssignBaseRef() {TraceId = _trace.Id}).Wait();
             _sut.Poller.Tick();
         }

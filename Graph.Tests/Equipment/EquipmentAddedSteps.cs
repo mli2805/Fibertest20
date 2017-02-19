@@ -27,7 +27,7 @@ namespace Graph.Tests
         [Given(@"Дан узел с оборудованием")]
         public void GivenДанУзелСОборудованием()
         {
-            _sut.ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() {Type = EquipmentType.Sleeve}).Wait();
+            _sut.ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() { Type = EquipmentType.Sleeve }).Wait();
             _sut.Poller.Tick();
             _nodeId = _sut.ReadModel.Nodes.Last().Id;
             _oldEquipmentId = _sut.ReadModel.Equipments.Last().Id;
@@ -40,21 +40,21 @@ namespace Graph.Tests
             _sut.Poller.Tick();
             _rtuNodeId = _sut.ReadModel.Nodes.Last().Id;
 
-            _sut.ShellVm.ComplyWithRequest(new AddFiber() {Node1 = _rtuNodeId, Node2 = _nodeId}).Wait();
+            _sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = _rtuNodeId, Node2 = _nodeId }).Wait();
             _sut.Poller.Tick();
 
-            _sut.ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() {Type = EquipmentType.Terminal}).Wait();
+            _sut.ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait();
             _sut.Poller.Tick();
             _anotherNodeId = _sut.ReadModel.Nodes.Last().Id;
 
-            _sut.ShellVm.ComplyWithRequest(new AddFiber() {Node1 = _anotherNodeId, Node2 = _nodeId}).Wait();
+            _sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = _anotherNodeId, Node2 = _nodeId }).Wait();
             _sut.Poller.Tick();
 
-            _sut.ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() {Type = EquipmentType.Other}).Wait();
+            _sut.ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() { Type = EquipmentType.Other }).Wait();
             _sut.Poller.Tick();
             _anotherNodeId2 = _sut.ReadModel.Nodes.Last().Id;
 
-            _sut.ShellVm.ComplyWithRequest(new AddFiber() {Node1 = _anotherNodeId2, Node2 = _nodeId}).Wait();
+            _sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = _anotherNodeId2, Node2 = _nodeId }).Wait();
             _sut.Poller.Tick();
         }
 
@@ -67,7 +67,7 @@ namespace Graph.Tests
             _sut.FakeWindowManager.RegisterHandler(
                 model => _sut.AddTraceViewHandler(model, "some title", "", Answer.Yes));
 
-            _sut.ShellVm.ComplyWithRequest(new RequestAddTrace() {LastNodeId = _nodeId, NodeWithRtuId = _rtuNodeId})
+            _sut.ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = _nodeId, NodeWithRtuId = _rtuNodeId })
                 .Wait();
             _sut.Poller.Tick();
             _shortTraceId = _sut.ReadModel.Traces.Last().Id;
@@ -116,7 +116,7 @@ namespace Graph.Tests
         [Given(@"Для одной из трасс задана базовая")]
         public void GivenДляОднойИзТрассЗаданаБазовая()
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, SystemUnderTest2.Path, SystemUnderTest2.Path, null, Answer.Yes));
+            _sut.FakeWindowManager.BaseIsSet();
             _sut.ShellVm.ComplyWithRequest(new RequestAssignBaseRef() { TraceId = _shortTraceId }).Wait();
             _sut.Poller.Tick();
         }
@@ -134,7 +134,7 @@ namespace Graph.Tests
         {
             _sut.FakeWindowManager.RegisterHandler(
                 model =>
-                    _sut.TraceChoiceHandler(model, new List<Guid>() {_shortTraceId, _traceWithEqId, _traceWithoutEqId},
+                    _sut.TraceChoiceHandler(model, new List<Guid>() { _shortTraceId, _traceWithEqId, _traceWithoutEqId },
                         Answer.Yes));
         }
 
@@ -169,7 +169,7 @@ namespace Graph.Tests
         [Then(@"В окне Добавить оборудование")]
         public void ThenВОкнеДобавитьОборудование()
         {
-            _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentIntoNode() {NodeId = _nodeId}).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentIntoNode() { NodeId = _nodeId }).Wait();
             _sut.Poller.Tick();
         }
 

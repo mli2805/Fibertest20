@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Caliburn.Micro;
+using Iit.Fibertest.TestBench;
 
 namespace Graph.Tests
 {
@@ -40,6 +41,19 @@ namespace Graph.Tests
         {
             if (del == null) throw new ArgumentNullException(nameof(del));
             _handlersQueue.Add(del);
+        }
+
+        public void BaseIsSet()
+        {
+            RegisterHandler(model =>
+            {
+                var vm = model as BaseRefsAssignViewModel;
+                if (vm == null) return false;
+                vm.PreciseBaseFilename = SystemUnderTest2.Path;
+                vm.FastBaseFilename = SystemUnderTest2.Path;
+                vm.Save();
+                return true;
+            });
         }
     }
 }
