@@ -200,7 +200,6 @@ namespace Iit.Fibertest.TestBench
             if (cmd == null)
                 return;
             await Bus.SendCommand(cmd);
-            ApplyToMap(cmd);
         }
 
         public async Task ComplyWithRequest(RemoveFiber request)

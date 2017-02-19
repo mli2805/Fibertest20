@@ -18,7 +18,7 @@ namespace Iit.Fibertest.TestBench
         private void AskUpdateFiber(object parameter)
         {
             var route = (GMapRoute)parameter;
-            GraphVm.Request = new UpdateFiber() { Id = route.Id };
+            GraphVm.Request = new RequestUpdateFiber() { Id = route.Id };
         }
 
         private bool CanAddNodeIntoFiber(object parameter)
