@@ -7,18 +7,24 @@
              xmlns:testBench="clr-namespace:Iit.Fibertest.TestBench"
              cal:Bind.ModelWithoutContext="{Binding .}"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" d:DataContext="{d:DesignInstance testBench:LeftPanelViewModel}">
+             d:DesignHeight="300" d:DesignWidth="300" 
+             d:DataContext="{d:DesignInstance testBench:LeftPanelViewModel}">
 
     <UserControl.Resources>
-        <Style x:Key="ContextMenuItemStyle">
-            <Setter Property="MenuItem.Header" Value="{Binding Header}"/>
-            <Setter Property="MenuItem.ItemsSource" Value="{Binding Children}"/>
-            <Setter Property="MenuItem.Command" Value="{Binding Command}" />
+        <!-- The d:DataContext warning is false positive -->
+        <Style x:Key="ContextMenuItemStyle" TargetType="{x:Type MenuItem}" 
+               d:DataContext="{d:DesignInstance testBench:MenuItemVm}">
+            <Setter Property="Header" Value="{Binding Header}"/>
+            <Setter Property="ItemsSource" Value="{Binding Children}"/>
+            <Setter Property="Command" Value="{Binding Command}" />
         </Style>
-        <HierarchicalDataTemplate x:Key="LeafTemplate" DataType="testBench:Leaf" ItemsSource="{Binding Children}">
+        <HierarchicalDataTemplate x:Key="LeafTemplate" 
+                                  DataType="testBench:Leaf" ItemsSource="{Binding Children}">
             <StackPanel Orientation="Horizontal">
                 <StackPanel.ContextMenu>
-                    <ContextMenu ItemContainerStyle="{StaticResource ContextMenuItemStyle}" ItemsSource="{Binding MyContextMenu}"/>
+                    <ContextMenu 
+                                ItemContainerStyle="{StaticResource ContextMenuItemStyle}" 
+                                ItemsSource="{Binding MyContextMenu}"/>
                 </StackPanel.ContextMenu>
                 <Image Source="{Binding MonitoringPictogram}" Height="12" Width="12" Margin="0,0,4,0"></Image>
                 <Image Source="{Binding BopPictogram}" Height="12" Width="12" Margin="0,0,4,0" Visibility="{Binding BopVisibility}"></Image>

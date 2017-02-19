@@ -63,18 +63,18 @@ namespace Iit.Fibertest.TestBench
         public Visibility ReserveChannelVisibility => LeafType == LeafType.Rtu ? Visibility.Visible : Visibility.Collapsed;
         public Visibility TraceStateVisibility => LeafType == LeafType.Trace ? Visibility.Visible : Visibility.Collapsed;
 
-        public  List<MyMenuItem> MyContextMenu => GetMenuItems();
+        public  List<MenuItemVm> MyContextMenu => GetMenuItems();
         public  List<MenuItemEx> MyContextMenuEx => GetMenuItemsEx();
 
-        public List<MyMenuItem> GetMenuItems()
+        public List<MenuItemVm> GetMenuItems()
         {
-            var menu = new List<MyMenuItem>();
+            var menu = new List<MenuItemVm>();
 
-            var menuItem = new MyMenuItem() {Header = Resources.SID_Information };
-            var subItem = new MyMenuItem() { Header = Resources.SID_Trace, Command = new ContextMenuAction(SomeMenuItemAction, CanSomeAction), CommandParameter = this };
+            var menuItem = new MenuItemVm() {Header = Resources.SID_Information };
+            var subItem = new MenuItemVm() { Header = Resources.SID_Trace, Command = new ContextMenuAction(SomeMenuItemAction, CanSomeAction), CommandParameter = this };
             menuItem.Children.Add(subItem);
             menu.Add(menuItem);
-            var menuItem2 = new MyMenuItem() { Header = Resources.SID_Show_RTU, Command = new ContextMenuAction(SomeMenuItemAction, CanSomeAction), CommandParameter = this };
+            var menuItem2 = new MenuItemVm() { Header = Resources.SID_Show_RTU, Command = new ContextMenuAction(SomeMenuItemAction, CanSomeAction), CommandParameter = this };
             menu.Add(menuItem2);
             return menu;
         }

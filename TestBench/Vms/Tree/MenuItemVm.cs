@@ -3,16 +3,16 @@ using System.Windows.Input;
 
 namespace Iit.Fibertest.TestBench
 {
-    public class MyMenuItem
+    public class MenuItemVm
     {
         public string Header { get; set; }
-        public List<MyMenuItem> Children { get; private set; }
+        public List<MenuItemVm> Children { get; private set; }
         public ICommand Command { get; set; }
         public object CommandParameter { get; set; }
 
-        public MyMenuItem()
+        public MenuItemVm()
         {
-            Children = new List<MyMenuItem>();
+            Children = new List<MenuItemVm>();
         }
     }
 }
