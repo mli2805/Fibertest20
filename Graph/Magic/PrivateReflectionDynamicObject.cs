@@ -233,8 +233,7 @@ namespace PrivateReflectionUsingDynamic
                 {
                     return InvokeMemberOnType(type.BaseType, target, name, args);
                 }
-
-                throw;
+                return null;
             }
         }
     }

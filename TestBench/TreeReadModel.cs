@@ -10,60 +10,6 @@ namespace Iit.Fibertest.TestBench
     {
         public ObservableCollection<Leaf> Tree { get; set; } = new ObservableCollection<Leaf>();
 
-        #region Node
-        public void Apply(NodeAdded e)
-        {
-        }
-
-        public void Apply(NodeIntoFiberAdded e)
-        {
-        }
-
-        public void Apply(NodeUpdated source)
-        {
-        }
-
-        public void Apply(NodeMoved newLocation)
-        {
-        }
-
-        public void Apply(NodeRemoved e)
-        {
-        }
-        #endregion
-
-        #region Fiber
-        public void Apply(FiberAdded e)
-        {
-        }
-
-        public void Apply(FiberUpdated source)
-        {
-        }
-
-        public void Apply(FiberRemoved e)
-        {
-        }
-        #endregion
-
-        #region Equipment
-        public void Apply(EquipmentIntoNodeAdded e)
-        {
-        }
-
-        public void Apply(EquipmentAtGpsLocationAdded e)
-        {
-        }
-
-        public void Apply(EquipmentUpdated e)
-        {
-        }
-
-        public void Apply(EquipmentRemoved e)
-        {
-        }
-        #endregion
-
         #region Rtu
         public void Apply(RtuAtGpsLocationAdded e)
         {
@@ -111,10 +57,6 @@ namespace Iit.Fibertest.TestBench
         {
             var trace = Tree.GetById(e.TraceId);
             trace.Color = Brushes.Blue;
-        }
-
-        public void Apply(BaseRefAssigned e)
-        {
         }
         #endregion
     }
