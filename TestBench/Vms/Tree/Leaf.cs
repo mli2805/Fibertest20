@@ -64,7 +64,6 @@ namespace Iit.Fibertest.TestBench
         public Visibility TraceStateVisibility => LeafType == LeafType.Trace ? Visibility.Visible : Visibility.Collapsed;
 
         public  List<MenuItemVm> MyContextMenu => GetMenuItems();
-        public  List<MenuItemEx> MyContextMenuEx => GetMenuItemsEx();
 
         public List<MenuItemVm> GetMenuItems()
         {
@@ -79,29 +78,10 @@ namespace Iit.Fibertest.TestBench
             return menu;
         }
 
-        public List<MenuItemEx> GetMenuItemsEx()
-        {
-            var menu = new List<MenuItemEx>();
-
-            var menuItem = new MenuItemEx() { Header = Resources.SID_Information };
-            var subItem = new MenuItemEx() { Header = Resources.SID_Trace, Command = new ContextMenuAction(SomeMenuItemActionEx, CanSomeAction), CommandParameter = this };
-            menuItem.Children.Add(subItem);
-            menu.Add(menuItem);
-            var menuItem2 = new MenuItemEx() { Header = Resources.SID_Show_RTU, Command = new ContextMenuAction(SomeMenuItemActionEx, CanSomeAction), CommandParameter = this };
-            menu.Add(menuItem2);
-            return menu;
-        }
-
-
         private bool CanSomeAction(object param) { return true;}
         private void SomeMenuItemAction(object param)
         {
             Console.WriteLine($"owner is {Title}");
-        }
-        private void SomeMenuItemActionEx(object param)
-        {
-            var item = (MenuItemEx) param;
-            Console.WriteLine($"menu item {item.Header} was clicked");
         }
 
         #region implementation of ITreeViewItemModel
