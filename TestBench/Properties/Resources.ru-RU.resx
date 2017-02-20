@@ -347,4 +347,16 @@
 	<data name="SID_Update" xml:space="preserve">
 		<value>Изменить</value>
 	</data>
+	<data name="SID_Attach_from_list" xml:space="preserve">
+		<value>Присоединить из списка</value>
+	</data>
+	<data name="SID_Port_N" xml:space="preserve">
+		<value>Порт N{0}</value>
+	</data>
+	<data name="SID_Show_trace" xml:space="preserve">
+		<value>Показать трассу</value>
+	</data>
+	<data name="SID_Settings" xml:space="preserve">
+		<value>Настройки</value>
+	</data>
 </root>

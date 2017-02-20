@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
 	<!-- 
     Microsoft ResX Schema 
@@ -347,16 +347,16 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_Update" xml:space="preserve">
     <value>Update</value>
   </data>
-  <data name="SID_Attach_from_list" xml:space="preserve">
+	<data name="SID_Attach_from_list" xml:space="preserve">
     <value>Attach from list</value>
   </data>
-  <data name="SID_Port_N" xml:space="preserve">
+	<data name="SID_Port_N" xml:space="preserve">
     <value>Port N{0}</value>
   </data>
-  <data name="SID_Show_trace" xml:space="preserve">
+	<data name="SID_Show_trace" xml:space="preserve">
     <value>Show trace</value>
   </data>
-  <data name="SID_Settings" xml:space="preserve">
+	<data name="SID_Settings" xml:space="preserve">
     <value>Settings</value>
   </data>
 </root>
