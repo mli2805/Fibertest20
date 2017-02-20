@@ -16,10 +16,9 @@ namespace Graph.Tests
         private Guid _nodeId, _rtuNodeId, _anotherNodeId, _anotherNodeId2;
         private Guid _shortTraceId, _traceWithEqId, _traceWithoutEqId;
         private Guid _equipmentId, _oldEquipmentId;
-        private int _cutOff;
 
         private const EquipmentType EquipmentType = Iit.Fibertest.Graph.EquipmentType.Terminal;
-        private const string Title = "some title";
+        private const string Title = @"some title";
         private const string Comment = "some comment";
         private const int LeftReserve = 5;
         private const int RightReserve = 77;
@@ -65,7 +64,7 @@ namespace Graph.Tests
             _sut.FakeWindowManager.RegisterHandler(
                 model => _sut.EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
             _sut.FakeWindowManager.RegisterHandler(
-                model => _sut.AddTraceViewHandler(model, "some title", "", Answer.Yes));
+                model => _sut.AddTraceViewHandler(model, @"some title", "", Answer.Yes));
 
             _sut.ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = _nodeId, NodeWithRtuId = _rtuNodeId })
                 .Wait();
@@ -82,7 +81,7 @@ namespace Graph.Tests
             _sut.FakeWindowManager.RegisterHandler(
                 model => _sut.EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
             _sut.FakeWindowManager.RegisterHandler(
-                model => _sut.AddTraceViewHandler(model, "some title", "", Answer.Yes));
+                model => _sut.AddTraceViewHandler(model, @"some title", "", Answer.Yes));
 
             _sut.ShellVm.ComplyWithRequest(new RequestAddTrace()
             {
@@ -102,7 +101,7 @@ namespace Graph.Tests
             _sut.FakeWindowManager.RegisterHandler(
                 model => _sut.EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
             _sut.FakeWindowManager.RegisterHandler(
-                model => _sut.AddTraceViewHandler(model, "some title", "", Answer.Yes));
+                model => _sut.AddTraceViewHandler(model, @"some title", "", Answer.Yes));
 
             _sut.ShellVm.ComplyWithRequest(new RequestAddTrace()
             {

@@ -81,7 +81,7 @@ namespace Iit.Fibertest.TestBench
         private bool CanSomeAction(object param) { return true;}
         private void SomeMenuItemAction(object param)
         {
-            Console.WriteLine($"owner is {Title}");
+            Console.WriteLine($@"owner is {Title}");
         }
 
         #region implementation of ITreeViewItemModel

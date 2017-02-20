@@ -17,7 +17,7 @@ namespace Graph.Tests
             var one = _handlersQueue.FirstOrDefault(handler => handler(rootModel));
             if (one == null)
                 throw new InvalidOperationException(
-                    "We have forgotten to predefine handler for the following model: " + rootModel);
+                    @"We have forgotten to predefine handler for the following model: " + rootModel);
             _handlersQueue.Remove(one);
             return null;
         }
@@ -34,7 +34,7 @@ namespace Graph.Tests
 
         public FakeWindowManager()
         {
-            RegisterHandler(m => m is Iit.Fibertest.TestBench.NotificationViewModel);
+            RegisterHandler(m => m is NotificationViewModel);
         }
 
         public void RegisterHandler(Func<object, bool> del)

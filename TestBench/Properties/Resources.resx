@@ -257,4 +257,22 @@ If chosen trace use some equipment in this node it will be replaced</value>
   <data name="SID_Switch_ended_unexpectedly" xml:space="preserve">
     <value>Switch ended unexpectedly</value>
   </data>
+  <data name="SID_RTU_Information" xml:space="preserve">
+    <value>RTU Information</value>
+  </data>
+  <data name="SID_port_trace" xml:space="preserve">
+    <value>port:{0} - {1}</value>
+  </data>
+  <data name="SID_coor_in_degrees" xml:space="preserve">
+    <value>{{Lat={0:#0.000000}, Lng={1:#0.000000}}}</value>
+  </data>
+  <data name="SID___ddd_dddddd" xml:space="preserve">
+    <value>+-ddd.dddddd</value>
+  </data>
+  <data name="SID___ddd_mm_mmmm" xml:space="preserve">
+    <value>+-ddd mm.mmmm</value>
+  </data>
+  <data name="SID___ddd_mm_ss_ss" xml:space="preserve">
+    <value>+-ddd mm ss.ss</value>
+  </data>
 </root>

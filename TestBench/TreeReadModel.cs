@@ -48,7 +48,7 @@ namespace Iit.Fibertest.TestBench
         public void Apply(TraceAttached e)
         {
             var trace = Tree.GetById(e.TraceId);
-            trace.Title = $"port:{e.Port} - {trace.Title}";
+            trace.Title = string.Format(Resources.SID_port_trace, e.Port, trace.Title);
             trace.Color = Brushes.Black;
             trace.PortNumber = e.Port;
         }

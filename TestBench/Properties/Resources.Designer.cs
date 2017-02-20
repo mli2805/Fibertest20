@@ -61,6 +61,33 @@ namespace Iit.Fibertest.TestBench.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to +-ddd.dddddd.
+        /// </summary>
+        public static string SID___ddd_dddddd {
+            get {
+                return ResourceManager.GetString("SID___ddd_dddddd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to +-ddd mm.mmmm.
+        /// </summary>
+        public static string SID___ddd_mm_mmmm {
+            get {
+                return ResourceManager.GetString("SID___ddd_mm_mmmm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to +-ddd mm ss.ss.
+        /// </summary>
+        public static string SID___ddd_mm_ss_ss {
+            get {
+                return ResourceManager.GetString("SID___ddd_mm_ss_ss", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Accept the path?.
         /// </summary>
         public static string SID_Accept_the_path {
@@ -93,6 +120,15 @@ namespace Iit.Fibertest.TestBench.Properties {
         public static string SID_CableReserve {
             get {
                 return ResourceManager.GetString("SID_CableReserve", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {{Lat={0:#0.000000}, Lng={1:#0.000000}}}.
+        /// </summary>
+        public static string SID_coor_in_degrees {
+            get {
+                return ResourceManager.GetString("SID_coor_in_degrees", resourceCulture);
             }
         }
         
@@ -268,6 +304,15 @@ namespace Iit.Fibertest.TestBench.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to port:{0} - {1}.
+        /// </summary>
+        public static string SID_port_trace {
+            get {
+                return ResourceManager.GetString("SID_port_trace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Quantity.
         /// </summary>
         public static string SID_Quantity {
@@ -309,6 +354,15 @@ namespace Iit.Fibertest.TestBench.Properties {
         public static string SID_Remove_section {
             get {
                 return ResourceManager.GetString("SID_Remove_section", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RTU Information.
+        /// </summary>
+        public static string SID_RTU_Information {
+            get {
+                return ResourceManager.GetString("SID_RTU_Information", resourceCulture);
             }
         }
         

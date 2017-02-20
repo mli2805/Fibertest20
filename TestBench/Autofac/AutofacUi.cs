@@ -17,7 +17,7 @@ namespace Iit.Fibertest.TestBench
 //                    .CreateLogger());
             builder.RegisterInstance<ILogger>(
                 new LoggerConfiguration()
-                    .WriteTo.Seq("http://192.168.96.21:5341")
+                    .WriteTo.Seq(@"http://192.168.96.21:5341")
                     .CreateLogger());
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using GMap.NET;
+using Iit.Fibertest.TestBench.Properties;
 
 namespace Iit.Fibertest.TestBench
 {
@@ -7,9 +8,7 @@ namespace Iit.Fibertest.TestBench
     {
         public static string ToStringInDegrees(this PointLatLng point)
         {
-            return string.Format(CultureInfo.CurrentCulture, 
-                "{{Lat={0:#0.000000}, Lng={1:#0.000000}}}", 
-                point.Lat, point.Lng);
+            return string.Format(CultureInfo.CurrentCulture, Resources.SID_coor_in_degrees, point.Lat, point.Lng);
         }
     }
 }

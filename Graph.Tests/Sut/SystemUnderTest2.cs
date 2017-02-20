@@ -54,7 +54,7 @@ namespace Graph.Tests
 
             FakeWindowManager.RegisterHandler(model => QuestionAnswer("Accept the path?", Answer.Yes, model));
             FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
-            FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, "some title", "", Answer.Yes));
+            FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, @"some title", "", Answer.Yes));
 
             ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = secondNodeId, NodeWithRtuId = nodeForRtuId }).Wait();
             Poller.Tick();
@@ -98,25 +98,25 @@ namespace Graph.Tests
 
             FakeWindowManager.RegisterHandler(model => QuestionAnswer("Accept the path?", Answer.Yes, model));
             FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
-            FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, "some title", "", Answer.Yes));
+            FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, @"some title", "", Answer.Yes));
             ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = a2, NodeWithRtuId = nodeForRtuId }).Wait();
             Poller.Tick();
 
             FakeWindowManager.RegisterHandler(model => QuestionAnswer("Accept the path?", Answer.Yes, model));
             FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
-            FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, "some title", "", Answer.Yes));
+            FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, @"some title", "", Answer.Yes));
             ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = b2, NodeWithRtuId = nodeForRtuId }).Wait();
             Poller.Tick();
 
             FakeWindowManager.RegisterHandler(model => QuestionAnswer("Accept the path?", Answer.Yes, model));
             FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
-            FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, "some title", "", Answer.Yes));
+            FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, @"some title", "", Answer.Yes));
             ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = c2, NodeWithRtuId = nodeForRtuId }).Wait();
             Poller.Tick();
 
             FakeWindowManager.RegisterHandler(model => QuestionAnswer("Accept the path?", Answer.Yes, model));
             FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
-            FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, "some title", "", Answer.Yes));
+            FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, @"some title", "", Answer.Yes));
             ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = d2, NodeWithRtuId = nodeForRtuId }).Wait();
             Poller.Tick();
         }
@@ -127,45 +127,45 @@ namespace Graph.Tests
             Poller.Tick();
             startId = ReadModel.Rtus.Last().NodeId;
 
-            var b0 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid(), Title = "b0" };
+            var b0 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid()};
             ReadModel.Nodes.Add(b0);
-            var b1 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid(), Title = "b1" };
+            var b1 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid()};
             ReadModel.Nodes.Add(b1);
-            var b2 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid(), Title = "b2" };
+            var b2 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid()};
             ReadModel.Nodes.Add(b2);
-            var c0 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid(), Title = "c0" };
+            var c0 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid()};
             ReadModel.Nodes.Add(c0);
-            var c1 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid(), Title = "c1" };
+            var c1 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid()};
             ReadModel.Nodes.Add(c1);
-            var c2 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid(), Title = "c2" };
+            var c2 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid()};
             ReadModel.Nodes.Add(c2);
-            var d0 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid(), Title = "d0" };
+            var d0 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid()};
             ReadModel.Nodes.Add(d0);
-            var d1 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid(), Title = "d1" };
+            var d1 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid()};
             ReadModel.Nodes.Add(d1);
-            var d2 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid(), Title = "d2" };
+            var d2 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid()};
             ReadModel.Nodes.Add(d2);
-            var e0 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid(), Title = "e0" };
+            var e0 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid()};
             ReadModel.Nodes.Add(e0);
-            var e1 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid(), Title = "e1" };
+            var e1 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid()};
             ReadModel.Nodes.Add(e1);
-            var e2 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid(), Title = "e2" };
+            var e2 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid()};
             ReadModel.Nodes.Add(e2);
 
-            var nn = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid(), Title = "nn" };
+            var nn = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid()};
             ReadModel.Nodes.Add(nn);
             finishId = nn.Id;
-            ReadModel.Equipments.Add(new Iit.Fibertest.Graph.Equipment() { Id = Guid.NewGuid(), NodeId = finishId, Title = "Terminal", Type = EquipmentType.Terminal });
+            ReadModel.Equipments.Add(new Iit.Fibertest.Graph.Equipment() { Id = Guid.NewGuid(), NodeId = finishId, Type = EquipmentType.Terminal });
 
-            var zz = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid(), Title = "zz" };
+            var zz = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid() };
             ReadModel.Nodes.Add(zz);
-            var z2 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid(), Title = "z2" };
+            var z2 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid() };
             ReadModel.Nodes.Add(z2);
 
-            ReadModel.Equipments.Add(new Iit.Fibertest.Graph.Equipment() { Id = Guid.NewGuid(), NodeId = c2.Id, Title = "Some sleeve", Type = EquipmentType.Sleeve });
-            ReadModel.Equipments.Add(new Iit.Fibertest.Graph.Equipment() { Id = Guid.NewGuid(), NodeId = c2.Id, Title = "Some cross", Type = EquipmentType.Cross });
+            ReadModel.Equipments.Add(new Iit.Fibertest.Graph.Equipment() { Id = Guid.NewGuid(), NodeId = c2.Id, Type = EquipmentType.Sleeve });
+            ReadModel.Equipments.Add(new Iit.Fibertest.Graph.Equipment() { Id = Guid.NewGuid(), NodeId = c2.Id, Type = EquipmentType.Cross });
 
-            ReadModel.Equipments.Add(new Iit.Fibertest.Graph.Equipment() { Id = Guid.NewGuid(), NodeId = d2.Id, Title = "Another sleeve", Type = EquipmentType.Sleeve });
+            ReadModel.Equipments.Add(new Iit.Fibertest.Graph.Equipment() { Id = Guid.NewGuid(), NodeId = d2.Id, Type = EquipmentType.Sleeve });
 
 
             ReadModel.Fibers.Add(new Iit.Fibertest.Graph.Fiber() { Id = new Guid(), Node1 = startId, Node2 = b0.Id });

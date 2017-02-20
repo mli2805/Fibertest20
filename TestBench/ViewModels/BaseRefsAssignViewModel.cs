@@ -8,7 +8,6 @@ namespace Iit.Fibertest.TestBench
 {
     public class BaseRefsAssignViewModel : Screen
     {
-        private readonly ReadModel _readModel;
         private TraceVm _traceVm;
         private RtuVm _rtuVm;
 

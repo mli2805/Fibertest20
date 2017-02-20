@@ -132,7 +132,7 @@ namespace Iit.Fibertest.TestBench
         private EqItem CreateEqItem(EquipmentVm equipmentVm)
         {
             var tracesNames = _graphVm.Traces.Where(t => t.Equipments.Contains(equipmentVm.Id))
-                .Aggregate("", (current, traceVm) => current + (traceVm.Title + " ;  "));
+                .Aggregate("", (current, traceVm) => current + (traceVm.Title + @" ;  "));
 
             var isLastForSomeTrace = _graphVm.Traces.Any(t => t.Equipments.Last() == equipmentVm.Id);
             var isPartOfTraceWithBase = _graphVm.Traces.Any(t => t.Equipments.Contains(equipmentVm.Id) && t.HasBase);

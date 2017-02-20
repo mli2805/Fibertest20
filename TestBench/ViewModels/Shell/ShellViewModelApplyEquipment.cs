@@ -56,7 +56,7 @@ namespace Iit.Fibertest.TestBench
 
         private UpdateEquipment PrepareCommand(UpdateEquipment request)
         {
-            var cmd = new UpdateEquipment();
+            var cmd = request;
             return cmd;
         }
 

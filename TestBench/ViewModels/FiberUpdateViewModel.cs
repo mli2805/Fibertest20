@@ -77,7 +77,7 @@ namespace Iit.Fibertest.TestBench
             var n2 = _graphVm.Nodes.Single(n => n.Id == _fiber.Node2.Id);
             NodeAtitle = n1.Title;
             NodeBtitle = n2.Title;
-            GpsLength = $"{GetGpsLength(n1, n2):#,##0}";
+            GpsLength = $@"{GetGpsLength(n1, n2):#,##0}";
 //            OpticalLength = _fiber.OpticalLength; // потом из базовых брать
             UserInputedLength = _fiber.UserInputedLength.ToString(CultureInfo.InvariantCulture);
         }

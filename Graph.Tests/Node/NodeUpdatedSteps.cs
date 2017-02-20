@@ -21,7 +21,7 @@ namespace Graph.Tests
             _sut.Poller.Tick();
             var nodeId = _sut.ShellVm.GraphVm.Nodes.Last().Id;
 
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.NodeUpdateHandler(model, title, "doesn't matter", Answer.Yes));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.NodeUpdateHandler(model, title, @"doesn't matter", Answer.Yes));
             _sut.ShellVm.ComplyWithRequest(new UpdateNode() {Id = nodeId }).Wait();
             _sut.Poller.Tick();
         }
@@ -77,7 +77,7 @@ namespace Graph.Tests
         public void WhenПользовательОткрылОкноРедактированияИЧто_ТоИзменивНажалОтменить()
         {
             _cutOff = _sut.CurrentEventNumber;
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.NodeUpdateHandler(model, "something", "doesn't matter", Answer.Cancel));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.NodeUpdateHandler(model, @"something", @"doesn't matter", Answer.Cancel));
             _sut.ShellVm.ComplyWithRequest(new UpdateNode() { Id = _saidNodeId }).Wait();
             _sut.Poller.Tick();
         }

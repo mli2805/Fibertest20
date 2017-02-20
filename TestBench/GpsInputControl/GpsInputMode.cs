@@ -1,3 +1,5 @@
+using Iit.Fibertest.TestBench.Properties;
+
 namespace Iit.Fibertest.TestBench
 {
     public enum GpsInputMode
@@ -21,11 +23,11 @@ namespace Iit.Fibertest.TestBench
             switch (Mode)
             {
                 case GpsInputMode.Degrees:
-                    return "+-ddd.dddddd";
+                    return Resources.SID___ddd_dddddd;
                 case GpsInputMode.DegreesAndMinutes:
-                    return "+-ddd mm.mmmm";
+                    return Resources.SID___ddd_mm_mmmm;
                 case GpsInputMode.DegreesMinutesAndSeconds:
-                    return "+-ddd mm ss.ss";
+                    return Resources.SID___ddd_mm_ss_ss;
                 default:
                     return "";
             }

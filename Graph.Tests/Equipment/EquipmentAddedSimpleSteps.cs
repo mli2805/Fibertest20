@@ -16,7 +16,7 @@ namespace Graph.Tests
         private Guid _oldEquipmentId;
 
         private const EquipmentType EquipmentType = Iit.Fibertest.Graph.EquipmentType.Terminal;
-        private const string Title = "some title";
+        private const string Title = @"some title";
         private const string Comment = "some comment";
         private const int LeftReserve = 5;
         private const int RightReserve = 77;
