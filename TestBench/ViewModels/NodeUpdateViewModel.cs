@@ -10,39 +10,6 @@ using Iit.Fibertest.TestBench.Properties;
 
 namespace Iit.Fibertest.TestBench
 {
-    public class EqItem : PropertyChangedBase
-    {
-        public Guid Id { get; set; }
-        public string Type { get; set; }
-        public string Title { get; set; }
-        public string Comment { get; set; }
-        public string Traces { get; set; }
-
-        public bool IsRemoveEnabled { get; set; }
-
-        private object _command;
-        public object Command
-        {
-            get { return _command; }
-            set
-            {
-                if (Equals(value, _command)) return;
-                _command = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
-        public void UpdateEquipment()
-        {
-            Command = new UpdateEquipment { Id = Id };
-        }
-
-        public void RemoveEquipment()
-        {
-            Command = new RemoveEquipment { Id = Id };
-        }
-    }
-
     public class NodeUpdateViewModel : Screen, IDataErrorInfo
     {
         private readonly GraphVm _graphVm;
@@ -79,8 +46,8 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
-        public ObservableCollection<EqItem> EquipmentsInNode { get; set; }
-        public EqItem SelectedEquipment { get; set; }
+        public ObservableCollection<EqItemVm> EquipmentsInNode { get; set; }
+        public EqItemVm SelectedEquipment { get; set; }
 
         public List<TraceVm> TracesInNode { get; set; }
 
@@ -123,13 +90,13 @@ namespace Iit.Fibertest.TestBench
 
             TracesInNode = _graphVm.Traces.Where(t => t.Nodes.Contains(nodeId)).ToList();
 
-            EquipmentsInNode = new ObservableCollection<EqItem>(
+            EquipmentsInNode = new ObservableCollection<EqItemVm>(
                 _graphVm.Equipments.Where(e => e.Node.Id == NodeId).Select(equipmentVm => CreateEqItem(equipmentVm)));
 
             IsClosed = false;
         }
 
-        private EqItem CreateEqItem(EquipmentVm equipmentVm)
+        private EqItemVm CreateEqItem(EquipmentVm equipmentVm)
         {
             var tracesNames = _graphVm.Traces.Where(t => t.Equipments.Contains(equipmentVm.Id))
                 .Aggregate("", (current, traceVm) => current + (traceVm.Title + @" ;  "));
@@ -137,7 +104,7 @@ namespace Iit.Fibertest.TestBench
             var isLastForSomeTrace = _graphVm.Traces.Any(t => t.Equipments.Last() == equipmentVm.Id);
             var isPartOfTraceWithBase = _graphVm.Traces.Any(t => t.Equipments.Contains(equipmentVm.Id) && t.HasBase);
 
-            var eqItem = new EqItem()
+            var eqItem = new EqItemVm()
             {
                 Id = equipmentVm.Id,
                 Type = equipmentVm.Type.ToString(),
@@ -154,7 +121,7 @@ namespace Iit.Fibertest.TestBench
         {
             if (e.PropertyName != "Command")
                 return;
-            var cmd = ((EqItem) sender).Command;
+            var cmd = ((EqItemVm) sender).Command;
             if (cmd is UpdateEquipment)
                 LaunchUpdateEquipmentView(((UpdateEquipment)cmd).Id);
             else

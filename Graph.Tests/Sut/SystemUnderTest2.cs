@@ -306,7 +306,7 @@ namespace Graph.Tests
             vm.Count = count;
             vm.SetSelectedType(type);
             if (answer == Answer.Yes)
-                vm.Ok();
+                vm.Save();
             else
                 vm.Cancel();
             return true;

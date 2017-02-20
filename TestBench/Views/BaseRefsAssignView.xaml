@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:properties="clr-namespace:Iit.Fibertest.TestBench.Properties"
         mc:Ignorable="d"
         Title="BaseRefsAssignView" SizeToContent="Height" Width="300">
     <StackPanel>
@@ -22,27 +23,27 @@
         <StackPanel Orientation="Horizontal" Margin="5,10">
             <Button Name="PathBrowseButton1" Margin="5,0,0,0" Height="20" Width="20" Content="..." Tag="1"/>
             <Button Name="ClearPathButton1" Margin="5,0,0,0" Height="20" Width="20" Content="X" Tag="1" HorizontalAlignment="Right"/>
-            <TextBlock Margin="5" Text="Точная базовая" />
+            <TextBlock Margin="5" Text="{x:Static properties:Resources.SID_Precise_base_ref}" />
         </StackPanel>
         <TextBox Margin="5,0" Text="{Binding PreciseBaseFilename}" />
 
         <StackPanel Orientation="Horizontal" Margin="5,10">
             <Button Name="PathBrowseButton2" Margin="5,0,0,0" Height="20" Width="20" Content="..." Tag="2"/>
             <Button Name="ClearPathButton2" Margin="5,0,0,0" Height="20" Width="20" Content="X" Tag="2" HorizontalAlignment="Right"/>
-            <TextBlock Margin="5" Text="Быстрая базовая" />
+            <TextBlock Margin="5" Text="{x:Static properties:Resources.SID_Fast_base_ref}" />
         </StackPanel>
         <TextBox Margin="5,0" Text="{Binding FastBaseFilename}" />
 
         <StackPanel Orientation="Horizontal" Margin="5,10">
             <Button Name="PathBrowseButton3" Margin="5,0,0,0" Height="20" Width="20" Content="..." Tag="3"/>
             <Button Name="ClearPathButton3" Margin="5,0,0,0" Height="20" Width="20" Content="X" Tag="3" HorizontalAlignment="Right"/>
-            <TextBlock Margin="5" Text="Дополнительная базовая" />
+            <TextBlock Margin="5" Text="{x:Static properties:Resources.SID_Additional_base_ref}" />
         </StackPanel>
         <TextBox Margin="5,0" Text="{Binding AdditionalBaseFilename}" />
         
         <StackPanel Orientation="Horizontal" Margin="5,25,5,10">
-            <Button Name="Save" Height="25" Width="100" Margin="5" Content="Сохранить" IsEnabled="{Binding IsButtonSaveEnabled}"/>
-            <Button Name="Cancel" Height="25" Width="100" Content="Отменить"/>
+            <Button Name="Save" Height="25" Width="100" Margin="5" Content="{x:Static properties:Resources.SID_Save}" IsEnabled="{Binding IsButtonSaveEnabled}"/>
+            <Button Name="Cancel" Height="25" Width="100" Content="{x:Static properties:Resources.SID_Cancel}"/>
         </StackPanel>
     </StackPanel>
 </Window>

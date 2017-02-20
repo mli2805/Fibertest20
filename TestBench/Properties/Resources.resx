@@ -275,4 +275,76 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID___ddd_mm_ss_ss" xml:space="preserve">
     <value>+-ddd mm ss.ss</value>
   </data>
+	<data name="SID_Precise_base_ref" xml:space="preserve">
+    <value>Precise base ref</value>
+  </data>
+	<data name="SID_Additional_base_ref" xml:space="preserve">
+    <value>Additional base ref</value>
+  </data>
+	<data name="SID_Cable_reserve_to_the_left_m" xml:space="preserve">
+    <value>Cable reserve to the left, m</value>
+  </data>
+	<data name="SID_Cable_reserve_to_the_right_m" xml:space="preserve">
+    <value>Cable reserve to the right, m</value>
+  </data>
+	<data name="SID_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+	<data name="SID_Comment" xml:space="preserve">
+    <value>Comment</value>
+  </data>
+	<data name="SID_Equipment_type" xml:space="preserve">
+    <value>Equipment type</value>
+  </data>
+	<data name="SID_Exit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+	<data name="SID_Fast_base_ref" xml:space="preserve">
+    <value>Fast base ref</value>
+  </data>
+	<data name="SID_Gps_Length_m" xml:space="preserve">
+    <value>Gps Length, m</value>
+  </data>
+	<data name="SID_Nodes_of_section" xml:space="preserve">
+    <value>Nodes of section</value>
+  </data>
+	<data name="SID_Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+	<data name="SID_Select" xml:space="preserve">
+    <value>Select</value>
+  </data>
+	<data name="SID_Select_and_setup_name" xml:space="preserve">
+    <value>Select and setup name</value>
+  </data>
+	<data name="SID_Title" xml:space="preserve">
+    <value>Title</value>
+  </data>
+	<data name="SID_User_Length_m" xml:space="preserve">
+    <value>User Length, m</value>
+  </data>
+	<data name="SID_Node" xml:space="preserve">
+    <value>Node</value>
+  </data>
+	<data name="SID_Equipment_in_node" xml:space="preserve">
+    <value>Equipment in node</value>
+  </data>
+	<data name="SID_Traces_in_node" xml:space="preserve">
+    <value>Traces in node</value>
+  </data>
+	<data name="SID_Preview" xml:space="preserve">
+    <value>Preview</value>
+  </data>
+	<data name="SID_Do_not_add_equipment" xml:space="preserve">
+    <value>Don't add equipment</value>
+  </data>
+	<data name="SID_Optical_length_m" xml:space="preserve">
+    <value>Optical Length, m</value>
+  </data>
+	<data name="SID_Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+	<data name="SID_Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
 </root>

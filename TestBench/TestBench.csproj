@@ -141,6 +141,7 @@
     <Compile Include="MarkerControl\MarkerControlNodeContextMenu.cs" />
     <Compile Include="MarkerControl\MarkerControlRtuContextMenu.cs" />
     <Compile Include="ViewModels\BaseRefsAssignViewModel.cs" />
+    <Compile Include="Vms\Graph\EqItemVm.cs" />
     <Compile Include="ViewModels\Primitive\CheckBoxModel.cs" />
     <Compile Include="ViewModels\EquipmentChoiceViewModel.cs" />
     <Compile Include="ViewModels\EquipmentUpdateViewModel.cs" />

@@ -97,6 +97,15 @@ namespace Iit.Fibertest.TestBench.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        public static string SID_Add {
+            get {
+                return ResourceManager.GetString("SID_Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Equipment.
         /// </summary>
         public static string SID_Add_Equipment {
@@ -115,11 +124,56 @@ namespace Iit.Fibertest.TestBench.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Additional base ref.
+        /// </summary>
+        public static string SID_Additional_base_ref {
+            get {
+                return ResourceManager.GetString("SID_Additional_base_ref", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cable reserve to the left, m.
+        /// </summary>
+        public static string SID_Cable_reserve_to_the_left_m {
+            get {
+                return ResourceManager.GetString("SID_Cable_reserve_to_the_left_m", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cable reserve to the right, m.
+        /// </summary>
+        public static string SID_Cable_reserve_to_the_right_m {
+            get {
+                return ResourceManager.GetString("SID_Cable_reserve_to_the_right_m", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CableReserve.
         /// </summary>
         public static string SID_CableReserve {
             get {
                 return ResourceManager.GetString("SID_CableReserve", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string SID_Cancel {
+            get {
+                return ResourceManager.GetString("SID_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Comment.
+        /// </summary>
+        public static string SID_Comment {
+            get {
+                return ResourceManager.GetString("SID_Comment", resourceCulture);
             }
         }
         
@@ -160,6 +214,15 @@ namespace Iit.Fibertest.TestBench.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Don&apos;t add equipment.
+        /// </summary>
+        public static string SID_Do_not_add_equipment {
+            get {
+                return ResourceManager.GetString("SID_Do_not_add_equipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Do not use.
         /// </summary>
         public static string SID_Do_not_use {
@@ -174,6 +237,24 @@ namespace Iit.Fibertest.TestBench.Properties {
         public static string SID_Edit_Equipment {
             get {
                 return ResourceManager.GetString("SID_Edit_Equipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Equipment in node.
+        /// </summary>
+        public static string SID_Equipment_in_node {
+            get {
+                return ResourceManager.GetString("SID_Equipment_in_node", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Equipment type.
+        /// </summary>
+        public static string SID_Equipment_type {
+            get {
+                return ResourceManager.GetString("SID_Equipment_type", resourceCulture);
             }
         }
         
@@ -196,11 +277,38 @@ namespace Iit.Fibertest.TestBench.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exit.
+        /// </summary>
+        public static string SID_Exit {
+            get {
+                return ResourceManager.GetString("SID_Exit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fast base ref.
+        /// </summary>
+        public static string SID_Fast_base_ref {
+            get {
+                return ResourceManager.GetString("SID_Fast_base_ref", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Section.
         /// </summary>
         public static string SID_Fiber {
             get {
                 return ResourceManager.GetString("SID_Fiber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gps Length, m.
+        /// </summary>
+        public static string SID_Gps_Length_m {
+            get {
+                return ResourceManager.GetString("SID_Gps_Length_m", resourceCulture);
             }
         }
         
@@ -277,11 +385,38 @@ namespace Iit.Fibertest.TestBench.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Node.
+        /// </summary>
+        public static string SID_Node {
+            get {
+                return ResourceManager.GetString("SID_Node", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nodes of section.
+        /// </summary>
+        public static string SID_Nodes_of_section {
+            get {
+                return ResourceManager.GetString("SID_Nodes_of_section", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to noname RTU.
         /// </summary>
         public static string SID_noname_RTU {
             get {
                 return ResourceManager.GetString("SID_noname_RTU", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Optical Length, m.
+        /// </summary>
+        public static string SID_Optical_length_m {
+            get {
+                return ResourceManager.GetString("SID_Optical_length_m", resourceCulture);
             }
         }
         
@@ -309,6 +444,24 @@ namespace Iit.Fibertest.TestBench.Properties {
         public static string SID_port_trace {
             get {
                 return ResourceManager.GetString("SID_port_trace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Precise base ref.
+        /// </summary>
+        public static string SID_Precise_base_ref {
+            get {
+                return ResourceManager.GetString("SID_Precise_base_ref", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Preview.
+        /// </summary>
+        public static string SID_Preview {
+            get {
+                return ResourceManager.GetString("SID_Preview", resourceCulture);
             }
         }
         
@@ -367,6 +520,15 @@ namespace Iit.Fibertest.TestBench.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string SID_Save {
+            get {
+                return ResourceManager.GetString("SID_Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Section.
         /// </summary>
         public static string SID_Section {
@@ -381,6 +543,24 @@ namespace Iit.Fibertest.TestBench.Properties {
         public static string SID_Section_with_nodes {
             get {
                 return ResourceManager.GetString("SID_Section_with_nodes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select.
+        /// </summary>
+        public static string SID_Select {
+            get {
+                return ResourceManager.GetString("SID_Select", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select and setup name.
+        /// </summary>
+        public static string SID_Select_and_setup_name {
+            get {
+                return ResourceManager.GetString("SID_Select_and_setup_name", resourceCulture);
             }
         }
         
@@ -494,6 +674,15 @@ namespace Iit.Fibertest.TestBench.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Title.
+        /// </summary>
+        public static string SID_Title {
+            get {
+                return ResourceManager.GetString("SID_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Title is required.
         /// </summary>
         public static string SID_Title_is_required {
@@ -512,11 +701,38 @@ namespace Iit.Fibertest.TestBench.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Traces in node.
+        /// </summary>
+        public static string SID_Traces_in_node {
+            get {
+                return ResourceManager.GetString("SID_Traces_in_node", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Type.
         /// </summary>
         public static string SID_Type {
             get {
                 return ResourceManager.GetString("SID_Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update.
+        /// </summary>
+        public static string SID_Update {
+            get {
+                return ResourceManager.GetString("SID_Update", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User Length, m.
+        /// </summary>
+        public static string SID_User_Length_m {
+            get {
+                return ResourceManager.GetString("SID_User_Length_m", resourceCulture);
             }
         }
         

@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:properties="clr-namespace:Iit.Fibertest.TestBench.Properties"
         mc:Ignorable="d"
         SizeToContent="Height" Width="350" WindowStartupLocation="CenterOwner">
     <StackPanel FocusManager.FocusedElement="{Binding ElementName=Count}">
@@ -23,8 +24,8 @@
             </StackPanel>
         </GroupBox>
         <StackPanel Orientation="Horizontal" Margin="5">
-            <Button Name="Ok" Content="Ок" Margin="5" IsDefault="True" Width="100"/>
-            <Button Name="Cancel" Content="Отмена" Margin="5" IsCancel="True" Width="100"/>
+            <Button Name="Save" Content="{x:Static properties:Resources.SID_Save}" Margin="5" IsDefault="True" Width="100"/>
+            <Button Name="Cancel" Content="{x:Static properties:Resources.SID_Cancel}" Margin="5" IsCancel="True" Width="100"/>
         </StackPanel>
     </StackPanel>
 </Window>

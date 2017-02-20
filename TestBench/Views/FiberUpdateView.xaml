@@ -3,26 +3,29 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:properties="clr-namespace:Iit.Fibertest.TestBench.Properties"
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner" SizeToContent="Height"  Width="300">
     <StackPanel FocusManager.FocusedElement="{Binding ElementName=UserInput}">
-        <TextBlock Margin="10,5,5,5" Text="Крайние узлы:" />
+        <TextBlock Margin="10,5,5,5" Text="{x:Static properties:Resources.SID_Nodes_of_section}" />
         <TextBlock Margin="25,5,5,5" Text="{Binding NodeAtitle}" />
         <TextBlock Margin="25,5,5,5" Text="{Binding NodeBtitle}" />
         <StackPanel Orientation="Horizontal" Margin="5,15,5,0">
-            <TextBlock Margin="5" Text="Gps Length, m:" />
+            <TextBlock Margin="5" Text="{x:Static properties:Resources.SID_Gps_Length_m}" />
             <TextBlock Margin="5" Width="100" Text="{Binding GpsLength}" TextAlignment="Right"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="5,5">
-            <TextBlock Margin="5" Text="User Length, m:" />
+            <TextBlock Margin="5" Text="{x:Static properties:Resources.SID_User_Length_m}" />
             <TextBox Name="UserInput" Margin="5" Width="100"  HorizontalContentAlignment="Right"
                      Text="{Binding UserInputedLength, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
-        <TextBlock Margin="5" Text="Optical Length" />
-        <TextBlock Margin="5" Text="{Binding OpticalLength}" />
+        <StackPanel Orientation="Horizontal" Margin="5,5">
+            <TextBlock Margin="5" Text="{x:Static properties:Resources.SID_Optical_length_m}" />
+            <TextBlock Margin="5" Width="100" Text="{Binding OpticalLength}" TextAlignment="Right"/>
+        </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="5,15,5,5">
-            <Button Name="Save" Height="25" Width="100" Margin="5" Content="Сохранить" IsEnabled="{Binding IsButtonSaveEnabled}"/>
-            <Button Name="Cancel" Height="25" Width="100" Content="Отменить"/>
+            <Button Name="Save" Height="25" Width="100" Margin="5" Content="{x:Static properties:Resources.SID_Save}" IsEnabled="{Binding IsButtonSaveEnabled}"/>
+            <Button Name="Cancel" Height="25" Width="100" Content="{x:Static properties:Resources.SID_Cancel}"/>
         </StackPanel>
     </StackPanel>
 </Window>

@@ -3,16 +3,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:properties="clr-namespace:Iit.Fibertest.TestBench.Properties"
         mc:Ignorable="d"
         Title="TraceAddView" SizeToContent="Height" Width="300" WindowStartupLocation="CenterScreen">
     <StackPanel>
-        <TextBlock Margin="5" >Title</TextBlock>
+        <TextBlock Margin="5" Text="{x:Static properties:Resources.SID_Title}" />
         <TextBox Margin="5" Text="{Binding Title, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
-        <TextBlock Margin="5" >Comment</TextBlock>
+        <TextBlock Margin="5" Text="{x:Static properties:Resources.SID_Comment}" />
         <TextBox Margin="5" Text="{Binding Comment}"/>
         <StackPanel Orientation="Horizontal" Margin="5,15">
-            <Button Name="Save" Height="25" Width="100" Margin="5" Content="Сохранить" IsEnabled="{Binding IsButtonSaveEnabled}"/>
-            <Button Name="Cancel" Height="25" Width="100" Content="Отменить"/>
+            <Button Name="Save" Height="25" Width="100" Margin="5" Content="{x:Static properties:Resources.SID_Save}" IsEnabled="{Binding IsButtonSaveEnabled}"/>
+            <Button Name="Cancel" Height="25" Width="100" Content="{x:Static properties:Resources.SID_Cancel}"/>
         </StackPanel>
 
     </StackPanel>

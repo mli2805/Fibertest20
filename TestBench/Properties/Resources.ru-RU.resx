@@ -275,4 +275,76 @@
 	<data name="SID___ddd_mm_ss_ss" xml:space="preserve">
 		<value>+-ггг мм сс.сс</value>
 	</data>
+	<data name="SID_Precise_base_ref" xml:space="preserve">
+		<value>Точная базовая</value>
+	</data>
+	<data name="SID_Additional_base_ref" xml:space="preserve">
+		<value>Дополнительная базовая</value>
+	</data>
+	<data name="SID_Cable_reserve_to_the_left_m" xml:space="preserve">
+		<value>Запас кабеля слева, м</value>
+	</data>
+	<data name="SID_Cable_reserve_to_the_right_m" xml:space="preserve">
+		<value>Запас кабеля справа, м</value>
+	</data>
+	<data name="SID_Cancel" xml:space="preserve">
+		<value>Отмена</value>
+	</data>
+	<data name="SID_Comment" xml:space="preserve">
+		<value>Комментарий</value>
+	</data>
+	<data name="SID_Equipment_type" xml:space="preserve">
+		<value>Тип оборудования</value>
+	</data>
+	<data name="SID_Exit" xml:space="preserve">
+		<value>Выход</value>
+	</data>
+	<data name="SID_Fast_base_ref" xml:space="preserve">
+		<value>Быстрая базовая</value>
+	</data>
+	<data name="SID_Gps_Length_m" xml:space="preserve">
+		<value>Длина по GPS, м</value>
+	</data>
+	<data name="SID_Nodes_of_section" xml:space="preserve">
+		<value>Узлы отрезка</value>
+	</data>
+	<data name="SID_Save" xml:space="preserve">
+		<value>Сохранить</value>
+	</data>
+	<data name="SID_Select" xml:space="preserve">
+		<value>Выбрать</value>
+	</data>
+	<data name="SID_Select_and_setup_name" xml:space="preserve">
+		<value>Выбрать и задать имя</value>
+	</data>
+	<data name="SID_Title" xml:space="preserve">
+		<value>Название</value>
+	</data>
+	<data name="SID_User_Length_m" xml:space="preserve">
+		<value>Пользовательская длина, м</value>
+	</data>
+	<data name="SID_Node" xml:space="preserve">
+		<value>Узел</value>
+	</data>
+	<data name="SID_Equipment_in_node" xml:space="preserve">
+		<value>Оборудование в узле</value>
+	</data>
+	<data name="SID_Traces_in_node" xml:space="preserve">
+		<value>Трассы в узле</value>
+	</data>
+	<data name="SID_Preview" xml:space="preserve">
+		<value>Предпросмотр</value>
+	</data>
+	<data name="SID_Do_not_add_equipment" xml:space="preserve">
+		<value>Не добавлять оборудование</value>
+	</data>
+	<data name="SID_Optical_length_m" xml:space="preserve">
+		<value>Оптическая длина, м</value>
+	</data>
+	<data name="SID_Add" xml:space="preserve">
+		<value>Добавить</value>
+	</data>
+	<data name="SID_Update" xml:space="preserve">
+		<value>Изменить</value>
+	</data>
 </root>

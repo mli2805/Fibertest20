@@ -26,7 +26,7 @@ namespace Iit.Fibertest.TestBench
             DisplayName = Resources.SID_Section_with_nodes;
         }
 
-        public void Ok()
+        public void Save()
         {
             Result = true;
             TryClose();
