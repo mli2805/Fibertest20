@@ -31,6 +31,14 @@ namespace Iit.Fibertest.TestBench
 
             Log = clientLogger;
             Log.Information(@"Client started!");
+
+            Bus.SendCommand(new AddRtuAtGpsLocation()
+            {
+                Id = Guid.NewGuid(),
+                NodeId = Guid.NewGuid(),
+                Latitude = 52.429333,
+                Longitude = 31.006683
+            });
         }
 
         public void AddOneNode()

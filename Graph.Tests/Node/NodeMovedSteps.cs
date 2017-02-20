@@ -20,7 +20,7 @@ namespace Graph.Tests
             _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
             _sut.Poller.Tick();
             _cutOff = _sut.CurrentEventNumber;
-            _nodeId = _sut.ReadModel.Nodes.Single().Id;
+            _nodeId = _sut.ReadModel.Nodes.Last().Id;
         }
 
         [When(@"Пользователь подвинул узел")]

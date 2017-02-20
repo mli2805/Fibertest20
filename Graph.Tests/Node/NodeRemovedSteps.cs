@@ -24,7 +24,7 @@ namespace Graph.Tests
 //            _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
             _sut.ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation()).Wait();
             _sut.Poller.Tick();
-            _nodeId = _sut.ReadModel.Nodes.First().Id;
+            _nodeId = _sut.ReadModel.Nodes.Last().Id;
         }
 
         [Given(@"К данному узлу присоединен отрезок")]

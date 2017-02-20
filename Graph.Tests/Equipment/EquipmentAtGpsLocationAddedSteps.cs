@@ -21,7 +21,7 @@ namespace Graph.Tests
         [Then(@"Новый узел с оборудованием сохраняется")]
         public void ThenНовыйУзелСОборудованиемСохраняется()
         {
-            _sut.ReadModel.Equipments.Single().NodeId.Should().Be(_sut.ReadModel.Nodes.Single().Id);
+            _sut.ReadModel.Equipments.Last().NodeId.Should().Be(_sut.ReadModel.Nodes.Last().Id);
         }
     }
 }

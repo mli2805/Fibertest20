@@ -22,7 +22,7 @@ namespace Graph.Tests
         {
             _sut.ShellVm.ComplyWithRequest(new AddRtuAtGpsLocation()).Wait();
             _sut.Poller.Tick();
-            _rtu = _sut.ReadModel.Rtus.Single();
+            _rtu = _sut.ReadModel.Rtus.Last();
             _rtuNodeId = _rtu.NodeId;
         }
 
@@ -54,7 +54,7 @@ namespace Graph.Tests
         [Then(@"РТУ удаляется")]
         public void ThenРтуУдаляется()
         {
-            _sut.ReadModel.Rtus.Count.Should().Be(0);
+            _sut.ReadModel.Rtus.FirstOrDefault(r => r.NodeId == _rtuNodeId).Should().BeNull();
         }
 
         [Then(@"Узел под РТУ и присоединенные к нему отрезки удаляются")]

@@ -19,9 +19,10 @@ namespace Graph.Tests
         public void GivenЕстьДваУзлаИОтрезокМеждуНими()
         {
             _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
+            _sut.Poller.Tick();
+            _leftNodeId = _sut.ReadModel.Nodes.Last().Id;
             _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
             _sut.Poller.Tick();
-            _leftNodeId = _sut.ReadModel.Nodes.First().Id;
             _rightNodeId = _sut.ReadModel.Nodes.Last().Id;
             _sut.ShellVm.ComplyWithRequest(new AddFiber() {Node1 = _leftNodeId, Node2 = _rightNodeId}).Wait();
             _sut.Poller.Tick();

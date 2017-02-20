@@ -23,9 +23,10 @@ namespace Graph.Tests
         public void GivenЛевыйИПравыйУзлыУжеСозданы()
         {
             _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
+            _sut.Poller.Tick();
+            _leftNodeId = _sut.ShellVm.ReadModel.Nodes.Last().Id;
             _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
             _sut.Poller.Tick();
-            _leftNodeId = _sut.ShellVm.ReadModel.Nodes.First().Id;
             _rightNodeId = _sut.ShellVm.ReadModel.Nodes.Last().Id;
             _nodesCountCutOff = _sut.ShellVm.ReadModel.Nodes.Count;
             _fibersCountCutOff = _sut.ShellVm.ReadModel.Fibers.Count;
