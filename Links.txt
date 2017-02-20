@@ -13,10 +13,6 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
 
 	нет
 
-1а. Из xaml решарпер не предлагает вынести константы - надо руками, есть ли способ автоматизировать?
-
-нашли
-
 2. Тестирование результатов работы формы, вызванной из формы -
 	из NodeUpdateViewModel вызываются AddEquipment and UpdateEquipment -
 	результат их работы применяется до закрытия материнской формы
