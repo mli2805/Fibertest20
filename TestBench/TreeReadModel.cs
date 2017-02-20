@@ -13,9 +13,9 @@ namespace Iit.Fibertest.TestBench
         #region Rtu
         public void Apply(RtuAtGpsLocationAdded e)
         {
-            var leaf = new Leaf()
+            var leaf = new RtuLeaf()
             {
-                Id = e.Id, LeafType = LeafType.Rtu, Title = Resources.SID_noname_RTU, Color = Brushes.DarkGray,
+                Id = e.Id, Title = Resources.SID_noname_RTU, Color = Brushes.DarkGray,
 
             };
             Tree.Add(leaf);
@@ -36,9 +36,9 @@ namespace Iit.Fibertest.TestBench
         #region Trace
         public void Apply(TraceAdded e)
         {
-            var trace = new Leaf()
+            var trace = new TraceLeaf()
             {
-                Id = e.Id, LeafType = LeafType.Trace, Title = e.Title, TraceState = FiberState.NotJoined, Color = Brushes.Blue,
+                Id = e.Id, Title = e.Title, TraceState = FiberState.NotJoined, Color = Brushes.Blue,
             };
             var rtu = Tree.GetById(e.RtuId);
             rtu.Children.Add(trace);
@@ -47,7 +47,9 @@ namespace Iit.Fibertest.TestBench
 
         public void Apply(TraceAttached e)
         {
-            var trace = Tree.GetById(e.TraceId);
+            TraceLeaf trace = Tree.GetById(e.TraceId) as TraceLeaf;
+            if (trace == null)
+                return;
             trace.Title = string.Format(Resources.SID_port_trace, e.Port, trace.Title);
             trace.Color = Brushes.Black;
             trace.PortNumber = e.Port;

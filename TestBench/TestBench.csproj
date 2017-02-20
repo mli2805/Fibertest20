@@ -230,6 +230,8 @@
     <Compile Include="Vms\Graph\RtuVm.cs" />
     <Compile Include="Vms\Graph\TraceVm.cs" />
     <Compile Include="Vms\Tree\MenuItemVm.cs" />
+    <Compile Include="Vms\Tree\RtuLeaf.cs" />
+    <Compile Include="Vms\Tree\TraceLeaf.cs" />
     <Compile Include="Vms\Tree\TreeExtensions.cs" />
     <Page Include="GpsInputControl\GpsInputView.xaml">
       <SubType>Designer</SubType>

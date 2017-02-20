@@ -133,6 +133,15 @@ namespace Iit.Fibertest.TestBench.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Attach from list.
+        /// </summary>
+        public static string SID_Attach_from_list {
+            get {
+                return ResourceManager.GetString("SID_Attach_from_list", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cable reserve to the left, m.
         /// </summary>
         public static string SID_Cable_reserve_to_the_left_m {
@@ -439,6 +448,15 @@ namespace Iit.Fibertest.TestBench.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Port N{0}.
+        /// </summary>
+        public static string SID_Port_N {
+            get {
+                return ResourceManager.GetString("SID_Port_N", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to port:{0} - {1}.
         /// </summary>
         public static string SID_port_trace {
@@ -602,11 +620,29 @@ namespace Iit.Fibertest.TestBench.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        public static string SID_Settings {
+            get {
+                return ResourceManager.GetString("SID_Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Show RTU.
         /// </summary>
         public static string SID_Show_RTU {
             get {
                 return ResourceManager.GetString("SID_Show_RTU", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show trace.
+        /// </summary>
+        public static string SID_Show_trace {
+            get {
+                return ResourceManager.GetString("SID_Show_trace", resourceCulture);
             }
         }
         

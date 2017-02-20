@@ -18,27 +18,41 @@
             <Setter Property="ItemsSource" Value="{Binding Children}"/>
             <Setter Property="Command" Value="{Binding Command}" />
         </Style>
-        <HierarchicalDataTemplate x:Key="LeafTemplate" 
-                                  DataType="testBench:Leaf" ItemsSource="{Binding Children}">
-            <StackPanel Orientation="Horizontal">
-                <StackPanel.ContextMenu>
-                    <ContextMenu 
-                                ItemContainerStyle="{StaticResource ContextMenuItemStyle}" 
-                                ItemsSource="{Binding MyContextMenu}"/>
-                </StackPanel.ContextMenu>
-                <Image Source="{Binding MonitoringPictogram}" Height="12" Width="12" Margin="0,0,4,0"></Image>
-                <Image Source="{Binding BopPictogram}" Height="12" Width="12" Margin="0,0,4,0" Visibility="{Binding BopVisibility}"></Image>
-                <Image Source="{Binding MainChannelPictogram}" Height="12" Width="12" Margin="0,0,4,0" Visibility="{Binding MainChannelVisibility}"></Image>
-                <Image Source="{Binding ReserveChannelPictogram}" Height="12" Width="12" Margin="0,0,4,0" Visibility="{Binding ReserveChannelVisibility}"></Image>
-                <Image Source="{Binding TraceStatePictogram}" Height="12" Width="12" Margin="0,0,4,0" Visibility="{Binding TraceStateVisibility}"></Image>
-                <TextBlock Text="{Binding Title}" Foreground="{Binding Color}" Margin="0,0,20,0"/>
-            </StackPanel>
-        </HierarchicalDataTemplate>
     </UserControl.Resources>
     
     <Grid>
         <TreeView ItemsSource="{Binding TreeReadModel.Tree}" 
-                  ItemTemplate="{DynamicResource LeafTemplate}"
-                  Background="Transparent" Foreground="Black"/>
+                  Background="Transparent" Foreground="Black">
+            <TreeView.Resources>
+                <HierarchicalDataTemplate
+                                  DataType="{x:Type testBench:RtuLeaf}" ItemsSource="{Binding Children}">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel.ContextMenu>
+                            <ContextMenu 
+                                ItemContainerStyle="{StaticResource ContextMenuItemStyle}" 
+                                ItemsSource="{Binding MyContextMenu}"/>
+                        </StackPanel.ContextMenu>
+                        <Image Source="{Binding MonitoringPictogram}" Height="12" Width="12" Margin="0,0,4,0"></Image>
+                        <Image Source="{Binding BopPictogram}" Height="12" Width="12" Margin="0,0,4,0" Visibility="{Binding BopVisibility}"></Image>
+                        <Image Source="{Binding MainChannelPictogram}" Height="12" Width="12" Margin="0,0,4,0" Visibility="{Binding MainChannelVisibility}"></Image>
+                        <Image Source="{Binding ReserveChannelPictogram}" Height="12" Width="12" Margin="0,0,4,0" Visibility="{Binding ReserveChannelVisibility}"></Image>
+                        <TextBlock Text="{Binding Title}" Foreground="{Binding Color}" Margin="0,0,20,0"/>
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+                <HierarchicalDataTemplate
+                                  DataType="{x:Type testBench:TraceLeaf}" ItemsSource="{Binding Children}">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel.ContextMenu>
+                            <ContextMenu 
+                                ItemContainerStyle="{StaticResource ContextMenuItemStyle}" 
+                                ItemsSource="{Binding MyContextMenu}"/>
+                        </StackPanel.ContextMenu>
+                        <Image Source="{Binding MonitoringPictogram}" Height="12" Width="12" Margin="0,0,4,0"></Image>
+                        <Image Source="{Binding TraceStatePictogram}" Height="12" Width="12" Margin="0,0,4,0" Visibility="{Binding TraceStateVisibility}"></Image>
+                        <TextBlock Text="{Binding Title}" Foreground="{Binding Color}" Margin="0,0,20,0"/>
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+            </TreeView.Resources>
+        </TreeView>
     </Grid>
 </UserControl>

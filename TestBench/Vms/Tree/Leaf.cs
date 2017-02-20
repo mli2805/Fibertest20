@@ -2,18 +2,17 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
 using System.Windows.Media;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.TestBench.Properties;
 
 namespace Iit.Fibertest.TestBench
 {
     public class Leaf : PropertyChangedBase, ITreeViewItemModel
     {
-        private string _title;
+        public Guid Id { get; set; }
 
+        private string _title;
         public string Title
         {
             get { return _title; }
@@ -27,19 +26,6 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
-        public Leaf Parent { get; set; }
-        public ObservableCollection<Leaf> Children { get; set; } = new ObservableCollection<Leaf>();
-
-        public Guid Id { get; set; }
-        public LeafType LeafType { get; set; }
-        public int PortNumber { get; set; }
-
-        public MonitoringState MonitoringState { get; set; }
-        public RtuPartState BopState { get; set; }
-        public RtuPartState MainChannelState { get; set; }
-        public RtuPartState ReserveChannelState { get; set; }
-        public FiberState TraceState { get; set; }
-
         private Brush _color;
         public Brush Color
         {
@@ -52,40 +38,14 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
-        public ImageSource MonitoringPictogram => MonitoringState.GetPictogram();
-        public ImageSource BopPictogram => BopState.GetPictogram();
-        public ImageSource MainChannelPictogram => MainChannelState.GetPictogram();
-        public ImageSource ReserveChannelPictogram => ReserveChannelState.GetPictogram();
-        public ImageSource TraceStatePictogram => TraceState.GetPictogram();
-
-        public Visibility BopVisibility => LeafType == LeafType.Rtu ? Visibility.Visible : Visibility.Collapsed;
-        public Visibility MainChannelVisibility => LeafType == LeafType.Rtu ? Visibility.Visible : Visibility.Collapsed;
-        public Visibility ReserveChannelVisibility => LeafType == LeafType.Rtu ? Visibility.Visible : Visibility.Collapsed;
-        public Visibility TraceStateVisibility => LeafType == LeafType.Trace ? Visibility.Visible : Visibility.Collapsed;
-
         public  List<MenuItemVm> MyContextMenu => GetMenuItems();
 
-        public List<MenuItemVm> GetMenuItems()
-        {
-            var menu = new List<MenuItemVm>();
+        protected virtual List<MenuItemVm> GetMenuItems() { return null; }
 
-            var menuItem = new MenuItemVm() {Header = Resources.SID_Information };
-            var subItem = new MenuItemVm() { Header = Resources.SID_Trace, Command = new ContextMenuAction(SomeMenuItemAction, CanSomeAction), CommandParameter = this };
-            menuItem.Children.Add(subItem);
-            menu.Add(menuItem);
-            var menuItem2 = new MenuItemVm() { Header = Resources.SID_Show_RTU, Command = new ContextMenuAction(SomeMenuItemAction, CanSomeAction), CommandParameter = this };
-            menu.Add(menuItem2);
-            return menu;
-        }
-
-        private bool CanSomeAction(object param) { return true;}
-        private void SomeMenuItemAction(object param)
-        {
-            Console.WriteLine($@"owner is {Title}");
-        }
+        public Leaf Parent { get; set; }
+        public ObservableCollection<Leaf> Children { get; set; } = new ObservableCollection<Leaf>();
 
         #region implementation of ITreeViewItemModel
-
         public string SelectedValuePath => Title;
         public string DisplayValuePath => Title;
 
@@ -113,7 +73,6 @@ namespace Iit.Fibertest.TestBench
         {
             return Children;
         }
-
         #endregion
     }
 }
