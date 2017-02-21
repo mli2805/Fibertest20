@@ -5,7 +5,7 @@ using Caliburn.Micro;
 using GMap.NET;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
-using Iit.Fibertest.TestBench.Properties;
+using Iit.Fibertest.StringResources;
 using PrivateReflectionUsingDynamic;
 using Serilog;
 

@@ -20,6 +20,8 @@ namespace Iit.Fibertest.TestBench {
         {
             Thread.CurrentThread.CurrentCulture = new CultureInfo("ru-RU");
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("ru-RU");
+//            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+//            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
 
             var builder = new ContainerBuilder();
             builder.RegisterModule<AutofacEventSourcing>();

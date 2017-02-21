@@ -118,245 +118,269 @@
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
 	<data name="SID_CableReserve" xml:space="preserve">
-    <value>Запас кабеля</value>
+    <value>CableReserve</value>
   </data>
 	<data name="SID_Sleeve" xml:space="preserve">
-    <value>Муфта</value>
+    <value>Sleeve</value>
   </data>
 	<data name="SID_Cross" xml:space="preserve">
-    <value>Проключение</value>
-  </data>
-	<data name="SID_Other" xml:space="preserve">
-    <value>Другое</value>
+    <value>Cross</value>
   </data>
 	<data name="SID_Terminal" xml:space="preserve">
-    <value>Оконечный кросс</value>
+    <value>Terminal</value>
+  </data>
+	<data name="SID_Other" xml:space="preserve">
+    <value>Other</value>
   </data>
 	<data name="SID_Add_Equipment" xml:space="preserve">
-    <value>Добавить оборудование</value>
+    <value>Add Equipment</value>
   </data>
 	<data name="SID_Edit_Equipment" xml:space="preserve">
-    <value>Изменить оборудование</value>
+    <value>Edit Equipment</value>
   </data>
 	<data name="SID_Error" xml:space="preserve">
-    <value>Ошибка!</value>
+    <value>Error!</value>
   </data>
 	<data name="SID_Last_node_of_trace_must_contain_some_equipment" xml:space="preserve">
-    <value>Последний узел трассы должен содержать оборудование</value>
+    <value>Last node of trace must contain some equipment</value>
   </data>
 	<data name="SID_Path_couldn_t_be_found" xml:space="preserve">
-    <value>Путь не найден</value>
+    <value>Path couldn't be found</value>
   </data>
 	<data name="SID_Title_is_required" xml:space="preserve">
-    <value>Не задано название</value>
+    <value>Title is required</value>
   </data>
 	<data name="SID_There_is_a_node_with_the_same_title" xml:space="preserve">
-    <value>Существует узел с таким названием</value>
+    <value>There is a node with the same title</value>
   </data>
 	<data name="SID_There_s_such_a_fiber_already" xml:space="preserve">
-    <value>Такой отрезок уже существует</value>
+    <value>There's such a fiber already</value>
   </data>
 	<data name="SID_Information" xml:space="preserve">
-    <value>Информация</value>
+    <value>Information</value>
   </data>
 	<data name="SID_Show_RTU" xml:space="preserve">
-    <value>Показать RTU</value>
+    <value>Show RTU</value>
   </data>
 	<data name="SID_Accept_the_path" xml:space="preserve">
-    <value>Принять путь?</value>
+    <value>Accept the path?</value>
   </data>
 	<data name="SID_It_s_impossible_to_change_trace_with_base_reflectogram" xml:space="preserve">
-    <value>Нельзя изменять трассу с заданной базовой рефлектограммой</value>
+    <value>It's impossible to change trace with base reflectogram</value>
   </data>
 	<data name="SID_Fiber" xml:space="preserve">
-    <value>Отрезок</value>
+    <value>Section</value>
   </data>
 	<data name="SID_Length_should_be_a_number" xml:space="preserve">
-    <value>Длина должна быть числом</value>
+    <value>Length should be a number</value>
   </data>
 	<data name="SID_Degrees_is_required" xml:space="preserve">
-    <value>Градусы должны быть заполнены</value>
+    <value>Degrees is required</value>
   </data>
 	<data name="SID_Invalid_input" xml:space="preserve">
-    <value>Некорректный ввод</value>
+    <value>Invalid input</value>
   </data>
 	<data name="SID_Add_node" xml:space="preserve">
-    <value>Добавить узел</value>
+    <value>Add node</value>
   </data>
 	<data name="SID_Remove_section" xml:space="preserve">
-    <value>Удалить отрезок</value>
+    <value>Remove section</value>
   </data>
 	<data name="SID_Landmarks" xml:space="preserve">
-    <value>Ориентиры</value>
+    <value>Landmarks</value>
   </data>
 	<data name="SID_Remove_node" xml:space="preserve">
-    <value>Удалить узел</value>
+    <value>Remove node</value>
   </data>
 	<data name="SID_Section" xml:space="preserve">
-    <value>Отрезок</value>
+    <value>Section</value>
   </data>
 	<data name="SID_Section_with_nodes" xml:space="preserve">
-    <value>Отрезок с узлами</value>
+    <value>Section with nodes</value>
   </data>
 	<data name="SID_noname_RTU" xml:space="preserve">
-    <value>RTU без имени</value>
+    <value>noname RTU</value>
   </data>
 	<data name="SID_Select_equipment_for_trace" xml:space="preserve">
-    <value>Выберите оборудование для трассы</value>
+    <value>Select equipment for trace</value>
   </data>
 	<data name="SID_Do_not_use" xml:space="preserve">
-    <value>Не использовать</value>
+    <value>Do not use</value>
   </data>
 	<data name="SID_Select_equipment" xml:space="preserve">
-    <value>Выбор оборудования</value>
+    <value>Select equipment</value>
   </data>
 	<data name="SID_Quantity" xml:space="preserve">
-    <value>Количество</value>
+    <value>Quantity</value>
   </data>
 	<data name="SID_Type" xml:space="preserve">
-    <value>Тип</value>
+    <value>Type</value>
   </data>
 	<data name="SID_Well" xml:space="preserve">
-    <value>Колодец</value>
+    <value>Well</value>
   </data>
 	<data name="SID_Invisible" xml:space="preserve">
-    <value>Невидимый</value>
+    <value>Invisible</value>
   </data>
 	<data name="SID_There_is_a_rtu_with_the_same_title" xml:space="preserve">
-    <value>Существует RTU с таким именем</value>
+    <value>There is a rtu with the same title</value>
   </data>
 	<data name="SID_Select_traces_for_equipment" xml:space="preserve">
-    <value>Выберите трассы для оборудования</value>
+    <value>Select traces for equipment</value>
   </data>
 	<data name="SID_Select_traces_which_will_use" xml:space="preserve">
-    <value>Выберите трассы, которые будут использовать добавляемое оборудование.
-Если отмеченная трасса используют какое-либо оборудование в данном узле, оно будет заменено</value>
-    <comment>Shift+Enter чтобы вставить перенос строки</comment>
+    <value>Select traces which will use added equipment 
+If chosen trace use some equipment in this node it will be replaced</value>
+    <comment>Shift+Enter for CR/LF insertion</comment>
   </data>
 	<data name="SID_Question" xml:space="preserve">
-    <value>Вопрос!</value>
+    <value>Question!</value>
   </data>
 	<data name="SID_Trace" xml:space="preserve">
-    <value>Трасса</value>
+    <value>Trace</value>
   </data>
 	<data name="SID_Remove" xml:space="preserve">
-    <value>Удалить</value>
+    <value>Remove</value>
   </data>
 	<data name="SID_Define_trace" xml:space="preserve">
-    <value>Определить трассу</value>
+    <value>Define trace</value>
   </data>
 	<data name="SID_Map" xml:space="preserve">
-    <value>Карта</value>
+    <value>Map</value>
   </data>
 	<data name="SID_System_events" xml:space="preserve">
-    <value>Системные события</value>
+    <value>System events</value>
   </data>
 	<data name="SID_equipment_without_name" xml:space="preserve">
-    <value>{0} без имени</value>
+    <value>{0} without name</value>
   </data>
 	<data name="SID_Switch_ended_unexpectedly" xml:space="preserve">
-		<value>Неожиданно закончился свитч</value>
-	</data>
+    <value>Switch ended unexpectedly</value>
+  </data>
 	<data name="SID_RTU_Information" xml:space="preserve">
-		<value>RTU Информация</value>
-	</data>
+    <value>RTU Information</value>
+  </data>
 	<data name="SID_port_trace" xml:space="preserve">
-		<value>порт:{0} - {1}</value>
-	</data>
+    <value>port:{0} - {1}</value>
+  </data>
 	<data name="SID_coor_in_degrees" xml:space="preserve">
-		<value>{{Шир={0:#0.000000}, Дол={1:#0.000000}}}</value>
-	</data>
+    <value>{{Lat={0:#0.000000}, Lng={1:#0.000000}}}</value>
+  </data>
 	<data name="SID___ddd_dddddd" xml:space="preserve">
-		<value>+-ггг.гггггг</value>
-	</data>
+    <value>+-ddd.dddddd</value>
+  </data>
 	<data name="SID___ddd_mm_mmmm" xml:space="preserve">
-		<value>+-ггг мм.мммм</value>
-	</data>
+    <value>+-ddd mm.mmmm</value>
+  </data>
 	<data name="SID___ddd_mm_ss_ss" xml:space="preserve">
-		<value>+-ггг мм сс.сс</value>
-	</data>
+    <value>+-ddd mm ss.ss</value>
+  </data>
 	<data name="SID_Precise_base_ref" xml:space="preserve">
-		<value>Точная базовая</value>
-	</data>
+    <value>Precise base ref</value>
+  </data>
 	<data name="SID_Additional_base_ref" xml:space="preserve">
-		<value>Дополнительная базовая</value>
-	</data>
+    <value>Additional base ref</value>
+  </data>
 	<data name="SID_Cable_reserve_to_the_left_m" xml:space="preserve">
-		<value>Запас кабеля слева, м</value>
-	</data>
+    <value>Cable reserve to the left, m</value>
+  </data>
 	<data name="SID_Cable_reserve_to_the_right_m" xml:space="preserve">
-		<value>Запас кабеля справа, м</value>
-	</data>
+    <value>Cable reserve to the right, m</value>
+  </data>
 	<data name="SID_Cancel" xml:space="preserve">
-		<value>Отмена</value>
-	</data>
+    <value>Cancel</value>
+  </data>
 	<data name="SID_Comment" xml:space="preserve">
-		<value>Комментарий</value>
-	</data>
+    <value>Comment</value>
+  </data>
 	<data name="SID_Equipment_type" xml:space="preserve">
-		<value>Тип оборудования</value>
-	</data>
+    <value>Equipment type</value>
+  </data>
 	<data name="SID_Exit" xml:space="preserve">
-		<value>Выход</value>
-	</data>
+    <value>Exit</value>
+  </data>
 	<data name="SID_Fast_base_ref" xml:space="preserve">
-		<value>Быстрая базовая</value>
-	</data>
+    <value>Fast base ref</value>
+  </data>
 	<data name="SID_Gps_Length_m" xml:space="preserve">
-		<value>Длина по GPS, м</value>
-	</data>
+    <value>Gps Length, m</value>
+  </data>
 	<data name="SID_Nodes_of_section" xml:space="preserve">
-		<value>Узлы отрезка</value>
-	</data>
+    <value>Nodes of section</value>
+  </data>
 	<data name="SID_Save" xml:space="preserve">
-		<value>Сохранить</value>
-	</data>
+    <value>Save</value>
+  </data>
 	<data name="SID_Select" xml:space="preserve">
-		<value>Выбрать</value>
-	</data>
+    <value>Select</value>
+  </data>
 	<data name="SID_Select_and_setup_name" xml:space="preserve">
-		<value>Выбрать и задать имя</value>
-	</data>
+    <value>Select and setup name</value>
+  </data>
 	<data name="SID_Title" xml:space="preserve">
-		<value>Название</value>
-	</data>
+    <value>Title</value>
+  </data>
 	<data name="SID_User_Length_m" xml:space="preserve">
-		<value>Пользовательская длина, м</value>
-	</data>
+    <value>User Length, m</value>
+  </data>
 	<data name="SID_Node" xml:space="preserve">
-		<value>Узел</value>
-	</data>
+    <value>Node</value>
+  </data>
 	<data name="SID_Equipment_in_node" xml:space="preserve">
-		<value>Оборудование в узле</value>
-	</data>
+    <value>Equipment in node</value>
+  </data>
 	<data name="SID_Traces_in_node" xml:space="preserve">
-		<value>Трассы в узле</value>
-	</data>
+    <value>Traces in node</value>
+  </data>
 	<data name="SID_Preview" xml:space="preserve">
-		<value>Предпросмотр</value>
-	</data>
+    <value>Preview</value>
+  </data>
 	<data name="SID_Do_not_add_equipment" xml:space="preserve">
-		<value>Не добавлять оборудование</value>
-	</data>
+    <value>Don't add equipment</value>
+  </data>
 	<data name="SID_Optical_length_m" xml:space="preserve">
-		<value>Оптическая длина, м</value>
-	</data>
+    <value>Optical Length, m</value>
+  </data>
 	<data name="SID_Add" xml:space="preserve">
-		<value>Добавить</value>
-	</data>
+    <value>Add</value>
+  </data>
 	<data name="SID_Update" xml:space="preserve">
-		<value>Изменить</value>
-	</data>
+    <value>Update</value>
+  </data>
 	<data name="SID_Attach_from_list" xml:space="preserve">
-		<value>Присоединить из списка</value>
-	</data>
+    <value>Attach from list</value>
+  </data>
 	<data name="SID_Port_N" xml:space="preserve">
-		<value>Порт N{0}</value>
-	</data>
+    <value>Port N{0}</value>
+  </data>
 	<data name="SID_Show_trace" xml:space="preserve">
-		<value>Показать трассу</value>
-	</data>
+    <value>Show trace</value>
+  </data>
 	<data name="SID_Settings" xml:space="preserve">
-		<value>Настройки</value>
-	</data>
+    <value>Settings</value>
+  </data>
+	<data name="SID_Node_title_already_exists" xml:space="preserve">
+    <value>Node title already exists</value>
+  </data>
+	<data name="SID_It_s_prohibited_to_remove_last_node_from_trace" xml:space="preserve">
+    <value>It's prohibited to remove last node from trace</value>
+  </data>
+	<data name="SID_Fiber_already_exists" xml:space="preserve">
+    <value>Fiber already exists</value>
+  </data>
+	<data name="SID_Base_ref_is_set_for_trace" xml:space="preserve">
+    <value>Base ref is set for trace</value>
+  </data>
+	<data name="SID_RTU_is_not_found" xml:space="preserve">
+    <value>RTU is not found</value>
+  </data>
+	<data name="SID_Trace_should_start_from_RTU" xml:space="preserve">
+    <value>Trace should start from RTU</value>
+  </data>
+	<data name="SID_Equipments_count_in_trace_should_match_nodes_count" xml:space="preserve">
+    <value>Equipments count in trace should match nodes count</value>
+  </data>
+	<data name="SID_Last_node_of_trace_must_contain_equipment" xml:space="preserve">
+    <value>Last node of trace must contain equipment</value>
+  </data>
 </root>

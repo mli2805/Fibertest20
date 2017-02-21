@@ -3,6 +3,7 @@ using System.Linq;
 using AutoMapper;
 using Iit.Fibertest.Graph.Commands;
 using Iit.Fibertest.Graph.Events;
+using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Graph
 {
@@ -28,7 +29,7 @@ namespace Iit.Fibertest.Graph
         public string When(AddNodeIntoFiber cmd)
         {
             if (WriteModel.IsFiberContainedInAnyTraceWithBase(cmd.FiberId))
-                return "It's impossible to change trace with base reflectogram";
+                return Resources.SID_It_s_impossible_to_change_trace_with_base_reflectogram;
 
             WriteModel.AddAndCommit(_mapper.Map<NodeIntoFiberAdded>(cmd));
             return null;
@@ -39,7 +40,7 @@ namespace Iit.Fibertest.Graph
             // TODO: test when title doesn't change
             // TODO: test when title changes and then old title reused
             if (WriteModel.HasAnotherNodeWithTitle(cmd.Title, cmd.Id))
-                return "node title already exists";
+                return Resources.SID_Node_title_already_exists;
             WriteModel.AddAndCommit(_mapper.Map<NodeUpdated>(cmd));
             return null;
         }
@@ -53,9 +54,9 @@ namespace Iit.Fibertest.Graph
         public string When(RemoveNode cmd)
         {
             if (WriteModel.IsNodeLastForAnyTrace(cmd.Id))
-                return "It's prohibited to remove last node from trace";
+                return Resources.SID_It_s_prohibited_to_remove_last_node_from_trace;
             if (WriteModel.IsNodeContainedInAnyTraceWithBase(cmd.Id))
-                return "It's impossible to change trace with base reflectogram";
+                return Resources.SID_It_s_impossible_to_change_trace_with_base_reflectogram;
 
             WriteModel.AddAndCommit(_mapper.Map<NodeRemoved>(cmd));
             return null;
@@ -67,7 +68,7 @@ namespace Iit.Fibertest.Graph
         public string When(AddFiber cmd)
         {
             if (WriteModel.HasFiberBetween(cmd.Node1, cmd.Node2))
-                return "Fiber already exists";
+                return Resources.SID_Fiber_already_exists;
 
             WriteModel.AddAndCommit(_mapper.Map<FiberAdded>(cmd));
             return null;
@@ -76,7 +77,7 @@ namespace Iit.Fibertest.Graph
         public string When(AddFiberWithNodes cmd)
         {
             if (WriteModel.HasFiberBetween(cmd.Node1, cmd.Node2))
-                return "Fiber already exists";
+                return Resources.SID_Fiber_already_exists;
 
             if (cmd.AddNodes.Count > 0)
                 foreach (var cmdAddNode in cmd.AddNodes)
@@ -99,7 +100,7 @@ namespace Iit.Fibertest.Graph
         public string When(RemoveFiber cmd)
         {
             if (WriteModel.IsFiberContainedInAnyTraceWithBase(cmd.Id))
-                return "It's impossible to change trace with base reflectogram";
+                return Resources.SID_It_s_impossible_to_change_trace_with_base_reflectogram;
             WriteModel.AddAndCommit(_mapper.Map<FiberRemoved>(cmd));
             return null;
         }
@@ -113,7 +114,7 @@ namespace Iit.Fibertest.Graph
             {
                 var trace = WriteModel.GetTrace(traceId);
                 if (trace.HasBase)
-                    return "Base ref is set for trace";
+                    return Resources.SID_Base_ref_is_set_for_trace;
             }
             WriteModel.AddAndCommit(_mapper.Map<EquipmentIntoNodeAdded>(cmd));
 
@@ -166,13 +167,13 @@ namespace Iit.Fibertest.Graph
         {
             var rtu = WriteModel.GetRtu(cmd.RtuId);
             if (rtu == null)
-                return "RTU is not found";
+                return Resources.SID_RTU_is_not_found;
             if (cmd.Equipments[0] != cmd.RtuId)
-                return "Trace should start from RTU";
+                return Resources.SID_Trace_should_start_from_RTU;
             if (cmd.Nodes.Count != cmd.Equipments.Count)
-                return "Equipments count in trace should match nodes count";
+                return Resources.SID_Equipments_count_in_trace_should_match_nodes_count;
             if (cmd.Equipments.Last() == Guid.Empty)
-                return "Last node of trace must contain equipment";
+                return Resources.SID_Last_node_of_trace_must_contain_equipment;
 
             WriteModel.AddAndCommit(_mapper.Map<TraceAdded>(cmd));
             return null;

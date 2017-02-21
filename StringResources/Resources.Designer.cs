@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Iit.Fibertest.TestBench.Properties {
+namespace Iit.Fibertest.StringResources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Iit.Fibertest.TestBench.Properties {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Iit.Fibertest.TestBench.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Iit.Fibertest.StringResources.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -138,6 +138,24 @@ namespace Iit.Fibertest.TestBench.Properties {
         public static string SID_Attach_from_list {
             get {
                 return ResourceManager.GetString("SID_Attach_from_list", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Base ref is set for trace.
+        /// </summary>
+        public static string SID_Base_ref_is_set_for_trace {
+            get {
+                return ResourceManager.GetString("SID_Base_ref_is_set_for_trace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Break the file.
+        /// </summary>
+        public static string SID_Break_the_file {
+            get {
+                return ResourceManager.GetString("SID_Break_the_file", resourceCulture);
             }
         }
         
@@ -277,6 +295,15 @@ namespace Iit.Fibertest.TestBench.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Equipments count in trace should match nodes count.
+        /// </summary>
+        public static string SID_Equipments_count_in_trace_should_match_nodes_count {
+            get {
+                return ResourceManager.GetString("SID_Equipments_count_in_trace_should_match_nodes_count", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error!.
         /// </summary>
         public static string SID_Error {
@@ -309,6 +336,15 @@ namespace Iit.Fibertest.TestBench.Properties {
         public static string SID_Fiber {
             get {
                 return ResourceManager.GetString("SID_Fiber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fiber already exists.
+        /// </summary>
+        public static string SID_Fiber_already_exists {
+            get {
+                return ResourceManager.GetString("SID_Fiber_already_exists", resourceCulture);
             }
         }
         
@@ -358,11 +394,29 @@ namespace Iit.Fibertest.TestBench.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to It&apos;s prohibited to remove last node from trace.
+        /// </summary>
+        public static string SID_It_s_prohibited_to_remove_last_node_from_trace {
+            get {
+                return ResourceManager.GetString("SID_It_s_prohibited_to_remove_last_node_from_trace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Landmarks.
         /// </summary>
         public static string SID_Landmarks {
             get {
                 return ResourceManager.GetString("SID_Landmarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last node of trace must contain equipment.
+        /// </summary>
+        public static string SID_Last_node_of_trace_must_contain_equipment {
+            get {
+                return ResourceManager.GetString("SID_Last_node_of_trace_must_contain_equipment", resourceCulture);
             }
         }
         
@@ -399,6 +453,15 @@ namespace Iit.Fibertest.TestBench.Properties {
         public static string SID_Node {
             get {
                 return ResourceManager.GetString("SID_Node", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Node title already exists.
+        /// </summary>
+        public static string SID_Node_title_already_exists {
+            get {
+                return ResourceManager.GetString("SID_Node_title_already_exists", resourceCulture);
             }
         }
         
@@ -534,6 +597,15 @@ namespace Iit.Fibertest.TestBench.Properties {
         public static string SID_RTU_Information {
             get {
                 return ResourceManager.GetString("SID_RTU_Information", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RTU is not found.
+        /// </summary>
+        public static string SID_RTU_is_not_found {
+            get {
+                return ResourceManager.GetString("SID_RTU_is_not_found", resourceCulture);
             }
         }
         
@@ -733,6 +805,15 @@ namespace Iit.Fibertest.TestBench.Properties {
         public static string SID_Trace {
             get {
                 return ResourceManager.GetString("SID_Trace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trace should start from RTU.
+        /// </summary>
+        public static string SID_Trace_should_start_from_RTU {
+            get {
+                return ResourceManager.GetString("SID_Trace_should_start_from_RTU", resourceCulture);
             }
         }
         

@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:testBench="clr-namespace:Iit.Fibertest.TestBench"
-        xmlns:properties="clr-namespace:Iit.Fibertest.TestBench.Properties"
+        xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         Width="1000">
 
     <DockPanel>
@@ -11,14 +11,14 @@
                                   DataContext="{Binding MyLeftPanelViewModel}"/>
 
         <TabControl>
-            <TabItem Header="{x:Static properties:Resources.SID_System_events }">
+            <TabItem Header="{x:Static stringResources:Resources.SID_System_events }">
                 <StackPanel>
                     <Button Width="120" Height="25" Name="AddOneNode" Content="Add One Node" />
                     <Button Width="120" Height="25" Name="Populate" Content="Populate" />
                     <Button Width="120" Height="25" Name="AssignBase" Content="AssignBase" />
                 </StackPanel>
             </TabItem>
-            <TabItem Header="{x:Static properties:Resources.SID_Map }" IsSelected="True">
+            <TabItem Header="{x:Static stringResources:Resources.SID_Map }" IsSelected="True">
                 <testBench:MapUserControl DataContext="{Binding GraphVm}"/>
             </TabItem>
         </TabControl>

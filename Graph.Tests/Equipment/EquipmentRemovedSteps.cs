@@ -3,6 +3,7 @@ using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
+using Iit.Fibertest.StringResources;
 using Iit.Fibertest.TestBench;
 using TechTalk.SpecFlow;
 
@@ -43,7 +44,7 @@ namespace Graph.Tests
         [Given(@"Трасса проходит в узле но не использует данное оборудование")]
         public void GivenТрассаПроходитВУзлеНоНеИспользуетДанноеОборудование()
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.QuestionAnswer("Accept the path?", Answer.Yes, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.QuestionAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
             _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 1));
             _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
             _sut.FakeWindowManager.RegisterHandler(model => _sut.AddTraceViewHandler(model, @"some title", "", Answer.Yes));
@@ -56,7 +57,7 @@ namespace Graph.Tests
         [Given(@"Существует трасса c данным оборудованием в середине")]
         public void GivenСуществуетТрассаCДаннымОборудованиемВСередине()
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.QuestionAnswer("Accept the path?", Answer.Yes, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.QuestionAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
             _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
             _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
             _sut.FakeWindowManager.RegisterHandler(model => _sut.AddTraceViewHandler(model, @"some title", "", Answer.Yes));
@@ -69,7 +70,7 @@ namespace Graph.Tests
         [Given(@"Существует трасса c данным оборудованием в конце")]
         public void GivenСуществуетТрассаCДаннымОборудованиемВКонце()
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.QuestionAnswer("Accept the path?", Answer.Yes, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.QuestionAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
             _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
             _sut.FakeWindowManager.RegisterHandler(model => _sut.AddTraceViewHandler(model, @"some title", "", Answer.Yes));
 

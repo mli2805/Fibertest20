@@ -4,6 +4,7 @@ using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
+using Iit.Fibertest.StringResources;
 using Iit.Fibertest.TestBench;
 using TechTalk.SpecFlow;
 
@@ -60,7 +61,7 @@ namespace Graph.Tests
         [Given(@"Одна трасса заканчивается в данном узле")]
         public void GivenОднаТрассаЗаканчиваетсяВДанномУзле()
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.QuestionAnswer("Accept the path?", Answer.Yes, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.QuestionAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
             _sut.FakeWindowManager.RegisterHandler(
                 model => _sut.EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
             _sut.FakeWindowManager.RegisterHandler(
@@ -75,7 +76,7 @@ namespace Graph.Tests
         [Given(@"Одна трасса проходит через данный узел и использует оборудование")]
         public void GivenОднаТрассаПроходитЧерезДанныйУзелИИспользуетОборудование()
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.QuestionAnswer("Accept the path?", Answer.Yes, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.QuestionAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
             _sut.FakeWindowManager.RegisterHandler(
                 model => _sut.EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
             _sut.FakeWindowManager.RegisterHandler(
@@ -95,7 +96,7 @@ namespace Graph.Tests
         [Given(@"Одна трасса проходит через данный узел но не использует оборудование")]
         public void GivenОднаТрассаПроходитЧерезДанныйУзелНоНеИспользуетОборудование()
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.QuestionAnswer("Accept the path?", Answer.Yes, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.QuestionAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
             _sut.FakeWindowManager.RegisterHandler(
                 model => _sut.EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 1));
             _sut.FakeWindowManager.RegisterHandler(

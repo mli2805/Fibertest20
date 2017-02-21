@@ -4,28 +4,28 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:cal="http://www.caliburnproject.org"
-             xmlns:properties="clr-namespace:Iit.Fibertest.TestBench.Properties"
+             xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
              mc:Ignorable="d"
         cal:Bind.ModelWithoutContext="{Binding .}"
         Title="NodeUpdateView" SizeToContent="Height" Width="400" WindowStartupLocation="CenterScreen">
     <StackPanel Orientation="Vertical">
-        <GroupBox Margin="5" Header="{x:Static properties:Resources.SID_Node}">
+        <GroupBox Margin="5" Header="{x:Static stringResources:Resources.SID_Node}">
             <StackPanel>
                 <DockPanel>
-                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="{x:Static properties:Resources.SID_Title}" />
+                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="{x:Static stringResources:Resources.SID_Title}" />
                     <TextBox Margin="5" Text="{Binding Title, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 </DockPanel>
                 <DockPanel>
-                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="{x:Static properties:Resources.SID_Comment}" />
+                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="{x:Static stringResources:Resources.SID_Comment}" />
                     <TextBox Margin="5" Text="{Binding Comment}" />
                 </DockPanel>
             </StackPanel>
         </GroupBox>
-        <GroupBox Margin="5" Header="{x:Static properties:Resources.SID_Equipment_in_node}">
+        <GroupBox Margin="5" Header="{x:Static stringResources:Resources.SID_Equipment_in_node}">
             <ListBox Height="80" Margin="5" ItemsSource="{Binding EquipmentsInNode}" SelectedItem="{Binding SelectedEquipment}">
                 <ListBox.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="{x:Static properties:Resources.SID_Add}" cal:Message.Attach="AddEquipment"/>
+                        <MenuItem Header="{x:Static stringResources:Resources.SID_Add}" cal:Message.Attach="AddEquipment"/>
                     </ContextMenu>
                 </ListBox.ContextMenu>
                 <ListBox.ItemTemplate>
@@ -33,8 +33,8 @@
                         <Grid>
                             <Grid.ContextMenu>
                                 <ContextMenu>
-                                    <MenuItem Header="{x:Static properties:Resources.SID_Update}" cal:Message.Attach="UpdateEquipment"/>
-                                    <MenuItem Header="{x:Static properties:Resources.SID_Remove}" cal:Message.Attach="RemoveEquipment" IsEnabled="{Binding IsRemoveEnabled}"/>
+                                    <MenuItem Header="{x:Static stringResources:Resources.SID_Update}" cal:Message.Attach="UpdateEquipment"/>
+                                    <MenuItem Header="{x:Static stringResources:Resources.SID_Remove}" cal:Message.Attach="RemoveEquipment" IsEnabled="{Binding IsRemoveEnabled}"/>
                                 </ContextMenu>
                             </Grid.ContextMenu>
                             <Grid.ColumnDefinitions>
@@ -52,14 +52,14 @@
                 </ListBox.ItemTemplate>
             </ListBox>
         </GroupBox>
-        <GroupBox Margin="5" Header="{x:Static properties:Resources.SID_Traces_in_node}">
+        <GroupBox Margin="5" Header="{x:Static stringResources:Resources.SID_Traces_in_node}">
             <ListBox Height="80" Margin="5"
             ItemsSource="{Binding TracesInNode}">
             </ListBox>
         </GroupBox>
         <StackPanel Orientation="Horizontal" Margin="5,15">
-            <Button Name="Save" Height="25" Width="100" Margin="5" Content="{x:Static properties:Resources.SID_Save}" IsEnabled="{Binding IsButtonSaveEnabled}"/>
-            <Button Name="Cancel" Height="25" Width="100" Content="{x:Static properties:Resources.SID_Cancel}"/>
+            <Button Name="Save" Height="25" Width="100" Margin="5" Content="{x:Static stringResources:Resources.SID_Save}" IsEnabled="{Binding IsButtonSaveEnabled}"/>
+            <Button Name="Cancel" Height="25" Width="100" Content="{x:Static stringResources:Resources.SID_Cancel}"/>
         </StackPanel>
     </StackPanel>
 </Window>

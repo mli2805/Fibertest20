@@ -4,6 +4,7 @@ using System.Linq;
 using AutoMapper;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
+using Iit.Fibertest.StringResources;
 using Iit.Fibertest.TestBench.Properties;
 
 namespace Iit.Fibertest.TestBench

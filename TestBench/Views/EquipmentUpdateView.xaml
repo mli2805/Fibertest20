@@ -3,27 +3,27 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:properties="clr-namespace:Iit.Fibertest.TestBench.Properties"
+        xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
         Title="EquipmentUpdateView" SizeToContent="Height" Width="300" WindowStartupLocation="CenterScreen">
     <StackPanel>
-        <TextBlock Margin="5" Text="{x:Static properties:Resources.SID_Title}"/> 
+        <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_Title}"/> 
         <TextBox Margin="5" Text="{Binding Title}"/>
-        <TextBlock Margin="5" Text="{x:Static properties:Resources.SID_Equipment_type}"/>
+        <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_Equipment_type}"/>
         <RadioButton Margin="5" GroupName="equipment" IsChecked="{Binding CableReserve.IsChecked, Mode=TwoWay}" Content="{Binding CableReserve.Title}" />
         <RadioButton Margin="5" GroupName="equipment" IsChecked="{Binding Sleeve.IsChecked, Mode=TwoWay}" Content="{Binding Sleeve.Title}" />
         <RadioButton Margin="5" GroupName="equipment" IsChecked="{Binding Cross.IsChecked, Mode=TwoWay}" Content="{Binding Cross.Title}" />
         <RadioButton Margin="5" GroupName="equipment" IsChecked="{Binding Terminal.IsChecked, Mode=TwoWay}" Content="{Binding Terminal.Title}" />
         <RadioButton Margin="5" GroupName="equipment" IsChecked="{Binding Other.IsChecked, Mode=TwoWay}" Content="{Binding Other.Title}" />
-        <TextBlock Margin="5" Text="{x:Static properties:Resources.SID_Cable_reserve_to_the_left_m}"/>
+        <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_Cable_reserve_to_the_left_m}"/>
         <TextBox Margin="5" Text="{Binding CableReserveLeft}"/>
-        <TextBlock Margin="5" Text="{x:Static properties:Resources.SID_Cable_reserve_to_the_right_m}"/>
+        <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_Cable_reserve_to_the_right_m}"/>
         <TextBox Margin="5" Text="{Binding CableReserveRight}"/>
-        <TextBlock Margin="5" Text="{x:Static properties:Resources.SID_Comment}"/>
+        <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_Comment}"/>
         <TextBox Margin="5" Text="{Binding Comment}"/>
         <StackPanel Orientation="Horizontal" Margin="5,15">
-            <Button Name="Save" Height="25" Width="100" Margin="5" Content="{x:Static properties:Resources.SID_Save}"/>
-            <Button Name="Cancel" Height="25" Width="100" Content="{x:Static properties:Resources.SID_Cancel}" IsCancel="True"/>
+            <Button Name="Save" Height="25" Width="100" Margin="5" Content="{x:Static stringResources:Resources.SID_Save}"/>
+            <Button Name="Cancel" Height="25" Width="100" Content="{x:Static stringResources:Resources.SID_Cancel}" IsCancel="True"/>
         </StackPanel>
     </StackPanel>
 </Window>

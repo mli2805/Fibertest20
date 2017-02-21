@@ -368,6 +368,10 @@
       <Project>{a734876e-977b-4dda-b6a4-ad1dd525c6d1}</Project>
       <Name>Graph</Name>
     </ProjectReference>
+    <ProjectReference Include="..\StringResources\StringResources.csproj">
+      <Project>{0cb0ea37-4a27-45f0-bb01-4c0e064e8962}</Project>
+      <Name>StringResources</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TestBench\TestBench.csproj">
       <Project>{0a6dfc12-dc4a-4c44-923f-cee3dd6b3521}</Project>
       <Name>TestBench</Name>

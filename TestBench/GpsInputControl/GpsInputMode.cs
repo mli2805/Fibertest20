@@ -1,3 +1,4 @@
+using Iit.Fibertest.StringResources;
 using Iit.Fibertest.TestBench.Properties;
 
 namespace Iit.Fibertest.TestBench

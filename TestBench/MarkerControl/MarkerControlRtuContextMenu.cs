@@ -38,45 +38,45 @@ namespace Iit.Fibertest.TestBench
             ContextMenu = new ContextMenu();
             ContextMenu.Items.Add(new MenuItem()
             {
-                Header = Properties.Resources.SID_Information,
+                Header = StringResources.Resources.SID_Information,
                 Command = new ContextMenuAction(AskUpdateRtu, CanUpdateRtu),
                 CommandParameter = _marker.Id
             });
             ContextMenu.Items.Add(new MenuItem()
             {
-                Header = Properties.Resources.SID_Show_RTU,
+                Header = StringResources.Resources.SID_Show_RTU,
                 Command = new ContextMenuAction(AskShowRtu, CanShowRtu),
                 CommandParameter = _marker.Id
             });
             ContextMenu.Items.Add(new MenuItem()
             {
-                Header = Properties.Resources.SID_Landmarks,
+                Header = StringResources.Resources.SID_Landmarks,
                 Command = new ContextMenuAction(AskLandmarks, CanLandmarks),
                 CommandParameter = _marker.Id
             });
             ContextMenu.Items.Add(new MenuItem()
             {
-                Header = Properties.Resources.SID_Remove,
+                Header = StringResources.Resources.SID_Remove,
                 Command = new ContextMenuAction(AskRemoveRtu, CanRemoveRtu),
                 CommandParameter = _marker.Id
             });
             ContextMenu.Items.Add(new Separator());
             ContextMenu.Items.Add(new MenuItem()
             {
-                Header = Properties.Resources.SID_Section,
+                Header = StringResources.Resources.SID_Section,
                 Command = new ContextMenuAction(StartAddFiber, CanStartAddFiber),
                 CommandParameter = _marker.Id
             });
             ContextMenu.Items.Add(new MenuItem()
             {
-                Header = Properties.Resources.SID_Section_with_nodes,
+                Header = StringResources.Resources.SID_Section_with_nodes,
                 Command = new ContextMenuAction(StartAddFiberWithNodes, CanStartAddFiberWithNodes),
                 CommandParameter = _marker.Id
             });
             ContextMenu.Items.Add(new Separator());
             ContextMenu.Items.Add(new MenuItem()
             {
-                Header = Properties.Resources.SID_Define_trace,
+                Header = StringResources.Resources.SID_Define_trace,
                 Command = new ContextMenuAction(StartDefineTrace, CanStartDefineTrace),
                 CommandParameter = _marker.Id
             });
