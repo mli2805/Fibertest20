@@ -17,6 +17,8 @@ namespace Graph.Tests
         private const string TraceTitle = "Some trace";
         private const string TraceComment = "Comment for trace";
 
+        private int _traceCountCutOff;
+
         [Given(@"Предусловия выполнены")]
         public void GivenПредусловияВыполнены()
         {
@@ -27,6 +29,8 @@ namespace Graph.Tests
             _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
             _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
             _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
+
+            _traceCountCutOff = _sut.ReadModel.Traces.Count;
         }
 
         [When(@"Пользователь вводит название и коммент трассы и жмет Сохранить")]
@@ -41,7 +45,7 @@ namespace Graph.Tests
         [Then(@"Трасса сохраняется")]
         public void ThenТрассаСохраняется()
         {
-            var trace = _sut.ReadModel.Traces.Single();
+            var trace = _sut.ReadModel.Traces.Last();
             trace.Title.Should().Be(TraceTitle);
             trace.Comment.Should().Be(TraceComment);
         }
@@ -58,7 +62,7 @@ namespace Graph.Tests
         [Then(@"Трасса не сохраняется")]
         public void ThenТрассаНеСохраняется()
         {
-            _sut.ReadModel.Traces.Count.Should().Be(0);
+            _sut.ReadModel.Traces.Count.Should().Be(_traceCountCutOff);
         }
     }
 }

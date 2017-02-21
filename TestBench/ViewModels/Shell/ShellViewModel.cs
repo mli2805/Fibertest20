@@ -1,8 +1,7 @@
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Caliburn.Micro;
-using GMap.NET;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
 using Iit.Fibertest.StringResources;
@@ -32,82 +31,86 @@ namespace Iit.Fibertest.TestBench
             Log = clientLogger;
             Log.Information(@"Client started!");
 
+            PopulateWithTraceWithBase(bus);
+        }
+
+        private void PopulateWithTraceWithBase(Bus bus)
+        {
+            var rtuNodeId = Guid.NewGuid();
+            var rtuId = Guid.NewGuid();
             Bus.SendCommand(new AddRtuAtGpsLocation()
             {
-                Id = Guid.NewGuid(),
-                NodeId = Guid.NewGuid(),
+                Id = rtuId,
+                NodeId = rtuNodeId,
                 Latitude = 52.429333,
                 Longitude = 31.006683
             });
-        }
 
-        public void AddOneNode()
-        {
-            var rtu = new NodeVm()
+            Bus.SendCommand(new UpdateRtu()
             {
-                Id = Guid.NewGuid(),
-                Title = "РТУ в Гомеле",
-                State = FiberState.Ok,
-                Type = EquipmentType.Rtu,
-                Position = new PointLatLng(52.429333, 31.006683)
-            };
-            GraphVm.Nodes.Add(rtu);
-        }
-
-        public void Populate()
-        {
-            var rtu = new NodeVm()
-            {
-                Id = Guid.NewGuid(),
-                Title = "first rtu",
-                State = FiberState.Ok,
-                Type = EquipmentType.Rtu,
-                Position = new PointLatLng(55.088345, 25.019362)
-            };
-            GraphVm.Nodes.Add(rtu);
-            var vertSleeve = new NodeVm()
-            {
-                Id = Guid.NewGuid(),
-                Title = "vert sleeve",
-                State = FiberState.Critical,
-                Type = EquipmentType.Sleeve,
-                Position = new PointLatLng(52.301848, 27.018362)
-            };
-            GraphVm.Nodes.Add(vertSleeve);
-            var horizSleeve = new NodeVm()
-            {
-                Id = Guid.NewGuid(),
-                Title = "horiz sleeve",
-                State = FiberState.Ok,
-                Type = EquipmentType.Sleeve,
-                Position = new PointLatLng(53.287345, 31.016841)
-            };
-            GraphVm.Nodes.Add(horizSleeve);
-
-            GraphVm.Fibers.Add(new FiberVm()
-            {
-                Id = Guid.NewGuid(),
-                Node1 = rtu,
-                Node2 = vertSleeve,
-                State = FiberState.Critical
+                Id = rtuId,
+                Title = @"Grushauka 203",
             });
-            GraphVm.Fibers.Add(new FiberVm()
+
+            var middleNodeId = Guid.NewGuid();
+            Bus.SendCommand(new AddNode()
+            {
+                Id = middleNodeId,
+                Latitude = 52.329333,
+                Longitude = 30.906683
+            });
+
+            bus.SendCommand(new AddFiber()
             {
                 Id = Guid.NewGuid(),
-                Node1 = rtu,
-                Node2 = horizSleeve,
-                State = FiberState.Ok
+                Node1 = rtuNodeId,
+                Node2 = middleNodeId
             });
-        }
 
-        public void AssignBase()
-        {
-            var traceVm = GraphVm.Traces.First();
-            var vm = new BaseRefsAssignViewModel(traceVm, GraphVm.Rtus.First(r=>r.Id == traceVm.RtuId));
-            _windowManager.ShowDialog(vm);
+            var lastNodeId = Guid.NewGuid();
+            var terminalId = Guid.NewGuid();
+            Bus.SendCommand(new AddEquipmentAtGpsLocation()
+            {
+                Id = terminalId,
+                NodeId = lastNodeId,
+                Type = EquipmentType.Terminal,
+                Latitude = 52.229333,
+                Longitude = 30.806683
+            });
 
-            if (vm.Command != null)
-                Bus.SendCommand(vm.Command).Wait();
+            bus.SendCommand(new AddFiber()
+            {
+                Id = Guid.NewGuid(),
+                Node1 = middleNodeId,
+                Node2 = lastNodeId
+            });
+
+            var traceId = Guid.NewGuid();
+            bus.SendCommand(new AddTrace()
+            {
+                Id = traceId,
+                RtuId = rtuId,
+                Nodes = new List<Guid>() {rtuNodeId, middleNodeId, lastNodeId},
+                Equipments = new List<Guid>() {rtuId, Guid.Empty, terminalId},
+                Title = @"Trace from Grushauka to Kolodzishschi",
+                Comment = @"Trace was built from code",
+            });
+
+            var ids = new Dictionary<BaseRefType, Guid>();
+            var preciseId = Guid.NewGuid();
+            ids.Add(BaseRefType.Precise, preciseId);
+            var fastId = Guid.NewGuid();
+            ids.Add(BaseRefType.Fast, fastId);
+
+            var contents = new Dictionary<Guid, byte[]>();
+            contents.Add(preciseId, new byte[10000]);
+            contents.Add(fastId, new byte[10000]);
+            bus.SendCommand(new AssignBaseRef()
+            {
+                TraceId = traceId,
+                Ids = ids,
+                Contents = contents,
+            });
         }
 
 

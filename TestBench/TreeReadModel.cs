@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Media;
+using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Events;
 using Iit.Fibertest.StringResources;
@@ -8,7 +9,13 @@ namespace Iit.Fibertest.TestBench
 {
     public class TreeReadModel
     {
+        private readonly IWindowManager _windowManager;
         public ObservableCollection<Leaf> Tree { get; set; } = new ObservableCollection<Leaf>();
+
+        public TreeReadModel(IWindowManager windowManager)
+        {
+            _windowManager = windowManager;
+        }
 
         #region Rtu
         public void Apply(RtuAtGpsLocationAdded e)
@@ -36,7 +43,7 @@ namespace Iit.Fibertest.TestBench
         #region Trace
         public void Apply(TraceAdded e)
         {
-            var trace = new TraceLeaf()
+            var trace = new TraceLeaf(_windowManager)
             {
                 Id = e.Id, Title = e.Title, TraceState = FiberState.NotJoined, Color = Brushes.Blue,
             };

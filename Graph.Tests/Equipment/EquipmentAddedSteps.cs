@@ -197,7 +197,9 @@ namespace Graph.Tests
         [Then(@"Новое оборудование входит во все трассы а старое ни в одну")]
         public void ThenНовоеОборудованиеВходитВоВсеТрассыАСтароеНиВОдну()
         {
-            _sut.ReadModel.Traces.All(t => t.Equipments.Contains(_equipmentId)).Should().BeTrue();
+            _sut.ReadModel.Traces.First(t => t.Id == _shortTraceId).Equipments.Contains(_equipmentId).Should().BeTrue();
+            _sut.ReadModel.Traces.First(t => t.Id == _traceWithEqId).Equipments.Contains(_equipmentId).Should().BeTrue();
+            _sut.ReadModel.Traces.First(t => t.Id == _traceWithoutEqId).Equipments.Contains(_equipmentId).Should().BeTrue();
             _sut.ReadModel.Traces.Any(t => t.Equipments.Contains(_oldEquipmentId)).Should().BeFalse();
         }
 

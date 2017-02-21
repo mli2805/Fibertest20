@@ -72,7 +72,7 @@ namespace Graph.Tests
         [Then(@"Оборудование в узле не создается")]
         public void ThenОборудованиеВУзлеНеСоздается()
         {
-            _sut.ReadModel.Equipments.Count.Should().Be(0);
+            _sut.ReadModel.Equipments.FirstOrDefault(e => e.NodeId == _nodeId).Should().BeNull();
         }
 
         [Then(@"Создается еще одно оборудование в том же узле")]

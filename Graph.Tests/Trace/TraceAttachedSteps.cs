@@ -25,7 +25,6 @@ namespace Graph.Tests
         public void WhenПользовательПрисоедининяетТрассуКПортуРту()
         {
             _portNumber = 3;
-            _traceId = _sut.ReadModel.Traces.Single().Id;
             var cmd = new AttachTrace()
             {
                 Port = _portNumber,
@@ -38,7 +37,7 @@ namespace Graph.Tests
         [Then(@"Трасса присоединяется к порту РТУ")]
         public void ThenТрассаПрисоединяетсяКПортуРту()
         {
-            _sut.ReadModel.Traces.Single(t => t.Id == _traceId).Port.Should().Be(_portNumber);
+            _sut.ReadModel.Traces.First(t => t.Id == _traceId).Port.Should().Be(_portNumber);
         }
 
     }

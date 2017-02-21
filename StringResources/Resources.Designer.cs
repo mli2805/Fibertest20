@@ -151,11 +151,11 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Break the file.
+        ///   Looks up a localized string similar to Base refs assignment.
         /// </summary>
-        public static string SID_Break_the_file {
+        public static string SID_Base_refs_assignment {
             get {
-                return ResourceManager.GetString("SID_Break_the_file", resourceCulture);
+                return ResourceManager.GetString("SID_Base_refs_assignment", resourceCulture);
             }
         }
         

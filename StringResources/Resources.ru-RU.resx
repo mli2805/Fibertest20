@@ -383,4 +383,7 @@
 	<data name="SID_Last_node_of_trace_must_contain_equipment" xml:space="preserve">
 		<value>Последний узел трассы должен содержать оборудование</value>
 	</data>
+	<data name="SID_Base_refs_assignment" xml:space="preserve">
+		<value>Задать базовые</value>
+	</data>
 </root>
