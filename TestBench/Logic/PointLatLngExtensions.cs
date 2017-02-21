@@ -1,7 +1,6 @@
 ﻿using System.Globalization;
 using GMap.NET;
 using Iit.Fibertest.StringResources;
-using Iit.Fibertest.TestBench.Properties;
 
 namespace Iit.Fibertest.TestBench
 {

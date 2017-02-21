@@ -33,9 +33,9 @@
                                 ItemsSource="{Binding MyContextMenu}"/>
                         </StackPanel.ContextMenu>
                         <Image Source="{Binding MonitoringPictogram}" Height="12" Width="12" Margin="0,0,4,0"></Image>
-                        <Image Source="{Binding BopPictogram}" Height="12" Width="12" Margin="0,0,4,0" Visibility="{Binding BopVisibility}"></Image>
-                        <Image Source="{Binding MainChannelPictogram}" Height="12" Width="12" Margin="0,0,4,0" Visibility="{Binding MainChannelVisibility}"></Image>
-                        <Image Source="{Binding ReserveChannelPictogram}" Height="12" Width="12" Margin="0,0,4,0" Visibility="{Binding ReserveChannelVisibility}"></Image>
+                        <Image Source="{Binding BopPictogram}" Height="12" Width="12" Margin="0,0,4,0"></Image>
+                        <Image Source="{Binding MainChannelPictogram}" Height="12" Width="12" Margin="0,0,4,0"></Image>
+                        <Image Source="{Binding ReserveChannelPictogram}" Height="12" Width="12" Margin="0,0,4,0"></Image>
                         <TextBlock Text="{Binding Title}" Foreground="{Binding Color}" Margin="0,0,20,0"/>
                     </StackPanel>
                 </HierarchicalDataTemplate>
@@ -48,7 +48,7 @@
                                 ItemsSource="{Binding MyContextMenu}"/>
                         </StackPanel.ContextMenu>
                         <Image Source="{Binding MonitoringPictogram}" Height="12" Width="12" Margin="0,0,4,0"></Image>
-                        <Image Source="{Binding TraceStatePictogram}" Height="12" Width="12" Margin="0,0,4,0" Visibility="{Binding TraceStateVisibility}"></Image>
+                        <Image Source="{Binding TraceStatePictogram}" Height="12" Width="12" Margin="0,0,4,0"></Image>
                         <TextBlock Text="{Binding Title}" Foreground="{Binding Color}" Margin="0,0,20,0"/>
                     </StackPanel>
                 </HierarchicalDataTemplate>

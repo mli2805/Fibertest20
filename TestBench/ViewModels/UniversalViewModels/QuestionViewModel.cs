@@ -2,7 +2,6 @@
 using System.Diagnostics.CodeAnalysis;
 using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
-using Iit.Fibertest.TestBench.Properties;
 
 namespace Iit.Fibertest.TestBench
 {

@@ -3,7 +3,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
-using Iit.Fibertest.TestBench.Properties;
 
 namespace Iit.Fibertest.TestBench
 {

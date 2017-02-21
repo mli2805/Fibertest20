@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Windows.Media;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
-using Iit.Fibertest.TestBench.Properties;
 
 namespace Iit.Fibertest.TestBench
 {
