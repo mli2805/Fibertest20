@@ -124,7 +124,7 @@ namespace Graph.Tests
             Poller.Tick();
         }
 
-        public void CreateFieldForPathFinderTest(out Guid startId, out Guid finishId)
+        public void CreateFieldForPathFinderTest(out Guid startId, out Guid finishId, out Guid wrongNodeId, out Guid wrongNodeWithEqId)
         {
             ShellVm.ComplyWithRequest(new AddRtuAtGpsLocation() {Latitude = 55, Longitude = 30}).Wait();
             Poller.Tick();
@@ -136,8 +136,11 @@ namespace Graph.Tests
             ReadModel.Nodes.Add(b1);
             var b2 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid()};
             ReadModel.Nodes.Add(b2);
+
             var c0 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid()};
             ReadModel.Nodes.Add(c0);
+            wrongNodeId = c0.Id;
+
             var c1 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid()};
             ReadModel.Nodes.Add(c1);
             var c2 = new Iit.Fibertest.Graph.Node() { Id = Guid.NewGuid()};
@@ -167,9 +170,7 @@ namespace Graph.Tests
 
             ReadModel.Equipments.Add(new Iit.Fibertest.Graph.Equipment() { Id = Guid.NewGuid(), NodeId = c2.Id, Type = EquipmentType.Sleeve });
             ReadModel.Equipments.Add(new Iit.Fibertest.Graph.Equipment() { Id = Guid.NewGuid(), NodeId = c2.Id, Type = EquipmentType.Cross });
-
             ReadModel.Equipments.Add(new Iit.Fibertest.Graph.Equipment() { Id = Guid.NewGuid(), NodeId = d2.Id, Type = EquipmentType.Sleeve });
-
 
             ReadModel.Fibers.Add(new Iit.Fibertest.Graph.Fiber() { Id = new Guid(), Node1 = startId, Node2 = b0.Id });
             ReadModel.Fibers.Add(new Iit.Fibertest.Graph.Fiber() { Id = new Guid(), Node1 = startId, Node2 = b1.Id });
@@ -190,6 +191,8 @@ namespace Graph.Tests
             ReadModel.Fibers.Add(new Iit.Fibertest.Graph.Fiber() { Id = new Guid(), Node1 = e2.Id, Node2 = nn.Id });
 
             ReadModel.Fibers.Add(new Iit.Fibertest.Graph.Fiber() { Id = new Guid(), Node1 = zz.Id, Node2 = z2.Id });
+            ReadModel.Equipments.Add(new Iit.Fibertest.Graph.Equipment() { Id = Guid.NewGuid(), NodeId = z2.Id, Type = EquipmentType.Other });
+            wrongNodeWithEqId = z2.Id;
         }
 
         public bool QuestionAnswer(string question, Answer answer, object model)

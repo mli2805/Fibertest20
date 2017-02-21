@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using FluentAssertions;
+using Iit.Fibertest.StringResources;
 using Iit.Fibertest.TestBench;
 using TechTalk.SpecFlow;
 
@@ -12,18 +13,21 @@ namespace Graph.Tests
         private readonly SystemUnderTest _sut = new SystemUnderTest();
         private Guid _rtuNodeId;
         private Guid _lastNodeId;
+        private Guid _wrongNodeId, _wrongNodeWithEqId;
+
+        private int _traceCountCutOff;
 
         [Given(@"Существуют РТУ оборудование узлы и отрезки между ними")]
         public void GivenСуществуютРтуУзлыИОтрезкиМеждуНими()
         {
-            _sut.CreateFieldForPathFinderTest(out _rtuNodeId, out _lastNodeId);
+            _sut.CreateFieldForPathFinderTest(out _rtuNodeId, out _lastNodeId, out _wrongNodeId, out _wrongNodeWithEqId);
         }
 
         [Given(@"И кликнул определить трассу на узле где нет оборудования")]
         public void GivenИКликнулОпределитьТрассуНаУзлеГдеНетОборудования()
         {
-            _lastNodeId = _sut.ReadModel.Nodes[5].Id;
-            _sut.ShellVm.ComplyWithRequest(new RequestAddTrace() {LastNodeId = _lastNodeId, NodeWithRtuId = _rtuNodeId})
+            
+            _sut.ShellVm.ComplyWithRequest(new RequestAddTrace() {LastNodeId = _wrongNodeId, NodeWithRtuId = _rtuNodeId})
                 .Wait();
         }
 
@@ -36,8 +40,8 @@ namespace Graph.Tests
         [Given(@"Но пользователь выбрал узел где есть оборудование и кликнул определить трассу")]
         public void GivenНоПользовательВыбралУзелГдеЕстьОборудованиеИКликнулОпределитьТрассу()
         {
-            _sut.ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = _lastNodeId, NodeWithRtuId = _rtuNodeId })
-                .Wait();
+            _sut.ShellVm.ComplyWithRequest(
+                new RequestAddTrace() { LastNodeId = _wrongNodeWithEqId, NodeWithRtuId = _rtuNodeId }).Wait();
         }
 
         [Given(@"Хотя кликнул определить трассу на узле с оборудованием и путь между узлами существует")]
@@ -47,26 +51,37 @@ namespace Graph.Tests
                 .Wait();
         }
 
-        [Then(@"Сообщение (.*)")]
-        public void ThenСообщение(string message)
+        [Then(@"Выскакивает сообщение о необходимости оборудования в последнем узле")]
+        public void ThenВыскакиваетСообщениеОНеобходимостиОборудованияВПоследнемУзле()
         {
             _sut.FakeWindowManager.Log
                 .OfType<NotificationViewModel>()
                 .Last()
                 .Message
-                .Should().Be(message);
+                .Should().Be(Resources.SID_Last_node_of_trace_must_contain_some_equipment);
+        }
+
+        [Then(@"Выскакивает сообщение о невозможности проложить путь")]
+        public void ThenВыскакиваетСообщениеОНевозможностиПроложитьПуть()
+        {
+            _sut.FakeWindowManager.Log
+                .OfType<NotificationViewModel>()
+                .Last()
+                .Message
+                .Should().Be(Resources.SID_Path_couldn_t_be_found);
         }
 
         [Given(@"На вопрос: ""(.*)"" пользователь ответил: ""(.*)""")]
         public void DefineQuestionAnswer(string question, Answer answer)
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.QuestionAnswer(question, answer, model));
+            _traceCountCutOff = _sut.ShellVm.ReadModel.Traces.Count;
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.QuestionAnswer(Resources.SID_Accept_the_path, answer, model));
         }
 
         [Then(@"Новая трасса не сохраняется")]
         public void ThenТрассаНеСохраняется()
         {
-            _sut.ReadModel.Traces.Count.Should().Be(0);
+            _sut.ReadModel.Traces.Count.Should().Be(_traceCountCutOff);
         }
 
     }

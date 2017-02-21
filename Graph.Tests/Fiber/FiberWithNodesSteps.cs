@@ -3,6 +3,7 @@ using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
+using Iit.Fibertest.StringResources;
 using Iit.Fibertest.TestBench;
 using TechTalk.SpecFlow;
 
@@ -72,15 +73,16 @@ namespace Graph.Tests
         }
 
 
-        [Then(@"Выдается сообщение (.*)")]
-        public void ThenВыдаетсяСообщение(string message)
+        [Then(@"Появляется сАобщение о существовании такого отрезка")]
+        public void ThenПоявляетсяСАобщениеОСуществованииТакогоОтрезка()
         {
             _sut.FakeWindowManager.Log
                 .OfType<NotificationViewModel>()
                 .Last()
                 .Message
-                .Should().Be(message);
+                .Should().Be(Resources.SID_There_s_such_a_fiber_already);
         }
+
 
         [Then(@"Новый отрезок не сохраняется")]
         public void ThenНовыйОтрезокНеСохраняется()

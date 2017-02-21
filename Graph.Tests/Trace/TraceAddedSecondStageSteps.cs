@@ -20,7 +20,8 @@ namespace Graph.Tests
         [Given(@"После того как принял предложенный маршрут трассы")]
         public void GivenХотяПринялПредложенныйМаршрутТрассы()
         {
-            _sut.CreateFieldForPathFinderTest(out _rtuNodeId, out _lastNodeId);
+            Guid wrongNodeId, wrongNodeWithEqId;
+            _sut.CreateFieldForPathFinderTest(out _rtuNodeId, out _lastNodeId, out wrongNodeId, out wrongNodeWithEqId);
             new PathFinder(_sut.ReadModel).FindPath(_rtuNodeId, _lastNodeId, out _nodes);
 
             _equipments = MapTraceDefine.CollectEquipmentForTrace(_sut.FakeWindowManager, _nodes, _sut.ReadModel);

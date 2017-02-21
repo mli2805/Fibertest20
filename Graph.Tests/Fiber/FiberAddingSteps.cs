@@ -2,6 +2,7 @@
 using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Graph.Commands;
+using Iit.Fibertest.StringResources;
 using Iit.Fibertest.TestBench;
 using TechTalk.SpecFlow;
 
@@ -50,16 +51,15 @@ namespace Graph.Tests
                                              f.Node2 == _leftNodeId && f.Node1 == _rightNodeId).Should().NotBeNull();
         }
 
-        [Then(@"Появляется сообщение (.*)")]
-        public void ThenВыдаетсяСообщение(string message)
+        [Then(@"Появится сообщение что есть такое волокно")]
+        public void ThenПоявитсяСообщениеЧтоЕстьТакоеВолокно()
         {
             _sut.FakeWindowManager.Log
                 .OfType<NotificationViewModel>()
                 .Last()
                 .Message
-                .Should().Be(message);
+                .Should().Be(Resources.SID_There_s_such_a_fiber_already);
         }
-
 
         [Then(@"Новый отрезок не создается")]
         public void ThenНовыйОтрезокНеСоздается()

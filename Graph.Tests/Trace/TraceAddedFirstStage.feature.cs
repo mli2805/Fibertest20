@@ -92,7 +92,7 @@ this.FeatureBackground();
 #line 7
  testRunner.Given("И кликнул определить трассу на узле где нет оборудования", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 8
- testRunner.Then("Сообщение Last node of trace must contain some equipment", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("Выскакивает сообщение о необходимости оборудования в последнем узле", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -112,7 +112,7 @@ this.FeatureBackground();
 #line 12
  testRunner.Given("Но пользователь выбрал узел где есть оборудование и кликнул определить трассу", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 13
- testRunner.Then("Сообщение Path couldn\'t be found", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("Выскакивает сообщение о невозможности проложить путь", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

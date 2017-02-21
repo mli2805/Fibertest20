@@ -380,9 +380,6 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_Equipments_count_in_trace_should_match_nodes_count" xml:space="preserve">
     <value>Equipments count in trace should match nodes count</value>
   </data>
-	<data name="SID_Last_node_of_trace_must_contain_equipment" xml:space="preserve">
-    <value>Last node of trace must contain equipment</value>
-  </data>
 	<data name="SID_Base_refs_assignment" xml:space="preserve">
     <value>Base refs assignment</value>
   </data>

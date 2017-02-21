@@ -112,7 +112,7 @@ this.FeatureBackground();
 #line 12
  testRunner.When("Пользователь кликает добавить отрезок", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 13
- testRunner.Then("Появляется сообщение Уже есть такое волокно", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("Появится сообщение что есть такое волокно", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 14
  testRunner.Then("Новый отрезок не создается", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
