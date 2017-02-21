@@ -9,7 +9,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class TraceAddedFirstStageSteps
     {
-        private readonly SystemUnderTest2 _sut = new SystemUnderTest2();
+        private readonly SystemUnderTest _sut = new SystemUnderTest();
         private Guid _rtuNodeId;
         private Guid _lastNodeId;
 

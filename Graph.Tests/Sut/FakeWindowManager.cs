@@ -49,8 +49,8 @@ namespace Graph.Tests
             {
                 var vm = model as BaseRefsAssignViewModel;
                 if (vm == null) return false;
-                vm.PreciseBaseFilename = SystemUnderTest2.Path;
-                vm.FastBaseFilename = SystemUnderTest2.Path;
+                vm.PreciseBaseFilename = SystemUnderTest.Path;
+                vm.FastBaseFilename = SystemUnderTest.Path;
                 vm.Save();
                 return true;
             });

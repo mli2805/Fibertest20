@@ -12,7 +12,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class EquipmentRemovedSteps
     {
-        private readonly SystemUnderTest2 _sut = new SystemUnderTest2();
+        private readonly SystemUnderTest _sut = new SystemUnderTest();
         private Guid _nodeId, _rtuNodeId, _anotherNodeId;
         private Guid _equipmentId;
         private Guid _traceId;

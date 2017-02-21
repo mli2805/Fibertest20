@@ -11,7 +11,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class EquipmentUpdatedSteps
     {
-        private readonly SystemUnderTest2 _sut = new SystemUnderTest2();
+        private readonly SystemUnderTest _sut = new SystemUnderTest();
         private Guid _nodeId, _equipmentId;
         private EquipmentUpdateViewModel _equipmentUpdateViewModel;
 

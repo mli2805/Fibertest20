@@ -10,7 +10,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class RtuRemovedSteps
     {
-        private readonly SystemUnderTest2 _sut = new SystemUnderTest2();
+        private readonly SystemUnderTest _sut = new SystemUnderTest();
         private Iit.Fibertest.Graph.Rtu _rtu;
         private Guid _rtuNodeId; // нужно сохранить отдельно, т.к. после удаления РТУ негде взять
 

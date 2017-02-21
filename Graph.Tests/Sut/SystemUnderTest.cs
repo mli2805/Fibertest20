@@ -10,7 +10,7 @@ using Iit.Fibertest.TestBench;
 
 namespace Graph.Tests
 {
-    public class SystemUnderTest2
+    public class SystemUnderTest
     {
         public Aggregate Aggregate { get; }
         public ReadModel ReadModel { get; }
@@ -20,7 +20,7 @@ namespace Graph.Tests
         public int CurrentEventNumber => Poller.CurrentEventNumber;
         public const string Path = @"..\..\Sut\base.sor";
 
-        public SystemUnderTest2()
+        public SystemUnderTest()
         {
             var builder = new ContainerBuilder();
             builder.RegisterModule<AutofacEventSourcing>();
@@ -61,7 +61,7 @@ namespace Graph.Tests
             Poller.Tick();
         }
 
-        public void CreatePositionForAddNodeIntoFiberTest()
+        public void CreatePositionForAddNodeIntoFiberTest(out Iit.Fibertest.Graph.Fiber fiberForInsertion, out Iit.Fibertest.Graph.Trace traceForInsertionId)
         {
             ShellVm.ComplyWithRequest(new AddRtuAtGpsLocation() {Latitude = 55, Longitude = 30}).Wait();
             Poller.Tick();
@@ -75,6 +75,7 @@ namespace Graph.Tests
             // fiber for insertion
             ShellVm.ComplyWithRequest(new AddFiber() {Node1 = a1, Node2 = b1 }).Wait();
             Poller.Tick();
+            fiberForInsertion = ShellVm.ReadModel.Fibers.Last();
 
             ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() {Type = EquipmentType.Terminal}).Wait();
             Poller.Tick();
@@ -102,6 +103,7 @@ namespace Graph.Tests
             FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, @"some title", "", Answer.Yes));
             ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = a2, NodeWithRtuId = nodeForRtuId }).Wait();
             Poller.Tick();
+            traceForInsertionId = ShellVm.ReadModel.Traces.Last();
 
             FakeWindowManager.RegisterHandler(model => QuestionAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
             FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));

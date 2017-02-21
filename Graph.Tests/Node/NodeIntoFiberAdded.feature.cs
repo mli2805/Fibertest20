@@ -114,7 +114,7 @@ this.FeatureBackground();
 #line 13
  testRunner.When("Пользователь кликает добавить узел в первый отрезок этой трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 14
- testRunner.Then("Отказ с сообщением It\'s impossible to change trace with base reflectogram", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("Cообщением об невозможности", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

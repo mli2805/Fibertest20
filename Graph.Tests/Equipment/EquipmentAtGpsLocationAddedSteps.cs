@@ -9,7 +9,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class EquipmentAtGpsLocationAddedSteps
     {
-        private readonly SystemUnderTest2 _sut = new SystemUnderTest2();
+        private readonly SystemUnderTest _sut = new SystemUnderTest();
 
         [When(@"Пользователь кликает добавить узел с оборудованием")]
         public void WhenПользовательКликаетДобавитьУзелСОборудованием()

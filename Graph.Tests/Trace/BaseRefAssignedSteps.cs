@@ -9,7 +9,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class BaseRefAssignedSteps
     {
-        private readonly SystemUnderTest2 _sut = new SystemUnderTest2();
+        private readonly SystemUnderTest _sut = new SystemUnderTest();
         private Iit.Fibertest.Graph.Trace _trace;
         private Guid _oldPreciseId;
         private Guid _oldFastId;
@@ -43,7 +43,7 @@ namespace Graph.Tests
         {
             _oldPreciseId = _trace.PreciseId;
             _oldFastId = _trace.FastId;
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, null, SystemUnderTest2.Path, null, Answer.Yes));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, null, SystemUnderTest.Path, null, Answer.Yes));
             _sut.ShellVm.ComplyWithRequest(new RequestAssignBaseRef() { TraceId = _trace.Id }).Wait();
             _sut.Poller.Tick();
         }
@@ -58,7 +58,7 @@ namespace Graph.Tests
         [When(@"Пользователь сбрасывает точную и задает дополнительную и жмет сохранить")]
         public void WhenПользовательСбрасываетТочнуюЗадаетДополнительнуюИЖметСохранить()
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, "", null, SystemUnderTest2.Path, Answer.Yes));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, "", null, SystemUnderTest.Path, Answer.Yes));
             _sut.ShellVm.ComplyWithRequest(new RequestAssignBaseRef() { TraceId = _trace.Id }).Wait();
             _sut.Poller.Tick();
         }

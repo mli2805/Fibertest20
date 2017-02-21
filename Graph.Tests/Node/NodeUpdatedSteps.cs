@@ -9,7 +9,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class NodeUpdatedSteps
     {
-        private readonly SystemUnderTest2 _sut = new SystemUnderTest2();
+        private readonly SystemUnderTest _sut = new SystemUnderTest();
         private Guid _saidNodeId;
         private int _cutOff; // in scenario with no changes and Save button it's interesting that not only node wasn't changed but command wasn't sent
 
