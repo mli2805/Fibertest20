@@ -35,12 +35,13 @@ namespace Iit.Fibertest.TestBench
                 case FiberState.Major:
                     return Brushes.Fuchsia;
                 case FiberState.User:
-                case FiberState.HighLighted:
-                    return Brushes.Lime;
+                    return Brushes.Green;
                 case FiberState.Critical:
                 case FiberState.FiberBreak:
                 case FiberState.NoFiber:
                     return Brushes.Red;
+                case FiberState.HighLighted:
+                    return Brushes.Lime;
                 default:
                     return Brushes.Black;
             }

@@ -40,11 +40,19 @@ namespace Iit.Fibertest.TestBench
             foreach (var newItem in newItems)
             {
                 var fiberVm = (FiberVm)newItem;
+                fiberVm.PropertyChanged += FiberVm_PropertyChanged;
                 var route = new GMapRoute(fiberVm.Id, fiberVm.Node1.Id, fiberVm.Node2.Id, fiberVm.State.GetBrush(),
                     2, new List<PointLatLng>() { fiberVm.Node1.Position, fiberVm.Node2.Position });
                 route.PropertyChanged += Route_PropertyChanged;
                 MainMap.Markers.Add(route);
             }
+        }
+
+        private void FiberVm_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            var fiberVm = (FiberVm)sender;
+            var route = MainMap.Markers.Single(r => r.Id == fiberVm.Id);
+            route.Color = fiberVm.State.GetBrush();
         }
 
         private void ApplyRemovedFibers(IList oldItems)

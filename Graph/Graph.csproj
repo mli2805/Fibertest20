@@ -91,6 +91,7 @@
     <Compile Include="Events\Trace\BaseRefAssigned.cs" />
     <Compile Include="Events\Trace\TraceAdded.cs" />
     <Compile Include="Events\Trace\TraceDetached.cs" />
+    <Compile Include="Events\Trace\TraceStateChanged.cs" />
     <Compile Include="MappingCmdToEventProfile.cs" />
     <Compile Include="Commands\Equipment\AddEquipmentIntoNode.cs" />
     <Compile Include="Commands\Fiber\AddFiber.cs" />

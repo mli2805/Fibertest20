@@ -4,6 +4,7 @@ using System.Linq;
 using AutoMapper;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
+using Iit.Fibertest.Graph.Events;
 using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.TestBench
@@ -19,7 +20,8 @@ namespace Iit.Fibertest.TestBench
             if (traceNodes == null)
                 return null;
 
-            HighlightTrace(traceNodes);
+            var traceId = Guid.NewGuid();
+            HighlightTrace(traceId, traceNodes);
 
             var questionViewModel = new QuestionViewModel(Resources.SID_Accept_the_path);
             _windowManager.ShowDialog(questionViewModel);
@@ -64,13 +66,13 @@ namespace Iit.Fibertest.TestBench
             return path;
         }
 
-        private void HighlightTrace(List<Guid> nodes)
+        private void HighlightTrace(Guid traceId, List<Guid> nodes)
         {
             var fibers = ReadModel.GetFibersByNodes(nodes);
             foreach (var fiber in fibers)
             {
-                if (fiber == Guid.NewGuid()) // always false
-                    Console.WriteLine(fiber);
+                var fiberVm = GraphReadModel.Fibers.First(f => f.Id == fiber);
+                fiberVm.SetState(traceId, FiberState.HighLighted);
             }
         }
 

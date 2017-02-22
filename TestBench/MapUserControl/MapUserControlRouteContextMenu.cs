@@ -46,27 +46,31 @@ namespace Iit.Fibertest.TestBench
             if (e.PropertyName == "AskContextMenu")
             {
                 var route = (GMapRoute)sender;
-                route.ContextMenu = new ContextMenu();
-                route.ContextMenu.Items.Add(new MenuItem()
-                {
-                    Header = StringResources.Resources.SID_Information,
-                    Command = new ContextMenuAction(AskUpdateFiber, CanUpdateFiber),
-                    CommandParameter = route
-                });
-                route.ContextMenu.Items.Add(new MenuItem()
-                {
-                    Header = StringResources.Resources.SID_Add_node,
-                    Command = new ContextMenuAction(AskAddNodeIntoFiber, CanAddNodeIntoFiber),
-                    CommandParameter = route
-                });
-                route.ContextMenu.Items.Add(new MenuItem()
-                {
-                    Header = StringResources.Resources.SID_Remove_section,
-                    Command = new ContextMenuAction(AskRemoveFiber, CanRemoveFiber),
-                    CommandParameter = route
-                });
+                SetupContextMenu(route);
             }
         }
 
+        private void SetupContextMenu(GMapRoute route)
+        {
+            route.ContextMenu = new ContextMenu();
+            route.ContextMenu.Items.Add(new MenuItem()
+            {
+                Header = StringResources.Resources.SID_Information,
+                Command = new ContextMenuAction(AskUpdateFiber, CanUpdateFiber),
+                CommandParameter = route
+            });
+            route.ContextMenu.Items.Add(new MenuItem()
+            {
+                Header = StringResources.Resources.SID_Add_node,
+                Command = new ContextMenuAction(AskAddNodeIntoFiber, CanAddNodeIntoFiber),
+                CommandParameter = route
+            });
+            route.ContextMenu.Items.Add(new MenuItem()
+            {
+                Header = StringResources.Resources.SID_Remove_section,
+                Command = new ContextMenuAction(AskRemoveFiber, CanRemoveFiber),
+                CommandParameter = route
+            });
+        }
     }
 }

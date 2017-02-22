@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Caliburn.Micro;
@@ -16,6 +18,7 @@ namespace Iit.Fibertest.TestBench
         public ObservableCollection<TraceVm> Traces { get; }
 
         private string _currentMousePosition;
+
         public string CurrentMousePosition
         {
             get { return _currentMousePosition; }
@@ -28,6 +31,7 @@ namespace Iit.Fibertest.TestBench
         }
 
         private object _request;
+
         public object Request
         {
             get { return _request; }
@@ -51,6 +55,7 @@ namespace Iit.Fibertest.TestBench
         }
 
         #region Node
+
         private void Apply(NodeAdded evnt)
         {
             var nodeVm = new NodeVm()
@@ -62,9 +67,11 @@ namespace Iit.Fibertest.TestBench
             };
             Nodes.Add(nodeVm);
         }
+
         #endregion
 
         #region Fiber
+
         public void Apply(FiberAdded evnt)
         {
             Fibers.Add(new FiberVm()
@@ -72,12 +79,13 @@ namespace Iit.Fibertest.TestBench
                 Id = evnt.Id,
                 Node1 = Nodes.First(m => m.Id == evnt.Node1),
                 Node2 = Nodes.First(m => m.Id == evnt.Node2),
-                State = FiberState.NotInTrace
             });
         }
+
         #endregion
 
         #region Rtu
+
         public void Apply(RtuAtGpsLocationAdded evnt)
         {
             var nodeVm = new NodeVm()
@@ -89,7 +97,7 @@ namespace Iit.Fibertest.TestBench
             };
             Nodes.Add(nodeVm);
 
-            var rtuVm = new RtuVm() { Id = evnt.Id, Node = nodeVm };
+            var rtuVm = new RtuVm() {Id = evnt.Id, Node = nodeVm};
             Rtus.Add(rtuVm);
         }
 
@@ -99,9 +107,11 @@ namespace Iit.Fibertest.TestBench
             rtu.Title = evnt.Title;
             rtu.Node.Title = evnt.Title;
         }
+
         #endregion
 
         #region Equipment
+
         public void Apply(EquipmentAtGpsLocationAdded evnt)
         {
             var nodeVm = new NodeVm()
@@ -113,15 +123,36 @@ namespace Iit.Fibertest.TestBench
             };
             Nodes.Add(nodeVm);
 
-            Equipments.Add(new EquipmentVm() { Id = evnt.Id, Node = nodeVm, Type = evnt.Type });
+            Equipments.Add(new EquipmentVm() {Id = evnt.Id, Node = nodeVm, Type = evnt.Type});
         }
+
         #endregion
 
         #region Trace
 
-        
+        public void Apply(TraceStateChanged evnt)
+        {
+            var traceVm = Traces.First(t => t.Id == evnt.TraceId);
+            var fibers = GetFibersByNodes(traceVm.Nodes);
+            foreach (var fiberVm in fibers)
+            {
+                fiberVm.SetState(evnt.TraceId, evnt.State);
+            }
+        }
+
+        private IEnumerable<FiberVm> GetFibersByNodes(List<Guid> nodes)
+        {
+            for (int i = 1; i < nodes.Count; i++)
+                yield return GetFiberByNodes(nodes[i - 1], nodes[i]);
+        }
+
+        private FiberVm GetFiberByNodes(Guid node1, Guid node2)
+        {
+            return Fibers.First(
+                f => f.Node1.Id == node1 && f.Node2.Id == node2 ||
+                     f.Node1.Id == node2 && f.Node2.Id == node1);
+        }
 
         #endregion
-
     }
 }
