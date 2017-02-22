@@ -9,7 +9,7 @@ namespace Iit.Fibertest.TestBench
 {
     public partial class ShellViewModel
     {
-        private void ApplyToMap(AddFiberWithNodes cmd)
+/*        private void ApplyToMap(AddFiberWithNodes cmd)
         {
             if (cmd.AddNodes.Count > 0)
                 foreach (var cmdAddNode in cmd.AddNodes)
@@ -21,7 +21,7 @@ namespace Iit.Fibertest.TestBench
             foreach (var cmdAddFiber in cmd.AddFibers)
                 ApplyToMap(cmdAddFiber);
         }
-
+        */
         private AddFiberWithNodes EndFiberCreationMany(RequestAddFiberWithNodes request, int count, EquipmentType type)
         {
             var result = new AddFiberWithNodes()
@@ -95,7 +95,7 @@ namespace Iit.Fibertest.TestBench
             if (request.Node1 == request.Node2)
                 return false;
             var fiber =
-                GraphVm.Fibers.FirstOrDefault(
+                GraphReadModel.Fibers.FirstOrDefault(
                     f =>
                         f.Node1.Id == request.Node1 && f.Node2.Id == request.Node2 ||
                         f.Node1.Id == request.Node2 && f.Node2.Id == request.Node1);
@@ -105,10 +105,16 @@ namespace Iit.Fibertest.TestBench
             return false;
         }
 
-        private void ApplyToMap(AddFiber cmd)
+        /*private void ApplyToMap(AddFiber cmd)
         {
             if (Validate(cmd))
-                EndFiberCreationOne(cmd.Id, GraphVm.Nodes.First(m => m.Id == cmd.Node1), GraphVm.Nodes.First(m => m.Id == cmd.Node2));
+                EndFiberCreationOne(cmd.Id, GraphReadModel.Nodes.First(m => m.Id == cmd.Node1), GraphReadModel.Nodes.First(m => m.Id == cmd.Node2));
+        }
+        */
+
+        private AddFiber PrepareCommand(AddFiber request)
+        {
+            return Validate(request) ? request : null;
         }
 
         private bool Validate(AddFiber cmd)
@@ -116,7 +122,7 @@ namespace Iit.Fibertest.TestBench
             if (cmd.Node1 == cmd.Node2)
                 return false;
             var fiber =
-                GraphVm.Fibers.FirstOrDefault(
+                GraphReadModel.Fibers.FirstOrDefault(
                     f =>
                         f.Node1.Id == cmd.Node1 && f.Node2.Id == cmd.Node2 ||
                         f.Node1.Id == cmd.Node2 && f.Node2.Id == cmd.Node1);
@@ -128,24 +134,20 @@ namespace Iit.Fibertest.TestBench
 
         private UpdateFiber PrepareCommand(RequestUpdateFiber request)
         {
-            var vm = new FiberUpdateViewModel(request.Id, GraphVm);
+            var vm = new FiberUpdateViewModel(request.Id, GraphReadModel);
             _windowManager.ShowDialog(vm);
 
             return vm.Command;
         }
+        /*
         private void ApplyToMap(UpdateFiber cmd)
         {
-
-            GraphVm.Fibers.Single(e => e.Id == cmd.Id).UserInputedLength = cmd.UserInputedLength;
+            GraphReadModel.Fibers.Single(e => e.Id == cmd.Id).UserInputedLength = cmd.UserInputedLength;
         }
+        */
         private void ApplyToMap(RemoveFiber cmd)
         {
-            GraphVm.Fibers.Remove(GraphVm.Fibers.Single(f => f.Id == cmd.Id));
-        }
-
-        private void EndFiberCreationOne(Guid fiberId, NodeVm startMarker, NodeVm finishMarker)
-        {
-            GraphVm.Fibers.Add(new FiberVm() { Id = fiberId, Node1 = startMarker, Node2 = finishMarker, State = FiberState.NotInTrace });
+            GraphReadModel.Fibers.Remove(GraphReadModel.Fibers.Single(f => f.Id == cmd.Id));
         }
 
     }

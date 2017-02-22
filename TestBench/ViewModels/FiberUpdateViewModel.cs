@@ -10,7 +10,7 @@ namespace Iit.Fibertest.TestBench
 {
     public class FiberUpdateViewModel : Screen, IDataErrorInfo
     {
-        private readonly GraphVm _graphVm;
+        private readonly GraphReadModel _graphReadModel;
         private FiberVm _fiber;
         private string _userInputedLength;
 
@@ -64,17 +64,17 @@ namespace Iit.Fibertest.TestBench
 
             return l;
         }
-        public FiberUpdateViewModel(Guid fiberId, GraphVm graphVm)
+        public FiberUpdateViewModel(Guid fiberId, GraphReadModel graphReadModel)
         {
-            _graphVm = graphVm;
-            _fiber = graphVm.Fibers.Single(f => f.Id == fiberId);
+            _graphReadModel = graphReadModel;
+            _fiber = graphReadModel.Fibers.Single(f => f.Id == fiberId);
             Initialize();
         }
 
         private void Initialize()
         {
-            var n1 = _graphVm.Nodes.Single(n => n.Id == _fiber.Node1.Id);
-            var n2 = _graphVm.Nodes.Single(n => n.Id == _fiber.Node2.Id);
+            var n1 = _graphReadModel.Nodes.Single(n => n.Id == _fiber.Node1.Id);
+            var n2 = _graphReadModel.Nodes.Single(n => n.Id == _fiber.Node2.Id);
             NodeAtitle = n1.Title;
             NodeBtitle = n2.Title;
             GpsLength = $@"{GetGpsLength(n1, n2):#,##0}";

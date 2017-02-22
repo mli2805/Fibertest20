@@ -14,9 +14,9 @@ namespace Iit.Fibertest.TestBench
             builder.RegisterType<WriteModel>().SingleInstance();
             builder.RegisterType<Db>().SingleInstance();
             builder.RegisterType<Bus>().SingleInstance();
-            builder.RegisterType<GraphVm>().SingleInstance();
+            builder.RegisterType<GraphReadModel>().SingleInstance();
             builder.Register(ioc => new ClientPoller(
-                ioc.Resolve<Db>(), new List<object> { ioc.Resolve<ReadModel>(), ioc.Resolve<TreeReadModel>(), ioc.Resolve<GraphVm>() }))
+                ioc.Resolve<Db>(), new List<object> { ioc.Resolve<ReadModel>(), ioc.Resolve<TreeReadModel>(), ioc.Resolve<GraphReadModel>() }))
                 .SingleInstance();
         }
     }

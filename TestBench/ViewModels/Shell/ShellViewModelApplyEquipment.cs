@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Linq;
 using AutoMapper;
-using GMap.NET;
-using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Commands;
 
 namespace Iit.Fibertest.TestBench
 {
     public partial class ShellViewModel
     {
-        private void ApplyToMap(AddEquipmentAtGpsLocation cmd)
+        /*private void ApplyToMap(AddEquipmentAtGpsLocation cmd)
         {
             var nodeVm = new NodeVm()
             {
@@ -18,14 +16,14 @@ namespace Iit.Fibertest.TestBench
                 Type = cmd.Type,
                 Position = new PointLatLng(cmd.Latitude, cmd.Longitude)
             };
-            GraphVm.Nodes.Add(nodeVm);
+            GraphReadModel.Nodes.Add(nodeVm);
 
-            GraphVm.Equipments.Add(new EquipmentVm() { Id = cmd.Id, Node = nodeVm, Type = cmd.Type });
+            GraphReadModel.Equipments.Add(new EquipmentVm() { Id = cmd.Id, Node = nodeVm, Type = cmd.Type });
         }
-
+        */
         private AddEquipmentIntoNode PrepareCommand(RequestAddEquipmentIntoNode request)
         {
-            var tracesInNode = GraphVm.Traces.Where(t => t.Nodes.Contains(request.NodeId)).ToList();
+            var tracesInNode = GraphReadModel.Traces.Where(t => t.Nodes.Contains(request.NodeId)).ToList();
             TraceChoiceViewModel traceChoiceVm = null;
             if (tracesInNode.Count > 0)
             {
@@ -48,9 +46,9 @@ namespace Iit.Fibertest.TestBench
         {
             IMapper mapper = new MapperConfiguration(cfg => cfg.AddProfile<MappingCommandToVm>()).CreateMapper();
             var equipmentVm = mapper.Map<EquipmentVm>(cmd);
-            equipmentVm.Node = GraphVm.Nodes.First(n => n.Id == cmd.NodeId); //TODO maybe it should be done in mapper configuration class
+            equipmentVm.Node = GraphReadModel.Nodes.First(n => n.Id == cmd.NodeId); //TODO maybe it should be done in mapper configuration class
 
-            GraphVm.Equipments.Add(equipmentVm);
+            GraphReadModel.Equipments.Add(equipmentVm);
             // TODO change node pictogram
         }
 
@@ -62,7 +60,7 @@ namespace Iit.Fibertest.TestBench
 
         private void ApplyToMap(UpdateEquipment cmd)
         {
-            var equipmentVm = GraphVm.Equipments.First(e => e.Id == cmd.Id);
+            var equipmentVm = GraphReadModel.Equipments.First(e => e.Id == cmd.Id);
             IMapper mapper = new MapperConfiguration(cfg => cfg.AddProfile<MappingCommandToVm>()).CreateMapper();
             mapper.Map(cmd, equipmentVm);
         }
@@ -75,7 +73,7 @@ namespace Iit.Fibertest.TestBench
 
         private void ApplyToMap(RemoveEquipment cmd)
         {
-            GraphVm.Equipments.Remove(GraphVm.Equipments.First(e => e.Id == cmd.Id));
+            GraphReadModel.Equipments.Remove(GraphReadModel.Equipments.First(e => e.Id == cmd.Id));
         }
     }
 }

@@ -90,7 +90,7 @@ namespace Graph.Tests
         [Then(@"Пункт Удалить недоступен для данного оборудования")]
         public void ThenПунктУдалитьНедоступенДляДанногоОборудования()
         {
-            var vm = new NodeUpdateViewModel(_nodeId, _sut.ShellVm.GraphVm, _sut.FakeWindowManager);
+            var vm = new NodeUpdateViewModel(_nodeId, _sut.ShellVm.GraphReadModel, _sut.FakeWindowManager);
             vm.EquipmentsInNode.First(e => e.Id == _equipmentId).IsRemoveEnabled.Should().BeFalse();
         }
 
@@ -99,7 +99,7 @@ namespace Graph.Tests
         {
             // не  работает , т.к. некому реагировать на RemoveEquipment
             // надо начинать с ShellVM
-            var vm = new NodeUpdateViewModel(_nodeId, _sut.ShellVm.GraphVm, _sut.FakeWindowManager);
+            var vm = new NodeUpdateViewModel(_nodeId, _sut.ShellVm.GraphReadModel, _sut.FakeWindowManager);
             vm.RemoveEquipment(new RemoveEquipment() {Id = _equipmentId});
             vm.Cancel();
             _sut.Poller.Tick();

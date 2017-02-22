@@ -72,7 +72,7 @@ namespace Iit.Fibertest.TestBench
             if (IsMouseCaptured)
             {
                 Mouse.Capture(null);
-                _owner.GraphVm.Request = new MoveNode() { Id = _marker.Id, Latitude = _marker.Position.Lat, Longitude = _marker.Position.Lng };
+                _owner.GraphReadModel.Request = new MoveNode() { Id = _marker.Id, Latitude = _marker.Position.Lat, Longitude = _marker.Position.Lng };
             }
 
             if (_mainMap.IsInTraceDefiningMode)
@@ -85,7 +85,7 @@ namespace Iit.Fibertest.TestBench
         private void EndTraceDefinition()
         {
             _mainMap.IsInTraceDefiningMode = false;
-            _owner.GraphVm.Request = new RequestAddTrace() {NodeWithRtuId = _mainMap.StartNode.Id, LastNodeId = _marker.Id};
+            _owner.GraphReadModel.Request = new RequestAddTrace() {NodeWithRtuId = _mainMap.StartNode.Id, LastNodeId = _marker.Id};
         }
 
         private void EndFiberCreation()
@@ -95,9 +95,9 @@ namespace Iit.Fibertest.TestBench
             _mainMap.Markers.Remove(_mainMap.Markers.Single(m => m.Id == _mainMap.FiberUnderCreation));
 
             if (!_mainMap.IsFiberWithNodes)
-                _owner.GraphVm.Request = new AddFiber() { Node1 = _mainMap.StartNode.Id, Node2 = _marker.Id };
+                _owner.GraphReadModel.Request = new AddFiber() { Node1 = _mainMap.StartNode.Id, Node2 = _marker.Id };
             else
-                _owner.GraphVm.Request = new RequestAddFiberWithNodes() { Node1 = _mainMap.StartNode.Id, Node2 = _marker.Id, };
+                _owner.GraphReadModel.Request = new RequestAddFiberWithNodes() { Node1 = _mainMap.StartNode.Id, Node2 = _marker.Id, };
 
             _mainMap.FiberUnderCreation = Guid.Empty;
             Cursor = Cursors.Arrow;

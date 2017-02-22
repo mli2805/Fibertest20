@@ -141,7 +141,7 @@ namespace Graph.Tests
         [Then(@"На форме выбора трасс эта трасса недоступна для выбора остальные доступны")]
         public void ThenНаФормеВыбораТрассЭтаТрассаНедоступнаДляВыбора()
         {
-            var traceList = _sut.ShellVm.GraphVm.Traces.Where(t => t.Equipments.Contains(_oldEquipmentId)).ToList();
+            var traceList = _sut.ShellVm.GraphReadModel.Traces.Where(t => t.Equipments.Contains(_oldEquipmentId)).ToList();
             var traceChoiceVm = new TraceChoiceViewModel(traceList);
             traceChoiceVm.Choices.First(l => l.Id == _shortTraceId).IsEnabled.Should().BeFalse();
             foreach (var traceChoice in traceChoiceVm.Choices.Where(l => l.Id != _shortTraceId))

@@ -16,31 +16,31 @@ namespace Iit.Fibertest.TestBench
                 Type = EquipmentType.Rtu,
                 Position = new PointLatLng(cmd.Latitude, cmd.Longitude)
             };
-            GraphVm.Nodes.Add(nodeVm);
+            GraphReadModel.Nodes.Add(nodeVm);
 
             var rtuVm = new RtuVm() { Id = cmd.Id, Node = nodeVm};
-            GraphVm.Rtus.Add(rtuVm);
+            GraphReadModel.Rtus.Add(rtuVm);
         }
 
         private UpdateRtu PrepareCommand(RequestUpdateRtu request)
         {
-            var vm = new RtuUpdateViewModel(request.NodeId, GraphVm);
+            var vm = new RtuUpdateViewModel(request.NodeId, GraphReadModel);
             _windowManager.ShowDialog(vm);
             return vm.Command;
         }
 
         private void ApplyToMap(UpdateRtu cmd)
         {
-            var rtu = GraphVm.Rtus.First(r => r.Id == cmd.Id);
+            var rtu = GraphReadModel.Rtus.First(r => r.Id == cmd.Id);
             rtu.Node.Position = new PointLatLng(cmd.Latitude, cmd.Longitude);
         }
 
         private void ApplyToMap(RemoveRtu cmd)
         {
-            var rtuVm = GraphVm.Rtus.First(r => r.Id == cmd.Id);
+            var rtuVm = GraphReadModel.Rtus.First(r => r.Id == cmd.Id);
             var nodeVm = rtuVm.Node;
-            GraphVm.Rtus.Remove(rtuVm);
-            GraphVm.Nodes.Remove(nodeVm);
+            GraphReadModel.Rtus.Remove(rtuVm);
+            GraphReadModel.Nodes.Remove(nodeVm);
         }
 
     }

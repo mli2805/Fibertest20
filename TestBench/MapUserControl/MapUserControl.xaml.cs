@@ -10,7 +10,7 @@ namespace Iit.Fibertest.TestBench
         /// </summary>
         public partial class MapUserControl
     {
-        public GraphVm GraphVm => (GraphVm)DataContext;
+        public GraphReadModel GraphReadModel => (GraphReadModel)DataContext;
 
         public MapUserControl()
         {
@@ -33,7 +33,7 @@ namespace Iit.Fibertest.TestBench
         {
             if (e.NewValue == null)
                 return;
-            var graph = (GraphVm)e.NewValue;
+            var graph = (GraphReadModel)e.NewValue;
             graph.CurrentMousePosition = MainMap.Position.ToStringInDegrees();
 
             graph.Nodes.CollectionChanged += NodesCollectionChanged;
@@ -44,7 +44,7 @@ namespace Iit.Fibertest.TestBench
         void MainMap_MouseMove(object sender, MouseEventArgs e)
         {
             var p = e.GetPosition(MainMap);
-            GraphVm.CurrentMousePosition = 
+            GraphReadModel.CurrentMousePosition = 
                 MainMap.FromLocalToLatLng((int)p.X, (int)p.Y).ToStringInDegrees();
         }
 

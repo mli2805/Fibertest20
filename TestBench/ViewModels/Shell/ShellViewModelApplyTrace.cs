@@ -100,20 +100,20 @@ namespace Iit.Fibertest.TestBench
             IMapper mapper = new MapperConfiguration(
                     cfg => cfg.AddProfile<MappingCommandToVm>()).CreateMapper();
             var traceVm = mapper.Map<TraceVm>(cmd);
-            GraphVm.Traces.Add(traceVm);
+            GraphReadModel.Traces.Add(traceVm);
         }
 
         private AssignBaseRef PrepareCommand(RequestAssignBaseRef request)
         {
-            var traceVm = GraphVm.Traces.First(t => t.Id == request.TraceId);
-            var vm = new BaseRefsAssignViewModel(traceVm, GraphVm.Rtus.First(r=>r.Id == traceVm.RtuId));
+            var traceVm = GraphReadModel.Traces.First(t => t.Id == request.TraceId);
+            var vm = new BaseRefsAssignViewModel(traceVm, GraphReadModel.Rtus.First(r=>r.Id == traceVm.RtuId));
             _windowManager.ShowDialog(vm);
             return vm.Command;
         }
 
         private void ApplyToMap(AssignBaseRef cmd)
         {
-            var traceVm = GraphVm.Traces.First(t => t.Id == cmd.TraceId);
+            var traceVm = GraphReadModel.Traces.First(t => t.Id == cmd.TraceId);
 
             if (cmd.Ids.ContainsKey(BaseRefType.Precise))
                 traceVm.PreciseId = cmd.Ids[BaseRefType.Precise];

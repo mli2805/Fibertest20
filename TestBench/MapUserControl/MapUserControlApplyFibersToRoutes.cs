@@ -9,7 +9,7 @@ using GMap.NET.WindowsPresentation;
 namespace Iit.Fibertest.TestBench
 {
     /// <summary>
-    /// Here we react on changes in Fibers collection in GraphVm
+    /// Here we react on changes in Fibers collection in GraphReadModel
     /// applying those to the markers(routes) collection of map
     /// </summary>
     public partial class MapUserControl

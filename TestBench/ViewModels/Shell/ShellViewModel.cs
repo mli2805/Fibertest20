@@ -16,18 +16,18 @@ namespace Iit.Fibertest.TestBench
         public ILogger Log { get; set; }
 
         private readonly IWindowManager _windowManager;
-        public GraphVm GraphVm { get; set; }
+        public GraphReadModel GraphReadModel { get; set; }
         public ReadModel ReadModel { get; }
         public Bus Bus { get; }
 
         public Db LocalDb { get; set; }
-        public ShellViewModel(ReadModel readModel, TreeReadModel treeReadModel, Bus bus, Db db, GraphVm graphVm, IWindowManager windowManager, ILogger clientLogger)
+        public ShellViewModel(ReadModel readModel, TreeReadModel treeReadModel, Bus bus, Db db, GraphReadModel graphReadModel, IWindowManager windowManager, ILogger clientLogger)
         {
             ReadModel = readModel;
             MyLeftPanelViewModel = new LeftPanelViewModel(treeReadModel);
             Bus = bus;
             LocalDb = db;
-            GraphVm = graphVm;
+            GraphReadModel = graphReadModel;
             _windowManager = windowManager;
 
             Log = clientLogger;
@@ -42,13 +42,13 @@ namespace Iit.Fibertest.TestBench
         protected override void OnViewLoaded(object view)
         {
             base.OnViewLoaded(view);
-            GraphVm.PropertyChanged += GraphVm_PropertyChanged;
+            GraphReadModel.PropertyChanged += GraphVm_PropertyChanged;
         }
 
         private void GraphVm_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "Request")
-                this.AsDynamic().ComplyWithRequest(GraphVm.Request)
+                this.AsDynamic().ComplyWithRequest(GraphReadModel.Request)
                     // This call is needed so there's no warning
                     .ConfigureAwait(false);
         }
@@ -59,7 +59,7 @@ namespace Iit.Fibertest.TestBench
             var cmd = request;
             cmd.Id = Guid.NewGuid();
             await Bus.SendCommand(cmd);
-            ApplyToMap(cmd);
+//            ApplyToMap(cmd);
         }
 
         public async Task ComplyWithRequest(RequestAddNodeIntoFiber request)
@@ -110,10 +110,10 @@ namespace Iit.Fibertest.TestBench
         #region Fiber
         public async Task ComplyWithRequest(AddFiber request)
         {
-            var cmd = request;
+            var cmd = PrepareCommand(request);
             cmd.Id = Guid.NewGuid();
             await Bus.SendCommand(cmd);
-            ApplyToMap(request);
+//            ApplyToMap(request);
         }
 
         public async Task ComplyWithRequest(RequestAddFiberWithNodes request)
@@ -125,9 +125,9 @@ namespace Iit.Fibertest.TestBench
             if (message != null)
             {
                 _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, message));
-                return;
+//                return;
             }
-            ApplyToMap(cmd);
+//            ApplyToMap(cmd);
         }
 
         public async Task ComplyWithRequest(RequestUpdateFiber request)
@@ -136,7 +136,7 @@ namespace Iit.Fibertest.TestBench
             if (cmd == null)
                 return;
             await Bus.SendCommand(cmd);
-            ApplyToMap(cmd);
+//            ApplyToMap(cmd);
         }
 
         public async Task ComplyWithRequest(RemoveFiber request)
@@ -182,7 +182,7 @@ namespace Iit.Fibertest.TestBench
             cmd.Id = Guid.NewGuid();
             cmd.NodeId = Guid.NewGuid();
             await Bus.SendCommand(cmd);
-            ApplyToMap(cmd);
+//            ApplyToMap(cmd);
         }
 
         public async Task ComplyWithRequest(RequestAddEquipmentIntoNode request)

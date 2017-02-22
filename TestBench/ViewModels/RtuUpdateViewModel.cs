@@ -11,7 +11,7 @@ namespace Iit.Fibertest.TestBench
     public class RtuUpdateViewModel : Screen, IDataErrorInfo
     {
         private readonly Guid _nodeId;
-        private readonly GraphVm _graphVm;
+        private readonly GraphReadModel _graphReadModel;
 
         private string _title;
         public string Title
@@ -43,10 +43,10 @@ namespace Iit.Fibertest.TestBench
 
         public UpdateRtu Command { get; set; }
 
-        public RtuUpdateViewModel(Guid nodeId, GraphVm graphVm)
+        public RtuUpdateViewModel(Guid nodeId, GraphReadModel graphReadModel)
         {
             _nodeId = nodeId;
-            _graphVm = graphVm;
+            _graphReadModel = graphReadModel;
 
             Initilize();
         }
@@ -55,7 +55,7 @@ namespace Iit.Fibertest.TestBench
 
         private void Initilize()
         {
-            var rtu = _graphVm.Rtus.First(r => r.Node.Id == _nodeId);
+            var rtu = _graphReadModel.Rtus.First(r => r.Node.Id == _nodeId);
 
             var currentMode = GpsInputMode.DegreesAndMinutes; // somewhere in configuration file...
             NodeVm = rtu.Node;
@@ -75,7 +75,7 @@ namespace Iit.Fibertest.TestBench
             IMapper mapper = new MapperConfiguration(cfg => cfg.AddProfile<MappingViewModelToCommand>()).CreateMapper();
             Command = mapper.Map<UpdateRtu>(this);
             Command.NodeId = _nodeId;
-            Command.Id = _graphVm.Rtus.First(r => r.Node.Id == _nodeId).Id;
+            Command.Id = _graphReadModel.Rtus.First(r => r.Node.Id == _nodeId).Id;
             Command.Latitude = GpsInputViewModel.OneCoorViewModelLatitude.StringsToValue();
             Command.Longitude = GpsInputViewModel.OneCoorViewModelLongitude.StringsToValue();
             TryClose();
@@ -96,7 +96,7 @@ namespace Iit.Fibertest.TestBench
                     case "Title":
                         if (string.IsNullOrEmpty(Title))
                             errorMessage = Resources.SID_Title_is_required;
-                        if (_graphVm.Rtus.Any(n => n.Title == Title))
+                        if (_graphReadModel.Rtus.Any(n => n.Title == Title))
                             errorMessage = Resources.SID_There_is_a_rtu_with_the_same_title;
                         break;
                 }

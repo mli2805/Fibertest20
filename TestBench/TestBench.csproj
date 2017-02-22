@@ -104,7 +104,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="MapReadModel.cs" />
     <Compile Include="ReadModel\PathFinder.cs" />
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Autofac\AutofacEventSourcing.cs" />
@@ -194,7 +193,7 @@
     <Compile Include="Vms\Graph\EquipmentVm.cs" />
     <Compile Include="Vms\Graph\FiberVm.cs" />
     <Compile Include="Vms\Graph\GraphVisibilityVm.cs" />
-    <Compile Include="Vms\Graph\GraphVm.cs" />
+    <Compile Include="Vms\Graph\GraphReadModel.cs" />
     <Compile Include="ViewModels\Shell\IShell.cs" />
     <Compile Include="Logic\Utils.cs" />
     <Compile Include="MapUserControl\Map.cs" />

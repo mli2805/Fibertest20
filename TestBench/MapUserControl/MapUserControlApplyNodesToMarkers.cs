@@ -7,7 +7,7 @@ using GMap.NET.WindowsPresentation;
 namespace Iit.Fibertest.TestBench
 {
     /// <summary>
-    /// Here we react on changes in Nodes collection in GraphVm
+    /// Here we react on changes in Nodes collection in GraphReadModel
     /// applying those to the markers collection of map
     /// </summary>
     public partial class MapUserControl

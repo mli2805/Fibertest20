@@ -9,7 +9,7 @@ namespace Iit.Fibertest.TestBench
 {
     public partial class ShellViewModel
     {
-        private void ApplyToMap(AddNode cmd)
+        /*private void ApplyToMap(AddNode cmd)
         {
             var nodeVm = new NodeVm()
             {
@@ -18,37 +18,37 @@ namespace Iit.Fibertest.TestBench
                 Type = cmd.IsJustForCurvature ? EquipmentType.Invisible : EquipmentType.Well,
                 Position = new PointLatLng(cmd.Latitude, cmd.Longitude)
             };
-            GraphVm.Nodes.Add(nodeVm);
+            GraphReadModel.Nodes.Add(nodeVm);
         }
-
+        */
         private void ApplyToMap(MoveNode cmd)
         {
-            var nodeVm = GraphVm.Nodes.Single(n => n.Id == cmd.Id);
+            var nodeVm = GraphReadModel.Nodes.Single(n => n.Id == cmd.Id);
             nodeVm.Position = new PointLatLng(cmd.Latitude, cmd.Longitude);
         }
 
         private void ApplyToMap(UpdateNode cmd)
         {
-            var nodeVm = GraphVm.Nodes.Single(n => n.Id == cmd.Id);
+            var nodeVm = GraphReadModel.Nodes.Single(n => n.Id == cmd.Id);
             nodeVm.Title = cmd.Title;
             nodeVm.Comment = cmd.Comment;
         }
 
         private RemoveNode PrepareCommand(RequestRemoveNode request)
         {
-            if (GraphVm.Traces.Any(t => t.Nodes.Last() == request.Id))
+            if (GraphReadModel.Traces.Any(t => t.Nodes.Last() == request.Id))
                 return null; // It's prohibited to remove last node from trace
-            if (GraphVm.Traces.Any(t => t.Nodes.Contains(request.Id) && t.HasBase))
+            if (GraphReadModel.Traces.Any(t => t.Nodes.Contains(request.Id) && t.HasBase))
                 return null; // It's prohibited to remove any node from trace with base ref
 
-            var dictionary = GraphVm.Traces.Where(t => t.Nodes.Contains(request.Id)).ToDictionary(trace => trace.Id, trace => Guid.NewGuid());
+            var dictionary = GraphReadModel.Traces.Where(t => t.Nodes.Contains(request.Id)).ToDictionary(trace => trace.Id, trace => Guid.NewGuid());
             return new RemoveNode { Id = request.Id, TraceFiberPairForDetour = dictionary };
 
         }
 
         private UpdateNode PrepareCommand(UpdateNode request)
         {
-            var vm = new NodeUpdateViewModel(request.Id, GraphVm, _windowManager);
+            var vm = new NodeUpdateViewModel(request.Id, GraphReadModel, _windowManager);
             vm.PropertyChanged += Vm_PropertyChanged;
             _windowManager.ShowDialog(vm);
             return vm.Command != null ? (UpdateNode)vm.Command : null;
@@ -78,12 +78,12 @@ namespace Iit.Fibertest.TestBench
 
         private void ApplyToMap(RemoveNode cmd)
         {
-            var fiberVms = GraphVm.Fibers.Where(e => e.Node1.Id == cmd.Id || e.Node2.Id == cmd.Id).ToList();
+            var fiberVms = GraphReadModel.Fibers.Where(e => e.Node1.Id == cmd.Id || e.Node2.Id == cmd.Id).ToList();
             foreach (var fiberVm in fiberVms)
             {
-                GraphVm.Fibers.Remove(fiberVm);
+                GraphReadModel.Fibers.Remove(fiberVm);
             }
-            GraphVm.Nodes.Remove(GraphVm.Nodes.Single(n => n.Id == cmd.Id));
+            GraphReadModel.Nodes.Remove(GraphReadModel.Nodes.Single(n => n.Id == cmd.Id));
         }
 
         #region AddNodeIntoFiber
@@ -112,8 +112,8 @@ namespace Iit.Fibertest.TestBench
 
         private bool IsFiberContainedInAnyTraceWithBase(Guid fiberId)
         {
-            var tracesWithBase = GraphVm.Traces.Where(t => t.HasBase);
-            var fiber = GraphVm.Fibers.Single(f => f.Id == fiberId);
+            var tracesWithBase = GraphReadModel.Traces.Where(t => t.HasBase);
+            var fiber = GraphReadModel.Fibers.Single(f => f.Id == fiberId);
             foreach (var trace in tracesWithBase)
             {
                 if (GetFiberIndexInTrace(trace, fiber) != -1)
@@ -139,26 +139,26 @@ namespace Iit.Fibertest.TestBench
         private void ApplyToMap(AddNodeIntoFiber cmd)
         {
 
-            GraphVm.Nodes.Add(new NodeVm() { Id = cmd.Id, Position = new PointLatLng(cmd.Position.Latitude, cmd.Position.Longitude) });
+            GraphReadModel.Nodes.Add(new NodeVm() { Id = cmd.Id, Position = new PointLatLng(cmd.Position.Latitude, cmd.Position.Longitude) });
             AddTwoFibersToNewNode(cmd);
             FixTracesWhichContainedOldFiber(cmd);
-            GraphVm.Fibers.Remove(GraphVm.Fibers.Single(f => f.Id == cmd.FiberId));
+            GraphReadModel.Fibers.Remove(GraphReadModel.Fibers.Single(f => f.Id == cmd.FiberId));
         }
 
         private void AddTwoFibersToNewNode(AddNodeIntoFiber cmd)
         {
-            var nodeVm = GraphVm.Nodes.First(n => n.Id == cmd.Id);
-            NodeVm node1 = GraphVm.Fibers.Single(f => f.Id == cmd.FiberId).Node1;
-            NodeVm node2 = GraphVm.Fibers.Single(f => f.Id == cmd.FiberId).Node2;
-            GraphVm.Fibers.Add(new FiberVm() { Id = cmd.NewFiberId1, Node1 = node1, Node2 = nodeVm });
-            GraphVm.Fibers.Add(new FiberVm() { Id = cmd.NewFiberId2, Node1 = nodeVm, Node2 = node2 });
+            var nodeVm = GraphReadModel.Nodes.First(n => n.Id == cmd.Id);
+            NodeVm node1 = GraphReadModel.Fibers.Single(f => f.Id == cmd.FiberId).Node1;
+            NodeVm node2 = GraphReadModel.Fibers.Single(f => f.Id == cmd.FiberId).Node2;
+            GraphReadModel.Fibers.Add(new FiberVm() { Id = cmd.NewFiberId1, Node1 = node1, Node2 = nodeVm });
+            GraphReadModel.Fibers.Add(new FiberVm() { Id = cmd.NewFiberId2, Node1 = nodeVm, Node2 = node2 });
         }
         private void FixTracesWhichContainedOldFiber(AddNodeIntoFiber cmd)
         {
-            foreach (var trace in GraphVm.Traces)
+            foreach (var trace in GraphReadModel.Traces)
             {
                 int idx;
-                while ((idx = GetFiberIndexInTrace(trace, GraphVm.Fibers.Single(f => f.Id == cmd.FiberId))) != -1)
+                while ((idx = GetFiberIndexInTrace(trace, GraphReadModel.Fibers.Single(f => f.Id == cmd.FiberId))) != -1)
                 {
                     trace.Nodes.Insert(idx + 1, cmd.Id); // GPS location добавляется во все трассы
                 }
@@ -167,9 +167,9 @@ namespace Iit.Fibertest.TestBench
 
         private GpsLocation GetFiberCenter(Guid fiberId)
         {
-            var fiber = GraphVm.Fibers.Single(f => f.Id == fiberId);
-            var node1 = GraphVm.Nodes.Single(n => n.Id == fiber.Node1.Id);
-            var node2 = GraphVm.Nodes.Single(n => n.Id == fiber.Node2.Id);
+            var fiber = GraphReadModel.Fibers.Single(f => f.Id == fiberId);
+            var node1 = GraphReadModel.Nodes.Single(n => n.Id == fiber.Node1.Id);
+            var node2 = GraphReadModel.Nodes.Single(n => n.Id == fiber.Node2.Id);
             return new GpsLocation() { Latitude = (node1.Position.Lat + node2.Position.Lat) / 2, Longitude = (node1.Position.Lng + node2.Position.Lng) / 2 };
         }
         #endregion

@@ -2,7 +2,7 @@
 
 namespace Iit.Fibertest.TestBench
 {
-    public partial class GraphVm
+    public partial class GraphReadModel
     {
         private Visibility _equipmentVisibility;
         public Visibility EquipmentVisibility

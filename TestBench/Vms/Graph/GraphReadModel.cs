@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Linq;
 using Caliburn.Micro;
 using GMap.NET;
 using Iit.Fibertest.Graph;
@@ -6,7 +7,7 @@ using Iit.Fibertest.Graph.Events;
 
 namespace Iit.Fibertest.TestBench
 {
-    public partial class GraphVm : PropertyChangedBase
+    public partial class GraphReadModel : PropertyChangedBase
     {
         public ObservableCollection<NodeVm> Nodes { get; }
         public ObservableCollection<FiberVm> Fibers { get; }
@@ -38,7 +39,7 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
-        public GraphVm()
+        public GraphReadModel()
         {
             Nodes = new ObservableCollection<NodeVm>();
             Fibers = new ObservableCollection<FiberVm>();
@@ -49,6 +50,17 @@ namespace Iit.Fibertest.TestBench
             IsEquipmentVisible = true;
         }
 
+        private void Apply(NodeAdded evnt)
+        {
+            var nodeVm = new NodeVm()
+            {
+                Id = evnt.Id,
+                State = FiberState.Ok,
+                Type = evnt.IsJustForCurvature ? EquipmentType.Invisible : EquipmentType.Well,
+                Position = new PointLatLng(evnt.Latitude, evnt.Longitude)
+            };
+            Nodes.Add(nodeVm);
+        }
         public void Apply(RtuAtGpsLocationAdded evnt)
         {
             var nodeVm = new NodeVm()
@@ -62,6 +74,32 @@ namespace Iit.Fibertest.TestBench
 
             var rtuVm = new RtuVm() { Id = evnt.Id, Node = nodeVm };
             Rtus.Add(rtuVm);
+        }
+
+        public void Apply(EquipmentAtGpsLocationAdded evnt)
+        {
+            var nodeVm = new NodeVm()
+            {
+                Id = evnt.NodeId,
+                State = FiberState.Ok,
+                Type = evnt.Type,
+                Position = new PointLatLng(evnt.Latitude, evnt.Longitude)
+            };
+            Nodes.Add(nodeVm);
+
+            Equipments.Add(new EquipmentVm() { Id = evnt.Id, Node = nodeVm, Type = evnt.Type });
+        }
+
+
+        public void Apply(FiberAdded evnt)
+        {
+            Fibers.Add(new FiberVm()
+            {
+                Id = evnt.Id,
+                Node1 = Nodes.First(m => m.Id == evnt.Node1),
+                Node2 = Nodes.First(m => m.Id == evnt.Node2),
+                State = FiberState.NotInTrace
+            });
         }
 
     }

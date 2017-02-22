@@ -19,7 +19,7 @@ namespace Graph.Tests
         {
             _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
             _sut.Poller.Tick();
-            var nodeId = _sut.ShellVm.GraphVm.Nodes.Last().Id;
+            var nodeId = _sut.ShellVm.GraphReadModel.Nodes.Last().Id;
 
             _sut.FakeWindowManager.RegisterHandler(model => _sut.NodeUpdateHandler(model, title, @"doesn't matter", Answer.Yes));
             _sut.ShellVm.ComplyWithRequest(new UpdateNode() {Id = nodeId }).Wait();
@@ -56,7 +56,7 @@ namespace Graph.Tests
         [Then(@"Сохраняется название узла (.*)")]
         public void ThenСохраняетсяНазваниеУзла(string title)
         {
-            _sut.ShellVm.GraphVm.Nodes.First(n => n.Id == _saidNodeId).Title.Should().Be(title);
+            _sut.ShellVm.GraphReadModel.Nodes.First(n => n.Id == _saidNodeId).Title.Should().Be(title);
         }
 
         [Given(@"Пользователь ввел комментарий к узлу (.*)")]
@@ -70,7 +70,7 @@ namespace Graph.Tests
         [Then(@"Сохраняется комментарий узла (.*)")]
         public void ThenСохраняетсяКомментарийУзла(string comment)
         {
-            _sut.ShellVm.GraphVm.Nodes.First(n => n.Id == _saidNodeId).Comment.Should().Be(comment);
+            _sut.ShellVm.GraphReadModel.Nodes.First(n => n.Id == _saidNodeId).Comment.Should().Be(comment);
         }
 
         [When(@"Пользователь открыл окно редактирования и что-то изменив нажал Отменить")]
