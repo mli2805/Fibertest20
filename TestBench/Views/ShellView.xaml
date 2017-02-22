@@ -17,7 +17,7 @@
                 </StackPanel>
             </TabItem>
             <TabItem Header="{x:Static stringResources:Resources.SID_Map }" IsSelected="True">
-                <testBench:MapUserControl DataContext="{Binding GraphVm}"/>
+                <testBench:MapUserControl DataContext="{Binding GraphReadModel}"/>
             </TabItem>
         </TabControl>
     </DockPanel>
