@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace Iit.Fibertest.Graph.Events
 {
+    [Serializable]
     public class EquipmentIntoNodeAdded
     {
         public Guid Id { get; set; }

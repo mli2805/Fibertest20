@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace Iit.Fibertest.Graph.Events
 {
+    [Serializable]
     public class BaseRefAssigned
     {
         public Guid TraceId { get; set; }

@@ -2,6 +2,7 @@
 
 namespace Iit.Fibertest.Graph.Events
 {
+    [Serializable]
     public class TraceAttached
     {
         public int Port { get; set; }

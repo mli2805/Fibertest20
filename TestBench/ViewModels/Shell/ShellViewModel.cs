@@ -16,17 +16,18 @@ namespace Iit.Fibertest.TestBench
         public ILogger Log { get; set; }
 
         private readonly IWindowManager _windowManager;
-        public GraphVm GraphVm { get; set; } = new GraphVm();
+        public GraphVm GraphVm { get; set; }
         public ReadModel ReadModel { get; }
         public Bus Bus { get; }
 
         public Db LocalDb { get; set; }
-        public ShellViewModel(ReadModel readModel, TreeReadModel treeReadModel, Bus bus, Db db, IWindowManager windowManager, ILogger clientLogger)
+        public ShellViewModel(ReadModel readModel, TreeReadModel treeReadModel, Bus bus, Db db, GraphVm graphVm, IWindowManager windowManager, ILogger clientLogger)
         {
             ReadModel = readModel;
             MyLeftPanelViewModel = new LeftPanelViewModel(treeReadModel);
             Bus = bus;
             LocalDb = db;
+            GraphVm = graphVm;
             _windowManager = windowManager;
 
             Log = clientLogger;

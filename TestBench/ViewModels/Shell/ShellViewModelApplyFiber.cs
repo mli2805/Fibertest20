@@ -108,7 +108,7 @@ namespace Iit.Fibertest.TestBench
         private void ApplyToMap(AddFiber cmd)
         {
             if (Validate(cmd))
-                EndFiberCreationOne(cmd.Id, GraphVm.Nodes.Single(m => m.Id == cmd.Node1), GraphVm.Nodes.Single(m => m.Id == cmd.Node2));
+                EndFiberCreationOne(cmd.Id, GraphVm.Nodes.First(m => m.Id == cmd.Node1), GraphVm.Nodes.First(m => m.Id == cmd.Node2));
         }
 
         private bool Validate(AddFiber cmd)

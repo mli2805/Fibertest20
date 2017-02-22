@@ -2,6 +2,7 @@
 
 namespace Iit.Fibertest.Graph.Events
 {
+    [Serializable]
     public class NodeAdded
     {
         public Guid Id { get; set; }
