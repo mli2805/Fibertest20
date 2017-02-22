@@ -11,7 +11,7 @@ namespace Iit.Fibertest.Graph
     public class WriteModel
     {
         public Db Db { get; }
-        public List<object> Events { get; } = new List<object>();
+        public List<object> EventsWaitingForCommit { get; } = new List<object>();
         private readonly IMapper _mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
 
@@ -24,6 +24,10 @@ namespace Iit.Fibertest.Graph
         public WriteModel(Db db)
         {
             Db = db;
+            foreach (var dbEvent in Db.Events) // on start replay all existing events
+            {
+                this.AsDynamic().Apply(dbEvent);
+            }
         }
 
         public void AddAndCommit(object evnt)
@@ -34,15 +38,15 @@ namespace Iit.Fibertest.Graph
 
         public void Add(object evnt)
         {
-            Events.Add(evnt);
+            EventsWaitingForCommit.Add(evnt);
             this.AsDynamic().Apply(evnt);
         }
 
         public void Commit()
         {
-            foreach (var @event in Events)
+            foreach (var @event in EventsWaitingForCommit)
                 Db.Add(@event);
-            Events.Clear();
+            EventsWaitingForCommit.Clear();
         }
 
         public bool HasAnotherNodeWithTitle(string title, Guid id)

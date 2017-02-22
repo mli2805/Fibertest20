@@ -50,6 +50,7 @@ namespace Iit.Fibertest.TestBench
             IsEquipmentVisible = true;
         }
 
+        #region Node
         private void Apply(NodeAdded evnt)
         {
             var nodeVm = new NodeVm()
@@ -61,6 +62,22 @@ namespace Iit.Fibertest.TestBench
             };
             Nodes.Add(nodeVm);
         }
+        #endregion
+
+        #region Fiber
+        public void Apply(FiberAdded evnt)
+        {
+            Fibers.Add(new FiberVm()
+            {
+                Id = evnt.Id,
+                Node1 = Nodes.First(m => m.Id == evnt.Node1),
+                Node2 = Nodes.First(m => m.Id == evnt.Node2),
+                State = FiberState.NotInTrace
+            });
+        }
+        #endregion
+
+        #region Rtu
         public void Apply(RtuAtGpsLocationAdded evnt)
         {
             var nodeVm = new NodeVm()
@@ -76,6 +93,14 @@ namespace Iit.Fibertest.TestBench
             Rtus.Add(rtuVm);
         }
 
+        public void Apply(RtuUpdated evnt)
+        {
+            var rtu = Rtus.First(r => r.Id == evnt.Id);
+            rtu.Title = evnt.Title;
+        }
+        #endregion
+
+        #region Equipment
         public void Apply(EquipmentAtGpsLocationAdded evnt)
         {
             var nodeVm = new NodeVm()
@@ -89,18 +114,13 @@ namespace Iit.Fibertest.TestBench
 
             Equipments.Add(new EquipmentVm() { Id = evnt.Id, Node = nodeVm, Type = evnt.Type });
         }
+        #endregion
 
+        #region Trace
 
-        public void Apply(FiberAdded evnt)
-        {
-            Fibers.Add(new FiberVm()
-            {
-                Id = evnt.Id,
-                Node1 = Nodes.First(m => m.Id == evnt.Node1),
-                Node2 = Nodes.First(m => m.Id == evnt.Node2),
-                State = FiberState.NotInTrace
-            });
-        }
+        
+
+        #endregion
 
     }
 }
