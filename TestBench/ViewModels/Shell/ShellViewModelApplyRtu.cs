@@ -32,7 +32,7 @@ namespace Iit.Fibertest.TestBench
         private void ApplyToMap(UpdateRtu cmd)
         {
             var rtu = GraphReadModel.Rtus.First(r => r.Id == cmd.Id);
-            rtu.Node.Position = new PointLatLng(cmd.Latitude, cmd.Longitude);
+            rtu.Node.Title = rtu.Title;
         }
 
         private void ApplyToMap(RemoveRtu cmd)

@@ -85,7 +85,7 @@ namespace Iit.Fibertest.TestBench
                 Id = evnt.NodeId,
                 State = FiberState.Ok,
                 Type = EquipmentType.Rtu,
-                Position = new PointLatLng(evnt.Latitude, evnt.Longitude)
+                Position = new PointLatLng(evnt.Latitude, evnt.Longitude),
             };
             Nodes.Add(nodeVm);
 
@@ -97,6 +97,7 @@ namespace Iit.Fibertest.TestBench
         {
             var rtu = Rtus.First(r => r.Id == evnt.Id);
             rtu.Title = evnt.Title;
+            rtu.Node.Title = evnt.Title;
         }
         #endregion
 

@@ -74,10 +74,7 @@ namespace Iit.Fibertest.TestBench
         {
             IMapper mapper = new MapperConfiguration(cfg => cfg.AddProfile<MappingViewModelToCommand>()).CreateMapper();
             Command = mapper.Map<UpdateRtu>(this);
-            Command.NodeId = _nodeId;
             Command.Id = _graphReadModel.Rtus.First(r => r.Node.Id == _nodeId).Id;
-            Command.Latitude = GpsInputViewModel.OneCoorViewModelLatitude.StringsToValue();
-            Command.Longitude = GpsInputViewModel.OneCoorViewModelLongitude.StringsToValue();
             TryClose();
         }
 

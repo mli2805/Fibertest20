@@ -187,9 +187,6 @@ namespace Iit.Fibertest.TestBench
         {
             var rtu = Rtus.First(r => r.Id == e.Id);
             rtu.Title = e.Title;
-            var node = Nodes.First(n => n.Id == rtu.NodeId);
-            node.Latitude = e.Latitude;
-            node.Longitude = e.Longitude;
         }
         public void Apply(RtuRemoved e)
         {

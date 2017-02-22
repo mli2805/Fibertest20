@@ -38,12 +38,27 @@ namespace Iit.Fibertest.TestBench
             foreach (var newItem in newItems)
             {
                 var nodeVm = (NodeVm)newItem;
+                nodeVm.PropertyChanged += NodeVm_PropertyChanged;
                 var marker = new GMapMarker(nodeVm.Id, nodeVm.Position);
                 marker.ZIndex = 2;
                 var markerControl = new MarkerControl(this, marker, nodeVm.Type, nodeVm.Title);
                 marker.Shape = markerControl;
                 MainMap.Markers.Add(marker);
             }
+        }
+
+        private void NodeVm_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            var nodeVm = (NodeVm)sender;
+
+            var oldMarker = MainMap.Markers.First(m => m.Id == nodeVm.Id);
+            MainMap.Markers.Remove(oldMarker);
+
+            var marker = new GMapMarker(nodeVm.Id, nodeVm.Position);
+            marker.ZIndex = 2;
+            var markerControl = new MarkerControl(this, marker, nodeVm.Type, nodeVm.Title);
+            marker.Shape = markerControl;
+            MainMap.Markers.Add(marker);
         }
 
         private void ApplyRemovedNodes(IList oldItems)
