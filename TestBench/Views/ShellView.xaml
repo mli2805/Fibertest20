@@ -13,9 +13,7 @@
         <TabControl>
             <TabItem Header="{x:Static stringResources:Resources.SID_System_events }">
                 <StackPanel>
-                    <Button Width="120" Height="25" Name="AddOneNode" Content="Add One Node" />
-                    <Button Width="120" Height="25" Name="Populate" Content="Populate" />
-                    <Button Width="120" Height="25" Name="AssignBase" Content="AssignBase" />
+                    <Button Width="120" Height="25" Name="Save" Content="Save Db" />
                 </StackPanel>
             </TabItem>
             <TabItem Header="{x:Static stringResources:Resources.SID_Map }" IsSelected="True">

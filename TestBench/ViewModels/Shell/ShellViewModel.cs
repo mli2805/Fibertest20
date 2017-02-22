@@ -21,17 +21,24 @@ namespace Iit.Fibertest.TestBench
         public ReadModel ReadModel { get; }
         public Bus Bus { get; }
 
-        public ShellViewModel(ReadModel readModel, TreeReadModel treeReadModel, Bus bus, IWindowManager windowManager, ILogger clientLogger)
+        public Db LocalDb { get; set; }
+        public ShellViewModel(ReadModel readModel, TreeReadModel treeReadModel, Bus bus, Db db, IWindowManager windowManager, ILogger clientLogger)
         {
             ReadModel = readModel;
             MyLeftPanelViewModel = new LeftPanelViewModel(treeReadModel);
             Bus = bus;
+            LocalDb = db;
             _windowManager = windowManager;
 
             Log = clientLogger;
             Log.Information(@"Client started!");
 
-            PopulateWithTraceWithBase(bus);
+//            PopulateWithTraceWithBase(bus);
+        }
+
+        public void Save()
+        {
+            LocalDb.Save();
         }
 
         private void PopulateWithTraceWithBase(Bus bus)
