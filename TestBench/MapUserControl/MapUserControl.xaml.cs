@@ -38,7 +38,6 @@ namespace Iit.Fibertest.TestBench
 
             graph.Nodes.CollectionChanged += NodesCollectionChanged;
             graph.Fibers.CollectionChanged += FibersCollectionChanged;
-            graph.MarkerVms.CollectionChanged += MarkerVms_CollectionChanged; 
         }
 
 

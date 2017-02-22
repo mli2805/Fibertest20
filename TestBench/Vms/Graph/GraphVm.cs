@@ -1,5 +1,8 @@
 using System.Collections.ObjectModel;
 using Caliburn.Micro;
+using GMap.NET;
+using Iit.Fibertest.Graph;
+using Iit.Fibertest.Graph.Events;
 
 namespace Iit.Fibertest.TestBench
 {
@@ -10,7 +13,6 @@ namespace Iit.Fibertest.TestBench
         public ObservableCollection<RtuVm> Rtus { get; }
         public ObservableCollection<EquipmentVm> Equipments { get; }
         public ObservableCollection<TraceVm> Traces { get; }
-        public ObservableCollection<MarkerVm> MarkerVms { get; }
 
         private string _currentMousePosition;
         public string CurrentMousePosition
@@ -43,9 +45,23 @@ namespace Iit.Fibertest.TestBench
             Rtus = new ObservableCollection<RtuVm>();
             Equipments = new ObservableCollection<EquipmentVm>();
             Traces = new ObservableCollection<TraceVm>();
-            MarkerVms = new ObservableCollection<MarkerVm>();
 
             IsEquipmentVisible = true;
+        }
+
+        public void Apply(RtuAtGpsLocationAdded evnt)
+        {
+            var nodeVm = new NodeVm()
+            {
+                Id = evnt.NodeId,
+                State = FiberState.Ok,
+                Type = EquipmentType.Rtu,
+                Position = new PointLatLng(evnt.Latitude, evnt.Longitude)
+            };
+            Nodes.Add(nodeVm);
+
+            var rtuVm = new RtuVm() { Id = evnt.Id, Node = nodeVm };
+            Rtus.Add(rtuVm);
         }
 
     }

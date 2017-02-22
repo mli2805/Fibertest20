@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Windows.Controls;
 using GMap.NET.WindowsPresentation;
 
 namespace Iit.Fibertest.TestBench
@@ -13,25 +12,6 @@ namespace Iit.Fibertest.TestBench
     /// </summary>
     public partial class MapUserControl
     {
-        private void MarkerVms_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            switch (e.Action)
-            {
-                case NotifyCollectionChangedAction.Add:
-                    ApplyAddedMarkerVms(e.NewItems);
-                    break;
-                case NotifyCollectionChangedAction.Remove:
-                    break;
-                case NotifyCollectionChangedAction.Replace:
-                    break;
-                case NotifyCollectionChangedAction.Move:
-                    break;
-                case NotifyCollectionChangedAction.Reset:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
         private void NodesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             switch (e.Action)
@@ -50,19 +30,6 @@ namespace Iit.Fibertest.TestBench
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        private void ApplyAddedMarkerVms(IList newItems)
-        {
-            foreach (var newItem in newItems)
-            {
-                var markerVm = (MarkerVm)newItem;
-                var markerControl = new GMapMarker(markerVm.Id, markerVm.Position);
-                //                markerControl.DataContext = markerVm;
-                markerControl.Shape = new Image();
-                //                markerControl.Shape.DataContext =
-                //markerControl.Shape.MouseLeftButtonDown +=
             }
         }
 

@@ -23,7 +23,6 @@ namespace Iit.Fibertest.TestBench
             var leaf = new RtuLeaf()
             {
                 Id = e.Id, Title = Resources.SID_noname_RTU, Color = Brushes.DarkGray,
-
             };
             Tree.Add(leaf);
         }

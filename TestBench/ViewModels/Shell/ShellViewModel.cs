@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
@@ -32,94 +31,12 @@ namespace Iit.Fibertest.TestBench
 
             Log = clientLogger;
             Log.Information(@"Client started!");
-
-//            PopulateWithTraceWithBase(bus);
         }
 
         public void Save()
         {
             LocalDb.Save();
         }
-
-        private void PopulateWithTraceWithBase(Bus bus)
-        {
-            var rtuNodeId = Guid.NewGuid();
-            var rtuId = Guid.NewGuid();
-            Bus.SendCommand(new AddRtuAtGpsLocation()
-            {
-                Id = rtuId,
-                NodeId = rtuNodeId,
-                Latitude = 52.429333,
-                Longitude = 31.006683
-            });
-
-            Bus.SendCommand(new UpdateRtu()
-            {
-                Id = rtuId,
-                Title = @"Grushauka 203",
-            });
-
-            var middleNodeId = Guid.NewGuid();
-            Bus.SendCommand(new AddNode()
-            {
-                Id = middleNodeId,
-                Latitude = 52.329333,
-                Longitude = 30.906683
-            });
-
-            bus.SendCommand(new AddFiber()
-            {
-                Id = Guid.NewGuid(),
-                Node1 = rtuNodeId,
-                Node2 = middleNodeId
-            });
-
-            var lastNodeId = Guid.NewGuid();
-            var terminalId = Guid.NewGuid();
-            Bus.SendCommand(new AddEquipmentAtGpsLocation()
-            {
-                Id = terminalId,
-                NodeId = lastNodeId,
-                Type = EquipmentType.Terminal,
-                Latitude = 52.229333,
-                Longitude = 30.806683
-            });
-
-            bus.SendCommand(new AddFiber()
-            {
-                Id = Guid.NewGuid(),
-                Node1 = middleNodeId,
-                Node2 = lastNodeId
-            });
-
-            var traceId = Guid.NewGuid();
-            bus.SendCommand(new AddTrace()
-            {
-                Id = traceId,
-                RtuId = rtuId,
-                Nodes = new List<Guid>() {rtuNodeId, middleNodeId, lastNodeId},
-                Equipments = new List<Guid>() {rtuId, Guid.Empty, terminalId},
-                Title = @"Trace from Grushauka to Kolodzishschi",
-                Comment = @"Trace was built from code",
-            });
-
-            var ids = new Dictionary<BaseRefType, Guid>();
-            var preciseId = Guid.NewGuid();
-            ids.Add(BaseRefType.Precise, preciseId);
-            var fastId = Guid.NewGuid();
-            ids.Add(BaseRefType.Fast, fastId);
-
-            var contents = new Dictionary<Guid, byte[]>();
-            contents.Add(preciseId, new byte[10000]);
-            contents.Add(fastId, new byte[10000]);
-            bus.SendCommand(new AssignBaseRef()
-            {
-                TraceId = traceId,
-                Ids = ids,
-                Contents = contents,
-            });
-        }
-
 
         protected override void OnViewLoaded(object view)
         {
