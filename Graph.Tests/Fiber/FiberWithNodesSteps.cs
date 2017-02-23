@@ -37,6 +37,7 @@ namespace Graph.Tests
         public void GivenМеждуЛевымИПравымУзломУжеДобавленОтрезок()
         {
             _sut.ShellVm.ComplyWithRequest(new AddFiber() {Node1 = _leftNodeId, Node2 = _rightNodeId}).Wait();
+            _sut.Poller.Tick();
             _fibersCountCutOff = _sut.ShellVm.ReadModel.Fibers.Count;
         }
 
