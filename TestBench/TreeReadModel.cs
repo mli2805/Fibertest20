@@ -2,7 +2,6 @@
 using System.Windows.Media;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.Graph.Events;
 using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.TestBench
@@ -10,11 +9,13 @@ namespace Iit.Fibertest.TestBench
     public class TreeReadModel
     {
         private readonly IWindowManager _windowManager;
+        private readonly ReadModel _readModel;
         public ObservableCollection<Leaf> Tree { get; set; } = new ObservableCollection<Leaf>();
 
-        public TreeReadModel(IWindowManager windowManager)
+        public TreeReadModel(IWindowManager windowManager, ReadModel readModel)
         {
             _windowManager = windowManager;
+            _readModel = readModel;
         }
 
         #region Rtu
@@ -42,12 +43,13 @@ namespace Iit.Fibertest.TestBench
         #region Trace
         public void Apply(TraceAdded e)
         {
-            var trace = new TraceLeaf(_windowManager)
+            var trace = new TraceLeaf(_windowManager, _readModel)
             {
                 Id = e.Id, Title = e.Title, TraceState = FiberState.NotJoined, Color = Brushes.Blue,
             };
             var rtu = Tree.GetById(e.RtuId);
             rtu.Children.Add(trace);
+            trace.Parent = rtu;
             rtu.IsExpanded = true;
         }
 

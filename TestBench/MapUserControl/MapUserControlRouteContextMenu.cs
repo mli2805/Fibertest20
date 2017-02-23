@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 using GMap.NET.WindowsPresentation;
-using Iit.Fibertest.Graph.Commands;
+using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.TestBench
 {

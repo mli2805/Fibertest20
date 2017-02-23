@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Iit.Fibertest.Graph.Commands
+namespace Iit.Fibertest.Graph
 {
     public class AddEquipmentIntoNode
     {

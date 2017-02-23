@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Iit.Fibertest.Graph.Commands
+namespace Iit.Fibertest.Graph
 {
     /// <summary>
     /// Attention! Mind the difference with Fibertest 1.5

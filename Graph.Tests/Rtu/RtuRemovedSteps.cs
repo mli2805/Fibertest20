@@ -2,7 +2,6 @@
 using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.Graph.Commands;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests

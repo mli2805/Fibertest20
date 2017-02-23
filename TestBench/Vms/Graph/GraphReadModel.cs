@@ -6,7 +6,6 @@ using AutoMapper;
 using Caliburn.Micro;
 using GMap.NET;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.Graph.Events;
 
 namespace Iit.Fibertest.TestBench
 {

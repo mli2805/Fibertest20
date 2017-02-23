@@ -2,7 +2,6 @@
 using System.Linq;
 using GMap.NET;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.Graph.Commands;
 using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.TestBench

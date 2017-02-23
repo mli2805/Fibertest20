@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Iit.Fibertest.Graph.Events
+namespace Iit.Fibertest.Graph
 {
     [Serializable]
     public class RtuUpdated

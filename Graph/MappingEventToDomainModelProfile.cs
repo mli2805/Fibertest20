@@ -1,5 +1,4 @@
 using AutoMapper;
-using Iit.Fibertest.Graph.Events;
 
 namespace Iit.Fibertest.Graph
 {

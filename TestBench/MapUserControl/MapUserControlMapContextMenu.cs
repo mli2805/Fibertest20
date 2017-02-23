@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.Graph.Commands;
 
 namespace Iit.Fibertest.TestBench
 {

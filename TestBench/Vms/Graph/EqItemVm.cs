@@ -1,6 +1,6 @@
 using System;
 using Caliburn.Micro;
-using Iit.Fibertest.Graph.Commands;
+using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.TestBench
 {

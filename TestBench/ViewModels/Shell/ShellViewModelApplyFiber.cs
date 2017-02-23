@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.Graph.Commands;
 using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.TestBench

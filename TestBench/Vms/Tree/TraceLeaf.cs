@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Media;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
@@ -9,6 +10,7 @@ namespace Iit.Fibertest.TestBench
     public class TraceLeaf : Leaf
     {
         private readonly IWindowManager _windowManager;
+        private readonly ReadModel _readModel;
         public MonitoringState MonitoringState { get; set; }
         public FiberState TraceState { get; set; }
 
@@ -18,9 +20,10 @@ namespace Iit.Fibertest.TestBench
         public int PortNumber { get; set; }
 
 
-        public TraceLeaf(IWindowManager windowManager)
+        public TraceLeaf(IWindowManager windowManager, ReadModel readModel)
         {
             _windowManager = windowManager;
+            _readModel = readModel;
         }
 
 
@@ -58,8 +61,9 @@ namespace Iit.Fibertest.TestBench
 
         private void AssignBaseRefsAction(object param)
         {
-//            var vm = new BaseRefsAssignViewModel(Id);
-//            _windowManager.ShowDialog(vm);
+            var trace = _readModel.Traces.First(t => t.Id == Id);
+            var vm = new BaseRefsAssignViewModel(trace, Parent.Title);
+            _windowManager.ShowDialog(vm);
 
         }
         private bool CanSomeAction(object param) { return true; }

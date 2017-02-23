@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Linq;
 using AutoMapper;
 using Caliburn.Micro;
-using Iit.Fibertest.Graph.Commands;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.TestBench

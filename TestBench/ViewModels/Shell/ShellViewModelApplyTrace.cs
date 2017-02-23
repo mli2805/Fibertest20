@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AutoMapper;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.Graph.Commands;
-using Iit.Fibertest.Graph.Events;
 using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.TestBench
@@ -105,8 +102,8 @@ namespace Iit.Fibertest.TestBench
 
         private AssignBaseRef PrepareCommand(RequestAssignBaseRef request)
         {
-            var traceVm = GraphReadModel.Traces.First(t => t.Id == request.TraceId);
-            var vm = new BaseRefsAssignViewModel(traceVm, GraphReadModel.Rtus.First(r=>r.Id == traceVm.RtuId));
+            var trace = ReadModel.Traces.First(t => t.Id == request.TraceId);
+            var vm = new BaseRefsAssignViewModel(trace, GraphReadModel.Rtus.First(r=>r.Id == trace.RtuId).Title);
             _windowManager.ShowDialog(vm);
             return vm.Command;
         }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Iit.Fibertest.Graph.Events
+namespace Iit.Fibertest.Graph
 {
     [Serializable]
     public class NodeRemoved

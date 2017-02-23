@@ -2,7 +2,6 @@ using System;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.Graph.Commands;
 using Iit.Fibertest.StringResources;
 using PrivateReflectionUsingDynamic;
 using Serilog;

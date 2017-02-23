@@ -2,44 +2,40 @@
 using System.IO;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.Graph.Commands;
 
 namespace Iit.Fibertest.TestBench
 {
     public class BaseRefsAssignViewModel : Screen
     {
-        private TraceVm _traceVm;
-        private RtuVm _rtuVm;
+        private readonly Trace _trace;
 
         private const string SavedInDb = "Сохранено в БД";
 
-        public string TraceTitle { get; private set; }
         public string RtuTitle { get; private set; }
-        public string RtuPort { get; private set; }
 
+        public string TraceTitle { get; private set; }
+        public string TracePortOnRtu { get; private set; }
         public string PreciseBaseFilename { get; set; }
         public string FastBaseFilename { get; set; }
         public string AdditionalBaseFilename { get; set; }
 
         public AssignBaseRef Command { get; set; }
 
-        public BaseRefsAssignViewModel(TraceVm traceVm, RtuVm rtuVm)
+        public BaseRefsAssignViewModel(Trace trace, string rtuTitle)
         {
-            _traceVm = traceVm;
-            _rtuVm = rtuVm;
+            RtuTitle = rtuTitle;
+            _trace = trace;
 
             Initialize();
         }
 
         private void Initialize()
         {
-            TraceTitle = _traceVm.Title;
-            RtuTitle = _rtuVm.Title;
-            RtuPort = _traceVm.Port.ToString();
-
-            PreciseBaseFilename = _traceVm.PreciseId == Guid.Empty ? "" : SavedInDb;
-            FastBaseFilename = _traceVm.FastId == Guid.Empty ? "" : SavedInDb;
-            AdditionalBaseFilename = _traceVm.AdditionalId == Guid.Empty ? "" : SavedInDb;
+            TraceTitle = _trace.Title;
+            TracePortOnRtu = _trace.Port.ToString();
+            PreciseBaseFilename = _trace.PreciseId == Guid.Empty ? "" : SavedInDb;
+            FastBaseFilename = _trace.FastId == Guid.Empty ? "" : SavedInDb;
+            AdditionalBaseFilename = _trace.AdditionalId == Guid.Empty ? "" : SavedInDb;
         }
 
         private void SendAssingBaseRef(string filename, BaseRefType type)
@@ -57,12 +53,12 @@ namespace Iit.Fibertest.TestBench
 
         public void Save()
         {
-            Command = new AssignBaseRef() {TraceId = _traceVm.Id};
-            if (IsFilenameChanged(PreciseBaseFilename, _traceVm.PreciseId))
+            Command = new AssignBaseRef() {TraceId = _trace.Id};
+            if (IsFilenameChanged(PreciseBaseFilename, _trace.PreciseId))
                 SendAssingBaseRef(PreciseBaseFilename, BaseRefType.Precise);
-            if (IsFilenameChanged(FastBaseFilename, _traceVm.FastId))
+            if (IsFilenameChanged(FastBaseFilename, _trace.FastId))
                 SendAssingBaseRef(FastBaseFilename, BaseRefType.Fast);
-            if (IsFilenameChanged(AdditionalBaseFilename, _traceVm.AdditionalId))
+            if (IsFilenameChanged(AdditionalBaseFilename, _trace.AdditionalId))
                 SendAssingBaseRef(AdditionalBaseFilename, BaseRefType.Additional);
 
             TryClose();

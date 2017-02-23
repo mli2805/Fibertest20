@@ -1,5 +1,5 @@
 using AutoMapper;
-using Iit.Fibertest.Graph.Commands;
+using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.TestBench
 {

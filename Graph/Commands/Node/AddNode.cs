@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Iit.Fibertest.Graph.Commands
+namespace Iit.Fibertest.Graph
 {
     public class AddNode
     {

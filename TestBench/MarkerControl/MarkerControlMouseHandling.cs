@@ -4,7 +4,6 @@ using System.Windows;
 using System.Windows.Input;
 using GMap.NET.WindowsPresentation;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.Graph.Commands;
 
 namespace Iit.Fibertest.TestBench
 {
