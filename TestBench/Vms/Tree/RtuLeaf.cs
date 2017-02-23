@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Windows.Controls;
 using System.Windows.Media;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
@@ -49,8 +50,9 @@ namespace Iit.Fibertest.TestBench
                 CommandParameter = this
             });
 
+            menu.Add(null);
 
-            for (int i = 0; i < PortCount; i++)
+            for (int i = 1; i <= PortCount; i++)
             {
                 var portItem = new MenuItemVm() {Header = string.Format(Resources.SID_Port_N, i)};
                 portItem.Children.AddRange(GetFreePortSubMenuItems());

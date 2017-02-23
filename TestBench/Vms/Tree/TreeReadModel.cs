@@ -27,6 +27,11 @@ namespace Iit.Fibertest.TestBench
             {
                 Id = e.Id, Title = Resources.SID_noname_RTU, Color = Brushes.DarkGray,
             };
+
+            // TODO this should be set by rtu initialization
+            leaf.PortCount = 8;
+            leaf.Color = Brushes.Black;
+
             Tree.Add(leaf);
         }
 
