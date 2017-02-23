@@ -8,12 +8,6 @@ namespace Iit.Fibertest.TestBench
 {
     public partial class ShellViewModel
     {
-        private void ApplyToMap(MoveNode cmd)
-        {
-            var nodeVm = GraphReadModel.Nodes.First(n => n.Id == cmd.Id);
-            nodeVm.Position = new PointLatLng(cmd.Latitude, cmd.Longitude);
-        }
-
         private RemoveNode PrepareCommand(RequestRemoveNode request)
         {
             if (GraphReadModel.Traces.Any(t => t.Nodes.Last() == request.Id))
