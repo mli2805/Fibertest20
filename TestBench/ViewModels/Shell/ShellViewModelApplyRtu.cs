@@ -6,21 +6,6 @@ namespace Iit.Fibertest.TestBench
 {
     public partial class ShellViewModel
     {
-        private void ApplyToMap(AddRtuAtGpsLocation cmd)
-        {
-            var nodeVm = new NodeVm()
-            {
-                Id = cmd.NodeId,
-                State = FiberState.Ok,
-                Type = EquipmentType.Rtu,
-                Position = new PointLatLng(cmd.Latitude, cmd.Longitude)
-            };
-            GraphReadModel.Nodes.Add(nodeVm);
-
-            var rtuVm = new RtuVm() { Id = cmd.Id, Node = nodeVm};
-            GraphReadModel.Rtus.Add(rtuVm);
-        }
-
         private UpdateRtu PrepareCommand(RequestUpdateRtu request)
         {
             var vm = new RtuUpdateViewModel(request.NodeId, GraphReadModel);

@@ -113,7 +113,10 @@ namespace Iit.Fibertest.TestBench
 
         private AddFiber PrepareCommand(AddFiber request)
         {
-            return Validate(request) ? request : null;
+            if (!Validate(request))
+                return null;
+            request.Id = Guid.NewGuid();
+            return request;
         }
 
         private bool Validate(AddFiber cmd)

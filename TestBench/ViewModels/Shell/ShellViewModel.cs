@@ -58,7 +58,6 @@ namespace Iit.Fibertest.TestBench
             var cmd = request;
             cmd.Id = Guid.NewGuid();
             await Bus.SendCommand(cmd);
-//            ApplyToMap(cmd);
         }
 
         public async Task ComplyWithRequest(RequestAddNodeIntoFiber request)
@@ -110,9 +109,9 @@ namespace Iit.Fibertest.TestBench
         public async Task ComplyWithRequest(AddFiber request)
         {
             var cmd = PrepareCommand(request);
-            cmd.Id = Guid.NewGuid();
+            if (cmd == null)
+                return;
             await Bus.SendCommand(cmd);
-//            ApplyToMap(request);
         }
 
         public async Task ComplyWithRequest(RequestAddFiberWithNodes request)
@@ -124,9 +123,7 @@ namespace Iit.Fibertest.TestBench
             if (message != null)
             {
                 _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, message));
-//                return;
             }
-//            ApplyToMap(cmd);
         }
 
         public async Task ComplyWithRequest(RequestUpdateFiber request)
@@ -135,7 +132,6 @@ namespace Iit.Fibertest.TestBench
             if (cmd == null)
                 return;
             await Bus.SendCommand(cmd);
-//            ApplyToMap(cmd);
         }
 
         public async Task ComplyWithRequest(RemoveFiber request)
@@ -153,7 +149,6 @@ namespace Iit.Fibertest.TestBench
             cmd.Id = Guid.NewGuid();
             cmd.NodeId = Guid.NewGuid();
             await Bus.SendCommand(cmd);
-            ApplyToMap(cmd);
         }
         public async Task ComplyWithRequest(RequestUpdateRtu request)
         {
