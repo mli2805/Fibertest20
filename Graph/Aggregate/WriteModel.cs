@@ -174,7 +174,10 @@ namespace Iit.Fibertest.Graph
         }
         public void Apply(FiberUpdated source) { }
 
-        public void Apply(FiberRemoved e) { }
+        public void Apply(FiberRemoved e)
+        {
+            _fibers.Remove(_fibers.First(f => f.Id == e.Id));
+        }
         #endregion
 
         #region Equipment

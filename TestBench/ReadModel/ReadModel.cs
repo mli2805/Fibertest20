@@ -121,14 +121,13 @@ namespace Iit.Fibertest.TestBench
 
         public void Apply(FiberUpdated source)
         {
-            var destination = Fibers.Single(f => f.Id == source.Id);
+            var destination = Fibers.First(f => f.Id == source.Id);
             _mapper.Map(source, destination);
         }
 
         public void Apply(FiberRemoved e)
         {
-            var fiber = Fibers.Single(f => f.Id == e.Id);
-            Fibers.Remove(fiber);
+            Fibers.Remove(Fibers.First(f => f.Id == e.Id));
         }
         #endregion
 
