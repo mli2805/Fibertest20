@@ -8,29 +8,10 @@ namespace Iit.Fibertest.TestBench
 {
     public partial class ShellViewModel
     {
-        /*private void ApplyToMap(AddNode cmd)
-        {
-            var nodeVm = new NodeVm()
-            {
-                Id = cmd.Id,
-                State = FiberState.Ok,
-                Type = cmd.IsJustForCurvature ? EquipmentType.Invisible : EquipmentType.Well,
-                Position = new PointLatLng(cmd.Latitude, cmd.Longitude)
-            };
-            GraphReadModel.Nodes.Add(nodeVm);
-        }
-        */
         private void ApplyToMap(MoveNode cmd)
         {
-            var nodeVm = GraphReadModel.Nodes.Single(n => n.Id == cmd.Id);
+            var nodeVm = GraphReadModel.Nodes.First(n => n.Id == cmd.Id);
             nodeVm.Position = new PointLatLng(cmd.Latitude, cmd.Longitude);
-        }
-
-        private void ApplyToMap(UpdateNode cmd)
-        {
-            var nodeVm = GraphReadModel.Nodes.Single(n => n.Id == cmd.Id);
-            nodeVm.Title = cmd.Title;
-            nodeVm.Comment = cmd.Comment;
         }
 
         private RemoveNode PrepareCommand(RequestRemoveNode request)
@@ -62,27 +43,15 @@ namespace Iit.Fibertest.TestBench
             if (vm.Command is AddEquipmentIntoNode)
             {
                 Bus.SendCommand((AddEquipmentIntoNode)vm.Command);
-                ApplyToMap((AddEquipmentIntoNode)vm.Command);
             }
 
             if (vm.Command is UpdateEquipment)
             {
                 Bus.SendCommand((UpdateEquipment)vm.Command);
-                ApplyToMap((UpdateEquipment)vm.Command);
             }
 
             if (vm.Command is RemoveEquipment)
                 ComplyWithRequest((RemoveEquipment)vm.Command).Wait();
-        }
-
-        private void ApplyToMap(RemoveNode cmd)
-        {
-            var fiberVms = GraphReadModel.Fibers.Where(e => e.Node1.Id == cmd.Id || e.Node2.Id == cmd.Id).ToList();
-            foreach (var fiberVm in fiberVms)
-            {
-                GraphReadModel.Fibers.Remove(fiberVm);
-            }
-            GraphReadModel.Nodes.Remove(GraphReadModel.Nodes.Single(n => n.Id == cmd.Id));
         }
 
         #region AddNodeIntoFiber
@@ -133,15 +102,6 @@ namespace Iit.Fibertest.TestBench
             if (idxInTrace1 - idxInTrace2 == 1)
                 return idxInTrace2;
             return -1;
-        }
-
-        private void ApplyToMap(AddNodeIntoFiber cmd)
-        {
-
-            GraphReadModel.Nodes.Add(new NodeVm() { Id = cmd.Id, Position = new PointLatLng(cmd.Position.Latitude, cmd.Position.Longitude) });
-            AddTwoFibersToNewNode(cmd);
-            FixTracesWhichContainedOldFiber(cmd);
-            GraphReadModel.Fibers.Remove(GraphReadModel.Fibers.Single(f => f.Id == cmd.FiberId));
         }
 
         private void AddTwoFibersToNewNode(AddNodeIntoFiber cmd)

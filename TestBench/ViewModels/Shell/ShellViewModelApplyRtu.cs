@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using GMap.NET;
 using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.TestBench
@@ -13,18 +12,14 @@ namespace Iit.Fibertest.TestBench
             return vm.Command;
         }
 
-        private void ApplyToMap(UpdateRtu cmd)
+        private RemoveRtu PrepareCommand(RequestRemoveRtu request)
         {
-            var rtu = GraphReadModel.Rtus.First(r => r.Id == cmd.Id);
-            rtu.Node.Title = rtu.Title;
-        }
+            var rtu = GraphReadModel.Rtus.First(r => r.Node.Id == request.NodeId);
+            if (GraphReadModel.Traces.Any(t => t.RtuId == rtu.Id && t.Port > 0))
+                return null; // It's prohibited to remove rtu where there are traces joined
 
-        private void ApplyToMap(RemoveRtu cmd)
-        {
-            var rtuVm = GraphReadModel.Rtus.First(r => r.Id == cmd.Id);
-            var nodeVm = rtuVm.Node;
-            GraphReadModel.Rtus.Remove(rtuVm);
-            GraphReadModel.Nodes.Remove(nodeVm);
+            return new RemoveRtu() { Id = rtu.Id };
+
         }
 
     }

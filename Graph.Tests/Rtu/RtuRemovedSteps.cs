@@ -2,6 +2,7 @@
 using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.TestBench;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -46,7 +47,7 @@ namespace Graph.Tests
         [When(@"Пользователь кликает на РТУ удалить")]
         public void WhenПользовательКликаетНаРтуУдалить()
         {
-            _sut.ShellVm.ComplyWithRequest(new RemoveRtu() {Id = _rtu.Id}).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestRemoveRtu() {NodeId = _rtu.NodeId}).Wait();
             _sut.Poller.Tick();
         }
 

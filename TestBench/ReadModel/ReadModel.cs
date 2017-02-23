@@ -86,7 +86,7 @@ namespace Iit.Fibertest.TestBench
         {
             Fibers.RemoveAll(f => f.Node1 == nodeId || f.Node2 == nodeId);
             Equipments.RemoveAll(e => e.NodeId == nodeId);
-            Nodes.Remove(Nodes.Single(n => n.Id == nodeId));
+            Nodes.Remove(Nodes.First(n => n.Id == nodeId));
         }
 
         private void CreateDetourIfAbsent(Trace trace, Guid fiberId, int idxInTrace)

@@ -68,6 +68,25 @@ namespace Iit.Fibertest.TestBench
             Nodes.Add(nodeVm);
         }
 
+        private void Apply(NodeRemoved evnt)
+        {
+            RemoveNodeWithAllHis(evnt.Id);
+        }
+        private void RemoveNodeWithAllHis(Guid nodeId)
+        {
+            foreach (var fiberVm in Fibers.Where(f => f.Node1.Id == nodeId || f.Node2.Id == nodeId).ToList())
+            {
+                Fibers.Remove(fiberVm);
+            }
+
+            foreach (var equipmentVm in Equipments.Where(e=>e.Node.Id == nodeId).ToList())
+            {
+                Equipments.Remove(equipmentVm);
+            }
+
+            Nodes.Remove(Nodes.First(n => n.Id == nodeId));
+        }
+
         #endregion
 
         #region Fiber
@@ -106,6 +125,14 @@ namespace Iit.Fibertest.TestBench
             var rtu = Rtus.First(r => r.Id == evnt.Id);
             rtu.Title = evnt.Title;
             rtu.Node.Title = evnt.Title;
+        }
+
+        public void Apply(RtuRemoved evnt)
+        {
+            var rtuVm = Rtus.First(r => r.Id == evnt.Id);
+            Guid nodeId = rtuVm.Node.Id;
+            Rtus.Remove(rtuVm);
+            RemoveNodeWithAllHis(nodeId);
         }
 
         #endregion

@@ -107,19 +107,6 @@ namespace Iit.Fibertest.TestBench
             _windowManager.ShowDialog(vm);
             return vm.Command;
         }
-
-        private void ApplyToMap(AssignBaseRef cmd)
-        {
-            var traceVm = GraphReadModel.Traces.First(t => t.Id == cmd.TraceId);
-
-            if (cmd.Ids.ContainsKey(BaseRefType.Precise))
-                traceVm.PreciseId = cmd.Ids[BaseRefType.Precise];
-            if (cmd.Ids.ContainsKey(BaseRefType.Fast))
-                traceVm.FastId = cmd.Ids[BaseRefType.Fast];
-            if (cmd.Ids.ContainsKey(BaseRefType.Additional))
-                traceVm.AdditionalId = cmd.Ids[BaseRefType.Additional];
-        }
-
     }
 
 }

@@ -24,7 +24,7 @@ namespace Iit.Fibertest.TestBench
         private void AskRemoveRtu(object parameter)
         {
             var nodeId = (Guid)parameter;
-            _owner.GraphReadModel.Request = new UpdateNode() { Id = nodeId };
+            _owner.GraphReadModel.Request = new RequestRemoveRtu() { NodeId = nodeId };
         }
 
         private bool CanStartDefineTrace(object parameter) { return true; }

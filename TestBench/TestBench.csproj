@@ -110,6 +110,7 @@
     <Compile Include="Mappings\MappingCommandToVm.cs" />
     <Compile Include="ReadModel\ReadModel.cs" />
     <Compile Include="ReadModel\ReadModelExtensions.cs" />
+    <Compile Include="Requests\RequestRemoveRtu.cs" />
     <Compile Include="TreeReadModel.cs" />
     <Compile Include="Requests\RequestAddEquipmentIntoNode.cs" />
     <Compile Include="Requests\RequestAddFiberWithNodes.cs" />

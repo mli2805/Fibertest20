@@ -41,10 +41,10 @@ namespace Iit.Fibertest.TestBench
         protected override void OnViewLoaded(object view)
         {
             base.OnViewLoaded(view);
-            GraphReadModel.PropertyChanged += GraphVm_PropertyChanged;
+            GraphReadModel.PropertyChanged += GraphReadModel_PropertyChanged;
         }
 
-        private void GraphVm_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void GraphReadModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "Request")
                 this.AsDynamic().ComplyWithRequest(GraphReadModel.Request)
@@ -69,9 +69,7 @@ namespace Iit.Fibertest.TestBench
             if (message != null)
             {
                 _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, message));
-                return;
             }
-            ApplyToMap(cmd);
         }
 
         public async Task ComplyWithRequest(MoveNode request)
@@ -87,7 +85,6 @@ namespace Iit.Fibertest.TestBench
             if (cmd == null)
                 return;
             await Bus.SendCommand(cmd);
-            ApplyToMap(cmd);
         }
 
         public async Task ComplyWithRequest(RequestRemoveNode request)
@@ -99,9 +96,7 @@ namespace Iit.Fibertest.TestBench
             if (message != null)
             {
                 _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, message));
-                return;
             }
-            ApplyToMap(cmd);
         }
         #endregion
 
@@ -138,7 +133,6 @@ namespace Iit.Fibertest.TestBench
         {
             var cmd = request;
             await Bus.SendCommand(cmd);
-            ApplyToMap(request);
         }
         #endregion
 
@@ -156,16 +150,14 @@ namespace Iit.Fibertest.TestBench
             if (cmd == null)
                 return;
             await Bus.SendCommand(cmd);
-            ApplyToMap(cmd);
         }
 
-        public async Task ComplyWithRequest(RemoveRtu request)
+        public async Task ComplyWithRequest(RequestRemoveRtu request)
         {
-            var cmd = request;
+            var cmd = PrepareCommand(request);
             if (cmd == null)
                 return;
             await Bus.SendCommand(cmd);
-            ApplyToMap(cmd);
         }
         #endregion
 
@@ -176,7 +168,6 @@ namespace Iit.Fibertest.TestBench
             cmd.Id = Guid.NewGuid();
             cmd.NodeId = Guid.NewGuid();
             await Bus.SendCommand(cmd);
-//            ApplyToMap(cmd);
         }
 
         public async Task ComplyWithRequest(RequestAddEquipmentIntoNode request)
@@ -185,7 +176,6 @@ namespace Iit.Fibertest.TestBench
             if (cmd == null)
                 return;
             await Bus.SendCommand(cmd);
-            ApplyToMap(cmd);
         }
         public async Task ComplyWithRequest(UpdateEquipment request)
         {
@@ -193,7 +183,6 @@ namespace Iit.Fibertest.TestBench
             if (cmd == null)
                 return;
             await Bus.SendCommand(cmd);
-            ApplyToMap(cmd);
         }
 
         public async Task ComplyWithRequest(RemoveEquipment request)
@@ -202,8 +191,6 @@ namespace Iit.Fibertest.TestBench
             if (cmd == null)
                 return;
             await Bus.SendCommand(cmd);
-            ApplyToMap(cmd);
-
         }
         #endregion
 
@@ -217,9 +204,7 @@ namespace Iit.Fibertest.TestBench
             if (message != null)
             {
                 _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, message));
-//                return;
             }
-//            ApplyToMap(cmd);
         }
 
         public async Task ComplyWithRequest(AttachTrace request)
@@ -229,9 +214,7 @@ namespace Iit.Fibertest.TestBench
             if (message != null)
             {
                 _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, message));
-//                return;
             }
-            //            ApplyToMap(cmd);
         }
 
         public async Task ComplyWithRequest(DetachTrace request)
@@ -241,9 +224,7 @@ namespace Iit.Fibertest.TestBench
             if (message != null)
             {
                 _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, message));
-//                return;
             }
-            //            ApplyToMap(cmd);
         }
 
         public async Task ComplyWithRequest(RequestAssignBaseRef request)
@@ -255,9 +236,7 @@ namespace Iit.Fibertest.TestBench
             if (message != null)
             {
                 _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, message));
-                return;
             }
-            ApplyToMap(cmd);
         }
         #endregion
     }

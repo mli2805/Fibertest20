@@ -36,7 +36,16 @@ namespace Iit.Fibertest.TestBench
         public void Apply(RtuRemoved e)
         {
             var rtu = Tree.GetById(e.Id);
-            Tree.Remove(rtu);
+            RemoveWithChildren(rtu);
+        }
+
+        private void RemoveWithChildren(Leaf leaf)
+        {
+            foreach (var child in leaf.Children)
+            {
+                RemoveWithChildren(child);
+            }
+            Tree.Remove(leaf);
         }
         #endregion
 

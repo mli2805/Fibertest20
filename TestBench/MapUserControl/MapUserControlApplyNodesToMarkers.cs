@@ -66,8 +66,9 @@ namespace Iit.Fibertest.TestBench
             foreach (var oldItem in oldItems)
             {
                 var nodeVm = (NodeVm)oldItem;
-                var route = MainMap.Markers.Single(r => r.Id == nodeVm.Id);
-                MainMap.Markers.Remove(route);
+                var marker = MainMap.Markers.First(r => r.Id == nodeVm.Id);
+                MainMap.Markers.Remove(marker);
+
             }
         }
     }

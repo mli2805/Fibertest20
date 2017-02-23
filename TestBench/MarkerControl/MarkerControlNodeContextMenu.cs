@@ -28,7 +28,7 @@ namespace Iit.Fibertest.TestBench
         private void AskRemoveNode(object parameter)
         {
             var nodeId = (Guid)parameter;
-            _owner.GraphReadModel.Request = new RemoveNode() { Id = nodeId };
+            _owner.GraphReadModel.Request = new RequestRemoveNode() { Id = nodeId };
         }
 
         private bool CanStartAddFiber(object parameter) { return true; }
