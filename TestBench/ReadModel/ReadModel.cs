@@ -55,7 +55,7 @@ namespace Iit.Fibertest.TestBench
 
         public void Apply(NodeUpdated source)
         {
-            Node destination = Nodes.Single(n => n.Id == source.Id);
+            Node destination = Nodes.First(n => n.Id == source.Id);
             _mapper.Map(source, destination);
         }
 

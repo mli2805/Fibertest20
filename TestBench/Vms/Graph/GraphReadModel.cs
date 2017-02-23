@@ -72,7 +72,13 @@ namespace Iit.Fibertest.TestBench
         {
             var nodeVm = Nodes.First(n => n.Id == evnt.Id);
             nodeVm.Position = new PointLatLng(evnt.Latitude, evnt.Longitude);
+        }
 
+        private void Apply(NodeUpdated evnt)
+        {
+            var nodeVm = Nodes.First(n => n.Id == evnt.Id);
+            nodeVm.Title = evnt.Title;
+            nodeVm.Comment = evnt.Comment;
         }
 
         private void Apply(NodeRemoved evnt)

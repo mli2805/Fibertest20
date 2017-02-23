@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using GMap.NET;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
@@ -98,6 +97,7 @@ namespace Iit.Fibertest.TestBench
             return -1;
         }
 
+        /*
         private void AddTwoFibersToNewNode(AddNodeIntoFiber cmd)
         {
             var nodeVm = GraphReadModel.Nodes.First(n => n.Id == cmd.Id);
@@ -117,6 +117,7 @@ namespace Iit.Fibertest.TestBench
                 }
             }
         }
+        */
 
         private GpsLocation GetFiberCenter(Guid fiberId)
         {
