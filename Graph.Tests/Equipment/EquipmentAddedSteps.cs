@@ -64,7 +64,7 @@ namespace Graph.Tests
             _sut.FakeWindowManager.RegisterHandler(
                 model => _sut.EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
             _sut.FakeWindowManager.RegisterHandler(
-                model => _sut.AddTraceViewHandler(model, @"some title", "", Answer.Yes));
+                model => _sut.AddTraceViewHandler(model, @"short trace", "", Answer.Yes));
 
             _sut.ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = _nodeId, NodeWithRtuId = _rtuNodeId })
                 .Wait();
@@ -81,7 +81,7 @@ namespace Graph.Tests
             _sut.FakeWindowManager.RegisterHandler(
                 model => _sut.EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
             _sut.FakeWindowManager.RegisterHandler(
-                model => _sut.AddTraceViewHandler(model, @"some title", "", Answer.Yes));
+                model => _sut.AddTraceViewHandler(model, @"trace with eq", "", Answer.Yes));
 
             _sut.ShellVm.ComplyWithRequest(new RequestAddTrace()
             {
@@ -101,7 +101,7 @@ namespace Graph.Tests
             _sut.FakeWindowManager.RegisterHandler(
                 model => _sut.EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
             _sut.FakeWindowManager.RegisterHandler(
-                model => _sut.AddTraceViewHandler(model, @"some title", "", Answer.Yes));
+                model => _sut.AddTraceViewHandler(model, @"trace without eq", "", Answer.Yes));
 
             _sut.ShellVm.ComplyWithRequest(new RequestAddTrace()
             {
@@ -119,7 +119,6 @@ namespace Graph.Tests
             _sut.ShellVm.ComplyWithRequest(new RequestAssignBaseRef() { TraceId = _shortTraceId }).Wait();
             _sut.Poller.Tick();
         }
-
 
 
         [Then(@"Пользователь не отмечает ни одну трассу для включения оборудования")]
@@ -140,7 +139,7 @@ namespace Graph.Tests
         [Then(@"На форме выбора трасс эта трасса недоступна для выбора остальные доступны")]
         public void ThenНаФормеВыбораТрассЭтаТрассаНедоступнаДляВыбора()
         {
-            var traceList = _sut.ShellVm.GraphReadModel.Traces.Where(t => t.Equipments.Contains(_oldEquipmentId)).ToList();
+            var traceList = _sut.ShellVm.ReadModel.Traces.Where(t => t.Equipments.Contains(_oldEquipmentId)).ToList();
             var traceChoiceVm = new TraceChoiceViewModel(traceList);
             traceChoiceVm.Choices.First(l => l.Id == _shortTraceId).IsEnabled.Should().BeFalse();
             foreach (var traceChoice in traceChoiceVm.Choices.Where(l => l.Id != _shortTraceId))

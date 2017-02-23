@@ -8,7 +8,7 @@ namespace Iit.Fibertest.TestBench
     {
         private AddEquipmentIntoNode PrepareCommand(RequestAddEquipmentIntoNode request)
         {
-            var tracesInNode = GraphReadModel.Traces.Where(t => t.Nodes.Contains(request.NodeId)).ToList();
+            var tracesInNode = ReadModel.Traces.Where(t => t.Nodes.Contains(request.NodeId)).ToList();
             TraceChoiceViewModel traceChoiceVm = null;
             if (tracesInNode.Count > 0)
             {

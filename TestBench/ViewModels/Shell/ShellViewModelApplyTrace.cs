@@ -81,7 +81,7 @@ namespace Iit.Fibertest.TestBench
 
         private List<Guid> CollectEquipment(List<Guid> nodes)
         {
-            var equipments = new List<Guid> { ReadModel.Rtus.Single(r => r.NodeId == nodes[0]).Id };
+            var equipments = new List<Guid> { ReadModel.Rtus.First(r => r.NodeId == nodes[0]).Id };
             foreach (var nodeId in nodes.Skip(1))
             {
                 var possibleEquipments = ReadModel.Equipments.Where(e => e.NodeId == nodeId).ToList();
@@ -103,7 +103,7 @@ namespace Iit.Fibertest.TestBench
         private AssignBaseRef PrepareCommand(RequestAssignBaseRef request)
         {
             var trace = ReadModel.Traces.First(t => t.Id == request.TraceId);
-            var vm = new BaseRefsAssignViewModel(trace, GraphReadModel.Rtus.First(r=>r.Id == trace.RtuId).Title);
+            var vm = new BaseRefsAssignViewModel(trace, ReadModel.Rtus.First(r=>r.Id == trace.RtuId).Title);
             _windowManager.ShowDialog(vm);
             return vm.Command;
         }
