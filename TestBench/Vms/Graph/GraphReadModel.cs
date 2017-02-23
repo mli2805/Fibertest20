@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using AutoMapper;
 using Caliburn.Micro;
 using GMap.NET;
 using Iit.Fibertest.Graph;
@@ -130,13 +131,25 @@ namespace Iit.Fibertest.TestBench
 
         #region Trace
 
-        public void Apply(TraceStateChanged evnt)
+        public void Apply(TraceAdded evnt)
         {
-            var traceVm = Traces.First(t => t.Id == evnt.TraceId);
+            IMapper mapper = new MapperConfiguration(cfg => cfg.AddProfile<MappingEventToVm>()).CreateMapper();
+            var traceVm = mapper.Map<TraceVm>(evnt);
+            Traces.Add(traceVm);
             var fibers = GetFibersByNodes(traceVm.Nodes);
             foreach (var fiberVm in fibers)
             {
-                fiberVm.SetState(evnt.TraceId, evnt.State);
+                fiberVm.SetState(evnt.Id, traceVm.State);
+            }
+        }
+
+        public void Apply(TraceStateChanged evnt)
+        {
+            var traceVm = Traces.First(t => t.Id == evnt.Id);
+            var fibers = GetFibersByNodes(traceVm.Nodes);
+            foreach (var fiberVm in fibers)
+            {
+                fiberVm.SetState(evnt.Id, evnt.State);
             }
         }
 

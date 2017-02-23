@@ -223,9 +223,9 @@ namespace Iit.Fibertest.TestBench
             if (message != null)
             {
                 _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, message));
-                return;
+//                return;
             }
-            ApplyToMap(cmd);
+//            ApplyToMap(cmd);
         }
 
         public async Task ComplyWithRequest(AttachTrace request)

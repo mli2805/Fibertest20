@@ -26,6 +26,14 @@ namespace Iit.Fibertest.TestBench
             NotifyOfPropertyChange(nameof(State));
         }
 
+        public void RemoveState(Guid traceId)
+        {
+            if (States.ContainsKey(traceId))
+                States.Remove(traceId);
+
+            NotifyOfPropertyChange(nameof(State));
+        }
+
         public FiberState State => States.Count == 0 ? FiberState.NotInTrace : States.Values.Max();
 
         public int UserInputedLength { get; set; }

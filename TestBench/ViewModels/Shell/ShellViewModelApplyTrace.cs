@@ -21,10 +21,13 @@ namespace Iit.Fibertest.TestBench
                 return null;
 
             var traceId = Guid.NewGuid();
-            HighlightTrace(traceId, traceNodes);
+            ChangeTraceColor(traceId, traceNodes, FiberState.HighLighted);
 
             var questionViewModel = new QuestionViewModel(Resources.SID_Accept_the_path);
             _windowManager.ShowDialog(questionViewModel);
+
+            ChangeTraceColor(traceId, traceNodes, FiberState.NotInTrace);
+
             if (!questionViewModel.IsAnswerPositive)
                 return null;
 
@@ -40,7 +43,7 @@ namespace Iit.Fibertest.TestBench
 
             return new AddTrace()
             {
-                Id = Guid.NewGuid(),
+                Id = traceId,
                 RtuId = ReadModel.Rtus.First(r => r.NodeId == request.NodeWithRtuId).Id,
                 Title = traceAddViewModel.Title,
                 Nodes = traceNodes,
@@ -66,13 +69,16 @@ namespace Iit.Fibertest.TestBench
             return path;
         }
 
-        private void HighlightTrace(Guid traceId, List<Guid> nodes)
+        private void ChangeTraceColor(Guid traceId, List<Guid> nodes, FiberState state)
         {
             var fibers = ReadModel.GetFibersByNodes(nodes);
             foreach (var fiber in fibers)
             {
                 var fiberVm = GraphReadModel.Fibers.First(f => f.Id == fiber);
-                fiberVm.SetState(traceId, FiberState.HighLighted);
+                if (state != FiberState.NotInTrace)
+                    fiberVm.SetState(traceId, state);
+                else
+                    fiberVm.RemoveState(traceId);
             }
         }
 
@@ -95,14 +101,6 @@ namespace Iit.Fibertest.TestBench
                 }
             }
             return equipments;
-        }
-
-        private void ApplyToMap(AddTrace cmd)
-        {
-            IMapper mapper = new MapperConfiguration(
-                    cfg => cfg.AddProfile<MappingCommandToVm>()).CreateMapper();
-            var traceVm = mapper.Map<TraceVm>(cmd);
-            GraphReadModel.Traces.Add(traceVm);
         }
 
         private AssignBaseRef PrepareCommand(RequestAssignBaseRef request)

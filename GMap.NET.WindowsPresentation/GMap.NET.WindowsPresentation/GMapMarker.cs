@@ -13,7 +13,9 @@ namespace GMap.NET.WindowsPresentation
     public class GMapMarker : INotifyPropertyChanged
     {
         public Guid Id { get; set; }
+
         public Brush Color { get; set; }
+
         public double StrokeThickness { get; set; }
 
 
@@ -154,6 +156,7 @@ namespace GMap.NET.WindowsPresentation
         static readonly PropertyChangedEventArgs ZIndex_PropertyChangedEventArgs = new PropertyChangedEventArgs("ZIndex");
 
         int zIndex;
+
         /// <summary>
         /// the index of Z, render order
         /// </summary>
