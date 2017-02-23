@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Linq;
 using AutoMapper;
 using Caliburn.Micro;
+using GMap.NET;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
@@ -11,7 +12,8 @@ namespace Iit.Fibertest.TestBench
     public class RtuUpdateViewModel : Screen, IDataErrorInfo
     {
         private readonly Guid _nodeId;
-        private readonly GraphReadModel _graphReadModel;
+        private Rtu _originalRtu;
+        private readonly ReadModel _readModel;
 
         private string _title;
         public string Title
@@ -25,8 +27,23 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
-        public string Comment { get; set; }
+        private string _comment;
+        public string Comment
+        {
+            get { return _comment; }
+            set
+            {
+                if (value == _comment) return;
+                _comment = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
+        private bool IsChanged()
+        {
+            return _title != _originalRtu.Title
+                   || _comment != _originalRtu.Comment;
+        }
         private bool _isButtonSaveEnabled;
 
         public bool IsButtonSaveEnabled
@@ -43,26 +60,24 @@ namespace Iit.Fibertest.TestBench
 
         public UpdateRtu Command { get; set; }
 
-        public RtuUpdateViewModel(Guid nodeId, GraphReadModel graphReadModel)
+        public RtuUpdateViewModel(Guid nodeId, ReadModel readModel)
         {
             _nodeId = nodeId;
-            _graphReadModel = graphReadModel;
+            _readModel = readModel;
 
             Initilize();
         }
 
-        public NodeVm NodeVm { get; set; }
-
         private void Initilize()
         {
-            var rtu = _graphReadModel.Rtus.First(r => r.Node.Id == _nodeId);
+            _originalRtu = _readModel.Rtus.First(r => r.NodeId == _nodeId);
 
             var currentMode = GpsInputMode.DegreesAndMinutes; // somewhere in configuration file...
-            NodeVm = rtu.Node;
-            GpsInputViewModel = new GpsInputViewModel(currentMode, NodeVm.Position);
+            var node = _readModel.Nodes.First(n => n.Id == _nodeId);
+            GpsInputViewModel = new GpsInputViewModel(currentMode, new PointLatLng(node.Latitude, node.Longitude));
 
-            Title = rtu.Title;
-            Comment = rtu.Comment;
+            Title = _originalRtu.Title;
+            Comment = _originalRtu.Comment;
         }
 
         protected override void OnViewLoaded(object view)
@@ -72,9 +87,13 @@ namespace Iit.Fibertest.TestBench
 
         public void Save()
         {
-            IMapper mapper = new MapperConfiguration(cfg => cfg.AddProfile<MappingViewModelToCommand>()).CreateMapper();
-            Command = mapper.Map<UpdateRtu>(this);
-            Command.Id = _graphReadModel.Rtus.First(r => r.Node.Id == _nodeId).Id;
+            if (IsChanged())
+            {
+                IMapper mapper =
+                    new MapperConfiguration(cfg => cfg.AddProfile<MappingViewModelToCommand>()).CreateMapper();
+                Command = mapper.Map<UpdateRtu>(this);
+                Command.Id = _originalRtu.Id;
+            }
             TryClose();
         }
 
@@ -93,8 +112,9 @@ namespace Iit.Fibertest.TestBench
                     case "Title":
                         if (string.IsNullOrEmpty(Title))
                             errorMessage = Resources.SID_Title_is_required;
-                        if (_graphReadModel.Rtus.Any(n => n.Title == Title))
+                        if (_readModel.Rtus.Any(n => n.Title == Title && n.Id != _originalRtu.Id))
                             errorMessage = Resources.SID_There_is_a_rtu_with_the_same_title;
+                        IsButtonSaveEnabled = errorMessage == string.Empty;
                         break;
                 }
                 return errorMessage;

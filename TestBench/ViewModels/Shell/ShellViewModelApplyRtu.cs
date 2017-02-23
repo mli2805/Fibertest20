@@ -7,7 +7,7 @@ namespace Iit.Fibertest.TestBench
     {
         private UpdateRtu PrepareCommand(RequestUpdateRtu request)
         {
-            var vm = new RtuUpdateViewModel(request.NodeId, GraphReadModel);
+            var vm = new RtuUpdateViewModel(request.NodeId, ReadModel);
             _windowManager.ShowDialog(vm);
             return vm.Command;
         }

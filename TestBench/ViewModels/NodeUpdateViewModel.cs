@@ -21,7 +21,6 @@ namespace Iit.Fibertest.TestBench
 
         private string _title;
         private string _comment;
-        private bool _isButtonSaveEnabled;
         private object _command;
 
         public string Title
@@ -57,6 +56,7 @@ namespace Iit.Fibertest.TestBench
                    || _comment != _originalNode.Comment;
         }
 
+        private bool _isButtonSaveEnabled;
         public bool IsButtonSaveEnabled
         {
             get { return _isButtonSaveEnabled; }

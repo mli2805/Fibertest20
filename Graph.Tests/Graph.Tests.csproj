@@ -99,6 +99,14 @@
     <Compile Include="Node\NodeRemovedSteps.cs">
       <DependentUpon>NodeRemoved.feature</DependentUpon>
     </Compile>
+    <Compile Include="Rtu\RtuUpdated.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RtuUpdated.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Rtu\RtuUpdateSteps.cs">
+      <DependentUpon>RtuUpdated.feature</DependentUpon>
+    </Compile>
     <Compile Include="Sut\Answer.cs" />
     <Compile Include="Sut\EquipmentChoiceAnswer.cs" />
     <Compile Include="Equipment\EquipmentAdded.feature.cs">
@@ -338,6 +346,10 @@
     <None Include="Rtu\RtuRemoved.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>RtuRemoved.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Rtu\RtuUpdated.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>RtuUpdated.feature.cs</LastGenOutput>
     </None>
     <None Include="Trace\BaseRefAssigned.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

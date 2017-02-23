@@ -185,6 +185,7 @@ namespace Iit.Fibertest.TestBench
         {
             var rtu = Rtus.First(r => r.Id == e.Id);
             rtu.Title = e.Title;
+            rtu.Comment = e.Comment;
         }
         public void Apply(RtuRemoved e)
         {

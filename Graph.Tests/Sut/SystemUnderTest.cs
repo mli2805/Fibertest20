@@ -213,6 +213,21 @@ namespace Graph.Tests
             return true;
         }
 
+        public bool RtuUpdateHandler(object model, string title, string comment, Answer button)
+        {
+            var vm = model as RtuUpdateViewModel;
+            if (vm == null) return false;
+            if (title != null)
+                vm.Title = title;
+            if (comment != null)
+                vm.Comment = comment;
+            if (button == Answer.Yes)
+                vm.Save();
+            else
+                vm.Cancel();
+            return true;
+        }
+
         public bool EquipmentChoiceHandler(object model, EquipmentChoiceAnswer answer, int chosenEquipmentNumber)
         {
             var vm = model as EquipmentChoiceViewModel;
