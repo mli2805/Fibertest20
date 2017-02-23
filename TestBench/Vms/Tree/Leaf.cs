@@ -4,11 +4,15 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Media;
 using Caliburn.Micro;
+using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.TestBench
 {
     public class Leaf : PropertyChangedBase, ITreeViewItemModel
     {
+        protected readonly ReadModel ReadModel;
+        protected readonly IWindowManager WindowManager;
+        protected readonly Bus Bus;
         public Guid Id { get; set; }
 
         private string _title;
@@ -43,6 +47,13 @@ namespace Iit.Fibertest.TestBench
 
         public Leaf Parent { get; set; }
         public ObservableCollection<Leaf> Children { get; set; } = new ObservableCollection<Leaf>();
+
+        public Leaf(ReadModel readModel, IWindowManager windowManager, Bus bus)
+        {
+            ReadModel = readModel;
+            WindowManager = windowManager;
+            Bus = bus;
+        }
 
         #region implementation of ITreeViewItemModel
         public string SelectedValuePath => Title;

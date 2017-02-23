@@ -10,18 +10,20 @@ namespace Iit.Fibertest.TestBench
     {
         private readonly IWindowManager _windowManager;
         private readonly ReadModel _readModel;
+        private readonly Bus _bus;
         public ObservableCollection<Leaf> Tree { get; set; } = new ObservableCollection<Leaf>();
 
-        public TreeReadModel(IWindowManager windowManager, ReadModel readModel)
+        public TreeReadModel(IWindowManager windowManager, ReadModel readModel, Bus bus)
         {
             _windowManager = windowManager;
             _readModel = readModel;
+            _bus = bus;
         }
 
         #region Rtu
         public void Apply(RtuAtGpsLocationAdded e)
         {
-            var leaf = new RtuLeaf()
+            var leaf = new RtuLeaf(_readModel,_windowManager, _bus)
             {
                 Id = e.Id, Title = Resources.SID_noname_RTU, Color = Brushes.DarkGray,
             };
@@ -52,7 +54,7 @@ namespace Iit.Fibertest.TestBench
         #region Trace
         public void Apply(TraceAdded e)
         {
-            var trace = new TraceLeaf(_windowManager, _readModel)
+            var trace = new TraceLeaf(_readModel,_windowManager, _bus)
             {
                 Id = e.Id, Title = e.Title, TraceState = FiberState.NotJoined, Color = Brushes.Blue,
             };

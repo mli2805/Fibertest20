@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Windows.Media;
+using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
@@ -18,6 +19,10 @@ namespace Iit.Fibertest.TestBench
         public ImageSource ReserveChannelPictogram => ReserveChannelState.GetPictogram();
 
         public int PortCount { get; set; }
+
+        public RtuLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus) : base(readModel, windowManager, bus)
+        {
+        }
 
         protected override List<MenuItemVm> GetMenuItems()
         {
@@ -70,7 +75,13 @@ namespace Iit.Fibertest.TestBench
             return freePortSubMenuItems;
         }
 
-        private void RtuInformationAction(object param) { }
+        private void RtuInformationAction(object param)
+        {
+            var vm = new RtuUpdateViewModel(Id, ReadModel);
+            WindowManager.ShowDialog(vm);
+            if (vm.Command != null)
+                Bus.SendCommand(vm.Command);
+        }
         private void ShowRtuAction(object param) { }
         private void RtuSettingsAction(object param) { }
         private void AttachFromListAction(object param) { }

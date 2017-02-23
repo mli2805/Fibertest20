@@ -7,7 +7,8 @@ namespace Iit.Fibertest.TestBench
     {
         private UpdateRtu PrepareCommand(RequestUpdateRtu request)
         {
-            var vm = new RtuUpdateViewModel(request.NodeId, ReadModel);
+            var rtu = ReadModel.Rtus.First(r => r.NodeId == request.NodeId);
+            var vm = new RtuUpdateViewModel(rtu.Id, ReadModel);
             _windowManager.ShowDialog(vm);
             return vm.Command;
         }

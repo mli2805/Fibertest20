@@ -9,8 +9,6 @@ namespace Iit.Fibertest.TestBench
 {
     public class TraceLeaf : Leaf
     {
-        private readonly IWindowManager _windowManager;
-        private readonly ReadModel _readModel;
         public MonitoringState MonitoringState { get; set; }
         public FiberState TraceState { get; set; }
 
@@ -19,13 +17,9 @@ namespace Iit.Fibertest.TestBench
 
         public int PortNumber { get; set; }
 
-
-        public TraceLeaf(IWindowManager windowManager, ReadModel readModel)
+        public TraceLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus) : base(readModel, windowManager, bus)
         {
-            _windowManager = windowManager;
-            _readModel = readModel;
         }
-
 
         protected override List<MenuItemVm> GetMenuItems()
         {
@@ -61,9 +55,9 @@ namespace Iit.Fibertest.TestBench
 
         private void AssignBaseRefsAction(object param)
         {
-            var trace = _readModel.Traces.First(t => t.Id == Id);
+            var trace = ReadModel.Traces.First(t => t.Id == Id);
             var vm = new BaseRefsAssignViewModel(trace, Parent.Title);
-            _windowManager.ShowDialog(vm);
+            WindowManager.ShowDialog(vm);
 
         }
         private bool CanSomeAction(object param) { return true; }
