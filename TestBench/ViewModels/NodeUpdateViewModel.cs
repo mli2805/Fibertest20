@@ -82,7 +82,6 @@ namespace Iit.Fibertest.TestBench
             _readModel = readModel;
             _windowManager = windowManager;
             _bus = bus;
-//            NodeId = nodeId;
             _originalNode = _readModel.Nodes.First(n => n.Id == nodeId);
             Title = _originalNode.Title;
             Comment = _originalNode.Comment;

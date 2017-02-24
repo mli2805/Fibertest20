@@ -14,8 +14,8 @@ namespace Graph.Tests
         private readonly SystemUnderTest _sut = new SystemUnderTest();
         private Guid _nodeAId, _equipmentA1Id;
         private Guid _nodeBId;
-        private Guid _rtuNodeId, _anotherNodeId;
-        private Guid _traceId;
+        private Guid _rtuNodeId;
+        private Iit.Fibertest.Graph.Trace _trace;
 
 
         [Given(@"Существует узел A с оборудованием A1")]
@@ -35,25 +35,21 @@ namespace Graph.Tests
             _nodeBId = _sut.ReadModel.Nodes.Last().Id;
         }
 
-        [Given(@"Существует RTU и еще один узел")]
+        [Given(@"Существуют RTU и волокна")]
         public void GivenСуществуетRtuиЕщеПаруУзлов()
         {
             _sut.ShellVm.ComplyWithRequest(new AddRtuAtGpsLocation()).Wait();
             _sut.Poller.Tick();
             _rtuNodeId = _sut.ReadModel.Nodes.Last().Id;
 
-            _sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = _rtuNodeId, Node2 = _nodeBId }).Wait();
+            _sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = _rtuNodeId, Node2 = _nodeAId }).Wait();
             _sut.Poller.Tick();
 
-            _sut.ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait();
-            _sut.Poller.Tick();
-            _anotherNodeId = _sut.ReadModel.Nodes.Last().Id;
-
-            _sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = _anotherNodeId, Node2 = _nodeBId }).Wait();
+            _sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = _nodeAId, Node2 = _nodeBId }).Wait();
             _sut.Poller.Tick();
         }
 
-        [Given(@"Существует трасса c данным оборудованием в середине")]
+        [Given(@"Существует трасса c оборудованием А1 в середине")]
         public void GivenСуществуетТрассаCДаннымОборудованиемВСередине()
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.QuestionAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
@@ -61,16 +57,17 @@ namespace Graph.Tests
             _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
             _sut.FakeWindowManager.RegisterHandler(model => _sut.AddTraceViewHandler(model, @"some title", "", Answer.Yes));
 
-            _sut.ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = _anotherNodeId, NodeWithRtuId = _rtuNodeId }).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = _nodeBId, NodeWithRtuId = _rtuNodeId }).Wait();
             _sut.Poller.Tick();
-            _traceId = _sut.ReadModel.Traces.Last().Id;
+            _trace = _sut.ReadModel.Traces.Last();
         }
 
         [Given(@"Для этой трассы задана базовая")]
         public void GivenДляЭтойТрассыЗаданаБазовая()
         {
-            _sut.FakeWindowManager.BaseIsSet();
-            _sut.ShellVm.ComplyWithRequest(new RequestAssignBaseRef() { TraceId = _traceId }).Wait();
+            var vm = new BaseRefsAssignViewModel(_trace, _sut.ReadModel, _sut.ShellVm.Bus);
+            vm.PreciseBaseFilename = SystemUnderTest.Path;
+            vm.Save();
             _sut.Poller.Tick();
         }
 
