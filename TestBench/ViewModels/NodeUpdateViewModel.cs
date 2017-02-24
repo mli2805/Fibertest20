@@ -14,6 +14,7 @@ namespace Iit.Fibertest.TestBench
     {
         private readonly GraphReadModel _graphReadModel;
         private readonly IWindowManager _windowManager;
+        private readonly Bus _bus;
         private readonly NodeVm _originalNode;
         public bool IsClosed { get; set; }
 
@@ -79,10 +80,11 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
-        public NodeUpdateViewModel(Guid nodeId, GraphReadModel graphReadModel, IWindowManager windowManager)
+        public NodeUpdateViewModel(Guid nodeId, GraphReadModel graphReadModel, IWindowManager windowManager, Bus bus)
         {
             _graphReadModel = graphReadModel;
             _windowManager = windowManager;
+            _bus = bus;
             NodeId = nodeId;
             _originalNode = _graphReadModel.Nodes.First(n => n.Id == nodeId);
             Title = _originalNode.Title;
@@ -130,7 +132,7 @@ namespace Iit.Fibertest.TestBench
 
         public void AddEquipment()
         {
-            var addEquipmentViewModel = new EquipmentUpdateViewModel(NodeId, Guid.Empty);
+            var addEquipmentViewModel = new EquipmentUpdateViewModel(NodeId, Guid.Empty, _bus);
             _windowManager.ShowDialog(addEquipmentViewModel);
             if (addEquipmentViewModel.Command == null)
                 return;
@@ -146,7 +148,7 @@ namespace Iit.Fibertest.TestBench
         {
             var equipmentVm = _graphReadModel.Equipments.First(e => e.Id == id);
 
-            var updateEquipmentViewModel = new EquipmentUpdateViewModel(NodeId, id);
+            var updateEquipmentViewModel = new EquipmentUpdateViewModel(NodeId, id, _bus);
             IMapper mapperToViewModel = new MapperConfiguration(
                     cfg => cfg.AddProfile<MappingVmToViewModel>()).CreateMapper();
             mapperToViewModel.Map(equipmentVm, updateEquipmentViewModel);

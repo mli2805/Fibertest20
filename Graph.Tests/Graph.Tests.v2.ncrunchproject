@@ -37,8 +37,5 @@
     <NamedTestSelector>
       <TestName>Graph.Tests.Equipment.EquipmentRemovedFeature.УдалениеОборудованияНеПоследнегоДляЛюбойТрассы</TestName>
     </NamedTestSelector>
-    <NamedTestSelector>
-      <TestName>Graph.Tests.Equipment.EquipmentUpdatedFeature.ИзменениеСуществующегоОборудования</TestName>
-    </NamedTestSelector>
   </IgnoredTests>
 </ProjectConfiguration>

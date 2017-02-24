@@ -32,7 +32,7 @@ namespace Graph.Tests
         [Given(@"Открыта форма для изменения сущ оборудования")]
         public void GivenОткрытаФормаДляИзмененияСущОборудования()
         {
-            _equipmentUpdateViewModel = new EquipmentUpdateViewModel(Guid.Empty, _equipmentId);
+            _equipmentUpdateViewModel = new EquipmentUpdateViewModel(_nodeId, _equipmentId, _sut.ShellVm.Bus);
         }
 
         [Given(@"Пользователь производит изменения")]
@@ -48,15 +48,14 @@ namespace Graph.Tests
         [When(@"Жмет сохранить")]
         public void WhenЖметСохранить()
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentUpdateHandler(
-                    model, _nodeId, NewTypeForTest, NewTitleForTest, NewCommentForTest, NewLeftCableReserve, NewRightCableReserve, Answer.Yes));
+            _equipmentUpdateViewModel.Save();
+            _sut.Poller.Tick();
         }
 
         [When(@"Жмет Отмена")]
         public void WhenЖметОтмена()
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentUpdateHandler(
-                    model, _nodeId, NewTypeForTest, NewTitleForTest, NewCommentForTest, NewLeftCableReserve, NewRightCableReserve, Answer.Cancel));
+            _equipmentUpdateViewModel.Cancel();
         }
 
         [Then(@"Все должно быть сохранено")]
@@ -69,5 +68,12 @@ namespace Graph.Tests
             equipment.CableReserveRight.Should().Be(NewRightCableReserve);
             equipment.Comment.Should().Be(NewCommentForTest);
         }
+
+        [Then(@"Комманда не подается")]
+        public void ThenКоммандаНеПодается()
+        {
+            _equipmentUpdateViewModel.Command.Should().BeNull();
+        }
+
     }
 }

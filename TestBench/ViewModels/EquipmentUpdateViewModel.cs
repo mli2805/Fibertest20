@@ -9,6 +9,7 @@ namespace Iit.Fibertest.TestBench
     public class EquipmentUpdateViewModel : Screen
     {
         public Guid NodeId;
+        private readonly Bus _bus;
         private string _title;
         private int _cableReserveLeft;
         private int _cableReserveRight;
@@ -79,8 +80,11 @@ namespace Iit.Fibertest.TestBench
         public bool IsSaveEnabled => GetSelectedRadioButton() != EquipmentType.None;
 
         public object Command { get; set; }
-        public EquipmentUpdateViewModel(Guid nodeId, Guid equipmentId)
+
+
+        public EquipmentUpdateViewModel(Guid nodeId, Guid equipmentId, Bus bus)
         {
+            _bus = bus;
             NodeId = nodeId;
             EquipmentId = equipmentId;
 
@@ -104,12 +108,14 @@ namespace Iit.Fibertest.TestBench
                 cmd.Id = EquipmentId;
                 cmd.NodeId = NodeId;
                 Command = cmd;
+                // for equipment addition this part of command 
+                // would be amplified with list of trace which use this equipment 
             }
             else  // редактирование существовавшего
             {
                 var cmd = mapper.Map<UpdateEquipment>(this);
                 cmd.Id = EquipmentId;
-                Command = cmd;
+                _bus.SendCommand(cmd);
             }
 
             CloseView();
