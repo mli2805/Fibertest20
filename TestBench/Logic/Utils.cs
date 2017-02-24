@@ -52,7 +52,7 @@ namespace Iit.Fibertest.TestBench
             switch (state)
             {
                 case FiberState.NotJoined:
-                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
+                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/BlueSquare.png"));
                 case FiberState.Ok:
                     return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
                 case FiberState.Minor:
@@ -66,7 +66,7 @@ namespace Iit.Fibertest.TestBench
                 case FiberState.NoFiber:
                     return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/RedSquare.png"));
                 default:
-                    return null;
+                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
             }
         }
 

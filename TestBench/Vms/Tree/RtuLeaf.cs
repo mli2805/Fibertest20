@@ -49,31 +49,69 @@ namespace Iit.Fibertest.TestBench
                 CommandParameter = this
             });
 
-            menu.Add(null);
-
-            for (int i = 1; i <= PortCount; i++)
+            menu.Add(new MenuItemVm()
             {
-                var portItem = new MenuItemVm() {Header = string.Format(Resources.SID_Port_N, i)};
-                portItem.Children.AddRange(GetFreePortSubMenuItems());
-
-                menu.Add(portItem);
-            }
-
-            return menu;
-        }
-
-        private List<MenuItemVm> GetFreePortSubMenuItems()
-        {
-            var freePortSubMenuItems = new List<MenuItemVm>();
-
-            freePortSubMenuItems.Add(new MenuItemVm()
-            {
-                Header = Resources.SID_Attach_from_list,
-                Command = new ContextMenuAction(AttachFromListAction, CanSomeAction),
-                CommandParameter = this,
+                Header = Resources.SID_State,
+                Command = new ContextMenuAction(RtuStateAction, CanSomeAction),
+                CommandParameter = this
             });
 
-            return freePortSubMenuItems;
+            menu.Add(new MenuItemVm()
+            {
+                Header = Resources.SID_Landmarks,
+                Command = new ContextMenuAction(RtuLandmarksAction, CanSomeAction),
+                CommandParameter = this
+            });
+
+            menu.Add(null);
+
+            menu.Add(new MenuItemVm()
+            {
+                Header = Resources.SID_Monitoring_settings,
+                Command = new ContextMenuAction(MonitoringSettingsAction, CanSomeAction),
+                CommandParameter = this
+            });
+
+            menu.Add(new MenuItemVm()
+            {
+                Header = Resources.SID_Manual_mode,
+                Command = new ContextMenuAction(ManualModeAction, CanSomeAction),
+                CommandParameter = this
+            });
+
+            menu.Add(new MenuItemVm()
+            {
+                Header = Resources.SID_Automatic_mode,
+                Command = new ContextMenuAction(AutomaticModeAction, CanSomeAction),
+                CommandParameter = this
+            });
+
+            menu.Add(null);
+
+            menu.Add(new MenuItemVm()
+            {
+                Header = Resources.SID_Remove,
+                Command = new ContextMenuAction(RtuRemoveAction, CanSomeAction),
+                CommandParameter = this
+            });
+
+            menu.Add(null);
+
+            menu.Add(new MenuItemVm()
+            {
+                Header = Resources.SID_Define_trace,
+                Command = new ContextMenuAction(DefineTraceAction, CanSomeAction),
+                CommandParameter = this
+            });
+
+            menu.Add(new MenuItemVm()
+            {
+                Header = Resources.SID_Define_trace_strp_by_step,
+                Command = new ContextMenuAction(DefineTraceStepByStepAction, CanSomeAction),
+                CommandParameter = this
+            });
+
+            return menu;
         }
 
         private void RtuInformationAction(object param)
@@ -85,7 +123,16 @@ namespace Iit.Fibertest.TestBench
         }
         private void ShowRtuAction(object param) { }
         private void RtuSettingsAction(object param) { }
-        private void AttachFromListAction(object param) { }
+        private void RtuStateAction(object param) { }
+        private void RtuLandmarksAction(object param) { }
+        private void MonitoringSettingsAction(object param) { }
+        private void ManualModeAction(object param) { }
+        private void AutomaticModeAction(object param) { }
+        private void RtuRemoveAction(object param) { }
+        private void DefineTraceAction(object param) { }
+        private void DefineTraceStepByStepAction(object param) { }
+
+
         private bool CanSomeAction(object param) { return true;}
     }
 }

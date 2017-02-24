@@ -133,11 +133,29 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Attach BOP.
+        /// </summary>
+        public static string SID_Attach_BOP {
+            get {
+                return ResourceManager.GetString("SID_Attach_BOP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Attach from list.
         /// </summary>
         public static string SID_Attach_from_list {
             get {
                 return ResourceManager.GetString("SID_Attach_from_list", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Automatic mode.
+        /// </summary>
+        public static string SID_Automatic_mode {
+            get {
+                return ResourceManager.GetString("SID_Automatic_mode", resourceCulture);
             }
         }
         
@@ -205,6 +223,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clean.
+        /// </summary>
+        public static string SID_Clean {
+            get {
+                return ResourceManager.GetString("SID_Clean", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Comment.
         /// </summary>
         public static string SID_Comment {
@@ -237,6 +264,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Define_trace {
             get {
                 return ResourceManager.GetString("SID_Define_trace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Define trace strp by step.
+        /// </summary>
+        public static string SID_Define_trace_strp_by_step {
+            get {
+                return ResourceManager.GetString("SID_Define_trace_strp_by_step", resourceCulture);
             }
         }
         
@@ -318,6 +354,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Error {
             get {
                 return ResourceManager.GetString("SID_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Events.
+        /// </summary>
+        public static string SID_Events {
+            get {
+                return ResourceManager.GetString("SID_Events", resourceCulture);
             }
         }
         
@@ -439,11 +484,38 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Manual mode.
+        /// </summary>
+        public static string SID_Manual_mode {
+            get {
+                return ResourceManager.GetString("SID_Manual_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Map.
         /// </summary>
         public static string SID_Map {
             get {
                 return ResourceManager.GetString("SID_Map", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Measurement (Client).
+        /// </summary>
+        public static string SID_Measurement__Client_ {
+            get {
+                return ResourceManager.GetString("SID_Measurement__Client_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monitoring settings.
+        /// </summary>
+        public static string SID_Monitoring_settings {
+            get {
+                return ResourceManager.GetString("SID_Monitoring_settings", resourceCulture);
             }
         }
         
@@ -511,7 +583,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Port N{0}.
+        ///   Looks up a localized string similar to N{0}.
         /// </summary>
         public static string SID_Port_N {
             get {
@@ -534,6 +606,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Precise_base_ref {
             get {
                 return ResourceManager.GetString("SID_Precise_base_ref", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Presice out of turn measurement.
+        /// </summary>
+        public static string SID_Presice_out_of_turn_measurement {
+            get {
+                return ResourceManager.GetString("SID_Presice_out_of_turn_measurement", resourceCulture);
             }
         }
         
@@ -733,6 +814,24 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Sleeve {
             get {
                 return ResourceManager.GetString("SID_Sleeve", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to State.
+        /// </summary>
+        public static string SID_State {
+            get {
+                return ResourceManager.GetString("SID_State", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Statistics.
+        /// </summary>
+        public static string SID_Statistics {
+            get {
+                return ResourceManager.GetString("SID_Statistics", resourceCulture);
             }
         }
         

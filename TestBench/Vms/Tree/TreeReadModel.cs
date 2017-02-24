@@ -23,16 +23,26 @@ namespace Iit.Fibertest.TestBench
         #region Rtu
         public void Apply(RtuAtGpsLocationAdded e)
         {
-            var leaf = new RtuLeaf(_readModel,_windowManager, _bus)
+            var rtuLeaf = new RtuLeaf(_readModel,_windowManager, _bus)
             {
                 Id = e.Id, Title = Resources.SID_noname_RTU, Color = Brushes.DarkGray,
             };
 
             // TODO this should be set by rtu initialization
-            leaf.PortCount = 8;
-            leaf.Color = Brushes.Black;
+            rtuLeaf.PortCount = 8;
+            rtuLeaf.MonitoringState = MonitoringState.On;
+            rtuLeaf.MainChannelState = RtuPartState.Normal;
+            rtuLeaf.Color = Brushes.Black;
+            for (int i=1; i <= rtuLeaf.PortCount; i++)
+            {
+                var port = new TraceLeaf(_readModel, _windowManager, _bus)
+                    { PortNumber = i, Title = string.Format(Resources.SID_Port_N, i), TraceState = FiberState.NotJoined, Color = Brushes.Black, };
+                rtuLeaf.Children.Add(port);
+                port.Parent = rtuLeaf;
+            }
 
-            Tree.Add(leaf);
+            rtuLeaf.IsExpanded = true;
+            Tree.Add(rtuLeaf);
         }
 
         public void Apply(RtuUpdated e)
@@ -61,7 +71,7 @@ namespace Iit.Fibertest.TestBench
         {
             var trace = new TraceLeaf(_readModel,_windowManager, _bus)
             {
-                Id = e.Id, Title = e.Title, TraceState = FiberState.NotJoined, Color = Brushes.Blue,
+                Id = e.Id, Title = e.Title, IsRealTrace = true, TraceState = FiberState.NotJoined, Color = Brushes.Blue,
             };
             var rtu = Tree.GetById(e.RtuId);
             rtu.Children.Add(trace);
@@ -83,6 +93,7 @@ namespace Iit.Fibertest.TestBench
         {
             var trace = Tree.GetById(e.TraceId);
             trace.Color = Brushes.Blue;
+
         }
         #endregion
     }
