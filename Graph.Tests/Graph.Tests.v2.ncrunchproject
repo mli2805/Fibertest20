@@ -28,5 +28,8 @@
     <NamedTestSelector>
       <TestName>Graph.Tests.Equipment.EquipmentRemovedFeature.УдалениеОборудованияНеВходящегоВТрассы</TestName>
     </NamedTestSelector>
+    <NamedTestSelector>
+      <TestName>Graph.Tests.Equipment.EquipmentRemovedFeature.ПопыткаУдаленияОборудованияИзТрассыСБазовой</TestName>
+    </NamedTestSelector>
   </IgnoredTests>
 </ProjectConfiguration>
