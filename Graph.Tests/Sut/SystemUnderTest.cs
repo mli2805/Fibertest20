@@ -11,7 +11,6 @@ namespace Graph.Tests
 {
     public class SystemUnderTest
     {
-        public Aggregate Aggregate { get; }
         public ReadModel ReadModel { get; }
         public ClientPoller Poller { get; }
         public FakeWindowManager FakeWindowManager { get; }
@@ -29,7 +28,6 @@ namespace Graph.Tests
             var container = builder.Build();
             Poller = container.Resolve<ClientPoller>();
             FakeWindowManager =(FakeWindowManager) container.Resolve<IWindowManager>();
-            Aggregate = container.Resolve<Aggregate>();
             ReadModel = container.Resolve<ReadModel>();
             ShellVm = (ShellViewModel) container.Resolve<IShell>();
         }
@@ -264,12 +262,6 @@ namespace Graph.Tests
             return true;
         }
 
-        public bool NodeUpdateHandler(object model)
-        {
-            var vm = model as NodeUpdateViewModel;
-            return vm != null;
-        }
-
         public bool TraceChoiceHandler(object model, List<Guid> chosenTraces, Answer answer)
         {
             var vm = model as TraceChoiceViewModel;
@@ -330,22 +322,6 @@ namespace Graph.Tests
             return true;
         }
 
-        public bool BaseRefAssignHandler(object model, string preciseFilename, string fastFilename, string additionalFilename, Answer answer)
-        {
-            var vm = model as BaseRefsAssignViewModel;
-            if (vm == null) return false;
-            if (preciseFilename != null)
-                vm.PreciseBaseFilename = preciseFilename;
-            if (fastFilename != null)
-                vm.FastBaseFilename = fastFilename;
-            if (additionalFilename != null)
-                vm.AdditionalBaseFilename = additionalFilename;
-            if (answer == Answer.Yes)
-                vm.Save();
-            else
-                vm.Cancel();
-            return true;
-        }
     }
 
 }
