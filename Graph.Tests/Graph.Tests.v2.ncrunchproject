@@ -26,16 +26,7 @@
   <BuildProcessArchitecture>x86</BuildProcessArchitecture>
   <IgnoredTests>
     <NamedTestSelector>
-      <TestName>Graph.Tests.Equipment.EquipmentRemovedFeature.ПопыткаУдаленияОборудованияИзТрассыСБазовой</TestName>
-    </NamedTestSelector>
-    <NamedTestSelector>
-      <TestName>Graph.Tests.Equipment.EquipmentRemovedFeature.УдалениеОборудованияВУзлеНевходящемВТрассы</TestName>
-    </NamedTestSelector>
-    <NamedTestSelector>
       <TestName>Graph.Tests.Equipment.EquipmentRemovedFeature.УдалениеОборудованияНеВходящегоВТрассы</TestName>
-    </NamedTestSelector>
-    <NamedTestSelector>
-      <TestName>Graph.Tests.Equipment.EquipmentRemovedFeature.УдалениеОборудованияНеПоследнегоДляЛюбойТрассы</TestName>
     </NamedTestSelector>
   </IgnoredTests>
 </ProjectConfiguration>

@@ -17,9 +17,7 @@ namespace Graph.Tests
         [Given(@"Была создана трасса")]
         public void GivenБылаСозданаТрасса()
         {
-            _sut.CreateTraceRtuEmptyTerminal();
-            _sut.Poller.Tick();
-            _trace = _sut.ReadModel.Traces.Last();
+            _trace = _sut.CreateTraceRtuEmptyTerminal();
         }
 
         [When(@"Пользователь указывает пути к точной и быстрой базовам и жмет сохранить")]

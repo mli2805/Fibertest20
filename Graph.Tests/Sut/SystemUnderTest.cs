@@ -34,7 +34,7 @@ namespace Graph.Tests
             ShellVm = (ShellViewModel) container.Resolve<IShell>();
         }
 
-        public void CreateTraceRtuEmptyTerminal()
+        public Iit.Fibertest.Graph.Trace CreateTraceRtuEmptyTerminal()
         {
             ShellVm.ComplyWithRequest(new AddRtuAtGpsLocation() {Latitude = 55, Longitude = 30}).Wait();
             Poller.Tick();
@@ -58,6 +58,7 @@ namespace Graph.Tests
 
             ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = secondNodeId, NodeWithRtuId = nodeForRtuId }).Wait();
             Poller.Tick();
+            return ReadModel.Traces.Last();
         }
 
         public void CreatePositionForAddNodeIntoFiberTest(out Iit.Fibertest.Graph.Fiber fiberForInsertion, out Iit.Fibertest.Graph.Trace traceForInsertionId)

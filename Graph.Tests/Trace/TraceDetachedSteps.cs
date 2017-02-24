@@ -15,9 +15,7 @@ namespace Graph.Tests
         [Given(@"Создана трассу")]
         public void GivenСозданаТрассу()
         {
-            _sut.CreateTraceRtuEmptyTerminal();
-            _sut.Poller.Tick();
-            _traceId = _sut.ReadModel.Traces.Last().Id;
+            _traceId = _sut.CreateTraceRtuEmptyTerminal().Id;
         }
 
         [Given(@"Трасса присоединена к порту РТУ")]

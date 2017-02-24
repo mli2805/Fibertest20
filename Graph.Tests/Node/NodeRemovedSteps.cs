@@ -40,8 +40,7 @@ namespace Graph.Tests
         [Given(@"Задана трасса")]
         public void GivenЗаданаТрасса()
         {
-            _sut.CreateTraceRtuEmptyTerminal();
-            _trace = _sut.ReadModel.Traces.Last();
+            _trace = _sut.CreateTraceRtuEmptyTerminal();
             _rtuNodeId = _trace.Nodes[0];
             _lastNodeId = _trace.Nodes.Last();
         }

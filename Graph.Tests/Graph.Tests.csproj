@@ -96,6 +96,14 @@
     <Compile Include="Equipment\EquipmentAddedSimpleSteps.cs">
       <DependentUpon>EquipmentAddedSimple.feature</DependentUpon>
     </Compile>
+    <Compile Include="Equipment\EquipmentRemovedLightSteps.cs">
+      <DependentUpon>EquipmentRemovedLight.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Equipment\EquipmentRemovedLight.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EquipmentRemovedLight.feature</DependentUpon>
+    </Compile>
     <Compile Include="Node\NodeRemovedSteps.cs">
       <DependentUpon>NodeRemoved.feature</DependentUpon>
     </Compile>
@@ -297,6 +305,10 @@
     <None Include="Equipment\EquipmentRemoved.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>EquipmentRemoved.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Equipment\EquipmentRemovedLight.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>EquipmentRemovedLight.feature.cs</LastGenOutput>
     </None>
     <None Include="Equipment\EquipmentUpdated.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

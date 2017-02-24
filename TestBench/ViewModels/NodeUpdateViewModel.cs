@@ -12,18 +12,13 @@ namespace Iit.Fibertest.TestBench
 {
     public class NodeUpdateViewModel : Screen, IDataErrorInfo
     {
-        private readonly GraphReadModel _graphReadModel;
+        private readonly ReadModel _readModel;
         private readonly IWindowManager _windowManager;
         private readonly Bus _bus;
-        private readonly NodeVm _originalNode;
+        private readonly Node _originalNode;
         public bool IsClosed { get; set; }
 
-        public Guid NodeId { get; set; }
-
         private string _title;
-        private string _comment;
-        private object _command;
-
         public string Title
         {
             get { return _title; }
@@ -35,6 +30,7 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
+        private string _comment;
         public string Comment
         {
             get { return _comment; }
@@ -49,7 +45,7 @@ namespace Iit.Fibertest.TestBench
         public ObservableCollection<EqItemVm> EquipmentsInNode { get; set; }
         public EqItemVm SelectedEquipment { get; set; }
 
-        public List<TraceVm> TracesInNode { get; set; }
+        public List<Trace> TracesInNode { get; set; }
 
         private bool IsChanged()
         {
@@ -69,6 +65,7 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
+        private object _command;
         public object Command
         {
             get { return _command; }
@@ -80,38 +77,38 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
-        public NodeUpdateViewModel(Guid nodeId, GraphReadModel graphReadModel, IWindowManager windowManager, Bus bus)
+        public NodeUpdateViewModel(Guid nodeId, ReadModel readModel, IWindowManager windowManager, Bus bus)
         {
-            _graphReadModel = graphReadModel;
+            _readModel = readModel;
             _windowManager = windowManager;
             _bus = bus;
-            NodeId = nodeId;
-            _originalNode = _graphReadModel.Nodes.First(n => n.Id == nodeId);
+//            NodeId = nodeId;
+            _originalNode = _readModel.Nodes.First(n => n.Id == nodeId);
             Title = _originalNode.Title;
             Comment = _originalNode.Comment;
 
-            TracesInNode = _graphReadModel.Traces.Where(t => t.Nodes.Contains(nodeId)).ToList();
+            TracesInNode = _readModel.Traces.Where(t => t.Nodes.Contains(nodeId)).ToList();
 
             EquipmentsInNode = new ObservableCollection<EqItemVm>(
-                _graphReadModel.Equipments.Where(e => e.Node.Id == NodeId).Select(equipmentVm => CreateEqItem(equipmentVm)));
+                _readModel.Equipments.Where(e => e.NodeId == _originalNode.Id).Select(equipmentVm => CreateEqItem(equipmentVm)));
 
             IsClosed = false;
         }
 
-        private EqItemVm CreateEqItem(EquipmentVm equipmentVm)
+        private EqItemVm CreateEqItem(Equipment equipment)
         {
-            var tracesNames = _graphReadModel.Traces.Where(t => t.Equipments.Contains(equipmentVm.Id))
+            var tracesNames = _readModel.Traces.Where(t => t.Equipments.Contains(equipment.Id))
                 .Aggregate("", (current, traceVm) => current + (traceVm.Title + @" ;  "));
 
-            var isLastForSomeTrace = _graphReadModel.Traces.Any(t => t.Equipments.Last() == equipmentVm.Id);
-            var isPartOfTraceWithBase = _graphReadModel.Traces.Any(t => t.Equipments.Contains(equipmentVm.Id) && t.HasBase);
+            var isLastForSomeTrace = _readModel.Traces.Any(t => t.Equipments.Last() == equipment.Id);
+            var isPartOfTraceWithBase = _readModel.Traces.Any(t => t.Equipments.Contains(equipment.Id) && t.HasBase);
 
             var eqItem = new EqItemVm()
             {
-                Id = equipmentVm.Id,
-                Type = equipmentVm.Type.ToString(),
-                Title = equipmentVm.Title,
-                Comment = equipmentVm.Comment,
+                Id = equipment.Id,
+                Type = equipment.Type.ToString(),
+                Title = equipment.Title,
+                Comment = equipment.Comment,
                 Traces = tracesNames,
                 IsRemoveEnabled = !isLastForSomeTrace && !isPartOfTraceWithBase,
             };
@@ -132,23 +129,25 @@ namespace Iit.Fibertest.TestBench
 
         public void AddEquipment()
         {
-            var addEquipmentViewModel = new EquipmentUpdateViewModel(NodeId, Guid.Empty, _bus);
+            // TODO ask traces whick will use new equipment
+
+            var addEquipmentViewModel = new EquipmentUpdateViewModel(_originalNode.Id, Guid.Empty, _bus);
             _windowManager.ShowDialog(addEquipmentViewModel);
             if (addEquipmentViewModel.Command == null)
                 return;
-            Command = addEquipmentViewModel.Command;
+            var cmd = addEquipmentViewModel.Command;
 
-            IMapper mapper = new MapperConfiguration(
-                    cfg => cfg.AddProfile<MappingCommandToVm>()).CreateMapper();
-            var equipmentVm = mapper.Map<EquipmentVm>(Command);
-            EquipmentsInNode.Add(CreateEqItem(equipmentVm));
+            _bus.SendCommand(cmd).Wait();
+            // refresh equipments
+            EquipmentsInNode = new ObservableCollection<EqItemVm>(
+                _readModel.Equipments.Where(e => e.NodeId == _originalNode.Id).Select(equipmentVm => CreateEqItem(equipmentVm)));
         }
 
         private void LaunchUpdateEquipmentView(Guid id)
         {
-            var equipmentVm = _graphReadModel.Equipments.First(e => e.Id == id);
+            var equipmentVm = _readModel.Equipments.First(e => e.Id == id);
 
-            var updateEquipmentViewModel = new EquipmentUpdateViewModel(NodeId, id, _bus);
+            var updateEquipmentViewModel = new EquipmentUpdateViewModel(Guid.Empty, id, _bus);
             IMapper mapperToViewModel = new MapperConfiguration(
                     cfg => cfg.AddProfile<MappingVmToViewModel>()).CreateMapper();
             mapperToViewModel.Map(equipmentVm, updateEquipmentViewModel);
@@ -168,8 +167,10 @@ namespace Iit.Fibertest.TestBench
 
         public void RemoveEquipment(RemoveEquipment cmd)
         {
-            Command = cmd;
-            EquipmentsInNode.Remove(EquipmentsInNode.First(e => e.Id == cmd.Id));
+            _bus.SendCommand(cmd);
+            // refresh equipments
+            EquipmentsInNode = new ObservableCollection<EqItemVm>(
+                _readModel.Equipments.Where(e => e.NodeId == _originalNode.Id).Select(equipmentVm => CreateEqItem(equipmentVm)));
         }
 
         public void Save()
@@ -177,7 +178,7 @@ namespace Iit.Fibertest.TestBench
             Command = IsChanged() ?
                 new UpdateNode
                 {
-                    Id = NodeId,
+                    Id = _originalNode.Id,
                     Title = _title,
                     Comment = _comment
                 } 
@@ -208,7 +209,7 @@ namespace Iit.Fibertest.TestBench
                     case "Title":
                         if (string.IsNullOrEmpty(_title))
                             errorMessage = Resources.SID_Title_is_required;
-                        if (_graphReadModel.Nodes.Any(n => n.Title == _title && n.Id != _originalNode.Id))
+                        if (_readModel.Nodes.Any(n => n.Title == _title && n.Id != _originalNode.Id))
                             errorMessage = Resources.SID_There_is_a_node_with_the_same_title;
                         IsButtonSaveEnabled = errorMessage == string.Empty;
                         break;

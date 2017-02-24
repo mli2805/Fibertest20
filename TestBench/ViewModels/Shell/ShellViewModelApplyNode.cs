@@ -21,7 +21,7 @@ namespace Iit.Fibertest.TestBench
 
         private UpdateNode PrepareCommand(UpdateNode request)
         {
-            var vm = new NodeUpdateViewModel(request.Id, GraphReadModel, _windowManager, Bus);
+            var vm = new NodeUpdateViewModel(request.Id, ReadModel, _windowManager, Bus);
             vm.PropertyChanged += Vm_PropertyChanged;
             _windowManager.ShowDialog(vm);
             return vm.Command != null ? (UpdateNode)vm.Command : null;
