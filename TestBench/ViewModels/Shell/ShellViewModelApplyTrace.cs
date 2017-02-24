@@ -100,12 +100,11 @@ namespace Iit.Fibertest.TestBench
             return equipments;
         }
 
-        private AssignBaseRef PrepareCommand(RequestAssignBaseRef request)
+        private void LaunchView(RequestAssignBaseRef request)
         {
             var trace = ReadModel.Traces.First(t => t.Id == request.TraceId);
-            var vm = new BaseRefsAssignViewModel(trace, ReadModel.Rtus.First(r=>r.Id == trace.RtuId).Title);
+            var vm = new BaseRefsAssignViewModel(trace, ReadModel, Bus);
             _windowManager.ShowDialog(vm);
-            return vm.Command;
         }
     }
 

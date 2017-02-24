@@ -171,7 +171,7 @@ namespace Iit.Fibertest.Graph
             if (cmd.Nodes.Count != cmd.Equipments.Count)
                 return Resources.SID_Equipments_count_in_trace_should_match_nodes_count;
             if (cmd.Equipments.Last() == Guid.Empty)
-                return Resources.SID_Last_node_of_trace_must_contain_equipment;
+                return Resources.SID_Last_node_of_trace_must_contain_some_equipment;
 
             WriteModel.AddAndCommit(_mapper.Map<TraceAdded>(cmd));
             return null;

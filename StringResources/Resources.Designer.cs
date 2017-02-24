@@ -151,6 +151,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Base reflectograms.
+        /// </summary>
+        public static string SID_Base_reflectograms {
+            get {
+                return ResourceManager.GetString("SID_Base_reflectograms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Base refs assignment.
         /// </summary>
         public static string SID_Base_refs_assignment {
@@ -412,15 +421,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Last node of trace must contain equipment.
-        /// </summary>
-        public static string SID_Last_node_of_trace_must_contain_equipment {
-            get {
-                return ResourceManager.GetString("SID_Last_node_of_trace_must_contain_equipment", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Last node of trace must contain some equipment.
         /// </summary>
         public static string SID_Last_node_of_trace_must_contain_some_equipment {
@@ -561,6 +561,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Question {
             get {
                 return ResourceManager.GetString("SID_Question", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reflectogram files (*.sor)|*.sor.
+        /// </summary>
+        public static string SID_Reflectogram_files {
+            get {
+                return ResourceManager.GetString("SID_Reflectogram_files", resourceCulture);
             }
         }
         
@@ -805,6 +814,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Trace {
             get {
                 return ResourceManager.GetString("SID_Trace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trace information.
+        /// </summary>
+        public static string SID_Trace_information {
+            get {
+                return ResourceManager.GetString("SID_Trace_information", resourceCulture);
             }
         }
         

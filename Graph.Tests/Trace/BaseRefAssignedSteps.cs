@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.TestBench;
 using TechTalk.SpecFlow;
@@ -23,8 +22,10 @@ namespace Graph.Tests
         [When(@"Пользователь указывает пути к точной и быстрой базовам и жмет сохранить")]
         public void WhenПользовательУказываетПутиКТочнойИБыстройБазовамИЖметСохранить()
         {
-            _sut.FakeWindowManager.BaseIsSet();
-            _sut.ShellVm.ComplyWithRequest(new RequestAssignBaseRef() {TraceId = _trace.Id}).Wait();
+            var vm = new BaseRefsAssignViewModel(_trace, _sut.ReadModel, _sut.ShellVm.Bus);
+            vm.PreciseBaseFilename = SystemUnderTest.Path;
+            vm.FastBaseFilename = SystemUnderTest.Path;
+            vm.Save();
             _sut.Poller.Tick();
         }
 
@@ -41,8 +42,9 @@ namespace Graph.Tests
         {
             _oldPreciseId = _trace.PreciseId;
             _oldFastId = _trace.FastId;
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, null, SystemUnderTest.Path, null, Answer.Yes));
-            _sut.ShellVm.ComplyWithRequest(new RequestAssignBaseRef() { TraceId = _trace.Id }).Wait();
+            var vm = new BaseRefsAssignViewModel(_trace, _sut.ReadModel, _sut.ShellVm.Bus);
+            vm.FastBaseFilename = SystemUnderTest.Path;
+            vm.Save();
             _sut.Poller.Tick();
         }
 
@@ -56,8 +58,10 @@ namespace Graph.Tests
         [When(@"Пользователь сбрасывает точную и задает дополнительную и жмет сохранить")]
         public void WhenПользовательСбрасываетТочнуюЗадаетДополнительнуюИЖметСохранить()
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, "", null, SystemUnderTest.Path, Answer.Yes));
-            _sut.ShellVm.ComplyWithRequest(new RequestAssignBaseRef() { TraceId = _trace.Id }).Wait();
+            var vm = new BaseRefsAssignViewModel(_trace, _sut.ReadModel, _sut.ShellVm.Bus);
+            vm.ClearPathToPrecise();
+            vm.AdditionalBaseFilename = SystemUnderTest.Path;
+            vm.Save();
             _sut.Poller.Tick();
         }
 

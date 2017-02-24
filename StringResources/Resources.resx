@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
 	<!-- 
     Microsoft ResX Schema 
@@ -382,5 +382,14 @@ If chosen trace use some equipment in this node it will be replaced</value>
   </data>
 	<data name="SID_Base_refs_assignment" xml:space="preserve">
     <value>Base refs assignment</value>
+  </data>
+	<data name="SID_Trace_information" xml:space="preserve">
+    <value>Trace information</value>
+  </data>
+	<data name="SID_Base_reflectograms" xml:space="preserve">
+    <value>Base reflectograms</value>
+  </data>
+  <data name="SID_Reflectogram_files" xml:space="preserve">
+    <value>Reflectogram files (*.sor)|*.sor</value>
   </data>
 </root>

@@ -56,9 +56,8 @@ namespace Iit.Fibertest.TestBench
         private void AssignBaseRefsAction(object param)
         {
             var trace = ReadModel.Traces.First(t => t.Id == Id);
-            var vm = new BaseRefsAssignViewModel(trace, Parent.Title);
+            var vm = new BaseRefsAssignViewModel(trace, ReadModel, Bus);
             WindowManager.ShowDialog(vm);
-
         }
         private bool CanSomeAction(object param) { return true; }
 

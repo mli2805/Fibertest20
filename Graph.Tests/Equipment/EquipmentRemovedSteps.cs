@@ -13,7 +13,7 @@ namespace Graph.Tests
     {
         private readonly SystemUnderTest _sut = new SystemUnderTest();
         private Guid _nodeAId, _equipmentA1Id;
-        private Guid _nodeBId, _equipmentB1Id;
+        private Guid _nodeBId;
         private Guid _rtuNodeId, _anotherNodeId;
         private Guid _traceId;
 
@@ -33,7 +33,6 @@ namespace Graph.Tests
             _sut.ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() { Type = EquipmentType.Sleeve }).Wait();
             _sut.Poller.Tick();
             _nodeBId = _sut.ReadModel.Nodes.Last().Id;
-            _equipmentB1Id = _sut.ReadModel.Equipments.Last().Id;
         }
 
         [Given(@"Существует RTU и еще один узел")]

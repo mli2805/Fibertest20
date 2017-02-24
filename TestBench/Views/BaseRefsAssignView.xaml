@@ -5,43 +5,52 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
-        Title="BaseRefsAssignView" SizeToContent="Height" Width="300">
+        Title="BaseRefsAssignView" SizeToContent="Height" WindowStartupLocation="CenterOwner" Width="300">
     <StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="5,0">
-            <TextBlock Margin="5" Text="Трасса"/>
-            <TextBlock Margin="5" Text="{Binding TraceTitle}" />
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="5,0">
-            <TextBlock Margin="5" Text="RTU" />
-            <TextBlock Margin="5" Text="{Binding RtuTitle}" />
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="5,0,0,10">
-            <TextBlock Margin="5" Text="Порт" />
-            <TextBlock Margin="5" Text="{Binding RtuPort}" />
-        </StackPanel>
+        <GroupBox Margin="5" Header="{x:Static stringResources:Resources.SID_Trace_information}">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5,0">
+                    <TextBlock Margin="5" Text="Трасса"/>
+                    <TextBlock Margin="5" Text="{Binding TraceTitle}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5,0">
+                    <TextBlock Margin="5" Text="RTU" />
+                    <TextBlock Margin="5" Text="{Binding RtuTitle}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5,0,0,10">
+                    <TextBlock Margin="5" Text="Порт" />
+                    <TextBlock Margin="5" Text="{Binding RtuPort}" />
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
 
-        <StackPanel Orientation="Horizontal" Margin="5,10">
-            <Button Name="PathBrowseButton1" Margin="5,0,0,0" Height="15" Width="20" Content="..." Tag="1"/>
-            <Button Name="ClearPathButton1" Margin="5,0,0,0" Height="15" Width="20" Content="X" Tag="1" HorizontalAlignment="Right"/>
-            <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_Precise_base_ref}" />
-        </StackPanel>
-        <TextBox Margin="5,0" Text="{Binding PreciseBaseFilename}" />
+        <GroupBox Margin="5" Header="{x:Static stringResources:Resources.SID_Base_reflectograms}">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5,10,0,5">
+                    <Button Name="GetPathToPrecise" Margin="5,0,0,0" Padding="0,-5,0,0" Background="White" Height="15" Width="15" Content="..." VerticalAlignment="Top" Tag="1"/>
+                    <Button Name="ClearPathToPrecise" Margin="5,0,0,0" Padding="0,-5,0,0" Background="White" Height="15" Width="15" Content="x" VerticalContentAlignment="Center" Tag="1" HorizontalAlignment="Right"/>
+                    <!--            <TextBlock Margin="5,0,0,0" Text="a;lskdjflks dslkfle"/>-->
+                    <TextBlock Margin="5,0,0,0" Text="{x:Static stringResources:Resources.SID_Precise_base_ref}" />
+                </StackPanel>
+                <TextBox Margin="5,0" Height="25" Text="{Binding PreciseBaseFilename}" />
 
-        <StackPanel Orientation="Horizontal" Margin="5,10">
-            <Button Name="PathBrowseButton2" Margin="5,0,0,0" Height="20" Width="20" Content="..." Tag="2"/>
-            <Button Name="ClearPathButton2" Margin="5,0,0,0" Height="20" Width="20" Content="X" Tag="2" HorizontalAlignment="Right"/>
-            <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_Fast_base_ref}" />
-        </StackPanel>
-        <TextBox Margin="5,0" Text="{Binding FastBaseFilename}" />
+                <StackPanel Orientation="Horizontal" Margin="5,10,0,5">
+                    <Button Name="GetPathToFast" Margin="5,0,0,0" Padding="0,-5,0,0" Background="White" Height="15" Width="15" Content="..." Tag="2"/>
+                    <Button Name="ClearPathToFast" Margin="5,0,0,0" Padding="0,-5,0,0" Background="White" Height="15" Width="15" Content="x" Tag="2" HorizontalAlignment="Right"/>
+                    <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_Fast_base_ref}" />
+                </StackPanel>
+                <TextBox Margin="5,0" Height="25" Text="{Binding FastBaseFilename}" />
 
-        <StackPanel Orientation="Horizontal" Margin="5,10">
-            <Button Name="PathBrowseButton3" Margin="5,0,0,0" Height="20" Width="20" Content="..." Tag="3"/>
-            <Button Name="ClearPathButton3" Margin="5,0,0,0" Height="20" Width="20" Content="X" Tag="3" HorizontalAlignment="Right"/>
-            <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_Additional_base_ref}" />
-        </StackPanel>
-        <TextBox Margin="5,0" Text="{Binding AdditionalBaseFilename}" />
-        
-        <StackPanel Orientation="Horizontal" Margin="5,25,5,10">
+                <StackPanel Orientation="Horizontal" Margin="5,10,0,5">
+                    <Button Name="GetPathToAdditional" Margin="5,0,0,0" Padding="0,-5,0,0" Background="White" Height="15" Width="15" Content="..." Tag="3"/>
+                    <Button Name="ClearPathToAdditional" Margin="5,0,0,0" Padding="0,-5,0,0" Background="White" Height="15" Width="15" Content="x" Tag="3" HorizontalAlignment="Right"/>
+                    <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_Additional_base_ref}" />
+                </StackPanel>
+                <TextBox Margin="5,0,5,10" Height="25" Text="{Binding AdditionalBaseFilename}" />
+            </StackPanel>
+        </GroupBox>
+
+        <StackPanel Orientation="Horizontal" Margin="5,5,5,10">
             <Button Name="Save" Height="25" Width="100" Margin="5" Content="{x:Static stringResources:Resources.SID_Save}" IsEnabled="{Binding IsButtonSaveEnabled}"/>
             <Button Name="Cancel" Height="25" Width="100" Content="{x:Static stringResources:Resources.SID_Cancel}"/>
         </StackPanel>

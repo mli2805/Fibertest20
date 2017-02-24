@@ -383,4 +383,10 @@
 	<data name="SID_Base_refs_assignment" xml:space="preserve">
 		<value>Задать базовые</value>
 	</data>
+	<data name="SID_Trace_information" xml:space="preserve">
+		<value>Информация о трассе</value>
+	</data>
+	<data name="SID_Base_reflectograms" xml:space="preserve">
+		<value>Базовые рефлектограммы</value>
+	</data>
 </root>

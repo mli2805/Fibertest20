@@ -228,14 +228,7 @@ namespace Iit.Fibertest.TestBench
 
         public async Task ComplyWithRequest(RequestAssignBaseRef request)
         {
-            var cmd = PrepareCommand(request);
-            if (cmd == null)
-                return;
-            var message = await Bus.SendCommand(cmd);
-            if (message != null)
-            {
-                _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, message));
-            }
+            LaunchView(request);
         }
         #endregion
     }
