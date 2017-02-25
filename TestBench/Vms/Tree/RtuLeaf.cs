@@ -131,8 +131,5 @@ namespace Iit.Fibertest.TestBench
         private void RtuRemoveAction(object param) { }
         private void DefineTraceAction(object param) { }
         private void DefineTraceStepByStepAction(object param) { }
-
-
-        private bool CanSomeAction(object param) { return true;}
     }
 }

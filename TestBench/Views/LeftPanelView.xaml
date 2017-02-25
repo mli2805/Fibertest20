@@ -34,6 +34,15 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+            <Button Name="Expand"  Grid.Column="1" Background="Transparent" Content="expand"/>
+            <Button Name="Ports"  Grid.Column="2" Background="Transparent" Content="ports"/>
+        </Grid>
         <TreeView ItemsSource="{Binding TreeReadModel.Tree}" 
                   Background="Transparent" Foreground="Black" Grid.Row="1">
             <TreeView.Resources>
@@ -62,6 +71,17 @@
                         </StackPanel.ContextMenu>
                         <Image Source="{Binding MonitoringPictogram}" Height="12" Width="12" Margin="0,0,4,0"></Image>
                         <Image Source="{Binding TraceStatePictogram}" Height="12" Width="12" Margin="0,0,4,0"></Image>
+                        <TextBlock Text="{Binding Title}" Foreground="{Binding Color}" Margin="0,0,20,0"/>
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+                <HierarchicalDataTemplate
+                                  DataType="{x:Type testBench:PortLeaf}" ItemsSource="{Binding Children}">
+                    <StackPanel Orientation="Horizontal" Margin="85,0,0,0">
+                        <StackPanel.ContextMenu>
+                            <ContextMenu 
+                                ItemContainerStyle="{StaticResource ContextMenuItemStyle}" 
+                                ItemsSource="{Binding MyContextMenu}"/>
+                        </StackPanel.ContextMenu>
                         <TextBlock Text="{Binding Title}" Foreground="{Binding Color}" Margin="0,0,20,0"/>
                     </StackPanel>
                 </HierarchicalDataTemplate>

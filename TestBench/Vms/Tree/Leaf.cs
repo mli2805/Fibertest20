@@ -44,11 +44,12 @@ namespace Iit.Fibertest.TestBench
         public  List<MenuItemVm> MyContextMenu => GetMenuItems();
 
         protected virtual List<MenuItemVm> GetMenuItems() { return null; }
+        protected bool CanSomeAction(object param) { return true; }
 
         public Leaf Parent { get; set; }
         public ObservableCollection<Leaf> Children { get; set; } = new ObservableCollection<Leaf>();
 
-        public Leaf(ReadModel readModel, IWindowManager windowManager, Bus bus)
+        protected Leaf(ReadModel readModel, IWindowManager windowManager, Bus bus)
         {
             ReadModel = readModel;
             WindowManager = windowManager;

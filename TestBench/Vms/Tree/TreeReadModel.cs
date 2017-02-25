@@ -35,8 +35,8 @@ namespace Iit.Fibertest.TestBench
             rtuLeaf.Color = Brushes.Black;
             for (int i=1; i <= rtuLeaf.PortCount; i++)
             {
-                var port = new TraceLeaf(_readModel, _windowManager, _bus)
-                    { PortNumber = i, Title = string.Format(Resources.SID_Port_N, i), TraceState = FiberState.NotJoined, Color = Brushes.Black, };
+                var port = new PortLeaf(_readModel, _windowManager, _bus)
+                    { PortNumber = i, Title = string.Format(Resources.SID_Port_N, i), Color = Brushes.Blue, };
                 rtuLeaf.Children.Add(port);
                 port.Parent = rtuLeaf;
             }
@@ -71,7 +71,7 @@ namespace Iit.Fibertest.TestBench
         {
             var trace = new TraceLeaf(_readModel,_windowManager, _bus)
             {
-                Id = e.Id, Title = e.Title, IsRealTrace = true, TraceState = FiberState.NotJoined, Color = Brushes.Blue,
+                Id = e.Id, Title = e.Title, TraceState = FiberState.NotJoined, Color = Brushes.Blue,
             };
             var rtu = Tree.GetById(e.RtuId);
             rtu.Children.Add(trace);

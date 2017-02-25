@@ -9,14 +9,13 @@ namespace Iit.Fibertest.TestBench
 {
     public class TraceLeaf : Leaf
     {
-        public bool IsRealTrace { get; set; }
+        public int PortNumber { get; set; }
         public MonitoringState MonitoringState { get; set; }
         public FiberState TraceState { get; set; }
 
         public ImageSource MonitoringPictogram => MonitoringState.GetPictogram();
         public ImageSource TraceStatePictogram => TraceState.GetPictogram();
 
-        public int PortNumber { get; set; }
 
         public TraceLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus) : base(readModel, windowManager, bus)
         {
@@ -24,8 +23,9 @@ namespace Iit.Fibertest.TestBench
 
         protected override List<MenuItemVm> GetMenuItems()
         {
-            return IsRealTrace ? GetRealTraceMenuItems() : GetFreePortMenuItems();
+            return GetRealTraceMenuItems();
         }
+
         protected List<MenuItemVm> GetRealTraceMenuItems()
         {
             var menu = new List<MenuItemVm>();
@@ -78,8 +78,16 @@ namespace Iit.Fibertest.TestBench
                 Command = new ContextMenuAction(TraceLandmarksAction, CanSomeAction),
                 CommandParameter = this
             });
-           
+
             menu.Add(null);
+
+            if (PortNumber > 0)
+                menu.Add(new MenuItemVm()
+                {
+                    Header = Resources.SID_Detach_trace,
+                    Command = new ContextMenuAction(DetachTraceAction, CanSomeAction),
+                    CommandParameter = this,
+                });
 
             menu.Add(new MenuItemVm()
             {
@@ -100,17 +108,23 @@ namespace Iit.Fibertest.TestBench
             menu.Add(new MenuItemVm()
             {
                 Header = Resources.SID_Presice_out_of_turn_measurement,
-                Command = new ContextMenuAction(PreciseMeasurementAction, CanSomeAction),
+                Command = new ContextMenuAction(PreciseOutOfTurnMeasurementAction, CanSomeAction),
                 CommandParameter = this
             });
 
             menu.Add(new MenuItemVm()
             {
                 Header = Resources.SID_Measurement__Client_,
-                Command = new ContextMenuAction(MeasurementClientAction, CanSomeAction),
+                Command = new ContextMenuAction(PortExtensions.MeasurementClientAction, CanSomeAction),
                 CommandParameter = this
             });
 
+            menu.Add(new MenuItemVm()
+            {
+                Header = Resources.SID_Measurement__RFTS_Reflect_,
+                Command = new ContextMenuAction(PortExtensions.MeasurementRftsReflectAction, CanSomeAction),
+                CommandParameter = this,
+            });
             return menu;
         }
 
@@ -127,45 +141,10 @@ namespace Iit.Fibertest.TestBench
         private void TraceStatisticsAction(object param) { }
         private void TraceEventsAction(object param) { }
         private void TraceLandmarksAction(object param) { }
+        private void DetachTraceAction(object param) { }
         private void TraceCleanAction(object param) { }
         private void TraceRemoveAction(object param) { }
-        private void PreciseMeasurementAction(object param) { }
-        private void MeasurementClientAction(object param) { }
-
-        private bool CanSomeAction(object param) { return true; }
-
-        private List<MenuItemVm> GetFreePortMenuItems()
-        {
-            var menu = new List<MenuItemVm>();
-
-            menu.Add(new MenuItemVm()
-            {
-                Header = Resources.SID_Attach_from_list,
-                Command = new ContextMenuAction(AttachFromListAction, CanSomeAction),
-                CommandParameter = this,
-            });
-
-            menu.Add(new MenuItemVm()
-            {
-                Header = Resources.SID_Attach_BOP,
-                Command = new ContextMenuAction(AttachBopAction, CanSomeAction),
-                CommandParameter = this,
-            });
-
-            menu.Add(null);
-
-            menu.Add(new MenuItemVm()
-            {
-                Header = Resources.SID_Measurement__Client_,
-                Command = new ContextMenuAction(MeasurementClientAction, CanSomeAction),
-                CommandParameter = this,
-            });
-
-            return menu;
-        }
-
-        private void AttachFromListAction(object param) { }
-        private void AttachBopAction(object param) { }
+        private void PreciseOutOfTurnMeasurementAction(object param) { }
     }
 }
 

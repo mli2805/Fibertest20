@@ -111,6 +111,7 @@
     <Compile Include="ReadModel\ReadModel.cs" />
     <Compile Include="ReadModel\ReadModelExtensions.cs" />
     <Compile Include="Requests\RequestRemoveRtu.cs" />
+    <Compile Include="Vms\Tree\PortLeaf.cs" />
     <Compile Include="Vms\Tree\TreeReadModel.cs" />
     <Compile Include="Requests\RequestAddEquipmentIntoNode.cs" />
     <Compile Include="Requests\RequestAddFiberWithNodes.cs" />

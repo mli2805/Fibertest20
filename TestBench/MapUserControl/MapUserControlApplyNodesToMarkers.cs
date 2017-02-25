@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using GMap.NET;
 using GMap.NET.WindowsPresentation;
 
 namespace Iit.Fibertest.TestBench

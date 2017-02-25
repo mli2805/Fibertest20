@@ -286,6 +286,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Detach trace.
+        /// </summary>
+        public static string SID_Detach_trace {
+            get {
+                return ResourceManager.GetString("SID_Detach_trace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Don&apos;t add equipment.
         /// </summary>
         public static string SID_Do_not_add_equipment {
@@ -507,6 +516,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Measurement__Client_ {
             get {
                 return ResourceManager.GetString("SID_Measurement__Client_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Measurement (RFTS Reflect).
+        /// </summary>
+        public static string SID_Measurement__RFTS_Reflect_ {
+            get {
+                return ResourceManager.GetString("SID_Measurement__RFTS_Reflect_", resourceCulture);
             }
         }
         
