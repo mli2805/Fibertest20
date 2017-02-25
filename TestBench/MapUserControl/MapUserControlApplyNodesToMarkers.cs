@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using GMap.NET;
 using GMap.NET.WindowsPresentation;
 
 namespace Iit.Fibertest.TestBench
@@ -51,14 +53,28 @@ namespace Iit.Fibertest.TestBench
         {
             var nodeVm = (NodeVm)sender;
 
-            var oldMarker = MainMap.Markers.First(m => m.Id == nodeVm.Id);
-            MainMap.Markers.Remove(oldMarker);
-
-            var marker = new GMapMarker(nodeVm.Id, nodeVm.Position);
-            marker.ZIndex = 2;
-            var markerControl = new MarkerControl(this, marker, nodeVm.Type, nodeVm.Title);
-            marker.Shape = markerControl;
-            MainMap.Markers.Add(marker);
+            if (e.PropertyName == "Position")
+            {
+                MainMap.Markers.First(m => m.Id == nodeVm.Id).Position = nodeVm.Position;
+                foreach (var route in MainMap.Markers.OfType<GMapRoute>().Where(r=>r.LeftId == nodeVm.Id))
+                {
+                    route.Points[0] =nodeVm.Position;
+                    route.RegenerateShape(MainMap);
+                }
+                foreach (var route in MainMap.Markers.OfType<GMapRoute>().Where(r=>r.RightId == nodeVm.Id))
+                {
+                    route.Points[1] =nodeVm.Position;
+                    route.RegenerateShape(MainMap);
+                }
+            }
+            if (e.PropertyName == "Title")
+            {
+                ((MarkerControl)MainMap.Markers.First(m => m.Id == nodeVm.Id).Shape).Title = nodeVm.Title;
+            }
+            if (e.PropertyName == "Type")
+            {
+                ((MarkerControl)MainMap.Markers.First(m => m.Id == nodeVm.Id).Shape).Type = nodeVm.Type;
+            }
         }
 
         private void ApplyRemovedNodes(IList oldItems)

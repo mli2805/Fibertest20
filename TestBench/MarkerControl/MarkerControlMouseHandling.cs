@@ -14,7 +14,7 @@ namespace Iit.Fibertest.TestBench
     {
         private void MarkerControl_PreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (_type == EquipmentType.Rtu)
+            if (Type == EquipmentType.Rtu)
                 OpenRtuContextMenu();
             else
                 OpenNodeContextMenu();
@@ -109,7 +109,7 @@ namespace Iit.Fibertest.TestBench
             _marker.ZIndex -= 10000;
 //            Cursor = Cursors.Arrow;
             Cursor = _cursorBeforeEnter;
-            if (!string.IsNullOrEmpty(_title))
+            if (!string.IsNullOrEmpty(Title))
                 _popup.IsOpen = false;
         }
 
@@ -119,7 +119,7 @@ namespace Iit.Fibertest.TestBench
             _cursorBeforeEnter = Cursor;
             Cursor = Cursors.Hand;
 
-            if (!string.IsNullOrEmpty(_title))
+            if (!string.IsNullOrEmpty(Title))
                 _popup.IsOpen = true;
         }
     }

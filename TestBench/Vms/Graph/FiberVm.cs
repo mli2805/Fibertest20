@@ -8,9 +8,26 @@ namespace Iit.Fibertest.TestBench
 {
     public class FiberVm : PropertyChangedBase
     {
+        private NodeVm _node1;
+        private NodeVm _node2;
         public Guid Id { get; set; }
-        public NodeVm Node1 { get; set; }
-        public NodeVm Node2 { get; set; }
+
+        public NodeVm Node1
+        {
+            get { return _node1; }
+            set
+            {
+                if (Equals(value, _node1)) return;
+                _node1 = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public NodeVm Node2
+        {
+            get { return _node2; }
+            set { _node2 = value; }
+        }
 
         // if empty fiber is not in any trace
         private Dictionary<Guid, FiberState> States { get; set; } = new Dictionary<Guid, FiberState>();

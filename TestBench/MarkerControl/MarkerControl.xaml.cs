@@ -15,10 +15,31 @@ namespace Iit.Fibertest.TestBench
         private Popup _popup;
         private Label _label;
         private readonly GMapMarker _marker;
-        private readonly EquipmentType _type;
-        private readonly string _title;
+
+        public EquipmentType Type
+        {
+            get { return _type; }
+            set
+            {
+                _type = value;
+                AssignBitmapImageTo(Icon);
+            }
+        }
+
+        public string Title
+        {
+            get { return _title; }
+            set
+            {
+                _title = value;
+                InitializePopup();
+            }
+        }
+
         private readonly Map _mainMap;
         private readonly MapUserControl _owner;
+        private EquipmentType _type;
+        private string _title;
 
         public new ContextMenu ContextMenu { get; set; }
 
@@ -28,12 +49,11 @@ namespace Iit.Fibertest.TestBench
             _owner = owner;
             _mainMap = owner.MainMap;
             _marker = marker;
-            _type = type;
-            _title = title;
+            Type = type;
+            Title = title;
 
             Subscribe();
             InitializePopup();
-
         }
 
         private void Subscribe()
@@ -51,22 +71,22 @@ namespace Iit.Fibertest.TestBench
 
         private void InitializePopup()
         {
-            _label = new Label { Background = Brushes.White, Foreground = Brushes.Black, FontSize = 14, Content = _title, };
+            _label = new Label { Background = Brushes.White, Foreground = Brushes.Black, FontSize = 14, Content = Title, };
             _popup = new Popup { Placement = PlacementMode.Mouse, Child = _label, };
         }
 
-        private void AssignBitmapImage(Image pictogram)
+        private void AssignBitmapImageTo(Image destination)
         {
-            pictogram.Width = _type == EquipmentType.Rtu ? 40 : 8;
-            pictogram.Height = _type == EquipmentType.Rtu ? 28 : 8;
+            destination.Width = Type == EquipmentType.Rtu ? 40 : 8;
+            destination.Height = Type == EquipmentType.Rtu ? 28 : 8;
             
-            pictogram.Source = Utils.GetPictogramBitmapImage(_type, FiberState.Ok);
-            pictogram.ContextMenu = ContextMenu;
+            destination.Source = Utils.GetPictogramBitmapImage(Type, FiberState.Ok);
+            destination.ContextMenu = ContextMenu;
         }
 
         void MarkerControl_Loaded(object sender, RoutedEventArgs e)
         {
-            AssignBitmapImage(Icon);
+            AssignBitmapImageTo(Icon);
             if (Icon.Source.CanFreeze)
                 Icon.Source.Freeze();
             Icon.Visibility = _owner.GraphReadModel.EquipmentVisibility;
