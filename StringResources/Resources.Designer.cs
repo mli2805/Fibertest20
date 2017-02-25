@@ -493,6 +493,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to List of traces.
+        /// </summary>
+        public static string SID_List_of_traces {
+            get {
+                return ResourceManager.GetString("SID_List_of_traces", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Manual mode.
         /// </summary>
         public static string SID_Manual_mode {
@@ -570,6 +579,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_noname_RTU {
             get {
                 return ResourceManager.GetString("SID_noname_RTU", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not attached traces list.
+        /// </summary>
+        public static string SID_Not_attached_traces_list {
+            get {
+                return ResourceManager.GetString("SID_Not_attached_traces_list", resourceCulture);
             }
         }
         

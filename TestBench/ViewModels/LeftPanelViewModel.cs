@@ -10,6 +10,11 @@ namespace Iit.Fibertest.TestBench
         {
             TreeReadModel = treeReadModel;
         }
+
+        public void Expand()
+        {
+            
+        }
     }
 
 }

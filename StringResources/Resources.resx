@@ -261,7 +261,7 @@ If chosen trace use some equipment in this node it will be replaced</value>
     <value>RTU Information</value>
   </data>
 	<data name="SID_port_trace" xml:space="preserve">
-    <value>port:{0} - {1}</value>
+    <value>N{0} : {1}</value>
   </data>
 	<data name="SID_coor_in_degrees" xml:space="preserve">
     <value>{{Lat={0:#0.000000}, Lng={1:#0.000000}}}</value>
@@ -430,5 +430,11 @@ If chosen trace use some equipment in this node it will be replaced</value>
   </data>
 	<data name="SID_Detach_trace" xml:space="preserve">
     <value>Detach trace</value>
+  </data>
+	<data name="SID_Not_attached_traces_list" xml:space="preserve">
+    <value>Not attached traces list</value>
+  </data>
+	<data name="SID_List_of_traces" xml:space="preserve">
+    <value>List of traces</value>
   </data>
 </root>

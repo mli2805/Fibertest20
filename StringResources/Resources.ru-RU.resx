@@ -261,7 +261,7 @@
     <value>RTU Информация</value>
   </data>
 	<data name="SID_port_trace" xml:space="preserve">
-    <value>порт:{0} - {1}</value>
+    <value>N{0} : {1}</value>
   </data>
 	<data name="SID_coor_in_degrees" xml:space="preserve">
     <value>{{Шир={0:#0.000000}, Дол={1:#0.000000}}}</value>
@@ -430,5 +430,11 @@
 	</data>
 	<data name="SID_Detach_trace" xml:space="preserve">
 		<value>Отсоединить трассу</value>
+	</data>
+	<data name="SID_Not_attached_traces_list" xml:space="preserve">
+		<value>Список неприсоединенных трасс</value>
+	</data>
+	<data name="SID_List_of_traces" xml:space="preserve">
+		<value>Список трасс</value>
 	</data>
 </root>

@@ -111,6 +111,10 @@
     <Compile Include="ReadModel\ReadModel.cs" />
     <Compile Include="ReadModel\ReadModelExtensions.cs" />
     <Compile Include="Requests\RequestRemoveRtu.cs" />
+    <Compile Include="ViewModels\TraceToAttachViewModel.cs" />
+    <Compile Include="Views\TraceToAttachView.xaml.cs">
+      <DependentUpon>TraceToAttachView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vms\Tree\PortLeaf.cs" />
     <Compile Include="Vms\Tree\TreeReadModel.cs" />
     <Compile Include="Requests\RequestAddEquipmentIntoNode.cs" />
@@ -294,6 +298,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\TraceToAttachView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\UniversalViews\NotificationView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -345,76 +353,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\CrossCritical.png" />
-    <Resource Include="Resources\CrossMajor.png" />
-    <Resource Include="Resources\CrossMinor.png" />
-    <Resource Include="Resources\CrossSuspected.png" />
-    <Resource Include="Resources\CrossUser.png" />
-    <Resource Include="Resources\InvisibleOk.png" />
-    <Resource Include="Resources\NodeCritical.png" />
-    <Resource Include="Resources\NodeMajor.png" />
-    <Resource Include="Resources\NodeMinor.png" />
-    <Resource Include="Resources\NodeOk.png" />
-    <Resource Include="Resources\NodeSuspected.png" />
-    <Resource Include="Resources\NodeUser.png" />
-    <Resource Include="Resources\RtuCritical.png" />
-    <Resource Include="Resources\RtuCritical2c.png" />
-    <Resource Include="Resources\RtuCritical3c.png" />
-    <Resource Include="Resources\RtuMajor.png" />
-    <Resource Include="Resources\RtuMajor2c.png" />
-    <Resource Include="Resources\RtuMajor3c.png" />
-    <Resource Include="Resources\RtuMinor.png" />
-    <Resource Include="Resources\RtuMinor2c.png" />
-    <Resource Include="Resources\RtuMinor3c.png" />
-    <Resource Include="Resources\RtuNotAccessible.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\CrossOk.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\OtherOk.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\RtuOk.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\SleeveOk.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\TerminalOk.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\WellOk.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\RtuOnReserveChannel.png" />
-    <Resource Include="Resources\RtuReserveCrashed.png" />
-    <Resource Include="Resources\RtuSuspected.png" />
-    <Resource Include="Resources\RtuSuspected2c.png" />
-    <Resource Include="Resources\RtuSuspected3c.png" />
-    <Resource Include="Resources\RtuUser.png" />
-    <Resource Include="Resources\RtuUser2c.png" />
-    <Resource Include="Resources\RtuUser3c.png" />
-    <Resource Include="Resources\SleeveCritical.png" />
-    <Resource Include="Resources\SleeveMajor.png" />
-    <Resource Include="Resources\SleeveMinor.png" />
-    <Resource Include="Resources\SleeveSuspected.png" />
-    <Resource Include="Resources\SleeveUser.png" />
-    <Resource Include="Resources\TerminalCritical.png" />
-    <Resource Include="Resources\TerminalMajor.png" />
-    <Resource Include="Resources\TerminalMinor.png" />
-    <Resource Include="Resources\TerminalSuspected.png" />
-    <Resource Include="Resources\TerminalUser.png" />
-    <Resource Include="Resources\WellCritical.png" />
-    <Resource Include="Resources\WellMajor.png" />
-    <Resource Include="Resources\WellMinor.png" />
-    <Resource Include="Resources\WellSuspected.png" />
-    <Resource Include="Resources\WellUser.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\CableReserveOk.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\LeftPanel\blue_sphere_16.jpg" />
   </ItemGroup>
   <ItemGroup>
@@ -436,6 +374,78 @@
   <ItemGroup>
     <Resource Include="Resources\LeftPanel\BlueSquare.png" />
     <Resource Include="Resources\LeftPanel\GreySquare.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\CableReserve\CableReserveOk.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Cross\CrossCritical.png" />
+    <Resource Include="Resources\Cross\CrossMajor.png" />
+    <Resource Include="Resources\Cross\CrossMinor.png" />
+    <Resource Include="Resources\Cross\CrossOk.png" />
+    <Resource Include="Resources\Cross\CrossSuspected.png" />
+    <Resource Include="Resources\Cross\CrossUser.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Invisible\InvisibleOk.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Other\OtherCritical.png" />
+    <Resource Include="Resources\Other\OtherMajor.png" />
+    <Resource Include="Resources\Other\OtherMinor.png" />
+    <Resource Include="Resources\Other\OtherOk.png" />
+    <Resource Include="Resources\Other\OtherSuspected.png" />
+    <Resource Include="Resources\Other\OtherUser.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\LeftPanel\BlackSquare.png" />
+    <Resource Include="Resources\LeftPanel\FuchsiaSquare.png" />
+    <Resource Include="Resources\LeftPanel\PurpleSquare.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Rtu\RtuCritical.png" />
+    <Resource Include="Resources\Rtu\RtuCritical2c.png" />
+    <Resource Include="Resources\Rtu\RtuCritical3c.png" />
+    <Resource Include="Resources\Rtu\RtuMajor.png" />
+    <Resource Include="Resources\Rtu\RtuMajor2c.png" />
+    <Resource Include="Resources\Rtu\RtuMajor3c.png" />
+    <Resource Include="Resources\Rtu\RtuMinor.png" />
+    <Resource Include="Resources\Rtu\RtuMinor2c.png" />
+    <Resource Include="Resources\Rtu\RtuMinor3c.png" />
+    <Resource Include="Resources\Rtu\RtuNotAccessible.png" />
+    <Resource Include="Resources\Rtu\RtuOk.png" />
+    <Resource Include="Resources\Rtu\RtuOnReserveChannel.png" />
+    <Resource Include="Resources\Rtu\RtuReserveCrashed.png" />
+    <Resource Include="Resources\Rtu\RtuSuspected.png" />
+    <Resource Include="Resources\Rtu\RtuSuspected2c.png" />
+    <Resource Include="Resources\Rtu\RtuSuspected3c.png" />
+    <Resource Include="Resources\Rtu\RtuUser.png" />
+    <Resource Include="Resources\Rtu\RtuUser2c.png" />
+    <Resource Include="Resources\Rtu\RtuUser3c.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Sleeve\SleeveCritical.png" />
+    <Resource Include="Resources\Sleeve\SleeveMajor.png" />
+    <Resource Include="Resources\Sleeve\SleeveMinor.png" />
+    <Resource Include="Resources\Sleeve\SleeveOk.png" />
+    <Resource Include="Resources\Sleeve\SleeveSuspected.png" />
+    <Resource Include="Resources\Sleeve\SleeveUser.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Terminal\TerminalCritical.png" />
+    <Resource Include="Resources\Terminal\TerminalMajor.png" />
+    <Resource Include="Resources\Terminal\TerminalMinor.png" />
+    <Resource Include="Resources\Terminal\TerminalOk.png" />
+    <Resource Include="Resources\Terminal\TerminalSuspected.png" />
+    <Resource Include="Resources\Terminal\TerminalUser.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Well\WellCritical.png" />
+    <Resource Include="Resources\Well\WellMajor.png" />
+    <Resource Include="Resources\Well\WellMinor.png" />
+    <Resource Include="Resources\Well\WellOk.png" />
+    <Resource Include="Resources\Well\WellSuspected.png" />
+    <Resource Include="Resources\Well\WellUser.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

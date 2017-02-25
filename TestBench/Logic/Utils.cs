@@ -12,7 +12,8 @@ namespace Iit.Fibertest.TestBench
         {
             string stateName = state.ToString();
             string typeName = type.ToString();
-            var path = $@"pack://application:,,,/Resources/{typeName}{stateName}.png";
+//            var path = $@"pack://application:,,,/Resources/{typeName}{stateName}.png";
+            var path = $@"pack://application:,,,/Resources/{typeName}/{typeName}{stateName}.png";
             return new BitmapImage(new Uri(path));
         }
 
@@ -54,11 +55,11 @@ namespace Iit.Fibertest.TestBench
                 case FiberState.NotJoined:
                     return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/BlueSquare.png"));
                 case FiberState.Ok:
-                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
+                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/BlackSquare.png"));
                 case FiberState.Minor:
-                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
+                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/PurpleSquare.png"));
                 case FiberState.Major:
-                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
+                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/FuchsiaSquare.png"));
                 case FiberState.User:
                     return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreenSquare.png"));
                 case FiberState.Critical:

@@ -23,11 +23,6 @@ namespace Iit.Fibertest.TestBench
 
         protected override List<MenuItemVm> GetMenuItems()
         {
-            return GetRealTraceMenuItems();
-        }
-
-        protected List<MenuItemVm> GetRealTraceMenuItems()
-        {
             var menu = new List<MenuItemVm>();
 
             menu.Add(new MenuItemVm()
@@ -103,28 +98,31 @@ namespace Iit.Fibertest.TestBench
                 CommandParameter = this
             });
 
-            menu.Add(null);
-
-            menu.Add(new MenuItemVm()
+            if (PortNumber > 0)
             {
-                Header = Resources.SID_Presice_out_of_turn_measurement,
-                Command = new ContextMenuAction(PreciseOutOfTurnMeasurementAction, CanSomeAction),
-                CommandParameter = this
-            });
+                menu.Add(null);
 
-            menu.Add(new MenuItemVm()
-            {
-                Header = Resources.SID_Measurement__Client_,
-                Command = new ContextMenuAction(PortExtensions.MeasurementClientAction, CanSomeAction),
-                CommandParameter = this
-            });
+                menu.Add(new MenuItemVm()
+                {
+                    Header = Resources.SID_Presice_out_of_turn_measurement,
+                    Command = new ContextMenuAction(PreciseOutOfTurnMeasurementAction, CanSomeAction),
+                    CommandParameter = this
+                });
 
-            menu.Add(new MenuItemVm()
-            {
-                Header = Resources.SID_Measurement__RFTS_Reflect_,
-                Command = new ContextMenuAction(PortExtensions.MeasurementRftsReflectAction, CanSomeAction),
-                CommandParameter = this,
-            });
+                menu.Add(new MenuItemVm()
+                {
+                    Header = Resources.SID_Measurement__Client_,
+                    Command = new ContextMenuAction(PortExtensions.MeasurementClientAction, CanSomeAction),
+                    CommandParameter = this
+                });
+
+                menu.Add(new MenuItemVm()
+                {
+                    Header = Resources.SID_Measurement__RFTS_Reflect_,
+                    Command = new ContextMenuAction(PortExtensions.MeasurementRftsReflectAction, CanSomeAction),
+                    CommandParameter = this,
+                });
+            }
             return menu;
         }
 
@@ -141,7 +139,11 @@ namespace Iit.Fibertest.TestBench
         private void TraceStatisticsAction(object param) { }
         private void TraceEventsAction(object param) { }
         private void TraceLandmarksAction(object param) { }
-        private void DetachTraceAction(object param) { }
+
+        private void DetachTraceAction(object param)
+        {
+            Bus.SendCommand(new DetachTrace() {TraceId = Id});
+        }
         private void TraceCleanAction(object param) { }
         private void TraceRemoveAction(object param) { }
         private void PreciseOutOfTurnMeasurementAction(object param) { }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Windows.Media;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
@@ -13,9 +14,12 @@ namespace Iit.Fibertest.TestBench
 
     public class PortLeaf : Leaf
     {
-        public int PortNumber { get; set; }
-        public PortLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus) : base(readModel, windowManager, bus)
+        public readonly int PortNumber;
+        public PortLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, int portNumber) : base(readModel, windowManager, bus)
         {
+            PortNumber = portNumber;
+            Title = string.Format(Resources.SID_Port_N, PortNumber);
+            Color = Brushes.Blue;
         }
 
         protected override List<MenuItemVm> GetMenuItems()
@@ -61,7 +65,11 @@ namespace Iit.Fibertest.TestBench
             };
         }
 
-        private void AttachFromListAction(object param) { }
+        private void AttachFromListAction(object param)
+        {
+            var vm = new TraceToAttachViewModel(Parent.Id, PortNumber, ReadModel, Bus);
+            WindowManager.ShowDialog(vm);
+        }
         private void AttachBopAction(object param) { }
     }
 }
