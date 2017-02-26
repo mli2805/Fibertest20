@@ -9,18 +9,7 @@ using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.TestBench
 {
-    public class NodesStatisticsItem
-    {
-        public string NodeType { get; set; }
-        public int Count { get; set; }
-
-        public NodesStatisticsItem(string nodeType, int count)
-        {
-            NodeType = nodeType;
-            Count = count;
-        }
-    }
-    public class TraceAddViewModel : Screen, IDataErrorInfo
+    public class TraceInfoViewModel : Screen, IDataErrorInfo
     {
         private readonly ReadModel _readModel;
         private readonly Bus _bus;
@@ -87,7 +76,7 @@ namespace Iit.Fibertest.TestBench
         /// <param name="traceId"></param>
         /// <param name="traceEquipments"></param>
         /// <param name="traceNodes"></param>
-        public TraceAddViewModel(ReadModel readModel, Bus bus, IWindowManager windowManager, 
+        public TraceInfoViewModel(ReadModel readModel, Bus bus, IWindowManager windowManager, 
             Guid traceId, List<Guid> traceEquipments = null, List<Guid> traceNodes = null)
         {
             _readModel = readModel;
@@ -112,7 +101,7 @@ namespace Iit.Fibertest.TestBench
                 var trace = _readModel.Traces.First(t => t.Id == _traceId);
                 Title = trace.Title;
                 IsTraceModeLight = trace.Mode == TraceMode.Light;
-                PortNumber = trace.Port > 0 ? trace.Port.ToString() : "not attached";
+                PortNumber = trace.Port > 0 ? trace.Port.ToString() : Resources.SID_not_attached;
                 _traceEquipments = trace.Equipments;
                 Comment = trace.Comment;
             }
@@ -123,7 +112,7 @@ namespace Iit.Fibertest.TestBench
         }
         private void InitializeNodesStatistics(List<Guid> traceEquipments)
         {
-            NodesStatistics.Add(new NodesStatisticsItem("Total, including RTU", traceEquipments.Count));
+            NodesStatistics.Add(new NodesStatisticsItem(Resources.SID_In_total__including_RTU, traceEquipments.Count));
 
             var dict = new Dictionary<EquipmentType, int>();
             foreach (var id in traceEquipments.Skip(1).Where(e => e != Guid.Empty))

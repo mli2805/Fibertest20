@@ -437,4 +437,22 @@
 	<data name="SID_List_of_traces" xml:space="preserve">
 		<value>Список трасс</value>
 	</data>
+	<data name="SID_In_total__including_RTU" xml:space="preserve">
+		<value>Всего, включая RTU</value>
+	</data>
+	<data name="SID_not_attached" xml:space="preserve">
+		<value>не подключена</value>
+	</data>
+	<data name="SID_Nodes" xml:space="preserve">
+		<value>Узлы</value>
+	</data>
+	<data name="SID_Trace_mode" xml:space="preserve">
+		<value>Режим трассы</value>
+	</data>
+	<data name="SID_Dark_OF" xml:space="preserve">
+		<value>Темное ОВ</value>
+	</data>
+	<data name="SID_Light_OF" xml:space="preserve">
+		<value>Светлое ОВ</value>
+	</data>
 </root>

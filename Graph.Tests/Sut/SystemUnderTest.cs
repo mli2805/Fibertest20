@@ -251,7 +251,7 @@ namespace Graph.Tests
 
         public bool AddTraceViewHandler(object model, string title, string comment, Answer button)
         {
-            var vm = model as TraceAddViewModel;
+            var vm = model as TraceInfoViewModel;
             if (vm == null) return false;
             vm.IsInTraceCreationMode = true;
             vm.Title = title;

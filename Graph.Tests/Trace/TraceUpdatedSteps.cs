@@ -10,7 +10,7 @@ namespace Graph.Tests
     {
         private SystemUnderTest _sut = new SystemUnderTest();
         private Guid _traceId;
-        private TraceAddViewModel _viewModel;
+        private TraceInfoViewModel _viewModel;
         private const string NewTitle = @"new trace title";
         private const string NewComment = @"new trace comment";
 
@@ -22,7 +22,7 @@ namespace Graph.Tests
         [Given(@"Пользователь открывает форму Информация и вносит изменения")]
         public void GivenПользовательОткрываетФормуИнформацияИВноситИзменения()
         {
-            _viewModel = new TraceAddViewModel(_sut.ReadModel, _sut.ShellVm.Bus, _sut.FakeWindowManager, _traceId);
+            _viewModel = new TraceInfoViewModel(_sut.ReadModel, _sut.ShellVm.Bus, _sut.FakeWindowManager, _traceId);
             _viewModel.Title = NewTitle;
             _viewModel.Comment = NewComment;
             _viewModel.IsTraceModeLight = false;
@@ -44,7 +44,7 @@ namespace Graph.Tests
         [Then(@"Изменения сохраняются")]
         public void ThenИзмененияСохраняются()
         {
-            _viewModel = new TraceAddViewModel(_sut.ReadModel, _sut.ShellVm.Bus, _sut.FakeWindowManager, _traceId);
+            _viewModel = new TraceInfoViewModel(_sut.ReadModel, _sut.ShellVm.Bus, _sut.FakeWindowManager, _traceId);
             _viewModel.Title.Should().Be(NewTitle);
             _viewModel.Comment.Should().Be(NewComment);
             _viewModel.IsTraceModeLight.Should().BeFalse();
@@ -53,7 +53,7 @@ namespace Graph.Tests
         [Then(@"Изменения НЕ сохраняются")]
         public void ThenИзмененияНеСохраняются()
         {
-            _viewModel = new TraceAddViewModel(_sut.ReadModel, _sut.ShellVm.Bus, _sut.FakeWindowManager, _traceId);
+            _viewModel = new TraceInfoViewModel(_sut.ReadModel, _sut.ShellVm.Bus, _sut.FakeWindowManager, _traceId);
             _viewModel.Title.Should().NotBe(NewTitle);
             _viewModel.Comment.Should().NotBe(NewComment);
             _viewModel.IsTraceModeLight.Should().BeTrue();

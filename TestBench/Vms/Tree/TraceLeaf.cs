@@ -128,7 +128,7 @@ namespace Iit.Fibertest.TestBench
 
         private void TraceInformationAction(object param)
         {
-            var vm = new TraceAddViewModel(ReadModel, Bus, WindowManager, Id);
+            var vm = new TraceInfoViewModel(ReadModel, Bus, WindowManager, Id);
             WindowManager.ShowDialog(vm);
         }
         private void ShowTraceAction(object param) { }

@@ -1,11 +1,11 @@
 ﻿namespace Iit.Fibertest.TestBench
 {
     /// <summary>
-    /// Interaction logic for TraceAddView.xaml
+    /// Interaction logic for TraceInfoView.xaml
     /// </summary>
-    public partial class TraceAddView
+    public partial class TraceInfoView
     {
-        public TraceAddView()
+        public TraceInfoView()
         {
             InitializeComponent();
         }

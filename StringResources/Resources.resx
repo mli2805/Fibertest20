@@ -437,4 +437,22 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_List_of_traces" xml:space="preserve">
     <value>List of traces</value>
   </data>
+	<data name="SID_In_total__including_RTU" xml:space="preserve">
+    <value>In total, including RTU</value>
+  </data>
+	<data name="SID_not_attached" xml:space="preserve">
+    <value>not attached</value>
+  </data>
+	<data name="SID_Nodes" xml:space="preserve">
+    <value>Nodes</value>
+  </data>
+	<data name="SID_Trace_mode" xml:space="preserve">
+    <value>Trace mode</value>
+  </data>
+	<data name="SID_Dark_OF" xml:space="preserve">
+    <value>Dark OF</value>
+  </data>
+	<data name="SID_Light_OF" xml:space="preserve">
+    <value>Light OF</value>
+  </data>
 </root>

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
@@ -34,7 +33,7 @@ namespace Iit.Fibertest.TestBench
             if (traceEquipments == null)
                 return;
 
-            var traceAddViewModel = new TraceAddViewModel(ReadModel, Bus, _windowManager, Guid.Empty, traceEquipments, traceNodes);
+            var traceAddViewModel = new TraceInfoViewModel(ReadModel, Bus, _windowManager, Guid.Empty, traceEquipments, traceNodes);
             _windowManager.ShowDialog(traceAddViewModel);
         }
 
