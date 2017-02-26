@@ -101,6 +101,48 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
+        [Xunit.FactAttribute(DisplayName="Удаление РТУ с неприсоединенными трассами")]
+        [Xunit.TraitAttribute("FeatureTitle", "RtuRemoved")]
+        [Xunit.TraitAttribute("Description", "Удаление РТУ с неприсоединенными трассами")]
+        public virtual void УдалениеРТУСНеприсоединеннымиТрассами()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Удаление РТУ с неприсоединенными трассами", ((string[])(null)));
+#line 12
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 13
+ testRunner.Given("Существует трасса начинающаяся но не присоединенная к этому РТУ", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 14
+ testRunner.When("Пользователь кликает на РТУ удалить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 15
+ testRunner.Then("Трассы очищаются", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 16
+ testRunner.Then("РТУ удаляется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 17
+ testRunner.Then("Узел под РТУ и присоединенные к нему отрезки удаляются", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Запрещено удаление РТУ с присоединенными трассами")]
+        [Xunit.TraitAttribute("FeatureTitle", "RtuRemoved")]
+        [Xunit.TraitAttribute("Description", "Запрещено удаление РТУ с присоединенными трассами")]
+        public virtual void ЗапрещеноУдалениеРТУСПрисоединеннымиТрассами()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Запрещено удаление РТУ с присоединенными трассами", ((string[])(null)));
+#line 19
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 20
+ testRunner.Given("Существует трасса присоединенная к этому РТУ", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 21
+ testRunner.Then("Пункт меню Удалить недоступен", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.1.0.0")]
         [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : System.IDisposable
