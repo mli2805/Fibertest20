@@ -20,7 +20,8 @@ namespace Iit.Fibertest.TestBench
         public Bus Bus { get; }
 
         public Db LocalDb { get; set; }
-        public ShellViewModel(ReadModel readModel, TreeReadModel treeReadModel, Bus bus, Db db, GraphReadModel graphReadModel, IWindowManager windowManager, ILogger clientLogger)
+        public ShellViewModel(ReadModel readModel, TreeReadModel treeReadModel, Bus bus, 
+            Db db, GraphReadModel graphReadModel, IWindowManager windowManager, ILogger clientLogger)
         {
             ReadModel = readModel;
             MyLeftPanelViewModel = new LeftPanelViewModel(treeReadModel);
@@ -196,14 +197,7 @@ namespace Iit.Fibertest.TestBench
         #region Trace
         public async Task ComplyWithRequest(RequestAddTrace request)
         {
-            var cmd = PrepareCommand(request);
-            if (cmd == null)
-                return;
-            var message = await Bus.SendCommand(cmd);
-            if (message != null)
-            {
-                _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, message));
-            }
+            await PrepareCommand(request);
         }
 
         public async Task ComplyWithRequest(AttachTrace request)

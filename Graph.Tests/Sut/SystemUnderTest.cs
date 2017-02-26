@@ -52,7 +52,7 @@ namespace Graph.Tests
 
             FakeWindowManager.RegisterHandler(model => QuestionAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
             FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
-            FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, @"some title", "", Answer.Yes));
+            FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, @"some trace title", "", Answer.Yes));
 
             ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = secondNodeId, NodeWithRtuId = nodeForRtuId }).Wait();
             Poller.Tick();
@@ -253,6 +253,7 @@ namespace Graph.Tests
         {
             var vm = model as TraceAddViewModel;
             if (vm == null) return false;
+            vm.IsInTraceCreationMode = true;
             vm.Title = title;
             vm.Comment = comment;
             if (button == Answer.Yes)

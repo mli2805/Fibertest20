@@ -29,6 +29,7 @@ namespace Iit.Fibertest.Graph
             CreateMap<DetachTrace, TraceDetached>();
 
             CreateMap<AddTrace, TraceAdded>();
+            CreateMap<UpdateTrace, TraceUpdated>();
             CreateMap<AssignBaseRef, BaseRefAssigned>();
         }
     }

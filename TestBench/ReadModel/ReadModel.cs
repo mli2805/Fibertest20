@@ -202,6 +202,12 @@ namespace Iit.Fibertest.TestBench
             Traces.Add(trace);
         }
 
+        public void Apply(TraceUpdated source)
+        {
+            var destination = Traces.First(t => t.Id == source.Id);
+            _mapper.Map(source, destination);
+        }
+
         public void Apply(TraceAttached e)
         {
             var trace = Traces.Single(t => t.Id == e.TraceId);

@@ -70,12 +70,14 @@
     <Compile Include="Commands\Trace\AssignBaseRef.cs" />
     <Compile Include="Commands\Trace\AddTrace.cs" />
     <Compile Include="Commands\Trace\DetachTrace.cs" />
+    <Compile Include="Commands\Trace\UpdateTrace.cs" />
     <Compile Include="DomainEntities\Enums\BaseRefType.cs" />
     <Compile Include="DomainEntities\Enums\EquipmentType.cs" />
     <Compile Include="DomainEntities\Enums\FiberState.cs" />
     <Compile Include="DomainEntities\Enums\LeafType.cs" />
     <Compile Include="DomainEntities\Enums\MonitoringState.cs" />
     <Compile Include="DomainEntities\Enums\RtuPartState.cs" />
+    <Compile Include="DomainEntities\Enums\TraceMode.cs" />
     <Compile Include="DomainEntities\LowLevel\GpsLocation.cs" />
     <Compile Include="Events\Equipment\EquipmentAtGpsLocationAdded.cs" />
     <Compile Include="Events\Equipment\EquipmentRemoved.cs" />
@@ -92,6 +94,7 @@
     <Compile Include="Events\Trace\TraceAdded.cs" />
     <Compile Include="Events\Trace\TraceDetached.cs" />
     <Compile Include="Events\Trace\TraceStateChanged.cs" />
+    <Compile Include="Events\Trace\TraceUpdated.cs" />
     <Compile Include="MappingCmdToEventProfile.cs" />
     <Compile Include="Commands\Equipment\AddEquipmentIntoNode.cs" />
     <Compile Include="Commands\Fiber\AddFiber.cs" />

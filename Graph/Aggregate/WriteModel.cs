@@ -203,11 +203,9 @@ namespace Iit.Fibertest.Graph
         #endregion
 
         #region Trace
-
         public void Apply(TraceAdded e)
         {
             _traces.Add(_mapper.Map<Trace>(e));
-
         }
 
         public void Apply(TraceAttached e) { }

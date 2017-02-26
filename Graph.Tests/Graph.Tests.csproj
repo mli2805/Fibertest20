@@ -285,6 +285,14 @@
     <Compile Include="Trace\TraceDetachedSteps.cs">
       <DependentUpon>TraceDetached.feature</DependentUpon>
     </Compile>
+    <Compile Include="Trace\TraceUpdated.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TraceUpdated.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Trace\TraceUpdatedSteps.cs">
+      <DependentUpon>TraceUpdated.feature</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Equipment\EquipmentAdded.feature">
@@ -386,6 +394,10 @@
     <None Include="Trace\TraceDetached.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>TraceDetached.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Trace\TraceUpdated.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>TraceUpdated.feature.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

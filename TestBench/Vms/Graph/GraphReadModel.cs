@@ -224,34 +224,44 @@ namespace Iit.Fibertest.TestBench
             IMapper mapper = new MapperConfiguration(cfg => cfg.AddProfile<MappingEventToVm>()).CreateMapper();
             var traceVm = mapper.Map<TraceVm>(evnt);
             Traces.Add(traceVm);
-            var fibers = GetFibersByNodes(traceVm.Nodes);
-            foreach (var fiberVm in fibers)
-            {
-                fiberVm.SetState(evnt.Id, traceVm.State);
-            }
+
+            ApplyTraceStateToFibers(traceVm);
         }
 
-        public void Apply(TraceStateChanged evnt)
-        {
-            var traceVm = Traces.First(t => t.Id == evnt.Id);
-            var fibers = GetFibersByNodes(traceVm.Nodes);
-            foreach (var fiberVm in fibers)
-            {
-                fiberVm.SetState(evnt.Id, evnt.State);
-            }
-        }
-
-        private IEnumerable<FiberVm> GetFibersByNodes(List<Guid> nodes)
+        private IEnumerable<FiberVm> GetTraceFibersByNodes(List<Guid> nodes)
         {
             for (int i = 1; i < nodes.Count; i++)
-                yield return GetFiberByNodes(nodes[i - 1], nodes[i]);
+                yield return GetFiberBetweenNodes(nodes[i - 1], nodes[i]);
         }
 
-        private FiberVm GetFiberByNodes(Guid node1, Guid node2)
+        private FiberVm GetFiberBetweenNodes(Guid node1, Guid node2)
         {
             return Fibers.First(
                 f => f.Node1.Id == node1 && f.Node2.Id == node2 ||
                      f.Node1.Id == node2 && f.Node2.Id == node1);
+        }
+
+        public void Apply(TraceAttached evnt)
+        {
+            ChangeTraceState(evnt.TraceId, FiberState.Ok);
+        }
+
+        public void Apply(TraceDetached evnt)
+        {
+            ChangeTraceState(evnt.TraceId, FiberState.NotJoined);
+        }
+
+        private void ChangeTraceState(Guid traceId, FiberState state)
+        {
+            var traceVm = Traces.First(t => t.Id == traceId);
+            traceVm.State = state;
+            ApplyTraceStateToFibers(traceVm);
+        }
+
+        private void ApplyTraceStateToFibers(TraceVm traceVm)
+        {
+            foreach (var fiberVm in GetTraceFibersByNodes(traceVm.Nodes))
+                fiberVm.SetState(traceVm.Id, traceVm.State);
         }
         #endregion
     }

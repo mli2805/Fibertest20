@@ -178,6 +178,11 @@ namespace Iit.Fibertest.Graph
             //_traces.Add(_mapper2.Map<Trace>(cmd));
         }
 
+        public void When(UpdateTrace cmd)
+        {
+            WriteModel.AddAndCommit(_mapper.Map<TraceUpdated>(cmd));
+        }
+
         public void When(AttachTrace cmd)
         {
             WriteModel.AddAndCommit(_mapper.Map<TraceAttached>(cmd));

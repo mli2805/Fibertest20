@@ -1,15 +1,41 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using System.Threading.Tasks;
 using Caliburn.Micro;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.TestBench
 {
+    public class NodesStatisticsItem
+    {
+        public string NodeType { get; set; }
+        public int Count { get; set; }
+
+        public NodesStatisticsItem(string nodeType, int count)
+        {
+            NodeType = nodeType;
+            Count = count;
+        }
+    }
     public class TraceAddViewModel : Screen, IDataErrorInfo
     {
-        private string _title;
-        private string _comment;
+        private readonly ReadModel _readModel;
+        private readonly Bus _bus;
+        private readonly IWindowManager _windowManager;
 
+        private Rtu _rtu;
+        private Guid _traceId;
+        private List<Guid> _traceEquipments;
+        private readonly List<Guid> _traceNodes;
+        public string RtuTitle { get; set; }
+        public string PortNumber { get; set; }
+
+        public List<NodesStatisticsItem> NodesStatistics { get; } = new List<NodesStatisticsItem>();
+
+        private string _title;
         public string Title
         {
             get { return _title; }
@@ -22,6 +48,19 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
+        private bool _isTraceModeLight;
+        public bool IsTraceModeLight
+        {
+            get { return _isTraceModeLight; }
+            set
+            {
+                if (value == _isTraceModeLight) return;
+                _isTraceModeLight = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        private string _comment;
         public string Comment
         {
             get { return _comment; }
@@ -33,31 +72,110 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
+        public bool IsInTraceCreationMode { get; set; }
         public bool IsButtonSaveEnabled => !string.IsNullOrEmpty(_title);
 
         public bool IsUserClickedSave { get; set; }
         public bool IsClosed { get; set; }
 
-
-        public TraceAddViewModel()
+        /// <summary>
+        /// Setup traceId (for existing trace) or traceEquipments for trace creation moment
+        /// </summary>
+        /// <param name="readModel"></param>
+        /// <param name="bus"></param>
+        /// <param name="windowManager"></param>
+        /// <param name="traceId"></param>
+        /// <param name="traceEquipments"></param>
+        /// <param name="traceNodes"></param>
+        public TraceAddViewModel(ReadModel readModel, Bus bus, IWindowManager windowManager, 
+            Guid traceId, List<Guid> traceEquipments = null, List<Guid> traceNodes = null)
         {
-            IsClosed = false;
+            _readModel = readModel;
+            _bus = bus;
+            _windowManager = windowManager;
+            _traceId = traceId;
+            _traceEquipments = traceEquipments;
+            _traceNodes = traceNodes;
+
+            IsInTraceCreationMode = traceId == Guid.Empty;
+            Initialize();
         }
 
-        public void Save()
+        private void Initialize()
         {
-            IsUserClickedSave = true;
-            CloseView();
+            if (IsInTraceCreationMode)
+            {
+                IsTraceModeLight = true;
+            }
+            else
+            {          // trace editing
+                var trace = _readModel.Traces.First(t => t.Id == _traceId);
+                Title = trace.Title;
+                IsTraceModeLight = trace.Mode == TraceMode.Light;
+                PortNumber = trace.Port > 0 ? trace.Port.ToString() : "not attached";
+                _traceEquipments = trace.Equipments;
+                Comment = trace.Comment;
+            }
+            _rtu = _readModel.Rtus.First(r => r.Id == _traceEquipments[0]);
+            RtuTitle = _rtu.Title;
+            InitializeNodesStatistics(_traceEquipments);
+
+        }
+        private void InitializeNodesStatistics(List<Guid> traceEquipments)
+        {
+            NodesStatistics.Add(new NodesStatisticsItem("Total, including RTU", traceEquipments.Count));
+
+            var dict = new Dictionary<EquipmentType, int>();
+            foreach (var id in traceEquipments.Skip(1).Where(e => e != Guid.Empty))
+            {
+                var type = _readModel.Equipments.First(e => e.Id == id).Type;
+                if (dict.ContainsKey(type))
+                    dict[type]++;
+                else dict.Add(type, 1);
+            }
+
+            NodesStatistics.AddRange(dict.Select(item => new NodesStatisticsItem(item.Key.ToString(), item.Value)));
+        }
+
+        public async void Save()
+        {
+            if (IsInTraceCreationMode)
+                await SendAddTraceCommand();
+            else
+                await SendUpdateTraceCommand();
+            TryClose();
+        }
+
+        private async Task SendAddTraceCommand()
+        {
+            var cmd = new AddTrace()
+            {
+                Id = Guid.NewGuid(),
+                RtuId = _rtu.Id,
+                Title = Title,
+                Nodes = _traceNodes,
+                Equipments = _traceEquipments,
+                Comment = Comment
+            };
+            var message = await _bus.SendCommand(cmd);
+            if (message != null)
+                _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, message));
+        }
+
+        private async Task SendUpdateTraceCommand()
+        {
+            var cmd = new UpdateTrace()
+            {
+                Id = _traceId,
+                Title = Title,
+                Mode = IsTraceModeLight ? TraceMode.Light : TraceMode.Dark,
+                Comment = Comment
+            };
+            await _bus.SendCommand(cmd);
         }
 
         public void Cancel()
         {
-            CloseView();
-        }
-
-        private void CloseView()
-        {
-            IsClosed = true;
             TryClose();
         }
 

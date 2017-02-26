@@ -83,6 +83,12 @@ namespace Iit.Fibertest.TestBench
             rtu.IsExpanded = true;
         }
 
+        public void Apply(TraceUpdated e)
+        {
+            var traceLeaf = Tree.GetById(e.Id);
+            traceLeaf.Title = e.Title;
+        }
+
         public void Apply(TraceAttached e)
         {
             TraceLeaf traceLeaf = Tree.GetById(e.TraceId) as TraceLeaf;
@@ -117,7 +123,7 @@ namespace Iit.Fibertest.TestBench
             var detachedTraceLeaf = new TraceLeaf(_readModel, _windowManager, _bus)
             {
                 PortNumber = 0,
-                TraceState = traceLeaf.TraceState,
+                TraceState = FiberState.NotJoined,
                 Color = Brushes.Blue,
                 Title = traceLeaf.Title.Split(':')[1].Trim(),
             };

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
@@ -8,14 +10,14 @@ namespace Iit.Fibertest.TestBench
 {
     public partial class ShellViewModel
     {
-        private AddTrace PrepareCommand(RequestAddTrace request)
+        private async Task PrepareCommand(RequestAddTrace request)
         {
             if (!Validate(request))
-                return null;
+                return;
 
             List<Guid> traceNodes = GetPath(request);
             if (traceNodes == null)
-                return null;
+                return;
 
             var traceId = Guid.NewGuid();
             ChangeTraceColor(traceId, traceNodes, FiberState.HighLighted);
@@ -26,27 +28,14 @@ namespace Iit.Fibertest.TestBench
             ChangeTraceColor(traceId, traceNodes, FiberState.NotInTrace);
 
             if (!questionViewModel.IsAnswerPositive)
-                return null;
+                return;
 
             List<Guid> traceEquipments = CollectEquipment(traceNodes);
             if (traceEquipments == null)
-                return null;
+                return;
 
-            var traceAddViewModel = new TraceAddViewModel();
+            var traceAddViewModel = new TraceAddViewModel(ReadModel, Bus, _windowManager, Guid.Empty, traceEquipments, traceNodes);
             _windowManager.ShowDialog(traceAddViewModel);
-
-            if (!traceAddViewModel.IsUserClickedSave)
-                return null;
-
-            return new AddTrace()
-            {
-                Id = traceId,
-                RtuId = ReadModel.Rtus.First(r => r.NodeId == request.NodeWithRtuId).Id,
-                Title = traceAddViewModel.Title,
-                Nodes = traceNodes,
-                Equipments = traceEquipments,
-                Comment = traceAddViewModel.Comment
-            };
         }
 
         private bool Validate(RequestAddTrace request)
