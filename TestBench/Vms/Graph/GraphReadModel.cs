@@ -55,17 +55,65 @@ namespace Iit.Fibertest.TestBench
         }
 
         #region Node
-
         private void Apply(NodeAdded evnt)
         {
-            var nodeVm = new NodeVm()
+            Nodes.Add(new NodeVm()
             {
                 Id = evnt.Id,
                 State = FiberState.Ok,
                 Type = evnt.IsJustForCurvature ? EquipmentType.Invisible : EquipmentType.Well,
                 Position = new PointLatLng(evnt.Latitude, evnt.Longitude)
-            };
-            Nodes.Add(nodeVm);
+            });
+        }
+
+        private void Apply(NodeIntoFiberAdded evnt)
+        {
+            Nodes.Add(new NodeVm()
+            {
+                Id=evnt.Id,
+                Position = new PointLatLng(evnt.Position.Latitude, evnt.Position.Longitude),
+                State = FiberState.Ok,
+                Type = EquipmentType.Well
+            });
+            var fiberForDeletion = Fibers.First(f => f.Id == evnt.FiberId);
+            AddTwoFibersToNewNode(evnt, fiberForDeletion);
+            FixTracesWhichContainedOldFiber(evnt);
+            Fibers.Remove(fiberForDeletion);
+        }
+
+        private void FixTracesWhichContainedOldFiber(NodeIntoFiberAdded e)
+        {
+            foreach (var trace in Traces)
+            {
+                int idx;
+                while ((idx = GetFiberIndexInTrace(trace, Fibers.First(f => f.Id == e.FiberId))) != -1)
+                {
+                    trace.Nodes.Insert(idx + 1, e.Id);
+                }
+            }
+        }
+        private int GetFiberIndexInTrace(TraceVm trace, FiberVm fiber)
+        {
+            var idxInTrace1 = trace.Nodes.IndexOf(fiber.Node1.Id);
+            if (idxInTrace1 == -1)
+                return -1;
+            var idxInTrace2 = trace.Nodes.IndexOf(fiber.Node2.Id);
+            if (idxInTrace2 == -1)
+                return -1;
+            if (idxInTrace2 - idxInTrace1 == 1)
+                return idxInTrace1;
+            if (idxInTrace1 - idxInTrace2 == 1)
+                return idxInTrace2;
+            return -1;
+        }
+
+        private void AddTwoFibersToNewNode(NodeIntoFiberAdded e, FiberVm oldFiberVm)
+        {
+            NodeVm node1 = Fibers.First(f => f.Id == e.FiberId).Node1;
+            NodeVm node2 = Fibers.First(f => f.Id == e.FiberId).Node2;
+
+            Fibers.Add(new FiberVm() { Id = e.NewFiberId1, Node1 = node1, Node2 = Nodes.First(n=>n.Id == e.Id), States = oldFiberVm.States });
+            Fibers.Add(new FiberVm() { Id = e.NewFiberId2, Node1 = Nodes.First(n => n.Id == e.Id), Node2 = node2, States = oldFiberVm.States });
         }
 
         private void Apply(NodeMoved evnt)
@@ -167,7 +215,6 @@ namespace Iit.Fibertest.TestBench
         #endregion
 
         #region Trace
-
         public void Apply(TraceAdded evnt)
         {
             IMapper mapper = new MapperConfiguration(cfg => cfg.AddProfile<MappingEventToVm>()).CreateMapper();
@@ -202,7 +249,6 @@ namespace Iit.Fibertest.TestBench
                 f => f.Node1.Id == node1 && f.Node2.Id == node2 ||
                      f.Node1.Id == node2 && f.Node2.Id == node1);
         }
-
         #endregion
     }
 }

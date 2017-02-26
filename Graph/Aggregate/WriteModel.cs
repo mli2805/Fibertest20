@@ -149,13 +149,8 @@ namespace Iit.Fibertest.Graph
         public bool IsFiberContainedInAnyTraceWithBase(Guid fiberId)
         {
             var tracesWithBase = _traces.Where(t => t.HasBase);
-            var fiber = _fibers.Single(f => f.Id == fiberId);
-            foreach (var trace in tracesWithBase)
-            {
-                if (Topo.GetFiberIndexInTrace(trace, fiber) != -1)
-                    return true;
-            }
-            return false;
+            var fiber = _fibers.First(f => f.Id == fiberId);
+            return tracesWithBase.Any(trace => Topo.GetFiberIndexInTrace(trace, fiber) != -1);
         }
         public bool IsNodeContainedInAnyTraceWithBase(Guid nodeId)
         {

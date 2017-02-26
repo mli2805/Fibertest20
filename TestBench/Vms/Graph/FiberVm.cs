@@ -30,7 +30,7 @@ namespace Iit.Fibertest.TestBench
         }
 
         // if empty fiber is not in any trace
-        private Dictionary<Guid, FiberState> States { get; set; } = new Dictionary<Guid, FiberState>();
+        public Dictionary<Guid, FiberState> States { get; set; } = new Dictionary<Guid, FiberState>();
 
         public void SetState(Guid traceId, FiberState traceState)
         {

@@ -30,24 +30,23 @@ namespace Iit.Fibertest.TestBench
             Nodes.Add(new Node() { Id = e.Id, Latitude = e.Position.Latitude, Longitude = e.Position.Longitude });
             AddTwoFibersToNewNode(e);
             FixTracesWhichContainedOldFiber(e);
-            Fibers.Remove(Fibers.Single(f => f.Id == e.FiberId));
+            Fibers.Remove(Fibers.First(f => f.Id == e.FiberId));
         }
         private void FixTracesWhichContainedOldFiber(NodeIntoFiberAdded e)
         {
             foreach (var trace in Traces)
             {
                 int idx;
-                while ((idx = Topo.GetFiberIndexInTrace(trace, Fibers.Single(f => f.Id == e.FiberId))) != -1)
+                while ((idx = Topo.GetFiberIndexInTrace(trace, Fibers.First(f => f.Id == e.FiberId))) != -1)
                 {
-                    trace.Nodes.Insert(idx + 1, e.Id); // GPS location добавляется во все трассы
-                    // а оборудование только в те, которые выбрал пользователь
+                    trace.Nodes.Insert(idx + 1, e.Id);
                 }
             }
         }
         private void AddTwoFibersToNewNode(NodeIntoFiberAdded e)
         {
-            Guid nodeId1 = Fibers.Single(f => f.Id == e.FiberId).Node1;
-            Guid nodeId2 = Fibers.Single(f => f.Id == e.FiberId).Node2;
+            Guid nodeId1 = Fibers.First(f => f.Id == e.FiberId).Node1;
+            Guid nodeId2 = Fibers.First(f => f.Id == e.FiberId).Node2;
 
             Fibers.Add(new Fiber() { Id = e.NewFiberId1, Node1 = nodeId1, Node2 = e.Id });
             Fibers.Add(new Fiber() { Id = e.NewFiberId2, Node1 = e.Id, Node2 = nodeId2 });
