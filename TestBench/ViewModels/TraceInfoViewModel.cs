@@ -16,7 +16,7 @@ namespace Iit.Fibertest.TestBench
         private readonly IWindowManager _windowManager;
 
         private Rtu _rtu;
-        private Guid _traceId;
+        private readonly Guid _traceId;
         private List<Guid> _traceEquipments;
         private readonly List<Guid> _traceNodes;
         public string RtuTitle { get; set; }
@@ -63,9 +63,6 @@ namespace Iit.Fibertest.TestBench
 
         public bool IsInTraceCreationMode { get; set; }
         public bool IsButtonSaveEnabled => !string.IsNullOrEmpty(_title);
-
-        public bool IsUserClickedSave { get; set; }
-        public bool IsClosed { get; set; }
 
         /// <summary>
         /// Setup traceId (for existing trace) or traceEquipments for trace creation moment
@@ -123,7 +120,7 @@ namespace Iit.Fibertest.TestBench
                 else dict.Add(type, 1);
             }
 
-            NodesStatistics.AddRange(dict.Select(item => new NodesStatisticsItem(item.Key.ToString(), item.Value)));
+            NodesStatistics.AddRange(dict.Select(item => new NodesStatisticsItem(item.Key.ToLocalizedString(), item.Value)));
         }
 
         public async void Save()
