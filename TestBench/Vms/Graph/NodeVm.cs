@@ -12,6 +12,7 @@ namespace Iit.Fibertest.TestBench
         private string _title;
         private PointLatLng _position;
         private FiberState _state;
+        private EquipmentType _type;
 
         public string Title
         {
@@ -24,7 +25,16 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
-        public EquipmentType Type { get; set; }
+        public EquipmentType Type
+        {
+            get { return _type; }
+            set
+            {
+                if (value == _type) return;
+                _type = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         public FiberState State
         {

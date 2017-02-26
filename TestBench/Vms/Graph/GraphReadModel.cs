@@ -197,7 +197,6 @@ namespace Iit.Fibertest.TestBench
         #endregion
 
         #region Equipment
-
         public void Apply(EquipmentAtGpsLocationAdded evnt)
         {
             var nodeVm = new NodeVm()
@@ -212,6 +211,11 @@ namespace Iit.Fibertest.TestBench
             Equipments.Add(new EquipmentVm() {Id = evnt.Id, Node = nodeVm, Type = evnt.Type});
         }
 
+        public void Apply(EquipmentIntoNodeAdded evnt)
+        {
+            var nodeVm = Nodes.First(n => n.Id == evnt.NodeId);
+            nodeVm.Type = evnt.Type;
+        }
         #endregion
 
         #region Trace
