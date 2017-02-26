@@ -6,15 +6,10 @@ using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.TestBench
 {
-    public static class PortExtensions
-    {
-        public static void MeasurementClientAction(object param) { }
-        public static void MeasurementRftsReflectAction(object param) { }
-    }
-
     public class PortLeaf : Leaf
     {
         public readonly int PortNumber;
+        public override string Name => Title;
         public PortLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, int portNumber) : base(readModel, windowManager, bus)
         {
             PortNumber = portNumber;

@@ -49,6 +49,18 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
+        private bool _isTraceModeDark;
+        public bool IsTraceModeDark
+        {
+            get { return _isTraceModeDark; }
+            set
+            {
+                if (value == _isTraceModeDark) return;
+                _isTraceModeDark = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         private string _comment;
         public string Comment
         {
@@ -97,7 +109,11 @@ namespace Iit.Fibertest.TestBench
             {          // trace editing
                 var trace = _readModel.Traces.First(t => t.Id == _traceId);
                 Title = trace.Title;
-                IsTraceModeLight = trace.Mode == TraceMode.Light;
+
+                if (trace.Mode == TraceMode.Light)
+                    IsTraceModeLight = true;
+                else
+                    IsTraceModeDark = true;
                 PortNumber = trace.Port > 0 ? trace.Port.ToString() : Resources.SID_not_attached;
                 _traceEquipments = trace.Equipments;
                 Comment = trace.Comment;
@@ -121,6 +137,11 @@ namespace Iit.Fibertest.TestBench
             }
 
             NodesStatistics.AddRange(dict.Select(item => new NodesStatisticsItem(item.Key.ToLocalizedString(), item.Value)));
+        }
+
+        protected override void OnViewLoaded(object view)
+        {
+            DisplayName = IsInTraceCreationMode ? Resources.SID_Trace_definition : Resources.SID_Trace_information;
         }
 
         public async void Save()

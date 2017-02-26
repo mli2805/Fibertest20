@@ -998,6 +998,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Trace definition.
+        /// </summary>
+        public static string SID_Trace_definition {
+            get {
+                return ResourceManager.GetString("SID_Trace_definition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Trace information.
         /// </summary>
         public static string SID_Trace_information {

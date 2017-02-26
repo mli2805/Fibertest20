@@ -39,15 +39,18 @@
         </GroupBox>
         <GroupBox Header="{x:Static stringResources:Resources.SID_Trace_mode}" Margin="5">
             <StackPanel Orientation="Horizontal" Margin="5">
-                <RadioButton GroupName="1" Name="Dark" Margin="30,5,5,5" Content="{x:Static stringResources:Resources.SID_Dark_OF}"/>
-                <RadioButton GroupName="1" Name="Light" Margin="30,5,5,5" Content="{x:Static stringResources:Resources.SID_Light_OF}" IsChecked="{Binding IsTraceModeLight, Mode=TwoWay}"/>
+                <RadioButton GroupName="1" Name="Dark" Margin="30,5,5,5" Content="{x:Static stringResources:Resources.SID_Dark_OF}"
+                             IsChecked="{Binding IsTraceModeDark, Mode=TwoWay}"/>
+                <RadioButton GroupName="1" Name="Light" Margin="30,5,5,5" Content="{x:Static stringResources:Resources.SID_Light_OF}" 
+                             IsChecked="{Binding IsTraceModeLight, Mode=TwoWay}"/>
             </StackPanel>
         </GroupBox>
         <GroupBox Header="{x:Static stringResources:Resources.SID_Comment}" Margin="5">
                 <TextBox Margin="5,10" Text="{Binding Comment}"/>
         </GroupBox>
         <StackPanel Orientation="Horizontal" Margin="15,15">
-            <Button Name="Save" Height="25" Width="100" Margin="5" Content="{x:Static stringResources:Resources.SID_Save}" IsEnabled="{Binding IsButtonSaveEnabled}"/>
+            <Button Name="Save" Height="25" Width="100" Margin="5" Content="{x:Static stringResources:Resources.SID_Save}" 
+                    IsEnabled="{Binding IsButtonSaveEnabled}"/>
             <Button Name="Cancel" Height="25" Width="100" Content="{x:Static stringResources:Resources.SID_Cancel}"/>
         </StackPanel>
 

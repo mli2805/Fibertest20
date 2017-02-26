@@ -9,7 +9,15 @@ namespace Iit.Fibertest.TestBench
 {
     public class TraceLeaf : Leaf
     {
+        private string _name;
         public int PortNumber { get; set; }
+
+        public override string Name
+        {
+            get { return PortNumber < 1 ? Title : string.Format(Resources.SID_port_trace, PortNumber, Title); }
+            set { _name = value; }
+        }
+
         public MonitoringState MonitoringState { get; set; }
         public FiberState TraceState { get; set; }
 

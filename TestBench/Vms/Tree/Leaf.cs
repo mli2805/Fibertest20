@@ -26,6 +26,7 @@ namespace Iit.Fibertest.TestBench
                 NotifyOfPropertyChange();
                 NotifyOfPropertyChange(nameof(SelectedValuePath));
                 NotifyOfPropertyChange(nameof(DisplayValuePath));
+                NotifyOfPropertyChange(nameof(Name));
             }
         }
 
@@ -40,6 +41,8 @@ namespace Iit.Fibertest.TestBench
                 NotifyOfPropertyChange();
             }
         }
+
+        public virtual string Name { get; set; }
 
         public  List<MenuItemVm> MyContextMenu => GetMenuItems();
 

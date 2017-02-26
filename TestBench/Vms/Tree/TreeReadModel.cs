@@ -102,8 +102,8 @@ namespace Iit.Fibertest.TestBench
                 new TraceLeaf(_readModel, _windowManager, _bus)
                 {
                     Id = e.TraceId,
-                    Title = string.Format(Resources.SID_port_trace, e.Port, traceLeaf.Title),
                     TraceState = FiberState.Ok,
+                    Title = traceLeaf.Title,
                     Color = Brushes.Black,
                     PortNumber = e.Port,
                     Parent = rtu,
@@ -123,9 +123,9 @@ namespace Iit.Fibertest.TestBench
             var detachedTraceLeaf = new TraceLeaf(_readModel, _windowManager, _bus)
             {
                 PortNumber = 0,
+                Title = traceLeaf.Title,
                 TraceState = FiberState.NotJoined,
                 Color = Brushes.Blue,
-                Title = traceLeaf.Title.Split(':')[1].Trim(),
             };
 
             rtu.Children.RemoveAt(port - 1);

@@ -455,4 +455,7 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_Light_OF" xml:space="preserve">
     <value>Light OF</value>
   </data>
+	<data name="SID_Trace_definition" xml:space="preserve">
+    <value>Trace definition</value>
+  </data>
 </root>

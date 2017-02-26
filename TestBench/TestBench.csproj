@@ -116,6 +116,7 @@
     <Compile Include="Views\TraceToAttachView.xaml.cs">
       <DependentUpon>TraceToAttachView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vms\Tree\PortExtensions.cs" />
     <Compile Include="Vms\Tree\PortLeaf.cs" />
     <Compile Include="Vms\Tree\TreeReadModel.cs" />
     <Compile Include="Requests\RequestAddEquipmentIntoNode.cs" />

@@ -41,7 +41,7 @@ namespace Iit.Fibertest.TestBench
 
         protected override void OnViewLoaded(object view)
         {
-            base.OnViewLoaded(view);
+            DisplayName = @"Fibertest v2.0";
             GraphReadModel.PropertyChanged += GraphReadModel_PropertyChanged;
         }
 

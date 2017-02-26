@@ -455,4 +455,7 @@
 	<data name="SID_Light_OF" xml:space="preserve">
 		<value>Светлое ОВ</value>
 	</data>
+	<data name="SID_Trace_definition" xml:space="preserve">
+		<value>Определение трассы</value>
+	</data>
 </root>

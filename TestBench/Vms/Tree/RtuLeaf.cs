@@ -19,6 +19,7 @@ namespace Iit.Fibertest.TestBench
         public ImageSource ReserveChannelPictogram => ReserveChannelState.GetPictogram();
 
         public int PortCount { get; set; }
+        public override string Name => Title;
 
         public RtuLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus) : base(readModel, windowManager, bus)
         {
