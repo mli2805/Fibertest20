@@ -280,13 +280,13 @@
     <Compile Include="Trace\TraceAttachedSteps.cs">
       <DependentUpon>TraceAttached.feature</DependentUpon>
     </Compile>
-    <Compile Include="Trace\TraceCleaned.feature.cs">
+    <Compile Include="Trace\TraceCleanedOrRemoved.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>TraceCleaned.feature</DependentUpon>
+      <DependentUpon>TraceCleanedOrRemoved.feature</DependentUpon>
     </Compile>
-    <Compile Include="Trace\TraceCleanedSteps.cs">
-      <DependentUpon>TraceCleaned.feature</DependentUpon>
+    <Compile Include="Trace\TraceCleanedOrRemovedSteps.cs">
+      <DependentUpon>TraceCleanedOrRemoved.feature</DependentUpon>
     </Compile>
     <Compile Include="Trace\TraceDetached.feature.cs">
       <AutoGen>True</AutoGen>
@@ -295,14 +295,6 @@
     </Compile>
     <Compile Include="Trace\TraceDetachedSteps.cs">
       <DependentUpon>TraceDetached.feature</DependentUpon>
-    </Compile>
-    <Compile Include="Trace\TraceRemoved.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TraceRemoved.feature</DependentUpon>
-    </Compile>
-    <Compile Include="Trace\TraceRemovedSteps.cs">
-      <DependentUpon>TraceRemoved.feature</DependentUpon>
     </Compile>
     <Compile Include="Trace\TraceUpdated.feature.cs">
       <AutoGen>True</AutoGen>
@@ -410,17 +402,13 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>TraceAttached.feature.cs</LastGenOutput>
     </None>
-    <None Include="Trace\TraceCleaned.feature">
+    <None Include="Trace\TraceCleanedOrRemoved.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>TraceCleaned.feature.cs</LastGenOutput>
+      <LastGenOutput>TraceCleanedOrRemoved.feature.cs</LastGenOutput>
     </None>
     <None Include="Trace\TraceDetached.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>TraceDetached.feature.cs</LastGenOutput>
-    </None>
-    <None Include="Trace\TraceRemoved.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>TraceRemoved.feature.cs</LastGenOutput>
     </None>
     <None Include="Trace\TraceUpdated.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

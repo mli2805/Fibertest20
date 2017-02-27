@@ -17,15 +17,15 @@ namespace Graph.Tests.Trace
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.1.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class TraceCleanedFeature : Xunit.IClassFixture<TraceCleanedFeature.FixtureData>, System.IDisposable
+    public partial class TraceCleanedOrRemovedFeature : Xunit.IClassFixture<TraceCleanedOrRemovedFeature.FixtureData>, System.IDisposable
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
         
-#line 1 "TraceCleaned.feature"
+#line 1 "TraceCleanedOrRemoved.feature"
 #line hidden
         
-        public TraceCleanedFeature()
+        public TraceCleanedOrRemovedFeature()
         {
             this.TestInitialize();
         }
@@ -33,7 +33,7 @@ namespace Graph.Tests.Trace
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "TraceCleaned", null, ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "TraceCleanedOrRemoved", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -62,7 +62,19 @@ namespace Graph.Tests.Trace
             testRunner.CollectScenarioErrors();
         }
         
-        public virtual void SetFixture(TraceCleanedFeature.FixtureData fixtureData)
+        public virtual void FeatureBackground()
+        {
+#line 3
+#line 4
+ testRunner.Given("Даны две трассы с общим отрезком", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 5
+ testRunner.And("Одна из трасс присоединена к порту", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 6
+ testRunner.Then("У присоединенной трассы нет пунктов Очистить и Удалить в меню", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+        }
+        
+        public virtual void SetFixture(TraceCleanedOrRemovedFeature.FixtureData fixtureData)
         {
         }
         
@@ -72,25 +84,41 @@ namespace Graph.Tests.Trace
         }
         
         [Xunit.FactAttribute(DisplayName="Очистка трассы частично совпадающей с другой")]
-        [Xunit.TraitAttribute("FeatureTitle", "TraceCleaned")]
+        [Xunit.TraitAttribute("FeatureTitle", "TraceCleanedOrRemoved")]
         [Xunit.TraitAttribute("Description", "Очистка трассы частично совпадающей с другой")]
         public virtual void ОчисткаТрассыЧастичноСовпадающейСДругой()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Очистка трассы частично совпадающей с другой", ((string[])(null)));
-#line 3
-this.ScenarioSetup(scenarioInfo);
-#line 4
- testRunner.Given("Даны две трассы с общим отрезком", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 5
- testRunner.And("Одна из трасс присоединена к порту", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 6
- testRunner.Then("У присоединенной трассы нет пункта Очистить в меню", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 7
- testRunner.When("Пользователь жмет Очистить у НЕприсоединенной трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 8
- testRunner.Then("Неприсоединенная трасса удаляется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
 #line 9
+ testRunner.When("Пользователь жмет Очистить у НЕприсоединенной трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 10
+ testRunner.Then("Неприсоединенная трасса удаляется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 11
  testRunner.Then("Те ее отрезки что не входят в присоединенную трассу меняют цвет", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Удаление трассы частично совпадающей с другой")]
+        [Xunit.TraitAttribute("FeatureTitle", "TraceCleanedOrRemoved")]
+        [Xunit.TraitAttribute("Description", "Удаление трассы частично совпадающей с другой")]
+        public virtual void УдалениеТрассыЧастичноСовпадающейСДругой()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Удаление трассы частично совпадающей с другой", ((string[])(null)));
+#line 13
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 14
+ testRunner.When("Пользователь жмет Удалить у НЕприсоединенной трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 15
+ testRunner.Then("Неприсоединенная трасса удаляется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 16
+ testRunner.Then("Те ее отрезки что не входят в присоединенную трассу удаляются", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -102,12 +130,12 @@ this.ScenarioSetup(scenarioInfo);
             
             public FixtureData()
             {
-                TraceCleanedFeature.FeatureSetup();
+                TraceCleanedOrRemovedFeature.FeatureSetup();
             }
             
             void System.IDisposable.Dispose()
             {
-                TraceCleanedFeature.FeatureTearDown();
+                TraceCleanedOrRemovedFeature.FeatureTearDown();
             }
         }
     }

@@ -7,7 +7,9 @@ namespace Graph.Tests
 {
     public class SutForTraceCleanRemove : SystemUnderTest
     {
-        public void CreateTwoTraces(out Guid traceId1, out Guid traceId2)
+        public Guid TraceId1, TraceId2;
+
+        public void CreateTwoTraces()
         {
             ShellVm.ComplyWithRequest(new AddRtuAtGpsLocation() { Latitude = 55, Longitude = 30 }).Wait();
             Poller.Tick();
@@ -29,8 +31,8 @@ namespace Graph.Tests
             ShellVm.ComplyWithRequest(new AddFiber() { Node1 = a1, Node2 = b2 }).Wait();
             Poller.Tick();
 
-            traceId1 = DefineTrace(a2, nodeForRtuId).Id;
-            traceId2 = DefineTrace(b2, nodeForRtuId).Id;
+            TraceId1 = DefineTrace(a2, nodeForRtuId).Id;
+            TraceId2 = DefineTrace(b2, nodeForRtuId).Id;
         }
 
         public void AttachTrace(Guid traceId)

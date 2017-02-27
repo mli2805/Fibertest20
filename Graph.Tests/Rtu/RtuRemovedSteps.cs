@@ -13,7 +13,7 @@ namespace Graph.Tests
     {
         private readonly SystemUnderTest _sut = new SystemUnderTest();
         private Iit.Fibertest.Graph.Rtu _rtu;
-        private Guid _rtuNodeId, _traceId; 
+        private Guid _rtuNodeId; 
 
         private Iit.Fibertest.Graph.Node _endTraceNode;
 
@@ -55,7 +55,6 @@ namespace Graph.Tests
 
             _sut.ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = _endTraceNode.Id, NodeWithRtuId = _rtu.NodeId }).Wait();
             _sut.Poller.Tick();
-            _traceId = _sut.ReadModel.Traces.Last().Id;
         }
 
         [When(@"Пользователь кликает на РТУ удалить")]
