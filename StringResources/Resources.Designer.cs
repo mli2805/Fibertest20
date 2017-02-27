@@ -259,7 +259,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dark OF.
+        ///   Looks up a localized string similar to Dark.
         /// </summary>
         public static string SID_Dark_OF {
             get {
@@ -493,7 +493,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Light OF.
+        ///   Looks up a localized string similar to In service.
         /// </summary>
         public static string SID_Light_OF {
             get {
@@ -998,11 +998,11 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Trace mode.
+        ///   Looks up a localized string similar to Trace monitoring mode.
         /// </summary>
-        public static string SID_Trace_mode {
+        public static string SID_Trace_monitoring_mode {
             get {
-                return ResourceManager.GetString("SID_Trace_mode", resourceCulture);
+                return ResourceManager.GetString("SID_Trace_monitoring_mode", resourceCulture);
             }
         }
         

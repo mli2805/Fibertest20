@@ -440,8 +440,8 @@
   <data name="SID_Nodes" xml:space="preserve">
     <value>Узлы</value>
   </data>
-  <data name="SID_Trace_mode" xml:space="preserve">
-    <value>Режим трассы</value>
+  <data name="SID_Trace_monitoring_mode" xml:space="preserve">
+    <value>Режим мониторинга трассы</value>
   </data>
   <data name="SID_Dark_OF" xml:space="preserve">
     <value>Темное ОВ</value>
