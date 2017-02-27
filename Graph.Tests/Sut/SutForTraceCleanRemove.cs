@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Linq;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.TestBench;
 
 namespace Graph.Tests
 {
-    public class SutForTraceCleanRemove : SystemUnderTest
+    public class SutForTraceCleanRemove : SutForTraceSimpleOperations
     {
         public Guid TraceId1, TraceId2;
 
@@ -34,27 +33,5 @@ namespace Graph.Tests
             TraceId1 = DefineTrace(a2, nodeForRtuId).Id;
             TraceId2 = DefineTrace(b2, nodeForRtuId).Id;
         }
-
-        public void AttachTrace(Guid traceId)
-        {
-            var traceLeaf = ShellVm.MyLeftPanelViewModel.TreeReadModel.Tree.GetById(traceId);
-            FakeWindowManager.RegisterHandler(model=>TraceToAttachHandler(model, Answer.Yes));
-            var rtuLeaf = traceLeaf.Parent;
-            var portLeaf = (PortLeaf)rtuLeaf.Children[1]; // 2nd port
-            portLeaf.AttachFromListAction(null);
-            Poller.Tick();
-        }
-
-        public bool TraceToAttachHandler(object model, Answer answer)
-        {
-            var vm = model as TraceToAttachViewModel;
-            if (vm == null) return false;
-            if (answer == Answer.Yes)
-                vm.Save();
-            else
-                vm.Cancel();
-            return true;
-        }
-
     }
 }

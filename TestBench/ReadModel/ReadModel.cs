@@ -183,6 +183,7 @@ namespace Iit.Fibertest.TestBench
         {
             var rtu = Rtus.First(r => r.Id == e.Id);
             var nodeId = rtu.NodeId;
+            Traces.RemoveAll(t => t.RtuId == rtu.Id);
             Rtus.Remove(rtu);
             RemoveNodeWithAllHis(nodeId);
         }
@@ -203,8 +204,8 @@ namespace Iit.Fibertest.TestBench
 
         public void Apply(TraceCleaned e)
         {
-            var traceVm = Traces.First(t => t.Id == e.Id);
-            Traces.Remove(traceVm);
+            var trace = Traces.First(t => t.Id == e.Id);
+            Traces.Remove(trace);
         }
 
         private IEnumerable<Fiber> GetTraceFibersByNodes(List<Guid> nodes)

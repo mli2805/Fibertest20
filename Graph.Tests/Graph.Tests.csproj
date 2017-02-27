@@ -237,7 +237,9 @@
       <DependentUpon>RtuRemoved.feature</DependentUpon>
     </Compile>
     <Compile Include="Sut\SutForAddNodeIntoFiber.cs" />
+    <Compile Include="Sut\SutForRtuRemoved.cs" />
     <Compile Include="Sut\SutForTraceAdded.cs" />
+    <Compile Include="Sut\SutForTraceSimpleOperations.cs" />
     <Compile Include="Sut\SystemUnderTest.cs" />
     <Compile Include="Sut\SutForTraceCleanRemove.cs" />
     <Compile Include="Trace\BaseRefAssigned.feature.cs">

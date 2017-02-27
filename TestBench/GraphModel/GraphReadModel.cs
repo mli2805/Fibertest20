@@ -163,7 +163,6 @@ namespace Iit.Fibertest.TestBench
         #endregion
 
         #region Rtu
-
         public void Apply(RtuAtGpsLocationAdded evnt)
         {
             var nodeVm = new NodeVm()
@@ -190,10 +189,10 @@ namespace Iit.Fibertest.TestBench
         {
             var rtuVm = Rtus.First(r => r.Id == evnt.Id);
             Guid nodeId = rtuVm.Node.Id;
+            Traces.Where(t=>t.RtuId == rtuVm.Id).ToList().ForEach(t=>Traces.Remove(t));
             Rtus.Remove(rtuVm);
             RemoveNodeWithAllHis(nodeId);
         }
-
         #endregion
 
         #region Equipment
