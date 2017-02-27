@@ -66,7 +66,7 @@ namespace Iit.Fibertest.Graph
         public string When(AddFiber cmd)
         {
             if (WriteModel.HasFiberBetween(cmd.Node1, cmd.Node2))
-                return Resources.SID_Fiber_already_exists;
+                return Resources.SID_Section_already_exists;
 
             WriteModel.AddAndCommit(_mapper.Map<FiberAdded>(cmd));
             return null;
@@ -75,7 +75,7 @@ namespace Iit.Fibertest.Graph
         public string When(AddFiberWithNodes cmd)
         {
             if (WriteModel.HasFiberBetween(cmd.Node1, cmd.Node2))
-                return Resources.SID_Fiber_already_exists;
+                return Resources.SID_Section_already_exists;
 
             if (cmd.AddNodes.Count > 0)
                 foreach (var cmdAddNode in cmd.AddNodes)
@@ -181,6 +181,16 @@ namespace Iit.Fibertest.Graph
         public void When(UpdateTrace cmd)
         {
             WriteModel.AddAndCommit(_mapper.Map<TraceUpdated>(cmd));
+        }
+
+        public void When(CleanTrace cmd)
+        {
+            WriteModel.AddAndCommit(_mapper.Map<TraceCleaned>(cmd));
+        }
+
+        public void When(RemoveTrace cmd)
+        {
+            WriteModel.AddAndCommit(_mapper.Map<TraceRemoved>(cmd));
         }
 
         public void When(AttachTrace cmd)

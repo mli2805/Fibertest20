@@ -6,6 +6,8 @@
         NotInTrace = 0x0,
         NotJoined = 0x1,
         //
+        NotChecked = 0x2,
+        //
         Ok = 0x4,
         Suspect = 0x5,
         Minor = 0x6,

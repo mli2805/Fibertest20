@@ -116,9 +116,9 @@
     <Compile Include="Views\TraceToAttachView.xaml.cs">
       <DependentUpon>TraceToAttachView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Vms\Tree\PortExtensions.cs" />
-    <Compile Include="Vms\Tree\PortLeaf.cs" />
-    <Compile Include="Vms\Tree\TreeReadModel.cs" />
+    <Compile Include="TreeModel\PortExtensions.cs" />
+    <Compile Include="TreeModel\PortLeaf.cs" />
+    <Compile Include="TreeModel\TreeReadModel.cs" />
     <Compile Include="Requests\RequestAddEquipmentIntoNode.cs" />
     <Compile Include="Requests\RequestAddFiberWithNodes.cs" />
     <Compile Include="Requests\RequestAddNodeIntoFiber.cs" />
@@ -152,7 +152,7 @@
     <Compile Include="MarkerControl\MarkerControlNodeContextMenu.cs" />
     <Compile Include="MarkerControl\MarkerControlRtuContextMenu.cs" />
     <Compile Include="ViewModels\BaseRefsAssignViewModel.cs" />
-    <Compile Include="Vms\Graph\EqItemVm.cs" />
+    <Compile Include="GraphModel\EqItemVm.cs" />
     <Compile Include="ViewModels\Primitive\CheckBoxModel.cs" />
     <Compile Include="ViewModels\EquipmentChoiceViewModel.cs" />
     <Compile Include="ViewModels\EquipmentUpdateViewModel.cs" />
@@ -198,19 +198,19 @@
     <Compile Include="Views\UniversalViews\QuestionView.xaml.cs">
       <DependentUpon>QuestionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Vms\Graph\EquipmentVm.cs" />
-    <Compile Include="Vms\Graph\FiberVm.cs" />
-    <Compile Include="Vms\Graph\GraphVisibilityVm.cs" />
-    <Compile Include="Vms\Graph\GraphReadModel.cs" />
+    <Compile Include="GraphModel\EquipmentVm.cs" />
+    <Compile Include="GraphModel\FiberVm.cs" />
+    <Compile Include="GraphModel\GraphVisibilityVm.cs" />
+    <Compile Include="GraphModel\GraphReadModel.cs" />
     <Compile Include="ViewModels\Shell\IShell.cs" />
     <Compile Include="Logic\Utils.cs" />
     <Compile Include="MapUserControl\Map.cs" />
     <Compile Include="MapUserControl\MapUserControl.xaml.cs">
       <DependentUpon>MapUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Vms\Tree\ITreeViewItemModel.cs" />
-    <Compile Include="Vms\Tree\Leaf.cs" />
-    <Compile Include="Vms\Graph\NodeVm.cs" />
+    <Compile Include="TreeModel\ITreeViewItemModel.cs" />
+    <Compile Include="TreeModel\Leaf.cs" />
+    <Compile Include="GraphModel\NodeVm.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModels\Primitive\ContextMenuAction.cs" />
     <Compile Include="Views\ShellView.xaml.cs">
@@ -234,12 +234,12 @@
     <Compile Include="Views\RtuUpdateView.xaml.cs">
       <DependentUpon>RtuUpdateView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Vms\Graph\RtuVm.cs" />
-    <Compile Include="Vms\Graph\TraceVm.cs" />
-    <Compile Include="Vms\Tree\MenuItemVm.cs" />
-    <Compile Include="Vms\Tree\RtuLeaf.cs" />
-    <Compile Include="Vms\Tree\TraceLeaf.cs" />
-    <Compile Include="Vms\Tree\TreeExtensions.cs" />
+    <Compile Include="GraphModel\RtuVm.cs" />
+    <Compile Include="GraphModel\TraceVm.cs" />
+    <Compile Include="TreeModel\MenuItemVm.cs" />
+    <Compile Include="TreeModel\RtuLeaf.cs" />
+    <Compile Include="TreeModel\TraceLeaf.cs" />
+    <Compile Include="TreeModel\TreeExtensions.cs" />
     <Page Include="GpsInputControl\GpsInputView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -449,6 +449,7 @@
     <Resource Include="Resources\Well\WellSuspected.png" />
     <Resource Include="Resources\Well\WellUser.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

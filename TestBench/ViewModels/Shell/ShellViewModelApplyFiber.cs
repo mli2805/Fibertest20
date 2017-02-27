@@ -87,7 +87,7 @@ namespace Iit.Fibertest.TestBench
                         f.Node1.Id == request.Node2 && f.Node2.Id == request.Node1);
             if (fiber == null)
                 return true;
-            _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, Resources.SID_There_s_such_a_fiber_already));
+            _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, Resources.SID_Section_already_exists));
             return false;
         }
 
@@ -110,7 +110,7 @@ namespace Iit.Fibertest.TestBench
                         f.Node1.Id == cmd.Node2 && f.Node2.Id == cmd.Node1);
             if (fiber == null)
                 return true;
-            _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, Resources.SID_There_s_such_a_fiber_already));
+            _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, Resources.SID_Section_already_exists));
             return false;
         }
 

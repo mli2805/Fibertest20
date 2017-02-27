@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Windows.Media;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
@@ -9,7 +10,23 @@ namespace Iit.Fibertest.TestBench
 {
     public class TraceLeaf : Leaf
     {
-        public int PortNumber { get; set; }
+        private int _portNumber;
+        public int PortNumber
+        {
+            get { return _portNumber; }
+            set
+            {
+                if (value == _portNumber) return;
+                _portNumber = value;
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(IconsVisibility));
+                NotifyOfPropertyChange(nameof(LeftMargin));
+                NotifyOfPropertyChange(nameof(Name));
+            }
+        }
+
+        public int LeftMargin => PortNumber > 0 ? 53 : 78;
+        public Visibility IconsVisibility => PortNumber > 0 ? Visibility.Visible : Visibility.Hidden;
 
         public override string Name
         {
@@ -84,27 +101,30 @@ namespace Iit.Fibertest.TestBench
             menu.Add(null);
 
             if (PortNumber > 0)
+            {
                 menu.Add(new MenuItemVm()
                 {
                     Header = Resources.SID_Detach_trace,
                     Command = new ContextMenuAction(DetachTraceAction, CanSomeAction),
                     CommandParameter = this,
                 });
-
-            menu.Add(new MenuItemVm()
+            }
+            else
             {
-                Header = Resources.SID_Clean,
-                Command = new ContextMenuAction(TraceCleanAction, CanSomeAction),
-                CommandParameter = this
-            });
+                menu.Add(new MenuItemVm()
+                {
+                    Header = Resources.SID_Clean,
+                    Command = new ContextMenuAction(TraceCleanAction, CanSomeAction),
+                    CommandParameter = this
+                });
 
-            menu.Add(new MenuItemVm()
-            {
-                Header = Resources.SID_Remove,
-                Command = new ContextMenuAction(TraceRemoveAction, CanSomeAction),
-                CommandParameter = this
-            });
-
+                menu.Add(new MenuItemVm()
+                {
+                    Header = Resources.SID_Remove,
+                    Command = new ContextMenuAction(TraceRemoveAction, CanSomeAction),
+                    CommandParameter = this
+                });
+            }
             if (PortNumber > 0)
             {
                 menu.Add(null);
@@ -155,8 +175,16 @@ namespace Iit.Fibertest.TestBench
         {
             Bus.SendCommand(new DetachTrace() {TraceId = Id});
         }
-        private void TraceCleanAction(object param) { }
-        private void TraceRemoveAction(object param) { }
+
+        private void TraceCleanAction(object param)
+        {
+            Bus.SendCommand(new CleanTrace() { Id = Id});
+        }
+
+        private void TraceRemoveAction(object param)
+        {
+            Bus.SendCommand(new RemoveTrace() { Id = Id });
+        }
         private void PreciseOutOfTurnMeasurementAction(object param) { }
     }
 }

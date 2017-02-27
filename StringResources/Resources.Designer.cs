@@ -133,20 +133,20 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Attach BOP.
-        /// </summary>
-        public static string SID_Attach_BOP {
-            get {
-                return ResourceManager.GetString("SID_Attach_BOP", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Attach from list.
         /// </summary>
         public static string SID_Attach_from_list {
             get {
                 return ResourceManager.GetString("SID_Attach_from_list", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attach optical switch.
+        /// </summary>
+        public static string SID_Attach_optical_switch {
+            get {
+                return ResourceManager.GetString("SID_Attach_optical_switch", resourceCulture);
             }
         }
         
@@ -399,24 +399,6 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Fast_base_ref {
             get {
                 return ResourceManager.GetString("SID_Fast_base_ref", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Section.
-        /// </summary>
-        public static string SID_Fiber {
-            get {
-                return ResourceManager.GetString("SID_Fiber", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Fiber already exists.
-        /// </summary>
-        public static string SID_Fiber_already_exists {
-            get {
-                return ResourceManager.GetString("SID_Fiber_already_exists", resourceCulture);
             }
         }
         
@@ -799,6 +781,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fiber already exists.
+        /// </summary>
+        public static string SID_Section_already_exists {
+            get {
+                return ResourceManager.GetString("SID_Section_already_exists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Section with nodes.
         /// </summary>
         public static string SID_Section_with_nodes {
@@ -958,15 +949,6 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_There_is_a_rtu_with_the_same_title {
             get {
                 return ResourceManager.GetString("SID_There_is_a_rtu_with_the_same_title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to There&apos;s such a fiber already.
-        /// </summary>
-        public static string SID_There_s_such_a_fiber_already {
-            get {
-                return ResourceManager.GetString("SID_There_s_such_a_fiber_already", resourceCulture);
             }
         }
         

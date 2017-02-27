@@ -26,6 +26,7 @@ namespace Iit.Fibertest.TestBench
                 case FiberState.DistanceMeasurement:
                     return Brushes.Blue;
 
+                case FiberState.NotChecked:
                 case FiberState.Ok:
                     return Brushes.Black;
                 case FiberState.Suspect:
@@ -52,7 +53,8 @@ namespace Iit.Fibertest.TestBench
             switch (state)
             {
                 case FiberState.NotJoined:
-                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/BlueSquare.png"));
+                case FiberState.NotChecked:
+                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
                 case FiberState.Ok:
                     return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/BlackSquare.png"));
                 case FiberState.Minor:

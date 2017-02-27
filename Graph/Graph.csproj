@@ -69,7 +69,9 @@
     <Compile Include="Commands\Trace\AttachTrace.cs" />
     <Compile Include="Commands\Trace\AssignBaseRef.cs" />
     <Compile Include="Commands\Trace\AddTrace.cs" />
+    <Compile Include="Commands\Trace\CleanTrace.cs" />
     <Compile Include="Commands\Trace\DetachTrace.cs" />
+    <Compile Include="Commands\Trace\RemoveTrace.cs" />
     <Compile Include="Commands\Trace\UpdateTrace.cs" />
     <Compile Include="DomainEntities\Enums\BaseRefType.cs" />
     <Compile Include="DomainEntities\Enums\EquipmentType.cs" />
@@ -92,7 +94,9 @@
     <Compile Include="Events\Trace\TraceAttached.cs" />
     <Compile Include="Events\Trace\BaseRefAssigned.cs" />
     <Compile Include="Events\Trace\TraceAdded.cs" />
+    <Compile Include="Events\Trace\TraceCleaned.cs" />
     <Compile Include="Events\Trace\TraceDetached.cs" />
+    <Compile Include="Events\Trace\TraceRemoved.cs" />
     <Compile Include="Events\Trace\TraceUpdated.cs" />
     <Compile Include="MappingCmdToEventProfile.cs" />
     <Compile Include="Commands\Equipment\AddEquipmentIntoNode.cs" />

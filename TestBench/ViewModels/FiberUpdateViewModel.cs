@@ -84,7 +84,7 @@ namespace Iit.Fibertest.TestBench
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = Resources.SID_Fiber;
+            DisplayName = Resources.SID_Section;
         }
 
         public void Save()

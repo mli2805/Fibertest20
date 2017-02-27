@@ -35,7 +35,7 @@ namespace Iit.Fibertest.TestBench
 
             yield return new MenuItemVm()
             {
-                Header = Resources.SID_Attach_BOP,
+                Header = Resources.SID_Attach_optical_switch,
                 Command = new ContextMenuAction(AttachBopAction, CanSomeAction),
                 CommandParameter = this,
             };

@@ -89,6 +89,20 @@ namespace Iit.Fibertest.TestBench
             traceLeaf.Title = e.Title;
         }
 
+        public void Apply(TraceCleaned e)
+        {
+            var traceLeaf = Tree.GetById(e.Id);
+            var rtuLeaf = traceLeaf.Parent;
+            rtuLeaf.Children.Remove(traceLeaf);
+        }
+
+        public void Apply(TraceRemoved e)
+        {
+            var traceLeaf = Tree.GetById(e.Id);
+            var rtuLeaf = traceLeaf.Parent;
+            rtuLeaf.Children.Remove(traceLeaf);
+        }
+
         public void Apply(TraceAttached e)
         {
             TraceLeaf traceLeaf = Tree.GetById(e.TraceId) as TraceLeaf;
@@ -102,7 +116,7 @@ namespace Iit.Fibertest.TestBench
                 new TraceLeaf(_readModel, _windowManager, _bus)
                 {
                     Id = e.TraceId,
-                    TraceState = FiberState.Ok,
+                    TraceState = FiberState.NotChecked,
                     Title = traceLeaf.Title,
                     Color = Brushes.Black,
                     PortNumber = e.Port,

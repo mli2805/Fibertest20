@@ -15,13 +15,13 @@
             <TextBlock Margin="5" Width="100" Text="{Binding GpsLength}" TextAlignment="Right"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="5,5">
+            <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_Optical_length_m}" />
+            <TextBlock Margin="5" Width="100" Text="{Binding OpticalLength}" TextAlignment="Right"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="5,5">
             <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_User_Length_m}" />
             <TextBox Name="UserInput" Margin="5" Width="100"  HorizontalContentAlignment="Right"
                      Text="{Binding UserInputedLength, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="5,5">
-            <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_Optical_length_m}" />
-            <TextBlock Margin="5" Width="100" Text="{Binding OpticalLength}" TextAlignment="Right"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="5,15,5,5">
             <Button Name="Save" Height="25" Width="100" Margin="5" Content="{x:Static stringResources:Resources.SID_Save}" IsEnabled="{Binding IsButtonSaveEnabled}"/>

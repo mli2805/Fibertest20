@@ -12,13 +12,11 @@ namespace Iit.Fibertest.TestBench
         public FiberState State { get; set; } = FiberState.NotJoined;
         public int Port { get; set; }
         public List<Guid> Nodes { get; set; }
-        public List<Guid> Equipments { get; set; }
 
         public Guid PreciseId { get; set; } = Guid.Empty;
         public Guid FastId { get; set; } = Guid.Empty;
         public Guid AdditionalId { get; set; } = Guid.Empty;
         public string Title { get; set; }
-        public string Comment { get; set; }
 
         public bool HasBase => PreciseId != Guid.Empty || FastId != Guid.Empty || AdditionalId != Guid.Empty;
 

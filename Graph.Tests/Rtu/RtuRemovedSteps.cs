@@ -2,6 +2,7 @@
 using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.StringResources;
 using Iit.Fibertest.TestBench;
 using TechTalk.SpecFlow;
 
@@ -12,7 +13,7 @@ namespace Graph.Tests
     {
         private readonly SystemUnderTest _sut = new SystemUnderTest();
         private Iit.Fibertest.Graph.Rtu _rtu;
-        private Guid _rtuNodeId; // нужно сохранить отдельно, т.к. после удаления РТУ негде взять
+        private Guid _rtuNodeId, _traceId; 
 
         private Iit.Fibertest.Graph.Node _endTraceNode;
 
@@ -42,6 +43,19 @@ namespace Graph.Tests
             _sut.ShellVm.ComplyWithRequest(new AddFiber() {Node1 = n1.Id, Node2 = _endTraceNode.Id }).Wait();
             _sut.ShellVm.ComplyWithRequest(new AddFiber() {Node1 = _rtu.NodeId , Node2 = n2.Id }).Wait();
             _sut.Poller.Tick();
+        }
+
+        [Given(@"Существует трасса начинающаяся но не присоединенная к этому РТУ")]
+        public void GivenСуществуетТрассаНачинающаясяНоНеПрисоединеннаяКЭтомуРту()
+        {
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.QuestionAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.AddTraceViewHandler(model, @"some trace title", "", Answer.Yes));
+
+            _sut.ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = _endTraceNode.Id, NodeWithRtuId = _rtu.NodeId }).Wait();
+            _sut.Poller.Tick();
+            _traceId = _sut.ReadModel.Traces.Last().Id;
         }
 
         [When(@"Пользователь кликает на РТУ удалить")]

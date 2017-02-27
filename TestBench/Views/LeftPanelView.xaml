@@ -63,14 +63,15 @@
                 </HierarchicalDataTemplate>
                 <HierarchicalDataTemplate
                                   DataType="{x:Type testBench:TraceLeaf}" ItemsSource="{Binding Children}">
-                    <StackPanel Orientation="Horizontal" Margin="50,0,0,0">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
                         <StackPanel.ContextMenu>
                             <ContextMenu 
                                 ItemContainerStyle="{StaticResource ContextMenuItemStyle}" 
                                 ItemsSource="{Binding MyContextMenu}"/>
                         </StackPanel.ContextMenu>
-                        <Image Source="{Binding MonitoringPictogram}" Height="12" Width="12" Margin="0,0,4,0"></Image>
-                        <Image Source="{Binding TraceStatePictogram}" Height="12" Width="12" Margin="0,0,4,0"></Image>
+                        <TextBlock Width="{Binding LeftMargin}"/>
+                        <Image Source="{Binding MonitoringPictogram}" Height="12" Width="12" Margin="0,0,4,0" Visibility="{Binding IconsVisibility}"/>
+                        <Image Source="{Binding TraceStatePictogram}" Height="12" Width="12" Margin="0,0,4,0" Visibility="{Binding IconsVisibility}"/>
                         <TextBlock Text="{Binding Name}" Foreground="{Binding Color}" Margin="0,0,20,0"/>
                     </StackPanel>
                 </HierarchicalDataTemplate>

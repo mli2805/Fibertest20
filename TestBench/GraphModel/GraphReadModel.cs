@@ -241,6 +241,34 @@ namespace Iit.Fibertest.TestBench
                      f.Node1.Id == node2 && f.Node2.Id == node1);
         }
 
+        public void Apply(TraceCleaned evnt)
+        {
+            var traceVm = Traces.First(t => t.Id == evnt.Id);
+            GetTraceFibersByNodes(traceVm.Nodes).ToList().ForEach(f=>f.RemoveState(evnt.Id));
+            Traces.Remove(traceVm);
+        }
+
+        public void Apply(TraceRemoved evnt)
+        {
+            var traceVm = Traces.First(t => t.Id == evnt.Id);
+            var traceFibers = GetTraceFibersByNodes(traceVm.Nodes).ToList();
+            foreach (var fiberVm in traceFibers)
+            {
+                fiberVm.RemoveState(evnt.Id);
+                if (fiberVm.State == FiberState.NotInTrace)
+                    Fibers.Remove(fiberVm);
+            }
+            foreach (var nodeId in traceVm.Nodes)
+            {
+                if (Rtus.Any(r=>r.Node.Id == nodeId) ||
+                    Fibers.Any(f=>f.Node1.Id == nodeId || f.Node2.Id == nodeId))
+                    continue;
+                var nodeVm = Nodes.First(n => n.Id == nodeId);
+                Nodes.Remove(nodeVm);
+            }
+            Traces.Remove(traceVm);
+        }
+
         public void Apply(TraceAttached evnt)
         {
             ChangeTraceState(evnt.TraceId, FiberState.Ok);

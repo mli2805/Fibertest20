@@ -106,13 +106,6 @@ namespace Iit.Fibertest.TestBench
                 f.Node1 == a && f.Node2 == b ||
                 f.Node1 == b && f.Node2 == a);
         }
-        public bool IsFiberContainedInTraceWithBase(Guid fiberId)
-        {
-            var tracesWithBase = Traces.Where(t => t.HasBase);
-            var fiber = Fibers.Single(f => f.Id == fiberId);
-            return tracesWithBase.Any(trace => Topo.GetFiberIndexInTrace(trace, fiber) != -1);
-        }
-
         public void Apply(FiberAdded e)
         {
             Fibers.Add(_mapper.Map<Fiber>(e));
@@ -208,15 +201,46 @@ namespace Iit.Fibertest.TestBench
             _mapper.Map(source, destination);
         }
 
+        public void Apply(TraceCleaned e)
+        {
+            var traceVm = Traces.First(t => t.Id == e.Id);
+            Traces.Remove(traceVm);
+        }
+
+        private IEnumerable<Fiber> GetTraceFibersByNodes(List<Guid> nodes)
+        {
+            for (int i = 1; i < nodes.Count; i++)
+                yield return GetFiberBetweenNodes(nodes[i - 1], nodes[i]);
+        }
+
+        private Fiber GetFiberBetweenNodes(Guid node1, Guid node2)
+        {
+            return Fibers.First(
+                f => f.Node1 == node1 && f.Node2 == node2 ||
+                     f.Node1 == node2 && f.Node2 == node1);
+        }
+
+        public void Apply(TraceRemoved e)
+        {
+            var traceVm = Traces.First(t => t.Id == e.Id);
+            var traceFibers = GetTraceFibersByNodes(traceVm.Nodes).ToList();
+            foreach (var fiber in traceFibers)
+            {
+                if (Traces.All(trace => Topo.GetFiberIndexInTrace(trace, fiber) == -1))
+                    Fibers.Remove(fiber);
+            }
+            Traces.Remove(traceVm);
+        }
+
         public void Apply(TraceAttached e)
         {
-            var trace = Traces.Single(t => t.Id == e.TraceId);
+            var trace = Traces.First(t => t.Id == e.TraceId);
             trace.Port = e.Port;
         }
 
         public void Apply(TraceDetached e)
         {
-            var trace = Traces.Single(t => t.Id == e.TraceId);
+            var trace = Traces.First(t => t.Id == e.TraceId);
             trace.Port = -1;
         }
 

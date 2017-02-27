@@ -80,7 +80,7 @@ namespace Graph.Tests
                 .OfType<NotificationViewModel>()
                 .Last()
                 .Message
-                .Should().Be(Resources.SID_There_s_such_a_fiber_already);
+                .Should().Be(Resources.SID_Section_already_exists);
         }
 
 
