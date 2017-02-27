@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Media;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
@@ -92,7 +93,7 @@ namespace Iit.Fibertest.TestBench
             menu.Add(new MenuItemVm()
             {
                 Header = Resources.SID_Remove,
-                Command = new ContextMenuAction(RtuRemoveAction, CanSomeAction),
+                Command = new ContextMenuAction(RtuRemoveAction, CanRtuRemoveAction),
                 CommandParameter = this
             });
 
@@ -129,7 +130,16 @@ namespace Iit.Fibertest.TestBench
         private void MonitoringSettingsAction(object param) { }
         private void ManualModeAction(object param) { }
         private void AutomaticModeAction(object param) { }
-        private void RtuRemoveAction(object param) { }
+
+        private void RtuRemoveAction(object param)
+        {
+            Bus.SendCommand(new RemoveRtu() {Id = Id});
+        }
+
+        private bool CanRtuRemoveAction(object param)
+        {
+            return !Children.Any(l => l is TraceLeaf && ((TraceLeaf) l).PortNumber > 0);
+        }
         private void DefineTraceAction(object param) { }
         private void DefineTraceStepByStepAction(object param) { }
     }
