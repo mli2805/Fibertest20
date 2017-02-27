@@ -271,7 +271,7 @@ namespace Iit.Fibertest.TestBench
 
         public void Apply(TraceAttached evnt)
         {
-            ChangeTraceState(evnt.TraceId, FiberState.Ok);
+            ChangeTraceState(evnt.TraceId, FiberState.NotChecked);
         }
 
         public void Apply(TraceDetached evnt)

@@ -176,7 +176,7 @@ namespace Iit.Fibertest.TestBench
             Bus.SendCommand(new DetachTrace() {TraceId = Id});
         }
 
-        private void TraceCleanAction(object param)
+        public void TraceCleanAction(object param)
         {
             Bus.SendCommand(new CleanTrace() { Id = Id});
         }

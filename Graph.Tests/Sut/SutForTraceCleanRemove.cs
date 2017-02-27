@@ -7,12 +7,11 @@ namespace Graph.Tests
 {
     public class SutForTraceCleanRemove : SystemUnderTest
     {
-        private Guid _nodeForRtuId, _a2, _b2;
-        private void SetupNodesAndFibers()
+        public void CreateTwoTraces(out Guid traceId1, out Guid traceId2)
         {
             ShellVm.ComplyWithRequest(new AddRtuAtGpsLocation() { Latitude = 55, Longitude = 30 }).Wait();
             Poller.Tick();
-            _nodeForRtuId = ReadModel.Rtus.Last().NodeId;
+            var nodeForRtuId = ReadModel.Rtus.Last().NodeId;
 
             ShellVm.ComplyWithRequest(new AddNode()).Wait();
             Poller.Tick();
@@ -20,29 +19,28 @@ namespace Graph.Tests
 
             ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait();
             Poller.Tick();
-            _a2 = ReadModel.Nodes.Last().Id;
+            var a2 = ReadModel.Nodes.Last().Id;
             ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait();
             Poller.Tick();
-            _b2 = ReadModel.Nodes.Last().Id;
+            var b2 = ReadModel.Nodes.Last().Id;
 
-            ShellVm.ComplyWithRequest(new AddFiber() { Node1 = _nodeForRtuId, Node2 = a1 }).Wait();
-            ShellVm.ComplyWithRequest(new AddFiber() { Node1 = a1, Node2 = _a2 }).Wait();
-            ShellVm.ComplyWithRequest(new AddFiber() { Node1 = a1, Node2 = _b2 }).Wait();
+            ShellVm.ComplyWithRequest(new AddFiber() { Node1 = nodeForRtuId, Node2 = a1 }).Wait();
+            ShellVm.ComplyWithRequest(new AddFiber() { Node1 = a1, Node2 = a2 }).Wait();
+            ShellVm.ComplyWithRequest(new AddFiber() { Node1 = a1, Node2 = b2 }).Wait();
             Poller.Tick();
+
+            traceId1 = DefineTrace(a2, nodeForRtuId).Id;
+            traceId2 = DefineTrace(b2, nodeForRtuId).Id;
         }
 
-        public void CreateTwoTraces(out Guid attachedTraceId, out Guid notAttachedTraceId)
+        public void AttachTrace(Guid traceId)
         {
-            SetupNodesAndFibers();
-
-            var trace = DefineTrace(_a2, _nodeForRtuId);
+            var traceLeaf = ShellVm.MyLeftPanelViewModel.TreeReadModel.Tree.GetById(traceId);
             FakeWindowManager.RegisterHandler(model=>TraceToAttachHandler(model, Answer.Yes));
-            var rtuLeaf = ShellVm.MyLeftPanelViewModel.TreeReadModel.Tree.GetById(trace.RtuId);
+            var rtuLeaf = traceLeaf.Parent;
             var portLeaf = (PortLeaf)rtuLeaf.Children[1]; // 2nd port
             portLeaf.AttachFromListAction(null);
-
-            attachedTraceId = trace.Id;
-            notAttachedTraceId = DefineTrace(_b2, _nodeForRtuId).Id;
+            Poller.Tick();
         }
 
         public bool TraceToAttachHandler(object model, Answer answer)

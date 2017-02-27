@@ -90,7 +90,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 8
  testRunner.Then("Неприсоединенная трасса удаляется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 9
- testRunner.Then("Ее отрезки меняют цвет если они не входили во вторую трассу", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("Те ее отрезки что не входят в присоединенную трассу меняют цвет", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
