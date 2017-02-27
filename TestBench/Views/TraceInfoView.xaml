@@ -37,7 +37,7 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </GroupBox>
-        <GroupBox Header="{x:Static stringResources:Resources.SID_Trace_mode}" Margin="5">
+        <GroupBox Header="{x:Static stringResources:Resources.SID_Trace_monitoring_mode}" Margin="5">
             <StackPanel Orientation="Horizontal" Margin="5">
                 <RadioButton GroupName="1" Name="Dark" Margin="30,5,5,5" Content="{x:Static stringResources:Resources.SID_Dark_OF}"
                              IsChecked="{Binding IsTraceModeDark, Mode=TwoWay}"/>

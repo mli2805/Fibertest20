@@ -103,7 +103,7 @@ namespace Iit.Fibertest.TestBench
         {
             if (IsInTraceCreationMode)
             {
-                IsTraceModeLight = true;
+                IsTraceModeDark = true;
             }
             else
             {          // trace editing
