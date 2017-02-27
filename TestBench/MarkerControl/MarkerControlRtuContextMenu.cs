@@ -13,13 +13,6 @@ namespace Iit.Fibertest.TestBench
             _owner.GraphReadModel.Request = new RequestUpdateRtu() { NodeId = nodeId };
         }
 
-        private bool CanShowRtu(object parameter) { return true; }
-        private void AskShowRtu(object parameter)
-        {
-            var nodeId = (Guid)parameter;
-            _owner.GraphReadModel.Request = new UpdateNode() { Id = nodeId };
-        }
-
         private bool CanRemoveRtu(object parameter) { return true; }
         private void AskRemoveRtu(object parameter)
         {
@@ -33,6 +26,12 @@ namespace Iit.Fibertest.TestBench
             _mainMap.IsInTraceDefiningMode = true;
             _mainMap.StartNode = _marker;
         }
+        private bool CanStartDefineTraceStepByStep(object parameter) { return false; }
+        private void StartDefineTraceStepByStep(object parameter)
+        {
+            _mainMap.IsInTraceDefiningMode = true;
+            _mainMap.StartNode = _marker;
+        }
         private void OpenRtuContextMenu()
         {
             ContextMenu = new ContextMenu();
@@ -40,18 +39,6 @@ namespace Iit.Fibertest.TestBench
             {
                 Header = StringResources.Resources.SID_Information,
                 Command = new ContextMenuAction(AskUpdateRtu, CanUpdateRtu),
-                CommandParameter = _marker.Id
-            });
-            ContextMenu.Items.Add(new MenuItem()
-            {
-                Header = StringResources.Resources.SID_Show_RTU,
-                Command = new ContextMenuAction(AskShowRtu, CanShowRtu),
-                CommandParameter = _marker.Id
-            });
-            ContextMenu.Items.Add(new MenuItem()
-            {
-                Header = StringResources.Resources.SID_Landmarks,
-                Command = new ContextMenuAction(AskLandmarks, CanLandmarks),
                 CommandParameter = _marker.Id
             });
             ContextMenu.Items.Add(new MenuItem()
@@ -78,6 +65,12 @@ namespace Iit.Fibertest.TestBench
             {
                 Header = StringResources.Resources.SID_Define_trace,
                 Command = new ContextMenuAction(StartDefineTrace, CanStartDefineTrace),
+                CommandParameter = _marker.Id
+            });
+            ContextMenu.Items.Add(new MenuItem()
+            {
+                Header = StringResources.Resources.SID_Define_trace_strp_by_step,
+                Command = new ContextMenuAction(StartDefineTraceStepByStep, CanStartDefineTraceStepByStep),
                 CommandParameter = _marker.Id
             });
             ContextMenu.IsOpen = true;

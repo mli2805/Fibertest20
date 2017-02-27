@@ -1,7 +1,9 @@
 ﻿Feature: TraceCleaned
 
 Scenario: Add two numbers
-	Given I have entered 50 into the calculator
-	And I have entered 70 into the calculator
-	When I press add
-	Then the result should be 120 on the screen
+	Given Даны две трассы с общим отрезком
+	And Одна из трасс присоединена к порту
+	Then У присоединенной трассы нет пункта Очистить в меню
+	When Пользователь жмет Очистить у НЕприсоединенной трассы
+	Then Неприсоединенная трасса удаляется
+	Then Ее отрезки меняют цвет если они не входили во вторую трассу
