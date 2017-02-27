@@ -60,7 +60,7 @@ namespace Iit.Fibertest.TestBench
             };
         }
 
-        private void AttachFromListAction(object param)
+        public void AttachFromListAction(object param)
         {
             var vm = new TraceToAttachViewModel(Parent.Id, PortNumber, ReadModel, Bus);
             WindowManager.ShowDialog(vm);

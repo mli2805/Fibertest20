@@ -10,7 +10,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class NodeIntoFiberAddedSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest();
+        private readonly SutForAddNodeIntoFiber _sut = new SutForAddNodeIntoFiber();
         private Guid _a1Id;
         private Guid _b1Id;
         private Guid _nodeId;

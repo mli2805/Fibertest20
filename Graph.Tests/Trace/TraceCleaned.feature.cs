@@ -71,12 +71,12 @@ namespace Graph.Tests.Trace
             this.ScenarioTearDown();
         }
         
-        [Xunit.FactAttribute(DisplayName="Add two numbers")]
+        [Xunit.FactAttribute(DisplayName="Очистка трассы частично совпадающей с другой")]
         [Xunit.TraitAttribute("FeatureTitle", "TraceCleaned")]
-        [Xunit.TraitAttribute("Description", "Add two numbers")]
-        public virtual void AddTwoNumbers()
+        [Xunit.TraitAttribute("Description", "Очистка трассы частично совпадающей с другой")]
+        public virtual void ОчисткаТрассыЧастичноСовпадающейСДругой()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add two numbers", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Очистка трассы частично совпадающей с другой", ((string[])(null)));
 #line 3
 this.ScenarioSetup(scenarioInfo);
 #line 4

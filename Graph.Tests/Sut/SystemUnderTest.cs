@@ -53,50 +53,8 @@ namespace Graph.Tests
             return DefineTrace(secondNodeId, nodeForRtuId);
         }
 
-        public void CreatePositionForAddNodeIntoFiberTest(out Iit.Fibertest.Graph.Fiber fiberForInsertion, out Iit.Fibertest.Graph.Trace traceForInsertionId)
-        {
-            ShellVm.ComplyWithRequest(new AddRtuAtGpsLocation() {Latitude = 55, Longitude = 30}).Wait();
-            Poller.Tick();
-            var nodeForRtuId = ReadModel.Rtus.Last().NodeId;
-            ShellVm.ComplyWithRequest(new AddNode()).Wait();
-            Poller.Tick();
-            var a1 = ReadModel.Nodes.Last().Id;
-            ShellVm.ComplyWithRequest(new AddNode()).Wait();
-            Poller.Tick();
-            var b1 = ReadModel.Nodes.Last().Id;
-            // fiber for insertion
-            ShellVm.ComplyWithRequest(new AddFiber() {Node1 = a1, Node2 = b1 }).Wait();
-            Poller.Tick();
-            fiberForInsertion = ShellVm.ReadModel.Fibers.Last();
 
-            ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() {Type = EquipmentType.Terminal}).Wait();
-            Poller.Tick();
-            var a2 = ReadModel.Nodes.Last().Id;
-            ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() {Type = EquipmentType.Terminal}).Wait();
-            Poller.Tick();
-            var b2 = ReadModel.Nodes.Last().Id;
-            ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() {Type = EquipmentType.Terminal}).Wait();
-            Poller.Tick();
-            var c2 = ReadModel.Nodes.Last().Id;
-            ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() {Type = EquipmentType.Terminal}).Wait();
-            Poller.Tick();
-            var d2 = ReadModel.Nodes.Last().Id;
-
-            ShellVm.ComplyWithRequest(new AddFiber() {Node1 = nodeForRtuId, Node2 = a1 }).Wait();
-            ShellVm.ComplyWithRequest(new AddFiber() {Node1 = a1, Node2 = a2 }).Wait();
-            ShellVm.ComplyWithRequest(new AddFiber() {Node1 = b1, Node2 = b2 }).Wait();
-            ShellVm.ComplyWithRequest(new AddFiber() {Node1 = b1, Node2 = c2 }).Wait();
-            ShellVm.ComplyWithRequest(new AddFiber() {Node1 = nodeForRtuId, Node2 = d2 }).Wait();
-            ShellVm.ComplyWithRequest(new AddFiber() {Node1 = b1, Node2 = a2 }).Wait();
-            Poller.Tick();
-
-            traceForInsertionId = DefineTrace(a2, nodeForRtuId);
-            DefineTrace(b2, nodeForRtuId);
-            DefineTrace(c2, nodeForRtuId);
-            DefineTrace(d2, nodeForRtuId);
-        }
-
-        private Iit.Fibertest.Graph.Trace DefineTrace(Guid lastNodeId, Guid nodeForRtuId)
+        protected Iit.Fibertest.Graph.Trace DefineTrace(Guid lastNodeId, Guid nodeForRtuId)
         {
             FakeWindowManager.RegisterHandler(model => QuestionAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
             FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
@@ -106,62 +64,6 @@ namespace Graph.Tests
             return ShellVm.ReadModel.Traces.Last();
         }
 
-        public void CreateFieldForPathFinderTest(out Guid startId, out Guid finishId, out Guid wrongNodeId, out Guid wrongNodeWithEqId)
-        {
-            ShellVm.ComplyWithRequest(new AddRtuAtGpsLocation() {Latitude = 55, Longitude = 30}).Wait();
-            Poller.Tick();
-            startId = ReadModel.Rtus.Last().NodeId;
-
-            ShellVm.ComplyWithRequest(new AddNode()).Wait(); Poller.Tick(); var b0 = ReadModel.Nodes.Last().Id;
-            ShellVm.ComplyWithRequest(new AddNode()).Wait(); Poller.Tick(); var b1 = ReadModel.Nodes.Last().Id;
-            ShellVm.ComplyWithRequest(new AddNode()).Wait(); Poller.Tick(); var b2 = ReadModel.Nodes.Last().Id;
-
-            ShellVm.ComplyWithRequest(new AddNode()).Wait(); Poller.Tick(); var c0 = ReadModel.Nodes.Last().Id; wrongNodeId = c0;
-            ShellVm.ComplyWithRequest(new AddNode()).Wait(); Poller.Tick(); var c1 = ReadModel.Nodes.Last().Id;
-            ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() {Type = EquipmentType.Sleeve }).Wait(); var c2 = ReadModel.Nodes.Last().Id;
-
-            ShellVm.ComplyWithRequest(new AddNode()).Wait(); Poller.Tick(); var d0 = ReadModel.Nodes.Last().Id;
-            ShellVm.ComplyWithRequest(new AddNode()).Wait(); Poller.Tick(); var d1 = ReadModel.Nodes.Last().Id;
-            ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() { Type = EquipmentType.Sleeve }).Wait(); var d2 = ReadModel.Nodes.Last().Id;
-
-            ShellVm.ComplyWithRequest(new AddNode()).Wait(); Poller.Tick(); var e0 = ReadModel.Nodes.Last().Id;
-            ShellVm.ComplyWithRequest(new AddNode()).Wait(); Poller.Tick(); var e1 = ReadModel.Nodes.Last().Id;
-            ShellVm.ComplyWithRequest(new AddNode()).Wait(); Poller.Tick(); var e2 = ReadModel.Nodes.Last().Id;
-
-            ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() {Type = EquipmentType.Terminal }).Wait(); Poller.Tick(); finishId = ReadModel.Nodes.Last().Id;
-
-            ShellVm.ComplyWithRequest(new AddNode()).Wait(); Poller.Tick(); var zz = ReadModel.Nodes.Last().Id;
-            ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait(); Poller.Tick(); var z2 = ReadModel.Nodes.Last().Id;
-            wrongNodeWithEqId = z2;
-
-
-            ShellVm.ComplyWithRequest(new AddFiber() {Id = Guid.NewGuid(), Node1 = startId, Node2 = b0}).Wait();
-            Poller.Tick();
-
-            ShellVm.ComplyWithRequest(new AddFiber() { Id = new Guid(), Node1 = startId, Node2 = b1 }).Wait();
-            ShellVm.ComplyWithRequest(new AddFiber() { Id = new Guid(), Node1 = startId, Node2 = b2 }).Wait();
-            Poller.Tick();
-
-            ShellVm.ComplyWithRequest(new AddFiber() { Id = new Guid(), Node1 = c0, Node2 = b0 }).Wait();
-            ShellVm.ComplyWithRequest(new AddFiber() { Id = new Guid(), Node1 = c1, Node2 = b1 }).Wait();
-            ShellVm.ComplyWithRequest(new AddFiber() { Id = new Guid(), Node1 = c2, Node2 = b2 }).Wait();
-            Poller.Tick();
-
-            ShellVm.ComplyWithRequest(new AddFiber() { Id = new Guid(), Node1 = c0, Node2 = d0 }).Wait();
-            ShellVm.ComplyWithRequest(new AddFiber() { Id = new Guid(), Node1 = c1, Node2 = d1 }).Wait();
-            ShellVm.ComplyWithRequest(new AddFiber() { Id = new Guid(), Node1 = c2, Node2 = d2 }).Wait();
-            Poller.Tick();
-
-            ShellVm.ComplyWithRequest(new AddFiber() { Id = new Guid(), Node1 = e0, Node2 = d0 }).Wait();
-            ShellVm.ComplyWithRequest(new AddFiber() { Id = new Guid(), Node1 = e1, Node2 = d1 }).Wait();
-            ShellVm.ComplyWithRequest(new AddFiber() { Id = new Guid(), Node1 = e2, Node2 = d2 }).Wait();
-            Poller.Tick();
-
-            ShellVm.ComplyWithRequest(new AddFiber() { Id = new Guid(), Node1 = e2, Node2 = finishId }).Wait();
-
-            ShellVm.ComplyWithRequest(new AddFiber() { Id = new Guid(), Node1 = zz, Node2 = z2 }).Wait();
-            Poller.Tick();
-        }
 
         public bool QuestionAnswer(string question, Answer answer, object model)
         {
