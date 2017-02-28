@@ -30,5 +30,32 @@
             foreach (var item in MainTreeView.Items)
                 SetExpandTo(false, (Leaf)item);
         }
+        private void TogglePorts_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (TogglePorts.IsChecked == true)
+                HidePorts();
+            if (TogglePorts.IsChecked == false)
+                ShowPorts();
+        }
+
+        private void HidePorts()
+        {
+            foreach (var item in MainTreeView.Items)
+            {
+                if (item is RtuLeaf)
+                {
+                    foreach (var child in ((RtuLeaf)item).Children)
+                    {
+                        if (child is PortLeaf)
+                            ((RtuLeaf)item).Children.Remove(child);
+                    }
+                }
+            }
+
+        }
+        private void ShowPorts()
+        {
+
+        }
     }
 }
