@@ -31,6 +31,7 @@ namespace Iit.Fibertest.TestBench
         }
 
         private Brush _color;
+
         public Brush Color
         {
             get { return _color; }
@@ -63,8 +64,19 @@ namespace Iit.Fibertest.TestBench
         public string SelectedValuePath => Title;
         public string DisplayValuePath => Title;
 
-        public bool IsExpanded { get; set; }
         public bool IsSelected { get; set; }
+
+        private bool _isExpanded;
+        public bool IsExpanded
+        {
+            get { return _isExpanded; }
+            set
+            {
+                if (value == _isExpanded) return;
+                _isExpanded = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         private IEnumerable<Leaf> GetAscendingHierarchy()
         {

@@ -449,7 +449,14 @@
     <Resource Include="Resources\Well\WellSuspected.png" />
     <Resource Include="Resources\Well\WellUser.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\Buttons\Collapse.png" />
+    <Resource Include="Resources\Buttons\Expand.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Buttons\HidePorts.png" />
+    <Resource Include="Resources\Buttons\ShowPorts.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

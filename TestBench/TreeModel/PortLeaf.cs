@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Media;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
@@ -9,13 +10,28 @@ namespace Iit.Fibertest.TestBench
     public class PortLeaf : Leaf
     {
         public readonly int PortNumber;
+
+        private Visibility _visibility;
+        public Visibility Visibility
+        {
+            get { return _visibility; }
+            set
+            {
+                if (value == _visibility) return;
+                _visibility = value;
+                NotifyOfPropertyChange();
+            }
+        }
         public override string Name => Title;
+
         public PortLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, int portNumber) : base(readModel, windowManager, bus)
         {
             PortNumber = portNumber;
             Title = string.Format(Resources.SID_Port_N, PortNumber);
             Color = Brushes.Blue;
+            Visibility = Visibility.Collapsed;
         }
+
 
         protected override List<MenuItemVm> GetMenuItems()
         {
