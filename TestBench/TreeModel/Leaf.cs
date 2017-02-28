@@ -64,7 +64,17 @@ namespace Iit.Fibertest.TestBench
         public string SelectedValuePath => Title;
         public string DisplayValuePath => Title;
 
-        public bool IsSelected { get; set; }
+        private bool _isSelected;
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                if (value == _isSelected) return;
+                _isSelected = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         private bool _isExpanded;
         public bool IsExpanded

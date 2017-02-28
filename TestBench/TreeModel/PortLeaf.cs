@@ -35,6 +35,8 @@ namespace Iit.Fibertest.TestBench
 
         protected override List<MenuItemVm> GetMenuItems()
         {
+            IsSelected = true;
+
             var menu = new List<MenuItemVm>();
             menu.AddRange(GetFreePortMenuItems());
             menu.AddRange(GetAnyPortMenuItems());
