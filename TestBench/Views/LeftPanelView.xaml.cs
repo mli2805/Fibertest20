@@ -1,6 +1,4 @@
-﻿using System.Collections.ObjectModel;
-
-namespace Iit.Fibertest.TestBench
+﻿namespace Iit.Fibertest.TestBench
 {
     /// <summary>
     /// Interaction logic for LeftPanelView.xaml
