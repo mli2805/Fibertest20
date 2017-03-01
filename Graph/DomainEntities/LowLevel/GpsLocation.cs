@@ -1,4 +1,6 @@
-﻿namespace Iit.Fibertest.Graph
+﻿using Iit.Fibertest.StringResources;
+
+namespace Iit.Fibertest.Graph
 {
     public class GpsLocation
     {
@@ -17,9 +19,9 @@
 
         public string ToString(GpsInputMode mode)
         {
-            string degreeSign = "\u00B0";
-            string minuteSign = "\u2032";
-            string secondSign = "\u2033";
+            string degreeSign = Resources.SID_Degree_sign;
+            string minuteSign = Resources.SID_Minute_sign;
+            string secondSign = Resources.SID_Second_sign;
             if (mode == GpsInputMode.Degrees)
             {
                 return $@"{Latitude:#0.000000}{degreeSign} {Longitude:#0.000000}{degreeSign}";

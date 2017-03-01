@@ -5,7 +5,7 @@ namespace Convertor
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Db db = new Db();
 
@@ -13,6 +13,7 @@ namespace Convertor
 
             db.Save();
 
+            Console.WriteLine("Done.");
             Console.ReadLine();
         }
     }
