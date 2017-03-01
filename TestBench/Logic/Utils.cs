@@ -79,7 +79,7 @@ namespace Iit.Fibertest.TestBench
                 case EquipmentType.Well:
                     return Resources.SID_Well;
                 case EquipmentType.Invisible:
-                    return Resources.SID_Invisible;
+                    return Resources.SID_Adjustment_node;
                 case EquipmentType.Sleeve:
                     return Resources.SID_Sleeve;
                 case EquipmentType.Cross:

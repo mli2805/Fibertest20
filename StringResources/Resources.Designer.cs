@@ -106,6 +106,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add adjustment node.
+        /// </summary>
+        public static string SID_Add_adjustment_node {
+            get {
+                return ResourceManager.GetString("SID_Add_adjustment_node", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Equipment.
         /// </summary>
         public static string SID_Add_Equipment {
@@ -124,11 +133,74 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add node with cable reserve.
+        /// </summary>
+        public static string SID_Add_node_with_cable_reserve {
+            get {
+                return ResourceManager.GetString("SID_Add_node_with_cable_reserve", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add node with cross.
+        /// </summary>
+        public static string SID_Add_node_with_cross {
+            get {
+                return ResourceManager.GetString("SID_Add_node_with_cross", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add node with other equipment.
+        /// </summary>
+        public static string SID_Add_node_with_other_equipment {
+            get {
+                return ResourceManager.GetString("SID_Add_node_with_other_equipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add node with sleeve.
+        /// </summary>
+        public static string SID_Add_node_with_sleeve {
+            get {
+                return ResourceManager.GetString("SID_Add_node_with_sleeve", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add node with terminal.
+        /// </summary>
+        public static string SID_Add_node_with_terminal {
+            get {
+                return ResourceManager.GetString("SID_Add_node_with_terminal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add RTU.
+        /// </summary>
+        public static string SID_Add_RTU {
+            get {
+                return ResourceManager.GetString("SID_Add_RTU", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Additional base ref.
         /// </summary>
         public static string SID_Additional_base_ref {
             get {
                 return ResourceManager.GetString("SID_Additional_base_ref", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Adjustment node.
+        /// </summary>
+        public static string SID_Adjustment_node {
+            get {
+                return ResourceManager.GetString("SID_Adjustment_node", resourceCulture);
             }
         }
         
@@ -439,15 +511,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invisible.
-        /// </summary>
-        public static string SID_Invisible {
-            get {
-                return ResourceManager.GetString("SID_Invisible", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to It&apos;s impossible to change trace with base reflectogram.
         /// </summary>
         public static string SID_It_s_impossible_to_change_trace_with_base_reflectogram {
@@ -592,6 +655,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Nodes with equipment.
+        /// </summary>
+        public static string SID_Nodes_with_equipment {
+            get {
+                return ResourceManager.GetString("SID_Nodes_with_equipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to noname RTU.
         /// </summary>
         public static string SID_noname_RTU {
@@ -615,6 +687,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Not_attached_traces_list {
             get {
                 return ResourceManager.GetString("SID_Not_attached_traces_list", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ok.
+        /// </summary>
+        public static string SID_Ok {
+            get {
+                return ResourceManager.GetString("SID_Ok", resourceCulture);
             }
         }
         

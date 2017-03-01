@@ -104,6 +104,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Logic\Export.cs" />
     <Compile Include="ReadModel\PathFinder.cs" />
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Autofac\AutofacEventSourcing.cs" />

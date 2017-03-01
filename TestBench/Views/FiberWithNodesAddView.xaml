@@ -8,23 +8,26 @@
         SizeToContent="Height" Width="350" WindowStartupLocation="CenterOwner">
     <StackPanel FocusManager.FocusedElement="{Binding ElementName=Count}">
         <StackPanel Orientation="Horizontal" Margin="5">
-            <TextBlock Text="{Binding CountLabel}" Margin="0,0,15,0"/>
+            <TextBlock Text="{x:Static stringResources:Resources.SID_Quantity}" Margin="5,0,15,0"/>
             <TextBox x:Name="Count" Width="40"  Text="{Binding Count}"/>
         </StackPanel>
-        <GroupBox Header="{Binding Type}" Margin="0,5" Padding="0,15,0,0">
+        <GroupBox Header="{x:Static stringResources:Resources.SID_Nodes}" Margin="5" Padding="0,15,0,10">
             <StackPanel>
-                <RadioButton Margin="5" GroupName="equipment" IsChecked="{Binding Well.IsChecked}" Content="{Binding Well.Title}" />
-                <RadioButton Margin="5" GroupName="equipment" IsChecked="{Binding Invisible.IsChecked}" Content="{Binding Invisible.Title}" />
-
-                <RadioButton Margin="5" GroupName="equipment" IsChecked="{Binding CableReserve.IsChecked}" Content="{Binding CableReserve.Title}" />
-                <RadioButton Margin="5" GroupName="equipment" IsChecked="{Binding Sleeve.IsChecked}" Content="{Binding Sleeve.Title}" />
-                <RadioButton Margin="5" GroupName="equipment" IsChecked="{Binding Cross.IsChecked}" Content="{Binding Cross.Title}" />
-                <RadioButton Margin="5" GroupName="equipment" IsChecked="{Binding Terminal.IsChecked}" Content="{Binding Terminal.Title}" />
-                <RadioButton Margin="5" GroupName="equipment" IsChecked="{Binding Other.IsChecked}" Content="{Binding Other.Title}" />
+                <RadioButton Margin="5" GroupName="1" IsChecked="{Binding Node.IsChecked}" Content="{Binding Node.Title}" />
+                <RadioButton Margin="5" GroupName="1" IsChecked="{Binding AdjustmentNode.IsChecked}" Content="{Binding AdjustmentNode.Title}" />
             </StackPanel>
         </GroupBox>
-        <StackPanel Orientation="Horizontal" Margin="5">
-            <Button Name="Save" Content="{x:Static stringResources:Resources.SID_Save}" Margin="5" IsDefault="True" Width="100"/>
+        <GroupBox Header="{x:Static stringResources:Resources.SID_Nodes_with_equipment}" Margin="5" Padding="0,15,0,10">
+            <StackPanel>
+                <RadioButton Margin="5" GroupName="1" IsChecked="{Binding CableReserve.IsChecked}" Content="{Binding CableReserve.Title}" />
+                <RadioButton Margin="5" GroupName="1" IsChecked="{Binding Sleeve.IsChecked}" Content="{Binding Sleeve.Title}" />
+                <RadioButton Margin="5" GroupName="1" IsChecked="{Binding Cross.IsChecked}" Content="{Binding Cross.Title}" />
+                <RadioButton Margin="5" GroupName="1" IsChecked="{Binding Terminal.IsChecked}" Content="{Binding Terminal.Title}" />
+                <RadioButton Margin="5" GroupName="1" IsChecked="{Binding Other.IsChecked}" Content="{Binding Other.Title}" />
+            </StackPanel>
+        </GroupBox>
+        <StackPanel Orientation="Horizontal" Margin="10,15,10,5">
+            <Button Name="Save" Content="{x:Static stringResources:Resources.SID_Ok}" Margin="5" IsDefault="True" Width="100"/>
             <Button Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}" Margin="5" IsCancel="True" Width="100"/>
         </StackPanel>
     </StackPanel>

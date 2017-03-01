@@ -6,15 +6,11 @@ namespace Iit.Fibertest.TestBench
 {
     public class FiberWithNodesAddViewModel : Screen
     {
-        public string CountLabel { get; set; } = Resources.SID_Quantity;
-        public string Type { get; set; } = Resources.SID_Type;
-
         public bool Result { get; set; }
         public int Count { get; set; }
 
-
-        public RadioButtonModel Well { get; set; } = new RadioButtonModel { Title = Resources.SID_Well, IsChecked = false };
-        public RadioButtonModel Invisible { get; } = new RadioButtonModel { Title = Resources.SID_Invisible, IsChecked = false };
+        public RadioButtonModel Node { get; set; } = new RadioButtonModel { Title = Resources.SID_Node, IsChecked = false };
+        public RadioButtonModel AdjustmentNode { get; } = new RadioButtonModel { Title = Resources.SID_Adjustment_node, IsChecked = false };
         public RadioButtonModel CableReserve { get; set; } = new RadioButtonModel { Title = Resources.SID_CableReserve, IsChecked = false };
         public RadioButtonModel Sleeve { get; } = new RadioButtonModel { Title = Resources.SID_Sleeve, IsChecked = true };
         public RadioButtonModel Cross { get; } = new RadioButtonModel { Title = Resources.SID_Cross, IsChecked = false };
@@ -40,9 +36,9 @@ namespace Iit.Fibertest.TestBench
 
         public EquipmentType GetSelectedType()
         {
-            if (Well.IsChecked)
+            if (Node.IsChecked)
                 return EquipmentType.Well;
-            if (Invisible.IsChecked)
+            if (AdjustmentNode.IsChecked)
                 return EquipmentType.Invisible;
 
             if (CableReserve.IsChecked)
@@ -62,10 +58,10 @@ namespace Iit.Fibertest.TestBench
             switch (type)
             {
                 case EquipmentType.Well:
-                    Well.IsChecked = true;
+                    Node.IsChecked = true;
                     break;
                 case EquipmentType.Invisible:
-                    Invisible.IsChecked = true;
+                    AdjustmentNode.IsChecked = true;
                     break;
                 case EquipmentType.CableReserve:
                     CableReserve.IsChecked = true;
@@ -82,7 +78,6 @@ namespace Iit.Fibertest.TestBench
                 case EquipmentType.Sleeve:
                     Sleeve.IsChecked = true;
                     break;
-
             }
         }
     }

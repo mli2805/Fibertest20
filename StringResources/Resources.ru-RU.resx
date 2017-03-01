@@ -213,8 +213,8 @@
   <data name="SID_Well" xml:space="preserve">
     <value>Колодец</value>
   </data>
-  <data name="SID_Invisible" xml:space="preserve">
-    <value>Невидимый</value>
+  <data name="SID_Adjustment_node" xml:space="preserve">
+    <value>Узел привязки</value>
   </data>
   <data name="SID_There_is_a_rtu_with_the_same_title" xml:space="preserve">
     <value>Существует RTU с таким именем</value>
@@ -451,5 +451,32 @@
   </data>
   <data name="SID_Trace_definition" xml:space="preserve">
     <value>Определение трассы</value>
+  </data>
+  <data name="SID_Add_adjustment_node" xml:space="preserve">
+    <value>Добавить узел привязки</value>
+  </data>
+  <data name="SID_Add_node_with_cable_reserve" xml:space="preserve">
+    <value>Добавить узел с запасом кабеля</value>
+  </data>
+  <data name="SID_Add_node_with_sleeve" xml:space="preserve">
+    <value>Добавить узел с муфтой</value>
+  </data>
+  <data name="SID_Add_node_with_cross" xml:space="preserve">
+    <value>Добавить узел с проключением</value>
+  </data>
+  <data name="SID_Add_node_with_terminal" xml:space="preserve">
+    <value>Добавить узел с оконечным кроссом</value>
+  </data>
+  <data name="SID_Add_node_with_other_equipment" xml:space="preserve">
+    <value>Добавить узел с другим оборудованием</value>
+  </data>
+  <data name="SID_Add_RTU" xml:space="preserve">
+    <value>Добавить RTU</value>
+  </data>
+  <data name="SID_Nodes_with_equipment" xml:space="preserve">
+    <value>Узлы с оборудованием</value>
+  </data>
+  <data name="SID_Ok" xml:space="preserve">
+    <value>Ок</value>
   </data>
 </root>

@@ -4,22 +4,23 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:testBench="clr-namespace:Iit.Fibertest.TestBench"
+             xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Control.Resources>
         <!-- call this resource from code -->
         <!-- ReSharper disable once Xaml.RedundantResource -->
         <ContextMenu x:Key="MapContextMenu">
-            <MenuItem Header="Добавить узел" Tag="5" Click="AddNodeOnClick"/>
-            <MenuItem Header="Добавить узел-точку только для рисования" Tag="7" Click="AddNodeOnClick"/>
+            <MenuItem Header="{x:Static stringResources:Resources.SID_Add_node}" Tag="5" Click="AddNodeOnClick"/>
+            <MenuItem Header="{x:Static stringResources:Resources.SID_Add_adjustment_node}" Tag="7" Click="AddNodeOnClick"/>
             <Separator />
-            <MenuItem Header="Добавить узел с кабельным резервом" Tag="1" Click="AddNodeOnClick"/>
-            <MenuItem Header="Добавить узел с муфтой" Tag="2" Click="AddNodeOnClick"/>
-            <MenuItem Header="Добавить узел с проключением" Tag="3" Click="AddNodeOnClick"/>
-            <MenuItem Header="Добавить узел с оконечным кроссом" Tag="6" Click="AddNodeOnClick"/>
-            <MenuItem Header="Добавить узел с другим оборудованием" Tag="0" Click="AddNodeOnClick"/>
+            <MenuItem Header="{x:Static stringResources:Resources.SID_Add_node_with_cable_reserve}" Tag="1" Click="AddNodeOnClick"/>
+            <MenuItem Header="{x:Static stringResources:Resources.SID_Add_node_with_sleeve}" Tag="2" Click="AddNodeOnClick"/>
+            <MenuItem Header="{x:Static stringResources:Resources.SID_Add_node_with_cross}" Tag="3" Click="AddNodeOnClick"/>
+            <MenuItem Header="{x:Static stringResources:Resources.SID_Add_node_with_terminal}" Tag="6" Click="AddNodeOnClick"/>
+            <MenuItem Header="{x:Static stringResources:Resources.SID_Add_node_with_other_equipment}" Tag="0" Click="AddNodeOnClick"/>
             <Separator />
-            <MenuItem Header="Добавить РТУ" Tag="4" Click="AddNodeOnClick"/>
+            <MenuItem Header="{x:Static stringResources:Resources.SID_Add_RTU}" Tag="4" Click="AddNodeOnClick"/>
         </ContextMenu>
     </Control.Resources>
     <Grid>
