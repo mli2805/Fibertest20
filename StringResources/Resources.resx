@@ -479,4 +479,7 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_Ok" xml:space="preserve">
     <value>Ok</value>
   </data>
+	<data name="SID_Coordinates" xml:space="preserve">
+    <value>Coordinates</value>
+  </data>
 </root>

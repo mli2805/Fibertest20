@@ -76,6 +76,7 @@
     <Compile Include="DomainEntities\Enums\BaseRefType.cs" />
     <Compile Include="DomainEntities\Enums\EquipmentType.cs" />
     <Compile Include="DomainEntities\Enums\FiberState.cs" />
+    <Compile Include="DomainEntities\Enums\GpsInputMode.cs" />
     <Compile Include="DomainEntities\Enums\LeafType.cs" />
     <Compile Include="DomainEntities\Enums\MonitoringState.cs" />
     <Compile Include="DomainEntities\Enums\RtuPartState.cs" />

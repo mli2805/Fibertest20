@@ -1,14 +1,8 @@
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.TestBench
 {
-    public enum GpsInputMode
-    {
-        Degrees,
-        DegreesAndMinutes,
-        DegreesMinutesAndSeconds
-    }
-
     public class GpsInputModeComboItem
     {
         public GpsInputMode Mode { get; set; }

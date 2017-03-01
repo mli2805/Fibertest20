@@ -104,6 +104,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="GpsInputControl\GpsInputModeComboItem.cs" />
     <Compile Include="Logic\Export.cs" />
     <Compile Include="ReadModel\PathFinder.cs" />
     <Compile Include="AppBootstrapper.cs" />
@@ -129,7 +130,6 @@
     <Compile Include="Requests\RequestUpdateFiber.cs" />
     <Compile Include="Requests\RequestUpdateRtu.cs" />
     <Compile Include="Autofac\AutofacUi.cs" />
-    <Compile Include="GpsInputControl\GpsInputMode.cs" />
     <Compile Include="GpsInputControl\GpsInputView.xaml.cs">
       <DependentUpon>GpsInputView.xaml</DependentUpon>
     </Compile>

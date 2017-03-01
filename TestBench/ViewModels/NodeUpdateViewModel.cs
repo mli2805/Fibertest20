@@ -16,6 +16,7 @@ namespace Iit.Fibertest.TestBench
         private readonly IWindowManager _windowManager;
         private readonly Bus _bus;
         private readonly Node _originalNode;
+        private  GpsLocation _nodeCoors;
         public bool IsClosed { get; set; }
 
         private string _title;
@@ -26,6 +27,34 @@ namespace Iit.Fibertest.TestBench
             {
                 if (value == _title) return;
                 _title = value;
+                NotifyOfPropertyChange();
+            }
+        }
+        public List<GpsInputModeComboItem> GpsInputModes { get; set; } =
+            (from mode in Enum.GetValues(typeof(GpsInputMode)).OfType<GpsInputMode>()
+             select new GpsInputModeComboItem(mode)).ToList();
+
+        private GpsInputModeComboItem _selectedGpsInputMode;
+        public GpsInputModeComboItem SelectedGpsInputMode
+        {
+            get { return _selectedGpsInputMode; }
+            set
+            {
+                if (Equals(value, _selectedGpsInputMode)) return;
+                _selectedGpsInputMode = value;
+                NotifyOfPropertyChange();
+                Coors = _nodeCoors.ToString(_selectedGpsInputMode.Mode);
+            }
+        }
+
+        private string _coors;
+        public string Coors
+        {
+            get { return _coors; }
+            set
+            {
+                if (value == _coors) return;
+                _coors = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -66,6 +95,7 @@ namespace Iit.Fibertest.TestBench
         }
 
         private object _command;
+
         public object Command
         {
             get { return _command; }
@@ -83,7 +113,9 @@ namespace Iit.Fibertest.TestBench
             _windowManager = windowManager;
             _bus = bus;
             _originalNode = _readModel.Nodes.First(n => n.Id == nodeId);
+            _nodeCoors = new GpsLocation(_originalNode.Latitude, _originalNode.Longitude);
             Title = _originalNode.Title;
+            SelectedGpsInputMode = GpsInputModes.First();
             Comment = _originalNode.Comment;
 
             TracesInNode = _readModel.Traces.Where(t => t.Nodes.Contains(nodeId)).ToList();
@@ -119,11 +151,11 @@ namespace Iit.Fibertest.TestBench
         {
             if (e.PropertyName != "Command")
                 return;
-            var cmd = ((EqItemVm) sender).Command;
+            var cmd = ((EqItemVm)sender).Command;
             if (cmd is UpdateEquipment)
                 LaunchUpdateEquipmentView(((UpdateEquipment)cmd).Id);
             else
-                RemoveEquipment((RemoveEquipment)cmd); 
+                RemoveEquipment((RemoveEquipment)cmd);
         }
 
         public void AddEquipment()
@@ -180,7 +212,7 @@ namespace Iit.Fibertest.TestBench
                     Id = _originalNode.Id,
                     Title = _title,
                     Comment = _comment
-                } 
+                }
                 : null;
 
             CloseView();

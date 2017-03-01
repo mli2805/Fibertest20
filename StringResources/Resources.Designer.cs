@@ -322,6 +322,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Coordinates.
+        /// </summary>
+        public static string SID_Coordinates {
+            get {
+                return ResourceManager.GetString("SID_Coordinates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cross.
         /// </summary>
         public static string SID_Cross {
