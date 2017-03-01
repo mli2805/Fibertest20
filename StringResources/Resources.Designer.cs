@@ -61,33 +61,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to +-ddd.dddddd.
-        /// </summary>
-        public static string SID___ddd_dddddd {
-            get {
-                return ResourceManager.GetString("SID___ddd_dddddd", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to +-ddd mm.mmmm.
-        /// </summary>
-        public static string SID___ddd_mm_mmmm {
-            get {
-                return ResourceManager.GetString("SID___ddd_mm_mmmm", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to +-ddd mm ss.ss.
-        /// </summary>
-        public static string SID___ddd_mm_ss_ss {
-            get {
-                return ResourceManager.GetString("SID___ddd_mm_ss_ss", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Accept the path?.
         /// </summary>
         public static string SID_Accept_the_path {
@@ -489,6 +462,33 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Gps_Length_m {
             get {
                 return ResourceManager.GetString("SID_Gps_Length_m", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ±ddd.dddddd°.
+        /// </summary>
+        public static string SID_In_degrees {
+            get {
+                return ResourceManager.GetString("SID_In_degrees", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ±ddd°mm.mmmm′.
+        /// </summary>
+        public static string SID_In_degrees_and_minutes {
+            get {
+                return ResourceManager.GetString("SID_In_degrees_and_minutes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ±ddd°mm′ss.ss″.
+        /// </summary>
+        public static string SID_In_degrees_minutes_and_seconds {
+            get {
+                return ResourceManager.GetString("SID_In_degrees_minutes_and_seconds", resourceCulture);
             }
         }
         

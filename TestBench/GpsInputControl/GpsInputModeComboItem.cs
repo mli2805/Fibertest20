@@ -17,11 +17,11 @@ namespace Iit.Fibertest.TestBench
             switch (Mode)
             {
                 case GpsInputMode.Degrees:
-                    return Resources.SID___ddd_dddddd;
+                    return Resources.SID_In_degrees;
                 case GpsInputMode.DegreesAndMinutes:
-                    return Resources.SID___ddd_mm_mmmm;
+                    return Resources.SID_In_degrees_and_minutes;
                 case GpsInputMode.DegreesMinutesAndSeconds:
-                    return Resources.SID___ddd_mm_ss_ss;
+                    return Resources.SID_In_degrees_minutes_and_seconds;
                 default:
                     return "";
             }

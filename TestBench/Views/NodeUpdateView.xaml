@@ -4,7 +4,7 @@
         xmlns:cal="http://www.caliburnproject.org"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         cal:Bind.ModelWithoutContext="{Binding .}"
-        SizeToContent="Height" Width="400" WindowStartupLocation="CenterScreen"
+        SizeToContent="Height" Width="450" WindowStartupLocation="CenterScreen"
         >
     <StackPanel Orientation="Vertical">
         <GroupBox Margin="5" Header="{x:Static stringResources:Resources.SID_Node}">
@@ -15,7 +15,7 @@
                 </DockPanel>
                 <DockPanel>
                     <TextBlock DockPanel.Dock="Left" Margin="5" Text="{x:Static stringResources:Resources.SID_Coordinates}" />
-                    <ComboBox  DockPanel.Dock="Right" Height="22" Width="100" Margin="0,0,5,0"
+                    <ComboBox  DockPanel.Dock="Right" Height="22" Width="150" Margin="0,0,5,0"
                                ItemsSource="{Binding GpsInputModes}" SelectedItem="{Binding SelectedGpsInputMode, Mode=TwoWay}"/>
                     <TextBlock  Margin="5" Text="{Binding Coors}" />
                 </DockPanel>

@@ -105,7 +105,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="GpsInputControl\GpsInputModeComboItem.cs" />
-    <Compile Include="Logic\Export.cs" />
     <Compile Include="ReadModel\PathFinder.cs" />
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Autofac\AutofacEventSourcing.cs" />
