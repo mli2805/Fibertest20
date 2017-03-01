@@ -71,7 +71,7 @@ namespace Iit.Fibertest.TestBench
         private void Initialize()
         {
             TraceTitle = _trace.Title;
-            TracePortOnRtu = _trace.Port.ToString();
+            TracePortOnRtu = _trace.Port > 0 ? _trace.Port.ToString() : Resources.SID_not_attached;
             PreciseBaseFilename = _trace.PreciseId == Guid.Empty ? "" : SavedInDb;
             FastBaseFilename = _trace.FastId == Guid.Empty ? "" : SavedInDb;
             AdditionalBaseFilename = _trace.AdditionalId == Guid.Empty ? "" : SavedInDb;
