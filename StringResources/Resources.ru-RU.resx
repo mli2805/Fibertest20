@@ -491,4 +491,7 @@
 	<data name="SID_Second_sign" xml:space="preserve">
 		<value>″</value>
 	</data>
+	<data name="SID_RTU_Settings" xml:space="preserve">
+		<value>Настройки RTU</value>
+	</data>
 </root>

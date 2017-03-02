@@ -871,6 +871,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to RTU Settings.
+        /// </summary>
+        public static string SID_RTU_Settings {
+            get {
+                return ResourceManager.GetString("SID_RTU_Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
         public static string SID_Save {

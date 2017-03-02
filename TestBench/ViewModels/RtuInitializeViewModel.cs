@@ -2,6 +2,7 @@
 using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.TestBench
 {
@@ -19,26 +20,23 @@ namespace Iit.Fibertest.TestBench
         private string _serial;
 
         private readonly Guid _rtuId;
-        private readonly Rtu _originalRtu;
-        private readonly ReadModel _readModel;
         private readonly Bus _bus;
 
         public RtuInitializeViewModel(Guid rtuId, ReadModel readModel, Bus bus)
         {
             _rtuId = rtuId;
-            _readModel = readModel;
             _bus = bus;
 
-            _originalRtu = _readModel.Rtus.First(r => r.Id == _rtuId);
-            Title = _originalRtu.Title;
-            Comment = _originalRtu.Comment;
-            Serial = _originalRtu.Serial;
-            PortCount = $@"{_originalRtu.OwnPortCount} / {_originalRtu.FullPortCount}";
+            var originalRtu = readModel.Rtus.First(r => r.Id == _rtuId);
+            Title = originalRtu.Title;
+            Comment = originalRtu.Comment;
+            Serial = originalRtu.Serial;
+            PortCount = $@"{originalRtu.OwnPortCount} / {originalRtu.FullPortCount}";
         }
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = "RTU Settings";
+            DisplayName = Resources.SID_RTU_Settings;
         }
 
         public void Initialize()
