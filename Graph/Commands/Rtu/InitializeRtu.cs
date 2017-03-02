@@ -9,6 +9,7 @@ namespace Iit.Fibertest.Graph
         public RtuPartState MainChannelState { get; set; }
         public NetAddress ReserveChannel { get; set; }
         public RtuPartState ReserveChannelState { get; set; }
+        public NetAddress OtdrNetAddress { get; set; }
         public string Serial { get; set; }
         public int OwnPortCount { get; set; }
         public int FullPortCount { get; set; }

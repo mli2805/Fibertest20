@@ -35,6 +35,9 @@ namespace Convertor
                     case "NODES::":
                         ParseNode(parts);
                         break;
+                    case "RTU::":
+                        ParseRtu(parts);
+                        break;
                     case "FIBERS::":
                         ParseFibers(parts);
                         break;
@@ -65,6 +68,24 @@ namespace Convertor
             _traceEventsUnderConstruction.ForEach(e => _db.Add(e));
         }
 
+        private void ParseRtu(string[] parts)
+        {
+            var nodeId = Int32.Parse(parts[1]);
+            var nodeGuid = _nodesDictionary[nodeId];
+            var rtuGuid = _nodeToRtuDictionary[nodeGuid];
+
+            _db.Add(new RtuInitialized()
+            {
+                Id = rtuGuid,
+                OwnPortCount = Int32.Parse(parts[2]),
+                FullPortCount = Int32.Parse(parts[2]),
+                Serial = Int32.Parse(parts[4]).ToString(),
+                MainChannel = new NetAddress() { Ip4Address = parts[5], Port = Int32.Parse(parts[6]) },
+                OtdrNetAddress = new NetAddress() { Ip4Address = parts[7], Port = Int32.Parse(parts[8]) },
+                ReserveChannel = new NetAddress() { Ip4Address = parts[9], Port = Int32.Parse(parts[10]) },
+            });
+        }
+
         private void ParseNode(string[] parts)
         {
             var nodeId = Int32.Parse(parts[1]);
@@ -75,7 +96,13 @@ namespace Convertor
             if (type == EquipmentType.Rtu)
             {
                 var rtuGuid = Guid.NewGuid();
-                _db.Add(new RtuAtGpsLocationAdded() { Id = rtuGuid, NodeId = nodeGuid, Latitude = double.Parse(parts[3]), Longitude = double.Parse(parts[4]), });
+                _db.Add(new RtuAtGpsLocationAdded()
+                {
+                    Id = rtuGuid,
+                    NodeId = nodeGuid,
+                    Latitude = double.Parse(parts[3]),
+                    Longitude = double.Parse(parts[4]),
+                });
                 _db.Add(new RtuUpdated()
                 {
                     Id = rtuGuid,
@@ -85,8 +112,20 @@ namespace Convertor
                 _nodeToRtuDictionary.Add(nodeGuid, rtuGuid);
             }
             else
-                _db.Add(new NodeAdded() { Id = nodeGuid, Latitude = double.Parse(parts[3]), Longitude = double.Parse(parts[4]), });
-            _db.Add(new NodeUpdated() { Id = nodeGuid, Title = parts[5], Comment = parts[6] });
+            {
+                _db.Add(new NodeAdded()
+                {
+                    Id = nodeGuid,
+                    Latitude = double.Parse(parts[3]),
+                    Longitude = double.Parse(parts[4]),
+                });
+                _db.Add(new NodeUpdated()
+                {
+                    Id = nodeGuid, Title = parts[5],
+                    Comment = parts[6]
+                });
+            }
+
         }
 
         private void ParseFibers(string[] parts)
