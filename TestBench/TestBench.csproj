@@ -113,7 +113,11 @@
     <Compile Include="ReadModel\ReadModelExtensions.cs" />
     <Compile Include="Requests\RequestRemoveRtu.cs" />
     <Compile Include="ViewModels\Primitive\NodesStatisticsItem.cs" />
+    <Compile Include="ViewModels\RtuInitializeViewModel.cs" />
     <Compile Include="ViewModels\TraceToAttachViewModel.cs" />
+    <Compile Include="Views\RtuInitializeView.xaml.cs">
+      <DependentUpon>RtuInitializeView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\TraceToAttachView.xaml.cs">
       <DependentUpon>TraceToAttachView.xaml</DependentUpon>
     </Compile>
@@ -279,6 +283,10 @@
     <Page Include="Views\NodeUpdateView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\RtuInitializeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ShellView.xaml">
       <Generator>MSBuild:Compile</Generator>

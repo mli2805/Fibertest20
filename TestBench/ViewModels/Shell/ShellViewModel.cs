@@ -27,6 +27,7 @@ namespace Iit.Fibertest.TestBench
             MyLeftPanelViewModel = new LeftPanelViewModel(treeReadModel);
             Bus = bus;
             LocalDb = db;
+            LocalDb.Load();
             GraphReadModel = graphReadModel;
             _windowManager = windowManager;
 

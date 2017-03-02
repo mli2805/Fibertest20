@@ -64,6 +64,7 @@
     <Compile Include="Commands\Node\AddNodeIntoFiber.cs" />
     <Compile Include="Commands\Node\MoveNode.cs" />
     <Compile Include="Commands\Rtu\AddRtuAtGpsLocation.cs" />
+    <Compile Include="Commands\Rtu\InitializeRtu.cs" />
     <Compile Include="Commands\Rtu\RemoveRtu.cs" />
     <Compile Include="Commands\Rtu\UpdateRtu.cs" />
     <Compile Include="Commands\Trace\AttachTrace.cs" />
@@ -89,7 +90,9 @@
     <Compile Include="Events\Fiber\FiberRemoved.cs" />
     <Compile Include="Events\Node\NodeIntoFiberAdded.cs" />
     <Compile Include="Events\Node\NodeMoved.cs" />
+    <Compile Include="DomainEntities\LowLevel\NetAddress.cs" />
     <Compile Include="Events\Rtu\RtuAtGpsLocationAdded.cs" />
+    <Compile Include="Events\Rtu\RtuInitialized.cs" />
     <Compile Include="Events\Rtu\RtuRemoved.cs" />
     <Compile Include="Events\Rtu\RtuUpdated.cs" />
     <Compile Include="Events\Trace\TraceAttached.cs" />

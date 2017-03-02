@@ -30,20 +30,27 @@ namespace Iit.Fibertest.TestBench
                 Color = Brushes.DarkGray,
             };
 
-            // TODO this should be set by rtu initialization
-            rtuLeaf.PortCount = 8;
-            rtuLeaf.MonitoringState = MonitoringState.On;
-            rtuLeaf.MainChannelState = RtuPartState.Normal;
+            rtuLeaf.IsExpanded = true;
+            Tree.Add(rtuLeaf);
+        }
+
+        public void Apply(RtuInitialized e)
+        {
+            var rtuLeaf = (RtuLeaf)Tree.GetById(e.Id);
+
+            rtuLeaf.OwnPortCount = e.OwnPortCount;
+            rtuLeaf.FullPortCount = e.FullPortCount;
+            rtuLeaf.MainChannelState = e.MainChannelState;
+            rtuLeaf.ReserveChannelState = e.ReserveChannelState;
+            rtuLeaf.MonitoringState = MonitoringState.Off;
+
             rtuLeaf.Color = Brushes.Black;
-            for (int i = 1; i <= rtuLeaf.PortCount; i++)
+            for (int i = 1; i <= rtuLeaf.FullPortCount; i++)
             {
                 var port = new PortLeaf(_readModel, _windowManager, _bus, i);
                 rtuLeaf.Children.Add(port);
                 port.Parent = rtuLeaf;
             }
-
-            rtuLeaf.IsExpanded = true;
-            Tree.Add(rtuLeaf);
         }
 
         public void Apply(RtuUpdated e)

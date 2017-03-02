@@ -16,11 +16,6 @@ namespace Iit.Fibertest.Graph
             Events.Add(e);
         }
 
-        public Db()
-        {
-            Load();
-        }
-
         public void Save()
         {
             try

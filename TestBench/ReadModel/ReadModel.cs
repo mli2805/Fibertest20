@@ -173,6 +173,16 @@ namespace Iit.Fibertest.TestBench
             Rtus.Add(rtu);
         }
 
+        public void Apply(RtuInitialized e)
+        {
+            var rtu = Rtus.First(r => r.Id == e.Id);
+            rtu.OwnPortCount = e.OwnPortCount;
+            rtu.FullPortCount = e.FullPortCount;
+            rtu.MainChannelState = e.MainChannelState;
+            rtu.ReserveChannelState = e.ReserveChannelState;
+            rtu.MonitoringState = MonitoringState.Off;
+        }
+
         public void Apply(RtuUpdated e)
         {
             var rtu = Rtus.First(r => r.Id == e.Id);
