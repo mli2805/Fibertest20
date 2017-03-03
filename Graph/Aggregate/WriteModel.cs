@@ -23,6 +23,7 @@ namespace Iit.Fibertest.Graph
         public WriteModel(Db db)
         {
             Db = db;
+            Db.Load();
             foreach (var dbEvent in Db.Events) // on start replay all existing events
             {
                 this.AsDynamic().Apply(dbEvent);

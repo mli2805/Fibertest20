@@ -22,4 +22,5 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
 4.  варнинги решарпера на заммел NodeUpdateView, там дочерняя модель в главной
 	работает, но подчеркивает
 
+03/03/2017
 
