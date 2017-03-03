@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Linq;
+using System.Windows.Controls;
 using GMap.NET.WindowsPresentation;
 using Iit.Fibertest.Graph;
 
@@ -33,8 +34,12 @@ namespace Iit.Fibertest.TestBench
 
         private bool CanRemoveFiber(object parameter)
         {
-            return true;
+            if (parameter == null)
+                return false;
+            var fiberVm = GraphReadModel.Fibers.First(f => f.Id == ((GMapRoute)parameter).Id);
+            return fiberVm.State == FiberState.NotInTrace;
         }
+
         private void AskRemoveFiber(object parameter)
         {
             var route = (GMapRoute)parameter;
