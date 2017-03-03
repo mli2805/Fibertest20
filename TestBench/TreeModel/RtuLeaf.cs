@@ -64,6 +64,23 @@ namespace Iit.Fibertest.TestBench
         {
         }
 
+        public void RemoveFreePorts()
+        {
+            foreach (var leaf in Children.ToList())
+                if (leaf is PortLeaf)
+                    Children.Remove(leaf);
+        }
+
+        public void RestoreFreePorts()
+        {
+            var traces = Children.ToList();
+            for (int i = 0; i < OwnPortCount; i++)
+            {
+                if (traces.FirstOrDefault(l=>((TraceLeaf)l).PortNumber == i+1) == null)
+                    Children.Insert(i, new PortLeaf(ReadModel,WindowManager,Bus,i+1) {Parent = this});
+            }
+        }
+
         protected override List<MenuItemVm> GetMenuItems()
         {
             var menu = new List<MenuItemVm>();
