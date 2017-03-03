@@ -9,7 +9,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class TraceDetachedSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest();
+        private readonly SutForTraceSimpleOperations _sut = new SutForTraceSimpleOperations();
         private Guid _traceId;
 
         [Given(@"Создана трассу")]
@@ -21,6 +21,7 @@ namespace Graph.Tests
         [Given(@"Трасса присоединена к порту РТУ")]
         public void GivenТрассаПрисоединенаКПортуРту()
         {
+            _sut.InitializeRtu(_sut.ReadModel.Traces.First(t => t.Id == _traceId).RtuId, 8);
             var cmd2 = new AttachTrace()
             {
                 Port = 3,

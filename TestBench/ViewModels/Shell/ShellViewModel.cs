@@ -145,6 +145,13 @@ namespace Iit.Fibertest.TestBench
             cmd.NodeId = Guid.NewGuid();
             await Bus.SendCommand(cmd);
         }
+
+        public async Task ComplyWithRequest(InitializeRtu request)
+        {
+            var cmd = request;
+            await Bus.SendCommand(cmd);
+        }
+
         public async Task ComplyWithRequest(RequestUpdateRtu request)
         {
             var cmd = PrepareCommand(request);

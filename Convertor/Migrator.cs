@@ -29,7 +29,10 @@ namespace Convertor
 
             foreach (var line in lines)
             {
-                var parts = line.Split('|')[1].Trim().Split(';');
+                var logLineParts = line.Split('|');
+                if (logLineParts.Length == 1)
+                    continue;
+                var parts = logLineParts[1].Trim().Split(';');
                 switch (parts[0])
                 {
                     case "NODES::":
@@ -50,7 +53,10 @@ namespace Convertor
             // second pass - all nodes and equipment loaded, now we can process traces
             foreach (var line in lines)
             {
-                var parts = line.Split('|')[1].Trim().Split(';');
+                var logLineParts = line.Split('|');
+                if (logLineParts.Length == 1)
+                    continue;
+                var parts = logLineParts[1].Trim().Split(';');
                 switch (parts[0])
                 {
                     case "TRACES::":

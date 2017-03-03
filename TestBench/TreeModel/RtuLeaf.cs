@@ -77,7 +77,7 @@ namespace Iit.Fibertest.TestBench
             for (int i = 0; i < OwnPortCount; i++)
             {
                 if (traces.FirstOrDefault(l=>((TraceLeaf)l).PortNumber == i+1) == null)
-                    Children.Insert(i, new PortLeaf(ReadModel,WindowManager,Bus,i+1) {Parent = this});
+                    Children.Insert(i, new PortLeaf(ReadModel,WindowManager,Bus, this, i+1));
             }
         }
 
