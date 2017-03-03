@@ -95,7 +95,7 @@ namespace Iit.Fibertest.TestBench
 
             if (!Fibers.Any(f => f.Node1 == nodeBefore && f.Node2 == nodeAfter
                                || f.Node2 == nodeBefore && f.Node1 == nodeAfter))
-                Apply(new FiberAdded() { Id = fiberId, Node1 = nodeBefore, Node2 = nodeAfter });
+                Fibers.Add(new Fiber() {Id = fiberId, Node1 = nodeBefore, Node2 = nodeAfter});
         }
         #endregion
 

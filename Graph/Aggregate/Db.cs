@@ -11,6 +11,11 @@ namespace Iit.Fibertest.Graph
 
         public List<object> Events { get; private set; } = new List<object>();
 
+        public Db()
+        {
+            Load();
+        }
+
         public void Add(object e)
         {
             Events.Add(e);
@@ -32,7 +37,7 @@ namespace Iit.Fibertest.Graph
             }
         }
 
-        public void Load()
+        private void Load()
         {
             try
             {

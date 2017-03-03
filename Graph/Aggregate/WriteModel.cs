@@ -23,7 +23,6 @@ namespace Iit.Fibertest.Graph
         public WriteModel(Db db)
         {
             Db = db;
-            Db.Load();
             foreach (var dbEvent in Db.Events) // on start replay all existing events
             {
                 this.AsDynamic().Apply(dbEvent);
@@ -142,9 +141,9 @@ namespace Iit.Fibertest.Graph
             var nodeBefore = trace.Nodes[idxInTrace - 1];
             var nodeAfter = trace.Nodes[idxInTrace + 1];
 
-            if (!_fibers.Any(f=>f.Node1 == nodeBefore && f.Node2 == nodeAfter
-                               || f.Node2 == nodeBefore && f.Node1 == nodeAfter))
-                Apply(new FiberAdded() { Id =  fiberId, Node1 = nodeBefore, Node2 = nodeAfter });
+            if (!_fibers.Any(f => f.Node1 == nodeBefore && f.Node2 == nodeAfter
+                                  || f.Node2 == nodeBefore && f.Node1 == nodeAfter))
+                _fibers.Add(new Fiber() {Id = fiberId, Node1 = nodeBefore, Node2 = nodeAfter});
         }
 
         public bool IsFiberContainedInAnyTraceWithBase(Guid fiberId)
