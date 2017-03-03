@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Controls;
 using Iit.Fibertest.Graph;
 
@@ -24,7 +25,10 @@ namespace Iit.Fibertest.TestBench
         {
         }
 
-        private bool CanRemoveNode(object parameter) { return true; }
+        private bool CanRemoveNode(object parameter)
+        {
+            return parameter != null && _owner.GraphReadModel.Traces.All(t => t.Nodes.Last() != (Guid)parameter);
+        }
         private void AskRemoveNode(object parameter)
         {
             var nodeId = (Guid)parameter;
