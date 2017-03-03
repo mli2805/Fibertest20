@@ -239,9 +239,6 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_Define_trace" xml:space="preserve">
     <value>Define trace</value>
   </data>
-	<data name="SID_Map" xml:space="preserve">
-    <value>Map</value>
-  </data>
 	<data name="SID_System_events" xml:space="preserve">
     <value>System events</value>
   </data>
@@ -493,5 +490,8 @@ If chosen trace use some equipment in this node it will be replaced</value>
   </data>
 	<data name="SID_RTU_Settings" xml:space="preserve">
     <value>RTU Settings</value>
+  </data>
+	<data name="SID_Graph_of_traces" xml:space="preserve">
+    <value>Graph of traces</value>
   </data>
 </root>

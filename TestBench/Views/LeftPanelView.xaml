@@ -28,10 +28,10 @@
         <Image x:Key="PortsPlus" Source="../Resources/Buttons/ShowPorts.png" Width="16" Height="16"/>
         <Image x:Key="PortsMinus" Source="../Resources/Buttons/HidePorts.png" Width="16" Height="16"/>
         <Style TargetType="{x:Type ToggleButton}" x:Key="MyToggleButtonStyle">
-            <Setter Property="Content" Value="{DynamicResource PortsPlus}" />
+            <Setter Property="Content" Value="{DynamicResource PortsMinus}" />
             <Style.Triggers>
                 <Trigger Property="IsChecked" Value="True">
-                    <Setter Property="Content" Value="{DynamicResource PortsMinus}" />
+                    <Setter Property="Content" Value="{DynamicResource PortsPlus}" />
                 </Trigger>
             </Style.Triggers>
         </Style>

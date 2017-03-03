@@ -21,7 +21,7 @@
                         <Button Width="120" Height="25" Name="Save" Content="Save Db" />
                     </StackPanel>
                 </TabItem>
-                <TabItem Header="{x:Static stringResources:Resources.SID_Map }" IsSelected="True">
+                <TabItem Header="{x:Static stringResources:Resources.SID_Graph_of_traces}" IsSelected="True">
                     <testBench:MapUserControl DataContext="{Binding GraphReadModel}"/>
                 </TabItem>
             </TabControl>
