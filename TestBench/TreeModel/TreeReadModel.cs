@@ -1,8 +1,10 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows.Media;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using Serilog;
 
 namespace Iit.Fibertest.TestBench
 {
@@ -23,15 +25,13 @@ namespace Iit.Fibertest.TestBench
         #region Rtu
         public void Apply(RtuAtGpsLocationAdded e)
         {
-            var rtuLeaf = new RtuLeaf(_readModel, _windowManager, _bus)
+            Tree.Add(new RtuLeaf(_readModel, _windowManager, _bus)
             {
                 Id = e.Id,
                 Title = Resources.SID_noname_RTU,
                 Color = Brushes.DarkGray,
-            };
-
-            rtuLeaf.IsExpanded = true;
-            Tree.Add(rtuLeaf);
+                IsExpanded = true,
+            });
         }
 
         public void Apply(RtuInitialized e)
@@ -111,11 +111,16 @@ namespace Iit.Fibertest.TestBench
 
         public void Apply(TraceAttached e)
         {
-            TraceLeaf traceLeaf = Tree.GetById(e.TraceId) as TraceLeaf;
-            if (traceLeaf == null)
-                return;
-
+            TraceLeaf traceLeaf = (TraceLeaf)Tree.GetById(e.TraceId);
             RtuLeaf rtu = (RtuLeaf)Tree.GetById(traceLeaf.Parent.Id);
+
+            if (e.Port > rtu.FullPortCount)
+            {
+                var message = $@"{rtu.Title} has {rtu.FullPortCount} ports but trace was attached to the {e.Port} port";
+                Console.WriteLine(message);
+                Log.Information(message);
+                return;
+            }
 
             rtu.Children.RemoveAt(e.Port - 1);
             rtu.Children.Insert(e.Port - 1,
@@ -133,10 +138,7 @@ namespace Iit.Fibertest.TestBench
 
         public void Apply(TraceDetached e)
         {
-            TraceLeaf traceLeaf = Tree.GetById(e.TraceId) as TraceLeaf;
-            if (traceLeaf == null)
-                return;
-
+            TraceLeaf traceLeaf = (TraceLeaf)Tree.GetById(e.TraceId);
             RtuLeaf rtu = (RtuLeaf)Tree.GetById(traceLeaf.Parent.Id);
             int port = traceLeaf.PortNumber;
             var detachedTraceLeaf = new TraceLeaf(_readModel, _windowManager, _bus, rtu)
