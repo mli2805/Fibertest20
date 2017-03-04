@@ -24,6 +24,12 @@ namespace Convertor
 
         public void Go()
         {
+            System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
+            customCulture.NumberFormat.NumberDecimalSeparator = ".";
+
+            var memory = System.Threading.Thread.CurrentThread.CurrentCulture;
+            System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
+
             Encoding win1251 = Encoding.GetEncoding("Windows-1251");
             string[] lines = File.ReadAllLines(@"export.txt", win1251);
 
@@ -72,6 +78,8 @@ namespace Convertor
             }
 
             _traceEventsUnderConstruction.ForEach(e => _db.Add(e));
+
+            System.Threading.Thread.CurrentThread.CurrentCulture = memory;
         }
 
         private void ParseRtu(string[] parts)
