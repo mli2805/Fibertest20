@@ -7,8 +7,8 @@
     <ProjectGuid>{D6F60608-8A8F-40AE-BD7F-8B3ACE247CA7}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Convertor</RootNamespace>
-    <AssemblyName>Convertor</AssemblyName>
+    <RootNamespace>DbMigrator</RootNamespace>
+    <AssemblyName>DbMigrator</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
