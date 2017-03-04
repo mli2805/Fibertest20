@@ -153,8 +153,6 @@ namespace Iit.Fibertest.TestBench
         public void Apply(EquipmentRemoved e)
         {
             var traces = Traces.Where(t => t.Equipments.Contains(e.Id)).ToList();
-            if (traces.Any(t => t.HasBase))
-                return;
             foreach (var trace in traces)
             {
                 var idx = trace.Equipments.IndexOf(e.Id);

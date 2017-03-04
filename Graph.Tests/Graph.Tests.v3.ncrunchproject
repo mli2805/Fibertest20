@@ -7,18 +7,6 @@
       <NamedTestSelector>
         <TestName>Graph.Tests.Equipment.EquipmentRemovedFeature.УдалениеОборудованияНеВходящегоВТрассы</TestName>
       </NamedTestSelector>
-      <NamedTestSelector>
-        <TestName>Graph.Tests.Equipment.EquipmentRemovedFeature.УдалениеОборудованияНеПоследнегоДляЛюбойТрассы</TestName>
-      </NamedTestSelector>
-      <NamedTestSelector>
-        <TestName>Graph.Tests.Equipment.EquipmentUpdatedFeature.ИзменениеСуществующегоОборудования</TestName>
-      </NamedTestSelector>
-      <NamedTestSelector>
-        <TestName>Graph.Tests.Fiber.FiberAddedFeature.ДобавлениеОтрезкаТамГдеОнЕсть</TestName>
-      </NamedTestSelector>
-      <NamedTestSelector>
-        <TestName>Graph.Tests.Fiber.FiberWithNodesAddedFeature.ДобавлениеОтрезкаСУзламиТамГдеОнЕсть</TestName>
-      </NamedTestSelector>
     </IgnoredTests>
     <PreviouslyBuiltSuccessfully>True</PreviouslyBuiltSuccessfully>
   </Settings>

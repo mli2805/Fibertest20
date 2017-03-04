@@ -3,7 +3,7 @@ using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
-using Iit.Fibertest.TestBench.Properties;
+using JetBrains.Annotations;
 
 namespace Iit.Fibertest.TestBench
 {
