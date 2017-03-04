@@ -116,6 +116,18 @@
     <Compile Include="ReadModel\ReadModel.cs" />
     <Compile Include="ReadModel\ReadModelExtensions.cs" />
     <Compile Include="Requests\RequestRemoveRtu.cs" />
+    <Compile Include="ViewControls\NetAddressInputControl\Ip4InputView.xaml.cs">
+      <DependentUpon>Ip4InputView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControls\NetAddressInputControl\Ip4InputViewModel.cs" />
+    <Compile Include="ViewControls\NetAddressInputControl\NetAddressInputView.xaml.cs">
+      <DependentUpon>NetAddressInputView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControls\NetAddressInputControl\NetAddressInputViewModel.cs" />
+    <Compile Include="ViewControls\RtuChannelTestView.xaml.cs">
+      <DependentUpon>RtuChannelTestView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControls\RtuChannelTestViewModel.cs" />
     <Compile Include="ViewModels\Primitive\NodesStatisticsItem.cs" />
     <Compile Include="ViewModels\RtuInitializeViewModel.cs" />
     <Compile Include="ViewModels\TraceToAttachViewModel.cs" />
@@ -260,6 +272,18 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="MapUserControl\MapUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewControls\NetAddressInputControl\Ip4InputView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewControls\NetAddressInputControl\NetAddressInputView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewControls\RtuChannelTestView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -468,9 +492,7 @@
     <Resource Include="Resources\Buttons\HidePorts.png" />
     <Resource Include="Resources\Buttons\ShowPorts.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewControls\NetAddressInputControl\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
