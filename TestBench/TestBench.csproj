@@ -108,7 +108,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="GpsInputControl\GpsInputModeComboItem.cs" />
+    <Compile Include="ViewControls\GpsInputControl\GpsInputModeComboItem.cs" />
     <Compile Include="ReadModel\PathFinder.cs" />
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Autofac\AutofacEventSourcing.cs" />
@@ -137,14 +137,14 @@
     <Compile Include="Requests\RequestUpdateFiber.cs" />
     <Compile Include="Requests\RequestUpdateRtu.cs" />
     <Compile Include="Autofac\AutofacUi.cs" />
-    <Compile Include="GpsInputControl\GpsInputView.xaml.cs">
+    <Compile Include="ViewControls\GpsInputControl\GpsInputView.xaml.cs">
       <DependentUpon>GpsInputView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GpsInputControl\GpsInputViewModel.cs" />
-    <Compile Include="GpsInputControl\OneCoorView.xaml.cs">
+    <Compile Include="ViewControls\GpsInputControl\GpsInputViewModel.cs" />
+    <Compile Include="ViewControls\GpsInputControl\OneCoorView.xaml.cs">
       <DependentUpon>OneCoorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GpsInputControl\OneCoorViewModel.cs" />
+    <Compile Include="ViewControls\GpsInputControl\OneCoorViewModel.cs" />
     <Compile Include="Logic\MapTraceDefine.cs" />
     <Compile Include="Logic\PointLatLngExtensions.cs" />
     <Compile Include="Mappings\MappingVmToViewModel.cs" />
@@ -247,11 +247,11 @@
     <Compile Include="TreeModel\RtuLeaf.cs" />
     <Compile Include="TreeModel\TraceLeaf.cs" />
     <Compile Include="TreeModel\TreeExtensions.cs" />
-    <Page Include="GpsInputControl\GpsInputView.xaml">
+    <Page Include="ViewControls\GpsInputControl\GpsInputView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="GpsInputControl\OneCoorView.xaml">
+    <Page Include="ViewControls\GpsInputControl\OneCoorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -467,6 +467,9 @@
   <ItemGroup>
     <Resource Include="Resources\Buttons\HidePorts.png" />
     <Resource Include="Resources\Buttons\ShowPorts.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ViewControls\NetAddressInputControl\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
