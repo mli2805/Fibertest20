@@ -7,19 +7,26 @@
 
     <DockPanel>
         <testBench:MainMenuView DockPanel.Dock="Top"/>
-        <testBench:LeftPanelView DockPanel.Dock="Left" Width="400"
-                                  DataContext="{Binding MyLeftPanelViewModel}"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" MinWidth="200"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <testBench:LeftPanelView DataContext="{Binding MyLeftPanelViewModel}"/>
+            <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Left"/>
+            <TabControl Grid.Column="2">
+                <TabItem Header="{x:Static stringResources:Resources.SID_System_events }">
+                    <StackPanel>
+                        <Button Width="120" Height="25" Name="Save" Content="Save Db" />
+                    </StackPanel>
+                </TabItem>
+                <TabItem Header="{x:Static stringResources:Resources.SID_Graph_of_traces}" IsSelected="True">
+                    <testBench:MapUserControl DataContext="{Binding GraphReadModel}"/>
+                </TabItem>
+            </TabControl>
+        </Grid>
 
-        <TabControl>
-            <TabItem Header="{x:Static stringResources:Resources.SID_System_events }">
-                <StackPanel>
-                    <Button Width="120" Height="25" Name="Save" Content="Save Db" />
-                </StackPanel>
-            </TabItem>
-            <TabItem Header="{x:Static stringResources:Resources.SID_Map }" IsSelected="True">
-                <testBench:MapUserControl DataContext="{Binding GraphReadModel}"/>
-            </TabItem>
-        </TabControl>
     </DockPanel>
 
 </Window>

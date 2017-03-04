@@ -1,4 +1,6 @@
-﻿namespace Iit.Fibertest.TestBench
+﻿using System.Linq;
+
+namespace Iit.Fibertest.TestBench
 {
     /// <summary>
     /// Interaction logic for LeftPanelView.xaml
@@ -35,7 +37,7 @@
             if (TogglePorts.IsChecked == true)
                 HidePorts();
             if (TogglePorts.IsChecked == false)
-                ShowPorts();
+               ShowPorts();
         }
 
         private void HidePorts()
@@ -43,19 +45,17 @@
             foreach (var item in MainTreeView.Items)
             {
                 if (item is RtuLeaf)
-                {
-                    foreach (var child in ((RtuLeaf)item).Children)
-                    {
-                        if (child is PortLeaf)
-                            ((RtuLeaf)item).Children.Remove(child);
-                    }
-                }
+                    ((RtuLeaf)item).RemoveFreePorts();
             }
-
         }
         private void ShowPorts()
         {
-
+            foreach (var item in MainTreeView.Items)
+            {
+                if (item is RtuLeaf)
+                    ((RtuLeaf)item).RestoreFreePorts();
+            }
         }
+
     }
 }

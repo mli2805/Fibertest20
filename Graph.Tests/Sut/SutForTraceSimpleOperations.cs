@@ -38,6 +38,12 @@ namespace Graph.Tests
             Poller.Tick();
             return ShellVm.ReadModel.Traces.Last();
         }
+
+        public void InitializeRtu(Guid rtuId, int portCount)
+        {
+            ShellVm.ComplyWithRequest(new InitializeRtu() { Id = rtuId, FullPortCount = portCount, OwnPortCount = portCount }).Wait();
+            Poller.Tick();
+        }
         public void AttachTrace(Guid traceId)
         {
             var traceLeaf = ShellVm.MyLeftPanelViewModel.TreeReadModel.Tree.GetById(traceId);

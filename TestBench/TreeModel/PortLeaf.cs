@@ -24,9 +24,10 @@ namespace Iit.Fibertest.TestBench
         }
         public override string Name => Title;
 
-        public PortLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, int portNumber) : base(readModel, windowManager, bus)
+        public PortLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, Leaf parent, int portNumber) : base(readModel, windowManager, bus)
         {
             PortNumber = portNumber;
+            Parent = parent;
             Title = string.Format(Resources.SID_Port_N, PortNumber);
             Color = Brushes.Blue;
             Visibility = Visibility.Collapsed;

@@ -239,9 +239,6 @@
 	<data name="SID_Define_trace" xml:space="preserve">
     <value>Определить трассу</value>
   </data>
-	<data name="SID_Map" xml:space="preserve">
-    <value>Карта</value>
-  </data>
 	<data name="SID_System_events" xml:space="preserve">
     <value>Системные события</value>
   </data>
@@ -490,5 +487,11 @@
 	</data>
 	<data name="SID_Second_sign" xml:space="preserve">
 		<value>″</value>
+	</data>
+	<data name="SID_RTU_Settings" xml:space="preserve">
+		<value>Настройки RTU</value>
+	</data>
+	<data name="SID_Graph_of_traces" xml:space="preserve">
+		<value>Граф трасс</value>
 	</data>
 </root>

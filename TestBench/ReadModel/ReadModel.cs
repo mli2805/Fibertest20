@@ -95,7 +95,7 @@ namespace Iit.Fibertest.TestBench
 
             if (!Fibers.Any(f => f.Node1 == nodeBefore && f.Node2 == nodeAfter
                                || f.Node2 == nodeBefore && f.Node1 == nodeAfter))
-                Apply(new FiberAdded() { Id = fiberId, Node1 = nodeBefore, Node2 = nodeAfter });
+                Fibers.Add(new Fiber() {Id = fiberId, Node1 = nodeBefore, Node2 = nodeAfter});
         }
         #endregion
 
@@ -171,6 +171,16 @@ namespace Iit.Fibertest.TestBench
             Nodes.Add(node);
             Rtu rtu = _mapper.Map<Rtu>(e);
             Rtus.Add(rtu);
+        }
+
+        public void Apply(RtuInitialized e)
+        {
+            var rtu = Rtus.First(r => r.Id == e.Id);
+            rtu.OwnPortCount = e.OwnPortCount;
+            rtu.FullPortCount = e.FullPortCount;
+            rtu.MainChannelState = e.MainChannelState;
+            rtu.ReserveChannelState = e.ReserveChannelState;
+            rtu.MonitoringState = MonitoringState.Off;
         }
 
         public void Apply(RtuUpdated e)

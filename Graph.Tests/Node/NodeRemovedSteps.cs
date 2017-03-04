@@ -21,7 +21,6 @@ namespace Graph.Tests
         [Given(@"Существует узел")]
         public void GivenСуществуетУзел()
         {
-//            _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
             _sut.ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation()).Wait();
             _sut.Poller.Tick();
             _nodeId = _sut.ReadModel.Nodes.Last().Id;
@@ -75,10 +74,14 @@ namespace Graph.Tests
         [Then(@"Создается отрезок между соседними с данным узлами")]
         public void ThenСоздаетсяОтрезокМеждуСоседнимиСДаннымУзлами()
         {
-            _sut.ReadModel.Fibers.FirstOrDefault(
-                f =>
+            var fiber = _sut.ReadModel.Fibers.FirstOrDefault(f =>
                     f.Node1 == _rtuNodeId && f.Node2 == _lastNodeId ||
-                    f.Node1 == _lastNodeId && f.Node2 == _rtuNodeId).Should().NotBe(null);
+                    f.Node1 == _lastNodeId && f.Node2 == _rtuNodeId);
+            fiber.Should().NotBeNull();
+
+            var fiberVm = _sut.ShellVm.GraphReadModel.Fibers.FirstOrDefault(f => f.Id == fiber?.Id);
+            fiberVm.Should().NotBeNull();
+            fiberVm?.States.Should().ContainKey(_trace.Id);
         }
 
         [Then(@"Корректируются списки узлов и оборудования трассы")]
@@ -86,6 +89,15 @@ namespace Graph.Tests
         {
             _trace.Nodes.Contains(_nodeId).Should().BeFalse();
             _trace.Nodes.Count.Should().Be(_trace.Equipments.Count);
+
+            var traceVm = _sut.ShellVm.GraphReadModel.Traces.First(t => t.Id == _trace.Id);
+            for (int i = 0; i < traceVm.Nodes.Count - 1; i++)
+            {
+                _sut.ShellVm.GraphReadModel.Fibers.FirstOrDefault(
+                    f =>
+                        f.Node1.Id == traceVm.Nodes[i] && f.Node2.Id == traceVm.Nodes[i + 1] ||
+                        f.Node1.Id == traceVm.Nodes[i + 1] && f.Node2.Id == traceVm.Nodes[i]).Should().NotBeNull();
+            }
         }
 
         [Then(@"Отрезки связанные с исходным узлом удаляются")]

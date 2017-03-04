@@ -131,7 +131,17 @@ namespace Iit.Fibertest.TestBench
 
         private void Apply(NodeRemoved evnt)
         {
+            foreach (var traceVm in Traces.Where(t => t.Nodes.Contains(evnt.Id)))
+                ExcludeNodeFromTrace(traceVm, evnt.TraceFiberPairForDetour[traceVm.Id], evnt.Id);
             RemoveNodeWithAllHis(evnt.Id);
+        }
+
+        private void ExcludeNodeFromTrace(TraceVm traceVm, Guid fiberId, Guid nodeId)
+        {
+            var idxInTrace = traceVm.Nodes.IndexOf(nodeId);
+            CreateDetourIfAbsent(traceVm, fiberId, idxInTrace);
+
+            traceVm.Nodes.RemoveAt(idxInTrace);
         }
 
         private void RemoveNodeWithAllHis(Guid nodeId)
@@ -142,6 +152,24 @@ namespace Iit.Fibertest.TestBench
                 Equipments.Remove(equipmentVm);
 
             Nodes.Remove(Nodes.First(n => n.Id == nodeId));
+        }
+        private void CreateDetourIfAbsent(TraceVm traceVm, Guid fiberId, int idxInTrace)
+        {
+            var nodeBefore = traceVm.Nodes[idxInTrace - 1];
+            var nodeAfter = traceVm.Nodes[idxInTrace + 1];
+
+            if (!Fibers.Any(f => f.Node1.Id == nodeBefore && f.Node2.Id == nodeAfter
+                                 || f.Node2.Id == nodeBefore && f.Node1.Id == nodeAfter))
+            {
+                var fiberVm = new FiberVm()
+                {
+                    Id = fiberId,
+                    Node1 = Nodes.First(m => m.Id == nodeBefore),
+                    Node2 = Nodes.First(m => m.Id == nodeAfter),
+                };
+                Fibers.Add(fiberVm);
+                fiberVm.SetState(traceVm.Id, traceVm.State);
+            }
         }
         #endregion
 

@@ -21,6 +21,7 @@ namespace Graph.Tests
         [Given(@"Одна из трасс присоединена к порту")]
         public void GivenОднаИзТрассПрисоединенаКПорту()
         {
+            _sut.InitializeRtu(_sut.ReadModel.Traces.First(t => t.Id == _sut.TraceId1).RtuId, 8);
             _sut.AttachTrace(_sut.TraceId1);
         }
 

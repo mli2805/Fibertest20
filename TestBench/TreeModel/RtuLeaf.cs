@@ -9,21 +9,76 @@ namespace Iit.Fibertest.TestBench
 {
     public class RtuLeaf : Leaf
     {
-        public MonitoringState MonitoringState { get; set; }
+        private RtuPartState _mainChannelState;
+        private MonitoringState _monitoringState;
+        private RtuPartState _reserveChannelState;
+
+        public MonitoringState MonitoringState
+        {
+            get { return _monitoringState; }
+            set
+            {
+                if (value == _monitoringState) return;
+                _monitoringState = value;
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(MonitoringPictogram));
+            }
+        }
+
         public RtuPartState BopState { get; set; }
-        public RtuPartState MainChannelState { get; set; }
-        public RtuPartState ReserveChannelState { get; set; }
+
+        public RtuPartState MainChannelState
+        {
+            get { return _mainChannelState; }
+            set
+            {
+                if (value == _mainChannelState) return;
+                _mainChannelState = value;
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(MainChannelPictogram));
+            }
+        }
+
+        public RtuPartState ReserveChannelState
+        {
+            get { return _reserveChannelState; }
+            set
+            {
+                if (value == _reserveChannelState) return;
+                _reserveChannelState = value;
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(ReserveChannelPictogram));
+            }
+        }
 
         public ImageSource MonitoringPictogram => MonitoringState.GetPictogram();
         public ImageSource BopPictogram => BopState.GetPictogram();
         public ImageSource MainChannelPictogram => MainChannelState.GetPictogram();
         public ImageSource ReserveChannelPictogram => ReserveChannelState.GetPictogram();
 
-        public int PortCount { get; set; }
+        public int OwnPortCount { get; set; }
+        public int FullPortCount { get; set; }
         public override string Name => Title;
 
         public RtuLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus) : base(readModel, windowManager, bus)
         {
+        }
+
+        public void RemoveFreePorts()
+        {
+            foreach (var leaf in Children.ToList())
+                if (leaf is PortLeaf)
+                    Children.Remove(leaf);
+        }
+
+        public void RestoreFreePorts()
+        {
+            var traces = Children.ToList();
+            for (int i = 0; i < OwnPortCount; i++)
+            {
+                if (traces.FirstOrDefault(l=>((TraceLeaf)l).PortNumber == i+1) == null)
+                    Children.Insert(i, new PortLeaf(ReadModel,WindowManager,Bus, this, i+1));
+            }
         }
 
         protected override List<MenuItemVm> GetMenuItems()
@@ -124,7 +179,12 @@ namespace Iit.Fibertest.TestBench
                 Bus.SendCommand(vm.Command);
         }
         private void ShowRtuAction(object param) { }
-        private void RtuSettingsAction(object param) { }
+
+        private void RtuSettingsAction(object param)
+        {
+            var vm = new RtuInitializeViewModel(Id, ReadModel, Bus);
+            WindowManager.ShowDialog(vm);
+        }
         private void RtuStateAction(object param) { }
         private void RtuLandmarksAction(object param) { }
         private void MonitoringSettingsAction(object param) { }

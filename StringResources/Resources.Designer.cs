@@ -475,6 +475,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Graph of traces.
+        /// </summary>
+        public static string SID_Graph_of_traces {
+            get {
+                return ResourceManager.GetString("SID_Graph_of_traces", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ±ddd.dddddd°.
         /// </summary>
         public static string SID_In_degrees {
@@ -867,6 +876,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_RTU_is_not_found {
             get {
                 return ResourceManager.GetString("SID_RTU_is_not_found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RTU Settings.
+        /// </summary>
+        public static string SID_RTU_Settings {
+            get {
+                return ResourceManager.GetString("SID_RTU_Settings", resourceCulture);
             }
         }
         

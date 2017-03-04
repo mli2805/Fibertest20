@@ -41,8 +41,9 @@ namespace Iit.Fibertest.TestBench
         public ImageSource TraceStatePictogram => TraceState.GetPictogram();
 
 
-        public TraceLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus) : base(readModel, windowManager, bus)
+        public TraceLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, Leaf parent) : base(readModel, windowManager, bus)
         {
+            Parent = parent;
         }
 
         protected override List<MenuItemVm> GetMenuItems()
