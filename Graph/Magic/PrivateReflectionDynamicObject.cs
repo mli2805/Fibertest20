@@ -216,25 +216,10 @@ namespace PrivateReflectionUsingDynamic
 
         private static object InvokeMemberOnType(Type type, object target, string name, object[] args)
         {
-            try
-            {
-                // Try to incoke the method
-                return type.InvokeMember(
-                    name,
-                    BindingFlags.InvokeMethod | BindingFlags,
-                    null,
-                    target,
-                    args);
-            }
-            catch (MissingMethodException)
-            {
-                // If we couldn't find the method, try on the base class
-                if (type.BaseType != null)
-                {
-                    return InvokeMemberOnType(type.BaseType, target, name, args);
-                }
-                return null;
-            }
+            var argumentTypes = args.Select(a => a.GetType()).ToArray();
+            return type
+                .GetMethod(name, BindingFlags, null, argumentTypes, null)?
+                .Invoke(target, args);
         }
     }
 
