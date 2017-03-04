@@ -66,8 +66,7 @@ namespace Graph.Tests
             _sut.FakeWindowManager.RegisterHandler(
                 model => _sut.AddTraceViewHandler(model, @"short trace", "", Answer.Yes));
 
-            _sut.ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = _nodeId, NodeWithRtuId = _rtuNodeId })
-                .Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAddTrace() {LastNodeId = _nodeId, NodeWithRtuId = _rtuNodeId});
             _sut.Poller.Tick();
             _shortTraceId = _sut.ReadModel.Traces.Last().Id;
         }
@@ -87,7 +86,7 @@ namespace Graph.Tests
             {
                 LastNodeId = _anotherNodeId,
                 NodeWithRtuId = _rtuNodeId
-            }).Wait();
+            });
             _sut.Poller.Tick();
             _traceWithEqId = _sut.ReadModel.Traces.Last().Id;
         }
@@ -107,7 +106,7 @@ namespace Graph.Tests
             {
                 LastNodeId = _anotherNodeId2,
                 NodeWithRtuId = _rtuNodeId
-            }).Wait();
+            });
             _sut.Poller.Tick();
             _traceWithoutEqId = _sut.ReadModel.Traces.Last().Id;
         }
@@ -116,7 +115,7 @@ namespace Graph.Tests
         public void GivenДляОднойИзТрассЗаданаБазовая()
         {
             _sut.FakeWindowManager.BaseIsSet();
-            _sut.ShellVm.ComplyWithRequest(new RequestAssignBaseRef() { TraceId = _shortTraceId }).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAssignBaseRef() { TraceId = _shortTraceId });
             _sut.Poller.Tick();
         }
 

@@ -38,6 +38,9 @@ namespace Iit.Fibertest.TestBench
 
             graph.Nodes.CollectionChanged += NodesCollectionChanged;
             graph.Fibers.CollectionChanged += FibersCollectionChanged;
+
+           ApplyAddedNodes(graph.Nodes);
+           ApplyAddedFibers(graph.Fibers);
         }
 
 

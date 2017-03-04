@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:cal="http://www.caliburnproject.org"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
+        xmlns:testBench="clr-namespace:Iit.Fibertest.TestBench"
         cal:Bind.ModelWithoutContext="{Binding .}"
         SizeToContent="Height" Width="450" WindowStartupLocation="CenterScreen"
         >
@@ -33,7 +34,7 @@
                     </ContextMenu>
                 </ListBox.ContextMenu>
                 <ListBox.ItemTemplate>
-                    <DataTemplate>
+                    <DataTemplate DataType="testBench:EqItemVm">
                         <Grid>
                             <Grid.ContextMenu>
                                 <ContextMenu>

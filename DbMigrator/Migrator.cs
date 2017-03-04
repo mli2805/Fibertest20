@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using Iit.Fibertest.Graph;
 
-namespace Convertor
+namespace DbMigrator
 {
     public class Migrator
     {

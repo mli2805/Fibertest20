@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
@@ -9,7 +8,7 @@ namespace Iit.Fibertest.TestBench
 {
     public partial class ShellViewModel
     {
-        private async Task PrepareCommand(RequestAddTrace request)
+        private void PrepareCommand(RequestAddTrace request)
         {
             if (!Validate(request))
                 return;

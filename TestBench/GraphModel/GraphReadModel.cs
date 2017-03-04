@@ -55,7 +55,7 @@ namespace Iit.Fibertest.TestBench
         }
 
         #region Node
-        private void Apply(NodeAdded evnt)
+        public void Apply(NodeAdded evnt)
         {
             Nodes.Add(new NodeVm()
             {
@@ -66,11 +66,11 @@ namespace Iit.Fibertest.TestBench
             });
         }
 
-        private void Apply(NodeIntoFiberAdded evnt)
+        public void Apply(NodeIntoFiberAdded evnt)
         {
             Nodes.Add(new NodeVm()
             {
-                Id=evnt.Id,
+                Id = evnt.Id,
                 Position = new PointLatLng(evnt.Position.Latitude, evnt.Position.Longitude),
                 State = FiberState.Ok,
                 Type = EquipmentType.Well
@@ -112,24 +112,24 @@ namespace Iit.Fibertest.TestBench
             NodeVm node1 = Fibers.First(f => f.Id == e.FiberId).Node1;
             NodeVm node2 = Fibers.First(f => f.Id == e.FiberId).Node2;
 
-            Fibers.Add(new FiberVm() { Id = e.NewFiberId1, Node1 = node1, Node2 = Nodes.First(n=>n.Id == e.Id), States = oldFiberVm.States });
+            Fibers.Add(new FiberVm() { Id = e.NewFiberId1, Node1 = node1, Node2 = Nodes.First(n => n.Id == e.Id), States = oldFiberVm.States });
             Fibers.Add(new FiberVm() { Id = e.NewFiberId2, Node1 = Nodes.First(n => n.Id == e.Id), Node2 = node2, States = oldFiberVm.States });
         }
 
-        private void Apply(NodeMoved evnt)
+        public void Apply(NodeMoved evnt)
         {
             var nodeVm = Nodes.First(n => n.Id == evnt.Id);
             nodeVm.Position = new PointLatLng(evnt.Latitude, evnt.Longitude);
         }
 
-        private void Apply(NodeUpdated evnt)
+        public void Apply(NodeUpdated evnt)
         {
             var nodeVm = Nodes.First(n => n.Id == evnt.Id);
             nodeVm.Title = evnt.Title;
             nodeVm.Comment = evnt.Comment;
         }
 
-        private void Apply(NodeRemoved evnt)
+        public void Apply(NodeRemoved evnt)
         {
             foreach (var traceVm in Traces.Where(t => t.Nodes.Contains(evnt.Id)))
                 ExcludeNodeFromTrace(traceVm, evnt.TraceFiberPairForDetour[traceVm.Id], evnt.Id);
@@ -202,7 +202,7 @@ namespace Iit.Fibertest.TestBench
             };
             Nodes.Add(nodeVm);
 
-            var rtuVm = new RtuVm() {Id = evnt.Id, Node = nodeVm};
+            var rtuVm = new RtuVm() { Id = evnt.Id, Node = nodeVm };
             Rtus.Add(rtuVm);
         }
 
@@ -217,7 +217,7 @@ namespace Iit.Fibertest.TestBench
         {
             var rtuVm = Rtus.First(r => r.Id == evnt.Id);
             Guid nodeId = rtuVm.Node.Id;
-            Traces.Where(t=>t.RtuId == rtuVm.Id).ToList().ForEach(t=>Traces.Remove(t));
+            Traces.Where(t => t.RtuId == rtuVm.Id).ToList().ForEach(t => Traces.Remove(t));
             Rtus.Remove(rtuVm);
             RemoveNodeWithAllHis(nodeId);
         }
@@ -235,7 +235,7 @@ namespace Iit.Fibertest.TestBench
             };
             Nodes.Add(nodeVm);
 
-            Equipments.Add(new EquipmentVm() {Id = evnt.Id, Node = nodeVm, Type = evnt.Type});
+            Equipments.Add(new EquipmentVm() { Id = evnt.Id, Node = nodeVm, Type = evnt.Type });
         }
 
         public void Apply(EquipmentIntoNodeAdded evnt)
@@ -271,7 +271,7 @@ namespace Iit.Fibertest.TestBench
         public void Apply(TraceCleaned evnt)
         {
             var traceVm = Traces.First(t => t.Id == evnt.Id);
-            GetTraceFibersByNodes(traceVm.Nodes).ToList().ForEach(f=>f.RemoveState(evnt.Id));
+            GetTraceFibersByNodes(traceVm.Nodes).ToList().ForEach(f => f.RemoveState(evnt.Id));
             Traces.Remove(traceVm);
         }
 
@@ -287,8 +287,8 @@ namespace Iit.Fibertest.TestBench
             }
             foreach (var nodeId in traceVm.Nodes)
             {
-                if (Rtus.Any(r=>r.Node.Id == nodeId) ||
-                    Fibers.Any(f=>f.Node1.Id == nodeId || f.Node2.Id == nodeId))
+                if (Rtus.Any(r => r.Node.Id == nodeId) ||
+                    Fibers.Any(f => f.Node1.Id == nodeId || f.Node2.Id == nodeId))
                     continue;
                 var nodeVm = Nodes.First(n => n.Id == nodeId);
                 Nodes.Remove(nodeVm);

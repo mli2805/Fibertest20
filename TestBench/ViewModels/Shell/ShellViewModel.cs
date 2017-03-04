@@ -202,9 +202,9 @@ namespace Iit.Fibertest.TestBench
         #endregion
 
         #region Trace
-        public async Task ComplyWithRequest(RequestAddTrace request)
+        public void ComplyWithRequest(RequestAddTrace request)
         {
-            await PrepareCommand(request);
+            PrepareCommand(request);
         }
 
         public async Task ComplyWithRequest(AttachTrace request)
@@ -227,7 +227,7 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
-        public async Task ComplyWithRequest(RequestAssignBaseRef request)
+        public void ComplyWithRequest(RequestAssignBaseRef request)
         {
             LaunchView(request);
         }

@@ -40,7 +40,7 @@ namespace Graph.Tests
             FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
             FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, @"some trace title", "", Answer.Yes));
 
-            ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = _endTraceNodeId, NodeWithRtuId = RtuNodeId }).Wait();
+            ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = _endTraceNodeId, NodeWithRtuId = RtuNodeId });
             Poller.Tick();
             TraceId = ReadModel.Traces.Last().Id;
         }

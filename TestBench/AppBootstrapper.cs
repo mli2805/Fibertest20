@@ -34,6 +34,7 @@ namespace Iit.Fibertest.TestBench {
                 DispatcherPriority.Background, 
                 (s, e) => clientPoller.Tick(),
                 Dispatcher.CurrentDispatcher));
+            clientPoller.Tick();
         }
 
 

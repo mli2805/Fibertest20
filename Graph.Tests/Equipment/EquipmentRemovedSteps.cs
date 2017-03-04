@@ -57,7 +57,7 @@ namespace Graph.Tests
             _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
             _sut.FakeWindowManager.RegisterHandler(model => _sut.AddTraceViewHandler(model, @"some title", "", Answer.Yes));
 
-            _sut.ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = _nodeBId, NodeWithRtuId = _rtuNodeId }).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = _nodeBId, NodeWithRtuId = _rtuNodeId });
             _sut.Poller.Tick();
             _trace = _sut.ReadModel.Traces.Last();
         }

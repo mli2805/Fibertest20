@@ -60,7 +60,7 @@ namespace Graph.Tests
         public void GivenДляТрассыЗаданаБазовая()
         {
             _sut.FakeWindowManager.BaseIsSet();
-            _sut.ShellVm.ComplyWithRequest(new RequestAssignBaseRef() { TraceId = _trace.Id }).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAssignBaseRef() { TraceId = _trace.Id });
             _sut.Poller.Tick();
         }
 

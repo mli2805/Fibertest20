@@ -1,7 +1,7 @@
 ﻿using System;
 using Iit.Fibertest.Graph;
 
-namespace Convertor
+namespace DbMigrator
 {
     class Program
     {

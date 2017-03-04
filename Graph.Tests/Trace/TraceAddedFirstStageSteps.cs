@@ -28,7 +28,7 @@ namespace Graph.Tests
         {
             
             _sut.ShellVm.ComplyWithRequest(new RequestAddTrace() {LastNodeId = _wrongNodeId, NodeWithRtuId = _rtuNodeId})
-                .Wait();
+                ;
         }
 
         [Given(@"Между выбираемыми узлами нет пути")]
@@ -41,14 +41,13 @@ namespace Graph.Tests
         public void GivenНоПользовательВыбралУзелГдеЕстьОборудованиеИКликнулОпределитьТрассу()
         {
             _sut.ShellVm.ComplyWithRequest(
-                new RequestAddTrace() { LastNodeId = _wrongNodeWithEqId, NodeWithRtuId = _rtuNodeId }).Wait();
+                new RequestAddTrace() { LastNodeId = _wrongNodeWithEqId, NodeWithRtuId = _rtuNodeId });
         }
 
         [Given(@"Хотя кликнул определить трассу на узле с оборудованием и путь между узлами существует")]
         public void GivenХотяКликнулОпределитьТрассуНаУзлеСОборудованиемИПутьМеждуУзламиСуществует()
         {
-            _sut.ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = _lastNodeId, NodeWithRtuId = _rtuNodeId })
-                .Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = _lastNodeId, NodeWithRtuId = _rtuNodeId });
         }
 
         [Then(@"Выскакивает сообщение о необходимости оборудования в последнем узле")]
