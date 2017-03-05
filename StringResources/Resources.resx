@@ -494,4 +494,31 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_Graph_of_traces" xml:space="preserve">
     <value>Graph of traces</value>
   </data>
+	<data name="SID_Host" xml:space="preserve">
+    <value>Host</value>
+  </data>
+	<data name="SID_Port" xml:space="preserve">
+    <value>Port</value>
+  </data>
+	<data name="SID_Test" xml:space="preserve">
+    <value>Test</value>
+  </data>
+	<data name="SID_Main_channel" xml:space="preserve">
+    <value>Main channel</value>
+  </data>
+	<data name="SID_OTDR_Network_Address" xml:space="preserve">
+    <value>OTDR Network Address</value>
+  </data>
+	<data name="SID_Reserve_channel" xml:space="preserve">
+    <value>Reserve channel</value>
+  </data>
+	<data name="SID_Serial" xml:space="preserve">
+    <value>Serial</value>
+  </data>
+	<data name="SID_Port_count" xml:space="preserve">
+    <value>Port count</value>
+  </data>
+	<data name="SID_Initialize" xml:space="preserve">
+    <value>Initialize</value>
+  </data>
 </root>

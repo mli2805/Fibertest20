@@ -41,7 +41,14 @@ namespace Graph.Tests
 
         public void InitializeRtu(Guid rtuId, int portCount)
         {
-            ShellVm.ComplyWithRequest(new InitializeRtu() { Id = rtuId, FullPortCount = portCount, OwnPortCount = portCount }).Wait();
+            ShellVm.ComplyWithRequest(new InitializeRtu()
+            {
+                Id = rtuId,
+                FullPortCount = portCount,
+                OwnPortCount = portCount,
+                MainChannel = new NetAddress(),
+                ReserveChannel = new NetAddress(),
+            }).Wait();
             Poller.Tick();
         }
         public void AttachTrace(Guid traceId)

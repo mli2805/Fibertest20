@@ -12,12 +12,18 @@ namespace Iit.Fibertest.TestBench
         public string Comment { get; set; }
         public string Serial { get; set; }
         public string PortCount { get; set; }
+        public NetAddress OtdrNetAddress { get; set; }
 
         private RtuPartState _mainChannelState;
         private RtuPartState _reserveChannelState;
         private int _ownPortCount;
         private int _fullPortCount;
         private string _serial;
+
+
+        public RtuChannelTestViewModel MainChannelTestViewModel { get; set; }
+        public bool IsReserveChannelEnabled { get; set; }
+        public RtuChannelTestViewModel ReserveChannelTestViewModel { get; set; }
 
         private readonly Guid _rtuId;
         private readonly Bus _bus;
@@ -32,6 +38,10 @@ namespace Iit.Fibertest.TestBench
             Comment = originalRtu.Comment;
             Serial = originalRtu.Serial;
             PortCount = $@"{originalRtu.OwnPortCount} / {originalRtu.FullPortCount}";
+            OtdrNetAddress = originalRtu.OtdrNetAddress;
+            MainChannelTestViewModel = new RtuChannelTestViewModel(originalRtu.MainChannel);
+            ReserveChannelTestViewModel = new RtuChannelTestViewModel(originalRtu.ReserveChannel);
+            IsReserveChannelEnabled = originalRtu.IsReserveChannelSet;
         }
 
         protected override void OnViewLoaded(object view)

@@ -494,4 +494,31 @@
 	<data name="SID_Graph_of_traces" xml:space="preserve">
 		<value>Граф трасс</value>
 	</data>
+	<data name="SID_Host" xml:space="preserve">
+		<value>Хост</value>
+	</data>
+	<data name="SID_Port" xml:space="preserve">
+		<value>Порт</value>
+	</data>
+	<data name="SID_Test" xml:space="preserve">
+		<value>Тест</value>
+	</data>
+	<data name="SID_Main_channel" xml:space="preserve">
+		<value>Основной канал</value>
+	</data>
+	<data name="SID_OTDR_Network_Address" xml:space="preserve">
+		<value>Сетевой адрес OTDR</value>
+	</data>
+	<data name="SID_Reserve_channel" xml:space="preserve">
+		<value>Резервный канал</value>
+	</data>
+	<data name="SID_Serial" xml:space="preserve">
+		<value>Серийный №</value>
+	</data>
+	<data name="SID_Port_count" xml:space="preserve">
+		<value>Количество портов</value>
+	</data>
+	<data name="SID_Initialize" xml:space="preserve">
+		<value>Инициализировать</value>
+	</data>
 </root>

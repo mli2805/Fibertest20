@@ -176,8 +176,13 @@ namespace Iit.Fibertest.TestBench
             var rtu = Rtus.First(r => r.Id == e.Id);
             rtu.OwnPortCount = e.OwnPortCount;
             rtu.FullPortCount = e.FullPortCount;
+            rtu.Serial = e.Serial;
+            rtu.MainChannel = e.MainChannel;
             rtu.MainChannelState = e.MainChannelState;
+            rtu.ReserveChannel = e.ReserveChannel;
+            rtu.IsReserveChannelSet = !string.IsNullOrEmpty(e.ReserveChannel.Ip4Address) || !string.IsNullOrEmpty(e.ReserveChannel.HostName);
             rtu.ReserveChannelState = e.ReserveChannelState;
+            rtu.OtdrNetAddress = e.OtdrNetAddress;
             rtu.MonitoringState = MonitoringState.Off;
         }
 
