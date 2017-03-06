@@ -71,12 +71,7 @@ namespace Iit.Fibertest.TestBench
 
         private int GetCheckedRadioButton()
         {
-            foreach (var myRadioButton in Choices)
-            {
-                if (myRadioButton.IsChecked)
-                    return Choices.IndexOf(myRadioButton);
-            }
-            return -1; 
+            return Choices.IndexOf(Choices.First(c=>c.IsChecked));
         }
 
         public void SelectButton()
