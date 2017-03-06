@@ -107,6 +107,14 @@
     <Compile Include="Node\NodeRemovedSteps.cs">
       <DependentUpon>NodeRemoved.feature</DependentUpon>
     </Compile>
+    <Compile Include="Rtu\RtuInitialized.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RtuInitialized.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Rtu\RtuInitializedSteps.cs">
+      <DependentUpon>RtuInitialized.feature</DependentUpon>
+    </Compile>
     <Compile Include="Rtu\RtuUpdated.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -375,6 +383,10 @@
     <None Include="Rtu\RtuAtGpsLocationAdded.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>RtuAtGpsLocationAdded.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Rtu\RtuInitialized.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>RtuInitialized.feature.cs</LastGenOutput>
     </None>
     <None Include="Rtu\RtuRemoved.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
