@@ -202,9 +202,10 @@ namespace Iit.Fibertest.TestBench
         #endregion
 
         #region Trace
-        public void ComplyWithRequest(RequestAddTrace request)
+        public Task ComplyWithRequest(RequestAddTrace request)
         {
             PrepareCommand(request);
+            return Task.FromResult(0);
         }
 
         public async Task ComplyWithRequest(AttachTrace request)
