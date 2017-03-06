@@ -70,17 +70,11 @@ namespace Graph.Tests
             var vm = model as QuestionViewModel;
             if (vm == null) return false;
             if (vm.QuestionMessage != question) return false;
-            switch (answer)
-            {
-                case Answer.Yes:
-                    vm.OkButton();
-                    return true;
-                case Answer.Cancel:
-                    vm.CancelButton();
-                    return true;
-                default:
-                    return false;
-            }
+            if (answer == Answer.Yes)
+                vm.OkButton();
+            else
+                vm.CancelButton();
+            return true;
         }
 
         public bool NodeUpdateHandler(object model, string title, string comment, Answer button)
@@ -122,17 +116,16 @@ namespace Graph.Tests
                 case EquipmentChoiceAnswer.Continue:
                     vm.Choices[chosenEquipmentNumber].IsChecked = true;
                     vm.SelectButton();
-                    return true;
+                    break;
                 case EquipmentChoiceAnswer.SetupNameAndContinue:
                     vm.Choices[chosenEquipmentNumber].IsChecked = true;
                     vm.SelectAndSetupNameButton();
-                    return true;
+                    break;
                 case EquipmentChoiceAnswer.Cancel:
                     vm.CancelButton();
-                    return true;
-                default:
-                    return false;
+                    break;
             }
+            return true;
         }
 
         public bool AddTraceViewHandler(object model, string title, string comment, Answer button)
