@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.TestBench;
@@ -22,11 +23,13 @@ namespace Graph.Tests
             return null;
         }
 
+        [ExcludeFromCodeCoverage]
         public void ShowWindow(object rootModel, object context = null, IDictionary<string, object> settings = null)
         {
             throw new NotImplementedException();
         }
 
+        [ExcludeFromCodeCoverage]
         public void ShowPopup(object rootModel, object context = null, IDictionary<string, object> settings = null)
         {
             throw new NotImplementedException();

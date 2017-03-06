@@ -12,5 +12,8 @@
   <MetricsExclusionList>
 GMap.NET.Core\GMap.NET.Core.csproj
 GMap.NET.WindowsPresentation\GMap.NET.WindowsPresentation.csproj
+TestBench\TestBench.csproj\MapUserControl
+TestBench\TestBench.csproj\MarkerControl
+TestBench\TestBench.csproj\Views
 </MetricsExclusionList>
 </SolutionConfiguration>

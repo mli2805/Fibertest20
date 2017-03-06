@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.TestBench;
 using TechTalk.SpecFlow;
