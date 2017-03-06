@@ -8,7 +8,9 @@
   <FrameworkUtilisationTypeForMSpec>UseStaticAnalysis</FrameworkUtilisationTypeForMSpec>
   <FrameworkUtilisationTypeForMSTest>UseStaticAnalysis</FrameworkUtilisationTypeForMSTest>
   <FrameworkUtilisationTypeForXUnit2>UseDynamicAnalysis</FrameworkUtilisationTypeForXUnit2>
-  <NCrunchCacheStoragePath />
+  <NCrunchCacheStoragePath></NCrunchCacheStoragePath>
   <MetricsExclusionList>
+GMap.NET.Core\GMap.NET.Core.csproj
+GMap.NET.WindowsPresentation\GMap.NET.WindowsPresentation.csproj
 </MetricsExclusionList>
 </SolutionConfiguration>
