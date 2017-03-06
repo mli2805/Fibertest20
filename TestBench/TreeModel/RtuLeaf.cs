@@ -163,7 +163,7 @@ namespace Iit.Fibertest.TestBench
 
             menu.Add(new MenuItemVm()
             {
-                Header = Resources.SID_Define_trace_strp_by_step,
+                Header = Resources.SID_Define_trace_step_by_step,
                 Command = new ContextMenuAction(DefineTraceStepByStepAction, CanSomeAction),
                 CommandParameter = this
             });
@@ -180,7 +180,7 @@ namespace Iit.Fibertest.TestBench
         }
         private void ShowRtuAction(object param) { }
 
-        private void RtuSettingsAction(object param)
+        public void RtuSettingsAction(object param)
         {
             var vm = new RtuInitializeViewModel(Id, ReadModel, Bus);
             WindowManager.ShowDialog(vm);

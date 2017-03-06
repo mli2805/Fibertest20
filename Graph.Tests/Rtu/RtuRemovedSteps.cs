@@ -28,7 +28,7 @@ namespace Graph.Tests
         [Given(@"Трасса присоединенна к порту РТУ")]
         public void GivenТрассаПрисоединеннаКПортуРту()
         {
-            _sut.InitializeRtu(_sut.ReadModel.Traces.First(t => t.Id == _sut.TraceId).RtuId, 8);
+            _sut.InitializeRtu(_sut.ReadModel.Traces.First(t => t.Id == _sut.TraceId).RtuId);
             _sut.AttachTrace(_sut.TraceId , 2, Answer.Yes);
         }
 

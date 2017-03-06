@@ -333,9 +333,9 @@ namespace Iit.Fibertest.StringResources {
         /// <summary>
         ///   Looks up a localized string similar to Define trace strp by step.
         /// </summary>
-        public static string SID_Define_trace_strp_by_step {
+        public static string SID_Define_trace_step_by_step {
             get {
-                return ResourceManager.GetString("SID_Define_trace_strp_by_step", resourceCulture);
+                return ResourceManager.GetString("SID_Define_trace_step_by_step", resourceCulture);
             }
         }
         

@@ -401,7 +401,7 @@
 	<data name="SID_Automatic_mode" xml:space="preserve">
     <value>Автоматический режим</value>
   </data>
-	<data name="SID_Define_trace_strp_by_step" xml:space="preserve">
+	<data name="SID_Define_trace_step_by_step" xml:space="preserve">
     <value>Пошаговое определение трассы</value>
   </data>
 	<data name="SID_Attach_optical_switch" xml:space="preserve">

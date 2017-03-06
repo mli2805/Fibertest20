@@ -68,7 +68,7 @@ namespace Iit.Fibertest.TestBench
             });
             ContextMenu.Items.Add(new MenuItem()
             {
-                Header = StringResources.Resources.SID_Define_trace_strp_by_step,
+                Header = StringResources.Resources.SID_Define_trace_step_by_step,
                 Command = new ContextMenuAction(StartDefineTraceStepByStep, CanStartDefineTraceStepByStep),
                 CommandParameter = _marker.Id
             });

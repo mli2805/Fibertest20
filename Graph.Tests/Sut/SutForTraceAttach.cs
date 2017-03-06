@@ -1,22 +1,28 @@
 using System;
 using System.Linq;
-using Iit.Fibertest.Graph;
 using Iit.Fibertest.TestBench;
 
 namespace Graph.Tests
 {
     public class SutForTraceAttach : SystemUnderTest
     {
-        public void InitializeRtu(Guid rtuId, int portCount)
+        public bool RtuInitializeHandler(object model, Answer answer)
         {
-            ShellVm.ComplyWithRequest(new InitializeRtu()
-            {
-                Id = rtuId,
-                FullPortCount = portCount,
-                OwnPortCount = portCount,
-                MainChannel = new NetAddress(),
-                ReserveChannel = new NetAddress(),
-            }).Wait();
+            var vm = model as RtuInitializeViewModel;
+            if (vm == null) return false;
+            if (answer == Answer.Yes)
+                vm.Initialize();
+            else
+                vm.Cancel();
+            return true;
+        }
+        public void InitializeRtu(Guid rtuId)
+        {
+            var rtuLeaf = (RtuLeaf)ShellVm.MyLeftPanelViewModel.TreeReadModel.Tree.GetById(rtuId);
+            FakeWindowManager.RegisterHandler(model=>RtuInitializeHandler(model, Answer.Yes));
+
+            rtuLeaf.RtuSettingsAction(null);
+
             Poller.Tick();
         }
         public void AttachTrace(Guid traceId, int port, Answer answer)
@@ -34,7 +40,7 @@ namespace Graph.Tests
             traceId = CreateTraceRtuEmptyTerminal().Id;
             var id = traceId;
             rtuId = ReadModel.Traces.First(t => t.Id == id).RtuId;
-            InitializeRtu(rtuId, 8);
+            InitializeRtu(rtuId);
         }
 
         public bool TraceToAttachHandler(object model, Answer answer)

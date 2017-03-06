@@ -145,12 +145,6 @@ namespace Iit.Fibertest.TestBench
             await Bus.SendCommand(cmd);
         }
 
-        public async Task ComplyWithRequest(InitializeRtu request)
-        {
-            var cmd = request;
-            await Bus.SendCommand(cmd);
-        }
-
         public async Task ComplyWithRequest(RequestUpdateRtu request)
         {
             var cmd = PrepareCommand(request);
@@ -208,24 +202,12 @@ namespace Iit.Fibertest.TestBench
             return Task.FromResult(0);
         }
 
-        public async Task ComplyWithRequest(AttachTrace request)
-        {
-            var cmd = request;
-            var message = await Bus.SendCommand(cmd);
-            if (message != null)
-            {
-                _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, message));
-            }
-        }
-
         public async Task ComplyWithRequest(DetachTrace request)
         {
             var cmd = request;
             var message = await Bus.SendCommand(cmd);
             if (message != null)
-            {
                 _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, message));
-            }
         }
 
         public void ComplyWithRequest(RequestAssignBaseRef request)
