@@ -4,7 +4,7 @@ using Iit.Fibertest.Graph;
 
 namespace Graph.Tests
 {
-    public class SutForTraceCleanRemove : SutForTraceSimpleOperations
+    public class SutForTraceCleanRemove : SutForTraceAttach
     {
         public Guid TraceId1, TraceId2;
 

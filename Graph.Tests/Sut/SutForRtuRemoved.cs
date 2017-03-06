@@ -6,7 +6,7 @@ using Iit.Fibertest.TestBench;
 
 namespace Graph.Tests
 {
-    public class SutForRtuRemoved : SutForTraceSimpleOperations
+    public class SutForRtuRemoved : SutForTraceAttach
     {
         public Guid RtuNodeId;
         private Guid _endTraceNodeId;

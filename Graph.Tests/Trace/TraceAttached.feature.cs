@@ -62,6 +62,14 @@ namespace Graph.Tests.Trace
             testRunner.CollectScenarioErrors();
         }
         
+        public virtual void FeatureBackground()
+        {
+#line 3
+#line 4
+ testRunner.Given("Создаем трассу РТУ инициализирован", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+        }
+        
         public virtual void SetFixture(TraceAttachedFeature.FixtureData fixtureData)
         {
         }
@@ -77,14 +85,32 @@ namespace Graph.Tests.Trace
         public virtual void ПрисоединениеТрассыКПортуРТУ()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Присоединение трассы к порту РТУ", ((string[])(null)));
-#line 3
-this.ScenarioSetup(scenarioInfo);
-#line 4
- testRunner.Given("Создаем трассу", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 5
- testRunner.When("Пользователь присоедининяет трассу к порту РТУ", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 6
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 7
+ testRunner.When("Пользователь выбирает присоединить к порту 3 трассу и жмет Сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 8
  testRunner.Then("Трасса присоединяется к порту РТУ", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Отказ от присоединения трассы к порту РТУ")]
+        [Xunit.TraitAttribute("FeatureTitle", "TraceAttached")]
+        [Xunit.TraitAttribute("Description", "Отказ от присоединения трассы к порту РТУ")]
+        public virtual void ОтказОтПрисоединенияТрассыКПортуРТУ()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Отказ от присоединения трассы к порту РТУ", ((string[])(null)));
+#line 10
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 11
+ testRunner.When("Пользователь выбирает присоединить к порту 3 трассу а жмет Отмена", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 12
+ testRunner.Then("Трасса НЕ присоединяется к порту РТУ", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

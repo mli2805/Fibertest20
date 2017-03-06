@@ -2,6 +2,7 @@
 using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.TestBench;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -9,25 +10,22 @@ namespace Graph.Tests
     [Binding]
     public sealed class TraceDetachedSteps
     {
-        private readonly SutForTraceSimpleOperations _sut = new SutForTraceSimpleOperations();
+        private readonly SutForTraceAttach _sut = new SutForTraceAttach();
         private Guid _traceId;
+        Guid _rtuId;
+        int _portNumber;
 
-        [Given(@"Создана трассу")]
-        public void GivenСозданаТрассу()
+        [Given(@"Создана трассу инициализирован РТУ")]
+        public void GivenСозданаТрассуИнициализированРту()
         {
-            _traceId = _sut.CreateTraceRtuEmptyTerminal().Id;
+            _sut.TraceCreatedAndRtuInitialized(out _traceId, out _rtuId);
         }
 
         [Given(@"Трасса присоединена к порту РТУ")]
         public void GivenТрассаПрисоединенаКПортуРту()
         {
-            _sut.InitializeRtu(_sut.ReadModel.Traces.First(t => t.Id == _traceId).RtuId, 8);
-            var cmd2 = new AttachTrace()
-            {
-                Port = 3,
-                TraceId = _traceId
-            };
-            _sut.ShellVm.ComplyWithRequest(cmd2).Wait();
+            _portNumber = 3;
+            _sut.AttachTrace(_traceId, _portNumber, Answer.Yes);
             _sut.Poller.Tick();
         }
 
@@ -43,6 +41,8 @@ namespace Graph.Tests
         public void ThenТрассаОтсоединена()
         {
             _sut.ReadModel.Traces.Single(t => t.Id == _traceId).Port.Should().Be(-1);
+                (_sut.ShellVm.MyLeftPanelViewModel.TreeReadModel.Tree.GetById(_rtuId).Children[_portNumber - 1] is
+                    PortLeaf).Should().BeTrue();
         }
 
     }

@@ -29,7 +29,7 @@ namespace Graph.Tests
         public void GivenТрассаПрисоединеннаКПортуРту()
         {
             _sut.InitializeRtu(_sut.ReadModel.Traces.First(t => t.Id == _sut.TraceId).RtuId, 8);
-            _sut.AttachTrace(_sut.TraceId);
+            _sut.AttachTrace(_sut.TraceId , 2, Answer.Yes);
         }
 
         [When(@"Пользователь кликает на РТУ удалить")]

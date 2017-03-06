@@ -22,7 +22,7 @@ namespace Graph.Tests
         public void GivenОднаИзТрассПрисоединенаКПорту()
         {
             _sut.InitializeRtu(_sut.ReadModel.Traces.First(t => t.Id == _sut.TraceId1).RtuId, 8);
-            _sut.AttachTrace(_sut.TraceId1);
+            _sut.AttachTrace(_sut.TraceId1, 2, Answer.Yes);
         }
 
         [Then(@"У присоединенной трассы нет пунктов Очистить и Удалить в меню")]
