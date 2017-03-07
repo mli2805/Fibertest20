@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Iit.Fibertest.TestBench
 {
@@ -16,6 +17,18 @@ namespace Iit.Fibertest.TestBench
                     return result;
             }
             return null;
+        }
+    }
+
+    public static class TreeStatistics
+    {
+        public static int TracesCount(this ObservableCollection<Leaf> roots)
+        {
+            return 1;
+        }
+        public static int PortCount(this ObservableCollection<Leaf> roots)
+        {
+            return roots.Select(r=>((RtuLeaf)r).FullPortCount).Sum();
         }
     }
 }

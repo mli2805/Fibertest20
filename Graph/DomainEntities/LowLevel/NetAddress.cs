@@ -18,5 +18,10 @@ namespace Iit.Fibertest.Graph
             Port = -1;
             IsAddressSetAsIp = true;
         }
+
+        public override string ToString()
+        {
+            return $@"{Ip4Address}:{Port}";
+        }
     }
 }

@@ -808,6 +808,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Optical switch {0}.
+        /// </summary>
+        public static string SID_Optical_switch_with_Address {
+            get {
+                return ResourceManager.GetString("SID_Optical_switch_with_Address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to OTDR Network Address.
         /// </summary>
         public static string SID_OTDR_Network_Address {
@@ -858,6 +867,24 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Port_N {
             get {
                 return ResourceManager.GetString("SID_Port_N", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to N{0} ({1}-{2}).
+        /// </summary>
+        public static string SID_Port_N_on_otau {
+            get {
+                return ResourceManager.GetString("SID_Port_N_on_otau", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}({1}).
+        /// </summary>
+        public static string SID_Port_on_otau {
+            get {
+                return ResourceManager.GetString("SID_Port_on_otau", resourceCulture);
             }
         }
         

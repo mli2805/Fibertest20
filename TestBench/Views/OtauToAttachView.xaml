@@ -6,9 +6,9 @@
         xmlns:testBench="clr-namespace:Iit.Fibertest.TestBench"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
-        SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner">
+        SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" d:DataContext="{d:DesignInstance testBench:OtauToAttachViewModel}">
     <StackPanel>
-        <GroupBox Header="{x:Static stringResources:Resources.SID_Attach_to}" Margin="5,5,5,10">
+        <GroupBox Header="{x:Static stringResources:Resources.SID_Attach_to}" Margin="5">
             <StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5">
                     <TextBlock Text="RTU:"/>
@@ -21,7 +21,7 @@
             </StackPanel>
         </GroupBox>
         <GroupBox Header="{x:Static stringResources:Resources.SID_Additional_optical_switch}" Margin="5">
-            <testBench:NetAddressInputView Margin="5,10"/>
+            <testBench:NetAddressInputView Margin="5,10" DataContext="{Binding NetAddressInputViewModel}"/>
         </GroupBox>
         <GroupBox Header="{x:Static stringResources:Resources.SID_Information}" Margin="5">
             <StackPanel>
@@ -35,7 +35,7 @@
                 </StackPanel>
             </StackPanel>
         </GroupBox>
-        <StackPanel Orientation="Horizontal" Margin="15,25,15,10">
+        <StackPanel Orientation="Horizontal" Margin="15,10">
             <Button Name="Attach" Content="{x:Static stringResources:Resources.SID_Attach}" Width="100" Margin="5"/>
             <Button Name="Close" Content="{x:Static stringResources:Resources.SID_Close}" Width="90" Margin="5"/>
         </StackPanel>

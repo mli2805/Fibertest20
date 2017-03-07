@@ -80,10 +80,16 @@ namespace Iit.Fibertest.TestBench
             {
                 Id = e.Id,
                 Parent = rtuLeaf,
-
+                Title = string.Format(Resources.SID_Optical_switch_with_Address, e.NetAddress),
+                Color = Brushes.Black,
+                MasterPort = e.MasterPort,
+                FirstPortNumber = rtuLeaf.FullPortCount + 1,
+                OtauState = RtuPartState.Normal,
+                IsExpanded = true,
             };
-            var freePort = rtuLeaf.Children[e.MasterPort - 1];
-            rtuLeaf.Children.Remove(freePort);
+            for (int i = 0; i < e.PortCount; i++)
+                otauLeaf.Children.Add(new PortLeaf(_readModel, _windowManager, _bus, otauLeaf, i+1));
+            rtuLeaf.Children.Remove(rtuLeaf.Children[e.MasterPort - 1]);
             rtuLeaf.Children.Insert(e.MasterPort-1, otauLeaf);
         }
 

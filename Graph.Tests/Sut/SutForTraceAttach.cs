@@ -13,7 +13,7 @@ namespace Graph.Tests
             if (answer == Answer.Yes)
                 vm.Initialize();
             else
-                vm.Cancel();
+                vm.Close();
             return true;
         }
         public void InitializeRtu(Guid rtuId)

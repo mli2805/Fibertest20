@@ -76,7 +76,7 @@ namespace Iit.Fibertest.TestBench
             _serial = @"85615";
         }
 
-        public void Cancel()
+        public void Close()
         {
             TryClose();
         }

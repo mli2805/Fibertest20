@@ -41,6 +41,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -60,7 +61,8 @@
             </ToggleButton>
         </Grid>
         <TreeView ItemsSource="{Binding TreeReadModel.Tree}" Name="MainTreeView"
-                  Background="Transparent" Foreground="Black" Grid.Row="1" HorizontalAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                  Background="Transparent" Foreground="Black" Grid.Row="1" Grid.ColumnSpan="4" HorizontalAlignment="Stretch"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <TreeView.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}">
                     <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
@@ -99,18 +101,36 @@
                         <TextBlock Text="{Binding Name}" Foreground="{Binding Color}" Margin="0,0,20,0" MinWidth="200"/>
                     </StackPanel>
                 </HierarchicalDataTemplate>
-                <HierarchicalDataTemplate DataType="{x:Type testBench:PortLeaf}" ItemsSource="{Binding Children}">
-                    <StackPanel Orientation="Horizontal" Margin="85,0,0,0">  
+                <HierarchicalDataTemplate DataType="{x:Type testBench:OtauLeaf}" ItemsSource="{Binding Children}">
+                    <StackPanel Orientation="Horizontal" Margin="29,0,0,0">
                         <StackPanel.ContextMenu>
                             <ContextMenu 
                                 ItemContainerStyle="{StaticResource ContextMenuItemStyle}" 
                                 ItemsSource="{Binding MyContextMenu}"/>
                         </StackPanel.ContextMenu>
+                        <Image Source="{Binding OtauStatePictogram}" Height="12" Width="12" Margin="0,0,4,0"/>
+                        <TextBlock Text="{Binding Name}" Foreground="{Binding Color}" Margin="0,0,20,0" MinWidth="200"/>
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+                <HierarchicalDataTemplate DataType="{x:Type testBench:PortLeaf}" ItemsSource="{Binding Children}">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel.ContextMenu>
+                            <ContextMenu 
+                                ItemContainerStyle="{StaticResource ContextMenuItemStyle}" 
+                                ItemsSource="{Binding MyContextMenu}"/>
+                        </StackPanel.ContextMenu>
+                        <TextBlock Width="{Binding LeftMargin}"/>
                         <TextBlock Text="{Binding Name}" Foreground="{Binding Color}" Margin="0,0,20,0" MinWidth="200"/>
                     </StackPanel>
                 </HierarchicalDataTemplate>
             </TreeView.Resources>
         </TreeView>
+        <StatusBar Grid.Row="2" Grid.ColumnSpan="4" Background="Transparent">
+            <TextBlock Text="RTU "/>
+            <TextBlock Text="{Binding RtuCount}"/>
+            <TextBlock Text="Ports"/>
+            <TextBlock Text="{Binding FullPortCount}"/>
+        </StatusBar>
     </Grid>
 </UserControl>
 

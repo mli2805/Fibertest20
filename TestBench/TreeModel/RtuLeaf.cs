@@ -75,12 +75,29 @@ namespace Iit.Fibertest.TestBench
 
         public void RestoreFreePorts()
         {
-            var traces = Children.ToList();
-            for (int i = 0; i < OwnPortCount; i++)
+            var ports = new Leaf[OwnPortCount];
+            var notAttachedTraces = new List<Leaf>();
+            foreach (var child in Children)
             {
-                if (traces.FirstOrDefault(l=>((TraceLeaf)l).PortNumber == i+1) == null)
-                    Children.Insert(i, new PortLeaf(ReadModel,WindowManager,Bus, this, i+1));
+                if (child is OtauLeaf)
+                    ports[((OtauLeaf) child).MasterPort - 1] = child;
+                if (child is TraceLeaf)
+                {
+                    var portNumber = ((TraceLeaf) child).PortNumber;
+                    if (portNumber > 0)
+                        ports[portNumber - 1] = child;
+                    else
+                        notAttachedTraces.Add(child);
+                }
             }
+            for (int i = 0; i < ports.Length; i++)
+            {
+                if (ports[i] == null)
+                    ports[i] = new PortLeaf(ReadModel, WindowManager, Bus, this, i + 1);
+            }
+            Children.Clear();
+            ports.ToList().ForEach(t=>Children.Add(t));
+            notAttachedTraces.ForEach(t=>Children.Add(t));
         }
 
         protected override List<MenuItemVm> GetMenuItems()

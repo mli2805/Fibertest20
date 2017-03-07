@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Windows;
 using System.Windows.Media;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
@@ -10,29 +9,32 @@ namespace Iit.Fibertest.TestBench
     public class PortLeaf : Leaf
     {
         public readonly int PortNumber;
+        public readonly int ExtendedPortNumber;
 
-        private Visibility _visibility;
-        public Visibility Visibility
+        public override string Name
         {
-            get { return _visibility; }
-            set
+            get
             {
-                if (value == _visibility) return;
-                _visibility = value;
-                NotifyOfPropertyChange();
-            }
-        }
-        public override string Name => Title;
+                var otau = Parent as OtauLeaf;
 
-        public PortLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, Leaf parent, int portNumber) : base(readModel, windowManager, bus)
+                return otau != null ?
+                    string.Format(Resources.SID_Port_N_on_otau, ExtendedPortNumber, otau.MasterPort, PortNumber) :
+                    string.Format(Resources.SID_Port_N, PortNumber);
+            }
+            set { }
+        }
+        public int LeftMargin => Parent is OtauLeaf ? 65 : 85;
+
+        public PortLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, Leaf parent, int portNumber) 
+            : base(readModel, windowManager, bus)
         {
             PortNumber = portNumber;
             Parent = parent;
-            Title = string.Format(Resources.SID_Port_N, PortNumber);
+            var otauLeaf = Parent as OtauLeaf;
+            if (otauLeaf != null)
+                ExtendedPortNumber = otauLeaf.FirstPortNumber + PortNumber - 1;
             Color = Brushes.Blue;
-            Visibility = Visibility.Collapsed;
         }
-
 
         protected override List<MenuItemVm> GetMenuItems()
         {
@@ -55,7 +57,7 @@ namespace Iit.Fibertest.TestBench
             yield return new MenuItemVm()
             {
                 Header = Resources.SID_Attach_optical_switch,
-                Command = new ContextMenuAction(AttachOtauAction, CanAttachAction),
+                Command = new ContextMenuAction(AttachOtauAction, CanAttachOtauAction),
                 CommandParameter = this,
             };
         }
@@ -81,7 +83,8 @@ namespace Iit.Fibertest.TestBench
 
         public void AttachFromListAction(object param)
         {
-            var vm = new TraceToAttachViewModel(Parent.Id, PortNumber, ReadModel, Bus);
+            var rtuId = Parent is RtuLeaf ? Parent.Id : Parent.Parent.Id;
+            var vm = new TraceToAttachViewModel(rtuId, PortNumber, ReadModel, Bus);
             WindowManager.ShowDialog(vm);
         }
 
@@ -91,8 +94,10 @@ namespace Iit.Fibertest.TestBench
             WindowManager.ShowDialog(vm);
         }
 
-        private bool CanAttachAction(object param)
+        private bool CanAttachOtauAction(object param)
         {
+            if (Parent is OtauLeaf)
+                return false;
             var rtuLeaf = (RtuLeaf)Parent;
             return !rtuLeaf.HasAttachedTraces;
         }
