@@ -25,6 +25,8 @@ namespace Iit.Fibertest.Graph
             CreateMap<InitializeRtu, RtuInitialized>();
             CreateMap<UpdateRtu, RtuUpdated>();
             CreateMap<RemoveRtu, RtuRemoved>();
+            CreateMap<AttachOtau, OtauAttached>();
+            CreateMap<DetachOtau, OtauDetached>();
 
             CreateMap<AttachTrace, TraceAttached>();
             CreateMap<DetachTrace, TraceDetached>();

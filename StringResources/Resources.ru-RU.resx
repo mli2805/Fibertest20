@@ -521,4 +521,22 @@
 	<data name="SID_Initialize" xml:space="preserve">
 		<value>Инициализировать</value>
 	</data>
+	<data name="SID_Optical_switch_attach_error" xml:space="preserve">
+		<value>Ошибка подключения оптического переключателя!</value>
+	</data>
+	<data name="SID_Attach_to" xml:space="preserve">
+		<value>Присоединить к</value>
+	</data>
+	<data name="SID_Port1" xml:space="preserve">
+		<value>Порт:</value>
+	</data>
+	<data name="SID_Attach" xml:space="preserve">
+		<value>Присоединить</value>
+	</data>
+	<data name="SID_Close" xml:space="preserve">
+		<value>Закрыть</value>
+	</data>
+	<data name="SID_Additional_optical_switch" xml:space="preserve">
+		<value>Дополнительный оптический переключатель</value>
+	</data>
 </root>

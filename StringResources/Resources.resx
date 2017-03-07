@@ -521,4 +521,22 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_Initialize" xml:space="preserve">
     <value>Initialize</value>
   </data>
+	<data name="SID_Optical_switch_attach_error" xml:space="preserve">
+    <value>Optical switch attach error!</value>
+  </data>
+	<data name="SID_Attach_to" xml:space="preserve">
+    <value>Attach to</value>
+  </data>
+	<data name="SID_Port1" xml:space="preserve">
+    <value>Port:</value>
+  </data>
+	<data name="SID_Attach" xml:space="preserve">
+    <value>Attach</value>
+  </data>
+	<data name="SID_Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+	<data name="SID_Additional_optical_switch" xml:space="preserve">
+    <value>Additional optical switch</value>
+  </data>
 </root>

@@ -60,6 +60,8 @@ namespace Iit.Fibertest.TestBench
         public int FullPortCount { get; set; }
         public override string Name => Title;
 
+        public bool HasAttachedTraces => Children.Any(l => l is TraceLeaf && ((TraceLeaf) l).PortNumber > 0);
+
         public RtuLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus) : base(readModel, windowManager, bus)
         {
         }
@@ -196,10 +198,8 @@ namespace Iit.Fibertest.TestBench
             Bus.SendCommand(new RemoveRtu() {Id = Id});
         }
 
-        private bool CanRtuRemoveAction(object param)
-        {
-            return !Children.Any(l => l is TraceLeaf && ((TraceLeaf) l).PortNumber > 0);
-        }
+        private bool CanRtuRemoveAction(object param) { return !HasAttachedTraces; }
+
         private void DefineTraceAction(object param) { }
         private void DefineTraceStepByStepAction(object param) { }
     }

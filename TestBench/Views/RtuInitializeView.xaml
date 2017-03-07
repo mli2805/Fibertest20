@@ -41,7 +41,7 @@
             </GroupBox.Header>
             <testBench:RtuChannelTestView Margin="0,5,0,0" DataContext="{Binding ReserveChannelTestViewModel}"/>
         </GroupBox>
-        <GroupBox Margin="5">
+        <GroupBox Header="Information" Margin="5">
             <StackPanel>
                 <DockPanel>
                     <TextBlock Text="{x:Static stringResources:Resources.SID_Serial}" Margin="5"></TextBlock>
@@ -55,7 +55,7 @@
         </GroupBox>
         <StackPanel Orientation="Horizontal"  Margin="5">
             <Button Name="Initialize" Content="{x:Static stringResources:Resources.SID_Initialize}" Margin="5" Height="22" Width="150"/>
-            <Button Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}" Margin="5" Height="22" Width="100"/>
+            <Button Name="Close" Content="{x:Static stringResources:Resources.SID_Close}" Margin="5" Height="22" Width="100"/>
         </StackPanel>
     </StackPanel>
 </Window>

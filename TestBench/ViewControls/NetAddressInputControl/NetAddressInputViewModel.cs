@@ -17,5 +17,16 @@ namespace Iit.Fibertest.TestBench
             Port = netAddress.Port;
             IsAddressSetAsIp = netAddress.IsAddressSetAsIp;
         }
+
+        public NetAddress GetNetAddress()
+        {
+            return new NetAddress()
+            {
+                HostName = Host,
+                Ip4Address = Ip4InputViewModel.GetString(),
+                IsAddressSetAsIp = IsAddressSetAsIp,
+                Port = Port
+            };
+        }
     }
 }

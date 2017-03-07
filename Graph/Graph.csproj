@@ -64,6 +64,8 @@
     <Compile Include="Commands\Node\AddNodeIntoFiber.cs" />
     <Compile Include="Commands\Node\MoveNode.cs" />
     <Compile Include="Commands\Rtu\AddRtuAtGpsLocation.cs" />
+    <Compile Include="Commands\Rtu\AttachOtau.cs" />
+    <Compile Include="Commands\Rtu\DetachOtau.cs" />
     <Compile Include="Commands\Rtu\InitializeRtu.cs" />
     <Compile Include="Commands\Rtu\RemoveRtu.cs" />
     <Compile Include="Commands\Rtu\UpdateRtu.cs" />
@@ -83,6 +85,7 @@
     <Compile Include="DomainEntities\Enums\RtuPartState.cs" />
     <Compile Include="DomainEntities\Enums\TraceMode.cs" />
     <Compile Include="DomainEntities\LowLevel\GpsLocation.cs" />
+    <Compile Include="DomainEntities\Otau.cs" />
     <Compile Include="Events\Equipment\EquipmentAtGpsLocationAdded.cs" />
     <Compile Include="Events\Equipment\EquipmentRemoved.cs" />
     <Compile Include="Events\Equipment\EquipmentUpdated.cs" />
@@ -91,6 +94,8 @@
     <Compile Include="Events\Node\NodeIntoFiberAdded.cs" />
     <Compile Include="Events\Node\NodeMoved.cs" />
     <Compile Include="DomainEntities\LowLevel\NetAddress.cs" />
+    <Compile Include="Events\Rtu\OtauAttached.cs" />
+    <Compile Include="Events\Rtu\OtauDetached.cs" />
     <Compile Include="Events\Rtu\RtuAtGpsLocationAdded.cs" />
     <Compile Include="Events\Rtu\RtuInitialized.cs" />
     <Compile Include="Events\Rtu\RtuRemoved.cs" />

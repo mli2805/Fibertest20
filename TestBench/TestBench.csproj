@@ -108,6 +108,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="TreeModel\OtauLeaf.cs" />
     <Compile Include="ViewControls\GpsInputControl\GpsInputModeComboItem.cs" />
     <Compile Include="ReadModel\PathFinder.cs" />
     <Compile Include="AppBootstrapper.cs" />
@@ -128,9 +129,13 @@
       <DependentUpon>RtuChannelTestView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewControls\RtuChannelTestViewModel.cs" />
+    <Compile Include="ViewModels\OtauToAttachViewModel.cs" />
     <Compile Include="ViewModels\Primitive\NodesStatisticsItem.cs" />
     <Compile Include="ViewModels\RtuInitializeViewModel.cs" />
     <Compile Include="ViewModels\TraceToAttachViewModel.cs" />
+    <Compile Include="Views\OtauToAttachView.xaml.cs">
+      <DependentUpon>OtauToAttachView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\RtuInitializeView.xaml.cs">
       <DependentUpon>RtuInitializeView.xaml</DependentUpon>
     </Compile>
@@ -310,6 +315,10 @@
     <Page Include="Views\NodeUpdateView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\OtauToAttachView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\RtuInitializeView.xaml">
       <SubType>Designer</SubType>

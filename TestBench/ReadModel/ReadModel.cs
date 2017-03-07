@@ -17,6 +17,7 @@ namespace Iit.Fibertest.TestBench
         public List<Equipment> Equipments { get; } = new List<Equipment>();
         public List<Rtu> Rtus { get; } = new List<Rtu>();
         public List<Trace> Traces { get; } = new List<Trace>();
+        public List<Otau> Otaus { get; } = new List<Otau>();
 
         #region Node
         public void Apply(NodeAdded e)
@@ -192,6 +193,7 @@ namespace Iit.Fibertest.TestBench
             rtu.Title = e.Title;
             rtu.Comment = e.Comment;
         }
+
         public void Apply(RtuRemoved e)
         {
             var rtu = Rtus.First(r => r.Id == e.Id);
@@ -200,6 +202,22 @@ namespace Iit.Fibertest.TestBench
             Rtus.Remove(rtu);
             RemoveNodeWithAllHis(nodeId);
         }
+
+        public void Apply(AttachOtau e)
+        {
+            Otau otau = _mapper.Map<Otau>(e);
+            Otaus.Add(otau);
+        }
+
+        public void Apply(DetachOtau e)
+        {
+            var otau = Otaus.First(o => o.Id == e.Id);
+            var rtu = Rtus.First(r => r.Id == e.RtuId);
+
+            rtu.FullPortCount -= otau.PortCount;
+            Otaus.Remove(otau);
+        }
+
         #endregion
 
         #region Trace

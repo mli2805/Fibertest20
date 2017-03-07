@@ -163,6 +163,14 @@ namespace Iit.Fibertest.Graph
         {
             WriteModel.AddAndCommit(_mapper.Map<RtuRemoved>(cmd));
         }
+        public void When(AttachOtau cmd)
+        {
+            WriteModel.AddAndCommit(_mapper.Map<OtauAttached>(cmd));
+        }
+        public void When(DetachOtau cmd)
+        {
+            WriteModel.AddAndCommit(_mapper.Map<OtauDetached>(cmd));
+        }
         #endregion
 
         #region Trace

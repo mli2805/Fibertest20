@@ -72,6 +72,21 @@ namespace Iit.Fibertest.TestBench
             }
             Tree.Remove(leaf);
         }
+
+        public void Apply(OtauAttached e)
+        {
+            var rtuLeaf = (RtuLeaf)Tree.GetById(e.RtuId);
+            var otauLeaf = new OtauLeaf(_readModel, _windowManager, _bus)
+            {
+                Id = e.Id,
+                Parent = rtuLeaf,
+
+            };
+            var freePort = rtuLeaf.Children[e.MasterPort - 1];
+            rtuLeaf.Children.Remove(freePort);
+            rtuLeaf.Children.Insert(e.MasterPort-1, otauLeaf);
+        }
+
         #endregion
 
         #region Trace

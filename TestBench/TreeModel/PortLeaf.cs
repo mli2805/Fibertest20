@@ -55,7 +55,7 @@ namespace Iit.Fibertest.TestBench
             yield return new MenuItemVm()
             {
                 Header = Resources.SID_Attach_optical_switch,
-                Command = new ContextMenuAction(AttachBopAction, CanSomeAction),
+                Command = new ContextMenuAction(AttachOtauAction, CanAttachAction),
                 CommandParameter = this,
             };
         }
@@ -84,6 +84,17 @@ namespace Iit.Fibertest.TestBench
             var vm = new TraceToAttachViewModel(Parent.Id, PortNumber, ReadModel, Bus);
             WindowManager.ShowDialog(vm);
         }
-        private void AttachBopAction(object param) { }
+
+        public void AttachOtauAction(object param)
+        {
+            var vm = new OtauToAttachViewModel(Parent.Id, PortNumber, ReadModel, Bus, WindowManager);
+            WindowManager.ShowDialog(vm);
+        }
+
+        private bool CanAttachAction(object param)
+        {
+            var rtuLeaf = (RtuLeaf)Parent;
+            return !rtuLeaf.HasAttachedTraces;
+        }
     }
 }

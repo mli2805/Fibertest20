@@ -169,11 +169,29 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Additional optical switch.
+        /// </summary>
+        public static string SID_Additional_optical_switch {
+            get {
+                return ResourceManager.GetString("SID_Additional_optical_switch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Adjustment node.
         /// </summary>
         public static string SID_Adjustment_node {
             get {
                 return ResourceManager.GetString("SID_Adjustment_node", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attach.
+        /// </summary>
+        public static string SID_Attach {
+            get {
+                return ResourceManager.GetString("SID_Attach", resourceCulture);
             }
         }
         
@@ -192,6 +210,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Attach_optical_switch {
             get {
                 return ResourceManager.GetString("SID_Attach_optical_switch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attach to.
+        /// </summary>
+        public static string SID_Attach_to {
+            get {
+                return ResourceManager.GetString("SID_Attach_to", resourceCulture);
             }
         }
         
@@ -273,6 +300,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Clean {
             get {
                 return ResourceManager.GetString("SID_Clean", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        public static string SID_Close {
+            get {
+                return ResourceManager.GetString("SID_Close", resourceCulture);
             }
         }
         
@@ -763,6 +799,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Optical switch attach error!.
+        /// </summary>
+        public static string SID_Optical_switch_attach_error {
+            get {
+                return ResourceManager.GetString("SID_Optical_switch_attach_error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to OTDR Network Address.
         /// </summary>
         public static string SID_OTDR_Network_Address {
@@ -822,6 +867,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_port_trace {
             get {
                 return ResourceManager.GetString("SID_port_trace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Port:.
+        /// </summary>
+        public static string SID_Port1 {
+            get {
+                return ResourceManager.GetString("SID_Port1", resourceCulture);
             }
         }
         
