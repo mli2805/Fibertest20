@@ -24,13 +24,18 @@ namespace Iit.Fibertest.TestBench
                 NotifyOfPropertyChange(nameof(Name));
             }
         }
+        public readonly int ExtendedPortNumber;
 
-        public int LeftMargin => PortNumber > 0 ? 53 : 78;
+        public int LeftMargin => PortNumber < 1 ? 78 : Parent is RtuLeaf ? 53 : 34;
         public Visibility IconsVisibility => PortNumber > 0 ? Visibility.Visible : Visibility.Hidden;
 
         public override string Name
         {
-            get { return PortNumber < 1 ? Title : string.Format(Resources.SID_port_trace, PortNumber, Title); }
+            get { return PortNumber < 1 ? 
+                            Title : 
+                            Parent is OtauLeaf ?
+                                string.Format(Resources.SID_Port_trace_on_otau, ExtendedPortNumber, ((OtauLeaf)Parent).MasterPort, PortNumber, Title) :
+                                string.Format(Resources.SID_Port_trace, PortNumber, Title) ; }
             set { }
         }
 
@@ -44,6 +49,8 @@ namespace Iit.Fibertest.TestBench
         public TraceLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, Leaf parent) : base(readModel, windowManager, bus)
         {
             Parent = parent;
+            var otauLeaf = Parent as OtauLeaf;
+            ExtendedPortNumber = otauLeaf != null ? otauLeaf.FirstPortNumber + PortNumber - 1 : PortNumber;
         }
 
         protected override List<MenuItemVm> GetMenuItems()

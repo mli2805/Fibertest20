@@ -18,7 +18,7 @@ namespace Iit.Fibertest.TestBench
 
         public override string Name
         {
-            get { return string.Format(Resources.SID_port_trace, MasterPort, Title); }
+            get { return string.Format(Resources.SID_Port_trace, MasterPort, Title); }
             set {}
         }
 
@@ -33,7 +33,7 @@ namespace Iit.Fibertest.TestBench
             {
                 new MenuItemVm()
                 {
-                    Header = Resources.SID_Remove_optical_switch,
+                    Header = Resources.SID_Remove,
                     Command = new ContextMenuAction(OtauRemoveAction, CanOtauRemoveAction),
                     CommandParameter = this
                 }

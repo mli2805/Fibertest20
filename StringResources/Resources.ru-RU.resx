@@ -251,7 +251,7 @@
 	<data name="SID_RTU_Information" xml:space="preserve">
     <value>RTU Информация</value>
   </data>
-	<data name="SID_port_trace" xml:space="preserve">
+	<data name="SID_Port_trace" xml:space="preserve">
     <value>N{0} : {1}</value>
   </data>
 	<data name="SID_coor_in_degrees" xml:space="preserve">
@@ -544,5 +544,8 @@
 	</data>
 	<data name="SID_Port_N_on_otau" xml:space="preserve">
 		<value>N{0} ({1}-{2})</value>
+	</data>
+	<data name="SID_Port_trace_on_otau" xml:space="preserve">
+		<value>N{0} ({1}-{2}) : {3}</value>
 	</data>
 </root>

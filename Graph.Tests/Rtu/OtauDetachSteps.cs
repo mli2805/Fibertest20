@@ -41,7 +41,7 @@ namespace Graph.Tests
         [Then(@"Пункт удаление переключателя недоступен")]
         public void ThenПунктУдалениеПереключателяНедоступен()
         {
-            _otauLeaf.MyContextMenu.First(i => i.Header == Resources.SID_Remove_optical_switch)
+            _otauLeaf.MyContextMenu.First(i => i.Header == Resources.SID_Remove)
                 .Command.CanExecute(null)
                 .Should()
                 .BeFalse();

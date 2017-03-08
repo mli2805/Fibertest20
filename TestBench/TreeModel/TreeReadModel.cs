@@ -147,7 +147,7 @@ namespace Iit.Fibertest.TestBench
                     Color = Brushes.Black,
                     PortNumber = e.Port,
                 });
-            portOwner.Children.Remove(traceLeaf);
+            rtuLeaf.Children.Remove(traceLeaf);
         }
 
         public void Apply(TraceDetached e)

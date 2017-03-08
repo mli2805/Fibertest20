@@ -15,10 +15,8 @@ namespace Iit.Fibertest.TestBench
         {
             get
             {
-                var otau = Parent as OtauLeaf;
-
-                return otau != null ?
-                    string.Format(Resources.SID_Port_N_on_otau, ExtendedPortNumber, otau.MasterPort, PortNumber) :
+                return Parent is OtauLeaf ?
+                    string.Format(Resources.SID_Port_N_on_otau, ExtendedPortNumber, ((OtauLeaf)Parent).MasterPort, PortNumber) :
                     string.Format(Resources.SID_Port_N, PortNumber);
             }
             set { }
