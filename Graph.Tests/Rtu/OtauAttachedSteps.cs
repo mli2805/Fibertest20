@@ -34,9 +34,8 @@ namespace Graph.Tests
         [Then(@"Пункт подключить переключатель не доступен")]
         public void ThenПунктПодключитьПереключательНеДоступен()
         {
-            var portLeaf = _rtuLeaf.Children[3];
-            portLeaf.MyContextMenu.First(i => i.Header == Resources.SID_Attach_optical_switch)
-                .Command.CanExecute(null)
+            _rtuLeaf.Children.Any(port => port is PortLeaf && port.MyContextMenu.First(i => i.Header == Resources.SID_Attach_optical_switch)
+                .Command.CanExecute(null))
                 .Should()
                 .BeFalse();
         }
@@ -54,6 +53,12 @@ namespace Graph.Tests
             _rtuLeaf.FullPortCount.Should().Be(24);
             _rtuLeaf.Children[portNumber-1].Should().Be(_otauLeaf);
             _rtuLeaf.GetOwnerOfExtendedPort(9).Should().Be(_otauLeaf);
+            _otauLeaf.Children.Count.Should().Be(16);
+
+            _otauLeaf.Children.Any(
+                port =>
+                    port.MyContextMenu.First(i => i.Header == Resources.SID_Attach_optical_switch)
+                        .Command.CanExecute(null)).Should().BeFalse();
         }
     }
 }

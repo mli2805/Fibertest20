@@ -28,5 +28,8 @@
     <NamedTestSelector>
       <TestName>Graph.Tests.Equipment.EquipmentRemovedFeature.УдалениеОборудованияНеВходящегоВТрассы</TestName>
     </NamedTestSelector>
+    <NamedTestSelector>
+      <TestName>Graph.Tests.Rtu.OtauDetachFeature.ОтсоединениеОптическогоПереключателя</TestName>
+    </NamedTestSelector>
   </IgnoredTests>
 </ProjectConfiguration>

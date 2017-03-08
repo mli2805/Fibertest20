@@ -115,6 +115,14 @@
     <Compile Include="Rtu\OtauAttachedSteps.cs">
       <DependentUpon>OtauAttached.feature</DependentUpon>
     </Compile>
+    <Compile Include="Rtu\OtauDetach.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OtauDetach.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Rtu\OtauDetachSteps.cs">
+      <DependentUpon>OtauDetach.feature</DependentUpon>
+    </Compile>
     <Compile Include="Rtu\RtuInitialized.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -391,6 +399,10 @@
     <None Include="Rtu\OtauAttached.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>OtauAttached.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Rtu\OtauDetach.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>OtauDetach.feature.cs</LastGenOutput>
     </None>
     <None Include="Rtu\RtuAtGpsLocationAdded.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
