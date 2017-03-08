@@ -48,7 +48,7 @@ namespace Graph.Tests
             var vm = model as TraceToAttachViewModel;
             if (vm == null) return false;
             if (answer == Answer.Yes)
-                vm.Save();
+                vm.Attach();
             else
                 vm.Cancel();
             return true;

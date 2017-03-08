@@ -14,7 +14,7 @@
                   Margin="10,10,10,25"/>
         </GroupBox>
         <StackPanel Orientation="Horizontal" Margin="0,10">
-            <Button Name="Save" Content="{x:Static stringResources:Resources.SID_Save}" Height="22" Width="100" Margin="30,5,5,5" IsDefault="True"/>
+            <Button Name="Attach" Content="{x:Static stringResources:Resources.SID_Attach}" Height="22" Width="100" Margin="30,5,5,5" IsDefault="True"/>
             <Button Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}" Height="22" Width="100" Margin="5,5,5,5" IsCancel="True"/>
         </StackPanel>
     </StackPanel>

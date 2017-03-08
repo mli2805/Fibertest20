@@ -40,7 +40,7 @@ namespace Iit.Fibertest.TestBench
             DisplayName = Resources.SID_Not_attached_traces_list;
         }
 
-        public void Save()
+        public void Attach()
         {
             _bus.SendCommand(new AttachTrace() {Port = _portNumber, TraceId = SelectedTrace.Id});
             TryClose();
