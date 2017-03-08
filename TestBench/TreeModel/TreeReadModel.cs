@@ -145,7 +145,7 @@ namespace Iit.Fibertest.TestBench
                     TraceState = FiberState.NotChecked,
                     Title = traceLeaf.Title,
                     Color = Brushes.Black,
-                    PortNumber = e.Port,
+                    PortNumber = port,
                 });
             rtuLeaf.Children.Remove(traceLeaf);
         }
