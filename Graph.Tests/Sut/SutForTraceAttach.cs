@@ -44,24 +44,39 @@ namespace Graph.Tests
             rtuLeaf.RtuSettingsAction(null);
 
             Poller.Tick();
+
             return rtuLeaf;
         }
         public void AttachTrace(Guid traceId, int port, Answer answer)
         {
             var traceLeaf = ShellVm.MyLeftPanelViewModel.TreeReadModel.Tree.GetById(traceId);
             FakeWindowManager.RegisterHandler(model => TraceToAttachHandler(model, answer));
-            var rtuLeaf = traceLeaf.Parent;
+
+
+            var rtuLeaf = traceLeaf.Parent is RtuLeaf ? traceLeaf.Parent : traceLeaf.Parent.Parent;
             var portLeaf = (PortLeaf)rtuLeaf.Children[port - 1];
+
             portLeaf.AttachFromListAction(null);
             Poller.Tick();
         }
 
-        public void TraceCreatedAndRtuInitialized(out Guid traceId, out Guid rtuId)
+        public void AttachTraceTo(Guid traceId, Leaf owner, int port, Answer answer)
+        {
+            var traceLeaf = ShellVm.MyLeftPanelViewModel.TreeReadModel.Tree.GetById(traceId);
+            FakeWindowManager.RegisterHandler(model => TraceToAttachHandler(model, answer));
+
+            var portLeaf = (PortLeaf)owner.Children[port - 1];
+
+            portLeaf.AttachFromListAction(null);
+            Poller.Tick();
+        }
+
+        public RtuLeaf TraceCreatedAndRtuInitialized(out Guid traceId, out Guid rtuId)
         {
             traceId = CreateTraceRtuEmptyTerminal().Id;
             var id = traceId;
             rtuId = ReadModel.Traces.First(t => t.Id == id).RtuId;
-            InitializeRtu(rtuId);
+            return InitializeRtu(rtuId);
         }
 
         public bool TraceToAttachHandler(object model, Answer answer)

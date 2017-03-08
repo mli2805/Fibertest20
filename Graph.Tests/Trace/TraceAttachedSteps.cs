@@ -13,18 +13,34 @@ namespace Graph.Tests
         private Guid _traceId;
         private int _portNumber;
         private Guid _rtuId;
+        private RtuLeaf _rtuLeaf;
+        private OtauLeaf _otauLeaf;
 
         [Given(@"Создаем трассу РТУ инициализирован")]
         public void GivenСоздаемТрассуРтуИнициализирован()
         {
-           _sut.TraceCreatedAndRtuInitialized(out _traceId, out _rtuId);
+           _rtuLeaf = _sut.TraceCreatedAndRtuInitialized(out _traceId, out _rtuId);
+        }
+
+        [Given(@"Пользователь подключает доп переключатель")]
+        public void GivenПользовательПодключаетДопПереключатель()
+        {
+            _otauLeaf = _sut.AttachOtauToRtu(_rtuLeaf, 2);
+        }
+
+        [When(@"Пользователь выбирает присоединить к (.*) порту переключателя трассу и жмет Сохранить")]
+        public void WhenПользовательВыбираетПрисоединитьКПортуПереключателяТрассуИЖметСохранить(int p0)
+        {
+            _portNumber = p0;
+            _sut.AttachTraceTo(_traceId, _otauLeaf, _portNumber, Answer.Yes);
+            _sut.Poller.Tick();
         }
 
         [When(@"Пользователь выбирает присоединить к порту (.*) трассу и жмет Сохранить")]
         public void WhenПользовательВыбираетПрисоединитьКПортуТрассуИЖметСохранить(int p0)
         {
             _portNumber = p0;
-            _sut.AttachTrace(_traceId, _portNumber, Answer.Yes);
+            _sut.AttachTraceTo(_traceId, _rtuLeaf, _portNumber, Answer.Yes);
             _sut.Poller.Tick();
         }
 
@@ -42,6 +58,13 @@ namespace Graph.Tests
             (_sut.ShellVm.MyLeftPanelViewModel.TreeReadModel.Tree.GetById(_rtuId).Children[_portNumber - 1] is TraceLeaf)
                 .Should().BeTrue();
             _sut.ShellVm.MyLeftPanelViewModel.TreeReadModel.Tree.GetById(_rtuId).Children[_portNumber - 1].Id.Should().Be(_traceId);
+        }
+
+        [Then(@"Трасса присоединяется к (.*) порту переключателя")]
+        public void ThenТрассаПрисоединяетсяКПортуПереключателя(int p0)
+        {
+            (_otauLeaf.Children[p0 - 1] as TraceLeaf).Should().NotBeNull();
+            _otauLeaf.Children[p0 - 1].Id.Should().Be(_traceId);
         }
 
         [Then(@"Трасса НЕ присоединяется к порту РТУ")]

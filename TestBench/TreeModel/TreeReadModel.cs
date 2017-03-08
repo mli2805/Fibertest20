@@ -135,9 +135,10 @@ namespace Iit.Fibertest.TestBench
             TraceLeaf traceLeaf = (TraceLeaf)Tree.GetById(e.TraceId);
             RtuLeaf rtuLeaf = (RtuLeaf)Tree.GetById(traceLeaf.Parent.Id);
             Leaf portOwner = rtuLeaf.GetOwnerOfExtendedPort(e.Port);
+            var port = portOwner is RtuLeaf ? e.Port : e.Port - ((OtauLeaf) portOwner).FirstPortNumber + 1;
 
-            portOwner.Children.RemoveAt(e.Port - 1);
-            portOwner.Children.Insert(e.Port - 1,
+            portOwner.Children.RemoveAt(port-1);
+            portOwner.Children.Insert(port-1,
                 new TraceLeaf(_readModel, _windowManager, _bus, portOwner)
                 {
                     Id = e.TraceId,
