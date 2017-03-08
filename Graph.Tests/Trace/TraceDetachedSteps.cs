@@ -14,18 +14,19 @@ namespace Graph.Tests
         private Guid _traceId;
         Guid _rtuId;
         int _portNumber;
+        private RtuLeaf _rtuLeaf;
 
         [Given(@"Создана трассу инициализирован РТУ")]
         public void GivenСозданаТрассуИнициализированРту()
         {
-            _sut.TraceCreatedAndRtuInitialized(out _traceId, out _rtuId);
+            _rtuLeaf = _sut.TraceCreatedAndRtuInitialized(out _traceId, out _rtuId);
         }
 
         [Given(@"Трасса присоединена к порту РТУ")]
         public void GivenТрассаПрисоединенаКПортуРту()
         {
             _portNumber = 3;
-            _sut.AttachTrace(_traceId, _portNumber, Answer.Yes);
+            _sut.AttachTraceTo(_traceId, _rtuLeaf, _portNumber, Answer.Yes);
             _sut.Poller.Tick();
         }
 

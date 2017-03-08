@@ -28,8 +28,8 @@ namespace Graph.Tests
         [Given(@"Трасса присоединенна к порту РТУ")]
         public void GivenТрассаПрисоединеннаКПортуРту()
         {
-            _sut.InitializeRtu(_sut.ReadModel.Traces.First(t => t.Id == _sut.TraceId).RtuId);
-            _sut.AttachTrace(_sut.TraceId , 2, Answer.Yes);
+            var rtuLeaf = _sut.InitializeRtu(_sut.ReadModel.Traces.First(t => t.Id == _sut.TraceId).RtuId);
+            _sut.AttachTraceTo(_sut.TraceId , rtuLeaf, 2, Answer.Yes);
         }
 
         [When(@"Пользователь кликает на РТУ удалить")]

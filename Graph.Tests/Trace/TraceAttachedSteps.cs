@@ -48,7 +48,7 @@ namespace Graph.Tests
         public void WhenПользовательВыбираетПрисоединитьКПортуТрассуАЖметОтмена(int p0)
         {
             _portNumber = p0;
-            _sut.AttachTrace(_traceId, _portNumber, Answer.Cancel);
+            _sut.AttachTraceTo(_traceId, _rtuLeaf, _portNumber, Answer.Cancel);
         }
 
         [Then(@"Трасса присоединяется к порту РТУ")]

@@ -47,23 +47,10 @@ namespace Graph.Tests
 
             return rtuLeaf;
         }
-        public void AttachTrace(Guid traceId, int port, Answer answer)
-        {
-            var traceLeaf = ShellVm.MyLeftPanelViewModel.TreeReadModel.Tree.GetById(traceId);
-            FakeWindowManager.RegisterHandler(model => TraceToAttachHandler(model, answer));
-
-
-            var rtuLeaf = traceLeaf.Parent is RtuLeaf ? traceLeaf.Parent : traceLeaf.Parent.Parent;
-            var portLeaf = (PortLeaf)rtuLeaf.Children[port - 1];
-
-            portLeaf.AttachFromListAction(null);
-            Poller.Tick();
-        }
 
         public void AttachTraceTo(Guid traceId, Leaf owner, int port, Answer answer)
         {
-            var traceLeaf = ShellVm.MyLeftPanelViewModel.TreeReadModel.Tree.GetById(traceId);
-            FakeWindowManager.RegisterHandler(model => TraceToAttachHandler(model, answer));
+            FakeWindowManager.RegisterHandler(model => TraceToAttachHandler(model, traceId, answer));
 
             var portLeaf = (PortLeaf)owner.Children[port - 1];
 
@@ -79,10 +66,11 @@ namespace Graph.Tests
             return InitializeRtu(rtuId);
         }
 
-        public bool TraceToAttachHandler(object model, Answer answer)
+        public bool TraceToAttachHandler(object model, Guid traceId, Answer answer)
         {
             var vm = model as TraceToAttachViewModel;
             if (vm == null) return false;
+            vm.SelectedTrace = vm.Choices.First(t => t.Id == traceId);
             if (answer == Answer.Yes)
                 vm.Attach();
             else

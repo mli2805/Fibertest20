@@ -28,7 +28,7 @@ namespace Graph.Tests
         [Given(@"Трасса подключена к порту")]
         public void GivenТрассаПодключенаКПорту()
         {
-            _sut.AttachTrace(_trace.Id, 2, Answer.Yes);
+            _sut.AttachTraceTo(_trace.Id, _rtuLeaf, 2, Answer.Yes);
         }
 
         [Then(@"Пункт подключить переключатель не доступен")]
