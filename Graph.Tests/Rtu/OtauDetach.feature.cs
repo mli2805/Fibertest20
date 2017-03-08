@@ -81,38 +81,38 @@ namespace Graph.Tests.Rtu
             this.ScenarioTearDown();
         }
         
-        [Xunit.FactAttribute(DisplayName="Отсоединение переключателя запрещено если к нему присоединена трасса")]
+        [Xunit.FactAttribute(DisplayName="Удаление переключателя запрещено если к нему присоединена трасса")]
         [Xunit.TraitAttribute("FeatureTitle", "OtauDetach")]
-        [Xunit.TraitAttribute("Description", "Отсоединение переключателя запрещено если к нему присоединена трасса")]
-        public virtual void ОтсоединениеПереключателяЗапрещеноЕслиКНемуПрисоединенаТрасса()
+        [Xunit.TraitAttribute("Description", "Удаление переключателя запрещено если к нему присоединена трасса")]
+        public virtual void УдалениеПереключателяЗапрещеноЕслиКНемуПрисоединенаТрасса()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Отсоединение переключателя запрещено если к нему присоединена трасса", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Удаление переключателя запрещено если к нему присоединена трасса", ((string[])(null)));
 #line 7
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
+#line 8
+ testRunner.Given("Трасса подключена к переключателю", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 9
+ testRunner.Then("Пункт удаление переключателя недоступен", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
         
-        [Xunit.FactAttribute(DisplayName="Отсоединение оптического переключателя")]
+        [Xunit.FactAttribute(DisplayName="Удаление оптического переключателя")]
         [Xunit.TraitAttribute("FeatureTitle", "OtauDetach")]
-        [Xunit.TraitAttribute("Description", "Отсоединение оптического переключателя")]
-        public virtual void ОтсоединениеОптическогоПереключателя()
+        [Xunit.TraitAttribute("Description", "Удаление оптического переключателя")]
+        public virtual void УдалениеОптическогоПереключателя()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Отсоединение оптического переключателя", ((string[])(null)));
-#line 9
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Удаление оптического переключателя", ((string[])(null)));
+#line 11
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 10
- testRunner.Given("I have entered 50 into the calculator", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 11
- testRunner.And("I have entered 70 into the calculator", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 12
- testRunner.When("I press add", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Given("Пользователь жмет удалить оптический переключатель", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 13
- testRunner.Then("the result should be 120 on the screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("Оптический переключатель удален", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

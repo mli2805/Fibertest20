@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Media;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
@@ -23,5 +25,30 @@ namespace Iit.Fibertest.TestBench
         public OtauLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus) : base(readModel, windowManager, bus)
         {
         }
+        protected override List<MenuItemVm> GetMenuItems()
+        {
+            IsSelected = true;
+
+            return new List<MenuItemVm>
+            {
+                new MenuItemVm()
+                {
+                    Header = Resources.SID_Remove_optical_switch,
+                    Command = new ContextMenuAction(OtauRemoveAction, CanOtauRemoveAction),
+                    CommandParameter = this
+                }
+            };
+        }
+
+        public void OtauRemoveAction(object param)
+        {
+            Bus.SendCommand(new DetachOtau() {Id = Id, RtuId = Parent.Id});
+        }
+
+        private bool CanOtauRemoveAction(object param)
+        {
+            return Children.All(c => c is PortLeaf);
+        }
+
     }
 }

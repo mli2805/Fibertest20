@@ -880,15 +880,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0}({1}).
-        /// </summary>
-        public static string SID_Port_on_otau {
-            get {
-                return ResourceManager.GetString("SID_Port_on_otau", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to N{0} : {1}.
         /// </summary>
         public static string SID_port_trace {
@@ -975,6 +966,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Remove_node {
             get {
                 return ResourceManager.GetString("SID_Remove_node", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove optical switch.
+        /// </summary>
+        public static string SID_Remove_optical_switch {
+            get {
+                return ResourceManager.GetString("SID_Remove_optical_switch", resourceCulture);
             }
         }
         

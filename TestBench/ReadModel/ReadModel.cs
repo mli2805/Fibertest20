@@ -203,13 +203,13 @@ namespace Iit.Fibertest.TestBench
             RemoveNodeWithAllHis(nodeId);
         }
 
-        public void Apply(AttachOtau e)
+        public void Apply(OtauAttached e)
         {
             Otau otau = _mapper.Map<Otau>(e);
             Otaus.Add(otau);
         }
 
-        public void Apply(DetachOtau e)
+        public void Apply(OtauDetached e)
         {
             var otau = Otaus.First(o => o.Id == e.Id);
             var rtu = Rtus.First(r => r.Id == e.RtuId);

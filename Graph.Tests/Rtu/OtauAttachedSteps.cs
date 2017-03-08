@@ -50,6 +50,8 @@ namespace Graph.Tests
         [Then(@"Переключатель подключен")]
         public void ThenПереключательПодключен()
         {
+            _sut.ReadModel.Otaus.FirstOrDefault(o => o.Id == _otauLeaf.Id).Should().NotBeNull();
+
             _rtuLeaf.FullPortCount.Should().Be(24);
             _rtuLeaf.Children[portNumber-1].Should().Be(_otauLeaf);
             _rtuLeaf.GetOwnerOfExtendedPort(9).Should().Be(_otauLeaf);

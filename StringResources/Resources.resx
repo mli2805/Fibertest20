@@ -545,4 +545,7 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_Port_N_on_otau" xml:space="preserve">
     <value>N{0} ({1}-{2})</value>
   </data>
+  <data name="SID_Remove_optical_switch" xml:space="preserve">
+    <value>Remove optical switch</value>
+  </data>
 </root>
