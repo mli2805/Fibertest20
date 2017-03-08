@@ -11,12 +11,4 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
 
 5. release не на всех машинах работает
 
-6. по поводу 100% покрытия
-
-	TraceLeaf traceLeaf = Tree.GetById(e.TraceId) as TraceLeaf;
-    if (traceLeaf == null)
-        return;
-    RtuLeaf rtu = (RtuLeaf)Tree.GetById(traceLeaf.Parent.Id);
- 
- если не проверять на null resharper дает варнинг
- естественно return не покрыт т.к. не может такого быть
+7. прятать / показывать пустые порты черех xaml

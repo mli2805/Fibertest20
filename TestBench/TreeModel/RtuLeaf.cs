@@ -83,9 +83,18 @@ namespace Iit.Fibertest.TestBench
 
         public void RemoveFreePorts()
         {
-            foreach (var leaf in Children.ToList())
-                if (leaf is PortLeaf)
-                    Children.Remove(leaf);
+            RemoveFreePorts(this);
+        }
+
+        private void RemoveFreePorts(Leaf owner)
+        {
+            foreach (var child in owner.Children.ToList())
+            {
+                if (child is PortLeaf)
+                    owner.Children.Remove(child);
+                if (child is OtauLeaf)
+                    RemoveFreePorts(child);
+            }
         }
 
         public void RestoreFreePorts()
