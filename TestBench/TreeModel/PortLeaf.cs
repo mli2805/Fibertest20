@@ -25,14 +25,13 @@ namespace Iit.Fibertest.TestBench
         }
         public int LeftMargin => Parent is OtauLeaf ? 65 : 85;
 
-        public PortLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, Leaf parent, int portNumber) 
+        public PortLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, Leaf parent, int portNumber)
             : base(readModel, windowManager, bus)
         {
             PortNumber = portNumber;
             Parent = parent;
             var otauLeaf = Parent as OtauLeaf;
-            if (otauLeaf != null)
-                ExtendedPortNumber = otauLeaf.FirstPortNumber + PortNumber - 1;
+            ExtendedPortNumber = otauLeaf != null ? otauLeaf.FirstPortNumber + PortNumber - 1 : PortNumber;
             Color = Brushes.Blue;
         }
 
@@ -61,7 +60,7 @@ namespace Iit.Fibertest.TestBench
                 CommandParameter = this,
             };
         }
-  
+
         private IEnumerable<MenuItemVm> GetAnyPortMenuItems()
         {
             yield return null;
@@ -84,7 +83,7 @@ namespace Iit.Fibertest.TestBench
         public void AttachFromListAction(object param)
         {
             var rtuId = Parent is RtuLeaf ? Parent.Id : Parent.Parent.Id;
-            var vm = new TraceToAttachViewModel(rtuId, PortNumber, ReadModel, Bus);
+            var vm = new TraceToAttachViewModel(rtuId, ExtendedPortNumber, ReadModel, Bus);
             WindowManager.ShowDialog(vm);
         }
 

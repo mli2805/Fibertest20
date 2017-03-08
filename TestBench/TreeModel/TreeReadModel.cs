@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Media;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
-using Serilog;
 
 namespace Iit.Fibertest.TestBench
 {
@@ -48,7 +46,7 @@ namespace Iit.Fibertest.TestBench
             for (int i = 1; i <= rtuLeaf.FullPortCount; i++)
             {
                 var port = new PortLeaf(_readModel, _windowManager, _bus, rtuLeaf, i);
-                rtuLeaf.Children.Insert(i-1, port);
+                rtuLeaf.Children.Insert(i - 1, port);
                 port.Parent = rtuLeaf;
             }
         }
@@ -84,13 +82,15 @@ namespace Iit.Fibertest.TestBench
                 Color = Brushes.Black,
                 MasterPort = e.MasterPort,
                 FirstPortNumber = rtuLeaf.FullPortCount + 1,
+                PortCount = e.PortCount,
                 OtauState = RtuPartState.Normal,
                 IsExpanded = true,
             };
-            for (int i = 0; i < e.PortCount; i++)
-                otauLeaf.Children.Add(new PortLeaf(_readModel, _windowManager, _bus, otauLeaf, i+1));
+            for (int i = 0; i < otauLeaf.PortCount; i++)
+                otauLeaf.Children.Add(new PortLeaf(_readModel, _windowManager, _bus, otauLeaf, i + 1));
             rtuLeaf.Children.Remove(rtuLeaf.Children[e.MasterPort - 1]);
-            rtuLeaf.Children.Insert(e.MasterPort-1, otauLeaf);
+            rtuLeaf.Children.Insert(e.MasterPort - 1, otauLeaf);
+            rtuLeaf.FullPortCount += otauLeaf.PortCount;
         }
 
         #endregion
@@ -133,19 +133,12 @@ namespace Iit.Fibertest.TestBench
         public void Apply(TraceAttached e)
         {
             TraceLeaf traceLeaf = (TraceLeaf)Tree.GetById(e.TraceId);
-            RtuLeaf rtu = (RtuLeaf)Tree.GetById(traceLeaf.Parent.Id);
+            RtuLeaf rtuLeaf = (RtuLeaf)Tree.GetById(traceLeaf.Parent.Id);
+            Leaf portOwner = rtuLeaf.GetOwnerOfExtendedPort(e.Port);
 
-            if (e.Port > rtu.FullPortCount)
-            {
-                var message = $@"{rtu.Title} has {rtu.FullPortCount} ports but trace was attached to the {e.Port} port";
-                Console.WriteLine(message);
-                Log.Information(message);
-                return;
-            }
-
-            rtu.Children.RemoveAt(e.Port - 1);
-            rtu.Children.Insert(e.Port - 1,
-                new TraceLeaf(_readModel, _windowManager, _bus, rtu)
+            portOwner.Children.RemoveAt(e.Port - 1);
+            portOwner.Children.Insert(e.Port - 1,
+                new TraceLeaf(_readModel, _windowManager, _bus, portOwner)
                 {
                     Id = e.TraceId,
                     TraceState = FiberState.NotChecked,
@@ -153,8 +146,7 @@ namespace Iit.Fibertest.TestBench
                     Color = Brushes.Black,
                     PortNumber = e.Port,
                 });
-
-            rtu.Children.Remove(traceLeaf);
+            portOwner.Children.Remove(traceLeaf);
         }
 
         public void Apply(TraceDetached e)

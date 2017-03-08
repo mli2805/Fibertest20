@@ -6,6 +6,26 @@ namespace Graph.Tests
 {
     public class SutForTraceAttach : SystemUnderTest
     {
+        public bool OtauToAttachHandler(object model, Answer answer)
+        {
+            var vm = model as OtauToAttachViewModel;
+            if (vm == null) return false;
+            if (answer == Answer.Yes)
+                vm.Attach();
+            else
+                vm.Close();
+            return true;
+        }
+
+        public OtauLeaf AttachOtauToRtu(RtuLeaf rtuLeaf, int port)
+        {
+            var portLeaf = (PortLeaf)rtuLeaf.Children[port - 1];
+            FakeWindowManager.RegisterHandler(model => OtauToAttachHandler(model, Answer.Yes));
+            portLeaf.AttachOtauAction(null);
+            Poller.Tick();
+            return (OtauLeaf) rtuLeaf.Children[port - 1];
+        }
+
         public bool RtuInitializeHandler(object model, Answer answer)
         {
             var vm = model as RtuInitializeViewModel;
@@ -16,7 +36,7 @@ namespace Graph.Tests
                 vm.Close();
             return true;
         }
-        public void InitializeRtu(Guid rtuId)
+        public RtuLeaf InitializeRtu(Guid rtuId)
         {
             var rtuLeaf = (RtuLeaf)ShellVm.MyLeftPanelViewModel.TreeReadModel.Tree.GetById(rtuId);
             FakeWindowManager.RegisterHandler(model=>RtuInitializeHandler(model, Answer.Yes));
@@ -24,6 +44,7 @@ namespace Graph.Tests
             rtuLeaf.RtuSettingsAction(null);
 
             Poller.Tick();
+            return rtuLeaf;
         }
         public void AttachTrace(Guid traceId, int port, Answer answer)
         {
@@ -53,5 +74,6 @@ namespace Graph.Tests
                 vm.Cancel();
             return true;
         }
+
     }
 }

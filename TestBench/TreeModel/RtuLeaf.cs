@@ -62,6 +62,21 @@ namespace Iit.Fibertest.TestBench
 
         public bool HasAttachedTraces => Children.Any(l => l is TraceLeaf && ((TraceLeaf) l).PortNumber > 0);
 
+        public Leaf GetOwnerOfExtendedPort(int extendedPortNumber)
+        {
+            if (extendedPortNumber <= OwnPortCount)
+                return this;
+            foreach (var child in Children)
+            {
+                var otau = child as OtauLeaf;
+                if (otau != null && 
+                    extendedPortNumber >= otau.FirstPortNumber &&
+                    extendedPortNumber < otau.FirstPortNumber + otau.PortCount)
+                        return otau;
+            }
+            return null;
+        }
+
         public RtuLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus) : base(readModel, windowManager, bus)
         {
         }

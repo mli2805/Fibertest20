@@ -107,6 +107,14 @@
     <Compile Include="Node\NodeRemovedSteps.cs">
       <DependentUpon>NodeRemoved.feature</DependentUpon>
     </Compile>
+    <Compile Include="Rtu\OtauAttached.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OtauAttached.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Rtu\OtauAttachedSteps.cs">
+      <DependentUpon>OtauAttached.feature</DependentUpon>
+    </Compile>
     <Compile Include="Rtu\RtuInitialized.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -380,6 +388,10 @@
       <LastGenOutput>NodeAdded.feature.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
+    <None Include="Rtu\OtauAttached.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>OtauAttached.feature.cs</LastGenOutput>
+    </None>
     <None Include="Rtu\RtuAtGpsLocationAdded.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>RtuAtGpsLocationAdded.feature.cs</LastGenOutput>
