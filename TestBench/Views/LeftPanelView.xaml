@@ -50,19 +50,23 @@
                 <ColumnDefinition Width="24"/>
                 <ColumnDefinition Width="24"/>
             </Grid.ColumnDefinitions>
-            <Button Name="Expand" Grid.Column="1" Background="Transparent" BorderThickness="0" Width="20" Height="20" Click="Expand_Click">
+            <Button Name="Expand" Grid.Column="1" Background="Transparent" BorderThickness="0" Width="20" Height="20" Click="Expand_Click"
+                    RenderOptions.BitmapScalingMode="NearestNeighbor">
                 <Image Source="../Resources/Buttons/Expand.png" Width="16" Height="16"/>
             </Button>
-            <Button Name="Collapse" Grid.Column="2" Background="Transparent" BorderThickness="0" Width="20" Height="20" Click="Collapse_Click">
+            <Button Name="Collapse" Grid.Column="2" Background="Transparent" BorderThickness="0" Width="20" Height="20" Click="Collapse_Click"
+                    RenderOptions.BitmapScalingMode="NearestNeighbor">
                 <Image Source="../Resources/Buttons/Collapse.png" Width="16" Height="16"/>
             </Button>
             <ToggleButton Name="TogglePorts" Grid.Column="3" Background="Transparent" BorderThickness="0" Width="20" Height="20"
-                          Style="{StaticResource MyToggleButtonStyle}" Click="TogglePorts_Click">
+                          Style="{StaticResource MyToggleButtonStyle}" Click="TogglePorts_Click"
+                          RenderOptions.BitmapScalingMode="NearestNeighbor">
             </ToggleButton>
         </Grid>
         <TreeView ItemsSource="{Binding TreeReadModel.Tree}" Name="MainTreeView"
                   Background="Transparent" Foreground="Black" Grid.Row="1" Grid.ColumnSpan="4" HorizontalAlignment="Stretch"
-                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  VirtualizingStackPanel.IsVirtualizing="True">
             <TreeView.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}">
                     <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
