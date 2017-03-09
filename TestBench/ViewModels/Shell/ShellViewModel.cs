@@ -201,19 +201,6 @@ namespace Iit.Fibertest.TestBench
             PrepareCommand(request);
             return Task.FromResult(0);
         }
-
-        public async Task ComplyWithRequest(DetachTrace request)
-        {
-            var cmd = request;
-            var message = await Bus.SendCommand(cmd);
-            if (message != null)
-                _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, message));
-        }
-
-        public void ComplyWithRequest(RequestAssignBaseRef request)
-        {
-            LaunchView(request);
-        }
         #endregion
     }
 }

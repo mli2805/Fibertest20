@@ -51,6 +51,14 @@ namespace Graph.Tests
             _sut.AttachTraceTo(_traceId, _rtuLeaf, _portNumber, Answer.Cancel);
         }
 
+        [When(@"Пользователь выбирает отсоединить трассу")]
+        public void WhenПользовательВыбираетОтсоединитьТрассу()
+        {
+            var traceLeaf = (TraceLeaf)_sut.ShellVm.MyLeftPanelViewModel.TreeReadModel.Tree.GetById(_traceId);
+            traceLeaf.DetachTraceAction(null);
+            _sut.Poller.Tick();
+        }
+
         [Then(@"Трасса присоединяется к порту РТУ")]
         public void ThenТрассаПрисоединяетсяКПортуРту()
         {

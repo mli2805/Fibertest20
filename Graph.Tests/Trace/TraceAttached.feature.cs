@@ -136,6 +136,28 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
+        [Xunit.FactAttribute(DisplayName="Переприсоединение трассы к порту РТУ")]
+        [Xunit.TraitAttribute("FeatureTitle", "TraceAttached")]
+        [Xunit.TraitAttribute("Description", "Переприсоединение трассы к порту РТУ")]
+        public virtual void ПереприсоединениеТрассыКПортуРТУ()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Переприсоединение трассы к порту РТУ", ((string[])(null)));
+#line 19
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 20
+ testRunner.When("Пользователь выбирает присоединить к порту 3 трассу и жмет Сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 21
+ testRunner.When("Пользователь выбирает отсоединить трассу", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 22
+ testRunner.When("Пользователь выбирает присоединить к порту 2 трассу и жмет Сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 23
+ testRunner.Then("Трасса присоединяется к порту РТУ", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.1.0.0")]
         [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : System.IDisposable

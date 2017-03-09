@@ -115,7 +115,9 @@ namespace Graph.Tests
         public void GivenДляОднойИзТрассЗаданаБазовая()
         {
             _sut.FakeWindowManager.BaseIsSet();
-            _sut.ShellVm.ComplyWithRequest(new RequestAssignBaseRef() { TraceId = _shortTraceId });
+
+            var traceLeaf = (TraceLeaf)_sut.ShellVm.MyLeftPanelViewModel.TreeReadModel.Tree.GetById(_shortTraceId);
+            traceLeaf.AssignBaseRefsAction(null);
             _sut.Poller.Tick();
         }
 

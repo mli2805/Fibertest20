@@ -30,7 +30,8 @@ namespace Graph.Tests
         public void GivenДляДаннойТрассыЗаданаБазовая()
         {
             _sut.FakeWindowManager.BaseIsSet();
-            _sut.ShellVm.ComplyWithRequest(new RequestAssignBaseRef() { TraceId = _trace.Id });
+            var traceLeaf = (TraceLeaf)_sut.ShellVm.MyLeftPanelViewModel.TreeReadModel.Tree.GetById(_trace.Id);
+            traceLeaf.AssignBaseRefsAction(null);
             _sut.Poller.Tick();
         }
 

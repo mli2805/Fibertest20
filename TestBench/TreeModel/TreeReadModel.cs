@@ -171,6 +171,7 @@ namespace Iit.Fibertest.TestBench
             int port = traceLeaf.PortNumber;
             var detachedTraceLeaf = new TraceLeaf(_readModel, _windowManager, _bus, rtu)
             {
+                Id = traceLeaf.Id,
                 PortNumber = 0,
                 Title = traceLeaf.Title,
                 TraceState = FiberState.NotJoined,

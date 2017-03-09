@@ -166,7 +166,7 @@ namespace Iit.Fibertest.TestBench
         }
         private void ShowTraceAction(object param) { }
 
-        private void AssignBaseRefsAction(object param)
+        public void AssignBaseRefsAction(object param)
         {
             var trace = ReadModel.Traces.First(t => t.Id == Id);
             var vm = new BaseRefsAssignViewModel(trace, ReadModel, Bus);
@@ -177,7 +177,7 @@ namespace Iit.Fibertest.TestBench
         private void TraceEventsAction(object param) { }
         private void TraceLandmarksAction(object param) { }
 
-        private void DetachTraceAction(object param)
+        public void DetachTraceAction(object param)
         {
             Bus.SendCommand(new DetachTrace() {TraceId = Id});
         }

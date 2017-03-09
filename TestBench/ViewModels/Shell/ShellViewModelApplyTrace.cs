@@ -87,12 +87,6 @@ namespace Iit.Fibertest.TestBench
             return equipments;
         }
 
-        private void LaunchView(RequestAssignBaseRef request)
-        {
-            var trace = ReadModel.Traces.First(t => t.Id == request.TraceId);
-            var vm = new BaseRefsAssignViewModel(trace, ReadModel, Bus);
-            _windowManager.ShowDialog(vm);
-        }
     }
 
 }

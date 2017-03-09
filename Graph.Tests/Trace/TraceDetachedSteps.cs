@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using FluentAssertions;
-using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.TestBench;
 using TechTalk.SpecFlow;
@@ -45,8 +44,8 @@ namespace Graph.Tests
         [When(@"Пользователь отсоединяет трассу")]
         public void WhenПользовательОтсоединяетТрассу()
         {
-            var cmd = new DetachTrace() {TraceId = _traceId};
-            _sut.ShellVm.ComplyWithRequest(cmd).Wait();
+            var traceLeaf = (TraceLeaf)_sut.ShellVm.MyLeftPanelViewModel.TreeReadModel.Tree.GetById(_traceId);
+            traceLeaf.DetachTraceAction(null);
             _sut.Poller.Tick();
         }
 
