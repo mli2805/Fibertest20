@@ -16,12 +16,12 @@ namespace Iit.Fibertest.TestBench
             get
             {
                 return Parent is OtauLeaf ?
-                    string.Format(Resources.SID_Port_N_on_otau, ExtendedPortNumber, ((OtauLeaf)Parent).MasterPort, PortNumber) :
+                    string.Format(Resources.SID_Port_N_on_otau, PortNumber, ExtendedPortNumber) :
                     string.Format(Resources.SID_Port_N, PortNumber);
             }
             set { }
         }
-        public int LeftMargin => Parent is OtauLeaf ? 65 : 85;
+        public int LeftMargin => Parent is OtauLeaf ? 106 : 85;
 
         public PortLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, Leaf parent, int portNumber)
             : base(readModel, windowManager, bus)

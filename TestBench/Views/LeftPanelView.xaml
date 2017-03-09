@@ -64,7 +64,7 @@
             </ToggleButton>
         </Grid>
         <TreeView ItemsSource="{Binding TreeReadModel.Tree}" Name="MainTreeView"
-                  Background="Transparent" Foreground="Black" Grid.Row="1" Grid.ColumnSpan="4" HorizontalAlignment="Stretch"
+                  Background="Transparent" Foreground="Black" Grid.Row="1" HorizontalAlignment="Stretch"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   VirtualizingStackPanel.IsVirtualizing="True">
             <TreeView.ItemContainerStyle>
@@ -106,7 +106,7 @@
                     </StackPanel>
                 </HierarchicalDataTemplate>
                 <HierarchicalDataTemplate DataType="{x:Type testBench:OtauLeaf}" ItemsSource="{Binding Children}">
-                    <StackPanel Orientation="Horizontal" Margin="29,0,0,0">
+                    <StackPanel Orientation="Horizontal" Margin="69,0,0,0">
                         <StackPanel.ContextMenu>
                             <ContextMenu 
                                 ItemContainerStyle="{StaticResource ContextMenuItemStyle}" 
@@ -129,7 +129,7 @@
                 </HierarchicalDataTemplate>
             </TreeView.Resources>
         </TreeView>
-        <StatusBar Grid.Row="2" Grid.ColumnSpan="4" Background="Transparent">
+        <StatusBar Grid.Row="2" Background="Transparent">
             <TextBlock Text="RTU "/>
             <TextBlock Text="{Binding RtuCount}"/>
             <TextBlock Text="Ports"/>

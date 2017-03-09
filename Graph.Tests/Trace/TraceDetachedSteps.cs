@@ -66,7 +66,7 @@ namespace Graph.Tests
             var portLeaf = _otauLeaf.Children[_portNumber - 1] as PortLeaf;
             portLeaf.Should().NotBeNull();
             portLeaf?.Name.Should().
-                Be(string.Format(Resources.SID_Port_N_on_otau, _otauLeaf.FirstPortNumber + _portNumber - 1, _otauLeaf.MasterPort, _portNumber));
+                Be(string.Format(Resources.SID_Port_N_on_otau, _portNumber, _otauLeaf.FirstPortNumber + _portNumber - 1));
         }
 
     }

@@ -21,7 +21,7 @@ namespace Iit.Fibertest.Graph
 
         public override string ToString()
         {
-            return $@"{Ip4Address}:{Port}";
+            return Port == 11834 ? $@"{Ip4Address}(1)" : $@"{Ip4Address}(2)";
         }
     }
 }

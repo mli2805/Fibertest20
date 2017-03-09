@@ -543,9 +543,9 @@
 		<value>Переключатель {0}</value>
 	</data>
 	<data name="SID_Port_N_on_otau" xml:space="preserve">
-		<value>N{0} ({1}-{2})</value>
+		<value>N{0} ({1})</value>
 	</data>
 	<data name="SID_Port_trace_on_otau" xml:space="preserve">
-		<value>N{0} ({1}-{2}) : {3}</value>
+		<value>N{0} ({1}) : {2}</value>
 	</data>
 </root>
