@@ -2,6 +2,7 @@
 
 namespace Iit.Fibertest.Graph
 {
+    [Serializable]
     public class OtauDetached
     {
         public Guid Id { get; set; }

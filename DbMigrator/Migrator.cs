@@ -53,6 +53,9 @@ namespace DbMigrator
                     case "EQUIPMENTS::":
                         ParseEquipments(parts);
                         break;
+                    case "CHARON::":
+                        ParseCharon(parts);
+                        break;
                 }
             }
 
@@ -82,6 +85,24 @@ namespace DbMigrator
             System.Threading.Thread.CurrentThread.CurrentCulture = memory;
         }
 
+        private void ParseCharon(string[] parts)
+        {
+            var nodeId = Int32.Parse(parts[2]);
+            var nodeGuid = _nodesDictionary[nodeId];
+            var rtuGuid = _nodeToRtuDictionary[nodeGuid];
+
+            _db.Add(new OtauAttached()
+            {
+                Id = Guid.NewGuid(),
+                RtuId = rtuGuid,
+                NetAddress = new NetAddress() { Ip4Address = parts[3], Port = Int32.Parse(parts[4]), IsAddressSetAsIp = true},
+                Serial = Int32.Parse(parts[5]),
+                PortCount = Int32.Parse(parts[6]),
+                FirstPortNumber = Int32.Parse(parts[7]),
+                MasterPort = Int32.Parse(parts[8]),
+            });
+        }
+
         private void ParseRtu(string[] parts)
         {
             var nodeId = Int32.Parse(parts[1]);
@@ -92,7 +113,7 @@ namespace DbMigrator
             {
                 Id = rtuGuid,
                 OwnPortCount = Int32.Parse(parts[2]),
-                FullPortCount = Int32.Parse(parts[2]),
+                FullPortCount = Int32.Parse(parts[2]), // FullPortCount will be increased by OtauAttached event if happened
                 Serial = Int32.Parse(parts[4]).ToString(),
                 MainChannel = new NetAddress() { Ip4Address = parts[5], Port = Int32.Parse(parts[6]) },
                 OtdrNetAddress = new NetAddress() { Ip4Address = parts[7], Port = Int32.Parse(parts[8]) },
