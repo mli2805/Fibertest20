@@ -62,6 +62,14 @@ namespace Graph.Tests.Trace
             testRunner.CollectScenarioErrors();
         }
         
+        public virtual void FeatureBackground()
+        {
+#line 3
+#line 4
+ testRunner.Given("Создана трассу инициализирован РТУ", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+        }
+        
         public virtual void SetFixture(TraceDetachedFeature.FixtureData fixtureData)
         {
         }
@@ -71,22 +79,44 @@ namespace Graph.Tests.Trace
             this.ScenarioTearDown();
         }
         
-        [Xunit.FactAttribute(DisplayName="Отсоединение трассы от порту РТУ")]
+        [Xunit.FactAttribute(DisplayName="Отсоединение трассы от порта РТУ")]
         [Xunit.TraitAttribute("FeatureTitle", "TraceDetached")]
-        [Xunit.TraitAttribute("Description", "Отсоединение трассы от порту РТУ")]
-        public virtual void ОтсоединениеТрассыОтПортуРТУ()
+        [Xunit.TraitAttribute("Description", "Отсоединение трассы от порта РТУ")]
+        public virtual void ОтсоединениеТрассыОтПортаРТУ()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Отсоединение трассы от порту РТУ", ((string[])(null)));
-#line 3
-this.ScenarioSetup(scenarioInfo);
-#line 4
- testRunner.Given("Создана трассу инициализирован РТУ", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 5
- testRunner.Given("Трасса присоединена к порту РТУ", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Отсоединение трассы от порта РТУ", ((string[])(null)));
 #line 6
- testRunner.When("Пользователь отсоединяет трассу", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
 #line 7
+ testRunner.Given("Трасса присоединена к порту РТУ", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 8
+ testRunner.When("Пользователь отсоединяет трассу", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 9
  testRunner.Then("Трасса отсоединена", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Отсоединение трассы от порта переключателя")]
+        [Xunit.TraitAttribute("FeatureTitle", "TraceDetached")]
+        [Xunit.TraitAttribute("Description", "Отсоединение трассы от порта переключателя")]
+        public virtual void ОтсоединениеТрассыОтПортаПереключателя()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Отсоединение трассы от порта переключателя", ((string[])(null)));
+#line 11
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 12
+ testRunner.Given("Подключен переключатель", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 13
+ testRunner.Given("Трасса присоединена к порту переключателя", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 14
+ testRunner.When("Пользователь отсоединяет трассу", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 15
+ testRunner.Then("Трасса отсоединена от переключателя", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

@@ -43,7 +43,7 @@ namespace Iit.Fibertest.TestBench
             rtuLeaf.MonitoringState = MonitoringState.Off;
 
             rtuLeaf.Color = Brushes.Black;
-            for (int i = 1; i <= rtuLeaf.FullPortCount; i++)
+            for (int i = 1; i <= rtuLeaf.OwnPortCount; i++)
             {
                 var port = new PortLeaf(_readModel, _windowManager, _bus, rtuLeaf, i);
                 rtuLeaf.Children.Insert(i - 1, port);
@@ -91,6 +91,19 @@ namespace Iit.Fibertest.TestBench
             rtuLeaf.Children.Remove(rtuLeaf.Children[e.MasterPort - 1]);
             rtuLeaf.Children.Insert(e.MasterPort - 1, otauLeaf);
             rtuLeaf.FullPortCount += otauLeaf.PortCount;
+        }
+
+        public void Apply(OtauDetached e)
+        {
+            var rtuLeaf = (RtuLeaf)Tree.GetById(e.RtuId);
+            var otauLeaf = (OtauLeaf)Tree.GetById(e.Id);
+            var port = otauLeaf.MasterPort;
+            rtuLeaf.FullPortCount -= otauLeaf.PortCount;
+            rtuLeaf.Children.Remove(otauLeaf);
+
+            var portLeaf = new PortLeaf(_readModel, _windowManager, _bus, rtuLeaf, port);
+            rtuLeaf.Children.Insert(port - 1, portLeaf);
+            portLeaf.Parent = rtuLeaf;
         }
 
         #endregion
@@ -153,7 +166,8 @@ namespace Iit.Fibertest.TestBench
         public void Apply(TraceDetached e)
         {
             TraceLeaf traceLeaf = (TraceLeaf)Tree.GetById(e.TraceId);
-            RtuLeaf rtu = (RtuLeaf)Tree.GetById(traceLeaf.Parent.Id);
+            Leaf owner = Tree.GetById(traceLeaf.Parent.Id);
+            RtuLeaf rtu = owner is RtuLeaf ? (RtuLeaf) owner : (RtuLeaf) (owner.Parent);
             int port = traceLeaf.PortNumber;
             var detachedTraceLeaf = new TraceLeaf(_readModel, _windowManager, _bus, rtu)
             {
@@ -163,8 +177,8 @@ namespace Iit.Fibertest.TestBench
                 Color = Brushes.Blue,
             };
 
-            rtu.Children.RemoveAt(port - 1);
-            rtu.Children.Insert(port - 1, new PortLeaf(_readModel, _windowManager, _bus, rtu, port));
+            owner.Children.RemoveAt(port - 1);
+            owner.Children.Insert(port - 1, new PortLeaf(_readModel, _windowManager, _bus, rtu, port));
 
             rtu.Children.Add(detachedTraceLeaf);
         }

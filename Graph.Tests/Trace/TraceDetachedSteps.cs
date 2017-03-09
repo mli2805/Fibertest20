@@ -12,9 +12,10 @@ namespace Graph.Tests
     {
         private readonly SutForTraceAttach _sut = new SutForTraceAttach();
         private Guid _traceId;
-        Guid _rtuId;
-        int _portNumber;
+        private Guid _rtuId;
+        private int _portNumber = 3;
         private RtuLeaf _rtuLeaf;
+        private OtauLeaf _otauLeaf;
 
         [Given(@"Создана трассу инициализирован РТУ")]
         public void GivenСозданаТрассуИнициализированРту()
@@ -25,9 +26,19 @@ namespace Graph.Tests
         [Given(@"Трасса присоединена к порту РТУ")]
         public void GivenТрассаПрисоединенаКПортуРту()
         {
-            _portNumber = 3;
             _sut.AttachTraceTo(_traceId, _rtuLeaf, _portNumber, Answer.Yes);
-            _sut.Poller.Tick();
+        }
+
+        [Given(@"Подключен переключатель")]
+        public void GivenПодключенПереключатель()
+        {
+            _otauLeaf = _sut.AttachOtauToRtu(_rtuLeaf, 3);
+        }
+
+        [Given(@"Трасса присоединена к порту переключателя")]
+        public void GivenТрассаПрисоединенаКПортуПереключателя()
+        {
+            _sut.AttachTraceTo(_traceId, _otauLeaf, _portNumber, Answer.Yes);
         }
 
         [When(@"Пользователь отсоединяет трассу")]
@@ -41,9 +52,17 @@ namespace Graph.Tests
         [Then(@"Трасса отсоединена")]
         public void ThenТрассаОтсоединена()
         {
-            _sut.ReadModel.Traces.Single(t => t.Id == _traceId).Port.Should().Be(-1);
-                (_sut.ShellVm.MyLeftPanelViewModel.TreeReadModel.Tree.GetById(_rtuId).Children[_portNumber - 1] is
-                    PortLeaf).Should().BeTrue();
+            _sut.ReadModel.Traces.Single(t => t.Id == _traceId).Port.Should().BeLessThan(1);
+
+            (_rtuLeaf.Children[_portNumber - 1] is PortLeaf).Should().BeTrue();
+        }
+
+        [Then(@"Трасса отсоединена от переключателя")]
+        public void ThenТрассаОтсоединенаОтПереключателя()
+        {
+            _sut.ReadModel.Traces.Single(t => t.Id == _traceId).Port.Should().BeLessThan(1);
+
+            (_otauLeaf.Children[_portNumber - 1] is PortLeaf).Should().BeTrue();
         }
 
     }
