@@ -178,7 +178,7 @@ namespace Iit.Fibertest.TestBench
             };
 
             owner.Children.RemoveAt(port - 1);
-            owner.Children.Insert(port - 1, new PortLeaf(_readModel, _windowManager, _bus, rtu, port));
+            owner.Children.Insert(port - 1, new PortLeaf(_readModel, _windowManager, _bus, owner, port));
 
             rtu.Children.Add(detachedTraceLeaf);
         }

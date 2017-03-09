@@ -2,6 +2,7 @@
 using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.StringResources;
 using Iit.Fibertest.TestBench;
 using TechTalk.SpecFlow;
 
@@ -54,15 +55,19 @@ namespace Graph.Tests
         {
             _sut.ReadModel.Traces.Single(t => t.Id == _traceId).Port.Should().BeLessThan(1);
 
-            (_rtuLeaf.Children[_portNumber - 1] is PortLeaf).Should().BeTrue();
+            var portLeaf = _rtuLeaf.Children[_portNumber - 1] as PortLeaf;
+            portLeaf.Should().NotBeNull();
+            portLeaf?.Name.Should().Be(string.Format(Resources.SID_Port_N, _portNumber));
         }
 
         [Then(@"Трасса отсоединена от переключателя")]
         public void ThenТрассаОтсоединенаОтПереключателя()
         {
             _sut.ReadModel.Traces.Single(t => t.Id == _traceId).Port.Should().BeLessThan(1);
-
-            (_otauLeaf.Children[_portNumber - 1] is PortLeaf).Should().BeTrue();
+            var portLeaf = _otauLeaf.Children[_portNumber - 1] as PortLeaf;
+            portLeaf.Should().NotBeNull();
+            portLeaf?.Name.Should().
+                Be(string.Format(Resources.SID_Port_N_on_otau, _otauLeaf.FirstPortNumber + _portNumber - 1, _otauLeaf.MasterPort, _portNumber));
         }
 
     }
