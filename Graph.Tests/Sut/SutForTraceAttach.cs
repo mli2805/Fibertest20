@@ -19,11 +19,11 @@ namespace Graph.Tests
 
         public OtauLeaf AttachOtauToRtu(RtuLeaf rtuLeaf, int port)
         {
-            var portLeaf = (PortLeaf)rtuLeaf.Children[port - 1];
+            var portLeaf = (PortLeaf)rtuLeaf.ChildrenProvider.Children[port - 1];
             FakeWindowManager.RegisterHandler(model => OtauToAttachHandler(model, Answer.Yes));
             portLeaf.AttachOtauAction(null);
             Poller.Tick();
-            return (OtauLeaf) rtuLeaf.Children[port - 1];
+            return (OtauLeaf) rtuLeaf.ChildrenProvider.Children[port - 1];
         }
 
         public bool RtuInitializeHandler(object model, Answer answer)

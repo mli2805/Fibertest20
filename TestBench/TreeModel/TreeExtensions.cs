@@ -29,11 +29,21 @@ namespace Iit.Fibertest.TestBench
     {
         public static int TracesCount(this ObservableCollection<Leaf> roots)
         {
+            return roots.Select(r => ((RtuLeaf) r).RtuTraceCount()).Sum();
+        }
+
+        private static int RtuTraceCount(this RtuLeaf rtuLeaf)
+        {
             return 1;
         }
         public static int PortCount(this ObservableCollection<Leaf> roots)
         {
             return roots.Select(r=>((RtuLeaf)r).FullPortCount).Sum();
         }
+    }
+
+    public static class OtauExtentions
+    {
+        
     }
 }

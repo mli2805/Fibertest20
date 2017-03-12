@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Media;
 using Caliburn.Micro;
@@ -61,13 +60,13 @@ namespace Iit.Fibertest.TestBench
         public int FullPortCount { get; set; }
         public override string Name => Title;
 
-        public bool HasAttachedTraces => Children.Any(l => l is TraceLeaf && ((TraceLeaf) l).PortNumber > 0);
+        public bool HasAttachedTraces => ChildrenProvider.Children.Any(l => l is TraceLeaf && ((TraceLeaf) l).PortNumber > 0);
 
         public IPortOwner GetOwnerOfExtendedPort(int extendedPortNumber)
         {
             if (extendedPortNumber <= OwnPortCount)
                 return this;
-            foreach (var child in Children)
+            foreach (var child in ChildrenProvider.Children)
             {
                 var otau = child as OtauLeaf;
                 if (otau != null &&
@@ -78,55 +77,13 @@ namespace Iit.Fibertest.TestBench
             return null;
         }
 
+        public ChildrenProvider ChildrenProvider { get; }
+
         public RtuLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, FreePortsToggleButton view) 
             : base(readModel, windowManager, bus)
         {
-            ChildrenProvider = new ChildrenProvider(Children, view);
+            ChildrenProvider = new ChildrenProvider(view);
         }
-/*
-        public void RemoveFreePorts()
-        {
-            RemoveFreePorts(this);
-        }
-
-        private void RemoveFreePorts(Leaf owner)
-        {
-            foreach (var child in owner.Children.ToList())
-            {
-                if (child is PortLeaf)
-                    owner.Children.Remove(child);
-                if (child is OtauLeaf)
-                    RemoveFreePorts(child);
-            }
-        }
-
-        public void RestoreFreePorts()
-        {
-            var ports = new Leaf[OwnPortCount];
-            var notAttachedTraces = new List<Leaf>();
-            foreach (var child in Children)
-            {
-                if (child is OtauLeaf)
-                    ports[((OtauLeaf) child).MasterPort - 1] = child;
-                if (child is TraceLeaf)
-                {
-                    var portNumber = ((TraceLeaf) child).PortNumber;
-                    if (portNumber > 0)
-                        ports[portNumber - 1] = child;
-                    else
-                        notAttachedTraces.Add(child);
-                }
-            }
-            for (int i = 0; i < ports.Length; i++)
-            {
-                if (ports[i] == null)
-                    ports[i] = new PortLeaf(ReadModel, WindowManager, Bus, this, i + 1);
-            }
-            Children.Clear();
-            ports.ToList().ForEach(t => Children.Add(t));
-            notAttachedTraces.ForEach(t => Children.Add(t));
-        }
-*/
         protected override List<MenuItemVm> GetMenuItems()
         {
             var menu = new List<MenuItemVm>();
@@ -273,7 +230,5 @@ namespace Iit.Fibertest.TestBench
         {
         }
 
-        public ObservableCollection<Leaf> Children { get; set; } = new ObservableCollection<Leaf>();
-        public ChildrenProvider ChildrenProvider { get; }
     }
 }

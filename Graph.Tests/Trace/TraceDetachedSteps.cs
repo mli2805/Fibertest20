@@ -54,7 +54,7 @@ namespace Graph.Tests
         {
             _sut.ReadModel.Traces.Single(t => t.Id == _traceId).Port.Should().BeLessThan(1);
 
-            var portLeaf = _rtuLeaf.Children[_portNumber - 1] as PortLeaf;
+            var portLeaf = _rtuLeaf.ChildrenProvider.Children[_portNumber - 1] as PortLeaf;
             portLeaf.Should().NotBeNull();
             portLeaf?.Name.Should().Be(string.Format(Resources.SID_Port_N, _portNumber));
         }
@@ -63,7 +63,7 @@ namespace Graph.Tests
         public void ThenТрассаОтсоединенаОтПереключателя()
         {
             _sut.ReadModel.Traces.Single(t => t.Id == _traceId).Port.Should().BeLessThan(1);
-            var portLeaf = _otauLeaf.Children[_portNumber - 1] as PortLeaf;
+            var portLeaf = _otauLeaf.ChildrenProvider.Children[_portNumber - 1] as PortLeaf;
             portLeaf.Should().NotBeNull();
             portLeaf?.Name.Should().
                 Be(string.Format(Resources.SID_Port_N_on_otau, _portNumber, _otauLeaf.FirstPortNumber + _portNumber - 1));

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Media;
 using Caliburn.Micro;
@@ -22,12 +21,12 @@ namespace Iit.Fibertest.TestBench
             get { return string.Format(Resources.SID_Port_trace, MasterPort, Title); }
             set { }
         }
-        public ObservableCollection<Leaf> Children { get; set; } = new ObservableCollection<Leaf>();
+        public ChildrenProvider ChildrenProvider { get; }
 
         public OtauLeaf(ReadModel readModel, IWindowManager windowManager,
-            Bus bus ,FreePortsToggleButton freePortsToggleButton) : base(readModel, windowManager, bus)
+            Bus bus, FreePortsToggleButton freePortsToggleButton) : base(readModel, windowManager, bus)
         {
-            ChildrenProvider = new ChildrenProvider(Children, freePortsToggleButton);
+            ChildrenProvider = new ChildrenProvider(freePortsToggleButton);
         }
         protected override List<MenuItemVm> GetMenuItems()
         {
@@ -51,9 +50,8 @@ namespace Iit.Fibertest.TestBench
 
         private bool CanOtauRemoveAction(object param)
         {
-            return Children.All(c => c is PortLeaf);
+            return ChildrenProvider.Children.All(c => c is PortLeaf);
         }
 
-        public ChildrenProvider ChildrenProvider { get; }
     }
 }

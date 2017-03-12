@@ -13,9 +13,9 @@ namespace Iit.Fibertest.TestBench
         public ObservableCollection<Leaf> EffectiveChildren
             => _freePortsToggleButton.State == FreePortsDisplayMode.Show ? Children :  new ObservableCollection<Leaf>(Children.Where(c=>!(c is PortLeaf)));
 
-        public ChildrenProvider(ObservableCollection<Leaf> children, FreePortsToggleButton freePortsToggleButton)
+        public ChildrenProvider(FreePortsToggleButton freePortsToggleButton)
         {
-            Children = children;
+            Children = new ObservableCollection<Leaf>();
 
             _freePortsToggleButton = freePortsToggleButton;
             freePortsToggleButton.PropertyChanged += (s, e) =>
