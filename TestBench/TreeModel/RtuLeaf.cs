@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Data;
 using System.Windows.Media;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
@@ -7,7 +9,12 @@ using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.TestBench
 {
-    public class RtuLeaf : Leaf
+    public interface IPortOwner
+    {
+        ChildrenPorts ChildrenPorts { get; }
+    }
+
+    public class RtuLeaf : Leaf, IPortOwner
     {
         private RtuPartState _mainChannelState;
         private MonitoringState _monitoringState;
@@ -62,23 +69,25 @@ namespace Iit.Fibertest.TestBench
 
         public bool HasAttachedTraces => Children.Any(l => l is TraceLeaf && ((TraceLeaf) l).PortNumber > 0);
 
-        public Leaf GetOwnerOfExtendedPort(int extendedPortNumber)
+        public IPortOwner GetOwnerOfExtendedPort(int extendedPortNumber)
         {
             if (extendedPortNumber <= OwnPortCount)
                 return this;
             foreach (var child in Children)
             {
                 var otau = child as OtauLeaf;
-                if (otau != null && 
+                if (otau != null &&
                     extendedPortNumber >= otau.FirstPortNumber &&
                     extendedPortNumber < otau.FirstPortNumber + otau.PortCount)
-                        return otau;
+                    return otau;
             }
             return null;
         }
 
-        public RtuLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus) : base(readModel, windowManager, bus)
+        public RtuLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, ViewSettings view) 
+            : base(readModel, windowManager, bus)
         {
+            ChildrenPorts = new ChildrenPorts(Children, view);
         }
 
         public void RemoveFreePorts()
@@ -120,8 +129,8 @@ namespace Iit.Fibertest.TestBench
                     ports[i] = new PortLeaf(ReadModel, WindowManager, Bus, this, i + 1);
             }
             Children.Clear();
-            ports.ToList().ForEach(t=>Children.Add(t));
-            notAttachedTraces.ForEach(t=>Children.Add(t));
+            ports.ToList().ForEach(t => Children.Add(t));
+            notAttachedTraces.ForEach(t => Children.Add(t));
         }
 
         protected override List<MenuItemVm> GetMenuItems()
@@ -221,27 +230,99 @@ namespace Iit.Fibertest.TestBench
             if (vm.Command != null)
                 Bus.SendCommand(vm.Command);
         }
-        private void ShowRtuAction(object param) { }
+
+        private void ShowRtuAction(object param)
+        {
+        }
 
         public void RtuSettingsAction(object param)
         {
             var vm = new RtuInitializeViewModel(Id, ReadModel, Bus);
             WindowManager.ShowDialog(vm);
         }
-        private void RtuStateAction(object param) { }
-        private void RtuLandmarksAction(object param) { }
-        private void MonitoringSettingsAction(object param) { }
-        private void ManualModeAction(object param) { }
-        private void AutomaticModeAction(object param) { }
+
+        private void RtuStateAction(object param)
+        {
+        }
+
+        private void RtuLandmarksAction(object param)
+        {
+        }
+
+        private void MonitoringSettingsAction(object param)
+        {
+        }
+
+        private void ManualModeAction(object param)
+        {
+        }
+
+        private void AutomaticModeAction(object param)
+        {
+        }
 
         private void RtuRemoveAction(object param)
         {
             Bus.SendCommand(new RemoveRtu() {Id = Id});
         }
 
-        private bool CanRtuRemoveAction(object param) { return !HasAttachedTraces; }
+        private bool CanRtuRemoveAction(object param)
+        {
+            return !HasAttachedTraces;
+        }
 
-        private void DefineTraceAction(object param) { }
-        private void DefineTraceStepByStepAction(object param) { }
+        private void DefineTraceAction(object param)
+        {
+        }
+
+        private void DefineTraceStepByStepAction(object param)
+        {
+        }
+
+        public ChildrenPorts ChildrenPorts { get; }
+    }
+
+    public class ViewSettings : PropertyChangedBase
+    {
+        private PortDisplayMode _portDisplayMode;
+
+        public PortDisplayMode PortDisplayMode
+        {
+            get { return _portDisplayMode; }
+            set
+            {
+                if (value == _portDisplayMode) return;
+                _portDisplayMode = value;
+                NotifyOfPropertyChange();
+            }
+        }
+    }
+
+    public sealed class ChildrenPorts : PropertyChangedBase
+    {
+        private readonly ViewSettings _viewSettings;
+
+        public ChildrenPorts(ObservableCollection<Leaf> children, ViewSettings viewSettings)
+        {
+            Children = children;
+
+            _viewSettings = viewSettings;
+            viewSettings.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(ViewSettings.PortDisplayMode))
+                    NotifyOfPropertyChange(nameof(EffectiveChildren));
+            };
+        }
+
+        public ObservableCollection<Leaf> EffectiveChildren
+            => _viewSettings.PortDisplayMode == PortDisplayMode.All ? Children : AttachedChildren;
+
+        public ObservableCollection<Leaf> Children { get; } 
+        public ObservableCollection<Leaf> AttachedChildren { get; } = new ObservableCollection<Leaf>();
+
+    }
+    public enum PortDisplayMode
+    {
+        All, Attached
     }
 }

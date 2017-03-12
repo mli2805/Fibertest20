@@ -7,7 +7,7 @@ using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.TestBench
 {
-    public class OtauLeaf : Leaf
+    public class OtauLeaf : Leaf, IPortOwner
     {
         public RtuPartState State { get; set; }
         public int PortCount { get; set; }
@@ -19,11 +19,13 @@ namespace Iit.Fibertest.TestBench
         public override string Name
         {
             get { return string.Format(Resources.SID_Port_trace, MasterPort, Title); }
-            set {}
+            set { }
         }
 
-        public OtauLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus) : base(readModel, windowManager, bus)
+        public OtauLeaf(ReadModel readModel, IWindowManager windowManager,
+            Bus bus ,ViewSettings viewSettings) : base(readModel, windowManager, bus)
         {
+            ChildrenPorts = new ChildrenPorts(Children, viewSettings);
         }
         protected override List<MenuItemVm> GetMenuItems()
         {
@@ -42,7 +44,7 @@ namespace Iit.Fibertest.TestBench
 
         public void OtauRemoveAction(object param)
         {
-            Bus.SendCommand(new DetachOtau() {Id = Id, RtuId = Parent.Id});
+            Bus.SendCommand(new DetachOtau() { Id = Id, RtuId = Parent.Id });
         }
 
         private bool CanOtauRemoveAction(object param)
@@ -50,5 +52,6 @@ namespace Iit.Fibertest.TestBench
             return Children.All(c => c is PortLeaf);
         }
 
+        public ChildrenPorts ChildrenPorts { get; }
     }
 }
