@@ -263,7 +263,7 @@
     </Compile>
     <Compile Include="GraphModel\RtuVm.cs" />
     <Compile Include="GraphModel\TraceVm.cs" />
-    <Compile Include="TreeModel\MenuItemVm.cs" />
+    <Compile Include="ViewModels\Primitive\MenuItemVm.cs" />
     <Compile Include="TreeModel\RtuLeaf.cs" />
     <Compile Include="TreeModel\TraceLeaf.cs" />
     <Compile Include="TreeModel\TreeExtensions.cs" />
