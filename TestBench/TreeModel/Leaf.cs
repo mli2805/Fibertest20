@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows.Media;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.TestBench
 {
-    public class Leaf : PropertyChangedBase, ITreeViewItemModel
+    public class Leaf : PropertyChangedBase
     {
         protected readonly ReadModel ReadModel;
         protected readonly IWindowManager WindowManager;
@@ -88,27 +87,6 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
-        private IEnumerable<Leaf> GetAscendingHierarchy()
-        {
-            var account = this;
-
-            yield return account;
-            while (account.Parent != null)
-            {
-                yield return account.Parent;
-                account = account.Parent;
-            }
-        }
-
-        public IEnumerable<ITreeViewItemModel> GetHierarchy()
-        {
-            return GetAscendingHierarchy().Reverse();
-        }
-
-        public IEnumerable<ITreeViewItemModel> GetChildren()
-        {
-            return Children;
-        }
         #endregion
     }
 }
