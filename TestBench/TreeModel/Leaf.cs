@@ -23,8 +23,8 @@ namespace Iit.Fibertest.TestBench
                 if (value == _title) return;
                 _title = value;
                 NotifyOfPropertyChange();
-                NotifyOfPropertyChange(nameof(SelectedValuePath));
-                NotifyOfPropertyChange(nameof(DisplayValuePath));
+//                NotifyOfPropertyChange(nameof(SelectedValuePath));
+//                NotifyOfPropertyChange(nameof(DisplayValuePath));
                 NotifyOfPropertyChange(nameof(Name));
             }
         }
@@ -59,10 +59,6 @@ namespace Iit.Fibertest.TestBench
             Bus = bus;
         }
 
-        #region implementation of ITreeViewItemModel
-        public string SelectedValuePath => Title;
-        public string DisplayValuePath => Title;
-
         private bool _isSelected;
         public bool IsSelected
         {
@@ -86,7 +82,5 @@ namespace Iit.Fibertest.TestBench
                 NotifyOfPropertyChange();
             }
         }
-
-        #endregion
     }
 }
