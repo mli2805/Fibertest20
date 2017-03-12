@@ -52,7 +52,7 @@ namespace Graph.Tests
         {
             FakeWindowManager.RegisterHandler(model => TraceToAttachHandler(model, traceId, answer));
 
-            var portLeaf = (PortLeaf)(owner.ChildrenPorts.Children[port - 1]);
+            var portLeaf = (PortLeaf)(owner.ChildrenProvider.Children[port - 1]);
 
             portLeaf.AttachFromListAction(null);
             Poller.Tick();

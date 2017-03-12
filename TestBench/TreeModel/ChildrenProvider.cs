@@ -4,11 +4,16 @@ using Caliburn.Micro;
 
 namespace Iit.Fibertest.TestBench
 {
-    public sealed class ChildrenPorts : PropertyChangedBase
+    public sealed class ChildrenProvider : PropertyChangedBase
     {
         private readonly FreePortsToggleButton _freePortsToggleButton;
 
-        public ChildrenPorts(ObservableCollection<Leaf> children, FreePortsToggleButton freePortsToggleButton)
+        public ObservableCollection<Leaf> Children { get; }
+
+        public ObservableCollection<Leaf> EffectiveChildren
+            => _freePortsToggleButton.State == FreePortsDisplayMode.Show ? Children :  new ObservableCollection<Leaf>(Children.Where(c=>!(c is PortLeaf)));
+
+        public ChildrenProvider(ObservableCollection<Leaf> children, FreePortsToggleButton freePortsToggleButton)
         {
             Children = children;
 
@@ -19,10 +24,5 @@ namespace Iit.Fibertest.TestBench
                     NotifyOfPropertyChange(nameof(EffectiveChildren));
             };
         }
-
-        public ObservableCollection<Leaf> EffectiveChildren
-            => _freePortsToggleButton.State == FreePortsDisplayMode.Show ? Children :  new ObservableCollection<Leaf>(Children.Where(c=>!(c is PortLeaf)));
-
-        public ObservableCollection<Leaf> Children { get; } 
     }
 }

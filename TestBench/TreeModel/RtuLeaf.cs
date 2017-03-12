@@ -81,7 +81,7 @@ namespace Iit.Fibertest.TestBench
         public RtuLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, FreePortsToggleButton view) 
             : base(readModel, windowManager, bus)
         {
-            ChildrenPorts = new ChildrenPorts(Children, view);
+            ChildrenProvider = new ChildrenProvider(Children, view);
         }
 /*
         public void RemoveFreePorts()
@@ -274,6 +274,6 @@ namespace Iit.Fibertest.TestBench
         }
 
         public ObservableCollection<Leaf> Children { get; set; } = new ObservableCollection<Leaf>();
-        public ChildrenPorts ChildrenPorts { get; }
+        public ChildrenProvider ChildrenProvider { get; }
     }
 }

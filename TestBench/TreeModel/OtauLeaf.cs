@@ -27,7 +27,7 @@ namespace Iit.Fibertest.TestBench
         public OtauLeaf(ReadModel readModel, IWindowManager windowManager,
             Bus bus ,FreePortsToggleButton freePortsToggleButton) : base(readModel, windowManager, bus)
         {
-            ChildrenPorts = new ChildrenPorts(Children, freePortsToggleButton);
+            ChildrenProvider = new ChildrenProvider(Children, freePortsToggleButton);
         }
         protected override List<MenuItemVm> GetMenuItems()
         {
@@ -54,6 +54,6 @@ namespace Iit.Fibertest.TestBench
             return Children.All(c => c is PortLeaf);
         }
 
-        public ChildrenPorts ChildrenPorts { get; }
+        public ChildrenProvider ChildrenProvider { get; }
     }
 }
