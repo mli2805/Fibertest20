@@ -12,7 +12,12 @@ namespace Iit.Fibertest.TestBench
             {
                 if (root.Id == id)
                     return root;
-                var result = GetById(root.Children, id);
+
+                var portOwner = root as IPortOwner;
+                if (portOwner == null)
+                    continue;
+
+                var result = GetById(portOwner.ChildrenPorts.Children, id);
                 if (result != null)
                     return result;
             }

@@ -7,8 +7,7 @@
              xmlns:testBench="clr-namespace:Iit.Fibertest.TestBench"
              cal:Bind.ModelWithoutContext="{Binding .}"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" 
-             >
+             d:DesignHeight="300" d:DesignWidth="300">
 
     <UserControl.Resources>
         <ControlTemplate x:Key="MenuSeparatorTemplate">
@@ -58,8 +57,8 @@
                     RenderOptions.BitmapScalingMode="NearestNeighbor">
                 <Image Source="../Resources/Buttons/Collapse.png" Width="16" Height="16"/>
             </Button>
-            <ToggleButton Name="TogglePorts" Grid.Column="3" Background="Transparent" BorderThickness="0" Width="20" Height="20"
-                          Style="{StaticResource MyToggleButtonStyle}" Click="TogglePorts_Click"
+            <ToggleButton Name="ChangeFreePortsVisibility" Grid.Column="3" Background="Transparent" BorderThickness="0" Width="20" Height="20"
+                          Style="{StaticResource MyToggleButtonStyle}"
                           RenderOptions.BitmapScalingMode="NearestNeighbor">
             </ToggleButton>
         </Grid>
@@ -93,6 +92,18 @@
                         <TextBlock Text="{Binding Name}" Foreground="{Binding Color}" Margin="0,0,20,0" MinWidth="200"/>
                     </StackPanel>
                 </HierarchicalDataTemplate>
+                <HierarchicalDataTemplate DataType="{x:Type testBench:OtauLeaf}" 
+                                          ItemsSource="{Binding ChildrenPorts.EffectiveChildren}">
+                    <StackPanel Orientation="Horizontal" Margin="69,0,0,0">
+                        <StackPanel.ContextMenu>
+                            <ContextMenu 
+                                ItemContainerStyle="{StaticResource ContextMenuItemStyle}" 
+                                ItemsSource="{Binding MyContextMenu}"/>
+                        </StackPanel.ContextMenu>
+                        <Image Source="{Binding OtauStatePictogram}" Height="12" Width="12" Margin="0,0,4,0"/>
+                        <TextBlock Text="{Binding Name}" Foreground="{Binding Color}" Margin="0,0,20,0" MinWidth="200"/>
+                    </StackPanel>
+                </HierarchicalDataTemplate>
                 <HierarchicalDataTemplate DataType="{x:Type testBench:TraceLeaf}">
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
                         <StackPanel.ContextMenu>
@@ -103,18 +114,6 @@
                         <TextBlock Width="{Binding LeftMargin}"/>
                         <Image Source="{Binding MonitoringPictogram}" Height="12" Width="12" Margin="0,0,4,0" Visibility="{Binding IconsVisibility}"/>
                         <Image Source="{Binding TraceStatePictogram}" Height="12" Width="12" Margin="0,0,4,0" Visibility="{Binding IconsVisibility}"/>
-                        <TextBlock Text="{Binding Name}" Foreground="{Binding Color}" Margin="0,0,20,0" MinWidth="200"/>
-                    </StackPanel>
-                </HierarchicalDataTemplate>
-                <HierarchicalDataTemplate DataType="{x:Type testBench:OtauLeaf}" 
-                                          ItemsSource="{Binding ChildrenPorts.EffectiveChildren}">
-                    <StackPanel Orientation="Horizontal" Margin="69,0,0,0">
-                        <StackPanel.ContextMenu>
-                            <ContextMenu 
-                                ItemContainerStyle="{StaticResource ContextMenuItemStyle}" 
-                                ItemsSource="{Binding MyContextMenu}"/>
-                        </StackPanel.ContextMenu>
-                        <Image Source="{Binding OtauStatePictogram}" Height="12" Width="12" Margin="0,0,4,0"/>
                         <TextBlock Text="{Binding Name}" Foreground="{Binding Color}" Margin="0,0,20,0" MinWidth="200"/>
                     </StackPanel>
                 </HierarchicalDataTemplate>

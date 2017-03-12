@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Windows.Media;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
@@ -23,8 +22,6 @@ namespace Iit.Fibertest.TestBench
                 if (value == _title) return;
                 _title = value;
                 NotifyOfPropertyChange();
-//                NotifyOfPropertyChange(nameof(SelectedValuePath));
-//                NotifyOfPropertyChange(nameof(DisplayValuePath));
                 NotifyOfPropertyChange(nameof(Name));
             }
         }
@@ -50,7 +47,6 @@ namespace Iit.Fibertest.TestBench
         protected bool CanSomeAction(object param) { return true; }
 
         public Leaf Parent { get; set; }
-        public ObservableCollection<Leaf> Children { get; set; } = new ObservableCollection<Leaf>();
 
         protected Leaf(ReadModel readModel, IWindowManager windowManager, Bus bus)
         {

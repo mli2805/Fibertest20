@@ -48,11 +48,11 @@ namespace Graph.Tests
             return rtuLeaf;
         }
 
-        public void AttachTraceTo(Guid traceId, Leaf owner, int port, Answer answer)
+        public void AttachTraceTo(Guid traceId, IPortOwner owner, int port, Answer answer)
         {
             FakeWindowManager.RegisterHandler(model => TraceToAttachHandler(model, traceId, answer));
 
-            var portLeaf = (PortLeaf)owner.Children[port - 1];
+            var portLeaf = (PortLeaf)(owner.ChildrenPorts.Children[port - 1]);
 
             portLeaf.AttachFromListAction(null);
             Poller.Tick();

@@ -63,9 +63,9 @@ namespace Graph.Tests
         public void ThenТрассаПрисоединяетсяКПортуРту()
         {
             _sut.ReadModel.Traces.First(t => t.Id == _traceId).Port.Should().Be(_portNumber);
-            (_sut.ShellVm.MyLeftPanelViewModel.TreeReadModel.Tree.GetById(_rtuId).Children[_portNumber - 1] is TraceLeaf)
-                .Should().BeTrue();
-            _sut.ShellVm.MyLeftPanelViewModel.TreeReadModel.Tree.GetById(_rtuId).Children[_portNumber - 1].Id.Should().Be(_traceId);
+            var rtuLeaf = (RtuLeaf)_sut.ShellVm.MyLeftPanelViewModel.TreeReadModel.Tree.GetById(_rtuId);
+            (rtuLeaf.Children[_portNumber - 1] is TraceLeaf).Should().BeTrue();
+            rtuLeaf.Children[_portNumber - 1].Id.Should().Be(_traceId);
         }
 
         [Then(@"Трасса присоединяется к (.*) порту переключателя")]
@@ -79,8 +79,8 @@ namespace Graph.Tests
         public void ThenТрассаНеПрисоединяетсяКПортуРту()
         {
             _sut.ReadModel.Traces.First(t => t.Id == _traceId).Port.Should().BeLessThan(1);
-            (_sut.ShellVm.MyLeftPanelViewModel.TreeReadModel.Tree.GetById(_rtuId).Children[_portNumber - 1] is PortLeaf)
-                .Should().BeTrue();
+            var rtuLeaf = (RtuLeaf)_sut.ShellVm.MyLeftPanelViewModel.TreeReadModel.Tree.GetById(_rtuId);
+            (rtuLeaf.Children[_portNumber - 1] is PortLeaf).Should().BeTrue();
         }
 
     }

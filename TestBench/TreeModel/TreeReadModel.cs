@@ -12,7 +12,7 @@ namespace Iit.Fibertest.TestBench
         private readonly ReadModel _readModel;
         private readonly Bus _bus;
         public ObservableCollection<Leaf> Tree { get; set; } = new ObservableCollection<Leaf>();
-        public ViewSettings ViewSettings { get; } = new ViewSettings();
+        public FreePortsToggleButton FreePortsToggleButton { get; } = new FreePortsToggleButton();
 
         public TreeReadModel(IWindowManager windowManager, ReadModel readModel, Bus bus)
         {
@@ -24,7 +24,7 @@ namespace Iit.Fibertest.TestBench
         #region Rtu
         public void Apply(RtuAtGpsLocationAdded e)
         {
-            Tree.Add(new RtuLeaf(_readModel, _windowManager, _bus, ViewSettings)
+            Tree.Add(new RtuLeaf(_readModel, _windowManager, _bus, FreePortsToggleButton)
             {
                 Id = e.Id,
                 Title = Resources.SID_noname_RTU,
@@ -65,17 +65,19 @@ namespace Iit.Fibertest.TestBench
 
         private void RemoveWithChildren(Leaf leaf)
         {
-            foreach (var child in leaf.Children)
-            {
-                RemoveWithChildren(child);
-            }
+            IPortOwner owner = leaf as IPortOwner;
+            if (owner != null)
+                foreach (var child in owner.ChildrenPorts.Children)
+                {
+                    RemoveWithChildren(child);
+                }
             Tree.Remove(leaf);
         }
 
         public void Apply(OtauAttached e)
         {
             var rtuLeaf = (RtuLeaf)Tree.GetById(e.RtuId);
-            var otauLeaf = new OtauLeaf(_readModel, _windowManager, _bus, ViewSettings)
+            var otauLeaf = new OtauLeaf(_readModel, _windowManager, _bus, FreePortsToggleButton)
             {
                 Id = e.Id,
                 Parent = rtuLeaf,
@@ -133,14 +135,14 @@ namespace Iit.Fibertest.TestBench
         public void Apply(TraceCleaned e)
         {
             var traceLeaf = Tree.GetById(e.Id);
-            var rtuLeaf = traceLeaf.Parent;
+            var rtuLeaf = traceLeaf.Parent is RtuLeaf ? (RtuLeaf)traceLeaf.Parent : (RtuLeaf)traceLeaf.Parent.Parent;
             rtuLeaf.Children.Remove(traceLeaf);
         }
 
         public void Apply(TraceRemoved e)
         {
             var traceLeaf = Tree.GetById(e.Id);
-            var rtuLeaf = traceLeaf.Parent;
+            var rtuLeaf = traceLeaf.Parent is RtuLeaf ? (RtuLeaf)traceLeaf.Parent : (RtuLeaf)traceLeaf.Parent.Parent;
             rtuLeaf.Children.Remove(traceLeaf);
         }
 
@@ -149,7 +151,7 @@ namespace Iit.Fibertest.TestBench
             TraceLeaf traceLeaf = (TraceLeaf)Tree.GetById(e.TraceId);
             RtuLeaf rtuLeaf = (RtuLeaf)Tree.GetById(traceLeaf.Parent.Id);
             var portOwner = rtuLeaf.GetOwnerOfExtendedPort(e.Port);
-            var port = portOwner is RtuLeaf ? e.Port : e.Port - ((OtauLeaf) portOwner).FirstPortNumber + 1;
+            var port = portOwner is RtuLeaf ? e.Port : e.Port - ((OtauLeaf)portOwner).FirstPortNumber + 1;
 
             portOwner.ChildrenPorts.Children[port - 1] =
                 new TraceLeaf(_readModel, _windowManager, _bus, portOwner)
@@ -160,15 +162,15 @@ namespace Iit.Fibertest.TestBench
                     Color = Brushes.Black,
                     PortNumber = port,
                 };
-            portOwner.ChildrenPorts.AttachedChildren.Remove(traceLeaf);
+//            portOwner.ChildrenPorts.ChildrenExceptFreePorts.Remove(traceLeaf);
             rtuLeaf.Children.Remove(traceLeaf);
         }
 
         public void Apply(TraceDetached e)
         {
             TraceLeaf traceLeaf = (TraceLeaf)Tree.GetById(e.TraceId);
-            Leaf owner = Tree.GetById(traceLeaf.Parent.Id);
-            RtuLeaf rtu = owner is RtuLeaf ? (RtuLeaf) owner : (RtuLeaf) (owner.Parent);
+            var owner = Tree.GetById(traceLeaf.Parent.Id);
+            RtuLeaf rtu = owner is RtuLeaf ? (RtuLeaf)owner : (RtuLeaf)(owner.Parent);
             int port = traceLeaf.PortNumber;
             var detachedTraceLeaf = new TraceLeaf(_readModel, _windowManager, _bus, rtu)
             {
@@ -179,11 +181,11 @@ namespace Iit.Fibertest.TestBench
                 Color = Brushes.Blue,
             };
 
-            owner.Children.RemoveAt(port - 1);
-            owner.Children.Insert(port - 1, new PortLeaf(_readModel, _windowManager, _bus, owner, port));
+            ((IPortOwner)owner).ChildrenPorts.Children.RemoveAt(port - 1);
+            ((IPortOwner)owner).ChildrenPorts.Children.Insert(port - 1, new PortLeaf(_readModel, _windowManager, _bus, owner, port));
 
             rtu.Children.Add(detachedTraceLeaf);
-            rtu.ChildrenPorts.AttachedChildren.Remove(traceLeaf);
+//            rtu.ChildrenPorts.ChildrenExceptFreePorts.Remove(traceLeaf);
         }
         #endregion
     }

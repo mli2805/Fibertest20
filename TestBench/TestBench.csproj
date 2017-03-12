@@ -108,7 +108,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="TreeModel\ChildrenPorts.cs" />
+    <Compile Include="TreeModel\IPortOwner.cs" />
     <Compile Include="TreeModel\OtauLeaf.cs" />
+    <Compile Include="TreeModel\FreePortsDisplayMode.cs" />
+    <Compile Include="TreeModel\FreePortsToggleButton.cs" />
     <Compile Include="ViewControls\GpsInputControl\GpsInputModeComboItem.cs" />
     <Compile Include="ReadModel\PathFinder.cs" />
     <Compile Include="AppBootstrapper.cs" />
@@ -233,7 +237,6 @@
     <Compile Include="MapUserControl\MapUserControl.xaml.cs">
       <DependentUpon>MapUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TreeModel\ITreeViewItemModel.cs" />
     <Compile Include="TreeModel\Leaf.cs" />
     <Compile Include="GraphModel\NodeVm.cs" />
     <Compile Include="ViewModels\Primitive\ContextMenuAction.cs" />

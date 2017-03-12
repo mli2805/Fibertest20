@@ -8,11 +8,6 @@ using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.TestBench
 {
-    public interface IPortOwner
-    {
-        ChildrenPorts ChildrenPorts { get; }
-    }
-
     public class RtuLeaf : Leaf, IPortOwner
     {
         private RtuPartState _mainChannelState;
@@ -83,12 +78,12 @@ namespace Iit.Fibertest.TestBench
             return null;
         }
 
-        public RtuLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, ViewSettings view) 
+        public RtuLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, FreePortsToggleButton view) 
             : base(readModel, windowManager, bus)
         {
             ChildrenPorts = new ChildrenPorts(Children, view);
         }
-
+/*
         public void RemoveFreePorts()
         {
             RemoveFreePorts(this);
@@ -131,7 +126,7 @@ namespace Iit.Fibertest.TestBench
             ports.ToList().ForEach(t => Children.Add(t));
             notAttachedTraces.ForEach(t => Children.Add(t));
         }
-
+*/
         protected override List<MenuItemVm> GetMenuItems()
         {
             var menu = new List<MenuItemVm>();
@@ -278,50 +273,7 @@ namespace Iit.Fibertest.TestBench
         {
         }
 
+        public ObservableCollection<Leaf> Children { get; set; } = new ObservableCollection<Leaf>();
         public ChildrenPorts ChildrenPorts { get; }
-    }
-
-    public class ViewSettings : PropertyChangedBase
-    {
-        private PortDisplayMode _portDisplayMode;
-
-        public PortDisplayMode PortDisplayMode
-        {
-            get { return _portDisplayMode; }
-            set
-            {
-                if (value == _portDisplayMode) return;
-                _portDisplayMode = value;
-                NotifyOfPropertyChange();
-            }
-        }
-    }
-
-    public sealed class ChildrenPorts : PropertyChangedBase
-    {
-        private readonly ViewSettings _viewSettings;
-
-        public ChildrenPorts(ObservableCollection<Leaf> children, ViewSettings viewSettings)
-        {
-            Children = children;
-
-            _viewSettings = viewSettings;
-            viewSettings.PropertyChanged += (s, e) =>
-            {
-                if (e.PropertyName == nameof(ViewSettings.PortDisplayMode))
-                    NotifyOfPropertyChange(nameof(EffectiveChildren));
-            };
-        }
-
-        public ObservableCollection<Leaf> EffectiveChildren
-            => _viewSettings.PortDisplayMode == PortDisplayMode.All ? Children : AttachedChildren;
-
-        public ObservableCollection<Leaf> Children { get; } 
-        public ObservableCollection<Leaf> AttachedChildren { get; } = new ObservableCollection<Leaf>();
-
-    }
-    public enum PortDisplayMode
-    {
-        All, Attached
     }
 }

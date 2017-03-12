@@ -13,6 +13,13 @@ namespace Iit.Fibertest.TestBench
             TreeReadModel = treeReadModel;
         }
 
+        public void ChangeFreePortsVisibility()
+        {
+            TreeReadModel.FreePortsToggleButton.State = 
+                TreeReadModel.FreePortsToggleButton.State == FreePortsDisplayMode.Hide
+                    ? FreePortsDisplayMode.Show
+                    : FreePortsDisplayMode.Hide;
+        }
 
     }
 
