@@ -23,27 +23,18 @@ namespace Iit.Fibertest.TestBench
             }
             return null;
         }
-    }
 
-    public static class TreeStatistics
-    {
-        public static int TracesCount(this ObservableCollection<Leaf> roots)
+        public static int TraceCount(this ObservableCollection<Leaf> roots)
         {
-            return roots.Select(r => ((RtuLeaf) r).RtuTraceCount()).Sum();
+            return roots.Sum(r=> ((RtuLeaf)r).TraceCount);
         }
 
-        private static int RtuTraceCount(this RtuLeaf rtuLeaf)
-        {
-            return 1;
-        }
         public static int PortCount(this ObservableCollection<Leaf> roots)
         {
-            return roots.Select(r=>((RtuLeaf)r).FullPortCount).Sum();
+            return roots.Sum(r=>((RtuLeaf)r).FullPortCount);
         }
     }
 
-    public static class OtauExtentions
-    {
-        
-    }
+
+    
 }

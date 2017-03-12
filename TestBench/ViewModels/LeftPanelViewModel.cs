@@ -7,6 +7,8 @@ namespace Iit.Fibertest.TestBench
         public TreeReadModel TreeReadModel { get; set; }
         public int RtuCount => TreeReadModel.Tree.Count;
         public int FullPortCount => TreeReadModel.Tree.PortCount();
+        public int FullTraceCount => TreeReadModel.Tree.TraceCount();
+        public string Occupancy => $@"{(double)FullTraceCount / FullPortCount * 100:F}%";
 
         public LeftPanelViewModel(TreeReadModel treeReadModel)
         {

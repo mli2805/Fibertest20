@@ -22,6 +22,7 @@ namespace Iit.Fibertest.TestBench
             set { }
         }
         public ChildrenProvider ChildrenProvider { get; }
+        public int TraceCount => ChildrenProvider.Children.Count(c => c is TraceLeaf);
 
         public OtauLeaf(ReadModel readModel, IWindowManager windowManager,
             Bus bus, FreePortsToggleButton freePortsToggleButton) : base(readModel, windowManager, bus)

@@ -135,6 +135,10 @@
             <TextBlock Text="{Binding RtuCount}"/>
             <TextBlock Text="Ports"/>
             <TextBlock Text="{Binding FullPortCount}"/>
+            <TextBlock Text="Traces"/>
+            <TextBlock Text="{Binding FullTraceCount}"/>
+            <TextBlock Text="Occupancy"/>
+            <TextBlock Text="{Binding Occupancy}"/>
         </StatusBar>
     </Grid>
 </UserControl>

@@ -61,6 +61,8 @@ namespace Iit.Fibertest.TestBench
         public override string Name => Title;
 
         public bool HasAttachedTraces => ChildrenProvider.Children.Any(l => l is TraceLeaf && ((TraceLeaf) l).PortNumber > 0);
+        public int TraceCount => ChildrenProvider.Children.Count(c => c is TraceLeaf) +
+                ChildrenProvider.Children.Where(c => c is OtauLeaf).Sum(otauLeaf => ((OtauLeaf)otauLeaf).TraceCount);
 
         public IPortOwner GetOwnerOfExtendedPort(int extendedPortNumber)
         {
