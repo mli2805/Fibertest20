@@ -2,11 +2,11 @@ using Caliburn.Micro;
 
 namespace Iit.Fibertest.TestBench
 {
-    public class FreePortsToggleButton : PropertyChangedBase
+    public class FreePortsVisibility : PropertyChangedBase
     {
-        private FreePortsDisplayMode _state;
+        private FreePortsVisibilityState _state;
 
-        public FreePortsDisplayMode State
+        public FreePortsVisibilityState State
         {
             get { return _state; }
             set

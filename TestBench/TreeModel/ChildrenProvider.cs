@@ -6,21 +6,21 @@ namespace Iit.Fibertest.TestBench
 {
     public sealed class ChildrenProvider : PropertyChangedBase
     {
-        private readonly FreePortsToggleButton _freePortsToggleButton;
+        private readonly FreePortsVisibility _freePortsVisibility;
 
         public ObservableCollection<Leaf> Children { get; }
 
         public ObservableCollection<Leaf> EffectiveChildren
-            => _freePortsToggleButton.State == FreePortsDisplayMode.Show ? Children :  new ObservableCollection<Leaf>(Children.Where(c=>!(c is PortLeaf)));
+            => _freePortsVisibility.State == FreePortsVisibilityState.Show ? Children :  new ObservableCollection<Leaf>(Children.Where(c=>!(c is PortLeaf)));
 
-        public ChildrenProvider(FreePortsToggleButton freePortsToggleButton)
+        public ChildrenProvider(FreePortsVisibility freePortsVisibility)
         {
             Children = new ObservableCollection<Leaf>();
 
-            _freePortsToggleButton = freePortsToggleButton;
-            freePortsToggleButton.PropertyChanged += (s, e) =>
+            _freePortsVisibility = freePortsVisibility;
+            freePortsVisibility.PropertyChanged += (s, e) =>
             {
-                if (e.PropertyName == nameof(FreePortsToggleButton.State))
+                if (e.PropertyName == nameof(FreePortsVisibility.State))
                     NotifyOfPropertyChange(nameof(EffectiveChildren));
             };
         }

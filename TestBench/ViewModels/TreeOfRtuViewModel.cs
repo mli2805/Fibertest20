@@ -13,10 +13,10 @@ namespace Iit.Fibertest.TestBench
 
         public void ChangeFreePortsVisibility()
         {
-            TreeReadModel.FreePortsToggleButton.State =
-                TreeReadModel.FreePortsToggleButton.State == FreePortsDisplayMode.Hide
-                    ? FreePortsDisplayMode.Show
-                    : FreePortsDisplayMode.Hide;
+            TreeReadModel.FreePortsVisibility.State =
+                TreeReadModel.FreePortsVisibility.State == FreePortsVisibilityState.Hide
+                    ? FreePortsVisibilityState.Show
+                    : FreePortsVisibilityState.Hide;
         }
 
     }

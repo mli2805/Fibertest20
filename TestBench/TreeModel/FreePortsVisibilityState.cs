@@ -1,6 +1,6 @@
 namespace Iit.Fibertest.TestBench
 {
-    public enum FreePortsDisplayMode
+    public enum FreePortsVisibilityState
     {
         Show, Hide
     }

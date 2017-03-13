@@ -81,7 +81,7 @@ namespace Iit.Fibertest.TestBench
 
         public ChildrenProvider ChildrenProvider { get; }
 
-        public RtuLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, FreePortsToggleButton view) 
+        public RtuLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, FreePortsVisibility view) 
             : base(readModel, windowManager, bus)
         {
             ChildrenProvider = new ChildrenProvider(view);
