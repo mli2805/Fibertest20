@@ -10,5 +10,3 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
 	- изменение размеров окна, минимизация окна - не вызывают перерисовки
 
 5. release не на всех машинах работает
-
-8. treeViewControl отделить от LeftPanel

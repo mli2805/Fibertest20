@@ -10,14 +10,14 @@ namespace Iit.Fibertest.TestBench
 {
     public partial class ShellViewModel : Screen, IShell
     {
-        public TreeOfRtuViewModel TreeOfRtuViewModel { get; set; }
-
         public ILogger Log { get; set; }
 
-        private readonly IWindowManager _windowManager;
-        public GraphReadModel GraphReadModel { get; set; }
-        public ReadModel ReadModel { get; }
         public Bus Bus { get; }
+        private readonly IWindowManager _windowManager;
+
+        public ReadModel ReadModel { get; }
+        public TreeOfRtuViewModel TreeOfRtuViewModel { get; set; }
+        public GraphReadModel GraphReadModel { get; set; }
 
         public Db LocalDb { get; set; }
         public ShellViewModel(ReadModel readModel, TreeOfRtuModel treeOfRtuModel, Bus bus, 

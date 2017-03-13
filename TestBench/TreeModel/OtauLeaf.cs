@@ -25,9 +25,9 @@ namespace Iit.Fibertest.TestBench
         public int TraceCount => ChildrenProvider.Children.Count(c => c is TraceLeaf);
 
         public OtauLeaf(ReadModel readModel, IWindowManager windowManager,
-            Bus bus, FreePortsVisibility freePortsVisibility) : base(readModel, windowManager, bus)
+            Bus bus, FreePorts freePorts) : base(readModel, windowManager, bus)
         {
-            ChildrenProvider = new ChildrenProvider(freePortsVisibility);
+            ChildrenProvider = new ChildrenProvider(freePorts);
         }
         protected override List<MenuItemVm> GetMenuItems()
         {

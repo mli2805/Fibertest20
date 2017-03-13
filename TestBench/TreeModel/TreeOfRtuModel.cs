@@ -13,7 +13,7 @@ namespace Iit.Fibertest.TestBench
         private readonly ReadModel _readModel;
         private readonly Bus _bus;
         public ObservableCollection<Leaf> Tree { get; set; } = new ObservableCollection<Leaf>();
-        public FreePortsVisibility FreePortsVisibility { get; } = new FreePortsVisibility();
+        public FreePorts FreePorts { get; } = new FreePorts();
         public string Statistics
         {
             get
@@ -36,7 +36,7 @@ namespace Iit.Fibertest.TestBench
         #region Rtu
         public void Apply(RtuAtGpsLocationAdded e)
         {
-            Tree.Add(new RtuLeaf(_readModel, _windowManager, _bus, FreePortsVisibility)
+            Tree.Add(new RtuLeaf(_readModel, _windowManager, _bus, FreePorts)
             {
                 Id = e.Id,
                 Title = Resources.SID_noname_RTU,
@@ -89,7 +89,7 @@ namespace Iit.Fibertest.TestBench
         public void Apply(OtauAttached e)
         {
             var rtuLeaf = (RtuLeaf)Tree.GetById(e.RtuId);
-            var otauLeaf = new OtauLeaf(_readModel, _windowManager, _bus, FreePortsVisibility)
+            var otauLeaf = new OtauLeaf(_readModel, _windowManager, _bus, FreePorts)
             {
                 Id = e.Id,
                 Parent = rtuLeaf,

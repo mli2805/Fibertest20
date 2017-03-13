@@ -111,8 +111,7 @@
     <Compile Include="TreeModel\ChildrenProvider.cs" />
     <Compile Include="TreeModel\IPortOwner.cs" />
     <Compile Include="TreeModel\OtauLeaf.cs" />
-    <Compile Include="TreeModel\FreePortsVisibilityState.cs" />
-    <Compile Include="TreeModel\FreePortsVisibility.cs" />
+    <Compile Include="TreeModel\FreePorts.cs" />
     <Compile Include="ViewControls\GpsInputControl\GpsInputModeComboItem.cs" />
     <Compile Include="ReadModel\PathFinder.cs" />
     <Compile Include="AppBootstrapper.cs" />
