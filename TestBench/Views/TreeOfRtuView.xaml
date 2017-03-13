@@ -59,10 +59,10 @@
         </ToolBarTray>
         <StatusBar DockPanel.Dock="Bottom" Height="25">
             <StatusBarItem>
-                <TextBlock Text="{Binding TreeReadModel.Statistics}"></TextBlock>
+                <TextBlock Text="{Binding TreeOfRtuModel.Statistics}"></TextBlock>
             </StatusBarItem>
         </StatusBar>
-        <TreeView ItemsSource="{Binding TreeReadModel.Tree}" Name="MainTreeView"
+        <TreeView ItemsSource="{Binding TreeOfRtuModel.Tree}" Name="MainTreeView"
                   Background="Transparent" Foreground="Black" HorizontalAlignment="Stretch"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   VirtualizingStackPanel.IsVirtualizing="True">

@@ -13,7 +13,7 @@ namespace Iit.Fibertest.TestBench
         private readonly ReadModel _readModel;
         private readonly Bus _bus;
         public ObservableCollection<Leaf> Tree { get; set; } = new ObservableCollection<Leaf>();
-        public FreePorts FreePorts { get; } = new FreePorts();
+        public FreePorts FreePorts { get; } = new FreePorts(true);
         public string Statistics
         {
             get

@@ -15,5 +15,10 @@ namespace Iit.Fibertest.TestBench
                 NotifyOfPropertyChange();
             }
         }
+
+        public FreePorts(bool areVisible)
+        {
+            _areVisible = areVisible;
+        }
     }
 }
