@@ -149,7 +149,7 @@
     </Compile>
     <Compile Include="TreeModel\PortExtensions.cs" />
     <Compile Include="TreeModel\PortLeaf.cs" />
-    <Compile Include="TreeModel\TreeReadModel.cs" />
+    <Compile Include="TreeModel\TreeOfRtuModel.cs" />
     <Compile Include="Requests\RequestAddEquipmentIntoNode.cs" />
     <Compile Include="Requests\RequestAddFiberWithNodes.cs" />
     <Compile Include="Requests\RequestAddNodeIntoFiber.cs" />

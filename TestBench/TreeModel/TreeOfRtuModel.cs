@@ -7,7 +7,7 @@ using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.TestBench
 {
-    public class TreeReadModel
+    public class TreeOfRtuModel
     {
         private readonly IWindowManager _windowManager;
         private readonly ReadModel _readModel;
@@ -26,8 +26,7 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
-
-        public TreeReadModel(IWindowManager windowManager, ReadModel readModel, Bus bus)
+        public TreeOfRtuModel(IWindowManager windowManager, ReadModel readModel, Bus bus)
         {
             _windowManager = windowManager;
             _readModel = readModel;

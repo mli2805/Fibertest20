@@ -20,11 +20,11 @@ namespace Iit.Fibertest.TestBench
         public Bus Bus { get; }
 
         public Db LocalDb { get; set; }
-        public ShellViewModel(ReadModel readModel, TreeReadModel treeReadModel, Bus bus, 
+        public ShellViewModel(ReadModel readModel, TreeOfRtuModel treeOfRtuModel, Bus bus, 
             Db db, GraphReadModel graphReadModel, IWindowManager windowManager, ILogger clientLogger)
         {
             ReadModel = readModel;
-            TreeOfRtuViewModel = new TreeOfRtuViewModel(treeReadModel);
+            TreeOfRtuViewModel = new TreeOfRtuViewModel(treeOfRtuModel);
             Bus = bus;
             LocalDb = db;
             GraphReadModel = graphReadModel;

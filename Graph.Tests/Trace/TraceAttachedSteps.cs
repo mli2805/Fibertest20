@@ -54,7 +54,7 @@ namespace Graph.Tests
         [When(@"Пользователь выбирает отсоединить трассу")]
         public void WhenПользовательВыбираетОтсоединитьТрассу()
         {
-            var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeReadModel.Tree.GetById(_traceId);
+            var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_traceId);
             traceLeaf.DetachTraceAction(null);
             _sut.Poller.Tick();
         }
@@ -63,7 +63,7 @@ namespace Graph.Tests
         public void ThenТрассаПрисоединяетсяКПортуРту()
         {
             _sut.ReadModel.Traces.First(t => t.Id == _traceId).Port.Should().Be(_portNumber);
-            var rtuLeaf = (RtuLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeReadModel.Tree.GetById(_rtuId);
+            var rtuLeaf = (RtuLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_rtuId);
             (rtuLeaf.ChildrenProvider.Children[_portNumber - 1] is TraceLeaf).Should().BeTrue();
             rtuLeaf.ChildrenProvider.Children[_portNumber - 1].Id.Should().Be(_traceId);
         }
@@ -79,7 +79,7 @@ namespace Graph.Tests
         public void ThenТрассаНеПрисоединяетсяКПортуРту()
         {
             _sut.ReadModel.Traces.First(t => t.Id == _traceId).Port.Should().BeLessThan(1);
-            var rtuLeaf = (RtuLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeReadModel.Tree.GetById(_rtuId);
+            var rtuLeaf = (RtuLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_rtuId);
             (rtuLeaf.ChildrenProvider.Children[_portNumber - 1] is PortLeaf).Should().BeTrue();
         }
 

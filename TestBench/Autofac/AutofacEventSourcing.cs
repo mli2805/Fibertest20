@@ -10,7 +10,7 @@ namespace Iit.Fibertest.TestBench
         {
             builder.RegisterType<Aggregate>().SingleInstance();
             builder.RegisterType<ReadModel>().SingleInstance();
-            builder.RegisterType<TreeReadModel>().SingleInstance();
+            builder.RegisterType<TreeOfRtuModel>().SingleInstance();
             builder.RegisterType<WriteModel>().SingleInstance();
             builder.RegisterType<Db>().SingleInstance();
             builder.RegisterType<Bus>().SingleInstance();
@@ -19,7 +19,7 @@ namespace Iit.Fibertest.TestBench
                 ioc.Resolve<Db>(), new List<object>
                 {
                     ioc.Resolve<ReadModel>(),
-                    ioc.Resolve<TreeReadModel>(),
+                    ioc.Resolve<TreeOfRtuModel>(),
                     ioc.Resolve<GraphReadModel>()
                 }))
                 .SingleInstance();

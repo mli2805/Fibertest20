@@ -4,17 +4,17 @@ namespace Iit.Fibertest.TestBench
 {
     public class TreeOfRtuViewModel : PropertyChangedBase
     {
-        public TreeReadModel TreeReadModel { get; set; }
+        public TreeOfRtuModel TreeOfRtuModel { get; set; }
 
-        public TreeOfRtuViewModel(TreeReadModel treeReadModel)
+        public TreeOfRtuViewModel(TreeOfRtuModel treeOfRtuModel)
         {
-            TreeReadModel = treeReadModel;
+            TreeOfRtuModel = treeOfRtuModel;
         }
 
         public void ChangeFreePortsVisibility()
         {
-            TreeReadModel.FreePortsVisibility.State =
-                TreeReadModel.FreePortsVisibility.State == FreePortsVisibilityState.Hide
+            TreeOfRtuModel.FreePortsVisibility.State =
+                TreeOfRtuModel.FreePortsVisibility.State == FreePortsVisibilityState.Hide
                     ? FreePortsVisibilityState.Show
                     : FreePortsVisibilityState.Hide;
         }

@@ -38,7 +38,7 @@ namespace Graph.Tests
         }
         public RtuLeaf InitializeRtu(Guid rtuId)
         {
-            var rtuLeaf = (RtuLeaf)ShellVm.TreeOfRtuViewModel.TreeReadModel.Tree.GetById(rtuId);
+            var rtuLeaf = (RtuLeaf)ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(rtuId);
             FakeWindowManager.RegisterHandler(model=>RtuInitializeHandler(model, Answer.Yes));
 
             rtuLeaf.RtuSettingsAction(null);

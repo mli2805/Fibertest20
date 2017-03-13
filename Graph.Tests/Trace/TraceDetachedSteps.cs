@@ -44,7 +44,7 @@ namespace Graph.Tests
         [When(@"Пользователь отсоединяет трассу")]
         public void WhenПользовательОтсоединяетТрассу()
         {
-            var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeReadModel.Tree.GetById(_traceId);
+            var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_traceId);
             traceLeaf.DetachTraceAction(null);
             _sut.Poller.Tick();
         }
