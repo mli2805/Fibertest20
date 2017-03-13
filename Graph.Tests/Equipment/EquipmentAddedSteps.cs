@@ -116,7 +116,7 @@ namespace Graph.Tests
         {
             _sut.FakeWindowManager.BaseIsSet();
 
-            var traceLeaf = (TraceLeaf)_sut.ShellVm.MyLeftPanelViewModel.TreeReadModel.Tree.GetById(_shortTraceId);
+            var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeReadModel.Tree.GetById(_shortTraceId);
             traceLeaf.AssignBaseRefsAction(null);
             _sut.Poller.Tick();
         }

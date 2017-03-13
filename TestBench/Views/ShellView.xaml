@@ -9,13 +9,11 @@
         <testBench:MainMenuView DockPanel.Dock="Top"/>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="300" MinWidth="80"/>
                 <ColumnDefinition Width="400" MinWidth="80"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <testBench:LeftPanelView DataContext="{Binding MyLeftPanelViewModel}"/>
-            <TabControl Grid.Column="1">
+            <TabControl>
                 <TabItem >
                     <TabItem.Header>
                         <TextBlock Text="Rtus" Margin="5,0,30,0"></TextBlock>
@@ -26,8 +24,8 @@
                 </TabItem>
                 <TabItem Header="Servers"></TabItem>
             </TabControl>
-            <GridSplitter Grid.Column="2" Width="4" HorizontalAlignment="Left"/>
-            <TabControl Grid.Column="3">
+            <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Left"/>
+            <TabControl Grid.Column="2">
                 <TabItem Header="{x:Static stringResources:Resources.SID_System_events }">
                     <StackPanel>
                         <Button Width="120" Height="25" Name="Save" Content="Save Db" />

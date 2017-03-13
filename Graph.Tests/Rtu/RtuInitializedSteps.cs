@@ -16,7 +16,7 @@ namespace Graph.Tests
         {
             _sut.CreateTraceRtuEmptyTerminal();
             var rtuId = _sut.ReadModel.Rtus.Single().Id;
-            _rtuLeaf = (RtuLeaf)_sut.ShellVm.MyLeftPanelViewModel.TreeReadModel.Tree.GetById(rtuId);
+            _rtuLeaf = (RtuLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeReadModel.Tree.GetById(rtuId);
         }
 
         [When(@"Пользователь открывает форму инициализации и жмет Инициализировать")]

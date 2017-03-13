@@ -63,7 +63,7 @@ namespace Graph.Tests
         public void ThenУртуПунктМенюУдалитьНедоступен()
         {
             var rtuId = _sut.ReadModel.Rtus.First(r => r.NodeId == _sut.RtuNodeId).Id;
-            var rtuLeaf = _sut.ShellVm.MyLeftPanelViewModel.TreeReadModel.Tree.GetById(rtuId);
+            var rtuLeaf = _sut.ShellVm.TreeOfRtuViewModel.TreeReadModel.Tree.GetById(rtuId);
             var removeRtuItem = rtuLeaf.MyContextMenu.First(i => i?.Header == Resources.SID_Remove);
             removeRtuItem.Command.CanExecute(null).Should().BeFalse();
 

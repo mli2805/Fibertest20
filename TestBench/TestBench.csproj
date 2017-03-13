@@ -186,7 +186,6 @@
     <Compile Include="ViewModels\Primitive\CheckBoxModel.cs" />
     <Compile Include="ViewModels\EquipmentChoiceViewModel.cs" />
     <Compile Include="ViewModels\EquipmentUpdateViewModel.cs" />
-    <Compile Include="ViewModels\LeftPanelViewModel.cs" />
     <Compile Include="ViewModels\MainMenuViewModel.cs" />
     <Compile Include="ViewModels\NodeUpdateViewModel.cs" />
     <Compile Include="ViewModels\Shell\ShellViewModelApplyEquipment.cs" />
@@ -206,9 +205,6 @@
     </Compile>
     <Compile Include="Views\EquipmentUpdateView.xaml.cs">
       <DependentUpon>EquipmentUpdateView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\LeftPanelView.xaml.cs">
-      <DependentUpon>LeftPanelView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainMenuView.xaml.cs">
       <DependentUpon>MainMenuView.xaml</DependentUpon>
@@ -308,10 +304,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\EquipmentUpdateView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\LeftPanelView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

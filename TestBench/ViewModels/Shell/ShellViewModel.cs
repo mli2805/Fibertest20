@@ -10,7 +10,6 @@ namespace Iit.Fibertest.TestBench
 {
     public partial class ShellViewModel : Screen, IShell
     {
-        public LeftPanelViewModel MyLeftPanelViewModel { get; set; }
         public TreeOfRtuViewModel TreeOfRtuViewModel { get; set; }
 
         public ILogger Log { get; set; }
@@ -25,7 +24,6 @@ namespace Iit.Fibertest.TestBench
             Db db, GraphReadModel graphReadModel, IWindowManager windowManager, ILogger clientLogger)
         {
             ReadModel = readModel;
-            MyLeftPanelViewModel = new LeftPanelViewModel(treeReadModel);
             TreeOfRtuViewModel = new TreeOfRtuViewModel(treeReadModel);
             Bus = bus;
             LocalDb = db;

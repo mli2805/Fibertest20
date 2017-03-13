@@ -28,7 +28,7 @@ namespace Graph.Tests
         [Then(@"У присоединенной трассы нет пунктов Очистить и Удалить в меню")]
         public void ThenУПрисоединеннойТрассыНетПунктовОчиститьИУдалитьВМеню()
         {
-            var traceLeaf = _sut.ShellVm.MyLeftPanelViewModel.TreeReadModel.Tree.GetById(_sut.TraceId1);
+            var traceLeaf = _sut.ShellVm.TreeOfRtuViewModel.TreeReadModel.Tree.GetById(_sut.TraceId1);
             traceLeaf.MyContextMenu.FirstOrDefault(item => item?.Header == Resources.SID_Clean).Should().BeNull();
             traceLeaf.MyContextMenu.FirstOrDefault(item => item?.Header == Resources.SID_Remove).Should().BeNull();
         }
@@ -36,7 +36,7 @@ namespace Graph.Tests
         [When(@"Пользователь жмет Очистить у НЕприсоединенной трассы")]
         public void WhenПользовательЖметОчиститьУнЕприсоединеннойТрассы()
         {
-            var traceLeaf = (TraceLeaf)_sut.ShellVm.MyLeftPanelViewModel.TreeReadModel.Tree.GetById(_sut.TraceId2);
+            var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeReadModel.Tree.GetById(_sut.TraceId2);
             traceLeaf.TraceCleanAction(null);
             _sut.Poller.Tick();
         }
@@ -44,7 +44,7 @@ namespace Graph.Tests
         [When(@"Пользователь жмет Удалить у НЕприсоединенной трассы")]
         public void WhenПользовательЖметУдалитьУнЕприсоединеннойТрассы()
         {
-            var traceLeaf = (TraceLeaf)_sut.ShellVm.MyLeftPanelViewModel.TreeReadModel.Tree.GetById(_sut.TraceId2);
+            var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeReadModel.Tree.GetById(_sut.TraceId2);
             traceLeaf.TraceRemoveAction(null);
             _sut.Poller.Tick();
         }
@@ -52,7 +52,7 @@ namespace Graph.Tests
         [Then(@"Неприсоединенная трасса удаляется")]
         public void ThenНеприсоединеннаяТрассаУдаляется()
         {
-            _sut.ShellVm.MyLeftPanelViewModel.TreeReadModel.Tree.GetById(_sut.TraceId2).Should().BeNull();
+            _sut.ShellVm.TreeOfRtuViewModel.TreeReadModel.Tree.GetById(_sut.TraceId2).Should().BeNull();
         }
 
         [Then(@"Те ее отрезки что не входят в присоединенную трассу меняют цвет")]
