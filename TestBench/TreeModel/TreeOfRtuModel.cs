@@ -21,7 +21,7 @@ namespace Iit.Fibertest.TestBench
                 var portCount = Tree.PortCount();
                 var traceCount = Tree.TraceCount();
                 return string.Format(Resources.SID_Tree_statistics, Tree.Count,
-                    Tree.Sum(r => ((RtuLeaf)r).ChildrenProvider.Children.Count(c => c is OtauLeaf)),
+                    Tree.Sum(r => ((RtuLeaf)r).ChildrenImpresario.Children.Count(c => c is OtauLeaf)),
                     portCount, traceCount, (double)traceCount / portCount * 100);
             }
         }
@@ -59,7 +59,7 @@ namespace Iit.Fibertest.TestBench
             for (int i = 1; i <= rtuLeaf.OwnPortCount; i++)
             {
                 var port = new PortLeaf(_readModel, _windowManager, _bus, rtuLeaf, i);
-                rtuLeaf.ChildrenProvider.Children.Insert(i - 1, port);
+                rtuLeaf.ChildrenImpresario.Children.Insert(i - 1, port);
                 port.Parent = rtuLeaf;
             }
         }
@@ -79,7 +79,7 @@ namespace Iit.Fibertest.TestBench
         {
             IPortOwner owner = leaf as IPortOwner;
             if (owner != null)
-                foreach (var child in owner.ChildrenProvider.Children)
+                foreach (var child in owner.ChildrenImpresario.Children)
                 {
                     RemoveWithChildren(child);
                 }
@@ -102,9 +102,9 @@ namespace Iit.Fibertest.TestBench
                 IsExpanded = true,
             };
             for (int i = 0; i < otauLeaf.PortCount; i++)
-                otauLeaf.ChildrenProvider.Children.Add(new PortLeaf(_readModel, _windowManager, _bus, otauLeaf, i + 1));
-            rtuLeaf.ChildrenProvider.Children.Remove(rtuLeaf.ChildrenProvider.Children[e.MasterPort - 1]);
-            rtuLeaf.ChildrenProvider.Children.Insert(e.MasterPort - 1, otauLeaf);
+                otauLeaf.ChildrenImpresario.Children.Add(new PortLeaf(_readModel, _windowManager, _bus, otauLeaf, i + 1));
+            rtuLeaf.ChildrenImpresario.Children.Remove(rtuLeaf.ChildrenImpresario.Children[e.MasterPort - 1]);
+            rtuLeaf.ChildrenImpresario.Children.Insert(e.MasterPort - 1, otauLeaf);
             rtuLeaf.FullPortCount += otauLeaf.PortCount;
         }
 
@@ -114,10 +114,10 @@ namespace Iit.Fibertest.TestBench
             var otauLeaf = (OtauLeaf)Tree.GetById(e.Id);
             var port = otauLeaf.MasterPort;
             rtuLeaf.FullPortCount -= otauLeaf.PortCount;
-            rtuLeaf.ChildrenProvider.Children.Remove(otauLeaf);
+            rtuLeaf.ChildrenImpresario.Children.Remove(otauLeaf);
 
             var portLeaf = new PortLeaf(_readModel, _windowManager, _bus, rtuLeaf, port);
-            rtuLeaf.ChildrenProvider.Children.Insert(port - 1, portLeaf);
+            rtuLeaf.ChildrenImpresario.Children.Insert(port - 1, portLeaf);
             portLeaf.Parent = rtuLeaf;
         }
 
@@ -134,7 +134,7 @@ namespace Iit.Fibertest.TestBench
                 TraceState = FiberState.NotJoined,
                 Color = Brushes.Blue,
             };
-            rtu.ChildrenProvider.Children.Add(trace);
+            rtu.ChildrenImpresario.Children.Add(trace);
             rtu.IsExpanded = true;
         }
 
@@ -148,14 +148,14 @@ namespace Iit.Fibertest.TestBench
         {
             var traceLeaf = Tree.GetById(e.Id);
             var rtuLeaf = traceLeaf.Parent is RtuLeaf ? (RtuLeaf)traceLeaf.Parent : (RtuLeaf)traceLeaf.Parent.Parent;
-            rtuLeaf.ChildrenProvider.Children.Remove(traceLeaf);
+            rtuLeaf.ChildrenImpresario.Children.Remove(traceLeaf);
         }
 
         public void Apply(TraceRemoved e)
         {
             var traceLeaf = Tree.GetById(e.Id);
             var rtuLeaf = traceLeaf.Parent is RtuLeaf ? (RtuLeaf)traceLeaf.Parent : (RtuLeaf)traceLeaf.Parent.Parent;
-            rtuLeaf.ChildrenProvider.Children.Remove(traceLeaf);
+            rtuLeaf.ChildrenImpresario.Children.Remove(traceLeaf);
         }
 
         public void Apply(TraceAttached e)
@@ -165,7 +165,7 @@ namespace Iit.Fibertest.TestBench
             var portOwner = rtuLeaf.GetOwnerOfExtendedPort(e.Port);
             var port = portOwner is RtuLeaf ? e.Port : e.Port - ((OtauLeaf)portOwner).FirstPortNumber + 1;
 
-            portOwner.ChildrenProvider.Children[port - 1] =
+            portOwner.ChildrenImpresario.Children[port - 1] =
                 new TraceLeaf(_readModel, _windowManager, _bus, portOwner)
                 {
                     Id = e.TraceId,
@@ -174,7 +174,7 @@ namespace Iit.Fibertest.TestBench
                     Color = Brushes.Black,
                     PortNumber = port,
                 };
-            rtuLeaf.ChildrenProvider.Children.Remove(traceLeaf);
+            rtuLeaf.ChildrenImpresario.Children.Remove(traceLeaf);
         }
 
         public void Apply(TraceDetached e)
@@ -192,10 +192,10 @@ namespace Iit.Fibertest.TestBench
                 Color = Brushes.Blue,
             };
 
-            ((IPortOwner)owner).ChildrenProvider.Children.RemoveAt(port - 1);
-            ((IPortOwner)owner).ChildrenProvider.Children.Insert(port - 1, new PortLeaf(_readModel, _windowManager, _bus, owner, port));
+            ((IPortOwner)owner).ChildrenImpresario.Children.RemoveAt(port - 1);
+            ((IPortOwner)owner).ChildrenImpresario.Children.Insert(port - 1, new PortLeaf(_readModel, _windowManager, _bus, owner, port));
 
-            rtu.ChildrenProvider.Children.Add(detachedTraceLeaf);
+            rtu.ChildrenImpresario.Children.Add(detachedTraceLeaf);
         }
         #endregion
     }

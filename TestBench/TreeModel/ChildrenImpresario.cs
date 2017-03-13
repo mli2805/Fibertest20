@@ -4,7 +4,7 @@ using Caliburn.Micro;
 
 namespace Iit.Fibertest.TestBench
 {
-    public sealed class ChildrenProvider : PropertyChangedBase
+    public sealed class ChildrenImpresario : PropertyChangedBase
     {
         private readonly FreePorts _freePorts;
 
@@ -13,7 +13,7 @@ namespace Iit.Fibertest.TestBench
         public ObservableCollection<Leaf> EffectiveChildren
             => _freePorts.AreVisible ? Children :  new ObservableCollection<Leaf>(Children.Where(c=>!(c is PortLeaf)));
 
-        public ChildrenProvider(FreePorts freePorts)
+        public ChildrenImpresario(FreePorts freePorts)
         {
             Children = new ObservableCollection<Leaf>();
 

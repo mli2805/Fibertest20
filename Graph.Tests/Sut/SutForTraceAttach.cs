@@ -19,11 +19,11 @@ namespace Graph.Tests
 
         public OtauLeaf AttachOtauToRtu(RtuLeaf rtuLeaf, int port)
         {
-            var portLeaf = (PortLeaf)rtuLeaf.ChildrenProvider.Children[port - 1];
+            var portLeaf = (PortLeaf)rtuLeaf.ChildrenImpresario.Children[port - 1];
             FakeWindowManager.RegisterHandler(model => OtauToAttachHandler(model, Answer.Yes));
             portLeaf.AttachOtauAction(null);
             Poller.Tick();
-            return (OtauLeaf) rtuLeaf.ChildrenProvider.Children[port - 1];
+            return (OtauLeaf) rtuLeaf.ChildrenImpresario.Children[port - 1];
         }
 
         public bool RtuInitializeHandler(object model, Answer answer)
@@ -52,7 +52,7 @@ namespace Graph.Tests
         {
             FakeWindowManager.RegisterHandler(model => TraceToAttachHandler(model, traceId, answer));
 
-            var portLeaf = (PortLeaf)(owner.ChildrenProvider.Children[port - 1]);
+            var portLeaf = (PortLeaf)(owner.ChildrenImpresario.Children[port - 1]);
 
             portLeaf.AttachFromListAction(null);
             Poller.Tick();

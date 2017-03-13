@@ -40,13 +40,13 @@ namespace Graph.Tests
         [Then(@"РТУ инициализирован")]
         public void ThenРтуИнициализирован()
         {
-            _rtuLeaf.ChildrenProvider.Children.Count.Should().BeGreaterThan(1);
+            _rtuLeaf.ChildrenImpresario.Children.Count.Should().BeGreaterThan(1);
         }
 
         [Then(@"РТУ НЕ инициализирован")]
         public void ThenРтунеИнициализирован()
         {
-            _rtuLeaf.ChildrenProvider.Children.Count.Should().Be(1);
+            _rtuLeaf.ChildrenImpresario.Children.Count.Should().Be(1);
         }
 
     }

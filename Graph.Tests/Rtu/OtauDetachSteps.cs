@@ -58,7 +58,7 @@ namespace Graph.Tests
         public void ThenОптическийПереключательУдален()
         {
             _sut.ReadModel.Otaus.FirstOrDefault(o => o.Id == _otauLeaf.Id).Should().BeNull();
-            _rtuLeaf.ChildrenProvider.Children.Contains(_otauLeaf).Should().BeFalse();
+            _rtuLeaf.ChildrenImpresario.Children.Contains(_otauLeaf).Should().BeFalse();
             _rtuLeaf.FullPortCount.Should().Be(8);
         }
     }

@@ -108,7 +108,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="TreeModel\ChildrenProvider.cs" />
+    <Compile Include="TreeModel\ChildrenImpresario.cs" />
     <Compile Include="TreeModel\IPortOwner.cs" />
     <Compile Include="TreeModel\OtauLeaf.cs" />
     <Compile Include="TreeModel\FreePorts.cs" />

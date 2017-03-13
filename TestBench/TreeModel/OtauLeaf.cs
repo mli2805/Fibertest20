@@ -21,13 +21,13 @@ namespace Iit.Fibertest.TestBench
             get { return string.Format(Resources.SID_Port_trace, MasterPort, Title); }
             set { }
         }
-        public ChildrenProvider ChildrenProvider { get; }
-        public int TraceCount => ChildrenProvider.Children.Count(c => c is TraceLeaf);
+        public ChildrenImpresario ChildrenImpresario { get; }
+        public int TraceCount => ChildrenImpresario.Children.Count(c => c is TraceLeaf);
 
         public OtauLeaf(ReadModel readModel, IWindowManager windowManager,
             Bus bus, FreePorts freePorts) : base(readModel, windowManager, bus)
         {
-            ChildrenProvider = new ChildrenProvider(freePorts);
+            ChildrenImpresario = new ChildrenImpresario(freePorts);
         }
         protected override List<MenuItemVm> GetMenuItems()
         {
@@ -51,7 +51,7 @@ namespace Iit.Fibertest.TestBench
 
         private bool CanOtauRemoveAction(object param)
         {
-            return ChildrenProvider.Children.All(c => c is PortLeaf);
+            return ChildrenImpresario.Children.All(c => c is PortLeaf);
         }
 
     }

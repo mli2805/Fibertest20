@@ -21,7 +21,7 @@
             if (portOwner == null)
                 return;
 
-            foreach (var child in portOwner.ChildrenProvider.Children)
+            foreach (var child in portOwner.ChildrenImpresario.Children)
             {
                 SetExpandTo(expand, child);
             }

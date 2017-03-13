@@ -64,15 +64,15 @@ namespace Graph.Tests
         {
             _sut.ReadModel.Traces.First(t => t.Id == _traceId).Port.Should().Be(_portNumber);
             var rtuLeaf = (RtuLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_rtuId);
-            (rtuLeaf.ChildrenProvider.Children[_portNumber - 1] is TraceLeaf).Should().BeTrue();
-            rtuLeaf.ChildrenProvider.Children[_portNumber - 1].Id.Should().Be(_traceId);
+            (rtuLeaf.ChildrenImpresario.Children[_portNumber - 1] is TraceLeaf).Should().BeTrue();
+            rtuLeaf.ChildrenImpresario.Children[_portNumber - 1].Id.Should().Be(_traceId);
         }
 
         [Then(@"Трасса присоединяется к (.*) порту переключателя")]
         public void ThenТрассаПрисоединяетсяКПортуПереключателя(int p0)
         {
-            (_otauLeaf.ChildrenProvider.Children[p0 - 1] as TraceLeaf).Should().NotBeNull();
-            _otauLeaf.ChildrenProvider.Children[p0 - 1].Id.Should().Be(_traceId);
+            (_otauLeaf.ChildrenImpresario.Children[p0 - 1] as TraceLeaf).Should().NotBeNull();
+            _otauLeaf.ChildrenImpresario.Children[p0 - 1].Id.Should().Be(_traceId);
         }
 
         [Then(@"Трасса НЕ присоединяется к порту РТУ")]
@@ -80,7 +80,7 @@ namespace Graph.Tests
         {
             _sut.ReadModel.Traces.First(t => t.Id == _traceId).Port.Should().BeLessThan(1);
             var rtuLeaf = (RtuLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_rtuId);
-            (rtuLeaf.ChildrenProvider.Children[_portNumber - 1] is PortLeaf).Should().BeTrue();
+            (rtuLeaf.ChildrenImpresario.Children[_portNumber - 1] is PortLeaf).Should().BeTrue();
         }
 
     }

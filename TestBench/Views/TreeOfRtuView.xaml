@@ -78,7 +78,7 @@
                 <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="GhostWhite" />
                 <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="Black" />
                 <HierarchicalDataTemplate DataType="{x:Type testBench:RtuLeaf}" 
-                                          ItemsSource="{Binding ChildrenProvider.EffectiveChildren}">
+                                          ItemsSource="{Binding ChildrenImpresario.EffectiveChildren}">
                     <StackPanel Orientation="Horizontal">
                         <StackPanel.ContextMenu>
                             <ContextMenu 
@@ -93,7 +93,7 @@
                     </StackPanel>
                 </HierarchicalDataTemplate>
                 <HierarchicalDataTemplate DataType="{x:Type testBench:OtauLeaf}" 
-                                          ItemsSource="{Binding ChildrenProvider.EffectiveChildren}">
+                                          ItemsSource="{Binding ChildrenImpresario.EffectiveChildren}">
                     <StackPanel Orientation="Horizontal" Margin="69,0,0,0">
                         <StackPanel.ContextMenu>
                             <ContextMenu 

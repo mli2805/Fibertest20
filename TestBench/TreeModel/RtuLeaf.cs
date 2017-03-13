@@ -60,15 +60,15 @@ namespace Iit.Fibertest.TestBench
         public int FullPortCount { get; set; }
         public override string Name => Title;
 
-        public bool HasAttachedTraces => ChildrenProvider.Children.Any(l => l is TraceLeaf && ((TraceLeaf) l).PortNumber > 0);
-        public int TraceCount => ChildrenProvider.Children.Count(c => c is TraceLeaf) +
-                ChildrenProvider.Children.Where(c => c is OtauLeaf).Sum(otauLeaf => ((OtauLeaf)otauLeaf).TraceCount);
+        public bool HasAttachedTraces => ChildrenImpresario.Children.Any(l => l is TraceLeaf && ((TraceLeaf) l).PortNumber > 0);
+        public int TraceCount => ChildrenImpresario.Children.Count(c => c is TraceLeaf) +
+                ChildrenImpresario.Children.Where(c => c is OtauLeaf).Sum(otauLeaf => ((OtauLeaf)otauLeaf).TraceCount);
 
         public IPortOwner GetOwnerOfExtendedPort(int extendedPortNumber)
         {
             if (extendedPortNumber <= OwnPortCount)
                 return this;
-            foreach (var child in ChildrenProvider.Children)
+            foreach (var child in ChildrenImpresario.Children)
             {
                 var otau = child as OtauLeaf;
                 if (otau != null &&
@@ -79,12 +79,12 @@ namespace Iit.Fibertest.TestBench
             return null;
         }
 
-        public ChildrenProvider ChildrenProvider { get; }
+        public ChildrenImpresario ChildrenImpresario { get; }
 
         public RtuLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, FreePorts view) 
             : base(readModel, windowManager, bus)
         {
-            ChildrenProvider = new ChildrenProvider(view);
+            ChildrenImpresario = new ChildrenImpresario(view);
         }
         protected override List<MenuItemVm> GetMenuItems()
         {

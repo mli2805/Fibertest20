@@ -17,7 +17,7 @@ namespace Iit.Fibertest.TestBench
                 if (portOwner == null)
                     continue;
 
-                var result = GetById(portOwner.ChildrenProvider.Children, id);
+                var result = GetById(portOwner.ChildrenImpresario.Children, id);
                 if (result != null)
                     return result;
             }
