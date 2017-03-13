@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Media;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
@@ -13,6 +14,18 @@ namespace Iit.Fibertest.TestBench
         private readonly Bus _bus;
         public ObservableCollection<Leaf> Tree { get; set; } = new ObservableCollection<Leaf>();
         public FreePortsToggleButton FreePortsToggleButton { get; } = new FreePortsToggleButton();
+        public string Statistics
+        {
+            get
+            {
+                var portCount = Tree.PortCount();
+                var traceCount = Tree.TraceCount();
+                return string.Format(Resources.SID_Tree_statistics, Tree.Count,
+                    Tree.Sum(r => ((RtuLeaf)r).ChildrenProvider.Children.Count(c => c is OtauLeaf)),
+                    portCount, traceCount, (double)traceCount / portCount * 100);
+            }
+        }
+
 
         public TreeReadModel(IWindowManager windowManager, ReadModel readModel, Bus bus)
         {

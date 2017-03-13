@@ -871,7 +871,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to N{0} ({1}-{2}).
+        ///   Looks up a localized string similar to N{0} ({1}).
         /// </summary>
         public static string SID_Port_N_on_otau {
             get {
@@ -889,7 +889,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to N{0} ({1}-{2}) : {3}.
+        ///   Looks up a localized string similar to N{0} ({1}) : {2}.
         /// </summary>
         public static string SID_Port_trace_on_otau {
             get {
@@ -1309,6 +1309,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Traces_in_node {
             get {
                 return ResourceManager.GetString("SID_Traces_in_node", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RTU {0}; OTAU {1}; Ports {2}; Traces {3}; Occupancy {4:F}%.
+        /// </summary>
+        public static string SID_Tree_statistics {
+            get {
+                return ResourceManager.GetString("SID_Tree_statistics", resourceCulture);
             }
         }
         

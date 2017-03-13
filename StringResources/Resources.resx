@@ -548,4 +548,7 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_Port_trace_on_otau" xml:space="preserve">
     <value>N{0} ({1}) : {2}</value>
   </data>
+	<data name="SID_Tree_statistics" xml:space="preserve">
+    <value>RTU {0} ;  OTAU {1} ;  Ports {2} ;  Traces {3} ;  Occupancy {4:F}%</value>
+  </data>
 </root>

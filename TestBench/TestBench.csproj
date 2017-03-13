@@ -137,6 +137,7 @@
     <Compile Include="ViewModels\Primitive\NodesStatisticsItem.cs" />
     <Compile Include="ViewModels\RtuInitializeViewModel.cs" />
     <Compile Include="ViewModels\TraceToAttachViewModel.cs" />
+    <Compile Include="ViewModels\TreeOfRtuViewModel.cs" />
     <Compile Include="Views\OtauToAttachView.xaml.cs">
       <DependentUpon>OtauToAttachView.xaml</DependentUpon>
     </Compile>
@@ -220,6 +221,9 @@
     </Compile>
     <Compile Include="Views\TraceChoiceView.xaml.cs">
       <DependentUpon>TraceChoiceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TreeOfRtuView.xaml.cs">
+      <DependentUpon>TreeOfRtuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UniversalViews\NotificationView.xaml.cs">
       <DependentUpon>NotificationView.xaml</DependentUpon>
@@ -348,6 +352,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\TraceToAttachView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TreeOfRtuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
