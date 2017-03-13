@@ -108,6 +108,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Logic\ClientPoller.cs" />
     <Compile Include="TreeModel\ChildrenImpresario.cs" />
     <Compile Include="TreeModel\IPortOwner.cs" />
     <Compile Include="TreeModel\OtauLeaf.cs" />

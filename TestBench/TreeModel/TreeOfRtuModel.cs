@@ -7,7 +7,7 @@ using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.TestBench
 {
-    public class TreeOfRtuModel
+    public class TreeOfRtuModel : PropertyChangedBase
     {
         private readonly IWindowManager _windowManager;
         private readonly ReadModel _readModel;
@@ -43,6 +43,7 @@ namespace Iit.Fibertest.TestBench
                 Color = Brushes.DarkGray,
                 IsExpanded = true,
             });
+            NotifyOfPropertyChange(nameof(Statistics));
         }
 
         public void Apply(RtuInitialized e)

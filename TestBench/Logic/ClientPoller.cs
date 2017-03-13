@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
+using Iit.Fibertest.Graph;
 using PrivateReflectionUsingDynamic;
 
-namespace Iit.Fibertest.Graph
+namespace Iit.Fibertest.TestBench
 {
     public class ClientPoller
     {
@@ -19,8 +20,15 @@ namespace Iit.Fibertest.Graph
         public void Tick()
         {
             foreach (var e in _db.Events.Skip(CurrentEventNumber))
+            {
                 foreach (var m in ReadModels)
+                {
                     m.AsDynamic().Apply(e);
+                    var treeModel = m as TreeOfRtuModel;
+                    treeModel?.NotifyOfPropertyChange(nameof(treeModel.Statistics));
+                }
+
+            }
             CurrentEventNumber = _db.Events.Count;
         }
     }

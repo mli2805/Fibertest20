@@ -5,7 +5,6 @@ using System.Threading;
 using System.Windows.Threading;
 using Autofac;
 using Caliburn.Micro;
-using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.TestBench {
     public class AppBootstrapper : BootstrapperBase
