@@ -6,7 +6,7 @@ using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.TestBench
 {
-    public static class Utils
+    public static class Interpreter
     {
         public static BitmapImage GetPictogramBitmapImage(EquipmentType type, FiberState state)
         {

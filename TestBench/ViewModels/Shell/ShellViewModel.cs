@@ -173,10 +173,7 @@ namespace Iit.Fibertest.TestBench
 
         public async Task ComplyWithRequest(RequestAddEquipmentIntoNode request)
         {
-            var cmd = PrepareCommand(request);
-            if (cmd == null)
-                return;
-            await Bus.SendCommand(cmd);
+            await VerboseTasks.AddEquipmentIntoNodeFullTask(request, ReadModel, _windowManager, Bus);
         }
         public async Task ComplyWithRequest(UpdateEquipment request)
         {

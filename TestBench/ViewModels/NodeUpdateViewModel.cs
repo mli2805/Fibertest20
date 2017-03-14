@@ -173,16 +173,11 @@ namespace Iit.Fibertest.TestBench
 
         public void AddEquipment()
         {
-            // TODO ask traces which will use new equipment
-            // при добавлении снаружи это уже сделано
-
-            var addEquipmentViewModel = new EquipmentInfoViewModel(_originalNode.Id, _bus);
-            _windowManager.ShowDialog(addEquipmentViewModel);
-            if (addEquipmentViewModel.Command == null)
+            var cmd = VerboseTasks.BuildAddEquipmentIntoNodeCommand(_originalNode.Id, _readModel, _windowManager);
+            if (cmd == null)
                 return;
-            var cmd = (AddEquipmentIntoNode)addEquipmentViewModel.Command;
             _bus.SendCommand(cmd).Wait();
-            // refresh equipments
+
             EquipmentsInNode.Add(new EqItemVm() {Id = cmd.Id, Title = cmd.Title, Type = cmd.Type.ToLocalizedString(), IsRemoveEnabled = true});
         }
 
@@ -198,8 +193,9 @@ namespace Iit.Fibertest.TestBench
 
             if (equipmentViewModel.Command == null)
                 return;
-            // refresh equipments
             var cmd = (UpdateEquipment)equipmentViewModel.Command;
+            _bus.SendCommand(cmd).Wait();
+
             var item = EquipmentsInNode.First(i => i.Id == id);
             item.Title = cmd.Title;
             item.Type = cmd.Type.ToLocalizedString();

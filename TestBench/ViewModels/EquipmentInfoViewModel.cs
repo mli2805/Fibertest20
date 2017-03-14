@@ -85,12 +85,11 @@ namespace Iit.Fibertest.TestBench
         public object Command { get; set; }
 
 
-        public EquipmentInfoViewModel(Guid nodeId, Bus bus)
+        public EquipmentInfoViewModel(Guid nodeId)
         {
             _mode = EquipmentViewMode.Add;
             NodeId = nodeId;
             Type = EquipmentType.Cross;
-            _bus = bus;
 
             IsClosed = false;
         }
