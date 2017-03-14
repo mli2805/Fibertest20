@@ -35,10 +35,6 @@ namespace Iit.Fibertest.Graph
 
         public string When(UpdateNode cmd)
         {
-            // TODO: test when title doesn't change
-            // TODO: test when title changes and then old title reused
-            if (WriteModel.HasAnotherNodeWithTitle(cmd.Title, cmd.Id))
-                return Resources.SID_Node_title_already_exists;
             WriteModel.AddAndCommit(_mapper.Map<NodeUpdated>(cmd));
             return null;
         }

@@ -88,10 +88,5 @@ namespace Graph.Tests
             _sut.CurrentEventNumber.Should().Be(_cutOff);
         }
 
-        [Then(@"Некая сигнализация ошибки")]
-        public void ThenSomeAlert()
-        {
-//            _nodeUpdateVm["Title"].Should().NotBeNullOrEmpty();
-        }
     }
 }

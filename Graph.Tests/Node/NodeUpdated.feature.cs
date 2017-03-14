@@ -148,7 +148,7 @@ this.FeatureBackground();
 #line 21
  testRunner.Given("Пользователь ввел название узла blah-blah", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 22
- testRunner.Then("Некая сигнализация ошибки", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("Сохраняется название узла blah-blah", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

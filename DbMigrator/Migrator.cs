@@ -141,8 +141,8 @@ namespace DbMigrator
                 _db.Add(new RtuUpdated()
                 {
                     Id = rtuGuid,
-                    Title = parts[5],
-                    Comment = parts[6]
+                    Title = parts[5].Trim(),
+                    Comment = parts[6].Trim(),
                 });
                 _nodeToRtuDictionary.Add(nodeGuid, rtuGuid);
             }
@@ -156,8 +156,9 @@ namespace DbMigrator
                 });
                 _db.Add(new NodeUpdated()
                 {
-                    Id = nodeGuid, Title = parts[5],
-                    Comment = parts[6]
+                    Id = nodeGuid,
+                    Title = parts[5].Trim(),
+                    Comment = parts[6].Trim(),
                 });
             }
 

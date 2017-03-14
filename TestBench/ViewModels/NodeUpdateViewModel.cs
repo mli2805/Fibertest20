@@ -210,8 +210,8 @@ namespace Iit.Fibertest.TestBench
                 new UpdateNode
                 {
                     Id = _originalNode.Id,
-                    Title = _title,
-                    Comment = _comment
+                    Title = _title?.Trim(),
+                    Comment = _comment?.Trim()
                 }
                 : null;
 
@@ -238,10 +238,8 @@ namespace Iit.Fibertest.TestBench
                 switch (columnName)
                 {
                     case "Title":
-                        if (string.IsNullOrEmpty(_title))
+                        if (string.IsNullOrEmpty(_title?.Trim()))
                             errorMessage = Resources.SID_Title_is_required;
-                        if (_readModel.Nodes.Any(n => n.Title == _title && n.Id != _originalNode.Id))
-                            errorMessage = Resources.SID_There_is_a_node_with_the_same_title;
                         IsButtonSaveEnabled = errorMessage == string.Empty;
                         break;
                 }
