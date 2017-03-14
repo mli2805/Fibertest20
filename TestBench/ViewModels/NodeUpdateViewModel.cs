@@ -71,6 +71,7 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
+        private ObservableCollection<EqItemVm> _equipmentsInNode;
         public ObservableCollection<EqItemVm> EquipmentsInNode
         {
             get { return _equipmentsInNode; }
@@ -81,8 +82,6 @@ namespace Iit.Fibertest.TestBench
                 NotifyOfPropertyChange();
             }
         }
-
-        public EqItemVm SelectedEquipment { get; set; }
 
         public List<Trace> TracesInNode { get; set; }
 
@@ -105,8 +104,6 @@ namespace Iit.Fibertest.TestBench
         }
 
         private object _command;
-        private ObservableCollection<EqItemVm> _equipmentsInNode;
-
         public object Command
         {
             get { return _command; }
@@ -132,7 +129,7 @@ namespace Iit.Fibertest.TestBench
             TracesInNode = _readModel.Traces.Where(t => t.Nodes.Contains(nodeId)).ToList();
 
             EquipmentsInNode = new ObservableCollection<EqItemVm>(
-                _readModel.Equipments.Where(e => e.NodeId == _originalNode.Id).Select(equipmentVm => CreateEqItem(equipmentVm)));
+                _readModel.Equipments.Where(e => e.NodeId == _originalNode.Id).Select(CreateEqItem));
 
             IsClosed = false;
         }
@@ -177,6 +174,7 @@ namespace Iit.Fibertest.TestBench
         public void AddEquipment()
         {
             // TODO ask traces which will use new equipment
+            // при добавлении снаружи это уже сделано
 
             var addEquipmentViewModel = new EquipmentInfoViewModel(_originalNode.Id, _bus);
             _windowManager.ShowDialog(addEquipmentViewModel);
@@ -185,7 +183,7 @@ namespace Iit.Fibertest.TestBench
             var cmd = (AddEquipmentIntoNode)addEquipmentViewModel.Command;
             _bus.SendCommand(cmd).Wait();
             // refresh equipments
-            EquipmentsInNode.Add(new EqItemVm() {Id = cmd.Id, Title = cmd.Title, Type = cmd.Type.ToLocalizedString()});
+            EquipmentsInNode.Add(new EqItemVm() {Id = cmd.Id, Title = cmd.Title, Type = cmd.Type.ToLocalizedString(), IsRemoveEnabled = true});
         }
 
         private void LaunchUpdateEquipmentView(Guid id)

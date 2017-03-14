@@ -69,6 +69,7 @@ namespace Graph.Tests
         [Then(@"Удаление оборудования используемого трассой в последнем узле должно быть запрещено")]
         public void ThenУдалениеОборудованияИспользуемогоТрассойВПоследнемУзлеДолжноБытьЗапрещено()
         {
+            _vm.EquipmentsInNode.First(item => item.Id == _notInTraceEquipmentId).IsRemoveEnabled.Should().BeTrue();
             _vm.EquipmentsInNode.First(item => item.Id != _notInTraceEquipmentId).IsRemoveEnabled.Should().BeFalse();
         }
 
