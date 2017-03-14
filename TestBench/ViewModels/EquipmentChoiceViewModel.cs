@@ -13,22 +13,23 @@ namespace Iit.Fibertest.TestBench
         private readonly IWindowManager _windowManager;
         private readonly Bus _bus;
         private readonly List<Equipment> _possibleEquipment;
-        private readonly Guid _nodeId;
+        private readonly string _nodeTitle;
         private readonly bool _isLastNode;
         public bool IsClosed { get; set; }
 
         public string Explanation { get; set; }
+        public string Explanation2 { get; set; }
         public List<RadioButtonModel> Choices { get; set; } // for binding
 
         public bool ShouldWeContinue { get; set; }
         public bool ShouldEquipmentViewBeOpen { get; set; }
 
-        public EquipmentChoiceViewModel(IWindowManager windowManager, Bus bus, List<Equipment> possibleEquipment, Guid nodeId, bool isLastNode)
+        public EquipmentChoiceViewModel(IWindowManager windowManager, Bus bus, List<Equipment> possibleEquipment, string nodeTitle, bool isLastNode)
         {
             _windowManager = windowManager;
             _bus = bus;
             _possibleEquipment = possibleEquipment;
-            _nodeId = nodeId;
+            _nodeTitle = nodeTitle;
             _isLastNode = isLastNode;
             InitializeChoices();
         }
@@ -36,6 +37,7 @@ namespace Iit.Fibertest.TestBench
         private void InitializeChoices()
         {
             Explanation = Resources.SID_Select_equipment_for_trace;
+            Explanation2 = string.Format(Resources.SID_in_node, _nodeTitle);
             Choices = new List<RadioButtonModel>();
             foreach (var equipment in _possibleEquipment)
             {

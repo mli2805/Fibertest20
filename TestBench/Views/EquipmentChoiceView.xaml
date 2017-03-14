@@ -9,7 +9,8 @@
         SizeToContent="Height" Width="500" WindowStartupLocation="CenterScreen" 
         d:DataContext="{d:DesignInstance viewModels:EquipmentChoiceViewModel}">
     <StackPanel>
-        <TextBlock Text="{Binding Explanation}" TextWrapping="Wrap" Margin="15, 20, 5,20" />
+        <TextBlock Text="{Binding Explanation}" TextWrapping="Wrap" Margin="15, 20, 15, 5" />
+        <TextBlock Text="{Binding Explanation2}" TextWrapping="Wrap" Margin="20, 5, 15, 20" />
         <ItemsControl ItemsSource="{Binding Choices}" Margin="10,5,5,10">
             <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="viewModels:RadioButtonModel">

@@ -556,6 +556,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to in node {0}.
+        /// </summary>
+        public static string SID_in_node {
+            get {
+                return ResourceManager.GetString("SID_in_node", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to In total, including RTU.
         /// </summary>
         public static string SID_In_total__including_RTU {
@@ -1264,15 +1273,6 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Trace {
             get {
                 return ResourceManager.GetString("SID_Trace", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Trace definition.
-        /// </summary>
-        public static string SID_Trace_definition {
-            get {
-                return ResourceManager.GetString("SID_Trace_definition", resourceCulture);
             }
         }
         

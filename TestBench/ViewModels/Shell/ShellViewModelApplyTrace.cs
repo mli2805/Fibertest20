@@ -76,7 +76,8 @@ namespace Iit.Fibertest.TestBench
                     equipments.Add(Guid.Empty);
                 else
                 {
-                    var equipmentChoiceViewModel = new EquipmentChoiceViewModel(_windowManager, Bus, possibleEquipments, nodeId, nodeId == nodes.Last());
+                    var equipmentChoiceViewModel = new EquipmentChoiceViewModel(_windowManager, Bus, 
+                        possibleEquipments, ReadModel.Nodes.First(n=>n.Id==nodeId).Title, nodeId == nodes.Last());
                     _windowManager.ShowDialog(equipmentChoiceViewModel);
                     if (!equipmentChoiceViewModel.ShouldWeContinue) // пользователь прервал процесс, отказавшись выбирать оборудование
                         return null;
