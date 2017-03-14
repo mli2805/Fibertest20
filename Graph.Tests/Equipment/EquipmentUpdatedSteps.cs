@@ -11,8 +11,8 @@ namespace Graph.Tests
     public sealed class EquipmentUpdatedSteps
     {
         private readonly SystemUnderTest _sut = new SystemUnderTest();
-        private Guid _nodeId, _equipmentId;
-        private EquipmentUpdateViewModel _equipmentUpdateViewModel;
+        private Iit.Fibertest.Graph.Equipment _equipment;
+        private EquipmentInfoViewModel _equipmentInfoViewModel;
 
         private const string NewTitleForTest = "New name for old equipment";
         private const EquipmentType NewTypeForTest = EquipmentType.Cross;
@@ -25,54 +25,52 @@ namespace Graph.Tests
         {
             _sut.ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() {Type = EquipmentType.Terminal}).Wait();
             _sut.Poller.Tick();
-            _equipmentId = _sut.ReadModel.Equipments.Single().Id;
-            _nodeId = _sut.ReadModel.Equipments.Single().NodeId;
+            _equipment = _sut.ReadModel.Equipments.Single();
         }
 
         [Given(@"Открыта форма для изменения сущ оборудования")]
         public void GivenОткрытаФормаДляИзмененияСущОборудования()
         {
-            _equipmentUpdateViewModel = new EquipmentUpdateViewModel(_nodeId, _equipmentId, _sut.ShellVm.Bus);
+            _equipmentInfoViewModel = new EquipmentInfoViewModel(_equipment, _sut.ShellVm.Bus);
         }
 
         [Given(@"Пользователь производит изменения")]
         public void GivenПользовательПроизводитИзменения()
         {
-            _equipmentUpdateViewModel.Title = NewTitleForTest;
-            _equipmentUpdateViewModel.Type = NewTypeForTest;
-            _equipmentUpdateViewModel.CableReserveLeft = NewLeftCableReserve;
-            _equipmentUpdateViewModel.CableReserveRight = NewRightCableReserve;
-            _equipmentUpdateViewModel.Comment = NewCommentForTest;
+            _equipmentInfoViewModel.Title = NewTitleForTest;
+            _equipmentInfoViewModel.Type = NewTypeForTest;
+            _equipmentInfoViewModel.CableReserveLeft = NewLeftCableReserve;
+            _equipmentInfoViewModel.CableReserveRight = NewRightCableReserve;
+            _equipmentInfoViewModel.Comment = NewCommentForTest;
         }
 
         [When(@"Жмет сохранить")]
         public void WhenЖметСохранить()
         {
-            _equipmentUpdateViewModel.Save();
+            _equipmentInfoViewModel.Save();
             _sut.Poller.Tick();
         }
 
         [When(@"Жмет Отмена")]
         public void WhenЖметОтмена()
         {
-            _equipmentUpdateViewModel.Cancel();
+            _equipmentInfoViewModel.Cancel();
         }
 
         [Then(@"Все должно быть сохранено")]
         public void ThenВсеДолжноБытьСохранено()
         {
-            var equipment = _sut.ReadModel.Equipments.Single(e => e.Id == _equipmentId);
-            equipment.Title.Should().Be(NewTitleForTest);
-            equipment.Type.Should().Be(NewTypeForTest);
-            equipment.CableReserveLeft.Should().Be(NewLeftCableReserve);
-            equipment.CableReserveRight.Should().Be(NewRightCableReserve);
-            equipment.Comment.Should().Be(NewCommentForTest);
+            _equipment.Title.Should().Be(NewTitleForTest);
+            _equipment.Type.Should().Be(NewTypeForTest);
+            _equipment.CableReserveLeft.Should().Be(NewLeftCableReserve);
+            _equipment.CableReserveRight.Should().Be(NewRightCableReserve);
+            _equipment.Comment.Should().Be(NewCommentForTest);
         }
 
         [Then(@"Комманда не подается")]
         public void ThenКоммандаНеПодается()
         {
-            _equipmentUpdateViewModel.Command.Should().BeNull();
+            _equipmentInfoViewModel.Command.Should().BeNull();
         }
 
     }

@@ -162,7 +162,7 @@ namespace Iit.Fibertest.TestBench
         {
             // TODO ask traces whick will use new equipment
 
-            var addEquipmentViewModel = new EquipmentUpdateViewModel(_originalNode.Id, Guid.Empty, _bus);
+            var addEquipmentViewModel = new EquipmentInfoViewModel(_originalNode.Id, _bus);
             _windowManager.ShowDialog(addEquipmentViewModel);
             if (addEquipmentViewModel.Command == null)
                 return;
@@ -176,12 +176,12 @@ namespace Iit.Fibertest.TestBench
 
         private void LaunchUpdateEquipmentView(Guid id)
         {
-            var equipmentVm = _readModel.Equipments.First(e => e.Id == id);
+            var equipment = _readModel.Equipments.First(e => e.Id == id);
 
-            var updateEquipmentViewModel = new EquipmentUpdateViewModel(Guid.Empty, id, _bus);
+            var updateEquipmentViewModel = new EquipmentInfoViewModel(equipment, _bus);
             IMapper mapperToViewModel = new MapperConfiguration(
-                    cfg => cfg.AddProfile<MappingVmToViewModel>()).CreateMapper();
-            mapperToViewModel.Map(equipmentVm, updateEquipmentViewModel);
+                    cfg => cfg.AddProfile<MappingDomainModelToViewModel>()).CreateMapper();
+            mapperToViewModel.Map(equipment, updateEquipmentViewModel);
             _windowManager.ShowDialog(updateEquipmentViewModel);
 
             if (updateEquipmentViewModel.Command == null)
@@ -190,10 +190,10 @@ namespace Iit.Fibertest.TestBench
 
             IMapper mapper = new MapperConfiguration(
                     cfg => cfg.AddProfile<MappingCommandToVm>()).CreateMapper();
-            mapper.Map(Command, equipmentVm);
+            mapper.Map(Command, equipment);
 
-            EquipmentsInNode.Remove(EquipmentsInNode.First(e => e.Id == equipmentVm.Id));
-            EquipmentsInNode.Add(CreateEqItem(equipmentVm));
+            EquipmentsInNode.Remove(EquipmentsInNode.First(e => e.Id == equipment.Id));
+            EquipmentsInNode.Add(CreateEqItem(equipment));
         }
 
         public void RemoveEquipment(RemoveEquipment cmd)

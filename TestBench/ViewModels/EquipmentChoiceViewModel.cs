@@ -10,7 +10,10 @@ namespace Iit.Fibertest.TestBench
 {
     public class EquipmentChoiceViewModel : Screen
     {
+        private readonly IWindowManager _windowManager;
+        private readonly Bus _bus;
         private readonly List<Equipment> _possibleEquipment;
+        private readonly Guid _nodeId;
         private readonly bool _isLastNode;
         public bool IsClosed { get; set; }
 
@@ -20,9 +23,12 @@ namespace Iit.Fibertest.TestBench
         public bool ShouldWeContinue { get; set; }
         public bool ShouldEquipmentViewBeOpen { get; set; }
 
-        public EquipmentChoiceViewModel(List<Equipment> possibleEquipment, bool isLastNode)
+        public EquipmentChoiceViewModel(IWindowManager windowManager, Bus bus, List<Equipment> possibleEquipment, Guid nodeId, bool isLastNode)
         {
+            _windowManager = windowManager;
+            _bus = bus;
             _possibleEquipment = possibleEquipment;
+            _nodeId = nodeId;
             _isLastNode = isLastNode;
             InitializeChoices();
         }
@@ -84,6 +90,9 @@ namespace Iit.Fibertest.TestBench
         public void SelectAndSetupNameButton()
         {
             ShouldWeContinue = true;
+            var vm = new EquipmentInfoViewModel(_possibleEquipment[GetCheckedRadioButton()], _bus);
+            _windowManager.ShowDialog(vm);
+
             ShouldEquipmentViewBeOpen = true;
             CloseView();
         }

@@ -168,7 +168,7 @@
     </Compile>
     <Compile Include="ViewControls\GpsInputControl\OneCoorViewModel.cs" />
     <Compile Include="Logic\PointLatLngExtensions.cs" />
-    <Compile Include="Mappings\MappingVmToViewModel.cs" />
+    <Compile Include="Mappings\MappingDomainModelToViewModel.cs" />
     <Compile Include="Mappings\MappingViewModelToCommand.cs" />
     <Compile Include="MapUserControl\MapUserControlApplyFibersToRoutes.cs" />
     <Compile Include="MapUserControl\MapUserControlApplyNodesToMarkers.cs" />
@@ -184,7 +184,7 @@
     <Compile Include="GraphModel\EqItemVm.cs" />
     <Compile Include="ViewModels\Primitive\CheckBoxModel.cs" />
     <Compile Include="ViewModels\EquipmentChoiceViewModel.cs" />
-    <Compile Include="ViewModels\EquipmentUpdateViewModel.cs" />
+    <Compile Include="ViewModels\EquipmentInfoViewModel.cs" />
     <Compile Include="ViewModels\MainMenuViewModel.cs" />
     <Compile Include="ViewModels\NodeUpdateViewModel.cs" />
     <Compile Include="ViewModels\Shell\ShellViewModelApplyEquipment.cs" />
@@ -202,8 +202,8 @@
     <Compile Include="Views\EquipmentChoiceView.xaml.cs">
       <DependentUpon>EquipmentChoiceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\EquipmentUpdateView.xaml.cs">
-      <DependentUpon>EquipmentUpdateView.xaml</DependentUpon>
+    <Compile Include="Views\EquipmentInfoView.xaml.cs">
+      <DependentUpon>EquipmentInfoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainMenuView.xaml.cs">
       <DependentUpon>MainMenuView.xaml</DependentUpon>
@@ -302,7 +302,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\EquipmentUpdateView.xaml">
+    <Page Include="Views\EquipmentInfoView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

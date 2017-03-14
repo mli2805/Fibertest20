@@ -163,7 +163,7 @@ namespace Graph.Tests
 
         public bool EquipmentUpdateHandler(object model, Guid nodeId, EquipmentType type, string title, string comment, int leftReserve, int rightReserve, Answer answer)
         {
-            var vm = model as EquipmentUpdateViewModel;
+            var vm = model as EquipmentInfoViewModel;
             if (vm == null) return false;
             vm.NodeId = nodeId;
             vm.Type = type;

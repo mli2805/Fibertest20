@@ -17,7 +17,7 @@ namespace Iit.Fibertest.TestBench
                 if (!traceChoiceVm.ShouldWeContinue)
                     return null;
             }
-            var vm = new EquipmentUpdateViewModel(request.NodeId, Guid.Empty, Bus);
+            var vm = new EquipmentInfoViewModel(request.NodeId, Bus);
             _windowManager.ShowDialog(vm);
             if (vm.Command == null)
                 return null;

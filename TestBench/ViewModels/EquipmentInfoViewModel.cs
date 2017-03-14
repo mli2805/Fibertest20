@@ -6,9 +6,12 @@ using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.TestBench
 {
-    public class EquipmentUpdateViewModel : Screen
+    public enum EquipmentViewMode { Add, Update}
+    public class EquipmentInfoViewModel : Screen
     {
+        public Equipment Equipment { get; }
         public Guid NodeId;
+        private readonly EquipmentViewMode _mode;
         private readonly Bus _bus;
         private string _title;
         private int _cableReserveLeft;
@@ -82,18 +85,31 @@ namespace Iit.Fibertest.TestBench
         public object Command { get; set; }
 
 
-        public EquipmentUpdateViewModel(Guid nodeId, Guid equipmentId, Bus bus)
+        public EquipmentInfoViewModel(Guid nodeId, Bus bus)
         {
-            _bus = bus;
+            _mode = EquipmentViewMode.Add;
             NodeId = nodeId;
-            EquipmentId = equipmentId;
+            Type = EquipmentType.Cross;
+            _bus = bus;
+
+            IsClosed = false;
+        }
+
+        public EquipmentInfoViewModel(Equipment equipment, Bus bus)
+        {
+            _mode = EquipmentViewMode.Update;
+            Equipment = equipment;
+            EquipmentId = equipment.Id;
+            NodeId = equipment.NodeId;
+            Type = equipment.Type;
+            _bus = bus;
 
             IsClosed = false;
         }
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = EquipmentId == Guid.Empty ? Resources.SID_Add_Equipment : Resources.SID_Edit_Equipment;
+            DisplayName = _mode == EquipmentViewMode.Add ? Resources.SID_Add_Equipment : Resources.SID_Edit_Equipment;
         }
 
         public void Save()
@@ -101,7 +117,14 @@ namespace Iit.Fibertest.TestBench
             IMapper mapper = new MapperConfiguration(
               cfg => cfg.AddProfile<MappingViewModelToCommand>()).CreateMapper();
 
-            if (EquipmentId == Guid.Empty) // добавление нового оборудования
+            if (_mode == EquipmentViewMode.Update)
+            {
+                var cmd = mapper.Map<UpdateEquipment>(this);
+                cmd.Id = EquipmentId;
+                _bus.SendCommand(cmd);
+            }
+
+            if (_mode == EquipmentViewMode.Add)
             {
                 EquipmentId = Guid.NewGuid();
                 var cmd = mapper.Map<AddEquipmentIntoNode>(this);
@@ -109,13 +132,7 @@ namespace Iit.Fibertest.TestBench
                 cmd.NodeId = NodeId;
                 Command = cmd;
                 // for equipment addition this part of command 
-                // would be amplified with list of trace which use this equipment 
-            }
-            else  // редактирование существовавшего
-            {
-                var cmd = mapper.Map<UpdateEquipment>(this);
-                cmd.Id = EquipmentId;
-                _bus.SendCommand(cmd);
+                // would be OUTSIDE amplified with list of trace which use this equipment 
             }
 
             CloseView();
