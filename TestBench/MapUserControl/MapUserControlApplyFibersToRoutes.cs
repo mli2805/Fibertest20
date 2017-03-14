@@ -59,13 +59,6 @@ namespace Iit.Fibertest.TestBench
                     2, new List<PointLatLng>() { fiberVm.Node1.Position, fiberVm.Node2.Position });
             route.PropertyChanged += Route_PropertyChanged;
             MainMap.Markers.Add(route);
-
-            //            if (e.PropertyName == "State")
-            //            {
-            //                var route = (GMapRoute)MainMap.Markers.First(r => r.Id == fiberVm.Id);
-            //                route.Color = fiberVm.State.GetBrush();
-            //                route.RegenerateShape(MainMap);
-            //            }
         }
 
         private void ApplyRemovedFibers(IList oldItems)

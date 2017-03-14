@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:testBench="clr-namespace:Iit.Fibertest.TestBench"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
-        Height="800" Width="1600">
+        Height="800" Width="1100" WindowStartupLocation="CenterScreen">
 
     <DockPanel>
         <testBench:MainMenuView DockPanel.Dock="Top"/>
