@@ -192,8 +192,8 @@ namespace DbMigrator
                 Id = equipmentGuid,
                 NodeId = _nodesDictionary[nodeId],
                 Type = type,
-                Title = parts[4],
-                Comment = parts[5]
+                Title = parts[4].Trim(),
+                Comment = parts[5].Trim(),
             };
             _db.Add(evnt);
         }
