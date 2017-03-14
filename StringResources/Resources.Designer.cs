@@ -1313,7 +1313,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to RTU {0}; OTAU {1}; Ports {2}; Traces {3}; Occupancy {4:F}%.
+        ///   Looks up a localized string similar to RTU {0} ;  OTAU {1} ;  Ports {2} ;  Traces {3} ;  Occupancy {4:F}%.
         /// </summary>
         public static string SID_Tree_statistics {
             get {

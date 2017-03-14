@@ -365,9 +365,6 @@
 	<data name="SID_Base_refs_assignment" xml:space="preserve">
     <value>Задать базовые</value>
   </data>
-	<data name="SID_Trace_information" xml:space="preserve">
-    <value>Информация о трассе</value>
-  </data>
 	<data name="SID_Base_reflectograms" xml:space="preserve">
     <value>Базовые рефлектограммы</value>
   </data>
@@ -436,9 +433,6 @@
   </data>
 	<data name="SID_Light_OF" xml:space="preserve">
     <value>Светлое ОВ</value>
-  </data>
-	<data name="SID_Trace_definition" xml:space="preserve">
-    <value>Определение трассы</value>
   </data>
 	<data name="SID_Add_adjustment_node" xml:space="preserve">
     <value>Добавить узел привязки</value>

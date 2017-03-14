@@ -141,7 +141,7 @@ namespace Iit.Fibertest.TestBench
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = IsInTraceCreationMode ? Resources.SID_Trace_definition : Resources.SID_Trace_information;
+            DisplayName = Resources.SID_Trace;
         }
 
         public async void Save()
