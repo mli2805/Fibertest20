@@ -71,7 +71,17 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
-        public ObservableCollection<EqItemVm> EquipmentsInNode { get; set; }
+        public ObservableCollection<EqItemVm> EquipmentsInNode
+        {
+            get { return _equipmentsInNode; }
+            set
+            {
+                if (Equals(value, _equipmentsInNode)) return;
+                _equipmentsInNode = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public EqItemVm SelectedEquipment { get; set; }
 
         public List<Trace> TracesInNode { get; set; }
@@ -95,6 +105,7 @@ namespace Iit.Fibertest.TestBench
         }
 
         private object _command;
+        private ObservableCollection<EqItemVm> _equipmentsInNode;
 
         public object Command
         {
@@ -124,6 +135,11 @@ namespace Iit.Fibertest.TestBench
                 _readModel.Equipments.Where(e => e.NodeId == _originalNode.Id).Select(equipmentVm => CreateEqItem(equipmentVm)));
 
             IsClosed = false;
+        }
+
+        protected override void OnViewLoaded(object view)
+        {
+            DisplayName = Resources.SID_Node;
         }
 
         private EqItemVm CreateEqItem(Equipment equipment)
@@ -160,48 +176,42 @@ namespace Iit.Fibertest.TestBench
 
         public void AddEquipment()
         {
-            // TODO ask traces whick will use new equipment
+            // TODO ask traces which will use new equipment
 
             var addEquipmentViewModel = new EquipmentInfoViewModel(_originalNode.Id, _bus);
             _windowManager.ShowDialog(addEquipmentViewModel);
             if (addEquipmentViewModel.Command == null)
                 return;
-            var cmd = addEquipmentViewModel.Command;
-
+            var cmd = (AddEquipmentIntoNode)addEquipmentViewModel.Command;
             _bus.SendCommand(cmd).Wait();
             // refresh equipments
-            EquipmentsInNode = new ObservableCollection<EqItemVm>(
-                _readModel.Equipments.Where(e => e.NodeId == _originalNode.Id).Select(equipmentVm => CreateEqItem(equipmentVm)));
+            EquipmentsInNode.Add(new EqItemVm() {Id = cmd.Id, Title = cmd.Title, Type = cmd.Type.ToLocalizedString()});
         }
 
         private void LaunchUpdateEquipmentView(Guid id)
         {
             var equipment = _readModel.Equipments.First(e => e.Id == id);
 
-            var updateEquipmentViewModel = new EquipmentInfoViewModel(equipment, _bus);
-            IMapper mapperToViewModel = new MapperConfiguration(
+            var equipmentViewModel = new EquipmentInfoViewModel(equipment, _bus);
+            IMapper mapperDomainModelToViewModel = new MapperConfiguration(
                     cfg => cfg.AddProfile<MappingDomainModelToViewModel>()).CreateMapper();
-            mapperToViewModel.Map(equipment, updateEquipmentViewModel);
-            _windowManager.ShowDialog(updateEquipmentViewModel);
+            mapperDomainModelToViewModel.Map(equipment, equipmentViewModel);
+            _windowManager.ShowDialog(equipmentViewModel);
 
-            if (updateEquipmentViewModel.Command == null)
+            if (equipmentViewModel.Command == null)
                 return;
-            Command = updateEquipmentViewModel.Command;
-
-            IMapper mapper = new MapperConfiguration(
-                    cfg => cfg.AddProfile<MappingCommandToVm>()).CreateMapper();
-            mapper.Map(Command, equipment);
-
-            EquipmentsInNode.Remove(EquipmentsInNode.First(e => e.Id == equipment.Id));
-            EquipmentsInNode.Add(CreateEqItem(equipment));
+            // refresh equipments
+            var cmd = (UpdateEquipment)equipmentViewModel.Command;
+            var item = EquipmentsInNode.First(i => i.Id == id);
+            item.Title = cmd.Title;
+            item.Type = cmd.Type.ToLocalizedString();
         }
 
         public void RemoveEquipment(RemoveEquipment cmd)
         {
             _bus.SendCommand(cmd);
             // refresh equipments
-            EquipmentsInNode = new ObservableCollection<EqItemVm>(
-                _readModel.Equipments.Where(e => e.NodeId == _originalNode.Id).Select(equipmentVm => CreateEqItem(equipmentVm)));
+            EquipmentsInNode.Remove(EquipmentsInNode.First(item => item.Id == cmd.Id));
         }
 
         public void Save()

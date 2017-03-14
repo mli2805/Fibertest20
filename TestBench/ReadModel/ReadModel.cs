@@ -147,7 +147,7 @@ namespace Iit.Fibertest.TestBench
 
         public void Apply(EquipmentUpdated e)
         {
-            var equipment = Equipments.Single(eq => eq.Id == e.Id);
+            var equipment = Equipments.FirstOrDefault(eq => eq.Id == e.Id);
             _mapper.Map(e, equipment);
         }
 
@@ -159,7 +159,7 @@ namespace Iit.Fibertest.TestBench
                 var idx = trace.Equipments.IndexOf(e.Id);
                 trace.Equipments[idx] = Guid.Empty;
             }
-            Equipments.Remove(Equipments.Single(eq => eq.Id == e.Id));
+            Equipments.Remove(Equipments.First(eq => eq.Id == e.Id));
         }
         #endregion
 

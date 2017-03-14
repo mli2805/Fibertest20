@@ -26,6 +26,7 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
+        // context menu
         public void UpdateEquipment()
         {
             Command = new UpdateEquipment { Id = Id };

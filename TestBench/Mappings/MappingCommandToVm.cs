@@ -9,7 +9,6 @@ namespace Iit.Fibertest.TestBench
         public MappingCommandToVm()
         {
             CreateMap<AddEquipmentIntoNode, EquipmentVm>();
-            CreateMap<UpdateEquipment, EquipmentVm>();
         }
     }
 
@@ -18,6 +17,7 @@ namespace Iit.Fibertest.TestBench
         public MappingEventToVm()
         {
             CreateMap<TraceAdded, TraceVm>();
+            CreateMap<EquipmentUpdated, EquipmentVm>();
         }
     }
 }

@@ -122,6 +122,7 @@ namespace Iit.Fibertest.TestBench
                 var cmd = mapper.Map<UpdateEquipment>(this);
                 cmd.Id = EquipmentId;
                 _bus.SendCommand(cmd);
+                Command = cmd; // nodeUpdateView take this command to update its equipment table
             }
 
             if (_mode == EquipmentViewMode.Add)

@@ -241,7 +241,26 @@ namespace Iit.Fibertest.TestBench
         public void Apply(EquipmentIntoNodeAdded evnt)
         {
             var nodeVm = Nodes.First(n => n.Id == evnt.NodeId);
+            Equipments.Add(new EquipmentVm() { Id = evnt.Id, Node = nodeVm, Type = evnt.Type });
             nodeVm.Type = evnt.Type;
+        }
+
+        public void Apply(EquipmentUpdated evnt)
+        {
+            var equipmentVm = Equipments.First(e => e.Id == evnt.Id);
+            IMapper mapper = new MapperConfiguration(cfg => cfg.AddProfile<MappingEventToVm>()).CreateMapper();
+            mapper.Map(evnt, equipmentVm);
+            var nodeVm = equipmentVm.Node;
+            nodeVm.Type = evnt.Type;
+        }
+
+        public void Apply(EquipmentRemoved evnt)
+        {
+            var equipmentVm = Equipments.First(e => e.Id == evnt.Id);
+            var nodeVm = equipmentVm.Node;
+            Equipments.Remove(equipmentVm);
+            var firstEquipmentInNode = Equipments.FirstOrDefault(e => e.Node.Id == nodeVm.Id);
+            nodeVm.Type = firstEquipmentInNode?.Type ?? EquipmentType.Well;
         }
         #endregion
 
