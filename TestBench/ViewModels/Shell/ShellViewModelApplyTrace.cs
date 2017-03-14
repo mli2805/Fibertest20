@@ -66,7 +66,7 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
-        private List<Guid> CollectEquipment(List<Guid> nodes)
+        public List<Guid> CollectEquipment(List<Guid> nodes)
         {
             var equipments = new List<Guid> { ReadModel.Rtus.First(r => r.NodeId == nodes[0]).Id };
             foreach (var nodeId in nodes.Skip(1))

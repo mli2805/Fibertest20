@@ -167,7 +167,6 @@
       <DependentUpon>OneCoorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewControls\GpsInputControl\OneCoorViewModel.cs" />
-    <Compile Include="Logic\MapTraceDefine.cs" />
     <Compile Include="Logic\PointLatLngExtensions.cs" />
     <Compile Include="Mappings\MappingVmToViewModel.cs" />
     <Compile Include="Mappings\MappingViewModelToCommand.cs" />

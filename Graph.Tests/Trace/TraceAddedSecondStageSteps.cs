@@ -24,7 +24,7 @@ namespace Graph.Tests
             _sut.CreateFieldForPathFinderTest(out _rtuNodeId, out _lastNodeId, out wrongNodeId, out wrongNodeWithEqId);
             new PathFinder(_sut.ReadModel).FindPath(_rtuNodeId, _lastNodeId, out _nodes);
 
-            _equipments = MapTraceDefine.CollectEquipmentForTrace(_sut.FakeWindowManager, _nodes, _sut.ReadModel);
+            _equipments = _sut.ShellVm.CollectEquipment(_nodes);
         }
 
         [Given(@"На предложение выбрать оборудование пользователь отвечает: ""(.*)""")]
