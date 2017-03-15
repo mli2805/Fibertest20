@@ -96,5 +96,14 @@ namespace Graph.Tests
             TraceWithoutEqId = ReadModel.Traces.Last().Id;
         }
 
+        public void SetThreeTraceThroughNode()
+        {
+            SetNode();
+            SetRtuAndOthers();
+            SetShortTrace();
+            SetLongTraceWithEquipment();
+            SetLongTraceWithoutEquipment();
+        }
+
     }
 }

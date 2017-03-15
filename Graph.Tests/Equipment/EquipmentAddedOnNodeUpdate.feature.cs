@@ -80,6 +80,12 @@ namespace Graph.Tests.Equipment
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление оборудования", ((string[])(null)));
 #line 5
 this.ScenarioSetup(scenarioInfo);
+#line 6
+ testRunner.Given("Через узел проходят три трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 7
+ testRunner.Given("Пользователь открывает форму редактирования узла", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 8
+ testRunner.When("Пользователь жмет добавить оборудование вводит парамы и сохраняет", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             this.ScenarioCleanup();
         }

@@ -169,8 +169,6 @@ namespace Iit.Fibertest.TestBench
 
         private void EqItem_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName != "Command")
-                return;
             var cmd = ((EqItemVm)sender).Command;
             if (cmd is UpdateEquipment)
                 LaunchUpdateEquipmentView(((UpdateEquipment)cmd).Id);

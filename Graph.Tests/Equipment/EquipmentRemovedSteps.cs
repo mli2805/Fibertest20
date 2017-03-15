@@ -65,8 +65,7 @@ namespace Graph.Tests
         public void WhenПользовательНажимаетУдалитьОборудование()
         {
             var vm = new NodeUpdateViewModel(_nodeAId, _sut.ShellVm.ReadModel, _sut.FakeWindowManager, _sut.ShellVm.Bus);
-            vm.RemoveEquipment(new RemoveEquipment() {Id = _equipmentA1Id});
-            vm.Cancel();
+            vm.EquipmentsInNode.First(it=>it.Id == _equipmentA1Id).Command = new RemoveEquipment() { Id = _equipmentA1Id};
             _sut.Poller.Tick();
         }
 
@@ -74,7 +73,6 @@ namespace Graph.Tests
         public void ThenОборудованиеУдаляетсяИзТрассы()
         {
             _sut.ReadModel.Traces.Where(t => t.Equipments.Contains(_equipmentA1Id)).Should().BeEmpty();
-
         }
 
         [Then(@"Оборудование удаляется")]
