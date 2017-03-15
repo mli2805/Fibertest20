@@ -261,6 +261,7 @@
       <DependentUpon>RtuRemoved.feature</DependentUpon>
     </Compile>
     <Compile Include="Sut\SutForAddNodeIntoFiber.cs" />
+    <Compile Include="Sut\SutForEquipmentOperations.cs" />
     <Compile Include="Sut\SutForRtuRemoved.cs" />
     <Compile Include="Sut\SutForTraceAdded.cs" />
     <Compile Include="Sut\SutForTraceAttach.cs" />

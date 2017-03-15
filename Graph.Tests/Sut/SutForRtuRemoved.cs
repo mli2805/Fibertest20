@@ -11,6 +11,7 @@ namespace Graph.Tests
         public Guid RtuNodeId;
         private Guid _endTraceNodeId;
         public Guid TraceId;
+
         public void CreateRtuAndFewNodesAndFibers()
         {
             ShellVm.ComplyWithRequest(new AddRtuAtGpsLocation()).Wait();

@@ -66,9 +66,9 @@ namespace Graph.Tests.Equipment
         {
 #line 3
 #line 4
- testRunner.Given("Существует оборудование", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Задана трасса c оборудованием А1 в середине и B1 в конце", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 5
- testRunner.Given("Открыта форма для изменения сущ оборудования", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Открыта форма изменения узла где лежит B1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
         }
         
@@ -92,10 +92,12 @@ this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
 #line 8
- testRunner.Given("Пользователь производит изменения", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Открыта форма для изменения сущ оборудования", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 9
- testRunner.When("Жмет сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Given("Пользователь производит изменения", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 10
+ testRunner.When("Жмет сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 11
  testRunner.Then("Все должно быть сохранено", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -107,15 +109,17 @@ this.FeatureBackground();
         public virtual void ОтказОтИзмененияСуществующегоОборудования()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Отказ от изменения существующего оборудования", ((string[])(null)));
-#line 12
+#line 13
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 13
- testRunner.Given("Пользователь производит изменения", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 14
- testRunner.When("Жмет Отмена", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Given("Открыта форма для изменения сущ оборудования", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 15
+ testRunner.Given("Пользователь производит изменения", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 16
+ testRunner.When("Жмет Отмена", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 17
  testRunner.Then("Комманда не подается", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

@@ -66,12 +66,6 @@ namespace Graph.Tests.Equipment
         {
 #line 3
 #line 4
- testRunner.Given("Существует узел A с оборудованием A1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 5
- testRunner.Given("Существует узел B с оборудованием B1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 6
- testRunner.Given("Существуют RTU и волокна", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 7
  testRunner.Given("Существует трасса c оборудованием А1 в середине и B1 в конце", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
         }
@@ -91,19 +85,19 @@ namespace Graph.Tests.Equipment
         public virtual void УдалениеОборудованияНеПоследнегоДляЛюбойТрассы()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Удаление оборудования не последнего для любой трассы", ((string[])(null)));
-#line 9
+#line 6
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 10
+#line 7
  testRunner.Given("Открыта форма для редактирования узла где оборудование А1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 11
+#line 8
  testRunner.Then("Пункт Удалить доступен для данного оборудования", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 12
+#line 9
  testRunner.When("Пользователь нажимает удалить оборудование", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 13
+#line 10
  testRunner.Then("Оборудование удаляется из трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 14
+#line 11
  testRunner.Then("Оборудование удаляется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -115,15 +109,15 @@ this.FeatureBackground();
         public virtual void ПопыткаУдаленияОборудованияИзТрассыСБазовой()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Попытка удаления оборудования из трассы с базовой", ((string[])(null)));
-#line 16
+#line 13
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 17
+#line 14
  testRunner.Given("Для этой трассы задана базовая", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 18
+#line 15
  testRunner.Given("Открыта форма для редактирования узла где оборудование А1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 19
+#line 16
  testRunner.Then("Пункт Удалить недоступен для оборудования A1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -135,13 +129,13 @@ this.FeatureBackground();
         public virtual void ПопыткаУдаленияОборудованияПоследнегоДляТрассы()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Попытка удаления оборудования последнего для трассы", ((string[])(null)));
-#line 21
+#line 18
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 22
+#line 19
  testRunner.Given("Открыта форма для редактирования узла где оборудование B1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 23
+#line 20
  testRunner.Then("Пункт Удалить недоступен для оборудования B1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

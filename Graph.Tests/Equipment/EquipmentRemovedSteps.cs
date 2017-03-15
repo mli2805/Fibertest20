@@ -11,57 +11,17 @@ namespace Graph.Tests
     [Binding]
     public sealed class EquipmentRemovedSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest();
+        private readonly SutForEquipmentOperations _sut = new SutForEquipmentOperations();
         private Guid _nodeAId, _equipmentA1Id;
         private Guid _nodeBId, _equipmentB1Id;
-        private Guid _rtuNodeId;
         private Iit.Fibertest.Graph.Trace _trace;
         private NodeUpdateViewModel _vm;
 
 
-        [Given(@"Существует узел A с оборудованием A1")]
-        public void GivenСуществуетУзелСОборудованием()
-        {
-            _sut.ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() {Type = EquipmentType.Sleeve}).Wait();
-            _sut.Poller.Tick();
-            _nodeAId = _sut.ReadModel.Nodes.Last().Id;
-            _equipmentA1Id = _sut.ReadModel.Equipments.Last().Id;
-        }
-
-        [Given(@"Существует узел B с оборудованием B1")]
-        public void GivenСуществуетУзелBсОборудованиемB1()
-        {
-            _sut.ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() { Type = EquipmentType.Sleeve }).Wait();
-            _sut.Poller.Tick();
-            _nodeBId = _sut.ReadModel.Nodes.Last().Id;
-            _equipmentB1Id = _sut.ReadModel.Equipments.Last().Id;
-        }
-
-        [Given(@"Существуют RTU и волокна")]
-        public void GivenСуществуетRtuиЕщеПаруУзлов()
-        {
-            _sut.ShellVm.ComplyWithRequest(new AddRtuAtGpsLocation()).Wait();
-            _sut.Poller.Tick();
-            _rtuNodeId = _sut.ReadModel.Nodes.Last().Id;
-
-            _sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = _rtuNodeId, Node2 = _nodeAId }).Wait();
-            _sut.Poller.Tick();
-
-            _sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = _nodeAId, Node2 = _nodeBId }).Wait();
-            _sut.Poller.Tick();
-        }
-
         [Given(@"Существует трасса c оборудованием А1 в середине и B1 в конце")]
         public void GivenСуществуетТрассаCОборудованиемАвСерединеИbвКонце()
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.QuestionAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.AddTraceViewHandler(model, @"some title", "", Answer.Yes));
-
-            _sut.ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = _nodeBId, NodeWithRtuId = _rtuNodeId });
-            _sut.Poller.Tick();
-            _trace = _sut.ReadModel.Traces.Last();
+            _trace = _sut.SetTraceFromRtuThrouhgAtoB(out _nodeAId, out _equipmentA1Id, out _nodeBId, out _equipmentB1Id);
         }
 
         [Given(@"Для этой трассы задана базовая")]
