@@ -11,7 +11,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class EquipmentRemovedLightSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest();
+        private readonly SutForEquipment _sut = new SutForEquipment();
         private Guid _nodeAId, _equipmentA1Id;
         private Guid _notInTraceEquipmentId;
         private NodeUpdateViewModel _vm;
@@ -41,8 +41,7 @@ namespace Graph.Tests
             _sut.FakeWindowManager.RegisterHandler(model =>
                 _sut.TraceChoiceHandler(model, new List<Guid>(), Answer.Yes));
             _sut.FakeWindowManager.RegisterHandler(model =>
-                _sut.EquipmentUpdateHandler(model, nodeId, EquipmentType.Other, @"some title", @"some comment", 0, 0,
-                    Answer.Yes));
+                _sut.EquipmentInfoViewModelHandler(model, Answer.Yes));
 
             _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentIntoNode() {NodeId = nodeId}).Wait();
             _sut.Poller.Tick();

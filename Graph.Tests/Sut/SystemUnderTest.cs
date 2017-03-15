@@ -161,23 +161,6 @@ namespace Graph.Tests
             return true;
         }
 
-        public bool EquipmentUpdateHandler(object model, Guid nodeId, EquipmentType type, string title, string comment, int leftReserve, int rightReserve, Answer answer)
-        {
-            var vm = model as EquipmentInfoViewModel;
-            if (vm == null) return false;
-            vm.NodeId = nodeId;
-            vm.Type = type;
-            vm.Title = title;
-            vm.Comment = comment;
-            vm.CableReserveLeft = leftReserve;
-            vm.CableReserveRight = rightReserve;
-            if (answer == Answer.Yes)
-                vm.Save();
-            else
-                vm.Cancel();
-            return true;
-        }
-
         public bool FiberWithNodesAdditionHandler(object model, int count, EquipmentType type, Answer answer)
         {
             var vm = model as FiberWithNodesAddViewModel;
@@ -201,7 +184,5 @@ namespace Graph.Tests
                 vm.Cancel();
             return true;
         }
-
     }
-
 }

@@ -10,15 +10,9 @@ namespace Graph.Tests
     [Binding]
     public class EquipmentAddedSimpleSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest();
+        private readonly SutForEquipment _sut = new SutForEquipment();
         private Guid _nodeId;
         private Guid _oldEquipmentId;
-
-        private const EquipmentType EquipmentType = Iit.Fibertest.Graph.EquipmentType.Terminal;
-        private const string Title = @"some title";
-        private const string Comment = "some comment";
-        private const int LeftReserve = 5;
-        private const int RightReserve = 77;
 
         [Given(@"Существует пустой узел")]
         public void GivenСуществуетПустойУзел()
@@ -41,14 +35,14 @@ namespace Graph.Tests
         public void ThenПользовательВводитТипИДругиеПараметрыОборудования()
         {
             _sut.FakeWindowManager.RegisterHandler(model => 
-                _sut.EquipmentUpdateHandler(model, _nodeId, EquipmentType, Title, Comment, LeftReserve, RightReserve, Answer.Yes));
+                _sut.EquipmentInfoViewModelHandler(model, Answer.Yes));
         }
 
         [Then(@"Пользователь вводит тип и другие параметры оборудования но жмет Отмена")]
         public void ThenПользовательВводитТипИДругиеПараметрыОборудованияНоЖметОтмена()
         {
             _sut.FakeWindowManager.RegisterHandler(model =>
-                _sut.EquipmentUpdateHandler(model, _nodeId, EquipmentType, Title, Comment, LeftReserve, RightReserve, Answer.Cancel));
+                _sut.EquipmentInfoViewModelHandler(model, Answer.Cancel));
         }
 
         [Then(@"На форме Добавить оборудование")]
@@ -62,11 +56,12 @@ namespace Graph.Tests
         public void ThenСоздаетсяОборудованиеВУзле()
         {
             var equipment = _sut.ReadModel.Equipments.First(e => e.NodeId == _nodeId);
-            equipment.Title.Should().Be(Title);
-            equipment.Type.Should().Be(EquipmentType);
-            equipment.CableReserveLeft.Should().Be(LeftReserve);
-            equipment.CableReserveRight.Should().Be(RightReserve);
-            equipment.Comment.Should().Be(Comment);
+            equipment.Title.Should().Be(SutForEquipment.NewTitleForTest);
+            equipment.Type.Should().Be(SutForEquipment.NewTypeForTest);
+            equipment.CableReserveLeft.Should().Be(SutForEquipment.NewLeftCableReserve);
+            equipment.CableReserveRight.Should().Be(SutForEquipment.NewRightCableReserve);
+            equipment.Comment.Should().Be(SutForEquipment.NewCommentForTest);
+
         }
         [Then(@"Оборудование в узле не создается")]
         public void ThenОборудованиеВУзлеНеСоздается()
@@ -80,11 +75,11 @@ namespace Graph.Tests
             _sut.ReadModel.Equipments.Count(e => e.NodeId == _nodeId).Should().Be(2);
 
             var equipment = _sut.ReadModel.Equipments.First(e => e.NodeId == _nodeId && e.Id != _oldEquipmentId);
-            equipment.Title.Should().Be(Title);
-            equipment.Type.Should().Be(EquipmentType);
-            equipment.CableReserveLeft.Should().Be(LeftReserve);
-            equipment.CableReserveRight.Should().Be(RightReserve);
-            equipment.Comment.Should().Be(Comment);
+            equipment.Title.Should().Be(SutForEquipment.NewTitleForTest);
+            equipment.Type.Should().Be(SutForEquipment.NewTypeForTest);
+            equipment.CableReserveLeft.Should().Be(SutForEquipment.NewLeftCableReserve);
+            equipment.CableReserveRight.Should().Be(SutForEquipment.NewRightCableReserve);
+            equipment.Comment.Should().Be(SutForEquipment.NewCommentForTest);
         }
 
     }

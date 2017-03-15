@@ -18,7 +18,6 @@ namespace Graph.Tests
         private Iit.Fibertest.Graph.Equipment _equipment;
         private int _cutOff;
 
-
         [Given(@"Задана трасса c оборудованием А1 в середине и B1 в конце")]
         public void GivenЗаданаТрассаCОборудованиемАвСерединеИbвКонце()
         {
@@ -65,7 +64,6 @@ namespace Graph.Tests
             _nodeUpdateViewModel.EquipmentsInNode.First(i => i.Id == _equipmentB1Id).IsRemoveEnabled.Should().BeFalse();
         }
 
-
         [Given(@"Пользователь кликает изменить B1 вводит новые значения и жмет Сохранить")]
         public void GivenПользовательКликаетИзменитьBВводитНовыеЗначенияИЖметСохранить()
         {
@@ -108,6 +106,5 @@ namespace Graph.Tests
             _equipment.CableReserveRight.Should().NotBe(SutForEquipment.NewRightCableReserve);
             _equipment.Comment.Should().NotBe(SutForEquipment.NewCommentForTest);
         }
-
     }
 }

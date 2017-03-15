@@ -8,16 +8,17 @@ namespace Graph.Tests
 {
     public class SutForEquipmentAdded : SutForEquipment
     {
-        public Guid _nodeId, _rtuNodeId, _anotherNodeId, _anotherNodeId2;
-        public Guid _shortTraceId, _traceWithEqId, _traceWithoutEqId;
-        public Guid _oldEquipmentId;
+        private Guid _rtuNodeId, _anotherNodeId, _anotherNodeId2;
+        public Guid OldEquipmentId;
+        public Guid NodeId;
+        public Guid ShortTraceId, TraceWithEqId, TraceWithoutEqId;
 
         public void SetNode()
         {
             ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() { Type = EquipmentType.Sleeve }).Wait();
             Poller.Tick();
-            _nodeId = ReadModel.Nodes.Last().Id;
-            _oldEquipmentId = ReadModel.Equipments.Last().Id;
+            NodeId = ReadModel.Nodes.Last().Id;
+            OldEquipmentId = ReadModel.Equipments.Last().Id;
         }
 
         public void SetRtuAndOthers()
@@ -26,21 +27,21 @@ namespace Graph.Tests
             Poller.Tick();
             _rtuNodeId = ReadModel.Nodes.Last().Id;
 
-            ShellVm.ComplyWithRequest(new AddFiber() { Node1 = _rtuNodeId, Node2 = _nodeId }).Wait();
+            ShellVm.ComplyWithRequest(new AddFiber() { Node1 = _rtuNodeId, Node2 = NodeId }).Wait();
             Poller.Tick();
 
             ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait();
             Poller.Tick();
             _anotherNodeId = ReadModel.Nodes.Last().Id;
 
-            ShellVm.ComplyWithRequest(new AddFiber() { Node1 = _anotherNodeId, Node2 = _nodeId }).Wait();
+            ShellVm.ComplyWithRequest(new AddFiber() { Node1 = _anotherNodeId, Node2 = NodeId }).Wait();
             Poller.Tick();
 
             ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() { Type = EquipmentType.Other }).Wait();
             Poller.Tick();
             _anotherNodeId2 = ReadModel.Nodes.Last().Id;
 
-            ShellVm.ComplyWithRequest(new AddFiber() { Node1 = _anotherNodeId2, Node2 = _nodeId }).Wait();
+            ShellVm.ComplyWithRequest(new AddFiber() { Node1 = _anotherNodeId2, Node2 = NodeId }).Wait();
             Poller.Tick();
         }
 
@@ -52,9 +53,9 @@ namespace Graph.Tests
             FakeWindowManager.RegisterHandler(
                 model => AddTraceViewHandler(model, @"short trace", "", Answer.Yes));
 
-            ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = _nodeId, NodeWithRtuId = _rtuNodeId });
+            ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = NodeId, NodeWithRtuId = _rtuNodeId });
             Poller.Tick();
-            _shortTraceId = ReadModel.Traces.Last().Id;
+            ShortTraceId = ReadModel.Traces.Last().Id;
         }
 
         public void SetLongTraceWithEquipment()
@@ -73,7 +74,7 @@ namespace Graph.Tests
                 NodeWithRtuId = _rtuNodeId
             });
             Poller.Tick();
-            _traceWithEqId = ReadModel.Traces.Last().Id;
+            TraceWithEqId = ReadModel.Traces.Last().Id;
         }
 
         public void SetLongTraceWithoutEquipment()
@@ -92,7 +93,7 @@ namespace Graph.Tests
                 NodeWithRtuId = _rtuNodeId
             });
             Poller.Tick();
-            _traceWithoutEqId = ReadModel.Traces.Last().Id;
+            TraceWithoutEqId = ReadModel.Traces.Last().Id;
         }
 
     }
