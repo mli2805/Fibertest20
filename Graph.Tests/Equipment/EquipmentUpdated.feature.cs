@@ -67,8 +67,6 @@ namespace Graph.Tests.Equipment
 #line 3
 #line 4
  testRunner.Given("Задана трасса c оборудованием А1 в середине и B1 в конце", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 5
- testRunner.Given("Открыта форма изменения узла где лежит B1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
         }
         
@@ -81,23 +79,49 @@ namespace Graph.Tests.Equipment
             this.ScenarioTearDown();
         }
         
+        [Xunit.FactAttribute(DisplayName="Доступность удаления")]
+        [Xunit.TraitAttribute("FeatureTitle", "EquipmentUpdated")]
+        [Xunit.TraitAttribute("Description", "Доступность удаления")]
+        public virtual void ДоступностьУдаления()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Доступность удаления", ((string[])(null)));
+#line 6
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 7
+ testRunner.Given("Открыта форма изменения узла где лежит А1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 8
+ testRunner.Then("Для А1 доступно удаление", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 9
+ testRunner.Given("Открыта форма изменения узла где лежит B1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 10
+ testRunner.Then("Для B1 НЕ доступно удаление", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 11
+ testRunner.Given("Задаем базовую", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 12
+ testRunner.Given("Открыта форма изменения узла где лежит А1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 13
+ testRunner.Then("Для А1 НЕ доступно удаление", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
         [Xunit.FactAttribute(DisplayName="Изменение существующего оборудования")]
         [Xunit.TraitAttribute("FeatureTitle", "EquipmentUpdated")]
         [Xunit.TraitAttribute("Description", "Изменение существующего оборудования")]
         public virtual void ИзменениеСуществующегоОборудования()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Изменение существующего оборудования", ((string[])(null)));
-#line 7
+#line 15
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 8
- testRunner.Given("Открыта форма для изменения сущ оборудования", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 9
- testRunner.Given("Пользователь производит изменения", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 10
- testRunner.When("Жмет сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 11
+#line 16
+ testRunner.Given("Открыта форма изменения узла где лежит B1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 17
+ testRunner.Given("Пользователь кликает изменить B1 вводит новые значения и жмет Сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 18
  testRunner.Then("Все должно быть сохранено", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -109,17 +133,15 @@ this.FeatureBackground();
         public virtual void ОтказОтИзмененияСуществующегоОборудования()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Отказ от изменения существующего оборудования", ((string[])(null)));
-#line 13
+#line 20
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 14
- testRunner.Given("Открыта форма для изменения сущ оборудования", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 15
- testRunner.Given("Пользователь производит изменения", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 16
- testRunner.When("Жмет Отмена", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 17
+#line 21
+ testRunner.Given("Открыта форма изменения узла где лежит B1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 22
+ testRunner.Given("Пользователь кликает изменить B1 вводит новые значения и жмет Отмена", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 23
  testRunner.Then("Комманда не подается", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

@@ -15,8 +15,8 @@ namespace Graph.Tests
         private Guid _nodeBId, _equipmentB1Id;
         private Iit.Fibertest.Graph.Trace _trace;
         private NodeUpdateViewModel _nodeUpdateViewModel;
-        private EquipmentInfoViewModel _equipmentInfoViewModel;
-        private Iit.Fibertest.Graph.Equipment _equipment; 
+        private Iit.Fibertest.Graph.Equipment _equipment;
+        private int _cutOff;
 
         private const string NewTitleForTest = "New name for old equipment";
         private const EquipmentType NewTypeForTest = EquipmentType.Cross;
@@ -32,40 +32,65 @@ namespace Graph.Tests
             _equipment = _sut.ReadModel.Equipments.First(e => e.Id == _equipmentB1Id);
         }
 
+        [Given(@"Открыта форма изменения узла где лежит А1")]
+        public void GivenОткрытаФормаИзмененияУзлаГдеЛежитА()
+        {
+            _nodeUpdateViewModel = new NodeUpdateViewModel(_nodeAId, _sut.ReadModel, _sut.FakeWindowManager, _sut.ShellVm.Bus);
+        }
+
         [Given(@"Открыта форма изменения узла где лежит B1")]
         public void GivenОткрытаФормаИзмененияУзлаГдеЛежитB()
         {
-            _nodeUpdateViewModel = new NodeUpdateViewModel(_nodeBId, _sut.ReadModel, new FakeWindowManager(), _sut.ShellVm.Bus);
+            _nodeUpdateViewModel = new NodeUpdateViewModel(_nodeBId, _sut.ReadModel, _sut.FakeWindowManager, _sut.ShellVm.Bus);
         }
 
-
-        [Given(@"Открыта форма для изменения сущ оборудования")]
-        public void GivenОткрытаФормаДляИзмененияСущОборудования()
+        [Given(@"Задаем базовую")]
+        public void GivenЗадаемБазовую()
         {
-            _equipmentInfoViewModel = new EquipmentInfoViewModel(_equipment, _sut.ShellVm.Bus);
-        }
-
-        [Given(@"Пользователь производит изменения")]
-        public void GivenПользовательПроизводитИзменения()
-        {
-            _equipmentInfoViewModel.Title = NewTitleForTest;
-            _equipmentInfoViewModel.Type = NewTypeForTest;
-            _equipmentInfoViewModel.CableReserveLeft = NewLeftCableReserve;
-            _equipmentInfoViewModel.CableReserveRight = NewRightCableReserve;
-            _equipmentInfoViewModel.Comment = NewCommentForTest;
-        }
-
-        [When(@"Жмет сохранить")]
-        public void WhenЖметСохранить()
-        {
-            _equipmentInfoViewModel.Save();
+            var vm = new BaseRefsAssignViewModel(_trace, _sut.ReadModel, _sut.ShellVm.Bus);
+            vm.PreciseBaseFilename = SystemUnderTest.Path;
+            vm.Save();
             _sut.Poller.Tick();
         }
 
-        [When(@"Жмет Отмена")]
-        public void WhenЖметОтмена()
+        [Then(@"Для А1 доступно удаление")]
+        public void ThenДляАДоступноУдаление()
         {
-            _equipmentInfoViewModel.Cancel();
+            _nodeUpdateViewModel.EquipmentsInNode.First(i => i.Id == _equipmentA1Id).IsRemoveEnabled.Should().BeTrue();
+        }
+
+        [Then(@"Для А1 НЕ доступно удаление")]
+        public void ThenДляА1НеДоступноУдаление()
+        {
+            _nodeUpdateViewModel.EquipmentsInNode.First(i => i.Id == _equipmentA1Id).IsRemoveEnabled.Should().BeFalse();
+        }
+
+        [Then(@"Для B1 НЕ доступно удаление")]
+        public void ThenДляB1НеДоступноУдаление()
+        {
+            _nodeUpdateViewModel.EquipmentsInNode.First(i => i.Id == _equipmentB1Id).IsRemoveEnabled.Should().BeFalse();
+        }
+
+
+        [Given(@"Пользователь кликает изменить B1 вводит новые значения и жмет Сохранить")]
+        public void GivenПользовательКликаетИзменитьBВводитНовыеЗначенияИЖметСохранить()
+        {
+            _sut.FakeWindowManager.RegisterHandler(model=> _sut.EquipmentInfoViewModelHandler(model, Answer.Yes));
+
+            var item = _nodeUpdateViewModel.EquipmentsInNode.First(i => i.Id == _equipmentB1Id);
+            item.Command = new UpdateEquipment() {Id = _equipmentB1Id};
+            _sut.Poller.Tick();
+        }
+
+        [Given(@"Пользователь кликает изменить B1 вводит новые значения и жмет Отмена")]
+        public void GivenПользовательКликаетИзменитьBВводитНовыеЗначенияИЖметОтмена()
+        {
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentInfoViewModelHandler(model, Answer.Cancel));
+
+            var item = _nodeUpdateViewModel.EquipmentsInNode.First(i => i.Id == _equipmentB1Id);
+            item.Command = new UpdateEquipment() { Id = _equipmentB1Id };
+            _cutOff = _sut.Poller.CurrentEventNumber;
+            _sut.Poller.Tick();
         }
 
         [Then(@"Все должно быть сохранено")]
@@ -81,7 +106,13 @@ namespace Graph.Tests
         [Then(@"Комманда не подается")]
         public void ThenКоммандаНеПодается()
         {
-            _equipmentInfoViewModel.Command.Should().BeNull();
+            _sut.Poller.CurrentEventNumber.Should().Be(_cutOff);
+
+            _equipment.Title.Should().NotBe(NewTitleForTest);
+            _equipment.Type.Should().NotBe(NewTypeForTest);
+            _equipment.CableReserveLeft.Should().NotBe(NewLeftCableReserve);
+            _equipment.CableReserveRight.Should().NotBe(NewRightCableReserve);
+            _equipment.Comment.Should().NotBe(NewCommentForTest);
         }
 
     }
