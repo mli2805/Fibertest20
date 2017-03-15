@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Algorithms;
 
 namespace Iit.Fibertest.TestBench
 {
-    public class ReadModel
+    public class ReadModel : PropertyChangedBase
     {
         private readonly IMapper _mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
@@ -18,6 +19,8 @@ namespace Iit.Fibertest.TestBench
         public List<Rtu> Rtus { get; } = new List<Rtu>();
         public List<Trace> Traces { get; } = new List<Trace>();
         public List<Otau> Otaus { get; } = new List<Otau>();
+
+        public int JustForNotification { get; set; }
 
         #region Node
         public void Apply(NodeAdded e)

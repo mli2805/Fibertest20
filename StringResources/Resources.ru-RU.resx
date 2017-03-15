@@ -551,4 +551,7 @@
 	<data name="SID_Trace_information" xml:space="preserve">
 		<value>Информация о трассе</value>
 	</data>
+	<data name="SID_Traces" xml:space="preserve">
+		<value>Трассы</value>
+	</data>
 </root>

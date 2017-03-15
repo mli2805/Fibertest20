@@ -4,21 +4,25 @@
         xmlns:cal="http://www.caliburnproject.org"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:testBench="clr-namespace:Iit.Fibertest.TestBench"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
         cal:Bind.ModelWithoutContext="{Binding .}"
-        SizeToContent="Height" Width="450" WindowStartupLocation="CenterScreen"
-        >
+        SizeToContent="Height" Width="600" WindowStartupLocation="CenterScreen" d:DataContext="{d:DesignInstance testBench:NodeUpdateViewModel}">
     <StackPanel Orientation="Vertical">
         <GroupBox Margin="5" Header="{x:Static stringResources:Resources.SID_Node}">
             <StackPanel>
                 <DockPanel>
                     <TextBlock DockPanel.Dock="Left" Margin="5" Text="{x:Static stringResources:Resources.SID_Title}" />
-                    <TextBox Margin="5" Text="{Binding Title, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBox Margin="5"
+                             Text="{Binding Title, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 </DockPanel>
                 <DockPanel>
-                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="{x:Static stringResources:Resources.SID_Coordinates}" />
-                    <ComboBox  DockPanel.Dock="Right" Height="22" Width="150" Margin="0,0,5,0"
-                               ItemsSource="{Binding GpsInputModes}" SelectedItem="{Binding SelectedGpsInputMode, Mode=TwoWay}"/>
-                    <TextBlock  Margin="5" Text="{Binding Coors}" />
+                    <TextBlock DockPanel.Dock="Left" Margin="5"
+                               Text="{x:Static stringResources:Resources.SID_Coordinates}" />
+                    <ComboBox DockPanel.Dock="Right" Height="22" Width="150" Margin="0,0,5,0"
+                              ItemsSource="{Binding GpsInputModes}"
+                              SelectedItem="{Binding SelectedGpsInputMode, Mode=TwoWay}" />
+                    <TextBlock Margin="5" Text="{Binding Coors}" />
                 </DockPanel>
                 <DockPanel>
                     <TextBlock DockPanel.Dock="Left" Margin="5" Text="{x:Static stringResources:Resources.SID_Comment}" />
@@ -28,25 +32,26 @@
         </GroupBox>
         <GroupBox Margin="5" Header="{x:Static stringResources:Resources.SID_Equipment_in_node}">
             <DockPanel Name="Header" Margin="0,5,0,0">
-                <Grid DockPanel.Dock="Top" Background="AliceBlue" Height="20" >
+                <Grid DockPanel.Dock="Top" Background="AliceBlue" Height="20">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100"/>
-                        <ColumnDefinition Width="80"/>
-                        <ColumnDefinition Width="80"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="120" />
+                        <ColumnDefinition Width="90" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <Border Grid.Column="0" BorderThickness="0,0,1,0" BorderBrush="Black"/>
-                    <Border Grid.Column="1" BorderThickness="0,0,1,0" BorderBrush="Black"/>
-                    <Border Grid.Column="2" BorderThickness="0,0,1,0" BorderBrush="Black"/>
-                    <Label Grid.Column="0" Content="Title" Margin="0,-5,0,0"/>
-                    <Label Grid.Column="1" Content="Type" Margin="0,-5,0,0"/>
-                    <Label Grid.Column="2" Content="Comment" Margin="0,-5,0,0"/>
-                    <Label Grid.Column="3" Content="Traces" Margin="0,-5,0,0"/>
+                    <Border Grid.Column="0" BorderThickness="0,0,1,0" BorderBrush="Black" />
+                    <Border Grid.Column="1" BorderThickness="0,0,1,0" BorderBrush="Black" />
+                    <Border Grid.Column="2" BorderThickness="0,0,1,0" BorderBrush="Black" />
+                    <Label Grid.Column="0" Content="{x:Static stringResources:Resources.SID_Title}" Margin="0,-5,0,0" />
+                    <Label Grid.Column="1" Content="{x:Static stringResources:Resources.SID_Type}" Margin="0,-5,0,0" />
+                    <Label Grid.Column="2" Content="{x:Static stringResources:Resources.SID_Comment}" Margin="0,-5,0,0" />
+                    <Label Grid.Column="3" Content="{x:Static stringResources:Resources.SID_Traces}" Margin="0,-5,0,0" />
                 </Grid>
-                <ListBox Height="80" ItemsSource="{Binding EquipmentsInNode}" SelectedItem="{Binding SelectedEquipment}" BorderThickness="0">
+                <ListBox Height="80" ItemsSource="{Binding EquipmentsInNode}" BorderThickness="0">
                     <ListBox.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Header="{x:Static stringResources:Resources.SID_Add}" cal:Message.Attach="AddEquipment"/>
+                            <MenuItem Header="{x:Static stringResources:Resources.SID_Add}"
+                                      cal:Message.Attach="AddEquipment" />
                         </ContextMenu>
                     </ListBox.ContextMenu>
                     <ListBox.ItemTemplate>
@@ -54,21 +59,23 @@
                             <Grid>
                                 <Grid.ContextMenu>
                                     <ContextMenu>
-                                        <MenuItem Header="{x:Static stringResources:Resources.SID_Update}" cal:Message.Attach="UpdateEquipment"/>
-                                        <MenuItem Header="{x:Static stringResources:Resources.SID_Remove}" cal:Message.Attach="RemoveEquipment" 
-                                              IsEnabled="{Binding IsRemoveEnabled}"/>
+                                        <MenuItem Header="{x:Static stringResources:Resources.SID_Update}"
+                                                  cal:Message.Attach="UpdateEquipment" />
+                                        <MenuItem Header="{x:Static stringResources:Resources.SID_Remove}"
+                                                  cal:Message.Attach="RemoveEquipment"
+                                                  IsEnabled="{Binding IsRemoveEnabled}" />
                                     </ContextMenu>
                                 </Grid.ContextMenu>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="100"/>
-                                    <ColumnDefinition Width="80"/>
-                                    <ColumnDefinition Width="80"/>
-                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="120" />
+                                    <ColumnDefinition Width="90" />
+                                    <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column ="0" Text="{Binding Title}"/>
-                                <TextBlock Grid.Column ="1" Text="{Binding Type}"/>
-                                <TextBlock Grid.Column ="2" Text="{Binding Comment}"/>
-                                <TextBlock Grid.Column ="3" Text="{Binding Traces}"/>
+                                <TextBlock Grid.Column="0" Text="{Binding Title}" />
+                                <TextBlock Grid.Column="1" Text="{Binding Type}" />
+                                <TextBlock Grid.Column="2" Text="{Binding Comment}" />
+                                <TextBlock Grid.Column="3" Text="{Binding Traces}" />
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -77,13 +84,13 @@
         </GroupBox>
         <GroupBox Margin="5" Header="{x:Static stringResources:Resources.SID_Traces_in_node}">
             <ListBox Height="80" Margin="5"
-            ItemsSource="{Binding TracesInNode}">
-            </ListBox>
+                     ItemsSource="{Binding TracesInNode}" />
         </GroupBox>
-        <StackPanel Orientation="Horizontal" Margin="5,15">
-            <Button Name="Save" Height="25" Width="100" Margin="5" Content="{x:Static stringResources:Resources.SID_Save}" 
-                    IsEnabled="{Binding IsButtonSaveEnabled}"/>
-            <Button Name="Cancel" Height="25" Width="100" Content="{x:Static stringResources:Resources.SID_Cancel}"/>
+        <StackPanel Orientation="Horizontal" Margin="5,15,5,5">
+            <Button Name="Save" Height="25" Width="100" Margin="5"
+                    Content="{x:Static stringResources:Resources.SID_Save}"
+                    IsEnabled="{Binding IsButtonSaveEnabled}" />
+            <Button Name="Cancel" Height="25" Width="100" Content="{x:Static stringResources:Resources.SID_Cancel}" />
         </StackPanel>
     </StackPanel>
 </Window>

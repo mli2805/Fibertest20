@@ -6,15 +6,70 @@ namespace Iit.Fibertest.TestBench
 {
     public class EqItemVm : PropertyChangedBase
     {
-        public Guid Id { get; set; }
-        public string Type { get; set; }
-        public string Title { get; set; }
-        public string Comment { get; set; }
-        public string Traces { get; set; }
-
-        public bool IsRemoveEnabled { get; set; }
-
+        private string _title;
+        private string _type;
+        private string _comment;
+        private string _traces;
+        private bool _isRemoveEnabled;
         private object _command;
+
+        public Guid Id { get; set; }
+
+        public string Type
+        {
+            get { return _type; }
+            set
+            {
+                if (value == _type) return;
+                _type = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public string Title
+        {
+            get { return _title; }
+            set
+            {
+                if (value == _title) return;
+                _title = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public string Comment
+        {
+            get { return _comment; }
+            set
+            {
+                if (value == _comment) return;
+                _comment = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public string Traces
+        {
+            get { return _traces; }
+            set
+            {
+                if (value == _traces) return;
+                _traces = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public bool IsRemoveEnabled
+        {
+            get { return _isRemoveEnabled; }
+            set
+            {
+                if (value == _isRemoveEnabled) return;
+                _isRemoveEnabled = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public object Command
         {
             get { return _command; }

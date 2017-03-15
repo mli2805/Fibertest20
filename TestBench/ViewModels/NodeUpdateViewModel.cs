@@ -118,6 +118,7 @@ namespace Iit.Fibertest.TestBench
         public NodeUpdateViewModel(Guid nodeId, ReadModel readModel, IWindowManager windowManager, Bus bus)
         {
             _readModel = readModel;
+            _readModel.PropertyChanged += _readModel_PropertyChanged;
             _windowManager = windowManager;
             _bus = bus;
             _originalNode = _readModel.Nodes.First(n => n.Id == nodeId);
@@ -132,6 +133,12 @@ namespace Iit.Fibertest.TestBench
                 _readModel.Equipments.Where(e => e.NodeId == _originalNode.Id).Select(CreateEqItem));
 
             IsClosed = false;
+        }
+
+        private void _readModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            EquipmentsInNode = new ObservableCollection<EqItemVm>(
+                _readModel.Equipments.Where(eq => eq.NodeId == _originalNode.Id).Select(CreateEqItem));
         }
 
         protected override void OnViewLoaded(object view)
@@ -150,7 +157,7 @@ namespace Iit.Fibertest.TestBench
             var eqItem = new EqItemVm()
             {
                 Id = equipment.Id,
-                Type = equipment.Type.ToString(),
+                Type = equipment.Type.ToLocalizedString(),
                 Title = equipment.Title,
                 Comment = equipment.Comment,
                 Traces = tracesNames,
@@ -177,8 +184,6 @@ namespace Iit.Fibertest.TestBench
             if (cmd == null)
                 return;
             _bus.SendCommand(cmd).Wait();
-
-            EquipmentsInNode.Add(new EqItemVm() {Id = cmd.Id, Title = cmd.Title, Type = cmd.Type.ToLocalizedString(), IsRemoveEnabled = true});
         }
 
         private void LaunchUpdateEquipmentView(Guid id)
@@ -195,17 +200,11 @@ namespace Iit.Fibertest.TestBench
                 return;
             var cmd = (UpdateEquipment)equipmentViewModel.Command;
             _bus.SendCommand(cmd).Wait();
-
-            var item = EquipmentsInNode.First(i => i.Id == id);
-            item.Title = cmd.Title;
-            item.Type = cmd.Type.ToLocalizedString();
         }
 
         public void RemoveEquipment(RemoveEquipment cmd)
         {
             _bus.SendCommand(cmd);
-            // refresh equipments
-            EquipmentsInNode.Remove(EquipmentsInNode.First(item => item.Id == cmd.Id));
         }
 
         public void Save()

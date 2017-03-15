@@ -1,14 +1,16 @@
 using System.Collections.Generic;
 using System.Linq;
+using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using PrivateReflectionUsingDynamic;
 
 namespace Iit.Fibertest.TestBench
 {
-    public class ClientPoller
+    public class ClientPoller : PropertyChangedBase
     {
         private readonly Db _db;
         public List<object> ReadModels { get; }
+
         public int CurrentEventNumber { get; private set; }
 
         public ClientPoller(Db db, List<object> readModels)
@@ -24,6 +26,11 @@ namespace Iit.Fibertest.TestBench
                 foreach (var m in ReadModels)
                 {
                     m.AsDynamic().Apply(e);
+
+                    //
+                    var readModel = m as ReadModel;
+                    readModel?.NotifyOfPropertyChange(nameof(readModel.JustForNotification));
+                    //
                     var treeModel = m as TreeOfRtuModel;
                     treeModel?.NotifyOfPropertyChange(nameof(treeModel.Statistics));
                 }
