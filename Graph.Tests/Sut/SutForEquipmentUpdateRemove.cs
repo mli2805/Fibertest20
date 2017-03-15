@@ -6,33 +6,9 @@ using Iit.Fibertest.TestBench;
 
 namespace Graph.Tests
 {
-    public class SutForEquipmentOperations : SystemUnderTest
+    public class SutForEquipmentUpdateRemove : SutForEquipment
     {
         private Guid _rtuNodeId;
-
-        private const string NewTitleForTest = "New name for old equipment";
-        private const EquipmentType NewTypeForTest = EquipmentType.Cross;
-        private const int NewLeftCableReserve = 15;
-        private const int NewRightCableReserve = 7;
-        private const string NewCommentForTest = "New comment for old equipment";
-
-        public bool EquipmentInfoViewModelHandler(object model, Answer button)
-        {
-            var vm = model as EquipmentInfoViewModel;
-            if (vm == null) return false;
-
-            vm.Title = NewTitleForTest;
-            vm.Type = NewTypeForTest;
-            vm.CableReserveLeft = NewLeftCableReserve;
-            vm.CableReserveRight = NewRightCableReserve;
-            vm.Comment = NewCommentForTest;
-
-            if (button == Answer.Yes)
-                vm.Save();
-            else
-                vm.Cancel();
-            return true;
-        }
 
         public Iit.Fibertest.Graph.Trace SetTraceFromRtuThrouhgAtoB(out Guid nodeAId, out Guid equipmentA1Id, out Guid nodeBId, out Guid equipmentB1Id)
         {

@@ -135,12 +135,12 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [Xunit.FactAttribute(DisplayName="Добавление в трассу с заданной базовой")]
+        [Xunit.FactAttribute(DisplayName="Добавление в трассу с заданной базовой недоступно")]
         [Xunit.TraitAttribute("FeatureTitle", "EquipmentAdded")]
-        [Xunit.TraitAttribute("Description", "Добавление в трассу с заданной базовой")]
-        public virtual void ДобавлениеВТрассуСЗаданнойБазовой()
+        [Xunit.TraitAttribute("Description", "Добавление в трассу с заданной базовой недоступно")]
+        public virtual void ДобавлениеВТрассуСЗаданнойБазовойНедоступно()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление в трассу с заданной базовой", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление в трассу с заданной базовой недоступно", ((string[])(null)));
 #line 25
 this.ScenarioSetup(scenarioInfo);
 #line 3

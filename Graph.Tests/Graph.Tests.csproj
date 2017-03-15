@@ -88,6 +88,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Equipment\EquipmentAddedOnNodeUpdate.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EquipmentAddedOnNodeUpdate.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Equipment\EquipmentAddedOnNodeUpdateSteps.cs">
+      <DependentUpon>EquipmentAddedOnNodeUpdate.feature</DependentUpon>
+    </Compile>
     <Compile Include="Equipment\EquipmentAddedSimple.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -261,7 +269,9 @@
       <DependentUpon>RtuRemoved.feature</DependentUpon>
     </Compile>
     <Compile Include="Sut\SutForAddNodeIntoFiber.cs" />
-    <Compile Include="Sut\SutForEquipmentOperations.cs" />
+    <Compile Include="Sut\SutForEquipment.cs" />
+    <Compile Include="Sut\SutForEquipmentAdded.cs" />
+    <Compile Include="Sut\SutForEquipmentUpdateRemove.cs" />
     <Compile Include="Sut\SutForRtuRemoved.cs" />
     <Compile Include="Sut\SutForTraceAdded.cs" />
     <Compile Include="Sut\SutForTraceAttach.cs" />
@@ -339,6 +349,10 @@
     </None>
     <None Include="App.config">
       <SubType>Designer</SubType>
+    </None>
+    <None Include="Equipment\EquipmentAddedOnNodeUpdate.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>EquipmentAddedOnNodeUpdate.feature.cs</LastGenOutput>
     </None>
     <None Include="Equipment\EquipmentAddedSimple.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

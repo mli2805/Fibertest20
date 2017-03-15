@@ -2,7 +2,6 @@
 using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.StringResources;
 using Iit.Fibertest.TestBench;
 using TechTalk.SpecFlow;
 
@@ -11,7 +10,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class EquipmentRemovedSteps
     {
-        private readonly SutForEquipmentOperations _sut = new SutForEquipmentOperations();
+        private readonly SutForEquipmentUpdateRemove _sut = new SutForEquipmentUpdateRemove();
         private Guid _nodeAId, _equipmentA1Id;
         private Guid _nodeBId, _equipmentB1Id;
         private Iit.Fibertest.Graph.Trace _trace;

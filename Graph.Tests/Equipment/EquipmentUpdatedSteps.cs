@@ -10,19 +10,13 @@ namespace Graph.Tests
     [Binding]
     public sealed class EquipmentUpdatedSteps
     {
-        private readonly SutForEquipmentOperations _sut = new SutForEquipmentOperations();
+        private readonly SutForEquipmentUpdateRemove _sut = new SutForEquipmentUpdateRemove();
         private Guid _nodeAId, _equipmentA1Id;
         private Guid _nodeBId, _equipmentB1Id;
         private Iit.Fibertest.Graph.Trace _trace;
         private NodeUpdateViewModel _nodeUpdateViewModel;
         private Iit.Fibertest.Graph.Equipment _equipment;
         private int _cutOff;
-
-        private const string NewTitleForTest = "New name for old equipment";
-        private const EquipmentType NewTypeForTest = EquipmentType.Cross;
-        private const int NewLeftCableReserve = 15;
-        private const int NewRightCableReserve = 7;
-        private const string NewCommentForTest = "New comment for old equipment";
 
 
         [Given(@"Задана трасса c оборудованием А1 в середине и B1 в конце")]
@@ -96,11 +90,11 @@ namespace Graph.Tests
         [Then(@"Все должно быть сохранено")]
         public void ThenВсеДолжноБытьСохранено()
         {
-            _equipment.Title.Should().Be(NewTitleForTest);
-            _equipment.Type.Should().Be(NewTypeForTest);
-            _equipment.CableReserveLeft.Should().Be(NewLeftCableReserve);
-            _equipment.CableReserveRight.Should().Be(NewRightCableReserve);
-            _equipment.Comment.Should().Be(NewCommentForTest);
+            _equipment.Title.Should().Be(SutForEquipment.NewTitleForTest);
+            _equipment.Type.Should().Be(SutForEquipment.NewTypeForTest);
+            _equipment.CableReserveLeft.Should().Be(SutForEquipment.NewLeftCableReserve);
+            _equipment.CableReserveRight.Should().Be(SutForEquipment.NewRightCableReserve);
+            _equipment.Comment.Should().Be(SutForEquipment.NewCommentForTest);
         }
 
         [Then(@"Комманда не подается")]
@@ -108,11 +102,11 @@ namespace Graph.Tests
         {
             _sut.Poller.CurrentEventNumber.Should().Be(_cutOff);
 
-            _equipment.Title.Should().NotBe(NewTitleForTest);
-            _equipment.Type.Should().NotBe(NewTypeForTest);
-            _equipment.CableReserveLeft.Should().NotBe(NewLeftCableReserve);
-            _equipment.CableReserveRight.Should().NotBe(NewRightCableReserve);
-            _equipment.Comment.Should().NotBe(NewCommentForTest);
+            _equipment.Title.Should().NotBe(SutForEquipment.NewTitleForTest);
+            _equipment.Type.Should().NotBe(SutForEquipment.NewTypeForTest);
+            _equipment.CableReserveLeft.Should().NotBe(SutForEquipment.NewLeftCableReserve);
+            _equipment.CableReserveRight.Should().NotBe(SutForEquipment.NewRightCableReserve);
+            _equipment.Comment.Should().NotBe(SutForEquipment.NewCommentForTest);
         }
 
     }
