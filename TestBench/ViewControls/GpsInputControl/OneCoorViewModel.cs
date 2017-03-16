@@ -42,6 +42,8 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
+        private string _snapshot;
+
         public Visibility DegreesModeVisibility
         {
             get { return _degreesModeVisibility; }
@@ -82,10 +84,13 @@ namespace Iit.Fibertest.TestBench
             get { return _currentGpsInputMode; }
             set
             {
+                var flag = IsChanged();
                 var temp = StringsToValue();
                 _currentGpsInputMode = value;
                 ChangeVisibilities();
-                Value = temp;
+                if (flag)
+                    Value = temp;
+                ValueToStrings();
             }
         }
 
@@ -118,17 +123,14 @@ namespace Iit.Fibertest.TestBench
         private string _minutes;
         private string _seconds;
 
-        private double _value;
-        public double Value
-        {
-            get { return _value; }
-            set
-            {
-                _value = value;
-                ValueToStrings();
-            }
-        }
+        public double Value { get; set; }
 
+
+        public void ReassignValue(double newValue)
+        {
+            Value = newValue;
+            ValueToStrings();
+        }
         private void ValueToStrings()
         {
             if (CurrentGpsInputMode == GpsInputMode.Degrees)
@@ -147,21 +149,38 @@ namespace Iit.Fibertest.TestBench
                 int d = (int)Value;
                 Degrees = $@"{d:#0}";
                 double m = (Value - d) * 60;
-                int mi = (int) m;
+                int mi = (int)m;
                 Minutes = $@"{mi:#0}";
                 double s = (m - mi) * 60;
                 Seconds = $@"{s:#0.00}";
             }
+            _snapshot = TakeSnapShot();
         }
 
+        private bool IsChanged()
+        {
+            return TakeSnapShot() != _snapshot;
+        }
+
+        private string TakeSnapShot()
+        {
+            if (CurrentGpsInputMode == GpsInputMode.Degrees) return Degrees;
+            if (CurrentGpsInputMode == GpsInputMode.DegreesAndMinutes) return Degrees + Minutes;
+            return Degrees + Minutes + Seconds;
+        }
+
+        // this function is called if only something was changed by user
         public double StringsToValue()
         {
+            if (string.IsNullOrEmpty(Degrees)) Degrees = @"0";
+            if (string.IsNullOrEmpty(Minutes)) Minutes = @"0";
+            if (string.IsNullOrEmpty(Seconds)) Seconds = @"0";
+            
             if (CurrentGpsInputMode == GpsInputMode.Degrees)
                 return double.Parse(Degrees);
-            else if (CurrentGpsInputMode == GpsInputMode.DegreesAndMinutes)
+            if (CurrentGpsInputMode == GpsInputMode.DegreesAndMinutes)
                 return double.Parse(Degrees) + double.Parse(Minutes) / 60;
-            else
-                return double.Parse(Degrees) + double.Parse(Minutes) / 60 + double.Parse(Seconds) / 3600;
+            return double.Parse(Degrees) + double.Parse(Minutes) / 60 + double.Parse(Seconds) / 3600;
         }
 
         [UsedImplicitly/*by VS designer*/]
@@ -172,6 +191,7 @@ namespace Iit.Fibertest.TestBench
             _currentGpsInputMode = currentGpsInputMode;
             ChangeVisibilities();
             Value = value;
+            ValueToStrings();
         }
 
         public string this[string columnName]
@@ -187,7 +207,7 @@ namespace Iit.Fibertest.TestBench
                         double t;
                         if (!double.TryParse(Degrees, out t))
                             errorMessage = Resources.SID_Invalid_input;
-                            Error = Resources.SID_Invalid_input;
+                        Error = Resources.SID_Invalid_input;
                         break;
                 }
                 return errorMessage;

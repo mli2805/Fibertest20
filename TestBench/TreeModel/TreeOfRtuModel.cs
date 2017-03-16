@@ -164,6 +164,10 @@ namespace Iit.Fibertest.TestBench
             TraceLeaf traceLeaf = (TraceLeaf)Tree.GetById(e.TraceId);
             RtuLeaf rtuLeaf = (RtuLeaf)Tree.GetById(traceLeaf.Parent.Id);
             var portOwner = rtuLeaf.GetOwnerOfExtendedPort(e.Port);
+
+            if (portOwner == null) return;
+
+
             var port = portOwner is RtuLeaf ? e.Port : e.Port - ((OtauLeaf)portOwner).FirstPortNumber + 1;
 
             portOwner.ChildrenImpresario.Children[port - 1] =

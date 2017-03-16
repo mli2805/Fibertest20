@@ -34,8 +34,8 @@ namespace Iit.Fibertest.TestBench
 
         public void DropChanges()
         {
-            OneCoorViewModelLatitude.Value = Coors.Lat;
-            OneCoorViewModelLongitude.Value = Coors.Lng;
+            OneCoorViewModelLatitude.ReassignValue(Coors.Lat);
+            OneCoorViewModelLongitude.ReassignValue(Coors.Lng);
         }
 
         public GpsInputViewModel(GpsInputMode mode, PointLatLng coors)
