@@ -2,6 +2,8 @@
 using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.StringResources;
+using Iit.Fibertest.TestBench;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -12,7 +14,7 @@ namespace Graph.Tests
         private readonly SystemUnderTest _sut = new SystemUnderTest();
         private Guid _saidNodeId;
         private int _cutOff; // in scenario with no changes and Save button it's interesting that not only node wasn't changed but command wasn't sent
-
+        private NodeUpdateViewModel _nodeUpdateViewModel;
 
         [Given(@"Ранее был создан узел с именем (.*)")]
         public void CreateNode(string title)
@@ -33,6 +35,32 @@ namespace Graph.Tests
             _sut.Poller.Tick();
 
             _saidNodeId = _sut.ReadModel.Nodes.Last().Id;
+        }
+
+        [When(@"Пользователь открыл окно редактирования только что добавленного узла")]
+        public void WhenПользовательОткрылОкноРедактированияТолькоЧтоДобавленногоУзла()
+        {
+            _nodeUpdateViewModel = new NodeUpdateViewModel(_saidNodeId, _sut.ReadModel, new FakeWindowManager(), _sut.ShellVm.Bus);
+        }
+
+        [Then(@"Кнопка Сохранить запрещена")]
+        public void ThenКнопкаСохранитьЗапрещена()
+        {
+            _nodeUpdateViewModel["Title"].Should().Be(Resources.SID_Title_is_required);
+            _nodeUpdateViewModel.IsButtonSaveEnabled.Should().BeFalse();
+        }
+
+        [When(@"Пользователь вводит первый символ в поле Название")]
+        public void WhenПользовательВводитПервыйСимволВПолеНазвание()
+        {
+            _nodeUpdateViewModel.Title = @"T";
+        }
+
+        [Then(@"Кнопка Сохранить разрешена")]
+        public void ThenКнопкаСохранитьРазрешена()
+        {
+            _nodeUpdateViewModel["Title"].Should().BeNullOrEmpty();
+            _nodeUpdateViewModel.IsButtonSaveEnabled.Should().BeTrue();
         }
 
         [When(@"Пользователь открыл окно редактирования и ничего не изменив нажал Сохранить")]

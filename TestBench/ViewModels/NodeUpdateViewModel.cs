@@ -16,8 +16,7 @@ namespace Iit.Fibertest.TestBench
         private readonly IWindowManager _windowManager;
         private readonly Bus _bus;
         private readonly Node _originalNode;
-        private  GpsLocation _nodeCoors;
-        public bool IsClosed { get; set; }
+        private readonly GpsLocation _nodeCoors;
 
         private string _title;
         public string Title
@@ -131,8 +130,6 @@ namespace Iit.Fibertest.TestBench
 
             EquipmentsInNode = new ObservableCollection<EqItemVm>(
                 _readModel.Equipments.Where(e => e.NodeId == _originalNode.Id).Select(CreateEqItem));
-
-            IsClosed = false;
         }
 
         private void _readModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -216,18 +213,12 @@ namespace Iit.Fibertest.TestBench
                 }
                 : null;
 
-            CloseView();
+            TryClose();
         }
 
         public void Cancel()
         {
             Command = null;
-            CloseView();
-        }
-
-        private void CloseView()
-        {
-            IsClosed = true;
             TryClose();
         }
 
