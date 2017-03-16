@@ -34,7 +34,7 @@ namespace Graph.Tests
 
         public Iit.Fibertest.Graph.Trace CreateTraceRtuEmptyTerminal()
         {
-            ShellVm.ComplyWithRequest(new AddRtuAtGpsLocation() {Latitude = 55, Longitude = 30}).Wait();
+            ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation() {Latitude = 55, Longitude = 30}).Wait();
             Poller.Tick();
             var nodeForRtuId = ReadModel.Rtus.Last().NodeId;
 

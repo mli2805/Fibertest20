@@ -28,7 +28,7 @@ namespace Graph.Tests
 
         private void SetRtuAndFibers(Guid nodeAId, Guid nodeBId)
         {
-            ShellVm.ComplyWithRequest(new AddRtuAtGpsLocation()).Wait();
+            ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation()).Wait();
             Poller.Tick();
             _rtuNodeId = ReadModel.Nodes.Last().Id;
 

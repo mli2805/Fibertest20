@@ -80,13 +80,24 @@ namespace Graph.Tests.TestBench
 #line 4
 this.ScenarioSetup(scenarioInfo);
 #line 5
- testRunner.Given("Широта 53,047817959114688", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Пользователь создает RTU в точке с координатами 53.047817959114688 и 27.265784295" +
+                    "172658", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 6
- testRunner.And("I have entered 70 into the calculator", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.When("Пользователь открывает окно для редактирования", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 7
- testRunner.When("I press add", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Then("Координаты должны быть \"53\" \"2.8691\"  \"27\" \"15.9471\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 8
- testRunner.Then("the result should be 120 on the screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("Пользователь выбирает формат градусы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 9
+ testRunner.Then("Координаты в таком формате должны быть \"53.047818\" \"27.265784\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 10
+ testRunner.When("Пользователь выбирает формат градусы-минуты-секунды", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 11
+ testRunner.Then("Координаты должны быть \"53\" \"2\" \"52.14\" \"27\" \"15\" \"56.82\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 12
+ testRunner.When("Пользователь изменяет координаты а затем нажимает Отменить изменения", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 13
+ testRunner.Then("Координаты должны быть \"53\" \"2\" \"52.14\" \"27\" \"15\" \"56.82\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

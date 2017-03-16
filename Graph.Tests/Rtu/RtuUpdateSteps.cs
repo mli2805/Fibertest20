@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using FluentAssertions;
-using Iit.Fibertest.Graph;
 using Iit.Fibertest.TestBench;
 using TechTalk.SpecFlow;
 
@@ -21,7 +20,7 @@ namespace Graph.Tests
         [Given(@"Ранее был создан RTU с именем (.*)")]
         public void CreateRtu(string title)
         {
-            _sut.ShellVm.ComplyWithRequest(new AddRtuAtGpsLocation()).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation()).Wait();
             _sut.Poller.Tick();
             _firstRtuId = _sut.ShellVm.ReadModel.Rtus.Last().Id;
             _firstNodeId = _sut.ShellVm.ReadModel.Nodes.Last().Id;
@@ -34,7 +33,7 @@ namespace Graph.Tests
         [Given(@"Добавлен RTU")]
         public void CreateRtu()
         {
-            _sut.ShellVm.ComplyWithRequest(new AddRtuAtGpsLocation()).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation()).Wait();
             _sut.Poller.Tick();
 
             _saidRtuId = _sut.ReadModel.Rtus.Last().Id;

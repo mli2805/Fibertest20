@@ -23,7 +23,7 @@ namespace Graph.Tests
 
         public void SetRtuAndOthers()
         {
-            ShellVm.ComplyWithRequest(new AddRtuAtGpsLocation()).Wait();
+            ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation()).Wait();
             Poller.Tick();
             _rtuNodeId = ReadModel.Nodes.Last().Id;
 

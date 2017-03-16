@@ -14,7 +14,7 @@ namespace Graph.Tests
 
         public void CreateRtuAndFewNodesAndFibers()
         {
-            ShellVm.ComplyWithRequest(new AddRtuAtGpsLocation()).Wait();
+            ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation()).Wait();
             Poller.Tick();
             var rtu = ReadModel.Rtus.Last();
             RtuNodeId = rtu.NodeId;

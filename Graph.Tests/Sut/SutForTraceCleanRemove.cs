@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.TestBench;
 
 namespace Graph.Tests
 {
@@ -10,7 +11,7 @@ namespace Graph.Tests
 
         public void CreateTwoTraces()
         {
-            ShellVm.ComplyWithRequest(new AddRtuAtGpsLocation() { Latitude = 55, Longitude = 30 }).Wait();
+            ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation() { Latitude = 55, Longitude = 30 }).Wait();
             Poller.Tick();
             var nodeForRtuId = ReadModel.Rtus.Last().NodeId;
 

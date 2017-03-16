@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using Iit.Fibertest.Graph;
+using Iit.Fibertest.TestBench;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -15,7 +15,7 @@ namespace Graph.Tests
         {
             _sut.Poller.Tick();
             _rtuCutOff = _sut.ReadModel.Rtus.Count;
-            _sut.ShellVm.ComplyWithRequest(new AddRtuAtGpsLocation()).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation()).Wait();
             _sut.Poller.Tick();
         }
 

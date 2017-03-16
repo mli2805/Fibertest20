@@ -137,11 +137,15 @@ namespace Iit.Fibertest.TestBench
         #endregion
 
         #region Rtu
-        public async Task ComplyWithRequest(AddRtuAtGpsLocation request)
+        public async Task ComplyWithRequest(RequestAddRtuAtGpsLocation request)
         {
-            var cmd = request;
-            cmd.Id = Guid.NewGuid();
-            cmd.NodeId = Guid.NewGuid();
+            var cmd = new AddRtuAtGpsLocation
+            {
+                Latitude = request.Latitude,
+                Longitude = request.Longitude,
+                Id = Guid.NewGuid(),
+                NodeId = Guid.NewGuid()
+            };
             await Bus.SendCommand(cmd);
         }
 
