@@ -89,7 +89,7 @@ namespace Iit.Fibertest.TestBench
                 _currentGpsInputMode = value;
                 ChangeVisibilities();
                 if (flag)
-                    Value = temp;
+                    _value = temp;
                 ValueToStrings();
             }
         }
@@ -123,32 +123,32 @@ namespace Iit.Fibertest.TestBench
         private string _minutes;
         private string _seconds;
 
-        public double Value { get; set; }
+        private double _value;
 
 
         public void ReassignValue(double newValue)
         {
-            Value = newValue;
+            _value = newValue;
             ValueToStrings();
         }
         private void ValueToStrings()
         {
             if (CurrentGpsInputMode == GpsInputMode.Degrees)
             {
-                Degrees = $@"{Value:#0.000000}";
+                Degrees = $@"{_value:#0.000000}";
             }
             else if (CurrentGpsInputMode == GpsInputMode.DegreesAndMinutes)
             {
-                int d = (int)Value;
+                int d = (int)_value;
                 Degrees = $@"{d:#0}";
-                double m = (Value - d) * 60;
+                double m = (_value - d) * 60;
                 Minutes = $@"{m:#0.0000}";
             }
             else if (CurrentGpsInputMode == GpsInputMode.DegreesMinutesAndSeconds)
             {
-                int d = (int)Value;
+                int d = (int)_value;
                 Degrees = $@"{d:#0}";
-                double m = (Value - d) * 60;
+                double m = (_value - d) * 60;
                 int mi = (int)m;
                 Minutes = $@"{mi:#0}";
                 double s = (m - mi) * 60;
@@ -190,7 +190,7 @@ namespace Iit.Fibertest.TestBench
         {
             _currentGpsInputMode = currentGpsInputMode;
             ChangeVisibilities();
-            Value = value;
+            _value = value;
             ValueToStrings();
         }
 

@@ -277,6 +277,14 @@
     <Compile Include="Sut\SutForTraceAttach.cs" />
     <Compile Include="Sut\SystemUnderTest.cs" />
     <Compile Include="Sut\SutForTraceCleanRemove.cs" />
+    <Compile Include="TestBench\GpsInputModeChanged.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GpsInputModeChanged.feature</DependentUpon>
+    </Compile>
+    <Compile Include="TestBench\GpsInputModeChangedSteps.cs">
+      <DependentUpon>GpsInputModeChanged.feature</DependentUpon>
+    </Compile>
     <Compile Include="Trace\BaseRefAssigned.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -434,6 +442,10 @@
     <None Include="Rtu\RtuUpdated.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>RtuUpdated.feature.cs</LastGenOutput>
+    </None>
+    <None Include="TestBench\GpsInputModeChanged.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>GpsInputModeChanged.feature.cs</LastGenOutput>
     </None>
     <None Include="Trace\BaseRefAssigned.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
