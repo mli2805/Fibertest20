@@ -33,8 +33,9 @@ namespace Graph.Tests.Equipment
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "EquipmentAddedOnNodeUpdate", "\tДобавление оборудования в узел на форме изменения узла \r\n\t(еще можно добавлять в" +
-                    " узел на карте из контекстного меню узла)", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "EquipmentAddedOnNodeUpdate", "\tДобавление оборудования в узел на форме изменения узла \r\n\t(Еще можно добавлять в" +
+                    " узел на карте из контекстного меню узла,\r\n\tтестирование различных вариантов при" +
+                    " добавлении сосредоточено там)", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -63,6 +64,16 @@ namespace Graph.Tests.Equipment
             testRunner.CollectScenarioErrors();
         }
         
+        public virtual void FeatureBackground()
+        {
+#line 6
+#line 7
+ testRunner.Given("Через узел проходят три трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 8
+ testRunner.Given("Пользователь открывает форму редактирования узла", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+        }
+        
         public virtual void SetFixture(EquipmentAddedOnNodeUpdateFeature.FixtureData fixtureData)
         {
         }
@@ -78,14 +89,33 @@ namespace Graph.Tests.Equipment
         public virtual void ДобавлениеОборудования()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление оборудования", ((string[])(null)));
-#line 5
+#line 10
 this.ScenarioSetup(scenarioInfo);
 #line 6
- testRunner.Given("Через узел проходят три трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 7
- testRunner.Given("Пользователь открывает форму редактирования узла", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 8
+this.FeatureBackground();
+#line 11
  testRunner.When("Пользователь жмет добавить оборудование вводит парамы и сохраняет", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 12
+ testRunner.Then("Новое оборудование сохраняется и появляется на форме редактирования узла", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Отказ от добавления оборудования")]
+        [Xunit.TraitAttribute("FeatureTitle", "EquipmentAddedOnNodeUpdate")]
+        [Xunit.TraitAttribute("Description", "Отказ от добавления оборудования")]
+        public virtual void ОтказОтДобавленияОборудования()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Отказ от добавления оборудования", ((string[])(null)));
+#line 14
+this.ScenarioSetup(scenarioInfo);
+#line 6
+this.FeatureBackground();
+#line 15
+ testRunner.When("Пользователь жмет добавить оборудование вводит парамы и резко отказывается от сох" +
+                    "ранения", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 16
+ testRunner.Then("Новое оборудование НЕ сохраняется и НЕ появляется на форме редактирования узла", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
