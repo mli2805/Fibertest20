@@ -554,4 +554,19 @@
 	<data name="SID_Traces" xml:space="preserve">
 		<value>Трассы</value>
 	</data>
+	<data name="SID_Rtu" xml:space="preserve">
+		<value>RTU</value>
+	</data>
+	<data name="SID_Servers" xml:space="preserve">
+		<value>Сервера</value>
+	</data>
+	<data name="SID_Lines" xml:space="preserve">
+		<value>Линии</value>
+	</data>
+	<data name="SID_Equip" xml:space="preserve">
+		<value>Обор</value>
+	</data>
+	<data name="SID_All" xml:space="preserve">
+		<value>Все</value>
+	</data>
 </root>

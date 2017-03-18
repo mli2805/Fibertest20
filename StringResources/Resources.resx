@@ -554,10 +554,19 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_Traces" xml:space="preserve">
     <value>Traces</value>
   </data>
-  <data name="SID_Rtu" xml:space="preserve">
+	<data name="SID_Rtu" xml:space="preserve">
     <value>RTU</value>
   </data>
-  <data name="SID_Servers" xml:space="preserve">
+	<data name="SID_Servers" xml:space="preserve">
     <value>Servers</value>
+  </data>
+	<data name="SID_Lines" xml:space="preserve">
+    <value>Lines</value>
+  </data>
+	<data name="SID_Equip" xml:space="preserve">
+    <value>Equip</value>
+  </data>
+	<data name="SID_All" xml:space="preserve">
+    <value>All</value>
   </data>
 </root>

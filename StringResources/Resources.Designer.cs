@@ -187,6 +187,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All.
+        /// </summary>
+        public static string SID_All {
+            get {
+                return ResourceManager.GetString("SID_All", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Attach.
         /// </summary>
         public static string SID_Attach {
@@ -430,6 +439,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Equip.
+        /// </summary>
+        public static string SID_Equip {
+            get {
+                return ResourceManager.GetString("SID_Equip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Equipment in node.
         /// </summary>
         public static string SID_Equipment_in_node {
@@ -651,6 +669,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Light_OF {
             get {
                 return ResourceManager.GetString("SID_Light_OF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lines.
+        /// </summary>
+        public static string SID_Lines {
+            get {
+                return ResourceManager.GetString("SID_Lines", resourceCulture);
             }
         }
         
