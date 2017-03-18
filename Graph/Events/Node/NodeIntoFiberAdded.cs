@@ -1,4 +1,5 @@
 ﻿using System;
+using GMap.NET;
 
 namespace Iit.Fibertest.Graph
 {
@@ -6,7 +7,7 @@ namespace Iit.Fibertest.Graph
     public class NodeIntoFiberAdded
     {
         public Guid Id { get; set; }
-        public GpsLocation Position { get; set; }
+        public PointLatLng Position { get; set; }
         public Guid FiberId { get; set; }
         public Guid NewFiberId1 { get; set; }
         public Guid NewFiberId2 { get; set; }

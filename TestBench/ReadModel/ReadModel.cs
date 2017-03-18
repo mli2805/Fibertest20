@@ -31,7 +31,7 @@ namespace Iit.Fibertest.TestBench
 
         public void Apply(NodeIntoFiberAdded e)
         {
-            Nodes.Add(new Node() { Id = e.Id, Latitude = e.Position.Latitude, Longitude = e.Position.Longitude });
+            Nodes.Add(new Node() { Id = e.Id, Latitude = e.Position.Lat, Longitude = e.Position.Lng });
             AddTwoFibersToNewNode(e);
             FixTracesWhichContainedOldFiber(e);
             Fibers.Remove(Fibers.First(f => f.Id == e.FiberId));

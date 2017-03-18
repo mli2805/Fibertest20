@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using GMap.NET;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
@@ -119,12 +120,12 @@ namespace Iit.Fibertest.TestBench
         }
         */
 
-        private GpsLocation GetFiberCenter(Guid fiberId)
+        private PointLatLng GetFiberCenter(Guid fiberId)
         {
             var fiber = GraphReadModel.Fibers.Single(f => f.Id == fiberId);
             var node1 = GraphReadModel.Nodes.Single(n => n.Id == fiber.Node1.Id);
             var node2 = GraphReadModel.Nodes.Single(n => n.Id == fiber.Node2.Id);
-            return new GpsLocation() { Latitude = (node1.Position.Lat + node2.Position.Lat) / 2, Longitude = (node1.Position.Lng + node2.Position.Lng) / 2 };
+            return new PointLatLng() { Lat = (node1.Position.Lat + node2.Position.Lat) / 2, Lng = (node1.Position.Lng + node2.Position.Lng) / 2 };
         }
         #endregion
 

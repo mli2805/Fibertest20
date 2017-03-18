@@ -83,7 +83,6 @@
     <Compile Include="DomainEntities\Enums\MonitoringState.cs" />
     <Compile Include="DomainEntities\Enums\RtuPartState.cs" />
     <Compile Include="DomainEntities\Enums\TraceMode.cs" />
-    <Compile Include="DomainEntities\LowLevel\GpsLocation.cs" />
     <Compile Include="DomainEntities\Otau.cs" />
     <Compile Include="Events\Equipment\EquipmentAtGpsLocationAdded.cs" />
     <Compile Include="Events\Equipment\EquipmentRemoved.cs" />
@@ -130,6 +129,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GMap.NET.Core\GMap.NET.Core.csproj">
+      <Project>{d0c39d9d-bed0-418b-9a5e-713176caf40c}</Project>
+      <Name>GMap.NET.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\StringResources\StringResources.csproj">
       <Project>{0cb0ea37-4a27-45f0-bb01-4c0e064e8962}</Project>
       <Name>StringResources</Name>

@@ -17,9 +17,9 @@ namespace Iit.Fibertest.TestBench
         public ObservableCollection<EquipmentVm> Equipments { get; }
         public ObservableCollection<TraceVm> Traces { get; }
 
-        private string _currentMousePosition;
+        private PointLatLng _currentMousePosition;
 
-        public string CurrentMousePosition
+        public PointLatLng CurrentMousePosition
         {
             get { return _currentMousePosition; }
             set
@@ -27,9 +27,12 @@ namespace Iit.Fibertest.TestBench
                 if (value.Equals(_currentMousePosition)) return;
                 _currentMousePosition = value;
                 NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(CurrentMousePositionString));
             }
         }
 
+        public string CurrentMousePositionString => CurrentMousePosition.ToDetailedString(CurrentGpsInputMode);
+        public GpsInputMode CurrentGpsInputMode = GpsInputMode.DegreesMinutesAndSeconds;
         private object _request;
 
         public object Request
@@ -71,7 +74,7 @@ namespace Iit.Fibertest.TestBench
             Nodes.Add(new NodeVm()
             {
                 Id = evnt.Id,
-                Position = new PointLatLng(evnt.Position.Latitude, evnt.Position.Longitude),
+                Position = new PointLatLng(evnt.Position.Lat, evnt.Position.Lng),
                 State = FiberState.Ok,
                 Type = EquipmentType.Well
             });

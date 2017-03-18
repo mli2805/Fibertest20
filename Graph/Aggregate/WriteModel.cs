@@ -79,7 +79,7 @@ namespace Iit.Fibertest.Graph
 
         public void Apply(NodeIntoFiberAdded e)
         {
-            _nodes.Add(new Node() { Id = e.Id, Latitude = e.Position.Latitude, Longitude = e.Position.Longitude });
+            _nodes.Add(new Node() { Id = e.Id, Latitude = e.Position.Lat, Longitude = e.Position.Lng });
             AddTwoFibersToNewNode(e);
             FixTracesWhichContainedOldFiber(e);
             _fibers.Remove(_fibers.Single(f => f.Id == e.FiberId));

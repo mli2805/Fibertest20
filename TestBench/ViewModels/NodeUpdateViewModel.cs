@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using AutoMapper;
 using Caliburn.Micro;
+using GMap.NET;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
@@ -16,7 +17,7 @@ namespace Iit.Fibertest.TestBench
         private readonly IWindowManager _windowManager;
         private readonly Bus _bus;
         private readonly Node _originalNode;
-        private readonly GpsLocation _nodeCoors;
+        private readonly PointLatLng _nodeCoors;
 
         private string _title;
         public string Title
@@ -42,7 +43,7 @@ namespace Iit.Fibertest.TestBench
                 if (Equals(value, _selectedGpsInputMode)) return;
                 _selectedGpsInputMode = value;
                 NotifyOfPropertyChange();
-                Coors = _nodeCoors.ToString(_selectedGpsInputMode.Mode);
+                Coors = _nodeCoors.ToDetailedString(_selectedGpsInputMode.Mode);
             }
         }
 
@@ -121,7 +122,7 @@ namespace Iit.Fibertest.TestBench
             _windowManager = windowManager;
             _bus = bus;
             _originalNode = _readModel.Nodes.First(n => n.Id == nodeId);
-            _nodeCoors = new GpsLocation(_originalNode.Latitude, _originalNode.Longitude);
+            _nodeCoors = new PointLatLng() {Lat = _originalNode.Latitude, Lng = _originalNode.Longitude};
             Title = _originalNode.Title;
             SelectedGpsInputMode = GpsInputModes.First();
             Comment = _originalNode.Comment;

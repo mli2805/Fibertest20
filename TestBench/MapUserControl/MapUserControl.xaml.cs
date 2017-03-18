@@ -34,7 +34,7 @@ namespace Iit.Fibertest.TestBench
             if (e.NewValue == null)
                 return;
             var graph = (GraphReadModel)e.NewValue;
-            graph.CurrentMousePosition = MainMap.Position.ToStringInDegrees();
+            graph.CurrentMousePosition = MainMap.Position;
 
             graph.Nodes.CollectionChanged += NodesCollectionChanged;
             graph.Fibers.CollectionChanged += FibersCollectionChanged;
@@ -48,7 +48,7 @@ namespace Iit.Fibertest.TestBench
         {
             var p = e.GetPosition(MainMap);
             GraphReadModel.CurrentMousePosition = 
-                MainMap.FromLocalToLatLng((int)p.X, (int)p.Y).ToStringInDegrees();
+                MainMap.FromLocalToLatLng((int)p.X, (int)p.Y);
         }
 
         void MainMap_MouseEnter(object sender, MouseEventArgs e)

@@ -1006,6 +1006,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to RTU.
+        /// </summary>
+        public static string SID_Rtu {
+            get {
+                return ResourceManager.GetString("SID_Rtu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to RTU Information.
         /// </summary>
         public static string SID_RTU_Information {
@@ -1138,6 +1147,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Serial {
             get {
                 return ResourceManager.GetString("SID_Serial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Servers.
+        /// </summary>
+        public static string SID_Servers {
+            get {
+                return ResourceManager.GetString("SID_Servers", resourceCulture);
             }
         }
         
