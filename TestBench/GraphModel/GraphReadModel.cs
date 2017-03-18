@@ -33,6 +33,7 @@ namespace Iit.Fibertest.TestBench
 
         public string CurrentMousePositionString => CurrentMousePosition.ToDetailedString(CurrentGpsInputMode);
         public GpsInputMode CurrentGpsInputMode = GpsInputMode.DegreesMinutesAndSeconds;
+
         private object _request;
 
         public object Request
@@ -54,7 +55,7 @@ namespace Iit.Fibertest.TestBench
             Equipments = new ObservableCollection<EquipmentVm>();
             Traces = new ObservableCollection<TraceVm>();
 
-            IsEquipmentVisible = true;
+            InitilizeVisibility();
         }
 
         #region Node

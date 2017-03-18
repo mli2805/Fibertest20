@@ -26,14 +26,22 @@
             </TabControl>
             <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Left"/>
             <TabControl Grid.Column="2">
-                <TabItem Header="{x:Static stringResources:Resources.SID_System_events }">
+                <TabItem >
+                    <TabItem.Header>
+                        <TextBlock Text="{x:Static stringResources:Resources.SID_System_events }" Margin="5,0,20,0"/>
+                    </TabItem.Header>
                     <StackPanel>
                         <Button Width="120" Height="25" Name="Save" Content="Save Db" />
                     </StackPanel>
                 </TabItem>
                 <TabItem IsSelected="True">
                     <TabItem.Header>
-                        <TextBlock Text="{x:Static stringResources:Resources.SID_Graph_of_traces}" Margin="5,0,30,0"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{x:Static stringResources:Resources.SID_Graph_of_traces}" Margin="5,0,20,0"/>
+                            <ComboBox Margin="0" FontSize="10" VerticalContentAlignment="Center"
+                                      ItemsSource="{Binding GraphReadModel.GraphVisibilityLevels}" 
+                                      SelectedItem="{Binding GraphReadModel.SelectedGraphVisibilityLevel}"/>
+                        </StackPanel>
                     </TabItem.Header>
                     <testBench:MapUserControl DataContext="{Binding GraphReadModel}"/>
                 </TabItem>

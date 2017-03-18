@@ -1,33 +1,18 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Iit.Fibertest.TestBench
 {
     public partial class GraphReadModel
     {
-        private Visibility _equipmentVisibility;
-        public Visibility EquipmentVisibility
-        {
-            get { return _equipmentVisibility; }
-            set
-            {
-                if (value == _equipmentVisibility) return;
-                _equipmentVisibility = value;
-                NotifyOfPropertyChange();
-            }
-        }
+        public List<string> GraphVisibilityLevels { get; set; }
+        public string SelectedGraphVisibilityLevel { get; set; }
 
-        private bool _isEquipmentVisible;
-        public bool IsEquipmentVisible
-        {
-            get { return _isEquipmentVisible; }
-            set
-            {
-                if (value == _isEquipmentVisible) return;
-                _isEquipmentVisible = value;
-                NotifyOfPropertyChange();
 
-                EquipmentVisibility = _isEquipmentVisible ? Visibility.Visible : Visibility.Hidden;
-            }
+        private void InitilizeVisibility()
+        {
+            GraphVisibilityLevels = new List<string>() {"RTU", "Line", "Equip", "Node", "All"};
+            SelectedGraphVisibilityLevel = GraphVisibilityLevels.First();
         }
     }
 

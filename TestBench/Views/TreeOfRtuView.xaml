@@ -59,7 +59,7 @@
         </ToolBarTray>
         <StatusBar DockPanel.Dock="Bottom" Height="25">
             <StatusBarItem>
-                <TextBlock Text="{Binding TreeOfRtuModel.Statistics}"></TextBlock>
+                <TextBlock Text="{Binding TreeOfRtuModel.Statistics}"/>
             </StatusBarItem>
         </StatusBar>
         <TreeView ItemsSource="{Binding TreeOfRtuModel.Tree}" Name="MainTreeView"

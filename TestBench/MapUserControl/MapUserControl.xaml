@@ -23,16 +23,12 @@
             <MenuItem Header="{x:Static stringResources:Resources.SID_Add_RTU}" Tag="4" Click="AddNodeOnClick"/>
         </ContextMenu>
     </Control.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="20"/>
-        </Grid.RowDefinitions>
+    <DockPanel>
+            <StatusBar DockPanel.Dock="Bottom" Height="25" BorderBrush="DarkGray" BorderThickness="0,1,0,0">
+                <StatusBarItem>
+                    <TextBlock Text="{Binding CurrentMousePositionString}" Margin="5,0,20,0"/>
+                </StatusBarItem>
+            </StatusBar>
         <testBench:Map x:Name="MainMap" Zoom="13" MaxZoom="19" MinZoom="1"/>
-        <StackPanel Orientation="Horizontal" Grid.Row="1" >
-            <TextBlock Text="{Binding CurrentMousePositionString}" Margin="0,2,20,0"/>
-            <RadioButton GroupName="1" Margin="0,3,0,0" IsChecked="{Binding IsEquipmentVisible, Mode=TwoWay}"/>
-            <RadioButton GroupName="1" Margin="0,3,0,0" IsChecked="{Binding IsWellVisible, Mode=TwoWay}"/>
-        </StackPanel>
-    </Grid>
+    </DockPanel>
 </UserControl>

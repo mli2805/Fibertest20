@@ -89,7 +89,7 @@ namespace Iit.Fibertest.TestBench
             AssignBitmapImageTo(Icon);
             if (Icon.Source.CanFreeze)
                 Icon.Source.Freeze();
-            Icon.Visibility = _owner.GraphReadModel.EquipmentVisibility;
+            Icon.Visibility = Visibility.Visible;
         }
 
         void MarkerControl_Unloaded(object sender, RoutedEventArgs e)

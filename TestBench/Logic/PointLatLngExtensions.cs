@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using GMap.NET;
+﻿using GMap.NET;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
@@ -7,11 +6,6 @@ namespace Iit.Fibertest.TestBench
 {
     public static class PointLatLngExtensions
     {
-        public static string ToStringInDegrees(this PointLatLng point)
-        {
-            return string.Format(CultureInfo.CurrentCulture, Resources.SID_coor_in_degrees, point.Lat, point.Lng);
-        }
-
         public static string ToDetailedString(this PointLatLng pointLatLng, GpsInputMode mode)
         {
             string degreeSign = Resources.SID_Degree_sign;
