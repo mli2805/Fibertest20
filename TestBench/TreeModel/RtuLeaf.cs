@@ -161,13 +161,6 @@ namespace Iit.Fibertest.TestBench
 
             menu.Add(new MenuItemVm()
             {
-                Header = Resources.SID_Define_trace,
-                Command = new ContextMenuAction(DefineTraceAction, CanSomeAction),
-                CommandParameter = this
-            });
-
-            menu.Add(new MenuItemVm()
-            {
                 Header = Resources.SID_Define_trace_step_by_step,
                 Command = new ContextMenuAction(DefineTraceStepByStepAction, CanSomeAction),
                 CommandParameter = this
@@ -224,13 +217,8 @@ namespace Iit.Fibertest.TestBench
             return !HasAttachedTraces;
         }
 
-        private void DefineTraceAction(object param)
-        {
-        }
-
         private void DefineTraceStepByStepAction(object param)
         {
         }
-
     }
 }

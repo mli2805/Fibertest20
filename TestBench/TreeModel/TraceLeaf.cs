@@ -195,14 +195,3 @@ namespace Iit.Fibertest.TestBench
     }
 }
 
-/*
-        menu.Add(null);
-
-        for (int i = 1; i <= PortCount; i++)
-        {
-            var portItem = new MenuItemVm() { Header = string.Format(Resources.SID_Port_N, i) };
-            portItem.Children.AddRange(GetFreePortSubMenuItems());
-
-            menu.Add(portItem);
-        }
-*/
