@@ -20,7 +20,7 @@ namespace Graph.Tests
 
         private void SetNodeWithEquipment(out Guid nodeA, out Guid eqA)
         {
-            ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() { Type = EquipmentType.Sleeve }).Wait();
+            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Sleeve }).Wait();
             Poller.Tick();
             nodeA = ReadModel.Nodes.Last().Id;
             eqA = ReadModel.Equipments.Last().Id;

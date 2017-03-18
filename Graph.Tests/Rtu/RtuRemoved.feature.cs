@@ -66,7 +66,13 @@ namespace Graph.Tests.Rtu
         {
 #line 3
 #line 4
- testRunner.Given("Существуют РТУ несколько узлов и отрезки между ними", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Существует один RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 5
+ testRunner.Given("Существуют еще RTU несколько узлов и отрезки между ними", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 6
+ testRunner.Given("Существует трасса от этого РТУ", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 7
+ testRunner.Given("Существует трасса от второго РТУ последние отрезки трасс совпадают", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
         }
         
@@ -79,66 +85,66 @@ namespace Graph.Tests.Rtu
             this.ScenarioTearDown();
         }
         
-        [Xunit.FactAttribute(DisplayName="Удаление РТУ без трасс")]
+        [Xunit.FactAttribute(DisplayName="Удаление РТУ с неприсоединенной трассой (на карте)")]
         [Xunit.TraitAttribute("FeatureTitle", "RtuRemoved")]
-        [Xunit.TraitAttribute("Description", "Удаление РТУ без трасс")]
-        public virtual void УдалениеРТУБезТрасс()
+        [Xunit.TraitAttribute("Description", "Удаление РТУ с неприсоединенной трассой (на карте)")]
+        public virtual void УдалениеРТУСНеприсоединеннойТрассойНаКарте()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Удаление РТУ без трасс", ((string[])(null)));
-#line 6
-this.ScenarioSetup(scenarioInfo);
-#line 3
-this.FeatureBackground();
-#line 7
- testRunner.When("Пользователь кликает на РТУ удалить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 8
- testRunner.Then("РТУ удаляется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Удаление РТУ с неприсоединенной трассой (на карте)", ((string[])(null)));
 #line 9
- testRunner.Then("Узел под РТУ и присоединенные к нему отрезки удаляются", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-            this.ScenarioCleanup();
-        }
-        
-        [Xunit.FactAttribute(DisplayName="Удаление РТУ с неприсоединенной трассой")]
-        [Xunit.TraitAttribute("FeatureTitle", "RtuRemoved")]
-        [Xunit.TraitAttribute("Description", "Удаление РТУ с неприсоединенной трассой")]
-        public virtual void УдалениеРТУСНеприсоединеннойТрассой()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Удаление РТУ с неприсоединенной трассой", ((string[])(null)));
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 10
+ testRunner.When("Пользователь кликает удалить первый RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 11
-this.ScenarioSetup(scenarioInfo);
-#line 3
-this.FeatureBackground();
+ testRunner.Then("Трасса удаляемого RTU не удаляется но очищается", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 12
- testRunner.Given("Существует трасса от этого РТУ", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 13
- testRunner.When("Пользователь кликает на РТУ удалить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 14
- testRunner.Then("Трассы очищаются", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 15
  testRunner.Then("РТУ удаляется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 16
+#line 13
  testRunner.Then("Узел под РТУ и присоединенные к нему отрезки удаляются", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
         
-        [Xunit.FactAttribute(DisplayName="Запрещено удаление РТУ с присоединенной трассой")]
+        [Xunit.FactAttribute(DisplayName="Удаление РТУ с неприсоединенной трассой (в дереве)")]
         [Xunit.TraitAttribute("FeatureTitle", "RtuRemoved")]
-        [Xunit.TraitAttribute("Description", "Запрещено удаление РТУ с присоединенной трассой")]
-        public virtual void ЗапрещеноУдалениеРТУСПрисоединеннойТрассой()
+        [Xunit.TraitAttribute("Description", "Удаление РТУ с неприсоединенной трассой (в дереве)")]
+        public virtual void УдалениеРТУСНеприсоединеннойТрассойВДереве()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Запрещено удаление РТУ с присоединенной трассой", ((string[])(null)));
-#line 18
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Удаление РТУ с неприсоединенной трассой (в дереве)", ((string[])(null)));
+#line 15
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
+#line 16
+ testRunner.When("Пользователь кликает на первом RTU в дереве удалить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 17
+ testRunner.Then("Трасса удаляемого RTU не удаляется но очищается", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 18
+ testRunner.Then("РТУ удаляется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 19
- testRunner.Given("Существует трасса от этого РТУ", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 20
- testRunner.Given("Трасса присоединенна к порту РТУ", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Then("Узел под РТУ и присоединенные к нему отрезки удаляются", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Запрещено удаление РТУ с присоединенной к порту трассой")]
+        [Xunit.TraitAttribute("FeatureTitle", "RtuRemoved")]
+        [Xunit.TraitAttribute("Description", "Запрещено удаление РТУ с присоединенной к порту трассой")]
+        public virtual void ЗапрещеноУдалениеРТУСПрисоединеннойКПортуТрассой()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Запрещено удаление РТУ с присоединенной к порту трассой", ((string[])(null)));
 #line 21
- testRunner.Then("У РТУ пункт меню Удалить недоступен", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 22
+ testRunner.Given("Трасса присоединенна к порту РТУ", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 23
+ testRunner.Then("У РТУ на карте пункт меню Удалить недоступен", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 24
+ testRunner.Then("У РТУ в дереве пункт меню Удалить недоступен", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

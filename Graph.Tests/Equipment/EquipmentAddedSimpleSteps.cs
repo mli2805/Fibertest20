@@ -25,7 +25,7 @@ namespace Graph.Tests
         [Given(@"Существует некоторый узел с оборудованием")]
         public void GivenСуществуетНекоторыйУзелСОборудованием()
         {
-            _sut.ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation()).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation()).Wait();
             _sut.Poller.Tick();
             _nodeId = _sut.ReadModel.Nodes.Last().Id;
             _oldEquipmentId = _sut.ReadModel.Equipments.Last().Id;

@@ -167,11 +167,16 @@ namespace Iit.Fibertest.TestBench
         #endregion
 
         #region Equipment
-        public async Task ComplyWithRequest(AddEquipmentAtGpsLocation request)
+        public async Task ComplyWithRequest(RequestAddEquipmentAtGpsLocation request)
         {
-            var cmd = request;
-            cmd.Id = Guid.NewGuid();
-            cmd.NodeId = Guid.NewGuid();
+            var cmd = new AddEquipmentAtGpsLocation()
+            {
+                Id = Guid.NewGuid(),
+                NodeId = Guid.NewGuid(),
+                Type = request.Type,
+                Latitude = request.Latitude,
+                Longitude = request.Longitude,
+            };
             await Bus.SendCommand(cmd);
         }
 

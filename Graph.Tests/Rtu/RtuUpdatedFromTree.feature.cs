@@ -71,12 +71,12 @@ namespace Graph.Tests.Rtu
             this.ScenarioTearDown();
         }
         
-        [Xunit.FactAttribute(DisplayName="Клик в дереве открывает окно")]
+        [Xunit.FactAttribute(DisplayName="Клик в дереве открывает окно позволяет редактировать и сохранять изменения RTU")]
         [Xunit.TraitAttribute("FeatureTitle", "RtuUpdatedFromTree")]
-        [Xunit.TraitAttribute("Description", "Клик в дереве открывает окно")]
-        public virtual void КликВДеревеОткрываетОкно()
+        [Xunit.TraitAttribute("Description", "Клик в дереве открывает окно позволяет редактировать и сохранять изменения RTU")]
+        public virtual void КликВДеревеОткрываетОкноПозволяетРедактироватьИСохранятьИзмененияRTU()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Клик в дереве открывает окно", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Клик в дереве открывает окно позволяет редактировать и сохранять изменения RTU", ((string[])(null)));
 #line 3
 this.ScenarioSetup(scenarioInfo);
 #line 4

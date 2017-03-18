@@ -19,10 +19,10 @@ namespace Graph.Tests
             Poller.Tick();
             var a1 = ReadModel.Nodes.Last().Id;
 
-            ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait();
+            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait();
             Poller.Tick();
             var a2 = ReadModel.Nodes.Last().Id;
-            ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait();
+            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait();
             Poller.Tick();
             var b2 = ReadModel.Nodes.Last().Id;
 

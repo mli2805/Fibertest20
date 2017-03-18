@@ -22,16 +22,16 @@ namespace Graph.Tests
             Poller.Tick();
             fiberForInsertion = ShellVm.ReadModel.Fibers.Last();
 
-            ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait();
+            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait();
             Poller.Tick();
             var a2 = ReadModel.Nodes.Last().Id;
-            ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait();
+            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait();
             Poller.Tick();
             var b2 = ReadModel.Nodes.Last().Id;
-            ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait();
+            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait();
             Poller.Tick();
             var c2 = ReadModel.Nodes.Last().Id;
-            ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait();
+            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait();
             Poller.Tick();
             var d2 = ReadModel.Nodes.Last().Id;
 

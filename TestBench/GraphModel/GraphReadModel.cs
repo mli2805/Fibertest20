@@ -221,7 +221,11 @@ namespace Iit.Fibertest.TestBench
         {
             var rtuVm = Rtus.First(r => r.Id == evnt.Id);
             Guid nodeId = rtuVm.Node.Id;
-            Traces.Where(t => t.RtuId == rtuVm.Id).ToList().ForEach(t => Traces.Remove(t));
+            foreach (var t in Traces.Where(t => t.RtuId == rtuVm.Id).ToList())
+            {
+                Apply(new TraceCleaned() {Id = t.Id});
+                Traces.Remove(t);
+            }
             Rtus.Remove(rtuVm);
             RemoveNodeWithAllHis(nodeId);
         }

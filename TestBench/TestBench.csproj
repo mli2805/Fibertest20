@@ -110,6 +110,7 @@
     </ApplicationDefinition>
     <Compile Include="Logic\ClientPoller.cs" />
     <Compile Include="ReadModel\VerboseTasks.cs" />
+    <Compile Include="Requests\RequestAddEquipmentAtGpsLocation.cs" />
     <Compile Include="Requests\RequestAddRtuAtGpsLocation.cs" />
     <Compile Include="TreeModel\ChildrenImpresario.cs" />
     <Compile Include="TreeModel\IPortOwner.cs" />

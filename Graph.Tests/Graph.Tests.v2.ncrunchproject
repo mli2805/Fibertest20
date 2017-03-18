@@ -28,8 +28,5 @@
     <NamedTestSelector>
       <TestName>Graph.Tests.Equipment.EquipmentRemovedFeature.УдалениеОборудованияНеВходящегоВТрассы</TestName>
     </NamedTestSelector>
-    <NamedTestSelector>
-      <TestName>Graph.Tests.Rtu.RtuRemovedFeature.ЗапрещеноУдалениеРТУСПрисоединеннойТрассой</TestName>
-    </NamedTestSelector>
   </IgnoredTests>
 </ProjectConfiguration>

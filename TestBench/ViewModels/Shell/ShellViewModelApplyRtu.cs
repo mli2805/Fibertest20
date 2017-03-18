@@ -16,11 +16,7 @@ namespace Iit.Fibertest.TestBench
         private RemoveRtu PrepareCommand(RequestRemoveRtu request)
         {
             var rtu = GraphReadModel.Rtus.First(r => r.Node.Id == request.NodeId);
-            if (GraphReadModel.Traces.Any(t => t.RtuId == rtu.Id && t.Port > 0))
-                return null; // It's prohibited to remove rtu where there are traces joined
-
             return new RemoveRtu() { Id = rtu.Id };
-
         }
 
     }

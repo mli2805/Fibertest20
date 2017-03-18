@@ -19,7 +19,7 @@ namespace Iit.Fibertest.TestBench
             var position = MainMap.FromLocalToLatLng(MainMap.ContextMenuPoint);
 
             if ((EquipmentType)code == EquipmentType.Rtu)
-                GraphReadModel.Request = new AddRtuAtGpsLocation() { Latitude = position.Lat, Longitude = position.Lng };
+                GraphReadModel.Request = new RequestAddRtuAtGpsLocation() { Latitude = position.Lat, Longitude = position.Lng };
             else if ((EquipmentType)code == EquipmentType.Well || (EquipmentType)code == EquipmentType.Invisible)
                 GraphReadModel.Request = new AddNode()
                 {
@@ -28,7 +28,7 @@ namespace Iit.Fibertest.TestBench
                     IsJustForCurvature = (EquipmentType)code == EquipmentType.Invisible
                 };
             else
-                GraphReadModel.Request = new AddEquipmentAtGpsLocation()
+                GraphReadModel.Request = new RequestAddEquipmentAtGpsLocation()
                 {
                     Type = (EquipmentType)code,
                     Latitude = position.Lat,

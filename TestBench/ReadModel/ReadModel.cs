@@ -220,7 +220,6 @@ namespace Iit.Fibertest.TestBench
             rtu.FullPortCount -= otau.PortCount;
             Otaus.Remove(otau);
         }
-
         #endregion
 
         #region Trace

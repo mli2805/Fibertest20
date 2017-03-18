@@ -42,7 +42,7 @@ namespace Graph.Tests
             Poller.Tick();
             var firstNodeId = ReadModel.Nodes.Last().Id;
 
-            ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() {Type = EquipmentType.Terminal}).Wait();
+            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() {Type = EquipmentType.Terminal}).Wait();
             Poller.Tick();
             var secondNodeId = ReadModel.Nodes.Last().Id;
 

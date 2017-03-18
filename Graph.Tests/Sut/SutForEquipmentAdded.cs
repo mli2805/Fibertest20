@@ -15,7 +15,7 @@ namespace Graph.Tests
 
         public void SetNode()
         {
-            ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() { Type = EquipmentType.Sleeve }).Wait();
+            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Sleeve }).Wait();
             Poller.Tick();
             NodeId = ReadModel.Nodes.Last().Id;
             OldEquipmentId = ReadModel.Equipments.Last().Id;
@@ -30,14 +30,14 @@ namespace Graph.Tests
             ShellVm.ComplyWithRequest(new AddFiber() { Node1 = _rtuNodeId, Node2 = NodeId }).Wait();
             Poller.Tick();
 
-            ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait();
+            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait();
             Poller.Tick();
             _anotherNodeId = ReadModel.Nodes.Last().Id;
 
             ShellVm.ComplyWithRequest(new AddFiber() { Node1 = _anotherNodeId, Node2 = NodeId }).Wait();
             Poller.Tick();
 
-            ShellVm.ComplyWithRequest(new AddEquipmentAtGpsLocation() { Type = EquipmentType.Other }).Wait();
+            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Other }).Wait();
             Poller.Tick();
             _anotherNodeId2 = ReadModel.Nodes.Last().Id;
 
