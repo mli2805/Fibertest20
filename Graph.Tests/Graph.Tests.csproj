@@ -144,6 +144,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>RtuUpdated.feature</DependentUpon>
     </Compile>
+    <Compile Include="Rtu\RtuUpdatedFromTree.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RtuUpdatedFromTree.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Rtu\RtuUpdatedFromTreeSteps.cs">
+      <DependentUpon>RtuUpdatedFromTree.feature</DependentUpon>
+    </Compile>
     <Compile Include="Rtu\RtuUpdateSteps.cs">
       <DependentUpon>RtuUpdated.feature</DependentUpon>
     </Compile>
@@ -442,6 +450,10 @@
     <None Include="Rtu\RtuUpdated.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>RtuUpdated.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Rtu\RtuUpdatedFromTree.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>RtuUpdatedFromTree.feature.cs</LastGenOutput>
     </None>
     <None Include="TestBench\GpsInputModeChanged.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

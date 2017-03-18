@@ -11,7 +11,7 @@ namespace Iit.Fibertest.TestBench
 {
     public class RtuUpdateViewModel : Screen, IDataErrorInfo
     {
-        private readonly Guid _rtuId;
+        public readonly Guid RtuId;
         private Rtu _originalRtu;
         private readonly ReadModel _readModel;
 
@@ -62,7 +62,7 @@ namespace Iit.Fibertest.TestBench
 
         public RtuUpdateViewModel(Guid rtuId, ReadModel readModel)
         {
-            _rtuId = rtuId;
+            RtuId = rtuId;
             _readModel = readModel;
 
             Initilize();
@@ -70,7 +70,7 @@ namespace Iit.Fibertest.TestBench
 
         private void Initilize()
         {
-            _originalRtu = _readModel.Rtus.First(r => r.Id == _rtuId);
+            _originalRtu = _readModel.Rtus.First(r => r.Id == RtuId);
 
             var currentMode = GpsInputMode.DegreesAndMinutes; // somewhere in configuration file...
             var node = _readModel.Nodes.First(n => n.Id == _originalRtu.NodeId);
