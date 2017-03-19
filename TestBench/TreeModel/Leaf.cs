@@ -41,18 +41,31 @@ namespace Iit.Fibertest.TestBench
 
         public virtual string Name { get; set; }
 
-        public  List<MenuItemVm> MyContextMenu => GetMenuItems();
+        private PostOffice _postOffice;
+        public PostOffice PostOffice
+        {
+            get { return _postOffice; }
+            set
+            {
+                if (Equals(value, _postOffice)) return;
+                _postOffice = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public List<MenuItemVm> MyContextMenu => GetMenuItems();
 
         protected virtual List<MenuItemVm> GetMenuItems() { return null; }
         protected bool CanSomeAction(object param) { return true; }
 
         public Leaf Parent { get; set; }
 
-        protected Leaf(ReadModel readModel, IWindowManager windowManager, Bus bus)
+        protected Leaf(ReadModel readModel, IWindowManager windowManager, Bus bus, PostOffice postOffice)
         {
             ReadModel = readModel;
             WindowManager = windowManager;
             Bus = bus;
+            PostOffice = postOffice;
         }
 
         private bool _isSelected;

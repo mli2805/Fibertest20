@@ -39,10 +39,16 @@ namespace Iit.Fibertest.TestBench
             graph.Nodes.CollectionChanged += NodesCollectionChanged;
             graph.Fibers.CollectionChanged += FibersCollectionChanged;
 
+            graph.PropertyChanged += Graph_PropertyChanged;
            ApplyAddedNodes(graph.Nodes);
            ApplyAddedFibers(graph.Fibers);
         }
 
+        private void Graph_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "ToCenter")
+                MainMap.Position = GraphReadModel.ToCenter;
+        }
 
         void MainMap_MouseMove(object sender, MouseEventArgs e)
         {

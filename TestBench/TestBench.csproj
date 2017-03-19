@@ -116,6 +116,7 @@
     <Compile Include="TreeModel\IPortOwner.cs" />
     <Compile Include="TreeModel\OtauLeaf.cs" />
     <Compile Include="TreeModel\FreePorts.cs" />
+    <Compile Include="TreeModel\Post\PostOffice.cs" />
     <Compile Include="ViewControls\GpsInputControl\GpsInputModeComboItem.cs" />
     <Compile Include="ReadModel\PathFinder.cs" />
     <Compile Include="AppBootstrapper.cs" />
@@ -136,6 +137,7 @@
       <DependentUpon>RtuChannelTestView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewControls\RtuChannelTestViewModel.cs" />
+    <Compile Include="TreeModel\Post\CenterToRtu.cs" />
     <Compile Include="ViewModels\OtauToAttachViewModel.cs" />
     <Compile Include="ViewModels\Primitive\NodesStatisticsItem.cs" />
     <Compile Include="ViewModels\RtuInitializeViewModel.cs" />

@@ -23,8 +23,8 @@ namespace Iit.Fibertest.TestBench
         }
         public int LeftMargin => Parent is OtauLeaf ? 106 : 85;
 
-        public PortLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, Leaf parent, int portNumber)
-            : base(readModel, windowManager, bus)
+        public PortLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, PostOffice postOffice, Leaf parent, int portNumber)
+            : base(readModel, windowManager, bus, postOffice)
         {
             PortNumber = portNumber;
             Parent = parent;

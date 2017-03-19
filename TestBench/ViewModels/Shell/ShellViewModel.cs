@@ -16,6 +16,7 @@ namespace Iit.Fibertest.TestBench
         private readonly IWindowManager _windowManager;
 
         public ReadModel ReadModel { get; }
+        public TreeOfRtuModel TreeOfRtuModel { get; }
         public TreeOfRtuViewModel TreeOfRtuViewModel { get; set; }
         public GraphReadModel GraphReadModel { get; set; }
 
@@ -24,6 +25,8 @@ namespace Iit.Fibertest.TestBench
             Db db, GraphReadModel graphReadModel, IWindowManager windowManager, ILogger clientLogger)
         {
             ReadModel = readModel;
+            TreeOfRtuModel = treeOfRtuModel;
+            TreeOfRtuModel.PostOffice.PropertyChanged += PostOffice_PropertyChanged;
             TreeOfRtuViewModel = new TreeOfRtuViewModel(treeOfRtuModel);
             Bus = bus;
             LocalDb = db;
@@ -32,6 +35,12 @@ namespace Iit.Fibertest.TestBench
 
             Log = clientLogger;
             Log.Information(@"Client started!");
+        }
+
+        private void PostOffice_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Message")
+                GraphReadModel.ProcessMessage(((PostOffice)sender).Message);
         }
 
         public void Save()

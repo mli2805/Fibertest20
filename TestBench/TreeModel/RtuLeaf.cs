@@ -81,8 +81,8 @@ namespace Iit.Fibertest.TestBench
 
         public ChildrenImpresario ChildrenImpresario { get; }
 
-        public RtuLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, FreePorts view) 
-            : base(readModel, windowManager, bus)
+        public RtuLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, PostOffice postOffice, FreePorts view) 
+            : base(readModel, windowManager, bus, postOffice)
         {
             ChildrenImpresario = new ChildrenImpresario(view);
         }
@@ -179,6 +179,7 @@ namespace Iit.Fibertest.TestBench
 
         private void ShowRtuAction(object param)
         {
+            PostOffice.Message = new CenterToRtu() {RtuId = Id};
         }
 
         public void RtuSettingsAction(object param)

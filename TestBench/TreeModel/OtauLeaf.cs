@@ -24,8 +24,8 @@ namespace Iit.Fibertest.TestBench
         public ChildrenImpresario ChildrenImpresario { get; }
         public int TraceCount => ChildrenImpresario.Children.Count(c => c is TraceLeaf);
 
-        public OtauLeaf(ReadModel readModel, IWindowManager windowManager,
-            Bus bus, FreePorts freePorts) : base(readModel, windowManager, bus)
+        public OtauLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, PostOffice postOffice, FreePorts freePorts) 
+            : base(readModel, windowManager, bus, postOffice)
         {
             ChildrenImpresario = new ChildrenImpresario(freePorts);
         }

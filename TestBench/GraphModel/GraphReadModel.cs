@@ -31,10 +31,22 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
+        public PointLatLng ToCenter
+        {
+            get { return _toCenter; }
+            set
+            {
+                if (value.Equals(_toCenter)) return;
+                _toCenter = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public string CurrentMousePositionString => CurrentMousePosition.ToDetailedString(CurrentGpsInputMode);
         public GpsInputMode CurrentGpsInputMode = GpsInputMode.DegreesMinutesAndSeconds;
 
         private object _request;
+        private PointLatLng _toCenter;
 
         public object Request
         {
@@ -56,6 +68,12 @@ namespace Iit.Fibertest.TestBench
             Traces = new ObservableCollection<TraceVm>();
 
             InitilizeVisibility();
+        }
+
+        public void ProcessMessage(object message)
+        {
+            if (message is CenterToRtu)
+                ToCenter = Rtus.First(r => r.Id == ((CenterToRtu)message).RtuId).Node.Position;
         }
 
         #region Node
