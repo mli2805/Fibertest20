@@ -26,7 +26,7 @@ namespace Iit.Fibertest.TestBench
             var vm = new NodeUpdateViewModel(request.Id, ReadModel, _windowManager, Bus);
             vm.PropertyChanged += Vm_PropertyChanged;
             _windowManager.ShowDialog(vm);
-            return vm.Command != null ? (UpdateNode)vm.Command : null;
+            return (UpdateNode) vm.Command;
         }
 
         private void Vm_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -36,14 +36,10 @@ namespace Iit.Fibertest.TestBench
             var vm = (NodeUpdateViewModel)sender;
 
             if (vm.Command is AddEquipmentIntoNode)
-            {
                 Bus.SendCommand((AddEquipmentIntoNode)vm.Command);
-            }
 
             if (vm.Command is UpdateEquipment)
-            {
                 Bus.SendCommand((UpdateEquipment)vm.Command);
-            }
 
             if (vm.Command is RemoveEquipment)
                 ComplyWithRequest((RemoveEquipment)vm.Command).Wait();
@@ -76,12 +72,7 @@ namespace Iit.Fibertest.TestBench
         private bool IsFiberContainedInAnyTraceWithBase(Guid fiberId)
         {
             var fiber = ReadModel.Fibers.First(f => f.Id == fiberId);
-            foreach (var trace in ReadModel.Traces.Where(t => t.HasBase).ToList())
-            {
-                if (Topo.GetFiberIndexInTrace(trace, fiber) != -1)
-                    return true;
-            }
-            return false;
+            return ReadModel.Traces.Where(t => t.HasBase).ToList().Any(trace => Topo.GetFiberIndexInTrace(trace, fiber) != -1);
         }
 
         private PointLatLng GetFiberCenter(Guid fiberId)
@@ -92,7 +83,5 @@ namespace Iit.Fibertest.TestBench
             return new PointLatLng() { Lat = (node1.Position.Lat + node2.Position.Lat) / 2, Lng = (node1.Position.Lng + node2.Position.Lng) / 2 };
         }
         #endregion
-
     }
-
 }

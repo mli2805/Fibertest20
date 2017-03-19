@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using FluentAssertions;
+using Iit.Fibertest.StringResources;
 using Iit.Fibertest.TestBench;
 using TechTalk.SpecFlow;
 
@@ -15,7 +16,7 @@ namespace Graph.Tests
         private Guid _saidRtuId;
         private Guid _saidNodeId;
         private int _cutOff; // in scenario with no changes and Save button it's interesting that not only node wasn't changed but command wasn't sent
-
+        private RtuUpdateViewModel _rtuUpdateViewModel;
 
         [Given(@"Ранее был создан RTU с именем (.*)")]
         public void CreateRtu(string title)
@@ -63,6 +64,13 @@ namespace Graph.Tests
             _sut.Poller.Tick();
         }
 
+        [Given(@"Пользователь открыл окно нового RTU и ввел название существующего (.*)")]
+        public void GivenПользовательОткрылОкноНовогоRtuиВвелНазваниеСуществующего(string title)
+        {
+            _rtuUpdateViewModel = new RtuUpdateViewModel(_saidRtuId, _sut.ReadModel);
+            _rtuUpdateViewModel.Title = title;
+        }
+
         [When(@"Пользователь открыл окно редактирования RTU и что-то изменив нажал Отменить")]
         public void WhenПользовательОткрылОкноРедактированияRTUИЧто_ТоИзменивНажалОтменить()
         {
@@ -92,11 +100,44 @@ namespace Graph.Tests
             _sut.ShellVm.ReadModel.Rtus.First(n => n.Id == _saidRtuId).Comment.Should().Be(comment);
         }
 
-        [Then(@"Будет сигнализация ошибки")]
-        public void ThenБудетСигнализацияОшибки()
+        [Then(@"Кнопка Сохранить заблокирована поле Название подсвечено")]
+        public void ThenКнопкаСохранитьЗаблокированаПолеНазваниеПодсвечено()
         {
+            _rtuUpdateViewModel.IsButtonSaveEnabled.Should().BeFalse();
+            _rtuUpdateViewModel["Title"].Should().Be(Resources.SID_There_is_a_rtu_with_the_same_title);
         }
 
-       
+        [When(@"Пользователь открыл окно редактирования нового RTU")]
+        public void WhenПользовательОткрылОкноРедактированияНовогоRtu()
+        {
+            _rtuUpdateViewModel = new RtuUpdateViewModel(_saidRtuId, _sut.ReadModel);
+        }
+
+        [Then(@"Кнопка Сохранить пока заблокирована")]
+        public void ThenКнопкаСохранитьПокаЗаблокирована()
+        {
+            _rtuUpdateViewModel["Title"].Should().Be(Resources.SID_Title_is_required);
+            _rtuUpdateViewModel.IsButtonSaveEnabled.Should().BeFalse();
+        }
+
+        [When(@"Пользователь ввел первый символ в поле Название")]
+        public void WhenПользовательВвелПервыйСимволВПолеНазвание()
+        {
+            _rtuUpdateViewModel.Title = @"R";
+        }
+
+        [When(@"Пользователь очищает поле Название")]
+        public void WhenПользовательОчищаетПолеНазвание()
+        {
+            _rtuUpdateViewModel.Title = "";
+        }
+
+        [Then(@"Кнопка Сохранить доступна")]
+        public void ThenКнопкаСохранитьДоступна()
+        {
+            _rtuUpdateViewModel["Title"].Should().BeNullOrEmpty();
+            _rtuUpdateViewModel.IsButtonSaveEnabled.Should().BeTrue();
+        }
+
     }
 }

@@ -147,9 +147,9 @@ this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
 #line 20
- testRunner.Given("Пользователь ввел название нового RTU blah-blah", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Пользователь открыл окно нового RTU и ввел название существующего blah-blah", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 21
- testRunner.Then("Будет сигнализация ошибки", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("Кнопка Сохранить заблокирована поле Название подсвечено", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -168,6 +168,32 @@ this.FeatureBackground();
  testRunner.When("Пользователь открыл окно редактирования RTU и что-то изменив нажал Отменить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 25
  testRunner.Then("Команд не подается", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Пустое название")]
+        [Xunit.TraitAttribute("FeatureTitle", "RtuUpdated")]
+        [Xunit.TraitAttribute("Description", "Пустое название")]
+        public virtual void ПустоеНазвание()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Пустое название", ((string[])(null)));
+#line 27
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 28
+ testRunner.When("Пользователь открыл окно редактирования нового RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 29
+ testRunner.Then("Кнопка Сохранить пока заблокирована", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 30
+ testRunner.When("Пользователь ввел первый символ в поле Название", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 31
+ testRunner.Then("Кнопка Сохранить доступна", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 32
+ testRunner.When("Пользователь очищает поле Название", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 33
+ testRunner.Then("Кнопка Сохранить пока заблокирована", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
