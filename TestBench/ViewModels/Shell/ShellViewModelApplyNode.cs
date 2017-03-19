@@ -2,6 +2,7 @@
 using System.Linq;
 using GMap.NET;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.Graph.Algorithms;
 using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.TestBench
@@ -74,51 +75,14 @@ namespace Iit.Fibertest.TestBench
 
         private bool IsFiberContainedInAnyTraceWithBase(Guid fiberId)
         {
-            var tracesWithBase = GraphReadModel.Traces.Where(t => t.HasBase);
-            var fiber = GraphReadModel.Fibers.Single(f => f.Id == fiberId);
-            foreach (var trace in tracesWithBase)
+            var fiber = ReadModel.Fibers.First(f => f.Id == fiberId);
+            foreach (var trace in ReadModel.Traces.Where(t => t.HasBase).ToList())
             {
-                if (GetFiberIndexInTrace(trace, fiber) != -1)
+                if (Topo.GetFiberIndexInTrace(trace, fiber) != -1)
                     return true;
             }
             return false;
         }
-        private int GetFiberIndexInTrace(TraceVm trace, FiberVm fiber)
-        {
-            var idxInTrace1 = trace.Nodes.IndexOf(fiber.Node1.Id);
-            if (idxInTrace1 == -1)
-                return -1;
-            var idxInTrace2 = trace.Nodes.IndexOf(fiber.Node2.Id);
-            if (idxInTrace2 == -1)
-                return -1;
-            if (idxInTrace2 - idxInTrace1 == 1)
-                return idxInTrace1;
-            if (idxInTrace1 - idxInTrace2 == 1)
-                return idxInTrace2;
-            return -1;
-        }
-
-        /*
-        private void AddTwoFibersToNewNode(AddNodeIntoFiber cmd)
-        {
-            var nodeVm = GraphReadModel.Nodes.First(n => n.Id == cmd.Id);
-            NodeVm node1 = GraphReadModel.Fibers.Single(f => f.Id == cmd.FiberId).Node1;
-            NodeVm node2 = GraphReadModel.Fibers.Single(f => f.Id == cmd.FiberId).Node2;
-            GraphReadModel.Fibers.Add(new FiberVm() { Id = cmd.NewFiberId1, Node1 = node1, Node2 = nodeVm });
-            GraphReadModel.Fibers.Add(new FiberVm() { Id = cmd.NewFiberId2, Node1 = nodeVm, Node2 = node2 });
-        }
-        private void FixTracesWhichContainedOldFiber(AddNodeIntoFiber cmd)
-        {
-            foreach (var trace in GraphReadModel.Traces)
-            {
-                int idx;
-                while ((idx = GetFiberIndexInTrace(trace, GraphReadModel.Fibers.Single(f => f.Id == cmd.FiberId))) != -1)
-                {
-                    trace.Nodes.Insert(idx + 1, cmd.Id); // GPS location добавляется во все трассы
-                }
-            }
-        }
-        */
 
         private PointLatLng GetFiberCenter(Guid fiberId)
         {
