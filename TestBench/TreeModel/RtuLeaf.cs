@@ -186,7 +186,7 @@ namespace Iit.Fibertest.TestBench
 
         public void RtuSettingsAction(object param)
         {
-            var vm = new RtuInitializeViewModel(Id, ReadModel, Bus);
+            var vm = new RtuInitializeViewModel(Id, ReadModel, WindowManager, Bus);
             WindowManager.ShowDialog(vm);
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Caliburn.Micro;
+using DirectCharonLibrary;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
@@ -26,11 +27,13 @@ namespace Iit.Fibertest.TestBench
         public RtuChannelTestViewModel ReserveChannelTestViewModel { get; set; }
 
         private readonly Guid _rtuId;
+        private readonly IWindowManager _windowManager;
         private readonly Bus _bus;
 
-        public RtuInitializeViewModel(Guid rtuId, ReadModel readModel, Bus bus)
+        public RtuInitializeViewModel(Guid rtuId, ReadModel readModel, IWindowManager windowManager, Bus bus)
         {
             _rtuId = rtuId;
+            _windowManager = windowManager;
             _bus = bus;
 
             var originalRtu = readModel.Rtus.First(r => r.Id == _rtuId);
@@ -49,12 +52,13 @@ namespace Iit.Fibertest.TestBench
             DisplayName = Resources.SID_RTU_Settings;
         }
 
-        public void Initialize()
+        public void InitializeRtu()
         {
             var cmd = new InitializeRtu() {Id = _rtuId};
 
             // TODO Real Initialize RTU
-            RunInitializeProcess();
+            if (!RunInitializationProcess())
+                return;
             //
 
             cmd.MainChannel = MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress();
@@ -71,13 +75,23 @@ namespace Iit.Fibertest.TestBench
             TryClose();
         }
 
-        private void RunInitializeProcess()
+        private bool RunInitializationProcess()
         {
             _mainChannelState = RtuPartState.Normal;
             _reserveChannelState = RtuPartState.None;
-            _ownPortCount = 8;
-            _fullPortCount = 8;
-            _serial = @"85615";
+
+            var charonAddress = new TcpAddress(MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().Ip4Address, 23);
+            var mainCharon = new Charon(charonAddress);
+            if (!mainCharon.Initialize())
+            {
+                var vm = new NotificationViewModel(Resources.SID_Error, $@"{mainCharon.LastErrorMessage}");
+                _windowManager.ShowDialog(vm);
+                return false;
+            }
+            _ownPortCount = mainCharon.OwnPortCount;
+            _fullPortCount = mainCharon.FullPortCount;
+            _serial = mainCharon.Serial;
+            return true;
         }
 
         public void Close()

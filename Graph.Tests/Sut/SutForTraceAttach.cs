@@ -31,7 +31,7 @@ namespace Graph.Tests
             var vm = model as RtuInitializeViewModel;
             if (vm == null) return false;
             if (answer == Answer.Yes)
-                vm.Initialize();
+                vm.InitializeRtu();
             else
                 vm.Close();
             return true;
