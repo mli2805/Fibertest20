@@ -146,14 +146,14 @@ namespace Iit.Fibertest.TestBench
                 menu.Add(new MenuItemVm()
                 {
                     Header = Resources.SID_Measurement__Client_,
-                    Command = new ContextMenuAction(PortExtensions.MeasurementClientAction, CanSomeAction),
+                    Command = new ContextMenuAction(new PortExtensions().MeasurementClientAction, CanSomeAction),
                     CommandParameter = this
                 });
 
                 menu.Add(new MenuItemVm()
                 {
                     Header = Resources.SID_Measurement__RFTS_Reflect_,
-                    Command = new ContextMenuAction(PortExtensions.MeasurementRftsReflectAction, CanSomeAction),
+                    Command = new ContextMenuAction(MeasurementRftsReflectAction, CanSomeAction),
                     CommandParameter = this,
                 });
             }
@@ -193,6 +193,8 @@ namespace Iit.Fibertest.TestBench
             Bus.SendCommand(new RemoveTrace() { Id = Id });
         }
         private void PreciseOutOfTurnMeasurementAction(object param) { }
+
+        private void MeasurementRftsReflectAction(object param) { }
     }
 }
 

@@ -67,6 +67,7 @@ namespace Iit.Fibertest.TestBench
 
             rtuLeaf.OwnPortCount = e.OwnPortCount;
             rtuLeaf.FullPortCount = e.FullPortCount;
+            rtuLeaf.Serial = e.Serial;
             rtuLeaf.MainChannelState = e.MainChannelState;
             rtuLeaf.ReserveChannelState = e.ReserveChannelState;
             rtuLeaf.MonitoringState = MonitoringState.Off;

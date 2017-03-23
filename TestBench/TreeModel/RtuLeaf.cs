@@ -58,7 +58,9 @@ namespace Iit.Fibertest.TestBench
 
         public int OwnPortCount { get; set; }
         public int FullPortCount { get; set; }
+        public string Serial { get; set; }
         public override string Name => Title;
+        public NetAddress OtdrNetAddress => ReadModel.Rtus.First(r => r.Id == Id).OtdrNetAddress;
 
         public bool HasAttachedTraces => ChildrenImpresario.Children.Any(l => l is TraceLeaf && ((TraceLeaf) l).PortNumber > 0);
         public int TraceCount => ChildrenImpresario.Children.Count(c => c is TraceLeaf) +

@@ -57,8 +57,12 @@ namespace Iit.Fibertest.TestBench
             RunInitializeProcess();
             //
 
+            cmd.MainChannel = MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress();
             cmd.MainChannelState = _mainChannelState;
+            cmd.ReserveChannel = ReserveChannelTestViewModel.NetAddressInputViewModel.GetNetAddress();
             cmd.ReserveChannelState = _reserveChannelState;
+            cmd.OtdrNetAddress = new NetAddress() {Ip4Address = cmd.MainChannel.Ip4Address, Port = 1500}; // very old rtu have different otdr address
+
             cmd.OwnPortCount = _ownPortCount;
             cmd.FullPortCount = _fullPortCount;
             cmd.Serial = _serial;

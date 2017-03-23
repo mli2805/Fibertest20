@@ -66,14 +66,14 @@ namespace Iit.Fibertest.TestBench
             yield return new MenuItemVm()
             {
                 Header = Resources.SID_Measurement__Client_,
-                Command = new ContextMenuAction(PortExtensions.MeasurementClientAction, CanSomeAction),
+                Command = new ContextMenuAction(new PortExtensions().MeasurementClientAction, CanSomeAction),
                 CommandParameter = this,
             };
 
             yield return new MenuItemVm()
             {
                 Header = Resources.SID_Measurement__RFTS_Reflect_,
-                Command = new ContextMenuAction(PortExtensions.MeasurementRftsReflectAction, CanSomeAction),
+                Command = new ContextMenuAction(MeasurementRftsReflectAction, CanSomeAction),
                 CommandParameter = this,
             };
         }
@@ -97,6 +97,18 @@ namespace Iit.Fibertest.TestBench
                 return false;
             var rtuLeaf = (RtuLeaf)Parent;
             return !rtuLeaf.HasAttachedTraces;
+        }
+        public void MeasurementRftsReflectAction(object param)
+        {
+            RtuLeaf rtuLeaf = Parent is RtuLeaf ? (RtuLeaf)Parent : (RtuLeaf)Parent.Parent;
+            var otdrAddress = rtuLeaf.OtdrNetAddress;
+
+//            var process = new System.Diagnostics.Process();
+//            process.StartInfo.FileName = @"TraceEngine\Reflect.exe";
+//            process.StartInfo.Arguments = $"-fnw -n {otdrAddress.Ip4Address} -p {otdrAddress.Port}";
+//            process.Start();
+
+            System.Diagnostics.Process.Start(@"TraceEngine\Reflect.exe", $"-fnw -n {otdrAddress.Ip4Address} -p {otdrAddress.Port}");
         }
     }
 }
