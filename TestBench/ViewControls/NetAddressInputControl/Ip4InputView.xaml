@@ -7,12 +7,16 @@
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance testBench:Ip4InputViewModel}">
     <StackPanel Orientation="Horizontal">
-        <TextBox Width="40" Text="{Binding Parts[0]}" HorizontalContentAlignment="Center"/> 
+        <TextBox Width="40" Text="{Binding Parts[0]}" HorizontalContentAlignment="Center" MaxLength="3"
+                 GotKeyboardFocus="TextBox_GotKeyboardFocus" GotMouseCapture="TextBox_GotMouseCapture" PreviewTextInput="TextBox_PreviewTextInput"/> 
         <TextBlock Width="10" Text=" ." FontWeight="Bold"/>
-        <TextBox Width="40" Text="{Binding Parts[1]}" HorizontalContentAlignment="Center"/>
+        <TextBox Width="40" Text="{Binding Parts[1]}" HorizontalContentAlignment="Center" MaxLength="3"
+                 GotKeyboardFocus="TextBox_GotKeyboardFocus" GotMouseCapture="TextBox_GotMouseCapture" PreviewTextInput="TextBox_PreviewTextInput"/>
         <TextBlock Width="10" Text=" ." FontWeight="Bold"/>
-        <TextBox Width="40" Text="{Binding Parts[2]}" HorizontalContentAlignment="Center"/>
+        <TextBox Width="40" Text="{Binding Parts[2]}" HorizontalContentAlignment="Center" MaxLength="3"
+                 GotKeyboardFocus="TextBox_GotKeyboardFocus" GotMouseCapture="TextBox_GotMouseCapture" PreviewTextInput="TextBox_PreviewTextInput"/>
         <TextBlock Width="10" Text=" ." FontWeight="Bold"/>
-        <TextBox Width="40" Text="{Binding Parts[3]}" HorizontalContentAlignment="Center"/>
+        <TextBox Width="40" Text="{Binding Parts[3]}" HorizontalContentAlignment="Center" MaxLength="3"
+                 GotKeyboardFocus="TextBox_GotKeyboardFocus" GotMouseCapture="TextBox_GotMouseCapture" PreviewTextInput="TextBox_PreviewTextInput"/>
     </StackPanel>
 </UserControl>

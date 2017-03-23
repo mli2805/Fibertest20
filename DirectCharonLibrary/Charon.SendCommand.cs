@@ -58,6 +58,8 @@ namespace DirectCharonLibrary
                 Console.WriteLine("Sending : \n" + cmd);
                 nwStream.Write(bytesToSend, 0, bytesToSend.Length);
 
+                Thread.Sleep(100);
+
                 //---read back the answer---
                 byte[] bytesToRead = new byte[client.ReceiveBufferSize];
                 int bytesRead = nwStream.Read(bytesToRead, 0, client.ReceiveBufferSize);

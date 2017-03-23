@@ -7,19 +7,29 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
         SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" d:DataContext="{d:DesignInstance testBench:RtuInitializeViewModel}">
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground"
+                            Value="{StaticResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <StackPanel>
-       <GroupBox Header="RTU" Margin="5">
-           <StackPanel>
-               <DockPanel>
+        <GroupBox Header="RTU" Margin="5">
+            <StackPanel>
+                <DockPanel>
                     <TextBlock Text="{x:Static stringResources:Resources.SID_Title}" Margin="5"></TextBlock>
                     <TextBlock Text="{Binding Title}" Margin="5"></TextBlock>
                 </DockPanel>
-               <DockPanel>
+                <DockPanel>
                     <TextBlock Text="{x:Static stringResources:Resources.SID_Comment}" Margin="5"></TextBlock>
                     <TextBlock Text="{Binding Comment}" Margin="5"></TextBlock>
                 </DockPanel>
-           </StackPanel>
-       </GroupBox>
+            </StackPanel>
+        </GroupBox>
         <GroupBox Header="{x:Static stringResources:Resources.SID_Main_channel}" Margin="5">
             <testBench:RtuChannelTestView Margin="0,5,0,0" DataContext="{Binding MainChannelTestViewModel}"/>
         </GroupBox>
@@ -37,9 +47,10 @@
         </GroupBox>
         <GroupBox Margin="5">
             <GroupBox.Header>
-                <CheckBox Content="{x:Static stringResources:Resources.SID_Reserve_channel}"/>
+                <CheckBox Name="CheckBoxReserveAddress" Content="{x:Static stringResources:Resources.SID_Reserve_channel}"/>
             </GroupBox.Header>
-            <testBench:RtuChannelTestView Margin="0,5,0,0" DataContext="{Binding ReserveChannelTestViewModel}"/>
+            <testBench:RtuChannelTestView Margin="0,5,0,0" IsEnabled="{Binding ElementName=CheckBoxReserveAddress, Path=IsChecked}"
+                                          DataContext="{Binding ReserveChannelTestViewModel}"/>
         </GroupBox>
         <GroupBox Header="Information" Margin="5">
             <StackPanel>
@@ -53,9 +64,9 @@
                 </DockPanel>
             </StackPanel>
         </GroupBox>
-        <StackPanel Orientation="Horizontal"  Margin="5">
-            <Button Name="InitializeRtu" Content="{x:Static stringResources:Resources.SID_Initialize}" Margin="5" Height="22" Width="150"/>
-            <Button Name="Close" Content="{x:Static stringResources:Resources.SID_Close}" Margin="5" Height="22" Width="100"/>
+        <StackPanel Orientation="Horizontal"  Margin="5,10">
+            <Button Name="InitializeRtu" Content="{x:Static stringResources:Resources.SID_Initialize}" Margin="5" Height="22" Width="140"/>
+            <Button Name="Close" Content="{x:Static stringResources:Resources.SID_Close}" Margin="5" Height="22" Width="90"/>
         </StackPanel>
     </StackPanel>
 </Window>

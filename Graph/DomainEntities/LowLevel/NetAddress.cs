@@ -19,6 +19,14 @@ namespace Iit.Fibertest.Graph
             IsAddressSetAsIp = true;
         }
 
+        public NetAddress(string ip, int port)
+        {
+            Ip4Address = ip;
+            HostName = "";
+            Port = port;
+            IsAddressSetAsIp = true;
+        }
+
         public override string ToString()
         {
             return Port == 11834 ? $@"{Ip4Address}(1)" : $@"{Ip4Address}(2)";

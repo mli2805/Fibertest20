@@ -9,12 +9,12 @@ namespace Iit.Fibertest.Graph
         public string Title { get; set; }
         public string Comment { get; set; }
 
-        public NetAddress MainChannel { get; set; } = new NetAddress();
+        public NetAddress MainChannel { get; set; } = new NetAddress("", 11831);
         public RtuPartState MainChannelState { get; set; }
-        public NetAddress ReserveChannel { get; set; } = new NetAddress();
+        public NetAddress ReserveChannel { get; set; } = new NetAddress("", 11831);
         public RtuPartState ReserveChannelState { get; set; }
         public bool IsReserveChannelSet { get; set; } = false;
-        public NetAddress OtdrNetAddress { get; set; } = new NetAddress();
+        public NetAddress OtdrNetAddress { get; set; } = new NetAddress("", 1500);
         public string Serial { get; set; }
         public int OwnPortCount { get; set; }
         public int FullPortCount { get; set; }
