@@ -147,7 +147,8 @@ namespace Iit.Fibertest.Graph
 
         public void When(InitializeRtu cmd)
         {
-            WriteModel.AddAndCommit(_mapper.Map<RtuInitialized>(cmd));
+            var evnt = _mapper.Map<RtuInitialized>(cmd);
+            WriteModel.AddAndCommit(evnt);
         }
 
         public void When(UpdateRtu cmd)

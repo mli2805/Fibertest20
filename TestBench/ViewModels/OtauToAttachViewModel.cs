@@ -13,7 +13,7 @@ namespace Iit.Fibertest.TestBench
         private readonly ReadModel _readModel;
         private readonly Bus _bus;
         private readonly IWindowManager _windowManager;
-        private int _otauSerial;
+        private string _otauSerial;
         private int _otauPortCount;
         private NetAddressInputViewModel _netAddressInputViewModel;
 
@@ -31,7 +31,7 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
-        public int OtauSerial
+        public string OtauSerial
         {
             get { return _otauSerial; }
             set
@@ -108,7 +108,7 @@ namespace Iit.Fibertest.TestBench
         {
             //TODO attach otau
 
-            OtauSerial = 123456;
+            OtauSerial = @"123456";
             OtauPortCount = 16;
 
             return true;

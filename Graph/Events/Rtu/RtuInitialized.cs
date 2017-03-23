@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Iit.Fibertest.Graph
 {
@@ -14,5 +15,6 @@ namespace Iit.Fibertest.Graph
         public string Serial { get; set; }
         public int OwnPortCount { get; set; }
         public int FullPortCount { get; set; }
+        public List<OtauAttached> Otaus { get; set; } = new List<OtauAttached>();
     }
 }

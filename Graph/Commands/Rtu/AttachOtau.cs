@@ -9,7 +9,7 @@ namespace Iit.Fibertest.Graph
 
         public NetAddress NetAddress { get; set; } = new NetAddress();
         public RtuPartState NetAddressState { get; set; }
-        public int Serial { get; set; }
+        public string Serial { get; set; }
         public int PortCount { get; set; }
 
         public int FirstPortNumber { get; set; }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Caliburn.Micro;
 using DirectCharonLibrary;
@@ -55,21 +56,47 @@ namespace Iit.Fibertest.TestBench
             var mainCharon = RunInitializationProcess();
             if (mainCharon == null)
                 return;
-            //
 
-            var cmd = new InitializeRtu() {Id = _rtuId};
-            cmd.MainChannel = MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress();
-            cmd.MainChannelState = _mainChannelState;
-            cmd.ReserveChannel = ReserveChannelTestViewModel.NetAddressInputViewModel.GetNetAddress();
-            cmd.ReserveChannelState = _reserveChannelState;
-            cmd.OtdrNetAddress = new NetAddress() {Ip4Address = cmd.MainChannel.Ip4Address, Port = 1500}; // very old rtu have different otdr address
+            //
+            _bus.SendCommand(ParseInitializationResult(mainCharon));
+            TryClose();
+        }
+
+        private InitializeRtu ParseInitializationResult(Charon mainCharon)
+        {
+            var cmd = new InitializeRtu
+            {
+                Id = _rtuId,
+                MainChannel = MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress(),
+                MainChannelState = _mainChannelState,
+                ReserveChannel = ReserveChannelTestViewModel.NetAddressInputViewModel.GetNetAddress(),
+                ReserveChannelState = _reserveChannelState
+            };
+            cmd.OtdrNetAddress = new NetAddress() { Ip4Address = cmd.MainChannel.Ip4Address, Port = 1500 }; // very old rtu have different otdr address
 
             cmd.OwnPortCount = mainCharon.OwnPortCount;
             cmd.FullPortCount = mainCharon.FullPortCount;
             cmd.Serial = mainCharon.Serial;
 
-            _bus.SendCommand(cmd);
-            TryClose();
+            foreach (var portCharonPair in mainCharon.Children)
+                cmd.Otaus.Add(ParsePortCharonPair(portCharonPair));
+
+            return cmd;
+        }
+
+        private AttachOtau ParsePortCharonPair(KeyValuePair<int, Charon> pair)
+        {
+            var otau = new AttachOtau()
+            {
+                Id = Guid.NewGuid(),
+                RtuId = _rtuId,
+                MasterPort = pair.Key,
+                NetAddress = new NetAddress() {Ip4Address = pair.Value.TcpAddress.Ip, Port = pair.Value.TcpAddress.TcpPort},
+                PortCount = pair.Value.OwnPortCount,
+                FirstPortNumber = pair.Value.StartPortNumber,
+                Serial = pair.Value.Serial,
+            };
+            return otau;
         }
 
         private Charon RunInitializationProcess()

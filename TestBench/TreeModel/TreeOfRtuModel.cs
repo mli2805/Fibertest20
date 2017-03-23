@@ -79,6 +79,8 @@ namespace Iit.Fibertest.TestBench
                 rtuLeaf.ChildrenImpresario.Children.Insert(i - 1, port);
                 port.Parent = rtuLeaf;
             }
+
+
         }
 
         public void Apply(RtuUpdated e)
