@@ -93,6 +93,12 @@ this.FeatureBackground();
  testRunner.When("Пользователь выбирает присоединить к порту 3 трассу и жмет Сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 8
  testRunner.Then("Трасса присоединяется к порту РТУ", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 9
+ testRunner.Then("У присоединенной трассы нет пунктов Очистить и Удалить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 10
+ testRunner.Then("Есть пункт Отсоединить и три пункта Измерения", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 11
+ testRunner.Then("Имя в дереве это номер порта и имя трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -103,17 +109,20 @@ this.FeatureBackground();
         public virtual void ПрисоединениеТрассыКПортуДополнительногоПереключателя()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Присоединение трассы к порту дополнительного переключателя", ((string[])(null)));
-#line 10
+#line 13
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 11
+#line 14
  testRunner.Given("Пользователь подключает доп переключатель", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 12
+#line 15
  testRunner.When("Пользователь выбирает присоединить к 3 порту переключателя трассу и жмет Сохранит" +
                     "ь", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 13
+#line 16
  testRunner.Then("Трасса присоединяется к 3 порту переключателя", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 17
+ testRunner.Then("Имя в дереве это номер порта переключателя номер расширенного порта RTU и имя тра" +
+                    "ссы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -124,13 +133,13 @@ this.FeatureBackground();
         public virtual void ОтказОтПрисоединенияТрассыКПортуРТУ()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Отказ от присоединения трассы к порту РТУ", ((string[])(null)));
-#line 15
+#line 19
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 16
+#line 20
  testRunner.When("Пользователь выбирает присоединить к порту 3 трассу а жмет Отмена", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 17
+#line 21
  testRunner.Then("Трасса НЕ присоединяется к порту РТУ", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -142,17 +151,17 @@ this.FeatureBackground();
         public virtual void ПереприсоединениеТрассыКПортуРТУ()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Переприсоединение трассы к порту РТУ", ((string[])(null)));
-#line 19
+#line 23
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 20
+#line 24
  testRunner.When("Пользователь выбирает присоединить к порту 3 трассу и жмет Сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 21
+#line 25
  testRunner.When("Пользователь выбирает отсоединить трассу", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 22
+#line 26
  testRunner.When("Пользователь выбирает присоединить к порту 2 трассу и жмет Сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 23
+#line 27
  testRunner.Then("Трасса присоединяется к порту РТУ", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

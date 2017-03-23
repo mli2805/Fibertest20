@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using FluentAssertions;
+using Iit.Fibertest.StringResources;
 using Iit.Fibertest.TestBench;
 using TechTalk.SpecFlow;
 
@@ -15,11 +16,44 @@ namespace Graph.Tests
         private Guid _rtuId;
         private RtuLeaf _rtuLeaf;
         private OtauLeaf _otauLeaf;
+        private TraceLeaf _traceLeaf;
 
         [Given(@"Создаем трассу РТУ инициализирован")]
         public void GivenСоздаемТрассуРтуИнициализирован()
         {
-           _rtuLeaf = _sut.TraceCreatedAndRtuInitialized(out _traceId, out _rtuId);
+            _rtuLeaf = _sut.TraceCreatedAndRtuInitialized(out _traceId, out _rtuId);
+            _traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_traceId);
+        }
+
+        [When(@"Пользователь выбирает присоединить к порту (.*) трассу и жмет Сохранить")]
+        public void WhenПользовательВыбираетПрисоединитьКПортуТрассуИЖметСохранить(int p0)
+        {
+            _portNumber = p0;
+            _sut.AttachTraceTo(_traceId, _rtuLeaf, _portNumber, Answer.Yes);
+            _sut.Poller.Tick();
+            _traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_traceId);
+        }
+
+        [Then(@"У присоединенной трассы нет пунктов Очистить и Удалить")]
+        public void ThenУПрисоединеннойТрассыНетПунктовОчиститьИУдалить()
+        {
+            _traceLeaf.MyContextMenu.FirstOrDefault(item => item?.Header == Resources.SID_Clean).Should().BeNull();
+            _traceLeaf.MyContextMenu.FirstOrDefault(item => item?.Header == Resources.SID_Remove).Should().BeNull();
+        }
+
+        [Then(@"Есть пункт Отсоединить и три пункта Измерения")]
+        public void ThenЕстьПунктОтсоединитьИТриПунктаИзмерения()
+        {
+            _traceLeaf.MyContextMenu.FirstOrDefault(item => item?.Header == Resources.SID_Detach_trace).Should().NotBeNull();
+            _traceLeaf.MyContextMenu.FirstOrDefault(item => item?.Header == Resources.SID_Presice_out_of_turn_measurement).Should().NotBeNull();
+            _traceLeaf.MyContextMenu.FirstOrDefault(item => item?.Header == Resources.SID_Measurement__Client_).Should().NotBeNull();
+            _traceLeaf.MyContextMenu.FirstOrDefault(item => item?.Header == Resources.SID_Measurement__RFTS_Reflect_).Should().NotBeNull();
+        }
+
+        [Then(@"Имя в дереве это номер порта и имя трассы")]
+        public void ThenИмяВДеревеЭтоНомерПортаИИмяТрассы()
+        {
+            _traceLeaf.Name.Should().Be(string.Format(Resources.SID_Port_trace, _portNumber, _traceLeaf.Title));
         }
 
         [Given(@"Пользователь подключает доп переключатель")]
@@ -34,14 +68,15 @@ namespace Graph.Tests
             _portNumber = p0;
             _sut.AttachTraceTo(_traceId, _otauLeaf, _portNumber, Answer.Yes);
             _sut.Poller.Tick();
+            _traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_traceId);
         }
 
-        [When(@"Пользователь выбирает присоединить к порту (.*) трассу и жмет Сохранить")]
-        public void WhenПользовательВыбираетПрисоединитьКПортуТрассуИЖметСохранить(int p0)
+        [Then(@"Имя в дереве это номер порта переключателя номер расширенного порта RTU и имя трассы")]
+        public void ThenИмяВДеревеЭтоНомерПортаПереключателяНомерРасширенногоПортаRtuиИмяТрассы()
         {
-            _portNumber = p0;
-            _sut.AttachTraceTo(_traceId, _rtuLeaf, _portNumber, Answer.Yes);
-            _sut.Poller.Tick();
+            _traceLeaf.Name.Should().
+                Be(string.Format(Resources.SID_Port_trace_on_otau, 
+                    _portNumber, _traceLeaf.ExtendedPortNumber, _traceLeaf.Title));
         }
 
         [When(@"Пользователь выбирает присоединить к порту (.*) трассу а жмет Отмена")]

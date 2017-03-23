@@ -13,6 +13,7 @@ namespace Graph.Tests
         private readonly SutForTraceAdded _sut = new SutForTraceAdded();
         private Guid _rtuNodeId;
         private Guid _lastNodeId;
+        private TraceLeaf _traceLeaf;
 
         private const string TraceTitle = "Some trace";
         private const string TraceComment = "Comment for trace";
@@ -49,6 +50,29 @@ namespace Graph.Tests
             var trace = _sut.ReadModel.Traces.Last();
             trace.Title.Should().Be(TraceTitle);
             trace.Comment.Should().Be(TraceComment);
+            _traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuModel.Tree.GetById(trace.Id);
+        }
+
+        [Then(@"Имя в дереве совпадает с именем трассы")]
+        public void ThenИмяВДеревеСовпадаетСИменемТрассы()
+        {
+            _traceLeaf.Name.Should().Be(_traceLeaf.Title);
+        }
+
+        [Then(@"У неприсоединенной трассы есть пункты Очистить и Удалить")]
+        public void ThenУНеприсоединеннойТрассыЕстьПунктыОчиститьИУдалить()
+        {
+            _traceLeaf.MyContextMenu.FirstOrDefault(item => item?.Header == Resources.SID_Clean).Should().NotBeNull();
+            _traceLeaf.MyContextMenu.FirstOrDefault(item => item?.Header == Resources.SID_Remove).Should().NotBeNull();
+        }
+
+        [Then(@"Нет пункта Отсоединить и трех пунктов Измерения")]
+        public void ThenНетПунктаОтсоединитьИТрехПунктовИзмерения()
+        {
+            _traceLeaf.MyContextMenu.FirstOrDefault(item => item?.Header == Resources.SID_Detach_trace).Should().BeNull();
+            _traceLeaf.MyContextMenu.FirstOrDefault(item => item?.Header == Resources.SID_Presice_out_of_turn_measurement).Should().BeNull();
+            _traceLeaf.MyContextMenu.FirstOrDefault(item => item?.Header == Resources.SID_Measurement__Client_).Should().BeNull();
+            _traceLeaf.MyContextMenu.FirstOrDefault(item => item?.Header == Resources.SID_Measurement__RFTS_Reflect_).Should().BeNull();
         }
 
         [When(@"Пользователь что-то вводит но жмет Отмена")]
