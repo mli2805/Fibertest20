@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.TestBench;
 
 namespace Graph.Tests
@@ -26,12 +27,16 @@ namespace Graph.Tests
             return (OtauLeaf) rtuLeaf.ChildrenImpresario.Children[port - 1];
         }
 
-        public bool RtuInitializeHandler(object model, Answer answer)
+        public bool RtuInitializeHandler(object model, Guid rtuId, Answer answer)
         {
             var vm = model as RtuInitializeViewModel;
             if (vm == null) return false;
             if (answer == Answer.Yes)
-                vm.InitializeRtu();
+            {
+                var cmd = new InitializeRtu() {Id = rtuId, FullPortCount = 8, OwnPortCount = 8, Serial = @"123456"};
+                ShellVm.Bus.SendCommand(cmd);
+            }
+
             else
                 vm.Close();
             return true;
@@ -39,7 +44,7 @@ namespace Graph.Tests
         public RtuLeaf InitializeRtu(Guid rtuId)
         {
             var rtuLeaf = (RtuLeaf)ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(rtuId);
-            FakeWindowManager.RegisterHandler(model=>RtuInitializeHandler(model, Answer.Yes));
+            FakeWindowManager.RegisterHandler(model=>RtuInitializeHandler(model, rtuId, Answer.Yes));
 
             rtuLeaf.RtuSettingsAction(null);
 

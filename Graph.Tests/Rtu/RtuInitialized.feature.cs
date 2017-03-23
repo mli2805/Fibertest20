@@ -79,12 +79,12 @@ namespace Graph.Tests.Rtu
             this.ScenarioTearDown();
         }
         
-        [Xunit.FactAttribute(DisplayName="Пользователь инициализирует трассу")]
+        [Xunit.FactAttribute(DisplayName="Пользователь инициализирует РТУ")]
         [Xunit.TraitAttribute("FeatureTitle", "RtuInitialized")]
-        [Xunit.TraitAttribute("Description", "Пользователь инициализирует трассу")]
-        public virtual void ПользовательИнициализируетТрассу()
+        [Xunit.TraitAttribute("Description", "Пользователь инициализирует РТУ")]
+        public virtual void ПользовательИнициализируетРТУ()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Пользователь инициализирует трассу", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Пользователь инициализирует РТУ", ((string[])(null)));
 #line 6
 this.ScenarioSetup(scenarioInfo);
 #line 3
@@ -97,12 +97,12 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [Xunit.FactAttribute(DisplayName="Пользователь отказывается инициализировать трассу")]
+        [Xunit.FactAttribute(DisplayName="Пользователь отказывается инициализировать РТУ")]
         [Xunit.TraitAttribute("FeatureTitle", "RtuInitialized")]
-        [Xunit.TraitAttribute("Description", "Пользователь отказывается инициализировать трассу")]
-        public virtual void ПользовательОтказываетсяИнициализироватьТрассу()
+        [Xunit.TraitAttribute("Description", "Пользователь отказывается инициализировать РТУ")]
+        public virtual void ПользовательОтказываетсяИнициализироватьРТУ()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Пользователь отказывается инициализировать трассу", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Пользователь отказывается инициализировать РТУ", ((string[])(null)));
 #line 10
 this.ScenarioSetup(scenarioInfo);
 #line 3

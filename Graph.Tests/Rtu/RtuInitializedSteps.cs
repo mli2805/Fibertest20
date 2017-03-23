@@ -22,7 +22,7 @@ namespace Graph.Tests
         [When(@"Пользователь открывает форму инициализации и жмет Инициализировать")]
         public void WhenПользовательОткрываетФормуИнициализацииИЖметИнициализировать()
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler(model, Answer.Yes));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler(model, _rtuLeaf.Id, Answer.Yes));
 
             _rtuLeaf.RtuSettingsAction(null);
             _sut.Poller.Tick();
@@ -31,7 +31,7 @@ namespace Graph.Tests
         [When(@"Пользователь открывает форму инициализации и жмет Отмена")]
         public void WhenПользовательОткрываетФормуИнициализацииИЖметОтмена()
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler(model, Answer.Cancel));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler(model, _rtuLeaf.Id, Answer.Cancel));
 
             _rtuLeaf.RtuSettingsAction(null);
             _sut.Poller.Tick();
