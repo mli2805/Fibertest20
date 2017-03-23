@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Windows.Media;
 using Caliburn.Micro;
+using DirectCharonLibrary;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
@@ -98,17 +99,22 @@ namespace Iit.Fibertest.TestBench
             var rtuLeaf = (RtuLeaf)Parent;
             return !rtuLeaf.HasAttachedTraces;
         }
-        public void MeasurementRftsReflectAction(object param)
+
+        private void MeasurementRftsReflectAction(object param)
         {
             RtuLeaf rtuLeaf = Parent is RtuLeaf ? (RtuLeaf)Parent : (RtuLeaf)Parent.Parent;
             var otdrAddress = rtuLeaf.OtdrNetAddress;
+            TcpAddress otauAddress = new TcpAddress(otdrAddress.Ip4Address, 23);
 
-//            var process = new System.Diagnostics.Process();
-//            process.StartInfo.FileName = @"TraceEngine\Reflect.exe";
-//            process.StartInfo.Arguments = $"-fnw -n {otdrAddress.Ip4Address} -p {otdrAddress.Port}";
-//            process.Start();
-
-            System.Diagnostics.Process.Start(@"TraceEngine\Reflect.exe", $"-fnw -n {otdrAddress.Ip4Address} -p {otdrAddress.Port}");
+            var charon = new Charon(otauAddress);
+            var activePort = charon.SetExtendedActivePort(ExtendedPortNumber);
+            if (activePort == ExtendedPortNumber)
+                System.Diagnostics.Process.Start(@"TraceEngine\Reflect.exe", $"-fnw -n {otdrAddress.Ip4Address} -p {otdrAddress.Port}");
+            else
+            {
+                var vm = new NotificationViewModel(Resources.SID_Error, $@"{charon.LastErrorMessage}");
+                WindowManager.ShowDialog(vm);
+            }
         }
     }
 }
