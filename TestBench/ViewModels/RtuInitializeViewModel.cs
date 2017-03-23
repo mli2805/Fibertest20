@@ -17,9 +17,6 @@ namespace Iit.Fibertest.TestBench
 
         private RtuPartState _mainChannelState;
         private RtuPartState _reserveChannelState;
-        private int _ownPortCount;
-        private int _fullPortCount;
-        private string _serial;
 
 
         public RtuChannelTestViewModel MainChannelTestViewModel { get; set; }
@@ -54,28 +51,28 @@ namespace Iit.Fibertest.TestBench
 
         public void InitializeRtu()
         {
-            var cmd = new InitializeRtu() {Id = _rtuId};
-
-            // TODO Real Initialize RTU
-            if (!RunInitializationProcess())
+            // TODO Initialize RTU via Server and RtuManager
+            var mainCharon = RunInitializationProcess();
+            if (mainCharon == null)
                 return;
             //
 
+            var cmd = new InitializeRtu() {Id = _rtuId};
             cmd.MainChannel = MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress();
             cmd.MainChannelState = _mainChannelState;
             cmd.ReserveChannel = ReserveChannelTestViewModel.NetAddressInputViewModel.GetNetAddress();
             cmd.ReserveChannelState = _reserveChannelState;
             cmd.OtdrNetAddress = new NetAddress() {Ip4Address = cmd.MainChannel.Ip4Address, Port = 1500}; // very old rtu have different otdr address
 
-            cmd.OwnPortCount = _ownPortCount;
-            cmd.FullPortCount = _fullPortCount;
-            cmd.Serial = _serial;
+            cmd.OwnPortCount = mainCharon.OwnPortCount;
+            cmd.FullPortCount = mainCharon.FullPortCount;
+            cmd.Serial = mainCharon.Serial;
 
             _bus.SendCommand(cmd);
             TryClose();
         }
 
-        private bool RunInitializationProcess()
+        private Charon RunInitializationProcess()
         {
             _mainChannelState = RtuPartState.Normal;
             _reserveChannelState = RtuPartState.None;
@@ -86,12 +83,9 @@ namespace Iit.Fibertest.TestBench
             {
                 var vm = new NotificationViewModel(Resources.SID_Error, $@"{mainCharon.LastErrorMessage}");
                 _windowManager.ShowDialog(vm);
-                return false;
+                return null;
             }
-            _ownPortCount = mainCharon.OwnPortCount;
-            _fullPortCount = mainCharon.FullPortCount;
-            _serial = mainCharon.Serial;
-            return true;
+            return mainCharon;
         }
 
         public void Close()
