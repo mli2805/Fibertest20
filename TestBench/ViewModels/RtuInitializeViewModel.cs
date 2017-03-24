@@ -47,7 +47,7 @@ namespace Iit.Fibertest.TestBench
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = Resources.SID_RTU_Settings;
+            DisplayName = Resources.SID_Network_settings;
         }
 
         public void InitializeRtu()

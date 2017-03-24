@@ -482,9 +482,6 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_Second_sign" xml:space="preserve">
     <value>″</value>
   </data>
-	<data name="SID_RTU_Settings" xml:space="preserve">
-    <value>RTU Settings</value>
-  </data>
 	<data name="SID_Graph_of_traces" xml:space="preserve">
     <value>Graph of traces</value>
   </data>
@@ -568,5 +565,11 @@ If chosen trace use some equipment in this node it will be replaced</value>
   </data>
 	<data name="SID_All" xml:space="preserve">
     <value>All</value>
+  </data>
+	<data name="SID_RTU_Title" xml:space="preserve">
+    <value>RTU Title</value>
+  </data>
+	<data name="SID_Network_settings" xml:space="preserve">
+    <value>Network settings</value>
   </data>
 </root>

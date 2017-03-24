@@ -17,17 +17,10 @@
             </Style.Triggers>
         </Style>
     </Window.Resources>
-    <StackPanel>
-        <GroupBox Header="RTU" Margin="5">
+    <StackPanel Margin="0,0,1,0">
+        <GroupBox Header="{x:Static stringResources:Resources.SID_RTU_Title}" Margin="5">
             <StackPanel>
-                <DockPanel>
-                    <TextBlock Text="{x:Static stringResources:Resources.SID_Title}" Margin="5"></TextBlock>
-                    <TextBlock Text="{Binding Title}" Margin="5"></TextBlock>
-                </DockPanel>
-                <DockPanel>
-                    <TextBlock Text="{x:Static stringResources:Resources.SID_Comment}" Margin="5"></TextBlock>
-                    <TextBlock Text="{Binding Comment}" Margin="5"></TextBlock>
-                </DockPanel>
+                    <TextBlock Text="{Binding Title}" Margin="5"/>
             </StackPanel>
         </GroupBox>
         <GroupBox Header="{x:Static stringResources:Resources.SID_Main_channel}" Margin="5">
@@ -52,7 +45,7 @@
             <testBench:RtuChannelTestView Margin="0,5,0,0" IsEnabled="{Binding ElementName=CheckBoxReserveAddress, Path=IsChecked}"
                                           DataContext="{Binding ReserveChannelTestViewModel}"/>
         </GroupBox>
-        <GroupBox Header="Information" Margin="5">
+        <GroupBox Header="{x:Static stringResources:Resources.SID_Information}" Margin="5">
             <StackPanel>
                 <DockPanel>
                     <TextBlock Text="{x:Static stringResources:Resources.SID_Serial}" Margin="5"></TextBlock>

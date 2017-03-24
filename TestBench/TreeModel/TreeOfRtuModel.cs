@@ -66,7 +66,7 @@ namespace Iit.Fibertest.TestBench
             var rtuLeaf = (RtuLeaf)Tree.GetById(e.Id);
 
             rtuLeaf.OwnPortCount = e.OwnPortCount;
-            rtuLeaf.FullPortCount = e.FullPortCount;
+            rtuLeaf.FullPortCount = e.OwnPortCount; // otauAttached then will increase 
             rtuLeaf.Serial = e.Serial;
             rtuLeaf.MainChannelState = e.MainChannelState;
             rtuLeaf.ReserveChannelState = e.ReserveChannelState;
@@ -79,6 +79,9 @@ namespace Iit.Fibertest.TestBench
                 rtuLeaf.ChildrenImpresario.Children.Insert(i - 1, port);
                 port.Parent = rtuLeaf;
             }
+            if (e.Otaus != null)
+                foreach (var otauAttached in e.Otaus)
+                    Apply(otauAttached);
 
 
         }

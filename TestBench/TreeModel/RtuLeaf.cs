@@ -108,7 +108,7 @@ namespace Iit.Fibertest.TestBench
 
             menu.Add(new MenuItemVm()
             {
-                Header = Resources.SID_Settings,
+                Header = Resources.SID_Network_settings,
                 Command = new ContextMenuAction(RtuSettingsAction, CanSomeAction),
                 CommandParameter = this
             });

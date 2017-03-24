@@ -11,17 +11,17 @@
     <StackPanel >
         <StackPanel>
             <TextBlock Text="{x:Static stringResources:Resources.SID_Title}" VerticalAlignment="Center" 
-                       HorizontalAlignment="Left" Margin="15,5,5,5" Width="80"/>
+                       Margin="10,5,10,5" Width="80" HorizontalAlignment="Left"/>
             <TextBox Text="{Binding Title, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
-                     Margin="15,0,5,15" Width="350" Height="25" HorizontalAlignment="Left"/>
+                     Margin="10,0,10,15" Height="25" />
         </StackPanel>
         
         <testBench:GpsInputView x:Name="GpsInputView" DataContext="{Binding GpsInputViewModel}"/>
 
         <StackPanel>
             <TextBlock Text="{x:Static stringResources:Resources.SID_Comment}" VerticalAlignment="Center" 
-                       HorizontalAlignment="Left" Margin="15,5,5,5" Width="80"/>
-            <TextBox Text="{Binding Comment}" Margin="15,0,5,15" Width="350" Height="25" HorizontalAlignment="Left"/>
+                       Margin="10,5" Width="80" HorizontalAlignment="Left"/>
+            <TextBox Text="{Binding Comment}" Margin="10,0,10,15" Height="75" TextWrapping="Wrap" AcceptsReturn="True"/>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Margin="5,5,5,10" HorizontalAlignment="Center">

@@ -482,9 +482,6 @@
 	<data name="SID_Second_sign" xml:space="preserve">
 		<value>″</value>
 	</data>
-	<data name="SID_RTU_Settings" xml:space="preserve">
-		<value>Настройки RTU</value>
-	</data>
 	<data name="SID_Graph_of_traces" xml:space="preserve">
 		<value>Граф трасс</value>
 	</data>
@@ -568,5 +565,11 @@
 	</data>
 	<data name="SID_All" xml:space="preserve">
 		<value>Все</value>
+	</data>
+	<data name="SID_RTU_Title" xml:space="preserve">
+		<value>Название RTU</value>
+	</data>
+	<data name="SID_Network_settings" xml:space="preserve">
+		<value>Сетевые настройки</value>
 	</data>
 </root>
