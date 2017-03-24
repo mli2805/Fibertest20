@@ -25,7 +25,7 @@ namespace DirectCharonLibrary
             TcpAddress = tcpAddress;
         }
 
-        public bool Initialize()
+        public bool GetInfo()
         {
             StartPortNumber = Parent == null ? 1 : StartPortNumber = Parent.FullPortCount + 1;
             Children = new Dictionary<int, Charon>();
@@ -48,7 +48,7 @@ namespace DirectCharonLibrary
                 {
                     var childCharon = new Charon(expendedPort.Value);
                     childCharon.Parent = this;
-                    if (!childCharon.Initialize())
+                    if (!childCharon.GetInfo())
                     {
                         LastErrorMessage = $"Child charon {expendedPort.Value} initialization failed";
                         return false;

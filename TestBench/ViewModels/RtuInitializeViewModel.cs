@@ -106,7 +106,7 @@ namespace Iit.Fibertest.TestBench
 
             var charonAddress = new TcpAddress(MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().Ip4Address, 23);
             var mainCharon = new Charon(charonAddress);
-            if (!mainCharon.Initialize())
+            if (!mainCharon.GetInfo())
             {
                 var vm = new NotificationViewModel(Resources.SID_Error, $@"{mainCharon.LastErrorMessage}");
                 _windowManager.ShowDialog(vm);
