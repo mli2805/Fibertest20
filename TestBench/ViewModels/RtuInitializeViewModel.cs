@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Caliburn.Micro;
 using DirectCharonLibrary;
 using Iit.Fibertest.Graph;
@@ -28,6 +29,18 @@ namespace Iit.Fibertest.TestBench
         private readonly IWindowManager _windowManager;
         private readonly Bus _bus;
 
+        private string _initilizationProgress;
+        public string InitilizationProgress
+        {
+            get { return _initilizationProgress; }
+            set
+            {
+                if (value == _initilizationProgress) return;
+                _initilizationProgress = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public RtuInitializeViewModel(Guid rtuId, ReadModel readModel, IWindowManager windowManager, Bus bus)
         {
             _rtuId = rtuId;
@@ -50,16 +63,15 @@ namespace Iit.Fibertest.TestBench
             DisplayName = Resources.SID_Network_settings;
         }
 
-        public void InitializeRtu()
+        public async Task InitializeRtu()
         {
             // TODO Initialize RTU via Server and RtuManager
-            var mainCharon = RunInitializationProcess();
+            var mainCharon = await RunInitializationProcess();
             if (mainCharon == null)
                 return;
 
             //
-            _bus.SendCommand(ParseInitializationResult(mainCharon));
-            TryClose();
+            await _bus.SendCommand(ParseInitializationResult(mainCharon));
         }
 
         private InitializeRtu ParseInitializationResult(Charon mainCharon)
@@ -99,26 +111,28 @@ namespace Iit.Fibertest.TestBench
             return otau;
         }
 
-        private Charon RunInitializationProcess()
+        private async Task<Charon> RunInitializationProcess()
         {
             _mainChannelState = RtuPartState.Normal;
             _reserveChannelState = RtuPartState.None;
 
             var charonAddress = new TcpAddress(MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().Ip4Address, 23);
 
+            InitilizationProgress = Resources.SID_Please__wait_;
             var mainCharon = new Charon(charonAddress);
-            bool result;
             using (new WaitCursor())
             {
-                result = mainCharon.InitializeRtu();
+                await Task.Run(() => mainCharon.InitializeRtu());
             }
 
-            if (!result)
+            if (!mainCharon.IsLastCommandSuccessful)
             {
                 var vm = new NotificationViewModel(Resources.SID_Error, $@"{mainCharon.LastErrorMessage}");
                 _windowManager.ShowDialog(vm);
+                InitilizationProgress = Resources.SID_Failed_;
                 return null;
             }
+            InitilizationProgress = Resources.SID_Successful_;
             return mainCharon;
         }
 

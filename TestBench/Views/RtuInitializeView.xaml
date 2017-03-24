@@ -57,6 +57,11 @@
                 </DockPanel>
             </StackPanel>
         </GroupBox>
+        <GroupBox Header="{x:Static stringResources:Resources.SID_Initialization}" Margin="5">
+            <StackPanel>
+                <TextBlock Text="{Binding InitilizationProgress}" HorizontalAlignment="Center" ></TextBlock>
+            </StackPanel>
+        </GroupBox>
         <StackPanel Orientation="Horizontal"  Margin="5,10">
             <Button Name="InitializeRtu" Content="{x:Static stringResources:Resources.SID_Initialize}" Margin="5" Height="22" Width="140"/>
             <Button Name="Close" Content="{x:Static stringResources:Resources.SID_Close}" Margin="5" Height="22" Width="90"/>

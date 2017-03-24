@@ -572,4 +572,16 @@
 	<data name="SID_Network_settings" xml:space="preserve">
 		<value>Сетевые настройки</value>
 	</data>
+	<data name="SID_Please__wait_" xml:space="preserve">
+		<value>Пожалуйста, подождите...</value>
+	</data>
+	<data name="SID_Failed_" xml:space="preserve">
+		<value>Сбой!</value>
+	</data>
+	<data name="SID_Successful_" xml:space="preserve">
+		<value>Успешно!</value>
+	</data>
+	<data name="SID_Initialization" xml:space="preserve">
+		<value>Инициализация</value>
+	</data>
 </root>
