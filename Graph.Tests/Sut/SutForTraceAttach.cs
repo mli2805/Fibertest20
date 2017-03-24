@@ -27,13 +27,24 @@ namespace Graph.Tests
             return (OtauLeaf) rtuLeaf.ChildrenImpresario.Children[port - 1];
         }
 
-        public bool RtuInitializeHandler(object model, Guid rtuId, Answer answer)
+        public bool RtuInitializeHandler(object model, Guid rtuId, string mainIpAddress, Answer answer)
         {
             var vm = model as RtuInitializeViewModel;
             if (vm == null) return false;
             if (answer == Answer.Yes)
             {
-                var cmd = new InitializeRtu() {Id = rtuId, FullPortCount = 8, OwnPortCount = 8, Serial = @"123456"};
+                vm.MainChannelTestViewModel.NetAddressInputViewModel.Ip4InputViewModel = new Ip4InputViewModel(mainIpAddress);
+                if (!vm.CheckAddressUniqueness())
+                    return true;
+
+                var cmd = new InitializeRtu()
+                {
+                    Id = rtuId,
+                    MainChannel = new NetAddress(mainIpAddress, 11832),
+                    FullPortCount = 8,
+                    OwnPortCount = 8,
+                    Serial = @"123456"
+                };
                 ShellVm.Bus.SendCommand(cmd);
             }
 
@@ -44,7 +55,7 @@ namespace Graph.Tests
         public RtuLeaf InitializeRtu(Guid rtuId)
         {
             var rtuLeaf = (RtuLeaf)ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(rtuId);
-            FakeWindowManager.RegisterHandler(model=>RtuInitializeHandler(model, rtuId, Answer.Yes));
+            FakeWindowManager.RegisterHandler(model=>RtuInitializeHandler(model, rtuId, "", Answer.Yes));
 
             rtuLeaf.RtuSettingsAction(null);
 

@@ -584,4 +584,7 @@
 	<data name="SID_Initialization" xml:space="preserve">
 		<value>Инициализация</value>
 	</data>
+	<data name="SID_There_is_RTU_with_the_same_ip_address_" xml:space="preserve">
+		<value>Существует RTU с таким ip адресом! </value>
+	</data>
 </root>

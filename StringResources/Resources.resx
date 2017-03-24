@@ -584,4 +584,7 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_Initialization" xml:space="preserve">
     <value>Initialization</value>
   </data>
+	<data name="SID_There_is_RTU_with_the_same_ip_address_" xml:space="preserve">
+    <value>There is RTU with the same ip address!</value>
+  </data>
 </root>

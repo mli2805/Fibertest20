@@ -26,6 +26,7 @@ namespace Iit.Fibertest.TestBench
         public RtuChannelTestViewModel ReserveChannelTestViewModel { get; set; }
 
         private readonly Guid _rtuId;
+        private readonly ReadModel _readModel;
         private readonly IWindowManager _windowManager;
         private readonly Bus _bus;
 
@@ -44,6 +45,7 @@ namespace Iit.Fibertest.TestBench
         public RtuInitializeViewModel(Guid rtuId, ReadModel readModel, IWindowManager windowManager, Bus bus)
         {
             _rtuId = rtuId;
+            _readModel = readModel;
             _windowManager = windowManager;
             _bus = bus;
 
@@ -65,6 +67,8 @@ namespace Iit.Fibertest.TestBench
 
         public async Task InitializeRtu()
         {
+            if (!CheckAddressUniqueness())
+                return;
             // TODO Initialize RTU via Server and RtuManager
             var mainCharon = await RunInitializationProcess();
             if (mainCharon == null)
@@ -72,6 +76,26 @@ namespace Iit.Fibertest.TestBench
 
             //
             await _bus.SendCommand(ParseInitializationResult(mainCharon));
+        }
+
+        public bool CheckAddressUniqueness()
+        {
+            if (_readModel.Rtus.Any(r =>
+                r.MainChannel.Ip4Address ==
+                MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().Ip4Address ||
+                r.ReserveChannel.Ip4Address ==
+                MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().Ip4Address ||
+                IsReserveChannelEnabled &&
+                (r.MainChannel.Ip4Address ==
+                 ReserveChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().Ip4Address ||
+                 r.ReserveChannel.Ip4Address ==
+                 ReserveChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().Ip4Address)))
+            {
+                var vm = new NotificationViewModel(Resources.SID_Error, Resources.SID_There_is_RTU_with_the_same_ip_address_);
+                _windowManager.ShowDialog(vm);
+                return false;
+            }
+            return true;
         }
 
         private InitializeRtu ParseInitializationResult(Charon mainCharon)
@@ -82,13 +106,16 @@ namespace Iit.Fibertest.TestBench
                 MainChannel = MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress(),
                 MainChannelState = _mainChannelState,
                 ReserveChannel = ReserveChannelTestViewModel.NetAddressInputViewModel.GetNetAddress(),
-                ReserveChannelState = _reserveChannelState
+                ReserveChannelState = _reserveChannelState,
+                OtdrNetAddress = new NetAddress()
+                {
+                    Ip4Address = mainCharon.TcpAddress.Ip,
+                    Port = 1500
+                }, // very old rtu have different otdr address
+                OwnPortCount = mainCharon.OwnPortCount,
+                FullPortCount = mainCharon.FullPortCount,
+                Serial = mainCharon.Serial,
             };
-            cmd.OtdrNetAddress = new NetAddress() { Ip4Address = cmd.MainChannel.Ip4Address, Port = 1500 }; // very old rtu have different otdr address
-
-            cmd.OwnPortCount = mainCharon.OwnPortCount;
-            cmd.FullPortCount = mainCharon.FullPortCount;
-            cmd.Serial = mainCharon.Serial;
 
             foreach (var portCharonPair in mainCharon.Children)
                 cmd.Otaus.Add(ParsePortCharonPair(portCharonPair));

@@ -907,7 +907,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please, wait..
+        ///   Looks up a localized string similar to Please, wait....
         /// </summary>
         public static string SID_Please__wait_ {
             get {
@@ -1336,6 +1336,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_There_is_a_rtu_with_the_same_title {
             get {
                 return ResourceManager.GetString("SID_There_is_a_rtu_with_the_same_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There is RTU with the same ip address!.
+        /// </summary>
+        public static string SID_There_is_RTU_with_the_same_ip_address_ {
+            get {
+                return ResourceManager.GetString("SID_There_is_RTU_with_the_same_ip_address_", resourceCulture);
             }
         }
         

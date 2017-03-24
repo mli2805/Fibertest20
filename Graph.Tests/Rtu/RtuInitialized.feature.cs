@@ -66,6 +66,8 @@ namespace Graph.Tests.Rtu
         {
 #line 3
 #line 4
+ testRunner.Given("Существует RTU с основным 192.168.96.52 и резервным 172.16.4.10 адресами", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 5
  testRunner.Given("Создан РТУ даже с трассой", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
         }
@@ -79,19 +81,41 @@ namespace Graph.Tests.Rtu
             this.ScenarioTearDown();
         }
         
+        [Xunit.FactAttribute(DisplayName="Запрещено инициализировать RTU с используемым адресом")]
+        [Xunit.TraitAttribute("FeatureTitle", "RtuInitialized")]
+        [Xunit.TraitAttribute("Description", "Запрещено инициализировать RTU с используемым адресом")]
+        public virtual void ЗапрещеноИнициализироватьRTUСИспользуемымАдресом()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Запрещено инициализировать RTU с используемым адресом", ((string[])(null)));
+#line 7
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 8
+ testRunner.When("Пользователь вводит основной адрес 192.168.96.52 и жмет Инициализировать", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 9
+ testRunner.Then("Сообщение об существовании RTU с таким адресом", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 10
+ testRunner.When("Пользователь вводит основной адрес 172.16.4.10 и жмет Инициализировать", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 11
+ testRunner.Then("Сообщение об существовании RTU с таким адресом", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
         [Xunit.FactAttribute(DisplayName="Пользователь инициализирует РТУ")]
         [Xunit.TraitAttribute("FeatureTitle", "RtuInitialized")]
         [Xunit.TraitAttribute("Description", "Пользователь инициализирует РТУ")]
         public virtual void ПользовательИнициализируетРТУ()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Пользователь инициализирует РТУ", ((string[])(null)));
-#line 6
+#line 14
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 7
+#line 15
  testRunner.When("Пользователь открывает форму инициализации и жмет Инициализировать", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 8
+#line 16
  testRunner.Then("РТУ инициализирован", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -103,13 +127,13 @@ this.FeatureBackground();
         public virtual void ПользовательОтказываетсяИнициализироватьРТУ()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Пользователь отказывается инициализировать РТУ", ((string[])(null)));
-#line 10
+#line 18
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 11
+#line 19
  testRunner.When("Пользователь открывает форму инициализации и жмет Отмена", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 12
+#line 20
  testRunner.Then("РТУ НЕ инициализирован", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
