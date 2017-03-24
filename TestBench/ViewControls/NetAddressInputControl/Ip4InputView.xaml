@@ -6,7 +6,7 @@
              xmlns:testBench="clr-namespace:Iit.Fibertest.TestBench"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance testBench:Ip4InputViewModel}">
-    <StackPanel Orientation="Horizontal">
+    <StackPanel Orientation="Horizontal" KeyDown="StackPanel_KeyDown">
         <TextBox Width="40" Text="{Binding Parts[0]}" HorizontalContentAlignment="Center" MaxLength="3"
                  GotKeyboardFocus="TextBox_GotKeyboardFocus" GotMouseCapture="TextBox_GotMouseCapture" PreviewTextInput="TextBox_PreviewTextInput"/> 
         <TextBlock Width="10" Text=" ." FontWeight="Bold"/>

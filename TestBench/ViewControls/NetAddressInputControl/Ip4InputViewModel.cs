@@ -6,6 +6,7 @@
 
         public Ip4InputViewModel(string ip4Address)
         {
+            ip4Address += @"..."; // because of wrong IP strings like "" or "192.168.54" 
             Parts = ip4Address.Split('.');
         }
 
