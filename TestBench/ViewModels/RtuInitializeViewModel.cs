@@ -105,8 +105,15 @@ namespace Iit.Fibertest.TestBench
             _reserveChannelState = RtuPartState.None;
 
             var charonAddress = new TcpAddress(MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().Ip4Address, 23);
+
             var mainCharon = new Charon(charonAddress);
-            if (!mainCharon.GetInfo())
+            bool result;
+            using (new WaitCursor())
+            {
+                result = mainCharon.InitializeRtu();
+            }
+
+            if (!result)
             {
                 var vm = new NotificationViewModel(Resources.SID_Error, $@"{mainCharon.LastErrorMessage}");
                 _windowManager.ShowDialog(vm);

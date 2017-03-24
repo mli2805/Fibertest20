@@ -5,6 +5,22 @@ namespace DirectCharonLibrary
 {
     public partial class Charon
     {
+        private bool ResetOtau()
+        {
+            SendCommand("otau_reset\r\n");
+            if (!IsLastCommandSuccessful)
+                return false;
+            return LastAnswer == "OK\r\n";
+        }
+
+        private bool ResetOtdr(bool isOtdrOld)
+        {
+            SendCommand(isOtdrOld ? "otdr_reset\r\n" : "otdr_reset_\r\n");
+            if (!IsLastCommandSuccessful)
+                return false;
+            return LastAnswer == "OK\r\n";
+        }
+
         private string GetSerial()
         {
             SendCommand("get_rtu_number\r\n");
@@ -28,17 +44,26 @@ namespace DirectCharonLibrary
 
         private Dictionary<int, TcpAddress> GetExtentedPorts()
         {
-            ReadIniFile();
-            if (!IsLastCommandSuccessful)
-                return null; // read iniFile error
+            try
+            {
+                ReadIniFile();
+                if (!IsLastCommandSuccessful)
+                    return null; // read iniFile error
 
-            if (LastAnswer.Substring(0, 15) == "ERROR_COMMAND\r\n")
-                return new Dictionary<int, TcpAddress>(); // charon too old, know nothing about extensions
+                if (LastAnswer.Substring(0, 15) == "ERROR_COMMAND\r\n")
+                    return new Dictionary<int, TcpAddress>(); // charon too old, know nothing about extensions
 
-            if (LastAnswer.Substring(0, 22) == "[OpticalPortExtension]")
-                return ParseIniContent(LastAnswer);
+                if (LastAnswer.Substring(0, 22) == "[OpticalPortExtension]")
+                    return ParseIniContent(LastAnswer);
 
-            return new Dictionary<int, TcpAddress>();
+                return new Dictionary<int, TcpAddress>();
+            }
+            catch (Exception e)
+            {
+                IsLastCommandSuccessful = false;
+                LastAnswer = e.Message;
+                return null;
+            }
         }
 
         private Dictionary<int, TcpAddress> ParseIniContent(string content)

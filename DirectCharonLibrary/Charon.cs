@@ -25,6 +25,19 @@ namespace DirectCharonLibrary
             TcpAddress = tcpAddress;
         }
 
+        public bool InitializeRtu()
+        {
+            if (!ResetOtau())
+                return false;
+
+            var temp = ResetOtdr(false);
+
+            if (!temp)
+                return false;
+
+            return GetInfo();
+        }
+
         public bool GetInfo()
         {
             StartPortNumber = Parent == null ? 1 : StartPortNumber = Parent.FullPortCount + 1;
@@ -76,6 +89,10 @@ namespace DirectCharonLibrary
         /// <returns>-1 if failed or current active port</returns>
         public int SetExtendedActivePort(int port)
         {
+            if (OwnPortCount == 0)
+                if (!GetInfo())
+                    return -1;
+
             if (port <= OwnPortCount)
                 return SetActivePort(port);
 
@@ -86,7 +103,6 @@ namespace DirectCharonLibrary
                 LastErrorMessage = "Out of range port number error";
                 return -1;
             }
-
 
             var masterPort = Children.First(pair => pair.Value == child).Key;
             if (GetActivePort() != masterPort)

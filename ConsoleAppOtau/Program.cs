@@ -16,6 +16,16 @@ namespace ConsoleAppOtau
             const int tcpPort = 23;
 
             var ch = new Charon(new TcpAddress() { Ip = serverIp, TcpPort = tcpPort });
+
+            int port = ch.SetExtendedActivePort(2);
+            Console.WriteLine($"active port {port}");
+
+            ch.InitializeRtu();
+
+            port = ch.GetExtendedActivePort();
+            Console.WriteLine($"active port {port}");
+
+
             if (ch.GetInfo())
             {
                 Console.WriteLine("GetInfo():");

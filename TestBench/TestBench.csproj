@@ -109,6 +109,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Logic\ClientPoller.cs" />
+    <Compile Include="Logic\WaitCursor.cs" />
     <Compile Include="ReadModel\VerboseTasks.cs" />
     <Compile Include="Requests\RequestAddEquipmentAtGpsLocation.cs" />
     <Compile Include="Requests\RequestAddRtuAtGpsLocation.cs" />
