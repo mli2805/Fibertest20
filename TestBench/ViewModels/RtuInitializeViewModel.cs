@@ -105,7 +105,8 @@ namespace Iit.Fibertest.TestBench
                 Id = _rtuId,
                 MainChannel = MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress(),
                 MainChannelState = _mainChannelState,
-                ReserveChannel = ReserveChannelTestViewModel.NetAddressInputViewModel.GetNetAddress(),
+                IsReserveChannelSet = IsReserveChannelEnabled,
+                ReserveChannel = IsReserveChannelEnabled ? ReserveChannelTestViewModel.NetAddressInputViewModel.GetNetAddress() : null,
                 ReserveChannelState = _reserveChannelState,
                 OtdrNetAddress = new NetAddress()
                 {

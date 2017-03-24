@@ -9,6 +9,7 @@ namespace Iit.Fibertest.Graph
         public Guid Id { get; set; }
         public NetAddress MainChannel { get; set; }
         public RtuPartState MainChannelState { get; set; }
+        public bool IsReserveChannelSet { get; set; } = false;
         public NetAddress ReserveChannel { get; set; }
         public RtuPartState ReserveChannelState { get; set; }
         public NetAddress OtdrNetAddress { get; set; }
