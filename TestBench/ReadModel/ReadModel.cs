@@ -99,7 +99,7 @@ namespace Iit.Fibertest.TestBench
 
             if (!Fibers.Any(f => f.Node1 == nodeBefore && f.Node2 == nodeAfter
                                || f.Node2 == nodeBefore && f.Node1 == nodeAfter))
-                Fibers.Add(new Fiber() {Id = fiberId, Node1 = nodeBefore, Node2 = nodeAfter});
+                Fibers.Add(new Fiber() { Id = fiberId, Node1 = nodeBefore, Node2 = nodeAfter });
         }
         #endregion
 
@@ -169,7 +169,7 @@ namespace Iit.Fibertest.TestBench
         #region Rtu
         public void Apply(RtuAtGpsLocationAdded e)
         {
-            Node node = new Node() {Id = e.NodeId, Latitude = e.Latitude, Longitude = e.Longitude};
+            Node node = new Node() { Id = e.NodeId, Latitude = e.Latitude, Longitude = e.Longitude };
             Nodes.Add(node);
             Rtu rtu = _mapper.Map<Rtu>(e);
             Rtus.Add(rtu);
@@ -178,6 +178,42 @@ namespace Iit.Fibertest.TestBench
         public void Apply(RtuInitialized e)
         {
             var rtu = Rtus.First(r => r.Id == e.Id);
+            if (rtu.Serial == null)
+            {
+                InitializeRtuFirstTime(e, rtu);
+                return;
+            }
+
+            if (rtu.Serial == e.Serial)
+            {
+                if (rtu.OwnPortCount != e.OwnPortCount)
+                {
+                    // main otdr problem
+                    // TODO
+                    return;
+                }
+
+                if (rtu.FullPortCount != e.FullPortCount)
+                {
+                    // bop changes
+                    // TODO
+                    return;
+                }
+
+                if (rtu.FullPortCount == e.FullPortCount)
+                {
+                    // just re-initialization, nothing should be done?
+                }
+            }
+
+            if (rtu.Serial != e.Serial)
+            {
+                //TODO discuss and implement rtu replacement scenario
+            }
+        }
+
+        private static void InitializeRtuFirstTime(RtuInitialized e, Rtu rtu)
+        {
             rtu.OwnPortCount = e.OwnPortCount;
             rtu.FullPortCount = e.FullPortCount;
             rtu.Serial = e.Serial;

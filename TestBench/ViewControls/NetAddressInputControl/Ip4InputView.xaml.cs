@@ -27,7 +27,7 @@ namespace Iit.Fibertest.TestBench
 
         private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            if (e.Text == @".")
+            if (e.Text == @"." || e.Text == @",")
             {
                 MoveFocus();
                 e.Handled = true;
