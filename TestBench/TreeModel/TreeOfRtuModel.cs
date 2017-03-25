@@ -65,6 +65,42 @@ namespace Iit.Fibertest.TestBench
         {
             var rtuLeaf = (RtuLeaf)Tree.GetById(e.Id);
 
+            if (rtuLeaf.Serial == null)
+            {
+                InitializeRtuFirstTime(e, rtuLeaf);
+                return;
+            }
+
+            if (rtuLeaf.Serial == e.Serial)
+            {
+                if (rtuLeaf.OwnPortCount != e.OwnPortCount)
+                {
+                    // main otdr problem ?
+                    // TODO
+                    return;
+                }
+
+                if (rtuLeaf.FullPortCount != e.FullPortCount)
+                {
+                    // bop changes
+                    // TODO
+                    return;
+                }
+
+                if (rtuLeaf.FullPortCount == e.FullPortCount)
+                {
+                    // just re-initialization, nothing should be done?
+                }
+            }
+
+            if (rtuLeaf.Serial != e.Serial)
+            {
+                //TODO discuss and implement rtu replacement scenario
+            }
+        }
+
+        private void InitializeRtuFirstTime(RtuInitialized e, RtuLeaf rtuLeaf)
+        {
             rtuLeaf.OwnPortCount = e.OwnPortCount;
             rtuLeaf.FullPortCount = e.OwnPortCount; // otauAttached then will increase 
             rtuLeaf.Serial = e.Serial;
@@ -82,9 +118,8 @@ namespace Iit.Fibertest.TestBench
             if (e.Otaus != null)
                 foreach (var otauAttached in e.Otaus)
                     Apply(otauAttached);
-
-
         }
+
 
         public void Apply(RtuUpdated e)
         {

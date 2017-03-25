@@ -9,10 +9,8 @@ namespace Iit.Fibertest.TestBench
 {
     public class RtuLeaf : Leaf, IPortOwner
     {
-        private RtuPartState _mainChannelState;
+        #region Pictograms
         private MonitoringState _monitoringState;
-        private RtuPartState _reserveChannelState;
-
         public MonitoringState MonitoringState
         {
             get { return _monitoringState; }
@@ -25,8 +23,20 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
-        public RtuPartState BopState { get; set; }
+        private RtuPartState _bopState;
+        public RtuPartState BopState
+        {
+            get { return _bopState; }
+            set
+            {
+                if (value == _bopState) return;
+                _bopState = value;
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(BopPictogram));
+            }
+        }
 
+        private RtuPartState _mainChannelState;
         public RtuPartState MainChannelState
         {
             get { return _mainChannelState; }
@@ -39,6 +49,7 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
+        private RtuPartState _reserveChannelState;
         public RtuPartState ReserveChannelState
         {
             get { return _reserveChannelState; }
@@ -55,14 +66,15 @@ namespace Iit.Fibertest.TestBench
         public ImageSource BopPictogram => BopState.GetPictogram();
         public ImageSource MainChannelPictogram => MainChannelState.GetPictogram();
         public ImageSource ReserveChannelPictogram => ReserveChannelState.GetPictogram();
+        #endregion
 
         public int OwnPortCount { get; set; }
         public int FullPortCount { get; set; }
         public string Serial { get; set; }
         public override string Name => Title;
-        public NetAddress OtdrNetAddress => ReadModel.Rtus.First(r => r.Id == Id).OtdrNetAddress;
 
-        public bool HasAttachedTraces => ChildrenImpresario.Children.Any(l => l is TraceLeaf && ((TraceLeaf) l).PortNumber > 0);
+        public ChildrenImpresario ChildrenImpresario { get; }
+        public bool HasAttachedTraces => ChildrenImpresario.Children.Any(l => l is TraceLeaf && ((TraceLeaf)l).PortNumber > 0);
         public int TraceCount => ChildrenImpresario.Children.Count(c => c is TraceLeaf) +
                 ChildrenImpresario.Children.Where(c => c is OtauLeaf).Sum(otauLeaf => ((OtauLeaf)otauLeaf).TraceCount);
 
@@ -81,9 +93,7 @@ namespace Iit.Fibertest.TestBench
             return null;
         }
 
-        public ChildrenImpresario ChildrenImpresario { get; }
-
-        public RtuLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, PostOffice postOffice, FreePorts view) 
+        public RtuLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, PostOffice postOffice, FreePorts view)
             : base(readModel, windowManager, bus, postOffice)
         {
             ChildrenImpresario = new ChildrenImpresario(view);
@@ -181,7 +191,7 @@ namespace Iit.Fibertest.TestBench
 
         private void ShowRtuAction(object param)
         {
-            PostOffice.Message = new CenterToRtu() {RtuId = Id};
+            PostOffice.Message = new CenterToRtu() { RtuId = Id };
         }
 
         public void RtuSettingsAction(object param)
@@ -212,7 +222,7 @@ namespace Iit.Fibertest.TestBench
 
         private void RtuRemoveAction(object param)
         {
-            Bus.SendCommand(new RemoveRtu() {Id = Id});
+            Bus.SendCommand(new RemoveRtu() { Id = Id });
         }
 
         private bool CanRtuRemoveAction(object param)

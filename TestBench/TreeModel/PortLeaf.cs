@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Media;
 using Caliburn.Micro;
 using DirectCharonLibrary;
@@ -103,7 +104,7 @@ namespace Iit.Fibertest.TestBench
         private void MeasurementRftsReflectAction(object param)
         {
             RtuLeaf rtuLeaf = Parent is RtuLeaf ? (RtuLeaf)Parent : (RtuLeaf)Parent.Parent;
-            var otdrAddress = rtuLeaf.OtdrNetAddress;
+            var otdrAddress = ReadModel.Rtus.First(r => r.Id == rtuLeaf.Id).OtdrNetAddress;
             TcpAddress otauAddress = new TcpAddress(otdrAddress.Ip4Address, 23);
 
             var charon = new Charon(otauAddress);
