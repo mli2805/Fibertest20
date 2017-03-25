@@ -512,9 +512,6 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_Initialize" xml:space="preserve">
     <value>Initialize</value>
   </data>
-	<data name="SID_Optical_switch_attach_error" xml:space="preserve">
-    <value>Optical switch attach error!</value>
-  </data>
 	<data name="SID_Attach_to" xml:space="preserve">
     <value>Attach to</value>
   </data>
@@ -586,5 +583,11 @@ If chosen trace use some equipment in this node it will be replaced</value>
   </data>
 	<data name="SID_There_is_RTU_with_the_same_ip_address_" xml:space="preserve">
     <value>There is RTU with the same ip address!</value>
+  </data>
+	<data name="SID_There_is_optical_switch_with_the_same_tcp_address_" xml:space="preserve">
+    <value>There is optical switch with the same tcp address!</value>
+  </data>
+	<data name="SID_Attachment" xml:space="preserve">
+    <value>Attachment</value>
   </data>
 </root>

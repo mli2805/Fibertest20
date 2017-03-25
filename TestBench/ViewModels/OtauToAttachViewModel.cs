@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Caliburn.Micro;
+using DirectCharonLibrary;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
@@ -13,13 +16,11 @@ namespace Iit.Fibertest.TestBench
         private readonly ReadModel _readModel;
         private readonly Bus _bus;
         private readonly IWindowManager _windowManager;
-        private string _otauSerial;
-        private int _otauPortCount;
-        private NetAddressInputViewModel _netAddressInputViewModel;
 
         public string RtuTitle { get; set; }
         public int RtuPortNumber { get; set; }
 
+        private NetAddressInputViewModel _netAddressInputViewModel;
         public NetAddressInputViewModel NetAddressInputViewModel
         {
             get { return _netAddressInputViewModel; }
@@ -31,6 +32,7 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
+        private string _otauSerial;
         public string OtauSerial
         {
             get { return _otauSerial; }
@@ -42,6 +44,7 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
+        private int _otauPortCount;
         public int OtauPortCount
         {
             get { return _otauPortCount; }
@@ -49,6 +52,18 @@ namespace Iit.Fibertest.TestBench
             {
                 if (value == _otauPortCount) return;
                 _otauPortCount = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        private string _attachmentProgress;
+        public string AttachmentProgress
+        {
+            get { return _attachmentProgress; }
+            set
+            {
+                if (value == _attachmentProgress) return;
+                _attachmentProgress = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -61,10 +76,10 @@ namespace Iit.Fibertest.TestBench
             _bus = bus;
             _windowManager = windowManager;
 
-            Initialize();
+            InitializeView();
         }
 
-        private void Initialize()
+        private void InitializeView()
         {
             RtuTitle = _readModel.Rtus.First(r => r.Id == _rtuId).Title;
             RtuPortNumber = _portNumberForAttachment;
@@ -78,40 +93,73 @@ namespace Iit.Fibertest.TestBench
             DisplayName = Resources.SID_Attach_optical_switch;
         }
 
-        public void Attach()
+        public async Task AttachOtau()
         {
-            if (!RealActionsToAttachOtau())
-            {
-                var vm = new NotificationViewModel(Resources.SID_Error, Resources.SID_Optical_switch_attach_error);
-                _windowManager.ShowDialog(vm);
-                TryClose();
-            }
+            if (!CheckAddressUniqueness())
+                return;
 
-            _bus.SendCommand(new AttachOtau()
+            var otau = await OtauAttachProcess();
+            if (otau == null)
+                return;
+
+            await _bus.SendCommand(new AttachOtau()
             {
                 Id = Guid.NewGuid(),
                 RtuId = _rtuId,
                 MasterPort = _portNumberForAttachment,
-                Serial = OtauSerial,
-                PortCount = OtauPortCount,
+                Serial = otau.Serial,
+                PortCount = otau.OwnPortCount,
                 NetAddress = NetAddressInputViewModel.GetNetAddress(),
                 FirstPortNumber = _readModel.Rtus.First(r => r.Id == _rtuId).FullPortCount,
             });
         }
 
+        public bool CheckAddressUniqueness()
+        {
+            if (!_readModel.Otaus.Any(o =>
+                o.NetAddress.Ip4Address == NetAddressInputViewModel.GetNetAddress().Ip4Address &&
+                o.NetAddress.Port == NetAddressInputViewModel.GetNetAddress().Port))
+                return true;
+
+            var vm = new NotificationViewModel(Resources.SID_Error, Resources.SID_There_is_optical_switch_with_the_same_tcp_address_);
+            _windowManager.ShowDialog(vm);
+            return false;
+        }
+
+        private async Task<Charon> OtauAttachProcess()
+        {
+            AttachmentProgress = Resources.SID_Please__wait_;
+
+            Charon otau = new Charon(new TcpAddress(NetAddressInputViewModel.GetNetAddress().Ip4Address, NetAddressInputViewModel.GetNetAddress().Port));
+            using (new WaitCursor())
+            {
+               await Task.Run(() => RealOtauAttachProcess(otau));
+            }
+
+            if (!otau.IsLastCommandSuccessful)
+            {
+                var vm = new NotificationViewModel(Resources.SID_Error, $@"{otau.LastErrorMessage}");
+                _windowManager.ShowDialog(vm);
+                AttachmentProgress = Resources.SID_Failed_;
+                return null;
+            }
+
+            AttachmentProgress = Resources.SID_Successful_;
+            return otau;
+        }
+
+        private Charon RealOtauAttachProcess(Charon otau)
+        {
+            //TODO really attach otau
+            Thread.Sleep(1000);
+            otau.Serial = @"123456";
+            otau.OwnPortCount = 16;
+            return otau;
+        }
+
         public void Close()
         {
             TryClose();
-        }
-
-        private bool RealActionsToAttachOtau()
-        {
-            //TODO attach otau
-
-            OtauSerial = @"123456";
-            OtauPortCount = 16;
-
-            return true;
         }
     }
 }

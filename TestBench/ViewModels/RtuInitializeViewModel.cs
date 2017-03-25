@@ -17,10 +17,6 @@ namespace Iit.Fibertest.TestBench
         public string PortCount { get; set; }
         public NetAddress OtdrNetAddress { get; set; }
 
-        private RtuPartState _mainChannelState;
-        private RtuPartState _reserveChannelState;
-
-
         public RtuChannelTestViewModel MainChannelTestViewModel { get; set; }
         public bool IsReserveChannelEnabled { get; set; }
         public RtuChannelTestViewModel ReserveChannelTestViewModel { get; set; }
@@ -98,16 +94,38 @@ namespace Iit.Fibertest.TestBench
             return true;
         }
 
+        private async Task<Charon> RunInitializationProcess()
+        {
+            InitilizationProgress = Resources.SID_Please__wait_;
+
+            var charonAddress = new TcpAddress(MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().Ip4Address, 23);
+            var mainCharon = new Charon(charonAddress);
+            using (new WaitCursor())
+            {
+                await Task.Run(() => mainCharon.InitializeRtu());
+            }
+
+            if (!mainCharon.IsLastCommandSuccessful)
+            {
+                var vm = new NotificationViewModel(Resources.SID_Error, $@"{mainCharon.LastErrorMessage}");
+                _windowManager.ShowDialog(vm);
+                InitilizationProgress = Resources.SID_Failed_;
+                return null;
+            }
+            InitilizationProgress = Resources.SID_Successful_;
+            return mainCharon;
+        }
+
         private InitializeRtu ParseInitializationResult(Charon mainCharon)
         {
             var cmd = new InitializeRtu
             {
                 Id = _rtuId,
                 MainChannel = MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress(),
-                MainChannelState = _mainChannelState,
+                MainChannelState = RtuPartState.Normal,
                 IsReserveChannelSet = IsReserveChannelEnabled,
                 ReserveChannel = IsReserveChannelEnabled ? ReserveChannelTestViewModel.NetAddressInputViewModel.GetNetAddress() : null,
-                ReserveChannelState = _reserveChannelState,
+                ReserveChannelState = IsReserveChannelEnabled ? RtuPartState.Normal : RtuPartState.None,
                 OtdrNetAddress = new NetAddress()
                 {
                     Ip4Address = mainCharon.TcpAddress.Ip,
@@ -137,31 +155,6 @@ namespace Iit.Fibertest.TestBench
                 Serial = pair.Value.Serial,
             };
             return otau;
-        }
-
-        private async Task<Charon> RunInitializationProcess()
-        {
-            _mainChannelState = RtuPartState.Normal;
-            _reserveChannelState = RtuPartState.None;
-
-            var charonAddress = new TcpAddress(MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().Ip4Address, 23);
-
-            InitilizationProgress = Resources.SID_Please__wait_;
-            var mainCharon = new Charon(charonAddress);
-            using (new WaitCursor())
-            {
-                await Task.Run(() => mainCharon.InitializeRtu());
-            }
-
-            if (!mainCharon.IsLastCommandSuccessful)
-            {
-                var vm = new NotificationViewModel(Resources.SID_Error, $@"{mainCharon.LastErrorMessage}");
-                _windowManager.ShowDialog(vm);
-                InitilizationProgress = Resources.SID_Failed_;
-                return null;
-            }
-            InitilizationProgress = Resources.SID_Successful_;
-            return mainCharon;
         }
 
         public void Close()

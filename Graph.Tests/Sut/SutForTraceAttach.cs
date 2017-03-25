@@ -7,12 +7,26 @@ namespace Graph.Tests
 {
     public class SutForTraceAttach : SystemUnderTest
     {
-        public bool OtauToAttachHandler(object model, Answer answer)
+        public bool OtauToAttachHandler(object model, Guid rtuId, int masterPort, Answer answer)
         {
             var vm = model as OtauToAttachViewModel;
             if (vm == null) return false;
             if (answer == Answer.Yes)
-                vm.Attach();
+            {
+                if (!vm.CheckAddressUniqueness())
+                    return true;
+                var cmd = new AttachOtau()
+                {
+                    Id = Guid.NewGuid(),
+                    RtuId = rtuId,
+                    MasterPort = masterPort,
+                    Serial = @"123456",
+                    PortCount = 16,
+                    NetAddress = new NetAddress(),
+                    FirstPortNumber = ReadModel.Rtus.First(r => r.Id == rtuId).FullPortCount,
+                };
+                ShellVm.Bus.SendCommand(cmd);
+            }
             else
                 vm.Close();
             return true;
@@ -21,7 +35,7 @@ namespace Graph.Tests
         public OtauLeaf AttachOtauToRtu(RtuLeaf rtuLeaf, int port)
         {
             var portLeaf = (PortLeaf)rtuLeaf.ChildrenImpresario.Children[port - 1];
-            FakeWindowManager.RegisterHandler(model => OtauToAttachHandler(model, Answer.Yes));
+            FakeWindowManager.RegisterHandler(model => OtauToAttachHandler(model, rtuLeaf.Id, port, Answer.Yes));
             portLeaf.AttachOtauAction(null);
             Poller.Tick();
             return (OtauLeaf) rtuLeaf.ChildrenImpresario.Children[port - 1];

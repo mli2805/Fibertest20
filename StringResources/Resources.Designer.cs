@@ -232,6 +232,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Attachment.
+        /// </summary>
+        public static string SID_Attachment {
+            get {
+                return ResourceManager.GetString("SID_Attachment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Automatic mode.
         /// </summary>
         public static string SID_Automatic_mode {
@@ -1336,6 +1345,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_There_is_a_rtu_with_the_same_title {
             get {
                 return ResourceManager.GetString("SID_There_is_a_rtu_with_the_same_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There is optical switch with the same tcp address!.
+        /// </summary>
+        public static string SID_There_is_optical_switch_with_the_same_tcp_address_ {
+            get {
+                return ResourceManager.GetString("SID_There_is_optical_switch_with_the_same_tcp_address_", resourceCulture);
             }
         }
         

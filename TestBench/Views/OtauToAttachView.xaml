@@ -35,6 +35,11 @@
                 </StackPanel>
             </StackPanel>
         </GroupBox>
+        <GroupBox Header="{x:Static stringResources:Resources.SID_Attachment}" Margin="5">
+            <StackPanel>
+                <TextBlock Text="{Binding AttachmentProgress}" HorizontalAlignment="Center"/>
+            </StackPanel>
+        </GroupBox>
         <StackPanel Orientation="Horizontal" Margin="15,10">
             <Button Name="Attach" Content="{x:Static stringResources:Resources.SID_Attach}" Width="100" Margin="5"/>
             <Button Name="Close" Content="{x:Static stringResources:Resources.SID_Close}" Width="90" Margin="5"/>
