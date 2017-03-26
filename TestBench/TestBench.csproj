@@ -35,6 +35,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\Ico\ftClient3.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Autofac, Version=4.3.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.4.3.0\lib\net45\Autofac.dll</HintPath>
@@ -139,6 +142,10 @@
     </Compile>
     <Compile Include="ViewControls\RtuChannelTestViewModel.cs" />
     <Compile Include="TreeModel\Post\CenterToRtu.cs" />
+    <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="Views\LoginView.xaml.cs">
+      <DependentUpon>LoginView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\OtauToAttachViewModel.cs" />
     <Compile Include="ViewModels\Primitive\NodesStatisticsItem.cs" />
     <Compile Include="ViewModels\RtuInitializeViewModel.cs" />
@@ -297,6 +304,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ViewControls\RtuChannelTestView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LoginView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -513,7 +524,10 @@
     <Resource Include="Resources\Buttons\HidePorts.png" />
     <Resource Include="Resources\Buttons\ShowPorts.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\Ico\ftClient3.ico" />
+    <Resource Include="Resources\Ico\IIT.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

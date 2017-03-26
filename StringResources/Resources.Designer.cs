@@ -241,6 +241,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Authentication.
+        /// </summary>
+        public static string SID_Authentication {
+            get {
+                return ResourceManager.GetString("SID_Authentication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Automatic mode.
         /// </summary>
         public static string SID_Automatic_mode {
@@ -637,6 +646,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Input user name and password.
+        /// </summary>
+        public static string SID_Input_user_name_and_password {
+            get {
+                return ResourceManager.GetString("SID_Input_user_name_and_password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Institute of Information Technologies.
+        /// </summary>
+        public static string SID_Institute_of_Information_Technologies {
+            get {
+                return ResourceManager.GetString("SID_Institute_of_Information_Technologies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid input.
         /// </summary>
         public static string SID_Invalid_input {
@@ -714,6 +741,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_List_of_traces {
             get {
                 return ResourceManager.GetString("SID_List_of_traces", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login.
+        /// </summary>
+        public static string SID_Login {
+            get {
+                return ResourceManager.GetString("SID_Login", resourceCulture);
             }
         }
         
@@ -871,15 +907,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Optical switch attach error!.
-        /// </summary>
-        public static string SID_Optical_switch_attach_error {
-            get {
-                return ResourceManager.GetString("SID_Optical_switch_attach_error", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Optical switch {0}.
         /// </summary>
         public static string SID_Optical_switch_with_Address {
@@ -903,6 +930,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Other {
             get {
                 return ResourceManager.GetString("SID_Other", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password.
+        /// </summary>
+        public static string SID_Password {
+            get {
+                return ResourceManager.GetString("SID_Password", resourceCulture);
             }
         }
         
@@ -1223,6 +1259,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Server.
+        /// </summary>
+        public static string SID_Server {
+            get {
+                return ResourceManager.GetString("SID_Server", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Servers.
         /// </summary>
         public static string SID_Servers {
@@ -1462,6 +1507,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Update {
             get {
                 return ResourceManager.GetString("SID_Update", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User.
+        /// </summary>
+        public static string SID_User {
+            get {
+                return ResourceManager.GetString("SID_User", resourceCulture);
             }
         }
         

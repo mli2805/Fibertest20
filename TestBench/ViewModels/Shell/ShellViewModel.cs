@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
@@ -20,6 +21,7 @@ namespace Iit.Fibertest.TestBench
         public TreeOfRtuViewModel TreeOfRtuViewModel { get; set; }
         public GraphReadModel GraphReadModel { get; set; }
 
+        private bool? _isAuthenticationSuccessfull;
         public Db LocalDb { get; set; }
         public ShellViewModel(ReadModel readModel, TreeOfRtuModel treeOfRtuModel, Bus bus, 
             Db db, GraphReadModel graphReadModel, IWindowManager windowManager, ILogger clientLogger)
@@ -35,6 +37,7 @@ namespace Iit.Fibertest.TestBench
 
             Log = clientLogger;
             Log.Information(@"Client started!");
+
         }
 
         private void PostOffice_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -43,9 +46,14 @@ namespace Iit.Fibertest.TestBench
                 GraphReadModel.ProcessMessage(((PostOffice)sender).Message);
         }
 
-        public void Save()
+        protected override void OnViewReady(object view)
         {
-            LocalDb.Save();
+            ((App)Application.Current).ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            var vm = new LoginViewModel();
+            _isAuthenticationSuccessfull = _windowManager.ShowDialog(vm);
+            ((App)Application.Current).ShutdownMode = ShutdownMode.OnMainWindowClose;
+            if (_isAuthenticationSuccessfull != true)
+                TryClose();
         }
 
         protected override void OnViewLoaded(object view)
@@ -60,6 +68,11 @@ namespace Iit.Fibertest.TestBench
                 this.AsDynamic().ComplyWithRequest(GraphReadModel.Request)
                     // This call is needed so there's no warning
                     .ConfigureAwait(false);
+        }
+
+        public void Save()
+        {
+            LocalDb.Save();
         }
 
         #region Node

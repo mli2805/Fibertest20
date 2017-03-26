@@ -590,4 +590,25 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_Attachment" xml:space="preserve">
     <value>Attachment</value>
   </data>
+	<data name="SID_Input_user_name_and_password" xml:space="preserve">
+    <value>Input user name and password</value>
+  </data>
+	<data name="SID_Authentication" xml:space="preserve">
+    <value>Authentication</value>
+  </data>
+	<data name="SID_Institute_of_Information_Technologies" xml:space="preserve">
+    <value>Institute of Information Technologies</value>
+  </data>
+	<data name="SID_Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+	<data name="SID_User" xml:space="preserve">
+    <value>User</value>
+  </data>
+	<data name="SID_Server" xml:space="preserve">
+    <value>Server</value>
+  </data>
+	<data name="SID_Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
 </root>

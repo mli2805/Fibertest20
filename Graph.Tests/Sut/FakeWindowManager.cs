@@ -38,6 +38,7 @@ namespace Graph.Tests
         public FakeWindowManager()
         {
             RegisterHandler(m => m is NotificationViewModel);
+            RegisterHandler(m => m is LoginViewModel);
         }
 
         public void RegisterHandler(Func<object, bool> del)
