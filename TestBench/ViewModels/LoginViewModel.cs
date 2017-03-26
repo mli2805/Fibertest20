@@ -15,7 +15,7 @@ namespace Iit.Fibertest.TestBench
 
         public void Login()
         {
-            
+            TryClose(true);
         }
 
         public void ConnectServer()
