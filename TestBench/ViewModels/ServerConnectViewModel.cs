@@ -1,16 +1,17 @@
 ﻿using Caliburn.Micro;
+using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.TestBench
 {
     public class ServerConnectViewModel : Screen
     {
-        private readonly IniFile _iniFile;
         public NetAddressTestViewModel ServerConnectionTestViewModel;
 
         public ServerConnectViewModel(IniFile iniFile)
         {
-            _iniFile = iniFile;
-            _iniFile.Read("General", "ServerIp", "192.168.96.21");
+            var serverIp = iniFile.Read(IniSection.General, IniKey.ServerIp, @"192.168.96.21");
+
+            ServerConnectionTestViewModel = new NetAddressTestViewModel(new NetAddress(serverIp, 118331));
         }
     }
 }

@@ -19,20 +19,16 @@ namespace Iit.Fibertest.TestBench
             _filePath = iniFilePath;
         }
 
-        public void Write(string section, string key, string value)
+        #region Base (String)
+        public void Write(IniSection section, IniKey key, string value)
         {
-            WritePrivateProfileString(section, key, value, _filePath);
+            WritePrivateProfileString(section.ToString(), key.ToString(), value, _filePath);
         }
 
-        public void Write(string section, string key, bool value)
-        {
-            WritePrivateProfileString(section, key, value.ToString(), _filePath);
-        }
-
-        public string Read(string section, string key, string defaultValue)
+        public string Read(IniSection section, IniKey key, string defaultValue)
         {
             StringBuilder temp = new StringBuilder(255);
-            if (GetPrivateProfileString(section, key, "", temp, 255, _filePath) != 0)
+            if (GetPrivateProfileString(section.ToString(), key.ToString(), "", temp, 255, _filePath) != 0)
             {
                 return temp.ToString();
             }
@@ -40,11 +36,19 @@ namespace Iit.Fibertest.TestBench
             Write(section, key, defaultValue);
             return defaultValue;
         }
+        #endregion
 
-        public bool Read(string section, string key, bool defaultValue)
+        #region Extensions (Other classes)
+        public void Write(IniSection section, IniKey key, bool value)
+        {
+            Write(section, key, value.ToString());
+        }
+
+        public bool Read(IniSection section, IniKey key, bool defaultValue)
         {
             bool result;
             return bool.TryParse(Read(section, key, defaultValue.ToString()), out result) ? result : defaultValue;
         }
+        #endregion
     }
 }
