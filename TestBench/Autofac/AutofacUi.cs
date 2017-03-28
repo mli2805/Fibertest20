@@ -1,3 +1,4 @@
+using System;
 using Autofac;
 using Caliburn.Micro;
 using Serilog;
@@ -19,6 +20,9 @@ namespace Iit.Fibertest.TestBench
                 new LoggerConfiguration()
                     .WriteTo.Seq(@"http://localhost:5341")
                     .CreateLogger());
+
+            builder.RegisterInstance(
+                new IniFile(AppDomain.CurrentDomain.BaseDirectory + @"\client.ini"));
         }
     }
 

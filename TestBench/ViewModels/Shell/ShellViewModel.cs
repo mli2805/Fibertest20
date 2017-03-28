@@ -12,6 +12,7 @@ namespace Iit.Fibertest.TestBench
     public partial class ShellViewModel : Screen, IShell
     {
         public ILogger Log { get; set; }
+        public IniFile IniFile { get; set; }
 
         public Bus Bus { get; }
         private readonly IWindowManager _windowManager;
@@ -24,7 +25,8 @@ namespace Iit.Fibertest.TestBench
         private bool? _isAuthenticationSuccessfull;
         public Db LocalDb { get; set; }
         public ShellViewModel(ReadModel readModel, TreeOfRtuModel treeOfRtuModel, Bus bus, 
-            Db db, GraphReadModel graphReadModel, IWindowManager windowManager, ILogger clientLogger)
+                Db db, GraphReadModel graphReadModel, IWindowManager windowManager, 
+                ILogger clientLogger, IniFile iniFile)
         {
             ReadModel = readModel;
             TreeOfRtuModel = treeOfRtuModel;
@@ -38,6 +40,7 @@ namespace Iit.Fibertest.TestBench
             Log = clientLogger;
             Log.Information(@"Client started!");
 
+            IniFile = iniFile;
         }
 
         private void PostOffice_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
