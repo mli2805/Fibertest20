@@ -1,11 +1,11 @@
-﻿<UserControl x:Class="Iit.Fibertest.TestBench.RtuChannelTestView"
+﻿<UserControl x:Class="Iit.Fibertest.TestBench.NetAddressTestView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:testBench="clr-namespace:Iit.Fibertest.TestBench"
              xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
-             mc:Ignorable="d" d:DataContext="{d:DesignInstance testBench:RtuChannelTestViewModel}">
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance testBench:NetAddressTestViewModel}">
     <Grid>
         <testBench:NetAddressInputView DataContext="{Binding NetAddressInputViewModel}"/>
         <Button Name="Test" Height="22" Width="80" Content="{x:Static stringResources:Resources.SID_Test}" Margin="5,5,20,0" HorizontalAlignment="Right" VerticalAlignment="Bottom" />

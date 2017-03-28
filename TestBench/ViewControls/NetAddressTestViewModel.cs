@@ -2,11 +2,11 @@
 
 namespace Iit.Fibertest.TestBench
 {
-    public class RtuChannelTestViewModel
+    public class NetAddressTestViewModel
     {
         public NetAddressInputViewModel NetAddressInputViewModel { get; set; }
 
-        public RtuChannelTestViewModel(NetAddress netAddress)
+        public NetAddressTestViewModel(NetAddress netAddress)
         {
             NetAddressInputViewModel = new NetAddressInputViewModel(netAddress);
         }

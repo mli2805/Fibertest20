@@ -1,11 +1,11 @@
 ﻿namespace Iit.Fibertest.TestBench
 {
     /// <summary>
-    /// Interaction logic for RtuChannelTestView.xaml
+    /// Interaction logic for ServerConnectView.xaml
     /// </summary>
-    public partial class RtuChannelTestView
+    public partial class ServerConnectView
     {
-        public RtuChannelTestView()
+        public ServerConnectView()
         {
             InitializeComponent();
         }

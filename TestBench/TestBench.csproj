@@ -138,12 +138,13 @@
       <DependentUpon>NetAddressInputView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewControls\NetAddressInputControl\NetAddressInputViewModel.cs" />
-    <Compile Include="ViewControls\RtuChannelTestView.xaml.cs">
-      <DependentUpon>RtuChannelTestView.xaml</DependentUpon>
+    <Compile Include="ViewControls\NetAddressTestView.xaml.cs">
+      <DependentUpon>NetAddressTestView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewControls\RtuChannelTestViewModel.cs" />
+    <Compile Include="ViewControls\NetAddressTestViewModel.cs" />
     <Compile Include="TreeModel\Post\CenterToRtu.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\ServerConnectViewModel.cs" />
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
@@ -157,6 +158,9 @@
     </Compile>
     <Compile Include="Views\RtuInitializeView.xaml.cs">
       <DependentUpon>RtuInitializeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ServerConnectView.xaml.cs">
+      <DependentUpon>ServerConnectView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TraceToAttachView.xaml.cs">
       <DependentUpon>TraceToAttachView.xaml</DependentUpon>
@@ -304,7 +308,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ViewControls\RtuChannelTestView.xaml">
+    <Page Include="ViewControls\NetAddressTestView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -337,6 +341,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\RtuInitializeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ServerConnectView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -52,7 +52,7 @@ namespace Iit.Fibertest.TestBench
         protected override void OnViewReady(object view)
         {
             ((App)Application.Current).ShutdownMode = ShutdownMode.OnExplicitShutdown;
-            var vm = new LoginViewModel();
+            var vm = new LoginViewModel(_windowManager, IniFile);
             _isAuthenticationSuccessfull = _windowManager.ShowDialog(vm);
             ((App)Application.Current).ShutdownMode = ShutdownMode.OnMainWindowClose;
             if (_isAuthenticationSuccessfull != true)

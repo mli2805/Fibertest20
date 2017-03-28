@@ -1,0 +1,18 @@
+﻿<Window x:Class="Iit.Fibertest.TestBench.ServerConnectView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:testBench="clr-namespace:Iit.Fibertest.TestBench"
+        mc:Ignorable="d"
+        Title="ServerConnectView" SizeToContent="WidthAndHeight" >
+    <StackPanel>
+        <Border BorderBrush="DarkGray" BorderThickness="1" Margin="5" Padding="5">
+            <testBench:NetAddressTestView DataContext="{Binding ServerConnectionTestViewModel}"/>
+        </Border>
+        <StackPanel Orientation="Horizontal" Margin="10,5">
+            <Button Name="Save" Content="Save" Width="90" Margin="5"/>
+            <Button Name="Cancel" Content="Cancel" Width="90" Margin="5"/>
+        </StackPanel>
+    </StackPanel>
+</Window>
