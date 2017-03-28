@@ -5,14 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:testBench="clr-namespace:Iit.Fibertest.TestBench"
         mc:Ignorable="d"
-        Title="ServerConnectView" SizeToContent="WidthAndHeight" >
+        SizeToContent="WidthAndHeight" ResizeMode="NoResize" WindowStartupLocation="CenterOwner"
+        d:DataContext="{d:DesignInstance testBench:ServerConnectViewModel}">
     <StackPanel>
-        <Border BorderBrush="DarkGray" BorderThickness="1" Margin="5" Padding="5">
+        <Border BorderBrush="DarkGray" BorderThickness="1" Margin="5" Padding="15,5,15,25">
             <testBench:NetAddressTestView DataContext="{Binding ServerConnectionTestViewModel}"/>
         </Border>
         <StackPanel Orientation="Horizontal" Margin="10,5">
             <Button Name="Save" Content="Save" Width="90" Margin="5"/>
-            <Button Name="Cancel" Content="Cancel" Width="90" Margin="5"/>
+            <Button Name="Cancel" Content="Cancel" IsCancel="True" Width="90" Margin="5"/>
         </StackPanel>
     </StackPanel>
 </Window>
