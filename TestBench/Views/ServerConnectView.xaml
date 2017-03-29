@@ -8,12 +8,12 @@
         SizeToContent="WidthAndHeight" ResizeMode="NoResize" WindowStartupLocation="CenterOwner"
         d:DataContext="{d:DesignInstance testBench:ServerConnectViewModel}">
     <StackPanel>
-        <Border BorderBrush="DarkGray" BorderThickness="1" Margin="5" Padding="15,5,15,25">
+        <Border BorderBrush="DarkGray" BorderThickness="1" Margin="5" Padding="15,5,15,35">
             <testBench:NetAddressTestView DataContext="{Binding ServerConnectionTestViewModel}"/>
         </Border>
         <StackPanel Orientation="Horizontal" Margin="10,5">
-            <Button Name="Save" Content="Save" Width="90" Margin="5"/>
-            <Button Name="Cancel" Content="Cancel" IsCancel="True" Width="90" Margin="5"/>
+            <Button Name="Save" Content="Save" Width="80" Margin="5"/>
+            <Button Name="Cancel" Content="Cancel" IsCancel="True" Width="80" Margin="5"/>
         </StackPanel>
     </StackPanel>
 </Window>

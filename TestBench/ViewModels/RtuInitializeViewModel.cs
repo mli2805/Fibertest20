@@ -68,15 +68,26 @@ namespace Iit.Fibertest.TestBench
             // TODO Initialize RTU via Server and RtuManager
             var mainCharon = await RunInitializationProcess();
             if (mainCharon == null)
-                return;
+                // return;
+                mainCharon = TemporaryFakeInitialization();
 
             //
             await _bus.SendCommand(ParseInitializationResult(mainCharon));
         }
 
+        private Charon TemporaryFakeInitialization()
+        {
+            var charonAddress = new TcpAddress(MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().Ip4Address, 23);
+            var mainCharon = new Charon(charonAddress);
+            mainCharon.FullPortCount = 8;
+            mainCharon.OwnPortCount = 8;
+            mainCharon.Serial = @"1234567";
+            return mainCharon;
+        }
+
         public bool CheckAddressUniqueness()
         {
-            if (_readModel.Rtus.Any(r =>
+            var list = _readModel.Rtus.Where(r =>
                 r.MainChannel.Ip4Address ==
                 MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().Ip4Address ||
                 r.ReserveChannel.Ip4Address ==
@@ -85,7 +96,8 @@ namespace Iit.Fibertest.TestBench
                 (r.MainChannel.Ip4Address ==
                  ReserveChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().Ip4Address ||
                  r.ReserveChannel.Ip4Address ==
-                 ReserveChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().Ip4Address)))
+                 ReserveChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().Ip4Address)).ToList();
+            if (!(list.Count == 0 || list.Count == 1 && list.First().Id == _rtuId))
             {
                 var vm = new NotificationViewModel(Resources.SID_Error, Resources.SID_There_is_RTU_with_the_same_ip_address_);
                 _windowManager.ShowDialog(vm);
