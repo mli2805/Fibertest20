@@ -4,11 +4,14 @@ using System.Windows.Media;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using Serilog;
 
 namespace Iit.Fibertest.TestBench
 {
     public class RtuLeaf : Leaf, IPortOwner
     {
+        private readonly ILogger _log;
+
         #region Pictograms
         private MonitoringState _monitoringState;
         public MonitoringState MonitoringState
@@ -93,9 +96,10 @@ namespace Iit.Fibertest.TestBench
             return null;
         }
 
-        public RtuLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, PostOffice postOffice, FreePorts view)
+        public RtuLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, ILogger log, PostOffice postOffice, FreePorts view)
             : base(readModel, windowManager, bus, postOffice)
         {
+            _log = log;
             ChildrenImpresario = new ChildrenImpresario(view);
         }
         protected override List<MenuItemVm> GetMenuItems()
@@ -196,7 +200,7 @@ namespace Iit.Fibertest.TestBench
 
         public void RtuSettingsAction(object param)
         {
-            var vm = new RtuInitializeViewModel(Id, ReadModel, WindowManager, Bus);
+            var vm = new RtuInitializeViewModel(Id, ReadModel, WindowManager, Bus, _log);
             WindowManager.ShowDialog(vm);
         }
 

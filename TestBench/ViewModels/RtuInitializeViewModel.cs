@@ -6,6 +6,7 @@ using Caliburn.Micro;
 using DirectCharonLibrary;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using Serilog;
 
 namespace Iit.Fibertest.TestBench
 {
@@ -25,6 +26,7 @@ namespace Iit.Fibertest.TestBench
         private readonly ReadModel _readModel;
         private readonly IWindowManager _windowManager;
         private readonly Bus _bus;
+        private readonly ILogger _log;
 
         private string _initilizationProgress;
         public string InitilizationProgress
@@ -38,12 +40,13 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
-        public RtuInitializeViewModel(Guid rtuId, ReadModel readModel, IWindowManager windowManager, Bus bus)
+        public RtuInitializeViewModel(Guid rtuId, ReadModel readModel, IWindowManager windowManager, Bus bus, ILogger log)
         {
             _rtuId = rtuId;
             _readModel = readModel;
             _windowManager = windowManager;
             _bus = bus;
+            _log = log;
 
             var originalRtu = readModel.Rtus.First(r => r.Id == _rtuId);
             Title = originalRtu.Title;
@@ -121,9 +124,11 @@ namespace Iit.Fibertest.TestBench
             {
                 var vm = new NotificationViewModel(Resources.SID_Error, $@"{mainCharon.LastErrorMessage}");
                 _windowManager.ShowDialog(vm);
+                Log.Information($"last answer is {mainCharon.LastAnswer}");
                 InitilizationProgress = Resources.SID_Failed_;
                 return null;
             }
+            Log.Information($"last answer is {mainCharon.LastAnswer}");
             InitilizationProgress = Resources.SID_Successful_;
             return mainCharon;
         }

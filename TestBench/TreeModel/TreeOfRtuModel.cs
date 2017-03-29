@@ -4,6 +4,7 @@ using System.Windows.Media;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using Serilog;
 
 namespace Iit.Fibertest.TestBench
 {
@@ -12,6 +13,7 @@ namespace Iit.Fibertest.TestBench
         private readonly IWindowManager _windowManager;
         private readonly ReadModel _readModel;
         private readonly Bus _bus;
+        private readonly ILogger _log;
         public ObservableCollection<Leaf> Tree { get; set; } = new ObservableCollection<Leaf>();
         public FreePorts FreePorts { get; } = new FreePorts(true);
 
@@ -39,11 +41,12 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
-        public TreeOfRtuModel(IWindowManager windowManager, ReadModel readModel, Bus bus)
+        public TreeOfRtuModel(IWindowManager windowManager, ReadModel readModel, Bus bus, ILogger log)
         {
             _windowManager = windowManager;
             _readModel = readModel;
             _bus = bus;
+            _log = log;
 
             PostOffice = new PostOffice();
         }
@@ -51,7 +54,7 @@ namespace Iit.Fibertest.TestBench
         #region Rtu
         public void Apply(RtuAtGpsLocationAdded e)
         {
-            Tree.Add(new RtuLeaf(_readModel, _windowManager, _bus, PostOffice, FreePorts)
+            Tree.Add(new RtuLeaf(_readModel, _windowManager, _bus, _log, PostOffice, FreePorts)
             {
                 Id = e.Id,
                 Title = Resources.SID_noname_RTU,
