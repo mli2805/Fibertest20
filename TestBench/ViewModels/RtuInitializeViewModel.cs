@@ -124,11 +124,11 @@ namespace Iit.Fibertest.TestBench
             {
                 var vm = new NotificationViewModel(Resources.SID_Error, $@"{mainCharon.LastErrorMessage}");
                 _windowManager.ShowDialog(vm);
-                Log.Information($"last answer is {mainCharon.LastAnswer}");
+                _log.Information($"last answer is {mainCharon.LastAnswer}");
                 InitilizationProgress = Resources.SID_Failed_;
                 return null;
             }
-            Log.Information($"last answer is {mainCharon.LastAnswer}");
+            _log.Information($"last answer is {mainCharon.LastAnswer}");
             InitilizationProgress = Resources.SID_Successful_;
             return mainCharon;
         }
