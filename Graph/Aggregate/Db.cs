@@ -7,7 +7,7 @@ namespace Iit.Fibertest.Graph
 {
     public class Db
     {
-        private string filename = @"db.bin";
+        private string filename = @"..\db\db.bin";
 
         public List<object> Events { get; private set; } = new List<object>();
 

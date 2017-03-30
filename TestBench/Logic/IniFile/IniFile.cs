@@ -11,12 +11,12 @@ namespace Iit.Fibertest.TestBench
         private static extern long WritePrivateProfileString(string section, string key, string val, string filePath);
 
         [DllImport("kernel32")]
-        private static extern int GetPrivateProfileString(string section, 
+        private static extern int GetPrivateProfileString(string section,
             string key, string def, StringBuilder retVal, int size, string filePath);
 
-        public IniFile(string iniFilePath)
+        public IniFile(string fullFilename)
         {
-            _filePath = iniFilePath;
+            _filePath = fullFilename;
         }
 
         #region Base (String)
