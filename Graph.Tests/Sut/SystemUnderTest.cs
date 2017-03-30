@@ -6,12 +6,14 @@ using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.TestBench;
+using Serilog;
 
 namespace Graph.Tests
 {
     public class SystemUnderTest
     {
         public ReadModel ReadModel { get; }
+        public ILogger LoggerForTests { get; set; }
         public ClientPoller Poller { get; }
         public FakeWindowManager FakeWindowManager { get; }
         public ShellViewModel ShellVm { get; }
@@ -29,7 +31,17 @@ namespace Graph.Tests
             Poller = container.Resolve<ClientPoller>();
             FakeWindowManager =(FakeWindowManager) container.Resolve<IWindowManager>();
             ReadModel = container.Resolve<ReadModel>();
-            ShellVm = (ShellViewModel) container.Resolve<IShell>();
+
+//            ShellVm = (ShellViewModel) container.Resolve<IShell>();
+
+            LoggerForTests = new LoggerConfiguration()
+                    .WriteTo.RollingFile(@"logs\\client.log")
+                  // .WriteTo.Seq(@"http://localhost:5341")
+                    .CreateLogger();
+
+            ShellVm = new ShellViewModel(ReadModel,container.Resolve<TreeOfRtuModel>(),
+                container.Resolve<Bus>(),container.Resolve<Db>(),container.Resolve<GraphReadModel>(),
+                FakeWindowManager, LoggerForTests, container.Resolve<IniFile>());
         }
 
         public Iit.Fibertest.Graph.Trace CreateTraceRtuEmptyTerminal()

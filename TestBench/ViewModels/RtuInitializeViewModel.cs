@@ -124,11 +124,11 @@ namespace Iit.Fibertest.TestBench
             {
                 var vm = new NotificationViewModel(Resources.SID_Error, $@"{mainCharon.LastErrorMessage}");
                 _windowManager.ShowDialog(vm);
-                _log.Information($"last answer is {mainCharon.LastAnswer}");
+                _log.Information($@"last answer is {mainCharon.LastAnswer}");
                 InitilizationProgress = Resources.SID_Failed_;
                 return null;
             }
-            _log.Information($"last answer is {mainCharon.LastAnswer}");
+            _log.Information($@"last answer is {mainCharon.LastAnswer}");
             InitilizationProgress = Resources.SID_Successful_;
             return mainCharon;
         }
@@ -147,7 +147,7 @@ namespace Iit.Fibertest.TestBench
                 {
                     Ip4Address = mainCharon.TcpAddress.Ip,
                     Port = 1500
-                }, // very old rtu have different otdr address
+                }, // TODO very old rtu have different otdr address
                 OwnPortCount = mainCharon.OwnPortCount,
                 FullPortCount = mainCharon.FullPortCount,
                 Serial = mainCharon.Serial,
