@@ -13,3 +13,5 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
 
 9. Serilog убрать/заменить в тестах вроде сделал, но не понятно куда тесты пишут лог 
 и что с Log.CloseAndFlush(); - не находит в классе
+
+10 лицензии

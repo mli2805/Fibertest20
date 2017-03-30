@@ -22,7 +22,7 @@ namespace Iit.Fibertest.TestBench
                     .CreateLogger());
 
             builder.RegisterInstance(
-                new IniFile(AppDomain.CurrentDomain.BaseDirectory + @"\client.ini"));
+                new IniFile(AppDomain.CurrentDomain.BaseDirectory + @"ini\client.ini"));
         }
     }
 

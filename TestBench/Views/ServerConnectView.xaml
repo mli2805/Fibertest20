@@ -4,16 +4,27 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:testBench="clr-namespace:Iit.Fibertest.TestBench"
+        xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
         SizeToContent="WidthAndHeight" ResizeMode="NoResize" WindowStartupLocation="CenterOwner"
         d:DataContext="{d:DesignInstance testBench:ServerConnectViewModel}">
     <StackPanel>
-        <Border BorderBrush="DarkGray" BorderThickness="1" Margin="5" Padding="15,5,15,35">
-            <testBench:NetAddressTestView DataContext="{Binding ServerConnectionTestViewModel}"/>
+        <StackPanel Orientation="Horizontal" Margin="5" >
+            <Grid Width="70">
+                <Image Source="../Resources/Ico/IIT.ico" Width="32"/>
+            </Grid>
+            <StackPanel Margin="0,5,35,5">
+                <TextBlock FontWeight="Bold" Text="FIBERTEST 2.0"/>
+                <TextBlock FontWeight="Bold" Text="{x:Static stringResources:Resources.SID_DataCenter_Server}"/>
+            </StackPanel>
+        </StackPanel>
+        <Border BorderThickness="0,2,0,0" BorderBrush="LightGray" Margin="5,0">
+            <testBench:NetAddressTestView DataContext="{Binding ServerConnectionTestViewModel}" Margin="15,10,15,0"/>
         </Border>
-        <StackPanel Orientation="Horizontal" Margin="10,5">
-            <Button Name="Save" Content="Save" Width="80" Margin="5"/>
-            <Button Name="Cancel" Content="Cancel" IsCancel="True" Width="80" Margin="5"/>
+        <TextBlock Text="{Binding Message}" Background="AliceBlue" Margin="10,10,10,5" HorizontalAlignment="Center" Padding="15,0"/>
+        <StackPanel Orientation="Horizontal" Margin="10,5,5,10">
+            <Button Name="Save" Content="{x:Static stringResources:Resources.SID_Save}" Width="80" Margin="5"/>
+            <Button Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}" IsCancel="True" Width="80" Margin="5"/>
         </StackPanel>
     </StackPanel>
 </Window>

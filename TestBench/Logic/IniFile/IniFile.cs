@@ -44,10 +44,21 @@ namespace Iit.Fibertest.TestBench
             Write(section, key, value.ToString());
         }
 
+        public void Write(IniSection section, IniKey key, int value)
+        {
+            Write(section, key, value.ToString());
+        }
+
         public bool Read(IniSection section, IniKey key, bool defaultValue)
         {
             bool result;
             return bool.TryParse(Read(section, key, defaultValue.ToString()), out result) ? result : defaultValue;
+        }
+
+        public int Read(IniSection section, IniKey key, int defaultValue)
+        {
+            int result;
+            return int.TryParse(Read(section, key, defaultValue.ToString()), out result) ? result : defaultValue;
         }
         #endregion
     }

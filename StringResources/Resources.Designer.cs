@@ -385,6 +385,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to DataCenter Server.
+        /// </summary>
+        public static string SID_DataCenter_Server {
+            get {
+                return ResourceManager.GetString("SID_DataCenter_Server", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Define trace.
         /// </summary>
         public static string SID_Define_trace {
@@ -453,6 +462,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Edit_Equipment {
             get {
                 return ResourceManager.GetString("SID_Edit_Equipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter DataCenter Server address..
+        /// </summary>
+        public static string SID_Enter_DataCenter_Server_address {
+            get {
+                return ResourceManager.GetString("SID_Enter_DataCenter_Server_address", resourceCulture);
             }
         }
         

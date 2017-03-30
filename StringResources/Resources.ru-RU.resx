@@ -611,4 +611,10 @@
 	<data name="SID_Password" xml:space="preserve">
 		<value>Пароль</value>
 	</data>
+	<data name="SID_Enter_DataCenter_Server_address" xml:space="preserve">
+		<value>Введите адрес центрального сервера</value>
+	</data>
+	<data name="SID_DataCenter_Server" xml:space="preserve">
+		<value>Центральный сервер</value>
+	</data>
 </root>

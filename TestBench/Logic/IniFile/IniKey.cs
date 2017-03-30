@@ -1,4 +1,4 @@
 namespace Iit.Fibertest.TestBench
 {
-    public enum IniKey { ServerIp }
+    public enum IniKey { ServerIp, ServerPort }
 }

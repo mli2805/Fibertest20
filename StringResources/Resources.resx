@@ -611,4 +611,10 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_Password" xml:space="preserve">
     <value>Password</value>
   </data>
+	<data name="SID_Enter_DataCenter_Server_address" xml:space="preserve">
+    <value>Enter DataCenter Server address.</value>
+  </data>
+	<data name="SID_DataCenter_Server" xml:space="preserve">
+    <value>DataCenter Server</value>
+  </data>
 </root>
