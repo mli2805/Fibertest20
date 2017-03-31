@@ -6,11 +6,42 @@
         xmlns:testBench="clr-namespace:Iit.Fibertest.TestBench"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
-        Title="UsersListView" Height="300" Width="300" d:DataContext="{d:DesignInstance testBench:UsersListViewModel}">
+        Height="300" SizeToContent="Width" d:DataContext="{d:DesignInstance testBench:UsersListViewModel}">
     <DockPanel>
         <Button Name="Close" DockPanel.Dock="Bottom" Content="{x:Static stringResources:Resources.SID_Close}" Width="100" Margin="5"/>
         <ListView ItemsSource="{Binding Users}">
-
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="100" Header="Name">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Text="{Binding Name}" Width="88" Height="22"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="100" Header="Role">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox ItemsSource="{Binding Roles}" SelectedItem="{Binding Role, Mode=TwoWay}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="30" Header="IsEmailActive">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding IsEmailActive}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="220" Header="Email">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Text="{Binding Email}" Width="208" Height="22"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
         </ListView>
 
     </DockPanel>
