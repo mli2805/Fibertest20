@@ -27,6 +27,10 @@ namespace Graph.Tests
             builder.RegisterModule<AutofacUi>();
             builder.RegisterType<FakeWindowManager>().As<IWindowManager>().SingleInstance();
 
+            builder.RegisterInstance(LoggerForTests = new LoggerConfiguration()
+                .WriteTo.Console()
+                .CreateLogger()).As<ILogger>();
+
             var container = builder.Build();
             Poller = container.Resolve<ClientPoller>();
             FakeWindowManager =(FakeWindowManager) container.Resolve<IWindowManager>();
@@ -34,14 +38,14 @@ namespace Graph.Tests
 
             ShellVm = (ShellViewModel) container.Resolve<IShell>();
 
-            LoggerForTests = new LoggerConfiguration()
-                    .WriteTo.Console()
-                    .CreateLogger();
+//            LoggerForTests = new LoggerConfiguration()
+//                    .WriteTo.Console()
+//                    .CreateLogger();
         }
 
         public Iit.Fibertest.Graph.Trace CreateTraceRtuEmptyTerminal()
         {
-            ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation() {Latitude = 66, Longitude = 30}).Wait();
+            ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation() {Latitude = 55, Longitude = 30}).Wait();
             Poller.Tick();
             var nodeForRtuId = ReadModel.Rtus.Last().NodeId;
 
