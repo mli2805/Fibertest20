@@ -617,4 +617,13 @@
 	<data name="SID_DataCenter_Server" xml:space="preserve">
 		<value>Центральный сервер</value>
 	</data>
+	<data name="SID_Users" xml:space="preserve">
+		<value>Пользователи</value>
+	</data>
+	<data name="SID_Users_list" xml:space="preserve">
+		<value>Список пользователей</value>
+	</data>
+	<data name="SID_Responsibility_zones" xml:space="preserve">
+		<value>Зоны ответственности</value>
+	</data>
 </root>

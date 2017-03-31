@@ -18,6 +18,7 @@ namespace Iit.Fibertest.TestBench
         private readonly IWindowManager _windowManager;
 
         public ReadModel ReadModel { get; }
+        public MainMenuViewModel MainMenuViewModel { get; set; }
         public TreeOfRtuModel TreeOfRtuModel { get; }
         public TreeOfRtuViewModel TreeOfRtuViewModel { get; set; }
         public GraphReadModel GraphReadModel { get; set; }
@@ -31,6 +32,7 @@ namespace Iit.Fibertest.TestBench
             ReadModel = readModel;
             TreeOfRtuModel = treeOfRtuModel;
             TreeOfRtuModel.PostOffice.PropertyChanged += PostOffice_PropertyChanged;
+            MainMenuViewModel = new MainMenuViewModel(windowManager);
             TreeOfRtuViewModel = new TreeOfRtuViewModel(treeOfRtuModel);
             Bus = bus;
             LocalDb = db;
