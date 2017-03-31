@@ -1132,6 +1132,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Responsibility zones.
+        /// </summary>
+        public static string SID_Responsibility_zones {
+            get {
+                return ResourceManager.GetString("SID_Responsibility_zones", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to RTU.
         /// </summary>
         public static string SID_Rtu {
@@ -1543,6 +1552,24 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_User_Length_m {
             get {
                 return ResourceManager.GetString("SID_User_Length_m", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Users.
+        /// </summary>
+        public static string SID_Users {
+            get {
+                return ResourceManager.GetString("SID_Users", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Users list.
+        /// </summary>
+        public static string SID_Users_list {
+            get {
+                return ResourceManager.GetString("SID_Users_list", resourceCulture);
             }
         }
         

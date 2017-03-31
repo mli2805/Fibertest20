@@ -617,4 +617,13 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_DataCenter_Server" xml:space="preserve">
     <value>DataCenter Server</value>
   </data>
+	<data name="SID_Users" xml:space="preserve">
+    <value>Users</value>
+  </data>
+	<data name="SID_Users_list" xml:space="preserve">
+    <value>Users list</value>
+  </data>
+	<data name="SID_Responsibility_zones" xml:space="preserve">
+    <value>Responsibility zones</value>
+  </data>
 </root>
