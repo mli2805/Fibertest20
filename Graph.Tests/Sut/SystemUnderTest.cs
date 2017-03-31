@@ -32,21 +32,16 @@ namespace Graph.Tests
             FakeWindowManager =(FakeWindowManager) container.Resolve<IWindowManager>();
             ReadModel = container.Resolve<ReadModel>();
 
-//            ShellVm = (ShellViewModel) container.Resolve<IShell>();
+            ShellVm = (ShellViewModel) container.Resolve<IShell>();
 
             LoggerForTests = new LoggerConfiguration()
-                    .WriteTo.RollingFile(@"logs\\client.log")
-                  // .WriteTo.Seq(@"http://localhost:5341")
+                    .WriteTo.Console()
                     .CreateLogger();
-
-            ShellVm = new ShellViewModel(ReadModel,container.Resolve<TreeOfRtuModel>(),
-                container.Resolve<Bus>(),container.Resolve<Db>(),container.Resolve<GraphReadModel>(),
-                FakeWindowManager, LoggerForTests, container.Resolve<IniFile>());
         }
 
         public Iit.Fibertest.Graph.Trace CreateTraceRtuEmptyTerminal()
         {
-            ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation() {Latitude = 55, Longitude = 30}).Wait();
+            ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation() {Latitude = 66, Longitude = 30}).Wait();
             Poller.Tick();
             var nodeForRtuId = ReadModel.Rtus.Last().NodeId;
 
