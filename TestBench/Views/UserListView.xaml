@@ -1,0 +1,41 @@
+﻿<Window x:Class="Iit.Fibertest.TestBench.UserListView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
+        xmlns:testBench="clr-namespace:Iit.Fibertest.TestBench"
+        xmlns:cal="http://www.caliburnproject.org"
+        mc:Ignorable="d"
+        Height="300" SizeToContent="Width" WindowStartupLocation="CenterOwner" 
+        d:DataContext="{d:DesignInstance testBench:UserListViewModel}">
+    <DockPanel>
+        <Button Name="Close" DockPanel.Dock="Bottom" Content="{x:Static stringResources:Resources.SID_Close}" Width="100" Margin="5"/>
+        <DataGrid Margin="5" ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
+                  AutoGenerateColumns="False" IsReadOnly="True" >
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Add new" cal:Message.Attach="AddNewUser"/>
+                    <MenuItem Header="Change" cal:Message.Attach="ChangeUser"/>
+                    <MenuItem Header="Remove" cal:Message.Attach="RemoveUser" IsEnabled="{Binding IsRemovable}"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+            <DataGrid.Columns>
+                
+                <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Name}" Width="120" Binding="{Binding Name}" />
+                <DataGridComboBoxColumn Header="{x:Static stringResources:Resources.SID_Role}" Width="120" ItemsSource="{x:Static testBench:UserListViewModel.Roles}"
+                                        SelectedItemBinding="{Binding Role}"/>
+                <DataGridTemplateColumn Header="{x:Static stringResources:Resources.SID_Email}" Width="320">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding IsEmailActivated}" IsEnabled="False" Margin="5,0"/>
+                                <TextBlock Text="{Binding Email}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</Window>

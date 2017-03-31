@@ -626,4 +626,19 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_Responsibility_zones" xml:space="preserve">
     <value>Responsibility zones</value>
   </data>
+  <data name="SID_User_list" xml:space="preserve">
+    <value>User list</value>
+  </data>
+  <data name="SID_Change" xml:space="preserve">
+    <value>Change</value>
+  </data>
+  <data name="SID_Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="SID_Role" xml:space="preserve">
+    <value>Role</value>
+  </data>
+  <data name="SID_Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
 </root>

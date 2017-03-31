@@ -13,7 +13,7 @@ namespace Iit.Fibertest.TestBench
 
         public void LaunchUsersListView()
         {
-            var vm = new UsersListViewModel(_windowManager);
+            var vm = new UserListViewModel(_windowManager);
             _windowManager.ShowDialog(vm);
         }
 

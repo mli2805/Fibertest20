@@ -1,11 +1,11 @@
 ﻿namespace Iit.Fibertest.TestBench
 {
     /// <summary>
-    /// Interaction logic for UsersListView.xaml
+    /// Interaction logic for UserListView.xaml
     /// </summary>
-    public partial class UsersListView
+    public partial class UserListView
     {
-        public UsersListView()
+        public UserListView()
         {
             InitializeComponent();
         }

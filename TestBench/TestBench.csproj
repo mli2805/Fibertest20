@@ -147,7 +147,9 @@
     <Compile Include="TreeModel\Post\CenterToRtu.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\ServerConnectViewModel.cs" />
-    <Compile Include="ViewModels\UsersListViewModel.cs" />
+    <Compile Include="ViewModels\Users\Role.cs" />
+    <Compile Include="ViewModels\Users\User.cs" />
+    <Compile Include="ViewModels\Users\UserListViewModel.cs" />
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
@@ -287,8 +289,8 @@
     <Compile Include="TreeModel\RtuLeaf.cs" />
     <Compile Include="TreeModel\TraceLeaf.cs" />
     <Compile Include="TreeModel\TreeExtensions.cs" />
-    <Compile Include="Views\UsersListView.xaml.cs">
-      <DependentUpon>UsersListView.xaml</DependentUpon>
+    <Compile Include="Views\UserListView.xaml.cs">
+      <DependentUpon>UserListView.xaml</DependentUpon>
     </Compile>
     <Page Include="ViewControls\GpsInputControl\GpsInputView.xaml">
       <SubType>Designer</SubType>
@@ -394,7 +396,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\UsersListView.xaml">
+    <Page Include="Views\UserListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -322,6 +322,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change.
+        /// </summary>
+        public static string SID_Change {
+            get {
+                return ResourceManager.GetString("SID_Change", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Clean.
         /// </summary>
         public static string SID_Clean {
@@ -462,6 +471,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Edit_Equipment {
             get {
                 return ResourceManager.GetString("SID_Edit_Equipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email.
+        /// </summary>
+        public static string SID_Email {
+            get {
+                return ResourceManager.GetString("SID_Email", resourceCulture);
             }
         }
         
@@ -826,6 +844,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string SID_Name {
+            get {
+                return ResourceManager.GetString("SID_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Network settings.
         /// </summary>
         public static string SID_Network_settings {
@@ -1137,6 +1164,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Responsibility_zones {
             get {
                 return ResourceManager.GetString("SID_Responsibility_zones", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Role.
+        /// </summary>
+        public static string SID_Role {
+            get {
+                return ResourceManager.GetString("SID_Role", resourceCulture);
             }
         }
         
@@ -1552,6 +1588,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_User_Length_m {
             get {
                 return ResourceManager.GetString("SID_User_Length_m", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User list.
+        /// </summary>
+        public static string SID_User_list {
+            get {
+                return ResourceManager.GetString("SID_User_list", resourceCulture);
             }
         }
         
