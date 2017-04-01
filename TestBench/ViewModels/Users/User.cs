@@ -1,3 +1,5 @@
+using System;
+
 namespace Iit.Fibertest.TestBench
 {
     public class User
@@ -9,5 +11,8 @@ namespace Iit.Fibertest.TestBench
 
         public string Email { get; set; }
         public bool IsEmailActivated { get; set; }
+
+        public bool IsDefaultZoneUser { get; set; }
+        public Guid ZoneId { get; set; }
     }
 }

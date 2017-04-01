@@ -482,9 +482,6 @@
 	<data name="SID_Second_sign" xml:space="preserve">
     <value>″</value>
   </data>
-	<data name="SID_Graph_of_traces" xml:space="preserve">
-    <value>Граф трасс</value>
-  </data>
 	<data name="SID_Host" xml:space="preserve">
     <value>Хост</value>
   </data>
@@ -625,5 +622,23 @@
 	</data>
 	<data name="SID_Responsibility_zones" xml:space="preserve">
 		<value>Зоны ответственности</value>
+	</data>
+	<data name="SID_User_list" xml:space="preserve">
+		<value>Список пользователей</value>
+	</data>
+	<data name="SID_Change" xml:space="preserve">
+		<value>Изменить</value>
+	</data>
+	<data name="SID_Name" xml:space="preserve">
+		<value>Имя</value>
+	</data>
+	<data name="SID_Role" xml:space="preserve">
+		<value>Роль</value>
+	</data>
+	<data name="SID_Email" xml:space="preserve">
+		<value>Email</value>
+	</data>
+	<data name="SID_Gis" xml:space="preserve">
+		<value>ГИС</value>
 	</data>
 </root>

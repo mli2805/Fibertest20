@@ -11,7 +11,7 @@ namespace Iit.Fibertest.TestBench
             _windowManager = windowManager;
         }
 
-        public void LaunchUsersListView()
+        public void LaunchUserListView()
         {
             var vm = new UserListViewModel(_windowManager);
             _windowManager.ShowDialog(vm);
@@ -19,7 +19,8 @@ namespace Iit.Fibertest.TestBench
 
         public void LaunchResponsibilityZonesView()
         {
-            
+            var vm = new ZonesViewModel();
+            _windowManager.ShowDialog(vm);
         }
     }
 }

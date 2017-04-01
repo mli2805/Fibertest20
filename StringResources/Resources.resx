@@ -482,9 +482,6 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_Second_sign" xml:space="preserve">
     <value>″</value>
   </data>
-	<data name="SID_Graph_of_traces" xml:space="preserve">
-    <value>Graph of traces</value>
-  </data>
 	<data name="SID_Host" xml:space="preserve">
     <value>Host</value>
   </data>
@@ -626,19 +623,22 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_Responsibility_zones" xml:space="preserve">
     <value>Responsibility zones</value>
   </data>
-  <data name="SID_User_list" xml:space="preserve">
+	<data name="SID_User_list" xml:space="preserve">
     <value>User list</value>
   </data>
-  <data name="SID_Change" xml:space="preserve">
+	<data name="SID_Change" xml:space="preserve">
     <value>Change</value>
   </data>
-  <data name="SID_Name" xml:space="preserve">
+	<data name="SID_Name" xml:space="preserve">
     <value>Name</value>
   </data>
-  <data name="SID_Role" xml:space="preserve">
+	<data name="SID_Role" xml:space="preserve">
     <value>Role</value>
   </data>
-  <data name="SID_Email" xml:space="preserve">
+	<data name="SID_Email" xml:space="preserve">
     <value>Email</value>
+  </data>
+	<data name="SID_Gis" xml:space="preserve">
+    <value>GIS</value>
   </data>
 </root>

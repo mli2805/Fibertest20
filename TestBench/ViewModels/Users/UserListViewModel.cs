@@ -36,14 +36,30 @@ namespace Iit.Fibertest.TestBench
             Roles = Enum.GetValues(typeof(Role)).Cast<Role>().ToList();
             Users = new ObservableCollection<User>()
             {
-                new User() {Name = @"root1", Role = Role.Root, Password = @"root", IsEmailActivated = false, Email = @"main_abonent@yandex.ru"},
-                new User() {Name = @"operator1", Role = Role.Operator, Password = @"operator", IsEmailActivated = true, Email = @"op123op@mail.ru"},
-                new User() {Name = @"supervisor1", Role = Role.Supervisor, Password = @"supervisor", IsEmailActivated = false, Email = ""},
+                new User() {Name = @"root1", Role = Role.Root, Password = @"root", IsEmailActivated = false, Email = @"main_abonent@yandex.ru", IsDefaultZoneUser = true, },
+                new User() {Name = @"operator1", Role = Role.Operator, Password = @"operator", IsEmailActivated = true, Email = @"op123op@mail.ru", IsDefaultZoneUser = true, },
+                new User() {Name = @"supervisor1", Role = Role.Supervisor, Password = @"supervisor", IsEmailActivated = false, Email = "", IsDefaultZoneUser = true, },
+                new User() {Name = @"pupkin", Role = Role.Supervisor, Password = @"1234", IsEmailActivated = false, Email = "", IsDefaultZoneUser = false, ZoneId = Guid.Empty},
             };
         }
         protected override void OnViewLoaded(object view)
         {
             DisplayName = Resources.SID_User_list;
+        }
+
+        public void AddNewUser()
+        {
+            
+        }
+
+        public void ChangeUser()
+        {
+            
+        }
+
+        public void RemoveUser()
+        {
+            
         }
 
         public void Close()

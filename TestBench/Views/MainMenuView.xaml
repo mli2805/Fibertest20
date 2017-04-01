@@ -10,8 +10,8 @@
     <Grid>
         <Menu Margin="10,0,0,10" Background="White" VerticalAlignment="Center">
            <MenuItem Header="{x:Static stringResources:Resources.SID_Users}">
-                <MenuItem Header="{x:Static stringResources:Resources.SID_Users_list}" cal:Message.Attach="LaunchUsersListView()"/>
-                <MenuItem Name="LaunchResponsibilityZonesView" Header="{x:Static stringResources:Resources.SID_Responsibility_zones}"/>
+                <MenuItem Header="{x:Static stringResources:Resources.SID_Users_list}" cal:Message.Attach="LaunchUserListView()"/>
+                <MenuItem Header="{x:Static stringResources:Resources.SID_Responsibility_zones}" cal:Message.Attach="LaunchResponsibilityZonesView"/>
            </MenuItem> 
            <MenuItem Header="Edit"></MenuItem> 
         </Menu>    

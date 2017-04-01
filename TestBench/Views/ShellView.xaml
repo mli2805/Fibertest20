@@ -37,7 +37,7 @@
                 <TabItem IsSelected="True">
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{x:Static stringResources:Resources.SID_Graph_of_traces}" Margin="5,0,20,0"/>
+                            <TextBlock Text="{x:Static stringResources:Resources.SID_Gis}" Margin="10,0,40,0"/>
                             <ComboBox Margin="0" FontSize="10" VerticalContentAlignment="Center"
                                       ItemsSource="{Binding GraphReadModel.GraphVisibilityLevels}" 
                                       SelectedItem="{Binding GraphReadModel.SelectedGraphVisibilityLevel}"/>

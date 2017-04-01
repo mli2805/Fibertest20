@@ -583,6 +583,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to GIS.
+        /// </summary>
+        public static string SID_Gis {
+            get {
+                return ResourceManager.GetString("SID_Gis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Gps Length, m.
         /// </summary>
         public static string SID_Gps_Length_m {

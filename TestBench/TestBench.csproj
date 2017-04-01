@@ -150,6 +150,11 @@
     <Compile Include="ViewModels\Users\Role.cs" />
     <Compile Include="ViewModels\Users\User.cs" />
     <Compile Include="ViewModels\Users\UserListViewModel.cs" />
+    <Compile Include="ViewModels\Users\Zone.cs" />
+    <Compile Include="ViewModels\ZonesViewModel.cs" />
+    <Compile Include="Views\ZonesView.xaml.cs">
+      <DependentUpon>ZonesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
@@ -317,6 +322,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ViewControls\NetAddressTestView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ZonesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
