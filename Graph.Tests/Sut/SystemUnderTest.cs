@@ -28,8 +28,7 @@ namespace Graph.Tests
             builder.RegisterType<FakeWindowManager>().As<IWindowManager>().SingleInstance();
 
             builder.RegisterInstance(LoggerForTests = new LoggerConfiguration()
-                .WriteTo.Console()
-                .CreateLogger()).As<ILogger>();
+                .WriteTo.Console().CreateLogger()).As<ILogger>();
 
             var container = builder.Build();
             Poller = container.Resolve<ClientPoller>();
@@ -37,10 +36,6 @@ namespace Graph.Tests
             ReadModel = container.Resolve<ReadModel>();
 
             ShellVm = (ShellViewModel) container.Resolve<IShell>();
-
-//            LoggerForTests = new LoggerConfiguration()
-//                    .WriteTo.Console()
-//                    .CreateLogger();
         }
 
         public Iit.Fibertest.Graph.Trace CreateTraceRtuEmptyTerminal()

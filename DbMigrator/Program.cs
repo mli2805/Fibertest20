@@ -1,5 +1,6 @@
 ﻿using System;
 using Iit.Fibertest.Graph;
+using Serilog;
 
 namespace DbMigrator
 {
@@ -7,7 +8,7 @@ namespace DbMigrator
     {
         static void Main()
         {
-            Db db = new Db();
+            Db db = new Db(new LoggerConfiguration().WriteTo.Console().CreateLogger());
             db.Events.Clear();
             new Migrator(db).Go();
 

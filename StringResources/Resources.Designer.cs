@@ -601,15 +601,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Graph of traces.
-        /// </summary>
-        public static string SID_Graph_of_traces {
-            get {
-                return ResourceManager.GetString("SID_Graph_of_traces", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Host.
         /// </summary>
         public static string SID_Host {
@@ -849,6 +840,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Monitoring_settings {
             get {
                 return ResourceManager.GetString("SID_Monitoring_settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} graph events loaded successfully.
+        /// </summary>
+        public static string SID_N_graph_events_loaded_successfully {
+            get {
+                return ResourceManager.GetString("SID_N_graph_events_loaded_successfully", resourceCulture);
             }
         }
         
