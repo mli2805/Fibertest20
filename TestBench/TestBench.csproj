@@ -147,11 +147,13 @@
     <Compile Include="TreeModel\Post\CenterToRtu.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\ServerConnectViewModel.cs" />
+    <Compile Include="ViewModels\Users\Licence.cs" />
     <Compile Include="ViewModels\Users\Role.cs" />
+    <Compile Include="ViewModels\Users\UsersDb.cs" />
     <Compile Include="ViewModels\Users\User.cs" />
     <Compile Include="ViewModels\Users\UserListViewModel.cs" />
     <Compile Include="ViewModels\Users\Zone.cs" />
-    <Compile Include="ViewModels\ZonesViewModel.cs" />
+    <Compile Include="ViewModels\Users\ZonesViewModel.cs" />
     <Compile Include="Views\ZonesView.xaml.cs">
       <DependentUpon>ZonesView.xaml</DependentUpon>
     </Compile>

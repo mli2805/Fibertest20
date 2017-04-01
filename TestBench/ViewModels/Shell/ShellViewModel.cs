@@ -24,9 +24,10 @@ namespace Iit.Fibertest.TestBench
         public GraphReadModel GraphReadModel { get; set; }
 
         private bool? _isAuthenticationSuccessfull;
-        public Db LocalDb { get; set; }
+        public Db LocalGraphDb { get; set; }
+        public UsersDb UsersDb { get; set; }
         public ShellViewModel(ReadModel readModel, TreeOfRtuModel treeOfRtuModel, Bus bus, 
-                Db db, GraphReadModel graphReadModel, IWindowManager windowManager, 
+                Db graphDb, UsersDb usersDb, GraphReadModel graphReadModel, IWindowManager windowManager, 
                 ILogger clientLogger, IniFile iniFile)
         {
             ReadModel = readModel;
@@ -35,7 +36,8 @@ namespace Iit.Fibertest.TestBench
             MainMenuViewModel = new MainMenuViewModel(windowManager);
             TreeOfRtuViewModel = new TreeOfRtuViewModel(treeOfRtuModel);
             Bus = bus;
-            LocalDb = db;
+            LocalGraphDb = graphDb;
+            UsersDb = usersDb;
             GraphReadModel = graphReadModel;
             _windowManager = windowManager;
 
@@ -44,6 +46,7 @@ namespace Iit.Fibertest.TestBench
 
             IniFile = iniFile;
         }
+
 
         private void PostOffice_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
@@ -77,7 +80,8 @@ namespace Iit.Fibertest.TestBench
 
         public void Save()
         {
-            LocalDb.Save();
+            LocalGraphDb.Save();
+            UsersDb.Save();
         }
 
         #region Node

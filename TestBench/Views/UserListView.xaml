@@ -11,7 +11,7 @@
         d:DataContext="{d:DesignInstance testBench:UserListViewModel}">
     <DockPanel>
         <Button Name="Close" DockPanel.Dock="Bottom" Content="{x:Static stringResources:Resources.SID_Close}" Width="100" Margin="5"/>
-        <DataGrid Margin="5" ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
+        <DataGrid Margin="5" ItemsSource="{Binding Rows}" SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
                   AutoGenerateColumns="False" IsReadOnly="True" >
             <DataGrid.ContextMenu>
                 <ContextMenu>
@@ -25,6 +25,7 @@
                 <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Name}" Width="120" Binding="{Binding Name}" />
                 <DataGridComboBoxColumn Header="{x:Static stringResources:Resources.SID_Role}" Width="120" ItemsSource="{x:Static testBench:UserListViewModel.Roles}"
                                         SelectedItemBinding="{Binding Role}"/>
+                <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Responsibility_zone}" Width="220" Binding="{Binding ZoneName}" />
                 <DataGridTemplateColumn Header="{x:Static stringResources:Resources.SID_Email}" Width="320">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

@@ -2,6 +2,7 @@ using System;
 
 namespace Iit.Fibertest.TestBench
 {
+    [Serializable]
     public class User
     {
         public string Name { get; set; }
@@ -14,5 +15,7 @@ namespace Iit.Fibertest.TestBench
 
         public bool IsDefaultZoneUser { get; set; }
         public Guid ZoneId { get; set; }
+
+        public string ZoneName { get; set; }
     }
 }

@@ -34,10 +34,12 @@ namespace Iit.Fibertest.Graph
                     var binaryFormatter = new BinaryFormatter();
                     binaryFormatter.Serialize(fStream, Events);
                 }
+                _log.Information(Resources.SID_Graph_Db_saved_successfully_);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                _log.Information(e.Message);
             }
         }
 

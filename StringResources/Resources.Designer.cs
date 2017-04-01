@@ -403,6 +403,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Default Zone.
+        /// </summary>
+        public static string SID_Default_Zone {
+            get {
+                return ResourceManager.GetString("SID_Default_Zone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Define trace.
         /// </summary>
         public static string SID_Define_trace {
@@ -597,6 +606,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Gps_Length_m {
             get {
                 return ResourceManager.GetString("SID_Gps_Length_m", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Graph Db saved successfully..
+        /// </summary>
+        public static string SID_Graph_Db_saved_successfully_ {
+            get {
+                return ResourceManager.GetString("SID_Graph_Db_saved_successfully_", resourceCulture);
             }
         }
         
@@ -867,6 +885,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Network_settings {
             get {
                 return ResourceManager.GetString("SID_Network_settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No zone assigned.
+        /// </summary>
+        public static string SID_No_zone_assigned {
+            get {
+                return ResourceManager.GetString("SID_No_zone_assigned", resourceCulture);
             }
         }
         
@@ -1164,6 +1191,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Reserve_channel {
             get {
                 return ResourceManager.GetString("SID_Reserve_channel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Responsibility zone.
+        /// </summary>
+        public static string SID_Responsibility_zone {
+            get {
+                return ResourceManager.GetString("SID_Responsibility_zone", resourceCulture);
             }
         }
         
@@ -1615,6 +1651,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Users {
             get {
                 return ResourceManager.GetString("SID_Users", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Users Db saved successfully..
+        /// </summary>
+        public static string SID_Users_Db_saved_successfully_ {
+            get {
+                return ResourceManager.GetString("SID_Users_Db_saved_successfully_", resourceCulture);
             }
         }
         

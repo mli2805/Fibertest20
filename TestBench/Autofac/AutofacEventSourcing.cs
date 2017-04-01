@@ -23,6 +23,9 @@ namespace Iit.Fibertest.TestBench
                     ioc.Resolve<GraphReadModel>()
                 }))
                 .SingleInstance();
+
+            builder.RegisterType<UsersDb>().SingleInstance();
+
         }
     }
 }

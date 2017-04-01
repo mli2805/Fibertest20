@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.TestBench
 {
@@ -6,7 +7,7 @@ namespace Iit.Fibertest.TestBench
     {
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = "Responsibility zones";
+            DisplayName = Resources.SID_Responsibility_zones;
         }
     }
 }

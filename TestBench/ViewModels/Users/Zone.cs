@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace Iit.Fibertest.TestBench
 {
+    [Serializable]
     public class Zone
     {
         public Guid Id { get; set; }
