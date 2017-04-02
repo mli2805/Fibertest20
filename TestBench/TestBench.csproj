@@ -153,9 +153,13 @@
     <Compile Include="ViewModels\Users\UsersDb.cs" />
     <Compile Include="ViewModels\Users\User.cs" />
     <Compile Include="ViewModels\Users\UserListViewModel.cs" />
+    <Compile Include="ViewModels\Users\UserViewModel.cs" />
     <Compile Include="ViewModels\Users\Zone.cs" />
     <Compile Include="ViewModels\Users\ZonesViewModel.cs" />
-    <Compile Include="Views\ZonesView.xaml.cs">
+    <Compile Include="Views\Users\UserView.xaml.cs">
+      <DependentUpon>UserView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Users\ZonesView.xaml.cs">
       <DependentUpon>ZonesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LoginView.xaml.cs">
@@ -297,7 +301,7 @@
     <Compile Include="TreeModel\RtuLeaf.cs" />
     <Compile Include="TreeModel\TraceLeaf.cs" />
     <Compile Include="TreeModel\TreeExtensions.cs" />
-    <Compile Include="Views\UserListView.xaml.cs">
+    <Compile Include="Views\Users\UserListView.xaml.cs">
       <DependentUpon>UserListView.xaml</DependentUpon>
     </Compile>
     <Page Include="ViewControls\GpsInputControl\GpsInputView.xaml">
@@ -328,7 +332,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ZonesView.xaml">
+    <Page Include="Views\Users\UserView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Users\ZonesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -408,7 +416,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\UserListView.xaml">
+    <Page Include="Views\Users\UserListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
