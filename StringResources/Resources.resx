@@ -641,22 +641,28 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_Gis" xml:space="preserve">
     <value>GIS</value>
   </data>
-  <data name="SID_N_graph_events_loaded_successfully" xml:space="preserve">
+	<data name="SID_N_graph_events_loaded_successfully" xml:space="preserve">
     <value>{0} graph events loaded successfully</value>
   </data>
-  <data name="SID_Default_Zone" xml:space="preserve">
+	<data name="SID_Default_Zone" xml:space="preserve">
     <value>Default Zone</value>
   </data>
-  <data name="SID_No_zone_assigned" xml:space="preserve">
+	<data name="SID_No_zone_assigned" xml:space="preserve">
     <value>No zone assigned</value>
   </data>
-  <data name="SID_Users_Db_saved_successfully_" xml:space="preserve">
+	<data name="SID_Users_Db_saved_successfully_" xml:space="preserve">
     <value>Users Db saved successfully.</value>
   </data>
-  <data name="SID_Responsibility_zone" xml:space="preserve">
+	<data name="SID_Responsibility_zone" xml:space="preserve">
     <value>Responsibility zone</value>
   </data>
-  <data name="SID_Graph_Db_saved_successfully_" xml:space="preserve">
+	<data name="SID_Graph_Db_saved_successfully_" xml:space="preserve">
     <value>Graph Db saved successfully.</value>
+  </data>
+	<data name="SID_Object" xml:space="preserve">
+    <value>Object</value>
+  </data>
+	<data name="SID_Add_zone" xml:space="preserve">
+    <value>Add zone</value>
   </data>
 </root>

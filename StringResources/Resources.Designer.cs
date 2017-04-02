@@ -160,6 +160,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add zone.
+        /// </summary>
+        public static string SID_Add_zone {
+            get {
+                return ResourceManager.GetString("SID_Add_zone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Additional base ref.
         /// </summary>
         public static string SID_Additional_base_ref {
@@ -966,6 +975,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Not_attached_traces_list {
             get {
                 return ResourceManager.GetString("SID_Not_attached_traces_list", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Object.
+        /// </summary>
+        public static string SID_Object {
+            get {
+                return ResourceManager.GetString("SID_Object", resourceCulture);
             }
         }
         

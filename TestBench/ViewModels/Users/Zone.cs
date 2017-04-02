@@ -8,6 +8,6 @@ namespace Iit.Fibertest.TestBench
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public List<Guid> Objects { get; set; }
+        public List<Guid> Objects { get; set; } = new List<Guid>();
     }
 }

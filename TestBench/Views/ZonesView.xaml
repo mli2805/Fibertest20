@@ -3,9 +3,82 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:testBench="clr-namespace:Iit.Fibertest.TestBench"
+        xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
-        Height="300" Width="300" WindowStartupLocation="CenterOwner">
-    <Grid>
-        
-    </Grid>
+        Height="500" Width="700" WindowStartupLocation="CenterOwner" d:DataContext="{d:DesignInstance testBench:ZonesViewModel}">
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Bottom" Margin="0,10">
+            <Border DockPanel.Dock="Right" BorderThickness="1"  BorderBrush="Black" Padding="10,5" Margin="0,0,10,0">
+                <StackPanel Orientation="Horizontal">
+                    <TextBox Text="{Binding NewZoneTitle}" Width="150"/>
+                    <Button Name="AddZone" Content="{x:Static stringResources:Resources.SID_Add_zone}" Width="100" Margin="20,0,0,0" HorizontalAlignment="Right"/>
+                </StackPanel>
+            </Border>
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                <Button Name="Save" Content="{x:Static stringResources:Resources.SID_Save}" IsDefault="True" Width="100" Margin="10,5"/>
+                <Button Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}" IsCancel="True" Width="100" Margin="10,5"/>
+            </StackPanel>
+            <TextBlock/>
+        </DockPanel>
+        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Rows}" IsReadOnly="True" FrozenColumnCount ="1">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding ObjectTitle}" IsReadOnly="True" CanUserSort="False"
+                                    Header="{x:Static stringResources:Resources.SID_Object}"/>
+                <DataGridCheckBoxColumn Binding="{Binding DoesBelongDefaultZone, Mode=OneWay}" CanUserSort="False"
+                                        Header="{x:Static stringResources:Resources.SID_Default_Zone}" />
+
+                <DataGridTemplateColumn CanUserSort="False">
+                    <DataGridTemplateColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="VerticalContentAlignment"  Value="Stretch" />
+                            <Setter Property="Margin" Value="0" />
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <ItemsControl ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                                    AncestorType={x:Type Window}}, Path=DataContext.ZoneList}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Horizontal"/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Border  Width="70" >
+                                                        <TextBlock Text="{Binding}" TextAlignment="Center"/>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGridTemplateColumn.HeaderStyle>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ItemsControl ItemsSource="{Binding Belongings}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" Width="70">
+                                            <Border  Width="70" BorderThickness="0,0,1,0" BorderBrush="Black" Margin="-1">
+                                                <CheckBox IsChecked="{Binding .}" Margin="30,0,0,0"/>
+                                            </Border>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
 </Window>

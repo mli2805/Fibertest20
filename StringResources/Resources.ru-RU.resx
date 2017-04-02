@@ -641,4 +641,19 @@
 	<data name="SID_Gis" xml:space="preserve">
 		<value>ГИС</value>
 	</data>
+	<data name="SID_Default_Zone" xml:space="preserve">
+		<value>Зона по умолчанию</value>
+	</data>
+	<data name="SID_No_zone_assigned" xml:space="preserve">
+		<value>Зона не назначена</value>
+	</data>
+	<data name="SID_Responsibility_zone" xml:space="preserve">
+		<value>Зона ответственности</value>
+	</data>
+	<data name="SID_Object" xml:space="preserve">
+		<value>Объект</value>
+	</data>
+	<data name="SID_Add_zone" xml:space="preserve">
+		<value>Добавить зону</value>
+	</data>
 </root>
