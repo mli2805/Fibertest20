@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:cal="http://www.caliburnproject.org"
         xmlns:testBench="clr-namespace:Iit.Fibertest.TestBench"
+        xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
         SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
         d:DataContext="{d:DesignInstance testBench:UserViewModel}">
@@ -13,30 +13,29 @@
             <StackPanel>
                 <DockPanel >
                     <TextBox DockPanel.Dock="Right" Text="{Binding User.Name}" Margin="5" Width="150"/>
-                    <TextBlock Text="Name" Margin="5" HorizontalAlignment="Right"/>
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Name}" Margin="5" HorizontalAlignment="Right"/>
                 </DockPanel>
                 <DockPanel>
                     <ComboBox DockPanel.Dock="Right" ItemsSource="{Binding Roles}" SelectedItem="{Binding User.Role}" Margin="5" Width="150"/>
-                    <TextBlock Text="Role" Margin="5" HorizontalAlignment="Right"/>
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Role}" Margin="5" HorizontalAlignment="Right"/>
                 </DockPanel>
                 <DockPanel>
                     <ComboBox DockPanel.Dock="Right" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" Margin="5" Width="150"/>
-                    <TextBlock Text="Zone" Margin="5" HorizontalAlignment="Right"/>
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Zone}" Margin="5" HorizontalAlignment="Right"/>
                 </DockPanel>
             </StackPanel>
         </Border>
 
-        <GroupBox Header="e-mail" Margin="5" Padding="0,5">
+        <GroupBox Header="{x:Static stringResources:Resources.SID_Email}" Margin="5" Padding="0,5">
             <DockPanel >
-                <CheckBox DockPanel.Dock="Bottom" Margin="50,5,5,0" Content="Send messages" IsChecked="{Binding User.IsEmailActivated}" HorizontalAlignment="Left"/>
-                <TextBox DockPanel.Dock="Right" Text="{Binding User.Email}" Margin="5" Width="200"/>
-                <TextBlock Text="Email" Margin="5" HorizontalAlignment="Right"/>
+                <CheckBox DockPanel.Dock="Bottom" Margin="30,5,5,0" Content="{x:Static stringResources:Resources.SID_Send_messages}" IsChecked="{Binding User.IsEmailActivated}" HorizontalAlignment="Left"/>
+                <TextBox DockPanel.Dock="Right" Text="{Binding User.Email}" Margin="5" Width="250"/>
             </DockPanel>
         </GroupBox>
 
         <StackPanel Orientation="Horizontal" Margin="5,15,5,10" HorizontalAlignment="Center">
-            <Button Name="Save" Content="Save" Width="80" Margin="5,0"/>
-            <Button Name="Cancel" Content="Cancel" Width="80" Margin="5,0"/>
+            <Button Name="Save" Content="{x:Static stringResources:Resources.SID_Save}" Width="80" Margin="5,0"/>
+            <Button Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}" Width="80" Margin="5,0"/>
         </StackPanel>
     </StackPanel>
 </Window>

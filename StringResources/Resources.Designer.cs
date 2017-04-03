@@ -160,6 +160,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add user.
+        /// </summary>
+        public static string SID_Add_user {
+            get {
+                return ResourceManager.GetString("SID_Add_user", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add zone.
         /// </summary>
         public static string SID_Add_zone {
@@ -336,6 +345,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Change {
             get {
                 return ResourceManager.GetString("SID_Change", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change user.
+        /// </summary>
+        public static string SID_Change_user {
+            get {
+                return ResourceManager.GetString("SID_Change_user", resourceCulture);
             }
         }
         
@@ -1204,6 +1222,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove user.
+        /// </summary>
+        public static string SID_Remove_user {
+            get {
+                return ResourceManager.GetString("SID_Remove_user", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reserve channel.
         /// </summary>
         public static string SID_Reserve_channel {
@@ -1372,6 +1399,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Select_traces_which_will_use {
             get {
                 return ResourceManager.GetString("SID_Select_traces_which_will_use", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send messages.
+        /// </summary>
+        public static string SID_Send_messages {
+            get {
+                return ResourceManager.GetString("SID_Send_messages", resourceCulture);
             }
         }
         
@@ -1696,6 +1732,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Well {
             get {
                 return ResourceManager.GetString("SID_Well", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zone.
+        /// </summary>
+        public static string SID_Zone {
+            get {
+                return ResourceManager.GetString("SID_Zone", resourceCulture);
             }
         }
     }

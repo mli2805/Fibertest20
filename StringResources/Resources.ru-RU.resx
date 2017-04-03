@@ -656,4 +656,19 @@
 	<data name="SID_Add_zone" xml:space="preserve">
 		<value>Добавить зону</value>
 	</data>
+	<data name="SID_Send_messages" xml:space="preserve">
+		<value>Отсылать сообщения</value>
+	</data>
+	<data name="SID_Zone" xml:space="preserve">
+		<value>Зона</value>
+	</data>
+	<data name="SID_Add_user" xml:space="preserve">
+		<value>Добавить пользователя</value>
+	</data>
+	<data name="SID_Change_user" xml:space="preserve">
+		<value>Изменить пользователя</value>
+	</data>
+	<data name="SID_Remove_user" xml:space="preserve">
+		<value>Удалить пользователя</value>
+	</data>
 </root>

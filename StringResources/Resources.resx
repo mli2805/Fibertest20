@@ -665,4 +665,19 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_Add_zone" xml:space="preserve">
     <value>Add zone</value>
   </data>
+	<data name="SID_Send_messages" xml:space="preserve">
+    <value>Send messages</value>
+  </data>
+	<data name="SID_Zone" xml:space="preserve">
+    <value>Zone</value>
+  </data>
+	<data name="SID_Add_user" xml:space="preserve">
+    <value>Add user</value>
+  </data>
+	<data name="SID_Change_user" xml:space="preserve">
+    <value>Change user</value>
+  </data>
+	<data name="SID_Remove_user" xml:space="preserve">
+    <value>Remove user</value>
+  </data>
 </root>

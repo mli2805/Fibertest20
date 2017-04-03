@@ -40,7 +40,7 @@ namespace Iit.Fibertest.TestBench
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = "User";
+            DisplayName = Resources.SID_User;
         }
 
         public void Save()

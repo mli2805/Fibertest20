@@ -15,9 +15,9 @@
                   AutoGenerateColumns="False" IsReadOnly="True" >
             <DataGrid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Add new" cal:Message.Attach="AddNewUser"/>
-                    <MenuItem Header="Change" cal:Message.Attach="ChangeUser"/>
-                    <MenuItem Header="Remove" cal:Message.Attach="RemoveUser" IsEnabled="{Binding IsRemovable}"/>
+                    <MenuItem Header="{x:Static stringResources:Resources.SID_Add_user}" cal:Message.Attach="AddNewUser"/>
+                    <MenuItem Header="{x:Static stringResources:Resources.SID_Change_user}" cal:Message.Attach="ChangeUser"/>
+                    <MenuItem Header="{x:Static stringResources:Resources.SID_Remove_user}" cal:Message.Attach="RemoveUser" IsEnabled="{Binding IsRemovable}"/>
                 </ContextMenu>
             </DataGrid.ContextMenu>
             <DataGrid.Columns>
@@ -30,8 +30,8 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <CheckBox IsChecked="{Binding IsEmailActivated}" IsEnabled="False" Margin="5,0"/>
-                                <TextBlock Text="{Binding Email}"/>
+                                <CheckBox IsChecked="{Binding SelectedUser.IsEmailActivated}" IsEnabled="False" Margin="5,0"/>
+                                <TextBlock Text="{Binding SelectedUser.Email}"/>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
