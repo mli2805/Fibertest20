@@ -9,6 +9,7 @@ namespace Iit.Fibertest.TestBench
 {
     public class UserListViewModel : Screen
     {
+        private readonly UsersDb _usersDb;
         private readonly IWindowManager _windowManager;
         private User _selectedUser;
         public ObservableCollection<User> Rows { get; set; }
@@ -31,6 +32,7 @@ namespace Iit.Fibertest.TestBench
 
         public UserListViewModel(UsersDb usersDb, IWindowManager windowManager)
         {
+            _usersDb = usersDb;
             _windowManager = windowManager;
 
             Roles = Enum.GetValues(typeof(Role)).Cast<Role>().ToList();
@@ -51,7 +53,13 @@ namespace Iit.Fibertest.TestBench
 
         public void AddNewUser()
         {
-
+            var userUnderConstruction = new User();
+            var vm = new UserViewModel(true, userUnderConstruction);
+            if (_windowManager.ShowDialog(vm) == true)
+            {
+                _usersDb.Users.Add(userUnderConstruction);
+                Rows.Add(userUnderConstruction);
+            }
         }
 
         public void ChangeUser()

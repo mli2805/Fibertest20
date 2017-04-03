@@ -31,7 +31,7 @@ namespace DbMigrator
             System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
 
             Encoding win1251 = Encoding.GetEncoding("Windows-1251");
-            string[] lines = File.ReadAllLines(@"export.txt", win1251);
+            string[] lines = File.ReadAllLines(@"..\db\export.txt", win1251);
 
             foreach (var line in lines)
             {
