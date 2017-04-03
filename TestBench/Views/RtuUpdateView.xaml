@@ -7,13 +7,14 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
         SizeToContent="Height" Width="400" WindowStartupLocation="CenterOwner"
-        d:DataContext="{d:DesignInstance testBench:RtuUpdateViewModel}">
+        d:DataContext="{d:DesignInstance testBench:RtuUpdateViewModel}"
+        FocusManager.FocusedElement="{Binding ElementName=TextBoxTitle}">
     <StackPanel >
         <StackPanel>
             <TextBlock Text="{x:Static stringResources:Resources.SID_Title}" VerticalAlignment="Center" 
                        Margin="10,5,10,5" Width="80" HorizontalAlignment="Left"/>
             <TextBox Text="{Binding Title, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
-                     Margin="10,0,10,15" Height="25" />
+                     Name="TextBoxTitle" Margin="10,0,10,15"/>
         </StackPanel>
         
         <testBench:GpsInputView x:Name="GpsInputView" DataContext="{Binding GpsInputViewModel}"/>

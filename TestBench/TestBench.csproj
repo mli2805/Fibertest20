@@ -155,12 +155,12 @@
     <Compile Include="ViewModels\Users\UserListViewModel.cs" />
     <Compile Include="ViewModels\Users\UserViewModel.cs" />
     <Compile Include="ViewModels\Users\Zone.cs" />
-    <Compile Include="ViewModels\Users\ZonesViewModel.cs" />
+    <Compile Include="ViewModels\Users\ZonesContentViewModel.cs" />
     <Compile Include="Views\Users\UserView.xaml.cs">
       <DependentUpon>UserView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Users\ZonesView.xaml.cs">
-      <DependentUpon>ZonesView.xaml</DependentUpon>
+    <Compile Include="Views\Users\ZonesContentView.xaml.cs">
+      <DependentUpon>ZonesContentView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
@@ -336,7 +336,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Users\ZonesView.xaml">
+    <Page Include="Views\Users\ZonesContentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

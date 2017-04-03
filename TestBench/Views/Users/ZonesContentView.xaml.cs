@@ -1,11 +1,11 @@
 ﻿namespace Iit.Fibertest.TestBench
 {
     /// <summary>
-    /// Interaction logic for ZonesView.xaml
+    /// Interaction logic for ZonesContentView.xaml
     /// </summary>
-    public partial class ZonesView
+    public partial class ZonesContentView
     {
-        public ZonesView()
+        public ZonesContentView()
         {
             InitializeComponent();
         }

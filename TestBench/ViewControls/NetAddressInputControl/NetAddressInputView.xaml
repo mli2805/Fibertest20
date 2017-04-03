@@ -6,7 +6,8 @@
              xmlns:testBench="clr-namespace:Iit.Fibertest.TestBench"
              xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
              mc:Ignorable="d" 
-             d:DesignHeight="90" d:DataContext="{d:DesignInstance testBench:NetAddressInputViewModel}">
+             d:DesignHeight="90" d:DataContext="{d:DesignInstance testBench:NetAddressInputViewModel}"
+             FocusManager.FocusedElement="{Binding ElementName=IpAddress}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -22,7 +23,7 @@
         <TextBlock Text="IP" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,5,0"
                    IsEnabled="{Binding ElementName=RadioButtonIp, Path=IsChecked}"/>
         <testBench:Ip4InputView Grid.Column="1" Grid.Row="0" Margin="5" IsEnabled="{Binding ElementName=RadioButtonIp, Path=IsChecked}"
-                                DataContext="{Binding Ip4InputViewModel}"/>
+                                x:Name="IpAddress"  DataContext="{Binding Ip4InputViewModel}"/>
         <RadioButton Name="RadioButtonIp" Grid.Column="2" Grid.Row="0" Margin="5" VerticalAlignment="Center"  IsChecked="{Binding IsAddressSetAsIp}"/>
 
         <TextBlock Grid.Column="0" Grid.Row="1" Text="{x:Static stringResources:Resources.SID_Host}" 

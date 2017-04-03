@@ -64,7 +64,7 @@ namespace Iit.Fibertest.TestBench
 
         public object Clone()
         {
-            return this.MemberwiseClone();
+            return MemberwiseClone();
         }
 
         public void CopyTo(User destination)

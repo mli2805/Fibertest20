@@ -14,7 +14,7 @@ namespace Iit.Fibertest.TestBench
             builder.RegisterType<WindowManager>().As<IWindowManager>().SingleInstance();
             builder.RegisterType<ShellViewModel>().As<IShell>();
             builder.RegisterType<UserListViewModel>();
-            builder.RegisterType<ZonesViewModel>();
+            builder.RegisterType<ZonesContentViewModel>();
 
 //            builder.RegisterInstance<ILogger>(
 //                new LoggerConfiguration()

@@ -7,13 +7,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
         cal:Bind.ModelWithoutContext="{Binding .}"
-        SizeToContent="Height" Width="600" WindowStartupLocation="CenterScreen" d:DataContext="{d:DesignInstance testBench:NodeUpdateViewModel}">
+        SizeToContent="Height" Width="600" WindowStartupLocation="CenterScreen" 
+        d:DataContext="{d:DesignInstance testBench:NodeUpdateViewModel}"
+        FocusManager.FocusedElement="{Binding ElementName=TextBoxTitle}">
     <StackPanel Orientation="Vertical">
         <GroupBox Margin="5" Header="{x:Static stringResources:Resources.SID_Node}">
             <StackPanel>
                 <DockPanel>
                     <TextBlock DockPanel.Dock="Left" Margin="5" Text="{x:Static stringResources:Resources.SID_Title}" />
-                    <TextBox Margin="5"
+                    <TextBox Margin="5" Name="TextBoxTitle" 
                              Text="{Binding Title, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 </DockPanel>
                 <DockPanel>

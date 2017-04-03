@@ -6,7 +6,9 @@
         xmlns:testBench="clr-namespace:Iit.Fibertest.TestBench"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
-        SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" d:DataContext="{d:DesignInstance testBench:RtuInitializeViewModel}">
+        SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" 
+        d:DataContext="{d:DesignInstance testBench:RtuInitializeViewModel}"
+        FocusManager.FocusedElement="{Binding ElementName=MainAddress}">
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Style.Triggers>
@@ -20,11 +22,11 @@
     <StackPanel Margin="0,0,1,0">
         <GroupBox Header="{x:Static stringResources:Resources.SID_RTU_Title}" Margin="5">
             <StackPanel>
-                    <TextBlock Text="{Binding Title}" Margin="5"/>
+                <TextBlock Text="{Binding Title}" Margin="5"/>
             </StackPanel>
         </GroupBox>
         <GroupBox Header="{x:Static stringResources:Resources.SID_Main_channel}" Margin="5">
-            <testBench:NetAddressTestView Margin="0,5,0,0" DataContext="{Binding MainChannelTestViewModel}"/>
+            <testBench:NetAddressTestView x:Name="MainAddress"  Margin="0,5,0,0" DataContext="{Binding MainChannelTestViewModel}"/>
         </GroupBox>
         <GroupBox Header="{x:Static stringResources:Resources.SID_OTDR_Network_Address}" Margin="5">
             <StackPanel>

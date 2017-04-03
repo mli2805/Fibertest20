@@ -6,7 +6,7 @@ using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.TestBench
 {
-    public class ZonesViewModel : Screen
+    public class ZonesContentViewModel : Screen
     {
         private readonly TreeOfRtuModel _treeOfRtuModel;
         private readonly UsersDb _usersDb;
@@ -37,7 +37,7 @@ namespace Iit.Fibertest.TestBench
 
         public string NewZoneTitle { get; set; }
 
-        public ZonesViewModel(TreeOfRtuModel treeOfRtuModel, UsersDb usersDb)
+        public ZonesContentViewModel(TreeOfRtuModel treeOfRtuModel, UsersDb usersDb)
         {
             _treeOfRtuModel = treeOfRtuModel;
             _usersDb = usersDb;
