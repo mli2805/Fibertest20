@@ -79,7 +79,8 @@ namespace Iit.Fibertest.TestBench
             {
                 new User()
                 {
-                    Name = @"root1",
+                    Id = Guid.NewGuid(),
+                    Name = @"root",
                     Role = Role.Root,
                     Password = @"root",
                     IsEmailActivated = false,
@@ -88,7 +89,8 @@ namespace Iit.Fibertest.TestBench
                 },
                 new User()
                 {
-                    Name = @"operator1",
+                    Id = Guid.NewGuid(),
+                    Name = @"operator",
                     Role = Role.Operator,
                     Password = @"operator",
                     IsEmailActivated = true,
@@ -97,7 +99,8 @@ namespace Iit.Fibertest.TestBench
                 },
                 new User()
                 {
-                    Name = @"supervisor1",
+                    Id = Guid.NewGuid(),
+                    Name = @"supervisor",
                     Role = Role.Supervisor,
                     Password = @"supervisor",
                     IsEmailActivated = false,
@@ -106,6 +109,7 @@ namespace Iit.Fibertest.TestBench
                 },
                 new User()
                 {
+                    Id = Guid.NewGuid(),
                     Name = @"pupkin",
                     Role = Role.Supervisor,
                     Password = @"1234",

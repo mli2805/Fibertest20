@@ -32,7 +32,8 @@ namespace Iit.Fibertest.TestBench
             _isCreateNewUserMode = isCreateNewUserMode;
 
             Roles = Enum.GetValues(typeof(Role)).Cast<Role>().Skip(2).ToList();
-            User.Role = Roles.First();
+            if (User.Role == 0)
+                User.Role = Roles.First();
 
             Zones = zones;
             SelectedZone = Zones.First();

@@ -12,7 +12,7 @@
     <DockPanel>
         <Button Name="Close" DockPanel.Dock="Bottom" Content="{x:Static stringResources:Resources.SID_Close}" Width="100" Margin="5"/>
         <DataGrid Margin="5" ItemsSource="{Binding Rows}" SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
-                  AutoGenerateColumns="False" IsReadOnly="True" >
+                   AutoGenerateColumns="False" IsReadOnly="True" >
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="{x:Static stringResources:Resources.SID_Add_user}" cal:Message.Attach="AddNewUser"/>
@@ -30,8 +30,8 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <CheckBox IsChecked="{Binding SelectedUser.IsEmailActivated}" IsEnabled="False" Margin="5,0"/>
-                                <TextBlock Text="{Binding SelectedUser.Email}"/>
+                                <CheckBox IsChecked="{Binding IsEmailActivated}" IsEnabled="False" Margin="5,0"/>
+                                <TextBlock Text="{Binding Email}"/>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

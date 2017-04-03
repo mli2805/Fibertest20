@@ -21,12 +21,10 @@ namespace Iit.Fibertest.TestBench
             {
                 _selectedUser = value;
                 NotifyOfPropertyChange(nameof(IsRemovable));
-
             }
         }
 
-        public bool IsRemovable => SelectedUser.Role != Role.Root;
-
+        public bool IsRemovable => SelectedUser?.Role != Role.Root;
 
         public static List<Role> Roles { get; set; }
 
@@ -59,17 +57,25 @@ namespace Iit.Fibertest.TestBench
             {
                 _usersDb.Users.Add(userUnderConstruction);
                 Rows.Add(userUnderConstruction);
+                SelectedUser = Rows.Last();
             }
         }
 
         public void ChangeUser()
         {
-
+            var userUnderConstruction =  (User)SelectedUser.Clone();
+            var vm = new UserViewModel(false, userUnderConstruction, _usersDb.Zones);
+            if (_windowManager.ShowDialog(vm) == true)
+            {
+                userUnderConstruction.CopyTo(SelectedUser);
+            }
         }
 
         public void RemoveUser()
         {
-
+            _usersDb.Users.Remove(_usersDb.Users.First(u => u.Id == SelectedUser.Id));
+            Rows.Remove(SelectedUser);
+            SelectedUser = Rows.First();
         }
 
         public void Close()
