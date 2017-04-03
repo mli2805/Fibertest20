@@ -1,4 +1,4 @@
-﻿namespace Iit.Fibertest.TestBench.Users
+﻿namespace Iit.Fibertest.TestBench
 {
     /// <summary>
     /// Interaction logic for UserView.xaml

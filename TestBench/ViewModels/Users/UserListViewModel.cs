@@ -54,7 +54,7 @@ namespace Iit.Fibertest.TestBench
         public void AddNewUser()
         {
             var userUnderConstruction = new User();
-            var vm = new UserViewModel(true, userUnderConstruction);
+            var vm = new UserViewModel(true, userUnderConstruction, _usersDb.Zones);
             if (_windowManager.ShowDialog(vm) == true)
             {
                 _usersDb.Users.Add(userUnderConstruction);
