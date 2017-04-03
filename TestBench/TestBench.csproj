@@ -116,6 +116,7 @@
     <Compile Include="Logic\IniFile\IniKey.cs" />
     <Compile Include="Logic\IniFile\IniSection.cs" />
     <Compile Include="Logic\WaitCursor.cs" />
+    <Compile Include="ViewModels\Administrative\UserMappings.cs" />
     <Compile Include="ReadModel\VerboseTasks.cs" />
     <Compile Include="Requests\RequestAddEquipmentAtGpsLocation.cs" />
     <Compile Include="Requests\RequestAddRtuAtGpsLocation.cs" />
@@ -128,7 +129,7 @@
     <Compile Include="ReadModel\PathFinder.cs" />
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Autofac\AutofacEventSourcing.cs" />
-    <Compile Include="Mappings\MappingCommandToVm.cs" />
+    <Compile Include="Mappings\MappingEventToVm.cs" />
     <Compile Include="ReadModel\ReadModel.cs" />
     <Compile Include="ReadModel\ReadModelExtensions.cs" />
     <Compile Include="Requests\RequestRemoveRtu.cs" />
@@ -145,23 +146,23 @@
     </Compile>
     <Compile Include="ViewControls\NetAddressTestViewModel.cs" />
     <Compile Include="TreeModel\Post\CenterToRtu.cs" />
+    <Compile Include="ViewModels\Administrative\ObjectsToZonesViewModel.cs" />
+    <Compile Include="ViewModels\Administrative\User.cs" />
     <Compile Include="ViewModels\Administrative\ZonesViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\ServerConnectViewModel.cs" />
     <Compile Include="ViewModels\Administrative\Licence.cs" />
-    <Compile Include="ViewModels\Administrative\ObjectToZoneBelongingLine.cs" />
     <Compile Include="ViewModels\Administrative\Role.cs" />
     <Compile Include="ViewModels\Administrative\UsersDb.cs" />
-    <Compile Include="ViewModels\Administrative\User.cs" />
+    <Compile Include="ViewModels\Administrative\UserVm.cs" />
     <Compile Include="ViewModels\Administrative\UserListViewModel.cs" />
     <Compile Include="ViewModels\Administrative\UserViewModel.cs" />
     <Compile Include="ViewModels\Administrative\Zone.cs" />
-    <Compile Include="ViewModels\Administrative\ZonesContentViewModel.cs" />
+    <Compile Include="Views\Administrative\ObjectsToZonesView.xaml.cs">
+      <DependentUpon>ObjectsToZonesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Administrative\UserView.xaml.cs">
       <DependentUpon>UserView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Administrative\ZonesContentView.xaml.cs">
-      <DependentUpon>ZonesContentView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Administrative\ZonesView.xaml.cs">
       <DependentUpon>ZonesView.xaml</DependentUpon>
@@ -336,11 +337,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Administrative\UserView.xaml">
+    <Page Include="Views\Administrative\ObjectsToZonesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Administrative\ZonesContentView.xaml">
+    <Page Include="Views\Administrative\UserView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

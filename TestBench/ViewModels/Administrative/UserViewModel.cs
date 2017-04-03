@@ -8,8 +8,7 @@ namespace Iit.Fibertest.TestBench
 {
     public class UserViewModel : Screen
     {
-        public User User { get; set; }
-        private readonly bool _isCreateNewUserMode;
+        public UserVm UserVm { get; set; }
 
         public static List<Role> Roles { get; set; }
         public static List<Zone> Zones { get; set; }
@@ -26,14 +25,13 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
-        public UserViewModel(bool isCreateNewUserMode, User user, List<Zone> zones)
+        public UserViewModel(UserVm userVm, List<Zone> zones)
         {
-            User = user;
-            _isCreateNewUserMode = isCreateNewUserMode;
+            UserVm = userVm;
 
             Roles = Enum.GetValues(typeof(Role)).Cast<Role>().Skip(2).ToList();
-            if (User.Role == 0)
-                User.Role = Roles.First();
+            if (UserVm.Role == 0)
+                UserVm.Role = Roles.First();
 
             Zones = zones;
             SelectedZone = Zones.First();
@@ -46,15 +44,14 @@ namespace Iit.Fibertest.TestBench
 
         public void Save()
         {
-            User.ZoneId = SelectedZone.Id;
-            User.ZoneName = SelectedZone.Name;
-            User.IsDefaultZoneUser = SelectedZone.Name == Resources.SID_Default_Zone;
+            UserVm.ZoneId = SelectedZone.Id;
+            UserVm.ZoneName = SelectedZone.Title;
+            UserVm.IsDefaultZoneUser = SelectedZone.Title == Resources.SID_Default_Zone;
 
             TryClose(true);
         }
         public void Cancel()
         {
-
             TryClose(false);
         }
     }

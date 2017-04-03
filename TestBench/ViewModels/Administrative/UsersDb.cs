@@ -69,7 +69,7 @@ namespace Iit.Fibertest.TestBench
             if (Zones == null)
                 Zones = new List<Zone>()
                 {
-                    new Zone() {Id = Guid.NewGuid(), Name = Resources.SID_Default_Zone,}
+                    new Zone() {Id = Guid.NewGuid(), Title = Resources.SID_Default_Zone,}
                 };
         }
 

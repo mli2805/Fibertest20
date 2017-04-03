@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using AutoMapper;
 using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
 
@@ -11,20 +12,20 @@ namespace Iit.Fibertest.TestBench
     {
         private readonly UsersDb _usersDb;
         private readonly IWindowManager _windowManager;
-        private User _selectedUser;
-        public ObservableCollection<User> Rows { get; set; }
+        private UserVm _selectedUserVm;
+        public ObservableCollection<UserVm> Rows { get; set; }
 
-        public User SelectedUser
+        public UserVm SelectedUserVm
         {
-            get { return _selectedUser; }
+            get { return _selectedUserVm; }
             set
             {
-                _selectedUser = value;
+                _selectedUserVm = value;
                 NotifyOfPropertyChange(nameof(IsRemovable));
             }
         }
 
-        public bool IsRemovable => SelectedUser?.Role != Role.Root;
+        public bool IsRemovable => SelectedUserVm?.Role != Role.Root;
 
         public static List<Role> Roles { get; set; }
 
@@ -32,16 +33,22 @@ namespace Iit.Fibertest.TestBench
         {
             _usersDb = usersDb;
             _windowManager = windowManager;
-
             Roles = Enum.GetValues(typeof(Role)).Cast<Role>().ToList();
 
-            usersDb.Users.ForEach(u => u.ZoneName = 
-                u.ZoneId != Guid.Empty 
-                    ? usersDb.Zones.First(z=>z.Id == u.ZoneId).Name 
-                    : u.IsDefaultZoneUser 
-                            ? Resources.SID_Default_Zone 
-                            : Resources.SID_No_zone_assigned);
-            Rows = new ObservableCollection<User>(usersDb.Users);
+            MapUserList();
+        }
+
+        private void MapUserList()
+        {
+            IMapper mapper = new MapperConfiguration(cfg => cfg.AddProfile<UserMappings>()).CreateMapper();
+            var intermediateList = _usersDb.Users.Select(user => mapper.Map<UserVm>(user)).ToList();
+            intermediateList.ForEach(u => u.ZoneName =
+                u.ZoneId != Guid.Empty
+                    ? _usersDb.Zones.First(z => z.Id == u.ZoneId).Title
+                    : u.IsDefaultZoneUser
+                        ? Resources.SID_Default_Zone
+                        : Resources.SID_No_zone_assigned);
+            Rows = new ObservableCollection<UserVm>(intermediateList);
         }
 
         protected override void OnViewLoaded(object view)
@@ -49,36 +56,45 @@ namespace Iit.Fibertest.TestBench
             DisplayName = Resources.SID_User_list;
         }
 
+        #region One User Actions
         public void AddNewUser()
         {
-            var userUnderConstruction = new User();
-            var vm = new UserViewModel(true, userUnderConstruction, _usersDb.Zones);
+            var userUnderConstruction = new UserVm();
+            var vm = new UserViewModel(userUnderConstruction, _usersDb.Zones);
             if (_windowManager.ShowDialog(vm) == true)
             {
-                _usersDb.Users.Add(userUnderConstruction);
                 Rows.Add(userUnderConstruction);
-                SelectedUser = Rows.Last();
+                SelectedUserVm = Rows.Last();
             }
         }
 
         public void ChangeUser()
         {
-            var userUnderConstruction =  (User)SelectedUser.Clone();
-            var vm = new UserViewModel(false, userUnderConstruction, _usersDb.Zones);
+            var userUnderConstruction =  (UserVm)SelectedUserVm.Clone();
+            var vm = new UserViewModel(userUnderConstruction, _usersDb.Zones);
             if (_windowManager.ShowDialog(vm) == true)
             {
-                userUnderConstruction.CopyTo(SelectedUser);
+                userUnderConstruction.CopyTo(SelectedUserVm);
             }
         }
 
         public void RemoveUser()
         {
-            _usersDb.Users.Remove(_usersDb.Users.First(u => u.Id == SelectedUser.Id));
-            Rows.Remove(SelectedUser);
-            SelectedUser = Rows.First();
+            _usersDb.Users.Remove(_usersDb.Users.First(u => u.Id == SelectedUserVm.Id));
+            Rows.Remove(SelectedUserVm);
+            SelectedUserVm = Rows.First();
+        }
+        #endregion
+
+        public void Save()
+        {
+            IMapper mapper = new MapperConfiguration(cfg => cfg.AddProfile<UserMappings>()).CreateMapper();
+            _usersDb.Users = Rows.Select(userVm => mapper.Map<User>(userVm)).ToList();
+            _usersDb.Save();
+            TryClose(true);
         }
 
-        public void Close()
+        public void Cancel()
         {
             TryClose();
         }

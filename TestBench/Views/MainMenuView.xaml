@@ -12,6 +12,7 @@
            <MenuItem Header="{x:Static stringResources:Resources.SID_Users}">
                 <MenuItem Header="{x:Static stringResources:Resources.SID_Users_list}" cal:Message.Attach="LaunchUserListView()"/>
                 <MenuItem Header="{x:Static stringResources:Resources.SID_Responsibility_zones}" cal:Message.Attach="LaunchResponsibilityZonesView"/>
+                <MenuItem Header="Objects to zones" cal:Message.Attach="LaunchObjectsToZonesView"/>
            </MenuItem> 
            <MenuItem Header="Edit"></MenuItem> 
         </Menu>    

@@ -19,7 +19,13 @@ namespace Iit.Fibertest.TestBench
 
         public void LaunchResponsibilityZonesView()
         {
-            var vm = IoC.Get<ZonesContentViewModel>();
+            var vm = IoC.Get<ZonesViewModel>();
+            _windowManager.ShowDialog(vm);
+        }
+
+        public void LaunchObjectsToZonesView()
+        {
+            var vm = IoC.Get<ObjectsToZonesViewModel>();
             _windowManager.ShowDialog(vm);
         }
     }
