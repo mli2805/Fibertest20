@@ -145,22 +145,26 @@
     </Compile>
     <Compile Include="ViewControls\NetAddressTestViewModel.cs" />
     <Compile Include="TreeModel\Post\CenterToRtu.cs" />
+    <Compile Include="ViewModels\Administrative\ZonesViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\ServerConnectViewModel.cs" />
-    <Compile Include="ViewModels\Users\Licence.cs" />
-    <Compile Include="ViewModels\Users\ObjectToZoneBelongingLine.cs" />
-    <Compile Include="ViewModels\Users\Role.cs" />
-    <Compile Include="ViewModels\Users\UsersDb.cs" />
-    <Compile Include="ViewModels\Users\User.cs" />
-    <Compile Include="ViewModels\Users\UserListViewModel.cs" />
-    <Compile Include="ViewModels\Users\UserViewModel.cs" />
-    <Compile Include="ViewModels\Users\Zone.cs" />
-    <Compile Include="ViewModels\Users\ZonesContentViewModel.cs" />
-    <Compile Include="Views\Users\UserView.xaml.cs">
+    <Compile Include="ViewModels\Administrative\Licence.cs" />
+    <Compile Include="ViewModels\Administrative\ObjectToZoneBelongingLine.cs" />
+    <Compile Include="ViewModels\Administrative\Role.cs" />
+    <Compile Include="ViewModels\Administrative\UsersDb.cs" />
+    <Compile Include="ViewModels\Administrative\User.cs" />
+    <Compile Include="ViewModels\Administrative\UserListViewModel.cs" />
+    <Compile Include="ViewModels\Administrative\UserViewModel.cs" />
+    <Compile Include="ViewModels\Administrative\Zone.cs" />
+    <Compile Include="ViewModels\Administrative\ZonesContentViewModel.cs" />
+    <Compile Include="Views\Administrative\UserView.xaml.cs">
       <DependentUpon>UserView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Users\ZonesContentView.xaml.cs">
+    <Compile Include="Views\Administrative\ZonesContentView.xaml.cs">
       <DependentUpon>ZonesContentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Administrative\ZonesView.xaml.cs">
+      <DependentUpon>ZonesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
@@ -301,7 +305,7 @@
     <Compile Include="TreeModel\RtuLeaf.cs" />
     <Compile Include="TreeModel\TraceLeaf.cs" />
     <Compile Include="TreeModel\TreeExtensions.cs" />
-    <Compile Include="Views\Users\UserListView.xaml.cs">
+    <Compile Include="Views\Administrative\UserListView.xaml.cs">
       <DependentUpon>UserListView.xaml</DependentUpon>
     </Compile>
     <Page Include="ViewControls\GpsInputControl\GpsInputView.xaml">
@@ -332,11 +336,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Users\UserView.xaml">
+    <Page Include="Views\Administrative\UserView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Users\ZonesContentView.xaml">
+    <Page Include="Views\Administrative\ZonesContentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Administrative\ZonesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -416,7 +424,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Users\UserListView.xaml">
+    <Page Include="Views\Administrative\UserListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
