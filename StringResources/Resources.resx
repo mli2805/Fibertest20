@@ -680,4 +680,10 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_Remove_user" xml:space="preserve">
     <value>Remove user</value>
   </data>
+  <data name="SID_Password_should_be_set" xml:space="preserve">
+    <value>Password should be set</value>
+  </data>
+  <data name="SID_Passwords_don_t_match" xml:space="preserve">
+    <value>Passwords don't match</value>
+  </data>
 </root>

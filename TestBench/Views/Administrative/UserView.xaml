@@ -17,25 +17,37 @@
                     <TextBlock Text="{x:Static stringResources:Resources.SID_Name}" Margin="5" HorizontalAlignment="Right"/>
                 </DockPanel>
                 <DockPanel>
-                    <ComboBox DockPanel.Dock="Right" ItemsSource="{Binding Roles}" SelectedItem="{Binding UserVm.Role}" Margin="5" Width="150"/>
+                    <ComboBox DockPanel.Dock="Right" ItemsSource="{Binding Roles}" SelectedItem="{Binding UserVm.Role}" 
+                              IsEnabled="{Binding IsntItRoot}" Margin="5" Width="150"/>
                     <TextBlock Text="{x:Static stringResources:Resources.SID_Role}" Margin="5" HorizontalAlignment="Right"/>
                 </DockPanel>
                 <DockPanel>
-                    <ComboBox DockPanel.Dock="Right" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" Margin="5" Width="150"/>
+                    <ComboBox DockPanel.Dock="Right" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" 
+                              IsEnabled="{Binding IsntItRoot}" Margin="5" Width="150"/>
                     <TextBlock Text="{x:Static stringResources:Resources.SID_Zone}" Margin="5" HorizontalAlignment="Right"/>
                 </DockPanel>
             </StackPanel>
         </Border>
-
+        <GroupBox Header="Password" Margin="5" Padding="0,5">
+            <StackPanel>
+                <PasswordBox testBench:PasswordHelper.Attach="True"  
+                             testBench:PasswordHelper.Password="{Binding Password1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+                             Margin="5" Width="150" HorizontalAlignment="Right"/>
+                <PasswordBox testBench:PasswordHelper.Attach="True"  
+                             testBench:PasswordHelper.Password="{Binding Password2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+                             Margin="5" Width="150" HorizontalAlignment="Right"/>
+            </StackPanel>
+        </GroupBox>
         <GroupBox Header="{x:Static stringResources:Resources.SID_Email}" Margin="5" Padding="0,5">
             <DockPanel >
-                <CheckBox DockPanel.Dock="Bottom" Margin="30,5,5,0" Content="{x:Static stringResources:Resources.SID_Send_messages}" IsChecked="{Binding UserVm.IsEmailActivated}" HorizontalAlignment="Left"/>
+                <CheckBox DockPanel.Dock="Bottom" Margin="30,5,5,0" Content="{x:Static stringResources:Resources.SID_Send_messages}" 
+                          IsChecked="{Binding UserVm.IsEmailActivated}" HorizontalAlignment="Left"/>
                 <TextBox DockPanel.Dock="Right" Text="{Binding UserVm.Email}" Margin="5" Width="250"/>
             </DockPanel>
         </GroupBox>
 
         <StackPanel Orientation="Horizontal" Margin="5,15,5,10" HorizontalAlignment="Center">
-            <Button Name="Save" Content="{x:Static stringResources:Resources.SID_Save}" Width="80" Margin="5,0"/>
+            <Button Name="Save" Content="{x:Static stringResources:Resources.SID_Save}" IsEnabled="{Binding IsButtonSaveEnabled}" Width="80" Margin="5,0"/>
             <Button Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}" Width="80" Margin="5,0"/>
         </StackPanel>
     </StackPanel>

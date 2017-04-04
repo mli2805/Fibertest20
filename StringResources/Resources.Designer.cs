@@ -1060,6 +1060,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Password should be set.
+        /// </summary>
+        public static string SID_Password_should_be_set {
+            get {
+                return ResourceManager.GetString("SID_Password_should_be_set", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Passwords don&apos;t match.
+        /// </summary>
+        public static string SID_Passwords_don_t_match {
+            get {
+                return ResourceManager.GetString("SID_Passwords_don_t_match", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Path couldn&apos;t be found.
         /// </summary>
         public static string SID_Path_couldn_t_be_found {
