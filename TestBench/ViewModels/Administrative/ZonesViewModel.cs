@@ -7,15 +7,15 @@ namespace Iit.Fibertest.TestBench
 {
     public class ZonesViewModel : Screen
     {
-        private readonly UsersDb _usersDb;
+        private readonly AdministrativeDb _administrativeDb;
 
         public ObservableCollection<Zone> Rows { get; set; } = new ObservableCollection<Zone>();
 
-        public ZonesViewModel(UsersDb usersDb)
+        public ZonesViewModel(AdministrativeDb administrativeDb)
         {
-            _usersDb = usersDb;
+            _administrativeDb = administrativeDb;
 
-            foreach (var zone in usersDb.Zones)
+            foreach (var zone in administrativeDb.Zones)
             {
                 Rows.Add((Zone)zone.Clone());
             }
@@ -28,12 +28,12 @@ namespace Iit.Fibertest.TestBench
 
         public void Save()
         {
-            _usersDb.Zones = new List<Zone>();
+            _administrativeDb.Zones = new List<Zone>();
             foreach (var zone in Rows)
             {
-                _usersDb.Zones.Add((Zone)zone.Clone());
+                _administrativeDb.Zones.Add((Zone)zone.Clone());
             }
-            _usersDb.Save();
+            _administrativeDb.Save();
             TryClose(true);
         }
 

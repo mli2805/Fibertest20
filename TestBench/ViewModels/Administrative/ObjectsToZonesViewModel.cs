@@ -8,14 +8,14 @@ namespace Iit.Fibertest.TestBench
 {
     public class ObjectsToZonesViewModel : Screen
     {
-        private readonly UsersDb _usersDb;
+        private readonly AdministrativeDb _administrativeDb;
         private readonly TreeOfRtuModel _treeOfRtuModel;
 
         public DataTable Source { get; set; }
 
-        public ObjectsToZonesViewModel(UsersDb usersDb, TreeOfRtuModel treeOfRtuModel)
+        public ObjectsToZonesViewModel(AdministrativeDb administrativeDb, TreeOfRtuModel treeOfRtuModel)
         {
-            _usersDb = usersDb;
+            _administrativeDb = administrativeDb;
             _treeOfRtuModel = treeOfRtuModel;
 
             CreateTable();
@@ -50,7 +50,7 @@ namespace Iit.Fibertest.TestBench
             newRow[1] = true;
 
             int i = 2;
-            foreach (var zone in _usersDb.Zones.Skip(1))
+            foreach (var zone in _administrativeDb.Zones.Skip(1))
             {
                 newRow[i] = zone.Objects.Contains(id);
                 i++;
@@ -66,7 +66,7 @@ namespace Iit.Fibertest.TestBench
             Source.Columns.Add(objectsColumn);
 
 
-            foreach (var zone in _usersDb.Zones)
+            foreach (var zone in _administrativeDb.Zones)
             {
                 var dataColumn = new DataColumn(zone.Title);
                 dataColumn.DataType = typeof(bool);

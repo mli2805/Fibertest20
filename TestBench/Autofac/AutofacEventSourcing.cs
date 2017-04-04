@@ -24,7 +24,7 @@ namespace Iit.Fibertest.TestBench
                 }))
                 .SingleInstance();
 
-            builder.RegisterType<UsersDb>().SingleInstance();
+            builder.RegisterType<AdministrativeDb>().SingleInstance();
 
         }
     }

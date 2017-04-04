@@ -7,15 +7,15 @@ using Serilog;
 
 namespace Iit.Fibertest.TestBench
 {
-    public class UsersDb
+    public class AdministrativeDb
     {
         private readonly ILogger _log;
-        private string filename = @"..\db\UsersDb.bin";
+        private string filename = @"..\db\AdministrativeDb.bin";
 
         public List<User> Users { get; set; }
         public List<Zone> Zones { get; set; }
 
-        public UsersDb(ILogger log)
+        public AdministrativeDb(ILogger log)
         {
             _log = log;
             Load();
@@ -33,7 +33,7 @@ namespace Iit.Fibertest.TestBench
                     binaryFormatter.Serialize(fStream, Users);
                     binaryFormatter.Serialize(fStream, Zones);
                 }
-                _log.Information(@"Users Db saved successfully.");
+                _log.Information(@"Administrative Db saved successfully.");
             }
             catch (Exception e)
             {
@@ -106,17 +106,6 @@ namespace Iit.Fibertest.TestBench
                     IsEmailActivated = false,
                     Email = "",
                     IsDefaultZoneUser = true,
-                },
-                new User()
-                {
-                    Id = Guid.NewGuid(),
-                    Name = @"pupkin",
-                    Role = Role.Supervisor,
-                    Password = @"1234",
-                    IsEmailActivated = false,
-                    Email = "",
-                    IsDefaultZoneUser = false,
-                    ZoneId = Guid.Empty
                 },
             };
         }

@@ -25,9 +25,9 @@ namespace Iit.Fibertest.TestBench
 
         private bool? _isAuthenticationSuccessfull;
         public Db LocalGraphDb { get; set; }
-        public UsersDb UsersDb { get; set; }
+        public AdministrativeDb AdministrativeDb { get; set; }
         public ShellViewModel(ReadModel readModel, TreeOfRtuModel treeOfRtuModel, Bus bus, 
-                Db graphDb, UsersDb usersDb, GraphReadModel graphReadModel, IWindowManager windowManager, 
+                Db graphDb, AdministrativeDb administrativeDb, GraphReadModel graphReadModel, IWindowManager windowManager, 
                 ILogger clientLogger, IniFile iniFile)
         {
             ReadModel = readModel;
@@ -37,7 +37,7 @@ namespace Iit.Fibertest.TestBench
             TreeOfRtuViewModel = new TreeOfRtuViewModel(treeOfRtuModel);
             Bus = bus;
             LocalGraphDb = graphDb;
-            UsersDb = usersDb;
+            AdministrativeDb = administrativeDb;
             GraphReadModel = graphReadModel;
             _windowManager = windowManager;
 
@@ -81,7 +81,7 @@ namespace Iit.Fibertest.TestBench
         public void Save()
         {
             LocalGraphDb.Save();
-            UsersDb.Save();
+            AdministrativeDb.Save();
         }
 
         #region Node

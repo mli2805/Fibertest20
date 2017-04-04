@@ -154,7 +154,7 @@
     <Compile Include="ViewModels\ServerConnectViewModel.cs" />
     <Compile Include="ViewModels\Administrative\Licence.cs" />
     <Compile Include="ViewModels\Administrative\Role.cs" />
-    <Compile Include="ViewModels\Administrative\UsersDb.cs" />
+    <Compile Include="ViewModels\Administrative\AdministrativeDb.cs" />
     <Compile Include="ViewModels\Administrative\UserVm.cs" />
     <Compile Include="ViewModels\Administrative\UserListViewModel.cs" />
     <Compile Include="ViewModels\Administrative\UserViewModel.cs" />

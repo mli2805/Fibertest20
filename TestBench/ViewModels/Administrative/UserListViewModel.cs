@@ -10,7 +10,7 @@ namespace Iit.Fibertest.TestBench
 {
     public class UserListViewModel : Screen
     {
-        private readonly UsersDb _usersDb;
+        private readonly AdministrativeDb _administrativeDb;
         private readonly IWindowManager _windowManager;
         private UserVm _selectedUserVm;
         public ObservableCollection<UserVm> Rows { get; set; }
@@ -29,9 +29,9 @@ namespace Iit.Fibertest.TestBench
 
         public static List<Role> Roles { get; set; }
 
-        public UserListViewModel(UsersDb usersDb, IWindowManager windowManager)
+        public UserListViewModel(AdministrativeDb administrativeDb, IWindowManager windowManager)
         {
-            _usersDb = usersDb;
+            _administrativeDb = administrativeDb;
             _windowManager = windowManager;
             Roles = Enum.GetValues(typeof(Role)).Cast<Role>().ToList();
 
@@ -41,10 +41,10 @@ namespace Iit.Fibertest.TestBench
         private void MapUserList()
         {
             IMapper mapper = new MapperConfiguration(cfg => cfg.AddProfile<UserMappings>()).CreateMapper();
-            var intermediateList = _usersDb.Users.Select(user => mapper.Map<UserVm>(user)).ToList();
+            var intermediateList = _administrativeDb.Users.Select(user => mapper.Map<UserVm>(user)).ToList();
             intermediateList.ForEach(u => u.ZoneName =
                 u.ZoneId != Guid.Empty
-                    ? _usersDb.Zones.First(z => z.Id == u.ZoneId).Title
+                    ? _administrativeDb.Zones.First(z => z.Id == u.ZoneId).Title
                     : u.IsDefaultZoneUser
                         ? Resources.SID_Default_Zone
                         : Resources.SID_No_zone_assigned);
@@ -60,7 +60,7 @@ namespace Iit.Fibertest.TestBench
         public void AddNewUser()
         {
             var userUnderConstruction = new UserVm();
-            var vm = new UserViewModel(userUnderConstruction, _usersDb.Zones);
+            var vm = new UserViewModel(userUnderConstruction, _administrativeDb.Zones);
             if (_windowManager.ShowDialog(vm) == true)
             {
                 Rows.Add(userUnderConstruction);
@@ -71,7 +71,7 @@ namespace Iit.Fibertest.TestBench
         public void ChangeUser()
         {
             var userUnderConstruction =  (UserVm)SelectedUserVm.Clone();
-            var vm = new UserViewModel(userUnderConstruction, _usersDb.Zones);
+            var vm = new UserViewModel(userUnderConstruction, _administrativeDb.Zones);
             if (_windowManager.ShowDialog(vm) == true)
             {
                 userUnderConstruction.CopyTo(SelectedUserVm);
@@ -80,7 +80,7 @@ namespace Iit.Fibertest.TestBench
 
         public void RemoveUser()
         {
-            _usersDb.Users.Remove(_usersDb.Users.First(u => u.Id == SelectedUserVm.Id));
+            _administrativeDb.Users.Remove(_administrativeDb.Users.First(u => u.Id == SelectedUserVm.Id));
             Rows.Remove(SelectedUserVm);
             SelectedUserVm = Rows.First();
         }
@@ -89,8 +89,8 @@ namespace Iit.Fibertest.TestBench
         public void Save()
         {
             IMapper mapper = new MapperConfiguration(cfg => cfg.AddProfile<UserMappings>()).CreateMapper();
-            _usersDb.Users = Rows.Select(userVm => mapper.Map<User>(userVm)).ToList();
-            _usersDb.Save();
+            _administrativeDb.Users = Rows.Select(userVm => mapper.Map<User>(userVm)).ToList();
+            _administrativeDb.Save();
             TryClose(true);
         }
 
