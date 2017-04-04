@@ -671,4 +671,16 @@
 	<data name="SID_Remove_user" xml:space="preserve">
 		<value>Удалить пользователя</value>
 	</data>
+	<data name="SID_Password_should_be_set" xml:space="preserve">
+		<value>Пароль должен быть задан</value>
+	</data>
+	<data name="SID_Passwords_don_t_match" xml:space="preserve">
+		<value>Пароли не совпадают</value>
+	</data>
+	<data name="SID_Responsibility_zones_settings" xml:space="preserve">
+		<value>Настройки зон ответственности</value>
+	</data>
+	<data name="SID_Administrative" xml:space="preserve">
+		<value>Администрирование</value>
+	</data>
 </root>

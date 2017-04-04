@@ -205,6 +205,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Administrative.
+        /// </summary>
+        public static string SID_Administrative {
+            get {
+                return ResourceManager.GetString("SID_Administrative", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All.
         /// </summary>
         public static string SID_All {
@@ -1272,6 +1281,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Responsibility_zones {
             get {
                 return ResourceManager.GetString("SID_Responsibility_zones", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Responsibility zones settings.
+        /// </summary>
+        public static string SID_Responsibility_zones_settings {
+            get {
+                return ResourceManager.GetString("SID_Responsibility_zones_settings", resourceCulture);
             }
         }
         

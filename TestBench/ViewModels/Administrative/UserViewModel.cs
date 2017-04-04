@@ -87,7 +87,7 @@ namespace Iit.Fibertest.TestBench
 
             Zones = zones;
 
-            SelectedZone = UserVm.Id == Guid.Empty ? Zones.First() : Zones.First(z=>z.Id == userVm.ZoneId);
+            SelectedZone = (UserVm.Id == Guid.Empty || UserVm.IsDefaultZoneUser) ? Zones.First() : Zones.First(z=>z.Id == userVm.ZoneId);
             UserVm.Id = Guid.NewGuid();
         }
 
