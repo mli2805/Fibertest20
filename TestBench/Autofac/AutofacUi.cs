@@ -16,16 +16,10 @@ namespace Iit.Fibertest.TestBench
             builder.RegisterType<UserListViewModel>();
             builder.RegisterType<ZonesViewModel>();
             builder.RegisterType<ObjectsToZonesViewModel>();
-
-//            builder.RegisterInstance<ILogger>(
-//                new LoggerConfiguration()
-//                    .WriteTo.RollingFile("logs\\client.log")
-//                    .CreateLogger());
+            builder.RegisterType<ZonesContentViewModel>();
 
             var logger = new LoggerConfiguration()
-                .WriteTo.Seq(@"http://localhost:5341")
-                .CreateLogger();
-
+                .WriteTo.Seq(@"http://localhost:5341").CreateLogger();
             builder.RegisterInstance<ILogger>(logger);
 
             builder.RegisterInstance(new IniFile(IniFileName(@"client.ini", logger)));

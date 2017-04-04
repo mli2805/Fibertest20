@@ -25,7 +25,7 @@ namespace Iit.Fibertest.TestBench
 
         public void LaunchObjectsToZonesView()
         {
-            var vm = IoC.Get<ObjectsToZonesViewModel>();
+            var vm = IoC.Get<ZonesContentViewModel>();
             _windowManager.ShowDialog(vm);
         }
     }

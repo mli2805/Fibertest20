@@ -149,6 +149,7 @@
     <Compile Include="TreeModel\Post\CenterToRtu.cs" />
     <Compile Include="ViewModels\Administrative\ObjectsToZonesViewModel.cs" />
     <Compile Include="ViewModels\Administrative\User.cs" />
+    <Compile Include="ViewModels\Administrative\ZonesContentViewModel.cs" />
     <Compile Include="ViewModels\Administrative\ZonesViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\ServerConnectViewModel.cs" />
@@ -164,6 +165,9 @@
     </Compile>
     <Compile Include="Views\Administrative\UserView.xaml.cs">
       <DependentUpon>UserView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Administrative\ZonesContentView.xaml.cs">
+      <DependentUpon>ZonesContentView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Administrative\ZonesView.xaml.cs">
       <DependentUpon>ZonesView.xaml</DependentUpon>
@@ -343,6 +347,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Administrative\UserView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Administrative\ZonesContentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
