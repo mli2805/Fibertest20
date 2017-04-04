@@ -80,11 +80,21 @@ namespace Iit.Fibertest.TestBench
                 new User()
                 {
                     Id = Guid.NewGuid(),
+                    Name = @"developer",
+                    Role = Role.Developer,
+                    Password = @"developer",
+                    IsEmailActivated = false,
+                    Email = "",
+                    IsDefaultZoneUser = true,
+                },
+                new User()
+                {
+                    Id = Guid.NewGuid(),
                     Name = @"root",
                     Role = Role.Root,
                     Password = @"root",
                     IsEmailActivated = false,
-                    Email = @"main_abonent@yandex.ru",
+                    Email = "",
                     IsDefaultZoneUser = true,
                 },
                 new User()
@@ -93,8 +103,8 @@ namespace Iit.Fibertest.TestBench
                     Name = @"operator",
                     Role = Role.Operator,
                     Password = @"operator",
-                    IsEmailActivated = true,
-                    Email = @"op123op@mail.ru",
+                    IsEmailActivated = false,
+                    Email = "",
                     IsDefaultZoneUser = true,
                 },
                 new User()

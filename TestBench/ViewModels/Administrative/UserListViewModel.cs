@@ -41,7 +41,7 @@ namespace Iit.Fibertest.TestBench
         private void MapUserList()
         {
             IMapper mapper = new MapperConfiguration(cfg => cfg.AddProfile<UserMappings>()).CreateMapper();
-            var intermediateList = _administrativeDb.Users.Select(user => mapper.Map<UserVm>(user)).ToList();
+            var intermediateList = _administrativeDb.Users.Where(u=>u.Role > Role.Developer).Select(user => mapper.Map<UserVm>(user)).ToList();
             intermediateList.ForEach(u => u.ZoneName =
                 u.ZoneId != Guid.Empty
                     ? _administrativeDb.Zones.First(z => z.Id == u.ZoneId).Title
