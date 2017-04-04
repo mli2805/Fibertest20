@@ -12,9 +12,9 @@ namespace Iit.Fibertest.TestBench
     {
         private readonly AdministrativeDb _administrativeDb;
         private readonly IWindowManager _windowManager;
-        private UserVm _selectedUserVm;
         public ObservableCollection<UserVm> Rows { get; set; }
 
+        private UserVm _selectedUserVm;
         public UserVm SelectedUserVm
         {
             get { return _selectedUserVm; }
@@ -96,7 +96,7 @@ namespace Iit.Fibertest.TestBench
 
         public void Cancel()
         {
-            TryClose();
+            TryClose(false);
         }
     }
 }

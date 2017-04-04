@@ -9,5 +9,11 @@
         {
             InitializeComponent();
         }
+
+        private void Window_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            DataGrid.Columns[0].IsReadOnly = true;
+            DataGrid.Columns[1].IsReadOnly = true;
+        }
     }
 }

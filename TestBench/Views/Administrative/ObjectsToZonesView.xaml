@@ -4,13 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
+        xmlns:testBench="clr-namespace:Iit.Fibertest.TestBench"
         mc:Ignorable="d"
-        Title="ExampleView" Height="410" Width="600" WindowStartupLocation="CenterOwner">
+        Title="ExampleView" Height="410" Width="600" WindowStartupLocation="CenterOwner"
+        d:DataContext="{d:DesignInstance testBench:ObjectsToZonesViewModel}" Loaded="Window_Loaded">
     <DockPanel>
         <StackPanel DockPanel.Dock="Bottom"  Orientation="Horizontal">
             <Button Name="Save" Content="{x:Static stringResources:Resources.SID_Save}" IsDefault="True" Width="100" Margin="30,20,20,15"/>
             <Button Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}" IsCancel="True" Width="100" Margin="0,20,0,15"/>
         </StackPanel>
-        <DataGrid ItemsSource="{Binding Source}" FrozenColumnCount="2" CanUserAddRows="False" CanUserDeleteRows="False"/>
+        <DataGrid Name="DataGrid" ItemsSource="{Binding BindableTable}" FrozenColumnCount="2" CanUserAddRows="False" CanUserDeleteRows="False"/>
     </DockPanel>
 </Window>
