@@ -86,7 +86,9 @@ namespace Iit.Fibertest.TestBench
             Password1 = Password2 = UserVm.Password;
 
             Zones = zones;
-            SelectedZone = Zones.First();
+
+            SelectedZone = UserVm.Id == Guid.Empty ? Zones.First() : Zones.First(z=>z.Id == userVm.ZoneId);
+            UserVm.Id = Guid.NewGuid();
         }
 
         protected override void OnViewLoaded(object view)

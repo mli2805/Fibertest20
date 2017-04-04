@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
@@ -31,6 +32,8 @@ namespace Iit.Fibertest.TestBench
             _administrativeDb.Zones = new List<Zone>();
             foreach (var zone in Rows)
             {
+                if (zone.Id == Guid.Empty)
+                    zone.Id = Guid.NewGuid();
                 _administrativeDb.Zones.Add((Zone)zone.Clone());
             }
             _administrativeDb.Save();

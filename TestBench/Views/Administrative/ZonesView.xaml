@@ -15,8 +15,8 @@
         </StackPanel>
         <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Rows}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Title"  Width="70" Binding="{Binding Title}"/>
-                <DataGridTextColumn Header="Comment"  Width="370" Binding="{Binding Comment}"/>
+                <DataGridTextColumn Header="Title"  Width="120" Binding="{Binding Title}"/>
+                <DataGridTextColumn Header="Comment"  Width="330" Binding="{Binding Comment}"/>
             </DataGrid.Columns>
         </DataGrid>
     </DockPanel>

@@ -9,6 +9,9 @@ namespace Iit.Fibertest.TestBench
         private Role _role;
         private string _email;
         private bool _isEmailActivated;
+        private string _zoneName;
+        private Guid _zoneId;
+        private bool _isDefaultZoneUser;
         public Guid Id { get; set; }
 
         public string Name
@@ -57,9 +60,38 @@ namespace Iit.Fibertest.TestBench
             }
         }
 
-        public Guid ZoneId { get; set; }
-        public bool IsDefaultZoneUser { get; set; }
-        public string ZoneName { get; set; }
+        public Guid ZoneId
+        {
+            get { return _zoneId; }
+            set
+            {
+                if (value.Equals(_zoneId)) return;
+                _zoneId = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public bool IsDefaultZoneUser
+        {
+            get { return _isDefaultZoneUser; }
+            set
+            {
+                if (value == _isDefaultZoneUser) return;
+                _isDefaultZoneUser = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public string ZoneName
+        {
+            get { return _zoneName; }
+            set
+            {
+                if (value == _zoneName) return;
+                _zoneName = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         public object Clone()
         {

@@ -15,5 +15,5 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
 и что с Log.CloseAndFlush(); - не находит в классе
 
 12. warnings
-13. UserListViewModel не могу SelectedUser сменить
+13. UserListViewModel не могу SelectedUserVm перерисовать
 

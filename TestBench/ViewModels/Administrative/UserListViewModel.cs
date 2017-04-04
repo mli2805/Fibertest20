@@ -35,10 +35,10 @@ namespace Iit.Fibertest.TestBench
             _windowManager = windowManager;
             Roles = Enum.GetValues(typeof(Role)).Cast<Role>().ToList();
 
-            MapUserList();
+            MapUserVmList();
         }
 
-        private void MapUserList()
+        private void MapUserVmList()
         {
             IMapper mapper = new MapperConfiguration(cfg => cfg.AddProfile<UserMappings>()).CreateMapper();
             var intermediateList = _administrativeDb.Users.Where(u=>u.Role > Role.Developer).Select(user => mapper.Map<UserVm>(user)).ToList();
@@ -64,7 +64,7 @@ namespace Iit.Fibertest.TestBench
             if (_windowManager.ShowDialog(vm) == true)
             {
                 Rows.Add(userUnderConstruction);
-                SelectedUserVm = Rows.Last();
+                SelectedUserVm = Rows.Last(); // doesn't work
             }
         }
 
@@ -82,7 +82,7 @@ namespace Iit.Fibertest.TestBench
         {
             _administrativeDb.Users.Remove(_administrativeDb.Users.First(u => u.Id == SelectedUserVm.Id));
             Rows.Remove(SelectedUserVm);
-            SelectedUserVm = Rows.First();
+            SelectedUserVm = Rows.First(); // doesn't work
         }
         #endregion
 
