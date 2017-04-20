@@ -64,7 +64,7 @@ namespace DirectCharonLibrary
                 if (IsLastCommandSuccessful)
                 {
                     IsLastCommandSuccessful = false;
-                    LastErrorMessage = "GetExtentedPorts failed!";
+                    LastErrorMessage = $"{e.Message} in GetExtentedPorts!";
                 }
                 return null; 
             }
