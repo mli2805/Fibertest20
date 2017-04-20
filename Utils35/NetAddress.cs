@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Iit.Fibertest.Graph
+namespace Iit.Fibertest.Utils35
 {
     [Serializable]
     public class NetAddress
