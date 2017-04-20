@@ -541,7 +541,7 @@
       <Project>{0cb0ea37-4a27-45f0-bb01-4c0e064e8962}</Project>
       <Name>StringResources</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TestBench\WpfClient.csproj">
+    <ProjectReference Include="..\WpfClient\WpfClient.csproj">
       <Project>{0a6dfc12-dc4a-4c44-923f-cee3dd6b3521}</Project>
       <Name>WpfClient</Name>
     </ProjectReference>
