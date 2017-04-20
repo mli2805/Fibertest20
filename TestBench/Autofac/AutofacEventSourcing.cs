@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Autofac;
 using Iit.Fibertest.Graph;
 
-namespace Iit.Fibertest.TestBench
+namespace Iit.Fibertest.Client
 {
     public sealed class AutofacEventSourcing : Module
     {

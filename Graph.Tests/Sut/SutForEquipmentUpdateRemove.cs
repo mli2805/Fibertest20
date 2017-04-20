@@ -1,8 +1,8 @@
 using System;
 using System.Linq;
+using Iit.Fibertest.Client;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
-using Iit.Fibertest.TestBench;
 
 namespace Graph.Tests
 {

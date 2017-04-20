@@ -1,14 +1,15 @@
-﻿<Window x:Class="Iit.Fibertest.TestBench.NodeUpdateView"
+﻿<Window x:Class="Iit.Fibertest.Client.NodeUpdateView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:cal="http://www.caliburnproject.org"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
-        xmlns:testBench="clr-namespace:Iit.Fibertest.TestBench"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:client="clr-namespace:Iit.Fibertest.Client"
+        mc:Ignorable="d"
         cal:Bind.ModelWithoutContext="{Binding .}"
         SizeToContent="Height" Width="600" WindowStartupLocation="CenterScreen" 
-        d:DataContext="{d:DesignInstance testBench:NodeUpdateViewModel}"
+        d:DataContext="{d:DesignInstance client:NodeUpdateViewModel}"
         FocusManager.FocusedElement="{Binding ElementName=TextBoxTitle}">
     <StackPanel Orientation="Vertical">
         <GroupBox Margin="5" Header="{x:Static stringResources:Resources.SID_Node}">
@@ -57,7 +58,7 @@
                         </ContextMenu>
                     </ListBox.ContextMenu>
                     <ListBox.ItemTemplate>
-                        <DataTemplate DataType="testBench:EqItemVm">
+                        <DataTemplate DataType="client:EqItemVm">
                             <Grid>
                                 <Grid.ContextMenu>
                                     <ContextMenu>

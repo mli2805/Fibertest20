@@ -7,7 +7,7 @@ using Iit.Fibertest.StringResources;
 using PrivateReflectionUsingDynamic;
 using Serilog;
 
-namespace Iit.Fibertest.TestBench
+namespace Iit.Fibertest.Client
 {
     public partial class ShellViewModel : Screen, IShell
     {

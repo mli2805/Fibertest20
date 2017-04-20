@@ -2,7 +2,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Caliburn.Micro;
 
-namespace Iit.Fibertest.TestBench
+namespace Iit.Fibertest.Client
 {
     public sealed class ChildrenImpresario : PropertyChangedBase
     {

@@ -5,7 +5,7 @@ using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
-namespace Iit.Fibertest.TestBench
+namespace Iit.Fibertest.Client
 {
     public class TraceChoiceViewModel : Screen
     {

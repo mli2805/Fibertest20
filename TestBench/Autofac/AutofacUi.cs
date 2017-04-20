@@ -5,7 +5,7 @@ using Autofac;
 using Caliburn.Micro;
 using Serilog;
 
-namespace Iit.Fibertest.TestBench
+namespace Iit.Fibertest.Client
 {
     public sealed class AutofacUi : Module
     {

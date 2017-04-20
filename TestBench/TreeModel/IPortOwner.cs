@@ -1,4 +1,4 @@
-namespace Iit.Fibertest.TestBench
+namespace Iit.Fibertest.Client
 {
     public interface IPortOwner
     {

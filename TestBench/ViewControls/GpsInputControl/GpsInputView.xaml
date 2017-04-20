@@ -1,22 +1,22 @@
-﻿<UserControl x:Class="Iit.Fibertest.TestBench.GpsInputView"
+﻿<UserControl x:Class="Iit.Fibertest.Client.GpsInputView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:testBench="clr-namespace:Iit.Fibertest.TestBench"
              xmlns:cal="http://www.caliburnproject.org"
+             xmlns:client="clr-namespace:Iit.Fibertest.Client"
              mc:Ignorable="d" 
-             d:DesignHeight="240" d:DesignWidth="400" d:DataContext="{d:DesignInstance testBench:GpsInputViewModel}"
+             d:DesignHeight="240" d:DesignWidth="400" d:DataContext="{d:DesignInstance client:GpsInputViewModel}"
              cal:Bind.ModelWithoutContext="{Binding .}">
     <StackPanel>
         <ComboBox ItemsSource="{Binding GpsInputModes}" SelectedItem="{Binding SelectedGpsInputMode, Mode=TwoWay}" Width="150" Height="25" Margin="5"/>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,55,0">
             <TextBlock Text="Широта" VerticalAlignment="Center" Margin="5" ToolTip="-90..90"/>
-            <testBench:OneCoorView Margin="5" DataContext="{Binding OneCoorViewModelLatitude}"/>
+            <client:OneCoorView Margin="5" DataContext="{Binding OneCoorViewModelLatitude}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,55,0">
             <TextBlock Text="Долгота" VerticalAlignment="Center" Margin="5" ToolTip="-180..180"/>
-            <testBench:OneCoorView Margin="5" DataContext="{Binding OneCoorViewModelLongitude}"/>
+            <client:OneCoorView Margin="5" DataContext="{Binding OneCoorViewModelLongitude}"/>
         </StackPanel>
         <Button Name="DropChanges" Content="Отменить изменения" Width="150" Margin="5" Height="25"/>
     </StackPanel>

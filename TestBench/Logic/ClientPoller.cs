@@ -4,7 +4,7 @@ using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using PrivateReflectionUsingDynamic;
 
-namespace Iit.Fibertest.TestBench
+namespace Iit.Fibertest.Client
 {
     public class ClientPoller : PropertyChangedBase
     {

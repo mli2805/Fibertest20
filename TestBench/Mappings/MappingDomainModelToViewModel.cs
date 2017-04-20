@@ -1,7 +1,7 @@
 using AutoMapper;
 using Iit.Fibertest.Graph;
 
-namespace Iit.Fibertest.TestBench
+namespace Iit.Fibertest.Client
 {
     public class MappingDomainModelToViewModel : Profile
     {

@@ -1,12 +1,12 @@
-﻿<Application x:Class="Iit.Fibertest.TestBench.App"
+﻿<Application x:Class="Iit.Fibertest.Client.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:testBench="clr-namespace:Iit.Fibertest.TestBench">
+             xmlns:client="clr-namespace:Iit.Fibertest.Client">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
-                    <testBench:AppBootstrapper x:Key="Bootstrapper" />
+                    <client:AppBootstrapper x:Key="Bootstrapper" />
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

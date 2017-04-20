@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Media;
 using GMap.NET.WindowsPresentation;
 
-namespace Iit.Fibertest.TestBench
+namespace Iit.Fibertest.Client
 {
     /// <summary>
     /// the custom map of GMapControl 

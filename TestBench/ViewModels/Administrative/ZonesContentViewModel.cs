@@ -5,7 +5,7 @@ using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
 
-namespace Iit.Fibertest.TestBench
+namespace Iit.Fibertest.Client
 {
     public class ZonesContentViewModel : Screen
     {

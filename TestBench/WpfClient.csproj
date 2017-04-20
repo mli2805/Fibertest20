@@ -7,8 +7,8 @@
     <ProjectGuid>{0A6DFC12-DC4A-4C44-923F-CEE3DD6B3521}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Iit.Fibertest.TestBench</RootNamespace>
-    <AssemblyName>Iit.Fibertest.TestBench</AssemblyName>
+    <RootNamespace>Iit.Fibertest.Client</RootNamespace>
+    <AssemblyName>Iit.Fibertest.Client</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

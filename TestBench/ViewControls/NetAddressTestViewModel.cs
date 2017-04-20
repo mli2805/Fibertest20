@@ -1,6 +1,6 @@
 ﻿using Iit.Fibertest.Graph;
 
-namespace Iit.Fibertest.TestBench
+namespace Iit.Fibertest.Client
 {
     public class NetAddressTestViewModel
     {

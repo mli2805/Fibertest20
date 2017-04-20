@@ -1,4 +1,4 @@
-﻿namespace Iit.Fibertest.TestBench
+﻿namespace Iit.Fibertest.Client
 {
     /// <summary>
     /// Interaction logic for TreeOfRtuView.xaml

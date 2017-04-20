@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Iit.Fibertest.TestBench
+namespace Iit.Fibertest.Client
 {
     public class RequestUpdateFiber
     {

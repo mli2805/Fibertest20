@@ -3,7 +3,7 @@ using System.Windows.Input;
 using GMap.NET;
 using GMap.NET.MapProviders;
 
-namespace Iit.Fibertest.TestBench
+namespace Iit.Fibertest.Client
 {
     /// <summary>
         /// Interaction logic for MapUserControl.xaml

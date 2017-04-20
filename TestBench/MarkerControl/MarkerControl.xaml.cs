@@ -5,7 +5,7 @@ using System.Windows.Media;
 using GMap.NET.WindowsPresentation;
 using Iit.Fibertest.Graph;
 
-namespace Iit.Fibertest.TestBench
+namespace Iit.Fibertest.Client
 {
     /// <summary>
     /// Interaction logic for MarkerControl.xaml

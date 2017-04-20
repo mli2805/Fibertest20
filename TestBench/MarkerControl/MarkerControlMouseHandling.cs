@@ -5,7 +5,7 @@ using System.Windows.Input;
 using GMap.NET.WindowsPresentation;
 using Iit.Fibertest.Graph;
 
-namespace Iit.Fibertest.TestBench
+namespace Iit.Fibertest.Client
 {
     /// <summary>
     /// MarkerControl's mouse handlers

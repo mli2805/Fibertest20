@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
 
-namespace Iit.Fibertest.TestBench
+namespace Iit.Fibertest.Client
 {
     public class QuestionViewModel : Screen
     {

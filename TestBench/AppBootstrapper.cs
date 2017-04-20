@@ -6,7 +6,7 @@ using System.Windows.Threading;
 using Autofac;
 using Caliburn.Micro;
 
-namespace Iit.Fibertest.TestBench {
+namespace Iit.Fibertest.Client {
     public class AppBootstrapper : BootstrapperBase
     {
         private ILifetimeScope _container;

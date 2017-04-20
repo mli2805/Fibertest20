@@ -8,7 +8,7 @@ using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Serilog;
 
-namespace Iit.Fibertest.TestBench
+namespace Iit.Fibertest.Client
 {
     public class RtuInitializeViewModel : Screen
     {

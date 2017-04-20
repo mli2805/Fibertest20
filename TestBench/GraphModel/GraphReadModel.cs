@@ -7,7 +7,7 @@ using Caliburn.Micro;
 using GMap.NET;
 using Iit.Fibertest.Graph;
 
-namespace Iit.Fibertest.TestBench
+namespace Iit.Fibertest.Client
 {
     public partial class GraphReadModel : PropertyChangedBase
     {

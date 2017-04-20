@@ -6,7 +6,7 @@ using System.Linq;
 using GMap.NET;
 using GMap.NET.WindowsPresentation;
 
-namespace Iit.Fibertest.TestBench
+namespace Iit.Fibertest.Client
 {
     /// <summary>
     /// Here we react on changes in Fibers collection in GraphReadModel

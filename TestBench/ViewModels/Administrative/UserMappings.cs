@@ -1,6 +1,6 @@
 using AutoMapper;
 
-namespace Iit.Fibertest.TestBench
+namespace Iit.Fibertest.Client
 {
     public class UserMappings : Profile
     {

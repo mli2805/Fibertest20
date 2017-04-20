@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using Iit.Fibertest.Graph;
 
-namespace Iit.Fibertest.TestBench
+namespace Iit.Fibertest.Client
 {
     /// <summary>
     /// Context Menu for map itself is a resource in Xaml

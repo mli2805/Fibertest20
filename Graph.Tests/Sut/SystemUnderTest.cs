@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Autofac;
 using Caliburn.Micro;
+using Iit.Fibertest.Client;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
-using Iit.Fibertest.TestBench;
 using Serilog;
 
 namespace Graph.Tests

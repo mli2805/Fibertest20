@@ -1,12 +1,12 @@
-﻿<UserControl x:Class="Iit.Fibertest.TestBench.OneCoorView"
+﻿<UserControl x:Class="Iit.Fibertest.Client.OneCoorView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:testBench="clr-namespace:Iit.Fibertest.TestBench"
+             xmlns:client="clr-namespace:Iit.Fibertest.Client"
              mc:Ignorable="d" 
              d:DesignHeight="75" d:DesignWidth="300" 
-             d:DataContext="{d:DesignInstance testBench:OneCoorViewModel}">
+             d:DataContext="{d:DesignInstance client:OneCoorViewModel}">
     <StackPanel>
         <StackPanel Name="DegreesMode" Orientation="Horizontal" Height="25"
                         Visibility="{Binding DegreesModeVisibility, Mode=TwoWay}"  VerticalAlignment="Center" HorizontalAlignment="Center">

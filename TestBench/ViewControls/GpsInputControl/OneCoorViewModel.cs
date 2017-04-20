@@ -5,7 +5,7 @@ using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using JetBrains.Annotations;
 
-namespace Iit.Fibertest.TestBench
+namespace Iit.Fibertest.Client
 {
     public class OneCoorViewModel : PropertyChangedBase, IDataErrorInfo
     {

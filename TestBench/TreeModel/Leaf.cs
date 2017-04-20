@@ -4,7 +4,7 @@ using System.Windows.Media;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 
-namespace Iit.Fibertest.TestBench
+namespace Iit.Fibertest.Client
 {
     public class Leaf : PropertyChangedBase
     {

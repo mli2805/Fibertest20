@@ -6,7 +6,7 @@ using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Microsoft.Win32;
 
-namespace Iit.Fibertest.TestBench
+namespace Iit.Fibertest.Client
 {
     public class BaseRefsAssignViewModel : Screen
     {

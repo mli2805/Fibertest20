@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Iit.Fibertest.TestBench
+namespace Iit.Fibertest.Client
 {
     [Serializable]
     public class Zone : ICloneable

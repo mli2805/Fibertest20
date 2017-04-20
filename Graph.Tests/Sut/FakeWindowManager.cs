@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Caliburn.Micro;
-using Iit.Fibertest.TestBench;
+using Iit.Fibertest.Client;
 
 namespace Graph.Tests
 {

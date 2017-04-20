@@ -1,11 +1,11 @@
-﻿<UserControl x:Class="Iit.Fibertest.TestBench.Ip4InputView"
+﻿<UserControl x:Class="Iit.Fibertest.Client.Ip4InputView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:testBench="clr-namespace:Iit.Fibertest.TestBench"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:client="clr-namespace:Iit.Fibertest.Client"
              mc:Ignorable="d" 
-             d:DataContext="{d:DesignInstance testBench:Ip4InputViewModel}"
+             d:DataContext="{d:DesignInstance client:Ip4InputViewModel}"
              FocusManager.FocusedElement="{Binding ElementName=IpForthPart}">
     <StackPanel Orientation="Horizontal" KeyDown="StackPanel_KeyDown">
         <TextBox Width="40" Text="{Binding Parts[0]}" HorizontalContentAlignment="Center" MaxLength="3"

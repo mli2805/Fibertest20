@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using GMap.NET.WindowsPresentation;
 using Iit.Fibertest.Graph;
 
-namespace Iit.Fibertest.TestBench
+namespace Iit.Fibertest.Client
 {
     /// <summary>
     /// on route creation subscribes on event that means 

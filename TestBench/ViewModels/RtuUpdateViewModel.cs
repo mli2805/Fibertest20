@@ -7,7 +7,7 @@ using GMap.NET;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
-namespace Iit.Fibertest.TestBench
+namespace Iit.Fibertest.Client
 {
     public class RtuUpdateViewModel : Screen, IDataErrorInfo
     {

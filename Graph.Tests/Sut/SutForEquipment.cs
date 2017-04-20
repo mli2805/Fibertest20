@@ -1,5 +1,5 @@
+using Iit.Fibertest.Client;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.TestBench;
 
 namespace Graph.Tests
 {

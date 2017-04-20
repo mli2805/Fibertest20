@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 
-namespace Iit.Fibertest.TestBench
+namespace Iit.Fibertest.Client
 {
     public static class VerboseTasks
     {

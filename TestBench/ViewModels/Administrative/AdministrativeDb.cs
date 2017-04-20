@@ -5,7 +5,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using Iit.Fibertest.StringResources;
 using Serilog;
 
-namespace Iit.Fibertest.TestBench
+namespace Iit.Fibertest.Client
 {
     public class AdministrativeDb
     {

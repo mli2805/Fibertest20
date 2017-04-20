@@ -3,7 +3,7 @@ using System.Linq;
 using System.Windows.Controls;
 using Iit.Fibertest.Graph;
 
-namespace Iit.Fibertest.TestBench
+namespace Iit.Fibertest.Client
 {
     public partial class MarkerControl
     {

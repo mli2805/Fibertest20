@@ -17,7 +17,5 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
 12. warnings
 13. UserListViewModel не могу SelectedUserVm перерисовать
 
-удаление трассы может повлечь удаление рту из зоны ответственности (если хранить)
-добавление новой трассы - только в зону по умолчанию
-рту без трасс не  входят в зоны ответственности, кроме по умолчанию
+14. делать проект Administrative и Administrative.Tests ?
 

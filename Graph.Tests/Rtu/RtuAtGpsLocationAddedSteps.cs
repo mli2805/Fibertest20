@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using Iit.Fibertest.TestBench;
+using Iit.Fibertest.Client;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
