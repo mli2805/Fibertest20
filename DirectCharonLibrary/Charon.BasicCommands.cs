@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Iit.Fibertest.Utils35;
 
 namespace DirectCharonLibrary
 {
@@ -42,7 +43,7 @@ namespace DirectCharonLibrary
             return -1;
         }
 
-        private Dictionary<int, TcpAddress> GetExtentedPorts()
+        private Dictionary<int, NetAddress> GetExtentedPorts()
         {
             try
             {
@@ -51,24 +52,27 @@ namespace DirectCharonLibrary
                     return null; // read iniFile error
 
                 if (LastAnswer.Substring(0, 15) == "ERROR_COMMAND\r\n")
-                    return new Dictionary<int, TcpAddress>(); // charon too old, know nothing about extensions
+                    return new Dictionary<int, NetAddress>(); // charon too old, know nothing about extensions
 
                 if (LastAnswer.Substring(0, 22) == "[OpticalPortExtension]")
                     return ParseIniContent(LastAnswer);
 
-                return new Dictionary<int, TcpAddress>();
+                return new Dictionary<int, NetAddress>();
             }
             catch (Exception e)
             {
-                IsLastCommandSuccessful = false;
-                LastAnswer = e.Message;
-                return null;
+                if (IsLastCommandSuccessful)
+                {
+                    IsLastCommandSuccessful = false;
+                    LastErrorMessage = "GetExtentedPorts failed!";
+                }
+                return null; 
             }
         }
 
-        private Dictionary<int, TcpAddress> ParseIniContent(string content)
+        private Dictionary<int, NetAddress> ParseIniContent(string content)
         {
-            var result = new Dictionary<int, TcpAddress>();
+            var result = new Dictionary<int, NetAddress>();
             string[] separator = new[] { "\r\n" };
             var lines = content.Split(separator, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 1; i < lines.Length - 1; i++)
@@ -77,7 +81,7 @@ namespace DirectCharonLibrary
                 var addressParts = parts[1].Split(':');
                 int port;
                 int.TryParse(addressParts[1], out port);
-                result.Add(int.Parse(parts[0]), new TcpAddress(addressParts[0], port));
+                result.Add(int.Parse(parts[0]), new NetAddress(addressParts[0], port));
             }
             return result;
         }
@@ -109,7 +113,7 @@ namespace DirectCharonLibrary
             IsLastCommandSuccessful = false;
             return -1;
         }
-        private string DictionaryToContent(Dictionary<int, TcpAddress> extPorts)
+        private string DictionaryToContent(Dictionary<int, NetAddress> extPorts)
         {
             if (extPorts.Count == 0)
                 return "\r\n";

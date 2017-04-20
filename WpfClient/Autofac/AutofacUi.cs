@@ -3,6 +3,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using Autofac;
 using Caliburn.Micro;
+using Iit.Fibertest.Utils35;
 using Serilog;
 
 namespace Iit.Fibertest.Client
@@ -21,6 +22,9 @@ namespace Iit.Fibertest.Client
             var logger = new LoggerConfiguration()
                 .WriteTo.Seq(@"http://localhost:5341").CreateLogger();
             builder.RegisterInstance<ILogger>(logger);
+
+            var logger35 = new Logger35(@"..\Log\charon.log");
+            builder.RegisterInstance<Logger35>(logger35);
 
             builder.RegisterInstance(new IniFile(IniFileName(@"client.ini", logger)));
         }

@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 
 namespace Iit.Fibertest.Utils35
 {
-    public class Logger
+    public class Logger35
     {
         private readonly StreamWriter _logFile;
 
-        public Logger(string filename)
+        public Logger35(string filename)
         {
             var logFullFileName = LogFullFileName(filename);
             _logFile = File.AppendText(logFullFileName);

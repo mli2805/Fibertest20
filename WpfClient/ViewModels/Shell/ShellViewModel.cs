@@ -4,6 +4,7 @@ using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.Utils35;
 using PrivateReflectionUsingDynamic;
 using Serilog;
 
@@ -12,6 +13,7 @@ namespace Iit.Fibertest.Client
     public partial class ShellViewModel : Screen, IShell
     {
         public ILogger Log { get; set; }
+        public Logger35 Logger35 { get; set; }
         public IniFile IniFile { get; set; }
 
         public Bus Bus { get; }

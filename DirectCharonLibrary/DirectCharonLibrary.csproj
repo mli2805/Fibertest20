@@ -41,7 +41,6 @@
     <Compile Include="Charon.BasicCommands.cs" />
     <Compile Include="Charon.cs" />
     <Compile Include="Charon.SendCommand.cs" />
-    <Compile Include="TcpAddress.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

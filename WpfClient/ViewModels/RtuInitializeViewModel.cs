@@ -28,6 +28,7 @@ namespace Iit.Fibertest.Client
         private readonly IWindowManager _windowManager;
         private readonly Bus _bus;
         private readonly ILogger _log;
+        private readonly Logger35 _logger35;
 
         private string _initilizationProgress;
         public string InitilizationProgress
@@ -41,13 +42,14 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public RtuInitializeViewModel(Guid rtuId, ReadModel readModel, IWindowManager windowManager, Bus bus, ILogger log)
+        public RtuInitializeViewModel(Guid rtuId, ReadModel readModel, IWindowManager windowManager, Bus bus, ILogger log, Logger35 logger35)
         {
             _rtuId = rtuId;
             _readModel = readModel;
             _windowManager = windowManager;
             _bus = bus;
             _log = log;
+            _logger35 = logger35;
 
             var originalRtu = readModel.Rtus.First(r => r.Id == _rtuId);
             Title = originalRtu.Title;
@@ -81,8 +83,8 @@ namespace Iit.Fibertest.Client
 
         private Charon TemporaryFakeInitialization()
         {
-            var charonAddress = new TcpAddress(MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().Ip4Address, 23);
-            var mainCharon = new Charon(charonAddress);
+            var charonAddress = new NetAddress(MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().Ip4Address, 23);
+            var mainCharon = new Charon(charonAddress, _logger35);
             mainCharon.FullPortCount = 8;
             mainCharon.OwnPortCount = 8;
             mainCharon.Serial = @"1234567";
@@ -114,8 +116,8 @@ namespace Iit.Fibertest.Client
         {
             InitilizationProgress = Resources.SID_Please__wait_;
 
-            var charonAddress = new TcpAddress(MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().Ip4Address, 23);
-            var mainCharon = new Charon(charonAddress);
+            var charonAddress = new NetAddress(MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().Ip4Address, 23);
+            var mainCharon = new Charon(charonAddress, _logger35);
             using (new WaitCursor())
             {
                 await Task.Run(() => mainCharon.InitializeRtu());
@@ -146,7 +148,7 @@ namespace Iit.Fibertest.Client
                 ReserveChannelState = IsReserveChannelEnabled ? RtuPartState.Normal : RtuPartState.None,
                 OtdrNetAddress = new NetAddress()
                 {
-                    Ip4Address = mainCharon.TcpAddress.Ip,
+                    Ip4Address = mainCharon.NetAddress.Ip4Address,
                     Port = 1500
                 }, // TODO very old rtu have different otdr address
                 OwnPortCount = mainCharon.OwnPortCount,
@@ -167,7 +169,7 @@ namespace Iit.Fibertest.Client
                 Id = Guid.NewGuid(),
                 RtuId = _rtuId,
                 MasterPort = pair.Key,
-                NetAddress = new NetAddress() {Ip4Address = pair.Value.TcpAddress.Ip, Port = pair.Value.TcpAddress.TcpPort},
+                NetAddress = new NetAddress() {Ip4Address = pair.Value.NetAddress.Ip4Address, Port = pair.Value.NetAddress.Port},
                 PortCount = pair.Value.OwnPortCount,
                 FirstPortNumber = pair.Value.StartPortNumber,
                 Serial = pair.Value.Serial,
