@@ -17,7 +17,7 @@ namespace RtuWpfExample
             var lines = new SorDataParser(sorData).Parse(rftsLevel.LevelName);
             CreateTable(lines.First().Value.Length-1);
             PopulateTable(lines);
-            EeltViewModel = new RftsEventsOneLevelEeltViewModel(rftsLevel, sorData.KeyEvents.EndToEndLoss);
+            EeltViewModel = new RftsEventsOneLevelEeltViewModel(sorData.KeyEvents.EndToEndLoss, rftsLevel.EELT, sorData.RftsEvents.EELD);
         }
 
         private void PopulateTable(Dictionary<int , string[]> lines)

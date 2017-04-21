@@ -1,4 +1,5 @@
-﻿using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
+﻿using Optixsoft.SorExaminer.OtdrDataFormat;
+using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
 
 namespace RtuWpfExample
 {
@@ -9,10 +10,12 @@ namespace RtuWpfExample
         public double DeviationValue { get; set; }
         public string StateValue { get; set; }
 
-        public RftsEventsOneLevelEeltViewModel(RftsLevel rftsLevel, double value)
+        public RftsEventsOneLevelEeltViewModel(double value, ShortThreshold threshold, ShortDeviation deviation)
         {
             AttenuationValue = value;
-            Threshold = rftsLevel.EELT.ForTable();
+            Threshold = threshold.ForTable();
+            DeviationValue = deviation.Deviation / 1000.0;
+            StateValue = (deviation.Type & ShortDeviationTypes.IsExceeded) != 0 ? "fail" : "pass";
         }
     }
 }
