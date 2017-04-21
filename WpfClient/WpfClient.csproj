@@ -112,9 +112,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Logic\ClientPoller.cs" />
-    <Compile Include="Logic\IniFile\IniFile.cs" />
-    <Compile Include="Logic\IniFile\IniKey.cs" />
-    <Compile Include="Logic\IniFile\IniSection.cs" />
     <Compile Include="Logic\WaitCursor.cs" />
     <Compile Include="ViewModels\Administrative\PasswordHelper.cs" />
     <Compile Include="ViewModels\Administrative\UserMappings.cs" />

@@ -9,9 +9,9 @@ namespace ConsoleAppOtau
         private static Logger35 _rtuLogger35;
         static void Main()
         {
-            Console.WriteLine("rtu.log");
             _rtuLogger35 = new Logger35();
-            _rtuLogger35.AssignFile("rtu.log");
+            _rtuLogger35.AssignFile(""); // if filename is empty Console will be used
+
 //          const string serverIp = "192.168.88.101";
             const string serverIp = "192.168.96.52";
 //          const string serverIp = "192.168.96.57";

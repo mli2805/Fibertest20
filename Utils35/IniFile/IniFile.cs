@@ -3,7 +3,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Iit.Fibertest.Client
+namespace Iit.Fibertest.Utils35.IniFile
 {
     public class IniFile
     {

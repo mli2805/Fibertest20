@@ -169,6 +169,8 @@ namespace DirectCharonLibrary
         public bool DetachOtauFromPort(int fromOpticalPort)
         {
             var extPorts = GetExtentedPorts();
+            if (extPorts == null)
+                return false;
             if (!extPorts.ContainsKey(fromOpticalPort))
             {
                 LastErrorMessage = "There is no such extended port. Nothing to do.";
@@ -184,6 +186,8 @@ namespace DirectCharonLibrary
         public bool AttachOtauToPort(NetAddress additionalOtauAddress, int toOpticalPort)
         {
             var extPorts = GetExtentedPorts();
+            if (extPorts == null)
+                return false;
             if (extPorts.ContainsKey(toOpticalPort))
             {
                 _rtuLogger35.AppendLine("This is extended port already. Denied.");

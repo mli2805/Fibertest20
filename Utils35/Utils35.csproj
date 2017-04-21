@@ -56,6 +56,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IniFile\IniFile.cs" />
+    <Compile Include="IniFile\IniKey.cs" />
+    <Compile Include="IniFile\IniSection.cs" />
     <Compile Include="Logger35.cs" />
     <Compile Include="NetAddress.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
