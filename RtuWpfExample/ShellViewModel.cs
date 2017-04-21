@@ -140,7 +140,7 @@ namespace RtuWpfExample
             //IpAddress = "192.168.88.101";
             OtauPort = 23;
 
-            BaseFileName = @"c:\temp\base.sor";
+            BaseFileName = @"c:\temp\base3ev.sor";
             MeasFileName = @"c:\temp\123.sor";
 
 
