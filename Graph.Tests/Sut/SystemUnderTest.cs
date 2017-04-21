@@ -6,6 +6,7 @@ using Caliburn.Micro;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.Utils35;
 using Serilog;
 
 namespace Graph.Tests
@@ -14,6 +15,7 @@ namespace Graph.Tests
     {
         public ReadModel ReadModel { get; }
         public ILogger LoggerForTests { get; set; }
+        public Logger35 Logger35 { get; set; }
         public ClientPoller Poller { get; }
         public FakeWindowManager FakeWindowManager { get; }
         public ShellViewModel ShellVm { get; }
@@ -30,7 +32,11 @@ namespace Graph.Tests
             builder.RegisterInstance(LoggerForTests = new LoggerConfiguration()
                 .WriteTo.Console().CreateLogger()).As<ILogger>();
 
+            Logger35 = new Logger35("");
+            builder.RegisterInstance(Logger35).As<Logger35>();
+
             var container = builder.Build();
+
             Poller = container.Resolve<ClientPoller>();
             FakeWindowManager =(FakeWindowManager) container.Resolve<IWindowManager>();
             ReadModel = container.Resolve<ReadModel>();

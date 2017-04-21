@@ -24,7 +24,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterInstance<ILogger>(logger);
 
             builder.RegisterInstance(new IniFile(FileNameForSure(@"..\ini\", @"client.ini", logger)));
-            builder.RegisterInstance(new Logger35(FileNameForSure(@"..\log\", @"charon.log", logger)));
+            builder.RegisterInstance(new Logger35(@"charon.log"));
         }
 
 

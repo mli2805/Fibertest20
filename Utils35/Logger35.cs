@@ -10,9 +10,12 @@ namespace Iit.Fibertest.Utils35
 
         public Logger35(string filename)
         {
-            var logFullFileName = LogFullFileName(filename);
-            _logFile = File.AppendText(logFullFileName);
-            _logFile.AutoFlush = true;
+            if (filename != "")
+            {
+                var logFullFileName = LogFullFileName(filename);
+                _logFile = File.AppendText(logFullFileName);
+                _logFile.AutoFlush = true;
+            }
         }
 
         private string LogFullFileName(string filename)
@@ -41,18 +44,25 @@ namespace Iit.Fibertest.Utils35
         public void EmptyLine(char ch = ' ')
         {
             string message = new string(ch, 78);
-            _logFile.WriteLine(message);
+            if (_logFile != null)
+                _logFile.WriteLine(message);
+            else Console.WriteLine(message);
         }
         public void AppendLine(string message)
         {
             message = message.Replace("\0", string.Empty);
             message = message.Trim();
             message = message.Replace("\r\n", " <NL> ");
-            _logFile.WriteLine(DateTime.Now + "  " + message.Trim());
+            message = DateTime.Now + "  " + message.Trim();
+            if (_logFile != null)
+                _logFile.WriteLine(message);
+            else Console.WriteLine(message);
         }
         public void Append(string message)
         {
-            _logFile.Write(message);
+            if (_logFile != null)
+                _logFile.Write(message);
+            else Console.Write(message);
         }
     }
 }
