@@ -1,0 +1,42 @@
+﻿<Window x:Class="RtuWpfExample.RftsEventsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:rtuWpfExample="clr-namespace:RtuWpfExample"
+        mc:Ignorable="d"
+        Width="700" WindowStartupLocation="CenterOwner" SizeToContent="Height" ResizeMode="NoResize"
+        d:DataContext="{d:DesignInstance rtuWpfExample:RftsEventsViewModel}">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    </Window.Resources>
+    <StackPanel>
+        <TabControl Margin="5" BorderThickness="1" BorderBrush="Black">
+            <TabItem Name="Minor" Visibility="{Binding IsMinorExists, Converter={StaticResource BoolToVis}}">
+                <TabItem.Header>
+                    <TextBlock Text="Minor" Width="120"/>
+                </TabItem.Header>
+                <rtuWpfExample:RftsEventsOneLevelView DataContext="{Binding MinorLevelViewModel}"/>
+            </TabItem>
+            <TabItem Name="Major" Visibility="{Binding IsMajorExists, Converter={StaticResource BoolToVis}}">
+                <TabItem.Header>
+                    <TextBlock Text="Major" Width="120"/>
+                </TabItem.Header>
+                <rtuWpfExample:RftsEventsOneLevelView DataContext="{Binding MajorLevelViewModel}"/>
+            </TabItem>
+            <TabItem Name="Critical" Visibility="{Binding IsCriticalExists, Converter={StaticResource BoolToVis}}">
+                <TabItem.Header>
+                    <TextBlock Text="Critical" Width="120"/>
+                </TabItem.Header>
+                <rtuWpfExample:RftsEventsOneLevelView DataContext="{Binding CriticalLevelViewModel}"/>
+            </TabItem>
+            <TabItem Name="Users" Visibility="{Binding IsUsersExists, Converter={StaticResource BoolToVis}}">
+                <TabItem.Header>
+                    <TextBlock Text="User's" Width="120"/>
+                </TabItem.Header>
+                <rtuWpfExample:RftsEventsOneLevelView DataContext="{Binding UsersLevelViewModel}"/>
+            </TabItem>
+        </TabControl>
+        <rtuWpfExample:RftsEventsFooterView DataContext="{Binding FooterViewModel}"/>
+    </StackPanel>
+</Window>

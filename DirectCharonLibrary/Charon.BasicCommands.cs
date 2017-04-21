@@ -119,7 +119,7 @@ namespace DirectCharonLibrary
                 return "\r\n";
             var result = "[OpticalPortExtension]\r\n";
             foreach (var extPort in extPorts)
-                result += $"{extPort.Key}={extPort.Value}\r\n";
+                result += $"{extPort.Key}={extPort.Value.ToStringA()}\r\n";
             return result;
         }
     }

@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="RtuWpfExample.RftsEventsOneLevelEeltView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             >
+    <Grid>
+        <GroupBox  Header="Total fiber loss">
+            <DockPanel>
+                <TextBlock Margin="5" Text="Value:"/>
+                <TextBlock Margin="5" Text="{Binding AttenuationValue}"/>
+                <TextBlock Margin="5" Text="Threshold:"/>
+                <TextBlock Margin="5" Text="{Binding Threshold}"/>
+                <TextBlock Margin="5" Text="Deviation:"/>
+                <TextBlock Margin="5" Text="{Binding DeviationValue}"/>
+                <TextBlock Margin="5" Text="State:"/>
+                <TextBlock Margin="5" Text="{Binding StateValue}"/>
+            </DockPanel>
+        </GroupBox>
+
+    </Grid>
+</UserControl>

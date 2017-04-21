@@ -1,0 +1,15 @@
+﻿<UserControl x:Class="RtuWpfExample.RftsEventsOneLevelView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:rtuWpfExample="clr-namespace:RtuWpfExample"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance rtuWpfExample:RftsEventsOneLevelViewModel}">
+    <StackPanel>
+        <DataGrid Name="EventsDataGrid" ItemsSource="{Binding BindableTable}" FrozenColumnCount="1" IsReadOnly="True" 
+                  Margin="5" Background="White" HorizontalGridLinesBrush="LightGray" VerticalGridLinesBrush="LightGray" LoadingRow="EventsDataGrid_LoadingRow">
+            
+        </DataGrid>
+        <rtuWpfExample:RftsEventsOneLevelEeltView DataContext="{Binding EeltViewModel}" Margin="5"/>
+    </StackPanel>
+</UserControl>

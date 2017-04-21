@@ -156,7 +156,7 @@ namespace Iit.Fibertest.Client
             {
                 Id = e.Id,
                 Parent = rtuLeaf,
-                Title = string.Format(Resources.SID_Optical_switch_with_Address, e.NetAddress),
+                Title = string.Format(Resources.SID_Optical_switch_with_Address, e.NetAddress.ToStringB()),
                 Color = Brushes.Black,
                 MasterPort = e.MasterPort,
                 FirstPortNumber = rtuLeaf.FullPortCount + 1,
