@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using IitOtdrLibrary;
 using Optixsoft.SharedCommons.SorSerialization;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
@@ -12,6 +13,7 @@ namespace RtuWpfExample
     public class SorDataParser
     {
         private readonly OtdrDataKnownBlocks _sorData;
+        private readonly OtdrDataKnownBlocks _baseSorData;
         private int _eventCount;
 
         private Dictionary<int, string> LineNameList => new Dictionary<int, string>
@@ -42,8 +44,8 @@ namespace RtuWpfExample
         public SorDataParser(OtdrDataKnownBlocks sorData)
         {
             _sorData = sorData;
+            _baseSorData = ExtractBase();
         }
-
 
         public Dictionary<int, string[]> Parse(RftsLevelType rftsLevel)
         {
@@ -56,7 +58,20 @@ namespace RtuWpfExample
             var rftsEvents = ExtractRftsEventsForLevel(rftsLevel);
             if (rftsEvents != null)
                 ParseDeviationFromBase(eventTable, rftsEvents);
+            SetEventStates(eventTable);
+
             return eventTable;
+        }
+
+        private OtdrDataKnownBlocks ExtractBase()
+        {
+            if (_sorData.EmbeddedData.EmbeddedBlocksCount == 0 ||
+                _sorData.EmbeddedData.EmbeddedDataBlocks[0].Description != "SOR")
+                return null;
+
+            var bytes = _sorData.EmbeddedData.EmbeddedDataBlocks[0].Data;
+            var baseSorData = SorData.FromBytes(bytes);
+            return baseSorData;
         }
 
         private RftsEventsBlock ExtractRftsEventsForLevel(RftsLevelType rftsLevel)
@@ -95,24 +110,42 @@ namespace RtuWpfExample
             {
                 eventTable[101][i + 1] = _sorData.LinkParameters.LandmarkBlocks[i].Comment;
                 eventTable[102][i + 1] = _sorData.LinkParameters.LandmarkBlocks[i].Code.ForTable();
-                eventTable[105][i + 1] = $"{OwtToLen(_sorData.KeyEvents.KeyEvents[i].EventPropagationTime) : 0.00000}";
+                eventTable[105][i + 1] = $"{OwtToLen(_sorData.KeyEvents.KeyEvents[i].EventPropagationTime): 0.00000}";
                 eventTable[106][i + 1] = _sorData.RftsEvents.Events[i].EventTypes.ForTable();
+                eventTable[107][i + 1] = EventCodeForTable(_sorData.KeyEvents.KeyEvents[i].EventCode);
             }
+        }
+
+        private string EventCodeForTable(string eventCode)
+        {
+            var str = eventCode[0] == '0' ? "S" : "R";
+            return $"{str} : {eventCode[1]}";
         }
 
         private double OwtToLen(int owt)
         {
             var owt1 = owt - _sorData.GeneralParameters.UserOffset;
-            const double lightSpeed = 0.000299792458; // km/ns
-            var ri = _sorData.FixedParameters.RefractionIndex;
-            return owt1 * lightSpeed / ri / 10;
+            return owt1 * OwtToKmCoeff;
+        }
+
+        const double LightSpeed = 0.000299792458; // km/ns
+        private double OwtToKmCoeff => LightSpeed / _sorData.FixedParameters.RefractionIndex / 10;
+
+        private double F(double p)
+        {
+            return p / OwtToKmCoeff;
         }
         private void ParseCurrentMeasurement(Dictionary<int, string[]> eventTable)
         {
             for (int i = 0; i < _eventCount; i++)
             {
                 eventTable[201][i + 1] = _sorData.KeyEvents.KeyEvents[i].EventReflectance.ToString(CultureInfo.CurrentCulture);
-                eventTable[202][i + 1] = _sorData.KeyEvents.KeyEvents[i].EventLoss.ToString(CultureInfo.CurrentCulture);
+                if (i == 0)
+                    continue;
+                var eventLoss = _sorData.KeyEvents.KeyEvents[i].EventLoss;
+                var endOfFiberThreshold = _sorData.FixedParameters.EndOfFiberThreshold;
+                eventTable[202][i + 1] = eventLoss > endOfFiberThreshold ? $">{endOfFiberThreshold:0.000}" : $"{eventLoss:0.000}";
+                eventTable[203][i + 1] = $"{F(_sorData.KeyEvents.KeyEvents[i].LeadInFiberAttenuationCoefficient) : 0.000}";
             }
         }
 
@@ -132,12 +165,31 @@ namespace RtuWpfExample
         {
             for (int i = 0; i < _eventCount; i++)
             {
-                eventTable[401][i + 1] = $"{(short)rftsEvents.Events[i].ReflectanceThreshold.Deviation / 1000.0 : 0.000}";
-                eventTable[402][i + 1] = $"{rftsEvents.Events[i].AttenuationThreshold.Deviation / 1000.0 : 0.000}"; 
-                eventTable[403][i + 1] = $"{rftsEvents.Events[i].AttenuationCoefThreshold.Deviation / 1000.0 : 0.000}";
+                eventTable[401][i + 1] = ForTable(eventTable, rftsEvents.Events[i].ReflectanceThreshold, i+1, "R");
+                if (i < _eventCount-1)
+                    eventTable[402][i + 1] = ForTable(eventTable, rftsEvents.Events[i].AttenuationThreshold, i+1, "L");
+                eventTable[403][i + 1] = ForTable(eventTable, rftsEvents.Events[i].AttenuationCoefThreshold, i+1, "C");
             }
         }
 
+        private string ForTable(Dictionary<int, string[]> eventTable, ShortDeviation deviation, int column, string letter)
+        {
+            var formattedValue = $"{deviation.Deviation / 1000.0: 0.000}";
+            if ((deviation.Type & ShortDeviationTypes.IsExceeded) != 0)
+            {
+                formattedValue += $" ( {letter} ) ";
+                eventTable[104][column] += $" {letter}";
+            }
+            return formattedValue;
+        }
+
+        private void SetEventStates(Dictionary<int, string[]> eventTable)
+        {
+            for (int i = 0; i < _eventCount; i++)
+            {
+                eventTable[103][i + 1] = string.IsNullOrEmpty(eventTable[104][i + 1]) ? "pass" : "fail";
+            }
+        }
 
     }
 }

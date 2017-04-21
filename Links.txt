@@ -19,3 +19,6 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
 
 14. делать проект Administrative и Administrative.Tests ?
 
+15 все работает но в логе
+  Unable to find assembly 'Iit.Fibertest.TestBench, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'.
+

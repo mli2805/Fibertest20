@@ -8,14 +8,14 @@
     <Grid>
         <GroupBox  Header="Total fiber loss">
             <DockPanel>
-                <TextBlock Margin="5" Text="Value:"/>
-                <TextBlock Margin="5" Text="{Binding AttenuationValue}"/>
-                <TextBlock Margin="5" Text="Threshold:"/>
-                <TextBlock Margin="5" Text="{Binding Threshold}"/>
-                <TextBlock Margin="5" Text="Deviation:"/>
-                <TextBlock Margin="5" Text="{Binding DeviationValue}"/>
+                <TextBlock Margin="5" Text="Value, dB:"/>
+                <TextBlock Margin="0,5,11,5" Text="{Binding AttenuationValue}"/>
+                <TextBlock Margin="5" Text="Threshold, dB:"/>
+                <TextBlock Margin="0,5,11,5" Text="{Binding Threshold}"/>
+                <TextBlock Margin="5" Text="Deviation, dB:"/>
+                <TextBlock Margin="0,5,11,5" Text="{Binding DeviationValue}"/>
                 <TextBlock Margin="5" Text="State:"/>
-                <TextBlock Margin="5" Text="{Binding StateValue}"/>
+                <TextBlock Margin="0,5,11,5" Text="{Binding StateValue}"/>
             </DockPanel>
         </GroupBox>
 
