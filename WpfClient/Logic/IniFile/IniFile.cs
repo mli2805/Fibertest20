@@ -1,11 +1,13 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Iit.Fibertest.Client
 {
     public class IniFile
     {
-        private readonly string _filePath;
+        private string _filePath;
 
         [DllImport("kernel32")]
         private static extern long WritePrivateProfileString(string section, string key, string val, string filePath);
@@ -14,9 +16,33 @@ namespace Iit.Fibertest.Client
         private static extern int GetPrivateProfileString(string section,
             string key, string def, StringBuilder retVal, int size, string filePath);
 
-        public IniFile(string fullFilename)
+        /// <summary>
+        /// should be done separately from creation for tests sake
+        /// </summary>
+        /// <param name="fullFilename"></param>
+        public void AssignFile(string fullFilename)
         {
-            _filePath = fullFilename;
+            _filePath = FileNameForSure(fullFilename); 
+        }
+
+        private string FileNameForSure(string filename)
+        {
+            try
+            {
+                string folder = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\ini\"));
+                if (!Directory.Exists(folder))
+                    Directory.CreateDirectory(folder);
+
+                var result = Path.GetFullPath(Path.Combine(folder, filename));
+                if (!File.Exists(result))
+                    File.Create(result);
+                return result;
+            }
+            catch (COMException e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+            }
         }
 
         #region Base (String)

@@ -6,7 +6,6 @@ using Caliburn.Micro;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
-using Iit.Fibertest.Utils35;
 using Serilog;
 
 namespace Graph.Tests

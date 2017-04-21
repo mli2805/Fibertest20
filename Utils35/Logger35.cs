@@ -8,20 +8,16 @@ namespace Iit.Fibertest.Utils35
     {
         private StreamWriter _logFile;
 
-        public Logger35()
-        {
-            
-        }
-
-        public Logger35 AssignFile(string filename)
+        public void AssignFile(string filename)
         {
             if (filename != "")
             {
                 var logFullFileName = LogFullFileName(filename);
+                if (logFullFileName == null)
+                    return;
                 _logFile = File.AppendText(logFullFileName);
                 _logFile.AutoFlush = true;
             }
-            return this;
         }
 
         private string LogFullFileName(string filename)

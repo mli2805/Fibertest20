@@ -13,8 +13,7 @@ namespace Iit.Fibertest.Client
     public partial class ShellViewModel : Screen, IShell
     {
         public ILogger Log { get; set; }
-        public Logger35 Logger35 { get; set; }
-        public IniFile IniFile { get; set; }
+        private readonly IniFile _iniFile;
 
         public Bus Bus { get; }
         private readonly IWindowManager _windowManager;
@@ -48,7 +47,7 @@ namespace Iit.Fibertest.Client
             Log = clientLogger;
             Log.Information(@"Client started!");
 
-            IniFile = iniFile;
+            _iniFile = iniFile;
         }
 
 
@@ -61,12 +60,13 @@ namespace Iit.Fibertest.Client
         protected override void OnViewReady(object view)
         {
             ((App)Application.Current).ShutdownMode = ShutdownMode.OnExplicitShutdown;
-            var vm = new LoginViewModel(_windowManager, IniFile);
+            var vm = new LoginViewModel(_windowManager, _iniFile);
             _isAuthenticationSuccessfull = _windowManager.ShowDialog(vm);
             ((App)Application.Current).ShutdownMode = ShutdownMode.OnMainWindowClose;
             if (_isAuthenticationSuccessfull != true)
                 TryClose();
             _logger35.AssignFile(@"client.log"); // this couldn't be done in ctor becauses of tests using shellVM's ctor
+            _iniFile.AssignFile(@"client.ini");
         }
 
         protected override void OnViewLoaded(object view)
