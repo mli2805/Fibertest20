@@ -6,9 +6,14 @@ namespace Iit.Fibertest.Utils35
 {
     public class Logger35
     {
-        private readonly StreamWriter _logFile;
+        private StreamWriter _logFile;
 
-        public Logger35(string filename)
+        public Logger35()
+        {
+            
+        }
+
+        public Logger35 AssignFile(string filename)
         {
             if (filename != "")
             {
@@ -16,6 +21,7 @@ namespace Iit.Fibertest.Utils35
                 _logFile = File.AppendText(logFullFileName);
                 _logFile.AutoFlush = true;
             }
+            return this;
         }
 
         private string LogFullFileName(string filename)

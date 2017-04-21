@@ -19,8 +19,3 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
 
 14. делать проект Administrative и Administrative.Tests ?
 
-15. как зарегистрировать отдельный логгер для тестов
-            Logger35 = new Logger35("");
-            builder.RegisterInstance(Logger35).As<Logger35>();
-не помогает
-
