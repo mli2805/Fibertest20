@@ -553,14 +553,6 @@
     <Resource Include="Resources\Rtu\RtuUser3c.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Sleeve\SleeveCritical.png" />
-    <Resource Include="Resources\Sleeve\SleeveMajor.png" />
-    <Resource Include="Resources\Sleeve\SleeveMinor.png" />
-    <Resource Include="Resources\Sleeve\SleeveOk.png" />
-    <Resource Include="Resources\Sleeve\SleeveSuspected.png" />
-    <Resource Include="Resources\Sleeve\SleeveUser.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\Terminal\TerminalCritical.png" />
     <Resource Include="Resources\Terminal\TerminalMajor.png" />
     <Resource Include="Resources\Terminal\TerminalMinor.png" />
@@ -587,6 +579,14 @@
   <ItemGroup>
     <Resource Include="Resources\Ico\ftClient3.ico" />
     <Resource Include="Resources\Ico\IIT.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Closure\ClosureCritical.png" />
+    <Resource Include="Resources\Closure\ClosureMajor.png" />
+    <Resource Include="Resources\Closure\ClosureMinor.png" />
+    <Resource Include="Resources\Closure\ClosureOk.png" />
+    <Resource Include="Resources\Closure\ClosureSuspected.png" />
+    <Resource Include="Resources\Closure\ClosureUser.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
