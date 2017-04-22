@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:rtuWpfExample1="clr-namespace:Iit.Fibertest.RtuWpfExample"
-        xmlns:StringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
+        xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
         Width="700" WindowStartupLocation="CenterOwner" SizeToContent="Height" ResizeMode="NoResize"
         d:DataContext="{d:DesignInstance rtuWpfExample1:RftsEventsViewModel}">
@@ -15,25 +15,25 @@
         <TabControl Margin="5" BorderThickness="1" BorderBrush="Black">
             <TabItem Name="Minor" Visibility="{Binding LevelsContent.IsMinorExists, Converter={StaticResource BoolToVis}}">
                 <TabItem.Header>
-                    <TextBlock Text="{x:Static StringResources:Resources.SID_Minor}" Width="120"/>
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Minor}" Width="120"/>
                 </TabItem.Header>
                 <rtuWpfExample1:RftsEventsOneLevelView DataContext="{Binding LevelsContent.MinorLevelViewModel}"/>
             </TabItem>
             <TabItem Name="Major" Visibility="{Binding LevelsContent.IsMajorExists, Converter={StaticResource BoolToVis}}">
                 <TabItem.Header>
-                    <TextBlock Text="{x:Static StringResources:Resources.SID_Major}" Width="120"/>
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Major}" Width="120"/>
                 </TabItem.Header>
                 <rtuWpfExample1:RftsEventsOneLevelView DataContext="{Binding LevelsContent.MajorLevelViewModel}"/>
             </TabItem>
             <TabItem Name="Critical" Visibility="{Binding LevelsContent.IsCriticalExists, Converter={StaticResource BoolToVis}}">
                 <TabItem.Header>
-                    <TextBlock Text="{x:Static StringResources:Resources.SID_Critical}" Width="120"/>
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Critical}" Width="120"/>
                 </TabItem.Header>
                 <rtuWpfExample1:RftsEventsOneLevelView DataContext="{Binding LevelsContent.CriticalLevelViewModel}"/>
             </TabItem>
             <TabItem Name="Users" Visibility="{Binding LevelsContent.IsUsersExists, Converter={StaticResource BoolToVis}}">
                 <TabItem.Header>
-                    <TextBlock Text="{x:Static StringResources:Resources.SID_User_s}" Width="120"/>
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_User_s}" Width="120"/>
                 </TabItem.Header>
                 <rtuWpfExample1:RftsEventsOneLevelView DataContext="{Binding LevelsContent.UsersLevelViewModel}"/>
             </TabItem>

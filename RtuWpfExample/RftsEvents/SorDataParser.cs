@@ -67,7 +67,7 @@ namespace Iit.Fibertest.RtuWpfExample
         private OtdrDataKnownBlocks ExtractBase()
         {
             if (_sorData.EmbeddedData.EmbeddedBlocksCount == 0 ||
-                _sorData.EmbeddedData.EmbeddedDataBlocks[0].Description != "SOR")
+                _sorData.EmbeddedData.EmbeddedDataBlocks[0].Description != @"SOR")
                 return null;
 
             var bytes = _sorData.EmbeddedData.EmbeddedDataBlocks[0].Data;
@@ -79,7 +79,7 @@ namespace Iit.Fibertest.RtuWpfExample
         {
             for (int i = 0; i < _sorData.EmbeddedData.EmbeddedBlocksCount; i++)
             {
-                if (_sorData.EmbeddedData.EmbeddedDataBlocks[i].Description != "RFTSEVENTS")
+                if (_sorData.EmbeddedData.EmbeddedDataBlocks[i].Description != @"RFTSEVENTS")
                     continue;
 
                 var bytes = _sorData.EmbeddedData.EmbeddedDataBlocks[i].Data;
@@ -111,7 +111,7 @@ namespace Iit.Fibertest.RtuWpfExample
             {
                 eventTable[101][i + 1] = _sorData.LinkParameters.LandmarkBlocks[i].Comment;
                 eventTable[102][i + 1] = _sorData.LinkParameters.LandmarkBlocks[i].Code.ForTable();
-                eventTable[105][i + 1] = $"{OwtToLen(_sorData.KeyEvents.KeyEvents[i].EventPropagationTime): 0.00000}";
+                eventTable[105][i + 1] = $@"{OwtToLen(_sorData.KeyEvents.KeyEvents[i].EventPropagationTime): 0.00000}";
                 eventTable[106][i + 1] = _sorData.RftsEvents.Events[i].EventTypes.ForTable();
                 eventTable[107][i + 1] = EventCodeForTable(_sorData.KeyEvents.KeyEvents[i].EventCode);
             }
@@ -119,8 +119,8 @@ namespace Iit.Fibertest.RtuWpfExample
 
         private string EventCodeForTable(string eventCode)
         {
-            var str = eventCode[0] == '0' ? "S" : "R";
-            return $"{str} : {eventCode[1]}";
+            var str = eventCode[0] == '0' ? @"S" : @"R";
+            return $@"{str} : {eventCode[1]}";
         }
 
         private double OwtToLen(int owt)
@@ -145,8 +145,8 @@ namespace Iit.Fibertest.RtuWpfExample
                     continue;
                 var eventLoss = _sorData.KeyEvents.KeyEvents[i].EventLoss;
                 var endOfFiberThreshold = _sorData.FixedParameters.EndOfFiberThreshold;
-                eventTable[202][i + 1] = eventLoss > endOfFiberThreshold ? $">{endOfFiberThreshold:0.000}" : $"{eventLoss:0.000}";
-                eventTable[203][i + 1] = $"{F(_sorData.KeyEvents.KeyEvents[i].LeadInFiberAttenuationCoefficient) : 0.000}";
+                eventTable[202][i + 1] = eventLoss > endOfFiberThreshold ? $@">{endOfFiberThreshold:0.000}" : $@"{eventLoss:0.000}";
+                eventTable[203][i + 1] = $@"{F(_sorData.KeyEvents.KeyEvents[i].LeadInFiberAttenuationCoefficient) : 0.000}";
             }
         }
 
@@ -166,20 +166,20 @@ namespace Iit.Fibertest.RtuWpfExample
         {
             for (int i = 0; i < _eventCount; i++)
             {
-                eventsContent.Table[401][i + 1] = ForTable(eventsContent, rftsEvents.Events[i].ReflectanceThreshold, i+1, "R");
+                eventsContent.Table[401][i + 1] = ForTable(eventsContent, rftsEvents.Events[i].ReflectanceThreshold, i+1, @"R");
                 if (i < _eventCount-1)
-                    eventsContent.Table[402][i + 1] = ForTable(eventsContent, rftsEvents.Events[i].AttenuationThreshold, i+1, "L");
-                eventsContent.Table[403][i + 1] = ForTable(eventsContent, rftsEvents.Events[i].AttenuationCoefThreshold, i+1, "C");
+                    eventsContent.Table[402][i + 1] = ForTable(eventsContent, rftsEvents.Events[i].AttenuationThreshold, i+1, @"L");
+                eventsContent.Table[403][i + 1] = ForTable(eventsContent, rftsEvents.Events[i].AttenuationCoefThreshold, i+1, @"C");
             }
         }
 
         private string ForTable(EventsContent eventsContent, ShortDeviation deviation, int column, string letter)
         {
-            var formattedValue = $"{deviation.Deviation / 1000.0: 0.000}";
+            var formattedValue = $@"{deviation.Deviation / 1000.0: 0.000}";
             if ((deviation.Type & ShortDeviationTypes.IsExceeded) != 0)
             {
-                formattedValue += $" ( {letter} ) ";
-                eventsContent.Table[104][column] += $" {letter}";
+                formattedValue += $@" ( {letter} ) ";
+                eventsContent.Table[104][column] += $@" {letter}";
                 eventsContent.IsFailed = true;
             }
             return formattedValue;
