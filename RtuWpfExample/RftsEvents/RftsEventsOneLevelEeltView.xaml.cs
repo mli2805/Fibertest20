@@ -1,4 +1,4 @@
-﻿namespace RtuWpfExample
+﻿namespace Iit.Fibertest.RtuWpfExample
 {
     /// <summary>
     /// Interaction logic for RftsEventsOneLevelEeltView.xaml

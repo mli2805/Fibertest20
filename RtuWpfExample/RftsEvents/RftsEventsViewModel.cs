@@ -1,7 +1,7 @@
 ﻿using Caliburn.Micro;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 
-namespace RtuWpfExample
+namespace Iit.Fibertest.RtuWpfExample
 {
     public class RftsEventsViewModel : Screen
     {

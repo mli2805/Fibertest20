@@ -1,4 +1,4 @@
-﻿namespace RtuWpfExample
+﻿namespace Iit.Fibertest.RtuWpfExample
 {
     public class LevelsContent
     {

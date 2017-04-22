@@ -1,6 +1,6 @@
 ﻿using Optixsoft.SorExaminer.OtdrDataFormat;
 
-namespace RtuWpfExample
+namespace Iit.Fibertest.RtuWpfExample
 {
     public class RftsEventsFooterViewModel
     {

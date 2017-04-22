@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace RtuWpfExample
+namespace Iit.Fibertest.RtuWpfExample
 {
     public class WaitCursor : IDisposable
     {

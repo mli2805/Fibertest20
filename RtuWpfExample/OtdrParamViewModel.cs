@@ -4,7 +4,7 @@ using System.Linq;
 using Caliburn.Micro;
 using IitOtdrLibrary;
 
-namespace RtuWpfExample
+namespace Iit.Fibertest.RtuWpfExample
 {
     public class OtdrParamViewModel : Screen
     {

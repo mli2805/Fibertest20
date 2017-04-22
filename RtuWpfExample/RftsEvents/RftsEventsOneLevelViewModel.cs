@@ -3,7 +3,7 @@ using System.Linq;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
 
-namespace RtuWpfExample
+namespace Iit.Fibertest.RtuWpfExample
 {
     public class RftsEventsOneLevelViewModel
     {

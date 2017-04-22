@@ -7,8 +7,8 @@
     <ProjectGuid>{12208D72-7EC1-456F-9F0A-B56152DDC5D2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IitOtdrLibrary</RootNamespace>
-    <AssemblyName>IitOtdrLibrary</AssemblyName>
+    <RootNamespace>Iit.Fibertest.IitOtdrLibrary</RootNamespace>
+    <AssemblyName>Iit.Fibertest.IitOtdrLibrary</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

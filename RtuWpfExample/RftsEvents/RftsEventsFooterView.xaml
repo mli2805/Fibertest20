@@ -1,10 +1,10 @@
-﻿<UserControl x:Class="RtuWpfExample.RftsEventsFooterView"
+﻿<UserControl x:Class="Iit.Fibertest.RtuWpfExample.RftsEventsFooterView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:rtuWpfExample="clr-namespace:RtuWpfExample"
-             mc:Ignorable="d" d:DataContext="{d:DesignInstance rtuWpfExample:RftsEventsFooterViewModel}">
+             xmlns:rtuWpfExample1="clr-namespace:Iit.Fibertest.RtuWpfExample"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance rtuWpfExample1:RftsEventsFooterViewModel}">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
     </UserControl.Resources>

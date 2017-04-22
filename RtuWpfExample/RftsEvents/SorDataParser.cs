@@ -8,7 +8,7 @@ using Optixsoft.SorExaminer.OtdrDataFormat;
 using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
 using BinaryReader = Optixsoft.SharedCommons.SorSerialization.BinaryReader;
 
-namespace RtuWpfExample
+namespace Iit.Fibertest.RtuWpfExample
 {
     public class SorDataParser
     {

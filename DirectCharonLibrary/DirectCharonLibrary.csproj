@@ -7,8 +7,8 @@
     <ProjectGuid>{49D6DE99-29BE-46AE-8BE8-85E660650CA7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DirectCharonLibrary</RootNamespace>
-    <AssemblyName>DirectCharonLibrary</AssemblyName>
+    <RootNamespace>Iit.Fibertest.DirectCharonLibrary</RootNamespace>
+    <AssemblyName>Iit.Fibertest.DirectCharonLibrary</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
