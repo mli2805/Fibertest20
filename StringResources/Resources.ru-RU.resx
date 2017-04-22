@@ -806,4 +806,10 @@
 	<data name="SID_Trace_state" xml:space="preserve">
 		<value>Состояние трассы</value>
 	</data>
+	<data name="SID_ORL__dB" xml:space="preserve">
+		<value>ORL, дБ</value>
+	</data>
+	<data name="SID_Parameters" xml:space="preserve">
+		<value>Параметры</value>
+	</data>
 </root>

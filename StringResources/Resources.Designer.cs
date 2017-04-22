@@ -1321,6 +1321,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Parameters.
+        /// </summary>
+        public static string SID_Parameters {
+            get {
+                return ResourceManager.GetString("SID_Parameters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to pass.
         /// </summary>
         public static string SID_pass {

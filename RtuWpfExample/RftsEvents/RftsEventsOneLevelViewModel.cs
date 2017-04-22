@@ -27,7 +27,7 @@ namespace Iit.Fibertest.RtuWpfExample
         private void CreateTable(int eventCount)
         {
             BindableTable = new DataTable();
-            BindableTable.Columns.Add(new DataColumn("Parameters"));
+            BindableTable.Columns.Add(new DataColumn(Resources.SID_Parameters));
             for (int i = 0; i < eventCount; i++)
                 BindableTable.Columns.Add(new DataColumn(string.Format(Resources.SID_Event_N_0_, i)) { DataType = typeof(string) });
         }

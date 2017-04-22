@@ -33,7 +33,7 @@ namespace Iit.Fibertest.RtuWpfExample
         public static string ForTable(this ShortThreshold threshold)
         {
             var value = threshold.IsAbsolute ? threshold.AbsoluteThreshold : threshold.RelativeThreshold;
-            var str = $"{value / 1000.0 : 0.000} ";
+            var str = $@"{value / 1000.0 : 0.000} ";
             var result = str + (threshold.IsAbsolute ? Resources.SID__abs__ : Resources.SID__rel__);
             return result;
         }

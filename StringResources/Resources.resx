@@ -815,7 +815,10 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_Trace_state" xml:space="preserve">
     <value>Trace state</value>
   </data>
-  <data name="SID_ORL__dB" xml:space="preserve">
+	<data name="SID_ORL__dB" xml:space="preserve">
     <value>ORL, dB</value>
+  </data>
+	<data name="SID_Parameters" xml:space="preserve">
+    <value>Parameters</value>
   </data>
 </root>
