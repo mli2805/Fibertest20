@@ -12,36 +12,21 @@ namespace RtuWpfExample
         public string Critical { get; set; }
         public string Users { get; set; }
 
-        public bool IsMinorExists { get; set; }
-        public bool IsMajorExists { get; set; }
-        public bool IsCriticalExists { get; set; }
-        public bool IsUsersExists { get; set; }
+        public LevelsContent LevelsContent { get; set; }
 
-
-        public RftsEventsFooterViewModel(OtdrDataKnownBlocks sorData)
+        public RftsEventsFooterViewModel(OtdrDataKnownBlocks sorData, LevelsContent levelsContent)
         {
+            LevelsContent = levelsContent;
             Orl = sorData.KeyEvents.OpticalReturnLoss;
-            var rftsParameters = sorData.RftsParameters;
 
-            for (int i = 0; i < rftsParameters.LevelsCount; i++)
-            {
-                var level = rftsParameters.Levels[i];
-                switch (level.LevelName)
-                {
-                    case RftsLevelType.Minor:
-                        IsMinorExists = true;
-                        break;
-                    case RftsLevelType.Major:
-                        IsMajorExists = true;
-                        break;
-                    case RftsLevelType.Critical:
-                        IsCriticalExists = true;
-                        break;
-                    case RftsLevelType.None:
-                        IsUsersExists = true;
-                        break;
-                }
-            }
+            if (LevelsContent.IsMinorExists)
+                Minor = LevelsContent.MinorLevelViewModel.IsFailed ? "fail" : "pass";
+            if (LevelsContent.IsMajorExists)
+                Major = LevelsContent.MajorLevelViewModel.IsFailed ? "fail" : "pass";
+            if (LevelsContent.IsCriticalExists)
+                Critical = LevelsContent.CriticalLevelViewModel.IsFailed ? "fail" : "pass";
+            if (LevelsContent.IsUsersExists)
+                Users = LevelsContent.UsersLevelViewModel.IsFailed ? "fail" : "pass";
         }
     }
 }

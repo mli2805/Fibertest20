@@ -12,29 +12,29 @@
     </Window.Resources>
     <StackPanel>
         <TabControl Margin="5" BorderThickness="1" BorderBrush="Black">
-            <TabItem Name="Minor" Visibility="{Binding IsMinorExists, Converter={StaticResource BoolToVis}}">
+            <TabItem Name="Minor" Visibility="{Binding LevelsContent.IsMinorExists, Converter={StaticResource BoolToVis}}">
                 <TabItem.Header>
                     <TextBlock Text="Minor" Width="120"/>
                 </TabItem.Header>
-                <rtuWpfExample:RftsEventsOneLevelView DataContext="{Binding MinorLevelViewModel}"/>
+                <rtuWpfExample:RftsEventsOneLevelView DataContext="{Binding LevelsContent.MinorLevelViewModel}"/>
             </TabItem>
-            <TabItem Name="Major" Visibility="{Binding IsMajorExists, Converter={StaticResource BoolToVis}}">
+            <TabItem Name="Major" Visibility="{Binding LevelsContent.IsMajorExists, Converter={StaticResource BoolToVis}}">
                 <TabItem.Header>
                     <TextBlock Text="Major" Width="120"/>
                 </TabItem.Header>
-                <rtuWpfExample:RftsEventsOneLevelView DataContext="{Binding MajorLevelViewModel}"/>
+                <rtuWpfExample:RftsEventsOneLevelView DataContext="{Binding LevelsContent.MajorLevelViewModel}"/>
             </TabItem>
-            <TabItem Name="Critical" Visibility="{Binding IsCriticalExists, Converter={StaticResource BoolToVis}}">
+            <TabItem Name="Critical" Visibility="{Binding LevelsContent.IsCriticalExists, Converter={StaticResource BoolToVis}}">
                 <TabItem.Header>
                     <TextBlock Text="Critical" Width="120"/>
                 </TabItem.Header>
-                <rtuWpfExample:RftsEventsOneLevelView DataContext="{Binding CriticalLevelViewModel}"/>
+                <rtuWpfExample:RftsEventsOneLevelView DataContext="{Binding LevelsContent.CriticalLevelViewModel}"/>
             </TabItem>
-            <TabItem Name="Users" Visibility="{Binding IsUsersExists, Converter={StaticResource BoolToVis}}">
+            <TabItem Name="Users" Visibility="{Binding LevelsContent.IsUsersExists, Converter={StaticResource BoolToVis}}">
                 <TabItem.Header>
                     <TextBlock Text="User's" Width="120"/>
                 </TabItem.Header>
-                <rtuWpfExample:RftsEventsOneLevelView DataContext="{Binding UsersLevelViewModel}"/>
+                <rtuWpfExample:RftsEventsOneLevelView DataContext="{Binding LevelsContent.UsersLevelViewModel}"/>
             </TabItem>
         </TabControl>
         <rtuWpfExample:RftsEventsFooterView DataContext="{Binding FooterViewModel}"/>

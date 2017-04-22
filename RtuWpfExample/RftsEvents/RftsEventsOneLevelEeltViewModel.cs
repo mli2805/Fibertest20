@@ -10,12 +10,15 @@ namespace RtuWpfExample
         public double DeviationValue { get; set; }
         public string StateValue { get; set; }
 
+        public bool IsFailed { get; set; }
+
         public RftsEventsOneLevelEeltViewModel(double value, ShortThreshold threshold, ShortDeviation deviation)
         {
             AttenuationValue = value;
             Threshold = threshold.ForTable();
             DeviationValue = deviation.Deviation / 1000.0;
-            StateValue = (deviation.Type & ShortDeviationTypes.IsExceeded) != 0 ? "fail" : "pass";
+            IsFailed = (deviation.Type & ShortDeviationTypes.IsExceeded) != 0;
+            StateValue = IsFailed ? "fail" : "pass";
         }
     }
 }

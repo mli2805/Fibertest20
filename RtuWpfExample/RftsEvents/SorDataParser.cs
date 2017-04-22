@@ -47,20 +47,20 @@ namespace RtuWpfExample
             _baseSorData = ExtractBase();
         }
 
-        public Dictionary<int, string[]> Parse(RftsLevelType rftsLevel)
+        public EventsContent Parse(RftsLevelType rftsLevel)
         {
             _eventCount = _sorData.LinkParameters.LandmarksCount;
-            var eventTable = PrepareEmptyDictionary();
+            var eventsContent = PrepareEmptyDictionary();
 
-            ParseCommonInformation(eventTable);
-            ParseCurrentMeasurement(eventTable);
-            ParseMonitoringThresholds(eventTable, rftsLevel);
+            ParseCommonInformation(eventsContent.Table);
+            ParseCurrentMeasurement(eventsContent.Table);
+            ParseMonitoringThresholds(eventsContent.Table, rftsLevel);
             var rftsEvents = ExtractRftsEventsForLevel(rftsLevel);
             if (rftsEvents != null)
-                ParseDeviationFromBase(eventTable, rftsEvents);
-            SetEventStates(eventTable);
+                ParseDeviationFromBase(eventsContent, rftsEvents);
+            SetEventStates(eventsContent.Table);
 
-            return eventTable;
+            return eventsContent;
         }
 
         private OtdrDataKnownBlocks ExtractBase()
@@ -92,16 +92,16 @@ namespace RtuWpfExample
             return null;
         }
 
-        private Dictionary<int, string[]> PrepareEmptyDictionary()
+        private EventsContent PrepareEmptyDictionary()
         {
-            var eventTable = new Dictionary<int, string[]>();
+            var eventsContent = new EventsContent();
             foreach (var pair in LineNameList)
             {
                 var cells = new string[_eventCount + 1];
                 cells[0] = pair.Value;
-                eventTable.Add(pair.Key, cells);
+                eventsContent.Table.Add(pair.Key, cells);
             }
-            return eventTable;
+            return eventsContent;
         }
 
         private void ParseCommonInformation(Dictionary<int, string[]> eventTable)
@@ -161,24 +161,25 @@ namespace RtuWpfExample
             }
         }
 
-        private void ParseDeviationFromBase(Dictionary<int, string[]> eventTable, RftsEventsBlock rftsEvents)
+        private void ParseDeviationFromBase(EventsContent eventsContent, RftsEventsBlock rftsEvents)
         {
             for (int i = 0; i < _eventCount; i++)
             {
-                eventTable[401][i + 1] = ForTable(eventTable, rftsEvents.Events[i].ReflectanceThreshold, i+1, "R");
+                eventsContent.Table[401][i + 1] = ForTable(eventsContent, rftsEvents.Events[i].ReflectanceThreshold, i+1, "R");
                 if (i < _eventCount-1)
-                    eventTable[402][i + 1] = ForTable(eventTable, rftsEvents.Events[i].AttenuationThreshold, i+1, "L");
-                eventTable[403][i + 1] = ForTable(eventTable, rftsEvents.Events[i].AttenuationCoefThreshold, i+1, "C");
+                    eventsContent.Table[402][i + 1] = ForTable(eventsContent, rftsEvents.Events[i].AttenuationThreshold, i+1, "L");
+                eventsContent.Table[403][i + 1] = ForTable(eventsContent, rftsEvents.Events[i].AttenuationCoefThreshold, i+1, "C");
             }
         }
 
-        private string ForTable(Dictionary<int, string[]> eventTable, ShortDeviation deviation, int column, string letter)
+        private string ForTable(EventsContent eventsContent, ShortDeviation deviation, int column, string letter)
         {
             var formattedValue = $"{deviation.Deviation / 1000.0: 0.000}";
             if ((deviation.Type & ShortDeviationTypes.IsExceeded) != 0)
             {
                 formattedValue += $" ( {letter} ) ";
-                eventTable[104][column] += $" {letter}";
+                eventsContent.Table[104][column] += $" {letter}";
+                eventsContent.IsFailed = true;
             }
             return formattedValue;
         }

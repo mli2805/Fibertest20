@@ -24,19 +24,19 @@
         </GroupBox>
         <GroupBox Margin="5">
             <StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="5" Visibility="{Binding IsMinorExists, Converter={StaticResource BoolToVis}}">
+                <StackPanel Orientation="Horizontal" Margin="5" Visibility="{Binding LevelsContent.IsMinorExists, Converter={StaticResource BoolToVis}}">
                     <TextBlock Text="Minor" Width="100"/>
                     <TextBlock Text="{Binding Minor}" Width="150"/>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="5" Visibility="{Binding IsMajorExists, Converter={StaticResource BoolToVis}}">
+                <StackPanel Orientation="Horizontal" Margin="5" Visibility="{Binding LevelsContent.IsMajorExists, Converter={StaticResource BoolToVis}}">
                     <TextBlock Text="Major" Width="100"/>
                     <TextBlock Text="{Binding Major}" Width="150"/>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="5" Visibility="{Binding IsCriticalExists, Converter={StaticResource BoolToVis}}">
+                <StackPanel Orientation="Horizontal" Margin="5" Visibility="{Binding LevelsContent.IsCriticalExists, Converter={StaticResource BoolToVis}}">
                     <TextBlock Text="Critical" Width="100"/>
                     <TextBlock Text="{Binding Critical}" Width="150"/>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="5" Visibility="{Binding IsUsersExists, Converter={StaticResource BoolToVis}}">
+                <StackPanel Orientation="Horizontal" Margin="5" Visibility="{Binding LevelsContent.IsUsersExists, Converter={StaticResource BoolToVis}}">
                     <TextBlock Text="User's" Width="100"/>
                     <TextBlock Text="{Binding Users}" Width="150"/>
                 </StackPanel>

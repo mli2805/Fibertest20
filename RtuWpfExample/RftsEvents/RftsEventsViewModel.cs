@@ -3,7 +3,7 @@ using Optixsoft.SorExaminer.OtdrDataFormat;
 
 namespace RtuWpfExample
 {
-    public class RftsEventsViewModel : Screen
+    public class LevelsContent
     {
         public bool IsMinorExists { get; set; }
         public bool IsMajorExists { get; set; }
@@ -15,6 +15,10 @@ namespace RtuWpfExample
         public RftsEventsOneLevelViewModel CriticalLevelViewModel { get; set; }
         public RftsEventsOneLevelViewModel UsersLevelViewModel { get; set; }
 
+    }
+    public class RftsEventsViewModel : Screen
+    {
+        public LevelsContent LevelsContent { get; set; } = new LevelsContent();
         public RftsEventsFooterViewModel FooterViewModel { get; set; }
 
         public RftsEventsViewModel(OtdrDataKnownBlocks sorData)
@@ -26,25 +30,25 @@ namespace RtuWpfExample
                 switch (level.LevelName)
                 {
                     case RftsLevelType.Minor:
-                        IsMinorExists = true;
-                        MinorLevelViewModel = new RftsEventsOneLevelViewModel(sorData, level);
+                        LevelsContent.IsMinorExists = true;
+                        LevelsContent.MinorLevelViewModel = new RftsEventsOneLevelViewModel(sorData, level);
                         break;
                     case RftsLevelType.Major:
-                        IsMajorExists = true;
-                        MajorLevelViewModel = new RftsEventsOneLevelViewModel(sorData, level);
+                        LevelsContent.IsMajorExists = true;
+                        LevelsContent.MajorLevelViewModel = new RftsEventsOneLevelViewModel(sorData, level);
                         break;
                     case RftsLevelType.Critical:
-                        IsCriticalExists = true;
-                        CriticalLevelViewModel = new RftsEventsOneLevelViewModel(sorData, level);
+                        LevelsContent.IsCriticalExists = true;
+                        LevelsContent.CriticalLevelViewModel = new RftsEventsOneLevelViewModel(sorData, level);
                         break;
                     case RftsLevelType.None:
-                        IsUsersExists = true;
-                        UsersLevelViewModel = new RftsEventsOneLevelViewModel(sorData, level);
+                        LevelsContent.IsUsersExists = true;
+                        LevelsContent.UsersLevelViewModel = new RftsEventsOneLevelViewModel(sorData, level);
                         break;
                 }
             }
 
-            FooterViewModel = new RftsEventsFooterViewModel(sorData);
+            FooterViewModel = new RftsEventsFooterViewModel(sorData, LevelsContent);
         }
 
         protected override void OnViewLoaded(object view)
