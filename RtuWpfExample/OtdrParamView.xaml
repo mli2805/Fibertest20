@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:rtuWpfExample1="clr-namespace:Iit.Fibertest.RtuWpfExample"
+        xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
         Title="OtdrParamView" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
         d:DataContext="{d:DesignInstance rtuWpfExample1:OtdrParamViewModel}">
@@ -14,60 +15,60 @@
                     <TextBlock DockPanel.Dock="Right" Width="30" Margin="5"/>
                     <ComboBox DockPanel.Dock="Right" Width="90" Height="22" Margin="5,0"
                               ItemsSource="{Binding Units}" SelectedItem="{Binding SelectedUnit, Mode=TwoWay}"/>
-                    <TextBlock Text="Fiber type - wavelength:" Margin="5" HorizontalAlignment="Right"/>
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Fiber_type_wavelength}" Margin="5" HorizontalAlignment="Right"/>
                 </DockPanel>
                 <DockPanel>
                     <TextBlock DockPanel.Dock="Right" Width="30" Margin="5" Text="dB"/>
                     <TextBox DockPanel.Dock="Right" Width="90" Height="22" Margin="5,0"
                              Text="{Binding BackscatteredCoefficient, UpdateSourceTrigger=PropertyChanged, StringFormat=00.0}"/>
-                    <TextBlock Text="Backscattered Coefficient:" Margin="5" HorizontalAlignment="Right"/>
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Backscattered_Coefficient}" Margin="5" HorizontalAlignment="Right"/>
                 </DockPanel>
                 <DockPanel>
                     <TextBlock DockPanel.Dock="Right" Width="30" Margin="5" Text=""/>
                     <TextBox DockPanel.Dock="Right" Width="90" Height="22" Margin="5,0"
                              Text="{Binding RefractiveIndex, UpdateSourceTrigger=PropertyChanged, StringFormat=0.00000 }"/>
-                    <TextBlock Text="Refractive index - n:" Margin="5" HorizontalAlignment="Right"/>
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Refractive_index}" Margin="5" HorizontalAlignment="Right"/>
                 </DockPanel>
                 <DockPanel>
                     <TextBlock DockPanel.Dock="Right" Width="30" Margin="5" Text="km"/>
                     <ComboBox DockPanel.Dock="Right" Width="90" Height="22" Margin="5,0"
                               ItemsSource="{Binding Distances}" SelectedItem="{Binding SelectedDistance, Mode=TwoWay}"/>
-                    <TextBlock Text="Distance range - Lmax:" Margin="5" HorizontalAlignment="Right"/>
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Distance_range}" Margin="5" HorizontalAlignment="Right"/>
                 </DockPanel>
                 <DockPanel>
                     <TextBlock DockPanel.Dock="Right" Width="30" Margin="5" Text="m"/>
                     <ComboBox DockPanel.Dock="Right" Width="90" Height="22" Margin="5,0"
                               ItemsSource="{Binding Resolutions}" SelectedItem="{Binding SelectedResolution, Mode=TwoWay}"/>
-                    <TextBlock Text="Resolution - dL:" Margin="5" HorizontalAlignment="Right"/>
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Resolution}" Margin="5" HorizontalAlignment="Right"/>
                 </DockPanel>
                 <DockPanel>
                     <TextBlock DockPanel.Dock="Right" Width="30" Margin="5" Text="ns"/>
                     <ComboBox DockPanel.Dock="Right" Width="90" Height="22" Margin="5,0"
                               ItemsSource="{Binding PulseDurations}" SelectedItem="{Binding SelectedPulseDuration, Mode=TwoWay}"/>
-                    <TextBlock Text="Pulse width - Tp:" Margin="5" HorizontalAlignment="Right"/>
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Pulse_width}" Margin="5" HorizontalAlignment="Right"/>
                 </DockPanel>
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Measuring with averaging" Margin="5">
+        <GroupBox Header="{x:Static stringResources:Resources.SID_Measuring_with_averaging}" Margin="5">
             <StackPanel>
                 <DockPanel>
                     <TextBlock DockPanel.Dock="Right" Width="30" Margin="5"/>
                     <ComboBox DockPanel.Dock="Right" Margin="5,0" Height="22" Width="90" IsEnabled="{Binding ElementName=RbCount, Path=IsChecked}"
                               Name="CbCounts" ItemsSource="{Binding MeasCountsToAverage}" SelectedItem="{Binding SelectedMeasCountToAverage, Mode=TwoWay}"/>
-                    <RadioButton Name="RbCount" GroupName="Averaging" Content="Number of measurements to average - 4096*N" Margin="5" 
+                    <RadioButton Name="RbCount" GroupName="Averaging" Content="{x:Static stringResources:Resources.SID_Number_of_measurements_to_average}" Margin="5" 
                                  IsChecked="{Binding IsMeasCountToAverageSelected, Mode=TwoWay}" Checked="RadioButtonOnChecked"/>
                 </DockPanel>
                 <DockPanel>
                     <TextBlock DockPanel.Dock="Right" Width="30" Margin="5"/>
                     <ComboBox DockPanel.Dock="Right" Margin="5,0" Height="22" Width="90" IsEnabled="{Binding ElementName=RbTime, Path=IsChecked}"
                               Name="CbTimes" ItemsSource="{Binding PeriodsToAverage}" SelectedItem="{Binding SelectedPeriodToAverage, Mode=TwoWay}"/>
-                    <RadioButton Name="RbTime" GroupName="Averaging" Content="Time to average" DockPanel.Dock="Left" Margin="5"  
+                    <RadioButton Name="RbTime" GroupName="Averaging" Content="{x:Static stringResources:Resources.SID_Time_to_average}" DockPanel.Dock="Left" Margin="5"  
                                  IsChecked="{Binding IsTimeToAverageSelected, Mode=TwoWay}" Checked="RadioButtonOnChecked"/>
                 </DockPanel>
             </StackPanel>
         </GroupBox>
         <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
-            <Button Name="Close" Content="Close" IsDefault="True" IsCancel="True" Margin="5" Width="100" Height="22"/>
+            <Button Name="Close" Content="{x:Static stringResources:Resources.SID_Close}" IsDefault="True" IsCancel="True" Margin="5" Width="100" Height="22"/>
         </StackPanel>
     </StackPanel>
 </Window>

@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using Iit.Fibertest.StringResources;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 
 namespace Iit.Fibertest.RtuWpfExample
@@ -40,7 +41,7 @@ namespace Iit.Fibertest.RtuWpfExample
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = "Rfts Events";
+            DisplayName = Resources.SID_Events;
         }
     }
 }

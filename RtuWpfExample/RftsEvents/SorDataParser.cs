@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using Iit.Fibertest.StringResources;
 using IitOtdrLibrary;
 using Optixsoft.SharedCommons.SorSerialization;
 using Optixsoft.SorExaminer.OtdrDataFormat;
@@ -18,26 +19,26 @@ namespace Iit.Fibertest.RtuWpfExample
 
         private Dictionary<int, string> LineNameList => new Dictionary<int, string>
         {
-            { 100, "       Common Information"       },
-            { 101, "Landmark Name"                   },
-            { 102, "Landmark Type"                   },
-            { 103, "State"                           },
-            { 104, "Damage Type"                     },
-            { 105, "Distance, km"                    },
-            { 106, "Enabled"                         },
-            { 107, "Event Type"                      },
-            { 200, "       Current Measurement"      },
-            { 201, "Reflectance coefficient, dB"     },
-            { 202, "Attenuation in Closure, dB"      },
-            { 203, "Attenuation coefficient, dB/km " },
-            { 300, "       Monitoring Thresholds"    },
-            { 301, "Reflectance coefficient, dB"     },
-            { 302, "Attenuation in Closure, dB"      },
-            { 303, "Attenuation coefficient, dB/km " },
-            { 400, "       Deviations from Base"     },
-            { 401, "Reflectance coefficient, dB"     },
-            { 402, "Attenuation in Closure, dB"      },
-            { 403, "Attenuation coefficient, dB/km " },
+            { 100, Resources.SID________Common_Information       },
+            { 101, Resources.SID_Landmark_Name                   },
+            { 102, Resources.SID_Landmark_Type                   },
+            { 103, Resources.SID_State                           },
+            { 104, Resources.SID_Damage_Type                     },
+            { 105, Resources.SID_Distance__km                    },
+            { 106, Resources.SID_Enabled                         },
+            { 107, Resources.SID_Event_Type                      },
+            { 200, Resources.SID________Current_Measurement      },
+            { 201, Resources.SID_Reflectance_coefficient__dB     },
+            { 202, Resources.SID_Attenuation_in_Closure__dB      },
+            { 203, Resources.SID_Attenuation_coefficient__dB_km_ },
+            { 300, Resources.SID________Monitoring_Thresholds    },
+            { 301, Resources.SID_Reflectance_coefficient__dB     },
+            { 302, Resources.SID_Attenuation_in_Closure__dB      },
+            { 303, Resources.SID_Attenuation_coefficient__dB_km_ },
+            { 400, Resources.SID________Deviations_from_Base     },
+            { 401, Resources.SID_Reflectance_coefficient__dB     },
+            { 402, Resources.SID_Attenuation_in_Closure__dB      },
+            { 403, Resources.SID_Attenuation_coefficient__dB_km_ },
             { 900, ""                                },
         };
 
@@ -188,7 +189,7 @@ namespace Iit.Fibertest.RtuWpfExample
         {
             for (int i = 0; i < _eventCount; i++)
             {
-                eventTable[103][i + 1] = string.IsNullOrEmpty(eventTable[104][i + 1]) ? "pass" : "fail";
+                eventTable[103][i + 1] = string.IsNullOrEmpty(eventTable[104][i + 1]) ? Resources.SID_pass : Resources.SID_fail;
             }
         }
 

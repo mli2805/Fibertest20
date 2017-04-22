@@ -683,4 +683,127 @@
 	<data name="SID_Administrative" xml:space="preserve">
 		<value>Администрирование</value>
 	</data>
+	<data name="SID_no" xml:space="preserve">
+		<value>нет</value>
+	</data>
+	<data name="SID_yes" xml:space="preserve">
+		<value>да</value>
+	</data>
+	<data name="SID_unexpected_input" xml:space="preserve">
+		<value>непредусмотренные данные</value>
+	</data>
+	<data name="SID__abs__" xml:space="preserve">
+		<value>(абс.)</value>
+	</data>
+	<data name="SID__rel__" xml:space="preserve">
+		<value>(отн.)</value>
+	</data>
+	<data name="SID_fail" xml:space="preserve">
+		<value>плохо</value>
+	</data>
+	<data name="SID_pass" xml:space="preserve">
+		<value>в норме</value>
+	</data>
+	<data name="SID_Event_N_0_" xml:space="preserve">
+		<value>Событие N{0}</value>
+	</data>
+	<data name="SID________Common_Information" xml:space="preserve">
+		<value>     Общая информация</value>
+	</data>
+	<data name="SID_Landmark_Name" xml:space="preserve">
+		<value>Название ориентира</value>
+	</data>
+	<data name="SID_Landmark_Type" xml:space="preserve">
+		<value>Тип ориентира</value>
+	</data>
+	<data name="SID_Damage_Type" xml:space="preserve">
+		<value>Тип повреждения</value>
+	</data>
+	<data name="SID_Distance__km" xml:space="preserve">
+		<value>Расстояние, км</value>
+	</data>
+	<data name="SID_Enabled" xml:space="preserve">
+		<value>Разрешено</value>
+	</data>
+	<data name="SID_Event_Type" xml:space="preserve">
+		<value>Тип события</value>
+	</data>
+	<data name="SID________Current_Measurement" xml:space="preserve">
+		<value>     Текущее измерение</value>
+	</data>
+	<data name="SID_Reflectance_coefficient__dB" xml:space="preserve">
+		<value>Коэффициент отражения, дБ</value>
+	</data>
+	<data name="SID_Attenuation_in_Closure__dB" xml:space="preserve">
+		<value>Затухание в соединении, дБ</value>
+	</data>
+	<data name="SID_Attenuation_coefficient__dB_km_" xml:space="preserve">
+		<value>Коэффициент затухания, дБ/км</value>
+	</data>
+	<data name="SID________Monitoring_Thresholds" xml:space="preserve">
+		<value>     Пороги мониторинга</value>
+	</data>
+	<data name="SID________Deviations_from_Base" xml:space="preserve">
+		<value>     Отклонения от базовой</value>
+	</data>
+	<data name="SID_Backscattered_Coefficient" xml:space="preserve">
+		<value>Коэффициент обратного рассеяния - BC:</value>
+	</data>
+	<data name="SID_Refractive index" xml:space="preserve">
+		<value>Показатель преломления - RI:</value>
+	</data>
+	<data name="SID_Resolution" xml:space="preserve">
+		<value>Разрешение - dL:</value>
+	</data>
+	<data name="SID_Pulse_width" xml:space="preserve">
+		<value>Длительность зондирующего импульса - Tp:</value>
+	</data>
+	<data name="SID_Number_of_measurements_to_average" xml:space="preserve">
+		<value>Количество измерений для усреднения - 4096*N</value>
+	</data>
+	<data name="SID_Time_to_average" xml:space="preserve">
+		<value>Время для усреднения</value>
+	</data>
+	<data name="SID_Measurement_parameters" xml:space="preserve">
+		<value>Параметры измерения</value>
+	</data>
+	<data name="SID_Value__dB" xml:space="preserve">
+		<value>Значение, дБ:</value>
+	</data>
+	<data name="SID_Threshold__dB" xml:space="preserve">
+		<value>Порог, дБ:</value>
+	</data>
+	<data name="SID_Deviation__dB" xml:space="preserve">
+		<value>Отклонение, дБ:</value>
+	</data>
+	<data name="SID_State_" xml:space="preserve">
+		<value>Состояние:</value>
+	</data>
+	<data name="SID_Fiber_type_wavelength" xml:space="preserve">
+		<value>Тип лазера - Длина волны</value>
+	</data>
+	<data name="SID_Distance range" xml:space="preserve">
+		<value>Диапазон расстояний - LMax:</value>
+	</data>
+	<data name="SID_Total_fiber_loss" xml:space="preserve">
+		<value>Затухание в линии</value>
+	</data>
+	<data name="SID_Minor" xml:space="preserve">
+		<value>Предупреждение</value>
+	</data>
+	<data name="SID_Major" xml:space="preserve">
+		<value>Повреждение</value>
+	</data>
+	<data name="SID_Critical" xml:space="preserve">
+		<value>Авария</value>
+	</data>
+	<data name="SID_User_s" xml:space="preserve">
+		<value>Пользовательский</value>
+	</data>
+	<data name="SID_Measuring_with_averaging" xml:space="preserve">
+		<value>Измерение с усреднением</value>
+	</data>
+	<data name="SID_Trace_state" xml:space="preserve">
+		<value>Состояние трассы</value>
+	</data>
 </root>

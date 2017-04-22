@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Linq;
+using Iit.Fibertest.StringResources;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
 
@@ -28,7 +29,7 @@ namespace Iit.Fibertest.RtuWpfExample
             BindableTable = new DataTable();
             BindableTable.Columns.Add(new DataColumn("Parameters"));
             for (int i = 0; i < eventCount; i++)
-                BindableTable.Columns.Add(new DataColumn($"Event N{i}") { DataType = typeof(string) });
+                BindableTable.Columns.Add(new DataColumn(string.Format(Resources.SID_Event_N_0_, i)) { DataType = typeof(string) });
         }
 
         private void PopulateTable()

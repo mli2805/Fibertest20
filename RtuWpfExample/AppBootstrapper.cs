@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Threading;
 using Caliburn.Micro;
 
 namespace RtuWpfExample {
@@ -11,6 +13,9 @@ namespace RtuWpfExample {
         }
 
         protected override void Configure() {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("ru-RU");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("ru-RU");
+
             _container = new SimpleContainer();
 
             _container.Singleton<IWindowManager, WindowManager>();

@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Linq;
 using Caliburn.Micro;
+using Iit.Fibertest.StringResources;
 using IitOtdrLibrary;
 
 namespace Iit.Fibertest.RtuWpfExample
@@ -333,7 +334,7 @@ namespace Iit.Fibertest.RtuWpfExample
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = "Measurement parameters";
+            DisplayName = Resources.SID_Measurement_parameters;
         }
 
         public void Close()

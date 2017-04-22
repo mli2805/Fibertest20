@@ -1,4 +1,5 @@
-﻿using Optixsoft.SorExaminer.OtdrDataFormat;
+﻿using Iit.Fibertest.StringResources;
+using Optixsoft.SorExaminer.OtdrDataFormat;
 using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
 
 namespace Iit.Fibertest.RtuWpfExample
@@ -18,7 +19,7 @@ namespace Iit.Fibertest.RtuWpfExample
             Threshold = threshold.ForTable();
             DeviationValue = deviation.Deviation / 1000.0;
             IsFailed = (deviation.Type & ShortDeviationTypes.IsExceeded) != 0;
-            StateValue = IsFailed ? "fail" : "pass";
+            StateValue = IsFailed ? Resources.SID_fail : Resources.SID_pass;
         }
     }
 }
