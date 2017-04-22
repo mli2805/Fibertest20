@@ -37,5 +37,13 @@ namespace Iit.Fibertest.RtuWpfExample
             var result = str + (threshold.IsAbsolute ? Resources.SID__abs__ : Resources.SID__rel__);
             return result;
         }
+
+        public static string EventCodeForTable(this string eventCode)
+        {
+            var str = eventCode[0] == '0' ? @"S" : @"R";
+            return $@"{str} : {eventCode[1]}";
+        }
+
+
     }
 }

@@ -3,7 +3,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using Iit.Fibertest.StringResources;
-using IitOtdrLibrary;
 using Optixsoft.SharedCommons.SorSerialization;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
@@ -11,10 +10,9 @@ using BinaryReader = Optixsoft.SharedCommons.SorSerialization.BinaryReader;
 
 namespace Iit.Fibertest.RtuWpfExample
 {
-    public class SorDataParser
+    public class SorDataToEvents
     {
         private readonly OtdrDataKnownBlocks _sorData;
-        private readonly OtdrDataKnownBlocks _baseSorData;
         private int _eventCount;
 
         private Dictionary<int, string> LineNameList => new Dictionary<int, string>
@@ -39,13 +37,12 @@ namespace Iit.Fibertest.RtuWpfExample
             { 401, Resources.SID_Reflectance_coefficient__dB     },
             { 402, Resources.SID_Attenuation_in_Closure__dB      },
             { 403, Resources.SID_Attenuation_coefficient__dB_km_ },
-            { 900, ""                                },
+            { 900, ""                                            },
         };
 
-        public SorDataParser(OtdrDataKnownBlocks sorData)
+        public SorDataToEvents(OtdrDataKnownBlocks sorData)
         {
             _sorData = sorData;
-            _baseSorData = ExtractBase();
         }
 
         public EventsContent Parse(RftsLevelType rftsLevel)
@@ -62,17 +59,6 @@ namespace Iit.Fibertest.RtuWpfExample
             SetEventStates(eventsContent.Table);
 
             return eventsContent;
-        }
-
-        private OtdrDataKnownBlocks ExtractBase()
-        {
-            if (_sorData.EmbeddedData.EmbeddedBlocksCount == 0 ||
-                _sorData.EmbeddedData.EmbeddedDataBlocks[0].Description != @"SOR")
-                return null;
-
-            var bytes = _sorData.EmbeddedData.EmbeddedDataBlocks[0].Data;
-            var baseSorData = SorData.FromBytes(bytes);
-            return baseSorData;
         }
 
         private RftsEventsBlock ExtractRftsEventsForLevel(RftsLevelType rftsLevel)
@@ -113,14 +99,8 @@ namespace Iit.Fibertest.RtuWpfExample
                 eventTable[102][i + 1] = _sorData.LinkParameters.LandmarkBlocks[i].Code.ForTable();
                 eventTable[105][i + 1] = $@"{OwtToLen(_sorData.KeyEvents.KeyEvents[i].EventPropagationTime): 0.00000}";
                 eventTable[106][i + 1] = _sorData.RftsEvents.Events[i].EventTypes.ForTable();
-                eventTable[107][i + 1] = EventCodeForTable(_sorData.KeyEvents.KeyEvents[i].EventCode);
+                eventTable[107][i + 1] = _sorData.KeyEvents.KeyEvents[i].EventCode.EventCodeForTable();
             }
-        }
-
-        private string EventCodeForTable(string eventCode)
-        {
-            var str = eventCode[0] == '0' ? @"S" : @"R";
-            return $@"{str} : {eventCode[1]}";
         }
 
         private double OwtToLen(int owt)
@@ -132,7 +112,7 @@ namespace Iit.Fibertest.RtuWpfExample
         const double LightSpeed = 0.000299792458; // km/ns
         private double OwtToKmCoeff => LightSpeed / _sorData.FixedParameters.RefractionIndex / 10;
 
-        private double F(double p)
+        private double AttenuationCoeffToDbKm(double p)
         {
             return p / OwtToKmCoeff;
         }
@@ -146,7 +126,7 @@ namespace Iit.Fibertest.RtuWpfExample
                 var eventLoss = _sorData.KeyEvents.KeyEvents[i].EventLoss;
                 var endOfFiberThreshold = _sorData.FixedParameters.EndOfFiberThreshold;
                 eventTable[202][i + 1] = eventLoss > endOfFiberThreshold ? $@">{endOfFiberThreshold:0.000}" : $@"{eventLoss:0.000}";
-                eventTable[203][i + 1] = $@"{F(_sorData.KeyEvents.KeyEvents[i].LeadInFiberAttenuationCoefficient) : 0.000}";
+                eventTable[203][i + 1] = $@"{AttenuationCoeffToDbKm(_sorData.KeyEvents.KeyEvents[i].LeadInFiberAttenuationCoefficient) : 0.000}";
             }
         }
 
@@ -193,5 +173,15 @@ namespace Iit.Fibertest.RtuWpfExample
             }
         }
 
+//        private OtdrDataKnownBlocks ExtractBase()
+//        {
+//            if (_sorData.EmbeddedData.EmbeddedBlocksCount == 0 ||
+//                _sorData.EmbeddedData.EmbeddedDataBlocks[0].Description != @"SOR")
+//                return null;
+//
+//            var bytes = _sorData.EmbeddedData.EmbeddedDataBlocks[0].Data;
+//            var baseSorData = SorData.FromBytes(bytes);
+//            return baseSorData;
+//        }
     }
 }

@@ -17,7 +17,7 @@ namespace Iit.Fibertest.RtuWpfExample
 
         public RftsEventsOneLevelViewModel(OtdrDataKnownBlocks sorData, RftsLevel rftsLevel)
         {
-            EventsContent = new SorDataParser(sorData).Parse(rftsLevel.LevelName);
+            EventsContent = new SorDataToEvents(sorData).Parse(rftsLevel.LevelName);
             CreateTable(EventsContent.Table.First().Value.Length-1);
             PopulateTable();
             EeltViewModel = new RftsEventsOneLevelEeltViewModel(sorData.KeyEvents.EndToEndLoss, rftsLevel.EELT, sorData.RftsEvents.EELD);

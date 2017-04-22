@@ -114,7 +114,7 @@
       <DependentUpon>RftsEventsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="RftsEvents\RftsEventsViewModel.cs" />
-    <Compile Include="RftsEvents\SorDataParser.cs" />
+    <Compile Include="RftsEvents\SorDataToEvents.cs" />
     <Compile Include="ShellViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
