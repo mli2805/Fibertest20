@@ -20,7 +20,7 @@ namespace RtuWpfExample
             switch (landmarkCode)
             {
                 case LandmarkCode.FiberDistributingFrame: return "RTU";
-                case LandmarkCode.Coupler: return "Sleeve";
+                case LandmarkCode.Coupler: return "Closure";
                 case LandmarkCode.WiringCloset: return "Cross";
                 case LandmarkCode.Manhole: return "Node";
                 case LandmarkCode.RemoteTerminal: return "Terminal";

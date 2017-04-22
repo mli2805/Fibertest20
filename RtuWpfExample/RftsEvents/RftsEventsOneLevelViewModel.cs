@@ -1,16 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
 using System.Linq;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
 
 namespace RtuWpfExample
 {
-    public class EventsContent
-    {
-        public Dictionary<int, string[]> Table { get; set; } = new Dictionary<int, string[]>();
-        public bool IsFailed { get; set; }
-    }
     public class RftsEventsOneLevelViewModel
     {
         public DataTable BindableTable { get; set; }

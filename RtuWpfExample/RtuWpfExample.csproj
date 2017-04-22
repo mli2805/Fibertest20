@@ -95,7 +95,9 @@
       <DependentUpon>OtdrParamView.xaml</DependentUpon>
     </Compile>
     <Compile Include="OtdrParamViewModel.cs" />
+    <Compile Include="RftsEvents\EventsContent.cs" />
     <Compile Include="RftsEvents\ForTableConvertor.cs" />
+    <Compile Include="RftsEvents\LevelsContent.cs" />
     <Compile Include="RftsEvents\RftsEventsFooterView.xaml.cs">
       <DependentUpon>RftsEventsFooterView.xaml</DependentUpon>
     </Compile>
