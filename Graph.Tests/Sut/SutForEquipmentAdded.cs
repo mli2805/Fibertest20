@@ -15,7 +15,7 @@ namespace Graph.Tests
 
         public void SetNode()
         {
-            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Sleeve }).Wait();
+            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Closure }).Wait();
             Poller.Tick();
             NodeId = ReadModel.Nodes.Last().Id;
             OldEquipmentId = ReadModel.Equipments.Last().Id;

@@ -19,11 +19,11 @@ namespace Graph.Tests
 
             ShellVm.ComplyWithRequest(new AddNode()).Wait(); Poller.Tick(); var c0 = ReadModel.Nodes.Last().Id; wrongNodeId = c0;
             ShellVm.ComplyWithRequest(new AddNode()).Wait(); Poller.Tick(); var c1 = ReadModel.Nodes.Last().Id;
-            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Sleeve }).Wait(); var c2 = ReadModel.Nodes.Last().Id;
+            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Closure }).Wait(); var c2 = ReadModel.Nodes.Last().Id;
 
             ShellVm.ComplyWithRequest(new AddNode()).Wait(); Poller.Tick(); var d0 = ReadModel.Nodes.Last().Id;
             ShellVm.ComplyWithRequest(new AddNode()).Wait(); Poller.Tick(); var d1 = ReadModel.Nodes.Last().Id;
-            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Sleeve }).Wait(); var d2 = ReadModel.Nodes.Last().Id;
+            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Closure }).Wait(); var d2 = ReadModel.Nodes.Last().Id;
 
             ShellVm.ComplyWithRequest(new AddNode()).Wait(); Poller.Tick(); var e0 = ReadModel.Nodes.Last().Id;
             ShellVm.ComplyWithRequest(new AddNode()).Wait(); Poller.Tick(); var e1 = ReadModel.Nodes.Last().Id;

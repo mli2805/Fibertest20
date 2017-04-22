@@ -385,6 +385,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Closure.
+        /// </summary>
+        public static string SID_Closure {
+            get {
+                return ResourceManager.GetString("SID_Closure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Comment.
         /// </summary>
         public static string SID_Comment {
@@ -1498,15 +1507,6 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Show_trace {
             get {
                 return ResourceManager.GetString("SID_Show_trace", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sleeve.
-        /// </summary>
-        public static string SID_Sleeve {
-            get {
-                return ResourceManager.GetString("SID_Sleeve", resourceCulture);
             }
         }
         

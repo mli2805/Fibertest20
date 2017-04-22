@@ -120,7 +120,7 @@
 	<data name="SID_CableReserve" xml:space="preserve">
     <value>Запас кабеля</value>
   </data>
-	<data name="SID_Sleeve" xml:space="preserve">
+	<data name="SID_Closure" xml:space="preserve">
     <value>Муфта</value>
   </data>
 	<data name="SID_Cross" xml:space="preserve">

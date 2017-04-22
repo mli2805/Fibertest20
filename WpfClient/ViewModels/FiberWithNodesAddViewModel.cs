@@ -12,7 +12,7 @@ namespace Iit.Fibertest.Client
         public RadioButtonModel Node { get; set; } = new RadioButtonModel { Title = Resources.SID_Node, IsChecked = false };
         public RadioButtonModel AdjustmentNode { get; } = new RadioButtonModel { Title = Resources.SID_Adjustment_node, IsChecked = false };
         public RadioButtonModel CableReserve { get; set; } = new RadioButtonModel { Title = Resources.SID_CableReserve, IsChecked = false };
-        public RadioButtonModel Sleeve { get; } = new RadioButtonModel { Title = Resources.SID_Sleeve, IsChecked = true };
+        public RadioButtonModel Sleeve { get; } = new RadioButtonModel { Title = Resources.SID_Closure, IsChecked = true };
         public RadioButtonModel Cross { get; } = new RadioButtonModel { Title = Resources.SID_Cross, IsChecked = false };
         public RadioButtonModel Terminal { get; } = new RadioButtonModel { Title = Resources.SID_Terminal, IsChecked = false };
         public RadioButtonModel Other { get; } = new RadioButtonModel { Title = Resources.SID_Other, IsChecked = false };
@@ -44,7 +44,7 @@ namespace Iit.Fibertest.Client
             if (CableReserve.IsChecked)
                 return EquipmentType.CableReserve;
             if (Sleeve.IsChecked)
-                return EquipmentType.Sleeve;
+                return EquipmentType.Closure;
             if (Cross.IsChecked)
                 return EquipmentType.Cross;
             if (Terminal.IsChecked)
@@ -75,7 +75,7 @@ namespace Iit.Fibertest.Client
                 case EquipmentType.Other:
                     Other.IsChecked = true;
                     break;
-                case EquipmentType.Sleeve:
+                case EquipmentType.Closure:
                     Sleeve.IsChecked = true;
                     break;
             }

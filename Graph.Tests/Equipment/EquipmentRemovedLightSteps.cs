@@ -20,7 +20,7 @@ namespace Graph.Tests
         [Given(@"Существует узел с оборудованием")]
         public void GivenСуществуетУзелСОборудованием()
         {
-            _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Sleeve }).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Closure }).Wait();
             _sut.Poller.Tick();
             _nodeAId = _sut.ReadModel.Nodes.Last().Id;
             _equipmentA1Id = _sut.ReadModel.Equipments.Last().Id;

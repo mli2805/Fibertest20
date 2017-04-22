@@ -80,8 +80,8 @@ namespace Iit.Fibertest.Client
                     return Resources.SID_Well;
                 case EquipmentType.Invisible:
                     return Resources.SID_Adjustment_node;
-                case EquipmentType.Sleeve:
-                    return Resources.SID_Sleeve;
+                case EquipmentType.Closure:
+                    return Resources.SID_Closure;
                 case EquipmentType.Cross:
                     return Resources.SID_Cross;
                 case EquipmentType.Terminal:

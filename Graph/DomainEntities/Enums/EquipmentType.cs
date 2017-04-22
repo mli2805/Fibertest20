@@ -5,7 +5,7 @@
         None = -1,
         Other = 0,
         CableReserve = 1,
-        Sleeve = 2,
+        Closure = 2,
         Cross = 3,
         Rtu = 4,
         Well = 5,

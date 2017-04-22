@@ -30,7 +30,7 @@ namespace Graph.Tests
             _rightNodeId = _sut.ShellVm.ReadModel.Nodes.Last().Id;
             _nodesCountCutOff = _sut.ShellVm.ReadModel.Nodes.Count;
             _fibersCountCutOff = _sut.ShellVm.ReadModel.Fibers.Count;
-            _sleeveCountcutOff = _sut.ShellVm.ReadModel.Equipments.Count(e => e.Type == EquipmentType.Sleeve);
+            _sleeveCountcutOff = _sut.ShellVm.ReadModel.Equipments.Count(e => e.Type == EquipmentType.Closure);
         }
 
         [Given(@"Между левым и правым узлом уже добавлен отрезок")]
@@ -67,7 +67,7 @@ namespace Graph.Tests
         [When(@"Пользователь кликает добавить отрезок с (.*) узлами с муфтами")]
         public void WhenПользовательКликаетДобавитьОтрезокСУзламиСОборудованием(int p0)
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.FiberWithNodesAdditionHandler(model, p0, EquipmentType.Sleeve, Answer.Yes));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.FiberWithNodesAdditionHandler(model, p0, EquipmentType.Closure, Answer.Yes));
             _sut.ShellVm.ComplyWithRequest(new RequestAddFiberWithNodes() {Node1 = _leftNodeId, Node2 = _rightNodeId}).Wait();
             _sut.Poller.Tick();
         }
@@ -107,7 +107,7 @@ namespace Graph.Tests
         public void ThenСоздаетсяУзлаСтолькоЖеОборудованияИОтрезка(int p0, int p1)
         {
             _sut.ShellVm.ReadModel.Nodes.Count.Should().Be(_nodesCountCutOff + p0);
-            _sut.ShellVm.ReadModel.Equipments.Count(e => e.Type == EquipmentType.Sleeve).Should().Be(_sleeveCountcutOff + p0);
+            _sut.ShellVm.ReadModel.Equipments.Count(e => e.Type == EquipmentType.Closure).Should().Be(_sleeveCountcutOff + p0);
             _sut.ShellVm.ReadModel.Fibers.Count.Should().Be(_fibersCountCutOff + p1);
         }
     }
