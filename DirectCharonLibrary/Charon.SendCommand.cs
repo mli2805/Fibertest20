@@ -3,7 +3,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 
-namespace DirectCharonLibrary
+namespace Iit.Fibertest.DirectCharonLibrary
 {
     public partial class Charon
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Iit.Fibertest.Utils35;
 
-namespace DirectCharonLibrary
+namespace Iit.Fibertest.DirectCharonLibrary
 {
     public partial class Charon
     {

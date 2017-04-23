@@ -1,5 +1,5 @@
 ﻿using System;
-using DirectCharonLibrary;
+using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Utils35;
 
 namespace ConsoleAppOtau

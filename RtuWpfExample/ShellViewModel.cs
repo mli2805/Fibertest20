@@ -1,7 +1,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using Caliburn.Micro;
-using DirectCharonLibrary;
+using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.RtuWpfExample;
 using Iit.Fibertest.Utils35;
