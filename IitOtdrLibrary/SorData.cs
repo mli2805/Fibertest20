@@ -2,7 +2,7 @@
 using Optixsoft.SorExaminer.OtdrDataFormat;
 using Optixsoft.SorExaminer.OtdrDataFormat.IO;
 
-namespace IitOtdrLibrary
+namespace Iit.Fibertest.IitOtdrLibrary
 {
     public static class SorData
     {

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.Utils35;
-using IitOtdrLibrary;
 
 namespace ConsoleAppOtdr
 {

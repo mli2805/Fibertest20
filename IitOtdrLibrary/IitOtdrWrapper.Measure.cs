@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace IitOtdrLibrary
+namespace Iit.Fibertest.IitOtdrLibrary
 {
     /// <summary>
     /// For usual measurement with parameters from file, c++ code will allocate memory and put there results.

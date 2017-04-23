@@ -2,8 +2,8 @@
 using System.Globalization;
 using System.Linq;
 using Caliburn.Micro;
+using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.StringResources;
-using IitOtdrLibrary;
 
 namespace Iit.Fibertest.RtuWpfExample
 {

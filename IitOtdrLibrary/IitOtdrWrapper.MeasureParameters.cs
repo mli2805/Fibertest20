@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Runtime.InteropServices;
 
-namespace IitOtdrLibrary
+namespace Iit.Fibertest.IitOtdrLibrary
 {
     public partial class IitOtdrWrapper
     {

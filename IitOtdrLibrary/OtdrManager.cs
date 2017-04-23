@@ -3,7 +3,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using Iit.Fibertest.Utils35;
 
-namespace IitOtdrLibrary
+namespace Iit.Fibertest.IitOtdrLibrary
 {
     public partial class OtdrManager
     {

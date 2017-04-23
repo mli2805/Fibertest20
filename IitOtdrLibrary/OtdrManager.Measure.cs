@@ -1,7 +1,7 @@
 ﻿using System;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 
-namespace IitOtdrLibrary
+namespace Iit.Fibertest.IitOtdrLibrary
 {
     public partial class OtdrManager
     {

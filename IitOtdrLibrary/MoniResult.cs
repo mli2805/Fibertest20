@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace IitOtdrLibrary
+namespace Iit.Fibertest.IitOtdrLibrary
 {
     public class MoniResult
     {
