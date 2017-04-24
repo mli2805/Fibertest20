@@ -21,7 +21,7 @@ namespace Iit.Fibertest.Client
                 Number = Number,
                 NodeTitle = NodeTitle,
                 EquipmentTitle = EquipmentTitle,
-                EquipmentType = EquipmentType.ToString(),
+                EquipmentType = EquipmentType.ToLocalizedString(),
                 Location = $@"{Location : 0.000}",
                 EventNumber = EventNumber == -1 ? Resources.SID_no : $@"{EventNumber}",
                 GpsCoors = GpsCoors.ToDetailedString(mode)

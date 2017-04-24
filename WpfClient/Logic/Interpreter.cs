@@ -90,6 +90,8 @@ namespace Iit.Fibertest.Client
                     return Resources.SID_Other;
                 case EquipmentType.CableReserve:
                     return Resources.SID_CableReserve;
+                case EquipmentType.Rtu:
+                    return Resources.SID_Rtu;
             }
             return Resources.SID_Switch_ended_unexpectedly;
         }

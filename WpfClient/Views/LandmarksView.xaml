@@ -4,35 +4,35 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
-        xmlns:StringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
+        xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
         Title="LandmarksView" SizeToContent="Width" Height="700" d:DataContext="{d:DesignInstance client:LandmarksViewModel}">
     <DockPanel>
         <StackPanel DockPanel.Dock="Bottom" Margin="5,10,5,20" HorizontalAlignment="Center"  Orientation="Horizontal">
-            <TextBlock Margin="5" Text="{x:Static StringResources:Resources.SID_Traces}"/>
+            <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_Traces}"/>
             <ComboBox Width="200"/>
         </StackPanel>
         <DockPanel DockPanel.Dock="Bottom" Margin="5" >
-            <GroupBox Header="{x:Static StringResources:Resources.SID_GPS_coordinates}" DockPanel.Dock="Left">
+            <GroupBox Header="{x:Static stringResources:Resources.SID_GPS_coordinates}" DockPanel.Dock="Left">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Margin="15,5,5,5" Text="{x:Static StringResources:Resources.SID_GPS_coordinates_format}"/>
+                    <TextBlock Margin="15,5,5,5" Text="{x:Static stringResources:Resources.SID_GPS_coordinates_format}"/>
                     <ComboBox Width="100" Margin="15,5,50,5"/>
                 </StackPanel>
             </GroupBox>
-            <GroupBox Header="{x:Static StringResources:Resources.SID_Filter}">
-                <CheckBox Margin="5" Content="{x:Static StringResources:Resources.SID_Nodes_with_equipment_only}"/>
+            <GroupBox Header="{x:Static stringResources:Resources.SID_Filter}">
+                <CheckBox Margin="5" Content="{x:Static stringResources:Resources.SID_Nodes_with_equipment_only}"/>
             </GroupBox>
         </DockPanel>
-        <GroupBox Header="{x:Static StringResources:Resources.SID_Landmarks}" Margin="5">
+        <GroupBox Header="{x:Static stringResources:Resources.SID_Landmarks}" Margin="5">
             <DataGrid Margin="5" ItemsSource="{Binding Rows}" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="No" Binding="{Binding Number}"/>
-                    <DataGridTextColumn Header="{x:Static StringResources:Resources.SID_Node}" Binding="{Binding NodeTitle}"/>
-                    <DataGridTextColumn Header="{x:Static StringResources:Resources.SID_Equipment}" Binding="{Binding EquipmentTitle}"/>
-                    <DataGridTextColumn Header="{x:Static StringResources:Resources.SID_Type}" Binding="{Binding EquipmentType}"/>
-                    <DataGridTextColumn Header="{x:Static StringResources:Resources.SID_Location}" Binding="{Binding Location}"/>
-                    <DataGridTextColumn Header="{x:Static StringResources:Resources.SID_Event}" Binding="{Binding EventNumber}"/>
-                    <DataGridTextColumn Header="{x:Static StringResources:Resources.SID_GPS_coordinates}" Binding="{Binding GpsCoors}"/>
+                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Node}" Binding="{Binding NodeTitle}"/>
+                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Equipment}" Binding="{Binding EquipmentTitle}"/>
+                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Type}" Binding="{Binding EquipmentType}"/>
+                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Location}" Binding="{Binding Location}"/>
+                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Event}" Binding="{Binding EventNumber}"/>
+                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_GPS_coordinates}" Binding="{Binding GpsCoors}"/>
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
