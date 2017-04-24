@@ -812,4 +812,28 @@
 	<data name="SID_Parameters" xml:space="preserve">
 		<value>Параметры</value>
 	</data>
+	<data name="SID_Landmarks_of_trace__0_" xml:space="preserve">
+		<value>Ориентиры трассы {0}</value>
+	</data>
+	<data name="SID_Equipment" xml:space="preserve">
+		<value>Оборудование</value>
+	</data>
+	<data name="SID_Location" xml:space="preserve">
+		<value>Расположение</value>
+	</data>
+	<data name="SID_Event" xml:space="preserve">
+		<value>Событие</value>
+	</data>
+	<data name="SID_GPS_coordinates" xml:space="preserve">
+		<value>GPS-координаты</value>
+	</data>
+	<data name="SID_GPS_coordinates_format" xml:space="preserve">
+		<value>Формат GPS-координат</value>
+	</data>
+	<data name="SID_Filter" xml:space="preserve">
+		<value>Фильтр</value>
+	</data>
+	<data name="SID_Nodes_with_equipment_only" xml:space="preserve">
+		<value>Только узлы с оборудованием</value>
+	</data>
 </root>

@@ -821,4 +821,28 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_Parameters" xml:space="preserve">
     <value>Parameters</value>
   </data>
+	<data name="SID_Landmarks_of_trace__0_" xml:space="preserve">
+    <value>Landmarks of trace {0}</value>
+  </data>
+	<data name="SID_Equipment" xml:space="preserve">
+    <value>Equipment</value>
+  </data>
+	<data name="SID_Location" xml:space="preserve">
+    <value>Location</value>
+  </data>
+	<data name="SID_Event" xml:space="preserve">
+    <value>Event</value>
+  </data>
+	<data name="SID_GPS_coordinates" xml:space="preserve">
+    <value>GPS-coordinates</value>
+  </data>
+	<data name="SID_GPS_coordinates_format" xml:space="preserve">
+    <value>GPS-coordinates format</value>
+  </data>
+	<data name="SID_Filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+	<data name="SID_Nodes_with_equipment_only" xml:space="preserve">
+    <value>Nodes with equipment only</value>
+  </data>
 </root>

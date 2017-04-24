@@ -691,6 +691,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Equipment.
+        /// </summary>
+        public static string SID_Equipment {
+            get {
+                return ResourceManager.GetString("SID_Equipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Equipment in node.
         /// </summary>
         public static string SID_Equipment_in_node {
@@ -732,6 +741,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Error {
             get {
                 return ResourceManager.GetString("SID_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Event.
+        /// </summary>
+        public static string SID_Event {
+            get {
+                return ResourceManager.GetString("SID_Event", resourceCulture);
             }
         }
         
@@ -808,11 +826,38 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Filter.
+        /// </summary>
+        public static string SID_Filter {
+            get {
+                return ResourceManager.GetString("SID_Filter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to GIS.
         /// </summary>
         public static string SID_Gis {
             get {
                 return ResourceManager.GetString("SID_Gis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to GPS-coordinates.
+        /// </summary>
+        public static string SID_GPS_coordinates {
+            get {
+                return ResourceManager.GetString("SID_GPS_coordinates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to GPS-coordinates format.
+        /// </summary>
+        public static string SID_GPS_coordinates_format {
+            get {
+                return ResourceManager.GetString("SID_GPS_coordinates_format", resourceCulture);
             }
         }
         
@@ -988,6 +1033,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Landmarks of trace {0}.
+        /// </summary>
+        public static string SID_Landmarks_of_trace__0_ {
+            get {
+                return ResourceManager.GetString("SID_Landmarks_of_trace__0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last node of trace must contain some equipment.
         /// </summary>
         public static string SID_Last_node_of_trace_must_contain_some_equipment {
@@ -1029,6 +1083,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_List_of_traces {
             get {
                 return ResourceManager.GetString("SID_List_of_traces", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location.
+        /// </summary>
+        public static string SID_Location {
+            get {
+                return ResourceManager.GetString("SID_Location", resourceCulture);
             }
         }
         
@@ -1218,6 +1281,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Nodes_with_equipment {
             get {
                 return ResourceManager.GetString("SID_Nodes_with_equipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nodes with equipment only.
+        /// </summary>
+        public static string SID_Nodes_with_equipment_only {
+            get {
+                return ResourceManager.GetString("SID_Nodes_with_equipment_only", resourceCulture);
             }
         }
         

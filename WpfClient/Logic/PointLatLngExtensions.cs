@@ -1,4 +1,5 @@
-﻿using GMap.NET;
+﻿using System;
+using GMap.NET;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
@@ -37,9 +38,28 @@ namespace Iit.Fibertest.Client
                 int miLng = (int)mLng;
                 double sLng = (mLng - miLng) * 60;
 
-                return $@"{dLat:#0}{degreeSign} {miLat:#0}{minuteSign} {sLat:#0.00}{secondSign}   {dLng:#0}{degreeSign} {miLng:#0}{minuteSign} {sLng:#0.00}{secondSign}";
+                return $@"{dLat:00}{degreeSign} {miLat:00}{minuteSign} {sLat:00.00}{secondSign}   {dLng:00}{degreeSign} {miLng:00}{minuteSign} {sLng:00.00}{secondSign}";
             }
             return "";
+        }
+
+        public static double GetDistanceKm(this PointLatLng a, PointLatLng b)
+        {
+            const double r = 6371;
+            var lat1 = DegreeToRadian(a.Lat);
+            var lat2 = DegreeToRadian(b.Lat);
+            var deltaLat = DegreeToRadian(b.Lat - a.Lat);
+            var deltaLng = DegreeToRadian(b.Lng - a.Lng);
+
+            var h = Math.Sin(deltaLat / 2) * Math.Sin(deltaLat / 2) +
+                    Math.Cos(lat1) * Math.Cos(lat2) * Math.Sin(deltaLng / 2) * Math.Sin(deltaLng / 2);
+            var c = 2 * Math.Atan2(Math.Sqrt(h), Math.Sqrt(1 - h));
+            return r * c;
+        }
+
+        private static double DegreeToRadian(double degrees)
+        {
+            return Math.PI * degrees / 180.0;
         }
 
 

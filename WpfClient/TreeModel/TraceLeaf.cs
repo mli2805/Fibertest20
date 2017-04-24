@@ -176,7 +176,13 @@ namespace Iit.Fibertest.Client
         private void TraceStateAction(object param) { }
         private void TraceStatisticsAction(object param) { }
         private void TraceEventsAction(object param) { }
-        private void TraceLandmarksAction(object param) { }
+
+        private void TraceLandmarksAction(object param)
+        {
+            var vm = new LandmarksViewModel(ReadModel);
+            vm.Initialize(Id);
+            WindowManager.ShowDialog(vm);
+        }
 
         public void DetachTraceAction(object param)
         {
