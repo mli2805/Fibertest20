@@ -156,6 +156,7 @@
     <Compile Include="ViewModels\Landmarks\LandmarksBaseParser.cs" />
     <Compile Include="ViewModels\Landmarks\LandmarksGraphParser.cs" />
     <Compile Include="ViewModels\Landmarks\LandmarksViewModel.cs" />
+    <Compile Include="ViewModels\Landmarks\LandmarkViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\ServerConnectViewModel.cs" />
     <Compile Include="ViewModels\Administrative\Licence.cs" />
@@ -179,6 +180,9 @@
     </Compile>
     <Compile Include="Views\LandmarksView.xaml.cs">
       <DependentUpon>LandmarksView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LandmarkView.xaml.cs">
+      <DependentUpon>LandmarkView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
@@ -367,6 +371,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LandmarksView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LandmarkView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

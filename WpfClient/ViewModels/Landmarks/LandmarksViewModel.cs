@@ -66,6 +66,7 @@ namespace Iit.Fibertest.Client
         }
 
         private readonly ReadModel _readModel;
+        private readonly IWindowManager _windowManager;
         private List<Landmark> _landmarks;
 
         private ObservableCollection<LandmarkRow> _rows;
@@ -80,9 +81,12 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public LandmarksViewModel(ReadModel readModel)
+        public LandmarkRow SelectedRow { get; set; }
+
+        public LandmarksViewModel(ReadModel readModel, IWindowManager windowManager)
         {
             _readModel = readModel;
+            _windowManager = windowManager;
             _selectedGpsInputMode = GpsInputModes.Last();
         }
 
@@ -105,6 +109,16 @@ namespace Iit.Fibertest.Client
             var bytes = File.ReadAllBytes(@"c:\temp\base.sor");
             // TODO get sordata from database
             return SorData.FromBytes(bytes);
+        }
+
+        public void ShowReflectogram() { }
+
+        public void ShowInformation()
+        {
+            var vm = new LandmarkViewModel();
+            var landmark = _landmarks.First(l => l.Number == SelectedRow.Number);
+            vm.Initialize(landmark);
+            _windowManager.ShowDialog(vm);
         }
     }
 }

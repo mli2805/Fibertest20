@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
+        xmlns:cal="http://www.caliburnproject.org"
         mc:Ignorable="d"
         Title="LandmarksView" SizeToContent="Width" Height="700" d:DataContext="{d:DesignInstance client:LandmarksViewModel}">
     <DockPanel>
@@ -30,7 +31,8 @@
             </GroupBox>
         </Grid>
         <GroupBox Header="{x:Static stringResources:Resources.SID_Landmarks}" Margin="5">
-            <DataGrid Margin="5" ItemsSource="{Binding Rows}" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+            <DataGrid Margin="5" ItemsSource="{Binding Rows}" SelectedItem="{Binding SelectedRow}"
+                      AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="No" Binding="{Binding Number}"/>
                     <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Node}" Binding="{Binding NodeTitle}"/>
@@ -40,6 +42,13 @@
                     <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Event}" Binding="{Binding EventNumber}"/>
                     <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_GPS_coordinates}" Binding="{Binding GpsCoors}"/>
                 </DataGrid.Columns>
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Reflectogram" cal:Message.Attach="ShowReflectogram"/>
+                        <Separator/>
+                        <MenuItem Header="Information" cal:Message.Attach="ShowInformation"/>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
             </DataGrid>
         </GroupBox>
     </DockPanel>

@@ -213,7 +213,7 @@ namespace Iit.Fibertest.Client
 
         private void RtuLandmarksAction(object param)
         {
-            var vm = new LandmarksViewModel(ReadModel);
+            var vm = new LandmarksViewModel(ReadModel, WindowManager);
             vm.Initialize(Id, true);
             WindowManager.ShowDialog(vm);
         }
