@@ -39,7 +39,7 @@ namespace Iit.Fibertest.Client
             {
                 if (Equals(value, _selectedTrace)) return;
                 _selectedTrace = value;
-                _landmarks = (SelectedTrace.PreciseId != Guid.Empty) ? // just for test, don't forget to change back
+                _landmarks = (SelectedTrace.PreciseId == Guid.Empty) ?
                     new LandmarksGraphParser(_readModel).GetLandmarks(SelectedTrace) :
                     new LandmarksBaseParser().GetLandmarks(GetBase(SelectedTrace.PreciseId));
                 Rows = LandmarksToRows();
@@ -86,7 +86,7 @@ namespace Iit.Fibertest.Client
             _selectedGpsInputMode = GpsInputModes.Last();
         }
 
-        public void Initialize(Guid id, bool isUserClickedOnRtu = false)
+        public void Initialize(Guid id, bool isUserClickedOnRtu)
         {
             if (isUserClickedOnRtu)
             {

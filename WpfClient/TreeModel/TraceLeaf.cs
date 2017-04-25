@@ -180,7 +180,7 @@ namespace Iit.Fibertest.Client
         private void TraceLandmarksAction(object param)
         {
             var vm = new LandmarksViewModel(ReadModel);
-            vm.Initialize(Id);
+            vm.Initialize(Id, false);
             WindowManager.ShowDialog(vm);
         }
 
