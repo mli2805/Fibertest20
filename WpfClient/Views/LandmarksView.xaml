@@ -7,7 +7,8 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:cal="http://www.caliburnproject.org"
         mc:Ignorable="d"
-        Title="LandmarksView" SizeToContent="Width" Height="710" d:DataContext="{d:DesignInstance client:LandmarksViewModel}">
+        Title="LandmarksView" SizeToContent="Width" Height="708"
+        d:DataContext="{d:DesignInstance client:LandmarksViewModel}">
     <DockPanel>
         <StackPanel DockPanel.Dock="Bottom" Margin="5,10,5,20" HorizontalAlignment="Center"  Orientation="Horizontal">
             <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_Traces}"/>

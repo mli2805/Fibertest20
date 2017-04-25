@@ -714,7 +714,7 @@ If chosen trace use some equipment in this node it will be replaced</value>
     <value>pass</value>
   </data>
 	<data name="SID_Event_N_0_" xml:space="preserve">
-    <value>Event N{0}</value>
+    <value>Event # {0}</value>
   </data>
 	<data name="SID________Common_Information" xml:space="preserve">
     <value>       Common Information</value>
@@ -851,16 +851,16 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_Landmark" xml:space="preserve">
     <value>Landmark</value>
   </data>
-	<data name="SID_Landmark_N" xml:space="preserve">
-    <value>Landmark #</value>
-  </data>
-	<data name="SID_Event_N" xml:space="preserve">
-    <value>Event #</value>
-  </data>
 	<data name="SID_Reflectogram" xml:space="preserve">
     <value>Reflectogram</value>
   </data>
 	<data name="SID_Show" xml:space="preserve">
     <value>Show</value>
+  </data>
+	<data name="SID__0__0_00000__km" xml:space="preserve">
+    <value>{0: 0.00000} km</value>
+  </data>
+	<data name="SID_Landmark___0_" xml:space="preserve">
+    <value>Landmark # {0}</value>
   </data>
 </root>

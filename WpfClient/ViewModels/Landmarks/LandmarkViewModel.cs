@@ -15,7 +15,7 @@ namespace Iit.Fibertest.Client
         public string RtuTitle { get; set; }
         public string TraceTitle { get; set; }
         public string Location { get; set; }
-        public int LandmarkNumber { get; set; }
+        public string LandmarkNumber { get; set; }
         public string EventNumber { get; set; }
 
         public LandmarkViewModel(ReadModel readModel)
@@ -28,6 +28,11 @@ namespace Iit.Fibertest.Client
             DisplayName = string.Format(Resources.SID_Landmark___0__, landmark.EquipmentTitle);
             NodeTitle = landmark.NodeTitle;
             EquipmentTitle = landmark.EquipmentTitle;
+            Location = string.Format(Resources.SID__0__0_00000__km, landmark.Location);
+            LandmarkNumber = string.Format(Resources.SID_Landmark___0_,landmark.Number);
+            EventNumber = landmark.EventNumber == 0 ? 
+                string.Format(Resources.SID_Event_N_0_, Resources.SID_no) :
+                string.Format(Resources.SID_Event_N_0_, landmark.EventNumber);
 
             GpsInputViewModel = new GpsInputViewModel(GpsInputMode.DegreesMinutesAndSeconds, landmark.GpsCoors);
         }

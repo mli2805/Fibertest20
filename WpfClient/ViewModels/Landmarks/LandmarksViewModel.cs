@@ -118,6 +118,8 @@ namespace Iit.Fibertest.Client
             var vm = new LandmarkViewModel(_readModel);
             var landmark = _landmarks.First(l => l.Number == SelectedRow.Number);
             vm.Initialize(landmark);
+            vm.RtuTitle = _readModel.Rtus.First(r => r.Id == _selectedTrace.RtuId).Title;
+            vm.TraceTitle = _selectedTrace.Title;
             _windowManager.ShowDialog(vm);
         }
     }

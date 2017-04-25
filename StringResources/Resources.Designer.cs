@@ -97,6 +97,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0: 0.00000} km.
+        /// </summary>
+        public static string SID__0__0_00000__km {
+            get {
+                return ResourceManager.GetString("SID__0__0_00000__km", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to (abs.).
         /// </summary>
         public static string SID__abs__ {
@@ -754,15 +763,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Event #.
-        /// </summary>
-        public static string SID_Event_N {
-            get {
-                return ResourceManager.GetString("SID_Event_N", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Event N{0}.
         /// </summary>
         public static string SID_Event_N_0_ {
@@ -1024,20 +1024,20 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Landmark #{0}.
+        /// </summary>
+        public static string SID_Landmark___0_ {
+            get {
+                return ResourceManager.GetString("SID_Landmark___0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Landmark &quot;{0}&quot;.
         /// </summary>
         public static string SID_Landmark___0__ {
             get {
                 return ResourceManager.GetString("SID_Landmark___0__", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Landmark #.
-        /// </summary>
-        public static string SID_Landmark_N {
-            get {
-                return ResourceManager.GetString("SID_Landmark_N", resourceCulture);
             }
         }
         

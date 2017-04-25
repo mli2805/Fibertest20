@@ -38,15 +38,13 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="{x:Static stringResources:Resources.SID_Location}" TextAlignment="Right" Width="80" Margin="5"/>
-                    <TextBlock Text="{Binding Location}" Width="80" Margin="5"/>
-                    <TextBlock Text="{x:Static stringResources:Resources.SID_Landmark_N}" TextAlignment="Right" Width="80" Margin="5"/>
-                    <TextBlock Text="{Binding LandmarkNumber}" Width="80" Margin="5"/>
-                    <TextBlock Text="{x:Static stringResources:Resources.SID_Event_N}" TextAlignment="Right" Width="60" Margin="5"/>
-                    <TextBlock Text="{Binding EventNumber}" Width="70" Margin="5"/>
+                    <TextBlock Text="{Binding Location}" Width="150" Margin="5"/>
+                    <TextBlock Text="{Binding LandmarkNumber}" Width="120" Margin="5"/>
+                    <TextBlock Text="{Binding EventNumber}" Width="150" Margin="5"/>
                 </StackPanel>
             </StackPanel>
         </GroupBox>
-        <DockPanel Margin="5,10,5,10">
+        <DockPanel Margin="5,10,5,10" Height="32">
             <Button Content="{x:Static stringResources:Resources.SID_Ok}"           Width="100" Margin="20,5,5,5" DockPanel.Dock="Left"/>
             <Button Content="{x:Static stringResources:Resources.SID_Cancel}"       Width="100" Margin="5,5,5,5"  DockPanel.Dock="Left"/>
             <Button Content="{x:Static stringResources:Resources.SID_Reflectogram}" Width="100" Margin="5,5,20,5" DockPanel.Dock="Right"/>
