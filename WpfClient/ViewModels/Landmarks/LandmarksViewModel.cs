@@ -25,7 +25,25 @@ namespace Iit.Fibertest.Client
             {
                 if (Equals(value, _selectedGpsInputMode)) return;
                 _selectedGpsInputMode = value;
-               Rows = new ObservableCollection<LandmarkRow>(_landmarks.Select(l => l.ToRow(_selectedGpsInputMode.Mode)));
+               Rows = LandmarksToRows();
+            }
+        }
+
+        private ObservableCollection<LandmarkRow> LandmarksToRows()
+        {
+            var temp = _isFilterOn ? _landmarks.Where(l => l.EquipmentType != EquipmentType.Well) : _landmarks;
+            return new ObservableCollection<LandmarkRow>(temp.Select(l => l.ToRow(_selectedGpsInputMode.Mode)));
+        }
+
+        private bool _isFilterOn;
+        public bool IsFilterOn
+        {
+            get { return _isFilterOn; }
+            set
+            {
+                if (value == _isFilterOn) return;
+                _isFilterOn = value;
+                Rows = LandmarksToRows();
             }
         }
 
@@ -33,6 +51,7 @@ namespace Iit.Fibertest.Client
         private Trace _trace;
         private List<Landmark> _landmarks;
         private ObservableCollection<LandmarkRow> _rows;
+
         public ObservableCollection<LandmarkRow> Rows
         {
             get { return _rows; }
