@@ -10,21 +10,25 @@
     <DockPanel>
         <StackPanel DockPanel.Dock="Bottom" Margin="5,10,5,20" HorizontalAlignment="Center"  Orientation="Horizontal">
             <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_Traces}"/>
-            <ComboBox Width="300"/>
+            <ComboBox ItemsSource="{Binding Traces}" SelectedItem="{Binding SelectedTrace}" Width="300"/>
         </StackPanel>
-        <DockPanel DockPanel.Dock="Bottom" Margin="5" >
-            <GroupBox Header="{x:Static stringResources:Resources.SID_GPS_coordinates}" DockPanel.Dock="Left">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Margin="15,5,5,5" Text="{x:Static stringResources:Resources.SID_GPS_coordinates_format}"/>
+        <Grid DockPanel.Dock="Bottom" Margin="5" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="7*"/>
+                <ColumnDefinition Width="5*"/>
+            </Grid.ColumnDefinitions>
+            <GroupBox Header="{x:Static stringResources:Resources.SID_GPS_coordinates}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Margin="5,7,5,3" Text="{x:Static stringResources:Resources.SID_GPS_coordinates_format}"/>
                     <ComboBox ItemsSource="{Binding GpsInputModes}" SelectedItem="{Binding SelectedGpsInputMode}" 
-                              Width="150" Margin="15,5,50,5"/>
+                              Width="150" Margin="5,5,5,5"/>
                 </StackPanel>
             </GroupBox>
-            <GroupBox Header="{x:Static stringResources:Resources.SID_Filter}">
-                <CheckBox Margin="5" IsChecked="{Binding IsFilterOn, Mode=TwoWay}"
+            <GroupBox Grid.Column="1" Header="{x:Static stringResources:Resources.SID_Filter}">
+                <CheckBox Margin="5,7,5,3" IsChecked="{Binding IsFilterOn, Mode=TwoWay}" HorizontalAlignment="Center"
                           Content="{x:Static stringResources:Resources.SID_Nodes_with_equipment_only}"/>
             </GroupBox>
-        </DockPanel>
+        </Grid>
         <GroupBox Header="{x:Static stringResources:Resources.SID_Landmarks}" Margin="5">
             <DataGrid Margin="5" ItemsSource="{Binding Rows}" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
                 <DataGrid.Columns>

@@ -29,6 +29,24 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        public List<Trace> Traces { get; set; }
+
+        private Trace _selectedTrace;
+        public Trace SelectedTrace
+        {
+            get { return _selectedTrace; }
+            set
+            {
+                if (Equals(value, _selectedTrace)) return;
+                _selectedTrace = value;
+                _landmarks = (SelectedTrace.PreciseId == Guid.Empty) ?
+                    new LandmarksGraphParser(_readModel).GetLandmarks(SelectedTrace) :
+                    new LandmarksBaseParser().GetLandmarks(GetBase(SelectedTrace.PreciseId));
+                Rows = LandmarksToRows();
+                DisplayName = string.Format(Resources.SID_Landmarks_of_trace__0_, SelectedTrace.Title);
+            }
+        }
+
         private ObservableCollection<LandmarkRow> LandmarksToRows()
         {
             var temp = _isFilterOn ? _landmarks.Where(l => l.EquipmentType != EquipmentType.Well) : _landmarks;
@@ -48,10 +66,9 @@ namespace Iit.Fibertest.Client
         }
 
         private readonly ReadModel _readModel;
-        private Trace _trace;
         private List<Landmark> _landmarks;
-        private ObservableCollection<LandmarkRow> _rows;
 
+        private ObservableCollection<LandmarkRow> _rows;
         public ObservableCollection<LandmarkRow> Rows
         {
             get { return _rows; }
@@ -66,20 +83,21 @@ namespace Iit.Fibertest.Client
         public LandmarksViewModel(ReadModel readModel)
         {
             _readModel = readModel;
+            _selectedGpsInputMode = GpsInputModes.Last();
         }
 
-        protected override void OnViewLoaded(object view)
+        public void Initialize(Guid id, bool isUserClickedOnRtu = false)
         {
-            DisplayName = string.Format(Resources.SID_Landmarks_of_trace__0_, _trace.Title);
-        }
-
-        public void Initialize(Guid traceId)
-        {
-            _trace = _readModel.Traces.First(t => t.Id == traceId);
-            _landmarks = (_trace.PreciseId == Guid.Empty) ?
-                new LandmarksGraphParser(_readModel).GetLandmarks(_trace) :
-                new LandmarksBaseParser().GetLandmarks(GetBase(_trace.PreciseId));
-            SelectedGpsInputMode = GpsInputModes.Last();
+            if (isUserClickedOnRtu)
+            {
+                Traces = _readModel.Traces.Where(t => t.RtuId == id).ToList();
+                SelectedTrace = Traces.First();
+            }
+            else
+            {
+                SelectedTrace = _readModel.Traces.First(t => t.Id == id);
+                Traces = _readModel.Traces.Where(t => t.RtuId == SelectedTrace.RtuId).ToList();
+            }
         }
 
         private OtdrDataKnownBlocks GetBase(Guid baseId)
