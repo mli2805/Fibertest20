@@ -7,7 +7,7 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:cal="http://www.caliburnproject.org"
         mc:Ignorable="d"
-        Title="LandmarksView" SizeToContent="Width" Height="700" d:DataContext="{d:DesignInstance client:LandmarksViewModel}">
+        Title="LandmarksView" SizeToContent="Width" Height="710" d:DataContext="{d:DesignInstance client:LandmarksViewModel}">
     <DockPanel>
         <StackPanel DockPanel.Dock="Bottom" Margin="5,10,5,20" HorizontalAlignment="Center"  Orientation="Horizontal">
             <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_Traces}"/>
@@ -44,9 +44,9 @@
                 </DataGrid.Columns>
                 <DataGrid.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Reflectogram" cal:Message.Attach="ShowReflectogram"/>
+                        <MenuItem Header="{x:Static stringResources:Resources.SID_Reflectogram}" cal:Message.Attach="ShowReflectogram"/>
                         <Separator/>
-                        <MenuItem Header="Information" cal:Message.Attach="ShowInformation"/>
+                        <MenuItem Header="{x:Static stringResources:Resources.SID_Information}" cal:Message.Attach="ShowInformation"/>
                     </ContextMenu>
                 </DataGrid.ContextMenu>
             </DataGrid>

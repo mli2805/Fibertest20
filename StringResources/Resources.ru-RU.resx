@@ -836,4 +836,22 @@
 	<data name="SID_Nodes_with_equipment_only" xml:space="preserve">
 		<value>Только узлы с оборудованием</value>
 	</data>
+	<data name="SID_Landmark___0__" xml:space="preserve">
+		<value>Ориентир "{0}"</value>
+	</data>
+	<data name="SID_Landmark" xml:space="preserve">
+		<value>Ориентир</value>
+	</data>
+	<data name="SID_Landmark_N" xml:space="preserve">
+		<value>Ориентир №</value>
+	</data>
+	<data name="SID_Event_N" xml:space="preserve">
+		<value>Событие №</value>
+	</data>
+	<data name="SID_Reflectogram" xml:space="preserve">
+		<value>Рефлектограмма</value>
+	</data>
+	<data name="SID_Show" xml:space="preserve">
+		<value>Показать</value>
+	</data>
 </root>

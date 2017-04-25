@@ -115,7 +115,7 @@ namespace Iit.Fibertest.Client
 
         public void ShowInformation()
         {
-            var vm = new LandmarkViewModel();
+            var vm = new LandmarkViewModel(_readModel);
             var landmark = _landmarks.First(l => l.Number == SelectedRow.Number);
             vm.Initialize(landmark);
             _windowManager.ShowDialog(vm);

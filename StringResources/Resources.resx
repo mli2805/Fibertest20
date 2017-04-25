@@ -845,4 +845,22 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_Nodes_with_equipment_only" xml:space="preserve">
     <value>Nodes with equipment only</value>
   </data>
+	<data name="SID_Landmark___0__" xml:space="preserve">
+    <value>Landmark "{0}"</value>
+  </data>
+	<data name="SID_Landmark" xml:space="preserve">
+    <value>Landmark</value>
+  </data>
+	<data name="SID_Landmark_N" xml:space="preserve">
+    <value>Landmark #</value>
+  </data>
+	<data name="SID_Event_N" xml:space="preserve">
+    <value>Event #</value>
+  </data>
+	<data name="SID_Reflectogram" xml:space="preserve">
+    <value>Reflectogram</value>
+  </data>
+	<data name="SID_Show" xml:space="preserve">
+    <value>Show</value>
+  </data>
 </root>

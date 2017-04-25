@@ -754,6 +754,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Event #.
+        /// </summary>
+        public static string SID_Event_N {
+            get {
+                return ResourceManager.GetString("SID_Event_N", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Event N{0}.
         /// </summary>
         public static string SID_Event_N_0_ {
@@ -1002,6 +1011,33 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_It_s_prohibited_to_remove_last_node_from_trace {
             get {
                 return ResourceManager.GetString("SID_It_s_prohibited_to_remove_last_node_from_trace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Landmark.
+        /// </summary>
+        public static string SID_Landmark {
+            get {
+                return ResourceManager.GetString("SID_Landmark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Landmark &quot;{0}&quot;.
+        /// </summary>
+        public static string SID_Landmark___0__ {
+            get {
+                return ResourceManager.GetString("SID_Landmark___0__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Landmark #.
+        /// </summary>
+        public static string SID_Landmark_N {
+            get {
+                return ResourceManager.GetString("SID_Landmark_N", resourceCulture);
             }
         }
         
@@ -1582,6 +1618,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reflectogram.
+        /// </summary>
+        public static string SID_Reflectogram {
+            get {
+                return ResourceManager.GetString("SID_Reflectogram", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reflectogram files (*.sor)|*.sor.
         /// </summary>
         public static string SID_Reflectogram_files {
@@ -1867,6 +1912,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Settings {
             get {
                 return ResourceManager.GetString("SID_Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show.
+        /// </summary>
+        public static string SID_Show {
+            get {
+                return ResourceManager.GetString("SID_Show", resourceCulture);
             }
         }
         
