@@ -1,13 +1,13 @@
-﻿<Window x:Class="Iit.Fibertest.RtuWpfExample.RftsEventsView"
+﻿<Window x:Class="Iit.Fibertest.WpfForms.RftsEventsView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
-        xmlns:rtuWpfExample="clr-namespace:Iit.Fibertest.RtuWpfExample"
+        xmlns:wpfForms="clr-namespace:Iit.Fibertest.WpfForms"
         mc:Ignorable="d"
         Width="700" WindowStartupLocation="CenterOwner" SizeToContent="Height" ResizeMode="NoResize"
-        d:DataContext="{d:DesignInstance rtuWpfExample:RftsEventsViewModel}">
+        d:DataContext="{d:DesignInstance client:RftsEventsViewModel}">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
     </Window.Resources>
@@ -17,27 +17,27 @@
                 <TabItem.Header>
                     <TextBlock Text="{x:Static stringResources:Resources.SID_Minor}" Width="120"/>
                 </TabItem.Header>
-                <rtuWpfExample:RftsEventsOneLevelView DataContext="{Binding LevelsContent.MinorLevelViewModel}"/>
+                <wpfForms:RftsEventsOneLevelView DataContext="{Binding LevelsContent.MinorLevelViewModel}"/>
             </TabItem>
             <TabItem Name="Major" Visibility="{Binding LevelsContent.IsMajorExists, Converter={StaticResource BoolToVis}}">
                 <TabItem.Header>
                     <TextBlock Text="{x:Static stringResources:Resources.SID_Major}" Width="120"/>
                 </TabItem.Header>
-                <rtuWpfExample:RftsEventsOneLevelView DataContext="{Binding LevelsContent.MajorLevelViewModel}"/>
+                <wpfForms:RftsEventsOneLevelView DataContext="{Binding LevelsContent.MajorLevelViewModel}"/>
             </TabItem>
             <TabItem Name="Critical" Visibility="{Binding LevelsContent.IsCriticalExists, Converter={StaticResource BoolToVis}}">
                 <TabItem.Header>
                     <TextBlock Text="{x:Static stringResources:Resources.SID_Critical}" Width="120"/>
                 </TabItem.Header>
-                <rtuWpfExample:RftsEventsOneLevelView DataContext="{Binding LevelsContent.CriticalLevelViewModel}"/>
+                <wpfForms:RftsEventsOneLevelView DataContext="{Binding LevelsContent.CriticalLevelViewModel}"/>
             </TabItem>
             <TabItem Name="Users" Visibility="{Binding LevelsContent.IsUsersExists, Converter={StaticResource BoolToVis}}">
                 <TabItem.Header>
                     <TextBlock Text="{x:Static stringResources:Resources.SID_User_s}" Width="120"/>
                 </TabItem.Header>
-                <rtuWpfExample:RftsEventsOneLevelView DataContext="{Binding LevelsContent.UsersLevelViewModel}"/>
+                <wpfForms:RftsEventsOneLevelView DataContext="{Binding LevelsContent.UsersLevelViewModel}"/>
             </TabItem>
         </TabControl>
-        <rtuWpfExample:RftsEventsFooterView DataContext="{Binding FooterViewModel}"/>
+        <wpfForms:RftsEventsFooterView DataContext="{Binding FooterViewModel}"/>
     </StackPanel>
 </Window>

@@ -30,7 +30,7 @@ namespace Iit.Fibertest.Client
             {
                 Number = number,
                 NodeTitle = node.Title,
-                EventNumber = -1,
+                EventNumber = 0,
                 GpsCoors = new PointLatLng(node.Latitude, node.Longitude)
             };
 
@@ -49,7 +49,7 @@ namespace Iit.Fibertest.Client
                     result.EquipmentType = equipment.Type;
                 }
                 else result.EquipmentType = EquipmentType.Well;
-            };
+            }
             return result;
         }
 

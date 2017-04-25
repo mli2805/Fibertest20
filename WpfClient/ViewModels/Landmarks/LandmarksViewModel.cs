@@ -39,7 +39,7 @@ namespace Iit.Fibertest.Client
             {
                 if (Equals(value, _selectedTrace)) return;
                 _selectedTrace = value;
-                _landmarks = (SelectedTrace.PreciseId == Guid.Empty) ?
+                _landmarks = (SelectedTrace.PreciseId != Guid.Empty) ? // just for test, don't forget to change back
                     new LandmarksGraphParser(_readModel).GetLandmarks(SelectedTrace) :
                     new LandmarksBaseParser().GetLandmarks(GetBase(SelectedTrace.PreciseId));
                 Rows = LandmarksToRows();

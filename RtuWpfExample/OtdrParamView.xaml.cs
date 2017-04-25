@@ -17,10 +17,10 @@ namespace Iit.Fibertest.RtuWpfExample
         private void RadioButtonOnChecked(object sender, RoutedEventArgs e)
         {
             RadioButton rb = (RadioButton)sender;
-            RbCount.Foreground  = rb.Name == "RbCount" ? Brushes.Black : Brushes.DarkGray;
-            CbCounts.Foreground = rb.Name == "RbCount" ? Brushes.Black : Brushes.DarkGray;
-            RbTime.Foreground   = rb.Name == "RbCount" ? Brushes.DarkGray : Brushes.Black;
-            CbTimes.Foreground  = rb.Name == "RbCount" ? Brushes.DarkGray : Brushes.Black;
+            RbCount.Foreground  = rb.Name == @"RbCount" ? Brushes.Black : Brushes.DarkGray;
+            CbCounts.Foreground = rb.Name == @"RbCount" ? Brushes.Black : Brushes.DarkGray;
+            RbTime.Foreground   = rb.Name == @"RbCount" ? Brushes.DarkGray : Brushes.Black;
+            CbTimes.Foreground  = rb.Name == @"RbCount" ? Brushes.DarkGray : Brushes.Black;
         }
     }
 }

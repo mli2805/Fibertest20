@@ -32,5 +32,17 @@ namespace Iit.Fibertest.IitOtdrLibrary
                 sorData.Save(fs);
             }
         }
+
+        private const double LightSpeed = 0.000299792458; // km/ns
+        public static double OwtToLenKm(this OtdrDataKnownBlocks sorData, double owt)
+        {
+            var owt1 = owt - sorData.GeneralParameters.UserOffset;
+            return owt1 * GetOwtToKmCoeff(sorData);
+        }
+
+        public static double GetOwtToKmCoeff(this OtdrDataKnownBlocks sorData)
+        {
+            return LightSpeed / sorData.FixedParameters.RefractionIndex / 10;
+        }
     }
 }

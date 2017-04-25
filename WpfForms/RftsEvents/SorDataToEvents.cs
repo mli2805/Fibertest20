@@ -1,15 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using Iit.Fibertest.IitOtdrLibrary;
-using Iit.Fibertest.StringResources;
-using Optixsoft.SharedCommons.SorSerialization;
-using Optixsoft.SorExaminer.OtdrDataFormat;
-using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
 using BinaryReader = Optixsoft.SharedCommons.SorSerialization.BinaryReader;
 
-namespace Iit.Fibertest.RtuWpfExample
+namespace Iit.Fibertest.WpfForms
 {
     public class SorDataToEvents
     {

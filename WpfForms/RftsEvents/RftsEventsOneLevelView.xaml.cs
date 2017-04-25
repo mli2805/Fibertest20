@@ -1,9 +1,6 @@
 ﻿using System.Data;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
 
-namespace Iit.Fibertest.RtuWpfExample
+namespace Iit.Fibertest.WpfForms
 {
     /// <summary>
     /// Interaction logic for RftsEventsOneLevelView.xaml
