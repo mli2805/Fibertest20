@@ -3,9 +3,26 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:client="clr-namespace:Iit.Fibertest.Client"
         mc:Ignorable="d"
-        Title="LandmarkView" Height="300" Width="300">
-    <Grid>
-        
-    </Grid>
+        Height="600" Width="550" d:DataContext="{d:DesignInstance client:LandmarkViewModel}">
+    <StackPanel>
+        <DockPanel>
+            <GroupBox Header="Gps coordinates" DockPanel.Dock="Right" Margin="5">
+                <client:GpsInputView DataContext="{Binding GpsInputViewModel}" Width="280"/>
+            </GroupBox>
+            <GroupBox Header="Node" Margin="5" DockPanel.Dock="Top">
+                <StackPanel>
+                    <TextBox Margin="5" Text="{Binding NodeTitle}"/>
+                    <TextBox Margin="5"/>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header="Equipment" Margin="5">
+                <StackPanel>
+                    <TextBox Margin="5" Text="{Binding EquipmentTitle}"/>
+                    <ComboBox Margin="5"/>
+                </StackPanel>
+            </GroupBox>
+        </DockPanel>
+    </StackPanel>
 </Window>
