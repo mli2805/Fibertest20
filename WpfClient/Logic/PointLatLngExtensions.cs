@@ -14,7 +14,7 @@ namespace Iit.Fibertest.Client
             string secondSign = Resources.SID_Second_sign;
             if (mode == GpsInputMode.Degrees)
             {
-                return $@"{pointLatLng.Lat:#0.000000}{degreeSign} {pointLatLng.Lng:#0.000000}{degreeSign}";
+                return $@"{pointLatLng.Lat:00.000000}{degreeSign}   {pointLatLng.Lng:00.000000}{degreeSign}";
             }
             if (mode == GpsInputMode.DegreesAndMinutes)
             {
@@ -24,7 +24,7 @@ namespace Iit.Fibertest.Client
                 int dLng = (int)pointLatLng.Lng;
                 double mLng = (pointLatLng.Lng - dLng) * 60;
 
-                return $@"{dLat:#0}{degreeSign} {mLat:#0.0000}{minuteSign}  {dLng:#0}{degreeSign} {mLng:#0.0000}{minuteSign}";
+                return $@"{dLat:00}{degreeSign} {mLat:00.0000}{minuteSign}    {dLng:00}{degreeSign} {mLng:00.0000}{minuteSign}";
             }
             if (mode == GpsInputMode.DegreesMinutesAndSeconds)
             {
@@ -38,7 +38,7 @@ namespace Iit.Fibertest.Client
                 int miLng = (int)mLng;
                 double sLng = (mLng - miLng) * 60;
 
-                return $@"{dLat:00}{degreeSign} {miLat:00}{minuteSign} {sLat:00.00}{secondSign}   {dLng:00}{degreeSign} {miLng:00}{minuteSign} {sLng:00.00}{secondSign}";
+                return $@"{dLat:00}{degreeSign} {miLat:00}{minuteSign} {sLat:00.00}{secondSign}     {dLng:00}{degreeSign} {miLng:00}{minuteSign} {sLng:00.00}{secondSign}";
             }
             return "";
         }

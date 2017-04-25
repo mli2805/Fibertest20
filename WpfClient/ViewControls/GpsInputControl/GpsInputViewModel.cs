@@ -9,7 +9,6 @@ namespace Iit.Fibertest.Client
 {
     public class GpsInputViewModel : PropertyChangedBase
     {
-        private GpsInputModeComboItem _selectedGpsInputMode;
 
         public OneCoorViewModel OneCoorViewModelLatitude { get; set; }
         public OneCoorViewModel OneCoorViewModelLongitude { get; set; }
@@ -20,6 +19,7 @@ namespace Iit.Fibertest.Client
         (from mode in Enum.GetValues(typeof(GpsInputMode)).OfType<GpsInputMode>()
             select new GpsInputModeComboItem(mode)).ToList();
 
+        private GpsInputModeComboItem _selectedGpsInputMode;
         public GpsInputModeComboItem SelectedGpsInputMode
         {
             get { return _selectedGpsInputMode; }

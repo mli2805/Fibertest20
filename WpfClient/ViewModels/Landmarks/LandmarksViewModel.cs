@@ -13,9 +13,36 @@ namespace Iit.Fibertest.Client
 {
     public class LandmarksViewModel : Screen
     {
+        public List<GpsInputModeComboItem> GpsInputModes { get; set; } =
+            (from mode in Enum.GetValues(typeof(GpsInputMode)).OfType<GpsInputMode>()
+             select new GpsInputModeComboItem(mode)).ToList();
+
+        private GpsInputModeComboItem _selectedGpsInputMode;
+        public GpsInputModeComboItem SelectedGpsInputMode
+        {
+            get { return _selectedGpsInputMode; }
+            set
+            {
+                if (Equals(value, _selectedGpsInputMode)) return;
+                _selectedGpsInputMode = value;
+               Rows = new ObservableCollection<LandmarkRow>(_landmarks.Select(l => l.ToRow(_selectedGpsInputMode.Mode)));
+            }
+        }
+
         private readonly ReadModel _readModel;
         private Trace _trace;
-        public ObservableCollection<LandmarkRow> Rows { get; set; }
+        private List<Landmark> _landmarks;
+        private ObservableCollection<LandmarkRow> _rows;
+        public ObservableCollection<LandmarkRow> Rows
+        {
+            get { return _rows; }
+            set
+            {
+                if (Equals(value, _rows)) return;
+                _rows = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         public LandmarksViewModel(ReadModel readModel)
         {
@@ -30,10 +57,10 @@ namespace Iit.Fibertest.Client
         public void Initialize(Guid traceId)
         {
             _trace = _readModel.Traces.First(t => t.Id == traceId);
-            var landmarks = (_trace.PreciseId == Guid.Empty) ?
+            _landmarks = (_trace.PreciseId == Guid.Empty) ?
                 new LandmarksGraphParser(_readModel).GetLandmarks(_trace) :
                 new LandmarksBaseParser().GetLandmarks(GetBase(_trace.PreciseId));
-            Rows = GetRowsFromLandmarks(landmarks);
+            SelectedGpsInputMode = GpsInputModes.Last();
         }
 
         private OtdrDataKnownBlocks GetBase(Guid baseId)
@@ -41,12 +68,6 @@ namespace Iit.Fibertest.Client
             var bytes = File.ReadAllBytes(@"c:\temp\base.sor");
             // TODO get sordata from database
             return SorData.FromBytes(bytes);
-        }
-
-
-        private ObservableCollection<LandmarkRow> GetRowsFromLandmarks(List<Landmark> landmarks)
-        {
-            return new ObservableCollection<LandmarkRow>(landmarks.Select(l => l.ToRow(GpsInputMode.DegreesMinutesAndSeconds)));
         }
     }
 }
