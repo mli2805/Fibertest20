@@ -10,7 +10,7 @@
     <DockPanel>
         <StackPanel DockPanel.Dock="Bottom" Margin="5,10,5,20" HorizontalAlignment="Center"  Orientation="Horizontal">
             <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_Traces}"/>
-            <ComboBox ItemsSource="{Binding Traces}" SelectedItem="{Binding SelectedTrace}" Width="300"/>
+            <ComboBox ItemsSource="{Binding Traces}" SelectedItem="{Binding SelectedTrace}" Width="300" Margin="5"/>
         </StackPanel>
         <Grid DockPanel.Dock="Bottom" Margin="5" >
             <Grid.ColumnDefinitions>

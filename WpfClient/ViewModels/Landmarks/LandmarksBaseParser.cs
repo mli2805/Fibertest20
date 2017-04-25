@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using GMap.NET;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.IitOtdrLibrary;
@@ -24,11 +25,26 @@ namespace Iit.Fibertest.Client
                     EquipmentType = ToEquipmentType(sorLandmark.Code),
                     EventNumber = sorLandmark.RelatedEventNumber,
                     Location = sorData.OwtToLenKm(sorLandmark.Location),
-                    GpsCoors = new PointLatLng(sorLandmark.GpsLatitude, sorLandmark.GpsLongitude)
+                    GpsCoors = GetPointLatLng(sorLandmark),
                 };
                 result.Add(landmark);
             }
             return result;
+        }
+
+        private PointLatLng GetPointLatLng(Optixsoft.SorExaminer.OtdrDataFormat.Structures.Landmark landmark)
+        {
+            var lat = SorIntCoorToDoubleInDegrees(landmark.GpsLatitude);
+            var lng = SorIntCoorToDoubleInDegrees(landmark.GpsLongitude);
+            return new PointLatLng(lat, lng);
+        }
+
+        private double SorIntCoorToDoubleInDegrees(int coor)
+        {
+            var degrees = Math.Truncate(coor / 1e6);
+            var minutes = Math.Truncate(coor % 1e6 / 1e4);
+            var seconds = (coor % 1e4) / 100;
+            return degrees + minutes / 60 + seconds / 3600;
         }
 
         private static EquipmentType ToEquipmentType(LandmarkCode landmarkCode)
