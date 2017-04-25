@@ -153,6 +153,8 @@
     <Compile Include="ViewModels\Administrative\ZonesViewModel.cs" />
     <Compile Include="ViewModels\Landmarks\Landmark.cs" />
     <Compile Include="ViewModels\Landmarks\LandmarkRow.cs" />
+    <Compile Include="ViewModels\Landmarks\LandmarksBaseParser.cs" />
+    <Compile Include="ViewModels\Landmarks\LandmarksGraphParser.cs" />
     <Compile Include="ViewModels\Landmarks\LandmarksViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\ServerConnectViewModel.cs" />
