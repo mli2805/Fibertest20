@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Iit.Fibertest.RtuWpfExample
+namespace Iit.Fibertest.WpfCommonViews
 {
     public class EventsContent
     {

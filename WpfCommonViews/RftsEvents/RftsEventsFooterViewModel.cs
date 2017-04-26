@@ -1,7 +1,7 @@
 ﻿using Iit.Fibertest.StringResources;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 
-namespace Iit.Fibertest.RtuWpfExample
+namespace Iit.Fibertest.WpfCommonViews
 {
     public class RftsEventsFooterViewModel
     {

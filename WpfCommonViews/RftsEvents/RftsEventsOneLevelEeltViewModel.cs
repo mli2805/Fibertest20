@@ -2,7 +2,7 @@
 using Optixsoft.SorExaminer.OtdrDataFormat;
 using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
 
-namespace Iit.Fibertest.RtuWpfExample
+namespace Iit.Fibertest.WpfCommonViews
 {
     public class RftsEventsOneLevelEeltViewModel
     {

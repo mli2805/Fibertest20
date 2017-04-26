@@ -62,7 +62,7 @@ namespace Iit.Fibertest.Client {
         protected override IEnumerable<Assembly> SelectAssemblies()
         {
             yield return typeof(ShellView).Assembly; // this Assembly (.exe)
-            yield return typeof(WpfCommonViews.SomeView).Assembly; // WpfCommonViews
+            yield return typeof(WpfCommonViews.RftsEventsView).Assembly; // WpfCommonViews
         }
     }
 }

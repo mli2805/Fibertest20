@@ -179,7 +179,7 @@ namespace Iit.Fibertest.Client
 
         private void TraceEventsAction(object param)
         {
-            var vm = new SomeViewModel();
+            var vm = new RftsEventsViewModel();
             WindowManager.ShowDialog(vm);
         }
 

@@ -9,7 +9,7 @@ using Optixsoft.SorExaminer.OtdrDataFormat;
 using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
 using BinaryReader = Optixsoft.SharedCommons.SorSerialization.BinaryReader;
 
-namespace Iit.Fibertest.RtuWpfExample
+namespace Iit.Fibertest.WpfCommonViews
 {
     public class SorDataToEvents
     {

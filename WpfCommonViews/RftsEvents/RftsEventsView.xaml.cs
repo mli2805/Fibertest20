@@ -1,11 +1,11 @@
 ﻿namespace Iit.Fibertest.WpfCommonViews
 {
     /// <summary>
-    /// Interaction logic for SomeView.xaml
+    /// Interaction logic for RftsEventsView.xaml
     /// </summary>
-    public partial class SomeView
+    public partial class RftsEventsView
     {
-        public SomeView()
+        public RftsEventsView()
         {
             InitializeComponent();
         }

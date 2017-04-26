@@ -47,6 +47,9 @@
       <HintPath>..\packages\Caliburn.Micro.3.0.3\lib\net45\Caliburn.Micro.Platform.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Optixsoft.OtdrDataFormat">
+      <HintPath>..\..\Optixsoft.OtdrDataFormat.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -63,39 +66,75 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Folder\SomeView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Compile Include="Folder\SomeView.xaml.cs">
-      <DependentUpon>SomeView.xaml</DependentUpon>
+    <Compile Include="RftsEvents\EventsContent.cs" />
+    <Compile Include="RftsEvents\ForTableConvertor.cs" />
+    <Compile Include="RftsEvents\LevelsContent.cs" />
+    <Compile Include="RftsEvents\RftsEventsFooterView.xaml.cs">
+      <DependentUpon>RftsEventsFooterView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Folder\SomeViewModel.cs" />
+    <Compile Include="RftsEvents\RftsEventsFooterViewModel.cs" />
+    <Compile Include="RftsEvents\RftsEventsOneLevelEeltView.xaml.cs">
+      <DependentUpon>RftsEventsOneLevelEeltView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RftsEvents\RftsEventsOneLevelEeltViewModel.cs" />
+    <Compile Include="RftsEvents\RftsEventsOneLevelView.xaml.cs">
+      <DependentUpon>RftsEventsOneLevelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RftsEvents\RftsEventsOneLevelViewModel.cs" />
+    <Compile Include="RftsEvents\RftsEventsView.xaml.cs">
+      <DependentUpon>RftsEventsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RftsEvents\RftsEventsViewModel.cs" />
+    <Compile Include="RftsEvents\SorDataToEvents.cs" />
+    <Page Include="RftsEvents\RftsEventsFooterView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="RftsEvents\RftsEventsOneLevelEeltView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="RftsEvents\RftsEventsOneLevelView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="RftsEvents\RftsEventsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Graph\Graph.csproj">
+      <Project>{a734876e-977b-4dda-b6a4-ad1dd525c6d1}</Project>
+      <Name>Graph</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IitOtdrLibrary\IitOtdrLibrary.csproj">
+      <Project>{12208d72-7ec1-456f-9f0a-b56152ddc5d2}</Project>
+      <Name>IitOtdrLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StringResources\StringResources.csproj">
+      <Project>{0cb0ea37-4a27-45f0-bb01-4c0e064e8962}</Project>
+      <Name>StringResources</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SorExample\MeasWithBase.sor" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

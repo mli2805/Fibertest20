@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
+using System.Reflection;
 using Caliburn.Micro;
 
 namespace RtuWpfExample {
@@ -37,6 +38,12 @@ namespace RtuWpfExample {
 
         protected override void OnStartup(object sender, System.Windows.StartupEventArgs e) {
             DisplayRootViewFor<IShell>();
+        }
+
+        protected override IEnumerable<Assembly> SelectAssemblies()
+        {
+            yield return typeof(ShellView).Assembly; // this Assembly (.exe)
+            yield return typeof(Iit.Fibertest.WpfCommonViews.RftsEventsView).Assembly; // WpfCommonViews
         }
     }
 }

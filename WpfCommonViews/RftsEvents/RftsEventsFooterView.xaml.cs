@@ -1,4 +1,4 @@
-﻿namespace Iit.Fibertest.RtuWpfExample
+﻿namespace Iit.Fibertest.WpfCommonViews
 {
     /// <summary>
     /// Interaction logic for RftsEventsFooterView.xaml

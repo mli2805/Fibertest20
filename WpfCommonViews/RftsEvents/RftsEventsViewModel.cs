@@ -1,16 +1,23 @@
-﻿using Caliburn.Micro;
+﻿using System.IO;
+using Caliburn.Micro;
+using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.StringResources;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 
-namespace Iit.Fibertest.RtuWpfExample
+namespace Iit.Fibertest.WpfCommonViews
 {
     public class RftsEventsViewModel : Screen
     {
         public LevelsContent LevelsContent { get; set; } = new LevelsContent();
         public RftsEventsFooterViewModel FooterViewModel { get; set; }
 
-        public RftsEventsViewModel(OtdrDataKnownBlocks sorData)
+        public RftsEventsViewModel(OtdrDataKnownBlocks sorData = null)
         {
+            if (sorData == null)
+            {
+                var buffer = File.ReadAllBytes(@"..\..\..\WpfCommonViews\SorExample\measwithbase.sor");
+                sorData = SorData.FromBytes(buffer);
+            }
             var rftsParameters = sorData.RftsParameters;
             for (int i = 0; i < rftsParameters.LevelsCount; i++)
             {
