@@ -6,7 +6,7 @@ using System.Text;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Utils35;
 
-namespace DbMigrator
+namespace Iit.Fibertest.DbMigrator
 {
     public class Migrator
     {

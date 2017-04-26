@@ -57,5 +57,13 @@ namespace Iit.Fibertest.Client {
         protected override void OnStartup(object sender, System.Windows.StartupEventArgs e) {
             DisplayRootViewFor<IShell>();
         }
+
+        /*
+        protected override IEnumerable<Assembly> SelectAssemblies()
+        {
+            yield return typeof(Iit.Fibertest.Client.MainMenuView).Assembly; // this Assembly (.exe)
+            yield return typeof( fill in any class from additional labrary ).Assembly;
+        }
+        */
     }
 }

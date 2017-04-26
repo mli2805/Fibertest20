@@ -2,7 +2,7 @@
 using Iit.Fibertest.Graph;
 using Serilog;
 
-namespace DbMigrator
+namespace Iit.Fibertest.DbMigrator
 {
     class Program
     {
