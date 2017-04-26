@@ -507,6 +507,10 @@
       <Project>{716240ff-d1e8-4bd3-9e63-431382617398}</Project>
       <Name>Utils35</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WpfCommonViews\WpfCommonViews.csproj">
+      <Project>{e98e6cc5-94e4-44b7-af5c-7f4f74746467}</Project>
+      <Name>WpfCommonViews</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\LeftPanel\blue_sphere_16.jpg" />

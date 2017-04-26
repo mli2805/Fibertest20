@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Reflection;
 using System.Threading;
 using System.Windows.Threading;
 using Autofac;
@@ -58,12 +59,10 @@ namespace Iit.Fibertest.Client {
             DisplayRootViewFor<IShell>();
         }
 
-        /*
         protected override IEnumerable<Assembly> SelectAssemblies()
         {
-            yield return typeof(Iit.Fibertest.Client.MainMenuView).Assembly; // this Assembly (.exe)
-            yield return typeof( fill in any class from additional labrary ).Assembly;
+            yield return typeof(ShellView).Assembly; // this Assembly (.exe)
+            yield return typeof(WpfCommonViews.SomeView).Assembly; // WpfCommonViews
         }
-        */
     }
 }

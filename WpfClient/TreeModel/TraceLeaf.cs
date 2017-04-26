@@ -5,6 +5,7 @@ using System.Windows.Media;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.Client
 {
@@ -175,7 +176,12 @@ namespace Iit.Fibertest.Client
         }
         private void TraceStateAction(object param) { }
         private void TraceStatisticsAction(object param) { }
-        private void TraceEventsAction(object param) { }
+
+        private void TraceEventsAction(object param)
+        {
+            var vm = new SomeViewModel();
+            WindowManager.ShowDialog(vm);
+        }
 
         private void TraceLandmarksAction(object param)
         {
