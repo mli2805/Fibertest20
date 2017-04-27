@@ -56,8 +56,16 @@
             <Button Name="InterruptMeasurement" Content="Interrupt measurement" Margin="5" IsEnabled="{Binding IsMeasurementInProgress}"/>
         </GroupBox>
         <TextBlock Text="{Binding Message}" Margin="5"/>
-        
-        <Button Name="ShowRftsEvents" Content="Rfts Events" Margin="15,5,15,10"></Button>
+        <GroupBox Header="Results" Margin="5">
+            <StackPanel>
+                <DockPanel>
+                    <Button Name="ChooseResultFilename" Content="Choose result file" Width="130" Margin="5" />
+                    <TextBlock Name="ResultFileNameTextBox" Text="{Binding ResultFileName}" Margin="5" Background="AliceBlue"/>
+                </DockPanel>
+                <Button Name="ShowRftsEvents" Content="Rfts Events" Margin="5"/>
+                <Button Name="ShowTraceState" Content="Trace State" Margin="5"/>
+            </StackPanel>
+        </GroupBox>
     </StackPanel>
 
 </Window>

@@ -18,6 +18,7 @@ namespace Iit.Fibertest.WpfCommonViews
                 var buffer = File.ReadAllBytes(@"..\..\..\WpfCommonViews\SorExample\measwithbase.sor");
                 sorData = SorData.FromBytes(buffer);
             }
+
             var rftsParameters = sorData.RftsParameters;
             for (int i = 0; i < rftsParameters.LevelsCount; i++)
             {

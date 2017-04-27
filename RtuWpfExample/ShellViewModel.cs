@@ -1,5 +1,6 @@
 using System.IO;
 using System.Threading.Tasks;
+using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.IitOtdrLibrary;
@@ -26,6 +27,18 @@ namespace RtuWpfExample
                 if (Equals(value, _baseFileName)) return;
                 _baseFileName = value;
                 NotifyOfPropertyChange(() => BaseFileName);
+            }
+        }
+
+        private string _resultFileName;
+        public string ResultFileName
+        {
+            get { return _resultFileName; }
+            set
+            {
+                if (Equals(value, _resultFileName)) return;
+                _resultFileName = value;
+                NotifyOfPropertyChange(() => ResultFileName);
             }
         }
 
@@ -144,6 +157,7 @@ namespace RtuWpfExample
 
             BaseFileName = @"c:\temp\base3ev.sor";
             MeasFileName = @"c:\temp\123.sor";
+            ResultFileName = @"c:\temp\measwithbase.sor";
 
 
             OtdrManager = new OtdrManager(@"..\OtdrMeasEngine\", _rtuLogger);
@@ -238,6 +252,15 @@ namespace RtuWpfExample
             fd.InitialDirectory = @"c:\temp\";
             if (fd.ShowDialog() == true)
                 BaseFileName = fd.FileName;
+        }
+
+        public void ChooseResultFilename()
+        {
+            var fd = new OpenFileDialog();
+            fd.Filter = "Sor files (*.sor)|*.sor";
+            fd.InitialDirectory = @"c:\temp\";
+            if (fd.ShowDialog() == true)
+                ResultFileName = fd.FileName;
         }
 
         public void ChooseMeasFilename()
@@ -342,11 +365,18 @@ namespace RtuWpfExample
 
         public void ShowRftsEvents()
         {
-            var buffer = File.ReadAllBytes(@"c:\temp\measwithbase.sor");
+            var buffer = File.ReadAllBytes(ResultFileName);
             var sorData = SorData.FromBytes(buffer);
+            if (sorData.RftsEvents.MonitoringResult == (int) ComparisonReturns.NoLink)
+            {
+                MessageBox.Show("No Fiber!", "Events");
+                return;
+            }
             var vm = new RftsEventsViewModel(sorData);
             IWindowManager windowManager = new WindowManager();
             windowManager.ShowDialog(vm);
         }
+
+        public void ShowTraceState() { }
     }
 }
