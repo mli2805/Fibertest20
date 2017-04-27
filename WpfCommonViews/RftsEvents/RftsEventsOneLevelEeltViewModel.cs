@@ -17,7 +17,7 @@ namespace Iit.Fibertest.WpfCommonViews
         {
             AttenuationValue = $@"{value : 0.000}";
             Threshold = threshold.ForTable();
-            DeviationValue = $@"{deviation.Deviation / 1000.0 : 0.000}";
+            DeviationValue = $@"{(short)deviation.Deviation / 1000.0 : 0.000}";
             IsFailed = (deviation.Type & ShortDeviationTypes.IsExceeded) != 0;
             StateValue = IsFailed ? Resources.SID_fail : Resources.SID_pass;
         }

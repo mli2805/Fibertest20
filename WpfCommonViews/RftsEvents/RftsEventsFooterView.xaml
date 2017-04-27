@@ -10,19 +10,7 @@
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
     </UserControl.Resources>
     <DockPanel>
-        <GroupBox Margin="5">
-            <StackPanel DockPanel.Dock="Left">
-                <StackPanel Orientation="Horizontal" Margin="5">
-                    <TextBlock Text="{x:Static stringResources:Resources.SID_Trace_state}" Width="120"/>
-                    <TextBlock Text="{Binding TraceState}" Width="150"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="5">
-                    <TextBlock Text="{x:Static stringResources:Resources.SID_ORL__dB}" Width="120"/>
-                    <TextBlock Text="{Binding Orl}"/>
-                </StackPanel>
-            </StackPanel>
-        </GroupBox>
-        <GroupBox Margin="5">
+        <GroupBox Margin="5" Padding="10,0" DockPanel.Dock="Right">
             <StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5" Visibility="{Binding LevelsContent.IsMinorExists, Converter={StaticResource BoolToVis}}">
                     <TextBlock Text="{x:Static stringResources:Resources.SID_Minor}" Width="120"/>
@@ -39,6 +27,18 @@
                 <StackPanel Orientation="Horizontal" Margin="5" Visibility="{Binding LevelsContent.IsUsersExists, Converter={StaticResource BoolToVis}}">
                     <TextBlock Text="{x:Static stringResources:Resources.SID_User_s}" Width="120"/>
                     <TextBlock Text="{Binding Users}" Width="150"/>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Margin="5">
+            <StackPanel DockPanel.Dock="Left">
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Trace_state}" Width="120"/>
+                    <TextBlock Text="{Binding TraceState}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_ORL__dB}" Width="120"/>
+                    <TextBlock Text="{Binding Orl}"/>
                 </StackPanel>
             </StackPanel>
         </GroupBox>

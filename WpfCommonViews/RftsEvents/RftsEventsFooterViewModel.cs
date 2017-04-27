@@ -1,4 +1,5 @@
-﻿using Iit.Fibertest.StringResources;
+﻿using Iit.Fibertest.IitOtdrLibrary;
+using Iit.Fibertest.StringResources;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 
 namespace Iit.Fibertest.WpfCommonViews
@@ -20,10 +21,10 @@ namespace Iit.Fibertest.WpfCommonViews
             LevelsContent = levelsContent;
             Orl = sorData.KeyEvents.OpticalReturnLoss;
 
-            SetStates();
+            SetStates(sorData);
         }
 
-        private void SetStates()
+        private void SetStates(OtdrDataKnownBlocks sorData)
         {
             TraceState = Resources.SID_pass;
             if (LevelsContent.IsMinorExists)
@@ -57,6 +58,12 @@ namespace Iit.Fibertest.WpfCommonViews
                     : Resources.SID_pass;
                 if (LevelsContent.UsersLevelViewModel.IsFailed)
                     TraceState = Resources.SID_User_s;
+            }
+            if (sorData.RftsEvents.MonitoringResult == (int)ComparisonReturns.FiberBreak)
+            {
+                var owt = sorData.KeyEvents.KeyEvents[sorData.KeyEvents.KeyEventsCount - 1].EventPropagationTime;
+                var breakLocation = sorData.OwtToLenKm(owt);
+                TraceState = string.Format(Resources.SID_fiber_break___0_0_00000__km, breakLocation);
             }
         }
     }

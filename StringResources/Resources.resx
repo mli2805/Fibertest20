@@ -875,4 +875,7 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_fail___0__km_" xml:space="preserve">
     <value>fail ({0} km)</value>
   </data>
+	<data name="SID_fiber_break___0_0_00000__km" xml:space="preserve">
+    <value>fiber break  {0:0.00000} km</value>
+  </data>
 </root>

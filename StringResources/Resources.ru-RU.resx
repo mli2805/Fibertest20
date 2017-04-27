@@ -866,4 +866,7 @@
 	<data name="SID_fail___0__km_" xml:space="preserve">
 		<value>плохо ({0} км)</value>
 	</data>
+	<data name="SID_fiber_break___0_0_00000__km" xml:space="preserve">
+		<value>обрыв волокна  {0:0.00000} км</value>
+	</data>
 </root>

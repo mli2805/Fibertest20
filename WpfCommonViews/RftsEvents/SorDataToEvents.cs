@@ -151,6 +151,13 @@ namespace Iit.Fibertest.WpfCommonViews
         {
             for (int i = 0; i < _eventCount; i++)
             {
+                if ((rftsEvents.Events[i].EventTypes & RftsEventTypes.IsFiberBreak) != 0)
+                {
+                    eventContent.IsFailed = true;
+                    eventContent.Table[104][i + 1] = @"B";
+                    if (string.IsNullOrEmpty(eventContent.FirstProblemLocation))
+                        eventContent.FirstProblemLocation = eventContent.Table[105][i+1];
+                }
                 eventContent.Table[401][i + 1] = ForDeviationInTable(eventContent, rftsEvents.Events[i].ReflectanceThreshold, i + 1, @"R");
                 if (i < _eventCount - 1)
                     eventContent.Table[402][i + 1] = ForDeviationInTable(eventContent, rftsEvents.Events[i].AttenuationThreshold, i + 1, @"L");

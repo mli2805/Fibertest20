@@ -853,6 +853,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to fiber break  {0:0.00000} km.
+        /// </summary>
+        public static string SID_fiber_break___0_0_00000__km {
+            get {
+                return ResourceManager.GetString("SID_fiber_break___0_0_00000__km", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fiber type - wavelength:.
         /// </summary>
         public static string SID_Fiber_type_wavelength {
