@@ -863,4 +863,16 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_Landmark___0_" xml:space="preserve">
     <value>Landmark # {0}</value>
   </data>
+	<data name="SID_new" xml:space="preserve">
+    <value>new</value>
+  </data>
+	<data name="SID_fiber_break" xml:space="preserve">
+    <value>fiber break</value>
+  </data>
+	<data name="SID___new_" xml:space="preserve">
+    <value> (new)</value>
+  </data>
+	<data name="SID_fail___0__km_" xml:space="preserve">
+    <value>fail ({0} km)</value>
+  </data>
 </root>

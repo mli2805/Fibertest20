@@ -6,13 +6,28 @@ namespace Iit.Fibertest.WpfCommonViews
 {
     public static class ForTableConvertor
     {
-        public static string ForTable(this RftsEventTypes rftsEventType)
+        public static string ForStateInTable(this RftsEventTypes rftsEventType)
         {
-            switch (rftsEventType)
-            {
-                case RftsEventTypes.None: return Resources.SID_no;
-                case RftsEventTypes.IsMonitored: return Resources.SID_yes;
-            }
+            if ((rftsEventType & RftsEventTypes.IsFiberBreak) != 0)
+                return Resources.SID_fiber_break;
+            if ((rftsEventType & RftsEventTypes.IsNew) != 0)
+                return Resources.SID_new;
+            if ((rftsEventType & RftsEventTypes.IsFailed) != 0)
+                return Resources.SID_fail;
+            if ((rftsEventType & RftsEventTypes.IsMonitored) != 0)
+                return Resources.SID_pass;
+            if (rftsEventType== RftsEventTypes.None)
+                return Resources.SID_pass;
+            return Resources.SID_unexpected_input;
+        }
+        public static string ForEnabledInTable(this RftsEventTypes rftsEventType)
+        {
+            if ((rftsEventType & RftsEventTypes.IsNew) != 0)
+                return Resources.SID_new;
+            if ((rftsEventType & RftsEventTypes.IsMonitored) != 0)
+                return Resources.SID_yes;
+            if (rftsEventType == RftsEventTypes.None)
+                return Resources.SID_pass;
             return Resources.SID_unexpected_input;
         }
 
@@ -33,7 +48,7 @@ namespace Iit.Fibertest.WpfCommonViews
         public static string ForTable(this ShortThreshold threshold)
         {
             var value = threshold.IsAbsolute ? threshold.AbsoluteThreshold : threshold.RelativeThreshold;
-            var str = $@"{value / 1000.0 : 0.000} ";
+            var str = $@"{value / 1000.0: 0.000} ";
             var result = str + (threshold.IsAbsolute ? Resources.SID__abs__ : Resources.SID__rel__);
             return result;
         }

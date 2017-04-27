@@ -66,7 +66,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="RftsEvents\EventsContent.cs" />
+    <Compile Include="RftsEvents\EventContent.cs" />
     <Compile Include="RftsEvents\ForTableConvertor.cs" />
     <Compile Include="RftsEvents\LevelsContent.cs" />
     <Compile Include="RftsEvents\RftsEventsFooterView.xaml.cs">

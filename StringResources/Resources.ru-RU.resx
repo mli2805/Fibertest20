@@ -854,4 +854,16 @@
 	<data name="SID_Landmark___0_" xml:space="preserve">
 		<value>Ориентир № {0}</value>
 	</data>
+	<data name="SID_new" xml:space="preserve">
+		<value>новое</value>
+	</data>
+	<data name="SID_fiber_break" xml:space="preserve">
+		<value>обрыв волокна</value>
+	</data>
+	<data name="SID___new_" xml:space="preserve">
+		<value> (нов)</value>
+	</data>
+	<data name="SID_fail___0__km_" xml:space="preserve">
+		<value>плохо ({0} км)</value>
+	</data>
 </root>

@@ -6,6 +6,7 @@ using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WpfCommonViews;
+using Optixsoft.SorExaminer.OtdrDataFormat;
 
 namespace Iit.Fibertest.Client
 {
@@ -179,6 +180,7 @@ namespace Iit.Fibertest.Client
 
         private void TraceEventsAction(object param)
         {
+            //TODO get last measurement sordata and pass it to vm
             var vm = new RftsEventsViewModel();
             WindowManager.ShowDialog(vm);
         }

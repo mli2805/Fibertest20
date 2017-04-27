@@ -9,7 +9,7 @@ namespace Iit.Fibertest.WpfCommonViews
     public class RftsEventsOneLevelViewModel
     {
         public DataTable BindableTable { get; set; }
-        private EventsContent EventsContent { get; set; }
+        public EventContent EventContent { get; set; }
 
         public bool IsFailed { get; set; }
 
@@ -17,11 +17,11 @@ namespace Iit.Fibertest.WpfCommonViews
 
         public RftsEventsOneLevelViewModel(OtdrDataKnownBlocks sorData, RftsLevel rftsLevel)
         {
-            EventsContent = new SorDataToEvents(sorData).Parse(rftsLevel.LevelName);
-            CreateTable(EventsContent.Table.First().Value.Length-1);
+            EventContent = new SorDataToEvents(sorData).Parse(rftsLevel.LevelName);
+            CreateTable(EventContent.Table.First().Value.Length-1);
             PopulateTable();
             EeltViewModel = new RftsEventsOneLevelEeltViewModel(sorData.KeyEvents.EndToEndLoss, rftsLevel.EELT, sorData.RftsEvents.EELD);
-            IsFailed = EventsContent.IsFailed || EeltViewModel.IsFailed;
+            IsFailed = EventContent.IsFailed || EeltViewModel.IsFailed;
         }
 
         private void CreateTable(int eventCount)
@@ -34,7 +34,7 @@ namespace Iit.Fibertest.WpfCommonViews
 
         private void PopulateTable()
         {
-            foreach (var pair in EventsContent.Table)
+            foreach (var pair in EventContent.Table)
             {
                 DataRow newRow = BindableTable.NewRow();
                 for (int i = 0; i < pair.Value.Length; i++)

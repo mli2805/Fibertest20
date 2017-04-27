@@ -46,20 +46,19 @@ namespace Iit.Fibertest.WpfCommonViews
             _sorData = sorData;
         }
 
-        public EventsContent Parse(RftsLevelType rftsLevel)
+        public EventContent Parse(RftsLevelType rftsLevel)
         {
-            _eventCount = _sorData.LinkParameters.LandmarksCount;
-            var eventsContent = PrepareEmptyDictionary();
+            _eventCount = _sorData.RftsEvents.EventsCount;
+            var eventContent = PrepareEmptyDictionary();
 
-            ParseCommonInformation(eventsContent.Table);
-            ParseCurrentMeasurement(eventsContent.Table);
-            ParseMonitoringThresholds(eventsContent.Table, rftsLevel);
+            ParseCommonInformation(eventContent);
+            ParseCurrentMeasurement(eventContent.Table);
+            ParseMonitoringThresholds(eventContent.Table, rftsLevel);
             var rftsEvents = ExtractRftsEventsForLevel(rftsLevel);
             if (rftsEvents != null)
-                ParseDeviationFromBase(eventsContent, rftsEvents);
-            SetEventStates(eventsContent.Table);
+                ParseDeviationFromBase(eventContent, rftsEvents);
 
-            return eventsContent;
+            return eventContent;
         }
 
         private RftsEventsBlock ExtractRftsEventsForLevel(RftsLevelType rftsLevel)
@@ -80,9 +79,9 @@ namespace Iit.Fibertest.WpfCommonViews
             return null;
         }
 
-        private EventsContent PrepareEmptyDictionary()
+        private EventContent PrepareEmptyDictionary()
         {
-            var eventsContent = new EventsContent();
+            var eventsContent = new EventContent();
             foreach (var pair in LineNameList)
             {
                 var cells = new string[_eventCount + 1];
@@ -92,15 +91,27 @@ namespace Iit.Fibertest.WpfCommonViews
             return eventsContent;
         }
 
-        private void ParseCommonInformation(Dictionary<int, string[]> eventTable)
+        private void ParseCommonInformation(EventContent eventContent)
         {
-            for (int i = 0; i < _eventCount; i++)
+            for (int i = 0, j = 0; i < _eventCount; i++)
             {
-                eventTable[101][i + 1] = _sorData.LinkParameters.LandmarkBlocks[i].Comment;
-                eventTable[102][i + 1] = _sorData.LinkParameters.LandmarkBlocks[i].Code.ForTable();
-                eventTable[105][i + 1] = $@"{_sorData.OwtToLenKm(_sorData.KeyEvents.KeyEvents[i].EventPropagationTime): 0.00000}";
-                eventTable[106][i + 1] = _sorData.RftsEvents.Events[i].EventTypes.ForTable();
-                eventTable[107][i + 1] = _sorData.KeyEvents.KeyEvents[i].EventCode.EventCodeForTable();
+                if ((_sorData.RftsEvents.Events[i].EventTypes & RftsEventTypes.IsNew) == 0)
+                {
+                    eventContent.Table[101][i + 1] = _sorData.LinkParameters.LandmarkBlocks[j].Comment;
+                    eventContent.Table[102][i + 1] = _sorData.LinkParameters.LandmarkBlocks[j].Code.ForTable();
+                    j++;
+                }
+                eventContent.Table[103][i + 1] = _sorData.RftsEvents.Events[i].EventTypes.ForStateInTable();
+                eventContent.Table[105][i + 1] = $@"{_sorData.OwtToLenKm(_sorData.KeyEvents.KeyEvents[i].EventPropagationTime):0.00000}";
+                if ((_sorData.RftsEvents.Events[i].EventTypes & RftsEventTypes.IsNew) != 0)
+                {
+                    eventContent.IsFailed = true;
+                    if (string.IsNullOrEmpty(eventContent.FirstProblemLocation))
+                        eventContent.FirstProblemLocation = eventContent.Table[105][i + 1];
+                    eventContent.Table[105][i + 1] += Resources.SID___new_;
+                }
+                eventContent.Table[106][i + 1] = _sorData.RftsEvents.Events[i].EventTypes.ForEnabledInTable();
+                eventContent.Table[107][i + 1] = _sorData.KeyEvents.KeyEvents[i].EventCode.EventCodeForTable();
             }
         }
 
@@ -118,7 +129,7 @@ namespace Iit.Fibertest.WpfCommonViews
                 var eventLoss = _sorData.KeyEvents.KeyEvents[i].EventLoss;
                 var endOfFiberThreshold = _sorData.FixedParameters.EndOfFiberThreshold;
                 eventTable[202][i + 1] = eventLoss > endOfFiberThreshold ? $@">{endOfFiberThreshold:0.000}" : $@"{eventLoss:0.000}";
-                eventTable[203][i + 1] = $@"{AttenuationCoeffToDbKm(_sorData.KeyEvents.KeyEvents[i].LeadInFiberAttenuationCoefficient) : 0.000}";
+                eventTable[203][i + 1] = $@"{AttenuationCoeffToDbKm(_sorData.KeyEvents.KeyEvents[i].LeadInFiberAttenuationCoefficient): 0.000}";
             }
         }
 
@@ -128,52 +139,48 @@ namespace Iit.Fibertest.WpfCommonViews
 
             for (int i = 0; i < _eventCount; i++)
             {
+                if ((_sorData.RftsEvents.Events[i].EventTypes & RftsEventTypes.IsNew) != 0)
+                    continue;
                 eventTable[301][i + 1] = level.ThresholdSets[i].ReflectanceThreshold.ForTable();
                 eventTable[302][i + 1] = level.ThresholdSets[i].AttenuationThreshold.ForTable();
                 eventTable[303][i + 1] = level.ThresholdSets[i].AttenuationCoefThreshold.ForTable();
             }
         }
 
-        private void ParseDeviationFromBase(EventsContent eventsContent, RftsEventsBlock rftsEvents)
+        private void ParseDeviationFromBase(EventContent eventContent, RftsEventsBlock rftsEvents)
         {
             for (int i = 0; i < _eventCount; i++)
             {
-                eventsContent.Table[401][i + 1] = ForTable(eventsContent, rftsEvents.Events[i].ReflectanceThreshold, i+1, @"R");
-                if (i < _eventCount-1)
-                    eventsContent.Table[402][i + 1] = ForTable(eventsContent, rftsEvents.Events[i].AttenuationThreshold, i+1, @"L");
-                eventsContent.Table[403][i + 1] = ForTable(eventsContent, rftsEvents.Events[i].AttenuationCoefThreshold, i+1, @"C");
+                eventContent.Table[401][i + 1] = ForDeviationInTable(eventContent, rftsEvents.Events[i].ReflectanceThreshold, i + 1, @"R");
+                if (i < _eventCount - 1)
+                    eventContent.Table[402][i + 1] = ForDeviationInTable(eventContent, rftsEvents.Events[i].AttenuationThreshold, i + 1, @"L");
+                eventContent.Table[403][i + 1] = ForDeviationInTable(eventContent, rftsEvents.Events[i].AttenuationCoefThreshold, i + 1, @"C");
             }
         }
 
-        private string ForTable(EventsContent eventsContent, ShortDeviation deviation, int column, string letter)
+        private string ForDeviationInTable(EventContent eventContent, ShortDeviation deviation, int column, string letter)
         {
-            var formattedValue = $@"{deviation.Deviation / 1000.0: 0.000}";
+            var formattedValue = $@"{(short)deviation.Deviation / 1000.0: 0.000}";
             if ((deviation.Type & ShortDeviationTypes.IsExceeded) != 0)
             {
                 formattedValue += $@" ( {letter} ) ";
-                eventsContent.Table[104][column] += $@" {letter}";
-                eventsContent.IsFailed = true;
+                eventContent.Table[104][column] += $@" {letter}";
+                eventContent.IsFailed = true;
+                if (string.IsNullOrEmpty(eventContent.FirstProblemLocation))
+                    eventContent.FirstProblemLocation = eventContent.Table[105][column];
             }
             return formattedValue;
         }
 
-        private void SetEventStates(Dictionary<int, string[]> eventTable)
-        {
-            for (int i = 0; i < _eventCount; i++)
-            {
-                eventTable[103][i + 1] = string.IsNullOrEmpty(eventTable[104][i + 1]) ? Resources.SID_pass : Resources.SID_fail;
-            }
-        }
-
-//        private OtdrDataKnownBlocks ExtractBase()
-//        {
-//            if (_sorData.EmbeddedData.EmbeddedBlocksCount == 0 ||
-//                _sorData.EmbeddedData.EmbeddedDataBlocks[0].Description != @"SOR")
-//                return null;
-//
-//            var bytes = _sorData.EmbeddedData.EmbeddedDataBlocks[0].Data;
-//            var baseSorData = SorData.FromBytes(bytes);
-//            return baseSorData;
-//        }
+        //        private OtdrDataKnownBlocks ExtractBase()
+        //        {
+        //            if (_sorData.EmbeddedData.EmbeddedBlocksCount == 0 ||
+        //                _sorData.EmbeddedData.EmbeddedDataBlocks[0].Description != @"SOR")
+        //                return null;
+        //
+        //            var bytes = _sorData.EmbeddedData.EmbeddedDataBlocks[0].Data;
+        //            var baseSorData = SorData.FromBytes(bytes);
+        //            return baseSorData;
+        //        }
     }
 }
