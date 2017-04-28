@@ -66,7 +66,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="RftsEvents\EventContent.cs" />
+    <Compile Include="RftsEvents\OneLevelTableContent.cs" />
     <Compile Include="RftsEvents\ForTableConvertor.cs" />
     <Compile Include="RftsEvents\LevelsContent.cs" />
     <Compile Include="RftsEvents\RftsEventsFooterView.xaml.cs">
@@ -85,7 +85,7 @@
       <DependentUpon>RftsEventsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="RftsEvents\RftsEventsViewModel.cs" />
-    <Compile Include="RftsEvents\SorDataToEvents.cs" />
+    <Compile Include="RftsEvents\SorDataToViewContent.cs" />
     <Page Include="RftsEvents\RftsEventsFooterView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -2,7 +2,7 @@
 
 namespace Iit.Fibertest.WpfCommonViews
 {
-    public class EventContent
+    public class OneLevelTableContent
     {
         public Dictionary<int, string[]> Table { get; set; } = new Dictionary<int, string[]>();
         public bool IsFailed { get; set; }

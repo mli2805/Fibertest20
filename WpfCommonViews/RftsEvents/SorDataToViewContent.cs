@@ -11,7 +11,7 @@ using BinaryReader = Optixsoft.SharedCommons.SorSerialization.BinaryReader;
 
 namespace Iit.Fibertest.WpfCommonViews
 {
-    public class SorDataToEvents
+    public class SorDataToViewContent
     {
         private readonly OtdrDataKnownBlocks _sorData;
         private int _eventCount;
@@ -41,12 +41,12 @@ namespace Iit.Fibertest.WpfCommonViews
             { 900, ""                                            },
         };
 
-        public SorDataToEvents(OtdrDataKnownBlocks sorData)
+        public SorDataToViewContent(OtdrDataKnownBlocks sorData)
         {
             _sorData = sorData;
         }
 
-        public EventContent Parse(RftsLevelType rftsLevel)
+        public OneLevelTableContent Parse(RftsLevelType rftsLevel)
         {
             _eventCount = _sorData.RftsEvents.EventsCount;
             var eventContent = PrepareEmptyDictionary();
@@ -79,9 +79,9 @@ namespace Iit.Fibertest.WpfCommonViews
             return null;
         }
 
-        private EventContent PrepareEmptyDictionary()
+        private OneLevelTableContent PrepareEmptyDictionary()
         {
-            var eventsContent = new EventContent();
+            var eventsContent = new OneLevelTableContent();
             foreach (var pair in LineNameList)
             {
                 var cells = new string[_eventCount + 1];
@@ -91,27 +91,27 @@ namespace Iit.Fibertest.WpfCommonViews
             return eventsContent;
         }
 
-        private void ParseCommonInformation(EventContent eventContent)
+        private void ParseCommonInformation(OneLevelTableContent oneLevelTableContent)
         {
             for (int i = 0, j = 0; i < _eventCount; i++)
             {
                 if ((_sorData.RftsEvents.Events[i].EventTypes & RftsEventTypes.IsNew) == 0)
                 {
-                    eventContent.Table[101][i + 1] = _sorData.LinkParameters.LandmarkBlocks[j].Comment;
-                    eventContent.Table[102][i + 1] = _sorData.LinkParameters.LandmarkBlocks[j].Code.ForTable();
+                    oneLevelTableContent.Table[101][i + 1] = _sorData.LinkParameters.LandmarkBlocks[j].Comment;
+                    oneLevelTableContent.Table[102][i + 1] = _sorData.LinkParameters.LandmarkBlocks[j].Code.ForTable();
                     j++;
                 }
-                eventContent.Table[103][i + 1] = _sorData.RftsEvents.Events[i].EventTypes.ForStateInTable();
-                eventContent.Table[105][i + 1] = $@"{_sorData.OwtToLenKm(_sorData.KeyEvents.KeyEvents[i].EventPropagationTime):0.00000}";
+                oneLevelTableContent.Table[103][i + 1] = _sorData.RftsEvents.Events[i].EventTypes.ForStateInTable();
+                oneLevelTableContent.Table[105][i + 1] = $@"{_sorData.OwtToLenKm(_sorData.KeyEvents.KeyEvents[i].EventPropagationTime):0.00000}";
                 if ((_sorData.RftsEvents.Events[i].EventTypes & RftsEventTypes.IsNew) != 0)
                 {
-                    eventContent.IsFailed = true;
-                    if (string.IsNullOrEmpty(eventContent.FirstProblemLocation))
-                        eventContent.FirstProblemLocation = eventContent.Table[105][i + 1];
-                    eventContent.Table[105][i + 1] += Resources.SID___new_;
+                    oneLevelTableContent.IsFailed = true;
+                    if (string.IsNullOrEmpty(oneLevelTableContent.FirstProblemLocation))
+                        oneLevelTableContent.FirstProblemLocation = oneLevelTableContent.Table[105][i + 1];
+                    oneLevelTableContent.Table[105][i + 1] += Resources.SID___new_;
                 }
-                eventContent.Table[106][i + 1] = _sorData.RftsEvents.Events[i].EventTypes.ForEnabledInTable();
-                eventContent.Table[107][i + 1] = _sorData.KeyEvents.KeyEvents[i].EventCode.EventCodeForTable();
+                oneLevelTableContent.Table[106][i + 1] = _sorData.RftsEvents.Events[i].EventTypes.ForEnabledInTable();
+                oneLevelTableContent.Table[107][i + 1] = _sorData.KeyEvents.KeyEvents[i].EventCode.EventCodeForTable();
             }
         }
 
@@ -147,34 +147,34 @@ namespace Iit.Fibertest.WpfCommonViews
             }
         }
 
-        private void ParseDeviationFromBase(EventContent eventContent, RftsEventsBlock rftsEvents)
+        private void ParseDeviationFromBase(OneLevelTableContent oneLevelTableContent, RftsEventsBlock rftsEvents)
         {
             for (int i = 0; i < _eventCount; i++)
             {
                 if ((rftsEvents.Events[i].EventTypes & RftsEventTypes.IsFiberBreak) != 0)
                 {
-                    eventContent.IsFailed = true;
-                    eventContent.Table[104][i + 1] = @"B";
-                    if (string.IsNullOrEmpty(eventContent.FirstProblemLocation))
-                        eventContent.FirstProblemLocation = eventContent.Table[105][i+1];
+                    oneLevelTableContent.IsFailed = true;
+                    oneLevelTableContent.Table[104][i + 1] = @"B";
+                    if (string.IsNullOrEmpty(oneLevelTableContent.FirstProblemLocation))
+                        oneLevelTableContent.FirstProblemLocation = oneLevelTableContent.Table[105][i+1];
                 }
-                eventContent.Table[401][i + 1] = ForDeviationInTable(eventContent, rftsEvents.Events[i].ReflectanceThreshold, i + 1, @"R");
+                oneLevelTableContent.Table[401][i + 1] = ForDeviationInTable(oneLevelTableContent, rftsEvents.Events[i].ReflectanceThreshold, i + 1, @"R");
                 if (i < _eventCount - 1)
-                    eventContent.Table[402][i + 1] = ForDeviationInTable(eventContent, rftsEvents.Events[i].AttenuationThreshold, i + 1, @"L");
-                eventContent.Table[403][i + 1] = ForDeviationInTable(eventContent, rftsEvents.Events[i].AttenuationCoefThreshold, i + 1, @"C");
+                    oneLevelTableContent.Table[402][i + 1] = ForDeviationInTable(oneLevelTableContent, rftsEvents.Events[i].AttenuationThreshold, i + 1, @"L");
+                oneLevelTableContent.Table[403][i + 1] = ForDeviationInTable(oneLevelTableContent, rftsEvents.Events[i].AttenuationCoefThreshold, i + 1, @"C");
             }
         }
 
-        private string ForDeviationInTable(EventContent eventContent, ShortDeviation deviation, int column, string letter)
+        private string ForDeviationInTable(OneLevelTableContent oneLevelTableContent, ShortDeviation deviation, int column, string letter)
         {
             var formattedValue = $@"{(short)deviation.Deviation / 1000.0: 0.000}";
             if ((deviation.Type & ShortDeviationTypes.IsExceeded) != 0)
             {
                 formattedValue += $@" ( {letter} ) ";
-                eventContent.Table[104][column] += $@" {letter}";
-                eventContent.IsFailed = true;
-                if (string.IsNullOrEmpty(eventContent.FirstProblemLocation))
-                    eventContent.FirstProblemLocation = eventContent.Table[105][column];
+                oneLevelTableContent.Table[104][column] += $@" {letter}";
+                oneLevelTableContent.IsFailed = true;
+                if (string.IsNullOrEmpty(oneLevelTableContent.FirstProblemLocation))
+                    oneLevelTableContent.FirstProblemLocation = oneLevelTableContent.Table[105][column];
             }
             return formattedValue;
         }

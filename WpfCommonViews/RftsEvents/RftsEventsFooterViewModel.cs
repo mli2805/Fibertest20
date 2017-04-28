@@ -30,7 +30,7 @@ namespace Iit.Fibertest.WpfCommonViews
             if (LevelsContent.IsMinorExists)
             {
                 Minor = LevelsContent.MinorLevelViewModel.IsFailed 
-                    ? string.Format(Resources.SID_fail___0__km_, LevelsContent.MinorLevelViewModel.EventContent.FirstProblemLocation) 
+                    ? string.Format(Resources.SID_fail___0__km_, LevelsContent.MinorLevelViewModel.OneLevelTableContent.FirstProblemLocation) 
                     : Resources.SID_pass;
                 if (LevelsContent.MinorLevelViewModel.IsFailed)
                     TraceState = Resources.SID_Minor;
@@ -38,7 +38,7 @@ namespace Iit.Fibertest.WpfCommonViews
             if (LevelsContent.IsMajorExists)
             {
                 Major = LevelsContent.MajorLevelViewModel.IsFailed
-                    ? string.Format(Resources.SID_fail___0__km_, LevelsContent.MajorLevelViewModel.EventContent.FirstProblemLocation)
+                    ? string.Format(Resources.SID_fail___0__km_, LevelsContent.MajorLevelViewModel.OneLevelTableContent.FirstProblemLocation)
                     : Resources.SID_pass;
                 if (LevelsContent.MajorLevelViewModel.IsFailed)
                     TraceState = Resources.SID_Major;
@@ -46,7 +46,7 @@ namespace Iit.Fibertest.WpfCommonViews
             if (LevelsContent.IsCriticalExists)
             {
                 Critical = LevelsContent.CriticalLevelViewModel.IsFailed
-                    ? string.Format(Resources.SID_fail___0__km_, LevelsContent.CriticalLevelViewModel.EventContent.FirstProblemLocation)
+                    ? string.Format(Resources.SID_fail___0__km_, LevelsContent.CriticalLevelViewModel.OneLevelTableContent.FirstProblemLocation)
                     : Resources.SID_pass;
                 if (LevelsContent.CriticalLevelViewModel.IsFailed)
                     TraceState = Resources.SID_Critical;
@@ -54,7 +54,7 @@ namespace Iit.Fibertest.WpfCommonViews
             if (LevelsContent.IsUsersExists)
             {
                 Users = LevelsContent.UsersLevelViewModel.IsFailed
-                    ? string.Format(Resources.SID_fail___0__km_, LevelsContent.UsersLevelViewModel.EventContent.FirstProblemLocation)
+                    ? string.Format(Resources.SID_fail___0__km_, LevelsContent.UsersLevelViewModel.OneLevelTableContent.FirstProblemLocation)
                     : Resources.SID_pass;
                 if (LevelsContent.UsersLevelViewModel.IsFailed)
                     TraceState = Resources.SID_User_s;
