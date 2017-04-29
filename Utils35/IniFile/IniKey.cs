@@ -10,5 +10,7 @@ namespace Iit.Fibertest.Utils35.IniFile
 
         OtdrIp,
         OtdrPort,
+        OtauIp,
+        OtauPort,
     }
 }

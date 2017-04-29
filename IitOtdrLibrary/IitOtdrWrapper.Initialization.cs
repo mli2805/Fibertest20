@@ -59,7 +59,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
             if (initOtdr != 0)
                 _rtuLogger.AppendLine($"Initialization error: {initOtdr}");
             if (initOtdr == 805)
-                _rtuLogger.AppendLine("805 - ERROR_COM_OPEN - check otdr address");
+                _rtuLogger.AppendLine("805 - ERROR_COM_OPEN - check otdr address or reboot rtu");
             return initOtdr == 0;
         }
 

@@ -15,11 +15,11 @@ namespace ConsoleAppOtdr
         static void Main()
         {
             _logger35 = new Logger35();
-            _logger35.AssignFile("Rtu.log");
-            Console.WriteLine("see Rtu.log");
+            _logger35.AssignFile("rtu.log");
+            Console.WriteLine("see rtu.log");
 
             _iniFile35 = new IniFile();
-            _iniFile35.AssignFile("Rtu.ini");
+            _iniFile35.AssignFile("rtu.ini");
 
             _otdrManager = new OtdrManager(@"OtdrMeasEngine\", _logger35);
             if (_otdrManager.LoadDll() == "")

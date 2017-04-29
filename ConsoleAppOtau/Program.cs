@@ -1,35 +1,33 @@
 ﻿using System;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Utils35;
+using Iit.Fibertest.Utils35.IniFile;
 
 namespace ConsoleAppOtau
 {
     class Program
     {
         private static Logger35 _rtuLogger35;
+        private static IniFile _iniFile35;
         static void Main()
         {
             _rtuLogger35 = new Logger35();
-            _rtuLogger35.AssignFile(@"c:\temp\charon.log"); // if filename is empty Console will be used
+            _rtuLogger35.AssignFile("rtu.log");
+            Console.WriteLine("see rtu.log");
 
-//          const string serverIp = "192.168.88.101";
-            const string serverIp = "192.168.96.52";
-//          const string serverIp = "192.168.96.57";
-//          const string serverIp = "172.16.4.10";
-//          const int tcpPort = 11834;
+            _iniFile35 = new IniFile();
+            _iniFile35.AssignFile("rtu.ini");
 
-            const int tcpPort = 23;
-            var netAddress = new NetAddress() { Ip4Address = serverIp, Port = tcpPort };
+            var otauAddress = _iniFile35.Read(IniSection.General, IniKey.OtauIp, "192.168.96.52");
+            var otauPort = _iniFile35.Read(IniSection.General, IniKey.OtauPort, 23);
+            var netAddress = new NetAddress() { Ip4Address = otauAddress, Port = otauPort };
+
             _rtuLogger35.AppendLine($"Otau {netAddress.ToStringA()} initialization started");
-            var ch = new Charon(netAddress, _rtuLogger35, CharonLogLevel.Off);
+            var ch = new Charon(netAddress, _rtuLogger35, CharonLogLevel.TransmissionCommands);
             if (ch.Initialize())
                 _rtuLogger35.AppendLine($"Otau initialization successful: Main charon {ch.Serial} has {ch.OwnPortCount}/{ch.FullPortCount} ports");
             else
                 _rtuLogger35.AppendLine($"charon {ch.NetAddress.ToStringA()} initialization failed");
-
-            //reinit
-            //            if (ch.Initialize())
-            //                _rtuLogger.AppendLine($"charon {ch.Serial} has {ch.OwnPortCount} ports");
 
             _rtuLogger35.AppendLine("Otau get active port");
             var activePort = ch.GetExtendedActivePort();

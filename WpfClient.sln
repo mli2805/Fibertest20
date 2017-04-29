@@ -30,7 +30,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfClient", "WpfClient\WpfC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utils35", "Utils35\Utils35.csproj", "{716240FF-D1E8-4BD3-9E63-431382617398}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{F7BEE8E7-FFD9-4136-B3B7-474B1D64108E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleAppOtdr", "ConsoleApp\ConsoleAppOtdr.csproj", "{F7BEE8E7-FFD9-4136-B3B7-474B1D64108E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IitOtdrLibrary", "IitOtdrLibrary\IitOtdrLibrary.csproj", "{12208D72-7EC1-456F-9F0A-B56152DDC5D2}"
 EndProject
