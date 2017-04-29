@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Iit.Fibertest.Utils35.IniFile
@@ -22,27 +20,7 @@ namespace Iit.Fibertest.Utils35.IniFile
         /// <param name="fullFilename"></param>
         public void AssignFile(string fullFilename)
         {
-            _filePath = FileNameForSure(fullFilename); 
-        }
-
-        private string FileNameForSure(string filename)
-        {
-            try
-            {
-                string folder = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\ini\"));
-                if (!Directory.Exists(folder))
-                    Directory.CreateDirectory(folder);
-
-                var result = Path.GetFullPath(Path.Combine(folder, filename));
-                if (!File.Exists(result))
-                    File.Create(result);
-                return result;
-            }
-            catch (COMException e)
-            {
-                Console.WriteLine(e.Message);
-                return null;
-            }
+            _filePath = Utils.FileNameForSure(@"..\Ini\", fullFilename, false); 
         }
 
         #region Base (String)
