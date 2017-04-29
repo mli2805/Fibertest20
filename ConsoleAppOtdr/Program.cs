@@ -25,12 +25,16 @@ namespace ConsoleAppOtdr
             if (!OtdrInitialization())
                 return;
 
+            var moniQueue = GetMonitoringSettings();
             while (true)
             {
-                if (GetMonitoringSettings() == null)
+                var port = moniQueue.Dequeue();
+                moniQueue.Enqueue(port);
+
+                if (port == -1)
                     break;
 
-
+                
             }
 
 
@@ -40,6 +44,17 @@ namespace ConsoleAppOtdr
             _logger35.AppendLine("Done.");
             Console.WriteLine("Done.");
             Console.ReadKey();
+        }
+
+        private void MoniPort(int port)
+        {
+            var basefile = $@"..\PortData\{port}\PreciseFast.sor";
+            if (!File.Exists(basefile))
+            {
+                _logger35.AppendLine($"Can't find fast base for port {port}");
+                return;
+            }
+            var basebytes = File.ReadAllBytes(basefile);
         }
 
         private static Queue<int> GetMonitoringSettings()
