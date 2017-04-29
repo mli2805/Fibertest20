@@ -15,12 +15,18 @@ namespace Iit.Fibertest.DirectCharonLibrary
             try
             {
                 //---create a TCPClient object at the IP and port no.---
-                TcpClient client = new TcpClient(NetAddress.Ip4Address, NetAddress.Port);
+                TcpClient client =
+                    new TcpClient(NetAddress.Ip4Address, NetAddress.Port)
+                    {
+                        SendTimeout = TimeSpan.FromSeconds(2).Milliseconds,
+                        ReceiveTimeout = TimeSpan.FromSeconds(2).Milliseconds
+                    };
                 NetworkStream nwStream = client.GetStream();
                 byte[] bytesToSend = Encoding.ASCII.GetBytes(cmd);
 
                 //---send the text---
-                _rtuLogger35.AppendLine("Sending : " + cmd);
+                if (_charonLogLevel >= CharonLogLevel.TransmissionCommands)
+                    _rtuLogger35.AppendLine(cmd, 4, "Sending :");
                 nwStream.Write(bytesToSend, 0, bytesToSend.Length);
 
                 // for bulk command could be needed
@@ -30,13 +36,15 @@ namespace Iit.Fibertest.DirectCharonLibrary
                 byte[] bytesToRead = new byte[client.ReceiveBufferSize];
                 int bytesRead = nwStream.Read(bytesToRead, 0, client.ReceiveBufferSize);
                 client.Close();
-                _rtuLogger35.AppendLine("Received : " + Encoding.ASCII.GetString(bytesToRead, 0, bytesRead));
+                if (_charonLogLevel >= CharonLogLevel.TransmissionCommands)
+                    _rtuLogger35.AppendLine(Encoding.ASCII.GetString(bytesToRead, 0, bytesRead), 4, "Received :");
                 LastAnswer = Encoding.ASCII.GetString(bytesToRead, 0, bytesRead);
                 IsLastCommandSuccessful = true;
             }
             catch (Exception e)
             {
-                _rtuLogger35.AppendLine(e.Message);
+                if (_charonLogLevel >= CharonLogLevel.TransmissionCommands)
+                    _rtuLogger35.AppendLine(e.Message);
                 LastErrorMessage = e.Message;
             }
         }
@@ -55,13 +63,15 @@ namespace Iit.Fibertest.DirectCharonLibrary
 
                 //---send the command---
                 byte[] bytesToSend = Encoding.ASCII.GetBytes(cmd);
-                _rtuLogger35.AppendLine("Sending : " + cmd);
+                if (_charonLogLevel >= CharonLogLevel.TransmissionCommands)
+                    _rtuLogger35.AppendLine(cmd, 4, "Sending :");
                 nwStream.Write(bytesToSend, 0, bytesToSend.Length);
 
                 //---read back the answer---
                 byte[] bytesToRead = new byte[client.ReceiveBufferSize];
                 int bytesRead = nwStream.Read(bytesToRead, 0, client.ReceiveBufferSize);
-                _rtuLogger35.AppendLine("Received : " + Encoding.ASCII.GetString(bytesToRead, 0, bytesRead));
+                if (_charonLogLevel >= CharonLogLevel.TransmissionCommands)
+                    _rtuLogger35.AppendLine(Encoding.ASCII.GetString(bytesToRead, 0, bytesRead), 4, "Received :");
 
                 //---send the content---
                 byte[] contentBytes = new byte[480];
@@ -81,7 +91,8 @@ namespace Iit.Fibertest.DirectCharonLibrary
                 //---read back the answer---
                 bytesToRead = new byte[client.ReceiveBufferSize];
                 bytesRead = nwStream.Read(bytesToRead, 0, client.ReceiveBufferSize);
-                _rtuLogger35.AppendLine("Received : " + Encoding.ASCII.GetString(bytesToRead, 0, bytesRead));
+                if (_charonLogLevel >= CharonLogLevel.TransmissionCommands)
+                    _rtuLogger35.AppendLine(Encoding.ASCII.GetString(bytesToRead, 0, bytesRead), 4, "Received : ");
 
                 client.Close();
                 LastAnswer = Encoding.ASCII.GetString(bytesToRead, 0, bytesRead);
@@ -89,7 +100,8 @@ namespace Iit.Fibertest.DirectCharonLibrary
             }
             catch (Exception e)
             {
-                _rtuLogger35.AppendLine(e.Message);
+                if (_charonLogLevel >= CharonLogLevel.TransmissionCommands)
+                    _rtuLogger35.AppendLine(e.Message);
                 LastErrorMessage = e.Message;
             }
 

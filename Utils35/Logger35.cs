@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net.Mime;
 using System.Runtime.InteropServices;
 
 namespace Iit.Fibertest.Utils35
@@ -50,16 +51,28 @@ namespace Iit.Fibertest.Utils35
                 _logFile.WriteLine(message);
             else Console.WriteLine(message);
         }
-        public void AppendLine(string message)
+
+        public void AppendLine(string message, int offset = 0, string prefix = "")
         {
             message = message.Replace("\0", string.Empty);
             message = message.Trim();
-            message = message.Replace("\r\n", " <NL> ");
-            message = DateTime.Now + "  " + message.Trim();
-            if (_logFile != null)
-                _logFile.WriteLine(message);
-            else Console.WriteLine(message);
+            message = message.Replace("\r\n", "\r");
+            message = message.Replace("\n\r", "\r");
+            message = message.Replace("\n", "\r");
+            var content = message.Split('\r');
+
+            var offsetStr = new string(' ', offset);
+            if (!string.IsNullOrEmpty(prefix))
+                prefix += " ";
+            foreach (var str in content)
+            {
+                var msg = DateTime.Now + "  " + offsetStr + prefix + str.Trim();
+                if (_logFile != null)
+                    _logFile.WriteLine(msg);
+                else Console.WriteLine(msg);
+            }
         }
+
         public void Append(string message)
         {
             if (_logFile != null)

@@ -188,7 +188,7 @@ namespace RtuWpfExample
         public async Task InitOtau()
         {
             InitializationMessage = "Wait, please...";
-            MainCharon = new Charon(new NetAddress() { Ip4Address = IpAddress, Port = OtauPort }, _rtuLogger);
+            MainCharon = new Charon(new NetAddress() { Ip4Address = IpAddress, Port = OtauPort }, _rtuLogger, CharonLogLevel.PublicCommands);
             await RunOtauInitialization();
             InitializationMessage = MainCharon.IsLastCommandSuccessful ? "OTAU initialized successfully!" : MainCharon.LastErrorMessage;
 

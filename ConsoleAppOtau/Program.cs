@@ -10,7 +10,7 @@ namespace ConsoleAppOtau
         static void Main()
         {
             _rtuLogger35 = new Logger35();
-            _rtuLogger35.AssignFile(""); // if filename is empty Console will be used
+            _rtuLogger35.AssignFile(@"c:\temp\charon.log"); // if filename is empty Console will be used
 
 //          const string serverIp = "192.168.88.101";
             const string serverIp = "192.168.96.52";
@@ -19,21 +19,26 @@ namespace ConsoleAppOtau
 //          const int tcpPort = 11834;
 
             const int tcpPort = 23;
-            _rtuLogger35.AppendLine("Otau initialization started");
-            var ch = new Charon(new NetAddress() { Ip4Address = serverIp, Port = tcpPort }, _rtuLogger35);
+            var netAddress = new NetAddress() { Ip4Address = serverIp, Port = tcpPort };
+            _rtuLogger35.AppendLine($"Otau {netAddress.ToStringA()} initialization started");
+            var ch = new Charon(netAddress, _rtuLogger35, CharonLogLevel.Off);
             if (ch.Initialize())
-                _rtuLogger35.AppendLine($"charon {ch.Serial} has {ch.OwnPortCount} ports");
+                _rtuLogger35.AppendLine($"Otau initialization successful: Main charon {ch.Serial} has {ch.OwnPortCount}/{ch.FullPortCount} ports");
+            else
+                _rtuLogger35.AppendLine($"charon {ch.NetAddress.ToStringA()} initialization failed");
 
             //reinit
-//            if (ch.Initialize())
-//                _rtuLogger.AppendLine($"charon {ch.Serial} has {ch.OwnPortCount} ports");
+            //            if (ch.Initialize())
+            //                _rtuLogger.AppendLine($"charon {ch.Serial} has {ch.OwnPortCount} ports");
 
+            _rtuLogger35.AppendLine("Otau get active port");
             var activePort = ch.GetExtendedActivePort();
             if (activePort != -1)
-                _rtuLogger35.AppendLine($"{ch.NetAddress.Ip4Address}:{ch.NetAddress.Port} active port {activePort}");
+                _rtuLogger35.AppendLine($"Otau active port {activePort}");
             else
                 _rtuLogger35.AppendLine("some error");
 
+            _rtuLogger35.AppendLine("Otau set new active port");
             var newActivePort = ch.SetExtendedActivePort(14);
             if (newActivePort == -1)
             {
@@ -43,10 +48,13 @@ namespace ConsoleAppOtau
             _rtuLogger35.AppendLine($"New active port {newActivePort}");
 
 
+            _rtuLogger35.AppendLine("Otau detach additional otau");
             if (ch.DetachOtauFromPort(2))
                 _rtuLogger35.AppendLine($"detached successfully");
             else _rtuLogger35.AppendLine($"{ch.LastErrorMessage}");
 
+
+            _rtuLogger35.AppendLine("Otau attach additional otau");
             if (ch.AttachOtauToPort(new NetAddress("192.168.96.57", 11834) , 2))
                 _rtuLogger35.AppendLine($"attached successfully");
             else _rtuLogger35.AppendLine($"{ch.LastErrorMessage}");

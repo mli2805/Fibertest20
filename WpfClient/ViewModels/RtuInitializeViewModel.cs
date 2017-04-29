@@ -84,7 +84,7 @@ namespace Iit.Fibertest.Client
         private Charon TemporaryFakeInitialization()
         {
             var charonAddress = new NetAddress(MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().Ip4Address, 23);
-            var mainCharon = new Charon(charonAddress, _logger35);
+            var mainCharon = new Charon(charonAddress, _logger35, CharonLogLevel.PublicCommands);
             mainCharon.FullPortCount = 8;
             mainCharon.OwnPortCount = 8;
             mainCharon.Serial = @"1234567";
@@ -117,7 +117,7 @@ namespace Iit.Fibertest.Client
             InitilizationProgress = Resources.SID_Please__wait_;
 
             var charonAddress = new NetAddress(MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().Ip4Address, 23);
-            var mainCharon = new Charon(charonAddress, _logger35);
+            var mainCharon = new Charon(charonAddress, _logger35, CharonLogLevel.PublicCommands);
             using (new WaitCursor())
             {
                 await Task.Run(() => mainCharon.InitializeRtu());

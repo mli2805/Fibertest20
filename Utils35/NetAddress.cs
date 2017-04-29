@@ -27,9 +27,13 @@ namespace Iit.Fibertest.Utils35
             IsAddressSetAsIp = true;
         }
 
-        public string ToStringA()
+        public string ToStringASpace()
         {
             return $@"{Ip4Address} : {Port}";
+        }
+        public string ToStringA()
+        {
+            return $@"{Ip4Address}:{Port}";
         }
 
         public string ToStringB()

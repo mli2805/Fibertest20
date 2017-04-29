@@ -110,7 +110,7 @@ namespace Iit.Fibertest.Client
             var otdrAddress = ReadModel.Rtus.First(r => r.Id == rtuLeaf.Id).OtdrNetAddress;
             NetAddress otauAddress = new NetAddress(otdrAddress.Ip4Address, 23);
 
-            var charon = new Charon(otauAddress, _logger35);
+            var charon = new Charon(otauAddress, _logger35, CharonLogLevel.PublicCommands);
             var activePort = charon.SetExtendedActivePort(ExtendedPortNumber);
             if (activePort == ExtendedPortNumber)
                 System.Diagnostics.Process.Start(@"TraceEngine\Reflect.exe", $"-fnw -n {otdrAddress.Ip4Address} -p {otdrAddress.Port}");

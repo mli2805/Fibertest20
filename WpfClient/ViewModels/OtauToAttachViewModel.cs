@@ -133,7 +133,7 @@ namespace Iit.Fibertest.Client
         {
             AttachmentProgress = Resources.SID_Please__wait_;
 
-            Charon otau = new Charon(new NetAddress(NetAddressInputViewModel.GetNetAddress().Ip4Address, NetAddressInputViewModel.GetNetAddress().Port), _logger35);
+            Charon otau = new Charon(new NetAddress(NetAddressInputViewModel.GetNetAddress().Ip4Address, NetAddressInputViewModel.GetNetAddress().Port), _logger35, CharonLogLevel.PublicCommands);
             using (new WaitCursor())
             {
                await Task.Run(() => RealOtauAttachProcess(otau));
