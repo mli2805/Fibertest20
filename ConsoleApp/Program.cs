@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.Utils35;
+using Iit.Fibertest.Utils35.IniFile;
 
 namespace ConsoleAppOtdr
 {
@@ -10,33 +10,33 @@ namespace ConsoleAppOtdr
     {
         private static OtdrManager _otdrManager;
         private static Logger35 _logger35;
+        private static IniFile _iniFile35;
 
-        static void Main(string[] args)
+        static void Main()
         {
             _logger35 = new Logger35();
-            _logger35.AssignFile("");
-            _otdrManager = new OtdrManager(@"..\IitOtdr\", _logger35);
+            _logger35.AssignFile("Rtu.log");
+            Console.WriteLine("see Rtu.log");
+
+            _iniFile35 = new IniFile();
+            _iniFile35.AssignFile("Rtu.ini");
+
+            _otdrManager = new OtdrManager(@"OtdrMeasEngine\", _logger35);
             if (_otdrManager.LoadDll() == "")
             {
-                string otdrAddress;
-                if (args.Length == 1)
-                    otdrAddress = args[0];
-                else
-                {
-//                    otdrAddress = "172.16.4.10";
-//                    otdrAddress = "192.168.88.101";
-                    otdrAddress = "192.168.96.52";
-                }
+                var otdrAddress = _iniFile35.Read(IniSection.General, IniKey.OtdrIp, "192.168.88.101");
+
                 if (_otdrManager.InitializeLibrary())
                     _otdrManager.ConnectOtdr(otdrAddress);
                 if (_otdrManager.IsOtdrConnected)
                 {
                     var content = ReadCurrentParameters();
-                    File.WriteAllLines(@"c:\temp\paramOtdr.txt", content.ToArray());
+                    _logger35.AppendLine(content, 3);
                 }
             }
-            Console.Write("Done.");
-            Console.Read();
+            _logger35.AppendLine("Done.");
+            Console.WriteLine("Done.");
+            Console.ReadKey();
         }
 
         private static List<string> ReadCurrentParameters()

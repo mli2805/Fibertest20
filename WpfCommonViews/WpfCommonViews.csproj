@@ -47,8 +47,9 @@
       <HintPath>..\packages\Caliburn.Micro.3.0.3\lib\net45\Caliburn.Micro.Platform.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Optixsoft.OtdrDataFormat">
-      <HintPath>..\..\Optixsoft.OtdrDataFormat.dll</HintPath>
+    <Reference Include="Optixsoft.OtdrDataFormat, Version=1.1.4.118, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Optixsoft.OtdrDataFormat\Optixsoft.OtdrDataFormat.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

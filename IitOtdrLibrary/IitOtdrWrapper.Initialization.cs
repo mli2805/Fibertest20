@@ -42,15 +42,24 @@ namespace Iit.Fibertest.IitOtdrLibrary
             int initOtdr;
             try
             {
-                initOtdr = InitOTDR((int)type, ip, port);
+                initOtdr = InitOTDR((int) type, ip, port);
+            }
+            catch (ExternalException e)
+            {
+                _rtuLogger.AppendLine($"External exception code {e.ErrorCode}");
+                _rtuLogger.AppendLine($"External exception message {e.Message}");
+                return false;
             }
             catch (Exception e)
             {
-                _rtuLogger.AppendLine(e.Message);
+                _rtuLogger.AppendLine($"Exception: \"{e.Message}\"");
+                
                 return false;
             }
             if (initOtdr != 0)
                 _rtuLogger.AppendLine($"Initialization error: {initOtdr}");
+            if (initOtdr == 805)
+                _rtuLogger.AppendLine("805 - ERROR_COM_OPEN - check otdr address");
             return initOtdr == 0;
         }
 

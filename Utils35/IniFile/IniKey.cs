@@ -7,5 +7,8 @@ namespace Iit.Fibertest.Utils35.IniFile
         CurrentMeasurementFile,
         BaseMeasurementFile,
         MeasurementWithBaseFile,
+
+        OtdrIp,
+        OtdrPort,
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Net.Mime;
 using System.Runtime.InteropServices;
 
 namespace Iit.Fibertest.Utils35
@@ -50,6 +50,14 @@ namespace Iit.Fibertest.Utils35
             if (_logFile != null)
                 _logFile.WriteLine(message);
             else Console.WriteLine(message);
+        }
+
+        public void AppendLine(List<string> messages, int offset = 0, string prefix = "")
+        {
+            foreach (var message in messages)
+            {
+                AppendLine(message,offset,prefix);
+            }
         }
 
         public void AppendLine(string message, int offset = 0, string prefix = "")
