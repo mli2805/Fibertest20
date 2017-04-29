@@ -7,9 +7,45 @@ using Iit.Fibertest.Utils35.IniFile;
 
 namespace ConsoleAppOtdr
 {
+    public class Monirer
+    {
+        private readonly Logger35 _logger35;
+        private readonly IniFile _iniFile35;
+        private OtdrManager _otdrManager;
+
+        public Monirer(Logger35 logger35, IniFile iniFile35)
+        {
+            _logger35 = logger35;
+            _iniFile35 = iniFile35;
+        }
+
+        public bool InitializeOtdr()
+        {
+            _otdrManager = new OtdrManager(@"OtdrMeasEngine\", _logger35);
+            if (_otdrManager.LoadDll() != "")
+                return false;
+
+            var otdrAddress = _iniFile35.Read(IniSection.General, IniKey.OtdrIp, "192.168.88.101");
+            if (_otdrManager.InitializeLibrary())
+                _otdrManager.ConnectOtdr(otdrAddress);
+            return _otdrManager.IsOtdrConnected;
+        }
+
+        public void MoniPort(int port)
+        {
+            var basefile = $@"..\PortData\{port}\PreciseFast.sor";
+            if (!File.Exists(basefile))
+            {
+                _logger35.AppendLine($"Can't find fast base for port {port}");
+                return;
+            }
+            var baseBytes = File.ReadAllBytes(basefile);
+            _otdrManager.MeasureWithBase(baseBytes);
+        }
+
+    }
     class Program
     {
-        private static OtdrManager _otdrManager;
         private static Logger35 _logger35;
         private static IniFile _iniFile35;
 
@@ -22,7 +58,9 @@ namespace ConsoleAppOtdr
             _iniFile35 = new IniFile();
             _iniFile35.AssignFile("rtu.ini");
 
-            if (!OtdrInitialization())
+            var monirer = new Monirer(_logger35, _iniFile35);
+            
+            if (!monirer.InitializeOtdr())
                 return;
 
             var moniQueue = GetMonitoringSettings();
@@ -34,28 +72,15 @@ namespace ConsoleAppOtdr
                 if (port == -1)
                     break;
 
-                
+                monirer.MoniPort(port);
             }
 
-
-            var content = ReadCurrentParameters();
-            _logger35.AppendLine(content, 3);
 
             _logger35.AppendLine("Done.");
             Console.WriteLine("Done.");
             Console.ReadKey();
         }
 
-        private void MoniPort(int port)
-        {
-            var basefile = $@"..\PortData\{port}\PreciseFast.sor";
-            if (!File.Exists(basefile))
-            {
-                _logger35.AppendLine($"Can't find fast base for port {port}");
-                return;
-            }
-            var basebytes = File.ReadAllBytes(basefile);
-        }
 
         private static Queue<int> GetMonitoringSettings()
         {
@@ -71,48 +96,36 @@ namespace ConsoleAppOtdr
             return mq;
         }
 
-        private static bool OtdrInitialization()
-        {
-            _otdrManager = new OtdrManager(@"OtdrMeasEngine\", _logger35);
-            if (_otdrManager.LoadDll() != "")
-                return false;
-
-            var otdrAddress = _iniFile35.Read(IniSection.General, IniKey.OtdrIp, "192.168.88.101");
-            if (_otdrManager.InitializeLibrary())
-                _otdrManager.ConnectOtdr(otdrAddress);
-            return _otdrManager.IsOtdrConnected;
-        }
-
-        private static List<string> ReadCurrentParameters()
+        private static List<string> ReadCurrentParameters(OtdrManager otdrManager)
         {
             var content = new List<string>();
-            content.Add($"Unit = {_otdrManager.IitOtdr.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.Unit)}");
-            content.Add($"ActiveUnit = {_otdrManager.IitOtdr.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveUnit)}");
+            content.Add($"Unit = {otdrManager.IitOtdr.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.Unit)}");
+            content.Add($"ActiveUnit = {otdrManager.IitOtdr.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveUnit)}");
 
-            content.Add($"ActiveRi = {_otdrManager.IitOtdr.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveRi)}");
+            content.Add($"ActiveRi = {otdrManager.IitOtdr.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveRi)}");
 
-            content.Add($"ActiveBc = {_otdrManager.IitOtdr.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveBc)}");
+            content.Add($"ActiveBc = {otdrManager.IitOtdr.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveBc)}");
 
-            content.Add($"Lmax = {_otdrManager.IitOtdr.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.Lmax)}");
-            content.Add($"ActiveLmax = {_otdrManager.IitOtdr.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveLmax)}");
+            content.Add($"Lmax = {otdrManager.IitOtdr.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.Lmax)}");
+            content.Add($"ActiveLmax = {otdrManager.IitOtdr.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveLmax)}");
 
-            content.Add($"Res = {_otdrManager.IitOtdr.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.Res)}");
-            content.Add($"ActiveRes = {_otdrManager.IitOtdr.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveRes)}");
+            content.Add($"Res = {otdrManager.IitOtdr.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.Res)}");
+            content.Add($"ActiveRes = {otdrManager.IitOtdr.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveRes)}");
 
-            content.Add($"Pulse = {_otdrManager.IitOtdr.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.Pulse)}");
-            content.Add($"ActivePulse = {_otdrManager.IitOtdr.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActivePulse)}");
+            content.Add($"Pulse = {otdrManager.IitOtdr.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.Pulse)}");
+            content.Add($"ActivePulse = {otdrManager.IitOtdr.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActivePulse)}");
 
-            var isTime = _otdrManager.IitOtdr.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveIsTime);
+            var isTime = otdrManager.IitOtdr.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveIsTime);
             content.Add($"ActiveIsTime = {isTime}");
             if (1 == int.Parse(isTime))
             {
-                content.Add($"Time = {_otdrManager.IitOtdr.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.Time)}");
-                content.Add($"ActiveTime = {_otdrManager.IitOtdr.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveTime)}");
+                content.Add($"Time = {otdrManager.IitOtdr.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.Time)}");
+                content.Add($"ActiveTime = {otdrManager.IitOtdr.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveTime)}");
             }
             else
             {
-                content.Add($"Navr = {_otdrManager.IitOtdr.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.Navr)}");
-                content.Add($"ActiveNavr = {_otdrManager.IitOtdr.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveNavr)}");
+                content.Add($"Navr = {otdrManager.IitOtdr.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.Navr)}");
+                content.Add($"ActiveNavr = {otdrManager.IitOtdr.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveNavr)}");
             }
 
             // and so on...

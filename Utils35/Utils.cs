@@ -15,17 +15,12 @@ namespace Iit.Fibertest.Utils35
                     Directory.CreateDirectory(folder);
 
                 var fullPath = Path.GetFullPath(Path.Combine(folder, filename));
-                if (!File.Exists(fullPath))
-                {
+                if (File.Exists(fullPath))
+                    return fullPath;
+                using (FileStream fs = File.Create(fullPath))
+                {   
                     if (isBoomNeeded)
-                    {
-                        using (FileStream fs = File.Create(fullPath))
-                        {   // BOM
-                            fs.WriteByte(239); fs.WriteByte(187); fs.WriteByte(191);
-                        }
-
-                    }
-                    else File.Create(fullPath);
+                        { fs.WriteByte(239); fs.WriteByte(187); fs.WriteByte(191);}
                 }
                 return fullPath;
             }
