@@ -2,6 +2,7 @@
 using System.Linq;
 using AutoMapper;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.Utils35;
 
 namespace Iit.Fibertest.Graph
 {

@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using GMap.NET.WindowsPresentation;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.Utils35;
 
 namespace Iit.Fibertest.Client
 {

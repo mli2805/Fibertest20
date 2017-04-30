@@ -8,13 +8,6 @@ using Iit.Fibertest.Utils35.IniFile;
 
 namespace ConsoleAppOtdr
 {
-    [Serializable]
-    public class MoniResult
-    {
-        public int Port { get; set; }
-        public DateTime TimeStamp { get; set; }
-    }
-
     class Program
     {
         private static Logger35 _logger35;
@@ -29,10 +22,10 @@ namespace ConsoleAppOtdr
             _iniFile35 = new IniFile();
             _iniFile35.AssignFile("rtu.ini");
 
-            var monirer = new Monirer(_logger35, _iniFile35);
+            var overSeer = new OverSeer(_logger35, _iniFile35);
             
-//            if (!monirer.InitializeOtdr())
-//                return;
+            if (!overSeer.InitializeOtdr())
+                return;
 
             var moniQueue = GetMonitoringSettings();
             while (true)
@@ -43,21 +36,9 @@ namespace ConsoleAppOtdr
                 if (port == -1)
                     break;
 
-//                monirer.MoniPort(port);
-
-                if (!MessageQueue.Exists(@".\private$\F20"))
-                    break;
-
-                var body = new MoniResult() {Port = port, TimeStamp = DateTime.Now};
-                using (MessageQueue queue = new MessageQueue(@".\private$\F20"))
-                {
-                    var binaryMessageFormatter = new BinaryMessageFormatter();
-                    using (var message = new Message(body, binaryMessageFormatter))
-                    {
-                        message.Recoverable = true;
-                        queue.Send(message, $"Port {port}, {DateTime.Now}", MessageQueueTransactionType.Single);
-                    }
-                }
+                
+                var moniResult = overSeer.MoniPort(port, BaseRefType.Fast);
+                SendMoniResult(moniResult);
 
                 break;
             }
@@ -68,6 +49,28 @@ namespace ConsoleAppOtdr
 //            Console.ReadKey();
         }
 
+        private static void SendMoniResult(MoniResult moniResult)
+        {
+            //                var queueName = @".\private$\F22";
+            var queueName = @"FormatName:Direct=TCP:192.168.0.111\private$\F22";
+            //                var queueName = @"FormatName:Direct=TCP:192.168.96.52\private$\F22";
+            //                var queueName = @"FormatName:Direct=OS:opx-lmarholin\private$\F22";
+
+            // if (!MessageQueue.Exists(queueName)) // works only for local machine queue/address format
+            //     break;
+
+            using (MessageQueue queue = new MessageQueue(queueName))
+            {
+                var binaryMessageFormatter = new BinaryMessageFormatter();
+                using (var message = new Message(moniResult, binaryMessageFormatter))
+                {
+                    message.Recoverable = true;
+                    queue.Send(message, MessageQueueTransactionType.Single);
+//                    queue.Send(message);
+                }
+            }
+
+        }
 
         private static Queue<int> GetMonitoringSettings()
         {

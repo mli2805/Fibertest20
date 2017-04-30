@@ -106,6 +106,9 @@ namespace Iit.Fibertest.Client
 
         private OtdrDataKnownBlocks GetBase(Guid baseId)
         {
+            if (baseId == Guid.Empty)
+                return null;
+
             var bytes = File.ReadAllBytes(@"c:\temp\base.sor");
             // TODO get sordata from database
             return SorData.FromBytes(bytes);
@@ -115,7 +118,7 @@ namespace Iit.Fibertest.Client
 
         public void ShowInformation()
         {
-            var vm = new LandmarkViewModel(_readModel);
+            var vm = new LandmarkViewModel();
             var landmark = _landmarks.First(l => l.Number == SelectedRow.Number);
             vm.Initialize(landmark);
             vm.RtuTitle = _readModel.Rtus.First(r => r.Id == _selectedTrace.RtuId).Title;

@@ -6,7 +6,6 @@ namespace Iit.Fibertest.Client
 {
     public class LandmarkViewModel : Screen
     {
-        private readonly ReadModel _readModel;
         public string NodeTitle { get; set; }
         public string NodeComment { get; set; }
         public string EquipmentTitle { get; set; }
@@ -17,11 +16,6 @@ namespace Iit.Fibertest.Client
         public string Location { get; set; }
         public string LandmarkNumber { get; set; }
         public string EventNumber { get; set; }
-
-        public LandmarkViewModel(ReadModel readModel)
-        {
-            _readModel = readModel;
-        }
 
         public void Initialize(Landmark landmark)
         {

@@ -6,6 +6,7 @@ using AutoMapper;
 using Caliburn.Micro;
 using GMap.NET;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.Utils35;
 
 namespace Iit.Fibertest.Client
 {

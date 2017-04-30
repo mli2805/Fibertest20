@@ -18,9 +18,9 @@ namespace Iit.Fibertest.Utils35
                 if (File.Exists(fullPath))
                     return fullPath;
                 using (FileStream fs = File.Create(fullPath))
-                {   
+                {
                     if (isBoomNeeded)
-                        { fs.WriteByte(239); fs.WriteByte(187); fs.WriteByte(191);}
+                    { fs.WriteByte(239); fs.WriteByte(187); fs.WriteByte(191); }
                 }
                 return fullPath;
             }
@@ -28,6 +28,21 @@ namespace Iit.Fibertest.Utils35
             {
                 Console.WriteLine(e.Message);
                 return null;
+            }
+        }
+
+        public static string ToFileName(this BaseRefType baseRefType)
+        {
+            switch (baseRefType)
+            {
+                case BaseRefType.Precise:
+                    return "BasePrecise.sor";
+                case BaseRefType.Fast:
+                    return "BaseFast.sor";
+                case BaseRefType.Additional:
+                    return "BaseAdditional.sor";
+                default:
+                    return "";
             }
         }
 

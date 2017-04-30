@@ -5,6 +5,7 @@ using AutoMapper;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Algorithms;
+using Iit.Fibertest.Utils35;
 
 namespace Iit.Fibertest.Client
 {
