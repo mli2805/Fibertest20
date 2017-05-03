@@ -24,8 +24,8 @@ namespace ConsoleAppOtdr
 
             var overSeer = new OverSeer(_logger35, _iniFile35);
             
-            if (!overSeer.InitializeOtdr())
-                return;
+//            if (!overSeer.InitializeOtdr())
+//                return;
 
             var moniQueue = GetMonitoringSettings();
             while (true)
@@ -37,8 +37,9 @@ namespace ConsoleAppOtdr
                     break;
 
                 
-                var moniResult = overSeer.MoniPort(port, BaseRefType.Fast);
-                SendMoniResult(moniResult);
+//                var moniResult = overSeer.MoniPort(port, BaseRefType.Fast);
+//                SendMoniResult(moniResult);
+                SendMoniResult(new MoniResult());
 
                 break;
             }
@@ -51,8 +52,8 @@ namespace ConsoleAppOtdr
 
         private static void SendMoniResult(MoniResult moniResult)
         {
-            //                var queueName = @".\private$\F22";
-            var queueName = @"FormatName:Direct=TCP:192.168.0.111\private$\F22";
+//                            var queueName = @".\private$\F20";
+            var queueName = @"FormatName:Direct=TCP:192.168.96.8\private$\F20";
             //                var queueName = @"FormatName:Direct=TCP:192.168.96.52\private$\F22";
             //                var queueName = @"FormatName:Direct=OS:opx-lmarholin\private$\F22";
 
