@@ -24,8 +24,8 @@ namespace ConsoleAppOtdr
 
             var overSeer = new OverSeer(_logger35, _iniFile35);
             
-//            if (!overSeer.InitializeOtdr())
-//                return;
+            if (!overSeer.InitializeOtdr())
+                return;
 
             var moniQueue = GetMonitoringSettings();
             while (true)
@@ -37,9 +37,9 @@ namespace ConsoleAppOtdr
                     break;
 
                 
-//                var moniResult = overSeer.MoniPort(port, BaseRefType.Fast);
+                var moniResult = overSeer.MoniPort(port, BaseRefType.Fast);
 //                SendMoniResult(moniResult);
-                SendMoniResult(new MoniResult());
+//                SendMoniResult(new MoniResult());
 
                 break;
             }
@@ -47,7 +47,7 @@ namespace ConsoleAppOtdr
 
             _logger35.AppendLine("Done.");
             Console.WriteLine("Done.");
-//            Console.ReadKey();
+            Console.ReadKey();
         }
 
         private static void SendMoniResult(MoniResult moniResult)

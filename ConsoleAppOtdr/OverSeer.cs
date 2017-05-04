@@ -32,9 +32,10 @@ namespace ConsoleAppOtdr
 
         public MoniResult MoniPort(int port, BaseRefType baseRefType)
         {
-
             var baseBytes = GetBase(port, baseRefType);
             _otdrManager.MeasureWithBase(baseBytes);
+            var moniResult = _otdrManager.CompareMeasureWithBase(baseBytes,
+                _otdrManager.ApplyAutoAnalysis(_otdrManager.GetLastSorDataBuffer()), true); // is ApplyAutoAnalysis necessary ?
             return new MoniResult() {Port = port, TimeStamp = DateTime.Now, BaseRefType = baseRefType};
         }
 
