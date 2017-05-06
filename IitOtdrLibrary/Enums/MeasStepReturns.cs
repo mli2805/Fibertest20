@@ -1,4 +1,4 @@
-namespace Iit.Fibertest.IitOtdrLibrary
+﻿namespace Iit.Fibertest.IitOtdrLibrary
 {
     public enum MeasStepReturns
     {

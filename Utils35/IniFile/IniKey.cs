@@ -1,4 +1,4 @@
-namespace Iit.Fibertest.Utils35.IniFile
+﻿namespace Iit.Fibertest.Utils35.IniFile
 {
     public enum IniKey
     {

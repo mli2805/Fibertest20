@@ -1,4 +1,4 @@
-using Iit.Fibertest.StringResources;
+﻿using Iit.Fibertest.StringResources;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
 

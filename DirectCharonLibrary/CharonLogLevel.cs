@@ -1,4 +1,4 @@
-namespace Iit.Fibertest.DirectCharonLibrary
+﻿namespace Iit.Fibertest.DirectCharonLibrary
 {
     public enum CharonLogLevel
     {

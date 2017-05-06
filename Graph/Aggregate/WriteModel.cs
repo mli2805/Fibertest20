@@ -1,4 +1,4 @@
-using System;
+п»їusing System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
@@ -92,7 +92,7 @@ namespace Iit.Fibertest.Graph
                 int idx;
                 while ((idx = Topo.GetFiberIndexInTrace(trace, _fibers.Single(f => f.Id == e.FiberId))) != -1)
                 {
-                    trace.Nodes.Insert(idx + 1, e.Id); // GPS location добавляется во все трассы
+                    trace.Nodes.Insert(idx + 1, e.Id); // GPS location РґРѕР±Р°РІР»СЏРµС‚СЃСЏ РІРѕ РІСЃРµ С‚СЂР°СЃСЃС‹
                 }
             }
         }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Iit.Fibertest.Utils35;
 
 namespace ConsoleAppOtdr

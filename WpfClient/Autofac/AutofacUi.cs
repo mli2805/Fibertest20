@@ -1,4 +1,4 @@
-using Autofac;
+﻿using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Utils35;
 using Iit.Fibertest.Utils35.IniFile;

@@ -1,3 +1,3 @@
-namespace Iit.Fibertest.Client {
+﻿namespace Iit.Fibertest.Client {
     public interface IShell {}
 }

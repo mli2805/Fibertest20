@@ -1,4 +1,4 @@
-using Iit.Fibertest.Graph;
+﻿using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client

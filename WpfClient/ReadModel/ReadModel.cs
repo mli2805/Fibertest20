@@ -1,4 +1,4 @@
-using System;
+п»їusing System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
@@ -318,8 +318,8 @@ namespace Iit.Fibertest.Client
 
         public void Apply(BaseRefAssigned e)
         {
-            // базовая не хранится на клиенте, а получается по запросу
-            // в полях трассы хранятся id ее базовых
+            // Р±Р°Р·РѕРІР°СЏ РЅРµ С…СЂР°РЅРёС‚СЃСЏ РЅР° РєР»РёРµРЅС‚Рµ, Р° РїРѕР»СѓС‡Р°РµС‚СЃСЏ РїРѕ Р·Р°РїСЂРѕСЃСѓ
+            // РІ РїРѕР»СЏС… С‚СЂР°СЃСЃС‹ С…СЂР°РЅСЏС‚СЃСЏ id РµРµ Р±Р°Р·РѕРІС‹С…
             // BaseRefs.Add(_mapper.Map<BaseRef>(e));
             var trace = Traces.Single(t => t.Id == e.TraceId);
 

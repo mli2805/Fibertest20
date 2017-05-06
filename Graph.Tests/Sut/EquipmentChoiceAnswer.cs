@@ -1,4 +1,4 @@
-namespace Graph.Tests
+﻿namespace Graph.Tests
 {
     public enum EquipmentChoiceAnswer
     {
