@@ -29,6 +29,32 @@ namespace Iit.Fibertest.Client
         private bool? _isAuthenticationSuccessfull;
         public Db LocalGraphDb { get; set; }
         public AdministrativeDb AdministrativeDb { get; set; }
+
+        private Visibility _sysEventsVisibility;
+        private int _selectedTabIndex;
+
+        public Visibility SysEventsVisibility
+        {
+            get { return _sysEventsVisibility; }
+            set
+            {
+                if (value == _sysEventsVisibility) return;
+                _sysEventsVisibility = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public int SelectedTabIndex
+        {
+            get { return _selectedTabIndex; }
+            set
+            {
+                if (value == _selectedTabIndex) return;
+                _selectedTabIndex = value;
+                ChangeGisVisibility();
+            }
+        }
+
         public ShellViewModel(ReadModel readModel, TreeOfRtuModel treeOfRtuModel, Bus bus, 
                 Db graphDb, AdministrativeDb administrativeDb, GraphReadModel graphReadModel, IWindowManager windowManager, 
                 ILogger clientLogger, IniFile iniFile, Logger35 logger35)
@@ -42,6 +68,9 @@ namespace Iit.Fibertest.Client
             LocalGraphDb = graphDb;
             AdministrativeDb = administrativeDb;
             GraphReadModel = graphReadModel;
+            GraphReadModel.MapVisibility = Visibility.Visible;
+            SysEventsVisibility = Visibility.Collapsed;
+            _selectedTabIndex = 1;
             _windowManager = windowManager;
             _logger35 = logger35;
 
@@ -84,6 +113,13 @@ namespace Iit.Fibertest.Client
                     .ConfigureAwait(false);
         }
 
+        public void ChangeGisVisibility()
+        {
+            GraphReadModel.MapVisibility = GraphReadModel.MapVisibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+            SysEventsVisibility = GraphReadModel.MapVisibility == Visibility.Visible
+                ? Visibility.Collapsed
+                : Visibility.Visible;
+        }
         public void Save()
         {
             LocalGraphDb.Save();

@@ -26,27 +26,29 @@
                 <TabItem Header="{x:Static stringResources:Resources.SID_Servers}"/>
             </TabControl>
             <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Left"/>
-            <TabControl Grid.Column="2">
-                <TabItem >
-                    <TabItem.Header>
-                        <TextBlock Text="{x:Static stringResources:Resources.SID_System_events }" Margin="5,0,20,0"/>
-                    </TabItem.Header>
-                    <StackPanel>
-                        <Button Width="120" Height="25" Name="Save" Content="Save Db" />
-                    </StackPanel>
-                </TabItem>
-                <TabItem IsSelected="True">
-                    <TabItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{x:Static stringResources:Resources.SID_Gis}" Margin="10,0,40,0"/>
-                            <ComboBox Margin="0" FontSize="10" VerticalContentAlignment="Center"
-                                      ItemsSource="{Binding GraphReadModel.GraphVisibilityLevels}" 
-                                      SelectedItem="{Binding GraphReadModel.SelectedGraphVisibilityLevel}"/>
-                        </StackPanel>
-                    </TabItem.Header>
-                    <client:MapUserControl DataContext="{Binding GraphReadModel}"/>
-                </TabItem>
-            </TabControl>
+            <DockPanel Grid.Column="2">
+                <TabControl Height="25" DockPanel.Dock="Top" SelectedIndex="{Binding SelectedTabIndex}">
+                    <TabItem>
+                        <TabItem.Header>
+                            <TextBlock Text="{x:Static stringResources:Resources.SID_System_events }" Margin="5,0,20,0"/>
+                        </TabItem.Header>
+                    </TabItem>
+                    <TabItem>
+                        <TabItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{x:Static stringResources:Resources.SID_Gis}" Margin="10,0,40,0"/>
+                                <ComboBox Margin="0" FontSize="10" VerticalContentAlignment="Center"
+                                          ItemsSource="{Binding GraphReadModel.GraphVisibilityLevels}" 
+                                          SelectedItem="{Binding GraphReadModel.SelectedGraphVisibilityLevel}"/>
+                            </StackPanel>
+                        </TabItem.Header>
+                    </TabItem>
+                </TabControl>
+                <StackPanel Visibility="{Binding SysEventsVisibility}" DockPanel.Dock="Top">
+                    <Button Width="120" Height="25" Name="Save" Content="Save Db" />
+                </StackPanel>
+                <client:MapUserControl DataContext="{Binding GraphReadModel}" Visibility="{Binding MapVisibility}" Margin="3,0,3,3"/>
+            </DockPanel>
         </Grid>
 
     </DockPanel>
