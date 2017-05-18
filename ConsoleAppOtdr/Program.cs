@@ -2,6 +2,7 @@
 using System.Messaging;
 using System.Collections.Generic;
 using System.IO;
+using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.Utils35;
 using Iit.Fibertest.Utils35.IniFile;
 
@@ -26,7 +27,6 @@ namespace ConsoleAppOtdr
             
             if (!overSeer.InitializeOtdr())
                 return;
-            Console.WriteLine("1");
 
             var moniQueue = GetMonitoringSettings();
             while (true)
@@ -38,7 +38,7 @@ namespace ConsoleAppOtdr
                     break;
 
                 
-               // var moniResult = overSeer.MoniPort(port, BaseRefType.Fast);
+                var moniResult = overSeer.MoniPort(port, BaseRefType.Fast);
 //                SendMoniResult(moniResult);
 //                SendMoniResult(new MoniResult());
 
@@ -48,7 +48,7 @@ namespace ConsoleAppOtdr
 
             _logger35.AppendLine("Done.");
             Console.WriteLine("Done.");
-            Console.ReadKey();
+//            Console.ReadKey();
         }
 
         private static void SendMoniResult(MoniResult moniResult)

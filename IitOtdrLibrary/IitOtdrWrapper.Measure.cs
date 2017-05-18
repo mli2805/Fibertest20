@@ -52,7 +52,9 @@ namespace Iit.Fibertest.IitOtdrLibrary
         {
             const int owtsInTwoWayNs = 5;
 
-            var sorData = SorData.FromBytes(buffer);
+            string str;
+            var sorData = SorData.FromBytes(buffer, out str);
+            if (!string.IsNullOrEmpty(str)) _rtuLogger.AppendLine(str);
             int lmaxOwt = sorData.IitParameters.DistnaceRangeUser;
             if (lmaxOwt == -1)
                 lmaxOwt = (int)sorData.FixedParameters.AcquisitionRange;

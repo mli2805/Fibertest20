@@ -12,6 +12,8 @@ namespace ConsoleAppOtdr
         private readonly IniFile _iniFile35;
         private OtdrManager _otdrManager;
 
+        private const string DefaultOtdrIp = "192.168.88.101";
+
         public OverSeer(Logger35 logger35, IniFile iniFile35)
         {
             _logger35 = logger35;
@@ -24,7 +26,7 @@ namespace ConsoleAppOtdr
             if (_otdrManager.LoadDll() != "")
                 return false;
 
-            var otdrAddress = _iniFile35.Read(IniSection.General, IniKey.OtdrIp, "192.168.88.101");
+            var otdrAddress = _iniFile35.Read(IniSection.General, IniKey.OtdrIp, DefaultOtdrIp);
             if (_otdrManager.InitializeLibrary())
                 _otdrManager.ConnectOtdr(otdrAddress);
             return _otdrManager.IsOtdrConnected;
@@ -34,9 +36,8 @@ namespace ConsoleAppOtdr
         {
             var baseBytes = GetBase(port, baseRefType);
             _otdrManager.MeasureWithBase(baseBytes);
-            var moniResult = _otdrManager.CompareMeasureWithBase(baseBytes,
+            return _otdrManager.CompareMeasureWithBase(baseBytes,
                 _otdrManager.ApplyAutoAnalysis(_otdrManager.GetLastSorDataBuffer()), true); // is ApplyAutoAnalysis necessary ?
-            return new MoniResult() {Port = port, TimeStamp = DateTime.Now, BaseRefType = baseRefType};
         }
 
         private byte[] GetBase(int port, BaseRefType baseRefType)

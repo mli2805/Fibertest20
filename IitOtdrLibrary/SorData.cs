@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 using Optixsoft.SorExaminer.OtdrDataFormat.IO;
 
@@ -6,6 +7,24 @@ namespace Iit.Fibertest.IitOtdrLibrary
 {
     public static class SorData
     {
+        public static OtdrDataKnownBlocks FromBytes(byte[] buffer, out string message)
+        {
+            using (var stream = new MemoryStream(buffer))
+            {
+                OtdrDataKnownBlocks otdrDataKnownBlocks = null;
+                try
+                {
+                     otdrDataKnownBlocks = new OtdrDataKnownBlocks(new OtdrReader(stream).Data);
+                    message = "";
+                }
+                catch (Exception e)
+                {
+                    message = e.Message;
+                }
+                return otdrDataKnownBlocks;
+            }
+        }
+
         public static OtdrDataKnownBlocks FromBytes(byte[] buffer)
         {
             using (var stream = new MemoryStream(buffer))
