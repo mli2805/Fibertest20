@@ -37,7 +37,7 @@ namespace ConsoleAppOtdr
                     break;
 
                 
-                var moniResult = overSeer.MoniPort(port, BaseRefType.Fast);
+               // var moniResult = overSeer.MoniPort(port, BaseRefType.Fast);
 //                SendMoniResult(moniResult);
 //                SendMoniResult(new MoniResult());
 
