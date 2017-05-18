@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using AutoMapper;
 using Caliburn.Micro;
 using GMap.NET;
@@ -12,6 +13,19 @@ namespace Iit.Fibertest.Client
 {
     public partial class GraphReadModel : PropertyChangedBase
     {
+        private Visibility _mapVisibility;
+        public Visibility MapVisibility
+        {
+            get { return _mapVisibility; }
+            set
+            {
+                if (value == _mapVisibility) return;
+                _mapVisibility = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+
         public ObservableCollection<NodeVm> Nodes { get; }
         public ObservableCollection<FiberVm> Fibers { get; }
         public ObservableCollection<RtuVm> Rtus { get; }

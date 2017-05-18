@@ -6,7 +6,7 @@
              xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
              xmlns:client="clr-namespace:Iit.Fibertest.Client"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             >
     <Control.Resources>
         <!-- call this resource from code -->
         <!-- ReSharper disable once Xaml.RedundantResource -->
