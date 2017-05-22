@@ -142,6 +142,7 @@ namespace RtuWpfExample
                 NotifyOfPropertyChange(() => ActivePort);
             }
         }
+        public NetAddress ActiveCharonAddress { get; set; }
 
         private readonly Logger35 _rtuLogger;
 
@@ -160,7 +161,7 @@ namespace RtuWpfExample
             ResultFileName = @"c:\temp\measwithbase.sor";
 
 
-            OtdrManager = new OtdrManager(@"..\OtdrMeasEngine\", _rtuLogger);
+            OtdrManager = new OtdrManager(@"OtdrMeasEngine\", _rtuLogger);
             var initializationResult = OtdrManager.LoadDll();
             if (initializationResult != "")
                 InitializationMessage = initializationResult;
@@ -194,7 +195,21 @@ namespace RtuWpfExample
 
             if (!MainCharon.IsLastCommandSuccessful)
                 return;
-            ActivePort = MainCharon.GetExtendedActivePort();
+
+            int activePort;
+            NetAddress activeCharonAddress;
+            if (MainCharon.GetExtendedActivePort(out activeCharonAddress, out activePort))
+            {
+                ActiveCharonAddress = activeCharonAddress;
+                ActivePort = activePort;
+                _rtuLogger.AppendLine($"Now active is port {activePort} on {activeCharonAddress.ToStringA()}");
+            }
+            else
+            {
+                ActiveCharonAddress = MainCharon.NetAddress;
+                ActivePort = -1;
+                _rtuLogger.AppendLine("can't get active port");
+            }
         }
 
         public async Task RunOtauInitialization()

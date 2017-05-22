@@ -91,6 +91,9 @@
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="IShell.cs" />
+    <Compile Include="OtauView.xaml.cs">
+      <DependentUpon>OtauView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="OtdrParamView.xaml.cs">
       <DependentUpon>OtdrParamView.xaml</DependentUpon>
     </Compile>
@@ -101,6 +104,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="WaitCursor.cs" />
+    <Page Include="OtauView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="OtdrParamView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

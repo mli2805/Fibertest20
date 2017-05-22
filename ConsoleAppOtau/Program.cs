@@ -30,20 +30,25 @@ namespace ConsoleAppOtau
                 _rtuLogger35.AppendLine($"charon {ch.NetAddress.ToStringA()} initialization failed");
 
             _rtuLogger35.AppendLine("Otau get active port");
-            var activePort = ch.GetExtendedActivePort();
-            if (activePort != -1)
-                _rtuLogger35.AppendLine($"Otau active port {activePort}");
+            
+            int activePort;
+            NetAddress activeCharonAddress;
+            if (ch.GetExtendedActivePort(out activeCharonAddress, out activePort))
+                _rtuLogger35.AppendLine($"Now active is port {activePort} on {activeCharonAddress.ToStringA()}");
             else
-                _rtuLogger35.AppendLine("some error");
+                _rtuLogger35.AppendLine("can't get active port");
 
             _rtuLogger35.AppendLine("Otau set new active port");
-            var newActivePort = ch.SetExtendedActivePort(14);
-            if (newActivePort == -1)
+            var bopAddress = new NetAddress("192.168.96.57", 11834);
+            if (!ch.SetExtendedActivePort(bopAddress, 14))
             {
                 _rtuLogger35.AppendLine(ch.LastErrorMessage);
-                newActivePort = ch.GetExtendedActivePort();
             }
-            _rtuLogger35.AppendLine($"New active port {newActivePort}");
+            if (ch.GetExtendedActivePort(out activeCharonAddress, out activePort))
+                _rtuLogger35.AppendLine($"Now active is port {activePort} on {activeCharonAddress.ToStringA()}");
+            else
+                _rtuLogger35.AppendLine("can't get active port");
+
 
 
             _rtuLogger35.AppendLine("Otau detach additional otau");

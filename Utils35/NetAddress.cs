@@ -27,6 +27,16 @@ namespace Iit.Fibertest.Utils35
             IsAddressSetAsIp = true;
         }
 
+        public bool Equals(NetAddress other)
+        {
+            if (IsAddressSetAsIp != other.IsAddressSetAsIp)
+                return false;
+            var isAddressEqual = IsAddressSetAsIp
+                ? string.Equals(Ip4Address, other.Ip4Address)
+                : string.Equals(HostName, other.HostName);
+            return isAddressEqual && Port == other.Port;
+        }
+
         public string ToStringASpace()
         {
             return $@"{Ip4Address} : {Port}";

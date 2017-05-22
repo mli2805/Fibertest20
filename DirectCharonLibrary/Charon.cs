@@ -138,13 +138,71 @@ namespace Iit.Fibertest.DirectCharonLibrary
             return true;
         }
 
-        public int GetExtendedActivePort()
+        public bool GetExtendedActivePort(out NetAddress charonAddress, out int port)
         {
             var activePort = GetActivePort();
             if (!Children.ContainsKey(activePort))
-                return activePort;
+            {
+                charonAddress = NetAddress;
+                port = activePort;
+                return true;
+            }
 
-            return Children[activePort].GetActivePort() + Children[activePort].StartPortNumber - 1;
+            var activeCharon = Children[activePort];
+            return activeCharon.GetExtendedActivePort(out charonAddress, out port);
+        }
+
+        //        public int GetExtendedActivePort()
+        //        {
+        //            var activePort = GetActivePort();
+        //            if (!Children.ContainsKey(activePort))
+        //                return activePort;
+
+        //            return Children[activePort].GetActivePort() + Children[activePort].StartPortNumber - 1;
+        //        }
+
+
+        public bool SetExtendedActivePort(NetAddress charonAddress, int port)
+        {
+            if (NetAddress.Equals(charonAddress))
+            {
+                var activePort = SetActivePort(port);
+                return activePort == port;
+            }
+
+            var charon = Children.Values.FirstOrDefault(c => c.NetAddress.Equals(charonAddress));
+            if (charon == null)
+            {
+                LastErrorMessage = "There is no such optical switch";
+                if (_charonLogLevel >= CharonLogLevel.PublicCommands)
+                    _rtuLogger35.AppendLine(LastErrorMessage, 2);
+                return false;
+            }
+
+            var masterPort = Children.First(pair => pair.Value == charon).Key;
+            if (GetActivePort() != masterPort)
+            {
+                var newMasterPort = SetActivePort(masterPort);
+                if (newMasterPort != masterPort)
+                {
+                    LastErrorMessage = $"Can't toggle master switch into {masterPort} port";
+                    if (_charonLogLevel >= CharonLogLevel.PublicCommands)
+                        _rtuLogger35.AppendLine(LastErrorMessage, 2);
+                    return false;
+                }
+            }
+
+            var resultingPort = charon.SetActivePort(port);
+            if (resultingPort != port)
+            {
+                LastErrorMessage = charon.LastErrorMessage;
+                IsLastCommandSuccessful = charon.IsLastCommandSuccessful;
+                if (_charonLogLevel >= CharonLogLevel.PublicCommands)
+                    _rtuLogger35.AppendLine(LastErrorMessage, 2);
+                return false;
+            }
+
+            return true;
         }
 
         public int SetExtendedActivePort(int port)
