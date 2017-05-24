@@ -142,6 +142,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Active port.
+        /// </summary>
+        public static string SID_Active_port {
+            get {
+                return ResourceManager.GetString("SID_Active_port", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add.
         /// </summary>
         public static string SID_Add {
@@ -421,6 +430,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to BOP IP address.
+        /// </summary>
+        public static string SID_BOP_IP_address {
+            get {
+                return ResourceManager.GetString("SID_BOP_IP_address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to BOP TCP port.
+        /// </summary>
+        public static string SID_BOP_TCP_port {
+            get {
+                return ResourceManager.GetString("SID_BOP_TCP_port", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cable reserve to the left, m.
         /// </summary>
         public static string SID_Cable_reserve_to_the_left_m {
@@ -633,6 +660,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Degrees_is_required {
             get {
                 return ResourceManager.GetString("SID_Degrees_is_required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Detach.
+        /// </summary>
+        public static string SID_Detach {
+            get {
+                return ResourceManager.GetString("SID_Detach", resourceCulture);
             }
         }
         
@@ -916,6 +952,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to from optical port .
+        /// </summary>
+        public static string SID_from_optical_port {
+            get {
+                return ResourceManager.GetString("SID_from_optical_port", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to GIS.
         /// </summary>
         public static string SID_Gis {
@@ -1042,6 +1087,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Initialize main otau.
+        /// </summary>
+        public static string SID_Initialize_main_otau {
+            get {
+                return ResourceManager.GetString("SID_Initialize_main_otau", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Input user name and password.
         /// </summary>
         public static string SID_Input_user_name_and_password {
@@ -1065,6 +1119,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Invalid_input {
             get {
                 return ResourceManager.GetString("SID_Invalid_input", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IP address.
+        /// </summary>
+        public static string SID_IP_address {
+            get {
+                return ResourceManager.GetString("SID_IP_address", resourceCulture);
             }
         }
         
@@ -1218,6 +1281,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Main_channel {
             get {
                 return ResourceManager.GetString("SID_Main_channel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Main charon.
+        /// </summary>
+        public static string SID_Main_charon {
+            get {
+                return ResourceManager.GetString("SID_Main_charon", resourceCulture);
             }
         }
         
@@ -1470,15 +1542,6 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Ok {
             get {
                 return ResourceManager.GetString("SID_Ok", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to on port {0} additional otau {1}.
-        /// </summary>
-        public static string SID_on_port_N_additional_otau {
-            get {
-                return ResourceManager.GetString("SID_on_port_N_additional_otau", resourceCulture);
             }
         }
         
@@ -2160,6 +2223,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to TCP port.
+        /// </summary>
+        public static string SID_TCP_port {
+            get {
+                return ResourceManager.GetString("SID_TCP_port", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Terminal.
         /// </summary>
         public static string SID_Terminal {
@@ -2246,6 +2318,24 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Title_is_required {
             get {
                 return ResourceManager.GetString("SID_Title_is_required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To optical port.
+        /// </summary>
+        public static string SID_To_optical_port {
+            get {
+                return ResourceManager.GetString("SID_To_optical_port", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Toggle to port.
+        /// </summary>
+        public static string SID_Toggle_to_port {
+            get {
+                return ResourceManager.GetString("SID_Toggle_to_port", resourceCulture);
             }
         }
         

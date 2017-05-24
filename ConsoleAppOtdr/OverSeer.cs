@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.Utils35;
 using Iit.Fibertest.Utils35.IniFile;

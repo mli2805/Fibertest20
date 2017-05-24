@@ -89,6 +89,13 @@ namespace Iit.Fibertest.DirectCharonLibrary
 
         private int SetActivePort(int port)
         {
+            if (port < 1 || port > OwnPortCount)
+            {
+                LastErrorMessage = $"Port number should be from 1 to {OwnPortCount}";
+                IsLastCommandSuccessful = false;
+                return -1;
+            }
+
             SendCommand($"otau_set_channel {port} d\r\n");
             if (!IsLastCommandSuccessful)
                 return -1;

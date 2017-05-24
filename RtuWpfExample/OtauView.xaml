@@ -4,53 +4,58 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Iit.Fibertest.RtuWpfExample"
+        xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
-        SizeToContent="Height" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" Width="420"
+        SizeToContent="Height" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" Width="430"
         d:DataContext="{d:DesignInstance local:OtauViewModel}">
     <StackPanel>
-        <DockPanel Margin="0,10,0,0">
-            <TextBlock Text="Ip address" Margin="5" DockPanel.Dock="Left" Width="100" TextAlignment="Right"/>
-            <TextBox Margin="5" Text="{Binding IpAddress}" HorizontalAlignment="Stretch"/>
-        </DockPanel>
-        <DockPanel>
-            <TextBlock Text="Tcp port" Margin="5" DockPanel.Dock="Left" Width="100" TextAlignment="Right"/>
-            <TextBox Margin="5" Text="{Binding OtauTcpPort}" HorizontalAlignment="Stretch"/>
-        </DockPanel>
-        <Button Name="InitOtau" Content="Initialize main otau" Margin="5"/>
-        <StackPanel>
-            <TextBlock Margin="5" Background="AliceBlue" Text="{Binding CharonInfo}" Padding="5,0,0,0" TextWrapping="Wrap"/>
-        </StackPanel>
-        <DockPanel Margin="0,30,0,10">
-            <TextBlock Margin="5" Background="AliceBlue" Text="{Binding ActivePortMessage}" DockPanel.Dock="Bottom" Padding="5,0,0,0"/>
-            <ComboBox Margin="5" Width="150" DockPanel.Dock="Left" ItemsSource="{Binding OtauList}" SelectedItem="{Binding SelectedOtau}"/>
-            <TextBox Margin="5" Width="33" DockPanel.Dock="Left" Text="{Binding NewActivePort}"/>
-            <Button Name="SetActivePort" Margin="5" Content="Set active optical port" Width="150" IsEnabled="{Binding IsOtauInitialized}"/>
-        </DockPanel>
-        <GroupBox Header="Attach" Margin="5">
+        <GroupBox Header="{x:Static stringResources:Resources.SID_Main_charon}" Margin="5">
             <StackPanel>
-                <DockPanel Margin="5">
-                    <TextBlock Text="Bop ip address" Margin="0,0,10,0"/>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_IP_address}" Margin="0,0,10,0"/>
+                    <TextBox Width="100" Text="{Binding IpAddress}" Margin="0,0,10,0"/>
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_TCP_port}" Margin="0,0,10,0" />
+                    <TextBox Width="45" Text="{Binding OtauTcpPort}"/>
+                </StackPanel>
+                <Button Name="InitOtau" Content="{x:Static stringResources:Resources.SID_Initialize_main_otau}" Margin="5"/>
+                <StackPanel>
+                    <TextBlock Margin="5" Background="AliceBlue" Text="{Binding CharonInfo}" Padding="5,0,0,0" TextWrapping="Wrap"/>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Header="{x:Static stringResources:Resources.SID_Active_port}" Margin="5">
+            <DockPanel Margin="0,0,0,10">
+                <TextBlock Margin="5" Background="AliceBlue" Text="{Binding ActivePortMessage}" DockPanel.Dock="Bottom" Padding="5,0,0,0"/>
+                <ComboBox Margin="5" Width="150" DockPanel.Dock="Left" ItemsSource="{Binding OtauList}" SelectedItem="{Binding SelectedOtau}"/>
+                <TextBox Margin="5" Width="33" DockPanel.Dock="Left" Text="{Binding NewActivePort}"/>
+                <Button Name="SetActivePort" Margin="5" Content="{x:Static stringResources:Resources.SID_Toggle_to_port}" Width="150" IsEnabled="{Binding IsOtauInitialized}"/>
+            </DockPanel>
+        </GroupBox>
+        <GroupBox Header="{x:Static stringResources:Resources.SID_Attach}" Margin="5">
+            <StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_BOP_IP_address}" Margin="0,0,10,0"/>
                     <TextBox Width="100" Text="{Binding BopIpAddress}" Margin="0,0,10,0"/>
-                    <TextBlock Text="Bop tcp port" Margin="0,0,10,0"/>
-                    <TextBox MinWidth="45" Text="{Binding BopTcpPort}"/>
-                </DockPanel>
-                <DockPanel Margin="5">
-                    <TextBlock Text="Main charon" Margin="0,0,10,0" DockPanel.Dock="Left"/>
-                    <TextBlock Text="{Binding MainCharonNetAddress}" Margin="0,0,10,0" DockPanel.Dock="Left"/>
-                    <TextBlock Text="Master optical port" Margin="0,0,10,0" DockPanel.Dock="Left"/>
-                    <TextBox MinWidth="45" Text="{Binding PortForAttachment}"/>
-                </DockPanel>
-                <Button Name="AttachOtau" Content="Attach" Margin="5" IsEnabled="{Binding IsOtauInitialized}"/>
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_BOP_TCP_port}" Margin="0,0,10,0"/>
+                    <TextBox Width="45" Text="{Binding BopTcpPort}"/>
+                </StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Main_charon}" Margin="0,0,10,0"/>
+                    <TextBlock Text="{Binding MainCharonNetAddress}" Margin="0,0,10,0" />
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_To_optical_port}" Margin="0,0,10,0" />
+                    <TextBox Width="45" Text="{Binding PortForAttachment}"/>
+                </StackPanel>
+                <Button Name="AttachOtau" Content="{x:Static stringResources:Resources.SID_Attach}" Margin="5" IsEnabled="{Binding IsOtauInitialized}"/>
                 <TextBlock Margin="5" Background="AliceBlue" Text="{Binding AttachMessage}" Padding="5,0,0,0"/>
             </StackPanel>
         </GroupBox>
-        <GroupBox Margin="5">
+        <GroupBox Margin="5" Header="{x:Static stringResources:Resources.SID_Detach}">
             <DockPanel>
                 <TextBlock Margin="5" Background="AliceBlue" Text="{Binding DetachMessage}" DockPanel.Dock="Bottom" Padding="5,0,0,0"/>
                 <DockPanel Margin="5">
-                    <Button Name="DetachOtau" Width="80" Content="Detach" Margin="5" IsEnabled="{Binding IsOtauInitialized}" />
+                    <Button Name="DetachOtau" Width="80" Content="{x:Static stringResources:Resources.SID_Detach}" Margin="5" IsEnabled="{Binding IsOtauInitialized}" />
                     <ComboBox Margin="5" Width="150" ItemsSource="{Binding BopOtauList}" SelectedItem="{Binding SelectedBop}"/>
-                    <TextBlock Text="from optical port "  Margin="5"/>
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_from_optical_port}"  Margin="5"/>
                     <TextBlock Text="{Binding DetachPort}"  Margin="5"/>
                 </DockPanel>
             </DockPanel>

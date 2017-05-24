@@ -918,4 +918,37 @@ If chosen trace use some equipment in this node it will be replaced</value>
     <value>
 on port {0}: charon {1} ip {2} has {3} ports</value>
   </data>
+	<data name="SID_Main_charon" xml:space="preserve">
+    <value>Main charon</value>
+  </data>
+	<data name="SID_IP_address" xml:space="preserve">
+    <value>IP address</value>
+  </data>
+	<data name="SID_TCP_port" xml:space="preserve">
+    <value>TCP port</value>
+  </data>
+	<data name="SID_Initialize_main_otau" xml:space="preserve">
+    <value>Initialize main otau</value>
+  </data>
+	<data name="SID_Detach" xml:space="preserve">
+    <value>Detach</value>
+  </data>
+	<data name="SID_from_optical_port" xml:space="preserve">
+    <value>from optical port </value>
+  </data>
+	<data name="SID_Active_port" xml:space="preserve">
+    <value>Active port</value>
+  </data>
+	<data name="SID_Toggle_to_port" xml:space="preserve">
+    <value>Toggle to port</value>
+  </data>
+	<data name="SID_BOP_IP_address" xml:space="preserve">
+    <value>BOP IP address</value>
+  </data>
+	<data name="SID_BOP_TCP_port" xml:space="preserve">
+    <value>BOP TCP port</value>
+  </data>
+	<data name="SID_To_optical_port" xml:space="preserve">
+    <value>To optical port</value>
+  </data>
 </root>

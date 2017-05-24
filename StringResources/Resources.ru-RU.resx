@@ -918,4 +918,37 @@
 		<value>
 on port {0}: charon {1} ip {2} has {3} ports</value>
 	</data>
+	<data name="SID_Main_charon" xml:space="preserve">
+		<value>Главный чарон</value>
+	</data>
+	<data name="SID_IP_address" xml:space="preserve">
+		<value>IP адрес</value>
+	</data>
+	<data name="SID_TCP_port" xml:space="preserve">
+		<value>TCP порт</value>
+	</data>
+	<data name="SID_Initialize_main_otau" xml:space="preserve">
+		<value>Инициализировать главный переключатель</value>
+	</data>
+	<data name="SID_Detach" xml:space="preserve">
+		<value>Отсоединить</value>
+	</data>
+	<data name="SID_from_optical_port" xml:space="preserve">
+		<value>от оптического порта</value>
+	</data>
+	<data name="SID_Active_port" xml:space="preserve">
+		<value>Активный порт</value>
+	</data>
+	<data name="SID_Toggle_to_port" xml:space="preserve">
+		<value>Переключиться в порт</value>
+	</data>
+	<data name="SID_BOP_IP_address" xml:space="preserve">
+		<value>IP адрес БОП </value>
+	</data>
+	<data name="SID_BOP_TCP_port" xml:space="preserve">
+		<value>TCP порт БОП</value>
+	</data>
+	<data name="SID_To_optical_port" xml:space="preserve">
+		<value>К оптическому порту</value>
+	</data>
 </root>
