@@ -200,12 +200,12 @@ namespace Iit.Fibertest.RtuWpfExample
         public string BopIpAddress { get; set; }
         public int BopTcpPort { get; set; }
 
-        public OtauViewModel(string ipAddress, Logger35 rtuLogger)
+        public OtauViewModel(string ipAddress, int tcpPort, Logger35 rtuLogger)
         {
             _rtuLogger = rtuLogger;
 
             IpAddress = ipAddress;
-            OtauTcpPort = 23;
+            OtauTcpPort = tcpPort;
 
             OtauList = new List<string>();
             BopOtauList = new List<string>();
@@ -220,7 +220,7 @@ namespace Iit.Fibertest.RtuWpfExample
         {
             InitializationMessage = Resources.SID_Wait__please___;
             MainCharon = new Charon(new NetAddress() { Ip4Address = IpAddress, Port = OtauTcpPort }, _rtuLogger,
-                CharonLogLevel.TransmissionCommands);
+                CharonLogLevel.PublicCommands);
             await RunOtauInitialization();
             InitializationMessage = MainCharon.IsLastCommandSuccessful
                 ? Resources.SID_OTAU_initialized_successfully_
@@ -289,7 +289,8 @@ namespace Iit.Fibertest.RtuWpfExample
                         MainCharon.OwnPortCount, MainCharon.FullPortCount);
                     foreach (var pair in MainCharon.Children)
                     {
-                        CharonInfo += string.Format(Resources.SID_on_port_N_additional_otau, pair.Key, pair.Value.NetAddress.ToStringA());
+                        CharonInfo +=
+                            string.Format(Resources.SID_on_port_N_charon_, pair.Key, pair.Value.Serial, pair.Value.NetAddress.ToStringA(), pair.Value.OwnPortCount);
                     }
                 }
                 else

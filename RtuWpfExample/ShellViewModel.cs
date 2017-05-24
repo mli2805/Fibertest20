@@ -7,6 +7,7 @@ using Iit.Fibertest.RtuWpfExample;
 using Iit.Fibertest.Utils35;
 using Iit.Fibertest.WpfCommonViews;
 using Microsoft.Win32;
+using Iit.Fibertest.Utils35.IniFile;
 
 namespace RtuWpfExample
 {
@@ -116,16 +117,17 @@ namespace RtuWpfExample
         public string IpAddress { get; set; }
 
         private readonly Logger35 _rtuLogger;
+        private static IniFile _iniFile35;
 
         public ShellViewModel()
         {
             _rtuLogger = new Logger35();
             _rtuLogger.AssignFile("rtu.log");
 
-            IpAddress = "192.168.96.53";
-//            IpAddress = "192.168.96.52";
-            //            IpAddress = "172.16.4.10";
-            //IpAddress = "192.168.88.101";
+            _iniFile35 = new IniFile();
+            _iniFile35.AssignFile("rtu.ini");
+
+            IpAddress = _iniFile35.Read(IniSection.General, IniKey.OtauIp, "192.168.96.53");
 
             BaseFileName = @"c:\temp\base3ev.sor";
             MeasFileName = @"c:\temp\123.sor";
@@ -159,7 +161,8 @@ namespace RtuWpfExample
 
         public void OtauView()
         {
-            var vm = new OtauViewModel(IpAddress, _rtuLogger);
+            var otauPort = _iniFile35.Read(IniSection.General, IniKey.OtauPort, 23);
+            var vm = new OtauViewModel(IpAddress, otauPort, _rtuLogger);
             IWindowManager windowManager = new WindowManager();
             windowManager.ShowWindow(vm);
         }

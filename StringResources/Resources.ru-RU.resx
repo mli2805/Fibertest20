@@ -905,4 +905,17 @@
 	<data name="SID_charon__0__has__1___2__ports" xml:space="preserve">
 		<value>charon {0} has {1}/{2} ports</value>
 	</data>
+	<data name="SID_Optical_switch" xml:space="preserve">
+		<value>Оптический переключатель</value>
+	</data>
+	<data name="SID_Attached_successfully__Press_initialize_main_otau_" xml:space="preserve">
+		<value>Attached successfully. Press initialize main otau.</value>
+	</data>
+	<data name="SID_Detached_successfully__Press_Initialize_main_otau" xml:space="preserve">
+		<value>Detached successfully. Press Initialize main otau</value>
+	</data>
+	<data name="SID_on_port_N_charon_" xml:space="preserve">
+		<value>
+on port {0}: charon {1} ip {2} has {3} ports</value>
+	</data>
 </root>

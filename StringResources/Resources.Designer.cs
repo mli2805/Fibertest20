@@ -1474,12 +1474,21 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 
-        /// on port {0} additional otau {1}.
+        ///   Looks up a localized string similar to on port {0} additional otau {1}.
         /// </summary>
         public static string SID_on_port_N_additional_otau {
             get {
                 return ResourceManager.GetString("SID_on_port_N_additional_otau", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
+        ///on port {0}: charon {1} ip {2} has {3} ports.
+        /// </summary>
+        public static string SID_on_port_N_charon_ {
+            get {
+                return ResourceManager.GetString("SID_on_port_N_charon_", resourceCulture);
             }
         }
         
