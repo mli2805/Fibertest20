@@ -14,13 +14,19 @@ namespace Iit.Fibertest.DirectCharonLibrary
             IsLastCommandSuccessful = false;
             try
             {
-                //---create a TCPClient object at the IP and port no.---
-                TcpClient client =
-                    new TcpClient(NetAddress.Ip4Address, NetAddress.Port)
-                    {
-                        SendTimeout = TimeSpan.FromSeconds(2).Milliseconds,
-                        ReceiveTimeout = TimeSpan.FromSeconds(2).Milliseconds
-                    };
+                var client = new TcpClient();
+                var connection = client.BeginConnect(NetAddress.Ip4Address, NetAddress.Port, null, null);
+                var success = connection.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(4));
+                if (!success)
+                {
+                    LastErrorMessage = "Can't establish connection. Check connection timeout";
+                    if (_charonLogLevel >= CharonLogLevel.TransmissionCommands)
+                        _rtuLogger35.AppendLine(LastErrorMessage);
+                    return;
+                }
+                client.SendTimeout = TimeSpan.FromSeconds(2).Milliseconds;
+                client.ReceiveTimeout = TimeSpan.FromSeconds(2).Milliseconds;
+
                 NetworkStream nwStream = client.GetStream();
                 byte[] bytesToSend = Encoding.ASCII.GetBytes(cmd);
 
@@ -58,7 +64,19 @@ namespace Iit.Fibertest.DirectCharonLibrary
             try
             {
                 //---create a TCPClient object at the IP and port no.---
-                TcpClient client = new TcpClient(NetAddress.Ip4Address, NetAddress.Port);
+                var client = new TcpClient();
+                var connection = client.BeginConnect(NetAddress.Ip4Address, NetAddress.Port, null, null);
+                var success = connection.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(4));
+                if (!success)
+                {
+                    LastErrorMessage = "Can't establish connection. Check connection timeout";
+                    if (_charonLogLevel >= CharonLogLevel.TransmissionCommands)
+                        _rtuLogger35.AppendLine(LastErrorMessage);
+                    return;
+                }
+                client.SendTimeout = TimeSpan.FromSeconds(2).Milliseconds;
+                client.ReceiveTimeout = TimeSpan.FromSeconds(4).Milliseconds;
+
                 NetworkStream nwStream = client.GetStream();
 
                 //---send the command---

@@ -50,5 +50,28 @@ namespace Iit.Fibertest.Utils35
         {
             return Port == 11834 ? $@"{Ip4Address}(1)" : $@"{Ip4Address}(2)";
         }
+
+        public bool HasValidIp4Address()
+        {
+            var parts = Ip4Address.Split('.');
+            if (parts.Length != 4)
+                return false;
+
+            for (var i = 0; i < 3; i++)
+            {
+                int part;
+                if (!int.TryParse(parts[i], out part))
+                    return false;
+                if (part < 0 || part > 255)
+                    return false;
+            }
+
+            return true;
+        }
+
+        public bool HasValidTcpPort()
+        {
+            return Port > 0 && Port < 65356;
+        }
     }
 }

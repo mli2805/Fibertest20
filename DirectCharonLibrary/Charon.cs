@@ -123,11 +123,10 @@ namespace Iit.Fibertest.DirectCharonLibrary
                     childCharon.Parent = this;
                     if (!childCharon.Initialize())
                     {
-                        IsLastCommandSuccessful = false;
+                        IsLastCommandSuccessful = true; // child initialization should'n break full process
                         LastErrorMessage = $"Child charon {expendedPort.Value.ToStringA()} initialization failed";
                         if (_charonLogLevel >= CharonLogLevel.PublicCommands)
                             _rtuLogger35.AppendLine(LastErrorMessage, 2);
-                        return false;
                     }
                     Children.Add(expendedPort.Key, childCharon);
                     FullPortCount += childCharon.FullPortCount;
@@ -261,6 +260,8 @@ namespace Iit.Fibertest.DirectCharonLibrary
 
         public bool AttachOtauToPort(NetAddress additionalOtauAddress, int toOpticalPort)
         {
+            if (!ValidateAttachCommand(additionalOtauAddress, toOpticalPort))
+                return false;
             var extPorts = GetExtentedPorts();
             if (extPorts == null)
                 return false;
@@ -275,6 +276,38 @@ namespace Iit.Fibertest.DirectCharonLibrary
             var content = DictionaryToContent(extPorts);
             SendWriteIniCommand(content);
             return IsLastCommandSuccessful;
+        }
+
+        private bool ValidateAttachCommand(NetAddress additionalOtauAddress, int toOpticalPort)
+        {
+            if (toOpticalPort < 1 || toOpticalPort > OwnPortCount)
+            {
+                LastErrorMessage = $"Optical port number should be from 1 to {OwnPortCount}";
+                if (_charonLogLevel >= CharonLogLevel.PublicCommands)
+                    _rtuLogger35.AppendLine(LastErrorMessage, 2);
+                IsLastCommandSuccessful = false;
+                return false;
+            }
+
+            if (!additionalOtauAddress.HasValidTcpPort())
+            {
+                LastErrorMessage = "Tcp port number should be from 1 to 65355";
+                if (_charonLogLevel >= CharonLogLevel.PublicCommands)
+                    _rtuLogger35.AppendLine(LastErrorMessage, 2);
+                IsLastCommandSuccessful = false;
+                return false;
+            }
+
+            if (!additionalOtauAddress.HasValidIp4Address())
+            {
+                LastErrorMessage = "Invalid ip address";
+                if (_charonLogLevel >= CharonLogLevel.PublicCommands)
+                    _rtuLogger35.AppendLine(LastErrorMessage, 2);
+                IsLastCommandSuccessful = false;
+                return false;
+            }
+
+            return true;
         }
     }
 }

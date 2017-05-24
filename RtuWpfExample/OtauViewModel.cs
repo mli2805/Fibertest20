@@ -50,7 +50,16 @@ namespace Iit.Fibertest.RtuWpfExample
             }
         }
 
-        public string CharonInfo => string.Format(Resources.SID_charon__0__has__1___2__ports, MainCharon?.Serial, MainCharon?.OwnPortCount, MainCharon?.FullPortCount);
+        public string CharonInfo
+        {
+            get { return _charonInfo; }
+            set
+            {
+                if (value == _charonInfo) return;
+                _charonInfo = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         private int _activePort;
         public int ActivePort
@@ -96,7 +105,6 @@ namespace Iit.Fibertest.RtuWpfExample
         public int OtauTcpPort { get; set; }
 
         private List<string> _otauList;
-
         public List<string> OtauList
         {
             get { return _otauList; }
@@ -108,8 +116,31 @@ namespace Iit.Fibertest.RtuWpfExample
             }
         }
 
-        private string _selectedOtau;
+        private string _attachMessage;
+        public string AttachMessage
+        {
+            get { return _attachMessage; }
+            set
+            {
+                if (value == _attachMessage) return;
+                _attachMessage = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
+        private List<string> _bopOtauList;
+        public List<string> BopOtauList
+        {
+            get { return _bopOtauList; }
+            set
+            {
+                if (Equals(value, _bopOtauList)) return;
+                _bopOtauList = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        private string _selectedOtau;
         public string SelectedOtau
         {
             get { return _selectedOtau; }
@@ -120,6 +151,48 @@ namespace Iit.Fibertest.RtuWpfExample
                 NotifyOfPropertyChange();
             }
         }
+
+        private string _selectedBop;
+
+        public string SelectedBop
+        {
+            get { return _selectedBop; }
+            set
+            {
+                if (value == null || value == _selectedBop) return;
+                _selectedBop = value;
+                DetachPort = MainCharon.Children.First(pair => pair.Value.NetAddress.ToStringA() == _selectedBop).Key;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        private int _detachPort;
+
+        public int DetachPort
+        {
+            get { return _detachPort; }
+            set
+            {
+                if (value == _detachPort) return;
+                _detachPort = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        private string _detachMessage;
+        private string _charonInfo;
+
+        public string DetachMessage
+        {
+            get { return _detachMessage; }
+            set
+            {
+                if (value == _detachMessage) return;
+                _detachMessage = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public NetAddress SelectedNetAddress => MainCharon.NetAddress.ToStringA() == SelectedOtau
             ? MainCharon.NetAddress
             : MainCharon.Children.Values.First(a => a.NetAddress.ToStringA() == SelectedOtau).NetAddress;
@@ -135,6 +208,7 @@ namespace Iit.Fibertest.RtuWpfExample
             OtauTcpPort = 23;
 
             OtauList = new List<string>();
+            BopOtauList = new List<string>();
         }
 
         protected override void OnViewLoaded(object view)
@@ -146,7 +220,7 @@ namespace Iit.Fibertest.RtuWpfExample
         {
             InitializationMessage = Resources.SID_Wait__please___;
             MainCharon = new Charon(new NetAddress() { Ip4Address = IpAddress, Port = OtauTcpPort }, _rtuLogger,
-                CharonLogLevel.PublicCommands);
+                CharonLogLevel.TransmissionCommands);
             await RunOtauInitialization();
             InitializationMessage = MainCharon.IsLastCommandSuccessful
                 ? Resources.SID_OTAU_initialized_successfully_
@@ -159,12 +233,14 @@ namespace Iit.Fibertest.RtuWpfExample
             var otauList = new List<string> {MainCharon.NetAddress.ToStringA()};
             otauList.AddRange(MainCharon.Children.Values.Select(charon => charon.NetAddress.ToStringA()));
             OtauList = otauList;
+            BopOtauList = new List<string>(MainCharon.Children.Values.Select(charon => charon.NetAddress.ToStringA()));
 
             await RunOtauGetActivePort();
             if (MainCharon.IsLastCommandSuccessful)
             {
                 SelectedOtau = OtauList.First(a => a == ActiveCharonAddress.ToStringA());
                 NewActivePort = ActivePort;
+                SelectedBop = BopOtauList.FirstOrDefault();
             }
             else
             {
@@ -209,6 +285,16 @@ namespace Iit.Fibertest.RtuWpfExample
                     _rtuLogger.AppendLine(Resources.SID_Otau_initialized_successfully);
                     IsOtauInitialized = true;
                     NotifyOfPropertyChange(() => CharonInfo);
+                    CharonInfo = string.Format(Resources.SID_charon__0__has__1___2__ports, MainCharon.Serial,
+                        MainCharon.OwnPortCount, MainCharon.FullPortCount);
+                    foreach (var pair in MainCharon.Children)
+                    {
+                        CharonInfo += string.Format(Resources.SID_on_port_N_additional_otau, pair.Key, pair.Value.NetAddress.ToStringA());
+                    }
+                }
+                else
+                {
+                    CharonInfo = MainCharon.LastErrorMessage;
                 }
             }
         }
@@ -232,11 +318,19 @@ namespace Iit.Fibertest.RtuWpfExample
         {
             var bopAddress = new NetAddress(BopIpAddress, BopTcpPort);
             MainCharon.AttachOtauToPort(bopAddress, PortForAttachment);
+            AttachMessage = MainCharon.IsLastCommandSuccessful 
+                ? Resources.SID_Attached_successfully__Press_initialize_main_otau_ 
+                : MainCharon.LastErrorMessage;
+            _rtuLogger.AppendLine(AttachMessage);
         }
 
         public void DetachOtau()
         {
-            
+            MainCharon.DetachOtauFromPort(DetachPort);
+            DetachMessage = MainCharon.IsLastCommandSuccessful
+                ? Resources.SID_Detached_successfully__Press_Initialize_main_otau
+                : MainCharon.LastErrorMessage;
+            _rtuLogger.AppendLine(DetachMessage);
         }
     }
 }

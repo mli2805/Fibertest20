@@ -331,6 +331,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Attached successfully. Press initialize main otau..
+        /// </summary>
+        public static string SID_Attached_successfully__Press_initialize_main_otau_ {
+            get {
+                return ResourceManager.GetString("SID_Attached_successfully__Press_initialize_main_otau_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Attachment.
         /// </summary>
         public static string SID_Attachment {
@@ -633,6 +642,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Detach_trace {
             get {
                 return ResourceManager.GetString("SID_Detach_trace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Detached successfully. Press Initialize main otau.
+        /// </summary>
+        public static string SID_Detached_successfully__Press_Initialize_main_otau {
+            get {
+                return ResourceManager.GetString("SID_Detached_successfully__Press_Initialize_main_otau", resourceCulture);
             }
         }
         
@@ -1452,6 +1470,16 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Ok {
             get {
                 return ResourceManager.GetString("SID_Ok", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
+        /// on port {0} additional otau {1}.
+        /// </summary>
+        public static string SID_on_port_N_additional_otau {
+            get {
+                return ResourceManager.GetString("SID_on_port_N_additional_otau", resourceCulture);
             }
         }
         

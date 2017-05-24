@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Iit.Fibertest.RtuWpfExample"
         mc:Ignorable="d"
-        SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
+        SizeToContent="Height" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" Width="420"
         d:DataContext="{d:DesignInstance local:OtauViewModel}">
     <StackPanel>
         <DockPanel Margin="0,10,0,0">
@@ -16,8 +16,10 @@
             <TextBlock Text="Tcp port" Margin="5" DockPanel.Dock="Left" Width="100" TextAlignment="Right"/>
             <TextBox Margin="5" Text="{Binding OtauTcpPort}" HorizontalAlignment="Stretch"/>
         </DockPanel>
-        <Button Name="InitOtau" Content="Initialize" Margin="5"/>
-        <TextBlock Margin="5" Background="AliceBlue" Text="{Binding CharonInfo}" Padding="5,0,0,0" />
+        <Button Name="InitOtau" Content="Initialize main otau" Margin="5"/>
+        <StackPanel>
+            <TextBlock Margin="5" Background="AliceBlue" Text="{Binding CharonInfo}" Padding="5,0,0,0" TextWrapping="Wrap"/>
+        </StackPanel>
         <DockPanel Margin="0,30,0,10">
             <TextBlock Margin="5" Background="AliceBlue" Text="{Binding ActivePortMessage}" DockPanel.Dock="Bottom" Padding="5,0,0,0"/>
             <ComboBox Margin="5" Width="150" DockPanel.Dock="Left" ItemsSource="{Binding OtauList}" SelectedItem="{Binding SelectedOtau}"/>
@@ -39,16 +41,19 @@
                     <TextBox MinWidth="45" Text="{Binding PortForAttachment}"/>
                 </DockPanel>
                 <Button Name="AttachOtau" Content="Attach" Margin="5" IsEnabled="{Binding IsOtauInitialized}"/>
+                <TextBlock Margin="5" Background="AliceBlue" Text="{Binding AttachMessage}" Padding="5,0,0,0"/>
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Detach" Margin="5">
-            <StackPanel>
-                <DockPanel>
-                    <ComboBox Margin="5" Width="150"/>
+        <GroupBox Margin="5">
+            <DockPanel>
+                <TextBlock Margin="5" Background="AliceBlue" Text="{Binding DetachMessage}" DockPanel.Dock="Bottom" Padding="5,0,0,0"/>
+                <DockPanel Margin="5">
+                    <Button Name="DetachOtau" Width="80" Content="Detach" Margin="5" IsEnabled="{Binding IsOtauInitialized}" />
+                    <ComboBox Margin="5" Width="150" ItemsSource="{Binding BopOtauList}" SelectedItem="{Binding SelectedBop}"/>
                     <TextBlock Text="from optical port "  Margin="5"/>
+                    <TextBlock Text="{Binding DetachPort}"  Margin="5"/>
                 </DockPanel>
-                <Button Name="DetachOtau" Content="Detach" Margin="5" IsEnabled="{Binding IsOtauInitialized}" />
-            </StackPanel>
+            </DockPanel>
         </GroupBox>
     </StackPanel>
 </Window>
