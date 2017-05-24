@@ -878,4 +878,34 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_fiber_break___0_0_00000__km" xml:space="preserve">
     <value>fiber break  {0:0.00000} km</value>
   </data>
+	<data name="SID_Wait__please___" xml:space="preserve">
+    <value>Wait, please...</value>
+  </data>
+	<data name="SID_OTAU_initialized_successfully_" xml:space="preserve">
+    <value>OTAU initialized successfully!</value>
+  </data>
+	<data name="SID_Now_active_is_port__0__on__1_" xml:space="preserve">
+    <value>Now active is port {0} on {1}</value>
+  </data>
+	<data name="SID_Can_t_get_active_port" xml:space="preserve">
+    <value>Can't get active port</value>
+  </data>
+	<data name="SID_Otau_initialization_started" xml:space="preserve">
+    <value>Otau initialization started</value>
+  </data>
+	<data name="SID_Otau_initialized_successfully" xml:space="preserve">
+    <value>Otau initialized successfully</value>
+  </data>
+	<data name="SID_Otau_toggled_to_port__0_" xml:space="preserve">
+    <value>Otau toggled to port {0}</value>
+  </data>
+	<data name="SID_Otau_toggled_to_port__0__on__1_" xml:space="preserve">
+    <value>Otau toggled to port {0} on {1}</value>
+  </data>
+	<data name="SID_charon__0__has__1___2__ports" xml:space="preserve">
+    <value>charon {0} has {1}/{2} ports</value>
+  </data>
+  <data name="SID_Optical_switch" xml:space="preserve">
+    <value>Optical switch</value>
+  </data>
 </root>

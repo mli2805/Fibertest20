@@ -12,17 +12,7 @@
                     <TextBlock Width="40" Margin="5" Text="1500"/>
                     <Button Name="ConnectOtdr" Content="Connect OTDR" Margin="5" IsEnabled="{Binding IsLibraryInitialized}"/>
                 </DockPanel>
-                <DockPanel>
-                    <TextBlock Width="90" Margin="5" Text="Tcp port"/>
-                    <TextBox Width="40" Margin="5" Text="{Binding OtauPort}"/>
-                    <Button Name="InitOtau" Content="Init Otau" Margin="5"/>
-                </DockPanel>
-                <DockPanel>
-                    <TextBlock Width="90" Margin="5" Text="Optical port"/>
-                    <TextBox Width="40" Margin="5" Text="{Binding ActivePort}" IsEnabled="{Binding IsOtauInitialized}"/>
-                    <Button Name="SetActivePort" Content="Set active port" Margin="5" IsEnabled="{Binding IsOtauInitialized}"/>
-                </DockPanel>
-                <TextBlock Margin="5" Text="{Binding CharonInfo}" Background="AliceBlue"/>
+                <Button Name="OtauView" Content="Otau View" Margin="5"/>
                 <TextBlock Margin="5" Text="{Binding InitializationMessage}" Background="AliceBlue" TextWrapping="Wrap" />
             </StackPanel>
         </GroupBox>

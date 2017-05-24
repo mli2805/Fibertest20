@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
-using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.RtuWpfExample;
 using Iit.Fibertest.Utils35;
@@ -14,7 +13,6 @@ namespace RtuWpfExample
     public class ShellViewModel : PropertyChangedBase, IShell
     {
         public OtdrManager OtdrManager { get; set; }
-        public Charon MainCharon { get; set; }
 
         public bool ShouldForceLmax { get; set; } = true;
 
@@ -78,7 +76,6 @@ namespace RtuWpfExample
             }
         }
 
-        public string CharonInfo => $"charon {MainCharon?.Serial} has {MainCharon?.OwnPortCount}/{MainCharon?.FullPortCount} ports";
 
         private bool _isLibraryInitialized;
         public bool IsLibraryInitialized
@@ -104,18 +101,6 @@ namespace RtuWpfExample
             }
         }
 
-        private bool _isOtauInitialized;
-        public bool IsOtauInitialized
-        {
-            get { return _isOtauInitialized; }
-            set
-            {
-                if (Equals(value, _isOtauInitialized)) return;
-                _isOtauInitialized = value;
-                NotifyOfPropertyChange(() => IsOtauInitialized);
-            }
-        }
-
         private bool _isMeasurementInProgress;
         public bool IsMeasurementInProgress
         {
@@ -129,20 +114,6 @@ namespace RtuWpfExample
         }
         
         public string IpAddress { get; set; }
-        public int OtauPort { get; set; }
-
-        private int _activePort;
-        public int ActivePort
-        {
-            get { return _activePort; }
-            set
-            {
-                if (Equals(value, _activePort)) return;
-                _activePort = value;
-                NotifyOfPropertyChange(() => ActivePort);
-            }
-        }
-        public NetAddress ActiveCharonAddress { get; set; }
 
         private readonly Logger35 _rtuLogger;
 
@@ -151,10 +122,10 @@ namespace RtuWpfExample
             _rtuLogger = new Logger35();
             _rtuLogger.AssignFile("rtu.log");
 
-            IpAddress = "192.168.96.52";
+            IpAddress = "192.168.96.53";
+//            IpAddress = "192.168.96.52";
             //            IpAddress = "172.16.4.10";
             //IpAddress = "192.168.88.101";
-            OtauPort = 23;
 
             BaseFileName = @"c:\temp\base3ev.sor";
             MeasFileName = @"c:\temp\123.sor";
@@ -186,51 +157,11 @@ namespace RtuWpfExample
             }
         }
 
-        public async Task InitOtau()
+        public void OtauView()
         {
-            InitializationMessage = "Wait, please...";
-            MainCharon = new Charon(new NetAddress() { Ip4Address = IpAddress, Port = OtauPort }, _rtuLogger, CharonLogLevel.PublicCommands);
-            await RunOtauInitialization();
-            InitializationMessage = MainCharon.IsLastCommandSuccessful ? "OTAU initialized successfully!" : MainCharon.LastErrorMessage;
-
-            if (!MainCharon.IsLastCommandSuccessful)
-                return;
-
-            int activePort;
-            NetAddress activeCharonAddress;
-            if (MainCharon.GetExtendedActivePort(out activeCharonAddress, out activePort))
-            {
-                ActiveCharonAddress = activeCharonAddress;
-                ActivePort = activePort;
-                _rtuLogger.AppendLine($"Now active is port {activePort} on {activeCharonAddress.ToStringA()}");
-            }
-            else
-            {
-                ActiveCharonAddress = MainCharon.NetAddress;
-                ActivePort = -1;
-                _rtuLogger.AppendLine("can't get active port");
-            }
-        }
-
-        public async Task RunOtauInitialization()
-        {
-            using (new WaitCursor())
-            {
-                _rtuLogger.AppendLine("Otau initialization started");
-                await Task.Run(() => MainCharon.Initialize());
-                if (MainCharon.IsLastCommandSuccessful)
-                {
-                    _rtuLogger.AppendLine($"Otau initialized successfully");
-                    IsOtauInitialized = true;
-                    NotifyOfPropertyChange(() => CharonInfo);
-                }
-            }
-        }
-
-        public void SetActivePort()
-        {
-            var newActivePort = MainCharon.SetExtendedActivePort(ActivePort);
-            InitializationMessage = newActivePort != -1 ? $"Otau toggled to port {newActivePort}" : MainCharon.LastErrorMessage;
+            var vm = new OtauViewModel(IpAddress, _rtuLogger);
+            IWindowManager windowManager = new WindowManager();
+            windowManager.ShowWindow(vm);
         }
 
         public void LaunchOtdrParamView()

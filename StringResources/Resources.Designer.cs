@@ -439,6 +439,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t get active port.
+        /// </summary>
+        public static string SID_Can_t_get_active_port {
+            get {
+                return ResourceManager.GetString("SID_Can_t_get_active_port", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string SID_Cancel {
@@ -462,6 +471,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Change_user {
             get {
                 return ResourceManager.GetString("SID_Change_user", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to charon {0} has {1}/{2} ports.
+        /// </summary>
+        public static string SID_charon__0__has__1___2__ports {
+            get {
+                return ResourceManager.GetString("SID_charon__0__has__1___2__ports", resourceCulture);
             }
         }
         
@@ -1402,6 +1420,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Now active is port {0} on {1}.
+        /// </summary>
+        public static string SID_Now_active_is_port__0__on__1_ {
+            get {
+                return ResourceManager.GetString("SID_Now_active_is_port__0__on__1_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Number of measurements to average - 4096*N.
         /// </summary>
         public static string SID_Number_of_measurements_to_average {
@@ -1438,6 +1465,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Optical switch.
+        /// </summary>
+        public static string SID_Optical_switch {
+            get {
+                return ResourceManager.GetString("SID_Optical_switch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Optical switch {0}.
         /// </summary>
         public static string SID_Optical_switch_with_Address {
@@ -1452,6 +1488,51 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_ORL__dB {
             get {
                 return ResourceManager.GetString("SID_ORL__dB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Otau initialization started.
+        /// </summary>
+        public static string SID_Otau_initialization_started {
+            get {
+                return ResourceManager.GetString("SID_Otau_initialization_started", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Otau initialized successfully.
+        /// </summary>
+        public static string SID_Otau_initialized_successfully {
+            get {
+                return ResourceManager.GetString("SID_Otau_initialized_successfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OTAU initialized successfully!.
+        /// </summary>
+        public static string SID_OTAU_initialized_successfully_ {
+            get {
+                return ResourceManager.GetString("SID_OTAU_initialized_successfully_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Otau toggled to port {0}.
+        /// </summary>
+        public static string SID_Otau_toggled_to_port__0_ {
+            get {
+                return ResourceManager.GetString("SID_Otau_toggled_to_port__0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Otau toggled to port {0} on {1}.
+        /// </summary>
+        public static string SID_Otau_toggled_to_port__0__on__1_ {
+            get {
+                return ResourceManager.GetString("SID_Otau_toggled_to_port__0__on__1_", resourceCulture);
             }
         }
         
@@ -2308,6 +2389,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Value__dB {
             get {
                 return ResourceManager.GetString("SID_Value__dB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wait, please....
+        /// </summary>
+        public static string SID_Wait__please___ {
+            get {
+                return ResourceManager.GetString("SID_Wait__please___", resourceCulture);
             }
         }
         

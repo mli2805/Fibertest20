@@ -94,6 +94,7 @@
     <Compile Include="OtauView.xaml.cs">
       <DependentUpon>OtauView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="OtauViewModel.cs" />
     <Compile Include="OtdrParamView.xaml.cs">
       <DependentUpon>OtdrParamView.xaml</DependentUpon>
     </Compile>
