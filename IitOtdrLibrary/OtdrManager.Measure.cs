@@ -51,7 +51,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
                 _isMeasurementCanceled = false;
             }
 
-            // it should be done in outer scope (something like RtuManager, which has its own MainCharon)
+            // Maybe it should be done in outer scope (something like RtuManager, which has its own MainCharon) ?
             var mainCharon = new Charon(new NetAddress(_ipAddress, 23), _iniFile, _rtuLogger);
             mainCharon.Initialize();
             NetAddress activeCharonAddress;
@@ -70,13 +70,11 @@ namespace Iit.Fibertest.IitOtdrLibrary
             }
             // end of RtuManager block of code
 
-
             if (!IitOtdr.PrepareMeasurement(true))
             {
                 _rtuLogger.AppendLine("Prepare measurement error!");
                 return false;
             }
-
 
             try
             {
