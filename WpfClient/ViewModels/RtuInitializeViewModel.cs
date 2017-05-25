@@ -7,6 +7,7 @@ using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.Utils35;
+using Iit.Fibertest.Utils35.IniFile;
 using Serilog;
 
 namespace Iit.Fibertest.Client
@@ -28,6 +29,7 @@ namespace Iit.Fibertest.Client
         private readonly IWindowManager _windowManager;
         private readonly Bus _bus;
         private readonly ILogger _log;
+        private readonly IniFile _iniFile35;
         private readonly Logger35 _logger35;
 
         private string _initilizationProgress;
@@ -42,13 +44,14 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public RtuInitializeViewModel(Guid rtuId, ReadModel readModel, IWindowManager windowManager, Bus bus, ILogger log, Logger35 logger35)
+        public RtuInitializeViewModel(Guid rtuId, ReadModel readModel, IWindowManager windowManager, Bus bus, IniFile iniFile35, ILogger log, Logger35 logger35)
         {
             _rtuId = rtuId;
             _readModel = readModel;
             _windowManager = windowManager;
             _bus = bus;
             _log = log;
+            _iniFile35 = iniFile35;
             _logger35 = logger35;
 
             var originalRtu = readModel.Rtus.First(r => r.Id == _rtuId);
@@ -84,7 +87,7 @@ namespace Iit.Fibertest.Client
         private Charon TemporaryFakeInitialization()
         {
             var charonAddress = new NetAddress(MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().Ip4Address, 23);
-            var mainCharon = new Charon(charonAddress, _logger35, CharonLogLevel.PublicCommands);
+            var mainCharon = new Charon(charonAddress, _iniFile35, _logger35);
             mainCharon.FullPortCount = 8;
             mainCharon.OwnPortCount = 8;
             mainCharon.Serial = @"1234567";
@@ -117,7 +120,7 @@ namespace Iit.Fibertest.Client
             InitilizationProgress = Resources.SID_Please__wait_;
 
             var charonAddress = new NetAddress(MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().Ip4Address, 23);
-            var mainCharon = new Charon(charonAddress, _logger35, CharonLogLevel.PublicCommands);
+            var mainCharon = new Charon(charonAddress, _iniFile35, _logger35);
             using (new WaitCursor())
             {
                 await Task.Run(() => mainCharon.InitializeRtu());

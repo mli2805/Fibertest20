@@ -23,7 +23,7 @@ namespace ConsoleAppOtau
             var netAddress = new NetAddress() { Ip4Address = otauAddress, Port = otauPort };
 
             _rtuLogger35.AppendLine($"Otau {netAddress.ToStringA()} initialization started");
-            var ch = new Charon(netAddress, _rtuLogger35, CharonLogLevel.TransmissionCommands);
+            var ch = new Charon(netAddress, _iniFile35, _rtuLogger35);
             if (ch.Initialize())
                 _rtuLogger35.AppendLine($"Otau initialization successful: Main charon {ch.Serial} has {ch.OwnPortCount}/{ch.FullPortCount} ports");
             else

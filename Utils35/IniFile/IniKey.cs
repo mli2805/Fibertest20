@@ -12,5 +12,7 @@
         OtdrPort,
         OtauIp,
         OtauPort,
+
+        CharonLogLevel,
     }
 }

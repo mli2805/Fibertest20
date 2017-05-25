@@ -8,6 +8,7 @@ using Iit.Fibertest.Utils35;
 using Iit.Fibertest.WpfCommonViews;
 using Microsoft.Win32;
 using Iit.Fibertest.Utils35.IniFile;
+using Iit.Fibertest.DirectCharonLibrary;
 
 namespace RtuWpfExample
 {
@@ -162,7 +163,7 @@ namespace RtuWpfExample
         public void OtauView()
         {
             var otauPort = _iniFile35.Read(IniSection.General, IniKey.OtauPort, 23);
-            var vm = new OtauViewModel(IpAddress, otauPort, _rtuLogger);
+            var vm = new OtauViewModel(IpAddress, otauPort, _iniFile35, _rtuLogger);
             IWindowManager windowManager = new WindowManager();
             windowManager.ShowWindow(vm);
         }

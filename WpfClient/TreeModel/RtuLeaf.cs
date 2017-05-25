@@ -5,12 +5,14 @@ using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.Utils35;
+using Iit.Fibertest.Utils35.IniFile;
 using Serilog;
 
 namespace Iit.Fibertest.Client
 {
     public class RtuLeaf : Leaf, IPortOwner
     {
+        private readonly IniFile _iniFile35;
         private readonly ILogger _log;
         private readonly Logger35 _logger35;
 
@@ -98,9 +100,10 @@ namespace Iit.Fibertest.Client
             return null;
         }
 
-        public RtuLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, ILogger log, Logger35 logger35, PostOffice postOffice, FreePorts view)
+        public RtuLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, IniFile iniFile35, ILogger log, Logger35 logger35, PostOffice postOffice, FreePorts view)
             : base(readModel, windowManager, bus, postOffice)
         {
+            _iniFile35 = iniFile35;
             _log = log;
             _logger35 = logger35;
             ChildrenImpresario = new ChildrenImpresario(view);
@@ -203,7 +206,7 @@ namespace Iit.Fibertest.Client
 
         public void RtuSettingsAction(object param)
         {
-            var vm = new RtuInitializeViewModel(Id, ReadModel, WindowManager, Bus, _log, _logger35);
+            var vm = new RtuInitializeViewModel(Id, ReadModel, WindowManager, Bus, _iniFile35, _log, _logger35);
             WindowManager.ShowDialog(vm);
         }
 

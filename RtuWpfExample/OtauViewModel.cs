@@ -5,12 +5,15 @@ using Caliburn.Micro;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.Utils35;
+using Iit.Fibertest.Utils35.IniFile;
 
 namespace Iit.Fibertest.RtuWpfExample
 {
     public class OtauViewModel : Screen
     {
+        private readonly IniFile _iniFile35;
         private readonly Logger35 _rtuLogger;
+        private readonly CharonLogLevel _logLevel;
 
         private string _initializationMessage;
         public string InitializationMessage
@@ -200,8 +203,9 @@ namespace Iit.Fibertest.RtuWpfExample
         public string BopIpAddress { get; set; }
         public int BopTcpPort { get; set; }
 
-        public OtauViewModel(string ipAddress, int tcpPort, Logger35 rtuLogger)
+        public OtauViewModel(string ipAddress, int tcpPort, IniFile iniFile, Logger35 rtuLogger)
         {
+            _iniFile35 = iniFile;
             _rtuLogger = rtuLogger;
 
             IpAddress = ipAddress;
@@ -216,11 +220,10 @@ namespace Iit.Fibertest.RtuWpfExample
             DisplayName = Resources.SID_Optical_switch;
         }
 
-        public async Task InitOtau()
+        public async Task InitOtau() // button click
         {
             InitializationMessage = Resources.SID_Wait__please___;
-            MainCharon = new Charon(new NetAddress() { Ip4Address = IpAddress, Port = OtauTcpPort }, _rtuLogger,
-                CharonLogLevel.PublicCommands);
+            MainCharon = new Charon(new NetAddress() { Ip4Address = IpAddress, Port = OtauTcpPort }, _iniFile35, _rtuLogger);
             await RunOtauInitialization();
             InitializationMessage = MainCharon.IsLastCommandSuccessful
                 ? Resources.SID_OTAU_initialized_successfully_
@@ -300,38 +303,47 @@ namespace Iit.Fibertest.RtuWpfExample
             }
         }
 
-        public async Task SetActivePort()
+        public async Task SetActivePort() // button
         {
-            await Task.Run(()=> MainCharon.SetExtendedActivePort(SelectedNetAddress, NewActivePort));
-            if (MainCharon.IsLastCommandSuccessful)
+            using (new WaitCursor())
             {
-                ActivePortMessage = string.Format(Resources.SID_Now_active_is_port__0__on__1_, NewActivePort,
-                    SelectedNetAddress.ToStringA());
+                await Task.Run(() => MainCharon.SetExtendedActivePort(SelectedNetAddress, NewActivePort));
+                if (MainCharon.IsLastCommandSuccessful)
+                {
+                    ActivePortMessage = string.Format(Resources.SID_Now_active_is_port__0__on__1_, NewActivePort,
+                        SelectedNetAddress.ToStringA());
+                }
+                else
+                {
+                    ActivePortMessage = MainCharon.LastErrorMessage;
+                }
+                _rtuLogger.AppendLine(ActivePortMessage);
             }
-            else
-            {
-                ActivePortMessage = MainCharon.LastErrorMessage;
-            }
-            _rtuLogger.AppendLine(ActivePortMessage);
         }
 
-        public void AttachOtau()
+        public async Task AttachOtau()
         {
-            var bopAddress = new NetAddress(BopIpAddress, BopTcpPort);
-            MainCharon.AttachOtauToPort(bopAddress, PortForAttachment);
-            AttachMessage = MainCharon.IsLastCommandSuccessful 
-                ? Resources.SID_Attached_successfully__Press_initialize_main_otau_ 
-                : MainCharon.LastErrorMessage;
-            _rtuLogger.AppendLine(AttachMessage);
+            using (new WaitCursor())
+            {
+                var bopAddress = new NetAddress(BopIpAddress, BopTcpPort);
+                await Task.Run(() => MainCharon.AttachOtauToPort(bopAddress, PortForAttachment));
+                AttachMessage = MainCharon.IsLastCommandSuccessful
+                    ? Resources.SID_Attached_successfully__Press_initialize_main_otau_
+                    : MainCharon.LastErrorMessage;
+                _rtuLogger.AppendLine(AttachMessage);
+            }
         }
 
         public void DetachOtau()
         {
-            MainCharon.DetachOtauFromPort(DetachPort);
-            DetachMessage = MainCharon.IsLastCommandSuccessful
-                ? Resources.SID_Detached_successfully__Press_Initialize_main_otau
-                : MainCharon.LastErrorMessage;
-            _rtuLogger.AppendLine(DetachMessage);
+            using (new WaitCursor())
+            {
+                MainCharon.DetachOtauFromPort(DetachPort);
+                DetachMessage = MainCharon.IsLastCommandSuccessful
+                    ? Resources.SID_Detached_successfully__Press_Initialize_main_otau
+                    : MainCharon.LastErrorMessage;
+                _rtuLogger.AppendLine(DetachMessage);
+            }
         }
     }
 }

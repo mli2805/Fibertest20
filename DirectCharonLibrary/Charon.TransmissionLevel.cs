@@ -16,7 +16,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
             {
                 var client = new TcpClient();
                 var connection = client.BeginConnect(NetAddress.Ip4Address, NetAddress.Port, null, null);
-                var success = connection.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(4));
+                var success = connection.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(10));
                 if (!success)
                 {
                     LastErrorMessage = "Can't establish connection. Check connection timeout";

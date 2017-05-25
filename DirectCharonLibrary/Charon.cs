@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Iit.Fibertest.Utils35;
+using Iit.Fibertest.Utils35.IniFile;
 
 namespace Iit.Fibertest.DirectCharonLibrary
 {
     public partial class Charon
     {
+        private readonly IniFile _iniFile35;
         private readonly Logger35 _rtuLogger35;
         private readonly CharonLogLevel _charonLogLevel;
         public NetAddress NetAddress { get; set; }
@@ -22,10 +24,11 @@ namespace Iit.Fibertest.DirectCharonLibrary
         public string LastAnswer { get; set; }
         public bool IsLastCommandSuccessful { get; set; }
 
-        public Charon(NetAddress netAddress, Logger35 rtuLogger35, CharonLogLevel charonLogLevel)
+        public Charon(NetAddress netAddress, IniFile iniFile35, Logger35 rtuLogger35)
         {
+            _iniFile35 = iniFile35;
             _rtuLogger35 = rtuLogger35;
-            _charonLogLevel = charonLogLevel;
+            _charonLogLevel = (CharonLogLevel)_iniFile35.Read(IniSection.General, IniKey.CharonLogLevel, 2);
             NetAddress = netAddress;
         }
 
@@ -39,44 +42,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
             if (!temp)
                 return false;
 
-            return GetInfo();
-        }
-
-        public bool GetInfo()
-        {
-            StartPortNumber = Parent == null ? 1 : StartPortNumber = Parent.FullPortCount + 1;
-            Children = new Dictionary<int, Charon>();
-
-            Serial = GetSerial();
-            if (!IsLastCommandSuccessful)
-                return false;
-            Serial = Serial.Substring(0, Serial.Length - 2); // "\r\n"
-
-            OwnPortCount = GetOwnPortCount();
-            FullPortCount = OwnPortCount;
-            if (!IsLastCommandSuccessful)
-                return false;
-
-            var expendedPorts = GetExtentedPorts();
-            if (!IsLastCommandSuccessful)
-                return false;
-            if (expendedPorts != null)
-                foreach (var expendedPort in expendedPorts)
-                {
-                    var childCharon = new Charon(expendedPort.Value, _rtuLogger35, _charonLogLevel);
-                    childCharon.Parent = this;
-                    if (!childCharon.GetInfo())
-                    {
-                        LastErrorMessage = $"Child charon {expendedPort.Value.ToStringA()} initialization failed";
-                        if (_charonLogLevel >= CharonLogLevel.PublicCommands)
-                            _rtuLogger35.AppendLine(LastErrorMessage, 2);
-                        return false;
-                    }
-                    Children.Add(expendedPort.Key, childCharon);
-                    FullPortCount += childCharon.FullPortCount;
-                }
-
-            return true;
+            return Initialize();
         }
 
         public bool Initialize()
@@ -119,7 +85,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
             if (expendedPorts != null)
                 foreach (var expendedPort in expendedPorts)
                 {
-                    var childCharon = new Charon(expendedPort.Value, _rtuLogger35, _charonLogLevel);
+                    var childCharon = new Charon(expendedPort.Value, _iniFile35, _rtuLogger35);
                     childCharon.Parent = this;
                     if (!childCharon.Initialize())
                     {
@@ -260,11 +226,17 @@ namespace Iit.Fibertest.DirectCharonLibrary
 
         public bool AttachOtauToPort(NetAddress additionalOtauAddress, int toOpticalPort)
         {
+            _rtuLogger35.AppendLine($"Attach {additionalOtauAddress.ToStringA()} to port {toOpticalPort} requested...");
             if (!ValidateAttachCommand(additionalOtauAddress, toOpticalPort))
                 return false;
             var extPorts = GetExtentedPorts();
-            if (extPorts == null)
+            if (extPorts == null) // read charon ini file error
+            {
+                LastErrorMessage = "Read charon ini file error";
+                if (_charonLogLevel >= CharonLogLevel.PublicCommands)
+                    _rtuLogger35.AppendLine(LastErrorMessage, 2);
                 return false;
+            }
             if (extPorts.ContainsKey(toOpticalPort))
             {
                 LastErrorMessage = "This is extended port already. Denied.";
