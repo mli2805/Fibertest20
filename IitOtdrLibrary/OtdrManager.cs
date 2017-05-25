@@ -2,21 +2,25 @@
 using System.IO;
 using System.Runtime.InteropServices;
 using Iit.Fibertest.Utils35;
+using Iit.Fibertest.Utils35.IniFile;
 
 namespace Iit.Fibertest.IitOtdrLibrary
 {
     public partial class OtdrManager
     {
         private readonly string _iitotdrFolder;
+        private readonly IniFile _iniFile;
         private readonly Logger35 _rtuLogger;
+        private string _ipAddress;
 
         public IitOtdrWrapper IitOtdr { get; set; }
         public bool IsLibraryInitialized;
         public bool IsOtdrConnected;
 
-        public OtdrManager(string iitotdrFolder, Logger35 rtuLogger)
+        public OtdrManager(string iitotdrFolder, IniFile iniFile, Logger35 rtuLogger)
         {
             _iitotdrFolder = iitotdrFolder;
+            _iniFile = iniFile;
             _rtuLogger = rtuLogger;
             _rtuLogger.EmptyLine();
             _rtuLogger.EmptyLine('-');
@@ -53,7 +57,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
         public bool ConnectOtdr(string ipAddress)
         {
             _rtuLogger.AppendLine($"Connecting to OTDR {ipAddress}...");
-
+            _ipAddress = ipAddress;
             IsOtdrConnected = IitOtdr.InitOtdr(ConnectionTypes.Tcp, ipAddress, 1500);
             _rtuLogger.AppendLine(IsOtdrConnected ? "OTDR connected successfully!" : "OTDR connection failed!");
             return IsOtdrConnected;

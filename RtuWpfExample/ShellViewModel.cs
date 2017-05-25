@@ -135,7 +135,7 @@ namespace RtuWpfExample
             ResultFileName = @"c:\temp\measwithbase.sor";
 
 
-            OtdrManager = new OtdrManager(@"OtdrMeasEngine\", _rtuLogger);
+            OtdrManager = new OtdrManager(@"OtdrMeasEngine\", _iniFile35, _rtuLogger);
             var initializationResult = OtdrManager.LoadDll();
             if (initializationResult != "")
                 InitializationMessage = initializationResult;

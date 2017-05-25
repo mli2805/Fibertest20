@@ -21,7 +21,7 @@ namespace ConsoleAppOtdr
 
         public bool InitializeOtdr()
         {
-            _otdrManager = new OtdrManager(@"OtdrMeasEngine\", _logger35);
+            _otdrManager = new OtdrManager(@"OtdrMeasEngine\", _iniFile35, _logger35);
             if (_otdrManager.LoadDll() != "")
                 return false;
 

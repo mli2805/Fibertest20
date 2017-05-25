@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Linq;
+using Iit.Fibertest.DirectCharonLibrary;
+using Iit.Fibertest.Utils35;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 
 namespace Iit.Fibertest.IitOtdrLibrary
@@ -48,11 +51,32 @@ namespace Iit.Fibertest.IitOtdrLibrary
                 _isMeasurementCanceled = false;
             }
 
+            // it should be done in outer scope (something like RtuManager, which has its own MainCharon)
+            var mainCharon = new Charon(new NetAddress(_ipAddress, 23), _iniFile, _rtuLogger);
+            mainCharon.Initialize();
+            NetAddress activeCharonAddress;
+            int activePort;
+            if (!mainCharon.GetExtendedActivePort(out activeCharonAddress, out activePort))
+            {
+                _rtuLogger.AppendLine("Can't get active port");
+                return false;
+            }
+
+            Charon activeCharon = null;
+            if (!activeCharonAddress.Equals(mainCharon.NetAddress))
+            {
+                activeCharon = mainCharon.Children.Values.First(c => c.NetAddress.Equals(activeCharonAddress));
+                activeCharon.ShowMessageMeasurementPort();
+            }
+            // end of RtuManager block of code
+
+
             if (!IitOtdr.PrepareMeasurement(true))
             {
                 _rtuLogger.AppendLine("Prepare measurement error!");
                 return false;
             }
+
 
             try
             {
@@ -80,6 +104,10 @@ namespace Iit.Fibertest.IitOtdrLibrary
             }
 
             _rtuLogger.AppendLine("Measurement end.");
+
+            // it should be done in outer scope (something like RtuManager, which has its own MainCharon)
+            activeCharon?.ShowMessageReady();
+
             return true;
         }
 
