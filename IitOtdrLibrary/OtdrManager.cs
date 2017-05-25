@@ -11,7 +11,6 @@ namespace Iit.Fibertest.IitOtdrLibrary
         private readonly string _iitotdrFolder;
         private readonly IniFile _iniFile;
         private readonly Logger35 _rtuLogger;
-        private string _ipAddress;
 
         public IitOtdrWrapper IitOtdr { get; set; }
         public bool IsLibraryInitialized;
@@ -57,7 +56,6 @@ namespace Iit.Fibertest.IitOtdrLibrary
         public bool ConnectOtdr(string ipAddress)
         {
             _rtuLogger.AppendLine($"Connecting to OTDR {ipAddress}...");
-            _ipAddress = ipAddress;
             IsOtdrConnected = IitOtdr.InitOtdr(ConnectionTypes.Tcp, ipAddress, 1500);
             _rtuLogger.AppendLine(IsOtdrConnected ? "OTDR connected successfully!" : "OTDR connection failed!");
             return IsOtdrConnected;

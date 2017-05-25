@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Linq;
 using Iit.Fibertest.DirectCharonLibrary;
-using Iit.Fibertest.Utils35;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 
 namespace Iit.Fibertest.IitOtdrLibrary
 {
     public partial class OtdrManager
     {
-        public bool MeasureWithBase(byte[] buffer)
+        public bool MeasureWithBase(byte[] buffer, Charon activeChild)
         {
             var result = false;
 
@@ -19,7 +17,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
             if (IitOtdr.SetMeasurementParametersFromSor(ref baseSorData))
             {
                 IitOtdr.ForceLmaxNs(IitOtdr.ConvertLmaxOwtToNs(buffer));
-                result = Measure();
+                result = Measure(activeChild);
             }
 
             // free memory where was base sor data
@@ -27,12 +25,12 @@ namespace Iit.Fibertest.IitOtdrLibrary
             return result;
         }
 
-        public bool DoManualMeasurement(bool shouldForceLmax)
+        public bool DoManualMeasurement(bool shouldForceLmax, Charon activeChild)
         {
             if (shouldForceLmax)
                 IitOtdr.ForceLmaxNs(IitOtdr.ConvertLmaxKmToNs());
 
-            return Measure();
+            return Measure(activeChild);
         }
 
         private readonly object _lockObj = new object();
@@ -43,7 +41,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
         /// after Measure() use GetLastSorData() to obtain measurement result
         /// </summary>
         /// <returns></returns>
-        private bool Measure()
+        private bool Measure(Charon activeChild)
         {
             _rtuLogger.AppendLine("Measurement begin.");
             lock (_lockObj)
@@ -51,30 +49,14 @@ namespace Iit.Fibertest.IitOtdrLibrary
                 _isMeasurementCanceled = false;
             }
 
-            // Maybe it should be done in outer scope (something like RtuManager, which has its own MainCharon) ?
-            var mainCharon = new Charon(new NetAddress(_ipAddress, 23), _iniFile, _rtuLogger);
-            mainCharon.Initialize();
-            NetAddress activeCharonAddress;
-            int activePort;
-            if (!mainCharon.GetExtendedActivePort(out activeCharonAddress, out activePort))
-            {
-                _rtuLogger.AppendLine("Can't get active port");
-                return false;
-            }
-
-            Charon activeCharon = null;
-            if (!activeCharonAddress.Equals(mainCharon.NetAddress))
-            {
-                activeCharon = mainCharon.Children.Values.First(c => c.NetAddress.Equals(activeCharonAddress));
-                activeCharon.ShowMessageMeasurementPort();
-            }
-            // end of RtuManager block of code
 
             if (!IitOtdr.PrepareMeasurement(true))
             {
                 _rtuLogger.AppendLine("Prepare measurement error!");
                 return false;
             }
+
+            activeChild?.ShowMessageMeasurementPort();
 
             try
             {
@@ -103,8 +85,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
 
             _rtuLogger.AppendLine("Measurement end.");
 
-            // it should be done in outer scope (something like RtuManager, which has its own MainCharon)
-            activeCharon?.ShowMessageReady();
+            activeChild?.ShowMessageReady();
 
             return true;
         }

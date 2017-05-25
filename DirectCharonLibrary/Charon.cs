@@ -125,15 +125,15 @@ namespace Iit.Fibertest.DirectCharonLibrary
             return activeCharon.GetExtendedActivePort(out charonAddress, out port);
         }
 
-        //        public int GetExtendedActivePort()
-        //        {
-        //            var activePort = GetActivePort();
-        //            if (!Children.ContainsKey(activePort))
-        //                return activePort;
-
-        //            return Children[activePort].GetActivePort() + Children[activePort].StartPortNumber - 1;
-        //        }
-
+        public Charon GetActiveChildCharon()
+        {
+            var activePort = GetActivePort();
+            if (!Children.ContainsKey(activePort))
+            {
+                return null;
+            }
+            return Children[activePort];
+        }
 
         public bool SetExtendedActivePort(NetAddress charonAddress, int port)
         {

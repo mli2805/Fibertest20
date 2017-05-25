@@ -69,6 +69,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DirectCharonLibrary\DirectCharonLibrary.csproj">
+      <Project>{49d6de99-29be-46ae-8be8-85e660650ca7}</Project>
+      <Name>DirectCharonLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IitOtdrLibrary\IitOtdrLibrary.csproj">
       <Project>{12208d72-7ec1-456f-9f0a-b56152ddc5d2}</Project>
       <Name>IitOtdrLibrary</Name>

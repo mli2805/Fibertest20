@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
@@ -182,7 +183,7 @@ namespace RtuWpfExample
                 IsMeasurementInProgress = true;
                 Message = "Wait, please...";
 
-                await Task.Run(() => OtdrManager.DoManualMeasurement(ShouldForceLmax));
+                await Task.Run(() => OtdrManager.DoManualMeasurement(ShouldForceLmax, GetActiveChildCharon()));
 
                 IsMeasurementInProgress = false;
                 Message = "Measurement is finished.";
@@ -194,6 +195,29 @@ namespace RtuWpfExample
                 sorData.Save(MeasFileName);
             }
         }
+
+        private Charon GetActiveChildCharon()
+        {
+            // Maybe it should be done in outer scope (something like RtuManager, which has its own MainCharon) ?
+            var mainCharon = new Charon(new NetAddress(IpAddress, 23), _iniFile35, _rtuLogger);
+            mainCharon.Initialize();
+            NetAddress activeCharonAddress;
+            int activePort;
+            if (!mainCharon.GetExtendedActivePort(out activeCharonAddress, out activePort))
+            {
+                _rtuLogger.AppendLine("Can't get active port");
+                return null;
+            }
+
+            Charon activeCharon = null;
+            if (!activeCharonAddress.Equals(mainCharon.NetAddress))
+            {
+                activeCharon = mainCharon.Children.Values.First(c => c.NetAddress.Equals(activeCharonAddress));
+            }
+            return activeCharon;
+            // end of RtuManager block of code
+        }
+
 
         public void ChooseBaseFilename()
         {
@@ -230,7 +254,7 @@ namespace RtuWpfExample
                 Message = "Wait, please...";
 
                 byte[] buffer = File.ReadAllBytes(BaseFileName);
-                await Task.Run(() => OtdrManager.MeasureWithBase(buffer));
+                await Task.Run(() => OtdrManager.MeasureWithBase(buffer, GetActiveChildCharon()));
 
                 IsMeasurementInProgress = false;
                 Message = "Measurement is finished.";
@@ -284,7 +308,7 @@ namespace RtuWpfExample
                     Message = $"Monitoring cycle {c}. Wait, please...";
                     _rtuLogger.AppendLine($"Monitoring cycle {c}.");
 
-                    await Task.Run(() => OtdrManager.MeasureWithBase(baseBytes));
+                    await Task.Run(() => OtdrManager.MeasureWithBase(baseBytes, GetActiveChildCharon()));
 
                     IsMeasurementInProgress = false;
                     Message = $"{c}th measurement is finished.";

@@ -28,6 +28,9 @@ namespace ConsoleAppOtdr
             if (!overSeer.InitializeOtdr())
                 return;
 
+            if (!overSeer.InitializeOtau())
+                return;
+
             var moniQueue = GetMonitoringSettings();
             while (true)
             {
