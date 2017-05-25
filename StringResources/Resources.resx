@@ -951,7 +951,7 @@ on port {0}: charon {1} ip {2} has {3} ports</value>
 	<data name="SID_To_optical_port" xml:space="preserve">
     <value>To optical port</value>
   </data>
-  <data name="SID__Error___" xml:space="preserve">
+	<data name="SID__Error___" xml:space="preserve">
     <value>
  Error !!!</value>
   </data>

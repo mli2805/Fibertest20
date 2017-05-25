@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Iit.Fibertest.Utils35;
 
 namespace Iit.Fibertest.DirectCharonLibrary
