@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Iit.Fibertest.RtuWpfExample"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
-        SizeToContent="Height" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" Width="430"
+        SizeToContent="Height" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" Width="450"
         d:DataContext="{d:DesignInstance local:OtauViewModel}">
     <StackPanel>
         <GroupBox Header="{x:Static stringResources:Resources.SID_Main_charon}" Margin="5">
@@ -26,9 +26,11 @@
         <GroupBox Header="{x:Static stringResources:Resources.SID_Active_port}" Margin="5">
             <DockPanel Margin="0,0,0,10">
                 <TextBlock Margin="5" Background="AliceBlue" Text="{Binding ActivePortMessage}" DockPanel.Dock="Bottom" Padding="5,0,0,0"/>
-                <ComboBox Margin="5" Width="150" DockPanel.Dock="Left" ItemsSource="{Binding OtauList}" SelectedItem="{Binding SelectedOtau}"/>
-                <TextBox Margin="5" Width="33" DockPanel.Dock="Left" Text="{Binding NewActivePort}"/>
-                <Button Name="SetActivePort" Margin="5" Content="{x:Static stringResources:Resources.SID_Toggle_to_port}" Width="150" IsEnabled="{Binding IsOtauInitialized}"/>
+                <ComboBox Margin="5" Width="140" DockPanel.Dock="Left" ItemsSource="{Binding OtauList}" SelectedItem="{Binding SelectedOtau}"/>
+                <TextBox Margin="5" Width="22" DockPanel.Dock="Left" Text="{Binding NewActivePort}"/>
+                <Button Name="SetActivePort" Margin="5" Content="{x:Static stringResources:Resources.SID_Toggle_to_port}" Width="140" IsEnabled="{Binding IsOtauInitialized}"/>
+                <Button Name="LedOn" Margin="5" Content="On" Width="30" IsEnabled="{Binding IsOtauInitialized}"/>
+                <Button Name="LedOff" Margin="5" Content="Off" Width="30" IsEnabled="{Binding IsOtauInitialized}"/>
             </DockPanel>
         </GroupBox>
         <GroupBox Header="{x:Static stringResources:Resources.SID_Attach}" Margin="5">

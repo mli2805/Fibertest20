@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Iit.Fibertest.Utils35;
 
 namespace Iit.Fibertest.DirectCharonLibrary
@@ -41,6 +42,17 @@ namespace Iit.Fibertest.DirectCharonLibrary
             LastErrorMessage = "Invalid port count";
             IsLastCommandSuccessful = false;
             return -1;
+        }
+        public string ShowMessageReady()
+        {
+            SendCommand("pc_loaded\r\n");
+            return !IsLastCommandSuccessful ? LastErrorMessage : "";
+        }
+
+        public string ShowMessageMeasurementPort()
+        {
+            SendCommand("meas\r\n");
+            return !IsLastCommandSuccessful ? LastErrorMessage : "";
         }
 
         private Dictionary<int, NetAddress> GetExtentedPorts()
@@ -129,5 +141,6 @@ namespace Iit.Fibertest.DirectCharonLibrary
                 result += $"{extPort.Key}={extPort.Value.ToStringA()}\r\n";
             return result;
         }
+
     }
 }

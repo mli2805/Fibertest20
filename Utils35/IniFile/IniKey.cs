@@ -13,6 +13,10 @@
         OtauIp,
         OtauPort,
 
-        CharonLogLevel,
+        ConnectionTimeout,
+        ReadTimeout,
+        WriteTimeout,
+        LogLevel,
+
     }
 }

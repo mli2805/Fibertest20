@@ -16,7 +16,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
             {
                 var client = new TcpClient();
                 var connection = client.BeginConnect(NetAddress.Ip4Address, NetAddress.Port, null, null);
-                var success = connection.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(10));
+                var success = connection.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(_connectionTimeout));
                 if (!success)
                 {
                     LastErrorMessage = "Can't establish connection. Check connection timeout";
@@ -24,8 +24,8 @@ namespace Iit.Fibertest.DirectCharonLibrary
                         _rtuLogger35.AppendLine(LastErrorMessage);
                     return;
                 }
-                client.SendTimeout = TimeSpan.FromSeconds(2).Milliseconds;
-                client.ReceiveTimeout = TimeSpan.FromSeconds(2).Milliseconds;
+                client.SendTimeout = TimeSpan.FromSeconds(_writeTimeout).Milliseconds;
+                client.ReceiveTimeout = TimeSpan.FromSeconds(_readTimeout).Milliseconds;
 
                 NetworkStream nwStream = client.GetStream();
                 byte[] bytesToSend = Encoding.ASCII.GetBytes(cmd);

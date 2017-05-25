@@ -10,6 +10,9 @@ namespace Iit.Fibertest.DirectCharonLibrary
         private readonly IniFile _iniFile35;
         private readonly Logger35 _rtuLogger35;
         private readonly CharonLogLevel _charonLogLevel;
+        private readonly int _connectionTimeout;
+        private readonly int _readTimeout;
+        private readonly int _writeTimeout;
         public NetAddress NetAddress { get; set; }
         public string Serial { get; set; }
         public int OwnPortCount { get; set; }
@@ -28,7 +31,10 @@ namespace Iit.Fibertest.DirectCharonLibrary
         {
             _iniFile35 = iniFile35;
             _rtuLogger35 = rtuLogger35;
-            _charonLogLevel = (CharonLogLevel)_iniFile35.Read(IniSection.General, IniKey.CharonLogLevel, 2);
+            _charonLogLevel = (CharonLogLevel)_iniFile35.Read(IniSection.Charon, IniKey.LogLevel, 2);
+            _connectionTimeout = _iniFile35.Read(IniSection.Charon, IniKey.ConnectionTimeout, 5);
+            _readTimeout = _iniFile35.Read(IniSection.Charon, IniKey.ReadTimeout, 2);
+            _writeTimeout = _iniFile35.Read(IniSection.Charon, IniKey.WriteTimeout, 2);
             NetAddress = netAddress;
         }
 
@@ -97,6 +103,8 @@ namespace Iit.Fibertest.DirectCharonLibrary
                     Children.Add(expendedPort.Key, childCharon);
                     FullPortCount += childCharon.FullPortCount;
                 }
+
+            ShowMessageReady();
 
             if (_charonLogLevel >= CharonLogLevel.PublicCommands)
                 _rtuLogger35.AppendLine($"Full port count  {FullPortCount}", 2);
@@ -281,5 +289,6 @@ namespace Iit.Fibertest.DirectCharonLibrary
 
             return true;
         }
+
     }
 }

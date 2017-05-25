@@ -124,6 +124,16 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 
+        /// Error !!!.
+        /// </summary>
+        public static string SID__Error___ {
+            get {
+                return ResourceManager.GetString("SID__Error___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to (rel.).
         /// </summary>
         public static string SID__rel__ {

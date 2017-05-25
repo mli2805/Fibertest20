@@ -13,7 +13,6 @@ namespace Iit.Fibertest.RtuWpfExample
     {
         private readonly IniFile _iniFile35;
         private readonly Logger35 _rtuLogger;
-        private readonly CharonLogLevel _logLevel;
 
         private string _initializationMessage;
         public string InitializationMessage
@@ -292,6 +291,8 @@ namespace Iit.Fibertest.RtuWpfExample
                         MainCharon.OwnPortCount, MainCharon.FullPortCount);
                     foreach (var pair in MainCharon.Children)
                     {
+                        if (pair.Value.Serial == "" || pair.Value.OwnPortCount == 0)
+                            CharonInfo += Resources.SID__Error___;
                         CharonInfo +=
                             string.Format(Resources.SID_on_port_N_charon_, pair.Key, pair.Value.Serial, pair.Value.NetAddress.ToStringA(), pair.Value.OwnPortCount);
                     }
@@ -312,12 +313,31 @@ namespace Iit.Fibertest.RtuWpfExample
                 {
                     ActivePortMessage = string.Format(Resources.SID_Now_active_is_port__0__on__1_, NewActivePort,
                         SelectedNetAddress.ToStringA());
+
                 }
                 else
                 {
                     ActivePortMessage = MainCharon.LastErrorMessage;
                 }
                 _rtuLogger.AppendLine(ActivePortMessage);
+            }
+        }
+
+        public void LedOn()
+        {
+            if (!SelectedNetAddress.Equals(MainCharon.NetAddress))
+            {
+                var bopCharon = MainCharon.Children.Values.First(a => a.NetAddress.Equals(SelectedNetAddress));
+                bopCharon.ShowMessageMeasurementPort();
+            }
+        }
+
+        public void LedOff()
+        {
+            if (!SelectedNetAddress.Equals(MainCharon.NetAddress))
+            {
+                var bopCharon = MainCharon.Children.Values.First(a => a.NetAddress.Equals(SelectedNetAddress));
+                bopCharon.ShowMessageReady();
             }
         }
 

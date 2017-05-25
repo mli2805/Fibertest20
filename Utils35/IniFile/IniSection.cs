@@ -4,5 +4,6 @@
     {
         General,
         RtuTestBench,
+        Charon,
     }
 }
