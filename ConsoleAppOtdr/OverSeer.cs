@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.IitOtdrLibrary;
@@ -18,6 +19,9 @@ namespace ConsoleAppOtdr
 
         private Queue<ExtendedPort> _monitoringQueue;
         private int _measurementNumber;
+        private TimeSpan _preciseMakeTimespan;
+        private TimeSpan _preciseSaveTimespan;
+        private TimeSpan _fastSaveTimespan;
 
         public OverSeer(Logger35 logger35, IniFile iniFile35)
         {
@@ -42,23 +46,6 @@ namespace ConsoleAppOtdr
             var otauIpAddress = _iniFile35.Read(IniSection.General, IniKey.OtauIp, DefaultIp);
             _mainCharon = new Charon(new NetAddress(otauIpAddress, 23), _iniFile35, _logger35);
             return _mainCharon.Initialize();
-        }
-
-        public MoniResult MoniPort(int port, BaseRefType baseRefType)
-        {
-            var baseBytes = GetBase(port, baseRefType);
-            _otdrManager.MeasureWithBase(baseBytes, _mainCharon.GetActiveChildCharon());
-            return _otdrManager.CompareMeasureWithBase(baseBytes,
-                _otdrManager.ApplyAutoAnalysis(_otdrManager.GetLastSorDataBuffer()), true); // is ApplyAutoAnalysis necessary ?
-        }
-
-        private byte[] GetBase(int port, BaseRefType baseRefType)
-        {
-            var basefile = $@"..\PortData\{port}\{baseRefType.ToFileName()}";
-            if (File.Exists(basefile))
-                return File.ReadAllBytes(basefile);
-            _logger35.AppendLine($"Can't find {baseRefType.ToFileName()} for port {port}");
-            return null;
         }
 
         public void GetMonitoringQueue()
@@ -138,7 +125,66 @@ namespace ConsoleAppOtdr
         {
             _logger35.AppendLine($"Measurement {_measurementNumber}  Port {extendedPort.ToStringA()} ...");
 
+            var moniResult = PerformMeasurement(extendedPort);
+            var newPortState = GetPortState(moniResult);
+            if (extendedPort.State != newPortState)
+            {
+                // TODO send to server
+
+                if (newPortState == PortMeasResult.BrokenByFast)
+                    extendedPort.IsBreakdownCloserThen20Km = moniResult.FirstBreakDistance < 20;
+                extendedPort.State = newPortState;
+            }
+
+
             _logger35.AppendLine("Measurement is finished");
         }
+
+        private MoniResult PerformMeasurement(ExtendedPort extendedPort)
+        {
+            if (extendedPort.State == PortMeasResult.Ok || extendedPort.State == PortMeasResult.Unknown)
+                return DoMeasurement(extendedPort, BaseRefType.Fast);
+
+            if (IsAdditionalBaseExists(extendedPort) && extendedPort.IsBreakdownCloserThen20Km)
+                return DoMeasurement(extendedPort, BaseRefType.Additional);
+
+            return DoMeasurement(extendedPort, BaseRefType.Precise);
+        }
+
+        private PortMeasResult GetPortState(MoniResult moniResult)
+        {
+            if (!moniResult.IsFailed)
+                return PortMeasResult.Ok;
+
+            return moniResult.BaseRefType == BaseRefType.Fast
+                ? PortMeasResult.BrokenByFast
+                : PortMeasResult.BrokenByPrecise;
+        }
+
+        private MoniResult DoMeasurement(ExtendedPort extendedPort, BaseRefType baseRefType)
+        {
+            var baseBytes = GetBase(extendedPort, baseRefType);
+            if (baseBytes == null)
+                return null;
+            _otdrManager.MeasureWithBase(baseBytes, _mainCharon.GetActiveChildCharon());
+            return _otdrManager.CompareMeasureWithBase(baseBytes,
+                _otdrManager.ApplyAutoAnalysis(_otdrManager.GetLastSorDataBuffer()), true); // is ApplyAutoAnalysis necessary ?
+        }
+
+        private byte[] GetBase(ExtendedPort extendedPort, BaseRefType baseRefType)
+        {
+            var basefile = $@"..\PortData\{extendedPort.GetFolderName()}\{baseRefType.ToFileName()}";
+            if (File.Exists(basefile))
+                return File.ReadAllBytes(basefile);
+            _logger35.AppendLine($"Can't find {baseRefType.ToFileName()} for port {extendedPort.ToStringA()}");
+            return null;
+        }
+
+        private bool IsAdditionalBaseExists(ExtendedPort extendedPort)
+        {
+            var basefile = $@"..\PortData\{extendedPort.GetFolderName()}\{BaseRefType.Additional.ToFileName()}";
+            return File.Exists(basefile);
+        }
+
     }
 }

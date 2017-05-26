@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Iit.Fibertest.Utils35;
 
 namespace Iit.Fibertest.IitOtdrLibrary
 {
@@ -12,6 +13,8 @@ namespace Iit.Fibertest.IitOtdrLibrary
 
         public ComparisonReturns Result { get; set; }
 
+        public BaseRefType BaseRefType { get; set; }
+        public double FirstBreakDistance { get; set; }
     }
 
     public class MoniLevel

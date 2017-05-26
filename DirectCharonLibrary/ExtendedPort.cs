@@ -1,11 +1,26 @@
-﻿using Iit.Fibertest.Utils35;
+﻿using System;
+using Iit.Fibertest.Utils35;
 
 namespace Iit.Fibertest.DirectCharonLibrary
 {
+    public enum PortMeasResult
+    {
+        Unknown            =0, // just started , no previous measurements
+        Ok                 =1,
+        BrokenByFast       =2,
+        BrokenByPrecise    =3,
+    }
     public class ExtendedPort
     {
         public NetAddress NetAddress { get; set; }
         public int Port { get; set; }
+
+        public DateTime LastPreciseMadeTimestamp { get; set; }
+        public DateTime LastPreciseSavedTimestamp { get; set; }
+        public DateTime LastFastSavedTimestamp { get; set; }
+
+        public PortMeasResult State { get; set; }
+        public bool IsBreakdownCloserThen20Km { get; set; }
 
         public ExtendedPort(NetAddress netAddress, int opticalPort)
         {

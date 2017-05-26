@@ -30,6 +30,8 @@ namespace ConsoleAppOtdr
                 return;
 
             overSeer.GetMonitoringQueue();
+            _iniFile35.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 1);
+            overSeer.RunMonitoringCycle();
 
             _logger35.AppendLine("Done.");
             Console.WriteLine("Done.");
