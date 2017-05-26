@@ -53,6 +53,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
 
         public bool Initialize()
         {
+            _rtuLogger35.AppendLine($"Initializing OTAU on {NetAddress.ToStringA()}");
             StartPortNumber = Parent == null ? 1 : StartPortNumber = Parent.FullPortCount + 1;
             Children = new Dictionary<int, Charon>();
 
@@ -107,7 +108,9 @@ namespace Iit.Fibertest.DirectCharonLibrary
             ShowMessageReady();
 
             if (_charonLogLevel >= CharonLogLevel.PublicCommands)
-                _rtuLogger35.AppendLine($"Full port count  {FullPortCount}", 2);
+                _rtuLogger35.AppendLine($"Full port count  {FullPortCount}");
+            else
+                _rtuLogger35.AppendLine($"OTAU initialized successfully.  {Serial}  {OwnPortCount}/{FullPortCount}");
             return true;
         }
 
@@ -290,5 +293,38 @@ namespace Iit.Fibertest.DirectCharonLibrary
             return true;
         }
 
+        public bool IsExtendedPortValidForMonitoring(ExtendedPort extendedPort)
+        {
+            var charon = GetCharon(extendedPort.NetAddress);
+            if (charon == null)
+            {
+                _rtuLogger35.AppendLine($"Can't find address {extendedPort.NetAddress.ToStringA()}");
+                return false;
+            }
+            if (charon.Children.ContainsKey(extendedPort.Port))
+            {
+                _rtuLogger35.AppendLine($"Port {extendedPort.Port} is occupied by child charon");
+                return false;
+            }
+            if (charon.OwnPortCount < extendedPort.Port || extendedPort.Port < 1)
+            {
+                _rtuLogger35.AppendLine($"Port number for this otau should be from 1 to {charon.OwnPortCount}");
+                return false;
+            }
+            return true;
+        }
+
+        private Charon GetCharon(NetAddress netAddress)
+        {
+            if (NetAddress.Equals(netAddress))
+                return this;
+            foreach (var child in Children.Values)
+            {
+                var res = child.GetCharon(netAddress);
+                if (res != null)
+                    return res;
+            }
+            return null;
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.Utils35;
@@ -8,13 +9,15 @@ namespace ConsoleAppOtdr
 {
     public class OverSeer
     {
+        private const string DefaultIp = "192.168.88.101";
+
         private readonly Logger35 _logger35;
         private readonly IniFile _iniFile35;
         private OtdrManager _otdrManager;
         private Charon _mainCharon;
 
-
-        private const string DefaultIp = "192.168.88.101";
+        private Queue<ExtendedPort> _monitoringQueue;
+        private int _measurementNumber;
 
         public OverSeer(Logger35 logger35, IniFile iniFile35)
         {
@@ -58,5 +61,84 @@ namespace ConsoleAppOtdr
             return null;
         }
 
+        public void GetMonitoringQueue()
+        {
+            _monitoringQueue = new Queue<ExtendedPort>();
+            var monitoringSettingsFile = Utils.FileNameForSure(@"..\ini\", @"monitoring.que", false);
+            var content = File.ReadAllLines(monitoringSettingsFile);
+            foreach (var line in content)
+            {
+                var extendedPort = Create(line);
+                if (extendedPort != null && _mainCharon.IsExtendedPortValidForMonitoring(extendedPort))
+                    _monitoringQueue.Enqueue(extendedPort);
+            }
+        }
+
+        private ExtendedPort Create(string str)
+        {
+            if (string.IsNullOrEmpty(str))
+                return null;
+
+            var parts = str.Split('-');
+            if (parts.Length != 2)
+            {
+                _logger35.AppendLine($"Invalid string in queue file: {str}");
+                return null;
+            }
+
+            int opticalPort;
+            if (!int.TryParse(parts[1], out opticalPort))
+            {
+                _logger35.AppendLine($"Can't parse optical port: {parts[1]}");
+                return null;
+            }
+
+            var addressParts = parts[0].Split(':');
+            if (addressParts.Length != 2)
+            {
+                _logger35.AppendLine($"Can't parse address: {parts[0]}");
+                return null;
+            }
+
+            int tcpPort;
+            if (!int.TryParse(addressParts[1], out tcpPort))
+            {
+                _logger35.AppendLine($"Can't parse tcp port: {addressParts[1]}");
+                return null;
+            }
+
+            var netAddress = new NetAddress(addressParts[0], tcpPort);
+            if (!netAddress.HasValidIp4Address() || !netAddress.HasValidTcpPort())
+            {
+                _logger35.AppendLine($"Invalid ip address: {parts[0]}");
+                return null;
+            }
+
+            return new ExtendedPort(netAddress, opticalPort);
+        }
+
+        public void RunMonitoringCycle()
+        {
+            while (true)
+            {
+                _measurementNumber++;
+
+                var extendedPort = _monitoringQueue.Dequeue();
+                _monitoringQueue.Enqueue(extendedPort);
+
+                PerformFullMeasurement(extendedPort);
+
+                var isMonitoringOn = _iniFile35.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, 0);
+                if (isMonitoringOn == 0)
+                    break;
+            }
+        }
+
+        private void PerformFullMeasurement(ExtendedPort extendedPort)
+        {
+            _logger35.AppendLine($"Measurement {_measurementNumber}  Port {extendedPort.ToStringA()} ...");
+
+            _logger35.AppendLine("Measurement is finished");
+        }
     }
 }

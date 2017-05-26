@@ -5,5 +5,6 @@
         General,
         RtuTestBench,
         Charon,
+        Monitoring,
     }
 }

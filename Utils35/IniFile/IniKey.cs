@@ -18,5 +18,7 @@
         WriteTimeout,
         LogLevel,
 
+        IsMonitoringOn,
+
     }
 }
