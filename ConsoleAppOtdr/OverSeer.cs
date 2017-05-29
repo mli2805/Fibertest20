@@ -120,9 +120,9 @@ namespace ConsoleAppOtdr
                 var extendedPort = _monitoringQueue.Dequeue();
                 _monitoringQueue.Enqueue(extendedPort);
 
+                _logger35.EmptyLine();
                 _logger35.AppendLine($"Measurement {_measurementNumber}  Port {extendedPort.ToStringA()} ...");
                 ProcessOnePort(extendedPort);
-                _logger35.AppendLine("Measurement is finished");
 
                 if (_iniFile35.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, 0) == 0)
                     break;
@@ -135,6 +135,8 @@ namespace ConsoleAppOtdr
             {
                 // FAST 
                 var fastMoniResult = DoMeasurement(extendedPort, BaseRefType.Fast);
+                if (fastMoniResult == null)
+                    return;
                 if (GetPortState(fastMoniResult) != extendedPort.State ||
                     (extendedPort.LastFastSavedTimestamp - DateTime.Now) > _fastSaveTimespan)
                 {
@@ -172,7 +174,7 @@ namespace ConsoleAppOtdr
 
         private void SendMoniResult(MoniResult moniResult)
         {
-
+            _logger35.AppendLine("Sending monitoring result to server...");
         }
 
         private PortMeasResult GetPortState(MoniResult moniResult)
@@ -187,6 +189,8 @@ namespace ConsoleAppOtdr
 
         private MoniResult DoMeasurement(ExtendedPort extendedPort, BaseRefType baseRefType)
         {
+            if (!_mainCharon.SetExtendedActivePort(extendedPort.NetAddress, extendedPort.Port))
+                return null;
             var baseBytes = GetBase(extendedPort, baseRefType);
             if (baseBytes == null)
                 return null;

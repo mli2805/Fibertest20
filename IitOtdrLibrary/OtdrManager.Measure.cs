@@ -43,7 +43,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
         /// <returns></returns>
         private bool Measure(Charon activeChild)
         {
-            _rtuLogger.AppendLine("Measurement begin.");
+//            _rtuLogger.AppendLine("Measurement begin.");
             lock (_lockObj)
             {
                 _isMeasurementCanceled = false;
@@ -83,7 +83,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
                 return false;
             }
 
-            _rtuLogger.AppendLine("Measurement end.");
+//            _rtuLogger.AppendLine("Measurement end.");
 
             activeChild?.ShowMessageReady();
 
@@ -114,7 +114,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
                 _rtuLogger.AppendLine("Error in GetLastSorData");
                 return null;
             }
-            _rtuLogger.AppendLine("Measurement result received.");
+//            _rtuLogger.AppendLine("Measurement result received.");
             return buffer;
         }
 

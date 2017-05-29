@@ -73,8 +73,8 @@ namespace Iit.Fibertest.IitOtdrLibrary
         public bool DoMeasurementStep(ref IntPtr sorData)
         {
             var result = MeasStep(ref sorData);
-            if (result != 0)
-                _rtuLogger.AppendLine($"MeasStep returned {(MeasStepReturns)result}");
+//            if (result != 0)
+//                _rtuLogger.AppendLine($"MeasStep returned {(MeasStepReturns)result}");
             return result == 0;
         }
 
