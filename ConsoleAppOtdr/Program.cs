@@ -29,8 +29,9 @@ namespace ConsoleAppOtdr
             if (!overSeer.InitializeOtau())
                 return;
 
-            overSeer.GetMonitoringQueue();
             _iniFile35.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 1);
+            overSeer.GetMonitoringQueue();
+            overSeer.GetMonitoringParams();
             overSeer.RunMonitoringCycle();
 
             _logger35.AppendLine("Done.");

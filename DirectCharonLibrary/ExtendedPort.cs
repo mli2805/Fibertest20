@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Iit.Fibertest.Utils35;
 
 namespace Iit.Fibertest.DirectCharonLibrary
@@ -36,6 +37,12 @@ namespace Iit.Fibertest.DirectCharonLibrary
         public string ToStringA()
         {
             return $"{Port} on {NetAddress.ToStringA()}";
+        }
+
+        public bool HasAdditionalBase()
+        {
+            var basefile = $@"..\PortData\{GetFolderName()}\{BaseRefType.Additional.ToFileName()}";
+            return File.Exists(basefile);
         }
     }
 }

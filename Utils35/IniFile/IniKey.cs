@@ -19,6 +19,9 @@
         LogLevel,
 
         IsMonitoringOn,
+        PreciseMakeTimespan,
+        PreciseSaveTimespan,
+        FastSaveTimespan,
 
     }
 }

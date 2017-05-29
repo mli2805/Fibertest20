@@ -61,6 +61,13 @@ namespace ConsoleAppOtdr
             }
         }
 
+        public void GetMonitoringParams()
+        {
+            _preciseMakeTimespan = TimeSpan.FromSeconds(_iniFile35.Read(IniSection.Monitoring, IniKey.PreciseMakeTimespan, 3600));
+            _preciseSaveTimespan = TimeSpan.FromSeconds(_iniFile35.Read(IniSection.Monitoring, IniKey.PreciseSaveTimespan, 3600));
+            _fastSaveTimespan = TimeSpan.FromSeconds(_iniFile35.Read(IniSection.Monitoring, IniKey.FastSaveTimespan, 3600));
+        }
+
         private ExtendedPort Create(string str)
         {
             if (string.IsNullOrEmpty(str))
@@ -113,42 +120,59 @@ namespace ConsoleAppOtdr
                 var extendedPort = _monitoringQueue.Dequeue();
                 _monitoringQueue.Enqueue(extendedPort);
 
-                PerformFullMeasurement(extendedPort);
+                _logger35.AppendLine($"Measurement {_measurementNumber}  Port {extendedPort.ToStringA()} ...");
+                ProcessOnePort(extendedPort);
+                _logger35.AppendLine("Measurement is finished");
 
-                var isMonitoringOn = _iniFile35.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, 0);
-                if (isMonitoringOn == 0)
+                if (_iniFile35.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, 0) == 0)
                     break;
             }
         }
 
-        private void PerformFullMeasurement(ExtendedPort extendedPort)
-        {
-            _logger35.AppendLine($"Measurement {_measurementNumber}  Port {extendedPort.ToStringA()} ...");
-
-            var moniResult = PerformMeasurement(extendedPort);
-            var newPortState = GetPortState(moniResult);
-            if (extendedPort.State != newPortState)
-            {
-                // TODO send to server
-
-                if (newPortState == PortMeasResult.BrokenByFast)
-                    extendedPort.IsBreakdownCloserThen20Km = moniResult.FirstBreakDistance < 20;
-                extendedPort.State = newPortState;
-            }
-
-
-            _logger35.AppendLine("Measurement is finished");
-        }
-
-        private MoniResult PerformMeasurement(ExtendedPort extendedPort)
+        private void ProcessOnePort(ExtendedPort extendedPort)
         {
             if (extendedPort.State == PortMeasResult.Ok || extendedPort.State == PortMeasResult.Unknown)
-                return DoMeasurement(extendedPort, BaseRefType.Fast);
+            {
+                // FAST 
+                var fastMoniResult = DoMeasurement(extendedPort, BaseRefType.Fast);
+                if (GetPortState(fastMoniResult) != extendedPort.State ||
+                    (extendedPort.LastFastSavedTimestamp - DateTime.Now) > _fastSaveTimespan)
+                {
+                    SendMoniResult(fastMoniResult);
+                    extendedPort.LastFastSavedTimestamp = DateTime.Now;
+                    extendedPort.State = GetPortState(fastMoniResult);
+                    if (extendedPort.State == PortMeasResult.BrokenByFast)
+                        extendedPort.IsBreakdownCloserThen20Km = fastMoniResult.FirstBreakDistance < 20;
+                }
+            }
 
-            if (IsAdditionalBaseExists(extendedPort) && extendedPort.IsBreakdownCloserThen20Km)
-                return DoMeasurement(extendedPort, BaseRefType.Additional);
+            var isTraceBroken = extendedPort.State == PortMeasResult.BrokenByFast ||
+                                extendedPort.State == PortMeasResult.BrokenByPrecise;
+            var isSecondMeasurementNeeded = isTraceBroken ||
+                (extendedPort.LastPreciseMadeTimestamp - DateTime.Now) > _preciseMakeTimespan;
 
-            return DoMeasurement(extendedPort, BaseRefType.Precise);
+            if (!isSecondMeasurementNeeded)
+                return;
+
+            // PRECISE (or ADDITIONAL)
+            MoniResult moniResult;
+            if (isTraceBroken && extendedPort.IsBreakdownCloserThen20Km && extendedPort.HasAdditionalBase())
+                moniResult = DoMeasurement(extendedPort, BaseRefType.Additional);
+            else
+                moniResult = DoMeasurement(extendedPort, BaseRefType.Precise);
+            extendedPort.LastPreciseMadeTimestamp = DateTime.Now;
+            if (GetPortState(moniResult) != extendedPort.State ||
+                (extendedPort.LastPreciseSavedTimestamp - DateTime.Now) > _preciseSaveTimespan)
+            {
+                SendMoniResult(moniResult);
+                extendedPort.LastPreciseSavedTimestamp = DateTime.Now;
+                extendedPort.State = GetPortState(moniResult);
+            }
+        }
+
+        private void SendMoniResult(MoniResult moniResult)
+        {
+
         }
 
         private PortMeasResult GetPortState(MoniResult moniResult)
@@ -178,12 +202,6 @@ namespace ConsoleAppOtdr
                 return File.ReadAllBytes(basefile);
             _logger35.AppendLine($"Can't find {baseRefType.ToFileName()} for port {extendedPort.ToStringA()}");
             return null;
-        }
-
-        private bool IsAdditionalBaseExists(ExtendedPort extendedPort)
-        {
-            var basefile = $@"..\PortData\{extendedPort.GetFolderName()}\{BaseRefType.Additional.ToFileName()}";
-            return File.Exists(basefile);
         }
 
     }
