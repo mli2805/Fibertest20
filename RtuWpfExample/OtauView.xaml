@@ -17,7 +17,10 @@
                     <TextBlock Text="{x:Static stringResources:Resources.SID_TCP_port}" Margin="0,0,10,0" />
                     <TextBox Width="45" Text="{Binding OtauTcpPort}"/>
                 </StackPanel>
-                <Button Name="InitOtau" Content="{x:Static stringResources:Resources.SID_Initialize_main_otau}" Margin="5"/>
+                <DockPanel>
+                    <Button Name="ResetOtau" Content="Reset Otau" Margin="5" DockPanel.Dock="Right" Width="120"/>
+                    <Button Name="InitOtau" Content="{x:Static stringResources:Resources.SID_Initialize_main_otau}" Margin="5"/>
+                </DockPanel>
                 <StackPanel>
                     <TextBlock Margin="5" Background="AliceBlue" Text="{Binding CharonInfo}" Padding="5,0,0,0" TextWrapping="Wrap"/>
                 </StackPanel>
@@ -29,8 +32,10 @@
                 <ComboBox Margin="5" Width="140" DockPanel.Dock="Left" ItemsSource="{Binding OtauList}" SelectedItem="{Binding SelectedOtau}"/>
                 <TextBox Margin="5" Width="22" DockPanel.Dock="Left" Text="{Binding NewActivePort}"/>
                 <Button Name="SetActivePort" Margin="5" Content="{x:Static stringResources:Resources.SID_Toggle_to_port}" Width="140" IsEnabled="{Binding IsOtauInitialized}"/>
-                <Button Name="LedOn" Margin="5" Content="On" Width="30" IsEnabled="{Binding IsOtauInitialized}"/>
-                <Button Name="LedOff" Margin="5" Content="Off" Width="30" IsEnabled="{Binding IsOtauInitialized}"/>
+                <Button Name="LedOn" Margin="5" Content="On" Width="30" IsEnabled="{Binding IsOtauInitialized}" 
+                        ToolTip="только для бопа, для главного otau другая команда, подается из iit_otdr"/>
+                <Button Name="LedOff" Margin="5" Content="Off" Width="30" IsEnabled="{Binding IsOtauInitialized}" 
+                        ToolTip="только для бопа, для главного otau другая команда, подается из iit_otdr"/>
             </DockPanel>
         </GroupBox>
         <GroupBox Header="{x:Static stringResources:Resources.SID_Attach}" Margin="5">

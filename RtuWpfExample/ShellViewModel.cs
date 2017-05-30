@@ -10,6 +10,7 @@ using Iit.Fibertest.WpfCommonViews;
 using Microsoft.Win32;
 using Iit.Fibertest.Utils35.IniFile;
 using Iit.Fibertest.DirectCharonLibrary;
+using Iit.Fibertest.StringResources;
 
 namespace RtuWpfExample
 {
@@ -145,14 +146,15 @@ namespace RtuWpfExample
 
         public async Task ConnectOtdr()
         {
-            InitializationMessage = "Wait, please...";
+//            InitializationMessage = "Wait, please...";
+            InitializationMessage = Resources.SID_Wait__please___;
 
             await ConnectionProcess();
 
             InitializationMessage = IsOtdrConnected ? "OTDR connected successfully!" : "OTDR connection failed!";
         }
 
-        private async Task ConnectionProcess()
+        private async Task ConnectionProcess() // button
         {
             using (new WaitCursor())
             {

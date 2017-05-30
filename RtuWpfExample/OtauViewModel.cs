@@ -221,33 +221,46 @@ namespace Iit.Fibertest.RtuWpfExample
 
         public async Task InitOtau() // button click
         {
-            InitializationMessage = Resources.SID_Wait__please___;
-            MainCharon = new Charon(new NetAddress() { Ip4Address = IpAddress, Port = OtauTcpPort }, _iniFile35, _rtuLogger);
-            await RunOtauInitialization();
-            InitializationMessage = MainCharon.IsLastCommandSuccessful
-                ? Resources.SID_OTAU_initialized_successfully_
-                : MainCharon.LastErrorMessage;
-
-            if (!MainCharon.IsLastCommandSuccessful)
-                return;
-
-            MainCharonNetAddress = MainCharon.NetAddress.ToStringA();
-            var otauList = new List<string> {MainCharon.NetAddress.ToStringA()};
-            otauList.AddRange(MainCharon.Children.Values.Select(charon => charon.NetAddress.ToStringA()));
-            OtauList = otauList;
-            BopOtauList = new List<string>(MainCharon.Children.Values.Select(charon => charon.NetAddress.ToStringA()));
-
-            await RunOtauGetActivePort();
-            if (MainCharon.IsLastCommandSuccessful)
+            using (new WaitCursor())
             {
-                SelectedOtau = OtauList.First(a => a == ActiveCharonAddress.ToStringA());
-                NewActivePort = ActivePort;
-                SelectedBop = BopOtauList.FirstOrDefault();
+                CharonInfo = Resources.SID_Wait__please___;
+                MainCharon = new Charon(new NetAddress() {Ip4Address = IpAddress, Port = OtauTcpPort}, _iniFile35,
+                    _rtuLogger);
+//            await RunOtauInitialization();
+                await Task.Run(() => RunOtauInitialization());
+
+                if (!MainCharon.IsLastCommandSuccessful)
+                    return;
+
+                MainCharonNetAddress = MainCharon.NetAddress.ToStringA();
+                var otauList = new List<string> {MainCharon.NetAddress.ToStringA()};
+                otauList.AddRange(MainCharon.Children.Values.Select(charon => charon.NetAddress.ToStringA()));
+                OtauList = otauList;
+                BopOtauList =
+                    new List<string>(MainCharon.Children.Values.Select(charon => charon.NetAddress.ToStringA()));
+
+                await RunOtauGetActivePort();
+                if (MainCharon.IsLastCommandSuccessful)
+                {
+                    SelectedOtau = OtauList.First(a => a == ActiveCharonAddress.ToStringA());
+                    NewActivePort = ActivePort;
+                    SelectedBop = BopOtauList.FirstOrDefault();
+                }
+                else
+                {
+                    SelectedOtau = OtauList.First();
+                    NewActivePort = -1;
+                }
             }
-            else
+        }
+
+        public async Task ResetOtau()
+        {
+            using (new WaitCursor())
             {
-                SelectedOtau = OtauList.First();
-                NewActivePort = -1;
+                CharonInfo = Resources.SID_Wait__please___;
+                await Task.Run(() => MainCharon.ResetOtau());
+                CharonInfo = MainCharon.LastAnswer;
             }
         }
 
@@ -276,12 +289,12 @@ namespace Iit.Fibertest.RtuWpfExample
             }
         }
 
-        private async Task RunOtauInitialization()
+        private void RunOtauInitialization()
         {
-            using (new WaitCursor())
-            {
                 _rtuLogger.AppendLine(Resources.SID_Otau_initialization_started);
-                await Task.Run(() => MainCharon.Initialize());
+//                await Task.Run(() => MainCharon.Initialize());
+                MainCharon.Initialize();
+
                 if (MainCharon.IsLastCommandSuccessful)
                 {
                     _rtuLogger.AppendLine(Resources.SID_Otau_initialized_successfully);
@@ -301,7 +314,7 @@ namespace Iit.Fibertest.RtuWpfExample
                 {
                     CharonInfo = MainCharon.LastErrorMessage;
                 }
-            }
+            
         }
 
         public async Task SetActivePort() // button

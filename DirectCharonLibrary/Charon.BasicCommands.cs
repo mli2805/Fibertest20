@@ -6,7 +6,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
 {
     public partial class Charon
     {
-        private bool ResetOtau()
+        public bool ResetOtau()
         {
             SendCommand("otau_reset\r\n");
             if (!IsLastCommandSuccessful)
