@@ -36,8 +36,8 @@ namespace ConsoleAppOtdr
                 return false;
 
             var otdrAddress = _iniFile35.Read(IniSection.General, IniKey.OtdrIp, DefaultIp);
-            if (_otdrManager.InitializeLibrary())
-                _otdrManager.ConnectOtdr(otdrAddress);
+                if (_otdrManager.InitializeLibrary())
+                    _otdrManager.ConnectOtdr(otdrAddress);
             return _otdrManager.IsOtdrConnected;
         }
 
@@ -50,6 +50,7 @@ namespace ConsoleAppOtdr
 
         public void GetMonitoringQueue()
         {
+            _logger35.EmptyLine();
             _monitoringQueue = new Queue<ExtendedPort>();
             var monitoringSettingsFile = Utils.FileNameForSure(@"..\ini\", @"monitoring.que", false);
             var content = File.ReadAllLines(monitoringSettingsFile);
@@ -113,6 +114,12 @@ namespace ConsoleAppOtdr
 
         public void RunMonitoringCycle()
         {
+            _logger35.AppendLine("Start monitoring cycle.");
+            if (_monitoringQueue.Count < 1)
+            {
+                _logger35.AppendLine("There are no ports in queue for monitoring.");
+                return;
+            }
             while (true)
             {
                 _measurementNumber++;

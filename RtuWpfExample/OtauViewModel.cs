@@ -14,18 +14,6 @@ namespace Iit.Fibertest.RtuWpfExample
         private readonly IniFile _iniFile35;
         private readonly Logger35 _rtuLogger;
 
-        private string _initializationMessage;
-        public string InitializationMessage
-        {
-            get { return _initializationMessage; }
-            set
-            {
-                if (Equals(value, _initializationMessage)) return;
-                _initializationMessage = value;
-                NotifyOfPropertyChange(() => InitializationMessage);
-            }
-        }
-
         private bool _isOtauInitialized;
         public bool IsOtauInitialized
         {

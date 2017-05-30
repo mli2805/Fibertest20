@@ -22,9 +22,12 @@ namespace ConsoleAppOtdr
             _iniFile35.AssignFile("rtu.ini");
 
             var overSeer = new OverSeer(_logger35, _iniFile35);
-            
+
             if (!overSeer.InitializeOtdr())
+            {
+                _logger35.AppendLine("Done.");
                 return;
+            }
 
             if (!overSeer.InitializeOtau())
                 return;
