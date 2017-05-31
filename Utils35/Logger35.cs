@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 
 namespace Iit.Fibertest.Utils35
@@ -28,14 +27,6 @@ namespace Iit.Fibertest.Utils35
             else Console.WriteLine(message);
         }
 
-        public void AppendLine(List<string> messages, int offset = 0, string prefix = "")
-        {
-            foreach (var message in messages)
-            {
-                AppendLine(message,offset,prefix);
-            }
-        }
-
         public void AppendLine(string message, int offset = 0, string prefix = "")
         {
             message = message.Replace("\0", string.Empty);
@@ -57,11 +48,22 @@ namespace Iit.Fibertest.Utils35
             }
         }
 
-        public void Append(string message)
+        public void Append(string message, int offset = 0, string prefix = "")
+        {
+            var offsetStr = new string(' ', offset);
+            if (!string.IsNullOrEmpty(prefix))
+                prefix += " ";
+            var msg = DateTime.Now + "  " + offsetStr + prefix + message.Trim();
+            if (_logFile != null)
+                _logFile.Write(msg);
+            else Console.Write(msg);
+        }
+
+        public void AddOnTheSameString(string message)
         {
             if (_logFile != null)
-                _logFile.Write(message);
-            else Console.Write(message);
+                _logFile.WriteLine(message);
+            else Console.WriteLine(message);
         }
     }
 }

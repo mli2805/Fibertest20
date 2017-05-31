@@ -338,7 +338,7 @@ namespace Iit.Fibertest.RtuWpfExample
             if (!SelectedNetAddress.Equals(MainCharon.NetAddress))
             {
                 var bopCharon = MainCharon.Children.Values.First(a => a.NetAddress.Equals(SelectedNetAddress));
-                bopCharon.ShowMessageReady();
+                bopCharon.ShowOnBopDisplayMessageReady();
             }
         }
 

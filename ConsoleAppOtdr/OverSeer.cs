@@ -51,6 +51,7 @@ namespace ConsoleAppOtdr
         public void GetMonitoringQueue()
         {
             _logger35.EmptyLine();
+            _logger35.AppendLine("Monitoring queue assembling...");
             _monitoringQueue = new Queue<ExtendedPort>();
             var monitoringSettingsFile = Utils.FileNameForSure(@"..\ini\", @"monitoring.que", false);
             var content = File.ReadAllLines(monitoringSettingsFile);
@@ -60,6 +61,7 @@ namespace ConsoleAppOtdr
                 if (extendedPort != null && _mainCharon.IsExtendedPortValidForMonitoring(extendedPort))
                     _monitoringQueue.Enqueue(extendedPort);
             }
+            _logger35.AppendLine($"{_monitoringQueue.Count} port(s) in queue.");
         }
 
         public void GetMonitoringParams()
@@ -77,35 +79,35 @@ namespace ConsoleAppOtdr
             var parts = str.Split('-');
             if (parts.Length != 2)
             {
-                _logger35.AppendLine($"Invalid string in queue file: {str}");
+                _logger35.AppendLine($"Invalid string in queue file: '{str}'", 2);
                 return null;
             }
 
             int opticalPort;
             if (!int.TryParse(parts[1], out opticalPort))
             {
-                _logger35.AppendLine($"Can't parse optical port: {parts[1]}");
+                _logger35.AppendLine($"Can't parse optical port: '{parts[1]}'", 2);
                 return null;
             }
 
             var addressParts = parts[0].Split(':');
             if (addressParts.Length != 2)
             {
-                _logger35.AppendLine($"Can't parse address: {parts[0]}");
+                _logger35.AppendLine($"Can't parse address: '{parts[0]}'", 2);
                 return null;
             }
 
             int tcpPort;
             if (!int.TryParse(addressParts[1], out tcpPort))
             {
-                _logger35.AppendLine($"Can't parse tcp port: {addressParts[1]}");
+                _logger35.AppendLine($"Can't parse tcp port: '{addressParts[1]}'", 2);
                 return null;
             }
 
             var netAddress = new NetAddress(addressParts[0], tcpPort);
             if (!netAddress.HasValidIp4Address() || !netAddress.HasValidTcpPort())
             {
-                _logger35.AppendLine($"Invalid ip address: {parts[0]}");
+                _logger35.AppendLine($"Invalid ip address: '{parts[0]}'", 2);
                 return null;
             }
 
@@ -114,7 +116,8 @@ namespace ConsoleAppOtdr
 
         public void RunMonitoringCycle()
         {
-            _logger35.AppendLine("Start monitoring cycle.");
+            _logger35.EmptyLine();
+            _logger35.AppendLine("Start monitoring.");
             if (_monitoringQueue.Count < 1)
             {
                 _logger35.AppendLine("There are no ports in queue for monitoring.");
@@ -128,7 +131,7 @@ namespace ConsoleAppOtdr
                 _monitoringQueue.Enqueue(extendedPort);
 
                 _logger35.EmptyLine();
-                _logger35.AppendLine($"Measurement {_measurementNumber}  Port {extendedPort.ToStringA()} ...");
+                _logger35.AppendLine($"Measurement {_measurementNumber}...");
                 ProcessOnePort(extendedPort);
 
                 if (_iniFile35.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, 0) == 0)
@@ -138,12 +141,14 @@ namespace ConsoleAppOtdr
 
         private void ProcessOnePort(ExtendedPort extendedPort)
         {
+            var hasFastPerformed = false;
             if (extendedPort.State == PortMeasResult.Ok || extendedPort.State == PortMeasResult.Unknown)
             {
                 // FAST 
-                var fastMoniResult = DoMeasurement(extendedPort, BaseRefType.Fast);
+                var fastMoniResult = DoMeasurement(BaseRefType.Fast, extendedPort);
                 if (fastMoniResult == null)
                     return;
+                hasFastPerformed = true;
                 if (GetPortState(fastMoniResult) != extendedPort.State ||
                     (extendedPort.LastFastSavedTimestamp - DateTime.Now) > _fastSaveTimespan)
                 {
@@ -158,20 +163,25 @@ namespace ConsoleAppOtdr
             var isTraceBroken = extendedPort.State == PortMeasResult.BrokenByFast ||
                                 extendedPort.State == PortMeasResult.BrokenByPrecise;
             var isSecondMeasurementNeeded = isTraceBroken ||
-                (extendedPort.LastPreciseMadeTimestamp - DateTime.Now) > _preciseMakeTimespan;
+                (DateTime.Now - extendedPort.LastPreciseMadeTimestamp) > _preciseMakeTimespan;
 
             if (!isSecondMeasurementNeeded)
                 return;
+            if (hasFastPerformed)
+            {
+                _logger35.EmptyLine();
+                _logger35.AppendLine("Second measurement in order to confirm results of fast");
+            }
 
             // PRECISE (or ADDITIONAL)
             MoniResult moniResult;
             if (isTraceBroken && extendedPort.IsBreakdownCloserThen20Km && extendedPort.HasAdditionalBase())
-                moniResult = DoMeasurement(extendedPort, BaseRefType.Additional);
+                moniResult = DoMeasurement(BaseRefType.Additional, extendedPort, !hasFastPerformed);
             else
-                moniResult = DoMeasurement(extendedPort, BaseRefType.Precise);
+                moniResult = DoMeasurement(BaseRefType.Precise, extendedPort, !hasFastPerformed);
             extendedPort.LastPreciseMadeTimestamp = DateTime.Now;
             if (GetPortState(moniResult) != extendedPort.State ||
-                (extendedPort.LastPreciseSavedTimestamp - DateTime.Now) > _preciseSaveTimespan)
+                (DateTime.Now - extendedPort.LastPreciseSavedTimestamp) > _preciseSaveTimespan)
             {
                 SendMoniResult(moniResult);
                 extendedPort.LastPreciseSavedTimestamp = DateTime.Now;
@@ -184,9 +194,10 @@ namespace ConsoleAppOtdr
             _logger35.AppendLine("Sending monitoring result to server...");
         }
 
+        // only is trace OK or not, without character of breakdown
         private PortMeasResult GetPortState(MoniResult moniResult)
         {
-            if (!moniResult.IsFailed)
+            if (!moniResult.IsFailed && !moniResult.IsFiberBreak && !moniResult.IsNoFiber)
                 return PortMeasResult.Ok;
 
             return moniResult.BaseRefType == BaseRefType.Fast
@@ -194,13 +205,14 @@ namespace ConsoleAppOtdr
                 : PortMeasResult.BrokenByPrecise;
         }
 
-        private MoniResult DoMeasurement(ExtendedPort extendedPort, BaseRefType baseRefType)
+        private MoniResult DoMeasurement(BaseRefType baseRefType, ExtendedPort extendedPort, bool isPortChanged = true)
         {
-            if (!_mainCharon.SetExtendedActivePort(extendedPort.NetAddress, extendedPort.Port))
+            if (isPortChanged && !_mainCharon.SetExtendedActivePort(extendedPort.NetAddress, extendedPort.Port))
                 return null;
             var baseBytes = GetBase(extendedPort, baseRefType);
             if (baseBytes == null)
                 return null;
+            _logger35.AppendLine($"{baseRefType} measurement");
             _otdrManager.MeasureWithBase(baseBytes, _mainCharon.GetActiveChildCharon());
             return _otdrManager.CompareMeasureWithBase(baseBytes,
                 _otdrManager.ApplyAutoAnalysis(_otdrManager.GetLastSorDataBuffer()), true); // is ApplyAutoAnalysis necessary ?

@@ -105,7 +105,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
                     FullPortCount += childCharon.FullPortCount;
                 }
 
-            ShowMessageReady();
+            ShowOnBopDisplayMessageReady();
 
             if (_charonLogLevel >= CharonLogLevel.PublicCommands)
                 _rtuLogger35.AppendLine($"Full port count  {FullPortCount}");
@@ -140,9 +140,11 @@ namespace Iit.Fibertest.DirectCharonLibrary
 
         public bool SetExtendedActivePort(NetAddress charonAddress, int port)
         {
+            _rtuLogger35.AppendLine($"Toggling to port {port} on {charonAddress.ToStringA()}...");
             if (NetAddress.Equals(charonAddress))
             {
                 var activePort = SetActivePort(port);
+                _rtuLogger35.AppendLine("Toggled Ok.");
                 return activePort == port;
             }
 
@@ -178,6 +180,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
                 return false;
             }
 
+            _rtuLogger35.AppendLine("Toggled Ok.");
             return true;
         }
 
@@ -298,17 +301,17 @@ namespace Iit.Fibertest.DirectCharonLibrary
             var charon = GetCharon(extendedPort.NetAddress);
             if (charon == null)
             {
-                _rtuLogger35.AppendLine($"Can't find address {extendedPort.NetAddress.ToStringA()}");
+                _rtuLogger35.AppendLine($"Can't find address {extendedPort.NetAddress.ToStringA()}", 2);
                 return false;
             }
             if (charon.Children.ContainsKey(extendedPort.Port))
             {
-                _rtuLogger35.AppendLine($"Port {extendedPort.Port} is occupied by child charon");
+                _rtuLogger35.AppendLine($"Port {extendedPort.Port} is occupied by child charon", 2);
                 return false;
             }
             if (charon.OwnPortCount < extendedPort.Port || extendedPort.Port < 1)
             {
-                _rtuLogger35.AppendLine($"Port number for this otau should be from 1 to {charon.OwnPortCount}");
+                _rtuLogger35.AppendLine($"Port number for this otau should be from 1 to {charon.OwnPortCount}", 2);
                 return false;
             }
             return true;
