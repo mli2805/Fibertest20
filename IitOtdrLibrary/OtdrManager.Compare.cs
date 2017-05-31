@@ -67,7 +67,6 @@ namespace Iit.Fibertest.IitOtdrLibrary
 
             measSorData.EmbeddedData.EmbeddedDataBlocks = embeddedData.ToArray();
             measSorData.EmbeddedData.EmbeddedBlocksCount = (ushort)embeddedData.Count;
-            measSorData.Save(@"c:\temp\MeasWithBase.sor");
             return moniResult;
         }
 

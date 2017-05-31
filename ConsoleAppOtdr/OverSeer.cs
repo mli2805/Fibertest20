@@ -36,8 +36,8 @@ namespace ConsoleAppOtdr
                 return false;
 
             var otdrAddress = _iniFile35.Read(IniSection.General, IniKey.OtdrIp, DefaultIp);
-                if (_otdrManager.InitializeLibrary())
-                    _otdrManager.ConnectOtdr(otdrAddress);
+            if (_otdrManager.InitializeLibrary())
+                _otdrManager.ConnectOtdr(otdrAddress);
             return _otdrManager.IsOtdrConnected;
         }
 
@@ -66,9 +66,12 @@ namespace ConsoleAppOtdr
 
         public void GetMonitoringParams()
         {
-            _preciseMakeTimespan = TimeSpan.FromSeconds(_iniFile35.Read(IniSection.Monitoring, IniKey.PreciseMakeTimespan, 3600));
-            _preciseSaveTimespan = TimeSpan.FromSeconds(_iniFile35.Read(IniSection.Monitoring, IniKey.PreciseSaveTimespan, 3600));
-            _fastSaveTimespan = TimeSpan.FromSeconds(_iniFile35.Read(IniSection.Monitoring, IniKey.FastSaveTimespan, 3600));
+            _preciseMakeTimespan =
+                TimeSpan.FromSeconds(_iniFile35.Read(IniSection.Monitoring, IniKey.PreciseMakeTimespan, 3600));
+            _preciseSaveTimespan =
+                TimeSpan.FromSeconds(_iniFile35.Read(IniSection.Monitoring, IniKey.PreciseSaveTimespan, 3600));
+            _fastSaveTimespan =
+                TimeSpan.FromSeconds(_iniFile35.Read(IniSection.Monitoring, IniKey.FastSaveTimespan, 3600));
         }
 
         private ExtendedPort Create(string str)
@@ -131,7 +134,6 @@ namespace ConsoleAppOtdr
                 _monitoringQueue.Enqueue(extendedPort);
 
                 _logger35.EmptyLine();
-                _logger35.AppendLine($"Measurement {_measurementNumber}...");
                 ProcessOnePort(extendedPort);
 
                 if (_iniFile35.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, 0) == 0)
@@ -145,6 +147,7 @@ namespace ConsoleAppOtdr
             if (extendedPort.State == PortMeasResult.Ok || extendedPort.State == PortMeasResult.Unknown)
             {
                 // FAST 
+                _logger35.AppendLine($"MEAS. {_measurementNumber} port {_mainCharon.GetBopPortString(extendedPort)}, Fast");
                 var fastMoniResult = DoMeasurement(BaseRefType.Fast, extendedPort);
                 if (fastMoniResult == null)
                     return;
@@ -163,22 +166,22 @@ namespace ConsoleAppOtdr
             var isTraceBroken = extendedPort.State == PortMeasResult.BrokenByFast ||
                                 extendedPort.State == PortMeasResult.BrokenByPrecise;
             var isSecondMeasurementNeeded = isTraceBroken ||
-                (DateTime.Now - extendedPort.LastPreciseMadeTimestamp) > _preciseMakeTimespan;
+                                            (DateTime.Now - extendedPort.LastPreciseMadeTimestamp) >
+                                            _preciseMakeTimespan;
 
             if (!isSecondMeasurementNeeded)
                 return;
             if (hasFastPerformed)
-            {
                 _logger35.EmptyLine();
-                _logger35.AppendLine("Second measurement in order to confirm results of fast");
-            }
 
             // PRECISE (or ADDITIONAL)
-            MoniResult moniResult;
-            if (isTraceBroken && extendedPort.IsBreakdownCloserThen20Km && extendedPort.HasAdditionalBase())
-                moniResult = DoMeasurement(BaseRefType.Additional, extendedPort, !hasFastPerformed);
-            else
-                moniResult = DoMeasurement(BaseRefType.Precise, extendedPort, !hasFastPerformed);
+            var baseType = (isTraceBroken && extendedPort.IsBreakdownCloserThen20Km && extendedPort.HasAdditionalBase())
+                ? BaseRefType.Additional
+                : BaseRefType.Precise;
+            var message = $"MEAS. {_measurementNumber} port {_mainCharon.GetBopPortString(extendedPort)}, {baseType}";
+            message += hasFastPerformed ? " (confirmation)" : "";
+            _logger35.AppendLine(message);
+            var moniResult = DoMeasurement(baseType, extendedPort, !hasFastPerformed);
             extendedPort.LastPreciseMadeTimestamp = DateTime.Now;
             if (GetPortState(moniResult) != extendedPort.State ||
                 (DateTime.Now - extendedPort.LastPreciseSavedTimestamp) > _preciseSaveTimespan)
@@ -212,20 +215,27 @@ namespace ConsoleAppOtdr
             var baseBytes = GetBase(extendedPort, baseRefType);
             if (baseBytes == null)
                 return null;
-            _logger35.AppendLine($"{baseRefType} measurement");
-            _otdrManager.MeasureWithBase(baseBytes, _mainCharon.GetActiveChildCharon());
-            return _otdrManager.CompareMeasureWithBase(baseBytes,
-                _otdrManager.ApplyAutoAnalysis(_otdrManager.GetLastSorDataBuffer()), true); // is ApplyAutoAnalysis necessary ?
+            if (!_otdrManager.MeasureWithBase(baseBytes, _mainCharon.GetActiveChildCharon()))
+                return null;
+            var measBytes = _otdrManager.ApplyAutoAnalysis(_otdrManager.GetLastSorDataBuffer()); // is ApplyAutoAnalysis necessary ?
+            var moniResult = _otdrManager.CompareMeasureWithBase(baseBytes, measBytes, true); // base is inserted into meas during comparison
+            SaveMeas(extendedPort, baseRefType, measBytes); // so save after comparison
+            return moniResult; 
         }
 
         private byte[] GetBase(ExtendedPort extendedPort, BaseRefType baseRefType)
         {
-            var basefile = $@"..\PortData\{extendedPort.GetFolderName()}\{baseRefType.ToFileName()}";
+            var basefile = $@"..\PortData\{extendedPort.GetFolderName()}\{baseRefType.ToBaseFileName()}";
             if (File.Exists(basefile))
                 return File.ReadAllBytes(basefile);
-            _logger35.AppendLine($"Can't find {baseRefType.ToFileName()} for port {extendedPort.ToStringA()}");
+            _logger35.AppendLine($"Can't find {baseRefType.ToBaseFileName()} for port {extendedPort.ToStringA()}");
             return null;
         }
 
+        private void SaveMeas(ExtendedPort extendedPort, BaseRefType baseRefType, byte[] bytes)
+        {
+            var measfile = $@"..\PortData\{extendedPort.GetFolderName()}\{baseRefType.ToMeasFileName()}";
+            File.WriteAllBytes(measfile, bytes);
+        }
     }
 }

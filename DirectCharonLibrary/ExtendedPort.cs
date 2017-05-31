@@ -41,7 +41,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
 
         public bool HasAdditionalBase()
         {
-            var basefile = $@"..\PortData\{GetFolderName()}\{BaseRefType.Additional.ToFileName()}";
+            var basefile = $@"..\PortData\{GetFolderName()}\{BaseRefType.Additional.ToBaseFileName()}";
             return File.Exists(basefile);
         }
     }

@@ -256,16 +256,24 @@ namespace RtuWpfExample
                 Message = "Wait, please...";
 
                 byte[] buffer = File.ReadAllBytes(BaseFileName);
-                await Task.Run(() => OtdrManager.MeasureWithBase(buffer, GetActiveChildCharon()));
+                var result = await Task.Run(() => OtdrManager.MeasureWithBase(buffer, GetActiveChildCharon()));
 
                 IsMeasurementInProgress = false;
-                Message = "Measurement is finished.";
+                if (!result)
+                {
+                    Message = "Measurement  error, see log";
+                    return;
+                }
 
                 var lastSorDataBuffer = OtdrManager.GetLastSorDataBuffer();
                 if (lastSorDataBuffer == null)
+                {
+                    Message = "Can't get result, see log";
                     return;
+                }
                 var sorData = OtdrManager.ApplyFilter(OtdrManager.ApplyAutoAnalysis(lastSorDataBuffer), OtdrManager.IsFilterOnInBase(buffer));
                 sorData.Save(MeasFileName);
+                Message = "Measurement is finished.";
             }
         }
 
@@ -276,6 +284,9 @@ namespace RtuWpfExample
             var bufferMeas = File.ReadAllBytes(MeasFileName);
 
             var moniResult = OtdrManager.CompareMeasureWithBase(bufferBase, bufferMeas, true);
+            var sorData = SorData.FromBytes(bufferMeas);
+            sorData.Save(MeasFileName);
+
             _rtuLogger.AppendLine($"Comparison end. IsFiberBreak = {moniResult.IsFiberBreak}, IsNoFiber = {moniResult.IsNoFiber}");
         }
 
@@ -315,8 +326,11 @@ namespace RtuWpfExample
                     IsMeasurementInProgress = false;
                     Message = $"{c}th measurement is finished.";
 
-                    var moniResult = OtdrManager.CompareMeasureWithBase(baseBytes,
-                        OtdrManager.ApplyAutoAnalysis(OtdrManager.GetLastSorDataBuffer()), true); // is ApplyAutoAnalysis necessary ?
+                    var measBytes = OtdrManager.ApplyAutoAnalysis(OtdrManager.GetLastSorDataBuffer()); // is ApplyAutoAnalysis necessary ?
+                    var moniResult = OtdrManager.CompareMeasureWithBase(baseBytes, measBytes, true);
+                    var sorData = SorData.FromBytes(measBytes);
+                    sorData.Save(MeasFileName);
+
                     _rtuLogger.AppendLine(moniResult.Result.ToString());
                 }
                 c++;

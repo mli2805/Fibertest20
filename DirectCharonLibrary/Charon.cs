@@ -329,5 +329,17 @@ namespace Iit.Fibertest.DirectCharonLibrary
             }
             return null;
         }
+
+        public string GetBopPortString(ExtendedPort extendedPort)
+        {
+            if (NetAddress.Equals(extendedPort.NetAddress))
+                return extendedPort.Port.ToString();
+            foreach (var pair in Children)
+            {
+                if (pair.Value.NetAddress.Equals(extendedPort.NetAddress))
+                    return $"{pair.Key}:{extendedPort.Port}";
+            }
+            return $"Can't find port {extendedPort.ToStringA()}";
+        }
     }
 }

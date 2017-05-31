@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Iit.Fibertest.Utils35
@@ -31,19 +32,29 @@ namespace Iit.Fibertest.Utils35
             }
         }
 
-        public static string ToFileName(this BaseRefType baseRefType)
+        private static string ToFileName(this BaseRefType baseRefType, string prefix)
         {
             switch (baseRefType)
             {
                 case BaseRefType.Precise:
-                    return "BasePrecise.sor";
+                    return prefix + "Precise.sor";
                 case BaseRefType.Fast:
-                    return "BaseFast.sor";
+                    return prefix + "Fast.sor";
                 case BaseRefType.Additional:
-                    return "BaseAdditional.sor";
+                    return prefix + "Additional.sor";
                 default:
                     return "";
             }
+
+        }
+        public static string ToBaseFileName(this BaseRefType baseRefType)
+        {
+            return ToFileName(baseRefType, "Base");
+        }
+
+        public static string ToMeasFileName(this BaseRefType baseRefType)
+        {
+            return ToFileName(baseRefType, "Meas");
         }
 
     }
