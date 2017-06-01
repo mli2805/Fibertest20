@@ -1,4 +1,4 @@
-﻿namespace Iit.Fibertest.Utils35.IniFile
+﻿namespace Iit.Fibertest.Utils35
 {
     public enum IniKey
     {
@@ -17,6 +17,9 @@
         ReadTimeout,
         WriteTimeout,
         LogLevel,
+        ComPort,
+        ComSpeed,
+        PauseAfterReset,
 
         IsMonitoringOn,
         PreciseMakeTimespan,

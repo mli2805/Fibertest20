@@ -8,7 +8,6 @@ using Iit.Fibertest.RtuWpfExample;
 using Iit.Fibertest.Utils35;
 using Iit.Fibertest.WpfCommonViews;
 using Microsoft.Win32;
-using Iit.Fibertest.Utils35.IniFile;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.StringResources;
 

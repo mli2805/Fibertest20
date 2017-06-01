@@ -4,7 +4,6 @@ using System.IO;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.Utils35;
-using Iit.Fibertest.Utils35.IniFile;
 
 namespace ConsoleAppOtdr
 {

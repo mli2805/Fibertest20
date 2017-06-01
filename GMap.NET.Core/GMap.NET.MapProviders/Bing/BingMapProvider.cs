@@ -8,7 +8,6 @@ namespace GMap.NET.MapProviders
    using System.Net;
    using System.Text;
    using System.Text.RegularExpressions;
-   using System.Threading;
    using System.Xml;
    using GMap.NET.Internals;
    using GMap.NET.Projections;

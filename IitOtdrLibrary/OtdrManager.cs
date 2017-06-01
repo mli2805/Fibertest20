@@ -2,7 +2,6 @@
 using System.IO;
 using System.Runtime.InteropServices;
 using Iit.Fibertest.Utils35;
-using Iit.Fibertest.Utils35.IniFile;
 
 namespace Iit.Fibertest.IitOtdrLibrary
 {
@@ -21,8 +20,6 @@ namespace Iit.Fibertest.IitOtdrLibrary
             _iitotdrFolder = iitotdrFolder;
             _iniFile = iniFile;
             _rtuLogger = rtuLogger;
-            _rtuLogger.EmptyLine();
-            _rtuLogger.EmptyLine('-');
             _rtuLogger.AppendLine("OtdrManager initialized");
         }
         

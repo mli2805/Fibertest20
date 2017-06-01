@@ -1,6 +1,6 @@
 ﻿using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
-using Iit.Fibertest.Utils35.IniFile;
+using Iit.Fibertest.Utils35;
 
 namespace Iit.Fibertest.Client
 {

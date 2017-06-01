@@ -1,7 +1,8 @@
 ﻿using System;
 using System.IO;
-using System.Runtime.CompilerServices;
+using System.IO.Ports;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace Iit.Fibertest.Utils35
 {
@@ -32,30 +33,47 @@ namespace Iit.Fibertest.Utils35
             }
         }
 
-        private static string ToFileName(this BaseRefType baseRefType, string prefix)
+        public static void CharonResetThroughComPort(IniFile iniFile35, Logger35 logger35)
         {
-            switch (baseRefType)
+            logger35.AppendLine("Charon RESET");
+            string comPortName = iniFile35.Read(IniSection.Charon, IniKey.ComPort, "COM2");
+            int comSpeed = iniFile35.Read(IniSection.Charon, IniKey.ComSpeed, 115200);
+            int charonLogLevel = iniFile35.Read(IniSection.Charon, IniKey.LogLevel, 4);
+
+            var serialPort = new SerialPort(comPortName, comSpeed);
+            try
             {
-                case BaseRefType.Precise:
-                    return prefix + "Precise.sor";
-                case BaseRefType.Fast:
-                    return prefix + "Fast.sor";
-                case BaseRefType.Additional:
-                    return prefix + "Additional.sor";
-                default:
-                    return "";
+                serialPort.Open();
             }
+            catch (Exception e)
+            {
+                logger35.AppendLine(e.Message, 2);
+                logger35.AppendLine($"Can't open {comPortName}", 2);
+                return;
+            }
+            if (charonLogLevel >=2)
+                logger35.AppendLine($"{comPortName} opened successfully.", 2);
 
-        }
-        public static string ToBaseFileName(this BaseRefType baseRefType)
-        {
-            return ToFileName(baseRefType, "Base");
+            if (charonLogLevel >= 2)
+                logger35.AppendLine($"Now RTS is {serialPort.RtsEnable}", 2);
+            serialPort.RtsEnable = !serialPort.RtsEnable;
+            Thread.Sleep(10);
+            if (charonLogLevel >= 2)
+                logger35.AppendLine($"Now RTS is {serialPort.RtsEnable}", 2);
+            serialPort.RtsEnable = !serialPort.RtsEnable;
+            Thread.Sleep(10);
+            if (charonLogLevel >= 2)
+                logger35.AppendLine($"Now RTS is {serialPort.RtsEnable}", 2);
+
+            serialPort.Close();
+
+            var pause = iniFile35.Read(IniSection.Charon, IniKey.PauseAfterReset, 5);
+            logger35.AppendLine($"Pause after charon reset {pause} seconds...");
+            Thread.Sleep(TimeSpan.FromSeconds(pause));
+            if (charonLogLevel >= 2)
+                logger35.AppendLine("Charon reset finished", 2);
         }
 
-        public static string ToMeasFileName(this BaseRefType baseRefType)
-        {
-            return ToFileName(baseRefType, "Meas");
-        }
 
     }
 }

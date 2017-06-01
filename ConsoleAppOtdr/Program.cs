@@ -2,7 +2,6 @@
 using System.Messaging;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.Utils35;
-using Iit.Fibertest.Utils35.IniFile;
 
 
 namespace ConsoleAppOtdr
@@ -20,6 +19,12 @@ namespace ConsoleAppOtdr
 
             _iniFile35 = new IniFile();
             _iniFile35.AssignFile("rtu.ini");
+
+            _logger35.EmptyLine();
+            _logger35.EmptyLine('-');
+            _logger35.AppendLine("Application start.");
+
+            Utils.CharonResetThroughComPort(_iniFile35, _logger35);
 
             var overSeer = new OverSeer(_logger35, _iniFile35);
 
@@ -42,6 +47,7 @@ namespace ConsoleAppOtdr
 //            Console.ReadKey();
         }
 
+        
         private static void SendMoniResult(MoniResult moniResult)
         {
 //                            var queueName = @".\private$\F20";

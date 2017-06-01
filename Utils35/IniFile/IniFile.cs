@@ -1,7 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Iit.Fibertest.Utils35.IniFile
+namespace Iit.Fibertest.Utils35
 {
     public class IniFile
     {
