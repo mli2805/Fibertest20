@@ -237,6 +237,16 @@ namespace ConsoleAppOtdr
             File.WriteAllBytes(measfile, bytes);
         }
 
+        public void ClearArp()
+        {
+            var res = Arp.GetTable();
+            _logger35.AppendLine(res);
+            res = Arp.ClearCache();
+            _logger35.AppendLine($"Clear ARP table - {res}");
+            res = Arp.GetTable();
+            _logger35.AppendLine(res);
+        }
+
 
     }
 }

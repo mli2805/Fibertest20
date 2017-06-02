@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.IO.Ports;
 using System.Threading;
 
@@ -45,6 +46,26 @@ namespace Iit.Fibertest.Utils35
             Thread.Sleep(TimeSpan.FromSeconds(pause));
             if (charonLogLevel >= 2)
                 logger35.AppendLine("Charon reset finished", 2);
+        }
+
+        public static void RebootSystem(Logger35 logger35)
+        {
+            logger35.AppendLine("System reboot in 15 sec...");
+            ProcessStartInfo proc = new ProcessStartInfo
+            {
+                FileName = "cmd",
+                WindowStyle = ProcessWindowStyle.Hidden,
+                Arguments = "/C shutdown -f -r -t 15"
+            };
+
+            try
+            {
+                Process.Start(proc);
+            }
+            catch (Exception e)
+            {
+                logger35.AppendLine(e.Message);
+            }
         }
 
 

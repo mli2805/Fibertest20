@@ -26,19 +26,22 @@ namespace ConsoleAppOtdr
             _logger35.AppendLine("Application started.");
             
             RestoreFunctions.ResetCharonThroughComPort(_iniFile35, _logger35);
-            
-
 
             var rtuManager = new RtuManager(_logger35, _iniFile35);
 
-            //
-            var res = Arp.GetTable();
-            _logger35.AppendLine(res);
-            res = Arp.ClearCache();
-            _logger35.AppendLine($"Clear ARP table - {res}");
-            res = Arp.GetTable();
-            _logger35.AppendLine(res);
-            //
+            var arp = _iniFile35.Read(IniSection.Restore, IniKey.ClearArp, 0);
+            if (arp != 0)
+            {
+                _iniFile35.Write(IniSection.Restore, IniKey.ClearArp, 0);
+                rtuManager.ClearArp();
+            }
+
+            var reboot = _iniFile35.Read(IniSection.Restore, IniKey.RebootSystem, 0);
+            if (reboot != 0)
+            {
+                _iniFile35.Write(IniSection.Restore, IniKey.RebootSystem, 0);
+                RestoreFunctions.RebootSystem(_logger35);
+            }
 
             if (!rtuManager.InitializeOtdr())
             {

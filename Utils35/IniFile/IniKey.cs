@@ -26,5 +26,9 @@
         PreciseSaveTimespan,
         FastSaveTimespan,
 
+        ResetCharon,
+        ClearArp,
+        RestartService,
+        RebootSystem
     }
 }
