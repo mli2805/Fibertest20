@@ -7,7 +7,7 @@ using Iit.Fibertest.Utils35;
 
 namespace ConsoleAppOtdr
 {
-    public class OverSeer
+    public class RtuManager
     {
         private const string DefaultIp = "192.168.88.101";
 
@@ -22,7 +22,7 @@ namespace ConsoleAppOtdr
         private TimeSpan _preciseSaveTimespan;
         private TimeSpan _fastSaveTimespan;
 
-        public OverSeer(Logger35 logger35, IniFile iniFile35)
+        public RtuManager(Logger35 logger35, IniFile iniFile35)
         {
             _logger35 = logger35;
             _iniFile35 = iniFile35;

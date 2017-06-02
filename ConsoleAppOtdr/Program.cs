@@ -22,28 +22,28 @@ namespace ConsoleAppOtdr
 
             _logger35.EmptyLine();
             _logger35.EmptyLine('-');
-            _logger35.AppendLine("Application start.");
+            _logger35.AppendLine("Application started.");
 
             Utils.CharonResetThroughComPort(_iniFile35, _logger35);
 
-            var overSeer = new OverSeer(_logger35, _iniFile35);
+            var rtuManager = new RtuManager(_logger35, _iniFile35);
 
-            if (!overSeer.InitializeOtdr())
+            if (!rtuManager.InitializeOtdr())
             {
                 _logger35.AppendLine("Done.");
                 return;
             }
 
-            if (!overSeer.InitializeOtau())
+            if (!rtuManager.InitializeOtau())
                 return;
 
             _iniFile35.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 1);
-            overSeer.GetMonitoringQueue();
-            overSeer.GetMonitoringParams();
-            overSeer.RunMonitoringCycle();
+            rtuManager.GetMonitoringQueue();
+            rtuManager.GetMonitoringParams();
+            rtuManager.RunMonitoringCycle();
 
-            _logger35.AppendLine("Done.");
-            Console.WriteLine("Done.");
+            _logger35.AppendLine("Application terminated.");
+            Console.WriteLine("Application terminated.");
 //            Console.ReadKey();
         }
 
