@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Messaging;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.Utils35;
@@ -23,23 +24,35 @@ namespace ConsoleAppOtdr
             _logger35.EmptyLine();
             _logger35.EmptyLine('-');
             _logger35.AppendLine("Application started.");
+            
+            RestoreFunctions.ResetCharonThroughComPort(_iniFile35, _logger35);
+            
 
-            Utils.CharonResetThroughComPort(_iniFile35, _logger35);
 
             var rtuManager = new RtuManager(_logger35, _iniFile35);
+
+            //
+            var res = Arp.GetTable();
+            _logger35.AppendLine(res);
+            res = Arp.ClearCache();
+            _logger35.AppendLine($"Clear ARP table - {res}");
+            res = Arp.GetTable();
+            _logger35.AppendLine(res);
+            //
 
             if (!rtuManager.InitializeOtdr())
             {
                 _logger35.AppendLine("Done.");
                 return;
             }
-
+            
             if (!rtuManager.InitializeOtau())
                 return;
 
             _iniFile35.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 1);
             rtuManager.GetMonitoringQueue();
             rtuManager.GetMonitoringParams();
+            
 //            rtuManager.RunMonitoringCycle();
 
             _logger35.AppendLine("Application terminated.");

@@ -33,7 +33,7 @@ namespace ConsoleAppOtdr
             _otdrManager = new OtdrManager(@"OtdrMeasEngine\", _iniFile35, _logger35);
             if (_otdrManager.LoadDll() != "")
                 return false;
-
+            
             var otdrAddress = _iniFile35.Read(IniSection.General, IniKey.OtdrIp, DefaultIp);
             if (_otdrManager.InitializeLibrary())
                 _otdrManager.ConnectOtdr(otdrAddress);
@@ -236,5 +236,7 @@ namespace ConsoleAppOtdr
             var measfile = $@"..\PortData\{extendedPort.GetFolderName()}\{baseRefType.ToMeasFileName()}";
             File.WriteAllBytes(measfile, bytes);
         }
+
+
     }
 }
