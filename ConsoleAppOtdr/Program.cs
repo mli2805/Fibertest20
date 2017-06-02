@@ -40,7 +40,7 @@ namespace ConsoleAppOtdr
             _iniFile35.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 1);
             rtuManager.GetMonitoringQueue();
             rtuManager.GetMonitoringParams();
-            rtuManager.RunMonitoringCycle();
+//            rtuManager.RunMonitoringCycle();
 
             _logger35.AppendLine("Application terminated.");
             Console.WriteLine("Application terminated.");

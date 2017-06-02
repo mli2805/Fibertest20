@@ -11,6 +11,7 @@ namespace GMap.NET.MapProviders
     using System.Globalization;
     using System.Xml;
     using System.Text;
+    using System.Threading;
 #if PocketPC
     using OpenNETCF.Security.Cryptography;
 #endif

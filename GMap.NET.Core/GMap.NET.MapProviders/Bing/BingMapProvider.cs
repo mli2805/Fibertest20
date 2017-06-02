@@ -1,18 +1,19 @@
 ﻿
 namespace GMap.NET.MapProviders
 {
-   using System;
-   using System.Collections.Generic;
-   using System.Diagnostics;
-   using System.Globalization;
-   using System.Net;
-   using System.Text;
-   using System.Text.RegularExpressions;
-   using System.Xml;
-   using GMap.NET.Internals;
-   using GMap.NET.Projections;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Globalization;
+    using System.Net;
+    using System.Text;
+    using System.Text.RegularExpressions;
+    using System.Xml;
+    using GMap.NET.Internals;
+    using GMap.NET.Projections;
+    using System.Threading;
 
-   public abstract class BingMapProviderBase : GMapProvider, RoutingProvider, GeocodingProvider
+    public abstract class BingMapProviderBase : GMapProvider, RoutingProvider, GeocodingProvider
    {
       public BingMapProviderBase()
       {

@@ -1,4 +1,8 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
+using System.Globalization;
+using System.Windows;
+using System.Windows.Media;
 using GMap.NET.WindowsPresentation;
 
 namespace Iit.Fibertest.Client
