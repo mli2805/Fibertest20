@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("RtuService")]
-[assembly: AssemblyDescription("RtuService Fibertest 2.0")]
+[assembly: AssemblyTitle("RtuWcfServiceLibrary")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("IIT")]
-[assembly: AssemblyProduct("RtuService")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("RtuWcfServiceLibrary")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("3b6ac14c-fcff-4476-93f9-d3f408b4d4d9")]
+[assembly: Guid("aa32cff4-3b0a-4458-8b77-4624ec49eb7a")]
 
 // Version information for an assembly consists of the following four values:
 //
