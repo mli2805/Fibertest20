@@ -53,7 +53,8 @@ namespace Iit.Fibertest.IitOtdrLibrary
         public bool ConnectOtdr(string ipAddress)
         {
             _rtuLogger.AppendLine($"Connecting to OTDR {ipAddress}...");
-            IsOtdrConnected = IitOtdr.InitOtdr(ConnectionTypes.Tcp, ipAddress, 1500);
+            var tcpPort = _iniFile.Read(IniSection.Charon, IniKey.OtdrPort, 1500);
+            IsOtdrConnected = IitOtdr.InitOtdr(ConnectionTypes.Tcp, ipAddress, tcpPort);
             _rtuLogger.AppendLine(IsOtdrConnected ? "OTDR connected successfully!" : "OTDR connection failed!");
             return IsOtdrConnected;
         }

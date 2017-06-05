@@ -36,6 +36,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfCommonViews", "WpfCommon
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleAppOtdr", "ConsoleAppOtdr\ConsoleAppOtdr.csproj", "{F7BEE8E7-FFD9-4136-B3B7-474B1D64108E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RtuService", "RtuService\RtuService.csproj", "{622F109E-EA7B-4296-A4E4-20E51107DD85}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -256,6 +258,22 @@ Global
 		{F7BEE8E7-FFD9-4136-B3B7-474B1D64108E}.v4.0-Release|Any CPU.Build.0 = Release|Any CPU
 		{F7BEE8E7-FFD9-4136-B3B7-474B1D64108E}.v4.0-Release|x86.ActiveCfg = Release|x86
 		{F7BEE8E7-FFD9-4136-B3B7-474B1D64108E}.v4.0-Release|x86.Build.0 = Release|x86
+		{622F109E-EA7B-4296-A4E4-20E51107DD85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{622F109E-EA7B-4296-A4E4-20E51107DD85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{622F109E-EA7B-4296-A4E4-20E51107DD85}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{622F109E-EA7B-4296-A4E4-20E51107DD85}.Debug|x86.Build.0 = Debug|Any CPU
+		{622F109E-EA7B-4296-A4E4-20E51107DD85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{622F109E-EA7B-4296-A4E4-20E51107DD85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{622F109E-EA7B-4296-A4E4-20E51107DD85}.Release|x86.ActiveCfg = Release|Any CPU
+		{622F109E-EA7B-4296-A4E4-20E51107DD85}.Release|x86.Build.0 = Release|Any CPU
+		{622F109E-EA7B-4296-A4E4-20E51107DD85}.v4.0-Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{622F109E-EA7B-4296-A4E4-20E51107DD85}.v4.0-Debug|Any CPU.Build.0 = Debug|Any CPU
+		{622F109E-EA7B-4296-A4E4-20E51107DD85}.v4.0-Debug|x86.ActiveCfg = Debug|Any CPU
+		{622F109E-EA7B-4296-A4E4-20E51107DD85}.v4.0-Debug|x86.Build.0 = Debug|Any CPU
+		{622F109E-EA7B-4296-A4E4-20E51107DD85}.v4.0-Release|Any CPU.ActiveCfg = Release|Any CPU
+		{622F109E-EA7B-4296-A4E4-20E51107DD85}.v4.0-Release|Any CPU.Build.0 = Release|Any CPU
+		{622F109E-EA7B-4296-A4E4-20E51107DD85}.v4.0-Release|x86.ActiveCfg = Release|Any CPU
+		{622F109E-EA7B-4296-A4E4-20E51107DD85}.v4.0-Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

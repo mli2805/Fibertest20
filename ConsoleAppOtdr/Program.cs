@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Data;
-using System.Messaging;
-using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.Utils35;
 
 
@@ -63,7 +60,7 @@ namespace ConsoleAppOtdr
 //            Console.ReadKey();
         }
 
-        
+       /* 
         private static void SendMoniResult(MoniResult moniResult)
         {
 //                            var queueName = @".\private$\F20";
@@ -86,8 +83,6 @@ namespace ConsoleAppOtdr
             }
 
         }
-
-      
-
+        */
     }
 }

@@ -193,7 +193,8 @@ namespace ConsoleAppOtdr
 
         private void SendMoniResult(MoniResult moniResult)
         {
-            _logger35.AppendLine("Sending monitoring result to server...");
+            _logger35.AppendLine($"Sending monitoring result {moniResult.BaseRefType} to server...");
+
         }
 
         // only is trace OK or not, without character of breakdown
