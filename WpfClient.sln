@@ -31,6 +31,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IitOtdrLibrary", "IitOtdrLibrary\IitOtdrLibrary.csproj", "{12208D72-7EC1-456F-9F0A-B56152DDC5D2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RtuWpfExample", "RtuWpfExample\RtuWpfExample.csproj", "{4A0D2396-FFD3-4E2A-82D8-35F2C46DF6F9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AA32CFF4-3B0A-4458-8B77-4624EC49EB7A} = {AA32CFF4-3B0A-4458-8B77-4624EC49EB7A}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfCommonViews", "WpfCommonViews\WpfCommonViews.csproj", "{E98E6CC5-94E4-44B7-AF5C-7F4F74746467}"
 EndProject

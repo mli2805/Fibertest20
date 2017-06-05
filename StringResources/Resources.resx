@@ -955,4 +955,40 @@ on port {0}: charon {1} ip {2} has {3} ports</value>
     <value>
  Error !!!</value>
   </data>
+	<data name="SID_OTDR" xml:space="preserve">
+    <value>OTDR</value>
+  </data>
+	<data name="SID_OTDR_connected_successfully_" xml:space="preserve">
+    <value>OTDR connected successfully!</value>
+  </data>
+	<data name="SID_OTDR_connection_failed_" xml:space="preserve">
+    <value>OTDR connection failed!</value>
+  </data>
+	<data name="SID_Measurement_is_finished_" xml:space="preserve">
+    <value>Measurement is finished.</value>
+  </data>
+	<data name="SID_Measurement_error__see_log" xml:space="preserve">
+    <value>Measurement error, see log</value>
+  </data>
+	<data name="SID_Can_t_get_result__see_log" xml:space="preserve">
+    <value>Can't get result, see log</value>
+  </data>
+	<data name="SID_Comparison_end__" xml:space="preserve">
+    <value>Comparison end. IsFiberBreak = {0}, IsNoFiber = {1}</value>
+  </data>
+	<data name="SID_Monitoring_cycle__0___Wait__please___" xml:space="preserve">
+    <value>Monitoring cycle {0}. Wait, please...</value>
+  </data>
+	<data name="SID_Monitoring_cycle__0__" xml:space="preserve">
+    <value>Monitoring cycle {0}.</value>
+  </data>
+	<data name="SID__0_th_measurement_is_finished_" xml:space="preserve">
+    <value>{0}th measurement is finished.</value>
+  </data>
+	<data name="SID_Stop_command_is_sent" xml:space="preserve">
+    <value>Stop command is sent</value>
+  </data>
+	<data name="SID_No_Fiber_" xml:space="preserve">
+    <value>No Fiber!</value>
+  </data>
 </root>

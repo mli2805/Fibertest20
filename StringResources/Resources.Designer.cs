@@ -115,6 +115,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0}th measurement is finished..
+        /// </summary>
+        public static string SID__0_th_measurement_is_finished_ {
+            get {
+                return ResourceManager.GetString("SID__0_th_measurement_is_finished_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to (abs.).
         /// </summary>
         public static string SID__abs__ {
@@ -494,6 +503,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t get result, see log.
+        /// </summary>
+        public static string SID_Can_t_get_result__see_log {
+            get {
+                return ResourceManager.GetString("SID_Can_t_get_result__see_log", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string SID_Cancel {
@@ -562,6 +580,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Comment {
             get {
                 return ResourceManager.GetString("SID_Comment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Comparison end. IsFiberBreak = {0}, IsNoFiber = {1}.
+        /// </summary>
+        public static string SID_Comparison_end__ {
+            get {
+                return ResourceManager.GetString("SID_Comparison_end__", resourceCulture);
             }
         }
         
@@ -1340,6 +1367,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Measurement error, see log.
+        /// </summary>
+        public static string SID_Measurement_error__see_log {
+            get {
+                return ResourceManager.GetString("SID_Measurement_error__see_log", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Measurement is finished..
+        /// </summary>
+        public static string SID_Measurement_is_finished_ {
+            get {
+                return ResourceManager.GetString("SID_Measurement_is_finished_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Measurement parameters.
         /// </summary>
         public static string SID_Measurement_parameters {
@@ -1372,6 +1417,24 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Minute_sign {
             get {
                 return ResourceManager.GetString("SID_Minute_sign", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monitoring cycle {0}..
+        /// </summary>
+        public static string SID_Monitoring_cycle__0__ {
+            get {
+                return ResourceManager.GetString("SID_Monitoring_cycle__0__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monitoring cycle {0}. Wait, please....
+        /// </summary>
+        public static string SID_Monitoring_cycle__0___Wait__please___ {
+            get {
+                return ResourceManager.GetString("SID_Monitoring_cycle__0___Wait__please___", resourceCulture);
             }
         }
         
@@ -1426,6 +1489,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_no {
             get {
                 return ResourceManager.GetString("SID_no", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No Fiber!.
+        /// </summary>
+        public static string SID_No_Fiber_ {
+            get {
+                return ResourceManager.GetString("SID_No_Fiber_", resourceCulture);
             }
         }
         
@@ -1643,6 +1715,33 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Otau_toggled_to_port__0__on__1_ {
             get {
                 return ResourceManager.GetString("SID_Otau_toggled_to_port__0__on__1_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OTDR.
+        /// </summary>
+        public static string SID_OTDR {
+            get {
+                return ResourceManager.GetString("SID_OTDR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OTDR connected successfully!.
+        /// </summary>
+        public static string SID_OTDR_connected_successfully_ {
+            get {
+                return ResourceManager.GetString("SID_OTDR_connected_successfully_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OTDR connection failed!.
+        /// </summary>
+        public static string SID_OTDR_connection_failed_ {
+            get {
+                return ResourceManager.GetString("SID_OTDR_connection_failed_", resourceCulture);
             }
         }
         
@@ -2202,6 +2301,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Statistics {
             get {
                 return ResourceManager.GetString("SID_Statistics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stop command is sent.
+        /// </summary>
+        public static string SID_Stop_command_is_sent {
+            get {
+                return ResourceManager.GetString("SID_Stop_command_is_sent", resourceCulture);
             }
         }
         

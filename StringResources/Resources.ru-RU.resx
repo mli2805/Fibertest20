@@ -955,4 +955,40 @@ on port {0}: charon {1} ip {2} has {3} ports</value>
 		<value>
  Ошибка !!!</value>
 	</data>
+	<data name="SID_OTDR" xml:space="preserve">
+		<value>Рефлектометр</value>
+	</data>
+	<data name="SID_OTDR_connected_successfully_" xml:space="preserve">
+		<value>Соединение с рефлектометром установлено!</value>
+	</data>
+	<data name="SID_OTDR_connection_failed_" xml:space="preserve">
+		<value>Нет соединения с рефлектометром</value>
+	</data>
+	<data name="SID_Measurement_is_finished_" xml:space="preserve">
+		<value>Измерение завершено.</value>
+	</data>
+	<data name="SID_Measurement_error__see_log" xml:space="preserve">
+		<value>Ошибка измерения, см лог</value>
+	</data>
+	<data name="SID_Can_t_get_result__see_log" xml:space="preserve">
+		<value>Не получен результат, см лог.</value>
+	</data>
+	<data name="SID_Comparison_end__" xml:space="preserve">
+		<value>Проведено сравнение. IsFiberBreak = {0}, IsNoFiber = {1}</value>
+	</data>
+	<data name="SID_Monitoring_cycle__0___Wait__please___" xml:space="preserve">
+		<value>Измерение N {0}. пожалуйста, подождите...</value>
+	</data>
+	<data name="SID_Monitoring_cycle__0__" xml:space="preserve">
+		<value>Измерение N {0}.</value>
+	</data>
+	<data name="SID__0_th_measurement_is_finished_" xml:space="preserve">
+		<value>{0}-ое измерение завершено.</value>
+	</data>
+	<data name="SID_Stop_command_is_sent" xml:space="preserve">
+		<value>Передана команда останова.</value>
+	</data>
+	<data name="SID_No_Fiber_" xml:space="preserve">
+		<value>Нет волокна!</value>
+	</data>
 </root>
