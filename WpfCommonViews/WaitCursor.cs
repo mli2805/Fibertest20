@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace Iit.Fibertest.RtuWpfExample
+namespace Iit.Fibertest.WpfCommonViews
 {
     public class WaitCursor : IDisposable
     {
-        private readonly Cursor _previousCursor;
+        private Cursor _previousCursor;
 
         public WaitCursor()
         {
