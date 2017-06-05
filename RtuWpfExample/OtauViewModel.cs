@@ -5,6 +5,7 @@ using Caliburn.Micro;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.Utils35;
+using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.RtuWpfExample
 {

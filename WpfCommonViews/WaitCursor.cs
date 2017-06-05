@@ -5,7 +5,7 @@ namespace Iit.Fibertest.WpfCommonViews
 {
     public class WaitCursor : IDisposable
     {
-        private Cursor _previousCursor;
+        private readonly Cursor _previousCursor;
 
         public WaitCursor()
         {

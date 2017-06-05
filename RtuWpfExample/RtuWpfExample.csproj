@@ -115,7 +115,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="WaitCursor.cs" />
     <Compile Include="WcfClientView.xaml.cs">
       <DependentUpon>WcfClientView.xaml</DependentUpon>
     </Compile>
