@@ -53,7 +53,7 @@ namespace ConsoleAppOtdr
             rtuManager.GetMonitoringQueue();
             rtuManager.GetMonitoringParams();
             
-//            rtuManager.RunMonitoringCycle();
+            rtuManager.RunMonitoringCycle();
 
             _logger35.AppendLine("Application terminated.");
             Console.WriteLine("Application terminated.");
