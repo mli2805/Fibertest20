@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="cd07a2ff-a38d-4f67-b65d-173840d43d32" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="63e32fcc-cea8-452c-bf78-1297cca113e2" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -19,13 +19,13 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="net.tcp://localhost:8523/Service1/mex" Protocol="mex" SourceId="1" />
+    <MetadataSource Address="net.tcp://localhost:8523/RtuWcfService/mex" Protocol="mex" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="ad937a91-69fa-49e6-8a2f-25df9656646e" SourceId="1" SourceUrl="net.tcp://localhost:8523/Service1/mex" />
-    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="fe7a3cd5-712e-4159-a6b1-be99d0e61a95" SourceId="1" SourceUrl="net.tcp://localhost:8523/Service1/mex" />
-    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="320c3c1f-fe60-4156-995f-96a8081e5f19" SourceId="1" SourceUrl="net.tcp://localhost:8523/Service1/mex" />
-    <MetadataFile FileName="RtuWcfServiceLibrary.xsd" MetadataType="Schema" ID="c3ebf6de-8880-4696-8e33-8769fe0b7394" SourceId="1" SourceUrl="net.tcp://localhost:8523/Service1/mex" />
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="0ab2e289-06b5-41ee-8cc4-b0684bdc1fd7" SourceId="1" SourceUrl="net.tcp://localhost:8523/RtuWcfService/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="e3c12f41-1391-4cb4-bd93-5030c46fdca7" SourceId="1" SourceUrl="net.tcp://localhost:8523/RtuWcfService/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="c2214470-7ee5-4dac-801a-a83969d0246a" SourceId="1" SourceUrl="net.tcp://localhost:8523/RtuWcfService/mex" />
+    <MetadataFile FileName="RtuWcfServiceLibrary.xsd" MetadataType="Schema" ID="6d7f8f66-ef37-4651-8b7b-a6b6fd6e0383" SourceId="1" SourceUrl="net.tcp://localhost:8523/RtuWcfService/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

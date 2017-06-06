@@ -20,21 +20,21 @@ namespace RtuWcfServiceLibrary
     [DataContract]
     public class CompositeType
     {
-        bool _boolValue = true;
-        string _stringValue = "Hello ";
+        bool boolValue = true;
+        string stringValue = "Hello ";
 
         [DataMember]
         public bool BoolValue
         {
-            get { return _boolValue; }
-            set { _boolValue = value; }
+            get { return boolValue; }
+            set { boolValue = value; }
         }
 
         [DataMember]
         public string StringValue
         {
-            get { return _stringValue; }
-            set { _stringValue = value; }
+            get { return stringValue; }
+            set { stringValue = value; }
         }
     }
 }

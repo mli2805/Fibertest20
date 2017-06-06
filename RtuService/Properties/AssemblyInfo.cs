@@ -4,13 +4,13 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("RtuService")]
-[assembly: AssemblyDescription("RtuService Fibertest 2.0")]
+[assembly: AssemblyTitle("WindowsService1")]
+[assembly: AssemblyDescription("Rtu Service Description")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("IIT")]
-[assembly: AssemblyProduct("RtuService")]
+[assembly: AssemblyProduct("WindowsService1")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyTrademark("Fibertest TM")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("3b6ac14c-fcff-4476-93f9-d3f408b4d4d9")]
+[assembly: Guid("5b1e89a1-6eae-4736-95ff-db3d61e45278")]
 
 // Version information for an assembly consists of the following four values:
 //

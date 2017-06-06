@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using Caliburn.Micro;
+using Iit.Fibertest.RtuWpfExample.ServiceReference1;
 
 namespace Iit.Fibertest.RtuWpfExample
 {
@@ -9,8 +10,8 @@ namespace Iit.Fibertest.RtuWpfExample
 
         public void WcfTest()
         {
-            ServiceReference1.Service1Client myService = new ServiceReference1.Service1Client();
-            MessageBox.Show(myService.GetData(123), @"My Service");
+            RtuWcfServiceClient myService = new RtuWcfServiceClient();
+            MessageBox.Show(myService.GetData(123), @"My WCF Service");
             myService.Close();
         }
     }

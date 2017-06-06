@@ -75,46 +75,46 @@ namespace Iit.Fibertest.RtuWpfExample.ServiceReference1 {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServiceReference1.IService1")]
-    public interface IService1 {
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServiceReference1.IRtuWcfService")]
+    public interface IRtuWcfService {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetData", ReplyAction="http://tempuri.org/IService1/GetDataResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRtuWcfService/GetData", ReplyAction="http://tempuri.org/IRtuWcfService/GetDataResponse")]
         string GetData(int value);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetData", ReplyAction="http://tempuri.org/IService1/GetDataResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRtuWcfService/GetData", ReplyAction="http://tempuri.org/IRtuWcfService/GetDataResponse")]
         System.Threading.Tasks.Task<string> GetDataAsync(int value);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetDataUsingDataContract", ReplyAction="http://tempuri.org/IService1/GetDataUsingDataContractResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRtuWcfService/GetDataUsingDataContract", ReplyAction="http://tempuri.org/IRtuWcfService/GetDataUsingDataContractResponse")]
         Iit.Fibertest.RtuWpfExample.ServiceReference1.CompositeType GetDataUsingDataContract(Iit.Fibertest.RtuWpfExample.ServiceReference1.CompositeType composite);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetDataUsingDataContract", ReplyAction="http://tempuri.org/IService1/GetDataUsingDataContractResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRtuWcfService/GetDataUsingDataContract", ReplyAction="http://tempuri.org/IRtuWcfService/GetDataUsingDataContractResponse")]
         System.Threading.Tasks.Task<Iit.Fibertest.RtuWpfExample.ServiceReference1.CompositeType> GetDataUsingDataContractAsync(Iit.Fibertest.RtuWpfExample.ServiceReference1.CompositeType composite);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface IService1Channel : Iit.Fibertest.RtuWpfExample.ServiceReference1.IService1, System.ServiceModel.IClientChannel {
+    public interface IRtuWcfServiceChannel : Iit.Fibertest.RtuWpfExample.ServiceReference1.IRtuWcfService, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class Service1Client : System.ServiceModel.ClientBase<Iit.Fibertest.RtuWpfExample.ServiceReference1.IService1>, Iit.Fibertest.RtuWpfExample.ServiceReference1.IService1 {
+    public partial class RtuWcfServiceClient : System.ServiceModel.ClientBase<Iit.Fibertest.RtuWpfExample.ServiceReference1.IRtuWcfService>, Iit.Fibertest.RtuWpfExample.ServiceReference1.IRtuWcfService {
         
-        public Service1Client() {
+        public RtuWcfServiceClient() {
         }
         
-        public Service1Client(string endpointConfigurationName) : 
+        public RtuWcfServiceClient(string endpointConfigurationName) : 
                 base(endpointConfigurationName) {
         }
         
-        public Service1Client(string endpointConfigurationName, string remoteAddress) : 
+        public RtuWcfServiceClient(string endpointConfigurationName, string remoteAddress) : 
                 base(endpointConfigurationName, remoteAddress) {
         }
         
-        public Service1Client(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
+        public RtuWcfServiceClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(endpointConfigurationName, remoteAddress) {
         }
         
-        public Service1Client(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+        public RtuWcfServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress) {
         }
         

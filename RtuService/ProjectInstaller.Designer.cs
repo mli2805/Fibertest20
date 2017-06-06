@@ -33,13 +33,15 @@
             // 
             // serviceProcessInstaller1
             // 
-            this.serviceProcessInstaller1.Account = System.ServiceProcess.ServiceAccount.NetworkService;
+            this.serviceProcessInstaller1.Account = System.ServiceProcess.ServiceAccount.LocalSystem;
             this.serviceProcessInstaller1.Password = null;
             this.serviceProcessInstaller1.Username = null;
             // 
             // serviceInstaller1
             // 
             this.serviceInstaller1.ServiceName = "RtuWcfService";
+            this.serviceInstaller1.Description = "Fibertest 2.0 RTU Manager component. IIT Minsk 2017";
+            this.serviceInstaller1.DisplayName = "Fibertest 2.0 RTU Manager";
             this.serviceInstaller1.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
             // 
             // ProjectInstaller

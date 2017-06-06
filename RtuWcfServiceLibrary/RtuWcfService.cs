@@ -7,7 +7,7 @@ namespace RtuWcfServiceLibrary
     {
         public string GetData(int value)
         {
-            return $"You entered: {value}";
+            return string.Format("You entered: {0}", value);
         }
 
         public CompositeType GetDataUsingDataContract(CompositeType composite)
