@@ -183,7 +183,7 @@ namespace Iit.Fibertest.RtuWpfExample
             }
         }
 
-        public NetAddress SelectedNetAddress => MainCharon.NetAddress.ToStringA() == SelectedOtau
+       public NetAddress SelectedNetAddress => MainCharon.NetAddress.ToStringA() == SelectedOtau
             ? MainCharon.NetAddress
             : MainCharon.Children.Values.First(a => a.NetAddress.ToStringA() == SelectedOtau).NetAddress;
 
@@ -366,5 +366,20 @@ namespace Iit.Fibertest.RtuWpfExample
                 _rtuLogger.AppendLine(DetachMessage);
             }
         }
+
+        public async Task RebootMikrotik()
+        {
+            var bopIp = SelectedBop.Split(':')[0];
+            DetachMessage = "Start Mikrotik reboot";
+            using (new WaitCursor())
+            {
+                await Task.Run(() => MainCharon.RebootAdditionalMikrotik(bopIp));
+                DetachMessage = MainCharon.IsLastCommandSuccessful
+                    ? @"Mikrotik rebooted successfully"
+                    : MainCharon.LastErrorMessage;
+                _rtuLogger.AppendLine(DetachMessage);
+            }
+        }
+          
     }
 }

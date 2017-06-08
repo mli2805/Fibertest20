@@ -68,6 +68,7 @@
   <ItemGroup>
     <EmbeddedResource Include="ProjectInstaller.resx">
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -75,7 +76,7 @@
       <Project>{716240ff-d1e8-4bd3-9e63-431382617398}</Project>
       <Name>Utils35</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WcfServiceLibrary1\RtuWcfServiceLibrary.csproj">
+    <ProjectReference Include="..\RtuWcfServiceLibrary\RtuWcfServiceLibrary.csproj">
       <Project>{c3d2b884-adb0-4706-8a89-404ccc75f858}</Project>
       <Name>RtuWcfServiceLibrary</Name>
     </ProjectReference>

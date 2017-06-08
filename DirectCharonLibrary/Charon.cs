@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Iit.Fibertest.Utils35;
 
 namespace Iit.Fibertest.DirectCharonLibrary
@@ -235,6 +237,26 @@ namespace Iit.Fibertest.DirectCharonLibrary
             var content = DictionaryToContent(extPorts);
             SendWriteIniCommand(content);
             return IsLastCommandSuccessful;
+        }
+
+        public void RebootAdditionalMikrotik(string ip)
+        {
+            Mikrotik mikrotik = new Mikrotik(ip);
+            if (!mikrotik.Login(@"admin", ""))
+            {
+                LastErrorMessage = $@"Could not log in Mikrotik {ip}";
+                IsLastCommandSuccessful = false;
+                mikrotik.Close();
+                return;
+            }
+            mikrotik.Send(@"/system/reboot", true);
+            Thread.Sleep(TimeSpan.FromSeconds(3));
+            while (true)
+            {
+                Mikrotik mikrotik2 = new Mikrotik(ip, 1);
+                if (mikrotik2.IsAvailable)
+                    break;
+            }
         }
 
         public bool AttachOtauToPort(NetAddress additionalOtauAddress, int toOpticalPort)
