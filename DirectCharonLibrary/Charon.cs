@@ -241,22 +241,38 @@ namespace Iit.Fibertest.DirectCharonLibrary
 
         public void RebootAdditionalMikrotik(string ip)
         {
-            Mikrotik mikrotik = new Mikrotik(ip);
+            _rtuLogger35.AppendLine($"Reboot Mikrotik {ip} started...");
+            Mikrotik mikrotik = new Mikrotik(ip, 5);
+            if (!mikrotik.IsAvailable)
+            {
+                LastErrorMessage = $"Couldn't establish tcp connection with Mikrotik {ip}";
+                _rtuLogger35.AppendLine(LastErrorMessage);
+                IsLastCommandSuccessful = false;
+                return ;
+            }
             if (!mikrotik.Login(@"admin", ""))
             {
                 LastErrorMessage = $@"Could not log in Mikrotik {ip}";
                 IsLastCommandSuccessful = false;
                 mikrotik.Close();
-                return;
+                return ;
             }
             mikrotik.Send(@"/system/reboot", true);
-            Thread.Sleep(TimeSpan.FromSeconds(3));
-            while (true)
+            _rtuLogger35.AppendLine("  reboot command sent");
+            Thread.Sleep(TimeSpan.FromSeconds(20)); // reboot couldn't be less than 20 seconds
+            for (int i = 0; i < 30; i++)
             {
+                if (_charonLogLevel >= CharonLogLevel.BasicCommands )
+                    _rtuLogger35.AppendLine("Check Mikrotik availability after reboot");
                 Mikrotik mikrotik2 = new Mikrotik(ip, 1);
                 if (mikrotik2.IsAvailable)
-                    break;
+                {
+                    IsLastCommandSuccessful = true;
+                    return ;
+                }
             }
+            IsLastCommandSuccessful = false;
+            LastErrorMessage = $"Couln't establish tcp connection with Mikrotik {ip} after reboot";
         }
 
         public bool AttachOtauToPort(NetAddress additionalOtauAddress, int toOpticalPort)

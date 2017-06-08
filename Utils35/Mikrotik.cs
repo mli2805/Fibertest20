@@ -14,13 +14,7 @@ namespace Iit.Fibertest.Utils35
 
         public bool IsAvailable => _stream != null;
 
-        public Mikrotik(string ip)
-        {
-            _tcpClient = new TcpClient();
-            _tcpClient.Connect(ip, 8728);
-            _stream = _tcpClient.GetStream();
-        }
-
+        
         public Mikrotik(string ip, int connectionTimeout)
         {
             _tcpClient = new TcpClient();

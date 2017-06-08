@@ -370,7 +370,7 @@ namespace Iit.Fibertest.RtuWpfExample
         public async Task RebootMikrotik()
         {
             var bopIp = SelectedBop.Split(':')[0];
-            DetachMessage = "Start Mikrotik reboot";
+            DetachMessage = @"Mikrotik reboot started...";
             using (new WaitCursor())
             {
                 await Task.Run(() => MainCharon.RebootAdditionalMikrotik(bopIp));
