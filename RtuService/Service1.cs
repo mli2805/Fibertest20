@@ -1,5 +1,6 @@
 ﻿using System.ServiceModel;
 using System.ServiceProcess;
+using RtuManagement;
 
 namespace RtuService
 {
@@ -16,6 +17,9 @@ namespace RtuService
             MyServiceHost?.Close();
             MyServiceHost = new ServiceHost(typeof(Service1));
             MyServiceHost.Open();
+
+            var rtuManager = new RtuManager();
+            rtuManager.Start();
         }
 
         protected override void OnStop()

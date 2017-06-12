@@ -5,7 +5,7 @@ using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.Utils35;
 
-namespace ConsoleAppOtdr
+namespace RtuManagement
 {
     public class RtuManager
     {
