@@ -11,8 +11,8 @@ namespace ConsoleAppOtdr
     {
         private const string DefaultIp = "192.168.88.101";
 
-        private readonly Logger35 _logger35;
-        private readonly IniFile _iniFile35;
+        private Logger35 _logger35;
+        private IniFile _iniFile35;
         private OtdrManager _otdrManager;
         private Charon _mainCharon;
 
@@ -22,10 +22,62 @@ namespace ConsoleAppOtdr
         private TimeSpan _preciseSaveTimespan;
         private TimeSpan _fastSaveTimespan;
 
-        public RtuManager(Logger35 logger35, IniFile iniFile35)
+        public RtuManager()
         {
-            _logger35 = logger35;
-            _iniFile35 = iniFile35;
+           
+        }
+
+        public void Start()
+        {
+            _logger35 = new Logger35();
+            _logger35.AssignFile("rtu.log");
+            Console.WriteLine("see rtu.log");
+
+            _iniFile35 = new IniFile();
+            _iniFile35.AssignFile("rtu.ini");
+
+            _logger35.EmptyLine();
+            _logger35.EmptyLine('-');
+            _logger35.AppendLine("Application started.");
+
+            RestoreFunctions.ResetCharonThroughComPort(_iniFile35, _logger35);
+
+            DoMonitoring();
+        }
+
+        private void DoMonitoring()
+        {
+            var arp = _iniFile35.Read(IniSection.Restore, IniKey.ClearArp, 0);
+            if (arp != 0)
+            {
+                _iniFile35.Write(IniSection.Restore, IniKey.ClearArp, 0);
+                ClearArp();
+            }
+
+            var reboot = _iniFile35.Read(IniSection.Restore, IniKey.RebootSystem, 0);
+            if (reboot != 0)
+            {
+                _iniFile35.Write(IniSection.Restore, IniKey.RebootSystem, 0);
+                RestoreFunctions.RebootSystem(_logger35);
+            }
+
+            if (!InitializeOtdr())
+            {
+                _logger35.AppendLine("Done.");
+                return;
+            }
+
+            if (!InitializeOtau())
+                return;
+
+            _iniFile35.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 1);
+            GetMonitoringQueue();
+            GetMonitoringParams();
+
+            RunMonitoringCycle();
+
+            _logger35.AppendLine("Application terminated.");
+            Console.WriteLine("Application terminated.");
         }
 
         public bool InitializeOtdr()
@@ -249,5 +301,29 @@ namespace ConsoleAppOtdr
         }
 
 
+        /* 
+        private static void SendMoniResult(MoniResult moniResult)
+        {
+//                            var queueName = @".\private$\F20";
+            var queueName = @"FormatName:Direct=TCP:192.168.96.8\private$\F20";
+            //                var queueName = @"FormatName:Direct=TCP:192.168.96.52\private$\F22";
+            //                var queueName = @"FormatName:Direct=OS:opx-lmarholin\private$\F22";
+
+            // if (!MessageQueue.Exists(queueName)) // works only for local machine queue/address format
+            //     break;
+
+            using (MessageQueue queue = new MessageQueue(queueName))
+            {
+                var binaryMessageFormatter = new BinaryMessageFormatter();
+                using (var message = new Message(moniResult, binaryMessageFormatter))
+                {
+                    message.Recoverable = true;
+                    queue.Send(message, MessageQueueTransactionType.Single);
+//                    queue.Send(message);
+                }
+            }
+
+        }
+        */
     }
 }
