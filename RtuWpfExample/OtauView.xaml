@@ -56,12 +56,12 @@
                 <TextBlock Margin="5" Background="AliceBlue" Text="{Binding AttachMessage}" Padding="5,0,0,0"/>
             </StackPanel>
         </GroupBox>
-        <GroupBox Margin="5" Header="{x:Static stringResources:Resources.SID_Detach}">
+        <GroupBox Margin="5" Header="{x:Static stringResources:Resources.SID_Additional_optical_switch}">
             <DockPanel>
                 <TextBlock Margin="5" Background="AliceBlue" Text="{Binding DetachMessage}" DockPanel.Dock="Bottom" Padding="5,0,0,0"/>
                 <StackPanel Orientation="Horizontal" Margin="5" DockPanel.Dock="Bottom">
                     <Button Name="DetachOtau" Width="100" Content="{x:Static stringResources:Resources.SID_Detach}" Margin="5" IsEnabled="{Binding IsOtauInitialized}" />
-                    <Button Name="RebootMikrotik" Width="180" Content="Reboot Mikrotik in this BOP" Margin="5" IsEnabled="{Binding IsOtauInitialized}"/>
+                    <Button Name="RebootMikrotik" Width="180" Content="{x:Static stringResources:Resources.SID_Reboot_Mikrotik}" Margin="5" IsEnabled="{Binding IsOtauInitialized}"/>
                 </StackPanel>
                 <DockPanel Margin="5" >
                     <ComboBox Margin="5" Width="150" ItemsSource="{Binding BopOtauList}" SelectedItem="{Binding SelectedBop}"/>

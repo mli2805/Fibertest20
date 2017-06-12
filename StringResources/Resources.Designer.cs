@@ -1944,6 +1944,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reboot Mikrotik.
+        /// </summary>
+        public static string SID_Reboot_Mikrotik {
+            get {
+                return ResourceManager.GetString("SID_Reboot_Mikrotik", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reflectance coefficient, dB.
         /// </summary>
         public static string SID_Reflectance_coefficient__dB {
