@@ -22,11 +22,6 @@ namespace RtuManagement
         private TimeSpan _preciseSaveTimespan;
         private TimeSpan _fastSaveTimespan;
 
-        public RtuManager()
-        {
-           
-        }
-
         public void Start()
         {
             _logger35 = new Logger35();
@@ -38,11 +33,16 @@ namespace RtuManagement
 
             _logger35.EmptyLine();
             _logger35.EmptyLine('-');
-            _logger35.AppendLine("Application started.");
+            _logger35.AppendLine("Rtu Manager started.");
 
             RestoreFunctions.ResetCharonThroughComPort(_iniFile35, _logger35);
 
             DoMonitoring();
+        }
+
+        public void Stop()
+        {
+            _logger35.AppendLine("Rtu Manager stopped.");
         }
 
         private void DoMonitoring()
@@ -63,12 +63,15 @@ namespace RtuManagement
 
             if (!InitializeOtdr())
             {
-                _logger35.AppendLine("Done.");
+                _logger35.AppendLine("Otdr initialization failed.");
                 return;
             }
 
             if (!InitializeOtau())
+            {
+                _logger35.AppendLine("Otau initialization failed.");
                 return;
+            }
 
             _iniFile35.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 1);
             GetMonitoringQueue();

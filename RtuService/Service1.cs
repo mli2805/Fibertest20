@@ -1,5 +1,6 @@
 ﻿using System.ServiceModel;
 using System.ServiceProcess;
+using System.Threading;
 using RtuManagement;
 
 namespace RtuService
@@ -7,6 +8,7 @@ namespace RtuService
     public partial class Service1 : ServiceBase
     {
         internal static ServiceHost MyServiceHost;
+        private RtuManager _rtuManager;
         public Service1()
         {
             InitializeComponent();
@@ -18,8 +20,9 @@ namespace RtuService
             MyServiceHost = new ServiceHost(typeof(Service1));
             MyServiceHost.Open();
 
-            var rtuManager = new RtuManager();
-            rtuManager.Start();
+            _rtuManager = new RtuManager();
+            Thread rtuManagerThread = new Thread(_rtuManager.Start);
+            rtuManagerThread.Start();
         }
 
         protected override void OnStop()
@@ -29,6 +32,8 @@ namespace RtuService
                 MyServiceHost.Close();
                 MyServiceHost = null;
             }
+
+            _rtuManager.Stop();
         }
     }
 }
