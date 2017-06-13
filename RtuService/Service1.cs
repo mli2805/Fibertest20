@@ -2,6 +2,7 @@
 using System.ServiceProcess;
 using System.Threading;
 using RtuManagement;
+using RtuWcfServiceLibrary;
 
 namespace RtuService
 {
@@ -17,7 +18,7 @@ namespace RtuService
         protected override void OnStart(string[] args)
         {
             MyServiceHost?.Close();
-            MyServiceHost = new ServiceHost(typeof(Service1));
+            MyServiceHost = new ServiceHost(typeof(RtuWcfService));
             MyServiceHost.Open();
 
             _rtuManager = new RtuManager();
@@ -27,13 +28,13 @@ namespace RtuService
 
         protected override void OnStop()
         {
+            _rtuManager.Stop();
             if (MyServiceHost != null)
             {
                 MyServiceHost.Close();
                 MyServiceHost = null;
             }
 
-            _rtuManager.Stop();
         }
     }
 }

@@ -3,12 +3,21 @@ using System.ServiceModel;
 using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.RtuWpfExample.ServiceReference1;
+using Iit.Fibertest.Utils35;
 
 namespace Iit.Fibertest.RtuWpfExample
 {
     public class WcfClientViewModel : Screen
     {
+        private readonly IniFile _iniFile35;
+        private readonly Logger35 _rtuLogger;
         private RtuWcfServiceClient _rtuWcfServiceClient;
+
+        public WcfClientViewModel(IniFile iniFile35, Logger35 rtuLogger, string ipAddress)
+        {
+            _iniFile35 = iniFile35;
+            _rtuLogger = rtuLogger;
+        }
 
         public void WcfTest()
         {
@@ -32,11 +41,12 @@ namespace Iit.Fibertest.RtuWpfExample
 
                 netTcpBinding.MaxBufferSize = 4096000; //4M
                 _rtuWcfServiceClient = new RtuWcfServiceClient(netTcpBinding, new EndpointAddress(new Uri(uriString)));
+                _rtuLogger.AppendLine("Wcf connection  established");
             }
             catch (Exception e)
             {
-
-                Console.WriteLine(e);
+                _rtuLogger.AppendLine("Can't establish wcf connection");
+                _rtuLogger.AppendLine(e.Message);
                 throw;
             }
         }
