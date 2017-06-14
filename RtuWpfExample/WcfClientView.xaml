@@ -3,9 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:rtuWpfExample="clr-namespace:Iit.Fibertest.RtuWpfExample"
         mc:Ignorable="d"
-        Title="WcfClientView" Height="300" Width="300" WindowStartupLocation="CenterScreen">
+        Title="WcfClientView" Height="300" Width="300" WindowStartupLocation="CenterScreen"
+        d:DataContext="{d:DesignInstance rtuWpfExample:WcfClientViewModel}">
     <StackPanel>
+        <TextBox Margin="5,15,5,5" Text="{Binding RtuServiceIp}"/>
         <Button Name="WcfTest" Margin="5" Height="25" Width="120" Content="WCF Test"/>
     </StackPanel>
 </Window>

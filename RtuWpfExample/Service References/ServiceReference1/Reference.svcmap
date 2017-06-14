@@ -19,13 +19,13 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="net.tcp://localhost:8523/RtuWcfService/mex" Protocol="mex" SourceId="1" />
+    <MetadataSource Address="net.tcp://localhost:11842/RtuWcfService/mex" Protocol="mex" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="0ab2e289-06b5-41ee-8cc4-b0684bdc1fd7" SourceId="1" SourceUrl="net.tcp://localhost:8523/RtuWcfService/mex" />
-    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="e3c12f41-1391-4cb4-bd93-5030c46fdca7" SourceId="1" SourceUrl="net.tcp://localhost:8523/RtuWcfService/mex" />
-    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="c2214470-7ee5-4dac-801a-a83969d0246a" SourceId="1" SourceUrl="net.tcp://localhost:8523/RtuWcfService/mex" />
-    <MetadataFile FileName="RtuWcfServiceLibrary.xsd" MetadataType="Schema" ID="6d7f8f66-ef37-4651-8b7b-a6b6fd6e0383" SourceId="1" SourceUrl="net.tcp://localhost:8523/RtuWcfService/mex" />
+    <MetadataFile FileName="service1.wsdl" MetadataType="Wsdl" ID="619336ce-a59e-4110-b5bb-8ea5ef655ecc" SourceId="1" SourceUrl="net.tcp://localhost:11842/RtuWcfService/mex" />
+    <MetadataFile FileName="service2.xsd" MetadataType="Schema" ID="3b635e84-28fe-4c17-a65a-a2acb1175a58" SourceId="1" SourceUrl="net.tcp://localhost:11842/RtuWcfService/mex" />
+    <MetadataFile FileName="service21.xsd" MetadataType="Schema" ID="e7ee8e69-8b8e-415c-af97-53b7c9f7b26c" SourceId="1" SourceUrl="net.tcp://localhost:11842/RtuWcfService/mex" />
+    <MetadataFile FileName="RtuWcfServiceLibrary1.xsd" MetadataType="Schema" ID="a48a3416-40ff-4c18-a3ec-0dccad837075" SourceId="1" SourceUrl="net.tcp://localhost:11842/RtuWcfService/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
