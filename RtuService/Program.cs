@@ -1,9 +1,11 @@
 ﻿using System.ServiceProcess;
+using Iit.Fibertest.Utils35;
 
 namespace RtuService
 {
     static class Program
     {
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>

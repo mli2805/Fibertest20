@@ -40,7 +40,7 @@ namespace RtuWpfExample
 
         public void WcfView()
         {
-            var vm = new WcfClientViewModel(_iniFile35, _rtuLogger, IpAddress);
+            var vm = new WcfClientViewModel(_iniFile35, _rtuLogger);
             IWindowManager windowManager = new WindowManager();
             windowManager.ShowDialog(vm);
         }

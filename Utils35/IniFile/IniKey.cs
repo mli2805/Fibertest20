@@ -8,11 +8,14 @@
         BaseMeasurementFile,
         MeasurementWithBaseFile,
 
+        // General
+        Culture,
         OtdrIp,
         OtdrPort,
         OtauIp,
         OtauPort,
 
+        // Charon
         ConnectionTimeout,
         ReadTimeout,
         WriteTimeout,
@@ -21,11 +24,13 @@
         ComSpeed,
         PauseAfterReset,
 
+        // Monitoring
         IsMonitoringOn,
         PreciseMakeTimespan,
         PreciseSaveTimespan,
         FastSaveTimespan,
 
+        // Restore
         ResetCharon,
         ClearArp,
         RestartService,

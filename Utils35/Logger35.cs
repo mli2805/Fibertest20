@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 
 namespace Iit.Fibertest.Utils35
@@ -6,8 +7,9 @@ namespace Iit.Fibertest.Utils35
     public class Logger35
     {
         private StreamWriter _logFile;
+        private string _culture;
 
-        public void AssignFile(string filename)
+        public void AssignFile(string filename, string culture ="ru-RU")
         {
             if (filename != "")
             {
@@ -17,6 +19,7 @@ namespace Iit.Fibertest.Utils35
                 _logFile = File.AppendText(logFullFileName);
                 _logFile.AutoFlush = true;
             }
+            _culture = culture;
         }
 
         public void EmptyLine(char ch = ' ')
@@ -41,7 +44,7 @@ namespace Iit.Fibertest.Utils35
                 prefix += " ";
             foreach (var str in content)
             {
-                var msg = DateTime.Now + "  " + offsetStr + prefix + str.Trim();
+                var msg = DateTime.Now.ToString(new CultureInfo(_culture)) + "  " + offsetStr + prefix + str.Trim();
                 if (_logFile != null)
                     _logFile.WriteLine(msg);
                 else Console.WriteLine(msg);
@@ -53,7 +56,7 @@ namespace Iit.Fibertest.Utils35
             var offsetStr = new string(' ', offset);
             if (!string.IsNullOrEmpty(prefix))
                 prefix += " ";
-            var msg = DateTime.Now + "  " + offsetStr + prefix + message.Trim();
+            var msg = DateTime.Now.ToString(new CultureInfo(_culture)) + "  " + offsetStr + prefix + message.Trim();
             if (_logFile != null)
                 _logFile.Write(msg);
             else Console.Write(msg);

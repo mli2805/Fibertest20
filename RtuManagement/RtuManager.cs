@@ -11,8 +11,8 @@ namespace RtuManagement
     {
         private const string DefaultIp = "192.168.88.101";
 
-        private Logger35 _logger35;
-        private IniFile _iniFile35;
+        private readonly Logger35 _logger35;
+        private readonly IniFile _iniFile35;
         private OtdrManager _otdrManager;
         private Charon _mainCharon;
 
@@ -22,19 +22,14 @@ namespace RtuManagement
         private TimeSpan _preciseSaveTimespan;
         private TimeSpan _fastSaveTimespan;
 
+        public RtuManager(IniFile iniFile35, Logger35 logger35)
+        {
+            _logger35 = logger35;
+            _iniFile35 = iniFile35;
+        }
+
         public void Start()
         {
-            _logger35 = new Logger35();
-            _logger35.AssignFile("rtu.log");
-            Console.WriteLine("see rtu.log");
-
-            _iniFile35 = new IniFile();
-            _iniFile35.AssignFile("rtu.ini");
-
-            _logger35.EmptyLine();
-            _logger35.EmptyLine('-');
-            _logger35.AppendLine("Rtu Manager started.");
-
             RestoreFunctions.ResetCharonThroughComPort(_iniFile35, _logger35);
 
             DoMonitoring();
@@ -83,7 +78,7 @@ namespace RtuManagement
             Console.WriteLine("Application terminated.");
         }
 
-        public bool InitializeOtdr()
+        private bool InitializeOtdr()
         {
             _otdrManager = new OtdrManager(@"OtdrMeasEngine\", _iniFile35, _logger35);
             if (_otdrManager.LoadDll() != "")
