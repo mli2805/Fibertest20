@@ -12,19 +12,22 @@ namespace Iit.Fibertest.RtuWpfExample
         private readonly IniFile _iniFile35;
         private readonly Logger35 _rtuLogger;
         private RtuWcfServiceClient _rtuWcfServiceClient;
+        private readonly string _rtuServiceIp;
 
         public WcfClientViewModel(IniFile iniFile35, Logger35 rtuLogger)
         {
             _iniFile35 = iniFile35;
             _rtuLogger = rtuLogger;
+            _rtuServiceIp = _iniFile35.Read(IniSection.General, IniKey.RtuServiceIp, @"192.168.96.53");
         }
 
         public void WcfTest()
         {
-            var rtuAddress = _iniFile35.Read(IniSection.General, IniKey.OtdrIp, @"192.168.96.53");
-            StartRtuWcfServiceClient(rtuAddress);
+            StartRtuWcfServiceClient(_rtuServiceIp);
 
-            MessageBox.Show(_rtuWcfServiceClient.GetData(456), @"My WCF Service");
+
+            var test = _rtuWcfServiceClient.GetData(456);
+            MessageBox.Show(test, @"My WCF Service");
             _rtuWcfServiceClient.Close();
         }
 
@@ -42,11 +45,11 @@ namespace Iit.Fibertest.RtuWpfExample
 
                 netTcpBinding.MaxBufferSize = 4096000; //4M
                 _rtuWcfServiceClient = new RtuWcfServiceClient(netTcpBinding, new EndpointAddress(new Uri(uriString)));
-                _rtuLogger.AppendLine("Wcf connection established");
+                _rtuLogger.AppendLine($"Wcf connection with {address} established");
             }
             catch (Exception e)
             {
-                _rtuLogger.AppendLine("Can't establish wcf connection");
+                _rtuLogger.AppendLine($"Can't establish wcf connection with {address}");
                 _rtuLogger.AppendLine(e.Message);
                 throw;
             }

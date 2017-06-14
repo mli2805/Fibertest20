@@ -9,6 +9,7 @@
         MeasurementWithBaseFile,
 
         // General
+        RtuServiceIp,
         Culture,
         OtdrIp,
         OtdrPort,
