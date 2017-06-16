@@ -22,6 +22,12 @@ namespace Iit.Fibertest.Utils35
             _culture = culture;
         }
 
+        public void CloseFile()
+        {
+            _logFile.Flush();
+            _logFile.Close();
+        }
+
         public void EmptyLine(char ch = ' ')
         {
             string message = new string(ch, 78);

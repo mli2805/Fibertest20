@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Threading;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.Utils35;
@@ -22,14 +24,24 @@ namespace RtuManagement
         private TimeSpan _preciseSaveTimespan;
         private TimeSpan _fastSaveTimespan;
 
-        public RtuManager(IniFile iniFile35, Logger35 logger35)
+        public RtuManager()
         {
-            _logger35 = logger35;
-            _iniFile35 = iniFile35;
+            _iniFile35 = new IniFile();
+            _iniFile35.AssignFile("RtuManager.ini");
+            var cultureString = _iniFile35.Read(IniSection.General, IniKey.Culture, "ru-RU");
+
+            _logger35 = new Logger35();
+            _logger35.AssignFile("RtuManager.log", cultureString);
+            _logger35.EmptyLine();
+            _logger35.EmptyLine('-');
         }
 
         public void Start()
         {
+            var pid = Process.GetCurrentProcess().Id;
+            var tid = Thread.CurrentThread.ManagedThreadId;
+            _logger35.AppendLine($"RTU Manager started. Process {pid}, thread {tid}");
+
             RestoreFunctions.ResetCharonThroughComPort(_iniFile35, _logger35);
 
             DoMonitoring();

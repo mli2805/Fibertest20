@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Globalization;
+using System.Diagnostics;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Description;
@@ -15,23 +15,26 @@ namespace RtuService
     public partial class Service1 : ServiceBase
     {
         internal static ServiceHost MyServiceHost;
-        private readonly IniFile _iniFile35;
-        private readonly Logger35 _logger35;
         private RtuManager _rtuManager;
+        private readonly string _cultureString;
 
         public Service1()
         {
             InitializeComponent();
-            _iniFile35 = new IniFile();
-            _iniFile35.AssignFile("rtu.ini");
-            var cultureString = _iniFile35.Read(IniSection.General, IniKey.Culture, "ru-RU");
+            var iniFile35 = new IniFile();
+            iniFile35.AssignFile("RtuService.ini");
+            _cultureString = iniFile35.Read(IniSection.General, IniKey.Culture, "ru-RU");
             
-            _logger35 = new Logger35();
-            _logger35.AssignFile("rtu.log", cultureString);
+            var logger35 = new Logger35();
+            logger35.AssignFile("RtuService.log", _cultureString);
 
-            _logger35.EmptyLine();
-            _logger35.EmptyLine('-');
-            _logger35.AppendLine("Windows service started.");
+            logger35.EmptyLine();
+            logger35.EmptyLine('-');
+            var pid = Process.GetCurrentProcess().Id;
+            var tid = Thread.CurrentThread.ManagedThreadId;
+            logger35.AppendLine($"Windows service started. Process {pid}, thread {tid}");
+            logger35.CloseFile();
+
         }
 
         protected override void OnStart(string[] args)
@@ -45,7 +48,7 @@ namespace RtuService
 
             MyServiceHost.Open();
 
-            _rtuManager = new RtuManager(_iniFile35, _logger35);
+            _rtuManager = new RtuManager();
             Thread rtuManagerThread = new Thread(_rtuManager.Start);
             rtuManagerThread.Start();
         }
@@ -60,7 +63,9 @@ namespace RtuService
                 MyServiceHost = null;
             }
 
-            _logger35.AppendLine("Windows service stopped.");
+            var logger35 = new Logger35();
+            logger35.AssignFile("RtuService.log", _cultureString);
+            logger35.AppendLine("Windows service stopped.");
         }
     }
 
