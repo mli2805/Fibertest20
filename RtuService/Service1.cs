@@ -49,8 +49,9 @@ namespace RtuService
             MyServiceHost.Open();
 
             _rtuManager = new RtuManager();
-            Thread rtuManagerThread = new Thread(_rtuManager.Start);
-            rtuManagerThread.Start();
+            _rtuManager.Start();
+//            Thread rtuManagerThread = new Thread(_rtuManager.Start);
+//            rtuManagerThread.Start();
         }
 
         protected override void OnStop()
@@ -65,7 +66,9 @@ namespace RtuService
 
             var logger35 = new Logger35();
             logger35.AssignFile("RtuService.log", _cultureString);
-            logger35.AppendLine("Windows service stopped.");
+            var pid = Process.GetCurrentProcess().Id;
+            var tid = Thread.CurrentThread.ManagedThreadId;
+            logger35.AppendLine($"Windows service stopped. Process {pid}, thread {tid}");
         }
     }
 

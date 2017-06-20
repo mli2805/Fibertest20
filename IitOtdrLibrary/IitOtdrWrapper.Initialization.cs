@@ -39,6 +39,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
 
         public bool InitOtdr(ConnectionTypes type, string ip, int port)
         {
+//                _rtuLogger.AppendLine($"Starting connection to {ip}:{port} type {(int)type}");
             int initOtdr;
             try
             {
