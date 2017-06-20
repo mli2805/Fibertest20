@@ -1,9 +1,5 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.ServiceModel;
-using System.ServiceModel.Channels;
-using System.ServiceModel.Description;
-using System.ServiceModel.Dispatcher;
 using System.ServiceProcess;
 using System.Threading;
 using Iit.Fibertest.Utils35;
@@ -14,9 +10,8 @@ namespace RtuService
 {
     public partial class Service1 : ServiceBase
     {
-        internal static ServiceHost _myServiceHost;
+        internal static ServiceHost MyServiceHost;
         private RtuManager _rtuManager;
-        private readonly string _cultureString;
 
         private readonly IniFile _iniFile35;
         private readonly Logger35 _logger35;
@@ -26,10 +21,10 @@ namespace RtuService
             InitializeComponent();
             _iniFile35 = new IniFile();
             _iniFile35.AssignFile("RtuService.ini");
-            _cultureString = _iniFile35.Read(IniSection.General, IniKey.Culture, "ru-RU");
+            var cultureString = _iniFile35.Read(IniSection.General, IniKey.Culture, "ru-RU");
             
             _logger35 = new Logger35();
-            _logger35.AssignFile("RtuService.log", _cultureString);
+            _logger35.AssignFile("RtuService.log", cultureString);
 
             _logger35.EmptyLine();
             _logger35.EmptyLine('-');
@@ -40,11 +35,11 @@ namespace RtuService
 
         protected override void OnStart(string[] args)
         {
-            _myServiceHost?.Close();
+            MyServiceHost?.Close();
 
             RtuWcfService.WcfLogger35 = _logger35;
-            _myServiceHost = new ServiceHost(typeof(RtuWcfService));
-            _myServiceHost.Open();
+            MyServiceHost = new ServiceHost(typeof(RtuWcfService));
+            MyServiceHost.Open();
              
             _rtuManager = new RtuManager();
             _rtuManager.Start();
@@ -56,10 +51,10 @@ namespace RtuService
         {
             _rtuManager.Stop();
 
-            if (_myServiceHost != null)
+            if (MyServiceHost != null)
             {
-                _myServiceHost.Close();
-                _myServiceHost = null;
+                MyServiceHost.Close();
+                MyServiceHost = null;
             }
 
             var pid = Process.GetCurrentProcess().Id;

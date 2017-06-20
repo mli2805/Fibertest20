@@ -1,5 +1,4 @@
 ﻿using System.ServiceProcess;
-using Iit.Fibertest.Utils35;
 
 namespace RtuService
 {
