@@ -17,7 +17,11 @@ namespace Iit.Fibertest.IitOtdrLibrary
 
         public OtdrManager(string iitotdrFolder, IniFile iniFile, Logger35 rtuLogger)
         {
-            _iitotdrFolder = iitotdrFolder;
+            // service can't use relative path, get it obviously
+            var appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            var appDir = Path.GetDirectoryName(appPath);
+            _iitotdrFolder = appDir + "\\" + iitotdrFolder;
+
             _iniFile = iniFile;
             _rtuLogger = rtuLogger;
             _rtuLogger.AppendLine("OtdrManager initialized");
