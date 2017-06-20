@@ -3,7 +3,6 @@ using System.ServiceModel;
 using System.ServiceProcess;
 using System.Threading;
 using Iit.Fibertest.Utils35;
-using RtuManagement;
 using RtuWcfServiceLibrary;
 
 namespace RtuService
@@ -11,7 +10,7 @@ namespace RtuService
     public partial class Service1 : ServiceBase
     {
         internal static ServiceHost MyServiceHost;
-        private RtuManager _rtuManager;
+//        private RtuManager _rtuManager;
 
         private readonly IniFile _iniFile35;
         private readonly Logger35 _logger35;
@@ -37,20 +36,20 @@ namespace RtuService
         {
             MyServiceHost?.Close();
 
+            
             RtuWcfService.WcfIniFile = _iniFile35;
             RtuWcfService.WcfLogger35 = _logger35;
             MyServiceHost = new ServiceHost(typeof(RtuWcfService));
             MyServiceHost.Open();
              
-            _rtuManager = new RtuManager();
-            _rtuManager.Start();
+//            _rtuManager = new RtuManager();
 //            Thread rtuManagerThread = new Thread(_rtuManager.Start);
 //            rtuManagerThread.Start();
         }
 
         protected override void OnStop()
         {
-            _rtuManager.Stop();
+//            _rtuManager.Stop();
 
             if (MyServiceHost != null)
             {

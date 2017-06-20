@@ -54,20 +54,7 @@ namespace RtuManagement
 
         private void DoMonitoring()
         {
-            var arp = _iniFile35.Read(IniSection.Restore, IniKey.ClearArp, 0);
-            if (arp != 0)
-            {
-                _iniFile35.Write(IniSection.Restore, IniKey.ClearArp, 0);
-                ClearArp();
-            }
-
-            var reboot = _iniFile35.Read(IniSection.Restore, IniKey.RebootSystem, 0);
-            if (reboot != 0)
-            {
-                _iniFile35.Write(IniSection.Restore, IniKey.RebootSystem, 0);
-                RestoreFunctions.RebootSystem(_logger35);
-            }
-
+            RestoreFunctions.DisplayWait(_iniFile35, _logger35);
             if (!InitializeOtdr())
             {
                 _logger35.AppendLine("Otdr initialization failed.");
@@ -86,8 +73,25 @@ namespace RtuManagement
 
             RunMonitoringCycle();
 
-            _logger35.AppendLine("Application terminated.");
-            Console.WriteLine("Application terminated.");
+            _logger35.AppendLine("Monitoring terminated.");
+            Console.WriteLine("Monitoring terminated.");
+        }
+
+        private void RestoreOtdrConnection()
+        {
+            var arp = _iniFile35.Read(IniSection.Restore, IniKey.ClearArp, 0);
+            if (arp != 0)
+            {
+                _iniFile35.Write(IniSection.Restore, IniKey.ClearArp, 0);
+                ClearArp();
+            }
+
+            var reboot = _iniFile35.Read(IniSection.Restore, IniKey.RebootSystem, 0);
+            if (reboot != 0)
+            {
+                _iniFile35.Write(IniSection.Restore, IniKey.RebootSystem, 0);
+                RestoreFunctions.RebootSystem(_logger35);
+            }
         }
 
         private bool InitializeOtdr()
