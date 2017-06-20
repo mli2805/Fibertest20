@@ -12,7 +12,7 @@ namespace Iit.Fibertest.Utils35
             logger35.AppendLine("Charon RESET");
             string comPortName = iniFile35.Read(IniSection.Charon, IniKey.ComPort, "COM2");
             int comSpeed = iniFile35.Read(IniSection.Charon, IniKey.ComSpeed, 115200);
-            int charonLogLevel = iniFile35.Read(IniSection.Charon, IniKey.LogLevel, 4);
+            int charonLogLevel = iniFile35.Read(IniSection.General, IniKey.LogLevel, 4);
 
             var serialPort = new SerialPort(comPortName, comSpeed);
             try

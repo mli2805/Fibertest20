@@ -15,12 +15,12 @@
         OtdrPort,
         OtauIp,
         OtauPort,
+        LogLevel,
 
         // Charon
         ConnectionTimeout,
         ReadTimeout,
         WriteTimeout,
-        LogLevel,
         ComPort,
         ComSpeed,
         PauseAfterReset,
