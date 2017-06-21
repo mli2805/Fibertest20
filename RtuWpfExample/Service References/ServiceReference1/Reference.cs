@@ -89,6 +89,18 @@ namespace Iit.Fibertest.RtuWpfExample.ServiceReference1 {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRtuWcfService/GetDataUsingDataContract", ReplyAction="http://tempuri.org/IRtuWcfService/GetDataUsingDataContractResponse")]
         System.Threading.Tasks.Task<Iit.Fibertest.RtuWpfExample.ServiceReference1.CompositeType> GetDataUsingDataContractAsync(Iit.Fibertest.RtuWpfExample.ServiceReference1.CompositeType composite);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRtuWcfService/StartMonitoring", ReplyAction="http://tempuri.org/IRtuWcfService/StartMonitoringResponse")]
+        void StartMonitoring();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRtuWcfService/StartMonitoring", ReplyAction="http://tempuri.org/IRtuWcfService/StartMonitoringResponse")]
+        System.Threading.Tasks.Task StartMonitoringAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRtuWcfService/StopMonitoring", ReplyAction="http://tempuri.org/IRtuWcfService/StopMonitoringResponse")]
+        void StopMonitoring();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRtuWcfService/StopMonitoring", ReplyAction="http://tempuri.org/IRtuWcfService/StopMonitoringResponse")]
+        System.Threading.Tasks.Task StopMonitoringAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -132,6 +144,22 @@ namespace Iit.Fibertest.RtuWpfExample.ServiceReference1 {
         
         public System.Threading.Tasks.Task<Iit.Fibertest.RtuWpfExample.ServiceReference1.CompositeType> GetDataUsingDataContractAsync(Iit.Fibertest.RtuWpfExample.ServiceReference1.CompositeType composite) {
             return base.Channel.GetDataUsingDataContractAsync(composite);
+        }
+        
+        public void StartMonitoring() {
+            base.Channel.StartMonitoring();
+        }
+        
+        public System.Threading.Tasks.Task StartMonitoringAsync() {
+            return base.Channel.StartMonitoringAsync();
+        }
+        
+        public void StopMonitoring() {
+            base.Channel.StopMonitoring();
+        }
+        
+        public System.Threading.Tasks.Task StopMonitoringAsync() {
+            return base.Channel.StopMonitoringAsync();
         }
     }
 }

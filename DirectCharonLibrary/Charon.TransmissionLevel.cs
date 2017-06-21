@@ -9,6 +9,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
     {
         private void SendCommand(string cmd)
         {
+            Thread.Sleep(TimeSpan.FromMilliseconds(200));
             LastAnswer = "";
             LastErrorMessage = "";
             IsLastCommandSuccessful = false;
@@ -36,7 +37,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
                 nwStream.Write(bytesToSend, 0, bytesToSend.Length);
 
                 // for bulk command could be needed
-                Thread.Sleep(200);
+                Thread.Sleep(TimeSpan.FromMilliseconds(200));
 
                 //---read back the text---
                 byte[] bytesToRead = new byte[client.ReceiveBufferSize];
@@ -57,6 +58,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
 
         private void SendWriteIniCommand(string content)
         {
+            Thread.Sleep(TimeSpan.FromMilliseconds(200));
             LastAnswer = "";
             LastErrorMessage = "";
             IsLastCommandSuccessful = false;
@@ -104,7 +106,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
                 Array.Copy(contentBytes, 256, bytes224, 0, 224);
                 nwStream.Write(bytes224, 0, bytes224.Length);
 
-                Thread.Sleep(1000);
+                Thread.Sleep(TimeSpan.FromMilliseconds(1000));
 
                 //---read back the answer---
                 bytesToRead = new byte[client.ReceiveBufferSize];

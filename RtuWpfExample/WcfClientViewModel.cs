@@ -35,12 +35,29 @@ namespace Iit.Fibertest.RtuWpfExample
         public void WcfTest()
         {
             _rtuWcfServiceClient = CreateRtuWcfServiceClient(RtuServiceIp);
-            if (_rtuWcfServiceClient == null)
-                return;
+            if (_rtuWcfServiceClient != null)
+                CheckWcf();
+        }
 
-            _rtuLogger.AppendLine($@"Wcf client to {RtuServiceIp} created");
+        public void StartMonitoring()
+        {
+            _rtuWcfServiceClient = CreateRtuWcfServiceClient(RtuServiceIp);
+            if (_rtuWcfServiceClient == null) return;
 
-            CheckWcf();
+            _rtuWcfServiceClient.Open();
+            _rtuWcfServiceClient.StartMonitoring();
+
+
+        }
+
+        public void StopMonitoring()
+        {
+            _rtuWcfServiceClient = CreateRtuWcfServiceClient(RtuServiceIp);
+            if (_rtuWcfServiceClient == null) return;
+
+            _rtuWcfServiceClient.Open();
+            _rtuWcfServiceClient.StopMonitoring();
+
         }
 
         private void CheckWcf()
@@ -73,7 +90,9 @@ namespace Iit.Fibertest.RtuWpfExample
                 netTcpBinding.OpenTimeout = new TimeSpan(0, 1, 0);
 
                 netTcpBinding.MaxBufferSize = 4096000; //4M
-                return new RtuWcfServiceClient(netTcpBinding, new EndpointAddress(new Uri(uriString)));
+                var rtuWcfServiceClient = new RtuWcfServiceClient(netTcpBinding, new EndpointAddress(new Uri(uriString)));
+                _rtuLogger.AppendLine($@"Wcf client to {RtuServiceIp} created");
+                return rtuWcfServiceClient;
             }
             catch (Exception e)
             {

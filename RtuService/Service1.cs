@@ -3,6 +3,7 @@ using System.ServiceModel;
 using System.ServiceProcess;
 using System.Threading;
 using Iit.Fibertest.Utils35;
+using RtuManagement;
 using RtuWcfServiceLibrary;
 
 namespace RtuService
@@ -10,56 +11,49 @@ namespace RtuService
     public partial class Service1 : ServiceBase
     {
         internal static ServiceHost MyServiceHost;
-//        private RtuManager _rtuManager;
 
-        private readonly IniFile _iniFile35;
-        private readonly Logger35 _logger35;
+        private readonly IniFile _serviceIni;
+        private readonly Logger35 _serviceLog;
 
         public Service1()
         {
             InitializeComponent();
-            _iniFile35 = new IniFile();
-            _iniFile35.AssignFile("RtuService.ini");
-            var cultureString = _iniFile35.Read(IniSection.General, IniKey.Culture, "ru-RU");
+            _serviceIni = new IniFile();
+            _serviceIni.AssignFile("RtuService.ini");
+            var cultureString = _serviceIni.Read(IniSection.General, IniKey.Culture, "ru-RU");
             
-            _logger35 = new Logger35();
-            _logger35.AssignFile("RtuService.log", cultureString);
+            _serviceLog = new Logger35();
+            _serviceLog.AssignFile("RtuService.log", cultureString);
 
-            _logger35.EmptyLine();
-            _logger35.EmptyLine('-');
+            _serviceLog.EmptyLine();
+            _serviceLog.EmptyLine('-');
             var pid = Process.GetCurrentProcess().Id;
             var tid = Thread.CurrentThread.ManagedThreadId;
-            _logger35.AppendLine($"Windows service started. Process {pid}, thread {tid}");
+            _serviceLog.AppendLine($"Windows service started. Process {pid}, thread {tid}");
         }
 
         protected override void OnStart(string[] args)
         {
             MyServiceHost?.Close();
-
             
-            RtuWcfService.WcfIniFile = _iniFile35;
-            RtuWcfService.WcfLogger35 = _logger35;
+            RtuWcfService.WcfIniFile = _serviceIni;
+            RtuWcfService.WcfLogger35 = _serviceLog;
             MyServiceHost = new ServiceHost(typeof(RtuWcfService));
             MyServiceHost.Open();
-             
-//            _rtuManager = new RtuManager();
-//            Thread rtuManagerThread = new Thread(_rtuManager.Start);
-//            rtuManagerThread.Start();
         }
 
         protected override void OnStop()
         {
-//            _rtuManager.Stop();
-
             if (MyServiceHost != null)
             {
+                RtuWcfService.RtuManagerThread.Abort();
                 MyServiceHost.Close();
                 MyServiceHost = null;
             }
 
             var pid = Process.GetCurrentProcess().Id;
             var tid = Thread.CurrentThread.ManagedThreadId;
-            _logger35.AppendLine($"Windows service stopped. Process {pid}, thread {tid}");
+            _serviceLog.AppendLine($"Windows service stopped. Process {pid}, thread {tid}");
         }
     }
 }

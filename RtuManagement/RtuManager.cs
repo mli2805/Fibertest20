@@ -13,11 +13,14 @@ namespace RtuManagement
     {
         private const string DefaultIp = "192.168.88.101";
 
-        private readonly Logger35 _logger35;
-        private readonly IniFile _iniFile35;
+        private readonly Logger35 _rtuLog;
+        private readonly IniFile _rtuIni;
         private OtdrManager _otdrManager;
         private Charon _mainCharon;
 
+        private object _obj = new object();
+        private bool _isMonitoringOn;
+        private bool _isMonitoringCancelled = false;
         private Queue<ExtendedPort> _monitoringQueue;
         private int _measurementNumber;
         private TimeSpan _preciseMakeTimespan;
@@ -26,81 +29,113 @@ namespace RtuManagement
 
         public RtuManager()
         {
-            _iniFile35 = new IniFile();
-            _iniFile35.AssignFile("RtuManager.ini");
-            var cultureString = _iniFile35.Read(IniSection.General, IniKey.Culture, "ru-RU");
+            _rtuIni = new IniFile();
+            _rtuIni.AssignFile("RtuManager.ini");
+            var cultureString = _rtuIni.Read(IniSection.General, IniKey.Culture, "ru-RU");
 
-            _logger35 = new Logger35();
-            _logger35.AssignFile("RtuManager.log", cultureString);
-            _logger35.EmptyLine();
-            _logger35.EmptyLine('-');
+            _rtuLog = new Logger35();
+            _rtuLog.AssignFile("RtuManager.log", cultureString);
+            _rtuLog.EmptyLine();
+            _rtuLog.EmptyLine('-');
         }
 
-        public void Start()
+        public void Initialize()
         {
             var pid = Process.GetCurrentProcess().Id;
             var tid = Thread.CurrentThread.ManagedThreadId;
-            _logger35.AppendLine($"RTU Manager started. Process {pid}, thread {tid}");
+            _rtuLog.AppendLine($"RTU Manager started. Process {pid}, thread {tid}");
 
-            RestoreFunctions.ResetCharonThroughComPort(_iniFile35, _logger35);
+            RestoreFunctions.ResetCharonThroughComPort(_rtuIni, _rtuLog);
+            _isMonitoringOn = _rtuIni.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, 0) != 0;
+            InitializeRtu();
+            if (_isMonitoringOn)
+                DoMonitoring();
+            else
+            {
+                var otdrAddress = _rtuIni.Read(IniSection.General, IniKey.OtdrIp, DefaultIp);
+                _otdrManager.DisconnectOtdr(otdrAddress);
+                _rtuLog.AppendLine("Rtu is in MANUAL mode.");
+            }
+        }
 
+        public void StartMonitoring()
+        {
+            _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 1);
+            InitializeRtu();
             DoMonitoring();
         }
 
-        public void Stop()
+        public void StopMonitoring()
         {
-            _logger35.AppendLine("Rtu Manager stopped.");
+            lock (_obj)
+            {
+                _otdrManager.InterruptMeasurement();
+                _isMonitoringCancelled = true;
+                _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 0);
+            }
+            Thread.Sleep(TimeSpan.FromMilliseconds(2000));
+            var otdrAddress = _rtuIni.Read(IniSection.General, IniKey.OtdrIp, DefaultIp);
+            _otdrManager.DisconnectOtdr(otdrAddress);
+            _rtuLog.AppendLine("Rtu is turned into MANUAL mode.");
+            lock (_obj)
+            {
+                _isMonitoringCancelled = false;
+            }
         }
 
-        private void DoMonitoring()
+        private bool InitializeRtu()
         {
-            RestoreFunctions.DisplayWait(_iniFile35, _logger35);
+            _rtuLog.EmptyLine();
+            RestoreFunctions.DisplayWait(_rtuIni, _rtuLog);
             if (!InitializeOtdr())
             {
-                _logger35.AppendLine("Otdr initialization failed.");
-                return;
+                _rtuLog.AppendLine("Otdr initialization failed.");
+                return false;
             }
 
             if (!InitializeOtau())
             {
-                _logger35.AppendLine("Otau initialization failed.");
-                return;
+                _rtuLog.AppendLine("Otau initialization failed.");
+                return false;
             }
+            return true;
+        }
 
-            _iniFile35.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 1);
+        private void DoMonitoring()
+        {
+            _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 1);
             GetMonitoringQueue();
             GetMonitoringParams();
 
             RunMonitoringCycle();
 
-            _logger35.AppendLine("Monitoring terminated.");
-            Console.WriteLine("Monitoring terminated.");
+            _rtuLog.AppendLine("Monitoring stopped.");
         }
 
         private void RestoreOtdrConnection()
         {
-            var arp = _iniFile35.Read(IniSection.Restore, IniKey.ClearArp, 0);
+            var arp = _rtuIni.Read(IniSection.Restore, IniKey.ClearArp, 0);
             if (arp != 0)
             {
-                _iniFile35.Write(IniSection.Restore, IniKey.ClearArp, 0);
+                _rtuIni.Write(IniSection.Restore, IniKey.ClearArp, 0);
                 ClearArp();
             }
 
-            var reboot = _iniFile35.Read(IniSection.Restore, IniKey.RebootSystem, 0);
+            var reboot = _rtuIni.Read(IniSection.Restore, IniKey.RebootSystem, 0);
             if (reboot != 0)
             {
-                _iniFile35.Write(IniSection.Restore, IniKey.RebootSystem, 0);
-                RestoreFunctions.RebootSystem(_logger35);
+                _rtuIni.Write(IniSection.Restore, IniKey.RebootSystem, 0);
+                RestoreFunctions.RebootSystem(_rtuLog);
             }
         }
 
         private bool InitializeOtdr()
         {
-            _otdrManager = new OtdrManager(@"OtdrMeasEngine\", _iniFile35, _logger35);
+            _otdrManager = new OtdrManager(@"OtdrMeasEngine\", _rtuIni, _rtuLog);
             if (_otdrManager.LoadDll() != "")
                 return false;
             
-            var otdrAddress = _iniFile35.Read(IniSection.General, IniKey.OtdrIp, DefaultIp);
+            var otdrAddress = _rtuIni.Read(IniSection.General, IniKey.OtdrIp, DefaultIp);
             if (_otdrManager.InitializeLibrary())
                 _otdrManager.ConnectOtdr(otdrAddress);
             return _otdrManager.IsOtdrConnected;
@@ -108,15 +143,15 @@ namespace RtuManagement
 
         public bool InitializeOtau()
         {
-            var otauIpAddress = _iniFile35.Read(IniSection.General, IniKey.OtauIp, DefaultIp);
-            _mainCharon = new Charon(new NetAddress(otauIpAddress, 23), _iniFile35, _logger35);
+            var otauIpAddress = _rtuIni.Read(IniSection.General, IniKey.OtauIp, DefaultIp);
+            _mainCharon = new Charon(new NetAddress(otauIpAddress, 23), _rtuIni, _rtuLog);
             return _mainCharon.Initialize();
         }
 
         public void GetMonitoringQueue()
         {
-            _logger35.EmptyLine();
-            _logger35.AppendLine("Monitoring queue assembling...");
+            _rtuLog.EmptyLine();
+            _rtuLog.AppendLine("Monitoring queue assembling...");
             _monitoringQueue = new Queue<ExtendedPort>();
             var monitoringSettingsFile = Utils.FileNameForSure(@"..\ini\", @"monitoring.que", false);
             var content = File.ReadAllLines(monitoringSettingsFile);
@@ -126,17 +161,17 @@ namespace RtuManagement
                 if (extendedPort != null && _mainCharon.IsExtendedPortValidForMonitoring(extendedPort))
                     _monitoringQueue.Enqueue(extendedPort);
             }
-            _logger35.AppendLine($"{_monitoringQueue.Count} port(s) in queue.");
+            _rtuLog.AppendLine($"{_monitoringQueue.Count} port(s) in queue.");
         }
 
         public void GetMonitoringParams()
         {
             _preciseMakeTimespan =
-                TimeSpan.FromSeconds(_iniFile35.Read(IniSection.Monitoring, IniKey.PreciseMakeTimespan, 3600));
+                TimeSpan.FromSeconds(_rtuIni.Read(IniSection.Monitoring, IniKey.PreciseMakeTimespan, 3600));
             _preciseSaveTimespan =
-                TimeSpan.FromSeconds(_iniFile35.Read(IniSection.Monitoring, IniKey.PreciseSaveTimespan, 3600));
+                TimeSpan.FromSeconds(_rtuIni.Read(IniSection.Monitoring, IniKey.PreciseSaveTimespan, 3600));
             _fastSaveTimespan =
-                TimeSpan.FromSeconds(_iniFile35.Read(IniSection.Monitoring, IniKey.FastSaveTimespan, 3600));
+                TimeSpan.FromSeconds(_rtuIni.Read(IniSection.Monitoring, IniKey.FastSaveTimespan, 3600));
         }
 
         private ExtendedPort Create(string str)
@@ -147,35 +182,35 @@ namespace RtuManagement
             var parts = str.Split('-');
             if (parts.Length != 2)
             {
-                _logger35.AppendLine($"Invalid string in queue file: '{str}'", 2);
+                _rtuLog.AppendLine($"Invalid string in queue file: '{str}'", 2);
                 return null;
             }
 
             int opticalPort;
             if (!int.TryParse(parts[1], out opticalPort))
             {
-                _logger35.AppendLine($"Can't parse optical port: '{parts[1]}'", 2);
+                _rtuLog.AppendLine($"Can't parse optical port: '{parts[1]}'", 2);
                 return null;
             }
 
             var addressParts = parts[0].Split(':');
             if (addressParts.Length != 2)
             {
-                _logger35.AppendLine($"Can't parse address: '{parts[0]}'", 2);
+                _rtuLog.AppendLine($"Can't parse address: '{parts[0]}'", 2);
                 return null;
             }
 
             int tcpPort;
             if (!int.TryParse(addressParts[1], out tcpPort))
             {
-                _logger35.AppendLine($"Can't parse tcp port: '{addressParts[1]}'", 2);
+                _rtuLog.AppendLine($"Can't parse tcp port: '{addressParts[1]}'", 2);
                 return null;
             }
 
             var netAddress = new NetAddress(addressParts[0], tcpPort);
             if (!netAddress.HasValidIp4Address() || !netAddress.HasValidTcpPort())
             {
-                _logger35.AppendLine($"Invalid ip address: '{parts[0]}'", 2);
+                _rtuLog.AppendLine($"Invalid ip address: '{parts[0]}'", 2);
                 return null;
             }
 
@@ -184,11 +219,15 @@ namespace RtuManagement
 
         public void RunMonitoringCycle()
         {
-            _logger35.EmptyLine();
-            _logger35.AppendLine("Start monitoring.");
+            _rtuLog.EmptyLine();
+            _rtuLog.AppendLine("Start monitoring.");
+            _isMonitoringOn = _rtuIni.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, 0) != 0;
+            if (!_isMonitoringOn)
+                _rtuLog.AppendLine("Monitoring is off");
+
             if (_monitoringQueue.Count < 1)
             {
-                _logger35.AppendLine("There are no ports in queue for monitoring.");
+                _rtuLog.AppendLine("There are no ports in queue for monitoring.");
                 return;
             }
             while (true)
@@ -198,11 +237,14 @@ namespace RtuManagement
                 var extendedPort = _monitoringQueue.Dequeue();
                 _monitoringQueue.Enqueue(extendedPort);
 
-                _logger35.EmptyLine();
+                _rtuLog.EmptyLine();
                 ProcessOnePort(extendedPort);
 
-                if (_iniFile35.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, 0) == 0)
-                    break;
+                lock (_obj)
+                {
+                    if (_isMonitoringCancelled)
+                        break;
+                }
             }
         }
 
@@ -212,7 +254,7 @@ namespace RtuManagement
             if (extendedPort.State == PortMeasResult.Ok || extendedPort.State == PortMeasResult.Unknown)
             {
                 // FAST 
-                _logger35.AppendLine($"MEAS. {_measurementNumber} port {_mainCharon.GetBopPortString(extendedPort)}, Fast");
+                _rtuLog.AppendLine($"MEAS. {_measurementNumber} port {_mainCharon.GetBopPortString(extendedPort)}, Fast");
                 var fastMoniResult = DoMeasurement(BaseRefType.Fast, extendedPort);
                 if (fastMoniResult == null)
                     return;
@@ -237,7 +279,7 @@ namespace RtuManagement
             if (!isSecondMeasurementNeeded)
                 return;
             if (hasFastPerformed)
-                _logger35.EmptyLine();
+                _rtuLog.EmptyLine();
 
             // PRECISE (or ADDITIONAL)
             var baseType = (isTraceBroken && extendedPort.IsBreakdownCloserThen20Km && extendedPort.HasAdditionalBase())
@@ -245,8 +287,10 @@ namespace RtuManagement
                 : BaseRefType.Precise;
             var message = $"MEAS. {_measurementNumber} port {_mainCharon.GetBopPortString(extendedPort)}, {baseType}";
             message += hasFastPerformed ? " (confirmation)" : "";
-            _logger35.AppendLine(message);
+            _rtuLog.AppendLine(message);
             var moniResult = DoMeasurement(baseType, extendedPort, !hasFastPerformed);
+            if (moniResult == null)
+                return;
             extendedPort.LastPreciseMadeTimestamp = DateTime.Now;
             if (GetPortState(moniResult) != extendedPort.State ||
                 (DateTime.Now - extendedPort.LastPreciseSavedTimestamp) > _preciseSaveTimespan)
@@ -259,7 +303,7 @@ namespace RtuManagement
 
         private void SendMoniResult(MoniResult moniResult)
         {
-            _logger35.AppendLine($"Sending monitoring result {moniResult.BaseRefType} to server...");
+            _rtuLog.AppendLine($"Sending monitoring result {moniResult.BaseRefType} to server...");
 
         }
 
@@ -283,6 +327,10 @@ namespace RtuManagement
                 return null;
             if (!_otdrManager.MeasureWithBase(baseBytes, _mainCharon.GetActiveChildCharon()))
                 return null;
+            if (_isMonitoringCancelled)
+            {
+                return null;
+            }
             var measBytes = _otdrManager.ApplyAutoAnalysis(_otdrManager.GetLastSorDataBuffer()); // is ApplyAutoAnalysis necessary ?
             var moniResult = _otdrManager.CompareMeasureWithBase(baseBytes, measBytes, true); // base is inserted into meas during comparison
             SaveMeas(extendedPort, baseRefType, measBytes); // so save after comparison
@@ -291,27 +339,31 @@ namespace RtuManagement
 
         private byte[] GetBase(ExtendedPort extendedPort, BaseRefType baseRefType)
         {
-            var basefile = $@"..\PortData\{extendedPort.GetFolderName()}\{baseRefType.ToBaseFileName()}";
+            var appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            var appDir = Path.GetDirectoryName(appPath);
+            var basefile = appDir + $@"\..\PortData\{extendedPort.GetFolderName()}\{baseRefType.ToBaseFileName()}";
             if (File.Exists(basefile))
                 return File.ReadAllBytes(basefile);
-            _logger35.AppendLine($"Can't find {baseRefType.ToBaseFileName()} for port {extendedPort.ToStringA()}");
+            _rtuLog.AppendLine($"Can't find {basefile}");
             return null;
         }
 
         private void SaveMeas(ExtendedPort extendedPort, BaseRefType baseRefType, byte[] bytes)
         {
-            var measfile = $@"..\PortData\{extendedPort.GetFolderName()}\{baseRefType.ToMeasFileName()}";
+            var appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            var appDir = Path.GetDirectoryName(appPath);
+            var measfile = appDir + $@"\..\PortData\{extendedPort.GetFolderName()}\{baseRefType.ToMeasFileName()}";
             File.WriteAllBytes(measfile, bytes);
         }
 
         public void ClearArp()
         {
             var res = Arp.GetTable();
-            _logger35.AppendLine(res);
+            _rtuLog.AppendLine(res);
             res = Arp.ClearCache();
-            _logger35.AppendLine($"Clear ARP table - {res}");
+            _rtuLog.AppendLine($"Clear ARP table - {res}");
             res = Arp.GetTable();
-            _logger35.AppendLine(res);
+            _rtuLog.AppendLine(res);
         }
 
 

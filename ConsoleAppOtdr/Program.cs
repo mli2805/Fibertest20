@@ -22,7 +22,7 @@ namespace ConsoleAppOtdr
 //            logger35.AppendLine("Application started.");
 
             var rtuManager = new RtuManager();
-            rtuManager.Start(); 
+            rtuManager.StartMonitoring(); 
         }
 
     }

@@ -13,6 +13,9 @@ namespace RtuWcfServiceLibrary
     {
         public static IniFile WcfIniFile { get; set; }
         public static Logger35 WcfLogger35 { get; set; }
+
+        public static Thread RtuManagerThread { get; set; }
+
         private int _logLevel;
         private RtuManager _rtuManager;
 
@@ -26,8 +29,8 @@ namespace RtuWcfServiceLibrary
                 WcfLogger35?.AppendLine($"RtuWcfService started in process {pid}, thread {tid}");
 
             _rtuManager = new RtuManager();
-            Thread rtuManagerThread = new Thread(_rtuManager.Start);
-            rtuManagerThread.Start();
+            RtuManagerThread = new Thread(_rtuManager.Initialize);
+            RtuManagerThread.Start();
         }
 
         public string GetData(int value)
@@ -49,5 +52,19 @@ namespace RtuWcfServiceLibrary
             }
             return composite;
         }
+
+        public void StartMonitoring()
+        {
+            WcfLogger35.AppendLine("user asks to start monitoring");
+            Thread rtuManagerThread = new Thread(_rtuManager.StartMonitoring);
+            rtuManagerThread.Start();
+
+        }
+
+        public void StopMonitoring()
+        {
+            _rtuManager.StopMonitoring();
+        }
+
     }
 }

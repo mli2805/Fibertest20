@@ -50,6 +50,7 @@ namespace Iit.Fibertest.Utils35
 
         public static void DisplayWait(IniFile iniFile35, Logger35 logger35)
         {
+            logger35.AppendLine("Write <Wait...> on led display");
             string comPortName = iniFile35.Read(IniSection.Charon, IniKey.ComPort, "COM2");
             int comSpeed = iniFile35.Read(IniSection.Charon, IniKey.ComSpeed, 115200);
             int charonLogLevel = iniFile35.Read(IniSection.General, IniKey.LogLevel, 4);

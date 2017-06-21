@@ -9,6 +9,7 @@
         d:DataContext="{d:DesignInstance rtuWpfExample:WcfClientViewModel}">
     <StackPanel>
         <TextBox Margin="5,15,5,5" Text="{Binding RtuServiceIp}"/>
-        <Button Name="WcfTest" Margin="5" Height="25" Width="120" Content="WCF Test"/>
+        <Button Name="StartMonitoring" Margin="5" Height="25" Width="120" Content="Start Monitoring"/>
+        <Button Name="StopMonitoring" Margin="5" Height="25" Width="120" Content="Stop Monitoring"/>
     </StackPanel>
 </Window>
