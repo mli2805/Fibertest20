@@ -60,6 +60,9 @@ namespace RtuManagement
 
         public void StartMonitoring()
         {
+            var pid = Process.GetCurrentProcess().Id;
+            var tid = Thread.CurrentThread.ManagedThreadId;
+            _rtuLog.AppendLine($"Rtu is turned into AUTOMATIC mode. Process {pid}, thread {tid}");
             _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 1);
             InitializeRtu();
             DoMonitoring();

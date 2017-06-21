@@ -56,13 +56,14 @@ namespace RtuWcfServiceLibrary
         public void StartMonitoring()
         {
             WcfLogger35.AppendLine("user asks to start monitoring");
-            Thread rtuManagerThread = new Thread(_rtuManager.StartMonitoring);
-            rtuManagerThread.Start();
-
+            RtuManagerThread?.Abort();
+            RtuManagerThread = new Thread(_rtuManager.StartMonitoring);
+            RtuManagerThread.Start();
         }
 
         public void StopMonitoring()
         {
+            WcfLogger35.AppendLine("user asks to stop monitoring");
             _rtuManager.StopMonitoring();
         }
 
