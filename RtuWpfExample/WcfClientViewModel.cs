@@ -32,22 +32,21 @@ namespace Iit.Fibertest.RtuWpfExample
             RtuServiceIp = _iniFile35.Read(IniSection.General, IniKey.RtuServiceIp, @"192.168.96.53");
         }
 
-        public void WcfTest()
-        {
-            _rtuWcfServiceClient = CreateRtuWcfServiceClient(RtuServiceIp);
-            if (_rtuWcfServiceClient != null)
-                CheckWcf();
-        }
-
         public void StartMonitoring()
         {
             _rtuWcfServiceClient = CreateRtuWcfServiceClient(RtuServiceIp);
             if (_rtuWcfServiceClient == null) return;
 
-            _rtuWcfServiceClient.Open();
+            try
+            {
+                _rtuWcfServiceClient.Open();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, @"My WCF Service");
+                return;
+            }
             _rtuWcfServiceClient.StartMonitoring();
-
-
         }
 
         public void StopMonitoring()
@@ -55,9 +54,16 @@ namespace Iit.Fibertest.RtuWpfExample
             _rtuWcfServiceClient = CreateRtuWcfServiceClient(RtuServiceIp);
             if (_rtuWcfServiceClient == null) return;
 
-            _rtuWcfServiceClient.Open();
+            try
+            {
+                _rtuWcfServiceClient.Open();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, @"My WCF Service");
+                return;
+            }
             _rtuWcfServiceClient.StopMonitoring();
-
         }
 
         private void CheckWcf()

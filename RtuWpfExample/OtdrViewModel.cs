@@ -16,6 +16,7 @@ namespace Iit.Fibertest.RtuWpfExample
     {
         private readonly IniFile _iniFile35;
         private readonly Logger35 _rtuLogger;
+        private readonly string _appDir;
         public string IpAddress { get; set; }
 
         public OtdrManager OtdrManager { get; set; }
@@ -124,9 +125,14 @@ namespace Iit.Fibertest.RtuWpfExample
             _iniFile35 = iniFile35;
             _rtuLogger = rtuLogger;
             IpAddress = ipAddress;
-            BaseFileName = @"c:\temp\base3ev.sor";
-            MeasFileName = @"c:\temp\123.sor";
-            ResultFileName = @"c:\temp\measwithbase.sor";
+
+            var appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            _appDir = Path.GetDirectoryName(appPath);
+            rtuLogger.AppendLine(_appDir);
+
+            BaseFileName   = @"..\out\base3ev.sor";
+            MeasFileName   = @"..\out\123.sor";
+            ResultFileName = @"..\out\measwithbase.sor";
 
 
             OtdrManager = new OtdrManager(@"OtdrMeasEngine\", _iniFile35, _rtuLogger);
@@ -214,7 +220,8 @@ namespace Iit.Fibertest.RtuWpfExample
         {
             var fd = new OpenFileDialog();
             fd.Filter = @"Sor files (*.sor)|*.sor";
-            fd.InitialDirectory = @"c:\temp\";
+//            fd.InitialDirectory = @"c:\temp\";
+            fd.InitialDirectory = Path.GetFullPath(Path.Combine(_appDir+"\\", @"..\out\"));
             if (fd.ShowDialog() == true)
                 BaseFileName = fd.FileName;
         }
@@ -223,7 +230,8 @@ namespace Iit.Fibertest.RtuWpfExample
         {
             var fd = new OpenFileDialog();
             fd.Filter = @"Sor files (*.sor)|*.sor";
-            fd.InitialDirectory = @"c:\temp\";
+//            fd.InitialDirectory = @"c:\temp\";
+            fd.InitialDirectory = Path.GetFullPath(Path.Combine(_appDir+"\\", @"..\out\"));
             if (fd.ShowDialog() == true)
                 ResultFileName = fd.FileName;
         }
@@ -232,7 +240,8 @@ namespace Iit.Fibertest.RtuWpfExample
         {
             var fd = new SaveFileDialog();
             fd.Filter = @"Sor files (*.sor)|*.sor";
-            fd.InitialDirectory = @"c:\temp\";
+//            fd.InitialDirectory = @"c:\temp\";
+            fd.InitialDirectory = Path.GetFullPath(Path.Combine(_appDir+"\\", @"..\out\"));
             if (fd.ShowDialog() == true)
                 MeasFileName = fd.FileName;
         }
@@ -272,7 +281,7 @@ namespace Iit.Fibertest.RtuWpfExample
             var bufferBase = File.ReadAllBytes(BaseFileName);
             var bufferMeas = File.ReadAllBytes(MeasFileName);
 
-            var moniResult = OtdrManager.CompareMeasureWithBase(bufferBase, bufferMeas, true);
+            var moniResult = OtdrManager.CompareMeasureWithBase(bufferBase, ref bufferMeas, true);
             var sorData = SorData.FromBytes(bufferMeas);
             sorData.Save(MeasFileName);
 
@@ -316,7 +325,7 @@ namespace Iit.Fibertest.RtuWpfExample
                     Message = string.Format(Resources.SID__0_th_measurement_is_finished_, c);
 
                     var measBytes = OtdrManager.ApplyAutoAnalysis(OtdrManager.GetLastSorDataBuffer()); // is ApplyAutoAnalysis necessary ?
-                    var moniResult = OtdrManager.CompareMeasureWithBase(baseBytes, measBytes, true);
+                    var moniResult = OtdrManager.CompareMeasureWithBase(baseBytes, ref measBytes, true);
                     var sorData = SorData.FromBytes(measBytes);
                     sorData.Save(MeasFileName);
 

@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.ServiceModel;
 using System.Threading;
+using System.Threading.Tasks;
 using Iit.Fibertest.Utils35;
 using RtuManagement;
 
@@ -30,6 +31,7 @@ namespace RtuWcfServiceLibrary
 
             _rtuManager = new RtuManager();
             RtuManagerThread = new Thread(_rtuManager.Initialize);
+            RtuManagerThread.IsBackground = true;
             RtuManagerThread.Start();
         }
 
@@ -55,15 +57,27 @@ namespace RtuWcfServiceLibrary
 
         public void StartMonitoring()
         {
-            WcfLogger35.AppendLine("user asks to start monitoring");
+            WcfLogger35.AppendLine("User asks to start monitoring");
+            if (_rtuManager._isMonitoringOn)
+            {
+                WcfLogger35.AppendLine("Rtu is in AUTOMATIC mode already");
+                return;
+            }
             RtuManagerThread?.Abort();
             RtuManagerThread = new Thread(_rtuManager.StartMonitoring);
+            RtuManagerThread.IsBackground = true;
             RtuManagerThread.Start();
+//            _rtuManager.StartMonitoring();
         }
 
         public void StopMonitoring()
         {
-            WcfLogger35.AppendLine("user asks to stop monitoring");
+            WcfLogger35.AppendLine("User asks to stop monitoring");
+            if (!_rtuManager._isMonitoringOn)
+            {
+                WcfLogger35.AppendLine("Rtu is in MANUAL mode already");
+                return;
+            }
             _rtuManager.StopMonitoring();
         }
 

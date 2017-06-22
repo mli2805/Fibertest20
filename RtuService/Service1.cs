@@ -46,7 +46,6 @@ namespace RtuService
         {
             if (MyServiceHost != null)
             {
-                RtuWcfService.RtuManagerThread?.Abort();
                 MyServiceHost.Close();
                 MyServiceHost = null;
             }

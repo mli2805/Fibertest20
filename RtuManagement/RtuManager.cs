@@ -19,7 +19,7 @@ namespace RtuManagement
         private Charon _mainCharon;
 
         private object _obj = new object();
-        private bool _isMonitoringOn;
+        public bool _isMonitoringOn { get; set; }
         private bool _isMonitoringCancelled = false;
         private Queue<ExtendedPort> _monitoringQueue;
         private int _measurementNumber;
@@ -60,6 +60,13 @@ namespace RtuManagement
 
         public void StartMonitoring()
         {
+            if (_isMonitoringOn)
+            {
+                _rtuLog.AppendLine("Rtu is in AUTOMATIC mode already.");
+                return;
+            }
+
+            _rtuLog.EmptyLine();
             var pid = Process.GetCurrentProcess().Id;
             var tid = Thread.CurrentThread.ManagedThreadId;
             _rtuLog.AppendLine($"Rtu is turned into AUTOMATIC mode. Process {pid}, thread {tid}");
@@ -70,6 +77,12 @@ namespace RtuManagement
 
         public void StopMonitoring()
         {
+            if (!_isMonitoringOn)
+            {
+                _rtuLog.AppendLine("Rtu is in MANUAL mode already.");
+                return;
+            }
+
             lock (_obj)
             {
                 _otdrManager.InterruptMeasurement();
@@ -82,13 +95,13 @@ namespace RtuManagement
             _rtuLog.AppendLine("Rtu is turned into MANUAL mode.");
             lock (_obj)
             {
+                _isMonitoringOn = false;
                 _isMonitoringCancelled = false;
             }
         }
 
         private bool InitializeRtu()
         {
-            _rtuLog.EmptyLine();
             RestoreFunctions.DisplayWait(_rtuIni, _rtuLog);
             if (!InitializeOtdr())
             {
@@ -231,6 +244,8 @@ namespace RtuManagement
             if (_monitoringQueue.Count < 1)
             {
                 _rtuLog.AppendLine("There are no ports in queue for monitoring.");
+                _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 0);
+                _isMonitoringOn = false;
                 return;
             }
             while (true)
@@ -335,7 +350,7 @@ namespace RtuManagement
                 return null;
             }
             var measBytes = _otdrManager.ApplyAutoAnalysis(_otdrManager.GetLastSorDataBuffer()); // is ApplyAutoAnalysis necessary ?
-            var moniResult = _otdrManager.CompareMeasureWithBase(baseBytes, measBytes, true); // base is inserted into meas during comparison
+            var moniResult = _otdrManager.CompareMeasureWithBase(baseBytes, ref measBytes, true); // base is inserted into meas during comparison
             SaveMeas(extendedPort, baseRefType, measBytes); // so save after comparison
             return moniResult; 
         }

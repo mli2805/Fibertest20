@@ -12,7 +12,7 @@
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
     </Window.Resources>
     <StackPanel>
-        <TabControl Margin="5" BorderThickness="1" BorderBrush="Black">
+        <TabControl Margin="5" BorderThickness="1" BorderBrush="Black" SelectedIndex="{Binding SelectedIndex}">
             <TabItem Name="Minor" Visibility="{Binding LevelsContent.IsMinorExists, Converter={StaticResource BoolToVis}}">
                 <TabItem.Header>
                     <TextBlock Text="{x:Static stringResources:Resources.SID_Minor}" Width="120"/>
