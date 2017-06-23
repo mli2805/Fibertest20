@@ -32,7 +32,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
         {
             _iniFile35 = iniFile35;
             _rtuLogger35 = rtuLogger35;
-            _charonLogLevel = (CharonLogLevel)_iniFile35.Read(IniSection.General, IniKey.LogLevel, 2);
+            _charonLogLevel = (CharonLogLevel)_iniFile35.Read(IniSection.Charon, IniKey.LogLevel, 1);
             _connectionTimeout = _iniFile35.Read(IniSection.Charon, IniKey.ConnectionTimeout, 5);
             _readTimeout = _iniFile35.Read(IniSection.Charon, IniKey.ReadTimeout, 2);
             _writeTimeout = _iniFile35.Read(IniSection.Charon, IniKey.WriteTimeout, 2);

@@ -12,7 +12,7 @@ namespace Iit.Fibertest.Utils35
             logger35.AppendLine("Charon RESET");
             string comPortName = iniFile35.Read(IniSection.Charon, IniKey.ComPort, "COM2");
             int comSpeed = iniFile35.Read(IniSection.Charon, IniKey.ComSpeed, 115200);
-            int charonLogLevel = iniFile35.Read(IniSection.General, IniKey.LogLevel, 4);
+            int charonLogLevel = iniFile35.Read(IniSection.Charon, IniKey.LogLevel, 4);
 
             var serialPort = new SerialPort(comPortName, comSpeed);
             try
@@ -48,12 +48,14 @@ namespace Iit.Fibertest.Utils35
                 logger35.AppendLine("Charon reset finished", 2);
         }
 
-        public static void DisplayWait(IniFile iniFile35, Logger35 logger35)
+
+
+        public static void DisplayOnLed(IniFile iniFile35, Logger35 logger35, LedDisplayCode code)
         {
-            logger35.AppendLine("Write <Wait...> on led display");
+            logger35.AppendLine($"Write <{code.ToString()}> on led display");
             string comPortName = iniFile35.Read(IniSection.Charon, IniKey.ComPort, "COM2");
             int comSpeed = iniFile35.Read(IniSection.Charon, IniKey.ComSpeed, 115200);
-            int charonLogLevel = iniFile35.Read(IniSection.General, IniKey.LogLevel, 4);
+            int charonLogLevel = iniFile35.Read(IniSection.Charon, IniKey.LogLevel, 4);
 
             var serialPort = new SerialPort(comPortName, comSpeed);
             try
@@ -69,7 +71,7 @@ namespace Iit.Fibertest.Utils35
             if (charonLogLevel >= 2)
                 logger35.AppendLine($"{comPortName} opened successfully.", 2);
 
-            byte[] buffer = new byte[] {0x13};
+            byte[] buffer = new byte[] {(byte)code};
             try
             {
                 serialPort.Write(buffer, 0, 1);
@@ -103,5 +105,11 @@ namespace Iit.Fibertest.Utils35
         }
 
 
+    }
+
+    public enum LedDisplayCode : byte
+    {
+        Wait = 0x13,
+        Connecting = 0x14,
     }
 }

@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.ServiceModel;
 using System.Threading;
-using System.Threading.Tasks;
 using Iit.Fibertest.Utils35;
 using RtuManagement;
 
@@ -25,8 +24,9 @@ namespace RtuWcfServiceLibrary
             var pid = Process.GetCurrentProcess().Id;
             var tid = Thread.CurrentThread.ManagedThreadId;
 
+//            _logLevel = WcfIniFile?.Read(IniSection.General, IniKey.LogLevel, 2) ?? 2;
             _logLevel = WcfIniFile.Read(IniSection.General, IniKey.LogLevel, 2);
-            if (_logLevel >=4)
+            if (_logLevel >=2)
                 WcfLogger35?.AppendLine($"RtuWcfService started in process {pid}, thread {tid}");
 
             _rtuManager = new RtuManager();
