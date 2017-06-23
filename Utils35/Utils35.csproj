@@ -82,6 +82,8 @@
     <Compile Include="IniFile\IniFile.cs" />
     <Compile Include="IniFile\IniKey.cs" />
     <Compile Include="IniFile\IniSection.cs" />
+    <Compile Include="LedDisplay.cs" />
+    <Compile Include="LedDisplayCode.cs" />
     <Compile Include="Logger35.cs" />
     <Compile Include="Mikrotik.cs" />
     <Compile Include="NetAddress.cs" />

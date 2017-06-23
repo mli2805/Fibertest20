@@ -102,7 +102,7 @@ namespace RtuManagement
 
         private bool InitializeRtu()
         {
-            RestoreFunctions.DisplayOnLed(_rtuIni, _rtuLog, LedDisplayCode.Wait);
+            LedDisplay.Show(_rtuIni, _rtuLog, LedDisplayCode.Wait);
             if (!InitializeOtdr())
             {
                 _rtuLog.AppendLine("Otdr initialization failed.");
