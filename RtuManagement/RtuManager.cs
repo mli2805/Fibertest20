@@ -19,8 +19,8 @@ namespace RtuManagement
         private Charon _mainCharon;
 
         private object _obj = new object();
-        public bool _isMonitoringOn { get; set; }
-        private bool _isMonitoringCancelled = false;
+        public bool IsMonitoringOn { get; set; }
+        private bool _isMonitoringCancelled;
         private Queue<ExtendedPort> _monitoringQueue;
         private int _measurementNumber;
         private TimeSpan _preciseMakeTimespan;
@@ -46,9 +46,9 @@ namespace RtuManagement
             _rtuLog.AppendLine($"RTU Manager started. Process {pid}, thread {tid}");
 
             RestoreFunctions.ResetCharonThroughComPort(_rtuIni, _rtuLog);
-            _isMonitoringOn = _rtuIni.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, 0) != 0;
+            IsMonitoringOn = _rtuIni.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, 0) != 0;
             InitializeRtu();
-            if (_isMonitoringOn)
+            if (IsMonitoringOn)
                 DoMonitoring();
             else
             {
@@ -60,7 +60,7 @@ namespace RtuManagement
 
         public void StartMonitoring()
         {
-            if (_isMonitoringOn)
+            if (IsMonitoringOn)
             {
                 _rtuLog.AppendLine("Rtu is in AUTOMATIC mode already.");
                 return;
@@ -77,7 +77,7 @@ namespace RtuManagement
 
         public void StopMonitoring()
         {
-            if (!_isMonitoringOn)
+            if (!IsMonitoringOn)
             {
                 _rtuLog.AppendLine("Rtu is in MANUAL mode already.");
                 return;
@@ -95,7 +95,7 @@ namespace RtuManagement
             _rtuLog.AppendLine("Rtu is turned into MANUAL mode.");
             lock (_obj)
             {
-                _isMonitoringOn = false;
+                IsMonitoringOn = false;
                 _isMonitoringCancelled = false;
             }
         }
@@ -237,15 +237,15 @@ namespace RtuManagement
         {
             _rtuLog.EmptyLine();
             _rtuLog.AppendLine("Start monitoring.");
-            _isMonitoringOn = _rtuIni.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, 0) != 0;
-            if (!_isMonitoringOn)
+            IsMonitoringOn = _rtuIni.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, 0) != 0;
+            if (!IsMonitoringOn)
                 _rtuLog.AppendLine("Monitoring is off");
 
             if (_monitoringQueue.Count < 1)
             {
                 _rtuLog.AppendLine("There are no ports in queue for monitoring.");
                 _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 0);
-                _isMonitoringOn = false;
+                IsMonitoringOn = false;
                 return;
             }
             while (true)
@@ -325,7 +325,7 @@ namespace RtuManagement
 
         }
 
-        // only is trace OK or not, without character of breakdown
+        // only is trace OK or not, without details of breakdown if any
         private PortMeasResult GetPortState(MoniResult moniResult)
         {
             if (!moniResult.IsFailed && !moniResult.IsFiberBreak && !moniResult.IsNoFiber)

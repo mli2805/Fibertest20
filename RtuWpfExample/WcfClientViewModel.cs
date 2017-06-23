@@ -9,7 +9,6 @@ namespace Iit.Fibertest.RtuWpfExample
 {
     public class WcfClientViewModel : Screen
     {
-        private readonly IniFile _iniFile35;
         private readonly Logger35 _rtuLogger;
         private RtuWcfServiceClient _rtuWcfServiceClient;
         private string _rtuServiceIp;
@@ -27,9 +26,8 @@ namespace Iit.Fibertest.RtuWpfExample
 
         public WcfClientViewModel(IniFile iniFile35, Logger35 rtuLogger)
         {
-            _iniFile35 = iniFile35;
             _rtuLogger = rtuLogger;
-            RtuServiceIp = _iniFile35.Read(IniSection.General, IniKey.RtuServiceIp, @"192.168.96.53");
+            RtuServiceIp = iniFile35.Read(IniSection.General, IniKey.RtuServiceIp, @"192.168.96.53");
         }
 
         public void StartMonitoring()
@@ -64,24 +62,6 @@ namespace Iit.Fibertest.RtuWpfExample
                 return;
             }
             _rtuWcfServiceClient.StopMonitoring();
-        }
-
-        private void CheckWcf()
-        {
-            _iniFile35.Write(IniSection.General, IniKey.RtuServiceIp, RtuServiceIp);
-            try
-            {
-                _rtuWcfServiceClient.Open();
-                var test = _rtuWcfServiceClient.GetData(456);
-                MessageBox.Show(test, @"My WCF Service");
-                _rtuLogger.AppendLine($@"Wcf connection with {_rtuWcfServiceClient.Endpoint.Address} established successfully");
-                _rtuWcfServiceClient.Close();
-            }
-            catch (Exception e)
-            {
-                _rtuLogger.AppendLine($@"Can't establish connection with {_rtuWcfServiceClient.Endpoint.Address}");
-                MessageBox.Show(e.Message, @"My WCF Service");
-            }
         }
 
         private RtuWcfServiceClient CreateRtuWcfServiceClient(string address)

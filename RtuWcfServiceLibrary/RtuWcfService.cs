@@ -58,7 +58,7 @@ namespace RtuWcfServiceLibrary
         public void StartMonitoring()
         {
             WcfLogger35.AppendLine("User asks to start monitoring");
-            if (_rtuManager._isMonitoringOn)
+            if (_rtuManager.IsMonitoringOn)
             {
                 WcfLogger35.AppendLine("Rtu is in AUTOMATIC mode already");
                 return;
@@ -73,7 +73,7 @@ namespace RtuWcfServiceLibrary
         public void StopMonitoring()
         {
             WcfLogger35.AppendLine("User asks to stop monitoring");
-            if (!_rtuManager._isMonitoringOn)
+            if (!_rtuManager.IsMonitoringOn)
             {
                 WcfLogger35.AppendLine("Rtu is in MANUAL mode already");
                 return;

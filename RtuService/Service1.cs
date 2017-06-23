@@ -3,7 +3,6 @@ using System.ServiceModel;
 using System.ServiceProcess;
 using System.Threading;
 using Iit.Fibertest.Utils35;
-using RtuManagement;
 using RtuWcfServiceLibrary;
 
 namespace RtuService
