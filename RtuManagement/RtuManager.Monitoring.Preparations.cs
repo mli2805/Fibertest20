@@ -11,7 +11,7 @@ namespace RtuManagement
     {
         private bool InitializeMonitoring()
         {
-            LedDisplay.Show(_rtuIni, _rtuLog, LedDisplayCode.Wait);
+            LedDisplay.Show(_rtuIni, _rtuLog, LedDisplayCode.Connecting);
             if (!InitializeOtdr())
             {
                 _rtuLog.AppendLine("Otdr initialization failed.");

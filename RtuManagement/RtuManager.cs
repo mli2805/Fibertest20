@@ -40,7 +40,9 @@ namespace RtuManagement
 
             RestoreFunctions.ResetCharonThroughComPort(_rtuIni, _rtuLog);
             IsMonitoringOn = _rtuIni.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, 0) != 0;
-            InitializeMonitoring();
+            if (!InitializeMonitoring())
+                // TODO recovering
+                return;
             if (IsMonitoringOn)
                 RunMonitoringCycle();
             else

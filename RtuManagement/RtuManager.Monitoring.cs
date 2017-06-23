@@ -116,6 +116,21 @@ namespace RtuManagement
             extendedPort.SaveMeasBytes(baseRefType, measBytes); // so re-save after comparison
             return moniResult;
         }
+
+        private bool ToggleToPort(ExtendedPort extendedPort)
+        {
+            if (!_mainCharon.SetExtendedActivePort(extendedPort.NetAddress, extendedPort.Port))
+            {
+                LedDisplay.Show(_rtuIni, _rtuLog, LedDisplayCode.ErrorTogglePort);
+                ClearArp();
+                if (!_mainCharon.SetExtendedActivePort(extendedPort.NetAddress, extendedPort.Port))
+                {
+                    
+                }
+
+            }
+            return true;
+        }
       
     }
 }
