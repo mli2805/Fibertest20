@@ -79,6 +79,7 @@
     <Compile Include="Enums\BaseRefTypeExtensions.cs" />
     <Compile Include="Enums\BaseRefType.cs" />
     <Compile Include="Enums\FiberState.cs" />
+    <Compile Include="ExtendedPort.cs" />
     <Compile Include="IniFile\IniFile.cs" />
     <Compile Include="IniFile\IniKey.cs" />
     <Compile Include="IniFile\IniSection.cs" />
