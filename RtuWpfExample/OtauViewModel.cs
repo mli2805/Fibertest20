@@ -280,8 +280,8 @@ namespace Iit.Fibertest.RtuWpfExample
         private void RunOtauInitialization()
         {
                 _rtuLogger.AppendLine(Resources.SID_Otau_initialization_started);
-//                await Task.Run(() => MainCharon.Initialize());
-                MainCharon.Initialize();
+//                await Task.Run(() => MainCharon.InitializeOtau());
+                MainCharon.InitializeOtau();
 
                 if (MainCharon.IsLastCommandSuccessful)
                 {

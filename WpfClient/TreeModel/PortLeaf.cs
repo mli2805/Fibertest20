@@ -113,8 +113,8 @@ namespace Iit.Fibertest.Client
             NetAddress otauAddress = new NetAddress(otdrAddress.Ip4Address, 23);
 
             var charon = new Charon(otauAddress, _iniFile35, _logger35);
-            var activePort = charon.SetExtendedActivePort(ExtendedPortNumber);
-            if (activePort == ExtendedPortNumber)
+            var result = charon.SetExtendedActivePort(charon.NetAddress, ExtendedPortNumber);
+            if (result == CharonOperationResult.Ok)
                 System.Diagnostics.Process.Start(@"TraceEngine\Reflect.exe", $"-fnw -n {otdrAddress.Ip4Address} -p {otdrAddress.Port}");
             else
             {

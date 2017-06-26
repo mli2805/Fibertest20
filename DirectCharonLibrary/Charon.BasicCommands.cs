@@ -14,13 +14,13 @@ namespace Iit.Fibertest.DirectCharonLibrary
             return LastAnswer == "OK\r\n";
         }
 
-        private bool ResetOtdr(bool isOtdrOld)
-        {
-            SendCommand(isOtdrOld ? "otdr_reset\r\n" : "otdr_reset_\r\n");
-            if (!IsLastCommandSuccessful)
-                return false;
-            return LastAnswer == "OK\r\n";
-        }
+//        private bool ResetOtdr(bool isOtdrOld)
+//        {
+//            SendCommand(isOtdrOld ? "otdr_reset\r\n" : "otdr_reset_\r\n");
+//            if (!IsLastCommandSuccessful)
+//                return false;
+//            return LastAnswer == "OK\r\n";
+//        }
 
         private string GetSerial()
         {

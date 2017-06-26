@@ -1,9 +1,12 @@
-﻿using Iit.Fibertest.Utils35;
+﻿using System;
+using Iit.Fibertest.Utils35;
 
 namespace RtuManagement
 {
     public partial class RtuManager
     {
+        private TimeSpan _mikrotikRebootTimeout;
+
         private void RestoreOtdrConnection()
         {
             var arp = _rtuIni.Read(IniSection.Restore, IniKey.ClearArp, 0);

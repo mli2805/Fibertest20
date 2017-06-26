@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.Utils35;
 
@@ -98,9 +102,11 @@ namespace RtuManagement
             }
         }
 
+
+
         private MoniResult DoMeasurement(BaseRefType baseRefType, ExtendedPort extendedPort, bool isPortChanged = true)
         {
-            if (isPortChanged && !_mainCharon.SetExtendedActivePort(extendedPort.NetAddress, extendedPort.Port))
+            if (isPortChanged && !ToggleToPort(extendedPort))
                 return null;
             var baseBytes = extendedPort.GetBaseBytes(baseRefType, _rtuLog);
             if (baseBytes == null)
@@ -113,24 +119,76 @@ namespace RtuManagement
             }
             var measBytes = _otdrManager.ApplyAutoAnalysis(_otdrManager.GetLastSorDataBuffer()); // is ApplyAutoAnalysis necessary ?
             var moniResult = _otdrManager.CompareMeasureWithBase(baseBytes, ref measBytes, true); // base is inserted into meas during comparison
-            extendedPort.SaveMeasBytes(baseRefType, measBytes); // so re-save after comparison
+            extendedPort.SaveMeasBytes(baseRefType, measBytes); // so re-save meas after comparison
             return moniResult;
         }
 
+        private List<BopProblem> _bopProblems = new List<BopProblem>();
         private bool ToggleToPort(ExtendedPort extendedPort)
         {
-            if (!_mainCharon.SetExtendedActivePort(extendedPort.NetAddress, extendedPort.Port))
+            var bopIp = extendedPort.NetAddress.Ip4Address;
+            BopProblem bopProblem = extendedPort.NetAddress.Equals(_mainCharon.NetAddress) 
+                ? null 
+                : _bopProblems.FirstOrDefault(b => b.Ip == bopIp);
+            if (bopProblem != null && (DateTime.Now - bopProblem.RebootStarted < _mikrotikRebootTimeout))
             {
-                LedDisplay.Show(_rtuIni, _rtuLog, LedDisplayCode.ErrorTogglePort);
-                ClearArp();
-                if (!_mainCharon.SetExtendedActivePort(extendedPort.NetAddress, extendedPort.Port))
-                {
-                    
-                }
-
+                _rtuLog.AppendLine("Mikrotik is rebooting, step to the next port");
+                return false;
             }
-            return true;
+
+
+            var toggleResult = _mainCharon.SetExtendedActivePort(extendedPort.NetAddress, extendedPort.Port);
+            switch (toggleResult)
+            {
+                case CharonOperationResult.Ok: return true;
+                case CharonOperationResult.MainOtauError:
+                    {
+                        LedDisplay.Show(_rtuIni, _rtuLog, LedDisplayCode.ErrorTogglePort);
+                        ClearArp();
+                        var toggleRes = _mainCharon.SetExtendedActivePort(extendedPort.NetAddress, extendedPort.Port);
+                        if (toggleRes != CharonOperationResult.Ok)
+                        {
+                            //TODO
+                        }
+                        return false;
+                    }
+                case CharonOperationResult.AdditionalOtauError:
+                    {
+                        bopProblem = _bopProblems.FirstOrDefault(b => b.Ip == bopIp);
+                        if (bopProblem != null)
+                        {
+                            bopProblem.RebootStarted = DateTime.Now;
+                            bopProblem.RebootAttempts++;
+                            _rtuLog.AppendLine($"Reboot attempt N{bopProblem.RebootAttempts}");
+                        }
+                        else
+                            _bopProblems.Add(new BopProblem(bopIp));
+
+
+                        _mainCharon.RebootAdditionalMikrotik(bopIp);
+                        return false;
+                    }
+                default:
+                    {
+                        _rtuLog.AppendLine(_mainCharon.LastErrorMessage);
+                        return false;
+                    }
+            }
         }
-      
+
+    }
+
+    public class BopProblem
+    {
+        public string Ip { get; set; }
+        public DateTime RebootStarted { get; set; }
+        public int RebootAttempts { get; set; }
+
+        public BopProblem(string ip)
+        {
+            Ip = ip;
+            RebootStarted = DateTime.Now;
+            RebootAttempts = 1;
+        }
     }
 }

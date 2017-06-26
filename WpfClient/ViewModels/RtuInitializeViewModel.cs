@@ -73,7 +73,7 @@ namespace Iit.Fibertest.Client
         {
             if (!CheckAddressUniqueness())
                 return;
-            // TODO Initialize RTU via Server and RtuManager
+            // TODO InitializeOtau RTU via Server and RtuManager
             var mainCharon = await RunInitializationProcess();
             if (mainCharon == null)
                 // return;

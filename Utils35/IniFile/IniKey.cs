@@ -32,6 +32,7 @@
         FastSaveTimespan,
 
         // Restore
+        MikrotikRebootTimeout,
         ResetCharon,
         ClearArp,
         RestartService,

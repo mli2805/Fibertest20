@@ -197,7 +197,7 @@ namespace Iit.Fibertest.RtuWpfExample
         {
             // Maybe it should be done in outer scope (something like RtuManager, which has its own MainCharon) ?
             var mainCharon = new Charon(new NetAddress(IpAddress, 23), _iniFile35, _rtuLogger);
-            mainCharon.Initialize();
+            mainCharon.InitializeOtau();
             NetAddress activeCharonAddress;
             int activePort;
             if (!mainCharon.GetExtendedActivePort(out activeCharonAddress, out activePort))

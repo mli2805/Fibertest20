@@ -24,6 +24,24 @@ namespace Iit.Fibertest.DirectCharonLibrary
         public Charon Parent { get; set; }
         public Dictionary<int, Charon> Children { get; set; }
 
+        private readonly object _obj = new object();
+        private string _bopIp;
+
+        public string GetBopIpForReboot()
+        {
+            lock (_obj)
+            {
+                return _bopIp;
+            }
+        }
+        public void SetBopIpForReboot(string bopIp)
+        {
+            lock (_obj)
+            {
+                _bopIp = bopIp;
+            } 
+        }
+
         public string LastErrorMessage { get; set; }
         public string LastAnswer { get; set; }
         public bool IsLastCommandSuccessful { get; set; }
@@ -41,18 +59,10 @@ namespace Iit.Fibertest.DirectCharonLibrary
 
         public bool InitializeRtu()
         {
-            if (!ResetOtau())
-                return false;
-
-            var temp = ResetOtdr(false);
-
-            if (!temp)
-                return false;
-
-            return Initialize();
+            return true;
         }
 
-        public bool Initialize()
+        public CharonOperationResult InitializeOtau()
         {
             _rtuLogger35.AppendLine($"Initializing OTAU on {NetAddress.ToStringA()}");
             StartPortNumber = Parent == null ? 1 : StartPortNumber = Parent.FullPortCount + 1;
@@ -61,10 +71,11 @@ namespace Iit.Fibertest.DirectCharonLibrary
             Serial = GetSerial();
             if (!IsLastCommandSuccessful)
             {
+                LedDisplay.Show(_iniFile35, _rtuLogger35, LedDisplayCode.ErrorConnectOtau);
                 LastErrorMessage = $"Get Serial error {LastErrorMessage}";
                 if (_charonLogLevel >= CharonLogLevel.PublicCommands)
                     _rtuLogger35.AppendLine(LastErrorMessage, 2);
-                return false;
+                return CharonOperationResult.MainOtauError;
             }
             Serial = Serial.Substring(0, Serial.Length - 2); // "\r\n"
             if (_charonLogLevel >= CharonLogLevel.PublicCommands)
@@ -77,7 +88,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
                 LastErrorMessage = $"Get own port count error {LastErrorMessage}";
                 if (_charonLogLevel >= CharonLogLevel.PublicCommands)
                     _rtuLogger35.AppendLine(LastErrorMessage, 2);
-                return false;
+                return CharonOperationResult.MainOtauError;
             }
             if (_charonLogLevel >= CharonLogLevel.PublicCommands)
                 _rtuLogger35.AppendLine($"Own port count  {OwnPortCount}", 2);
@@ -88,21 +99,23 @@ namespace Iit.Fibertest.DirectCharonLibrary
                 LastErrorMessage = $"Get extended ports error {LastErrorMessage}";
                 if (_charonLogLevel >= CharonLogLevel.PublicCommands)
                     _rtuLogger35.AppendLine(LastErrorMessage, 2);
-                return false;
+                return CharonOperationResult.MainOtauError;
             }
             if (expendedPorts != null)
                 foreach (var expendedPort in expendedPorts)
                 {
                     var childCharon = new Charon(expendedPort.Value, _iniFile35, _rtuLogger35);
                     childCharon.Parent = this;
-                    if (!childCharon.Initialize())
+                    Children.Add(expendedPort.Key, childCharon);
+                    if (childCharon.InitializeOtau() != CharonOperationResult.Ok)
                     {
+                        LedDisplay.Show(_iniFile35, _rtuLogger35, LedDisplayCode.ErrorConnectBop);
                         IsLastCommandSuccessful = true; // child initialization should'n break full process
                         LastErrorMessage = $"Child charon {expendedPort.Value.ToStringA()} initialization failed";
                         if (_charonLogLevel >= CharonLogLevel.PublicCommands)
                             _rtuLogger35.AppendLine(LastErrorMessage, 2);
+                        return CharonOperationResult.AdditionalOtauError;
                     }
-                    Children.Add(expendedPort.Key, childCharon);
                     FullPortCount += childCharon.FullPortCount;
                 }
 
@@ -110,9 +123,9 @@ namespace Iit.Fibertest.DirectCharonLibrary
 
             if (_charonLogLevel >= CharonLogLevel.PublicCommands)
                 _rtuLogger35.AppendLine($"Full port count  {FullPortCount}");
-            else
-                _rtuLogger35.AppendLine($"OTAU initialized successfully.  {Serial}  {OwnPortCount}/{FullPortCount}");
-            return true;
+            
+            _rtuLogger35.AppendLine($"OTAU initialized successfully.  {Serial}  {OwnPortCount}/{FullPortCount}");
+            return CharonOperationResult.Ok;
         }
 
         public bool GetExtendedActivePort(out NetAddress charonAddress, out int port)
@@ -139,14 +152,14 @@ namespace Iit.Fibertest.DirectCharonLibrary
             return Children[activePort];
         }
 
-        public bool SetExtendedActivePort(NetAddress charonAddress, int port)
+        public CharonOperationResult SetExtendedActivePort(NetAddress charonAddress, int port)
         {
             _rtuLogger35.AppendLine($"Toggling to port {port} on {charonAddress.ToStringA()}...");
             if (NetAddress.Equals(charonAddress))
             {
                 var activePort = SetActivePort(port);
                 _rtuLogger35.AppendLine("Toggled Ok.");
-                return activePort == port;
+                return activePort == port ? CharonOperationResult.Ok : CharonOperationResult.MainOtauError;
             }
 
             var charon = Children.Values.FirstOrDefault(c => c.NetAddress.Equals(charonAddress));
@@ -155,7 +168,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
                 LastErrorMessage = "There is no such optical switch";
                 if (_charonLogLevel >= CharonLogLevel.PublicCommands)
                     _rtuLogger35.AppendLine(LastErrorMessage, 2);
-                return false;
+                return CharonOperationResult.LogicalError;
             }
 
             var masterPort = Children.First(pair => pair.Value == charon).Key;
@@ -167,7 +180,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
                     LastErrorMessage = $"Can't toggle master switch into {masterPort} port";
                     if (_charonLogLevel >= CharonLogLevel.PublicCommands)
                         _rtuLogger35.AppendLine(LastErrorMessage, 2);
-                    return false;
+                    return CharonOperationResult.MainOtauError;
                 }
             }
 
@@ -178,46 +191,11 @@ namespace Iit.Fibertest.DirectCharonLibrary
                 IsLastCommandSuccessful = charon.IsLastCommandSuccessful;
                 if (_charonLogLevel >= CharonLogLevel.PublicCommands)
                     _rtuLogger35.AppendLine(LastErrorMessage, 2);
-                return false;
+                return CharonOperationResult.AdditionalOtauError;
             }
 
             _rtuLogger35.AppendLine("Toggled Ok.");
-            return true;
-        }
-
-        public int SetExtendedActivePort(int port)
-        {
-            if (port <= OwnPortCount)
-                return SetActivePort(port);
-
-            Charon child = Children.Values.FirstOrDefault(
-                    c => c.StartPortNumber <= port && c.StartPortNumber + c.OwnPortCount > port);
-            if (child == null)
-            {
-                LastErrorMessage = "Out of range port number error";
-                if (_charonLogLevel >= CharonLogLevel.PublicCommands)
-                    _rtuLogger35.AppendLine(LastErrorMessage, 2);
-                return -1;
-            }
-
-
-            var masterPort = Children.First(pair => pair.Value == child).Key;
-            if (GetActivePort() != masterPort)
-            {
-                var newMasterPort = SetActivePort(masterPort);
-                if (newMasterPort != masterPort)
-                    return -1;
-            }
-
-            var portOnChild = port - child.StartPortNumber + 1;
-            var resultingPort = child.SetActivePort(portOnChild);
-            if (portOnChild != resultingPort)
-            {
-                LastErrorMessage = child.LastErrorMessage;
-                IsLastCommandSuccessful = child.IsLastCommandSuccessful;
-                return resultingPort;
-            }
-            return port;
+            return CharonOperationResult.Ok;
         }
 
         public bool DetachOtauFromPort(int fromOpticalPort)
@@ -239,8 +217,19 @@ namespace Iit.Fibertest.DirectCharonLibrary
             return IsLastCommandSuccessful;
         }
 
+
         public void RebootAdditionalMikrotik(string ip)
         {
+            SetBopIpForReboot(ip);
+            var mikrotikThread = new Thread(RebootAdditionalMikrotik);
+            mikrotikThread.IsBackground = true;
+            mikrotikThread.Start();
+        }
+
+        private void RebootAdditionalMikrotik()
+        {
+            var ip = GetBopIpForReboot();
+
             _rtuLogger35.AppendLine($"Reboot Mikrotik {ip} started...");
             Mikrotik mikrotik = new Mikrotik(ip, 5);
             if (!mikrotik.IsAvailable)
@@ -259,7 +248,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
             }
             mikrotik.Send(@"/system/reboot", true);
             _rtuLogger35.AppendLine("  reboot command sent");
-            Thread.Sleep(TimeSpan.FromSeconds(20)); // reboot couldn't be less than 20 seconds
+            Thread.Sleep(TimeSpan.FromSeconds(30)); // reboot couldn't be less than 30 seconds
             for (int i = 0; i < 30; i++)
             {
                 if (_charonLogLevel >= CharonLogLevel.BasicCommands )

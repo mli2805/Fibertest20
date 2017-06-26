@@ -9,25 +9,27 @@ namespace RtuManagement
 {
     public partial class RtuManager
     {
-        private bool InitializeMonitoring()
+        private CharonOperationResult InitializeMonitoring()
         {
             LedDisplay.Show(_rtuIni, _rtuLog, LedDisplayCode.Connecting);
+
+            var otauInitializationResult = InitializeOtau();
+            if (otauInitializationResult != CharonOperationResult.Ok)
+            {
+                _rtuLog.AppendLine("Otau initialization failed.");
+                return otauInitializationResult;
+            }
+
             if (!InitializeOtdr())
             {
                 _rtuLog.AppendLine("Otdr initialization failed.");
-                return false;
-            }
-
-            if (!InitializeOtau())
-            {
-                _rtuLog.AppendLine("Otau initialization failed.");
-                return false;
+                return CharonOperationResult.OtdrError;
             }
 
             GetMonitoringQueue();
             GetMonitoringParams();
 
-            return true;
+            return CharonOperationResult.Ok;
         }
 
         private bool InitializeOtdr()
@@ -42,11 +44,11 @@ namespace RtuManagement
             return _otdrManager.IsOtdrConnected;
         }
 
-        private bool InitializeOtau()
+        private CharonOperationResult InitializeOtau()
         {
             var otauIpAddress = _rtuIni.Read(IniSection.General, IniKey.OtauIp, DefaultIp);
             _mainCharon = new Charon(new NetAddress(otauIpAddress, 23), _rtuIni, _rtuLog);
-            return _mainCharon.Initialize();
+            return _mainCharon.InitializeOtau();
         }
 
         private void GetMonitoringQueue()

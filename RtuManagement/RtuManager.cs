@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.Utils35;
@@ -30,6 +32,9 @@ namespace RtuManagement
             _rtuLog.AssignFile("RtuManager.log", cultureString);
             _rtuLog.EmptyLine();
             _rtuLog.EmptyLine('-');
+
+            _mikrotikRebootTimeout =
+                TimeSpan.FromSeconds(_rtuIni.Read(IniSection.Restore, IniKey.MikrotikRebootTimeout, 40));
         }
 
         public void Initialize()
@@ -39,10 +44,12 @@ namespace RtuManagement
             _rtuLog.AppendLine($"RTU Manager started. Process {pid}, thread {tid}");
 
             RestoreFunctions.ResetCharonThroughComPort(_rtuIni, _rtuLog);
+
+            var initializationResult = InitializeMonitoring();
+            while (initializationResult != CharonOperationResult.Ok)
+                initializationResult = RecoverInitialization(initializationResult);
+
             IsMonitoringOn = _rtuIni.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, 0) != 0;
-            if (!InitializeMonitoring())
-                // TODO recovering
-                return;
             if (IsMonitoringOn)
                 RunMonitoringCycle();
             else
@@ -51,6 +58,26 @@ namespace RtuManagement
                 _otdrManager.DisconnectOtdr(otdrAddress);
                 _rtuLog.AppendLine("Rtu is in MANUAL mode.");
             }
+        }
+
+        private CharonOperationResult RecoverInitialization(CharonOperationResult error)
+        {
+            if (error == CharonOperationResult.AdditionalOtauError)
+            {
+                _rtuLog.AppendLine("Additional Otau recovering...");
+                var bopIp = _mainCharon.Children.Values.First(c=>c.OwnPortCount == 0).NetAddress.Ip4Address;
+                var damagedBop = _bopProblems.FirstOrDefault(b => b.Ip == bopIp);
+                if (damagedBop != null)
+                    damagedBop.RebootStarted = DateTime.Now;
+                else
+                    _bopProblems.Add(new BopProblem(bopIp));
+
+                _mainCharon.RebootAdditionalMikrotik(bopIp);
+                _rtuLog.AppendLine("Next attempt to initialize");
+                return InitializeMonitoring();
+            }
+
+            return CharonOperationResult.Ok;
         }
 
         public void StartMonitoring()
