@@ -173,7 +173,6 @@ namespace Iit.Fibertest.Client
                 MasterPort = pair.Key,
                 NetAddress = new NetAddress() {Ip4Address = pair.Value.NetAddress.Ip4Address, Port = pair.Value.NetAddress.Port},
                 PortCount = pair.Value.OwnPortCount,
-                FirstPortNumber = pair.Value.StartPortNumber,
                 Serial = pair.Value.Serial,
             };
             return otau;

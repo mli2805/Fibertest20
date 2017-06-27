@@ -115,7 +115,6 @@ namespace Iit.Fibertest.Client
                 Serial = otau.Serial,
                 PortCount = otau.OwnPortCount,
                 NetAddress = NetAddressInputViewModel.GetNetAddress(),
-                FirstPortNumber = _readModel.Rtus.First(r => r.Id == _rtuId).FullPortCount,
             });
         }
 

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.Utils35;
@@ -102,8 +100,6 @@ namespace RtuManagement
             }
         }
 
-
-
         private MoniResult DoMeasurement(BaseRefType baseRefType, ExtendedPort extendedPort, bool isPortChanged = true)
         {
             if (isPortChanged && !ToggleToPort(extendedPort))
@@ -135,7 +131,6 @@ namespace RtuManagement
                 _rtuLog.AppendLine("Mikrotik is rebooting, step to the next port");
                 return false;
             }
-
 
             var toggleResult = _mainCharon.SetExtendedActivePort(extendedPort.NetAddress, extendedPort.Port);
             switch (toggleResult)

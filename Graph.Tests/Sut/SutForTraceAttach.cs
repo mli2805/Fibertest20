@@ -24,7 +24,6 @@ namespace Graph.Tests
                     Serial = @"123456",
                     PortCount = 16,
                     NetAddress = new NetAddress(),
-                    FirstPortNumber = ReadModel.Rtus.First(r => r.Id == rtuId).FullPortCount,
                 };
                 ShellVm.Bus.SendCommand(cmd);
             }

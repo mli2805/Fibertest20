@@ -18,8 +18,6 @@ namespace Iit.Fibertest.DirectCharonLibrary
         public string Serial { get; set; }
         public int OwnPortCount { get; set; }
         public int FullPortCount { get; set; }
-        public int StartPortNumber { get; set; }
-
 
         public Charon Parent { get; set; }
         public Dictionary<int, Charon> Children { get; set; }
@@ -65,7 +63,6 @@ namespace Iit.Fibertest.DirectCharonLibrary
         public CharonOperationResult InitializeOtau()
         {
             _rtuLogger35.AppendLine($"Initializing OTAU on {NetAddress.ToStringA()}");
-            StartPortNumber = Parent == null ? 1 : StartPortNumber = Parent.FullPortCount + 1;
             Children = new Dictionary<int, Charon>();
 
             Serial = GetSerial();
