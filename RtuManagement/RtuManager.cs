@@ -72,7 +72,10 @@ namespace RtuManagement
                 else
                     _bopProblems.Add(new BopProblem(bopIp));
 
-                _mainCharon.RebootAdditionalMikrotik(bopIp);
+                var mikrotik = new MikrotikInBop(_rtuLog, bopIp);
+                if (mikrotik.Connect())
+                    mikrotik.Reboot();
+
                 _rtuLog.AppendLine("Next attempt to initialize");
                 return InitializeMonitoring();
             }

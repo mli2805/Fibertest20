@@ -159,8 +159,9 @@ namespace RtuManagement
                         else
                             _bopProblems.Add(new BopProblem(bopIp));
 
-
-                        _mainCharon.RebootAdditionalMikrotik(bopIp);
+                        var mikrotik = new MikrotikInBop(_rtuLog, bopIp);
+                        if (mikrotik.Connect())
+                            mikrotik.Reboot();
                         return false;
                     }
                 default:

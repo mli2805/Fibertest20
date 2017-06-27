@@ -75,10 +75,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Charon.BasicCommands.cs" />
+    <Compile Include="Charon.Commands.Ports.cs" />
+    <Compile Include="Charon.ElementaryLevel.cs" />
+    <Compile Include="Charon.Commands.Bops.cs" />
     <Compile Include="Charon.cs" />
     <Compile Include="Charon.TransmissionLevel.cs" />
     <Compile Include="CharonLogLevel.cs" />
+    <Compile Include="CharonOperationResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

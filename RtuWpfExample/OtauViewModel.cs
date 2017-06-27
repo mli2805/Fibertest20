@@ -373,9 +373,12 @@ namespace Iit.Fibertest.RtuWpfExample
             DetachMessage = @"Mikrotik reboot started...";
             using (new WaitCursor())
             {
-                await Task.Run(() => MainCharon.RebootAdditionalMikrotik(bopIp));
+                var mikrotik = new MikrotikInBop(_rtuLogger, bopIp);
+                if (await Task.Run(() => mikrotik.Connect()))
+                    mikrotik.Reboot();
+
                 DetachMessage = MainCharon.IsLastCommandSuccessful
-                    ? @"Mikrotik rebooted successfully"
+                    ? @"Check Mikrotik in a 40 seconds"
                     : MainCharon.LastErrorMessage;
                 _rtuLogger.AppendLine(DetachMessage);
             }
