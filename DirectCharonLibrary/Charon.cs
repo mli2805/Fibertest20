@@ -95,8 +95,6 @@ namespace Iit.Fibertest.DirectCharonLibrary
                     FullPortCount += childCharon.FullPortCount;
                 }
 
-            ShowOnBopDisplayMessageReady();
-
             if (_charonLogLevel >= CharonLogLevel.PublicCommands)
                 _rtuLogger35.AppendLine($"Full port count  {FullPortCount}");
 

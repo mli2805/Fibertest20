@@ -14,24 +14,22 @@ namespace RtuWcfServiceLibrary
         public static IniFile WcfIniFile { get; set; }
         public static Logger35 WcfLogger35 { get; set; }
 
-        public static Thread RtuManagerThread { get; set; }
+        private static Thread RtuManagerThread { get; set; }
 
-        private int _logLevel;
-        private RtuManager _rtuManager;
+        private readonly int _logLevel;
+        private readonly RtuManager _rtuManager;
 
         public RtuWcfService()
         {
             var pid = Process.GetCurrentProcess().Id;
             var tid = Thread.CurrentThread.ManagedThreadId;
 
-//            _logLevel = WcfIniFile?.Read(IniSection.General, IniKey.LogLevel, 2) ?? 2;
             _logLevel = WcfIniFile.Read(IniSection.General, IniKey.LogLevel, 2);
             if (_logLevel >=2)
                 WcfLogger35?.AppendLine($"RtuWcfService started in process {pid}, thread {tid}");
 
-            _rtuManager = new RtuManager();
-            RtuManagerThread = new Thread(_rtuManager.Initialize);
-            RtuManagerThread.IsBackground = true;
+            _rtuManager = new RtuManager(WcfLogger35, WcfIniFile);
+            RtuManagerThread = new Thread(_rtuManager.Initialize) {IsBackground = true};
             RtuManagerThread.Start();
         }
 

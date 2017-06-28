@@ -6,6 +6,6 @@
         RtuTestBench,
         Charon,
         Monitoring,
-        Restore,
+        Recovering,
     }
 }

@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.Utils35;
@@ -15,6 +14,8 @@ namespace RtuManagement
 
         private readonly Logger35 _rtuLog;
         private readonly IniFile _rtuIni;
+        private readonly Logger35 _serviceLog;
+        private readonly IniFile _serviceIni;
         private OtdrManager _otdrManager;
         private Charon _mainCharon;
 
@@ -22,8 +23,11 @@ namespace RtuManagement
         public bool IsMonitoringOn { get; set; }
         private bool _isMonitoringCancelled;
 
-        public RtuManager()
+        public RtuManager(Logger35 serviceLog, IniFile serviceIni)
         {
+            _serviceLog = serviceLog;
+            _serviceIni = serviceIni;
+
             _rtuIni = new IniFile();
             _rtuIni.AssignFile("RtuManager.ini");
             var cultureString = _rtuIni.Read(IniSection.General, IniKey.Culture, "ru-RU");
@@ -34,7 +38,7 @@ namespace RtuManagement
             _rtuLog.EmptyLine('-');
 
             _mikrotikRebootTimeout =
-                TimeSpan.FromSeconds(_rtuIni.Read(IniSection.Restore, IniKey.MikrotikRebootTimeout, 40));
+                TimeSpan.FromSeconds(_rtuIni.Read(IniSection.Recovering, IniKey.MikrotikRebootTimeout, 40));
         }
 
         public void Initialize()
@@ -45,7 +49,7 @@ namespace RtuManagement
 
             RestoreFunctions.ResetCharonThroughComPort(_rtuIni, _rtuLog);
 
-            var initializationResult = InitializeMonitoring();
+            var initializationResult = InitializeRtuManager();
             while (initializationResult != CharonOperationResult.Ok)
                 initializationResult = RecoverInitialization(initializationResult);
 
@@ -66,18 +70,18 @@ namespace RtuManagement
             {
                 _rtuLog.AppendLine("Additional Otau recovering...");
                 var bopIp = _mainCharon.Children.Values.First(c=>c.OwnPortCount == 0).NetAddress.Ip4Address;
-                var damagedBop = _bopProblems.FirstOrDefault(b => b.Ip == bopIp);
+                var damagedBop = _damagedOtaus.FirstOrDefault(b => b.Ip == bopIp);
                 if (damagedBop != null)
                     damagedBop.RebootStarted = DateTime.Now;
                 else
-                    _bopProblems.Add(new BopProblem(bopIp));
+                    _damagedOtaus.Add(new DamagedOtau(bopIp));
 
                 var mikrotik = new MikrotikInBop(_rtuLog, bopIp);
                 if (mikrotik.Connect())
                     mikrotik.Reboot();
 
                 _rtuLog.AppendLine("Next attempt to initialize");
-                return InitializeMonitoring();
+                return InitializeRtuManager();
             }
 
             return CharonOperationResult.Ok;
@@ -96,7 +100,7 @@ namespace RtuManagement
             var tid = Thread.CurrentThread.ManagedThreadId;
             _rtuLog.AppendLine($"Rtu is turned into AUTOMATIC mode. Process {pid}, thread {tid}");
             _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 1);
-            InitializeMonitoring();
+            InitializeRtuManager();
             RunMonitoringCycle();
         }
 

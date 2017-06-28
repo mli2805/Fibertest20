@@ -119,14 +119,14 @@ namespace RtuManagement
             return moniResult;
         }
 
-        private List<BopProblem> _bopProblems = new List<BopProblem>();
+        private List<DamagedOtau> _damagedOtaus = new List<DamagedOtau>();
         private bool ToggleToPort(ExtendedPort extendedPort)
         {
-            var bopIp = extendedPort.NetAddress.Ip4Address;
-            BopProblem bopProblem = extendedPort.NetAddress.Equals(_mainCharon.NetAddress) 
-                ? null 
-                : _bopProblems.FirstOrDefault(b => b.Ip == bopIp);
-            if (bopProblem != null && (DateTime.Now - bopProblem.RebootStarted < _mikrotikRebootTimeout))
+            var otauIp = extendedPort.NetAddress.Ip4Address;
+            DamagedOtau damagedOtau = extendedPort.NetAddress.Equals(_mainCharon.NetAddress)
+                ? null
+                : _damagedOtaus.FirstOrDefault(b => b.Ip == otauIp);
+            if (damagedOtau != null && (DateTime.Now - damagedOtau.RebootStarted < _mikrotikRebootTimeout))
             {
                 _rtuLog.AppendLine("Mikrotik is rebooting, step to the next port");
                 return false;
@@ -135,7 +135,13 @@ namespace RtuManagement
             var toggleResult = _mainCharon.SetExtendedActivePort(extendedPort.NetAddress, extendedPort.Port);
             switch (toggleResult)
             {
-                case CharonOperationResult.Ok: return true;
+                case CharonOperationResult.Ok:
+                    {
+                        if (damagedOtau != null)
+                            damagedOtau.RebootAttempts = 0;
+                        _rtuIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.Ok);
+                        return true;
+                    }
                 case CharonOperationResult.MainOtauError:
                     {
                         LedDisplay.Show(_rtuIni, _rtuLog, LedDisplayCode.ErrorTogglePort);
@@ -143,25 +149,32 @@ namespace RtuManagement
                         var toggleRes = _mainCharon.SetExtendedActivePort(extendedPort.NetAddress, extendedPort.Port);
                         if (toggleRes != CharonOperationResult.Ok)
                         {
-                            //TODO
+                            var step = (RecoveryStep)_rtuIni.Read(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.Ok);
+                            if (step == RecoveryStep.Ok)
+                            {
+                                _rtuIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.RestartService);
+                                _rtuLog.AppendLine("Exit rtu service");
+                                _serviceLog.AppendLine("Exit rtu service");
+                                Environment.Exit(1);
+                            }
+                            else if (step == RecoveryStep.RestartService)
+                            {
+                                var enabled = _rtuIni.Read(IniSection.Recovering, IniKey.RebootSystemEnabled, false);
+                                if (enabled)
+                                {
+                                    _rtuIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.RebootPc);
+                                    var delay = _rtuIni.Read(IniSection.Recovering, IniKey.RebootSystemDelay, 30);
+                                    RestoreFunctions.RebootSystem(_rtuLog, delay);
+                                    _serviceLog.AppendLine("Reboot system");
+                                    Environment.Exit(0);
+                                }
+                            }
                         }
                         return false;
                     }
                 case CharonOperationResult.AdditionalOtauError:
                     {
-                        bopProblem = _bopProblems.FirstOrDefault(b => b.Ip == bopIp);
-                        if (bopProblem != null)
-                        {
-                            bopProblem.RebootStarted = DateTime.Now;
-                            bopProblem.RebootAttempts++;
-                            _rtuLog.AppendLine($"Reboot attempt N{bopProblem.RebootAttempts}");
-                        }
-                        else
-                            _bopProblems.Add(new BopProblem(bopIp));
-
-                        var mikrotik = new MikrotikInBop(_rtuLog, bopIp);
-                        if (mikrotik.Connect())
-                            mikrotik.Reboot();
+                        RunAdditionalOtauRecovery(damagedOtau, otauIp);
                         return false;
                     }
                 default:
@@ -172,19 +185,23 @@ namespace RtuManagement
             }
         }
 
-    }
-
-    public class BopProblem
-    {
-        public string Ip { get; set; }
-        public DateTime RebootStarted { get; set; }
-        public int RebootAttempts { get; set; }
-
-        public BopProblem(string ip)
+        private void RunAdditionalOtauRecovery(DamagedOtau damagedOtau, string otauIp)
         {
-            Ip = ip;
-            RebootStarted = DateTime.Now;
-            RebootAttempts = 1;
+            if (damagedOtau != null)
+            {
+                damagedOtau.RebootStarted = DateTime.Now;
+                damagedOtau.RebootAttempts++;
+            }
+            else
+            {
+                damagedOtau = new DamagedOtau(otauIp);
+                _damagedOtaus.Add(damagedOtau);
+            }
+
+            _rtuLog.AppendLine($"Reboot attempt N{damagedOtau.RebootAttempts}");
+            var mikrotik = new MikrotikInBop(_rtuLog, otauIp);
+            if (mikrotik.Connect())
+                mikrotik.Reboot();
         }
     }
 }

@@ -31,11 +31,10 @@
         PreciseSaveTimespan,
         FastSaveTimespan,
 
-        // Restore
+        // Recovering
         MikrotikRebootTimeout,
-        ResetCharon,
-        ClearArp,
-        RestartService,
-        RebootSystem
+        RecoveryStep,
+        RebootSystemEnabled,
+        RebootSystemDelay,
     }
 }

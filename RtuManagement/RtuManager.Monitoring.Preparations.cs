@@ -9,16 +9,9 @@ namespace RtuManagement
 {
     public partial class RtuManager
     {
-        private CharonOperationResult InitializeMonitoring()
+        private CharonOperationResult InitializeRtuManager()
         {
             LedDisplay.Show(_rtuIni, _rtuLog, LedDisplayCode.Connecting);
-
-            var otauInitializationResult = InitializeOtau();
-            if (otauInitializationResult != CharonOperationResult.Ok)
-            {
-                _rtuLog.AppendLine("Otau initialization failed.");
-                return otauInitializationResult;
-            }
 
             if (!InitializeOtdr())
             {
@@ -26,10 +19,14 @@ namespace RtuManagement
                 return CharonOperationResult.OtdrError;
             }
 
+            var result = InitializeOtau();
+
+            _mainCharon.ShowOnBopDisplayMessageReady();
+
             GetMonitoringQueue();
             GetMonitoringParams();
 
-            return CharonOperationResult.Ok;
+            return result;
         }
 
         private bool InitializeOtdr()

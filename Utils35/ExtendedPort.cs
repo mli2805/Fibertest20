@@ -63,7 +63,6 @@ namespace Iit.Fibertest.Utils35
             File.WriteAllBytes(measfile, bytes);
         }
 
-
         public static ExtendedPort Create(string str, Logger35 rtuLog)
         {
             if (string.IsNullOrEmpty(str))
