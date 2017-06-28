@@ -85,7 +85,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
 
             _rtuLogger.AppendLine("Measurement end.");
 
-            activeChild?.ShowOnBopDisplayMessageReady();
+            activeChild?.ShowOnDisplayMessageReady();
 
             return true;
         }

@@ -42,7 +42,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
             IsLastCommandSuccessful = false;
             return -1;
         }
-        public string ShowOnBopDisplayMessageReady()
+        public string ShowOnDisplayMessageReady()
         {
             SendCommand("pc_loaded\r\n");
             return !IsLastCommandSuccessful ? LastErrorMessage : "";

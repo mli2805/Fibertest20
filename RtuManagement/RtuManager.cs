@@ -49,9 +49,11 @@ namespace RtuManagement
 
             RestoreFunctions.ResetCharonThroughComPort(_rtuIni, _rtuLog);
 
-            var initializationResult = InitializeRtuManager();
-            while (initializationResult != CharonOperationResult.Ok)
-                initializationResult = RecoverInitialization(initializationResult);
+            if (InitializeRtuManager() != CharonOperationResult.Ok)
+            {
+                _rtuLog.AppendLine("Rtu Manager initialization failed.");
+                return;
+            }
 
             IsMonitoringOn = _rtuIni.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, 0) != 0;
             if (IsMonitoringOn)
@@ -64,30 +66,7 @@ namespace RtuManagement
             }
         }
 
-        private CharonOperationResult RecoverInitialization(CharonOperationResult error)
-        {
-            if (error == CharonOperationResult.AdditionalOtauError)
-            {
-                _rtuLog.AppendLine("Additional Otau recovering...");
-                var bopIp = _mainCharon.Children.Values.First(c=>c.OwnPortCount == 0).NetAddress.Ip4Address;
-                var damagedBop = _damagedOtaus.FirstOrDefault(b => b.Ip == bopIp);
-                if (damagedBop != null)
-                    damagedBop.RebootStarted = DateTime.Now;
-                else
-                    _damagedOtaus.Add(new DamagedOtau(bopIp));
-
-                var mikrotik = new MikrotikInBop(_rtuLog, bopIp);
-                if (mikrotik.Connect())
-                    mikrotik.Reboot();
-
-                _rtuLog.AppendLine("Next attempt to initialize");
-                return InitializeRtuManager();
-            }
-
-            return CharonOperationResult.Ok;
-        }
-
-        public void StartMonitoring()
+       public void StartMonitoring()
         {
             if (IsMonitoringOn)
             {

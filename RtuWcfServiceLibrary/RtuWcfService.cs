@@ -62,10 +62,8 @@ namespace RtuWcfServiceLibrary
                 return;
             }
             RtuManagerThread?.Abort();
-            RtuManagerThread = new Thread(_rtuManager.StartMonitoring);
-            RtuManagerThread.IsBackground = true;
+            RtuManagerThread = new Thread(_rtuManager.StartMonitoring) {IsBackground = true};
             RtuManagerThread.Start();
-//            _rtuManager.StartMonitoring();
         }
 
         public void StopMonitoring()

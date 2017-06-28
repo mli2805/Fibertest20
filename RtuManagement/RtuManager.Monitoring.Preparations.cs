@@ -15,13 +15,16 @@ namespace RtuManagement
 
             if (!InitializeOtdr())
             {
-                _rtuLog.AppendLine("Otdr initialization failed.");
+                // We can't be here because InitializeOtdr should endlessly continue
+                // until Otdr is initialized Ok.
+                // (It's senseless to work without OTDR.)
+                _rtuLog.AppendLine("Something goes wrong. ");
                 return CharonOperationResult.OtdrError;
             }
 
             var result = InitializeOtau();
 
-            _mainCharon.ShowOnBopDisplayMessageReady();
+            _mainCharon.ShowOnDisplayMessageReady();
 
             GetMonitoringQueue();
             GetMonitoringParams();
@@ -35,17 +38,43 @@ namespace RtuManagement
             if (_otdrManager.LoadDll() != "")
                 return false;
 
+            if (!_otdrManager.InitializeLibrary())
+                return false;
+
             var otdrAddress = _rtuIni.Read(IniSection.General, IniKey.OtdrIp, DefaultIp);
-            if (_otdrManager.InitializeLibrary())
-                _otdrManager.ConnectOtdr(otdrAddress);
-            return _otdrManager.IsOtdrConnected;
+            var res = _otdrManager.ConnectOtdr(otdrAddress);
+            if (!res)
+            {
+                RunMainCharonRecovery(); // one of recovery steps inevitably exits process
+                res = _otdrManager.ConnectOtdr(otdrAddress);
+                if (!res)
+                    RunMainCharonRecovery(); // one of recovery steps inevitably exits process
+            }
+            return true;
         }
 
         private CharonOperationResult InitializeOtau()
         {
             var otauIpAddress = _rtuIni.Read(IniSection.General, IniKey.OtauIp, DefaultIp);
             _mainCharon = new Charon(new NetAddress(otauIpAddress, 23), _rtuIni, _rtuLog);
-            return _mainCharon.InitializeOtau();
+            var res = _mainCharon.InitializeOtau();
+
+            if (res == null)
+                return CharonOperationResult.Ok;
+
+            if (!res.Equals(_mainCharon.NetAddress))
+            {
+                RunAdditionalOtauRecovery(null, res.Ip4Address);
+                return CharonOperationResult.Ok;
+            }
+            else // main charon
+            {
+                RunMainCharonRecovery(); // one of recovery steps inevitably exits process
+                res = _mainCharon.InitializeOtau();
+                if (res != null)
+                    RunMainCharonRecovery(); // one of recovery steps inevitably exits process
+            }
+            return CharonOperationResult.Ok;
         }
 
         private void GetMonitoringQueue()

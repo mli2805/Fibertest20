@@ -145,31 +145,7 @@ namespace RtuManagement
                 case CharonOperationResult.MainOtauError:
                     {
                         LedDisplay.Show(_rtuIni, _rtuLog, LedDisplayCode.ErrorTogglePort);
-                        ClearArp();
-                        var toggleRes = _mainCharon.SetExtendedActivePort(extendedPort.NetAddress, extendedPort.Port);
-                        if (toggleRes != CharonOperationResult.Ok)
-                        {
-                            var step = (RecoveryStep)_rtuIni.Read(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.Ok);
-                            if (step == RecoveryStep.Ok)
-                            {
-                                _rtuIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.RestartService);
-                                _rtuLog.AppendLine("Exit rtu service");
-                                _serviceLog.AppendLine("Exit rtu service");
-                                Environment.Exit(1);
-                            }
-                            else if (step == RecoveryStep.RestartService)
-                            {
-                                var enabled = _rtuIni.Read(IniSection.Recovering, IniKey.RebootSystemEnabled, false);
-                                if (enabled)
-                                {
-                                    _rtuIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.RebootPc);
-                                    var delay = _rtuIni.Read(IniSection.Recovering, IniKey.RebootSystemDelay, 30);
-                                    RestoreFunctions.RebootSystem(_rtuLog, delay);
-                                    _serviceLog.AppendLine("Reboot system");
-                                    Environment.Exit(0);
-                                }
-                            }
-                        }
+                        RunMainCharonRecovery();
                         return false;
                     }
                 case CharonOperationResult.AdditionalOtauError:
@@ -185,23 +161,5 @@ namespace RtuManagement
             }
         }
 
-        private void RunAdditionalOtauRecovery(DamagedOtau damagedOtau, string otauIp)
-        {
-            if (damagedOtau != null)
-            {
-                damagedOtau.RebootStarted = DateTime.Now;
-                damagedOtau.RebootAttempts++;
-            }
-            else
-            {
-                damagedOtau = new DamagedOtau(otauIp);
-                _damagedOtaus.Add(damagedOtau);
-            }
-
-            _rtuLog.AppendLine($"Reboot attempt N{damagedOtau.RebootAttempts}");
-            var mikrotik = new MikrotikInBop(_rtuLog, otauIp);
-            if (mikrotik.Connect())
-                mikrotik.Reboot();
-        }
     }
 }
