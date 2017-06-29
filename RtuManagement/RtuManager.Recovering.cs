@@ -13,7 +13,7 @@ namespace RtuManagement
             var res = Arp.GetTable();
             if (logLevel == 3)
                 _serviceLog.AppendLine(res);
-            res = Arp.ClearCache();
+            Arp.ClearCache();
             _rtuLog.AppendLine("Recovery procedure: Clear ARP table.");
             _serviceLog.AppendLine("Recovery procedure: Clear ARP table.");
             res = Arp.GetTable();
