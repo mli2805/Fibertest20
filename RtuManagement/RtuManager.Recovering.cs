@@ -14,8 +14,8 @@ namespace RtuManagement
             if (logLevel == 3)
                 _serviceLog.AppendLine(res);
             res = Arp.ClearCache();
-            _rtuLog.AppendLine($"Clear ARP table - {res}");
-            _serviceLog.AppendLine($"Clear ARP table - {res}");
+            _rtuLog.AppendLine("Recovery procedure: Clear ARP table.");
+            _serviceLog.AppendLine("Recovery procedure: Clear ARP table.");
             res = Arp.GetTable();
             if (logLevel == 3)
                 _serviceLog.AppendLine(res);
@@ -33,17 +33,17 @@ namespace RtuManagement
                     return;
                 case RecoveryStep.ClearArp:
                     _rtuIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.RestartService);
-                    _rtuLog.AppendLine("Exit rtu service");
-                    _serviceLog.AppendLine("Exit rtu service");
+                    _rtuLog.AppendLine("Recovery procedure: Exit rtu service.");
+                    _serviceLog.AppendLine("Recovery procedure: Exit rtu service.");
                     Environment.Exit(1);
                     return;
                 case RecoveryStep.RestartService:
                     var enabled = _rtuIni.Read(IniSection.Recovering, IniKey.RebootSystemEnabled, false);
                     if (enabled)
                     {
-                        _rtuIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.RebootPc);
-                        var delay = _rtuIni.Read(IniSection.Recovering, IniKey.RebootSystemDelay, 30);
-                        _serviceLog.AppendLine("Reboot system");
+                        _rtuIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.ClearArp);
+                        var delay = _rtuIni.Read(IniSection.Recovering, IniKey.RebootSystemDelay, 60);
+                        _serviceLog.AppendLine("Recovery procedure: Reboot system.");
                         RestoreFunctions.RebootSystem(_rtuLog, delay);
                         Environment.Exit(0);
                     }
@@ -74,6 +74,7 @@ namespace RtuManagement
                 _damagedOtaus.Add(damagedOtau);
             }
 
+            _serviceLog.AppendLine($"Reboot attempt N{damagedOtau.RebootAttempts}");
             _rtuLog.AppendLine($"Reboot attempt N{damagedOtau.RebootAttempts}");
             var mikrotik = new MikrotikInBop(_rtuLog, damagedOtauIp);
             if (mikrotik.Connect())

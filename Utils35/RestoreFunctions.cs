@@ -50,7 +50,7 @@ namespace Iit.Fibertest.Utils35
 
         public static void RebootSystem(Logger35 logger35, int delay)
         {
-            logger35.AppendLine($"System reboot in {delay} sec...");
+            logger35.AppendLine($"Recovery procedure: System reboot in {delay} sec...");
             ProcessStartInfo proc = new ProcessStartInfo
             {
                 FileName = "cmd",

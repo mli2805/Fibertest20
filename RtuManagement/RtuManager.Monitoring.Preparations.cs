@@ -50,6 +50,7 @@ namespace RtuManagement
                 if (!res)
                     RunMainCharonRecovery(); // one of recovery steps inevitably exits process
             }
+            _rtuIni.Write(IniSection.Recovering, IniKey.RecoveryStep, 0);
             return true;
         }
 
