@@ -15,6 +15,12 @@ namespace Iit.Fibertest.RtuWpfExample.ServiceReference1 {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServiceReference1.IRtuWcfService")]
     public interface IRtuWcfService {
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRtuWcfService/ShakeHandsWithWatchdog", ReplyAction="http://tempuri.org/IRtuWcfService/ShakeHandsWithWatchdogResponse")]
+        string ShakeHandsWithWatchdog(string hello);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRtuWcfService/ShakeHandsWithWatchdog", ReplyAction="http://tempuri.org/IRtuWcfService/ShakeHandsWithWatchdogResponse")]
+        System.Threading.Tasks.Task<string> ShakeHandsWithWatchdogAsync(string hello);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRtuWcfService/StartMonitoring", ReplyAction="http://tempuri.org/IRtuWcfService/StartMonitoringResponse")]
         void StartMonitoring();
         
@@ -53,6 +59,14 @@ namespace Iit.Fibertest.RtuWpfExample.ServiceReference1 {
         
         public RtuWcfServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress) {
+        }
+        
+        public string ShakeHandsWithWatchdog(string hello) {
+            return base.Channel.ShakeHandsWithWatchdog(hello);
+        }
+        
+        public System.Threading.Tasks.Task<string> ShakeHandsWithWatchdogAsync(string hello) {
+            return base.Channel.ShakeHandsWithWatchdogAsync(hello);
         }
         
         public void StartMonitoring() {

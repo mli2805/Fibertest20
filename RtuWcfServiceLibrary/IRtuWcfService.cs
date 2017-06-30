@@ -7,6 +7,9 @@ namespace RtuWcfServiceLibrary
     public interface IRtuWcfService
     {
         [OperationContract]
+        string ShakeHandsWithWatchdog(string hello);
+
+        [OperationContract]
         void StartMonitoring();
 
         [OperationContract]

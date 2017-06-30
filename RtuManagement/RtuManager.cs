@@ -21,6 +21,7 @@ namespace RtuManagement
         private object _obj = new object();
 
         private readonly object _isMonitoringOnLocker = new object();
+        private bool _isMonitoringOn;
         public bool IsMonitoringOn
         {
             get
@@ -39,11 +40,32 @@ namespace RtuManagement
             }
         }
 
+        private readonly object _isRtuInitializedLocker = new object();
+        private bool _isRtuInitialized;
+        public bool IsRtuInitialized
+        {
+            get
+            {
+                lock (_isRtuInitializedLocker)
+                {
+                    return _isRtuInitialized;
+                }
+            }
+            set
+            {
+                lock (_isRtuInitializedLocker)
+                {
+                    _isRtuInitialized = value;
+                }
+            }
+        }
+
         private bool _isMonitoringCancelled;
-        private bool _isMonitoringOn;
 
         public RtuManager(Logger35 serviceLog, IniFile serviceIni)
         {
+            IsRtuInitialized = false;
+
             _serviceLog = serviceLog;
             _serviceIni = serviceIni;
 
@@ -62,6 +84,7 @@ namespace RtuManagement
 
         public void Initialize()
         {
+            IsRtuInitialized = false;
             var pid = Process.GetCurrentProcess().Id;
             var tid = Thread.CurrentThread.ManagedThreadId;
             _rtuLog.AppendLine($"RTU Manager started. Process {pid}, thread {tid}");
@@ -73,6 +96,7 @@ namespace RtuManagement
                 _rtuLog.AppendLine("Rtu Manager initialization failed.");
                 return;
             }
+            IsRtuInitialized = true;
 
             IsMonitoringOn = _rtuIni.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, 0) != 0;
             if (IsMonitoringOn)
@@ -89,7 +113,7 @@ namespace RtuManagement
         {
             var pid = Process.GetCurrentProcess().Id;
             var tid = Thread.CurrentThread.ManagedThreadId;
-                _rtuLog.AppendLine($"RtuManager now in process {pid}, thread {tid}");
+            _rtuLog.AppendLine($"RtuManager now in process {pid}, thread {tid}");
 
             if (IsMonitoringOn)
             {
@@ -97,11 +121,15 @@ namespace RtuManagement
                 return;
             }
 
+            IsRtuInitialized = false;
+            InitializeRtuManager();
+            IsRtuInitialized = true;
+
             _rtuLog.EmptyLine();
             _rtuLog.AppendLine($"Rtu is turned into AUTOMATIC mode. Process {pid}, thread {tid}");
             _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 1);
             IsMonitoringOn = true;
-            InitializeRtuManager();
+
             RunMonitoringCycle();
         }
 
@@ -117,26 +145,30 @@ namespace RtuManagement
                 return;
             }
 
-            lock (_obj)
-            {
-                _otdrManager.InterruptMeasurement();
-                _isMonitoringCancelled = true;
-                _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 0);
-            }
+            _otdrManager.InterruptMeasurement();
+            _isMonitoringCancelled = true;
+            _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 0);
             Thread.Sleep(TimeSpan.FromMilliseconds(2000));
             var otdrAddress = _rtuIni.Read(IniSection.General, IniKey.OtdrIp, DefaultIp);
             _otdrManager.DisconnectOtdr(otdrAddress);
+            IsMonitoringOn = false;
+            _isMonitoringCancelled = false;
             _rtuLog.AppendLine("Rtu is turned into MANUAL mode.");
-            lock (_obj)
-            {
-                IsMonitoringOn = false;
-                _isMonitoringCancelled = false;
-            }
         }
 
         public void MeasurementOutOfTurn()
         {
+            var wasMonitoringOn = IsMonitoringOn;
+            if (wasMonitoringOn)
+            {
+                StopMonitoring();
+                Thread.Sleep(TimeSpan.FromSeconds(3));
+            }
 
+            // TODO measurement
+
+            if (wasMonitoringOn)
+                StartMonitoring();
         }
 
 

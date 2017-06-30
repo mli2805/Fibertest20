@@ -45,7 +45,7 @@ namespace RtuManagement
                         var delay = _rtuIni.Read(IniSection.Recovering, IniKey.RebootSystemDelay, 60);
                         _serviceLog.AppendLine("Recovery procedure: Reboot system.");
                         RestoreFunctions.RebootSystem(_rtuLog, delay);
-                        Environment.Exit(0);
+                        Environment.Exit(1);
                     }
                     else
                     {

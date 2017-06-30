@@ -195,6 +195,9 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="Service References\ServiceReference1\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Service References\ServiceReference1\service1.wsdl" />
     <None Include="Service References\ServiceReference1\service2.xsd">
       <SubType>Designer</SubType>
