@@ -36,5 +36,8 @@
         RecoveryStep,
         RebootSystemEnabled,
         RebootSystemDelay,
+
+        // Watchdog
+        RtuServiceName,
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace RtuService
+﻿namespace RtuWatchdog
 {
     partial class ProjectInstaller
     {
@@ -36,12 +36,13 @@
             this.serviceProcessInstaller1.Account = System.ServiceProcess.ServiceAccount.LocalSystem;
             this.serviceProcessInstaller1.Password = null;
             this.serviceProcessInstaller1.Username = null;
+            this.serviceProcessInstaller1.AfterInstall += new System.Configuration.Install.InstallEventHandler(this.serviceProcessInstaller1_AfterInstall);
             // 
             // serviceInstaller1
             // 
-            this.serviceInstaller1.ServiceName = "FibertestRtuService";
-            this.serviceInstaller1.Description = "Fibertest 2.0 RTU Service";
-            this.serviceInstaller1.DisplayName = "Fibertest 2.0 RTU Service";
+            this.serviceInstaller1.ServiceName = "FibertestRtuWatchdog";
+            this.serviceInstaller1.Description = "Fibertest 2.0 RTU Watchdog";
+            this.serviceInstaller1.DisplayName = "Fibertest 2.0 RTU Watchdog ";
             this.serviceInstaller1.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
             // 
             // ProjectInstaller

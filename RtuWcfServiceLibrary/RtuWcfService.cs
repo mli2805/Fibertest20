@@ -15,7 +15,6 @@ namespace RtuWcfServiceLibrary
 
         private static Thread RtuManagerThread { get; set; }
 
-        private readonly int _logLevel;
         private readonly RtuManager _rtuManager;
 
         private readonly object _lockObj = new object();
@@ -27,15 +26,15 @@ namespace RtuWcfServiceLibrary
                 ServiceIniFile = new IniFile();
                 ServiceIniFile.AssignFile(@"WcfIniFile");
             }
-            _logLevel = ServiceIniFile.Read(IniSection.General, IniKey.LogLevel, 2);
+            var logLevel = ServiceIniFile.Read(IniSection.General, IniKey.LogLevel, 2);
 
             var pid = Process.GetCurrentProcess().Id;
             var tid = Thread.CurrentThread.ManagedThreadId;
-            if (_logLevel >= 2)
+            if (logLevel >= 2)
                 ServiceLog?.AppendLine($"RtuWcfService started in process {pid}, thread {tid}");
 
             _rtuManager = new RtuManager(ServiceLog, ServiceIniFile);
-            RtuManagerThread = new Thread(_rtuManager.Initialize) { IsBackground = true };
+            RtuManagerThread = new Thread(_rtuManager.Initialize) {IsBackground = true};
             RtuManagerThread.Start();
         }
 
@@ -57,7 +56,7 @@ namespace RtuWcfServiceLibrary
                 {
                     // can't just run _rtuManager.StartMonitoring because it blocks Wcf thread
                     RtuManagerThread?.Abort();
-                    RtuManagerThread = new Thread(_rtuManager.StartMonitoring) { IsBackground = true };
+                    RtuManagerThread = new Thread(_rtuManager.StartMonitoring) {IsBackground = true};
                     RtuManagerThread.Start();
                     ServiceLog.AppendLine("User starts monitoring - OK");
                 }
@@ -86,6 +85,5 @@ namespace RtuWcfServiceLibrary
                 }
             }
         }
-
     }
 }

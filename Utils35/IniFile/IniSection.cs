@@ -7,5 +7,6 @@
         Charon,
         Monitoring,
         Recovering,
+        Watchdog,
     }
 }
