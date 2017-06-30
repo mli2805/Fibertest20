@@ -9,6 +9,7 @@ namespace RtuManagement
 {
     public partial class RtuManager
     {
+
         private const string DefaultIp = "192.168.88.101";
 
         private readonly Logger35 _rtuLog;

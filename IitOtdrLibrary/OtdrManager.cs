@@ -60,6 +60,8 @@ namespace Iit.Fibertest.IitOtdrLibrary
             var tcpPort = _iniFile.Read(IniSection.Charon, IniKey.OtdrPort, 1500);
             IsOtdrConnected = IitOtdr.InitOtdr(ConnectionTypes.Tcp, ipAddress, tcpPort);
             _rtuLogger.AppendLine(IsOtdrConnected ? "OTDR connected successfully!" : "OTDR connection failed!");
+            if (!IsOtdrConnected)
+                LedDisplay.Show(_iniFile, _rtuLogger, LedDisplayCode.ErrorConnectOtdr);
             return IsOtdrConnected;
         }
 

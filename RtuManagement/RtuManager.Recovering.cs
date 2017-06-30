@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Iit.Fibertest.Utils35;
 
 namespace RtuManagement
@@ -35,7 +36,7 @@ namespace RtuManagement
                     _rtuIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.RestartService);
                     _rtuLog.AppendLine("Recovery procedure: Exit rtu service.");
                     _serviceLog.AppendLine("Recovery procedure: Exit rtu service.");
-                    Environment.Exit(1);
+                    Environment.FailFast("Recovery procedure: Exit rtu service.");
                     return;
                 case RecoveryStep.RestartService:
                     var enabled = _rtuIni.Read(IniSection.Recovering, IniKey.RebootSystemEnabled, false);
@@ -45,7 +46,7 @@ namespace RtuManagement
                         var delay = _rtuIni.Read(IniSection.Recovering, IniKey.RebootSystemDelay, 60);
                         _serviceLog.AppendLine("Recovery procedure: Reboot system.");
                         RestoreFunctions.RebootSystem(_rtuLog, delay);
-                        Environment.Exit(1);
+                        Thread.Sleep(TimeSpan.FromSeconds(delay+5));
                     }
                     else
                     {
