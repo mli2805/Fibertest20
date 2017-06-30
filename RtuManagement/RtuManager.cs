@@ -19,8 +19,28 @@ namespace RtuManagement
         private Charon _mainCharon;
 
         private object _obj = new object();
-        public bool IsMonitoringOn { get; set; }
+
+        private readonly object _isMonitoringOnLocker = new object();
+        public bool IsMonitoringOn
+        {
+            get
+            {
+                lock (_isMonitoringOnLocker)
+                {
+                    return _isMonitoringOn;
+                }
+            }
+            set
+            {
+                lock (_isMonitoringOnLocker)
+                {
+                    _isMonitoringOn = value;
+                }
+            }
+        }
+
         private bool _isMonitoringCancelled;
+        private bool _isMonitoringOn;
 
         public RtuManager(Logger35 serviceLog, IniFile serviceIni)
         {
@@ -65,8 +85,12 @@ namespace RtuManagement
             }
         }
 
-       public void StartMonitoring()
+        public void StartMonitoring()
         {
+            var pid = Process.GetCurrentProcess().Id;
+            var tid = Thread.CurrentThread.ManagedThreadId;
+                _rtuLog.AppendLine($"RtuManager now in process {pid}, thread {tid}");
+
             if (IsMonitoringOn)
             {
                 _rtuLog.AppendLine("Rtu is in AUTOMATIC mode already.");
@@ -74,16 +98,19 @@ namespace RtuManagement
             }
 
             _rtuLog.EmptyLine();
-            var pid = Process.GetCurrentProcess().Id;
-            var tid = Thread.CurrentThread.ManagedThreadId;
             _rtuLog.AppendLine($"Rtu is turned into AUTOMATIC mode. Process {pid}, thread {tid}");
             _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 1);
+            IsMonitoringOn = true;
             InitializeRtuManager();
             RunMonitoringCycle();
         }
 
         public void StopMonitoring()
         {
+            var pid = Process.GetCurrentProcess().Id;
+            var tid = Thread.CurrentThread.ManagedThreadId;
+            _rtuLog.AppendLine($"RtuManager now in process {pid}, thread {tid}");
+
             if (!IsMonitoringOn)
             {
                 _rtuLog.AppendLine("Rtu is in MANUAL mode already.");
@@ -109,7 +136,7 @@ namespace RtuManagement
 
         public void MeasurementOutOfTurn()
         {
-            
+
         }
 
 

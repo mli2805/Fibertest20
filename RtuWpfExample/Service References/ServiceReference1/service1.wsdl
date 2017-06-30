@@ -13,22 +13,8 @@
   <wsdl:types>
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
       <xsd:import namespace="http://tempuri.org/" />
-      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-      <xsd:import namespace="http://schemas.datacontract.org/2004/07/RtuWcfServiceLibrary" />
     </xsd:schema>
   </wsdl:types>
-  <wsdl:message name="IRtuWcfService_GetData_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetData" />
-  </wsdl:message>
-  <wsdl:message name="IRtuWcfService_GetData_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetDataResponse" />
-  </wsdl:message>
-  <wsdl:message name="IRtuWcfService_GetDataUsingDataContract_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetDataUsingDataContract" />
-  </wsdl:message>
-  <wsdl:message name="IRtuWcfService_GetDataUsingDataContract_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetDataUsingDataContractResponse" />
-  </wsdl:message>
   <wsdl:message name="IRtuWcfService_StartMonitoring_InputMessage">
     <wsdl:part name="parameters" element="tns:StartMonitoring" />
   </wsdl:message>
@@ -42,14 +28,6 @@
     <wsdl:part name="parameters" element="tns:StopMonitoringResponse" />
   </wsdl:message>
   <wsdl:portType name="IRtuWcfService">
-    <wsdl:operation name="GetData">
-      <wsdl:input wsaw:Action="http://tempuri.org/IRtuWcfService/GetData" message="tns:IRtuWcfService_GetData_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IRtuWcfService/GetDataResponse" message="tns:IRtuWcfService_GetData_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="GetDataUsingDataContract">
-      <wsdl:input wsaw:Action="http://tempuri.org/IRtuWcfService/GetDataUsingDataContract" message="tns:IRtuWcfService_GetDataUsingDataContract_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IRtuWcfService/GetDataUsingDataContractResponse" message="tns:IRtuWcfService_GetDataUsingDataContract_OutputMessage" />
-    </wsdl:operation>
     <wsdl:operation name="StartMonitoring">
       <wsdl:input wsaw:Action="http://tempuri.org/IRtuWcfService/StartMonitoring" message="tns:IRtuWcfService_StartMonitoring_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IRtuWcfService/StartMonitoringResponse" message="tns:IRtuWcfService_StartMonitoring_OutputMessage" />
@@ -63,24 +41,6 @@
     <wsp:PolicyReference URI="#NetTcpBinding_IRtuWcfService_policy">
     </wsp:PolicyReference>
     <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
-    <wsdl:operation name="GetData">
-      <soap12:operation soapAction="http://tempuri.org/IRtuWcfService/GetData" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetDataUsingDataContract">
-      <soap12:operation soapAction="http://tempuri.org/IRtuWcfService/GetDataUsingDataContract" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="StartMonitoring">
       <soap12:operation soapAction="http://tempuri.org/IRtuWcfService/StartMonitoring" style="document" />
       <wsdl:input>

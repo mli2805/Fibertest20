@@ -35,8 +35,8 @@ namespace RtuService
         {
             MyServiceHost?.Close();
             
-            RtuWcfService.WcfIniFile = _serviceIni;
-            RtuWcfService.WcfLogger35 = _serviceLog;
+            RtuWcfService.ServiceIniFile = _serviceIni;
+            RtuWcfService.ServiceLog = _serviceLog;
             MyServiceHost = new ServiceHost(typeof(RtuWcfService));
             MyServiceHost.Open();
         }
