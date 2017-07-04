@@ -1,40 +1,47 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 using System.ServiceModel;
 
 namespace D4R_WcfService
 {
-    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "ID4R_WcfService" in both code and config file together.
     [ServiceContract]
     public interface ID4RWcfService
     {
         [OperationContract]
-        string GetData(int value);
+        void ConfirmInitilization(RtuInitializationResult result);
 
         [OperationContract]
-        CompositeType GetDataUsingDataContract(CompositeType composite);
-
-        // TODO: Add your service operations here
+        void SendMonitoringResult(MonitoringResult result);
     }
 
-    // Use a data contract as illustrated in the sample below to add composite types to service operations.
     [DataContract]
-    public class CompositeType
+    public class MonitoringResult
     {
-        bool _boolValue = true;
-        string _stringValue = "Hello ";
+        [DataMember]
+        public Guid RtuId { get; set; }
 
         [DataMember]
-        public bool BoolValue
-        {
-            get { return _boolValue; }
-            set { _boolValue = value; }
-        }
-
-        [DataMember]
-        public string StringValue
-        {
-            get { return _stringValue; }
-            set { _stringValue = value; }
-        }
+        public byte[] SorData { get; set; }
     }
+
+    [DataContract]
+    public class RtuInitializationResult
+    {
+        [DataMember]
+        public Guid RtuId { get; set; }
+
+        [DataMember]
+        public bool IsInitialized { get; set; }
+
+        [DataMember]
+        public string Serial { get; set; }
+
+        [DataMember]
+        public int OwnPortCount { get; set; }
+
+        [DataMember]
+        public int FullPortCount { get; set; }
+    }
+
+   
 }
