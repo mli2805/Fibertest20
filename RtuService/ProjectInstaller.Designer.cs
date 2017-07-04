@@ -42,7 +42,7 @@
             this.serviceInstaller1.ServiceName = "FibertestRtuService";
             this.serviceInstaller1.Description = "Fibertest 2.0 RTU Service";
             this.serviceInstaller1.DisplayName = "Fibertest 2.0 RTU Service";
-            this.serviceInstaller1.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
+            this.serviceInstaller1.StartType = System.ServiceProcess.ServiceStartMode.Manual;
             // 
             // ProjectInstaller
             // 
