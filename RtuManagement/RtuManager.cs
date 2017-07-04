@@ -76,8 +76,6 @@ namespace RtuManagement
 
             _rtuLog = new Logger35();
             _rtuLog.AssignFile("RtuManager.log", cultureString);
-            _rtuLog.EmptyLine();
-            _rtuLog.EmptyLine('-');
 
             _mikrotikRebootTimeout =
                 TimeSpan.FromSeconds(_rtuIni.Read(IniSection.Recovering, IniKey.MikrotikRebootTimeout, 40));
@@ -85,6 +83,9 @@ namespace RtuManagement
 
         public void Initialize()
         {
+            _rtuLog.EmptyLine();
+            _rtuLog.EmptyLine('-');
+
             IsRtuInitialized = false;
             var pid = Process.GetCurrentProcess().Id;
             var tid = Thread.CurrentThread.ManagedThreadId;
@@ -114,6 +115,7 @@ namespace RtuManagement
         {
             var pid = Process.GetCurrentProcess().Id;
             var tid = Thread.CurrentThread.ManagedThreadId;
+            _rtuLog.EmptyLine();
             _rtuLog.AppendLine($"RtuManager now in process {pid}, thread {tid}");
 
             if (IsMonitoringOn)

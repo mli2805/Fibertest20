@@ -10,6 +10,9 @@ namespace RtuWcfServiceLibrary
         string ShakeHandsWithWatchdog(string hello);
 
         [OperationContract]
+        void Initialize();
+
+        [OperationContract]
         void StartMonitoring();
 
         [OperationContract]

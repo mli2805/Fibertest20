@@ -13,17 +13,17 @@ namespace RtuWatchdog
         {
             InitializeComponent();
             _watchdogIni = new IniFile();
-            _watchdogIni.AssignFile("Watchdog.ini");
+            _watchdogIni.AssignFile("RtuWatchdog.ini");
             var cultureString = _watchdogIni.Read(IniSection.General, IniKey.Culture, "ru-RU");
 
             _watchdogLog = new Logger35();
-            _watchdogLog.AssignFile("Watchdog.log", cultureString);
+            _watchdogLog.AssignFile("RtuWatchdog.log", cultureString);
 
             _watchdogLog.EmptyLine();
             _watchdogLog.EmptyLine('-');
             var pid = Process.GetCurrentProcess().Id;
             var tid = Thread.CurrentThread.ManagedThreadId;
-            _watchdogLog.AppendLine($"Watchdog service started. Process {pid}, thread {tid}");
+            _watchdogLog.AppendLine($"RTU Watchdog service started. Process {pid}, thread {tid}");
         }
 
         protected override void OnStart(string[] args)
@@ -38,7 +38,7 @@ namespace RtuWatchdog
         {
             var pid = Process.GetCurrentProcess().Id;
             var tid = Thread.CurrentThread.ManagedThreadId;
-            _watchdogLog.AppendLine($"Watchdog service stopped. Process {pid}, thread {tid}");
+            _watchdogLog.AppendLine($"RTU Watchdog service stopped. Process {pid}, thread {tid}");
         }
     }
 }

@@ -14,6 +14,16 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="Initialize">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InitializeResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
   <xs:element name="StartMonitoring">
     <xs:complexType>
       <xs:sequence />

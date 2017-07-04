@@ -22,6 +22,12 @@
   <wsdl:message name="IRtuWcfService_ShakeHandsWithWatchdog_OutputMessage">
     <wsdl:part name="parameters" element="tns:ShakeHandsWithWatchdogResponse" />
   </wsdl:message>
+  <wsdl:message name="IRtuWcfService_Initialize_InputMessage">
+    <wsdl:part name="parameters" element="tns:Initialize" />
+  </wsdl:message>
+  <wsdl:message name="IRtuWcfService_Initialize_OutputMessage">
+    <wsdl:part name="parameters" element="tns:InitializeResponse" />
+  </wsdl:message>
   <wsdl:message name="IRtuWcfService_StartMonitoring_InputMessage">
     <wsdl:part name="parameters" element="tns:StartMonitoring" />
   </wsdl:message>
@@ -39,6 +45,10 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IRtuWcfService/ShakeHandsWithWatchdog" message="tns:IRtuWcfService_ShakeHandsWithWatchdog_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IRtuWcfService/ShakeHandsWithWatchdogResponse" message="tns:IRtuWcfService_ShakeHandsWithWatchdog_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation name="Initialize">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRtuWcfService/Initialize" message="tns:IRtuWcfService_Initialize_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRtuWcfService/InitializeResponse" message="tns:IRtuWcfService_Initialize_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="StartMonitoring">
       <wsdl:input wsaw:Action="http://tempuri.org/IRtuWcfService/StartMonitoring" message="tns:IRtuWcfService_StartMonitoring_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IRtuWcfService/StartMonitoringResponse" message="tns:IRtuWcfService_StartMonitoring_OutputMessage" />
@@ -54,6 +64,15 @@
     <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
     <wsdl:operation name="ShakeHandsWithWatchdog">
       <soap12:operation soapAction="http://tempuri.org/IRtuWcfService/ShakeHandsWithWatchdog" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Initialize">
+      <soap12:operation soapAction="http://tempuri.org/IRtuWcfService/Initialize" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
