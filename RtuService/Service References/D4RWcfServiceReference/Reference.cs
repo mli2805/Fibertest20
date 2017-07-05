@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Iit.Fibertest.RtuWpfExample.D4RWcfServiceReference {
+namespace RtuService.D4RWcfServiceReference {
     using System.Runtime.Serialization;
     using System;
     
@@ -168,7 +168,7 @@ namespace Iit.Fibertest.RtuWpfExample.D4RWcfServiceReference {
             set {
                 if ((object.ReferenceEquals(this.SorDataField, value) != true)) {
                     this.SorDataField = value;
-                    this.RaisePropertyChanged("SorBytes");
+                    this.RaisePropertyChanged("SorData");
                 }
             }
         }
@@ -188,25 +188,19 @@ namespace Iit.Fibertest.RtuWpfExample.D4RWcfServiceReference {
     public interface ID4RWcfService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ID4RWcfService/ConfirmInitilization", ReplyAction="http://tempuri.org/ID4RWcfService/ConfirmInitilizationResponse")]
-        void ConfirmInitilization(Iit.Fibertest.RtuWpfExample.D4RWcfServiceReference.RtuInitializationResult result);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ID4RWcfService/ConfirmInitilization", ReplyAction="http://tempuri.org/ID4RWcfService/ConfirmInitilizationResponse")]
-        System.Threading.Tasks.Task ConfirmInitilizationAsync(Iit.Fibertest.RtuWpfExample.D4RWcfServiceReference.RtuInitializationResult result);
+        void ConfirmInitilization(RtuService.D4RWcfServiceReference.RtuInitializationResult result);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ID4RWcfService/SendMonitoringResult", ReplyAction="http://tempuri.org/ID4RWcfService/SendMonitoringResultResponse")]
-        void SendMonitoringResult(Iit.Fibertest.RtuWpfExample.D4RWcfServiceReference.MonitoringResult result);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ID4RWcfService/SendMonitoringResult", ReplyAction="http://tempuri.org/ID4RWcfService/SendMonitoringResultResponse")]
-        System.Threading.Tasks.Task SendMonitoringResultAsync(Iit.Fibertest.RtuWpfExample.D4RWcfServiceReference.MonitoringResult result);
+        void SendMonitoringResult(RtuService.D4RWcfServiceReference.MonitoringResult result);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface ID4RWcfServiceChannel : Iit.Fibertest.RtuWpfExample.D4RWcfServiceReference.ID4RWcfService, System.ServiceModel.IClientChannel {
+    public interface ID4RWcfServiceChannel : RtuService.D4RWcfServiceReference.ID4RWcfService, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class D4RWcfServiceClient : System.ServiceModel.ClientBase<Iit.Fibertest.RtuWpfExample.D4RWcfServiceReference.ID4RWcfService>, Iit.Fibertest.RtuWpfExample.D4RWcfServiceReference.ID4RWcfService {
+    public partial class D4RWcfServiceClient : System.ServiceModel.ClientBase<RtuService.D4RWcfServiceReference.ID4RWcfService>, RtuService.D4RWcfServiceReference.ID4RWcfService {
         
         public D4RWcfServiceClient() {
         }
@@ -227,20 +221,12 @@ namespace Iit.Fibertest.RtuWpfExample.D4RWcfServiceReference {
                 base(binding, remoteAddress) {
         }
         
-        public void ConfirmInitilization(Iit.Fibertest.RtuWpfExample.D4RWcfServiceReference.RtuInitializationResult result) {
+        public void ConfirmInitilization(RtuService.D4RWcfServiceReference.RtuInitializationResult result) {
             base.Channel.ConfirmInitilization(result);
         }
         
-        public System.Threading.Tasks.Task ConfirmInitilizationAsync(Iit.Fibertest.RtuWpfExample.D4RWcfServiceReference.RtuInitializationResult result) {
-            return base.Channel.ConfirmInitilizationAsync(result);
-        }
-        
-        public void SendMonitoringResult(Iit.Fibertest.RtuWpfExample.D4RWcfServiceReference.MonitoringResult result) {
+        public void SendMonitoringResult(RtuService.D4RWcfServiceReference.MonitoringResult result) {
             base.Channel.SendMonitoringResult(result);
-        }
-        
-        public System.Threading.Tasks.Task SendMonitoringResultAsync(Iit.Fibertest.RtuWpfExample.D4RWcfServiceReference.MonitoringResult result) {
-            return base.Channel.SendMonitoringResultAsync(result);
         }
     }
 }

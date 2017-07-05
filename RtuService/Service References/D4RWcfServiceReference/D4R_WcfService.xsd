@@ -14,7 +14,7 @@
   <xs:complexType name="MonitoringResult">
     <xs:sequence>
       <xs:element minOccurs="0" name="RtuId" type="ser:guid" />
-      <xs:element minOccurs="0" name="SorBytes" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="SorData" nillable="true" type="xs:base64Binary" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="MonitoringResult" nillable="true" type="tns:MonitoringResult" />

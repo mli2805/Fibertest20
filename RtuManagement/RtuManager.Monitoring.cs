@@ -61,7 +61,7 @@ namespace RtuManagement
                 if (GetPortState(fastMoniResult) != extendedPort.State ||
                     (extendedPort.LastFastSavedTimestamp - DateTime.Now) > _fastSaveTimespan)
                 {
-                    SendMoniResult(fastMoniResult);
+                    SendMonitoringResultToDataCenter(fastMoniResult);
                     extendedPort.LastFastSavedTimestamp = DateTime.Now;
                     extendedPort.State = GetPortState(fastMoniResult);
                     if (extendedPort.State == PortMeasResult.BrokenByFast)
@@ -94,7 +94,7 @@ namespace RtuManagement
             if (GetPortState(moniResult) != extendedPort.State ||
                 (DateTime.Now - extendedPort.LastPreciseSavedTimestamp) > _preciseSaveTimespan)
             {
-                SendMoniResult(moniResult);
+                SendMonitoringResultToDataCenter(moniResult);
                 extendedPort.LastPreciseSavedTimestamp = DateTime.Now;
                 extendedPort.State = GetPortState(moniResult);
             }
@@ -114,7 +114,7 @@ namespace RtuManagement
                 return null;
             }
             var measBytes = _otdrManager.ApplyAutoAnalysis(_otdrManager.GetLastSorDataBuffer()); // is ApplyAutoAnalysis necessary ?
-            var moniResult = _otdrManager.CompareMeasureWithBase(baseBytes, ref measBytes, true); // base is inserted into meas during comparison
+            var moniResult = _otdrManager.CompareMeasureWithBase(baseBytes, measBytes, true); // base is inserted into meas during comparison
             extendedPort.SaveMeasBytes(baseRefType, measBytes); // so re-save meas after comparison
             return moniResult;
         }

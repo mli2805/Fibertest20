@@ -53,7 +53,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
             };
         }
 
-        public MoniResult CompareMeasureWithBase(byte[] baseBuffer, ref byte[] measBuffer, bool includeBase)
+        public MoniResult CompareMeasureWithBase(byte[] baseBuffer, byte[] measBuffer, bool includeBase)
         {
             var baseSorData = SorData.FromBytes(baseBuffer);
             var measSorData = SorData.FromBytes(measBuffer);
@@ -68,7 +68,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
             measSorData.EmbeddedData.EmbeddedDataBlocks = embeddedData.ToArray();
             measSorData.EmbeddedData.EmbeddedBlocksCount = (ushort)embeddedData.Count;
 
-            measBuffer = SorData.ToBytes(measSorData);
+            moniResult.SorBytes = SorData.ToBytes(measSorData);
 
             return moniResult;
         }

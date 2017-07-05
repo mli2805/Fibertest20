@@ -186,7 +186,7 @@ namespace Iit.Fibertest.WpfCommonViews
         //                return null;
         //
         //            var bytes = _sorData.EmbeddedData.EmbeddedDataBlocks[0].Data;
-        //            var baseSorData = SorData.FromBytes(bytes);
+        //            var baseSorData = SorBytes.FromBytes(bytes);
         //            return baseSorData;
         //        }
     }

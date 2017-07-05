@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/D4R_WcfService" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/D4R_WcfService" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/Iit.Fibertest.Utils35" />
   <xs:complexType name="RtuInitializationResult">
     <xs:sequence>
       <xs:element minOccurs="0" name="FullPortCount" type="xs:int" />
@@ -13,6 +14,7 @@
   <xs:element name="RtuInitializationResult" nillable="true" type="tns:RtuInitializationResult" />
   <xs:complexType name="MonitoringResult">
     <xs:sequence>
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Iit.Fibertest.Utils35" minOccurs="0" name="BaseRefType" type="q1:BaseRefType" />
       <xs:element minOccurs="0" name="RtuId" type="ser:guid" />
       <xs:element minOccurs="0" name="SorBytes" nillable="true" type="xs:base64Binary" />
     </xs:sequence>

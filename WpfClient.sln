@@ -41,10 +41,16 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleAppOtdr", "ConsoleAppOtdr\ConsoleAppOtdr.csproj", "{F7BEE8E7-FFD9-4136-B3B7-474B1D64108E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RtuService", "RtuService\RtuService.csproj", "{5B1E89A1-6EAE-4736-95FF-DB3D61E45278}"
+	ProjectSection(ProjectDependencies) = postProject
+		{EC01DBCB-BD59-4E30-A6C3-F8DDBB6E45F9} = {EC01DBCB-BD59-4E30-A6C3-F8DDBB6E45F9}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RtuWcfServiceLibrary", "RtuWcfServiceLibrary\RtuWcfServiceLibrary.csproj", "{C3D2B884-ADB0-4706-8A89-404CCC75F858}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RtuManagement", "RtuManagement\RtuManagement.csproj", "{15F68F8C-A6C3-47DC-835A-7A0FC1257E9F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{EC01DBCB-BD59-4E30-A6C3-F8DDBB6E45F9} = {EC01DBCB-BD59-4E30-A6C3-F8DDBB6E45F9}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RtuWatchdog", "RtuWatchdog\RtuWatchdog.csproj", "{E3D4892B-CF7D-4704-814A-6FDF16B1E9DC}"
 EndProject

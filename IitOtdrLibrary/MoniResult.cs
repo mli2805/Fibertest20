@@ -15,6 +15,8 @@ namespace Iit.Fibertest.IitOtdrLibrary
 
         public BaseRefType BaseRefType { get; set; }
         public double FirstBreakDistance { get; set; }
+
+        public byte[] SorBytes { get; set; }
     }
 
     public class MoniLevel

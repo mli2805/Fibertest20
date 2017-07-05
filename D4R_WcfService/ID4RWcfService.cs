@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 using System.ServiceModel;
+using Iit.Fibertest.Utils35;
 
 namespace D4R_WcfService
 {
@@ -19,6 +20,9 @@ namespace D4R_WcfService
     {
         [DataMember]
         public Guid RtuId { get; set; }
+
+        [DataMember]
+        public BaseRefType BaseRefType { get; set; }
 
         [DataMember]
         public byte[] SorData { get; set; }

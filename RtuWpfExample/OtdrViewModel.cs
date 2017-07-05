@@ -281,8 +281,8 @@ namespace Iit.Fibertest.RtuWpfExample
             var bufferBase = File.ReadAllBytes(BaseFileName);
             var bufferMeas = File.ReadAllBytes(MeasFileName);
 
-            var moniResult = OtdrManager.CompareMeasureWithBase(bufferBase, ref bufferMeas, true);
-            var sorData = SorData.FromBytes(bufferMeas);
+            var moniResult = OtdrManager.CompareMeasureWithBase(bufferBase, bufferMeas, true);
+            var sorData = SorData.FromBytes(moniResult.SorBytes);
             sorData.Save(MeasFileName);
 
             _rtuLogger.AppendLine(string.Format(Resources.SID_Comparison_end__, moniResult.IsFiberBreak, moniResult.IsNoFiber));
@@ -325,8 +325,8 @@ namespace Iit.Fibertest.RtuWpfExample
                     Message = string.Format(Resources.SID__0_th_measurement_is_finished_, c);
 
                     var measBytes = OtdrManager.ApplyAutoAnalysis(OtdrManager.GetLastSorDataBuffer()); // is ApplyAutoAnalysis necessary ?
-                    var moniResult = OtdrManager.CompareMeasureWithBase(baseBytes, ref measBytes, true);
-                    var sorData = SorData.FromBytes(measBytes);
+                    var moniResult = OtdrManager.CompareMeasureWithBase(baseBytes, measBytes, true);
+                    var sorData = SorData.FromBytes(moniResult.SorBytes);
                     sorData.Save(MeasFileName);
 
                     _rtuLogger.AppendLine(moniResult.Result.ToString());
