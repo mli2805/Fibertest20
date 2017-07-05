@@ -8,11 +8,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Iit.Fibertest.RtuWpfExample.ServiceReference1 {
+namespace Iit.Fibertest.RtuWpfExample.RtuWcfServiceReference {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServiceReference1.IRtuWcfService")]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="RtuWcfServiceReference.IRtuWcfService")]
     public interface IRtuWcfService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRtuWcfService/ShakeHandsWithWatchdog", ReplyAction="http://tempuri.org/IRtuWcfService/ShakeHandsWithWatchdogResponse")]
@@ -41,12 +41,12 @@ namespace Iit.Fibertest.RtuWpfExample.ServiceReference1 {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface IRtuWcfServiceChannel : Iit.Fibertest.RtuWpfExample.ServiceReference1.IRtuWcfService, System.ServiceModel.IClientChannel {
+    public interface IRtuWcfServiceChannel : Iit.Fibertest.RtuWpfExample.RtuWcfServiceReference.IRtuWcfService, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class RtuWcfServiceClient : System.ServiceModel.ClientBase<Iit.Fibertest.RtuWpfExample.ServiceReference1.IRtuWcfService>, Iit.Fibertest.RtuWpfExample.ServiceReference1.IRtuWcfService {
+    public partial class RtuWcfServiceClient : System.ServiceModel.ClientBase<Iit.Fibertest.RtuWpfExample.RtuWcfServiceReference.IRtuWcfService>, Iit.Fibertest.RtuWpfExample.RtuWcfServiceReference.IRtuWcfService {
         
         public RtuWcfServiceClient() {
         }

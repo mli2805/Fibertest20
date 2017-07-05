@@ -2,7 +2,8 @@
 using System.ServiceModel;
 using System.Windows;
 using Caliburn.Micro;
-using Iit.Fibertest.RtuWpfExample.ServiceReference1;
+using Iit.Fibertest.RtuWpfExample.D4RWcfServiceReference;
+using Iit.Fibertest.RtuWpfExample.RtuWcfServiceReference;
 using Iit.Fibertest.Utils35;
 
 namespace Iit.Fibertest.RtuWpfExample
@@ -11,7 +12,20 @@ namespace Iit.Fibertest.RtuWpfExample
     {
         private readonly Logger35 _rtuLogger;
         private RtuWcfServiceClient _rtuWcfServiceClient;
+        private D4RWcfServiceClient _d4RWcfServiceClient;
         private string _rtuServiceIp;
+        private string _initResultString;
+
+        public string InitResultString
+        {
+            get { return _initResultString; }
+            set
+            {
+                if (value == _initResultString) return;
+                _initResultString = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         public string RtuServiceIp
         {
@@ -81,28 +95,72 @@ namespace Iit.Fibertest.RtuWpfExample
             _rtuWcfServiceClient.StopMonitoringAsync();
         }
 
+        public void InitResult()
+        {
+            _d4RWcfServiceClient = CreateD4RWcfServiceClient(RtuServiceIp);
+            if (_d4RWcfServiceClient == null) return;
+
+            try
+            {
+                _d4RWcfServiceClient.Open();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, @"My WCF Service");
+                return;
+            }
+            var sor = new byte[66547];
+            var moniResult = new MonitoringResult() {RtuId = Guid.NewGuid(), SorData = sor};
+            _d4RWcfServiceClient.SendMonitoringResult(moniResult);
+        }
+
+        private string CombineUriString(string address, int port, string wcfServiceName)
+        {
+            return @"net.tcp://" + address + @":" + port + @"/" + wcfServiceName;
+        }
+
         private RtuWcfServiceClient CreateRtuWcfServiceClient(string address)
         {
             try
             {
-                var uriString = @"net.tcp://" + address + @":11842/RtuWcfService";
-                var netTcpBinding = new NetTcpBinding();
-                netTcpBinding.Security.Mode = SecurityMode.None;
-                netTcpBinding.ReceiveTimeout = new TimeSpan(0, 15, 0);
-                netTcpBinding.SendTimeout = new TimeSpan(0, 15, 0);
-                netTcpBinding.OpenTimeout = new TimeSpan(0, 1, 0);
-
-                netTcpBinding.MaxBufferSize = 4096000; //4M
-                var rtuWcfServiceClient = new RtuWcfServiceClient(netTcpBinding, new EndpointAddress(new Uri(uriString)));
-                _rtuLogger.AppendLine($@"Wcf client to {RtuServiceIp} created");
+                var rtuWcfServiceClient = new RtuWcfServiceClient(CreateDefaultNetTcpBinding(), new EndpointAddress(new Uri(CombineUriString(address, 11842, @"RtuWcfService"))));
+                _rtuLogger.AppendLine($@"Wcf client to {address} created");
                 return rtuWcfServiceClient;
             }
             catch (Exception e)
             {
                 _rtuLogger.AppendLine(e.Message);
-                MessageBox.Show(e.Message, @"My WCF Service");
+                MessageBox.Show(e.Message, @"RtuWcfServiceClient creation error!");
                 return null;
             }
+        }
+
+        private D4RWcfServiceClient CreateD4RWcfServiceClient(string address)
+        {
+            try
+            {
+                var rtuWcfServiceClient = new D4RWcfServiceClient(CreateDefaultNetTcpBinding(), new EndpointAddress(new Uri(CombineUriString(address, 11841, @"D4RWcfService"))));
+                _rtuLogger.AppendLine($@"Wcf client to {address} created");
+                return rtuWcfServiceClient;
+            }
+            catch (Exception e)
+            {
+                _rtuLogger.AppendLine(e.Message);
+                MessageBox.Show(e.Message, @"D4RWcfServiceClient creation error!");
+                return null;
+            }
+        }
+
+        private NetTcpBinding CreateDefaultNetTcpBinding()
+        {
+            return new NetTcpBinding
+            {
+                Security = {Mode = SecurityMode.None},
+                ReceiveTimeout = new TimeSpan(0, 15, 0),
+                SendTimeout = new TimeSpan(0, 15, 0),
+                OpenTimeout = new TimeSpan(0, 1, 0),
+                MaxBufferSize = 4096000 //4M
+            };
         }
     }
 }

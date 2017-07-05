@@ -12,5 +12,7 @@
         <Button Name="Initialize" Margin="5" Height="25" Width="120" Content="Initialize"/>
         <Button Name="StartMonitoring" Margin="5" Height="25" Width="120" Content="Start Monitoring"/>
         <Button Name="StopMonitoring" Margin="5" Height="25" Width="120" Content="Stop Monitoring"/>
+        <Button Name="InitResult" Margin="5" Height="25" Width="120" Content="Initialization Result"/>
+        <TextBlock Name="InitResultBlock" Margin="5" Height="25" Text="{Binding InitResultString}"/>
     </StackPanel>
 </Window>

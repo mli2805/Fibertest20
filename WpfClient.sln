@@ -33,6 +33,7 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RtuWpfExample", "RtuWpfExample\RtuWpfExample.csproj", "{4A0D2396-FFD3-4E2A-82D8-35F2C46DF6F9}"
 	ProjectSection(ProjectDependencies) = postProject
 		{C3D2B884-ADB0-4706-8A89-404CCC75F858} = {C3D2B884-ADB0-4706-8A89-404CCC75F858}
+		{EC01DBCB-BD59-4E30-A6C3-F8DDBB6E45F9} = {EC01DBCB-BD59-4E30-A6C3-F8DDBB6E45F9}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfCommonViews", "WpfCommonViews\WpfCommonViews.csproj", "{E98E6CC5-94E4-44B7-AF5C-7F4F74746467}"
@@ -48,6 +49,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RtuWatchdog", "RtuWatchdog\RtuWatchdog.csproj", "{E3D4892B-CF7D-4704-814A-6FDF16B1E9DC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "D4R_WcfService", "D4R_WcfService\D4R_WcfService.csproj", "{EC01DBCB-BD59-4E30-A6C3-F8DDBB6E45F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataCenterService", "DataCenterService\DataCenterService.csproj", "{BCA77A87-7253-464B-9721-14673268BA42}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -423,6 +426,26 @@ Global
 		{EC01DBCB-BD59-4E30-A6C3-F8DDBB6E45F9}.v4.0-Release|Any CPU.Build.0 = Release|Any CPU
 		{EC01DBCB-BD59-4E30-A6C3-F8DDBB6E45F9}.v4.0-Release|x86.ActiveCfg = Release|Any CPU
 		{EC01DBCB-BD59-4E30-A6C3-F8DDBB6E45F9}.v4.0-Release|x86.Build.0 = Release|Any CPU
+		{BCA77A87-7253-464B-9721-14673268BA42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCA77A87-7253-464B-9721-14673268BA42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCA77A87-7253-464B-9721-14673268BA42}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BCA77A87-7253-464B-9721-14673268BA42}.Debug|x86.Build.0 = Debug|Any CPU
+		{BCA77A87-7253-464B-9721-14673268BA42}.ForRtuXP|Any CPU.ActiveCfg = Release|Any CPU
+		{BCA77A87-7253-464B-9721-14673268BA42}.ForRtuXP|Any CPU.Build.0 = Release|Any CPU
+		{BCA77A87-7253-464B-9721-14673268BA42}.ForRtuXP|x86.ActiveCfg = Release|Any CPU
+		{BCA77A87-7253-464B-9721-14673268BA42}.ForRtuXP|x86.Build.0 = Release|Any CPU
+		{BCA77A87-7253-464B-9721-14673268BA42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCA77A87-7253-464B-9721-14673268BA42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCA77A87-7253-464B-9721-14673268BA42}.Release|x86.ActiveCfg = Release|Any CPU
+		{BCA77A87-7253-464B-9721-14673268BA42}.Release|x86.Build.0 = Release|Any CPU
+		{BCA77A87-7253-464B-9721-14673268BA42}.v4.0-Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCA77A87-7253-464B-9721-14673268BA42}.v4.0-Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCA77A87-7253-464B-9721-14673268BA42}.v4.0-Debug|x86.ActiveCfg = Debug|Any CPU
+		{BCA77A87-7253-464B-9721-14673268BA42}.v4.0-Debug|x86.Build.0 = Debug|Any CPU
+		{BCA77A87-7253-464B-9721-14673268BA42}.v4.0-Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCA77A87-7253-464B-9721-14673268BA42}.v4.0-Release|Any CPU.Build.0 = Release|Any CPU
+		{BCA77A87-7253-464B-9721-14673268BA42}.v4.0-Release|x86.ActiveCfg = Release|Any CPU
+		{BCA77A87-7253-464B-9721-14673268BA42}.v4.0-Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
