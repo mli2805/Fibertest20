@@ -4,7 +4,6 @@ using System.Windows;
 using Caliburn.Micro;
 using Dto;
 using Iit.Fibertest.RtuWpfExample.D4CWcfServiceReference;
-using Iit.Fibertest.RtuWpfExample.D4RWcfServiceReference;
 using Iit.Fibertest.RtuWpfExample.RtuWcfServiceReference;
 using Iit.Fibertest.Utils35;
 
@@ -14,8 +13,6 @@ namespace Iit.Fibertest.RtuWpfExample
     {
         private readonly Logger35 _clientLog;
         private RtuWcfServiceClient _rtuWcfServiceClient;
-        private D4RWcfServiceClient _d4RWcfServiceClient;
-        private D4CWcfServiceClient _d4CWcfServiceClient;
         private string _rtuServiceIp;
         private string _initResultString;
 
@@ -64,7 +61,7 @@ namespace Iit.Fibertest.RtuWpfExample
                 MessageBox.Show(e.Message, @"DataCenter to client WCF Service");
                 return;
             }
-            var rtu = new InitializeRtu() {Id = Guid.NewGuid(), RtuIpAddress = RtuServiceIp, DataCenterIpAddress = DcServiceIp};
+            var rtu = new InitializeRtu() { Id = Guid.NewGuid(), RtuIpAddress = RtuServiceIp, DataCenterIpAddress = DcServiceIp };
             d4CWcfServiceClient.InitializeRtuAsync(rtu);
             _clientLog.AppendLine($@"Sent command to initialize RTU {rtu.Id} with ip={rtu.RtuIpAddress}");
             InitResultString = @"Command sent, wait please.";
@@ -125,22 +122,6 @@ namespace Iit.Fibertest.RtuWpfExample
             }
         }
 
-        private D4RWcfServiceClient CreateD4RWcfServiceClient(string address)
-        {
-            try
-            {
-                var rtuWcfServiceClient = new D4RWcfServiceClient(CreateDefaultNetTcpBinding(), new EndpointAddress(new Uri(CombineUriString(address, 11841, @"D4RWcfService"))));
-                _clientLog.AppendLine($@"Wcf client to {address} created");
-                return rtuWcfServiceClient;
-            }
-            catch (Exception e)
-            {
-                _clientLog.AppendLine(e.Message);
-                MessageBox.Show(e.Message, @"D4RWcfServiceClient creation error!");
-                return null;
-            }
-        }
-
         private D4CWcfServiceClient CreateD4CWcfServiceClient(string address)
         {
             try
@@ -161,7 +142,7 @@ namespace Iit.Fibertest.RtuWpfExample
         {
             return new NetTcpBinding
             {
-                Security = {Mode = SecurityMode.None},
+                Security = { Mode = SecurityMode.None },
                 ReceiveTimeout = new TimeSpan(0, 15, 0),
                 SendTimeout = new TimeSpan(0, 15, 0),
                 OpenTimeout = new TimeSpan(0, 1, 0),
