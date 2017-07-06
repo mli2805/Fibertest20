@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.ServiceProcess;
 using System.ServiceModel;
 using System.Threading;
+using D4C_WcfService;
 using D4R_WcfService;
 using Iit.Fibertest.Utils35;
 
@@ -10,7 +11,8 @@ namespace DataCenterService
 {
     public partial class Service1 : ServiceBase
     {
-        internal static ServiceHost MyServiceHost;
+        internal static ServiceHost D4RServiceHost;
+        internal static ServiceHost D4CServiceHost;
 
         private readonly IniFile _serviceIni;
         private readonly Logger35 _serviceLog;
@@ -34,14 +36,38 @@ namespace DataCenterService
 
         protected override void OnStart(string[] args)
         {
-            MyServiceHost?.Close();
+            StartD4RService();
+            StartD4CService();
+        }
+
+        private void StartD4RService()
+        {
+            D4RServiceHost?.Close();
 
             D4RWcfService.ServiceIniFile = _serviceIni;
             D4RWcfService.ServiceLog = _serviceLog;
-            MyServiceHost = new ServiceHost(typeof(D4RWcfService));
+            D4RServiceHost = new ServiceHost(typeof(D4RWcfService));
             try
             {
-                MyServiceHost.Open();
+                D4RServiceHost.Open();
+            }
+            catch (Exception e)
+            {
+                _serviceLog.AppendLine(e.Message);
+                throw;
+            }
+        }
+
+        private void StartD4CService()
+        {
+            D4CServiceHost?.Close();
+
+            D4CWcfService.ServiceIniFile = _serviceIni;
+            D4CWcfService.ServiceLog = _serviceLog;
+            D4CServiceHost = new ServiceHost(typeof(D4CWcfService));
+            try
+            {
+                D4CServiceHost.Open();
             }
             catch (Exception e)
             {
@@ -52,10 +78,10 @@ namespace DataCenterService
 
         protected override void OnStop()
         {
-            if (MyServiceHost != null)
+            if (D4RServiceHost != null)
             {
-                MyServiceHost.Close();
-                MyServiceHost = null;
+                D4RServiceHost.Close();
+                D4RServiceHost = null;
             }
 
             var pid = Process.GetCurrentProcess().Id;
