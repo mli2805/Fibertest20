@@ -5,6 +5,7 @@ using System.ServiceModel;
 using System.Threading;
 using D4C_WcfService;
 using D4R_WcfService;
+using DataCenterCore;
 using Iit.Fibertest.Utils35;
 
 namespace DataCenterService
@@ -16,6 +17,8 @@ namespace DataCenterService
 
         private readonly IniFile _serviceIni;
         private readonly Logger35 _serviceLog;
+
+        private readonly DcManager _dcManager;
 
         public Service1()
         {
@@ -32,6 +35,8 @@ namespace DataCenterService
             var pid = Process.GetCurrentProcess().Id;
             var tid = Thread.CurrentThread.ManagedThreadId;
             _serviceLog.AppendLine($"Windows service started. Process {pid}, thread {tid}");
+
+            _dcManager = new DcManager();
         }
 
         protected override void OnStart(string[] args)
@@ -64,6 +69,7 @@ namespace DataCenterService
 
             D4CWcfService.ServiceIniFile = _serviceIni;
             D4CWcfService.ServiceLog = _serviceLog;
+            D4CWcfService.DcManager = _dcManager;
             D4CServiceHost = new ServiceHost(typeof(D4CWcfService));
             try
             {

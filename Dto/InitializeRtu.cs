@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace D4C_WcfService
+namespace Dto
 {
     [DataContract]
     public class InitializeRtu

@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Threading;
+using DataCenterCore;
+using Dto;
 using Iit.Fibertest.Utils35;
 
 namespace D4C_WcfService
@@ -9,6 +11,8 @@ namespace D4C_WcfService
     {
         public static IniFile ServiceIniFile { get; set; }
         public static Logger35 ServiceLog { get; set; }
+        public static DcManager DcManager { get; set; }
+
 
         public D4CWcfService()
         {
@@ -28,6 +32,7 @@ namespace D4C_WcfService
 
         public bool InitializeRtu(InitializeRtu rtu)
         {
+            DcManager.InitializeRtu(rtu);
             return true;
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System.ServiceModel;
+using Dto;
 
 namespace D4C_WcfService
 {
