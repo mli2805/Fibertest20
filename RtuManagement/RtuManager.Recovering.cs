@@ -75,7 +75,7 @@ namespace RtuManagement
                 _damagedOtaus.Add(damagedOtau);
             }
 
-            _serviceLog.AppendLine($"Reboot attempt N{damagedOtau.RebootAttempts}");
+            _serviceLog.AppendLine($"Mikrotik {damagedOtauIp} reboot N{damagedOtau.RebootAttempts}");
             _rtuLog.AppendLine($"Reboot attempt N{damagedOtau.RebootAttempts}");
             var mikrotik = new MikrotikInBop(_rtuLog, damagedOtauIp);
             if (mikrotik.Connect())
