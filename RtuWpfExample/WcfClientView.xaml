@@ -9,10 +9,9 @@
         d:DataContext="{d:DesignInstance rtuWpfExample:WcfClientViewModel}">
     <StackPanel>
         <TextBox Margin="5,15,5,5" Text="{Binding RtuServiceIp}"/>
-        <Button Name="Initialize" Margin="5" Height="25" Width="120" Content="Initialize"/>
+        <Button Name="Initialize" Margin="5" Height="25" Width="120" Content="Initialize RTU"/>
+        <TextBlock Name="InitResultBlock" Margin="5" Height="25" Text="{Binding InitResultString}"/>
         <Button Name="StartMonitoring" Margin="5" Height="25" Width="120" Content="Start Monitoring"/>
         <Button Name="StopMonitoring" Margin="5" Height="25" Width="120" Content="Stop Monitoring"/>
-        <Button Name="InitResult" Margin="5" Height="25" Width="120" Content="Initialization Result"/>
-        <TextBlock Name="InitResultBlock" Margin="5" Height="25" Text="{Binding InitResultString}"/>
     </StackPanel>
 </Window>

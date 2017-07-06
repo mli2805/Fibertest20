@@ -10,6 +10,9 @@ namespace Dto
         public Guid Id { get; set; }
 
         [DataMember]
-        public string IpAddress { get; set; }
+        public string RtuIpAddress { get; set; }
+
+        [DataMember]
+        public string DataCenterIpAddress { get; set; }
     }
 }

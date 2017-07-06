@@ -43,14 +43,14 @@ namespace RtuWcfServiceLibrary
             return hello;
         }
 
-        public void Initialize()
+        public bool Initialize()
         {
             lock (_lockObj)
             {
                 if (!_rtuManager.IsRtuInitialized)
                 {
                     ServiceLog.AppendLine("User demands initialization - Ignored - RTU is busy");
-                    return;
+                    return false;
                 }
 
                 // can't just run _rtuManager.Initialize because it blocks Wcf thread
@@ -58,6 +58,7 @@ namespace RtuWcfServiceLibrary
                 RtuManagerThread = new Thread(_rtuManager.Initialize) { IsBackground = true };
                 RtuManagerThread.Start();
                 ServiceLog.AppendLine("User demands initialization - OK");
+                return true;
             }
         }
 
