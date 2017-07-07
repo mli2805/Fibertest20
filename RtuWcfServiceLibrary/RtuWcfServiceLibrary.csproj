@@ -92,6 +92,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Dto\Dto.csproj">
+      <Project>{86a00748-2a4e-4180-b04e-0e1f6a62a258}</Project>
+      <Name>Dto</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RtuManagement\RtuManagement.csproj">
       <Project>{15f68f8c-a6c3-47dc-835a-7a0fc1257e9f}</Project>
       <Name>RtuManagement</Name>

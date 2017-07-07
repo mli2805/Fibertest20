@@ -8,7 +8,14 @@
         Title="WcfClientView" Height="300" Width="300" WindowStartupLocation="CenterScreen"
         d:DataContext="{d:DesignInstance rtuWpfExample:WcfClientViewModel}">
     <StackPanel>
-        <TextBox Margin="5,15,5,5" Text="{Binding RtuServiceIp}"/>
+        <StackPanel Margin="5,15,5,5" Orientation="Horizontal">
+            <TextBlock Text="Server Ip"/>
+            <TextBlock Margin="25,0,0,0" Text="192.168.96.179"/>
+        </StackPanel>
+        <StackPanel Margin="5" Orientation="Horizontal">
+            <TextBlock Text="Rtu (not Otdr) Ip"/>
+            <TextBox Margin="25,0,0,0" Text="{Binding RtuServiceIp}"/>
+        </StackPanel>
         <Button Name="Initialize" Margin="5" Height="25" Width="120" Content="Initialize RTU"/>
         <TextBlock Name="InitResultBlock" Margin="5" Height="25" Text="{Binding InitResultString}"/>
         <Button Name="StartMonitoring" Margin="5" Height="25" Width="120" Content="Start Monitoring"/>

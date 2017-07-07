@@ -1,4 +1,5 @@
 ﻿using System.ServiceModel;
+using Dto;
 
 namespace RtuWcfServiceLibrary
 {
@@ -10,7 +11,7 @@ namespace RtuWcfServiceLibrary
         string ShakeHandsWithWatchdog(string hello);
 
         [OperationContract]
-        bool Initialize();
+        bool Initialize(InitializeRtu rtu);
 
         [OperationContract]
         void StartMonitoring();

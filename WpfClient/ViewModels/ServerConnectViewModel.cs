@@ -24,8 +24,8 @@ namespace Iit.Fibertest.Client
         public ServerConnectViewModel(IniFile iniFile)
         {
             _iniFile = iniFile;
-            var serverIp = iniFile.Read(IniSection.General, IniKey.ServerIp, @"192.168.96.21");
-            var serverPort = iniFile.Read(IniSection.General, IniKey.ServerPort, 11831);
+            var serverIp = iniFile.Read(IniSection.DataCenter, IniKey.ServerIp, @"192.168.96.179");
+            var serverPort = iniFile.Read(IniSection.DataCenter, IniKey.ServerPort, 11840);
 
             ServerConnectionTestViewModel = new NetAddressTestViewModel(new NetAddress(serverIp, serverPort));
         }
@@ -39,8 +39,8 @@ namespace Iit.Fibertest.Client
         public void Save()
         {
             var serverAddress = ServerConnectionTestViewModel.NetAddressInputViewModel.GetNetAddress();
-            _iniFile.Write(IniSection.General, IniKey.ServerIp, serverAddress.Ip4Address);
-            _iniFile.Write(IniSection.General, IniKey.ServerPort, serverAddress.Port);
+            _iniFile.Write(IniSection.DataCenter, IniKey.ServerIp, serverAddress.Ip4Address);
+            _iniFile.Write(IniSection.DataCenter, IniKey.ServerPort, serverAddress.Port);
             TryClose(true);
         }
 

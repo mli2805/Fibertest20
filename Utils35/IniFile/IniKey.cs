@@ -2,8 +2,10 @@
 {
     public enum IniKey
     {
+        // DataCenter
         ServerIp,
         ServerPort,
+        RtuGuid,
         CurrentMeasurementFile,
         BaseMeasurementFile,
         MeasurementWithBaseFile,

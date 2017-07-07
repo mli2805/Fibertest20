@@ -19,7 +19,7 @@ namespace DataCenterCore.RtuWcfServiceReference {
         string ShakeHandsWithWatchdog(string hello);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRtuWcfService/Initialize", ReplyAction="http://tempuri.org/IRtuWcfService/InitializeResponse")]
-        void Initialize();
+        bool Initialize(Dto.InitializeRtu rtu);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRtuWcfService/StartMonitoring", ReplyAction="http://tempuri.org/IRtuWcfService/StartMonitoringResponse")]
         void StartMonitoring();
@@ -59,8 +59,8 @@ namespace DataCenterCore.RtuWcfServiceReference {
             return base.Channel.ShakeHandsWithWatchdog(hello);
         }
         
-        public void Initialize() {
-            base.Channel.Initialize();
+        public bool Initialize(Dto.InitializeRtu rtu) {
+            return base.Channel.Initialize(rtu);
         }
         
         public void StartMonitoring() {

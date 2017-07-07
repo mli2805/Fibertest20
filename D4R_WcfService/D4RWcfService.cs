@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Threading;
+using Dto;
 using Iit.Fibertest.Utils35;
 
 namespace D4R_WcfService
@@ -25,9 +26,10 @@ namespace D4R_WcfService
                 ServiceLog?.AppendLine($"D4RWcfService started in process {pid}, thread {tid}");
         }
 
-        public void ConfirmInitilization(RtuInitializationResult result)
+        public void ConfirmInitilization(RtuInitialized result)
         {
-            
+            var str = result.IsInitialized ? "OK" : "ERROR";
+            ServiceLog.AppendLine($"Rtu {result.Id} initialization {str}");
         }
 
         public void SendMonitoringResult(MonitoringResult result)

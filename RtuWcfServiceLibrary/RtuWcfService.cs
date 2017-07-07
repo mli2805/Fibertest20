@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.ServiceModel;
 using System.Threading;
+using Dto;
 using Iit.Fibertest.Utils35;
 using RtuManagement;
 
@@ -34,7 +35,7 @@ namespace RtuWcfServiceLibrary
                 ServiceLog?.AppendLine($"RtuWcfService started in process {pid}, thread {tid}");
 
             _rtuManager = new RtuManager(ServiceLog, ServiceIniFile);
-            RtuManagerThread = new Thread(_rtuManager.Initialize) {IsBackground = true};
+            RtuManagerThread = new Thread(_rtuManager.Initialize) { IsBackground = true };
             RtuManagerThread.Start();
         }
 
@@ -43,7 +44,7 @@ namespace RtuWcfServiceLibrary
             return hello;
         }
 
-        public bool Initialize()
+        public bool Initialize(InitializeRtu rtu)
         {
             lock (_lockObj)
             {
@@ -55,6 +56,7 @@ namespace RtuWcfServiceLibrary
 
                 // can't just run _rtuManager.Initialize because it blocks Wcf thread
                 RtuManagerThread?.Abort();
+                _rtuManager.WcfParameter = rtu;
                 RtuManagerThread = new Thread(_rtuManager.Initialize) { IsBackground = true };
                 RtuManagerThread.Start();
                 ServiceLog.AppendLine("User demands initialization - OK");

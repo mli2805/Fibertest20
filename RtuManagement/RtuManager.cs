@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading;
+using Dto;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.Utils35;
@@ -18,6 +19,8 @@ namespace RtuManagement
         private readonly IniFile _serviceIni;
         private OtdrManager _otdrManager;
         private Charon _mainCharon;
+
+        public object WcfParameter { get; set; }
 
         private object _obj = new object();
 
@@ -91,11 +94,22 @@ namespace RtuManagement
             var tid = Thread.CurrentThread.ManagedThreadId;
             _rtuLog.AppendLine($"RTU Manager started. Process {pid}, thread {tid}");
 
+            bool isUserAskedInitialization = false;
+            var rtu = WcfParameter as InitializeRtu;
+            if (rtu != null)
+            {
+                isUserAskedInitialization = true;
+                _rtuIni.Write(IniSection.DataCenter, IniKey.ServerIp, rtu.DataCenterIpAddress);
+                _rtuIni.Write(IniSection.DataCenter, IniKey.RtuGuid, rtu.Id.ToString());
+                WcfParameter = null;
+            }
             RestoreFunctions.ResetCharonThroughComPort(_rtuIni, _rtuLog);
 
             if (InitializeRtuManager() != CharonOperationResult.Ok)
             {
                 _rtuLog.AppendLine("Rtu Manager initialization failed.");
+                if (isUserAskedInitialization)
+                    SendInitializationConfirm(new RtuInitialized() {Id = rtu.Id, IsInitialized = false});
                 return;
             }
             IsRtuInitialized = true;
@@ -109,6 +123,9 @@ namespace RtuManagement
                 _otdrManager.DisconnectOtdr(otdrAddress);
                 _rtuLog.AppendLine("Rtu is in MANUAL mode.");
             }
+
+            if (isUserAskedInitialization)
+                SendInitializationConfirm(new RtuInitialized() {Id = rtu.Id, IsInitialized = true});
         }
 
         public void StartMonitoring()

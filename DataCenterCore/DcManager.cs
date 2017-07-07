@@ -36,7 +36,7 @@ namespace DataCenterCore
                 _dcLog.AppendLine(e.Message);
                 return false;
             }
-            rtuWcfServiceClient.Initialize();
+            rtuWcfServiceClient.Initialize(rtu);
 
             _dcLog.AppendLine($"Transfered command to initialize RTU {rtu.Id} with ip={rtu.RtuIpAddress}");
             return true;

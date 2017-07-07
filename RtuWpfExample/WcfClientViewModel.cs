@@ -12,6 +12,7 @@ namespace Iit.Fibertest.RtuWpfExample
     public class WcfClientViewModel : Screen
     {
         private readonly Logger35 _clientLog;
+        private readonly IniFile _clientIni;
         private RtuWcfServiceClient _rtuWcfServiceClient;
         private string _rtuServiceIp;
         private string _initResultString;
@@ -44,11 +45,14 @@ namespace Iit.Fibertest.RtuWpfExample
             _clientLog = new Logger35();
             _clientLog.AssignFile(@"Client.log");
 
-            RtuServiceIp = iniFile35.Read(IniSection.General, IniKey.RtuServiceIp, @"192.168.96.53");
+            _clientIni = iniFile35;
+            RtuServiceIp = _clientIni.Read(IniSection.General, IniKey.RtuServiceIp, @"192.168.96.53");
         }
 
         public void Initialize()
         {
+            _clientIni.Write(IniSection.General, IniKey.RtuServiceIp, RtuServiceIp);
+
             var d4CWcfServiceClient = CreateD4CWcfServiceClient(DcServiceIp);
             if (d4CWcfServiceClient == null) return;
 
