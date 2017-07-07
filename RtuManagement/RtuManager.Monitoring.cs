@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.Utils35;
@@ -44,7 +45,15 @@ namespace RtuManagement
                         break;
                 }
             }
+
             _rtuLog.AppendLine("Monitoring stopped.");
+            _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 0);
+//            Thread.Sleep(TimeSpan.FromMilliseconds(1000));
+            var otdrAddress = _rtuIni.Read(IniSection.General, IniKey.OtdrIp, DefaultIp);
+            _otdrManager.DisconnectOtdr(otdrAddress);
+            IsMonitoringOn = false;
+            _isMonitoringCancelled = false;
+            _rtuLog.AppendLine("Rtu is turned into MANUAL mode.");
         }
 
         private void ProcessOnePort(ExtendedPort extendedPort)

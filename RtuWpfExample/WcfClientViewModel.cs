@@ -28,7 +28,7 @@ namespace Iit.Fibertest.RtuWpfExample
             }
         }
 
-        public string DcServiceIp { get; set; } = @"192.168.96.179";
+        public string DcServiceIp { get; set; }
         public string RtuServiceIp
         {
             get { return _rtuServiceIp; }
@@ -46,6 +46,7 @@ namespace Iit.Fibertest.RtuWpfExample
             _clientLog.AssignFile(@"Client.log");
 
             _clientIni = iniFile35;
+            DcServiceIp = _clientIni.Read(IniSection.DataCenter, IniKey.ServerIp, @"10.1.37.22");
             RtuServiceIp = _clientIni.Read(IniSection.General, IniKey.RtuServiceIp, @"192.168.96.53");
         }
 

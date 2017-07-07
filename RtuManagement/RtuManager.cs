@@ -151,6 +151,7 @@ namespace RtuManagement
             IsMonitoringOn = true;
 
             RunMonitoringCycle();
+
         }
 
         public void StopMonitoring()
@@ -166,14 +167,20 @@ namespace RtuManagement
             }
 
             _otdrManager.InterruptMeasurement();
-            _isMonitoringCancelled = true;
-            _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 0);
-            Thread.Sleep(TimeSpan.FromMilliseconds(2000));
-            var otdrAddress = _rtuIni.Read(IniSection.General, IniKey.OtdrIp, DefaultIp);
-            _otdrManager.DisconnectOtdr(otdrAddress);
-            IsMonitoringOn = false;
-            _isMonitoringCancelled = false;
-            _rtuLog.AppendLine("Rtu is turned into MANUAL mode.");
+            lock (_obj)
+            {
+                _isMonitoringCancelled = true;
+            }
+
+            /*
+                        _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 0);
+                        Thread.Sleep(TimeSpan.FromMilliseconds(2000));
+                        var otdrAddress = _rtuIni.Read(IniSection.General, IniKey.OtdrIp, DefaultIp);
+                        _otdrManager.DisconnectOtdr(otdrAddress);
+                        IsMonitoringOn = false;
+                        _isMonitoringCancelled = false;
+                        _rtuLog.AppendLine("Rtu is turned into MANUAL mode.");
+              */
         }
 
         public void MeasurementOutOfTurn()
