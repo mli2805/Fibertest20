@@ -10,9 +10,9 @@ namespace RtuManagement
 {
     public partial class RtuManager
     {
-
         private const string DefaultIp = "192.168.88.101";
 
+        private Guid _id;
         private readonly Logger35 _rtuLog;
         private readonly IniFile _rtuIni;
         private readonly Logger35 _serviceLog;
@@ -82,6 +82,7 @@ namespace RtuManagement
 
             _mikrotikRebootTimeout =
                 TimeSpan.FromSeconds(_rtuIni.Read(IniSection.Recovering, IniKey.MikrotikRebootTimeout, 40));
+            _id = Guid.Parse(_rtuIni.Read(IniSection.DataCenter, IniKey.RtuGuid, Guid.Empty.ToString()));
         }
 
         public void Initialize()
@@ -124,8 +125,8 @@ namespace RtuManagement
                 _rtuLog.AppendLine("Rtu is in MANUAL mode.");
             }
 
-            if (isUserAskedInitialization)
-                SendInitializationConfirm(new RtuInitialized() {Id = rtu.Id, IsInitialized = true});
+//            if (isUserAskedInitialization)
+                SendInitializationConfirm(new RtuInitialized() {Id = _id, IsInitialized = true});
         }
 
         public void StartMonitoring()

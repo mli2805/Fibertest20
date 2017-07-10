@@ -51,6 +51,7 @@ namespace DataCenterService
 
             D4RWcfService.ServiceIniFile = _serviceIni;
             D4RWcfService.ServiceLog = _serviceLog;
+            D4RWcfService.DcManager = _dcManager;
             D4RServiceHost = new ServiceHost(typeof(D4RWcfService));
             try
             {

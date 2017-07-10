@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.Utils35;
@@ -48,7 +47,6 @@ namespace RtuManagement
 
             _rtuLog.AppendLine("Monitoring stopped.");
             _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 0);
-//            Thread.Sleep(TimeSpan.FromMilliseconds(1000));
             var otdrAddress = _rtuIni.Read(IniSection.General, IniKey.OtdrIp, DefaultIp);
             _otdrManager.DisconnectOtdr(otdrAddress);
             IsMonitoringOn = false;

@@ -42,8 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClientStation.cs" />
     <Compile Include="DcManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RtuStation.cs" />
     <Compile Include="Service References\RtuWcfServiceReference\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
