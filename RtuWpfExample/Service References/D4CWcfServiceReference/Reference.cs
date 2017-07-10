@@ -15,6 +15,18 @@ namespace Iit.Fibertest.RtuWpfExample.D4CWcfServiceReference {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="D4CWcfServiceReference.ID4CWcfService")]
     public interface ID4CWcfService {
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ID4CWcfService/RegisterClient", ReplyAction="http://tempuri.org/ID4CWcfService/RegisterClientResponse")]
+        void RegisterClient(string address);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ID4CWcfService/RegisterClient", ReplyAction="http://tempuri.org/ID4CWcfService/RegisterClientResponse")]
+        System.Threading.Tasks.Task RegisterClientAsync(string address);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ID4CWcfService/UnRegisterClient", ReplyAction="http://tempuri.org/ID4CWcfService/UnRegisterClientResponse")]
+        void UnRegisterClient(string address);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ID4CWcfService/UnRegisterClient", ReplyAction="http://tempuri.org/ID4CWcfService/UnRegisterClientResponse")]
+        System.Threading.Tasks.Task UnRegisterClientAsync(string address);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ID4CWcfService/InitializeRtu", ReplyAction="http://tempuri.org/ID4CWcfService/InitializeRtuResponse")]
         bool InitializeRtu(Dto.InitializeRtu rtu);
         
@@ -47,6 +59,22 @@ namespace Iit.Fibertest.RtuWpfExample.D4CWcfServiceReference {
         
         public D4CWcfServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress) {
+        }
+        
+        public void RegisterClient(string address) {
+            base.Channel.RegisterClient(address);
+        }
+        
+        public System.Threading.Tasks.Task RegisterClientAsync(string address) {
+            return base.Channel.RegisterClientAsync(address);
+        }
+        
+        public void UnRegisterClient(string address) {
+            base.Channel.UnRegisterClient(address);
+        }
+        
+        public System.Threading.Tasks.Task UnRegisterClientAsync(string address) {
+            return base.Channel.UnRegisterClientAsync(address);
         }
         
         public bool InitializeRtu(Dto.InitializeRtu rtu) {

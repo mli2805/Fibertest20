@@ -11,6 +11,7 @@
         MeasurementWithBaseFile,
 
         // General
+        LocalIp,
         RtuServiceIp,
         Culture,
         OtdrIp,

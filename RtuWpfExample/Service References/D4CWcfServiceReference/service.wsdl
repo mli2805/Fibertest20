@@ -17,6 +17,18 @@
       <xsd:import namespace="http://schemas.datacontract.org/2004/07/Dto" />
     </xsd:schema>
   </wsdl:types>
+  <wsdl:message name="ID4CWcfService_RegisterClient_InputMessage">
+    <wsdl:part name="parameters" element="tns:RegisterClient" />
+  </wsdl:message>
+  <wsdl:message name="ID4CWcfService_RegisterClient_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RegisterClientResponse" />
+  </wsdl:message>
+  <wsdl:message name="ID4CWcfService_UnRegisterClient_InputMessage">
+    <wsdl:part name="parameters" element="tns:UnRegisterClient" />
+  </wsdl:message>
+  <wsdl:message name="ID4CWcfService_UnRegisterClient_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UnRegisterClientResponse" />
+  </wsdl:message>
   <wsdl:message name="ID4CWcfService_InitializeRtu_InputMessage">
     <wsdl:part name="parameters" element="tns:InitializeRtu" />
   </wsdl:message>
@@ -24,6 +36,14 @@
     <wsdl:part name="parameters" element="tns:InitializeRtuResponse" />
   </wsdl:message>
   <wsdl:portType name="ID4CWcfService">
+    <wsdl:operation name="RegisterClient">
+      <wsdl:input wsaw:Action="http://tempuri.org/ID4CWcfService/RegisterClient" message="tns:ID4CWcfService_RegisterClient_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ID4CWcfService/RegisterClientResponse" message="tns:ID4CWcfService_RegisterClient_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UnRegisterClient">
+      <wsdl:input wsaw:Action="http://tempuri.org/ID4CWcfService/UnRegisterClient" message="tns:ID4CWcfService_UnRegisterClient_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ID4CWcfService/UnRegisterClientResponse" message="tns:ID4CWcfService_UnRegisterClient_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="InitializeRtu">
       <wsdl:input wsaw:Action="http://tempuri.org/ID4CWcfService/InitializeRtu" message="tns:ID4CWcfService_InitializeRtu_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ID4CWcfService/InitializeRtuResponse" message="tns:ID4CWcfService_InitializeRtu_OutputMessage" />
@@ -33,6 +53,24 @@
     <wsp:PolicyReference URI="#NetTcpBinding_ID4CWcfService_policy">
     </wsp:PolicyReference>
     <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="RegisterClient">
+      <soap12:operation soapAction="http://tempuri.org/ID4CWcfService/RegisterClient" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnRegisterClient">
+      <soap12:operation soapAction="http://tempuri.org/ID4CWcfService/UnRegisterClient" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="InitializeRtu">
       <soap12:operation soapAction="http://tempuri.org/ID4CWcfService/InitializeRtu" style="document" />
       <wsdl:input>

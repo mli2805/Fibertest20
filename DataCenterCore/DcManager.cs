@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
+using DataCenterCore.ClientWcfServiceReference;
 using DataCenterCore.RtuWcfServiceReference;
 using Dto;
 using Iit.Fibertest.Utils35;
@@ -33,7 +34,7 @@ namespace DataCenterCore
             {
                 InitializeRtuStationListFromDb();
             }
-            
+
             lock (_clientStationsLockObj)
             {
                 _clientStations = new List<ClientStation>();
@@ -57,22 +58,45 @@ namespace DataCenterCore
             return true;
         }
 
+        public void RegisterClient(string address)
+        {
+            _dcLog.AppendLine($"client {address} registration");
+            lock (_clientStationsLockObj)
+            {
+                if (_clientStations.All(c => c.Ip != address))
+                    _clientStations.Add(new ClientStation() { Ip = address });
+            }
+        }
+
+        public void UnRegisterClient(string address)
+        {
+            _dcLog.AppendLine($"client {address} exited");
+            lock (_clientStationsLockObj)
+            {
+                _clientStations.RemoveAll(c => c.Ip == address);
+            }
+        }
         public void ConfirmRtuInitialized(RtuInitialized rtu)
         {
             var list = new List<ClientStation>();
             lock (_clientStationsLockObj)
             {
-                list.AddRange(_clientStations.Select(clientStation => (ClientStation) clientStation.Clone()));
+                list.AddRange(_clientStations.Select(clientStation => (ClientStation)clientStation.Clone()));
             }
             foreach (var clientStation in list)
             {
-                TransferConfirmRtuInitialized(clientStation.Ip);
+                TransferConfirmRtuInitialized(clientStation.Ip, rtu);
             }
         }
 
-        private void TransferConfirmRtuInitialized(string clientIp)
+        private void TransferConfirmRtuInitialized(string clientIp, RtuInitialized rtu)
         {
-            var clientWcfServiceClient = "";
+            var clientWcfServiceClient = CreateAndOpenClientWcfServiceClient(clientIp);
+            if (clientWcfServiceClient == null)
+                return;
+
+            clientWcfServiceClient.ConfirmRtuInitialized(rtu);
+            _dcLog.AppendLine($"Transfered initialization confirmation of RTU {rtu.Id} Serial={rtu.Serial}");
         }
 
         private string CombineUriString(string address, int port, string wcfServiceName)
@@ -86,7 +110,6 @@ namespace DataCenterCore
             {
                 var rtuWcfServiceClient = new RtuWcfServiceClient(CreateDefaultNetTcpBinding(), new EndpointAddress(new Uri(CombineUriString(address, 11842, @"RtuWcfService"))));
                 rtuWcfServiceClient.Open();
-//                _dcLog.AppendLine($@"Wcf client to {address} created");
                 return rtuWcfServiceClient;
             }
             catch (Exception e)
@@ -95,6 +118,22 @@ namespace DataCenterCore
                 return null;
             }
         }
+
+        private ClientWcfServiceClient CreateAndOpenClientWcfServiceClient(string address)
+        {
+            try
+            {
+                var clientWcfServiceClient = new ClientWcfServiceClient(CreateDefaultNetTcpBinding(), new EndpointAddress(new Uri(CombineUriString(address, 11843, @"ClientWcfService"))));
+                clientWcfServiceClient.Open();
+                return clientWcfServiceClient;
+            }
+            catch (Exception e)
+            {
+                _dcLog.AppendLine(e.Message);
+                return null;
+            }
+        }
+
         private NetTcpBinding CreateDefaultNetTcpBinding()
         {
             return new NetTcpBinding

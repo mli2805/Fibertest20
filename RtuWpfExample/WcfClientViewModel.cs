@@ -14,6 +14,7 @@ namespace Iit.Fibertest.RtuWpfExample
         private readonly Logger35 _clientLog;
         private readonly IniFile _clientIni;
         private RtuWcfServiceClient _rtuWcfServiceClient;
+        private string _localIp;
         private string _rtuServiceIp;
         private string _initResultString;
 
@@ -40,22 +41,24 @@ namespace Iit.Fibertest.RtuWpfExample
             }
         }
 
-        public WcfClientViewModel(IniFile iniFile35)
+        public WcfClientViewModel(IniFile iniFile35, Logger35 clientLog)
         {
-            if (_clientLog == null)
-            {
-                _clientLog = new Logger35();
-                _clientLog.AssignFile(@"Client.log");
-            }
-
+            _clientLog = clientLog;
             _clientIni = iniFile35;
             DcServiceIp = _clientIni.Read(IniSection.DataCenter, IniKey.ServerIp, @"10.1.37.22");
             RtuServiceIp = _clientIni.Read(IniSection.General, IniKey.RtuServiceIp, @"192.168.96.53");
+
+            _localIp = _clientIni.Read(IniSection.General, IniKey.LocalIp, @"192.168.96.179");
+            var d4CWcfServiceClient = CreateD4CWcfServiceClient(DcServiceIp);
+            d4CWcfServiceClient.RegisterClientAsync(_localIp);
         }
 
         public override void CanClose(Action<bool> callback)
         {
             _clientLog.FreeFile();
+            var d4CWcfServiceClient = CreateD4CWcfServiceClient(DcServiceIp);
+            d4CWcfServiceClient.UnRegisterClientAsync(_localIp);
+
             base.CanClose(callback);
         }
         public void Initialize()
@@ -63,17 +66,6 @@ namespace Iit.Fibertest.RtuWpfExample
             _clientIni.Write(IniSection.General, IniKey.RtuServiceIp, RtuServiceIp);
 
             var d4CWcfServiceClient = CreateD4CWcfServiceClient(DcServiceIp);
-            if (d4CWcfServiceClient == null) return;
-
-            try
-            {
-                d4CWcfServiceClient.Open();
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message, @"DataCenter to client WCF Service");
-                return;
-            }
             var rtu = new InitializeRtu() { Id = Guid.NewGuid(), RtuIpAddress = RtuServiceIp, DataCenterIpAddress = DcServiceIp };
             d4CWcfServiceClient.InitializeRtuAsync(rtu);
             _clientLog.AppendLine($@"Sent command to initialize RTU {rtu.Id} with ip={rtu.RtuIpAddress}");
@@ -140,7 +132,7 @@ namespace Iit.Fibertest.RtuWpfExample
             try
             {
                 var d4CWcfServiceClient = new D4CWcfServiceClient(CreateDefaultNetTcpBinding(), new EndpointAddress(new Uri(CombineUriString(address, 11840, @"D4CWcfService"))));
-                _clientLog.AppendLine($@"Wcf client to {address} created");
+                d4CWcfServiceClient.Open();
                 return d4CWcfServiceClient;
             }
             catch (Exception e)

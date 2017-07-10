@@ -30,6 +30,16 @@ namespace D4C_WcfService
         }
 
 
+        public void RegisterClient(string address)
+        {
+            DcManager.RegisterClient(address);
+        }
+
+        public void UnRegisterClient(string address)
+        {
+            DcManager.UnRegisterClient(address);
+        }
+
         public bool InitializeRtu(InitializeRtu rtu)
         {
             DcManager.InitializeRtu(rtu);

@@ -237,6 +237,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Client\ClientWcfServiceLibrary\Client_WcfService.csproj">
+      <Project>{1822c528-4719-4c53-877e-bc57dbf6d7ff}</Project>
+      <Name>Client_WcfService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DirectCharonLibrary\DirectCharonLibrary.csproj">
       <Project>{49d6de99-29be-46ae-8be8-85e660650ca7}</Project>
       <Name>DirectCharonLibrary</Name>

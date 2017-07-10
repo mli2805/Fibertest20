@@ -126,7 +126,14 @@ namespace RtuManagement
             }
 
 //            if (isUserAskedInitialization)
-                SendInitializationConfirm(new RtuInitialized() {Id = _id, IsInitialized = true});
+                SendInitializationConfirm(new RtuInitialized()
+                {
+                    Id = _id,
+                    IsInitialized = true,
+                    Serial = _mainCharon.Serial,
+                    FullPortCount = _mainCharon.FullPortCount,
+                    OwnPortCount = _mainCharon.OwnPortCount
+                });
         }
 
         public void StartMonitoring()

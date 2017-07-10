@@ -8,6 +8,12 @@ namespace D4C_WcfService
     public interface ID4CWcfService
     {
         [OperationContract]
+        void RegisterClient(string address);
+
+        [OperationContract]
+        void UnRegisterClient(string address);
+
+        [OperationContract]
         bool InitializeRtu(InitializeRtu rtu);
     }
  

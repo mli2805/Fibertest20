@@ -33,7 +33,7 @@ namespace D4R_WcfService
         {
             var str = result.IsInitialized ? "OK" : "ERROR";
             ServiceLog.AppendLine($"Rtu {result.Id} initialization {str}");
-
+            DcManager.ConfirmRtuInitialized(result);
         }
 
         public void SendMonitoringResult(MonitoringResult result)
