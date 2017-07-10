@@ -28,6 +28,12 @@ namespace Iit.Fibertest.Utils35
             }
         }
 
+        public void FreeFile()
+        {
+            _logFile.Flush();
+            _logFile.Close();
+        }
+
         public void EmptyLine(char ch = ' ')
         {
             lock (_obj)
