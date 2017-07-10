@@ -9,7 +9,7 @@ namespace DataCenterCore
 
         public object Clone()
         {
-            return new ClientStation() {Ip = (string) this.Ip.Clone()};
+            return new ClientStation() {Ip = (string) Ip.Clone()};
         }
     }
 }
