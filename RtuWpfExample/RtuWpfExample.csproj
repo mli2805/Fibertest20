@@ -218,17 +218,26 @@
     <None Include="Service References\D4RWcfServiceReference\D4R_WcfService.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Service References\D4RWcfServiceReference\Dto.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\D4RWcfServiceReference\Iit.Fibertest.Utils35.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Service References\D4RWcfServiceReference\service.wsdl" />
-    <None Include="Service References\D4RWcfServiceReference\service.xsd">
+    <None Include="Service References\D4RWcfServiceReference\service2.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\D4RWcfServiceReference\service1.xsd">
+    <None Include="Service References\D4RWcfServiceReference\service21.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\RtuWcfServiceReference\service.xsd">
+    <None Include="Service References\RtuWcfServiceReference\Dto.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\RtuWcfServiceReference\service1.wsdl" />
+    <None Include="Service References\RtuWcfServiceReference\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Service References\RtuWcfServiceReference\service2.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -241,16 +250,16 @@
       <Project>{1822c528-4719-4c53-877e-bc57dbf6d7ff}</Project>
       <Name>Client_WcfService</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DirectCharonLibrary\DirectCharonLibrary.csproj">
-      <Project>{49d6de99-29be-46ae-8be8-85e660650ca7}</Project>
-      <Name>DirectCharonLibrary</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Dto\Dto.csproj">
       <Project>{86a00748-2a4e-4180-b04e-0e1f6a62a258}</Project>
       <Name>Dto</Name>
     </ProjectReference>
-    <ProjectReference Include="..\IitOtdrLibrary\IitOtdrLibrary.csproj">
-      <Project>{12208d72-7ec1-456f-9f0a-b56152ddc5d2}</Project>
+    <ProjectReference Include="..\RTU\DirectCharonLibrary\DirectCharonLibrary.csproj">
+      <Project>{aed4a94a-a19e-4625-8037-4f5d9489e04c}</Project>
+      <Name>DirectCharonLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RTU\IitOtdrLibrary\IitOtdrLibrary.csproj">
+      <Project>{e9122bbb-b015-4710-bdd3-03243ee8cbcd}</Project>
       <Name>IitOtdrLibrary</Name>
     </ProjectReference>
     <ProjectReference Include="..\StringResources\StringResources.csproj">

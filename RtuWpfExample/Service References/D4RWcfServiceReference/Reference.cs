@@ -15,121 +15,15 @@ namespace Iit.Fibertest.RtuWpfExample.D4RWcfServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="RtuInitializationResult", Namespace="http://schemas.datacontract.org/2004/07/D4R_WcfService")]
-    [System.SerializableAttribute()]
-    public partial class RtuInitializationResult : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int FullPortCountField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private bool IsInitializedField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int OwnPortCountField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.Guid RtuIdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string SerialField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int FullPortCount {
-            get {
-                return this.FullPortCountField;
-            }
-            set {
-                if ((this.FullPortCountField.Equals(value) != true)) {
-                    this.FullPortCountField = value;
-                    this.RaisePropertyChanged("FullPortCount");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public bool IsInitialized {
-            get {
-                return this.IsInitializedField;
-            }
-            set {
-                if ((this.IsInitializedField.Equals(value) != true)) {
-                    this.IsInitializedField = value;
-                    this.RaisePropertyChanged("IsInitialized");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int OwnPortCount {
-            get {
-                return this.OwnPortCountField;
-            }
-            set {
-                if ((this.OwnPortCountField.Equals(value) != true)) {
-                    this.OwnPortCountField = value;
-                    this.RaisePropertyChanged("OwnPortCount");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Guid RtuId {
-            get {
-                return this.RtuIdField;
-            }
-            set {
-                if ((this.RtuIdField.Equals(value) != true)) {
-                    this.RtuIdField = value;
-                    this.RaisePropertyChanged("RtuId");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Serial {
-            get {
-                return this.SerialField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.SerialField, value) != true)) {
-                    this.SerialField = value;
-                    this.RaisePropertyChanged("Serial");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="MonitoringResult", Namespace="http://schemas.datacontract.org/2004/07/D4R_WcfService")]
     [System.SerializableAttribute()]
     public partial class MonitoringResult : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private Iit.Fibertest.Utils35.BaseRefType BaseRefTypeField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.Guid RtuIdField;
@@ -144,6 +38,19 @@ namespace Iit.Fibertest.RtuWpfExample.D4RWcfServiceReference {
             }
             set {
                 this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public Iit.Fibertest.Utils35.BaseRefType BaseRefType {
+            get {
+                return this.BaseRefTypeField;
+            }
+            set {
+                if ((this.BaseRefTypeField.Equals(value) != true)) {
+                    this.BaseRefTypeField = value;
+                    this.RaisePropertyChanged("BaseRefType");
+                }
             }
         }
         
@@ -168,7 +75,7 @@ namespace Iit.Fibertest.RtuWpfExample.D4RWcfServiceReference {
             set {
                 if ((object.ReferenceEquals(this.SorDataField, value) != true)) {
                     this.SorDataField = value;
-                    this.RaisePropertyChanged("SorBytes");
+                    this.RaisePropertyChanged("SorData");
                 }
             }
         }
@@ -188,10 +95,10 @@ namespace Iit.Fibertest.RtuWpfExample.D4RWcfServiceReference {
     public interface ID4RWcfService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ID4RWcfService/ConfirmInitilization", ReplyAction="http://tempuri.org/ID4RWcfService/ConfirmInitilizationResponse")]
-        void ConfirmInitilization(Iit.Fibertest.RtuWpfExample.D4RWcfServiceReference.RtuInitializationResult result);
+        void ConfirmInitilization(Dto.RtuInitialized result);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ID4RWcfService/ConfirmInitilization", ReplyAction="http://tempuri.org/ID4RWcfService/ConfirmInitilizationResponse")]
-        System.Threading.Tasks.Task ConfirmInitilizationAsync(Iit.Fibertest.RtuWpfExample.D4RWcfServiceReference.RtuInitializationResult result);
+        System.Threading.Tasks.Task ConfirmInitilizationAsync(Dto.RtuInitialized result);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ID4RWcfService/SendMonitoringResult", ReplyAction="http://tempuri.org/ID4RWcfService/SendMonitoringResultResponse")]
         void SendMonitoringResult(Iit.Fibertest.RtuWpfExample.D4RWcfServiceReference.MonitoringResult result);
@@ -227,11 +134,11 @@ namespace Iit.Fibertest.RtuWpfExample.D4RWcfServiceReference {
                 base(binding, remoteAddress) {
         }
         
-        public void ConfirmInitilization(Iit.Fibertest.RtuWpfExample.D4RWcfServiceReference.RtuInitializationResult result) {
+        public void ConfirmInitilization(Dto.RtuInitialized result) {
             base.Channel.ConfirmInitilization(result);
         }
         
-        public System.Threading.Tasks.Task ConfirmInitilizationAsync(Iit.Fibertest.RtuWpfExample.D4RWcfServiceReference.RtuInitializationResult result) {
+        public System.Threading.Tasks.Task ConfirmInitilizationAsync(Dto.RtuInitialized result) {
             return base.Channel.ConfirmInitilizationAsync(result);
         }
         

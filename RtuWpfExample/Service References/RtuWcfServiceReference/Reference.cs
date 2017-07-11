@@ -22,10 +22,10 @@ namespace Iit.Fibertest.RtuWpfExample.RtuWcfServiceReference {
         System.Threading.Tasks.Task<string> ShakeHandsWithWatchdogAsync(string hello);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRtuWcfService/Initialize", ReplyAction="http://tempuri.org/IRtuWcfService/InitializeResponse")]
-        void Initialize();
+        bool Initialize(Dto.InitializeRtu rtu);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRtuWcfService/Initialize", ReplyAction="http://tempuri.org/IRtuWcfService/InitializeResponse")]
-        System.Threading.Tasks.Task InitializeAsync();
+        System.Threading.Tasks.Task<bool> InitializeAsync(Dto.InitializeRtu rtu);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRtuWcfService/StartMonitoring", ReplyAction="http://tempuri.org/IRtuWcfService/StartMonitoringResponse")]
         void StartMonitoring();
@@ -75,12 +75,12 @@ namespace Iit.Fibertest.RtuWpfExample.RtuWcfServiceReference {
             return base.Channel.ShakeHandsWithWatchdogAsync(hello);
         }
         
-        public void Initialize() {
-            base.Channel.Initialize();
+        public bool Initialize(Dto.InitializeRtu rtu) {
+            return base.Channel.Initialize(rtu);
         }
         
-        public System.Threading.Tasks.Task InitializeAsync() {
-            return base.Channel.InitializeAsync();
+        public System.Threading.Tasks.Task<bool> InitializeAsync(Dto.InitializeRtu rtu) {
+            return base.Channel.InitializeAsync(rtu);
         }
         
         public void StartMonitoring() {

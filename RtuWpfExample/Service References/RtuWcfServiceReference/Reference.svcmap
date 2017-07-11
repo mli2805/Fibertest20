@@ -24,7 +24,8 @@
   <Metadata>
     <MetadataFile FileName="service1.wsdl" MetadataType="Wsdl" ID="619336ce-a59e-4110-b5bb-8ea5ef655ecc" SourceId="1" SourceUrl="net.tcp://localhost:11842/RtuWcfService/mex" />
     <MetadataFile FileName="service2.xsd" MetadataType="Schema" ID="3b635e84-28fe-4c17-a65a-a2acb1175a58" SourceId="1" SourceUrl="net.tcp://localhost:11842/RtuWcfService/mex" />
-    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="4699d27f-02ab-422c-8785-c1fbaeebf2a6" SourceId="1" SourceUrl="net.tcp://localhost:11842/RtuWcfService/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="a434881f-41d3-4f2c-beca-872af9a12734" SourceId="1" SourceUrl="net.tcp://localhost:11842/RtuWcfService/mex" />
+    <MetadataFile FileName="Dto.xsd" MetadataType="Schema" ID="34c0db30-73ef-494a-a8f3-1a6f5771ae71" SourceId="1" SourceUrl="net.tcp://localhost:11842/RtuWcfService/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

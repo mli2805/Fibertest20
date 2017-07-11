@@ -519,10 +519,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DirectCharonLibrary\DirectCharonLibrary.csproj">
-      <Project>{49d6de99-29be-46ae-8be8-85e660650ca7}</Project>
-      <Name>DirectCharonLibrary</Name>
-    </ProjectReference>
     <ProjectReference Include="..\GMap.NET.Core\GMap.NET.Core.csproj">
       <Project>{d0c39d9d-bed0-418b-9a5e-713176caf40c}</Project>
       <Name>GMap.NET.Core</Name>
@@ -535,8 +531,12 @@
       <Project>{a734876e-977b-4dda-b6a4-ad1dd525c6d1}</Project>
       <Name>Graph</Name>
     </ProjectReference>
-    <ProjectReference Include="..\IitOtdrLibrary\IitOtdrLibrary.csproj">
-      <Project>{12208d72-7ec1-456f-9f0a-b56152ddc5d2}</Project>
+    <ProjectReference Include="..\RTU\DirectCharonLibrary\DirectCharonLibrary.csproj">
+      <Project>{aed4a94a-a19e-4625-8037-4f5d9489e04c}</Project>
+      <Name>DirectCharonLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RTU\IitOtdrLibrary\IitOtdrLibrary.csproj">
+      <Project>{e9122bbb-b015-4710-bdd3-03243ee8cbcd}</Project>
       <Name>IitOtdrLibrary</Name>
     </ProjectReference>
     <ProjectReference Include="..\StringResources\StringResources.csproj">

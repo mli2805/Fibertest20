@@ -23,9 +23,11 @@
   </MetadataSources>
   <Metadata>
     <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="7786522a-7b2f-4442-b915-6b11e4cf0eef" SourceId="1" SourceUrl="net.tcp://localhost:11841/D4RWcfService/mex" />
-    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="7f56b6b9-0a63-4c0f-87ec-d657460fdd37" SourceId="1" SourceUrl="net.tcp://localhost:11841/D4RWcfService/mex" />
-    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="b0b7fcc6-e217-407a-8d28-0fb22dc58ef0" SourceId="1" SourceUrl="net.tcp://localhost:11841/D4RWcfService/mex" />
+    <MetadataFile FileName="service2.xsd" MetadataType="Schema" ID="07e2095c-8494-461b-8c74-75fc0de69021" SourceId="1" SourceUrl="net.tcp://localhost:11841/D4RWcfService/mex" />
+    <MetadataFile FileName="service21.xsd" MetadataType="Schema" ID="b7e833ac-8112-4e89-ae92-670628105008" SourceId="1" SourceUrl="net.tcp://localhost:11841/D4RWcfService/mex" />
+    <MetadataFile FileName="Dto.xsd" MetadataType="Schema" ID="cf7267d0-272a-4000-9d83-2433549b85b1" SourceId="1" SourceUrl="net.tcp://localhost:11841/D4RWcfService/mex" />
     <MetadataFile FileName="D4R_WcfService.xsd" MetadataType="Schema" ID="322b87eb-12b8-4f75-9cf4-7a11d0788f76" SourceId="1" SourceUrl="net.tcp://localhost:11841/D4RWcfService/mex" />
+    <MetadataFile FileName="Iit.Fibertest.Utils35.xsd" MetadataType="Schema" ID="b1b5c667-6665-4e11-9d2f-7269ec8d241a" SourceId="1" SourceUrl="net.tcp://localhost:11841/D4RWcfService/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
