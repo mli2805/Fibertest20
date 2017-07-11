@@ -166,7 +166,7 @@
       <Project>{e9122bbb-b015-4710-bdd3-03243ee8cbcd}</Project>
       <Name>IitOtdrLibrary</Name>
     </ProjectReference>
-    <ProjectReference Include="..\StringResources\StringResources.csproj">
+    <ProjectReference Include="..\SharedLibs\StringResources\StringResources.csproj">
       <Project>{0cb0ea37-4a27-45f0-bb01-4c0e064e8962}</Project>
       <Name>StringResources</Name>
     </ProjectReference>
