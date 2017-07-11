@@ -64,16 +64,16 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Utils35\Utils35.csproj">
-      <Project>{716240ff-d1e8-4bd3-9e63-431382617398}</Project>
-      <Name>Utils35</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="ProjectInstaller.resx">
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\SharedLibs\Utils35\Utils35.csproj">
+      <Project>{716240ff-d1e8-4bd3-9e63-431382617398}</Project>
+      <Name>Utils35</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
