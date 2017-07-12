@@ -1,4 +1,4 @@
-﻿namespace Iit.Fibertest.Utils35
+﻿namespace Dto.Enums
 {
     public enum FiberState
     {

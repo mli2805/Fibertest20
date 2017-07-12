@@ -15,38 +15,57 @@
       <xsd:import namespace="http://tempuri.org/" />
       <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
       <xsd:import namespace="http://schemas.datacontract.org/2004/07/Dto" />
-      <xsd:import namespace="http://schemas.datacontract.org/2004/07/WcfServiceForRtu" />
-      <xsd:import namespace="http://schemas.datacontract.org/2004/07/Iit.Fibertest.Utils35" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/Dto.Enums" />
     </xsd:schema>
   </wsdl:types>
-  <wsdl:message name="IWcfServiceForRtu_ConfirmInitilization_InputMessage">
-    <wsdl:part name="parameters" element="tns:ConfirmInitilization" />
+  <wsdl:message name="IWcfServiceForRtu_ProcessRtuInitialized_InputMessage">
+    <wsdl:part name="parameters" element="tns:ProcessRtuInitialized" />
   </wsdl:message>
-  <wsdl:message name="IWcfServiceForRtu_ConfirmInitilization_OutputMessage">
-    <wsdl:part name="parameters" element="tns:ConfirmInitilizationResponse" />
+  <wsdl:message name="IWcfServiceForRtu_ProcessRtuInitialized_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ProcessRtuInitializedResponse" />
   </wsdl:message>
-  <wsdl:message name="IWcfServiceForRtu_SendMonitoringResult_InputMessage">
-    <wsdl:part name="parameters" element="tns:SendMonitoringResult" />
+  <wsdl:message name="IWcfServiceForRtu_ConfirmStartMonitoring_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConfirmStartMonitoring" />
   </wsdl:message>
-  <wsdl:message name="IWcfServiceForRtu_SendMonitoringResult_OutputMessage">
-    <wsdl:part name="parameters" element="tns:SendMonitoringResultResponse" />
+  <wsdl:message name="IWcfServiceForRtu_ConfirmStartMonitoring_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConfirmStartMonitoringResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWcfServiceForRtu_ConfirmStopMonitoring_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConfirmStopMonitoring" />
+  </wsdl:message>
+  <wsdl:message name="IWcfServiceForRtu_ConfirmStopMonitoring_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConfirmStopMonitoringResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWcfServiceForRtu_ProcessMonitoringResult_InputMessage">
+    <wsdl:part name="parameters" element="tns:ProcessMonitoringResult" />
+  </wsdl:message>
+  <wsdl:message name="IWcfServiceForRtu_ProcessMonitoringResult_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ProcessMonitoringResultResponse" />
   </wsdl:message>
   <wsdl:portType name="IWcfServiceForRtu">
-    <wsdl:operation name="ConfirmInitilization">
-      <wsdl:input wsaw:Action="http://tempuri.org/IWcfServiceForRtu/ConfirmInitilization" message="tns:IWcfServiceForRtu_ConfirmInitilization_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IWcfServiceForRtu/ConfirmInitilizationResponse" message="tns:IWcfServiceForRtu_ConfirmInitilization_OutputMessage" />
+    <wsdl:operation name="ProcessRtuInitialized">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWcfServiceForRtu/ProcessRtuInitialized" message="tns:IWcfServiceForRtu_ProcessRtuInitialized_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWcfServiceForRtu/ProcessRtuInitializedResponse" message="tns:IWcfServiceForRtu_ProcessRtuInitialized_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="SendMonitoringResult">
-      <wsdl:input wsaw:Action="http://tempuri.org/IWcfServiceForRtu/SendMonitoringResult" message="tns:IWcfServiceForRtu_SendMonitoringResult_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IWcfServiceForRtu/SendMonitoringResultResponse" message="tns:IWcfServiceForRtu_SendMonitoringResult_OutputMessage" />
+    <wsdl:operation name="ConfirmStartMonitoring">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWcfServiceForRtu/ConfirmStartMonitoring" message="tns:IWcfServiceForRtu_ConfirmStartMonitoring_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWcfServiceForRtu/ConfirmStartMonitoringResponse" message="tns:IWcfServiceForRtu_ConfirmStartMonitoring_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ConfirmStopMonitoring">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWcfServiceForRtu/ConfirmStopMonitoring" message="tns:IWcfServiceForRtu_ConfirmStopMonitoring_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWcfServiceForRtu/ConfirmStopMonitoringResponse" message="tns:IWcfServiceForRtu_ConfirmStopMonitoring_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ProcessMonitoringResult">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWcfServiceForRtu/ProcessMonitoringResult" message="tns:IWcfServiceForRtu_ProcessMonitoringResult_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWcfServiceForRtu/ProcessMonitoringResultResponse" message="tns:IWcfServiceForRtu_ProcessMonitoringResult_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="NetTcpBinding_IWcfServiceForRtu" type="tns:IWcfServiceForRtu">
     <wsp:PolicyReference URI="#NetTcpBinding_IWcfServiceForRtu_policy">
     </wsp:PolicyReference>
     <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
-    <wsdl:operation name="ConfirmInitilization">
-      <soap12:operation soapAction="http://tempuri.org/IWcfServiceForRtu/ConfirmInitilization" style="document" />
+    <wsdl:operation name="ProcessRtuInitialized">
+      <soap12:operation soapAction="http://tempuri.org/IWcfServiceForRtu/ProcessRtuInitialized" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -54,8 +73,26 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="SendMonitoringResult">
-      <soap12:operation soapAction="http://tempuri.org/IWcfServiceForRtu/SendMonitoringResult" style="document" />
+    <wsdl:operation name="ConfirmStartMonitoring">
+      <soap12:operation soapAction="http://tempuri.org/IWcfServiceForRtu/ConfirmStartMonitoring" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConfirmStopMonitoring">
+      <soap12:operation soapAction="http://tempuri.org/IWcfServiceForRtu/ConfirmStopMonitoring" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ProcessMonitoringResult">
+      <soap12:operation soapAction="http://tempuri.org/IWcfServiceForRtu/ProcessMonitoringResult" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

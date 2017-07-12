@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using System.Threading;
-using DataCenterCore;
+﻿using DataCenterCore;
 using Dto;
 using Iit.Fibertest.Utils35;
 
@@ -20,24 +18,26 @@ namespace WcfServiceForRtu
                 ServiceIniFile = new IniFile();
                 ServiceIniFile.AssignFile(@"WcfIniFile");
             }
-            var logLevel = ServiceIniFile.Read(IniSection.General, IniKey.LogLevel, 2);
-
-            var pid = Process.GetCurrentProcess().Id;
-            var tid = Thread.CurrentThread.ManagedThreadId;
-            if (logLevel >= 2)
-                ServiceLog?.AppendLine($"WcfServiceForRtu listen port 11841 (process {pid}, thread {tid})");
         }
 
-        public void ConfirmInitilization(RtuInitialized result)
+        public bool ProcessRtuInitialized(RtuInitialized result)
         {
-            var str = result.IsInitialized ? "OK" : "ERROR";
-            ServiceLog.AppendLine($"Rtu {result.Id} initialization {str}");
-            DcManager.ConfirmRtuInitialized(result);
+            return DcManager.ProcessRtuInitialized(result);
         }
 
-        public void SendMonitoringResult(MonitoringResult result)
+        public bool ConfirmStartMonitoring(MonitoringStarted confirmation)
         {
-            ServiceLog.AppendLine($"Monitoring result received. Sor size is {result.SorData.Length}");
+            return DcManager.ConfirmStartMonitoring(confirmation);
+        }
+
+        public bool ConfirmStopMonitoring(MonitoringStopped confirmation)
+        {
+            return DcManager.ConfirmStopMonitoring(confirmation);
+        }
+
+        public bool ProcessMonitoringResult(MonitoringResult result)
+        {
+            return DcManager.ProcessMonitoringResult(result);
         }
     }
 }

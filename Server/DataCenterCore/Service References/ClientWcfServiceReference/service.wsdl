@@ -23,10 +23,30 @@
   <wsdl:message name="IClientWcfService_ConfirmRtuInitialized_OutputMessage">
     <wsdl:part name="parameters" element="tns:ConfirmRtuInitializedResponse" />
   </wsdl:message>
+  <wsdl:message name="IClientWcfService_ConfirmMonitoringStarted_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConfirmMonitoringStarted" />
+  </wsdl:message>
+  <wsdl:message name="IClientWcfService_ConfirmMonitoringStarted_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConfirmMonitoringStartedResponse" />
+  </wsdl:message>
+  <wsdl:message name="IClientWcfService_ConfirmMonitoringStopped_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConfirmMonitoringStopped" />
+  </wsdl:message>
+  <wsdl:message name="IClientWcfService_ConfirmMonitoringStopped_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConfirmMonitoringStoppedResponse" />
+  </wsdl:message>
   <wsdl:portType name="IClientWcfService">
     <wsdl:operation name="ConfirmRtuInitialized">
       <wsdl:input wsaw:Action="http://tempuri.org/IClientWcfService/ConfirmRtuInitialized" message="tns:IClientWcfService_ConfirmRtuInitialized_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IClientWcfService/ConfirmRtuInitializedResponse" message="tns:IClientWcfService_ConfirmRtuInitialized_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ConfirmMonitoringStarted">
+      <wsdl:input wsaw:Action="http://tempuri.org/IClientWcfService/ConfirmMonitoringStarted" message="tns:IClientWcfService_ConfirmMonitoringStarted_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IClientWcfService/ConfirmMonitoringStartedResponse" message="tns:IClientWcfService_ConfirmMonitoringStarted_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ConfirmMonitoringStopped">
+      <wsdl:input wsaw:Action="http://tempuri.org/IClientWcfService/ConfirmMonitoringStopped" message="tns:IClientWcfService_ConfirmMonitoringStopped_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IClientWcfService/ConfirmMonitoringStoppedResponse" message="tns:IClientWcfService_ConfirmMonitoringStopped_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="NetTcpBinding_IClientWcfService" type="tns:IClientWcfService">
@@ -35,6 +55,24 @@
     <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
     <wsdl:operation name="ConfirmRtuInitialized">
       <soap12:operation soapAction="http://tempuri.org/IClientWcfService/ConfirmRtuInitialized" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConfirmMonitoringStarted">
+      <soap12:operation soapAction="http://tempuri.org/IClientWcfService/ConfirmMonitoringStarted" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConfirmMonitoringStopped">
+      <soap12:operation soapAction="http://tempuri.org/IClientWcfService/ConfirmMonitoringStopped" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

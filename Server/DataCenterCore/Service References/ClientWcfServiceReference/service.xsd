@@ -13,4 +13,28 @@
       <xs:sequence />
     </xs:complexType>
   </xs:element>
+  <xs:element name="ConfirmMonitoringStarted">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="confirm" nillable="true" type="q2:MonitoringStarted" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ConfirmMonitoringStartedResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ConfirmMonitoringStopped">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="confirm" nillable="true" type="q3:MonitoringStopped" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ConfirmMonitoringStoppedResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
 </xs:schema>

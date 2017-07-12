@@ -9,96 +9,23 @@
 //------------------------------------------------------------------------------
 
 namespace RtuManagement.WcfForRtuServiceReference {
-    using System.Runtime.Serialization;
-    using System;
     
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="MonitoringResult", Namespace="http://schemas.datacontract.org/2004/07/WcfServiceForRtu")]
-    [System.SerializableAttribute()]
-    public partial class MonitoringResult : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private Iit.Fibertest.Utils35.BaseRefType BaseRefTypeField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.Guid RtuIdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private byte[] SorDataField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public Iit.Fibertest.Utils35.BaseRefType BaseRefType {
-            get {
-                return this.BaseRefTypeField;
-            }
-            set {
-                if ((this.BaseRefTypeField.Equals(value) != true)) {
-                    this.BaseRefTypeField = value;
-                    this.RaisePropertyChanged("BaseRefType");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Guid RtuId {
-            get {
-                return this.RtuIdField;
-            }
-            set {
-                if ((this.RtuIdField.Equals(value) != true)) {
-                    this.RtuIdField = value;
-                    this.RaisePropertyChanged("RtuId");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public byte[] SorData {
-            get {
-                return this.SorDataField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.SorDataField, value) != true)) {
-                    this.SorDataField = value;
-                    this.RaisePropertyChanged("SorData");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="WcfForRtuServiceReference.IWcfServiceForRtu")]
     public interface IWcfServiceForRtu {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForRtu/ConfirmInitilization", ReplyAction="http://tempuri.org/IWcfServiceForRtu/ConfirmInitilizationResponse")]
-        void ConfirmInitilization(Dto.RtuInitialized result);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForRtu/ProcessRtuInitialized", ReplyAction="http://tempuri.org/IWcfServiceForRtu/ProcessRtuInitializedResponse")]
+        bool ProcessRtuInitialized(Dto.RtuInitialized result);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForRtu/SendMonitoringResult", ReplyAction="http://tempuri.org/IWcfServiceForRtu/SendMonitoringResultResponse")]
-        void SendMonitoringResult(RtuManagement.WcfForRtuServiceReference.MonitoringResult result);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForRtu/ConfirmStartMonitoring", ReplyAction="http://tempuri.org/IWcfServiceForRtu/ConfirmStartMonitoringResponse")]
+        bool ConfirmStartMonitoring(Dto.MonitoringStarted result);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForRtu/ConfirmStopMonitoring", ReplyAction="http://tempuri.org/IWcfServiceForRtu/ConfirmStopMonitoringResponse")]
+        bool ConfirmStopMonitoring(Dto.MonitoringStopped result);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForRtu/ProcessMonitoringResult", ReplyAction="http://tempuri.org/IWcfServiceForRtu/ProcessMonitoringResultResponse")]
+        bool ProcessMonitoringResult(Dto.MonitoringResult result);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -128,12 +55,20 @@ namespace RtuManagement.WcfForRtuServiceReference {
                 base(binding, remoteAddress) {
         }
         
-        public void ConfirmInitilization(Dto.RtuInitialized result) {
-            base.Channel.ConfirmInitilization(result);
+        public bool ProcessRtuInitialized(Dto.RtuInitialized result) {
+            return base.Channel.ProcessRtuInitialized(result);
         }
         
-        public void SendMonitoringResult(RtuManagement.WcfForRtuServiceReference.MonitoringResult result) {
-            base.Channel.SendMonitoringResult(result);
+        public bool ConfirmStartMonitoring(Dto.MonitoringStarted result) {
+            return base.Channel.ConfirmStartMonitoring(result);
+        }
+        
+        public bool ConfirmStopMonitoring(Dto.MonitoringStopped result) {
+            return base.Channel.ConfirmStopMonitoring(result);
+        }
+        
+        public bool ProcessMonitoringResult(Dto.MonitoringResult result) {
+            return base.Channel.ProcessMonitoringResult(result);
         }
     }
 }

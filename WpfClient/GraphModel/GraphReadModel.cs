@@ -5,9 +5,9 @@ using System.Linq;
 using System.Windows;
 using AutoMapper;
 using Caliburn.Micro;
+using Dto.Enums;
 using GMap.NET;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.Utils35;
 
 namespace Iit.Fibertest.Client
 {

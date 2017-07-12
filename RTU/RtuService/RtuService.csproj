@@ -68,7 +68,6 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Iit.Fibertest.Utils35, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86" />
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
@@ -89,11 +88,6 @@
     <Compile Include="ProjectInstaller.Designer.cs">
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
     </Compile>
-    <Compile Include="Service References\WcfForRtuServiceReference\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
     <Compile Include="Service1.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -105,22 +99,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\WcfForRtuServiceReference\Dto.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\WcfForRtuServiceReference\Iit.Fibertest.Utils35.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\WcfForRtuServiceReference\service.wsdl" />
-    <None Include="Service References\WcfForRtuServiceReference\service.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\WcfForRtuServiceReference\service1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\WcfForRtuServiceReference\WcfServiceForRtu.xsd">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
@@ -143,24 +121,6 @@
       <Project>{d7c82e5d-e536-4684-b18f-9e1a341324d6}</Project>
       <Name>RtuWcfServiceLibrary</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadataStorage Include="Service References\WcfForRtuServiceReference\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\WcfForRtuServiceReference\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\WcfForRtuServiceReference\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\WcfForRtuServiceReference\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -58,6 +58,20 @@ namespace DataCenterCore
             return true;
         }
 
+        public bool ProcessRtuInitialized(RtuInitialized result)
+        {
+            var str = result.IsInitialized ? "OK" : "ERROR";
+            _dcLog.AppendLine($"Rtu {result.Id} initialization {str}");
+            ConfirmRtuInitialized(result);
+            return true;
+        }
+
+        public bool ProcessMonitoringResult(MonitoringResult result)
+        {
+            _dcLog.AppendLine($"Monitoring result received. Sor size is {result.SorData.Length}");
+            return true;
+        }
+
         public void RegisterClient(string address)
         {
             _dcLog.AppendLine($"client {address} registration");
@@ -90,6 +104,34 @@ namespace DataCenterCore
             }
         }
 
+        public bool ConfirmStartMonitoring(MonitoringStarted confirmation)
+        {
+            var list = new List<ClientStation>();
+            lock (_clientStationsLockObj)
+            {
+                list.AddRange(_clientStations.Select(clientStation => (ClientStation)clientStation.Clone()));
+            }
+            foreach (var clientStation in list)
+            {
+                TransferConfirmStartMonitoring(clientStation.Ip, confirmation);
+            }
+            return true;
+        }
+
+        public bool ConfirmStopMonitoring(MonitoringStopped confirmation)
+        {
+            var list = new List<ClientStation>();
+            lock (_clientStationsLockObj)
+            {
+                list.AddRange(_clientStations.Select(clientStation => (ClientStation)clientStation.Clone()));
+            }
+            foreach (var clientStation in list)
+            {
+                TransferConfirmStopMonitoring(clientStation.Ip, confirmation);
+            }
+            return true;
+        }
+
         private void TransferConfirmRtuInitialized(string clientIp, RtuInitialized rtu)
         {
             var clientWcfServiceClient = CreateAndOpenClientWcfServiceClient(clientIp);
@@ -98,6 +140,28 @@ namespace DataCenterCore
 
             clientWcfServiceClient.ConfirmRtuInitialized(rtu);
             _dcLog.AppendLine($"Transfered initialization confirmation of RTU {rtu.Id} Serial={rtu.Serial}");
+        }
+
+        private void TransferConfirmStartMonitoring(string clientIp, MonitoringStarted confirmation)
+        {
+            var clientWcfServiceClient = CreateAndOpenClientWcfServiceClient(clientIp);
+            if (clientWcfServiceClient == null)
+                return;
+
+            clientWcfServiceClient.ConfirmMonitoringStarted(confirmation);
+
+            _dcLog.AppendLine($"Transfered start monitoring confirmation form RTU {confirmation.RtuId} result is {confirmation.IsSuccessful}");
+        }
+
+        private void TransferConfirmStopMonitoring(string clientIp, MonitoringStopped confirmation)
+        {
+            var clientWcfServiceClient = CreateAndOpenClientWcfServiceClient(clientIp);
+            if (clientWcfServiceClient == null)
+                return;
+
+            clientWcfServiceClient.ConfirmMonitoringStopped(confirmation);
+
+            _dcLog.AppendLine($"Transfered stop monitoring confirmation form RTU {confirmation.RtuId} result is {confirmation.IsSuccessful}");
         }
 
         public bool StartMonitoring(string rtuAddress)

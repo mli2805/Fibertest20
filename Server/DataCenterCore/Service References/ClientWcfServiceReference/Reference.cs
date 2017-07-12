@@ -17,6 +17,12 @@ namespace DataCenterCore.ClientWcfServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientWcfService/ConfirmRtuInitialized", ReplyAction="http://tempuri.org/IClientWcfService/ConfirmRtuInitializedResponse")]
         void ConfirmRtuInitialized(Dto.RtuInitialized rtu);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientWcfService/ConfirmMonitoringStarted", ReplyAction="http://tempuri.org/IClientWcfService/ConfirmMonitoringStartedResponse")]
+        void ConfirmMonitoringStarted(Dto.MonitoringStarted confirm);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientWcfService/ConfirmMonitoringStopped", ReplyAction="http://tempuri.org/IClientWcfService/ConfirmMonitoringStoppedResponse")]
+        void ConfirmMonitoringStopped(Dto.MonitoringStopped confirm);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -48,6 +54,14 @@ namespace DataCenterCore.ClientWcfServiceReference {
         
         public void ConfirmRtuInitialized(Dto.RtuInitialized rtu) {
             base.Channel.ConfirmRtuInitialized(rtu);
+        }
+        
+        public void ConfirmMonitoringStarted(Dto.MonitoringStarted confirm) {
+            base.Channel.ConfirmMonitoringStarted(confirm);
+        }
+        
+        public void ConfirmMonitoringStopped(Dto.MonitoringStopped confirm) {
+            base.Channel.ConfirmMonitoringStopped(confirm);
         }
     }
 }

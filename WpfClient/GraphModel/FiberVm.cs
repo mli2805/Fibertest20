@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Caliburn.Micro;
-using Iit.Fibertest.Utils35;
+using Dto.Enums;
 
 namespace Iit.Fibertest.Client
 {

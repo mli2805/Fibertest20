@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dto.Enums;
 using Iit.Fibertest.StringResources;
-using Iit.Fibertest.Utils35;
 
 namespace Iit.Fibertest.Client
 {

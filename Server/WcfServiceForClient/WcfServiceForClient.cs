@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using System.Threading;
-using DataCenterCore;
+﻿using DataCenterCore;
 using Dto;
 using Iit.Fibertest.Utils35;
 
@@ -20,12 +18,6 @@ namespace WcfServiceForClient
                 ServiceIniFile = new IniFile();
                 ServiceIniFile.AssignFile(@"WcfIniFile");
             }
-            var logLevel = ServiceIniFile.Read(IniSection.General, IniKey.LogLevel, 2);
-
-            var pid = Process.GetCurrentProcess().Id;
-            var tid = Thread.CurrentThread.ManagedThreadId;
-            if (logLevel >= 2)
-                ServiceLog?.AppendLine($"WcfServiceForClient listens port 11840 (process {pid}, thread {tid})");
         }
 
 

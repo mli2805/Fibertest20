@@ -2,9 +2,9 @@
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
+using Dto.Enums;
 using GMap.NET.WindowsPresentation;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.Utils35;
 
 namespace Iit.Fibertest.Client
 {

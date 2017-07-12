@@ -11,4 +11,18 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="RtuInitialized" nillable="true" type="tns:RtuInitialized" />
+  <xs:complexType name="MonitoringStarted">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="IsSuccessful" type="xs:boolean" />
+      <xs:element minOccurs="0" name="RtuId" type="ser:guid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MonitoringStarted" nillable="true" type="tns:MonitoringStarted" />
+  <xs:complexType name="MonitoringStopped">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="IsSuccessful" type="xs:boolean" />
+      <xs:element minOccurs="0" name="RtuId" type="ser:guid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MonitoringStopped" nillable="true" type="tns:MonitoringStopped" />
 </xs:schema>

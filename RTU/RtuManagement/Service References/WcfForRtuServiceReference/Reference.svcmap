@@ -25,8 +25,7 @@
     <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="749031c6-315e-4062-a26e-8cf3258878d4" SourceId="1" SourceUrl="net.tcp://localhost:11841/WcfServiceForRtu/mex" />
     <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="d40e666c-d8ba-4ae5-97b4-bdb342903a9c" SourceId="1" SourceUrl="net.tcp://localhost:11841/WcfServiceForRtu/mex" />
     <MetadataFile FileName="Dto.xsd" MetadataType="Schema" ID="b38e1281-0c72-4ea2-b3bc-a1daba250ca3" SourceId="1" SourceUrl="net.tcp://localhost:11841/WcfServiceForRtu/mex" />
-    <MetadataFile FileName="WcfServiceForRtu.xsd" MetadataType="Schema" ID="cf541081-6c09-41d5-9435-00d08f121a4f" SourceId="1" SourceUrl="net.tcp://localhost:11841/WcfServiceForRtu/mex" />
-    <MetadataFile FileName="Iit.Fibertest.Utils35.xsd" MetadataType="Schema" ID="1ac4ebad-99fe-4204-ac2e-966f2889eb0a" SourceId="1" SourceUrl="net.tcp://localhost:11841/WcfServiceForRtu/mex" />
+    <MetadataFile FileName="Dto.Enums.xsd" MetadataType="Schema" ID="c0d7c136-13cb-4f6f-8301-45cc8f039b43" SourceId="1" SourceUrl="net.tcp://localhost:11841/WcfServiceForRtu/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

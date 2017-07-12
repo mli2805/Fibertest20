@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dto.Enums;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.Utils35;
@@ -20,11 +21,13 @@ namespace RtuManagement
             _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 1);
             _rtuLog.EmptyLine();
             _rtuLog.AppendLine("Start monitoring.");
+            var shouldSendMonitoringStarted = true;
 
             if (_monitoringQueue.Count < 1)
             {
                 _rtuLog.AppendLine("There are no ports in queue for monitoring.");
                 _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 0);
+                SendMonitoringStarted(false);
                 IsMonitoringOn = false;
                 return;
             }
@@ -37,6 +40,12 @@ namespace RtuManagement
 
                 _rtuLog.EmptyLine();
                 ProcessOnePort(extendedPort);
+
+                if (shouldSendMonitoringStarted)
+                {
+                    SendMonitoringStarted(true);
+                    shouldSendMonitoringStarted = false;
+                }
 
                 lock (_obj)
                 {
@@ -52,6 +61,7 @@ namespace RtuManagement
             IsMonitoringOn = false;
             _isMonitoringCancelled = false;
             _rtuLog.AppendLine("Rtu is turned into MANUAL mode.");
+            SendMonitoringStopped(true);
         }
 
         private void ProcessOnePort(ExtendedPort extendedPort)

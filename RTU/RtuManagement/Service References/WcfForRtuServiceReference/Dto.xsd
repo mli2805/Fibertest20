@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/Dto" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Dto" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/Dto.Enums" />
   <xs:complexType name="RtuInitialized">
     <xs:sequence>
       <xs:element minOccurs="0" name="FullPortCount" type="xs:int" />
@@ -11,4 +12,26 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="RtuInitialized" nillable="true" type="tns:RtuInitialized" />
+  <xs:complexType name="MonitoringStarted">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="IsSuccessful" type="xs:boolean" />
+      <xs:element minOccurs="0" name="RtuId" type="ser:guid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MonitoringStarted" nillable="true" type="tns:MonitoringStarted" />
+  <xs:complexType name="MonitoringStopped">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="IsSuccessful" type="xs:boolean" />
+      <xs:element minOccurs="0" name="RtuId" type="ser:guid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MonitoringStopped" nillable="true" type="tns:MonitoringStopped" />
+  <xs:complexType name="MonitoringResult">
+    <xs:sequence>
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Dto.Enums" minOccurs="0" name="BaseRefType" type="q1:BaseRefType" />
+      <xs:element minOccurs="0" name="RtuId" type="ser:guid" />
+      <xs:element minOccurs="0" name="SorData" nillable="true" type="xs:base64Binary" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MonitoringResult" nillable="true" type="tns:MonitoringResult" />
 </xs:schema>

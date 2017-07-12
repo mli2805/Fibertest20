@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Dto.Enums;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
-using Iit.Fibertest.Utils35;
 
 namespace Iit.Fibertest.Client
 {

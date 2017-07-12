@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Iit.Fibertest.Utils35;
+using Dto.Enums;
 
 namespace Iit.Fibertest.IitOtdrLibrary
 {

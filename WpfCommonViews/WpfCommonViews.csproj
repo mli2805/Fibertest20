@@ -158,10 +158,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Graph\Graph.csproj">
-      <Project>{a734876e-977b-4dda-b6a4-ad1dd525c6d1}</Project>
-      <Name>Graph</Name>
-    </ProjectReference>
     <ProjectReference Include="..\RTU\IitOtdrLibrary\IitOtdrLibrary.csproj">
       <Project>{e9122bbb-b015-4710-bdd3-03243ee8cbcd}</Project>
       <Name>IitOtdrLibrary</Name>

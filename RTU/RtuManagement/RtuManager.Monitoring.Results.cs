@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ServiceModel;
 using Dto;
+using Dto.Enums;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.Utils35;
 using RtuManagement.WcfForRtuServiceReference;
@@ -14,10 +15,7 @@ namespace RtuManagement
         {
             _serviceLog.AppendLine($"Sending initializatioln result to server...");
             var wcfClient = CreateAndOpenWcfClient();
-            if (wcfClient == null)
-                return;
-            wcfClient.ConfirmInitilization(rtu);
-            _serviceLog.AppendLine("Initialization result sent successfully");
+            wcfClient?.ProcessRtuInitialized(rtu);
         }
 
         private void SendMonitoringResultToDataCenter(MoniResult moniResult)
@@ -25,7 +23,23 @@ namespace RtuManagement
             _rtuLog.AppendLine($"Sending monitoring result {moniResult.BaseRefType} to server...");
             var monitoringResult = new MonitoringResult() { RtuId = Guid.NewGuid(), SorData = moniResult.SorBytes };
             var wcfClient = CreateAndOpenWcfClient();
-            wcfClient?.SendMonitoringResult(monitoringResult);
+            wcfClient?.ProcessMonitoringResult(monitoringResult);
+        }
+
+        private void SendMonitoringStarted(bool isSuccessful)
+        {
+            var result = new MonitoringStarted() {RtuId = _id, IsSuccessful = isSuccessful};
+            _rtuLog.AppendLine("Sending start monitorint result");
+            var wcfClient = CreateAndOpenWcfClient();
+            wcfClient?.ConfirmStartMonitoring(result);
+        }
+
+        private void SendMonitoringStopped(bool isSuccessful)
+        {
+            var result = new MonitoringStopped() {RtuId = _id, IsSuccessful = isSuccessful};
+            _rtuLog.AppendLine("Sending stop monitorint result");
+            var wcfClient = CreateAndOpenWcfClient();
+            wcfClient?.ConfirmStopMonitoring(result);
         }
 
        

@@ -9,6 +9,12 @@ namespace Client_WcfService
     {
         [OperationContract]
         void ConfirmRtuInitialized(RtuInitialized rtu);
+
+        [OperationContract]
+        void ConfirmMonitoringStarted(MonitoringStarted confirm);
+
+        [OperationContract]
+        void ConfirmMonitoringStopped(MonitoringStopped confirm);
     }
 
 

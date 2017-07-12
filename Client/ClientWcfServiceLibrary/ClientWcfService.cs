@@ -12,5 +12,16 @@ namespace Client_WcfService
         {
             ClientLog.AppendLine($"{rtu.Serial}");
         }
+
+        public void ConfirmMonitoringStarted(MonitoringStarted confirm)
+        {
+            var result = confirm.IsSuccessful ? "confirmed: monitoring started." : "ERROR, can't start monitoring ";
+            ClientLog.AppendLine($"Rtu {confirm.RtuId} {result}");
+        }
+        public void ConfirmMonitoringStopped(MonitoringStopped confirm)
+        {
+            var result = confirm.IsSuccessful ? "confirmed: monitoring stopped." : "ERROR, can't stop monitoring ";
+            ClientLog.AppendLine($"Rtu {confirm.RtuId} {result}");
+        }
     }
 }
