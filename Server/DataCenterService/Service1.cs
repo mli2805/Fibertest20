@@ -3,8 +3,6 @@ using System.Diagnostics;
 using System.ServiceProcess;
 using System.ServiceModel;
 using System.Threading;
-using D4C_WcfService;
-using D4R_WcfService;
 using DataCenterCore;
 using Iit.Fibertest.Utils35;
 
@@ -12,8 +10,8 @@ namespace DataCenterService
 {
     public partial class Service1 : ServiceBase
     {
-        internal static ServiceHost D4RServiceHost;
-        internal static ServiceHost D4CServiceHost;
+        internal static ServiceHost ServiceForRtuHost;
+        internal static ServiceHost ServiceForClientHost;
 
         private readonly IniFile _serviceIni;
         private readonly Logger35 _serviceLog;
@@ -41,21 +39,21 @@ namespace DataCenterService
 
         protected override void OnStart(string[] args)
         {
-            StartD4RService();
-            StartD4CService();
+            StartWcfServiceForRtu();
+            StartWcfServiceForClient();
         }
 
-        private void StartD4RService()
+        private void StartWcfServiceForRtu()
         {
-            D4RServiceHost?.Close();
+            ServiceForRtuHost?.Close();
 
-            D4RWcfService.ServiceIniFile = _serviceIni;
-            D4RWcfService.ServiceLog = _serviceLog;
-            D4RWcfService.DcManager = _dcManager;
-            D4RServiceHost = new ServiceHost(typeof(D4RWcfService));
+            WcfServiceForRtu.WcfServiceForRtu.ServiceIniFile = _serviceIni;
+            WcfServiceForRtu.WcfServiceForRtu.ServiceLog = _serviceLog;
+            WcfServiceForRtu.WcfServiceForRtu.DcManager = _dcManager;
+            ServiceForRtuHost = new ServiceHost(typeof(WcfServiceForRtu.WcfServiceForRtu));
             try
             {
-                D4RServiceHost.Open();
+                ServiceForRtuHost.Open();
             }
             catch (Exception e)
             {
@@ -64,17 +62,17 @@ namespace DataCenterService
             }
         }
 
-        private void StartD4CService()
+        private void StartWcfServiceForClient()
         {
-            D4CServiceHost?.Close();
+            ServiceForClientHost?.Close();
 
-            D4CWcfService.ServiceIniFile = _serviceIni;
-            D4CWcfService.ServiceLog = _serviceLog;
-            D4CWcfService.DcManager = _dcManager;
-            D4CServiceHost = new ServiceHost(typeof(D4CWcfService));
+            WcfServiceForClient.WcfServiceForClient.ServiceIniFile = _serviceIni;
+            WcfServiceForClient.WcfServiceForClient.ServiceLog = _serviceLog;
+            WcfServiceForClient.WcfServiceForClient.DcManager = _dcManager;
+            ServiceForClientHost = new ServiceHost(typeof(WcfServiceForClient.WcfServiceForClient));
             try
             {
-                D4CServiceHost.Open();
+                ServiceForClientHost.Open();
             }
             catch (Exception e)
             {
@@ -85,10 +83,10 @@ namespace DataCenterService
 
         protected override void OnStop()
         {
-            if (D4RServiceHost != null)
+            if (ServiceForRtuHost != null)
             {
-                D4RServiceHost.Close();
-                D4RServiceHost = null;
+                ServiceForRtuHost.Close();
+                ServiceForRtuHost = null;
             }
 
             var pid = Process.GetCurrentProcess().Id;

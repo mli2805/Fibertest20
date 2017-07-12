@@ -145,16 +145,6 @@
       <DependentUpon>OtdrView.xaml</DependentUpon>
     </Compile>
     <Compile Include="OtdrViewModel.cs" />
-    <Compile Include="Service References\D4CWcfServiceReference\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
-    <Compile Include="Service References\D4RWcfServiceReference\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
     <Compile Include="Service References\RtuWcfServiceReference\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -165,10 +155,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="WcfClientView.xaml.cs">
-      <DependentUpon>WcfClientView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="WcfClientViewModel.cs" />
     <Page Include="OtauView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -184,10 +170,6 @@
     <Page Include="ShellView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="WcfClientView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -205,32 +187,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="Service References\D4CWcfServiceReference\Dto.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\D4CWcfServiceReference\service.wsdl" />
-    <None Include="Service References\D4CWcfServiceReference\service.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\D4CWcfServiceReference\service1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\D4RWcfServiceReference\D4R_WcfService.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\D4RWcfServiceReference\Dto.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\D4RWcfServiceReference\Iit.Fibertest.Utils35.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\D4RWcfServiceReference\service.wsdl" />
-    <None Include="Service References\D4RWcfServiceReference\service2.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\D4RWcfServiceReference\service21.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Service References\RtuWcfServiceReference\Dto.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -291,8 +247,6 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Service References\D4CWcfServiceReference\" />
-    <WCFMetadataStorage Include="Service References\D4RWcfServiceReference\" />
     <WCFMetadataStorage Include="Service References\RtuWcfServiceReference\" />
   </ItemGroup>
   <ItemGroup>
@@ -303,30 +257,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\RtuWcfServiceReference\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\D4RWcfServiceReference\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\D4RWcfServiceReference\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\D4RWcfServiceReference\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\D4CWcfServiceReference\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\D4CWcfServiceReference\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\D4CWcfServiceReference\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>

@@ -6,7 +6,6 @@
     <StackPanel Margin="5">
         <Button Name="OtdrView" Content="Otdr View" Margin="5"/>
         <Button Name="OtauView" Content="Otau View" Margin="5"/>
-        <Button Name="WcfView" Content="WCF View" Margin="5"/>
     </StackPanel>
 
 </Window>

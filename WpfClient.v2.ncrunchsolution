@@ -1,24 +1,14 @@
 ﻿<SolutionConfiguration>
   <FileVersion>1</FileVersion>
   <InferProjectReferencesUsingAssemblyNames>false</InferProjectReferencesUsingAssemblyNames>
-  <AllowParallelTestExecution>true</AllowParallelTestExecution>
+  <AllowParallelTestExecution>false</AllowParallelTestExecution>
   <AllowTestsToRunInParallelWithThemselves>true</AllowTestsToRunInParallelWithThemselves>
   <FrameworkUtilisationTypeForNUnit>UseDynamicAnalysis</FrameworkUtilisationTypeForNUnit>
   <FrameworkUtilisationTypeForGallio>UseStaticAnalysis</FrameworkUtilisationTypeForGallio>
   <FrameworkUtilisationTypeForMSpec>UseStaticAnalysis</FrameworkUtilisationTypeForMSpec>
   <FrameworkUtilisationTypeForMSTest>UseStaticAnalysis</FrameworkUtilisationTypeForMSTest>
   <FrameworkUtilisationTypeForXUnit2>UseDynamicAnalysis</FrameworkUtilisationTypeForXUnit2>
-  <NCrunchCacheStoragePath></NCrunchCacheStoragePath>
+  <NCrunchCacheStoragePath />
   <MetricsExclusionList>
-GMap.NET.Core\GMap.NET.Core.csproj
-GMap.NET.WindowsPresentation\GMap.NET.WindowsPresentation.csproj
-TestBench\TestBench.csproj\MapUserControl
-TestBench\TestBench.csproj\MarkerControl
-TestBench\TestBench.csproj\Views
-ViewControls\GpsInputControl\GpsInputView.xaml.cs:TestBench\TestBench.csproj
-ViewControls\GpsInputControl\OneCoorView.xaml.cs:TestBench\TestBench.csproj
-ViewControls\NetAddressInputControl\Ip4InputView.xaml.cs:TestBench\TestBench.csproj
-ViewControls\NetAddressInputControl\NetAddressInputView.xaml.cs:TestBench\TestBench.csproj
-ViewControls\RtuChannelTestView.xaml.cs:TestBench\TestBench.csproj
 </MetricsExclusionList>
 </SolutionConfiguration>

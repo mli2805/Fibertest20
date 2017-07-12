@@ -66,6 +66,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Iit.Fibertest.Utils35, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
@@ -85,7 +86,7 @@
     <Compile Include="RtuManager.Monitoring.Preparations.cs" />
     <Compile Include="RtuManager.Monitoring.Results.cs" />
     <Compile Include="RtuManager.Recovering.cs" />
-    <Compile Include="Service References\D4RWcfServiceReference\Reference.cs">
+    <Compile Include="Service References\WcfForRtuServiceReference\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -114,34 +115,34 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Service References\D4RWcfServiceReference\D4R_WcfService.xsd">
+    <None Include="Service References\WcfForRtuServiceReference\Dto.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\D4RWcfServiceReference\Dto.xsd">
+    <None Include="Service References\WcfForRtuServiceReference\Iit.Fibertest.Utils35.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\D4RWcfServiceReference\Iit.Fibertest.Utils35.xsd">
+    <None Include="Service References\WcfForRtuServiceReference\service.wsdl" />
+    <None Include="Service References\WcfForRtuServiceReference\service.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\D4RWcfServiceReference\service.wsdl" />
-    <None Include="Service References\D4RWcfServiceReference\service.xsd">
+    <None Include="Service References\WcfForRtuServiceReference\service1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\D4RWcfServiceReference\service1.xsd">
+    <None Include="Service References\WcfForRtuServiceReference\WcfServiceForRtu.xsd">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Service References\D4RWcfServiceReference\" />
+    <WCFMetadataStorage Include="Service References\WcfForRtuServiceReference\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\D4RWcfServiceReference\configuration91.svcinfo" />
+    <None Include="Service References\WcfForRtuServiceReference\configuration91.svcinfo" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\D4RWcfServiceReference\configuration.svcinfo" />
+    <None Include="Service References\WcfForRtuServiceReference\configuration.svcinfo" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\D4RWcfServiceReference\Reference.svcmap">
+    <None Include="Service References\WcfForRtuServiceReference\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>

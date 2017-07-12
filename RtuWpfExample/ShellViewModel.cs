@@ -59,14 +59,5 @@ namespace RtuWpfExample
             IWindowManager windowManager = new WindowManager();
             windowManager.ShowWindow(vm);
         }
-
-        public void WcfView()
-        {
-            var vm = new WcfClientViewModel(_iniFile35, _clientLog);
-            IWindowManager windowManager = new WindowManager();
-            windowManager.ShowDialog(vm);
-        }
-
-
     }
 }

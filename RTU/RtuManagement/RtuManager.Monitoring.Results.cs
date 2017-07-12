@@ -3,7 +3,7 @@ using System.ServiceModel;
 using Dto;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.Utils35;
-using RtuManagement.D4RWcfServiceReference;
+using RtuManagement.WcfForRtuServiceReference;
 
 namespace RtuManagement
 {
@@ -29,12 +29,12 @@ namespace RtuManagement
         }
 
        
-        private D4RWcfServiceClient CreateAndOpenD4RWcfServiceClient()
+        private WcfServiceForRtuClient CreateAndOpenD4RWcfServiceClient()
         {
             try
             {
                 _serverIp = _rtuIni.Read(IniSection.DataCenter, IniKey.ServerIp, "192.168.96.179");
-                var d4RWcfServiceClient = new D4RWcfServiceClient(CreateDefaultNetTcpBinding(), new EndpointAddress(new Uri(CombineUriString(_serverIp, 11841, @"D4RWcfService"))));
+                var d4RWcfServiceClient = new WcfServiceForRtuClient(CreateDefaultNetTcpBinding(), new EndpointAddress(new Uri(CombineUriString(_serverIp, 11841, @"D4RWcfService"))));
 //                _serviceLog.AppendLine($@"Wcf client to {serverIp} created");
                 d4RWcfServiceClient.Open();
                 return d4RWcfServiceClient;
