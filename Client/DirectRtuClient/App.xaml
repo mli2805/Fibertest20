@@ -1,12 +1,12 @@
 ﻿<Application x:Class="DirectRtuClient.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:rtuWpfExample="clr-namespace:RtuWpfExample">
+             xmlns:directRtuClient="clr-namespace:DirectRtuClient">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
-                    <rtuWpfExample:AppBootstrapper x:Key="Bootstrapper" />
+                    <directRtuClient:AppBootstrapper x:Key="Bootstrapper" />
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

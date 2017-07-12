@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Threading;
 using System.Reflection;
+using System.Threading;
 using Caliburn.Micro;
 
-namespace RtuWpfExample {
+namespace DirectRtuClient {
     public class AppBootstrapper : BootstrapperBase {
         SimpleContainer _container;
 

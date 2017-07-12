@@ -1,3 +1,3 @@
-﻿namespace RtuWpfExample {
+﻿namespace DirectRtuClient {
     public interface IShell {}
 }

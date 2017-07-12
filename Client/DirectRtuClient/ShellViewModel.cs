@@ -1,10 +1,9 @@
-﻿using Caliburn.Micro;
-using Iit.Fibertest.Utils35;
-using System.ServiceModel;
+﻿using System.ServiceModel;
+using Caliburn.Micro;
 using Client_WcfService;
-using DirectRtuClient;
+using Iit.Fibertest.Utils35;
 
-namespace RtuWpfExample
+namespace DirectRtuClient
 {
     public class ShellViewModel : PropertyChangedBase, IShell
     {
@@ -12,24 +11,18 @@ namespace RtuWpfExample
         public string IpAddress { get; set; }
 
         private readonly Logger35 _rtuLogger;
-        private readonly Logger35 _clientLog;
         private static IniFile _iniFile35;
 
-        internal static ServiceHost myServiceHost = null;
+        internal static ServiceHost MyServiceHost;
         public ShellViewModel()
         {
             _rtuLogger = new Logger35();
-            _rtuLogger.AssignFile("rtu.log");
+            _rtuLogger.AssignFile(@"rtu.log");
 
             _iniFile35 = new IniFile();
-            _iniFile35.AssignFile("rtu.ini");
+            _iniFile35.AssignFile(@"rtu.ini");
 
-            _clientLog = new Logger35();
-            _clientLog.AssignFile(@"Client.log");
-
-
-
-            IpAddress = _iniFile35.Read(IniSection.General, IniKey.OtauIp, "192.168.96.53");
+            IpAddress = _iniFile35.Read(IniSection.General, IniKey.OtauIp, @"192.168.96.53");
 
             StartWcf();
 
@@ -37,13 +30,13 @@ namespace RtuWpfExample
 
         private void StartWcf()
         {
-            if (myServiceHost != null)
+            if (MyServiceHost != null)
             {
-                myServiceHost.Close();
+                MyServiceHost.Close();
             }
-            ClientWcfService.ClientLog = _clientLog;
-            myServiceHost = new ServiceHost(typeof(ClientWcfService));
-            myServiceHost.Open();
+            ClientWcfService.ClientLog = _rtuLogger;
+            MyServiceHost = new ServiceHost(typeof(ClientWcfService));
+            MyServiceHost.Open();
         }
 
         public void OtdrView()
