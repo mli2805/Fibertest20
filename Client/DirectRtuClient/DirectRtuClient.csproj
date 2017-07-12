@@ -202,9 +202,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClientWcfServiceLibrary\Client_WcfService.csproj">
+    <ProjectReference Include="..\ClientWcfServiceLibrary\ClientWcfServiceLibrary.csproj">
       <Project>{1822c528-4719-4c53-877e-bc57dbf6d7ff}</Project>
-      <Name>Client_WcfService</Name>
+      <Name>ClientWcfServiceLibrary</Name>
     </ProjectReference>
     <ProjectReference Include="..\WpfCommonViews\WpfCommonViews.csproj">
       <Project>{e98e6cc5-94e4-44b7-af5c-7f4f74746467}</Project>

@@ -1,7 +1,7 @@
 ﻿using System.ServiceModel;
 using Dto;
 
-namespace Client_WcfService
+namespace ClientWcfServiceLibrary
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "IClientWcfService" in both code and config file together.
     [ServiceContract]
