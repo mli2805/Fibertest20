@@ -53,7 +53,6 @@ namespace WcfTestBench
 
         public override void CanClose(Action<bool> callback)
         {
-            _clientLog.FreeFile();
             var wcfClient = CreateWcfClient(DcServiceIp);
             wcfClient.UnRegisterClientAsync(_localIp);
 
@@ -72,15 +71,19 @@ namespace WcfTestBench
 
         public void StartMonitoring()
         {
-            
+            var wcfClient = CreateWcfClient(DcServiceIp);
+            wcfClient.StartMonitoringAsync(RtuServiceIp);
+            _clientLog.AppendLine($@"Sent command to start monitoring on RTU with ip={RtuServiceIp}");
         }
 
         public void StopMonitoring()
         {
-            
+            var wcfClient = CreateWcfClient(DcServiceIp);
+            wcfClient.StopMonitoringAsync(RtuServiceIp);
+            _clientLog.AppendLine($@"Sent command to stop monitoring on RTU with ip={RtuServiceIp}");
         }
 
-     
+
         private string CombineUriString(string address, int port, string wcfServiceName)
         {
             return @"net.tcp://" + address + @":" + port + @"/" + wcfServiceName;

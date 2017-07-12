@@ -3,7 +3,7 @@ using Iit.Fibertest.Utils35;
 
 namespace WcfTestBench
 {
-    public class ShellViewModel : Caliburn.Micro.PropertyChangedBase, IShell
+    public class ShellViewModel : Screen, IShell
     {
         private IniFile _clientIniFile;
         private Logger35 _clientLog;
@@ -14,6 +14,9 @@ namespace WcfTestBench
 
             _clientLog = new Logger35();
             _clientLog.AssignFile("Client.log");
+
+            // if there are more than one child view - delete this line
+            WcfView();
         }
 
 

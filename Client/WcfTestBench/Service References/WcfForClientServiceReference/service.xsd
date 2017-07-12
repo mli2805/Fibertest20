@@ -39,4 +39,32 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="StartMonitoring">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="rtuAddress" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="StartMonitoringResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="StartMonitoringResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="StopMonitoring">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="rtuAddress" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="StopMonitoringResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="StopMonitoringResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
 </xs:schema>

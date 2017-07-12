@@ -44,5 +44,15 @@ namespace WcfServiceForClient
             DcManager.InitializeRtu(rtu);
             return true;
         }
+
+        public bool StartMonitoring(string rtuAddress)
+        {
+            return DcManager.StartMonitoring(rtuAddress);
+        }
+
+        public bool StopMonitoring(string rtuAddress)
+        {
+            return DcManager.StopMonitoring(rtuAddress);
+        }
     }
 }

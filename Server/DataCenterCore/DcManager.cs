@@ -76,6 +76,7 @@ namespace DataCenterCore
                 _clientStations.RemoveAll(c => c.Ip == address);
             }
         }
+
         public void ConfirmRtuInitialized(RtuInitialized rtu)
         {
             var list = new List<ClientStation>();
@@ -97,6 +98,28 @@ namespace DataCenterCore
 
             clientWcfServiceClient.ConfirmRtuInitialized(rtu);
             _dcLog.AppendLine($"Transfered initialization confirmation of RTU {rtu.Id} Serial={rtu.Serial}");
+        }
+
+        public bool StartMonitoring(string rtuAddress)
+        {
+            var rtuWcfServiceClient = CreateAndOpenRtuWcfServiceClient(rtuAddress);
+            if (rtuWcfServiceClient == null)
+                return false;
+
+            rtuWcfServiceClient.StartMonitoring();
+            _dcLog.AppendLine($"Transfered command to start monitoring for rtu with ip={rtuAddress}");
+            return true;
+        }
+
+        public bool StopMonitoring(string rtuAddress)
+        {
+            var rtuWcfServiceClient = CreateAndOpenRtuWcfServiceClient(rtuAddress);
+            if (rtuWcfServiceClient == null)
+                return false;
+
+            rtuWcfServiceClient.StopMonitoring();
+            _dcLog.AppendLine($"Transfered command to stop monitoring for rtu with ip={rtuAddress}");
+            return true;
         }
 
         private string CombineUriString(string address, int port, string wcfServiceName)

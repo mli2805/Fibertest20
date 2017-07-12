@@ -14,6 +14,12 @@ namespace WcfServiceForClient
 
         [OperationContract]
         bool InitializeRtu(InitializeRtu rtu);
+
+        [OperationContract]
+        bool StartMonitoring(string rtuAddress);
+
+        [OperationContract]
+        bool StopMonitoring(string rtuAddress);
     }
  
 }

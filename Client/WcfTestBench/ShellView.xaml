@@ -1,9 +1,10 @@
 <Window x:Class="WcfTestBench.ShellView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Height="100"  Width="300" WindowStartupLocation="CenterScreen">
 
-    <Grid >
-        <Button Margin="5" Height="25" Width="120" Content="Wcf test page" Name="WcfView"/>
-    </Grid>
+    <StackPanel>
+        <Button Margin="5,15,5,5" Height="25" Width="120" Content="Wcf test page" Name="WcfView"/>
+    </StackPanel>
 
 </Window>

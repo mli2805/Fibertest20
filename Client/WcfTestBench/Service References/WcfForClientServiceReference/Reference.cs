@@ -32,6 +32,18 @@ namespace WcfTestBench.WcfForClientServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForClient/InitializeRtu", ReplyAction="http://tempuri.org/IWcfServiceForClient/InitializeRtuResponse")]
         System.Threading.Tasks.Task<bool> InitializeRtuAsync(Dto.InitializeRtu rtu);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForClient/StartMonitoring", ReplyAction="http://tempuri.org/IWcfServiceForClient/StartMonitoringResponse")]
+        bool StartMonitoring(string rtuAddress);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForClient/StartMonitoring", ReplyAction="http://tempuri.org/IWcfServiceForClient/StartMonitoringResponse")]
+        System.Threading.Tasks.Task<bool> StartMonitoringAsync(string rtuAddress);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForClient/StopMonitoring", ReplyAction="http://tempuri.org/IWcfServiceForClient/StopMonitoringResponse")]
+        bool StopMonitoring(string rtuAddress);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForClient/StopMonitoring", ReplyAction="http://tempuri.org/IWcfServiceForClient/StopMonitoringResponse")]
+        System.Threading.Tasks.Task<bool> StopMonitoringAsync(string rtuAddress);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -83,6 +95,22 @@ namespace WcfTestBench.WcfForClientServiceReference {
         
         public System.Threading.Tasks.Task<bool> InitializeRtuAsync(Dto.InitializeRtu rtu) {
             return base.Channel.InitializeRtuAsync(rtu);
+        }
+        
+        public bool StartMonitoring(string rtuAddress) {
+            return base.Channel.StartMonitoring(rtuAddress);
+        }
+        
+        public System.Threading.Tasks.Task<bool> StartMonitoringAsync(string rtuAddress) {
+            return base.Channel.StartMonitoringAsync(rtuAddress);
+        }
+        
+        public bool StopMonitoring(string rtuAddress) {
+            return base.Channel.StopMonitoring(rtuAddress);
+        }
+        
+        public System.Threading.Tasks.Task<bool> StopMonitoringAsync(string rtuAddress) {
+            return base.Channel.StopMonitoringAsync(rtuAddress);
         }
     }
 }
