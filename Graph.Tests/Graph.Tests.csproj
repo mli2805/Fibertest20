@@ -69,8 +69,8 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=4.3.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.4.3.0\lib\net45\Autofac.dll</HintPath>
+    <Reference Include="Autofac, Version=4.6.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.6.0\lib\net45\Autofac.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Caliburn.Micro">
@@ -116,6 +116,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Interactivity">
       <HintPath>..\packages\Caliburn.Micro.3.0.3\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
@@ -124,7 +125,6 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="TechTalk.SpecFlow">
       <HintPath>..\packages\SpecFlow.2.1.0\lib\net45\TechTalk.SpecFlow.dll</HintPath>
@@ -561,6 +561,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Client\WpfClient\WpfClient.csproj">
+      <Project>{0a6dfc12-dc4a-4c44-923f-cee3dd6b3521}</Project>
+      <Name>WpfClient</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Graph\Graph.csproj">
       <Project>{a734876e-977b-4dda-b6a4-ad1dd525c6d1}</Project>
       <Name>Graph</Name>
@@ -576,10 +580,6 @@
     <ProjectReference Include="..\SharedLibs\Utils35\Utils35.csproj">
       <Project>{716240ff-d1e8-4bd3-9e63-431382617398}</Project>
       <Name>Utils35</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WpfClient\WpfClient.csproj">
-      <Project>{0a6dfc12-dc4a-4c44-923f-cee3dd6b3521}</Project>
-      <Name>WpfClient</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

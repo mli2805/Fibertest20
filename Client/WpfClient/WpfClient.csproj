@@ -79,61 +79,69 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=4.3.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.4.3.0\lib\net45\Autofac.dll</HintPath>
+    <Reference Include="Autofac, Version=4.6.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Autofac.4.6.0\lib\net45\Autofac.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="AutoMapper, Version=5.2.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.5.2.0\lib\net45\AutoMapper.dll</HintPath>
+    <Reference Include="AutoMapper, Version=6.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\AutoMapper.6.1.1\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Caliburn.Micro, Version=3.0.3.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Caliburn.Micro.Core.3.0.3\lib\net45\Caliburn.Micro.dll</HintPath>
+      <HintPath>..\..\packages\Caliburn.Micro.Core.3.1.0\lib\net45\Caliburn.Micro.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Caliburn.Micro.Platform, Version=3.0.3.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Caliburn.Micro.3.0.3\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
+      <HintPath>..\..\packages\Caliburn.Micro.3.1.0\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Caliburn.Micro.Platform.Core, Version=3.0.3.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Caliburn.Micro.3.0.3\lib\net45\Caliburn.Micro.Platform.Core.dll</HintPath>
+      <HintPath>..\..\packages\Caliburn.Micro.3.1.0\lib\net45\Caliburn.Micro.Platform.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="JetBrains.Annotations, Version=10.3.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
-      <HintPath>..\packages\JetBrains.Annotations.10.3.0\lib\net\JetBrains.Annotations.dll</HintPath>
+    <Reference Include="JetBrains.Annotations, Version=10.4.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JetBrains.Annotations.10.4.0\lib\net\JetBrains.Annotations.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Optixsoft.OtdrDataFormat">
-      <HintPath>..\Optixsoft.OtdrDataFormat\Optixsoft.OtdrDataFormat.dll</HintPath>
+      <HintPath>..\..\Optixsoft.OtdrDataFormat\Optixsoft.OtdrDataFormat.dll</HintPath>
     </Reference>
     <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.2.4.0\lib\net46\Serilog.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Serilog.Formatting.Compact, Version=1.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.Formatting.Compact.1.0.0\lib\net45\Serilog.Formatting.Compact.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Serilog.Sinks.File, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.Sinks.File.3.2.0\lib\net45\Serilog.Sinks.File.dll</HintPath>
+      <HintPath>..\..\packages\Serilog.2.5.0\lib\net46\Serilog.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Serilog.Sinks.PeriodicBatching, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.Sinks.PeriodicBatching.2.1.0\lib\net45\Serilog.Sinks.PeriodicBatching.dll</HintPath>
+      <HintPath>..\..\packages\Serilog.Sinks.PeriodicBatching.2.1.1\lib\net45\Serilog.Sinks.PeriodicBatching.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Serilog.Sinks.RollingFile, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.Sinks.RollingFile.3.3.0\lib\net45\Serilog.Sinks.RollingFile.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Serilog.Sinks.Seq, Version=3.2.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.Sinks.Seq.3.2.0\lib\net45\Serilog.Sinks.Seq.dll</HintPath>
+    <Reference Include="Serilog.Sinks.Seq, Version=3.3.2.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Serilog.Sinks.Seq.3.3.2\lib\net46\Serilog.Sinks.Seq.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Net.Http.4.3.1\lib\net46\System.Net.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net461\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Caliburn.Micro.3.0.3\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\..\packages\Caliburn.Micro.3.1.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml" />
@@ -141,7 +149,6 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -519,39 +526,39 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Client\WpfCommonViews\WpfCommonViews.csproj">
+    <ProjectReference Include="..\WpfCommonViews\WpfCommonViews.csproj">
       <Project>{e98e6cc5-94e4-44b7-af5c-7f4f74746467}</Project>
       <Name>WpfCommonViews</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GMap.NET.Core\GMap.NET.Core.csproj">
+    <ProjectReference Include="..\..\GMap.NET.Core\GMap.NET.Core.csproj">
       <Project>{d0c39d9d-bed0-418b-9a5e-713176caf40c}</Project>
       <Name>GMap.NET.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GMap.NET.WindowsPresentation\GMap.NET.WindowsPresentation.csproj">
+    <ProjectReference Include="..\..\GMap.NET.WindowsPresentation\GMap.NET.WindowsPresentation.csproj">
       <Project>{644fe7d4-0184-400f-b2d7-99cb41360658}</Project>
       <Name>GMap.NET.WindowsPresentation</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Graph\Graph.csproj">
+    <ProjectReference Include="..\..\Graph\Graph.csproj">
       <Project>{a734876e-977b-4dda-b6a4-ad1dd525c6d1}</Project>
       <Name>Graph</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RTU\DirectCharonLibrary\DirectCharonLibrary.csproj">
+    <ProjectReference Include="..\..\RTU\DirectCharonLibrary\DirectCharonLibrary.csproj">
       <Project>{aed4a94a-a19e-4625-8037-4f5d9489e04c}</Project>
       <Name>DirectCharonLibrary</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RTU\IitOtdrLibrary\IitOtdrLibrary.csproj">
+    <ProjectReference Include="..\..\RTU\IitOtdrLibrary\IitOtdrLibrary.csproj">
       <Project>{e9122bbb-b015-4710-bdd3-03243ee8cbcd}</Project>
       <Name>IitOtdrLibrary</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SharedLibs\Dto\Dto.csproj">
+    <ProjectReference Include="..\..\SharedLibs\Dto\Dto.csproj">
       <Project>{86a00748-2a4e-4180-b04e-0e1f6a62a258}</Project>
       <Name>Dto</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SharedLibs\StringResources\StringResources.csproj">
+    <ProjectReference Include="..\..\SharedLibs\StringResources\StringResources.csproj">
       <Project>{0cb0ea37-4a27-45f0-bb01-4c0e064e8962}</Project>
       <Name>StringResources</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SharedLibs\Utils35\Utils35.csproj">
+    <ProjectReference Include="..\..\SharedLibs\Utils35\Utils35.csproj">
       <Project>{716240ff-d1e8-4bd3-9e63-431382617398}</Project>
       <Name>Utils35</Name>
     </ProjectReference>
