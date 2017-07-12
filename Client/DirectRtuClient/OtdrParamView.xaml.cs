@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace Iit.Fibertest.RtuWpfExample
+namespace DirectRtuClient
 {
     /// <summary>
     /// Interaction logic for OtdrParamView.xaml

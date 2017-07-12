@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Iit.Fibertest.RtuWpfExample.RtuWcfServiceReference {
+namespace DirectRtuClient.Service_References.RtuWcfServiceReference {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -41,12 +41,12 @@ namespace Iit.Fibertest.RtuWpfExample.RtuWcfServiceReference {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface IRtuWcfServiceChannel : Iit.Fibertest.RtuWpfExample.RtuWcfServiceReference.IRtuWcfService, System.ServiceModel.IClientChannel {
+    public interface IRtuWcfServiceChannel : IRtuWcfService, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class RtuWcfServiceClient : System.ServiceModel.ClientBase<Iit.Fibertest.RtuWpfExample.RtuWcfServiceReference.IRtuWcfService>, Iit.Fibertest.RtuWpfExample.RtuWcfServiceReference.IRtuWcfService {
+    public partial class RtuWcfServiceClient : System.ServiceModel.ClientBase<IRtuWcfService>, IRtuWcfService {
         
         public RtuWcfServiceClient() {
         }

@@ -1,8 +1,8 @@
 ﻿using Caliburn.Micro;
-using Iit.Fibertest.RtuWpfExample;
 using Iit.Fibertest.Utils35;
 using System.ServiceModel;
 using Client_WcfService;
+using DirectRtuClient;
 
 namespace RtuWpfExample
 {

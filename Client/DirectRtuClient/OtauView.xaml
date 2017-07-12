@@ -1,13 +1,13 @@
-﻿<Window x:Class="Iit.Fibertest.RtuWpfExample.OtauView"
+﻿<Window x:Class="DirectRtuClient.OtauView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Iit.Fibertest.RtuWpfExample"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
+        xmlns:directRtuClient="clr-namespace:DirectRtuClient"
         mc:Ignorable="d"
         SizeToContent="Height" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" Width="450"
-        d:DataContext="{d:DesignInstance local:OtauViewModel}">
+        d:DataContext="{d:DesignInstance directRtuClient:OtauViewModel}">
     <StackPanel>
         <GroupBox Header="{x:Static stringResources:Resources.SID_Main_charon}" Margin="5">
             <StackPanel>

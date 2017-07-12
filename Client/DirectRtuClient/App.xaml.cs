@@ -1,4 +1,4 @@
-﻿namespace Iit.Fibertest.RtuWpfExample
+﻿namespace DirectRtuClient
 {
     /// <summary>
     /// Interaction logic for App.xaml

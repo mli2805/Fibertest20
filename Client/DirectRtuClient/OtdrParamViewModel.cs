@@ -5,7 +5,7 @@ using Caliburn.Micro;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.StringResources;
 
-namespace Iit.Fibertest.RtuWpfExample
+namespace DirectRtuClient
 {
     public class OtdrParamViewModel : Screen
     {

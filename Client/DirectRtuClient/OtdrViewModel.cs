@@ -1,16 +1,16 @@
 ﻿using System.IO;
 using System.Linq;
-using System.Windows;
-using Microsoft.Win32;
 using System.Threading.Tasks;
+using System.Windows;
 using Caliburn.Micro;
+using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.Utils35;
 using Iit.Fibertest.WpfCommonViews;
-using Iit.Fibertest.DirectCharonLibrary;
+using Microsoft.Win32;
 
-namespace Iit.Fibertest.RtuWpfExample
+namespace DirectRtuClient
 {
     public class OtdrViewModel : Screen
     {
