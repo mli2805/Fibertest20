@@ -526,6 +526,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Graph\Graph.csproj">
+      <Project>{a734876e-977b-4dda-b6a4-ad1dd525c6d1}</Project>
+      <Name>Graph</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WpfCommonViews\WpfCommonViews.csproj">
       <Project>{e98e6cc5-94e4-44b7-af5c-7f4f74746467}</Project>
       <Name>WpfCommonViews</Name>
@@ -537,10 +541,6 @@
     <ProjectReference Include="..\..\GMap.NET.WindowsPresentation\GMap.NET.WindowsPresentation.csproj">
       <Project>{644fe7d4-0184-400f-b2d7-99cb41360658}</Project>
       <Name>GMap.NET.WindowsPresentation</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Graph\Graph.csproj">
-      <Project>{a734876e-977b-4dda-b6a4-ad1dd525c6d1}</Project>
-      <Name>Graph</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\RTU\DirectCharonLibrary\DirectCharonLibrary.csproj">
       <Project>{aed4a94a-a19e-4625-8037-4f5d9489e04c}</Project>
