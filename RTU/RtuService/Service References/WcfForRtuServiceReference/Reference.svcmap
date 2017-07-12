@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="2dbcc955-8944-445d-9399-696f71bf7d04" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="net.tcp://localhost:11841/WcfServiceForRtu/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="f364ea6d-217e-4898-8d29-e457126864a0" SourceId="1" SourceUrl="net.tcp://localhost:11841/WcfServiceForRtu/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="4096e1e1-e64e-41e3-8496-59932827a7d9" SourceId="1" SourceUrl="net.tcp://localhost:11841/WcfServiceForRtu/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="b3452df1-8522-4f24-990c-ee2890cfd77c" SourceId="1" SourceUrl="net.tcp://localhost:11841/WcfServiceForRtu/mex" />
+    <MetadataFile FileName="Dto.xsd" MetadataType="Schema" ID="caab1c37-7d83-435f-94ee-58b21bc6f62a" SourceId="1" SourceUrl="net.tcp://localhost:11841/WcfServiceForRtu/mex" />
+    <MetadataFile FileName="WcfServiceForRtu.xsd" MetadataType="Schema" ID="37f5d172-25a3-4475-b8d0-177db8640ba5" SourceId="1" SourceUrl="net.tcp://localhost:11841/WcfServiceForRtu/mex" />
+    <MetadataFile FileName="Iit.Fibertest.Utils35.xsd" MetadataType="Schema" ID="47a27b46-218c-4941-be40-99cdc7db4244" SourceId="1" SourceUrl="net.tcp://localhost:11841/WcfServiceForRtu/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

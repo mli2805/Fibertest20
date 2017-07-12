@@ -48,6 +48,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RtuManagement", "RTU\RtuMan
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RtuService", "RTU\RtuService\RtuService.csproj", "{922C03AE-B0D7-4007-8788-D16FFAB89F05}"
+	ProjectSection(ProjectDependencies) = postProject
+		{EC01DBCB-BD59-4E30-A6C3-F8DDBB6E45F9} = {EC01DBCB-BD59-4E30-A6C3-F8DDBB6E45F9}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RtuWatchdog", "RTU\RtuWatchdog\RtuWatchdog.csproj", "{521CB593-76D9-40A5-A5AD-C8845BDF103B}"
 EndProject

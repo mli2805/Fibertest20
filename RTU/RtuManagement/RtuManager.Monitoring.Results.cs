@@ -13,10 +13,10 @@ namespace RtuManagement
         private void SendInitializationConfirm(RtuInitialized rtu)
         {
             _serviceLog.AppendLine($"Sending initializatioln result to server...");
-            var d4RWcfServiceClient = CreateAndOpenD4RWcfServiceClient();
-            if (d4RWcfServiceClient == null)
+            var wcfClient = CreateAndOpenWcfClient();
+            if (wcfClient == null)
                 return;
-            d4RWcfServiceClient.ConfirmInitilization(rtu);
+            wcfClient.ConfirmInitilization(rtu);
             _serviceLog.AppendLine("Initialization result sent successfully");
         }
 
@@ -24,20 +24,20 @@ namespace RtuManagement
         {
             _rtuLog.AppendLine($"Sending monitoring result {moniResult.BaseRefType} to server...");
             var monitoringResult = new MonitoringResult() { RtuId = Guid.NewGuid(), SorData = moniResult.SorBytes };
-            var d4RWcfServiceClient = CreateAndOpenD4RWcfServiceClient();
-            d4RWcfServiceClient?.SendMonitoringResult(monitoringResult);
+            var wcfClient = CreateAndOpenWcfClient();
+            wcfClient?.SendMonitoringResult(monitoringResult);
         }
 
        
-        private WcfServiceForRtuClient CreateAndOpenD4RWcfServiceClient()
+        private WcfServiceForRtuClient CreateAndOpenWcfClient()
         {
             try
             {
                 _serverIp = _rtuIni.Read(IniSection.DataCenter, IniKey.ServerIp, "192.168.96.179");
-                var d4RWcfServiceClient = new WcfServiceForRtuClient(CreateDefaultNetTcpBinding(), new EndpointAddress(new Uri(CombineUriString(_serverIp, 11841, @"D4RWcfService"))));
+                var wcfClient = new WcfServiceForRtuClient(CreateDefaultNetTcpBinding(), new EndpointAddress(new Uri(CombineUriString(_serverIp, 11841, @"WcfServiceForRtu"))));
 //                _serviceLog.AppendLine($@"Wcf client to {serverIp} created");
-                d4RWcfServiceClient.Open();
-                return d4RWcfServiceClient;
+                wcfClient.Open();
+                return wcfClient;
             }
             catch (Exception e)
             {

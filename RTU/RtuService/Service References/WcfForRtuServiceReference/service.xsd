@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import namespace="http://schemas.datacontract.org/2004/07/D4R_WcfService" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/Dto" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/WcfServiceForRtu" />
   <xs:element name="ConfirmInitilization">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/D4R_WcfService" minOccurs="0" name="result" nillable="true" type="q1:RtuInitializationResult" />
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="result" nillable="true" type="q1:RtuInitialized" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -16,7 +17,7 @@
   <xs:element name="SendMonitoringResult">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/D4R_WcfService" minOccurs="0" name="result" nillable="true" type="q2:MonitoringResult" />
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/WcfServiceForRtu" minOccurs="0" name="result" nillable="true" type="q2:MonitoringResult" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
