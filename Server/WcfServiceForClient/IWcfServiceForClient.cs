@@ -13,7 +13,7 @@ namespace WcfServiceForClient
         void UnRegisterClient(string address);
 
         [OperationContract]
-        bool CheckRtuConnection(NetAddressDto rtuAddress);
+        bool CheckRtuConnection(CheckRtuConnectionDto rtuAddress);
 
         [OperationContract]
         bool InitializeRtu(InitializeRtuDto rtu);

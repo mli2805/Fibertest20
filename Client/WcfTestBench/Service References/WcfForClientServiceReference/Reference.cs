@@ -27,6 +27,12 @@ namespace WcfTestBench.WcfForClientServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForClient/UnRegisterClient", ReplyAction="http://tempuri.org/IWcfServiceForClient/UnRegisterClientResponse")]
         System.Threading.Tasks.Task UnRegisterClientAsync(string address);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForClient/CheckRtuConnection", ReplyAction="http://tempuri.org/IWcfServiceForClient/CheckRtuConnectionResponse")]
+        bool CheckRtuConnection(Dto.CheckRtuConnectionDto rtuAddress);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForClient/CheckRtuConnection", ReplyAction="http://tempuri.org/IWcfServiceForClient/CheckRtuConnectionResponse")]
+        System.Threading.Tasks.Task<bool> CheckRtuConnectionAsync(Dto.CheckRtuConnectionDto rtuAddress);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForClient/InitializeRtu", ReplyAction="http://tempuri.org/IWcfServiceForClient/InitializeRtuResponse")]
         bool InitializeRtu(Dto.InitializeRtuDto rtu);
         
@@ -87,6 +93,14 @@ namespace WcfTestBench.WcfForClientServiceReference {
         
         public System.Threading.Tasks.Task UnRegisterClientAsync(string address) {
             return base.Channel.UnRegisterClientAsync(address);
+        }
+        
+        public bool CheckRtuConnection(Dto.CheckRtuConnectionDto rtuAddress) {
+            return base.Channel.CheckRtuConnection(rtuAddress);
+        }
+        
+        public System.Threading.Tasks.Task<bool> CheckRtuConnectionAsync(Dto.CheckRtuConnectionDto rtuAddress) {
+            return base.Channel.CheckRtuConnectionAsync(rtuAddress);
         }
         
         public bool InitializeRtu(Dto.InitializeRtuDto rtu) {

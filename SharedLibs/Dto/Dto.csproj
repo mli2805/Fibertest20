@@ -48,8 +48,9 @@
     <Compile Include="MonitoringResult.cs" />
     <Compile Include="MonitoringStartedDto.cs" />
     <Compile Include="MonitoringStoppedDto.cs" />
-    <Compile Include="NetAddressDto.cs" />
+    <Compile Include="CheckRtuConnectionDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RtuConnectionCheckedDto.cs" />
     <Compile Include="RtuInitializedDto.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

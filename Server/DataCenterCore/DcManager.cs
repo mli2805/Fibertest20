@@ -47,6 +47,13 @@ namespace DataCenterCore
             return list;
         }
 
+        public bool CheckRtuConnection(CheckRtuConnectionDto dto)
+        {
+            var address = dto.IsAddressSetAsIp ? dto.Ip4Address : dto.HostName;
+            var rtuWcfServiceClient = CreateAndOpenRtuWcfServiceClient(address);
+            return rtuWcfServiceClient != null;
+        }
+
         public bool InitializeRtu(InitializeRtuDto rtu)
         {
             var rtuWcfServiceClient = CreateAndOpenRtuWcfServiceClient(rtu.RtuIpAddress);

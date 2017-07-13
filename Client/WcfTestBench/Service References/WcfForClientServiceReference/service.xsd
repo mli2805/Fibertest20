@@ -25,10 +25,24 @@
       <xs:sequence />
     </xs:complexType>
   </xs:element>
+  <xs:element name="CheckRtuConnection">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="rtuAddress" nillable="true" type="q1:CheckRtuConnectionDto" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CheckRtuConnectionResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="CheckRtuConnectionResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="InitializeRtu">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="rtu" nillable="true" type="q1:InitializeRtu" />
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="rtu" nillable="true" type="q2:InitializeRtuDto" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

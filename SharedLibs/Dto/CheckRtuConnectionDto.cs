@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 namespace Dto
 {
     [DataContract]
-    public class NetAddressDto
+    public class CheckRtuConnectionDto
     {
         [DataMember]
         public string Ip4Address { get; set; } // 172.35.98.128

@@ -38,28 +38,28 @@ namespace WcfTestBench
 
         private void ProcessRtuInitialized(RtuInitializedDto rtu)
         {
-            InitResultString = rtu.Serial;
+            DisplayString = rtu.Serial;
         }
 
         private void ProcessMonitoringStarted(MonitoringStartedDto ms)
         {
-            InitResultString = $@"monitoring started: {ms.IsSuccessful.ToString().ToUpper()}";
+            DisplayString = $@"monitoring started: {ms.IsSuccessful.ToString().ToUpper()}";
         }
 
         private void ProcessMonitoringStopped(MonitoringStoppedDto ms)
         {
-            InitResultString = $@"monitoring stopped: {ms.IsSuccessful.ToString().ToUpper()}";
+            DisplayString = $@"monitoring stopped: {ms.IsSuccessful.ToString().ToUpper()}";
         }
 
-        private string _initResultString;
+        private string _displayString;
 
-        public string InitResultString
+        public string DisplayString
         {
-            get { return _initResultString; }
+            get { return _displayString; }
             set
             {
-                if (value == _initResultString) return;
-                _initResultString = value;
+                if (value == _displayString) return;
+                _displayString = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -108,6 +108,15 @@ namespace WcfTestBench
 
             base.CanClose(callback);
         }
+
+        public void CheckConnection()
+        {
+            DisplayString = @"Command sent, wait please.";
+            var wcfClient = ClientToServerWcfFactory.Create(DcServiceIp);
+            var dto = new CheckRtuConnectionDto() {Ip4Address = RtuServiceIp, IsAddressSetAsIp = true};
+            DisplayString = wcfClient.CheckRtuConnection(dto) ? "OK" : "ERROR";
+        }
+
         public void Initialize()
         {
             _clientIni.Write(IniSection.General, IniKey.RtuServiceIp, RtuServiceIp);
@@ -116,7 +125,7 @@ namespace WcfTestBench
             var rtu = new InitializeRtuDto() { Id = Guid.NewGuid(), RtuIpAddress = RtuServiceIp, DataCenterIpAddress = DcServiceIp };
             wcfClient.InitializeRtuAsync(rtu);
             _clientLog.AppendLine($@"Sent command to initialize RTU {rtu.Id} with ip={rtu.RtuIpAddress}");
-            InitResultString = @"Command sent, wait please.";
+            DisplayString = @"Command sent, wait please.";
         }
 
         public void StartMonitoring()
@@ -124,6 +133,7 @@ namespace WcfTestBench
             var wcfClient = ClientToServerWcfFactory.Create(DcServiceIp);
             wcfClient.StartMonitoringAsync(RtuServiceIp);
             _clientLog.AppendLine($@"Sent command to start monitoring on RTU with ip={RtuServiceIp}");
+            DisplayString = @"Command sent, wait please.";
         }
 
         public void StopMonitoring()
@@ -131,7 +141,8 @@ namespace WcfTestBench
             var wcfClient = ClientToServerWcfFactory.Create(DcServiceIp);
             wcfClient.StopMonitoringAsync(RtuServiceIp);
             _clientLog.AppendLine($@"Sent command to stop monitoring on RTU with ip={RtuServiceIp}");
+            DisplayString = @"Command sent, wait please.";
         }
-        
+
     }
 }

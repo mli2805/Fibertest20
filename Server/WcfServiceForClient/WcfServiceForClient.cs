@@ -31,9 +31,9 @@ namespace WcfServiceForClient
             DcManager.UnRegisterClient(address);
         }
 
-        public bool CheckRtuConnection(NetAddressDto rtuAddress)
+        public bool CheckRtuConnection(CheckRtuConnectionDto rtuAddress)
         {
-            throw new System.NotImplementedException();
+            return DcManager.CheckRtuConnection(rtuAddress);
         }
 
         public bool InitializeRtu(InitializeRtuDto rtu)
