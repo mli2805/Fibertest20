@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DirectRtuClient.Service_References.RtuWcfServiceReference {
+namespace DirectRtuClient.RtuWcfServiceReference {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -22,10 +22,10 @@ namespace DirectRtuClient.Service_References.RtuWcfServiceReference {
         System.Threading.Tasks.Task<string> ShakeHandsWithWatchdogAsync(string hello);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRtuWcfService/Initialize", ReplyAction="http://tempuri.org/IRtuWcfService/InitializeResponse")]
-        bool Initialize(Dto.InitializeRtu rtu);
+        bool Initialize(Dto.InitializeRtuDto rtu);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRtuWcfService/Initialize", ReplyAction="http://tempuri.org/IRtuWcfService/InitializeResponse")]
-        System.Threading.Tasks.Task<bool> InitializeAsync(Dto.InitializeRtu rtu);
+        System.Threading.Tasks.Task<bool> InitializeAsync(Dto.InitializeRtuDto rtu);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRtuWcfService/StartMonitoring", ReplyAction="http://tempuri.org/IRtuWcfService/StartMonitoringResponse")]
         void StartMonitoring();
@@ -41,12 +41,12 @@ namespace DirectRtuClient.Service_References.RtuWcfServiceReference {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface IRtuWcfServiceChannel : IRtuWcfService, System.ServiceModel.IClientChannel {
+    public interface IRtuWcfServiceChannel : DirectRtuClient.RtuWcfServiceReference.IRtuWcfService, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class RtuWcfServiceClient : System.ServiceModel.ClientBase<IRtuWcfService>, IRtuWcfService {
+    public partial class RtuWcfServiceClient : System.ServiceModel.ClientBase<DirectRtuClient.RtuWcfServiceReference.IRtuWcfService>, DirectRtuClient.RtuWcfServiceReference.IRtuWcfService {
         
         public RtuWcfServiceClient() {
         }
@@ -75,11 +75,11 @@ namespace DirectRtuClient.Service_References.RtuWcfServiceReference {
             return base.Channel.ShakeHandsWithWatchdogAsync(hello);
         }
         
-        public bool Initialize(Dto.InitializeRtu rtu) {
+        public bool Initialize(Dto.InitializeRtuDto rtu) {
             return base.Channel.Initialize(rtu);
         }
         
-        public System.Threading.Tasks.Task<bool> InitializeAsync(Dto.InitializeRtu rtu) {
+        public System.Threading.Tasks.Task<bool> InitializeAsync(Dto.InitializeRtuDto rtu) {
             return base.Channel.InitializeAsync(rtu);
         }
         

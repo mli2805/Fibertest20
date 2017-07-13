@@ -7,13 +7,13 @@ namespace WcfServiceForRtu
     public interface IWcfServiceForRtu
     {
         [OperationContract]
-        bool ProcessRtuInitialized(RtuInitialized result);
+        bool ProcessRtuInitialized(RtuInitializedDto result);
 
         [OperationContract]
-        bool ConfirmStartMonitoring(MonitoringStarted result);
+        bool ConfirmStartMonitoring(MonitoringStartedDto result);
 
         [OperationContract]
-        bool ConfirmStopMonitoring(MonitoringStopped result);
+        bool ConfirmStopMonitoring(MonitoringStoppedDto result);
 
 
         [OperationContract]

@@ -16,13 +16,13 @@ namespace RtuManagement.WcfForRtuServiceReference {
     public interface IWcfServiceForRtu {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForRtu/ProcessRtuInitialized", ReplyAction="http://tempuri.org/IWcfServiceForRtu/ProcessRtuInitializedResponse")]
-        bool ProcessRtuInitialized(Dto.RtuInitialized result);
+        bool ProcessRtuInitialized(Dto.RtuInitializedDto result);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForRtu/ConfirmStartMonitoring", ReplyAction="http://tempuri.org/IWcfServiceForRtu/ConfirmStartMonitoringResponse")]
-        bool ConfirmStartMonitoring(Dto.MonitoringStarted result);
+        bool ConfirmStartMonitoring(Dto.MonitoringStartedDto result);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForRtu/ConfirmStopMonitoring", ReplyAction="http://tempuri.org/IWcfServiceForRtu/ConfirmStopMonitoringResponse")]
-        bool ConfirmStopMonitoring(Dto.MonitoringStopped result);
+        bool ConfirmStopMonitoring(Dto.MonitoringStoppedDto result);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForRtu/ProcessMonitoringResult", ReplyAction="http://tempuri.org/IWcfServiceForRtu/ProcessMonitoringResultResponse")]
         bool ProcessMonitoringResult(Dto.MonitoringResult result);
@@ -55,15 +55,15 @@ namespace RtuManagement.WcfForRtuServiceReference {
                 base(binding, remoteAddress) {
         }
         
-        public bool ProcessRtuInitialized(Dto.RtuInitialized result) {
+        public bool ProcessRtuInitialized(Dto.RtuInitializedDto result) {
             return base.Channel.ProcessRtuInitialized(result);
         }
         
-        public bool ConfirmStartMonitoring(Dto.MonitoringStarted result) {
+        public bool ConfirmStartMonitoring(Dto.MonitoringStartedDto result) {
             return base.Channel.ConfirmStartMonitoring(result);
         }
         
-        public bool ConfirmStopMonitoring(Dto.MonitoringStopped result) {
+        public bool ConfirmStopMonitoring(Dto.MonitoringStoppedDto result) {
             return base.Channel.ConfirmStopMonitoring(result);
         }
         

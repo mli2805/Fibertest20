@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace Dto
 {
     [DataContract]
-    public class MonitoringStopped
+    public class MonitoringStartedDto
     {
         [DataMember]
         public Guid RtuId { get; set; }

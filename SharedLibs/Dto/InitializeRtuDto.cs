@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace Dto
 {
     [DataContract]
-    public class InitializeRtu
+    public class InitializeRtuDto
     {
         [DataMember]
         public Guid Id { get; set; }

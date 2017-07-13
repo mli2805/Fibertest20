@@ -43,7 +43,7 @@ namespace RtuWcfServiceLibrary
             return hello;
         }
 
-        public bool Initialize(InitializeRtu rtu)
+        public bool Initialize(InitializeRtuDto rtu)
         {
             lock (_lockObj)
             {

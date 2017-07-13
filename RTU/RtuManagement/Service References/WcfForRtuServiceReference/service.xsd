@@ -1,24 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import namespace="http://schemas.datacontract.org/2004/07/Dto" />
-  <xs:element name="ProcessRtuInitialized">
+  <xs:element name="ProcessRtuInitializedDto">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="result" nillable="true" type="q1:RtuInitialized" />
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="result" nillable="true" type="q1:RtuInitializedDto" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="ProcessRtuInitializedResponse">
+  <xs:element name="ProcessRtuInitializedDtoResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="ProcessRtuInitializedResult" type="xs:boolean" />
+        <xs:element minOccurs="0" name="ProcessRtuInitializedDtoResult" type="xs:boolean" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="ConfirmStartMonitoring">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="result" nillable="true" type="q2:MonitoringStarted" />
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="result" nillable="true" type="q2:MonitoringStartedDto" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -32,7 +32,7 @@
   <xs:element name="ConfirmStopMonitoring">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="result" nillable="true" type="q3:MonitoringStopped" />
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="result" nillable="true" type="q3:MonitoringStoppedDto" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

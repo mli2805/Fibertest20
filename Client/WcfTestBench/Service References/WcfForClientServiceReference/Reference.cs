@@ -28,10 +28,10 @@ namespace WcfTestBench.WcfForClientServiceReference {
         System.Threading.Tasks.Task UnRegisterClientAsync(string address);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForClient/InitializeRtu", ReplyAction="http://tempuri.org/IWcfServiceForClient/InitializeRtuResponse")]
-        bool InitializeRtu(Dto.InitializeRtu rtu);
+        bool InitializeRtu(Dto.InitializeRtuDto rtu);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForClient/InitializeRtu", ReplyAction="http://tempuri.org/IWcfServiceForClient/InitializeRtuResponse")]
-        System.Threading.Tasks.Task<bool> InitializeRtuAsync(Dto.InitializeRtu rtu);
+        System.Threading.Tasks.Task<bool> InitializeRtuAsync(Dto.InitializeRtuDto rtu);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForClient/StartMonitoring", ReplyAction="http://tempuri.org/IWcfServiceForClient/StartMonitoringResponse")]
         bool StartMonitoring(string rtuAddress);
@@ -89,11 +89,11 @@ namespace WcfTestBench.WcfForClientServiceReference {
             return base.Channel.UnRegisterClientAsync(address);
         }
         
-        public bool InitializeRtu(Dto.InitializeRtu rtu) {
+        public bool InitializeRtu(Dto.InitializeRtuDto rtu) {
             return base.Channel.InitializeRtu(rtu);
         }
         
-        public System.Threading.Tasks.Task<bool> InitializeRtuAsync(Dto.InitializeRtu rtu) {
+        public System.Threading.Tasks.Task<bool> InitializeRtuAsync(Dto.InitializeRtuDto rtu) {
             return base.Channel.InitializeRtuAsync(rtu);
         }
         

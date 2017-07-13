@@ -34,18 +34,17 @@ namespace RtuManagement
             while (true)
             {
                 _measurementNumber++;
+                if (shouldSendMonitoringStarted)
+                {
+                    SendMonitoringStarted(true);
+                    shouldSendMonitoringStarted = false;
+                }
 
                 var extendedPort = _monitoringQueue.Dequeue();
                 _monitoringQueue.Enqueue(extendedPort);
 
                 _rtuLog.EmptyLine();
                 ProcessOnePort(extendedPort);
-
-                if (shouldSendMonitoringStarted)
-                {
-                    SendMonitoringStarted(true);
-                    shouldSendMonitoringStarted = false;
-                }
 
                 lock (_obj)
                 {

@@ -17,28 +17,38 @@ namespace WcfTestBench
 
         private void ProcessServerMessage(object msg)
         {
-            var dto = msg as RtuInitialized;
+            var dto = msg as RtuInitializedDto;
             if (dto != null)
             {
                 ProcessRtuInitialized(dto);
                 return;
             }
-            var dto2 = msg as MonitoringStarted;
+            var dto2 = msg as MonitoringStartedDto;
             if (dto2 != null)
             {
                 ProcessMonitoringStarted(dto2);
                 return;
             }
+            var dto3 = msg as MonitoringStoppedDto;
+            if (dto3 != null)
+            {
+                ProcessMonitoringStopped(dto3);
+            }
         }
 
-        private void ProcessRtuInitialized(RtuInitialized rtu)
+        private void ProcessRtuInitialized(RtuInitializedDto rtu)
         {
             InitResultString = rtu.Serial;
         }
 
-        private void ProcessMonitoringStarted(MonitoringStarted ms)
+        private void ProcessMonitoringStarted(MonitoringStartedDto ms)
         {
             InitResultString = @"monitoring started";
+        }
+
+        private void ProcessMonitoringStopped(MonitoringStoppedDto ms)
+        {
+            InitResultString = @"monitoring stopped";
         }
 
         private string _initResultString;
@@ -103,7 +113,7 @@ namespace WcfTestBench
             _clientIni.Write(IniSection.General, IniKey.RtuServiceIp, RtuServiceIp);
 
             var wcfClient = ClientToServerWcfFactory.Create(DcServiceIp);
-            var rtu = new InitializeRtu() { Id = Guid.NewGuid(), RtuIpAddress = RtuServiceIp, DataCenterIpAddress = DcServiceIp };
+            var rtu = new InitializeRtuDto() { Id = Guid.NewGuid(), RtuIpAddress = RtuServiceIp, DataCenterIpAddress = DcServiceIp };
             wcfClient.InitializeRtuAsync(rtu);
             _clientLog.AppendLine($@"Sent command to initialize RTU {rtu.Id} with ip={rtu.RtuIpAddress}");
             InitResultString = @"Command sent, wait please.";

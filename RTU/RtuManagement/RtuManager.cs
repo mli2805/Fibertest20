@@ -72,6 +72,7 @@ namespace RtuManagement
 
             _serviceLog = serviceLog;
             _serviceIni = serviceIni;
+            _serverIp = _serviceIni.Read(IniSection.DataCenter, IniKey.ServerIp, "192.168.96.179");
 
             _rtuIni = new IniFile();
             _rtuIni.AssignFile("RtuManager.ini");
@@ -96,11 +97,12 @@ namespace RtuManagement
             _rtuLog.AppendLine($"RTU Manager started. Process {pid}, thread {tid}");
 
             bool isUserAskedInitialization = false;
-            var rtu = WcfParameter as InitializeRtu;
+            var rtu = WcfParameter as InitializeRtuDto;
             if (rtu != null)
             {
                 isUserAskedInitialization = true;
                 _rtuIni.Write(IniSection.DataCenter, IniKey.ServerIp, rtu.DataCenterIpAddress);
+                _serverIp = rtu.DataCenterIpAddress;
                 _rtuIni.Write(IniSection.DataCenter, IniKey.RtuGuid, rtu.Id.ToString());
                 WcfParameter = null;
             }
@@ -110,9 +112,18 @@ namespace RtuManagement
             {
                 _rtuLog.AppendLine("Rtu Manager initialization failed.");
                 if (isUserAskedInitialization)
-                    SendInitializationConfirm(new RtuInitialized() {Id = rtu.Id, IsInitialized = false});
+                    SendInitializationConfirm(new RtuInitializedDto() {Id = rtu.Id, IsInitialized = false});
                 return;
             }
+            if (isUserAskedInitialization)
+                SendInitializationConfirm(new RtuInitializedDto()
+                {
+                    Id = _id,
+                    IsInitialized = true,
+                    Serial = _mainCharon.Serial,
+                    FullPortCount = _mainCharon.FullPortCount,
+                    OwnPortCount = _mainCharon.OwnPortCount
+                });
             IsRtuInitialized = true;
 
             IsMonitoringOn = _rtuIni.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, 0) != 0;
@@ -125,15 +136,6 @@ namespace RtuManagement
                 _rtuLog.AppendLine("Rtu is in MANUAL mode.");
             }
 
-//            if (isUserAskedInitialization)
-                SendInitializationConfirm(new RtuInitialized()
-                {
-                    Id = _id,
-                    IsInitialized = true,
-                    Serial = _mainCharon.Serial,
-                    FullPortCount = _mainCharon.FullPortCount,
-                    OwnPortCount = _mainCharon.OwnPortCount
-                });
         }
 
         public void StartMonitoring()

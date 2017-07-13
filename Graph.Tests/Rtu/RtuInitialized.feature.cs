@@ -33,7 +33,7 @@ namespace Graph.Tests.Rtu
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "RtuInitialized", null, ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "RtuInitializedDto", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -82,7 +82,7 @@ namespace Graph.Tests.Rtu
         }
         
         [Xunit.FactAttribute(DisplayName="Запрещено инициализировать RTU с используемым адресом")]
-        [Xunit.TraitAttribute("FeatureTitle", "RtuInitialized")]
+        [Xunit.TraitAttribute("FeatureTitle", "RtuInitializedDto")]
         [Xunit.TraitAttribute("Description", "Запрещено инициализировать RTU с используемым адресом")]
         public virtual void ЗапрещеноИнициализироватьRTUСИспользуемымАдресом()
         {
@@ -114,7 +114,7 @@ this.FeatureBackground();
         }
         
         [Xunit.FactAttribute(DisplayName="Пользователь инициализирует RTU только с основным адресом")]
-        [Xunit.TraitAttribute("FeatureTitle", "RtuInitialized")]
+        [Xunit.TraitAttribute("FeatureTitle", "RtuInitializedDto")]
         [Xunit.TraitAttribute("Description", "Пользователь инициализирует RTU только с основным адресом")]
         public virtual void ПользовательИнициализируетRTUТолькоСОсновнымАдресом()
         {
@@ -132,7 +132,7 @@ this.FeatureBackground();
         }
         
         [Xunit.FactAttribute(DisplayName="Пользователь инициализирует RTU с основным и резервным адресами")]
-        [Xunit.TraitAttribute("FeatureTitle", "RtuInitialized")]
+        [Xunit.TraitAttribute("FeatureTitle", "RtuInitializedDto")]
         [Xunit.TraitAttribute("Description", "Пользователь инициализирует RTU с основным и резервным адресами")]
         public virtual void ПользовательИнициализируетRTUСОсновнымИРезервнымАдресами()
         {
@@ -151,7 +151,7 @@ this.FeatureBackground();
         }
         
         [Xunit.FactAttribute(DisplayName="Пользователь отказывается инициализировать РТУ")]
-        [Xunit.TraitAttribute("FeatureTitle", "RtuInitialized")]
+        [Xunit.TraitAttribute("FeatureTitle", "RtuInitializedDto")]
         [Xunit.TraitAttribute("Description", "Пользователь отказывается инициализировать РТУ")]
         public virtual void ПользовательОтказываетсяИнициализироватьРТУ()
         {

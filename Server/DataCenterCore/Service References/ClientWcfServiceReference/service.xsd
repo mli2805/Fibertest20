@@ -4,35 +4,35 @@
   <xs:element name="ConfirmRtuInitialized">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="rtu" nillable="true" type="q1:RtuInitialized" />
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="rtu" nillable="true" type="q1:RtuInitializedDto" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="ConfirmRtuInitializedResponse">
+  <xs:element name="ConfirmRtuInitializedDtoResponse">
     <xs:complexType>
       <xs:sequence />
     </xs:complexType>
   </xs:element>
-  <xs:element name="ConfirmMonitoringStarted">
+  <xs:element name="ConfirmMonitoringStartedDto">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="confirm" nillable="true" type="q2:MonitoringStarted" />
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="confirm" nillable="true" type="q2:MonitoringStartedDto" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="ConfirmMonitoringStartedResponse">
+  <xs:element name="ConfirmMonitoringStartedDtoResponse">
     <xs:complexType>
       <xs:sequence />
     </xs:complexType>
   </xs:element>
-  <xs:element name="ConfirmMonitoringStopped">
+  <xs:element name="ConfirmMonitoringStoppedDto">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="confirm" nillable="true" type="q3:MonitoringStopped" />
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="confirm" nillable="true" type="q3:MonitoringStoppedDto" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="ConfirmMonitoringStoppedResponse">
+  <xs:element name="ConfirmMonitoringStoppedDtoResponse">
     <xs:complexType>
       <xs:sequence />
     </xs:complexType>

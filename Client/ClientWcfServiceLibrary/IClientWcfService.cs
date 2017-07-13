@@ -8,13 +8,13 @@ namespace ClientWcfServiceLibrary
     public interface IClientWcfService
     {
         [OperationContract]
-        void ConfirmRtuInitialized(RtuInitialized rtu);
+        void ConfirmRtuInitialized(RtuInitializedDto rtu);
 
         [OperationContract]
-        void ConfirmMonitoringStarted(MonitoringStarted confirm);
+        void ConfirmMonitoringStarted(MonitoringStartedDto confirm);
 
         [OperationContract]
-        void ConfirmMonitoringStopped(MonitoringStopped confirm);
+        void ConfirmMonitoringStopped(MonitoringStoppedDto confirm);
     }
 
 

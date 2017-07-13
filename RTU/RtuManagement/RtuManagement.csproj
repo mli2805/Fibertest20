@@ -85,6 +85,7 @@
     <Compile Include="RtuManager.Monitoring.Preparations.cs" />
     <Compile Include="RtuManager.Monitoring.Results.cs" />
     <Compile Include="RtuManager.Recovering.cs" />
+    <Compile Include="RtuToServerWcfFactory.cs" />
     <Compile Include="Service References\WcfForRtuServiceReference\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

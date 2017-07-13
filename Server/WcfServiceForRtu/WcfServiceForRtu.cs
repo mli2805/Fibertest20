@@ -20,17 +20,17 @@ namespace WcfServiceForRtu
             }
         }
 
-        public bool ProcessRtuInitialized(RtuInitialized result)
+        public bool ProcessRtuInitialized(RtuInitializedDto result)
         {
             return DcManager.ProcessRtuInitialized(result);
         }
 
-        public bool ConfirmStartMonitoring(MonitoringStarted confirmation)
+        public bool ConfirmStartMonitoring(MonitoringStartedDto confirmation)
         {
             return DcManager.ConfirmStartMonitoring(confirmation);
         }
 
-        public bool ConfirmStopMonitoring(MonitoringStopped confirmation)
+        public bool ConfirmStopMonitoring(MonitoringStoppedDto confirmation)
         {
             return DcManager.ConfirmStopMonitoring(confirmation);
         }

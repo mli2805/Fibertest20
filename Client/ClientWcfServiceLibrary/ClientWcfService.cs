@@ -12,19 +12,19 @@ namespace ClientWcfServiceLibrary
         public static event OnMessageReceived MessageReceived;
         public delegate void OnMessageReceived(object e);
 
-        public void ConfirmRtuInitialized(RtuInitialized rtu)
+        public void ConfirmRtuInitialized(RtuInitializedDto rtu)
         {
             ClientLog.AppendLine($"RTU serial={rtu.Serial} confirmed initialization");
             MessageReceived?.Invoke(rtu);
         }
 
-        public void ConfirmMonitoringStarted(MonitoringStarted confirm)
+        public void ConfirmMonitoringStarted(MonitoringStartedDto confirm)
         {
             var result = confirm.IsSuccessful ? "confirmed: monitoring started." : "ERROR, can't start monitoring ";
             ClientLog.AppendLine($"Rtu {confirm.RtuId} {result}");
             MessageReceived?.Invoke(confirm);
         }
-        public void ConfirmMonitoringStopped(MonitoringStopped confirm)
+        public void ConfirmMonitoringStopped(MonitoringStoppedDto confirm)
         {
             var result = confirm.IsSuccessful ? "confirmed: monitoring stopped." : "ERROR, can't stop monitoring ";
             ClientLog.AppendLine($"Rtu {confirm.RtuId} {result}");
