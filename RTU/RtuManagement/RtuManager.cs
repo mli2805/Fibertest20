@@ -103,7 +103,7 @@ namespace RtuManagement
                 isUserAskedInitialization = true;
                 _rtuIni.Write(IniSection.DataCenter, IniKey.ServerIp, rtu.DataCenterIpAddress);
                 _serverIp = rtu.DataCenterIpAddress;
-                _rtuIni.Write(IniSection.DataCenter, IniKey.RtuGuid, rtu.Id.ToString());
+                _rtuIni.Write(IniSection.DataCenter, IniKey.RtuGuid, rtu.RtuId.ToString());
                 WcfParameter = null;
             }
             RestoreFunctions.ResetCharonThroughComPort(_rtuIni, _rtuLog);
@@ -112,7 +112,7 @@ namespace RtuManagement
             {
                 _rtuLog.AppendLine("Rtu Manager initialization failed.");
                 if (isUserAskedInitialization)
-                    SendInitializationConfirm(new RtuInitializedDto() {Id = rtu.Id, IsInitialized = false});
+                    SendInitializationConfirm(new RtuInitializedDto() {Id = rtu.RtuId, IsInitialized = false});
                 return;
             }
             if (isUserAskedInitialization)

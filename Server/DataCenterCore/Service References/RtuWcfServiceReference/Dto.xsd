@@ -4,7 +4,7 @@
   <xs:complexType name="InitializeRtu">
     <xs:sequence>
       <xs:element minOccurs="0" name="DataCenterIpAddress" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="Id" type="ser:guid" />
+      <xs:element minOccurs="0" name="RtuId" type="ser:guid" />
       <xs:element minOccurs="0" name="RtuIpAddress" nillable="true" type="xs:string" />
     </xs:sequence>
   </xs:complexType>

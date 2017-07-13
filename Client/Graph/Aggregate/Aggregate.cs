@@ -129,7 +129,7 @@ namespace Iit.Fibertest.Graph
 
         public string When(UpdateEquipment cmd)
         {
-            //            if (WriteModel.GetEquipment(cmd.Id) == null)
+            //            if (WriteModel.GetEquipment(cmd.RtuId) == null)
             //                return "Somebody removed this equipment while you updated it";
             WriteModel.AddAndCommit(_mapper.Map<EquipmentUpdated>(cmd));
             return null;

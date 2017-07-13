@@ -122,9 +122,9 @@ namespace WcfTestBench
             _clientIni.Write(IniSection.General, IniKey.RtuServiceIp, RtuServiceIp);
 
             var wcfClient = ClientToServerWcfFactory.Create(DcServiceIp);
-            var rtu = new InitializeRtuDto() { Id = Guid.NewGuid(), RtuIpAddress = RtuServiceIp, DataCenterIpAddress = DcServiceIp };
+            var rtu = new InitializeRtuDto() { RtuId = Guid.NewGuid(), RtuIpAddress = RtuServiceIp, DataCenterIpAddress = DcServiceIp };
             wcfClient.InitializeRtuAsync(rtu);
-            _clientLog.AppendLine($@"Sent command to initialize RTU {rtu.Id} with ip={rtu.RtuIpAddress}");
+            _clientLog.AppendLine($@"Sent command to initialize RTU {rtu.RtuId} with ip={rtu.RtuIpAddress}");
             DisplayString = @"Command sent, wait please.";
         }
 
