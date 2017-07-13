@@ -1,19 +1,42 @@
 ﻿using System;
 using System.ServiceModel;
-using System.Windows;
 using Caliburn.Micro;
+using ClientWcfServiceLibrary;
 using Dto;
 using Iit.Fibertest.Utils35;
-using WcfTestBench.WcfForClientServiceReference;
 
 namespace WcfTestBench
 {
     public class WcfClientViewModel : Screen
     {
+        internal static ServiceHost MyServiceHost;
         private readonly Logger35 _clientLog;
         private readonly IniFile _clientIni;
-        private string _localIp;
+        private readonly string _localIp;
         private string _rtuServiceIp;
+
+        private readonly object _messageLocker = new object();
+
+        private object _message;
+        public object Message
+        {
+            get
+            {
+                lock (_messageLocker)
+                {
+                    return _message;
+                }
+            }
+            set
+            {
+                lock (_messageLocker)
+                {
+                    _message = value;
+                }
+            }
+        }
+
+
         private string _initResultString;
 
         public string InitResultString
@@ -43,17 +66,30 @@ namespace WcfTestBench
         {
             _clientLog = clientLog;
             _clientIni = iniFile35;
-            DcServiceIp = _clientIni.Read(IniSection.DataCenter, IniKey.ServerIp, @"10.1.37.22");
+            //            DcServiceIp = _clientIni.Read(IniSection.DataCenter, IniKey.ServerIp, @"10.1.37.22");
+            DcServiceIp = _clientIni.Read(IniSection.DataCenter, IniKey.ServerIp, @"192.168.96.179");
             RtuServiceIp = _clientIni.Read(IniSection.General, IniKey.RtuServiceIp, @"192.168.96.53");
 
             _localIp = _clientIni.Read(IniSection.General, IniKey.LocalIp, @"192.168.96.179");
-            var wcfClient = CreateWcfClient(DcServiceIp);
+            var wcfClient = ClientToServerWcfFactory.Create(DcServiceIp);
             wcfClient.RegisterClientAsync(_localIp);
+
+            // start 11843 listener
+            StartWcf();
+        }
+
+        private void StartWcf()
+        {
+            MyServiceHost?.Close();
+            ClientWcfService.ClientLog = _clientLog;
+            ClientWcfService.MessageFromServer = Message;
+            MyServiceHost = new ServiceHost(typeof(ClientWcfService));
+            MyServiceHost.Open();
         }
 
         public override void CanClose(Action<bool> callback)
         {
-            var wcfClient = CreateWcfClient(DcServiceIp);
+            var wcfClient = ClientToServerWcfFactory.Create(DcServiceIp);
             wcfClient.UnRegisterClientAsync(_localIp);
 
             base.CanClose(callback);
@@ -62,7 +98,7 @@ namespace WcfTestBench
         {
             _clientIni.Write(IniSection.General, IniKey.RtuServiceIp, RtuServiceIp);
 
-            var wcfClient = CreateWcfClient(DcServiceIp);
+            var wcfClient = ClientToServerWcfFactory.Create(DcServiceIp);
             var rtu = new InitializeRtu() { Id = Guid.NewGuid(), RtuIpAddress = RtuServiceIp, DataCenterIpAddress = DcServiceIp };
             wcfClient.InitializeRtuAsync(rtu);
             _clientLog.AppendLine($@"Sent command to initialize RTU {rtu.Id} with ip={rtu.RtuIpAddress}");
@@ -71,50 +107,17 @@ namespace WcfTestBench
 
         public void StartMonitoring()
         {
-            var wcfClient = CreateWcfClient(DcServiceIp);
+            var wcfClient = ClientToServerWcfFactory.Create(DcServiceIp);
             wcfClient.StartMonitoringAsync(RtuServiceIp);
             _clientLog.AppendLine($@"Sent command to start monitoring on RTU with ip={RtuServiceIp}");
         }
 
         public void StopMonitoring()
         {
-            var wcfClient = CreateWcfClient(DcServiceIp);
+            var wcfClient = ClientToServerWcfFactory.Create(DcServiceIp);
             wcfClient.StopMonitoringAsync(RtuServiceIp);
             _clientLog.AppendLine($@"Sent command to stop monitoring on RTU with ip={RtuServiceIp}");
         }
-
-
-        private string CombineUriString(string address, int port, string wcfServiceName)
-        {
-            return @"net.tcp://" + address + @":" + port + @"/" + wcfServiceName;
-        }
-
-      private WcfServiceForClientClient CreateWcfClient(string address)
-        {
-            try
-            {
-                var wcfClient = new WcfServiceForClientClient(CreateDefaultNetTcpBinding(), new EndpointAddress(new Uri(CombineUriString(address, 11840, @"WcfServiceForClient"))));
-                wcfClient.Open();
-                return wcfClient;
-            }
-            catch (Exception e)
-            {
-                _clientLog.AppendLine(e.Message);
-                MessageBox.Show(e.Message, @"WcfServiceForClient creation error!");
-                return null;
-            }
-        }
-
-        private NetTcpBinding CreateDefaultNetTcpBinding()
-        {
-            return new NetTcpBinding
-            {
-                Security = { Mode = SecurityMode.None },
-                ReceiveTimeout = new TimeSpan(0, 15, 0),
-                SendTimeout = new TimeSpan(0, 15, 0),
-                OpenTimeout = new TimeSpan(0, 1, 0),
-                MaxBufferSize = 4096000 //4M
-            };
-        }
+        
     }
 }

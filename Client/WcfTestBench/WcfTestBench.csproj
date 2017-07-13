@@ -74,6 +74,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
+    <Compile Include="ClientToServerWcfFactory.cs" />
     <Compile Include="IShell.cs" />
     <Compile Include="Service References\WcfForClientServiceReference\Reference.cs">
       <AutoGen>True</AutoGen>

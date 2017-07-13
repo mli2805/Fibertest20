@@ -7,7 +7,6 @@ using RtuManagement;
 
 namespace RtuWcfServiceLibrary
 {
-    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "RtuWcfService" in both code and config file together.
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public class RtuWcfService : IRtuWcfService
     {
