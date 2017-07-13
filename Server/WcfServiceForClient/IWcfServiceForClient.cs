@@ -1,6 +1,5 @@
 ﻿using System.ServiceModel;
 using Dto;
-using Iit.Fibertest.Utils35;
 
 namespace WcfServiceForClient
 {

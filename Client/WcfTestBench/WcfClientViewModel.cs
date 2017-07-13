@@ -43,12 +43,12 @@ namespace WcfTestBench
 
         private void ProcessMonitoringStarted(MonitoringStartedDto ms)
         {
-            InitResultString = @"monitoring started";
+            InitResultString = $@"monitoring started: {ms.IsSuccessful.ToString().ToUpper()}";
         }
 
         private void ProcessMonitoringStopped(MonitoringStoppedDto ms)
         {
-            InitResultString = @"monitoring stopped";
+            InitResultString = $@"monitoring stopped: {ms.IsSuccessful.ToString().ToUpper()}";
         }
 
         private string _initResultString;
