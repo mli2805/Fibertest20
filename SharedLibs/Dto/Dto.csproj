@@ -47,10 +47,13 @@
     <Compile Include="Enums\BaseRefTypeExtensions.cs" />
     <Compile Include="Enums\FiberState.cs" />
     <Compile Include="InitializeRtuDto.cs" />
+    <Compile Include="IsPortMonitoringOn.cs" />
     <Compile Include="MonitoringResult.cs" />
+    <Compile Include="ApplyMonitoringSettingsDto.cs" />
     <Compile Include="MonitoringStartedDto.cs" />
     <Compile Include="MonitoringStoppedDto.cs" />
     <Compile Include="CheckRtuConnectionDto.cs" />
+    <Compile Include="MonitoringTimespansDto.cs" />
     <Compile Include="OtauPortDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RtuConnectionCheckedDto.cs" />
