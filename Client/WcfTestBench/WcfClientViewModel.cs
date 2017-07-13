@@ -15,27 +15,31 @@ namespace WcfTestBench
         private readonly string _localIp;
         private string _rtuServiceIp;
 
-        private readonly object _messageLocker = new object();
-
-        private object _message;
-        public object Message
+        private void ProcessServerMessage(object msg)
         {
-            get
+            var dto = msg as RtuInitialized;
+            if (dto != null)
             {
-                lock (_messageLocker)
-                {
-                    return _message;
-                }
+                ProcessRtuInitialized(dto);
+                return;
             }
-            set
+            var dto2 = msg as MonitoringStarted;
+            if (dto2 != null)
             {
-                lock (_messageLocker)
-                {
-                    _message = value;
-                }
+                ProcessMonitoringStarted(dto2);
+                return;
             }
         }
 
+        private void ProcessRtuInitialized(RtuInitialized rtu)
+        {
+            InitResultString = rtu.Serial;
+        }
+
+        private void ProcessMonitoringStarted(MonitoringStarted ms)
+        {
+            InitResultString = @"monitoring started";
+        }
 
         private string _initResultString;
 
@@ -82,7 +86,7 @@ namespace WcfTestBench
         {
             MyServiceHost?.Close();
             ClientWcfService.ClientLog = _clientLog;
-            ClientWcfService.MessageFromServer = Message;
+            ClientWcfService.MessageReceived += ProcessServerMessage;
             MyServiceHost = new ServiceHost(typeof(ClientWcfService));
             MyServiceHost.Open();
         }
