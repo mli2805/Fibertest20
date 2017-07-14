@@ -54,7 +54,7 @@ namespace WcfTestBench
                 },
                 Charons = new List<MonitoringCharonModel>()
                 {
-                    new MonitoringCharonModel() { Title = "RTU", Ports = PopulatePorts(28)},
+                    new MonitoringCharonModel() { Title = "Грушаука 214", Ports = PopulatePorts(28)},
                     new MonitoringCharonModel() { Title = "192.168.96.57:11834", Ports = PopulatePorts(16)},
                     new MonitoringCharonModel() { Title = "192.168.96.57:11835", Ports = PopulatePorts(4)}
                 }

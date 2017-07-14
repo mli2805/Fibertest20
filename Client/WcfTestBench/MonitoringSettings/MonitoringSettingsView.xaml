@@ -50,26 +50,33 @@
             </TabControl.ItemTemplate>
             <TabControl.ContentTemplate>
                 <DataTemplate DataType="monitoringSettings:MonitoringCharonModel">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto">
-                        <ItemsControl ItemsSource="{Binding Ports}" Margin="10,5,5,10" >
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate DataType="monitoringSettings:MonitoringPortModel">
-                                    <DockPanel >
-                                        <Border DockPanel.Dock="Left" BorderBrush="LightGray" BorderThickness="1" Margin="0,3">
-                                            <CheckBox Margin="5,2" IsChecked="{Binding IsIncluded, Mode=TwoWay}" VerticalAlignment="Center"
+                    <StackPanel>
+                        <DockPanel Margin="10,0">
+                            <TextBlock Text="N" DockPanel.Dock="Left" Width="52" TextAlignment="Center" FontWeight="Bold"/>
+                            <TextBlock Text="Fast / Precise" DockPanel.Dock="Right" Width="77"  TextAlignment="Center" FontWeight="Bold"/>
+                            <TextBlock Text="Trace title" TextAlignment="Center" FontWeight="Bold"/>
+                        </DockPanel>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <ItemsControl ItemsSource="{Binding Ports}" Margin="10,5,5,10" >
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate DataType="monitoringSettings:MonitoringPortModel">
+                                        <DockPanel >
+                                            <Border DockPanel.Dock="Left" BorderBrush="LightGray" BorderThickness="1" Margin="0,3">
+                                                <CheckBox Margin="5,2" IsChecked="{Binding IsIncluded, Mode=TwoWay}" VerticalAlignment="Center"
                                                           Content="{Binding PortNumber}" Width="40" IsEnabled="{Binding IsAnyBaseAssigned}"/>
-                                        </Border>
-                                        <Border DockPanel.Dock="Right" BorderBrush="LightGray" BorderThickness="1" Margin="0,3">
-                                            <TextBlock Margin="5,1" Width="70" Text="{Binding Duration}"/>
-                                        </Border>
-                                        <Border BorderBrush="LightGray" BorderThickness="1" Margin="0,3">
-                                            <TextBlock  Margin="5,1" Text="{Binding TraceTitle}" TextWrapping="Wrap"/>
-                                        </Border>
-                                    </DockPanel>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </ScrollViewer>
+                                            </Border>
+                                            <Border DockPanel.Dock="Right" BorderBrush="LightGray" BorderThickness="1" Margin="0,3">
+                                                <TextBlock Margin="5,1" Width="70" Text="{Binding Duration}"/>
+                                            </Border>
+                                            <Border BorderBrush="LightGray" BorderThickness="1" Margin="0,3">
+                                                <TextBlock  Margin="5,1" Text="{Binding TraceTitle}" TextWrapping="Wrap"/>
+                                            </Border>
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </StackPanel>
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>
