@@ -80,7 +80,7 @@
       <DependentUpon>MonitoringSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MonitoringSettings\MonitoringSettingsViewModel.cs" />
-    <Compile Include="MonitoringSettings\PortLineModel.cs" />
+    <Compile Include="MonitoringSettings\MonitoringPortModel.cs" />
     <Compile Include="Service References\WcfForClientServiceReference\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

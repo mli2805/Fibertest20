@@ -5,162 +5,46 @@ using Caliburn.Micro;
 
 namespace WcfTestBench.MonitoringSettings
 {
+    public class MonitoringCharonModel
+    {
+        public string Title { get; set; }
+        public List<MonitoringPortModel> Ports { get; set; } = new List<MonitoringPortModel>();
+
+        public int GetCycleTime()
+        {
+            return Ports.Where(p => p.IsIncluded).Sum(p => p.FastBaseSpan.Seconds) +
+                   Ports.Count(p => p.IsIncluded) * 2; // 2 sec for toggle port
+        }
+    }
+    public class MonitoringTimespans
+    {
+        public TimeSpan PreciseMeas { get; set; } = TimeSpan.Zero;
+        public TimeSpan PreciseSave { get; set; } = TimeSpan.Zero;
+        public TimeSpan FastSave { get; set; } = TimeSpan.Zero;
+    }
+    public class MonitoringSettingsModel
+    {
+        public List<MonitoringCharonModel> Charons { get; set; } = new List<MonitoringCharonModel>();
+        public MonitoringTimespans Timespans { get; set; } = new MonitoringTimespans();
+        public bool IsMonitoringOn { get; set; }
+
+        public string GetCycleTime()
+        {
+            return TimeSpan.FromSeconds(Charons.Sum(c => c.GetCycleTime())).ToString();
+        }
+    }
     public class MonitoringSettingsViewModel : Screen
     {
-        public List<PortLineModel> Ports { get; set; } // for binding
+        public List<MonitoringPortModel> Ports { get; set; } // for binding
         public string CharonAddress { get; set; }
         public string CycleFullTime { get; set; }
 
-        public MonitoringSettingsViewModel()
+        public MonitoringSettingsModel Model { get; set; }
+
+        public MonitoringSettingsViewModel(MonitoringSettingsModel model)
         {
-            CharonAddress = "192.168.96.000:23";
-            Ports = new List<PortLineModel>
-            {
-                new PortLineModel()
-                {
-                    PortNumber = 1,
-                    TraceTitle =
-                        "Very very very long title for quite short trace in Minsk City (testing new MonitoringSettingsView) p1",
-                    PreciseBaseSpan = TimeSpan.FromSeconds(73),
-                    FastBaseSpan = TimeSpan.FromSeconds(34),
-                    IsMonitoringOn = true,
-                },
-                new PortLineModel()
-                {
-                    PortNumber = 2,
-                    TraceTitle =
-                        "Very very very long title for quite short trace in Minsk City (testing new MonitoringSettingsView) p2",
-                    PreciseBaseSpan = TimeSpan.FromSeconds(53),
-                    FastBaseSpan = TimeSpan.FromSeconds(32),
-                    IsMonitoringOn = false,
-                },
-                new PortLineModel()
-                {
-                    PortNumber = 3,
-                    TraceTitle =
-                        "Very very very long title for quite short trace in Minsk City (testing new MonitoringSettingsView) p3",
-                    PreciseBaseSpan = TimeSpan.FromSeconds(34),
-                    FastBaseSpan = TimeSpan.FromSeconds(34),
-                    IsMonitoringOn = true,
-                },
-                new PortLineModel()
-                {
-                    PortNumber = 4,
-                    TraceTitle =
-                        "Very very very long title for quite short trace in Minsk City (testing new MonitoringSettingsView) p4",
-                    PreciseBaseSpan = TimeSpan.FromSeconds(34),
-                    FastBaseSpan = TimeSpan.FromSeconds(34),
-                    IsMonitoringOn = true,
-                },
-                new PortLineModel()
-                {
-                PortNumber = 1,
-                TraceTitle =
-                    "Very very very long title for quite short trace in Minsk City (testing new MonitoringSettingsView) p1",
-                PreciseBaseSpan = TimeSpan.FromSeconds(73),
-                FastBaseSpan = TimeSpan.FromSeconds(34),
-                IsMonitoringOn = true,
-            },
-            new PortLineModel()
-            {
-                PortNumber = 2,
-                TraceTitle =
-                    "Very very very long title for quite short trace in Minsk City (testing new MonitoringSettingsView) p2",
-                PreciseBaseSpan = TimeSpan.FromSeconds(53),
-                FastBaseSpan = TimeSpan.FromSeconds(32),
-                IsMonitoringOn = false,
-            },
-            new PortLineModel()
-            {
-                PortNumber = 3,
-                TraceTitle =
-                    "Very very very long title for quite short trace in Minsk City (testing new MonitoringSettingsView) p3",
-                PreciseBaseSpan = TimeSpan.FromSeconds(34),
-                FastBaseSpan = TimeSpan.FromSeconds(34),
-                IsMonitoringOn = true,
-            },
-            new PortLineModel()
-            {
-                PortNumber = 4,
-                TraceTitle =
-                    "Very very very long title for quite short trace in Minsk City (testing new MonitoringSettingsView) p4",
-                PreciseBaseSpan = TimeSpan.FromSeconds(34),
-                FastBaseSpan = TimeSpan.FromSeconds(34),
-                IsMonitoringOn = true,
-            },
-                new PortLineModel()
-            {
-                PortNumber = 1,
-                TraceTitle =
-                    "Very very very long title for quite short trace in Minsk City (testing new MonitoringSettingsView) p1",
-                PreciseBaseSpan = TimeSpan.FromSeconds(73),
-                FastBaseSpan = TimeSpan.FromSeconds(34),
-                IsMonitoringOn = true,
-            },
-            new PortLineModel()
-            {
-                PortNumber = 2,
-                TraceTitle =
-                    "Very very very long title for quite short trace in Minsk City (testing new MonitoringSettingsView) p2",
-                PreciseBaseSpan = TimeSpan.FromSeconds(53),
-                FastBaseSpan = TimeSpan.FromSeconds(32),
-                IsMonitoringOn = false,
-            },
-            new PortLineModel()
-            {
-                PortNumber = 3,
-                TraceTitle =
-                    "Very very very long title for quite short trace in Minsk City (testing new MonitoringSettingsView) p3",
-                PreciseBaseSpan = TimeSpan.FromSeconds(34),
-                FastBaseSpan = TimeSpan.FromSeconds(34),
-                IsMonitoringOn = true,
-            },
-            new PortLineModel()
-            {
-                PortNumber = 4,
-                TraceTitle =
-                    "Very very very long title for quite short trace in Minsk City (testing new MonitoringSettingsView) p4",
-                PreciseBaseSpan = TimeSpan.FromSeconds(34),
-                FastBaseSpan = TimeSpan.FromSeconds(34),
-                IsMonitoringOn = true,
-            } ,
-                new PortLineModel()
-            {
-                PortNumber = 1,
-                TraceTitle =
-                    "Very very very long title for quite short trace in Minsk City (testing new MonitoringSettingsView) p1",
-                PreciseBaseSpan = TimeSpan.FromSeconds(73),
-                FastBaseSpan = TimeSpan.FromSeconds(34),
-                IsMonitoringOn = true,
-            },
-            new PortLineModel()
-            {
-                PortNumber = 2,
-                TraceTitle =
-                    "Very very very long title for quite short trace in Minsk City (testing new MonitoringSettingsView) p2",
-                PreciseBaseSpan = TimeSpan.FromSeconds(53),
-                FastBaseSpan = TimeSpan.FromSeconds(32),
-                IsMonitoringOn = false,
-            },
-            new PortLineModel()
-            {
-                PortNumber = 3,
-                TraceTitle =
-                    "Very very very long title for quite short trace in Minsk City (testing new MonitoringSettingsView) p3",
-                PreciseBaseSpan = TimeSpan.FromSeconds(34),
-                FastBaseSpan = TimeSpan.FromSeconds(34),
-                IsMonitoringOn = true,
-            },
-            new PortLineModel()
-            {
-                PortNumber = 4,
-                TraceTitle =
-                    "Very very very long title for quite short trace in Minsk City (testing new MonitoringSettingsView) p4",
-                PreciseBaseSpan = TimeSpan.FromSeconds(34),
-                FastBaseSpan = TimeSpan.FromSeconds(34),
-                IsMonitoringOn = true,
-            }};
-            CycleFullTime = Ports.Sum(p => p.FastBaseSpan.Seconds).ToString();
+            Model = model;
+            CycleFullTime = Model.GetCycleTime();
         }
 
         protected override void OnViewLoaded(object view)

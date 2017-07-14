@@ -8,7 +8,7 @@
         SizeToContent="WidthAndHeight" MinHeight="400" MinWidth="650" WindowStartupLocation="CenterScreen"
         d:DataContext="{d:DesignInstance monitoringSettings:MonitoringSettingsViewModel}">
     <DockPanel>
-        <DockPanel DockPanel.Dock="Right" Width="200">
+        <DockPanel DockPanel.Dock="Right" Width="200" Margin="5">
             <StackPanel DockPanel.Dock="Bottom" Margin="5,15,5,5" Orientation="Horizontal">
                 <Button Height="25" Width="80" Content="Apply" Margin="5"></Button>
                 <Button Height="25" Width="80" Content="Close" Margin="5" IsCancel="True"/>
@@ -32,21 +32,27 @@
             <GroupBox Header="Cycle full time" DockPanel.Dock="Top">
                 <TextBlock Margin="5" Text="{Binding CycleFullTime}"/>
             </GroupBox>
+            <GroupBox Header="Monitoring mode" DockPanel.Dock="Top">
+                <StackPanel>
+                    <RadioButton Content="Automatic" Margin="5"/>
+                    <RadioButton Content="Manual" Margin="5"/>
+                </StackPanel>
+            </GroupBox>
             <StackPanel></StackPanel>
         </DockPanel>
-        <TabControl DockPanel.Dock="Left">
+        <TabControl DockPanel.Dock="Left" Margin="5">
             <TabItem Header="{Binding CharonAddress}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <ItemsControl ItemsSource="{Binding Ports}" Margin="10,5,5,10" >
                     <ItemsControl.ItemTemplate>
-                        <DataTemplate DataType="monitoringSettings:PortLineModel">
+                        <DataTemplate DataType="monitoringSettings:MonitoringPortModel">
                             <DockPanel >
                                 <Border DockPanel.Dock="Left" BorderBrush="LightGray" BorderThickness="1" Margin="0,3">
-                                    <CheckBox Margin="5,2" IsChecked="{Binding IsMonitoringOn, Mode=TwoWay}" 
+                                    <CheckBox Margin="5,2" IsChecked="{Binding IsIncluded, Mode=TwoWay}" VerticalAlignment="Center"
                                           Content="{Binding PortNumber}" IsEnabled="{Binding IsAnyBaseAssigned}"/>
                                 </Border>
                                 <Border DockPanel.Dock="Right" BorderBrush="LightGray" BorderThickness="1" Margin="0,3">
-                                    <TextBlock Margin="5,1" Width="50" Text="{Binding Duration}"/>
+                                    <TextBlock Margin="5,1" Width="60" Text="{Binding Duration}"/>
                                 </Border>
                                 <Border BorderBrush="LightGray" BorderThickness="1" Margin="0,3">
                                     <TextBlock  Margin="5,1" Text="{Binding TraceTitle}" TextWrapping="Wrap"/>

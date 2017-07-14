@@ -131,7 +131,8 @@ namespace WcfTestBench
 
         public void MonitoringSettings()
         {
-            var vm = new MonitoringSettingsViewModel();
+            var model = new MonitoringSettingsModel() {IsMonitoringOn = true};
+            var vm = new MonitoringSettingsViewModel(model);
             IWindowManager windowManager = new WindowManager();
             windowManager.ShowWindow(vm);
         }
