@@ -35,6 +35,7 @@
                     <TextBlock Name="BaseFileNameTextBox" Text="{Binding BaseFileName}" Margin="5" Background="AliceBlue"/>
                 </DockPanel>
                 <Button Name="StartMeasurementWithBase" Content="Start measurement with parameters from base" Margin="5" IsEnabled="{Binding IsOtdrConnected}"/>
+                <Button Name="Analyze" Content="Analyze measurement" Margin="5" />
                 <Button Name="CompareMeasurementWithBase" Content="Compare" Margin="5" />
                 <DockPanel>
                     <Button Name="StopCycle" DockPanel.Dock="Right" Content="Stop" Margin="5" Width="100" IsEnabled="{Binding IsOtdrConnected}"/>

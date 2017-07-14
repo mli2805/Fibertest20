@@ -1,0 +1,62 @@
+﻿<Window x:Class="WcfTestBench.MonitoringSettings.MonitoringSettingsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:monitoringSettings="clr-namespace:WcfTestBench.MonitoringSettings"
+        mc:Ignorable="d"
+        SizeToContent="WidthAndHeight" MinHeight="400" MinWidth="650" WindowStartupLocation="CenterScreen"
+        d:DataContext="{d:DesignInstance monitoringSettings:MonitoringSettingsViewModel}">
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Right" Width="200">
+            <StackPanel DockPanel.Dock="Bottom" Margin="5,15,5,5" Orientation="Horizontal">
+                <Button Height="25" Width="80" Content="Apply" Margin="5"></Button>
+                <Button Height="25" Width="80" Content="Close" Margin="5" IsCancel="True"/>
+            </StackPanel>
+            <GroupBox Header="Precise" DockPanel.Dock="Top">
+                <StackPanel Margin="5">
+                    <TextBlock Text="Measurement frequency" Margin="5,0,0,0"/>
+                    <ComboBox Margin="5"></ComboBox>
+                    <TextBlock Text="Save frequency" Margin="5,0,0,0"/>
+                    <ComboBox Margin="5"></ComboBox>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header="Fast" DockPanel.Dock="Top">
+                <StackPanel Margin="5">
+                    <TextBlock Text="Measurement frequency" Margin="5,0,0,0"/>
+                    <TextBlock Text="Permanently" FontWeight="Bold" Margin="10,5"/>
+                    <TextBlock Text="Save frequency" Margin="5,0,0,0"/>
+                    <ComboBox Margin="5"></ComboBox>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header="Cycle full time" DockPanel.Dock="Top">
+                <TextBlock Margin="5" Text="{Binding CycleFullTime}"/>
+            </GroupBox>
+            <StackPanel></StackPanel>
+        </DockPanel>
+        <TabControl DockPanel.Dock="Left">
+            <TabItem Header="{Binding CharonAddress}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding Ports}" Margin="10,5,5,10" >
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="monitoringSettings:PortLineModel">
+                            <DockPanel >
+                                <Border DockPanel.Dock="Left" BorderBrush="LightGray" BorderThickness="1" Margin="0,3">
+                                    <CheckBox Margin="5,2" IsChecked="{Binding IsMonitoringOn, Mode=TwoWay}" 
+                                          Content="{Binding PortNumber}" IsEnabled="{Binding IsAnyBaseAssigned}"/>
+                                </Border>
+                                <Border DockPanel.Dock="Right" BorderBrush="LightGray" BorderThickness="1" Margin="0,3">
+                                    <TextBlock Margin="5,1" Width="50" Text="{Binding Duration}"/>
+                                </Border>
+                                <Border BorderBrush="LightGray" BorderThickness="1" Margin="0,3">
+                                    <TextBlock  Margin="5,1" Text="{Binding TraceTitle}" TextWrapping="Wrap"/>
+                                </Border>
+                            </DockPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</Window>

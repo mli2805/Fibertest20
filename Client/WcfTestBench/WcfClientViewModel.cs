@@ -4,6 +4,7 @@ using Caliburn.Micro;
 using ClientWcfServiceLibrary;
 using Dto;
 using Iit.Fibertest.Utils35;
+using WcfTestBench.MonitoringSettings;
 
 namespace WcfTestBench
 {
@@ -128,6 +129,13 @@ namespace WcfTestBench
             DisplayString = @"Command sent, wait please.";
         }
 
+        public void MonitoringSettings()
+        {
+            var vm = new MonitoringSettingsViewModel();
+            IWindowManager windowManager = new WindowManager();
+            windowManager.ShowWindow(vm);
+        }
+
         public void StartMonitoring()
         {
             var wcfClient = ClientToServerWcfFactory.Create(DcServiceIp);
@@ -143,6 +151,8 @@ namespace WcfTestBench
             _clientLog.AppendLine($@"Sent command to stop monitoring on RTU with ip={RtuServiceIp}");
             DisplayString = @"Command sent, wait please.";
         }
+
+
 
     }
 }

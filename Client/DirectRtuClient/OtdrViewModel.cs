@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -253,8 +254,8 @@ namespace DirectRtuClient
                 IsMeasurementInProgress = true;
                 Message = Resources.SID_Wait__please___;
 
-                byte[] buffer = File.ReadAllBytes(BaseFileName);
-                var result = await Task.Run(() => OtdrManager.MeasureWithBase(buffer, GetActiveChildCharon()));
+                byte[] baseBytes = File.ReadAllBytes(BaseFileName);
+                var result = await Task.Run(() => OtdrManager.MeasureWithBase(baseBytes, GetActiveChildCharon()));
 
                 IsMeasurementInProgress = false;
                 if (!result)
@@ -269,19 +270,45 @@ namespace DirectRtuClient
                     Message = Resources.SID_Can_t_get_result__see_log;
                     return;
                 }
-                var sorData = OtdrManager.ApplyFilter(OtdrManager.ApplyAutoAnalysis(lastSorDataBuffer), OtdrManager.IsFilterOnInBase(buffer));
+                var sorData = OtdrManager.ApplyFilter(OtdrManager.ApplyAutoAnalysis(lastSorDataBuffer), OtdrManager.IsFilterOnInBase(baseBytes));
                 sorData.Save(MeasFileName);
                 Message = Resources.SID_Measurement_is_finished_;
+            }
+        }
+
+        public void Analyze()
+        {
+            var baseBytes = LoadSorFile(BaseFileName);
+            if (baseBytes == null) return;
+            var measBytes = LoadSorFile(MeasFileName);
+            if (measBytes == null) return;
+            var sorData = OtdrManager.ApplyFilter(OtdrManager.ApplyAutoAnalysis(measBytes), OtdrManager.IsFilterOnInBase(baseBytes));
+            sorData.Save(MeasFileName);
+            Message = Resources.SID_Analysis_is_finished;
+        }
+
+        private byte[] LoadSorFile(string filename)
+        {
+            try
+            {
+                return File.ReadAllBytes(filename);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                return null;
             }
         }
 
         // button
         public void CompareMeasurementWithBase()
         {
-            var bufferBase = File.ReadAllBytes(BaseFileName);
-            var bufferMeas = File.ReadAllBytes(MeasFileName);
+            var baseBytes = LoadSorFile(BaseFileName);
+            if (baseBytes == null) return;
+            var measBytes = LoadSorFile(MeasFileName);
+            if (measBytes == null) return;
 
-            var moniResult = OtdrManager.CompareMeasureWithBase(bufferBase, bufferMeas, true);
+            var moniResult = OtdrManager.CompareMeasureWithBase(baseBytes, measBytes, true);
             var sorData = SorData.FromBytes(moniResult.SorBytes);
             sorData.Save(MeasFileName);
 
@@ -290,10 +317,10 @@ namespace DirectRtuClient
 
 
         private bool _isMonitoringCycleCanceled;
-        private object _cycleLockOb = new object();
+        private readonly object _cycleLockObj = new object();
         public async Task StartCycle()
         {
-            lock (_cycleLockOb)
+            lock (_cycleLockObj)
             {
                 _isMonitoringCycleCanceled = false;
             }
@@ -304,7 +331,7 @@ namespace DirectRtuClient
 
             while (true)
             {
-                lock (_cycleLockOb)
+                lock (_cycleLockObj)
                 {
                     if (_isMonitoringCycleCanceled)
                     {
@@ -337,7 +364,7 @@ namespace DirectRtuClient
 
         public void StopCycle()
         {
-            lock (_cycleLockOb)
+            lock (_cycleLockObj)
             {
                 _isMonitoringCycleCanceled = true;
                 InterruptMeasurement();

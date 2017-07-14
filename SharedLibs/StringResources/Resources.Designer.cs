@@ -323,6 +323,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Analysis is finished.
+        /// </summary>
+        public static string SID_Analysis_is_finished {
+            get {
+                return ResourceManager.GetString("SID_Analysis_is_finished", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Attach.
         /// </summary>
         public static string SID_Attach {

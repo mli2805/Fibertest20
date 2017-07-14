@@ -76,6 +76,11 @@
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="ClientToServerWcfFactory.cs" />
     <Compile Include="IShell.cs" />
+    <Compile Include="MonitoringSettings\MonitoringSettingsView.xaml.cs">
+      <DependentUpon>MonitoringSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MonitoringSettings\MonitoringSettingsViewModel.cs" />
+    <Compile Include="MonitoringSettings\PortLineModel.cs" />
     <Compile Include="Service References\WcfForClientServiceReference\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -90,6 +95,10 @@
       <DependentUpon>WcfClientView.xaml</DependentUpon>
     </Compile>
     <Compile Include="WcfClientViewModel.cs" />
+    <Page Include="MonitoringSettings\MonitoringSettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="ShellView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -149,6 +158,10 @@
     <ProjectReference Include="..\ClientWcfServiceLibrary\ClientWcfServiceLibrary.csproj">
       <Project>{1822c528-4719-4c53-877e-bc57dbf6d7ff}</Project>
       <Name>ClientWcfServiceLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WpfCommonViews\WpfCommonViews.csproj">
+      <Project>{e98e6cc5-94e4-44b7-af5c-7f4f74746467}</Project>
+      <Name>WpfCommonViews</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

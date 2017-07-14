@@ -1,6 +1,8 @@
 using Caliburn.Micro;
 using System.ServiceModel;
 using Iit.Fibertest.Utils35;
+using Iit.Fibertest.WpfCommonViews;
+using WcfTestBench.MonitoringSettings;
 
 namespace WcfTestBench
 {
@@ -18,7 +20,7 @@ namespace WcfTestBench
             _clientLog.AssignFile("Client.log");
 
             // if there are more than one child view - delete this line
-            WcfView();
+            Temp();
         }
 
         public void WcfView()
@@ -26,6 +28,14 @@ namespace WcfTestBench
             var vm = new WcfClientViewModel(_clientIniFile, _clientLog);
             IWindowManager windowManager = new WindowManager();
             windowManager.ShowDialog(vm);
+        }
+
+        public void Temp()
+        {
+            var vm = new MonitoringSettingsViewModel();
+            IWindowManager windowManager = new WindowManager();
+            windowManager.ShowDialog(vm);
+
         }
 
     }
