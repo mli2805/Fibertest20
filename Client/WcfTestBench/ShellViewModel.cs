@@ -72,13 +72,13 @@ namespace WcfTestBench
                 var port = new MonitoringPortModel()
                 {
                     PortNumber = i,
-                    TraceTitle = new StringBuilder().Insert(0, "Probability is a quite long word", gen.Next(5)).ToString() + $" p{i}",
+                    TraceTitle = new StringBuilder().Insert(0, "Probability is a quite long word ", gen.Next(4)+1).ToString() + $" p{i}",
                     IsIncluded = gen.Next(100) <= 25,
                 };
                 if (port.IsIncluded || gen.Next(100) <= 75)
                 {
-                    port.PreciseBaseSpan = TimeSpan.FromSeconds(gen.Next(100));
-                    port.FastBaseSpan = TimeSpan.FromSeconds(gen.Next(100));
+                    port.PreciseBaseSpan = TimeSpan.FromSeconds(gen.Next(100) + 15);
+                    port.FastBaseSpan = TimeSpan.FromSeconds(gen.Next(100) + 15);
                     if (gen.Next(100) <= 2)
                         port.AdditionalBaseSpan = TimeSpan.FromSeconds(gen.Next(100));
                 }

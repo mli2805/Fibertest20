@@ -12,6 +12,6 @@ namespace WcfTestBench.MonitoringSettings
         public bool IsIncluded { get; set; }
         public bool IsAnyBaseAssigned => PreciseBaseSpan != TimeSpan.Zero || FastBaseSpan != TimeSpan.Zero;
 
-        public string Duration => FastBaseSpan.Seconds + " / " + PreciseBaseSpan.Seconds + " sec";
+        public string Duration => FastBaseSpan.TotalSeconds + " / " + PreciseBaseSpan.TotalSeconds + " sec";
     }
 }

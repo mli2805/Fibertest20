@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Controls;
 using Caliburn.Micro;
 
 namespace WcfTestBench.MonitoringSettings
@@ -12,7 +13,7 @@ namespace WcfTestBench.MonitoringSettings
 
         public int GetCycleTime()
         {
-            return Ports.Where(p => p.IsIncluded).Sum(p => p.FastBaseSpan.Seconds) +
+            return Ports.Where(p => p.IsIncluded).Sum(p => (int)p.FastBaseSpan.TotalSeconds) +
                    Ports.Count(p => p.IsIncluded) * 2; // 2 sec for toggle port
         }
     }
@@ -35,8 +36,6 @@ namespace WcfTestBench.MonitoringSettings
     }
     public class MonitoringSettingsViewModel : Screen
     {
-        public List<MonitoringPortModel> Ports { get; set; } // for binding
-        public string CharonAddress { get; set; }
         public string CycleFullTime { get; set; }
 
         public MonitoringSettingsModel Model { get; set; }

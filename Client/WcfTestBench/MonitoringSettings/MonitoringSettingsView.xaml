@@ -5,14 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:monitoringSettings="clr-namespace:WcfTestBench.MonitoringSettings"
         mc:Ignorable="d"
-        SizeToContent="WidthAndHeight" MinHeight="400" MinWidth="650" WindowStartupLocation="CenterScreen"
+        SizeToContent="WidthAndHeight" MinHeight="520" MinWidth="650" WindowStartupLocation="CenterScreen"
         d:DataContext="{d:DesignInstance monitoringSettings:MonitoringSettingsViewModel}">
     <DockPanel>
         <DockPanel DockPanel.Dock="Right" Width="200" Margin="5">
-            <StackPanel DockPanel.Dock="Bottom" Margin="5,15,5,5" Orientation="Horizontal">
-                <Button Height="25" Width="80" Content="Apply" Margin="5"></Button>
-                <Button Height="25" Width="80" Content="Close" Margin="5" IsCancel="True"/>
-            </StackPanel>
+            <TextBlock DockPanel.Dock="Bottom" Margin="10,0,10,5" Background="AliceBlue"/>
+            <DockPanel DockPanel.Dock="Bottom" Margin="5,15,5,0">
+                <Button Height="25" Width="80" Content="Apply" Margin="5" DockPanel.Dock="Left"/>
+                <Button Height="25" Width="80" Content="Close" Margin="5" IsCancel="True" DockPanel.Dock="Right"/>
+                <StackPanel></StackPanel>
+            </DockPanel>
             <GroupBox Header="Precise" DockPanel.Dock="Top">
                 <StackPanel Margin="5">
                     <TextBlock Text="Measurement frequency" Margin="5,0,0,0"/>
@@ -34,35 +36,42 @@
             </GroupBox>
             <GroupBox Header="Monitoring mode" DockPanel.Dock="Top">
                 <StackPanel>
-                    <RadioButton Content="Automatic" Margin="5"/>
+                    <RadioButton Content="Automatic" IsChecked="{Binding Model.IsMonitoringOn}" Margin="5"/>
                     <RadioButton Content="Manual" Margin="5"/>
                 </StackPanel>
             </GroupBox>
             <StackPanel></StackPanel>
         </DockPanel>
-        <TabControl DockPanel.Dock="Left" Margin="5">
-            <TabItem Header="{Binding CharonAddress}">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <ItemsControl ItemsSource="{Binding Ports}" Margin="10,5,5,10" >
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate DataType="monitoringSettings:MonitoringPortModel">
-                            <DockPanel >
-                                <Border DockPanel.Dock="Left" BorderBrush="LightGray" BorderThickness="1" Margin="0,3">
-                                    <CheckBox Margin="5,2" IsChecked="{Binding IsIncluded, Mode=TwoWay}" VerticalAlignment="Center"
-                                          Content="{Binding PortNumber}" IsEnabled="{Binding IsAnyBaseAssigned}"/>
-                                </Border>
-                                <Border DockPanel.Dock="Right" BorderBrush="LightGray" BorderThickness="1" Margin="0,3">
-                                    <TextBlock Margin="5,1" Width="60" Text="{Binding Duration}"/>
-                                </Border>
-                                <Border BorderBrush="LightGray" BorderThickness="1" Margin="0,3">
-                                    <TextBlock  Margin="5,1" Text="{Binding TraceTitle}" TextWrapping="Wrap"/>
-                                </Border>
-                            </DockPanel>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-                </ScrollViewer>
-            </TabItem>
+        <TabControl DockPanel.Dock="Left" Margin="5" ItemsSource="{Binding Model.Charons}">
+            <TabControl.ItemTemplate>
+                <DataTemplate DataType="monitoringSettings:MonitoringCharonModel">
+                    <TextBlock Text="{Binding Title}" Margin="10,0"/>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate DataType="monitoringSettings:MonitoringCharonModel">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding Ports}" Margin="10,5,5,10" >
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="monitoringSettings:MonitoringPortModel">
+                                    <DockPanel >
+                                        <Border DockPanel.Dock="Left" BorderBrush="LightGray" BorderThickness="1" Margin="0,3">
+                                            <CheckBox Margin="5,2" IsChecked="{Binding IsIncluded, Mode=TwoWay}" VerticalAlignment="Center"
+                                                          Content="{Binding PortNumber}" Width="40" IsEnabled="{Binding IsAnyBaseAssigned}"/>
+                                        </Border>
+                                        <Border DockPanel.Dock="Right" BorderBrush="LightGray" BorderThickness="1" Margin="0,3">
+                                            <TextBlock Margin="5,1" Width="70" Text="{Binding Duration}"/>
+                                        </Border>
+                                        <Border BorderBrush="LightGray" BorderThickness="1" Margin="0,3">
+                                            <TextBlock  Margin="5,1" Text="{Binding TraceTitle}" TextWrapping="Wrap"/>
+                                        </Border>
+                                    </DockPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
         </TabControl>
     </DockPanel>
 </Window>
