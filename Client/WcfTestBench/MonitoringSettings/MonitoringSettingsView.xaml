@@ -11,7 +11,7 @@
         <DockPanel DockPanel.Dock="Right" Width="200" Margin="5">
             <TextBlock DockPanel.Dock="Bottom" Margin="10,0,10,5" Background="AliceBlue"/>
             <DockPanel DockPanel.Dock="Bottom" Margin="5,15,5,0">
-                <Button Height="25" Width="80" Content="Apply" Margin="5" DockPanel.Dock="Left"/>
+                <Button Name="Apply" Height="25" Width="80" Content="Apply" Margin="5" DockPanel.Dock="Left"/>
                 <Button Height="25" Width="80" Content="Close" Margin="5" IsCancel="True" DockPanel.Dock="Right"/>
                 <StackPanel></StackPanel>
             </DockPanel>
@@ -42,7 +42,7 @@
             </GroupBox>
             <StackPanel></StackPanel>
         </DockPanel>
-        <TabControl DockPanel.Dock="Left" Margin="5" ItemsSource="{Binding Model.Charons}">
+        <TabControl DockPanel.Dock="Left" Margin="5" ItemsSource="{Binding Model.Charons}" SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}">
             <TabControl.ItemTemplate>
                 <DataTemplate DataType="monitoringSettings:MonitoringCharonModel">
                     <TextBlock Text="{Binding Title}" Margin="10,0"/>
