@@ -12,7 +12,7 @@ namespace WcfTestBench.MonitoringSettings
         public bool IsMonitoringOn { get; set; }
 
 
-        public List<Frequency> PreciseMeasFreqs { get; set; } = Enum.GetValues(typeof(Frequency)).OfType<Frequency>().ToList();
+        public List<Frequency> PreciseMeasFreqs { get; set; }
 
         private Frequency _selectedPreciseMeasFreq;
         public Frequency SelectedPreciseMeasFreq
@@ -23,24 +23,45 @@ namespace WcfTestBench.MonitoringSettings
                 if (_selectedPreciseMeasFreq == value)
                     return;
                 _selectedPreciseMeasFreq = value;
-                ValidateSaveFrequency();
+                ValidatePreciseSaveFrequency();
             }
         }
 
-        private void ValidateSaveFrequency()
+        private void ValidatePreciseSaveFrequency()
         {
-            var allPreciseSaveFreqs = Enum.GetValues(typeof(Frequency)).OfType<Frequency>().ToList();
-            PreciseSaveFreqs = allPreciseSaveFreqs.Where(f => f == Frequency.DoNotSave || f >= SelectedPreciseMeasFreq).ToList();
             if (SelectedPreciseSaveFreq < SelectedPreciseMeasFreq)
                 SelectedPreciseSaveFreq = SelectedPreciseMeasFreq;
+            PreciseSaveFreqs = FastSaveFreqs.Where(f => f == Frequency.DoNot || f >= SelectedPreciseMeasFreq).ToList();
         }
 
-        public List<Frequency> PreciseSaveFreqs { get; set; } = Enum.GetValues(typeof(Frequency)).OfType<Frequency>().ToList();
-        public Frequency SelectedPreciseSaveFreq { get; set; }
+        public List<string> FastMeasFreq { get; set; }
+        public string SelectedFastMeasFreq { get; set; }
 
-        public List<Frequency> FastSaveFreqs { get; set; } = Enum.GetValues(typeof(Frequency)).OfType<Frequency>().ToList();
+        private List<Frequency> _preciseSaveFreqs;
+        public List<Frequency> PreciseSaveFreqs
+        {
+            get { return _preciseSaveFreqs; }
+            set
+            {
+                if (Equals(value, _preciseSaveFreqs)) return;
+                _preciseSaveFreqs = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public Frequency SelectedPreciseSaveFreq
+        {
+            get { return _selectedPreciseSaveFreq; }
+            set
+            {
+                if (value == _selectedPreciseSaveFreq) return;
+                _selectedPreciseSaveFreq = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public List<Frequency> FastSaveFreqs { get; set; } 
         public Frequency SelectedFastSaveFreq { get; set; }
-
 
         public void F()
         {
@@ -51,9 +72,19 @@ namespace WcfTestBench.MonitoringSettings
             }
             CycleTime = TimeSpan.FromSeconds(Charons.Sum(c => c.CycleTime)).ToString();
 
-            SelectedPreciseMeasFreq = Frequencies.PreciseMeas;
-            SelectedPreciseSaveFreq = Frequencies.PreciseSave;
+            InitializeComboboxes();
+        }
+
+        private void InitializeComboboxes()
+        {
+            FastSaveFreqs = Enum.GetValues(typeof(Frequency)).OfType<Frequency>().ToList();
             SelectedFastSaveFreq = Frequencies.FastSave;
+            PreciseMeasFreqs = FastSaveFreqs.Where(f => f <= Frequency.EveryDay || f== Frequency.DoNot).ToList();
+            _selectedPreciseMeasFreq = Frequencies.PreciseMeas;
+            PreciseSaveFreqs = FastSaveFreqs.Where(f => f == Frequency.DoNot || f >= SelectedPreciseMeasFreq).ToList();
+            SelectedPreciseSaveFreq = Frequencies.PreciseSave;
+            FastMeasFreq = new List<string>() { "Permanently" };
+            SelectedFastMeasFreq = FastMeasFreq[0];
         }
 
         private void Charon_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -64,6 +95,7 @@ namespace WcfTestBench.MonitoringSettings
         }
 
         private string _cycleTime;
+        private Frequency _selectedPreciseSaveFreq;
 
         public string CycleTime
         {
@@ -76,7 +108,5 @@ namespace WcfTestBench.MonitoringSettings
             }
         }
 
-
-        //        public string CycleTime => TimeSpan.FromSeconds(Charons.Sum(c => c.CycleTime)).ToString();
     }
 }

@@ -11,7 +11,7 @@ namespace WcfTestBench
             if (value == null)
                 return null;
             var instance = (Frequency)value;
-            return ConvertToString(instance);
+            return ConvertToString(instance, (string)parameter);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -19,11 +19,11 @@ namespace WcfTestBench
             return string.Empty;
         }
 
-        private static string ConvertToString(Frequency instance)
+        private static string ConvertToString(Frequency instance, string param)
         {
             switch (instance)
             {
-                case Frequency.DoNotSave: return "Do not save";
+                case Frequency.DoNot: return param == "0" ? "Do not measure" : "Do not save";
                 case Frequency.EveryHour: return "Every hour";
                 case Frequency.Every6Hours: return "Every 6 hours";
                 case Frequency.Every12Hours: return "Every 12 hours";
