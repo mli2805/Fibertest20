@@ -33,6 +33,7 @@ namespace WcfTestBench
             windowManager.ShowDialog(vm);
         }
 
+        private Random gen = new Random();
         public void Temp()
         {
             var vm = new MonitoringSettingsViewModel(PopulateModel());
@@ -62,9 +63,8 @@ namespace WcfTestBench
             return model;
         }
 
-        private static List<MonitoringPortModel> PopulatePorts(int count)
+        private List<MonitoringPortModel> PopulatePorts(int count)
         {
-            Random gen = new Random();
 
             var result = new List<MonitoringPortModel>();
             for (int i = 1; i <= count; i++)
