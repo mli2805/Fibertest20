@@ -47,13 +47,7 @@ namespace WcfTestBench
             var model = new MonitoringSettingsModel()
             {
                 IsMonitoringOn = true,
-                
-                Frequencies = new MonitoringFrequencies()
-                {
-                    PreciseMeas = Frequency.EveryHour,
-                    PreciseSave = Frequency.EveryHour,
-                    FastSave = Frequency.EveryHour,
-                },
+
                 Charons = new List<MonitoringCharonModel>()
                 {
                     new MonitoringCharonModel() { Title = "Грушаука 214", Ports = PopulatePorts(28)},
@@ -61,6 +55,7 @@ namespace WcfTestBench
                     new MonitoringCharonModel() { Title = "192.168.96.57:11835", Ports = PopulatePorts(4)}
                 }
             };
+            model.Frequencies.InitializeComboboxes(Frequency.EveryHour, Frequency.EveryHour, Frequency.EveryHour);
             return model;
         }
 

@@ -84,7 +84,6 @@
     </Compile>
     <Compile Include="MonitoringSettings\MonitoringSettingsViewModel.cs" />
     <Compile Include="MonitoringSettings\MonitoringPortModel.cs" />
-    <Compile Include="MonitoringSettings\MonitoringFrequencies.cs" />
     <Compile Include="Enums\Frequency.cs" />
     <Compile Include="Service References\WcfForClientServiceReference\Reference.cs">
       <AutoGen>True</AutoGen>

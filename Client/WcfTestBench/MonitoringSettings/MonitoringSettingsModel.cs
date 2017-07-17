@@ -5,13 +5,8 @@ using Caliburn.Micro;
 
 namespace WcfTestBench.MonitoringSettings
 {
-    public class MonitoringSettingsModel : PropertyChangedBase
+    public class MonitoringFrequenciesModel : PropertyChangedBase
     {
-        public List<MonitoringCharonModel> Charons { get; set; } = new List<MonitoringCharonModel>();
-        public MonitoringFrequencies Frequencies { get; set; } = new MonitoringFrequencies();
-        public bool IsMonitoringOn { get; set; }
-
-
         public List<Frequency> PreciseMeasFreqs { get; set; }
 
         private Frequency _selectedPreciseMeasFreq;
@@ -49,6 +44,7 @@ namespace WcfTestBench.MonitoringSettings
             }
         }
 
+        private Frequency _selectedPreciseSaveFreq;
         public Frequency SelectedPreciseSaveFreq
         {
             get { return _selectedPreciseSaveFreq; }
@@ -60,8 +56,29 @@ namespace WcfTestBench.MonitoringSettings
             }
         }
 
-        public List<Frequency> FastSaveFreqs { get; set; } 
+        public List<Frequency> FastSaveFreqs { get; set; }
         public Frequency SelectedFastSaveFreq { get; set; }
+
+        public void InitializeComboboxes(Frequency fastSaveFrequency, Frequency preciseMeasFrequency, Frequency preciseSaveFrequency)
+        {
+            FastSaveFreqs = Enum.GetValues(typeof(Frequency)).OfType<Frequency>().ToList();
+            SelectedFastSaveFreq = fastSaveFrequency;
+            PreciseMeasFreqs = FastSaveFreqs.Where(f => f <= Frequency.EveryDay || f == Frequency.DoNot).ToList();
+            _selectedPreciseMeasFreq = preciseMeasFrequency;
+            PreciseSaveFreqs = FastSaveFreqs.Where(f => f == Frequency.DoNot || f >= SelectedPreciseMeasFreq).ToList();
+            SelectedPreciseSaveFreq = preciseSaveFrequency;
+            FastMeasFreq = new List<string>() { "Permanently" };
+            SelectedFastMeasFreq = FastMeasFreq[0];
+        }
+
+    }
+
+    public class MonitoringSettingsModel : PropertyChangedBase
+    {
+        public List<MonitoringCharonModel> Charons { get; set; } = new List<MonitoringCharonModel>();
+        public MonitoringFrequenciesModel Frequencies { get; set; }
+        public bool IsMonitoringOn { get; set; }
+
 
         public void F()
         {
@@ -71,20 +88,6 @@ namespace WcfTestBench.MonitoringSettings
                 charon.PropertyChanged += Charon_PropertyChanged;
             }
             CycleTime = TimeSpan.FromSeconds(Charons.Sum(c => c.CycleTime)).ToString();
-
-            InitializeComboboxes();
-        }
-
-        private void InitializeComboboxes()
-        {
-            FastSaveFreqs = Enum.GetValues(typeof(Frequency)).OfType<Frequency>().ToList();
-            SelectedFastSaveFreq = Frequencies.FastSave;
-            PreciseMeasFreqs = FastSaveFreqs.Where(f => f <= Frequency.EveryDay || f== Frequency.DoNot).ToList();
-            _selectedPreciseMeasFreq = Frequencies.PreciseMeas;
-            PreciseSaveFreqs = FastSaveFreqs.Where(f => f == Frequency.DoNot || f >= SelectedPreciseMeasFreq).ToList();
-            SelectedPreciseSaveFreq = Frequencies.PreciseSave;
-            FastMeasFreq = new List<string>() { "Permanently" };
-            SelectedFastMeasFreq = FastMeasFreq[0];
         }
 
         private void Charon_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -95,7 +98,6 @@ namespace WcfTestBench.MonitoringSettings
         }
 
         private string _cycleTime;
-        private Frequency _selectedPreciseSaveFreq;
 
         public string CycleTime
         {
