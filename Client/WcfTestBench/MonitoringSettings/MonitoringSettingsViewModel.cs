@@ -10,6 +10,7 @@ namespace WcfTestBench.MonitoringSettings
 
         public MonitoringSettingsViewModel(MonitoringSettingsModel model)
         {
+
             Model = model;
             Model.F();
             SelectedTabIndex = 0; // strange but it's necessary

@@ -47,11 +47,12 @@ namespace WcfTestBench
             var model = new MonitoringSettingsModel()
             {
                 IsMonitoringOn = true,
-                Timespans = new MonitoringTimespans()
+                
+                Frequencies = new MonitoringFrequencies()
                 {
-                    PreciseMeas = TimeSpan.FromSeconds(3600),
-                    PreciseSave = TimeSpan.FromMinutes(60),
-                    FastSave = TimeSpan.FromHours(1)
+                    PreciseMeas = MeasFreqs.EveryHour,
+                    PreciseSave = SaveFreqs.EveryHour,
+                    FastSave = SaveFreqs.EveryHour,
                 },
                 Charons = new List<MonitoringCharonModel>()
                 {
