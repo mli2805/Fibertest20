@@ -12,14 +12,35 @@ namespace WcfTestBench.MonitoringSettings
         public bool IsMonitoringOn { get; set; }
 
 
-        public List<MeasFreqs> PreciseMeasFreqs { get; set; } = Enum.GetValues(typeof(MeasFreqs)).OfType<MeasFreqs>().ToList();
-        public MeasFreqs SelectedPreciseMeasFreq { get; set; } 
+        public List<Frequency> PreciseMeasFreqs { get; set; } = Enum.GetValues(typeof(Frequency)).OfType<Frequency>().ToList();
 
-        public List<SaveFreqs> PreciseSaveFreqs { get; set; } = Enum.GetValues(typeof(SaveFreqs)).OfType<SaveFreqs>().ToList();
-        public SaveFreqs SelectedPreciseSaveFreq { get; set; }
+        private Frequency _selectedPreciseMeasFreq;
+        public Frequency SelectedPreciseMeasFreq
+        {
+            get { return _selectedPreciseMeasFreq; }
+            set
+            {
+                if (_selectedPreciseMeasFreq == value)
+                    return;
+                _selectedPreciseMeasFreq = value;
+                ValidateSaveFrequency();
+            }
+        }
 
-        public List<SaveFreqs> FastSaveFreqs { get; set; } = Enum.GetValues(typeof(SaveFreqs)).OfType<SaveFreqs>().ToList();
-        public SaveFreqs SelectedFastSaveFreq { get; set; }
+        private void ValidateSaveFrequency()
+        {
+            var allPreciseSaveFreqs = Enum.GetValues(typeof(Frequency)).OfType<Frequency>().ToList();
+            PreciseSaveFreqs = allPreciseSaveFreqs.Where(f => f == Frequency.DoNotSave || f >= SelectedPreciseMeasFreq).ToList();
+            if (SelectedPreciseSaveFreq < SelectedPreciseMeasFreq)
+                SelectedPreciseSaveFreq = SelectedPreciseMeasFreq;
+        }
+
+        public List<Frequency> PreciseSaveFreqs { get; set; } = Enum.GetValues(typeof(Frequency)).OfType<Frequency>().ToList();
+        public Frequency SelectedPreciseSaveFreq { get; set; }
+
+        public List<Frequency> FastSaveFreqs { get; set; } = Enum.GetValues(typeof(Frequency)).OfType<Frequency>().ToList();
+        public Frequency SelectedFastSaveFreq { get; set; }
+
 
         public void F()
         {
@@ -43,6 +64,7 @@ namespace WcfTestBench.MonitoringSettings
         }
 
         private string _cycleTime;
+
         public string CycleTime
         {
             get { return _cycleTime; }

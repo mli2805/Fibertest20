@@ -76,8 +76,7 @@
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="ClientToServerWcfFactory.cs" />
     <Compile Include="IShell.cs" />
-    <Compile Include="Enums\FreqToTimespan.cs" />
-    <Compile Include="Enums\MeasFreqs.cs" />
+    <Compile Include="Enums\FrequencyConverter.cs" />
     <Compile Include="MonitoringSettings\MonitoringCharonModel.cs" />
     <Compile Include="MonitoringSettings\MonitoringSettingsModel.cs" />
     <Compile Include="MonitoringSettings\MonitoringSettingsView.xaml.cs">
@@ -86,7 +85,7 @@
     <Compile Include="MonitoringSettings\MonitoringSettingsViewModel.cs" />
     <Compile Include="MonitoringSettings\MonitoringPortModel.cs" />
     <Compile Include="MonitoringSettings\MonitoringFrequencies.cs" />
-    <Compile Include="Enums\SaveFreqs.cs" />
+    <Compile Include="Enums\Frequency.cs" />
     <Compile Include="Service References\WcfForClientServiceReference\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

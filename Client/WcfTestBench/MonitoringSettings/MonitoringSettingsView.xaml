@@ -9,8 +9,7 @@
         SizeToContent="WidthAndHeight" MinHeight="520" MinWidth="650" WindowStartupLocation="CenterScreen"
         d:DataContext="{d:DesignInstance monitoringSettings:MonitoringSettingsViewModel}">
     <Window.Resources>
-        <wcfTestBench:MeasureFrequencyConverter x:Key="MfConverter"/>
-        <wcfTestBench:SaveFrequencyConverter x:Key="SfConverter"/>
+        <wcfTestBench:FrequencyConverter x:Key="FrConverter"/>
     </Window.Resources>
     <DockPanel>
         <DockPanel DockPanel.Dock="Right" Width="200" Margin="5">
@@ -26,7 +25,7 @@
                     <ComboBox Margin="5" ItemsSource="{Binding Model.PreciseMeasFreqs}" SelectedItem="{Binding Model.SelectedPreciseMeasFreq}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Converter={StaticResource MfConverter}}"/>
+                                <TextBlock Text="{Binding Converter={StaticResource FrConverter}}"/>
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
@@ -34,7 +33,7 @@
                     <ComboBox Margin="5" ItemsSource="{Binding Model.PreciseSaveFreqs}" SelectedItem="{Binding Model.SelectedPreciseSaveFreq}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Converter={StaticResource SfConverter}}"/>
+                                <TextBlock Text="{Binding Converter={StaticResource FrConverter}}"/>
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
@@ -48,7 +47,7 @@
                     <ComboBox Margin="5" ItemsSource="{Binding Model.FastSaveFreqs}" SelectedItem="{Binding Model.SelectedFastSaveFreq}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Converter={StaticResource SfConverter}}"/>
+                                <TextBlock Text="{Binding Converter={StaticResource FrConverter}}"/>
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>

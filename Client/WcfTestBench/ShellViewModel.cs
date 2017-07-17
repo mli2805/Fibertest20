@@ -50,9 +50,9 @@ namespace WcfTestBench
                 
                 Frequencies = new MonitoringFrequencies()
                 {
-                    PreciseMeas = MeasFreqs.EveryHour,
-                    PreciseSave = SaveFreqs.EveryHour,
-                    FastSave = SaveFreqs.EveryHour,
+                    PreciseMeas = Frequency.EveryHour,
+                    PreciseSave = Frequency.EveryHour,
+                    FastSave = Frequency.EveryHour,
                 },
                 Charons = new List<MonitoringCharonModel>()
                 {

@@ -2,8 +2,8 @@ namespace WcfTestBench.MonitoringSettings
 {
     public class MonitoringFrequencies
     {
-        public MeasFreqs PreciseMeas { get; set; }
-        public SaveFreqs PreciseSave { get; set; }
-        public SaveFreqs FastSave { get; set; }
+        public Frequency PreciseMeas { get; set; }
+        public Frequency PreciseSave { get; set; }
+        public Frequency FastSave { get; set; }
     }
 }
