@@ -14,10 +14,10 @@ namespace WcfTestBench
 
         public bool ApplyMonitoringSettings(ApplyMonitoringSettingsDto settings)
         {
-            var wcfClient = ClientToServerWcfFactory.Create(DataCenterNetAddress.Ip4Address);
-            if (wcfClient == null)
+            var wcfConnection = ClientToServerWcfFactory.Create(DataCenterNetAddress.Ip4Address);
+            if (wcfConnection == null)
                 return false;
-            return wcfClient.ApplyMonitoringSettings(settings);
+            return wcfConnection.ApplyMonitoringSettings(settings);
         }
     }
 }

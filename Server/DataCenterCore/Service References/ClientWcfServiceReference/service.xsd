@@ -8,31 +8,43 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="ConfirmRtuInitializedDtoResponse">
+  <xs:element name="ConfirmRtuInitializedResponse">
     <xs:complexType>
       <xs:sequence />
     </xs:complexType>
   </xs:element>
-  <xs:element name="ConfirmMonitoringStartedDto">
+  <xs:element name="ConfirmMonitoringStarted">
     <xs:complexType>
       <xs:sequence>
         <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="confirm" nillable="true" type="q2:MonitoringStartedDto" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="ConfirmMonitoringStartedDtoResponse">
+  <xs:element name="ConfirmMonitoringStartedResponse">
     <xs:complexType>
       <xs:sequence />
     </xs:complexType>
   </xs:element>
-  <xs:element name="ConfirmMonitoringStoppedDto">
+  <xs:element name="ConfirmMonitoringStopped">
     <xs:complexType>
       <xs:sequence>
         <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="confirm" nillable="true" type="q3:MonitoringStoppedDto" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="ConfirmMonitoringStoppedDtoResponse">
+  <xs:element name="ConfirmMonitoringStoppedResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ConfirmMonitoringSettingsApplied">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="confirm" nillable="true" type="q4:MonitoringSettingsAppliedDto" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ConfirmMonitoringSettingsAppliedResponse">
     <xs:complexType>
       <xs:sequence />
     </xs:complexType>

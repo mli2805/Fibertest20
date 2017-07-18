@@ -12,36 +12,44 @@ namespace RtuManagement
         private void SendInitializationConfirm(RtuInitializedDto rtu)
         {
             _serviceLog.AppendLine($"Sending initializatioln result to server...");
-            var wcfClient = RtuToServerWcfFactory.Create(_serverIp);
-            wcfClient?.ProcessRtuInitialized(rtu);
+            var wcfConnection = RtuToServerWcfFactory.Create(_serverIp);
+            wcfConnection?.ProcessRtuInitialized(rtu);
         }
 
         private void SendMonitoringResultToDataCenter(MoniResult moniResult)
         {
             _serviceLog.AppendLine($"Sending monitoring result {moniResult.BaseRefType} to server...");
             var monitoringResult = new MonitoringResult() { RtuId = Guid.NewGuid(), SorData = moniResult.SorBytes };
-            var wcfClient = RtuToServerWcfFactory.Create(_serverIp);
-            wcfClient?.ProcessMonitoringResult(monitoringResult);
+            var wcfConnection = RtuToServerWcfFactory.Create(_serverIp);
+            wcfConnection?.ProcessMonitoringResult(monitoringResult);
         }
 
         private void SendMonitoringStarted(bool isSuccessful)
         {
             var result = new MonitoringStartedDto() {RtuId = _id, IsSuccessful = isSuccessful};
-            _serviceLog.AppendLine("Sending start monitorint result");
-            var wcfClient = RtuToServerWcfFactory.Create(_serverIp);
-            wcfClient?.ConfirmStartMonitoring(result);
+            _serviceLog.AppendLine("Sending start monitoring result");
+            var wcfConnection = RtuToServerWcfFactory.Create(_serverIp);
+            wcfConnection?.ConfirmStartMonitoring(result);
         }
 
         private void SendMonitoringStopped(bool isSuccessful)
         {
             var result = new MonitoringStoppedDto() {RtuId = _id, IsSuccessful = isSuccessful};
-            _serviceLog.AppendLine("Sending stop monitorint result");
-            var wcfClient = RtuToServerWcfFactory.Create(_serverIp);
-            wcfClient?.ConfirmStopMonitoring(result);
+            _serviceLog.AppendLine("Sending stop monitoring result");
+            var wcfConnection = RtuToServerWcfFactory.Create(_serverIp);
+            wcfConnection?.ConfirmStopMonitoring(result);
         }
 
-       
-    // only whether trace is OK or not, without details of breakdown if any
+        private void SendMonitoringSettingsApplied(bool isSuccessful)
+        {
+            var result = new MonitoringSettingsAppliedDto() { RtuIpAddress = _mainCharon.NetAddress.Ip4Address, IsSuccessful = isSuccessful };
+            _serviceLog.AppendLine("Sending apply monitoring settings result");
+            var wcfConnection = RtuToServerWcfFactory.Create(_serverIp);
+            wcfConnection?.ConfirmMonitoringSettingsApplied(result);
+        }
+
+
+        // only whether trace is OK or not, without details of breakdown if any
         private PortMeasResult GetPortState(MoniResult moniResult)
         {
             if (!moniResult.IsFailed && !moniResult.IsFiberBreak && !moniResult.IsNoFiber)

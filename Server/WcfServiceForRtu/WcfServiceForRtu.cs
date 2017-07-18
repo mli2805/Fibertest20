@@ -39,5 +39,10 @@ namespace WcfServiceForRtu
         {
             return DcManager.ProcessMonitoringResult(result);
         }
+
+        public bool ConfirmMonitoringSettingsApplied(MonitoringSettingsAppliedDto result)
+        {
+            return DcManager.ConfirmApplyMonitoringSettings(result);
+        }
     }
 }

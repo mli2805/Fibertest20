@@ -139,6 +139,22 @@ namespace DataCenterCore
             return true;
         }
 
+        public bool ConfirmApplyMonitoringSettings(MonitoringSettingsAppliedDto confirmation)
+        {
+            var list = new List<ClientStation>();
+            lock (_clientStationsLockObj)
+            {
+                list.AddRange(_clientStations.Select(clientStation => (ClientStation)clientStation.Clone()));
+            }
+            foreach (var clientStation in list)
+            {
+                TransferConfirmMonitoringSettings(clientStation.Ip, confirmation);
+            }
+            return true;
+        }
+
+
+
         private void TransferConfirmRtuInitialized(string clientIp, RtuInitializedDto rtu)
         {
             var clientWcfServiceClient = CreateAndOpenClientWcfServiceClient(clientIp);
@@ -157,7 +173,7 @@ namespace DataCenterCore
 
             clientWcfServiceClient.ConfirmMonitoringStarted(confirmation);
 
-            _dcLog.AppendLine($"Transfered start monitoring confirmation form RTU {confirmation.RtuId} result is {confirmation.IsSuccessful}");
+            _dcLog.AppendLine($"Transfered start monitoring confirmation from RTU {confirmation.RtuId} result is {confirmation.IsSuccessful}");
         }
 
         private void TransferConfirmStopMonitoring(string clientIp, MonitoringStoppedDto confirmation)
@@ -168,7 +184,7 @@ namespace DataCenterCore
 
             clientWcfServiceClient.ConfirmMonitoringStopped(confirmation);
 
-            _dcLog.AppendLine($"Transfered stop monitoring confirmation form RTU {confirmation.RtuId} result is {confirmation.IsSuccessful}");
+            _dcLog.AppendLine($"Transfered stop monitoring confirmation from RTU {confirmation.RtuId} result is {confirmation.IsSuccessful}");
         }
 
         public bool StartMonitoring(string rtuAddress)
@@ -200,7 +216,18 @@ namespace DataCenterCore
                 return false;
 
             rtuWcfServiceClient.ApplyMonitoringSettings(settings);
+            _dcLog.AppendLine($"Transfered command to apply monitoring settings for rtu with ip={settings.RtuIpAddress}");
             return true;
+        }
+
+        private void TransferConfirmMonitoringSettings(string clientIp, MonitoringSettingsAppliedDto confirmation)
+        {
+            var clientWcfServiceClient = CreateAndOpenClientWcfServiceClient(clientIp);
+            if (clientWcfServiceClient == null)
+                return;
+
+            clientWcfServiceClient.ConfirmMonitoringSettingsApplied(confirmation);
+            _dcLog.AppendLine($"Transfered apply monitoring settings confirmation from RTU {confirmation.RtuIpAddress} result is {confirmation.IsSuccessful}");
         }
 
         private string CombineUriString(string address, int port, string wcfServiceName)

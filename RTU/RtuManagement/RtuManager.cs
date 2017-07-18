@@ -181,16 +181,30 @@ namespace RtuManagement
             {
                 _isMonitoringCancelled = true;
             }
+        }
 
-            /*
-                        _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 0);
-                        Thread.Sleep(TimeSpan.FromMilliseconds(2000));
-                        var otdrAddress = _rtuIni.Read(IniSection.General, IniKey.OtdrIp, DefaultIp);
-                        _otdrManager.DisconnectOtdr(otdrAddress);
-                        IsMonitoringOn = false;
-                        _isMonitoringCancelled = false;
-                        _rtuLog.AppendLine("Rtu is turned into MANUAL mode.");
-              */
+        public void ChangeSettings(ApplyMonitoringSettingsDto settings)
+        {
+            // only save variable and leave in order to not block wcf thread
+            WcfParameter = settings;
+
+            if (IsMonitoringOn)
+            {
+                lock (_obj)
+                {
+                    _hasNewSettings = true;
+                }
+            }
+            else
+            {
+                var thread = new Thread(ApplyChangeSettings);
+                thread.Start();
+            }
+        }
+
+        private void ApplyChangeSettings()
+        {
+            SendMonitoringSettingsApplied(true);
         }
 
         public void MeasurementOutOfTurn()

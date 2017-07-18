@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.ServiceModel;
 using System.Threading;
 using Dto;
@@ -98,7 +97,7 @@ namespace RtuWcfServiceLibrary
                 if (_rtuManager.IsMonitoringOn)
                 {
                     _rtuManager.StopMonitoring();
-                    ServiceLog.AppendLine("User stops monitoring - OK");
+                    ServiceLog.AppendLine("User stops monitoring received");
                 }
                 else
                 {
@@ -117,8 +116,8 @@ namespace RtuWcfServiceLibrary
                     return false;
                 }
 
-                ServiceLog.AppendLine("Monitoring settings received.");
-                // TODO
+                _rtuManager.ChangeSettings(settings);
+                ServiceLog.AppendLine("Monitoring settings received");
                 return true;
             }
         }

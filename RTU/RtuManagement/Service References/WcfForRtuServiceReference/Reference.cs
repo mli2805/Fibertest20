@@ -26,6 +26,9 @@ namespace RtuManagement.WcfForRtuServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForRtu/ProcessMonitoringResult", ReplyAction="http://tempuri.org/IWcfServiceForRtu/ProcessMonitoringResultResponse")]
         bool ProcessMonitoringResult(Dto.MonitoringResult result);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForRtu/ConfirmMonitoringSettingsApplied", ReplyAction="http://tempuri.org/IWcfServiceForRtu/ConfirmMonitoringSettingsAppliedResponse")]
+        bool ConfirmMonitoringSettingsApplied(Dto.MonitoringSettingsAppliedDto result);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -69,6 +72,10 @@ namespace RtuManagement.WcfForRtuServiceReference {
         
         public bool ProcessMonitoringResult(Dto.MonitoringResult result) {
             return base.Channel.ProcessMonitoringResult(result);
+        }
+        
+        public bool ConfirmMonitoringSettingsApplied(Dto.MonitoringSettingsAppliedDto result) {
+            return base.Channel.ConfirmMonitoringSettingsApplied(result);
         }
     }
 }

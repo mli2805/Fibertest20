@@ -49,6 +49,7 @@
     <Compile Include="InitializeRtuDto.cs" />
     <Compile Include="MonitoringResult.cs" />
     <Compile Include="ApplyMonitoringSettingsDto.cs" />
+    <Compile Include="MonitoringSettingsAppliedDto.cs" />
     <Compile Include="MonitoringStartedDto.cs" />
     <Compile Include="MonitoringStoppedDto.cs" />
     <Compile Include="CheckRtuConnectionDto.cs" />

@@ -18,5 +18,8 @@ namespace WcfServiceForRtu
 
         [OperationContract]
         bool ProcessMonitoringResult(MonitoringResult result);
+
+        [OperationContract]
+        bool ConfirmMonitoringSettingsApplied(MonitoringSettingsAppliedDto result);
     }
 }

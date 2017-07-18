@@ -5,7 +5,7 @@
   <xs:complexType name="RtuInitializedDto">
     <xs:sequence>
       <xs:element minOccurs="0" name="FullPortCount" type="xs:int" />
-      <xs:element minOccurs="0" name="RtuId" type="ser:guid" />
+      <xs:element minOccurs="0" name="Id" type="ser:guid" />
       <xs:element minOccurs="0" name="IsInitialized" type="xs:boolean" />
       <xs:element minOccurs="0" name="OwnPortCount" type="xs:int" />
       <xs:element minOccurs="0" name="Serial" nillable="true" type="xs:string" />
@@ -15,23 +15,30 @@
   <xs:complexType name="MonitoringStartedDto">
     <xs:sequence>
       <xs:element minOccurs="0" name="IsSuccessful" type="xs:boolean" />
-      <xs:element minOccurs="0" name="RtuRtuId" type="ser:guid" />
+      <xs:element minOccurs="0" name="RtuId" type="ser:guid" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="MonitoringStartedDto" nillable="true" type="tns:MonitoringStartedDto" />
   <xs:complexType name="MonitoringStoppedDto">
     <xs:sequence>
       <xs:element minOccurs="0" name="IsSuccessful" type="xs:boolean" />
-      <xs:element minOccurs="0" name="RtuRtuId" type="ser:guid" />
+      <xs:element minOccurs="0" name="RtuId" type="ser:guid" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="MonitoringStoppedDto" nillable="true" type="tns:MonitoringStoppedDto" />
   <xs:complexType name="MonitoringResult">
     <xs:sequence>
       <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Dto.Enums" minOccurs="0" name="BaseRefType" type="q1:BaseRefType" />
-      <xs:element minOccurs="0" name="RtuRtuId" type="ser:guid" />
+      <xs:element minOccurs="0" name="RtuId" type="ser:guid" />
       <xs:element minOccurs="0" name="SorData" nillable="true" type="xs:base64Binary" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="MonitoringResult" nillable="true" type="tns:MonitoringResult" />
+  <xs:complexType name="MonitoringSettingsAppliedDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="IsSuccessful" type="xs:boolean" />
+      <xs:element minOccurs="0" name="RtuIpAddress" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MonitoringSettingsAppliedDto" nillable="true" type="tns:MonitoringSettingsAppliedDto" />
 </xs:schema>

@@ -15,6 +15,9 @@ namespace ClientWcfServiceLibrary
 
         [OperationContract]
         void ConfirmMonitoringStopped(MonitoringStoppedDto confirm);
+
+        [OperationContract]
+        void ConfirmMonitoringSettingsApplied(MonitoringSettingsAppliedDto confirm);
     }
 
 

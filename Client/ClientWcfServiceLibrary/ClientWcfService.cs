@@ -31,5 +31,10 @@ namespace ClientWcfServiceLibrary
             MessageReceived?.Invoke(confirm);
         }
 
+        public void ConfirmMonitoringSettingsApplied(MonitoringSettingsAppliedDto confirm)
+        {
+            ClientLog.AppendLine($"RTU {confirm.RtuIpAddress} monitoring settings applied: {confirm.IsSuccessful}");
+            MessageReceived?.Invoke(confirm);
+        }
     }
 }

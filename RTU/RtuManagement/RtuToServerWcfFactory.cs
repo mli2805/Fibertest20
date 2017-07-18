@@ -10,9 +10,9 @@ namespace RtuManagement
         {
             try
             {
-                var wcfClient = new WcfServiceForRtuClient(CreateDefaultNetTcpBinding(), new EndpointAddress(new Uri(CombineUriString(address, 11841, @"WcfServiceForRtu"))));
-                wcfClient.Open();
-                return wcfClient;
+                var wcfConnection = new WcfServiceForRtuClient(CreateDefaultNetTcpBinding(), new EndpointAddress(new Uri(CombineUriString(address, 11841, @"WcfServiceForRtu"))));
+                wcfConnection.Open();
+                return wcfConnection;
             }
             catch (Exception)
             {

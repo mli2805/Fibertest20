@@ -23,7 +23,7 @@ namespace WcfTestBench
             _clientLog.AssignFile("Client.log");
 
             // if there are more than one child view - delete this line
-            Temp();
+            WcfView();
         }
 
         public void WcfView()
@@ -33,54 +33,5 @@ namespace WcfTestBench
             windowManager.ShowDialog(vm);
         }
 
-        private Random gen = new Random();
-        public void Temp()
-        {
-            var vm = new MonitoringSettingsViewModel("192.168.96.53", PopulateModel());
-            vm.WcfManager = new WcfManager(new NetAddress("192.168.96.179", 23));
-            IWindowManager windowManager = new WindowManager();
-            windowManager.ShowDialog(vm);
-        }
-
-        private MonitoringSettingsModel PopulateModel()
-        {
-            var model = new MonitoringSettingsModel()
-            {
-                IsMonitoringOn = true,
-
-                Charons = new List<MonitoringCharonModel>()
-                {
-                    new MonitoringCharonModel("192.168.96.53", 23) { Title = "Грушаука 214", Ports = PopulatePorts(28)},
-                    new MonitoringCharonModel("192.168.96.57", 11834) { Ports = PopulatePorts(16)},
-                    new MonitoringCharonModel("192.168.96.57", 11835) { Ports = PopulatePorts(4)}
-                }
-            };
-            model.Frequencies.InitializeComboboxes(Frequency.EveryHour, Frequency.EveryHour, Frequency.EveryHour);
-            return model;
-        }
-
-        private List<MonitoringPortModel> PopulatePorts(int count)
-        {
-
-            var result = new List<MonitoringPortModel>();
-            for (int i = 1; i <= count; i++)
-            {
-                var port = new MonitoringPortModel()
-                {
-                    PortNumber = i,
-                    TraceTitle = new StringBuilder().Insert(0, "Probability is a quite long word ", gen.Next(4)+1).ToString() + $" p{i}",
-                    IsIncluded = gen.Next(100) <= 25,
-                };
-                if (port.IsIncluded || gen.Next(100) <= 75)
-                {
-                    port.PreciseBaseSpan = TimeSpan.FromSeconds(gen.Next(100) + 15);
-                    port.FastBaseSpan = TimeSpan.FromSeconds(gen.Next(100) + 15);
-                    if (gen.Next(100) <= 2)
-                        port.AdditionalBaseSpan = TimeSpan.FromSeconds(gen.Next(100));
-                }
-                result.Add(port);
-            }
-            return result;
-        }
     }
 }

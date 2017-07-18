@@ -10,6 +10,7 @@ namespace RtuManagement
 {
     public partial class RtuManager
     {
+        private bool _hasNewSettings = false;
         private Queue<ExtendedPort> _monitoringQueue;
         private int _measurementNumber;
         private TimeSpan _preciseMakeTimespan;
@@ -50,6 +51,8 @@ namespace RtuManagement
                 {
                     if (_isMonitoringCancelled)
                         break;
+                    if (_hasNewSettings)
+                        ApplyChangeSettings();
                 }
             }
 
