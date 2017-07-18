@@ -76,7 +76,7 @@ namespace WcfTestBench.MonitoringSettings
     public class MonitoringSettingsModel : PropertyChangedBase
     {
         public List<MonitoringCharonModel> Charons { get; set; } = new List<MonitoringCharonModel>();
-        public MonitoringFrequenciesModel Frequencies { get; set; }
+        public MonitoringFrequenciesModel Frequencies { get; set; } = new MonitoringFrequenciesModel();
         public bool IsMonitoringOn { get; set; }
 
 
