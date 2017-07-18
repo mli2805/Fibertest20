@@ -26,6 +26,9 @@ namespace DataCenterCore.RtuWcfServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRtuWcfService/StopMonitoring", ReplyAction="http://tempuri.org/IRtuWcfService/StopMonitoringResponse")]
         void StopMonitoring();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRtuWcfService/ApplyMonitoringSettings", ReplyAction="http://tempuri.org/IRtuWcfService/ApplyMonitoringSettingsResponse")]
+        bool ApplyMonitoringSettings(Dto.ApplyMonitoringSettingsDto settings);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -69,6 +72,10 @@ namespace DataCenterCore.RtuWcfServiceReference {
         
         public void StopMonitoring() {
             base.Channel.StopMonitoring();
+        }
+        
+        public bool ApplyMonitoringSettings(Dto.ApplyMonitoringSettingsDto settings) {
+            return base.Channel.ApplyMonitoringSettings(settings);
         }
     }
 }

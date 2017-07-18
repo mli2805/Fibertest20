@@ -47,7 +47,6 @@
     <Compile Include="Enums\BaseRefTypeExtensions.cs" />
     <Compile Include="Enums\FiberState.cs" />
     <Compile Include="InitializeRtuDto.cs" />
-    <Compile Include="IsPortMonitoringOn.cs" />
     <Compile Include="MonitoringResult.cs" />
     <Compile Include="ApplyMonitoringSettingsDto.cs" />
     <Compile Include="MonitoringStartedDto.cs" />

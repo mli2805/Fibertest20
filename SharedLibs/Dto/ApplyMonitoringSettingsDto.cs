@@ -16,6 +16,6 @@ namespace Dto
         public MonitoringTimespansDto Timespans { get; set; }
 
         [DataMember]
-        public List<IsPortMonitoringOn> Ports { get; set; }
+        public List<OtauPortDto> Ports { get; set; }
     }
 }

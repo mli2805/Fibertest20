@@ -100,6 +100,7 @@
       <DependentUpon>WcfClientView.xaml</DependentUpon>
     </Compile>
     <Compile Include="WcfClientViewModel.cs" />
+    <Compile Include="WcfManager.cs" />
     <Page Include="MonitoringSettings\MonitoringSettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

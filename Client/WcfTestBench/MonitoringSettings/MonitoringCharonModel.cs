@@ -6,7 +6,10 @@ namespace WcfTestBench.MonitoringSettings
 {
     public class MonitoringCharonModel : PropertyChangedBase
     {
+        public string CharonIpAddress { get; set; }
+        public int CharonTcpPort { get; set; }
         public string Title { get; set; }
+
 
         private bool _groupenCheck;
         public bool GroupenCheck
@@ -24,6 +27,13 @@ namespace WcfTestBench.MonitoringSettings
 
         public List<MonitoringPortModel> Ports { get; set; } = new List<MonitoringPortModel>();
 
+
+        public MonitoringCharonModel(string charonIpAddress, int charonTcpPort)
+        {
+            CharonIpAddress = charonIpAddress;
+            CharonTcpPort = charonTcpPort;
+            Title = CharonIpAddress + ":" + CharonTcpPort;
+        }
 
         public void SubscribeOnPortsChanges()
         {

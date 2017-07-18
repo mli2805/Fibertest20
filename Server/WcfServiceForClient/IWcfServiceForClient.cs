@@ -23,6 +23,9 @@ namespace WcfServiceForClient
 
         [OperationContract]
         bool StopMonitoring(string rtuAddress);
+
+        [OperationContract]
+        bool ApplyMonitoringSettings(ApplyMonitoringSettingsDto settings);
     }
  
 }

@@ -50,6 +50,12 @@ namespace WcfTestBench.WcfForClientServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForClient/StopMonitoring", ReplyAction="http://tempuri.org/IWcfServiceForClient/StopMonitoringResponse")]
         System.Threading.Tasks.Task<bool> StopMonitoringAsync(string rtuAddress);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForClient/ApplyMonitoringSettings", ReplyAction="http://tempuri.org/IWcfServiceForClient/ApplyMonitoringSettingsResponse")]
+        bool ApplyMonitoringSettings(Dto.ApplyMonitoringSettingsDto settings);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForClient/ApplyMonitoringSettings", ReplyAction="http://tempuri.org/IWcfServiceForClient/ApplyMonitoringSettingsResponse")]
+        System.Threading.Tasks.Task<bool> ApplyMonitoringSettingsAsync(Dto.ApplyMonitoringSettingsDto settings);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -125,6 +131,14 @@ namespace WcfTestBench.WcfForClientServiceReference {
         
         public System.Threading.Tasks.Task<bool> StopMonitoringAsync(string rtuAddress) {
             return base.Channel.StopMonitoringAsync(rtuAddress);
+        }
+        
+        public bool ApplyMonitoringSettings(Dto.ApplyMonitoringSettingsDto settings) {
+            return base.Channel.ApplyMonitoringSettings(settings);
+        }
+        
+        public System.Threading.Tasks.Task<bool> ApplyMonitoringSettingsAsync(Dto.ApplyMonitoringSettingsDto settings) {
+            return base.Channel.ApplyMonitoringSettingsAsync(settings);
         }
     }
 }

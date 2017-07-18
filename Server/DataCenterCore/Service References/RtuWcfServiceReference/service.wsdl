@@ -41,6 +41,12 @@
   <wsdl:message name="IRtuWcfService_StopMonitoring_OutputMessage">
     <wsdl:part name="parameters" element="tns:StopMonitoringResponse" />
   </wsdl:message>
+  <wsdl:message name="IRtuWcfService_ApplyMonitoringSettings_InputMessage">
+    <wsdl:part name="parameters" element="tns:ApplyMonitoringSettings" />
+  </wsdl:message>
+  <wsdl:message name="IRtuWcfService_ApplyMonitoringSettings_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ApplyMonitoringSettingsResponse" />
+  </wsdl:message>
   <wsdl:portType name="IRtuWcfService">
     <wsdl:operation name="ShakeHandsWithWatchdog">
       <wsdl:input wsaw:Action="http://tempuri.org/IRtuWcfService/ShakeHandsWithWatchdog" message="tns:IRtuWcfService_ShakeHandsWithWatchdog_InputMessage" />
@@ -57,6 +63,10 @@
     <wsdl:operation name="StopMonitoring">
       <wsdl:input wsaw:Action="http://tempuri.org/IRtuWcfService/StopMonitoring" message="tns:IRtuWcfService_StopMonitoring_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IRtuWcfService/StopMonitoringResponse" message="tns:IRtuWcfService_StopMonitoring_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ApplyMonitoringSettings">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRtuWcfService/ApplyMonitoringSettings" message="tns:IRtuWcfService_ApplyMonitoringSettings_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRtuWcfService/ApplyMonitoringSettingsResponse" message="tns:IRtuWcfService_ApplyMonitoringSettings_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="NetTcpBinding_IRtuWcfService" type="tns:IRtuWcfService">
@@ -92,6 +102,15 @@
     </wsdl:operation>
     <wsdl:operation name="StopMonitoring">
       <soap12:operation soapAction="http://tempuri.org/IRtuWcfService/StopMonitoring" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ApplyMonitoringSettings">
+      <soap12:operation soapAction="http://tempuri.org/IRtuWcfService/ApplyMonitoringSettings" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

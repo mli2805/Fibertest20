@@ -18,6 +18,9 @@ namespace RtuWcfServiceLibrary
 
         [OperationContract]
         void StopMonitoring();
+
+        [OperationContract]
+        bool ApplyMonitoringSettings(ApplyMonitoringSettingsDto settings);
     }
 
 }

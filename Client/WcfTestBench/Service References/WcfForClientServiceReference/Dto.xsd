@@ -18,4 +18,35 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="InitializeRtuDto" nillable="true" type="tns:InitializeRtuDto" />
+  <xs:complexType name="ApplyMonitoringSettingsDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="IsMonitoringOn" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Ports" nillable="true" type="tns:ArrayOfOtauPortDto" />
+      <xs:element minOccurs="0" name="RtuIpAddress" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Timespans" nillable="true" type="tns:MonitoringTimespansDto" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ApplyMonitoringSettingsDto" nillable="true" type="tns:ApplyMonitoringSettingsDto" />
+  <xs:complexType name="ArrayOfOtauPortDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="OtauPortDto" nillable="true" type="tns:OtauPortDto" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfOtauPortDto" nillable="true" type="tns:ArrayOfOtauPortDto" />
+  <xs:complexType name="OtauPortDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Ip" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="OpticalPort" type="xs:int" />
+      <xs:element minOccurs="0" name="TcpPort" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="OtauPortDto" nillable="true" type="tns:OtauPortDto" />
+  <xs:complexType name="MonitoringTimespansDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="FastSave" type="ser:duration" />
+      <xs:element minOccurs="0" name="PreciseMeas" type="ser:duration" />
+      <xs:element minOccurs="0" name="PreciseSave" type="ser:duration" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MonitoringTimespansDto" nillable="true" type="tns:MonitoringTimespansDto" />
 </xs:schema>

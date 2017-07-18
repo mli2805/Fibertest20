@@ -51,5 +51,10 @@ namespace WcfServiceForClient
         {
             return DcManager.StopMonitoring(rtuAddress);
         }
+
+        public bool ApplyMonitoringSettings(ApplyMonitoringSettingsDto settings)
+        {
+            return DcManager.ApplyMonitoringSettings(settings);
+        }
     }
 }

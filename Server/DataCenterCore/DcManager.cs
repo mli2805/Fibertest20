@@ -193,6 +193,16 @@ namespace DataCenterCore
             return true;
         }
 
+        public bool ApplyMonitoringSettings(ApplyMonitoringSettingsDto settings)
+        {
+            var rtuWcfServiceClient = CreateAndOpenRtuWcfServiceClient(settings.RtuIpAddress);
+            if (rtuWcfServiceClient == null)
+                return false;
+
+            rtuWcfServiceClient.ApplyMonitoringSettings(settings);
+            return true;
+        }
+
         private string CombineUriString(string address, int port, string wcfServiceName)
         {
             return @"net.tcp://" + address + @":" + port + @"/" + wcfServiceName;

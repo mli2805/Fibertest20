@@ -13,7 +13,7 @@
     </Window.Resources>
     <DockPanel>
         <DockPanel DockPanel.Dock="Right" Width="200" Margin="5">
-            <TextBlock DockPanel.Dock="Bottom" Margin="10,0,10,5" Background="AliceBlue"/>
+            <TextBlock DockPanel.Dock="Bottom" Margin="10,0,10,5" Background="AliceBlue" Text="{Binding MessageProp}"/>
             <DockPanel DockPanel.Dock="Bottom" Margin="5,15,5,0">
                 <Button Name="Apply" Height="25" Width="80" Content="Apply" Margin="5" DockPanel.Dock="Left"/>
                 <Button Height="25" Width="80" Content="Close" Margin="5" IsCancel="True" DockPanel.Dock="Right"/>

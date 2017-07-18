@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.ServiceModel;
 using System.Threading;
 using Dto;
@@ -103,6 +104,22 @@ namespace RtuWcfServiceLibrary
                 {
                     ServiceLog.AppendLine("User stops monitoring - Ignored - MANUAL mode already");
                 }
+            }
+        }
+
+        public bool ApplyMonitoringSettings(ApplyMonitoringSettingsDto settings)
+        {
+            lock (_lockObj)
+            {
+                if (!_rtuManager.IsRtuInitialized)
+                {
+                    ServiceLog.AppendLine("Monitoring settings received - Ignored - RTU is busy");
+                    return false;
+                }
+
+                ServiceLog.AppendLine("Monitoring settings received.");
+                // TODO
+                return true;
             }
         }
     }

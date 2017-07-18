@@ -2,7 +2,7 @@ namespace WcfTestBench
 {
     public enum Frequency
     {
-        DoNot        = 999,
+        DoNot        = 9999,
         EveryHour    = 1,
         Every6Hours  = 6,
         Every12Hours = 12,

@@ -36,10 +36,10 @@ namespace WcfTestBench
         private Random gen = new Random();
         public void Temp()
         {
-            var vm = new MonitoringSettingsViewModel(PopulateModel());
+            var vm = new MonitoringSettingsViewModel("192.168.96.53", PopulateModel());
+            vm.WcfManager = new WcfManager(new NetAddress("192.168.96.179", 23));
             IWindowManager windowManager = new WindowManager();
             windowManager.ShowDialog(vm);
-
         }
 
         private MonitoringSettingsModel PopulateModel()
@@ -50,9 +50,9 @@ namespace WcfTestBench
 
                 Charons = new List<MonitoringCharonModel>()
                 {
-                    new MonitoringCharonModel() { Title = "Грушаука 214", Ports = PopulatePorts(28)},
-                    new MonitoringCharonModel() { Title = "192.168.96.57:11834", Ports = PopulatePorts(16)},
-                    new MonitoringCharonModel() { Title = "192.168.96.57:11835", Ports = PopulatePorts(4)}
+                    new MonitoringCharonModel("192.168.96.53", 23) { Title = "Грушаука 214", Ports = PopulatePorts(28)},
+                    new MonitoringCharonModel("192.168.96.57", 11834) { Ports = PopulatePorts(16)},
+                    new MonitoringCharonModel("192.168.96.57", 11835) { Ports = PopulatePorts(4)}
                 }
             };
             model.Frequencies.InitializeComboboxes(Frequency.EveryHour, Frequency.EveryHour, Frequency.EveryHour);

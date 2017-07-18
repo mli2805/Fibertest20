@@ -132,7 +132,7 @@ namespace WcfTestBench
         public void MonitoringSettings()
         {
             var model = new MonitoringSettingsModel() {IsMonitoringOn = true};
-            var vm = new MonitoringSettingsViewModel(model);
+            var vm = new MonitoringSettingsViewModel(RtuServiceIp, model);
             IWindowManager windowManager = new WindowManager();
             windowManager.ShowWindow(vm);
         }
