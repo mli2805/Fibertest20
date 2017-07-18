@@ -182,7 +182,7 @@ namespace WcfTestBench
                 var port = new MonitoringPortModel()
                 {
                     PortNumber = i,
-                    TraceTitle = new StringBuilder().Insert(0, "Probability is a quite long word ", gen.Next(4) + 1).ToString() + $" p{i}",
+                    TraceTitle = new StringBuilder().Insert(0, "Probability is a quite long word ", gen.Next(4) + 1) + $" p{i}",
                     IsIncluded = gen.Next(100) <= 25,
                 };
                 if (port.IsIncluded || gen.Next(100) <= 75)

@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Threading;
 using Dto;
 using Iit.Fibertest.DirectCharonLibrary;
@@ -112,7 +115,7 @@ namespace RtuManagement
             {
                 _rtuLog.AppendLine("Rtu Manager initialization failed.");
                 if (isUserAskedInitialization)
-                    SendInitializationConfirm(new RtuInitializedDto() {Id = rtu.RtuId, IsInitialized = false});
+                    SendInitializationConfirm(new RtuInitializedDto() { Id = rtu.RtuId, IsInitialized = false });
                 return;
             }
             if (isUserAskedInitialization)
@@ -195,7 +198,7 @@ namespace RtuManagement
                     _hasNewSettings = true;
                 }
             }
-            else
+            else  // MANUAL
             {
                 var thread = new Thread(ApplyChangeSettings);
                 thread.Start();
@@ -204,7 +207,42 @@ namespace RtuManagement
 
         private void ApplyChangeSettings()
         {
+            var dto = WcfParameter as ApplyMonitoringSettingsDto;
+            if (dto == null)
+                return;
+
+            SaveNewFrequenciesToIni(dto);
+            SaveNewQueueToFile(dto);
+
             SendMonitoringSettingsApplied(true);
+
+            if (_hasNewSettings) // in AUTOMATIC mode already
+            {
+                GetMonitoringQueue();
+                GetMonitoringParams();
+            }
+            else // in MANUAL mode so far
+                if (dto.IsMonitoringOn)
+                    StartMonitoring();
+        }
+
+        private void SaveNewQueueToFile(ApplyMonitoringSettingsDto dto)
+        {
+            var otdrIp = _rtuIni.Read(IniSection.General, IniKey.OtdrIp, "192.168.88.101");
+            var content = dto.Ports.Select(port => port.Ip == dto.RtuIpAddress
+                    ? $"{otdrIp}:{port.TcpPort}-{port.OpticalPort}"
+                    : $"{port.Ip}:{port.TcpPort}-{port.OpticalPort}")
+                .ToList();
+
+            var monitoringSettingsFile = Utils.FileNameForSure(@"..\ini\", @"monitoring.que", false);
+            File.WriteAllLines(monitoringSettingsFile, content);
+        }
+
+        private void SaveNewFrequenciesToIni(ApplyMonitoringSettingsDto dto)
+        {
+            _rtuIni.Write(IniSection.Monitoring, IniKey.PreciseMakeTimespan, (int)dto.Timespans.PreciseMeas.TotalSeconds);
+            _rtuIni.Write(IniSection.Monitoring, IniKey.PreciseSaveTimespan, (int)dto.Timespans.PreciseSave.TotalSeconds);
+            _rtuIni.Write(IniSection.Monitoring, IniKey.FastSaveTimespan, (int)dto.Timespans.FastSave.TotalSeconds);
         }
 
         public void MeasurementOutOfTurn()
