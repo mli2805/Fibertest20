@@ -12,7 +12,7 @@ namespace WcfTestBench.MonitoringSettings
         {
 
             Model = model;
-            Model.F();
+            Model.CalculateCycleTime();
             SelectedTabIndex = 0; // strange but it's necessary
         }
 

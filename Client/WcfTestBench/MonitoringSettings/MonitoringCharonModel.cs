@@ -25,7 +25,7 @@ namespace WcfTestBench.MonitoringSettings
         public List<MonitoringPortModel> Ports { get; set; } = new List<MonitoringPortModel>();
 
 
-        public void F()
+        public void SubscribeOnPortsChanges()
         {
             foreach (var port in Ports)
             {

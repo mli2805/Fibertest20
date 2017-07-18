@@ -78,6 +78,7 @@
     <Compile Include="IShell.cs" />
     <Compile Include="Enums\FrequencyConverter.cs" />
     <Compile Include="MonitoringSettings\MonitoringCharonModel.cs" />
+    <Compile Include="MonitoringSettings\MonitoringFrequenciesModel.cs" />
     <Compile Include="MonitoringSettings\MonitoringSettingsModel.cs" />
     <Compile Include="MonitoringSettings\MonitoringSettingsView.xaml.cs">
       <DependentUpon>MonitoringSettingsView.xaml</DependentUpon>
