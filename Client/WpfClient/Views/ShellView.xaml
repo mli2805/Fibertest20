@@ -46,6 +46,7 @@
                 </TabControl>
                 <StackPanel Visibility="{Binding SysEventsVisibility}" DockPanel.Dock="Top">
                     <Button Width="120" Height="25" Name="Save" Content="Save Db" />
+                    <Button Width="120" Height="25" Name="TestTraceState" Content="Test Trace State" />
                 </StackPanel>
                 <client:MapUserControl DataContext="{Binding GraphReadModel}" Visibility="{Binding MapVisibility}" Margin="3,0,3,3"/>
             </DockPanel>

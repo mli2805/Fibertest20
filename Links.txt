@@ -19,11 +19,15 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
 
 14. делать проект Administrative и Administrative.Tests ?
 
-15 все работает но в логе
-  Unable to find assembly 'Iit.Fibertest.TestBench, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'.
+17. впф вью в отдельной библиотеке не могу найти закономерность
 
-16. как вынести wpf формы в отдельную библиотеку
-	если WPF User Control Library, 
-	то Caliburn потом не находит View для ViewModel
+	библиотека WpfCommonViews
+	тренируемся на пустой форме TraceStateView/VM из этой библиотеки
+
+	DirectRtuClient может вызывать как свои так и библиотечные формы
+	WcfTestBench свои вызывает, из библиотеки не может
+	создал пустой проект WcfTester - из библиотеки не может
+	WpfClient может вызывать как свои так и библиотечные формы
+
 
 

@@ -5,6 +5,7 @@ using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.Utils35;
+using Iit.Fibertest.WpfCommonViews;
 using PrivateReflectionUsingDynamic;
 using Serilog;
 
@@ -123,6 +124,13 @@ namespace Iit.Fibertest.Client
         {
             LocalGraphDb.Save();
             AdministrativeDb.Save();
+        }
+
+        public void TestTraceState()
+        {
+            var vm = new TraceStateViewModel();
+            IWindowManager windowManager = new WindowManager();
+            windowManager.ShowDialog(vm);
         }
 
         #region Node

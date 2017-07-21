@@ -1,0 +1,10 @@
+<Window x:Class="WcfTester.ShellView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        SizeToContent="WidthAndHeight">
+
+   <StackPanel>
+       <Button Name="TraceState" Height="25" Width="120" Content="Trace State" Margin="5"/>
+   </StackPanel>
+
+</Window>

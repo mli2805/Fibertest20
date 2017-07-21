@@ -382,7 +382,7 @@ namespace DirectRtuClient
         {
             if (!File.Exists(ResultFileName))
             {
-                MessageBox.Show("There's no such file");
+                MessageBox.Show(@"There's no such file");
                 return;
             }
             var buffer = File.ReadAllBytes(ResultFileName);
