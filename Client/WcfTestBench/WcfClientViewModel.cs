@@ -6,6 +6,7 @@ using Caliburn.Micro;
 using ClientWcfServiceLibrary;
 using Dto;
 using Iit.Fibertest.Utils35;
+using Iit.Fibertest.WpfCommonViews;
 using WcfTestBench.MonitoringSettings;
 
 namespace WcfTestBench
@@ -138,6 +139,13 @@ namespace WcfTestBench
             vm.WcfManager = new WcfManager(new NetAddress("192.168.96.179", 23));
             IWindowManager windowManager = new WindowManager();
             windowManager.ShowDialog(vm);
+        }
+
+        public void TraceState()
+        {
+            var vm = new TraceStateViewModel();
+            IWindowManager windowManager = new WindowManager();
+            windowManager.ShowWindow(vm);
         }
 
         public void StartMonitoring()

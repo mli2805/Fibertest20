@@ -380,6 +380,11 @@ namespace DirectRtuClient
 
         public void ShowRftsEvents()
         {
+            if (!File.Exists(ResultFileName))
+            {
+                MessageBox.Show("There's no such file");
+                return;
+            }
             var buffer = File.ReadAllBytes(ResultFileName);
             var sorData = SorData.FromBytes(buffer);
             if (sorData.RftsEvents.MonitoringResult == (int)ComparisonReturns.NoLink)
@@ -392,6 +397,11 @@ namespace DirectRtuClient
             windowManager.ShowDialog(vm);
         }
 
-        public void ShowTraceState() { }
+        public void ShowTraceState()
+        {
+            var vm = new TraceStateViewModel();
+            IWindowManager windowManager = new WindowManager();
+            windowManager.ShowDialog(vm);
+        }
     }
 }

@@ -122,6 +122,10 @@
     </Compile>
     <Compile Include="RftsEvents\RftsEventsViewModel.cs" />
     <Compile Include="RftsEvents\SorDataToViewContent.cs" />
+    <Compile Include="TraceState\TraceStateView.xaml.cs">
+      <DependentUpon>TraceStateView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TraceState\TraceStateViewModel.cs" />
     <Compile Include="WaitCursor.cs" />
     <Page Include="RftsEvents\RftsEventsFooterView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -136,6 +140,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="RftsEvents\RftsEventsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TraceState\TraceStateView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
