@@ -20,6 +20,7 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
 14. делать проект Administrative и Administrative.Tests ?
 
 17. впф вью в отдельной библиотеке не могу найти закономерность
+		Сannot find view for и дальше правильное имя вьюмодели
 
 	библиотека WpfCommonViews
 	тренируемся на пустой форме TraceStateView/VM из этой библиотеки
@@ -29,5 +30,13 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
 	создал пустой проект WcfTester - из библиотеки не может
 	WpfClient может вызывать как свои так и библиотечные формы
 
+	Пробовал пустой солюшен
+	создавал впф проект с калибурном 3,1,0 и 3,0,3, 2.0.2
+	создавал WpfCustomControlLibrary не может вызвать вью из либки
+	создавал Wpf User Control Library не может вызвать вью из либки
+	создавал Class Library - не смог скомпилить
+	
+18. Тесты после переноса не работают (референсы все сразу сломались)	
+19. Перенести GMap в папку
 
 

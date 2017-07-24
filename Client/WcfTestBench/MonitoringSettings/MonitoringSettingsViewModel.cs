@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Caliburn.Micro;
+using ClientWcfServiceLibrary;
 using Dto;
 
 namespace WcfTestBench.MonitoringSettings
@@ -33,7 +34,46 @@ namespace WcfTestBench.MonitoringSettings
             Model = model;
             Model.CalculateCycleTime();
             SelectedTabIndex = 0; // strange but it's necessary
+
+            ClientWcfService.MessageReceived += MonitoringSettingsProcessServerMessage;
         }
+
+        private void MonitoringSettingsProcessServerMessage(object msg)
+        {
+            var dto2 = msg as MonitoringStartedDto;
+            if (dto2 != null)
+            {
+                ProcessMonitoringStarted(dto2);
+                return;
+            }
+
+            var dto3 = msg as MonitoringStoppedDto;
+            if (dto3 != null)
+            {
+                ProcessMonitoringStopped(dto3);
+            }
+
+            var dto4 = msg as MonitoringSettingsAppliedDto;
+            if (dto4 != null)
+            {
+                ProcessMonitoringSettingsApplied(dto4);
+            }
+
+        }
+
+        private void ProcessMonitoringStarted(MonitoringStartedDto ms)
+        {
+            MessageProp = $@"monitoring started: {ms.IsSuccessful.ToString().ToUpper()}";
+        }
+        private void ProcessMonitoringStopped(MonitoringStoppedDto ms)
+        {
+            MessageProp = $@"monitoring stopped: {ms.IsSuccessful.ToString().ToUpper()}";
+        }
+        private void ProcessMonitoringSettingsApplied(MonitoringSettingsAppliedDto ms)
+        {
+            MessageProp = $@"monitoring settings applied: {ms.IsSuccessful.ToString().ToUpper()}";
+        }
+
 
         protected override void OnViewLoaded(object view)
         {

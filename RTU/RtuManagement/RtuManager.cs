@@ -190,11 +190,24 @@ namespace RtuManagement
             // only save variable and leave in order to not block wcf thread
             WcfParameter = settings;
 
-            if (IsMonitoringOn)
+            if (IsMonitoringOn) // AUTO
             {
-                lock (_obj)
+                if (settings.IsMonitoringOn)
                 {
-                    _hasNewSettings = true;
+                    lock (_obj)
+                    {
+                        _hasNewSettings = true;
+                    }
+                }
+                else // should become MANUAL
+                {
+                    _otdrManager.InterruptMeasurement();
+                    lock (_obj)
+                    {
+                        _isMonitoringCancelled = true;
+                    }
+                    var thread = new Thread(ApplyChangeSettings);
+                    thread.Start();
                 }
             }
             else  // MANUAL
@@ -206,6 +219,7 @@ namespace RtuManagement
 
         private void ApplyChangeSettings()
         {
+            _rtuLog.AppendLine("Start ApplyChangeSettings");
             var dto = WcfParameter as ApplyMonitoringSettingsDto;
             if (dto == null)
                 return;
@@ -222,7 +236,7 @@ namespace RtuManagement
             }
             else // in MANUAL mode so far
                 if (dto.IsMonitoringOn)
-                    StartMonitoring();
+                StartMonitoring();
         }
 
         private void SaveNewQueueToFile(ApplyMonitoringSettingsDto dto)
