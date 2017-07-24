@@ -2367,6 +2367,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Saved in DB.
+        /// </summary>
+        public static string SID_Saved_in_DB {
+            get {
+                return ResourceManager.GetString("SID_Saved_in_DB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ″.
         /// </summary>
         public static string SID_Second_sign {

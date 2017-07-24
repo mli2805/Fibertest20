@@ -1090,4 +1090,7 @@ on port {0}: charon {1} ip {2} has {3} ports</value>
 	<data name="SID_There_are_no_ports_for_monitoring_" xml:space="preserve">
 		<value>Не заданы порты для мониторинга!</value>
 	</data>
+	<data name="SID_Saved_in_DB" xml:space="preserve">
+		<value>Сохранено в БД</value>
+	</data>
 </root>

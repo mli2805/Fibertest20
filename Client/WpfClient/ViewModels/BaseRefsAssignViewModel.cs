@@ -18,7 +18,7 @@ namespace Iit.Fibertest.Client
         private string _fastBaseFilename;
         private string _additionalBaseFilename;
 
-        private const string SavedInDb = "Сохранено в БД";
+        private readonly string _savedInDb = Resources.SID_Saved_in_DB;
 
         public string RtuTitle { get; private set; }
 
@@ -73,9 +73,9 @@ namespace Iit.Fibertest.Client
         {
             TraceTitle = _trace.Title;
             TracePortOnRtu = _trace.Port > 0 ? _trace.Port.ToString() : Resources.SID_not_attached;
-            PreciseBaseFilename = _trace.PreciseId == Guid.Empty ? "" : SavedInDb;
-            FastBaseFilename = _trace.FastId == Guid.Empty ? "" : SavedInDb;
-            AdditionalBaseFilename = _trace.AdditionalId == Guid.Empty ? "" : SavedInDb;
+            PreciseBaseFilename = _trace.PreciseId == Guid.Empty ? "" : _savedInDb;
+            FastBaseFilename = _trace.FastId == Guid.Empty ? "" : _savedInDb;
+            AdditionalBaseFilename = _trace.AdditionalId == Guid.Empty ? "" : _savedInDb;
             RtuTitle = _readModel.Rtus.First(r => r.Id == _trace.RtuId).Title;
         }
 
@@ -94,7 +94,7 @@ namespace Iit.Fibertest.Client
 
         private bool IsFilenameChanged(string filename, Guid previousBaseRefId)
         {
-            return ((filename != "" && filename != SavedInDb) || (filename == "" && previousBaseRefId != Guid.Empty));
+            return ((filename != "" && filename != _savedInDb) || (filename == "" && previousBaseRefId != Guid.Empty));
         }
 
         public void GetPathToPrecise()
