@@ -997,4 +997,97 @@ on port {0}: charon {1} ip {2} has {3} ports</value>
 	<data name="SID_Analysis_is_finished" xml:space="preserve">
 		<value>Анализ завершен</value>
 	</data>
+	<data name="SID_Settings_were_transferred_successfully_" xml:space="preserve">
+		<value>Настройки переданы успешно.</value>
+	</data>
+	<data name="SID_Settings_weren_t_transferred__See_logs_" xml:space="preserve">
+		<value>Настройки не были переданы. См. логи</value>
+	</data>
+	<data name="SID_Command_sent__wait_please_" xml:space="preserve">
+		<value>Команда подана, пожалуйста подождите.</value>
+	</data>
+	<data name="SID_Monitoring_started___0_" xml:space="preserve">
+		<value>Мониторинг запущен: {0}</value>
+	</data>
+	<data name="SID_Monitoring_stopped___0_" xml:space="preserve">
+		<value>Мониторинг остановлен: {0}</value>
+	</data>
+	<data name="SID_Monitoring_settings_applied___0_" xml:space="preserve">
+		<value>Настройки мониторинга применены: {0}</value>
+	</data>
+	<data name="SID_Do_not_measure" xml:space="preserve">
+		<value>Не измерять</value>
+	</data>
+	<data name="SID_Do_not_save" xml:space="preserve">
+		<value>Не сохранять</value>
+	</data>
+	<data name="SID_Every_hour" xml:space="preserve">
+		<value>Каждый час</value>
+	</data>
+	<data name="SID_Every_6_hours" xml:space="preserve">
+		<value>Каждые 6 часов</value>
+	</data>
+	<data name="SID_Every_12_hours" xml:space="preserve">
+		<value>Каждые 12 часов</value>
+	</data>
+	<data name="SID_Every_day" xml:space="preserve">
+		<value>Каждый день</value>
+	</data>
+	<data name="SID_Every_2_days" xml:space="preserve">
+		<value>Каждые 2 дня</value>
+	</data>
+	<data name="SID_Every_7_days" xml:space="preserve">
+		<value>Каждые 7 дней</value>
+	</data>
+	<data name="SID_Every_30_days" xml:space="preserve">
+		<value>Каждые 30 дней</value>
+	</data>
+	<data name="SID_Wrong_param" xml:space="preserve">
+		<value>Неправильный парам</value>
+	</data>
+	<data name="SID_Permanently" xml:space="preserve">
+		<value>Постоянно</value>
+	</data>
+	<data name="SID__sec" xml:space="preserve">
+		<value> сек</value>
+	</data>
+	<data name="SID_Apply" xml:space="preserve">
+		<value>Применить</value>
+	</data>
+	<data name="SID_Precise" xml:space="preserve">
+		<value>Точный</value>
+	</data>
+	<data name="SID_Measurement_frequency" xml:space="preserve">
+		<value>Частота измерений</value>
+	</data>
+	<data name="SID_Save_frequency" xml:space="preserve">
+		<value>Частота сохранений</value>
+	</data>
+	<data name="SID_Fast" xml:space="preserve">
+		<value>Быстрый</value>
+	</data>
+	<data name="SID_Cycle_full_time" xml:space="preserve">
+		<value>Полное время цикла</value>
+	</data>
+	<data name="SID_Monitoring_mode" xml:space="preserve">
+		<value>Режим мониторинга</value>
+	</data>
+	<data name="SID_Fast___Precise" xml:space="preserve">
+		<value>Быстрый / Точный</value>
+	</data>
+	<data name="SID_Trace_title" xml:space="preserve">
+		<value>Название трассы</value>
+	</data>
+	<data name="SID_Automatic" xml:space="preserve">
+		<value>Автоматический</value>
+	</data>
+	<data name="SID_Manual" xml:space="preserve">
+		<value>Ручной</value>
+	</data>
+	<data name="SID_Error_" xml:space="preserve">
+		<value>Ошибка!</value>
+	</data>
+	<data name="SID_There_are_no_ports_for_monitoring_" xml:space="preserve">
+		<value>Не заданы порты для мониторинга!</value>
+	</data>
 </root>

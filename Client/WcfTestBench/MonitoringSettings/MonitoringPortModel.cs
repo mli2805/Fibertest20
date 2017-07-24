@@ -1,5 +1,6 @@
 ﻿using System;
 using Caliburn.Micro;
+using Iit.Fibertest.StringResources;
 
 namespace WcfTestBench.MonitoringSettings
 {
@@ -25,6 +26,6 @@ namespace WcfTestBench.MonitoringSettings
 
         public bool IsAnyBaseAssigned => PreciseBaseSpan != TimeSpan.Zero || FastBaseSpan != TimeSpan.Zero;
 
-        public string Duration => FastBaseSpan.TotalSeconds + " / " + PreciseBaseSpan.TotalSeconds + " sec";
+        public string Duration => FastBaseSpan.TotalSeconds + @" / " + PreciseBaseSpan.TotalSeconds + Resources.SID__sec;
     }
 }

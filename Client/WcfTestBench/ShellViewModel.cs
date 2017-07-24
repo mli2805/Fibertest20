@@ -1,6 +1,7 @@
+using System.Globalization;
+using System.Threading;
 using Caliburn.Micro;
 using Iit.Fibertest.Utils35;
-using Iit.Fibertest.WpfCommonViews;
 
 namespace WcfTestBench
 {
@@ -17,8 +18,12 @@ namespace WcfTestBench
             _clientLog = new Logger35();
             _clientLog.AssignFile("Client.log");
 
+            var culture = _clientIniFile.Read(IniSection.General, IniKey.Culture, "ru-RU");
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(culture);
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(culture);
+
             // if there are more than one child view - delete this line
-             WcfView();
+            WcfView();
         }
 
         public void WcfView()
@@ -28,6 +33,6 @@ namespace WcfTestBench
             windowManager.ShowDialog(vm);
         }
 
- 
+
     }
 }

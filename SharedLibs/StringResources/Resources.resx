@@ -997,4 +997,97 @@ on port {0}: charon {1} ip {2} has {3} ports</value>
 	<data name="SID_Analysis_is_finished" xml:space="preserve">
     <value>Analysis is finished</value>
   </data>
+	<data name="SID_Settings_were_transferred_successfully_" xml:space="preserve">
+    <value>Settings were transferred successfully.</value>
+  </data>
+	<data name="SID_Settings_weren_t_transferred__See_logs_" xml:space="preserve">
+    <value>Settings weren't transferred. See logs.</value>
+  </data>
+	<data name="SID_Command_sent__wait_please_" xml:space="preserve">
+    <value>Command sent, wait please.</value>
+  </data>
+	<data name="SID_Monitoring_started___0_" xml:space="preserve">
+    <value>Monitoring started: {0}</value>
+  </data>
+	<data name="SID_Monitoring_stopped___0_" xml:space="preserve">
+    <value>Monitoring stopped: {0}</value>
+  </data>
+	<data name="SID_Monitoring_settings_applied___0_" xml:space="preserve">
+    <value>Monitoring settings applied: {0}</value>
+  </data>
+	<data name="SID_Do_not_measure" xml:space="preserve">
+    <value>Do not measure</value>
+  </data>
+	<data name="SID_Do_not_save" xml:space="preserve">
+    <value>Do not save</value>
+  </data>
+	<data name="SID_Every_hour" xml:space="preserve">
+    <value>Every hour</value>
+  </data>
+	<data name="SID_Every_6_hours" xml:space="preserve">
+    <value>Every 6 hours</value>
+  </data>
+	<data name="SID_Every_12_hours" xml:space="preserve">
+    <value>Every 12 hours</value>
+  </data>
+	<data name="SID_Every_day" xml:space="preserve">
+    <value>Every day</value>
+  </data>
+	<data name="SID_Every_2_days" xml:space="preserve">
+    <value>Every 2 days</value>
+  </data>
+	<data name="SID_Every_7_days" xml:space="preserve">
+    <value>Every 7 days</value>
+  </data>
+	<data name="SID_Every_30_days" xml:space="preserve">
+    <value>Every 30 days</value>
+  </data>
+	<data name="SID_Wrong_param" xml:space="preserve">
+    <value>Wrong param</value>
+  </data>
+	<data name="SID_Permanently" xml:space="preserve">
+    <value>Permanently</value>
+  </data>
+	<data name="SID__sec" xml:space="preserve">
+    <value> sec</value>
+  </data>
+	<data name="SID_Apply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+	<data name="SID_Precise" xml:space="preserve">
+    <value>Precise</value>
+  </data>
+	<data name="SID_Measurement_frequency" xml:space="preserve">
+    <value>Measurement frequency</value>
+  </data>
+	<data name="SID_Save_frequency" xml:space="preserve">
+    <value>Save frequency</value>
+  </data>
+	<data name="SID_Fast" xml:space="preserve">
+    <value>Fast</value>
+  </data>
+	<data name="SID_Cycle_full_time" xml:space="preserve">
+    <value>Cycle full time</value>
+  </data>
+	<data name="SID_Monitoring_mode" xml:space="preserve">
+    <value>Monitoring mode</value>
+  </data>
+	<data name="SID_Fast___Precise" xml:space="preserve">
+    <value>Fast / Precise</value>
+  </data>
+	<data name="SID_Trace_title" xml:space="preserve">
+    <value>Trace title</value>
+  </data>
+	<data name="SID_Automatic" xml:space="preserve">
+    <value>Automatic</value>
+  </data>
+	<data name="SID_Manual" xml:space="preserve">
+    <value>Manual</value>
+  </data>
+	<data name="SID_Error_" xml:space="preserve">
+    <value>Error!</value>
+  </data>
+	<data name="SID_There_are_no_ports_for_monitoring_" xml:space="preserve">
+    <value>There are no ports for monitoring!</value>
+  </data>
 </root>

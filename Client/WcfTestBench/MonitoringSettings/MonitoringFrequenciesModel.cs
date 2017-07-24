@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Caliburn.Micro;
+using Iit.Fibertest.StringResources;
 
 namespace WcfTestBench.MonitoringSettings
 {
@@ -67,7 +68,7 @@ namespace WcfTestBench.MonitoringSettings
             _selectedPreciseMeasFreq = preciseMeasFrequency;
             PreciseSaveFreqs = FastSaveFreqs.Where(f => f == Frequency.DoNot || f >= SelectedPreciseMeasFreq).ToList();
             SelectedPreciseSaveFreq = preciseSaveFrequency;
-            FastMeasFreq = new List<string>() { "Permanently" };
+            FastMeasFreq = new List<string>() { Resources.SID_Permanently };
             SelectedFastMeasFreq = FastMeasFreq[0];
         }
 

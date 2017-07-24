@@ -1,6 +1,7 @@
 using System;
 using System.Globalization;
 using System.Windows.Data;
+using Iit.Fibertest.StringResources;
 
 namespace WcfTestBench
 {
@@ -23,15 +24,15 @@ namespace WcfTestBench
         {
             switch (instance)
             {
-                case Frequency.DoNot: return param == "0" ? "Do not measure" : "Do not save";
-                case Frequency.EveryHour: return "Every hour";
-                case Frequency.Every6Hours: return "Every 6 hours";
-                case Frequency.Every12Hours: return "Every 12 hours";
-                case Frequency.EveryDay: return "Every day";
-                case Frequency.Every2Days: return "Every 2 days";
-                case Frequency.Every7Days: return "Every 7 days";
-                case Frequency.Every30Days: return "Every 30 days";
-                default: return "Wrong param";
+                case Frequency.DoNot: return param == @"0" ? Resources.SID_Do_not_measure : Resources.SID_Do_not_save;
+                case Frequency.EveryHour: return Resources.SID_Every_hour;
+                case Frequency.Every6Hours: return Resources.SID_Every_6_hours;
+                case Frequency.Every12Hours: return Resources.SID_Every_12_hours;
+                case Frequency.EveryDay: return Resources.SID_Every_day;
+                case Frequency.Every2Days: return Resources.SID_Every_2_days;
+                case Frequency.Every7Days: return Resources.SID_Every_7_days;
+                case Frequency.Every30Days: return Resources.SID_Every_30_days;
+                default: return Resources.SID_Wrong_param;
             }
         }
     }

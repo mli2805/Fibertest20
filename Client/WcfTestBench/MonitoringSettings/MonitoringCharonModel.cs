@@ -32,7 +32,7 @@ namespace WcfTestBench.MonitoringSettings
         {
             CharonIpAddress = charonIpAddress;
             CharonTcpPort = charonTcpPort;
-            Title = CharonIpAddress + ":" + CharonTcpPort;
+            Title = CharonIpAddress + @":" + CharonTcpPort;
         }
 
         public void SubscribeOnPortsChanges()

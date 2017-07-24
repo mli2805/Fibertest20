@@ -5,6 +5,7 @@ using System.Text;
 using Caliburn.Micro;
 using ClientWcfServiceLibrary;
 using Dto;
+using Iit.Fibertest.StringResources;
 using Iit.Fibertest.Utils35;
 using Iit.Fibertest.WpfCommonViews;
 using WcfTestBench.MonitoringSettings;
@@ -47,12 +48,12 @@ namespace WcfTestBench
 
         private void ProcessMonitoringStarted(MonitoringStartedDto ms)
         {
-            DisplayString = $@"monitoring started: {ms.IsSuccessful.ToString().ToUpper()}";
+            DisplayString = string.Format(Resources.SID_Monitoring_started___0_, ms.IsSuccessful.ToString().ToUpper());
         }
 
         private void ProcessMonitoringStopped(MonitoringStoppedDto ms)
         {
-            DisplayString = $@"monitoring stopped: {ms.IsSuccessful.ToString().ToUpper()}";
+            DisplayString = string.Format(Resources.SID_Monitoring_stopped___0_, ms.IsSuccessful.ToString().ToUpper());
         }
 
         private string _displayString;
@@ -115,10 +116,10 @@ namespace WcfTestBench
 
         public void CheckConnection()
         {
-            DisplayString = @"Command sent, wait please.";
+            DisplayString = Resources.SID_Command_sent__wait_please_;
             var wcfClient = ClientToServerWcfFactory.Create(DcServiceIp);
             var dto = new CheckRtuConnectionDto() {Ip4Address = RtuServiceIp, IsAddressSetAsIp = true};
-            DisplayString = wcfClient.CheckRtuConnection(dto) ? "OK" : "ERROR";
+            DisplayString = wcfClient.CheckRtuConnection(dto) ? @"OK" : Resources.SID_Error;
         }
 
         public void Initialize()
@@ -129,14 +130,14 @@ namespace WcfTestBench
             var rtu = new InitializeRtuDto() { RtuId = Guid.NewGuid(), RtuIpAddress = RtuServiceIp, DataCenterIpAddress = DcServiceIp };
             wcfClient.InitializeRtuAsync(rtu);
             _clientLog.AppendLine($@"Sent command to initialize RTU {rtu.RtuId} with ip={rtu.RtuIpAddress}");
-            DisplayString = @"Command sent, wait please.";
+            DisplayString = Resources.SID_Command_sent__wait_please_;
         }
 
         private Random gen = new Random();
         public void MonitoringSettings()
         {
-            var vm = new MonitoringSettingsViewModel("192.168.96.53", PopulateModel());
-            vm.WcfManager = new WcfManager(new NetAddress("192.168.96.179", 23));
+            var vm = new MonitoringSettingsViewModel(_rtuServiceIp, PopulateModel());
+            vm.WcfManager = new WcfManager(new NetAddress(DcServiceIp, 23));
             IWindowManager windowManager = new WindowManager();
             windowManager.ShowDialog(vm);
         }
@@ -153,7 +154,7 @@ namespace WcfTestBench
             var wcfClient = ClientToServerWcfFactory.Create(DcServiceIp);
             wcfClient.StartMonitoringAsync(RtuServiceIp);
             _clientLog.AppendLine($@"Sent command to start monitoring on RTU with ip={RtuServiceIp}");
-            DisplayString = @"Command sent, wait please.";
+            DisplayString = Resources.SID_Command_sent__wait_please_;
         }
 
         public void StopMonitoring()
@@ -161,7 +162,7 @@ namespace WcfTestBench
             var wcfClient = ClientToServerWcfFactory.Create(DcServiceIp);
             wcfClient.StopMonitoringAsync(RtuServiceIp);
             _clientLog.AppendLine($@"Sent command to stop monitoring on RTU with ip={RtuServiceIp}");
-            DisplayString = @"Command sent, wait please.";
+            DisplayString = Resources.SID_Command_sent__wait_please_;
         }
 
         private MonitoringSettingsModel PopulateModel()
@@ -172,9 +173,9 @@ namespace WcfTestBench
 
                 Charons = new List<MonitoringCharonModel>()
                 {
-                    new MonitoringCharonModel("192.168.96.53", 23) { Title = "Грушаука 214", Ports = PopulatePorts(28)},
-                    new MonitoringCharonModel("192.168.96.57", 11834) { Ports = PopulatePorts(16)},
-                    new MonitoringCharonModel("192.168.96.57", 11835) { Ports = PopulatePorts(4)}
+                    new MonitoringCharonModel(_rtuServiceIp, 23) { Title = @"Грушаука 214", Ports = PopulatePorts(28)},
+//                    new MonitoringCharonModel("192.168.96.57", 11834) { Ports = PopulatePorts(16)},
+//                    new MonitoringCharonModel("192.168.96.57", 11835) { Ports = PopulatePorts(4)}
                 }
             };
             model.Frequencies.InitializeComboboxes(Frequency.EveryHour, Frequency.EveryHour, Frequency.EveryHour);
@@ -190,7 +191,7 @@ namespace WcfTestBench
                 var port = new MonitoringPortModel()
                 {
                     PortNumber = i,
-                    TraceTitle = new StringBuilder().Insert(0, "Probability is a quite long word ", gen.Next(4) + 1) + $" p{i}",
+                    TraceTitle = new StringBuilder().Insert(0, @"Probability is a quite long word ", gen.Next(4) + 1) + $@" p{i}",
                     IsIncluded = gen.Next(100) <= 25,
                 };
                 if (port.IsIncluded || gen.Next(100) <= 75)

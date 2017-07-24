@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using Caliburn.Micro;
 using ClientWcfServiceLibrary;
 using Dto;
+using Iit.Fibertest.StringResources;
 
 namespace WcfTestBench.MonitoringSettings
 {
@@ -63,28 +65,33 @@ namespace WcfTestBench.MonitoringSettings
 
         private void ProcessMonitoringStarted(MonitoringStartedDto ms)
         {
-            MessageProp = $@"monitoring started: {ms.IsSuccessful.ToString().ToUpper()}";
+            MessageProp = string.Format(Resources.SID_Monitoring_started___0_, ms.IsSuccessful.ToString().ToUpper());
         }
         private void ProcessMonitoringStopped(MonitoringStoppedDto ms)
         {
-            MessageProp = $@"monitoring stopped: {ms.IsSuccessful.ToString().ToUpper()}";
+            MessageProp = string.Format(Resources.SID_Monitoring_stopped___0_, ms.IsSuccessful.ToString().ToUpper());
         }
         private void ProcessMonitoringSettingsApplied(MonitoringSettingsAppliedDto ms)
         {
-            MessageProp = $@"monitoring settings applied: {ms.IsSuccessful.ToString().ToUpper()}";
+            MessageProp = string.Format(Resources.SID_Monitoring_settings_applied___0_, ms.IsSuccessful.ToString().ToUpper());
         }
 
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = "Monitoring settings";
+            DisplayName = Resources.SID_Monitoring_settings;
         }
 
         public void Apply()
         {
             var dto = ConvertSettingsToDto();
+            if (dto.IsMonitoringOn && !dto.Ports.Any())
+            {
+                MessageBox.Show(Resources.SID_There_are_no_ports_for_monitoring_, Resources.SID_Error_);
+                return;
+            }
             var transferResult = WcfManager.ApplyMonitoringSettings(dto);
-            MessageProp = transferResult ? "Command transferred successfully." : "Command wasn't transferred. See logs.";
+            MessageProp = transferResult ? Resources.SID_Settings_were_transferred_successfully_ : Resources.SID_Settings_weren_t_transferred__See_logs_;
         }
 
         private ApplyMonitoringSettingsDto ConvertSettingsToDto()

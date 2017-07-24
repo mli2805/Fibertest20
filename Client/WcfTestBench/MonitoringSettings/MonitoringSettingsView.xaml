@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:monitoringSettings="clr-namespace:WcfTestBench.MonitoringSettings"
         xmlns:wcfTestBench="clr-namespace:WcfTestBench"
+        xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
         SizeToContent="WidthAndHeight" MinHeight="520" MinWidth="650" WindowStartupLocation="CenterScreen"
         d:DataContext="{d:DesignInstance monitoringSettings:MonitoringSettingsViewModel}">
@@ -15,13 +16,13 @@
         <DockPanel DockPanel.Dock="Right" Width="200" Margin="5">
             <TextBlock DockPanel.Dock="Bottom" Margin="10,0,10,5" Background="AliceBlue" Text="{Binding MessageProp}"/>
             <DockPanel DockPanel.Dock="Bottom" Margin="5,15,5,0">
-                <Button Name="Apply" Height="25" Width="80" Content="Apply" Margin="5" DockPanel.Dock="Left"/>
-                <Button Height="25" Width="80" Content="Close" Margin="5" IsCancel="True" DockPanel.Dock="Right"/>
+                <Button Name="Apply" Height="25" Width="80" Content="{x:Static stringResources:Resources.SID_Apply}" Margin="5" DockPanel.Dock="Left"/>
+                <Button Height="25" Width="80" Content="{x:Static stringResources:Resources.SID_Close}" Margin="5" IsCancel="True" DockPanel.Dock="Right"/>
                 <StackPanel></StackPanel>
             </DockPanel>
-            <GroupBox Header="Precise" DockPanel.Dock="Top">
+            <GroupBox Header="{x:Static stringResources:Resources.SID_Precise}" DockPanel.Dock="Top">
                 <StackPanel Margin="5">
-                    <TextBlock Text="Measurement frequency" Margin="5,0,0,0"/>
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Measurement_frequency}" Margin="5,0,0,0"/>
                     <ComboBox Margin="5" ItemsSource="{Binding Model.Frequencies.PreciseMeasFreqs}" SelectedItem="{Binding Model.Frequencies.SelectedPreciseMeasFreq}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
@@ -29,7 +30,7 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                    <TextBlock Text="Save frequency" Margin="5,0,0,0"/>
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Save_frequency}" Margin="5,0,0,0"/>
                     <ComboBox Margin="5" ItemsSource="{Binding Model.Frequencies.PreciseSaveFreqs}" SelectedItem="{Binding Model.Frequencies.SelectedPreciseSaveFreq}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
@@ -39,11 +40,11 @@
                     </ComboBox>
                 </StackPanel>
             </GroupBox>
-            <GroupBox Header="Fast" DockPanel.Dock="Top">
+            <GroupBox Header="{x:Static stringResources:Resources.SID_Fast}" DockPanel.Dock="Top">
                 <StackPanel Margin="5">
-                    <TextBlock Text="Measurement frequency" Margin="5,0,0,0"/>
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Measurement_frequency}" Margin="5,0,0,0"/>
                     <ComboBox Margin="5" ItemsSource="{Binding Model.Frequencies.FastMeasFreq}" SelectedItem="{Binding Model.Frequencies.SelectedFastMeasFreq}"/>
-                    <TextBlock Text="Save frequency" Margin="5,0,0,0"/>
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Save_frequency}" Margin="5,0,0,0"/>
                     <ComboBox Margin="5" ItemsSource="{Binding Model.Frequencies.FastSaveFreqs}" SelectedItem="{Binding Model.Frequencies.SelectedFastSaveFreq}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
@@ -53,13 +54,13 @@
                     </ComboBox>
                 </StackPanel>
             </GroupBox>
-            <GroupBox Header="Cycle full time" DockPanel.Dock="Top">
+            <GroupBox Header="{x:Static stringResources:Resources.SID_Cycle_full_time}" DockPanel.Dock="Top">
                 <TextBlock Margin="5" Text="{Binding Model.CycleTime}"/>
             </GroupBox>
-            <GroupBox Header="Monitoring mode" DockPanel.Dock="Top">
+            <GroupBox Header="{x:Static stringResources:Resources.SID_Monitoring_mode}" DockPanel.Dock="Top">
                 <StackPanel>
-                    <RadioButton Content="Automatic" IsChecked="{Binding Model.IsMonitoringOn}" Margin="5"/>
-                    <RadioButton Content="Manual" Margin="5"/>
+                    <RadioButton Content="{x:Static stringResources:Resources.SID_Automatic}" IsChecked="{Binding Model.IsMonitoringOn}" Margin="5"/>
+                    <RadioButton Content="{x:Static stringResources:Resources.SID_Manual}" Margin="5"/>
                 </StackPanel>
             </GroupBox>
             <StackPanel></StackPanel>
@@ -79,8 +80,8 @@
                             <DockPanel Margin="10,0">
                                 <CheckBox Margin="7,2,0,0" DockPanel.Dock="Left"  IsChecked="{Binding GroupenCheck}" ></CheckBox>
                                 <TextBlock Text="N" DockPanel.Dock="Left" Width="18" TextAlignment="Center" FontWeight="Bold"/>
-                                <TextBlock Text="Fast / Precise" DockPanel.Dock="Right" Width="77"  TextAlignment="Center" FontWeight="Bold"/>
-                                <TextBlock Text="Trace title" TextAlignment="Center" FontWeight="Bold"/>
+                                <TextBlock Text="{x:Static stringResources:Resources.SID_Fast___Precise}" DockPanel.Dock="Right"  TextAlignment="Right" FontWeight="Bold"/>
+                                <TextBlock Text="{x:Static stringResources:Resources.SID_Trace_title}" TextAlignment="Center" FontWeight="Bold"/>
                             </DockPanel>
                             <ScrollViewer VerticalScrollBarVisibility="Auto">
                                 <ItemsControl ItemsSource="{Binding Ports}" Margin="10,5,5,10" >
