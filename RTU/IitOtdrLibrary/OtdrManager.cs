@@ -26,7 +26,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
             _rtuLogger = rtuLogger;
             _rtuLogger.AppendLine("OtdrManager initialized");
         }
-        
+
         public string LoadDll()
         {
             var dllPath = Path.Combine(_iitotdrFolder, @"iit_otdr.dll");
@@ -47,11 +47,41 @@ namespace Iit.Fibertest.IitOtdrLibrary
         public bool InitializeLibrary()
         {
             IitOtdr = new IitOtdrWrapper(_rtuLogger);
-            var message = "Initializing iit_otdr (log, ini, temp and other stuff) ...";
-            _rtuLogger.AppendLine(message);
+            _rtuLogger.AppendLine("Initializing iit_otdr (log, ini, temp and other stuff) ...");
+            if (!RestoreEtc())
+            {
+                _rtuLogger.AppendLine("Etc restore problem.");
+                return false;
+            }
             IsLibraryInitialized = IitOtdr.InitDll(_iitotdrFolder);
             _rtuLogger.AppendLine(IsLibraryInitialized ? "Library initialized successfully!" : "Library initialization failed!");
             return IsLibraryInitialized;
+        }
+
+        private bool RestoreEtc()
+        {
+            var destinationPath = Path.Combine(_iitotdrFolder, @"ETC");
+            if (!Directory.Exists(destinationPath))
+            {
+                _rtuLogger.AppendLine($"Can't work without <{destinationPath}> folder!");
+                return false;
+            }
+            var sourcePath = _iitotdrFolder + "\\ETC_default";
+            if (!Directory.Exists(sourcePath))
+            {
+                _rtuLogger.AppendLine($"Can't work without <{sourcePath}> folder!");
+                return false;
+            }
+            var files = Directory.GetFiles(sourcePath);
+            foreach (var file in files)
+            {
+                var sourceFile = Path.GetFileName(file);
+                if (sourceFile == null)
+                    return false;
+                var destFile = Path.Combine(destinationPath, sourceFile);
+                File.Copy(file, destFile, true);
+            }
+            return true;
         }
 
         public bool ConnectOtdr(string ipAddress)
