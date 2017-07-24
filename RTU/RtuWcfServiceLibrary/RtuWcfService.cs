@@ -121,5 +121,22 @@ namespace RtuWcfServiceLibrary
                 return true;
             }
         }
+
+        public bool AssignBaseRef(AssignBaseRefDto baseRef)
+        {
+            lock (_lockObj)
+            {
+                if (_rtuManager.IsMonitoringOn)
+                {
+                    ServiceLog.AppendLine("User sent base ref - Ignored - RTU is busy");
+                    return false;
+                }
+                var anotherThread = new Thread(_rtuManager.SaveBaseRef);
+                anotherThread.Start(baseRef);
+                return true;
+            }
+        }
+
+      
     }
 }

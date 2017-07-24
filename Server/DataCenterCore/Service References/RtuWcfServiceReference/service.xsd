@@ -63,4 +63,18 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="AssignBaseRef">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="baseRef" nillable="true" type="q3:AssignBaseRefDto" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AssignBaseRefResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="AssignBaseRefResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
 </xs:schema>

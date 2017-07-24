@@ -49,4 +49,16 @@
       <xs:sequence />
     </xs:complexType>
   </xs:element>
+  <xs:element name="ConfirmBaseRefAssigned">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="confirm" nillable="true" type="q5:BaseRefAssignedDto" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ConfirmBaseRefAssignedResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
 </xs:schema>

@@ -56,5 +56,10 @@ namespace WcfServiceForClient
         {
             return DcManager.ApplyMonitoringSettings(settings);
         }
+
+        public bool AssignBaseRef(AssignBaseRefDto baseRef)
+        {
+            return DcManager.AssignBaseRef(baseRef);
+        }
     }
 }

@@ -46,6 +46,8 @@
     <Compile Include="DcManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RtuStation.cs" />
+    <Compile Include="ServerToClientWcfFactory.cs" />
+    <Compile Include="ServerToRtuWcfFactory.cs" />
     <Compile Include="Service References\ClientWcfServiceReference\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -70,6 +72,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\ClientWcfServiceReference\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\RtuWcfServiceReference\Dto.Enums.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\RtuWcfServiceReference\Dto.xsd">

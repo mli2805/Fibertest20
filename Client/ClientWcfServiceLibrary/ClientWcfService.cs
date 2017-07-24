@@ -36,5 +36,11 @@ namespace ClientWcfServiceLibrary
             ClientLog.AppendLine($"RTU {confirm.RtuIpAddress} monitoring settings applied: {confirm.IsSuccessful}");
             MessageReceived?.Invoke(confirm);
         }
+
+        public void ConfirmBaseRefAssigned(BaseRefAssignedDto confirm)
+        {
+            ClientLog.AppendLine($"RTU {confirm.RtuIpAddress} base ref assigned: {confirm.IsSuccessful}");
+            MessageReceived?.Invoke(confirm);
+        }
     }
 }

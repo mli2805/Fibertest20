@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using Dto;
+using Dto.Enums;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.Utils35;
@@ -249,6 +250,24 @@ namespace RtuManagement
 
             var monitoringSettingsFile = Utils.FileNameForSure(@"..\ini\", @"monitoring.que", false);
             File.WriteAllLines(monitoringSettingsFile, content);
+        }
+
+        public void SaveBaseRef(object param)
+        {
+            var baseRef = param as AssignBaseRefDto;
+            if (baseRef == null)
+                return;
+
+            var otdrIp = _rtuIni.Read(IniSection.General, IniKey.OtdrIp, "192.168.88.101");
+            var folderName = baseRef.OtauPortDto.Ip == baseRef.RtuIpAddress
+                ? $@"{otdrIp}t{baseRef.OtauPortDto.TcpPort}p{baseRef.OtauPortDto.OpticalPort}\"
+                : $@"{baseRef.OtauPortDto.Ip}t{baseRef.OtauPortDto.TcpPort}p{baseRef.OtauPortDto.OpticalPort}\";
+            var filename = baseRef.BaseRefType.ToBaseFileName();
+
+            var fullPath = Path.Combine(@"..\PortData\", folderName, filename);
+            if (File.Exists(fullPath))
+                File.Delete(fullPath);
+            File.WriteAllBytes(fullPath, baseRef.SorBytes);
         }
 
         private void SaveNewFrequenciesToIni(ApplyMonitoringSettingsDto dto)

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.ServiceModel;
-using DataCenterCore.ClientWcfServiceReference;
-using DataCenterCore.RtuWcfServiceReference;
 using Dto;
 using Iit.Fibertest.Utils35;
 
@@ -50,13 +46,13 @@ namespace DataCenterCore
         public bool CheckRtuConnection(CheckRtuConnectionDto dto)
         {
             var address = dto.IsAddressSetAsIp ? dto.Ip4Address : dto.HostName;
-            var rtuWcfServiceClient = CreateAndOpenRtuWcfServiceClient(address);
+            var rtuWcfServiceClient = ServerToRtuWcfFactory.Create(address);
             return rtuWcfServiceClient != null;
         }
 
         public bool InitializeRtu(InitializeRtuDto rtu)
         {
-            var rtuWcfServiceClient = CreateAndOpenRtuWcfServiceClient(rtu.RtuIpAddress);
+            var rtuWcfServiceClient = ServerToRtuWcfFactory.Create(rtu.RtuIpAddress);
             if (rtuWcfServiceClient == null)
                 return false;
             rtuWcfServiceClient.Initialize(rtu);
@@ -157,7 +153,7 @@ namespace DataCenterCore
 
         private void TransferConfirmRtuInitialized(string clientIp, RtuInitializedDto rtu)
         {
-            var clientWcfServiceClient = CreateAndOpenClientWcfServiceClient(clientIp);
+            var clientWcfServiceClient = ServerToClientWcfFactory.Create(clientIp);
             if (clientWcfServiceClient == null)
                 return;
 
@@ -167,7 +163,7 @@ namespace DataCenterCore
 
         private void TransferConfirmStartMonitoring(string clientIp, MonitoringStartedDto confirmation)
         {
-            var clientWcfServiceClient = CreateAndOpenClientWcfServiceClient(clientIp);
+            var clientWcfServiceClient = ServerToClientWcfFactory.Create(clientIp);
             if (clientWcfServiceClient == null)
                 return;
 
@@ -178,7 +174,7 @@ namespace DataCenterCore
 
         private void TransferConfirmStopMonitoring(string clientIp, MonitoringStoppedDto confirmation)
         {
-            var clientWcfServiceClient = CreateAndOpenClientWcfServiceClient(clientIp);
+            var clientWcfServiceClient = ServerToClientWcfFactory.Create(clientIp);
             if (clientWcfServiceClient == null)
                 return;
 
@@ -189,7 +185,7 @@ namespace DataCenterCore
 
         public bool StartMonitoring(string rtuAddress)
         {
-            var rtuWcfServiceClient = CreateAndOpenRtuWcfServiceClient(rtuAddress);
+            var rtuWcfServiceClient = ServerToRtuWcfFactory.Create(rtuAddress);
             if (rtuWcfServiceClient == null)
                 return false;
 
@@ -200,7 +196,7 @@ namespace DataCenterCore
 
         public bool StopMonitoring(string rtuAddress)
         {
-            var rtuWcfServiceClient = CreateAndOpenRtuWcfServiceClient(rtuAddress);
+            var rtuWcfServiceClient = ServerToRtuWcfFactory.Create(rtuAddress);
             if (rtuWcfServiceClient == null)
                 return false;
 
@@ -211,7 +207,7 @@ namespace DataCenterCore
 
         public bool ApplyMonitoringSettings(ApplyMonitoringSettingsDto settings)
         {
-            var rtuWcfServiceClient = CreateAndOpenRtuWcfServiceClient(settings.RtuIpAddress);
+            var rtuWcfServiceClient = ServerToRtuWcfFactory.Create(settings.RtuIpAddress);
             if (rtuWcfServiceClient == null)
                 return false;
 
@@ -222,7 +218,7 @@ namespace DataCenterCore
 
         private void TransferConfirmMonitoringSettings(string clientIp, MonitoringSettingsAppliedDto confirmation)
         {
-            var clientWcfServiceClient = CreateAndOpenClientWcfServiceClient(clientIp);
+            var clientWcfServiceClient = ServerToClientWcfFactory.Create(clientIp);
             if (clientWcfServiceClient == null)
                 return;
 
@@ -230,52 +226,63 @@ namespace DataCenterCore
             _dcLog.AppendLine($"Transfered apply monitoring settings confirmation from RTU {confirmation.RtuIpAddress} result is {confirmation.IsSuccessful}");
         }
 
-        private string CombineUriString(string address, int port, string wcfServiceName)
+        public bool AssignBaseRef(AssignBaseRefDto baseRef)
         {
-            return @"net.tcp://" + address + @":" + port + @"/" + wcfServiceName;
+            var rtuWcfServiceClient = ServerToRtuWcfFactory.Create(baseRef.RtuIpAddress);
+            if (rtuWcfServiceClient == null)
+                return false;
+
+            rtuWcfServiceClient.AssignBaseRef(baseRef);
+            _dcLog.AppendLine($"Transfered command to assign base ref to rtu with ip={baseRef.RtuIpAddress}");
+            return true;
         }
 
-        private RtuWcfServiceClient CreateAndOpenRtuWcfServiceClient(string address)
-        {
-            try
-            {
-                var rtuWcfServiceClient = new RtuWcfServiceClient(CreateDefaultNetTcpBinding(), new EndpointAddress(new Uri(CombineUriString(address, 11842, @"RtuWcfService"))));
-                rtuWcfServiceClient.Open();
-                return rtuWcfServiceClient;
-            }
-            catch (Exception e)
-            {
-                _dcLog.AppendLine(e.Message);
-                return null;
-            }
-        }
-
-        private ClientWcfServiceClient CreateAndOpenClientWcfServiceClient(string address)
-        {
-            try
-            {
-                var clientWcfServiceClient = new ClientWcfServiceClient(CreateDefaultNetTcpBinding(), new EndpointAddress(new Uri(CombineUriString(address, 11843, @"ClientWcfService"))));
-                clientWcfServiceClient.Open();
-                return clientWcfServiceClient;
-            }
-            catch (Exception e)
-            {
-                _dcLog.AppendLine(e.Message);
-                return null;
-            }
-        }
-
-        private NetTcpBinding CreateDefaultNetTcpBinding()
-        {
-            return new NetTcpBinding
-            {
-                Security = { Mode = SecurityMode.None },
-                ReceiveTimeout = new TimeSpan(0, 15, 0),
-                SendTimeout = new TimeSpan(0, 15, 0),
-                OpenTimeout = new TimeSpan(0, 1, 0),
-                MaxBufferSize = 4096000 //4M
-            };
-        }
+//        private string CombineUriString(string address, int port, string wcfServiceName)
+//        {
+//            return @"net.tcp://" + address + @":" + port + @"/" + wcfServiceName;
+//        }
+//
+//        private RtuWcfServiceClient CreateAndOpenRtuWcfServiceClient(string address)
+//        {
+//            try
+//            {
+//                var rtuWcfServiceClient = new RtuWcfServiceClient(CreateDefaultNetTcpBinding(), new EndpointAddress(new Uri(CombineUriString(address, 11842, @"RtuWcfService"))));
+//                rtuWcfServiceClient.Open();
+//                return rtuWcfServiceClient;
+//            }
+//            catch (Exception e)
+//            {
+//                _dcLog.AppendLine(e.Message);
+//                return null;
+//            }
+//        }
+//
+//        private ClientWcfServiceClient CreateAndOpenClientWcfServiceClient(string address)
+//        {
+//            try
+//            {
+//                var clientWcfServiceClient = new ClientWcfServiceClient(CreateDefaultNetTcpBinding(), new EndpointAddress(new Uri(CombineUriString(address, 11843, @"ClientWcfService"))));
+//                clientWcfServiceClient.Open();
+//                return clientWcfServiceClient;
+//            }
+//            catch (Exception e)
+//            {
+//                _dcLog.AppendLine(e.Message);
+//                return null;
+//            }
+//        }
+//
+//        private NetTcpBinding CreateDefaultNetTcpBinding()
+//        {
+//            return new NetTcpBinding
+//            {
+//                Security = { Mode = SecurityMode.None },
+//                ReceiveTimeout = new TimeSpan(0, 15, 0),
+//                SendTimeout = new TimeSpan(0, 15, 0),
+//                OpenTimeout = new TimeSpan(0, 1, 0),
+//                MaxBufferSize = 4096000 //4M
+//            };
+//        }
 
     }
 }

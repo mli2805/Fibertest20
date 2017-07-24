@@ -26,6 +26,9 @@ namespace DataCenterCore.ClientWcfServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientWcfService/ConfirmMonitoringSettingsApplied", ReplyAction="http://tempuri.org/IClientWcfService/ConfirmMonitoringSettingsAppliedResponse")]
         void ConfirmMonitoringSettingsApplied(Dto.MonitoringSettingsAppliedDto confirm);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientWcfService/ConfirmBaseRefAssigned", ReplyAction="http://tempuri.org/IClientWcfService/ConfirmBaseRefAssignedResponse")]
+        void ConfirmBaseRefAssigned(Dto.BaseRefAssignedDto confirm);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -69,6 +72,10 @@ namespace DataCenterCore.ClientWcfServiceReference {
         
         public void ConfirmMonitoringSettingsApplied(Dto.MonitoringSettingsAppliedDto confirm) {
             base.Channel.ConfirmMonitoringSettingsApplied(confirm);
+        }
+        
+        public void ConfirmBaseRefAssigned(Dto.BaseRefAssignedDto confirm) {
+            base.Channel.ConfirmBaseRefAssigned(confirm);
         }
     }
 }

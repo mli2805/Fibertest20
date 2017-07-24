@@ -18,6 +18,9 @@ namespace ClientWcfServiceLibrary
 
         [OperationContract]
         void ConfirmMonitoringSettingsApplied(MonitoringSettingsAppliedDto confirm);
+
+        [OperationContract]
+        void ConfirmBaseRefAssigned(BaseRefAssignedDto confirm);
     }
 
 

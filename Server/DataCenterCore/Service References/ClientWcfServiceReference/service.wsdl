@@ -41,6 +41,12 @@
   <wsdl:message name="IClientWcfService_ConfirmMonitoringSettingsApplied_OutputMessage">
     <wsdl:part name="parameters" element="tns:ConfirmMonitoringSettingsAppliedResponse" />
   </wsdl:message>
+  <wsdl:message name="IClientWcfService_ConfirmBaseRefAssigned_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConfirmBaseRefAssigned" />
+  </wsdl:message>
+  <wsdl:message name="IClientWcfService_ConfirmBaseRefAssigned_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConfirmBaseRefAssignedResponse" />
+  </wsdl:message>
   <wsdl:portType name="IClientWcfService">
     <wsdl:operation name="ConfirmRtuInitialized">
       <wsdl:input wsaw:Action="http://tempuri.org/IClientWcfService/ConfirmRtuInitialized" message="tns:IClientWcfService_ConfirmRtuInitialized_InputMessage" />
@@ -57,6 +63,10 @@
     <wsdl:operation name="ConfirmMonitoringSettingsApplied">
       <wsdl:input wsaw:Action="http://tempuri.org/IClientWcfService/ConfirmMonitoringSettingsApplied" message="tns:IClientWcfService_ConfirmMonitoringSettingsApplied_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IClientWcfService/ConfirmMonitoringSettingsAppliedResponse" message="tns:IClientWcfService_ConfirmMonitoringSettingsApplied_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ConfirmBaseRefAssigned">
+      <wsdl:input wsaw:Action="http://tempuri.org/IClientWcfService/ConfirmBaseRefAssigned" message="tns:IClientWcfService_ConfirmBaseRefAssigned_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IClientWcfService/ConfirmBaseRefAssignedResponse" message="tns:IClientWcfService_ConfirmBaseRefAssigned_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="NetTcpBinding_IClientWcfService" type="tns:IClientWcfService">
@@ -92,6 +102,15 @@
     </wsdl:operation>
     <wsdl:operation name="ConfirmMonitoringSettingsApplied">
       <soap12:operation soapAction="http://tempuri.org/IClientWcfService/ConfirmMonitoringSettingsApplied" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConfirmBaseRefAssigned">
+      <soap12:operation soapAction="http://tempuri.org/IClientWcfService/ConfirmBaseRefAssigned" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

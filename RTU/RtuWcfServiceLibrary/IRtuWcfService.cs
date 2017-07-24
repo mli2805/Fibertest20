@@ -21,6 +21,9 @@ namespace RtuWcfServiceLibrary
 
         [OperationContract]
         bool ApplyMonitoringSettings(ApplyMonitoringSettingsDto settings);
+
+        [OperationContract]
+        bool AssignBaseRef(AssignBaseRefDto baseRef);
     }
 
 }

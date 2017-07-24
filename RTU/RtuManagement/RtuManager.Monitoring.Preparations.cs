@@ -103,5 +103,7 @@ namespace RtuManagement
             _fastSaveTimespan =
                 TimeSpan.FromSeconds(_rtuIni.Read(IniSection.Monitoring, IniKey.FastSaveTimespan, 3600));
         }
+
+    
     }
 }
