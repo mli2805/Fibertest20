@@ -43,11 +43,23 @@
   <xs:element name="MonitoringTimespansDto" nillable="true" type="tns:MonitoringTimespansDto" />
   <xs:complexType name="AssignBaseRefDto">
     <xs:sequence>
-      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Dto.Enums" minOccurs="0" name="BaseRefType" type="q1:BaseRefType" />
+      <xs:element minOccurs="0" name="BaseRefs" nillable="true" type="tns:ArrayOfBaseRefDto" />
       <xs:element minOccurs="0" name="OtauPortDto" nillable="true" type="tns:OtauPortDto" />
       <xs:element minOccurs="0" name="RtuIpAddress" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="SorBytes" nillable="true" type="xs:base64Binary" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="AssignBaseRefDto" nillable="true" type="tns:AssignBaseRefDto" />
+  <xs:complexType name="ArrayOfBaseRefDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="BaseRefDto" nillable="true" type="tns:BaseRefDto" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfBaseRefDto" nillable="true" type="tns:ArrayOfBaseRefDto" />
+  <xs:complexType name="BaseRefDto">
+    <xs:sequence>
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Dto.Enums" minOccurs="0" name="BaseRefType" type="q1:BaseRefType" />
+      <xs:element minOccurs="0" name="SorBytes" nillable="true" type="xs:base64Binary" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="BaseRefDto" nillable="true" type="tns:BaseRefDto" />
 </xs:schema>

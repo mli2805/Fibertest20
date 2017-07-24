@@ -44,5 +44,10 @@ namespace WcfServiceForRtu
         {
             return DcManager.ConfirmApplyMonitoringSettings(result);
         }
+
+        public bool ConfirmBaseRefAssigned(BaseRefAssignedDto result)
+        {
+            return DcManager.ConfirmAssignBaseRef(result);
+        }
     }
 }

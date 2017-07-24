@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="AssignBaseRefDto.cs" />
     <Compile Include="BaseRefAssignedDto.cs" />
+    <Compile Include="BaseRefDto.cs" />
     <Compile Include="Enums\BaseRefType.cs" />
     <Compile Include="Enums\BaseRefTypeExtensions.cs" />
     <Compile Include="Enums\FiberState.cs" />

@@ -56,6 +56,12 @@ namespace WcfTestBench.WcfForClientServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForClient/ApplyMonitoringSettings", ReplyAction="http://tempuri.org/IWcfServiceForClient/ApplyMonitoringSettingsResponse")]
         System.Threading.Tasks.Task<bool> ApplyMonitoringSettingsAsync(Dto.ApplyMonitoringSettingsDto settings);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForClient/AssignBaseRef", ReplyAction="http://tempuri.org/IWcfServiceForClient/AssignBaseRefResponse")]
+        bool AssignBaseRef(Dto.AssignBaseRefDto baseRef);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForClient/AssignBaseRef", ReplyAction="http://tempuri.org/IWcfServiceForClient/AssignBaseRefResponse")]
+        System.Threading.Tasks.Task<bool> AssignBaseRefAsync(Dto.AssignBaseRefDto baseRef);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -139,6 +145,14 @@ namespace WcfTestBench.WcfForClientServiceReference {
         
         public System.Threading.Tasks.Task<bool> ApplyMonitoringSettingsAsync(Dto.ApplyMonitoringSettingsDto settings) {
             return base.Channel.ApplyMonitoringSettingsAsync(settings);
+        }
+        
+        public bool AssignBaseRef(Dto.AssignBaseRefDto baseRef) {
+            return base.Channel.AssignBaseRef(baseRef);
+        }
+        
+        public System.Threading.Tasks.Task<bool> AssignBaseRefAsync(Dto.AssignBaseRefDto baseRef) {
+            return base.Channel.AssignBaseRefAsync(baseRef);
         }
     }
 }

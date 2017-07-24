@@ -252,22 +252,49 @@ namespace RtuManagement
             File.WriteAllLines(monitoringSettingsFile, content);
         }
 
-        public void SaveBaseRef(object param)
+
+        public void SaveBaseRefs(AssignBaseRefDto dto)
         {
-            var baseRef = param as AssignBaseRefDto;
-            if (baseRef == null)
+            WcfParameter = dto;
+            var thread = new Thread(ApplyBaseRefs);
+            thread.Start();
+        }
+
+        private void ApplyBaseRefs()
+        { 
+            _rtuLog.AppendLine("Base refs received.");
+            var assignBaseRefDto = WcfParameter as AssignBaseRefDto;
+            if (assignBaseRefDto == null)
                 return;
 
+            _rtuLog.AppendLine("Base refs valid dto.");
             var otdrIp = _rtuIni.Read(IniSection.General, IniKey.OtdrIp, "192.168.88.101");
-            var folderName = baseRef.OtauPortDto.Ip == baseRef.RtuIpAddress
-                ? $@"{otdrIp}t{baseRef.OtauPortDto.TcpPort}p{baseRef.OtauPortDto.OpticalPort}\"
-                : $@"{baseRef.OtauPortDto.Ip}t{baseRef.OtauPortDto.TcpPort}p{baseRef.OtauPortDto.OpticalPort}\";
-            var filename = baseRef.BaseRefType.ToBaseFileName();
 
-            var fullPath = Path.Combine(@"..\PortData\", folderName, filename);
-            if (File.Exists(fullPath))
-                File.Delete(fullPath);
-            File.WriteAllBytes(fullPath, baseRef.SorBytes);
+            var portFolderName = assignBaseRefDto.OtauPortDto.Ip == assignBaseRefDto.RtuIpAddress
+                ? $@"{otdrIp}t{assignBaseRefDto.OtauPortDto.TcpPort}p{assignBaseRefDto.OtauPortDto.OpticalPort}\"
+                : $@"{assignBaseRefDto.OtauPortDto.Ip}t{assignBaseRefDto.OtauPortDto.TcpPort}p{assignBaseRefDto.OtauPortDto.OpticalPort}\";
+
+            var appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            var appDir = Path.GetDirectoryName(appPath);
+            if (appDir == null)
+                return;
+            var fullFolderName = Path.Combine(appDir, @"..\PortData\", portFolderName);
+            if (!Directory.Exists(fullFolderName))
+                Directory.CreateDirectory(fullFolderName);
+
+            _rtuLog.AppendLine($"Base refs will be saved in {fullFolderName}.");
+            foreach (var baseRef in assignBaseRefDto.BaseRefs)
+            {
+                var filename = baseRef.BaseRefType.ToBaseFileName();
+
+                var fullPath = Path.Combine(fullFolderName, filename);
+                _rtuLog.AppendLine($"with name: {fullPath}");
+
+                if (File.Exists(fullPath))
+                    File.Delete(fullPath);
+                if (baseRef.SorBytes != null)
+                    File.WriteAllBytes(fullPath, baseRef.SorBytes);
+            }
         }
 
         private void SaveNewFrequenciesToIni(ApplyMonitoringSettingsDto dto)

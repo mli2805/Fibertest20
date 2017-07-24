@@ -32,6 +32,7 @@ namespace RtuManagement
                 IsMonitoringOn = false;
                 return;
             }
+
             while (true)
             {
                 _measurementNumber++;

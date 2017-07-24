@@ -41,4 +41,20 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="MonitoringSettingsAppliedDto" nillable="true" type="tns:MonitoringSettingsAppliedDto" />
+  <xs:complexType name="BaseRefAssignedDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="IsSuccessful" type="xs:boolean" />
+      <xs:element minOccurs="0" name="OtauPortDto" nillable="true" type="tns:OtauPortDto" />
+      <xs:element minOccurs="0" name="RtuIpAddress" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="BaseRefAssignedDto" nillable="true" type="tns:BaseRefAssignedDto" />
+  <xs:complexType name="OtauPortDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Ip" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="OpticalPort" type="xs:int" />
+      <xs:element minOccurs="0" name="TcpPort" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="OtauPortDto" nillable="true" type="tns:OtauPortDto" />
 </xs:schema>

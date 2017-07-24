@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.ServiceModel;
 using System.Text;
 using Caliburn.Micro;
 using ClientWcfServiceLibrary;
 using Dto;
+using Dto.Enums;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.Utils35;
 using Iit.Fibertest.WpfCommonViews;
@@ -142,6 +144,31 @@ namespace WcfTestBench
             windowManager.ShowDialog(vm);
         }
 
+        public void BaseRefs()
+        {
+            var dto = new AssignBaseRefDto()
+            {
+                RtuIpAddress = _rtuServiceIp,
+                OtauPortDto = new OtauPortDto()
+                {
+                    Ip = _rtuServiceIp,
+                    TcpPort = 23,
+                    OpticalPort = 3
+                },
+                BaseRefs = new List<BaseRefDto>()
+                {
+                    new BaseRefDto() { BaseRefType = BaseRefType.Precise, SorBytes = new byte[32567]},
+                    new BaseRefDto() { BaseRefType = BaseRefType.Fast, SorBytes = new byte[31418]},
+                    new BaseRefDto() { BaseRefType = BaseRefType.Additional, SorBytes = null},
+                }
+            };
+
+            var wcfClient = ClientToServerWcfFactory.Create(DcServiceIp);
+            wcfClient.AssignBaseRefAsync(dto);
+            _clientLog.AppendLine($@"Sent base refs to RTU with ip={_rtuServiceIp}");
+            DisplayString = Resources.SID_Command_sent__wait_please_;
+        }
+       
         public void TraceState()
         {
             var vm = new TraceStateViewModel();

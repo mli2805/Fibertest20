@@ -131,8 +131,13 @@ namespace RtuWcfServiceLibrary
                     ServiceLog.AppendLine("User sent base ref - Ignored - RTU is busy");
                     return false;
                 }
-                var anotherThread = new Thread(_rtuManager.SaveBaseRef);
-                anotherThread.Start(baseRef);
+
+//                var anotherThread = new Thread(_rtuManager.SaveBaseRefs);
+//                anotherThread.Start(baseRef);
+
+                _rtuManager.SaveBaseRefs(baseRef);
+
+                ServiceLog.AppendLine("Base refs received");
                 return true;
             }
         }

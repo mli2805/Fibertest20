@@ -21,6 +21,7 @@ namespace ClientWcfServiceLibrary
 
         [OperationContract]
         void ConfirmBaseRefAssigned(BaseRefAssignedDto confirm);
+
     }
 
 

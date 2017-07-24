@@ -21,5 +21,8 @@ namespace WcfServiceForRtu
 
         [OperationContract]
         bool ConfirmMonitoringSettingsApplied(MonitoringSettingsAppliedDto result);
+
+        [OperationContract]
+        bool ConfirmBaseRefAssigned(BaseRefAssignedDto result);
     }
 }

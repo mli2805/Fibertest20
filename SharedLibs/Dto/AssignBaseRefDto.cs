@@ -1,5 +1,5 @@
+using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Dto.Enums;
 
 namespace Dto
 {
@@ -13,9 +13,6 @@ namespace Dto
         public OtauPortDto OtauPortDto { get; set; }
 
         [DataMember]
-        public BaseRefType BaseRefType { get; set; }
-
-        [DataMember]
-        public byte[] SorBytes { get; set; }
+        public List<BaseRefDto> BaseRefs { get; set; }
     }
 }

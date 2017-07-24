@@ -149,6 +149,20 @@ namespace DataCenterCore
             return true;
         }
 
+        public bool ConfirmAssignBaseRef(BaseRefAssignedDto confirmation)
+        {
+            var list = new List<ClientStation>();
+            lock (_clientStationsLockObj)
+            {
+                list.AddRange(_clientStations.Select(clientStation => (ClientStation)clientStation.Clone()));
+            }
+            foreach (var clientStation in list)
+            {
+                TransferConfirmBaseRef(clientStation.Ip, confirmation);
+            }
+            return true;
+        }
+
 
 
         private void TransferConfirmRtuInitialized(string clientIp, RtuInitializedDto rtu)
@@ -225,6 +239,18 @@ namespace DataCenterCore
             clientWcfServiceClient.ConfirmMonitoringSettingsApplied(confirmation);
             _dcLog.AppendLine($"Transfered apply monitoring settings confirmation from RTU {confirmation.RtuIpAddress} result is {confirmation.IsSuccessful}");
         }
+
+        private void TransferConfirmBaseRef(string clientIp, BaseRefAssignedDto confirmation)
+        {
+            var clientWcfServiceClient = ServerToClientWcfFactory.Create(clientIp);
+            if (clientWcfServiceClient == null)
+                return;
+
+            clientWcfServiceClient.ConfirmBaseRefAssigned(confirmation);
+            _dcLog.AppendLine($"Transfered apply monitoring settings confirmation from RTU {confirmation.RtuIpAddress} result is {confirmation.IsSuccessful}");
+        }
+
+
 
         public bool AssignBaseRef(AssignBaseRefDto baseRef)
         {
