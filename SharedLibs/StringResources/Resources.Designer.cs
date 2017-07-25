@@ -557,6 +557,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot connect RTU {0}.
+        /// </summary>
+        public static string SID_Cannot_connect_RTU__0_ {
+            get {
+                return ResourceManager.GetString("SID_Cannot_connect_RTU__0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change.
         /// </summary>
         public static string SID_Change {
@@ -949,6 +958,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Error_ {
             get {
                 return ResourceManager.GetString("SID_Error_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Established connection with RTU {0}.
+        /// </summary>
+        public static string SID_Established_connection_with_RTU__0_ {
+            get {
+                return ResourceManager.GetString("SID_Established_connection_with_RTU__0_", resourceCulture);
             }
         }
         

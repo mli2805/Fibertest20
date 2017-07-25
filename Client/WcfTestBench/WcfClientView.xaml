@@ -23,6 +23,7 @@
         <Button Name="TraceState" Margin="5" Height="25" Width="120" Content="Trace State"/>
         <Button Name="StartMonitoring" Margin="5" Height="25" Width="120" Content="Start Monitoring"/>
         <Button Name="StopMonitoring" Margin="5" Height="25" Width="120" Content="Stop Monitoring"/>
+        <Button Name="MeasReflect" Margin="5" Height="25" Width="120" Content="Meas Reflect" ToolTip="Needs direct connection with RTU"/>
         <TextBlock Background="AliceBlue" Margin="5" Height="25" Text="{Binding DisplayString}"/>
     </StackPanel>
 </Window>

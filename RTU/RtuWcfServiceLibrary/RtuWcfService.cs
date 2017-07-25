@@ -132,9 +132,6 @@ namespace RtuWcfServiceLibrary
                     return false;
                 }
 
-//                var anotherThread = new Thread(_rtuManager.SaveBaseRefs);
-//                anotherThread.Start(baseRef);
-
                 _rtuManager.SaveBaseRefs(baseRef);
 
                 ServiceLog.AppendLine("Base refs received");
@@ -142,6 +139,17 @@ namespace RtuWcfServiceLibrary
             }
         }
 
-      
+        public bool ToggleToPort(OtauPortDto port)
+        {
+            lock (_lockObj)
+            {
+                if (!_rtuManager.IsRtuInitialized || _rtuManager.IsMonitoringOn)
+                {
+                    ServiceLog.AppendLine("User demands port toggle - Ignored - RTU is busy");
+                    return false;
+                }
+                return _rtuManager.ToggleToPort(port);
+            }
+        }
     }
 }

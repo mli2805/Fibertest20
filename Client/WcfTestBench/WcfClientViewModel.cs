@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Diagnostics;
 using System.ServiceModel;
 using System.Text;
 using Caliburn.Micro;
@@ -92,7 +92,7 @@ namespace WcfTestBench
             RtuServiceIp = _clientIni.Read(IniSection.General, IniKey.RtuServiceIp, @"192.168.96.53");
 
             _localIp = _clientIni.Read(IniSection.General, IniKey.LocalIp, @"192.168.96.179");
-            var wcfClient = ClientToServerWcfFactory.Create(DcServiceIp);
+            var wcfClient = WcfFactory.CreateServerConnection(DcServiceIp);
             wcfClient.RegisterClientAsync(_localIp);
 
             // start 11843 listener
@@ -110,7 +110,7 @@ namespace WcfTestBench
 
         public override void CanClose(Action<bool> callback)
         {
-            var wcfClient = ClientToServerWcfFactory.Create(DcServiceIp);
+            var wcfClient = WcfFactory.CreateServerConnection(DcServiceIp);
             wcfClient.UnRegisterClientAsync(_localIp);
 
             base.CanClose(callback);
@@ -119,7 +119,7 @@ namespace WcfTestBench
         public void CheckConnection()
         {
             DisplayString = Resources.SID_Command_sent__wait_please_;
-            var wcfClient = ClientToServerWcfFactory.Create(DcServiceIp);
+            var wcfClient = WcfFactory.CreateServerConnection(DcServiceIp);
             var dto = new CheckRtuConnectionDto() {Ip4Address = RtuServiceIp, IsAddressSetAsIp = true};
             DisplayString = wcfClient.CheckRtuConnection(dto) ? @"OK" : Resources.SID_Error;
         }
@@ -128,7 +128,7 @@ namespace WcfTestBench
         {
             _clientIni.Write(IniSection.General, IniKey.RtuServiceIp, RtuServiceIp);
 
-            var wcfClient = ClientToServerWcfFactory.Create(DcServiceIp);
+            var wcfClient = WcfFactory.CreateServerConnection(DcServiceIp);
             var rtu = new InitializeRtuDto() { RtuId = Guid.NewGuid(), RtuIpAddress = RtuServiceIp, DataCenterIpAddress = DcServiceIp };
             wcfClient.InitializeRtuAsync(rtu);
             _clientLog.AppendLine($@"Sent command to initialize RTU {rtu.RtuId} with ip={rtu.RtuIpAddress}");
@@ -163,7 +163,7 @@ namespace WcfTestBench
                 }
             };
 
-            var wcfClient = ClientToServerWcfFactory.Create(DcServiceIp);
+            var wcfClient = WcfFactory.CreateServerConnection(DcServiceIp);
             wcfClient.AssignBaseRefAsync(dto);
             _clientLog.AppendLine($@"Sent base refs to RTU with ip={_rtuServiceIp}");
             DisplayString = Resources.SID_Command_sent__wait_please_;
@@ -178,7 +178,7 @@ namespace WcfTestBench
 
         public void StartMonitoring()
         {
-            var wcfClient = ClientToServerWcfFactory.Create(DcServiceIp);
+            var wcfClient = WcfFactory.CreateServerConnection(DcServiceIp);
             wcfClient.StartMonitoringAsync(RtuServiceIp);
             _clientLog.AppendLine($@"Sent command to start monitoring on RTU with ip={RtuServiceIp}");
             DisplayString = Resources.SID_Command_sent__wait_please_;
@@ -186,7 +186,7 @@ namespace WcfTestBench
 
         public void StopMonitoring()
         {
-            var wcfClient = ClientToServerWcfFactory.Create(DcServiceIp);
+            var wcfClient = WcfFactory.CreateServerConnection(DcServiceIp);
             wcfClient.StopMonitoringAsync(RtuServiceIp);
             _clientLog.AppendLine($@"Sent command to stop monitoring on RTU with ip={RtuServiceIp}");
             DisplayString = Resources.SID_Command_sent__wait_please_;
@@ -232,6 +232,29 @@ namespace WcfTestBench
             }
             return result;
         }
+
+        public void MeasReflect()
+        {
+            var connection = WcfFactory.CreateRtuConnection(RtuServiceIp);
+            if (connection == null)
+            {
+                DisplayString = string.Format(Resources.SID_Cannot_connect_RTU__0_, RtuServiceIp);
+                return;
+            }
+            DisplayString = string.Format(Resources.SID_Established_connection_with_RTU__0_, RtuServiceIp);
+            var port = new OtauPortDto() {Ip = RtuServiceIp, TcpPort = 23, OpticalPort = 5}; // just for test
+            if (!connection.ToggleToPort(port))
+            {
+                DisplayString = "Cannot toggle to port.";
+                return;
+            }
+            Process process = new Process();
+            process.StartInfo.FileName = @"RftsReflect\Reflect.exe";
+            process.StartInfo.WorkingDirectory = @"RftsReflect\";
+            process.StartInfo.Arguments = $"-fnw -n {RtuServiceIp} - p 1500";
+            process.Start();
+        }
+
 
     }
 }

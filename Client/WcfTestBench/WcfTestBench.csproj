@@ -74,7 +74,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
-    <Compile Include="ClientToServerWcfFactory.cs" />
+    <Compile Include="WcfFactory.cs" />
     <Compile Include="IShell.cs" />
     <Compile Include="Enums\FrequencyConverter.cs" />
     <Compile Include="MonitoringSettings\MonitoringCharonModel.cs" />
@@ -86,6 +86,11 @@
     <Compile Include="MonitoringSettings\MonitoringSettingsViewModel.cs" />
     <Compile Include="MonitoringSettings\MonitoringPortModel.cs" />
     <Compile Include="Enums\Frequency.cs" />
+    <Compile Include="Service References\RtuWcfServiceReference\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Service References\WcfForClientServiceReference\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -138,6 +143,19 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="Service References\RtuWcfServiceReference\Dto.Enums.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\RtuWcfServiceReference\Dto.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\RtuWcfServiceReference\service.wsdl" />
+    <None Include="Service References\RtuWcfServiceReference\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\RtuWcfServiceReference\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Service References\WcfForClientServiceReference\Dto.Enums.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -181,6 +199,7 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <WCFMetadataStorage Include="Service References\RtuWcfServiceReference\" />
     <WCFMetadataStorage Include="Service References\WcfForClientServiceReference\" />
   </ItemGroup>
   <ItemGroup>
@@ -191,6 +210,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\WcfForClientServiceReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\RtuWcfServiceReference\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\RtuWcfServiceReference\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\RtuWcfServiceReference\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>

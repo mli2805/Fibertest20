@@ -319,6 +319,15 @@ namespace RtuManagement
                 StartMonitoring();
         }
 
+        public bool ToggleToPort(OtauPortDto port)
+        {
+            if (port.TcpPort == 23)
+                port.Ip = _rtuIni.Read(IniSection.General, IniKey.OtdrIp, "192.168.88.101");
+            var toggleResult = _mainCharon.SetExtendedActivePort(new NetAddress(port.Ip, port.TcpPort), port.OpticalPort);
+
+            return toggleResult == CharonOperationResult.Ok;
+        }
+
 
     }
 }

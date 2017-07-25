@@ -14,7 +14,7 @@ namespace WcfTestBench
 
         public bool ApplyMonitoringSettings(ApplyMonitoringSettingsDto settings)
         {
-            var wcfConnection = ClientToServerWcfFactory.Create(DataCenterNetAddress.Ip4Address);
+            var wcfConnection = WcfFactory.CreateServerConnection(DataCenterNetAddress.Ip4Address);
             if (wcfConnection == null)
                 return false;
             return wcfConnection.ApplyMonitoringSettings(settings);

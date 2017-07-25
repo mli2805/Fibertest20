@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="4c88e232-1847-404f-b329-1bd15774b921" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="net.tcp://localhost:11842/RtuWcfService/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="41f10ecc-2d2b-491e-951d-287416651e47" SourceId="1" SourceUrl="net.tcp://localhost:11842/RtuWcfService/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="977a61f7-8557-4868-92e5-98213488383a" SourceId="1" SourceUrl="net.tcp://localhost:11842/RtuWcfService/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="4bc25bd0-7fde-4de0-9e7f-221e603d96ce" SourceId="1" SourceUrl="net.tcp://localhost:11842/RtuWcfService/mex" />
+    <MetadataFile FileName="Dto.xsd" MetadataType="Schema" ID="c230e6f4-c570-4a43-ac84-97d25a2b9b1d" SourceId="1" SourceUrl="net.tcp://localhost:11842/RtuWcfService/mex" />
+    <MetadataFile FileName="Dto.Enums.xsd" MetadataType="Schema" ID="cb600188-114b-4805-a9b3-33b133a5240f" SourceId="1" SourceUrl="net.tcp://localhost:11842/RtuWcfService/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

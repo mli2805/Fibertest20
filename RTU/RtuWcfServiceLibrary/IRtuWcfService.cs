@@ -24,6 +24,9 @@ namespace RtuWcfServiceLibrary
 
         [OperationContract]
         bool AssignBaseRef(AssignBaseRefDto baseRef);
+
+        [OperationContract]
+        bool ToggleToPort(OtauPortDto port);
     }
 
 }
