@@ -98,6 +98,7 @@ namespace WcfTestBench
             }
         }
 
+        private WcfC2DManager _wcfC2DManager;
         public WcfClientViewModel(IniFile iniFile35, Logger35 clientLog)
         {
             _clientLog = clientLog;
@@ -105,10 +106,12 @@ namespace WcfTestBench
             //            DcServiceIp = _clientIni.Read(IniSection.DataCenter, IniKey.ServerIp, @"10.1.37.22");
             DcServiceIp = _clientIni.Read(IniSection.DataCenter, IniKey.ServerIp, @"192.168.96.179");
             RtuServiceIp = _clientIni.Read(IniSection.General, IniKey.RtuServiceIp, @"192.168.96.53");
-
             _localIp = _clientIni.Read(IniSection.General, IniKey.LocalIp, @"192.168.96.179");
-            var wcfClient = WcfFactory.CreateServerConnection(DcServiceIp);
-            wcfClient.RegisterClientAsync(_localIp);
+
+            _wcfC2DManager = new WcfC2DManager(DcServiceIp, _clientIni, _clientLog);
+
+            if (!_wcfC2DManager.RegisterClient(_localIp))
+                MessageBox.Show(@"Cannot register on server!");
 
             // start 11843 listener
             StartWcf();
@@ -125,28 +128,23 @@ namespace WcfTestBench
 
         public override void CanClose(Action<bool> callback)
         {
-            var wcfClient = WcfFactory.CreateServerConnection(DcServiceIp);
-            wcfClient.UnRegisterClientAsync(_localIp);
-
+            _wcfC2DManager.UnRegisterClient(_localIp);
             base.CanClose(callback);
         }
 
         public void CheckConnection()
         {
             DisplayString = Resources.SID_Command_sent__wait_please_;
-            var wcfClient = WcfFactory.CreateServerConnection(DcServiceIp);
             var dto = new CheckRtuConnectionDto() {ClientAddress = @"192.168.96.179", RtuId = Guid.NewGuid(), Ip4Address = RtuServiceIp, IsAddressSetAsIp = true};
-            DisplayString = wcfClient.CheckRtuConnection(dto) ? @"Check connection started, wait please" : Resources.SID_Error;
+            DisplayString = _wcfC2DManager.CheckRtuConnection(dto) ? @"Check connection started, wait please" : Resources.SID_Error;
         }
 
         public void Initialize()
         {
             _clientIni.Write(IniSection.General, IniKey.RtuServiceIp, RtuServiceIp);
 
-            var wcfClient = WcfFactory.CreateServerConnection(DcServiceIp);
             var rtu = new InitializeRtuDto() { RtuId = Guid.NewGuid(), RtuIpAddress = RtuServiceIp, DataCenterIpAddress = DcServiceIp };
-            wcfClient.InitializeRtuAsync(rtu);
-            _clientLog.AppendLine($@"Sent command to initialize RTU {rtu.RtuId} with ip={rtu.RtuIpAddress}");
+            _wcfC2DManager.InitializeRtu(rtu);
             DisplayString = Resources.SID_Command_sent__wait_please_;
         }
 
@@ -154,7 +152,7 @@ namespace WcfTestBench
         public void MonitoringSettings()
         {
             var vm = new MonitoringSettingsViewModel(_rtuServiceIp, PopulateModel());
-            vm.WcfManager = new WcfManager(new NetAddress(DcServiceIp, 23));
+            vm.WcfC2DManager = _wcfC2DManager;
             IWindowManager windowManager = new WindowManager();
             windowManager.ShowDialog(vm);
         }
@@ -178,9 +176,7 @@ namespace WcfTestBench
                 }
             };
 
-            var wcfClient = WcfFactory.CreateServerConnection(DcServiceIp);
-            wcfClient.AssignBaseRefAsync(dto);
-            _clientLog.AppendLine($@"Sent base refs to RTU with ip={_rtuServiceIp}");
+            _wcfC2DManager.AssignBaseRef(dto);
             DisplayString = Resources.SID_Command_sent__wait_please_;
         }
        
@@ -193,18 +189,12 @@ namespace WcfTestBench
 
         public void StartMonitoring()
         {
-            var wcfClient = WcfFactory.CreateServerConnection(DcServiceIp);
-            wcfClient.StartMonitoringAsync(RtuServiceIp);
-            _clientLog.AppendLine($@"Sent command to start monitoring on RTU with ip={RtuServiceIp}");
-            DisplayString = Resources.SID_Command_sent__wait_please_;
+            DisplayString = _wcfC2DManager.StartMonitoring(RtuServiceIp) ? Resources.SID_Command_sent__wait_please_ : Resources.SID_Error_;
         }
 
         public void StopMonitoring()
         {
-            var wcfClient = WcfFactory.CreateServerConnection(DcServiceIp);
-            wcfClient.StopMonitoringAsync(RtuServiceIp);
-            _clientLog.AppendLine($@"Sent command to stop monitoring on RTU with ip={RtuServiceIp}");
-            DisplayString = Resources.SID_Command_sent__wait_please_;
+            DisplayString = _wcfC2DManager.StopMonitoring(RtuServiceIp) ? Resources.SID_Command_sent__wait_please_ : Resources.SID_Error_;
         }
 
         private MonitoringSettingsModel PopulateModel()
@@ -251,15 +241,14 @@ namespace WcfTestBench
      
         public void MeasReflect()
         {
-            var connection = WcfFactory.CreateRtuConnection(RtuServiceIp);
-            if (connection == null)
-            {
-                DisplayString = string.Format(Resources.SID_Cannot_connect_RTU__0_, RtuServiceIp);
+            // this is only command which needs direct rtu connection
+            var wcfRtuConnection = new WcfConnectionFactory(RtuServiceIp, _clientIni, _clientLog).CreateRtuConnection();
+            if (wcfRtuConnection == null)
                 return;
-            }
+
             DisplayString = string.Format(Resources.SID_Established_connection_with_RTU__0_, RtuServiceIp);
             var port = new OtauPortDto() {Ip = RtuServiceIp, TcpPort = 23, OpticalPort = 5}; // just for test
-            if (!connection.ToggleToPort(port))
+            if (!wcfRtuConnection.ToggleToPort(port))
             {
                 DisplayString = Resources.SID_Cannot_toggle_to_port_;
                 return;

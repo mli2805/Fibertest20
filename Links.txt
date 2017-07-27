@@ -6,14 +6,6 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
 
 Операции https://docs.google.com/open?id=1vEk-U0RBY3aNtYu4amWjvQSyVfcIrcAhglXG35Nf6PQ
 
-3. перерисовка маркеров после смены вкладки в табконтроле
-	- изменение размеров окна, минимизация окна - не вызывают перерисовки
-
-5. release не на всех машинах работает
-
-9. Serilog убрать/заменить в тестах вроде сделал, но не понятно куда тесты пишут лог 
-и что с Log.CloseAndFlush(); - не находит в классе
-
 12. warnings
 13. UserListViewModel не могу SelectedUserVm перерисовать
 
@@ -38,5 +30,10 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
 	
 18. Тесты после переноса не работают (референсы все сразу сломались)	
 19. Перенести GMap в папку
+
+20.  WcfFactory. Как сделать дженерик функцию CreateConnection на каком-то базовом классе
+Это позволило
+- сделать 1 вместо 4
+ - перенести весь класс в utils / shared не подключая ServiceReferences к utils
 
 

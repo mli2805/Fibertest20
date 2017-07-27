@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.ServiceModel;
 using System.Threading;
 using Dto;

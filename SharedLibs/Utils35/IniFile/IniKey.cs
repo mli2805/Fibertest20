@@ -42,5 +42,11 @@
 
         // Watchdog
         RtuServiceName,
+
+        // NetTcpBinding
+        OpenTimeout,
+        ReceiveTimeout,
+        SendTimeout,
+        PingTimeout,
     }
 }

@@ -566,6 +566,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot establish connection with {0}:{1}.
+        /// </summary>
+        public static string SID_Cannot_establish_connection_with__0___1_ {
+            get {
+                return ResourceManager.GetString("SID_Cannot_establish_connection_with__0___1_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot find Reflect.exe.
         /// </summary>
         public static string SID_Cannot_find_Reflect_exe {
@@ -2994,6 +3003,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Wait__please___ {
             get {
                 return ResourceManager.GetString("SID_Wait__please___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WcfServiceForClient creation error!.
+        /// </summary>
+        public static string SID_WcfServiceForClient_creation_error_ {
+            get {
+                return ResourceManager.GetString("SID_WcfServiceForClient_creation_error_", resourceCulture);
             }
         }
         

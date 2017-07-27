@@ -9,5 +9,6 @@
         Monitoring,
         Recovering,
         Watchdog,
+        NetTcpBinding,
     }
 }
