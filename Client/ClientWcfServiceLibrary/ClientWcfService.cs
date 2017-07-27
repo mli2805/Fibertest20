@@ -12,6 +12,16 @@ namespace ClientWcfServiceLibrary
         public static event OnMessageReceived MessageReceived;
         public delegate void OnMessageReceived(object e);
 
+        public void ConfirmRtuConnectionChecked(RtuConnectionCheckedDto dto)
+        {
+            var message = $"RTU {dto.RtuId} connection checked: Alive = {dto.IsRtuManagerAlive}";
+            if (!dto.IsRtuManagerAlive)
+                message += $"Ping = {dto.IsPingSuccessful}";
+            ClientLog.AppendLine(message);
+
+            MessageReceived?.Invoke(dto);
+        }
+
         public void ConfirmRtuInitialized(RtuInitializedDto rtu)
         {
             ClientLog.AppendLine($"RTU serial={rtu.Serial} confirmed initialization");

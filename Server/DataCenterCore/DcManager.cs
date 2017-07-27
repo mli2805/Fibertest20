@@ -43,11 +43,23 @@ namespace DataCenterCore
             return list;
         }
 
-        public bool CheckRtuConnection(CheckRtuConnectionDto dto)
+        public void CheckRtuConnection(object param)
         {
+            var dto = param as CheckRtuConnectionDto;
+            if (dto == null)
+                return;
+
+            var result = new RtuConnectionCheckedDto() {RtuId = dto.RtuId};
             var address = dto.IsAddressSetAsIp ? dto.Ip4Address : dto.HostName;
-            var rtuWcfServiceClient = ServerToRtuWcfFactory.Create(address);
-            return rtuWcfServiceClient != null;
+            var rtuConnection = ServerToRtuWcfFactory.Create(address);
+            result.IsRtuManagerAlive = rtuConnection != null && rtuConnection.IsRtuInitialized();
+
+            _dcLog.AppendLine("Ping!");
+            if (!result.IsRtuManagerAlive)
+                result.IsPingSuccessful = Pinger.Ping(dto.IsAddressSetAsIp ? dto.Ip4Address : dto.HostName);
+            _dcLog.AppendLine("Pinged");
+            TransferRtuConnectionChecked(dto.ClientAddress, result);
+
         }
 
         public bool InitializeRtu(InitializeRtuDto rtu)
@@ -164,12 +176,26 @@ namespace DataCenterCore
         }
 
 
+        private void TransferRtuConnectionChecked(string clientIp, RtuConnectionCheckedDto dto)
+        {
+            var clientConnection = ServerToClientWcfFactory.Create(clientIp);
+            if (clientConnection == null)
+            {
+                _dcLog.AppendLine($"Cannot transfer RTU {dto.RtuId} check connection result to client {clientIp}");
+                return;
+            }
+            clientConnection.ConfirmRtuConnectionChecked(dto);
+            _dcLog.AppendLine($"Transfered RTU {dto.RtuId} check connection result");
+        }
 
         private void TransferConfirmRtuInitialized(string clientIp, RtuInitializedDto rtu)
         {
             var clientWcfServiceClient = ServerToClientWcfFactory.Create(clientIp);
             if (clientWcfServiceClient == null)
+            {
+                _dcLog.AppendLine($"Cannot transfer initialization confirmation of RTU {rtu.Id} Serial={rtu.Serial}");
                 return;
+            }
 
             clientWcfServiceClient.ConfirmRtuInitialized(rtu);
             _dcLog.AppendLine($"Transfered initialization confirmation of RTU {rtu.Id} Serial={rtu.Serial}");
@@ -179,7 +205,9 @@ namespace DataCenterCore
         {
             var clientWcfServiceClient = ServerToClientWcfFactory.Create(clientIp);
             if (clientWcfServiceClient == null)
+            {
                 return;
+            }
 
             clientWcfServiceClient.ConfirmMonitoringStarted(confirmation);
 
@@ -190,7 +218,9 @@ namespace DataCenterCore
         {
             var clientWcfServiceClient = ServerToClientWcfFactory.Create(clientIp);
             if (clientWcfServiceClient == null)
+            {
                 return;
+            }
 
             clientWcfServiceClient.ConfirmMonitoringStopped(confirmation);
 
@@ -201,7 +231,9 @@ namespace DataCenterCore
         {
             var rtuWcfServiceClient = ServerToRtuWcfFactory.Create(rtuAddress);
             if (rtuWcfServiceClient == null)
+            {
                 return false;
+            }
 
             rtuWcfServiceClient.StartMonitoring();
             _dcLog.AppendLine($"Transfered command to start monitoring for rtu with ip={rtuAddress}");
@@ -212,7 +244,9 @@ namespace DataCenterCore
         {
             var rtuWcfServiceClient = ServerToRtuWcfFactory.Create(rtuAddress);
             if (rtuWcfServiceClient == null)
+            {
                 return false;
+            }
 
             rtuWcfServiceClient.StopMonitoring();
             _dcLog.AppendLine($"Transfered command to stop monitoring for rtu with ip={rtuAddress}");
@@ -223,7 +257,9 @@ namespace DataCenterCore
         {
             var rtuWcfServiceClient = ServerToRtuWcfFactory.Create(settings.RtuIpAddress);
             if (rtuWcfServiceClient == null)
+            {
                 return false;
+            }
 
             rtuWcfServiceClient.ApplyMonitoringSettings(settings);
             _dcLog.AppendLine($"Transfered command to apply monitoring settings for rtu with ip={settings.RtuIpAddress}");
@@ -234,7 +270,9 @@ namespace DataCenterCore
         {
             var clientWcfServiceClient = ServerToClientWcfFactory.Create(clientIp);
             if (clientWcfServiceClient == null)
+            {
                 return;
+            }
 
             clientWcfServiceClient.ConfirmMonitoringSettingsApplied(confirmation);
             _dcLog.AppendLine($"Transfered apply monitoring settings confirmation from RTU {confirmation.RtuIpAddress} result is {confirmation.IsSuccessful}");
@@ -244,7 +282,9 @@ namespace DataCenterCore
         {
             var clientWcfServiceClient = ServerToClientWcfFactory.Create(clientIp);
             if (clientWcfServiceClient == null)
+            {
                 return;
+            }
 
             clientWcfServiceClient.ConfirmBaseRefAssigned(confirmation);
             _dcLog.AppendLine($"Transfered apply monitoring settings confirmation from RTU {confirmation.RtuIpAddress} result is {confirmation.IsSuccessful}");

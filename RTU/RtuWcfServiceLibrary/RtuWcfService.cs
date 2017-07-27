@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.ServiceModel;
 using System.Threading;
 using Dto;
@@ -38,9 +39,12 @@ namespace RtuWcfServiceLibrary
             RtuManagerThread.Start();
         }
 
-        public string ShakeHandsWithWatchdog(string hello)
+        public bool IsRtuInitialized()
         {
-            return hello;
+            lock (_lockObj)
+            {
+                return _rtuManager.IsRtuInitialized;
+            }
         }
 
         public bool Initialize(InitializeRtuDto rtu)

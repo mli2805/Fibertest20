@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.ServiceModel;
 using System.Text;
+using System.Windows;
 using Caliburn.Micro;
 using ClientWcfServiceLibrary;
 using Dto;
@@ -41,6 +43,12 @@ namespace WcfTestBench
             {
                 ProcessMonitoringStopped(dto3);
             }
+            var dto4 = msg as RtuConnectionCheckedDto;
+            if (dto4 != null)
+            {
+                ProcessRtuConnectionChecked(dto4);
+            }
+            
         }
 
         private void ProcessRtuInitialized(RtuInitializedDto rtu)
@@ -56,6 +64,13 @@ namespace WcfTestBench
         private void ProcessMonitoringStopped(MonitoringStoppedDto ms)
         {
             DisplayString = string.Format(Resources.SID_Monitoring_stopped___0_, ms.IsSuccessful.ToString().ToUpper());
+        }
+
+        private void ProcessRtuConnectionChecked(RtuConnectionCheckedDto dto)
+        {
+            DisplayString = string.Format(Resources.SID_Rtu_connection_checked_Alive, dto.RtuId, dto.IsRtuManagerAlive);
+            if (!dto.IsRtuManagerAlive)
+                DisplayString += string.Format(Resources.SID_Rtu_connection_checked_Ping, dto.IsPingSuccessful);
         }
 
         private string _displayString;
@@ -120,8 +135,8 @@ namespace WcfTestBench
         {
             DisplayString = Resources.SID_Command_sent__wait_please_;
             var wcfClient = WcfFactory.CreateServerConnection(DcServiceIp);
-            var dto = new CheckRtuConnectionDto() {Ip4Address = RtuServiceIp, IsAddressSetAsIp = true};
-            DisplayString = wcfClient.CheckRtuConnection(dto) ? @"OK" : Resources.SID_Error;
+            var dto = new CheckRtuConnectionDto() {ClientAddress = @"192.168.96.179", RtuId = Guid.NewGuid(), Ip4Address = RtuServiceIp, IsAddressSetAsIp = true};
+            DisplayString = wcfClient.CheckRtuConnection(dto) ? @"Check connection started, wait please" : Resources.SID_Error;
         }
 
         public void Initialize()
@@ -233,6 +248,7 @@ namespace WcfTestBench
             return result;
         }
 
+     
         public void MeasReflect()
         {
             var connection = WcfFactory.CreateRtuConnection(RtuServiceIp);
@@ -245,16 +261,37 @@ namespace WcfTestBench
             var port = new OtauPortDto() {Ip = RtuServiceIp, TcpPort = 23, OpticalPort = 5}; // just for test
             if (!connection.ToggleToPort(port))
             {
-                DisplayString = "Cannot toggle to port.";
+                DisplayString = Resources.SID_Cannot_toggle_to_port_;
                 return;
             }
-            Process process = new Process();
-            process.StartInfo.FileName = @"RftsReflect\Reflect.exe";
-            process.StartInfo.WorkingDirectory = @"RftsReflect\";
-            process.StartInfo.Arguments = $"-fnw -n {RtuServiceIp} - p 1500";
+
+            StartReflect($@"-fnw -n {RtuServiceIp} -p 1500");
+        }
+
+        private void StartReflect(string args)
+        {
+            var appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            var appDir = Path.GetDirectoryName(appPath);
+            var reflectFile = appDir + @"\RftsReflect\Reflect.exe";
+            var reflectFolder = Path.GetDirectoryName(reflectFile);
+            if (!File.Exists(reflectFile) || reflectFolder == null)
+            {
+                MessageBox.Show(Resources.SID_Cannot_find_Reflect_exe);
+                return;
+            }
+
+            var process = new Process
+            {
+                StartInfo =
+                {
+                    FileName = reflectFile,
+                    WorkingDirectory = reflectFolder,
+                    Arguments = args,
+                }
+            };
             process.Start();
         }
 
-
+     
     }
 }

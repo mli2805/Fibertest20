@@ -10,7 +10,10 @@ namespace Dto
         public Guid RtuId { get; set; }
 
         [DataMember]
-        public bool IsSuccessful { get; set; }
+        public bool IsPingSuccessful { get; set; }
+
+        [DataMember]
+        public bool IsRtuManagerAlive { get; set; }
 
     }
 }

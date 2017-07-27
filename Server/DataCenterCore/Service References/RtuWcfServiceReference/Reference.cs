@@ -15,8 +15,8 @@ namespace DataCenterCore.RtuWcfServiceReference {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="RtuWcfServiceReference.IRtuWcfService")]
     public interface IRtuWcfService {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRtuWcfService/ShakeHandsWithWatchdog", ReplyAction="http://tempuri.org/IRtuWcfService/ShakeHandsWithWatchdogResponse")]
-        string ShakeHandsWithWatchdog(string hello);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRtuWcfService/IsRtuInitialized", ReplyAction="http://tempuri.org/IRtuWcfService/IsRtuInitializedResponse")]
+        bool IsRtuInitialized();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRtuWcfService/Initialize", ReplyAction="http://tempuri.org/IRtuWcfService/InitializeResponse")]
         bool Initialize(Dto.InitializeRtuDto rtu);
@@ -32,6 +32,9 @@ namespace DataCenterCore.RtuWcfServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRtuWcfService/AssignBaseRef", ReplyAction="http://tempuri.org/IRtuWcfService/AssignBaseRefResponse")]
         bool AssignBaseRef(Dto.AssignBaseRefDto baseRef);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRtuWcfService/ToggleToPort", ReplyAction="http://tempuri.org/IRtuWcfService/ToggleToPortResponse")]
+        bool ToggleToPort(Dto.OtauPortDto port);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -61,8 +64,8 @@ namespace DataCenterCore.RtuWcfServiceReference {
                 base(binding, remoteAddress) {
         }
         
-        public string ShakeHandsWithWatchdog(string hello) {
-            return base.Channel.ShakeHandsWithWatchdog(hello);
+        public bool IsRtuInitialized() {
+            return base.Channel.IsRtuInitialized();
         }
         
         public bool Initialize(Dto.InitializeRtuDto rtu) {
@@ -83,6 +86,10 @@ namespace DataCenterCore.RtuWcfServiceReference {
         
         public bool AssignBaseRef(Dto.AssignBaseRefDto baseRef) {
             return base.Channel.AssignBaseRef(baseRef);
+        }
+        
+        public bool ToggleToPort(Dto.OtauPortDto port) {
+            return base.Channel.ToggleToPort(port);
         }
     }
 }

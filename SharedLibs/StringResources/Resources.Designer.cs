@@ -566,6 +566,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot find Reflect.exe.
+        /// </summary>
+        public static string SID_Cannot_find_Reflect_exe {
+            get {
+                return ResourceManager.GetString("SID_Cannot_find_Reflect_exe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot toggle to port..
+        /// </summary>
+        public static string SID_Cannot_toggle_to_port_ {
+            get {
+                return ResourceManager.GetString("SID_Cannot_toggle_to_port_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change.
         /// </summary>
         public static string SID_Change {
@@ -2336,6 +2354,24 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Rtu {
             get {
                 return ResourceManager.GetString("SID_Rtu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RTU {0} connection checked: Alive = {1}.
+        /// </summary>
+        public static string SID_Rtu_connection_checked_Alive {
+            get {
+                return ResourceManager.GetString("SID_Rtu_connection checked_Alive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ;  Ping = {0}.
+        /// </summary>
+        public static string SID_Rtu_connection_checked_Ping {
+            get {
+                return ResourceManager.GetString("SID_Rtu_connection_checked_Ping", resourceCulture);
             }
         }
         

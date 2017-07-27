@@ -4,10 +4,12 @@
   <xs:import namespace="http://schemas.datacontract.org/2004/07/Dto.Enums" />
   <xs:complexType name="CheckRtuConnectionDto">
     <xs:sequence>
+      <xs:element minOccurs="0" name="ClientAddress" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="HostName" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Ip4Address" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="IsAddressSetAsIp" type="xs:boolean" />
       <xs:element minOccurs="0" name="Port" type="xs:int" />
+      <xs:element minOccurs="0" name="RtuId" type="ser:guid" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="CheckRtuConnectionDto" nillable="true" type="tns:CheckRtuConnectionDto" />

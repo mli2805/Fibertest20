@@ -17,6 +17,12 @@
       <xsd:import namespace="http://schemas.datacontract.org/2004/07/Dto" />
     </xsd:schema>
   </wsdl:types>
+  <wsdl:message name="IClientWcfService_ConfirmRtuConnectionChecked_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConfirmRtuConnectionChecked" />
+  </wsdl:message>
+  <wsdl:message name="IClientWcfService_ConfirmRtuConnectionChecked_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConfirmRtuConnectionCheckedResponse" />
+  </wsdl:message>
   <wsdl:message name="IClientWcfService_ConfirmRtuInitialized_InputMessage">
     <wsdl:part name="parameters" element="tns:ConfirmRtuInitialized" />
   </wsdl:message>
@@ -48,6 +54,10 @@
     <wsdl:part name="parameters" element="tns:ConfirmBaseRefAssignedResponse" />
   </wsdl:message>
   <wsdl:portType name="IClientWcfService">
+    <wsdl:operation name="ConfirmRtuConnectionChecked">
+      <wsdl:input wsaw:Action="http://tempuri.org/IClientWcfService/ConfirmRtuConnectionChecked" message="tns:IClientWcfService_ConfirmRtuConnectionChecked_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IClientWcfService/ConfirmRtuConnectionCheckedResponse" message="tns:IClientWcfService_ConfirmRtuConnectionChecked_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="ConfirmRtuInitialized">
       <wsdl:input wsaw:Action="http://tempuri.org/IClientWcfService/ConfirmRtuInitialized" message="tns:IClientWcfService_ConfirmRtuInitialized_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IClientWcfService/ConfirmRtuInitializedResponse" message="tns:IClientWcfService_ConfirmRtuInitialized_OutputMessage" />
@@ -73,6 +83,15 @@
     <wsp:PolicyReference URI="#NetTcpBinding_IClientWcfService_policy">
     </wsp:PolicyReference>
     <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="ConfirmRtuConnectionChecked">
+      <soap12:operation soapAction="http://tempuri.org/IClientWcfService/ConfirmRtuConnectionChecked" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="ConfirmRtuInitialized">
       <soap12:operation soapAction="http://tempuri.org/IClientWcfService/ConfirmRtuInitialized" style="document" />
       <wsdl:input>

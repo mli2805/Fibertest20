@@ -1093,10 +1093,22 @@ on port {0}: charon {1} ip {2} has {3} ports</value>
 	<data name="SID_Saved_in_DB" xml:space="preserve">
     <value>Saved in DB</value>
   </data>
-  <data name="SID_Cannot_connect_RTU__0_" xml:space="preserve">
+	<data name="SID_Cannot_connect_RTU__0_" xml:space="preserve">
     <value>Cannot connect RTU {0}</value>
   </data>
-  <data name="SID_Established_connection_with_RTU__0_" xml:space="preserve">
+	<data name="SID_Established_connection_with_RTU__0_" xml:space="preserve">
     <value>Established connection with RTU {0}</value>
+  </data>
+	<data name="SID_Cannot_toggle_to_port_" xml:space="preserve">
+    <value>Cannot toggle to port.</value>
+  </data>
+	<data name="SID_Cannot_find_Reflect_exe" xml:space="preserve">
+    <value>Cannot find Reflect.exe</value>
+  </data>
+	<data name="SID_Rtu_connection checked_Alive" xml:space="preserve">
+    <value>RTU {0} connection checked: Alive = {1}</value>
+  </data>
+	<data name="SID_Rtu_connection_checked_Ping" xml:space="preserve">
+    <value>;  Ping = {0}</value>
   </data>
 </root>

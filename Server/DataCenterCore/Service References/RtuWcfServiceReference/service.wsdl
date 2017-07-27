@@ -18,11 +18,11 @@
       <xsd:import namespace="http://schemas.datacontract.org/2004/07/Dto.Enums" />
     </xsd:schema>
   </wsdl:types>
-  <wsdl:message name="IRtuWcfService_ShakeHandsWithWatchdog_InputMessage">
-    <wsdl:part name="parameters" element="tns:ShakeHandsWithWatchdog" />
+  <wsdl:message name="IRtuWcfService_IsRtuInitialized_InputMessage">
+    <wsdl:part name="parameters" element="tns:IsRtuInitialized" />
   </wsdl:message>
-  <wsdl:message name="IRtuWcfService_ShakeHandsWithWatchdog_OutputMessage">
-    <wsdl:part name="parameters" element="tns:ShakeHandsWithWatchdogResponse" />
+  <wsdl:message name="IRtuWcfService_IsRtuInitialized_OutputMessage">
+    <wsdl:part name="parameters" element="tns:IsRtuInitializedResponse" />
   </wsdl:message>
   <wsdl:message name="IRtuWcfService_Initialize_InputMessage">
     <wsdl:part name="parameters" element="tns:Initialize" />
@@ -54,10 +54,16 @@
   <wsdl:message name="IRtuWcfService_AssignBaseRef_OutputMessage">
     <wsdl:part name="parameters" element="tns:AssignBaseRefResponse" />
   </wsdl:message>
+  <wsdl:message name="IRtuWcfService_ToggleToPort_InputMessage">
+    <wsdl:part name="parameters" element="tns:ToggleToPort" />
+  </wsdl:message>
+  <wsdl:message name="IRtuWcfService_ToggleToPort_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ToggleToPortResponse" />
+  </wsdl:message>
   <wsdl:portType name="IRtuWcfService">
-    <wsdl:operation name="ShakeHandsWithWatchdog">
-      <wsdl:input wsaw:Action="http://tempuri.org/IRtuWcfService/ShakeHandsWithWatchdog" message="tns:IRtuWcfService_ShakeHandsWithWatchdog_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IRtuWcfService/ShakeHandsWithWatchdogResponse" message="tns:IRtuWcfService_ShakeHandsWithWatchdog_OutputMessage" />
+    <wsdl:operation name="IsRtuInitialized">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRtuWcfService/IsRtuInitialized" message="tns:IRtuWcfService_IsRtuInitialized_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRtuWcfService/IsRtuInitializedResponse" message="tns:IRtuWcfService_IsRtuInitialized_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="Initialize">
       <wsdl:input wsaw:Action="http://tempuri.org/IRtuWcfService/Initialize" message="tns:IRtuWcfService_Initialize_InputMessage" />
@@ -79,13 +85,17 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IRtuWcfService/AssignBaseRef" message="tns:IRtuWcfService_AssignBaseRef_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IRtuWcfService/AssignBaseRefResponse" message="tns:IRtuWcfService_AssignBaseRef_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation name="ToggleToPort">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRtuWcfService/ToggleToPort" message="tns:IRtuWcfService_ToggleToPort_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRtuWcfService/ToggleToPortResponse" message="tns:IRtuWcfService_ToggleToPort_OutputMessage" />
+    </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="NetTcpBinding_IRtuWcfService" type="tns:IRtuWcfService">
     <wsp:PolicyReference URI="#NetTcpBinding_IRtuWcfService_policy">
     </wsp:PolicyReference>
     <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
-    <wsdl:operation name="ShakeHandsWithWatchdog">
-      <soap12:operation soapAction="http://tempuri.org/IRtuWcfService/ShakeHandsWithWatchdog" style="document" />
+    <wsdl:operation name="IsRtuInitialized">
+      <soap12:operation soapAction="http://tempuri.org/IRtuWcfService/IsRtuInitialized" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -131,6 +141,15 @@
     </wsdl:operation>
     <wsdl:operation name="AssignBaseRef">
       <soap12:operation soapAction="http://tempuri.org/IRtuWcfService/AssignBaseRef" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ToggleToPort">
+      <soap12:operation soapAction="http://tempuri.org/IRtuWcfService/ToggleToPort" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

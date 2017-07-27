@@ -8,7 +8,7 @@ namespace RtuWcfServiceLibrary
     public interface IRtuWcfService
     {
         [OperationContract]
-        string ShakeHandsWithWatchdog(string hello);
+        bool IsRtuInitialized();
 
         [OperationContract]
         bool Initialize(InitializeRtuDto rtu);

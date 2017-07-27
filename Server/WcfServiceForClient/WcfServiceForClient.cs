@@ -1,4 +1,5 @@
-﻿using DataCenterCore;
+﻿using System.Threading;
+using DataCenterCore;
 using Dto;
 using Iit.Fibertest.Utils35;
 
@@ -33,7 +34,9 @@ namespace WcfServiceForClient
 
         public bool CheckRtuConnection(CheckRtuConnectionDto rtuAddress)
         {
-            return DcManager.CheckRtuConnection(rtuAddress);
+            var thread = new Thread(DcManager.CheckRtuConnection) { IsBackground = true };
+            thread.Start(rtuAddress);
+            return true;
         }
 
         public bool InitializeRtu(InitializeRtuDto rtu)

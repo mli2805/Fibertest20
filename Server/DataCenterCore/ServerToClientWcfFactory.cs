@@ -10,7 +10,7 @@ namespace DataCenterCore
         {
             try
             {
-                var wcfConnection = new ClientWcfServiceClient(CreateDefaultNetTcpBinding(), new EndpointAddress(new Uri(CombineUriString(address, 11842, @"ClientWcfService"))));
+                var wcfConnection = new ClientWcfServiceClient(CreateDefaultNetTcpBinding(), new EndpointAddress(new Uri(CombineUriString(address, 11843, @"ClientWcfService"))));
                 wcfConnection.Open();
                 return wcfConnection;
             }

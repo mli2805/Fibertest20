@@ -15,6 +15,9 @@ namespace DataCenterCore.ClientWcfServiceReference {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ClientWcfServiceReference.IClientWcfService")]
     public interface IClientWcfService {
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientWcfService/ConfirmRtuConnectionChecked", ReplyAction="http://tempuri.org/IClientWcfService/ConfirmRtuConnectionCheckedResponse")]
+        void ConfirmRtuConnectionChecked(Dto.RtuConnectionCheckedDto dto);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientWcfService/ConfirmRtuInitialized", ReplyAction="http://tempuri.org/IClientWcfService/ConfirmRtuInitializedResponse")]
         void ConfirmRtuInitialized(Dto.RtuInitializedDto rtu);
         
@@ -56,6 +59,10 @@ namespace DataCenterCore.ClientWcfServiceReference {
         
         public ClientWcfServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress) {
+        }
+        
+        public void ConfirmRtuConnectionChecked(Dto.RtuConnectionCheckedDto dto) {
+            base.Channel.ConfirmRtuConnectionChecked(dto);
         }
         
         public void ConfirmRtuInitialized(Dto.RtuInitializedDto rtu) {
