@@ -6,6 +6,7 @@ using Caliburn.Micro;
 using ClientWcfServiceLibrary;
 using Dto;
 using Iit.Fibertest.StringResources;
+using WcfIntermediary;
 
 namespace WcfTestBench.MonitoringSettings
 {

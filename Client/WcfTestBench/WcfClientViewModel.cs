@@ -12,6 +12,7 @@ using Dto.Enums;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.Utils35;
 using Iit.Fibertest.WpfCommonViews;
+using WcfIntermediary;
 using WcfTestBench.MonitoringSettings;
 
 namespace WcfTestBench
@@ -242,7 +243,7 @@ namespace WcfTestBench
         public void MeasReflect()
         {
             // this is only command which needs direct rtu connection
-            var wcfRtuConnection = new WcfConnectionFactory(RtuServiceIp, _clientIni, _clientLog).CreateRtuConnection();
+            var wcfRtuConnection = new WcfFactory(RtuServiceIp, _clientIni, _clientLog).CreateRtuConnection();
             if (wcfRtuConnection == null)
                 return;
 

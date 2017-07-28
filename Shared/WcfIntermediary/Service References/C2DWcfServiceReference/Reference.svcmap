@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="84e8f5d1-6f29-4338-b7a1-fe170a0673ec" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="0a177ef6-57a4-4d2f-afdd-1c491428d40d" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -22,11 +22,11 @@
     <MetadataSource Address="net.tcp://localhost:11840/WcfServiceForClient/mex" Protocol="mex" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="591d4cbd-55d3-4ac4-8e01-3283c8434bdc" SourceId="1" SourceUrl="net.tcp://localhost:11840/WcfServiceForClient/mex" />
-    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="ba8e1623-152f-47ed-ad37-2a4891943867" SourceId="1" SourceUrl="net.tcp://localhost:11840/WcfServiceForClient/mex" />
-    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="5d8fb9b1-296c-4222-8839-9e71495425fa" SourceId="1" SourceUrl="net.tcp://localhost:11840/WcfServiceForClient/mex" />
-    <MetadataFile FileName="Dto.xsd" MetadataType="Schema" ID="831d8f1f-bff3-4499-9593-babf0c1091cc" SourceId="1" SourceUrl="net.tcp://localhost:11840/WcfServiceForClient/mex" />
-    <MetadataFile FileName="Dto.Enums.xsd" MetadataType="Schema" ID="50244c2d-d06b-4105-97e0-f53392c89551" SourceId="1" SourceUrl="net.tcp://localhost:11840/WcfServiceForClient/mex" />
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="1e45af8c-3421-464f-98f7-fc59ae0d1422" SourceId="1" SourceUrl="net.tcp://localhost:11840/WcfServiceForClient/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="6186d4b4-00c4-45e1-aa8e-87a66b6b5e6e" SourceId="1" SourceUrl="net.tcp://localhost:11840/WcfServiceForClient/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="c2ea6f3d-adae-4f9f-89a9-1a952673498e" SourceId="1" SourceUrl="net.tcp://localhost:11840/WcfServiceForClient/mex" />
+    <MetadataFile FileName="Dto.xsd" MetadataType="Schema" ID="cc2824bc-5239-4263-a962-66f92e1d0f7a" SourceId="1" SourceUrl="net.tcp://localhost:11840/WcfServiceForClient/mex" />
+    <MetadataFile FileName="Dto.Enums.xsd" MetadataType="Schema" ID="51b0e2d6-e639-4ea9-8f53-e942649bf579" SourceId="1" SourceUrl="net.tcp://localhost:11840/WcfServiceForClient/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

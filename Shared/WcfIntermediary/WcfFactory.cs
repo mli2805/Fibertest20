@@ -2,30 +2,30 @@
 using System.ServiceModel;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.Utils35;
-using WcfTestBench.RtuWcfServiceReference;
-using WcfTestBench.WcfForClientServiceReference;
+using WcfIntermediary.C2DWcfServiceReference;
+using WcfIntermediary.RtuWcfServiceReference;
 
-namespace WcfTestBench
+namespace WcfIntermediary
 {
-    public class WcfConnectionFactory
+    public class WcfFactory
     {
         private readonly string _endPointAddress;
         private readonly IniFile _iniFile;
         private readonly Logger35 _logger35;
 
-        public WcfConnectionFactory(string endPointAddress, IniFile iniFile, Logger35 logger35)
+        public WcfFactory(string endPointAddress, IniFile iniFile, Logger35 logger35)
         {
             _endPointAddress = endPointAddress;
             _iniFile = iniFile;
             _logger35 = logger35;
         }
 
-        public WcfServiceForClientClient CreateServerConnection()
+        public WcfServiceForClientClient CreateC2DConnection()
         {
             try
             {
                 var connection = new WcfServiceForClientClient(
-                    CreateDefaultNetTcpBinding(_iniFile), 
+                    CreateDefaultNetTcpBinding(_iniFile),
                     new EndpointAddress(
                         new Uri(CombineUriString(_endPointAddress, TcpPorts.ServerListenToClient, @"WcfServiceForClient"))));
                 connection.Open();
@@ -45,7 +45,7 @@ namespace WcfTestBench
             try
             {
                 var connection = new RtuWcfServiceClient(
-                    CreateDefaultNetTcpBinding(_iniFile), 
+                    CreateDefaultNetTcpBinding(_iniFile),
                     new EndpointAddress(
                         new Uri(CombineUriString(_endPointAddress, TcpPorts.RtuListenTo, @"RtuWcfService"))));
                 connection.Open();
@@ -75,5 +75,6 @@ namespace WcfTestBench
                 MaxBufferSize = 4096000 //4M
             };
         }
+
     }
 }

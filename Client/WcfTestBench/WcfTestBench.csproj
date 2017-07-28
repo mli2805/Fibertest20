@@ -74,7 +74,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
-    <Compile Include="WcfConnectionFactory.cs" />
     <Compile Include="IShell.cs" />
     <Compile Include="Enums\FrequencyConverter.cs" />
     <Compile Include="MonitoringSettings\MonitoringCharonModel.cs" />
@@ -86,16 +85,6 @@
     <Compile Include="MonitoringSettings\MonitoringSettingsViewModel.cs" />
     <Compile Include="MonitoringSettings\MonitoringPortModel.cs" />
     <Compile Include="Enums\Frequency.cs" />
-    <Compile Include="Service References\RtuWcfServiceReference\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
-    <Compile Include="Service References\WcfForClientServiceReference\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
     <Compile Include="ShellViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -105,7 +94,6 @@
       <DependentUpon>WcfClientView.xaml</DependentUpon>
     </Compile>
     <Compile Include="WcfClientViewModel.cs" />
-    <Compile Include="WcfC2DManager.cs" />
     <Page Include="MonitoringSettings\MonitoringSettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -143,32 +131,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="Service References\RtuWcfServiceReference\Dto.Enums.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\RtuWcfServiceReference\Dto.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\RtuWcfServiceReference\service.wsdl" />
-    <None Include="Service References\RtuWcfServiceReference\service.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\RtuWcfServiceReference\service1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\WcfForClientServiceReference\Dto.Enums.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\WcfForClientServiceReference\Dto.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\WcfForClientServiceReference\service.wsdl" />
-    <None Include="Service References\WcfForClientServiceReference\service.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\WcfForClientServiceReference\service1.xsd">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -186,6 +148,10 @@
       <Project>{716240ff-d1e8-4bd3-9e63-431382617398}</Project>
       <Name>Utils35</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Shared\WcfIntermediary\WcfIntermediary.csproj">
+      <Project>{1894b67a-3f58-49cf-b3e1-7890371b40d1}</Project>
+      <Name>WcfIntermediary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ClientWcfServiceLibrary\ClientWcfServiceLibrary.csproj">
       <Project>{1822c528-4719-4c53-877e-bc57dbf6d7ff}</Project>
       <Name>ClientWcfServiceLibrary</Name>
@@ -194,37 +160,6 @@
       <Project>{e98e6cc5-94e4-44b7-af5c-7f4f74746467}</Project>
       <Name>WpfCommonViews</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadataStorage Include="Service References\RtuWcfServiceReference\" />
-    <WCFMetadataStorage Include="Service References\WcfForClientServiceReference\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\WcfForClientServiceReference\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\WcfForClientServiceReference\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\WcfForClientServiceReference\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\RtuWcfServiceReference\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\RtuWcfServiceReference\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\RtuWcfServiceReference\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

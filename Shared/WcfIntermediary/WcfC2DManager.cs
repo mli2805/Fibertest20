@@ -1,22 +1,22 @@
 ﻿using Dto;
 using Iit.Fibertest.Utils35;
 
-namespace WcfTestBench
+namespace WcfIntermediary
 {
     public class WcfC2DManager
     {
         private readonly Logger35 _logger35;
-        private readonly WcfConnectionFactory _wcfConnectionFactory;
+        private readonly WcfFactory _wcfFactory;
 
         public WcfC2DManager(string dataCenterAddress, IniFile iniFile, Logger35 logger35)
         {
             _logger35 = logger35;
-            _wcfConnectionFactory = new WcfConnectionFactory(dataCenterAddress, iniFile, _logger35);
+            _wcfFactory = new WcfFactory(dataCenterAddress, iniFile, _logger35);
         }
 
         public bool RegisterClient(string clientAddress)
         {
-            var wcfConnection = _wcfConnectionFactory.CreateServerConnection();
+            var wcfConnection = _wcfFactory.CreateC2DConnection();
             if (wcfConnection == null)
                 return false;
 
@@ -27,7 +27,7 @@ namespace WcfTestBench
 
         public void UnRegisterClient(string clientAddress)
         {
-            var wcfConnection = _wcfConnectionFactory.CreateServerConnection();
+            var wcfConnection = _wcfFactory.CreateC2DConnection();
             if (wcfConnection == null)
                 return;
 
@@ -37,7 +37,7 @@ namespace WcfTestBench
 
         public bool CheckRtuConnection(CheckRtuConnectionDto dto)
         {
-            var wcfConnection = _wcfConnectionFactory.CreateServerConnection();
+            var wcfConnection = _wcfFactory.CreateC2DConnection();
             if (wcfConnection == null)
                 return false;
 
@@ -48,7 +48,7 @@ namespace WcfTestBench
 
         public bool InitializeRtu(InitializeRtuDto dto)
         {
-            var wcfConnection = _wcfConnectionFactory.CreateServerConnection();
+            var wcfConnection = _wcfFactory.CreateC2DConnection();
             if (wcfConnection == null)
                 return false;
 
@@ -59,7 +59,7 @@ namespace WcfTestBench
 
         public bool AssignBaseRef(AssignBaseRefDto dto)
         {
-            var wcfConnection = _wcfConnectionFactory.CreateServerConnection();
+            var wcfConnection = _wcfFactory.CreateC2DConnection();
             if (wcfConnection == null)
                 return false;
 
@@ -70,18 +70,18 @@ namespace WcfTestBench
 
         public bool ApplyMonitoringSettings(ApplyMonitoringSettingsDto dto)
         {
-            var wcfConnection = _wcfConnectionFactory.CreateServerConnection();
+            var wcfConnection = _wcfFactory.CreateC2DConnection();
             if (wcfConnection == null)
                 return false;
 
-            wcfConnection.ApplyMonitoringSettings(dto);
+            wcfConnection.ApplyMonitoringSettingsAsync(dto);
             _logger35.AppendLine($@"Sent monitoring settings to RTU with ip={dto.RtuIpAddress}");
             return true;
         }
 
         public bool StartMonitoring(string rtuAddress)
         {
-            var wcfConnection = _wcfConnectionFactory.CreateServerConnection();
+            var wcfConnection = _wcfFactory.CreateC2DConnection();
             if (wcfConnection == null)
                 return false;
 
@@ -92,7 +92,7 @@ namespace WcfTestBench
 
         public bool StopMonitoring(string rtuAddress)
         {
-            var wcfConnection = _wcfConnectionFactory.CreateServerConnection();
+            var wcfConnection = _wcfFactory.CreateC2DConnection();
             if (wcfConnection == null)
                 return false;
 

@@ -8,11 +8,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WcfTestBench.WcfForClientServiceReference {
+namespace WcfIntermediary.C2DWcfServiceReference {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="WcfForClientServiceReference.IWcfServiceForClient")]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="C2DWcfServiceReference.IWcfServiceForClient")]
     public interface IWcfServiceForClient {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForClient/RegisterClient", ReplyAction="http://tempuri.org/IWcfServiceForClient/RegisterClientResponse")]
@@ -65,12 +65,12 @@ namespace WcfTestBench.WcfForClientServiceReference {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface IWcfServiceForClientChannel : WcfTestBench.WcfForClientServiceReference.IWcfServiceForClient, System.ServiceModel.IClientChannel {
+    public interface IWcfServiceForClientChannel : WcfIntermediary.C2DWcfServiceReference.IWcfServiceForClient, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class WcfServiceForClientClient : System.ServiceModel.ClientBase<WcfTestBench.WcfForClientServiceReference.IWcfServiceForClient>, WcfTestBench.WcfForClientServiceReference.IWcfServiceForClient {
+    public partial class WcfServiceForClientClient : System.ServiceModel.ClientBase<WcfIntermediary.C2DWcfServiceReference.IWcfServiceForClient>, WcfIntermediary.C2DWcfServiceReference.IWcfServiceForClient {
         
         public WcfServiceForClientClient() {
         }
