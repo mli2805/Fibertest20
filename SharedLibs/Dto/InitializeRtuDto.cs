@@ -7,6 +7,8 @@ namespace Dto
     public class InitializeRtuDto
     {
         [DataMember]
+        public string ClientAddress { get; set; }
+        [DataMember]
         public Guid RtuId { get; set; }
 
         [DataMember]

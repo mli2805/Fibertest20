@@ -1,53 +1,55 @@
-﻿using DataCenterCore;
-using Dto;
+﻿using Dto;
 using Iit.Fibertest.Utils35;
 
-namespace WcfServiceForRtu
+namespace WcfServiceForRtuLibrary
 {
     public class WcfServiceForRtu : IWcfServiceForRtu
     {
-        public static IniFile ServiceIniFile { get; set; }
         public static Logger35 ServiceLog { get; set; }
 
-        public static DcManager DcManager { get; set; }
+        public static event OnMessageReceived MessageReceived;
+        public delegate void OnMessageReceived(object e);
 
-        public WcfServiceForRtu()
+        public bool ProcessRtuInitialized(RtuInitializedDto dto)
         {
-            if (ServiceIniFile == null)
-            {
-                ServiceIniFile = new IniFile();
-                ServiceIniFile.AssignFile(@"WcfIniFile");
-            }
+            ServiceLog.AppendLine($"Rtu {dto.Serial} reply on initialize request");
+            MessageReceived?.Invoke(dto);
+            return true;
         }
 
-        public bool ProcessRtuInitialized(RtuInitializedDto result)
+        public bool ConfirmStartMonitoring(MonitoringStartedDto dto)
         {
-            return DcManager.ProcessRtuInitialized(result);
+            ServiceLog.AppendLine($"Rtu {dto.RtuId} reply on start monitoring request");
+            MessageReceived?.Invoke(dto);
+            return true;
         }
 
-        public bool ConfirmStartMonitoring(MonitoringStartedDto confirmation)
+        public bool ConfirmStopMonitoring(MonitoringStoppedDto dto)
         {
-            return DcManager.ConfirmStartMonitoring(confirmation);
+            ServiceLog.AppendLine($"Rtu {dto.RtuId} reply on stop monitoring request");
+            MessageReceived?.Invoke(dto);
+            return true;
         }
 
-        public bool ConfirmStopMonitoring(MonitoringStoppedDto confirmation)
+        public bool ProcessMonitoringResult(MonitoringResult dto)
         {
-            return DcManager.ConfirmStopMonitoring(confirmation);
+            ServiceLog.AppendLine($"Rtu {dto.RtuId} sent monitoring result");
+            MessageReceived?.Invoke(dto);
+            return true;
         }
 
-        public bool ProcessMonitoringResult(MonitoringResult result)
+        public bool ConfirmMonitoringSettingsApplied(MonitoringSettingsAppliedDto dto)
         {
-            return DcManager.ProcessMonitoringResult(result);
+            ServiceLog.AppendLine($"Rtu {dto.RtuIpAddress} reply on monitoring settings");
+            MessageReceived?.Invoke(dto);
+            return true;
         }
 
-        public bool ConfirmMonitoringSettingsApplied(MonitoringSettingsAppliedDto result)
+        public bool ConfirmBaseRefAssigned(BaseRefAssignedDto dto)
         {
-            return DcManager.ConfirmApplyMonitoringSettings(result);
-        }
-
-        public bool ConfirmBaseRefAssigned(BaseRefAssignedDto result)
-        {
-            return DcManager.ConfirmAssignBaseRef(result);
+            ServiceLog.AppendLine($"Rtu {dto.RtuIpAddress} reply on base ref");
+            MessageReceived?.Invoke(dto);
+            return true;
         }
     }
 }

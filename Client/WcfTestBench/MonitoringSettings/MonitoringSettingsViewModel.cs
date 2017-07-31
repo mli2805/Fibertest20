@@ -6,7 +6,7 @@ using Caliburn.Micro;
 using ClientWcfServiceLibrary;
 using Dto;
 using Iit.Fibertest.StringResources;
-using WcfIntermediary;
+using WcfConnections;
 
 namespace WcfTestBench.MonitoringSettings
 {
@@ -14,7 +14,7 @@ namespace WcfTestBench.MonitoringSettings
     {
         private readonly string _rtuIp;
         public MonitoringSettingsModel Model { get; set; }
-        public WcfC2DManager WcfC2DManager { get; set; }
+        public C2DWcfManager C2DWcfManager { get; set; }
 
         public int SelectedTabIndex { get; set; }
 
@@ -91,7 +91,7 @@ namespace WcfTestBench.MonitoringSettings
                 MessageBox.Show(Resources.SID_There_are_no_ports_for_monitoring_, Resources.SID_Error_);
                 return;
             }
-            var transferResult = WcfC2DManager.ApplyMonitoringSettings(dto);
+            var transferResult = C2DWcfManager.ApplyMonitoringSettings(dto);
             MessageProp = transferResult ? Resources.SID_Settings_were_transferred_successfully_ : Resources.SID_Settings_weren_t_transferred__See_logs_;
         }
 

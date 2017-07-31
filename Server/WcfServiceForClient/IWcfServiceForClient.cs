@@ -1,16 +1,16 @@
 ﻿using System.ServiceModel;
 using Dto;
 
-namespace WcfServiceForClient
+namespace WcfServiceForClientLibrary
 {
     [ServiceContract]
     public interface IWcfServiceForClient
     {
         [OperationContract]
-        void RegisterClient(string address);
+        void RegisterClient(RegisterClientDto dto);
 
         [OperationContract]
-        void UnRegisterClient(string address);
+        void UnRegisterClient(UnRegisterClientDto dto);
 
         [OperationContract]
         bool CheckRtuConnection(CheckRtuConnectionDto rtuAddress);
@@ -19,10 +19,10 @@ namespace WcfServiceForClient
         bool InitializeRtu(InitializeRtuDto rtu);
 
         [OperationContract]
-        bool StartMonitoring(string rtuAddress);
+        bool StartMonitoring(StartMonitoringDto dto);
 
         [OperationContract]
-        bool StopMonitoring(string rtuAddress);
+        bool StopMonitoring(StopMonitoringDto dto);
 
         [OperationContract]
         bool ApplyMonitoringSettings(ApplyMonitoringSettingsDto settings);

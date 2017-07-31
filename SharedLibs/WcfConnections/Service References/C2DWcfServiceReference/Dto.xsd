@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/Dto" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Dto" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/Dto.Enums" />
+  <xs:complexType name="RegisterClientDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ClientAddress" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ClientName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RegisterClientDto" nillable="true" type="tns:RegisterClientDto" />
+  <xs:complexType name="UnRegisterClientDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ClientAddress" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UnRegisterClientDto" nillable="true" type="tns:UnRegisterClientDto" />
+  <xs:complexType name="CheckRtuConnectionDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ClientAddress" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="HostName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Ip4Address" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IsAddressSetAsIp" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Port" type="xs:int" />
+      <xs:element minOccurs="0" name="RtuId" type="ser:guid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CheckRtuConnectionDto" nillable="true" type="tns:CheckRtuConnectionDto" />
+  <xs:complexType name="InitializeRtuDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ClientAddress" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DataCenterIpAddress" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RtuId" type="ser:guid" />
+      <xs:element minOccurs="0" name="RtuIpAddress" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="InitializeRtuDto" nillable="true" type="tns:InitializeRtuDto" />
+  <xs:complexType name="StartMonitoringDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ClientAddress" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RtuAddress" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="StartMonitoringDto" nillable="true" type="tns:StartMonitoringDto" />
+  <xs:complexType name="StopMonitoringDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ClientAddress" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RtuAddress" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="StopMonitoringDto" nillable="true" type="tns:StopMonitoringDto" />
+  <xs:complexType name="ApplyMonitoringSettingsDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ClientAddress" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IsMonitoringOn" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Ports" nillable="true" type="tns:ArrayOfOtauPortDto" />
+      <xs:element minOccurs="0" name="RtuIpAddress" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Timespans" nillable="true" type="tns:MonitoringTimespansDto" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ApplyMonitoringSettingsDto" nillable="true" type="tns:ApplyMonitoringSettingsDto" />
+  <xs:complexType name="ArrayOfOtauPortDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="OtauPortDto" nillable="true" type="tns:OtauPortDto" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfOtauPortDto" nillable="true" type="tns:ArrayOfOtauPortDto" />
+  <xs:complexType name="OtauPortDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Ip" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="OpticalPort" type="xs:int" />
+      <xs:element minOccurs="0" name="TcpPort" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="OtauPortDto" nillable="true" type="tns:OtauPortDto" />
+  <xs:complexType name="MonitoringTimespansDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="FastSave" type="ser:duration" />
+      <xs:element minOccurs="0" name="PreciseMeas" type="ser:duration" />
+      <xs:element minOccurs="0" name="PreciseSave" type="ser:duration" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MonitoringTimespansDto" nillable="true" type="tns:MonitoringTimespansDto" />
+  <xs:complexType name="AssignBaseRefDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="BaseRefs" nillable="true" type="tns:ArrayOfBaseRefDto" />
+      <xs:element minOccurs="0" name="ClientAddress" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="OtauPortDto" nillable="true" type="tns:OtauPortDto" />
+      <xs:element minOccurs="0" name="RtuIpAddress" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AssignBaseRefDto" nillable="true" type="tns:AssignBaseRefDto" />
+  <xs:complexType name="ArrayOfBaseRefDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="BaseRefDto" nillable="true" type="tns:BaseRefDto" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfBaseRefDto" nillable="true" type="tns:ArrayOfBaseRefDto" />
+  <xs:complexType name="BaseRefDto">
+    <xs:sequence>
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Dto.Enums" minOccurs="0" name="BaseRefType" type="q1:BaseRefType" />
+      <xs:element minOccurs="0" name="SorBytes" nillable="true" type="xs:base64Binary" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="BaseRefDto" nillable="true" type="tns:BaseRefDto" />
+</xs:schema>

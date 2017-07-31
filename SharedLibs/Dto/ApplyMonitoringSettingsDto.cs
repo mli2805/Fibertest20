@@ -7,6 +7,8 @@ namespace Dto
     public class ApplyMonitoringSettingsDto
     {
         [DataMember]
+        public string ClientAddress { get; set; }
+        [DataMember]
         public string RtuIpAddress { get; set; }
 
         [DataMember]

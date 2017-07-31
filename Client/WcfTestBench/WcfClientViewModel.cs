@@ -12,7 +12,7 @@ using Dto.Enums;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.Utils35;
 using Iit.Fibertest.WpfCommonViews;
-using WcfIntermediary;
+using WcfConnections;
 using WcfTestBench.MonitoringSettings;
 
 namespace WcfTestBench
@@ -99,7 +99,7 @@ namespace WcfTestBench
             }
         }
 
-        private WcfC2DManager _wcfC2DManager;
+        private C2DWcfManager _c2DWcfManager;
         public WcfClientViewModel(IniFile iniFile35, Logger35 clientLog)
         {
             _clientLog = clientLog;
@@ -109,27 +109,35 @@ namespace WcfTestBench
             RtuServiceIp = _clientIni.Read(IniSection.General, IniKey.RtuServiceIp, @"192.168.96.53");
             _localIp = _clientIni.Read(IniSection.General, IniKey.LocalIp, @"192.168.96.179");
 
-            _wcfC2DManager = new WcfC2DManager(DcServiceIp, _clientIni, _clientLog);
+            _c2DWcfManager = new C2DWcfManager(DcServiceIp, _clientIni, _clientLog);
 
-            if (!_wcfC2DManager.RegisterClient(_localIp))
+            if (!_c2DWcfManager.RegisterClient(new RegisterClientDto() {ClientAddress = _localIp, ClientName = @"Vasya"}))
                 MessageBox.Show(@"Cannot register on server!");
 
             // start 11843 listener
-            StartWcf();
+            StartWcfListener();
         }
 
-        private void StartWcf()
+        private void StartWcfListener()
         {
             MyServiceHost?.Close();
             ClientWcfService.ClientLog = _clientLog;
             ClientWcfService.MessageReceived += ProcessServerMessage;
             MyServiceHost = new ServiceHost(typeof(ClientWcfService));
-            MyServiceHost.Open();
+            try
+            {
+                MyServiceHost.Open();
+            }
+            catch (Exception e)
+            {
+                _clientLog.AppendLine(e.Message);
+                throw;
+            }
         }
 
         public override void CanClose(Action<bool> callback)
         {
-            _wcfC2DManager.UnRegisterClient(_localIp);
+            _c2DWcfManager.UnRegisterClient(new UnRegisterClientDto() {ClientAddress = _localIp});
             base.CanClose(callback);
         }
 
@@ -137,7 +145,7 @@ namespace WcfTestBench
         {
             DisplayString = Resources.SID_Command_sent__wait_please_;
             var dto = new CheckRtuConnectionDto() {ClientAddress = @"192.168.96.179", RtuId = Guid.NewGuid(), Ip4Address = RtuServiceIp, IsAddressSetAsIp = true};
-            DisplayString = _wcfC2DManager.CheckRtuConnection(dto) ? @"Check connection started, wait please" : Resources.SID_Error;
+            DisplayString = _c2DWcfManager.CheckRtuConnection(dto) ? @"Check connection started, wait please" : Resources.SID_Error;
         }
 
         public void Initialize()
@@ -145,7 +153,7 @@ namespace WcfTestBench
             _clientIni.Write(IniSection.General, IniKey.RtuServiceIp, RtuServiceIp);
 
             var rtu = new InitializeRtuDto() { RtuId = Guid.NewGuid(), RtuIpAddress = RtuServiceIp, DataCenterIpAddress = DcServiceIp };
-            _wcfC2DManager.InitializeRtu(rtu);
+            _c2DWcfManager.InitializeRtu(rtu);
             DisplayString = Resources.SID_Command_sent__wait_please_;
         }
 
@@ -153,7 +161,7 @@ namespace WcfTestBench
         public void MonitoringSettings()
         {
             var vm = new MonitoringSettingsViewModel(_rtuServiceIp, PopulateModel());
-            vm.WcfC2DManager = _wcfC2DManager;
+            vm.C2DWcfManager = _c2DWcfManager;
             IWindowManager windowManager = new WindowManager();
             windowManager.ShowDialog(vm);
         }
@@ -177,7 +185,7 @@ namespace WcfTestBench
                 }
             };
 
-            _wcfC2DManager.AssignBaseRef(dto);
+            _c2DWcfManager.AssignBaseRef(dto);
             DisplayString = Resources.SID_Command_sent__wait_please_;
         }
        
@@ -190,12 +198,12 @@ namespace WcfTestBench
 
         public void StartMonitoring()
         {
-            DisplayString = _wcfC2DManager.StartMonitoring(RtuServiceIp) ? Resources.SID_Command_sent__wait_please_ : Resources.SID_Error_;
+            DisplayString = _c2DWcfManager.StartMonitoring(new StartMonitoringDto() {ClientAddress = _localIp, RtuAddress = RtuServiceIp}) ? Resources.SID_Command_sent__wait_please_ : Resources.SID_Error_;
         }
 
         public void StopMonitoring()
         {
-            DisplayString = _wcfC2DManager.StopMonitoring(RtuServiceIp) ? Resources.SID_Command_sent__wait_please_ : Resources.SID_Error_;
+            DisplayString = _c2DWcfManager.StopMonitoring(new StopMonitoringDto() { ClientAddress = _localIp, RtuAddress = RtuServiceIp }) ? Resources.SID_Command_sent__wait_please_ : Resources.SID_Error_;
         }
 
         private MonitoringSettingsModel PopulateModel()

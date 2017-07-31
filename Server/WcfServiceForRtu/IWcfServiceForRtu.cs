@@ -1,7 +1,7 @@
 ﻿using System.ServiceModel;
 using Dto;
 
-namespace WcfServiceForRtu
+namespace WcfServiceForRtuLibrary
 {
     [ServiceContract]
     public interface IWcfServiceForRtu

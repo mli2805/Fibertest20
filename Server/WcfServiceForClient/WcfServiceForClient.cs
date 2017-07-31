@@ -1,68 +1,68 @@
-﻿using System.Threading;
-using DataCenterCore;
-using Dto;
+﻿using Dto;
 using Iit.Fibertest.Utils35;
 
-namespace WcfServiceForClient
+namespace WcfServiceForClientLibrary
 {
     public class WcfServiceForClient : IWcfServiceForClient
     {
-        public static IniFile ServiceIniFile { get; set; }
         public static Logger35 ServiceLog { get; set; }
-        public static DcManager DcManager { get; set; }
+
+        public static event OnMessageReceived MessageReceived;
+        public delegate void OnMessageReceived(object e);
 
 
-        public WcfServiceForClient()
+        public void RegisterClient(RegisterClientDto dto)
         {
-            if (ServiceIniFile == null)
-            {
-                ServiceIniFile = new IniFile();
-                ServiceIniFile.AssignFile(@"WcfIniFile");
-            }
+            ServiceLog.AppendLine($"Client from {dto.ClientAddress} sent register request");
+            MessageReceived?.Invoke(dto);
         }
 
-
-        public void RegisterClient(string address)
+        public void UnRegisterClient(UnRegisterClientDto dto)
         {
-            DcManager.RegisterClient(address);
+            ServiceLog.AppendLine($"Client from {dto.ClientAddress} sent unregister request");
+            MessageReceived?.Invoke(dto);
         }
 
-        public void UnRegisterClient(string address)
+        public bool CheckRtuConnection(CheckRtuConnectionDto dto)
         {
-            DcManager.UnRegisterClient(address);
-        }
-
-        public bool CheckRtuConnection(CheckRtuConnectionDto rtuAddress)
-        {
-            var thread = new Thread(DcManager.CheckRtuConnection) { IsBackground = true };
-            thread.Start(rtuAddress);
+            ServiceLog.AppendLine($"Client from {dto.ClientAddress} sent check rtu {dto.RtuId} request");
+            MessageReceived?.Invoke(dto);
             return true;
         }
 
-        public bool InitializeRtu(InitializeRtuDto rtu)
+        public bool InitializeRtu(InitializeRtuDto dto)
         {
-            DcManager.InitializeRtu(rtu);
+            ServiceLog.AppendLine($"Client from {dto.ClientAddress} sent initialize rtu {dto.RtuId} request");
+            MessageReceived?.Invoke(dto);
             return true;
         }
 
-        public bool StartMonitoring(string rtuAddress)
+        public bool StartMonitoring(StartMonitoringDto dto)
         {
-            return DcManager.StartMonitoring(rtuAddress);
+            ServiceLog.AppendLine($"Client from {dto.ClientAddress} sent start monitoring on rtu {dto.RtuAddress} request");
+            MessageReceived?.Invoke(dto);
+            return true;
         }
 
-        public bool StopMonitoring(string rtuAddress)
+        public bool StopMonitoring(StopMonitoringDto dto)
         {
-            return DcManager.StopMonitoring(rtuAddress);
+            ServiceLog.AppendLine($"Client from {dto.ClientAddress} sent stop monitoring on rtu {dto.RtuAddress} request");
+            MessageReceived?.Invoke(dto);
+            return true;
         }
 
-        public bool ApplyMonitoringSettings(ApplyMonitoringSettingsDto settings)
+        public bool ApplyMonitoringSettings(ApplyMonitoringSettingsDto dto)
         {
-            return DcManager.ApplyMonitoringSettings(settings);
+            ServiceLog.AppendLine($"Client from {dto.ClientAddress} sent monitoring settings for rtu {dto.RtuIpAddress}");
+            MessageReceived?.Invoke(dto);
+            return true;
         }
 
-        public bool AssignBaseRef(AssignBaseRefDto baseRef)
+        public bool AssignBaseRef(AssignBaseRefDto dto)
         {
-            return DcManager.AssignBaseRef(baseRef);
+            ServiceLog.AppendLine($"Client from {dto.ClientAddress} sent base ref for trace on rtu {dto.RtuIpAddress}");
+            MessageReceived?.Invoke(dto);
+            return true;
         }
     }
 }

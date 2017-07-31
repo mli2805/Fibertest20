@@ -1,11 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net.Configuration;
+using System.ServiceModel;
 using Dto;
 using Iit.Fibertest.Utils35;
+using WcfServiceForClientLibrary;
+using WcfServiceForRtuLibrary;
 
 namespace DataCenterCore
 {
-    public class DcManager
+    public partial class DcManager
     {
         private readonly Logger35 _dcLog;
         private readonly IniFile _coreIni;
@@ -25,6 +30,9 @@ namespace DataCenterCore
 
             _dcLog = new Logger35();
             _dcLog.AssignFile("DcCore.log", cultureString);
+            _dcLog.EmptyLine();
+            _dcLog.EmptyLine('-');
+
 
             lock (_rtuStationsLockObj)
             {
@@ -35,42 +43,77 @@ namespace DataCenterCore
             {
                 _clientStations = new List<ClientStation>();
             }
+
+            StartWcfListenerToClient();
+            StartWcfListenerToRtu();
+        }
+
+        internal static ServiceHost ServiceForRtuHost;
+        internal static ServiceHost ServiceForClientHost;
+
+        private void StartWcfListenerToRtu()
+        {
+            ServiceForRtuHost?.Close();
+
+            WcfServiceForRtu.ServiceLog = _dcLog;
+            WcfServiceForRtu.MessageReceived += WcfServiceForRtu_MessageReceived;
+            ServiceForRtuHost = new ServiceHost(typeof(WcfServiceForRtu));
+            try
+            {
+                ServiceForRtuHost.Open();
+                _dcLog.AppendLine("RTUs listener started successfully");
+            }
+            catch (Exception e)
+            {
+                _dcLog.AppendLine(e.Message);
+                throw;
+            }
+        }
+
+        private void WcfServiceForRtu_MessageReceived(object msg)
+        {
+            var dto = msg as RtuInitializedDto;
+            if (dto != null)
+            {
+                ProcessRtuInitialized(dto);
+                return;
+            }
+            var dto2 = msg as MonitoringStartedDto;
+            if (dto2 != null)
+            {
+                ProcessMonitoringStarted(dto2);
+                return;
+            }
+            var dto3 = msg as MonitoringStoppedDto;
+            if (dto3 != null)
+            {
+                ProcessMonitoringStopped(dto3);
+            }
+        }
+
+        private void StartWcfListenerToClient()
+        {
+            ServiceForClientHost?.Close();
+
+            WcfServiceForClient.ServiceLog = _dcLog;
+            WcfServiceForClient.MessageReceived += WcfServiceForClient_MessageReceived;
+            ServiceForClientHost = new ServiceHost(typeof(WcfServiceForClient));
+            try
+            {
+                ServiceForClientHost.Open();
+                _dcLog.AppendLine("Clients listener started successfully");
+            }
+            catch (Exception e)
+            {
+                _dcLog.AppendLine(e.Message);
+                throw;
+            }
         }
 
         private List<RtuStation> InitializeRtuStationListFromDb()
         {
             var list = new List<RtuStation>();
             return list;
-        }
-
-        public void CheckRtuConnection(object param)
-        {
-            var dto = param as CheckRtuConnectionDto;
-            if (dto == null)
-                return;
-
-            var result = new RtuConnectionCheckedDto() {RtuId = dto.RtuId};
-            var address = dto.IsAddressSetAsIp ? dto.Ip4Address : dto.HostName;
-            var rtuConnection = ServerToRtuWcfFactory.Create(address);
-            result.IsRtuManagerAlive = rtuConnection != null && rtuConnection.IsRtuInitialized();
-
-            _dcLog.AppendLine("Ping!");
-            if (!result.IsRtuManagerAlive)
-                result.IsPingSuccessful = Pinger.Ping(dto.IsAddressSetAsIp ? dto.Ip4Address : dto.HostName);
-            _dcLog.AppendLine("Pinged");
-            TransferRtuConnectionChecked(dto.ClientAddress, result);
-
-        }
-
-        public bool InitializeRtu(InitializeRtuDto rtu)
-        {
-            var rtuWcfServiceClient = ServerToRtuWcfFactory.Create(rtu.RtuIpAddress);
-            if (rtuWcfServiceClient == null)
-                return false;
-            rtuWcfServiceClient.Initialize(rtu);
-
-            _dcLog.AppendLine($"Transfered command to initialize RTU {rtu.RtuId} with ip={rtu.RtuIpAddress}");
-            return true;
         }
 
         public bool ProcessRtuInitialized(RtuInitializedDto result)
@@ -81,30 +124,27 @@ namespace DataCenterCore
             return true;
         }
 
+        public bool ProcessMonitoringStarted(MonitoringStartedDto result)
+        {
+            _dcLog.AppendLine($"Rtu {result.RtuId} monitoring started: {result.IsSuccessful}");
+            ConfirmStartMonitoring(result);
+            return true;
+        }
+
+        public bool ProcessMonitoringStopped(MonitoringStoppedDto result)
+        {
+            _dcLog.AppendLine($"Rtu {result.RtuId} monitoring stopped: {result.IsSuccessful}");
+            ConfirmStopMonitoring(result);
+            return true;
+        }
+
+
         public bool ProcessMonitoringResult(MonitoringResult result)
         {
             _dcLog.AppendLine($"Monitoring result received. Sor size is {result.SorData.Length}");
             return true;
         }
 
-        public void RegisterClient(string address)
-        {
-            _dcLog.AppendLine($"client {address} registration");
-            lock (_clientStationsLockObj)
-            {
-                if (_clientStations.All(c => c.Ip != address))
-                    _clientStations.Add(new ClientStation() { Ip = address });
-            }
-        }
-
-        public void UnRegisterClient(string address)
-        {
-            _dcLog.AppendLine($"client {address} exited");
-            lock (_clientStationsLockObj)
-            {
-                _clientStations.RemoveAll(c => c.Ip == address);
-            }
-        }
 
         public void ConfirmRtuInitialized(RtuInitializedDto rtu)
         {
@@ -178,177 +218,77 @@ namespace DataCenterCore
 
         private void TransferRtuConnectionChecked(string clientIp, RtuConnectionCheckedDto dto)
         {
-            var clientConnection = ServerToClientWcfFactory.Create(clientIp);
+            _dcLog.AppendLine("TransferRtuConnectionChecked");
+            var clientConnection = new WcfConnections.WcfFactory(clientIp, _coreIni, _dcLog).CreateClientConnection();
             if (clientConnection == null)
             {
                 _dcLog.AppendLine($"Cannot transfer RTU {dto.RtuId} check connection result to client {clientIp}");
                 return;
             }
+            _dcLog.AppendLine("connected");
             clientConnection.ConfirmRtuConnectionChecked(dto);
             _dcLog.AppendLine($"Transfered RTU {dto.RtuId} check connection result");
         }
-
         private void TransferConfirmRtuInitialized(string clientIp, RtuInitializedDto rtu)
         {
-            var clientWcfServiceClient = ServerToClientWcfFactory.Create(clientIp);
-            if (clientWcfServiceClient == null)
+            var clientConnection = new WcfConnections.WcfFactory(clientIp, _coreIni, _dcLog).CreateClientConnection();
+            if (clientConnection == null)
             {
                 _dcLog.AppendLine($"Cannot transfer initialization confirmation of RTU {rtu.Id} Serial={rtu.Serial}");
                 return;
             }
 
-            clientWcfServiceClient.ConfirmRtuInitialized(rtu);
+            clientConnection.ConfirmRtuInitialized(rtu);
             _dcLog.AppendLine($"Transfered initialization confirmation of RTU {rtu.Id} Serial={rtu.Serial}");
         }
-
         private void TransferConfirmStartMonitoring(string clientIp, MonitoringStartedDto confirmation)
         {
-            var clientWcfServiceClient = ServerToClientWcfFactory.Create(clientIp);
-            if (clientWcfServiceClient == null)
+            var clientConnection = new WcfConnections.WcfFactory(clientIp, _coreIni, _dcLog).CreateClientConnection();
+            if (clientConnection == null)
             {
                 return;
             }
 
-            clientWcfServiceClient.ConfirmMonitoringStarted(confirmation);
+            clientConnection.ConfirmMonitoringStarted(confirmation);
 
             _dcLog.AppendLine($"Transfered start monitoring confirmation from RTU {confirmation.RtuId} result is {confirmation.IsSuccessful}");
         }
-
         private void TransferConfirmStopMonitoring(string clientIp, MonitoringStoppedDto confirmation)
         {
-            var clientWcfServiceClient = ServerToClientWcfFactory.Create(clientIp);
-            if (clientWcfServiceClient == null)
+            var clientConnection = new WcfConnections.WcfFactory(clientIp, _coreIni, _dcLog).CreateClientConnection();
+            if (clientConnection == null)
             {
                 return;
             }
 
-            clientWcfServiceClient.ConfirmMonitoringStopped(confirmation);
+            clientConnection.ConfirmMonitoringStopped(confirmation);
 
             _dcLog.AppendLine($"Transfered stop monitoring confirmation from RTU {confirmation.RtuId} result is {confirmation.IsSuccessful}");
         }
 
-        public bool StartMonitoring(string rtuAddress)
-        {
-            var rtuWcfServiceClient = ServerToRtuWcfFactory.Create(rtuAddress);
-            if (rtuWcfServiceClient == null)
-            {
-                return false;
-            }
-
-            rtuWcfServiceClient.StartMonitoring();
-            _dcLog.AppendLine($"Transfered command to start monitoring for rtu with ip={rtuAddress}");
-            return true;
-        }
-
-        public bool StopMonitoring(string rtuAddress)
-        {
-            var rtuWcfServiceClient = ServerToRtuWcfFactory.Create(rtuAddress);
-            if (rtuWcfServiceClient == null)
-            {
-                return false;
-            }
-
-            rtuWcfServiceClient.StopMonitoring();
-            _dcLog.AppendLine($"Transfered command to stop monitoring for rtu with ip={rtuAddress}");
-            return true;
-        }
-
-        public bool ApplyMonitoringSettings(ApplyMonitoringSettingsDto settings)
-        {
-            var rtuWcfServiceClient = ServerToRtuWcfFactory.Create(settings.RtuIpAddress);
-            if (rtuWcfServiceClient == null)
-            {
-                return false;
-            }
-
-            rtuWcfServiceClient.ApplyMonitoringSettings(settings);
-            _dcLog.AppendLine($"Transfered command to apply monitoring settings for rtu with ip={settings.RtuIpAddress}");
-            return true;
-        }
-
         private void TransferConfirmMonitoringSettings(string clientIp, MonitoringSettingsAppliedDto confirmation)
         {
-            var clientWcfServiceClient = ServerToClientWcfFactory.Create(clientIp);
-            if (clientWcfServiceClient == null)
+            var clientConnection = new WcfConnections.WcfFactory(clientIp, _coreIni, _dcLog).CreateClientConnection();
+            if (clientConnection == null)
             {
                 return;
             }
 
-            clientWcfServiceClient.ConfirmMonitoringSettingsApplied(confirmation);
+            clientConnection.ConfirmMonitoringSettingsApplied(confirmation);
             _dcLog.AppendLine($"Transfered apply monitoring settings confirmation from RTU {confirmation.RtuIpAddress} result is {confirmation.IsSuccessful}");
         }
 
         private void TransferConfirmBaseRef(string clientIp, BaseRefAssignedDto confirmation)
         {
-            var clientWcfServiceClient = ServerToClientWcfFactory.Create(clientIp);
-            if (clientWcfServiceClient == null)
+            var clientConnection = new WcfConnections.WcfFactory(clientIp, _coreIni, _dcLog).CreateClientConnection();
+            if (clientConnection == null)
             {
                 return;
             }
 
-            clientWcfServiceClient.ConfirmBaseRefAssigned(confirmation);
+            clientConnection.ConfirmBaseRefAssigned(confirmation);
             _dcLog.AppendLine($"Transfered apply monitoring settings confirmation from RTU {confirmation.RtuIpAddress} result is {confirmation.IsSuccessful}");
         }
-
-
-
-        public bool AssignBaseRef(AssignBaseRefDto baseRef)
-        {
-            var rtuWcfServiceClient = ServerToRtuWcfFactory.Create(baseRef.RtuIpAddress);
-            if (rtuWcfServiceClient == null)
-                return false;
-
-            rtuWcfServiceClient.AssignBaseRef(baseRef);
-            _dcLog.AppendLine($"Transfered command to assign base ref to rtu with ip={baseRef.RtuIpAddress}");
-            return true;
-        }
-
-//        private string CombineUriString(string address, int port, string wcfServiceName)
-//        {
-//            return @"net.tcp://" + address + @":" + port + @"/" + wcfServiceName;
-//        }
-//
-//        private RtuWcfServiceClient CreateAndOpenRtuWcfServiceClient(string address)
-//        {
-//            try
-//            {
-//                var rtuWcfServiceClient = new RtuWcfServiceClient(CreateDefaultNetTcpBinding(), new EndpointAddress(new Uri(CombineUriString(address, 11842, @"RtuWcfService"))));
-//                rtuWcfServiceClient.Open();
-//                return rtuWcfServiceClient;
-//            }
-//            catch (Exception e)
-//            {
-//                _dcLog.AppendLine(e.Message);
-//                return null;
-//            }
-//        }
-//
-//        private ClientWcfServiceClient CreateAndOpenClientWcfServiceClient(string address)
-//        {
-//            try
-//            {
-//                var clientWcfServiceClient = new ClientWcfServiceClient(CreateDefaultNetTcpBinding(), new EndpointAddress(new Uri(CombineUriString(address, 11843, @"ClientWcfService"))));
-//                clientWcfServiceClient.Open();
-//                return clientWcfServiceClient;
-//            }
-//            catch (Exception e)
-//            {
-//                _dcLog.AppendLine(e.Message);
-//                return null;
-//            }
-//        }
-//
-//        private NetTcpBinding CreateDefaultNetTcpBinding()
-//        {
-//            return new NetTcpBinding
-//            {
-//                Security = { Mode = SecurityMode.None },
-//                ReceiveTimeout = new TimeSpan(0, 15, 0),
-//                SendTimeout = new TimeSpan(0, 15, 0),
-//                OpenTimeout = new TimeSpan(0, 1, 0),
-//                MaxBufferSize = 4096000 //4M
-//            };
-//        }
 
     }
 }
