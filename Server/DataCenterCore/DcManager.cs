@@ -5,6 +5,7 @@ using System.Net.Configuration;
 using System.ServiceModel;
 using Dto;
 using Iit.Fibertest.Utils35;
+using WcfConnections;
 using WcfServiceForClientLibrary;
 using WcfServiceForRtuLibrary;
 
@@ -146,7 +147,7 @@ namespace DataCenterCore
         }
 
 
-        public void ConfirmRtuInitialized(RtuInitializedDto rtu)
+        public void ConfirmRtuInitialized(RtuInitializedDto dto)
         {
             var list = new List<ClientStation>();
             lock (_clientStationsLockObj)
@@ -155,11 +156,11 @@ namespace DataCenterCore
             }
             foreach (var clientStation in list)
             {
-                TransferConfirmRtuInitialized(clientStation.Ip, rtu);
+                new D2CWcfManager(clientStation.Ip, _coreIni, _dcLog).ConfirmRtuInitialized(dto);
             }
         }
 
-        public bool ConfirmStartMonitoring(MonitoringStartedDto confirmation)
+        private bool ConfirmStartMonitoring(MonitoringStartedDto confirmation)
         {
             var list = new List<ClientStation>();
             lock (_clientStationsLockObj)
@@ -168,7 +169,7 @@ namespace DataCenterCore
             }
             foreach (var clientStation in list)
             {
-                TransferConfirmStartMonitoring(clientStation.Ip, confirmation);
+                new D2CWcfManager(clientStation.Ip, _coreIni, _dcLog).ConfirmMonitoringStarted(confirmation);
             }
             return true;
         }
@@ -182,7 +183,7 @@ namespace DataCenterCore
             }
             foreach (var clientStation in list)
             {
-                TransferConfirmStopMonitoring(clientStation.Ip, confirmation);
+                new D2CWcfManager(clientStation.Ip, _coreIni, _dcLog).ConfirmMonitoringStopped(confirmation);
             }
             return true;
         }
@@ -213,57 +214,6 @@ namespace DataCenterCore
                 TransferConfirmBaseRef(clientStation.Ip, confirmation);
             }
             return true;
-        }
-
-
-        private void TransferRtuConnectionChecked(string clientIp, RtuConnectionCheckedDto dto)
-        {
-            _dcLog.AppendLine("TransferRtuConnectionChecked");
-            var clientConnection = new WcfConnections.WcfFactory(clientIp, _coreIni, _dcLog).CreateClientConnection();
-            if (clientConnection == null)
-            {
-                _dcLog.AppendLine($"Cannot transfer RTU {dto.RtuId} check connection result to client {clientIp}");
-                return;
-            }
-            _dcLog.AppendLine("connected");
-            clientConnection.ConfirmRtuConnectionChecked(dto);
-            _dcLog.AppendLine($"Transfered RTU {dto.RtuId} check connection result");
-        }
-        private void TransferConfirmRtuInitialized(string clientIp, RtuInitializedDto rtu)
-        {
-            var clientConnection = new WcfConnections.WcfFactory(clientIp, _coreIni, _dcLog).CreateClientConnection();
-            if (clientConnection == null)
-            {
-                _dcLog.AppendLine($"Cannot transfer initialization confirmation of RTU {rtu.Id} Serial={rtu.Serial}");
-                return;
-            }
-
-            clientConnection.ConfirmRtuInitialized(rtu);
-            _dcLog.AppendLine($"Transfered initialization confirmation of RTU {rtu.Id} Serial={rtu.Serial}");
-        }
-        private void TransferConfirmStartMonitoring(string clientIp, MonitoringStartedDto confirmation)
-        {
-            var clientConnection = new WcfConnections.WcfFactory(clientIp, _coreIni, _dcLog).CreateClientConnection();
-            if (clientConnection == null)
-            {
-                return;
-            }
-
-            clientConnection.ConfirmMonitoringStarted(confirmation);
-
-            _dcLog.AppendLine($"Transfered start monitoring confirmation from RTU {confirmation.RtuId} result is {confirmation.IsSuccessful}");
-        }
-        private void TransferConfirmStopMonitoring(string clientIp, MonitoringStoppedDto confirmation)
-        {
-            var clientConnection = new WcfConnections.WcfFactory(clientIp, _coreIni, _dcLog).CreateClientConnection();
-            if (clientConnection == null)
-            {
-                return;
-            }
-
-            clientConnection.ConfirmMonitoringStopped(confirmation);
-
-            _dcLog.AppendLine($"Transfered stop monitoring confirmation from RTU {confirmation.RtuId} result is {confirmation.IsSuccessful}");
         }
 
         private void TransferConfirmMonitoringSettings(string clientIp, MonitoringSettingsAppliedDto confirmation)

@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using Dto;
 using Iit.Fibertest.Utils35;
+using WcfConnections.Service_References.ClientWcfServiceReference;
 
 namespace WcfConnections
 {

@@ -93,19 +93,18 @@ namespace DataCenterCore
 
             var result = new RtuConnectionCheckedDto() { RtuId = dto.RtuId };
             var address = dto.IsAddressSetAsIp ? dto.Ip4Address : dto.HostName;
-            var rtuConnection = new WcfConnections.WcfFactory(address, _coreIni, _dcLog).CreateRtuConnection();
+            var rtuConnection = new WcfFactory(address, _coreIni, _dcLog).CreateRtuConnection();
             result.IsRtuManagerAlive = rtuConnection != null && rtuConnection.IsRtuInitialized();
 
-            _dcLog.AppendLine("Ping!");
             if (!result.IsRtuManagerAlive)
                 result.IsPingSuccessful = Pinger.Ping(dto.IsAddressSetAsIp ? dto.Ip4Address : dto.HostName);
-            _dcLog.AppendLine("Pinged");
+
             new D2CWcfManager(dto.ClientAddress, _coreIni, _dcLog).ConfirmRtuConnectionChecked(result);
         }
 
         private bool InitializeRtu(InitializeRtuDto rtu)
         {
-            var rtuConnection = new WcfConnections.WcfFactory(rtu.RtuIpAddress, _coreIni, _dcLog).CreateRtuConnection();
+            var rtuConnection = new WcfFactory(rtu.RtuIpAddress, _coreIni, _dcLog).CreateRtuConnection();
             if (rtuConnection == null)
                 return false;
             rtuConnection.Initialize(rtu);
@@ -116,7 +115,7 @@ namespace DataCenterCore
 
         private bool StartMonitoring(StartMonitoringDto dto)
         {
-            var rtuConnection = new WcfConnections.WcfFactory(dto.RtuAddress, _coreIni, _dcLog).CreateRtuConnection();
+            var rtuConnection = new WcfFactory(dto.RtuAddress, _coreIni, _dcLog).CreateRtuConnection();
             if (rtuConnection == null)
                 return false;
 
@@ -127,7 +126,7 @@ namespace DataCenterCore
 
         private bool StopMonitoring(StopMonitoringDto dto)
         {
-            var rtuConnection = new WcfConnections.WcfFactory(dto.RtuAddress, _coreIni, _dcLog).CreateRtuConnection();
+            var rtuConnection = new WcfFactory(dto.RtuAddress, _coreIni, _dcLog).CreateRtuConnection();
             if (rtuConnection == null)
                 return false;
 
@@ -138,7 +137,7 @@ namespace DataCenterCore
 
         private bool AssignBaseRef(AssignBaseRefDto baseRef)
         {
-            var rtuConnection = new WcfConnections.WcfFactory(baseRef.RtuIpAddress, _coreIni, _dcLog).CreateRtuConnection();
+            var rtuConnection = new WcfFactory(baseRef.RtuIpAddress, _coreIni, _dcLog).CreateRtuConnection();
             if (rtuConnection == null)
                 return false;
 
@@ -149,7 +148,7 @@ namespace DataCenterCore
 
         private bool ApplyMonitoringSettings(ApplyMonitoringSettingsDto settings)
         {
-            var rtuConnection = new WcfConnections.WcfFactory(settings.RtuIpAddress, _coreIni, _dcLog).CreateRtuConnection();
+            var rtuConnection = new WcfFactory(settings.RtuIpAddress, _coreIni, _dcLog).CreateRtuConnection();
             if (rtuConnection == null)
                 return false;
 
