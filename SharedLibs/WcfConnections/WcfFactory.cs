@@ -22,8 +22,6 @@ namespace WcfConnections
             _logger35 = logger35;
         }
 
-
-
         public ClientWcfServiceClient CreateClientConnection()
         {
             try

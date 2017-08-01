@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Configuration;
 using System.ServiceModel;
 using Dto;
 using Iit.Fibertest.Utils35;
@@ -37,7 +36,7 @@ namespace DataCenterCore
 
             lock (_rtuStationsLockObj)
             {
-                InitializeRtuStationListFromDb();
+                _rtuStations = InitializeRtuStationListFromDb();
             }
 
             lock (_clientStationsLockObj)
@@ -147,45 +146,34 @@ namespace DataCenterCore
         }
 
 
-        public void ConfirmRtuInitialized(RtuInitializedDto dto)
+        private void ConfirmRtuInitialized(RtuInitializedDto dto)
         {
-            var list = new List<ClientStation>();
+            var addresses = new List<string>();
             lock (_clientStationsLockObj)
             {
-                list.AddRange(_clientStations.Select(clientStation => (ClientStation)clientStation.Clone()));
+                addresses.AddRange(_clientStations.Select(clientStation => ((ClientStation)clientStation.Clone()).Ip));
             }
-            foreach (var clientStation in list)
-            {
-                new D2CWcfManager(clientStation.Ip, _coreIni, _dcLog).ConfirmRtuInitialized(dto);
-            }
+            new D2CWcfManager(addresses, _coreIni, _dcLog).ConfirmRtuInitialized(dto);
         }
 
-        private bool ConfirmStartMonitoring(MonitoringStartedDto confirmation)
+        private void ConfirmStartMonitoring(MonitoringStartedDto confirmation)
         {
-            var list = new List<ClientStation>();
+            var addresses = new List<string>();
             lock (_clientStationsLockObj)
             {
-                list.AddRange(_clientStations.Select(clientStation => (ClientStation)clientStation.Clone()));
+                addresses.AddRange(_clientStations.Select(clientStation => ((ClientStation)clientStation.Clone()).Ip));
             }
-            foreach (var clientStation in list)
-            {
-                new D2CWcfManager(clientStation.Ip, _coreIni, _dcLog).ConfirmMonitoringStarted(confirmation);
-            }
-            return true;
+            new D2CWcfManager(addresses, _coreIni, _dcLog).ConfirmMonitoringStarted(confirmation);
         }
 
-        public bool ConfirmStopMonitoring(MonitoringStoppedDto confirmation)
+        private void ConfirmStopMonitoring(MonitoringStoppedDto confirmation)
         {
-            var list = new List<ClientStation>();
+            var addresses = new List<string>();
             lock (_clientStationsLockObj)
             {
-                list.AddRange(_clientStations.Select(clientStation => (ClientStation)clientStation.Clone()));
+                addresses.AddRange(_clientStations.Select(clientStation => ((ClientStation)clientStation.Clone()).Ip));
             }
-            foreach (var clientStation in list)
-            {
-                new D2CWcfManager(clientStation.Ip, _coreIni, _dcLog).ConfirmMonitoringStopped(confirmation);
-            }
-            return true;
+            new D2CWcfManager(addresses, _coreIni, _dcLog).ConfirmMonitoringStopped(confirmation);
         }
 
         public bool ConfirmApplyMonitoringSettings(MonitoringSettingsAppliedDto confirmation)
@@ -218,11 +206,9 @@ namespace DataCenterCore
 
         private void TransferConfirmMonitoringSettings(string clientIp, MonitoringSettingsAppliedDto confirmation)
         {
-            var clientConnection = new WcfConnections.WcfFactory(clientIp, _coreIni, _dcLog).CreateClientConnection();
+            var clientConnection = new WcfFactory(clientIp, _coreIni, _dcLog).CreateClientConnection();
             if (clientConnection == null)
-            {
                 return;
-            }
 
             clientConnection.ConfirmMonitoringSettingsApplied(confirmation);
             _dcLog.AppendLine($"Transfered apply monitoring settings confirmation from RTU {confirmation.RtuIpAddress} result is {confirmation.IsSuccessful}");
@@ -230,7 +216,7 @@ namespace DataCenterCore
 
         private void TransferConfirmBaseRef(string clientIp, BaseRefAssignedDto confirmation)
         {
-            var clientConnection = new WcfConnections.WcfFactory(clientIp, _coreIni, _dcLog).CreateClientConnection();
+            var clientConnection = new WcfFactory(clientIp, _coreIni, _dcLog).CreateClientConnection();
             if (clientConnection == null)
             {
                 return;

@@ -40,10 +40,7 @@ namespace RtuWcfServiceLibrary
 
         public bool IsRtuInitialized()
         {
-            lock (_lockObj)
-            {
-                return _rtuManager.IsRtuInitialized;
-            }
+            return _rtuManager.IsRtuInitialized;
         }
 
         public bool Initialize(InitializeRtuDto rtu)
@@ -79,7 +76,7 @@ namespace RtuWcfServiceLibrary
                 {
                     // can't just run _rtuManager.StartMonitoring because it blocks Wcf thread
                     RtuManagerThread?.Abort();
-                    RtuManagerThread = new Thread(_rtuManager.StartMonitoring) {IsBackground = true};
+                    RtuManagerThread = new Thread(_rtuManager.StartMonitoring) { IsBackground = true };
                     RtuManagerThread.Start();
                     ServiceLog.AppendLine("User starts monitoring - OK");
                 }
