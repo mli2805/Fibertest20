@@ -8,12 +8,15 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WcfConnections.Service_References.ClientWcfServiceReference {
+namespace WcfConnections.ClientWcfServiceReference {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ClientWcfServiceReference.IClientWcfService")]
     public interface IClientWcfService {
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientWcfService/ConfirmDelivery", ReplyAction="http://tempuri.org/IClientWcfService/ConfirmDeliveryResponse")]
+        void ConfirmDelivery(Dto.RtuCommandDeliveredDto dto);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientWcfService/ConfirmRtuConnectionChecked", ReplyAction="http://tempuri.org/IClientWcfService/ConfirmRtuConnectionCheckedResponse")]
         void ConfirmRtuConnectionChecked(Dto.RtuConnectionCheckedDto dto);
@@ -35,12 +38,12 @@ namespace WcfConnections.Service_References.ClientWcfServiceReference {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface IClientWcfServiceChannel : IClientWcfService, System.ServiceModel.IClientChannel {
+    public interface IClientWcfServiceChannel : WcfConnections.ClientWcfServiceReference.IClientWcfService, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class ClientWcfServiceClient : System.ServiceModel.ClientBase<IClientWcfService>, IClientWcfService {
+    public partial class ClientWcfServiceClient : System.ServiceModel.ClientBase<WcfConnections.ClientWcfServiceReference.IClientWcfService>, WcfConnections.ClientWcfServiceReference.IClientWcfService {
         
         public ClientWcfServiceClient() {
         }
@@ -59,6 +62,10 @@ namespace WcfConnections.Service_References.ClientWcfServiceReference {
         
         public ClientWcfServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress) {
+        }
+        
+        public void ConfirmDelivery(Dto.RtuCommandDeliveredDto dto) {
+            base.Channel.ConfirmDelivery(dto);
         }
         
         public void ConfirmRtuConnectionChecked(Dto.RtuConnectionCheckedDto dto) {

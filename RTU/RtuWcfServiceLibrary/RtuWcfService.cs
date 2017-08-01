@@ -63,14 +63,14 @@ namespace RtuWcfServiceLibrary
             }
         }
 
-        public void StartMonitoring()
+        public bool StartMonitoring()
         {
             lock (_lockObj)
             {
                 if (!_rtuManager.IsRtuInitialized)
                 {
                     ServiceLog.AppendLine("User starts monitoring - Ignored - RTU is busy");
-                    return;
+                    return false;
                 }
                 if (!_rtuManager.IsMonitoringOn)
                 {
@@ -79,30 +79,32 @@ namespace RtuWcfServiceLibrary
                     RtuManagerThread = new Thread(_rtuManager.StartMonitoring) { IsBackground = true };
                     RtuManagerThread.Start();
                     ServiceLog.AppendLine("User starts monitoring - OK");
+                    return true;
                 }
-                else
-                    ServiceLog.AppendLine("User starts monitoring - Ignored - AUTOMATIC mode already");
+
+                ServiceLog.AppendLine("User starts monitoring - Ignored - AUTOMATIC mode already");
+                return false;
             }
         }
 
-        public void StopMonitoring()
+        public bool StopMonitoring()
         {
             lock (_lockObj)
             {
                 if (!_rtuManager.IsRtuInitialized)
                 {
                     ServiceLog.AppendLine("User stops monitoring - Ignored - RTU is busy");
-                    return;
+                    return false;
                 }
                 if (_rtuManager.IsMonitoringOn)
                 {
                     _rtuManager.StopMonitoring();
                     ServiceLog.AppendLine("User stops monitoring received");
+                    return true;
                 }
-                else
-                {
-                    ServiceLog.AppendLine("User stops monitoring - Ignored - MANUAL mode already");
-                }
+
+                ServiceLog.AppendLine("User stops monitoring - Ignored - MANUAL mode already");
+                return false;
             }
         }
 

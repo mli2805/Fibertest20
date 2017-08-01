@@ -48,6 +48,7 @@
     <Compile Include="Enums\BaseRefTypeExtensions.cs" />
     <Compile Include="Enums\FiberState.cs" />
     <Compile Include="InitializeRtuDto.cs" />
+    <Compile Include="MessageProcessingResult.cs" />
     <Compile Include="MonitoringResult.cs" />
     <Compile Include="ApplyMonitoringSettingsDto.cs" />
     <Compile Include="MonitoringSettingsAppliedDto.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="MonitoringTimespansDto.cs" />
     <Compile Include="OtauPortDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RtuCommandDeliveredDto.cs" />
     <Compile Include="RtuConnectionCheckedDto.cs" />
     <Compile Include="RtuInitializedDto.cs" />
   </ItemGroup>

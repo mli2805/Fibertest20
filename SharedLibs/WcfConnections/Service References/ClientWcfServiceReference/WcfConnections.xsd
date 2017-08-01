@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/WcfConnections" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/WcfConnections" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:simpleType name="MessageProcessingResult">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="UnknownMessage" />
+      <xs:enumeration value="NothingToReturn" />
+      <xs:enumeration value="ProcessedSuccessfully" />
+      <xs:enumeration value="FailedToProcess" />
+      <xs:enumeration value="TransmittedSuccessfully" />
+      <xs:enumeration value="TransmittedSuccessfullyButRtuIsBusy" />
+      <xs:enumeration value="FailedToTransmit" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="MessageProcessingResult" nillable="true" type="tns:MessageProcessingResult" />
+</xs:schema>

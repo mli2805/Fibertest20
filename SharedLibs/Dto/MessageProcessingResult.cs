@@ -1,4 +1,4 @@
-﻿namespace WcfConnections
+﻿namespace Dto
 {
     public enum MessageProcessingResult
     {
@@ -6,7 +6,9 @@
         NothingToReturn,
         ProcessedSuccessfully,
         FailedToProcess,
+
         TransmittedSuccessfully,
+        TransmittedSuccessfullyButRtuIsBusy,
         FailedToTransmit,
     }
 }

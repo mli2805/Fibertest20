@@ -14,10 +14,10 @@ namespace RtuWcfServiceLibrary
         bool Initialize(InitializeRtuDto rtu);
 
         [OperationContract]
-        void StartMonitoring();
+        bool StartMonitoring();
 
         [OperationContract]
-        void StopMonitoring();
+        bool StopMonitoring();
 
         [OperationContract]
         bool ApplyMonitoringSettings(ApplyMonitoringSettingsDto settings);

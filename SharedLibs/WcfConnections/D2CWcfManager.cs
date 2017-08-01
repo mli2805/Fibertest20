@@ -30,7 +30,21 @@ namespace WcfConnections
             }
         }
 
-        public void ConfirmRtuInitialized(RtuInitializedDto dto)
+        public bool ConfirmRtuCommandDelivered(RtuCommandDeliveredDto dto)
+        {
+            foreach (var clientAddress in _addresses)
+            {
+                var wcfConnection = new WcfFactory(clientAddress, _iniFile, _logger35).CreateClientConnection();
+                if (wcfConnection == null)
+                    continue;
+
+                wcfConnection.ConfirmDelivery(dto);
+                _logger35.AppendLine($"Sent rtu command delivery confirmation: rtu {dto.RtuAddress}");
+            }
+            return true;
+        }
+
+        public bool ConfirmRtuInitialized(RtuInitializedDto dto)
         {
             foreach (var clientAddress in _addresses)
             {
@@ -41,9 +55,10 @@ namespace WcfConnections
                 wcfConnection.ConfirmRtuInitialized(dto);
                 _logger35.AppendLine($"Sent response on initialize RTU {dto.Serial}");
             }
+            return true;
         }
 
-        public void ConfirmMonitoringStarted(MonitoringStartedDto dto)
+        public bool ConfirmMonitoringStarted(MonitoringStartedDto dto)
         {
             foreach (var clientAddress in _addresses)
             {
@@ -54,9 +69,10 @@ namespace WcfConnections
                 wcfConnection.ConfirmMonitoringStarted(dto);
                 _logger35.AppendLine($"Sent response on start monitoring on RTU {dto.RtuId} to client {clientAddress}");
             }
+            return true;
         }
 
-        public void ConfirmMonitoringStopped(MonitoringStoppedDto dto)
+        public bool ConfirmMonitoringStopped(MonitoringStoppedDto dto)
         {
             foreach (var clientAddress in _addresses)
             {
@@ -67,6 +83,35 @@ namespace WcfConnections
                 wcfConnection.ConfirmMonitoringStopped(dto);
                 _logger35.AppendLine($"Sent response on stop monitoring on RTU {dto.RtuId}");
             }
+            return true;
+        }
+
+        public bool ConfirmMonitoringSettingsApplied(MonitoringSettingsAppliedDto dto)
+        {
+            foreach (var clientAddress in _addresses)
+            {
+                var wcfConnection = new WcfFactory(clientAddress, _iniFile, _logger35).CreateClientConnection();
+                if (wcfConnection == null)
+                    continue;
+
+                wcfConnection.ConfirmMonitoringSettingsApplied(dto);
+                _logger35.AppendLine($"Sent response on apply monitoring settings on RTU {dto.RtuIpAddress}");
+            }
+            return true;
+        }
+
+        public bool ConfirmBaseRefAssigned(BaseRefAssignedDto dto)
+        {
+            foreach (var clientAddress in _addresses)
+            {
+                var wcfConnection = new WcfFactory(clientAddress, _iniFile, _logger35).CreateClientConnection();
+                if (wcfConnection == null)
+                    continue;
+
+                wcfConnection.ConfirmBaseRefAssigned(dto);
+                _logger35.AppendLine($"Sent response on assign base ref on RTU {dto.RtuIpAddress}");
+            }
+            return true;
         }
     }
 }

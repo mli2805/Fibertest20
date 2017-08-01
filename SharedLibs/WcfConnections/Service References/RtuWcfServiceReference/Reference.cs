@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WcfConnections.Service_References.RtuWcfServiceReference {
+namespace WcfConnections.RtuWcfServiceReference {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -22,10 +22,10 @@ namespace WcfConnections.Service_References.RtuWcfServiceReference {
         bool Initialize(Dto.InitializeRtuDto rtu);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRtuWcfService/StartMonitoring", ReplyAction="http://tempuri.org/IRtuWcfService/StartMonitoringResponse")]
-        void StartMonitoring();
+        bool StartMonitoring();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRtuWcfService/StopMonitoring", ReplyAction="http://tempuri.org/IRtuWcfService/StopMonitoringResponse")]
-        void StopMonitoring();
+        bool StopMonitoring();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRtuWcfService/ApplyMonitoringSettings", ReplyAction="http://tempuri.org/IRtuWcfService/ApplyMonitoringSettingsResponse")]
         bool ApplyMonitoringSettings(Dto.ApplyMonitoringSettingsDto settings);
@@ -38,12 +38,12 @@ namespace WcfConnections.Service_References.RtuWcfServiceReference {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface IRtuWcfServiceChannel : IRtuWcfService, System.ServiceModel.IClientChannel {
+    public interface IRtuWcfServiceChannel : WcfConnections.RtuWcfServiceReference.IRtuWcfService, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class RtuWcfServiceClient : System.ServiceModel.ClientBase<IRtuWcfService>, IRtuWcfService {
+    public partial class RtuWcfServiceClient : System.ServiceModel.ClientBase<WcfConnections.RtuWcfServiceReference.IRtuWcfService>, WcfConnections.RtuWcfServiceReference.IRtuWcfService {
         
         public RtuWcfServiceClient() {
         }
@@ -72,12 +72,12 @@ namespace WcfConnections.Service_References.RtuWcfServiceReference {
             return base.Channel.Initialize(rtu);
         }
         
-        public void StartMonitoring() {
-            base.Channel.StartMonitoring();
+        public bool StartMonitoring() {
+            return base.Channel.StartMonitoring();
         }
         
-        public void StopMonitoring() {
-            base.Channel.StopMonitoring();
+        public bool StopMonitoring() {
+            return base.Channel.StopMonitoring();
         }
         
         public bool ApplyMonitoringSettings(Dto.ApplyMonitoringSettingsDto settings) {

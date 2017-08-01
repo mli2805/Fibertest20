@@ -3,9 +3,9 @@ using System.ServiceModel;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.Utils35;
 using WcfConnections.C2DWcfServiceReference;
+using WcfConnections.ClientWcfServiceReference;
 using WcfConnections.R2DWcfServiceReference;
-using WcfConnections.Service_References.ClientWcfServiceReference;
-using WcfConnections.Service_References.RtuWcfServiceReference;
+using WcfConnections.RtuWcfServiceReference;
 
 namespace WcfConnections
 {

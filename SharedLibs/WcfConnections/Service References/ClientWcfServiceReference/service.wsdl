@@ -15,8 +15,15 @@
       <xsd:import namespace="http://tempuri.org/" />
       <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
       <xsd:import namespace="http://schemas.datacontract.org/2004/07/Dto" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/WcfConnections" />
     </xsd:schema>
   </wsdl:types>
+  <wsdl:message name="IClientWcfService_ConfirmDelivery_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConfirmDelivery" />
+  </wsdl:message>
+  <wsdl:message name="IClientWcfService_ConfirmDelivery_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConfirmDeliveryResponse" />
+  </wsdl:message>
   <wsdl:message name="IClientWcfService_ConfirmRtuConnectionChecked_InputMessage">
     <wsdl:part name="parameters" element="tns:ConfirmRtuConnectionChecked" />
   </wsdl:message>
@@ -54,6 +61,10 @@
     <wsdl:part name="parameters" element="tns:ConfirmBaseRefAssignedResponse" />
   </wsdl:message>
   <wsdl:portType name="IClientWcfService">
+    <wsdl:operation name="ConfirmDelivery">
+      <wsdl:input wsaw:Action="http://tempuri.org/IClientWcfService/ConfirmDelivery" message="tns:IClientWcfService_ConfirmDelivery_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IClientWcfService/ConfirmDeliveryResponse" message="tns:IClientWcfService_ConfirmDelivery_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="ConfirmRtuConnectionChecked">
       <wsdl:input wsaw:Action="http://tempuri.org/IClientWcfService/ConfirmRtuConnectionChecked" message="tns:IClientWcfService_ConfirmRtuConnectionChecked_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IClientWcfService/ConfirmRtuConnectionCheckedResponse" message="tns:IClientWcfService_ConfirmRtuConnectionChecked_OutputMessage" />
@@ -83,6 +94,15 @@
     <wsp:PolicyReference URI="#NetTcpBinding_IClientWcfService_policy">
     </wsp:PolicyReference>
     <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="ConfirmDelivery">
+      <soap12:operation soapAction="http://tempuri.org/IClientWcfService/ConfirmDelivery" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="ConfirmRtuConnectionChecked">
       <soap12:operation soapAction="http://tempuri.org/IClientWcfService/ConfirmRtuConnectionChecked" style="document" />
       <wsdl:input>

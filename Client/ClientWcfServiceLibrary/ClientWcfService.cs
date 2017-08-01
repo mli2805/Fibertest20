@@ -12,6 +12,17 @@ namespace ClientWcfServiceLibrary
         public static event OnMessageReceived MessageReceived;
         public delegate void OnMessageReceived(object e);
 
+
+        public void ConfirmDelivery(RtuCommandDeliveredDto dto)
+        {
+            if (dto.MessageProcessingResult == MessageProcessingResult.FailedToTransmit)
+                ClientLog.AppendLine($"Cannot deliver command to RTU {dto.RtuAddress}");
+            if (dto.MessageProcessingResult == MessageProcessingResult.TransmittedSuccessfullyButRtuIsBusy)
+                ClientLog.AppendLine($"Command was delivered to RTU {dto.RtuAddress} but RTU ignored it (RTU is busy)");
+
+            MessageReceived?.Invoke(dto);
+        }
+
         public void ConfirmRtuConnectionChecked(RtuConnectionCheckedDto dto)
         {
             var message = $"RTU {dto.RtuId} connection checked: Alive = {dto.IsRtuConnectionSuccessful}";

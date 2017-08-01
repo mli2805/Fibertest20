@@ -22,15 +22,23 @@ namespace WcfTestBench
         internal static ServiceHost MyServiceHost;
         private readonly Logger35 _clientLog;
         private readonly IniFile _clientIni;
-        private readonly string _localIp;
         private string _rtuServiceIp;
 
         private void ProcessServerMessage(object msg)
         {
-            var dto = msg as RtuInitializedDto;
+
+
+            var dto = msg as RtuCommandDeliveredDto;
             if (dto != null)
             {
-                ProcessRtuInitialized(dto);
+                ProcessRtuCommandDelivered(dto);
+                return;
+            }
+
+            var dto1 = msg as RtuInitializedDto;
+            if (dto1 != null)
+            {
+                ProcessRtuInitialized(dto1);
                 return;
             }
             var dto2 = msg as MonitoringStartedDto;
@@ -49,12 +57,19 @@ namespace WcfTestBench
             {
                 ProcessRtuConnectionChecked(dto4);
             }
-            
+        }
+
+        private void ProcessRtuCommandDelivered(RtuCommandDeliveredDto dto)
+        {
+            if (dto.MessageProcessingResult == MessageProcessingResult.FailedToTransmit)
+                DisplayString = $"Cannot deliver command to RTU {dto.RtuAddress}";
+            if (dto.MessageProcessingResult == MessageProcessingResult.TransmittedSuccessfullyButRtuIsBusy)
+                DisplayString = $"Command was delivered to RTU {dto.RtuAddress} but RTU ignored it (RTU is busy)";
         }
 
         private void ProcessRtuInitialized(RtuInitializedDto rtu)
         {
-            DisplayString = rtu.Serial;
+            DisplayString = $"RTU initialized, serial = {rtu.Serial}";
         }
 
         private void ProcessMonitoringStarted(MonitoringStartedDto ms)
@@ -114,11 +129,11 @@ namespace WcfTestBench
             //            DcServiceIp = _clientIni.Read(IniSection.DataCenter, IniKey.ServerIp, @"10.1.37.22");
             DcServiceIp = _clientIni.Read(IniSection.DataCenter, IniKey.ServerIp, @"192.168.96.179");
             RtuServiceIp = _clientIni.Read(IniSection.General, IniKey.RtuServiceIp, @"192.168.96.53");
-            _localIp = _clientIni.Read(IniSection.General, IniKey.LocalIp, @"192.168.96.179");
+            var localIp = _clientIni.Read(IniSection.General, IniKey.LocalIp, @"192.168.96.179");
 
-            _c2DWcfManager = new C2DWcfManager(DcServiceIp, _clientIni, _clientLog);
+            _c2DWcfManager = new C2DWcfManager(DcServiceIp, _clientIni, _clientLog, localIp);
 
-            if (!_c2DWcfManager.RegisterClient(new RegisterClientDto() {ClientAddress = _localIp, ClientName = @"Vasya"}))
+            if (!_c2DWcfManager.RegisterClient(new RegisterClientDto() {ClientName = @"Vasya"}))
                 MessageBox.Show(@"Cannot register on server!");
 
             // start 11843 listener
@@ -144,7 +159,7 @@ namespace WcfTestBench
 
         public override void CanClose(Action<bool> callback)
         {
-            _c2DWcfManager.UnRegisterClient(new UnRegisterClientDto() {ClientAddress = _localIp});
+            _c2DWcfManager.UnRegisterClient(new UnRegisterClientDto());
             base.CanClose(callback);
         }
 
@@ -205,12 +220,12 @@ namespace WcfTestBench
 
         public void StartMonitoring()
         {
-            DisplayString = _c2DWcfManager.StartMonitoring(new StartMonitoringDto() {ClientAddress = _localIp, RtuAddress = RtuServiceIp}) ? Resources.SID_Command_sent__wait_please_ : Resources.SID_Error_;
+            DisplayString = _c2DWcfManager.StartMonitoring(new StartMonitoringDto() {RtuAddress = RtuServiceIp}) ? Resources.SID_Command_sent__wait_please_ : Resources.SID_Error_;
         }
 
         public void StopMonitoring()
         {
-            DisplayString = _c2DWcfManager.StopMonitoring(new StopMonitoringDto() { ClientAddress = _localIp, RtuAddress = RtuServiceIp }) ? Resources.SID_Command_sent__wait_please_ : Resources.SID_Error_;
+            DisplayString = _c2DWcfManager.StopMonitoring(new StopMonitoringDto() {RtuAddress = RtuServiceIp }) ? Resources.SID_Command_sent__wait_please_ : Resources.SID_Error_;
         }
 
         private MonitoringSettingsModel PopulateModel()

@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.ServiceModel;
-using Dto;
 using Iit.Fibertest.Utils35;
-using WcfConnections;
 using WcfServiceForClientLibrary;
 using WcfServiceForRtuLibrary;
 
@@ -70,26 +67,6 @@ namespace DataCenterCore
             }
         }
 
-        private void WcfServiceForRtu_MessageReceived(object msg)
-        {
-            var dto = msg as RtuInitializedDto;
-            if (dto != null)
-            {
-                ProcessRtuInitialized(dto);
-                return;
-            }
-            var dto2 = msg as MonitoringStartedDto;
-            if (dto2 != null)
-            {
-                ProcessMonitoringStarted(dto2);
-                return;
-            }
-            var dto3 = msg as MonitoringStoppedDto;
-            if (dto3 != null)
-            {
-                ProcessMonitoringStopped(dto3);
-            }
-        }
 
         private void StartWcfListenerToClient()
         {
@@ -116,115 +93,6 @@ namespace DataCenterCore
             return list;
         }
 
-        public bool ProcessRtuInitialized(RtuInitializedDto result)
-        {
-            var str = result.IsInitialized ? "OK" : "ERROR";
-            _dcLog.AppendLine($"Rtu {result.Id} initialization {str}");
-            ConfirmRtuInitialized(result);
-            return true;
-        }
-
-        public bool ProcessMonitoringStarted(MonitoringStartedDto result)
-        {
-            _dcLog.AppendLine($"Rtu {result.RtuId} monitoring started: {result.IsSuccessful}");
-            ConfirmStartMonitoring(result);
-            return true;
-        }
-
-        public bool ProcessMonitoringStopped(MonitoringStoppedDto result)
-        {
-            _dcLog.AppendLine($"Rtu {result.RtuId} monitoring stopped: {result.IsSuccessful}");
-            ConfirmStopMonitoring(result);
-            return true;
-        }
-
-
-        public bool ProcessMonitoringResult(MonitoringResult result)
-        {
-            _dcLog.AppendLine($"Monitoring result received. Sor size is {result.SorData.Length}");
-            return true;
-        }
-
-
-        private void ConfirmRtuInitialized(RtuInitializedDto dto)
-        {
-            var addresses = new List<string>();
-            lock (_clientStationsLockObj)
-            {
-                addresses.AddRange(_clientStations.Select(clientStation => ((ClientStation)clientStation.Clone()).Ip));
-            }
-            new D2CWcfManager(addresses, _coreIni, _dcLog).ConfirmRtuInitialized(dto);
-        }
-
-        private void ConfirmStartMonitoring(MonitoringStartedDto confirmation)
-        {
-            var addresses = new List<string>();
-            lock (_clientStationsLockObj)
-            {
-                addresses.AddRange(_clientStations.Select(clientStation => ((ClientStation)clientStation.Clone()).Ip));
-            }
-            new D2CWcfManager(addresses, _coreIni, _dcLog).ConfirmMonitoringStarted(confirmation);
-        }
-
-        private void ConfirmStopMonitoring(MonitoringStoppedDto confirmation)
-        {
-            var addresses = new List<string>();
-            lock (_clientStationsLockObj)
-            {
-                addresses.AddRange(_clientStations.Select(clientStation => ((ClientStation)clientStation.Clone()).Ip));
-            }
-            new D2CWcfManager(addresses, _coreIni, _dcLog).ConfirmMonitoringStopped(confirmation);
-        }
-
-        public bool ConfirmApplyMonitoringSettings(MonitoringSettingsAppliedDto confirmation)
-        {
-            var list = new List<ClientStation>();
-            lock (_clientStationsLockObj)
-            {
-                list.AddRange(_clientStations.Select(clientStation => (ClientStation)clientStation.Clone()));
-            }
-            foreach (var clientStation in list)
-            {
-                TransferConfirmMonitoringSettings(clientStation.Ip, confirmation);
-            }
-            return true;
-        }
-
-        public bool ConfirmAssignBaseRef(BaseRefAssignedDto confirmation)
-        {
-            var list = new List<ClientStation>();
-            lock (_clientStationsLockObj)
-            {
-                list.AddRange(_clientStations.Select(clientStation => (ClientStation)clientStation.Clone()));
-            }
-            foreach (var clientStation in list)
-            {
-                TransferConfirmBaseRef(clientStation.Ip, confirmation);
-            }
-            return true;
-        }
-
-        private void TransferConfirmMonitoringSettings(string clientIp, MonitoringSettingsAppliedDto confirmation)
-        {
-            var clientConnection = new WcfFactory(clientIp, _coreIni, _dcLog).CreateClientConnection();
-            if (clientConnection == null)
-                return;
-
-            clientConnection.ConfirmMonitoringSettingsApplied(confirmation);
-            _dcLog.AppendLine($"Transfered apply monitoring settings confirmation from RTU {confirmation.RtuIpAddress} result is {confirmation.IsSuccessful}");
-        }
-
-        private void TransferConfirmBaseRef(string clientIp, BaseRefAssignedDto confirmation)
-        {
-            var clientConnection = new WcfFactory(clientIp, _coreIni, _dcLog).CreateClientConnection();
-            if (clientConnection == null)
-            {
-                return;
-            }
-
-            clientConnection.ConfirmBaseRefAssigned(confirmation);
-            _dcLog.AppendLine($"Transfered apply monitoring settings confirmation from RTU {confirmation.RtuIpAddress} result is {confirmation.IsSuccessful}");
-        }
 
     }
 }

@@ -4,6 +4,7 @@
   <xs:import namespace="http://schemas.datacontract.org/2004/07/Dto.Enums" />
   <xs:complexType name="InitializeRtuDto">
     <xs:sequence>
+      <xs:element minOccurs="0" name="ClientAddress" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="DataCenterIpAddress" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="RtuId" type="ser:guid" />
       <xs:element minOccurs="0" name="RtuIpAddress" nillable="true" type="xs:string" />
@@ -12,6 +13,7 @@
   <xs:element name="InitializeRtuDto" nillable="true" type="tns:InitializeRtuDto" />
   <xs:complexType name="ApplyMonitoringSettingsDto">
     <xs:sequence>
+      <xs:element minOccurs="0" name="ClientAddress" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="IsMonitoringOn" type="xs:boolean" />
       <xs:element minOccurs="0" name="Ports" nillable="true" type="tns:ArrayOfOtauPortDto" />
       <xs:element minOccurs="0" name="RtuIpAddress" nillable="true" type="xs:string" />
@@ -44,6 +46,7 @@
   <xs:complexType name="AssignBaseRefDto">
     <xs:sequence>
       <xs:element minOccurs="0" name="BaseRefs" nillable="true" type="tns:ArrayOfBaseRefDto" />
+      <xs:element minOccurs="0" name="ClientAddress" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="OtauPortDto" nillable="true" type="tns:OtauPortDto" />
       <xs:element minOccurs="0" name="RtuIpAddress" nillable="true" type="xs:string" />
     </xs:sequence>

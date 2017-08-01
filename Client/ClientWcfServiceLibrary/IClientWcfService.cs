@@ -8,6 +8,9 @@ namespace ClientWcfServiceLibrary
     public interface IClientWcfService
     {
         [OperationContract]
+        void ConfirmDelivery(RtuCommandDeliveredDto dto);
+
+        [OperationContract]
         void ConfirmRtuConnectionChecked(RtuConnectionCheckedDto dto);
 
         [OperationContract]

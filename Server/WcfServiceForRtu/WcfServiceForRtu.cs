@@ -8,7 +8,7 @@ namespace WcfServiceForRtuLibrary
         public static Logger35 ServiceLog { get; set; }
 
         public static event OnMessageReceived MessageReceived;
-        public delegate void OnMessageReceived(object e);
+        public delegate bool OnMessageReceived(object e);
 
         public bool ProcessRtuInitialized(RtuInitializedDto dto)
         {
