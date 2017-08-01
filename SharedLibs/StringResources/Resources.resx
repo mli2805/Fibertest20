@@ -1108,13 +1108,22 @@ on port {0}: charon {1} ip {2} has {3} ports</value>
 	<data name="SID_Rtu_connection checked_Alive" xml:space="preserve">
     <value>RTU {0} connection checked: Alive = {1}</value>
   </data>
-	<data name="SID_Rtu_connection_checked_Ping" xml:space="preserve">
-    <value>;  Ping = {0}</value>
-  </data>
 	<data name="SID_Cannot_establish_connection_with__0___1_" xml:space="preserve">
     <value>Cannot establish connection with {0}:{1}</value>
   </data>
 	<data name="SID_WcfServiceForClient_creation_error_" xml:space="preserve">
     <value>WcfServiceForClient creation error!</value>
+  </data>
+	<data name="SID_Service_alive" xml:space="preserve">
+    <value>;  Service alive = {0}</value>
+  </data>
+	<data name="SID_Ping_does_not_pass_" xml:space="preserve">
+    <value>Ping does not pass.</value>
+  </data>
+	<data name="SID_Rtu_initialized" xml:space="preserve">
+    <value>RTU initialized = {0}</value>
+  </data>
+	<data name="SID____Ping_passed__OK" xml:space="preserve">
+    <value>;  Ping passed: OK</value>
   </data>
 </root>

@@ -25,6 +25,7 @@ namespace DataCenterCore
 
                 case MessageProcessingResult.ProcessedSuccessfully:
                 case MessageProcessingResult.FailedToProcess:
+                case MessageProcessingResult.NothingToReturn:
                     break;
             }
         }
@@ -41,7 +42,10 @@ namespace DataCenterCore
 
             var dto3 = msg as CheckRtuConnectionDto;
             if (dto3 != null)
-                return CheckRtuConnectionThread(dto3);
+            {
+                CheckRtuConnection(dto3);
+                return MessageProcessingResult.NothingToReturn;
+            }
 
             var dto4 = msg as InitializeRtuDto;
             if (dto4 != null)
@@ -87,14 +91,13 @@ namespace DataCenterCore
             return MessageProcessingResult.ProcessedSuccessfully;
         }
 
-        private MessageProcessingResult CheckRtuConnectionThread(CheckRtuConnectionDto dto)
+        private void CheckRtuConnection(CheckRtuConnectionDto dto)
         {
-            Thread thread = new Thread(CheckRtuConnection);
+            Thread thread = new Thread(CheckRtuConnectionThread);
             thread.Start(dto);
-            return MessageProcessingResult.TransmittedSuccessfully;
         }
 
-        private void CheckRtuConnection(object param)
+        private void CheckRtuConnectionThread(object param)
         {
             var dto = param as CheckRtuConnectionDto;
             if (dto == null)
@@ -103,11 +106,16 @@ namespace DataCenterCore
             var result = new RtuConnectionCheckedDto() { RtuId = dto.RtuId };
             var address = dto.IsAddressSetAsIp ? dto.Ip4Address : dto.HostName;
             var rtuConnection = new WcfFactory(address, _coreIni, _dcLog).CreateRtuConnection();
-            result.IsRtuManagerAlive = rtuConnection != null && rtuConnection.IsRtuInitialized();
-
-            if (!result.IsRtuManagerAlive)
+            if (rtuConnection == null)
+            {
                 result.IsPingSuccessful = Pinger.Ping(dto.IsAddressSetAsIp ? dto.Ip4Address : dto.HostName);
-
+            }
+            else
+            {
+                result.IsRtuConnectionSuccessful = true;
+                result.IsRtuInitialized = rtuConnection.IsRtuInitialized();
+            }
+           
             new D2CWcfManager(new List<string>() { dto.ClientAddress }, _coreIni, _dcLog).ConfirmRtuConnectionChecked(result);
         }
 

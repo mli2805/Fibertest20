@@ -97,6 +97,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ;  Ping passed: OK.
+        /// </summary>
+        public static string SID____Ping_passed__OK {
+            get {
+                return ResourceManager.GetString("SID____Ping_passed__OK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to  (new).
         /// </summary>
         public static string SID___new_ {
@@ -2088,6 +2097,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ping does not pass..
+        /// </summary>
+        public static string SID_Ping_does_not_pass_ {
+            get {
+                return ResourceManager.GetString("SID_Ping_does_not_pass_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please, wait....
         /// </summary>
         public static string SID_Please__wait_ {
@@ -2376,20 +2394,20 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ;  Ping = {0}.
-        /// </summary>
-        public static string SID_Rtu_connection_checked_Ping {
-            get {
-                return ResourceManager.GetString("SID_Rtu_connection_checked_Ping", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to RTU Information.
         /// </summary>
         public static string SID_RTU_Information {
             get {
                 return ResourceManager.GetString("SID_RTU_Information", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RTU initialized = {0}.
+        /// </summary>
+        public static string SID_Rtu_initialized {
+            get {
+                return ResourceManager.GetString("SID_Rtu_initialized", resourceCulture);
             }
         }
         
@@ -2562,6 +2580,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Servers {
             get {
                 return ResourceManager.GetString("SID_Servers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ;  Service alive = {0}.
+        /// </summary>
+        public static string SID_Service_alive {
+            get {
+                return ResourceManager.GetString("SID_Service_alive", resourceCulture);
             }
         }
         

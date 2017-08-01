@@ -69,9 +69,16 @@ namespace WcfTestBench
 
         private void ProcessRtuConnectionChecked(RtuConnectionCheckedDto dto)
         {
-            DisplayString = string.Format(Resources.SID_Rtu_connection_checked_Alive, dto.RtuId, dto.IsRtuManagerAlive);
-            if (!dto.IsRtuManagerAlive)
-                DisplayString += string.Format(Resources.SID_Rtu_connection_checked_Ping, dto.IsPingSuccessful);
+            DisplayString = string.Format(Resources.SID_Rtu_initialized, dto.IsRtuInitialized);
+            if (!dto.IsRtuInitialized)
+                DisplayString += string.Format(Resources.SID_Service_alive, dto.IsRtuConnectionSuccessful);
+            if (dto.IsRtuConnectionSuccessful)
+                return;
+
+            if (dto.IsPingSuccessful)
+                DisplayString += Resources.SID____Ping_passed__OK;
+            else
+                DisplayString = Resources.SID_Ping_does_not_pass_;
         }
 
         private string _displayString;

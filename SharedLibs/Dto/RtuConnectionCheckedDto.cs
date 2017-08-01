@@ -13,7 +13,10 @@ namespace Dto
         public bool IsPingSuccessful { get; set; }
 
         [DataMember]
-        public bool IsRtuManagerAlive { get; set; }
+        public bool IsRtuInitialized { get; set; }
+
+        [DataMember]
+        public bool IsRtuConnectionSuccessful { get; set; }
 
     }
 }

@@ -14,8 +14,8 @@ namespace ClientWcfServiceLibrary
 
         public void ConfirmRtuConnectionChecked(RtuConnectionCheckedDto dto)
         {
-            var message = $"RTU {dto.RtuId} connection checked: Alive = {dto.IsRtuManagerAlive}";
-            if (!dto.IsRtuManagerAlive)
+            var message = $"RTU {dto.RtuId} connection checked: Alive = {dto.IsRtuConnectionSuccessful}";
+            if (!dto.IsRtuConnectionSuccessful)
                 message += $"Ping = {dto.IsPingSuccessful}";
             ClientLog.AppendLine(message);
 

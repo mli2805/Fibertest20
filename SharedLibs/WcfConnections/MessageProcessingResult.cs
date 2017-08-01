@@ -3,6 +3,7 @@
     public enum MessageProcessingResult
     {
         UnknownMessage,
+        NothingToReturn,
         ProcessedSuccessfully,
         FailedToProcess,
         TransmittedSuccessfully,

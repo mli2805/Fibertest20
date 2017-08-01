@@ -4,7 +4,7 @@
   <xs:complexType name="RtuConnectionCheckedDto">
     <xs:sequence>
       <xs:element minOccurs="0" name="IsPingSuccessful" type="xs:boolean" />
-      <xs:element minOccurs="0" name="IsRtuManagerAlive" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsRtuConnectionSuccessful" type="xs:boolean" />
       <xs:element minOccurs="0" name="RtuId" type="ser:guid" />
     </xs:sequence>
   </xs:complexType>

@@ -1108,13 +1108,22 @@ on port {0}: charon {1} ip {2} has {3} ports</value>
 	<data name="SID_Rtu_connection checked_Alive" xml:space="preserve">
     <value>Проверка соединения с RTU {0}: Отвечает = {1}</value>
   </data>
-	<data name="SID_Rtu_connection_checked_Ping" xml:space="preserve">
-    <value>;  Ping = {0}</value>
-  </data>
 	<data name="SID_Cannot_establish_connection_with__0___1_" xml:space="preserve">
 		<value>Не могу установить соединение с {0}:{1}</value>
 	</data>
 	<data name="SID_WcfServiceForClient_creation_error_" xml:space="preserve">
 		<value>Ошибка создания WcfServiceForClient</value>
+	</data>
+	<data name="SID_Service_alive" xml:space="preserve">
+		<value>;  Сервис отвечает = {0}</value>
+	</data>
+	<data name="SID_Ping_does_not_pass_" xml:space="preserve">
+		<value>Пинг не проходит</value>
+	</data>
+	<data name="SID_Rtu_initialized" xml:space="preserve">
+		<value>RTU инициализирован = {0}</value>
+	</data>
+	<data name="SID____Ping_passed__OK" xml:space="preserve">
+		<value>;  Пинг прошел: ОК</value>
 	</data>
 </root>
