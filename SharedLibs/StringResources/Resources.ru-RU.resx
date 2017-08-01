@@ -1126,4 +1126,13 @@ on port {0}: charon {1} ip {2} has {3} ports</value>
 	<data name="SID____Ping_passed__OK" xml:space="preserve">
 		<value>;  Пинг прошел: ОК</value>
 	</data>
+	<data name="SID_Cannot_deliver_command_to_RTU__0_" xml:space="preserve">
+		<value>Не могу доставить команду на RTU {0}</value>
+	</data>
+	<data name="SID_Command_was_delivered_to_RTU__0__but_RTU_ignored_it__RTU_is_busy_" xml:space="preserve">
+		<value>Команда была доставлена на RTU {0} но RTU отклонил ее (RTU занят)</value>
+	</data>
+	<data name="SID_" xml:space="preserve">
+		<value>RTU инициализировани, серийный номер = {0}</value>
+	</data>
 </root>

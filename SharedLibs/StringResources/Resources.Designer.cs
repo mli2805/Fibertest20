@@ -61,6 +61,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to RTU initialized, serial = {0}.
+        /// </summary>
+        public static string SID_ {
+            get {
+                return ResourceManager.GetString("SID_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to        Common Information.
         /// </summary>
         public static string SID________Common_Information {
@@ -575,6 +584,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot deliver command to RTU {0}.
+        /// </summary>
+        public static string SID_Cannot_deliver_command_to_RTU__0_ {
+            get {
+                return ResourceManager.GetString("SID_Cannot_deliver_command_to_RTU__0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot establish connection with {0}:{1}.
         /// </summary>
         public static string SID_Cannot_establish_connection_with__0___1_ {
@@ -661,6 +679,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Command_sent__wait_please_ {
             get {
                 return ResourceManager.GetString("SID_Command_sent__wait_please_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Command was delivered to RTU {0} but RTU ignored it (RTU is busy).
+        /// </summary>
+        public static string SID_Command_was_delivered_to_RTU__0__but_RTU_ignored_it__RTU_is_busy_ {
+            get {
+                return ResourceManager.GetString("SID_Command_was_delivered_to_RTU__0__but_RTU_ignored_it__RTU_is_busy_", resourceCulture);
             }
         }
         

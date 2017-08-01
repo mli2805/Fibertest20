@@ -62,14 +62,14 @@ namespace WcfTestBench
         private void ProcessRtuCommandDelivered(RtuCommandDeliveredDto dto)
         {
             if (dto.MessageProcessingResult == MessageProcessingResult.FailedToTransmit)
-                DisplayString = $"Cannot deliver command to RTU {dto.RtuAddress}";
+                DisplayString = string.Format(Resources.SID_Cannot_deliver_command_to_RTU__0_, dto.RtuAddress);
             if (dto.MessageProcessingResult == MessageProcessingResult.TransmittedSuccessfullyButRtuIsBusy)
-                DisplayString = $"Command was delivered to RTU {dto.RtuAddress} but RTU ignored it (RTU is busy)";
+                DisplayString = string.Format(Resources.SID_Command_was_delivered_to_RTU__0__but_RTU_ignored_it__RTU_is_busy_, dto.RtuAddress);
         }
 
         private void ProcessRtuInitialized(RtuInitializedDto rtu)
         {
-            DisplayString = $"RTU initialized, serial = {rtu.Serial}";
+            DisplayString = string.Format(Resources.SID_, rtu.Serial);
         }
 
         private void ProcessMonitoringStarted(MonitoringStartedDto ms)

@@ -1126,4 +1126,13 @@ on port {0}: charon {1} ip {2} has {3} ports</value>
 	<data name="SID____Ping_passed__OK" xml:space="preserve">
     <value>;  Ping passed: OK</value>
   </data>
+	<data name="SID_Cannot_deliver_command_to_RTU__0_" xml:space="preserve">
+    <value>Cannot deliver command to RTU {0}</value>
+  </data>
+	<data name="SID_Command_was_delivered_to_RTU__0__but_RTU_ignored_it__RTU_is_busy_" xml:space="preserve">
+    <value>Command was delivered to RTU {0} but RTU ignored it (RTU is busy)</value>
+  </data>
+	<data name="SID_" xml:space="preserve">
+    <value>RTU initialized, serial = {0}</value>
+  </data>
 </root>
