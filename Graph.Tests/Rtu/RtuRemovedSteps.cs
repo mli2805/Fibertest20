@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Dto.Enums;
+using Dto;
 using FluentAssertions;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.StringResources;

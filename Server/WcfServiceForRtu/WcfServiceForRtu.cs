@@ -10,6 +10,13 @@ namespace WcfServiceForRtuLibrary
         public static event OnMessageReceived MessageReceived;
         public delegate bool OnMessageReceived(object e);
 
+        public bool ProcessRtuConnectionChecked(RtuConnectionCheckedDto dto)
+        {
+            ServiceLog.AppendLine($"Rtu {dto.RtuId} reply on connection check request");
+            MessageReceived?.Invoke(dto);
+            return true;
+        }
+
         public bool ProcessRtuInitialized(RtuInitializedDto dto)
         {
             ServiceLog.AppendLine($"Rtu {dto.Serial} reply on initialize request");

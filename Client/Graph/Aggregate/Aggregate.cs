@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using AutoMapper;
-using Dto.Enums;
+using Dto;
 using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Graph

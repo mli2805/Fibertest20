@@ -22,42 +22,4 @@ namespace Dto
         [DataMember]
         public bool IsAddressSetAsIp { get; set; }
     }
-
-    [DataContract]
-    public class RegisterClientDto
-    {
-        [DataMember]
-        public string ClientAddress { get; set; }
-        [DataMember]
-        public string ClientName { get; set; }
-    }
-
-    [DataContract]
-    public class UnRegisterClientDto
-    {
-        [DataMember]
-        public string ClientAddress { get; set; }
-    }
-
-    [DataContract]
-    public class StartMonitoringDto
-    {
-        [DataMember]
-        public string ClientAddress { get; set; }
-
-        [DataMember]
-        public string RtuAddress { get; set; }
-    }
-
-    [DataContract]
-    public class StopMonitoringDto
-    {
-        [DataMember]
-        public string ClientAddress { get; set; }
-
-        [DataMember]
-        public string RtuAddress { get; set; }
-    }
-
-
 }

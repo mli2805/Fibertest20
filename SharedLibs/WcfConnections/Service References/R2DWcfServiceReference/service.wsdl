@@ -15,9 +15,14 @@
       <xsd:import namespace="http://tempuri.org/" />
       <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
       <xsd:import namespace="http://schemas.datacontract.org/2004/07/Dto" />
-      <xsd:import namespace="http://schemas.datacontract.org/2004/07/Dto.Enums" />
     </xsd:schema>
   </wsdl:types>
+  <wsdl:message name="IWcfServiceForRtu_ProcessRtuConnectionChecked_InputMessage">
+    <wsdl:part name="parameters" element="tns:ProcessRtuConnectionChecked" />
+  </wsdl:message>
+  <wsdl:message name="IWcfServiceForRtu_ProcessRtuConnectionChecked_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ProcessRtuConnectionCheckedResponse" />
+  </wsdl:message>
   <wsdl:message name="IWcfServiceForRtu_ProcessRtuInitialized_InputMessage">
     <wsdl:part name="parameters" element="tns:ProcessRtuInitialized" />
   </wsdl:message>
@@ -55,6 +60,10 @@
     <wsdl:part name="parameters" element="tns:ConfirmBaseRefAssignedResponse" />
   </wsdl:message>
   <wsdl:portType name="IWcfServiceForRtu">
+    <wsdl:operation name="ProcessRtuConnectionChecked">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWcfServiceForRtu/ProcessRtuConnectionChecked" message="tns:IWcfServiceForRtu_ProcessRtuConnectionChecked_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWcfServiceForRtu/ProcessRtuConnectionCheckedResponse" message="tns:IWcfServiceForRtu_ProcessRtuConnectionChecked_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="ProcessRtuInitialized">
       <wsdl:input wsaw:Action="http://tempuri.org/IWcfServiceForRtu/ProcessRtuInitialized" message="tns:IWcfServiceForRtu_ProcessRtuInitialized_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IWcfServiceForRtu/ProcessRtuInitializedResponse" message="tns:IWcfServiceForRtu_ProcessRtuInitialized_OutputMessage" />
@@ -84,6 +93,15 @@
     <wsp:PolicyReference URI="#NetTcpBinding_IWcfServiceForRtu_policy">
     </wsp:PolicyReference>
     <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="ProcessRtuConnectionChecked">
+      <soap12:operation soapAction="http://tempuri.org/IWcfServiceForRtu/ProcessRtuConnectionChecked" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="ProcessRtuInitialized">
       <soap12:operation soapAction="http://tempuri.org/IWcfServiceForRtu/ProcessRtuInitialized" style="document" />
       <wsdl:input>

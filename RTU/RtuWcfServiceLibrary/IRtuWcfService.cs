@@ -8,16 +8,16 @@ namespace RtuWcfServiceLibrary
     public interface IRtuWcfService
     {
         [OperationContract]
-        bool IsRtuInitialized();
+        bool IsRtuInitialized(CheckRtuConnectionDto dto);
 
         [OperationContract]
         bool Initialize(InitializeRtuDto rtu);
 
         [OperationContract]
-        bool StartMonitoring();
+        bool StartMonitoring(StartMonitoringDto dto);
 
         [OperationContract]
-        bool StopMonitoring();
+        bool StopMonitoring(StopMonitoringDto dto);
 
         [OperationContract]
         bool ApplyMonitoringSettings(ApplyMonitoringSettingsDto settings);

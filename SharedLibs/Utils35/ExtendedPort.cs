@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using Dto.Enums;
+using Dto;
 
 namespace Iit.Fibertest.Utils35
 {

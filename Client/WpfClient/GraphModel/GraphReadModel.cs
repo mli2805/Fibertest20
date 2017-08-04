@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows;
 using AutoMapper;
 using Caliburn.Micro;
-using Dto.Enums;
+using Dto;
 using GMap.NET;
 using Iit.Fibertest.Graph;
 

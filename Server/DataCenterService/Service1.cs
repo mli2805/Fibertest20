@@ -8,7 +8,6 @@ namespace DataCenterService
 {
     public partial class Service1 : ServiceBase
     {
-        private readonly IniFile _serviceIni;
         private readonly Logger35 _serviceLog;
 
         private DcManager _dcManager;
@@ -16,9 +15,9 @@ namespace DataCenterService
         public Service1()
         {
             InitializeComponent();
-            _serviceIni = new IniFile();
-            _serviceIni.AssignFile("DcService.ini");
-            var cultureString = _serviceIni.Read(IniSection.General, IniKey.Culture, "ru-RU");
+            var serviceIni = new IniFile();
+            serviceIni.AssignFile("DcService.ini");
+            var cultureString = serviceIni.Read(IniSection.General, IniKey.Culture, "ru-RU");
 
             _serviceLog = new Logger35();
             _serviceLog.AssignFile("DcService.log", cultureString);

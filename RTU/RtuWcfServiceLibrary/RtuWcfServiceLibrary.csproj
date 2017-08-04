@@ -111,10 +111,6 @@
       <Project>{716240ff-d1e8-4bd3-9e63-431382617398}</Project>
       <Name>Utils35</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RtuManagement\RtuManagement.csproj">
-      <Project>{15f68f8c-a6c3-47dc-835a-7a0fc1257e9f}</Project>
-      <Name>RtuManagement</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>

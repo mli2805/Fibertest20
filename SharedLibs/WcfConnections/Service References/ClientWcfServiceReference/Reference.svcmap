@@ -25,7 +25,6 @@
     <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="9fd2b0ab-8c6c-43d0-aff9-6784bf6d3ccd" SourceId="1" SourceUrl="net.tcp://localhost:11843/ClientWcfService/mex" />
     <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="c9425bf2-1342-450b-b1c3-7953c7a32c81" SourceId="1" SourceUrl="net.tcp://localhost:11843/ClientWcfService/mex" />
     <MetadataFile FileName="Dto.xsd" MetadataType="Schema" ID="af14fa4c-0190-4736-b18b-d46cc7b4bbdf" SourceId="1" SourceUrl="net.tcp://localhost:11843/ClientWcfService/mex" />
-    <MetadataFile FileName="WcfConnections.xsd" MetadataType="Schema" ID="ee9fd4be-df3c-4afb-924c-bffe420673ce" SourceId="1" SourceUrl="net.tcp://localhost:11843/ClientWcfService/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

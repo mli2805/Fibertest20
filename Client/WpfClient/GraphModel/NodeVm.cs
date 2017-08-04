@@ -1,6 +1,6 @@
 ﻿using System;
 using Caliburn.Micro;
-using Dto.Enums;
+using Dto;
 using GMap.NET;
 using Iit.Fibertest.Graph;
 

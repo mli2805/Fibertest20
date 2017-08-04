@@ -2,12 +2,13 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.ServiceModel;
 using System.Threading;
 using Dto;
-using Dto.Enums;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.Utils35;
+using RtuWcfServiceLibrary;
 
 namespace RtuManagement
 {

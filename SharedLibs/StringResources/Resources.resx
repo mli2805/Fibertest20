@@ -1115,16 +1115,16 @@ on port {0}: charon {1} ip {2} has {3} ports</value>
     <value>WcfServiceForClient creation error!</value>
   </data>
 	<data name="SID_Service_alive" xml:space="preserve">
-    <value>;  Service alive = {0}</value>
+    <value>Service is started, but device is not initialized.</value>
   </data>
 	<data name="SID_Ping_does_not_pass_" xml:space="preserve">
-    <value>Ping does not pass.</value>
+    <value>Ping does not pass. Service state is unknown.</value>
   </data>
 	<data name="SID_Rtu_initialized" xml:space="preserve">
-    <value>RTU initialized = {0}</value>
+    <value>Service is started and initialized successfully.</value>
   </data>
 	<data name="SID____Ping_passed__OK" xml:space="preserve">
-    <value>;  Ping passed: OK</value>
+    <value>Service is not available.  Ping passed.</value>
   </data>
 	<data name="SID_Cannot_deliver_command_to_RTU__0_" xml:space="preserve">
     <value>Cannot deliver command to RTU {0}</value>

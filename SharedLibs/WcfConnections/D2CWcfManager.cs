@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Dto;
 using Iit.Fibertest.Utils35;
 
@@ -25,7 +26,14 @@ namespace WcfConnections
                 if (wcfConnection == null)
                     continue;
 
-                wcfConnection.ConfirmRtuConnectionChecked(dto);
+                try
+                {
+                    wcfConnection.ConfirmRtuConnectionChecked(dto);
+                }
+                catch (Exception e)
+                {
+                    _logger35.AppendLine(e.Message);
+                }
                 _logger35.AppendLine($"Sent response on check connection with RTU {dto.RtuId}");
             }
         }

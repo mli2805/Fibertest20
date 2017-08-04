@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Dto.Enums;
+using Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 

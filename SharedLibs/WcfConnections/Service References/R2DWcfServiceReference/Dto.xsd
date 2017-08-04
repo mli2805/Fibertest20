@@ -1,7 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/Dto" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Dto" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-  <xs:import namespace="http://schemas.datacontract.org/2004/07/Dto.Enums" />
+  <xs:complexType name="RtuConnectionCheckedDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ClientAddress" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IsPingSuccessful" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsRtuInitialized" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsRtuStarted" type="xs:boolean" />
+      <xs:element minOccurs="0" name="RtuId" type="ser:guid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RtuConnectionCheckedDto" nillable="true" type="tns:RtuConnectionCheckedDto" />
   <xs:complexType name="RtuInitializedDto">
     <xs:sequence>
       <xs:element minOccurs="0" name="FullPortCount" type="xs:int" />
@@ -28,12 +37,21 @@
   <xs:element name="MonitoringStoppedDto" nillable="true" type="tns:MonitoringStoppedDto" />
   <xs:complexType name="MonitoringResult">
     <xs:sequence>
-      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Dto.Enums" minOccurs="0" name="BaseRefType" type="q1:BaseRefType" />
+      <xs:element minOccurs="0" name="BaseRefType" type="tns:BaseRefType" />
       <xs:element minOccurs="0" name="RtuId" type="ser:guid" />
       <xs:element minOccurs="0" name="SorData" nillable="true" type="xs:base64Binary" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="MonitoringResult" nillable="true" type="tns:MonitoringResult" />
+  <xs:simpleType name="BaseRefType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="None" />
+      <xs:enumeration value="Precise" />
+      <xs:enumeration value="Fast" />
+      <xs:enumeration value="Additional" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="BaseRefType" nillable="true" type="tns:BaseRefType" />
   <xs:complexType name="MonitoringSettingsAppliedDto">
     <xs:sequence>
       <xs:element minOccurs="0" name="IsSuccessful" type="xs:boolean" />

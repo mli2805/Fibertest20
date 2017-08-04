@@ -1,4 +1,4 @@
-namespace Dto.Enums
+namespace Dto
 {
     public static class BaseRefTypeExtensions
     {

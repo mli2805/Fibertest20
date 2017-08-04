@@ -1115,16 +1115,16 @@ on port {0}: charon {1} ip {2} has {3} ports</value>
 		<value>Ошибка создания WcfServiceForClient</value>
 	</data>
 	<data name="SID_Service_alive" xml:space="preserve">
-		<value>;  Сервис отвечает = {0}</value>
+		<value>Служба запущена, но устройство не инициализировано.</value>
 	</data>
 	<data name="SID_Ping_does_not_pass_" xml:space="preserve">
-		<value>Пинг не проходит</value>
+		<value>Пинг не проходит. Состояние службы не известно.</value>
 	</data>
 	<data name="SID_Rtu_initialized" xml:space="preserve">
-		<value>RTU инициализирован = {0}</value>
+		<value>Служба запущена и инициализирована успешно.</value>
 	</data>
 	<data name="SID____Ping_passed__OK" xml:space="preserve">
-		<value>;  Пинг прошел: ОК</value>
+		<value>Служба не доступна.  Пинг проходит.</value>
 	</data>
 	<data name="SID_Cannot_deliver_command_to_RTU__0_" xml:space="preserve">
 		<value>Не могу доставить команду на RTU {0}</value>

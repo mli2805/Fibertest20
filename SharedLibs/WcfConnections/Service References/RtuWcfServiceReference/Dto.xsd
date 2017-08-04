@@ -1,7 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/Dto" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Dto" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-  <xs:import namespace="http://schemas.datacontract.org/2004/07/Dto.Enums" />
+  <xs:complexType name="CheckRtuConnectionDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ClientAddress" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="HostName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Ip4Address" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IsAddressSetAsIp" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Port" type="xs:int" />
+      <xs:element minOccurs="0" name="RtuId" type="ser:guid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CheckRtuConnectionDto" nillable="true" type="tns:CheckRtuConnectionDto" />
   <xs:complexType name="InitializeRtuDto">
     <xs:sequence>
       <xs:element minOccurs="0" name="ClientAddress" nillable="true" type="xs:string" />
@@ -11,6 +21,20 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="InitializeRtuDto" nillable="true" type="tns:InitializeRtuDto" />
+  <xs:complexType name="StartMonitoringDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ClientAddress" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RtuAddress" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="StartMonitoringDto" nillable="true" type="tns:StartMonitoringDto" />
+  <xs:complexType name="StopMonitoringDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ClientAddress" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RtuAddress" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="StopMonitoringDto" nillable="true" type="tns:StopMonitoringDto" />
   <xs:complexType name="ApplyMonitoringSettingsDto">
     <xs:sequence>
       <xs:element minOccurs="0" name="ClientAddress" nillable="true" type="xs:string" />
@@ -60,9 +84,18 @@
   <xs:element name="ArrayOfBaseRefDto" nillable="true" type="tns:ArrayOfBaseRefDto" />
   <xs:complexType name="BaseRefDto">
     <xs:sequence>
-      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Dto.Enums" minOccurs="0" name="BaseRefType" type="q1:BaseRefType" />
+      <xs:element minOccurs="0" name="BaseRefType" type="tns:BaseRefType" />
       <xs:element minOccurs="0" name="SorBytes" nillable="true" type="xs:base64Binary" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="BaseRefDto" nillable="true" type="tns:BaseRefDto" />
+  <xs:simpleType name="BaseRefType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="None" />
+      <xs:enumeration value="Precise" />
+      <xs:enumeration value="Fast" />
+      <xs:enumeration value="Additional" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="BaseRefType" nillable="true" type="tns:BaseRefType" />
 </xs:schema>

@@ -85,9 +85,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Service References\C2DWcfServiceReference\Dto.Enums.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Service References\C2DWcfServiceReference\Dto.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -108,12 +105,6 @@
     <None Include="Service References\ClientWcfServiceReference\service1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\ClientWcfServiceReference\WcfConnections.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\R2DWcfServiceReference\Dto.Enums.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Service References\R2DWcfServiceReference\Dto.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -122,9 +113,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\R2DWcfServiceReference\service1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\RtuWcfServiceReference\Dto.Enums.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\RtuWcfServiceReference\Dto.xsd">

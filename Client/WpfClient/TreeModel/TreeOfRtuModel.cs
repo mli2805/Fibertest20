@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Windows.Media;
 using Caliburn.Micro;
-using Dto.Enums;
+using Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.Utils35;

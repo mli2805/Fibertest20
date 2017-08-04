@@ -8,7 +8,6 @@ using System.Windows;
 using Caliburn.Micro;
 using ClientWcfServiceLibrary;
 using Dto;
-using Dto.Enums;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.Utils35;
 using Iit.Fibertest.WpfCommonViews;
@@ -84,16 +83,17 @@ namespace WcfTestBench
 
         private void ProcessRtuConnectionChecked(RtuConnectionCheckedDto dto)
         {
-            DisplayString = string.Format(Resources.SID_Rtu_initialized, dto.IsRtuInitialized);
-            if (!dto.IsRtuInitialized)
-                DisplayString += string.Format(Resources.SID_Service_alive, dto.IsRtuConnectionSuccessful);
-            if (dto.IsRtuConnectionSuccessful)
-                return;
-
-            if (dto.IsPingSuccessful)
-                DisplayString += Resources.SID____Ping_passed__OK;
+            if (dto.IsRtuInitialized)
+            {
+                DisplayString = Resources.SID_Rtu_initialized;
+            }
             else
-                DisplayString = Resources.SID_Ping_does_not_pass_;
+            {
+                if (dto.IsRtuStarted)
+                    DisplayString = Resources.SID_Service_alive;
+                else
+                    DisplayString = dto.IsPingSuccessful ? Resources.SID____Ping_passed__OK : Resources.SID_Ping_does_not_pass_;
+            }
         }
 
         private string _displayString;

@@ -15,6 +15,9 @@ namespace WcfConnections.R2DWcfServiceReference {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="R2DWcfServiceReference.IWcfServiceForRtu")]
     public interface IWcfServiceForRtu {
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForRtu/ProcessRtuConnectionChecked", ReplyAction="http://tempuri.org/IWcfServiceForRtu/ProcessRtuConnectionCheckedResponse")]
+        bool ProcessRtuConnectionChecked(Dto.RtuConnectionCheckedDto result);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForRtu/ProcessRtuInitialized", ReplyAction="http://tempuri.org/IWcfServiceForRtu/ProcessRtuInitializedResponse")]
         bool ProcessRtuInitialized(Dto.RtuInitializedDto result);
         
@@ -59,6 +62,10 @@ namespace WcfConnections.R2DWcfServiceReference {
         
         public WcfServiceForRtuClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress) {
+        }
+        
+        public bool ProcessRtuConnectionChecked(Dto.RtuConnectionCheckedDto result) {
+            return base.Channel.ProcessRtuConnectionChecked(result);
         }
         
         public bool ProcessRtuInitialized(Dto.RtuInitializedDto result) {

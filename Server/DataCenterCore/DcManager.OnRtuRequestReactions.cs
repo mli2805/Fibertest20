@@ -9,6 +9,10 @@ namespace DataCenterCore
     {
         private bool WcfServiceForRtu_MessageReceived(object msg)
         {
+            var dtoC0 = msg as RtuConnectionCheckedDto;
+            if (dtoC0 != null)
+                return ProcessRtuConnectionChecked(dtoC0);
+
             var dtoC1 = msg as RtuInitializedDto;
             if (dtoC1 != null)
                 return ConfirmRtuInitialized(dtoC1);
@@ -36,6 +40,13 @@ namespace DataCenterCore
             return false;
         }
 
+        private bool ProcessRtuConnectionChecked(RtuConnectionCheckedDto dto)
+        {
+            _dcLog.AppendLine($"Rtu {dto.RtuId} replied on connection check");
+            var addresses = new List<string>() {dto.ClientAddress};
+            new D2CWcfManager(addresses, _coreIni, _dcLog).ConfirmRtuConnectionChecked(dto);
+            return true;
+        }
 
         private bool ConfirmRtuInitialized(RtuInitializedDto dto)
         {

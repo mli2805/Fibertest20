@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Windows.Controls;
-using Dto.Enums;
+using Dto;
 using GMap.NET.WindowsPresentation;
 using Iit.Fibertest.Graph;
 

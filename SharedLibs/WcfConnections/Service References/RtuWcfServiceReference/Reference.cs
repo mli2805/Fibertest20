@@ -16,16 +16,16 @@ namespace WcfConnections.RtuWcfServiceReference {
     public interface IRtuWcfService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRtuWcfService/IsRtuInitialized", ReplyAction="http://tempuri.org/IRtuWcfService/IsRtuInitializedResponse")]
-        bool IsRtuInitialized();
+        bool IsRtuInitialized(Dto.CheckRtuConnectionDto dto);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRtuWcfService/Initialize", ReplyAction="http://tempuri.org/IRtuWcfService/InitializeResponse")]
         bool Initialize(Dto.InitializeRtuDto rtu);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRtuWcfService/StartMonitoring", ReplyAction="http://tempuri.org/IRtuWcfService/StartMonitoringResponse")]
-        bool StartMonitoring();
+        bool StartMonitoring(Dto.StartMonitoringDto dto);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRtuWcfService/StopMonitoring", ReplyAction="http://tempuri.org/IRtuWcfService/StopMonitoringResponse")]
-        bool StopMonitoring();
+        bool StopMonitoring(Dto.StopMonitoringDto dto);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRtuWcfService/ApplyMonitoringSettings", ReplyAction="http://tempuri.org/IRtuWcfService/ApplyMonitoringSettingsResponse")]
         bool ApplyMonitoringSettings(Dto.ApplyMonitoringSettingsDto settings);
@@ -64,20 +64,20 @@ namespace WcfConnections.RtuWcfServiceReference {
                 base(binding, remoteAddress) {
         }
         
-        public bool IsRtuInitialized() {
-            return base.Channel.IsRtuInitialized();
+        public bool IsRtuInitialized(Dto.CheckRtuConnectionDto dto) {
+            return base.Channel.IsRtuInitialized(dto);
         }
         
         public bool Initialize(Dto.InitializeRtuDto rtu) {
             return base.Channel.Initialize(rtu);
         }
         
-        public bool StartMonitoring() {
-            return base.Channel.StartMonitoring();
+        public bool StartMonitoring(Dto.StartMonitoringDto dto) {
+            return base.Channel.StartMonitoring(dto);
         }
         
-        public bool StopMonitoring() {
-            return base.Channel.StopMonitoring();
+        public bool StopMonitoring(Dto.StopMonitoringDto dto) {
+            return base.Channel.StopMonitoring(dto);
         }
         
         public bool ApplyMonitoringSettings(Dto.ApplyMonitoringSettingsDto settings) {

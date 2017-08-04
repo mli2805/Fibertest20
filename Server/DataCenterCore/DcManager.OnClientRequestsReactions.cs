@@ -114,19 +114,16 @@ namespace DataCenterCore
             if (dto == null)
                 return;
 
-            var result = new RtuConnectionCheckedDto() { RtuId = dto.RtuId };
+            var result = new RtuConnectionCheckedDto() { RtuId = dto.RtuId, IsRtuStarted = false, IsRtuInitialized = false };
             var address = dto.IsAddressSetAsIp ? dto.Ip4Address : dto.HostName;
             var rtuConnection = new WcfFactory(address, _coreIni, _dcLog).CreateRtuConnection();
-            if (rtuConnection == null)
+            if (rtuConnection != null)
             {
-                result.IsPingSuccessful = Pinger.Ping(dto.IsAddressSetAsIp ? dto.Ip4Address : dto.HostName);
-            }
-            else
-            {
-                result.IsRtuConnectionSuccessful = true;
-                result.IsRtuInitialized = rtuConnection.IsRtuInitialized();
+                rtuConnection.IsRtuInitialized(dto); // rtu will answer on this request itself;
+                return;
             }
 
+            result.IsPingSuccessful = Pinger.Ping(dto.IsAddressSetAsIp ? dto.Ip4Address : dto.HostName);
             new D2CWcfManager(new List<string>() { dto.ClientAddress }, _coreIni, _dcLog).ConfirmRtuConnectionChecked(result);
         }
 
@@ -153,7 +150,7 @@ namespace DataCenterCore
             if (rtuConnection == null)
                 return MessageProcessingResult.FailedToTransmit;
 
-            var result = rtuConnection.StartMonitoring();
+            var result = rtuConnection.StartMonitoring(dto);
             _dcLog.AppendLine($"Transfered command to start monitoring for rtu with ip={dto.RtuAddress}");
             return result ? MessageProcessingResult.TransmittedSuccessfully : MessageProcessingResult.TransmittedSuccessfullyButRtuIsBusy;
         }
@@ -167,7 +164,7 @@ namespace DataCenterCore
             if (rtuConnection == null)
                 return MessageProcessingResult.FailedToTransmit;
 
-            var result = rtuConnection.StopMonitoring();
+            var result = rtuConnection.StopMonitoring(dto);
             _dcLog.AppendLine($"Transfered command to stop monitoring for rtu with ip={dto.RtuAddress}");
             return result ? MessageProcessingResult.TransmittedSuccessfully : MessageProcessingResult.TransmittedSuccessfullyButRtuIsBusy;
         }
