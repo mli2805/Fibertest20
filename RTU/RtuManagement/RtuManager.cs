@@ -2,13 +2,12 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.ServiceModel;
 using System.Threading;
 using Dto;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.Utils35;
-using RtuWcfServiceLibrary;
+using WcfConnections;
 
 namespace RtuManagement
 {
@@ -116,11 +115,12 @@ namespace RtuManagement
             {
                 _rtuLog.AppendLine("Rtu Manager initialization failed.");
                 if (isUserAskedInitialization)
-                    SendInitializationConfirm(new RtuInitializedDto() { Id = rtu.RtuId, IsInitialized = false });
+                    new R2DWcfManager(_serverIp, _serviceIni, _serviceLog).
+                                SendInitializationConfirm(new RtuInitializedDto() { Id = rtu.RtuId, IsInitialized = false });
                 return;
             }
             if (isUserAskedInitialization)
-                SendInitializationConfirm(new RtuInitializedDto()
+                new R2DWcfManager(_serverIp, _serviceIni, _serviceLog).SendInitializationConfirm(new RtuInitializedDto()
                 {
                     Id = _id,
                     IsInitialized = true,
@@ -221,6 +221,7 @@ namespace RtuManagement
 
         private void ApplyChangeSettings()
         {
+            _rtuLog.EmptyLine();
             _rtuLog.AppendLine("Start ApplyChangeSettings");
             var dto = WcfParameter as ApplyMonitoringSettingsDto;
             if (dto == null)
@@ -229,7 +230,7 @@ namespace RtuManagement
             SaveNewFrequenciesToIni(dto);
             SaveNewQueueToFile(dto);
 
-            SendMonitoringSettingsApplied(true);
+            new R2DWcfManager(_serverIp, _serviceIni, _serviceLog).SendMonitoringSettingsApplied(new MonitoringSettingsAppliedDto() {IsSuccessful = true});
 
             if (_hasNewSettings) // in AUTOMATIC mode already
             {
@@ -262,7 +263,7 @@ namespace RtuManagement
         }
 
         private void ApplyBaseRefs()
-        { 
+        {
             _rtuLog.AppendLine("Base refs received.");
             var assignBaseRefDto = WcfParameter as AssignBaseRefDto;
             if (assignBaseRefDto == null)

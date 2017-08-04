@@ -5,6 +5,7 @@ using Dto;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.Utils35;
+using WcfConnections;
 
 namespace RtuManagement
 {
@@ -28,7 +29,7 @@ namespace RtuManagement
             {
                 _rtuLog.AppendLine("There are no ports in queue for monitoring.");
                 _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 0);
-                SendMonitoringStarted(false);
+                new R2DWcfManager(_serverIp, _serviceIni, _serviceLog).SendMonitoringStarted(new MonitoringStartedDto() { IsSuccessful = false });
                 IsMonitoringOn = false;
                 return;
             }
@@ -38,7 +39,7 @@ namespace RtuManagement
                 _measurementNumber++;
                 if (shouldSendMonitoringStarted)
                 {
-                    SendMonitoringStarted(true);
+                    new R2DWcfManager(_serverIp, _serviceIni, _serviceLog).SendMonitoringStarted(new MonitoringStartedDto() { IsSuccessful = true });
                     shouldSendMonitoringStarted = false;
                 }
 
@@ -67,7 +68,7 @@ namespace RtuManagement
             IsMonitoringOn = false;
             _isMonitoringCancelled = false;
             _rtuLog.AppendLine("Rtu is turned into MANUAL mode.");
-            SendMonitoringStopped(true);
+            new R2DWcfManager(_serverIp, _serviceIni, _serviceLog).SendMonitoringStopped(new MonitoringStoppedDto() { IsSuccessful = true });
         }
 
         private void ProcessOnePort(ExtendedPort extendedPort)

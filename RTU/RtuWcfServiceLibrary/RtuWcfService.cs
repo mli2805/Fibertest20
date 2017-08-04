@@ -20,7 +20,7 @@ namespace RtuWcfServiceLibrary
         {
             lock (_lockWcfObj)
             {
-                ServiceLog.AppendLine("Server sent command: check connection");
+//                ServiceLog.AppendLine("Server sent command: check connection");
                 MessageReceived?.Invoke(dto);
                 return true;
             }
@@ -30,7 +30,7 @@ namespace RtuWcfServiceLibrary
         {
             lock (_lockWcfObj)
             {
-                ServiceLog.AppendLine("Server sent command: initialize");
+//                ServiceLog.AppendLine("Server sent command: initialize");
                 MessageReceived?.Invoke(dto);
                 return true;
             }
@@ -40,7 +40,7 @@ namespace RtuWcfServiceLibrary
         {
             lock (_lockWcfObj)
             {
-                ServiceLog.AppendLine("Server sent command: start monitoring");
+//                ServiceLog.AppendLine("Server sent command: start monitoring");
                 MessageReceived?.Invoke(dto);
                 return true;
             }
@@ -50,7 +50,7 @@ namespace RtuWcfServiceLibrary
         {
             lock (_lockWcfObj)
             {
-                ServiceLog.AppendLine("Server sent command: stop monitoring");
+//                ServiceLog.AppendLine("Server sent command: stop monitoring");
                 MessageReceived?.Invoke(dto);
                 return true;
             }
@@ -60,7 +60,7 @@ namespace RtuWcfServiceLibrary
         {
             lock (_lockWcfObj)
             {
-                ServiceLog.AppendLine("Server sent command: apply monitoring settings");
+//                ServiceLog.AppendLine("Server sent command: apply monitoring settings");
                 MessageReceived?.Invoke(dto);
                 return true;
             }
@@ -70,7 +70,7 @@ namespace RtuWcfServiceLibrary
         {
             lock (_lockWcfObj)
             {
-                ServiceLog.AppendLine("Server sent command: assign base ref");
+//                ServiceLog.AppendLine("Server sent command: assign base ref");
                 MessageReceived?.Invoke(dto);
                 return true;
             }
@@ -80,7 +80,7 @@ namespace RtuWcfServiceLibrary
         {
             lock (_lockWcfObj)
             {
-                ServiceLog.AppendLine("Server sent command: toggle to port");
+//                ServiceLog.AppendLine("Server sent command: toggle to port");
                 MessageReceived?.Invoke(dto);
                 return true;
             }

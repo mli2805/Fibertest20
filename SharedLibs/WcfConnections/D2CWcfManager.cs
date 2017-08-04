@@ -29,12 +29,12 @@ namespace WcfConnections
                 try
                 {
                     wcfConnection.ConfirmRtuConnectionChecked(dto);
+                    _logger35.AppendLine($"Sent response on check connection with RTU {dto.RtuId}");
                 }
                 catch (Exception e)
                 {
                     _logger35.AppendLine(e.Message);
                 }
-                _logger35.AppendLine($"Sent response on check connection with RTU {dto.RtuId}");
             }
         }
 
@@ -46,8 +46,15 @@ namespace WcfConnections
                 if (wcfConnection == null)
                     continue;
 
-                wcfConnection.ConfirmDelivery(dto);
-                _logger35.AppendLine($"Sent rtu command delivery confirmation: rtu {dto.RtuAddress}");
+                try
+                {
+                    wcfConnection.ConfirmDelivery(dto);
+                    _logger35.AppendLine($"Sent rtu command delivery confirmation: rtu {dto.RtuAddress}");
+                }
+                catch (Exception e)
+                {
+                    _logger35.AppendLine(e.Message);
+                }
             }
             return true;
         }
@@ -60,8 +67,15 @@ namespace WcfConnections
                 if (wcfConnection == null)
                     continue;
 
-                wcfConnection.ConfirmRtuInitialized(dto);
-                _logger35.AppendLine($"Sent response on initialize RTU {dto.Serial}");
+                try
+                {
+                    wcfConnection.ConfirmRtuInitialized(dto);
+                    _logger35.AppendLine($"Sent response on initialize RTU {dto.Serial}");
+                }
+                catch (Exception e)
+                {
+                    _logger35.AppendLine(e.Message);
+                }
             }
             return true;
         }
@@ -74,8 +88,15 @@ namespace WcfConnections
                 if (wcfConnection == null)
                     continue;
 
-                wcfConnection.ConfirmMonitoringStarted(dto);
-                _logger35.AppendLine($"Sent response on start monitoring on RTU {dto.RtuId} to client {clientAddress}");
+                try
+                {
+                    wcfConnection.ConfirmMonitoringStarted(dto);
+                    _logger35.AppendLine($"Sent response on start monitoring on RTU {dto.RtuId} to client {clientAddress}");
+                }
+                catch (Exception e)
+                {
+                    _logger35.AppendLine(e.Message);
+                }
             }
             return true;
         }
@@ -88,8 +109,15 @@ namespace WcfConnections
                 if (wcfConnection == null)
                     continue;
 
-                wcfConnection.ConfirmMonitoringStopped(dto);
-                _logger35.AppendLine($"Sent response on stop monitoring on RTU {dto.RtuId}");
+                try
+                {
+                    wcfConnection.ConfirmMonitoringStopped(dto);
+                    _logger35.AppendLine($"Sent response on stop monitoring on RTU {dto.RtuId}");
+                }
+                catch (Exception e)
+                {
+                    _logger35.AppendLine(e.Message);
+                }
             }
             return true;
         }
@@ -102,8 +130,15 @@ namespace WcfConnections
                 if (wcfConnection == null)
                     continue;
 
-                wcfConnection.ConfirmMonitoringSettingsApplied(dto);
-                _logger35.AppendLine($"Sent response on apply monitoring settings on RTU {dto.RtuIpAddress}");
+                try
+                {
+                    wcfConnection.ConfirmMonitoringSettingsApplied(dto);
+                    _logger35.AppendLine($"Sent response on apply monitoring settings on RTU {dto.RtuIpAddress}");
+                }
+                catch (Exception e)
+                {
+                    _logger35.AppendLine(e.Message);
+                }
             }
             return true;
         }
@@ -116,8 +151,15 @@ namespace WcfConnections
                 if (wcfConnection == null)
                     continue;
 
-                wcfConnection.ConfirmBaseRefAssigned(dto);
-                _logger35.AppendLine($"Sent response on assign base ref on RTU {dto.RtuIpAddress}");
+                try
+                {
+                    wcfConnection.ConfirmBaseRefAssigned(dto);
+                    _logger35.AppendLine($"Sent response on assign base ref on RTU {dto.RtuIpAddress}");
+                }
+                catch (Exception e)
+                {
+                    _logger35.AppendLine(e.Message);
+                }
             }
             return true;
         }

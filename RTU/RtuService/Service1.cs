@@ -157,7 +157,6 @@ namespace RtuService
             var dto6 = msg as StopMonitoringDto;
             if (dto6 != null)
             {
-                _serviceLog.AppendLine("StopMonitoringDto");
                 if (!_rtuManager.IsRtuInitialized)
                 {
                     _serviceLog.AppendLine("User stops monitoring - Ignored - RTU is busy");

@@ -1,4 +1,5 @@
-﻿using Dto;
+﻿using System;
+using Dto;
 using Iit.Fibertest.Utils35;
 
 namespace WcfConnections
@@ -22,10 +23,18 @@ namespace WcfConnections
             if (wcfConnection == null)
                 return false;
 
-            dto.ClientAddress = _localAddress;
-            wcfConnection.RegisterClient(dto);
-            _logger35.AppendLine($@"Registered on server");
-            return true;
+            try
+            {
+                dto.ClientAddress = _localAddress;
+                wcfConnection.RegisterClient(dto);
+                _logger35.AppendLine($@"Registered on server");
+                return true;
+            }
+            catch (Exception e)
+            {
+               _logger35.AppendLine(e.Message);
+                return false;
+            }
         }
 
         public void UnRegisterClient(UnRegisterClientDto dto)
@@ -34,9 +43,17 @@ namespace WcfConnections
             if (wcfConnection == null)
                 return;
 
-            dto.ClientAddress = _localAddress;
-            wcfConnection.UnRegisterClient(dto);
-            _logger35.AppendLine($@"Unregistered on server");
+            try
+            {
+                dto.ClientAddress = _localAddress;
+                wcfConnection.UnRegisterClient(dto);
+                _logger35.AppendLine($@"Unregistered on server");
+            }
+            catch (Exception e)
+            {
+                _logger35.AppendLine(e.Message);
+
+            }
         }
 
         public bool CheckRtuConnection(CheckRtuConnectionDto dto)
@@ -45,10 +62,18 @@ namespace WcfConnections
             if (wcfConnection == null)
                 return false;
 
-            dto.ClientAddress = _localAddress;
-            wcfConnection.CheckRtuConnection(dto);
-            _logger35.AppendLine($@"Sent command to check connection with RTU {dto.RtuId}");
-            return true;
+            try
+            {
+                dto.ClientAddress = _localAddress;
+                wcfConnection.CheckRtuConnection(dto);
+                _logger35.AppendLine($@"Sent command to check connection with RTU {dto.RtuId}");
+                return true;
+            }
+            catch (Exception e)
+            {
+                _logger35.AppendLine(e.Message);
+                return false;
+            }
         }
 
         public bool InitializeRtu(InitializeRtuDto dto)
@@ -57,10 +82,18 @@ namespace WcfConnections
             if (wcfConnection == null)
                 return false;
 
-            dto.ClientAddress = _localAddress;
-            wcfConnection.InitializeRtu(dto);
-            _logger35.AppendLine($@"Sent command to initialize RTU {dto.RtuId} with ip={dto.RtuIpAddress}");
-            return true;
+            try
+            {
+                dto.ClientAddress = _localAddress;
+                wcfConnection.InitializeRtu(dto);
+                _logger35.AppendLine($@"Sent command to initialize RTU {dto.RtuId} with ip={dto.RtuIpAddress}");
+                return true;
+            }
+            catch (Exception e)
+            {
+                _logger35.AppendLine(e.Message);
+                return false;
+            }
         }
 
         public bool AssignBaseRef(AssignBaseRefDto dto)
@@ -69,10 +102,18 @@ namespace WcfConnections
             if (wcfConnection == null)
                 return false;
 
-            dto.ClientAddress = _localAddress;
-            wcfConnection.AssignBaseRef(dto);
-            _logger35.AppendLine($@"Sent base ref to RTU with ip={dto.RtuIpAddress}");
-            return true;
+            try
+            {
+                dto.ClientAddress = _localAddress;
+                wcfConnection.AssignBaseRef(dto);
+                _logger35.AppendLine($@"Sent base ref to RTU with ip={dto.RtuIpAddress}");
+                return true;
+            }
+            catch (Exception e)
+            {
+                _logger35.AppendLine(e.Message);
+                return false;
+            }
         }
 
         public bool ApplyMonitoringSettings(ApplyMonitoringSettingsDto dto)
@@ -81,10 +122,18 @@ namespace WcfConnections
             if (wcfConnection == null)
                 return false;
 
-            dto.ClientAddress = _localAddress;
-            wcfConnection.ApplyMonitoringSettings(dto);
-            _logger35.AppendLine($@"Sent monitoring settings to RTU with ip={dto.RtuIpAddress}");
-            return true;
+            try
+            {
+                dto.ClientAddress = _localAddress;
+                wcfConnection.ApplyMonitoringSettings(dto);
+                _logger35.AppendLine($@"Sent monitoring settings to RTU with ip={dto.RtuIpAddress}");
+                return true;
+            }
+            catch (Exception e)
+            {
+                _logger35.AppendLine(e.Message);
+                return false;
+            }
         }
 
         public bool StartMonitoring(StartMonitoringDto dto)
@@ -93,10 +142,18 @@ namespace WcfConnections
             if (wcfConnection == null)
                 return false;
 
-            dto.ClientAddress = _localAddress;
-            wcfConnection.StartMonitoring(dto);
-            _logger35.AppendLine($@"Sent command to start monitoring on RTU with ip={dto.RtuAddress}");
-            return true;
+            try
+            {
+                dto.ClientAddress = _localAddress;
+                wcfConnection.StartMonitoring(dto);
+                _logger35.AppendLine($@"Sent command to start monitoring on RTU with ip={dto.RtuAddress}");
+                return true;
+            }
+            catch (Exception e)
+            {
+                _logger35.AppendLine(e.Message);
+                return false;
+            }
         }
 
         public bool StopMonitoring(StopMonitoringDto dto)
@@ -105,10 +162,18 @@ namespace WcfConnections
             if (wcfConnection == null)
                 return false;
 
-            dto.ClientAddress = _localAddress;
-            wcfConnection.StopMonitoring(dto);
-            _logger35.AppendLine($@"Sent command to stop monitoring on RTU with ip={dto.RtuAddress}");
-            return true;
+            try
+            {
+                dto.ClientAddress = _localAddress;
+                wcfConnection.StopMonitoring(dto);
+                _logger35.AppendLine($@"Sent command to stop monitoring on RTU with ip={dto.RtuAddress}");
+                return true;
+            }
+            catch (Exception e)
+            {
+                _logger35.AppendLine(e.Message);
+                return false;
+            }
         }
 
 
