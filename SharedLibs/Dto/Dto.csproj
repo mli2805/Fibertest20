@@ -41,31 +41,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssignBaseRefDto.cs" />
-    <Compile Include="BaseRefAssignedDto.cs" />
-    <Compile Include="BaseRefDto.cs" />
+    <Compile Include="C2D2R\AssignBaseRefDto.cs" />
+    <Compile Include="R2D2C\BaseRefAssignedDto.cs" />
+    <Compile Include="Underlying\BaseRefDto.cs" />
     <Compile Include="Enums\BaseRefType.cs" />
     <Compile Include="Enums\BaseRefTypeExtensions.cs" />
     <Compile Include="Enums\FiberState.cs" />
-    <Compile Include="InitializeRtuDto.cs" />
+    <Compile Include="C2D2R\InitializeRtuDto.cs" />
     <Compile Include="Enums\MessageProcessingResult.cs" />
-    <Compile Include="MonitoringResult.cs" />
-    <Compile Include="ApplyMonitoringSettingsDto.cs" />
-    <Compile Include="MonitoringSettingsAppliedDto.cs" />
-    <Compile Include="MonitoringStartedDto.cs" />
-    <Compile Include="MonitoringStoppedDto.cs" />
-    <Compile Include="CheckRtuConnectionDto.cs" />
-    <Compile Include="MonitoringTimespansDto.cs" />
-    <Compile Include="OtauPortDto.cs" />
+    <Compile Include="R2D\SaveMonitoringResultDto.cs" />
+    <Compile Include="C2D2R\ApplyMonitoringSettingsDto.cs" />
+    <Compile Include="R2D2C\MonitoringSettingsAppliedDto.cs" />
+    <Compile Include="R2D2C\MonitoringStartedDto.cs" />
+    <Compile Include="R2D2C\MonitoringStoppedDto.cs" />
+    <Compile Include="C2D2R\CheckRtuConnectionDto.cs" />
+    <Compile Include="Underlying\MonitoringTimespansDto.cs" />
+    <Compile Include="Underlying\OtauPortDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RegisterClientDto.cs" />
-    <Compile Include="RtuCommandDeliveredDto.cs" />
-    <Compile Include="RtuConnectionCheckedDto.cs" />
-    <Compile Include="RtuInitializedDto.cs" />
-    <Compile Include="StartMonitoringDto.cs" />
-    <Compile Include="StopMonitoringDto.cs" />
-    <Compile Include="UnRegisterClientDto.cs" />
+    <Compile Include="C2D\RegisterClientDto.cs" />
+    <Compile Include="D2C\RtuCommandDeliveredDto.cs" />
+    <Compile Include="R2D2C\RtuConnectionCheckedDto.cs" />
+    <Compile Include="R2D2C\RtuInitializedDto.cs" />
+    <Compile Include="C2D2R\StartMonitoringDto.cs" />
+    <Compile Include="C2D2R\StopMonitoringDto.cs" />
+    <Compile Include="C2D\UnRegisterClientDto.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

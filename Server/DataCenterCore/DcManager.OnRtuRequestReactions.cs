@@ -33,7 +33,7 @@ namespace DataCenterCore
             if (dtoC5 != null)
                 return ConfirmBaseRefAssigned(dtoC5);
 
-            var dtoR1 = msg as MonitoringResult;
+            var dtoR1 = msg as SaveMonitoringResultDto;
             if (dtoR1 != null)
                 return ProcessMonitoringResult(dtoR1);
 
@@ -110,7 +110,7 @@ namespace DataCenterCore
         }
 
       
-        private bool ProcessMonitoringResult(MonitoringResult result)
+        private bool ProcessMonitoringResult(SaveMonitoringResultDto result)
         {
             _dcLog.AppendLine($"Monitoring result received. Sor size is {result.SorData.Length}");
             return true;

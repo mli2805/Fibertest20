@@ -20,7 +20,7 @@ namespace WcfServiceForRtuLibrary
 
 
         [OperationContract]
-        bool ProcessMonitoringResult(MonitoringResult result);
+        bool ProcessMonitoringResult(SaveMonitoringResultDto result);
 
         [OperationContract]
         bool ConfirmMonitoringSettingsApplied(MonitoringSettingsAppliedDto result);

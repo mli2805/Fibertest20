@@ -27,7 +27,7 @@ namespace RtuManagement
             if (dcConnection == null)
                 return;
 
-            var monitoringResult = new MonitoringResult() { RtuId = Guid.NewGuid(), SorData = moniResult.SorBytes };
+            var monitoringResult = new SaveMonitoringResultDto() { RtuId = Guid.NewGuid(), SorData = moniResult.SorBytes };
             dcConnection.ProcessMonitoringResult(monitoringResult);
             _serviceLog.AppendLine($"Sent monitoring result {moniResult.BaseRefType} to server...");
         }
