@@ -30,13 +30,21 @@ namespace WcfTestBench.RtuState
 
         private void ClientWcfService_MessageReceived(object msg)
         {
-            var dto = msg as RtuInitializedDto;
-            if (dto != null)
+            var dto1 = msg as RtuInitializedDto;
+            if (dto1 != null)
             {
-                if (dto.Id == _rtuId)
+                if (dto1.Id == _rtuId)
                     CurrentState = @"Initialized";
                 return;
             }
+
+            var dto9 = msg as KnowRtuCurrentMonitoringStepDto;
+            if (dto9 != null)
+            {
+                if (dto9.RtuId == _rtuId)
+                    CurrentState = $@"{dto9.MonitoringStep} {dto9.OtauPort}";
+            }
+
         }
     }
 }

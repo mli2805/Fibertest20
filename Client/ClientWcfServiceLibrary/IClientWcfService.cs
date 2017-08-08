@@ -7,6 +7,8 @@ namespace ClientWcfServiceLibrary
     [ServiceContract]
     public interface IClientWcfService
     {
+        // Responses on Client's requests
+
         [OperationContract]
         void ConfirmDelivery(RtuCommandDeliveredDto dto);
 
@@ -28,6 +30,10 @@ namespace ClientWcfServiceLibrary
         [OperationContract]
         void ConfirmBaseRefAssigned(BaseRefAssignedDto confirm);
 
+
+        // Notifications
+        [OperationContract]
+        void ProcessRtuCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto dto);
     }
 
 

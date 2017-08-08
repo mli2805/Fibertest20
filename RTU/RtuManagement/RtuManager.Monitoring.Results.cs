@@ -17,11 +17,28 @@ namespace RtuManagement
                 return;
 
             var result = new RtuConnectionCheckedDto()
-                { ClientAddress = param.ClientAddress, IsRtuStarted = true, IsRtuInitialized = IsRtuInitialized };
+            { ClientAddress = param.ClientAddress, IsRtuStarted = true, IsRtuInitialized = IsRtuInitialized };
             new R2DWcfManager(_serverIp, _serviceIni, _serviceLog).SendCurrentState(result);
         }
 
-           private void SendMonitoringResultToDataCenter(MoniResult moniResult)
+        public void SendCurrentMonitoringStep(RtuCurrentMonitoringStep currentMonitoringStep, ExtendedPort extendedPort, BaseRefType baseRefType = BaseRefType.None)
+        {
+            var dto = new KnowRtuCurrentMonitoringStepDto()
+            {
+                RtuId = _id,
+                MonitoringStep = currentMonitoringStep,
+                OtauPort = new OtauPortDto()
+                {
+                    Ip = extendedPort.NetAddress.Ip4Address,
+                    TcpPort = extendedPort.NetAddress.Port,
+                    OpticalPort = extendedPort.Port
+                },
+                BaseRefType = baseRefType,
+            };
+            new R2DWcfManager(_serverIp, _serviceIni, _serviceLog).SendCurrentMonitoringStep(dto);
+        }
+
+        private void SendMonitoringResultToDataCenter(MoniResult moniResult)
         {
             var dcConnection = new WcfFactory(_serverIp, _serviceIni, _serviceLog).CreateR2DConnection();
             if (dcConnection == null)

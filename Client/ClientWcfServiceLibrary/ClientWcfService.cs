@@ -59,5 +59,11 @@ namespace ClientWcfServiceLibrary
             ClientLog.AppendLine($"RTU {confirm.RtuIpAddress} base ref assigned: {confirm.IsSuccessful}");
             MessageReceived?.Invoke(confirm);
         }
+
+        public void ProcessRtuCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto dto)
+        {
+//            ClientLog.AppendLine($"RTU {dto.RtuId} sent current state: {dto.MonitoringStep}");
+            MessageReceived?.Invoke(dto);
+        }
     }
 }

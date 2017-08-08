@@ -131,12 +131,15 @@ namespace RtuManagement
             var baseBytes = extendedPort.GetBaseBytes(baseRefType, _rtuLog);
             if (baseBytes == null)
                 return null;
+            SendCurrentMonitoringStep(RtuCurrentMonitoringStep.Measure, extendedPort);
             if (!_otdrManager.MeasureWithBase(baseBytes, _mainCharon.GetActiveChildCharon()))
                 return null;
             if (_isMonitoringCancelled)
             {
+                SendCurrentMonitoringStep(RtuCurrentMonitoringStep.Interrupted, extendedPort);
                 return null;
             }
+            SendCurrentMonitoringStep(RtuCurrentMonitoringStep.Analysis, extendedPort);
             var measBytes = _otdrManager.ApplyAutoAnalysis(_otdrManager.GetLastSorDataBuffer()); // is ApplyAutoAnalysis necessary ?
             var moniResult = _otdrManager.CompareMeasureWithBase(baseBytes, measBytes, true); // base is inserted into meas during comparison
             extendedPort.SaveMeasBytes(baseRefType, measBytes); // so re-save meas after comparison
@@ -156,6 +159,7 @@ namespace RtuManagement
                 return false;
             }
 
+            SendCurrentMonitoringStep(RtuCurrentMonitoringStep.Toggle, extendedPort);
             var toggleResult = _mainCharon.SetExtendedActivePort(extendedPort.NetAddress, extendedPort.Port);
             switch (toggleResult)
             {

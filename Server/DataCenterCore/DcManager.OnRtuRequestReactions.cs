@@ -37,6 +37,10 @@ namespace DataCenterCore
             if (dtoR1 != null)
                 return ProcessMonitoringResult(dtoR1);
 
+            var dtoR2 = msg as KnowRtuCurrentMonitoringStepDto;
+            if (dtoR2 != null)
+                return ProcessRtuCurrentMonitoringStep(dtoR2);
+
             return false;
         }
 
@@ -114,6 +118,16 @@ namespace DataCenterCore
         {
             _dcLog.AppendLine($"Monitoring result received. Sor size is {result.SorData.Length}");
             return true;
+        }
+
+        private bool ProcessRtuCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto monitoringStep)
+        {
+            var addresses = new List<string>();
+            lock (_clientStationsLockObj)
+            {
+                addresses.AddRange(_clientStations.Select(clientStation => ((ClientStation)clientStation.Clone()).Ip));
+            }
+            return new D2CWcfManager(addresses, _coreIni, _dcLog).ProcessRtuCurrentMonitoringStep(monitoringStep);
         }
     }
 }

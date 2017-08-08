@@ -35,6 +35,9 @@ namespace WcfConnections.ClientWcfServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientWcfService/ConfirmBaseRefAssigned", ReplyAction="http://tempuri.org/IClientWcfService/ConfirmBaseRefAssignedResponse")]
         void ConfirmBaseRefAssigned(Dto.BaseRefAssignedDto confirm);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientWcfService/ProcessRtuCurrentMonitoringStep", ReplyAction="http://tempuri.org/IClientWcfService/ProcessRtuCurrentMonitoringStepResponse")]
+        void ProcessRtuCurrentMonitoringStep(Dto.KnowRtuCurrentMonitoringStepDto dto);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -90,6 +93,10 @@ namespace WcfConnections.ClientWcfServiceReference {
         
         public void ConfirmBaseRefAssigned(Dto.BaseRefAssignedDto confirm) {
             base.Channel.ConfirmBaseRefAssigned(confirm);
+        }
+        
+        public void ProcessRtuCurrentMonitoringStep(Dto.KnowRtuCurrentMonitoringStepDto dto) {
+            base.Channel.ProcessRtuCurrentMonitoringStep(dto);
         }
     }
 }

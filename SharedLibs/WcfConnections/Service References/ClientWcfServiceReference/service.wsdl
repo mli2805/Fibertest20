@@ -59,6 +59,12 @@
   <wsdl:message name="IClientWcfService_ConfirmBaseRefAssigned_OutputMessage">
     <wsdl:part name="parameters" element="tns:ConfirmBaseRefAssignedResponse" />
   </wsdl:message>
+  <wsdl:message name="IClientWcfService_ProcessRtuCurrentMonitoringStep_InputMessage">
+    <wsdl:part name="parameters" element="tns:ProcessRtuCurrentMonitoringStep" />
+  </wsdl:message>
+  <wsdl:message name="IClientWcfService_ProcessRtuCurrentMonitoringStep_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ProcessRtuCurrentMonitoringStepResponse" />
+  </wsdl:message>
   <wsdl:portType name="IClientWcfService">
     <wsdl:operation name="ConfirmDelivery">
       <wsdl:input wsaw:Action="http://tempuri.org/IClientWcfService/ConfirmDelivery" message="tns:IClientWcfService_ConfirmDelivery_InputMessage" />
@@ -87,6 +93,10 @@
     <wsdl:operation name="ConfirmBaseRefAssigned">
       <wsdl:input wsaw:Action="http://tempuri.org/IClientWcfService/ConfirmBaseRefAssigned" message="tns:IClientWcfService_ConfirmBaseRefAssigned_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IClientWcfService/ConfirmBaseRefAssignedResponse" message="tns:IClientWcfService_ConfirmBaseRefAssigned_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ProcessRtuCurrentMonitoringStep">
+      <wsdl:input wsaw:Action="http://tempuri.org/IClientWcfService/ProcessRtuCurrentMonitoringStep" message="tns:IClientWcfService_ProcessRtuCurrentMonitoringStep_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IClientWcfService/ProcessRtuCurrentMonitoringStepResponse" message="tns:IClientWcfService_ProcessRtuCurrentMonitoringStep_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="NetTcpBinding_IClientWcfService" type="tns:IClientWcfService">
@@ -149,6 +159,15 @@
     </wsdl:operation>
     <wsdl:operation name="ConfirmBaseRefAssigned">
       <soap12:operation soapAction="http://tempuri.org/IClientWcfService/ConfirmBaseRefAssigned" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ProcessRtuCurrentMonitoringStep">
+      <soap12:operation soapAction="http://tempuri.org/IClientWcfService/ProcessRtuCurrentMonitoringStep" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

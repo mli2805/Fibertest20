@@ -24,7 +24,7 @@ namespace WcfConnections
             try
             {
                 wcfConnection.ProcessRtuConnectionChecked(dto);
-                _logger35.AppendLine(@"Sent RTU's current state");
+                _logger35.AppendLine(@"Sent RTU's current monitoringStep");
             }
             catch (Exception e)
             {
@@ -111,6 +111,23 @@ namespace WcfConnections
             {
                 wcfConnection.ConfirmStopMonitoring(result);
                 _logger35.AppendLine("Sending stop monitoring result");
+            }
+            catch (Exception e)
+            {
+                _logger35.AppendLine(e.Message);
+            }
+        }
+
+        public void SendCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto monitoringStep)
+        {
+            var wcfConnection = _wcfFactory.CreateR2DConnection();
+            if (wcfConnection == null)
+                return;
+
+            try
+            {
+                wcfConnection.KnowRtuCurrentMonitoringStep(monitoringStep);
+//                _logger35.AppendLine("Sending current monitoring step");
             }
             catch (Exception e)
             {

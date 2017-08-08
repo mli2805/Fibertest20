@@ -43,6 +43,8 @@
   <ItemGroup>
     <Compile Include="C2D2R\AssignBaseRefDto.cs" />
     <Compile Include="R2D2C\BaseRefAssignedDto.cs" />
+    <Compile Include="R2D\KnowRtuCurrentMonitoringStepDto.cs" />
+    <Compile Include="Enums\RtuCurrentMonitoringStep.cs" />
     <Compile Include="Underlying\BaseRefDto.cs" />
     <Compile Include="Enums\BaseRefType.cs" />
     <Compile Include="Enums\BaseRefTypeExtensions.cs" />

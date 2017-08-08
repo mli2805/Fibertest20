@@ -143,6 +143,27 @@ namespace WcfConnections
             return true;
         }
 
+        public bool ProcessRtuCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto dto)
+        {
+            foreach (var clientAddress in _addresses)
+            {
+                var wcfConnection = new WcfFactory(clientAddress, _iniFile, _logger35).CreateClientConnection();
+                if (wcfConnection == null)
+                    continue;
+
+                try
+                {
+                    wcfConnection.ProcessRtuCurrentMonitoringStep(dto);
+//                    _logger35.AppendLine($"Transfered RTU {dto.RtuId} monitoring step to client {clientAddress}");
+                }
+                catch (Exception e)
+                {
+                    _logger35.AppendLine(e.Message);
+                }
+            }
+            return true;
+        }
+
         public bool ConfirmBaseRefAssigned(BaseRefAssignedDto dto)
         {
             foreach (var clientAddress in _addresses)

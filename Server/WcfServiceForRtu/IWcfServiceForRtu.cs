@@ -6,6 +6,8 @@ namespace WcfServiceForRtuLibrary
     [ServiceContract]
     public interface IWcfServiceForRtu
     {
+        // RTU responses on DataCenter's (Client's) requestes
+
         [OperationContract]
         bool ProcessRtuConnectionChecked(RtuConnectionCheckedDto result);
 
@@ -27,5 +29,11 @@ namespace WcfServiceForRtuLibrary
 
         [OperationContract]
         bool ConfirmBaseRefAssigned(BaseRefAssignedDto result);
+
+
+        // RTU notifies
+
+        [OperationContract]
+        bool KnowRtuCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto monitoringStep);
     }
 }

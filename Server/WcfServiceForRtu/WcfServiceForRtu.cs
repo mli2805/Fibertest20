@@ -58,5 +58,12 @@ namespace WcfServiceForRtuLibrary
             MessageReceived?.Invoke(dto);
             return true;
         }
+
+        public bool KnowRtuCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto dto)
+        {
+//            ServiceLog.AppendLine($"Transfer Rtu's {dto.RtuId} current monitoring step");
+            MessageReceived?.Invoke(dto);
+            return true;
+        }
     }
 }

@@ -35,14 +35,16 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="MonitoringStoppedDto" nillable="true" type="tns:MonitoringStoppedDto" />
-  <xs:complexType name="MonitoringResult">
+  <xs:complexType name="SaveMonitoringResultDto">
     <xs:sequence>
       <xs:element minOccurs="0" name="BaseRefType" type="tns:BaseRefType" />
+      <xs:element minOccurs="0" name="OtauPort" nillable="true" type="tns:OtauPortDto" />
       <xs:element minOccurs="0" name="RtuId" type="ser:guid" />
       <xs:element minOccurs="0" name="SorData" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="TraceState" type="tns:FiberState" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="MonitoringResult" nillable="true" type="tns:MonitoringResult" />
+  <xs:element name="SaveMonitoringResultDto" nillable="true" type="tns:SaveMonitoringResultDto" />
   <xs:simpleType name="BaseRefType">
     <xs:restriction base="xs:string">
       <xs:enumeration value="None" />
@@ -52,6 +54,92 @@
     </xs:restriction>
   </xs:simpleType>
   <xs:element name="BaseRefType" nillable="true" type="tns:BaseRefType" />
+  <xs:complexType name="OtauPortDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Ip" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="OpticalPort" type="xs:int" />
+      <xs:element minOccurs="0" name="TcpPort" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="OtauPortDto" nillable="true" type="tns:OtauPortDto" />
+  <xs:simpleType name="FiberState">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="NotInTrace" />
+      <xs:enumeration value="NotJoined" />
+      <xs:enumeration value="NotChecked" />
+      <xs:enumeration value="Ok">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">4</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Suspect">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">5</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Minor">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">6</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Major">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">7</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Critical">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">8</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="User">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">9</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="FiberBreak">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">10</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="NoFiber">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">11</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="HighLighted">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">14</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="DistanceMeasurement">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">15</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="FiberState" nillable="true" type="tns:FiberState" />
   <xs:complexType name="MonitoringSettingsAppliedDto">
     <xs:sequence>
       <xs:element minOccurs="0" name="IsSuccessful" type="xs:boolean" />
@@ -67,12 +155,23 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="BaseRefAssignedDto" nillable="true" type="tns:BaseRefAssignedDto" />
-  <xs:complexType name="OtauPortDto">
+  <xs:complexType name="KnowRtuCurrentMonitoringStepDto">
     <xs:sequence>
-      <xs:element minOccurs="0" name="Ip" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="OpticalPort" type="xs:int" />
-      <xs:element minOccurs="0" name="TcpPort" type="xs:int" />
+      <xs:element minOccurs="0" name="BaseRefType" type="tns:BaseRefType" />
+      <xs:element minOccurs="0" name="MonitoringStep" type="tns:RtuCurrentMonitoringStep" />
+      <xs:element minOccurs="0" name="OtauPort" nillable="true" type="tns:OtauPortDto" />
+      <xs:element minOccurs="0" name="RtuId" type="ser:guid" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="OtauPortDto" nillable="true" type="tns:OtauPortDto" />
+  <xs:element name="KnowRtuCurrentMonitoringStepDto" nillable="true" type="tns:KnowRtuCurrentMonitoringStepDto" />
+  <xs:simpleType name="RtuCurrentMonitoringStep">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Idle" />
+      <xs:enumeration value="Toggle" />
+      <xs:enumeration value="Measure" />
+      <xs:enumeration value="Interrupted" />
+      <xs:enumeration value="Analysis" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="RtuCurrentMonitoringStep" nillable="true" type="tns:RtuCurrentMonitoringStep" />
 </xs:schema>

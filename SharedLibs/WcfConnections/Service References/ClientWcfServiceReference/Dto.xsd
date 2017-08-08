@@ -78,4 +78,32 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="OtauPortDto" nillable="true" type="tns:OtauPortDto" />
+  <xs:complexType name="KnowRtuCurrentMonitoringStepDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="BaseRefType" type="tns:BaseRefType" />
+      <xs:element minOccurs="0" name="MonitoringStep" type="tns:RtuCurrentMonitoringStep" />
+      <xs:element minOccurs="0" name="OtauPort" nillable="true" type="tns:OtauPortDto" />
+      <xs:element minOccurs="0" name="RtuId" type="ser:guid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="KnowRtuCurrentMonitoringStepDto" nillable="true" type="tns:KnowRtuCurrentMonitoringStepDto" />
+  <xs:simpleType name="BaseRefType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="None" />
+      <xs:enumeration value="Precise" />
+      <xs:enumeration value="Fast" />
+      <xs:enumeration value="Additional" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="BaseRefType" nillable="true" type="tns:BaseRefType" />
+  <xs:simpleType name="RtuCurrentMonitoringStep">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Idle" />
+      <xs:enumeration value="Toggle" />
+      <xs:enumeration value="Measure" />
+      <xs:enumeration value="Interrupted" />
+      <xs:enumeration value="Analysis" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="RtuCurrentMonitoringStep" nillable="true" type="tns:RtuCurrentMonitoringStep" />
 </xs:schema>
