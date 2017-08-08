@@ -49,7 +49,7 @@ namespace WcfConnections
                 try
                 {
                     wcfConnection.ConfirmDelivery(dto);
-                    _logger35.AppendLine($"Transfered rtu command delivery confirmation: from RTU {dto.RtuAddress} to client {clientAddress}");
+                    _logger35.AppendLine($"Transfered rtu command delivery confirmation: from RTU {dto.RtuId} to client {clientAddress}");
                 }
                 catch (Exception e)
                 {
@@ -133,7 +133,7 @@ namespace WcfConnections
                 try
                 {
                     wcfConnection.ConfirmMonitoringSettingsApplied(dto);
-                    _logger35.AppendLine($"Transfered response on apply monitoring settings from RTU {dto.RtuIpAddress} to client {clientAddress}");
+                    _logger35.AppendLine($"Transfered response on apply monitoring settings from RTU {dto.RtuId} to client {clientAddress}");
                 }
                 catch (Exception e)
                 {
@@ -175,7 +175,7 @@ namespace WcfConnections
                 try
                 {
                     wcfConnection.ConfirmBaseRefAssigned(dto);
-                    _logger35.AppendLine($"Transfered response on assign base ref from RTU {dto.RtuIpAddress} to client {clientAddress}");
+                    _logger35.AppendLine($"Transfered response on assign base ref from RTU {dto.RtuId} to client {clientAddress}");
                 }
                 catch (Exception e)
                 {

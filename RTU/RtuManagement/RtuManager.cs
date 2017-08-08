@@ -118,13 +118,13 @@ namespace RtuManagement
                 _rtuLog.AppendLine("Rtu Manager initialization failed.");
                 if (rtu != null)
                     new R2DWcfManager(_serverIp, _serviceIni, _serviceLog).
-                                SendInitializationConfirm(new RtuInitializedDto() { Id = rtu.RtuId, IsInitialized = false });
+                                SendInitializationConfirm(new RtuInitializedDto() { RtuId = rtu.RtuId, IsInitialized = false });
                 return;
             }
             if (isUserAskedInitialization)
                 new R2DWcfManager(_serverIp, _serviceIni, _serviceLog).SendInitializationConfirm(new RtuInitializedDto()
                 {
-                    Id = _id,
+                    RtuId = _id,
                     IsInitialized = true,
                     Serial = _mainCharon.Serial,
                     FullPortCount = _mainCharon.FullPortCount,
@@ -247,7 +247,7 @@ namespace RtuManagement
         private void SaveNewQueueToFile(ApplyMonitoringSettingsDto dto)
         {
             var otdrIp = _rtuIni.Read(IniSection.General, IniKey.OtdrIp, "192.168.88.101");
-            var content = dto.Ports.Select(port => port.Ip == dto.RtuIpAddress
+            var content = dto.Ports.Select(port => port.IsPortOnMainCharon
                     ? $"{otdrIp}:{port.TcpPort}-{port.OpticalPort}"
                     : $"{port.Ip}:{port.TcpPort}-{port.OpticalPort}")
                 .ToList();
@@ -267,7 +267,7 @@ namespace RtuManagement
             _rtuLog.AppendLine("Base refs valid dto.");
             var otdrIp = _rtuIni.Read(IniSection.General, IniKey.OtdrIp, "192.168.88.101");
 
-            var portFolderName = assignBaseRefDto.OtauPortDto.Ip == assignBaseRefDto.RtuIpAddress
+            var portFolderName = assignBaseRefDto.OtauPortDto.IsPortOnMainCharon
                 ? $@"{otdrIp}t{assignBaseRefDto.OtauPortDto.TcpPort}p{assignBaseRefDto.OtauPortDto.OpticalPort}\"
                 : $@"{assignBaseRefDto.OtauPortDto.Ip}t{assignBaseRefDto.OtauPortDto.TcpPort}p{assignBaseRefDto.OtauPortDto.OpticalPort}\";
 
@@ -294,7 +294,7 @@ namespace RtuManagement
             }
 
             new R2DWcfManager(_serverIp, _serviceIni, _serviceLog).SendBaseRefAssigned(
-                new BaseRefAssignedDto() {RtuIpAddress = assignBaseRefDto.RtuIpAddress, OtauPortDto = assignBaseRefDto.OtauPortDto, IsSuccessful = true});
+                new BaseRefAssignedDto() {RtuId = assignBaseRefDto.RtuId, OtauPortDto = assignBaseRefDto.OtauPortDto, IsSuccessful = true});
         }
 
         private void SaveNewFrequenciesToIni(ApplyMonitoringSettingsDto dto)

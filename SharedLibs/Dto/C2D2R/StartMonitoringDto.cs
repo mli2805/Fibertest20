@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.Serialization;
 
 namespace Dto
@@ -9,6 +10,6 @@ namespace Dto
         public string ClientAddress { get; set; }
 
         [DataMember]
-        public string RtuAddress { get; set; }
+        public Guid RtuId { get; set; }
     }
 }

@@ -7,7 +7,7 @@ namespace Dto
     public class RtuInitializedDto
     {
         [DataMember]
-        public Guid Id { get; set; }
+        public Guid RtuId { get; set; }
 
         [DataMember]
         public bool IsInitialized { get; set; }

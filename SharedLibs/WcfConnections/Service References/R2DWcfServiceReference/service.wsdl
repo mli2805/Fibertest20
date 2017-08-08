@@ -181,9 +181,9 @@
       <soap12:address location="net.tcp://localhost:11841/WcfServiceForRtu/" />
       <wsa10:EndpointReference>
         <wsa10:Address>net.tcp://localhost:11841/WcfServiceForRtu/</wsa10:Address>
-        <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
+        <RtuIdentity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
           <Dns>localhost</Dns>
-        </Identity>
+        </RtuIdentity>
       </wsa10:EndpointReference>
     </wsdl:port>
   </wsdl:service>

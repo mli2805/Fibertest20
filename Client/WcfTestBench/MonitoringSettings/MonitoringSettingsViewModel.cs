@@ -12,7 +12,7 @@ namespace WcfTestBench.MonitoringSettings
 {
     public class MonitoringSettingsViewModel : Screen
     {
-        private readonly string _rtuIp;
+        private readonly Guid _rtuId;
         public MonitoringSettingsModel Model { get; set; }
         public C2DWcfManager C2DWcfManager { get; set; }
 
@@ -30,9 +30,9 @@ namespace WcfTestBench.MonitoringSettings
             }
         }
 
-        public MonitoringSettingsViewModel(string rtuIp, MonitoringSettingsModel model)
+        public MonitoringSettingsViewModel(Guid rtuId, MonitoringSettingsModel model)
         {
-            _rtuIp = rtuIp;
+            _rtuId = rtuId;
 
             Model = model;
             Model.CalculateCycleTime();
@@ -99,7 +99,7 @@ namespace WcfTestBench.MonitoringSettings
         {
             return new ApplyMonitoringSettingsDto
             {
-                RtuIpAddress = _rtuIp,
+                RtuId = _rtuId,
                 IsMonitoringOn = Model.IsMonitoringOn,
                 Timespans = ConvertFrequenciesToDto(),
                 Ports = ConvertPorts()

@@ -47,14 +47,14 @@ namespace WcfServiceForRtuLibrary
 
         public bool ConfirmMonitoringSettingsApplied(MonitoringSettingsAppliedDto dto)
         {
-            ServiceLog.AppendLine($"Rtu {dto.RtuIpAddress} reply on monitoring settings");
+            ServiceLog.AppendLine($"Rtu {dto.RtuId} reply on monitoring settings");
             MessageReceived?.Invoke(dto);
             return true;
         }
 
         public bool ConfirmBaseRefAssigned(BaseRefAssignedDto dto)
         {
-            ServiceLog.AppendLine($"Rtu {dto.RtuIpAddress} reply on base ref");
+            ServiceLog.AppendLine($"Rtu {dto.RtuId} reply on base ref");
             MessageReceived?.Invoke(dto);
             return true;
         }

@@ -39,28 +39,28 @@ namespace WcfServiceForClientLibrary
 
         public bool StartMonitoring(StartMonitoringDto dto)
         {
-            ServiceLog.AppendLine($"Client from {dto.ClientAddress} sent start monitoring on rtu {dto.RtuAddress} request");
+            ServiceLog.AppendLine($"Client from {dto.ClientAddress} sent start monitoring on rtu {dto.RtuId} request");
             MessageReceived?.Invoke(dto);
             return true;
         }
 
         public bool StopMonitoring(StopMonitoringDto dto)
         {
-            ServiceLog.AppendLine($"Client from {dto.ClientAddress} sent stop monitoring on rtu {dto.RtuAddress} request");
+            ServiceLog.AppendLine($"Client from {dto.ClientAddress} sent stop monitoring on rtu {dto.RtuId} request");
             MessageReceived?.Invoke(dto);
             return true;
         }
 
         public bool ApplyMonitoringSettings(ApplyMonitoringSettingsDto dto)
         {
-            ServiceLog.AppendLine($"Client from {dto.ClientAddress} sent monitoring settings for rtu {dto.RtuIpAddress}");
+            ServiceLog.AppendLine($"Client from {dto.ClientAddress} sent monitoring settings for rtu {dto.RtuId}");
             MessageReceived?.Invoke(dto);
             return true;
         }
 
         public bool AssignBaseRef(AssignBaseRefDto dto)
         {
-            ServiceLog.AppendLine($"Client from {dto.ClientAddress} sent base ref for trace on rtu {dto.RtuIpAddress}");
+            ServiceLog.AppendLine($"Client from {dto.ClientAddress} sent base ref for trace on rtu {dto.RtuId}");
             MessageReceived?.Invoke(dto);
             return true;
         }

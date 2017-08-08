@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.Serialization;
 
 namespace Dto
@@ -6,7 +7,7 @@ namespace Dto
     public class MonitoringSettingsAppliedDto
     {
         [DataMember]
-        public string RtuIpAddress { get; set; }
+        public Guid RtuId { get; set; }
 
         [DataMember]
         public bool IsSuccessful { get; set; }

@@ -9,6 +9,9 @@ namespace Dto
         public string Ip { get; set; }
 
         [DataMember]
+        public bool IsPortOnMainCharon { get; set; } // if true - value of Ip will be ignored
+
+        [DataMember]
         public int TcpPort { get; set; }
 
         [DataMember]

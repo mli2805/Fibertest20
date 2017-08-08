@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.Serialization;
 
 namespace Dto
@@ -6,7 +7,7 @@ namespace Dto
     public class RtuCommandDeliveredDto
     {
         [DataMember]
-        public string RtuAddress { get; set; }
+        public Guid RtuId { get; set; }
 
         [DataMember]
         public string ClientAddress { get; set; }

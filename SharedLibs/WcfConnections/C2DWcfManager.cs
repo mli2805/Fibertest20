@@ -106,7 +106,7 @@ namespace WcfConnections
             {
                 dto.ClientAddress = _localAddress;
                 wcfConnection.AssignBaseRef(dto);
-                _logger35.AppendLine($@"Sent base ref to RTU with ip={dto.RtuIpAddress}");
+                _logger35.AppendLine($@"Sent base ref to RTU {dto.RtuId}");
                 return true;
             }
             catch (Exception e)
@@ -126,7 +126,7 @@ namespace WcfConnections
             {
                 dto.ClientAddress = _localAddress;
                 wcfConnection.ApplyMonitoringSettings(dto);
-                _logger35.AppendLine($@"Sent monitoring settings to RTU with ip={dto.RtuIpAddress}");
+                _logger35.AppendLine($@"Sent monitoring settings to RTU {dto.RtuId}");
                 return true;
             }
             catch (Exception e)
@@ -146,7 +146,7 @@ namespace WcfConnections
             {
                 dto.ClientAddress = _localAddress;
                 wcfConnection.StartMonitoring(dto);
-                _logger35.AppendLine($@"Sent command to start monitoring on RTU with ip={dto.RtuAddress}");
+                _logger35.AppendLine($@"Sent command to start monitoring on RTU {dto.RtuId}");
                 return true;
             }
             catch (Exception e)
@@ -166,7 +166,7 @@ namespace WcfConnections
             {
                 dto.ClientAddress = _localAddress;
                 wcfConnection.StopMonitoring(dto);
-                _logger35.AppendLine($@"Sent command to stop monitoring on RTU with ip={dto.RtuAddress}");
+                _logger35.AppendLine($@"Sent command to stop monitoring on RTU {dto.RtuId}");
                 return true;
             }
             catch (Exception e)

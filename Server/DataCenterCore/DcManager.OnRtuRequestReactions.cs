@@ -55,7 +55,7 @@ namespace DataCenterCore
         private bool ConfirmRtuInitialized(RtuInitializedDto dto)
         {
             var str = dto.IsInitialized ? "OK" : "ERROR";
-            _dcLog.AppendLine($"Rtu {dto.Id} initialization {str}");
+            _dcLog.AppendLine($"Rtu {dto.RtuId} initialization {str}");
 
             var addresses = new List<string>();
             lock (_clientStationsLockObj)
@@ -91,7 +91,7 @@ namespace DataCenterCore
 
         private bool ConfirmMonitoringSettingsApplied(MonitoringSettingsAppliedDto dto)
         {
-            _dcLog.AppendLine($"Rtu {dto.RtuIpAddress} applied monitoring settings: {dto.IsSuccessful}");
+            _dcLog.AppendLine($"Rtu {dto.RtuId} applied monitoring settings: {dto.IsSuccessful}");
 
             var addresses = new List<string>();
             lock (_clientStationsLockObj)
@@ -103,7 +103,7 @@ namespace DataCenterCore
 
         private bool ConfirmBaseRefAssigned(BaseRefAssignedDto dto)
         {
-            _dcLog.AppendLine($"Rtu {dto.RtuIpAddress} assigned base ref: {dto.IsSuccessful}");
+            _dcLog.AppendLine($"Rtu {dto.RtuId} assigned base ref: {dto.IsSuccessful}");
 
             var addresses = new List<string>();
             lock (_clientStationsLockObj)

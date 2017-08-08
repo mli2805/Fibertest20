@@ -15,10 +15,12 @@ namespace ClientWcfServiceLibrary
 
         public void ConfirmDelivery(RtuCommandDeliveredDto dto)
         {
+            if (dto.MessageProcessingResult == MessageProcessingResult.UnknownRtu)
+                ClientLog.AppendLine($"Server has no record about RTU {dto.RtuId}");
             if (dto.MessageProcessingResult == MessageProcessingResult.FailedToTransmit)
-                ClientLog.AppendLine($"Cannot deliver command to RTU {dto.RtuAddress}");
+                ClientLog.AppendLine($"Cannot deliver command to RTU {dto.RtuId}");
             if (dto.MessageProcessingResult == MessageProcessingResult.TransmittedSuccessfullyButRtuIsBusy)
-                ClientLog.AppendLine($"Command was delivered to RTU {dto.RtuAddress} but RTU ignored it (RTU is busy)");
+                ClientLog.AppendLine($"Command was delivered to RTU {dto.RtuId} but RTU ignored it (RTU is busy)");
 
             MessageReceived?.Invoke(dto);
         }
@@ -50,13 +52,13 @@ namespace ClientWcfServiceLibrary
 
         public void ConfirmMonitoringSettingsApplied(MonitoringSettingsAppliedDto confirm)
         {
-            ClientLog.AppendLine($"RTU {confirm.RtuIpAddress} monitoring settings applied: {confirm.IsSuccessful}");
+            ClientLog.AppendLine($"RTU {confirm.RtuId} monitoring settings applied: {confirm.IsSuccessful}");
             MessageReceived?.Invoke(confirm);
         }
 
         public void ConfirmBaseRefAssigned(BaseRefAssignedDto confirm)
         {
-            ClientLog.AppendLine($"RTU {confirm.RtuIpAddress} base ref assigned: {confirm.IsSuccessful}");
+            ClientLog.AppendLine($"RTU {confirm.RtuId} base ref assigned: {confirm.IsSuccessful}");
             MessageReceived?.Invoke(confirm);
         }
 

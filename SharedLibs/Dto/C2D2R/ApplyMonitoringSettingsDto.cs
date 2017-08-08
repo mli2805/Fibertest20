@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
@@ -9,7 +10,7 @@ namespace Dto
         [DataMember]
         public string ClientAddress { get; set; }
         [DataMember]
-        public string RtuIpAddress { get; set; }
+        public Guid RtuId { get; set; }
 
         [DataMember]
         public bool IsMonitoringOn { get; set; }

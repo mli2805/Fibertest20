@@ -82,7 +82,7 @@ namespace Graph.Tests
         public void ThenУртуНаКартеПунктМенюУдалитьНедоступен()
         {
             //TODO check unavailability of Remove menu item on map
-            //var rtuVm = _sut.ShellVm.GraphReadModel.Rtus.First(r => r.Id == rtuId);
+            //var rtuVm = _sut.ShellVm.GraphReadModel.Rtus.First(r => r.RtuId == rtuId);
         }
 
         [Then(@"У РТУ в дереве пункт меню Удалить недоступен")]

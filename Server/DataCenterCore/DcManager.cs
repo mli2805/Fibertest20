@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.ServiceModel;
 using Iit.Fibertest.Utils35;
 using WcfServiceForClientLibrary;
@@ -29,7 +30,6 @@ namespace DataCenterCore
             _dcLog.AssignFile("DcCore.log", cultureString);
             _dcLog.EmptyLine();
             _dcLog.EmptyLine('-');
-
 
             lock (_rtuStationsLockObj)
             {
@@ -89,10 +89,31 @@ namespace DataCenterCore
 
         private List<RtuStation> InitializeRtuStationListFromDb()
         {
-            var list = new List<RtuStation>();
-            return list;
+            return ReadDbTempTxt();
         }
 
+        private List<RtuStation> ReadDbTempTxt()
+        {
+            var list = new List<RtuStation>();
+
+            var filename = @"..\Ini\DbTemp.txt";
+            if (File.Exists(filename))
+            {
+                var content = File.ReadAllLines(filename);
+                foreach (var line in content)
+                {
+                    var parts = line.Split(' ');
+                    list.Add(new RtuStation()
+                    {
+                        Id = Guid.Parse(parts[0]),
+                        Ip = parts[1],
+                        LastConnection = DateTime.Now,
+                    });
+                }
+            }
+
+            return list;
+        }
 
     }
 }

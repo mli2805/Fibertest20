@@ -22,7 +22,6 @@ namespace WcfTestBench
         internal static ServiceHost MyServiceHost;
         private readonly Logger35 _clientLog;
         private readonly IniFile _clientIni;
-        private string _rtuServiceIp;
         private Guid _rtuId;
 
         private void ProcessServerMessage(object msg)
@@ -71,15 +70,15 @@ namespace WcfTestBench
         private void ProcessRtuCommandDelivered(RtuCommandDeliveredDto dto)
         {
             if (dto.MessageProcessingResult == MessageProcessingResult.FailedToTransmit)
-                DisplayString = string.Format(Resources.SID_Cannot_deliver_command_to_RTU__0_, dto.RtuAddress);
+                DisplayString = string.Format(Resources.SID_Cannot_deliver_command_to_RTU__0_, dto.RtuId);
             if (dto.MessageProcessingResult == MessageProcessingResult.TransmittedSuccessfullyButRtuIsBusy)
-                DisplayString = string.Format(Resources.SID_Command_was_delivered_to_RTU__0__but_RTU_ignored_it__RTU_is_busy_, dto.RtuAddress);
+                DisplayString = string.Format(Resources.SID_Command_was_delivered_to_RTU__0__but_RTU_ignored_it__RTU_is_busy_, dto.RtuId);
         }
 
         private void ProcessRtuInitialized(RtuInitializedDto rtu)
         {
             DisplayString = string.Format(Resources.SID_, rtu.Serial);
-            _rtuId = rtu.Id;
+            _rtuId = rtu.RtuId;
         }
 
         private void ProcessMonitoringStarted(MonitoringStartedDto ms)
@@ -131,6 +130,7 @@ namespace WcfTestBench
         }
 
         public string DcServiceIp { get; set; }
+        private string _rtuServiceIp;
         public string RtuServiceIp
         {
             get { return _rtuServiceIp; }
@@ -142,6 +142,7 @@ namespace WcfTestBench
             }
         }
 
+
         private C2DWcfManager _c2DWcfManager;
         public WcfClientViewModel(IniFile iniFile35, Logger35 clientLog)
         {
@@ -150,6 +151,7 @@ namespace WcfTestBench
             //            DcServiceIp = _clientIni.Read(IniSection.DataCenter, IniKey.ServerIp, @"10.1.37.22");
             DcServiceIp = _clientIni.Read(IniSection.DataCenter, IniKey.ServerIp, @"192.168.96.179");
             RtuServiceIp = _clientIni.Read(IniSection.General, IniKey.RtuServiceIp, @"192.168.96.53");
+            _rtuId = Guid.Parse(@"f3e0d85f-2cb3-4160-99ca-408cfd18d765");
             var localIp = _clientIni.Read(IniSection.General, IniKey.LocalIp, @"192.168.96.179");
 
             _c2DWcfManager = new C2DWcfManager(DcServiceIp, _clientIni, _clientLog, localIp);
@@ -195,7 +197,7 @@ namespace WcfTestBench
         {
             _clientIni.Write(IniSection.General, IniKey.RtuServiceIp, RtuServiceIp);
 
-            var rtu = new InitializeRtuDto() { RtuId = Guid.NewGuid(), RtuIpAddress = RtuServiceIp, DataCenterIpAddress = DcServiceIp };
+            var rtu = new InitializeRtuDto() { RtuId = _rtuId, RtuIpAddress = RtuServiceIp, DataCenterIpAddress = DcServiceIp };
             _c2DWcfManager.InitializeRtu(rtu);
             DisplayString = Resources.SID_Command_sent__wait_please_;
         }
@@ -203,7 +205,7 @@ namespace WcfTestBench
         private Random gen = new Random();
         public void MonitoringSettings()
         {
-            var vm = new MonitoringSettingsViewModel(_rtuServiceIp, PopulateModel());
+            var vm = new MonitoringSettingsViewModel(_rtuId, PopulateModel());
             vm.C2DWcfManager = _c2DWcfManager;
             IWindowManager windowManager = new WindowManager();
             windowManager.ShowDialog(vm);
@@ -213,7 +215,7 @@ namespace WcfTestBench
         {
             var dto = new AssignBaseRefDto()
             {
-                RtuIpAddress = _rtuServiceIp,
+                RtuId = _rtuId,
                 OtauPortDto = new OtauPortDto()
                 {
                     Ip = _rtuServiceIp,
@@ -248,12 +250,12 @@ namespace WcfTestBench
 
         public void StartMonitoring()
         {
-            DisplayString = _c2DWcfManager.StartMonitoring(new StartMonitoringDto() {RtuAddress = RtuServiceIp}) ? Resources.SID_Command_sent__wait_please_ : Resources.SID_Error_;
+            DisplayString = _c2DWcfManager.StartMonitoring(new StartMonitoringDto() {RtuId = _rtuId}) ? Resources.SID_Command_sent__wait_please_ : Resources.SID_Error_;
         }
 
         public void StopMonitoring()
         {
-            DisplayString = _c2DWcfManager.StopMonitoring(new StopMonitoringDto() {RtuAddress = RtuServiceIp }) ? Resources.SID_Command_sent__wait_please_ : Resources.SID_Error_;
+            DisplayString = _c2DWcfManager.StopMonitoring(new StopMonitoringDto() {RtuId = _rtuId }) ? Resources.SID_Command_sent__wait_please_ : Resources.SID_Error_;
         }
 
         private MonitoringSettingsModel PopulateModel()

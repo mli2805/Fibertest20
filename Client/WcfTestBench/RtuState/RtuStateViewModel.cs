@@ -33,7 +33,7 @@ namespace WcfTestBench.RtuState
             var dto1 = msg as RtuInitializedDto;
             if (dto1 != null)
             {
-                if (dto1.Id == _rtuId)
+                if (dto1.RtuId == _rtuId)
                     CurrentState = @"Initialized";
                 return;
             }
