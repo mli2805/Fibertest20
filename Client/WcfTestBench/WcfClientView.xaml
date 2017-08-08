@@ -20,6 +20,7 @@
         <Button Name="Initialize" Margin="5" Height="25" Width="120" Content="Initialize RTU"/>
         <Button Name="BaseRefs" Margin="5" Height="25" Width="120" Content="Base Refs"/>
         <Button Name="MonitoringSettings" Margin="5" Height="25" Width="120" Content="Monitoring Settings"/>
+        <Button Name="RtuState" Margin="5" Height="25" Width="120" Content="Rtu State"/>
         <Button Name="TraceState" Margin="5" Height="25" Width="120" Content="Trace State"/>
         <Button Name="StartMonitoring" Margin="5" Height="25" Width="120" Content="Start Monitoring"/>
         <Button Name="StopMonitoring" Margin="5" Height="25" Width="120" Content="Stop Monitoring"/>

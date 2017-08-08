@@ -89,7 +89,11 @@ namespace RtuManagement
             _id = Guid.Parse(_rtuIni.Read(IniSection.DataCenter, IniKey.RtuGuid, Guid.Empty.ToString()));
         }
 
-        public void Initialize()
+        /// <summary>
+        /// user sends param when wants to initialize rtu
+        /// </summary>
+        /// <param name="param"></param>
+        public void Initialize(object param = null)
         {
             _rtuLog.EmptyLine();
             _rtuLog.EmptyLine('-');
@@ -99,22 +103,20 @@ namespace RtuManagement
             var tid = Thread.CurrentThread.ManagedThreadId;
             _rtuLog.AppendLine($"RTU Manager started. Process {pid}, thread {tid}");
 
-            bool isUserAskedInitialization = false;
-            var rtu = WcfParameter as InitializeRtuDto;
+            bool isUserAskedInitialization = param != null;
+            var rtu = param as InitializeRtuDto;
             if (rtu != null)
             {
-                isUserAskedInitialization = true;
                 _rtuIni.Write(IniSection.DataCenter, IniKey.ServerIp, rtu.DataCenterIpAddress);
                 _serverIp = rtu.DataCenterIpAddress;
                 _rtuIni.Write(IniSection.DataCenter, IniKey.RtuGuid, rtu.RtuId.ToString());
-                WcfParameter = null;
             }
             RestoreFunctions.ResetCharonThroughComPort(_rtuIni, _rtuLog);
 
             if (InitializeRtuManager() != CharonOperationResult.Ok)
             {
                 _rtuLog.AppendLine("Rtu Manager initialization failed.");
-                if (isUserAskedInitialization)
+                if (rtu != null)
                     new R2DWcfManager(_serverIp, _serviceIni, _serviceLog).
                                 SendInitializationConfirm(new RtuInitializedDto() { Id = rtu.RtuId, IsInitialized = false });
                 return;
@@ -255,17 +257,10 @@ namespace RtuManagement
         }
 
 
-        public void SaveBaseRefs(AssignBaseRefDto dto)
-        {
-            WcfParameter = dto;
-            var thread = new Thread(ApplyBaseRefs);
-            thread.Start();
-        }
-
-        private void ApplyBaseRefs()
+        public void AssignBaseRefs(object param)
         {
             _rtuLog.AppendLine("Base refs received.");
-            var assignBaseRefDto = WcfParameter as AssignBaseRefDto;
+            var assignBaseRefDto = param as AssignBaseRefDto;
             if (assignBaseRefDto == null)
                 return;
 
@@ -297,6 +292,9 @@ namespace RtuManagement
                 if (baseRef.SorBytes != null)
                     File.WriteAllBytes(fullPath, baseRef.SorBytes);
             }
+
+            new R2DWcfManager(_serverIp, _serviceIni, _serviceLog).SendBaseRefAssigned(
+                new BaseRefAssignedDto() {RtuIpAddress = assignBaseRefDto.RtuIpAddress, OtauPortDto = assignBaseRefDto.OtauPortDto, IsSuccessful = true});
         }
 
         private void SaveNewFrequenciesToIni(ApplyMonitoringSettingsDto dto)

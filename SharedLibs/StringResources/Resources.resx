@@ -1135,4 +1135,10 @@ on port {0}: charon {1} ip {2} has {3} ports</value>
 	<data name="SID_" xml:space="preserve">
     <value>RTU initialized, serial = {0}</value>
   </data>
+  <data name="SID_Base_ref_assigned_successfully___0_" xml:space="preserve">
+    <value>Base ref assigned successfully: {0}</value>
+  </data>
+  <data name="SID_Monitoring_settings_applied_successfully___0_" xml:space="preserve">
+    <value>Monitoring settings applied successfully: {0}</value>
+  </data>
 </root>

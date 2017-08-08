@@ -13,6 +13,7 @@ using Iit.Fibertest.Utils35;
 using Iit.Fibertest.WpfCommonViews;
 using WcfConnections;
 using WcfTestBench.MonitoringSettings;
+using WcfTestBench.RtuState;
 
 namespace WcfTestBench
 {
@@ -22,11 +23,10 @@ namespace WcfTestBench
         private readonly Logger35 _clientLog;
         private readonly IniFile _clientIni;
         private string _rtuServiceIp;
+        private Guid _rtuId;
 
         private void ProcessServerMessage(object msg)
         {
-
-
             var dto = msg as RtuCommandDeliveredDto;
             if (dto != null)
             {
@@ -56,6 +56,16 @@ namespace WcfTestBench
             {
                 ProcessRtuConnectionChecked(dto4);
             }
+            var dto5 = msg as BaseRefAssignedDto;
+            if (dto5 != null)
+            {
+                ProcessBaseRefAssigned(dto5);
+            }
+            var dto6 = msg as MonitoringSettingsAppliedDto;
+            if (dto6 != null)
+            {
+                ProcessMonitoringSettingsApplied(dto6);
+            }
         }
 
         private void ProcessRtuCommandDelivered(RtuCommandDeliveredDto dto)
@@ -69,6 +79,7 @@ namespace WcfTestBench
         private void ProcessRtuInitialized(RtuInitializedDto rtu)
         {
             DisplayString = string.Format(Resources.SID_, rtu.Serial);
+            _rtuId = rtu.Id;
         }
 
         private void ProcessMonitoringStarted(MonitoringStartedDto ms)
@@ -79,6 +90,16 @@ namespace WcfTestBench
         private void ProcessMonitoringStopped(MonitoringStoppedDto ms)
         {
             DisplayString = string.Format(Resources.SID_Monitoring_stopped___0_, ms.IsSuccessful.ToString().ToUpper());
+        }
+
+        private void ProcessBaseRefAssigned(BaseRefAssignedDto ms)
+        {
+            DisplayString = string.Format(Resources.SID_Base_ref_assigned_successfully___0_, ms.IsSuccessful.ToString().ToUpper());
+        }
+
+        private void ProcessMonitoringSettingsApplied(MonitoringSettingsAppliedDto ms)
+        {
+            DisplayString = string.Format(Resources.SID_Monitoring_settings_applied_successfully___0_, ms.IsSuccessful.ToString().ToUpper());
         }
 
         private void ProcessRtuConnectionChecked(RtuConnectionCheckedDto dto)
@@ -211,6 +232,13 @@ namespace WcfTestBench
             DisplayString = Resources.SID_Command_sent__wait_please_;
         }
        
+        public void RtuState()
+        {
+            var vm = new RtuStateViewModel(_rtuId);
+            IWindowManager windowManager = new WindowManager();
+            windowManager.ShowWindow(vm);
+        }
+
         public void TraceState()
         {
             var vm = new TraceStateViewModel();

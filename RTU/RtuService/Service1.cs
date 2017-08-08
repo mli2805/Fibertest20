@@ -101,7 +101,7 @@ namespace RtuService
                 _rtuManagerThread?.Abort();
 
                 _rtuManagerThread = new Thread(_rtuManager.Initialize) { IsBackground = true };
-                _rtuManagerThread.Start();
+                _rtuManagerThread.Start(dto2);
                 _serviceLog.AppendLine("User demands initialization - OK");
                 return;
             }
@@ -111,7 +111,8 @@ namespace RtuService
             {
                 if (!_rtuManager.IsMonitoringOn)
                 {
-                    _rtuManager.SaveBaseRefs(dto3);
+                    var thread = new Thread(_rtuManager.AssignBaseRefs);
+                    thread.Start(dto3);
                     _serviceLog.AppendLine("Base refs received");
                 }
                 else

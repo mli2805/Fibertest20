@@ -106,7 +106,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ;  Ping passed: OK.
+        ///   Looks up a localized string similar to Service is not available.  Ping passed..
         /// </summary>
         public static string SID____Ping_passed__OK {
             get {
@@ -472,6 +472,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Backscattered_Coefficient {
             get {
                 return ResourceManager.GetString("SID_Backscattered_Coefficient", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Base ref assigned successfully: {0}.
+        /// </summary>
+        public static string SID_Base_ref_assigned_successfully___0_ {
+            get {
+                return ResourceManager.GetString("SID_Base_ref_assigned_successfully___0_", resourceCulture);
             }
         }
         
@@ -1727,6 +1736,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Monitoring settings applied successfully: {0}.
+        /// </summary>
+        public static string SID_Monitoring_settings_applied_successfully___0_ {
+            get {
+                return ResourceManager.GetString("SID_Monitoring_settings_applied_successfully___0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Monitoring started: {0}.
         /// </summary>
         public static string SID_Monitoring_started___0_ {
@@ -2124,7 +2142,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ping does not pass..
+        ///   Looks up a localized string similar to Ping does not pass. Service state is unknown..
         /// </summary>
         public static string SID_Ping_does_not_pass_ {
             get {
@@ -2430,7 +2448,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to RTU initialized = {0}.
+        ///   Looks up a localized string similar to Service is started and initialized successfully..
         /// </summary>
         public static string SID_Rtu_initialized {
             get {
@@ -2611,7 +2629,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ;  Service alive = {0}.
+        ///   Looks up a localized string similar to Service is started, but device is not initialized..
         /// </summary>
         public static string SID_Service_alive {
             get {

@@ -8,6 +8,8 @@ namespace Dto
     {
         [DataMember]
         public Guid RtuId { get; set; }
+        [DataMember]
+        public OtauPortDto OtauPort { get; set; }
 
         [DataMember]
         public BaseRefType BaseRefType { get; set; }

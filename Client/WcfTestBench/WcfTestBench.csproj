@@ -85,6 +85,10 @@
     <Compile Include="MonitoringSettings\MonitoringSettingsViewModel.cs" />
     <Compile Include="MonitoringSettings\MonitoringPortModel.cs" />
     <Compile Include="Enums\Frequency.cs" />
+    <Compile Include="RtuState\RtuStateView.xaml.cs">
+      <DependentUpon>RtuStateView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RtuState\RtuStateViewModel.cs" />
     <Compile Include="ShellViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -97,6 +101,10 @@
     <Page Include="MonitoringSettings\MonitoringSettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="RtuState\RtuStateView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ShellView.xaml">
       <Generator>MSBuild:Compile</Generator>
