@@ -42,9 +42,26 @@ namespace WcfTestBench.RtuState
             if (dto9 != null)
             {
                 if (dto9.RtuId == _rtuId)
-                    CurrentState = $@"{dto9.MonitoringStep} {dto9.OtauPort}";
+                    CurrentState = Dto2String(dto9);
             }
 
+        }
+
+        private string OtauPort2String(OtauPortDto dto)
+        {
+            if (dto.IsPortOnMainCharon)
+                return dto.OpticalPort.ToString();
+            return $@"{dto.OpticalPort} on {dto.Ip}:{dto.TcpPort}";
+        }
+        private string Dto2String(KnowRtuCurrentMonitoringStepDto dto)
+        {
+            if (dto.MonitoringStep == RtuCurrentMonitoringStep.Toggle)
+                return $@"Toggling to {OtauPort2String(dto.OtauPort)}";
+            if (dto.MonitoringStep == RtuCurrentMonitoringStep.Measure)
+                return $@"{dto.BaseRefType} measurement port {OtauPort2String(dto.OtauPort)}";
+            if (dto.MonitoringStep == RtuCurrentMonitoringStep.Analysis)
+                return $@"Analysis of {dto.BaseRefType} measurement port {OtauPort2String(dto.OtauPort)}";
+            return @"Idle";
         }
     }
 }
