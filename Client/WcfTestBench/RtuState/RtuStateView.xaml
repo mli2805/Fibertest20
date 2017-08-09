@@ -7,21 +7,24 @@
         mc:Ignorable="d"
         Height="200" Width="600" d:DataContext="{d:DesignInstance rtuState:RtuStateViewModel}">
     <Window.Resources>
-        <Storyboard x:Key="ToggleColorStoryboard">
-            <ColorAnimation Storyboard.TargetName="TextBlockForeground" Storyboard.TargetProperty="Color"
-                            From="Black" To="White" AutoReverse="True"
-                            BeginTime="0:0:0" Duration="0:0:0.5" RepeatBehavior="Forever"/>
+       <Storyboard x:Key="BlackGreenBlinking">
+            <ColorAnimationUsingKeyFrames Storyboard.TargetName="TextBlockForeground" Storyboard.TargetProperty="Color" RepeatBehavior="Forever">
+                <ColorAnimationUsingKeyFrames.KeyFrames>
+                    <DiscreteColorKeyFrame Value="Green" KeyTime="0:0:.6"></DiscreteColorKeyFrame>
+                    <DiscreteColorKeyFrame Value="Black" KeyTime="0:0:1"></DiscreteColorKeyFrame>
+                </ColorAnimationUsingKeyFrames.KeyFrames>
+            </ColorAnimationUsingKeyFrames>
         </Storyboard>
     </Window.Resources>
 
     <StackPanel>
-        <TextBlock Text="{Binding CurrentState}" Margin="5,25" TextAlignment="Center" FontSize="16" FontWeight="Bold">
+        <TextBlock Text="{Binding CurrentState}" Margin="5,25" TextAlignment="Center" FontSize="14" FontWeight="DemiBold">
             <TextBlock.Foreground>
-                <SolidColorBrush x:Name="TextBlockForeground"/>
+                <SolidColorBrush x:Name="TextBlockForeground" Color="Black"/>
             </TextBlock.Foreground>
             <TextBlock.Triggers>
                 <EventTrigger  RoutedEvent="Window.Loaded">
-                    <BeginStoryboard Storyboard="{StaticResource ToggleColorStoryboard}"/>
+                    <BeginStoryboard Storyboard="{StaticResource BlackGreenBlinking}"/>
                 </EventTrigger>
             </TextBlock.Triggers>
         </TextBlock>

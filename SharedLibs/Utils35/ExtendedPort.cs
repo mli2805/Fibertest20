@@ -14,6 +14,7 @@ namespace Iit.Fibertest.Utils35
     public class ExtendedPort
     {
         public NetAddress NetAddress { get; set; }
+        public bool IsPortOnMainCharon { get; set; }
         public int Port { get; set; }
 
         public DateTime LastPreciseMadeTimestamp { get; set; }
