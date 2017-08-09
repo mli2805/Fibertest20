@@ -93,7 +93,7 @@ namespace WcfConnections
             try
             {
                 wcfConnection.ConfirmStartMonitoring(result);
-                _logger35.AppendLine("Sent start monitoring result");
+                _logger35.AppendLine("Sent result of start monitoring request");
             }
             catch (Exception e)
             {
@@ -110,7 +110,7 @@ namespace WcfConnections
             try
             {
                 wcfConnection.ConfirmStopMonitoring(result);
-                _logger35.AppendLine("Sending stop monitoring result");
+                _logger35.AppendLine("Sending result of stop monitoring request");
             }
             catch (Exception e)
             {
@@ -128,6 +128,23 @@ namespace WcfConnections
             {
                 wcfConnection.KnowRtuCurrentMonitoringStep(monitoringStep);
 //                _logger35.AppendLine("Sending current monitoring step");
+            }
+            catch (Exception e)
+            {
+                _logger35.AppendLine(e.Message);
+            }
+        }
+
+        public void SendMonitoringResult(SaveMonitoringResultDto dto)
+        {
+            var wcfConnection = _wcfFactory.CreateR2DConnection();
+            if (wcfConnection == null)
+                return;
+
+            try
+            {
+                wcfConnection.ProcessMonitoringResult(dto);
+                _logger35.AppendLine("Sending monitoring result");
             }
             catch (Exception e)
             {

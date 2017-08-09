@@ -18,18 +18,17 @@ namespace RtuManagement
         private TimeSpan _preciseSaveTimespan;
         private TimeSpan _fastSaveTimespan;
 
-        private void RunMonitoringCycle()
+        private void RunMonitoringCycle(bool shouldSendMonitoringStarted)
         {
             _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 1);
             _rtuLog.EmptyLine();
             _rtuLog.AppendLine("Start monitoring.");
-            var shouldSendMonitoringStarted = true;
 
             if (_monitoringQueue.Count < 1)
             {
                 _rtuLog.AppendLine("There are no ports in queue for monitoring.");
                 _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 0);
-                new R2DWcfManager(_serverIp, _serviceIni, _serviceLog).SendMonitoringStarted(new MonitoringStartedDto() { IsSuccessful = false });
+                new R2DWcfManager(_serverIp, _serviceIni, _serviceLog).SendMonitoringStarted(new MonitoringStartedDto() {RtuId = _id, IsSuccessful = false });
                 IsMonitoringOn = false;
                 return;
             }
@@ -39,7 +38,7 @@ namespace RtuManagement
                 _measurementNumber++;
                 if (shouldSendMonitoringStarted)
                 {
-                    new R2DWcfManager(_serverIp, _serviceIni, _serviceLog).SendMonitoringStarted(new MonitoringStartedDto() { IsSuccessful = true });
+                    new R2DWcfManager(_serverIp, _serviceIni, _serviceLog).SendMonitoringStarted(new MonitoringStartedDto() { RtuId = _id, IsSuccessful = true });
                     shouldSendMonitoringStarted = false;
                 }
 
@@ -68,7 +67,7 @@ namespace RtuManagement
             IsMonitoringOn = false;
             _isMonitoringCancelled = false;
             _rtuLog.AppendLine("Rtu is turned into MANUAL mode.");
-            new R2DWcfManager(_serverIp, _serviceIni, _serviceLog).SendMonitoringStopped(new MonitoringStoppedDto() { IsSuccessful = true });
+            new R2DWcfManager(_serverIp, _serviceIni, _serviceLog).SendMonitoringStopped(new MonitoringStoppedDto() { RtuId = _id, IsSuccessful = true });
         }
 
         private void ProcessOnePort(ExtendedPort extendedPort)

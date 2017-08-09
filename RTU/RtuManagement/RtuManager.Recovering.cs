@@ -6,7 +6,7 @@ namespace RtuManagement
 {
     public partial class RtuManager
     {
-        private TimeSpan _mikrotikRebootTimeout;
+        private readonly TimeSpan _mikrotikRebootTimeout;
 
         private void ClearArp()
         {

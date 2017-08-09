@@ -18,7 +18,7 @@ namespace RtuManagement
                 // We can't be here because InitializeOtdr should endlessly continue
                 // until Otdr is initialized Ok.
                 // (It's senseless to work without OTDR.)
-                _rtuLog.AppendLine("Something goes wrong. ");
+                _rtuLog.AppendLine("Otdr initialization failed.");
                 return CharonOperationResult.OtdrError;
             }
 
@@ -29,6 +29,7 @@ namespace RtuManagement
             GetMonitoringQueue();
             GetMonitoringParams();
 
+            _rtuLog.AppendLine("Rtu Manager initialization failed.");
             return result;
         }
 
@@ -104,6 +105,11 @@ namespace RtuManagement
                 TimeSpan.FromSeconds(_rtuIni.Read(IniSection.Monitoring, IniKey.FastSaveTimespan, 3600));
         }
 
-    
+        private void DisconnectOtdr()
+        {
+            var otdrAddress = _rtuIni.Read(IniSection.General, IniKey.OtdrIp, DefaultIp);
+            _otdrManager.DisconnectOtdr(otdrAddress);
+            _rtuLog.AppendLine("Rtu is in MANUAL mode.");
+        }
     }
 }

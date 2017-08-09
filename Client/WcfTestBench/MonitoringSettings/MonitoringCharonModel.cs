@@ -8,6 +8,7 @@ namespace WcfTestBench.MonitoringSettings
     {
         public string CharonIpAddress { get; set; }
         public int CharonTcpPort { get; set; }
+        public bool IsMainCharon { get; set; }
         public string Title { get; set; }
 
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using Dto;
+using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.Utils35;
 using WcfConnections;
@@ -21,6 +22,21 @@ namespace RtuManagement
             new R2DWcfManager(_serverIp, _serviceIni, _serviceLog).SendCurrentState(result);
         }
 
+        private void SendToUserInitializationResult(CharonOperationResult result)
+        {
+            var dto = result == CharonOperationResult.Ok
+                ? new RtuInitializedDto()
+                {
+                    RtuId = _id,
+                    IsInitialized = true,
+                    Serial = _mainCharon.Serial,
+                    FullPortCount = _mainCharon.FullPortCount,
+                    OwnPortCount = _mainCharon.OwnPortCount
+                }
+                : new RtuInitializedDto() { RtuId = _id, IsInitialized = false };
+            new R2DWcfManager(_serverIp, _serviceIni, _serviceLog).SendInitializationConfirm(dto);
+        }
+
         public void SendCurrentMonitoringStep(RtuCurrentMonitoringStep currentMonitoringStep, ExtendedPort extendedPort, BaseRefType baseRefType = BaseRefType.None)
         {
             var dto = new KnowRtuCurrentMonitoringStepDto()
@@ -40,13 +56,8 @@ namespace RtuManagement
 
         private void SendMonitoringResultToDataCenter(MoniResult moniResult)
         {
-            var dcConnection = new WcfFactory(_serverIp, _serviceIni, _serviceLog).CreateR2DConnection();
-            if (dcConnection == null)
-                return;
-
             var monitoringResult = new SaveMonitoringResultDto() { RtuId = Guid.NewGuid(), SorData = moniResult.SorBytes };
-            dcConnection.ProcessMonitoringResult(monitoringResult);
-            _serviceLog.AppendLine($"Sent monitoring result {moniResult.BaseRefType} to server...");
+            new R2DWcfManager(_serverIp, _serviceIni, _serviceLog).SendMonitoringResult(monitoringResult);
         }
 
         // only whether trace is OK or not, without details of breakdown if any

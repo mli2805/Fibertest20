@@ -82,8 +82,9 @@
     <Compile Include="RecoveryStep.cs" />
     <Compile Include="RtuManager.cs" />
     <Compile Include="RtuManager.Monitoring.cs" />
-    <Compile Include="RtuManager.Monitoring.Preparations.cs" />
-    <Compile Include="RtuManager.Monitoring.Results.cs" />
+    <Compile Include="RtuManager.Preparations.cs" />
+    <Compile Include="RtuManager.Send.cs" />
+    <Compile Include="RtuManager.OnWcfReactions.cs" />
     <Compile Include="RtuManager.Recovering.cs" />
   </ItemGroup>
   <ItemGroup>

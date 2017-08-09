@@ -113,7 +113,10 @@ namespace WcfTestBench.MonitoringSettings
             {
                 foreach (var port in charon.Ports.Where(p => p.IsIncluded))
                 {
-                    ports.Add(new OtauPortDto { Ip = charon.CharonIpAddress, TcpPort = charon.CharonTcpPort, OpticalPort = port.PortNumber });
+                    ports.Add(new OtauPortDto
+                    {
+                        Ip = charon.CharonIpAddress, TcpPort = charon.CharonTcpPort, OpticalPort = port.PortNumber, IsPortOnMainCharon = charon.IsMainCharon
+                    });
                 }
             }
             return ports;

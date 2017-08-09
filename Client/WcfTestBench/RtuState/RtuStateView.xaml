@@ -10,8 +10,8 @@
        <Storyboard x:Key="BlackGreenBlinking">
             <ColorAnimationUsingKeyFrames Storyboard.TargetName="TextBlockForeground" Storyboard.TargetProperty="Color" RepeatBehavior="Forever">
                 <ColorAnimationUsingKeyFrames.KeyFrames>
-                    <DiscreteColorKeyFrame Value="Green" KeyTime="0:0:.6"></DiscreteColorKeyFrame>
-                    <DiscreteColorKeyFrame Value="Black" KeyTime="0:0:1"></DiscreteColorKeyFrame>
+                    <DiscreteColorKeyFrame Value="Green" KeyTime="0:0:.6"/>
+                    <DiscreteColorKeyFrame Value="Black" KeyTime="0:0:1"/>
                 </ColorAnimationUsingKeyFrames.KeyFrames>
             </ColorAnimationUsingKeyFrames>
         </Storyboard>
