@@ -84,7 +84,7 @@ namespace RtuManagement
                 if (GetPortState(fastMoniResult) != extendedPort.State ||
                     (extendedPort.LastFastSavedTimestamp - DateTime.Now) > _fastSaveTimespan)
                 {
-                    SendMonitoringResultToDataCenter(fastMoniResult);
+                    SendMonitoringResult(fastMoniResult);
                     extendedPort.LastFastSavedTimestamp = DateTime.Now;
                     extendedPort.State = GetPortState(fastMoniResult);
                     if (extendedPort.State == PortMeasResult.BrokenByFast)
@@ -117,10 +117,21 @@ namespace RtuManagement
             if (GetPortState(moniResult) != extendedPort.State ||
                 (DateTime.Now - extendedPort.LastPreciseSavedTimestamp) > _preciseSaveTimespan)
             {
-                SendMonitoringResultToDataCenter(moniResult);
+                SendMonitoringResult(moniResult);
                 extendedPort.LastPreciseSavedTimestamp = DateTime.Now;
                 extendedPort.State = GetPortState(moniResult);
             }
+        }
+
+        // only whether trace is OK or not, without details of breakdown if any
+        private PortMeasResult GetPortState(MoniResult moniResult)
+        {
+            if (!moniResult.IsFailed && !moniResult.IsFiberBreak && !moniResult.IsNoFiber)
+                return PortMeasResult.Ok;
+
+            return moniResult.BaseRefType == BaseRefType.Fast
+                ? PortMeasResult.BrokenByFast
+                : PortMeasResult.BrokenByPrecise;
         }
 
         private MoniResult DoMeasurement(BaseRefType baseRefType, ExtendedPort extendedPort, bool isPortChanged = true)
@@ -145,7 +156,7 @@ namespace RtuManagement
             return moniResult;
         }
 
-        private List<DamagedOtau> _damagedOtaus = new List<DamagedOtau>();
+        private readonly List<DamagedOtau> _damagedOtaus = new List<DamagedOtau>();
         private bool ToggleToPort(ExtendedPort extendedPort)
         {
             var otauIp = extendedPort.NetAddress.Ip4Address;

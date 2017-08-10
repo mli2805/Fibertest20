@@ -120,14 +120,16 @@ namespace WcfConnections
 
         public void SendCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto monitoringStep)
         {
+//            _logger35.AppendLine("Sending current monitoring step1");
             var wcfConnection = _wcfFactory.CreateR2DConnection();
+//            _logger35.AppendLine("Sending current monitoring step2");
             if (wcfConnection == null)
                 return;
 
             try
             {
                 wcfConnection.KnowRtuCurrentMonitoringStep(monitoringStep);
-//                _logger35.AppendLine("Sending current monitoring step");
+//                _logger35.AppendLine("Sending current monitoring step3");
             }
             catch (Exception e)
             {

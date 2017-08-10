@@ -36,7 +36,6 @@ namespace WcfConnections
             catch (Exception e)
             {
                 _logger35.AppendLine(string.Format(Resources.SID_Cannot_establish_connection_with__0___1_, _endPointAddress, (int)TcpPorts.ClientListenTo));
-                _logger35.AppendLine(Resources.SID_WcfServiceForClient_creation_error_);
                 _logger35.AppendLine(e.Message);
                 return null;
             }
@@ -56,7 +55,6 @@ namespace WcfConnections
             catch (Exception e)
             {
                 _logger35.AppendLine(string.Format(Resources.SID_Cannot_establish_connection_with__0___1_, _endPointAddress, (int)TcpPorts.ServerListenToClient));
-                _logger35.AppendLine(Resources.SID_WcfServiceForClient_creation_error_);
                 _logger35.AppendLine(e.Message);
                 return null;
             }
@@ -76,7 +74,6 @@ namespace WcfConnections
             catch (Exception e)
             {
                 _logger35.AppendLine(string.Format(Resources.SID_Cannot_establish_connection_with__0___1_, _endPointAddress, (int)TcpPorts.ServerListenToRtu));
-                _logger35.AppendLine(Resources.SID_WcfServiceForClient_creation_error_);
                 _logger35.AppendLine(e.Message);
                 return null;
             }
@@ -96,7 +93,6 @@ namespace WcfConnections
             catch (Exception e)
             {
                 _logger35.AppendLine(string.Format(Resources.SID_Cannot_establish_connection_with__0___1_, _endPointAddress, (int)TcpPorts.RtuListenTo));
-                _logger35.AppendLine(Resources.SID_WcfServiceForClient_creation_error_);
                 _logger35.AppendLine(e.Message);
                 return null;
             }
@@ -111,9 +107,9 @@ namespace WcfConnections
             return new NetTcpBinding
             {
                 Security = { Mode = SecurityMode.None },
-                ReceiveTimeout = TimeSpan.FromSeconds(iniFile.Read(IniSection.NetTcpBinding, IniKey.ReadTimeout, 15)),
-                SendTimeout = TimeSpan.FromSeconds(iniFile.Read(IniSection.NetTcpBinding, IniKey.SendTimeout, 15)),
-                OpenTimeout = TimeSpan.FromSeconds(iniFile.Read(IniSection.NetTcpBinding, IniKey.OpenTimeout, 5)),
+                ReceiveTimeout = TimeSpan.FromSeconds(iniFile.Read(IniSection.NetTcpBinding, IniKey.ReadTimeout, 3)),
+                SendTimeout = TimeSpan.FromSeconds(iniFile.Read(IniSection.NetTcpBinding, IniKey.SendTimeout, 3)),
+                OpenTimeout = TimeSpan.FromSeconds(iniFile.Read(IniSection.NetTcpBinding, IniKey.OpenTimeout, 1)),
                 MaxBufferSize = 4096000 //4M
             };
         }

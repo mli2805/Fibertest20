@@ -24,14 +24,14 @@
   <xs:complexType name="StartMonitoringDto">
     <xs:sequence>
       <xs:element minOccurs="0" name="ClientAddress" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="RtuAddress" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RtuId" type="ser:guid" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="StartMonitoringDto" nillable="true" type="tns:StartMonitoringDto" />
   <xs:complexType name="StopMonitoringDto">
     <xs:sequence>
       <xs:element minOccurs="0" name="ClientAddress" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="RtuAddress" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RtuId" type="ser:guid" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="StopMonitoringDto" nillable="true" type="tns:StopMonitoringDto" />
@@ -40,7 +40,7 @@
       <xs:element minOccurs="0" name="ClientAddress" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="IsMonitoringOn" type="xs:boolean" />
       <xs:element minOccurs="0" name="Ports" nillable="true" type="tns:ArrayOfOtauPortDto" />
-      <xs:element minOccurs="0" name="RtuIpAddress" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RtuId" type="ser:guid" />
       <xs:element minOccurs="0" name="Timespans" nillable="true" type="tns:MonitoringTimespansDto" />
     </xs:sequence>
   </xs:complexType>
@@ -54,6 +54,7 @@
   <xs:complexType name="OtauPortDto">
     <xs:sequence>
       <xs:element minOccurs="0" name="Ip" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IsPortOnMainCharon" type="xs:boolean" />
       <xs:element minOccurs="0" name="OpticalPort" type="xs:int" />
       <xs:element minOccurs="0" name="TcpPort" type="xs:int" />
     </xs:sequence>
@@ -72,7 +73,7 @@
       <xs:element minOccurs="0" name="BaseRefs" nillable="true" type="tns:ArrayOfBaseRefDto" />
       <xs:element minOccurs="0" name="ClientAddress" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="OtauPortDto" nillable="true" type="tns:OtauPortDto" />
-      <xs:element minOccurs="0" name="RtuIpAddress" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RtuId" type="ser:guid" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="AssignBaseRefDto" nillable="true" type="tns:AssignBaseRefDto" />

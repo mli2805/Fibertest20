@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Dto;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.IitOtdrLibrary;
@@ -11,8 +12,30 @@ namespace RtuManagement
     {
         private string _serverIp;
 
+        private readonly object _isSenderBusyLocker = new object();
+        private bool _isSenderBusy;
+        public bool IsSenderBusy
+        {
+            get
+            {
+                lock (_isSenderBusyLocker)
+                {
+                    return _isSenderBusy;
+                }
+            }
+            set
+            {
+                lock (_isSenderBusyLocker)
+                {
+                    _isSenderBusy = value;
+                }
+            }
+        }
+
         public void SendCurrentState(object dto)
         {
+            IsSenderBusy = true;
+
             var param = dto as CheckRtuConnectionDto;
             if (param == null)
                 return;
@@ -20,10 +43,14 @@ namespace RtuManagement
             var result = new RtuConnectionCheckedDto()
             { ClientAddress = param.ClientAddress, IsRtuStarted = true, IsRtuInitialized = IsRtuInitialized };
             new R2DWcfManager(_serverIp, _serviceIni, _serviceLog).SendCurrentState(result);
+
+            IsSenderBusy = false;
         }
 
         private void SendToUserInitializationResult(CharonOperationResult result)
         {
+            IsSenderBusy = true;
+
             var dto = result == CharonOperationResult.Ok
                 ? new RtuInitializedDto()
                 {
@@ -35,10 +62,17 @@ namespace RtuManagement
                 }
                 : new RtuInitializedDto() { RtuId = _id, IsInitialized = false };
             new R2DWcfManager(_serverIp, _serviceIni, _serviceLog).SendInitializationConfirm(dto);
+
+            IsSenderBusy = false;
         }
 
-        public void SendCurrentMonitoringStep(RtuCurrentMonitoringStep currentMonitoringStep, ExtendedPort extendedPort, BaseRefType baseRefType = BaseRefType.None)
+        private void SendCurrentMonitoringStep(RtuCurrentMonitoringStep currentMonitoringStep, ExtendedPort extendedPort, BaseRefType baseRefType = BaseRefType.None)
         {
+            if (IsSenderBusy)
+                return;
+
+            IsSenderBusy = true;
+
             var dto = new KnowRtuCurrentMonitoringStepDto()
             {
                 RtuId = _id,
@@ -51,24 +85,36 @@ namespace RtuManagement
                 },
                 BaseRefType = baseRefType,
             };
-            new R2DWcfManager(_serverIp, _serviceIni, _serviceLog).SendCurrentMonitoringStep(dto);
+
+            var thread = new Thread(SendCurrentMonitoringStepThread) {IsBackground = true};
+            thread.Start(dto);
         }
 
-        private void SendMonitoringResultToDataCenter(MoniResult moniResult)
+        private void SendCurrentMonitoringStepThread(object dto)
         {
-            var monitoringResult = new SaveMonitoringResultDto() { RtuId = Guid.NewGuid(), SorData = moniResult.SorBytes };
+            var step = dto as KnowRtuCurrentMonitoringStepDto;
+            new R2DWcfManager(_serverIp, _serviceIni, _serviceLog).SendCurrentMonitoringStep(step);
+            IsSenderBusy = false;
+        }
+
+        private void SendMonitoringResult(MoniResult moniResult)
+        {
+            IsSenderBusy = true;
+
+            var dto = new SaveMonitoringResultDto()
+            {
+                RtuId = Guid.NewGuid(), SorData = moniResult.SorBytes
+            };
+
+            var thread = new Thread(SendMonitoringResultThread) { IsBackground = true };
+            thread.Start(dto);
+        }
+
+        private void SendMonitoringResultThread(object dto)
+        {
+            var monitoringResult = dto as SaveMonitoringResultDto;
             new R2DWcfManager(_serverIp, _serviceIni, _serviceLog).SendMonitoringResult(monitoringResult);
-        }
-
-        // only whether trace is OK or not, without details of breakdown if any
-        private PortMeasResult GetPortState(MoniResult moniResult)
-        {
-            if (!moniResult.IsFailed && !moniResult.IsFiberBreak && !moniResult.IsNoFiber)
-                return PortMeasResult.Ok;
-
-            return moniResult.BaseRefType == BaseRefType.Fast
-                ? PortMeasResult.BrokenByFast
-                : PortMeasResult.BrokenByPrecise;
+            IsSenderBusy = false;
         }
     }
 }
