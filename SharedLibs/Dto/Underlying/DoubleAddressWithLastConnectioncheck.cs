@@ -1,8 +1,8 @@
 using System;
 
-namespace Iit.Fibertest.Utils35
+namespace Dto
 {
-    public class DoubleAddressWithLastConnectioncheck : ICloneable
+    public class DoubleAddressWithLastConnectionCheck : ICloneable
     {
         public NetAddress Main { get; set; }
         public DateTime LastConnectionOnMain { get; set; }
@@ -13,7 +13,7 @@ namespace Iit.Fibertest.Utils35
 
         public object Clone()
         {
-            return new DoubleAddressWithLastConnectioncheck()
+            return new DoubleAddressWithLastConnectionCheck()
             {
                 Main = (NetAddress)Main.Clone(),
                 LastConnectionOnMain = LastConnectionOnMain,

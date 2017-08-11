@@ -48,7 +48,7 @@ namespace DataCenterCore
         private bool ProcessRtuConnectionChecked(RtuConnectionCheckedDto dto)
         {
             _dcLog.AppendLine($"Rtu {dto.RtuId} replied on connection check");
-            var addresses = new List<string>() {dto.ClientAddress};
+            var addresses = new List<DoubleAddressWithLastConnectionCheck>() {new DoubleAddressWithLastConnectionCheck() {Main = new NetAddress(dto.ClientAddress, (int)TcpPorts.ClientListenTo)} };
             new D2CWcfManager(addresses, _coreIni, _dcLog).ConfirmRtuConnectionChecked(dto);
             return true;
         }
@@ -58,10 +58,10 @@ namespace DataCenterCore
             var str = dto.IsInitialized ? "OK" : "ERROR";
             _dcLog.AppendLine($"Rtu {dto.RtuId} initialization {str}");
 
-            var addresses = new List<string>();
+            var addresses = new List<DoubleAddressWithLastConnectionCheck>();
             lock (_clientStationsLockObj)
             {
-                addresses.AddRange(_clientStations.Select(clientStation => ((ClientStation)clientStation.Clone()).Addresses.Main.Ip4Address));
+                addresses.AddRange(_clientStations.Select(clientStation => ((ClientStation)clientStation.Clone()).Addresses));
             }
             return new D2CWcfManager(addresses, _coreIni, _dcLog).ConfirmRtuInitialized(dto);
         }
@@ -70,10 +70,10 @@ namespace DataCenterCore
         {
             _dcLog.AppendLine($"Rtu {dto.RtuId} monitoring started: {dto.IsSuccessful}");
 
-            var addresses = new List<string>();
+            var addresses = new List<DoubleAddressWithLastConnectionCheck>();
             lock (_clientStationsLockObj)
             {
-                addresses.AddRange(_clientStations.Select(clientStation => ((ClientStation)clientStation.Clone()).Addresses.Main.Ip4Address));
+                addresses.AddRange(_clientStations.Select(clientStation => ((ClientStation)clientStation.Clone()).Addresses));
             }
             return new D2CWcfManager(addresses, _coreIni, _dcLog).ConfirmMonitoringStarted(dto);
         }
@@ -82,10 +82,10 @@ namespace DataCenterCore
         {
             _dcLog.AppendLine($"Rtu {dto.RtuId} monitoring stopped: {dto.IsSuccessful}");
 
-            var addresses = new List<string>();
+            var addresses = new List<DoubleAddressWithLastConnectionCheck>();
             lock (_clientStationsLockObj)
             {
-                addresses.AddRange(_clientStations.Select(clientStation => ((ClientStation)clientStation.Clone()).Addresses.Main.Ip4Address));
+                addresses.AddRange(_clientStations.Select(clientStation => ((ClientStation)clientStation.Clone()).Addresses));
             }
             return new D2CWcfManager(addresses, _coreIni, _dcLog).ConfirmMonitoringStopped(dto);
         }
@@ -94,10 +94,10 @@ namespace DataCenterCore
         {
             _dcLog.AppendLine($"Rtu {dto.RtuId} applied monitoring settings: {dto.IsSuccessful}");
 
-            var addresses = new List<string>();
+            var addresses = new List<DoubleAddressWithLastConnectionCheck>();
             lock (_clientStationsLockObj)
             {
-                addresses.AddRange(_clientStations.Select(clientStation => ((ClientStation)clientStation.Clone()).Addresses.Main.Ip4Address));
+                addresses.AddRange(_clientStations.Select(clientStation => ((ClientStation)clientStation.Clone()).Addresses));
             }
             return new D2CWcfManager(addresses, _coreIni, _dcLog).ConfirmMonitoringSettingsApplied(dto);
         }
@@ -106,10 +106,10 @@ namespace DataCenterCore
         {
             _dcLog.AppendLine($"Rtu {dto.RtuId} assigned base ref: {dto.IsSuccessful}");
 
-            var addresses = new List<string>();
+            var addresses = new List<DoubleAddressWithLastConnectionCheck>();
             lock (_clientStationsLockObj)
             {
-                addresses.AddRange(_clientStations.Select(clientStation => ((ClientStation)clientStation.Clone()).Addresses.Main.Ip4Address));
+                addresses.AddRange(_clientStations.Select(clientStation => ((ClientStation)clientStation.Clone()).Addresses));
             }
             return new D2CWcfManager(addresses, _coreIni, _dcLog).ConfirmBaseRefAssigned(dto);
         }
@@ -123,10 +123,10 @@ namespace DataCenterCore
 
         private bool ProcessRtuCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto monitoringStep)
         {
-            var addresses = new List<string>();
+            var addresses = new List<DoubleAddressWithLastConnectionCheck>();
             lock (_clientStationsLockObj)
             {
-                addresses.AddRange(_clientStations.Select(clientStation => ((ClientStation)clientStation.Clone()).Addresses.Main.Ip4Address));
+                addresses.AddRange(_clientStations.Select(clientStation => ((ClientStation)clientStation.Clone()).Addresses));
             }
             return new D2CWcfManager(addresses, _coreIni, _dcLog).ProcessRtuCurrentMonitoringStep(monitoringStep);
         }

@@ -37,7 +37,11 @@ namespace DataCenterCore
 
         private void NotifyRtuCommandDelivery()
         {
-            new D2CWcfManager(new List<string>() { _rtuCommandDeliveredDto.ClientAddress }, _coreIni, _dcLog)
+            var address = new DoubleAddressWithLastConnectionCheck()
+            {
+                Main = new NetAddress(_rtuCommandDeliveredDto.ClientAddress, (int)TcpPorts.ClientListenTo)
+            };
+            new D2CWcfManager(new List<DoubleAddressWithLastConnectionCheck>() {address}, _coreIni, _dcLog)
                 .ConfirmRtuCommandDelivered(_rtuCommandDeliveredDto);
         }
 
@@ -89,7 +93,7 @@ namespace DataCenterCore
                 if (_clientStations.All(c => c.Addresses.Main.Ip4Address != address))
                     _clientStations.Add(new ClientStation()
                     {
-                        Addresses = new DoubleAddressWithLastConnectioncheck()
+                        Addresses = new DoubleAddressWithLastConnectionCheck()
                         {
                             Main = new NetAddress(address, (int)TcpPorts.ClientListenTo)
                         } 
@@ -121,16 +125,16 @@ namespace DataCenterCore
                 return;
 
             var result = new RtuConnectionCheckedDto() { RtuId = dto.RtuId, IsRtuStarted = false, IsRtuInitialized = false };
-            var address = dto.IsAddressSetAsIp ? dto.Ip4Address : dto.HostName;
-            var rtuConnection = new WcfFactory(address, _coreIni, _dcLog).CreateRtuConnection();
+            var rtuConnection = new WcfFactory(new DoubleAddressWithLastConnectionCheck() {Main  = dto.NetAddress}, _coreIni, _dcLog).CreateRtuConnection();
             if (rtuConnection != null)
             {
                 rtuConnection.IsRtuInitialized(dto); // rtu will answer on this request itself;
                 return;
             }
 
-            result.IsPingSuccessful = Pinger.Ping(dto.IsAddressSetAsIp ? dto.Ip4Address : dto.HostName);
-            new D2CWcfManager(new List<string>() { dto.ClientAddress }, _coreIni, _dcLog).ConfirmRtuConnectionChecked(result);
+            result.IsPingSuccessful = Pinger.Ping(dto.NetAddress.IsAddressSetAsIp ? dto.NetAddress.Ip4Address : dto.NetAddress.HostName);
+            var client = new DoubleAddressWithLastConnectionCheck() {Main = new NetAddress(dto.ClientAddress, (int)TcpPorts.ClientListenTo) };
+            new D2CWcfManager(new List<DoubleAddressWithLastConnectionCheck>() { client }, _coreIni, _dcLog).ConfirmRtuConnectionChecked(result);
         }
 
         private MessageProcessingResult InitializeRtu(InitializeRtuDto dto)
@@ -138,12 +142,12 @@ namespace DataCenterCore
             _rtuCommandDeliveredDto.ClientAddress = dto.ClientAddress;
             _rtuCommandDeliveredDto.RtuId = dto.RtuId;
 
-            var rtuConnection = new WcfFactory(dto.RtuIpAddress, _coreIni, _dcLog).CreateRtuConnection();
+            var rtuConnection = new WcfFactory(new DoubleAddressWithLastConnectionCheck() {Main  = dto.RtuAddresses.Main}, _coreIni, _dcLog).CreateRtuConnection();
             if (rtuConnection == null)
                 return MessageProcessingResult.FailedToTransmit;
             rtuConnection.Initialize(dto);
 
-            _dcLog.AppendLine($"Transfered command to initialize RTU {dto.RtuId} with ip={dto.RtuIpAddress}");
+            _dcLog.AppendLine($"Transfered command to initialize RTU {dto.RtuId} with ip={dto.RtuAddresses.Main.Ip4Address}");
             return MessageProcessingResult.TransmittedSuccessfully;
         }
 
@@ -156,7 +160,7 @@ namespace DataCenterCore
             if (rtuStation == null)
                 return MessageProcessingResult.UnknownRtu;
 
-            var rtuConnection = new WcfFactory(rtuStation.Addresses.Main.Ip4Address, _coreIni, _dcLog).CreateRtuConnection();
+            var rtuConnection = new WcfFactory(rtuStation.Addresses, _coreIni, _dcLog).CreateRtuConnection();
             if (rtuConnection == null)
                 return MessageProcessingResult.FailedToTransmit;
 
@@ -174,7 +178,7 @@ namespace DataCenterCore
             if (rtuStation == null)
                 return MessageProcessingResult.UnknownRtu;
 
-            var rtuConnection = new WcfFactory(rtuStation.Addresses.Main.Ip4Address, _coreIni, _dcLog).CreateRtuConnection();
+            var rtuConnection = new WcfFactory(rtuStation.Addresses, _coreIni, _dcLog).CreateRtuConnection();
             if (rtuConnection == null)
                 return MessageProcessingResult.FailedToTransmit;
 
@@ -192,7 +196,7 @@ namespace DataCenterCore
             if (rtuStation == null)
                 return MessageProcessingResult.UnknownRtu;
 
-            var rtuConnection = new WcfFactory(rtuStation.Addresses.Main.Ip4Address, _coreIni, _dcLog).CreateRtuConnection();
+            var rtuConnection = new WcfFactory(rtuStation.Addresses, _coreIni, _dcLog).CreateRtuConnection();
             if (rtuConnection == null)
                 return MessageProcessingResult.FailedToTransmit;
 
@@ -211,7 +215,7 @@ namespace DataCenterCore
             if (rtuStation == null)
                 return MessageProcessingResult.UnknownRtu;
 
-            var rtuConnection = new WcfFactory(rtuStation.Addresses.Main.Ip4Address, _coreIni, _dcLog).CreateRtuConnection();
+            var rtuConnection = new WcfFactory(rtuStation.Addresses, _coreIni, _dcLog).CreateRtuConnection();
             if (rtuConnection == null)
                 return MessageProcessingResult.FailedToTransmit;
 

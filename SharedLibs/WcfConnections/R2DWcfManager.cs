@@ -9,7 +9,7 @@ namespace WcfConnections
         private readonly Logger35 _logger35;
         private readonly WcfFactory _wcfFactory;
 
-        public R2DWcfManager(string dataCenterAddress, IniFile iniFile, Logger35 logger35)
+        public R2DWcfManager(DoubleAddressWithLastConnectionCheck dataCenterAddress, IniFile iniFile, Logger35 logger35)
         {
             _logger35 = logger35;
             _wcfFactory = new WcfFactory(dataCenterAddress, iniFile, _logger35);

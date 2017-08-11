@@ -10,7 +10,7 @@ namespace WcfConnections
         private readonly string _localAddress;
         private readonly WcfFactory _wcfFactory;
 
-        public C2DWcfManager(string dataCenterAddress, IniFile iniFile, Logger35 logger35, string localAddress)
+        public C2DWcfManager(DoubleAddressWithLastConnectionCheck dataCenterAddress, IniFile iniFile, Logger35 logger35, string localAddress)
         {
             _logger35 = logger35;
             _localAddress = localAddress;
@@ -86,7 +86,7 @@ namespace WcfConnections
             {
                 dto.ClientAddress = _localAddress;
                 wcfConnection.InitializeRtu(dto);
-                _logger35.AppendLine($@"Sent command to initialize RTU {dto.RtuId} with ip={dto.RtuIpAddress}");
+                _logger35.AppendLine($@"Sent command to initialize RTU {dto.RtuId} with ip={dto.RtuAddresses.Main.Ip4Address}");
                 return true;
             }
             catch (Exception e)

@@ -57,7 +57,9 @@
     <Compile Include="R2D2C\MonitoringStartedDto.cs" />
     <Compile Include="R2D2C\MonitoringStoppedDto.cs" />
     <Compile Include="C2D2R\CheckRtuConnectionDto.cs" />
+    <Compile Include="Underlying\DoubleAddressWithLastConnectioncheck.cs" />
     <Compile Include="Underlying\MonitoringTimespansDto.cs" />
+    <Compile Include="Underlying\NetAddress.cs" />
     <Compile Include="Underlying\OtauPortDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="C2D\RegisterClientDto.cs" />
@@ -67,6 +69,7 @@
     <Compile Include="C2D2R\StartMonitoringDto.cs" />
     <Compile Include="C2D2R\StopMonitoringDto.cs" />
     <Compile Include="C2D\UnRegisterClientDto.cs" />
+    <Compile Include="Underlying\TcpPorts.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

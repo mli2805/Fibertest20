@@ -1,5 +1,5 @@
 ﻿using System;
-using Iit.Fibertest.Utils35;
+using Dto;
 
 namespace Iit.Fibertest.Graph
 {

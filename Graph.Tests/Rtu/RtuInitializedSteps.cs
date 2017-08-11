@@ -1,9 +1,9 @@
 ﻿using System.Linq;
+using Dto;
 using FluentAssertions;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
-using Iit.Fibertest.Utils35;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests

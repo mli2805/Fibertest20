@@ -12,9 +12,6 @@ namespace Dto
         public Guid RtuId { get; set; }
 
         [DataMember]
-        public string RtuIpAddress { get; set; }
-
-        [DataMember]
-        public string DataCenterIpAddress { get; set; }
+        public DoubleAddressWithLastConnectionCheck RtuAddresses { get; set; }
     }
 }

@@ -10,7 +10,7 @@
     <StackPanel>
         <StackPanel Margin="5,15,5,5" Orientation="Horizontal">
             <TextBlock Text="Server Ip"/>
-            <TextBlock Margin="25,0,0,0" Text="{Binding DcServiceIp}"/>
+            <TextBlock Margin="25,0,0,0" Text="{Binding DcServiceAddresses}"/>
         </StackPanel>
         <DockPanel Margin="5">
             <TextBlock Text="Rtu (not Otdr) Ip"/>

@@ -50,9 +50,10 @@ namespace RtuManagement
 
         private void SaveInitializationParameters(InitializeRtuDto rtu)
         {
-            _rtuIni.Write(IniSection.DataCenter, IniKey.ServerIp, rtu.DataCenterIpAddress);
-            _serverIp = rtu.DataCenterIpAddress;
             _rtuIni.Write(IniSection.DataCenter, IniKey.RtuGuid, rtu.RtuId.ToString());
+
+            _rtuIni.Write(IniSection.DataCenter, IniKey.MainAddress, rtu.RtuAddresses.Main.Ip4Address);
+            _serverAddresses = rtu.RtuAddresses;
         }
 
         public void StartMonitoring()
@@ -142,7 +143,7 @@ namespace RtuManagement
             SaveNewFrequenciesToIni(dto);
             SaveNewQueueToFile(dto);
 
-            new R2DWcfManager(_serverIp, _serviceIni, _serviceLog).SendMonitoringSettingsApplied(new MonitoringSettingsAppliedDto() { IsSuccessful = true });
+            new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendMonitoringSettingsApplied(new MonitoringSettingsAppliedDto() { IsSuccessful = true });
 
             if (_hasNewSettings) // in AUTOMATIC mode already
             {
@@ -202,7 +203,7 @@ namespace RtuManagement
                     File.WriteAllBytes(fullPath, baseRef.SorBytes);
             }
 
-            new R2DWcfManager(_serverIp, _serviceIni, _serviceLog).SendBaseRefAssigned(
+            new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendBaseRefAssigned(
                 new BaseRefAssignedDto() { RtuId = assignBaseRefDto.RtuId, OtauPortDto = assignBaseRefDto.OtauPortDto, IsSuccessful = true });
         }
 

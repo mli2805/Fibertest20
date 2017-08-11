@@ -1,4 +1,5 @@
 using System;
+using Dto;
 
 namespace Iit.Fibertest.Utils35
 {
@@ -6,6 +7,6 @@ namespace Iit.Fibertest.Utils35
     {
         public Guid Id { get; set; }
 
-        public DoubleAddressWithLastConnectioncheck Addresses { get; set; } = new DoubleAddressWithLastConnectioncheck();
+        public DoubleAddressWithLastConnectionCheck Addresses { get; set; } = new DoubleAddressWithLastConnectionCheck();
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.ServiceModel;
+using Dto;
 using Iit.Fibertest.Utils35;
 using WcfServiceForClientLibrary;
 using WcfServiceForRtuLibrary;
@@ -110,7 +111,7 @@ namespace DataCenterCore
                     list.Add(new RtuStation()
                     {
                         Id = Guid.Parse(parts[0]),
-                        Addresses = new DoubleAddressWithLastConnectioncheck()
+                        Addresses = new DoubleAddressWithLastConnectionCheck()
                         {
                             Main = new NetAddress(parts[1], (int)TcpPorts.RtuListenTo),
                             LastConnectionOnMain = DateTime.Now,

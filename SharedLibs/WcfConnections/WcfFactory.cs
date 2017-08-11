@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Sockets;
 using System.ServiceModel;
+using Dto;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.Utils35;
 using WcfConnections.C2DWcfServiceReference;
@@ -12,13 +13,13 @@ namespace WcfConnections
 {
     public class WcfFactory
     {
-        private readonly string _endPointAddress;
+        private readonly DoubleAddressWithLastConnectionCheck _endPoint;
         private readonly IniFile _iniFile;
         private readonly Logger35 _logger35;
 
-        public WcfFactory(string endPointAddress, IniFile iniFile, Logger35 logger35)
+        public WcfFactory(DoubleAddressWithLastConnectionCheck endPoint, IniFile iniFile, Logger35 logger35)
         {
-            _endPointAddress = endPointAddress;
+            _endPoint = endPoint;
             _iniFile = iniFile;
             _logger35 = logger35;
         }
@@ -30,13 +31,13 @@ namespace WcfConnections
                 var connection = new ClientWcfServiceClient(
                     CreateDefaultNetTcpBinding(_iniFile),
                     new EndpointAddress(
-                        new Uri(CombineUriString(_endPointAddress, TcpPorts.ClientListenTo, @"ClientWcfService"))));
+                        new Uri(CombineUriString(_endPoint.Main.Ip4Address, TcpPorts.ClientListenTo, @"ClientWcfService"))));
                 connection.Open();
                 return connection;
             }
             catch (Exception e)
             {
-                _logger35.AppendLine(string.Format(Resources.SID_Cannot_establish_connection_with__0___1_, _endPointAddress, (int)TcpPorts.ClientListenTo));
+                _logger35.AppendLine(string.Format(Resources.SID_Cannot_establish_connection_with__0___1_, _endPoint, (int)TcpPorts.ClientListenTo));
                 _logger35.AppendLine(e.Message);
                 return null;
             }
@@ -49,13 +50,13 @@ namespace WcfConnections
                 var connection = new WcfServiceForClientClient(
                     CreateDefaultNetTcpBinding(_iniFile),
                     new EndpointAddress(
-                        new Uri(CombineUriString(_endPointAddress, TcpPorts.ServerListenToClient, @"WcfServiceForClient"))));
+                        new Uri(CombineUriString(_endPoint.Main.Ip4Address, TcpPorts.ServerListenToClient, @"WcfServiceForClient"))));
                 connection.Open();
                 return connection;
             }
             catch (Exception e)
             {
-                _logger35.AppendLine(string.Format(Resources.SID_Cannot_establish_connection_with__0___1_, _endPointAddress, (int)TcpPorts.ServerListenToClient));
+                _logger35.AppendLine(string.Format(Resources.SID_Cannot_establish_connection_with__0___1_, _endPoint, (int)TcpPorts.ServerListenToClient));
                 _logger35.AppendLine(e.Message);
                 return null;
             }
@@ -67,26 +68,26 @@ namespace WcfConnections
             {
                 var openTimeout = TimeSpan.FromSeconds(_iniFile.Read(IniSection.NetTcpBinding, IniKey.OpenTimeout, 1));
                 var tcpClient = new TcpClient();
-                var tcpConnection = tcpClient.BeginConnect(_endPointAddress, (int)TcpPorts.ServerListenToRtu, null, null);
+                var tcpConnection = tcpClient.BeginConnect(_endPoint.Main.Ip4Address, (int)TcpPorts.ServerListenToRtu, null, null);
                 var success = tcpConnection.AsyncWaitHandle.WaitOne(openTimeout);
                 if (!success)
                 {
-                    _logger35.AppendLine($"Can't establish connection with {_endPointAddress}:{(int)TcpPorts.ServerListenToRtu}");
-                    var word = Pinger.Ping(_endPointAddress) ? "passed" : "failed";
-                    _logger35.AppendLine($"Ping {_endPointAddress} {word}");
+                    _logger35.AppendLine($"Can't establish connection with {_endPoint}:{(int)TcpPorts.ServerListenToRtu}");
+                    var word = Pinger.Ping(_endPoint.Main.Ip4Address) ? "passed" : "failed";
+                    _logger35.AppendLine($"Ping {_endPoint} {word}");
                     return null;
                 }
 
                 var connection = new WcfServiceForRtuClient(
                     CreateDefaultNetTcpBinding(_iniFile),
                     new EndpointAddress(
-                        new Uri(CombineUriString(_endPointAddress, TcpPorts.ServerListenToRtu, @"WcfServiceForRtu"))));
+                        new Uri(CombineUriString(_endPoint.Main.Ip4Address, TcpPorts.ServerListenToRtu, @"WcfServiceForRtu"))));
                 connection.Open();
                 return connection;
             }
             catch (Exception e)
             {
-                _logger35.AppendLine(string.Format(Resources.SID_Cannot_establish_connection_with__0___1_, _endPointAddress, (int)TcpPorts.ServerListenToRtu));
+                _logger35.AppendLine(string.Format(Resources.SID_Cannot_establish_connection_with__0___1_, _endPoint, (int)TcpPorts.ServerListenToRtu));
                 _logger35.AppendLine(e.Message);
                 return null;
             }
@@ -99,13 +100,13 @@ namespace WcfConnections
                 var connection = new RtuWcfServiceClient(
                     CreateDefaultNetTcpBinding(_iniFile),
                     new EndpointAddress(
-                        new Uri(CombineUriString(_endPointAddress, TcpPorts.RtuListenTo, @"RtuWcfService"))));
+                        new Uri(CombineUriString(_endPoint.Main.Ip4Address, TcpPorts.RtuListenTo, @"RtuWcfService"))));
                 connection.Open();
                 return connection;
             }
             catch (Exception e)
             {
-                _logger35.AppendLine(string.Format(Resources.SID_Cannot_establish_connection_with__0___1_, _endPointAddress, (int)TcpPorts.RtuListenTo));
+                _logger35.AppendLine(string.Format(Resources.SID_Cannot_establish_connection_with__0___1_, _endPoint, (int)TcpPorts.RtuListenTo));
                 _logger35.AppendLine(e.Message);
                 return null;
             }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Iit.Fibertest.Utils35
+namespace Dto
 {
     [Serializable]
     public class NetAddress : ICloneable
@@ -27,6 +27,16 @@ namespace Iit.Fibertest.Utils35
             Port = port;
             IsAddressSetAsIp = true;
         }
+
+        public NetAddress(string ip, TcpPorts port)
+        {
+            Ip4Address = ip;
+            HostName = "";
+            Port = (int)port;
+            IsAddressSetAsIp = true;
+        }
+
+
 
         public bool Equals(NetAddress other)
         {

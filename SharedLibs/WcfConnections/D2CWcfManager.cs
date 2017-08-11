@@ -7,11 +7,11 @@ namespace WcfConnections
 {
     public class D2CWcfManager
     {
-        private readonly List<string> _addresses;
+        private readonly List<DoubleAddressWithLastConnectionCheck> _addresses;
         private readonly IniFile _iniFile;
         private readonly Logger35 _logger35;
 
-        public D2CWcfManager(List<string> addresses, IniFile iniFile, Logger35 logger35)
+        public D2CWcfManager(List<DoubleAddressWithLastConnectionCheck> addresses, IniFile iniFile, Logger35 logger35)
         {
             _addresses = addresses;
             _iniFile = iniFile;

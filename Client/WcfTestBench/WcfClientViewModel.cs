@@ -129,7 +129,8 @@ namespace WcfTestBench
             }
         }
 
-        public string DcServiceIp { get; set; }
+        public DoubleAddressWithLastConnectionCheck DcServiceAddresses { get; set; }
+        public DoubleAddressWithLastConnectionCheck RtuAddresses { get; set; } = new DoubleAddressWithLastConnectionCheck();
         private string _rtuServiceIp;
         public string RtuServiceIp
         {
@@ -138,6 +139,7 @@ namespace WcfTestBench
             {
                 if (value == _rtuServiceIp) return;
                 _rtuServiceIp = value;
+                RtuAddresses.Main.Ip4Address = _rtuServiceIp;
                 NotifyOfPropertyChange();
             }
         }
@@ -148,19 +150,33 @@ namespace WcfTestBench
         {
             _clientLog = clientLog;
             _clientIni = iniFile35;
-            //            DcServiceIp = _clientIni.Read(IniSection.DataCenter, IniKey.ServerIp, @"10.1.37.22");
-            DcServiceIp = _clientIni.Read(IniSection.DataCenter, IniKey.ServerIp, @"192.168.96.179");
+            //            DcServiceAddresses = _clientIni.Read(IniSection.DataCenter, IniKey.MainAddress, @"10.1.37.22");
+            DcServiceAddresses = GetServerAddressesFromIni();
             RtuServiceIp = _clientIni.Read(IniSection.General, IniKey.RtuServiceIp, @"192.168.96.53");
             _rtuId = Guid.Parse(@"f3e0d85f-2cb3-4160-99ca-408cfd18d765");
             var localIp = _clientIni.Read(IniSection.General, IniKey.LocalIp, @"192.168.96.179");
 
-            _c2DWcfManager = new C2DWcfManager(DcServiceIp, _clientIni, _clientLog, localIp);
+            _c2DWcfManager = new C2DWcfManager(DcServiceAddresses, _clientIni, _clientLog, localIp);
 
             if (!_c2DWcfManager.RegisterClient(new RegisterClientDto() {ClientName = @"Vasya"}))
                 MessageBox.Show(@"Cannot register on server!");
 
             // start 11843 listener
             StartWcfListener();
+        }
+
+        private DoubleAddressWithLastConnectionCheck GetServerAddressesFromIni()
+        {
+            var addressPair = new DoubleAddressWithLastConnectionCheck()
+            {
+                Main = new NetAddress(_clientIni.Read(IniSection.DataCenter, IniKey.MainAddress, @"192.168.96.179"), TcpPorts.ServerListenToRtu),
+            };
+            addressPair.HasReserveAddress = _clientIni.Read(IniSection.DataCenter, IniKey.HasReserveAddress, false);
+            if (addressPair.HasReserveAddress)
+            {
+                addressPair.Reserve = new NetAddress(_clientIni.Read(IniSection.DataCenter, IniKey.ReserveAddress, @"192.168.96.179"), TcpPorts.ServerListenToRtu);
+            }
+            return addressPair;
         }
 
         private void StartWcfListener()
@@ -189,7 +205,7 @@ namespace WcfTestBench
         public void CheckConnection()
         {
             DisplayString = Resources.SID_Command_sent__wait_please_;
-            var dto = new CheckRtuConnectionDto() {ClientAddress = @"192.168.96.179", RtuId = Guid.NewGuid(), Ip4Address = RtuServiceIp, IsAddressSetAsIp = true};
+            var dto = new CheckRtuConnectionDto() {ClientAddress = @"192.168.96.179", RtuId = Guid.NewGuid(), NetAddress = new NetAddress() { Ip4Address = RtuServiceIp, IsAddressSetAsIp = true}};
             DisplayString = _c2DWcfManager.CheckRtuConnection(dto) ? @"Check connection started, wait please" : Resources.SID_Error;
         }
 
@@ -197,7 +213,7 @@ namespace WcfTestBench
         {
             _clientIni.Write(IniSection.General, IniKey.RtuServiceIp, RtuServiceIp);
 
-            var rtu = new InitializeRtuDto() { RtuId = _rtuId, RtuIpAddress = RtuServiceIp, DataCenterIpAddress = DcServiceIp };
+            var rtu = new InitializeRtuDto() { RtuId = _rtuId, RtuAddresses = RtuAddresses };
             _c2DWcfManager.InitializeRtu(rtu);
             DisplayString = Resources.SID_Command_sent__wait_please_;
         }
@@ -303,7 +319,7 @@ namespace WcfTestBench
         public void MeasReflect()
         {
             // this is only command which needs direct rtu connection
-            var wcfRtuConnection = new WcfFactory(RtuServiceIp, _clientIni, _clientLog).CreateRtuConnection();
+            var wcfRtuConnection = new WcfFactory(new DoubleAddressWithLastConnectionCheck() {Main = new NetAddress(RtuServiceIp, (int)TcpPorts.RtuListenTo) } , _clientIni, _clientLog).CreateRtuConnection();
             if (wcfRtuConnection == null)
                 return;
 

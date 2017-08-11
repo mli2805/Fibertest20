@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
+using Dto;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.Utils35;
 
 namespace Graph.Tests
 {

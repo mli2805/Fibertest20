@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using Dto;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;

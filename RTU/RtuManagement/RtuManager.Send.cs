@@ -10,7 +10,7 @@ namespace RtuManagement
 {
     public partial class RtuManager
     {
-        private string _serverIp;
+        private DoubleAddressWithLastConnectionCheck _serverAddresses;
 
         private readonly object _isSenderBusyLocker = new object();
         private bool _isSenderBusy;
@@ -42,7 +42,7 @@ namespace RtuManagement
 
             var result = new RtuConnectionCheckedDto()
             { ClientAddress = param.ClientAddress, IsRtuStarted = true, IsRtuInitialized = IsRtuInitialized };
-            new R2DWcfManager(_serverIp, _serviceIni, _serviceLog).SendCurrentState(result);
+            new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendCurrentState(result);
 
             IsSenderBusy = false;
         }
@@ -61,7 +61,7 @@ namespace RtuManagement
                     OwnPortCount = _mainCharon.OwnPortCount
                 }
                 : new RtuInitializedDto() { RtuId = _id, IsInitialized = false };
-            new R2DWcfManager(_serverIp, _serviceIni, _serviceLog).SendInitializationConfirm(dto);
+            new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendInitializationConfirm(dto);
 
             IsSenderBusy = false;
         }
@@ -93,7 +93,7 @@ namespace RtuManagement
         private void SendCurrentMonitoringStepThread(object dto)
         {
             var step = dto as KnowRtuCurrentMonitoringStepDto;
-            new R2DWcfManager(_serverIp, _serviceIni, _serviceLog).SendCurrentMonitoringStep(step);
+            new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendCurrentMonitoringStep(step);
             IsSenderBusy = false;
         }
 
@@ -113,7 +113,7 @@ namespace RtuManagement
         private void SendMonitoringResultThread(object dto)
         {
             var monitoringResult = dto as SaveMonitoringResultDto;
-            new R2DWcfManager(_serverIp, _serviceIni, _serviceLog).SendMonitoringResult(monitoringResult);
+            new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendMonitoringResult(monitoringResult);
             IsSenderBusy = false;
         }
     }
