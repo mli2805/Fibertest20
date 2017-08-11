@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Sockets;
 using System.ServiceModel;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.Utils35;
@@ -64,6 +65,18 @@ namespace WcfConnections
         {
             try
             {
+                var openTimeout = TimeSpan.FromSeconds(_iniFile.Read(IniSection.NetTcpBinding, IniKey.OpenTimeout, 1));
+                var tcpClient = new TcpClient();
+                var tcpConnection = tcpClient.BeginConnect(_endPointAddress, (int)TcpPorts.ServerListenToRtu, null, null);
+                var success = tcpConnection.AsyncWaitHandle.WaitOne(openTimeout);
+                if (!success)
+                {
+                    _logger35.AppendLine($"Can't establish connection with {_endPointAddress}:{(int)TcpPorts.ServerListenToRtu}");
+                    var word = Pinger.Ping(_endPointAddress) ? "passed" : "failed";
+                    _logger35.AppendLine($"Ping {_endPointAddress} {word}");
+                    return null;
+                }
+
                 var connection = new WcfServiceForRtuClient(
                     CreateDefaultNetTcpBinding(_iniFile),
                     new EndpointAddress(
@@ -109,7 +122,6 @@ namespace WcfConnections
                 Security = { Mode = SecurityMode.None },
                 ReceiveTimeout = TimeSpan.FromSeconds(iniFile.Read(IniSection.NetTcpBinding, IniKey.ReadTimeout, 3)),
                 SendTimeout = TimeSpan.FromSeconds(iniFile.Read(IniSection.NetTcpBinding, IniKey.SendTimeout, 3)),
-                OpenTimeout = TimeSpan.FromSeconds(iniFile.Read(IniSection.NetTcpBinding, IniKey.OpenTimeout, 1)),
                 MaxBufferSize = 4096000 //4M
             };
         }

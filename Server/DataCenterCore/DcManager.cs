@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net.Mime;
 using System.ServiceModel;
-using System.Threading;
 using Iit.Fibertest.Utils35;
 using WcfServiceForClientLibrary;
 using WcfServiceForRtuLibrary;
@@ -32,8 +30,6 @@ namespace DataCenterCore
             _dcLog.AssignFile("DcCore.log", cultureString);
             _dcLog.EmptyLine();
             _dcLog.EmptyLine('-');
-
-            Thread.Sleep(10000);
 
             lock (_rtuStationsLockObj)
             {
@@ -122,6 +118,5 @@ namespace DataCenterCore
             _dcLog.AppendLine($"{list.Count} RTU found");
             return list;
         }
-
     }
 }
