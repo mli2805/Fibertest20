@@ -3,13 +3,14 @@
 namespace Iit.Fibertest.Utils35
 {
     [Serializable]
-    public class NetAddress
+    public class NetAddress : ICloneable
     {
         public string Ip4Address { get; set; } // 172.35.98.128
         public string HostName { get; set; } // domain.beltelecom.by 
         public int Port { get; set; }
 
         public bool IsAddressSetAsIp { get; set; }
+
 
         public NetAddress()
         {
@@ -72,6 +73,17 @@ namespace Iit.Fibertest.Utils35
         public bool HasValidTcpPort()
         {
             return Port > 0 && Port < 65356;
+        }
+
+        public object Clone()
+        {
+            return new NetAddress()
+            {
+                HostName = (string)HostName.Clone(),
+                Ip4Address = (string)Ip4Address.Clone(),
+                Port = Port,
+                IsAddressSetAsIp = IsAddressSetAsIp,
+            };
         }
     }
 }

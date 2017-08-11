@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Dto;
+using Iit.Fibertest.Utils35;
 using WcfConnections;
 
 namespace DataCenterCore
@@ -60,7 +61,7 @@ namespace DataCenterCore
             var addresses = new List<string>();
             lock (_clientStationsLockObj)
             {
-                addresses.AddRange(_clientStations.Select(clientStation => ((ClientStation)clientStation.Clone()).Ip));
+                addresses.AddRange(_clientStations.Select(clientStation => ((ClientStation)clientStation.Clone()).Addresses.Main.Ip4Address));
             }
             return new D2CWcfManager(addresses, _coreIni, _dcLog).ConfirmRtuInitialized(dto);
         }
@@ -72,7 +73,7 @@ namespace DataCenterCore
             var addresses = new List<string>();
             lock (_clientStationsLockObj)
             {
-                addresses.AddRange(_clientStations.Select(clientStation => ((ClientStation)clientStation.Clone()).Ip));
+                addresses.AddRange(_clientStations.Select(clientStation => ((ClientStation)clientStation.Clone()).Addresses.Main.Ip4Address));
             }
             return new D2CWcfManager(addresses, _coreIni, _dcLog).ConfirmMonitoringStarted(dto);
         }
@@ -84,7 +85,7 @@ namespace DataCenterCore
             var addresses = new List<string>();
             lock (_clientStationsLockObj)
             {
-                addresses.AddRange(_clientStations.Select(clientStation => ((ClientStation)clientStation.Clone()).Ip));
+                addresses.AddRange(_clientStations.Select(clientStation => ((ClientStation)clientStation.Clone()).Addresses.Main.Ip4Address));
             }
             return new D2CWcfManager(addresses, _coreIni, _dcLog).ConfirmMonitoringStopped(dto);
         }
@@ -96,7 +97,7 @@ namespace DataCenterCore
             var addresses = new List<string>();
             lock (_clientStationsLockObj)
             {
-                addresses.AddRange(_clientStations.Select(clientStation => ((ClientStation)clientStation.Clone()).Ip));
+                addresses.AddRange(_clientStations.Select(clientStation => ((ClientStation)clientStation.Clone()).Addresses.Main.Ip4Address));
             }
             return new D2CWcfManager(addresses, _coreIni, _dcLog).ConfirmMonitoringSettingsApplied(dto);
         }
@@ -108,7 +109,7 @@ namespace DataCenterCore
             var addresses = new List<string>();
             lock (_clientStationsLockObj)
             {
-                addresses.AddRange(_clientStations.Select(clientStation => ((ClientStation)clientStation.Clone()).Ip));
+                addresses.AddRange(_clientStations.Select(clientStation => ((ClientStation)clientStation.Clone()).Addresses.Main.Ip4Address));
             }
             return new D2CWcfManager(addresses, _coreIni, _dcLog).ConfirmBaseRefAssigned(dto);
         }
@@ -125,7 +126,7 @@ namespace DataCenterCore
             var addresses = new List<string>();
             lock (_clientStationsLockObj)
             {
-                addresses.AddRange(_clientStations.Select(clientStation => ((ClientStation)clientStation.Clone()).Ip));
+                addresses.AddRange(_clientStations.Select(clientStation => ((ClientStation)clientStation.Clone()).Addresses.Main.Ip4Address));
             }
             return new D2CWcfManager(addresses, _coreIni, _dcLog).ProcessRtuCurrentMonitoringStep(monitoringStep);
         }

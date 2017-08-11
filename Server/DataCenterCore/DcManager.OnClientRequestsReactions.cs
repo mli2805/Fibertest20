@@ -86,8 +86,14 @@ namespace DataCenterCore
             _dcLog.AppendLine($"Client {address} registered");
             lock (_clientStationsLockObj)
             {
-                if (_clientStations.All(c => c.Ip != address))
-                    _clientStations.Add(new ClientStation() { Ip = address });
+                if (_clientStations.All(c => c.Addresses.Main.Ip4Address != address))
+                    _clientStations.Add(new ClientStation()
+                    {
+                        Addresses = new DoubleAddressWithLastConnectioncheck()
+                        {
+                            Main = new NetAddress(address, (int)TcpPorts.ClientListenTo)
+                        } 
+                    });
             }
             return MessageProcessingResult.ProcessedSuccessfully;
         }
@@ -97,7 +103,7 @@ namespace DataCenterCore
             _dcLog.AppendLine($"Client {address} exited");
             lock (_clientStationsLockObj)
             {
-                _clientStations.RemoveAll(c => c.Ip == address);
+                _clientStations.RemoveAll(c => c.Addresses.Main.Ip4Address == address);
             }
             return MessageProcessingResult.ProcessedSuccessfully;
         }

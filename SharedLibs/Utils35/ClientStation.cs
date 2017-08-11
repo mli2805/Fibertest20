@@ -1,15 +1,17 @@
 using System;
 
-namespace DataCenterCore
+namespace Iit.Fibertest.Utils35
 {
     public class ClientStation : ICloneable
     {
-        public string Ip { get; set; }
-
+        public DoubleAddressWithLastConnectioncheck Addresses { get; set; }
 
         public object Clone()
         {
-            return new ClientStation() {Ip = (string) Ip.Clone()};
+            return new ClientStation()
+            {
+                Addresses = (DoubleAddressWithLastConnectioncheck) Addresses.Clone()
+            };
         }
     }
 }
