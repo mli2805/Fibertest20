@@ -37,7 +37,7 @@ namespace WcfConnections
             }
             catch (Exception e)
             {
-                _logger35.AppendLine(string.Format(Resources.SID_Cannot_establish_connection_with__0___1_, _endPoint, (int)TcpPorts.ClientListenTo));
+                _logger35.AppendLine(string.Format(Resources.SID_Cannot_establish_connection_with__0___1_, _endPoint.Main.Ip4Address, (int)TcpPorts.ClientListenTo));
                 _logger35.AppendLine(e.Message);
                 return null;
             }
@@ -56,7 +56,7 @@ namespace WcfConnections
             }
             catch (Exception e)
             {
-                _logger35.AppendLine(string.Format(Resources.SID_Cannot_establish_connection_with__0___1_, _endPoint, (int)TcpPorts.ServerListenToClient));
+                _logger35.AppendLine(string.Format(Resources.SID_Cannot_establish_connection_with__0___1_, _endPoint.Main.Ip4Address, (int)TcpPorts.ServerListenToClient));
                 _logger35.AppendLine(e.Message);
                 return null;
             }
@@ -72,9 +72,9 @@ namespace WcfConnections
                 var success = tcpConnection.AsyncWaitHandle.WaitOne(openTimeout);
                 if (!success)
                 {
-                    _logger35.AppendLine($"Can't establish connection with {_endPoint}:{(int)TcpPorts.ServerListenToRtu}");
+                    _logger35.AppendLine($"Can't establish connection with {_endPoint.Main.Ip4Address}:{(int)TcpPorts.ServerListenToRtu}");
                     var word = Pinger.Ping(_endPoint.Main.Ip4Address) ? "passed" : "failed";
-                    _logger35.AppendLine($"Ping {_endPoint} {word}");
+                    _logger35.AppendLine($"Ping {_endPoint.Main.Ip4Address} {word}");
                     return null;
                 }
 
@@ -87,7 +87,7 @@ namespace WcfConnections
             }
             catch (Exception e)
             {
-                _logger35.AppendLine(string.Format(Resources.SID_Cannot_establish_connection_with__0___1_, _endPoint, (int)TcpPorts.ServerListenToRtu));
+                _logger35.AppendLine(string.Format(Resources.SID_Cannot_establish_connection_with__0___1_, _endPoint.Main.Ip4Address, (int)TcpPorts.ServerListenToRtu));
                 _logger35.AppendLine(e.Message);
                 return null;
             }
@@ -106,7 +106,7 @@ namespace WcfConnections
             }
             catch (Exception e)
             {
-                _logger35.AppendLine(string.Format(Resources.SID_Cannot_establish_connection_with__0___1_, _endPoint, (int)TcpPorts.RtuListenTo));
+                _logger35.AppendLine(string.Format(Resources.SID_Cannot_establish_connection_with__0___1_, _endPoint.Main.Ip4Address, (int)TcpPorts.RtuListenTo));
                 _logger35.AppendLine(e.Message);
                 return null;
             }
