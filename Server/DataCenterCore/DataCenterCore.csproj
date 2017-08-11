@@ -44,10 +44,8 @@
   <ItemGroup>
     <Compile Include="DcManager.OnClientRequestsReactions.cs" />
     <Compile Include="DcManager.OnRtuRequestReactions.cs" />
-    <Compile Include="Models\ClientStation.cs" />
     <Compile Include="DcManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Models\RtuStation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">

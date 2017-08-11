@@ -110,8 +110,11 @@ namespace DataCenterCore
                     list.Add(new RtuStation()
                     {
                         Id = Guid.Parse(parts[0]),
-                        Ip = parts[1],
-                        LastConnection = DateTime.Now,
+                        Addresses = new DoubleAddressWithLastConnectioncheck()
+                        {
+                            Main = new NetAddress(parts[1], (int)TcpPorts.RtuListenTo),
+                            LastConnectionOnMain = DateTime.Now,
+                        },
                     });
                 }
             }
