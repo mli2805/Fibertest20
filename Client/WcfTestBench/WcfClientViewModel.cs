@@ -199,7 +199,7 @@ namespace WcfTestBench
         {
             _clientIni.Write(IniSection.General, IniKey.RtuServiceIp, RtuServiceIp);
 
-            var rtu = new InitializeRtuDto() { RtuId = _rtuId, RtuAddresses = RtuAddresses };
+            var rtu = new InitializeRtuDto() { RtuId = _rtuId, ServerAddresses = DcServiceAddresses, RtuAddresses = RtuAddresses };
             _c2DWcfManager.InitializeRtu(rtu);
             DisplayString = Resources.SID_Command_sent__wait_please_;
         }

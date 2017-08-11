@@ -52,8 +52,8 @@ namespace RtuManagement
         {
             _rtuIni.Write(IniSection.Server, IniKey.RtuGuid, rtu.RtuId.ToString());
 
-            _rtuIni.WriteServerAddresses(rtu.RtuAddresses);
-            _serverAddresses = rtu.RtuAddresses;
+            _rtuIni.WriteServerAddresses(rtu.ServerAddresses);
+            _serverAddresses = rtu.ServerAddresses;
         }
 
         public void StartMonitoring()
