@@ -1,5 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 using System.Text;
+using Dto;
 
 namespace Iit.Fibertest.Utils35
 {
@@ -77,6 +78,44 @@ namespace Iit.Fibertest.Utils35
             int result;
             return int.TryParse(Read(section, key, defaultValue.ToString()), out result) ? result : defaultValue;
         }
+
+        public NetAddress Read(IniSection section)
+        {
+            return new NetAddress
+            {
+                IsAddressSetAsIp = Read(section, IniKey.IsAddressIp, true),
+                Ip4Address = Read(section, IniKey.Ip, "192.168.96.179"),
+                HostName = Read(section, IniKey.Host, "localhost"),
+                Port = Read(section, IniKey.TcpPort, -1)
+            };
+        }
+
+        public void Write(NetAddress netAddress, IniSection section)
+        {
+            Write(section, IniKey.IsAddressIp, netAddress.IsAddressSetAsIp);
+            Write(section, IniKey.Ip, netAddress.Ip4Address);
+            Write(section, IniKey.Host, netAddress.HostName);
+            Write(section, IniKey.TcpPort, netAddress.Port);
+        }
+
+        public DoubleAddressWithLastConnectionCheck ReadServerAddresses()
+        {
+            return new DoubleAddressWithLastConnectionCheck
+            {
+                Main = Read(IniSection.ServerMainAddress),
+                HasReserveAddress = Read(IniSection.Server, IniKey.HasReserveAddress, false),
+                Reserve = Read(IniSection.ServerReserveAddress),
+            };
+        }
+
+        public void WriteServerAddresses(DoubleAddressWithLastConnectionCheck doubleAddress)
+        {
+            Write(doubleAddress.Main, IniSection.ServerMainAddress);
+            Write(IniSection.Server, IniKey.HasReserveAddress, doubleAddress.HasReserveAddress);
+            Write(doubleAddress.Reserve, IniSection.ServerReserveAddress);
+        }
+
+
 
         #endregion
     }

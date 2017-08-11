@@ -1,5 +1,4 @@
 ﻿using System;
-using Dto;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.Utils35;
@@ -70,7 +69,7 @@ namespace RtuManagement
 
             _serviceLog = serviceLog;
             _serviceIni = serviceIni;
-            _serverAddresses = GetServerAddressesFromIni();
+            _serverAddresses = _serviceIni.ReadServerAddresses();
 
             _rtuIni = new IniFile();
             _rtuIni.AssignFile("RtuManager.ini");
@@ -81,21 +80,8 @@ namespace RtuManagement
 
             _mikrotikRebootTimeout =
                 TimeSpan.FromSeconds(_rtuIni.Read(IniSection.Recovering, IniKey.MikrotikRebootTimeout, 40));
-            _id = Guid.Parse(_rtuIni.Read(IniSection.DataCenter, IniKey.RtuGuid, Guid.Empty.ToString()));
+            _id = Guid.Parse(_rtuIni.Read(IniSection.Server, IniKey.RtuGuid, Guid.Empty.ToString()));
         }
-
-        private DoubleAddressWithLastConnectionCheck GetServerAddressesFromIni()
-        {
-            var addressPair = new DoubleAddressWithLastConnectionCheck()
-            {
-                Main = new NetAddress(_serviceIni.Read(IniSection.DataCenter, IniKey.MainAddress, "192.168.96.179"), TcpPorts.ServerListenToRtu),
-            };
-            addressPair.HasReserveAddress = _serviceIni.Read(IniSection.DataCenter, IniKey.HasReserveAddress, false);
-            if (addressPair.HasReserveAddress)
-            {
-                addressPair.Reserve = new NetAddress(_serviceIni.Read(IniSection.DataCenter, IniKey.ReserveAddress, "192.168.96.179"), TcpPorts.ServerListenToRtu);
-            }
-            return addressPair;
-        }
+      
     }
 }

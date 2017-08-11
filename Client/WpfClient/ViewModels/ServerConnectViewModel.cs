@@ -1,5 +1,4 @@
 ﻿using Caliburn.Micro;
-using Dto;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.Utils35;
 
@@ -25,10 +24,7 @@ namespace Iit.Fibertest.Client
         public ServerConnectViewModel(IniFile iniFile)
         {
             _iniFile = iniFile;
-            var serverIp = iniFile.Read(IniSection.DataCenter, IniKey.MainAddress, @"192.168.96.179");
-            var serverPort = iniFile.Read(IniSection.DataCenter, IniKey.ServerTcpPort, 11840);
-
-            ServerConnectionTestViewModel = new NetAddressTestViewModel(new NetAddress(serverIp, serverPort));
+            ServerConnectionTestViewModel = new NetAddressTestViewModel(_iniFile.Read(IniSection.ServerMainAddress));
         }
 
         protected override void OnViewLoaded(object view)
@@ -40,8 +36,7 @@ namespace Iit.Fibertest.Client
         public void Save()
         {
             var serverAddress = ServerConnectionTestViewModel.NetAddressInputViewModel.GetNetAddress();
-            _iniFile.Write(IniSection.DataCenter, IniKey.MainAddress, serverAddress.Ip4Address);
-            _iniFile.Write(IniSection.DataCenter, IniKey.ServerTcpPort, serverAddress.Port);
+            _iniFile.Write(serverAddress, IniSection.ServerMainAddress);
             TryClose(true);
         }
 

@@ -2,15 +2,18 @@
 {
     public enum IniKey
     {
-        // DataCenter
-        MainAddress,
+        // Server
         RtuGuid,
+
         HasReserveAddress,
         ServerTcpPort,
-        ReserveAddress,
-        CurrentMeasurementFile,
-        BaseMeasurementFile,
-        MeasurementWithBaseFile,
+
+        // ServerMainAddress
+        // ServerReserveAddress
+        Ip,
+        Host,
+        IsAddressIp,
+        TcpPort,
 
         // General
         LocalIp,
@@ -41,6 +44,7 @@
         RecoveryStep,
         RebootSystemEnabled,
         RebootSystemDelay,
+
 
         // Watchdog
         RtuServiceName,

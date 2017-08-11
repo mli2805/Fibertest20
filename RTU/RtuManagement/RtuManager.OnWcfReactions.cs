@@ -50,9 +50,9 @@ namespace RtuManagement
 
         private void SaveInitializationParameters(InitializeRtuDto rtu)
         {
-            _rtuIni.Write(IniSection.DataCenter, IniKey.RtuGuid, rtu.RtuId.ToString());
+            _rtuIni.Write(IniSection.Server, IniKey.RtuGuid, rtu.RtuId.ToString());
 
-            _rtuIni.Write(IniSection.DataCenter, IniKey.MainAddress, rtu.RtuAddresses.Main.Ip4Address);
+            _rtuIni.WriteServerAddresses(rtu.RtuAddresses);
             _serverAddresses = rtu.RtuAddresses;
         }
 

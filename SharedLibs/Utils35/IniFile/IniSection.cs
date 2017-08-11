@@ -3,7 +3,9 @@
     public enum IniSection
     {
         General,
-        DataCenter,
+        Server,
+        ServerMainAddress,
+        ServerReserveAddress,
         RtuTestBench,
         Charon,
         Monitoring,
