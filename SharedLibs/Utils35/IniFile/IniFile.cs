@@ -53,7 +53,23 @@ namespace Iit.Fibertest.Utils35
             }
         }
 
+        public void DeleteKey(IniSection section, IniKey key)
+        {
+            lock (_obj)
+            {
+                WritePrivateProfileString(section.ToString(), key.ToString(), null, _filePath);
+            }
+        }
+
         #endregion
+
+        public void DeleteSection(IniSection section)
+        {
+            lock (_obj)
+            {
+                WritePrivateProfileString(section.ToString(), null, null, _filePath);
+            }
+        }
 
         #region Extensions (Other classes)
 
@@ -81,42 +97,46 @@ namespace Iit.Fibertest.Utils35
 
         public NetAddress Read(IniSection section)
         {
-            return new NetAddress
+            var netAddress = new NetAddress
             {
                 IsAddressSetAsIp = Read(section, IniKey.IsAddressIp, true),
-                Ip4Address = Read(section, IniKey.Ip, "192.168.96.179"),
-                HostName = Read(section, IniKey.Host, "localhost"),
                 Port = Read(section, IniKey.TcpPort, -1)
             };
+            netAddress.Ip4Address = Read(section, IniKey.Ip, netAddress.IsAddressSetAsIp ? "192.168.96.179" : "");
+            netAddress.HostName = Read(section, IniKey.Host, netAddress.IsAddressSetAsIp ? "" : "localhost");
+
+            return netAddress;
         }
 
         public void Write(NetAddress netAddress, IniSection section)
         {
             Write(section, IniKey.IsAddressIp, netAddress.IsAddressSetAsIp);
-            Write(section, IniKey.Ip, netAddress.Ip4Address);
-            Write(section, IniKey.Host, netAddress.HostName);
+            Write(section, IniKey.Ip, netAddress.IsAddressSetAsIp ? netAddress.Ip4Address : "");
+            Write(section, IniKey.Host, netAddress.IsAddressSetAsIp ? "" : netAddress.HostName);
             Write(section, IniKey.TcpPort, netAddress.Port);
         }
 
         public DoubleAddressWithLastConnectionCheck ReadServerAddresses()
         {
-            return new DoubleAddressWithLastConnectionCheck
+            var addresses = new DoubleAddressWithLastConnectionCheck
             {
                 Main = Read(IniSection.ServerMainAddress),
                 HasReserveAddress = Read(IniSection.Server, IniKey.HasReserveAddress, false),
-                Reserve = Read(IniSection.ServerReserveAddress),
             };
+            if (addresses.HasReserveAddress)
+                addresses.Reserve = Read(IniSection.ServerReserveAddress);
+            return addresses;
         }
 
         public void WriteServerAddresses(DoubleAddressWithLastConnectionCheck doubleAddress)
         {
             Write(doubleAddress.Main, IniSection.ServerMainAddress);
             Write(IniSection.Server, IniKey.HasReserveAddress, doubleAddress.HasReserveAddress);
-            Write(doubleAddress.Reserve, IniSection.ServerReserveAddress);
+            if (doubleAddress.HasReserveAddress)
+                Write(doubleAddress.Reserve, IniSection.ServerReserveAddress);
+            else
+                DeleteSection(IniSection.ServerReserveAddress);
         }
-
-
-
         #endregion
     }
 }
