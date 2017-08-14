@@ -20,10 +20,6 @@ namespace WcfServiceForRtuLibrary
         [OperationContract]
         bool ConfirmStopMonitoring(MonitoringStoppedDto result);
 
-
-        [OperationContract]
-        bool ProcessMonitoringResult(SaveMonitoringResultDto result);
-
         [OperationContract]
         bool ConfirmMonitoringSettingsApplied(MonitoringSettingsAppliedDto result);
 
@@ -35,5 +31,9 @@ namespace WcfServiceForRtuLibrary
 
         [OperationContract]
         bool KnowRtuCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto monitoringStep);
+
+        [OperationContract]
+        bool ProcessMonitoringResult(SaveMonitoringResultDto result);
+
     }
 }

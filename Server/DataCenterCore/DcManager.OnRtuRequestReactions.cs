@@ -45,10 +45,14 @@ namespace DataCenterCore
             return false;
         }
 
+        #region RTU confirms
         private bool ProcessRtuConnectionChecked(RtuConnectionCheckedDto dto)
         {
             _dcLog.AppendLine($"Rtu {dto.RtuId} replied on connection check");
-            var addresses = new List<DoubleAddressWithLastConnectionCheck>() {new DoubleAddressWithLastConnectionCheck() {Main = new NetAddress(dto.ClientAddress, (int)TcpPorts.ClientListenTo)} };
+            var addresses = new List<DoubleAddressWithLastConnectionCheck>()
+            {
+                new DoubleAddressWithLastConnectionCheck() {Main = new NetAddress(dto.ClientAddress, (int)TcpPorts.ClientListenTo)}
+            };
             new D2CWcfManager(addresses, _coreIni, _dcLog).ConfirmRtuConnectionChecked(dto);
             return true;
         }
@@ -57,64 +61,35 @@ namespace DataCenterCore
         {
             var str = dto.IsInitialized ? "OK" : "ERROR";
             _dcLog.AppendLine($"Rtu {dto.RtuId} initialization {str}");
-
-            var addresses = new List<DoubleAddressWithLastConnectionCheck>();
-            lock (_clientStationsLockObj)
-            {
-                addresses.AddRange(_clientStations.Select(clientStation => ((ClientStation)clientStation.Clone()).Addresses));
-            }
-            return new D2CWcfManager(addresses, _coreIni, _dcLog).ConfirmRtuInitialized(dto);
+            return new D2CWcfManager(GetClients(), _coreIni, _dcLog).ConfirmRtuInitialized(dto);
         }
 
         private bool ConfirmMonitoringStarted(MonitoringStartedDto dto)
         {
             _dcLog.AppendLine($"Rtu {dto.RtuId} monitoring started: {dto.IsSuccessful}");
-
-            var addresses = new List<DoubleAddressWithLastConnectionCheck>();
-            lock (_clientStationsLockObj)
-            {
-                addresses.AddRange(_clientStations.Select(clientStation => ((ClientStation)clientStation.Clone()).Addresses));
-            }
-            return new D2CWcfManager(addresses, _coreIni, _dcLog).ConfirmMonitoringStarted(dto);
+            return new D2CWcfManager(GetClients(), _coreIni, _dcLog).ConfirmMonitoringStarted(dto);
         }
 
         private bool ConfirmMonitoringStopped(MonitoringStoppedDto dto)
         {
             _dcLog.AppendLine($"Rtu {dto.RtuId} monitoring stopped: {dto.IsSuccessful}");
-
-            var addresses = new List<DoubleAddressWithLastConnectionCheck>();
-            lock (_clientStationsLockObj)
-            {
-                addresses.AddRange(_clientStations.Select(clientStation => ((ClientStation)clientStation.Clone()).Addresses));
-            }
-            return new D2CWcfManager(addresses, _coreIni, _dcLog).ConfirmMonitoringStopped(dto);
+            return new D2CWcfManager(GetClients(), _coreIni, _dcLog).ConfirmMonitoringStopped(dto);
         }
 
         private bool ConfirmMonitoringSettingsApplied(MonitoringSettingsAppliedDto dto)
         {
             _dcLog.AppendLine($"Rtu {dto.RtuId} applied monitoring settings: {dto.IsSuccessful}");
-
-            var addresses = new List<DoubleAddressWithLastConnectionCheck>();
-            lock (_clientStationsLockObj)
-            {
-                addresses.AddRange(_clientStations.Select(clientStation => ((ClientStation)clientStation.Clone()).Addresses));
-            }
-            return new D2CWcfManager(addresses, _coreIni, _dcLog).ConfirmMonitoringSettingsApplied(dto);
+            return new D2CWcfManager(GetClients(), _coreIni, _dcLog).ConfirmMonitoringSettingsApplied(dto);
         }
 
         private bool ConfirmBaseRefAssigned(BaseRefAssignedDto dto)
         {
             _dcLog.AppendLine($"Rtu {dto.RtuId} assigned base ref: {dto.IsSuccessful}");
-
-            var addresses = new List<DoubleAddressWithLastConnectionCheck>();
-            lock (_clientStationsLockObj)
-            {
-                addresses.AddRange(_clientStations.Select(clientStation => ((ClientStation)clientStation.Clone()).Addresses));
-            }
-            return new D2CWcfManager(addresses, _coreIni, _dcLog).ConfirmBaseRefAssigned(dto);
+            return new D2CWcfManager(GetClients(), _coreIni, _dcLog).ConfirmBaseRefAssigned(dto);
         }
+        #endregion
 
-      
+        #region RTU notifies
         private bool ProcessMonitoringResult(SaveMonitoringResultDto result)
         {
             _dcLog.AppendLine($"Monitoring result received. Sor size is {result.SorData.Length}");
@@ -123,12 +98,18 @@ namespace DataCenterCore
 
         private bool ProcessRtuCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto monitoringStep)
         {
+            return new D2CWcfManager(GetClients(), _coreIni, _dcLog).ProcessRtuCurrentMonitoringStep(monitoringStep);
+        }
+        #endregion
+
+        private List<DoubleAddressWithLastConnectionCheck> GetClients()
+        {
             var addresses = new List<DoubleAddressWithLastConnectionCheck>();
             lock (_clientStationsLockObj)
             {
                 addresses.AddRange(_clientStations.Select(clientStation => ((ClientStation)clientStation.Clone()).Addresses));
             }
-            return new D2CWcfManager(addresses, _coreIni, _dcLog).ProcessRtuCurrentMonitoringStep(monitoringStep);
+            return addresses;
         }
     }
 }
