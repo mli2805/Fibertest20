@@ -95,8 +95,12 @@ namespace Iit.Fibertest.Client
             ((App)Application.Current).ShutdownMode = ShutdownMode.OnMainWindowClose;
             if (_isAuthenticationSuccessfull != true)
                 TryClose();
-            _logFile.AssignFile(@"client.log"); // this couldn't be done in ctor becauses of tests using shellVM's ctor
-            _iniFile.AssignFile(@"client.ini");
+
+            _iniFile.AssignFile(@"Client.ini");
+            var culture = _iniFile.Read(IniSection.General, IniKey.Culture, @"ru-RU");
+            var logFileLimitKb = _iniFile.Read(IniSection.General, IniKey.LogFileSizeLimitKb, 0);
+
+            _logFile.AssignFile(@"Client.log", logFileLimitKb, culture); // this couldn't be done in ctor becauses of tests using shellVM's ctor
         }
 
         protected override void OnViewLoaded(object view)

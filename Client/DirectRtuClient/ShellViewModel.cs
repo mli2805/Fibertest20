@@ -17,7 +17,7 @@ namespace DirectRtuClient
         public ShellViewModel()
         {
             _rtuLogger = new LogFile();
-            _rtuLogger.AssignFile(@"rtu.log");
+            _rtuLogger.AssignFile(@"rtu.log", 0);
 
             _iniFile35 = new IniFile();
             _iniFile35.AssignFile(@"rtu.ini");

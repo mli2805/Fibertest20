@@ -14,11 +14,12 @@ namespace WcfTestBench
         {
             _clientIniFile = new IniFile();
             _clientIniFile.AssignFile("Client.ini");
+            var culture = _clientIniFile.Read(IniSection.General, IniKey.Culture, "ru-RU");
+            var logFileLimitKb = _clientIniFile.Read(IniSection.General, IniKey.LogFileSizeLimitKb, 0);
 
             _clientLog = new LogFile();
-            _clientLog.AssignFile("Client.log");
+            _clientLog.AssignFile("Client.log", logFileLimitKb, culture);
 
-            var culture = _clientIniFile.Read(IniSection.General, IniKey.Culture, "ru-RU");
             Thread.CurrentThread.CurrentCulture = new CultureInfo(culture);
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(culture);
 

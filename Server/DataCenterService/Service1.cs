@@ -18,7 +18,7 @@ namespace DataCenterService
             var serviceIni = new IniFile();
             serviceIni.AssignFile("DcService.ini");
             var cultureString = serviceIni.Read(IniSection.General, IniKey.Culture, "ru-RU");
-            var logFileSizeLimit = serviceIni.Read(IniSection.General, IniKey.LogFileSizeLimit, 0);
+            var logFileSizeLimit = serviceIni.Read(IniSection.General, IniKey.LogFileSizeLimitKb, 0);
 
             _serviceLog = new LogFile();
             _serviceLog.AssignFile("DcService.log", logFileSizeLimit, cultureString);

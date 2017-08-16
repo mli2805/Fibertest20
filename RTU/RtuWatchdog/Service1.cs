@@ -15,7 +15,7 @@ namespace RtuWatchdog
             _watchdogIni = new IniFile();
             _watchdogIni.AssignFile("RtuWatchdog.ini");
             var cultureString = _watchdogIni.Read(IniSection.General, IniKey.Culture, "ru-RU");
-            var logFileSizeLimit = _watchdogIni.Read(IniSection.General, IniKey.LogFileSizeLimit, 0);
+            var logFileSizeLimit = _watchdogIni.Read(IniSection.General, IniKey.LogFileSizeLimitKb, 0);
 
             _watchdogLog = new LogFile();
             _watchdogLog.AssignFile("RtuWatchdog.log", logFileSizeLimit, cultureString);

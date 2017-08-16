@@ -74,7 +74,7 @@ namespace RtuManagement
             _rtuIni = new IniFile();
             _rtuIni.AssignFile("RtuManager.ini");
             var cultureString = _rtuIni.Read(IniSection.General, IniKey.Culture, "ru-RU");
-            var logFileSizeLimit = _rtuIni.Read(IniSection.General, IniKey.LogFileSizeLimit, 0);
+            var logFileSizeLimit = _rtuIni.Read(IniSection.General, IniKey.LogFileSizeLimitKb, 0);
 
             _rtuLog = new LogFile();
             _rtuLog.AssignFile("RtuManager.log", logFileSizeLimit, cultureString);

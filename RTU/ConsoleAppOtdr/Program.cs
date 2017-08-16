@@ -16,7 +16,7 @@ namespace ConsoleAppOtdr
 //
 //
             var logger35 = new LogFile();
-            logger35.AssignFile("service.log");
+            logger35.AssignFile("service.log", 0);
 //
 //            logger35.EmptyLine();
 //            logger35.EmptyLine('-');

@@ -2,19 +2,22 @@
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
+using System.Threading;
 
 namespace Iit.Fibertest.Utils35
 {
     public class LogFile
     {
+        private const string ToCompress = ".toCompress";
+
         private StreamWriter _logFile;
         private string _culture;
-        private int _sizeLimit;
+        private int _sizeLimitKb;
         private string _logFullFileName;
 
         private readonly object _obj = new object();
 
-        public void AssignFile(string filename, int sizeLimit = 0, string culture ="ru-RU")
+        public void AssignFile(string filename, int sizeLimitKb, string culture = "ru-RU")
         {
             if (filename == "")
                 return;
@@ -27,7 +30,7 @@ namespace Iit.Fibertest.Utils35
                 _logFile = File.AppendText(_logFullFileName);
                 _logFile.AutoFlush = true;
 
-                _sizeLimit = sizeLimit;
+                _sizeLimitKb = sizeLimitKb;
                 _culture = culture;
             }
         }
@@ -47,6 +50,9 @@ namespace Iit.Fibertest.Utils35
         {
             lock (_obj)
             {
+                if (_logFile == null)
+                    return;
+
                 message = message.Replace("\0", string.Empty);
                 message = message.Trim();
                 message = message.Replace("\r\n", "\r");
@@ -60,18 +66,38 @@ namespace Iit.Fibertest.Utils35
                 foreach (var str in content)
                 {
                     var msg = DateTime.Now.ToString(new CultureInfo(_culture)) + "  " + offsetStr + prefix + str.Trim();
-                    if (_logFile != null)
-                        _logFile.WriteLine(msg);
-                    else Console.WriteLine(msg);
+                    _logFile.WriteLine(msg);
                 }
 
-                if (_sizeLimit > 0 && _logFile?.BaseStream.Length > _sizeLimit)
-                    Pack();
+                if (_sizeLimitKb > 0 && _logFile.BaseStream.Length > _sizeLimitKb * 1024)
+                {
+                    var newEmptyLogFile = Utils.FileNameForSure(@"..\Log\", "empty.log", true);
+                    _logFile.Close();
+                    File.Replace(newEmptyLogFile, _logFullFileName, _logFullFileName + ToCompress);
+                    _logFile = File.AppendText(_logFullFileName);
+                    _logFile.AutoFlush = true;
+
+                    var thread = new Thread(Pack);
+                    thread.Start();
+                }
             }
         }
 
         private void Pack()
         {
+            FileInfo fileToCompress = new FileInfo(_logFullFileName + ToCompress);
+            using (FileStream originalFileStream = fileToCompress.OpenRead())
+            {
+                using (FileStream compressedFileStream = File.Create(_logFullFileName + ".gz"))
+                {
+                    using (GZipStream compressionStream = new GZipStream(compressedFileStream,
+                        CompressionMode.Compress))
+                    {
+                        originalFileStream.CopyTo(compressionStream);
+                    }
+                }
+            }
+            File.Delete(_logFullFileName + ToCompress);
         }
     }
 }
