@@ -13,7 +13,7 @@ namespace DirectRtuClient
     public class OtauViewModel : Screen
     {
         private readonly IniFile _iniFile35;
-        private readonly Logger35 _rtuLogger;
+        private readonly LogFile _rtuLogger;
 
         private bool _isOtauInitialized;
         public bool IsOtauInitialized
@@ -191,7 +191,7 @@ namespace DirectRtuClient
         public string BopIpAddress { get; set; }
         public int BopTcpPort { get; set; }
 
-        public OtauViewModel(string ipAddress, int tcpPort, IniFile iniFile, Logger35 rtuLogger)
+        public OtauViewModel(string ipAddress, int tcpPort, IniFile iniFile, LogFile rtuLogger)
         {
             _iniFile35 = iniFile;
             _rtuLogger = rtuLogger;

@@ -15,13 +15,13 @@ namespace WcfConnections
     {
         private readonly DoubleAddressWithLastConnectionCheck _endPoint;
         private readonly IniFile _iniFile;
-        private readonly Logger35 _logger35;
+        private readonly LogFile _logFile;
 
-        public WcfFactory(DoubleAddressWithLastConnectionCheck endPoint, IniFile iniFile, Logger35 logger35)
+        public WcfFactory(DoubleAddressWithLastConnectionCheck endPoint, IniFile iniFile, LogFile logFile)
         {
             _endPoint = endPoint;
             _iniFile = iniFile;
-            _logger35 = logger35;
+            _logFile = logFile;
         }
 
         public ClientWcfServiceClient CreateClientConnection()
@@ -37,8 +37,8 @@ namespace WcfConnections
             }
             catch (Exception e)
             {
-                _logger35.AppendLine(string.Format(Resources.SID_Cannot_establish_connection_with__0___1_, _endPoint.Main.Ip4Address, (int)TcpPorts.ClientListenTo));
-                _logger35.AppendLine(e.Message);
+                _logFile.AppendLine(string.Format(Resources.SID_Cannot_establish_connection_with__0___1_, _endPoint.Main.Ip4Address, (int)TcpPorts.ClientListenTo));
+                _logFile.AppendLine(e.Message);
                 return null;
             }
         }
@@ -56,8 +56,8 @@ namespace WcfConnections
             }
             catch (Exception e)
             {
-                _logger35.AppendLine(string.Format(Resources.SID_Cannot_establish_connection_with__0___1_, _endPoint.Main.Ip4Address, (int)TcpPorts.ServerListenToClient));
-                _logger35.AppendLine(e.Message);
+                _logFile.AppendLine(string.Format(Resources.SID_Cannot_establish_connection_with__0___1_, _endPoint.Main.Ip4Address, (int)TcpPorts.ServerListenToClient));
+                _logFile.AppendLine(e.Message);
                 return null;
             }
         }
@@ -72,9 +72,9 @@ namespace WcfConnections
                 var success = tcpConnection.AsyncWaitHandle.WaitOne(openTimeout);
                 if (!success)
                 {
-                    _logger35.AppendLine($"Can't establish connection with {_endPoint.Main.Ip4Address}:{(int)TcpPorts.ServerListenToRtu}");
+                    _logFile.AppendLine($"Can't establish connection with {_endPoint.Main.Ip4Address}:{(int)TcpPorts.ServerListenToRtu}");
                     var word = Pinger.Ping(_endPoint.Main.Ip4Address) ? "passed" : "failed";
-                    _logger35.AppendLine($"Ping {_endPoint.Main.Ip4Address} {word}");
+                    _logFile.AppendLine($"Ping {_endPoint.Main.Ip4Address} {word}");
                     return null;
                 }
 
@@ -87,8 +87,8 @@ namespace WcfConnections
             }
             catch (Exception e)
             {
-                _logger35.AppendLine(string.Format(Resources.SID_Cannot_establish_connection_with__0___1_, _endPoint.Main.Ip4Address, (int)TcpPorts.ServerListenToRtu));
-                _logger35.AppendLine(e.Message);
+                _logFile.AppendLine(string.Format(Resources.SID_Cannot_establish_connection_with__0___1_, _endPoint.Main.Ip4Address, (int)TcpPorts.ServerListenToRtu));
+                _logFile.AppendLine(e.Message);
                 return null;
             }
         }
@@ -106,8 +106,8 @@ namespace WcfConnections
             }
             catch (Exception e)
             {
-                _logger35.AppendLine(string.Format(Resources.SID_Cannot_establish_connection_with__0___1_, _endPoint.Main.Ip4Address, (int)TcpPorts.RtuListenTo));
-                _logger35.AppendLine(e.Message);
+                _logFile.AppendLine(string.Format(Resources.SID_Cannot_establish_connection_with__0___1_, _endPoint.Main.Ip4Address, (int)TcpPorts.RtuListenTo));
+                _logFile.AppendLine(e.Message);
                 return null;
             }
         }

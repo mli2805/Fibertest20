@@ -7,7 +7,7 @@ namespace ClientWcfServiceLibrary
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public class ClientWcfService : IClientWcfService
     {
-        public static Logger35 ClientLog { get; set; }
+        public static LogFile ClientLog { get; set; }
 
         public static event OnMessageReceived MessageReceived;
         public delegate void OnMessageReceived(object e);

@@ -8,16 +8,17 @@ namespace RtuWatchdog
     public partial class Service1 : ServiceBase
     {
         private readonly IniFile _watchdogIni;
-        private readonly Logger35 _watchdogLog;
+        private readonly LogFile _watchdogLog;
         public Service1()
         {
             InitializeComponent();
             _watchdogIni = new IniFile();
             _watchdogIni.AssignFile("RtuWatchdog.ini");
             var cultureString = _watchdogIni.Read(IniSection.General, IniKey.Culture, "ru-RU");
+            var logFileSizeLimit = _watchdogIni.Read(IniSection.General, IniKey.LogFileSizeLimit, 0);
 
-            _watchdogLog = new Logger35();
-            _watchdogLog.AssignFile("RtuWatchdog.log", cultureString);
+            _watchdogLog = new LogFile();
+            _watchdogLog.AssignFile("RtuWatchdog.log", logFileSizeLimit, cultureString);
 
             _watchdogLog.EmptyLine();
             _watchdogLog.EmptyLine('-');

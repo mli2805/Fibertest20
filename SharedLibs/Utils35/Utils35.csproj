@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Iit.Fibertest.Utils35</RootNamespace>
     <AssemblyName>Iit.Fibertest.Utils35</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -83,7 +83,7 @@
     <Compile Include="IniFile\IniSection.cs" />
     <Compile Include="LedDisplay.cs" />
     <Compile Include="LedDisplayCode.cs" />
-    <Compile Include="Logger35.cs" />
+    <Compile Include="LogFile.cs" />
     <Compile Include="Mikrotik.cs" />
     <Compile Include="MikrotikInBop.cs" />
     <Compile Include="Pinger.cs" />

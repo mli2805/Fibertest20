@@ -10,13 +10,13 @@ namespace DirectRtuClient
 
         public string IpAddress { get; set; }
 
-        private readonly Logger35 _rtuLogger;
+        private readonly LogFile _rtuLogger;
         private static IniFile _iniFile35;
 
         internal static ServiceHost MyServiceHost;
         public ShellViewModel()
         {
-            _rtuLogger = new Logger35();
+            _rtuLogger = new LogFile();
             _rtuLogger.AssignFile(@"rtu.log");
 
             _iniFile35 = new IniFile();

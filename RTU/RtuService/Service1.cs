@@ -13,7 +13,7 @@ namespace RtuService
     public partial class Service1 : ServiceBase
     {
         private readonly IniFile _serviceIni;
-        private readonly Logger35 _serviceLog;
+        private readonly LogFile _serviceLog;
         private RtuManager _rtuManager;
         private Thread _rtuManagerThread;
 
@@ -23,9 +23,10 @@ namespace RtuService
             _serviceIni = new IniFile();
             _serviceIni.AssignFile("RtuService.ini");
             var cultureString = _serviceIni.Read(IniSection.General, IniKey.Culture, "ru-RU");
+            var logFileSizeLimit = _serviceIni.Read(IniSection.General, IniKey.LogFileSizeLimit, 0);
 
-            _serviceLog = new Logger35();
-            _serviceLog.AssignFile("RtuService.log", cultureString);
+            _serviceLog = new LogFile();
+            _serviceLog.AssignFile("RtuService.log", logFileSizeLimit, cultureString);
 
             _serviceLog.EmptyLine();
             _serviceLog.EmptyLine('-');

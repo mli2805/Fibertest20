@@ -19,7 +19,7 @@ namespace Iit.Fibertest.Client
         private readonly Bus _bus;
         private readonly IWindowManager _windowManager;
         private readonly IniFile _iniFile35;
-        private readonly Logger35 _logger35;
+        private readonly LogFile _logFile;
 
         public string RtuTitle { get; set; }
         public int RtuPortNumber { get; set; }
@@ -72,7 +72,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public OtauToAttachViewModel(Guid rtuId, int portNumberForAttachment, ReadModel readModel, Bus bus, IWindowManager windowManager, IniFile iniFile35, Logger35 logger35)
+        public OtauToAttachViewModel(Guid rtuId, int portNumberForAttachment, ReadModel readModel, Bus bus, IWindowManager windowManager, IniFile iniFile35, LogFile logFile)
         {
             _rtuId = rtuId;
             _portNumberForAttachment = portNumberForAttachment;
@@ -80,7 +80,7 @@ namespace Iit.Fibertest.Client
             _bus = bus;
             _windowManager = windowManager;
             _iniFile35 = iniFile35;
-            _logger35 = logger35;
+            _logFile = logFile;
 
             InitializeView();
         }
@@ -137,7 +137,7 @@ namespace Iit.Fibertest.Client
 
             Charon otau = new Charon(
                 new NetAddress(NetAddressInputViewModel.GetNetAddress().Ip4Address, NetAddressInputViewModel.GetNetAddress().Port),
-                _iniFile35, _logger35);
+                _iniFile35, _logFile);
             using (new WaitCursor())
             {
                await Task.Run(() => RealOtauAttachProcess(otau));

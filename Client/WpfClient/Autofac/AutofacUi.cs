@@ -21,7 +21,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterInstance<ILogger>(logger);
 
             builder.RegisterInstance(new IniFile());
-            builder.RegisterInstance(new Logger35());
+            builder.RegisterInstance(new LogFile());
         }
 
 

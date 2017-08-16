@@ -9,31 +9,31 @@ namespace WcfConnections
     {
         private readonly List<DoubleAddressWithLastConnectionCheck> _addresses;
         private readonly IniFile _iniFile;
-        private readonly Logger35 _logger35;
+        private readonly LogFile _logFile;
 
-        public D2CWcfManager(List<DoubleAddressWithLastConnectionCheck> addresses, IniFile iniFile, Logger35 logger35)
+        public D2CWcfManager(List<DoubleAddressWithLastConnectionCheck> addresses, IniFile iniFile, LogFile logFile)
         {
             _addresses = addresses;
             _iniFile = iniFile;
-            _logger35 = logger35;
+            _logFile = logFile;
         }
 
         public void ConfirmRtuConnectionChecked(RtuConnectionCheckedDto dto)
         {
             foreach (var clientAddress in _addresses)
             {
-                var wcfConnection = new WcfFactory(clientAddress, _iniFile, _logger35).CreateClientConnection();
+                var wcfConnection = new WcfFactory(clientAddress, _iniFile, _logFile).CreateClientConnection();
                 if (wcfConnection == null)
                     continue;
 
                 try
                 {
                     wcfConnection.ConfirmRtuConnectionChecked(dto);
-                    _logger35.AppendLine($"Transfered response on check connection with RTU {dto.RtuId} to client {clientAddress}");
+                    _logFile.AppendLine($"Transfered response on check connection with RTU {dto.RtuId} to client {clientAddress}");
                 }
                 catch (Exception e)
                 {
-                    _logger35.AppendLine(e.Message);
+                    _logFile.AppendLine(e.Message);
                 }
             }
         }
@@ -42,18 +42,18 @@ namespace WcfConnections
         {
             foreach (var clientAddress in _addresses)
             {
-                var wcfConnection = new WcfFactory(clientAddress, _iniFile, _logger35).CreateClientConnection();
+                var wcfConnection = new WcfFactory(clientAddress, _iniFile, _logFile).CreateClientConnection();
                 if (wcfConnection == null)
                     continue;
 
                 try
                 {
                     wcfConnection.ConfirmDelivery(dto);
-                    _logger35.AppendLine($"Transfered rtu command delivery confirmation: from RTU {dto.RtuId} to client {clientAddress}");
+                    _logFile.AppendLine($"Transfered rtu command delivery confirmation: from RTU {dto.RtuId} to client {clientAddress}");
                 }
                 catch (Exception e)
                 {
-                    _logger35.AppendLine(e.Message);
+                    _logFile.AppendLine(e.Message);
                 }
             }
             return true;
@@ -63,18 +63,18 @@ namespace WcfConnections
         {
             foreach (var clientAddress in _addresses)
             {
-                var wcfConnection = new WcfFactory(clientAddress, _iniFile, _logger35).CreateClientConnection();
+                var wcfConnection = new WcfFactory(clientAddress, _iniFile, _logFile).CreateClientConnection();
                 if (wcfConnection == null)
                     continue;
 
                 try
                 {
                     wcfConnection.ConfirmRtuInitialized(dto);
-                    _logger35.AppendLine($"Transfered response on initialize from RTU {dto.Serial} to client {clientAddress}");
+                    _logFile.AppendLine($"Transfered response on initialize from RTU {dto.Serial} to client {clientAddress}");
                 }
                 catch (Exception e)
                 {
-                    _logger35.AppendLine(e.Message);
+                    _logFile.AppendLine(e.Message);
                 }
             }
             return true;
@@ -84,18 +84,18 @@ namespace WcfConnections
         {
             foreach (var clientAddress in _addresses)
             {
-                var wcfConnection = new WcfFactory(clientAddress, _iniFile, _logger35).CreateClientConnection();
+                var wcfConnection = new WcfFactory(clientAddress, _iniFile, _logFile).CreateClientConnection();
                 if (wcfConnection == null)
                     continue;
 
                 try
                 {
                     wcfConnection.ConfirmMonitoringStarted(dto);
-                    _logger35.AppendLine($"Transfered response on start monitoring from RTU {dto.RtuId} to client {clientAddress}");
+                    _logFile.AppendLine($"Transfered response on start monitoring from RTU {dto.RtuId} to client {clientAddress}");
                 }
                 catch (Exception e)
                 {
-                    _logger35.AppendLine(e.Message);
+                    _logFile.AppendLine(e.Message);
                 }
             }
             return true;
@@ -105,18 +105,18 @@ namespace WcfConnections
         {
             foreach (var clientAddress in _addresses)
             {
-                var wcfConnection = new WcfFactory(clientAddress, _iniFile, _logger35).CreateClientConnection();
+                var wcfConnection = new WcfFactory(clientAddress, _iniFile, _logFile).CreateClientConnection();
                 if (wcfConnection == null)
                     continue;
 
                 try
                 {
                     wcfConnection.ConfirmMonitoringStopped(dto);
-                    _logger35.AppendLine($"Transfered response on stop monitoring from RTU {dto.RtuId} to client {clientAddress}");
+                    _logFile.AppendLine($"Transfered response on stop monitoring from RTU {dto.RtuId} to client {clientAddress}");
                 }
                 catch (Exception e)
                 {
-                    _logger35.AppendLine(e.Message);
+                    _logFile.AppendLine(e.Message);
                 }
             }
             return true;
@@ -126,18 +126,18 @@ namespace WcfConnections
         {
             foreach (var clientAddress in _addresses)
             {
-                var wcfConnection = new WcfFactory(clientAddress, _iniFile, _logger35).CreateClientConnection();
+                var wcfConnection = new WcfFactory(clientAddress, _iniFile, _logFile).CreateClientConnection();
                 if (wcfConnection == null)
                     continue;
 
                 try
                 {
                     wcfConnection.ConfirmMonitoringSettingsApplied(dto);
-                    _logger35.AppendLine($"Transfered response on apply monitoring settings from RTU {dto.RtuId} to client {clientAddress}");
+                    _logFile.AppendLine($"Transfered response on apply monitoring settings from RTU {dto.RtuId} to client {clientAddress}");
                 }
                 catch (Exception e)
                 {
-                    _logger35.AppendLine(e.Message);
+                    _logFile.AppendLine(e.Message);
                 }
             }
             return true;
@@ -147,18 +147,18 @@ namespace WcfConnections
         {
             foreach (var clientAddress in _addresses)
             {
-                var wcfConnection = new WcfFactory(clientAddress, _iniFile, _logger35).CreateClientConnection();
+                var wcfConnection = new WcfFactory(clientAddress, _iniFile, _logFile).CreateClientConnection();
                 if (wcfConnection == null)
                     continue;
 
                 try
                 {
                     wcfConnection.ProcessRtuCurrentMonitoringStep(dto);
-//                    _logger35.AppendLine($"Transfered RTU {dto.RtuId} monitoring step to client {clientAddress}");
+//                    _logFile.AppendLine($"Transfered RTU {dto.RtuId} monitoring step to client {clientAddress}");
                 }
                 catch (Exception e)
                 {
-                    _logger35.AppendLine(e.Message);
+                    _logFile.AppendLine(e.Message);
                 }
             }
             return true;
@@ -168,18 +168,18 @@ namespace WcfConnections
         {
             foreach (var clientAddress in _addresses)
             {
-                var wcfConnection = new WcfFactory(clientAddress, _iniFile, _logger35).CreateClientConnection();
+                var wcfConnection = new WcfFactory(clientAddress, _iniFile, _logFile).CreateClientConnection();
                 if (wcfConnection == null)
                     continue;
 
                 try
                 {
                     wcfConnection.ConfirmBaseRefAssigned(dto);
-                    _logger35.AppendLine($"Transfered response on assign base ref from RTU {dto.RtuId} to client {clientAddress}");
+                    _logFile.AppendLine($"Transfered response on assign base ref from RTU {dto.RtuId} to client {clientAddress}");
                 }
                 catch (Exception e)
                 {
-                    _logger35.AppendLine(e.Message);
+                    _logFile.AppendLine(e.Message);
                 }
             }
             return true;

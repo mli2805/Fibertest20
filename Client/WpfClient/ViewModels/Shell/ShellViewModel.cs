@@ -18,7 +18,7 @@ namespace Iit.Fibertest.Client
 
         public Bus Bus { get; }
         private readonly IWindowManager _windowManager;
-        private readonly Logger35 _logger35;
+        private readonly LogFile _logFile;
 
         public ReadModel ReadModel { get; }
         public MainMenuViewModel MainMenuViewModel { get; set; }
@@ -57,7 +57,7 @@ namespace Iit.Fibertest.Client
 
         public ShellViewModel(ReadModel readModel, TreeOfRtuModel treeOfRtuModel, Bus bus, 
                 Db graphDb, AdministrativeDb administrativeDb, GraphReadModel graphReadModel, IWindowManager windowManager, 
-                ILogger clientLogger, IniFile iniFile, Logger35 logger35)
+                ILogger clientLogger, IniFile iniFile, LogFile logFile)
         {
             ReadModel = readModel;
             TreeOfRtuModel = treeOfRtuModel;
@@ -72,7 +72,7 @@ namespace Iit.Fibertest.Client
             SysEventsVisibility = Visibility.Collapsed;
             _selectedTabIndex = 1;
             _windowManager = windowManager;
-            _logger35 = logger35;
+            _logFile = logFile;
 
             Log = clientLogger;
             Log.Information(@"Client started!");
@@ -95,7 +95,7 @@ namespace Iit.Fibertest.Client
             ((App)Application.Current).ShutdownMode = ShutdownMode.OnMainWindowClose;
             if (_isAuthenticationSuccessfull != true)
                 TryClose();
-            _logger35.AssignFile(@"client.log"); // this couldn't be done in ctor becauses of tests using shellVM's ctor
+            _logFile.AssignFile(@"client.log"); // this couldn't be done in ctor becauses of tests using shellVM's ctor
             _iniFile.AssignFile(@"client.ini");
         }
 

@@ -11,7 +11,7 @@ namespace DataCenterCore
 {
     public partial class DcManager
     {
-        private readonly Logger35 _dcLog;
+        private readonly LogFile _dcLog;
         private readonly IniFile _coreIni;
 
         private readonly object _rtuStationsLockObj = new object();
@@ -26,9 +26,10 @@ namespace DataCenterCore
             _coreIni = new IniFile();
             _coreIni.AssignFile("DcCore.ini");
             var cultureString = _coreIni.Read(IniSection.General, IniKey.Culture, "ru-RU");
+            var logFileSizeLimit = _coreIni.Read(IniSection.General, IniKey.LogFileSizeLimit, 0);
 
-            _dcLog = new Logger35();
-            _dcLog.AssignFile("DcCore.log", cultureString);
+            _dcLog = new LogFile();
+            _dcLog.AssignFile("DcCore.log", logFileSizeLimit, cultureString);
             _dcLog.EmptyLine();
             _dcLog.EmptyLine('-');
 

@@ -17,7 +17,7 @@ namespace Iit.Fibertest.Client
         private readonly Bus _bus;
         private readonly IniFile _iniFile35;
         private readonly ILogger _log;
-        private readonly Logger35 _logger35;
+        private readonly LogFile _logFile;
         public ObservableCollection<Leaf> Tree { get; set; } = new ObservableCollection<Leaf>();
         public FreePorts FreePorts { get; } = new FreePorts(true);
 
@@ -45,14 +45,14 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public TreeOfRtuModel(IWindowManager windowManager, ReadModel readModel, Bus bus, IniFile iniFile35, ILogger log, Logger35 logger35)
+        public TreeOfRtuModel(IWindowManager windowManager, ReadModel readModel, Bus bus, IniFile iniFile35, ILogger log, LogFile logFile)
         {
             _windowManager = windowManager;
             _readModel = readModel;
             _bus = bus;
             _iniFile35 = iniFile35;
             _log = log;
-            _logger35 = logger35;
+            _logFile = logFile;
 
             PostOffice = new PostOffice();
         }
@@ -60,7 +60,7 @@ namespace Iit.Fibertest.Client
         #region Rtu
         public void Apply(RtuAtGpsLocationAdded e)
         {
-            Tree.Add(new RtuLeaf(_readModel, _windowManager, _bus, _iniFile35, _log, _logger35, PostOffice, FreePorts)
+            Tree.Add(new RtuLeaf(_readModel, _windowManager, _bus, _iniFile35, _log, _logFile, PostOffice, FreePorts)
             {
                 Id = e.Id,
                 Title = Resources.SID_noname_RTU,
@@ -120,7 +120,7 @@ namespace Iit.Fibertest.Client
             rtuLeaf.Color = Brushes.Black;
             for (int i = 1; i <= rtuLeaf.OwnPortCount; i++)
             {
-                var port = new PortLeaf(_readModel, _windowManager, _bus, _iniFile35, _logger35, PostOffice, rtuLeaf, i);
+                var port = new PortLeaf(_readModel, _windowManager, _bus, _iniFile35, _logFile, PostOffice, rtuLeaf, i);
                 rtuLeaf.ChildrenImpresario.Children.Insert(i - 1, port);
                 port.Parent = rtuLeaf;
             }
@@ -168,7 +168,7 @@ namespace Iit.Fibertest.Client
                 IsExpanded = true,
             };
             for (int i = 0; i < otauLeaf.PortCount; i++)
-                otauLeaf.ChildrenImpresario.Children.Add(new PortLeaf(_readModel, _windowManager, _bus, _iniFile35, _logger35, PostOffice, otauLeaf, i + 1));
+                otauLeaf.ChildrenImpresario.Children.Add(new PortLeaf(_readModel, _windowManager, _bus, _iniFile35, _logFile, PostOffice, otauLeaf, i + 1));
             rtuLeaf.ChildrenImpresario.Children.Remove(rtuLeaf.ChildrenImpresario.Children[e.MasterPort - 1]);
             rtuLeaf.ChildrenImpresario.Children.Insert(e.MasterPort - 1, otauLeaf);
             rtuLeaf.FullPortCount += otauLeaf.PortCount;
@@ -182,7 +182,7 @@ namespace Iit.Fibertest.Client
             rtuLeaf.FullPortCount -= otauLeaf.PortCount;
             rtuLeaf.ChildrenImpresario.Children.Remove(otauLeaf);
 
-            var portLeaf = new PortLeaf(_readModel, _windowManager, _bus, _iniFile35, _logger35, PostOffice, rtuLeaf, port);
+            var portLeaf = new PortLeaf(_readModel, _windowManager, _bus, _iniFile35, _logFile, PostOffice, rtuLeaf, port);
             rtuLeaf.ChildrenImpresario.Children.Insert(port - 1, portLeaf);
             portLeaf.Parent = rtuLeaf;
         }
@@ -264,7 +264,7 @@ namespace Iit.Fibertest.Client
 
             ((IPortOwner)owner).ChildrenImpresario.Children.RemoveAt(port - 1);
             ((IPortOwner)owner).ChildrenImpresario.Children.
-                Insert(port - 1, new PortLeaf(_readModel, _windowManager, _bus, _iniFile35, _logger35, PostOffice, owner, port));
+                Insert(port - 1, new PortLeaf(_readModel, _windowManager, _bus, _iniFile35, _logFile, PostOffice, owner, port));
 
             rtu.ChildrenImpresario.Children.Add(detachedTraceLeaf);
         }

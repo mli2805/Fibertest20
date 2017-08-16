@@ -19,6 +19,7 @@
         LocalIp,
         RtuServiceIp,
         Culture,
+        LogFileSizeLimit,
         OtdrIp,
         OtdrPort,
         OtauIp,

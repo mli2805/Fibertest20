@@ -8,7 +8,7 @@ namespace DataCenterService
 {
     public partial class Service1 : ServiceBase
     {
-        private readonly Logger35 _serviceLog;
+        private readonly LogFile _serviceLog;
 
         private DcManager _dcManager;
 
@@ -18,9 +18,10 @@ namespace DataCenterService
             var serviceIni = new IniFile();
             serviceIni.AssignFile("DcService.ini");
             var cultureString = serviceIni.Read(IniSection.General, IniKey.Culture, "ru-RU");
+            var logFileSizeLimit = serviceIni.Read(IniSection.General, IniKey.LogFileSizeLimit, 0);
 
-            _serviceLog = new Logger35();
-            _serviceLog.AssignFile("DcService.log", cultureString);
+            _serviceLog = new LogFile();
+            _serviceLog.AssignFile("DcService.log", logFileSizeLimit, cultureString);
 
             _serviceLog.EmptyLine();
             _serviceLog.EmptyLine('-');

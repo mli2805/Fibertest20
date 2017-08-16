@@ -13,7 +13,7 @@ namespace Iit.Fibertest.Client
     public class PortLeaf : Leaf
     {
         private readonly IniFile _iniFile35;
-        private readonly Logger35 _logger35;
+        private readonly LogFile _logFile;
         public readonly int PortNumber;
         public readonly int ExtendedPortNumber;
 
@@ -29,11 +29,11 @@ namespace Iit.Fibertest.Client
         }
         public int LeftMargin => Parent is OtauLeaf ? 106 : 85;
 
-        public PortLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, IniFile iniFile35, Logger35 logger35, PostOffice postOffice, Leaf parent, int portNumber)
+        public PortLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, IniFile iniFile35, LogFile logFile, PostOffice postOffice, Leaf parent, int portNumber)
             : base(readModel, windowManager, bus, postOffice)
         {
             _iniFile35 = iniFile35;
-            _logger35 = logger35;
+            _logFile = logFile;
             PortNumber = portNumber;
             Parent = parent;
             var otauLeaf = Parent as OtauLeaf;
@@ -95,7 +95,7 @@ namespace Iit.Fibertest.Client
 
         public void AttachOtauAction(object param)
         {
-            var vm = new OtauToAttachViewModel(Parent.Id, PortNumber, ReadModel, Bus, WindowManager, _iniFile35, _logger35);
+            var vm = new OtauToAttachViewModel(Parent.Id, PortNumber, ReadModel, Bus, WindowManager, _iniFile35, _logFile);
             WindowManager.ShowDialog(vm);
         }
 
@@ -113,7 +113,7 @@ namespace Iit.Fibertest.Client
             var otdrAddress = ReadModel.Rtus.First(r => r.Id == rtuLeaf.Id).OtdrNetAddress;
             NetAddress otauAddress = new NetAddress(otdrAddress.Ip4Address, 23);
 
-            var charon = new Charon(otauAddress, _iniFile35, _logger35);
+            var charon = new Charon(otauAddress, _iniFile35, _logFile);
             var result = charon.SetExtendedActivePort(charon.NetAddress, ExtendedPortNumber);
             if (result == CharonOperationResult.Ok)
                 System.Diagnostics.Process.Start(@"TraceEngine\Reflect.exe", $"-fnw -n {otdrAddress.Ip4Address} -p {otdrAddress.Port}");

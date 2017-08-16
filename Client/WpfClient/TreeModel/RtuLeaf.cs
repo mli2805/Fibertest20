@@ -13,7 +13,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly IniFile _iniFile35;
         private readonly ILogger _log;
-        private readonly Logger35 _logger35;
+        private readonly LogFile _logFile;
 
         #region Pictograms
         private MonitoringState _monitoringState;
@@ -99,12 +99,12 @@ namespace Iit.Fibertest.Client
             return null;
         }
 
-        public RtuLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, IniFile iniFile35, ILogger log, Logger35 logger35, PostOffice postOffice, FreePorts view)
+        public RtuLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, IniFile iniFile35, ILogger log, LogFile logFile, PostOffice postOffice, FreePorts view)
             : base(readModel, windowManager, bus, postOffice)
         {
             _iniFile35 = iniFile35;
             _log = log;
-            _logger35 = logger35;
+            _logFile = logFile;
             ChildrenImpresario = new ChildrenImpresario(view);
         }
         protected override List<MenuItemVm> GetMenuItems()
@@ -205,7 +205,7 @@ namespace Iit.Fibertest.Client
 
         public void RtuSettingsAction(object param)
         {
-            var vm = new RtuInitializeViewModel(Id, ReadModel, WindowManager, Bus, _iniFile35, _log, _logger35);
+            var vm = new RtuInitializeViewModel(Id, ReadModel, WindowManager, Bus, _iniFile35, _log, _logFile);
             WindowManager.ShowDialog(vm);
         }
 

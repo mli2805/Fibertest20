@@ -8,14 +8,14 @@ namespace WcfTestBench
     public class ShellViewModel : Screen, IShell
     {
         private IniFile _clientIniFile;
-        private Logger35 _clientLog;
+        private LogFile _clientLog;
 
         public ShellViewModel()
         {
             _clientIniFile = new IniFile();
             _clientIniFile.AssignFile("Client.ini");
 
-            _clientLog = new Logger35();
+            _clientLog = new LogFile();
             _clientLog.AssignFile("Client.log");
 
             var culture = _clientIniFile.Read(IniSection.General, IniKey.Culture, "ru-RU");

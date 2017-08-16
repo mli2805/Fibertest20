@@ -1,37 +1,35 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using System.IO.Compression;
 
 namespace Iit.Fibertest.Utils35
 {
-    public class Logger35
+    public class LogFile
     {
         private StreamWriter _logFile;
         private string _culture;
+        private int _sizeLimit;
+        private string _logFullFileName;
 
         private readonly object _obj = new object();
 
-        public void AssignFile(string filename, string culture ="ru-RU")
+        public void AssignFile(string filename, int sizeLimit = 0, string culture ="ru-RU")
         {
             if (filename == "")
                 return;
 
             lock (_obj)
             {
-                var logFullFileName = Utils.FileNameForSure(@"..\Log\", filename, true);
-                if (logFullFileName == null)
+                _logFullFileName = Utils.FileNameForSure(@"..\Log\", filename, true);
+                if (_logFullFileName == null)
                     return;
-                _logFile = File.AppendText(logFullFileName);
+                _logFile = File.AppendText(_logFullFileName);
                 _logFile.AutoFlush = true;
 
+                _sizeLimit = sizeLimit;
                 _culture = culture;
             }
-        }
-
-        public void FreeFile()
-        {
-            _logFile.Flush();
-            _logFile.Close();
         }
 
         public void EmptyLine(char ch = ' ')
@@ -66,8 +64,14 @@ namespace Iit.Fibertest.Utils35
                         _logFile.WriteLine(msg);
                     else Console.WriteLine(msg);
                 }
+
+                if (_sizeLimit > 0 && _logFile?.BaseStream.Length > _sizeLimit)
+                    Pack();
             }
         }
 
+        private void Pack()
+        {
+        }
     }
 }

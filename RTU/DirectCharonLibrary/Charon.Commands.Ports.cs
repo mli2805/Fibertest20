@@ -32,11 +32,11 @@ namespace Iit.Fibertest.DirectCharonLibrary
 
         public CharonOperationResult SetExtendedActivePort(NetAddress charonAddress, int port)
         {
-            _rtuLogger35.AppendLine($"Toggling to port {port} on {charonAddress.ToStringA()}...");
+            _rtuLogFile.AppendLine($"Toggling to port {port} on {charonAddress.ToStringA()}...");
             if (NetAddress.Equals(charonAddress))
             {
                 var activePort = SetActivePort(port);
-                _rtuLogger35.AppendLine("Toggled Ok.");
+                _rtuLogFile.AppendLine("Toggled Ok.");
                 return activePort == port ? CharonOperationResult.Ok : CharonOperationResult.MainOtauError;
             }
 
@@ -45,7 +45,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
             {
                 LastErrorMessage = "There is no such optical switch";
                 if (_charonLogLevel >= CharonLogLevel.PublicCommands)
-                    _rtuLogger35.AppendLine(LastErrorMessage, 2);
+                    _rtuLogFile.AppendLine(LastErrorMessage, 2);
                 return CharonOperationResult.LogicalError;
             }
 
@@ -57,7 +57,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
                 {
                     LastErrorMessage = $"Can't toggle master switch into {masterPort} port";
                     if (_charonLogLevel >= CharonLogLevel.PublicCommands)
-                        _rtuLogger35.AppendLine(LastErrorMessage, 2);
+                        _rtuLogFile.AppendLine(LastErrorMessage, 2);
                     return CharonOperationResult.MainOtauError;
                 }
             }
@@ -68,11 +68,11 @@ namespace Iit.Fibertest.DirectCharonLibrary
                 LastErrorMessage = charon.LastErrorMessage;
                 IsLastCommandSuccessful = charon.IsLastCommandSuccessful;
                 if (_charonLogLevel >= CharonLogLevel.PublicCommands)
-                    _rtuLogger35.AppendLine(LastErrorMessage, 2);
+                    _rtuLogFile.AppendLine(LastErrorMessage, 2);
                 return CharonOperationResult.AdditionalOtauError;
             }
 
-            _rtuLogger35.AppendLine("Toggled Ok.");
+            _rtuLogFile.AppendLine("Toggled Ok.");
             return CharonOperationResult.Ok;
         }
 
@@ -81,17 +81,17 @@ namespace Iit.Fibertest.DirectCharonLibrary
             var charon = GetCharon(extendedPort.NetAddress);
             if (charon == null)
             {
-                _rtuLogger35.AppendLine($"Can't find address {extendedPort.NetAddress.ToStringA()}", 2);
+                _rtuLogFile.AppendLine($"Can't find address {extendedPort.NetAddress.ToStringA()}", 2);
                 return false;
             }
             if (charon.Children.ContainsKey(extendedPort.Port))
             {
-                _rtuLogger35.AppendLine($"Port {extendedPort.Port} is occupied by child charon", 2);
+                _rtuLogFile.AppendLine($"Port {extendedPort.Port} is occupied by child charon", 2);
                 return false;
             }
             if (charon.OwnPortCount < extendedPort.Port || extendedPort.Port < 1)
             {
-                _rtuLogger35.AppendLine($"Port number for this otau should be from 1 to {charon.OwnPortCount}", 2);
+                _rtuLogFile.AppendLine($"Port number for this otau should be from 1 to {charon.OwnPortCount}", 2);
                 return false;
             }
             return true;

@@ -46,7 +46,7 @@ namespace Iit.Fibertest.Utils35
             return File.Exists(basefile);
         }
 
-        public byte[] GetBaseBytes(BaseRefType baseRefType, Logger35 rtuLog)
+        public byte[] GetBaseBytes(BaseRefType baseRefType, LogFile rtuLog)
         {
             var appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
             var appDir = Path.GetDirectoryName(appPath);
@@ -65,7 +65,7 @@ namespace Iit.Fibertest.Utils35
             File.WriteAllBytes(measfile, bytes);
         }
 
-        public static ExtendedPort Create(string str, Logger35 rtuLog)
+        public static ExtendedPort Create(string str, LogFile rtuLog)
         {
             if (string.IsNullOrEmpty(str))
                 return null;

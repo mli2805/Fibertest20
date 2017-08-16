@@ -10,9 +10,9 @@ namespace RtuManagement
         private const string DefaultIp = "192.168.88.101";
 
         private readonly Guid _id;
-        private readonly Logger35 _rtuLog;
+        private readonly LogFile _rtuLog;
         private readonly IniFile _rtuIni;
-        private readonly Logger35 _serviceLog;
+        private readonly LogFile _serviceLog;
         private readonly IniFile _serviceIni;
         private OtdrManager _otdrManager;
         private Charon _mainCharon;
@@ -63,7 +63,7 @@ namespace RtuManagement
         }
 
 
-        public RtuManager(Logger35 serviceLog, IniFile serviceIni)
+        public RtuManager(LogFile serviceLog, IniFile serviceIni)
         {
             IsRtuInitialized = false;
 
@@ -74,9 +74,10 @@ namespace RtuManagement
             _rtuIni = new IniFile();
             _rtuIni.AssignFile("RtuManager.ini");
             var cultureString = _rtuIni.Read(IniSection.General, IniKey.Culture, "ru-RU");
+            var logFileSizeLimit = _rtuIni.Read(IniSection.General, IniKey.LogFileSizeLimit, 0);
 
-            _rtuLog = new Logger35();
-            _rtuLog.AssignFile("RtuManager.log", cultureString);
+            _rtuLog = new LogFile();
+            _rtuLog.AssignFile("RtuManager.log", logFileSizeLimit, cultureString);
 
             _mikrotikRebootTimeout =
                 TimeSpan.FromSeconds(_rtuIni.Read(IniSection.Recovering, IniKey.MikrotikRebootTimeout, 40));

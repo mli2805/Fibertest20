@@ -6,15 +6,15 @@ namespace WcfConnections
 {
     public class C2DWcfManager
     {
-        private readonly Logger35 _logger35;
+        private readonly LogFile _logFile;
         private readonly string _localAddress;
         private readonly WcfFactory _wcfFactory;
 
-        public C2DWcfManager(DoubleAddressWithLastConnectionCheck dataCenterAddress, IniFile iniFile, Logger35 logger35, string localAddress)
+        public C2DWcfManager(DoubleAddressWithLastConnectionCheck dataCenterAddress, IniFile iniFile, LogFile logFile, string localAddress)
         {
-            _logger35 = logger35;
+            _logFile = logFile;
             _localAddress = localAddress;
-            _wcfFactory = new WcfFactory(dataCenterAddress, iniFile, _logger35);
+            _wcfFactory = new WcfFactory(dataCenterAddress, iniFile, _logFile);
         }
 
         public bool RegisterClient(RegisterClientDto dto)
@@ -27,12 +27,12 @@ namespace WcfConnections
             {
                 dto.ClientAddress = _localAddress;
                 wcfConnection.RegisterClient(dto);
-                _logger35.AppendLine($@"Registered on server");
+                _logFile.AppendLine($@"Registered on server");
                 return true;
             }
             catch (Exception e)
             {
-               _logger35.AppendLine(e.Message);
+               _logFile.AppendLine(e.Message);
                 return false;
             }
         }
@@ -47,11 +47,11 @@ namespace WcfConnections
             {
                 dto.ClientAddress = _localAddress;
                 wcfConnection.UnRegisterClient(dto);
-                _logger35.AppendLine($@"Unregistered on server");
+                _logFile.AppendLine($@"Unregistered on server");
             }
             catch (Exception e)
             {
-                _logger35.AppendLine(e.Message);
+                _logFile.AppendLine(e.Message);
 
             }
         }
@@ -66,12 +66,12 @@ namespace WcfConnections
             {
                 dto.ClientAddress = _localAddress;
                 wcfConnection.CheckRtuConnection(dto);
-                _logger35.AppendLine($@"Sent command to check connection with RTU {dto.RtuId}");
+                _logFile.AppendLine($@"Sent command to check connection with RTU {dto.RtuId}");
                 return true;
             }
             catch (Exception e)
             {
-                _logger35.AppendLine(e.Message);
+                _logFile.AppendLine(e.Message);
                 return false;
             }
         }
@@ -86,12 +86,12 @@ namespace WcfConnections
             {
                 dto.ClientAddress = _localAddress;
                 wcfConnection.InitializeRtu(dto);
-                _logger35.AppendLine($@"Sent command to initialize RTU {dto.RtuId} with ip={dto.RtuAddresses.Main.Ip4Address}");
+                _logFile.AppendLine($@"Sent command to initialize RTU {dto.RtuId} with ip={dto.RtuAddresses.Main.Ip4Address}");
                 return true;
             }
             catch (Exception e)
             {
-                _logger35.AppendLine(e.Message);
+                _logFile.AppendLine(e.Message);
                 return false;
             }
         }
@@ -106,12 +106,12 @@ namespace WcfConnections
             {
                 dto.ClientAddress = _localAddress;
                 wcfConnection.AssignBaseRef(dto);
-                _logger35.AppendLine($@"Sent base ref to RTU {dto.RtuId}");
+                _logFile.AppendLine($@"Sent base ref to RTU {dto.RtuId}");
                 return true;
             }
             catch (Exception e)
             {
-                _logger35.AppendLine(e.Message);
+                _logFile.AppendLine(e.Message);
                 return false;
             }
         }
@@ -126,12 +126,12 @@ namespace WcfConnections
             {
                 dto.ClientAddress = _localAddress;
                 wcfConnection.ApplyMonitoringSettings(dto);
-                _logger35.AppendLine($@"Sent monitoring settings to RTU {dto.RtuId}");
+                _logFile.AppendLine($@"Sent monitoring settings to RTU {dto.RtuId}");
                 return true;
             }
             catch (Exception e)
             {
-                _logger35.AppendLine(e.Message);
+                _logFile.AppendLine(e.Message);
                 return false;
             }
         }
@@ -146,12 +146,12 @@ namespace WcfConnections
             {
                 dto.ClientAddress = _localAddress;
                 wcfConnection.StartMonitoring(dto);
-                _logger35.AppendLine($@"Sent command to start monitoring on RTU {dto.RtuId}");
+                _logFile.AppendLine($@"Sent command to start monitoring on RTU {dto.RtuId}");
                 return true;
             }
             catch (Exception e)
             {
-                _logger35.AppendLine(e.Message);
+                _logFile.AppendLine(e.Message);
                 return false;
             }
         }
@@ -166,12 +166,12 @@ namespace WcfConnections
             {
                 dto.ClientAddress = _localAddress;
                 wcfConnection.StopMonitoring(dto);
-                _logger35.AppendLine($@"Sent command to stop monitoring on RTU {dto.RtuId}");
+                _logFile.AppendLine($@"Sent command to stop monitoring on RTU {dto.RtuId}");
                 return true;
             }
             catch (Exception e)
             {
-                _logger35.AppendLine(e.Message);
+                _logFile.AppendLine(e.Message);
                 return false;
             }
         }

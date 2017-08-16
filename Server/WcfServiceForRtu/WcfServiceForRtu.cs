@@ -5,7 +5,7 @@ namespace WcfServiceForRtuLibrary
 {
     public class WcfServiceForRtu : IWcfServiceForRtu
     {
-        public static Logger35 ServiceLog { get; set; }
+        public static LogFile ServiceLog { get; set; }
 
         public static event OnMessageReceived MessageReceived;
         public delegate bool OnMessageReceived(object e);

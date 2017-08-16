@@ -8,9 +8,9 @@ namespace RtuWatchdog
     public class RtuWatch
     {
         private readonly IniFile _watchIniFile;
-        private readonly Logger35 _watchLog;
+        private readonly LogFile _watchLog;
 
-        public RtuWatch(IniFile watchIniFile, Logger35 watchLog)
+        public RtuWatch(IniFile watchIniFile, LogFile watchLog)
         {
             _watchIniFile = watchIniFile;
             _watchLog = watchLog;

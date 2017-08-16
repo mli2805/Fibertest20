@@ -6,13 +6,13 @@ namespace WcfConnections
 {
     public class R2DWcfManager
     {
-        private readonly Logger35 _logger35;
+        private readonly LogFile _logFile;
         private readonly WcfFactory _wcfFactory;
 
-        public R2DWcfManager(DoubleAddressWithLastConnectionCheck dataCenterAddress, IniFile iniFile, Logger35 logger35)
+        public R2DWcfManager(DoubleAddressWithLastConnectionCheck dataCenterAddress, IniFile iniFile, LogFile logFile)
         {
-            _logger35 = logger35;
-            _wcfFactory = new WcfFactory(dataCenterAddress, iniFile, _logger35);
+            _logFile = logFile;
+            _wcfFactory = new WcfFactory(dataCenterAddress, iniFile, _logFile);
         }
 
         public void SendCurrentState(RtuConnectionCheckedDto dto)
@@ -24,11 +24,11 @@ namespace WcfConnections
             try
             {
                 wcfConnection.ProcessRtuConnectionChecked(dto);
-                _logger35.AppendLine(@"Sent RTU's current monitoringStep");
+                _logFile.AppendLine(@"Sent RTU's current monitoringStep");
             }
             catch (Exception e)
             {
-                _logger35.AppendLine(e.Message);
+                _logFile.AppendLine(e.Message);
             }
         }
 
@@ -41,11 +41,11 @@ namespace WcfConnections
             try
             {
                 wcfConnection.ProcessRtuInitialized(rtu);
-                _logger35.AppendLine("Sent initializatioln result to server...");
+                _logFile.AppendLine("Sent initializatioln result to server...");
             }
             catch (Exception e)
             {
-                _logger35.AppendLine(e.Message);
+                _logFile.AppendLine(e.Message);
             }
         }
 
@@ -58,11 +58,11 @@ namespace WcfConnections
             try
             {
                 wcfConnection.ConfirmMonitoringSettingsApplied(result);
-                _logger35.AppendLine("Sending apply monitoring settings result");
+                _logFile.AppendLine("Sending apply monitoring settings result");
             }
             catch (Exception e)
             {
-                _logger35.AppendLine(e.Message);
+                _logFile.AppendLine(e.Message);
             }
         }
 
@@ -75,11 +75,11 @@ namespace WcfConnections
             try
             {
                 wcfConnection.ConfirmBaseRefAssigned(result);
-                _logger35.AppendLine("Sending assign base ref result");
+                _logFile.AppendLine("Sending assign base ref result");
             }
             catch (Exception e)
             {
-                _logger35.AppendLine(e.Message);
+                _logFile.AppendLine(e.Message);
             }
 
         }
@@ -93,11 +93,11 @@ namespace WcfConnections
             try
             {
                 wcfConnection.ConfirmStartMonitoring(result);
-                _logger35.AppendLine("Sent result of start monitoring request");
+                _logFile.AppendLine("Sent result of start monitoring request");
             }
             catch (Exception e)
             {
-                _logger35.AppendLine(e.Message);
+                _logFile.AppendLine(e.Message);
             }
         }
 
@@ -110,30 +110,30 @@ namespace WcfConnections
             try
             {
                 wcfConnection.ConfirmStopMonitoring(result);
-                _logger35.AppendLine("Sending result of stop monitoring request");
+                _logFile.AppendLine("Sending result of stop monitoring request");
             }
             catch (Exception e)
             {
-                _logger35.AppendLine(e.Message);
+                _logFile.AppendLine(e.Message);
             }
         }
 
         public void SendCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto monitoringStep)
         {
-//            _logger35.AppendLine("Sending current monitoring step1");
+//            _logFile.AppendLine("Sending current monitoring step1");
             var wcfConnection = _wcfFactory.CreateR2DConnection();
-//            _logger35.AppendLine("Sending current monitoring step2");
+//            _logFile.AppendLine("Sending current monitoring step2");
             if (wcfConnection == null)
                 return;
 
             try
             {
                 wcfConnection.KnowRtuCurrentMonitoringStep(monitoringStep);
-//                _logger35.AppendLine("Sending current monitoring step3");
+//                _logFile.AppendLine("Sending current monitoring step3");
             }
             catch (Exception e)
             {
-                _logger35.AppendLine(e.Message);
+                _logFile.AppendLine(e.Message);
             }
         }
 
@@ -146,11 +146,11 @@ namespace WcfConnections
             try
             {
                 wcfConnection.ProcessMonitoringResult(dto);
-                _logger35.AppendLine("Sending monitoring result");
+                _logFile.AppendLine("Sending monitoring result");
             }
             catch (Exception e)
             {
-                _logger35.AppendLine(e.Message);
+                _logFile.AppendLine(e.Message);
             }
         }
     }

@@ -15,7 +15,7 @@ namespace ConsoleAppOtdr
 //            Thread.CurrentThread.CurrentUICulture = new CultureInfo(culture);
 //
 //
-            var logger35 = new Logger35();
+            var logger35 = new LogFile();
             logger35.AssignFile("service.log");
 //
 //            logger35.EmptyLine();

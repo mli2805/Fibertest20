@@ -17,7 +17,7 @@ namespace DirectRtuClient
     public class OtdrViewModel : Screen
     {
         private readonly IniFile _iniFile35;
-        private readonly Logger35 _rtuLogger;
+        private readonly LogFile _rtuLogger;
         private readonly string _appDir;
         public string IpAddress { get; set; }
 
@@ -122,7 +122,7 @@ namespace DirectRtuClient
             }
         }
 
-        public OtdrViewModel(IniFile iniFile35, Logger35 rtuLogger, string ipAddress)
+        public OtdrViewModel(IniFile iniFile35, LogFile rtuLogger, string ipAddress)
         {
             _iniFile35 = iniFile35;
             _rtuLogger = rtuLogger;
