@@ -87,7 +87,9 @@ namespace Iit.Fibertest.UtilsLib
 
                 _logFile = File.AppendText(_logFullFileName);
                 _logFile.AutoFlush = true;
-                File.Delete(Path.Combine(Path.GetDirectoryName(_logFullFileName), @"empty.log"));
+                var folder = Path.GetDirectoryName(_logFullFileName);
+                if (folder != null)
+                    File.Delete(Path.Combine(folder, @"empty.log"));
 
                 var thread = new Thread(Pack);
                 thread.Start();
