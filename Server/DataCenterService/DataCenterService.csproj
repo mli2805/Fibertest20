@@ -73,9 +73,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\SharedLibs\Utils35\Utils35.csproj">
+    <ProjectReference Include="..\..\SharedLibs\Utils35\UtilsLib.csproj">
       <Project>{716240ff-d1e8-4bd3-9e63-431382617398}</Project>
-      <Name>Utils35</Name>
+      <Name>UtilsLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\DataCenterCore\DataCenterCore.csproj">
       <Project>{6ba3ea08-6bdb-4b2d-8729-409e136d4d74}</Project>

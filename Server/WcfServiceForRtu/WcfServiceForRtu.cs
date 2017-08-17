@@ -1,5 +1,5 @@
 ﻿using Dto;
-using Iit.Fibertest.Utils35;
+using Iit.Fibertest.UtilsLib;
 
 namespace WcfServiceForRtuLibrary
 {

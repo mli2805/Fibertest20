@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ServiceProcess;
 using System.Threading;
-using Iit.Fibertest.Utils35;
+using Iit.Fibertest.UtilsLib;
 
 namespace RtuWatchdog
 {

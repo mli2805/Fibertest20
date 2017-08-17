@@ -7,8 +7,8 @@
     <ProjectGuid>{716240FF-D1E8-4BD3-9E63-431382617398}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Iit.Fibertest.Utils35</RootNamespace>
-    <AssemblyName>Iit.Fibertest.Utils35</AssemblyName>
+    <RootNamespace>Iit.Fibertest.UtilsLib</RootNamespace>
+    <AssemblyName>Iit.Fibertest.UtilsLib</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

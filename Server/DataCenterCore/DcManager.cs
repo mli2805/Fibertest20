@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.ServiceModel;
 using Dto;
-using Iit.Fibertest.Utils35;
+using Iit.Fibertest.UtilsLib;
 using WcfServiceForClientLibrary;
 using WcfServiceForRtuLibrary;
 

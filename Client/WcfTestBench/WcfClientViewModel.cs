@@ -9,7 +9,7 @@ using Caliburn.Micro;
 using ClientWcfServiceLibrary;
 using Dto;
 using Iit.Fibertest.StringResources;
-using Iit.Fibertest.Utils35;
+using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WpfCommonViews;
 using WcfConnections;
 using WcfTestBench.MonitoringSettings;
@@ -238,7 +238,7 @@ namespace WcfTestBench
        
         public void RtuState()
         {
-            var vm = new RtuStateViewModel(_clientLog, _rtuId);
+            var vm = new RtuStateViewModel(_rtuId);
             IWindowManager windowManager = new WindowManager();
             windowManager.ShowWindow(vm);
         }

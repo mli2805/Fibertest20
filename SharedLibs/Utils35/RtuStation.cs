@@ -1,7 +1,7 @@
 using System;
 using Dto;
 
-namespace Iit.Fibertest.Utils35
+namespace Iit.Fibertest.UtilsLib
 {
     public class RtuStation
     {

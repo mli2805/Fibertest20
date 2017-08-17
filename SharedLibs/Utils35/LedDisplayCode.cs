@@ -1,4 +1,4 @@
-namespace Iit.Fibertest.Utils35
+namespace Iit.Fibertest.UtilsLib
 {
     public enum LedDisplayCode : byte
     {

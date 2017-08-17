@@ -53,7 +53,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{B846E6
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dto", "SharedLibs\Dto\Dto.csproj", "{86A00748-2A4E-4180-B04E-0E1F6A62A258}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utils35", "SharedLibs\Utils35\Utils35.csproj", "{716240FF-D1E8-4BD3-9E63-431382617398}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UtilsLib", "SharedLibs\Utils35\UtilsLib.csproj", "{716240FF-D1E8-4BD3-9E63-431382617398}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringResources", "SharedLibs\StringResources\StringResources.csproj", "{0CB0EA37-4A27-45F0-BB01-4C0E064E8962}"
 EndProject

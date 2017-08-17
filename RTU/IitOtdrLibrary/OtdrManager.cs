@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.InteropServices;
-using Iit.Fibertest.Utils35;
+using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.IitOtdrLibrary
 {

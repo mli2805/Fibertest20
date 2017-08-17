@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading;
-using Iit.Fibertest.Utils35;
+using Iit.Fibertest.UtilsLib;
 
 namespace RtuManagement
 {

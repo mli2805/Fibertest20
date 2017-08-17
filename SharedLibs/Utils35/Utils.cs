@@ -2,7 +2,7 @@
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace Iit.Fibertest.Utils35
+namespace Iit.Fibertest.UtilsLib
 {
     public static class Utils
     {

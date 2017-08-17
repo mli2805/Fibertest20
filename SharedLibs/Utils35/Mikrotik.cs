@@ -4,7 +4,7 @@ using System.IO;
 using System.Net.Sockets;
 using System.Text;
 
-namespace Iit.Fibertest.Utils35
+namespace Iit.Fibertest.UtilsLib
 {
     //https://wiki.mikrotik.com/wiki/API_in_C_Sharp
     public class Mikrotik

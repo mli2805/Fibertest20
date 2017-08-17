@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO.Ports;
 using System.Threading;
 
-namespace Iit.Fibertest.Utils35
+namespace Iit.Fibertest.UtilsLib
 {
     public static class RestoreFunctions
     {

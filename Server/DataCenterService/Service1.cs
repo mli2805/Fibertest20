@@ -2,7 +2,7 @@
 using System.ServiceProcess;
 using System.Threading;
 using DataCenterCore;
-using Iit.Fibertest.Utils35;
+using Iit.Fibertest.UtilsLib;
 
 namespace DataCenterService
 {

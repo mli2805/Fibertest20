@@ -3,7 +3,7 @@ using System.Net.Sockets;
 using System.ServiceModel;
 using Dto;
 using Iit.Fibertest.StringResources;
-using Iit.Fibertest.Utils35;
+using Iit.Fibertest.UtilsLib;
 using WcfConnections.C2DWcfServiceReference;
 using WcfConnections.ClientWcfServiceReference;
 using WcfConnections.R2DWcfServiceReference;

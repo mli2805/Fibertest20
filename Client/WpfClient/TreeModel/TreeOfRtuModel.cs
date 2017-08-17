@@ -5,7 +5,7 @@ using Caliburn.Micro;
 using Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
-using Iit.Fibertest.Utils35;
+using Iit.Fibertest.UtilsLib;
 using Serilog;
 
 namespace Iit.Fibertest.Client

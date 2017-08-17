@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Threading;
 using Caliburn.Micro;
-using Iit.Fibertest.Utils35;
+using Iit.Fibertest.UtilsLib;
 
 namespace WcfTestBench
 {

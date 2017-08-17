@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading;
 using Dto;
 using Iit.Fibertest.DirectCharonLibrary;
-using Iit.Fibertest.Utils35;
+using Iit.Fibertest.UtilsLib;
 using WcfConnections;
 
 namespace RtuManagement
