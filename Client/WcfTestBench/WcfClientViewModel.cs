@@ -238,7 +238,7 @@ namespace WcfTestBench
        
         public void RtuState()
         {
-            var vm = new RtuStateViewModel(_rtuId);
+            var vm = new RtuStateViewModel(_clientLog, _rtuId);
             IWindowManager windowManager = new WindowManager();
             windowManager.ShowWindow(vm);
         }

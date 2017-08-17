@@ -2,11 +2,13 @@
 using Caliburn.Micro;
 using ClientWcfServiceLibrary;
 using Dto;
+using Iit.Fibertest.Utils35;
 
 namespace WcfTestBench.RtuState
 {
     public class RtuStateViewModel : Screen
     {
+        private readonly LogFile _logFile;
         private readonly Guid _rtuId;
         private string _currentState;
 
@@ -21,8 +23,9 @@ namespace WcfTestBench.RtuState
             }
         }
 
-        public RtuStateViewModel(Guid rtuId)
+        public RtuStateViewModel(LogFile logFile, Guid rtuId)
         {
+            _logFile = logFile;
             _rtuId = rtuId;
             CurrentState = @"Unknown";
             ClientWcfService.MessageReceived += ClientWcfService_MessageReceived;

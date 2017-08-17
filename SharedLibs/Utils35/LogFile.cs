@@ -53,33 +53,44 @@ namespace Iit.Fibertest.Utils35
                 if (_logFile == null)
                     return;
 
-                message = message.Replace("\0", string.Empty);
-                message = message.Trim();
-                message = message.Replace("\r\n", "\r");
-                message = message.Replace("\n\r", "\r");
-                message = message.Replace("\n", "\r");
-                var content = message.Split('\r');
+                CheckSizeLimit();
 
                 var offsetStr = new string(' ', offset);
                 if (!string.IsNullOrEmpty(prefix))
                     prefix += " ";
-                foreach (var str in content)
+                foreach (var str in SplitMessageOnLines(message))
                 {
                     var msg = DateTime.Now.ToString(new CultureInfo(_culture)) + "  " + offsetStr + prefix + str.Trim();
                     _logFile.WriteLine(msg);
                 }
+            }
+        }
 
-                if (_sizeLimitKb > 0 && _logFile.BaseStream.Length > _sizeLimitKb * 1024)
-                {
-                    var newEmptyLogFile = Utils.FileNameForSure(@"..\Log\", "empty.log", true);
-                    _logFile.Close();
-                    File.Replace(newEmptyLogFile, _logFullFileName, _logFullFileName + ToCompress);
-                    _logFile = File.AppendText(_logFullFileName);
-                    _logFile.AutoFlush = true;
+        private static string[] SplitMessageOnLines(string message)
+        {
+            message = message.Replace("\0", string.Empty);
+            message = message.Trim();
+            message = message.Replace("\r\n", "\r");
+            message = message.Replace("\n\r", "\r");
+            message = message.Replace("\n", "\r");
+            return message.Split('\r');
+        }
 
-                    var thread = new Thread(Pack);
-                    thread.Start();
-                }
+        private void CheckSizeLimit()
+        {
+            if (_sizeLimitKb > 0 && _logFile.BaseStream.Length > _sizeLimitKb * 1024)
+            {
+                _logFile.Close();
+                File.Copy(_logFullFileName, _logFullFileName + ToCompress, true);
+                var newEmptyLogFile = Utils.FileNameForSure(@"..\Log\", "empty.log", true);
+                File.Copy(newEmptyLogFile, _logFullFileName, true);
+
+                _logFile = File.AppendText(_logFullFileName);
+                _logFile.AutoFlush = true;
+                File.Delete(Path.Combine(Path.GetDirectoryName(_logFullFileName), @"empty.log"));
+
+                var thread = new Thread(Pack);
+                thread.Start();
             }
         }
 
@@ -88,13 +99,19 @@ namespace Iit.Fibertest.Utils35
             FileInfo fileToCompress = new FileInfo(_logFullFileName + ToCompress);
             using (FileStream originalFileStream = fileToCompress.OpenRead())
             {
-                using (FileStream compressedFileStream = File.Create(_logFullFileName + ".gz"))
+                FileStream compressedFileStream;
+                try
                 {
-                    using (GZipStream compressionStream = new GZipStream(compressedFileStream,
-                        CompressionMode.Compress))
-                    {
-                        originalFileStream.CopyTo(compressionStream);
-                    }
+                    compressedFileStream = File.Create(_logFullFileName + ".gz");
+                }
+                catch (Exception)
+                {
+                    compressedFileStream = File.Create(_logFullFileName + $".{Guid.NewGuid()}.gz");
+                }
+
+                using (GZipStream compressionStream = new GZipStream(compressedFileStream, CompressionMode.Compress))
+                {
+                    originalFileStream.CopyTo(compressionStream);
                 }
             }
             File.Delete(_logFullFileName + ToCompress);
