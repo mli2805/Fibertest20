@@ -3,11 +3,16 @@ using System.Runtime.Serialization;
 
 namespace Dto
 {
+    [Serializable]
     [DataContract]
-    public class SaveMonitoringResultDto
+    public class MonitoringResultDto
     {
         [DataMember]
         public Guid RtuId { get; set; }
+
+        [DataMember]
+        public DateTime TimeStamp { get; set; }
+
         [DataMember]
         public OtauPortDto OtauPort { get; set; }
 

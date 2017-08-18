@@ -34,7 +34,7 @@ namespace DataCenterCore
             if (dtoC5 != null)
                 return ConfirmBaseRefAssigned(dtoC5);
 
-            var dtoR1 = msg as SaveMonitoringResultDto;
+            var dtoR1 = msg as MonitoringResultDto;
             if (dtoR1 != null)
                 return ProcessMonitoringResult(dtoR1);
 
@@ -90,8 +90,11 @@ namespace DataCenterCore
         #endregion
 
         #region RTU notifies
-        private bool ProcessMonitoringResult(SaveMonitoringResultDto result)
+        private bool ProcessMonitoringResult(MonitoringResultDto result)
         {
+            _dcLog.AppendLine($"Monitoring result received. RTU is {result.RtuId}");
+            _dcLog.AppendLine($"Monitoring result received. {result.BaseRefType} measurement on {result.OtauPort.OpticalPort} port");
+            _dcLog.AppendLine($"Monitoring result received. Trace state is {result.TraceState}");
             _dcLog.AppendLine($"Monitoring result received. Sor size is {result.SorData.Length}");
             return true;
         }

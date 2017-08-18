@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.UtilsLib;
@@ -16,11 +17,14 @@ namespace RtuManagement
         private readonly IniFile _serviceIni;
         private OtdrManager _otdrManager;
         private Charon _mainCharon;
+
+        private readonly object _moniresultsQueueLocker = new object();
+
+        public ConcurrentQueue<MoniResultOnDisk> QueueOfMoniResultsOnDisk { get; set; }
+        private object WcfParameter { get; set; }
+
         private bool _isMonitoringCancelled;
-
-        public object WcfParameter { get; set; }
-
-        private object _obj = new object();
+        private readonly object _isMonitoringCancelledLocker = new object();
 
         private readonly object _isMonitoringOnLocker = new object();
         private bool _isMonitoringOn;
@@ -44,6 +48,7 @@ namespace RtuManagement
 
         private readonly object _isRtuInitializedLocker = new object();
         private bool _isRtuInitialized;
+
         public bool IsRtuInitialized
         {
             get
@@ -61,7 +66,6 @@ namespace RtuManagement
                 }
             }
         }
-
 
         public RtuManager(LogFile serviceLog, IniFile serviceIni)
         {
@@ -83,6 +87,5 @@ namespace RtuManagement
                 TimeSpan.FromSeconds(_rtuIni.Read(IniSection.Recovering, IniKey.MikrotikRebootTimeout, 40));
             _id = Guid.Parse(_rtuIni.Read(IniSection.Server, IniKey.RtuGuid, Guid.Empty.ToString()));
         }
-      
     }
 }

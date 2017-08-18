@@ -84,12 +84,12 @@ namespace Iit.Fibertest.DirectCharonLibrary
                 _rtuLogFile.AppendLine($"Can't find address {extendedPort.NetAddress.ToStringA()}", 2);
                 return false;
             }
-            if (charon.Children.ContainsKey(extendedPort.Port))
+            if (charon.Children.ContainsKey(extendedPort.OpticalPort))
             {
-                _rtuLogFile.AppendLine($"Port {extendedPort.Port} is occupied by child charon", 2);
+                _rtuLogFile.AppendLine($"Port {extendedPort.OpticalPort} is occupied by child charon", 2);
                 return false;
             }
-            if (charon.OwnPortCount < extendedPort.Port || extendedPort.Port < 1)
+            if (charon.OwnPortCount < extendedPort.OpticalPort || extendedPort.OpticalPort < 1)
             {
                 _rtuLogFile.AppendLine($"Port number for this otau should be from 1 to {charon.OwnPortCount}", 2);
                 return false;
@@ -113,11 +113,11 @@ namespace Iit.Fibertest.DirectCharonLibrary
         public string GetBopPortString(ExtendedPort extendedPort)
         {
             if (NetAddress.Equals(extendedPort.NetAddress))
-                return extendedPort.Port.ToString();
+                return extendedPort.OpticalPort.ToString();
             foreach (var pair in Children)
             {
                 if (pair.Value.NetAddress.Equals(extendedPort.NetAddress))
-                    return $"{pair.Key}:{extendedPort.Port}";
+                    return $"{pair.Key}:{extendedPort.OpticalPort}";
             }
             return $"Can't find port {extendedPort.ToStringA()}";
         }

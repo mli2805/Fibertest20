@@ -60,7 +60,7 @@
   <xs:element name="ProcessMonitoringResult">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="result" nillable="true" type="q5:SaveMonitoringResultDto" />
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="result" nillable="true" type="q5:MonitoringResultDto" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

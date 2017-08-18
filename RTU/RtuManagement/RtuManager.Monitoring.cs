@@ -48,7 +48,7 @@ namespace RtuManagement
                 _rtuLog.EmptyLine();
                 ProcessOnePort(extendedPort);
 
-                lock (_obj)
+                lock (_isMonitoringCancelledLocker)
                 {
                     if (_isMonitoringCancelled)
                         break;
@@ -84,7 +84,7 @@ namespace RtuManagement
                 if (GetPortState(fastMoniResult) != extendedPort.State ||
                     (extendedPort.LastFastSavedTimestamp - DateTime.Now) > _fastSaveTimespan)
                 {
-                    SendMonitoringResult(fastMoniResult);
+                    SaveMonitoringResult(fastMoniResult, extendedPort);
                     extendedPort.LastFastSavedTimestamp = DateTime.Now;
                     extendedPort.State = GetPortState(fastMoniResult);
                     if (extendedPort.State == PortMeasResult.BrokenByFast)
@@ -117,7 +117,7 @@ namespace RtuManagement
             if (GetPortState(moniResult) != extendedPort.State ||
                 (DateTime.Now - extendedPort.LastPreciseSavedTimestamp) > _preciseSaveTimespan)
             {
-                SendMonitoringResult(moniResult);
+                SaveMonitoringResult(moniResult, extendedPort);
                 extendedPort.LastPreciseSavedTimestamp = DateTime.Now;
                 extendedPort.State = GetPortState(moniResult);
             }
@@ -132,6 +132,26 @@ namespace RtuManagement
             return moniResult.BaseRefType == BaseRefType.Fast
                 ? PortMeasResult.BrokenByFast
                 : PortMeasResult.BrokenByPrecise;
+        }
+
+        private FiberState GetTraceState(MoniResult moniResult)
+        {
+            if (moniResult.IsNoFiber)
+                return FiberState.NoFiber;
+            if (moniResult.IsFiberBreak)
+                return FiberState.FiberBreak;
+            if (moniResult.IsFailed)
+            {
+                if (moniResult.Levels.First(l => l.Type == MoniLevelType.User).IsLevelFailed)
+                    return FiberState.User;
+                if (moniResult.Levels.First(l => l.Type == MoniLevelType.Critical).IsLevelFailed)
+                    return FiberState.Critical;
+                if (moniResult.Levels.First(l => l.Type == MoniLevelType.Major).IsLevelFailed)
+                    return FiberState.Major;
+                if (moniResult.Levels.First(l => l.Type == MoniLevelType.Minor).IsLevelFailed)
+                    return FiberState.Minor;
+            }
+            return FiberState.Ok;
         }
 
         private MoniResult DoMeasurement(BaseRefType baseRefType, ExtendedPort extendedPort, bool isPortChanged = true)
@@ -153,7 +173,30 @@ namespace RtuManagement
             var measBytes = _otdrManager.ApplyAutoAnalysis(_otdrManager.GetLastSorDataBuffer()); // is ApplyAutoAnalysis necessary ?
             var moniResult = _otdrManager.CompareMeasureWithBase(baseBytes, measBytes, true); // base is inserted into meas during comparison
             extendedPort.SaveMeasBytes(baseRefType, measBytes); // so re-save meas after comparison
+            moniResult.BaseRefType = baseRefType;
             return moniResult;
+        }
+
+        private void SaveMonitoringResult(MoniResult moniResult, ExtendedPort extendedPort)
+        {
+            var dto = new MonitoringResultDto()
+            {
+                RtuId = _id,
+                TimeStamp = DateTime.Now,
+                OtauPort = new OtauPortDto()
+                {
+                    Ip = extendedPort.NetAddress.Ip4Address,
+                    TcpPort = extendedPort.NetAddress.Port,
+                    IsPortOnMainCharon = extendedPort.IsPortOnMainCharon,
+                    OpticalPort = extendedPort.OpticalPort,
+                },
+                BaseRefType = moniResult.BaseRefType,
+                TraceState = GetTraceState(moniResult),
+                SorData = moniResult.SorBytes
+            };
+            var moniResultOnDisk = new MoniResultOnDisk(Guid.NewGuid(), dto, _serviceLog);
+            moniResultOnDisk.Save();
+            QueueOfMoniResultsOnDisk.Enqueue(moniResultOnDisk);
         }
 
         private readonly List<DamagedOtau> _damagedOtaus = new List<DamagedOtau>();
@@ -170,7 +213,7 @@ namespace RtuManagement
             }
 
             SendCurrentMonitoringStep(RtuCurrentMonitoringStep.Toggle, extendedPort);
-            var toggleResult = _mainCharon.SetExtendedActivePort(extendedPort.NetAddress, extendedPort.Port);
+            var toggleResult = _mainCharon.SetExtendedActivePort(extendedPort.NetAddress, extendedPort.OpticalPort);
             switch (toggleResult)
             {
                 case CharonOperationResult.Ok:

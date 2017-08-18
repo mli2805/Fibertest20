@@ -1,7 +1,9 @@
+using System;
 using System.Runtime.Serialization;
 
 namespace Dto
 {
+    [Serializable]
     [DataContract]
     public class OtauPortDto
     {

@@ -51,7 +51,7 @@
     <Compile Include="Enums\FiberState.cs" />
     <Compile Include="C2D2R\InitializeRtuDto.cs" />
     <Compile Include="Enums\MessageProcessingResult.cs" />
-    <Compile Include="R2D\SaveMonitoringResultDto.cs" />
+    <Compile Include="R2D\MonitoringResultDto.cs" />
     <Compile Include="C2D2R\ApplyMonitoringSettingsDto.cs" />
     <Compile Include="R2D2C\MonitoringSettingsAppliedDto.cs" />
     <Compile Include="R2D2C\MonitoringStartedDto.cs" />

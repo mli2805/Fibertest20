@@ -33,7 +33,7 @@ namespace WcfServiceForRtuLibrary
         bool KnowRtuCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto monitoringStep);
 
         [OperationContract]
-        bool ProcessMonitoringResult(SaveMonitoringResultDto result);
+        bool ProcessMonitoringResult(MonitoringResultDto result);
 
     }
 }

@@ -35,7 +35,7 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="MonitoringStoppedDto" nillable="true" type="tns:MonitoringStoppedDto" />
-  <xs:complexType name="SaveMonitoringResultDto">
+  <xs:complexType name="MonitoringResultDto">
     <xs:sequence>
       <xs:element minOccurs="0" name="BaseRefType" type="tns:BaseRefType" />
       <xs:element minOccurs="0" name="OtauPort" nillable="true" type="tns:OtauPortDto" />
@@ -44,7 +44,7 @@
       <xs:element minOccurs="0" name="TraceState" type="tns:FiberState" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="SaveMonitoringResultDto" nillable="true" type="tns:SaveMonitoringResultDto" />
+  <xs:element name="MonitoringResultDto" nillable="true" type="tns:MonitoringResultDto" />
   <xs:simpleType name="BaseRefType">
     <xs:restriction base="xs:string">
       <xs:enumeration value="None" />

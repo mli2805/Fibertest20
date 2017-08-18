@@ -41,6 +41,10 @@ namespace RtuManagement
                 return;
             IsRtuInitialized = true;
 
+            var dove = new Dove(_serverAddresses, _serviceIni, _serviceLog) {QueueOfMoniResultsOnDisk = QueueOfMoniResultsOnDisk};
+            var thread = new Thread(dove.Fly) {IsBackground = true};
+            thread.Start();
+
             IsMonitoringOn = _rtuIni.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, 0) != 0;
             if (IsMonitoringOn)
                 RunMonitoringCycle(isUserAskedInitialization);
@@ -94,7 +98,7 @@ namespace RtuManagement
             }
 
             _otdrManager.InterruptMeasurement();
-            lock (_obj)
+            lock (_isMonitoringCancelledLocker)
             {
                 _isMonitoringCancelled = true;
             }
@@ -109,7 +113,7 @@ namespace RtuManagement
             {
                 if (settings.IsMonitoringOn)
                 {
-                    lock (_obj)
+                    lock (_isMonitoringCancelledLocker)
                     {
                         _hasNewSettings = true;
                     }
@@ -117,7 +121,7 @@ namespace RtuManagement
                 else // should become MANUAL
                 {
                     _otdrManager.InterruptMeasurement();
-                    lock (_obj)
+                    lock (_isMonitoringCancelledLocker)
                     {
                         _isMonitoringCancelled = true;
                     }

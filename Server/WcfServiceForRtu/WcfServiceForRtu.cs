@@ -38,7 +38,7 @@ namespace WcfServiceForRtuLibrary
             return true;
         }
 
-        public bool ProcessMonitoringResult(SaveMonitoringResultDto dto)
+        public bool ProcessMonitoringResult(MonitoringResultDto dto)
         {
             ServiceLog.AppendLine($"Rtu {dto.RtuId} sent monitoring result");
             MessageReceived?.Invoke(dto);

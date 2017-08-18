@@ -15,7 +15,7 @@ namespace Iit.Fibertest.UtilsLib
     {
         public NetAddress NetAddress { get; set; }
         public bool IsPortOnMainCharon { get; set; }
-        public int Port { get; set; }
+        public int OpticalPort { get; set; }
 
         public DateTime LastPreciseMadeTimestamp { get; set; }
         public DateTime LastPreciseSavedTimestamp { get; set; }
@@ -24,20 +24,22 @@ namespace Iit.Fibertest.UtilsLib
         public PortMeasResult State { get; set; }
         public bool IsBreakdownCloserThen20Km { get; set; }
 
-        public ExtendedPort(NetAddress netAddress, int opticalPort)
+        public ExtendedPort(NetAddress netAddress, int opticalOpticalPort)
         {
             NetAddress = netAddress;
-            Port = opticalPort;
+            OpticalPort = opticalOpticalPort;
         }
 
         public string GetFolderName()
         {
-            return $"{NetAddress.Ip4Address}t{NetAddress.Port}p{Port}";
+            return $"{NetAddress.Ip4Address}t{NetAddress.Port}p{OpticalPort}";
         }
 
         public string ToStringA()
         {
-            return $"{Port} on {NetAddress.ToStringA()}";
+            return IsPortOnMainCharon 
+                ? $"{OpticalPort}"
+                : $"{OpticalPort} on {NetAddress.ToStringA()}";
         }
 
         public bool HasAdditionalBase()

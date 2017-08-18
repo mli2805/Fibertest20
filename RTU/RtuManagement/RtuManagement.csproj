@@ -78,6 +78,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DamagedOtau.cs" />
+    <Compile Include="Dove.cs" />
+    <Compile Include="MoniResultOnDisk.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecoveryStep.cs" />
     <Compile Include="RtuManager.cs" />

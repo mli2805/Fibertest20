@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading;
 using Dto;
 using Iit.Fibertest.DirectCharonLibrary;
@@ -81,7 +82,7 @@ namespace RtuManagement
                 {
                     Ip = extendedPort.NetAddress.Ip4Address,
                     TcpPort = extendedPort.NetAddress.Port,
-                    OpticalPort = extendedPort.Port
+                    OpticalPort = extendedPort.OpticalPort
                 },
                 BaseRefType = baseRefType,
             };
@@ -97,25 +98,6 @@ namespace RtuManagement
             IsSenderBusy = false;
         }
 
-        private void SendMonitoringResult(MoniResult moniResult)
-        {
-            IsSenderBusy = true;
-
-            var dto = new SaveMonitoringResultDto()
-            {
-                RtuId = Guid.NewGuid(), SorData = moniResult.SorBytes
-            };
-
-            var thread = new Thread(SendMonitoringResultThread) { IsBackground = true };
-            thread.Start(dto);
-        }
-
-        private void SendMonitoringResultThread(object dto)
-        {
-            var monitoringResult = dto as SaveMonitoringResultDto;
-            new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendMonitoringResult(monitoringResult);
-            IsSenderBusy = false;
-        }
     }
 }
 

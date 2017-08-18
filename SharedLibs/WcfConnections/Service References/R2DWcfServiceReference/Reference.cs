@@ -28,7 +28,7 @@ namespace WcfConnections.R2DWcfServiceReference {
         bool ConfirmStopMonitoring(Dto.MonitoringStoppedDto result);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForRtu/ProcessMonitoringResult", ReplyAction="http://tempuri.org/IWcfServiceForRtu/ProcessMonitoringResultResponse")]
-        bool ProcessMonitoringResult(Dto.SaveMonitoringResultDto result);
+        bool ProcessMonitoringResult(Dto.MonitoringResultDto result);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForRtu/ConfirmMonitoringSettingsApplied", ReplyAction="http://tempuri.org/IWcfServiceForRtu/ConfirmMonitoringSettingsAppliedResponse")]
         bool ConfirmMonitoringSettingsApplied(Dto.MonitoringSettingsAppliedDto result);
@@ -83,7 +83,7 @@ namespace WcfConnections.R2DWcfServiceReference {
             return base.Channel.ConfirmStopMonitoring(result);
         }
         
-        public bool ProcessMonitoringResult(Dto.SaveMonitoringResultDto result) {
+        public bool ProcessMonitoringResult(Dto.MonitoringResultDto result) {
             return base.Channel.ProcessMonitoringResult(result);
         }
         

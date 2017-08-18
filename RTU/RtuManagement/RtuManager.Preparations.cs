@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using Dto;
@@ -30,7 +31,9 @@ namespace RtuManagement
             GetMonitoringQueue();
             GetMonitoringParams();
 
-            _rtuLog.AppendLine("Rtu Manager initialization failed.");
+            LoadMoniResultsFromDisk();
+
+            _rtuLog.AppendLine("Rtu Manager initialized successfully.");
             return result;
         }
 
@@ -90,7 +93,11 @@ namespace RtuManagement
             foreach (var line in content)
             {
                 var extendedPort = ExtendedPort.Create(line, _rtuLog);
-                if (extendedPort != null && _mainCharon.IsExtendedPortValidForMonitoring(extendedPort))
+                if (extendedPort == null)
+                    continue;
+
+                extendedPort.IsPortOnMainCharon = _mainCharon.NetAddress.Equals(extendedPort.NetAddress);
+                if (_mainCharon.IsExtendedPortValidForMonitoring(extendedPort))
                     _monitoringQueue.Enqueue(extendedPort);
             }
             _rtuLog.AppendLine($"{_monitoringQueue.Count} port(s) in queue.");
@@ -112,5 +119,14 @@ namespace RtuManagement
             _otdrManager.DisconnectOtdr(otdrAddress);
             _rtuLog.AppendLine("Rtu is in MANUAL mode.");
         }
+
+        private void LoadMoniResultsFromDisk()
+        {
+                QueueOfMoniResultsOnDisk = new ConcurrentQueue<MoniResultOnDisk>();
+
+                //TODO load
+        }
     }
+
+ 
 }

@@ -137,20 +137,25 @@ namespace WcfConnections
             }
         }
 
-        public void SendMonitoringResult(SaveMonitoringResultDto dto)
+        public bool SendMonitoringResult(MonitoringResultDto dto)
         {
             var wcfConnection = _wcfFactory.CreateR2DConnection();
             if (wcfConnection == null)
-                return;
+                return false;
 
             try
             {
                 wcfConnection.ProcessMonitoringResult(dto);
-                _logFile.AppendLine("Sending monitoring result");
+                var port = dto.OtauPort.IsPortOnMainCharon 
+                    ? dto.OtauPort.OpticalPort.ToString() 
+                    : $"{dto.OtauPort.OpticalPort} on {dto.OtauPort.Ip}:{dto.OtauPort.TcpPort}";
+                _logFile.AppendLine($"Sending {dto.BaseRefType} meas port {port} : {dto.TraceState}");
+                return true;
             }
             catch (Exception e)
             {
                 _logFile.AppendLine(e.Message);
+                return false;
             }
         }
     }
