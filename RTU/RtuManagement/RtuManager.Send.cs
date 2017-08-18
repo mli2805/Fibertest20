@@ -1,9 +1,6 @@
-﻿using System;
-using System.IO;
-using System.Threading;
+﻿using System.Threading;
 using Dto;
 using Iit.Fibertest.DirectCharonLibrary;
-using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.UtilsLib;
 using WcfConnections;
 

@@ -18,8 +18,6 @@ namespace RtuManagement
         private OtdrManager _otdrManager;
         private Charon _mainCharon;
 
-        private readonly object _moniresultsQueueLocker = new object();
-
         public ConcurrentQueue<MoniResultOnDisk> QueueOfMoniResultsOnDisk { get; set; }
         private object WcfParameter { get; set; }
 
