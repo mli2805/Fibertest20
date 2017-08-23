@@ -15,13 +15,13 @@ namespace Iit.Fibertest.UtilsLib
         /// 
         /// </summary>
         /// <param name="address">can be an IPaddress or host name</param>
+        /// <param name="timeout">in ms</param>
         /// <returns></returns>
-        public static bool Ping(string address)
+        public static bool Ping(string address, int timeout = 120)
         {
             var pingSender = new Ping();
             var options = new PingOptions { DontFragment = true };
             byte[] buffer = Encoding.ASCII.GetBytes(@"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-            int timeout = 120; // in ms
             PingReply reply = pingSender.Send(address, timeout, buffer, options);
             return reply?.Status == IPStatus.Success;
         }

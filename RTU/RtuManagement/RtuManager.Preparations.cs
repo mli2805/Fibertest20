@@ -122,11 +122,29 @@ namespace RtuManagement
 
         private void LoadMoniResultsFromDisk()
         {
-                QueueOfMoniResultsOnDisk = new ConcurrentQueue<MoniResultOnDisk>();
+            QueueOfMoniResultsOnDisk = new ConcurrentQueue<MoniResultOnDisk>();
 
-                //TODO load
+            var app = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            var appPath = Path.GetDirectoryName(app);
+            if (appPath == null)
+                return;
+            var storePath = appPath + @"\..\ResultStore\";
+            _serviceLog.AppendLine($"{storePath}");
+
+            var files = Directory.GetFiles(storePath);
+            _serviceLog.AppendLine($"There're {files.Length} stored files");
+            foreach (var file in files)
+            {
+                var filename = Path.GetFileNameWithoutExtension(file);
+                Guid id;
+                if (!Guid.TryParse(filename, out id))
+                    continue;
+
+                var moniResult = new MoniResultOnDisk(id, null, _serviceLog);
+                moniResult.Load();
+                QueueOfMoniResultsOnDisk.Enqueue(moniResult);
+            }
+            _serviceLog.AppendLine($"There're {QueueOfMoniResultsOnDisk.Count} moniresults in queue");
         }
     }
-
- 
 }

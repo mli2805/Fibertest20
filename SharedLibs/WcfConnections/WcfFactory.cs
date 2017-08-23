@@ -66,14 +66,15 @@ namespace WcfConnections
         {
             try
             {
-                var openTimeout = TimeSpan.FromSeconds(_iniFile.Read(IniSection.NetTcpBinding, IniKey.OpenTimeout, 1));
+                var openTimeout = TimeSpan.FromSeconds(_iniFile.Read(IniSection.NetTcpBinding, IniKey.OpenTimeout, 0.5));
                 var tcpClient = new TcpClient();
                 var tcpConnection = tcpClient.BeginConnect(_endPoint.Main.Ip4Address, (int)TcpPorts.ServerListenToRtu, null, null);
                 var success = tcpConnection.AsyncWaitHandle.WaitOne(openTimeout);
                 if (!success)
                 {
-                    _logFile.AppendLine($"Can't establish connection with {_endPoint.Main.Ip4Address}:{(int)TcpPorts.ServerListenToRtu}");
-                    var word = Pinger.Ping(_endPoint.Main.Ip4Address) ? "passed" : "failed";
+                    _logFile.AppendLine($"Can't connect to {_endPoint.Main.Ip4Address}:{(int)TcpPorts.ServerListenToRtu} (Open timeout {openTimeout.Seconds} s)");
+                    var pingTimeout = _iniFile.Read(IniSection.NetTcpBinding, IniKey.PingTimeout, 120);
+                    var word = Pinger.Ping(_endPoint.Main.Ip4Address, pingTimeout) ? "passed" : $"failed (timeout is {pingTimeout} ms)";
                     _logFile.AppendLine($"Ping {_endPoint.Main.Ip4Address} {word}");
                     return null;
                 }

@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Globalization;
+using System.Runtime.InteropServices;
 using System.Text;
 using Dto;
 
@@ -71,7 +72,7 @@ namespace Iit.Fibertest.UtilsLib
             }
         }
 
-        #region Extensions (Other classes)
+        #region Extensions (Other types)
 
         public void Write(IniSection section, IniKey key, bool value)
         {
@@ -81,6 +82,11 @@ namespace Iit.Fibertest.UtilsLib
         public void Write(IniSection section, IniKey key, int value)
         {
             Write(section, key, value.ToString());
+        }
+
+        public void Write(IniSection section, IniKey key, double value)
+        {
+            Write(section, key, value.ToString(CultureInfo.CurrentCulture));
         }
 
         public bool Read(IniSection section, IniKey key, bool defaultValue)
@@ -93,6 +99,12 @@ namespace Iit.Fibertest.UtilsLib
         {
             int result;
             return int.TryParse(Read(section, key, defaultValue.ToString()), out result) ? result : defaultValue;
+        }
+
+        public double Read(IniSection section, IniKey key, double defaultValue)
+        {
+            double result;
+            return double.TryParse(Read(section, key, defaultValue.ToString()), out result) ? result : defaultValue;
         }
 
         public NetAddress Read(IniSection section)

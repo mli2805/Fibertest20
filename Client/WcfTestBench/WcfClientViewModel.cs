@@ -152,7 +152,7 @@ namespace WcfTestBench
             _clientIni = iniFile35;
             //            DcServiceAddresses = _clientIni.Read(IniSection.Server, IniKey.MainAddressIp, @"10.1.37.22");
             DcServiceAddresses = _clientIni.ReadServerAddresses();
-            RtuServiceIp = _clientIni.Read(IniSection.General, IniKey.RtuServiceIp, @"192.168.96.53");
+            RtuServiceIp = _clientIni.Read(IniSection.General, IniKey.RtuServiceIp, @"172.16.5.53");
             _rtuId = Guid.Parse(@"f3e0d85f-2cb3-4160-99ca-408cfd18d765");
             var localIp = _clientIni.Read(IniSection.General, IniKey.LocalIp, @"192.168.96.179");
 
