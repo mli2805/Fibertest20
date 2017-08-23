@@ -2,7 +2,6 @@
 using System.Net.Sockets;
 using System.ServiceModel;
 using Dto;
-using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using WcfConnections.C2DWcfServiceReference;
 using WcfConnections.ClientWcfServiceReference;
@@ -11,12 +10,6 @@ using WcfConnections.RtuWcfServiceReference;
 
 namespace WcfConnections
 {
-    public enum TcpChannelsSelection
-    {
-        NoWorkingChannels,
-        UseMain,
-        UseReserve,
-    }
     public class WcfFactory
     {
         private readonly DoubleAddressWithLastConnectionCheck _endPoint;
@@ -34,16 +27,18 @@ namespace WcfConnections
         {
             try
             {
-                var connection = new ClientWcfServiceClient(
-                    CreateDefaultNetTcpBinding(_iniFile),
-                    new EndpointAddress(
-                        new Uri(CombineUriString(_endPoint.Main.Ip4Address, TcpPorts.ClientListenTo, @"ClientWcfService"))));
+                var netAddress = SelectAvailableNetAddress();
+                if (netAddress == null)
+                    return null;
+
+                var connection =
+                    new ClientWcfServiceClient(CreateDefaultNetTcpBinding(_iniFile), new EndpointAddress(
+                        new Uri(CombineUriString(netAddress.IsAddressSetAsIp ? netAddress.Ip4Address : netAddress.HostName, netAddress.Port, @"ClientWcfService"))));
                 connection.Open();
                 return connection;
             }
             catch (Exception e)
             {
-                _logFile.AppendLine(string.Format(Resources.SID_Cannot_establish_connection_with__0___1_, _endPoint.Main.Ip4Address, (int)TcpPorts.ClientListenTo));
                 _logFile.AppendLine(e.Message);
                 return null;
             }
@@ -53,52 +48,21 @@ namespace WcfConnections
         {
             try
             {
-                var connection = new WcfServiceForClientClient(
-                    CreateDefaultNetTcpBinding(_iniFile),
-                    new EndpointAddress(
-                        new Uri(CombineUriString(_endPoint.Main.Ip4Address, TcpPorts.ServerListenToClient, @"WcfServiceForClient"))));
+                var netAddress = SelectAvailableNetAddress();
+                if (netAddress == null)
+                    return null;
+
+                var connection =
+                    new WcfServiceForClientClient(CreateDefaultNetTcpBinding(_iniFile), new EndpointAddress(
+                        new Uri(CombineUriString(netAddress.IsAddressSetAsIp ? netAddress.Ip4Address : netAddress.HostName, netAddress.Port, @"WcfServiceForClient"))));
                 connection.Open();
                 return connection;
             }
             catch (Exception e)
             {
-                _logFile.AppendLine(string.Format(Resources.SID_Cannot_establish_connection_with__0___1_, _endPoint.Main.Ip4Address, (int)TcpPorts.ServerListenToClient));
                 _logFile.AppendLine(e.Message);
                 return null;
             }
-        }
-
-        private bool CheckTcpConnection(NetAddress netAddress, TimeSpan openTimeout)
-        {
-            var tcpClient = new TcpClient();
-
-            var address = netAddress.IsAddressSetAsIp ? netAddress.Ip4Address : netAddress.HostName;
-            var tcpConnection = tcpClient.BeginConnect(address, netAddress.Port, null, null);
-            if (tcpConnection.AsyncWaitHandle.WaitOne(openTimeout))
-                return true;
-
-            _logFile.AppendLine($"Can't connect to {address}:{netAddress.Port} (Open timeout {openTimeout.Milliseconds} ms)");
-            var pingTimeout = _iniFile.Read(IniSection.NetTcpBinding, IniKey.PingTimeout, 120);
-            var word = Pinger.Ping(address, pingTimeout) ? "passed" : $"failed (timeout is {pingTimeout} ms)";
-            _logFile.AppendLine($"Ping {address} {word}");
-
-            return false;
-        }
-
-        private NetAddress SelectAvailableNetAddress()
-        {
-            var openTimeout = TimeSpan.FromSeconds(_iniFile.Read(IniSection.NetTcpBinding, IniKey.OpenTimeout, 0.5));
-
-            if (CheckTcpConnection(_endPoint.Main, openTimeout))
-                return _endPoint.Main;
-
-            if (_endPoint.HasReserveAddress)
-            {
-                if (CheckTcpConnection(_endPoint.Reserve, openTimeout))
-                    return _endPoint.Reserve;
-            }
-
-            return null;
         }
 
         public WcfServiceForRtuClient CreateR2DConnection()
@@ -126,29 +90,61 @@ namespace WcfConnections
         {
             try
             {
-                var connection = new RtuWcfServiceClient(
-                    CreateDefaultNetTcpBinding(_iniFile),
-                    new EndpointAddress(
-                        new Uri(CombineUriString(_endPoint.Main.Ip4Address, TcpPorts.RtuListenTo, @"RtuWcfService"))));
+                var netAddress = SelectAvailableNetAddress();
+                if (netAddress == null)
+                    return null;
+
+                var connection =
+                    new RtuWcfServiceClient(CreateDefaultNetTcpBinding(_iniFile), new EndpointAddress(
+                        new Uri(CombineUriString(netAddress.IsAddressSetAsIp ? netAddress.Ip4Address : netAddress.HostName, netAddress.Port, @"RtuWcfService"))));
                 connection.Open();
                 return connection;
             }
             catch (Exception e)
             {
-                _logFile.AppendLine(string.Format(Resources.SID_Cannot_establish_connection_with__0___1_, _endPoint.Main.Ip4Address, (int)TcpPorts.RtuListenTo));
                 _logFile.AppendLine(e.Message);
                 return null;
             }
+        }
+
+        private NetAddress SelectAvailableNetAddress()
+        {
+            var openTimeout = TimeSpan.FromMilliseconds(_iniFile.Read(IniSection.NetTcpBinding, IniKey.OpenTimeoutMs, 1000));
+
+            if (CheckTcpConnection(_endPoint.Main, openTimeout))
+                return _endPoint.Main;
+
+            if (_endPoint.HasReserveAddress)
+            {
+                if (CheckTcpConnection(_endPoint.Reserve, openTimeout))
+                    return _endPoint.Reserve;
+            }
+
+            return null;
+        }
+
+        private bool CheckTcpConnection(NetAddress netAddress, TimeSpan openTimeout)
+        {
+            var tcpClient = new TcpClient();
+
+            var address = netAddress.IsAddressSetAsIp ? netAddress.Ip4Address : netAddress.HostName;
+            var tcpConnection = tcpClient.BeginConnect(address, netAddress.Port, null, null);
+            if (tcpConnection.AsyncWaitHandle.WaitOne(openTimeout))
+                return true;
+
+            _logFile.AppendLine($"Can't connect to {address}:{netAddress.Port} (Timeout {openTimeout.TotalMilliseconds} ms)");
+            var pingTimeout = _iniFile.Read(IniSection.NetTcpBinding, IniKey.PingTimeoutMs, 120);
+            var word = Pinger.Ping(address, pingTimeout) ? "passed" : $"failed (Timeout is {pingTimeout} ms)";
+            _logFile.AppendLine($"Ping {address} {word}");
+
+            return false;
         }
 
         private string CombineUriString(string address, int port, string wcfServiceName)
         {
             return @"net.tcp://" + address + @":" + port + @"/" + wcfServiceName;
         }
-        private string CombineUriString(string address, TcpPorts port, string wcfServiceName)
-        {
-            return @"net.tcp://" + address + @":" + (int)port + @"/" + wcfServiceName;
-        }
+
         private NetTcpBinding CreateDefaultNetTcpBinding(IniFile iniFile)
         {
             return new NetTcpBinding

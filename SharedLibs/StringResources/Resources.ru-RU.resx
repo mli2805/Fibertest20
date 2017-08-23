@@ -1108,9 +1108,6 @@ on port {0}: charon {1} ip {2} has {3} ports</value>
 	<data name="SID_Rtu_connection checked_Alive" xml:space="preserve">
     <value>Проверка соединения с RTU {0}: Отвечает = {1}</value>
   </data>
-	<data name="SID_Cannot_establish_connection_with__0___1_" xml:space="preserve">
-		<value>Не могу установить соединение с {0}:{1}</value>
-	</data>
 	<data name="SID_WcfServiceForClient_creation_error_" xml:space="preserve">
 		<value>Ошибка создания WcfServiceForClient</value>
 	</data>

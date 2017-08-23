@@ -49,9 +49,9 @@
         RtuServiceName,
 
         // NetTcpBinding
-        OpenTimeout,
+        OpenTimeoutMs,
         ReceiveTimeout,
         SendTimeout,
-        PingTimeout,
+        PingTimeoutMs,
     }
 }
