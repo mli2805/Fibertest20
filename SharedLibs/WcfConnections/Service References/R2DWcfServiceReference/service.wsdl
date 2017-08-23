@@ -41,12 +41,6 @@
   <wsdl:message name="IWcfServiceForRtu_ConfirmStopMonitoring_OutputMessage">
     <wsdl:part name="parameters" element="tns:ConfirmStopMonitoringResponse" />
   </wsdl:message>
-  <wsdl:message name="IWcfServiceForRtu_ProcessMonitoringResult_InputMessage">
-    <wsdl:part name="parameters" element="tns:ProcessMonitoringResult" />
-  </wsdl:message>
-  <wsdl:message name="IWcfServiceForRtu_ProcessMonitoringResult_OutputMessage">
-    <wsdl:part name="parameters" element="tns:ProcessMonitoringResultResponse" />
-  </wsdl:message>
   <wsdl:message name="IWcfServiceForRtu_ConfirmMonitoringSettingsApplied_InputMessage">
     <wsdl:part name="parameters" element="tns:ConfirmMonitoringSettingsApplied" />
   </wsdl:message>
@@ -65,6 +59,18 @@
   <wsdl:message name="IWcfServiceForRtu_KnowRtuCurrentMonitoringStep_OutputMessage">
     <wsdl:part name="parameters" element="tns:KnowRtuCurrentMonitoringStepResponse" />
   </wsdl:message>
+  <wsdl:message name="IWcfServiceForRtu_ProcessRtuChecksChannel_InputMessage">
+    <wsdl:part name="parameters" element="tns:ProcessRtuChecksChannel" />
+  </wsdl:message>
+  <wsdl:message name="IWcfServiceForRtu_ProcessRtuChecksChannel_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ProcessRtuChecksChannelResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWcfServiceForRtu_ProcessMonitoringResult_InputMessage">
+    <wsdl:part name="parameters" element="tns:ProcessMonitoringResult" />
+  </wsdl:message>
+  <wsdl:message name="IWcfServiceForRtu_ProcessMonitoringResult_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ProcessMonitoringResultResponse" />
+  </wsdl:message>
   <wsdl:portType name="IWcfServiceForRtu">
     <wsdl:operation name="ProcessRtuConnectionChecked">
       <wsdl:input wsaw:Action="http://tempuri.org/IWcfServiceForRtu/ProcessRtuConnectionChecked" message="tns:IWcfServiceForRtu_ProcessRtuConnectionChecked_InputMessage" />
@@ -82,10 +88,6 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IWcfServiceForRtu/ConfirmStopMonitoring" message="tns:IWcfServiceForRtu_ConfirmStopMonitoring_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IWcfServiceForRtu/ConfirmStopMonitoringResponse" message="tns:IWcfServiceForRtu_ConfirmStopMonitoring_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="ProcessMonitoringResult">
-      <wsdl:input wsaw:Action="http://tempuri.org/IWcfServiceForRtu/ProcessMonitoringResult" message="tns:IWcfServiceForRtu_ProcessMonitoringResult_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IWcfServiceForRtu/ProcessMonitoringResultResponse" message="tns:IWcfServiceForRtu_ProcessMonitoringResult_OutputMessage" />
-    </wsdl:operation>
     <wsdl:operation name="ConfirmMonitoringSettingsApplied">
       <wsdl:input wsaw:Action="http://tempuri.org/IWcfServiceForRtu/ConfirmMonitoringSettingsApplied" message="tns:IWcfServiceForRtu_ConfirmMonitoringSettingsApplied_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IWcfServiceForRtu/ConfirmMonitoringSettingsAppliedResponse" message="tns:IWcfServiceForRtu_ConfirmMonitoringSettingsApplied_OutputMessage" />
@@ -97,6 +99,14 @@
     <wsdl:operation name="KnowRtuCurrentMonitoringStep">
       <wsdl:input wsaw:Action="http://tempuri.org/IWcfServiceForRtu/KnowRtuCurrentMonitoringStep" message="tns:IWcfServiceForRtu_KnowRtuCurrentMonitoringStep_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IWcfServiceForRtu/KnowRtuCurrentMonitoringStepResponse" message="tns:IWcfServiceForRtu_KnowRtuCurrentMonitoringStep_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ProcessRtuChecksChannel">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWcfServiceForRtu/ProcessRtuChecksChannel" message="tns:IWcfServiceForRtu_ProcessRtuChecksChannel_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWcfServiceForRtu/ProcessRtuChecksChannelResponse" message="tns:IWcfServiceForRtu_ProcessRtuChecksChannel_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ProcessMonitoringResult">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWcfServiceForRtu/ProcessMonitoringResult" message="tns:IWcfServiceForRtu_ProcessMonitoringResult_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWcfServiceForRtu/ProcessMonitoringResultResponse" message="tns:IWcfServiceForRtu_ProcessMonitoringResult_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="NetTcpBinding_IWcfServiceForRtu" type="tns:IWcfServiceForRtu">
@@ -139,15 +149,6 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="ProcessMonitoringResult">
-      <soap12:operation soapAction="http://tempuri.org/IWcfServiceForRtu/ProcessMonitoringResult" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="ConfirmMonitoringSettingsApplied">
       <soap12:operation soapAction="http://tempuri.org/IWcfServiceForRtu/ConfirmMonitoringSettingsApplied" style="document" />
       <wsdl:input>
@@ -168,6 +169,24 @@
     </wsdl:operation>
     <wsdl:operation name="KnowRtuCurrentMonitoringStep">
       <soap12:operation soapAction="http://tempuri.org/IWcfServiceForRtu/KnowRtuCurrentMonitoringStep" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ProcessRtuChecksChannel">
+      <soap12:operation soapAction="http://tempuri.org/IWcfServiceForRtu/ProcessRtuChecksChannel" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ProcessMonitoringResult">
+      <soap12:operation soapAction="http://tempuri.org/IWcfServiceForRtu/ProcessMonitoringResult" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

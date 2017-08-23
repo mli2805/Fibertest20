@@ -10,6 +10,8 @@ namespace WcfServiceForRtuLibrary
         public static event OnMessageReceived MessageReceived;
         public delegate bool OnMessageReceived(object e);
 
+        // RTU responses on DataCenter's (Client's) requestes
+
         public bool ProcessRtuConnectionChecked(RtuConnectionCheckedDto dto)
         {
             ServiceLog.AppendLine($"Rtu {dto.RtuId} reply on connection check request");
@@ -38,13 +40,6 @@ namespace WcfServiceForRtuLibrary
             return true;
         }
 
-        public bool ProcessMonitoringResult(MonitoringResultDto dto)
-        {
-            ServiceLog.AppendLine($"Rtu {dto.RtuId} sent monitoring result");
-            MessageReceived?.Invoke(dto);
-            return true;
-        }
-
         public bool ConfirmMonitoringSettingsApplied(MonitoringSettingsAppliedDto dto)
         {
             ServiceLog.AppendLine($"Rtu {dto.RtuId} reply on monitoring settings");
@@ -59,11 +54,29 @@ namespace WcfServiceForRtuLibrary
             return true;
         }
 
+        // RTU notifies
+
         public bool KnowRtuCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto dto)
         {
 //            ServiceLog.AppendLine($"Transfer Rtu's {dto.RtuId} current monitoring step");
             MessageReceived?.Invoke(dto);
             return true;
         }
+
+        public bool ProcessRtuChecksChannel(RtuChecksChannelDto dto)
+        {
+            var channel = dto.IsMainChannel ? "MAIN" : "RESERVE";
+            ServiceLog.AppendLine($"Rtu {dto.RtuId} checks {channel} channel");
+            MessageReceived?.Invoke(dto);
+            return true;
+        }
+
+        public bool ProcessMonitoringResult(MonitoringResultDto dto)
+        {
+            ServiceLog.AppendLine($"Rtu {dto.RtuId} sent monitoring result");
+            MessageReceived?.Invoke(dto);
+            return true;
+        }
+
     }
 }

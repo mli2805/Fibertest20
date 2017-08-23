@@ -33,6 +33,9 @@ namespace WcfServiceForRtuLibrary
         bool KnowRtuCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto monitoringStep);
 
         [OperationContract]
+        bool ProcessRtuChecksChannel(RtuChecksChannelDto result);
+
+        [OperationContract]
         bool ProcessMonitoringResult(MonitoringResultDto result);
 
     }

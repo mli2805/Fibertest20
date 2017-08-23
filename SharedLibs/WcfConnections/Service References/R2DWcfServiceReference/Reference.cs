@@ -27,9 +27,6 @@ namespace WcfConnections.R2DWcfServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForRtu/ConfirmStopMonitoring", ReplyAction="http://tempuri.org/IWcfServiceForRtu/ConfirmStopMonitoringResponse")]
         bool ConfirmStopMonitoring(Dto.MonitoringStoppedDto result);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForRtu/ProcessMonitoringResult", ReplyAction="http://tempuri.org/IWcfServiceForRtu/ProcessMonitoringResultResponse")]
-        bool ProcessMonitoringResult(Dto.MonitoringResultDto result);
-        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForRtu/ConfirmMonitoringSettingsApplied", ReplyAction="http://tempuri.org/IWcfServiceForRtu/ConfirmMonitoringSettingsAppliedResponse")]
         bool ConfirmMonitoringSettingsApplied(Dto.MonitoringSettingsAppliedDto result);
         
@@ -38,6 +35,12 @@ namespace WcfConnections.R2DWcfServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForRtu/KnowRtuCurrentMonitoringStep", ReplyAction="http://tempuri.org/IWcfServiceForRtu/KnowRtuCurrentMonitoringStepResponse")]
         bool KnowRtuCurrentMonitoringStep(Dto.KnowRtuCurrentMonitoringStepDto monitoringStep);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForRtu/ProcessRtuChecksChannel", ReplyAction="http://tempuri.org/IWcfServiceForRtu/ProcessRtuChecksChannelResponse")]
+        bool ProcessRtuChecksChannel(Dto.RtuChecksChannelDto result);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForRtu/ProcessMonitoringResult", ReplyAction="http://tempuri.org/IWcfServiceForRtu/ProcessMonitoringResultResponse")]
+        bool ProcessMonitoringResult(Dto.MonitoringResultDto result);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -83,10 +86,6 @@ namespace WcfConnections.R2DWcfServiceReference {
             return base.Channel.ConfirmStopMonitoring(result);
         }
         
-        public bool ProcessMonitoringResult(Dto.MonitoringResultDto result) {
-            return base.Channel.ProcessMonitoringResult(result);
-        }
-        
         public bool ConfirmMonitoringSettingsApplied(Dto.MonitoringSettingsAppliedDto result) {
             return base.Channel.ConfirmMonitoringSettingsApplied(result);
         }
@@ -97,6 +96,14 @@ namespace WcfConnections.R2DWcfServiceReference {
         
         public bool KnowRtuCurrentMonitoringStep(Dto.KnowRtuCurrentMonitoringStepDto monitoringStep) {
             return base.Channel.KnowRtuCurrentMonitoringStep(monitoringStep);
+        }
+        
+        public bool ProcessRtuChecksChannel(Dto.RtuChecksChannelDto result) {
+            return base.Channel.ProcessRtuChecksChannel(result);
+        }
+        
+        public bool ProcessMonitoringResult(Dto.MonitoringResultDto result) {
+            return base.Channel.ProcessMonitoringResult(result);
         }
     }
 }

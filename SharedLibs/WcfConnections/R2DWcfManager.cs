@@ -137,6 +137,11 @@ namespace WcfConnections
             }
         }
 
+        public void CheckChannels()
+        {
+            
+        }
+
         public bool SendMonitoringResult(MonitoringResultDto dto)
         {
             var wcfConnection = _wcfFactory.CreateR2DConnection();

@@ -11,6 +11,12 @@ using WcfConnections.RtuWcfServiceReference;
 
 namespace WcfConnections
 {
+    public enum TcpChannelsSelection
+    {
+        NoWorkingChannels,
+        UseMain,
+        UseReserve,
+    }
     public class WcfFactory
     {
         private readonly DoubleAddressWithLastConnectionCheck _endPoint;
@@ -62,33 +68,55 @@ namespace WcfConnections
             }
         }
 
+        private bool CheckTcpConnection(NetAddress netAddress, TimeSpan openTimeout)
+        {
+            var tcpClient = new TcpClient();
+
+            var address = netAddress.IsAddressSetAsIp ? netAddress.Ip4Address : netAddress.HostName;
+            var tcpConnection = tcpClient.BeginConnect(address, netAddress.Port, null, null);
+            if (tcpConnection.AsyncWaitHandle.WaitOne(openTimeout))
+                return true;
+
+            _logFile.AppendLine($"Can't connect to {address}:{netAddress.Port} (Open timeout {openTimeout.Milliseconds} ms)");
+            var pingTimeout = _iniFile.Read(IniSection.NetTcpBinding, IniKey.PingTimeout, 120);
+            var word = Pinger.Ping(address, pingTimeout) ? "passed" : $"failed (timeout is {pingTimeout} ms)";
+            _logFile.AppendLine($"Ping {address} {word}");
+
+            return false;
+        }
+
+        private NetAddress SelectAvailableNetAddress()
+        {
+            var openTimeout = TimeSpan.FromSeconds(_iniFile.Read(IniSection.NetTcpBinding, IniKey.OpenTimeout, 0.5));
+
+            if (CheckTcpConnection(_endPoint.Main, openTimeout))
+                return _endPoint.Main;
+
+            if (_endPoint.HasReserveAddress)
+            {
+                if (CheckTcpConnection(_endPoint.Reserve, openTimeout))
+                    return _endPoint.Reserve;
+            }
+
+            return null;
+        }
+
         public WcfServiceForRtuClient CreateR2DConnection()
         {
             try
             {
-                var openTimeout = TimeSpan.FromSeconds(_iniFile.Read(IniSection.NetTcpBinding, IniKey.OpenTimeout, 0.5));
-                var tcpClient = new TcpClient();
-                var tcpConnection = tcpClient.BeginConnect(_endPoint.Main.Ip4Address, (int)TcpPorts.ServerListenToRtu, null, null);
-                var success = tcpConnection.AsyncWaitHandle.WaitOne(openTimeout);
-                if (!success)
-                {
-                    _logFile.AppendLine($"Can't connect to {_endPoint.Main.Ip4Address}:{(int)TcpPorts.ServerListenToRtu} (Open timeout {openTimeout.Seconds} s)");
-                    var pingTimeout = _iniFile.Read(IniSection.NetTcpBinding, IniKey.PingTimeout, 120);
-                    var word = Pinger.Ping(_endPoint.Main.Ip4Address, pingTimeout) ? "passed" : $"failed (timeout is {pingTimeout} ms)";
-                    _logFile.AppendLine($"Ping {_endPoint.Main.Ip4Address} {word}");
+                var netAddress = SelectAvailableNetAddress();
+                if (netAddress == null)
                     return null;
-                }
 
-                var connection = new WcfServiceForRtuClient(
-                    CreateDefaultNetTcpBinding(_iniFile),
-                    new EndpointAddress(
-                        new Uri(CombineUriString(_endPoint.Main.Ip4Address, TcpPorts.ServerListenToRtu, @"WcfServiceForRtu"))));
+                var connection = 
+                     new WcfServiceForRtuClient(CreateDefaultNetTcpBinding(_iniFile), new EndpointAddress(
+                            new Uri(CombineUriString(netAddress.IsAddressSetAsIp ? netAddress.Ip4Address : netAddress.HostName, netAddress.Port, @"WcfServiceForRtu"))));
                 connection.Open();
                 return connection;
             }
             catch (Exception e)
             {
-                _logFile.AppendLine(string.Format(Resources.SID_Cannot_establish_connection_with__0___1_, _endPoint.Main.Ip4Address, (int)TcpPorts.ServerListenToRtu));
                 _logFile.AppendLine(e.Message);
                 return null;
             }
@@ -113,6 +141,10 @@ namespace WcfConnections
             }
         }
 
+        private string CombineUriString(string address, int port, string wcfServiceName)
+        {
+            return @"net.tcp://" + address + @":" + port + @"/" + wcfServiceName;
+        }
         private string CombineUriString(string address, TcpPorts port, string wcfServiceName)
         {
             return @"net.tcp://" + address + @":" + (int)port + @"/" + wcfServiceName;

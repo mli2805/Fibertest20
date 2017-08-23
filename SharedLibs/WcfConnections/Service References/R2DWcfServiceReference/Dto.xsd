@@ -35,25 +35,21 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="MonitoringStoppedDto" nillable="true" type="tns:MonitoringStoppedDto" />
-  <xs:complexType name="MonitoringResultDto">
+  <xs:complexType name="MonitoringSettingsAppliedDto">
     <xs:sequence>
-      <xs:element minOccurs="0" name="BaseRefType" type="tns:BaseRefType" />
-      <xs:element minOccurs="0" name="OtauPort" nillable="true" type="tns:OtauPortDto" />
+      <xs:element minOccurs="0" name="IsSuccessful" type="xs:boolean" />
       <xs:element minOccurs="0" name="RtuId" type="ser:guid" />
-      <xs:element minOccurs="0" name="SorData" nillable="true" type="xs:base64Binary" />
-      <xs:element minOccurs="0" name="TraceState" type="tns:FiberState" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="MonitoringResultDto" nillable="true" type="tns:MonitoringResultDto" />
-  <xs:simpleType name="BaseRefType">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="None" />
-      <xs:enumeration value="Precise" />
-      <xs:enumeration value="Fast" />
-      <xs:enumeration value="Additional" />
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:element name="BaseRefType" nillable="true" type="tns:BaseRefType" />
+  <xs:element name="MonitoringSettingsAppliedDto" nillable="true" type="tns:MonitoringSettingsAppliedDto" />
+  <xs:complexType name="BaseRefAssignedDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="IsSuccessful" type="xs:boolean" />
+      <xs:element minOccurs="0" name="OtauPortDto" nillable="true" type="tns:OtauPortDto" />
+      <xs:element minOccurs="0" name="RtuId" type="ser:guid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="BaseRefAssignedDto" nillable="true" type="tns:BaseRefAssignedDto" />
   <xs:complexType name="OtauPortDto">
     <xs:sequence>
       <xs:element minOccurs="0" name="Ip" nillable="true" type="xs:string" />
@@ -63,6 +59,52 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="OtauPortDto" nillable="true" type="tns:OtauPortDto" />
+  <xs:complexType name="KnowRtuCurrentMonitoringStepDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="BaseRefType" type="tns:BaseRefType" />
+      <xs:element minOccurs="0" name="MonitoringStep" type="tns:RtuCurrentMonitoringStep" />
+      <xs:element minOccurs="0" name="OtauPort" nillable="true" type="tns:OtauPortDto" />
+      <xs:element minOccurs="0" name="RtuId" type="ser:guid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="KnowRtuCurrentMonitoringStepDto" nillable="true" type="tns:KnowRtuCurrentMonitoringStepDto" />
+  <xs:simpleType name="BaseRefType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="None" />
+      <xs:enumeration value="Precise" />
+      <xs:enumeration value="Fast" />
+      <xs:enumeration value="Additional" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="BaseRefType" nillable="true" type="tns:BaseRefType" />
+  <xs:simpleType name="RtuCurrentMonitoringStep">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Idle" />
+      <xs:enumeration value="Toggle" />
+      <xs:enumeration value="Measure" />
+      <xs:enumeration value="Interrupted" />
+      <xs:enumeration value="Analysis" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="RtuCurrentMonitoringStep" nillable="true" type="tns:RtuCurrentMonitoringStep" />
+  <xs:complexType name="RtuChecksChannelDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="IsMainChannel" type="xs:boolean" />
+      <xs:element minOccurs="0" name="RtuId" type="ser:guid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RtuChecksChannelDto" nillable="true" type="tns:RtuChecksChannelDto" />
+  <xs:complexType name="MonitoringResultDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="BaseRefType" type="tns:BaseRefType" />
+      <xs:element minOccurs="0" name="OtauPort" nillable="true" type="tns:OtauPortDto" />
+      <xs:element minOccurs="0" name="RtuId" type="ser:guid" />
+      <xs:element minOccurs="0" name="SorData" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="TimeStamp" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="TraceState" type="tns:FiberState" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MonitoringResultDto" nillable="true" type="tns:MonitoringResultDto" />
   <xs:simpleType name="FiberState">
     <xs:restriction base="xs:string">
       <xs:enumeration value="NotInTrace" />
@@ -141,38 +183,4 @@
     </xs:restriction>
   </xs:simpleType>
   <xs:element name="FiberState" nillable="true" type="tns:FiberState" />
-  <xs:complexType name="MonitoringSettingsAppliedDto">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="IsSuccessful" type="xs:boolean" />
-      <xs:element minOccurs="0" name="RtuId" type="ser:guid" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="MonitoringSettingsAppliedDto" nillable="true" type="tns:MonitoringSettingsAppliedDto" />
-  <xs:complexType name="BaseRefAssignedDto">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="IsSuccessful" type="xs:boolean" />
-      <xs:element minOccurs="0" name="OtauPortDto" nillable="true" type="tns:OtauPortDto" />
-      <xs:element minOccurs="0" name="RtuId" type="ser:guid" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="BaseRefAssignedDto" nillable="true" type="tns:BaseRefAssignedDto" />
-  <xs:complexType name="KnowRtuCurrentMonitoringStepDto">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="BaseRefType" type="tns:BaseRefType" />
-      <xs:element minOccurs="0" name="MonitoringStep" type="tns:RtuCurrentMonitoringStep" />
-      <xs:element minOccurs="0" name="OtauPort" nillable="true" type="tns:OtauPortDto" />
-      <xs:element minOccurs="0" name="RtuId" type="ser:guid" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="KnowRtuCurrentMonitoringStepDto" nillable="true" type="tns:KnowRtuCurrentMonitoringStepDto" />
-  <xs:simpleType name="RtuCurrentMonitoringStep">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="Idle" />
-      <xs:enumeration value="Toggle" />
-      <xs:enumeration value="Measure" />
-      <xs:enumeration value="Interrupted" />
-      <xs:enumeration value="Analysis" />
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:element name="RtuCurrentMonitoringStep" nillable="true" type="tns:RtuCurrentMonitoringStep" />
 </xs:schema>

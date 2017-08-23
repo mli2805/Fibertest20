@@ -57,24 +57,10 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="ProcessMonitoringResult">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="result" nillable="true" type="q5:MonitoringResultDto" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="ProcessMonitoringResultResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="ProcessMonitoringResultResult" type="xs:boolean" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
   <xs:element name="ConfirmMonitoringSettingsApplied">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="result" nillable="true" type="q6:MonitoringSettingsAppliedDto" />
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="result" nillable="true" type="q5:MonitoringSettingsAppliedDto" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -88,7 +74,7 @@
   <xs:element name="ConfirmBaseRefAssigned">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="result" nillable="true" type="q7:BaseRefAssignedDto" />
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="result" nillable="true" type="q6:BaseRefAssignedDto" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -102,7 +88,7 @@
   <xs:element name="KnowRtuCurrentMonitoringStep">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="monitoringStep" nillable="true" type="q8:KnowRtuCurrentMonitoringStepDto" />
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="monitoringStep" nillable="true" type="q7:KnowRtuCurrentMonitoringStepDto" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -110,6 +96,34 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="KnowRtuCurrentMonitoringStepResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ProcessRtuChecksChannel">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="result" nillable="true" type="q8:RtuChecksChannelDto" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ProcessRtuChecksChannelResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ProcessRtuChecksChannelResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ProcessMonitoringResult">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="result" nillable="true" type="q9:MonitoringResultDto" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ProcessMonitoringResultResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ProcessMonitoringResultResult" type="xs:boolean" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

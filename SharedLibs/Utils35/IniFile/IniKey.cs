@@ -4,12 +4,8 @@
     {
         // Server
         RtuGuid,
-
         HasReserveAddress,
         ServerTcpPort,
-
-        // ServerMainAddress
-        // ServerReserveAddress
         Ip,
         Host,
         IsAddressIp,
@@ -25,6 +21,8 @@
         OtauIp,
         OtauPort,
         LogLevel,
+        CheckNewMoniResultTimeout,
+        CheckChannelsTimeout,
 
         // Charon
         ConnectionTimeout,

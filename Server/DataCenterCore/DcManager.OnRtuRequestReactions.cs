@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Dto;
 using Iit.Fibertest.UtilsLib;
@@ -34,13 +35,17 @@ namespace DataCenterCore
             if (dtoC5 != null)
                 return ConfirmBaseRefAssigned(dtoC5);
 
-            var dtoR1 = msg as MonitoringResultDto;
-            if (dtoR1 != null)
-                return ProcessMonitoringResult(dtoR1);
+            var dtoR0 = msg as KnowRtuCurrentMonitoringStepDto;
+            if (dtoR0 != null)
+                return ProcessRtuCurrentMonitoringStep(dtoR0);
 
-            var dtoR2 = msg as KnowRtuCurrentMonitoringStepDto;
+            var dtoR1 = msg as RtuChecksChannelDto;
+            if (dtoR1 != null)
+                return ProcessRtuChecksChannel(dtoR1);
+
+            var dtoR2 = msg as MonitoringResultDto;
             if (dtoR2 != null)
-                return ProcessRtuCurrentMonitoringStep(dtoR2);
+                return ProcessMonitoringResult(dtoR2);
 
             return false;
         }
@@ -90,6 +95,24 @@ namespace DataCenterCore
         #endregion
 
         #region RTU notifies
+        private bool ProcessRtuCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto monitoringStep)
+        {
+            return new D2CWcfManager(GetClients(), _coreIni, _dcLog).ProcessRtuCurrentMonitoringStep(monitoringStep);
+        }
+
+        private bool ProcessRtuChecksChannel(RtuChecksChannelDto dto)
+        {
+            var rtuStation = _rtuStations.FirstOrDefault(s => s.Id == dto.RtuId);
+            if (rtuStation != null)
+            {
+                if (dto.IsMainChannel)
+                   rtuStation.Addresses.LastConnectionOnMain = DateTime.Now;
+                else
+                    rtuStation.Addresses.LastConnectionOnReserve = DateTime.Now;
+            }
+            return true;
+        }
+
         private bool ProcessMonitoringResult(MonitoringResultDto result)
         {
             _dcLog.AppendLine($"Monitoring result received. RTU is {result.RtuId}");
@@ -97,11 +120,6 @@ namespace DataCenterCore
             _dcLog.AppendLine($"Monitoring result received. Trace state is {result.TraceState}");
             _dcLog.AppendLine($"Monitoring result received. Sor size is {result.SorData.Length}");
             return true;
-        }
-
-        private bool ProcessRtuCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto monitoringStep)
-        {
-            return new D2CWcfManager(GetClients(), _coreIni, _dcLog).ProcessRtuCurrentMonitoringStep(monitoringStep);
         }
         #endregion
 

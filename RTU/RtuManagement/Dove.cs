@@ -21,8 +21,10 @@ namespace RtuManagement
             _serviceLog = serviceLog;
         }
 
-        public void Fly()
+        public void Deliver()
         {
+            var checkNewMoniResultTimeout =
+                TimeSpan.FromSeconds(_serviceIni.Read(IniSection.General, IniKey.CheckNewMoniResultTimeout, 1));
             while (true)
             {
                 MoniResultOnDisk moniResultOnDisk;
@@ -36,8 +38,19 @@ namespace RtuManagement
                 }
                 else
                 {
-                    Thread.Sleep(TimeSpan.FromSeconds(1));
+                    Thread.Sleep(checkNewMoniResultTimeout);
                 }
+            }
+        }
+
+        public void Knock()
+        {
+            var checkChannelsTimeout =
+                TimeSpan.FromSeconds(_serviceIni.Read(IniSection.General, IniKey.CheckChannelsTimeout, 1));
+            while (true)
+            {
+                new R2DWcfManager(_serverAddresses,  _serviceIni, _serviceLog).CheckChannels();
+                Thread.Sleep(checkChannelsTimeout);
             }
         }
 

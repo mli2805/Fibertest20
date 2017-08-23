@@ -104,7 +104,7 @@ namespace Iit.Fibertest.UtilsLib
         public double Read(IniSection section, IniKey key, double defaultValue)
         {
             double result;
-            return double.TryParse(Read(section, key, defaultValue.ToString()), out result) ? result : defaultValue;
+            return double.TryParse(Read(section, key, defaultValue.ToString(CultureInfo.CurrentCulture)), out result) ? result : defaultValue;
         }
 
         public NetAddress Read(IniSection section)

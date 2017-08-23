@@ -42,7 +42,7 @@ namespace RtuManagement
             IsRtuInitialized = true;
 
             var dove = new Dove(_serverAddresses, _serviceIni, _serviceLog) {QueueOfMoniResultsOnDisk = QueueOfMoniResultsOnDisk};
-            var thread = new Thread(dove.Fly) {IsBackground = true};
+            var thread = new Thread(dove.Deliver) {IsBackground = true};
             thread.Start();
 
             IsMonitoringOn = _rtuIni.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, 0) != 0;
