@@ -29,7 +29,7 @@ namespace WcfConnections
                 try
                 {
                     wcfConnection.ConfirmRtuConnectionChecked(dto);
-                    _logFile.AppendLine($"Transfered response on check connection with RTU {dto.RtuId} to client {clientAddress}");
+                    _logFile.AppendLine($"Transfered response on check connection with RTU {dto.RtuId} to client {clientAddress.Main}");
                 }
                 catch (Exception e)
                 {

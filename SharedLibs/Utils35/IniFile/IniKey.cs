@@ -13,7 +13,6 @@
 
         // General
         LocalIp,
-        RtuServiceIp,
         Culture,
         LogFileSizeLimitKb,
         OtdrIp,

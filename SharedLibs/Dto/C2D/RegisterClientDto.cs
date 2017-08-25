@@ -8,6 +8,6 @@ namespace Dto
         [DataMember]
         public string ClientAddress { get; set; }
         [DataMember]
-        public string ClientName { get; set; }
+        public string UserName { get; set; }
     }
 }

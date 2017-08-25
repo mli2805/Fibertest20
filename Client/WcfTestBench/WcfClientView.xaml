@@ -4,27 +4,53 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:wcfTestBench="clr-namespace:WcfTestBench"
+        xmlns:dto="clr-namespace:Dto;assembly=Dto"
         mc:Ignorable="d"
-        Title="WcfClientView" SizeToContent="Height" Width="300" WindowStartupLocation="CenterScreen"
+        Title="WcfClientView" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen"
         d:DataContext="{d:DesignInstance wcfTestBench:WcfClientViewModel}">
-    <StackPanel>
-        <StackPanel Margin="5,15,5,5" Orientation="Horizontal">
-            <TextBlock Text="Server Ip"/>
-            <TextBlock Margin="25,0,0,0" Text="{Binding DcServiceAddresses}"/>
+    <DockPanel>
+        <TextBlock DockPanel.Dock="Bottom" Background="AliceBlue" Margin="5" Padding="3"  Text="{Binding DisplayString}" TextWrapping="Wrap"/>
+        <StackPanel>
+            <GroupBox Header="DataCenter has addresses" Margin="5,10,0,5" Padding="0,10,0,0">
+                <ItemsControl ItemsSource="{Binding ServerAddressList}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="dto:NetAddress">
+                            <DockPanel>
+                                <TextBlock Text="{Binding ToStringASpace}" TextWrapping="Wrap" Margin="3"/>
+                            </DockPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </GroupBox>
+            <GroupBox Header="Select RTU" Margin="5,5,0,10">
+                <StackPanel Margin="5">
+                    <ComboBox Margin="5,5,5,15" ItemsSource="{Binding RtuList}" SelectedItem="{Binding SelectedRtu}"/>
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <TextBlock Text="ID  "/>
+                        <TextBlock Text="{Binding SelectedRtu.Id}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <TextBlock Text="Main address  "/>
+                        <TextBlock Text="{Binding SelectedRtu.Addresses.Main.ToStringASpace}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <TextBlock Text="Reserve address  "/>
+                        <TextBlock Text="{Binding SelectedRtu.Addresses.Reserve.ToStringASpace}"/>
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
         </StackPanel>
-        <DockPanel Margin="5">
-            <TextBlock Text="Rtu (not Otdr) Ip"/>
-            <TextBox Margin="25,0,5,0" Text="{Binding RtuServiceIp}"/>
-        </DockPanel>
-        <Button Name="CheckConnection" Margin="5" Height="25" Width="120" Content="Check connection"/>
-        <Button Name="Initialize" Margin="5" Height="25" Width="120" Content="Initialize RTU"/>
-        <Button Name="BaseRefs" Margin="5" Height="25" Width="120" Content="Base Refs"/>
-        <Button Name="MonitoringSettings" Margin="5" Height="25" Width="120" Content="Monitoring Settings"/>
-        <Button Name="RtuState" Margin="5" Height="25" Width="120" Content="Rtu State"/>
-        <Button Name="TraceState" Margin="5" Height="25" Width="120" Content="Trace State"/>
-        <Button Name="StartMonitoring" Margin="5" Height="25" Width="120" Content="Start Monitoring"/>
-        <Button Name="StopMonitoring" Margin="5" Height="25" Width="120" Content="Stop Monitoring"/>
-        <Button Name="MeasReflect" Margin="5" Height="25" Width="120" Content="Meas Reflect" ToolTip="Needs direct connection with RTU"/>
-        <TextBlock Background="AliceBlue" Margin="5" Padding="3"  Text="{Binding DisplayString}" TextWrapping="Wrap"/>
-    </StackPanel>
+        <StackPanel Margin="15,15,5,5">
+            <Button Name="CheckConnection" Margin="5" Height="25" Width="140" Content="Check RTU connection"/>
+            <Button Name="Initialize" Margin="5" Height="25" Width="140" Content="Initialize RTU"/>
+            <Button Name="BaseRefs" Margin="5" Height="25" Width="140" Content="Base Refs"/>
+            <Button Name="MonitoringSettings" Margin="5" Height="25" Width="140" Content="Monitoring Settings"/>
+            <Button Name="RtuState" Margin="5" Height="25" Width="140" Content="Rtu State"/>
+            <Button Name="TraceState" Margin="5" Height="25" Width="140" Content="Trace State"/>
+            <Button Name="StartMonitoring" Margin="5" Height="25" Width="140" Content="Start Monitoring"/>
+            <Button Name="StopMonitoring" Margin="5" Height="25" Width="140" Content="Stop Monitoring"/>
+            <Button Name="MeasReflect" Margin="5" Height="25" Width="140" Content="Meas Reflect" ToolTip="Needs direct connection with RTU"/>
+        </StackPanel>
+    </DockPanel>
+
 </Window>

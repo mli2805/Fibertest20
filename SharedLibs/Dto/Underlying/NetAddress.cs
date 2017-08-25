@@ -36,8 +36,6 @@ namespace Dto
             IsAddressSetAsIp = true;
         }
 
-
-
         public bool Equals(NetAddress other)
         {
             if (IsAddressSetAsIp != other.IsAddressSetAsIp)
@@ -48,19 +46,9 @@ namespace Dto
             return isAddressEqual && Port == other.Port;
         }
 
-        public string ToStringASpace()
-        {
-            return $@"{Ip4Address} : {Port}";
-        }
-        public string ToStringA()
-        {
-            return $@"{Ip4Address}:{Port}";
-        }
-
-        public string ToStringB()
-        {
-            return Port == 11834 ? $@"{Ip4Address}(1)" : $@"{Ip4Address}(2)";
-        }
+        public string ToStringASpace => IsAddressSetAsIp ? $@"{Ip4Address} : {Port}" : $@"{HostName} : {Port}";
+        public string ToStringA() => IsAddressSetAsIp ? $@"{Ip4Address}:{Port}" : $@"{HostName} : {Port}";
+        public string ToStringB() => Port == 11834 ? $@"{Ip4Address}(1)" : $@"{Ip4Address}(2)";
 
         public bool HasValidIp4Address()
         {

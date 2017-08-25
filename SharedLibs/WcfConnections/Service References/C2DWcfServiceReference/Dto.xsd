@@ -4,7 +4,7 @@
   <xs:complexType name="RegisterClientDto">
     <xs:sequence>
       <xs:element minOccurs="0" name="ClientAddress" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="ClientName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UserName" nillable="true" type="xs:string" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="RegisterClientDto" nillable="true" type="tns:RegisterClientDto" />

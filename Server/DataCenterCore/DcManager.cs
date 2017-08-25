@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.ServiceModel;
 using Dto;
 using Iit.Fibertest.UtilsLib;
@@ -106,22 +107,31 @@ namespace DataCenterCore
             if (File.Exists(filename))
             {
                 var content = File.ReadAllLines(filename);
-                foreach (var line in content)
-                {
-                    var parts = line.Split(' ');
-                    list.Add(new RtuStation()
-                    {
-                        Id = Guid.Parse(parts[0]),
-                        Addresses = new DoubleAddressWithLastConnectionCheck()
-                        {
-                            Main = new NetAddress(parts[1], (int)TcpPorts.RtuListenTo),
-                            LastConnectionOnMain = DateTime.Now,
-                        },
-                    });
-                }
+                list = content.Select(ParseLine).ToList();
             }
             _dcLog.AppendLine($"{list.Count} RTU found");
             return list;
+        }
+
+        private static RtuStation ParseLine(string line)
+        {
+            var parts = line.Split(' ');
+            var rtuStation = new RtuStation()
+            {
+                Id = Guid.Parse(parts[0]),
+                Addresses = new DoubleAddressWithLastConnectionCheck()
+                {
+                    Main = new NetAddress(parts[1], (int) TcpPorts.RtuListenTo),
+                    LastConnectionOnMain = DateTime.Now,
+                },
+            };
+            if (parts.Length == 3)
+            {
+                rtuStation.Addresses.HasReserveAddress = true;
+                rtuStation.Addresses.Reserve = new NetAddress(parts[2], (int) TcpPorts.RtuListenTo);
+                rtuStation.Addresses.LastConnectionOnReserve = DateTime.Now;
+            }
+            return rtuStation;
         }
     }
 }

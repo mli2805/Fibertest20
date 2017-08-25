@@ -602,15 +602,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot establish connection with {0}:{1}.
-        /// </summary>
-        public static string SID_Cannot_establish_connection_with__0___1_ {
-            get {
-                return ResourceManager.GetString("SID_Cannot_establish_connection_with__0___1_", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Cannot find Reflect.exe.
         /// </summary>
         public static string SID_Cannot_find_Reflect_exe {
@@ -2778,6 +2769,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Test {
             get {
                 return ResourceManager.GetString("SID_Test", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Test RTU communication functions.
+        /// </summary>
+        public static string SID_Test_RTU_communication_functions {
+            get {
+                return ResourceManager.GetString("SID_Test_RTU_communication_functions", resourceCulture);
             }
         }
         
