@@ -121,16 +121,17 @@ namespace DataCenterCore
                 Id = Guid.Parse(parts[0]),
                 Addresses = new DoubleAddressWithLastConnectionCheck()
                 {
-                    Main = new NetAddress(parts[1], (int) TcpPorts.RtuListenTo),
+                    Main = new NetAddress(parts[1], (int)TcpPorts.RtuListenTo),
                     LastConnectionOnMain = DateTime.Now,
                 },
             };
-            if (parts.Length == 3)
+            if (parts[2] != @"none")
             {
                 rtuStation.Addresses.HasReserveAddress = true;
-                rtuStation.Addresses.Reserve = new NetAddress(parts[2], (int) TcpPorts.RtuListenTo);
+                rtuStation.Addresses.Reserve = new NetAddress(parts[2], (int)TcpPorts.RtuListenTo);
                 rtuStation.Addresses.LastConnectionOnReserve = DateTime.Now;
             }
+            rtuStation.CharonIp = parts[3];
             return rtuStation;
         }
     }

@@ -266,12 +266,14 @@ namespace WcfTestBench
 
         public void StartMonitoring()
         {
-            DisplayString = _c2DWcfManager.StartMonitoring(new StartMonitoringDto() {RtuId = SelectedRtu.Id }) ? Resources.SID_Command_sent__wait_please_ : Resources.SID_Error_;
+            DisplayString = _c2DWcfManager.StartMonitoring(
+                new StartMonitoringDto() {RtuId = SelectedRtu.Id }) ? Resources.SID_Command_sent__wait_please_ : Resources.SID_Error_;
         }
 
         public void StopMonitoring()
         {
-            DisplayString = _c2DWcfManager.StopMonitoring(new StopMonitoringDto() {RtuId = SelectedRtu.Id }) ? Resources.SID_Command_sent__wait_please_ : Resources.SID_Error_;
+            DisplayString = _c2DWcfManager.StopMonitoring(
+                new StopMonitoringDto() {RtuId = SelectedRtu.Id }) ? Resources.SID_Command_sent__wait_please_ : Resources.SID_Error_;
         }
 
         private MonitoringSettingsModel PopulateModel()
@@ -319,26 +321,29 @@ namespace WcfTestBench
         public void MeasReflect()
         {
             // this is only command which needs direct rtu connection
-            var wcfRtuConnection = new WcfFactory(new DoubleAddressWithLastConnectionCheck() {Main = new NetAddress(SelectedRtu.Addresses.Main.Ip4Address, (int)TcpPorts.RtuListenTo) } , _clientIni, _clientLog).CreateRtuConnection();
+            var wcfRtuConnection = new WcfFactory(SelectedRtu.Addresses, _clientIni, _clientLog).CreateRtuConnection();
             if (wcfRtuConnection == null)
                 return;
 
             DisplayString = string.Format(Resources.SID_Established_connection_with_RTU__0_, SelectedRtu.Addresses.Main.Ip4Address);
-            var port = new OtauPortDto() {Ip = SelectedRtu.Addresses.Main.Ip4Address, TcpPort = 23, OpticalPort = 5}; // just for test
+            var port = new OtauPortDto() {IsPortOnMainCharon = true, TcpPort = 23, OpticalPort = 2}; // just for test
             if (!wcfRtuConnection.ToggleToPort(port))
             {
                 DisplayString = Resources.SID_Cannot_toggle_to_port_;
                 return;
             }
 
-            StartReflect($@"-fnw -n {SelectedRtu.Addresses.Main.Ip4Address} -p 1500");
+            var otdrAddress = SelectedRtu.CharonIp == @"192.168.88.101"
+                ? SelectedRtu.Addresses.Main.Ip4Address
+                : SelectedRtu.CharonIp;
+            StartReflect($@"-fnw -n {otdrAddress} -p 1500");
         }
 
         private void StartReflect(string args)
         {
             var appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
             var appDir = Path.GetDirectoryName(appPath);
-            var reflectFile = appDir + @"\RftsReflect\Reflect.exe";
+            var reflectFile = appDir + @"\..\RftsReflect\Reflect.exe";
             var reflectFolder = Path.GetDirectoryName(reflectFile);
             if (!File.Exists(reflectFile) || reflectFolder == null)
             {
@@ -401,12 +406,13 @@ namespace WcfTestBench
                     LastConnectionOnMain = DateTime.Now,
                 },
             };
-            if (parts.Length == 3)
+            if (parts[2] != @"none")
             {
                 rtuStation.Addresses.HasReserveAddress = true;
                 rtuStation.Addresses.Reserve = new NetAddress(parts[2], (int)TcpPorts.RtuListenTo);
                 rtuStation.Addresses.LastConnectionOnReserve = DateTime.Now;
             }
+            rtuStation.CharonIp = parts[3];
             return rtuStation;
         }
     }
