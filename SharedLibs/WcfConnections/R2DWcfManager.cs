@@ -9,11 +9,57 @@ namespace WcfConnections
         private readonly LogFile _logFile;
         private readonly WcfFactory _wcfFactory;
 
+        private readonly WcfFactory _wcfFactoryMainAddress;
+        private readonly WcfFactory _wcfFactoryReserveAddress = null;
+
         public R2DWcfManager(DoubleAddressWithLastConnectionCheck dataCenterAddress, IniFile iniFile, LogFile logFile)
         {
             _logFile = logFile;
             _wcfFactory = new WcfFactory(dataCenterAddress, iniFile, _logFile);
+
+            var dataCenterMainAddress =
+                new DoubleAddressWithLastConnectionCheck() { Main = dataCenterAddress.Main, HasReserveAddress = false };
+            _wcfFactoryMainAddress = new WcfFactory(dataCenterMainAddress, iniFile, _logFile);
+
+            if (dataCenterAddress.HasReserveAddress)
+            {
+                var dataCenterReserveAddress = new DoubleAddressWithLastConnectionCheck() { Main = dataCenterAddress.Reserve, HasReserveAddress = false };
+                _wcfFactoryMainAddress = new WcfFactory(dataCenterReserveAddress, iniFile, _logFile);
+            }
         }
+
+        /// <summary>
+        /// Checks always both channels (reserve if exists)
+        /// </summary>
+        /// <returns>True - if at least one channel is available</returns> 
+        public bool SendImAliveByBothChannels(Guid rtuId)
+        {
+            var result = SendImAlive(rtuId, true, _wcfFactoryMainAddress);
+            if (_wcfFactoryReserveAddress != null)
+                result = result || SendImAlive(rtuId, false, _wcfFactoryReserveAddress);
+            return result;
+        }
+
+        private bool SendImAlive(Guid rtuId, bool isMainChannel, WcfFactory wcfFactory)
+        {
+            var wcfConnection = wcfFactory.CreateR2DConnection();
+            if (wcfConnection == null)
+                return false;
+
+            try
+            {
+                var dto = new RtuChecksChannelDto() { RtuId = rtuId, IsMainChannel = isMainChannel };
+                wcfConnection.ProcessRtuChecksChannel(dto);
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+                return false;
+            }
+
+            return true;
+        }
+
 
         public void SendCurrentState(RtuConnectionCheckedDto dto)
         {
@@ -120,26 +166,21 @@ namespace WcfConnections
 
         public void SendCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto monitoringStep)
         {
-//            _logFile.AppendLine("Sending current monitoring step1");
+            //            _logFile.AppendLine("Sending current monitoring step1");
             var wcfConnection = _wcfFactory.CreateR2DConnection();
-//            _logFile.AppendLine("Sending current monitoring step2");
+            //            _logFile.AppendLine("Sending current monitoring step2");
             if (wcfConnection == null)
                 return;
 
             try
             {
                 wcfConnection.KnowRtuCurrentMonitoringStep(monitoringStep);
-//                _logFile.AppendLine("Sending current monitoring step3");
+                //                _logFile.AppendLine("Sending current monitoring step3");
             }
             catch (Exception e)
             {
                 _logFile.AppendLine(e.Message);
             }
-        }
-
-        public void CheckChannels()
-        {
-            
         }
 
         public bool SendMonitoringResult(MonitoringResultDto dto)
@@ -151,8 +192,8 @@ namespace WcfConnections
             try
             {
                 wcfConnection.ProcessMonitoringResult(dto);
-                var port = dto.OtauPort.IsPortOnMainCharon 
-                    ? dto.OtauPort.OpticalPort.ToString() 
+                var port = dto.OtauPort.IsPortOnMainCharon
+                    ? dto.OtauPort.OpticalPort.ToString()
                     : $"{dto.OtauPort.OpticalPort} on {dto.OtauPort.Ip}:{dto.OtauPort.TcpPort}";
                 _logFile.AppendLine($"Sending {dto.BaseRefType} meas port {port} : {dto.TraceState}");
                 return true;

@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConnectionsChecker.cs" />
     <Compile Include="DcManager.OnClientRequestsReactions.cs" />
     <Compile Include="DcManager.OnRtuRequestReactions.cs" />
     <Compile Include="DcManager.cs" />

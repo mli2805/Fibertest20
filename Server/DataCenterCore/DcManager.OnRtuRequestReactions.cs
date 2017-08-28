@@ -106,9 +106,9 @@ namespace DataCenterCore
             if (rtuStation != null)
             {
                 if (dto.IsMainChannel)
-                   rtuStation.Addresses.LastConnectionOnMain = DateTime.Now;
+                   rtuStation.PcAddresses.LastConnectionOnMain = DateTime.Now;
                 else
-                    rtuStation.Addresses.LastConnectionOnReserve = DateTime.Now;
+                    rtuStation.PcAddresses.LastConnectionOnReserve = DateTime.Now;
             }
             return true;
         }

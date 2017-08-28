@@ -119,7 +119,7 @@ namespace DataCenterCore
             var rtuStation = new RtuStation()
             {
                 Id = Guid.Parse(parts[0]),
-                Addresses = new DoubleAddressWithLastConnectionCheck()
+                PcAddresses = new DoubleAddressWithLastConnectionCheck()
                 {
                     Main = new NetAddress(parts[1], (int)TcpPorts.RtuListenTo),
                     LastConnectionOnMain = DateTime.Now,
@@ -127,9 +127,9 @@ namespace DataCenterCore
             };
             if (parts[2] != @"none")
             {
-                rtuStation.Addresses.HasReserveAddress = true;
-                rtuStation.Addresses.Reserve = new NetAddress(parts[2], (int)TcpPorts.RtuListenTo);
-                rtuStation.Addresses.LastConnectionOnReserve = DateTime.Now;
+                rtuStation.PcAddresses.HasReserveAddress = true;
+                rtuStation.PcAddresses.Reserve = new NetAddress(parts[2], (int)TcpPorts.RtuListenTo);
+                rtuStation.PcAddresses.LastConnectionOnReserve = DateTime.Now;
             }
             rtuStation.CharonIp = parts[3];
             return rtuStation;

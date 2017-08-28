@@ -160,12 +160,12 @@ namespace DataCenterCore
             if (rtuStation == null)
                 return MessageProcessingResult.UnknownRtu;
 
-            var rtuConnection = new WcfFactory(rtuStation.Addresses, _coreIni, _dcLog).CreateRtuConnection();
+            var rtuConnection = new WcfFactory(rtuStation.PcAddresses, _coreIni, _dcLog).CreateRtuConnection();
             if (rtuConnection == null)
                 return MessageProcessingResult.FailedToTransmit;
 
             var result = rtuConnection.StartMonitoring(dto);
-            _dcLog.AppendLine($"Transfered command to start monitoring for rtu with ip={rtuStation.Addresses.Main.Ip4Address}");
+            _dcLog.AppendLine($"Transfered command to start monitoring for rtu with ip={rtuStation.PcAddresses.Main.Ip4Address}");
             return result ? MessageProcessingResult.TransmittedSuccessfully : MessageProcessingResult.TransmittedSuccessfullyButRtuIsBusy;
         }
 
@@ -178,12 +178,12 @@ namespace DataCenterCore
             if (rtuStation == null)
                 return MessageProcessingResult.UnknownRtu;
 
-            var rtuConnection = new WcfFactory(rtuStation.Addresses, _coreIni, _dcLog).CreateRtuConnection();
+            var rtuConnection = new WcfFactory(rtuStation.PcAddresses, _coreIni, _dcLog).CreateRtuConnection();
             if (rtuConnection == null)
                 return MessageProcessingResult.FailedToTransmit;
 
             var result = rtuConnection.StopMonitoring(dto);
-            _dcLog.AppendLine($"Transfered command to stop monitoring for rtu with ip={rtuStation.Addresses.Main.Ip4Address}");
+            _dcLog.AppendLine($"Transfered command to stop monitoring for rtu with ip={rtuStation.PcAddresses.Main.Ip4Address}");
             return result ? MessageProcessingResult.TransmittedSuccessfully : MessageProcessingResult.TransmittedSuccessfullyButRtuIsBusy;
         }
 
@@ -196,12 +196,12 @@ namespace DataCenterCore
             if (rtuStation == null)
                 return MessageProcessingResult.UnknownRtu;
 
-            var rtuConnection = new WcfFactory(rtuStation.Addresses, _coreIni, _dcLog).CreateRtuConnection();
+            var rtuConnection = new WcfFactory(rtuStation.PcAddresses, _coreIni, _dcLog).CreateRtuConnection();
             if (rtuConnection == null)
                 return MessageProcessingResult.FailedToTransmit;
 
             var result = rtuConnection.AssignBaseRef(dto);
-            _dcLog.AppendLine($"Transfered command to assign base ref to rtu with ip={rtuStation.Addresses.Main.Ip4Address} result {result}");
+            _dcLog.AppendLine($"Transfered command to assign base ref to rtu with ip={rtuStation.PcAddresses.Main.Ip4Address} result {result}");
             return result ? MessageProcessingResult.TransmittedSuccessfully : MessageProcessingResult.TransmittedSuccessfullyButRtuIsBusy;
 
         }
@@ -215,12 +215,12 @@ namespace DataCenterCore
             if (rtuStation == null)
                 return MessageProcessingResult.UnknownRtu;
 
-            var rtuConnection = new WcfFactory(rtuStation.Addresses, _coreIni, _dcLog).CreateRtuConnection();
+            var rtuConnection = new WcfFactory(rtuStation.PcAddresses, _coreIni, _dcLog).CreateRtuConnection();
             if (rtuConnection == null)
                 return MessageProcessingResult.FailedToTransmit;
 
             rtuConnection.ApplyMonitoringSettings(dto);
-            _dcLog.AppendLine($"Transfered command to apply monitoring settings for rtu with ip={rtuStation.Addresses.Main.Ip4Address}");
+            _dcLog.AppendLine($"Transfered command to apply monitoring settings for rtu with ip={rtuStation.PcAddresses.Main.Ip4Address}");
             return MessageProcessingResult.TransmittedSuccessfully;
         }
 

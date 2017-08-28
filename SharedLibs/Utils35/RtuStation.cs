@@ -7,7 +7,7 @@ namespace Iit.Fibertest.UtilsLib
     {
         public Guid Id { get; set; }
 
-        public DoubleAddressWithLastConnectionCheck Addresses { get; set; } = new DoubleAddressWithLastConnectionCheck();
+        public DoubleAddressWithLastConnectionCheck PcAddresses { get; set; } = new DoubleAddressWithLastConnectionCheck();
 
         /// <summary>
         /// Charon always has only one address, no matter how many addresses has PC
