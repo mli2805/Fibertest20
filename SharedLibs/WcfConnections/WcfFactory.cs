@@ -12,11 +12,11 @@ namespace WcfConnections
 {
     public class WcfFactory
     {
-        private readonly DoubleAddressWithLastConnectionCheck _endPoint;
+        private readonly DoubleAddress _endPoint;
         private readonly IniFile _iniFile;
         private readonly LogFile _logFile;
 
-        public WcfFactory(DoubleAddressWithLastConnectionCheck endPoint, IniFile iniFile, LogFile logFile)
+        public WcfFactory(DoubleAddress endPoint, IniFile iniFile, LogFile logFile)
         {
             _endPoint = endPoint;
             _iniFile = iniFile;
@@ -65,11 +65,11 @@ namespace WcfConnections
             }
         }
 
-        public WcfServiceForRtuClient CreateR2DConnection()
+        public WcfServiceForRtuClient CreateR2DConnection(bool shouldWriteToLogProblems = true)
         {
             try
             {
-                var netAddress = SelectAvailableNetAddress();
+                var netAddress = SelectAvailableNetAddress(shouldWriteToLogProblems);
                 if (netAddress == null)
                     return null;
 
@@ -107,23 +107,23 @@ namespace WcfConnections
             }
         }
 
-        private NetAddress SelectAvailableNetAddress()
+        private NetAddress SelectAvailableNetAddress(bool shouldWriteToLogProblems = true)
         {
             var openTimeout = TimeSpan.FromMilliseconds(_iniFile.Read(IniSection.NetTcpBinding, IniKey.OpenTimeoutMs, 1000));
 
-            if (CheckTcpConnection(_endPoint.Main, openTimeout))
+            if (CheckTcpConnection(_endPoint.Main, openTimeout, shouldWriteToLogProblems))
                 return _endPoint.Main;
 
             if (_endPoint.HasReserveAddress)
             {
-                if (CheckTcpConnection(_endPoint.Reserve, openTimeout))
+                if (CheckTcpConnection(_endPoint.Reserve, openTimeout, shouldWriteToLogProblems))
                     return _endPoint.Reserve;
             }
 
             return null;
         }
 
-        private bool CheckTcpConnection(NetAddress netAddress, TimeSpan openTimeout)
+        private bool CheckTcpConnection(NetAddress netAddress, TimeSpan openTimeout, bool shouldWriteToLogProblems)
         {
             var tcpClient = new TcpClient();
 
@@ -132,11 +132,14 @@ namespace WcfConnections
             if (tcpConnection.AsyncWaitHandle.WaitOne(openTimeout))
                 return true;
 
-            _logFile.AppendLine($"Can't connect to {address}:{netAddress.Port} (Timeout {openTimeout.TotalMilliseconds} ms)");
-            var pingTimeout = _iniFile.Read(IniSection.NetTcpBinding, IniKey.PingTimeoutMs, 120);
-            var word = Pinger.Ping(address, pingTimeout) ? "passed" : $"failed (Timeout is {pingTimeout} ms)";
-            _logFile.AppendLine($"Ping {address} {word}");
-
+            if (shouldWriteToLogProblems)
+            {
+                _logFile.AppendLine(
+                    $"Can't connect to {address}:{netAddress.Port} (Timeout {openTimeout.TotalMilliseconds} ms)");
+                var pingTimeout = _iniFile.Read(IniSection.NetTcpBinding, IniKey.PingTimeoutMs, 120);
+                var word = Pinger.Ping(address, pingTimeout) ? "passed" : $"failed (Timeout is {pingTimeout} ms)";
+                _logFile.AppendLine($"Ping {address} {word}");
+            }
             return false;
         }
 

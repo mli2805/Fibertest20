@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Dto;
@@ -37,11 +38,10 @@ namespace DataCenterCore
 
         private void NotifyRtuCommandDelivery()
         {
-            var address = new DoubleAddressWithLastConnectionCheck()
-            {
-                Main = new NetAddress(_rtuCommandDeliveredDto.ClientAddress, (int)TcpPorts.ClientListenTo)
-            };
-            new D2CWcfManager(new List<DoubleAddressWithLastConnectionCheck>() {address}, _coreIni, _dcLog)
+            var clientStation = GetClientStation(_rtuCommandDeliveredDto.ClientId);
+            if (clientStation == null)
+                return;
+            new D2CWcfManager(new List<DoubleAddress>() {clientStation.PcAddresses.DoubleAddress}, _coreIni, _dcLog)
                 .ConfirmRtuCommandDelivered(_rtuCommandDeliveredDto);
         }
 
@@ -49,11 +49,11 @@ namespace DataCenterCore
         {
             var dto = msg as RegisterClientDto;
             if (dto != null)
-                return RegisterClient(dto.ClientAddress);
+                return RegisterClient(dto);
 
             var dto2 = msg as UnRegisterClientDto;
             if (dto2 != null)
-                return UnRegisterClient(dto2.ClientAddress);
+                return UnRegisterClient(dto2);
 
             var dto3 = msg as CheckRtuConnectionDto;
             if (dto3 != null)
@@ -85,29 +85,30 @@ namespace DataCenterCore
             return MessageProcessingResult.UnknownMessage;
         }
 
-        private MessageProcessingResult RegisterClient(string address)
+        private MessageProcessingResult RegisterClient(RegisterClientDto dto)
         {
-            _dcLog.AppendLine($"Client {address} registered");
+            _dcLog.AppendLine($"Client {dto.UserName} registered");
             lock (_clientStationsLockObj)
             {
-                if (_clientStations.All(c => c.Addresses.Main.Ip4Address != address))
+                if (_clientStations.All(c => c.Id != dto.ClientId))
                     _clientStations.Add(new ClientStation()
                     {
-                        Addresses = new DoubleAddressWithLastConnectionCheck()
+                        Id = dto.ClientId,
+                        PcAddresses = new DoubleAddressWithLastConnectionCheck()
                         {
-                            Main = new NetAddress(address, (int)TcpPorts.ClientListenTo)
-                        } 
+                            DoubleAddress = dto.Addresses
+                        }
                     });
             }
             return MessageProcessingResult.ProcessedSuccessfully;
         }
 
-        private MessageProcessingResult UnRegisterClient(string address)
+        private MessageProcessingResult UnRegisterClient(UnRegisterClientDto dto)
         {
-            _dcLog.AppendLine($"Client {address} exited");
+            _dcLog.AppendLine($"Client {dto.ClientId} exited");
             lock (_clientStationsLockObj)
             {
-                _clientStations.RemoveAll(c => c.Addresses.Main.Ip4Address == address);
+                _clientStations.RemoveAll(c => c.Id == dto.ClientId);
             }
             return MessageProcessingResult.ProcessedSuccessfully;
         }
@@ -125,24 +126,34 @@ namespace DataCenterCore
                 return;
 
             var result = new RtuConnectionCheckedDto() { RtuId = dto.RtuId, IsRtuStarted = false, IsRtuInitialized = false };
-            var rtuConnection = new WcfFactory(new DoubleAddressWithLastConnectionCheck() {Main  = dto.NetAddress}, _coreIni, _dcLog).CreateRtuConnection();
+            var rtuConnection = new WcfFactory(new DoubleAddress() {Main  = dto.NetAddress}, _coreIni, _dcLog).CreateRtuConnection();
             if (rtuConnection != null)
             {
                 rtuConnection.IsRtuInitialized(dto); // rtu will answer on this request itself;
                 return;
             }
 
+            // if failed
             result.IsPingSuccessful = Pinger.Ping(dto.NetAddress.IsAddressSetAsIp ? dto.NetAddress.Ip4Address : dto.NetAddress.HostName);
-            var client = new DoubleAddressWithLastConnectionCheck() {Main = new NetAddress(dto.ClientAddress, (int)TcpPorts.ClientListenTo) };
-            new D2CWcfManager(new List<DoubleAddressWithLastConnectionCheck>() { client }, _coreIni, _dcLog).ConfirmRtuConnectionChecked(result);
+            var clientStation = GetClientStation(dto.ClientId);
+            if (clientStation != null)
+                new D2CWcfManager(new List<DoubleAddress>() { clientStation.PcAddresses.DoubleAddress }, _coreIni, _dcLog).ConfirmRtuConnectionChecked(result);
+        }
+
+        private ClientStation GetClientStation(Guid clientId)
+        {
+            lock (_clientStationsLockObj)
+            {
+                return _clientStations.FirstOrDefault(c => c.Id == clientId);
+            }
         }
 
         private MessageProcessingResult InitializeRtu(InitializeRtuDto dto)
         {
-            _rtuCommandDeliveredDto.ClientAddress = dto.ClientAddress;
+            _rtuCommandDeliveredDto.ClientId = dto.ClientId;
             _rtuCommandDeliveredDto.RtuId = dto.RtuId;
 
-            var rtuConnection = new WcfFactory(new DoubleAddressWithLastConnectionCheck() {Main  = dto.RtuAddresses.Main}, _coreIni, _dcLog).CreateRtuConnection();
+            var rtuConnection = new WcfFactory(dto.RtuAddresses, _coreIni, _dcLog).CreateRtuConnection();
             if (rtuConnection == null)
                 return MessageProcessingResult.FailedToTransmit;
             rtuConnection.Initialize(dto);
@@ -153,74 +164,77 @@ namespace DataCenterCore
 
         private MessageProcessingResult StartMonitoring(StartMonitoringDto dto)
         {
-            _rtuCommandDeliveredDto.ClientAddress = dto.ClientAddress;
+            var clientStation = GetClientStation(dto.ClientId);
+            if (clientStation == null)
+                return MessageProcessingResult.UnknownClient;
+            _rtuCommandDeliveredDto.ClientId = clientStation.Id;
             _rtuCommandDeliveredDto.RtuId = dto.RtuId;
 
-            var rtuStation = _rtuStations.FirstOrDefault(r => r.Id == dto.RtuId);
-            if (rtuStation == null)
+            RtuStation rtuStation;
+            if (!_rtuStations.TryGetValue(dto.RtuId, out rtuStation))
                 return MessageProcessingResult.UnknownRtu;
 
-            var rtuConnection = new WcfFactory(rtuStation.PcAddresses, _coreIni, _dcLog).CreateRtuConnection();
+            var rtuConnection = new WcfFactory(rtuStation.PcAddresses.DoubleAddress, _coreIni, _dcLog).CreateRtuConnection();
             if (rtuConnection == null)
                 return MessageProcessingResult.FailedToTransmit;
 
             var result = rtuConnection.StartMonitoring(dto);
-            _dcLog.AppendLine($"Transfered command to start monitoring for rtu with ip={rtuStation.PcAddresses.Main.Ip4Address}");
+            _dcLog.AppendLine($"Transfered command to start monitoring for rtu with ip={rtuStation.PcAddresses.DoubleAddress.Main.Ip4Address}");
             return result ? MessageProcessingResult.TransmittedSuccessfully : MessageProcessingResult.TransmittedSuccessfullyButRtuIsBusy;
         }
 
         private MessageProcessingResult StopMonitoring(StopMonitoringDto dto)
         {
-            _rtuCommandDeliveredDto.ClientAddress = dto.ClientAddress;
+            _rtuCommandDeliveredDto.ClientId = dto.ClientId;
             _rtuCommandDeliveredDto.RtuId = dto.RtuId;
 
-            var rtuStation = _rtuStations.FirstOrDefault(r => r.Id == dto.RtuId);
-            if (rtuStation == null)
+            RtuStation rtuStation;
+            if (!_rtuStations.TryGetValue(dto.RtuId, out rtuStation))
                 return MessageProcessingResult.UnknownRtu;
 
-            var rtuConnection = new WcfFactory(rtuStation.PcAddresses, _coreIni, _dcLog).CreateRtuConnection();
+            var rtuConnection = new WcfFactory(rtuStation.PcAddresses.DoubleAddress, _coreIni, _dcLog).CreateRtuConnection();
             if (rtuConnection == null)
                 return MessageProcessingResult.FailedToTransmit;
 
             var result = rtuConnection.StopMonitoring(dto);
-            _dcLog.AppendLine($"Transfered command to stop monitoring for rtu with ip={rtuStation.PcAddresses.Main.Ip4Address}");
+            _dcLog.AppendLine($"Transfered command to stop monitoring for rtu with ip={rtuStation.PcAddresses.DoubleAddress.Main.Ip4Address}");
             return result ? MessageProcessingResult.TransmittedSuccessfully : MessageProcessingResult.TransmittedSuccessfullyButRtuIsBusy;
         }
 
         private MessageProcessingResult AssignBaseRef(AssignBaseRefDto dto)
         {
-            _rtuCommandDeliveredDto.ClientAddress = dto.ClientAddress;
+            _rtuCommandDeliveredDto.ClientId = dto.ClientId;
             _rtuCommandDeliveredDto.RtuId = dto.RtuId;
 
-            var rtuStation = _rtuStations.FirstOrDefault(r => r.Id == dto.RtuId);
-            if (rtuStation == null)
+            RtuStation rtuStation;
+            if (!_rtuStations.TryGetValue(dto.RtuId, out rtuStation))
                 return MessageProcessingResult.UnknownRtu;
 
-            var rtuConnection = new WcfFactory(rtuStation.PcAddresses, _coreIni, _dcLog).CreateRtuConnection();
+            var rtuConnection = new WcfFactory(rtuStation.PcAddresses.DoubleAddress, _coreIni, _dcLog).CreateRtuConnection();
             if (rtuConnection == null)
                 return MessageProcessingResult.FailedToTransmit;
 
             var result = rtuConnection.AssignBaseRef(dto);
-            _dcLog.AppendLine($"Transfered command to assign base ref to rtu with ip={rtuStation.PcAddresses.Main.Ip4Address} result {result}");
+            _dcLog.AppendLine($"Transfered command to assign base ref to rtu with ip={rtuStation.PcAddresses.DoubleAddress.Main.Ip4Address} result {result}");
             return result ? MessageProcessingResult.TransmittedSuccessfully : MessageProcessingResult.TransmittedSuccessfullyButRtuIsBusy;
 
         }
 
         private MessageProcessingResult ApplyMonitoringSettings(ApplyMonitoringSettingsDto dto)
         {
-            _rtuCommandDeliveredDto.ClientAddress = dto.ClientAddress;
+            _rtuCommandDeliveredDto.ClientId = dto.ClientId;
             _rtuCommandDeliveredDto.RtuId = dto.RtuId;
 
-            var rtuStation = _rtuStations.FirstOrDefault(r => r.Id == dto.RtuId);
-            if (rtuStation == null)
+            RtuStation rtuStation;
+            if (!_rtuStations.TryGetValue(dto.RtuId, out rtuStation))
                 return MessageProcessingResult.UnknownRtu;
 
-            var rtuConnection = new WcfFactory(rtuStation.PcAddresses, _coreIni, _dcLog).CreateRtuConnection();
+            var rtuConnection = new WcfFactory(rtuStation.PcAddresses.DoubleAddress, _coreIni, _dcLog).CreateRtuConnection();
             if (rtuConnection == null)
                 return MessageProcessingResult.FailedToTransmit;
 
             rtuConnection.ApplyMonitoringSettings(dto);
-            _dcLog.AppendLine($"Transfered command to apply monitoring settings for rtu with ip={rtuStation.PcAddresses.Main.Ip4Address}");
+            _dcLog.AppendLine($"Transfered command to apply monitoring settings for rtu with ip={rtuStation.PcAddresses.DoubleAddress.Main.Ip4Address}");
             return MessageProcessingResult.TransmittedSuccessfully;
         }
 

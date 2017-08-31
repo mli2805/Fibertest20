@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using Dto;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.UtilsLib;
@@ -71,7 +72,7 @@ namespace RtuManagement
 
             _serviceLog = serviceLog;
             _serviceIni = serviceIni;
-            _serverAddresses = _serviceIni.ReadServerAddresses();
+            _serverAddresses =  new DoubleAddressWithConnectionStats() {DoubleAddress = _serviceIni.ReadServerAddresses(), }; 
 
             _rtuIni = new IniFile();
             _rtuIni.AssignFile("RtuManager.ini");
@@ -83,7 +84,7 @@ namespace RtuManagement
 
             _mikrotikRebootTimeout =
                 TimeSpan.FromSeconds(_rtuIni.Read(IniSection.Recovering, IniKey.MikrotikRebootTimeout, 40));
-            _id = Guid.Parse(_rtuIni.Read(IniSection.Server, IniKey.RtuGuid, Guid.Empty.ToString()));
+            _id = Guid.Parse(_serviceIni.Read(IniSection.Server, IniKey.RtuGuid, Guid.Empty.ToString()));
         }
     }
 }

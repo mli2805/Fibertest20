@@ -7,7 +7,7 @@ namespace Dto
     public class RtuConnectionCheckedDto
     {
         [DataMember]
-        public string ClientAddress { get; set; }
+        public Guid ClientId { get; set; }
 
         [DataMember]
         public Guid RtuId { get; set; }

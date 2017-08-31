@@ -65,8 +65,8 @@ namespace WcfServiceForRtuLibrary
 
         public bool ProcessRtuChecksChannel(RtuChecksChannelDto dto)
         {
-            var channel = dto.IsMainChannel ? "MAIN" : "RESERVE";
-            ServiceLog.AppendLine($"Rtu {dto.RtuId} checks {channel} channel");
+//            var channel = dto.IsMainChannel ? "MAIN" : "RESERVE";
+//            ServiceLog.AppendLine($"Rtu {dto.RtuId} checks {channel} channel");
             MessageReceived?.Invoke(dto);
             return true;
         }

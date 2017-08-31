@@ -30,5 +30,11 @@ namespace Iit.Fibertest.UtilsLib
                 return null;
             }
         }
+
+        public static string First6(this Guid guid)
+        {
+            return guid.ToString().Substring(0, 6);
+        }
     }
+
 }

@@ -8,7 +8,7 @@ namespace RtuManagement
 {
     public partial class RtuManager
     {
-        private DoubleAddressWithLastConnectionCheck _serverAddresses;
+        private DoubleAddressWithConnectionStats _serverAddresses;
 
         private readonly object _isSenderBusyLocker = new object();
         private bool _isSenderBusy;
@@ -39,7 +39,7 @@ namespace RtuManagement
                 return;
 
             var result = new RtuConnectionCheckedDto()
-            { ClientAddress = param.ClientAddress, IsRtuStarted = true, IsRtuInitialized = IsRtuInitialized };
+            { ClientId = param.ClientId, IsRtuStarted = true, IsRtuInitialized = IsRtuInitialized };
             new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendCurrentState(result);
 
             IsSenderBusy = false;

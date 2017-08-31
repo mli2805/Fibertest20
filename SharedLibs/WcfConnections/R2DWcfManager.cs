@@ -6,50 +6,63 @@ namespace WcfConnections
 {
     public class R2DWcfManager
     {
+        private readonly IniFile _iniFile;
         private readonly LogFile _logFile;
+        private readonly DoubleAddressWithConnectionStats _serverAddresses;
+
         private readonly WcfFactory _wcfFactory;
 
-        private readonly WcfFactory _wcfFactoryMainAddress;
-        private readonly WcfFactory _wcfFactoryReserveAddress = null;
-
-        public R2DWcfManager(DoubleAddressWithLastConnectionCheck dataCenterAddress, IniFile iniFile, LogFile logFile)
+        public R2DWcfManager(DoubleAddressWithConnectionStats dataCenterAddresses, IniFile iniFile, LogFile logFile)
         {
+            _serverAddresses = dataCenterAddresses;
+            _iniFile = iniFile;
             _logFile = logFile;
-            _wcfFactory = new WcfFactory(dataCenterAddress, iniFile, _logFile);
 
-            var dataCenterMainAddress =
-                new DoubleAddressWithLastConnectionCheck() { Main = dataCenterAddress.Main, HasReserveAddress = false };
-            _wcfFactoryMainAddress = new WcfFactory(dataCenterMainAddress, iniFile, _logFile);
-
-            if (dataCenterAddress.HasReserveAddress)
-            {
-                var dataCenterReserveAddress = new DoubleAddressWithLastConnectionCheck() { Main = dataCenterAddress.Reserve, HasReserveAddress = false };
-                _wcfFactoryMainAddress = new WcfFactory(dataCenterReserveAddress, iniFile, _logFile);
-            }
+            _wcfFactory = new WcfFactory(dataCenterAddresses.DoubleAddress, iniFile, _logFile);
         }
 
-        /// <summary>
-        /// Checks always both channels (reserve if exists)
-        /// </summary>
-        /// <returns>True - if at least one channel is available</returns> 
-        public bool SendImAliveByBothChannels(Guid rtuId)
+        public DoubleAddressWithConnectionStats SendImAliveByBothChannels(Guid rtuId)
         {
-            var result = SendImAlive(rtuId, true, _wcfFactoryMainAddress);
-            if (_wcfFactoryReserveAddress != null)
-                result = result || SendImAlive(rtuId, false, _wcfFactoryReserveAddress);
-            return result;
+            _serverAddresses.IsLastConnectionOnMainSuccessfull =
+                SendImAliveByOneChannel(rtuId, _serverAddresses.DoubleAddress.Main, true);
+
+            if (_serverAddresses.DoubleAddress.HasReserveAddress)
+                _serverAddresses.IsLastConnectionOnReserveSuccessfull =
+                    SendImAliveByOneChannel(rtuId, _serverAddresses.DoubleAddress.Reserve, false);
+
+            return _serverAddresses;
         }
 
-        private bool SendImAlive(Guid rtuId, bool isMainChannel, WcfFactory wcfFactory)
+
+        private bool SendImAliveByOneChannel(Guid rtuId, NetAddress address, bool isMainChannel)
         {
-            var wcfConnection = wcfFactory.CreateR2DConnection();
+            var doubleAddress =
+                new DoubleAddress { Main = address, HasReserveAddress = false };
+            var wcfFactoryMainAddress = new WcfFactory(doubleAddress, _iniFile, _logFile);
+
+            var isPreviousSuccessfull = isMainChannel
+                ? _serverAddresses.IsLastConnectionOnMainSuccessfull
+                : _serverAddresses.IsLastConnectionOnReserveSuccessfull;
+            return SendImAlive(rtuId, isMainChannel, wcfFactoryMainAddress, isPreviousSuccessfull);
+        }
+
+        private bool SendImAlive(Guid rtuId, bool isMainChannel, WcfFactory wcfFactory, bool? isPreviousResultSuccessfull)
+        {
+            var st = isMainChannel ? "main" : "reserve";
+            var wcfConnection = wcfFactory.CreateR2DConnection(false);
             if (wcfConnection == null)
+            {
+                if (isPreviousResultSuccessfull != false)
+                    _logFile.AppendLine($"Can't send ImAlive-message by {st} channel");
                 return false;
+            }
 
             try
             {
                 var dto = new RtuChecksChannelDto() { RtuId = rtuId, IsMainChannel = isMainChannel };
                 wcfConnection.ProcessRtuChecksChannel(dto);
+                if (isPreviousResultSuccessfull != true)
+                    _logFile.AppendLine($"Sent ImAlive-message by {st} channel");
             }
             catch (Exception e)
             {

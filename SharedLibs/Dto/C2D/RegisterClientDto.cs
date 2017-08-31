@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.Serialization;
 
 namespace Dto
@@ -6,7 +7,10 @@ namespace Dto
     public class RegisterClientDto
     {
         [DataMember]
-        public string ClientAddress { get; set; }
+        public Guid ClientId { get; set; }
+
+        [DataMember]
+        public DoubleAddress Addresses { get; set; }
         [DataMember]
         public string UserName { get; set; }
     }

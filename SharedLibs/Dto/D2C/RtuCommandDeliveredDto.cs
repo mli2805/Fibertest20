@@ -10,7 +10,7 @@ namespace Dto
         public Guid RtuId { get; set; }
 
         [DataMember]
-        public string ClientAddress { get; set; }
+        public Guid ClientId { get; set; }
 
         [DataMember]
         public MessageProcessingResult MessageProcessingResult { get; set; }

@@ -5,13 +5,15 @@ namespace Iit.Fibertest.UtilsLib
 {
     public class ClientStation : ICloneable
     {
-        public DoubleAddressWithLastConnectionCheck Addresses { get; set; }
+        public Guid Id { get; set; }
+        public DoubleAddressWithLastConnectionCheck PcAddresses { get; set; }
 
         public object Clone()
         {
             return new ClientStation()
             {
-                Addresses = (DoubleAddressWithLastConnectionCheck) Addresses.Clone()
+                Id = Id,
+                PcAddresses = (DoubleAddressWithLastConnectionCheck) PcAddresses.Clone()
             };
         }
     }

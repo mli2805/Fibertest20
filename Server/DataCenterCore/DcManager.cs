@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.ServiceModel;
+using System.Threading;
 using Dto;
 using Iit.Fibertest.UtilsLib;
 using WcfServiceForClientLibrary;
@@ -15,11 +16,10 @@ namespace DataCenterCore
         private readonly LogFile _dcLog;
         private readonly IniFile _coreIni;
 
-        private readonly object _rtuStationsLockObj = new object();
-        private List<RtuStation> _rtuStations;
+        private readonly ConcurrentDictionary<Guid, RtuStation> _rtuStations;
 
         private readonly object _clientStationsLockObj = new object();
-        private List<ClientStation> _clientStations;
+        private readonly List<ClientStation> _clientStations;
 
 
         public DcManager()
@@ -34,10 +34,7 @@ namespace DataCenterCore
             _dcLog.EmptyLine();
             _dcLog.EmptyLine('-');
 
-            lock (_rtuStationsLockObj)
-            {
-                _rtuStations = InitializeRtuStationListFromDb();
-            }
+            _rtuStations = InitializeRtuStationListFromDb();
 
             lock (_clientStationsLockObj)
             {
@@ -46,6 +43,11 @@ namespace DataCenterCore
 
             StartWcfListenerToClient();
             StartWcfListenerToRtu();
+
+            var conChecker = new ConnectionsChecker(_dcLog, _coreIni);
+            conChecker.RtuStations = _rtuStations;
+            var thread = new  Thread(conChecker.Start) {IsBackground = true};
+            thread.Start();
         }
 
         internal static ServiceHost ServiceForRtuHost;
@@ -90,27 +92,31 @@ namespace DataCenterCore
             }
         }
 
-        private List<RtuStation> InitializeRtuStationListFromDb()
+        private ConcurrentDictionary<Guid, RtuStation> InitializeRtuStationListFromDb()
         {
             return ReadDbTempTxt();
         }
 
-        private List<RtuStation> ReadDbTempTxt()
+        private ConcurrentDictionary<Guid, RtuStation> ReadDbTempTxt()
         {
-            var list = new List<RtuStation>();
+            var dictionary = new ConcurrentDictionary<Guid, RtuStation>();
 
             var app = System.Reflection.Assembly.GetExecutingAssembly().Location;
             var path = Path.GetDirectoryName(app);
             if (path == null)
-                return null;
+                return dictionary;
             var filename = Path.Combine(path, @"..\Ini\DbTemp.txt");
             if (File.Exists(filename))
             {
                 var content = File.ReadAllLines(filename);
-                list = content.Select(ParseLine).ToList();
+                foreach (var line in content)
+                {
+                    var rtuStation = ParseLine(line);
+                    dictionary.TryAdd(rtuStation.Id, rtuStation);
+                }
             }
-            _dcLog.AppendLine($"{list.Count} RTU found");
-            return list;
+            _dcLog.AppendLine($"{dictionary.Count} RTU found");
+            return dictionary;
         }
 
         private static RtuStation ParseLine(string line)
@@ -121,14 +127,17 @@ namespace DataCenterCore
                 Id = Guid.Parse(parts[0]),
                 PcAddresses = new DoubleAddressWithLastConnectionCheck()
                 {
-                    Main = new NetAddress(parts[1], (int)TcpPorts.RtuListenTo),
+                    DoubleAddress = new DoubleAddress()
+                    {
+                        Main = new NetAddress(parts[1], (int)TcpPorts.RtuListenTo),
+                    },
                     LastConnectionOnMain = DateTime.Now,
                 },
             };
             if (parts[2] != @"none")
             {
-                rtuStation.PcAddresses.HasReserveAddress = true;
-                rtuStation.PcAddresses.Reserve = new NetAddress(parts[2], (int)TcpPorts.RtuListenTo);
+                rtuStation.PcAddresses.DoubleAddress.HasReserveAddress = true;
+                rtuStation.PcAddresses.DoubleAddress.Reserve = new NetAddress(parts[2], (int)TcpPorts.RtuListenTo);
                 rtuStation.PcAddresses.LastConnectionOnReserve = DateTime.Now;
             }
             rtuStation.CharonIp = parts[3];

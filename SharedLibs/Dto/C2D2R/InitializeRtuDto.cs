@@ -7,13 +7,13 @@ namespace Dto
     public class InitializeRtuDto
     {
         [DataMember]
-        public string ClientAddress { get; set; }
+        public Guid ClientId { get; set; }
         [DataMember]
         public Guid RtuId { get; set; }
 
         [DataMember]
-        public DoubleAddressWithLastConnectionCheck ServerAddresses { get; set; }
+        public DoubleAddress ServerAddresses { get; set; }
         [DataMember]
-        public DoubleAddressWithLastConnectionCheck RtuAddresses { get; set; }
+        public DoubleAddress RtuAddresses { get; set; }
     }
 }

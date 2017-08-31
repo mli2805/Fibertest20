@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.Serialization;
 
 namespace Dto
@@ -6,6 +7,6 @@ namespace Dto
     public class UnRegisterClientDto
     {
         [DataMember]
-        public string ClientAddress { get; set; }
+        public Guid ClientId { get; set; }
     }
 }

@@ -31,11 +31,11 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="5">
                         <TextBlock Text="Main address  "/>
-                        <TextBlock Text="{Binding SelectedRtu.PcAddresses.Main.ToStringASpace}"/>
+                        <TextBlock Text="{Binding SelectedRtu.PcAddresses.DoubleAddress.Main.ToStringASpace}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="5">
                         <TextBlock Text="Reserve address  "/>
-                        <TextBlock Text="{Binding SelectedRtu.PcAddresses.Reserve.ToStringASpace}"/>
+                        <TextBlock Text="{Binding SelectedRtu.PcAddresses.DoubleAddress.Reserve.ToStringASpace}"/>
                     </StackPanel>
                 </StackPanel>
             </GroupBox>

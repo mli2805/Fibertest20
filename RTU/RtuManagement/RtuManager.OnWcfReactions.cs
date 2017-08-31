@@ -57,7 +57,7 @@ namespace RtuManagement
             _rtuIni.Write(IniSection.Server, IniKey.RtuGuid, rtu.RtuId.ToString());
 
             _rtuIni.WriteServerAddresses(rtu.ServerAddresses);
-            _serverAddresses = rtu.ServerAddresses;
+            _serverAddresses = new DoubleAddressWithConnectionStats() {DoubleAddress = rtu.ServerAddresses};
         }
 
         public void StartMonitoring()

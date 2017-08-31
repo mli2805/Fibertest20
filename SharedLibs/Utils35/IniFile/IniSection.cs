@@ -6,7 +6,6 @@
         Server,
         ServerMainAddress,
         ServerReserveAddress,
-        RtuTestBench,
         Charon,
         Monitoring,
         Recovering,

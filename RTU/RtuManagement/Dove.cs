@@ -10,12 +10,14 @@ namespace RtuManagement
     public class Dove
     {
         private readonly Guid _rtuId;
-        private readonly DoubleAddressWithLastConnectionCheck _serverAddresses;
+        private DoubleAddressWithConnectionStats _serverAddresses;
         private readonly IniFile _serviceIni;
         private readonly LogFile _serviceLog;
         public ConcurrentQueue<MoniResultOnDisk> QueueOfMoniResultsOnDisk { get; set; }
 
-        public Dove(Guid rtuId, DoubleAddressWithLastConnectionCheck serverAddresses, IniFile serviceIni, LogFile serviceLog)
+//        private int _forLogCounter;
+
+        public Dove(Guid rtuId, DoubleAddressWithConnectionStats serverAddresses, IniFile serviceIni, LogFile serviceLog)
         {
             _rtuId = rtuId;
             _serverAddresses = serverAddresses;
@@ -29,7 +31,9 @@ namespace RtuManagement
                 TimeSpan.FromSeconds(_serviceIni.Read(IniSection.General, IniKey.CheckChannelsTimeout, 1));
             while (true)
             {
-                if (new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendImAliveByBothChannels(_rtuId))
+                _serverAddresses = new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendImAliveByBothChannels(_rtuId);
+
+                if (_serverAddresses.IsLastConnectionOnMainSuccessfull == true || _serverAddresses.IsLastConnectionOnReserveSuccessfull == true)
                     FullSendMoniResult();
 
                 Thread.Sleep(checkChannelsTimeout);

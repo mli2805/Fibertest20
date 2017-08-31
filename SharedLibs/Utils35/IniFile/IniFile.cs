@@ -128,9 +128,9 @@ namespace Iit.Fibertest.UtilsLib
             Write(section, IniKey.TcpPort, netAddress.Port);
         }
 
-        public DoubleAddressWithLastConnectionCheck ReadServerAddresses()
+        public DoubleAddress ReadServerAddresses()
         {
-            var addresses = new DoubleAddressWithLastConnectionCheck
+            var addresses = new DoubleAddress
             {
                 Main = Read(IniSection.ServerMainAddress),
                 HasReserveAddress = Read(IniSection.Server, IniKey.HasReserveAddress, false),
@@ -140,7 +140,7 @@ namespace Iit.Fibertest.UtilsLib
             return addresses;
         }
 
-        public void WriteServerAddresses(DoubleAddressWithLastConnectionCheck doubleAddress)
+        public void WriteServerAddresses(DoubleAddress doubleAddress)
         {
             Write(doubleAddress.Main, IniSection.ServerMainAddress);
             Write(IniSection.Server, IniKey.HasReserveAddress, doubleAddress.HasReserveAddress);

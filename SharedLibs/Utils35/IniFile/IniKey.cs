@@ -3,6 +3,7 @@
     public enum IniKey
     {
         // Server
+        ClientGuidOnServer,
         RtuGuid,
         HasReserveAddress,
         ServerTcpPort,
@@ -20,8 +21,9 @@
         OtauIp,
         OtauPort,
         LogLevel,
-        CheckNewMoniResultTimeout,
         CheckChannelsTimeout,
+        CheckRtuIsAliveTimeout,
+        PermittedTimeBetweenConnection,
 
         // Charon
         ConnectionTimeout,

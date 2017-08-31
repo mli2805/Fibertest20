@@ -24,6 +24,7 @@ namespace WcfTestBench
         private readonly LogFile _clientLog;
         private readonly IniFile _clientIni;
         private readonly C2DWcfManager _c2DWcfManager;
+        private readonly Guid _clientGuid;
 
         #region Server messages
         private void ProcessServerMessage(object msg)
@@ -132,7 +133,7 @@ namespace WcfTestBench
         }
 
         public List<NetAddress> ServerAddressList { get; set; }
-        public DoubleAddressWithLastConnectionCheck DcServiceAddresses { get; set; }
+        public DoubleAddress DcServiceAddresses { get; set; }
 
         public List<RtuStation> RtuList { get; set; }
 
@@ -153,7 +154,7 @@ namespace WcfTestBench
         {
             _clientLog = clientLog;
             _clientIni = iniFile35;
-            var localIp = _clientIni.Read(IniSection.General, IniKey.LocalIp, @"192.168.96.179");
+            _clientGuid = Guid.Parse(_clientIni.Read(IniSection.General, IniKey.ClientGuidOnServer, Guid.NewGuid().ToString()));
 
             ServerAddressList = GetServerAddressList();
             DcServiceAddresses = _clientIni.ReadServerAddresses();
@@ -161,7 +162,7 @@ namespace WcfTestBench
             RtuList = ReadDbTempTxt();
             SelectedRtu = RtuList.First();
 
-            _c2DWcfManager = new C2DWcfManager(DcServiceAddresses, _clientIni, _clientLog, localIp);
+            _c2DWcfManager = new C2DWcfManager(DcServiceAddresses, _clientIni, _clientLog, _clientGuid);
             if (!_c2DWcfManager.RegisterClient(new RegisterClientDto() {UserName = @"Vasya"}))
                 MessageBox.Show(@"Cannot register on server!");
 
@@ -199,20 +200,24 @@ namespace WcfTestBench
 
         public void CheckConnection()
         {
-            var localIp = @"192.168.96.179";
             DisplayString = Resources.SID_Command_sent__wait_please_;
             var dto = new CheckRtuConnectionDto()
             {
-                ClientAddress = localIp,
+                ClientId = _clientGuid,
                 RtuId = SelectedRtu.Id,
-                NetAddress = SelectedRtu.PcAddresses.Main,
+                NetAddress = SelectedRtu.PcAddresses.DoubleAddress.Main,
             };
             DisplayString = _c2DWcfManager.CheckRtuConnection(dto) ? @"Check connection started, wait please" : Resources.SID_Error;
         }
 
         public void Initialize()
         {
-            var rtu = new InitializeRtuDto() { RtuId = SelectedRtu.Id, ServerAddresses = DcServiceAddresses, RtuAddresses = SelectedRtu.PcAddresses };
+            // TODO contemplate thoroughly
+            var rtu = new InitializeRtuDto() { RtuId = SelectedRtu.Id, RtuAddresses = SelectedRtu.PcAddresses.DoubleAddress };
+            rtu.ServerAddresses = DcServiceAddresses;
+            rtu.ServerAddresses.Main.Port = (int)TcpPorts.ServerListenToRtu;
+            rtu.ServerAddresses.Reserve.Port = (int)TcpPorts.ServerListenToRtu;
+
             _c2DWcfManager.InitializeRtu(rtu);
             DisplayString = Resources.SID_Command_sent__wait_please_;
         }
@@ -234,7 +239,7 @@ namespace WcfTestBench
                 RtuId = SelectedRtu.Id,
                 OtauPortDto = new OtauPortDto()
                 {
-                    Ip = SelectedRtu.PcAddresses.Main.Ip4Address,
+                    Ip = SelectedRtu.PcAddresses.DoubleAddress.Main.Ip4Address,
                     TcpPort = 23,
                     OpticalPort = 3
                 },
@@ -284,7 +289,7 @@ namespace WcfTestBench
 
                 Charons = new List<MonitoringCharonModel>()
                 {
-                    new MonitoringCharonModel(SelectedRtu.PcAddresses.Main.Ip4Address, 23) { Title = @"Грушаука 214", IsMainCharon = true, Ports = PopulatePorts(28)},
+                    new MonitoringCharonModel(SelectedRtu.PcAddresses.DoubleAddress.Main.Ip4Address, 23) { Title = @"Грушаука 214", IsMainCharon = true, Ports = PopulatePorts(28)},
                     new MonitoringCharonModel(@"192.168.96.57", 11834) { Ports = PopulatePorts(16)},
                     new MonitoringCharonModel(@"192.168.96.57", 11835) { Ports = PopulatePorts(8)}
                 }
@@ -321,11 +326,11 @@ namespace WcfTestBench
         public void MeasReflect()
         {
             // this is only command which needs direct rtu connection
-            var wcfRtuConnection = new WcfFactory(SelectedRtu.PcAddresses, _clientIni, _clientLog).CreateRtuConnection();
+            var wcfRtuConnection = new WcfFactory(SelectedRtu.PcAddresses.DoubleAddress, _clientIni, _clientLog).CreateRtuConnection();
             if (wcfRtuConnection == null)
                 return;
 
-            DisplayString = string.Format(Resources.SID_Established_connection_with_RTU__0_, SelectedRtu.PcAddresses.Main.Ip4Address);
+            DisplayString = string.Format(Resources.SID_Established_connection_with_RTU__0_, SelectedRtu.PcAddresses.DoubleAddress.Main.Ip4Address);
             var port = new OtauPortDto() {IsPortOnMainCharon = true, TcpPort = 23, OpticalPort = 2}; // just for test
             if (!wcfRtuConnection.ToggleToPort(port))
             {
@@ -334,7 +339,7 @@ namespace WcfTestBench
             }
 
             var otdrAddress = SelectedRtu.CharonIp == @"192.168.88.101"
-                ? SelectedRtu.PcAddresses.Main.Ip4Address
+                ? SelectedRtu.PcAddresses.DoubleAddress.Main.Ip4Address
                 : SelectedRtu.CharonIp;
             StartReflect($@"-fnw -n {otdrAddress} -p 1500");
         }
@@ -402,14 +407,17 @@ namespace WcfTestBench
                 Id = Guid.Parse(parts[0]),
                 PcAddresses = new DoubleAddressWithLastConnectionCheck()
                 {
-                    Main = new NetAddress(parts[1], (int)TcpPorts.RtuListenTo),
+                    DoubleAddress = new DoubleAddress()
+                    { 
+                        Main = new NetAddress(parts[1], (int)TcpPorts.RtuListenTo),
+                    },
                     LastConnectionOnMain = DateTime.Now,
                 },
             };
             if (parts[2] != @"none")
             {
-                rtuStation.PcAddresses.HasReserveAddress = true;
-                rtuStation.PcAddresses.Reserve = new NetAddress(parts[2], (int)TcpPorts.RtuListenTo);
+                rtuStation.PcAddresses.DoubleAddress.HasReserveAddress = true;
+                rtuStation.PcAddresses.DoubleAddress.Reserve = new NetAddress(parts[2], (int)TcpPorts.RtuListenTo);
                 rtuStation.PcAddresses.LastConnectionOnReserve = DateTime.Now;
             }
             rtuStation.CharonIp = parts[3];
