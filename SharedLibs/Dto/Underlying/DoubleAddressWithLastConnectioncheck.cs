@@ -51,9 +51,7 @@ namespace Dto
         public DoubleAddress DoubleAddress { get; set; }
         public bool? IsLastConnectionOnMainSuccessfull { get; set; }
 
-        public int OnMainCounter { get; set; }
         public bool? IsLastConnectionOnReserveSuccessfull { get; set; }
-        public int OnReserveCounter { get; set; }
 
         public object Clone()
         {
@@ -62,11 +60,7 @@ namespace Dto
                 DoubleAddress = (DoubleAddress)DoubleAddress.Clone(),
                 IsLastConnectionOnMainSuccessfull = IsLastConnectionOnMainSuccessfull,
                 IsLastConnectionOnReserveSuccessfull = IsLastConnectionOnReserveSuccessfull,
-                OnMainCounter = OnMainCounter,
-                OnReserveCounter = OnReserveCounter,
             };
         }
-
-
     }
 }

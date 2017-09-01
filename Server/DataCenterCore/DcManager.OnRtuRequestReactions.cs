@@ -115,10 +115,8 @@ namespace DataCenterCore
 
         private bool ProcessMonitoringResult(MonitoringResultDto result)
         {
-            _dcLog.AppendLine($"Monitoring result received. RTU is {result.RtuId}");
-            _dcLog.AppendLine($"Monitoring result received. {result.BaseRefType} measurement on {result.OtauPort.OpticalPort} port");
-            _dcLog.AppendLine($"Monitoring result received. Trace state is {result.TraceState}");
-            _dcLog.AppendLine($"Monitoring result received. Sor size is {result.SorData.Length}");
+            _dcLog.AppendLine(
+                $"Moniresult from RTU {result.RtuId.First6()}. {result.BaseRefType} on {result.OtauPort.OpticalPort} port. Trace state is {result.TraceState}. Sor size is {result.SorData.Length}.");
             return true;
         }
         #endregion

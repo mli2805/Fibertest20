@@ -41,9 +41,13 @@ namespace RtuManagement
                 return;
             IsRtuInitialized = true;
 
-            var dove = new Dove(_id, _serverAddresses, _serviceIni, _serviceLog) {QueueOfMoniResultsOnDisk = QueueOfMoniResultsOnDisk};
-            var thread = new Thread(dove.Start) {IsBackground = true};
-            thread.Start();
+            var woodpecker = new WoodPecker(_id, _serverAddresses, _serviceIni, _serviceLog);
+            var woodpeckerThread = new Thread(woodpecker.Start) {IsBackground = true};
+            woodpeckerThread.Start();
+
+            var dove = new Dove(_serverAddresses, _serviceIni, _serviceLog) {QueueOfMoniResultsOnDisk = QueueOfMoniResultsOnDisk};
+            var doveThread = new Thread(dove.Start) {IsBackground = true};
+            doveThread.Start();
 
             IsMonitoringOn = _rtuIni.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, 0) != 0;
             if (IsMonitoringOn)

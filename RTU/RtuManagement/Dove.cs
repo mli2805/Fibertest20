@@ -7,17 +7,14 @@ using WcfConnections;
 
 namespace RtuManagement
 {
-    public class Dove
+    public class WoodPecker
     {
         private readonly Guid _rtuId;
         private DoubleAddressWithConnectionStats _serverAddresses;
         private readonly IniFile _serviceIni;
         private readonly LogFile _serviceLog;
-        public ConcurrentQueue<MoniResultOnDisk> QueueOfMoniResultsOnDisk { get; set; }
 
-//        private int _forLogCounter;
-
-        public Dove(Guid rtuId, DoubleAddressWithConnectionStats serverAddresses, IniFile serviceIni, LogFile serviceLog)
+        public WoodPecker(Guid rtuId, DoubleAddressWithConnectionStats serverAddresses, IniFile serviceIni, LogFile serviceLog)
         {
             _rtuId = rtuId;
             _serverAddresses = serverAddresses;
@@ -28,15 +25,37 @@ namespace RtuManagement
         public void Start()
         {
             var checkChannelsTimeout =
-                TimeSpan.FromSeconds(_serviceIni.Read(IniSection.General, IniKey.CheckChannelsTimeout, 1));
+                TimeSpan.FromSeconds(_serviceIni.Read(IniSection.General, IniKey.CheckChannelsTimeout, 30));
             while (true)
             {
                 _serverAddresses = new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendImAliveByBothChannels(_rtuId);
-
-                if (_serverAddresses.IsLastConnectionOnMainSuccessfull == true || _serverAddresses.IsLastConnectionOnReserveSuccessfull == true)
-                    FullSendMoniResult();
-
                 Thread.Sleep(checkChannelsTimeout);
+            }
+        }
+
+    }
+    public class Dove
+    {
+        private readonly DoubleAddressWithConnectionStats _serverAddresses;
+        private readonly IniFile _serviceIni;
+        private readonly LogFile _serviceLog;
+
+        public ConcurrentQueue<MoniResultOnDisk> QueueOfMoniResultsOnDisk { get; set; }
+
+        public Dove(DoubleAddressWithConnectionStats serverAddresses, IniFile serviceIni, LogFile serviceLog)
+        {
+            _serverAddresses = serverAddresses;
+            _serviceIni = serviceIni;
+            _serviceLog = serviceLog;
+        }
+
+        public void Start()
+        {
+            var checkNewMoniresultsTimeout = TimeSpan.FromSeconds(1);
+            while (true)
+            {
+                FullSendMoniResult();
+                Thread.Sleep(checkNewMoniresultsTimeout);
             }
         }
 
