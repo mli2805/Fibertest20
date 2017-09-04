@@ -1,4 +1,5 @@
-﻿using System.ServiceModel;
+﻿using System;
+using System.ServiceModel;
 using Dto;
 
 namespace RtuWcfServiceLibrary
@@ -27,6 +28,11 @@ namespace RtuWcfServiceLibrary
 
         [OperationContract]
         bool ToggleToPort(OtauPortDto port);
+
+
+        // for WatchDog
+        [OperationContract]
+        bool CheckLastSuccessfullMeasTime();
     }
 
 }

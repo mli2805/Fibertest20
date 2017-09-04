@@ -163,7 +163,10 @@ namespace RtuManagement
                 return null;
             SendCurrentMonitoringStep(RtuCurrentMonitoringStep.Measure, extendedPort, baseRefType);
             if (!_otdrManager.MeasureWithBase(baseBytes, _mainCharon.GetActiveChildCharon()))
+            {                                 // Error 814 during measurement prepare
+                RunMainCharonRecovery(); 
                 return null;
+            }
             if (_isMonitoringCancelled)
             {
                 SendCurrentMonitoringStep(RtuCurrentMonitoringStep.Interrupted, extendedPort, baseRefType);
@@ -174,6 +177,9 @@ namespace RtuManagement
             var moniResult = _otdrManager.CompareMeasureWithBase(baseBytes, measBytes, true); // base is inserted into meas during comparison
             extendedPort.SaveMeasBytes(baseRefType, measBytes); // so re-save meas after comparison
             moniResult.BaseRefType = baseRefType;
+
+            LastSuccessfullMeasTimestamp = DateTime.Now;
+
             return moniResult;
         }
 

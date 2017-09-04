@@ -1,4 +1,5 @@
-﻿using System.ServiceModel;
+﻿using System;
+using System.ServiceModel;
 using Dto;
 using Iit.Fibertest.UtilsLib;
 
@@ -20,7 +21,7 @@ namespace RtuWcfServiceLibrary
         {
             lock (_lockWcfObj)
             {
-//                ServiceLog.AppendLine("Server sent command: check connection");
+                //                ServiceLog.AppendLine("Server sent command: check connection");
                 MessageReceived?.Invoke(dto);
                 return true;
             }
@@ -30,7 +31,7 @@ namespace RtuWcfServiceLibrary
         {
             lock (_lockWcfObj)
             {
-//                ServiceLog.AppendLine("Server sent command: initialize");
+                //                ServiceLog.AppendLine("Server sent command: initialize");
                 MessageReceived?.Invoke(dto);
                 return true;
             }
@@ -40,7 +41,7 @@ namespace RtuWcfServiceLibrary
         {
             lock (_lockWcfObj)
             {
-//                ServiceLog.AppendLine("Server sent command: start monitoring");
+                //                ServiceLog.AppendLine("Server sent command: start monitoring");
                 MessageReceived?.Invoke(dto);
                 return true;
             }
@@ -50,7 +51,7 @@ namespace RtuWcfServiceLibrary
         {
             lock (_lockWcfObj)
             {
-//                ServiceLog.AppendLine("Server sent command: stop monitoring");
+                //                ServiceLog.AppendLine("Server sent command: stop monitoring");
                 MessageReceived?.Invoke(dto);
                 return true;
             }
@@ -60,7 +61,7 @@ namespace RtuWcfServiceLibrary
         {
             lock (_lockWcfObj)
             {
-//                ServiceLog.AppendLine("Server sent command: apply monitoring settings");
+                //                ServiceLog.AppendLine("Server sent command: apply monitoring settings");
                 MessageReceived?.Invoke(dto);
                 return true;
             }
@@ -70,7 +71,7 @@ namespace RtuWcfServiceLibrary
         {
             lock (_lockWcfObj)
             {
-//                ServiceLog.AppendLine("Server sent command: assign base ref");
+                //                ServiceLog.AppendLine("Server sent command: assign base ref");
                 MessageReceived?.Invoke(dto);
                 return true;
             }
@@ -80,11 +81,20 @@ namespace RtuWcfServiceLibrary
         {
             lock (_lockWcfObj)
             {
-//                ServiceLog.AppendLine("Server sent command: toggle to port");
+                //                ServiceLog.AppendLine("Server sent command: toggle to port");
                 MessageReceived?.Invoke(dto);
                 return true;
             }
         }
 
+        public bool CheckLastSuccessfullMeasTime()
+        {
+            lock (_lockWcfObj)
+            {
+                ServiceLog.AppendLine("WatchDog asks time of last successfull measurement");
+                MessageReceived?.Invoke(new LastSuccessfullMeasTimeDto());
+                return true;
+            }
+        }
     }
 }

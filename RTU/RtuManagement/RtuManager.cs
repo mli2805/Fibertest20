@@ -45,6 +45,26 @@ namespace RtuManagement
             }
         }
 
+        private readonly object _lastSuccessfullMeasTimestampLocker = new object();
+        private DateTime _lastSuccessfullMeasTimestamp;
+        public DateTime LastSuccessfullMeasTimestamp
+        {
+            get
+            {
+                lock (_lastSuccessfullMeasTimestampLocker)
+                {
+                    return _lastSuccessfullMeasTimestamp;
+                }
+            }
+            set
+            {
+                lock (_lastSuccessfullMeasTimestampLocker)
+                {
+                    _lastSuccessfullMeasTimestamp = value;
+                }
+            }
+        }
+
         private readonly object _isRtuInitializedLocker = new object();
         private bool _isRtuInitialized;
 
@@ -72,7 +92,7 @@ namespace RtuManagement
 
             _serviceLog = serviceLog;
             _serviceIni = serviceIni;
-            _serverAddresses =  new DoubleAddressWithConnectionStats() {DoubleAddress = _serviceIni.ReadServerAddresses(), }; 
+            _serverAddresses = new DoubleAddressWithConnectionStats() { DoubleAddress = _serviceIni.ReadServerAddresses(), };
 
             _rtuIni = new IniFile();
             _rtuIni.AssignFile("RtuManager.ini");

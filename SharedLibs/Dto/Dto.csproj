@@ -59,6 +59,7 @@
     <Compile Include="R2D2C\MonitoringStoppedDto.cs" />
     <Compile Include="C2D2R\CheckRtuConnectionDto.cs" />
     <Compile Include="Underlying\DoubleAddressWithLastConnectioncheck.cs" />
+    <Compile Include="Underlying\LastSuccessfullMeasTimeDto.cs" />
     <Compile Include="Underlying\MonitoringTimespansDto.cs" />
     <Compile Include="Underlying\NetAddress.cs" />
     <Compile Include="Underlying\OtauPortDto.cs" />

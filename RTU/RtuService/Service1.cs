@@ -186,6 +186,12 @@ namespace RtuService
                 return;
             }
 
+            var dtoWd = msg as LastSuccessfullMeasTimeDto;
+            if (dtoWd != null)
+            {
+                _serviceLog.AppendLine("WatchDog cares");
+            }
+
             _serviceLog.AppendLine("Message of unknown type was received. (Update ServiceReference)");
         }
     }
