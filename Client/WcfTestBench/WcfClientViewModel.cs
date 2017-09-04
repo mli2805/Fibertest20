@@ -155,6 +155,7 @@ namespace WcfTestBench
             _clientLog = clientLog;
             _clientIni = iniFile35;
             _clientGuid = Guid.Parse(_clientIni.Read(IniSection.General, IniKey.ClientGuidOnServer, Guid.NewGuid().ToString()));
+            var clientAddresses = _clientIni.Read(IniSection.ClientLocalAddress);
 
             ServerAddressList = GetServerAddressList();
             DcServiceAddresses = _clientIni.ReadServerAddresses();
@@ -163,7 +164,7 @@ namespace WcfTestBench
             SelectedRtu = RtuList.First();
 
             _c2DWcfManager = new C2DWcfManager(DcServiceAddresses, _clientIni, _clientLog, _clientGuid);
-            if (!_c2DWcfManager.RegisterClient(new RegisterClientDto() {UserName = @"Vasya"}))
+            if (!_c2DWcfManager.RegisterClient(new RegisterClientDto() {Addresses = new DoubleAddress() {Main = clientAddresses, HasReserveAddress = false}, UserName = @"Vasya"}))
                 MessageBox.Show(@"Cannot register on server!");
 
             // start 11843 listener
@@ -213,12 +214,12 @@ namespace WcfTestBench
         public void Initialize()
         {
             // TODO contemplate thoroughly
-            var rtu = new InitializeRtuDto() { RtuId = SelectedRtu.Id, RtuAddresses = SelectedRtu.PcAddresses.DoubleAddress };
-            rtu.ServerAddresses = DcServiceAddresses;
-            rtu.ServerAddresses.Main.Port = (int)TcpPorts.ServerListenToRtu;
-            rtu.ServerAddresses.Reserve.Port = (int)TcpPorts.ServerListenToRtu;
+            var dto = new InitializeRtuDto() { RtuId = SelectedRtu.Id, RtuAddresses = SelectedRtu.PcAddresses.DoubleAddress };
+            dto.ServerAddresses = (DoubleAddress)DcServiceAddresses.Clone();
+            dto.ServerAddresses.Main.Port = (int)TcpPorts.ServerListenToRtu;
+            dto.ServerAddresses.Reserve.Port = (int)TcpPorts.ServerListenToRtu;
 
-            _c2DWcfManager.InitializeRtu(rtu);
+            _c2DWcfManager.InitializeRtu(dto);
             DisplayString = Resources.SID_Command_sent__wait_please_;
         }
 

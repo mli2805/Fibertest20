@@ -3,7 +3,7 @@
   <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
   <xs:complexType name="RtuCommandDeliveredDto">
     <xs:sequence>
-      <xs:element minOccurs="0" name="ClientAddress" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ClientId" type="ser:guid" />
       <xs:element minOccurs="0" name="MessageProcessingResult" type="tns:MessageProcessingResult" />
       <xs:element minOccurs="0" name="RtuId" type="ser:guid" />
     </xs:sequence>
@@ -12,6 +12,7 @@
   <xs:simpleType name="MessageProcessingResult">
     <xs:restriction base="xs:string">
       <xs:enumeration value="UnknownMessage" />
+      <xs:enumeration value="UnknownClient" />
       <xs:enumeration value="UnknownRtu" />
       <xs:enumeration value="NothingToReturn" />
       <xs:enumeration value="ProcessedSuccessfully" />
@@ -24,7 +25,7 @@
   <xs:element name="MessageProcessingResult" nillable="true" type="tns:MessageProcessingResult" />
   <xs:complexType name="RtuConnectionCheckedDto">
     <xs:sequence>
-      <xs:element minOccurs="0" name="ClientAddress" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ClientId" type="ser:guid" />
       <xs:element minOccurs="0" name="IsPingSuccessful" type="xs:boolean" />
       <xs:element minOccurs="0" name="IsRtuInitialized" type="xs:boolean" />
       <xs:element minOccurs="0" name="IsRtuStarted" type="xs:boolean" />

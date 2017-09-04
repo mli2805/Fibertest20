@@ -13,54 +13,54 @@ namespace WcfServiceForClientLibrary
 
         public void RegisterClient(RegisterClientDto dto)
         {
-            ServiceLog.AppendLine($"Client {dto.ClientId} sent register request");
+            ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent register request");
             MessageReceived?.Invoke(dto);
         }
 
         public void UnRegisterClient(UnRegisterClientDto dto)
         {
-            ServiceLog.AppendLine($"Client {dto.ClientId} sent unregister request");
+            ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent unregister request");
             MessageReceived?.Invoke(dto);
         }
 
         public bool CheckRtuConnection(CheckRtuConnectionDto dto)
         {
-            ServiceLog.AppendLine($"Client {dto.ClientId} sent check rtu {dto.RtuId} request");
+            ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent check rtu {dto.RtuId.First6()} request");
             MessageReceived?.Invoke(dto);
             return true;
         }
 
         public bool InitializeRtu(InitializeRtuDto dto)
         {
-            ServiceLog.AppendLine($"Client {dto.ClientId} sent initialize rtu {dto.RtuId} request");
+            ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent initialize rtu {dto.RtuId.First6()} request");
             MessageReceived?.Invoke(dto);
             return true;
         }
 
         public bool StartMonitoring(StartMonitoringDto dto)
         {
-            ServiceLog.AppendLine($"Client {dto.ClientId} sent start monitoring on rtu {dto.RtuId} request");
+            ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent start monitoring on rtu {dto.RtuId.First6()} request");
             MessageReceived?.Invoke(dto);
             return true;
         }
 
         public bool StopMonitoring(StopMonitoringDto dto)
         {
-            ServiceLog.AppendLine($"Client {dto.ClientId} sent stop monitoring on rtu {dto.RtuId} request");
+            ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent stop monitoring on rtu {dto.RtuId.First6()} request");
             MessageReceived?.Invoke(dto);
             return true;
         }
 
         public bool ApplyMonitoringSettings(ApplyMonitoringSettingsDto dto)
         {
-            ServiceLog.AppendLine($"Client {dto.ClientId} sent monitoring settings for rtu {dto.RtuId}");
+            ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent monitoring settings for rtu {dto.RtuId.First6()}");
             MessageReceived?.Invoke(dto);
             return true;
         }
 
         public bool AssignBaseRef(AssignBaseRefDto dto)
         {
-            ServiceLog.AppendLine($"Client {dto.ClientId} sent base ref for trace on rtu {dto.RtuId}");
+            ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent base ref for trace on rtu {dto.RtuId.First6()}");
             MessageReceived?.Invoke(dto);
             return true;
         }

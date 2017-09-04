@@ -24,10 +24,12 @@ namespace RtuWatchdog
                 var sc = new ServiceController(rtuServiceName);
                 if (sc.Status == ServiceControllerStatus.Stopped)
                 {
-                    _watchLog.AppendLine($"{rtuServiceName} is stopped! Starting...");
+                    _watchLog.AppendLine($"{rtuServiceName} is not running! Starting...");
                     sc.Start();
-                    Thread.Sleep(TimeSpan.FromSeconds(7));
+                    Thread.Sleep(TimeSpan.FromSeconds(10));
+                    continue;
                 }
+
 
                 Thread.Sleep(TimeSpan.FromSeconds(3));
             }

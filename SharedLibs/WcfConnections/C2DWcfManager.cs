@@ -86,7 +86,7 @@ namespace WcfConnections
             {
                 dto.ClientId = _clientId;
                 wcfConnection.InitializeRtu(dto);
-                _logFile.AppendLine($@"Sent command to initialize RTU {dto.RtuId} with ip={dto.RtuAddresses.Main.Ip4Address}");
+                _logFile.AppendLine($@"Sent command to initialize RTU {dto.RtuId.First6()}");
                 return true;
             }
             catch (Exception e)
@@ -106,7 +106,7 @@ namespace WcfConnections
             {
                 dto.ClientId = _clientId;
                 wcfConnection.AssignBaseRef(dto);
-                _logFile.AppendLine($@"Sent base ref to RTU {dto.RtuId}");
+                _logFile.AppendLine($@"Sent base ref to RTU {dto.RtuId.First6()}");
                 return true;
             }
             catch (Exception e)
@@ -126,7 +126,7 @@ namespace WcfConnections
             {
                 dto.ClientId = _clientId;
                 wcfConnection.ApplyMonitoringSettings(dto);
-                _logFile.AppendLine($@"Sent monitoring settings to RTU {dto.RtuId}");
+                _logFile.AppendLine($@"Sent monitoring settings to RTU {dto.RtuId.First6()}");
                 return true;
             }
             catch (Exception e)
@@ -146,7 +146,7 @@ namespace WcfConnections
             {
                 dto.ClientId = _clientId;
                 wcfConnection.StartMonitoring(dto);
-                _logFile.AppendLine($@"Sent command to start monitoring on RTU {dto.RtuId}");
+                _logFile.AppendLine($@"Sent command to start monitoring on RTU {dto.RtuId.First6()}");
                 return true;
             }
             catch (Exception e)
@@ -166,7 +166,7 @@ namespace WcfConnections
             {
                 dto.ClientId = _clientId;
                 wcfConnection.StopMonitoring(dto);
-                _logFile.AppendLine($@"Sent command to stop monitoring on RTU {dto.RtuId}");
+                _logFile.AppendLine($@"Sent command to stop monitoring on RTU {dto.RtuId.First6()}");
                 return true;
             }
             catch (Exception e)

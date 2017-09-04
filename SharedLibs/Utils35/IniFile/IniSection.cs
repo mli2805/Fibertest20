@@ -6,6 +6,7 @@
         Server,
         ServerMainAddress,
         ServerReserveAddress,
+        ClientLocalAddress,
         Charon,
         Monitoring,
         Recovering,

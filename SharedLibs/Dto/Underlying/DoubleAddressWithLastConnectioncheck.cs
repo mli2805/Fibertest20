@@ -22,7 +22,7 @@ namespace Dto
     // on Server
     public class DoubleAddressWithLastConnectionCheck : ICloneable
     {
-        public DoubleAddress DoubleAddress { get; set; }
+        public DoubleAddress DoubleAddress { get; set; } = new DoubleAddress();
 
         public DateTime LastConnectionOnMain { get; set; }
         public DateTime LastConnectionOnReserve { get; set; }
@@ -41,14 +41,13 @@ namespace Dto
                 IsLastCheckOfReserveSuccessfull = IsLastCheckOfReserveSuccessfull,
             };
         }
-
     }
 
 
     // on RTU
     public class DoubleAddressWithConnectionStats : ICloneable
     {
-        public DoubleAddress DoubleAddress { get; set; }
+        public DoubleAddress DoubleAddress { get; set; } = new DoubleAddress();
         public bool? IsLastConnectionOnMainSuccessfull { get; set; }
 
         public bool? IsLastConnectionOnReserveSuccessfull { get; set; }

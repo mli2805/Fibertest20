@@ -29,7 +29,7 @@ namespace WcfConnections
                 try
                 {
                     wcfConnection.ConfirmRtuConnectionChecked(dto);
-                    _logFile.AppendLine($"Transfered response on check connection with RTU {dto.RtuId} to client {clientAddress.Main}");
+                    _logFile.AppendLine($"Transfered response on check connection with RTU {dto.RtuId.First6()} to client {clientAddress.Main.ToStringA()}");
                 }
                 catch (Exception e)
                 {
@@ -49,7 +49,7 @@ namespace WcfConnections
                 try
                 {
                     wcfConnection.ConfirmDelivery(dto);
-                    _logFile.AppendLine($"Transfered rtu command delivery confirmation: from RTU {dto.RtuId} to client {clientAddress}");
+                    _logFile.AppendLine($"Transfered rtu command delivery confirmation: from RTU {dto.RtuId.First6()} to client {clientAddress.Main.ToStringA()}");
                 }
                 catch (Exception e)
                 {
@@ -70,7 +70,7 @@ namespace WcfConnections
                 try
                 {
                     wcfConnection.ConfirmRtuInitialized(dto);
-                    _logFile.AppendLine($"Transfered response on initialize from RTU {dto.Serial} to client {clientAddress}");
+                    _logFile.AppendLine($"Transfered response on initialize from RTU {dto.Serial} to client {clientAddress.Main.ToStringA()}");
                 }
                 catch (Exception e)
                 {
@@ -91,7 +91,7 @@ namespace WcfConnections
                 try
                 {
                     wcfConnection.ConfirmMonitoringStarted(dto);
-                    _logFile.AppendLine($"Transfered response on start monitoring from RTU {dto.RtuId} to client {clientAddress}");
+                    _logFile.AppendLine($"Transfered response on start monitoring from RTU {dto.RtuId.First6()} to client {clientAddress.Main.ToStringA()}");
                 }
                 catch (Exception e)
                 {
@@ -112,7 +112,7 @@ namespace WcfConnections
                 try
                 {
                     wcfConnection.ConfirmMonitoringStopped(dto);
-                    _logFile.AppendLine($"Transfered response on stop monitoring from RTU {dto.RtuId} to client {clientAddress}");
+                    _logFile.AppendLine($"Transfered response on stop monitoring from RTU {dto.RtuId.First6()} to client {clientAddress.Main.ToStringA()}");
                 }
                 catch (Exception e)
                 {
@@ -133,7 +133,7 @@ namespace WcfConnections
                 try
                 {
                     wcfConnection.ConfirmMonitoringSettingsApplied(dto);
-                    _logFile.AppendLine($"Transfered response on apply monitoring settings from RTU {dto.RtuId} to client {clientAddress}");
+                    _logFile.AppendLine($"Transfered response on apply monitoring settings from RTU {dto.RtuId.First6()} to client {clientAddress.Main.ToStringA()}");
                 }
                 catch (Exception e)
                 {
@@ -154,7 +154,7 @@ namespace WcfConnections
                 try
                 {
                     wcfConnection.ProcessRtuCurrentMonitoringStep(dto);
-//                    _logFile.AppendLine($"Transfered RTU {dto.RtuId} monitoring step to client {clientAddress}");
+//                    _logFile.AppendLine($"Transfered RTU {dto.RtuId.First6()} monitoring step to client {clientAddress.Main.ToStringA()}");
                 }
                 catch (Exception e)
                 {
@@ -175,7 +175,7 @@ namespace WcfConnections
                 try
                 {
                     wcfConnection.ConfirmBaseRefAssigned(dto);
-                    _logFile.AppendLine($"Transfered response on assign base ref from RTU {dto.RtuId} to client {clientAddress}");
+                    _logFile.AppendLine($"Transfered response on assign base ref from RTU {dto.RtuId.First6()} to client {clientAddress.Main.ToStringA()}");
                 }
                 catch (Exception e)
                 {

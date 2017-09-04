@@ -11,6 +11,7 @@ namespace Dto
 
         [DataMember]
         public DoubleAddress Addresses { get; set; }
+
         [DataMember]
         public string UserName { get; set; }
     }

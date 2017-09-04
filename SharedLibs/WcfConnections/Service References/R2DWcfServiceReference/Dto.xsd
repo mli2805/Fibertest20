@@ -3,7 +3,7 @@
   <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
   <xs:complexType name="RtuConnectionCheckedDto">
     <xs:sequence>
-      <xs:element minOccurs="0" name="ClientAddress" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ClientId" type="ser:guid" />
       <xs:element minOccurs="0" name="IsPingSuccessful" type="xs:boolean" />
       <xs:element minOccurs="0" name="IsRtuInitialized" type="xs:boolean" />
       <xs:element minOccurs="0" name="IsRtuStarted" type="xs:boolean" />

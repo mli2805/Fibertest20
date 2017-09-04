@@ -53,7 +53,7 @@ namespace DataCenterCore
         #region RTU confirms
         private bool ProcessRtuConnectionChecked(RtuConnectionCheckedDto dto)
         {
-            _dcLog.AppendLine($"Rtu {dto.RtuId} replied on connection check");
+            _dcLog.AppendLine($"Rtu {dto.RtuId.First6()} replied on connection check");
             var clientStation = GetClientStation(dto.ClientId);
             if (clientStation == null)
                 return false;
@@ -65,31 +65,31 @@ namespace DataCenterCore
         private bool ConfirmRtuInitialized(RtuInitializedDto dto)
         {
             var str = dto.IsInitialized ? "OK" : "ERROR";
-            _dcLog.AppendLine($"Rtu {dto.RtuId} initialization {str}");
+            _dcLog.AppendLine($"Rtu {dto.RtuId.First6()} initialization {str}");
             return new D2CWcfManager(GetAllClientsAddresses(), _coreIni, _dcLog).ConfirmRtuInitialized(dto);
         }
 
         private bool ConfirmMonitoringStarted(MonitoringStartedDto dto)
         {
-            _dcLog.AppendLine($"Rtu {dto.RtuId} monitoring started: {dto.IsSuccessful}");
+            _dcLog.AppendLine($"Rtu {dto.RtuId.First6()} monitoring started: {dto.IsSuccessful}");
             return new D2CWcfManager(GetAllClientsAddresses(), _coreIni, _dcLog).ConfirmMonitoringStarted(dto);
         }
 
         private bool ConfirmMonitoringStopped(MonitoringStoppedDto dto)
         {
-            _dcLog.AppendLine($"Rtu {dto.RtuId} monitoring stopped: {dto.IsSuccessful}");
+            _dcLog.AppendLine($"Rtu {dto.RtuId.First6()} monitoring stopped: {dto.IsSuccessful}");
             return new D2CWcfManager(GetAllClientsAddresses(), _coreIni, _dcLog).ConfirmMonitoringStopped(dto);
         }
 
         private bool ConfirmMonitoringSettingsApplied(MonitoringSettingsAppliedDto dto)
         {
-            _dcLog.AppendLine($"Rtu {dto.RtuId} applied monitoring settings: {dto.IsSuccessful}");
+            _dcLog.AppendLine($"Rtu {dto.RtuId.First6()} applied monitoring settings: {dto.IsSuccessful}");
             return new D2CWcfManager(GetAllClientsAddresses(), _coreIni, _dcLog).ConfirmMonitoringSettingsApplied(dto);
         }
 
         private bool ConfirmBaseRefAssigned(BaseRefAssignedDto dto)
         {
-            _dcLog.AppendLine($"Rtu {dto.RtuId} assigned base ref: {dto.IsSuccessful}");
+            _dcLog.AppendLine($"Rtu {dto.RtuId.First6()} assigned base ref: {dto.IsSuccessful}");
             return new D2CWcfManager(GetAllClientsAddresses(), _coreIni, _dcLog).ConfirmBaseRefAssigned(dto);
         }
         #endregion
