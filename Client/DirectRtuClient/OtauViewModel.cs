@@ -374,7 +374,7 @@ namespace DirectRtuClient
             DetachMessage = @"Mikrotik reboot started...";
             using (new WaitCursor())
             {
-                var mikrotik = new MikrotikInBop(_rtuLogger, bopIp);
+                var mikrotik = new MikrotikInBop(_rtuLogger, bopIp, 30);
                 if (await Task.Run(() => mikrotik.Connect()))
                     mikrotik.Reboot();
 

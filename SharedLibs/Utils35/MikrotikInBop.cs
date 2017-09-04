@@ -4,18 +4,20 @@
     {
         private LogFile _rtuLogFile;
         private string _ip;
+        private readonly int _connectionTimeout;
         private Mikrotik _mikrotik;
 
-        public MikrotikInBop(LogFile logFile, string ip)
+        public MikrotikInBop(LogFile logFile, string ip, int connectionTimeout)
         {
             _rtuLogFile = logFile;
             _ip = ip;
+            _connectionTimeout = connectionTimeout;
         }
 
         public bool Connect()
         {
             _rtuLogFile.AppendLine($"Connect Mikrotik {_ip} started...");
-            _mikrotik = new Mikrotik(_ip, 5);
+            _mikrotik = new Mikrotik(_ip, _connectionTimeout);
             if (!_mikrotik.IsAvailable)
             {
                 _rtuLogFile.AppendLine($"Couldn't establish tcp connection with Mikrotik {_ip}");
