@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Dto;
 using Iit.Fibertest.DirectCharonLibrary;
-using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.UtilsLib;
 using WcfConnections;
 
@@ -28,7 +27,7 @@ namespace RtuManagement
             {
                 _rtuLog.AppendLine("There are no ports in queue for monitoring.");
                 _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 0);
-                new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendMonitoringStarted(new MonitoringStartedDto() {RtuId = _id, IsSuccessful = false });
+                new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendMonitoringStarted(new MonitoringStartedDto() { RtuId = _id, IsSuccessful = false });
                 IsMonitoringOn = false;
                 return;
             }
@@ -45,7 +44,6 @@ namespace RtuManagement
                 var extendedPort = _monitoringQueue.Dequeue();
                 _monitoringQueue.Enqueue(extendedPort);
 
-                _rtuLog.EmptyLine();
                 ProcessOnePort(extendedPort);
 
                 lock (_isMonitoringCancelledLocker)
@@ -70,68 +68,78 @@ namespace RtuManagement
             new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendMonitoringStopped(new MonitoringStoppedDto() { RtuId = _id, IsSuccessful = true });
         }
 
+        private MoniResult DoFastMeasurement(ExtendedPort extendedPort)
+        {
+            _rtuLog.EmptyLine();
+            _rtuLog.AppendLine($"MEAS. {_measurementNumber} port {_mainCharon.GetBopPortString(extendedPort)}, Fast");
+
+            var moniResult = DoMeasurement(BaseRefType.Fast, extendedPort);
+            if (moniResult != null)
+            {
+                if (moniResult.GetAggregatedResult() != FiberState.Ok)
+                    extendedPort.IsBreakdownCloserThen20Km = moniResult.FirstBreakDistance < 20;
+
+                if (extendedPort.LastMoniResult == null ||
+                    extendedPort.LastMoniResult.GetAggregatedResult() != moniResult.GetAggregatedResult() ||
+                    extendedPort.LastFastSavedTimestamp - DateTime.Now > _fastSaveTimespan)
+                {
+                    PlaceMonitoringResultInSendingQueue(moniResult, extendedPort);
+                    extendedPort.LastFastSavedTimestamp = DateTime.Now;
+                }
+            }
+            return moniResult;
+        }
+
+        private MoniResult DoSecondMeasurement(ExtendedPort extendedPort, bool hasFastPerformed, BaseRefType baseType)
+        {
+            _rtuLog.EmptyLine();
+            var message = $"MEAS. {_measurementNumber} port {_mainCharon.GetBopPortString(extendedPort)}, {baseType}";
+            message += hasFastPerformed ? " (confirmation)" : "";
+            _rtuLog.AppendLine(message);
+
+            var moniResult = DoMeasurement(baseType, extendedPort, !hasFastPerformed);
+            if (moniResult != null)
+            {
+                extendedPort.LastPreciseMadeTimestamp = DateTime.Now;
+
+                if (extendedPort.LastMoniResult.GetAggregatedResult() != moniResult.GetAggregatedResult() ||
+                    (DateTime.Now - extendedPort.LastPreciseSavedTimestamp) > _preciseSaveTimespan)
+                {
+                    PlaceMonitoringResultInSendingQueue(moniResult, extendedPort);
+                    extendedPort.LastPreciseSavedTimestamp = DateTime.Now;
+                }
+            }
+            return moniResult;
+        }
+
         private void ProcessOnePort(ExtendedPort extendedPort)
         {
             var hasFastPerformed = false;
-            if (extendedPort.State == PortMeasResult.Ok || extendedPort.State == PortMeasResult.Unknown)
+            if (extendedPort.LastMoniResult == null ||
+                extendedPort.LastMoniResult.GetAggregatedResult() == FiberState.Ok)
             {
                 // FAST 
-                _rtuLog.AppendLine($"MEAS. {_measurementNumber} port {_mainCharon.GetBopPortString(extendedPort)}, Fast");
-                var fastMoniResult = DoMeasurement(BaseRefType.Fast, extendedPort);
-                if (fastMoniResult == null)
+                extendedPort.LastMoniResult = DoFastMeasurement(extendedPort);
+                if (extendedPort.LastMoniResult == null)
                     return;
                 hasFastPerformed = true;
-                if (GetPortState(fastMoniResult) != extendedPort.State ||
-                    (extendedPort.LastFastSavedTimestamp - DateTime.Now) > _fastSaveTimespan)
-                {
-                    PlaceMonitoringResultInSendingQueue(fastMoniResult, extendedPort);
-                    extendedPort.LastFastSavedTimestamp = DateTime.Now;
-                    extendedPort.State = GetPortState(fastMoniResult);
-                    if (extendedPort.State == PortMeasResult.BrokenByFast)
-                        extendedPort.IsBreakdownCloserThen20Km = fastMoniResult.FirstBreakDistance < 20;
-                }
             }
 
-            var isTraceBroken = extendedPort.State == PortMeasResult.BrokenByFast ||
-                                extendedPort.State == PortMeasResult.BrokenByPrecise;
+            var isTraceBroken = extendedPort.LastMoniResult.GetAggregatedResult() != FiberState.Ok;
             var isSecondMeasurementNeeded = isTraceBroken ||
                                             (DateTime.Now - extendedPort.LastPreciseMadeTimestamp) >
                                             _preciseMakeTimespan;
 
-            if (!isSecondMeasurementNeeded)
-                return;
-            if (hasFastPerformed)
-                _rtuLog.EmptyLine();
-
-            // PRECISE (or ADDITIONAL)
-            var baseType = (isTraceBroken && extendedPort.IsBreakdownCloserThen20Km && extendedPort.HasAdditionalBase())
-                ? BaseRefType.Additional
-                : BaseRefType.Precise;
-            var message = $"MEAS. {_measurementNumber} port {_mainCharon.GetBopPortString(extendedPort)}, {baseType}";
-            message += hasFastPerformed ? " (confirmation)" : "";
-            _rtuLog.AppendLine(message);
-            var moniResult = DoMeasurement(baseType, extendedPort, !hasFastPerformed);
-            if (moniResult == null)
-                return;
-            extendedPort.LastPreciseMadeTimestamp = DateTime.Now;
-            if (GetPortState(moniResult) != extendedPort.State ||
-                (DateTime.Now - extendedPort.LastPreciseSavedTimestamp) > _preciseSaveTimespan)
+            if (isSecondMeasurementNeeded)
             {
-                PlaceMonitoringResultInSendingQueue(moniResult, extendedPort);
-                extendedPort.LastPreciseSavedTimestamp = DateTime.Now;
-                extendedPort.State = GetPortState(moniResult);
+                // PRECISE (or ADDITIONAL)
+                var baseType = (isTraceBroken && extendedPort.IsBreakdownCloserThen20Km &&
+                                extendedPort.HasAdditionalBase())
+                    ? BaseRefType.Additional
+                    : BaseRefType.Precise;
+
+                extendedPort.LastMoniResult = DoSecondMeasurement(extendedPort, hasFastPerformed, baseType);
             }
-        }
-
-        // only whether trace is OK or not, without details of breakdown if any
-        private PortMeasResult GetPortState(MoniResult moniResult)
-        {
-            if (!moniResult.IsFailed && !moniResult.IsFiberBreak && !moniResult.IsNoFiber)
-                return PortMeasResult.Ok;
-
-            return moniResult.BaseRefType == BaseRefType.Fast
-                ? PortMeasResult.BrokenByFast
-                : PortMeasResult.BrokenByPrecise;
         }
 
         private MoniResult DoMeasurement(BaseRefType baseRefType, ExtendedPort extendedPort, bool isPortChanged = true)
@@ -144,7 +152,7 @@ namespace RtuManagement
             SendCurrentMonitoringStep(RtuCurrentMonitoringStep.Measure, extendedPort, baseRefType);
             if (!_otdrManager.MeasureWithBase(baseBytes, _mainCharon.GetActiveChildCharon()))
             {                                 // Error 814 during measurement prepare
-                RunMainCharonRecovery(); 
+                RunMainCharonRecovery();
                 return null;
             }
             if (_isMonitoringCancelled)

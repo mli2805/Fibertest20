@@ -4,13 +4,6 @@ using Dto;
 
 namespace Iit.Fibertest.UtilsLib
 {
-    public enum PortMeasResult
-    {
-        Unknown            =0, // just started , no previous measurements
-        Ok                 =1,
-        BrokenByFast       =2,
-        BrokenByPrecise    =3,
-    }
     public class ExtendedPort
     {
         public NetAddress NetAddress { get; set; }
@@ -21,7 +14,7 @@ namespace Iit.Fibertest.UtilsLib
         public DateTime LastPreciseSavedTimestamp { get; set; }
         public DateTime LastFastSavedTimestamp { get; set; }
 
-        public PortMeasResult State { get; set; }
+        public MoniResult LastMoniResult { get; set; }
         public bool IsBreakdownCloserThen20Km { get; set; }
 
         public ExtendedPort(NetAddress netAddress, int opticalOpticalPort)
@@ -37,7 +30,7 @@ namespace Iit.Fibertest.UtilsLib
 
         public string ToStringA()
         {
-            return IsPortOnMainCharon 
+            return IsPortOnMainCharon
                 ? $"{OpticalPort}"
                 : $"{OpticalPort} on {NetAddress.ToStringA()}";
         }

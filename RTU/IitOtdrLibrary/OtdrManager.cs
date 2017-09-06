@@ -76,8 +76,8 @@ namespace Iit.Fibertest.IitOtdrLibrary
             foreach (var file in files)
             {
                 var sourceFile = Path.GetFileName(file);
-                if (sourceFile == null)
-                    return false;
+//                if (sourceFile == null)
+//                    return false;
                 var destFile = Path.Combine(destinationPath, sourceFile);
                 File.Copy(file, destFile, true);
             }

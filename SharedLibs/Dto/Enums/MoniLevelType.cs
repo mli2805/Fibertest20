@@ -1,4 +1,4 @@
-﻿namespace Iit.Fibertest.IitOtdrLibrary
+﻿namespace Dto
 {
     public enum MoniLevelType
     {

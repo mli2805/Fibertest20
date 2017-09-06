@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="C2D2R\AssignBaseRefDto.cs" />
+    <Compile Include="Enums\MoniLevelType.cs" />
     <Compile Include="R2D2C\BaseRefAssignedDto.cs" />
     <Compile Include="R2D\KnowRtuCurrentMonitoringStepDto.cs" />
     <Compile Include="Enums\RtuCurrentMonitoringStep.cs" />
@@ -60,6 +61,8 @@
     <Compile Include="C2D2R\CheckRtuConnectionDto.cs" />
     <Compile Include="Underlying\DoubleAddressWithLastConnectioncheck.cs" />
     <Compile Include="Underlying\LastSuccessfullMeasTimeDto.cs" />
+    <Compile Include="Underlying\MoniLevel.cs" />
+    <Compile Include="Underlying\MoniResult.cs" />
     <Compile Include="Underlying\MonitoringTimespansDto.cs" />
     <Compile Include="Underlying\NetAddress.cs" />
     <Compile Include="Underlying\OtauPortDto.cs" />
