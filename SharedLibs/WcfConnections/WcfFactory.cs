@@ -27,13 +27,13 @@ namespace WcfConnections
         {
             try
             {
-                var netAddress = SelectAvailableNetAddress();
+                var netAddress = SelectNetAddressAvailableNow();
                 if (netAddress == null)
                     return null;
 
                 var connection =
                     new ClientWcfServiceClient(CreateDefaultNetTcpBinding(_iniFile), new EndpointAddress(
-                        new Uri(CombineUriString(netAddress.IsAddressSetAsIp ? netAddress.Ip4Address : netAddress.HostName, netAddress.Port, @"ClientWcfService"))));
+                        new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"ClientWcfService"))));
                 connection.Open();
                 return connection;
             }
@@ -48,13 +48,13 @@ namespace WcfConnections
         {
             try
             {
-                var netAddress = SelectAvailableNetAddress();
+                var netAddress = SelectNetAddressAvailableNow();
                 if (netAddress == null)
                     return null;
 
                 var connection =
                     new WcfServiceForClientClient(CreateDefaultNetTcpBinding(_iniFile), new EndpointAddress(
-                        new Uri(CombineUriString(netAddress.IsAddressSetAsIp ? netAddress.Ip4Address : netAddress.HostName, netAddress.Port, @"WcfServiceForClient"))));
+                        new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"WcfServiceForClient"))));
                 connection.Open();
                 return connection;
             }
@@ -69,13 +69,13 @@ namespace WcfConnections
         {
             try
             {
-                var netAddress = SelectAvailableNetAddress(shouldWriteToLogProblems);
+                var netAddress = SelectNetAddressAvailableNow(shouldWriteToLogProblems);
                 if (netAddress == null)
                     return null;
 
                 var connection = 
                      new WcfServiceForRtuClient(CreateDefaultNetTcpBinding(_iniFile), new EndpointAddress(
-                            new Uri(CombineUriString(netAddress.IsAddressSetAsIp ? netAddress.Ip4Address : netAddress.HostName, netAddress.Port, @"WcfServiceForRtu"))));
+                            new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"WcfServiceForRtu"))));
                 connection.Open();
                 return connection;
             }
@@ -90,13 +90,13 @@ namespace WcfConnections
         {
             try
             {
-                var netAddress = SelectAvailableNetAddress();
+                var netAddress = SelectNetAddressAvailableNow();
                 if (netAddress == null)
                     return null;
 
                 var connection =
                     new RtuWcfServiceClient(CreateDefaultNetTcpBinding(_iniFile), new EndpointAddress(
-                        new Uri(CombineUriString(netAddress.IsAddressSetAsIp ? netAddress.Ip4Address : netAddress.HostName, netAddress.Port, @"RtuWcfService"))));
+                        new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"RtuWcfService"))));
                 connection.Open();
                 return connection;
             }
@@ -107,7 +107,7 @@ namespace WcfConnections
             }
         }
 
-        private NetAddress SelectAvailableNetAddress(bool shouldWriteToLogProblems = true)
+        private NetAddress SelectNetAddressAvailableNow(bool shouldWriteToLogProblems = true)
         {
             var openTimeout = TimeSpan.FromMilliseconds(_iniFile.Read(IniSection.NetTcpBinding, IniKey.OpenTimeoutMs, 1000));
 
@@ -127,18 +127,17 @@ namespace WcfConnections
         {
             var tcpClient = new TcpClient();
 
-            var address = netAddress.IsAddressSetAsIp ? netAddress.Ip4Address : netAddress.HostName;
-            var tcpConnection = tcpClient.BeginConnect(address, netAddress.Port, null, null);
+            var tcpConnection = tcpClient.BeginConnect(netAddress.GetAddress(), netAddress.Port, null, null);
             if (tcpConnection.AsyncWaitHandle.WaitOne(openTimeout))
                 return true;
 
             if (shouldWriteToLogProblems)
             {
-                _logFile.AppendLine(
-                    $"Can't connect to {address}:{netAddress.Port} (Timeout {openTimeout.TotalMilliseconds} ms)");
                 var pingTimeout = _iniFile.Read(IniSection.NetTcpBinding, IniKey.PingTimeoutMs, 120);
-                var word = Pinger.Ping(address, pingTimeout) ? "passed" : $"failed (Timeout is {pingTimeout} ms)";
-                _logFile.AppendLine($"Ping {address} {word}");
+                var word = Pinger.Ping(netAddress.GetAddress(), pingTimeout) ? "passed" : $"failed (Timeout is {pingTimeout} ms)";
+
+                _logFile.AppendLine(
+                    $"Can't connect to {netAddress.ToStringA()} (Timeout {openTimeout.TotalMilliseconds} ms), ping {word}");
             }
             return false;
         }

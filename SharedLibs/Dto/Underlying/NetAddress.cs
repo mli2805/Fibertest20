@@ -46,6 +46,11 @@ namespace Dto
             return isAddressEqual && Port == other.Port;
         }
 
+        public string GetAddress()
+        {
+            return IsAddressSetAsIp ? Ip4Address : HostName;
+        }
+
         public string ToStringASpace => IsAddressSetAsIp ? $@"{Ip4Address} : {Port}" : $@"{HostName} : {Port}";
         public string ToStringA() => IsAddressSetAsIp ? $@"{Ip4Address}:{Port}" : $@"{HostName} : {Port}";
         public string ToStringB() => Port == 11834 ? $@"{Ip4Address}(1)" : $@"{Ip4Address}(2)";

@@ -73,7 +73,6 @@ namespace WcfConnections
             return true;
         }
 
-
         public void SendCurrentState(RtuConnectionCheckedDto dto)
         {
             var wcfConnection = _wcfFactory.CreateR2DConnection();
