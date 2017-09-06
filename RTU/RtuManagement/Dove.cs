@@ -45,7 +45,6 @@ namespace RtuManagement
                         moniResultOnDisk.Delete();
                     }
                 }
-
             }
             catch (Exception e)
             {

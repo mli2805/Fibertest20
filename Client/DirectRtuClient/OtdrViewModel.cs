@@ -357,7 +357,7 @@ namespace DirectRtuClient
                     var sorData = SorData.FromBytes(moniResult.SorBytes);
                     sorData.Save(MeasFileName);
 
-                    _rtuLogger.AppendLine(moniResult.Result.ToString());
+                    //_rtuLogger.AppendLine(moniResult.Result.ToString());
                 }
                 c++;
             }
@@ -388,7 +388,7 @@ namespace DirectRtuClient
             }
             var buffer = File.ReadAllBytes(ResultFileName);
             var sorData = SorData.FromBytes(buffer);
-            if (sorData.RftsEvents.MonitoringResult == (int)ComparisonReturns.NoLink)
+            if (sorData.RftsEvents.MonitoringResult == (int)ComparisonReturns.NoFiber)
             {
                 MessageBox.Show(Resources.SID_No_Fiber_, Resources.SID_Events);
                 return;

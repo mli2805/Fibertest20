@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
-using System.Windows;
 using Caliburn.Micro;
 using ClientWcfServiceLibrary;
 using Dto;
@@ -15,6 +14,9 @@ using Iit.Fibertest.WpfCommonViews;
 using WcfConnections;
 using WcfTestBench.MonitoringSettings;
 using WcfTestBench.RtuState;
+using MessageBox = System.Windows.MessageBox;
+using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
+using Screen = Caliburn.Micro.Screen;
 
 namespace WcfTestBench
 {
@@ -235,6 +237,21 @@ namespace WcfTestBench
 
         public void BaseRefs()
         {
+            var openFileDialog = new OpenFileDialog {Filter = @"sor files|*.sor"};
+            byte[] buffer = null;
+            if (openFileDialog.ShowDialog() == true)
+            {
+                try
+                {
+                    buffer = File.ReadAllBytes(openFileDialog.FileName);
+                }
+                catch (Exception e)
+                {
+                    _clientLog.AppendLine(e.Message);
+                    return;
+                }
+            }
+
             var dto = new AssignBaseRefDto()
             {
                 RtuId = SelectedRtu.Id,
@@ -246,8 +263,8 @@ namespace WcfTestBench
                 },
                 BaseRefs = new List<BaseRefDto>()
                 {
-                    new BaseRefDto() { BaseRefType = BaseRefType.Precise, SorBytes = new byte[32567]},
-                    new BaseRefDto() { BaseRefType = BaseRefType.Fast, SorBytes = new byte[31418]},
+                    new BaseRefDto() { BaseRefType = BaseRefType.Precise, SorBytes = buffer},
+                    new BaseRefDto() { BaseRefType = BaseRefType.Fast, SorBytes = buffer},
                     new BaseRefDto() { BaseRefType = BaseRefType.Additional, SorBytes = null},
                 }
             };

@@ -18,7 +18,7 @@ namespace RtuManagement
         private TimeSpan _preciseSaveTimespan;
         private TimeSpan _fastSaveTimespan;
 
-        private void RunMonitoringCycle(bool shouldSendMonitoringStarted)
+        private void RunMonitoringCycle(bool shouldSendMessageMonitoringStarted)
         {
             _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 1);
             _rtuLog.EmptyLine();
@@ -36,10 +36,10 @@ namespace RtuManagement
             while (true)
             {
                 _measurementNumber++;
-                if (shouldSendMonitoringStarted)
+                if (shouldSendMessageMonitoringStarted)
                 {
                     new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendMonitoringStarted(new MonitoringStartedDto() { RtuId = _id, IsSuccessful = true });
-                    shouldSendMonitoringStarted = false;
+                    shouldSendMessageMonitoringStarted = false;
                 }
 
                 var extendedPort = _monitoringQueue.Dequeue();
@@ -84,7 +84,7 @@ namespace RtuManagement
                 if (GetPortState(fastMoniResult) != extendedPort.State ||
                     (extendedPort.LastFastSavedTimestamp - DateTime.Now) > _fastSaveTimespan)
                 {
-                    SaveMonitoringResult(fastMoniResult, extendedPort);
+                    PlaceMonitoringResultInSendingQueue(fastMoniResult, extendedPort);
                     extendedPort.LastFastSavedTimestamp = DateTime.Now;
                     extendedPort.State = GetPortState(fastMoniResult);
                     if (extendedPort.State == PortMeasResult.BrokenByFast)
@@ -117,7 +117,7 @@ namespace RtuManagement
             if (GetPortState(moniResult) != extendedPort.State ||
                 (DateTime.Now - extendedPort.LastPreciseSavedTimestamp) > _preciseSaveTimespan)
             {
-                SaveMonitoringResult(moniResult, extendedPort);
+                PlaceMonitoringResultInSendingQueue(moniResult, extendedPort);
                 extendedPort.LastPreciseSavedTimestamp = DateTime.Now;
                 extendedPort.State = GetPortState(moniResult);
             }
@@ -132,26 +132,6 @@ namespace RtuManagement
             return moniResult.BaseRefType == BaseRefType.Fast
                 ? PortMeasResult.BrokenByFast
                 : PortMeasResult.BrokenByPrecise;
-        }
-
-        private FiberState GetTraceState(MoniResult moniResult)
-        {
-            if (moniResult.IsNoFiber)
-                return FiberState.NoFiber;
-            if (moniResult.IsFiberBreak)
-                return FiberState.FiberBreak;
-            if (moniResult.IsFailed)
-            {
-                if (moniResult.Levels.First(l => l.Type == MoniLevelType.User).IsLevelFailed)
-                    return FiberState.User;
-                if (moniResult.Levels.First(l => l.Type == MoniLevelType.Critical).IsLevelFailed)
-                    return FiberState.Critical;
-                if (moniResult.Levels.First(l => l.Type == MoniLevelType.Major).IsLevelFailed)
-                    return FiberState.Major;
-                if (moniResult.Levels.First(l => l.Type == MoniLevelType.Minor).IsLevelFailed)
-                    return FiberState.Minor;
-            }
-            return FiberState.Ok;
         }
 
         private MoniResult DoMeasurement(BaseRefType baseRefType, ExtendedPort extendedPort, bool isPortChanged = true)
@@ -180,10 +160,11 @@ namespace RtuManagement
 
             LastSuccessfullMeasTimestamp = DateTime.Now;
 
+            _rtuLog.AppendLine($"Trace state is {moniResult.GetAggregatedResult()}");
             return moniResult;
         }
 
-        private void SaveMonitoringResult(MoniResult moniResult, ExtendedPort extendedPort)
+        private void PlaceMonitoringResultInSendingQueue(MoniResult moniResult, ExtendedPort extendedPort)
         {
             var dto = new MonitoringResultDto()
             {
@@ -197,12 +178,14 @@ namespace RtuManagement
                     OpticalPort = extendedPort.OpticalPort,
                 },
                 BaseRefType = moniResult.BaseRefType,
-                TraceState = GetTraceState(moniResult),
+                TraceState = moniResult.GetAggregatedResult(),
                 SorData = moniResult.SorBytes
             };
             var moniResultOnDisk = new MoniResultOnDisk(Guid.NewGuid(), dto, _serviceLog);
             moniResultOnDisk.Save();
             QueueOfMoniResultsOnDisk.Enqueue(moniResultOnDisk);
+            _rtuLog.AppendLine("Monitoring result is placed in sending queue");
+            _rtuLog.AppendLine($"Sending thread is alive {_doveThread.IsAlive}, state {_doveThread.ThreadState}");
         }
 
         private readonly List<DamagedOtau> _damagedOtaus = new List<DamagedOtau>();

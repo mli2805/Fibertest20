@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Threading;
 using Dto;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.IitOtdrLibrary;
@@ -19,6 +20,7 @@ namespace RtuManagement
         private OtdrManager _otdrManager;
         private Charon _mainCharon;
 
+        private Thread _doveThread;
         public ConcurrentQueue<MoniResultOnDisk> QueueOfMoniResultsOnDisk { get; set; }
         private object WcfParameter { get; set; }
 

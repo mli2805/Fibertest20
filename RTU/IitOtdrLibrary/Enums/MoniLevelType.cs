@@ -2,9 +2,9 @@
 {
     public enum MoniLevelType
     {
-        Minor,
-        Major,
-        Critical,
-        User,
+        Minor    = 0x6,
+        Major    = 0x7,
+        Critical = 0x8,
+        User     = 0x9,
     }
 }

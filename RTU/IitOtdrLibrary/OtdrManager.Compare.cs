@@ -34,7 +34,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
                 case ComparisonReturns.FiberBreak:
                     moniResult.IsFiberBreak = true;
                     break;
-                case ComparisonReturns.NoLink:
+                case ComparisonReturns.NoFiber:
                     moniResult.IsNoFiber = true;
                     break;
                 default:

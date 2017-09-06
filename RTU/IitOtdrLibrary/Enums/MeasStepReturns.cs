@@ -15,7 +15,7 @@
         NoBase                 = 71,
         DoingAutoMonitor       = 81,
         NoService              = 82,
-        NoLink                 = 10002,
+        NoFiber                 = 10002,
         Noactlevel             = 10003,
         FiberBreak             = 10004,
     }

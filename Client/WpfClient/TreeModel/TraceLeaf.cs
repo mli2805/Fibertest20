@@ -181,7 +181,7 @@ namespace Iit.Fibertest.Client
         private void TraceEventsAction(object param)
         {
             //TODO get last measurement sordata and pass it to vm
-//            if (sorData.RftsEvents.MonitoringResult == (int)ComparisonReturns.NoLink)
+//            if (sorData.RftsEvents.MonitoringResult == (int)ComparisonReturns.NoFiber)
 //            {
 //                MessageBox.Show("No Fiber!", "Events");
 //                return;
