@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Dto;
 using Iit.Fibertest.UtilsLib;
@@ -106,7 +107,7 @@ namespace DataCenterCore
             if (_rtuStations.TryGetValue(dto.RtuId, out rtuStation))
             {
                 if (dto.IsMainChannel)
-                   rtuStation.PcAddresses.LastConnectionOnMain = DateTime.Now;
+                    rtuStation.PcAddresses.LastConnectionOnMain = DateTime.Now;
                 else
                     rtuStation.PcAddresses.LastConnectionOnReserve = DateTime.Now;
             }
@@ -116,7 +117,12 @@ namespace DataCenterCore
         private bool ProcessMonitoringResult(MonitoringResultDto result)
         {
             _dcLog.AppendLine(
-                $"Moniresult from RTU {result.RtuId.First6()}. {result.BaseRefType} on {result.OtauPort.OpticalPort} port. Trace state is {result.TraceState}. Sor size is {result.SorData.Length}.");
+                $"Moniresult from RTU {result.RtuId.First6()}. {result.BaseRefType} on {result.OtauPort.OpticalPort} port. " +
+                $"Trace state is {result.TraceState}. Sor size is {result.SorData.Length}. {result.TimeStamp:yyyy-MM-dd hh-mm-ss}");
+            var filename = $@"c:\temp\sor\{result.RtuId.First6()} {result.TimeStamp:yyyy-MM-dd hh-mm-ss}.sor";
+            var fs = File.Create(filename);
+            fs.Write(result.SorData, 0, result.SorData.Length);
+            fs.Close();
             return true;
         }
         #endregion

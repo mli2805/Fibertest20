@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Dto;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.IitOtdrLibrary;
@@ -124,27 +125,37 @@ namespace RtuManagement
         {
             QueueOfMoniResultsOnDisk = new ConcurrentQueue<MoniResultOnDisk>();
 
-            var app = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            var appPath = Path.GetDirectoryName(app);
-            if (appPath == null)
-                return;
-            var storePath = appPath + @"\..\ResultStore\";
-            _serviceLog.AppendLine($"{storePath}");
-
-            var files = Directory.GetFiles(storePath);
+            DirectoryInfo info = new DirectoryInfo(GetStorePath());
+            FileInfo[] files = info.GetFiles().OrderBy(p => p.CreationTime).ToArray();
             _serviceLog.AppendLine($"There're {files.Length} stored files");
-            foreach (var file in files)
-            {
-                var filename = Path.GetFileNameWithoutExtension(file);
-                Guid id;
-                if (!Guid.TryParse(filename, out id))
-                    continue;
 
-                var moniResult = new MoniResultOnDisk(id, null, _serviceLog);
-                moniResult.Load();
-                QueueOfMoniResultsOnDisk.Enqueue(moniResult);
+            foreach (FileInfo file in files)
+            {
+                PlaceMoniresultInQueue(file);
             }
             _serviceLog.AppendLine($"There're {QueueOfMoniResultsOnDisk.Count} moniresults in queue");
+        }
+
+        private void PlaceMoniresultInQueue(FileInfo file)
+        {
+            var filename = Path.GetFileNameWithoutExtension(file.Name);
+            _serviceLog.AppendLine(filename);
+            Guid id;
+            if (!Guid.TryParse(filename, out id))
+                return;
+
+            var moniResult = new MoniResultOnDisk(id, null, _serviceLog);
+            moniResult.Load();
+            QueueOfMoniResultsOnDisk.Enqueue(moniResult);
+        }
+
+        private string GetStorePath()
+        {
+            var app = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            var appPath = Path.GetDirectoryName(app);
+            var storePath = appPath + @"\..\ResultStore\";
+            _serviceLog.AppendLine($"{storePath}");
+            return storePath;
         }
     }
 }
