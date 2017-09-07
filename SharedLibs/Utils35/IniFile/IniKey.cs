@@ -13,6 +13,7 @@
         TcpPort,
 
         // General
+        Version,
         LocalIp,
         Culture,
         LogFileSizeLimitKb,

@@ -21,20 +21,20 @@ namespace WcfConnections
             _wcfFactory = new WcfFactory(dataCenterAddresses.DoubleAddress, iniFile, _logFile);
         }
 
-        public DoubleAddressWithConnectionStats SendImAliveByBothChannels(Guid rtuId)
+        public DoubleAddressWithConnectionStats SendImAliveByBothChannels(Guid rtuId, string version)
         {
             _serverAddresses.IsLastConnectionOnMainSuccessfull =
-                SendImAliveByOneChannel(rtuId, _serverAddresses.DoubleAddress.Main, true);
+                SendImAliveByOneChannel(rtuId, version, _serverAddresses.DoubleAddress.Main, true);
 
             if (_serverAddresses.DoubleAddress.HasReserveAddress)
                 _serverAddresses.IsLastConnectionOnReserveSuccessfull =
-                    SendImAliveByOneChannel(rtuId, _serverAddresses.DoubleAddress.Reserve, false);
+                    SendImAliveByOneChannel(rtuId, version, _serverAddresses.DoubleAddress.Reserve, false);
 
             return _serverAddresses;
         }
 
 
-        private bool SendImAliveByOneChannel(Guid rtuId, NetAddress address, bool isMainChannel)
+        private bool SendImAliveByOneChannel(Guid rtuId, string version, NetAddress address, bool isMainChannel)
         {
             var doubleAddress =
                 new DoubleAddress { Main = address, HasReserveAddress = false };
@@ -43,10 +43,10 @@ namespace WcfConnections
             var isPreviousSuccessfull = isMainChannel
                 ? _serverAddresses.IsLastConnectionOnMainSuccessfull
                 : _serverAddresses.IsLastConnectionOnReserveSuccessfull;
-            return SendImAlive(rtuId, isMainChannel, wcfFactoryMainAddress, isPreviousSuccessfull);
+            return SendImAlive(rtuId, version, isMainChannel, wcfFactoryMainAddress, isPreviousSuccessfull);
         }
 
-        private bool SendImAlive(Guid rtuId, bool isMainChannel, WcfFactory wcfFactory, bool? isPreviousResultSuccessfull)
+        private bool SendImAlive(Guid rtuId, string version, bool isMainChannel, WcfFactory wcfFactory, bool? isPreviousResultSuccessfull)
         {
             var st = isMainChannel ? "main" : "reserve";
             var wcfConnection = wcfFactory.CreateR2DConnection(false);
@@ -59,7 +59,7 @@ namespace WcfConnections
 
             try
             {
-                var dto = new RtuChecksChannelDto() { RtuId = rtuId, IsMainChannel = isMainChannel };
+                var dto = new RtuChecksChannelDto() { RtuId = rtuId, Version = version, IsMainChannel = isMainChannel };
                 wcfConnection.ProcessRtuChecksChannel(dto);
                 if (isPreviousResultSuccessfull != true)
                     _logFile.AppendLine($"Sent ImAlive-message by {st} channel");
@@ -179,7 +179,7 @@ namespace WcfConnections
         public void SendCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto monitoringStep)
         {
             //            _logFile.AppendLine("Sending current monitoring step1");
-            var wcfConnection = _wcfFactory.CreateR2DConnection();
+            var wcfConnection = _wcfFactory.CreateR2DConnection(false);
             //            _logFile.AppendLine("Sending current monitoring step2");
             if (wcfConnection == null)
                 return;
@@ -197,7 +197,7 @@ namespace WcfConnections
 
         public bool SendMonitoringResult(MonitoringResultDto dto)
         {
-            var wcfConnection = _wcfFactory.CreateR2DConnection();
+            var wcfConnection = _wcfFactory.CreateR2DConnection(false);
             if (wcfConnection == null)
                 return false;
 

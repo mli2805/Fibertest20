@@ -6,6 +6,7 @@ namespace Iit.Fibertest.UtilsLib
     public class RtuStation
     {
         public Guid Id { get; set; }
+        public string Version { get; set; }
 
         public DoubleAddressWithLastConnectionCheck PcAddresses { get; set; } = new DoubleAddressWithLastConnectionCheck();
 

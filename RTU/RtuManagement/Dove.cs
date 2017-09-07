@@ -27,12 +27,12 @@ namespace RtuManagement
             var checkNewMoniresultsTimeout = TimeSpan.FromSeconds(1);
             while (true)
             {
-                FullSendMoniResult();
+                SendAllMoniResultsInQueue();
                 Thread.Sleep(checkNewMoniresultsTimeout);
             }
         }
 
-        private void FullSendMoniResult()
+        private void SendAllMoniResultsInQueue()
         {
             try
             {

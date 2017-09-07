@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Diagnostics;
+using System.Reflection;
 using System.Threading;
 using Dto;
 using Iit.Fibertest.DirectCharonLibrary;
@@ -13,6 +15,7 @@ namespace RtuManagement
         private const string DefaultIp = "192.168.88.101";
 
         private readonly Guid _id;
+        private readonly string _version;
         private readonly LogFile _rtuLog;
         private readonly IniFile _rtuIni;
         private readonly LogFile _serviceLog;
@@ -106,7 +109,15 @@ namespace RtuManagement
 
             _mikrotikRebootTimeout =
                 TimeSpan.FromSeconds(_rtuIni.Read(IniSection.Recovering, IniKey.MikrotikRebootTimeout, 40));
+
             _id = Guid.Parse(_serviceIni.Read(IniSection.Server, IniKey.RtuGuid, Guid.Empty.ToString()));
+
+            // takes version from RtuManagement.dll
+            // mind maintain the same version for all assemblies
+            var assembly = Assembly.GetExecutingAssembly();
+            FileVersionInfo info = FileVersionInfo.GetVersionInfo(assembly.Location);
+            _version = info.FileVersion;
+            _serviceIni.Write(IniSection.General, IniKey.Version, _version);
         }
     }
 }

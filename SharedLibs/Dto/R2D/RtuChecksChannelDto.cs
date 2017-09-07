@@ -10,6 +10,9 @@ namespace Dto
         public Guid RtuId { get; set; }
 
         [DataMember]
+        public string Version { get; set; }
+
+        [DataMember]
         public bool IsMainChannel { get; set; }
     }
 }

@@ -41,7 +41,7 @@ namespace RtuManagement
                 return;
             IsRtuInitialized = true;
 
-            var woodpecker = new WoodPecker(_id, _serverAddresses, _serviceIni, _serviceLog);
+            var woodpecker = new WoodPecker(_id, _version, _serverAddresses, _serviceIni, _serviceLog);
             var woodpeckerThread = new Thread(woodpecker.Start) {IsBackground = true};
             woodpeckerThread.Start();
 
