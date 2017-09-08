@@ -21,6 +21,9 @@ namespace WcfConnections.C2DWcfServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForClient/UnRegisterClient", ReplyAction="http://tempuri.org/IWcfServiceForClient/UnRegisterClientResponse")]
         void UnRegisterClient(Dto.UnRegisterClientDto dto);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForClient/CheckServerConnection", ReplyAction="http://tempuri.org/IWcfServiceForClient/CheckServerConnectionResponse")]
+        bool CheckServerConnection(Dto.CheckServerConnectionDto dto);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForClient/CheckRtuConnection", ReplyAction="http://tempuri.org/IWcfServiceForClient/CheckRtuConnectionResponse")]
         bool CheckRtuConnection(Dto.CheckRtuConnectionDto rtuAddress);
         
@@ -73,6 +76,10 @@ namespace WcfConnections.C2DWcfServiceReference {
         
         public void UnRegisterClient(Dto.UnRegisterClientDto dto) {
             base.Channel.UnRegisterClient(dto);
+        }
+        
+        public bool CheckServerConnection(Dto.CheckServerConnectionDto dto) {
+            return base.Channel.CheckServerConnection(dto);
         }
         
         public bool CheckRtuConnection(Dto.CheckRtuConnectionDto rtuAddress) {

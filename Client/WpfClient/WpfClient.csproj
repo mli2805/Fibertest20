@@ -526,6 +526,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\SharedLibs\WcfConnections\WcfConnections.csproj">
+      <Project>{5194ad3b-e031-4f61-aded-c1e92999acf2}</Project>
+      <Name>WcfConnections</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Graph\Graph.csproj">
       <Project>{a734876e-977b-4dda-b6a4-ad1dd525c6d1}</Project>
       <Name>Graph</Name>

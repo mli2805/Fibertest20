@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Media;
 using Caliburn.Micro;
@@ -11,6 +12,7 @@ namespace Iit.Fibertest.Client
 {
     public class RtuLeaf : Leaf, IPortOwner
     {
+        private readonly Guid _clientId;
         private readonly IniFile _iniFile35;
         private readonly ILogger _log;
         private readonly LogFile _logFile;
@@ -99,9 +101,10 @@ namespace Iit.Fibertest.Client
             return null;
         }
 
-        public RtuLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, IniFile iniFile35, ILogger log, LogFile logFile, PostOffice postOffice, FreePorts view)
+        public RtuLeaf(Guid clientId, ReadModel readModel, IWindowManager windowManager, Bus bus, IniFile iniFile35, ILogger log, LogFile logFile, PostOffice postOffice, FreePorts view)
             : base(readModel, windowManager, bus, postOffice)
         {
+            _clientId = clientId;
             _iniFile35 = iniFile35;
             _log = log;
             _logFile = logFile;
@@ -205,7 +208,7 @@ namespace Iit.Fibertest.Client
 
         public void RtuSettingsAction(object param)
         {
-            var vm = new RtuInitializeViewModel(Id, ReadModel, WindowManager, Bus, _iniFile35, _log, _logFile);
+            var vm = new RtuInitializeViewModel(_clientId, Id, ReadModel, WindowManager, Bus, _iniFile35, _log, _logFile);
             WindowManager.ShowDialog(vm);
         }
 

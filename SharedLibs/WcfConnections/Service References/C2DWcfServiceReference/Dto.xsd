@@ -32,6 +32,12 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="UnRegisterClientDto" nillable="true" type="tns:UnRegisterClientDto" />
+  <xs:complexType name="CheckServerConnectionDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ClientId" type="ser:guid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CheckServerConnectionDto" nillable="true" type="tns:CheckServerConnectionDto" />
   <xs:complexType name="CheckRtuConnectionDto">
     <xs:sequence>
       <xs:element minOccurs="0" name="ClientId" type="ser:guid" />

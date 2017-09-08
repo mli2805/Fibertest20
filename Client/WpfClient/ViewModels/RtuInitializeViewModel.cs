@@ -24,6 +24,7 @@ namespace Iit.Fibertest.Client
         public bool IsReserveChannelEnabled { get; set; }
         public NetAddressTestViewModel ReserveChannelTestViewModel { get; set; }
 
+        private readonly Guid _clientId;
         private readonly Guid _rtuId;
         private readonly ReadModel _readModel;
         private readonly IWindowManager _windowManager;
@@ -44,8 +45,9 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public RtuInitializeViewModel(Guid rtuId, ReadModel readModel, IWindowManager windowManager, Bus bus, IniFile iniFile35, ILogger log, LogFile logFile)
+        public RtuInitializeViewModel(Guid clientId, Guid rtuId, ReadModel readModel, IWindowManager windowManager, Bus bus, IniFile iniFile35, ILogger log, LogFile logFile)
         {
+            _clientId = clientId;
             _rtuId = rtuId;
             _readModel = readModel;
             _windowManager = windowManager;
@@ -60,8 +62,8 @@ namespace Iit.Fibertest.Client
             Serial = originalRtu.Serial;
             PortCount = $@"{originalRtu.OwnPortCount} / {originalRtu.FullPortCount}";
             OtdrNetAddress = originalRtu.OtdrNetAddress;
-            MainChannelTestViewModel = new NetAddressTestViewModel(originalRtu.MainChannel);
-            ReserveChannelTestViewModel = new NetAddressTestViewModel(originalRtu.ReserveChannel);
+            MainChannelTestViewModel = new NetAddressTestViewModel(originalRtu.MainChannel, _iniFile35, _logFile, _clientId);
+            ReserveChannelTestViewModel = new NetAddressTestViewModel(originalRtu.ReserveChannel, _iniFile35, _logFile, _clientId);
             IsReserveChannelEnabled = originalRtu.IsReserveChannelSet;
         }
 

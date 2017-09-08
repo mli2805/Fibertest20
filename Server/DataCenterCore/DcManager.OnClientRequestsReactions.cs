@@ -47,24 +47,24 @@ namespace DataCenterCore
 
         private MessageProcessingResult ProcessClientsMessage(object msg)
         {
-            var dto = msg as RegisterClientDto;
-            if (dto != null)
-                return RegisterClient(dto);
+            var dtoD1 = msg as RegisterClientDto;
+            if (dtoD1 != null)
+                return RegisterClient(dtoD1);
 
-            var dto2 = msg as UnRegisterClientDto;
-            if (dto2 != null)
-                return UnRegisterClient(dto2);
+            var dtoD2 = msg as UnRegisterClientDto;
+            if (dtoD2 != null)
+                return UnRegisterClient(dtoD2);
 
-            var dto3 = msg as CheckRtuConnectionDto;
-            if (dto3 != null)
+            var dtoD2R1 = msg as CheckRtuConnectionDto;
+            if (dtoD2R1 != null)
             {
-                CheckRtuConnection(dto3);
+                CheckRtuConnection(dtoD2R1);
                 return MessageProcessingResult.NothingToReturn;
             }
 
-            var dto4 = msg as InitializeRtuDto;
-            if (dto4 != null)
-                return InitializeRtu(dto4);
+            var dtoD2R2 = msg as InitializeRtuDto;
+            if (dtoD2R2 != null)
+                return InitializeRtu(dtoD2R2);
 
             var dto5 = msg as StartMonitoringDto;
             if (dto5 != null)

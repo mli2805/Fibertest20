@@ -6,12 +6,18 @@ namespace WcfServiceForClientLibrary
     [ServiceContract]
     public interface IWcfServiceForClient
     {
+        // C2D
         [OperationContract]
         void RegisterClient(RegisterClientDto dto);
 
         [OperationContract]
         void UnRegisterClient(UnRegisterClientDto dto);
 
+        [OperationContract]
+        bool CheckServerConnection(CheckServerConnectionDto dto);
+
+
+        // C2D2R
         [OperationContract]
         bool CheckRtuConnection(CheckRtuConnectionDto rtuAddress);
 

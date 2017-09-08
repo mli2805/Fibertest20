@@ -157,9 +157,9 @@ namespace RtuManagement
             }
         }
 
-        private MoniResult DoMeasurement(BaseRefType baseRefType, ExtendedPort extendedPort, bool isPortChanged = true)
+        private MoniResult DoMeasurement(BaseRefType baseRefType, ExtendedPort extendedPort, bool shouldChangePort = true)
         {
-            if (isPortChanged && !ToggleToPort(extendedPort))
+            if (shouldChangePort && !ToggleToPort(extendedPort))
                 return null;
             var baseBytes = extendedPort.GetBaseBytes(baseRefType, _rtuLog);
             if (baseBytes == null)

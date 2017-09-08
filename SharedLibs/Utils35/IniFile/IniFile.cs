@@ -107,14 +107,14 @@ namespace Iit.Fibertest.UtilsLib
             return double.TryParse(Read(section, key, defaultValue.ToString(CultureInfo.CurrentCulture)), out result) ? result : defaultValue;
         }
 
-        public NetAddress Read(IniSection section)
+        public NetAddress Read(IniSection section, int defaultTcpPort)
         {
             var netAddress = new NetAddress
             {
                 IsAddressSetAsIp = Read(section, IniKey.IsAddressIp, true),
-                Port = Read(section, IniKey.TcpPort, -1)
+                Port = Read(section, IniKey.TcpPort, defaultTcpPort)
             };
-            netAddress.Ip4Address = Read(section, IniKey.Ip, netAddress.IsAddressSetAsIp ? "192.168.96.179" : "");
+            netAddress.Ip4Address = Read(section, IniKey.Ip, netAddress.IsAddressSetAsIp ? "192.168.96.21" : "");
             netAddress.HostName = Read(section, IniKey.Host, netAddress.IsAddressSetAsIp ? "" : "localhost");
 
             return netAddress;
@@ -128,15 +128,15 @@ namespace Iit.Fibertest.UtilsLib
             Write(section, IniKey.TcpPort, netAddress.Port);
         }
 
-        public DoubleAddress ReadServerAddresses()
+        public DoubleAddress ReadDoubleAddress(int defaultTcpPort)
         {
             var addresses = new DoubleAddress
             {
-                Main = Read(IniSection.ServerMainAddress),
+                Main = Read(IniSection.ServerMainAddress, defaultTcpPort),
                 HasReserveAddress = Read(IniSection.Server, IniKey.HasReserveAddress, false),
             };
             if (addresses.HasReserveAddress)
-                addresses.Reserve = Read(IniSection.ServerReserveAddress);
+                addresses.Reserve = Read(IniSection.ServerReserveAddress, defaultTcpPort);
             return addresses;
         }
 

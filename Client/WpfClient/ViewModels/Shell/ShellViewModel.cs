@@ -17,6 +17,7 @@ namespace Iit.Fibertest.Client
         private readonly IniFile _iniFile;
 
         public Bus Bus { get; }
+        private readonly Guid _clientId;
         private readonly IWindowManager _windowManager;
         private readonly LogFile _logFile;
 
@@ -72,12 +73,15 @@ namespace Iit.Fibertest.Client
             SysEventsVisibility = Visibility.Collapsed;
             _selectedTabIndex = 1;
             _windowManager = windowManager;
+
+            _iniFile = iniFile;
+            Guid.TryParse(_iniFile.Read(IniSection.General, IniKey.ClientGuidOnServer, Guid.NewGuid().ToString()), out _clientId);
+
             _logFile = logFile;
+            _logFile.AppendLine(@"Client started!");
 
             Log = clientLogger;
             Log.Information(@"Client started!");
-
-            _iniFile = iniFile;
         }
 
 
@@ -90,17 +94,11 @@ namespace Iit.Fibertest.Client
         protected override void OnViewReady(object view)
         {
             ((App)Application.Current).ShutdownMode = ShutdownMode.OnExplicitShutdown;
-            var vm = new LoginViewModel(_windowManager, _iniFile);
+            var vm = new LoginViewModel(_clientId, _windowManager, _iniFile, _logFile);
             _isAuthenticationSuccessfull = _windowManager.ShowDialog(vm);
             ((App)Application.Current).ShutdownMode = ShutdownMode.OnMainWindowClose;
             if (_isAuthenticationSuccessfull != true)
                 TryClose();
-
-            _iniFile.AssignFile(@"Client.ini");
-            var culture = _iniFile.Read(IniSection.General, IniKey.Culture, @"ru-RU");
-            var logFileLimitKb = _iniFile.Read(IniSection.General, IniKey.LogFileSizeLimitKb, 0);
-
-            _logFile.AssignFile(@"Client.log", logFileLimitKb, culture); // this couldn't be done in ctor becauses of tests using shellVM's ctor
         }
 
         protected override void OnViewLoaded(object view)

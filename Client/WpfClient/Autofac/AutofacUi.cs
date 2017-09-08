@@ -20,12 +20,20 @@ namespace Iit.Fibertest.Client
                 .WriteTo.Seq(@"http://localhost:5341").CreateLogger();
             builder.RegisterInstance<ILogger>(logger);
 
-            builder.RegisterInstance(new IniFile());
-            builder.RegisterInstance(new LogFile());
+            var iniFile = new IniFile();
+            iniFile.AssignFile(@"Client.ini");
+            builder.RegisterInstance(iniFile);
+
+            var culture = iniFile.Read(IniSection.General, IniKey.Culture, @"ru-RU");
+            var logFileLimitKb = iniFile.Read(IniSection.General, IniKey.LogFileSizeLimitKb, 0);
+
+            var logFile = new LogFile();
+            logFile.AssignFile(@"Client.log", logFileLimitKb, culture); // this couldn't be done in ctor becauses of tests using shellVM's ctor
+            builder.RegisterInstance(logFile);
         }
 
 
     }
 
-  
+
 }

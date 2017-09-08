@@ -157,10 +157,10 @@ namespace WcfTestBench
             _clientLog = clientLog;
             _clientIni = iniFile35;
             _clientGuid = Guid.Parse(_clientIni.Read(IniSection.General, IniKey.ClientGuidOnServer, Guid.NewGuid().ToString()));
-            var clientAddresses = _clientIni.Read(IniSection.ClientLocalAddress);
+            var clientAddresses = _clientIni.Read(IniSection.ClientLocalAddress, (int)TcpPorts.ClientListenTo);
 
             ServerAddressList = GetServerAddressList();
-            DcServiceAddresses = _clientIni.ReadServerAddresses();
+            DcServiceAddresses = _clientIni.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
 
             RtuList = ReadDbTempTxt();
             SelectedRtu = RtuList.First();
@@ -391,8 +391,8 @@ namespace WcfTestBench
             // @"10.1.37.22" by vpn
             var result = new List<NetAddress>
             {
-                new NetAddress(@"192.168.96.179", (int) TcpPorts.ServerListenToClient),
-                new NetAddress(@"192.168.97.179", (int) TcpPorts.ServerListenToClient),
+                new NetAddress(@"192.168.96.21", (int) TcpPorts.ServerListenToClient),
+                new NetAddress(@"192.168.97.21", (int) TcpPorts.ServerListenToClient),
             };
             var addr = new NetAddress() {IsAddressSetAsIp = false, HostName = @"some.site.by", Port = (int)TcpPorts.ServerListenToClient };
             result.Add(addr);

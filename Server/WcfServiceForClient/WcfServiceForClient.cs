@@ -23,6 +23,12 @@ namespace WcfServiceForClientLibrary
             MessageReceived?.Invoke(dto);
         }
 
+        public bool CheckServerConnection(CheckServerConnectionDto dto)
+        {
+            ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent check server connection request");
+            return true;
+        }
+
         public bool CheckRtuConnection(CheckRtuConnectionDto dto)
         {
             ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent check rtu {dto.RtuId.First6()} request");
