@@ -4,12 +4,14 @@ using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
 using ClientWcfServiceLibrary;
+using Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WpfCommonViews;
 using PrivateReflectionUsingDynamic;
 using Serilog;
+using WcfConnections;
 
 namespace Iit.Fibertest.Client
 {
@@ -23,6 +25,7 @@ namespace Iit.Fibertest.Client
         private readonly Guid _clientId;
         private readonly IWindowManager _windowManager;
         private readonly LogFile _logFile;
+        private C2DWcfManager _c2DWcfManager;
 
         public ReadModel ReadModel { get; }
         public MainMenuViewModel MainMenuViewModel { get; set; }
@@ -106,6 +109,12 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        public override void CanClose(Action<bool> callback)
+        {
+            _c2DWcfManager.UnRegisterClient(new UnRegisterClientDto());
+            base.CanClose(callback);
+        }
+
         private void PostOffice_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "Message")
@@ -120,6 +129,9 @@ namespace Iit.Fibertest.Client
             ((App)Application.Current).ShutdownMode = ShutdownMode.OnMainWindowClose;
             if (_isAuthenticationSuccessfull != true)
                 TryClose();
+
+            var dcServiceAddresses = _iniFile.ReadDoubleAddress(11840);
+            _c2DWcfManager = new C2DWcfManager(dcServiceAddresses, _iniFile, _logFile, _clientId);
         }
 
         protected override void OnViewLoaded(object view)
