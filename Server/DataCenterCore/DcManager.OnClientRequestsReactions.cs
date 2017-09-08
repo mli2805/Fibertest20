@@ -49,7 +49,10 @@ namespace DataCenterCore
         {
             var dtoD1 = msg as RegisterClientDto;
             if (dtoD1 != null)
-                return RegisterClient(dtoD1);
+            {
+                RegisterClient(dtoD1);
+                return MessageProcessingResult.NothingToReturn;
+            }
 
             var dtoD2 = msg as UnRegisterClientDto;
             if (dtoD2 != null)
@@ -85,8 +88,18 @@ namespace DataCenterCore
             return MessageProcessingResult.UnknownMessage;
         }
 
-        private MessageProcessingResult RegisterClient(RegisterClientDto dto)
+        private void RegisterClient(RegisterClientDto dto)
         {
+            Thread thread = new Thread(RegisterClientThread);
+            thread.Start(dto);
+        }
+
+        private void RegisterClientThread(object param)
+        {
+            var dto = param as RegisterClientDto;
+            if (dto == null)
+                return;
+
             _dcLog.AppendLine($"Client {dto.UserName} registered");
             lock (_clientStationsLockObj)
             {
@@ -100,7 +113,10 @@ namespace DataCenterCore
                         }
                     });
             }
-            return MessageProcessingResult.ProcessedSuccessfully;
+
+            var result = new ClientRegisteredDto() {IsRegistered = true};
+            new D2CWcfManager(new List<DoubleAddress>() { dto.Addresses}, _coreIni, _dcLog).ConfirmClientRegistered(result);
+
         }
 
         private MessageProcessingResult UnRegisterClient(UnRegisterClientDto dto)

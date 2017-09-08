@@ -27,7 +27,7 @@
                     <TextBlock Text="{x:Static stringResources:Resources.SID_User}" TextAlignment="Right"/>
                 </DockPanel>
                 <DockPanel Margin="0,7,0,0">
-                    <Button DockPanel.Dock="Right" Name="ConnectServer" Content="{x:Static stringResources:Resources.SID_Server}" Margin="10,0,0,0" Width="80"/>
+                    <Button DockPanel.Dock="Right" Name="SetServerAddress" Content="{x:Static stringResources:Resources.SID_Server}" Margin="10,0,0,0" Width="80"/>
                     <TextBox DockPanel.Dock="Right" Text="{Binding Password}" Width="100" Margin="10,0,0,0"/>
                     <TextBlock Text="{x:Static stringResources:Resources.SID_Password}" TextAlignment="Right"/>
                 </DockPanel>

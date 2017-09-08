@@ -13,6 +13,12 @@ namespace ClientWcfServiceLibrary
         public delegate void OnMessageReceived(object e);
 
 
+        public void ConfirmClientRegistered(ClientRegisteredDto dto)
+        {
+            ClientLog.AppendLine("Server answered registration request.");
+            MessageReceived?.Invoke(dto);
+        }
+
         public void ConfirmDelivery(RtuCommandDeliveredDto dto)
         {
             if (dto.MessageProcessingResult == MessageProcessingResult.UnknownRtu)

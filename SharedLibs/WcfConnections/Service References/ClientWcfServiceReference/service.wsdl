@@ -17,6 +17,12 @@
       <xsd:import namespace="http://schemas.datacontract.org/2004/07/Dto" />
     </xsd:schema>
   </wsdl:types>
+  <wsdl:message name="IClientWcfService_ConfirmClientRegistered_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConfirmClientRegistered" />
+  </wsdl:message>
+  <wsdl:message name="IClientWcfService_ConfirmClientRegistered_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConfirmClientRegisteredResponse" />
+  </wsdl:message>
   <wsdl:message name="IClientWcfService_ConfirmDelivery_InputMessage">
     <wsdl:part name="parameters" element="tns:ConfirmDelivery" />
   </wsdl:message>
@@ -66,6 +72,10 @@
     <wsdl:part name="parameters" element="tns:ProcessRtuCurrentMonitoringStepResponse" />
   </wsdl:message>
   <wsdl:portType name="IClientWcfService">
+    <wsdl:operation name="ConfirmClientRegistered">
+      <wsdl:input wsaw:Action="http://tempuri.org/IClientWcfService/ConfirmClientRegistered" message="tns:IClientWcfService_ConfirmClientRegistered_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IClientWcfService/ConfirmClientRegisteredResponse" message="tns:IClientWcfService_ConfirmClientRegistered_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="ConfirmDelivery">
       <wsdl:input wsaw:Action="http://tempuri.org/IClientWcfService/ConfirmDelivery" message="tns:IClientWcfService_ConfirmDelivery_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IClientWcfService/ConfirmDeliveryResponse" message="tns:IClientWcfService_ConfirmDelivery_OutputMessage" />
@@ -103,6 +113,15 @@
     <wsp:PolicyReference URI="#NetTcpBinding_IClientWcfService_policy">
     </wsp:PolicyReference>
     <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="ConfirmClientRegistered">
+      <soap12:operation soapAction="http://tempuri.org/IClientWcfService/ConfirmClientRegistered" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="ConfirmDelivery">
       <soap12:operation soapAction="http://tempuri.org/IClientWcfService/ConfirmDelivery" style="document" />
       <wsdl:input>

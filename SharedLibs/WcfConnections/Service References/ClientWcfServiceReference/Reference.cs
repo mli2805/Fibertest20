@@ -15,6 +15,9 @@ namespace WcfConnections.ClientWcfServiceReference {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ClientWcfServiceReference.IClientWcfService")]
     public interface IClientWcfService {
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientWcfService/ConfirmClientRegistered", ReplyAction="http://tempuri.org/IClientWcfService/ConfirmClientRegisteredResponse")]
+        void ConfirmClientRegistered(Dto.ClientRegisteredDto dto);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientWcfService/ConfirmDelivery", ReplyAction="http://tempuri.org/IClientWcfService/ConfirmDeliveryResponse")]
         void ConfirmDelivery(Dto.RtuCommandDeliveredDto dto);
         
@@ -65,6 +68,10 @@ namespace WcfConnections.ClientWcfServiceReference {
         
         public ClientWcfServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress) {
+        }
+        
+        public void ConfirmClientRegistered(Dto.ClientRegisteredDto dto) {
+            base.Channel.ConfirmClientRegistered(dto);
         }
         
         public void ConfirmDelivery(Dto.RtuCommandDeliveredDto dto) {

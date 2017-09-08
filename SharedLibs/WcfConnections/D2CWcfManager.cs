@@ -18,6 +18,26 @@ namespace WcfConnections
             _logFile = logFile;
         }
 
+        public void ConfirmClientRegistered(ClientRegisteredDto dto)
+        {
+            foreach (var clientAddress in _addresses)
+            {
+                var wcfConnection = new WcfFactory(clientAddress, _iniFile, _logFile).CreateClientConnection();
+                if (wcfConnection == null)
+                    continue;
+
+                try
+                {
+                    wcfConnection.ConfirmClientRegistered(dto);
+                    _logFile.AppendLine($"Sent registaration result to client {clientAddress.Main.ToStringA()}");
+                }
+                catch (Exception e)
+                {
+                    _logFile.AppendLine(e.Message);
+                }
+            }
+        }
+
         public void ConfirmRtuConnectionChecked(RtuConnectionCheckedDto dto)
         {
             foreach (var clientAddress in _addresses)

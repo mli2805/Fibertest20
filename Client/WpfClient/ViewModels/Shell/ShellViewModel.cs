@@ -1,7 +1,9 @@
 ﻿using System;
+using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
+using ClientWcfServiceLibrary;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
@@ -13,6 +15,7 @@ namespace Iit.Fibertest.Client
 {
     public partial class ShellViewModel : Screen, IShell
     {
+        internal static ServiceHost MyServiceHost;
         public ILogger Log { get; set; }
         private readonly IniFile _iniFile;
 
@@ -82,8 +85,26 @@ namespace Iit.Fibertest.Client
 
             Log = clientLogger;
             Log.Information(@"Client started!");
+
+            StartWcfListener();
         }
 
+        private void StartWcfListener()
+        {
+            MyServiceHost?.Close();
+            ClientWcfService.ClientLog = _logFile;
+            ClientWcfService.MessageReceived += ClientWcfService_MessageReceived;
+            MyServiceHost = new ServiceHost(typeof(ClientWcfService));
+            try
+            {
+                MyServiceHost.Open();
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+                throw;
+            }
+        }
 
         private void PostOffice_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
