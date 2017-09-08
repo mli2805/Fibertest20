@@ -13,6 +13,8 @@ namespace RtuManagement
         private readonly IniFile _serviceIni;
         private readonly LogFile _serviceLog;
 
+        private DateTime _lastLogRecord;
+
         public ConcurrentQueue<MoniResultOnDisk> QueueOfMoniResultsOnDisk { get; set; }
 
         public Dove(DoubleAddressWithConnectionStats serverAddresses, IniFile serviceIni, LogFile serviceLog)
@@ -25,10 +27,17 @@ namespace RtuManagement
         public void Start()
         {
             var checkNewMoniresultsTimeout = TimeSpan.FromSeconds(1);
+            var betweenLogRecordsTimeout = TimeSpan.FromSeconds(20);
+            _lastLogRecord = DateTime.Now;
             while (true)
             {
                 SendAllMoniResultsInQueue();
                 Thread.Sleep(checkNewMoniresultsTimeout);
+                if (DateTime.Now - _lastLogRecord > betweenLogRecordsTimeout)
+                {
+                    _lastLogRecord = DateTime.Now;
+                    _serviceLog.AppendLine("Dove is flying");
+                }
             }
         }
 

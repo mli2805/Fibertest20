@@ -208,7 +208,6 @@ namespace RtuManagement
             moniResultOnDisk.Save();
             QueueOfMoniResultsOnDisk.Enqueue(moniResultOnDisk);
             _rtuLog.AppendLine("Monitoring result is placed in sending queue");
-            _rtuLog.AppendLine($"Sending thread is alive {_doveThread.IsAlive}, state {_doveThread.ThreadState}");
         }
 
         private readonly List<DamagedOtau> _damagedOtaus = new List<DamagedOtau>();
