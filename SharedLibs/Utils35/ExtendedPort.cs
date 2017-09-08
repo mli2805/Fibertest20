@@ -10,20 +10,20 @@ namespace Iit.Fibertest.UtilsLib
         public bool IsPortOnMainCharon { get; set; }
         public int OpticalPort { get; set; }
 
-        public DateTime LastPreciseMadeTimestamp { get; set; }
+        public DateTime? LastPreciseMadeTimestamp { get; set; }
         public DateTime LastPreciseSavedTimestamp { get; set; }
         public DateTime LastFastSavedTimestamp { get; set; }
 
         public MoniResult LastMoniResult { get; set; }
         public bool IsBreakdownCloserThen20Km { get; set; }
 
-        public ExtendedPort(NetAddress netAddress, int opticalOpticalPort)
+        private ExtendedPort(NetAddress netAddress, int opticalOpticalPort)
         {
             NetAddress = netAddress;
             OpticalPort = opticalOpticalPort;
         }
 
-        public string GetFolderName()
+        private string GetFolderName()
         {
             return $"{NetAddress.Ip4Address}t{NetAddress.Port}p{OpticalPort}";
         }

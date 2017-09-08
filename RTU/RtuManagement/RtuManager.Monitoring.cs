@@ -79,10 +79,17 @@ namespace RtuManagement
                 if (moniResult.GetAggregatedResult() != FiberState.Ok)
                     extendedPort.IsBreakdownCloserThen20Km = moniResult.FirstBreakDistance < 20;
 
-                if (extendedPort.LastMoniResult == null ||
-                    extendedPort.LastMoniResult.GetAggregatedResult() != moniResult.GetAggregatedResult() ||
-                    extendedPort.LastFastSavedTimestamp - DateTime.Now > _fastSaveTimespan)
+                var message = "";
+                if (extendedPort.LastMoniResult == null)
+                    message = "First measurement after restart";
+                else if (extendedPort.LastMoniResult.GetAggregatedResult() != moniResult.GetAggregatedResult())
+                    message = "Trace state has changed";
+                else if (DateTime.Now - extendedPort.LastFastSavedTimestamp > _fastSaveTimespan)
+                    message = "It's time to save fast reflectogram";
+
+                if (message != "")
                 {
+                    _rtuLog.AppendLine(message);
                     PlaceMonitoringResultInSendingQueue(moniResult, extendedPort);
                     extendedPort.LastFastSavedTimestamp = DateTime.Now;
                 }
@@ -93,21 +100,29 @@ namespace RtuManagement
         private MoniResult DoSecondMeasurement(ExtendedPort extendedPort, bool hasFastPerformed, BaseRefType baseType)
         {
             _rtuLog.EmptyLine();
-            var message = $"MEAS. {_measurementNumber} port {_mainCharon.GetBopPortString(extendedPort)}, {baseType}";
-            message += hasFastPerformed ? " (confirmation)" : "";
-            _rtuLog.AppendLine(message);
+            var caption = $"MEAS. {_measurementNumber} port {_mainCharon.GetBopPortString(extendedPort)}, {baseType}";
+            caption += hasFastPerformed ? " (confirmation)" : "";
+            _rtuLog.AppendLine(caption);
 
             var moniResult = DoMeasurement(baseType, extendedPort, !hasFastPerformed);
             if (moniResult != null)
             {
-                extendedPort.LastPreciseMadeTimestamp = DateTime.Now;
+                var message = "";
+                if (extendedPort.LastPreciseMadeTimestamp == null)
+                    message = "First measurement after restart";
+                else if (extendedPort.LastMoniResult.GetAggregatedResult() != moniResult.GetAggregatedResult())
+                    message = "Trace state has changed";
+                else if (DateTime.Now - extendedPort.LastPreciseSavedTimestamp > _preciseSaveTimespan)
+                    message = "It's time to save precise reflectogram";
 
-                if (extendedPort.LastMoniResult.GetAggregatedResult() != moniResult.GetAggregatedResult() ||
-                    (DateTime.Now - extendedPort.LastPreciseSavedTimestamp) > _preciseSaveTimespan)
+                if (message != "")
                 {
+                    _rtuLog.AppendLine(message);
                     PlaceMonitoringResultInSendingQueue(moniResult, extendedPort);
                     extendedPort.LastPreciseSavedTimestamp = DateTime.Now;
                 }
+
+                extendedPort.LastPreciseMadeTimestamp = DateTime.Now;
             }
             return moniResult;
         }

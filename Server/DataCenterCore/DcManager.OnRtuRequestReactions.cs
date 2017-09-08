@@ -110,6 +110,7 @@ namespace DataCenterCore
                     rtuStation.PcAddresses.LastConnectionOnMain = DateTime.Now;
                 else
                     rtuStation.PcAddresses.LastConnectionOnReserve = DateTime.Now;
+                rtuStation.Version = dto.Version;
             }
             return true;
         }
@@ -119,10 +120,12 @@ namespace DataCenterCore
             _dcLog.AppendLine(
                 $"Moniresult from RTU {result.RtuId.First6()}. {result.BaseRefType} on {result.OtauPort.OpticalPort} port. " +
                 $"Trace state is {result.TraceState}. Sor size is {result.SorData.Length}. {result.TimeStamp:yyyy-MM-dd hh-mm-ss}");
-            var filename = $@"c:\temp\sor\{result.RtuId.First6()} {result.TimeStamp:yyyy-MM-dd hh-mm-ss}.sor";
-            var fs = File.Create(filename);
-            fs.Write(result.SorData, 0, result.SorData.Length);
-            fs.Close();
+
+//            var filename = $@"c:\temp\sor\{result.RtuId.First6()} {result.TimeStamp:yyyy-MM-dd hh-mm-ss}.sor";
+//            var fs = File.Create(filename);
+//            fs.Write(result.SorData, 0, result.SorData.Length);
+//            fs.Close();
+
             return true;
         }
         #endregion
