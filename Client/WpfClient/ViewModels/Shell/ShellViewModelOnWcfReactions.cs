@@ -1,5 +1,4 @@
-﻿using System;
-using Dto;
+﻿using Dto;
 
 namespace Iit.Fibertest.Client
 {

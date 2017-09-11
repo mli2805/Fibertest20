@@ -1166,4 +1166,10 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Ping_failed" xml:space="preserve">
 		<value> Пинг не прошел!</value>
 	</data>
+	<data name="SID_Request_is_sent" xml:space="preserve">
+		<value>Запрос послан</value>
+	</data>
+	<data name="SID_Connection_established_successfully_" xml:space="preserve">
+		<value>Соединение установлено успешно!</value>
+	</data>
 </root>

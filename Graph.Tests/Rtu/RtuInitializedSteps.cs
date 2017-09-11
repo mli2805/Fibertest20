@@ -24,9 +24,9 @@ namespace Graph.Tests
             InitializeRtu cmd = new InitializeRtu()
             {
                 Id = rtuId,
-                MainChannel = new NetAddress(p0, 11832),
+                MainChannel = new NetAddress(p0, TcpPorts.RtuListenTo),
                 IsReserveChannelSet = true,
-                ReserveChannel = new NetAddress(p1, 11832)
+                ReserveChannel = new NetAddress(p1, TcpPorts.RtuListenTo)
             };
             _sut.ShellVm.Bus.SendCommand(cmd);
             _sut.Poller.Tick();

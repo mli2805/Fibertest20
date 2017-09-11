@@ -557,6 +557,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t establish connection!.
+        /// </summary>
+        public static string SID_Can_t_establish_connection_ {
+            get {
+                return ResourceManager.GetString("SID_Can_t_establish_connection_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Can&apos;t get active port.
         /// </summary>
         public static string SID_Can_t_get_active_port {
@@ -752,6 +761,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Connection_established_Rtu_is_initializing_now {
             get {
                 return ResourceManager.GetString("SID_Connection_established_Rtu_is_initializing_now", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connection established successfully!.
+        /// </summary>
+        public static string SID_Connection_established_successfully_ {
+            get {
+                return ResourceManager.GetString("SID_Connection_established_successfully_", resourceCulture);
             }
         }
         
@@ -2188,7 +2206,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ping failed!.
+        ///   Looks up a localized string similar to  Ping failed!.
         /// </summary>
         public static string SID_Ping_failed {
             get {
@@ -2418,6 +2436,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Remove_user {
             get {
                 return ResourceManager.GetString("SID_Remove_user", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Request is sent.
+        /// </summary>
+        public static string SID_Request_is_sent {
+            get {
+                return ResourceManager.GetString("SID_Request_is_sent", resourceCulture);
             }
         }
         

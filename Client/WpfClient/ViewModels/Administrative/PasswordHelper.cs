@@ -26,7 +26,8 @@ namespace Iit.Fibertest.Client
 
         public static bool GetAttach(DependencyObject dp)
         {
-            return (bool)dp.GetValue(AttachProperty);
+            var o = dp.GetValue(AttachProperty);
+            return o != null && (bool)o;
         }
 
         public static string GetPassword(DependencyObject dp)
@@ -41,7 +42,8 @@ namespace Iit.Fibertest.Client
 
         private static bool GetIsUpdating(DependencyObject dp)
         {
-            return (bool)dp.GetValue(IsUpdatingProperty);
+            var value = dp.GetValue(IsUpdatingProperty);
+            return value != null && (bool)value;
         }
 
         private static void SetIsUpdating(DependencyObject dp, bool value)

@@ -59,9 +59,9 @@ namespace Graph.Tests
                 var cmd = new InitializeRtu()
                 {
                     Id = rtuId,
-                    MainChannel = new NetAddress(mainIpAddress, 11832),
+                    MainChannel = new NetAddress(mainIpAddress, TcpPorts.RtuListenTo),
                     IsReserveChannelSet = reserveIpAddress != "",
-                    ReserveChannel = new NetAddress(reserveIpAddress, 11832),
+                    ReserveChannel = new NetAddress(reserveIpAddress, TcpPorts.RtuListenTo),
                     FullPortCount = 8,
                     OwnPortCount = 8,
                     Serial = @"123456"

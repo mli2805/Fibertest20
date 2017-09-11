@@ -43,7 +43,7 @@ namespace Iit.Fibertest.Client
                 TryClose(true);
             else
             {
-                Status = $"Error = {dto.ErrorCode}";
+                Status = $@"Error = {dto.ErrorCode}";
             }
         }
 
@@ -90,7 +90,7 @@ namespace Iit.Fibertest.Client
             if (!c2DWcfManager.RegisterClient(new RegisterClientDto()
             { Addresses = new DoubleAddress() { Main = clientAddresses, HasReserveAddress = false }, UserName = UserName }))
                 MessageBox.Show(Resources.SID_Cannot_register_on_server_);
-            Status = "Request is sent";
+            Status = Resources.SID_Request_is_sent;
         }
 
         public void SetServerAddress()

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Windows;
 using Caliburn.Micro;
 using ClientWcfServiceLibrary;
@@ -40,7 +39,6 @@ namespace Iit.Fibertest.Client
             NetAddressInputViewModel = new NetAddressInputViewModel(addressForTesting);
 
             ClientWcfService.MessageReceived += ClientWcfService_MessageReceived;
-
         }
 
         private void ClientWcfService_MessageReceived(object e)
@@ -49,12 +47,14 @@ namespace Iit.Fibertest.Client
             if (dto != null)
             {
                 var caption = Resources.SID_Connection_check;
-                string message = Resources.SID_Cant_establish_connection_;
+                string message = Resources.SID_Cant_establish_connection_ + Environment.NewLine;
+                
                 if (dto.IsRtuInitialized)
                     message = Resources.SID_Connection_established__RTU_is_Ok_;
                 else if (dto.IsServiceStarted)
                     message = Resources.SID_Connection_established_Rtu_is_initializing_now;
-                else message += dto.IsPingSuccessful ? Resources.SID_Ping_passed_ : Resources.SID_Ping_failed;
+                else
+                    message += dto.IsPingSuccessful ? Resources.SID_Ping_passed_ : Resources.SID_Ping_failed;
 
                 MessageBox.Show(message, caption);
             }

@@ -8,9 +8,7 @@ namespace Iit.Fibertest.Client
 {
     public class ServerConnectViewModel : Screen
     {
-        private readonly Guid _clientId;
         private readonly IniFile _clientIni;
-        private readonly LogFile _logFile;
         private string _message;
         private readonly DoubleAddress _dcServiceAddresses;
         public NetAddressTestViewModel ServerConnectionTestViewModel { get; set; }
@@ -28,12 +26,10 @@ namespace Iit.Fibertest.Client
 
         public ServerConnectViewModel(Guid clientId, IniFile iniFile, LogFile logFile)
         {
-            _clientId = clientId;
             _clientIni = iniFile;
-            _logFile = logFile;
             _dcServiceAddresses = _clientIni.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
 
-            ServerConnectionTestViewModel = new NetAddressTestViewModel((NetAddress)_dcServiceAddresses.Main.Clone(), _clientIni, _logFile, _clientId);
+            ServerConnectionTestViewModel = new NetAddressTestViewModel((NetAddress)_dcServiceAddresses.Main.Clone(), _clientIni, logFile, clientId);
             ServerConnectionTestViewModel.PropertyChanged += ServerConnectionTestViewModel_PropertyChanged;
         }
 
@@ -41,7 +37,7 @@ namespace Iit.Fibertest.Client
         {
             if (e.PropertyName == "Result")
             {
-                Message = ServerConnectionTestViewModel.Result ? "Connection established successfully!" : "Can't establish connection!";
+                Message = ServerConnectionTestViewModel.Result ? Resources.SID_Connection_established_successfully_ : Resources.SID_Cant_establish_connection_;
             }
         }
 
