@@ -1141,4 +1141,29 @@ on port {0}: charon {1} ip {2} has {3} ports</value>
 	<data name="SID_Test_RTU_communication_functions" xml:space="preserve">
 		<value>Проверка функций управления RTU</value>
 	</data>
+	<data name="SID_User_signed_in" xml:space="preserve">
+		<value>Пользователь вошел</value>
+	</data>
+	<data name="SID_Cannot_register_on_server_" xml:space="preserve">
+		<value>Невозможно зарегистрироваться на сервере</value>
+	</data>
+	<data name="SID_Connection_check" xml:space="preserve">
+		<value>Проверка соединения</value>
+	</data>
+	<data name="SID_Connection_established__RTU_is_Ok_" xml:space="preserve">
+		<value>Соединение установлено, RTU в норме</value>
+	</data>
+	<data name="SID_Connection_established_Rtu_is_initializing_now" xml:space="preserve">
+		<value>Соединение установлено,
+RTU инициализируется в данный момент!</value>
+	</data>
+	<data name="SID_Cant_establish_connection_" xml:space="preserve">
+		<value>Невозможно установить соединение!</value>
+	</data>
+	<data name="SID_Ping_passed_" xml:space="preserve">
+		<value>Пинг прошел.</value>
+	</data>
+	<data name="SID_Ping_failed" xml:space="preserve">
+		<value> Пинг не прошел!</value>
+	</data>
 </root>

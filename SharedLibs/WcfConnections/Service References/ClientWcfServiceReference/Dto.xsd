@@ -35,7 +35,7 @@
       <xs:element minOccurs="0" name="ClientId" type="ser:guid" />
       <xs:element minOccurs="0" name="IsPingSuccessful" type="xs:boolean" />
       <xs:element minOccurs="0" name="IsRtuInitialized" type="xs:boolean" />
-      <xs:element minOccurs="0" name="IsRtuStarted" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsServiceStarted" type="xs:boolean" />
       <xs:element minOccurs="0" name="RtuId" type="ser:guid" />
     </xs:sequence>
   </xs:complexType>

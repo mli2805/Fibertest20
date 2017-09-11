@@ -1,4 +1,5 @@
 ﻿using System;
+using Dto;
 
 namespace Iit.Fibertest.Client
 {
@@ -6,7 +7,9 @@ namespace Iit.Fibertest.Client
     {
         private void ClientWcfService_MessageReceived(object e)
         {
-            _logFile.AppendLine(@"something received by wcf");
+            var dto = e as MonitoringResultDto;
+            if (dto != null)
+                _logFile.AppendLine(@"Moniresult happened");
         }
     }
 }

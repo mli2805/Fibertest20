@@ -61,6 +61,7 @@ namespace DataCenterCore
             var dtoD2R1 = msg as CheckRtuConnectionDto;
             if (dtoD2R1 != null)
             {
+                _dcLog.AppendLine("user asks check rtu connection");
                 CheckRtuConnection(dtoD2R1);
                 return MessageProcessingResult.NothingToReturn;
             }
@@ -121,7 +122,7 @@ namespace DataCenterCore
 
         private MessageProcessingResult UnRegisterClient(UnRegisterClientDto dto)
         {
-            _dcLog.AppendLine($"Client {dto.ClientId} exited");
+            _dcLog.AppendLine($"Client {dto.ClientId.First6()} exited");
             lock (_clientStationsLockObj)
             {
                 _clientStations.RemoveAll(c => c.Id == dto.ClientId);
@@ -141,7 +142,7 @@ namespace DataCenterCore
             if (dto == null)
                 return;
 
-            var result = new RtuConnectionCheckedDto() { RtuId = dto.RtuId, IsRtuStarted = false, IsRtuInitialized = false };
+            var result = new RtuConnectionCheckedDto() { RtuId = dto.RtuId, IsServiceStarted = false, IsRtuInitialized = false };
             var rtuConnection = new WcfFactory(new DoubleAddress() {Main  = dto.NetAddress}, _coreIni, _dcLog).CreateRtuConnection();
             if (rtuConnection != null)
             {

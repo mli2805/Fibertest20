@@ -35,6 +35,9 @@ namespace WcfConnections.RtuWcfServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRtuWcfService/ToggleToPort", ReplyAction="http://tempuri.org/IRtuWcfService/ToggleToPortResponse")]
         bool ToggleToPort(Dto.OtauPortDto port);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRtuWcfService/CheckLastSuccessfullMeasTime", ReplyAction="http://tempuri.org/IRtuWcfService/CheckLastSuccessfullMeasTimeResponse")]
+        bool CheckLastSuccessfullMeasTime();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -90,6 +93,10 @@ namespace WcfConnections.RtuWcfServiceReference {
         
         public bool ToggleToPort(Dto.OtauPortDto port) {
             return base.Channel.ToggleToPort(port);
+        }
+        
+        public bool CheckLastSuccessfullMeasTime() {
+            return base.Channel.CheckLastSuccessfullMeasTime();
         }
     }
 }

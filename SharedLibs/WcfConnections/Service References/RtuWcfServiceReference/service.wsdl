@@ -59,6 +59,12 @@
   <wsdl:message name="IRtuWcfService_ToggleToPort_OutputMessage">
     <wsdl:part name="parameters" element="tns:ToggleToPortResponse" />
   </wsdl:message>
+  <wsdl:message name="IRtuWcfService_CheckLastSuccessfullMeasTime_InputMessage">
+    <wsdl:part name="parameters" element="tns:CheckLastSuccessfullMeasTime" />
+  </wsdl:message>
+  <wsdl:message name="IRtuWcfService_CheckLastSuccessfullMeasTime_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CheckLastSuccessfullMeasTimeResponse" />
+  </wsdl:message>
   <wsdl:portType name="IRtuWcfService">
     <wsdl:operation name="IsRtuInitialized">
       <wsdl:input wsaw:Action="http://tempuri.org/IRtuWcfService/IsRtuInitialized" message="tns:IRtuWcfService_IsRtuInitialized_InputMessage" />
@@ -87,6 +93,10 @@
     <wsdl:operation name="ToggleToPort">
       <wsdl:input wsaw:Action="http://tempuri.org/IRtuWcfService/ToggleToPort" message="tns:IRtuWcfService_ToggleToPort_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IRtuWcfService/ToggleToPortResponse" message="tns:IRtuWcfService_ToggleToPort_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CheckLastSuccessfullMeasTime">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRtuWcfService/CheckLastSuccessfullMeasTime" message="tns:IRtuWcfService_CheckLastSuccessfullMeasTime_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRtuWcfService/CheckLastSuccessfullMeasTimeResponse" message="tns:IRtuWcfService_CheckLastSuccessfullMeasTime_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="NetTcpBinding_IRtuWcfService" type="tns:IRtuWcfService">
@@ -149,6 +159,15 @@
     </wsdl:operation>
     <wsdl:operation name="ToggleToPort">
       <soap12:operation soapAction="http://tempuri.org/IRtuWcfService/ToggleToPort" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckLastSuccessfullMeasTime">
+      <soap12:operation soapAction="http://tempuri.org/IRtuWcfService/CheckLastSuccessfullMeasTime" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

@@ -15,7 +15,7 @@ namespace ClientWcfServiceLibrary
 
         public void ConfirmClientRegistered(ClientRegisteredDto dto)
         {
-            ClientLog.AppendLine("Server answered registration request.");
+            ClientLog.AppendLine($@"Server confirmed client registeration");
             MessageReceived?.Invoke(dto);
         }
 
@@ -33,7 +33,7 @@ namespace ClientWcfServiceLibrary
 
         public void ConfirmRtuConnectionChecked(RtuConnectionCheckedDto dto)
         {
-            ClientLog.AppendLine($"RTU {dto.RtuId} connection check received.");
+            ClientLog.AppendLine($"RTU {dto.RtuId.First6()} connection confirmation received.");
             MessageReceived?.Invoke(dto);
         }
 
@@ -46,25 +46,25 @@ namespace ClientWcfServiceLibrary
         public void ConfirmMonitoringStarted(MonitoringStartedDto confirm)
         {
             var result = confirm.IsSuccessful ? "confirmed: monitoring started." : "ERROR, can't start monitoring ";
-            ClientLog.AppendLine($"Rtu {confirm.RtuId} {result}");
+            ClientLog.AppendLine($"Rtu {confirm.RtuId.First6()} {result}");
             MessageReceived?.Invoke(confirm);
         }
         public void ConfirmMonitoringStopped(MonitoringStoppedDto confirm)
         {
             var result = confirm.IsSuccessful ? "confirmed: monitoring stopped." : "ERROR, can't stop monitoring ";
-            ClientLog.AppendLine($"Rtu {confirm.RtuId} {result}");
+            ClientLog.AppendLine($"Rtu {confirm.RtuId.First6()} {result}");
             MessageReceived?.Invoke(confirm);
         }
 
         public void ConfirmMonitoringSettingsApplied(MonitoringSettingsAppliedDto confirm)
         {
-            ClientLog.AppendLine($"RTU {confirm.RtuId} monitoring settings applied: {confirm.IsSuccessful}");
+            ClientLog.AppendLine($"RTU {confirm.RtuId.First6()} monitoring settings applied: {confirm.IsSuccessful}");
             MessageReceived?.Invoke(confirm);
         }
 
         public void ConfirmBaseRefAssigned(BaseRefAssignedDto confirm)
         {
-            ClientLog.AppendLine($"RTU {confirm.RtuId} base ref assigned: {confirm.IsSuccessful}");
+            ClientLog.AppendLine($"RTU {confirm.RtuId.First6()} base ref assigned: {confirm.IsSuccessful}");
             MessageReceived?.Invoke(confirm);
         }
 

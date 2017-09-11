@@ -39,7 +39,7 @@ namespace RtuManagement
                 return;
 
             var result = new RtuConnectionCheckedDto()
-            { ClientId = param.ClientId, IsRtuStarted = true, IsRtuInitialized = IsRtuInitialized };
+            { ClientId = param.ClientId, IsServiceStarted = true, IsRtuInitialized = IsRtuInitialized };
             new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendCurrentState(result);
 
             IsSenderBusy = false;

@@ -16,7 +16,7 @@ namespace Dto
         public bool IsRtuInitialized { get; set; } // started && initialized
 
         [DataMember]
-        public bool IsRtuStarted { get; set; } // only started
+        public bool IsServiceStarted { get; set; } // only started
 
         [DataMember]
         public bool IsPingSuccessful { get; set; } // is not started

@@ -113,7 +113,7 @@ namespace WcfTestBench
             }
             else
             {
-                if (dto.IsRtuStarted)
+                if (dto.IsServiceStarted)
                     DisplayString = Resources.SID_Service_alive;
                 else
                     DisplayString = dto.IsPingSuccessful ? Resources.SID____Ping_passed__OK : Resources.SID_Ping_does_not_pass_;

@@ -1141,4 +1141,29 @@ on port {0}: charon {1} ip {2} has {3} ports</value>
 	<data name="SID_Test_RTU_communication_functions" xml:space="preserve">
     <value>Test RTU communication functions</value>
   </data>
+	<data name="SID_User_signed_in" xml:space="preserve">
+    <value>User signed in</value>
+  </data>
+	<data name="SID_Cannot_register_on_server_" xml:space="preserve">
+    <value>Cannot register on server!</value>
+  </data>
+	<data name="SID_Connection_check" xml:space="preserve">
+    <value>Connection check</value>
+  </data>
+	<data name="SID_Connection_established__RTU_is_Ok_" xml:space="preserve">
+    <value>Connection established, RTU is Ok!</value>
+  </data>
+	<data name="SID_Connection_established_Rtu_is_initializing_now" xml:space="preserve">
+    <value>Connection established, 
+RTU is initializing right now!</value>
+  </data>
+	<data name="SID_Cant_establish_connection_" xml:space="preserve">
+    <value>Can't establish connection!</value>
+  </data>
+	<data name="SID_Ping_passed_" xml:space="preserve">
+    <value>Ping passed.</value>
+  </data>
+	<data name="SID_Ping_failed" xml:space="preserve">
+    <value> Ping failed!</value>
+  </data>
 </root>

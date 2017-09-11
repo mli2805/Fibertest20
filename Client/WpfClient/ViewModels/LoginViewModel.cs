@@ -40,7 +40,7 @@ namespace Iit.Fibertest.Client
         private void ParseServerAnswer(ClientRegisteredDto dto)
         {
             if (dto.IsRegistered)
-                    TryClose(true);
+                TryClose(true);
             else
             {
                 Status = $"Error = {dto.ErrorCode}";
@@ -54,13 +54,29 @@ namespace Iit.Fibertest.Client
 
         public void Login()
         {
+#if DEBUG
+            if (string.IsNullOrEmpty(UserName))
+                UserName = @"root";
+            if (string.IsNullOrEmpty(Password))
+                Password = @"root";
+#endif
             if (CheckPassword())
+            {
+                _logFile.AppendLine($@"User signed in as {UserName}");
+                Status = Resources.SID_User_signed_in;
                 RegisterClient();
+            }
         }
 
         private bool CheckPassword()
         {
-            Status = "User accepted";
+            if (UserName == @"root" && Password == @"root")
+                return true;
+            return CheckPasswordInDb();
+        }
+
+        private bool CheckPasswordInDb()
+        {
             return true;
         }
 
@@ -72,8 +88,8 @@ namespace Iit.Fibertest.Client
             var c2DWcfManager = new C2DWcfManager(dcServiceAddresses, _iniFile, _logFile, _clientId);
 
             if (!c2DWcfManager.RegisterClient(new RegisterClientDto()
-                { Addresses = new DoubleAddress() { Main = clientAddresses, HasReserveAddress = false }, UserName = UserName }))
-                MessageBox.Show(@"Cannot register on server!");
+            { Addresses = new DoubleAddress() { Main = clientAddresses, HasReserveAddress = false }, UserName = UserName }))
+                MessageBox.Show(Resources.SID_Cannot_register_on_server_);
             Status = "Request is sent";
         }
 

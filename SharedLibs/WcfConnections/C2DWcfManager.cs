@@ -27,7 +27,6 @@ namespace WcfConnections
             {
                 dto.ClientId = _clientId;
                 wcfConnection.RegisterClient(dto);
-                _logFile.AppendLine($@"Registered on server");
                 return true;
             }
             catch (Exception e)
@@ -86,7 +85,7 @@ namespace WcfConnections
             {
                 dto.ClientId = _clientId;
                 wcfConnection.CheckRtuConnection(dto);
-                _logFile.AppendLine($@"Sent command to check connection with RTU {dto.RtuId}");
+                _logFile.AppendLine($@"Sent command to check connection with RTU {dto.RtuId.First6()}");
                 return true;
             }
             catch (Exception e)

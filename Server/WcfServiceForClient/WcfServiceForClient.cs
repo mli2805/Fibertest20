@@ -25,7 +25,7 @@ namespace WcfServiceForClientLibrary
 
         public bool CheckServerConnection(CheckServerConnectionDto dto)
         {
-            ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent check server connection request");
+            ServiceLog.AppendLine($"Client {dto.ClientId.First6()} checked server connection");
             return true;
         }
 
