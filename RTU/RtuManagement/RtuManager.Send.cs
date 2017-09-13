@@ -54,6 +54,7 @@ namespace RtuManagement
                 {
                     RtuId = _id,
                     IsInitialized = true,
+                    OtdrAddress = _mainCharon.NetAddress,
                     Serial = _mainCharon.Serial,
                     FullPortCount = _mainCharon.FullPortCount,
                     OwnPortCount = _mainCharon.OwnPortCount

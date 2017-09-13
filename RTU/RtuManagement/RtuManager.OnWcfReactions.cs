@@ -41,13 +41,17 @@ namespace RtuManagement
                 return;
             IsRtuInitialized = true;
 
-            var woodpecker = new WoodPecker(_id, _version, _serverAddresses, _serviceIni, _serviceLog);
-            var woodpeckerThread = new Thread(woodpecker.Start) {IsBackground = true};
+            if (_woodPecker != null)
+                _woodPecker.IsCancelled = true;
+            _woodPecker = new WoodPecker(_id, _version, _serverAddresses, _serviceIni, _serviceLog);
+            var woodpeckerThread = new Thread(_woodPecker.Start) {IsBackground = true};
             woodpeckerThread.Start();
 
-            var dove = new Dove(_serverAddresses, _serviceIni, _serviceLog) {QueueOfMoniResultsOnDisk = QueueOfMoniResultsOnDisk};
-            _doveThread = new Thread(dove.Start) {IsBackground = true};
-            _doveThread.Start();
+            if (_dove != null)
+                _dove.IsCancelled = true;
+            _dove = new Dove(_serverAddresses, _serviceIni, _serviceLog) {QueueOfMoniResultsOnDisk = QueueOfMoniResultsOnDisk};
+            var doveThread = new Thread(_dove.Start) {IsBackground = true};
+            doveThread.Start();
 
             IsMonitoringOn = _rtuIni.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, 0) != 0;
             if (IsMonitoringOn)
@@ -58,10 +62,11 @@ namespace RtuManagement
 
         private void SaveInitializationParameters(InitializeRtuDto rtu)
         {
-            _rtuIni.Write(IniSection.Server, IniKey.RtuGuid, rtu.RtuId.ToString());
+            _id = rtu.RtuId;
+            _serviceIni.Write(IniSection.Server, IniKey.RtuGuid, _id.ToString());
 
-            _rtuIni.WriteServerAddresses(rtu.ServerAddresses);
-            _serverAddresses = new DoubleAddressWithConnectionStats() {DoubleAddress = rtu.ServerAddresses};
+            _serverAddresses = new DoubleAddressWithConnectionStats() {DoubleAddress = (DoubleAddress)rtu.ServerAddresses.Clone()};
+            _serviceIni.WriteServerAddresses(_serverAddresses.DoubleAddress);
         }
 
         public void StartMonitoring()

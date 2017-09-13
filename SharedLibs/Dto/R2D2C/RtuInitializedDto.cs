@@ -16,6 +16,9 @@ namespace Dto
         public string Serial { get; set; }
 
         [DataMember]
+        public NetAddress OtdrAddress { get; set; }
+
+        [DataMember]
         public int OwnPortCount { get; set; }
 
         [DataMember]

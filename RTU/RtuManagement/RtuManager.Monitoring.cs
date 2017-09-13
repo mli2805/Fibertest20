@@ -206,8 +206,10 @@ namespace RtuManagement
             };
             var moniResultOnDisk = new MoniResultOnDisk(Guid.NewGuid(), dto, _serviceLog);
             moniResultOnDisk.Save();
+            _rtuLog.AppendLine($"There are {QueueOfMoniResultsOnDisk.Count} moniresults in the queue");
             QueueOfMoniResultsOnDisk.Enqueue(moniResultOnDisk);
             _rtuLog.AppendLine("Monitoring result is placed in sending queue");
+            _rtuLog.AppendLine($"There are {QueueOfMoniResultsOnDisk.Count} moniresults in the queue");
         }
 
         private readonly List<DamagedOtau> _damagedOtaus = new List<DamagedOtau>();

@@ -24,33 +24,34 @@ namespace RtuManagement
 
         private void RunMainCharonRecovery()
         {
-            var step = (RecoveryStep)_rtuIni.Read(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.Ok);
+            var step = (RecoveryStep)_serviceIni.Read(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.Ok);
 
             switch (step)
             {
                 case RecoveryStep.Ok:
-                    _rtuIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.ClearArp);
+                    _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.ClearArp);
                     ClearArp();
                     return;
                 case RecoveryStep.ClearArp:
-                    _rtuIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.RestartService);
+                    _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.RestartService);
                     _rtuLog.AppendLine("Recovery procedure: Exit rtu service.");
                     _serviceLog.AppendLine("Recovery procedure: Exit rtu service.");
                     Environment.FailFast("Recovery procedure: Exit rtu service.");
                     return;
                 case RecoveryStep.RestartService:
-                    var enabled = _rtuIni.Read(IniSection.Recovering, IniKey.RebootSystemEnabled, false);
+                    var enabled = _serviceIni.Read(IniSection.Recovering, IniKey.RebootSystemEnabled, false);
                     if (enabled)
                     {
-                        _rtuIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.ClearArp);
-                        var delay = _rtuIni.Read(IniSection.Recovering, IniKey.RebootSystemDelay, 60);
+                        _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.ClearArp);
+                        var delay = _serviceIni.Read(IniSection.Recovering, IniKey.RebootSystemDelay, 60);
+                        _rtuLog.AppendLine("Recovery procedure: Reboot system.");
                         _serviceLog.AppendLine("Recovery procedure: Reboot system.");
-                        RestoreFunctions.RebootSystem(_rtuLog, delay);
+                        RestoreFunctions.RebootSystem(_serviceLog, delay);
                         Thread.Sleep(TimeSpan.FromSeconds(delay+5));
                     }
                     else
                     {
-                        _rtuIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.ClearArp);
+                        _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.ClearArp);
                         ClearArp();
                     }
                     return;

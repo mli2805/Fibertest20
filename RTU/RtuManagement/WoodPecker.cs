@@ -8,14 +8,36 @@ namespace RtuManagement
 {
     public class WoodPecker
     {
+        private readonly Guid _id;
         private readonly Guid _rtuId;
         private readonly string _version;
         private DoubleAddressWithConnectionStats _serverAddresses;
         private readonly IniFile _serviceIni;
         private readonly LogFile _serviceLog;
 
+        private readonly object _isCancelledLocker = new object();
+        private bool _isCancelled;
+        public bool IsCancelled
+        {
+            get
+            {
+                lock (_isCancelledLocker)
+                {
+                    return _isCancelled;
+                }
+            }
+            set
+            {
+                lock (_isCancelledLocker)
+                {
+                    _isCancelled = value;
+                }
+            }
+        }
+
         public WoodPecker(Guid rtuId, string version, DoubleAddressWithConnectionStats serverAddresses, IniFile serviceIni, LogFile serviceLog)
         {
+            _id = Guid.NewGuid();
             _rtuId = rtuId;
             _version = version;
             _serverAddresses = serverAddresses;
@@ -27,11 +49,13 @@ namespace RtuManagement
         {
             var checkChannelsTimeout =
                 TimeSpan.FromSeconds(_serviceIni.Read(IniSection.General, IniKey.CheckChannelsTimeout, 30));
-            while (true)
+            _serviceLog.AppendLine($"WoodPecker {_id.First6()} is started");
+            while (!IsCancelled)
             {
                 _serverAddresses = new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendImAliveByBothChannels(_rtuId, _version);
                 Thread.Sleep(checkChannelsTimeout);
             }
+            _serviceLog.AppendLine($"WoodPecker {_id.First6()} is finished");
         }
 
     }

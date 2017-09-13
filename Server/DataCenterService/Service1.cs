@@ -2,12 +2,14 @@
 using System.ServiceProcess;
 using System.Threading;
 using DataCenterCore;
+using Dto;
 using Iit.Fibertest.UtilsLib;
 
 namespace DataCenterService
 {
     public partial class Service1 : ServiceBase
     {
+        private readonly IniFile _serviceIni;
         private readonly LogFile _serviceLog;
 
         private DcManager _dcManager;
@@ -15,10 +17,10 @@ namespace DataCenterService
         public Service1()
         {
             InitializeComponent();
-            var serviceIni = new IniFile();
-            serviceIni.AssignFile("DcService.ini");
-            var cultureString = serviceIni.Read(IniSection.General, IniKey.Culture, "ru-RU");
-            var logFileSizeLimit = serviceIni.Read(IniSection.General, IniKey.LogFileSizeLimitKb, 0);
+            _serviceIni = new IniFile();
+            _serviceIni.AssignFile("DcService.ini");
+            var cultureString = _serviceIni.Read(IniSection.General, IniKey.Culture, "ru-RU");
+            var logFileSizeLimit = _serviceIni.Read(IniSection.General, IniKey.LogFileSizeLimitKb, 0);
 
             _serviceLog = new LogFile();
             _serviceLog.AssignFile("DcService.log", logFileSizeLimit, cultureString);
@@ -33,7 +35,8 @@ namespace DataCenterService
             var tid = Thread.CurrentThread.ManagedThreadId;
             _serviceLog.AppendLine($"Windows service started. Process {pid}, thread {tid}");
 
-            _dcManager = new DcManager();
+            var serverAddress = _serviceIni.ReadDoubleAddress((int) TcpPorts.ServerListenToRtu);
+            _dcManager = new DcManager(serverAddress);
         }
 
         protected override void OnStop()

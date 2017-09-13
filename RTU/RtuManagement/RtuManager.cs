@@ -2,7 +2,6 @@
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Reflection;
-using System.Threading;
 using Dto;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.IitOtdrLibrary;
@@ -14,7 +13,7 @@ namespace RtuManagement
     {
         private const string DefaultIp = "192.168.88.101";
 
-        private readonly Guid _id;
+        private Guid _id;
         private readonly string _version;
         private readonly LogFile _rtuLog;
         private readonly IniFile _rtuIni;
@@ -23,7 +22,9 @@ namespace RtuManagement
         private OtdrManager _otdrManager;
         private Charon _mainCharon;
 
-        private Thread _doveThread;
+        private Dove _dove;
+        private WoodPecker _woodPecker;
+
         public ConcurrentQueue<MoniResultOnDisk> QueueOfMoniResultsOnDisk { get; set; }
         private object WcfParameter { get; set; }
 

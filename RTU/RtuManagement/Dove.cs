@@ -9,16 +9,38 @@ namespace RtuManagement
 {
     public class Dove
     {
+        private readonly Guid _id;
         private readonly DoubleAddressWithConnectionStats _serverAddresses;
         private readonly IniFile _serviceIni;
         private readonly LogFile _serviceLog;
 
         private DateTime _lastLogRecord;
 
+        private readonly object _isCancelledLocker = new object();
+        private bool _isCancelled;
+        public bool IsCancelled
+        {
+            get
+            {
+                lock (_isCancelledLocker)
+                {
+                    return _isCancelled;
+                }
+            }
+            set
+            {
+                lock (_isCancelledLocker)
+                {
+                    _isCancelled = value;
+                }
+            }
+        }
+
         public ConcurrentQueue<MoniResultOnDisk> QueueOfMoniResultsOnDisk { get; set; }
 
         public Dove(DoubleAddressWithConnectionStats serverAddresses, IniFile serviceIni, LogFile serviceLog)
         {
+            _id = Guid.NewGuid();
             _serverAddresses = serverAddresses;
             _serviceIni = serviceIni;
             _serviceLog = serviceLog;
@@ -27,18 +49,14 @@ namespace RtuManagement
         public void Start()
         {
             var checkNewMoniresultsTimeout = TimeSpan.FromSeconds(1);
-            var betweenLogRecordsTimeout = TimeSpan.FromSeconds(20);
             _lastLogRecord = DateTime.Now;
-            while (true)
+            _serviceLog.AppendLine($"Dove {_id.First6()} is started");
+            while (!IsCancelled)
             {
                 SendAllMoniResultsInQueue();
                 Thread.Sleep(checkNewMoniresultsTimeout);
-                if (DateTime.Now - _lastLogRecord > betweenLogRecordsTimeout)
-                {
-                    _lastLogRecord = DateTime.Now;
-                    _serviceLog.AppendLine("Dove is flying");
-                }
             }
+            _serviceLog.AppendLine($"Dove {_id.First6()} is finished");
         }
 
         private void SendAllMoniResultsInQueue()
@@ -46,8 +64,17 @@ namespace RtuManagement
             try
             {
                 MoniResultOnDisk moniResultOnDisk;
+
+                var betweenLogRecordsTimeout = TimeSpan.FromSeconds(120);
+                if (QueueOfMoniResultsOnDisk.Count > 0 || DateTime.Now - _lastLogRecord > betweenLogRecordsTimeout)
+                {
+                    _lastLogRecord = DateTime.Now;
+                    _serviceLog.AppendLine($"There are {QueueOfMoniResultsOnDisk.Count} moniresults in the queue");
+                }
+
                 while (QueueOfMoniResultsOnDisk.TryPeek(out moniResultOnDisk))
                 {
+                    _serviceLog.AppendLine("Moniresult peeked from the queue");
                     if (SendMoniResult(moniResultOnDisk))
                     {
                         QueueOfMoniResultsOnDisk.TryDequeue(out moniResultOnDisk);

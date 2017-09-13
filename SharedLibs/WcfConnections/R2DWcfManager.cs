@@ -49,7 +49,8 @@ namespace WcfConnections
         private bool SendImAlive(Guid rtuId, string version, bool isMainChannel, WcfFactory wcfFactory, bool? isPreviousResultSuccessfull)
         {
             var st = isMainChannel ? "main" : "reserve";
-            var wcfConnection = wcfFactory.CreateR2DConnection(false);
+            var shouldWriteToLogProblems = isPreviousResultSuccessfull != false;
+            var wcfConnection = wcfFactory.CreateR2DConnection(shouldWriteToLogProblems);
             if (wcfConnection == null)
             {
                 if (isPreviousResultSuccessfull != false)

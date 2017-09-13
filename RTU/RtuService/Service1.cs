@@ -75,9 +75,14 @@ namespace RtuService
             catch (Exception e)
             {
                 _serviceLog.AppendLine(e.Message);
-                _serviceLog.AppendLine("PC will be rebooted in a 60 seconds");
-                RestoreFunctions.RebootSystem(_serviceLog, 60);
-                Thread.Sleep(TimeSpan.FromSeconds(60 + 5));
+                var enabled = _serviceIni.Read(IniSection.Recovering, IniKey.RebootSystemEnabled, false);
+                if (enabled)
+                {
+                    var delay = _serviceIni.Read(IniSection.Recovering, IniKey.RebootSystemDelay, 60);
+                    _serviceLog.AppendLine("Recovery procedure: Reboot system.");
+                    RestoreFunctions.RebootSystem(_serviceLog, delay);
+                    Thread.Sleep(TimeSpan.FromSeconds(delay + 5));
+                }
             }
 
         }

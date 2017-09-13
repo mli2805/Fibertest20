@@ -125,15 +125,25 @@ namespace RtuManagement
         {
             QueueOfMoniResultsOnDisk = new ConcurrentQueue<MoniResultOnDisk>();
 
-            DirectoryInfo info = new DirectoryInfo(GetStorePath());
-            FileInfo[] files = info.GetFiles().OrderBy(p => p.CreationTime).ToArray();
-            _serviceLog.AppendLine($"There're {files.Length} stored files");
-
-            foreach (FileInfo file in files)
+            try
             {
-                PlaceMoniresultInQueue(file);
+                if (!Directory.Exists(GetStorePath()))
+                    Directory.CreateDirectory(GetStorePath());
+                DirectoryInfo info = new DirectoryInfo(GetStorePath());
+                FileInfo[] files = info.GetFiles().OrderBy(p => p.CreationTime).ToArray();
+                _serviceLog.AppendLine($"There're {files.Length} stored files");
+
+                foreach (FileInfo file in files)
+                {
+                    PlaceMoniresultInQueue(file);
+                }
+                _serviceLog.AppendLine($"There're {QueueOfMoniResultsOnDisk.Count} moniresults in queue");
+
             }
-            _serviceLog.AppendLine($"There're {QueueOfMoniResultsOnDisk.Count} moniresults in queue");
+            catch (Exception e)
+            {
+                _serviceLog.AppendLine(e.Message);
+            }
         }
 
         private void PlaceMoniresultInQueue(FileInfo file)

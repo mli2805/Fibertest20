@@ -84,8 +84,6 @@ namespace Iit.Fibertest.Client
             Guid.TryParse(_iniFile.Read(IniSection.General, IniKey.ClientGuidOnServer, Guid.NewGuid().ToString()), out _clientId);
 
             _logFile = logFile;
-            _logFile.EmptyLine();
-            _logFile.EmptyLine('-');
             _logFile.AppendLine(@"Client application started!");
 
             Log = clientLogger;

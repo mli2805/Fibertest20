@@ -67,12 +67,12 @@ namespace WcfConnections
 
         public WcfServiceForRtuClient CreateR2DConnection(bool shouldWriteToLogProblems = true)
         {
+            var netAddress = SelectNetAddressAvailableNow(shouldWriteToLogProblems);
+            if (netAddress == null)
+                return null;
+
             try
             {
-                var netAddress = SelectNetAddressAvailableNow(shouldWriteToLogProblems);
-                if (netAddress == null)
-                    return null;
-
                 var connection = 
                      new WcfServiceForRtuClient(CreateDefaultNetTcpBinding(_iniFile), new EndpointAddress(
                             new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"WcfServiceForRtu"))));
@@ -81,6 +81,7 @@ namespace WcfConnections
             }
             catch (Exception e)
             {
+                _logFile.AppendLine($"Exception while RTU to Server {netAddress.ToStringASpace} connection creating...");
                 _logFile.AppendLine(e.Message);
                 return null;
             }
@@ -111,13 +112,25 @@ namespace WcfConnections
         {
             var openTimeout = TimeSpan.FromMilliseconds(_iniFile.Read(IniSection.NetTcpBinding, IniKey.OpenTimeoutMs, 1000));
 
-            if (CheckTcpConnection(_endPoint.Main, openTimeout, shouldWriteToLogProblems))
-                return _endPoint.Main;
-
-            if (_endPoint.HasReserveAddress)
+            try
             {
-                if (CheckTcpConnection(_endPoint.Reserve, openTimeout, shouldWriteToLogProblems))
-                    return _endPoint.Reserve;
+                if (CheckTcpConnection(_endPoint.Main, openTimeout, shouldWriteToLogProblems))
+                    return _endPoint.Main;
+
+                if (_endPoint.HasReserveAddress)
+                {
+                    if (CheckTcpConnection(_endPoint.Reserve, openTimeout, shouldWriteToLogProblems))
+                        return _endPoint.Reserve;
+                }
+            }
+            catch (Exception e)
+            {
+                if (shouldWriteToLogProblems)
+                {
+                    _logFile.AppendLine("Exception while available address selection...");
+                    _logFile.AppendLine(e.Message);
+                }
+                return null;
             }
 
             return null;
@@ -127,9 +140,16 @@ namespace WcfConnections
         {
             var tcpClient = new TcpClient();
 
-            var tcpConnection = tcpClient.BeginConnect(netAddress.GetAddress(), netAddress.Port, null, null);
-            if (tcpConnection.AsyncWaitHandle.WaitOne(openTimeout))
-                return true;
+            try
+            {
+                var tcpConnection = tcpClient.BeginConnect(netAddress.GetAddress(), netAddress.Port, null, null);
+                if (tcpConnection.AsyncWaitHandle.WaitOne(openTimeout))
+                    return true;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+            }
 
             if (shouldWriteToLogProblems)
             {

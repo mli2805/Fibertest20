@@ -19,6 +19,8 @@ namespace Iit.Fibertest.Client
             var logger = new LoggerConfiguration()
                 .WriteTo.Seq(@"http://localhost:5341").CreateLogger();
             builder.RegisterInstance<ILogger>(logger);
+            logger.Information("");
+            logger.Information(new string('-', 99));
 
             var iniFile = new IniFile();
             iniFile.AssignFile(@"Client.ini");
@@ -29,6 +31,8 @@ namespace Iit.Fibertest.Client
 
             var logFile = new LogFile();
             logFile.AssignFile(@"Client.log", logFileLimitKb, culture); // this couldn't be done in ctor becauses of tests using shellVM's ctor
+            logFile.EmptyLine();
+            logFile.EmptyLine('-');
             builder.RegisterInstance(logFile);
         }
 

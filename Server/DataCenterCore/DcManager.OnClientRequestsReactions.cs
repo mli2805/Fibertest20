@@ -170,6 +170,7 @@ namespace DataCenterCore
             _rtuCommandDeliveredDto.ClientId = dto.ClientId;
             _rtuCommandDeliveredDto.RtuId = dto.RtuId;
 
+            dto.ServerAddresses = _serverDoubleAddress;
             return new D2RWcfManager(dto.RtuAddresses, _coreIni, _dcLog).InitializeRtu(dto);
         }
 

@@ -13,6 +13,7 @@ namespace DataCenterCore
 {
     public partial class DcManager
     {
+        private readonly DoubleAddress _serverDoubleAddress;
         private readonly LogFile _dcLog;
         private readonly IniFile _coreIni;
 
@@ -21,9 +22,9 @@ namespace DataCenterCore
         private readonly object _clientStationsLockObj = new object();
         private readonly List<ClientStation> _clientStations;
 
-
-        public DcManager()
+        public DcManager(DoubleAddress serverDoubleAddress)
         {
+            _serverDoubleAddress = serverDoubleAddress;
             _coreIni = new IniFile();
             _coreIni.AssignFile("DcCore.ini");
             var cultureString = _coreIni.Read(IniSection.General, IniKey.Culture, "ru-RU");

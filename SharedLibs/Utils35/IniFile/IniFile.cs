@@ -114,7 +114,7 @@ namespace Iit.Fibertest.UtilsLib
                 IsAddressSetAsIp = Read(section, IniKey.IsAddressIp, true),
                 Port = Read(section, IniKey.TcpPort, defaultTcpPort)
             };
-            netAddress.Ip4Address = Read(section, IniKey.Ip, netAddress.IsAddressSetAsIp ? "192.168.96.21" : "");
+            netAddress.Ip4Address = Read(section, IniKey.Ip, netAddress.IsAddressSetAsIp ? "0.0.0.0" : "");
             netAddress.HostName = Read(section, IniKey.Host, netAddress.IsAddressSetAsIp ? "" : "localhost");
 
             return netAddress;
