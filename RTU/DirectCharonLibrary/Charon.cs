@@ -35,11 +35,6 @@ namespace Iit.Fibertest.DirectCharonLibrary
             NetAddress = netAddress;
         }
 
-        public bool InitializeRtu()
-        {
-            return true;
-        }
-
         /// <summary>
         /// 
         /// </summary>

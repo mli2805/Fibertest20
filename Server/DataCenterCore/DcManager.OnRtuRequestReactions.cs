@@ -66,9 +66,32 @@ namespace DataCenterCore
         {
             var str = dto.IsInitialized ? "OK" : "ERROR";
             _dcLog.AppendLine($"Rtu {dto.RtuId.First6()} initialization {str}");
+
+           if (dto.IsInitialized)
+                RegisterRtu(dto);
+
             return new D2CWcfManager(GetAllClientsAddresses(), _coreIni, _dcLog).ConfirmRtuInitialized(dto);
         }
 
+        private void RegisterRtu(RtuInitializedDto dto)
+        {
+            var rtuStation = new RtuStation()
+            {
+                Id = dto.RtuId,
+                CharonIp = dto.OtdrAddress.Ip4Address,
+                PcAddresses = new DoubleAddressWithLastConnectionCheck() { DoubleAddress = dto.PcDoubleAddress },
+                Version = dto.Version,
+            };
+
+            if (_rtuStations.ContainsKey(dto.RtuId))
+                _rtuStations[dto.RtuId] = rtuStation;
+            else
+                _rtuStations.TryAdd(rtuStation.Id, rtuStation);
+
+            // temporary
+            WriteDbTempTxt();
+        }
+       
         private bool ConfirmMonitoringStarted(MonitoringStartedDto dto)
         {
             _dcLog.AppendLine($"Rtu {dto.RtuId.First6()} monitoring started: {dto.IsSuccessful}");

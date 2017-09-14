@@ -259,7 +259,7 @@ namespace WcfTestBench
                 {
                     Ip = SelectedRtu.PcAddresses.DoubleAddress.Main.Ip4Address,
                     TcpPort = 23,
-                    OpticalPort = 3
+                    OpticalPort = 1
                 },
                 BaseRefs = new List<BaseRefDto>()
                 {

@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.ServiceModel;
 using System.Threading;
 using Dto;
@@ -45,9 +46,9 @@ namespace DataCenterCore
             StartWcfListenerToClient();
             StartWcfListenerToRtu();
 
-            var conChecker = new ConnectionsChecker(_dcLog, _coreIni);
-            conChecker.RtuStations = _rtuStations;
-            var thread = new  Thread(conChecker.Start) {IsBackground = true};
+            var lastConnectionTimeChecker = new LastConnectionTimeChecker(_dcLog, _coreIni);
+            lastConnectionTimeChecker.RtuStations = _rtuStations;
+            var thread = new  Thread(lastConnectionTimeChecker.Start) {IsBackground = true};
             thread.Start();
         }
 
@@ -98,6 +99,8 @@ namespace DataCenterCore
             return ReadDbTempTxt();
         }
 
+        #region Temporary functions for store rtu in txt file
+
         private ConcurrentDictionary<Guid, RtuStation> ReadDbTempTxt()
         {
             var dictionary = new ConcurrentDictionary<Guid, RtuStation>();
@@ -118,6 +121,20 @@ namespace DataCenterCore
             }
             _dcLog.AppendLine($"{dictionary.Count} RTU found");
             return dictionary;
+        }
+
+        private void WriteDbTempTxt()
+        {
+            var app = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            var path = Path.GetDirectoryName(app);
+            if (path == null)
+                return;
+            var filename = Path.Combine(path, @"..\Ini\DbTemp.txt");
+            if (File.Exists(filename))
+                File.Delete(filename);
+
+            var content = _rtuStations.Select(rtuStation => RtuStationToLine(rtuStation.Value)).ToList();
+            File.WriteAllLines(filename, content);
         }
 
         private static RtuStation ParseLine(string line)
@@ -144,5 +161,15 @@ namespace DataCenterCore
             rtuStation.CharonIp = parts[3];
             return rtuStation;
         }
+
+        private static string RtuStationToLine(RtuStation rtuStation)
+        {
+            var reserveAddress = rtuStation.PcAddresses.DoubleAddress.HasReserveAddress
+                ? rtuStation.PcAddresses.DoubleAddress.Reserve.Ip4Address
+                : "none";
+            return $"{rtuStation.Id} {rtuStation.PcAddresses.DoubleAddress.Main.Ip4Address} {reserveAddress} {rtuStation.CharonIp}";
+        }
+ 
+        #endregion
     }
 }

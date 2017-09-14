@@ -6,15 +6,22 @@ namespace WcfConnections
 {
     public class C2DWcfManager
     {
+        private readonly IniFile _iniFile;
         private readonly LogFile _logFile;
         private readonly Guid _clientId;
-        private readonly WcfFactory _wcfFactory;
+        private WcfFactory _wcfFactory;
 
         public C2DWcfManager(DoubleAddress dataCenterAddress, IniFile iniFile, LogFile logFile, Guid clientId)
         {
+            _iniFile = iniFile;
             _logFile = logFile;
             _clientId = clientId;
-            _wcfFactory = new WcfFactory(dataCenterAddress, iniFile, _logFile);
+            _wcfFactory = new WcfFactory(dataCenterAddress, _iniFile, _logFile);
+        }
+
+        public void ChangeServerAddresses(DoubleAddress newServerAddress)
+        {
+            _wcfFactory = new WcfFactory(newServerAddress, _iniFile, _logFile);
         }
 
         public bool RegisterClient(RegisterClientDto dto)

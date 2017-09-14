@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Caliburn.Micro;
+using ClientWcfServiceLibrary;
 using Dto;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Serilog;
+using WcfConnections;
 
 namespace Iit.Fibertest.Client
 {
@@ -31,6 +32,7 @@ namespace Iit.Fibertest.Client
         private readonly ILogger _log;
         private readonly IniFile _iniFile35;
         private readonly LogFile _logFile;
+        private Rtu _originalRtu;
 
         private string _initilizationProgress;
         public string InitilizationProgress
@@ -44,7 +46,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public RtuInitializeViewModel(Guid clientId, Guid rtuId, 
+        public RtuInitializeViewModel(Guid clientId, Guid rtuId,
             ReadModel readModel, IWindowManager windowManager, Bus bus, IniFile iniFile35, ILogger log, LogFile logFile)
         {
             _rtuId = rtuId;
@@ -55,16 +57,26 @@ namespace Iit.Fibertest.Client
             _iniFile35 = iniFile35;
             _logFile = logFile;
 
-            var originalRtu = readModel.Rtus.First(r => r.Id == _rtuId);
-            Title = originalRtu.Title;
-            Comment = originalRtu.Comment;
-            Serial = originalRtu.Serial;
-            PortCount = $@"{originalRtu.OwnPortCount} / {originalRtu.FullPortCount}";
-            OtdrNetAddress = originalRtu.OtdrNetAddress;
+            _originalRtu = readModel.Rtus.First(r => r.Id == _rtuId);
+            Title = _originalRtu.Title;
+            Comment = _originalRtu.Comment;
+            Serial = _originalRtu.Serial;
+            PortCount = $@"{_originalRtu.OwnPortCount} / {_originalRtu.FullPortCount}";
+            OtdrNetAddress = _originalRtu.OtdrNetAddress;
             var serverAddress = _iniFile35.ReadDoubleAddress(11842);
-            MainChannelTestViewModel = new NetAddressTestViewModel(originalRtu.MainChannel, _iniFile35, _logFile, clientId, serverAddress.Main);
-            ReserveChannelTestViewModel = new NetAddressTestViewModel(originalRtu.ReserveChannel, _iniFile35, _logFile, clientId, serverAddress.Reserve);
-            IsReserveChannelEnabled = originalRtu.IsReserveChannelSet;
+            MainChannelTestViewModel = new NetAddressTestViewModel(_originalRtu.MainChannel, _iniFile35, _logFile, clientId, serverAddress.Main);
+            ReserveChannelTestViewModel = new NetAddressTestViewModel(_originalRtu.ReserveChannel, _iniFile35, _logFile, clientId, serverAddress.Reserve);
+            IsReserveChannelEnabled = _originalRtu.IsReserveChannelSet;
+            ClientWcfService.MessageReceived += ClientWcfService_MessageReceived;
+        }
+
+        private void ClientWcfService_MessageReceived(object e)
+        {
+            var dto = e as RtuInitializedDto;
+            if (dto != null)
+            {
+               ProcessRtuInitialized(dto);
+            }
         }
 
         protected override void OnViewLoaded(object view)
@@ -72,29 +84,56 @@ namespace Iit.Fibertest.Client
             DisplayName = Resources.SID_Network_settings;
         }
 
-        public async Task InitializeRtu()
+        public void InitializeRtu()
         {
             if (!CheckAddressUniqueness())
                 return;
-            // TODO InitializeOtau RTU via Server and RtuManager
-            var mainCharon = await RunInitializationProcess();
-            if (mainCharon == null)
-                // return;
-                mainCharon = TemporaryFakeInitialization();
 
-            //
-            await _bus.SendCommand(ParseInitializationResult(mainCharon));
+            InitilizationProgress = Resources.SID_Please__wait_;
+
+            var dto = new InitializeRtuDto()
+            {
+                RtuId = _originalRtu.Id,
+                RtuAddresses = new DoubleAddress()
+                {
+                    Main = MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress(),
+                    HasReserveAddress = IsReserveChannelEnabled,
+                    Reserve = IsReserveChannelEnabled ? ReserveChannelTestViewModel.NetAddressInputViewModel.GetNetAddress() : null,
+                }
+            };
+            using (new WaitCursor())
+            {
+                IoC.Get<C2DWcfManager>().InitializeRtu(dto);
+            }
         }
 
-        private Charon TemporaryFakeInitialization()
+        private void ProcessRtuInitialized(RtuInitializedDto dto)
         {
-            var charonAddress = new NetAddress(MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().Ip4Address, 23);
-            var mainCharon = new Charon(charonAddress, _iniFile35, _logFile);
-            mainCharon.FullPortCount = 8;
-            mainCharon.OwnPortCount = 8;
-            mainCharon.Serial = @"1234567";
-            return mainCharon;
+            if (!dto.IsInitialized)
+            {
+                var vm = new NotificationViewModel(Resources.SID_Error, @"RTU is not initialized");
+                _windowManager.ShowDialog(vm);
+                _log.Information(@"RTU is not initialized");
+                InitilizationProgress = Resources.SID_Failed_;
+                return;
+            }
+            _log.Information(@"RTU initialized successfully!");
+            InitilizationProgress = Resources.SID_Successful_;
+
+//            var charonAddress = new NetAddress(MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().Ip4Address, 23);
+//            var mainCharon = new Charon(charonAddress, _iniFile35, _logFile);
+//            _bus.SendCommand(ParseInitializationResult(mainCharon));
         }
+
+//        private Charon TemporaryFakeInitialization()
+        //        {
+        //            var charonAddress = new NetAddress(MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().Ip4Address, 23);
+        //            var mainCharon = new Charon(charonAddress, _iniFile35, _logFile);
+        //            mainCharon.FullPortCount = 8;
+        //            mainCharon.OwnPortCount = 8;
+        //            mainCharon.Serial = @"1234567";
+        //            return mainCharon;
+        //        }
 
         public bool CheckAddressUniqueness()
         {
@@ -117,31 +156,7 @@ namespace Iit.Fibertest.Client
             return true;
         }
 
-        private async Task<Charon> RunInitializationProcess()
-        {
-            InitilizationProgress = Resources.SID_Please__wait_;
-
-            var charonAddress = new NetAddress(MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().Ip4Address, 23);
-            var mainCharon = new Charon(charonAddress, _iniFile35, _logFile);
-            using (new WaitCursor())
-            {
-                await Task.Run(() => mainCharon.InitializeRtu());
-            }
-
-            if (!mainCharon.IsLastCommandSuccessful)
-            {
-                var vm = new NotificationViewModel(Resources.SID_Error, $@"{mainCharon.LastErrorMessage}");
-                _windowManager.ShowDialog(vm);
-                _log.Information($@"last answer is {mainCharon.LastAnswer}");
-                InitilizationProgress = Resources.SID_Failed_;
-                return null;
-            }
-            _log.Information($@"last answer is {mainCharon.LastAnswer}");
-            InitilizationProgress = Resources.SID_Successful_;
-            return mainCharon;
-        }
-
-        private InitializeRtu ParseInitializationResult(Charon mainCharon)
+       private InitializeRtu ParseInitializationResult(Charon mainCharon)
         {
             var cmd = new InitializeRtu
             {

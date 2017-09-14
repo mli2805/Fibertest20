@@ -101,7 +101,8 @@ namespace Iit.Fibertest.Client
             return null;
         }
 
-        public RtuLeaf(Guid clientId, ReadModel readModel, IWindowManager windowManager, Bus bus, IniFile iniFile35, ILogger log, LogFile logFile, PostOffice postOffice, FreePorts view)
+        public RtuLeaf(Guid clientId, ReadModel readModel, IWindowManager windowManager, Bus bus,
+            IniFile iniFile35, ILogger log, LogFile logFile, PostOffice postOffice, FreePorts view)
             : base(readModel, windowManager, bus, postOffice)
         {
             _clientId = clientId;

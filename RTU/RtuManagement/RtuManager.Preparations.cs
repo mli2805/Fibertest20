@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using Dto;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.IitOtdrLibrary;
@@ -48,6 +49,7 @@ namespace RtuManagement
                 return false;
 
             var otdrAddress = _rtuIni.Read(IniSection.General, IniKey.OtdrIp, DefaultIp);
+            Thread.Sleep(3000);
             var res = _otdrManager.ConnectOtdr(otdrAddress);
             if (!res)
             {

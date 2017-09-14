@@ -111,7 +111,8 @@ namespace Iit.Fibertest.Client
 
         public override void CanClose(Action<bool> callback)
         {
-            _c2DWcfManager.UnRegisterClient(new UnRegisterClientDto());
+            // if user cancelled login view - _c2DWcfManager would be null
+            _c2DWcfManager?.UnRegisterClient(new UnRegisterClientDto());
             base.CanClose(callback);
         }
 
@@ -130,8 +131,10 @@ namespace Iit.Fibertest.Client
             if (_isAuthenticationSuccessfull != true)
                 TryClose();
 
-            var dcServiceAddresses = _iniFile.ReadDoubleAddress(11840);
-            _c2DWcfManager = new C2DWcfManager(dcServiceAddresses, _iniFile, _logFile, _clientId);
+            _c2DWcfManager = IoC.Get<C2DWcfManager>();
+//            var dcServiceAddresses = _iniFile.ReadDoubleAddress(11840);
+//            _c2DWcfManager = new C2DWcfManager(dcServiceAddresses, _iniFile, _logFile, _clientId);
+//            TreeOfRtuModel.C2DWcfManager = _c2DWcfManager;
         }
 
         protected override void OnViewLoaded(object view)

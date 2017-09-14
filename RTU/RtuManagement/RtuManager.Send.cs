@@ -45,7 +45,7 @@ namespace RtuManagement
             IsSenderBusy = false;
         }
 
-        private void SendToUserInitializationResult(CharonOperationResult result)
+        private void SendToUserInitializationResult(CharonOperationResult result, DoubleAddress rtuDoubleAddress)
         {
             IsSenderBusy = true;
 
@@ -54,10 +54,12 @@ namespace RtuManagement
                 {
                     RtuId = _id,
                     IsInitialized = true,
+                    PcDoubleAddress = rtuDoubleAddress,
                     OtdrAddress = _mainCharon.NetAddress,
                     Serial = _mainCharon.Serial,
                     FullPortCount = _mainCharon.FullPortCount,
-                    OwnPortCount = _mainCharon.OwnPortCount
+                    OwnPortCount = _mainCharon.OwnPortCount,
+                    Version = _version,
                 }
                 : new RtuInitializedDto() { RtuId = _id, IsInitialized = false };
             new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendInitializationConfirm(dto);

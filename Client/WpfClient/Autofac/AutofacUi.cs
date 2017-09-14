@@ -1,7 +1,9 @@
-﻿using Autofac;
+﻿using System;
+using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.UtilsLib;
 using Serilog;
+using WcfConnections;
 
 namespace Iit.Fibertest.Client
 {
@@ -34,6 +36,11 @@ namespace Iit.Fibertest.Client
             logFile.EmptyLine();
             logFile.EmptyLine('-');
             builder.RegisterInstance(logFile);
+
+            var clientId = Guid.Parse(iniFile.Read(IniSection.General, IniKey.ClientGuidOnServer, Guid.NewGuid().ToString()));
+            var serverAddresses = iniFile.ReadDoubleAddress(11840);
+            var c2DWcfManager = new C2DWcfManager(serverAddresses, iniFile, logFile, clientId);
+            builder.RegisterInstance(c2DWcfManager);
         }
 
 

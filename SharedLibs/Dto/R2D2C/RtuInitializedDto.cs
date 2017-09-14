@@ -16,6 +16,9 @@ namespace Dto
         public string Serial { get; set; }
 
         [DataMember]
+        public DoubleAddress PcDoubleAddress { get; set; }
+
+        [DataMember]
         public NetAddress OtdrAddress { get; set; }
 
         [DataMember]
@@ -23,6 +26,9 @@ namespace Dto
 
         [DataMember]
         public int FullPortCount { get; set; }
+
+        [DataMember]
+        public string Version { get; set; }
 
     }
 }

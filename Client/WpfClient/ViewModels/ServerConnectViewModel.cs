@@ -3,6 +3,7 @@ using Caliburn.Micro;
 using Dto;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
+using WcfConnections;
 
 namespace Iit.Fibertest.Client
 {
@@ -10,7 +11,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly IniFile _clientIni;
         private string _message;
-        private readonly DoubleAddress _dcServiceAddresses;
+        private DoubleAddress _dcServiceAddresses;
         public NetAddressTestViewModel ServerConnectionTestViewModel { get; set; }
 
         public string Message
@@ -51,6 +52,10 @@ namespace Iit.Fibertest.Client
         {
             _dcServiceAddresses.Main = (NetAddress)ServerConnectionTestViewModel.NetAddressInputViewModel.GetNetAddress().Clone();
             _clientIni.WriteServerAddresses(_dcServiceAddresses);
+
+            _dcServiceAddresses = _clientIni.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
+            IoC.Get<C2DWcfManager>().ChangeServerAddresses(_dcServiceAddresses);
+
             TryClose(true);
         }
 

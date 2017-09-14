@@ -49,7 +49,7 @@ namespace RtuManagement
             }
         }
 
-        public void Load()
+        public bool Load()
         {
             try
             {
@@ -57,11 +57,13 @@ namespace RtuManagement
                 {
                     var binaryFormatter = new BinaryFormatter();
                     Dto = (MonitoringResultDto)binaryFormatter.Deserialize(fStream);
+                    return true;
                 }
             }
             catch (Exception e)
             {
                 LogFile.AppendLine(e.Message);
+                return false;
             }
         }
 

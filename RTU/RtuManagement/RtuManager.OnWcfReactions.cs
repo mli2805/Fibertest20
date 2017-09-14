@@ -36,7 +36,7 @@ namespace RtuManagement
 
             var initializationResult = InitializeRtuManager();
             if (isUserAskedInitialization)
-                SendToUserInitializationResult(initializationResult);
+                SendToUserInitializationResult(initializationResult, rtu?.RtuAddresses);
             if (initializationResult != CharonOperationResult.Ok)
                 return;
             IsRtuInitialized = true;

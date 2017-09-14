@@ -62,7 +62,6 @@ namespace Iit.Fibertest.Client
 
         public void Test()
         {
-
             if (_serverAddress == null) // check server address
             {
                 var doubleAddress = new DoubleAddress() { HasReserveAddress = false, Main = (NetAddress)NetAddressInputViewModel.GetNetAddress().Clone() };

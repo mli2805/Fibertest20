@@ -82,13 +82,17 @@ namespace Iit.Fibertest.Client
 
         private void RegisterClient()
         {
-            var dcServiceAddresses = _iniFile.ReadDoubleAddress(11840);
+            //            var dcServiceAddresses = _iniFile.ReadDoubleAddress(11840);
+            //            var c2DWcfManager = new C2DWcfManager(dcServiceAddresses, _iniFile, _logFile, _clientId);
+            var c2DWcfManager = IoC.Get<C2DWcfManager>();
+
             var clientAddresses = _iniFile.Read(IniSection.ClientLocalAddress, (int)TcpPorts.ClientListenTo);
-
-            var c2DWcfManager = new C2DWcfManager(dcServiceAddresses, _iniFile, _logFile, _clientId);
-
-            if (!c2DWcfManager.RegisterClient(new RegisterClientDto()
-            { Addresses = new DoubleAddress() { Main = clientAddresses, HasReserveAddress = false }, UserName = UserName }))
+            if (!c2DWcfManager.RegisterClient(
+                new RegisterClientDto()
+                {
+                    Addresses = new DoubleAddress() { Main = clientAddresses, HasReserveAddress = false },
+                    UserName = UserName
+                }))
                 MessageBox.Show(Resources.SID_Cannot_register_on_server_);
             Status = Resources.SID_Request_is_sent;
         }

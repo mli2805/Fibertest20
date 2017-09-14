@@ -78,7 +78,14 @@ namespace RtuManagement
                     if (SendMoniResult(moniResultOnDisk))
                     {
                         QueueOfMoniResultsOnDisk.TryDequeue(out moniResultOnDisk);
-                        moniResultOnDisk.Delete();
+                        try
+                        {
+                            moniResultOnDisk.Delete();
+                        }
+                        catch (Exception e)
+                        {
+                            _serviceLog.AppendLine($"Error while moniresult deleting from disk {e.Message}");
+                        }
                     }
                 }
             }
@@ -92,8 +99,11 @@ namespace RtuManagement
         {
             try
             {
-                moniResultOnDisk.Load();
-                return new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendMonitoringResult(moniResultOnDisk.Dto);
+                if (moniResultOnDisk.Load())
+                    return new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendMonitoringResult(moniResultOnDisk.Dto);
+
+                _serviceLog.AppendLine("something wrong with this moniresult, it will be deleted from queue");
+                return true;
             }
             catch (Exception e)
             {
