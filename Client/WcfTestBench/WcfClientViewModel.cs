@@ -107,16 +107,14 @@ namespace WcfTestBench
 
         private void ProcessRtuConnectionChecked(RtuConnectionCheckedDto dto)
         {
-            if (dto.IsRtuInitialized)
+            if (dto.IsConnectionSuccessfull)
             {
-                DisplayString = Resources.SID_Rtu_initialized;
+                DisplayString = Resources.SID_RTU_connected_successfully_;
             }
             else
             {
-                if (dto.IsServiceStarted)
-                    DisplayString = Resources.SID_Service_alive;
-                else
-                    DisplayString = dto.IsPingSuccessful ? Resources.SID____Ping_passed__OK : Resources.SID_Ping_does_not_pass_;
+                var ping = dto.IsPingSuccessful ? Resources.SID____Ping_passed__OK : Resources.SID_Ping_does_not_pass_;
+                DisplayString = string.Format(Resources.SID_Can_t_connect_RTU___0_, ping);
             }
         }
         #endregion
@@ -166,7 +164,7 @@ namespace WcfTestBench
             SelectedRtu = RtuList.First();
 
             _c2DWcfManager = new C2DWcfManager(DcServiceAddresses, _clientIni, _clientLog, _clientGuid);
-            if (!_c2DWcfManager.RegisterClient(new RegisterClientDto() {Addresses = new DoubleAddress() {Main = clientAddresses, HasReserveAddress = false}, UserName = @"Vasya"}))
+            if (!_c2DWcfManager.RegisterClient(new RegisterClientDto() { Addresses = new DoubleAddress() { Main = clientAddresses, HasReserveAddress = false }, UserName = @"Vasya" }))
                 MessageBox.Show(@"Cannot register on server!");
 
             // start 11843 listener
@@ -237,7 +235,7 @@ namespace WcfTestBench
 
         public void BaseRefs()
         {
-            var openFileDialog = new OpenFileDialog {Filter = @"sor files|*.sor"};
+            var openFileDialog = new OpenFileDialog { Filter = @"sor files|*.sor" };
             byte[] buffer = null;
             if (openFileDialog.ShowDialog() == true)
             {
@@ -257,8 +255,8 @@ namespace WcfTestBench
                 RtuId = SelectedRtu.Id,
                 OtauPortDto = new OtauPortDto()
                 {
-                    Ip = SelectedRtu.PcAddresses.DoubleAddress.Main.Ip4Address,
-                    TcpPort = 23,
+                    OtauIp = SelectedRtu.PcAddresses.DoubleAddress.Main.Ip4Address,
+                    OtauTcpPort = 23,
                     OpticalPort = 1
                 },
                 BaseRefs = new List<BaseRefDto>()
@@ -272,7 +270,7 @@ namespace WcfTestBench
             _c2DWcfManager.AssignBaseRef(dto);
             DisplayString = Resources.SID_Command_sent__wait_please_;
         }
-       
+
         public void RtuState()
         {
             var vm = new RtuStateViewModel(SelectedRtu.Id);
@@ -290,13 +288,13 @@ namespace WcfTestBench
         public void StartMonitoring()
         {
             DisplayString = _c2DWcfManager.StartMonitoring(
-                new StartMonitoringDto() {RtuId = SelectedRtu.Id }) ? Resources.SID_Command_sent__wait_please_ : Resources.SID_Error_;
+                new StartMonitoringDto() { RtuId = SelectedRtu.Id }) ? Resources.SID_Command_sent__wait_please_ : Resources.SID_Error_;
         }
 
         public void StopMonitoring()
         {
             DisplayString = _c2DWcfManager.StopMonitoring(
-                new StopMonitoringDto() {RtuId = SelectedRtu.Id }) ? Resources.SID_Command_sent__wait_please_ : Resources.SID_Error_;
+                new StopMonitoringDto() { RtuId = SelectedRtu.Id }) ? Resources.SID_Command_sent__wait_please_ : Resources.SID_Error_;
         }
 
         private MonitoringSettingsModel PopulateModel()
@@ -340,7 +338,7 @@ namespace WcfTestBench
             return result;
         }
 
-     
+
         public void MeasReflect()
         {
             // this is only command which needs direct rtu connection
@@ -349,7 +347,7 @@ namespace WcfTestBench
                 return;
 
             DisplayString = string.Format(Resources.SID_Established_connection_with_RTU__0_, SelectedRtu.PcAddresses.DoubleAddress.Main.Ip4Address);
-            var port = new OtauPortDto() {IsPortOnMainCharon = true, TcpPort = 23, OpticalPort = 2}; // just for test
+            var port = new OtauPortDto() { IsPortOnMainCharon = true, OtauTcpPort = 23, OpticalPort = 2 }; // just for test
             if (!wcfRtuConnection.ToggleToPort(port))
             {
                 DisplayString = Resources.SID_Cannot_toggle_to_port_;
@@ -394,7 +392,7 @@ namespace WcfTestBench
                 new NetAddress(@"192.168.96.21", (int) TcpPorts.ServerListenToClient),
                 new NetAddress(@"192.168.97.21", (int) TcpPorts.ServerListenToClient),
             };
-            var addr = new NetAddress() {IsAddressSetAsIp = false, HostName = @"some.site.by", Port = (int)TcpPorts.ServerListenToClient };
+            var addr = new NetAddress() { IsAddressSetAsIp = false, HostName = @"some.site.by", Port = (int)TcpPorts.ServerListenToClient };
             result.Add(addr);
             return result;
         }
@@ -426,7 +424,7 @@ namespace WcfTestBench
                 PcAddresses = new DoubleAddressWithLastConnectionCheck()
                 {
                     DoubleAddress = new DoubleAddress()
-                    { 
+                    {
                         Main = new NetAddress(parts[1], (int)TcpPorts.RtuListenTo),
                     },
                     LastConnectionOnMain = DateTime.Now,

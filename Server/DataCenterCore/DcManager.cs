@@ -48,7 +48,7 @@ namespace DataCenterCore
 
             var lastConnectionTimeChecker = new LastConnectionTimeChecker(_dcLog, _coreIni);
             lastConnectionTimeChecker.RtuStations = _rtuStations;
-            var thread = new  Thread(lastConnectionTimeChecker.Start) {IsBackground = true};
+            var thread = new Thread(lastConnectionTimeChecker.Start) { IsBackground = true };
             thread.Start();
         }
 
@@ -96,7 +96,17 @@ namespace DataCenterCore
 
         private ConcurrentDictionary<Guid, RtuStation> InitializeRtuStationListFromDb()
         {
-            return ReadDbTempTxt();
+            try
+            {
+                return ReadDbTempTxt();
+
+            }
+            catch (Exception e)
+            {
+                _dcLog.AppendLine("ReadDbTempTxt");
+                _dcLog.AppendLine(e.Message);
+                return null;
+            }
         }
 
         #region Temporary functions for store rtu in txt file
@@ -169,7 +179,7 @@ namespace DataCenterCore
                 : "none";
             return $"{rtuStation.Id} {rtuStation.PcAddresses.DoubleAddress.Main.Ip4Address} {reserveAddress} {rtuStation.CharonIp}";
         }
- 
+
         #endregion
     }
 }

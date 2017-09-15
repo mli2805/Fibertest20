@@ -72,9 +72,11 @@ namespace RtuManagement
                     _serviceLog.AppendLine($"There are {QueueOfMoniResultsOnDisk.Count} moniresults in the queue");
                 }
 
+                var isTheSameMoniresultPeeked = false;
                 while (QueueOfMoniResultsOnDisk.TryPeek(out moniResultOnDisk))
                 {
-                    _serviceLog.AppendLine("Moniresult peeked from the queue");
+                    if (!isTheSameMoniresultPeeked)
+                        _serviceLog.AppendLine("Moniresult peeked from the queue");
                     if (SendMoniResult(moniResultOnDisk))
                     {
                         QueueOfMoniResultsOnDisk.TryDequeue(out moniResultOnDisk);
@@ -86,6 +88,12 @@ namespace RtuManagement
                         {
                             _serviceLog.AppendLine($"Error while moniresult deleting from disk {e.Message}");
                         }
+                    }
+                    else
+                    {
+                        if (!isTheSameMoniresultPeeked)
+                            _serviceLog.AppendLine("Can't send moniresult");
+                        isTheSameMoniresultPeeked = true;
                     }
                 }
             }

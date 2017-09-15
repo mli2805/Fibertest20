@@ -195,8 +195,8 @@ namespace RtuManagement
                 TimeStamp = DateTime.Now,
                 OtauPort = new OtauPortDto()
                 {
-                    Ip = extendedPort.NetAddress.Ip4Address,
-                    TcpPort = extendedPort.NetAddress.Port,
+                    OtauIp = extendedPort.NetAddress.Ip4Address,
+                    OtauTcpPort = extendedPort.NetAddress.Port,
                     IsPortOnMainCharon = extendedPort.IsPortOnMainCharon,
                     OpticalPort = extendedPort.OpticalPort,
                 },

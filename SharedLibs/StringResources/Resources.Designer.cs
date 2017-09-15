@@ -557,11 +557,47 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Can&apos;t establish connection!.
+        ///   Looks up a localized string similar to Can&apos;t connect RTU.
         /// </summary>
-        public static string SID_Can_t_establish_connection_ {
+        public static string SID_Can_t_connect_RTU {
             get {
-                return ResourceManager.GetString("SID_Can_t_establish_connection_", resourceCulture);
+                return ResourceManager.GetString("SID_Can_t_connect_RTU", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t connect RTU, {0}.
+        /// </summary>
+        public static string SID_Can_t_connect_RTU___0_ {
+            get {
+                return ResourceManager.GetString("SID_Can_t_connect_RTU___0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t establish connection with RTU!.
+        /// </summary>
+        public static string SID_Can_t_establish_connection_with_RTU_ {
+            get {
+                return ResourceManager.GetString("SID_Can_t_establish_connection_with_RTU_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t establish connection with RTU! {0}Press Test before initialization..
+        /// </summary>
+        public static string SID_Can_t_establish_connection_with_RTU___0_Press_Test_before_Initialization_ {
+            get {
+                return ResourceManager.GetString("SID_Can_t_establish_connection_with_RTU___0_Press_Test_before_Initialization_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t establish connection with server!.
+        /// </summary>
+        public static string SID_Can_t_establish_connection_with_server_ {
+            get {
+                return ResourceManager.GetString("SID_Can_t_establish_connection_with_server_", resourceCulture);
             }
         }
         
@@ -616,15 +652,6 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Cannot_find_Reflect_exe {
             get {
                 return ResourceManager.GetString("SID_Cannot_find_Reflect_exe", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Cannot register on server!.
-        /// </summary>
-        public static string SID_Cannot_register_on_server_ {
-            get {
-                return ResourceManager.GetString("SID_Cannot_register_on_server_", resourceCulture);
             }
         }
         
@@ -697,6 +724,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Closure {
             get {
                 return ResourceManager.GetString("SID_Closure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Command is transmitted to RTU. {0}Confirmation is waited..
+        /// </summary>
+        public static string SID_Command_is_transmitted_to_RTU___0_Confirmation_is_waited_ {
+            get {
+                return ResourceManager.GetString("SID_Command_is_transmitted_to_RTU___0_Confirmation_is_waited_", resourceCulture);
             }
         }
         
@@ -2512,6 +2548,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to RTU connected successfully!.
+        /// </summary>
+        public static string SID_RTU_connected_successfully_ {
+            get {
+                return ResourceManager.GetString("SID_RTU_connected_successfully_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to RTU {0} connection checked: Alive = {1}.
         /// </summary>
         public static string SID_Rtu_connection_checked_Alive {
@@ -2544,6 +2589,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_RTU_is_not_found {
             get {
                 return ResourceManager.GetString("SID_RTU_is_not_found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RTU Manager software version.
+        /// </summary>
+        public static string SID_RTU_Manager_software_version {
+            get {
+                return ResourceManager.GetString("SID_RTU_Manager_software_version", resourceCulture);
             }
         }
         
@@ -2950,6 +3004,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Title_is_required {
             get {
                 return ResourceManager.GetString("SID_Title_is_required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Title should be set!.
+        /// </summary>
+        public static string SID_Title_should_be_set_ {
+            get {
+                return ResourceManager.GetString("SID_Title_should_be_set_", resourceCulture);
             }
         }
         

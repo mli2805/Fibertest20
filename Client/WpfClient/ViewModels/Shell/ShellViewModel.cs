@@ -113,6 +113,7 @@ namespace Iit.Fibertest.Client
         {
             // if user cancelled login view - _c2DWcfManager would be null
             _c2DWcfManager?.UnRegisterClient(new UnRegisterClientDto());
+            Save();
             base.CanClose(callback);
         }
 

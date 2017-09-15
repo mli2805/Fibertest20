@@ -51,7 +51,7 @@ namespace WcfTestBench.RtuState
         {
             if (dto.IsPortOnMainCharon)
                 return dto.OpticalPort.ToString();
-            return $@"{dto.OpticalPort} on {dto.Ip}:{dto.TcpPort}";
+            return $@"{dto.OpticalPort} on {dto.OtauIp}:{dto.OtauTcpPort}";
         }
         private string Dto2String(KnowRtuCurrentMonitoringStepDto dto)
         {

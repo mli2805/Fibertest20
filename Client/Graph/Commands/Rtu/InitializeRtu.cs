@@ -16,6 +16,7 @@ namespace Iit.Fibertest.Graph
         public string Serial { get; set; }
         public int OwnPortCount { get; set; }
         public int FullPortCount { get; set; }
+        public string Version { get; set; }
 
         public List<AttachOtau> Otaus { get; set; } = new List<AttachOtau>();
     }

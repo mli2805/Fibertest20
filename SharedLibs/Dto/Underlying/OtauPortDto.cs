@@ -8,15 +8,26 @@ namespace Dto
     public class OtauPortDto
     {
         [DataMember]
-        public string Ip { get; set; }
-
-        [DataMember]
-        public bool IsPortOnMainCharon { get; set; } // if true - value of Ip will be ignored
-
-        [DataMember]
-        public int TcpPort { get; set; }
-
-        [DataMember]
         public int OpticalPort { get; set; }
+
+        [DataMember]
+        public bool IsPortOnMainCharon { get; set; } // if true - value of OtauIp will be ignored
+
+        [DataMember]
+        public string OtauIp { get; set; }
+
+        [DataMember]
+        public int OtauTcpPort { get; set; }
+    }
+
+    [DataContract]
+    public class OtauDto
+    {
+        [DataMember]
+        public string Serial { get; set; }
+        [DataMember]
+        public NetAddress NetAddress { get; set; }
+        [DataMember]
+        public int OwnPortCount { get; set; }
     }
 }

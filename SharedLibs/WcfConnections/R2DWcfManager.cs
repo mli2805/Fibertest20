@@ -207,7 +207,7 @@ namespace WcfConnections
                 wcfConnection.ProcessMonitoringResult(dto);
                 var port = dto.OtauPort.IsPortOnMainCharon
                     ? dto.OtauPort.OpticalPort.ToString()
-                    : $"{dto.OtauPort.OpticalPort} on {dto.OtauPort.Ip}:{dto.OtauPort.TcpPort}";
+                    : $"{dto.OtauPort.OpticalPort} on {dto.OtauPort.OtauIp}:{dto.OtauPort.OtauTcpPort}";
                 _logFile.AppendLine($"Sending {dto.BaseRefType} meas port {port} : {dto.TraceState}");
                 return true;
             }

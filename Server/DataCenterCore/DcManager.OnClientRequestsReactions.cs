@@ -17,7 +17,6 @@ namespace DataCenterCore
             switch (result)
             {
                 case MessageProcessingResult.TransmittedSuccessfully:
-                    break;
                 case MessageProcessingResult.FailedToTransmit:
                 case MessageProcessingResult.TransmittedSuccessfullyButRtuIsBusy:
                     _rtuCommandDeliveredDto.MessageProcessingResult = result;
@@ -41,7 +40,7 @@ namespace DataCenterCore
             var clientStation = GetClientStation(_rtuCommandDeliveredDto.ClientId);
             if (clientStation == null)
                 return;
-            new D2CWcfManager(new List<DoubleAddress>() {clientStation.PcAddresses.DoubleAddress}, _coreIni, _dcLog)
+            new D2CWcfManager(new List<DoubleAddress>() { clientStation.PcAddresses.DoubleAddress }, _coreIni, _dcLog)
                 .ConfirmRtuCommandDelivered(_rtuCommandDeliveredDto);
         }
 
@@ -115,8 +114,8 @@ namespace DataCenterCore
                     });
             }
 
-            var result = new ClientRegisteredDto() {IsRegistered = true};
-            new D2CWcfManager(new List<DoubleAddress>() { dto.Addresses}, _coreIni, _dcLog).ConfirmClientRegistered(result);
+            var result = new ClientRegisteredDto() { IsRegistered = true };
+            new D2CWcfManager(new List<DoubleAddress>() { dto.Addresses }, _coreIni, _dcLog).ConfirmClientRegistered(result);
 
         }
 
@@ -142,19 +141,25 @@ namespace DataCenterCore
             if (dto == null)
                 return;
 
-            var result = new RtuConnectionCheckedDto() { RtuId = dto.RtuId, IsServiceStarted = false, IsRtuInitialized = false };
-            var rtuConnection = new WcfFactory(new DoubleAddress() {Main  = dto.NetAddress}, _coreIni, _dcLog).CreateRtuConnection();
-            if (rtuConnection != null)
+            var clientStation = GetClientStation(dto.ClientId);
+            if (clientStation == null)
             {
-                rtuConnection.IsRtuInitialized(dto); // rtu will answer on this request itself;
+                _dcLog.AppendLine("Unknown client!");
                 return;
             }
 
-            // if failed
-            result.IsPingSuccessful = Pinger.Ping(dto.NetAddress.IsAddressSetAsIp ? dto.NetAddress.Ip4Address : dto.NetAddress.HostName);
-            var clientStation = GetClientStation(dto.ClientId);
-            if (clientStation != null)
-                new D2CWcfManager(new List<DoubleAddress>() { clientStation.PcAddresses.DoubleAddress }, _coreIni, _dcLog).ConfirmRtuConnectionChecked(result);
+            var result = new RtuConnectionCheckedDto() { RtuId = dto.RtuId };
+            var rtuConnection = new WcfFactory(new DoubleAddress() { Main = dto.NetAddress }, _coreIni, _dcLog).CreateRtuConnection();
+            if (rtuConnection != null)
+            {
+                result.IsConnectionSuccessfull = true;
+            }
+            else
+            {
+                result.IsConnectionSuccessfull = false;
+                result.IsPingSuccessful = Pinger.Ping(dto.NetAddress.IsAddressSetAsIp ? dto.NetAddress.Ip4Address : dto.NetAddress.HostName);
+            }
+            new D2CWcfManager(new List<DoubleAddress>() { clientStation.PcAddresses.DoubleAddress }, _coreIni, _dcLog).ConfirmRtuConnectionChecked(result);
         }
 
         private ClientStation GetClientStation(Guid clientId)
@@ -180,8 +185,8 @@ namespace DataCenterCore
             _rtuCommandDeliveredDto.RtuId = dto.RtuId;
 
             RtuStation rtuStation;
-            return _rtuStations.TryGetValue(dto.RtuId, out rtuStation) 
-                ? new D2RWcfManager(rtuStation.PcAddresses.DoubleAddress, _coreIni, _dcLog).StartMonitoring(dto) 
+            return _rtuStations.TryGetValue(dto.RtuId, out rtuStation)
+                ? new D2RWcfManager(rtuStation.PcAddresses.DoubleAddress, _coreIni, _dcLog).StartMonitoring(dto)
                 : MessageProcessingResult.UnknownRtu;
         }
 
@@ -191,8 +196,8 @@ namespace DataCenterCore
             _rtuCommandDeliveredDto.RtuId = dto.RtuId;
 
             RtuStation rtuStation;
-            return _rtuStations.TryGetValue(dto.RtuId, out rtuStation) 
-                ? new D2RWcfManager(rtuStation.PcAddresses.DoubleAddress, _coreIni, _dcLog).StopMonitoring(dto) 
+            return _rtuStations.TryGetValue(dto.RtuId, out rtuStation)
+                ? new D2RWcfManager(rtuStation.PcAddresses.DoubleAddress, _coreIni, _dcLog).StopMonitoring(dto)
                 : MessageProcessingResult.UnknownRtu;
         }
 
@@ -202,8 +207,8 @@ namespace DataCenterCore
             _rtuCommandDeliveredDto.RtuId = dto.RtuId;
 
             RtuStation rtuStation;
-            return _rtuStations.TryGetValue(dto.RtuId, out rtuStation) 
-                ? new D2RWcfManager(rtuStation.PcAddresses.DoubleAddress, _coreIni, _dcLog).AssignBaseRef(dto) 
+            return _rtuStations.TryGetValue(dto.RtuId, out rtuStation)
+                ? new D2RWcfManager(rtuStation.PcAddresses.DoubleAddress, _coreIni, _dcLog).AssignBaseRef(dto)
                 : MessageProcessingResult.UnknownRtu;
         }
 

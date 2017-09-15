@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using Dto;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.UtilsLib;
@@ -30,21 +31,6 @@ namespace RtuManagement
             }
         }
 
-        public void SendCurrentState(object dto)
-        {
-            IsSenderBusy = true;
-
-            var param = dto as CheckRtuConnectionDto;
-            if (param == null)
-                return;
-
-            var result = new RtuConnectionCheckedDto()
-            { ClientId = param.ClientId, IsServiceStarted = true, IsRtuInitialized = IsRtuInitialized };
-            new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendCurrentState(result);
-
-            IsSenderBusy = false;
-        }
-
         private void SendToUserInitializationResult(CharonOperationResult result, DoubleAddress rtuDoubleAddress)
         {
             IsSenderBusy = true;
@@ -60,6 +46,7 @@ namespace RtuManagement
                     FullPortCount = _mainCharon.FullPortCount,
                     OwnPortCount = _mainCharon.OwnPortCount,
                     Version = _version,
+                    Children = new Dictionary<int, OtauDto>(),
                 }
                 : new RtuInitializedDto() { RtuId = _id, IsInitialized = false };
             new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendInitializationConfirm(dto);
@@ -80,8 +67,8 @@ namespace RtuManagement
                 MonitoringStep = currentMonitoringStep,
                 OtauPort = new OtauPortDto()
                 {
-                    Ip = extendedPort.NetAddress.Ip4Address,
-                    TcpPort = extendedPort.NetAddress.Port,
+                    OtauIp = extendedPort.NetAddress.Ip4Address,
+                    OtauTcpPort = extendedPort.NetAddress.Port,
                     OpticalPort = extendedPort.OpticalPort
                 },
                 BaseRefType = baseRefType,

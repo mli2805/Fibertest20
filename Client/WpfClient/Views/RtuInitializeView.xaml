@@ -20,9 +20,10 @@
         </Style>
     </Window.Resources>
     <StackPanel Margin="0,0,1,0">
-        <GroupBox Header="{x:Static stringResources:Resources.SID_RTU_Title}" Margin="5">
+        <GroupBox Header="RTU" Margin="5">
             <StackPanel>
-                <TextBlock Text="{Binding Title}" Margin="5"/>
+                <TextBlock Text="{Binding OriginalRtu.Id}" Margin="5"/>
+                <TextBox Text="{Binding OriginalRtu.Title}" Margin="5"/>
             </StackPanel>
         </GroupBox>
         <GroupBox Header="{x:Static stringResources:Resources.SID_Main_channel}" Margin="5">
@@ -32,11 +33,11 @@
             <StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="IP" Margin="5" Width="40" TextAlignment="Right"/>
-                    <TextBlock Text="{Binding OtdrNetAddress.Ip4Address}" Margin="5"/>
+                    <TextBlock Text="{Binding OriginalRtu.OtdrNetAddress.Ip4Address}" Margin="5"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="{x:Static stringResources:Resources.SID_Port}" Margin="5" Width="40" TextAlignment="Right"/>
-                    <TextBlock Text="{Binding OtdrNetAddress.Port}" Margin="5"/>
+                    <TextBlock Text="{Binding OriginalRtu.OtdrNetAddress.Port}" Margin="5"/>
                 </StackPanel>
             </StackPanel>
         </GroupBox>
@@ -51,11 +52,15 @@
             <StackPanel>
                 <DockPanel>
                     <TextBlock Text="{x:Static stringResources:Resources.SID_Serial}" Margin="5"></TextBlock>
-                    <TextBlock Text="{Binding Serial}" Margin="5"></TextBlock>
+                    <TextBlock Text="{Binding OriginalRtu.Serial}" Margin="5"></TextBlock>
                 </DockPanel>
                 <DockPanel>
-                    <TextBlock Text="{x:Static stringResources:Resources.SID_Port_count}" Margin="5"></TextBlock>
-                    <TextBlock Text="{Binding PortCount}" Margin="5"></TextBlock>
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Port_count}" Margin="5"/>
+                    <TextBlock Text="{Binding OriginalRtu.PortCount}" Margin="5"/>
+                </DockPanel>
+                <DockPanel>
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_RTU_Manager_software_version}" Margin="5"/>
+                    <TextBlock Text="{Binding OriginalRtu.RtuManagerSoftwareVersion}" Margin="5"/>
                 </DockPanel>
             </StackPanel>
         </GroupBox>

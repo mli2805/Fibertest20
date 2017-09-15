@@ -115,7 +115,7 @@ namespace WcfTestBench.MonitoringSettings
                 {
                     ports.Add(new OtauPortDto
                     {
-                        Ip = charon.CharonIpAddress, TcpPort = charon.CharonTcpPort, OpticalPort = port.PortNumber, IsPortOnMainCharon = charon.IsMainCharon
+                        OtauIp = charon.CharonIpAddress, OtauTcpPort = charon.CharonTcpPort, OpticalPort = port.PortNumber, IsPortOnMainCharon = charon.IsMainCharon
                     });
                 }
             }

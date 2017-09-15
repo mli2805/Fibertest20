@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Dto
@@ -29,6 +30,9 @@ namespace Dto
 
         [DataMember]
         public string Version { get; set; }
+
+        [DataMember]
+        public Dictionary<int, OtauDto> Children { get; set; }
 
     }
 }

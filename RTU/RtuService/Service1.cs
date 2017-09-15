@@ -94,15 +94,6 @@ namespace RtuService
 
         private void ProcessMessage(object msg)
         {
-            var dto1 = msg as CheckRtuConnectionDto;
-            if (dto1 != null)
-            {
-                var thread = new Thread(_rtuManager.SendCurrentState);
-                thread.Start(dto1);
-                _serviceLog.AppendLine("User asked RTU state");
-                return;
-            }
-
             var dto2 = msg as InitializeRtuDto;
             if (dto2 != null)
             {

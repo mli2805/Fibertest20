@@ -172,8 +172,8 @@ namespace RtuManagement
         {
             var otdrIp = _rtuIni.Read(IniSection.General, IniKey.OtdrIp, "192.168.88.101");
             var content = dto.Ports.Select(port => port.IsPortOnMainCharon
-                    ? $"{otdrIp}:{port.TcpPort}-{port.OpticalPort}"
-                    : $"{port.Ip}:{port.TcpPort}-{port.OpticalPort}")
+                    ? $"{otdrIp}:{port.OtauTcpPort}-{port.OpticalPort}"
+                    : $"{port.OtauIp}:{port.OtauTcpPort}-{port.OpticalPort}")
                 .ToList();
 
             var monitoringSettingsFile = Utils.FileNameForSure(@"..\ini\", @"monitoring.que", false);
@@ -191,8 +191,8 @@ namespace RtuManagement
             var otdrIp = _rtuIni.Read(IniSection.General, IniKey.OtdrIp, "192.168.88.101");
 
             var portFolderName = assignBaseRefDto.OtauPortDto.IsPortOnMainCharon
-                ? $@"{otdrIp}t{assignBaseRefDto.OtauPortDto.TcpPort}p{assignBaseRefDto.OtauPortDto.OpticalPort}\"
-                : $@"{assignBaseRefDto.OtauPortDto.Ip}t{assignBaseRefDto.OtauPortDto.TcpPort}p{assignBaseRefDto.OtauPortDto.OpticalPort}\";
+                ? $@"{otdrIp}t{assignBaseRefDto.OtauPortDto.OtauTcpPort}p{assignBaseRefDto.OtauPortDto.OpticalPort}\"
+                : $@"{assignBaseRefDto.OtauPortDto.OtauIp}t{assignBaseRefDto.OtauPortDto.OtauTcpPort}p{assignBaseRefDto.OtauPortDto.OpticalPort}\";
 
             var appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
             var appDir = Path.GetDirectoryName(appPath);
@@ -244,9 +244,9 @@ namespace RtuManagement
 
         public bool ToggleToPort(OtauPortDto port)
         {
-            if (port.TcpPort == 23)
-                port.Ip = _rtuIni.Read(IniSection.General, IniKey.OtdrIp, "192.168.88.101");
-            var toggleResult = _mainCharon.SetExtendedActivePort(new NetAddress(port.Ip, port.TcpPort), port.OpticalPort);
+            if (port.OtauTcpPort == 23)
+                port.OtauIp = _rtuIni.Read(IniSection.General, IniKey.OtdrIp, "192.168.88.101");
+            var toggleResult = _mainCharon.SetExtendedActivePort(new NetAddress(port.OtauIp, port.OtauTcpPort), port.OpticalPort);
 
             return toggleResult == CharonOperationResult.Ok;
         }

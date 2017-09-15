@@ -93,7 +93,7 @@ namespace Iit.Fibertest.Client
                     Addresses = new DoubleAddress() { Main = clientAddresses, HasReserveAddress = false },
                     UserName = UserName
                 }))
-                MessageBox.Show(Resources.SID_Cannot_register_on_server_);
+                MessageBox.Show(Resources.SID_Can_t_establish_connection_with_server_, Resources.SID_Error);
             Status = Resources.SID_Request_is_sent;
         }
 

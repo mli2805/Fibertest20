@@ -1144,9 +1144,6 @@ on port {0}: charon {1} ip {2} has {3} ports</value>
 	<data name="SID_User_signed_in" xml:space="preserve">
 		<value>Пользователь вошел</value>
 	</data>
-	<data name="SID_Cannot_register_on_server_" xml:space="preserve">
-		<value>Невозможно зарегистрироваться на сервере</value>
-	</data>
 	<data name="SID_Connection_check" xml:space="preserve">
 		<value>Проверка соединения</value>
 	</data>
@@ -1171,5 +1168,29 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Connection_established_successfully_" xml:space="preserve">
 		<value>Соединение установлено успешно!</value>
+	</data>
+	<data name="SID_RTU_connected_successfully_" xml:space="preserve">
+		<value>Соединение с RTU установлено успешно!</value>
+	</data>
+	<data name="SID_Can_t_connect_RTU___0_" xml:space="preserve">
+		<value>Невозможно установить соединение с RTU, {0}</value>
+	</data>
+	<data name="SID_Can_t_connect_RTU" xml:space="preserve">
+		<value>Невозможно установить соединение с RTU</value>
+	</data>
+	<data name="SID_Title_should_be_set_" xml:space="preserve">
+		<value>Название должно быть задано!</value>
+	</data>
+	<data name="SID_Can_t_establish_connection_with_server_" xml:space="preserve">
+		<value>Нет соединения с сервером!</value>
+	</data>
+	<data name="SID_Can_t_establish_connection_with_RTU___0_Press_Test_before_Initialization_" xml:space="preserve">
+		<value>Нет соединения с RTU! {0}Нажмите Тест перед инициализацией.</value>
+	</data>
+	<data name="SID_Can_t_establish_connection_with_RTU_" xml:space="preserve">
+		<value>Нет соединения с RTU!</value>
+	</data>
+	<data name="SID_Command_is_transmitted_to_RTU___0_Confirmation_is_waited_" xml:space="preserve">
+		<value>Команда подана на RTU. {0}Ожидаем результат.</value>
 	</data>
 </root>

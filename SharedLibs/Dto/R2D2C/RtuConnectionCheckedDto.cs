@@ -13,12 +13,8 @@ namespace Dto
         public Guid RtuId { get; set; }
 
         [DataMember]
-        public bool IsRtuInitialized { get; set; } // started && initialized
-
+        public bool IsConnectionSuccessfull { get; set; }
         [DataMember]
-        public bool IsServiceStarted { get; set; } // only started
-
-        [DataMember]
-        public bool IsPingSuccessful { get; set; } // is not started
+        public bool IsPingSuccessful { get; set; } // check if rtu service connection failed
     }
 }

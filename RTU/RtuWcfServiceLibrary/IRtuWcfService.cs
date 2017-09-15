@@ -8,9 +8,6 @@ namespace RtuWcfServiceLibrary
     public interface IRtuWcfService
     {
         [OperationContract]
-        bool IsRtuInitialized(CheckRtuConnectionDto dto);
-
-        [OperationContract]
         bool Initialize(InitializeRtuDto rtu);
 
         [OperationContract]

@@ -33,9 +33,8 @@
   <xs:complexType name="RtuConnectionCheckedDto">
     <xs:sequence>
       <xs:element minOccurs="0" name="ClientId" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsConnectionSuccessfull" type="xs:boolean" />
       <xs:element minOccurs="0" name="IsPingSuccessful" type="xs:boolean" />
-      <xs:element minOccurs="0" name="IsRtuInitialized" type="xs:boolean" />
-      <xs:element minOccurs="0" name="IsServiceStarted" type="xs:boolean" />
       <xs:element minOccurs="0" name="RtuId" type="ser:guid" />
     </xs:sequence>
   </xs:complexType>
@@ -44,12 +43,32 @@
     <xs:sequence>
       <xs:element minOccurs="0" name="FullPortCount" type="xs:int" />
       <xs:element minOccurs="0" name="IsInitialized" type="xs:boolean" />
+      <xs:element minOccurs="0" name="OtdrAddress" nillable="true" type="tns:NetAddress" />
       <xs:element minOccurs="0" name="OwnPortCount" type="xs:int" />
+      <xs:element minOccurs="0" name="PcDoubleAddress" nillable="true" type="tns:DoubleAddress" />
       <xs:element minOccurs="0" name="RtuId" type="ser:guid" />
       <xs:element minOccurs="0" name="Serial" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Version" nillable="true" type="xs:string" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="RtuInitializedDto" nillable="true" type="tns:RtuInitializedDto" />
+  <xs:complexType name="NetAddress">
+    <xs:sequence>
+      <xs:element name="_x003C_HostName_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_Ip4Address_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_IsAddressSetAsIp_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Port_x003E_k__BackingField" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="NetAddress" nillable="true" type="tns:NetAddress" />
+  <xs:complexType name="DoubleAddress">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="HasReserveAddress" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Main" nillable="true" type="tns:NetAddress" />
+      <xs:element minOccurs="0" name="Reserve" nillable="true" type="tns:NetAddress" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DoubleAddress" nillable="true" type="tns:DoubleAddress" />
   <xs:complexType name="MonitoringStartedDto">
     <xs:sequence>
       <xs:element minOccurs="0" name="IsSuccessful" type="xs:boolean" />

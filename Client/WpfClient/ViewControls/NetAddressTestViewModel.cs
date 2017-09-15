@@ -47,14 +47,15 @@ namespace Iit.Fibertest.Client
             if (dto != null)
             {
                 var caption = Resources.SID_Connection_check;
-                string message = Resources.SID_Cant_establish_connection_ + Environment.NewLine;
+                string message = Resources.SID_Can_t_connect_RTU + Environment.NewLine;
                 
-                if (dto.IsRtuInitialized)
-                    message = Resources.SID_Connection_established__RTU_is_Ok_;
-                else if (dto.IsServiceStarted)
-                    message = Resources.SID_Connection_established_Rtu_is_initializing_now;
+                if (dto.IsConnectionSuccessfull)
+                    message = Resources.SID_RTU_connected_successfully_;
                 else
-                    message += dto.IsPingSuccessful ? Resources.SID_Ping_passed_ : Resources.SID_Ping_failed;
+                {
+                    var ping = dto.IsPingSuccessful ? Resources.SID____Ping_passed__OK : Resources.SID_Ping_does_not_pass_;
+                    message += ping;
+                }
 
                 MessageBox.Show(message, caption);
             }

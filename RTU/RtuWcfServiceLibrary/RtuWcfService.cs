@@ -16,16 +16,6 @@ namespace RtuWcfServiceLibrary
         private readonly object _lockWcfObj = new object();
 
 
-        public bool IsRtuInitialized(CheckRtuConnectionDto dto)
-        {
-            lock (_lockWcfObj)
-            {
-                //                ServiceLog.AppendLine("Server sent command: check connection");
-                MessageReceived?.Invoke(dto);
-                return true;
-            }
-        }
-
         public bool Initialize(InitializeRtuDto dto)
         {
             lock (_lockWcfObj)
