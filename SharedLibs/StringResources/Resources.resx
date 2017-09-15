@@ -1193,7 +1193,7 @@ RTU is initializing right now!</value>
 	<data name="SID_Command_is_transmitted_to_RTU___0_Confirmation_is_waited_" xml:space="preserve">
     <value>Command is transmitted to RTU. {0}Confirmation is waited.</value>
   </data>
-  <data name="SID_RTU_Manager_software_version" xml:space="preserve">
+	<data name="SID_RTU_Manager_software_version" xml:space="preserve">
     <value>RTU Manager software version</value>
   </data>
 </root>
