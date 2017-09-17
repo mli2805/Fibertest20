@@ -7,6 +7,7 @@ using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Serilog;
+using WcfServiceForClientLibrary;
 
 namespace Iit.Fibertest.Client
 {

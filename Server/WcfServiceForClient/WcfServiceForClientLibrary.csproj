@@ -13,7 +13,7 @@
     <AssemblyName>WcfServiceForClientLibrary</AssemblyName>
     <ProjectTypeGuids>{3D9AD99F-2412-4246-B90B-4EAA41C64699};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <StartArguments>/client:"WcfTestClient.exe"</StartArguments>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
     <XsdCodeGenEnabled>True</XsdCodeGenEnabled>
     <XsdCodeGenSerializerMode>XmlSerializer</XsdCodeGenSerializerMode>
@@ -37,6 +37,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -45,9 +46,16 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="NEventStore, Version=5.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NEventStore.5.2.0\lib\net40\NEventStore.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -65,8 +73,13 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Client\Graph\Graph.csproj">
+      <Project>{a734876e-977b-4dda-b6a4-ad1dd525c6d1}</Project>
+      <Name>Graph</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\SharedLibs\Dto\Dto.csproj">
       <Project>{86a00748-2a4e-4180-b04e-0e1f6a62a258}</Project>
       <Name>Dto</Name>

@@ -10,7 +10,7 @@ namespace Iit.Fibertest.DbMigrator
 {
     public class Migrator
     {
-        private readonly Db _db;
+        private readonly List<object> _db;
         private readonly Dictionary<int, Guid> _nodesDictionary = new Dictionary<int, Guid>();
         private readonly Dictionary<Guid, Guid> _nodeToRtuDictionary = new Dictionary<Guid, Guid>();
         private readonly Dictionary<int, Guid> _equipmentsDictionary = new Dictionary<int, Guid>();
@@ -18,7 +18,7 @@ namespace Iit.Fibertest.DbMigrator
 
         private readonly List<object> _traceEventsUnderConstruction = new List<object>();
 
-        public Migrator(Db db)
+        public Migrator(List<object> db)
         {
             _db = db;
         }

@@ -8,6 +8,7 @@ using Caliburn.Micro;
 using GMap.NET;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using WcfServiceForClientLibrary;
 
 namespace Iit.Fibertest.Client
 {
@@ -186,7 +187,7 @@ namespace Iit.Fibertest.Client
         {
             var equipment = _readModel.Equipments.First(e => e.Id == id);
 
-            var equipmentViewModel = new EquipmentInfoViewModel(equipment, _bus);
+            var equipmentViewModel = new EquipmentInfoViewModel(equipment,_bus);
             IMapper mapperDomainModelToViewModel = new MapperConfiguration(
                     cfg => cfg.AddProfile<MappingDomainModelToViewModel>()).CreateMapper();
             mapperDomainModelToViewModel.Map(equipment, equipmentViewModel);

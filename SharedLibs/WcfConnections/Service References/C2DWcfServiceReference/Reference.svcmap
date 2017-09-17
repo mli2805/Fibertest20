@@ -24,6 +24,7 @@
     <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="abcfa96b-ba41-4abe-a44d-f40a5bbb6005" SourceId="1" SourceUrl="net.tcp://localhost:11840/WcfServiceForClient/mex" />
     <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="701dabef-c267-4d21-bbde-7f008f2181fb" SourceId="1" SourceUrl="net.tcp://localhost:11840/WcfServiceForClient/mex" />
     <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="a87f3308-31f7-4d1b-96a1-885d7c860b1c" SourceId="1" SourceUrl="net.tcp://localhost:11840/WcfServiceForClient/mex" />
+    <MetadataFile FileName="Arrays.xsd" MetadataType="Schema" ID="cef52d7d-92a9-4334-ac05-2f0bd60e930d" SourceId="1" SourceUrl="net.tcp://localhost:11840/WcfServiceForClient/mex" />
     <MetadataFile FileName="Dto.xsd" MetadataType="Schema" ID="65798fc2-0fca-458f-93f7-b68383a673f6" SourceId="1" SourceUrl="net.tcp://localhost:11840/WcfServiceForClient/mex" />
   </Metadata>
   <Extensions>

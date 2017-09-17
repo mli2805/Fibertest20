@@ -8,11 +8,11 @@ namespace Iit.Fibertest.DbMigrator
     {
         static void Main()
         {
-            Db db = new Db(new LoggerConfiguration().WriteTo.Console().CreateLogger());
-            db.Events.Clear();
-            new Migrator(db).Go();
+            //Db db = new Db(new LoggerConfiguration().WriteTo.Console().CreateLogger());
+            //db.Events.Clear();
+            //new Migrator(db).Go();
 
-            db.Save();
+            //db.Save();
 
             Console.WriteLine("Done.");
             Console.ReadLine();

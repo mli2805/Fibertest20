@@ -6,6 +6,11 @@ namespace WcfServiceForClientLibrary
     [ServiceContract]
     public interface IWcfServiceForClient
     {
+        [OperationContract]
+        string SendCommand(string json);
+        [OperationContract]
+        string[] GetEvents(int revision);
+
         // C2D
         [OperationContract]
         void RegisterClient(RegisterClientDto dto);
