@@ -15,7 +15,7 @@ namespace Iit.Fibertest.Client
         private readonly Guid _clientId;
         private readonly IniFile _iniFile35;
         private readonly ILogger _log;
-        private readonly LogFile _logFile;
+        private readonly IMyLog _logFile;
 
         #region Pictograms
         private MonitoringState _monitoringState;
@@ -102,7 +102,7 @@ namespace Iit.Fibertest.Client
         }
 
         public RtuLeaf(Guid clientId, ReadModel readModel, IWindowManager windowManager, Bus bus,
-            IniFile iniFile35, ILogger log, LogFile logFile, PostOffice postOffice, FreePorts view)
+            IniFile iniFile35, ILogger log, IMyLog logFile, PostOffice postOffice, FreePorts view)
             : base(readModel, windowManager, bus, postOffice)
         {
             _clientId = clientId;

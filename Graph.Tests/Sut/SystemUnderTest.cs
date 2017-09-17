@@ -6,6 +6,7 @@ using Caliburn.Micro;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.UtilsLib;
 using Serilog;
 
 namespace Graph.Tests
@@ -30,6 +31,8 @@ namespace Graph.Tests
             builder.RegisterInstance(LoggerForTests = new LoggerConfiguration()
                 .WriteTo.Console().CreateLogger()).As<ILogger>();
 
+            builder.RegisterInstance<IMyLog>(new NullLog());
+            
             var container = builder.Build();
 
             Poller = container.Resolve<ClientPoller>();

@@ -7,11 +7,11 @@ namespace WcfConnections
     public class C2DWcfManager
     {
         private readonly IniFile _iniFile;
-        private readonly LogFile _logFile;
+        private readonly IMyLog _logFile;
         private readonly Guid _clientId;
         private WcfFactory _wcfFactory;
 
-        public C2DWcfManager(DoubleAddress dataCenterAddress, IniFile iniFile, LogFile logFile, Guid clientId)
+        public C2DWcfManager(DoubleAddress dataCenterAddress, IniFile iniFile, IMyLog logFile, Guid clientId)
         {
             _iniFile = iniFile;
             _logFile = logFile;

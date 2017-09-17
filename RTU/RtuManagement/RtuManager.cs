@@ -15,9 +15,9 @@ namespace RtuManagement
 
         private Guid _id;
         private readonly string _version;
-        private readonly LogFile _rtuLog;
+        private readonly IMyLog _rtuLog;
         private readonly IniFile _rtuIni;
-        private readonly LogFile _serviceLog;
+        private readonly IMyLog _serviceLog;
         private readonly IniFile _serviceIni;
         private OtdrManager _otdrManager;
         private Charon _mainCharon;
@@ -92,7 +92,7 @@ namespace RtuManagement
             }
         }
 
-        public RtuManager(LogFile serviceLog, IniFile serviceIni)
+        public RtuManager(IMyLog serviceLog, IniFile serviceIni)
         {
             IsRtuInitialized = false;
 

@@ -15,7 +15,7 @@ namespace DataCenterCore
     public partial class DcManager
     {
         private readonly DoubleAddress _serverDoubleAddress;
-        private readonly LogFile _dcLog;
+        private readonly IMyLog _dcLog;
         private readonly IniFile _coreIni;
 
         private readonly ConcurrentDictionary<Guid, RtuStation> _rtuStations;

@@ -13,7 +13,7 @@ namespace RtuManagement
         private readonly string _version;
         private DoubleAddressWithConnectionStats _serverAddresses;
         private readonly IniFile _serviceIni;
-        private readonly LogFile _serviceLog;
+        private readonly IMyLog _serviceLog;
 
         private readonly object _isCancelledLocker = new object();
         private bool _isCancelled;
@@ -35,7 +35,7 @@ namespace RtuManagement
             }
         }
 
-        public WoodPecker(Guid rtuId, string version, DoubleAddressWithConnectionStats serverAddresses, IniFile serviceIni, LogFile serviceLog)
+        public WoodPecker(Guid rtuId, string version, DoubleAddressWithConnectionStats serverAddresses, IniFile serviceIni, IMyLog serviceLog)
         {
             _id = Guid.NewGuid();
             _rtuId = rtuId;

@@ -31,20 +31,20 @@ namespace Iit.Fibertest.Client
             var culture = iniFile.Read(IniSection.General, IniKey.Culture, @"ru-RU");
             var logFileLimitKb = iniFile.Read(IniSection.General, IniKey.LogFileSizeLimitKb, 0);
 
-            var logFile = new LogFile();
-            logFile.AssignFile(@"Client.log", logFileLimitKb, culture); // this couldn't be done in ctor becauses of tests using shellVM's ctor
-            logFile.EmptyLine();
-            logFile.EmptyLine('-');
-            builder.RegisterInstance(logFile);
+            
+            builder.Register<IMyLog>(ctx =>
+            {
+                var logFile = new LogFile();
+                logFile.AssignFile(@"Client.log", logFileLimitKb, culture); // this couldn't be done in ctor becauses of tests using shellVM's ctor
+                logFile.EmptyLine();
+                logFile.EmptyLine('-');
+                return logFile;
+            }).SingleInstance();
 
             var clientId = Guid.Parse(iniFile.Read(IniSection.General, IniKey.ClientGuidOnServer, Guid.NewGuid().ToString()));
             var serverAddresses = iniFile.ReadDoubleAddress(11840);
-            var c2DWcfManager = new C2DWcfManager(serverAddresses, iniFile, logFile, clientId);
-            builder.RegisterInstance(c2DWcfManager);
+            builder.Register(ctx => new C2DWcfManager(
+                serverAddresses, iniFile, ctx.Resolve<IMyLog>(), clientId));
         }
-
-
     }
-
-
 }

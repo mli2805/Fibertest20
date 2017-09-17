@@ -9,9 +9,9 @@ namespace WcfConnections
     {
         private readonly List<DoubleAddress> _addresses;
         private readonly IniFile _iniFile;
-        private readonly LogFile _logFile;
+        private readonly IMyLog _logFile;
 
-        public D2CWcfManager(List<DoubleAddress> addresses, IniFile iniFile, LogFile logFile)
+        public D2CWcfManager(List<DoubleAddress> addresses, IniFile iniFile, IMyLog logFile)
         {
             _addresses = addresses;
             _iniFile = iniFile;

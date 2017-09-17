@@ -11,10 +11,10 @@ namespace RtuManagement
         public Guid Id { get; set; }
         public MonitoringResultDto Dto { get; set; }
 
-        public LogFile LogFile { get; set; }
+        public IMyLog LogFile { get; set; }
 
 
-        public MoniResultOnDisk(Guid id, MonitoringResultDto dto, LogFile logFile)
+        public MoniResultOnDisk(Guid id, MonitoringResultDto dto, IMyLog logFile)
         {
             Id = id;
             Dto = dto;

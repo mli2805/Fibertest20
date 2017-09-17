@@ -7,7 +7,7 @@ namespace Iit.Fibertest.UtilsLib
 {
     public static class RestoreFunctions
     {
-        public static void ResetCharonThroughComPort(IniFile iniFile35, LogFile logFile)
+        public static void ResetCharonThroughComPort(IniFile iniFile35, IMyLog logFile)
         {
             logFile.AppendLine("Charon RESET");
             string comPortName = iniFile35.Read(IniSection.Charon, IniKey.ComPort, "COM2");
@@ -48,7 +48,7 @@ namespace Iit.Fibertest.UtilsLib
                 logFile.AppendLine("Charon reset finished", 2);
         }
 
-        public static void RebootSystem(LogFile logFile, int delay)
+        public static void RebootSystem(IMyLog logFile, int delay)
         {
             logFile.AppendLine($"Recovery procedure: System reboot in {delay} sec...");
             ProcessStartInfo proc = new ProcessStartInfo

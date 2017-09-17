@@ -7,7 +7,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
     public partial class Charon
     {
         private readonly IniFile _iniFile35;
-        private readonly LogFile _rtuLogFile;
+        private readonly IMyLog _rtuLogFile;
         private readonly CharonLogLevel _charonLogLevel;
         private readonly int _connectionTimeout;
         private readonly int _readTimeout;
@@ -24,7 +24,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
         public string LastAnswer { get; set; }
         public bool IsLastCommandSuccessful { get; set; }
 
-        public Charon(NetAddress netAddress, IniFile iniFile35, LogFile rtuLogFile)
+        public Charon(NetAddress netAddress, IniFile iniFile35, IMyLog rtuLogFile)
         {
             _iniFile35 = iniFile35;
             _rtuLogFile = rtuLogFile;

@@ -5,7 +5,7 @@ namespace WcfServiceForClientLibrary
 {
     public class WcfServiceForClient : IWcfServiceForClient
     {
-        public static LogFile ServiceLog { get; set; }
+        public static IMyLog ServiceLog { get; set; }
 
         public static event OnMessageReceived MessageReceived;
         public delegate void OnMessageReceived(object e);

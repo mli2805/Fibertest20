@@ -6,7 +6,28 @@ using System.Threading;
 
 namespace Iit.Fibertest.UtilsLib
 {
-    public class LogFile
+    public interface IMyLog
+    {
+        void AssignFile(string filename, int sizeLimitKb, string culture = "ru-RU");
+        void EmptyLine(char ch = ' ');
+        void AppendLine(string message, int offset = 0, string prefix = "");
+    }
+
+    public class NullLog : IMyLog
+    {
+        public void AppendLine(string message, int offset = 0, string prefix = "")
+        {
+        }
+
+        public void AssignFile(string filename, int sizeLimitKb, string culture = "ru-RU")
+        {
+        }
+
+        public void EmptyLine(char ch = ' ')
+        {
+        }
+    }
+    public class LogFile : IMyLog
     {
         private const string ToCompress = ".toCompress";
 

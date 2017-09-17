@@ -20,7 +20,7 @@ namespace Iit.Fibertest.Client
         private readonly Bus _bus;
         private readonly IniFile _iniFile35;
         private readonly ILogger _log;
-        private readonly LogFile _logFile;
+        private readonly IMyLog _logFile;
 
         public C2DWcfManager C2DWcfManager { get; set; }
         public ObservableCollection<Leaf> Tree { get; set; } = new ObservableCollection<Leaf>();
@@ -50,7 +50,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public TreeOfRtuModel(IWindowManager windowManager, ReadModel readModel, Bus bus, IniFile iniFile35, ILogger log, LogFile logFile)
+        public TreeOfRtuModel(IWindowManager windowManager, ReadModel readModel, Bus bus, IniFile iniFile35, ILogger log, IMyLog logFile)
         {
             _windowManager = windowManager;
             _readModel = readModel;

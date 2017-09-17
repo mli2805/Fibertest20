@@ -10,7 +10,7 @@ namespace DataCenterService
     public partial class Service1 : ServiceBase
     {
         private readonly IniFile _serviceIni;
-        private readonly LogFile _serviceLog;
+        private readonly IMyLog _serviceLog;
 
         private DcManager _dcManager;
 

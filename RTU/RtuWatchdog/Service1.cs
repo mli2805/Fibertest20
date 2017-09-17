@@ -8,7 +8,7 @@ namespace RtuWatchdog
     public partial class Service1 : ServiceBase
     {
         private readonly IniFile _watchdogIni;
-        private readonly LogFile _watchdogLog;
+        private readonly IMyLog _watchdogLog;
         public Service1()
         {
             InitializeComponent();

@@ -8,7 +8,7 @@ namespace WcfTestBench
     public class ShellViewModel : Screen, IShell
     {
         private IniFile _clientIniFile;
-        private LogFile _clientLog;
+        private IMyLog _clientLog;
 
         public ShellViewModel()
         {

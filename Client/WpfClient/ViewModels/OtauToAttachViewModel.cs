@@ -19,7 +19,7 @@ namespace Iit.Fibertest.Client
         private readonly Bus _bus;
         private readonly IWindowManager _windowManager;
         private readonly IniFile _iniFile35;
-        private readonly LogFile _logFile;
+        private readonly IMyLog _logFile;
 
         public string RtuTitle { get; set; }
         public int RtuPortNumber { get; set; }
@@ -72,7 +72,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public OtauToAttachViewModel(Guid rtuId, int portNumberForAttachment, ReadModel readModel, Bus bus, IWindowManager windowManager, IniFile iniFile35, LogFile logFile)
+        public OtauToAttachViewModel(Guid rtuId, int portNumberForAttachment, ReadModel readModel, Bus bus, IWindowManager windowManager, IniFile iniFile35, IMyLog logFile)
         {
             _rtuId = rtuId;
             _portNumberForAttachment = portNumberForAttachment;

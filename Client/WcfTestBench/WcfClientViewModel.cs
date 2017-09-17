@@ -23,7 +23,7 @@ namespace WcfTestBench
     public class WcfClientViewModel : Screen
     {
         internal static ServiceHost MyServiceHost;
-        private readonly LogFile _clientLog;
+        private readonly IMyLog _clientLog;
         private readonly IniFile _clientIni;
         private readonly C2DWcfManager _c2DWcfManager;
         private readonly Guid _clientGuid;
@@ -150,7 +150,7 @@ namespace WcfTestBench
         }
 
 
-        public WcfClientViewModel(IniFile iniFile35, LogFile clientLog)
+        public WcfClientViewModel(IniFile iniFile35, IMyLog clientLog)
         {
             _clientLog = clientLog;
             _clientIni = iniFile35;

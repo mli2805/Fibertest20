@@ -10,7 +10,7 @@ namespace DirectRtuClient
 
         public string IpAddress { get; set; }
 
-        private readonly LogFile _rtuLogger;
+        private readonly IMyLog _rtuLogger;
         private static IniFile _iniFile35;
 
         internal static ServiceHost MyServiceHost;

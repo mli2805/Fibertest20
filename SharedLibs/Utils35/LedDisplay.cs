@@ -5,7 +5,7 @@ namespace Iit.Fibertest.UtilsLib
 {
     public static class LedDisplay
     {
-        public static void Show(IniFile iniFile35, LogFile logFile, LedDisplayCode code)
+        public static void Show(IniFile iniFile35, IMyLog logFile, LedDisplayCode code)
         {
             logFile.AppendLine($"Write <{code.ToString()}> on led display");
             string comPortName = iniFile35.Read(IniSection.Charon, IniKey.ComPort, "COM2");

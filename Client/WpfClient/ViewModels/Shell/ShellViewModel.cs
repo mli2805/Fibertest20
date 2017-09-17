@@ -12,6 +12,7 @@ using Iit.Fibertest.WpfCommonViews;
 using PrivateReflectionUsingDynamic;
 using Serilog;
 using WcfConnections;
+using WcfConnections.RtuWcfServiceReference;
 
 namespace Iit.Fibertest.Client
 {
@@ -24,7 +25,7 @@ namespace Iit.Fibertest.Client
         public Bus Bus { get; }
         private readonly Guid _clientId;
         private readonly IWindowManager _windowManager;
-        private readonly LogFile _logFile;
+        private readonly IMyLog _logFile;
         private C2DWcfManager _c2DWcfManager;
 
         public ReadModel ReadModel { get; }
@@ -64,7 +65,7 @@ namespace Iit.Fibertest.Client
 
         public ShellViewModel(ReadModel readModel, TreeOfRtuModel treeOfRtuModel, Bus bus, 
                 Db graphDb, AdministrativeDb administrativeDb, GraphReadModel graphReadModel, IWindowManager windowManager, 
-                ILogger clientLogger, IniFile iniFile, LogFile logFile)
+                ILogger clientLogger, IniFile iniFile, IMyLog logFile)
         {
             ReadModel = readModel;
             TreeOfRtuModel = treeOfRtuModel;

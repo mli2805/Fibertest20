@@ -7,12 +7,12 @@ namespace WcfConnections
     public class R2DWcfManager
     {
         private readonly IniFile _iniFile;
-        private readonly LogFile _logFile;
+        private readonly IMyLog _logFile;
         private readonly DoubleAddressWithConnectionStats _serverAddresses;
 
         private readonly WcfFactory _wcfFactory;
 
-        public R2DWcfManager(DoubleAddressWithConnectionStats dataCenterAddresses, IniFile iniFile, LogFile logFile)
+        public R2DWcfManager(DoubleAddressWithConnectionStats dataCenterAddresses, IniFile iniFile, IMyLog logFile)
         {
             _serverAddresses = dataCenterAddresses;
             _iniFile = iniFile;

@@ -14,9 +14,9 @@ namespace WcfConnections
     {
         private readonly DoubleAddress _endPoint;
         private readonly IniFile _iniFile;
-        private readonly LogFile _logFile;
+        private readonly IMyLog _logFile;
 
-        public WcfFactory(DoubleAddress endPoint, IniFile iniFile, LogFile logFile)
+        public WcfFactory(DoubleAddress endPoint, IniFile iniFile, IMyLog logFile)
         {
             _endPoint = endPoint;
             _iniFile = iniFile;

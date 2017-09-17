@@ -14,13 +14,13 @@ namespace Iit.Fibertest.Client
         private readonly Guid _clientId;
         private readonly IWindowManager _windowManager;
         private readonly IniFile _iniFile;
-        private readonly LogFile _logFile;
+        private readonly IMyLog _logFile;
         public string UserName { get; set; }
         public string Password { get; set; }
         public string Status { get; set; } = Resources.SID_Input_user_name_and_password;
 
 
-        public LoginViewModel(Guid clientId, IWindowManager windowManager, IniFile iniFile, LogFile logFile)
+        public LoginViewModel(Guid clientId, IWindowManager windowManager, IniFile iniFile, IMyLog logFile)
         {
             _clientId = clientId;
             _windowManager = windowManager;

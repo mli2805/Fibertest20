@@ -6,7 +6,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
 {
     public partial class IitOtdrWrapper
     {
-        private readonly LogFile _rtuLogger;
+        private readonly IMyLog _rtuLogger;
         //EXTERN_C __declspec(dllexport) void DllInit(char* pathDLL, void* logFile, TLenUnit* lenUnit);
         [DllImport("iit_otdr.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "DllInit")]
         public static extern void DllInit(string path, IntPtr logFile, IntPtr lenUnit);
@@ -15,7 +15,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
         [DllImport("iit_otdr.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "InitOTDR")]
         public static extern int InitOTDR(int type, string ip, int port);
 
-        public IitOtdrWrapper(LogFile rtuLogger)
+        public IitOtdrWrapper(IMyLog rtuLogger)
         {
             _rtuLogger = rtuLogger;
         }

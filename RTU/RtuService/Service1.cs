@@ -13,7 +13,7 @@ namespace RtuService
     public partial class Service1 : ServiceBase
     {
         private readonly IniFile _serviceIni;
-        private readonly LogFile _serviceLog;
+        private readonly IMyLog _serviceLog;
         private RtuManager _rtuManager;
         private Thread _rtuManagerThread;
 
