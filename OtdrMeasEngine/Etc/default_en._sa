@@ -1,0 +1,41 @@
+[global]
+Count=5
+Caption=Save as
+BFF_Title=Select folder for files store:
+AutonumberingSign=Autonumbering Enabled!
+
+[1]
+Items=0
+IsDirEnd=1
+Visible=1
+Description=Order code:
+
+[2]
+Items=0
+IsDirEnd=0
+Visible=1
+Description=Barrel:
+
+[3]
+Items=0
+Description=xxx:
+IsDirEnd=0
+Visible=1
+
+[4]
+Items=3
+IsDirEnd=0
+Visible=1
+Description=Colour:
+Item01=blue|_b_
+Item02=red|_r_
+Item03=yellow|_y_
+
+[5]
+Items=0
+IsDirEnd=0
+Visible=1
+Description=Number:
+
+
+

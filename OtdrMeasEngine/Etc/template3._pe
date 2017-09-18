@@ -1,0 +1,119 @@
+;# Report displayed several traces at the single image box
+
+
+; 3.78 pts/mm
+; data:
+; 1 - FN
+; 2 - FFN
+; 3 - CID
+; 4 - FID
+; 5 - FT
+; 6 - OL
+; 7 - TL
+; 8 - CDF
+; 9 - TT
+;10 - OP
+;11 - CMT
+;12 - VRX
+;13 - VRXS
+;14 - VRY
+;15 - VRYS
+;20 - MFID
+;21 - OTDR
+;22 - SOB
+;23 - MFIDOTDR
+;30 - DTS
+;31 - RI
+;32 - NW
+;33 - NAV
+;34 - L1
+;35 - L2
+;36 - LMAX
+;37 - DL
+;38 - TP
+;39 - BC
+;40 - LT
+;41 - RT
+;42 - ET
+;43 - CT
+;50 - EEL
+;51 - ORL
+
+;
+;
+; Text attrib:
+; B - fsBold      - boldfaced.
+; I - fsItalic    - italicized.
+; U - fsUnderline - underlined.
+; S - fsStrikeout - horizontal line through text.
+;
+; Charset:
+; ANSI_CHARSET  0 ANSI characters.
+; DEFAULT_CHARSET 1 Font is chosen based solely on Name and Size. If the described font is not available on the system, Windows will substitute another font.
+; SYMBOL_CHARSET  2 Standard symbol set.
+; MAC_CHARSET 77  Macintosh characters.
+; SHIFTJIS_CHARSET  128 Japanese shift-jis characters.
+; HANGEUL_CHARSET 129 Korean characters (Wansung).
+; JOHAB_CHARSET 130 Korean characters (Johab).
+; GB2312_CHARSET  134 Simplified Chinese characters (mainland china).
+; CHINESEBIG5_CHARSET 136 Traditional Chinese characters (taiwanese).
+; GREEK_CHARSET 161 Greek characters.
+; TURKISH_CHARSET 162 Turkish characters.
+; VIETNAMESE_CHARSET  163 Vietnamese characters.
+; HEBREW_CHARSET  177 Hebrew characters.
+; ARABIC_CHARSET  178 Arabic characters.
+; BALTIC_CHARSET  186 Baltic characters.
+; RUSSIAN_CHARSET 204 Cyrillic characters.
+; THAI_CHARSET  222 Thai characters.
+; EASTEUROPE_CHARSET  238 Includes diacritical marks for eastern european countries.
+; OEM_CHARSET 255 Depends on the codepage of the operating system.
+
+; IMG:
+; O - overview
+; C - color
+; G - grid
+; R - view rect
+; M - multiple
+; E - events
+; I - info
+
+[report]
+Margin.Left=20
+Margin.Top=10
+Margin.Right=10
+Margin.Bottom=10
+Portrait=1
+EvTbl1=1
+EvTbl2=0
+
+Group=0
+
+[header]
+Color=192, 192, 192
+Height=0
+Items=2
+Item01=10, 0,|FFN|BI|10||0, 0, 255
+Item02=0, 0, 10, 6|IMG|OC
+
+[footer]
+Color=192, 192, 192
+
+[title]
+Height=0
+Items=12
+Item01=0, 0, 100, 60|IMG|OCGRMEI
+Item02=0, 60, |*VRXS||8||0, 0, 0
+Item03=0, 63, |*VRYS||8||0, 0, 0
+Item04=105, 0, 60, 0|DTS,MFIDOTDR,SOB,*RI,*LMAX,*L1,*L2,*DL,*TP,NAV||8||0, 0, 0
+Item05=0, 70, 130, 0|*CID,*FID,*FT,*OL,*TL,*CDF,*ZZ,*TT,*OP,*CMT||8||0, 0, 0
+Item06=140, 70, 40, 0|*BC,"Thresholds:",*LT,*RT,*ET,*CT||8||0, 0, 0
+
+[column]
+Height=18
+PageBreak=0
+
+[detail]
+Height=18
+PageBreak=0
+
+
