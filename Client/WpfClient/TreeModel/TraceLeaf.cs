@@ -7,7 +7,6 @@ using Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WpfCommonViews;
-using WcfServiceForClientLibrary;
 
 namespace Iit.Fibertest.Client
 {

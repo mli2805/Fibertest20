@@ -1,9 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Newtonsoft.Json;
 using WcfConnections.C2DWcfServiceReference;
 
-namespace WcfServiceForClientLibrary
+namespace Iit.Fibertest.Client
 {
     // TODO: Find a better place fo the bus.cs file
     public sealed class Bus

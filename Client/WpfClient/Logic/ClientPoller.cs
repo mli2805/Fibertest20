@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Caliburn.Micro;
-using Iit.Fibertest.Graph;
 using PrivateReflectionUsingDynamic;
 using WcfConnections.C2DWcfServiceReference;
 

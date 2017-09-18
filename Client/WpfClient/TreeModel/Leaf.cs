@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Windows.Media;
 using Caliburn.Micro;
-using Iit.Fibertest.Graph;
-using WcfServiceForClientLibrary;
 
 namespace Iit.Fibertest.Client
 {

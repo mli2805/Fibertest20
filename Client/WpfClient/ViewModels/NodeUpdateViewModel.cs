@@ -8,7 +8,6 @@ using Caliburn.Micro;
 using GMap.NET;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
-using WcfServiceForClientLibrary;
 
 namespace Iit.Fibertest.Client
 {

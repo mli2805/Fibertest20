@@ -11,7 +11,6 @@ using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Serilog;
 using WcfConnections;
-using WcfServiceForClientLibrary;
 
 namespace Iit.Fibertest.Client
 {

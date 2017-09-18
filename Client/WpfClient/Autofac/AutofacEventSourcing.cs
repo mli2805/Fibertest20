@@ -2,7 +2,6 @@
 using Autofac;
 using Iit.Fibertest.Graph;
 using WcfConnections.C2DWcfServiceReference;
-using WcfServiceForClientLibrary;
 
 namespace Iit.Fibertest.Client
 {

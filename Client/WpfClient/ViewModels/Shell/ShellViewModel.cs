@@ -12,8 +12,6 @@ using Iit.Fibertest.WpfCommonViews;
 using PrivateReflectionUsingDynamic;
 using Serilog;
 using WcfConnections;
-using WcfConnections.RtuWcfServiceReference;
-using WcfServiceForClientLibrary;
 
 namespace Iit.Fibertest.Client
 {

@@ -1,6 +1,4 @@
 ﻿using System;
-using Iit.Fibertest.Graph;
-using Serilog;
 
 namespace Iit.Fibertest.DbMigrator
 {
