@@ -87,10 +87,10 @@
   <xs:element name="ArrayOfOtauPortDto" nillable="true" type="tns:ArrayOfOtauPortDto" />
   <xs:complexType name="OtauPortDto">
     <xs:sequence>
-      <xs:element minOccurs="0" name="Ip" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="IsPortOnMainCharon" type="xs:boolean" />
       <xs:element minOccurs="0" name="OpticalPort" type="xs:int" />
-      <xs:element minOccurs="0" name="TcpPort" type="xs:int" />
+      <xs:element minOccurs="0" name="OtauIp" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="OtauTcpPort" type="xs:int" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="OtauPortDto" nillable="true" type="tns:OtauPortDto" />

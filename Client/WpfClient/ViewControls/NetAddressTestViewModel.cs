@@ -12,7 +12,7 @@ namespace Iit.Fibertest.Client
     public class NetAddressTestViewModel : Screen
     {
         private readonly IniFile _iniFile;
-        private readonly LogFile _logFile;
+        private readonly IMyLog _logFile;
         private readonly Guid _clientId;
         private readonly NetAddress _serverAddress;
         private bool _result;
@@ -30,7 +30,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public NetAddressTestViewModel(NetAddress addressForTesting, IniFile iniFile, LogFile logFile, Guid clientId, NetAddress serverAddress = null)
+        public NetAddressTestViewModel(NetAddress addressForTesting, IniFile iniFile, IMyLog logFile, Guid clientId, NetAddress serverAddress = null)
         {
             _iniFile = iniFile;
             _logFile = logFile;

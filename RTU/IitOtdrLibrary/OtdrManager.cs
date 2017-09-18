@@ -9,13 +9,13 @@ namespace Iit.Fibertest.IitOtdrLibrary
     {
         private readonly string _iitotdrFolder;
         private readonly IniFile _iniFile;
-        private readonly LogFile _rtuLogger;
+        private readonly IMyLog _rtuLogger;
 
         public IitOtdrWrapper IitOtdr { get; set; }
         public bool IsLibraryInitialized;
         public bool IsOtdrConnected;
 
-        public OtdrManager(string iitotdrFolder, IniFile iniFile, LogFile rtuLogger)
+        public OtdrManager(string iitotdrFolder, IniFile iniFile, IMyLog rtuLogger)
         {
             // service can't use relative path, get it obviously
             var appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;

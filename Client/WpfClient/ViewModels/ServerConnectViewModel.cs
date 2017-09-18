@@ -25,7 +25,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public ServerConnectViewModel(Guid clientId, IniFile iniFile, LogFile logFile)
+        public ServerConnectViewModel(Guid clientId, IniFile iniFile, IMyLog logFile)
         {
             _clientIni = iniFile;
             _dcServiceAddresses = _clientIni.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);

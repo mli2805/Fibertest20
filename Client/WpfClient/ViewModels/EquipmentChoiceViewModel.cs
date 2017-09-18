@@ -5,6 +5,7 @@ using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using WcfServiceForClientLibrary;
 
 namespace Iit.Fibertest.Client
 {

@@ -12,6 +12,8 @@ using Iit.Fibertest.WpfCommonViews;
 using PrivateReflectionUsingDynamic;
 using Serilog;
 using WcfConnections;
+using WcfConnections.RtuWcfServiceReference;
+using WcfServiceForClientLibrary;
 
 namespace Iit.Fibertest.Client
 {
@@ -24,7 +26,7 @@ namespace Iit.Fibertest.Client
         public Bus Bus { get; }
         private readonly Guid _clientId;
         private readonly IWindowManager _windowManager;
-        private readonly LogFile _logFile;
+        private readonly IMyLog _logFile;
         private C2DWcfManager _c2DWcfManager;
 
         public ReadModel ReadModel { get; }
@@ -34,7 +36,6 @@ namespace Iit.Fibertest.Client
         public GraphReadModel GraphReadModel { get; set; }
 
         private bool? _isAuthenticationSuccessfull;
-        public Db LocalGraphDb { get; set; }
         public AdministrativeDb AdministrativeDb { get; set; }
 
         private Visibility _sysEventsVisibility;
@@ -63,8 +64,8 @@ namespace Iit.Fibertest.Client
         }
 
         public ShellViewModel(ReadModel readModel, TreeOfRtuModel treeOfRtuModel, Bus bus, 
-                Db graphDb, AdministrativeDb administrativeDb, GraphReadModel graphReadModel, IWindowManager windowManager, 
-                ILogger clientLogger, IniFile iniFile, LogFile logFile)
+                AdministrativeDb administrativeDb, GraphReadModel graphReadModel, IWindowManager windowManager, 
+                ILogger clientLogger, IniFile iniFile, IMyLog logFile)
         {
             ReadModel = readModel;
             TreeOfRtuModel = treeOfRtuModel;
@@ -72,7 +73,6 @@ namespace Iit.Fibertest.Client
             MainMenuViewModel = new MainMenuViewModel(windowManager);
             TreeOfRtuViewModel = new TreeOfRtuViewModel(treeOfRtuModel);
             Bus = bus;
-            LocalGraphDb = graphDb;
             AdministrativeDb = administrativeDb;
             GraphReadModel = graphReadModel;
             GraphReadModel.MapVisibility = Visibility.Visible;
@@ -161,7 +161,6 @@ namespace Iit.Fibertest.Client
         }
         public void Save()
         {
-            LocalGraphDb.Save();
             AdministrativeDb.Save();
         }
 

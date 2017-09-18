@@ -11,6 +11,7 @@ using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Serilog;
 using WcfConnections;
+using WcfServiceForClientLibrary;
 
 namespace Iit.Fibertest.Client
 {
@@ -61,7 +62,7 @@ namespace Iit.Fibertest.Client
         private readonly Bus _bus;
         private readonly ILogger _log;
         private readonly IniFile _iniFile35;
-        private readonly LogFile _logFile;
+        private readonly IMyLog _logFile;
 
         public Rtu OriginalRtu
         {
@@ -92,7 +93,7 @@ namespace Iit.Fibertest.Client
         }
 
         public RtuInitializeViewModel(Guid clientId, Guid rtuId,
-            ReadModel readModel, IWindowManager windowManager, Bus bus, IniFile iniFile35, ILogger log, LogFile logFile)
+            ReadModel readModel, IWindowManager windowManager, Bus bus, IniFile iniFile35, ILogger log, IMyLog logFile)
         {
             RtuId = rtuId;
             _readModel = readModel;

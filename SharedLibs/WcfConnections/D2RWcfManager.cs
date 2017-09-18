@@ -5,10 +5,10 @@ namespace WcfConnections
 {
     public class D2RWcfManager
     {
-        private readonly LogFile _logFile;
+        private readonly IMyLog _logFile;
         private readonly WcfFactory _wcfFactory;
 
-        public D2RWcfManager(DoubleAddress dataCenterAddress, IniFile iniFile, LogFile logFile)
+        public D2RWcfManager(DoubleAddress dataCenterAddress, IniFile iniFile, IMyLog logFile)
         {
             _logFile = logFile;
             _wcfFactory = new WcfFactory(dataCenterAddress, iniFile, _logFile);

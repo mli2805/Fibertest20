@@ -12,7 +12,7 @@ namespace RtuManagement
         private readonly Guid _id;
         private readonly DoubleAddressWithConnectionStats _serverAddresses;
         private readonly IniFile _serviceIni;
-        private readonly LogFile _serviceLog;
+        private readonly IMyLog _serviceLog;
 
         private DateTime _lastLogRecord;
 
@@ -38,7 +38,7 @@ namespace RtuManagement
 
         public ConcurrentQueue<MoniResultOnDisk> QueueOfMoniResultsOnDisk { get; set; }
 
-        public Dove(DoubleAddressWithConnectionStats serverAddresses, IniFile serviceIni, LogFile serviceLog)
+        public Dove(DoubleAddressWithConnectionStats serverAddresses, IniFile serviceIni, IMyLog serviceLog)
         {
             _id = Guid.NewGuid();
             _serverAddresses = serverAddresses;

@@ -8,7 +8,7 @@ namespace RtuWcfServiceLibrary
     public class RtuWcfService : IRtuWcfService
     {
         public static IniFile ServiceIniFile { get; set; }
-        public static LogFile ServiceLog { get; set; }
+        public static IMyLog ServiceLog { get; set; }
 
         public static event OnMessageReceived MessageReceived;
         public delegate void OnMessageReceived(object e);

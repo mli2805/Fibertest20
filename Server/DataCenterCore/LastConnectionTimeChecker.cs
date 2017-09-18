@@ -8,11 +8,11 @@ namespace DataCenterCore
 {
     public class LastConnectionTimeChecker
     {
-        private readonly LogFile _dcLog;
+        private readonly IMyLog _dcLog;
         private readonly IniFile _coreIni;
         public ConcurrentDictionary<Guid, RtuStation> RtuStations { get; set; }
 
-        public LastConnectionTimeChecker(LogFile dcLog, IniFile coreIni)
+        public LastConnectionTimeChecker(IMyLog dcLog, IniFile coreIni)
         {
             _dcLog = dcLog;
             _coreIni = coreIni;

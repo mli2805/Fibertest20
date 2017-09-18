@@ -87,6 +87,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Service References\C2DWcfServiceReference\Arrays.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Service References\C2DWcfServiceReference\Dto.xsd">
       <SubType>Designer</SubType>
     </None>

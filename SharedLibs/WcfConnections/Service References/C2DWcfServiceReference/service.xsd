@@ -1,10 +1,39 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
   <xs:import namespace="http://schemas.datacontract.org/2004/07/Dto" />
+  <xs:element name="SendCommand">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="json" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SendCommandResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SendCommandResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetEvents">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="revision" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetEventsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="GetEventsResult" nillable="true" type="q1:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="RegisterClient">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="dto" nillable="true" type="q1:RegisterClientDto" />
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="dto" nillable="true" type="q2:RegisterClientDto" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -16,7 +45,7 @@
   <xs:element name="UnRegisterClient">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="dto" nillable="true" type="q2:UnRegisterClientDto" />
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="dto" nillable="true" type="q3:UnRegisterClientDto" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -28,7 +57,7 @@
   <xs:element name="CheckServerConnection">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="dto" nillable="true" type="q3:CheckServerConnectionDto" />
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="dto" nillable="true" type="q4:CheckServerConnectionDto" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -42,7 +71,7 @@
   <xs:element name="CheckRtuConnection">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="rtuAddress" nillable="true" type="q4:CheckRtuConnectionDto" />
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="rtuAddress" nillable="true" type="q5:CheckRtuConnectionDto" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -56,7 +85,7 @@
   <xs:element name="InitializeRtu">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="rtu" nillable="true" type="q5:InitializeRtuDto" />
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="rtu" nillable="true" type="q6:InitializeRtuDto" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -70,7 +99,7 @@
   <xs:element name="StartMonitoring">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="dto" nillable="true" type="q6:StartMonitoringDto" />
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="dto" nillable="true" type="q7:StartMonitoringDto" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -84,7 +113,7 @@
   <xs:element name="StopMonitoring">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="dto" nillable="true" type="q7:StopMonitoringDto" />
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="dto" nillable="true" type="q8:StopMonitoringDto" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -98,7 +127,7 @@
   <xs:element name="ApplyMonitoringSettings">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="settings" nillable="true" type="q8:ApplyMonitoringSettingsDto" />
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="settings" nillable="true" type="q9:ApplyMonitoringSettingsDto" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -112,7 +141,7 @@
   <xs:element name="AssignBaseRef">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="baseRef" nillable="true" type="q9:AssignBaseRefDto" />
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/Dto" minOccurs="0" name="baseRef" nillable="true" type="q10:AssignBaseRefDto" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

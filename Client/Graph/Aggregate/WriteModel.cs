@@ -9,7 +9,6 @@ namespace Iit.Fibertest.Graph
 {
     public class WriteModel
     {
-        public Db Db { get; }
         public List<object> EventsWaitingForCommit { get; } = new List<object>();
         private readonly IMapper _mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
@@ -20,14 +19,15 @@ namespace Iit.Fibertest.Graph
         private readonly List<Trace> _traces = new List<Trace>();
         private readonly List<Rtu> _rtus = new List<Rtu>();
 
-        public WriteModel(Db db)
+
+        public WriteModel(IEnumerable<object> events)
         {
-            Db = db;
-            foreach (var dbEvent in Db.Events) // on start replay all existing events
+            foreach (var dbEvent in events)
             {
                 this.AsDynamic().Apply(dbEvent);
             }
         }
+
 
         public void AddAndCommit(object evnt)
         {
@@ -43,8 +43,6 @@ namespace Iit.Fibertest.Graph
 
         public void Commit()
         {
-            foreach (var @event in EventsWaitingForCommit)
-                Db.Add(@event);
             EventsWaitingForCommit.Clear();
         }
 

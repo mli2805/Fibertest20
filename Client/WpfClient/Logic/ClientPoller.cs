@@ -3,25 +3,26 @@ using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using PrivateReflectionUsingDynamic;
+using WcfConnections.C2DWcfServiceReference;
 
 namespace Iit.Fibertest.Client
 {
     public class ClientPoller : PropertyChangedBase
     {
-        private readonly Db _db;
+        private readonly IWcfServiceForClient _client;
         public List<object> ReadModels { get; }
 
         public int CurrentEventNumber { get; private set; }
 
-        public ClientPoller(Db db, List<object> readModels)
+        public ClientPoller(IWcfServiceForClient client, List<object> readModels)
         {
-            _db = db;
+            _client = client;
             ReadModels = readModels;
         }
 
         public void Tick()
         {
-            foreach (var e in _db.Events.Skip(CurrentEventNumber))
+            foreach (var e in _client.GetEvents(CurrentEventNumber))
             {
                 foreach (var m in ReadModels)
                 {
@@ -34,9 +35,9 @@ namespace Iit.Fibertest.Client
                     var treeModel = m as TreeOfRtuModel;
                     treeModel?.NotifyOfPropertyChange(nameof(treeModel.Statistics));
                 }
+                CurrentEventNumber++;
 
             }
-            CurrentEventNumber = _db.Events.Count;
         }
     }
 }

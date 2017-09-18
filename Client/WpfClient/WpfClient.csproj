@@ -103,6 +103,9 @@
       <HintPath>..\..\packages\JetBrains.Annotations.10.4.0\lib\net\JetBrains.Annotations.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Optixsoft.OtdrDataFormat">
       <HintPath>..\..\Optixsoft.OtdrDataFormat\Optixsoft.OtdrDataFormat.dll</HintPath>
     </Reference>
@@ -214,6 +217,7 @@
     <Compile Include="ViewModels\Administrative\UserListViewModel.cs" />
     <Compile Include="ViewModels\Administrative\UserViewModel.cs" />
     <Compile Include="ViewModels\Administrative\Zone.cs" />
+    <Compile Include="ViewModels\Shell\Bus.cs" />
     <Compile Include="ViewModels\Shell\ShellViewModelOnWcfReactions.cs" />
     <Compile Include="Views\Administrative\ObjectsToZonesView.xaml.cs">
       <DependentUpon>ObjectsToZonesView.xaml</DependentUpon>
@@ -517,7 +521,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

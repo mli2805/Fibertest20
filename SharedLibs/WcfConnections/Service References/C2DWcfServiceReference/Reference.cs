@@ -15,6 +15,12 @@ namespace WcfConnections.C2DWcfServiceReference {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="C2DWcfServiceReference.IWcfServiceForClient")]
     public interface IWcfServiceForClient {
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForClient/SendCommand", ReplyAction="http://tempuri.org/IWcfServiceForClient/SendCommandResponse")]
+        string SendCommand(string json);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForClient/GetEvents", ReplyAction="http://tempuri.org/IWcfServiceForClient/GetEventsResponse")]
+        string[] GetEvents(int revision);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWcfServiceForClient/RegisterClient", ReplyAction="http://tempuri.org/IWcfServiceForClient/RegisterClientResponse")]
         void RegisterClient(Dto.RegisterClientDto dto);
         
@@ -68,6 +74,14 @@ namespace WcfConnections.C2DWcfServiceReference {
         
         public WcfServiceForClientClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress) {
+        }
+        
+        public string SendCommand(string json) {
+            return base.Channel.SendCommand(json);
+        }
+        
+        public string[] GetEvents(int revision) {
+            return base.Channel.GetEvents(revision);
         }
         
         public void RegisterClient(Dto.RegisterClientDto dto) {

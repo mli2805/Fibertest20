@@ -14,9 +14,22 @@
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
       <xsd:import namespace="http://tempuri.org/" />
       <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
       <xsd:import namespace="http://schemas.datacontract.org/2004/07/Dto" />
     </xsd:schema>
   </wsdl:types>
+  <wsdl:message name="IWcfServiceForClient_SendCommand_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendCommand" />
+  </wsdl:message>
+  <wsdl:message name="IWcfServiceForClient_SendCommand_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendCommandResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWcfServiceForClient_GetEvents_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetEvents" />
+  </wsdl:message>
+  <wsdl:message name="IWcfServiceForClient_GetEvents_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetEventsResponse" />
+  </wsdl:message>
   <wsdl:message name="IWcfServiceForClient_RegisterClient_InputMessage">
     <wsdl:part name="parameters" element="tns:RegisterClient" />
   </wsdl:message>
@@ -72,6 +85,14 @@
     <wsdl:part name="parameters" element="tns:AssignBaseRefResponse" />
   </wsdl:message>
   <wsdl:portType name="IWcfServiceForClient">
+    <wsdl:operation name="SendCommand">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWcfServiceForClient/SendCommand" message="tns:IWcfServiceForClient_SendCommand_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWcfServiceForClient/SendCommandResponse" message="tns:IWcfServiceForClient_SendCommand_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetEvents">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWcfServiceForClient/GetEvents" message="tns:IWcfServiceForClient_GetEvents_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWcfServiceForClient/GetEventsResponse" message="tns:IWcfServiceForClient_GetEvents_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="RegisterClient">
       <wsdl:input wsaw:Action="http://tempuri.org/IWcfServiceForClient/RegisterClient" message="tns:IWcfServiceForClient_RegisterClient_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IWcfServiceForClient/RegisterClientResponse" message="tns:IWcfServiceForClient_RegisterClient_OutputMessage" />
@@ -113,6 +134,24 @@
     <wsp:PolicyReference URI="#NetTcpBinding_IWcfServiceForClient_policy">
     </wsp:PolicyReference>
     <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="SendCommand">
+      <soap12:operation soapAction="http://tempuri.org/IWcfServiceForClient/SendCommand" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEvents">
+      <soap12:operation soapAction="http://tempuri.org/IWcfServiceForClient/GetEvents" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="RegisterClient">
       <soap12:operation soapAction="http://tempuri.org/IWcfServiceForClient/RegisterClient" style="document" />
       <wsdl:input>

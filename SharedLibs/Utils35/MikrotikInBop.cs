@@ -2,12 +2,12 @@
 {
     public class MikrotikInBop
     {
-        private LogFile _rtuLogFile;
+        private IMyLog _rtuLogFile;
         private string _ip;
         private readonly int _connectionTimeout;
         private Mikrotik _mikrotik;
 
-        public MikrotikInBop(LogFile logFile, string ip, int connectionTimeout)
+        public MikrotikInBop(IMyLog logFile, string ip, int connectionTimeout)
         {
             _rtuLogFile = logFile;
             _ip = ip;

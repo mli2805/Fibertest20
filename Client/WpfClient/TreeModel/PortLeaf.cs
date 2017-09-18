@@ -7,13 +7,14 @@ using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
+using WcfServiceForClientLibrary;
 
 namespace Iit.Fibertest.Client
 {
     public class PortLeaf : Leaf
     {
         private readonly IniFile _iniFile35;
-        private readonly LogFile _logFile;
+        private readonly IMyLog _logFile;
         public readonly int PortNumber;
         public readonly int ExtendedPortNumber;
 
@@ -29,7 +30,7 @@ namespace Iit.Fibertest.Client
         }
         public int LeftMargin => Parent is OtauLeaf ? 106 : 85;
 
-        public PortLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, IniFile iniFile35, LogFile logFile, PostOffice postOffice, Leaf parent, int portNumber)
+        public PortLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, IniFile iniFile35, IMyLog logFile, PostOffice postOffice, Leaf parent, int portNumber)
             : base(readModel, windowManager, bus, postOffice)
         {
             _iniFile35 = iniFile35;
