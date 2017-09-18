@@ -1,0 +1,70 @@
+﻿
+Running a transacted installation.
+
+Beginning the Install phase of the installation.
+See the contents of the log file for the C:\VSProjects\Fibertest20\Server\DataCenterService\bin\Debug\DataCenterService.exe assembly's progress.
+The file is located at C:\VSProjects\Fibertest20\Server\DataCenterService\bin\Debug\DataCenterService.InstallLog.
+
+The Install phase completed successfully, and the Commit phase is beginning.
+See the contents of the log file for the C:\VSProjects\Fibertest20\Server\DataCenterService\bin\Debug\DataCenterService.exe assembly's progress.
+The file is located at C:\VSProjects\Fibertest20\Server\DataCenterService\bin\Debug\DataCenterService.InstallLog.
+
+The Commit phase completed successfully.
+
+The transacted install has completed.
+
+
+The uninstall is beginning.
+See the contents of the log file for the C:\VSProjects\Fibertest20\Server\DataCenterService\bin\Debug\DataCenterService.exe assembly's progress.
+The file is located at C:\VSProjects\Fibertest20\Server\DataCenterService\bin\Debug\DataCenterService.InstallLog.
+
+The uninstall has completed.
+
+Running a transacted installation.
+
+Beginning the Install phase of the installation.
+See the contents of the log file for the C:\VSProjects\Fibertest20\Server\DataCenterService\bin\Debug\DataCenterService.exe assembly's progress.
+The file is located at C:\VSProjects\Fibertest20\Server\DataCenterService\bin\Debug\DataCenterService.InstallLog.
+
+The Install phase completed successfully, and the Commit phase is beginning.
+See the contents of the log file for the C:\VSProjects\Fibertest20\Server\DataCenterService\bin\Debug\DataCenterService.exe assembly's progress.
+The file is located at C:\VSProjects\Fibertest20\Server\DataCenterService\bin\Debug\DataCenterService.InstallLog.
+
+The Commit phase completed successfully.
+
+The transacted install has completed.
+
+Running a transacted installation.
+
+Beginning the Install phase of the installation.
+See the contents of the log file for the C:\VSProjects\Fibertest20\RTU\RtuService\bin\x86\Debug\RtuService.exe assembly's progress.
+The file is located at C:\VSProjects\Fibertest20\RTU\RtuService\bin\x86\Debug\RtuService.InstallLog.
+
+The Install phase completed successfully, and the Commit phase is beginning.
+See the contents of the log file for the C:\VSProjects\Fibertest20\RTU\RtuService\bin\x86\Debug\RtuService.exe assembly's progress.
+The file is located at C:\VSProjects\Fibertest20\RTU\RtuService\bin\x86\Debug\RtuService.InstallLog.
+
+The Commit phase completed successfully.
+
+The transacted install has completed.
+
+
+The uninstall is beginning.
+See the contents of the log file for the C:\VSProjects\Fibertest20\RTU\RtuWatchdog\bin\Debug\RtuWatchdog.exe assembly's progress.
+The file is located at C:\VSProjects\Fibertest20\RTU\RtuWatchdog\bin\Debug\RtuWatchdog.InstallLog.
+
+The uninstall has completed.
+
+Running a transacted installation.
+
+Beginning the Install phase of the installation.
+See the contents of the log file for the C:\VSProjects\Fibertest20\RTU\RtuWatchdog\bin\Debug\RtuWatchdog.exe assembly's progress.
+The file is located at C:\VSProjects\Fibertest20\RTU\RtuWatchdog\bin\Debug\RtuWatchdog.InstallLog.
+
+The Install phase completed successfully, and the Commit phase is beginning.
+See the contents of the log file for the C:\VSProjects\Fibertest20\RTU\RtuWatchdog\bin\Debug\RtuWatchdog.exe assembly's progress.
+The file is located at C:\VSProjects\Fibertest20\RTU\RtuWatchdog\bin\Debug\RtuWatchdog.InstallLog.
+
+The Commit phase completed successfully.
+
+The transacted install has completed.
