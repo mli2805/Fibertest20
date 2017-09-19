@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Autofac;
 using Iit.Fibertest.Graph;
-using WcfConnections.C2DWcfServiceReference;
+using WcfServiceForClientLibrary;
 
 namespace Iit.Fibertest.Client
 {
@@ -15,6 +15,9 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<WriteModel>().SingleInstance();
             builder.RegisterType<Bus>().SingleInstance();
             builder.RegisterType<GraphReadModel>().SingleInstance();
+
+            builder.Register<IWcfServiceForClient>(ctx => new WcfServiceForClient()).SingleInstance();
+
             builder.Register(ioc => new ClientPoller(
                 ioc.Resolve<IWcfServiceForClient>(), new List<object>
                 {

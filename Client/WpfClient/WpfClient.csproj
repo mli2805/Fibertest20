@@ -534,6 +534,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Server\WcfServiceForClient\WcfServiceForClientLibrary.csproj">
+      <Project>{72f6524c-e7ee-4dfd-8ae2-15a4e5225d3b}</Project>
+      <Name>WcfServiceForClientLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\SharedLibs\WcfConnections\WcfConnections.csproj">
       <Project>{5194ad3b-e031-4f61-aded-c1e92999acf2}</Project>
       <Name>WcfConnections</Name>

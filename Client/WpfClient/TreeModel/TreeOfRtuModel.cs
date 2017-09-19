@@ -22,7 +22,7 @@ namespace Iit.Fibertest.Client
         private readonly ILogger _log;
         private readonly IMyLog _logFile;
 
-        public C2DWcfManager C2DWcfManager { get; set; }
+//        public C2DWcfManager C2DWcfManager { get; set; }
         public ObservableCollection<Leaf> Tree { get; set; } = new ObservableCollection<Leaf>();
         public FreePorts FreePorts { get; } = new FreePorts(true);
 

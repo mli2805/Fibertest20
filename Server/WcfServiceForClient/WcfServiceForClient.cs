@@ -12,7 +12,7 @@ namespace WcfServiceForClientLibrary
     public class WcfServiceForClient : IWcfServiceForClient
     {
         // BUG: Initialize this!
-        private readonly EventStoreService _service = null;
+        private readonly EventStoreService _service = new EventStoreService();
         public static IMyLog ServiceLog { get; set; }
 
         public static event OnMessageReceived MessageReceived;

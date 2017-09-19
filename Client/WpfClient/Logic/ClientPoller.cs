@@ -1,18 +1,18 @@
 ﻿using System.Collections.Generic;
 using Caliburn.Micro;
 using PrivateReflectionUsingDynamic;
-using WcfConnections.C2DWcfServiceReference;
+//using WcfConnections.C2DWcfServiceReference;
 
 namespace Iit.Fibertest.Client
 {
     public class ClientPoller : PropertyChangedBase
     {
-        private readonly IWcfServiceForClient _client;
+        private readonly WcfServiceForClientLibrary.IWcfServiceForClient _client;
         public List<object> ReadModels { get; }
 
         public int CurrentEventNumber { get; private set; }
 
-        public ClientPoller(IWcfServiceForClient client, List<object> readModels)
+        public ClientPoller(WcfServiceForClientLibrary.IWcfServiceForClient client, List<object> readModels)
         {
             _client = client;
             ReadModels = readModels;

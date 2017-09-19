@@ -1,15 +1,14 @@
 ﻿using System.Threading.Tasks;
 using Newtonsoft.Json;
-using WcfConnections.C2DWcfServiceReference;
 
 namespace Iit.Fibertest.Client
 {
     // TODO: Find a better place fo the bus.cs file
     public sealed class Bus
     {
-        private readonly IWcfServiceForClient _wcfService;
+        private readonly WcfServiceForClientLibrary.IWcfServiceForClient _wcfService;
 
-        public Bus(IWcfServiceForClient wcfServiceForClient)
+        public Bus(WcfServiceForClientLibrary.IWcfServiceForClient wcfServiceForClient)
         {
             _wcfService = wcfServiceForClient;
         }
