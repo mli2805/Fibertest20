@@ -83,6 +83,8 @@ namespace RtuService
                     RestoreFunctions.RebootSystem(_serviceLog, delay);
                     Thread.Sleep(TimeSpan.FromSeconds(delay + 5));
                 }
+                else
+                    throw;
             }
 
         }

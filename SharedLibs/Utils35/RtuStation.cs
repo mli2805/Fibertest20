@@ -11,7 +11,7 @@ namespace Iit.Fibertest.UtilsLib
         public DoubleAddressWithLastConnectionCheck PcAddresses { get; set; } = new DoubleAddressWithLastConnectionCheck();
 
         /// <summary>
-        /// Charon always has only one address, no matter how many addresses has PC
+        /// Charon(Otdr,Otau) always has only one address, no matter how many addresses has PC
         /// This address should be set up by user in RTU ini file
         /// 
         /// For MAK100 it is always 192.168.88.101 as a sign that RTU is MAK100
@@ -22,7 +22,7 @@ namespace Iit.Fibertest.UtilsLib
         /// The only reason to store this address is to pass it to Reflect
         /// for ReflectMeasure mode, so Reflect could connect Otdr directly
         /// </summary>
-        public string CharonIp { get; set; }
+        public string OtdrIp { get; set; }
 
         public override string ToString()
         {

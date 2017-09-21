@@ -6,13 +6,14 @@ using Caliburn.Micro;
 using ClientWcfServiceLibrary;
 using Dto;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.UtilsLib;
 using WcfConnections;
 
 namespace WcfTestBench.MonitoringSettings
 {
     public class MonitoringSettingsViewModel : Screen
     {
-        private readonly Guid _rtuId;
+        private readonly RtuStation _rtuStation;
         public MonitoringSettingsModel Model { get; set; }
         public C2DWcfManager C2DWcfManager { get; set; }
 
@@ -30,9 +31,9 @@ namespace WcfTestBench.MonitoringSettings
             }
         }
 
-        public MonitoringSettingsViewModel(Guid rtuId, MonitoringSettingsModel model)
+        public MonitoringSettingsViewModel(RtuStation rtuStation, MonitoringSettingsModel model)
         {
-            _rtuId = rtuId;
+            _rtuStation = rtuStation;
 
             Model = model;
             Model.CalculateCycleTime();
@@ -99,7 +100,7 @@ namespace WcfTestBench.MonitoringSettings
         {
             return new ApplyMonitoringSettingsDto
             {
-                RtuId = _rtuId,
+                RtuId = _rtuStation.Id,
                 IsMonitoringOn = Model.IsMonitoringOn,
                 Timespans = ConvertFrequenciesToDto(),
                 Ports = ConvertPorts()
@@ -113,10 +114,14 @@ namespace WcfTestBench.MonitoringSettings
             {
                 foreach (var port in charon.Ports.Where(p => p.IsIncluded))
                 {
-                    ports.Add(new OtauPortDto
-                    {
-                        OtauIp = charon.CharonIpAddress, OtauTcpPort = charon.CharonTcpPort, OpticalPort = port.PortNumber, IsPortOnMainCharon = charon.IsMainCharon
-                    });
+                    ports.Add(
+                        new OtauPortDto
+                        {
+                            OtauIp = charon.IsMainCharon ? _rtuStation.OtdrIp : charon.CharonIpAddress,
+                            OtauTcpPort = charon.CharonTcpPort,
+                            OpticalPort = port.PortNumber,
+                            IsPortOnMainCharon = charon.IsMainCharon
+                        });
                 }
             }
             return ports;
@@ -132,8 +137,8 @@ namespace WcfTestBench.MonitoringSettings
                 PreciseSave = Model.Frequencies.SelectedPreciseSaveFreq == Frequency.DoNot
                     ? TimeSpan.Zero
                     : TimeSpan.FromHours((int)Model.Frequencies.SelectedPreciseSaveFreq),
-                FastSave = Model.Frequencies.SelectedFastSaveFreq == Frequency.DoNot 
-                    ? TimeSpan.Zero 
+                FastSave = Model.Frequencies.SelectedFastSaveFreq == Frequency.DoNot
+                    ? TimeSpan.Zero
                     : TimeSpan.FromHours((int)Model.Frequencies.SelectedFastSaveFreq),
             };
         }

@@ -154,10 +154,13 @@ namespace WcfConnections
             if (shouldWriteToLogProblems)
             {
                 var pingTimeout = _iniFile.Read(IniSection.NetTcpBinding, IniKey.PingTimeoutMs, 120);
-                var word = Pinger.Ping(netAddress.GetAddress(), pingTimeout) ? "passed" : $"failed (Timeout is {pingTimeout} ms)";
+                var isPingPassed = Pinger.Ping(netAddress.GetAddress(), pingTimeout);
+                var word = isPingPassed ? "passed" : $"failed (Timeout is {pingTimeout} ms)";
 
                 _logFile.AppendLine(
                     $"Can't connect to {netAddress.ToStringA()} (Timeout {openTimeout.TotalMilliseconds} ms), ping {word}");
+                if (isPingPassed)
+                    _logFile.AppendLine("Check that on other end service started and versions match");
             }
             return false;
         }

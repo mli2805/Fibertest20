@@ -76,6 +76,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Client\ClientWcfServiceLibrary\ClientWcfServiceLibrary.csproj">
+      <Project>{1822c528-4719-4c53-877e-bc57dbf6d7ff}</Project>
+      <Name>ClientWcfServiceLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Client\Graph\Graph.csproj">
       <Project>{a734876e-977b-4dda-b6a4-ad1dd525c6d1}</Project>
       <Name>Graph</Name>

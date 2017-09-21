@@ -80,10 +80,14 @@ namespace RtuManagement
                     extendedPort.IsBreakdownCloserThen20Km = moniResult.FirstBreakDistance < 20;
 
                 var message = "";
-                if (extendedPort.LastMoniResult == null)
-                    message = "First measurement after restart";
-                else if (extendedPort.LastMoniResult.GetAggregatedResult() != moniResult.GetAggregatedResult())
+//                if (extendedPort.LastMoniResult == null)
+//                    message = "First measurement after restart";
+//                else 
+                if (extendedPort.LastMoniResult.GetAggregatedResult() != moniResult.GetAggregatedResult())
+                {
                     message = "Trace state has changed";
+                    SaveTraceStateInFile();
+                }
                 else if (DateTime.Now - extendedPort.LastFastSavedTimestamp > _fastSaveTimespan)
                     message = "It's time to save fast reflectogram";
 
@@ -108,10 +112,14 @@ namespace RtuManagement
             if (moniResult != null)
             {
                 var message = "";
-                if (extendedPort.LastPreciseMadeTimestamp == null)
-                    message = "First measurement after restart";
-                else if (extendedPort.LastMoniResult.GetAggregatedResult() != moniResult.GetAggregatedResult())
+//                if (extendedPort.LastPreciseMadeTimestamp == null)
+//                    message = "First measurement after restart";
+//                else 
+                if (extendedPort.LastMoniResult.GetAggregatedResult() != moniResult.GetAggregatedResult())
+                {
                     message = "Trace state has changed";
+                    SaveTraceStateInFile();
+                }
                 else if (DateTime.Now - extendedPort.LastPreciseSavedTimestamp > _preciseSaveTimespan)
                     message = "It's time to save precise reflectogram";
 
@@ -125,6 +133,11 @@ namespace RtuManagement
                 extendedPort.LastPreciseMadeTimestamp = DateTime.Now;
             }
             return moniResult;
+        }
+
+        private void SaveTraceStateInFile()
+        {
+            
         }
 
         private void ProcessOnePort(ExtendedPort extendedPort)

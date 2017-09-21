@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Web.Script.Serialization;
 using Dto;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.UtilsLib;
@@ -155,6 +157,7 @@ namespace RtuManagement
 
             SaveNewFrequenciesToIni(dto);
             SaveNewQueueToFile(dto);
+            SerializePortsToQueue(dto.Ports);
 
             new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendMonitoringSettingsApplied(new MonitoringSettingsAppliedDto() { IsSuccessful = true });
 
@@ -168,14 +171,45 @@ namespace RtuManagement
                 StartMonitoring();
         }
 
+        private Queue<ExtendedPort> MergeNewPortsWithQueue(List<OtauPortDto> ports)
+        {
+            var newQueue = new Queue<ExtendedPort>();
+
+            foreach (var otauPortDto in ports)
+            {
+                var extendedPort = _monitoringQueue.FirstOrDefault(p=>p.IsTheSamePort(otauPortDto)) ?? new ExtendedPort(otauPortDto);
+                newQueue.Enqueue(extendedPort);
+            }
+
+            return newQueue;
+        }
+
+        private void SerializePortsToQueue(List<OtauPortDto> ports)
+        {
+            var monitoringSettingsFile = Utils.FileNameForSure(@"..\ini\", @"monitoring.que", false);
+            var javaScriptSerializer = new JavaScriptSerializer();
+            var contents = ports.Select(p => javaScriptSerializer.Serialize(p)).ToList();
+            File.WriteAllLines(monitoringSettingsFile,contents);
+        }
+
         private void SaveNewQueueToFile(ApplyMonitoringSettingsDto dto)
         {
             var otdrIp = _rtuIni.Read(IniSection.General, IniKey.OtdrIp, "192.168.88.101");
-            var content = dto.Ports.Select(port => port.IsPortOnMainCharon
-                    ? $"{otdrIp}:{port.OtauTcpPort}-{port.OpticalPort}"
-                    : $"{port.OtauIp}:{port.OtauTcpPort}-{port.OpticalPort}")
-                .ToList();
 
+            var content = new List<string>();
+            foreach (var otauPortDto in dto.Ports)
+            {
+                var sameExtendedPort =
+                    otauPortDto.IsPortOnMainCharon 
+                    ? _monitoringQueue.FirstOrDefault(p => p.NetAddress.Ip4Address == otdrIp && p.OpticalPort == otauPortDto.OpticalPort)
+                    : _monitoringQueue.FirstOrDefault(p => p.NetAddress.Ip4Address == otauPortDto.OtauIp && p.OpticalPort == otauPortDto.OpticalPort);
+                var state = sameExtendedPort == null ? 2 : (int)sameExtendedPort.LastTraceState;
+
+                content.Add(otauPortDto.IsPortOnMainCharon
+                    ? $"{otdrIp}:{otauPortDto.OtauTcpPort}-{otauPortDto.OpticalPort} {state}"
+                    : $"{otauPortDto.OtauIp}:{otauPortDto.OtauTcpPort}-{otauPortDto.OpticalPort} {state}");
+            }
+            
             var monitoringSettingsFile = Utils.FileNameForSure(@"..\ini\", @"monitoring.que", false);
             File.WriteAllLines(monitoringSettingsFile, content);
         }

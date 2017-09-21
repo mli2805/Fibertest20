@@ -78,7 +78,7 @@ namespace DataCenterCore
             var rtuStation = new RtuStation()
             {
                 Id = dto.RtuId,
-                CharonIp = dto.OtdrAddress.Ip4Address,
+                OtdrIp = dto.OtdrAddress.Ip4Address,
                 PcAddresses = new DoubleAddressWithLastConnectionCheck() { DoubleAddress = dto.PcDoubleAddress },
                 Version = dto.Version,
             };

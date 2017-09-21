@@ -168,7 +168,7 @@ namespace DataCenterCore
                 rtuStation.PcAddresses.DoubleAddress.Reserve = new NetAddress(parts[2], (int)TcpPorts.RtuListenTo);
                 rtuStation.PcAddresses.LastConnectionOnReserve = DateTime.Now;
             }
-            rtuStation.CharonIp = parts[3];
+            rtuStation.OtdrIp = parts[3];
             return rtuStation;
         }
 
@@ -177,7 +177,7 @@ namespace DataCenterCore
             var reserveAddress = rtuStation.PcAddresses.DoubleAddress.HasReserveAddress
                 ? rtuStation.PcAddresses.DoubleAddress.Reserve.Ip4Address
                 : "none";
-            return $"{rtuStation.Id} {rtuStation.PcAddresses.DoubleAddress.Main.Ip4Address} {reserveAddress} {rtuStation.CharonIp}";
+            return $"{rtuStation.Id} {rtuStation.PcAddresses.DoubleAddress.Main.Ip4Address} {reserveAddress} {rtuStation.OtdrIp}";
         }
 
         #endregion

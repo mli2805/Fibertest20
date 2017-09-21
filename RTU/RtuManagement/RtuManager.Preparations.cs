@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Web.Script.Serialization;
 using Dto;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.IitOtdrLibrary;
@@ -92,20 +93,29 @@ namespace RtuManagement
             _rtuLog.AppendLine("Monitoring queue assembling...");
             _monitoringQueue = new Queue<ExtendedPort>();
             var monitoringSettingsFile = Utils.FileNameForSure(@"..\ini\", @"monitoring.que", false);
-            var content = File.ReadAllLines(monitoringSettingsFile);
-            foreach (var line in content)
-            {
-                var extendedPort = ExtendedPort.Create(line, _rtuLog);
-                if (extendedPort == null)
-                    continue;
 
-                extendedPort.IsPortOnMainCharon = _mainCharon.NetAddress.Equals(extendedPort.NetAddress);
-                if (_mainCharon.IsExtendedPortValidForMonitoring(extendedPort))
-                    _monitoringQueue.Enqueue(extendedPort);
+            try
+            {
+                var contents = File.ReadAllLines(monitoringSettingsFile);
+                var javaScriptSerializer = new JavaScriptSerializer();
+
+                var list = contents.Select(s => javaScriptSerializer.Deserialize<PortInQueueOnDisk>(s)).ToList();
+                foreach (var otauPortDto in list)
+                {
+                    _monitoringQueue.Enqueue(new ExtendedPort(otauPortDto));
+                }
+
+
             }
+            catch (Exception e)
+            {
+                _rtuLog.AppendLine($"Queue parsing: {e.Message}");
+            }
+
             _rtuLog.AppendLine($"{_monitoringQueue.Count} port(s) in queue.");
         }
 
+      
         private void GetMonitoringParams()
         {
             _preciseMakeTimespan =

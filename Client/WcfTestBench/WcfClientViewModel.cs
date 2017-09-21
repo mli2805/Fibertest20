@@ -227,7 +227,7 @@ namespace WcfTestBench
 
         public void MonitoringSettings()
         {
-            var vm = new MonitoringSettingsViewModel(SelectedRtu.Id, PopulateModel());
+            var vm = new MonitoringSettingsViewModel(SelectedRtu, PopulateModel());
             vm.C2DWcfManager = _c2DWcfManager;
             IWindowManager windowManager = new WindowManager();
             windowManager.ShowDialog(vm);
@@ -306,8 +306,8 @@ namespace WcfTestBench
                 Charons = new List<MonitoringCharonModel>()
                 {
                     new MonitoringCharonModel(SelectedRtu.PcAddresses.DoubleAddress.Main.Ip4Address, 23) { Title = @"Грушаука 214", IsMainCharon = true, Ports = PopulatePorts(28)},
-                    new MonitoringCharonModel(@"192.168.96.57", 11834) { Ports = PopulatePorts(16)},
-                    new MonitoringCharonModel(@"192.168.96.57", 11835) { Ports = PopulatePorts(8)}
+                    new MonitoringCharonModel(@"172.16.5.57", 11834) { Ports = PopulatePorts(16)},
+                    new MonitoringCharonModel(@"172.16.5.57", 11835) { Ports = PopulatePorts(8)}
                 }
             };
             model.Frequencies.InitializeComboboxes(Frequency.EveryHour, Frequency.EveryHour, Frequency.EveryHour);
@@ -354,9 +354,9 @@ namespace WcfTestBench
                 return;
             }
 
-            var otdrAddress = SelectedRtu.CharonIp == @"192.168.88.101"
+            var otdrAddress = SelectedRtu.OtdrIp == @"192.168.88.101"
                 ? SelectedRtu.PcAddresses.DoubleAddress.Main.Ip4Address
-                : SelectedRtu.CharonIp;
+                : SelectedRtu.OtdrIp;
             StartReflect($@"-fnw -n {otdrAddress} -p 1500");
         }
 
@@ -436,7 +436,7 @@ namespace WcfTestBench
                 rtuStation.PcAddresses.DoubleAddress.Reserve = new NetAddress(parts[2], (int)TcpPorts.RtuListenTo);
                 rtuStation.PcAddresses.LastConnectionOnReserve = DateTime.Now;
             }
-            rtuStation.CharonIp = parts[3];
+            rtuStation.OtdrIp = parts[3];
             return rtuStation;
         }
     }
