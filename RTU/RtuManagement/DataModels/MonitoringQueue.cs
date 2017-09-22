@@ -39,7 +39,7 @@ namespace RtuManagement
                 var list = contents.Select(s => javaScriptSerializer.Deserialize<MonitoringPortOnDisk>(s)).ToList();
                 foreach (var port in list)
                 {
-                    Queue.Enqueue(new MonitorigPort(port.NetAddress, port.OpticalPort, port.LastTraceState));
+                    Queue.Enqueue(new MonitorigPort(port));
                 }
             }
             catch (Exception e)

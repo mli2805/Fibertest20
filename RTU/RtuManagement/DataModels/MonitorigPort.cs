@@ -20,16 +20,21 @@ namespace RtuManagement
         public MoniResult LastMoniResult { get; set; }
         public bool IsBreakdownCloserThen20Km { get; set; }
 
-        public MonitorigPort(NetAddress netAddress, int opticalOpticalPort, FiberState lastTraceState)
-        {
-            NetAddress = netAddress;
-            OpticalPort = opticalOpticalPort;
-            LastTraceState = lastTraceState;
+        public bool MonitoringModeChangedFlag { get; set; }
 
-            LastFastSavedTimestamp = DateTime.Now;
-            LastPreciseSavedTimestamp = DateTime.Now;
+        public MonitorigPort(MonitoringPortOnDisk port)
+        {
+            NetAddress = port.NetAddress;
+            OpticalPort = port.OpticalPort;
+            LastTraceState = port.LastTraceState;
+
+            LastFastSavedTimestamp = port.LastFastSavedTimestamp;
+            LastPreciseSavedTimestamp = port.LastPreciseSavedTimestamp;
+
+            MonitoringModeChangedFlag = port.MonitoringModeChangedFlag;
         }
 
+        // new port for monitoring in user's command
         public MonitorigPort(OtauPortDto port)
         {
             NetAddress = new NetAddress(port.OtauIp, port.OtauTcpPort);
@@ -38,6 +43,8 @@ namespace RtuManagement
 
             LastFastSavedTimestamp = DateTime.Now;
             LastPreciseSavedTimestamp = DateTime.Now;
+
+            MonitoringModeChangedFlag = true;
         }
 
         public bool IsTheSamePort(OtauPortDto otauPortDto)
@@ -45,7 +52,6 @@ namespace RtuManagement
             return NetAddress.Equals(new NetAddress(otauPortDto.OtauIp, otauPortDto.OtauTcpPort))
                    && OpticalPort == otauPortDto.OpticalPort;
         }
-
 
         private string GetFolderName()
         {
