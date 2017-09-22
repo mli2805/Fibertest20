@@ -79,8 +79,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataModels\DamagedOtau.cs" />
+    <Compile Include="DataModels\MonitorigPort.cs" />
     <Compile Include="DataModels\MonitoringQueue.cs" />
-    <Compile Include="DataModels\PortInQueueOnDisk.cs" />
+    <Compile Include="DataModels\MonitoringPortOnDisk.cs" />
     <Compile Include="Dove.cs" />
     <Compile Include="DataModels\MoniResultOnDisk.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -53,7 +53,7 @@ namespace RtuManagement
             IsSenderBusy = false;
         }
 
-        private void SendCurrentMonitoringStep(RtuCurrentMonitoringStep currentMonitoringStep, ExtendedPort extendedPort, BaseRefType baseRefType = BaseRefType.None)
+        private void SendCurrentMonitoringStep(RtuCurrentMonitoringStep currentMonitoringStep, MonitorigPort monitorigPort, BaseRefType baseRefType = BaseRefType.None)
         {
             if (IsSenderBusy)
                 return;
@@ -66,9 +66,9 @@ namespace RtuManagement
                 MonitoringStep = currentMonitoringStep,
                 OtauPort = new OtauPortDto()
                 {
-                    OtauIp = extendedPort.NetAddress.Ip4Address,
-                    OtauTcpPort = extendedPort.NetAddress.Port,
-                    OpticalPort = extendedPort.OpticalPort
+                    OtauIp = monitorigPort.NetAddress.Ip4Address,
+                    OtauTcpPort = monitorigPort.NetAddress.Port,
+                    OpticalPort = monitorigPort.OpticalPort
                 },
                 BaseRefType = baseRefType,
             };

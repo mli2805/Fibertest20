@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Web.Script.Serialization;
 using Dto;
-using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.UtilsLib;
 
 namespace RtuManagement
@@ -13,7 +12,7 @@ namespace RtuManagement
     {
         private readonly IMyLog _logFile;
         private readonly string _monitoringSettingsFile = Utils.FileNameForSure(@"..\ini\", @"monitoring.que", false);
-        public Queue<ExtendedPort> Queue { get; set; }
+        public Queue<MonitorigPort> Queue { get; set; }
 
         public MonitoringQueue(IMyLog logFile)
         {
@@ -21,26 +20,26 @@ namespace RtuManagement
         }
 
         public int Count() { return Queue.Count; }
-        public ExtendedPort Dequeue() { return Queue.Dequeue(); }
-        public void Enqueue(ExtendedPort item) { Queue.Enqueue(item); }
+        public MonitorigPort Dequeue() { return Queue.Dequeue(); }
+        public void Enqueue(MonitorigPort item) { Queue.Enqueue(item); }
 
 
-        // Queue is stored on disk as json serialized list of PortInQueueOnDisk
+        // Queue is stored on disk as json serialized list of MonitoringPortOnDisk
         public void Load()
         {
             _logFile.EmptyLine();
             _logFile.AppendLine("Monitoring queue assembling...");
-            Queue = new Queue<ExtendedPort>();
+            Queue = new Queue<MonitorigPort>();
 
             try
             {
                 var contents = File.ReadAllLines(_monitoringSettingsFile);
                 var javaScriptSerializer = new JavaScriptSerializer();
 
-                var list = contents.Select(s => javaScriptSerializer.Deserialize<PortInQueueOnDisk>(s)).ToList();
+                var list = contents.Select(s => javaScriptSerializer.Deserialize<MonitoringPortOnDisk>(s)).ToList();
                 foreach (var port in list)
                 {
-                    Queue.Enqueue(new ExtendedPort(port.NetAddress, port.OpticalPort, port.LastTraceState));
+                    Queue.Enqueue(new MonitorigPort(port.NetAddress, port.OpticalPort, port.LastTraceState));
                 }
             }
             catch (Exception e)
@@ -56,7 +55,7 @@ namespace RtuManagement
             try
             {
                 var javaScriptSerializer = new JavaScriptSerializer();
-                var list = Queue.Select(p => javaScriptSerializer.Serialize(new PortInQueueOnDisk(p)));
+                var list = Queue.Select(p => javaScriptSerializer.Serialize(new MonitoringPortOnDisk(p)));
 
                 File.WriteAllLines(_monitoringSettingsFile, list);
             }
@@ -68,11 +67,11 @@ namespace RtuManagement
 
         public void MergeNewPortsIntQueue(List<OtauPortDto> ports)
         {
-            var newQueue = new Queue<ExtendedPort>();
+            var newQueue = new Queue<MonitorigPort>();
 
             foreach (var otauPortDto in ports)
             {
-                var extendedPort = Queue.FirstOrDefault(p => p.IsTheSamePort(otauPortDto)) ?? new ExtendedPort(otauPortDto);
+                var extendedPort = Queue.FirstOrDefault(p => p.IsTheSamePort(otauPortDto)) ?? new MonitorigPort(otauPortDto);
                 newQueue.Enqueue(extendedPort);
             }
 

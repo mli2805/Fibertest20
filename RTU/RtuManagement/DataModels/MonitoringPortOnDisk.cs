@@ -1,11 +1,10 @@
 using System;
 using Dto;
-using Iit.Fibertest.DirectCharonLibrary;
 
 namespace RtuManagement
 {
     [Serializable]
-    public class PortInQueueOnDisk
+    public class MonitoringPortOnDisk
     {
         public NetAddress NetAddress { get; set; }
 
@@ -14,12 +13,12 @@ namespace RtuManagement
         public FiberState LastTraceState { get; set; }
 
         // for deserializer
-        public PortInQueueOnDisk()
+        public MonitoringPortOnDisk()
         {
             
         }
 
-        public PortInQueueOnDisk(ExtendedPort port)
+        public MonitoringPortOnDisk(MonitorigPort port)
         {
             NetAddress = (NetAddress) port.NetAddress.Clone();
             OpticalPort = port.OpticalPort;

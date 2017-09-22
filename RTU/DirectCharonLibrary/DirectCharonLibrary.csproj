@@ -82,7 +82,6 @@
     <Compile Include="Charon.TransmissionLevel.cs" />
     <Compile Include="CharonLogLevel.cs" />
     <Compile Include="CharonOperationResult.cs" />
-    <Compile Include="ExtendedPort.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

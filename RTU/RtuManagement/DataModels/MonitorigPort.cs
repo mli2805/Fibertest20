@@ -1,11 +1,12 @@
 ﻿using System;
 using System.IO;
 using Dto;
+using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.UtilsLib;
 
-namespace Iit.Fibertest.DirectCharonLibrary
+namespace RtuManagement
 {
-    public class ExtendedPort
+    public class MonitorigPort
     {
         public NetAddress NetAddress { get; set; }
         public bool IsPortOnMainCharon { get; set; }
@@ -19,7 +20,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
         public MoniResult LastMoniResult { get; set; }
         public bool IsBreakdownCloserThen20Km { get; set; }
 
-        public ExtendedPort(NetAddress netAddress, int opticalOpticalPort, FiberState lastTraceState)
+        public MonitorigPort(NetAddress netAddress, int opticalOpticalPort, FiberState lastTraceState)
         {
             NetAddress = netAddress;
             OpticalPort = opticalOpticalPort;
@@ -29,7 +30,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
             LastPreciseSavedTimestamp = DateTime.Now;
         }
 
-        public ExtendedPort(OtauPortDto port)
+        public MonitorigPort(OtauPortDto port)
         {
             NetAddress = new NetAddress(port.OtauIp, port.OtauTcpPort);
             OpticalPort = port.OpticalPort;
@@ -56,6 +57,18 @@ namespace Iit.Fibertest.DirectCharonLibrary
             return IsPortOnMainCharon
                 ? $"{OpticalPort}"
                 : $"{OpticalPort} on {NetAddress.ToStringA()}";
+        }
+
+        public string ToStringB(Charon mainCharon)
+        {
+            if (NetAddress.Equals(mainCharon.NetAddress))
+                return OpticalPort.ToString();
+            foreach (var pair in mainCharon.Children)
+            {
+                if (pair.Value.NetAddress.Equals(NetAddress))
+                    return $"{pair.Key}:{OpticalPort}";
+            }
+            return $"Can't find port {ToStringA()}";
         }
 
         public bool HasAdditionalBase()

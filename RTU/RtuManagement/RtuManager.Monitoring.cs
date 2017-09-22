@@ -68,107 +68,107 @@ namespace RtuManagement
             new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendMonitoringStopped(new MonitoringStoppedDto() { RtuId = _id, IsSuccessful = true });
         }
 
-        private MoniResult DoFastMeasurement(ExtendedPort extendedPort)
+        private MoniResult DoFastMeasurement(MonitorigPort monitorigPort)
         {
             _rtuLog.EmptyLine();
-            _rtuLog.AppendLine($"MEAS. {_measurementNumber} port {_mainCharon.GetBopPortString(extendedPort)}, Fast");
+            _rtuLog.AppendLine($"MEAS. {_measurementNumber} port {monitorigPort.ToStringB(_mainCharon)}, Fast");
 
-            var moniResult = DoMeasurement(BaseRefType.Fast, extendedPort);
+            var moniResult = DoMeasurement(BaseRefType.Fast, monitorigPort);
             if (moniResult != null)
             {
                 if (moniResult.GetAggregatedResult() != FiberState.Ok)
-                    extendedPort.IsBreakdownCloserThen20Km = moniResult.FirstBreakDistance < 20;
+                    monitorigPort.IsBreakdownCloserThen20Km = moniResult.FirstBreakDistance < 20;
 
                 var message = "";
-                if (extendedPort.LastTraceState != moniResult.GetAggregatedResult())
+                if (monitorigPort.LastTraceState != moniResult.GetAggregatedResult())
                 {
                     message = "Trace state has changed";
-                    extendedPort.LastTraceState = moniResult.GetAggregatedResult();
+                    monitorigPort.LastTraceState = moniResult.GetAggregatedResult();
                     _monitoringQueue.Save();
                 }
-                else if (DateTime.Now - extendedPort.LastFastSavedTimestamp > _fastSaveTimespan)
+                else if (DateTime.Now - monitorigPort.LastFastSavedTimestamp > _fastSaveTimespan)
                     message = "It's time to save fast reflectogram";
 
                 if (message != "")
                 {
                     _rtuLog.AppendLine(message);
-                    PlaceMonitoringResultInSendingQueue(moniResult, extendedPort);
-                    extendedPort.LastFastSavedTimestamp = DateTime.Now;
+                    PlaceMonitoringResultInSendingQueue(moniResult, monitorigPort);
+                    monitorigPort.LastFastSavedTimestamp = DateTime.Now;
                 }
             }
             return moniResult;
         }
 
-        private MoniResult DoSecondMeasurement(ExtendedPort extendedPort, bool hasFastPerformed, BaseRefType baseType)
+        private MoniResult DoSecondMeasurement(MonitorigPort monitorigPort, bool hasFastPerformed, BaseRefType baseType)
         {
             _rtuLog.EmptyLine();
-            var caption = $"MEAS. {_measurementNumber} port {_mainCharon.GetBopPortString(extendedPort)}, {baseType}";
+            var caption = $"MEAS. {_measurementNumber} port {monitorigPort.ToStringB(_mainCharon)}, {baseType}";
             caption += hasFastPerformed ? " (confirmation)" : "";
             _rtuLog.AppendLine(caption);
 
-            var moniResult = DoMeasurement(baseType, extendedPort, !hasFastPerformed);
+            var moniResult = DoMeasurement(baseType, monitorigPort, !hasFastPerformed);
             if (moniResult != null)
             {
                 var message = "";
-                if (extendedPort.LastMoniResult.GetAggregatedResult() != moniResult.GetAggregatedResult())
+                if (monitorigPort.LastMoniResult.GetAggregatedResult() != moniResult.GetAggregatedResult())
                 {
                     message = "Trace state has changed";
-                    extendedPort.LastTraceState = moniResult.GetAggregatedResult();
+                    monitorigPort.LastTraceState = moniResult.GetAggregatedResult();
                     _monitoringQueue.Save();
                 }
-                else if (DateTime.Now - extendedPort.LastPreciseSavedTimestamp > _preciseSaveTimespan)
+                else if (DateTime.Now - monitorigPort.LastPreciseSavedTimestamp > _preciseSaveTimespan)
                     message = "It's time to save precise reflectogram";
 
                 if (message != "")
                 {
                     _rtuLog.AppendLine(message);
-                    PlaceMonitoringResultInSendingQueue(moniResult, extendedPort);
-                    extendedPort.LastPreciseSavedTimestamp = DateTime.Now;
+                    PlaceMonitoringResultInSendingQueue(moniResult, monitorigPort);
+                    monitorigPort.LastPreciseSavedTimestamp = DateTime.Now;
                 }
 
-                extendedPort.LastPreciseMadeTimestamp = DateTime.Now;
+                monitorigPort.LastPreciseMadeTimestamp = DateTime.Now;
             }
             return moniResult;
         }
 
-       private void ProcessOnePort(ExtendedPort extendedPort)
+       private void ProcessOnePort(MonitorigPort monitorigPort)
         {
             var hasFastPerformed = false;
-            if (extendedPort.LastMoniResult == null ||
-                extendedPort.LastMoniResult.GetAggregatedResult() == FiberState.Ok)
+            if (monitorigPort.LastMoniResult == null ||
+                monitorigPort.LastMoniResult.GetAggregatedResult() == FiberState.Ok)
             {
                 // FAST 
-                extendedPort.LastMoniResult = DoFastMeasurement(extendedPort);
-                if (extendedPort.LastMoniResult == null)
+                monitorigPort.LastMoniResult = DoFastMeasurement(monitorigPort);
+                if (monitorigPort.LastMoniResult == null)
                     return;
                 hasFastPerformed = true;
             }
 
-            var isTraceBroken = extendedPort.LastMoniResult.GetAggregatedResult() != FiberState.Ok;
+            var isTraceBroken = monitorigPort.LastMoniResult.GetAggregatedResult() != FiberState.Ok;
             var isSecondMeasurementNeeded = isTraceBroken ||
-                                            (DateTime.Now - extendedPort.LastPreciseMadeTimestamp) >
+                                            (DateTime.Now - monitorigPort.LastPreciseMadeTimestamp) >
                                             _preciseMakeTimespan;
 
             if (isSecondMeasurementNeeded)
             {
                 // PRECISE (or ADDITIONAL)
-                var baseType = (isTraceBroken && extendedPort.IsBreakdownCloserThen20Km &&
-                                extendedPort.HasAdditionalBase())
+                var baseType = (isTraceBroken && monitorigPort.IsBreakdownCloserThen20Km &&
+                                monitorigPort.HasAdditionalBase())
                     ? BaseRefType.Additional
                     : BaseRefType.Precise;
 
-                extendedPort.LastMoniResult = DoSecondMeasurement(extendedPort, hasFastPerformed, baseType);
+                monitorigPort.LastMoniResult = DoSecondMeasurement(monitorigPort, hasFastPerformed, baseType);
             }
         }
 
-        private MoniResult DoMeasurement(BaseRefType baseRefType, ExtendedPort extendedPort, bool shouldChangePort = true)
+        private MoniResult DoMeasurement(BaseRefType baseRefType, MonitorigPort monitorigPort, bool shouldChangePort = true)
         {
-            if (shouldChangePort && !ToggleToPort(extendedPort))
+            if (shouldChangePort && !ToggleToPort(monitorigPort))
                 return null;
-            var baseBytes = extendedPort.GetBaseBytes(baseRefType, _rtuLog);
+            var baseBytes = monitorigPort.GetBaseBytes(baseRefType, _rtuLog);
             if (baseBytes == null)
                 return null;
-            SendCurrentMonitoringStep(RtuCurrentMonitoringStep.Measure, extendedPort, baseRefType);
+            SendCurrentMonitoringStep(RtuCurrentMonitoringStep.Measure, monitorigPort, baseRefType);
             if (!_otdrManager.MeasureWithBase(baseBytes, _mainCharon.GetActiveChildCharon()))
             {                                 // Error 814 during measurement prepare
                 RunMainCharonRecovery();
@@ -176,13 +176,13 @@ namespace RtuManagement
             }
             if (_isMonitoringCancelled)
             {
-                SendCurrentMonitoringStep(RtuCurrentMonitoringStep.Interrupted, extendedPort, baseRefType);
+                SendCurrentMonitoringStep(RtuCurrentMonitoringStep.Interrupted, monitorigPort, baseRefType);
                 return null;
             }
-            SendCurrentMonitoringStep(RtuCurrentMonitoringStep.Analysis, extendedPort, baseRefType);
+            SendCurrentMonitoringStep(RtuCurrentMonitoringStep.Analysis, monitorigPort, baseRefType);
             var measBytes = _otdrManager.ApplyAutoAnalysis(_otdrManager.GetLastSorDataBuffer()); // is ApplyAutoAnalysis necessary ?
             var moniResult = _otdrManager.CompareMeasureWithBase(baseBytes, measBytes, true); // base is inserted into meas during comparison
-            extendedPort.SaveMeasBytes(baseRefType, measBytes); // so re-save meas after comparison
+            monitorigPort.SaveMeasBytes(baseRefType, measBytes); // so re-save meas after comparison
             moniResult.BaseRefType = baseRefType;
 
             LastSuccessfullMeasTimestamp = DateTime.Now;
@@ -191,7 +191,7 @@ namespace RtuManagement
             return moniResult;
         }
 
-        private void PlaceMonitoringResultInSendingQueue(MoniResult moniResult, ExtendedPort extendedPort)
+        private void PlaceMonitoringResultInSendingQueue(MoniResult moniResult, MonitorigPort monitorigPort)
         {
             var dto = new MonitoringResultDto()
             {
@@ -199,10 +199,10 @@ namespace RtuManagement
                 TimeStamp = DateTime.Now,
                 OtauPort = new OtauPortDto()
                 {
-                    OtauIp = extendedPort.NetAddress.Ip4Address,
-                    OtauTcpPort = extendedPort.NetAddress.Port,
-                    IsPortOnMainCharon = extendedPort.IsPortOnMainCharon,
-                    OpticalPort = extendedPort.OpticalPort,
+                    OtauIp = monitorigPort.NetAddress.Ip4Address,
+                    OtauTcpPort = monitorigPort.NetAddress.Port,
+                    IsPortOnMainCharon = monitorigPort.IsPortOnMainCharon,
+                    OpticalPort = monitorigPort.OpticalPort,
                 },
                 BaseRefType = moniResult.BaseRefType,
                 TraceState = moniResult.GetAggregatedResult(),
@@ -217,10 +217,10 @@ namespace RtuManagement
         }
 
         private readonly List<DamagedOtau> _damagedOtaus = new List<DamagedOtau>();
-        private bool ToggleToPort(ExtendedPort extendedPort)
+        private bool ToggleToPort(MonitorigPort monitorigPort)
         {
-            var otauIp = extendedPort.NetAddress.Ip4Address;
-            DamagedOtau damagedOtau = extendedPort.NetAddress.Equals(_mainCharon.NetAddress)
+            var otauIp = monitorigPort.NetAddress.Ip4Address;
+            DamagedOtau damagedOtau = monitorigPort.NetAddress.Equals(_mainCharon.NetAddress)
                 ? null
                 : _damagedOtaus.FirstOrDefault(b => b.Ip == otauIp);
             if (damagedOtau != null && (DateTime.Now - damagedOtau.RebootStarted < _mikrotikRebootTimeout))
@@ -229,8 +229,8 @@ namespace RtuManagement
                 return false;
             }
 
-            SendCurrentMonitoringStep(RtuCurrentMonitoringStep.Toggle, extendedPort);
-            var toggleResult = _mainCharon.SetExtendedActivePort(extendedPort.NetAddress, extendedPort.OpticalPort);
+            SendCurrentMonitoringStep(RtuCurrentMonitoringStep.Toggle, monitorigPort);
+            var toggleResult = _mainCharon.SetExtendedActivePort(monitorigPort.NetAddress, monitorigPort.OpticalPort);
             switch (toggleResult)
             {
                 case CharonOperationResult.Ok:
