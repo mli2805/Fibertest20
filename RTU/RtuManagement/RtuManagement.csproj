@@ -79,6 +79,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataModels\DamagedOtau.cs" />
+    <Compile Include="DataModels\MonitoringQueue.cs" />
+    <Compile Include="DataModels\PortInQueueOnDisk.cs" />
     <Compile Include="Dove.cs" />
     <Compile Include="DataModels\MoniResultOnDisk.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -119,9 +121,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -77,7 +77,6 @@
   <ItemGroup>
     <Compile Include="Arp.cs" />
     <Compile Include="ClientStation.cs" />
-    <Compile Include="ExtendedPort.cs" />
     <Compile Include="IniFile\IniFile.cs" />
     <Compile Include="IniFile\IniKey.cs" />
     <Compile Include="IniFile\IniSection.cs" />

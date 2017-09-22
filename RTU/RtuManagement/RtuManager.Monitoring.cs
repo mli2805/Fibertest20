@@ -11,7 +11,7 @@ namespace RtuManagement
     public partial class RtuManager
     {
         private bool _hasNewSettings;
-        private Queue<ExtendedPort> _monitoringQueue;
+        private MonitoringQueue _monitoringQueue;
         private int _measurementNumber;
         private TimeSpan _preciseMakeTimespan;
         private TimeSpan _preciseSaveTimespan;
@@ -23,7 +23,7 @@ namespace RtuManagement
             _rtuLog.EmptyLine();
             _rtuLog.AppendLine("Start monitoring.");
 
-            if (_monitoringQueue.Count < 1)
+            if (_monitoringQueue.Count() < 1)
             {
                 _rtuLog.AppendLine("There are no ports in queue for monitoring.");
                 _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 0);
@@ -80,13 +80,11 @@ namespace RtuManagement
                     extendedPort.IsBreakdownCloserThen20Km = moniResult.FirstBreakDistance < 20;
 
                 var message = "";
-//                if (extendedPort.LastMoniResult == null)
-//                    message = "First measurement after restart";
-//                else 
-                if (extendedPort.LastMoniResult.GetAggregatedResult() != moniResult.GetAggregatedResult())
+                if (extendedPort.LastTraceState != moniResult.GetAggregatedResult())
                 {
                     message = "Trace state has changed";
-                    SaveTraceStateInFile();
+                    extendedPort.LastTraceState = moniResult.GetAggregatedResult();
+                    _monitoringQueue.Save();
                 }
                 else if (DateTime.Now - extendedPort.LastFastSavedTimestamp > _fastSaveTimespan)
                     message = "It's time to save fast reflectogram";
@@ -112,13 +110,11 @@ namespace RtuManagement
             if (moniResult != null)
             {
                 var message = "";
-//                if (extendedPort.LastPreciseMadeTimestamp == null)
-//                    message = "First measurement after restart";
-//                else 
                 if (extendedPort.LastMoniResult.GetAggregatedResult() != moniResult.GetAggregatedResult())
                 {
                     message = "Trace state has changed";
-                    SaveTraceStateInFile();
+                    extendedPort.LastTraceState = moniResult.GetAggregatedResult();
+                    _monitoringQueue.Save();
                 }
                 else if (DateTime.Now - extendedPort.LastPreciseSavedTimestamp > _preciseSaveTimespan)
                     message = "It's time to save precise reflectogram";
@@ -135,12 +131,7 @@ namespace RtuManagement
             return moniResult;
         }
 
-        private void SaveTraceStateInFile()
-        {
-            
-        }
-
-        private void ProcessOnePort(ExtendedPort extendedPort)
+       private void ProcessOnePort(ExtendedPort extendedPort)
         {
             var hasFastPerformed = false;
             if (extendedPort.LastMoniResult == null ||

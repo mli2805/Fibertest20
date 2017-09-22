@@ -18,15 +18,4 @@ namespace Dto
         [DataMember]
         public int OtauTcpPort { get; set; }
     }
-
-    [DataContract]
-    public class OtauDto
-    {
-        [DataMember]
-        public string Serial { get; set; }
-        [DataMember]
-        public NetAddress NetAddress { get; set; }
-        [DataMember]
-        public int OwnPortCount { get; set; }
-    }
 }

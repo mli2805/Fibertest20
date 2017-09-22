@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Threading;
-using System.Web.Script.Serialization;
 using Dto;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.UtilsLib;
@@ -155,63 +152,16 @@ namespace RtuManagement
             if (dto == null)
                 return;
 
-            SaveNewFrequenciesToIni(dto);
-            SaveNewQueueToFile(dto);
-            SerializePortsToQueue(dto.Ports);
+            ApplyNewFrequenciesToIni(dto.Timespans);
+            _monitoringQueue.MergeNewPortsIntQueue(dto.Ports);
+            _rtuLog.AppendLine($"Queue merged. {_monitoringQueue.Count()} port(s) in queue");
+            _monitoringQueue.Save();
 
             new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendMonitoringSettingsApplied(new MonitoringSettingsAppliedDto() { IsSuccessful = true });
 
-            if (_hasNewSettings) // in AUTOMATIC mode already
-            {
-                GetMonitoringQueue();
-                GetMonitoringParams();
-            }
-            else // in MANUAL mode so far
-            if (dto.IsMonitoringOn)
-                StartMonitoring();
-        }
-
-        private Queue<ExtendedPort> MergeNewPortsWithQueue(List<OtauPortDto> ports)
-        {
-            var newQueue = new Queue<ExtendedPort>();
-
-            foreach (var otauPortDto in ports)
-            {
-                var extendedPort = _monitoringQueue.FirstOrDefault(p=>p.IsTheSamePort(otauPortDto)) ?? new ExtendedPort(otauPortDto);
-                newQueue.Enqueue(extendedPort);
-            }
-
-            return newQueue;
-        }
-
-        private void SerializePortsToQueue(List<OtauPortDto> ports)
-        {
-            var monitoringSettingsFile = Utils.FileNameForSure(@"..\ini\", @"monitoring.que", false);
-            var javaScriptSerializer = new JavaScriptSerializer();
-            var contents = ports.Select(p => javaScriptSerializer.Serialize(p)).ToList();
-            File.WriteAllLines(monitoringSettingsFile,contents);
-        }
-
-        private void SaveNewQueueToFile(ApplyMonitoringSettingsDto dto)
-        {
-            var otdrIp = _rtuIni.Read(IniSection.General, IniKey.OtdrIp, "192.168.88.101");
-
-            var content = new List<string>();
-            foreach (var otauPortDto in dto.Ports)
-            {
-                var sameExtendedPort =
-                    otauPortDto.IsPortOnMainCharon 
-                    ? _monitoringQueue.FirstOrDefault(p => p.NetAddress.Ip4Address == otdrIp && p.OpticalPort == otauPortDto.OpticalPort)
-                    : _monitoringQueue.FirstOrDefault(p => p.NetAddress.Ip4Address == otauPortDto.OtauIp && p.OpticalPort == otauPortDto.OpticalPort);
-                var state = sameExtendedPort == null ? 2 : (int)sameExtendedPort.LastTraceState;
-
-                content.Add(otauPortDto.IsPortOnMainCharon
-                    ? $"{otdrIp}:{otauPortDto.OtauTcpPort}-{otauPortDto.OpticalPort} {state}"
-                    : $"{otauPortDto.OtauIp}:{otauPortDto.OtauTcpPort}-{otauPortDto.OpticalPort} {state}");
-            }
-            
-            var monitoringSettingsFile = Utils.FileNameForSure(@"..\ini\", @"monitoring.que", false);
-            File.WriteAllLines(monitoringSettingsFile, content);
+            if (!_hasNewSettings &&  // in MANUAL mode so far
+                    dto.IsMonitoringOn)
+                        StartMonitoring();
         }
 
         public void AssignBaseRefs(object param)
@@ -254,11 +204,14 @@ namespace RtuManagement
                 new BaseRefAssignedDto() { RtuId = assignBaseRefDto.RtuId, OtauPortDto = assignBaseRefDto.OtauPortDto, IsSuccessful = true });
         }
 
-        private void SaveNewFrequenciesToIni(ApplyMonitoringSettingsDto dto)
+        private void ApplyNewFrequenciesToIni(MonitoringTimespansDto dto)
         {
-            _rtuIni.Write(IniSection.Monitoring, IniKey.PreciseMakeTimespan, (int)dto.Timespans.PreciseMeas.TotalSeconds);
-            _rtuIni.Write(IniSection.Monitoring, IniKey.PreciseSaveTimespan, (int)dto.Timespans.PreciseSave.TotalSeconds);
-            _rtuIni.Write(IniSection.Monitoring, IniKey.FastSaveTimespan, (int)dto.Timespans.FastSave.TotalSeconds);
+            _preciseMakeTimespan = dto.PreciseMeas;
+            _rtuIni.Write(IniSection.Monitoring, IniKey.PreciseMakeTimespan, (int)dto.PreciseMeas.TotalSeconds);
+            _preciseSaveTimespan = dto.PreciseSave;
+            _rtuIni.Write(IniSection.Monitoring, IniKey.PreciseSaveTimespan, (int)dto.PreciseSave.TotalSeconds);
+            _fastSaveTimespan = dto.FastSave;
+            _rtuIni.Write(IniSection.Monitoring, IniKey.FastSaveTimespan, (int)dto.FastSave.TotalSeconds);
         }
 
         public void MeasurementOutOfTurn()

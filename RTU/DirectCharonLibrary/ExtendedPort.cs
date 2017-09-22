@@ -1,19 +1,10 @@
 ﻿using System;
 using System.IO;
 using Dto;
+using Iit.Fibertest.UtilsLib;
 
-namespace Iit.Fibertest.UtilsLib
+namespace Iit.Fibertest.DirectCharonLibrary
 {
-    [Serializable]
-    public class PortInQueueOnDisk
-    {
-        public NetAddress NetAddress { get; set; }
-
-        public int OpticalPort { get; set; }
-
-        public FiberState LastTraceState { get; set; } = FiberState.NotChecked;
-    }
-
     public class ExtendedPort
     {
         public NetAddress NetAddress { get; set; }
@@ -28,18 +19,14 @@ namespace Iit.Fibertest.UtilsLib
         public MoniResult LastMoniResult { get; set; }
         public bool IsBreakdownCloserThen20Km { get; set; }
 
-        private ExtendedPort(NetAddress netAddress, int opticalOpticalPort, FiberState lastTraceState)
+        public ExtendedPort(NetAddress netAddress, int opticalOpticalPort, FiberState lastTraceState)
         {
             NetAddress = netAddress;
             OpticalPort = opticalOpticalPort;
             LastTraceState = lastTraceState;
-        }
 
-        public ExtendedPort(PortInQueueOnDisk port)
-        {
-            NetAddress = port.NetAddress;
-            OpticalPort = port.OpticalPort;
-            LastTraceState = port.LastTraceState;
+            LastFastSavedTimestamp = DateTime.Now;
+            LastPreciseSavedTimestamp = DateTime.Now;
         }
 
         public ExtendedPort(OtauPortDto port)
@@ -47,6 +34,9 @@ namespace Iit.Fibertest.UtilsLib
             NetAddress = new NetAddress(port.OtauIp, port.OtauTcpPort);
             OpticalPort = port.OpticalPort;
             LastTraceState = FiberState.NotChecked;
+
+            LastFastSavedTimestamp = DateTime.Now;
+            LastPreciseSavedTimestamp = DateTime.Now;
         }
 
         public bool IsTheSamePort(OtauPortDto otauPortDto)
@@ -91,63 +81,6 @@ namespace Iit.Fibertest.UtilsLib
             var appDir = Path.GetDirectoryName(appPath);
             var measfile = appDir + $@"\..\PortData\{GetFolderName()}\{baseRefType.ToMeasFileName()}";
             File.WriteAllBytes(measfile, bytes);
-        }
-
-        public static ExtendedPort Create(string str, IMyLog rtuLog)
-        {
-            if (string.IsNullOrEmpty(str))
-                return null;
-
-            var settings = str.Split(' ');
-            if (settings.Length != 2)
-            {
-                rtuLog.AppendLine($"Invalid string in queue file: '{str}'", 2);
-                return null;
-            }
-            int fiberState;
-            if (!int.TryParse(settings[1], out fiberState) || !Enum.IsDefined(typeof(FiberState), fiberState))
-            {
-                rtuLog.AppendLine($"Can't parse trace state: '{settings[1]}'", 2);
-                return null;
-            }
-            var lastTraceState = (FiberState) fiberState;
-
-            var parts = settings[0].Split('-');
-            if (parts.Length != 2)
-            {
-                rtuLog.AppendLine($"Invalid string in queue file: '{str}'", 2);
-                return null;
-            }
-
-            int opticalPort;
-            if (!int.TryParse(parts[1], out opticalPort))
-            {
-                rtuLog.AppendLine($"Can't parse optical port: '{parts[1]}'", 2);
-                return null;
-            }
-
-            var addressParts = parts[0].Split(':');
-            if (addressParts.Length != 2)
-            {
-                rtuLog.AppendLine($"Can't parse address: '{parts[0]}'", 2);
-                return null;
-            }
-
-            int tcpPort;
-            if (!int.TryParse(addressParts[1], out tcpPort))
-            {
-                rtuLog.AppendLine($"Can't parse tcp port: '{addressParts[1]}'", 2);
-                return null;
-            }
-
-            var netAddress = new NetAddress(addressParts[0], tcpPort);
-            if (!netAddress.HasValidIp4Address() || !netAddress.HasValidTcpPort())
-            {
-                rtuLog.AppendLine($"Invalid ip address: '{parts[0]}'", 2);
-                return null;
-            }
-
-            return new ExtendedPort(netAddress, opticalPort, lastTraceState);
         }
     }
 }

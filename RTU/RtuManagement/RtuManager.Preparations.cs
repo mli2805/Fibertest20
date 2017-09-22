@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using System.Web.Script.Serialization;
 using Dto;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.IitOtdrLibrary;
@@ -31,7 +29,8 @@ namespace RtuManagement
 
             _mainCharon.ShowOnDisplayMessageReady();
 
-            GetMonitoringQueue();
+            _monitoringQueue = new MonitoringQueue(_rtuLog);
+            _monitoringQueue.Load();
             GetMonitoringParams();
 
             LoadMoniResultsFromDisk();
@@ -86,35 +85,6 @@ namespace RtuManagement
             }
             return CharonOperationResult.Ok;
         }
-
-        private void GetMonitoringQueue()
-        {
-            _rtuLog.EmptyLine();
-            _rtuLog.AppendLine("Monitoring queue assembling...");
-            _monitoringQueue = new Queue<ExtendedPort>();
-            var monitoringSettingsFile = Utils.FileNameForSure(@"..\ini\", @"monitoring.que", false);
-
-            try
-            {
-                var contents = File.ReadAllLines(monitoringSettingsFile);
-                var javaScriptSerializer = new JavaScriptSerializer();
-
-                var list = contents.Select(s => javaScriptSerializer.Deserialize<PortInQueueOnDisk>(s)).ToList();
-                foreach (var otauPortDto in list)
-                {
-                    _monitoringQueue.Enqueue(new ExtendedPort(otauPortDto));
-                }
-
-
-            }
-            catch (Exception e)
-            {
-                _rtuLog.AppendLine($"Queue parsing: {e.Message}");
-            }
-
-            _rtuLog.AppendLine($"{_monitoringQueue.Count} port(s) in queue.");
-        }
-
       
         private void GetMonitoringParams()
         {
