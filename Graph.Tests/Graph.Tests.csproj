@@ -253,6 +253,7 @@
     <Compile Include="Equipment\EquipmentUpdatedSteps.cs">
       <DependentUpon>EquipmentUpdated.feature</DependentUpon>
     </Compile>
+    <Compile Include="Sut\FakeWcfServiceForClient.cs" />
     <Compile Include="Sut\FakeWindowManager.cs" />
     <Compile Include="Fiber\FiberAdded.feature.cs">
       <AutoGen>True</AutoGen>
@@ -568,6 +569,10 @@
     <ProjectReference Include="..\Client\WpfClient\WpfClient.csproj">
       <Project>{0a6dfc12-dc4a-4c44-923f-cee3dd6b3521}</Project>
       <Name>WpfClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Server\WcfServiceForClient\WcfServiceForClientLibrary.csproj">
+      <Project>{72f6524c-e7ee-4dfd-8ae2-15a4e5225d3b}</Project>
+      <Name>WcfServiceForClientLibrary</Name>
     </ProjectReference>
     <ProjectReference Include="..\SharedLibs\Dto\Dto.csproj">
       <Project>{86a00748-2a4e-4180-b04e-0e1f6a62a258}</Project>
