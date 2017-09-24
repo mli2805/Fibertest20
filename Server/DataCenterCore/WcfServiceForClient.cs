@@ -6,8 +6,9 @@ using Iit.Fibertest.UtilsLib;
 using Newtonsoft.Json;
 using NEventStore;
 using PrivateReflectionUsingDynamic;
+using WcfServiceForClientLibrary;
 
-namespace WcfServiceForClientLibrary
+namespace DataCenterCore
 {
     public class WcfServiceForClient : IWcfServiceForClient
     {
@@ -81,7 +82,7 @@ namespace WcfServiceForClientLibrary
             return true;
         }
     }
-    // TODO: Either merge projects, or use an intefarce
+    //TODO: Either merge projects, or use an intefarce
     public class EventStoreService
     {
         private IStoreEvents _storeEvents;
@@ -117,7 +118,7 @@ namespace WcfServiceForClientLibrary
             {
                 var eventStream = _storeEvents.OpenStream(AggregateId);
                 foreach (var e in _writeModel.EventsWaitingForCommit)
-                    eventStream.Add(new EventMessage {Body = e});
+                    eventStream.Add(new EventMessage { Body = e });
                 _writeModel.Commit();
                 eventStream.CommitChanges(Guid.NewGuid());
             }

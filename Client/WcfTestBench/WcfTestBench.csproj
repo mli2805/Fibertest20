@@ -145,6 +145,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\RTU\RtuWcfServiceLibrary\RtuWcfServiceLibrary.csproj">
+      <Project>{D7C82E5D-E536-4684-B18F-9E1A341324D6}</Project>
+      <Name>RtuWcfServiceLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\SharedLibs\Dto\Dto.csproj">
       <Project>{86a00748-2a4e-4180-b04e-0e1f6a62a258}</Project>
       <Name>Dto</Name>

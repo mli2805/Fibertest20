@@ -13,7 +13,7 @@
     <AssemblyName>WcfServiceForClientLibrary</AssemblyName>
     <ProjectTypeGuids>{3D9AD99F-2412-4246-B90B-4EAA41C64699};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <StartArguments>/client:"WcfTestClient.exe"</StartArguments>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
     <XsdCodeGenEnabled>True</XsdCodeGenEnabled>
     <XsdCodeGenSerializerMode>XmlSerializer</XsdCodeGenSerializerMode>
@@ -67,7 +67,6 @@
   <ItemGroup>
     <Compile Include="IWcfServiceForClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WcfServiceForClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -79,10 +78,6 @@
     <ProjectReference Include="..\..\Client\ClientWcfServiceLibrary\ClientWcfServiceLibrary.csproj">
       <Project>{1822c528-4719-4c53-877e-bc57dbf6d7ff}</Project>
       <Name>ClientWcfServiceLibrary</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Client\Graph\Graph.csproj">
-      <Project>{a734876e-977b-4dda-b6a4-ad1dd525c6d1}</Project>
-      <Name>Graph</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\SharedLibs\Dto\Dto.csproj">
       <Project>{86a00748-2a4e-4180-b04e-0e1f6a62a258}</Project>
