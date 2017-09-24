@@ -17,6 +17,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<ZonesViewModel>();
             builder.RegisterType<ObjectsToZonesViewModel>();
             builder.RegisterType<ZonesContentViewModel>();
+            builder.RegisterType<ClientWcfServiceHost>().As<IClientWcfServiceHost>();
 
             var logger = new LoggerConfiguration()
                 .WriteTo.Seq(@"http://localhost:5341").CreateLogger();

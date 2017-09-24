@@ -17,7 +17,6 @@ namespace Iit.Fibertest.Client
 {
     public partial class ShellViewModel : Screen, IShell
     {
-        internal static ServiceHost MyServiceHost;
         public ILogger Log { get; set; }
         private readonly IniFile _iniFile;
 
@@ -63,7 +62,7 @@ namespace Iit.Fibertest.Client
 
         public ShellViewModel(ReadModel readModel, TreeOfRtuModel treeOfRtuModel, Bus bus, 
                 AdministrativeDb administrativeDb, GraphReadModel graphReadModel, IWindowManager windowManager, 
-                ILogger clientLogger, IniFile iniFile, IMyLog logFile)
+                ILogger clientLogger, IniFile iniFile, IMyLog logFile, IClientWcfServiceHost host)
         {
             ReadModel = readModel;
             TreeOfRtuModel = treeOfRtuModel;
@@ -87,26 +86,10 @@ namespace Iit.Fibertest.Client
             Log = clientLogger;
             Log.Information(@"Client application started!");
 
-            StartWcfListener();
+            host.StartWcfListener();
         }
 
-        private void StartWcfListener()
-        {
-            MyServiceHost?.Close();
-            ClientWcfService.ClientLog = _logFile;
-            ClientWcfService.MessageReceived += ClientWcfService_MessageReceived;
-            MyServiceHost = new ServiceHost(typeof(ClientWcfService));
-            try
-            {
-                MyServiceHost.Open();
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine(e.Message);
-                throw;
-            }
-        }
-
+     
         public override void CanClose(Action<bool> callback)
         {
             // if user cancelled login view - _c2DWcfManager would be null
@@ -324,5 +307,43 @@ namespace Iit.Fibertest.Client
             return Task.FromResult(0);
         }
         #endregion
+    }
+
+    public interface IClientWcfServiceHost
+    {
+        void StartWcfListener();
+    }
+
+    public sealed class ClientWcfServiceHost : IClientWcfServiceHost
+    {
+        private readonly ServiceHost _wcfHost = new ServiceHost(typeof(ClientWcfService));
+        private readonly IMyLog _logFile;
+
+        public ClientWcfServiceHost(IMyLog logFile)
+        {
+            _logFile = logFile;
+        }
+
+        private void ClientWcfService_MessageReceived(object e)
+        {
+            if (e is MonitoringResultDto)
+                _logFile.AppendLine(@"Moniresult happened");
+        }
+
+        public void StartWcfListener()
+        {
+            ClientWcfService.ClientLog = _logFile;
+            ClientWcfService.MessageReceived += ClientWcfService_MessageReceived;
+            try
+            {
+                _wcfHost.Open();
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+                throw;
+            }
+        }
+
     }
 }

@@ -27,6 +27,7 @@ namespace Graph.Tests
             builder.RegisterModule<AutofacEventSourcing>();
             builder.RegisterModule<AutofacUi>();
             builder.RegisterType<FakeWindowManager>().As<IWindowManager>().SingleInstance();
+            builder.RegisterType<FakeClientWcfServiceHost>().As<IClientWcfServiceHost>();
 
             builder.RegisterInstance(LoggerForTests = new LoggerConfiguration()
                 .WriteTo.Console().CreateLogger()).As<ILogger>();
@@ -193,6 +194,14 @@ namespace Graph.Tests
             else
                 vm.Cancel();
             return true;
+        }
+    }
+
+    public class FakeClientWcfServiceHost : IClientWcfServiceHost
+    {
+        public void StartWcfListener()
+        {
+            
         }
     }
 }
