@@ -84,7 +84,6 @@ namespace Iit.Fibertest.Graph
             foreach (var cmdAddFiber in cmd.AddFibers)
                 WriteModel.Add(_mapper.Map<FiberAdded>(cmdAddFiber));
 
-            WriteModel.Commit();
             return null;
         }
 
