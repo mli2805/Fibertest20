@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Dynamic;
@@ -72,6 +73,7 @@ namespace PrivateReflectionUsingDynamic
         private object RealObject { get; set; }
         private const BindingFlags BindingFlags = System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic;
 
+        [DebuggerStepThrough]
         internal static object WrapObjectIfNeeded(object o)
         {
             // Don't wrap primitive types, which don't have many interesting internal APIs
@@ -125,6 +127,7 @@ namespace PrivateReflectionUsingDynamic
         }
 
         // Called when a method is called
+        [DebuggerStepThrough]
         public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
         {
             result = InvokeMemberOnType(RealObject.GetType(), RealObject, binder.Name, args);
@@ -227,6 +230,7 @@ namespace PrivateReflectionUsingDynamic
 
     public static class PrivateReflectionDynamicObjectExtensions
     {
+        [DebuggerStepThrough]
         public static dynamic AsDynamic(this object o)
         {
             return PrivateReflectionDynamicObject.WrapObjectIfNeeded(o);

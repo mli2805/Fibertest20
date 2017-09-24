@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Autofac;
 using Caliburn.Micro;
+using DataCenterCore;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Serilog;
+using WcfServiceForClientLibrary;
 
 namespace Graph.Tests
 {
@@ -28,6 +30,7 @@ namespace Graph.Tests
             builder.RegisterModule<AutofacUi>();
             builder.RegisterType<FakeWindowManager>().As<IWindowManager>().SingleInstance();
             builder.RegisterType<FakeClientWcfServiceHost>().As<IClientWcfServiceHost>();
+            builder.Register<IWcfServiceForClient>(ctx => new WcfServiceForClient()).SingleInstance();
 
             builder.RegisterInstance(LoggerForTests = new LoggerConfiguration()
                 .WriteTo.Console().CreateLogger()).As<ILogger>();

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Caliburn.Micro;
+using Newtonsoft.Json;
 using PrivateReflectionUsingDynamic;
 //using WcfConnections.C2DWcfServiceReference;
 
@@ -7,6 +8,12 @@ namespace Iit.Fibertest.Client
 {
     public class ClientPoller : PropertyChangedBase
     {
+
+        private static readonly JsonSerializerSettings JsonSerializerSettings =
+            new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.All
+            };
         private readonly WcfServiceForClientLibrary.IWcfServiceForClient _client;
         public List<object> ReadModels { get; }
 
@@ -20,8 +27,9 @@ namespace Iit.Fibertest.Client
 
         public void Tick()
         {
-            foreach (var e in _client.GetEvents(CurrentEventNumber))
+            foreach (var json in _client.GetEvents(CurrentEventNumber))
             {
+                var e = JsonConvert.DeserializeObject(json, JsonSerializerSettings);
                 foreach (var m in ReadModels)
                 {
                     m.AsDynamic().Apply(e);

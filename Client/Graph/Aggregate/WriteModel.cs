@@ -29,11 +29,6 @@ namespace Iit.Fibertest.Graph
         }
 
 
-        public void AddAndCommit(object evnt)
-        {
-            Add(evnt);
-            Commit();
-        }
 
         public void Add(object evnt)
         {

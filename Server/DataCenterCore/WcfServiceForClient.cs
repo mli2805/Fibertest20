@@ -82,7 +82,7 @@ namespace DataCenterCore
             return true;
         }
     }
-    //TODO: Either merge projects, or use an intefarce
+    //TODO: Either merge projects, or use an interface
     public class EventStoreService
     {
         private IStoreEvents _storeEvents;
@@ -91,6 +91,11 @@ namespace DataCenterCore
             new Guid("1C28CBB5-A9F5-4A5C-B7AF-3D188F8F24ED");
 
         private WriteModel _writeModel;
+
+        private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
+        {
+            TypeNameHandling = TypeNameHandling.All
+        };
 
         public EventStoreService()
         {
@@ -112,7 +117,7 @@ namespace DataCenterCore
 
         public string SendCommand(string json)
         {
-            var cmd = JsonConvert.DeserializeObject(json);
+            var cmd = JsonConvert.DeserializeObject(json, JsonSerializerSettings);
             var result = (string)_aggregate.AsDynamic().When(cmd);
             if (IsSuccess(result))
             {
@@ -133,12 +138,19 @@ namespace DataCenterCore
 
         public string[] GetEvents(int revision)
         {
-            return _storeEvents
-                .OpenStream(AggregateId, revision/*+1?*/)
-                .CommittedEvents
-                .Select(x => x.Body)
-                .Select(JsonConvert.SerializeObject)
-                .ToArray();
+            try
+            {
+                return _storeEvents
+                    .OpenStream(AggregateId, revision + 1)
+                    .CommittedEvents
+                    .Select(x => x.Body)
+                    .Select(x => JsonConvert.SerializeObject(x, JsonSerializerSettings))
+                    .ToArray();
+            }
+            catch (StreamNotFoundException)
+            {
+                return new string[0];
+            }
         }
     }
 }

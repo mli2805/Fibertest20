@@ -22,7 +22,7 @@ namespace Iit.Fibertest.Graph
         #region Node
         public void When(AddNode cmd)
         {
-            WriteModel.AddAndCommit(_mapper.Map<NodeAdded>(cmd));
+            WriteModel.Add(_mapper.Map<NodeAdded>(cmd));
         }
 
         public string When(AddNodeIntoFiber cmd)
@@ -30,20 +30,20 @@ namespace Iit.Fibertest.Graph
             if (WriteModel.IsFiberContainedInAnyTraceWithBase(cmd.FiberId))
                 return Resources.SID_It_s_impossible_to_change_trace_with_base_reflectogram;
 
-            WriteModel.AddAndCommit(_mapper.Map<NodeIntoFiberAdded>(cmd));
+            WriteModel.Add(_mapper.Map<NodeIntoFiberAdded>(cmd));
             return null;
         }
 
         public string When(UpdateNode cmd)
         {
-            WriteModel.AddAndCommit(_mapper.Map<NodeUpdated>(cmd));
+            WriteModel.Add(_mapper.Map<NodeUpdated>(cmd));
             return null;
         }
 
 
         public void When(MoveNode cmd)
         {
-            WriteModel.AddAndCommit(_mapper.Map<NodeMoved>(cmd));
+            WriteModel.Add(_mapper.Map<NodeMoved>(cmd));
         }
 
         public string When(RemoveNode cmd)
@@ -53,7 +53,7 @@ namespace Iit.Fibertest.Graph
             if (WriteModel.IsNodeContainedInAnyTraceWithBase(cmd.Id))
                 return Resources.SID_It_s_impossible_to_change_trace_with_base_reflectogram;
 
-            WriteModel.AddAndCommit(_mapper.Map<NodeRemoved>(cmd));
+            WriteModel.Add(_mapper.Map<NodeRemoved>(cmd));
             return null;
         }
         #endregion
@@ -65,7 +65,7 @@ namespace Iit.Fibertest.Graph
             if (WriteModel.HasFiberBetween(cmd.Node1, cmd.Node2))
                 return Resources.SID_Section_already_exists;
 
-            WriteModel.AddAndCommit(_mapper.Map<FiberAdded>(cmd));
+            WriteModel.Add(_mapper.Map<FiberAdded>(cmd));
             return null;
         }
 
@@ -90,13 +90,13 @@ namespace Iit.Fibertest.Graph
 
         public void When(UpdateFiber cmd)
         {
-            WriteModel.AddAndCommit(_mapper.Map<FiberUpdated>(cmd));
+            WriteModel.Add(_mapper.Map<FiberUpdated>(cmd));
         }
         public string When(RemoveFiber cmd)
         {
             if (WriteModel.IsFiberContainedInAnyTraceWithBase(cmd.Id))
                 return Resources.SID_It_s_impossible_to_change_trace_with_base_reflectogram;
-            WriteModel.AddAndCommit(_mapper.Map<FiberRemoved>(cmd));
+            WriteModel.Add(_mapper.Map<FiberRemoved>(cmd));
             return null;
         }
 
@@ -111,7 +111,7 @@ namespace Iit.Fibertest.Graph
                 if (trace.HasBase)
                     return Resources.SID_Base_ref_is_set_for_trace;
             }
-            WriteModel.AddAndCommit(_mapper.Map<EquipmentIntoNodeAdded>(cmd));
+            WriteModel.Add(_mapper.Map<EquipmentIntoNodeAdded>(cmd));
 
             foreach (var traceId in cmd.TracesForInsertion)
             {
@@ -124,50 +124,50 @@ namespace Iit.Fibertest.Graph
 
         public void When(AddEquipmentAtGpsLocation cmd)
         {
-            WriteModel.AddAndCommit(_mapper.Map<EquipmentAtGpsLocationAdded>(cmd));
+            WriteModel.Add(_mapper.Map<EquipmentAtGpsLocationAdded>(cmd));
         }
 
         public string When(UpdateEquipment cmd)
         {
             //            if (WriteModel.GetEquipment(cmd.RtuId) == null)
             //                return "Somebody removed this equipment while you updated it";
-            WriteModel.AddAndCommit(_mapper.Map<EquipmentUpdated>(cmd));
+            WriteModel.Add(_mapper.Map<EquipmentUpdated>(cmd));
             return null;
         }
         public void When(RemoveEquipment cmd)
         {
-            WriteModel.AddAndCommit(_mapper.Map<EquipmentRemoved>(cmd));
+            WriteModel.Add(_mapper.Map<EquipmentRemoved>(cmd));
         }
         #endregion
 
         #region Rtu
         public void When(AddRtuAtGpsLocation cmd)
         {
-            WriteModel.AddAndCommit(_mapper.Map<RtuAtGpsLocationAdded>(cmd));
+            WriteModel.Add(_mapper.Map<RtuAtGpsLocationAdded>(cmd));
         }
 
         public void When(InitializeRtu cmd)
         {
             var evnt = _mapper.Map<RtuInitialized>(cmd);
-            WriteModel.AddAndCommit(evnt);
+            WriteModel.Add(evnt);
         }
 
         public void When(UpdateRtu cmd)
         {
-            WriteModel.AddAndCommit(_mapper.Map<RtuUpdated>(cmd));
+            WriteModel.Add(_mapper.Map<RtuUpdated>(cmd));
         }
 
         public void When(RemoveRtu cmd)
         {
-            WriteModel.AddAndCommit(_mapper.Map<RtuRemoved>(cmd));
+            WriteModel.Add(_mapper.Map<RtuRemoved>(cmd));
         }
         public void When(AttachOtau cmd)
         {
-            WriteModel.AddAndCommit(_mapper.Map<OtauAttached>(cmd));
+            WriteModel.Add(_mapper.Map<OtauAttached>(cmd));
         }
         public void When(DetachOtau cmd)
         {
-            WriteModel.AddAndCommit(_mapper.Map<OtauDetached>(cmd));
+            WriteModel.Add(_mapper.Map<OtauDetached>(cmd));
         }
         #endregion
 
@@ -184,39 +184,39 @@ namespace Iit.Fibertest.Graph
             if (cmd.Equipments.Last() == Guid.Empty)
                 return Resources.SID_Last_node_of_trace_must_contain_some_equipment;
 
-            WriteModel.AddAndCommit(_mapper.Map<TraceAdded>(cmd));
+            WriteModel.Add(_mapper.Map<TraceAdded>(cmd));
             return null;
             //_traces.Add(_mapper2.Map<Trace>(cmd));
         }
 
         public void When(UpdateTrace cmd)
         {
-            WriteModel.AddAndCommit(_mapper.Map<TraceUpdated>(cmd));
+            WriteModel.Add(_mapper.Map<TraceUpdated>(cmd));
         }
 
         public void When(CleanTrace cmd)
         {
-            WriteModel.AddAndCommit(_mapper.Map<TraceCleaned>(cmd));
+            WriteModel.Add(_mapper.Map<TraceCleaned>(cmd));
         }
 
         public void When(RemoveTrace cmd)
         {
-            WriteModel.AddAndCommit(_mapper.Map<TraceRemoved>(cmd));
+            WriteModel.Add(_mapper.Map<TraceRemoved>(cmd));
         }
 
         public void When(AttachTrace cmd)
         {
-            WriteModel.AddAndCommit(_mapper.Map<TraceAttached>(cmd));
+            WriteModel.Add(_mapper.Map<TraceAttached>(cmd));
         }
 
         public void When(DetachTrace cmd)
         {
-            WriteModel.AddAndCommit(_mapper.Map<TraceDetached>(cmd));
+            WriteModel.Add(_mapper.Map<TraceDetached>(cmd));
         }
 
         public void When(AssignBaseRef cmd)
         {
-            WriteModel.AddAndCommit(_mapper.Map<BaseRefAssigned>(cmd));
+            WriteModel.Add(_mapper.Map<BaseRefAssigned>(cmd));
             var trace = WriteModel.GetTrace(cmd.TraceId);
             if (cmd.Ids.ContainsKey(BaseRefType.Precise))
                 trace.PreciseId = cmd.Ids[BaseRefType.Precise];
