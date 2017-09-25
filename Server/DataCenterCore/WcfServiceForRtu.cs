@@ -1,7 +1,8 @@
 ﻿using Dto;
 using Iit.Fibertest.UtilsLib;
+using WcfServiceForRtuLibrary;
 
-namespace WcfServiceForRtuLibrary
+namespace DataCenterCore
 {
     public class WcfServiceForRtu : IWcfServiceForRtu
     {

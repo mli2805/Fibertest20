@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Sockets;
 using System.ServiceModel;
+using System.ServiceModel.Channels;
 using ClientWcfServiceLibrary;
 using Dto;
 using Iit.Fibertest.UtilsLib;
@@ -11,7 +12,16 @@ using WcfServiceForRtuLibrary;
 namespace WcfConnections
 {
     public sealed class MyClient<T> : ClientBase<T> where T : class
-    { }
+    {
+        public MyClient()
+        {
+        }
+
+        public MyClient(Binding binding, EndpointAddress remoteAddress) : base(binding, remoteAddress)
+        {
+        }
+    }
+
     public class WcfFactory
     {
         private readonly DoubleAddress _endPoint;
@@ -33,15 +43,10 @@ namespace WcfConnections
                 if (netAddress == null)
                     return null;
 
-                var channelFactory = new ChannelFactory<IClientWcfService>(
-                    CreateDefaultNetTcpBinding(_iniFile),
-                    new EndpointAddress(
-                        new Uri(CombineUriString(netAddress.GetAddress(), 
-                        netAddress.Port, @"ClientWcfService"))));
-                var service = channelFactory.CreateChannel();
-
-
-                return service;
+                var myClient = new MyClient<IClientWcfService>(
+                    CreateDefaultNetTcpBinding(_iniFile), 
+                    new EndpointAddress(new Uri(CombineUriString(netAddress.GetAddress(),netAddress.Port, @"ClientWcfService"))));
+                return myClient.ChannelFactory.CreateChannel();
             }
             catch (Exception e)
             {
@@ -58,11 +63,10 @@ namespace WcfConnections
                 if (netAddress == null)
                     return null;
 
-
                 var myClient = new MyClient<IWcfServiceForClient>();
                 myClient.Open();
-                var connection = myClient.ChannelFactory
-                    .CreateChannel(new EndpointAddress(
+                var connection = myClient.ChannelFactory.CreateChannel(
+                    new EndpointAddress(
                         new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"WcfServiceForClient"))));
                 //
                 //   new WcfServiceForClientClient(
