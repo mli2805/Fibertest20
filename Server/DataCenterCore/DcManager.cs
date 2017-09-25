@@ -191,26 +191,4 @@ namespace DataCenterCore
 
         #endregion
     }
-
-    public interface IWcfServiceForClientHost
-    {
-        void StartWcfListenerToClient();
-    }
-    public sealed class WcfServiceForClientHost : IWcfServiceForClientHost
-    {
-        private readonly ServiceHost _wcfHost = new ServiceHost(typeof(WcfServiceForClient));
-        private readonly IniFile _iniFile;
-        private readonly IMyLog _logFile;
-
-        public WcfServiceForClientHost(IniFile iniFile, IMyLog logFile)
-        {
-            _logFile = logFile;
-            _iniFile = iniFile;
-        }
-
-        public void StartWcfListenerToClient()
-        {
-            throw new NotImplementedException();
-        }
-    }
 }
