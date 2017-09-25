@@ -142,9 +142,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\RTU\RtuWcfServiceLibrary\RtuWcfServiceLibrary.csproj">
       <Project>{D7C82E5D-E536-4684-B18F-9E1A341324D6}</Project>
       <Name>RtuWcfServiceLibrary</Name>

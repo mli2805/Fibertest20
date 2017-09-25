@@ -184,6 +184,9 @@ namespace WcfTestBench
             MyServiceHost = new ServiceHost(typeof(ClientWcfService));
             try
             {
+                MyServiceHost.AddServiceEndpoint(typeof(IClientWcfService),
+                    WcfFactory.CreateDefaultNetTcpBinding(_clientIni),
+                    WcfFactory.CombineUriString(@"localhost", (int)TcpPorts.ClientListenTo, @"ClientWcfService"));
                 MyServiceHost.Open();
             }
             catch (Exception e)
