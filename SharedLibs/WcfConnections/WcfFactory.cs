@@ -13,10 +13,6 @@ namespace WcfConnections
 {
     public sealed class MyClient<T> : ClientBase<T> where T : class
     {
-        public MyClient()
-        {
-        }
-
         public MyClient(Binding binding, EndpointAddress remoteAddress) : base(binding, remoteAddress)
         {
         }
@@ -63,18 +59,10 @@ namespace WcfConnections
                 if (netAddress == null)
                     return null;
 
-                var myClient = new MyClient<IWcfServiceForClient>();
-                myClient.Open();
-                var connection = myClient.ChannelFactory.CreateChannel(
-                    new EndpointAddress(
-                        new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"WcfServiceForClient"))));
-                //
-                //   new WcfServiceForClientClient(
-                //       CreateDefaultNetTcpBinding(_iniFile), 
-                //       new EndpointAddress(
-                //       new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"WcfServiceForClient"))));
-                //connection.Open();
-                return connection;
+                var myClient = new MyClient<IWcfServiceForClient>(
+                    CreateDefaultNetTcpBinding(_iniFile),
+                    new EndpointAddress(new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"WcfServiceForClient"))));
+                return myClient.ChannelFactory.CreateChannel();
             }
             catch (Exception e)
             {
@@ -91,17 +79,10 @@ namespace WcfConnections
 
             try
             {
-                var myClient = new MyClient<IWcfServiceForRtu>();
-                myClient.Open();
-                var connection = myClient.ChannelFactory
-                    .CreateChannel(new EndpointAddress(new Uri(
-                        CombineUriString(netAddress.GetAddress(), netAddress.Port, @"WcfServiceForRtu"))));
-
-                //    var connection = 
-                //         new WcfServiceForRtuClient(CreateDefaultNetTcpBinding(_iniFile), new EndpointAddress(
-                //                new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"WcfServiceForRtu"))));
-                //    connection.Open();
-                return connection;
+                var myClient = new MyClient<IWcfServiceForRtu>(
+                    CreateDefaultNetTcpBinding(_iniFile),
+                    new EndpointAddress(new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"WcfServiceForRtu"))));
+                return myClient.ChannelFactory.CreateChannel();
             }
             catch (Exception e)
             {
@@ -119,15 +100,10 @@ namespace WcfConnections
                 if (netAddress == null)
                     return null;
 
-                var connection = new MyClient<IRtuWcfService>();
-                connection.Open();
-                var rtuWcfService = connection.ChannelFactory.CreateChannel(new EndpointAddress(
-                    new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"RtuWcfService"))));
-                //var connection =
-                //    new RtuWcfServiceClient(CreateDefaultNetTcpBinding(_iniFile), new EndpointAddress(
-                //        new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"RtuWcfService"))));
-                //connection.Open();
-                return rtuWcfService;
+                var myClient = new MyClient<IRtuWcfService>(
+                    CreateDefaultNetTcpBinding(_iniFile),
+                    new EndpointAddress(new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"RtuWcfService"))));
+                return myClient.ChannelFactory.CreateChannel();
             }
             catch (Exception e)
             {
