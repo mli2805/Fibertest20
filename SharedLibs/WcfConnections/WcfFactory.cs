@@ -169,12 +169,12 @@ namespace WcfConnections
             return false;
         }
 
-        public string CombineUriString(string address, int port, string wcfServiceName)
+        public static string CombineUriString(string address, int port, string wcfServiceName)
         {
             return @"net.tcp://" + address + @":" + port + @"/" + wcfServiceName;
         }
 
-        public NetTcpBinding CreateDefaultNetTcpBinding(IniFile iniFile)
+        public static NetTcpBinding CreateDefaultNetTcpBinding(IniFile iniFile)
         {
             return new NetTcpBinding
             {

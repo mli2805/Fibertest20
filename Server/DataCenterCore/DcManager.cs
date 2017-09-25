@@ -7,6 +7,9 @@ using System.ServiceModel;
 using System.Threading;
 using Dto;
 using Iit.Fibertest.UtilsLib;
+using WcfConnections;
+using WcfServiceForClientLibrary;
+using WcfServiceForRtuLibrary;
 
 namespace DataCenterCore
 {
@@ -59,9 +62,13 @@ namespace DataCenterCore
 
             WcfServiceForRtu.ServiceLog = _dcLog;
             WcfServiceForRtu.MessageReceived += WcfServiceForRtu_MessageReceived;
+
             ServiceForRtuHost = new ServiceHost(typeof(WcfServiceForRtu));
             try
             {
+                ServiceForRtuHost.AddServiceEndpoint(typeof(IWcfServiceForRtu),
+                    WcfFactory.CreateDefaultNetTcpBinding(_coreIni),
+                    WcfFactory.CombineUriString(@"localhost", (int)TcpPorts.ServerListenToRtu, @"WcfServiceForRtu"));
                 ServiceForRtuHost.Open();
                 _dcLog.AppendLine("RTUs listener started successfully");
             }
@@ -79,9 +86,13 @@ namespace DataCenterCore
 
             WcfServiceForClient.ServiceLog = _dcLog;
             WcfServiceForClient.MessageReceived += WcfServiceForClient_MessageReceived;
+
             ServiceForClientHost = new ServiceHost(typeof(WcfServiceForClient));
             try
             {
+                ServiceForClientHost.AddServiceEndpoint(typeof(IWcfServiceForClient),
+                    WcfFactory.CreateDefaultNetTcpBinding(_coreIni),
+                    WcfFactory.CombineUriString(@"localhost", (int)TcpPorts.ServerListenToClient, @"WcfServiceForClient"));
                 ServiceForClientHost.Open();
                 _dcLog.AppendLine("Clients listener started successfully");
             }
@@ -179,5 +190,27 @@ namespace DataCenterCore
         }
 
         #endregion
+    }
+
+    public interface IWcfServiceForClientHost
+    {
+        void StartWcfListenerToClient();
+    }
+    public sealed class WcfServiceForClientHost : IWcfServiceForClientHost
+    {
+        private readonly ServiceHost _wcfHost = new ServiceHost(typeof(WcfServiceForClient));
+        private readonly IniFile _iniFile;
+        private readonly IMyLog _logFile;
+
+        public WcfServiceForClientHost(IniFile iniFile, IMyLog logFile)
+        {
+            _logFile = logFile;
+            _iniFile = iniFile;
+        }
+
+        public void StartWcfListenerToClient()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -336,14 +336,12 @@ namespace Iit.Fibertest.Client
         {
             ClientWcfService.ClientLog = _logFile;
             ClientWcfService.MessageReceived += ClientWcfService_MessageReceived;
-            var clientAddress = _iniFile.Read(IniSection.ClientLocalAddress, (int)TcpPorts.ClientListenTo);
-            var doubleAddress = new DoubleAddress() {Main = (NetAddress)clientAddress.Clone()};
-            var factory = new WcfFactory(doubleAddress, _iniFile, _logFile);
+
             try
             {
                 _wcfHost.AddServiceEndpoint(typeof(IClientWcfService), 
-                    factory.CreateDefaultNetTcpBinding(_iniFile), 
-                    factory.CombineUriString(@"localhost", (int)TcpPorts.ClientListenTo, @"ClientWcfService"));
+                    WcfFactory.CreateDefaultNetTcpBinding(_iniFile), 
+                    WcfFactory.CombineUriString(@"localhost", (int)TcpPorts.ClientListenTo, @"ClientWcfService"));
                 _wcfHost.Open();
             }
             catch (Exception e)
