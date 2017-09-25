@@ -169,19 +169,20 @@ namespace WcfConnections
             return false;
         }
 
-        private string CombineUriString(string address, int port, string wcfServiceName)
+        public string CombineUriString(string address, int port, string wcfServiceName)
         {
             return @"net.tcp://" + address + @":" + port + @"/" + wcfServiceName;
         }
 
-        private NetTcpBinding CreateDefaultNetTcpBinding(IniFile iniFile)
+        public NetTcpBinding CreateDefaultNetTcpBinding(IniFile iniFile)
         {
             return new NetTcpBinding
             {
                 Security = { Mode = SecurityMode.None },
                 ReceiveTimeout = TimeSpan.FromSeconds(iniFile.Read(IniSection.NetTcpBinding, IniKey.ReadTimeout, 3)),
                 SendTimeout = TimeSpan.FromSeconds(iniFile.Read(IniSection.NetTcpBinding, IniKey.SendTimeout, 3)),
-                MaxBufferSize = 4096000 //4M
+                MaxBufferSize = 4096000, //4M
+                MaxReceivedMessageSize = 4096000,
             };
         }
 
