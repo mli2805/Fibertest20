@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Autofac;
 using Dto;
 using Iit.Fibertest.Graph;
@@ -44,6 +45,11 @@ namespace Iit.Fibertest.Client
         public string[] GetEvents(int revision)
         {
             return new string[0];
+        }
+
+        public Task<bool> RegisterClientAsync(RegisterClientDto dto)
+        {
+            throw new System.NotImplementedException();
         }
 
         public void RegisterClient(RegisterClientDto dto)

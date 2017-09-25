@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
@@ -21,6 +22,12 @@ namespace DataCenterCore
 
         public string SendCommand(string json) => _service.SendCommand(json);
         public string[] GetEvents(int revision) => _service.GetEvents(revision);
+        public Task<bool> RegisterClientAsync(RegisterClientDto dto)
+        {
+            ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent register request");
+            //TODO realy register client
+            return Task.FromResult(true);
+        }
 
         public void RegisterClient(RegisterClientDto dto)
         {

@@ -1,4 +1,5 @@
 ﻿using System.ServiceModel;
+using System.Threading.Tasks;
 using Dto;
 
 namespace WcfServiceForClientLibrary
@@ -12,6 +13,9 @@ namespace WcfServiceForClientLibrary
         string[] GetEvents(int revision);
 
         // C2D
+        [OperationContract]
+        Task<bool> RegisterClientAsync(RegisterClientDto dto);
+
         [OperationContract]
         void RegisterClient(RegisterClientDto dto);
 

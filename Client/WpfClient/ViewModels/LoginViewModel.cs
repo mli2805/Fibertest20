@@ -82,9 +82,8 @@ namespace Iit.Fibertest.Client
 
         private void RegisterClient()
         {
-                        var dcServiceAddresses = _iniFile.ReadDoubleAddress(11840);
-                        var c2DWcfManager = new C2DWcfManager(dcServiceAddresses, _iniFile, _logFile, _clientId);
-//            var c2DWcfManager = IoC.Get<C2DWcfManager>();
+            var dcServiceAddresses = _iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
+            var c2DWcfManager = new C2DWcfManager(dcServiceAddresses, _iniFile, _logFile, _clientId);
 
             var clientAddresses = _iniFile.Read(IniSection.ClientLocalAddress, (int)TcpPorts.ClientListenTo);
             if (!c2DWcfManager.RegisterClient(
