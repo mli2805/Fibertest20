@@ -7,6 +7,7 @@ using Dto;
 using Iit.Fibertest.UtilsLib;
 using RtuManagement;
 using RtuWcfServiceLibrary;
+using WcfConnections;
 
 namespace RtuService
 {
@@ -66,9 +67,14 @@ namespace RtuService
             RtuWcfService.ServiceIniFile = _serviceIni;
             RtuWcfService.ServiceLog = _serviceLog;
             RtuWcfService.MessageReceived += RtuWcfService_MessageReceived;
+
             _myServiceHost = new ServiceHost(typeof(RtuWcfService));
             try
             {
+                _myServiceHost.AddServiceEndpoint(typeof(IRtuWcfService),
+                    WcfFactory.CreateDefaultNetTcpBinding(_serviceIni),
+                    WcfFactory.CombineUriString(@"localhost", (int)TcpPorts.RtuListenTo, @"RtuWcfService"));
+
                 _myServiceHost.Open();
                 _serviceLog.AppendLine("RTU is listening to DataCenter now.");
             }
