@@ -26,21 +26,21 @@ namespace WcfConnections
         }
 
 
-        public async Task<bool> RegisterClientTask(RegisterClientDto dto)
+        public ClientRegisteredDto MakeExperiment(RegisterClientDto dto)
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();
             if (wcfConnection == null)
-                return false;
+                return new ClientRegisteredDto() {IsRegistered = false};
 
             try
             {
                 dto.ClientId = _clientId;
-                return wcfConnection.RegisterClientAsync(dto).Result;
+                return wcfConnection.MakeExperimentAsync(dto).Result;
             }
             catch (Exception e)
             {
                 _logFile.AppendLine(e.Message);
-                return false;
+                return new ClientRegisteredDto() { IsRegistered = false };
             }
         }
 

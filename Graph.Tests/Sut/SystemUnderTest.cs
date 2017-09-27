@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using Autofac;
@@ -30,7 +31,9 @@ namespace Graph.Tests
             builder.RegisterModule<AutofacUi>();
             builder.RegisterType<FakeWindowManager>().As<IWindowManager>().SingleInstance();
             builder.RegisterType<FakeClientWcfServiceHost>().As<IClientWcfServiceHost>();
-            builder.Register<IWcfServiceForClient>(ctx => new WcfServiceForClient()).SingleInstance();
+
+            var clients = new ConcurrentDictionary<Guid, ClientStation>(); // ??? Ask
+            builder.Register<IWcfServiceForClient>(ctx => new WcfServiceForClient(clients)).SingleInstance();
 
             builder.RegisterInstance(LoggerForTests = new LoggerConfiguration()
                 .WriteTo.Console().CreateLogger()).As<ILogger>();

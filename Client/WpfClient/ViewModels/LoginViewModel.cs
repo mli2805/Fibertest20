@@ -26,23 +26,18 @@ namespace Iit.Fibertest.Client
             _windowManager = windowManager;
             _iniFile = iniFile;
             _logFile = logFile;
-
-            ClientWcfService.MessageReceived += ClientWcfService_MessageReceived;
-        }
-
-        private void ClientWcfService_MessageReceived(object e)
-        {
-            var dto = e as ClientRegisteredDto;
-            if (dto != null)
-                ParseServerAnswer(dto);
         }
 
         private void ParseServerAnswer(ClientRegisteredDto dto)
         {
             if (dto.IsRegistered)
+            {
+                _logFile.AppendLine(@"Registered successfully");
                 TryClose(true);
+            }
             else
             {
+                _logFile.AppendLine(@"Something goes wrong with registration");
                 Status = $@"Error = {dto.ErrorCode}";
             }
         }
@@ -64,8 +59,23 @@ namespace Iit.Fibertest.Client
             {
                 _logFile.AppendLine($@"User signed in as {UserName}");
                 Status = Resources.SID_User_signed_in;
-                RegisterClient();
+//                RegisterClient();
+                var result = MakeExperiment();
+                ParseServerAnswer(result);
             }
+        }
+
+        private ClientRegisteredDto MakeExperiment()
+        {
+            var dcServiceAddresses = _iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
+            var c2DWcfManager = new C2DWcfManager(dcServiceAddresses, _iniFile, _logFile, _clientId);
+            var clientAddresses = _iniFile.Read(IniSection.ClientLocalAddress, (int)TcpPorts.ClientListenTo);
+            var dto = new RegisterClientDto()
+            {
+                Addresses = new DoubleAddress() {Main = clientAddresses, HasReserveAddress = false},
+                UserName = UserName
+            };
+            return c2DWcfManager.MakeExperiment(dto);
         }
 
         private bool CheckPassword()

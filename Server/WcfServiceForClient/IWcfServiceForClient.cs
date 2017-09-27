@@ -14,7 +14,7 @@ namespace WcfServiceForClientLibrary
 
         // C2D
         [OperationContract]
-        Task<bool> RegisterClientAsync(RegisterClientDto dto);
+        Task<ClientRegisteredDto> MakeExperimentAsync(RegisterClientDto dto);
 
         [OperationContract]
         void RegisterClient(RegisterClientDto dto);

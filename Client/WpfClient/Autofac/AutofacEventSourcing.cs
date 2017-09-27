@@ -47,7 +47,7 @@ namespace Iit.Fibertest.Client
             return new string[0];
         }
 
-        public Task<bool> RegisterClientAsync(RegisterClientDto dto)
+        public Task<ClientRegisteredDto> MakeExperimentAsync(RegisterClientDto dto)
         {
             throw new System.NotImplementedException();
         }

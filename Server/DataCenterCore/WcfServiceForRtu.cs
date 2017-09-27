@@ -1,15 +1,32 @@
-﻿using Dto;
+﻿using System;
+using System.Collections.Concurrent;
+using System.ServiceModel;
+using Dto;
 using Iit.Fibertest.UtilsLib;
 using WcfServiceForRtuLibrary;
 
 namespace DataCenterCore
 {
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public class WcfServiceForRtu : IWcfServiceForRtu
     {
         public static IMyLog ServiceLog { get; set; }
 
         public static event OnMessageReceived MessageReceived;
         public delegate bool OnMessageReceived(object e);
+
+        public ConcurrentDictionary<Guid, RtuStation> RtuStations;
+        public ConcurrentDictionary<Guid, ClientStation> ClientComps;
+
+//        public WcfServiceForRtu()
+//        {
+//        }
+
+        public WcfServiceForRtu(ConcurrentDictionary<Guid, RtuStation> rtuStations, ConcurrentDictionary<Guid, ClientStation> clientComps)
+        {
+            RtuStations = rtuStations;
+            ClientComps = clientComps;
+        }
 
         // RTU responses on DataCenter's (Client's) requestes
 

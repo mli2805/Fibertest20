@@ -20,7 +20,7 @@ namespace DataCenterCore
         private readonly IniFile _coreIni;
 
         private readonly ConcurrentDictionary<Guid, RtuStation> _rtuStations;
-
+        private readonly ConcurrentDictionary<Guid, ClientStation> _clientComps;
         private readonly object _clientStationsLockObj = new object();
         private readonly List<ClientStation> _clientStations;
 
@@ -37,6 +37,7 @@ namespace DataCenterCore
             _dcLog.EmptyLine();
             _dcLog.EmptyLine('-');
 
+            _clientComps = new ConcurrentDictionary<Guid, ClientStation>();
             _rtuStations = InitializeRtuStationListFromDb();
 
             lock (_clientStationsLockObj)
@@ -56,29 +57,6 @@ namespace DataCenterCore
         internal static ServiceHost ServiceForRtuHost;
         internal static ServiceHost ServiceForClientHost;
 
-        private void StartWcfListenerToRtu()
-        {
-            ServiceForRtuHost?.Close();
-
-            WcfServiceForRtu.ServiceLog = _dcLog;
-            WcfServiceForRtu.MessageReceived += WcfServiceForRtu_MessageReceived;
-
-            ServiceForRtuHost = new ServiceHost(typeof(WcfServiceForRtu));
-            try
-            {
-                ServiceForRtuHost.AddServiceEndpoint(typeof(IWcfServiceForRtu),
-                    WcfFactory.CreateDefaultNetTcpBinding(_coreIni),
-                    WcfFactory.CombineUriString(@"localhost", (int)TcpPorts.ServerListenToRtu, @"WcfServiceForRtu"));
-                ServiceForRtuHost.Open();
-                _dcLog.AppendLine("RTUs listener started successfully");
-            }
-            catch (Exception e)
-            {
-                _dcLog.AppendLine(e.Message);
-                throw;
-            }
-        }
-
 
         private void StartWcfListenerToClient()
         {
@@ -87,14 +65,39 @@ namespace DataCenterCore
             WcfServiceForClient.ServiceLog = _dcLog;
             WcfServiceForClient.MessageReceived += WcfServiceForClient_MessageReceived;
 
-            ServiceForClientHost = new ServiceHost(typeof(WcfServiceForClient));
             try
             {
+                var uri = new Uri(WcfFactory.CombineUriString(@"localhost", (int)TcpPorts.ServerListenToClient, @"WcfServiceForClient"));
+
+                ServiceForClientHost = new ServiceHost(new WcfServiceForClient(_clientComps), uri);
                 ServiceForClientHost.AddServiceEndpoint(typeof(IWcfServiceForClient),
-                    WcfFactory.CreateDefaultNetTcpBinding(_coreIni),
-                    WcfFactory.CombineUriString(@"localhost", (int)TcpPorts.ServerListenToClient, @"WcfServiceForClient"));
+                    WcfFactory.CreateDefaultNetTcpBinding(_coreIni), uri);
                 ServiceForClientHost.Open();
                 _dcLog.AppendLine("Clients listener started successfully");
+            }
+            catch (Exception e)
+            {
+                _dcLog.AppendLine(e.Message);
+                throw;
+            }
+        }
+
+        private void StartWcfListenerToRtu()
+        {
+            ServiceForRtuHost?.Close();
+
+            WcfServiceForRtu.ServiceLog = _dcLog;
+            WcfServiceForRtu.MessageReceived += WcfServiceForRtu_MessageReceived;
+
+            try
+            {
+                var uri = new Uri(WcfFactory.CombineUriString(@"localhost", (int)TcpPorts.ServerListenToRtu, @"WcfServiceForRtu"));
+
+                ServiceForRtuHost = new ServiceHost(new WcfServiceForRtu(_rtuStations, _clientComps), uri);
+                ServiceForRtuHost.AddServiceEndpoint(typeof(IWcfServiceForRtu),
+                    WcfFactory.CreateDefaultNetTcpBinding(_coreIni), uri);
+                ServiceForRtuHost.Open();
+                _dcLog.AppendLine("RTUs listener started successfully");
             }
             catch (Exception e)
             {

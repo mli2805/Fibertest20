@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Linq;
+using System.ServiceModel;
 using System.Threading.Tasks;
 using Dto;
 using Iit.Fibertest.Graph;
@@ -11,6 +13,7 @@ using WcfServiceForClientLibrary;
 
 namespace DataCenterCore
 {
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public class WcfServiceForClient : IWcfServiceForClient
     {
         // BUG: Initialize this!
@@ -20,13 +23,37 @@ namespace DataCenterCore
         public static event OnMessageReceived MessageReceived;
         public delegate void OnMessageReceived(object e);
 
+        public ConcurrentDictionary<Guid, ClientStation> ClientComps;
+
         public string SendCommand(string json) => _service.SendCommand(json);
         public string[] GetEvents(int revision) => _service.GetEvents(revision);
-        public Task<bool> RegisterClientAsync(RegisterClientDto dto)
+
+        public WcfServiceForClient(ConcurrentDictionary<Guid, ClientStation> clientComps)
         {
-            ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent register request");
-            //TODO realy register client
-            return Task.FromResult(true);
+            ClientComps = clientComps;
+        }
+
+        public Task<ClientRegisteredDto> MakeExperimentAsync(RegisterClientDto dto)
+        {
+            ServiceLog.AppendLine($"Client {dto.ClientId.First6()} makes an experiment");
+            var result = new ClientRegisteredDto();
+
+
+            if (ClientComps.ContainsKey(dto.ClientId))
+            {
+                ClientStation oldClient;
+                ClientComps.TryRemove(dto.ClientId, out oldClient);
+            }
+
+            var client = new ClientStation()
+            {
+                Id = dto.ClientId,
+                PcAddresses = new DoubleAddressWithLastConnectionCheck() { DoubleAddress = dto.Addresses }
+            };
+            result.IsRegistered = ClientComps.TryAdd(dto.ClientId, client);
+
+            ServiceLog.AppendLine($"There are {ClientComps.Count} clients");
+            return Task.FromResult(result);
         }
 
         public void RegisterClient(RegisterClientDto dto)
