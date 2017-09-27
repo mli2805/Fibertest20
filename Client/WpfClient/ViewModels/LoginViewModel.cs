@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows;
 using Caliburn.Micro;
-using ClientWcfServiceLibrary;
 using Dto;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
