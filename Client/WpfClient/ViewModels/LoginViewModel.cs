@@ -60,8 +60,21 @@ namespace Iit.Fibertest.Client
                 Status = Resources.SID_User_signed_in;
 //                RegisterClient();
                 var result = MakeExperiment();
+
+
+                TestInitializationLongTask();
+
+
                 ParseServerAnswer(result);
             }
+        }
+
+        private void TestInitializationLongTask()
+        {
+            var dcServiceAddresses = _iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
+            var c2DWcfManager = new C2DWcfManager(dcServiceAddresses, _iniFile, _logFile, _clientId);
+            var dto = new InitializeRtuDto() {ServerAddresses = dcServiceAddresses};
+//            c2DWcfManager.I
         }
 
         private ClientRegisteredDto MakeExperiment()

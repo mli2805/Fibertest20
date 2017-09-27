@@ -62,6 +62,7 @@ namespace DataCenterCore
         {
             ServiceForClientHost?.Close();
 
+            WcfServiceForClient.ServiceIniFile = _coreIni;
             WcfServiceForClient.ServiceLog = _dcLog;
             WcfServiceForClient.MessageReceived += WcfServiceForClient_MessageReceived;
 
@@ -86,6 +87,7 @@ namespace DataCenterCore
         {
             ServiceForRtuHost?.Close();
 
+            WcfServiceForClient.ServiceIniFile = _coreIni;
             WcfServiceForRtu.ServiceLog = _dcLog;
             WcfServiceForRtu.MessageReceived += WcfServiceForRtu_MessageReceived;
 

@@ -30,6 +30,10 @@ namespace WcfServiceForClientLibrary
         [OperationContract]
         bool CheckRtuConnection(CheckRtuConnectionDto rtuAddress);
 
+
+        [OperationContract]
+        Task<RtuInitializedDto> InitializeRtuLongTask(InitializeRtuDto dto);
+
         [OperationContract]
         bool InitializeRtu(InitializeRtuDto rtu);
 

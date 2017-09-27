@@ -1,4 +1,5 @@
-﻿using Dto;
+﻿using System.Threading.Tasks;
+using Dto;
 using Iit.Fibertest.UtilsLib;
 
 namespace WcfConnections
@@ -12,6 +13,15 @@ namespace WcfConnections
         {
             _logFile = logFile;
             _wcfFactory = new WcfFactory(dataCenterAddress, iniFile, _logFile);
+        }
+
+        public Task<RtuInitializedDto> InitializeRtuLongTask(InitializeRtuDto dto)
+        {
+            var rtuConnection = _wcfFactory.CreateRtuConnection();
+//            if (rtuConnection == null)
+//                return MessageProcessingResult.FailedToTransmit;
+
+            return rtuConnection.InitializeAndAnswer(dto);
         }
 
         public MessageProcessingResult InitializeRtu(InitializeRtuDto dto)

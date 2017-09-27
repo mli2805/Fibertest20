@@ -1,4 +1,7 @@
-﻿using System.ServiceModel;
+﻿using System;
+using System.ServiceModel;
+using System.Threading;
+using System.Threading.Tasks;
 using Dto;
 using Iit.Fibertest.UtilsLib;
 
@@ -15,6 +18,17 @@ namespace RtuWcfServiceLibrary
 
         private readonly object _lockWcfObj = new object();
 
+
+        public async Task<RtuInitializedDto> InitializeAndAnswer(InitializeRtuDto dto)
+        {
+            Thread.Sleep(TimeSpan.FromSeconds(10));
+            return await F(dto);
+        }
+
+        private async Task<RtuInitializedDto> F(InitializeRtuDto dto)
+        {
+            return new RtuInitializedDto() { Version = $"I detained {dto.ClientId.First6()} for 10 seconds" };
+        }
 
         public bool Initialize(InitializeRtuDto dto)
         {

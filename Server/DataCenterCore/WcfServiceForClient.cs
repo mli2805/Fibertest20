@@ -9,6 +9,7 @@ using Iit.Fibertest.UtilsLib;
 using Newtonsoft.Json;
 using NEventStore;
 using PrivateReflectionUsingDynamic;
+using WcfConnections;
 using WcfServiceForClientLibrary;
 
 namespace DataCenterCore
@@ -18,7 +19,10 @@ namespace DataCenterCore
     {
         // BUG: Initialize this!
         private readonly EventStoreService _service = new EventStoreService();
+
+        public static IniFile ServiceIniFile { get; set; }
         public static IMyLog ServiceLog { get; set; }
+
 
         public static event OnMessageReceived MessageReceived;
         public delegate void OnMessageReceived(object e);
@@ -79,6 +83,13 @@ namespace DataCenterCore
             ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent check rtu {dto.RtuId.First6()} request");
             MessageReceived?.Invoke(dto);
             return true;
+        }
+
+        public Task<RtuInitializedDto> InitializeRtuLongTask(InitializeRtuDto dto)
+        {
+            ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent initialize rtu {dto.RtuId.First6()} request");
+            var d2RWcfManager = new D2RWcfManager(dto.RtuAddresses, ServiceIniFile, ServiceLog);
+            return d2RWcfManager.InitializeRtuLongTask(dto);
         }
 
         public bool InitializeRtu(InitializeRtuDto dto)
