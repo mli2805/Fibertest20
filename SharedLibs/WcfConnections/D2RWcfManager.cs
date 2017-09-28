@@ -18,16 +18,33 @@ namespace WcfConnections
         }
 
         private IRtuWcfService _d2RChannel;
-        public bool InitializeRtuLongTask(InitializeRtuDto dto)
+        public bool InitializeRtuLongTask(InitializeRtuDto dto, AsyncCallback callback)
         {
             _d2RChannel = _wcfFactory.CreateRtuConnection();
             if (_d2RChannel == null)
                 return false;
             var asyncState = new object();
-            _d2RChannel.BeginInitializeAndAnswer(dto, MyCallback, asyncState);
+            _d2RChannel.BeginInitializeAndAnswer(dto, callback, asyncState);
             return true;
         }
-        public void MyCallback(IAsyncResult asyncState)
+
+        public RtuInitializedDto InitializeRtuLongTaskEnd(IAsyncResult asyncState)
+        {
+            if (_d2RChannel == null)
+                return null;
+
+            try
+            {
+                return _d2RChannel.EndInitializeAndAnswer(asyncState);
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+                return null;
+            }
+        }
+
+        private void MyCallback(IAsyncResult asyncState)
         {
             try
             {
@@ -38,7 +55,6 @@ namespace WcfConnections
 
                 var result = _d2RChannel.EndInitializeAndAnswer(asyncState);
                 _logFile.AppendLine($@"{result.Version}");
-
             }
             catch (Exception e)
             {

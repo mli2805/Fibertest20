@@ -93,10 +93,24 @@ namespace DataCenterCore
             ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent initialize rtu {dto.RtuId.First6()} request");
             _d2RWcfManager = new D2RWcfManager(dto.RtuAddresses, ServiceIniFile, ServiceLog);
 
-            _d2RWcfManager.InitializeRtuLongTask(dto);
-            // TODO how to get result on server and at the same time let it pass to client ?????
+            _d2RWcfManager.InitializeRtuLongTask(dto, InitializeRtuLongTaskCallback);
         }
 
+        private void InitializeRtuLongTaskCallback(IAsyncResult asyncState)
+        {
+            try
+            {
+                if (_d2RWcfManager == null)
+                    return;
+
+                var result = _d2RWcfManager.InitializeRtuLongTaskEnd(asyncState);
+                ServiceLog.AppendLine($@"{result.Version}");
+            }
+            catch (Exception e)
+            {
+                ServiceLog.AppendLine(e.Message);
+            }
+        }
 
 
 
