@@ -24,17 +24,38 @@ namespace WcfConnections
             _wcfFactory = new WcfFactory(newServerAddress, _iniFile, _logFile);
         }
 
+        public bool InitializeRtuLongTask(InitializeRtuDto dto)
+        {
+            var c2DChannel = _wcfFactory.CreateC2DConnection();
+            if (c2DChannel == null)
+                return false;
+
+            try
+            {
+                c2DChannel.InitializeRtuLongTask(dto);
+                return true;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+                return false;
+            }
+        }
+
+
+
+
 
         public ClientRegisteredDto MakeExperiment(RegisterClientDto dto)
         {
-            var wcfConnection = _wcfFactory.CreateC2DConnection();
-            if (wcfConnection == null)
+            var c2DChannel = _wcfFactory.CreateC2DConnection();
+            if (c2DChannel == null)
                 return new ClientRegisteredDto() {IsRegistered = false};
 
             try
             {
                 dto.ClientId = _clientId;
-                return wcfConnection.MakeExperimentAsync(dto).Result;
+                return c2DChannel.MakeExperimentAsync(dto).Result;
             }
             catch (Exception e)
             {

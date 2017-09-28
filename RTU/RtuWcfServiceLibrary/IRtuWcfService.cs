@@ -1,4 +1,5 @@
-﻿using System.ServiceModel;
+﻿using System;
+using System.ServiceModel;
 using System.Threading.Tasks;
 using Dto;
 
@@ -9,7 +10,15 @@ namespace RtuWcfServiceLibrary
     public interface IRtuWcfService
     {
         [OperationContract]
-        Task<RtuInitializedDto> InitializeAndAnswer(InitializeRtuDto dto);
+        RtuInitializedDto InitializeAndAnswer(InitializeRtuDto dto);
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginInitializeAndAnswer(InitializeRtuDto dto, AsyncCallback callback, object retDto);
+        RtuInitializedDto EndInitializeAndAnswer(IAsyncResult result);
+
+
+
+
+
 
         [OperationContract]
         bool Initialize(InitializeRtuDto rtu);

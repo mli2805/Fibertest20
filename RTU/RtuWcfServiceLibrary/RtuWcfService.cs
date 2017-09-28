@@ -19,16 +19,44 @@ namespace RtuWcfServiceLibrary
         private readonly object _lockWcfObj = new object();
 
 
-        public async Task<RtuInitializedDto> InitializeAndAnswer(InitializeRtuDto dto)
+        private async Task<RtuInitializedDto> LongTask(InitializeRtuDto dto)
         {
+            ServiceLog.AppendLine("Request for long task received...");
             Thread.Sleep(TimeSpan.FromSeconds(10));
-            return await F(dto);
+            var result = new RtuInitializedDto() { Version = $"I detained {dto.ClientId.First6()} for 10 seconds" };
+            return result;
         }
 
-        private async Task<RtuInitializedDto> F(InitializeRtuDto dto)
+        private async Task<RtuInitializedDto> InitializeAndAnswerAsync(InitializeRtuDto dto)
         {
-            return new RtuInitializedDto() { Version = $"I detained {dto.ClientId.First6()} for 10 seconds" };
+            
+            return await LongTask(dto);
         }
+
+        public RtuInitializedDto InitializeAndAnswer(InitializeRtuDto dto)
+        {
+            return InitializeAndAnswerAsync(dto).Result;
+        }
+
+        public IAsyncResult BeginInitializeAndAnswer(InitializeRtuDto dto, AsyncCallback callback, object retDto)
+        {
+            var task = InitializeAndAnswerAsync(dto);
+            if (callback != null)
+                task.ContinueWith(_ => callback(task));
+            return task;
+        }
+
+        // TODO What this function for?
+        public RtuInitializedDto EndInitializeAndAnswer(IAsyncResult result)
+        {
+            return ((Task<RtuInitializedDto>) result).Result;
+        }
+
+
+
+
+
+
 
         public bool Initialize(InitializeRtuDto dto)
         {

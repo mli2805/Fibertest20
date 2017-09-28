@@ -39,6 +39,8 @@ namespace RtuService
             var tid = Thread.CurrentThread.ManagedThreadId;
             _serviceLog.AppendLine($"Windows service started. Process {pid}, thread {tid}");
 
+
+
             StartWcfListener();
 
             _rtuManager = new RtuManager(_serviceLog, _serviceIni);
@@ -68,9 +70,9 @@ namespace RtuService
             RtuWcfService.ServiceLog = _serviceLog;
             RtuWcfService.MessageReceived += RtuWcfService_MessageReceived;
 
-            _myServiceHost = new ServiceHost(typeof(RtuWcfService));
             try
             {
+                _myServiceHost = new ServiceHost(typeof(RtuWcfService));
                 _myServiceHost.AddServiceEndpoint(typeof(IRtuWcfService),
                     WcfFactory.CreateDefaultNetTcpBinding(_serviceIni),
                     WcfFactory.CombineUriString(@"localhost", (int)TcpPorts.RtuListenTo, @"RtuWcfService"));

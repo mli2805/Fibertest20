@@ -85,12 +85,25 @@ namespace DataCenterCore
             return true;
         }
 
-        public Task<RtuInitializedDto> InitializeRtuLongTask(InitializeRtuDto dto)
+
+
+        private D2RWcfManager _d2RWcfManager;
+        public void InitializeRtuLongTask(InitializeRtuDto dto)
         {
             ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent initialize rtu {dto.RtuId.First6()} request");
-            var d2RWcfManager = new D2RWcfManager(dto.RtuAddresses, ServiceIniFile, ServiceLog);
-            return d2RWcfManager.InitializeRtuLongTask(dto);
+            _d2RWcfManager = new D2RWcfManager(dto.RtuAddresses, ServiceIniFile, ServiceLog);
+
+            _d2RWcfManager.InitializeRtuLongTask(dto);
+            // TODO how to get result on server and at the same time let it pass to client ?????
         }
+
+
+
+
+
+
+
+
 
         public bool InitializeRtu(InitializeRtuDto dto)
         {

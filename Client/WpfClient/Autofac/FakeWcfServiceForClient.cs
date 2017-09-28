@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Dto;
 using WcfServiceForClientLibrary;
@@ -41,9 +42,9 @@ namespace Iit.Fibertest.Client
             throw new System.NotImplementedException();
         }
 
-        public Task<RtuInitializedDto> InitializeRtuLongTask(InitializeRtuDto dto)
+        public void InitializeRtuLongTask(InitializeRtuDto dto)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public bool InitializeRtu(InitializeRtuDto rtu)

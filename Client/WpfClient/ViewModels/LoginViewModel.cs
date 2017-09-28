@@ -65,7 +65,7 @@ namespace Iit.Fibertest.Client
                 TestInitializationLongTask();
 
 
-                ParseServerAnswer(result);
+//                ParseServerAnswer(result);
             }
         }
 
@@ -73,9 +73,23 @@ namespace Iit.Fibertest.Client
         {
             var dcServiceAddresses = _iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
             var c2DWcfManager = new C2DWcfManager(dcServiceAddresses, _iniFile, _logFile, _clientId);
-            var dto = new InitializeRtuDto() {ServerAddresses = dcServiceAddresses};
-//            c2DWcfManager.I
+            var dto = new InitializeRtuDto()
+            {
+                ServerAddresses = dcServiceAddresses,
+                ClientId = Guid.NewGuid(),
+                RtuAddresses = new DoubleAddress() {Main = new NetAddress("172.16.5.53", 11842)},
+                RtuId = Guid.NewGuid(),
+            };
+            if (!c2DWcfManager.InitializeRtuLongTask(dto))
+                _logFile.AppendLine(@"can't send command to server");
         }
+
+        private void MyCallback(IAsyncResult result)
+        {
+            RtuInitializedDto dto = (RtuInitializedDto)result.AsyncState;
+            _logFile.AppendLine($@"{dto.Version}");
+        }
+
 
         private ClientRegisteredDto MakeExperiment()
         {

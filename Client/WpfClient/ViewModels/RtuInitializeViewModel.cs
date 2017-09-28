@@ -5,7 +5,6 @@ using System.Windows;
 using Caliburn.Micro;
 using ClientWcfServiceLibrary;
 using Dto;
-using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
@@ -200,16 +199,6 @@ namespace Iit.Fibertest.Client
             OriginalRtu.Children = dto.Children;
 
             _bus.SendCommand(ParseInitializationResult(dto));
-        }
-
-        private Charon TemporaryFakeInitialization()
-        {
-            var charonAddress = new NetAddress(MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().Ip4Address, 23);
-            var mainCharon = new Charon(charonAddress, _iniFile35, _logFile);
-            mainCharon.FullPortCount = 8;
-            mainCharon.OwnPortCount = 8;
-            mainCharon.Serial = @"1234567";
-            return mainCharon;
         }
 
         public bool CheckAddressUniqueness()

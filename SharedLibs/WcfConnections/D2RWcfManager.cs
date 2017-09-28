@@ -1,6 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Dto;
 using Iit.Fibertest.UtilsLib;
+using RtuWcfServiceLibrary;
 
 namespace WcfConnections
 {
@@ -15,13 +17,33 @@ namespace WcfConnections
             _wcfFactory = new WcfFactory(dataCenterAddress, iniFile, _logFile);
         }
 
-        public Task<RtuInitializedDto> InitializeRtuLongTask(InitializeRtuDto dto)
+        private IRtuWcfService _d2RChannel;
+        public bool InitializeRtuLongTask(InitializeRtuDto dto)
         {
-            var rtuConnection = _wcfFactory.CreateRtuConnection();
-//            if (rtuConnection == null)
-//                return MessageProcessingResult.FailedToTransmit;
+            _d2RChannel = _wcfFactory.CreateRtuConnection();
+            if (_d2RChannel == null)
+                return false;
+            var asyncState = new object();
+            _d2RChannel.BeginInitializeAndAnswer(dto, MyCallback, asyncState);
+            return true;
+        }
+        private void MyCallback(object asyncState)
+        {
+            try
+            {
+                _logFile.AppendLine("MyCallback started");
 
-            return rtuConnection.InitializeAndAnswer(dto);
+                if (_d2RChannel == null)
+                    return;
+
+                var result = _d2RChannel.EndInitializeAndAnswer((IAsyncResult)asyncState);
+                _logFile.AppendLine($@"{result.Version}");
+
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+            }
         }
 
         public MessageProcessingResult InitializeRtu(InitializeRtuDto dto)

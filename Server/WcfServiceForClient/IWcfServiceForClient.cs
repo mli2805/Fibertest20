@@ -1,4 +1,5 @@
-﻿using System.ServiceModel;
+﻿using System;
+using System.ServiceModel;
 using System.Threading.Tasks;
 using Dto;
 
@@ -31,8 +32,17 @@ namespace WcfServiceForClientLibrary
         bool CheckRtuConnection(CheckRtuConnectionDto rtuAddress);
 
 
+
+
         [OperationContract]
-        Task<RtuInitializedDto> InitializeRtuLongTask(InitializeRtuDto dto);
+        void InitializeRtuLongTask(InitializeRtuDto dto);
+
+
+
+
+
+
+
 
         [OperationContract]
         bool InitializeRtu(InitializeRtuDto rtu);
