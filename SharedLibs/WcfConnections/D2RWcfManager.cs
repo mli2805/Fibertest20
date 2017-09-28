@@ -27,7 +27,7 @@ namespace WcfConnections
             _d2RChannel.BeginInitializeAndAnswer(dto, MyCallback, asyncState);
             return true;
         }
-        private void MyCallback(object asyncState)
+        public void MyCallback(IAsyncResult asyncState)
         {
             try
             {
@@ -36,7 +36,7 @@ namespace WcfConnections
                 if (_d2RChannel == null)
                     return;
 
-                var result = _d2RChannel.EndInitializeAndAnswer((IAsyncResult)asyncState);
+                var result = _d2RChannel.EndInitializeAndAnswer(asyncState);
                 _logFile.AppendLine($@"{result.Version}");
 
             }

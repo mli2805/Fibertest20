@@ -179,8 +179,10 @@ namespace WcfConnections
             return new NetTcpBinding
             {
                 Security = { Mode = SecurityMode.None },
-                ReceiveTimeout = TimeSpan.FromSeconds(iniFile.Read(IniSection.NetTcpBinding, IniKey.ReadTimeout, 3)),
-                SendTimeout = TimeSpan.FromSeconds(iniFile.Read(IniSection.NetTcpBinding, IniKey.SendTimeout, 3)),
+                OpenTimeout = TimeSpan.FromSeconds(20),
+                
+                ReceiveTimeout = TimeSpan.FromSeconds(iniFile.Read(IniSection.NetTcpBinding, IniKey.ReadTimeout, 4)),
+                SendTimeout = TimeSpan.FromSeconds(iniFile.Read(IniSection.NetTcpBinding, IniKey.SendTimeout, 4)),
                 MaxBufferSize = 4096000, //4M
                 MaxReceivedMessageSize = 4096000,
             };

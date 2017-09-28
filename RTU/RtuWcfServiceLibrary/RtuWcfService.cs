@@ -38,7 +38,7 @@ namespace RtuWcfServiceLibrary
             return InitializeAndAnswerAsync(dto).Result;
         }
 
-        public IAsyncResult BeginInitializeAndAnswer(InitializeRtuDto dto, AsyncCallback callback, object retDto)
+        public IAsyncResult BeginInitializeAndAnswer(InitializeRtuDto dto, AsyncCallback callback, object asyncState)
         {
             var task = InitializeAndAnswerAsync(dto);
             if (callback != null)
@@ -46,7 +46,6 @@ namespace RtuWcfServiceLibrary
             return task;
         }
 
-        // TODO What this function for?
         public RtuInitializedDto EndInitializeAndAnswer(IAsyncResult result)
         {
             return ((Task<RtuInitializedDto>) result).Result;

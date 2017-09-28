@@ -12,7 +12,7 @@ namespace RtuWcfServiceLibrary
         [OperationContract]
         RtuInitializedDto InitializeAndAnswer(InitializeRtuDto dto);
         [OperationContract(AsyncPattern = true)]
-        IAsyncResult BeginInitializeAndAnswer(InitializeRtuDto dto, AsyncCallback callback, object retDto);
+        IAsyncResult BeginInitializeAndAnswer(InitializeRtuDto dto, AsyncCallback callback, object asyncState);
         RtuInitializedDto EndInitializeAndAnswer(IAsyncResult result);
 
 
