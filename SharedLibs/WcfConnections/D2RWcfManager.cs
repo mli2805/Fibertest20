@@ -43,24 +43,7 @@ namespace WcfConnections
             }
         }
 
-        private void MyCallback(IAsyncResult asyncState)
-        {
-            try
-            {
-                _logFile.AppendLine("MyCallback started");
-
-                if (_d2RChannel == null)
-                    return;
-
-                var result = _d2RChannel.EndInitializeAndAnswer(asyncState);
-                _logFile.AppendLine($@"{result.Version}");
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine(e.Message);
-            }
-        }
-
+      
         public MessageProcessingResult InitializeRtu(InitializeRtuDto dto)
         {
             var rtuConnection = _wcfFactory.CreateRtuConnection();

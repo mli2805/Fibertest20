@@ -218,7 +218,7 @@
     <Compile Include="ViewModels\Administrative\UserListViewModel.cs" />
     <Compile Include="ViewModels\Administrative\UserViewModel.cs" />
     <Compile Include="ViewModels\Administrative\Zone.cs" />
-    <Compile Include="ViewModels\Shell\Bus.cs" />
+    <Compile Include="EventSourcing\Bus.cs" />
     <Compile Include="Views\Administrative\ObjectsToZonesView.xaml.cs">
       <DependentUpon>ObjectsToZonesView.xaml</DependentUpon>
     </Compile>

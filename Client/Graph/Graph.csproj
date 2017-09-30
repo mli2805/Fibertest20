@@ -97,8 +97,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Aggregate\Aggregate.cs" />
-    <Compile Include="Aggregate\WriteModel.cs" />
+    <Compile Include="EventSourcing\Aggregate.cs" />
+    <Compile Include="EventSourcing\WriteModel.cs" />
     <Compile Include="Algorithms\Topo.cs" />
     <Compile Include="Commands\Equipment\AddEquipmentAtGpsLocation.cs" />
     <Compile Include="Commands\Equipment\RemoveEquipment.cs" />
