@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Dto;
 
-namespace WcfServiceForClientLibrary
+namespace Iit.Fibertest.WcfServiceForClientInterface
 {
     [ServiceContract]
     public interface IWcfServiceForClient

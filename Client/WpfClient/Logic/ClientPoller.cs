@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Caliburn.Micro;
+using Iit.Fibertest.WcfServiceForClientInterface;
 using Newtonsoft.Json;
 using PrivateReflectionUsingDynamic;
-//using WcfConnections.C2DWcfServiceReference;
 
 namespace Iit.Fibertest.Client
 {
@@ -14,12 +14,12 @@ namespace Iit.Fibertest.Client
             {
                 TypeNameHandling = TypeNameHandling.All
             };
-        private readonly WcfServiceForClientLibrary.IWcfServiceForClient _client;
+        private readonly IWcfServiceForClient _client;
         public List<object> ReadModels { get; }
 
         public int CurrentEventNumber { get; private set; }
 
-        public ClientPoller(WcfServiceForClientLibrary.IWcfServiceForClient client, List<object> readModels)
+        public ClientPoller(IWcfServiceForClient client, List<object> readModels)
         {
             _client = client;
             ReadModels = readModels;

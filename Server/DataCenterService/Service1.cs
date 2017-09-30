@@ -5,7 +5,7 @@ using DataCenterCore;
 using Dto;
 using Iit.Fibertest.UtilsLib;
 
-namespace DataCenterService
+namespace Iit.Fibertest.DataCenterService
 {
     public partial class Service1 : ServiceBase
     {

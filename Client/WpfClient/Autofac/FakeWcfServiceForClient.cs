@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Dto;
-using WcfServiceForClientLibrary;
+using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
 {

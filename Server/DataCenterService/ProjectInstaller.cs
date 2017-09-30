@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace DataCenterService
+namespace Iit.Fibertest.DataCenterService
 {
     [RunInstaller(true)]
     public partial class ProjectInstaller : System.Configuration.Install.Installer

@@ -7,8 +7,8 @@
     <ProjectGuid>{BCA77A87-7253-464B-9721-14673268BA42}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DataCenterService</RootNamespace>
-    <AssemblyName>DataCenterService</AssemblyName>
+    <RootNamespace>Iit.Fibertest.DataCenterService</RootNamespace>
+    <AssemblyName>Iit.Fibertest.DataCenterService</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -84,13 +84,13 @@
       <Project>{6ba3ea08-6bdb-4b2d-8729-409e136d4d74}</Project>
       <Name>DataCenterCore</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WcfServiceForClient\WcfServiceForClientLibrary.csproj">
+    <ProjectReference Include="..\WcfServiceForClient\WcfServiceForClientInterface.csproj">
       <Project>{72f6524c-e7ee-4dfd-8ae2-15a4e5225d3b}</Project>
-      <Name>WcfServiceForClientLibrary</Name>
+      <Name>WcfServiceForClientInterface</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WcfServiceForRtu\WcfServiceForRtuLibrary.csproj">
+    <ProjectReference Include="..\WcfServiceForRtu\WcfServiceForRtuInterface.csproj">
       <Project>{ec01dbcb-bd59-4e30-a6c3-f8ddbb6e45f9}</Project>
-      <Name>WcfServiceForRtuLibrary</Name>
+      <Name>WcfServiceForRtuInterface</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

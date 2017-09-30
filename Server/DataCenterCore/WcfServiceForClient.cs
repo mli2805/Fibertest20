@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WcfServiceForClientInterface;
 using Newtonsoft.Json;
 using NEventStore;
 using PrivateReflectionUsingDynamic;
 using WcfConnections;
-using WcfServiceForClientLibrary;
 
 namespace DataCenterCore
 {

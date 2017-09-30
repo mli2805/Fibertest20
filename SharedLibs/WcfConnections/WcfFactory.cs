@@ -5,9 +5,9 @@ using System.ServiceModel.Channels;
 using ClientWcfServiceLibrary;
 using Dto;
 using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WcfServiceForClientInterface;
+using Iit.Fibertest.WcfServiceForRtuInterface;
 using RtuWcfServiceLibrary;
-using WcfServiceForClientLibrary;
-using WcfServiceForRtuLibrary;
 
 namespace WcfConnections
 {

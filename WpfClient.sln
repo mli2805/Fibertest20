@@ -57,9 +57,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UtilsLib", "SharedLibs\Util
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringResources", "SharedLibs\StringResources\StringResources.csproj", "{0CB0EA37-4A27-45F0-BB01-4C0E064E8962}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WcfServiceForClientLibrary", "Server\WcfServiceForClient\WcfServiceForClientLibrary.csproj", "{72F6524C-E7EE-4DFD-8AE2-15A4E5225D3B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WcfServiceForClientInterface", "Server\WcfServiceForClient\WcfServiceForClientInterface.csproj", "{72F6524C-E7EE-4DFD-8AE2-15A4E5225D3B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WcfServiceForRtuLibrary", "Server\WcfServiceForRtu\WcfServiceForRtuLibrary.csproj", "{EC01DBCB-BD59-4E30-A6C3-F8DDBB6E45F9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WcfServiceForRtuInterface", "Server\WcfServiceForRtu\WcfServiceForRtuInterface.csproj", "{EC01DBCB-BD59-4E30-A6C3-F8DDBB6E45F9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WcfTestBench", "Client\WcfTestBench\WcfTestBench.csproj", "{55D80640-0934-4C89-BE1D-442D484A17C9}"
 	ProjectSection(ProjectDependencies) = postProject

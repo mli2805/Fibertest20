@@ -1,6 +1,6 @@
 ﻿using System.ServiceProcess;
 
-namespace DataCenterService
+namespace Iit.Fibertest.DataCenterService
 {
     static class Program
     {

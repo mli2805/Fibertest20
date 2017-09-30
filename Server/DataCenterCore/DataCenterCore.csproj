@@ -82,13 +82,13 @@
       <Project>{5194ad3b-e031-4f61-aded-c1e92999acf2}</Project>
       <Name>WcfConnections</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WcfServiceForClient\WcfServiceForClientLibrary.csproj">
+    <ProjectReference Include="..\WcfServiceForClient\WcfServiceForClientInterface.csproj">
       <Project>{72f6524c-e7ee-4dfd-8ae2-15a4e5225d3b}</Project>
-      <Name>WcfServiceForClientLibrary</Name>
+      <Name>WcfServiceForClientInterface</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WcfServiceForRtu\WcfServiceForRtuLibrary.csproj">
+    <ProjectReference Include="..\WcfServiceForRtu\WcfServiceForRtuInterface.csproj">
       <Project>{ec01dbcb-bd59-4e30-a6c3-f8ddbb6e45f9}</Project>
-      <Name>WcfServiceForRtuLibrary</Name>
+      <Name>WcfServiceForRtuInterface</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

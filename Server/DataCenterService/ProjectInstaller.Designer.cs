@@ -1,4 +1,4 @@
-﻿namespace DataCenterService
+﻿namespace Iit.Fibertest.DataCenterService
 {
     partial class ProjectInstaller
     {

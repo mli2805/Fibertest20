@@ -82,13 +82,13 @@
       <Project>{D7C82E5D-E536-4684-B18F-9E1A341324D6}</Project>
       <Name>RtuWcfServiceLibrary</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Server\WcfServiceForClient\WcfServiceForClientLibrary.csproj">
+    <ProjectReference Include="..\..\Server\WcfServiceForClient\WcfServiceForClientInterface.csproj">
       <Project>{72F6524C-E7EE-4DFD-8AE2-15A4E5225D3B}</Project>
-      <Name>WcfServiceForClientLibrary</Name>
+      <Name>WcfServiceForClientInterface</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Server\WcfServiceForRtu\WcfServiceForRtuLibrary.csproj">
+    <ProjectReference Include="..\..\Server\WcfServiceForRtu\WcfServiceForRtuInterface.csproj">
       <Project>{EC01DBCB-BD59-4E30-A6C3-F8DDBB6E45F9}</Project>
-      <Name>WcfServiceForRtuLibrary</Name>
+      <Name>WcfServiceForRtuInterface</Name>
     </ProjectReference>
     <ProjectReference Include="..\Dto\Dto.csproj">
       <Project>{86a00748-2a4e-4180-b04e-0e1f6a62a258}</Project>

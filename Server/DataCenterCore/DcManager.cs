@@ -7,9 +7,9 @@ using System.ServiceModel;
 using System.Threading;
 using Dto;
 using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WcfServiceForClientInterface;
+using Iit.Fibertest.WcfServiceForRtuInterface;
 using WcfConnections;
-using WcfServiceForClientLibrary;
-using WcfServiceForRtuLibrary;
 
 namespace DataCenterCore
 {

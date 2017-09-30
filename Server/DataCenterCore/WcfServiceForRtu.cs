@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.ServiceModel;
 using Dto;
 using Iit.Fibertest.UtilsLib;
-using WcfServiceForRtuLibrary;
+using Iit.Fibertest.WcfServiceForRtuInterface;
 
 namespace DataCenterCore
 {
