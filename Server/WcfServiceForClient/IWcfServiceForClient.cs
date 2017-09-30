@@ -1,5 +1,4 @@
-﻿using System;
-using System.ServiceModel;
+﻿using System.ServiceModel;
 using System.Threading.Tasks;
 using Dto;
 
@@ -10,6 +9,7 @@ namespace WcfServiceForClientLibrary
     {
         [OperationContract]
         string SendCommand(string json);
+
         [OperationContract]
         string[] GetEvents(int revision);
 
@@ -32,16 +32,8 @@ namespace WcfServiceForClientLibrary
         bool CheckRtuConnection(CheckRtuConnectionDto rtuAddress);
 
 
-
-
         [OperationContract]
         void InitializeRtuLongTask(InitializeRtuDto dto);
-
-
-
-
-
-
 
 
         [OperationContract]
@@ -59,5 +51,4 @@ namespace WcfServiceForClientLibrary
         [OperationContract]
         bool AssignBaseRef(AssignBaseRefDto baseRef);
     }
- 
 }
