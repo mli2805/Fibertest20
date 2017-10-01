@@ -8,7 +8,7 @@ using WcfConnections;
 
 namespace DataCenterCore
 {
-    public partial class DcManager 
+    public partial class DcManager
     {
         private readonly RtuCommandDeliveredDto _rtuCommandDeliveredDto = new RtuCommandDeliveredDto();
 
@@ -89,12 +89,25 @@ namespace DataCenterCore
             return MessageProcessingResult.UnknownMessage;
         }
 
-        private void RegisterClient(RegisterClientDto dto)
+        public ClientRegisteredDto RegisterClient(RegisterClientDto dto)
         {
-            Thread thread = new Thread(RegisterClientThread);
-            thread.Start(dto);
-        }
+            _dcLog.AppendLine($"Client {dto.ClientId.First6()} makes an experiment");
+            var result = new ClientRegisteredDto();
 
+            var clientStation = new ClientStation
+            {
+                Id = dto.ClientId,
+                PcAddresses = new DoubleAddressWithLastConnectionCheck
+                {
+                    DoubleAddress = dto.Addresses
+                }
+            };
+            _clientComps.AddOrUpdate(dto.ClientId, clientStation, (id, _) => clientStation);
+            result.IsRegistered = true;
+
+            _dcLog.AppendLine($"There are {_clientComps.Count} clients");
+            return result;
+        }
         private void RegisterClientThread(object param)
         {
             var dto = param as RegisterClientDto;

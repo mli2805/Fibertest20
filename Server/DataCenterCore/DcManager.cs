@@ -14,12 +14,12 @@ namespace DataCenterCore
 {
     public partial class DcManager
     {
-        private DoubleAddress _serverDoubleAddress;
+        private readonly DoubleAddress _serverDoubleAddress;
         private readonly IMyLog _dcLog;
         private readonly IniFile _coreIni;
 
         private readonly ConcurrentDictionary<Guid, RtuStation> _rtuStations;
-        public readonly ConcurrentDictionary<Guid, ClientStation> _clientComps;
+        private readonly ConcurrentDictionary<Guid, ClientStation> _clientComps;
         private readonly object _clientStationsLockObj = new object();
         private readonly List<ClientStation> _clientStations;
 
@@ -30,11 +30,11 @@ namespace DataCenterCore
             _clientComps = new ConcurrentDictionary<Guid, ClientStation>();
             _rtuStations = InitializeRtuStationListFromDb();
             _clientStations = new List<ClientStation>();
+            _serverDoubleAddress = _coreIni.ReadDoubleAddress((int)TcpPorts.ServerListenToRtu);
         }
 
         public void Start()
         {
-            _serverDoubleAddress = _coreIni.ReadDoubleAddress((int)TcpPorts.ServerListenToRtu);
 
             StartWcfListenerToRtu();
 
