@@ -9,17 +9,6 @@ using WcfConnections;
 
 namespace DataCenterCore
 {
-    public class MyListener
-    {
-        private readonly Action<object> _messageReceived;
-
-        public void RaiseMessageReceived(object e) => _messageReceived(e);
-
-        public MyListener(Action<object> messageReceived)
-        {
-            _messageReceived = messageReceived ?? throw new ArgumentNullException(nameof(messageReceived));
-        }
-    }
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public class WcfServiceForClient : IWcfServiceForClient
     {
@@ -29,19 +18,17 @@ namespace DataCenterCore
         public IniFile ServiceIniFile { get; }
         public IMyLog ServiceLog { get; }
 
-        private readonly MyListener _static; 
-
-        public delegate void OnMessageReceived(object e);
+        private readonly DcManager _dcManager; 
 
         public ConcurrentDictionary<Guid, ClientStation> ClientComps;
 
         public string SendCommand(string json) => _service.SendCommand(json);
         public string[] GetEvents(int revision) => _service.GetEvents(revision);
 
-        public WcfServiceForClient(ConcurrentDictionary<Guid, ClientStation> clientComps, MyListener @static, IniFile serviceIniFile, IMyLog serviceLog)
+        public WcfServiceForClient(ConcurrentDictionary<Guid, ClientStation> clientComps, DcManager dcManager, IniFile serviceIniFile, IMyLog serviceLog)
         {
             ClientComps = clientComps;
-            _static = @static;
+            _dcManager = dcManager;
             ServiceIniFile = serviceIniFile;
             ServiceLog = serviceLog;
         }
@@ -72,13 +59,13 @@ namespace DataCenterCore
         public void RegisterClient(RegisterClientDto dto)
         {
             ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent register request");
-            _static.RaiseMessageReceived(dto);
+            _dcManager.HandleMessage(dto);
         }
 
         public void UnRegisterClient(UnRegisterClientDto dto)
         {
             ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent unregister request");
-            _static.RaiseMessageReceived(dto);
+            _dcManager.HandleMessage(dto);
         }
 
         public bool CheckServerConnection(CheckServerConnectionDto dto)
@@ -90,7 +77,7 @@ namespace DataCenterCore
         public bool CheckRtuConnection(CheckRtuConnectionDto dto)
         {
             ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent check rtu {dto.RtuId.First6()} request");
-            _static.RaiseMessageReceived(dto);
+            _dcManager.HandleMessage(dto);
             return true;
         }
 
@@ -131,35 +118,35 @@ namespace DataCenterCore
         public bool InitializeRtu(InitializeRtuDto dto)
         {
             ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent initialize rtu {dto.RtuId.First6()} request");
-            _static.RaiseMessageReceived(dto);
+            _dcManager.HandleMessage(dto);
             return true;
         }
 
         public bool StartMonitoring(StartMonitoringDto dto)
         {
             ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent start monitoring on rtu {dto.RtuId.First6()} request");
-            _static.RaiseMessageReceived(dto);
+            _dcManager.HandleMessage(dto);
             return true;
         }
 
         public bool StopMonitoring(StopMonitoringDto dto)
         {
             ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent stop monitoring on rtu {dto.RtuId.First6()} request");
-            _static.RaiseMessageReceived(dto);
+            _dcManager.HandleMessage(dto);
             return true;
         }
 
         public bool ApplyMonitoringSettings(ApplyMonitoringSettingsDto dto)
         {
             ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent monitoring settings for rtu {dto.RtuId.First6()}");
-            _static.RaiseMessageReceived(dto);
+            _dcManager.HandleMessage(dto);
             return true;
         }
 
         public bool AssignBaseRef(AssignBaseRefDto dto)
         {
             ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent base ref for trace on rtu {dto.RtuId.First6()}");
-            _static.RaiseMessageReceived(dto);
+            _dcManager.HandleMessage(dto);
             return true;
         }
     }

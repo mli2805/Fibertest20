@@ -8,10 +8,11 @@ using WcfConnections;
 
 namespace DataCenterCore
 {
-    public partial class DcManager
+    public partial class DcManager 
     {
         private readonly RtuCommandDeliveredDto _rtuCommandDeliveredDto = new RtuCommandDeliveredDto();
-        private void WcfServiceForClient_MessageReceived(object msg)
+
+        public void HandleMessage(object msg)
         {
             var result = ProcessClientsMessage(msg);
             switch (result)

@@ -54,8 +54,7 @@ namespace DataCenterCore
         {
             ServiceForClientHost?.Close();
 
-            var instance = new WcfServiceForClient(_clientComps, 
-                new MyListener(WcfServiceForClient_MessageReceived),
+            var instance = new WcfServiceForClient(_clientComps, this,
                 _coreIni, _dcLog);
 
             try
