@@ -7,7 +7,7 @@ namespace Iit.Fibertest.UtilsLib
 {
     public class IniFile
     {
-        private string _filePath;
+        public string FilePath { get; private set; }
         private readonly object _obj = new object();
 
         [DllImport("kernel32")]
@@ -21,12 +21,13 @@ namespace Iit.Fibertest.UtilsLib
         /// should be done separately from creation for tests sake
         /// </summary>
         /// <param name="fullFilename"></param>
-        public void AssignFile(string fullFilename)
+        public IniFile AssignFile(string fullFilename)
         {
             lock (_obj)
             {
-                _filePath = Utils.FileNameForSure(@"..\Ini\", fullFilename, false);
+                FilePath = Utils.FileNameForSure(@"..\Ini\", fullFilename, false);
             }
+            return this;
         }
 
         #region Base (String)
@@ -35,7 +36,7 @@ namespace Iit.Fibertest.UtilsLib
         {
             lock (_obj)
             {
-                WritePrivateProfileString(section.ToString(), key.ToString(), value, _filePath);
+                WritePrivateProfileString(section.ToString(), key.ToString(), value, FilePath);
             }
         }
 
@@ -44,7 +45,7 @@ namespace Iit.Fibertest.UtilsLib
             lock (_obj)
             {
                 StringBuilder temp = new StringBuilder(255);
-                if (GetPrivateProfileString(section.ToString(), key.ToString(), "", temp, 255, _filePath) != 0)
+                if (GetPrivateProfileString(section.ToString(), key.ToString(), "", temp, 255, FilePath) != 0)
                 {
                     return temp.ToString();
                 }
@@ -58,7 +59,7 @@ namespace Iit.Fibertest.UtilsLib
         {
             lock (_obj)
             {
-                WritePrivateProfileString(section.ToString(), key.ToString(), null, _filePath);
+                WritePrivateProfileString(section.ToString(), key.ToString(), null, FilePath);
             }
         }
 
@@ -68,7 +69,7 @@ namespace Iit.Fibertest.UtilsLib
         {
             lock (_obj)
             {
-                WritePrivateProfileString(section.ToString(), null, null, _filePath);
+                WritePrivateProfileString(section.ToString(), null, null, FilePath);
             }
         }
 

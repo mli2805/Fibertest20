@@ -1,4 +1,5 @@
 ﻿using System.ServiceProcess;
+using Autofac;
 
 namespace Iit.Fibertest.DataCenterService
 {
@@ -9,12 +10,10 @@ namespace Iit.Fibertest.DataCenterService
         /// </summary>
         static void Main()
         {
-            ServiceBase[] ServicesToRun;
-            ServicesToRun = new ServiceBase[]
-            {
-                new Service1()
-            };
-            ServiceBase.Run(ServicesToRun);
+            var builder = new ContainerBuilder().WithProduction();
+
+            var container = builder.Build();
+            ServiceBase.Run(container.Resolve<ServiceBase[]>());
         }
     }
 }
