@@ -13,16 +13,11 @@ namespace DataCenterCore
     {
         private readonly Action<object> _messageReceived;
 
-        public IniFile ServiceIniFile { get;  }
-        public IMyLog ServiceLog { get;  }
-
         public void RaiseMessageReceived(object e) => _messageReceived(e);
 
-        public MyListener(IniFile serviceIniFile, IMyLog serviceLog, Action<object> messageReceived)
+        public MyListener(Action<object> messageReceived)
         {
             _messageReceived = messageReceived ?? throw new ArgumentNullException(nameof(messageReceived));
-            ServiceIniFile = serviceIniFile;
-            ServiceLog = serviceLog;
         }
     }
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
@@ -30,6 +25,9 @@ namespace DataCenterCore
     {
         // BUG: Initialize this!
         private readonly EventStoreService _service = new EventStoreService();
+
+        public IniFile ServiceIniFile { get; }
+        public IMyLog ServiceLog { get; }
 
         private readonly MyListener _static; 
 
@@ -40,15 +38,17 @@ namespace DataCenterCore
         public string SendCommand(string json) => _service.SendCommand(json);
         public string[] GetEvents(int revision) => _service.GetEvents(revision);
 
-        public WcfServiceForClient(ConcurrentDictionary<Guid, ClientStation> clientComps, MyListener @static)
+        public WcfServiceForClient(ConcurrentDictionary<Guid, ClientStation> clientComps, MyListener @static, IniFile serviceIniFile, IMyLog serviceLog)
         {
             ClientComps = clientComps;
             _static = @static;
+            ServiceIniFile = serviceIniFile;
+            ServiceLog = serviceLog;
         }
 
         public Task<ClientRegisteredDto> MakeExperimentAsync(RegisterClientDto dto)
         {
-            _static.ServiceLog.AppendLine($"Client {dto.ClientId.First6()} makes an experiment");
+            ServiceLog.AppendLine($"Client {dto.ClientId.First6()} makes an experiment");
             var result = new ClientRegisteredDto();
 
 
@@ -65,31 +65,31 @@ namespace DataCenterCore
             };
             result.IsRegistered = ClientComps.TryAdd(dto.ClientId, client);
 
-            _static.ServiceLog.AppendLine($"There are {ClientComps.Count} clients");
+            ServiceLog.AppendLine($"There are {ClientComps.Count} clients");
             return Task.FromResult(result);
         }
 
         public void RegisterClient(RegisterClientDto dto)
         {
-            _static.ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent register request");
+            ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent register request");
             _static.RaiseMessageReceived(dto);
         }
 
         public void UnRegisterClient(UnRegisterClientDto dto)
         {
-            _static.ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent unregister request");
+            ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent unregister request");
             _static.RaiseMessageReceived(dto);
         }
 
         public bool CheckServerConnection(CheckServerConnectionDto dto)
         {
-            _static.ServiceLog.AppendLine($"Client {dto.ClientId.First6()} checked server connection");
+            ServiceLog.AppendLine($"Client {dto.ClientId.First6()} checked server connection");
             return true;
         }
 
         public bool CheckRtuConnection(CheckRtuConnectionDto dto)
         {
-            _static.ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent check rtu {dto.RtuId.First6()} request");
+            ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent check rtu {dto.RtuId.First6()} request");
             _static.RaiseMessageReceived(dto);
             return true;
         }
@@ -99,8 +99,8 @@ namespace DataCenterCore
         private D2RWcfManager _d2RWcfManager;
         public void InitializeRtuLongTask(InitializeRtuDto dto)
         {
-            _static.ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent initialize rtu {dto.RtuId.First6()} request");
-            _d2RWcfManager = new D2RWcfManager(dto.RtuAddresses, _static.ServiceIniFile, _static.ServiceLog);
+            ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent initialize rtu {dto.RtuId.First6()} request");
+            _d2RWcfManager = new D2RWcfManager(dto.RtuAddresses, ServiceIniFile, ServiceLog);
 
             _d2RWcfManager.InitializeRtuLongTask(dto, InitializeRtuLongTaskCallback);
         }
@@ -113,11 +113,11 @@ namespace DataCenterCore
                     return;
 
                 var result = _d2RWcfManager.InitializeRtuLongTaskEnd(asyncState);
-                _static.ServiceLog.AppendLine($@"{result.Version}");
+                ServiceLog.AppendLine($@"{result.Version}");
             }
             catch (Exception e)
             {
-                _static.ServiceLog.AppendLine(e.Message);
+                ServiceLog.AppendLine(e.Message);
             }
         }
 
@@ -130,35 +130,35 @@ namespace DataCenterCore
 
         public bool InitializeRtu(InitializeRtuDto dto)
         {
-            _static.ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent initialize rtu {dto.RtuId.First6()} request");
+            ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent initialize rtu {dto.RtuId.First6()} request");
             _static.RaiseMessageReceived(dto);
             return true;
         }
 
         public bool StartMonitoring(StartMonitoringDto dto)
         {
-            _static.ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent start monitoring on rtu {dto.RtuId.First6()} request");
+            ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent start monitoring on rtu {dto.RtuId.First6()} request");
             _static.RaiseMessageReceived(dto);
             return true;
         }
 
         public bool StopMonitoring(StopMonitoringDto dto)
         {
-            _static.ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent stop monitoring on rtu {dto.RtuId.First6()} request");
+            ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent stop monitoring on rtu {dto.RtuId.First6()} request");
             _static.RaiseMessageReceived(dto);
             return true;
         }
 
         public bool ApplyMonitoringSettings(ApplyMonitoringSettingsDto dto)
         {
-            _static.ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent monitoring settings for rtu {dto.RtuId.First6()}");
+            ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent monitoring settings for rtu {dto.RtuId.First6()}");
             _static.RaiseMessageReceived(dto);
             return true;
         }
 
         public bool AssignBaseRef(AssignBaseRefDto dto)
         {
-            _static.ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent base ref for trace on rtu {dto.RtuId.First6()}");
+            ServiceLog.AppendLine($"Client {dto.ClientId.First6()} sent base ref for trace on rtu {dto.RtuId.First6()}");
             _static.RaiseMessageReceived(dto);
             return true;
         }

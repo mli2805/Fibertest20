@@ -34,7 +34,7 @@ namespace Graph.Tests
 
             var clients = new ConcurrentDictionary<Guid, ClientStation>(); // ??? Ask
             builder.Register<IWcfServiceForClient>(ctx =>
-                new WcfServiceForClient(clients, null)).SingleInstance();
+                new WcfServiceForClient(clients, null, null, null)).SingleInstance();
 
             builder.RegisterInstance(LoggerForTests = new LoggerConfiguration()
                 .WriteTo.Console().CreateLogger()).As<ILogger>();
