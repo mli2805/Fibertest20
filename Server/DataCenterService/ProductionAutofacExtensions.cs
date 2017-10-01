@@ -15,6 +15,7 @@ namespace Iit.Fibertest.DataCenterService
                 new LogFile(ctx.Resolve<IniFile>()).WithFile("DcService.log"));
 
             builder.RegisterType<Service1>().As<ServiceBase>().SingleInstance();
+            builder.RegisterType<BootstrapServiceForClientHost>().SingleInstance();
             builder.RegisterType<DcManager>().SingleInstance();
             builder.RegisterType<WcfServiceForClient>().As<IWcfServiceForClient>().SingleInstance();
 

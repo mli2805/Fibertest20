@@ -7,7 +7,6 @@ using System.ServiceModel;
 using System.Threading;
 using Dto;
 using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WcfServiceForClientInterface;
 using Iit.Fibertest.WcfServiceForRtuInterface;
 using WcfConnections;
 
@@ -31,14 +30,12 @@ namespace DataCenterCore
             _clientComps = new ConcurrentDictionary<Guid, ClientStation>();
             _rtuStations = InitializeRtuStationListFromDb();
             _clientStations = new List<ClientStation>();
-            _wcfServiceForClient = new WcfServiceForClient(this, _coreIni, _dcLog);
         }
 
         public void Start()
         {
             _serverDoubleAddress = _coreIni.ReadDoubleAddress((int)TcpPorts.ServerListenToRtu);
 
-            StartWcfListenerToClient();
             StartWcfListenerToRtu();
 
             var lastConnectionTimeChecker =
@@ -48,29 +45,8 @@ namespace DataCenterCore
         }
 
         internal static ServiceHost ServiceForRtuHost;
-        internal static ServiceHost ServiceForClientHost;
-        private WcfServiceForClient _wcfServiceForClient;
 
 
-        private void StartWcfListenerToClient()
-        {
-            ServiceForClientHost?.Close();
-            try
-            {
-                var uri = new Uri(WcfFactory.CombineUriString(@"localhost", (int)TcpPorts.ServerListenToClient, @"WcfServiceForClient"));
-
-                ServiceForClientHost = new ServiceHost(_wcfServiceForClient, uri);
-                ServiceForClientHost.AddServiceEndpoint(typeof(IWcfServiceForClient),
-                    WcfFactory.CreateDefaultNetTcpBinding(_coreIni), uri);
-                ServiceForClientHost.Open();
-                _dcLog.AppendLine("Clients listener started successfully");
-            }
-            catch (Exception e)
-            {
-                _dcLog.AppendLine(e.Message);
-                throw;
-            }
-        }
 
         private void StartWcfListenerToRtu()
         {
