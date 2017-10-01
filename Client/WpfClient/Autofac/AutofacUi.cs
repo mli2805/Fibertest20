@@ -29,14 +29,11 @@ namespace Iit.Fibertest.Client
             iniFile.AssignFile(@"Client.ini");
             builder.RegisterInstance(iniFile);
 
-            var culture = iniFile.Read(IniSection.General, IniKey.Culture, @"ru-RU");
-            var logFileLimitKb = iniFile.Read(IniSection.General, IniKey.LogFileSizeLimitKb, 0);
 
             
             builder.Register<IMyLog>(ctx =>
             {
-                var logFile = new LogFile();
-                logFile.AssignFile(@"Client.log", logFileLimitKb, culture); // this couldn't be done in ctor becauses of tests using shellVM's ctor
+                var logFile = new LogFile(ctx.Resolve<IniFile>()).WithFile(@"Client.log");
                 logFile.EmptyLine();
                 logFile.EmptyLine('-');
                 return logFile;

@@ -29,11 +29,8 @@ namespace DataCenterCore
             _serverDoubleAddress = serverDoubleAddress;
             _coreIni = new IniFile();
             _coreIni.AssignFile("DcCore.ini");
-            var cultureString = _coreIni.Read(IniSection.General, IniKey.Culture, "ru-RU");
-            var logFileSizeLimit = _coreIni.Read(IniSection.General, IniKey.LogFileSizeLimitKb, 0);
 
-            _dcLog = new LogFile();
-            _dcLog.AssignFile("DcCore.log", logFileSizeLimit, cultureString);
+            _dcLog = new LogFile(_coreIni).WithFile("DcCore.log");
             _dcLog.EmptyLine();
             _dcLog.EmptyLine('-');
 

@@ -8,7 +8,6 @@ namespace Iit.Fibertest.UtilsLib
 {
     public interface IMyLog
     {
-        void AssignFile(string filename, int sizeLimitKb, string culture = "ru-RU");
         void EmptyLine(char ch = ' ');
         void AppendLine(string message, int offset = 0, string prefix = "");
     }
@@ -32,28 +31,31 @@ namespace Iit.Fibertest.UtilsLib
         private const string ToCompress = ".toCompress";
 
         private StreamWriter _logFile;
-        private string _culture;
-        private int _sizeLimitKb;
-        private string _logFullFileName;
+        public string Culture { get; }
+        public int SizeLimitKb { get; }
+        public string LogFullFileName { get; private set; }
 
         private readonly object _obj = new object();
 
-        public void AssignFile(string filename, int sizeLimitKb, string culture = "ru-RU")
+        public LogFile(IniFile config)
+        {
+            Culture = config.Read(IniSection.General, IniKey.Culture, "ru-RU");
+            SizeLimitKb = config.Read(IniSection.General, IniKey.LogFileSizeLimitKb, 0);
+        }
+
+        public LogFile WithFile(string filename)
         {
             if (filename == "")
-                return;
+                return this;
 
+            LogFullFileName = Utils.FileNameForSure(@"..\Log\", filename, true);
+            if (LogFullFileName == null) return this;
             lock (_obj)
             {
-                _logFullFileName = Utils.FileNameForSure(@"..\Log\", filename, true);
-                if (_logFullFileName == null)
-                    return;
-                _logFile = File.AppendText(_logFullFileName);
+                _logFile = File.AppendText(LogFullFileName);
                 _logFile.AutoFlush = true;
-
-                _sizeLimitKb = sizeLimitKb;
-                _culture = culture;
             }
+            return this;
         }
 
         public void EmptyLine(char ch = ' ')
@@ -81,7 +83,7 @@ namespace Iit.Fibertest.UtilsLib
                     prefix += " ";
                 foreach (var str in SplitMessageOnLines(message))
                 {
-                    var msg = DateTime.Now.ToString(new CultureInfo(_culture)) + "  " + offsetStr + prefix + str.Trim();
+                    var msg = DateTime.Now.ToString(new CultureInfo(Culture)) + "  " + offsetStr + prefix + str.Trim();
                     _logFile.WriteLine(msg);
                 }
             }
@@ -99,16 +101,16 @@ namespace Iit.Fibertest.UtilsLib
 
         private void CheckSizeLimit()
         {
-            if (_sizeLimitKb > 0 && _logFile.BaseStream.Length > _sizeLimitKb * 1024)
+            if (SizeLimitKb > 0 && _logFile.BaseStream.Length > SizeLimitKb * 1024)
             {
                 _logFile.Close();
-                File.Copy(_logFullFileName, _logFullFileName + ToCompress, true);
+                File.Copy(LogFullFileName, LogFullFileName + ToCompress, true);
                 var newEmptyLogFile = Utils.FileNameForSure(@"..\Log\", "empty.log", true);
-                File.Copy(newEmptyLogFile, _logFullFileName, true);
+                File.Copy(newEmptyLogFile, LogFullFileName, true);
 
-                _logFile = File.AppendText(_logFullFileName);
+                _logFile = File.AppendText(LogFullFileName);
                 _logFile.AutoFlush = true;
-                var folder = Path.GetDirectoryName(_logFullFileName);
+                var folder = Path.GetDirectoryName(LogFullFileName);
                 if (folder != null)
                     File.Delete(Path.Combine(folder, @"empty.log"));
 
@@ -119,17 +121,17 @@ namespace Iit.Fibertest.UtilsLib
 
         private void Pack()
         {
-            FileInfo fileToCompress = new FileInfo(_logFullFileName + ToCompress);
+            FileInfo fileToCompress = new FileInfo(LogFullFileName + ToCompress);
             using (FileStream originalFileStream = fileToCompress.OpenRead())
             {
                 FileStream compressedFileStream;
                 try
                 {
-                    compressedFileStream = File.Create(_logFullFileName + ".gz");
+                    compressedFileStream = File.Create(LogFullFileName + ".gz");
                 }
                 catch (Exception)
                 {
-                    compressedFileStream = File.Create(_logFullFileName + $".{Guid.NewGuid()}.gz");
+                    compressedFileStream = File.Create(LogFullFileName + $".{Guid.NewGuid()}.gz");
                 }
 
                 using (GZipStream compressionStream = new GZipStream(compressedFileStream, CompressionMode.Compress))
@@ -137,7 +139,7 @@ namespace Iit.Fibertest.UtilsLib
                     originalFileStream.CopyTo(compressionStream);
                 }
             }
-            File.Delete(_logFullFileName + ToCompress);
+            File.Delete(LogFullFileName + ToCompress);
         }
     }
 }

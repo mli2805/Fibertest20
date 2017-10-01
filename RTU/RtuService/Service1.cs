@@ -23,11 +23,8 @@ namespace RtuService
             InitializeComponent();
             _serviceIni = new IniFile();
             _serviceIni.AssignFile("RtuService.ini");
-            var cultureString = _serviceIni.Read(IniSection.General, IniKey.Culture, "ru-RU");
-            var logFileSizeLimit = _serviceIni.Read(IniSection.General, IniKey.LogFileSizeLimitKb, 0);
 
-            _serviceLog = new LogFile();
-            _serviceLog.AssignFile("RtuService.log", logFileSizeLimit, cultureString);
+            _serviceLog = new LogFile(_serviceIni).WithFile("RtuService.log");
 
             _serviceLog.EmptyLine();
             _serviceLog.EmptyLine('-');

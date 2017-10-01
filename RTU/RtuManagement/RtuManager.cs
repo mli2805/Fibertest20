@@ -102,11 +102,8 @@ namespace RtuManagement
 
             _rtuIni = new IniFile();
             _rtuIni.AssignFile("RtuManager.ini");
-            var cultureString = _rtuIni.Read(IniSection.General, IniKey.Culture, "ru-RU");
-            var logFileSizeLimit = _rtuIni.Read(IniSection.General, IniKey.LogFileSizeLimitKb, 0);
-
-            _rtuLog = new LogFile();
-            _rtuLog.AssignFile("RtuManager.log", logFileSizeLimit, cultureString);
+          
+            _rtuLog = new LogFile(_rtuIni).WithFile("RtuManager.log");
 
             _mikrotikRebootTimeout =
                 TimeSpan.FromSeconds(_rtuIni.Read(IniSection.Recovering, IniKey.MikrotikRebootTimeout, 40));

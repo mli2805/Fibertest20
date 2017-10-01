@@ -16,11 +16,10 @@ namespace DirectRtuClient
         internal static ServiceHost MyServiceHost;
         public ShellViewModel()
         {
-            _rtuLogger = new LogFile();
-            _rtuLogger.AssignFile(@"rtu.log", 0);
-
             _iniFile35 = new IniFile();
             _iniFile35.AssignFile(@"rtu.ini");
+
+            _rtuLogger = new LogFile(_iniFile35).WithFile(@"rtu.log");
 
             IpAddress = _iniFile35.Read(IniSection.General, IniKey.OtauIp, @"192.168.96.53");
 

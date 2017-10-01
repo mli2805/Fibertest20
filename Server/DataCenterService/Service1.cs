@@ -14,15 +14,12 @@ namespace Iit.Fibertest.DataCenterService
 
         private DcManager _dcManager;
 
-        public Service1(IniFile serviceIni)
+        public Service1(IniFile serviceIni, IMyLog serviceLog)
         {
             ServiceIni = serviceIni;
+            ServiceLog = serviceLog;
             InitializeComponent();
-            var cultureString = ServiceIni.Read(IniSection.General, IniKey.Culture, "ru-RU");
-            var logFileSizeLimit = ServiceIni.Read(IniSection.General, IniKey.LogFileSizeLimitKb, 0);
 
-            ServiceLog = new LogFile();
-            ServiceLog.AssignFile("DcService.log", logFileSizeLimit, cultureString);
 
             ServiceLog.EmptyLine();
             ServiceLog.EmptyLine('-');
