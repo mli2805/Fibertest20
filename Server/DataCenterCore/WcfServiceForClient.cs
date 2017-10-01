@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.ServiceModel;
 using System.Threading.Tasks;
 using Dto;

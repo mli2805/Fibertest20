@@ -2,7 +2,6 @@
 using System.ServiceProcess;
 using System.Threading;
 using DataCenterCore;
-using Dto;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.DataCenterService
