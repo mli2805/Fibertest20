@@ -33,25 +33,26 @@ namespace Graph.Tests
             builder.RegisterType<FakeClientWcfServiceHost>().As<IClientWcfServiceHost>();
 
             var clients = new ConcurrentDictionary<Guid, ClientStation>(); // ??? Ask
-            builder.Register<IWcfServiceForClient>(ctx => new WcfServiceForClient(clients)).SingleInstance();
+            builder.Register<IWcfServiceForClient>(ctx =>
+                new WcfServiceForClient(clients, null)).SingleInstance();
 
             builder.RegisterInstance(LoggerForTests = new LoggerConfiguration()
                 .WriteTo.Console().CreateLogger()).As<ILogger>();
 
             builder.RegisterInstance<IMyLog>(new NullLog());
-            
+
             var container = builder.Build();
 
             Poller = container.Resolve<ClientPoller>();
-            FakeWindowManager =(FakeWindowManager) container.Resolve<IWindowManager>();
+            FakeWindowManager = (FakeWindowManager)container.Resolve<IWindowManager>();
             ReadModel = container.Resolve<ReadModel>();
 
-            ShellVm = (ShellViewModel) container.Resolve<IShell>();
+            ShellVm = (ShellViewModel)container.Resolve<IShell>();
         }
 
         public Iit.Fibertest.Graph.Trace CreateTraceRtuEmptyTerminal()
         {
-            ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation() {Latitude = 55, Longitude = 30}).Wait();
+            ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation() { Latitude = 55, Longitude = 30 }).Wait();
             Poller.Tick();
             var nodeForRtuId = ReadModel.Rtus.Last().NodeId;
 
@@ -59,12 +60,12 @@ namespace Graph.Tests
             Poller.Tick();
             var firstNodeId = ReadModel.Nodes.Last().Id;
 
-            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() {Type = EquipmentType.Terminal}).Wait();
+            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait();
             Poller.Tick();
             var secondNodeId = ReadModel.Nodes.Last().Id;
 
-            ShellVm.ComplyWithRequest(new AddFiber() {Node1 = nodeForRtuId, Node2 = firstNodeId}).Wait();
-            ShellVm.ComplyWithRequest(new AddFiber() {Node1 = firstNodeId, Node2 = secondNodeId }).Wait();
+            ShellVm.ComplyWithRequest(new AddFiber() { Node1 = nodeForRtuId, Node2 = firstNodeId }).Wait();
+            ShellVm.ComplyWithRequest(new AddFiber() { Node1 = firstNodeId, Node2 = secondNodeId }).Wait();
             Poller.Tick();
 
             return DefineTrace(secondNodeId, nodeForRtuId);
@@ -76,7 +77,7 @@ namespace Graph.Tests
             FakeWindowManager.RegisterHandler(model => QuestionAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
             FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
             FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, @"some title", "", Answer.Yes));
-            ShellVm.ComplyWithRequest(new RequestAddTrace() {LastNodeId = lastNodeId, NodeWithRtuId = nodeForRtuId});
+            ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = lastNodeId, NodeWithRtuId = nodeForRtuId });
             Poller.Tick();
             return ShellVm.ReadModel.Traces.Last();
         }
@@ -207,7 +208,7 @@ namespace Graph.Tests
     {
         public void StartWcfListener()
         {
-            
+
         }
     }
 }

@@ -54,15 +54,14 @@ namespace DataCenterCore
         {
             ServiceForClientHost?.Close();
 
-            WcfServiceForClient.ServiceIniFile = _coreIni;
-            WcfServiceForClient.ServiceLog = _dcLog;
-            WcfServiceForClient.MessageReceived += WcfServiceForClient_MessageReceived;
+            var instance = new WcfServiceForClient(_clientComps, 
+                new MyListener(_coreIni, _dcLog, WcfServiceForClient_MessageReceived));
 
             try
             {
                 var uri = new Uri(WcfFactory.CombineUriString(@"localhost", (int)TcpPorts.ServerListenToClient, @"WcfServiceForClient"));
 
-                ServiceForClientHost = new ServiceHost(new WcfServiceForClient(_clientComps), uri);
+                ServiceForClientHost = new ServiceHost(instance, uri);
                 ServiceForClientHost.AddServiceEndpoint(typeof(IWcfServiceForClient),
                     WcfFactory.CreateDefaultNetTcpBinding(_coreIni), uri);
                 ServiceForClientHost.Open();
@@ -79,7 +78,6 @@ namespace DataCenterCore
         {
             ServiceForRtuHost?.Close();
 
-            WcfServiceForClient.ServiceIniFile = _coreIni;
             WcfServiceForRtu.ServiceLog = _dcLog;
             WcfServiceForRtu.MessageReceived += WcfServiceForRtu_MessageReceived;
 

@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EventStoreService.cs" />
     <Compile Include="LastConnectionTimeChecker.cs" />
     <Compile Include="DcManager.OnClientRequestsReactions.cs" />
     <Compile Include="DcManager.OnRtuRequestReactions.cs" />
