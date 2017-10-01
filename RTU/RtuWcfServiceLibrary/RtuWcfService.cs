@@ -18,25 +18,17 @@ namespace RtuWcfServiceLibrary
 
         private readonly object _lockWcfObj = new object();
 
-
-        private async Task<RtuInitializedDto> LongTask(InitializeRtuDto dto)
-        {
-            ServiceLog.AppendLine("Request for long task received...");
-            Thread.Sleep(TimeSpan.FromSeconds(10));
-            var result = new RtuInitializedDto() { Version = $"I detained {dto.ClientId.First6()} for 10 seconds" };
-            return result;
-        }
-
+       
         private async Task<RtuInitializedDto> InitializeAndAnswerAsync(InitializeRtuDto dto)
         {
-            
-            return await LongTask(dto);
+            ServiceLog.AppendLine("Request for long task received...");
+            await TaskEx.Delay(TimeSpan.FromSeconds(10));
+            return new RtuInitializedDto
+            {
+                Version = $"I detained {dto.ClientId.First6()} for 10 seconds"
+            };
         }
-
-        public RtuInitializedDto InitializeAndAnswer(InitializeRtuDto dto)
-        {
-            return InitializeAndAnswerAsync(dto).Result;
-        }
+        
 
         public IAsyncResult BeginInitializeAndAnswer(InitializeRtuDto dto, AsyncCallback callback, object asyncState)
         {
