@@ -81,6 +81,10 @@
       <Project>{BCA77A87-7253-464B-9721-14673268BA42}</Project>
       <Name>DataCenterService</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WcfServiceForClient\WcfServiceForClientInterface.csproj">
+      <Project>{72F6524C-E7EE-4DFD-8AE2-15A4E5225D3B}</Project>
+      <Name>WcfServiceForClientInterface</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

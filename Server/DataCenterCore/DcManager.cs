@@ -20,7 +20,7 @@ namespace DataCenterCore
         private readonly IniFile _coreIni;
 
         private readonly ConcurrentDictionary<Guid, RtuStation> _rtuStations;
-        private readonly ConcurrentDictionary<Guid, ClientStation> _clientComps;
+        public readonly ConcurrentDictionary<Guid, ClientStation> _clientComps;
         private readonly object _clientStationsLockObj = new object();
         private readonly List<ClientStation> _clientStations;
 
@@ -31,6 +31,7 @@ namespace DataCenterCore
             _clientComps = new ConcurrentDictionary<Guid, ClientStation>();
             _rtuStations = InitializeRtuStationListFromDb();
             _clientStations = new List<ClientStation>();
+            _wcfServiceForClient = new WcfServiceForClient(this, _coreIni, _dcLog);
         }
 
         public void Start()
@@ -48,20 +49,17 @@ namespace DataCenterCore
 
         internal static ServiceHost ServiceForRtuHost;
         internal static ServiceHost ServiceForClientHost;
+        private WcfServiceForClient _wcfServiceForClient;
 
 
         private void StartWcfListenerToClient()
         {
             ServiceForClientHost?.Close();
-
-            var instance = new WcfServiceForClient(_clientComps, this,
-                _coreIni, _dcLog);
-
             try
             {
                 var uri = new Uri(WcfFactory.CombineUriString(@"localhost", (int)TcpPorts.ServerListenToClient, @"WcfServiceForClient"));
 
-                ServiceForClientHost = new ServiceHost(instance, uri);
+                ServiceForClientHost = new ServiceHost(_wcfServiceForClient, uri);
                 ServiceForClientHost.AddServiceEndpoint(typeof(IWcfServiceForClient),
                     WcfFactory.CreateDefaultNetTcpBinding(_coreIni), uri);
                 ServiceForClientHost.Open();

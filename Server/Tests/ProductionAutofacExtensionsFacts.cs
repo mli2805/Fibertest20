@@ -5,6 +5,7 @@ using DataCenterCore;
 using FluentAssertions;
 using Iit.Fibertest.DataCenterService;
 using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WcfServiceForClientInterface;
 using Xunit;
 
 namespace Tests
@@ -30,6 +31,28 @@ namespace Tests
         public void Injected_Ini_File_Should_Have_Correct_File_Assigned()
         {
             _service1.ServiceIni.FilePath.Should().EndWith("DcService.ini");
+        }
+    }
+
+    public class WcfServiceForClientFacts
+    {
+        private IWcfServiceForClient _sut;
+
+        public WcfServiceForClientFacts()
+        {
+            var builder = new ContainerBuilder()
+                .WithProduction();
+
+            builder.RegisterType<NullLog>().As<IMyLog>();
+
+            var container = builder.Build();
+            _sut = container.Resolve<IWcfServiceForClient>();
+        }
+
+        [Fact]
+        public void FactMethodName()
+        {
+            
         }
     }
     public class DcManagerFacts

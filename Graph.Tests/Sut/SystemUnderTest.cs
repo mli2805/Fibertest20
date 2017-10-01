@@ -32,9 +32,8 @@ namespace Graph.Tests
             builder.RegisterType<FakeWindowManager>().As<IWindowManager>().SingleInstance();
             builder.RegisterType<FakeClientWcfServiceHost>().As<IClientWcfServiceHost>();
 
-            var clients = new ConcurrentDictionary<Guid, ClientStation>(); // ??? Ask
-            builder.Register<IWcfServiceForClient>(ctx =>
-                new WcfServiceForClient(clients, null, null, null)).SingleInstance();
+            builder.RegisterType<DcManager>().SingleInstance();
+            builder.RegisterType<WcfServiceForClient>().As<IWcfServiceForClient>().SingleInstance();
 
             builder.RegisterInstance(LoggerForTests = new LoggerConfiguration()
                 .WriteTo.Console().CreateLogger()).As<ILogger>();

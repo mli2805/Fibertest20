@@ -25,9 +25,9 @@ namespace DataCenterCore
         public string SendCommand(string json) => _service.SendCommand(json);
         public string[] GetEvents(int revision) => _service.GetEvents(revision);
 
-        public WcfServiceForClient(ConcurrentDictionary<Guid, ClientStation> clientComps, DcManager dcManager, IniFile serviceIniFile, IMyLog serviceLog)
+        public WcfServiceForClient(DcManager dcManager, IniFile serviceIniFile, IMyLog serviceLog)
         {
-            ClientComps = clientComps;
+            ClientComps = dcManager._clientComps;
             _dcManager = dcManager;
             ServiceIniFile = serviceIniFile;
             ServiceLog = serviceLog;
