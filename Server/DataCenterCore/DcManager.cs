@@ -15,7 +15,7 @@ namespace DataCenterCore
 {
     public partial class DcManager
     {
-        private readonly DoubleAddress _serverDoubleAddress;
+        private DoubleAddress _serverDoubleAddress;
         private readonly IMyLog _dcLog;
         private readonly IniFile _coreIni;
 
@@ -24,29 +24,24 @@ namespace DataCenterCore
         private readonly object _clientStationsLockObj = new object();
         private readonly List<ClientStation> _clientStations;
 
-        public DcManager(DoubleAddress serverDoubleAddress)
+        public DcManager(IMyLog dcLog, IniFile coreIni)
         {
-            _serverDoubleAddress = serverDoubleAddress;
-            _coreIni = new IniFile();
-            _coreIni.AssignFile("DcCore.ini");
-
-            _dcLog = new LogFile(_coreIni).WithFile("DcCore.log");
-            _dcLog.EmptyLine();
-            _dcLog.EmptyLine('-');
-
+            _dcLog = dcLog;
+            _coreIni = coreIni;
             _clientComps = new ConcurrentDictionary<Guid, ClientStation>();
             _rtuStations = InitializeRtuStationListFromDb();
+            _clientStations = new List<ClientStation>();
+        }
 
-            lock (_clientStationsLockObj)
-            {
-                _clientStations = new List<ClientStation>();
-            }
+        public void Start()
+        {
+            _serverDoubleAddress = _coreIni.ReadDoubleAddress((int)TcpPorts.ServerListenToRtu);
 
             StartWcfListenerToClient();
             StartWcfListenerToRtu();
 
-            var lastConnectionTimeChecker = new LastConnectionTimeChecker(_dcLog, _coreIni);
-            lastConnectionTimeChecker.RtuStations = _rtuStations;
+            var lastConnectionTimeChecker =
+                new LastConnectionTimeChecker(_dcLog, _coreIni) { RtuStations = _rtuStations };
             var thread = new Thread(lastConnectionTimeChecker.Start) { IsBackground = true };
             thread.Start();
         }
@@ -192,5 +187,6 @@ namespace DataCenterCore
         }
 
         #endregion
+
     }
 }

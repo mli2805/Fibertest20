@@ -73,6 +73,10 @@
       <Project>{716240FF-D1E8-4BD3-9E63-431382617398}</Project>
       <Name>UtilsLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DataCenterCore\DataCenterCore.csproj">
+      <Project>{6BA3EA08-6BDB-4B2D-8729-409E136D4D74}</Project>
+      <Name>DataCenterCore</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataCenterService\DataCenterService.csproj">
       <Project>{BCA77A87-7253-464B-9721-14673268BA42}</Project>
       <Name>DataCenterService</Name>

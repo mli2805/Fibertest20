@@ -12,10 +12,11 @@ namespace Iit.Fibertest.DataCenterService
         public IniFile ServiceIni { get; }
         public IMyLog ServiceLog { get; }
 
-        private DcManager _dcManager;
+        private readonly DcManager _dcManager;
 
-        public Service1(IniFile serviceIni, IMyLog serviceLog)
+        public Service1(IniFile serviceIni, IMyLog serviceLog, DcManager dcManager)
         {
+            _dcManager = dcManager;
             ServiceIni = serviceIni;
             ServiceLog = serviceLog;
             InitializeComponent();
@@ -31,8 +32,7 @@ namespace Iit.Fibertest.DataCenterService
             var tid = Thread.CurrentThread.ManagedThreadId;
             ServiceLog.AppendLine($"Windows service started. Process {pid}, thread {tid}");
 
-            var serverAddress = ServiceIni.ReadDoubleAddress((int) TcpPorts.ServerListenToRtu);
-            _dcManager = new DcManager(serverAddress);
+            _dcManager.Start();
         }
 
         protected override void OnStop()

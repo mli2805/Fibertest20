@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.ServiceProcess;
 using Autofac;
+using DataCenterCore;
 using FluentAssertions;
 using Iit.Fibertest.DataCenterService;
 using Iit.Fibertest.UtilsLib;
@@ -30,7 +31,26 @@ namespace Tests
         {
             _service1.ServiceIni.FilePath.Should().EndWith("DcService.ini");
         }
+    }
+    public class DcManagerFacts
+    {
+        private DcManager _sut;
 
+        public DcManagerFacts()
+        {
+            var builder = new ContainerBuilder()
+                .WithProduction();
 
+            builder.RegisterType<NullLog>().As<IMyLog>();
+
+            var container = builder.Build();
+            _sut = container.Resolve<DcManager>();
+        }
+
+        [Fact]
+        public void Start()
+        {
+            //_sut.Start();
+        }
     }
 }

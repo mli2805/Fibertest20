@@ -1,5 +1,6 @@
 ﻿using System.ServiceProcess;
 using Autofac;
+using DataCenterCore;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.DataCenterService
@@ -13,6 +14,7 @@ namespace Iit.Fibertest.DataCenterService
                 new LogFile(ctx.Resolve<IniFile>()).WithFile("DcService.log"));
 
             builder.RegisterType<Service1>().As<ServiceBase>();
+            builder.RegisterType<DcManager>();
 
             return builder;
         }
