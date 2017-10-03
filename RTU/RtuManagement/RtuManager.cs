@@ -103,7 +103,7 @@ namespace RtuManagement
             _rtuIni = new IniFile();
             _rtuIni.AssignFile("RtuManager.ini");
           
-            _rtuLog = new LogFile(_rtuIni).WithFile("RtuManager.log");
+            _rtuLog = new LogFile(_rtuIni).AssignFile("RtuManager.log");
 
             _mikrotikRebootTimeout =
                 TimeSpan.FromSeconds(_rtuIni.Read(IniSection.Recovering, IniKey.MikrotikRebootTimeout, 40));

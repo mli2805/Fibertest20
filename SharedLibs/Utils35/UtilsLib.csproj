@@ -82,7 +82,9 @@
     <Compile Include="IniFile\IniSection.cs" />
     <Compile Include="LedDisplay.cs" />
     <Compile Include="LedDisplayCode.cs" />
-    <Compile Include="IMyLog.cs" />
+    <Compile Include="LogFile\IMyLog.cs" />
+    <Compile Include="LogFile\LogFile.cs" />
+    <Compile Include="LogFile\NullLog.cs" />
     <Compile Include="Mikrotik.cs" />
     <Compile Include="MikrotikInBop.cs" />
     <Compile Include="Pinger.cs" />

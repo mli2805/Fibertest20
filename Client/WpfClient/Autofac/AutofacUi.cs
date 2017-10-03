@@ -33,7 +33,7 @@ namespace Iit.Fibertest.Client
             
             builder.Register<IMyLog>(ctx =>
             {
-                var logFile = new LogFile(ctx.Resolve<IniFile>()).WithFile(@"Client.log");
+                var logFile = new LogFile(ctx.Resolve<IniFile>()).AssignFile(@"Client.log");
                 logFile.EmptyLine();
                 logFile.EmptyLine('-');
                 return logFile;

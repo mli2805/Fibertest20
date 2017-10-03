@@ -12,7 +12,7 @@ namespace Iit.Fibertest.DataCenterService
         {
             builder.RegisterInstance(new IniFile().AssignFile("DcService.ini"));
             builder.Register<IMyLog>(ctx =>
-                new LogFile(ctx.Resolve<IniFile>()).WithFile("DcService.log"));
+                new LogFile(ctx.Resolve<IniFile>()).AssignFile("DcService.log"));
 
             builder.RegisterType<Service1>().As<ServiceBase>().SingleInstance();
             builder.RegisterType<BootstrapServiceForClientHost>().SingleInstance();

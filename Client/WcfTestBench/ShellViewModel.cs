@@ -16,7 +16,7 @@ namespace WcfTestBench
             _clientIniFile.AssignFile("Client.ini");
             var culture = _clientIniFile.Read(IniSection.General, IniKey.Culture, "ru-RU");
 
-            _clientLog = new LogFile(_clientIniFile).WithFile("Client.log");
+            _clientLog = new LogFile(_clientIniFile).AssignFile("Client.log");
 
             Thread.CurrentThread.CurrentCulture = new CultureInfo(culture);
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(culture);

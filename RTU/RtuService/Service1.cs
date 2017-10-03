@@ -24,7 +24,7 @@ namespace RtuService
             _serviceIni = new IniFile();
             _serviceIni.AssignFile("RtuService.ini");
 
-            _serviceLog = new LogFile(_serviceIni).WithFile("RtuService.log");
+            _serviceLog = new LogFile(_serviceIni).AssignFile("RtuService.log");
 
             _serviceLog.EmptyLine();
             _serviceLog.EmptyLine('-');
