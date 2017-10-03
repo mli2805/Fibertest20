@@ -18,12 +18,10 @@ namespace Iit.Fibertest.DataCenterService
         {
             IniFile = iniFile;
             LogFile = logFile;
+            LogFile.AssignFile("DataCenter.log");
             _dcManager = dcManager;
             _wcfServiceForClientBootstrapper = wcfServiceForClientBootstrapper;
             InitializeComponent();
-
-//            LogFile.EmptyLine();
-//            LogFile.EmptyLine('-');
         }
 
         protected override void OnStart(string[] args)

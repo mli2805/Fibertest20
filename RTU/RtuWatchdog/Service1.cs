@@ -17,8 +17,6 @@ namespace RtuWatchdog
 
             _watchdogLog = new LogFile(_watchdogIni).AssignFile("RtuWatchdog.log");
 
-            _watchdogLog.EmptyLine();
-            _watchdogLog.EmptyLine('-');
             var pid = Process.GetCurrentProcess().Id;
             var tid = Thread.CurrentThread.ManagedThreadId;
             _watchdogLog.AppendLine($"RTU Watchdog service started. Process {pid}, thread {tid}");

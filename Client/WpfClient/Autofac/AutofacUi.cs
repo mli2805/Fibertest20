@@ -31,13 +31,8 @@ namespace Iit.Fibertest.Client
 
 
             
-            builder.Register<IMyLog>(ctx =>
-            {
-                var logFile = new LogFile(ctx.Resolve<IniFile>()).AssignFile(@"Client.log");
-                logFile.EmptyLine();
-                logFile.EmptyLine('-');
-                return logFile;
-            }).SingleInstance();
+            builder.Register(
+                ctx => new LogFile(ctx.Resolve<IniFile>()).AssignFile(@"Client.log")).SingleInstance();
 
             var clientId = Guid.Parse(iniFile.Read(IniSection.General, IniKey.ClientGuidOnServer, Guid.NewGuid().ToString()));
             var serverAddresses = iniFile.ReadDoubleAddress(11840);

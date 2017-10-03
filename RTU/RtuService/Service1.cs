@@ -25,9 +25,6 @@ namespace RtuService
             _serviceIni.AssignFile("RtuService.ini");
 
             _serviceLog = new LogFile(_serviceIni).AssignFile("RtuService.log");
-
-            _serviceLog.EmptyLine();
-            _serviceLog.EmptyLine('-');
         }
 
         protected override void OnStart(string[] args)

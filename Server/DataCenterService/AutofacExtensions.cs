@@ -14,13 +14,13 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterInstance(iniFile);
 
 //            builder.Register<IMyLog>(ctx =>
-//                new LogFile(ctx.Resolve<LogFile>(iniFile)).AssignFile("DcService.log"));
+//                new LogFile(ctx.Resolve<IniFile>()).AssignFile("DataCenter.log"));
 
-            var logFile = new LogFile(iniFile).AssignFile("DataCenter.log");
-            logFile.EmptyLine();
-            logFile.EmptyLine('-');
-
+//            var logFile = new LogFile(iniFile).AssignFile("DataCenter.log");
+// file will be assigned before first usage ( in Service1 ctor )
+            var logFile = new LogFile(iniFile);
             builder.RegisterInstance<IMyLog>(logFile);
+
             builder.RegisterType<DcManager>().SingleInstance();
             builder.RegisterType<WcfServiceForClient>().As<IWcfServiceForClient>().SingleInstance();
             builder.RegisterType<WcfServiceForClientBootstrapper>().SingleInstance();

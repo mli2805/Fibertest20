@@ -24,12 +24,4 @@
   <UseCPUArchitecture>AutoDetect</UseCPUArchitecture>
   <MSTestThreadApartmentState>STA</MSTestThreadApartmentState>
   <BuildProcessArchitecture>x86</BuildProcessArchitecture>
-  <IgnoredTests>
-    <NamedTestSelector>
-      <TestName>Tests.WcfServiceForClientFacts.FactMethodName</TestName>
-    </NamedTestSelector>
-    <NamedTestSelector>
-      <TestName>Tests.ProductionAutofacExtensionsFacts.Injected_Ini_File_Should_Have_Correct_File_Assigned</TestName>
-    </NamedTestSelector>
-  </IgnoredTests>
 </ProjectConfiguration>

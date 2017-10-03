@@ -17,8 +17,6 @@ namespace ConsoleAppOtdr
 //
             var logger35 = new LogFile(iniFile35).AssignFile("service.log");
 //
-//            logger35.EmptyLine();
-//            logger35.EmptyLine('-');
 //            logger35.AppendLine("Application started.");
 
             var rtuManager = new RtuManager(logger35, iniFile35);

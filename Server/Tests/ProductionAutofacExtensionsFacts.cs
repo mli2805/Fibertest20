@@ -30,7 +30,7 @@ namespace Tests
         [Fact]
         public void Injected_Ini_File_Should_Have_Correct_File_Assigned()
         {
-            _service1.IniFile.FilePath.Should().EndWith("DcService.ini");
+            _service1.IniFile.FilePath.Should().EndWith("DataCenter.ini");
         }
     }
 

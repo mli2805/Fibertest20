@@ -6,8 +6,9 @@ namespace Iit.Fibertest.UtilsLib
         {
         }
 
-        public void AssignFile(string filename, int sizeLimitKb, string culture = "ru-RU")
+        public IMyLog AssignFile(string filename)
         {
+            return null;
         }
 
         public void EmptyLine(char ch = ' ')

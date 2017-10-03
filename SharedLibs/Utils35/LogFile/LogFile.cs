@@ -23,7 +23,7 @@ namespace Iit.Fibertest.UtilsLib
             SizeLimitKb = config.Read(IniSection.General, IniKey.LogFileSizeLimitKb, 0);
         }
 
-        public LogFile AssignFile(string filename)
+        public IMyLog AssignFile(string filename)
         {
             if (filename == "")
                 return this;
@@ -34,6 +34,9 @@ namespace Iit.Fibertest.UtilsLib
             {
                 _logFile = File.AppendText(LogFullFileName);
                 _logFile.AutoFlush = true;
+
+                EmptyLine();
+                EmptyLine('-');
             }
             return this;
         }
