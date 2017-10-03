@@ -9,7 +9,7 @@ using WcfConnections;
 
 namespace Iit.Fibertest.DataCenterCore
 {
-    public class BootstrapServiceForClient : IDisposable
+    public class WcfServiceForClientBootstrapper : IDisposable
     {
         private readonly IniFile _config;
         private readonly IMyLog _log;
@@ -17,13 +17,12 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly ILifetimeScope _container;
         private ServiceHost _host;
 
-        public BootstrapServiceForClient(IniFile config, IMyLog log, IWcfServiceForClient wcfServiceForClient,  ILifetimeScope container)
+        public WcfServiceForClientBootstrapper(IniFile config, IMyLog log, IWcfServiceForClient wcfServiceForClient,  ILifetimeScope container)
         {
             _config = config;
             _log = log;
             _wcfServiceForClient = wcfServiceForClient;
             _container = container;
-            _log.AppendLine("BootstrapServiceForClient ctor finished");
         }
 
         public void Start()

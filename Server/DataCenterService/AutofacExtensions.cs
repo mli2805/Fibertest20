@@ -17,20 +17,14 @@ namespace Iit.Fibertest.DataCenterService
 //                new LogFile(ctx.Resolve<LogFile>(iniFile)).AssignFile("DcService.log"));
 
             var logFile = new LogFile(iniFile).AssignFile("DataCenter.log");
+            logFile.EmptyLine();
+            logFile.EmptyLine('-');
+
             builder.RegisterInstance<IMyLog>(logFile);
-            logFile.AppendLine("Log assigned");
-
             builder.RegisterType<DcManager>().SingleInstance();
-            logFile.AppendLine("DcManager registered");
-
             builder.RegisterType<WcfServiceForClient>().As<IWcfServiceForClient>().SingleInstance();
-            logFile.AppendLine("WcfServiceForClient registered");
-
-            builder.RegisterType<BootstrapServiceForClient>().SingleInstance();
-            logFile.AppendLine("BootstrapServiceForClient registered");
-
+            builder.RegisterType<WcfServiceForClientBootstrapper>().SingleInstance();
             builder.RegisterType<Service1>().As<ServiceBase>().SingleInstance();
-            logFile.AppendLine("Service1 registered");
 
             return builder;
         }

@@ -56,7 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BootstrapServiceForClient.cs" />
+    <Compile Include="WcfServiceForClientBootstrapper.cs" />
     <Compile Include="EventStoreService.cs" />
     <Compile Include="LastConnectionTimeChecker.cs" />
     <Compile Include="DcManager.OnClientRequestsReactions.cs" />

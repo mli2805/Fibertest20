@@ -28,7 +28,6 @@ namespace Iit.Fibertest.DataCenterCore
             _logFile = logFile;
             _iniFile = iniFile;
             _serverDoubleAddress = _iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToRtu);
-            _logFile.AppendLine("DcManager ctor finished");
         }
 
         public void Start()

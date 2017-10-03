@@ -25,10 +25,8 @@ namespace Iit.Fibertest.DataCenterCore
 
         public WcfServiceForClient(DcManager dcManager, IniFile iniFile, IMyLog logFile)
         {
-            logFile.AppendLine("WcfServiceForClient ctor1");
             _iniFile = iniFile;
             _logFile = logFile;
-            _logFile.AppendLine("WcfServiceForClient ctor");
             _dcManager = dcManager;
         }
 

@@ -12,19 +12,18 @@ namespace Iit.Fibertest.DataCenterService
         private IMyLog LogFile { get; }
 
         private readonly DcManager _dcManager;
-        private readonly BootstrapServiceForClient _bootstrapServiceForClient;
+        private readonly WcfServiceForClientBootstrapper _wcfServiceForClientBootstrapper;
 
-        public Service1(IniFile iniFile, IMyLog logFile, DcManager dcManager, BootstrapServiceForClient bootstrapServiceForClient)
+        public Service1(IniFile iniFile, IMyLog logFile, DcManager dcManager, WcfServiceForClientBootstrapper wcfServiceForClientBootstrapper)
         {
             IniFile = iniFile;
             LogFile = logFile;
-            LogFile.AppendLine("I'm in Service1 ctor");
             _dcManager = dcManager;
-            _bootstrapServiceForClient = bootstrapServiceForClient;
+            _wcfServiceForClientBootstrapper = wcfServiceForClientBootstrapper;
             InitializeComponent();
 
-            LogFile.EmptyLine();
-            LogFile.EmptyLine('-');
+//            LogFile.EmptyLine();
+//            LogFile.EmptyLine('-');
         }
 
         protected override void OnStart(string[] args)
@@ -34,7 +33,7 @@ namespace Iit.Fibertest.DataCenterService
             LogFile.AppendLine($"Windows service started. Process {pid}, thread {tid}");
 
             _dcManager.Start();
-            _bootstrapServiceForClient.Start();
+            _wcfServiceForClientBootstrapper.Start();
         }
 
         protected override void OnStop()
