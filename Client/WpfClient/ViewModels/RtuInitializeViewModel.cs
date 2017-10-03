@@ -59,8 +59,6 @@ namespace Iit.Fibertest.Client
         private readonly IWindowManager _windowManager;
         private readonly Bus _bus;
         private readonly ILogger _log;
-        private readonly IniFile _iniFile35;
-        private readonly IMyLog _logFile;
 
         public Rtu OriginalRtu
         {
@@ -98,17 +96,17 @@ namespace Iit.Fibertest.Client
             _windowManager = windowManager;
             _bus = bus;
             _log = log;
-            _iniFile35 = iniFile35;
-            _logFile = logFile;
+            var iniFile36 = iniFile35;
+            var logFile1 = logFile;
 
             OriginalRtu = readModel.Rtus.First(r => r.Id == RtuId);
             Comment = OriginalRtu.Comment;
             Serial = OriginalRtu.Serial;
             PortCount = $@"{OriginalRtu.OwnPortCount} / {OriginalRtu.FullPortCount}";
             OtdrNetAddress = OriginalRtu.OtdrNetAddress;
-            var serverAddress = _iniFile35.ReadDoubleAddress(11842);
-            MainChannelTestViewModel = new NetAddressTestViewModel(OriginalRtu.MainChannel, _iniFile35, _logFile, clientId, serverAddress.Main);
-            ReserveChannelTestViewModel = new NetAddressTestViewModel(OriginalRtu.ReserveChannel, _iniFile35, _logFile, clientId, serverAddress.Reserve);
+            var serverAddress = iniFile36.ReadDoubleAddress(11842);
+            MainChannelTestViewModel = new NetAddressTestViewModel(OriginalRtu.MainChannel, iniFile36, logFile1, clientId, serverAddress.Main);
+            ReserveChannelTestViewModel = new NetAddressTestViewModel(OriginalRtu.ReserveChannel, iniFile36, logFile1, clientId, serverAddress.Reserve);
             IsReserveChannelEnabled = OriginalRtu.IsReserveChannelSet;
             ClientWcfService.MessageReceived += ClientWcfService_MessageReceived;
         }

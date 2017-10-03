@@ -1,6 +1,5 @@
 ﻿using System.ServiceModel;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForRtuInterface;
 
 namespace Iit.Fibertest.DataCenterCore

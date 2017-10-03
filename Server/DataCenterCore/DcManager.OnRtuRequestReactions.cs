@@ -9,47 +9,6 @@ namespace Iit.Fibertest.DataCenterCore
 {
     public partial class DcManager
     {
-        private bool WcfServiceForRtu_MessageReceived(object msg)
-        {
-            var dtoC0 = msg as RtuConnectionCheckedDto;
-            if (dtoC0 != null)
-                return ProcessRtuConnectionChecked(dtoC0);
-
-            var dtoC1 = msg as RtuInitializedDto;
-            if (dtoC1 != null)
-                return ConfirmRtuInitialized(dtoC1);
-
-            var dtoC2 = msg as MonitoringStartedDto;
-            if (dtoC2 != null)
-                return ConfirmMonitoringStarted(dtoC2);
-
-            var dtoC3 = msg as MonitoringStoppedDto;
-            if (dtoC3 != null)
-                return ConfirmMonitoringStopped(dtoC3);
-
-            var dtoC4 = msg as MonitoringSettingsAppliedDto;
-            if (dtoC4 != null)
-                return ConfirmMonitoringSettingsApplied(dtoC4);
-
-            var dtoC5 = msg as BaseRefAssignedDto;
-            if (dtoC5 != null)
-                return ConfirmBaseRefAssigned(dtoC5);
-
-            var dtoR0 = msg as KnowRtuCurrentMonitoringStepDto;
-            if (dtoR0 != null)
-                return ProcessRtuCurrentMonitoringStep(dtoR0);
-
-            var dtoR1 = msg as RtuChecksChannelDto;
-            if (dtoR1 != null)
-                return ProcessRtuChecksChannel(dtoR1);
-
-            var dtoR2 = msg as MonitoringResultDto;
-            if (dtoR2 != null)
-                return ProcessMonitoringResult(dtoR2);
-
-            return false;
-        }
-
         #region RTU confirms
         public bool ProcessRtuConnectionChecked(RtuConnectionCheckedDto dto)
         {
