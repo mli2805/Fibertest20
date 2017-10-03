@@ -3,6 +3,7 @@ using Autofac;
 using Iit.Fibertest.DataCenterCore;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
+using Iit.Fibertest.WcfServiceForRtuInterface;
 
 namespace Iit.Fibertest.DataCenterService
 {
@@ -17,13 +18,16 @@ namespace Iit.Fibertest.DataCenterService
 //                new LogFile(ctx.Resolve<IniFile>()).AssignFile("DataCenter.log"));
 
 //            var logFile = new LogFile(iniFile).AssignFile("DataCenter.log");
-// file will be assigned before first usage ( in Service1 ctor )
+// filename will be assigned before first usage ( in Service1 ctor )
             var logFile = new LogFile(iniFile);
             builder.RegisterInstance<IMyLog>(logFile);
 
             builder.RegisterType<DcManager>().SingleInstance();
             builder.RegisterType<WcfServiceForClient>().As<IWcfServiceForClient>().SingleInstance();
             builder.RegisterType<WcfServiceForClientBootstrapper>().SingleInstance();
+            builder.RegisterType<WcfServiceForRtu>().As<IWcfServiceForRtu>().SingleInstance();
+            builder.RegisterType<WcfServiceForRtuBootstrapper>().SingleInstance();
+
             builder.RegisterType<Service1>().As<ServiceBase>().SingleInstance();
 
             return builder;

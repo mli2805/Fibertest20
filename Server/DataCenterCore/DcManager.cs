@@ -36,41 +36,13 @@ namespace Iit.Fibertest.DataCenterCore
             _rtuStations = InitializeRtuStationListFromDb();
             _clientStations = new List<ClientStation>();
 
-            StartWcfListenerToRtu();
-
             var lastConnectionTimeChecker =
                 new LastConnectionTimeChecker(_logFile, _iniFile) { RtuStations = _rtuStations };
             var thread = new Thread(lastConnectionTimeChecker.Start) { IsBackground = true };
             thread.Start();
         }
 
-        internal static ServiceHost ServiceForRtuHost;
-
-
-
-        private void StartWcfListenerToRtu()
-        {
-            ServiceForRtuHost?.Close();
-
-            WcfServiceForRtu.ServiceLog = _logFile;
-            WcfServiceForRtu.MessageReceived += WcfServiceForRtu_MessageReceived;
-
-            try
-            {
-                var uri = new Uri(WcfFactory.CombineUriString(@"localhost", (int)TcpPorts.ServerListenToRtu, @"WcfServiceForRtu"));
-
-                ServiceForRtuHost = new ServiceHost(new WcfServiceForRtu(_rtuStations, _clientComps), uri);
-                ServiceForRtuHost.AddServiceEndpoint(typeof(IWcfServiceForRtu),
-                    WcfFactory.CreateDefaultNetTcpBinding(_iniFile), uri);
-                ServiceForRtuHost.Open();
-                _logFile.AppendLine("RTUs listener started successfully");
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine(e.Message);
-                throw;
-            }
-        }
+    
 
         private ConcurrentDictionary<Guid, RtuStation> InitializeRtuStationListFromDb()
         {

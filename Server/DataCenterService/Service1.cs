@@ -9,18 +9,22 @@ namespace Iit.Fibertest.DataCenterService
     public partial class Service1 : ServiceBase
     {
         public IniFile IniFile { get; }
-        private IMyLog LogFile { get; }
+        private readonly IMyLog _logFile;
 
         private readonly DcManager _dcManager;
         private readonly WcfServiceForClientBootstrapper _wcfServiceForClientBootstrapper;
+        private readonly WcfServiceForRtuBootstrapper _wcfServiceForRtuBootstrapper;
 
-        public Service1(IniFile iniFile, IMyLog logFile, DcManager dcManager, WcfServiceForClientBootstrapper wcfServiceForClientBootstrapper)
+        public Service1(IniFile iniFile, IMyLog logFile, DcManager dcManager, 
+            WcfServiceForClientBootstrapper wcfServiceForClientBootstrapper,
+            WcfServiceForRtuBootstrapper wcfServiceForRtuBootstrapper)
         {
             IniFile = iniFile;
-            LogFile = logFile;
-            LogFile.AssignFile("DataCenter.log");
+            _logFile = logFile;
+            _logFile.AssignFile("DataCenter.log");
             _dcManager = dcManager;
             _wcfServiceForClientBootstrapper = wcfServiceForClientBootstrapper;
+            _wcfServiceForRtuBootstrapper = wcfServiceForRtuBootstrapper;
             InitializeComponent();
         }
 
@@ -28,17 +32,18 @@ namespace Iit.Fibertest.DataCenterService
         {
             var pid = Process.GetCurrentProcess().Id;
             var tid = Thread.CurrentThread.ManagedThreadId;
-            LogFile.AppendLine($"Windows service started. Process {pid}, thread {tid}");
+            _logFile.AppendLine($"Windows service started. Process {pid}, thread {tid}");
 
             _dcManager.Start();
             _wcfServiceForClientBootstrapper.Start();
+            _wcfServiceForRtuBootstrapper.Start();
         }
 
         protected override void OnStop()
         {
             var pid = Process.GetCurrentProcess().Id;
             var tid = Thread.CurrentThread.ManagedThreadId;
-            LogFile.AppendLine($"Windows service stopped. Process {pid}, thread {tid}");
+            _logFile.AppendLine($"Windows service stopped. Process {pid}, thread {tid}");
         }
     }
 }

@@ -10,7 +10,9 @@ namespace Iit.Fibertest.DataCenterCore
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public class WcfServiceForRtu : IWcfServiceForRtu
     {
-        public static IMyLog ServiceLog { get; set; }
+        private readonly DcManager _dcManager;
+        private readonly IniFile _iniFile;
+        private readonly IMyLog _serviceLog;
 
         public static event OnMessageReceived MessageReceived;
         public delegate bool OnMessageReceived(object e);
@@ -18,56 +20,53 @@ namespace Iit.Fibertest.DataCenterCore
         public ConcurrentDictionary<Guid, RtuStation> RtuStations;
         public ConcurrentDictionary<Guid, ClientStation> ClientComps;
 
-//        public WcfServiceForRtu()
-//        {
-//        }
-
-        public WcfServiceForRtu(ConcurrentDictionary<Guid, RtuStation> rtuStations, ConcurrentDictionary<Guid, ClientStation> clientComps)
+        public WcfServiceForRtu(DcManager dcManager, IniFile iniFile, IMyLog logFile)
         {
-            RtuStations = rtuStations;
-            ClientComps = clientComps;
+            _iniFile = iniFile;
+            _serviceLog = logFile;
+            _dcManager = dcManager;
         }
 
-        // RTU responses on DataCenter's (Client's) requestes
 
+        // RTU responses on DataCenter's (Client's) requestes
         public bool ProcessRtuConnectionChecked(RtuConnectionCheckedDto dto)
         {
-            ServiceLog.AppendLine($"Rtu {dto.RtuId} reply on connection check request");
+            _serviceLog.AppendLine($"Rtu {dto.RtuId} reply on connection check request");
             MessageReceived?.Invoke(dto);
             return true;
         }
 
         public bool ProcessRtuInitialized(RtuInitializedDto dto)
         {
-            ServiceLog.AppendLine($"Rtu {dto.Serial} reply on initialize request");
+            _serviceLog.AppendLine($"Rtu {dto.Serial} reply on initialize request");
             MessageReceived?.Invoke(dto);
             return true;
         }
 
         public bool ConfirmStartMonitoring(MonitoringStartedDto dto)
         {
-            ServiceLog.AppendLine($"Rtu {dto.RtuId.First6()} reply on start monitoring request");
+            _serviceLog.AppendLine($"Rtu {dto.RtuId.First6()} reply on start monitoring request");
             MessageReceived?.Invoke(dto);
             return true;
         }
 
         public bool ConfirmStopMonitoring(MonitoringStoppedDto dto)
         {
-            ServiceLog.AppendLine($"Rtu {dto.RtuId.First6()} reply on stop monitoring request");
+            _serviceLog.AppendLine($"Rtu {dto.RtuId.First6()} reply on stop monitoring request");
             MessageReceived?.Invoke(dto);
             return true;
         }
 
         public bool ConfirmMonitoringSettingsApplied(MonitoringSettingsAppliedDto dto)
         {
-            ServiceLog.AppendLine($"Rtu {dto.RtuId.First6()} reply on monitoring settings");
+            _serviceLog.AppendLine($"Rtu {dto.RtuId.First6()} reply on monitoring settings");
             MessageReceived?.Invoke(dto);
             return true;
         }
 
         public bool ConfirmBaseRefAssigned(BaseRefAssignedDto dto)
         {
-            ServiceLog.AppendLine($"Rtu {dto.RtuId.First6()} reply on base ref");
+            _serviceLog.AppendLine($"Rtu {dto.RtuId.First6()} reply on base ref");
             MessageReceived?.Invoke(dto);
             return true;
         }

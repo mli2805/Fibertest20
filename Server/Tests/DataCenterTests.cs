@@ -10,11 +10,11 @@ using Xunit;
 
 namespace Tests
 {
-    public class ProductionAutofacExtensionsFacts
+    public class DataCenterTests
     {
         private readonly Service1 _service1;
 
-        public ProductionAutofacExtensionsFacts()
+        public DataCenterTests()
         {
             var builder = new ContainerBuilder()
                 .WithProduction();
