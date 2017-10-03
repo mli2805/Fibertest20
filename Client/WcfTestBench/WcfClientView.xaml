@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:wcfTestBench="clr-namespace:WcfTestBench"
-        xmlns:dto="clr-namespace:Dto;assembly=Dto"
+        xmlns:dto1="clr-namespace:Iit.Fibertest.Dto;assembly=Iit.Fibertest.Dto"
         mc:Ignorable="d"
         Title="WcfClientView" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen"
         d:DataContext="{d:DesignInstance wcfTestBench:WcfClientViewModel}">
@@ -14,7 +14,7 @@
             <GroupBox Header="DataCenter has addresses" Margin="5,10,0,5" Padding="0,10,0,0">
                 <ItemsControl ItemsSource="{Binding ServerAddressList}">
                     <ItemsControl.ItemTemplate>
-                        <DataTemplate DataType="dto:NetAddress">
+                        <DataTemplate DataType="dto1:NetAddress">
                             <DockPanel>
                                 <TextBlock Text="{Binding ToStringASpace}" TextWrapping="Wrap" Margin="3"/>
                             </DockPanel>

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using Dto;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.DataCenterCore

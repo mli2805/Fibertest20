@@ -1,5 +1,5 @@
 ﻿using System.ServiceModel;
-using Dto;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 
 namespace ClientWcfServiceLibrary

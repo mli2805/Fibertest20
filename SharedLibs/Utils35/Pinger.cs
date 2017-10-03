@@ -1,6 +1,6 @@
 using System.Net.NetworkInformation;
 using System.Text;
-using Dto;
+using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.UtilsLib
 {

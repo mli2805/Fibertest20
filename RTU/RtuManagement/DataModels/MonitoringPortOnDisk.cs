@@ -1,7 +1,7 @@
 using System;
-using Dto;
+using Iit.Fibertest.Dto;
 
-namespace RtuManagement
+namespace Iit.Fibertest.RtuManagement
 {
     [Serializable]
     public class MonitoringPortOnDisk

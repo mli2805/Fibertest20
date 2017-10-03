@@ -1,4 +1,4 @@
-﻿using Dto;
+﻿using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.DirectCharonLibrary
 {

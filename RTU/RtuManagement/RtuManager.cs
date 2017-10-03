@@ -2,12 +2,12 @@
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Reflection;
-using Dto;
 using Iit.Fibertest.DirectCharonLibrary;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.UtilsLib;
 
-namespace RtuManagement
+namespace Iit.Fibertest.RtuManagement
 {
     public partial class RtuManager
     {

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Dto;
 using Iit.Fibertest.DirectCharonLibrary;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
-using WcfConnections;
+using Iit.Fibertest.WcfConnections;
 
-namespace RtuManagement
+namespace Iit.Fibertest.RtuManagement
 {
     public partial class RtuManager
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Dto;
+using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Client
 {

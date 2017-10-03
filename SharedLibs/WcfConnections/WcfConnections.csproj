@@ -7,8 +7,8 @@
     <ProjectGuid>{5194AD3B-E031-4F61-ADED-C1E92999ACF2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WcfConnections</RootNamespace>
-    <AssemblyName>WcfConnections</AssemblyName>
+    <RootNamespace>Iit.Fibertest.WcfConnections</RootNamespace>
+    <AssemblyName>Iit.Fibertest.WcfConnections</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

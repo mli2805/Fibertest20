@@ -1,6 +1,6 @@
 ﻿using System.ServiceProcess;
 
-namespace RtuService
+namespace Iit.Fibertest.RtuService
 {
     static class Program
     {

@@ -1,5 +1,5 @@
-﻿using Iit.Fibertest.UtilsLib;
-using RtuManagement;
+﻿using Iit.Fibertest.RtuManagement;
+using Iit.Fibertest.UtilsLib;
 
 
 namespace ConsoleAppOtdr

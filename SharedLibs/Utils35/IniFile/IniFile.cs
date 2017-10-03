@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Text;
-using Dto;
+using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.UtilsLib
 {

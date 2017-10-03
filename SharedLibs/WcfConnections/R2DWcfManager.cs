@@ -1,8 +1,8 @@
 ﻿using System;
-using Dto;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 
-namespace WcfConnections
+namespace Iit.Fibertest.WcfConnections
 {
     public class R2DWcfManager
     {

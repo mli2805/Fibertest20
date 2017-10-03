@@ -7,8 +7,8 @@
     <ProjectGuid>{277C2787-8886-4B77-B81C-6FC8526803DC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RtuManagement</RootNamespace>
-    <AssemblyName>RtuManagement</AssemblyName>
+    <RootNamespace>Iit.Fibertest.RtuManagement</RootNamespace>
+    <AssemblyName>Iit.Fibertest.RtuManagement</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

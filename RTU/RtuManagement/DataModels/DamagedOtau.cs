@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RtuManagement
+namespace Iit.Fibertest.RtuManagement
 {
     public class DamagedOtau
     {

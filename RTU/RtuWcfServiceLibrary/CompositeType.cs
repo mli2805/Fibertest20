@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace RtuWcfServiceLibrary
+namespace Iit.Fibertest.RtuWcfServiceLibrary
 {
     // Use a data contract as illustrated in the sample below to add composite types to service operations.
     [DataContract]

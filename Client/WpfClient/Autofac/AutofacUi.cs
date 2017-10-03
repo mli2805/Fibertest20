@@ -2,8 +2,8 @@
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WcfConnections;
 using Serilog;
-using WcfConnections;
 
 namespace Iit.Fibertest.Client
 {

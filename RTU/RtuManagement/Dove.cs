@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Threading;
-using Dto;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
-using WcfConnections;
+using Iit.Fibertest.WcfConnections;
 
-namespace RtuManagement
+namespace Iit.Fibertest.RtuManagement
 {
     public class Dove
     {

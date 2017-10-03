@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using Dto;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 
-namespace RtuManagement
+namespace Iit.Fibertest.RtuManagement
 {
     public class MoniResultOnDisk
     {

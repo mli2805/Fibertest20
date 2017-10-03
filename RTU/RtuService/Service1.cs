@@ -3,13 +3,13 @@ using System.Diagnostics;
 using System.ServiceModel;
 using System.ServiceProcess;
 using System.Threading;
-using Dto;
+using Iit.Fibertest.Dto;
+using Iit.Fibertest.RtuManagement;
+using Iit.Fibertest.RtuWcfServiceLibrary;
 using Iit.Fibertest.UtilsLib;
-using RtuManagement;
-using RtuWcfServiceLibrary;
-using WcfConnections;
+using Iit.Fibertest.WcfConnections;
 
-namespace RtuService
+namespace Iit.Fibertest.RtuService
 {
     public partial class Service1 : ServiceBase
     {

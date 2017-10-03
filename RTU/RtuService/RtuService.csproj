@@ -7,8 +7,8 @@
     <ProjectGuid>{922C03AE-B0D7-4007-8788-D16FFAB89F05}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RtuService</RootNamespace>
-    <AssemblyName>RtuService</AssemblyName>
+    <RootNamespace>Iit.Fibertest.RtuService</RootNamespace>
+    <AssemblyName>Iit.Fibertest.RtuService</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

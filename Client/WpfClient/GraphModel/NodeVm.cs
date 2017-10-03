@@ -1,7 +1,7 @@
 ﻿using System;
 using Caliburn.Micro;
-using Dto;
 using GMap.NET;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client

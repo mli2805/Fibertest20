@@ -7,8 +7,8 @@
     <ProjectGuid>{521CB593-76D9-40A5-A5AD-C8845BDF103B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RtuWatchdog</RootNamespace>
-    <AssemblyName>RtuWatchdog</AssemblyName>
+    <RootNamespace>Iit.Fibertest.RtuWatchdog</RootNamespace>
+    <AssemblyName>Iit.Fibertest.RtuWatchdog</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

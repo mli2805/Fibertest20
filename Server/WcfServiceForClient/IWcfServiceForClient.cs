@@ -1,6 +1,6 @@
 ﻿using System.ServiceModel;
 using System.Threading.Tasks;
-using Dto;
+using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.WcfServiceForClientInterface
 {

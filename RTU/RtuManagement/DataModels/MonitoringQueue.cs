@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web.Script.Serialization;
-using Dto;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 
-namespace RtuManagement
+namespace Iit.Fibertest.RtuManagement
 {
     public class MonitoringQueue
     {

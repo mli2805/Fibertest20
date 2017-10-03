@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
-using Dto;
 using Iit.Fibertest.DirectCharonLibrary;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WpfCommonViews;

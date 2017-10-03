@@ -1,6 +1,6 @@
 ﻿using System.ServiceProcess;
 
-namespace RtuWatchdog
+namespace Iit.Fibertest.RtuWatchdog
 {
     static class Program
     {

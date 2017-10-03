@@ -1,4 +1,4 @@
-﻿namespace RtuWatchdog
+﻿namespace Iit.Fibertest.RtuWatchdog
 {
     partial class ProjectInstaller
     {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace RtuService
+namespace Iit.Fibertest.RtuService
 {
     [RunInstaller(true)]
     public partial class ProjectInstaller : System.Configuration.Install.Installer

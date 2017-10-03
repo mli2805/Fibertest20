@@ -2,7 +2,7 @@
 using System.Threading;
 using Iit.Fibertest.UtilsLib;
 
-namespace RtuManagement
+namespace Iit.Fibertest.RtuManagement
 {
     public partial class RtuManager
     {

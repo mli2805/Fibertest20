@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
-using Dto;
 using Iit.Fibertest.DirectCharonLibrary;
-using WcfConnections;
+using Iit.Fibertest.Dto;
+using Iit.Fibertest.WcfConnections;
 
-namespace RtuManagement
+namespace Iit.Fibertest.RtuManagement
 {
     public partial class RtuManager
     {

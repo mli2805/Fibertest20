@@ -3,7 +3,7 @@ using System.ServiceProcess;
 using System.Threading;
 using Iit.Fibertest.UtilsLib;
 
-namespace RtuWatchdog
+namespace Iit.Fibertest.RtuWatchdog
 {
     public class RtuWatch
     {

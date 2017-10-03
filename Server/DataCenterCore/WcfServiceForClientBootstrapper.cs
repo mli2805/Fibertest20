@@ -2,10 +2,10 @@
 using System.ServiceModel;
 using Autofac;
 using Autofac.Integration.Wcf;
-using Dto;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WcfServiceForClientInterface;
-using WcfConnections;
 
 namespace Iit.Fibertest.DataCenterCore
 {

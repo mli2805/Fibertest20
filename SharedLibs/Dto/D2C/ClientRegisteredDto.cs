@@ -1,6 +1,6 @@
 using System.Runtime.Serialization;
 
-namespace Dto
+namespace Iit.Fibertest.Dto
 {
     [DataContract]
     public class ClientRegisteredDto

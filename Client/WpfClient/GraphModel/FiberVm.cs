@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Caliburn.Micro;
-using Dto;
+using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Client
 {

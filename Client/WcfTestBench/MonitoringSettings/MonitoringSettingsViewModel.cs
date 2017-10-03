@@ -4,10 +4,10 @@ using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
 using ClientWcfServiceLibrary;
-using Dto;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
-using WcfConnections;
+using Iit.Fibertest.WcfConnections;
 
 namespace WcfTestBench.MonitoringSettings
 {

@@ -3,13 +3,13 @@ using System.Net.Sockets;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using ClientWcfServiceLibrary;
-using Dto;
+using Iit.Fibertest.Dto;
+using Iit.Fibertest.RtuWcfServiceLibrary;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using Iit.Fibertest.WcfServiceForRtuInterface;
-using RtuWcfServiceLibrary;
 
-namespace WcfConnections
+namespace Iit.Fibertest.WcfConnections
 {
     public sealed class MyClient<T> : ClientBase<T> where T : class
     {

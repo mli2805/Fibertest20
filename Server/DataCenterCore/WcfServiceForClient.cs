@@ -1,10 +1,10 @@
 ﻿using System;
 using System.ServiceModel;
 using System.Threading.Tasks;
-using Dto;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WcfServiceForClientInterface;
-using WcfConnections;
 
 namespace Iit.Fibertest.DataCenterCore
 {

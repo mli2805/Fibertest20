@@ -7,8 +7,8 @@
     <ProjectGuid>{86A00748-2A4E-4180-B04E-0E1F6A62A258}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Dto</RootNamespace>
-    <AssemblyName>Dto</AssemblyName>
+    <RootNamespace>Iit.Fibertest.Dto</RootNamespace>
+    <AssemblyName>Iit.Fibertest.Dto</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

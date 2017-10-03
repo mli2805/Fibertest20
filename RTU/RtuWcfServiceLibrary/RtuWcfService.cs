@@ -1,10 +1,10 @@
 ﻿using System;
 using System.ServiceModel;
 using System.Threading.Tasks;
-using Dto;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 
-namespace RtuWcfServiceLibrary
+namespace Iit.Fibertest.RtuWcfServiceLibrary
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public class RtuWcfService : IRtuWcfService

@@ -5,8 +5,8 @@ using System.Linq;
 using System.Windows;
 using AutoMapper;
 using Caliburn.Micro;
-using Dto;
 using GMap.NET;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client

@@ -1,4 +1,4 @@
-﻿namespace RtuService
+﻿namespace Iit.Fibertest.RtuService
 {
     partial class ProjectInstaller
     {

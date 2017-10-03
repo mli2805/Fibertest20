@@ -1,4 +1,4 @@
-﻿namespace Dto
+﻿namespace Iit.Fibertest.Dto
 {
     public enum MessageProcessingResult
     {

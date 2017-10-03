@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ServiceModel;
-using Dto;
+using Iit.Fibertest.Dto;
 
-namespace RtuWcfServiceLibrary
+namespace Iit.Fibertest.RtuWcfServiceLibrary
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "IRtuWcfService" in both code and config file together.
     [ServiceContract]

@@ -1,6 +1,6 @@
 using System;
 
-namespace Dto
+namespace Iit.Fibertest.Dto
 {
     public class DoubleAddress : ICloneable
     {

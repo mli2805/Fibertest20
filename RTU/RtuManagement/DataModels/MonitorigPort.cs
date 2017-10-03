@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
-using Dto;
 using Iit.Fibertest.DirectCharonLibrary;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 
-namespace RtuManagement
+namespace Iit.Fibertest.RtuManagement
 {
     public class MonitorigPort
     {

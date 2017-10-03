@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Configuration.Install;
 
-namespace RtuWatchdog
+namespace Iit.Fibertest.RtuWatchdog
 {
     [RunInstaller(true)]
     public partial class ProjectInstaller : Installer

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Dto
+namespace Iit.Fibertest.Dto
 {
     public class MoniResult
     {

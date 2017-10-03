@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Windows.Controls;
-using Dto;
 using GMap.NET.WindowsPresentation;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
