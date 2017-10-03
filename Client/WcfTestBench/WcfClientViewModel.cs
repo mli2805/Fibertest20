@@ -164,7 +164,11 @@ namespace WcfTestBench
             SelectedRtu = RtuList.First();
 
             _c2DWcfManager = new C2DWcfManager(DcServiceAddresses, _clientIni, _clientLog, _clientGuid);
-            if (!_c2DWcfManager.RegisterClient(new RegisterClientDto() { Addresses = new DoubleAddress() { Main = clientAddresses, HasReserveAddress = false }, UserName = @"Vasya" }))
+            if (!_c2DWcfManager.RegisterClient(
+                new RegisterClientDto()
+                {
+                    Addresses = new DoubleAddress() { Main = clientAddresses, HasReserveAddress = false }, UserName = @"Vasya"
+                }).IsRegistered)
                 MessageBox.Show(@"Cannot register on server!");
 
             // start 11843 listener

@@ -10,9 +10,6 @@ namespace ClientWcfServiceLibrary
         // Responses on Client's requests
 
         [OperationContract]
-        void ConfirmClientRegistered(ClientRegisteredDto dto);
-
-        [OperationContract]
         void ConfirmDelivery(RtuCommandDeliveredDto dto);
 
         [OperationContract]

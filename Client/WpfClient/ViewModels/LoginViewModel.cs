@@ -58,8 +58,7 @@ namespace Iit.Fibertest.Client
             {
                 _logFile.AppendLine($@"User signed in as {UserName}");
                 Status = Resources.SID_User_signed_in;
-                RegisterClient();
-                var result = MakeExperiment();
+                var result = RegisterClient();
 
 
            //     TestInitializationLongTask();
@@ -85,19 +84,6 @@ namespace Iit.Fibertest.Client
                 _logFile.AppendLine(@"can't send command to server");
         }
 
-        private ClientRegisteredDto MakeExperiment()
-        {
-            var dcServiceAddresses = _iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
-            var c2DWcfManager = new C2DWcfManager(dcServiceAddresses, _iniFile, _logFile, _clientId);
-            var clientAddresses = _iniFile.Read(IniSection.ClientLocalAddress, (int)TcpPorts.ClientListenTo);
-            var dto = new RegisterClientDto()
-            {
-                Addresses = new DoubleAddress() {Main = clientAddresses, HasReserveAddress = false},
-                UserName = UserName
-            };
-            return c2DWcfManager.MakeExperiment(dto);
-        }
-
         private bool CheckPassword()
         {
             if (UserName == @"root" && Password == @"root")
@@ -110,20 +96,23 @@ namespace Iit.Fibertest.Client
             return true;
         }
 
-        private void RegisterClient()
+        private ClientRegisteredDto RegisterClient()
         {
             var dcServiceAddresses = _iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
             var c2DWcfManager = new C2DWcfManager(dcServiceAddresses, _iniFile, _logFile, _clientId);
 
             var clientAddresses = _iniFile.Read(IniSection.ClientLocalAddress, (int)TcpPorts.ClientListenTo);
-            if (!c2DWcfManager.RegisterClient(
+            var result = c2DWcfManager.RegisterClient(
                 new RegisterClientDto()
                 {
-                    Addresses = new DoubleAddress() { Main = clientAddresses, HasReserveAddress = false },
+                    Addresses = new DoubleAddress() {Main = clientAddresses, HasReserveAddress = false},
                     UserName = UserName
-                }))
+                });
+
+            if (!result.IsRegistered)
                 MessageBox.Show(Resources.SID_Can_t_establish_connection_with_server_, Resources.SID_Error);
             Status = Resources.SID_Request_is_sent;
+            return result;
         }
 
         public void SetServerAddress()

@@ -44,42 +44,21 @@ namespace Iit.Fibertest.WcfConnections
 
 
 
-
-
-        public ClientRegisteredDto MakeExperiment(RegisterClientDto dto)
+        public ClientRegisteredDto RegisterClient(RegisterClientDto dto)
         {
-            var c2DChannel = _wcfFactory.CreateC2DConnection();
-            if (c2DChannel == null)
-                return new ClientRegisteredDto() {IsRegistered = false};
+            var wcfConnection = _wcfFactory.CreateC2DConnection();
+            if (wcfConnection == null)
+                return new ClientRegisteredDto() { IsRegistered = false };
 
             try
             {
                 dto.ClientId = _clientId;
-                return c2DChannel.MakeExperimentAsync(dto).Result;
+                return wcfConnection.RegisterClientAsync(dto).Result;
             }
             catch (Exception e)
             {
                 _logFile.AppendLine(e.Message);
                 return new ClientRegisteredDto() { IsRegistered = false };
-            }
-        }
-
-        public bool RegisterClient(RegisterClientDto dto)
-        {
-            var wcfConnection = _wcfFactory.CreateC2DConnection();
-            if (wcfConnection == null)
-                return false;
-
-            try
-            {
-                dto.ClientId = _clientId;
-                wcfConnection.RegisterClient(dto);
-                return true;
-            }
-            catch (Exception e)
-            {
-               _logFile.AppendLine(e.Message);
-                return false;
             }
         }
 

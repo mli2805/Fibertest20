@@ -13,12 +13,11 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
         [OperationContract]
         string[] GetEvents(int revision);
 
+
+
         // C2D
         [OperationContract]
-        Task<ClientRegisteredDto> MakeExperimentAsync(RegisterClientDto dto);
-
-        [OperationContract]
-        void RegisterClient(RegisterClientDto dto);
+        Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto);
 
         [OperationContract]
         void UnRegisterClient(UnRegisterClientDto dto);

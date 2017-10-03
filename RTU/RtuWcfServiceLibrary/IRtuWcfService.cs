@@ -14,6 +14,7 @@ namespace Iit.Fibertest.RtuWcfServiceLibrary
         RtuInitializedDto EndInitializeAndAnswer(IAsyncResult result);
         
 
+
         [OperationContract]
         bool Initialize(InitializeRtuDto rtu);
 

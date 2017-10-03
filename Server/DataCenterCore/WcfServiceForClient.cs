@@ -30,15 +30,9 @@ namespace Iit.Fibertest.DataCenterCore
             _dcManager = dcManager;
         }
 
-        public Task<ClientRegisteredDto> MakeExperimentAsync(RegisterClientDto dto)
+        public Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {
             return Task.FromResult(_dcManager.RegisterClient(dto));
-        }
-
-        public void RegisterClient(RegisterClientDto dto)
-        {
-            _logFile.AppendLine($"Client {dto.ClientId.First6()} sent register request");
-            _dcManager.HandleMessage(dto);
         }
 
         public void UnRegisterClient(UnRegisterClientDto dto)

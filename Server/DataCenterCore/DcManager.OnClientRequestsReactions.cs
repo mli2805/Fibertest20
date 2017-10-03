@@ -91,7 +91,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public ClientRegisteredDto RegisterClient(RegisterClientDto dto)
         {
-            _logFile.AppendLine($"Client {dto.ClientId.First6()} makes an experiment");
+            _logFile.AppendLine($"Client {dto.ClientId.First6()} asks registration");
             var result = new ClientRegisteredDto();
 
             var clientStation = new ClientStation
@@ -107,30 +107,6 @@ namespace Iit.Fibertest.DataCenterCore
 
             _logFile.AppendLine($"There are {_clientComps.Count} clients");
             return result;
-        }
-        private void RegisterClientThread(object param)
-        {
-            var dto = param as RegisterClientDto;
-            if (dto == null)
-                return;
-
-            _logFile.AppendLine($"Client {dto.UserName} registered");
-            lock (_clientStationsLockObj)
-            {
-                if (_clientStations.All(c => c.Id != dto.ClientId))
-                    _clientStations.Add(new ClientStation()
-                    {
-                        Id = dto.ClientId,
-                        PcAddresses = new DoubleAddressWithLastConnectionCheck()
-                        {
-                            DoubleAddress = dto.Addresses
-                        }
-                    });
-            }
-
-            var result = new ClientRegisteredDto() { IsRegistered = true };
-            new D2CWcfManager(new List<DoubleAddress>() { dto.Addresses }, _iniFile, _logFile).ConfirmClientRegistered(result);
-
         }
 
         private MessageProcessingResult UnRegisterClient(UnRegisterClientDto dto)

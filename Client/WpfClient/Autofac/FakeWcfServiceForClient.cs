@@ -22,7 +22,7 @@ namespace Iit.Fibertest.Client
             throw new NotImplementedException();
         }
 
-        public void RegisterClient(RegisterClientDto dto)
+        public Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {
             throw new NotImplementedException();
         }
