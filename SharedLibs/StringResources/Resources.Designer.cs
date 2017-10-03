@@ -710,6 +710,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Client registraion is performing.
+        /// </summary>
+        public static string SID_Client_registraion_is_performing {
+            get {
+                return ResourceManager.GetString("SID_Client_registraion_is_performing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
         public static string SID_Close {
@@ -3184,15 +3193,6 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_User_s {
             get {
                 return ResourceManager.GetString("SID_User_s", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to User signed in.
-        /// </summary>
-        public static string SID_User_signed_in {
-            get {
-                return ResourceManager.GetString("SID_User_signed_in", resourceCulture);
             }
         }
         

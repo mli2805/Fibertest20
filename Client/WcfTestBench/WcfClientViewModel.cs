@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
+using System.Threading.Tasks;
 using Caliburn.Micro;
 using ClientWcfServiceLibrary;
 using Iit.Fibertest.Dto;
@@ -25,7 +26,7 @@ namespace WcfTestBench
         internal static ServiceHost MyServiceHost;
         private readonly IMyLog _clientLog;
         private readonly IniFile _clientIni;
-        private readonly C2DWcfManager _c2DWcfManager;
+        private C2DWcfManager _c2DWcfManager;
         private readonly Guid _clientGuid;
 
         #region Server messages
@@ -163,16 +164,23 @@ namespace WcfTestBench
             RtuList = ReadDbTempTxt();
             SelectedRtu = RtuList.First();
 
-            _c2DWcfManager = new C2DWcfManager(DcServiceAddresses, _clientIni, _clientLog, _clientGuid);
-            if (!_c2DWcfManager.RegisterClient(
-                new RegisterClientDto()
-                {
-                    Addresses = new DoubleAddress() { Main = clientAddresses, HasReserveAddress = false }, UserName = @"Vasya"
-                }).IsRegistered)
-                MessageBox.Show(@"Cannot register on server!");
+            RegisterClient(clientAddresses);
 
             // start 11843 listener
             StartWcfListener();
+        }
+
+        private async void RegisterClient(NetAddress clientAddresses)
+        {
+            _c2DWcfManager = new C2DWcfManager(DcServiceAddresses, _clientIni, _clientLog, _clientGuid);
+            var registrationResult = await _c2DWcfManager.RegisterClientAsync(
+                new RegisterClientDto()
+                {
+                    Addresses = new DoubleAddress() {Main = clientAddresses, HasReserveAddress = false},
+                    UserName = @"Vasya"
+                });
+            if (!registrationResult.IsRegistered)
+                MessageBox.Show(@"Cannot register on server!");
         }
 
         protected override void OnViewLoaded(object view)

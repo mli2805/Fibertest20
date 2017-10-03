@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -16,7 +17,18 @@ namespace Iit.Fibertest.Client
         private readonly IMyLog _logFile;
         public string UserName { get; set; }
         public string Password { get; set; }
-        public string Status { get; set; } = Resources.SID_Input_user_name_and_password;
+
+        private string _status = Resources.SID_Input_user_name_and_password;
+        public string Status
+        {
+            get { return _status; }
+            set
+            {
+                if (value == _status) return;
+                _status = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
 
         public LoginViewModel(Guid clientId, IWindowManager windowManager, IniFile iniFile, IMyLog logFile)
@@ -46,7 +58,7 @@ namespace Iit.Fibertest.Client
             DisplayName = Resources.SID_Authentication;
         }
 
-        public void Login()
+        public async void Login()
         {
 #if DEBUG
             if (string.IsNullOrEmpty(UserName))
@@ -57,31 +69,10 @@ namespace Iit.Fibertest.Client
             if (CheckPassword())
             {
                 _logFile.AppendLine($@"User signed in as {UserName}");
-                Status = Resources.SID_User_signed_in;
-                var result = RegisterClient();
-
-
-           //     TestInitializationLongTask();
-
-
+                Status = Resources.SID_Client_registraion_is_performing;
+                var result = await RegisterClientAsync();
                 ParseServerAnswer(result);
             }
-        }
-
-        private void TestInitializationLongTask()
-        {
-            var dcServiceAddresses = _iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
-            var c2DWcfManager = new C2DWcfManager(dcServiceAddresses, _iniFile, _logFile, _clientId);
-            var dto = new InitializeRtuDto()
-            {
-                ServerAddresses = dcServiceAddresses,
-                ClientId = Guid.NewGuid(),
-                //RtuAddresses = new DoubleAddress() {Main = new NetAddress(@"172.16.5.53", 11842)},
-                RtuAddresses = new DoubleAddress() {Main = new NetAddress(@"192.168.96.58", 11842)},
-                RtuId = Guid.NewGuid(),
-            };
-            if (!c2DWcfManager.InitializeRtuLongTask(dto))
-                _logFile.AppendLine(@"can't send command to server");
         }
 
         private bool CheckPassword()
@@ -96,13 +87,13 @@ namespace Iit.Fibertest.Client
             return true;
         }
 
-        private ClientRegisteredDto RegisterClient()
+        private async Task<ClientRegisteredDto> RegisterClientAsync()
         {
             var dcServiceAddresses = _iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
             var c2DWcfManager = new C2DWcfManager(dcServiceAddresses, _iniFile, _logFile, _clientId);
 
             var clientAddresses = _iniFile.Read(IniSection.ClientLocalAddress, (int)TcpPorts.ClientListenTo);
-            var result = c2DWcfManager.RegisterClient(
+            var result = await c2DWcfManager.RegisterClientAsync(
                 new RegisterClientDto()
                 {
                     Addresses = new DoubleAddress() {Main = clientAddresses, HasReserveAddress = false},
@@ -111,7 +102,6 @@ namespace Iit.Fibertest.Client
 
             if (!result.IsRegistered)
                 MessageBox.Show(Resources.SID_Can_t_establish_connection_with_server_, Resources.SID_Error);
-            Status = Resources.SID_Request_is_sent;
             return result;
         }
 

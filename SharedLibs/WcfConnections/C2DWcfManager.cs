@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 
@@ -44,7 +45,7 @@ namespace Iit.Fibertest.WcfConnections
 
 
 
-        public ClientRegisteredDto RegisterClient(RegisterClientDto dto)
+        public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();
             if (wcfConnection == null)
@@ -53,7 +54,7 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 dto.ClientId = _clientId;
-                return wcfConnection.RegisterClientAsync(dto).Result;
+                return await wcfConnection.RegisterClientAsync(dto);
             }
             catch (Exception e)
             {

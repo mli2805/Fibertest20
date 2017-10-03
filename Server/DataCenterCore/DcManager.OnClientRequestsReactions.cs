@@ -101,9 +101,20 @@ namespace Iit.Fibertest.DataCenterCore
                 {
                     DoubleAddress = dto.Addresses
                 }
+
             };
-            _clientComps.AddOrUpdate(dto.ClientId, clientStation, (id, _) => clientStation);
-            result.IsRegistered = true;
+            try
+            {
+                _clientComps.AddOrUpdate(dto.ClientId, clientStation, (id, _) => clientStation);
+                result.IsRegistered = true;
+                result.ErrorCode = 1;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+                result.IsRegistered = false;
+                result.ErrorCode = 2;
+            }
 
             _logFile.AppendLine($"There are {_clientComps.Count} clients");
             return result;

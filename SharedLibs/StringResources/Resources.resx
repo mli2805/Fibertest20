@@ -1141,9 +1141,6 @@ on port {0}: charon {1} ip {2} has {3} ports</value>
 	<data name="SID_Test_RTU_communication_functions" xml:space="preserve">
     <value>Test RTU communication functions</value>
   </data>
-	<data name="SID_User_signed_in" xml:space="preserve">
-    <value>User signed in</value>
-  </data>
 	<data name="SID_Connection_check" xml:space="preserve">
     <value>Connection check</value>
   </data>
@@ -1195,5 +1192,8 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID_RTU_Manager_software_version" xml:space="preserve">
     <value>RTU Manager software version</value>
+  </data>
+	<data name="SID_Client_registraion_is_performing" xml:space="preserve">
+    <value>Client registraion is performing</value>
   </data>
 </root>
