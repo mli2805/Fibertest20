@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.ServiceModel;
+﻿using System.ServiceModel;
 using Dto;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForRtuInterface;
@@ -11,89 +9,59 @@ namespace Iit.Fibertest.DataCenterCore
     public class WcfServiceForRtu : IWcfServiceForRtu
     {
         private readonly DcManager _dcManager;
-        private readonly IniFile _iniFile;
-        private readonly IMyLog _serviceLog;
 
-        public static event OnMessageReceived MessageReceived;
-        public delegate bool OnMessageReceived(object e);
-
-        public ConcurrentDictionary<Guid, RtuStation> RtuStations;
-        public ConcurrentDictionary<Guid, ClientStation> ClientComps;
-
-        public WcfServiceForRtu(DcManager dcManager, IniFile iniFile, IMyLog logFile)
+        public WcfServiceForRtu(DcManager dcManager)
         {
-            _iniFile = iniFile;
-            _serviceLog = logFile;
             _dcManager = dcManager;
         }
 
-
-        // RTU responses on DataCenter's (Client's) requestes
+        #region RTU responses on DataCenter's (Client's) requestes
         public bool ProcessRtuConnectionChecked(RtuConnectionCheckedDto dto)
         {
-            _serviceLog.AppendLine($"Rtu {dto.RtuId} reply on connection check request");
-            MessageReceived?.Invoke(dto);
-            return true;
+            return _dcManager.ProcessRtuConnectionChecked(dto);
         }
 
         public bool ProcessRtuInitialized(RtuInitializedDto dto)
         {
-            _serviceLog.AppendLine($"Rtu {dto.Serial} reply on initialize request");
-            MessageReceived?.Invoke(dto);
-            return true;
+            return _dcManager.ConfirmRtuInitialized(dto);
         }
 
         public bool ConfirmStartMonitoring(MonitoringStartedDto dto)
         {
-            _serviceLog.AppendLine($"Rtu {dto.RtuId.First6()} reply on start monitoring request");
-            MessageReceived?.Invoke(dto);
-            return true;
+            return _dcManager.ConfirmMonitoringStarted(dto);
         }
 
         public bool ConfirmStopMonitoring(MonitoringStoppedDto dto)
         {
-            _serviceLog.AppendLine($"Rtu {dto.RtuId.First6()} reply on stop monitoring request");
-            MessageReceived?.Invoke(dto);
-            return true;
+            return _dcManager.ConfirmMonitoringStopped(dto);
         }
 
         public bool ConfirmMonitoringSettingsApplied(MonitoringSettingsAppliedDto dto)
         {
-            _serviceLog.AppendLine($"Rtu {dto.RtuId.First6()} reply on monitoring settings");
-            MessageReceived?.Invoke(dto);
-            return true;
+            return _dcManager.ConfirmMonitoringSettingsApplied(dto);
         }
 
         public bool ConfirmBaseRefAssigned(BaseRefAssignedDto dto)
         {
-            _serviceLog.AppendLine($"Rtu {dto.RtuId.First6()} reply on base ref");
-            MessageReceived?.Invoke(dto);
-            return true;
+            return _dcManager.ConfirmBaseRefAssigned(dto);
         }
+        #endregion
 
-        // RTU notifies
-
+        #region RTU notifies
         public bool KnowRtuCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto dto)
         {
-            //            LogFile.AppendLine($"Transfer Rtu's {dto.RtuId.First6()} current monitoring step");
-            MessageReceived?.Invoke(dto);
-            return true;
+            return _dcManager.ProcessRtuCurrentMonitoringStep(dto);
         }
 
         public bool ProcessRtuChecksChannel(RtuChecksChannelDto dto)
         {
-            //            var channel = dto.IsMainChannel ? "MAIN" : "RESERVE";
-            //            LogFile.AppendLine($"Rtu {dto.RtuId.First6()} checks {channel} channel");
-            MessageReceived?.Invoke(dto);
-            return true;
+            return _dcManager.ProcessRtuChecksChannel(dto);
         }
 
         public bool ProcessMonitoringResult(MonitoringResultDto dto)
         {
-//            LogFile.AppendLine($"Rtu {dto.RtuId.First6()} sent monitoring result");
-            MessageReceived?.Invoke(dto);
-            return true;
+            return _dcManager.ProcessMonitoringResult(dto);
         }
-
+        #endregion
     }
 }

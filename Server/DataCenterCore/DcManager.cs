@@ -3,12 +3,9 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.ServiceModel;
 using System.Threading;
 using Dto;
 using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WcfServiceForRtuInterface;
-using WcfConnections;
 
 namespace Iit.Fibertest.DataCenterCore
 {

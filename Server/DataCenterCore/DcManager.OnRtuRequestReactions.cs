@@ -51,7 +51,7 @@ namespace Iit.Fibertest.DataCenterCore
         }
 
         #region RTU confirms
-        private bool ProcessRtuConnectionChecked(RtuConnectionCheckedDto dto)
+        public bool ProcessRtuConnectionChecked(RtuConnectionCheckedDto dto)
         {
             _logFile.AppendLine($"Rtu {dto.RtuId.First6()} replied on connection check");
             var clientStation = GetClientStation(dto.ClientId);
@@ -62,7 +62,7 @@ namespace Iit.Fibertest.DataCenterCore
             return true;
         }
 
-        private bool ConfirmRtuInitialized(RtuInitializedDto dto)
+        public bool ConfirmRtuInitialized(RtuInitializedDto dto)
         {
             var str = dto.IsInitialized ? "OK" : "ERROR";
             _logFile.AppendLine($"Rtu {dto.RtuId.First6()} initialization {str}");
@@ -73,7 +73,7 @@ namespace Iit.Fibertest.DataCenterCore
             return new D2CWcfManager(GetAllClientsAddresses(), _iniFile, _logFile).ConfirmRtuInitialized(dto);
         }
 
-        private void RegisterRtu(RtuInitializedDto dto)
+        public void RegisterRtu(RtuInitializedDto dto)
         {
             var rtuStation = new RtuStation()
             {
@@ -91,26 +91,26 @@ namespace Iit.Fibertest.DataCenterCore
             // temporary
             WriteDbTempTxt();
         }
-       
-        private bool ConfirmMonitoringStarted(MonitoringStartedDto dto)
+
+        public bool ConfirmMonitoringStarted(MonitoringStartedDto dto)
         {
             _logFile.AppendLine($"Rtu {dto.RtuId.First6()} monitoring started: {dto.IsSuccessful}");
             return new D2CWcfManager(GetAllClientsAddresses(), _iniFile, _logFile).ConfirmMonitoringStarted(dto);
         }
 
-        private bool ConfirmMonitoringStopped(MonitoringStoppedDto dto)
+        public bool ConfirmMonitoringStopped(MonitoringStoppedDto dto)
         {
             _logFile.AppendLine($"Rtu {dto.RtuId.First6()} monitoring stopped: {dto.IsSuccessful}");
             return new D2CWcfManager(GetAllClientsAddresses(), _iniFile, _logFile).ConfirmMonitoringStopped(dto);
         }
 
-        private bool ConfirmMonitoringSettingsApplied(MonitoringSettingsAppliedDto dto)
+        public bool ConfirmMonitoringSettingsApplied(MonitoringSettingsAppliedDto dto)
         {
             _logFile.AppendLine($"Rtu {dto.RtuId.First6()} applied monitoring settings: {dto.IsSuccessful}");
             return new D2CWcfManager(GetAllClientsAddresses(), _iniFile, _logFile).ConfirmMonitoringSettingsApplied(dto);
         }
 
-        private bool ConfirmBaseRefAssigned(BaseRefAssignedDto dto)
+        public bool ConfirmBaseRefAssigned(BaseRefAssignedDto dto)
         {
             _logFile.AppendLine($"Rtu {dto.RtuId.First6()} assigned base ref: {dto.IsSuccessful}");
             return new D2CWcfManager(GetAllClientsAddresses(), _iniFile, _logFile).ConfirmBaseRefAssigned(dto);
@@ -118,12 +118,12 @@ namespace Iit.Fibertest.DataCenterCore
         #endregion
 
         #region RTU notifies
-        private bool ProcessRtuCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto monitoringStep)
+        public bool ProcessRtuCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto monitoringStep)
         {
             return new D2CWcfManager(GetAllClientsAddresses(), _iniFile, _logFile).ProcessRtuCurrentMonitoringStep(monitoringStep);
         }
 
-        private bool ProcessRtuChecksChannel(RtuChecksChannelDto dto)
+        public bool ProcessRtuChecksChannel(RtuChecksChannelDto dto)
         {
             RtuStation rtuStation;
             if (_rtuStations.TryGetValue(dto.RtuId, out rtuStation))
@@ -137,7 +137,7 @@ namespace Iit.Fibertest.DataCenterCore
             return true;
         }
 
-        private bool ProcessMonitoringResult(MonitoringResultDto result)
+        public bool ProcessMonitoringResult(MonitoringResultDto result)
         {
             _logFile.AppendLine(
                 $"Moniresult from RTU {result.RtuId.First6()}. {result.BaseRefType} on {result.OtauPort.OpticalPort} port. " +
