@@ -32,16 +32,12 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {
-            await Task.Delay(TimeSpan.FromSeconds(5));
-            return _dcManager.RegisterClient(dto);
-
-//            return Task.FromResult(_dcManager.RegisterClient(dto));
+            return await _dcManager.RegisterClientAsync(dto);
         }
 
-        public void UnRegisterClient(UnRegisterClientDto dto)
+        public async Task UnregisterClientAsync(UnRegisterClientDto dto)
         {
-            _logFile.AppendLine($"Client {dto.ClientId.First6()} sent unregister request");
-            _dcManager.HandleMessage(dto);
+            await _dcManager.UnregisterClientAsync(dto);
         }
 
         public bool CheckServerConnection(CheckServerConnectionDto dto)

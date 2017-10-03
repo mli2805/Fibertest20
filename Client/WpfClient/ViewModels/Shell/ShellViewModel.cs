@@ -93,7 +93,7 @@ namespace Iit.Fibertest.Client
         public override void CanClose(Action<bool> callback)
         {
             // if user cancelled login view - _c2DWcfManager would be null
-            _c2DWcfManager?.UnRegisterClient(new UnRegisterClientDto());
+            _c2DWcfManager?.UnregisterClientAsync(new UnRegisterClientDto());
             Save();
             base.CanClose(callback);
         }

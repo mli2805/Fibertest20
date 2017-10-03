@@ -208,9 +208,9 @@ namespace WcfTestBench
             }
         }
 
-        public override void CanClose(Action<bool> callback)
+        public override async void CanClose(Action<bool> callback)
         {
-            _c2DWcfManager.UnRegisterClient(new UnRegisterClientDto());
+            await _c2DWcfManager.UnregisterClientAsync(new UnRegisterClientDto());
             base.CanClose(callback);
         }
 

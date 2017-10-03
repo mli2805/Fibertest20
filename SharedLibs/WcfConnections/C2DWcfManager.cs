@@ -63,7 +63,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public void UnRegisterClient(UnRegisterClientDto dto)
+        public async Task UnregisterClientAsync(UnRegisterClientDto dto)
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();
             if (wcfConnection == null)
@@ -72,13 +72,12 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 dto.ClientId = _clientId;
-                wcfConnection.UnRegisterClient(dto);
+                await wcfConnection.UnregisterClientAsync(dto);
                 _logFile.AppendLine($@"Unregistered on server");
             }
             catch (Exception e)
             {
                 _logFile.AppendLine(e.Message);
-
             }
         }
 

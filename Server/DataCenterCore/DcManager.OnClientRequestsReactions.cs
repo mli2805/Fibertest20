@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
@@ -47,17 +48,6 @@ namespace Iit.Fibertest.DataCenterCore
 
         private MessageProcessingResult ProcessClientsMessage(object msg)
         {
-            var dtoD1 = msg as RegisterClientDto;
-            if (dtoD1 != null)
-            {
-                RegisterClient(dtoD1);
-                return MessageProcessingResult.NothingToReturn;
-            }
-
-            var dtoD2 = msg as UnRegisterClientDto;
-            if (dtoD2 != null)
-                return UnRegisterClient(dtoD2);
-
             var dtoD2R1 = msg as CheckRtuConnectionDto;
             if (dtoD2R1 != null)
             {
@@ -89,7 +79,7 @@ namespace Iit.Fibertest.DataCenterCore
             return MessageProcessingResult.UnknownMessage;
         }
 
-        public ClientRegisteredDto RegisterClient(RegisterClientDto dto)
+        public Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {
             _logFile.AppendLine($"Client {dto.ClientId.First6()} asks registration");
             var result = new ClientRegisteredDto();
@@ -101,13 +91,13 @@ namespace Iit.Fibertest.DataCenterCore
                 {
                     DoubleAddress = dto.Addresses
                 }
-
             };
+
             try
             {
                 _clientComps.AddOrUpdate(dto.ClientId, clientStation, (id, _) => clientStation);
                 result.IsRegistered = true;
-                result.ErrorCode = 1;
+                result.ErrorCode = 0;
             }
             catch (Exception e)
             {
@@ -117,17 +107,17 @@ namespace Iit.Fibertest.DataCenterCore
             }
 
             _logFile.AppendLine($"There are {_clientComps.Count} clients");
-            return result;
+            return Task.FromResult(result);
         }
 
-        private MessageProcessingResult UnRegisterClient(UnRegisterClientDto dto)
+        public Task UnregisterClientAsync(UnRegisterClientDto dto)
         {
             _logFile.AppendLine($"Client {dto.ClientId.First6()} exited");
             lock (_clientStationsLockObj)
             {
                 _clientStations.RemoveAll(c => c.Id == dto.ClientId);
             }
-            return MessageProcessingResult.ProcessedSuccessfully;
+            return Task.CompletedTask;
         }
 
         private void CheckRtuConnection(CheckRtuConnectionDto dto)

@@ -27,7 +27,7 @@ namespace Iit.Fibertest.Client
             throw new NotImplementedException();
         }
 
-        public void UnRegisterClient(UnRegisterClientDto dto)
+        public Task UnregisterClientAsync(UnRegisterClientDto dto)
         {
             throw new NotImplementedException();
         }
