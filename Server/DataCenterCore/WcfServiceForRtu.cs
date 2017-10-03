@@ -5,7 +5,7 @@ using Dto;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForRtuInterface;
 
-namespace DataCenterCore
+namespace Iit.Fibertest.DataCenterCore
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public class WcfServiceForRtu : IWcfServiceForRtu
@@ -76,7 +76,7 @@ namespace DataCenterCore
 
         public bool KnowRtuCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto dto)
         {
-            //            ServiceLog.AppendLine($"Transfer Rtu's {dto.RtuId.First6()} current monitoring step");
+            //            LogFile.AppendLine($"Transfer Rtu's {dto.RtuId.First6()} current monitoring step");
             MessageReceived?.Invoke(dto);
             return true;
         }
@@ -84,14 +84,14 @@ namespace DataCenterCore
         public bool ProcessRtuChecksChannel(RtuChecksChannelDto dto)
         {
             //            var channel = dto.IsMainChannel ? "MAIN" : "RESERVE";
-            //            ServiceLog.AppendLine($"Rtu {dto.RtuId.First6()} checks {channel} channel");
+            //            LogFile.AppendLine($"Rtu {dto.RtuId.First6()} checks {channel} channel");
             MessageReceived?.Invoke(dto);
             return true;
         }
 
         public bool ProcessMonitoringResult(MonitoringResultDto dto)
         {
-//            ServiceLog.AppendLine($"Rtu {dto.RtuId.First6()} sent monitoring result");
+//            LogFile.AppendLine($"Rtu {dto.RtuId.First6()} sent monitoring result");
             MessageReceived?.Invoke(dto);
             return true;
         }

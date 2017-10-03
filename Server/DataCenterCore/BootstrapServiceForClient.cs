@@ -7,20 +7,23 @@ using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using WcfConnections;
 
-namespace DataCenterCore
+namespace Iit.Fibertest.DataCenterCore
 {
-    public class BootstrapServiceForClientHost : IDisposable
+    public class BootstrapServiceForClient : IDisposable
     {
         private readonly IniFile _config;
         private readonly IMyLog _log;
+        private readonly IWcfServiceForClient _wcfServiceForClient;
         private readonly ILifetimeScope _container;
         private ServiceHost _host;
 
-        public BootstrapServiceForClientHost(IniFile config, IMyLog log, ILifetimeScope container)
+        public BootstrapServiceForClient(IniFile config, IMyLog log, IWcfServiceForClient wcfServiceForClient,  ILifetimeScope container)
         {
             _config = config;
             _log = log;
+            _wcfServiceForClient = wcfServiceForClient;
             _container = container;
+            _log.AppendLine("BootstrapServiceForClient ctor finished");
         }
 
         public void Start()
@@ -30,7 +33,8 @@ namespace DataCenterCore
                 var uri = new Uri(WcfFactory.CombineUriString(@"localhost",
                     (int)TcpPorts.ServerListenToClient, @"WcfServiceForClient"));
 
-                _host = new ServiceHost(typeof(IWcfServiceForClient), uri);
+//                _host = new ServiceHost(typeof(WcfServiceForClient), uri);
+                _host = new ServiceHost(_wcfServiceForClient);
                 _host.AddServiceEndpoint(typeof(IWcfServiceForClient),
                     WcfFactory.CreateDefaultNetTcpBinding(_config), uri);
                 _host.AddDependencyInjectionBehavior<IWcfServiceForClient>(_container);

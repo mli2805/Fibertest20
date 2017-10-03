@@ -6,7 +6,7 @@ using Dto;
 using Iit.Fibertest.UtilsLib;
 using WcfConnections;
 
-namespace DataCenterCore
+namespace Iit.Fibertest.DataCenterCore
 {
     public partial class DcManager
     {
@@ -26,7 +26,7 @@ namespace DataCenterCore
                     break;
 
                 case MessageProcessingResult.UnknownMessage:
-                    _dcLog.AppendLine("Received unknown message.");
+                    _logFile.AppendLine("Received unknown message.");
                     break;
 
                 case MessageProcessingResult.ProcessedSuccessfully:
@@ -41,7 +41,7 @@ namespace DataCenterCore
             var clientStation = GetClientStation(_rtuCommandDeliveredDto.ClientId);
             if (clientStation == null)
                 return;
-            new D2CWcfManager(new List<DoubleAddress>() { clientStation.PcAddresses.DoubleAddress }, _coreIni, _dcLog)
+            new D2CWcfManager(new List<DoubleAddress>() { clientStation.PcAddresses.DoubleAddress }, _iniFile, _logFile)
                 .ConfirmRtuCommandDelivered(_rtuCommandDeliveredDto);
         }
 
@@ -61,7 +61,7 @@ namespace DataCenterCore
             var dtoD2R1 = msg as CheckRtuConnectionDto;
             if (dtoD2R1 != null)
             {
-                _dcLog.AppendLine("user asks check rtu connection");
+                _logFile.AppendLine("user asks check rtu connection");
                 CheckRtuConnection(dtoD2R1);
                 return MessageProcessingResult.NothingToReturn;
             }
@@ -91,7 +91,7 @@ namespace DataCenterCore
 
         public ClientRegisteredDto RegisterClient(RegisterClientDto dto)
         {
-            _dcLog.AppendLine($"Client {dto.ClientId.First6()} makes an experiment");
+            _logFile.AppendLine($"Client {dto.ClientId.First6()} makes an experiment");
             var result = new ClientRegisteredDto();
 
             var clientStation = new ClientStation
@@ -105,7 +105,7 @@ namespace DataCenterCore
             _clientComps.AddOrUpdate(dto.ClientId, clientStation, (id, _) => clientStation);
             result.IsRegistered = true;
 
-            _dcLog.AppendLine($"There are {_clientComps.Count} clients");
+            _logFile.AppendLine($"There are {_clientComps.Count} clients");
             return result;
         }
         private void RegisterClientThread(object param)
@@ -114,7 +114,7 @@ namespace DataCenterCore
             if (dto == null)
                 return;
 
-            _dcLog.AppendLine($"Client {dto.UserName} registered");
+            _logFile.AppendLine($"Client {dto.UserName} registered");
             lock (_clientStationsLockObj)
             {
                 if (_clientStations.All(c => c.Id != dto.ClientId))
@@ -129,13 +129,13 @@ namespace DataCenterCore
             }
 
             var result = new ClientRegisteredDto() { IsRegistered = true };
-            new D2CWcfManager(new List<DoubleAddress>() { dto.Addresses }, _coreIni, _dcLog).ConfirmClientRegistered(result);
+            new D2CWcfManager(new List<DoubleAddress>() { dto.Addresses }, _iniFile, _logFile).ConfirmClientRegistered(result);
 
         }
 
         private MessageProcessingResult UnRegisterClient(UnRegisterClientDto dto)
         {
-            _dcLog.AppendLine($"Client {dto.ClientId.First6()} exited");
+            _logFile.AppendLine($"Client {dto.ClientId.First6()} exited");
             lock (_clientStationsLockObj)
             {
                 _clientStations.RemoveAll(c => c.Id == dto.ClientId);
@@ -158,12 +158,12 @@ namespace DataCenterCore
             var clientStation = GetClientStation(dto.ClientId);
             if (clientStation == null)
             {
-                _dcLog.AppendLine("Unknown client!");
+                _logFile.AppendLine("Unknown client!");
                 return;
             }
 
             var result = new RtuConnectionCheckedDto() { RtuId = dto.RtuId };
-            var rtuConnection = new WcfFactory(new DoubleAddress() { Main = dto.NetAddress }, _coreIni, _dcLog).CreateRtuConnection();
+            var rtuConnection = new WcfFactory(new DoubleAddress() { Main = dto.NetAddress }, _iniFile, _logFile).CreateRtuConnection();
             if (rtuConnection != null)
             {
                 result.IsConnectionSuccessfull = true;
@@ -173,7 +173,7 @@ namespace DataCenterCore
                 result.IsConnectionSuccessfull = false;
                 result.IsPingSuccessful = Pinger.Ping(dto.NetAddress.IsAddressSetAsIp ? dto.NetAddress.Ip4Address : dto.NetAddress.HostName);
             }
-            new D2CWcfManager(new List<DoubleAddress>() { clientStation.PcAddresses.DoubleAddress }, _coreIni, _dcLog).ConfirmRtuConnectionChecked(result);
+            new D2CWcfManager(new List<DoubleAddress>() { clientStation.PcAddresses.DoubleAddress }, _iniFile, _logFile).ConfirmRtuConnectionChecked(result);
         }
 
         private ClientStation GetClientStation(Guid clientId)
@@ -190,7 +190,7 @@ namespace DataCenterCore
             _rtuCommandDeliveredDto.RtuId = dto.RtuId;
 
             dto.ServerAddresses = _serverDoubleAddress;
-            return new D2RWcfManager(dto.RtuAddresses, _coreIni, _dcLog).InitializeRtu(dto);
+            return new D2RWcfManager(dto.RtuAddresses, _iniFile, _logFile).InitializeRtu(dto);
         }
 
         private MessageProcessingResult StartMonitoring(StartMonitoringDto dto)
@@ -200,7 +200,7 @@ namespace DataCenterCore
 
             RtuStation rtuStation;
             return _rtuStations.TryGetValue(dto.RtuId, out rtuStation)
-                ? new D2RWcfManager(rtuStation.PcAddresses.DoubleAddress, _coreIni, _dcLog).StartMonitoring(dto)
+                ? new D2RWcfManager(rtuStation.PcAddresses.DoubleAddress, _iniFile, _logFile).StartMonitoring(dto)
                 : MessageProcessingResult.UnknownRtu;
         }
 
@@ -211,7 +211,7 @@ namespace DataCenterCore
 
             RtuStation rtuStation;
             return _rtuStations.TryGetValue(dto.RtuId, out rtuStation)
-                ? new D2RWcfManager(rtuStation.PcAddresses.DoubleAddress, _coreIni, _dcLog).StopMonitoring(dto)
+                ? new D2RWcfManager(rtuStation.PcAddresses.DoubleAddress, _iniFile, _logFile).StopMonitoring(dto)
                 : MessageProcessingResult.UnknownRtu;
         }
 
@@ -222,7 +222,7 @@ namespace DataCenterCore
 
             RtuStation rtuStation;
             return _rtuStations.TryGetValue(dto.RtuId, out rtuStation)
-                ? new D2RWcfManager(rtuStation.PcAddresses.DoubleAddress, _coreIni, _dcLog).AssignBaseRef(dto)
+                ? new D2RWcfManager(rtuStation.PcAddresses.DoubleAddress, _iniFile, _logFile).AssignBaseRef(dto)
                 : MessageProcessingResult.UnknownRtu;
         }
 
@@ -233,7 +233,7 @@ namespace DataCenterCore
 
             RtuStation rtuStation;
             return _rtuStations.TryGetValue(dto.RtuId, out rtuStation)
-                ? new D2RWcfManager(rtuStation.PcAddresses.DoubleAddress, _coreIni, _dcLog).ApplyMonitoringSettings(dto)
+                ? new D2RWcfManager(rtuStation.PcAddresses.DoubleAddress, _iniFile, _logFile).ApplyMonitoringSettings(dto)
                 : MessageProcessingResult.UnknownRtu;
         }
 

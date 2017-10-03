@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using NEventStore;
 using PrivateReflectionUsingDynamic;
 
-namespace DataCenterCore
+namespace Iit.Fibertest.DataCenterCore
 {
     //TODO: Either merge projects, or use an interface
     public class EventStoreService

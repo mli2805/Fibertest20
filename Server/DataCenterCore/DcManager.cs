@@ -10,36 +10,37 @@ using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForRtuInterface;
 using WcfConnections;
 
-namespace DataCenterCore
+namespace Iit.Fibertest.DataCenterCore
 {
     public partial class DcManager
     {
         private readonly DoubleAddress _serverDoubleAddress;
-        private readonly IMyLog _dcLog;
-        private readonly IniFile _coreIni;
+        private readonly IMyLog _logFile;
+        private readonly IniFile _iniFile;
 
-        private readonly ConcurrentDictionary<Guid, RtuStation> _rtuStations;
-        private readonly ConcurrentDictionary<Guid, ClientStation> _clientComps;
+        private ConcurrentDictionary<Guid, RtuStation> _rtuStations;
+        private ConcurrentDictionary<Guid, ClientStation> _clientComps;
         private readonly object _clientStationsLockObj = new object();
-        private readonly List<ClientStation> _clientStations;
+        private List<ClientStation> _clientStations;
 
-        public DcManager(IMyLog dcLog, IniFile coreIni)
+        public DcManager(IniFile iniFile, IMyLog logFile)
         {
-            _dcLog = dcLog;
-            _coreIni = coreIni;
-            _clientComps = new ConcurrentDictionary<Guid, ClientStation>();
-            _rtuStations = InitializeRtuStationListFromDb();
-            _clientStations = new List<ClientStation>();
-            _serverDoubleAddress = _coreIni.ReadDoubleAddress((int)TcpPorts.ServerListenToRtu);
+            _logFile = logFile;
+            _iniFile = iniFile;
+            _serverDoubleAddress = _iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToRtu);
+            _logFile.AppendLine("DcManager ctor finished");
         }
 
         public void Start()
         {
+            _clientComps = new ConcurrentDictionary<Guid, ClientStation>();
+            _rtuStations = InitializeRtuStationListFromDb();
+            _clientStations = new List<ClientStation>();
 
             StartWcfListenerToRtu();
 
             var lastConnectionTimeChecker =
-                new LastConnectionTimeChecker(_dcLog, _coreIni) { RtuStations = _rtuStations };
+                new LastConnectionTimeChecker(_logFile, _iniFile) { RtuStations = _rtuStations };
             var thread = new Thread(lastConnectionTimeChecker.Start) { IsBackground = true };
             thread.Start();
         }
@@ -52,7 +53,7 @@ namespace DataCenterCore
         {
             ServiceForRtuHost?.Close();
 
-            WcfServiceForRtu.ServiceLog = _dcLog;
+            WcfServiceForRtu.ServiceLog = _logFile;
             WcfServiceForRtu.MessageReceived += WcfServiceForRtu_MessageReceived;
 
             try
@@ -61,13 +62,13 @@ namespace DataCenterCore
 
                 ServiceForRtuHost = new ServiceHost(new WcfServiceForRtu(_rtuStations, _clientComps), uri);
                 ServiceForRtuHost.AddServiceEndpoint(typeof(IWcfServiceForRtu),
-                    WcfFactory.CreateDefaultNetTcpBinding(_coreIni), uri);
+                    WcfFactory.CreateDefaultNetTcpBinding(_iniFile), uri);
                 ServiceForRtuHost.Open();
-                _dcLog.AppendLine("RTUs listener started successfully");
+                _logFile.AppendLine("RTUs listener started successfully");
             }
             catch (Exception e)
             {
-                _dcLog.AppendLine(e.Message);
+                _logFile.AppendLine(e.Message);
                 throw;
             }
         }
@@ -81,8 +82,8 @@ namespace DataCenterCore
             }
             catch (Exception e)
             {
-                _dcLog.AppendLine("ReadDbTempTxt");
-                _dcLog.AppendLine(e.Message);
+                _logFile.AppendLine("ReadDbTempTxt");
+                _logFile.AppendLine(e.Message);
                 return null;
             }
         }
@@ -107,7 +108,7 @@ namespace DataCenterCore
                     dictionary.TryAdd(rtuStation.Id, rtuStation);
                 }
             }
-            _dcLog.AppendLine($"{dictionary.Count} RTU found");
+            _logFile.AppendLine($"{dictionary.Count} RTU found");
             return dictionary;
         }
 

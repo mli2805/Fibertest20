@@ -7,8 +7,8 @@
     <ProjectGuid>{6BA3EA08-6BDB-4B2D-8729-409E136D4D74}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DataCenterCore</RootNamespace>
-    <AssemblyName>DataCenterCore</AssemblyName>
+    <RootNamespace>Iit.Fibertest.DataCenterCore</RootNamespace>
+    <AssemblyName>Iit.Fibertest.DataCenterCore</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -56,7 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BootstrapServiceForClientHost.cs" />
+    <Compile Include="BootstrapServiceForClient.cs" />
     <Compile Include="EventStoreService.cs" />
     <Compile Include="LastConnectionTimeChecker.cs" />
     <Compile Include="DcManager.OnClientRequestsReactions.cs" />

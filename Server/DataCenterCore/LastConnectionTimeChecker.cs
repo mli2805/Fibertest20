@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Iit.Fibertest.UtilsLib;
 
-namespace DataCenterCore
+namespace Iit.Fibertest.DataCenterCore
 {
     public class LastConnectionTimeChecker
     {

@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using System.ServiceProcess;
 using Autofac;
-using DataCenterCore;
 using FluentAssertions;
+using Iit.Fibertest.DataCenterCore;
 using Iit.Fibertest.DataCenterService;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
@@ -30,7 +30,7 @@ namespace Tests
         [Fact]
         public void Injected_Ini_File_Should_Have_Correct_File_Assigned()
         {
-            _service1.ServiceIni.FilePath.Should().EndWith("DcService.ini");
+            _service1.IniFile.FilePath.Should().EndWith("DcService.ini");
         }
     }
 
