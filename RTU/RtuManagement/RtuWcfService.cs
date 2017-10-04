@@ -14,12 +14,6 @@ namespace Iit.Fibertest.RtuManagement
         private readonly IMyLog _serviceLog;
         private readonly RtuManager _rtuManager;
 
-        public static event OnMessageReceived MessageReceived;
-        public delegate void OnMessageReceived(object e);
-
-        private readonly object _lockWcfObj = new object();
-
-
         public RtuWcfService(IniFile serviceIniFile, IMyLog serviceLog, RtuManager rtuManager)
         {
             _serviceIniFile = serviceIniFile;
@@ -66,27 +60,43 @@ namespace Iit.Fibertest.RtuManagement
 
         public bool Initialize(InitializeRtuDto dto)
         {
-            lock (_lockWcfObj)
-            {
-                //                ServiceLog.AppendLine("Server sent command: initialize");
-                MessageReceived?.Invoke(dto);
-                return true;
-            }
+            _serviceLog.AppendLine("User demands initialization - OK");
+            _rtuManager.Initialize(dto);
+            return true;
         }
 
         public bool StartMonitoring(StartMonitoringDto dto)
         {
-            lock (_lockWcfObj)
+            if (!_rtuManager.IsRtuInitialized)
             {
-                //                ServiceLog.AppendLine("Server sent command: start monitoring");
-                MessageReceived?.Invoke(dto);
-                return true;
+                _serviceLog.AppendLine("User starts monitoring - Ignored - RTU is busy");
+                return false;
             }
+            if (_rtuManager.IsMonitoringOn)
+            {
+                _serviceLog.AppendLine("User starts monitoring - Ignored - AUTOMATIC mode already");
+                return false;
+            }
+
+            _serviceLog.AppendLine("User starts monitoring");
+            _rtuManager.StartMonitoring();
+            return true;
         }
 
         public bool StopMonitoring(StopMonitoringDto dto)
         {
-                _serviceLog.AppendLine("Server sent command: stop monitoring");
+            if (!_rtuManager.IsRtuInitialized)
+            {
+                _serviceLog.AppendLine("User stops monitoring - Ignored - RTU is busy");
+                return false;
+            }
+            if (!_rtuManager.IsMonitoringOn)
+            {
+                _serviceLog.AppendLine("User starts monitoring - Ignored - MANUAL mode already");
+                return false;
+            }
+
+            _serviceLog.AppendLine("User stops monitoring");
             _rtuManager.StopMonitoring();
             return true;
 
@@ -94,42 +104,49 @@ namespace Iit.Fibertest.RtuManagement
 
         public bool ApplyMonitoringSettings(ApplyMonitoringSettingsDto dto)
         {
-            lock (_lockWcfObj)
+            if (_rtuManager.IsRtuInitialized)
             {
-                //                ServiceLog.AppendLine("Server sent command: apply monitoring settings");
-                MessageReceived?.Invoke(dto);
-                return true;
+                _rtuManager.ChangeSettings(dto);
+                _serviceLog.AppendLine("User sent monitoring settings - Accepted");
             }
+            else
+                _serviceLog.AppendLine("User sent monitoring settings - Ignored - RTU is busy");
+            return true;
         }
 
         public bool AssignBaseRef(AssignBaseRefDto dto)
         {
-            lock (_lockWcfObj)
+            if (!_rtuManager.IsMonitoringOn)
             {
-                //                ServiceLog.AppendLine("Server sent command: assign base ref");
-                MessageReceived?.Invoke(dto);
-                return true;
+                _serviceLog.AppendLine("User sent base ref - Accepted");
+                _rtuManager.AssignBaseRefs(dto);
             }
+            else
+            {
+                _serviceLog.AppendLine("User sent base ref - Ignored - RTU is busy");
+            }
+            return true;
         }
 
         public bool ToggleToPort(OtauPortDto dto)
         {
-            lock (_lockWcfObj)
+            if (!_rtuManager.IsRtuInitialized || _rtuManager.IsMonitoringOn)
             {
-                //                ServiceLog.AppendLine("Server sent command: toggle to port");
-                MessageReceived?.Invoke(dto);
-                return true;
+                _serviceLog.AppendLine("User demands port toggle - Ignored - RTU is busy");
+                return false;
             }
+
+            _serviceLog.AppendLine("User demands port toggle");
+            _rtuManager.ToggleToPort(dto);
+            return true;
         }
 
         public bool CheckLastSuccessfullMeasTime()
         {
-            lock (_lockWcfObj)
-            {
-                _serviceLog.AppendLine("WatchDog asks time of last successfull measurement");
-                MessageReceived?.Invoke(new LastSuccessfullMeasTimeDto());
-                return true;
-            }
+
+            _serviceLog.AppendLine("WatchDog asks time of last successfull measurement");
+            //            _rtuManager.
+            return true;
         }
     }
 }
