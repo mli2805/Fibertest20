@@ -18,13 +18,12 @@ namespace Iit.Fibertest.RtuService
         private RtuManager _rtuManager;
         private Thread _rtuManagerThread;
 
-        public Service1()
+        public Service1(IniFile serviceIni, IMyLog serviceLog)
         {
+            _serviceIni = serviceIni;
+            _serviceLog = serviceLog;
+            _serviceLog.AssignFile("RtuService.log");
             InitializeComponent();
-            _serviceIni = new IniFile();
-            _serviceIni.AssignFile("RtuService.ini");
-
-            _serviceLog = new LogFile(_serviceIni).AssignFile("RtuService.log");
         }
 
         protected override void OnStart(string[] args)
