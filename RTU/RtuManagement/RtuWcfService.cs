@@ -10,30 +10,39 @@ namespace Iit.Fibertest.RtuManagement
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public class RtuWcfService : IRtuWcfService
     {
-        public static IniFile ServiceIniFile { get; set; }
-        public static IMyLog ServiceLog { get; set; }
+        private IniFile _serviceIniFile;
+        private readonly IMyLog _serviceLog;
+        private readonly RtuManager _rtuManager;
 
         public static event OnMessageReceived MessageReceived;
         public delegate void OnMessageReceived(object e);
 
         private readonly object _lockWcfObj = new object();
 
-       
+
+        public RtuWcfService(IniFile serviceIniFile, IMyLog serviceLog, RtuManager rtuManager)
+        {
+            _serviceIniFile = serviceIniFile;
+            _serviceLog = serviceLog;
+            _rtuManager = rtuManager;
+        }
+
+
         private async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
-            ServiceLog.AppendLine("Request for long task received...");
+            _serviceLog.AppendLine("Request for long task received...");
             await TaskEx.Delay(TimeSpan.FromSeconds(3));
-            ServiceLog.AppendLine("Request for long task 2");
+            _serviceLog.AppendLine("Request for long task 2");
             return new RtuInitializedDto
             {
                 Version = $"I detained {dto.ClientId.First6()} for 3 seconds"
             };
         }
-        
+
 
         public IAsyncResult BeginInitializeRtu(InitializeRtuDto dto, AsyncCallback callback, object asyncState)
         {
-            ServiceLog.AppendLine("point 11");
+            _serviceLog.AppendLine("point 11");
 
             var task = InitializeRtuAsync(dto);
             if (callback != null)
@@ -45,8 +54,8 @@ namespace Iit.Fibertest.RtuManagement
 
         public RtuInitializedDto EndInitializeRtu(IAsyncResult result)
         {
-            ServiceLog.AppendLine("point 21");
-            return ((Task<RtuInitializedDto>) result).Result;
+            _serviceLog.AppendLine("point 21");
+            return ((Task<RtuInitializedDto>)result).Result;
         }
 
 
@@ -77,12 +86,10 @@ namespace Iit.Fibertest.RtuManagement
 
         public bool StopMonitoring(StopMonitoringDto dto)
         {
-            lock (_lockWcfObj)
-            {
-                //                ServiceLog.AppendLine("Server sent command: stop monitoring");
-                MessageReceived?.Invoke(dto);
-                return true;
-            }
+                _serviceLog.AppendLine("Server sent command: stop monitoring");
+            _rtuManager.StopMonitoring();
+            return true;
+
         }
 
         public bool ApplyMonitoringSettings(ApplyMonitoringSettingsDto dto)
@@ -119,7 +126,7 @@ namespace Iit.Fibertest.RtuManagement
         {
             lock (_lockWcfObj)
             {
-                ServiceLog.AppendLine("WatchDog asks time of last successfull measurement");
+                _serviceLog.AppendLine("WatchDog asks time of last successfull measurement");
                 MessageReceived?.Invoke(new LastSuccessfullMeasTimeDto());
                 return true;
             }

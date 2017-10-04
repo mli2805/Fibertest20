@@ -16,13 +16,15 @@ namespace Iit.Fibertest.RtuService
         private readonly IniFile _serviceIni;
         private readonly IMyLog _serviceLog;
         private readonly RtuManager _rtuManager;
+        private readonly RtuWcfServiceBootstrapper _rtuWcfServiceBootstrapper;
         private Thread _rtuManagerThread;
 
-        public Service1(IniFile serviceIni, IMyLog serviceLog, RtuManager rtuManager)
+        public Service1(IniFile serviceIni, IMyLog serviceLog, RtuManager rtuManager, RtuWcfServiceBootstrapper rtuWcfServiceBootstrapper)
         {
             _serviceIni = serviceIni;
             _serviceLog = serviceLog;
             _rtuManager = rtuManager;
+            _rtuWcfServiceBootstrapper = rtuWcfServiceBootstrapper;
             _serviceLog.AssignFile("RtuService.log");
             InitializeComponent();
         }
@@ -34,18 +36,18 @@ namespace Iit.Fibertest.RtuService
             _serviceLog.AppendLine($"Windows service started. Process {pid}, thread {tid}");
 
 
-
-            StartWcfListener();
-
 //            _rtuManager = new RtuManager(_serviceLog, _serviceIni);
             _rtuManagerThread = new Thread(_rtuManager.Initialize) { IsBackground = true };
             _rtuManagerThread.Start();
+
+//            StartWcfListener();
+            _rtuWcfServiceBootstrapper.Start();
         }
 
         protected override void OnStop()
         {
             _rtuManagerThread?.Abort();
-            _myServiceHost?.Close();
+//            _myServiceHost?.Close();
 
             var pid = Process.GetCurrentProcess().Id;
             var tid = Thread.CurrentThread.ManagedThreadId;
@@ -53,42 +55,6 @@ namespace Iit.Fibertest.RtuService
 
             // works very fast but trigger a window with swearing - demands one more click to close it
             // Environment.FailFast("Fast termination of service.");
-        }
-
-        private static ServiceHost _myServiceHost;
-        private void StartWcfListener()
-        {
-            _myServiceHost?.Close();
-
-            RtuWcfService.ServiceIniFile = _serviceIni;
-            RtuWcfService.ServiceLog = _serviceLog;
-            RtuWcfService.MessageReceived += RtuWcfService_MessageReceived;
-
-            try
-            {
-                _myServiceHost = new ServiceHost(typeof(RtuWcfService));
-                _myServiceHost.AddServiceEndpoint(typeof(IRtuWcfService),
-                    WcfFactory.CreateDefaultNetTcpBinding(_serviceIni),
-                    WcfFactory.CombineUriString(@"localhost", (int)TcpPorts.RtuListenTo, @"RtuWcfService"));
-
-                _myServiceHost.Open();
-                _serviceLog.AppendLine("RTU is listening to DataCenter now.");
-            }
-            catch (Exception e)
-            {
-                _serviceLog.AppendLine(e.Message);
-                var enabled = _serviceIni.Read(IniSection.Recovering, IniKey.RebootSystemEnabled, false);
-                if (enabled)
-                {
-                    var delay = _serviceIni.Read(IniSection.Recovering, IniKey.RebootSystemDelay, 60);
-                    _serviceLog.AppendLine("Recovery procedure: Reboot system.");
-                    RestoreFunctions.RebootSystem(_serviceLog, delay);
-                    Thread.Sleep(TimeSpan.FromSeconds(delay + 5));
-                }
-                else
-                    throw;
-            }
-
         }
 
         private void RtuWcfService_MessageReceived(object msg)

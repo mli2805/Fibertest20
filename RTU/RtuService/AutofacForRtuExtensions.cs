@@ -1,6 +1,7 @@
 ﻿using System.ServiceProcess;
 using Autofac;
 using Iit.Fibertest.RtuManagement;
+using Iit.Fibertest.RtuWcfServiceInterface;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.RtuService
@@ -16,6 +17,9 @@ namespace Iit.Fibertest.RtuService
             builder.RegisterInstance<IMyLog>(serviceLog);
 
             builder.RegisterType<RtuManager>().SingleInstance();
+            builder.RegisterType<RtuWcfService>().As<IRtuWcfService>().SingleInstance();
+            builder.RegisterType<RtuWcfServiceBootstrapper>().SingleInstance();
+
             builder.RegisterType<Service1>().As<ServiceBase>().SingleInstance();
 
             return builder;

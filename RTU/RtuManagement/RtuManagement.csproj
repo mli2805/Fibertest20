@@ -118,6 +118,7 @@
     <Compile Include="RtuManager.OnWcfReactions.cs" />
     <Compile Include="RtuManager.Recovering.cs" />
     <Compile Include="RtuWcfService.cs" />
+    <Compile Include="RtuWcfServiceBootstrapper.cs" />
     <Compile Include="WoodPecker.cs" />
   </ItemGroup>
   <ItemGroup>
