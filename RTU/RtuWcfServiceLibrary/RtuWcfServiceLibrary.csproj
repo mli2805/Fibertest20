@@ -120,7 +120,6 @@
     <Compile Include="CompositeType.cs" />
     <Compile Include="IRtuWcfService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RtuWcfService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\SharedLibs\Dto\Dto.csproj">
@@ -133,7 +132,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

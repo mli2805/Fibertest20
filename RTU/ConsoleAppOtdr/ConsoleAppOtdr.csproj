@@ -82,9 +82,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\SharedLibs\Utils35\UtilsLib.csproj">
       <Project>{716240ff-d1e8-4bd3-9e63-431382617398}</Project>
       <Name>UtilsLib</Name>

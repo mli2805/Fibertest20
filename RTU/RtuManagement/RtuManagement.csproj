@@ -117,6 +117,7 @@
     <Compile Include="RtuManager.Send.cs" />
     <Compile Include="RtuManager.OnWcfReactions.cs" />
     <Compile Include="RtuManager.Recovering.cs" />
+    <Compile Include="RtuWcfService.cs" />
     <Compile Include="WoodPecker.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -146,7 +147,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
