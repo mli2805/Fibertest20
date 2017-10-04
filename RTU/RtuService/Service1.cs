@@ -15,13 +15,14 @@ namespace Iit.Fibertest.RtuService
     {
         private readonly IniFile _serviceIni;
         private readonly IMyLog _serviceLog;
-        private RtuManager _rtuManager;
+        private readonly RtuManager _rtuManager;
         private Thread _rtuManagerThread;
 
-        public Service1(IniFile serviceIni, IMyLog serviceLog)
+        public Service1(IniFile serviceIni, IMyLog serviceLog, RtuManager rtuManager)
         {
             _serviceIni = serviceIni;
             _serviceLog = serviceLog;
+            _rtuManager = rtuManager;
             _serviceLog.AssignFile("RtuService.log");
             InitializeComponent();
         }
@@ -36,7 +37,7 @@ namespace Iit.Fibertest.RtuService
 
             StartWcfListener();
 
-            _rtuManager = new RtuManager(_serviceLog, _serviceIni);
+//            _rtuManager = new RtuManager(_serviceLog, _serviceIni);
             _rtuManagerThread = new Thread(_rtuManager.Initialize) { IsBackground = true };
             _rtuManagerThread.Start();
         }

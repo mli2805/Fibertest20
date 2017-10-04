@@ -1,6 +1,5 @@
 ﻿using System.ServiceProcess;
 using Autofac;
-using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.RtuService
 {
@@ -23,22 +22,6 @@ namespace Iit.Fibertest.RtuService
 //                new Service1()
 //            };
 //            ServiceBase.Run(ServicesToRun);
-        }
-    }
-
-    public static class AutofacForRtuExtensions
-    {
-        public static ContainerBuilder ForRtu(this ContainerBuilder builder)
-        {
-            var serviceIni = new IniFile().AssignFile("RtuService.ini");
-            builder.RegisterInstance(serviceIni);
-
-            var serviceLog = new LogFile(serviceIni);
-            builder.RegisterInstance<IMyLog>(serviceLog);
-
-            builder.RegisterType<Service1>().As<ServiceBase>().SingleInstance();
-
-            return builder;
         }
     }
 }

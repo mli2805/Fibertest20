@@ -117,5 +117,10 @@ namespace Iit.Fibertest.RtuManagement
             _version = info.FileVersion;
             _serviceIni.Write(IniSection.General, IniKey.Version, _version);
         }
+
+        public void Start()
+        {
+            
+        }
     }
 }
