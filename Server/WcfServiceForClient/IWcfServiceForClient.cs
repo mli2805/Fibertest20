@@ -32,11 +32,8 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
 
 
         [OperationContract]
-        void InitializeRtuLongTask(InitializeRtuDto dto);
+        Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto);
 
-
-        [OperationContract]
-        bool InitializeRtu(InitializeRtuDto rtu);
 
         [OperationContract]
         bool StartMonitoring(StartMonitoringDto dto);

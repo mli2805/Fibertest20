@@ -42,7 +42,7 @@ namespace Iit.Fibertest.Client
             throw new NotImplementedException();
         }
 
-        public void InitializeRtuLongTask(InitializeRtuDto dto)
+        public Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
             throw new NotImplementedException();
         }

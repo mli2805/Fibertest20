@@ -1,9 +1,7 @@
-﻿using System;
-using System.ServiceModel;
+﻿using System.ServiceModel;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.DataCenterCore
@@ -32,11 +30,13 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {
+            _logFile.AppendLine($"Client {dto.ClientId.First6()} asks registration");
             return await _dcManager.RegisterClientAsync(dto);
         }
 
         public async Task UnregisterClientAsync(UnRegisterClientDto dto)
         {
+            _logFile.AppendLine($"Client {dto.ClientId.First6()} exited");
             await _dcManager.UnregisterClientAsync(dto);
         }
 
@@ -48,50 +48,29 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)
         {
-            _logFile.AppendLine($"Client {dto.ClientId.First6()} sent check rtu {dto.RtuId.First6()} request");
+            _logFile.AppendLine($"Client {dto.ClientId.First6()} check rtu {dto.RtuId.First6()} connection");
             return await _dcManager.CheckRtuConnectionAsync(dto);
         }
 
-
-
-        private D2RWcfManager _d2RWcfManager;
-        public void InitializeRtuLongTask(InitializeRtuDto dto)
+        public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
             _logFile.AppendLine($"Client {dto.ClientId.First6()} sent initialize rtu {dto.RtuId.First6()} request");
-            _d2RWcfManager = new D2RWcfManager(dto.RtuAddresses, _iniFile, _logFile);
+            //            RtuInitializedDto b = new RtuInitializedDto();
+            //            try
+            //            {
+            //                b = await _dcManager.InitializeRtuAsync(dto);
+            //            }
+            //            catch (Exception e)
+            //            {
+            //                _logFile.AppendLine($"{e.Message}");
+            //            } 
+            //            _logFile.AppendLine($"Initialization terminated. Result is {b.IsInitialized}");
+            //            return b;
 
-            _d2RWcfManager.InitializeRtuLongTask(dto, InitializeRtuLongTaskCallback);
+            return await _dcManager.InitializeRtuAsync(dto);
+
         }
 
-        private void InitializeRtuLongTaskCallback(IAsyncResult asyncState)
-        {
-            try
-            {
-                if (_d2RWcfManager == null)
-                    return;
-
-                var result = _d2RWcfManager.InitializeRtuLongTaskEnd(asyncState);
-                _logFile.AppendLine($@"{result.Version}");
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine(e.Message);
-            }
-        }
-
-
-
-
-
-
-
-
-        public bool InitializeRtu(InitializeRtuDto dto)
-        {
-            _logFile.AppendLine($"Client {dto.ClientId.First6()} sent initialize rtu {dto.RtuId.First6()} request");
-            _dcManager.HandleMessage(dto);
-            return true;
-        }
 
         public bool StartMonitoring(StartMonitoringDto dto)
         {

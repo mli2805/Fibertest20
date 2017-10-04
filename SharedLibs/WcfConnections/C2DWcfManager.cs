@@ -25,24 +25,6 @@ namespace Iit.Fibertest.WcfConnections
             _wcfFactory = new WcfFactory(newServerAddress, _iniFile, _logFile);
         }
 
-        public bool InitializeRtuLongTask(InitializeRtuDto dto)
-        {
-            var c2DChannel = _wcfFactory.CreateC2DConnection();
-            if (c2DChannel == null)
-                return false;
-
-            try
-            {
-                c2DChannel.InitializeRtuLongTask(dto);
-                return true;
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine(e.Message);
-                return false;
-            }
-        }
-
 
 
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
@@ -120,23 +102,21 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public bool InitializeRtu(InitializeRtuDto dto)
+        public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
-            var wcfConnection = _wcfFactory.CreateC2DConnection();
-            if (wcfConnection == null)
-                return false;
+            var c2DChannel = _wcfFactory.CreateC2DConnection();
+            if (c2DChannel == null)
+                return new RtuInitializedDto() { IsInitialized = false, ErrorCode = 11};
 
             try
             {
-                dto.ClientId = _clientId;
-                wcfConnection.InitializeRtu(dto);
                 _logFile.AppendLine($@"Sent command to initialize RTU {dto.RtuId.First6()}");
-                return true;
+                return await c2DChannel.InitializeRtuAsync(dto);
             }
             catch (Exception e)
             {
                 _logFile.AppendLine(e.Message);
-                return false;
+                return new RtuInitializedDto() { IsInitialized = false, ErrorCode = 12};
             }
         }
 

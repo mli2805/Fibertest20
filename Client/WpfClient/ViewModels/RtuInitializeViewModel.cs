@@ -144,7 +144,7 @@ namespace Iit.Fibertest.Client
             DisplayName = Resources.SID_Network_settings;
         }
 
-        public void InitializeRtu()
+        public async void InitializeRtu()
         {
             if (string.IsNullOrEmpty(OriginalRtu.Title))
             {
@@ -168,7 +168,8 @@ namespace Iit.Fibertest.Client
             };
             using (new WaitCursor())
             {
-                if (!IoC.Get<C2DWcfManager>().InitializeRtu(dto))
+                var b = await IoC.Get<C2DWcfManager>().InitializeRtuAsync(dto);
+                if (!b.IsInitialized)
                 {
                     InitilizationProgress = Resources.SID_Can_t_establish_connection_with_server_;
                     MessageBox.Show(Resources.SID_Can_t_establish_connection_with_server_, Resources.SID_Error);

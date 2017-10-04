@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.RtuWcfServiceLibrary;
 using Iit.Fibertest.UtilsLib;
@@ -16,6 +17,16 @@ namespace Iit.Fibertest.WcfConnections
             _wcfFactory = new WcfFactory(dataCenterAddress, iniFile, _logFile);
         }
 
+
+        public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
+        {
+            _d2RChannel = _wcfFactory.CreateRtuConnection();
+            if (_d2RChannel == null)
+                return new RtuInitializedDto() { IsInitialized = false, ErrorCode = 21 };
+
+            return await _d2RChannel.InitializeRtuAsync(dto);
+        }
+
         private IRtuWcfService _d2RChannel;
         public bool InitializeRtuLongTask(InitializeRtuDto dto, AsyncCallback callback)
         {
@@ -23,7 +34,7 @@ namespace Iit.Fibertest.WcfConnections
             if (_d2RChannel == null)
                 return false;
             var asyncState = new object();
-            _d2RChannel.BeginInitializeAndAnswer(dto, callback, asyncState);
+            _d2RChannel.BeginInitializeRtu(dto, callback, asyncState);
             return true;
         }
 
@@ -34,7 +45,7 @@ namespace Iit.Fibertest.WcfConnections
 
             try
             {
-                return _d2RChannel.EndInitializeAndAnswer(asyncState);
+                return _d2RChannel.EndInitializeRtu(asyncState);
             }
             catch (Exception e)
             {

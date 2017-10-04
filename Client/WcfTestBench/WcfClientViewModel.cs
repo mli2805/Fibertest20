@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
-using System.Threading.Tasks;
 using Caliburn.Micro;
 using ClientWcfServiceLibrary;
 using Iit.Fibertest.Dto;
@@ -176,7 +175,7 @@ namespace WcfTestBench
             var registrationResult = await _c2DWcfManager.RegisterClientAsync(
                 new RegisterClientDto()
                 {
-                    Addresses = new DoubleAddress() {Main = clientAddresses, HasReserveAddress = false},
+                    Addresses = new DoubleAddress() { Main = clientAddresses, HasReserveAddress = false },
                     UserName = @"Vasya"
                 });
             if (!registrationResult.IsRegistered)
@@ -227,16 +226,19 @@ namespace WcfTestBench
             DisplayString = b.IsConnectionSuccessfull ? @"Connection with RTU established successfully" : Resources.SID_Error;
         }
 
-        public void Initialize()
+        public async void Initialize()
         {
-            // TODO contemplate thoroughly
             var dto = new InitializeRtuDto() { RtuId = SelectedRtu.Id, RtuAddresses = SelectedRtu.PcAddresses.DoubleAddress };
             dto.ServerAddresses = (DoubleAddress)DcServiceAddresses.Clone();
             dto.ServerAddresses.Main.Port = (int)TcpPorts.ServerListenToRtu;
             dto.ServerAddresses.Reserve.Port = (int)TcpPorts.ServerListenToRtu;
 
-            _c2DWcfManager.InitializeRtu(dto);
             DisplayString = Resources.SID_Command_sent__wait_please_;
+            using (new WaitCursor())
+            {
+                var b = await _c2DWcfManager.InitializeRtuAsync(dto);
+                DisplayString = b.IsInitialized ? @"RTU initialized successfully." : $@"Error code {b.ErrorCode}";
+            }
         }
 
         private Random gen = new Random();

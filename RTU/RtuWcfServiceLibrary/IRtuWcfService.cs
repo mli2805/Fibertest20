@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ServiceModel;
+using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.RtuWcfServiceLibrary
@@ -10,8 +11,8 @@ namespace Iit.Fibertest.RtuWcfServiceLibrary
     {
      
         [OperationContract(AsyncPattern = true)]
-        IAsyncResult BeginInitializeAndAnswer(InitializeRtuDto dto, AsyncCallback callback, object asyncState);
-        RtuInitializedDto EndInitializeAndAnswer(IAsyncResult result);
+        IAsyncResult BeginInitializeRtu(InitializeRtuDto dto, AsyncCallback callback, object asyncState);
+        RtuInitializedDto EndInitializeRtu(IAsyncResult result);
         
 
 
@@ -37,6 +38,15 @@ namespace Iit.Fibertest.RtuWcfServiceLibrary
         // for WatchDog
         [OperationContract]
         bool CheckLastSuccessfullMeasTime();
+    }
+
+    public static class RtuWcfServiceExtension
+    {
+        public static Task<RtuInitializedDto> InitializeRtuAsync(
+            this IRtuWcfService rtuWcfService, InitializeRtuDto dto)
+        {
+            return Task.Factory.FromAsync(rtuWcfService.BeginInitializeRtu, rtuWcfService.EndInitializeRtu, dto, null);
+        }
     }
 
 }

@@ -14,6 +14,9 @@ namespace Iit.Fibertest.Dto
         public bool IsInitialized { get; set; }
 
         [DataMember]
+        public int ErrorCode { get; set; }
+
+        [DataMember]
         public string Serial { get; set; }
 
         [DataMember]

@@ -48,18 +48,6 @@ namespace Iit.Fibertest.DataCenterCore
 
         private MessageProcessingResult ProcessClientsMessage(object msg)
         {
-            var dtoD2R1 = msg as CheckRtuConnectionDto;
-            if (dtoD2R1 != null)
-            {
-                _logFile.AppendLine("user asks check rtu connection");
-                CheckRtuConnection(dtoD2R1);
-                return MessageProcessingResult.NothingToReturn;
-            }
-
-            var dtoD2R2 = msg as InitializeRtuDto;
-            if (dtoD2R2 != null)
-                return InitializeRtu(dtoD2R2);
-
             var dto5 = msg as StartMonitoringDto;
             if (dto5 != null)
                 return StartMonitoring(dto5);
@@ -81,17 +69,12 @@ namespace Iit.Fibertest.DataCenterCore
 
         public Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {
-            _logFile.AppendLine($"Client {dto.ClientId.First6()} asks registration");
             var result = new ClientRegisteredDto();
 
-            var clientStation = new ClientStation
-            {
+            var clientStation = new ClientStation {
                 Id = dto.ClientId,
-                PcAddresses = new DoubleAddressWithLastConnectionCheck
-                {
-                    DoubleAddress = dto.Addresses
-                }
-            };
+                PcAddresses = new DoubleAddressWithLastConnectionCheck {
+                    DoubleAddress = dto.Addresses } };
 
             try
             {
@@ -112,7 +95,6 @@ namespace Iit.Fibertest.DataCenterCore
 
         public Task UnregisterClientAsync(UnRegisterClientDto dto)
         {
-            _logFile.AppendLine($"Client {dto.ClientId.First6()} exited");
             lock (_clientStationsLockObj)
             {
                 _clientStations.RemoveAll(c => c.Id == dto.ClientId);
@@ -136,54 +118,10 @@ namespace Iit.Fibertest.DataCenterCore
             return Task.FromResult(result);
         }
 
-        private void CheckRtuConnection(CheckRtuConnectionDto dto)
+        public Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
-            Thread thread = new Thread(CheckRtuConnectionThread);
-            thread.Start(dto);
-        }
-
-        private void CheckRtuConnectionThread(object param)
-        {
-            var dto = param as CheckRtuConnectionDto;
-            if (dto == null)
-                return;
-
-            var clientStation = GetClientStation(dto.ClientId);
-            if (clientStation == null)
-            {
-                _logFile.AppendLine("Unknown client!");
-                return;
-            }
-
-            var result = new RtuConnectionCheckedDto() { RtuId = dto.RtuId };
-            var rtuConnection = new WcfFactory(new DoubleAddress() { Main = dto.NetAddress }, _iniFile, _logFile).CreateRtuConnection();
-            if (rtuConnection != null)
-            {
-                result.IsConnectionSuccessfull = true;
-            }
-            else
-            {
-                result.IsConnectionSuccessfull = false;
-                result.IsPingSuccessful = Pinger.Ping(dto.NetAddress.IsAddressSetAsIp ? dto.NetAddress.Ip4Address : dto.NetAddress.HostName);
-            }
-            new D2CWcfManager(new List<DoubleAddress>() { clientStation.PcAddresses.DoubleAddress }, _iniFile, _logFile).ConfirmRtuConnectionChecked(result);
-        }
-
-        private ClientStation GetClientStation(Guid clientId)
-        {
-            lock (_clientStationsLockObj)
-            {
-                return _clientStations.FirstOrDefault(c => c.Id == clientId);
-            }
-        }
-
-        private MessageProcessingResult InitializeRtu(InitializeRtuDto dto)
-        {
-            _rtuCommandDeliveredDto.ClientId = dto.ClientId;
-            _rtuCommandDeliveredDto.RtuId = dto.RtuId;
-
             dto.ServerAddresses = _serverDoubleAddress;
-            return new D2RWcfManager(dto.RtuAddresses, _iniFile, _logFile).InitializeRtu(dto);
+            return new D2RWcfManager(dto.RtuAddresses, _iniFile, _logFile).InitializeRtuAsync(dto);
         }
 
         private MessageProcessingResult StartMonitoring(StartMonitoringDto dto)
@@ -230,5 +168,12 @@ namespace Iit.Fibertest.DataCenterCore
                 : MessageProcessingResult.UnknownRtu;
         }
 
+        private ClientStation GetClientStation(Guid clientId)
+        {
+            lock (_clientStationsLockObj)
+            {
+                return _clientStations.FirstOrDefault(c => c.Id == clientId);
+            }
+        }
     }
 }

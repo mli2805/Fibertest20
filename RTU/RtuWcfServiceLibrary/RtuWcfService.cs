@@ -18,27 +18,33 @@ namespace Iit.Fibertest.RtuWcfServiceLibrary
         private readonly object _lockWcfObj = new object();
 
        
-        private async Task<RtuInitializedDto> InitializeAndAnswerAsync(InitializeRtuDto dto)
+        private async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
             ServiceLog.AppendLine("Request for long task received...");
-            await TaskEx.Delay(TimeSpan.FromSeconds(10));
+            await TaskEx.Delay(TimeSpan.FromSeconds(3));
+            ServiceLog.AppendLine("Request for long task 2");
             return new RtuInitializedDto
             {
-                Version = $"I detained {dto.ClientId.First6()} for 10 seconds"
+                Version = $"I detained {dto.ClientId.First6()} for 3 seconds"
             };
         }
         
 
-        public IAsyncResult BeginInitializeAndAnswer(InitializeRtuDto dto, AsyncCallback callback, object asyncState)
+        public IAsyncResult BeginInitializeRtu(InitializeRtuDto dto, AsyncCallback callback, object asyncState)
         {
-            var task = InitializeAndAnswerAsync(dto);
+            ServiceLog.AppendLine("point 11");
+
+            var task = InitializeRtuAsync(dto);
             if (callback != null)
                 task.ContinueWith(_ => callback(task));
             return task;
+
+            //            return InitializeRtuAsync(dto);
         }
 
-        public RtuInitializedDto EndInitializeAndAnswer(IAsyncResult result)
+        public RtuInitializedDto EndInitializeRtu(IAsyncResult result)
         {
+            ServiceLog.AppendLine("point 21");
             return ((Task<RtuInitializedDto>) result).Result;
         }
 
