@@ -46,11 +46,10 @@ namespace Iit.Fibertest.DataCenterCore
             return true;
         }
 
-        public bool CheckRtuConnection(CheckRtuConnectionDto dto)
+        public async Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)
         {
             _logFile.AppendLine($"Client {dto.ClientId.First6()} sent check rtu {dto.RtuId.First6()} request");
-            _dcManager.HandleMessage(dto);
-            return true;
+            return await _dcManager.CheckRtuConnectionAsync(dto);
         }
 
 

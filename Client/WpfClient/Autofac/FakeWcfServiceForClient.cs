@@ -37,7 +37,7 @@ namespace Iit.Fibertest.Client
             throw new NotImplementedException();
         }
 
-        public bool CheckRtuConnection(CheckRtuConnectionDto rtuAddress)
+        public Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)
         {
             throw new NotImplementedException();
         }

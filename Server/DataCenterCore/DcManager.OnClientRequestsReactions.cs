@@ -120,6 +120,22 @@ namespace Iit.Fibertest.DataCenterCore
             return Task.CompletedTask;
         }
 
+        public Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)
+        {
+            var result = new RtuConnectionCheckedDto() { RtuId = dto.RtuId };
+            var rtuConnection = new WcfFactory(new DoubleAddress() { Main = dto.NetAddress }, _iniFile, _logFile).CreateRtuConnection();
+            if (rtuConnection != null)
+            {
+                result.IsConnectionSuccessfull = true;
+            }
+            else
+            {
+                result.IsConnectionSuccessfull = false;
+                result.IsPingSuccessful = Pinger.Ping(dto.NetAddress.IsAddressSetAsIp ? dto.NetAddress.Ip4Address : dto.NetAddress.HostName);
+            }
+            return Task.FromResult(result);
+        }
+
         private void CheckRtuConnection(CheckRtuConnectionDto dto)
         {
             Thread thread = new Thread(CheckRtuConnectionThread);

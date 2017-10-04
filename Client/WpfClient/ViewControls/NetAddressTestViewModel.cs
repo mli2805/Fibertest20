@@ -61,7 +61,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public void Test()
+        public async void Test()
         {
             if (_serverAddress == null) // check server address
             {
@@ -73,8 +73,10 @@ namespace Iit.Fibertest.Client
             else // ask server to check rtu address
             {
                 var singleServerAddress = new DoubleAddress() { HasReserveAddress = false, Main = (NetAddress)_serverAddress.Clone() };
-                new C2DWcfManager(singleServerAddress, _iniFile, _logFile, _clientId)
-                    .CheckRtuConnection(new CheckRtuConnectionDto() { NetAddress = (NetAddress)NetAddressInputViewModel.GetNetAddress().Clone() });
+                var c2DWcfManager = new C2DWcfManager(singleServerAddress, _iniFile, _logFile, _clientId);
+                var b = await c2DWcfManager
+                    .CheckRtuConnectionAsync(new CheckRtuConnectionDto() { NetAddress = (NetAddress)NetAddressInputViewModel.GetNetAddress().Clone() });
+                Result = b.IsConnectionSuccessfull;
             }
         }
     }

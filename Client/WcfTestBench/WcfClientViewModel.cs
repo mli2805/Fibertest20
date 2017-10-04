@@ -214,7 +214,7 @@ namespace WcfTestBench
             base.CanClose(callback);
         }
 
-        public void CheckConnection()
+        public async void CheckConnection()
         {
             DisplayString = Resources.SID_Command_sent__wait_please_;
             var dto = new CheckRtuConnectionDto()
@@ -223,7 +223,8 @@ namespace WcfTestBench
                 RtuId = SelectedRtu.Id,
                 NetAddress = SelectedRtu.PcAddresses.DoubleAddress.Main,
             };
-            DisplayString = _c2DWcfManager.CheckRtuConnection(dto) ? @"Check connection started, wait please" : Resources.SID_Error;
+            var b = await _c2DWcfManager.CheckRtuConnectionAsync(dto);
+            DisplayString = b.IsConnectionSuccessfull ? @"Connection with RTU established successfully" : Resources.SID_Error;
         }
 
         public void Initialize()

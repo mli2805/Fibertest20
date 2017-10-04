@@ -101,23 +101,22 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public bool CheckRtuConnection(CheckRtuConnectionDto dto)
+        public async Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)
         {
+            _logFile.AppendLine($@"Check connection with RTU {dto.RtuId.First6()}");
             var wcfConnection = _wcfFactory.CreateC2DConnection();
             if (wcfConnection == null)
-                return false;
+                return new RtuConnectionCheckedDto() { IsConnectionSuccessfull = false };
 
             try
             {
                 dto.ClientId = _clientId;
-                wcfConnection.CheckRtuConnection(dto);
-                _logFile.AppendLine($@"Sent command to check connection with RTU {dto.RtuId.First6()}");
-                return true;
+                return await wcfConnection.CheckRtuConnectionAsync(dto);
             }
             catch (Exception e)
             {
                 _logFile.AppendLine(e.Message);
-                return false;
+                return new RtuConnectionCheckedDto() { IsConnectionSuccessfull = false };
             }
         }
 

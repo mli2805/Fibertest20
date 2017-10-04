@@ -28,7 +28,7 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
 
         // C2D2R
         [OperationContract]
-        bool CheckRtuConnection(CheckRtuConnectionDto rtuAddress);
+        Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto rtuAddress);
 
 
         [OperationContract]
