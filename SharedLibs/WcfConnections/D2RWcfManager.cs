@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.RtuWcfServiceInterface;
 using Iit.Fibertest.UtilsLib;
@@ -20,50 +19,11 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
-            _d2RChannel = _wcfFactory.CreateRtuConnection();
-            if (_d2RChannel == null)
+            var d2RChannel = _wcfFactory.CreateRtuConnection();
+            if (d2RChannel == null)
                 return new RtuInitializedDto() { IsInitialized = false, ErrorCode = 21 };
 
-            return await _d2RChannel.InitializeRtuAsync(dto);
-        }
-
-        private IRtuWcfService _d2RChannel;
-        public bool InitializeRtuLongTask(InitializeRtuDto dto, AsyncCallback callback)
-        {
-            _d2RChannel = _wcfFactory.CreateRtuConnection();
-            if (_d2RChannel == null)
-                return false;
-            var asyncState = new object();
-            _d2RChannel.BeginInitializeRtu(dto, callback, asyncState);
-            return true;
-        }
-
-        public RtuInitializedDto InitializeRtuLongTaskEnd(IAsyncResult asyncState)
-        {
-            if (_d2RChannel == null)
-                return null;
-
-            try
-            {
-                return _d2RChannel.EndInitializeRtu(asyncState);
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine(e.Message);
-                return null;
-            }
-        }
-
-      
-        public MessageProcessingResult InitializeRtu(InitializeRtuDto dto)
-        {
-            var rtuConnection = _wcfFactory.CreateRtuConnection();
-            if (rtuConnection == null)
-                return MessageProcessingResult.FailedToTransmit;
-            rtuConnection.Initialize(dto);
-
-            _logFile.AppendLine($"Transfered command to initialize RTU {dto.RtuId}");
-            return MessageProcessingResult.TransmittedSuccessfully;
+            return await d2RChannel.InitializeRtuAsync(dto);
         }
 
         public MessageProcessingResult StartMonitoring(StartMonitoringDto dto)

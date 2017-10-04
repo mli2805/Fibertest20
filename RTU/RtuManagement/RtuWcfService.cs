@@ -10,13 +10,11 @@ namespace Iit.Fibertest.RtuManagement
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public class RtuWcfService : IRtuWcfService
     {
-        private IniFile _serviceIniFile;
         private readonly IMyLog _serviceLog;
         private readonly RtuManager _rtuManager;
 
-        public RtuWcfService(IniFile serviceIniFile, IMyLog serviceLog, RtuManager rtuManager)
+        public RtuWcfService(IMyLog serviceLog, RtuManager rtuManager)
         {
-            _serviceIniFile = serviceIniFile;
             _serviceLog = serviceLog;
             _rtuManager = rtuManager;
         }
@@ -36,7 +34,7 @@ namespace Iit.Fibertest.RtuManagement
 
         public IAsyncResult BeginInitializeRtu(InitializeRtuDto dto, AsyncCallback callback, object asyncState)
         {
-            _serviceLog.AppendLine("point 11");
+            _serviceLog.AppendLine("User demands initialization - OK");
 
             var task = InitializeRtuAsync(dto);
             if (callback != null)
@@ -58,12 +56,12 @@ namespace Iit.Fibertest.RtuManagement
 
 
 
-        public bool Initialize(InitializeRtuDto dto)
-        {
-            _serviceLog.AppendLine("User demands initialization - OK");
-            _rtuManager.Initialize(dto);
-            return true;
-        }
+//        public bool Initialize(InitializeRtuDto dto)
+//        {
+//            _serviceLog.AppendLine("User demands initialization - OK");
+//            _rtuManager.Initialize(dto);
+//            return true;
+//        }
 
         public bool StartMonitoring(StartMonitoringDto dto)
         {

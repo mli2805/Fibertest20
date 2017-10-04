@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using System.ServiceProcess;
 using System.Threading;
-using Iit.Fibertest.Dto;
 using Iit.Fibertest.RtuManagement;
 using Iit.Fibertest.UtilsLib;
 
@@ -9,15 +8,13 @@ namespace Iit.Fibertest.RtuService
 {
     public partial class Service1 : ServiceBase
     {
-        private readonly IniFile _serviceIni;
         private readonly IMyLog _serviceLog;
         private readonly RtuManager _rtuManager;
         private readonly RtuWcfServiceBootstrapper _rtuWcfServiceBootstrapper;
         private Thread _rtuManagerThread;
 
-        public Service1(IniFile serviceIni, IMyLog serviceLog, RtuManager rtuManager, RtuWcfServiceBootstrapper rtuWcfServiceBootstrapper)
+        public Service1(IMyLog serviceLog, RtuManager rtuManager, RtuWcfServiceBootstrapper rtuWcfServiceBootstrapper)
         {
-            _serviceIni = serviceIni;
             _serviceLog = serviceLog;
             _rtuManager = rtuManager;
             _rtuWcfServiceBootstrapper = rtuWcfServiceBootstrapper;

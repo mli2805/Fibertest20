@@ -12,7 +12,6 @@ namespace Iit.Fibertest.DataCenterCore
         // BUG: Initialize this!
         private readonly EventStoreService _service = new EventStoreService();
 
-        private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
 
         private readonly DcManager _dcManager; 
@@ -21,9 +20,8 @@ namespace Iit.Fibertest.DataCenterCore
         public string[] GetEvents(int revision) => _service.GetEvents(revision);
         
 
-        public WcfServiceForClient(DcManager dcManager, IniFile iniFile, IMyLog logFile)
+        public WcfServiceForClient(DcManager dcManager, IMyLog logFile)
         {
-            _iniFile = iniFile;
             _logFile = logFile;
             _dcManager = dcManager;
         }

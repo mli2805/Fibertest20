@@ -17,9 +17,6 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
 
 
         [OperationContract]
-        bool Initialize(InitializeRtuDto rtu);
-
-        [OperationContract]
         bool StartMonitoring(StartMonitoringDto dto);
 
         [OperationContract]
@@ -31,6 +28,8 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
         [OperationContract]
         bool AssignBaseRef(AssignBaseRefDto baseRef);
 
+
+        // for Client
         [OperationContract]
         bool ToggleToPort(OtauPortDto port);
 
