@@ -78,9 +78,9 @@
       <Project>{1822c528-4719-4c53-877e-bc57dbf6d7ff}</Project>
       <Name>ClientWcfServiceLibrary</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\RTU\RtuWcfServiceLibrary\RtuWcfServiceLibrary.csproj">
+    <ProjectReference Include="..\..\RTU\RtuWcfServiceLibrary\RtuWcfServiceInterface.csproj">
       <Project>{D7C82E5D-E536-4684-B18F-9E1A341324D6}</Project>
-      <Name>RtuWcfServiceLibrary</Name>
+      <Name>RtuWcfServiceInterface</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Server\WcfServiceForClient\WcfServiceForClientInterface.csproj">
       <Project>{72F6524C-E7EE-4DFD-8AE2-15A4E5225D3B}</Project>

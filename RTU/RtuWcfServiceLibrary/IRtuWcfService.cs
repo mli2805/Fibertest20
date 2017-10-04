@@ -3,7 +3,7 @@ using System.ServiceModel;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 
-namespace Iit.Fibertest.RtuWcfServiceLibrary
+namespace Iit.Fibertest.RtuWcfServiceInterface
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "IRtuWcfService" in both code and config file together.
     [ServiceContract]

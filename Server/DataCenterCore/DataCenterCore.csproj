@@ -77,9 +77,9 @@
       <Project>{A734876E-977B-4DDA-B6A4-AD1DD525C6D1}</Project>
       <Name>Graph</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\RTU\RtuWcfServiceLibrary\RtuWcfServiceLibrary.csproj">
+    <ProjectReference Include="..\..\RTU\RtuWcfServiceLibrary\RtuWcfServiceInterface.csproj">
       <Project>{D7C82E5D-E536-4684-B18F-9E1A341324D6}</Project>
-      <Name>RtuWcfServiceLibrary</Name>
+      <Name>RtuWcfServiceInterface</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\SharedLibs\Dto\Dto.csproj">
       <Project>{86a00748-2a4e-4180-b04e-0e1f6a62a258}</Project>

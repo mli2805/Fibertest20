@@ -36,7 +36,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RtuService", "RTU\RtuServic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RtuWatchdog", "RTU\RtuWatchdog\RtuWatchdog.csproj", "{521CB593-76D9-40A5-A5AD-C8845BDF103B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RtuWcfServiceLibrary", "RTU\RtuWcfServiceLibrary\RtuWcfServiceLibrary.csproj", "{D7C82E5D-E536-4684-B18F-9E1A341324D6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RtuWcfServiceInterface", "RTU\RtuWcfServiceLibrary\RtuWcfServiceInterface.csproj", "{D7C82E5D-E536-4684-B18F-9E1A341324D6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataCenter", "DataCenter", "{8D9C27AA-A0E9-4F25-A8F9-EC180BACC347}"
 EndProject

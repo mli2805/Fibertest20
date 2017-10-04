@@ -5,7 +5,7 @@ using System.ServiceProcess;
 using System.Threading;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.RtuManagement;
-using Iit.Fibertest.RtuWcfServiceLibrary;
+using Iit.Fibertest.RtuWcfServiceInterface;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 
