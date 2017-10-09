@@ -124,6 +124,28 @@ namespace Iit.Fibertest.DataCenterCore
             return new D2RWcfManager(dto.RtuAddresses, _iniFile, _logFile).InitializeRtuAsync(dto);
         }
 
+
+        private D2RWcfManager _d2RWcfManager;
+        private object _asyncState = new object();
+        public void InitializeThroughBeginEnd(InitializeRtuDto dto)
+        {
+            dto.ServerAddresses = _serverDoubleAddress;
+            _d2RWcfManager = new D2RWcfManager(dto.RtuAddresses, _iniFile, _logFile);
+            _d2RWcfManager.BeginInitializeRtu(dto, MyCallback, _asyncState);
+        }
+
+        public void MyCallback(IAsyncResult asyncResult)
+        {
+            _logFile.AppendLine($"I'm in callback");
+
+            var result = _d2RWcfManager.EndInitializeRtu(asyncResult);
+            _logFile.AppendLine($"{result.Version}");
+        }
+
+
+
+
+
         private MessageProcessingResult StartMonitoring(StartMonitoringDto dto)
         {
             _rtuCommandDeliveredDto.ClientId = dto.ClientId;

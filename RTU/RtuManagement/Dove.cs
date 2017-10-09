@@ -107,6 +107,8 @@ namespace Iit.Fibertest.RtuManagement
         {
             try
             {
+                var a = _serviceIni.ReadDoubleAddress((int)TcpPorts.ServerListenToRtu);
+                _serverAddresses.DoubleAddress = (DoubleAddress)a.Clone();
                 if (moniResultOnDisk.Load())
                     return new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendMonitoringResult(moniResultOnDisk.Dto);
 

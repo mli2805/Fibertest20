@@ -52,6 +52,8 @@ namespace Iit.Fibertest.RtuManagement
             _serviceLog.AppendLine($"WoodPecker {_id.First6()} is started");
             while (!IsCancelled)
             {
+                var a = _serviceIni.ReadDoubleAddress((int) TcpPorts.ServerListenToRtu);
+                _serverAddresses.DoubleAddress = (DoubleAddress)a.Clone();
                 _serverAddresses = new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendImAliveByBothChannels(_rtuId, _version);
                 Thread.Sleep(checkChannelsTimeout);
             }

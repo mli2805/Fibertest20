@@ -1,4 +1,5 @@
-﻿using System.ServiceModel;
+﻿using System;
+using System.ServiceModel;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
@@ -14,11 +15,11 @@ namespace Iit.Fibertest.DataCenterCore
 
         private readonly IMyLog _logFile;
 
-        private readonly DcManager _dcManager; 
+        private readonly DcManager _dcManager;
 
         public string SendCommand(string json) => _service.SendCommand(json);
         public string[] GetEvents(int revision) => _service.GetEvents(revision);
-        
+
 
         public WcfServiceForClient(DcManager dcManager, IMyLog logFile)
         {
@@ -52,7 +53,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
-            _logFile.AppendLine($"Client {dto.ClientId.First6()} sent initialize rtu {dto.RtuId.First6()} request");
+            //            _logFile.AppendLine($"Client {dto.ClientId.First6()} sent initialize rtu {dto.RtuId.First6()} request");
             //            RtuInitializedDto b = new RtuInitializedDto();
             //            try
             //            {
@@ -61,12 +62,14 @@ namespace Iit.Fibertest.DataCenterCore
             //            catch (Exception e)
             //            {
             //                _logFile.AppendLine($"{e.Message}");
-            //            } 
+            //            }
             //            _logFile.AppendLine($"Initialization terminated. Result is {b.IsInitialized}");
             //            return b;
 
-            return await _dcManager.InitializeRtuAsync(dto);
+//                        return await _dcManager.InitializeRtuAsync(dto);
 
+            _dcManager.InitializeThroughBeginEnd(dto);
+            return new RtuInitializedDto();
         }
 
 

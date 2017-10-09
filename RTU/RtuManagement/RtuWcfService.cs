@@ -24,6 +24,7 @@ namespace Iit.Fibertest.RtuManagement
         {
             _serviceLog.AppendLine("Request for long task received...");
             await TaskEx.Delay(TimeSpan.FromSeconds(3));
+//                        _rtuManager.Initialize(dto);
             _serviceLog.AppendLine("Request for long task 2");
             return new RtuInitializedDto
             {
@@ -34,14 +35,14 @@ namespace Iit.Fibertest.RtuManagement
 
         public IAsyncResult BeginInitializeRtu(InitializeRtuDto dto, AsyncCallback callback, object asyncState)
         {
-            _serviceLog.AppendLine("User demands initialization - OK");
+            _serviceLog.AppendLine("User demands async initialization - OK");
 
-            var task = InitializeRtuAsync(dto);
-            if (callback != null)
-                task.ContinueWith(_ => callback(task));
-            return task;
+//            var task = InitializeRtuAsync(dto);
+//            if (callback != null)
+//                task.ContinueWith(_ => callback(task));
+//            return task;
 
-            //            return InitializeRtuAsync(dto);
+                        return InitializeRtuAsync(dto);
         }
 
         public RtuInitializedDto EndInitializeRtu(IAsyncResult result)
@@ -56,12 +57,12 @@ namespace Iit.Fibertest.RtuManagement
 
 
 
-//        public bool Initialize(InitializeRtuDto dto)
-//        {
-//            _serviceLog.AppendLine("User demands initialization - OK");
-//            _rtuManager.Initialize(dto);
-//            return true;
-//        }
+        public bool Initialize(InitializeRtuDto dto)
+        {
+            _serviceLog.AppendLine("User demands initialization - OK");
+            _rtuManager.Initialize(dto);
+            return true;
+        }
 
         public bool StartMonitoring(StartMonitoringDto dto)
         {

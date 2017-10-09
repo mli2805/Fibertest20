@@ -17,6 +17,9 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
 
 
         [OperationContract]
+        bool Initialize(InitializeRtuDto dto);
+
+        [OperationContract]
         bool StartMonitoring(StartMonitoringDto dto);
 
         [OperationContract]
@@ -41,10 +44,10 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
 
     public static class RtuWcfServiceExtension
     {
-        public static Task<RtuInitializedDto> InitializeRtuAsync(
+        public static async Task<RtuInitializedDto> InitializeRtuAsync(
             this IRtuWcfService rtuWcfService, InitializeRtuDto dto)
         {
-            return Task.Factory.FromAsync(rtuWcfService.BeginInitializeRtu, rtuWcfService.EndInitializeRtu, dto, null);
+            return await Task.Factory.FromAsync(rtuWcfService.BeginInitializeRtu, rtuWcfService.EndInitializeRtu, dto, null);
         }
     }
 

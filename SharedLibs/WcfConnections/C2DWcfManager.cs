@@ -111,6 +111,7 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 _logFile.AppendLine($@"Sent command to initialize RTU {dto.RtuId.First6()}");
+                dto.ClientId = _clientId;
                 return await c2DChannel.InitializeRtuAsync(dto);
             }
             catch (Exception e)

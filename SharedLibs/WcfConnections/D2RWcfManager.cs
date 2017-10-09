@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.RtuWcfServiceInterface;
 using Iit.Fibertest.UtilsLib;
@@ -19,11 +20,33 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
-            var d2RChannel = _wcfFactory.CreateRtuConnection();
-            if (d2RChannel == null)
+            _logFile.AppendLine($"Still on datacenter, transmitting command");
+            var d2RContract = _wcfFactory.CreateRtuConnection();
+            if (d2RContract == null)
                 return new RtuInitializedDto() { IsInitialized = false, ErrorCode = 21 };
 
-            return await d2RChannel.InitializeRtuAsync(dto);
+            _logFile.AppendLine($"Channel created");
+
+            return await d2RContract.InitializeRtuAsync(dto);
+        }
+
+        private IRtuWcfService _rtuWcfService;
+        public IAsyncResult BeginInitializeRtu(InitializeRtuDto dto, AsyncCallback callback, object asyncState)
+        {
+            _logFile.AppendLine($"Still on datacenter, transmitting command");
+            _rtuWcfService = _wcfFactory.CreateRtuConnection();
+            if (_rtuWcfService == null)
+                return null;
+
+            _logFile.AppendLine($"Channel created");
+            var t = _rtuWcfService.BeginInitializeRtu(dto, callback, asyncState);
+            _logFile.AppendLine($"Begin finished");
+            return t;
+        }
+
+        public RtuInitializedDto EndInitializeRtu(IAsyncResult asyncResult)
+        {
+            return ((Task<RtuInitializedDto>) asyncResult).Result;
         }
 
         public MessageProcessingResult StartMonitoring(StartMonitoringDto dto)

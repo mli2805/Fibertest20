@@ -148,3 +148,17 @@ The file is located at c:\VSProjects\Fibertest20\Server\DataCenterService\bin\De
 The Commit phase completed successfully.
 
 The transacted install has completed.
+
+Running a transacted installation.
+
+Beginning the Install phase of the installation.
+See the contents of the log file for the c:\VSProjects\Fibertest20\Rtu\RtuService\bin\x86\Debug\Iit.Fibertest.RtuService.exe assembly's progress.
+The file is located at c:\VSProjects\Fibertest20\Rtu\RtuService\bin\x86\Debug\Iit.Fibertest.RtuService.InstallLog.
+
+The Install phase completed successfully, and the Commit phase is beginning.
+See the contents of the log file for the c:\VSProjects\Fibertest20\Rtu\RtuService\bin\x86\Debug\Iit.Fibertest.RtuService.exe assembly's progress.
+The file is located at c:\VSProjects\Fibertest20\Rtu\RtuService\bin\x86\Debug\Iit.Fibertest.RtuService.InstallLog.
+
+The Commit phase completed successfully.
+
+The transacted install has completed.
