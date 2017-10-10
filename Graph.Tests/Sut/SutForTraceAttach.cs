@@ -25,7 +25,7 @@ namespace Graph.Tests
                     PortCount = 16,
                     NetAddress = new NetAddress(),
                 };
-                ShellVm.Bus.SendCommand(cmd);
+                ShellVm.Bus.SendCommand(cmd).Wait();
             }
             else
                 vm.Close();
@@ -66,7 +66,7 @@ namespace Graph.Tests
                     OwnPortCount = 8,
                     Serial = @"123456"
                 };
-                ShellVm.Bus.SendCommand(cmd);
+                ShellVm.Bus.SendCommand(cmd).Wait();
             }
 
             else

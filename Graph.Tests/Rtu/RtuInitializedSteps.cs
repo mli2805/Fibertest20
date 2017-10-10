@@ -28,7 +28,7 @@ namespace Graph.Tests
                 IsReserveChannelSet = true,
                 ReserveChannel = new NetAddress(p1, TcpPorts.RtuListenTo)
             };
-            _sut.ShellVm.Bus.SendCommand(cmd);
+            _sut.ShellVm.Bus.SendCommand(cmd).Wait();
             _sut.Poller.Tick();
         }
 
