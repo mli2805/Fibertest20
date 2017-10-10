@@ -253,6 +253,7 @@
     <Compile Include="Equipment\EquipmentUpdatedSteps.cs">
       <DependentUpon>EquipmentUpdated.feature</DependentUpon>
     </Compile>
+    <Compile Include="Sut\FakeClientWcfServiceHost.cs" />
     <Compile Include="Sut\FakeWindowManager.cs" />
     <Compile Include="Fiber\FiberAdded.feature.cs">
       <AutoGen>True</AutoGen>

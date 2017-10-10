@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.Client
 {
@@ -10,12 +11,13 @@ namespace Iit.Fibertest.Client
     {
         //user asks equipment addition on the map
         public static async Task AddEquipmentIntoNodeFullTask(RequestAddEquipmentIntoNode request, 
-            ReadModel readModel, IWindowManager windowManager,Bus bus)
+            ReadModel readModel, IWindowManager windowManager,Bus bus, C2DWcfManager c2DWcfManager)
         {
             var cmd = BuildAddEquipmentIntoNodeCommand(request.NodeId, readModel, windowManager);
             if (cmd == null)
                 return;
             await bus.SendCommand(cmd);
+//            await c2DWcfManager.SendCommand(cmd);
         }
 
         // user asks equipment addition from node update view

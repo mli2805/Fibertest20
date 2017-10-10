@@ -181,7 +181,6 @@
     <Compile Include="ViewControls\GpsInputControl\GpsInputModeComboItem.cs" />
     <Compile Include="ReadModel\PathFinder.cs" />
     <Compile Include="AppBootstrapper.cs" />
-    <Compile Include="Autofac\AutofacEventSourcing.cs" />
     <Compile Include="Mappings\MappingEventToVm.cs" />
     <Compile Include="ReadModel\ReadModel.cs" />
     <Compile Include="ReadModel\ReadModelExtensions.cs" />
@@ -268,7 +267,7 @@
     <Compile Include="Requests\RequestRemoveNode.cs" />
     <Compile Include="Requests\RequestUpdateFiber.cs" />
     <Compile Include="Requests\RequestUpdateRtu.cs" />
-    <Compile Include="Autofac\AutofacUi.cs" />
+    <Compile Include="Autofac\AutofacClient.cs" />
     <Compile Include="ViewControls\GpsInputControl\GpsInputView.xaml.cs">
       <DependentUpon>GpsInputView.xaml</DependentUpon>
     </Compile>

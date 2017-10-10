@@ -26,11 +26,9 @@ namespace Graph.Tests
         public SystemUnderTest()
         {
             var builder = new ContainerBuilder();
-            builder.RegisterModule<AutofacEventSourcing>();
-            builder.RegisterModule<AutofacUi>();
+            builder.RegisterModule<AutofacClient>();
             builder.RegisterType<FakeWindowManager>().As<IWindowManager>().SingleInstance();
             builder.RegisterType<FakeClientWcfServiceHost>().As<IClientWcfServiceHost>();
-
             builder.RegisterType<DcManager>().SingleInstance();
             builder.RegisterType<WcfServiceForClient>().As<IWcfServiceForClient>().SingleInstance();
 
@@ -199,14 +197,6 @@ namespace Graph.Tests
             else
                 vm.Cancel();
             return true;
-        }
-    }
-
-    public class FakeClientWcfServiceHost : IClientWcfServiceHost
-    {
-        public void StartWcfListener()
-        {
-
         }
     }
 }

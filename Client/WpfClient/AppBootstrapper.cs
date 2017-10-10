@@ -18,14 +18,8 @@ namespace Iit.Fibertest.Client {
 
         protected override void Configure()
         {
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("ru-RU");
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo("ru-RU");
-//            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
-//            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
-
             var builder = new ContainerBuilder();
-            builder.RegisterModule<AutofacUi>();
-            builder.RegisterModule<AutofacEventSourcing>();
+            builder.RegisterModule<AutofacClient>();
             _container = builder.Build();
 
             var clientPoller = _container.Resolve<ClientPoller>();
