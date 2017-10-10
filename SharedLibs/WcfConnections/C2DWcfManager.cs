@@ -2,11 +2,18 @@
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
+using Newtonsoft.Json;
 
 namespace Iit.Fibertest.WcfConnections
 {
     public class C2DWcfManager
     {
+        private static readonly JsonSerializerSettings JsonSerializerSettings =
+            new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.All
+            };
+
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly Guid _clientId;
@@ -25,7 +32,16 @@ namespace Iit.Fibertest.WcfConnections
             _wcfFactory = new WcfFactory(newServerAddress, _iniFile, _logFile);
         }
 
+        public Task<string> SendCommand(object cmd)
+        {
+            var wcfConnection = _wcfFactory.CreateC2DConnection();
+            if (wcfConnection == null)
+                return null;
 
+            return TaskEx.FromResult(
+                wcfConnection.SendCommand(JsonConvert.SerializeObject(
+                cmd, cmd.GetType(), JsonSerializerSettings)));
+        }
 
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {
@@ -106,7 +122,7 @@ namespace Iit.Fibertest.WcfConnections
         {
             var c2DChannel = _wcfFactory.CreateC2DConnection();
             if (c2DChannel == null)
-                return new RtuInitializedDto() { IsInitialized = false, ErrorCode = 11};
+                return new RtuInitializedDto() { IsInitialized = false, ErrorCode = 11 };
 
             try
             {
@@ -117,7 +133,7 @@ namespace Iit.Fibertest.WcfConnections
             catch (Exception e)
             {
                 _logFile.AppendLine(e.Message);
-                return new RtuInitializedDto() { IsInitialized = false, ErrorCode = 12};
+                return new RtuInitializedDto() { IsInitialized = false, ErrorCode = 12 };
             }
         }
 

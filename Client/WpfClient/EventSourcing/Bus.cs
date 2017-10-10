@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 
 namespace Iit.Fibertest.Client
 {
-    // TODO: Find a better place fo the bus.cs file
     public sealed class Bus
     {
         private readonly IWcfServiceForClient _wcfService;
@@ -13,6 +12,7 @@ namespace Iit.Fibertest.Client
         {
             _wcfService = wcfServiceForClient;
         }
+
 
         private static readonly JsonSerializerSettings JsonSerializerSettings =
             new JsonSerializerSettings
