@@ -126,7 +126,7 @@ namespace Iit.Fibertest.Client
         private void StartPolling()
         {
             var clientPoller = IoC.Get<ClientPoller>();
-            clientPoller.Bus = _c2DWcfManager;
+            clientPoller.Channel = _c2DWcfManager;
             GC.KeepAlive(new DispatcherTimer(
                 TimeSpan.FromSeconds(1),
                 DispatcherPriority.Background,
