@@ -32,15 +32,24 @@ namespace Iit.Fibertest.WcfConnections
             _wcfFactory = new WcfFactory(newServerAddress, _iniFile, _logFile);
         }
 
-        public Task<string> SendCommand(object cmd)
+        public async Task<string> SendCommand(object cmd)
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();
             if (wcfConnection == null)
                 return null;
 
-            return TaskEx.FromResult(
+            return await 
                 wcfConnection.SendCommand(JsonConvert.SerializeObject(
-                cmd, cmd.GetType(), JsonSerializerSettings)));
+                cmd, cmd.GetType(), JsonSerializerSettings));
+        }
+
+        public async Task<string[]> GetEvents(int revision)
+        {
+            var wcfConnection = _wcfFactory.CreateC2DConnection();
+            if (wcfConnection == null)
+                return null;
+
+            return await wcfConnection.GetEvents(revision);
         }
 
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)

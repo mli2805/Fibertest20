@@ -20,12 +20,11 @@ namespace Iit.Fibertest.Client
                 TypeNameHandling = TypeNameHandling.All
             };
 
-        public Task<string> SendCommand(object cmd)
+        public async Task<string> SendCommand(object cmd)
         {
-            //throw new NotImplementedException();
-            return Task.FromResult(
+            return await 
                 _wcfService.SendCommand(JsonConvert.SerializeObject(
-                    cmd, cmd.GetType(), JsonSerializerSettings)));
+                    cmd, cmd.GetType(), JsonSerializerSettings));
         }
     }
 }

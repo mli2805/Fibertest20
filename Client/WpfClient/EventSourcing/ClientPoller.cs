@@ -27,7 +27,8 @@ namespace Iit.Fibertest.Client
 
         public void Tick()
         {
-            foreach (var json in _client.GetEvents(CurrentEventNumber))
+            var events = _client.GetEvents(CurrentEventNumber).Result;
+            foreach (var json in events)
             {
                 var e = JsonConvert.DeserializeObject(json, JsonSerializerSettings);
                 foreach (var m in ReadModels)

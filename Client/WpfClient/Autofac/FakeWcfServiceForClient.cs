@@ -7,15 +7,16 @@ namespace Iit.Fibertest.Client
 {
     public class FakeWcfServiceForClient : IWcfServiceForClient
     {
-        public string SendCommand(string json)
+        Task<string> IWcfServiceForClient.SendCommand(string json)
         {
             return null;
         }
 
-        public string[] GetEvents(int revision)
+        Task<string[]> IWcfServiceForClient.GetEvents(int revision)
         {
-            return new string[0];
+            return Task.FromResult(new string[0]);
         }
+
 
         public Task<ClientRegisteredDto> MakeExperimentAsync(RegisterClientDto dto)
         {
@@ -71,5 +72,6 @@ namespace Iit.Fibertest.Client
         {
             throw new NotImplementedException();
         }
+
     }
 }

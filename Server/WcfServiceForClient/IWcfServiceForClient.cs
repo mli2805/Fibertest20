@@ -8,10 +8,10 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
     public interface IWcfServiceForClient
     {
         [OperationContract]
-        string SendCommand(string json);
+        Task<string> SendCommand(string json);
 
         [OperationContract]
-        string[] GetEvents(int revision);
+        Task<string[]> GetEvents(int revision);
 
 
 
