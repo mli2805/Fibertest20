@@ -7,6 +7,7 @@ using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WcfConnections;
 using Serilog;
 
 namespace Iit.Fibertest.Client
@@ -21,7 +22,7 @@ namespace Iit.Fibertest.Client
         private readonly ILogger _log;
         private readonly IMyLog _logFile;
 
-//        public C2DWcfManager C2DWcfManager { get; set; }
+        public C2DWcfManager C2DWcfManager { get; set; }
         public ObservableCollection<Leaf> Tree { get; set; } = new ObservableCollection<Leaf>();
         public FreePorts FreePorts { get; } = new FreePorts(true);
 

@@ -37,12 +37,13 @@ namespace Iit.Fibertest.Client
             builder.RegisterInstance<IMyLog>(logFile);
 
             var clientId = Guid.Parse(iniFile.Read(IniSection.General, IniKey.ClientGuidOnServer, Guid.NewGuid().ToString()));
-            var currentCulture = iniFile.Read(IniSection.General, IniKey.Culture, @"ru-RU");
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("ru-RU");
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo("ru-RU");
+            var currentCulture =  iniFile.Read(IniSection.General, IniKey.Culture, @"ru-RU");
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(currentCulture);
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(currentCulture);
             var serverAddresses = iniFile.ReadDoubleAddress(11840);
+
             builder.Register(ctx => new C2DWcfManager(
-                serverAddresses, iniFile, ctx.Resolve<IMyLog>(), clientId));
+                serverAddresses, iniFile, logFile, clientId));
 
 
             builder.RegisterType<Aggregate>().SingleInstance();

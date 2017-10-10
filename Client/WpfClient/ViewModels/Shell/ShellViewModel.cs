@@ -81,7 +81,6 @@ namespace Iit.Fibertest.Client
             Guid.TryParse(_iniFile.Read(IniSection.General, IniKey.ClientGuidOnServer, Guid.NewGuid().ToString()), out _clientId);
 
             _logFile = logFile;
-            _logFile.AppendLine(@"Client application started!");
 
             Log = clientLogger;
             Log.Information(@"Client application started!");
@@ -95,6 +94,7 @@ namespace Iit.Fibertest.Client
             // if user cancelled login view - _c2DWcfManager would be null
             _c2DWcfManager?.UnregisterClientAsync(new UnRegisterClientDto());
             Save();
+            _logFile.AppendLine(@"Client application finished!");
             base.CanClose(callback);
         }
 
@@ -107,6 +107,8 @@ namespace Iit.Fibertest.Client
         protected override void OnViewReady(object view)
         {
             ((App)Application.Current).ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            _logFile.AssignFile(@"Client.log");
+            _logFile.AppendLine(@"Client application started!");
             var vm = new LoginViewModel(_clientId, _windowManager, _iniFile, _logFile);
             _isAuthenticationSuccessfull = _windowManager.ShowDialog(vm);
             ((App)Application.Current).ShutdownMode = ShutdownMode.OnMainWindowClose;
@@ -114,9 +116,9 @@ namespace Iit.Fibertest.Client
                 TryClose();
 
             _c2DWcfManager = IoC.Get<C2DWcfManager>();
-//            var dcServiceAddresses = _iniFile.ReadDoubleAddress(11840);
-//            _c2DWcfManager = new C2DWcfManager(dcServiceAddresses, _iniFile, _logFile, _clientId);
-//            TreeOfRtuModel.C2DWcfManager = _c2DWcfManager;
+            var dcServiceAddresses = _iniFile.ReadDoubleAddress(11840);
+            _c2DWcfManager = new C2DWcfManager(dcServiceAddresses, _iniFile, _logFile, _clientId);
+            TreeOfRtuModel.C2DWcfManager = _c2DWcfManager;
         }
 
         protected override void OnViewLoaded(object view)
