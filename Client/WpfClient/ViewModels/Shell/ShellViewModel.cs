@@ -2,6 +2,7 @@
 using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 using Caliburn.Micro;
 using ClientWcfServiceLibrary;
 using Iit.Fibertest.Dto;
@@ -119,6 +120,19 @@ namespace Iit.Fibertest.Client
             var dcServiceAddresses = _iniFile.ReadDoubleAddress(11840);
             _c2DWcfManager = new C2DWcfManager(dcServiceAddresses, _iniFile, _logFile, _clientId);
             TreeOfRtuModel.C2DWcfManager = _c2DWcfManager;
+
+            StartPolling();
+        }
+
+        private static void StartPolling()
+        {
+            var clientPoller = IoC.Get<ClientPoller>();
+            GC.KeepAlive(new DispatcherTimer(
+                TimeSpan.FromSeconds(1),
+                DispatcherPriority.Background,
+                (s, e) => clientPoller.Tick(),
+                Dispatcher.CurrentDispatcher));
+            clientPoller.Tick();
         }
 
         protected override void OnViewLoaded(object view)

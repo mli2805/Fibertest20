@@ -22,13 +22,13 @@ namespace Iit.Fibertest.Client {
             builder.RegisterModule<AutofacClient>();
             _container = builder.Build();
 
-            var clientPoller = _container.Resolve<ClientPoller>();
-            GC.KeepAlive(new DispatcherTimer(
-                TimeSpan.FromSeconds(1), 
-                DispatcherPriority.Background, 
-                (s, e) => clientPoller.Tick(),
-                Dispatcher.CurrentDispatcher));
-            clientPoller.Tick();
+//            var clientPoller = _container.Resolve<ClientPoller>();
+//            GC.KeepAlive(new DispatcherTimer(
+//                TimeSpan.FromSeconds(1), 
+//                DispatcherPriority.Background, 
+//                (s, e) => clientPoller.Tick(),
+//                Dispatcher.CurrentDispatcher));
+//            clientPoller.Tick();
         }
 
 
