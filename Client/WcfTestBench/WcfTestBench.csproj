@@ -142,10 +142,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\RTU\RtuWcfServiceLibrary\RtuWcfServiceInterface.csproj">
-      <Project>{D7C82E5D-E536-4684-B18F-9E1A341324D6}</Project>
-      <Name>RtuWcfServiceInterface</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Server\WcfServiceForClient\WcfServiceForClientInterface.csproj">
       <Project>{72f6524c-e7ee-4dfd-8ae2-15a4e5225d3b}</Project>
       <Name>WcfServiceForClientInterface</Name>

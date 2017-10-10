@@ -142,7 +142,7 @@
       <Project>{12208d72-7ec1-456f-9f0a-b56152ddc5d2}</Project>
       <Name>IitOtdrLibrary</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RtuWcfServiceLibrary\RtuWcfServiceInterface.csproj">
+    <ProjectReference Include="..\RtuWcfService\RtuWcfServiceInterface.csproj">
       <Project>{d7c82e5d-e536-4684-b18f-9e1a341324d6}</Project>
       <Name>RtuWcfServiceInterface</Name>
     </ProjectReference>
