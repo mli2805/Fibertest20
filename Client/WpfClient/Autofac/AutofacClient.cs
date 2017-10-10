@@ -36,15 +36,9 @@ namespace Iit.Fibertest.Client
             var logFile = new LogFile(iniFile);
             builder.RegisterInstance<IMyLog>(logFile);
 
-            var clientId = Guid.Parse(iniFile.Read(IniSection.General, IniKey.ClientGuidOnServer, Guid.NewGuid().ToString()));
             var currentCulture =  iniFile.Read(IniSection.General, IniKey.Culture, @"ru-RU");
             Thread.CurrentThread.CurrentCulture = new CultureInfo(currentCulture);
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(currentCulture);
-            var serverAddresses = iniFile.ReadDoubleAddress(11840);
-
-            builder.Register(ctx => new C2DWcfManager(
-                serverAddresses, iniFile, logFile, clientId));
-
 
             builder.RegisterType<Aggregate>().SingleInstance();
             builder.RegisterType<ReadModel>().SingleInstance();
@@ -52,8 +46,11 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<WriteModel>().SingleInstance();
             builder.RegisterType<Bus>().SingleInstance();
             builder.RegisterType<GraphReadModel>().SingleInstance();
-            //builder.RegisterType<WcfFactory>().SingleInstance();
 
+
+            builder.Register(ctx => new C2DWcfManager(iniFile, logFile)).SingleInstance();
+
+            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             builder.Register<IWcfServiceForClient>(ctx => new FakeWcfServiceForClient()).SingleInstance();
 
             builder.Register(ioc => new ClientPoller(

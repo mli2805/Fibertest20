@@ -171,7 +171,9 @@ namespace WcfTestBench
 
         private async void RegisterClient(NetAddress clientAddresses)
         {
-            _c2DWcfManager = new C2DWcfManager(DcServiceAddresses, _clientIni, _clientLog, _clientGuid);
+            _c2DWcfManager = new C2DWcfManager(_clientIni, _clientLog);
+            _c2DWcfManager.SetServerAddresses(DcServiceAddresses);
+            _c2DWcfManager.ClientId = _clientGuid;
             var registrationResult = await _c2DWcfManager.RegisterClientAsync(
                 new RegisterClientDto()
                 {

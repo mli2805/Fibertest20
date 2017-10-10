@@ -17,9 +17,6 @@ namespace Iit.Fibertest.DataCenterCore
 
         private readonly DcManager _dcManager;
 
-//        public string[] GetEvents(int revision) => _eventStoreService.GetEvents(revision);
-
-
         public WcfServiceForClient(DcManager dcManager, IMyLog logFile)
         {
             _logFile = logFile;

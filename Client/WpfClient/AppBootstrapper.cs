@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Reflection;
-using System.Threading;
-using System.Windows.Threading;
 using Autofac;
 using Caliburn.Micro;
 
@@ -21,14 +18,6 @@ namespace Iit.Fibertest.Client {
             var builder = new ContainerBuilder();
             builder.RegisterModule<AutofacClient>();
             _container = builder.Build();
-
-//            var clientPoller = _container.Resolve<ClientPoller>();
-//            GC.KeepAlive(new DispatcherTimer(
-//                TimeSpan.FromSeconds(1), 
-//                DispatcherPriority.Background, 
-//                (s, e) => clientPoller.Tick(),
-//                Dispatcher.CurrentDispatcher));
-//            clientPoller.Tick();
         }
 
 

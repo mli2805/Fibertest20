@@ -54,7 +54,7 @@ namespace Iit.Fibertest.Client
             _clientIni.WriteServerAddresses(_dcServiceAddresses);
 
             _dcServiceAddresses = _clientIni.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
-            IoC.Get<C2DWcfManager>().ChangeServerAddresses(_dcServiceAddresses);
+            IoC.Get<C2DWcfManager>().SetServerAddresses(_dcServiceAddresses);
 
             TryClose(true);
         }

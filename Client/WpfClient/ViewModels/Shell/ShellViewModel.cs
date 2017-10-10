@@ -61,7 +61,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public ShellViewModel(ReadModel readModel, TreeOfRtuModel treeOfRtuModel, Bus bus, 
+        public ShellViewModel(ReadModel readModel, TreeOfRtuModel treeOfRtuModel, Bus bus, C2DWcfManager c2DWcfManager,
                 AdministrativeDb administrativeDb, GraphReadModel graphReadModel, IWindowManager windowManager, 
                 ILogger clientLogger, IniFile iniFile, IMyLog logFile, IClientWcfServiceHost host)
         {
@@ -76,6 +76,7 @@ namespace Iit.Fibertest.Client
             GraphReadModel.MapVisibility = Visibility.Visible;
             SysEventsVisibility = Visibility.Collapsed;
             _selectedTabIndex = 1;
+            _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
 
             _iniFile = iniFile;
@@ -116,9 +117,6 @@ namespace Iit.Fibertest.Client
             if (_isAuthenticationSuccessfull != true)
                 TryClose();
 
-            _c2DWcfManager = IoC.Get<C2DWcfManager>();
-            var dcServiceAddresses = _iniFile.ReadDoubleAddress(11840);
-            _c2DWcfManager = new C2DWcfManager(dcServiceAddresses, _iniFile, _logFile, _clientId);
             TreeOfRtuModel.C2DWcfManager = _c2DWcfManager;
 
             StartPolling();
