@@ -51,7 +51,7 @@ namespace Iit.Fibertest.WcfConnections
             if (wcfConnection == null)
                 return null;
 
-            return await wcfConnection.GetEvents(revision);
+            return wcfConnection.GetEvents(revision).Result;
         }
 
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)

@@ -122,9 +122,10 @@ namespace Iit.Fibertest.Client
             StartPolling();
         }
 
-        private static void StartPolling()
+        private void StartPolling()
         {
             var clientPoller = IoC.Get<ClientPoller>();
+            clientPoller.Bus = _c2DWcfManager;
             GC.KeepAlive(new DispatcherTimer(
                 TimeSpan.FromSeconds(1),
                 DispatcherPriority.Background,
@@ -260,6 +261,7 @@ namespace Iit.Fibertest.Client
                 NodeId = Guid.NewGuid()
             };
             await Bus.SendCommand(cmd);
+//            await _c2DWcfManager.SendCommand(cmd);
         }
 
         public async Task ComplyWithRequest(RequestUpdateRtu request)

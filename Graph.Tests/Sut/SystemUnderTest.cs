@@ -40,6 +40,7 @@ namespace Graph.Tests
             var container = builder.Build();
 
             Poller = container.Resolve<ClientPoller>();
+//            Poller.Bus = container.Resolve<WcfServiceForClient>();
             FakeWindowManager = (FakeWindowManager)container.Resolve<IWindowManager>();
             ReadModel = container.Resolve<ReadModel>();
 

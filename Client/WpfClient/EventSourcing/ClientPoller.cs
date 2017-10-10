@@ -14,20 +14,20 @@ namespace Iit.Fibertest.Client
             {
                 TypeNameHandling = TypeNameHandling.All
             };
-        private readonly IWcfServiceForClient _client;
+        public IWcfServiceForClient Bus;
         public List<object> ReadModels { get; }
 
         public int CurrentEventNumber { get; private set; }
 
-        public ClientPoller(IWcfServiceForClient client, List<object> readModels)
+        public ClientPoller(IWcfServiceForClient bus, List<object> readModels)
         {
-            _client = client;
+            Bus = bus;
             ReadModels = readModels;
         }
 
         public void Tick()
         {
-            var events = _client.GetEvents(CurrentEventNumber).Result;
+            string[] events = Bus.GetEvents(CurrentEventNumber).Result;
             foreach (var json in events)
             {
                 var e = JsonConvert.DeserializeObject(json, JsonSerializerSettings);
