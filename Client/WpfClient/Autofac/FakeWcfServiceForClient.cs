@@ -7,6 +7,11 @@ namespace Iit.Fibertest.Client
 {
     public class FakeWcfServiceForClient : IWcfServiceForClient
     {
+        public Task<string> SendCommandAsObj(object cmd)
+        {
+            return null;
+        }
+
         Task<string> IWcfServiceForClient.SendCommand(string json)
         {
             return null;

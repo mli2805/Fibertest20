@@ -10,6 +10,7 @@ using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
+using Iit.Fibertest.WcfServiceForClientInterface;
 using Iit.Fibertest.WpfCommonViews;
 using PrivateReflectionUsingDynamic;
 using Serilog;
@@ -25,7 +26,7 @@ namespace Iit.Fibertest.Client
         private readonly Guid _clientId;
         private readonly IWindowManager _windowManager;
         private readonly IMyLog _logFile;
-        private C2DWcfManager _c2DWcfManager;
+        private IWcfServiceForClient _c2DWcfManager;
 
         public ReadModel ReadModel { get; }
         public MainMenuViewModel MainMenuViewModel { get; set; }
@@ -61,7 +62,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public ShellViewModel(ReadModel readModel, TreeOfRtuModel treeOfRtuModel, Bus bus, C2DWcfManager c2DWcfManager,
+        public ShellViewModel(ReadModel readModel, TreeOfRtuModel treeOfRtuModel, Bus bus, IWcfServiceForClient c2DWcfManager,
                 AdministrativeDb administrativeDb, GraphReadModel graphReadModel, IWindowManager windowManager, 
                 ILogger clientLogger, IniFile iniFile, IMyLog logFile, IClientWcfServiceHost host)
         {
@@ -117,7 +118,7 @@ namespace Iit.Fibertest.Client
             if (_isAuthenticationSuccessfull != true)
                 TryClose();
 
-            TreeOfRtuModel.C2DWcfManager = _c2DWcfManager;
+//            TreeOfRtuModel.C2DWcfManager = _c2DWcfManager;
 
             StartPolling();
         }
@@ -260,8 +261,8 @@ namespace Iit.Fibertest.Client
                 Id = Guid.NewGuid(),
                 NodeId = Guid.NewGuid()
             };
-            await Bus.SendCommand(cmd);
-//            await _c2DWcfManager.SendCommand(cmd);
+//            await Bus.SendCommandAsObj(cmd);
+            await _c2DWcfManager.SendCommandAsObj((object)cmd);
         }
 
         public async Task ComplyWithRequest(RequestUpdateRtu request)

@@ -31,7 +31,7 @@ namespace Iit.Fibertest.WcfConnections
             _wcfFactory = new WcfFactory(newServerAddress, _iniFile, _logFile);
         }
 
-        public async Task<string> SendCommand(object cmd)
+        public async Task<string> SendCommandAsObj(object cmd)
         {
             return await SendCommand(JsonConvert.SerializeObject(cmd, cmd.GetType(), JsonSerializerSettings));
         }

@@ -23,6 +23,11 @@ namespace Iit.Fibertest.DataCenterCore
             _dcManager = dcManager;
         }
 
+        public async Task<string> SendCommandAsObj(object cmd)
+        {
+            return await Task.FromResult(_eventStoreService.SendCommand(cmd));
+        }
+
         public async Task<string> SendCommand(string json)
         {
             return await Task.FromResult(_eventStoreService.SendCommand(json));

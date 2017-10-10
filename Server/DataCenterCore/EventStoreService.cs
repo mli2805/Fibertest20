@@ -39,6 +39,19 @@ namespace Iit.Fibertest.DataCenterCore
         }
 
 
+        public string SendCommand(object cmd)
+        {
+            var result = (string)_aggregate.AsDynamic().When(cmd);
+            if (IsSuccess(result))
+            {
+                var eventStream = _storeEvents.OpenStream(AggregateId);
+                foreach (var e in _writeModel.EventsWaitingForCommit)
+                    eventStream.Add(new EventMessage { Body = e });
+                _writeModel.Commit();
+                eventStream.CommitChanges(Guid.NewGuid());
+            }
+            return result;
+        }
 
         public string SendCommand(string json)
         {

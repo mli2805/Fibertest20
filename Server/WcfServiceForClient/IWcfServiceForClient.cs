@@ -8,6 +8,9 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
     public interface IWcfServiceForClient
     {
         [OperationContract]
+        Task<string> SendCommandAsObj(object cmd);
+
+        [OperationContract]
         Task<string> SendCommand(string json);
 
         [OperationContract]

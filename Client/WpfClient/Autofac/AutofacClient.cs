@@ -46,14 +46,14 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<Bus>().SingleInstance();
             builder.RegisterType<GraphReadModel>().SingleInstance();
 
-            var c2DWcfManager = new C2DWcfManager(iniFile, logFile);
-            builder.RegisterInstance<C2DWcfManager>(c2DWcfManager).SingleInstance();
+//            var c2DWcfManager = new C2DWcfManager(iniFile, logFile);
+//            builder.RegisterInstance<C2DWcfManager>(c2DWcfManager).SingleInstance();
 
             // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //            builder.Register<IWcfServiceForClient>(ctx => new FakeWcfServiceForClient()).SingleInstance();
 //            builder.RegisterInstance<IWcfServiceForClient>(c2DWcfManager).SingleInstance();
 
-            builder.RegisterType<C2DWcfManager>().As<IWcfServiceForClient>();
+            builder.RegisterType<C2DWcfManager>().AsSelf().As<IWcfServiceForClient>();
 
             builder.Register(ioc => new ClientPoller(
                     ioc.Resolve<IWcfServiceForClient>(),

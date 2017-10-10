@@ -29,6 +29,7 @@ namespace Graph.Tests
             builder.RegisterModule<AutofacClient>();
             builder.RegisterType<FakeWindowManager>().As<IWindowManager>().SingleInstance();
             builder.RegisterType<FakeClientWcfServiceHost>().As<IClientWcfServiceHost>();
+
             builder.RegisterType<DcManager>().SingleInstance();
             builder.RegisterType<WcfServiceForClient>().As<IWcfServiceForClient>().SingleInstance();
 
@@ -37,14 +38,14 @@ namespace Graph.Tests
 
             builder.RegisterInstance<IMyLog>(new NullLog());
 
+           
             var container = builder.Build();
 
             Poller = container.Resolve<ClientPoller>();
-//            Poller.Bus = container.Resolve<WcfServiceForClient>();
             FakeWindowManager = (FakeWindowManager)container.Resolve<IWindowManager>();
-            ReadModel = container.Resolve<ReadModel>();
 
             ShellVm = (ShellViewModel)container.Resolve<IShell>();
+            ReadModel = ShellVm.ReadModel;
         }
 
         public Iit.Fibertest.Graph.Trace CreateTraceRtuEmptyTerminal()
