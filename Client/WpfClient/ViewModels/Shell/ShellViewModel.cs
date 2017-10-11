@@ -20,7 +20,6 @@ namespace Iit.Fibertest.Client
     public partial class ShellViewModel : Screen, IShell
     {
         public ILogger Log { get; set; }
-        private readonly IniFile _iniFile;
 
 //        public Bus Bus { get; }
         private readonly Guid _clientId;
@@ -80,8 +79,7 @@ namespace Iit.Fibertest.Client
             C2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
 
-            _iniFile = iniFile;
-            Guid.TryParse(_iniFile.Read(IniSection.General, IniKey.ClientGuidOnServer, Guid.NewGuid().ToString()), out _clientId);
+            Guid.TryParse(iniFile.Read(IniSection.General, IniKey.ClientGuidOnServer, Guid.NewGuid().ToString()), out _clientId);
 
             _logFile = logFile;
 

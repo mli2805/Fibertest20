@@ -187,7 +187,7 @@ namespace Iit.Fibertest.Client
             await _c2DWcfManager.SendCommandAsObj(cmd);
         }
 
-        private async Task LaunchUpdateEquipmentView(Guid id)
+        private async void LaunchUpdateEquipmentView(Guid id)
         {
             var equipment = _readModel.Equipments.First(e => e.Id == id);
 

@@ -51,6 +51,7 @@ namespace Iit.Fibertest.WcfConnections
             if (wcfConnection == null)
                 return null;
 
+            // await blocks client !!!!!!!!!!!
             return wcfConnection.GetEvents(revision).Result;
         }
 

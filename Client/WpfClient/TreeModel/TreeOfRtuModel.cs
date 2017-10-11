@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Media;
 using Caliburn.Micro;
@@ -15,7 +14,6 @@ namespace Iit.Fibertest.Client
 {
     public class TreeOfRtuModel : PropertyChangedBase
     {
-        private readonly Guid _clientId;
         private readonly IWindowManager _windowManager;
         private readonly ReadModel _readModel;
 
@@ -64,13 +62,12 @@ namespace Iit.Fibertest.Client
             _logFile = logFile;
 
             PostOffice = new PostOffice();
-            Guid.TryParse(_iniFile35.Read(IniSection.General, IniKey.ClientGuidOnServer, ""), out _clientId);
         }
 
         #region Rtu
         public void Apply(RtuAtGpsLocationAdded e)
         {
-            Tree.Add(new RtuLeaf(_clientId, _readModel, _windowManager, _c2DWcfManager, _iniFile35, _log, _logFile, PostOffice, FreePorts)
+            Tree.Add(new RtuLeaf(_readModel, _windowManager, _c2DWcfManager, _iniFile35, _log, _logFile, PostOffice, FreePorts)
             {
                 Id = e.Id,
                 Title = Resources.SID_noname_RTU,

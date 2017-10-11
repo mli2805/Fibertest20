@@ -60,6 +60,7 @@ namespace Iit.Fibertest.Client
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly ILogger _log;
+        private readonly IMyLog _logFile;
 
         public Rtu OriginalRtu
         {
@@ -89,7 +90,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public RtuInitializeViewModel(Guid clientId, Guid rtuId,
+        public RtuInitializeViewModel(Guid rtuId,
             ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, IniFile iniFile35, ILogger log, IMyLog logFile)
         {
             RtuId = rtuId;
@@ -97,8 +98,8 @@ namespace Iit.Fibertest.Client
             _windowManager = windowManager;
             _c2DWcfManager = c2DWcfManager;
             _log = log;
+            _logFile = logFile;
             var iniFile36 = iniFile35;
-            var logFile1 = logFile;
 
             OriginalRtu = readModel.Rtus.First(r => r.Id == RtuId);
             Comment = OriginalRtu.Comment;
@@ -106,8 +107,8 @@ namespace Iit.Fibertest.Client
             PortCount = $@"{OriginalRtu.OwnPortCount} / {OriginalRtu.FullPortCount}";
             OtdrNetAddress = OriginalRtu.OtdrNetAddress;
             var serverAddress = iniFile36.ReadDoubleAddress(11842);
-            MainChannelTestViewModel = new NetAddressTestViewModel(OriginalRtu.MainChannel, iniFile36, logFile1, clientId, serverAddress.Main);
-            ReserveChannelTestViewModel = new NetAddressTestViewModel(OriginalRtu.ReserveChannel, iniFile36, logFile1, clientId, serverAddress.Reserve);
+            MainChannelTestViewModel = new NetAddressTestViewModel(c2DWcfManager, OriginalRtu.MainChannel, serverAddress.Main);
+            ReserveChannelTestViewModel = new NetAddressTestViewModel(c2DWcfManager, OriginalRtu.ReserveChannel, serverAddress.Reserve);
             IsReserveChannelEnabled = OriginalRtu.IsReserveChannelSet;
             ClientWcfService.MessageReceived += ClientWcfService_MessageReceived;
         }
@@ -189,6 +190,7 @@ namespace Iit.Fibertest.Client
                 return;
             }
             _log.Information(@"RTU initialized successfully!");
+            _logFile.AppendLine(@"RTU initialized successfully!");
             InitilizationProgress = Resources.SID_Successful_;
 
             OriginalRtu.OtdrNetAddress = (NetAddress)dto.OtdrAddress.Clone();

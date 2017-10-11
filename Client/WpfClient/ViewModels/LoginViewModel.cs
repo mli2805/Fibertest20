@@ -110,7 +110,7 @@ namespace Iit.Fibertest.Client
 
         public void SetServerAddress()
         {
-            var vm = new ServerConnectViewModel(ClientId, _iniFile, _logFile);
+            var vm = new ServerConnectViewModel(_c2DWcfManager, _iniFile);
             _windowManager.ShowDialog(vm);
         }
     }

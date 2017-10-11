@@ -1,9 +1,9 @@
-﻿using System;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
+using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
 {
@@ -25,12 +25,12 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public ServerConnectViewModel(Guid clientId, IniFile iniFile, IMyLog logFile)
+        public ServerConnectViewModel(IWcfServiceForClient c2DWcfManager, IniFile iniFile)
         {
             _clientIni = iniFile;
             _dcServiceAddresses = _clientIni.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
 
-            ServerConnectionTestViewModel = new NetAddressTestViewModel((NetAddress)_dcServiceAddresses.Main.Clone(), _clientIni, logFile, clientId);
+            ServerConnectionTestViewModel = new NetAddressTestViewModel(c2DWcfManager, (NetAddress)_dcServiceAddresses.Main.Clone());
             ServerConnectionTestViewModel.PropertyChanged += ServerConnectionTestViewModel_PropertyChanged;
         }
 
