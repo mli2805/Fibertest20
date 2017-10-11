@@ -10,16 +10,17 @@ namespace Iit.Fibertest.DataCenterCore
     public class WcfServiceForClient : IWcfServiceForClient
     {
         // BUG: Initialize this!
-        private readonly EventStoreService _eventStoreService = new EventStoreService();
+        private readonly EventStoreService _eventStoreService;
 
         private readonly IMyLog _logFile;
 
         private readonly DcManager _dcManager;
 
-        public WcfServiceForClient(DcManager dcManager, IMyLog logFile)
+        public WcfServiceForClient(EventStoreService eventStoreService, DcManager dcManager, IMyLog logFile)
         {
             _logFile = logFile;
             _dcManager = dcManager;
+            _eventStoreService = eventStoreService;
         }
 
         public async Task<string> SendCommandAsObj(object cmd)

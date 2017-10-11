@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.UtilsLib;
 using Newtonsoft.Json;
 using NEventStore;
+using NEventStore.Persistence.Sql.SqlDialects;
 using PrivateReflectionUsingDynamic;
 
 namespace Iit.Fibertest.DataCenterCore
@@ -10,8 +12,9 @@ namespace Iit.Fibertest.DataCenterCore
     //TODO: Either merge projects, or use an interface
     public class EventStoreService
     {
+        private readonly IMyLog _logFile;
         private IStoreEvents _storeEvents;
-        private readonly Aggregate _aggregate;
+        private Aggregate _aggregate;
         private static readonly Guid AggregateId =
             new Guid("1C28CBB5-A9F5-4A5C-B7AF-3D188F8F24ED");
 
@@ -22,14 +25,30 @@ namespace Iit.Fibertest.DataCenterCore
             TypeNameHandling = TypeNameHandling.All
         };
 
-        public EventStoreService()
+        public EventStoreService(IMyLog logFile)
         {
-            _storeEvents = Wireup.Init()
-                // .UsingSqlPersistence("myDbConnectionStringName")
-                .UsingInMemoryPersistence()
-                .InitializeStorageEngine()
-                // .WithPersistence()
-                .Build();
+            _logFile = logFile;
+        }
+
+        public void Init()
+        {
+            _logFile.AppendLine(@"Initializing EventStoreService");
+
+            try
+            {
+                _storeEvents = Wireup.Init()
+                                        .UsingSqlPersistence("NEventStoreSQLite")
+                                        .WithDialect(new SqliteDialect())
+//                    .UsingInMemoryPersistence()
+                    .InitializeStorageEngine()
+                    // .WithPersistence()
+                    .Build();
+
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+            }
 
             var eventStream = _storeEvents.OpenStream(AggregateId);
             var events = eventStream.CommittedEvents.Select(x => x.Body);

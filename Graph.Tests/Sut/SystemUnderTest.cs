@@ -30,6 +30,7 @@ namespace Graph.Tests
             builder.RegisterType<FakeWindowManager>().As<IWindowManager>().SingleInstance();
             builder.RegisterType<FakeClientWcfServiceHost>().As<IClientWcfServiceHost>();
 
+            builder.RegisterType<EventStoreService>().SingleInstance();
             builder.RegisterType<DcManager>().SingleInstance();
             builder.RegisterType<WcfServiceForClient>().As<IWcfServiceForClient>().SingleInstance();
 
@@ -46,6 +47,8 @@ namespace Graph.Tests
 
             ShellVm = (ShellViewModel)container.Resolve<IShell>();
             ReadModel = ShellVm.ReadModel;
+            var ev = container.Resolve<EventStoreService>();
+            ev.Init();
         }
 
         public Iit.Fibertest.Graph.Trace CreateTraceRtuEmptyTerminal()
