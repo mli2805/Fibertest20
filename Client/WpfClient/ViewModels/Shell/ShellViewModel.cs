@@ -112,13 +112,13 @@ namespace Iit.Fibertest.Client
             ((App)Application.Current).ShutdownMode = ShutdownMode.OnExplicitShutdown;
             _logFile.AssignFile(@"Client.log");
             _logFile.AppendLine(@"Client application started!");
-            var vm = new LoginViewModel(_clientId, _windowManager, _iniFile, _logFile);
+//            var vm = new LoginViewModel(_windowManager, _iniFile, _logFile);
+            var vm = IoC.Get<LoginViewModel>();
+            vm.ClientId = _clientId;
             _isAuthenticationSuccessfull = _windowManager.ShowDialog(vm);
             ((App)Application.Current).ShutdownMode = ShutdownMode.OnMainWindowClose;
             if (_isAuthenticationSuccessfull != true)
                 TryClose();
-
-//            TreeOfRtuModel.C2DWcfManager = _c2DWcfManager;
 
             StartPolling();
         }
@@ -126,7 +126,6 @@ namespace Iit.Fibertest.Client
         private void StartPolling()
         {
             var clientPoller = IoC.Get<ClientPoller>();
-            clientPoller.Channel = _c2DWcfManager;
             GC.KeepAlive(new DispatcherTimer(
                 TimeSpan.FromSeconds(1),
                 DispatcherPriority.Background,

@@ -53,7 +53,7 @@ namespace Iit.Fibertest.Client
 //            builder.Register<IWcfServiceForClient>(ctx => new FakeWcfServiceForClient()).SingleInstance();
 //            builder.RegisterInstance<IWcfServiceForClient>(c2DWcfManager).SingleInstance();
 
-            builder.RegisterType<C2DWcfManager>().AsSelf().As<IWcfServiceForClient>();
+            builder.RegisterType<C2DWcfManager>().AsSelf().As<IWcfServiceForClient>().SingleInstance();
 
             builder.Register(ioc => new ClientPoller(
                     ioc.Resolve<IWcfServiceForClient>(),
@@ -66,6 +66,7 @@ namespace Iit.Fibertest.Client
                 .SingleInstance();
 
             builder.RegisterType<AdministrativeDb>().SingleInstance();
+            builder.RegisterType<LoginViewModel>();
         }
     }
 }

@@ -11,10 +11,11 @@ namespace Iit.Fibertest.Client
 {
     public class LoginViewModel : Screen
     {
-        private readonly Guid _clientId;
         private readonly IWindowManager _windowManager;
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
+        private readonly C2DWcfManager _c2DWcfManager;
+        public Guid ClientId { private get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
 
@@ -31,12 +32,12 @@ namespace Iit.Fibertest.Client
         }
 
 
-        public LoginViewModel(Guid clientId, IWindowManager windowManager, IniFile iniFile, IMyLog logFile)
+        public LoginViewModel(IWindowManager windowManager, IniFile iniFile, IMyLog logFile, C2DWcfManager c2DWcfManager)
         {
-            _clientId = clientId;
             _windowManager = windowManager;
             _iniFile = iniFile;
             _logFile = logFile;
+            _c2DWcfManager = c2DWcfManager;
         }
 
         private void ParseServerAnswer(ClientRegisteredDto dto)
@@ -90,12 +91,12 @@ namespace Iit.Fibertest.Client
         private async Task<ClientRegisteredDto> RegisterClientAsync()
         {
             var dcServiceAddresses = _iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
-            var c2DWcfManager = IoC.Get<C2DWcfManager>();
-            c2DWcfManager.SetServerAddresses(dcServiceAddresses);
-            c2DWcfManager.ClientId = _clientId;
+//            var c2DWcfManager = IoC.Get<C2DWcfManager>();
+            _c2DWcfManager.SetServerAddresses(dcServiceAddresses);
+            _c2DWcfManager.ClientId = ClientId;
 
             var clientAddresses = _iniFile.Read(IniSection.ClientLocalAddress, (int)TcpPorts.ClientListenTo);
-            var result = await c2DWcfManager.RegisterClientAsync(
+            var result = await _c2DWcfManager.RegisterClientAsync(
                 new RegisterClientDto()
                 {
                     Addresses = new DoubleAddress() {Main = clientAddresses, HasReserveAddress = false},
@@ -109,7 +110,7 @@ namespace Iit.Fibertest.Client
 
         public void SetServerAddress()
         {
-            var vm = new ServerConnectViewModel(_clientId, _iniFile, _logFile);
+            var vm = new ServerConnectViewModel(ClientId, _iniFile, _logFile);
             _windowManager.ShowDialog(vm);
         }
     }
