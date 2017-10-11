@@ -9,6 +9,7 @@ using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
+using Iit.Fibertest.WcfServiceForClientInterface;
 using Serilog;
 
 namespace Iit.Fibertest.Client
@@ -57,7 +58,7 @@ namespace Iit.Fibertest.Client
 
         private readonly ReadModel _readModel;
         private readonly IWindowManager _windowManager;
-        private readonly Bus _bus;
+        private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly ILogger _log;
 
         public Rtu OriginalRtu
@@ -89,12 +90,12 @@ namespace Iit.Fibertest.Client
         }
 
         public RtuInitializeViewModel(Guid clientId, Guid rtuId,
-            ReadModel readModel, IWindowManager windowManager, Bus bus, IniFile iniFile35, ILogger log, IMyLog logFile)
+            ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, IniFile iniFile35, ILogger log, IMyLog logFile)
         {
             RtuId = rtuId;
             _readModel = readModel;
             _windowManager = windowManager;
-            _bus = bus;
+            _c2DWcfManager = c2DWcfManager;
             _log = log;
             var iniFile36 = iniFile35;
             var logFile1 = logFile;
@@ -197,7 +198,7 @@ namespace Iit.Fibertest.Client
             OriginalRtu.RtuManagerSoftwareVersion = dto.Version;
             OriginalRtu.Children = dto.Children;
 
-            _bus.SendCommand(ParseInitializationResult(dto));
+            _c2DWcfManager.SendCommandAsObj(ParseInitializationResult(dto));
         }
 
         public bool CheckAddressUniqueness()

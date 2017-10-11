@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using Caliburn.Micro;
 using GMap.NET;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
 {
@@ -15,7 +17,8 @@ namespace Iit.Fibertest.Client
     {
         private readonly ReadModel _readModel;
         private readonly IWindowManager _windowManager;
-        private readonly Bus _bus;
+//        private readonly Bus _bus;
+        private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly Node _originalNode;
         private readonly PointLatLng _nodeCoors;
 
@@ -115,12 +118,13 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public NodeUpdateViewModel(Guid nodeId, ReadModel readModel, IWindowManager windowManager, Bus bus)
+        public NodeUpdateViewModel(Guid nodeId, ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager)
         {
             _readModel = readModel;
             _readModel.PropertyChanged += _readModel_PropertyChanged;
             _windowManager = windowManager;
-            _bus = bus;
+//            _bus = bus;
+            _c2DWcfManager = c2DWcfManager;
             _originalNode = _readModel.Nodes.First(n => n.Id == nodeId);
             _nodeCoors = new PointLatLng() {Lat = _originalNode.Latitude, Lng = _originalNode.Longitude};
             Title = _originalNode.Title;
@@ -174,19 +178,20 @@ namespace Iit.Fibertest.Client
                 RemoveEquipment((RemoveEquipment)cmd);
         }
 
-        public void AddEquipment()
+        public async Task AddEquipment()
         {
             var cmd = VerboseTasks.BuildAddEquipmentIntoNodeCommand(_originalNode.Id, _readModel, _windowManager);
             if (cmd == null)
                 return;
-            _bus.SendCommand(cmd).Wait();
+//            _bus.SendCommand(cmd).Wait();
+            await _c2DWcfManager.SendCommandAsObj(cmd);
         }
 
-        private void LaunchUpdateEquipmentView(Guid id)
+        private async Task LaunchUpdateEquipmentView(Guid id)
         {
             var equipment = _readModel.Equipments.First(e => e.Id == id);
 
-            var equipmentViewModel = new EquipmentInfoViewModel(equipment,_bus);
+            var equipmentViewModel = new EquipmentInfoViewModel(equipment, _c2DWcfManager);
             IMapper mapperDomainModelToViewModel = new MapperConfiguration(
                     cfg => cfg.AddProfile<MappingDomainModelToViewModel>()).CreateMapper();
             mapperDomainModelToViewModel.Map(equipment, equipmentViewModel);
@@ -195,12 +200,13 @@ namespace Iit.Fibertest.Client
             if (equipmentViewModel.Command == null)
                 return;
             var cmd = (UpdateEquipment)equipmentViewModel.Command;
-            _bus.SendCommand(cmd).Wait();
+            await _c2DWcfManager.SendCommandAsObj(cmd);
         }
 
-        public void RemoveEquipment(RemoveEquipment cmd)
+        public async void RemoveEquipment(RemoveEquipment cmd)
         {
-            _bus.SendCommand(cmd);
+            await _c2DWcfManager.SendCommandAsObj(cmd);
+//            _bus.SendCommand(cmd);
         }
 
         public void Save()

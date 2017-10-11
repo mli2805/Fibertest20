@@ -28,19 +28,19 @@ namespace Graph.Tests
         [Given(@"Открыта форма изменения узла где лежит А1")]
         public void GivenОткрытаФормаИзмененияУзлаГдеЛежитА()
         {
-            _nodeUpdateViewModel = new NodeUpdateViewModel(_nodeAId, _sut.ReadModel, _sut.FakeWindowManager, _sut.ShellVm.Bus);
+            _nodeUpdateViewModel = new NodeUpdateViewModel(_nodeAId, _sut.ReadModel, _sut.FakeWindowManager, _sut.ShellVm.C2DWcfManager);
         }
 
         [Given(@"Открыта форма изменения узла где лежит B1")]
         public void GivenОткрытаФормаИзмененияУзлаГдеЛежитB()
         {
-            _nodeUpdateViewModel = new NodeUpdateViewModel(_nodeBId, _sut.ReadModel, _sut.FakeWindowManager, _sut.ShellVm.Bus);
+            _nodeUpdateViewModel = new NodeUpdateViewModel(_nodeBId, _sut.ReadModel, _sut.FakeWindowManager, _sut.ShellVm.C2DWcfManager);
         }
 
         [Given(@"Задаем базовую")]
         public void GivenЗадаемБазовую()
         {
-            var vm = new BaseRefsAssignViewModel(_trace, _sut.ReadModel, _sut.ShellVm.Bus);
+            var vm = new BaseRefsAssignViewModel(_trace, _sut.ReadModel, _sut.ShellVm.C2DWcfManager);
             vm.PreciseBaseFilename = SystemUnderTest.Path;
             vm.Save();
             _sut.Poller.Tick();

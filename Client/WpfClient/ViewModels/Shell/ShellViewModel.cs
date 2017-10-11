@@ -22,11 +22,11 @@ namespace Iit.Fibertest.Client
         public ILogger Log { get; set; }
         private readonly IniFile _iniFile;
 
-        public Bus Bus { get; }
+//        public Bus Bus { get; }
         private readonly Guid _clientId;
         private readonly IWindowManager _windowManager;
         private readonly IMyLog _logFile;
-        private IWcfServiceForClient _c2DWcfManager;
+        public IWcfServiceForClient C2DWcfManager { get; }
 
         public ReadModel ReadModel { get; }
         public MainMenuViewModel MainMenuViewModel { get; set; }
@@ -62,7 +62,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public ShellViewModel(ReadModel readModel, TreeOfRtuModel treeOfRtuModel, Bus bus, IWcfServiceForClient c2DWcfManager,
+        public ShellViewModel(ReadModel readModel, TreeOfRtuModel treeOfRtuModel, IWcfServiceForClient c2DWcfManager,
                 AdministrativeDb administrativeDb, GraphReadModel graphReadModel, IWindowManager windowManager, 
                 ILogger clientLogger, IniFile iniFile, IMyLog logFile, IClientWcfServiceHost host)
         {
@@ -71,13 +71,13 @@ namespace Iit.Fibertest.Client
             TreeOfRtuModel.PostOffice.PropertyChanged += PostOffice_PropertyChanged;
             MainMenuViewModel = new MainMenuViewModel(windowManager);
             TreeOfRtuViewModel = new TreeOfRtuViewModel(treeOfRtuModel);
-            Bus = bus;
+//            Bus = bus;
             AdministrativeDb = administrativeDb;
             GraphReadModel = graphReadModel;
             GraphReadModel.MapVisibility = Visibility.Visible;
             SysEventsVisibility = Visibility.Collapsed;
             _selectedTabIndex = 1;
-            _c2DWcfManager = c2DWcfManager;
+            C2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
 
             _iniFile = iniFile;
@@ -95,7 +95,7 @@ namespace Iit.Fibertest.Client
         public override void CanClose(Action<bool> callback)
         {
             // if user cancelled login view - _c2DWcfManager would be null
-            _c2DWcfManager?.UnregisterClientAsync(new UnRegisterClientDto());
+            C2DWcfManager?.UnregisterClientAsync(new UnRegisterClientDto());
             Save();
             _logFile.AppendLine(@"Client application finished!");
             base.CanClose(callback);
@@ -172,7 +172,7 @@ namespace Iit.Fibertest.Client
         {
             var cmd = request;
             cmd.Id = Guid.NewGuid();
-            await Bus.SendCommand(cmd);
+            await C2DWcfManager.SendCommandAsObj(cmd);
         }
 
         public async Task ComplyWithRequest(RequestAddNodeIntoFiber request)
@@ -180,7 +180,8 @@ namespace Iit.Fibertest.Client
             var cmd = PrepareCommand(request);
             if (cmd == null)
                 return;
-            var message = await Bus.SendCommand(cmd);
+            var message =
+                await C2DWcfManager.SendCommandAsObj(cmd);
             if (message != null)
             {
                 _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, message));
@@ -190,7 +191,7 @@ namespace Iit.Fibertest.Client
         public async Task ComplyWithRequest(MoveNode request)
         {
             var cmd = request;
-            await Bus.SendCommand(cmd);
+            await C2DWcfManager.SendCommandAsObj(cmd);
         }
 
         public async Task ComplyWithRequest(UpdateNode request)
@@ -198,7 +199,7 @@ namespace Iit.Fibertest.Client
             var cmd = PrepareCommand(request);
             if (cmd == null)
                 return;
-            await Bus.SendCommand(cmd);
+            await C2DWcfManager.SendCommandAsObj(cmd);
         }
 
         public async Task ComplyWithRequest(RequestRemoveNode request)
@@ -206,7 +207,8 @@ namespace Iit.Fibertest.Client
             var cmd = PrepareCommand(request);
             if (cmd == null)
                 return;
-            var message = await Bus.SendCommand(cmd);
+            var message =
+                await C2DWcfManager.SendCommandAsObj(cmd);
             if (message != null)
             {
                 _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, message));
@@ -220,7 +222,7 @@ namespace Iit.Fibertest.Client
             var cmd = PrepareCommand(request);
             if (cmd == null)
                 return;
-            await Bus.SendCommand(cmd);
+            await C2DWcfManager.SendCommandAsObj(cmd);
         }
 
         public async Task ComplyWithRequest(RequestAddFiberWithNodes request)
@@ -228,7 +230,8 @@ namespace Iit.Fibertest.Client
             var cmd = PrepareCommand(request);
             if (cmd == null)
                 return;
-            var message = await Bus.SendCommand(cmd);
+            var message =
+                await C2DWcfManager.SendCommandAsObj(cmd);
             if (message != null)
             {
                 _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, message));
@@ -240,13 +243,13 @@ namespace Iit.Fibertest.Client
             var cmd = PrepareCommand(request);
             if (cmd == null)
                 return;
-            await Bus.SendCommand(cmd);
+            await C2DWcfManager.SendCommandAsObj(cmd);
         }
 
         public async Task ComplyWithRequest(RemoveFiber request)
         {
             var cmd = request;
-            await Bus.SendCommand(cmd);
+            await C2DWcfManager.SendCommandAsObj(cmd);
         }
         #endregion
 
@@ -261,7 +264,7 @@ namespace Iit.Fibertest.Client
                 NodeId = Guid.NewGuid()
             };
 //            await Bus.SendCommandAsObj(cmd);
-            await _c2DWcfManager.SendCommandAsObj((object)cmd);
+            await C2DWcfManager.SendCommandAsObj(cmd);
         }
 
         public async Task ComplyWithRequest(RequestUpdateRtu request)
@@ -269,7 +272,8 @@ namespace Iit.Fibertest.Client
             var cmd = PrepareCommand(request);
             if (cmd == null)
                 return;
-            await Bus.SendCommand(cmd);
+//            await Bus.SendCommand(cmd);
+            await C2DWcfManager.SendCommandAsObj(cmd);
         }
 
         public async Task ComplyWithRequest(RequestRemoveRtu request)
@@ -277,7 +281,8 @@ namespace Iit.Fibertest.Client
             var cmd = PrepareCommand(request);
             if (cmd == null)
                 return;
-            await Bus.SendCommand(cmd);
+//            await Bus.SendCommand(cmd);
+            await C2DWcfManager.SendCommandAsObj(cmd);
         }
         #endregion
 
@@ -292,19 +297,20 @@ namespace Iit.Fibertest.Client
                 Latitude = request.Latitude,
                 Longitude = request.Longitude,
             };
-            await Bus.SendCommand(cmd);
+//            await Bus.SendCommand(cmd);
+            await C2DWcfManager.SendCommandAsObj(cmd);
         }
 
         public async Task ComplyWithRequest(RequestAddEquipmentIntoNode request)
         {
-            await VerboseTasks.AddEquipmentIntoNodeFullTask(request, ReadModel, _windowManager, Bus, _c2DWcfManager);
+            await VerboseTasks.AddEquipmentIntoNodeFullTask(request, ReadModel, _windowManager, C2DWcfManager);
         }
         public async Task ComplyWithRequest(UpdateEquipment request)
         {
             var cmd = PrepareCommand(request);
             if (cmd == null)
                 return;
-            await Bus.SendCommand(cmd);
+            await C2DWcfManager.SendCommandAsObj(cmd);
         }
 
         public async Task ComplyWithRequest(RemoveEquipment request)
@@ -312,7 +318,7 @@ namespace Iit.Fibertest.Client
             var cmd = PrepareCommand(request);
             if (cmd == null)
                 return;
-            await Bus.SendCommand(cmd);
+            await C2DWcfManager.SendCommandAsObj(cmd);
         }
         #endregion
 

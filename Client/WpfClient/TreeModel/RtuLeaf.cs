@@ -6,6 +6,7 @@ using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WcfServiceForClientInterface;
 using Serilog;
 
 namespace Iit.Fibertest.Client
@@ -101,9 +102,9 @@ namespace Iit.Fibertest.Client
             return null;
         }
 
-        public RtuLeaf(Guid clientId, ReadModel readModel, IWindowManager windowManager, Bus bus,
+        public RtuLeaf(Guid clientId, ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager,
             IniFile iniFile35, ILogger log, IMyLog logFile, PostOffice postOffice, FreePorts view)
-            : base(readModel, windowManager, bus, postOffice)
+            : base(readModel, windowManager, c2DWcfManager, postOffice)
         {
             _clientId = clientId;
             _iniFile35 = iniFile35;
@@ -199,7 +200,7 @@ namespace Iit.Fibertest.Client
             var vm = new RtuUpdateViewModel(Id, ReadModel);
             WindowManager.ShowDialog(vm);
             if (vm.Command != null)
-                Bus.SendCommand(vm.Command);
+                C2DWcfManager.SendCommandAsObj(vm.Command);
         }
 
         private void ShowRtuAction(object param)
@@ -209,7 +210,7 @@ namespace Iit.Fibertest.Client
 
         public void RtuSettingsAction(object param)
         {
-            var vm = new RtuInitializeViewModel(_clientId, Id, ReadModel, WindowManager, Bus, _iniFile35, _log, _logFile);
+            var vm = new RtuInitializeViewModel(_clientId, Id, ReadModel, WindowManager, C2DWcfManager, _iniFile35, _log, _logFile);
             WindowManager.ShowDialog(vm);
         }
 
@@ -238,7 +239,8 @@ namespace Iit.Fibertest.Client
 
         private void RtuRemoveAction(object param)
         {
-            Bus.SendCommand(new RemoveRtu() { Id = Id });
+//            Bus.SendCommand(new RemoveRtu() { Id = Id });
+            C2DWcfManager.SendCommandAsObj(new RemoveRtu() { Id = Id });
         }
 
         private bool CanRtuRemoveAction(object param)

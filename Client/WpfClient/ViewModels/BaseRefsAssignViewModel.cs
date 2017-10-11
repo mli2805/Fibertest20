@@ -5,6 +5,8 @@ using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.WcfConnections;
+using Iit.Fibertest.WcfServiceForClientInterface;
 using Microsoft.Win32;
 
 namespace Iit.Fibertest.Client
@@ -13,7 +15,10 @@ namespace Iit.Fibertest.Client
     {
         private readonly Trace _trace;
         private readonly ReadModel _readModel;
-        private readonly Bus _bus;
+
+        private readonly IWcfServiceForClient _c2DWcfManager;
+
+//        private readonly Bus _bus;
         private string _preciseBaseFilename;
         private string _fastBaseFilename;
         private string _additionalBaseFilename;
@@ -60,11 +65,12 @@ namespace Iit.Fibertest.Client
 
         public AssignBaseRef Command { get; set; }
 
-        public BaseRefsAssignViewModel(Trace trace, ReadModel readModel, Bus bus)
+        public BaseRefsAssignViewModel(Trace trace, ReadModel readModel, IWcfServiceForClient c2DWcfManager)
         {
             _trace = trace;
             _readModel = readModel;
-            _bus = bus;
+            _c2DWcfManager = c2DWcfManager;
+//            _bus = bus;
 
             Initialize();
         }
@@ -125,7 +131,7 @@ namespace Iit.Fibertest.Client
         public void ClearPathToPrecise() { PreciseBaseFilename = ""; }
         public void ClearPathToFast() { FastBaseFilename = ""; }
         public void ClearPathToAdditional() { AdditionalBaseFilename = ""; }
-        public void Save()
+        public async void Save()
         {
             Command = new AssignBaseRef() {TraceId = _trace.Id};
             if (IsFilenameChanged(PreciseBaseFilename, _trace.PreciseId))
@@ -135,7 +141,8 @@ namespace Iit.Fibertest.Client
             if (IsFilenameChanged(AdditionalBaseFilename, _trace.AdditionalId))
                 SendAssingBaseRef(AdditionalBaseFilename, BaseRefType.Additional);
 
-            _bus.SendCommand(Command);
+            await _c2DWcfManager.SendCommandAsObj(Command);
+//            _bus.SendCommand(Command);
 
             TryClose();
         }

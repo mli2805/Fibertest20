@@ -6,6 +6,7 @@ using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
 {
@@ -28,8 +29,8 @@ namespace Iit.Fibertest.Client
         }
         public int LeftMargin => Parent is OtauLeaf ? 106 : 85;
 
-        public PortLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, IniFile iniFile35, IMyLog logFile, PostOffice postOffice, Leaf parent, int portNumber)
-            : base(readModel, windowManager, bus, postOffice)
+        public PortLeaf(ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, IniFile iniFile35, IMyLog logFile, PostOffice postOffice, Leaf parent, int portNumber)
+            : base(readModel, windowManager, c2DWcfManager, postOffice)
         {
             _iniFile35 = iniFile35;
             _logFile = logFile;
@@ -88,13 +89,13 @@ namespace Iit.Fibertest.Client
         public void AttachFromListAction(object param)
         {
             var rtuId = Parent is RtuLeaf ? Parent.Id : Parent.Parent.Id;
-            var vm = new TraceToAttachViewModel(rtuId, ExtendedPortNumber, ReadModel, Bus);
+            var vm = new TraceToAttachViewModel(rtuId, ExtendedPortNumber, ReadModel, C2DWcfManager);
             WindowManager.ShowDialog(vm);
         }
 
         public void AttachOtauAction(object param)
         {
-            var vm = new OtauToAttachViewModel(Parent.Id, PortNumber, ReadModel, Bus, WindowManager, _iniFile35, _logFile);
+            var vm = new OtauToAttachViewModel(Parent.Id, PortNumber, ReadModel, C2DWcfManager, WindowManager, _iniFile35, _logFile);
             WindowManager.ShowDialog(vm);
         }
 

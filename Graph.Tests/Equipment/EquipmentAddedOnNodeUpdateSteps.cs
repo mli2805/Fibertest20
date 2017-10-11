@@ -23,7 +23,7 @@ namespace Graph.Tests
         [Given(@"Пользователь открывает форму редактирования узла")]
         public void GivenПользовательОткрываетФормуРедактированияУзла()
         {
-            _nodeUpdateViewModel = new NodeUpdateViewModel(_sut.NodeId, _sut.ReadModel, _sut.FakeWindowManager, _sut.ShellVm.Bus);
+            _nodeUpdateViewModel = new NodeUpdateViewModel(_sut.NodeId, _sut.ReadModel, _sut.FakeWindowManager, _sut.ShellVm.C2DWcfManager);
         }
 
         [When(@"Пользователь жмет добавить оборудование вводит парамы и сохраняет")]
@@ -33,7 +33,7 @@ namespace Graph.Tests
                 _sut.TraceChoiceHandler(model, new List<Guid>() { _sut.TraceWithoutEqId }, Answer.Yes));
             _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentInfoViewModelHandler(model, Answer.Yes));
 
-            _nodeUpdateViewModel.AddEquipment();
+            _nodeUpdateViewModel.AddEquipment().Wait();
             _sut.Poller.Tick();
         }
 
@@ -46,7 +46,7 @@ namespace Graph.Tests
 
             _cutOff = _sut.Poller.CurrentEventNumber;
             _itemsCount = _nodeUpdateViewModel.EquipmentsInNode.Count;
-            _nodeUpdateViewModel.AddEquipment();
+            _nodeUpdateViewModel.AddEquipment().Wait();
             _sut.Poller.Tick();
         }
 

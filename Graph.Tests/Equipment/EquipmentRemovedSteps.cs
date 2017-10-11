@@ -26,7 +26,7 @@ namespace Graph.Tests
         [Given(@"Для этой трассы задана базовая")]
         public void GivenДляЭтойТрассыЗаданаБазовая()
         {
-            var vm = new BaseRefsAssignViewModel(_trace, _sut.ReadModel, _sut.ShellVm.Bus);
+            var vm = new BaseRefsAssignViewModel(_trace, _sut.ReadModel, _sut.ShellVm.C2DWcfManager);
             vm.PreciseBaseFilename = SystemUnderTest.Path;
             vm.Save();
             _sut.Poller.Tick();
@@ -35,12 +35,12 @@ namespace Graph.Tests
         [Given(@"Открыта форма для редактирования узла где оборудование А1")]
         public void GivenОткрытаФормаДляРедактированияУзлаГдеОборудованиеА1()
         {
-            _vm = new NodeUpdateViewModel(_nodeAId, _sut.ShellVm.ReadModel, _sut.FakeWindowManager, _sut.ShellVm.Bus);
+            _vm = new NodeUpdateViewModel(_nodeAId, _sut.ShellVm.ReadModel, _sut.FakeWindowManager, _sut.ShellVm.C2DWcfManager);
         }
         [Given(@"Открыта форма для редактирования узла где оборудование B1")]
         public void GivenОткрытаФормаДляРедактированияУзлаГдеОборудованиеB1()
         {
-            _vm = new NodeUpdateViewModel(_nodeBId, _sut.ShellVm.ReadModel, _sut.FakeWindowManager, _sut.ShellVm.Bus);
+            _vm = new NodeUpdateViewModel(_nodeBId, _sut.ShellVm.ReadModel, _sut.FakeWindowManager, _sut.ShellVm.C2DWcfManager);
         }
 
         [Then(@"Пункт Удалить доступен для данного оборудования")]
@@ -64,7 +64,7 @@ namespace Graph.Tests
         [When(@"Пользователь нажимает удалить оборудование")]
         public void WhenПользовательНажимаетУдалитьОборудование()
         {
-            var vm = new NodeUpdateViewModel(_nodeAId, _sut.ShellVm.ReadModel, _sut.FakeWindowManager, _sut.ShellVm.Bus);
+            var vm = new NodeUpdateViewModel(_nodeAId, _sut.ShellVm.ReadModel, _sut.FakeWindowManager, _sut.ShellVm.C2DWcfManager);
             vm.EquipmentsInNode.First(it=>it.Id == _equipmentA1Id).Command = new RemoveEquipment() { Id = _equipmentA1Id};
             _sut.Poller.Tick();
         }

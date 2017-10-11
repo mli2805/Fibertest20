@@ -3,6 +3,7 @@ using AutoMapper;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
 {
@@ -12,7 +13,8 @@ namespace Iit.Fibertest.Client
         public Equipment Equipment { get; }
         public Guid NodeId;
         private readonly EquipmentViewMode _mode;
-        private readonly Bus _bus;
+//        private readonly Bus _bus;
+        private readonly IWcfServiceForClient _c2DWcfManager;
         private string _title;
         private int _cableReserveLeft;
         private int _cableReserveRight;
@@ -94,14 +96,15 @@ namespace Iit.Fibertest.Client
             IsClosed = false;
         }
 
-        public EquipmentInfoViewModel(Equipment equipment, Bus bus)
+        public EquipmentInfoViewModel(Equipment equipment, IWcfServiceForClient c2DWcfManager)
         {
             _mode = EquipmentViewMode.Update;
             Equipment = equipment;
             EquipmentId = equipment.Id;
             NodeId = equipment.NodeId;
             Type = equipment.Type;
-            _bus = bus;
+//            _bus = bus;
+            _c2DWcfManager = c2DWcfManager;
 
             IsClosed = false;
         }
@@ -111,7 +114,7 @@ namespace Iit.Fibertest.Client
             DisplayName = _mode == EquipmentViewMode.Add ? Resources.SID_Add_Equipment : Resources.SID_Edit_Equipment;
         }
 
-        public void Save()
+        public async void Save()
         {
             IMapper mapper = new MapperConfiguration(
               cfg => cfg.AddProfile<MappingViewModelToCommand>()).CreateMapper();
@@ -120,8 +123,9 @@ namespace Iit.Fibertest.Client
             {
                 var cmd = mapper.Map<UpdateEquipment>(this);
                 cmd.Id = EquipmentId;
-                _bus.SendCommand(cmd);
                 Command = cmd; // nodeUpdateView take this command to update its equipment table
+//                _bus.SendCommand(cmd);
+            await _c2DWcfManager.SendCommandAsObj(cmd);
             }
 
             if (_mode == EquipmentViewMode.Add)

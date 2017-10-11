@@ -22,7 +22,7 @@ namespace Graph.Tests
         [When(@"Пользователь указывает пути к точной и быстрой базовам и жмет сохранить")]
         public void WhenПользовательУказываетПутиКТочнойИБыстройБазовамИЖметСохранить()
         {
-            var vm = new BaseRefsAssignViewModel(_trace, _sut.ReadModel, _sut.ShellVm.Bus);
+            var vm = new BaseRefsAssignViewModel(_trace, _sut.ReadModel, _sut.ShellVm.C2DWcfManager);
             vm.PreciseBaseFilename = SystemUnderTest.Path;
             vm.FastBaseFilename = SystemUnderTest.Path;
             vm.Save();
@@ -42,7 +42,7 @@ namespace Graph.Tests
         {
             _oldPreciseId = _trace.PreciseId;
             _oldFastId = _trace.FastId;
-            var vm = new BaseRefsAssignViewModel(_trace, _sut.ReadModel, _sut.ShellVm.Bus);
+            var vm = new BaseRefsAssignViewModel(_trace, _sut.ReadModel, _sut.ShellVm.C2DWcfManager);
             vm.FastBaseFilename = SystemUnderTest.Path;
             vm.Save();
             _sut.Poller.Tick();
@@ -58,7 +58,7 @@ namespace Graph.Tests
         [When(@"Пользователь сбрасывает точную и задает дополнительную и жмет сохранить")]
         public void WhenПользовательСбрасываетТочнуюЗадаетДополнительнуюИЖметСохранить()
         {
-            var vm = new BaseRefsAssignViewModel(_trace, _sut.ReadModel, _sut.ShellVm.Bus);
+            var vm = new BaseRefsAssignViewModel(_trace, _sut.ReadModel, _sut.ShellVm.C2DWcfManager);
             vm.ClearPathToPrecise();
             vm.AdditionalBaseFilename = SystemUnderTest.Path;
             vm.Save();

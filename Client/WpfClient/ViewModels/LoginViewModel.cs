@@ -6,6 +6,7 @@ using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
+using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
 {
@@ -14,7 +15,7 @@ namespace Iit.Fibertest.Client
         private readonly IWindowManager _windowManager;
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
-        private readonly C2DWcfManager _c2DWcfManager;
+        private readonly IWcfServiceForClient _c2DWcfManager;
         public Guid ClientId { private get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
@@ -32,7 +33,7 @@ namespace Iit.Fibertest.Client
         }
 
 
-        public LoginViewModel(IWindowManager windowManager, IniFile iniFile, IMyLog logFile, C2DWcfManager c2DWcfManager)
+        public LoginViewModel(IWindowManager windowManager, IniFile iniFile, IMyLog logFile, IWcfServiceForClient c2DWcfManager)
         {
             _windowManager = windowManager;
             _iniFile = iniFile;
@@ -91,9 +92,8 @@ namespace Iit.Fibertest.Client
         private async Task<ClientRegisteredDto> RegisterClientAsync()
         {
             var dcServiceAddresses = _iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
-//            var c2DWcfManager = IoC.Get<C2DWcfManager>();
-            _c2DWcfManager.SetServerAddresses(dcServiceAddresses);
-            _c2DWcfManager.ClientId = ClientId;
+            ((C2DWcfManager)_c2DWcfManager).SetServerAddresses(dcServiceAddresses);
+            ((C2DWcfManager)_c2DWcfManager).ClientId = ClientId;
 
             var clientAddresses = _iniFile.Read(IniSection.ClientLocalAddress, (int)TcpPorts.ClientListenTo);
             var result = await _c2DWcfManager.RegisterClientAsync(

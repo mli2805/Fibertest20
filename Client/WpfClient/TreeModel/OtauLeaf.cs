@@ -4,6 +4,7 @@ using System.Windows.Media;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
 {
@@ -24,8 +25,8 @@ namespace Iit.Fibertest.Client
         public ChildrenImpresario ChildrenImpresario { get; }
         public int TraceCount => ChildrenImpresario.Children.Count(c => c is TraceLeaf);
 
-        public OtauLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, PostOffice postOffice, FreePorts freePorts) 
-            : base(readModel, windowManager, bus, postOffice)
+        public OtauLeaf(ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, PostOffice postOffice, FreePorts freePorts) 
+            : base(readModel, windowManager, c2DWcfManager, postOffice)
         {
             ChildrenImpresario = new ChildrenImpresario(freePorts);
         }
@@ -46,7 +47,8 @@ namespace Iit.Fibertest.Client
 
         public void OtauRemoveAction(object param)
         {
-            Bus.SendCommand(new DetachOtau() { Id = Id, RtuId = Parent.Id });
+//            Bus.SendCommand(new DetachOtau() { Id = Id, RtuId = Parent.Id });
+            C2DWcfManager.SendCommandAsObj(new DetachOtau() { Id = Id, RtuId = Parent.Id });
         }
 
         private bool CanOtauRemoveAction(object param)

@@ -23,7 +23,7 @@ namespace Iit.Fibertest.Client
 
         private UpdateNode PrepareCommand(UpdateNode request)
         {
-            var vm = new NodeUpdateViewModel(request.Id, ReadModel, _windowManager, Bus);
+            var vm = new NodeUpdateViewModel(request.Id, ReadModel, _windowManager, C2DWcfManager);
             vm.PropertyChanged += Vm_PropertyChanged;
             _windowManager.ShowDialog(vm);
             return (UpdateNode) vm.Command;
@@ -36,10 +36,13 @@ namespace Iit.Fibertest.Client
             var vm = (NodeUpdateViewModel)sender;
 
             if (vm.Command is AddEquipmentIntoNode)
-                Bus.SendCommand((AddEquipmentIntoNode)vm.Command);
+              //  Bus.SendCommand((AddEquipmentIntoNode)vm.Command);
+             C2DWcfManager.SendCommandAsObj((AddEquipmentIntoNode)vm.Command);
+
 
             if (vm.Command is UpdateEquipment)
-                Bus.SendCommand((UpdateEquipment)vm.Command);
+//                Bus.SendCommand((UpdateEquipment)vm.Command);
+            C2DWcfManager.SendCommandAsObj((UpdateEquipment)vm.Command);
 
             if (vm.Command is RemoveEquipment)
                 ComplyWithRequest((RemoveEquipment)vm.Command).Wait();

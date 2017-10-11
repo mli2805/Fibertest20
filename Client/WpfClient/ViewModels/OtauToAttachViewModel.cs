@@ -8,6 +8,7 @@ using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
 {
@@ -16,7 +17,7 @@ namespace Iit.Fibertest.Client
         private readonly Guid _rtuId;
         private readonly int _portNumberForAttachment;
         private readonly ReadModel _readModel;
-        private readonly Bus _bus;
+        private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly IWindowManager _windowManager;
         private readonly IniFile _iniFile35;
         private readonly IMyLog _logFile;
@@ -72,12 +73,12 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public OtauToAttachViewModel(Guid rtuId, int portNumberForAttachment, ReadModel readModel, Bus bus, IWindowManager windowManager, IniFile iniFile35, IMyLog logFile)
+        public OtauToAttachViewModel(Guid rtuId, int portNumberForAttachment, ReadModel readModel, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager, IniFile iniFile35, IMyLog logFile)
         {
             _rtuId = rtuId;
             _portNumberForAttachment = portNumberForAttachment;
             _readModel = readModel;
-            _bus = bus;
+            _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
             _iniFile35 = iniFile35;
             _logFile = logFile;
@@ -108,7 +109,7 @@ namespace Iit.Fibertest.Client
             if (otau == null)
                 return;
 
-            await _bus.SendCommand(new AttachOtau()
+            var cmd = new AttachOtau()
             {
                 Id = Guid.NewGuid(),
                 RtuId = _rtuId,
@@ -116,7 +117,9 @@ namespace Iit.Fibertest.Client
                 Serial = otau.Serial,
                 PortCount = otau.OwnPortCount,
                 NetAddress = NetAddressInputViewModel.GetNetAddress(),
-            });
+            };
+//            await _bus.SendCommand(cmd);
+            await _c2DWcfManager.SendCommandAsObj(cmd);
         }
 
         public bool CheckAddressUniqueness()

@@ -4,13 +4,14 @@ using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
 {
     public class TraceToAttachViewModel : Screen
     {
         private readonly int _portNumber;
-        private readonly Bus _bus;
+        private readonly IWcfServiceForClient _c2DWcfManager;
         private Trace _selectedTrace;
 
         public List<Trace> Choices { get; set; }
@@ -26,10 +27,10 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public TraceToAttachViewModel(Guid rtuId, int portNumber, ReadModel readModel, Bus bus)
+        public TraceToAttachViewModel(Guid rtuId, int portNumber, ReadModel readModel, IWcfServiceForClient c2DWcfManager)
         {
             _portNumber = portNumber;
-            _bus = bus;
+            _c2DWcfManager = c2DWcfManager;
 
             Choices = readModel.Traces.Where(t => t.RtuId == rtuId && t.Port < 1).ToList();
             SelectedTrace = Choices.FirstOrDefault();
@@ -42,7 +43,8 @@ namespace Iit.Fibertest.Client
 
         public void Attach()
         {
-            _bus.SendCommand(new AttachTrace() {Port = _portNumber, TraceId = SelectedTrace.Id});
+//            _bus.SendCommand(new AttachTrace() {Port = _portNumber, TraceId = SelectedTrace.Id});
+            _c2DWcfManager.SendCommandAsObj(new AttachTrace() {Port = _portNumber, TraceId = SelectedTrace.Id});
             TryClose();
         }
 

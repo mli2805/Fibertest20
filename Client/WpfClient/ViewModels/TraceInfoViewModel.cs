@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
 {
     public class TraceInfoViewModel : Screen, IDataErrorInfo
     {
         private readonly ReadModel _readModel;
-        private readonly Bus _bus;
+//        private readonly Bus _bus;
+        private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly IWindowManager _windowManager;
 
         private Rtu _rtu;
@@ -80,16 +82,16 @@ namespace Iit.Fibertest.Client
         /// Setup traceId (for existing trace) or traceEquipments for trace creation moment
         /// </summary>
         /// <param name="readModel"></param>
-        /// <param name="bus"></param>
+        /// <param name="c2DWcfManager"></param>
         /// <param name="windowManager"></param>
         /// <param name="traceId"></param>
         /// <param name="traceEquipments"></param>
         /// <param name="traceNodes"></param>
-        public TraceInfoViewModel(ReadModel readModel, Bus bus, IWindowManager windowManager, 
+        public TraceInfoViewModel(ReadModel readModel, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager, 
             Guid traceId, List<Guid> traceEquipments = null, List<Guid> traceNodes = null)
         {
             _readModel = readModel;
-            _bus = bus;
+            _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
             _traceId = traceId;
             _traceEquipments = traceEquipments;
@@ -164,7 +166,10 @@ namespace Iit.Fibertest.Client
                 Equipments = _traceEquipments,
                 Comment = Comment
             };
-            var message = await _bus.SendCommand(cmd);
+            var message = 
+//                await _bus.SendCommand(cmd);
+                    await _c2DWcfManager.SendCommandAsObj(cmd);
+
             if (message != null)
                 _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, message));
         }
@@ -178,7 +183,8 @@ namespace Iit.Fibertest.Client
                 Mode = IsTraceModeLight ? TraceMode.Light : TraceMode.Dark,
                 Comment = Comment
             };
-            await _bus.SendCommand(cmd);
+                    await _c2DWcfManager.SendCommandAsObj(cmd);
+//            await _bus.SendCommand(cmd);
         }
 
         public void Cancel()

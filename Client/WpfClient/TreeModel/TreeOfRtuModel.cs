@@ -8,6 +8,7 @@ using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
+using Iit.Fibertest.WcfServiceForClientInterface;
 using Serilog;
 
 namespace Iit.Fibertest.Client
@@ -17,7 +18,10 @@ namespace Iit.Fibertest.Client
         private readonly Guid _clientId;
         private readonly IWindowManager _windowManager;
         private readonly ReadModel _readModel;
-        private readonly Bus _bus;
+
+        private readonly IWcfServiceForClient _c2DWcfManager;
+
+//        private readonly Bus _bus;
         private readonly IniFile _iniFile35;
         private readonly ILogger _log;
         private readonly IMyLog _logFile;
@@ -50,11 +54,11 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public TreeOfRtuModel(IWindowManager windowManager, ReadModel readModel, Bus bus, IniFile iniFile35, ILogger log, IMyLog logFile)
+        public TreeOfRtuModel(IWindowManager windowManager, ReadModel readModel, IWcfServiceForClient c2DWcfManager, IniFile iniFile35, ILogger log, IMyLog logFile)
         {
             _windowManager = windowManager;
             _readModel = readModel;
-            _bus = bus;
+            _c2DWcfManager = c2DWcfManager;
             _iniFile35 = iniFile35;
             _log = log;
             _logFile = logFile;
@@ -66,7 +70,7 @@ namespace Iit.Fibertest.Client
         #region Rtu
         public void Apply(RtuAtGpsLocationAdded e)
         {
-            Tree.Add(new RtuLeaf(_clientId, _readModel, _windowManager, _bus, _iniFile35, _log, _logFile, PostOffice, FreePorts)
+            Tree.Add(new RtuLeaf(_clientId, _readModel, _windowManager, _c2DWcfManager, _iniFile35, _log, _logFile, PostOffice, FreePorts)
             {
                 Id = e.Id,
                 Title = Resources.SID_noname_RTU,
@@ -126,7 +130,7 @@ namespace Iit.Fibertest.Client
             rtuLeaf.Color = Brushes.Black;
             for (int i = 1; i <= rtuLeaf.OwnPortCount; i++)
             {
-                var port = new PortLeaf(_readModel, _windowManager, _bus, _iniFile35, _logFile, PostOffice, rtuLeaf, i);
+                var port = new PortLeaf(_readModel, _windowManager, _c2DWcfManager, _iniFile35, _logFile, PostOffice, rtuLeaf, i);
                 rtuLeaf.ChildrenImpresario.Children.Insert(i - 1, port);
                 port.Parent = rtuLeaf;
             }
@@ -161,7 +165,7 @@ namespace Iit.Fibertest.Client
         public void Apply(OtauAttached e)
         {
             var rtuLeaf = (RtuLeaf)Tree.GetById(e.RtuId);
-            var otauLeaf = new OtauLeaf(_readModel, _windowManager, _bus, PostOffice, FreePorts)
+            var otauLeaf = new OtauLeaf(_readModel, _windowManager, _c2DWcfManager, PostOffice, FreePorts)
             {
                 Id = e.Id,
                 Parent = rtuLeaf,
@@ -174,7 +178,7 @@ namespace Iit.Fibertest.Client
                 IsExpanded = true,
             };
             for (int i = 0; i < otauLeaf.PortCount; i++)
-                otauLeaf.ChildrenImpresario.Children.Add(new PortLeaf(_readModel, _windowManager, _bus, _iniFile35, _logFile, PostOffice, otauLeaf, i + 1));
+                otauLeaf.ChildrenImpresario.Children.Add(new PortLeaf(_readModel, _windowManager, _c2DWcfManager, _iniFile35, _logFile, PostOffice, otauLeaf, i + 1));
             rtuLeaf.ChildrenImpresario.Children.Remove(rtuLeaf.ChildrenImpresario.Children[e.MasterPort - 1]);
             rtuLeaf.ChildrenImpresario.Children.Insert(e.MasterPort - 1, otauLeaf);
             rtuLeaf.FullPortCount += otauLeaf.PortCount;
@@ -188,7 +192,7 @@ namespace Iit.Fibertest.Client
             rtuLeaf.FullPortCount -= otauLeaf.PortCount;
             rtuLeaf.ChildrenImpresario.Children.Remove(otauLeaf);
 
-            var portLeaf = new PortLeaf(_readModel, _windowManager, _bus, _iniFile35, _logFile, PostOffice, rtuLeaf, port);
+            var portLeaf = new PortLeaf(_readModel, _windowManager, _c2DWcfManager, _iniFile35, _logFile, PostOffice, rtuLeaf, port);
             rtuLeaf.ChildrenImpresario.Children.Insert(port - 1, portLeaf);
             portLeaf.Parent = rtuLeaf;
         }
@@ -199,7 +203,7 @@ namespace Iit.Fibertest.Client
         public void Apply(TraceAdded e)
         {
             var rtu = (RtuLeaf)Tree.GetById(e.RtuId);
-            var trace = new TraceLeaf(_readModel, _windowManager, _bus, PostOffice, rtu)
+            var trace = new TraceLeaf(_readModel, _windowManager, _c2DWcfManager, PostOffice, rtu)
             {
                 Id = e.Id,
                 Title = e.Title,
@@ -242,7 +246,7 @@ namespace Iit.Fibertest.Client
             var port = portOwner is RtuLeaf ? e.Port : e.Port - ((OtauLeaf)portOwner).FirstPortNumber + 1;
 
             portOwner.ChildrenImpresario.Children[port - 1] =
-                new TraceLeaf(_readModel, _windowManager, _bus, PostOffice, portOwner)
+                new TraceLeaf(_readModel, _windowManager, _c2DWcfManager, PostOffice, portOwner)
                 {
                     Id = e.TraceId,
                     TraceState = FiberState.NotChecked,
@@ -259,7 +263,7 @@ namespace Iit.Fibertest.Client
             var owner = Tree.GetById(traceLeaf.Parent.Id);
             RtuLeaf rtu = owner is RtuLeaf ? (RtuLeaf)owner : (RtuLeaf)(owner.Parent);
             int port = traceLeaf.PortNumber;
-            var detachedTraceLeaf = new TraceLeaf(_readModel, _windowManager, _bus, PostOffice, rtu)
+            var detachedTraceLeaf = new TraceLeaf(_readModel, _windowManager, _c2DWcfManager, PostOffice, rtu)
             {
                 Id = traceLeaf.Id,
                 PortNumber = 0,
@@ -270,7 +274,7 @@ namespace Iit.Fibertest.Client
 
             ((IPortOwner)owner).ChildrenImpresario.Children.RemoveAt(port - 1);
             ((IPortOwner)owner).ChildrenImpresario.Children.
-                Insert(port - 1, new PortLeaf(_readModel, _windowManager, _bus, _iniFile35, _logFile, PostOffice, owner, port));
+                Insert(port - 1, new PortLeaf(_readModel, _windowManager, _c2DWcfManager, _iniFile35, _logFile, PostOffice, owner, port));
 
             rtu.ChildrenImpresario.Children.Add(detachedTraceLeaf);
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Media;
 using Caliburn.Micro;
+using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
 {
@@ -9,7 +10,8 @@ namespace Iit.Fibertest.Client
     {
         protected readonly ReadModel ReadModel;
         protected readonly IWindowManager WindowManager;
-        protected readonly Bus Bus;
+        protected readonly IWcfServiceForClient C2DWcfManager;
+//        protected readonly Bus Bus;
         public Guid Id { get; set; }
 
         private string _title;
@@ -59,11 +61,12 @@ namespace Iit.Fibertest.Client
 
         public Leaf Parent { get; set; }
 
-        protected Leaf(ReadModel readModel, IWindowManager windowManager, Bus bus, PostOffice postOffice)
+        protected Leaf(ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, PostOffice postOffice)
         {
             ReadModel = readModel;
             WindowManager = windowManager;
-            Bus = bus;
+            C2DWcfManager = c2DWcfManager;
+//            Bus = bus;
             PostOffice = postOffice;
         }
 

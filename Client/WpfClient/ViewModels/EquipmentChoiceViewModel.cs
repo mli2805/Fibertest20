@@ -5,13 +5,15 @@ using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
 {
     public class EquipmentChoiceViewModel : Screen
     {
         private readonly IWindowManager _windowManager;
-        private readonly Bus _bus;
+        private readonly IWcfServiceForClient _c2DWcfManager;
+//        private readonly Bus _bus;
         private readonly List<Equipment> _possibleEquipment;
         private readonly string _nodeTitle;
         private readonly bool _isLastNode;
@@ -24,10 +26,10 @@ namespace Iit.Fibertest.Client
         public bool ShouldWeContinue { get; set; }
         public bool ShouldEquipmentViewBeOpen { get; set; }
 
-        public EquipmentChoiceViewModel(IWindowManager windowManager, Bus bus, List<Equipment> possibleEquipment, string nodeTitle, bool isLastNode)
+        public EquipmentChoiceViewModel(IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, List<Equipment> possibleEquipment, string nodeTitle, bool isLastNode)
         {
             _windowManager = windowManager;
-            _bus = bus;
+            _c2DWcfManager = c2DWcfManager;
             _possibleEquipment = possibleEquipment;
             _nodeTitle = nodeTitle;
             _isLastNode = isLastNode;
@@ -92,7 +94,7 @@ namespace Iit.Fibertest.Client
         public void SelectAndSetupNameButton()
         {
             ShouldWeContinue = true;
-            var vm = new EquipmentInfoViewModel(_possibleEquipment[GetCheckedRadioButton()], _bus);
+            var vm = new EquipmentInfoViewModel(_possibleEquipment[GetCheckedRadioButton()], _c2DWcfManager);
             _windowManager.ShowDialog(vm);
 
             ShouldEquipmentViewBeOpen = true;

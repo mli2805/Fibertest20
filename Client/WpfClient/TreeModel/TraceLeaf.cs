@@ -6,6 +6,7 @@ using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.WcfServiceForClientInterface;
 using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.Client
@@ -48,8 +49,8 @@ namespace Iit.Fibertest.Client
         public ImageSource TraceStatePictogram => TraceState.GetPictogram();
 
 
-        public TraceLeaf(ReadModel readModel, IWindowManager windowManager, Bus bus, PostOffice postOffice, IPortOwner parent) 
-            : base(readModel, windowManager, bus, postOffice)
+        public TraceLeaf(ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, PostOffice postOffice, IPortOwner parent) 
+            : base(readModel, windowManager, c2DWcfManager, postOffice)
         {
             Parent = (Leaf)parent;
         }
@@ -164,7 +165,7 @@ namespace Iit.Fibertest.Client
 
         private void TraceInformationAction(object param)
         {
-            var vm = new TraceInfoViewModel(ReadModel, Bus, WindowManager, Id);
+            var vm = new TraceInfoViewModel(ReadModel, C2DWcfManager, WindowManager, Id);
             WindowManager.ShowDialog(vm);
         }
         private void ShowTraceAction(object param) { }
@@ -172,7 +173,7 @@ namespace Iit.Fibertest.Client
         public void AssignBaseRefsAction(object param)
         {
             var trace = ReadModel.Traces.First(t => t.Id == Id);
-            var vm = new BaseRefsAssignViewModel(trace, ReadModel, Bus);
+            var vm = new BaseRefsAssignViewModel(trace, ReadModel, C2DWcfManager);
             WindowManager.ShowDialog(vm);
         }
         private void TraceStateAction(object param) { }
@@ -199,17 +200,19 @@ namespace Iit.Fibertest.Client
 
         public void DetachTraceAction(object param)
         {
-            Bus.SendCommand(new DetachTrace() {TraceId = Id});
+//            Bus.SendCommand(new DetachTrace() {TraceId = Id});
+            C2DWcfManager.SendCommandAsObj(new DetachTrace() {TraceId = Id});
+            
         }
 
         public void TraceCleanAction(object param)
         {
-            Bus.SendCommand(new CleanTrace() { Id = Id});
+            C2DWcfManager.SendCommandAsObj(new CleanTrace() { Id = Id});
         }
 
         public void TraceRemoveAction(object param)
         {
-            Bus.SendCommand(new RemoveTrace() { Id = Id });
+            C2DWcfManager.SendCommandAsObj(new RemoveTrace() { Id = Id });
         }
         private void PreciseOutOfTurnMeasurementAction(object param) { }
 

@@ -32,7 +32,7 @@ namespace Iit.Fibertest.Client
             if (traceEquipments == null)
                 return;
 
-            var traceAddViewModel = new TraceInfoViewModel(ReadModel, Bus, _windowManager, Guid.Empty, traceEquipments, traceNodes);
+            var traceAddViewModel = new TraceInfoViewModel(ReadModel, C2DWcfManager, _windowManager, Guid.Empty, traceEquipments, traceNodes);
             _windowManager.ShowDialog(traceAddViewModel);
         }
 
@@ -76,7 +76,7 @@ namespace Iit.Fibertest.Client
                     equipments.Add(Guid.Empty);
                 else
                 {
-                    var equipmentChoiceViewModel = new EquipmentChoiceViewModel(_windowManager, Bus, 
+                    var equipmentChoiceViewModel = new EquipmentChoiceViewModel(_windowManager, C2DWcfManager, 
                         possibleEquipments, ReadModel.Nodes.First(n=>n.Id==nodeId).Title, nodeId == nodes.Last());
                     _windowManager.ShowDialog(equipmentChoiceViewModel);
                     if (!equipmentChoiceViewModel.ShouldWeContinue) // пользователь прервал процесс, отказавшись выбирать оборудование

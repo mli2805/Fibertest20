@@ -40,7 +40,7 @@ namespace Graph.Tests
         [When(@"Пользователь открыл окно редактирования только что добавленного узла")]
         public void WhenПользовательОткрылОкноРедактированияТолькоЧтоДобавленногоУзла()
         {
-            _nodeUpdateViewModel = new NodeUpdateViewModel(_saidNodeId, _sut.ReadModel, new FakeWindowManager(), _sut.ShellVm.Bus);
+            _nodeUpdateViewModel = new NodeUpdateViewModel(_saidNodeId, _sut.ReadModel, new FakeWindowManager(), _sut.ShellVm.C2DWcfManager);
         }
 
         [Then(@"Кнопка Сохранить запрещена")]
