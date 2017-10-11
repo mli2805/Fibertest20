@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Newtonsoft.Json;
@@ -32,18 +34,20 @@ namespace Iit.Fibertest.DataCenterCore
 
         public void Init()
         {
-            _logFile.AppendLine(@"Initializing EventStoreService");
+            var appPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var graphDbPath = Path.Combine(appPath, @"..\Db\graph.db");
+            _logFile.AppendLine($@"Graph Db : {graphDbPath}");
 
             try
             {
                 _storeEvents = Wireup.Init()
-                                        .UsingSqlPersistence("NEventStoreSQLite")
-                                        .WithDialect(new SqliteDialect())
+                    .UsingSqlPersistence("NEventStoreSQLite","System.Data.SQLite", $@"Data Source={graphDbPath};Version=3;New=True;")
+                    .WithDialect(new SqliteDialect())
 //                    .UsingInMemoryPersistence()
                     .InitializeStorageEngine()
-                    // .WithPersistence()
                     .Build();
 
+                _logFile.AppendLine(@"EventStoreService initialized successfully");
             }
             catch (Exception e)
             {
