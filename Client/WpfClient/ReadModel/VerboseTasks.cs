@@ -16,7 +16,6 @@ namespace Iit.Fibertest.Client
             var cmd = BuildAddEquipmentIntoNodeCommand(request.NodeId, readModel, windowManager);
             if (cmd == null)
                 return;
-//            await bus.SendCommand(cmd);
             await c2DWcfManager.SendCommandAsObj(cmd);
         }
 

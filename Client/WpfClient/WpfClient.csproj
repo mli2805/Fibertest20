@@ -217,6 +217,8 @@
     <Compile Include="ViewModels\Administrative\UserListViewModel.cs" />
     <Compile Include="ViewModels\Administrative\UserViewModel.cs" />
     <Compile Include="ViewModels\Administrative\Zone.cs" />
+    <Compile Include="ClientWcfServiceHost.cs" />
+    <Compile Include="IClientWcfServiceHost.cs" />
     <Compile Include="Views\Administrative\ObjectsToZonesView.xaml.cs">
       <DependentUpon>ObjectsToZonesView.xaml</DependentUpon>
     </Compile>

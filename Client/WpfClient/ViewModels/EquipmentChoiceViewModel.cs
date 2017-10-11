@@ -13,7 +13,6 @@ namespace Iit.Fibertest.Client
     {
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
-//        private readonly Bus _bus;
         private readonly List<Equipment> _possibleEquipment;
         private readonly string _nodeTitle;
         private readonly bool _isLastNode;

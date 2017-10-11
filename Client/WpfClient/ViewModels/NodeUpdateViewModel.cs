@@ -17,7 +17,6 @@ namespace Iit.Fibertest.Client
     {
         private readonly ReadModel _readModel;
         private readonly IWindowManager _windowManager;
-//        private readonly Bus _bus;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly Node _originalNode;
         private readonly PointLatLng _nodeCoors;
@@ -123,7 +122,6 @@ namespace Iit.Fibertest.Client
             _readModel = readModel;
             _readModel.PropertyChanged += _readModel_PropertyChanged;
             _windowManager = windowManager;
-//            _bus = bus;
             _c2DWcfManager = c2DWcfManager;
             _originalNode = _readModel.Nodes.First(n => n.Id == nodeId);
             _nodeCoors = new PointLatLng() {Lat = _originalNode.Latitude, Lng = _originalNode.Longitude};

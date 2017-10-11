@@ -200,7 +200,6 @@ namespace Iit.Fibertest.Client
 
         public void DetachTraceAction(object param)
         {
-//            Bus.SendCommand(new DetachTrace() {TraceId = Id});
             C2DWcfManager.SendCommandAsObj(new DetachTrace() {TraceId = Id});
             
         }

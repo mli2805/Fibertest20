@@ -236,7 +236,6 @@ namespace Iit.Fibertest.Client
 
         private void RtuRemoveAction(object param)
         {
-//            Bus.SendCommand(new RemoveRtu() { Id = Id });
             C2DWcfManager.SendCommandAsObj(new RemoveRtu() { Id = Id });
         }
 

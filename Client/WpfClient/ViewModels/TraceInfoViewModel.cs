@@ -13,7 +13,6 @@ namespace Iit.Fibertest.Client
     public class TraceInfoViewModel : Screen, IDataErrorInfo
     {
         private readonly ReadModel _readModel;
-//        private readonly Bus _bus;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly IWindowManager _windowManager;
 

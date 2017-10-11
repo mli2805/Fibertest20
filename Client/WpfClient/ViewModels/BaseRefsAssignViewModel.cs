@@ -17,7 +17,6 @@ namespace Iit.Fibertest.Client
 
         private readonly IWcfServiceForClient _c2DWcfManager;
 
-//        private readonly Bus _bus;
         private string _preciseBaseFilename;
         private string _fastBaseFilename;
         private string _additionalBaseFilename;
@@ -69,7 +68,6 @@ namespace Iit.Fibertest.Client
             _trace = trace;
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
-//            _bus = bus;
 
             Initialize();
         }

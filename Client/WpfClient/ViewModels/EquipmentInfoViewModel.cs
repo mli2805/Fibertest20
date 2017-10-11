@@ -13,7 +13,6 @@ namespace Iit.Fibertest.Client
         public Equipment Equipment { get; }
         public Guid NodeId;
         private readonly EquipmentViewMode _mode;
-//        private readonly Bus _bus;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private string _title;
         private int _cableReserveLeft;
@@ -103,7 +102,6 @@ namespace Iit.Fibertest.Client
             EquipmentId = equipment.Id;
             NodeId = equipment.NodeId;
             Type = equipment.Type;
-//            _bus = bus;
             _c2DWcfManager = c2DWcfManager;
 
             IsClosed = false;

@@ -47,7 +47,6 @@ namespace Iit.Fibertest.Client
 
         public void OtauRemoveAction(object param)
         {
-//            Bus.SendCommand(new DetachOtau() { Id = Id, RtuId = Parent.Id });
             C2DWcfManager.SendCommandAsObj(new DetachOtau() { Id = Id, RtuId = Parent.Id });
         }
 

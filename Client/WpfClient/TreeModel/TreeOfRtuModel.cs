@@ -19,7 +19,6 @@ namespace Iit.Fibertest.Client
 
         private readonly IWcfServiceForClient _c2DWcfManager;
 
-//        private readonly Bus _bus;
         private readonly IniFile _iniFile35;
         private readonly ILogger _log;
         private readonly IMyLog _logFile;

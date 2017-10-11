@@ -11,7 +11,6 @@ namespace Iit.Fibertest.Client
         protected readonly ReadModel ReadModel;
         protected readonly IWindowManager WindowManager;
         protected readonly IWcfServiceForClient C2DWcfManager;
-//        protected readonly Bus Bus;
         public Guid Id { get; set; }
 
         private string _title;
@@ -66,7 +65,6 @@ namespace Iit.Fibertest.Client
             ReadModel = readModel;
             WindowManager = windowManager;
             C2DWcfManager = c2DWcfManager;
-//            Bus = bus;
             PostOffice = postOffice;
         }
 

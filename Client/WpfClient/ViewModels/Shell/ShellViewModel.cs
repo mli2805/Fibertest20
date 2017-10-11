@@ -1,15 +1,12 @@
 ﻿using System;
-using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using Caliburn.Micro;
-using ClientWcfServiceLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using Iit.Fibertest.WpfCommonViews;
 using PrivateReflectionUsingDynamic;
@@ -21,7 +18,6 @@ namespace Iit.Fibertest.Client
     {
         public ILogger Log { get; set; }
 
-//        public Bus Bus { get; }
         private readonly Guid _clientId;
         private readonly IWindowManager _windowManager;
         private readonly IMyLog _logFile;
@@ -70,7 +66,6 @@ namespace Iit.Fibertest.Client
             TreeOfRtuModel.PostOffice.PropertyChanged += PostOffice_PropertyChanged;
             MainMenuViewModel = new MainMenuViewModel(windowManager);
             TreeOfRtuViewModel = new TreeOfRtuViewModel(treeOfRtuModel);
-//            Bus = bus;
             AdministrativeDb = administrativeDb;
             GraphReadModel = graphReadModel;
             GraphReadModel.MapVisibility = Visibility.Visible;
@@ -110,7 +105,6 @@ namespace Iit.Fibertest.Client
             ((App)Application.Current).ShutdownMode = ShutdownMode.OnExplicitShutdown;
             _logFile.AssignFile(@"Client.log");
             _logFile.AppendLine(@"Client application started!");
-//            var vm = new LoginViewModel(_windowManager, _iniFile, _logFile);
             var vm = IoC.Get<LoginViewModel>();
             vm.ClientId = _clientId;
             _isAuthenticationSuccessfull = _windowManager.ShowDialog(vm);
@@ -261,7 +255,6 @@ namespace Iit.Fibertest.Client
                 Id = Guid.NewGuid(),
                 NodeId = Guid.NewGuid()
             };
-//            await Bus.SendCommandAsObj(cmd);
             await C2DWcfManager.SendCommandAsObj(cmd);
         }
 
@@ -270,7 +263,6 @@ namespace Iit.Fibertest.Client
             var cmd = PrepareCommand(request);
             if (cmd == null)
                 return;
-//            await Bus.SendCommand(cmd);
             await C2DWcfManager.SendCommandAsObj(cmd);
         }
 
@@ -279,7 +271,6 @@ namespace Iit.Fibertest.Client
             var cmd = PrepareCommand(request);
             if (cmd == null)
                 return;
-//            await Bus.SendCommand(cmd);
             await C2DWcfManager.SendCommandAsObj(cmd);
         }
         #endregion
@@ -295,7 +286,6 @@ namespace Iit.Fibertest.Client
                 Latitude = request.Latitude,
                 Longitude = request.Longitude,
             };
-//            await Bus.SendCommand(cmd);
             await C2DWcfManager.SendCommandAsObj(cmd);
         }
 
@@ -327,49 +317,5 @@ namespace Iit.Fibertest.Client
             return Task.FromResult(0);
         }
         #endregion
-    }
-
-    public interface IClientWcfServiceHost
-    {
-        void StartWcfListener();
-    }
-
-    public sealed class ClientWcfServiceHost : IClientWcfServiceHost
-    {
-        private readonly ServiceHost _wcfHost = new ServiceHost(typeof(ClientWcfService));
-        private readonly IniFile _iniFile;
-        private readonly IMyLog _logFile;
-
-        public ClientWcfServiceHost(IniFile iniFile, IMyLog logFile)
-        {
-            _iniFile = iniFile;
-            _logFile = logFile;
-        }
-
-        private void ClientWcfService_MessageReceived(object e)
-        {
-            if (e is MonitoringResultDto)
-                _logFile.AppendLine(@"Moniresult happened");
-        }
-
-        public void StartWcfListener()
-        {
-            ClientWcfService.ClientLog = _logFile;
-            ClientWcfService.MessageReceived += ClientWcfService_MessageReceived;
-
-            try
-            {
-                _wcfHost.AddServiceEndpoint(typeof(IClientWcfService), 
-                    WcfFactory.CreateDefaultNetTcpBinding(_iniFile), 
-                    WcfFactory.CombineUriString(@"localhost", (int)TcpPorts.ClientListenTo, @"ClientWcfService"));
-                _wcfHost.Open();
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine(e.Message);
-                throw;
-            }
-        }
-
     }
 }
