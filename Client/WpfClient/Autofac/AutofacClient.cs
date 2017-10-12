@@ -58,6 +58,8 @@ namespace Iit.Fibertest.Client
                 .SingleInstance();
 
             builder.RegisterType<AdministrativeDb>().SingleInstance();
+
+
             builder.RegisterType<LoginViewModel>();
             builder.RegisterType<ServerConnectViewModel>();
             builder.RegisterType<NetAddressTestViewModel>();

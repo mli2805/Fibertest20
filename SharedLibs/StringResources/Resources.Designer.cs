@@ -3269,6 +3269,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Wrong user name or password!.
+        /// </summary>
+        public static string SID_Wrong_user_name_or_password_ {
+            get {
+                return ResourceManager.GetString("SID_Wrong_user_name_or_password_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to yes.
         /// </summary>
         public static string SID_yes {

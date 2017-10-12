@@ -1196,4 +1196,7 @@ RTU is initializing right now!</value>
 	<data name="SID_Client_registraion_is_performing" xml:space="preserve">
     <value>Client registraion is performing</value>
   </data>
+  <data name="SID_Wrong_user_name_or_password_" xml:space="preserve">
+    <value>Wrong user name or password!</value>
+  </data>
 </root>

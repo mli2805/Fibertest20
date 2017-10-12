@@ -1,25 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.UtilsLib;
 using Serilog;
 
 namespace Iit.Fibertest.Client
 {
     public class AdministrativeDb
     {
-        private readonly ILogger _log;
+        private readonly IMyLog _logFile;
         private string filename = @"..\db\AdministrativeDb.bin";
 
         public List<User> Users { get; set; }
         public List<Zone> Zones { get; set; }
 
-        public AdministrativeDb(ILogger log)
+        public AdministrativeDb(IMyLog logFile)
         {
-            _log = log;
+            _logFile = logFile;
             Load();
             PopulateIfEmpty();
+        }
+
+        public bool CheckPassword(string userName, string password)
+        {
+            var user = Users.FirstOrDefault(u => u.Name == userName);
+            if (user == null)
+                return false;
+            return user.Password == password;
         }
 
         public void Save()
@@ -33,12 +43,11 @@ namespace Iit.Fibertest.Client
                     binaryFormatter.Serialize(fStream, Users);
                     binaryFormatter.Serialize(fStream, Zones);
                 }
-                _log.Information(@"Administrative Db saved successfully.");
+                _logFile.AppendLine(@"Administrative Db saved successfully.");
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
-                _log.Information(e.Message);
+                _logFile.AppendLine(e.Message);
             }
         }
 
@@ -52,12 +61,11 @@ namespace Iit.Fibertest.Client
                     Users = (List<User>)binaryFormatter.Deserialize(fStream);
                     Zones = (List<Zone>)binaryFormatter.Deserialize(fStream);
                 }
-                _log.Information(@"Loaded");
+                _logFile.AppendLine(@"Loaded");
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
-                _log.Information(e.Message);
+                _logFile.AppendLine(e.Message);
             }
 
         }
@@ -71,6 +79,7 @@ namespace Iit.Fibertest.Client
                 {
                     new Zone() {Id = Guid.NewGuid(), Title = Resources.SID_Default_Zone,}
                 };
+            Save();
         }
 
         private void PopulateUsers()
