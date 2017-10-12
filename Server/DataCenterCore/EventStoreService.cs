@@ -1,12 +1,9 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Newtonsoft.Json;
 using NEventStore;
-using NEventStore.Persistence.Sql.SqlDialects;
 using PrivateReflectionUsingDynamic;
 
 namespace Iit.Fibertest.DataCenterCore
@@ -15,6 +12,7 @@ namespace Iit.Fibertest.DataCenterCore
     public class EventStoreService
     {
         private readonly IMyLog _logFile;
+        private readonly IEventStoreInitializer _eventStoreInitializer;
         private IStoreEvents _storeEvents;
         private Aggregate _aggregate;
         private static readonly Guid AggregateId =
@@ -27,32 +25,15 @@ namespace Iit.Fibertest.DataCenterCore
             TypeNameHandling = TypeNameHandling.All
         };
 
-        public EventStoreService(IMyLog logFile)
+        public EventStoreService(IMyLog logFile, IEventStoreInitializer eventStoreInitializer)
         {
             _logFile = logFile;
+            _eventStoreInitializer = eventStoreInitializer;
         }
 
         public void Init()
         {
-            var appPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var graphDbPath = Path.Combine(appPath, @"..\Db\graph.db");
-            _logFile.AppendLine($@"Graph Db : {graphDbPath}");
-
-            try
-            {
-                _storeEvents = Wireup.Init()
-                    .UsingSqlPersistence("NEventStoreSQLite","System.Data.SQLite", $@"Data Source={graphDbPath};Version=3;New=True;")
-                    .WithDialect(new SqliteDialect())
-//                    .UsingInMemoryPersistence()
-                    .InitializeStorageEngine()
-                    .Build();
-
-                _logFile.AppendLine(@"EventStoreService initialized successfully");
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine(e.Message);
-            }
+            _storeEvents = _eventStoreInitializer.Init(_logFile);
 
             var eventStream = _storeEvents.OpenStream(AggregateId);
             var events = eventStream.CommittedEvents.Select(x => x.Body);

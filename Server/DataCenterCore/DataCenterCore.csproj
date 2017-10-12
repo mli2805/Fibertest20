@@ -79,6 +79,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EventStoreInitializer.cs" />
+    <Compile Include="IEventStoreInitializer.cs" />
     <Compile Include="WcfServiceForClientBootstrapper.cs" />
     <Compile Include="EventStoreService.cs" />
     <Compile Include="LastConnectionTimeChecker.cs" />
