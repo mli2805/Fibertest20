@@ -1199,4 +1199,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Wrong_user_name_or_password_" xml:space="preserve">
 		<value>Неверное имя пользователя или пароль!</value>
 	</data>
+	<data name="SID_Establishing_connection___" xml:space="preserve">
+		<value>Устанавливаем соединение...</value>
+	</data>
 </root>

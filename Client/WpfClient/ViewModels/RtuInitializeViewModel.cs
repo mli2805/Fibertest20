@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using Autofac;
 using Caliburn.Micro;
 using ClientWcfServiceLibrary;
 using Iit.Fibertest.Dto;
@@ -55,6 +56,7 @@ namespace Iit.Fibertest.Client
         public bool IsReserveChannelEnabled { get; set; }
         public NetAddressTestViewModel ReserveChannelTestViewModel { get; set; }
 
+        private readonly ILifetimeScope _globalScope;
         private readonly ReadModel _readModel;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
@@ -88,9 +90,10 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public RtuInitializeViewModel(ReadModel readModel, IWindowManager windowManager, 
+        public RtuInitializeViewModel(ILifetimeScope globalScope, ReadModel readModel, IWindowManager windowManager,
             IWcfServiceForClient c2DWcfManager, IMyLog logFile, RtuLeaf rtuLeaf)
         {
+            _globalScope = globalScope;
             _readModel = readModel;
             _windowManager = windowManager;
             _c2DWcfManager = c2DWcfManager;
@@ -99,7 +102,7 @@ namespace Iit.Fibertest.Client
             Init(rtuLeaf.Id);
         }
 
-        public void Init(Guid rtuId)
+        private void Init(Guid rtuId)
         {
             RtuId = rtuId;
             OriginalRtu = _readModel.Rtus.First(r => r.Id == RtuId);
@@ -108,15 +111,13 @@ namespace Iit.Fibertest.Client
             PortCount = $@"{OriginalRtu.OwnPortCount} / {OriginalRtu.FullPortCount}";
             OtdrNetAddress = OriginalRtu.OtdrNetAddress;
 
-            //            MainChannelTestViewModel = new NetAddressTestViewModel(c2DWcfManager, OriginalRtu.MainChannel, serverAddress.Main);
-            //            MainChannelTestViewModel = IoC.Get<NetAddressTestViewModel>();
-            MainChannelTestViewModel = new NetAddressTestViewModel(_c2DWcfManager);
-            MainChannelTestViewModel.Init(OriginalRtu.MainChannel, true);
+            var localScope1 = _globalScope.BeginLifetimeScope(
+                    ctx => ctx.RegisterInstance(new NetAddressForConnectionTest(OriginalRtu.MainChannel, true)));
+            MainChannelTestViewModel = localScope1.Resolve<NetAddressTestViewModel>();
 
-            //            ReserveChannelTestViewModel = new NetAddressTestViewModel(c2DWcfManager, OriginalRtu.ReserveChannel, serverAddress.Reserve);
-            //            ReserveChannelTestViewModel = IoC.Get<NetAddressTestViewModel>();
-            ReserveChannelTestViewModel = new NetAddressTestViewModel(_c2DWcfManager);
-            ReserveChannelTestViewModel.Init(OriginalRtu.ReserveChannel, true);
+            var localScope2 = _globalScope.BeginLifetimeScope(
+                    ctx => ctx.RegisterInstance(new NetAddressForConnectionTest(OriginalRtu.ReserveChannel, true)));
+            ReserveChannelTestViewModel = localScope2.Resolve<NetAddressTestViewModel>();
 
             IsReserveChannelEnabled = OriginalRtu.IsReserveChannelSet;
             ClientWcfService.MessageReceived += ClientWcfService_MessageReceived;

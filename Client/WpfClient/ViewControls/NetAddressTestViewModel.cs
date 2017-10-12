@@ -13,7 +13,7 @@ namespace Iit.Fibertest.Client
     public class NetAddressTestViewModel : Screen
     {
         private readonly IWcfServiceForClient _c2DWcfManager;
-        private bool _isRtuTesting;
+        private readonly NetAddressForConnectionTest _netAddressForConnectionTest;
         private bool? _result;
         public NetAddressInputViewModel NetAddressInputViewModel { get; set; }
 
@@ -29,17 +29,13 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public NetAddressTestViewModel(IWcfServiceForClient c2DWcfManager)
+        public NetAddressTestViewModel(IWcfServiceForClient c2DWcfManager, NetAddressForConnectionTest netAddressForConnectionTest)
         {
             _c2DWcfManager = c2DWcfManager;
-            Result = true;
-        }
-
-        public void Init(NetAddress addressForTesting, bool isRtuTesting)
-        {
-            _isRtuTesting = isRtuTesting;
-            NetAddressInputViewModel = new NetAddressInputViewModel(addressForTesting);
+            _netAddressForConnectionTest = netAddressForConnectionTest;
+            NetAddressInputViewModel = new NetAddressInputViewModel(netAddressForConnectionTest.Address);
             ClientWcfService.MessageReceived += ClientWcfService_MessageReceived;
+            Result = true;
         }
 
         private void ClientWcfService_MessageReceived(object e)
@@ -70,7 +66,7 @@ namespace Iit.Fibertest.Client
 
         private async Task<bool> TestConnection()
         {
-            if (_isRtuTesting)
+            if (_netAddressForConnectionTest.IsRtuAddress)
             {
                 var b = await _c2DWcfManager
                     .CheckRtuConnectionAsync(new CheckRtuConnectionDto()

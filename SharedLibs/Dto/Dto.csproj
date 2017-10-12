@@ -67,6 +67,7 @@
     <Compile Include="Underlying\MoniResult.cs" />
     <Compile Include="Underlying\MonitoringTimespansDto.cs" />
     <Compile Include="Underlying\NetAddress.cs" />
+    <Compile Include="Underlying\NetAddressForConnectionTest.cs" />
     <Compile Include="Underlying\OtauDto.cs" />
     <Compile Include="Underlying\OtauPortDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,4 +1,5 @@
-﻿using Caliburn.Micro;
+﻿using Autofac;
+using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
@@ -24,14 +25,15 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public ServerConnectViewModel(IniFile iniFile)
+        public ServerConnectViewModel(ILifetimeScope globalScope, IniFile iniFile)
         {
             _clientIni = iniFile;
             _dcServiceAddresses = _clientIni.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
 
-//            ServerConnectionTestViewModel =  new NetAddressTestViewModel(c2DWcfManager, (NetAddress)_dcServiceAddresses.Main.Clone());
-            ServerConnectionTestViewModel = IoC.Get<NetAddressTestViewModel>();
-            ServerConnectionTestViewModel.Init((NetAddress)_dcServiceAddresses.Main.Clone(), false);
+            var localScope = globalScope.BeginLifetimeScope(
+                ctx => ctx.RegisterInstance(
+                    new NetAddressForConnectionTest((NetAddress) _dcServiceAddresses.Main.Clone(), false)));
+            ServerConnectionTestViewModel = localScope.Resolve<NetAddressTestViewModel>();
             ServerConnectionTestViewModel.PropertyChanged += ServerConnectionTestViewModel_PropertyChanged;
         }
 
