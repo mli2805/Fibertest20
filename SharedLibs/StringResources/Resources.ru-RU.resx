@@ -1196,4 +1196,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Client_registraion_is_performing" xml:space="preserve">
 		<value>Выполняется регистрация клиента</value>
 	</data>
+	<data name="SID_Wrong_user_name_or_password_" xml:space="preserve">
+		<value>Неверное имя пользователя или пароль!</value>
+	</data>
 </root>

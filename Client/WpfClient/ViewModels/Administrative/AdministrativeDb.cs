@@ -5,7 +5,6 @@ using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
-using Serilog;
 
 namespace Iit.Fibertest.Client
 {

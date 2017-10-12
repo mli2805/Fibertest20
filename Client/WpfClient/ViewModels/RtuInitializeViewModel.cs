@@ -90,32 +90,34 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public RtuInitializeViewModel(Guid rtuId,
-            ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, IniFile iniFile35, ILogger log, IMyLog logFile)
+        public RtuInitializeViewModel(ReadModel readModel, IWindowManager windowManager, 
+            IWcfServiceForClient c2DWcfManager, IMyLog logFile, RtuLeaf rtuLeaf)
         {
-            RtuId = rtuId;
             _readModel = readModel;
             _windowManager = windowManager;
             _c2DWcfManager = c2DWcfManager;
-            _log = log;
             _logFile = logFile;
-            var iniFile36 = iniFile35;
 
-            OriginalRtu = readModel.Rtus.First(r => r.Id == RtuId);
+            Init(rtuLeaf.Id);
+        }
+
+        public void Init(Guid rtuId)
+        {
+            RtuId = rtuId;
+            OriginalRtu = _readModel.Rtus.First(r => r.Id == RtuId);
             Comment = OriginalRtu.Comment;
             Serial = OriginalRtu.Serial;
             PortCount = $@"{OriginalRtu.OwnPortCount} / {OriginalRtu.FullPortCount}";
             OtdrNetAddress = OriginalRtu.OtdrNetAddress;
-            var serverAddress = iniFile36.ReadDoubleAddress(11842);
 
-//            MainChannelTestViewModel = new NetAddressTestViewModel(c2DWcfManager, OriginalRtu.MainChannel, serverAddress.Main);
-//            MainChannelTestViewModel = IoC.Get<NetAddressTestViewModel>();
-            MainChannelTestViewModel = new NetAddressTestViewModel(c2DWcfManager);
+            //            MainChannelTestViewModel = new NetAddressTestViewModel(c2DWcfManager, OriginalRtu.MainChannel, serverAddress.Main);
+            //            MainChannelTestViewModel = IoC.Get<NetAddressTestViewModel>();
+            MainChannelTestViewModel = new NetAddressTestViewModel(_c2DWcfManager);
             MainChannelTestViewModel.Init(OriginalRtu.MainChannel, true);
 
-//            ReserveChannelTestViewModel = new NetAddressTestViewModel(c2DWcfManager, OriginalRtu.ReserveChannel, serverAddress.Reserve);
-//            ReserveChannelTestViewModel = IoC.Get<NetAddressTestViewModel>();
-            ReserveChannelTestViewModel = new NetAddressTestViewModel(c2DWcfManager);
+            //            ReserveChannelTestViewModel = new NetAddressTestViewModel(c2DWcfManager, OriginalRtu.ReserveChannel, serverAddress.Reserve);
+            //            ReserveChannelTestViewModel = IoC.Get<NetAddressTestViewModel>();
+            ReserveChannelTestViewModel = new NetAddressTestViewModel(_c2DWcfManager);
             ReserveChannelTestViewModel.Init(OriginalRtu.ReserveChannel, true);
 
             IsReserveChannelEnabled = OriginalRtu.IsReserveChannelSet;

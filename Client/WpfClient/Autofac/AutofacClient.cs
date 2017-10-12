@@ -64,6 +64,8 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<ServerConnectViewModel>();
             builder.RegisterType<NetAddressTestViewModel>();
             builder.RegisterType<NetAddressInputViewModel>();
+            builder.RegisterType<RtuInitializeViewModel>();
+
         }
     }
 }

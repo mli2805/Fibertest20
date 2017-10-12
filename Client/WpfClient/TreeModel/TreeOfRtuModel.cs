@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Media;
+using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -14,13 +15,13 @@ namespace Iit.Fibertest.Client
 {
     public class TreeOfRtuModel : PropertyChangedBase
     {
+        private readonly ILifetimeScope _globalScope;
         private readonly IWindowManager _windowManager;
         private readonly ReadModel _readModel;
 
         private readonly IWcfServiceForClient _c2DWcfManager;
 
         private readonly IniFile _iniFile35;
-        private readonly ILogger _log;
         private readonly IMyLog _logFile;
 
         public C2DWcfManager C2DWcfManager { get; set; }
@@ -51,13 +52,14 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public TreeOfRtuModel(IWindowManager windowManager, ReadModel readModel, IWcfServiceForClient c2DWcfManager, IniFile iniFile35, ILogger log, IMyLog logFile)
+        public TreeOfRtuModel(ILifetimeScope globalScope, IWindowManager windowManager, 
+            ReadModel readModel, IWcfServiceForClient c2DWcfManager, IniFile iniFile35, IMyLog logFile)
         {
+            _globalScope = globalScope;
             _windowManager = windowManager;
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
             _iniFile35 = iniFile35;
-            _log = log;
             _logFile = logFile;
 
             PostOffice = new PostOffice();
@@ -66,7 +68,7 @@ namespace Iit.Fibertest.Client
         #region Rtu
         public void Apply(RtuAtGpsLocationAdded e)
         {
-            Tree.Add(new RtuLeaf(_readModel, _windowManager, _c2DWcfManager, _iniFile35, _log, _logFile, PostOffice, FreePorts)
+            Tree.Add(new RtuLeaf(_globalScope, _readModel, _windowManager, _c2DWcfManager, _logFile, PostOffice, FreePorts)
             {
                 Id = e.Id,
                 Title = Resources.SID_noname_RTU,

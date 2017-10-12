@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Media;
+using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
@@ -12,8 +13,7 @@ namespace Iit.Fibertest.Client
 {
     public class RtuLeaf : Leaf, IPortOwner
     {
-        private readonly IniFile _iniFile35;
-        private readonly ILogger _log;
+        private readonly ILifetimeScope _globalScope;
         private readonly IMyLog _logFile;
 
         #region Pictograms
@@ -100,12 +100,11 @@ namespace Iit.Fibertest.Client
             return null;
         }
 
-        public RtuLeaf(ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager,
-            IniFile iniFile35, ILogger log, IMyLog logFile, PostOffice postOffice, FreePorts view)
+        public RtuLeaf(ILifetimeScope globalScope, ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager,
+            IMyLog logFile, PostOffice postOffice, FreePorts view)
             : base(readModel, windowManager, c2DWcfManager, postOffice)
         {
-            _iniFile35 = iniFile35;
-            _log = log;
+            _globalScope = globalScope;
             _logFile = logFile;
             ChildrenImpresario = new ChildrenImpresario(view);
         }
@@ -207,7 +206,8 @@ namespace Iit.Fibertest.Client
 
         public void RtuSettingsAction(object param)
         {
-            var vm = new RtuInitializeViewModel(Id, ReadModel, WindowManager, C2DWcfManager, _iniFile35, _log, _logFile);
+            var localScope = _globalScope.BeginLifetimeScope(ctx => ctx.RegisterInstance(this));
+            var vm = localScope.Resolve<RtuInitializeViewModel>();
             WindowManager.ShowDialog(vm);
         }
 
