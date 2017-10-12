@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph.Algorithms;
+using Iit.Fibertest.UtilsLib;
 using PrivateReflectionUsingDynamic;
 
 namespace Iit.Fibertest.Graph
@@ -207,6 +210,28 @@ namespace Iit.Fibertest.Graph
 
         public void Apply(BaseRefAssigned e) { }
         #endregion
+
+
+        public ConcurrentDictionary<Guid, RtuStation> InitializeRtuWithAddressesDict()
+        {
+            var dict = new ConcurrentDictionary<Guid, RtuStation>();
+            foreach (var rtu in _rtus)
+            {
+                var rtuStation = new RtuStation();
+                rtuStation.Id = rtu.Id;
+                rtuStation.PcAddresses = new DoubleAddressWithLastConnectionCheck()
+                {
+                    DoubleAddress = new DoubleAddress()
+                    {
+                        Main = rtu.MainChannel, HasReserveAddress = rtu.IsReserveChannelSet, Reserve = rtu.ReserveChannel
+                    }
+                };
+                rtuStation.OtdrIp = rtu.OtdrNetAddress.Ip4Address;
+                rtuStation.Version = rtu.RtuManagerSoftwareVersion;
+                dict.TryAdd(rtu.Id, rtuStation);
+            }
+            return dict;
+        }
 
     }
 }

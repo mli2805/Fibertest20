@@ -103,7 +103,7 @@ namespace Iit.Fibertest.Client
             {
                 case RtuPartState.Broken:
                     return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/RedSquare.png"));
-                case RtuPartState.None:
+                case RtuPartState.NotSetYet:
                     return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
                 case RtuPartState.Normal:
                     return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreenSquare.png"));

@@ -18,7 +18,7 @@ namespace Iit.Fibertest.DataCenterCore
         private static readonly Guid AggregateId =
             new Guid("1C28CBB5-A9F5-4A5C-B7AF-3D188F8F24ED");
 
-        private WriteModel _writeModel;
+        public WriteModel WriteModel;
 
         private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
         {
@@ -38,8 +38,8 @@ namespace Iit.Fibertest.DataCenterCore
             var eventStream = _storeEvents.OpenStream(AggregateId);
             var events = eventStream.CommittedEvents.Select(x => x.Body);
 
-            _writeModel = new WriteModel(events);
-            _aggregate = new Aggregate(_writeModel);
+            WriteModel = new WriteModel(events);
+            _aggregate = new Aggregate(WriteModel);
         }
 
 
@@ -49,9 +49,9 @@ namespace Iit.Fibertest.DataCenterCore
             if (IsSuccess(result))
             {
                 var eventStream = _storeEvents.OpenStream(AggregateId);
-                foreach (var e in _writeModel.EventsWaitingForCommit)
+                foreach (var e in WriteModel.EventsWaitingForCommit)
                     eventStream.Add(new EventMessage { Body = e });
-                _writeModel.Commit();
+                WriteModel.Commit();
                 eventStream.CommitChanges(Guid.NewGuid());
             }
             return result;
@@ -64,9 +64,9 @@ namespace Iit.Fibertest.DataCenterCore
             if (IsSuccess(result))
             {
                 var eventStream = _storeEvents.OpenStream(AggregateId);
-                foreach (var e in _writeModel.EventsWaitingForCommit)
+                foreach (var e in WriteModel.EventsWaitingForCommit)
                     eventStream.Add(new EventMessage { Body = e });
-                _writeModel.Commit();
+                WriteModel.Commit();
                 eventStream.CommitChanges(Guid.NewGuid());
             }
             return result;

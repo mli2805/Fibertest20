@@ -3,7 +3,7 @@
     public enum RtuPartState
     {
         Broken = -1,
-        None   =  0, 
+        NotSetYet   =  0, 
         Normal,
     }
 }

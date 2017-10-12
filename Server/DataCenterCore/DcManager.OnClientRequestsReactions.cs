@@ -78,7 +78,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             try
             {
-                _clientComps.AddOrUpdate(dto.ClientId, clientStation, (id, _) => clientStation);
+                _clientStations.AddOrUpdate(dto.ClientId, clientStation, (id, _) => clientStation);
                 result.IsRegistered = true;
                 result.ErrorCode = 0;
             }
@@ -89,16 +89,15 @@ namespace Iit.Fibertest.DataCenterCore
                 result.ErrorCode = 2;
             }
 
-            _logFile.AppendLine($"There are {_clientComps.Count} clients");
+            _logFile.AppendLine($"There are {_clientStations.Count} clients");
             return Task.FromResult(result);
         }
 
         public Task UnregisterClientAsync(UnRegisterClientDto dto)
         {
-            lock (_clientStationsLockObj)
-            {
-                _clientStations.RemoveAll(c => c.Id == dto.ClientId);
-            }
+            ClientStation station;
+            _clientStations.TryRemove(dto.ClientId, out station);
+            _logFile.AppendLine($"There are {_clientStations.Count} clients");
             return Task.CompletedTask;
         }
 
@@ -192,10 +191,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         private ClientStation GetClientStation(Guid clientId)
         {
-            lock (_clientStationsLockObj)
-            {
-                return _clientStations.FirstOrDefault(c => c.Id == clientId);
-            }
+            return _clientStations.FirstOrDefault(c => c.Key == clientId).Value;
         }
     }
 }

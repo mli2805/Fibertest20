@@ -7,7 +7,6 @@ using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
@@ -23,7 +22,6 @@ namespace Iit.Fibertest.Client
         private readonly IniFile _iniFile35;
         private readonly IMyLog _logFile;
 
-        public C2DWcfManager C2DWcfManager { get; set; }
         public ObservableCollection<Leaf> Tree { get; set; } = new ObservableCollection<Leaf>();
         public FreePorts FreePorts { get; } = new FreePorts(true);
 
@@ -43,11 +41,9 @@ namespace Iit.Fibertest.Client
         {
             get
             {
-                var portCount = Tree.PortCount();
-                var traceCount = Tree.TraceCount();
                 return string.Format(Resources.SID_Tree_statistics, Tree.Count,
                     Tree.Sum(r => ((RtuLeaf)r).ChildrenImpresario.Children.Count(c => c is OtauLeaf)),
-                    portCount, traceCount, (double)traceCount / portCount * 100);
+                    Tree.PortCount(), Tree.TraceCount(), (double)Tree.TraceCount() / Tree.PortCount() * 100);
             }
         }
 

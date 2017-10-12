@@ -99,10 +99,10 @@ namespace Iit.Fibertest.Client
             _c2DWcfManager = c2DWcfManager;
             _logFile = logFile;
 
-            Init(rtuLeaf.Id);
+            Initialize(rtuLeaf.Id);
         }
 
-        private void Init(Guid rtuId)
+        private void Initialize(Guid rtuId)
         {
             RtuId = rtuId;
             OriginalRtu = _readModel.Rtus.First(r => r.Id == RtuId);
@@ -242,7 +242,7 @@ namespace Iit.Fibertest.Client
                 MainChannelState = RtuPartState.Normal,
                 IsReserveChannelSet = IsReserveChannelEnabled,
                 ReserveChannel = IsReserveChannelEnabled ? ReserveChannelTestViewModel.NetAddressInputViewModel.GetNetAddress() : null,
-                ReserveChannelState = IsReserveChannelEnabled ? RtuPartState.Normal : RtuPartState.None,
+                ReserveChannelState = IsReserveChannelEnabled ? RtuPartState.Normal : RtuPartState.NotSetYet,
                 OtdrNetAddress = dto.OtdrAddress,
                 OwnPortCount = dto.OwnPortCount,
                 FullPortCount = dto.FullPortCount,

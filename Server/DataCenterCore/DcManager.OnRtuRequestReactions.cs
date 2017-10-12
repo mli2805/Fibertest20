@@ -46,9 +46,6 @@ namespace Iit.Fibertest.DataCenterCore
                 _rtuStations[dto.RtuId] = rtuStation;
             else
                 _rtuStations.TryAdd(rtuStation.Id, rtuStation);
-
-            // temporary
-            WriteDbTempTxt();
         }
 
         public bool ConfirmMonitoringStarted(MonitoringStartedDto dto)
@@ -114,10 +111,7 @@ namespace Iit.Fibertest.DataCenterCore
         private List<DoubleAddress> GetAllClientsAddresses()
         {
             var addresses = new List<DoubleAddress>();
-            lock (_clientStationsLockObj)
-            {
-                addresses.AddRange(_clientStations.Select(clientStation => ((ClientStation)clientStation.Clone()).PcAddresses.DoubleAddress));
-            }
+                addresses.AddRange(_clientStations.Select(pair => ((ClientStation)pair.Value.Clone()).PcAddresses.DoubleAddress));
             return addresses;
         }
     }

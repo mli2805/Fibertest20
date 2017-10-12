@@ -11,7 +11,6 @@ namespace Iit.Fibertest.DataCenterService
         public IniFile IniFile { get; }
         private readonly IMyLog _logFile;
         private readonly EventStoreService _eventStoreService;
-
         private readonly DcManager _dcManager;
         private readonly WcfServiceForClientBootstrapper _wcfServiceForClientBootstrapper;
         private readonly WcfServiceForRtuBootstrapper _wcfServiceForRtuBootstrapper;
@@ -38,7 +37,7 @@ namespace Iit.Fibertest.DataCenterService
             _logFile.AppendLine($"Windows service started. Process {pid}, thread {tid}");
 
             _eventStoreService.Init();
-            _dcManager.Start();
+            _dcManager.Start(_eventStoreService.WriteModel.InitializeRtuWithAddressesDict());
             _wcfServiceForClientBootstrapper.Start();
             _wcfServiceForRtuBootstrapper.Start();
         }
