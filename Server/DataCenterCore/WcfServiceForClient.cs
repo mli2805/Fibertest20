@@ -50,10 +50,10 @@ namespace Iit.Fibertest.DataCenterCore
             await _dcManager.UnregisterClientAsync(dto);
         }
 
-        public bool CheckServerConnection(CheckServerConnectionDto dto)
+        public Task<bool> CheckServerConnection(CheckServerConnectionDto dto)
         {
             _logFile.AppendLine($"Client {dto.ClientId.First6()} checked server connection");
-            return true;
+            return Task.FromResult(true);
         }
 
         public async Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)

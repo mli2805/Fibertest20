@@ -109,10 +109,10 @@ namespace Iit.Fibertest.Client
             vm.ClientId = _clientId;
             _isAuthenticationSuccessfull = _windowManager.ShowDialog(vm);
             ((App)Application.Current).ShutdownMode = ShutdownMode.OnMainWindowClose;
-            if (_isAuthenticationSuccessfull != true)
+            if (_isAuthenticationSuccessfull == true)
+                StartPolling();
+            else
                 TryClose();
-
-            StartPolling();
         }
 
         private void StartPolling()

@@ -10,6 +10,8 @@ namespace Iit.Fibertest.Client
 
         public bool IsAddressSetAsIp { get; set; }
 
+        public bool IsAddressSetAsName => !IsAddressSetAsIp;
+
         public NetAddressInputViewModel(NetAddress netAddress)
         {
             Ip4InputViewModel = new Ip4InputViewModel(netAddress.Ip4Address);

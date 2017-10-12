@@ -107,8 +107,17 @@ namespace Iit.Fibertest.Client
             PortCount = $@"{OriginalRtu.OwnPortCount} / {OriginalRtu.FullPortCount}";
             OtdrNetAddress = OriginalRtu.OtdrNetAddress;
             var serverAddress = iniFile36.ReadDoubleAddress(11842);
-            MainChannelTestViewModel = new NetAddressTestViewModel(c2DWcfManager, OriginalRtu.MainChannel, serverAddress.Main);
-            ReserveChannelTestViewModel = new NetAddressTestViewModel(c2DWcfManager, OriginalRtu.ReserveChannel, serverAddress.Reserve);
+
+//            MainChannelTestViewModel = new NetAddressTestViewModel(c2DWcfManager, OriginalRtu.MainChannel, serverAddress.Main);
+//            MainChannelTestViewModel = IoC.Get<NetAddressTestViewModel>();
+            MainChannelTestViewModel = new NetAddressTestViewModel(c2DWcfManager);
+            MainChannelTestViewModel.Init(OriginalRtu.MainChannel, true);
+
+//            ReserveChannelTestViewModel = new NetAddressTestViewModel(c2DWcfManager, OriginalRtu.ReserveChannel, serverAddress.Reserve);
+//            ReserveChannelTestViewModel = IoC.Get<NetAddressTestViewModel>();
+            ReserveChannelTestViewModel = new NetAddressTestViewModel(c2DWcfManager);
+            ReserveChannelTestViewModel.Init(OriginalRtu.ReserveChannel, true);
+
             IsReserveChannelEnabled = OriginalRtu.IsReserveChannelSet;
             ClientWcfService.MessageReceived += ClientWcfService_MessageReceived;
         }

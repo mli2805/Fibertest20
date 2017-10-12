@@ -91,11 +91,11 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public bool CheckServerConnection(CheckServerConnectionDto dto)
+        public Task<bool> CheckServerConnection(CheckServerConnectionDto dto)
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();
             if (wcfConnection == null)
-                return false;
+                return TaskEx.FromResult(false);
 
             try
             {
@@ -107,7 +107,7 @@ namespace Iit.Fibertest.WcfConnections
             catch (Exception e)
             {
                 _logFile.AppendLine(e.Message);
-                return false;
+                return TaskEx.FromResult(false);
             }
         }
 

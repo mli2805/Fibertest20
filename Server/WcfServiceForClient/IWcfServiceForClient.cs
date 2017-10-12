@@ -26,7 +26,7 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
         Task UnregisterClientAsync(UnRegisterClientDto dto);
 
         [OperationContract]
-        bool CheckServerConnection(CheckServerConnectionDto dto);
+        Task<bool> CheckServerConnection(CheckServerConnectionDto dto);
 
 
         // C2D2R

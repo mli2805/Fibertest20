@@ -25,12 +25,14 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public ServerConnectViewModel(IWcfServiceForClient c2DWcfManager, IniFile iniFile)
+        public ServerConnectViewModel(IniFile iniFile)
         {
             _clientIni = iniFile;
             _dcServiceAddresses = _clientIni.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
 
-            ServerConnectionTestViewModel = new NetAddressTestViewModel(c2DWcfManager, (NetAddress)_dcServiceAddresses.Main.Clone());
+//            ServerConnectionTestViewModel =  new NetAddressTestViewModel(c2DWcfManager, (NetAddress)_dcServiceAddresses.Main.Clone());
+            ServerConnectionTestViewModel = IoC.Get<NetAddressTestViewModel>();
+            ServerConnectionTestViewModel.Init((NetAddress)_dcServiceAddresses.Main.Clone(), false);
             ServerConnectionTestViewModel.PropertyChanged += ServerConnectionTestViewModel_PropertyChanged;
         }
 
@@ -38,7 +40,11 @@ namespace Iit.Fibertest.Client
         {
             if (e.PropertyName == "Result")
             {
-                Message = ServerConnectionTestViewModel.Result ? Resources.SID_Connection_established_successfully_ : Resources.SID_Cant_establish_connection_;
+                Message = ServerConnectionTestViewModel.Result == null 
+                    ? "Establishing connection..." 
+                    : ServerConnectionTestViewModel.Result == true 
+                        ? Resources.SID_Connection_established_successfully_ 
+                        : Resources.SID_Cant_establish_connection_;
             }
         }
 

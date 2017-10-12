@@ -38,7 +38,7 @@ namespace Iit.Fibertest.Client
             throw new NotImplementedException();
         }
 
-        public bool CheckServerConnection(CheckServerConnectionDto dto)
+        public Task<bool> CheckServerConnection(CheckServerConnectionDto dto)
         {
             throw new NotImplementedException();
         }

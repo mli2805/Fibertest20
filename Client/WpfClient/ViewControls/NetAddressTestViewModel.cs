@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
 using ClientWcfServiceLibrary;
@@ -12,12 +13,12 @@ namespace Iit.Fibertest.Client
     public class NetAddressTestViewModel : Screen
     {
         private readonly IWcfServiceForClient _c2DWcfManager;
-        private readonly NetAddress _serverAddress;
-        private bool _result;
+        private bool _isRtuTesting;
+        private bool? _result;
         public NetAddressInputViewModel NetAddressInputViewModel { get; set; }
 
 
-        public bool Result
+        public bool? Result
         {
             get { return _result; }
             set
@@ -28,12 +29,16 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public NetAddressTestViewModel(IWcfServiceForClient c2DWcfManager, NetAddress addressForTesting, NetAddress serverAddress = null)
+        public NetAddressTestViewModel(IWcfServiceForClient c2DWcfManager)
         {
             _c2DWcfManager = c2DWcfManager;
-            _serverAddress = serverAddress;
-            NetAddressInputViewModel = new NetAddressInputViewModel(addressForTesting);
+            Result = true;
+        }
 
+        public void Init(NetAddress addressForTesting, bool isRtuTesting)
+        {
+            _isRtuTesting = isRtuTesting;
+            NetAddressInputViewModel = new NetAddressInputViewModel(addressForTesting);
             ClientWcfService.MessageReceived += ClientWcfService_MessageReceived;
         }
 
@@ -59,18 +64,30 @@ namespace Iit.Fibertest.Client
 
         public async void Test()
         {
-            if (_serverAddress == null) // check server address
-            {
-                var addressForTesting = new DoubleAddress() { HasReserveAddress = false, Main = (NetAddress)NetAddressInputViewModel.GetNetAddress().Clone() };
-                ((C2DWcfManager)_c2DWcfManager).SetServerAddresses(addressForTesting);
-                Result = _c2DWcfManager.CheckServerConnection(new CheckServerConnectionDto());
+            Result = null;
+            Result = await TestConnection();
+        }
 
-            }
-            else // ask server to check rtu address
+        private async Task<bool> TestConnection()
+        {
+            if (_isRtuTesting)
             {
                 var b = await _c2DWcfManager
-                    .CheckRtuConnectionAsync(new CheckRtuConnectionDto() { NetAddress = (NetAddress)NetAddressInputViewModel.GetNetAddress().Clone() });
-                Result = b.IsConnectionSuccessfull;
+                    .CheckRtuConnectionAsync(new CheckRtuConnectionDto()
+                    {
+                        NetAddress = (NetAddress) NetAddressInputViewModel.GetNetAddress().Clone()
+                    });
+                return b.IsConnectionSuccessfull;
+            }
+            else // DataCenter testing
+            {
+                var addressForTesting = new DoubleAddress()
+                {
+                    HasReserveAddress = false,
+                    Main = (NetAddress) NetAddressInputViewModel.GetNetAddress().Clone()
+                };
+                ((C2DWcfManager) _c2DWcfManager).SetServerAddresses(addressForTesting);
+                return await _c2DWcfManager.CheckServerConnection(new CheckServerConnectionDto());
             }
         }
     }
