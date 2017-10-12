@@ -89,8 +89,14 @@ namespace Iit.Fibertest.DataCenterCore
                     .Select(x => JsonConvert.SerializeObject(x, JsonSerializerSettings))
                     .ToArray();
             }
-            catch (StreamNotFoundException)
+            catch (StreamNotFoundException e)
             {
+                _logFile.AppendLine(e.Message);
+                return new string[0];
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
                 return new string[0];
             }
         }
