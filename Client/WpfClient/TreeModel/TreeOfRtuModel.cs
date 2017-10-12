@@ -9,7 +9,6 @@ using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WcfServiceForClientInterface;
-using Serilog;
 
 namespace Iit.Fibertest.Client
 {
@@ -68,7 +67,7 @@ namespace Iit.Fibertest.Client
         #region Rtu
         public void Apply(RtuAtGpsLocationAdded e)
         {
-            Tree.Add(new RtuLeaf(_globalScope, _readModel, _windowManager, _c2DWcfManager, _logFile, PostOffice, FreePorts)
+            Tree.Add(new RtuLeaf(_globalScope, _readModel, _windowManager, _c2DWcfManager, PostOffice, FreePorts)
             {
                 Id = e.Id,
                 Title = Resources.SID_noname_RTU,

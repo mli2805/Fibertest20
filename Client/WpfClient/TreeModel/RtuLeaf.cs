@@ -5,16 +5,13 @@ using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
-using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
-using Serilog;
 
 namespace Iit.Fibertest.Client
 {
     public class RtuLeaf : Leaf, IPortOwner
     {
         private readonly ILifetimeScope _globalScope;
-        private readonly IMyLog _logFile;
 
         #region Pictograms
         private MonitoringState _monitoringState;
@@ -101,11 +98,10 @@ namespace Iit.Fibertest.Client
         }
 
         public RtuLeaf(ILifetimeScope globalScope, ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager,
-            IMyLog logFile, PostOffice postOffice, FreePorts view)
+            PostOffice postOffice, FreePorts view)
             : base(readModel, windowManager, c2DWcfManager, postOffice)
         {
             _globalScope = globalScope;
-            _logFile = logFile;
             ChildrenImpresario = new ChildrenImpresario(view);
         }
         protected override List<MenuItemVm> GetMenuItems()

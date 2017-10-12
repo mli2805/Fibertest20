@@ -10,7 +10,6 @@ using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WcfServiceForClientInterface;
-using Serilog;
 
 namespace Iit.Fibertest.Client
 {
@@ -59,7 +58,6 @@ namespace Iit.Fibertest.Client
         private readonly ReadModel _readModel;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
-        private readonly ILogger _log;
         private readonly IMyLog _logFile;
 
         public Rtu OriginalRtu
@@ -196,11 +194,10 @@ namespace Iit.Fibertest.Client
             {
                 var vm = new NotificationViewModel(Resources.SID_Error, @"RTU is not initialized");
                 _windowManager.ShowDialog(vm);
-                _log.Information(@"RTU is not initialized");
+                _logFile.AppendLine(@"RTU is not initialized");
                 InitilizationProgress = Resources.SID_Failed_;
                 return;
             }
-            _log.Information(@"RTU initialized successfully!");
             _logFile.AppendLine(@"RTU initialized successfully!");
             InitilizationProgress = Resources.SID_Successful_;
 

@@ -1143,6 +1143,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Establishing connection....
+        /// </summary>
+        public static string SID_Establishing_connection___ {
+            get {
+                return ResourceManager.GetString("SID_Establishing_connection___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Event.
         /// </summary>
         public static string SID_Event {

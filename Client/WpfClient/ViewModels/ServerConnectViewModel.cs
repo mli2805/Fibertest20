@@ -3,7 +3,6 @@ using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
-using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
 {
@@ -41,7 +40,7 @@ namespace Iit.Fibertest.Client
             if (e.PropertyName == "Result")
             {
                 Message = ServerConnectionTestViewModel.Result == null 
-                    ? "Establishing connection..." 
+                    ? Resources.SID_Establishing_connection___ 
                     : ServerConnectionTestViewModel.Result == true 
                         ? Resources.SID_Connection_established_successfully_ 
                         : Resources.SID_Cant_establish_connection_;
