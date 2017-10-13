@@ -15,6 +15,8 @@ namespace Iit.Fibertest.Dto
 
         [DataMember]
         public int ErrorCode { get; set; }
+        [DataMember]
+        public string ErrorMessage { get; set; }
 
         [DataMember]
         public string Serial { get; set; }

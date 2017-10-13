@@ -1,4 +1,5 @@
-﻿using System.ServiceModel;
+﻿using System;
+using System.ServiceModel;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
@@ -64,22 +65,22 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
-            //            _logFile.AppendLine($"Client {dto.ClientId.First6()} sent initialize rtu {dto.RtuId.First6()} request");
-            //            RtuInitializedDto b = new RtuInitializedDto();
-            //            try
-            //            {
-            //                b = await _dcManager.InitializeRtuAsync(dto);
-            //            }
-            //            catch (Exception e)
-            //            {
-            //                _logFile.AppendLine($"{e.Message}");
-            //            }
-            //            _logFile.AppendLine($"Initialization terminated. Result is {b.IsInitialized}");
-            //            return b;
+                        _logFile.AppendLine($"Client {dto.ClientId.First6()} sent initialize rtu {dto.RtuId.First6()} request");
+                        RtuInitializedDto b = new RtuInitializedDto();
+                        try
+                        {
+                            b = await _dcManager.InitializeRtuAsync(dto);
+                        }
+                        catch (Exception e)
+                        {
+                            _logFile.AppendLine($"{e.Message}");
+                        }
+                        _logFile.AppendLine($"Initialization terminated. Result is {b.IsInitialized}");
+                        return b;
 
-//                        return await _dcManager.InitializeRtuAsync(dto);
+                        return await _dcManager.InitializeRtuAsync(dto);
 
-            _dcManager.InitializeThroughBeginEnd(dto);
+//            _dcManager.InitializeThroughBeginEnd(dto);
             return new RtuInitializedDto();
         }
 

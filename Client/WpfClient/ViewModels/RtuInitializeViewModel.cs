@@ -9,7 +9,6 @@ using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
@@ -73,22 +72,10 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private string _initilizationProgress;
         private string _serial;
         private string _portCount;
         private NetAddress _otdrNetAddress;
         private Rtu _originalRtu;
-
-        public string InitilizationProgress
-        {
-            get { return _initilizationProgress; }
-            set
-            {
-                if (value == _initilizationProgress) return;
-                _initilizationProgress = value;
-                NotifyOfPropertyChange();
-            }
-        }
 
         public RtuInitializeViewModel(ILifetimeScope globalScope, ReadModel readModel, IWindowManager windowManager,
             IWcfServiceForClient c2DWcfManager, IMyLog logFile, RtuLeaf rtuLeaf)
@@ -119,9 +106,20 @@ namespace Iit.Fibertest.Client
             var localScope2 = _globalScope.BeginLifetimeScope(
                     ctx => ctx.RegisterInstance(new NetAddressForConnectionTest(OriginalRtu.ReserveChannel, true)));
             ReserveChannelTestViewModel = localScope2.Resolve<NetAddressTestViewModel>();
+            ReserveChannelTestViewModel.PropertyChanged += ReserveChannelTestViewModel_PropertyChanged;
 
             IsReserveChannelEnabled = OriginalRtu.IsReserveChannelSet;
-            ClientWcfService.MessageReceived += ClientWcfService_MessageReceived;
+        }
+
+        private void ReserveChannelTestViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Result")
+            {
+                if (ReserveChannelTestViewModel.Result == true)
+                    MessageBox.Show(Resources.SID_RTU_connection_established_successfully_);
+                if (ReserveChannelTestViewModel.Result == false)
+                    MessageBox.Show(Resources.SID_Cannot_establish_connection_with_RTU_);
+            }
         }
 
         private void MainChannelTestViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -135,35 +133,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private void ClientWcfService_MessageReceived(object e)
-        {
-            var dto = e as RtuInitializedDto;
-            if (dto != null)
-            {
-                ProcessRtuInitialized(dto);
-            }
-
-            var dto0 = e as RtuCommandDeliveredDto;
-            if (dto0 != null)
-            {
-                if (dto0.RtuId != RtuId)
-                    return;
-                if (dto0.MessageProcessingResult == MessageProcessingResult.FailedToTransmit)
-                {
-                    InitilizationProgress = Resources.SID_Can_t_establish_connection_with_RTU_;
-                    MessageBox.Show(
-                        string.Format(Resources.SID_Can_t_establish_connection_with_RTU___0_Press_Test_before_Initialization_, Environment.NewLine),
-                        Resources.SID_Error);
-                }
-                else if (dto0.MessageProcessingResult == MessageProcessingResult.TransmittedSuccessfully)
-                {
-                    InitilizationProgress = string.Format(Resources.SID_Command_is_transmitted_to_RTU___0_Confirmation_is_waited_, Environment.NewLine);
-                }
-
-            }
-        }
-
-        protected override void OnViewLoaded(object view)
+       protected override void OnViewLoaded(object view)
         {
             DisplayName = Resources.SID_Network_settings;
         }
@@ -178,8 +148,6 @@ namespace Iit.Fibertest.Client
             if (!CheckAddressUniqueness())
                 return;
 
-            InitilizationProgress = Resources.SID_Please__wait_;
-
             var dto = new InitializeRtuDto()
             {
                 RtuId = OriginalRtu.Id,
@@ -192,11 +160,10 @@ namespace Iit.Fibertest.Client
             };
             using (new WaitCursor())
             {
-                var b = await IoC.Get<C2DWcfManager>().InitializeRtuAsync(dto);
+                var b = await _c2DWcfManager.InitializeRtuAsync(dto);
                 if (!b.IsInitialized)
                 {
-                    InitilizationProgress = Resources.SID_Can_t_establish_connection_with_server_;
-                    MessageBox.Show(Resources.SID_Can_t_establish_connection_with_server_, Resources.SID_Error);
+                    MessageBox.Show(b.ErrorMessage, Resources.SID_Error);
                 }
             }
         }
@@ -208,11 +175,9 @@ namespace Iit.Fibertest.Client
                 var vm = new NotificationViewModel(Resources.SID_Error, @"RTU is not initialized");
                 _windowManager.ShowDialog(vm);
                 _logFile.AppendLine(@"RTU is not initialized");
-                InitilizationProgress = Resources.SID_Failed_;
                 return;
             }
             _logFile.AppendLine(@"RTU initialized successfully!");
-            InitilizationProgress = Resources.SID_Successful_;
 
             OriginalRtu.OtdrNetAddress = (NetAddress)dto.OtdrAddress.Clone();
             OriginalRtu.Serial = dto.Serial;

@@ -37,12 +37,12 @@ namespace Iit.Fibertest.RtuManagement
         {
             _serviceLog.AppendLine("User demands async initialization - OK");
 
-//            var task = InitializeRtuAsync(dto);
-//            if (callback != null)
-//                task.ContinueWith(_ => callback(task));
-//            return task;
+            var task = InitializeRtuAsync(dto);
+            if (callback != null)
+                task.ContinueWith(_ => callback(task));
+            return task;
 
-                        return InitializeRtuAsync(dto);
+//                        return InitializeRtuAsync(dto);
         }
 
         public RtuInitializedDto EndInitializeRtu(IAsyncResult result)

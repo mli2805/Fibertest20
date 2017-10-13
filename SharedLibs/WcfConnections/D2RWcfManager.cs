@@ -23,11 +23,20 @@ namespace Iit.Fibertest.WcfConnections
             _logFile.AppendLine($"Still on datacenter, transmitting command");
             var d2RContract = _wcfFactory.CreateRtuConnection();
             if (d2RContract == null)
-                return new RtuInitializedDto() { IsInitialized = false, ErrorCode = 21 };
+                return new RtuInitializedDto() { IsInitialized = false, ErrorCode = 21, ErrorMessage = "Can't establish connection with RTU"};
 
             _logFile.AppendLine($"Channel created");
 
-            return await d2RContract.InitializeRtuAsync(dto);
+            try
+            {
+                return await d2RContract.InitializeRtuAsync(dto);
+
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($"{e.Message}");
+                return new RtuInitializedDto() { IsInitialized = false, ErrorCode = 22, ErrorMessage = e.Message};
+            }
         }
 
         private IRtuWcfService _rtuWcfService;
