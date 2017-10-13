@@ -68,11 +68,9 @@ namespace Iit.Fibertest.Client
         {
             if (_netAddressForConnectionTest.IsRtuAddress)
             {
-                var b = await _c2DWcfManager
-                    .CheckRtuConnectionAsync(new CheckRtuConnectionDto()
-                    {
-                        NetAddress = (NetAddress) NetAddressInputViewModel.GetNetAddress().Clone()
-                    });
+                var dto = new CheckRtuConnectionDto() {
+                    NetAddress = (NetAddress) NetAddressInputViewModel.GetNetAddress().Clone() };
+                var b = await _c2DWcfManager.CheckRtuConnectionAsync(dto);
                 return b.IsConnectionSuccessfull;
             }
             else // DataCenter testing

@@ -113,15 +113,15 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)
         {
-            _logFile.AppendLine($@"Check connection with RTU {dto.RtuId.First6()}");
-            var wcfConnection = _wcfFactory.CreateC2DConnection();
-            if (wcfConnection == null)
+            _logFile.AppendLine($@"Check connection with RTU {dto.NetAddress.ToStringA()}");
+            var c2DChannel = _wcfFactory.CreateC2DConnection();
+            if (c2DChannel == null)
                 return new RtuConnectionCheckedDto() { IsConnectionSuccessfull = false };
 
             try
             {
                 dto.ClientId = ClientId;
-                return await wcfConnection.CheckRtuConnectionAsync(dto);
+                return await c2DChannel.CheckRtuConnectionAsync(dto);
             }
             catch (Exception e)
             {

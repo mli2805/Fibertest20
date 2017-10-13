@@ -58,7 +58,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)
         {
-            _logFile.AppendLine($"Client {dto.ClientId.First6()} check rtu {dto.RtuId.First6()} connection");
+            _logFile.AppendLine($"Client {dto.ClientId.First6()} check rtu {dto.NetAddress.ToStringA()} connection");
             return await _dcManager.CheckRtuConnectionAsync(dto);
         }
 
