@@ -55,7 +55,16 @@ namespace Iit.Fibertest.WcfConnections
 
         public RtuInitializedDto EndInitializeRtu(IAsyncResult asyncResult)
         {
-            return ((Task<RtuInitializedDto>) asyncResult).Result;
+            try
+            {
+                return _rtuWcfService.EndInitializeRtu(asyncResult);
+
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($"Exception in D2RWcfManager/EndInitializeRtu {e.Message}");
+                return new RtuInitializedDto() { Version = $"{e.Message}" };
+            }
         }
 
         public MessageProcessingResult StartMonitoring(StartMonitoringDto dto)
