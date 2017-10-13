@@ -4,7 +4,7 @@ using Iit.Fibertest.WcfServiceForRtuInterface;
 
 namespace Iit.Fibertest.DataCenterCore
 {
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
     public class WcfServiceForRtu : IWcfServiceForRtu
     {
         private readonly DcManager _dcManager;

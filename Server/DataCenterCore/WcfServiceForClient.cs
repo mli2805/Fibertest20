@@ -6,7 +6,7 @@ using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.DataCenterCore
 {
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
     public class WcfServiceForClient : IWcfServiceForClient
     {
         // BUG: Initialize this!

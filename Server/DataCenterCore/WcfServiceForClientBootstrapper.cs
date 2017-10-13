@@ -13,15 +13,13 @@ namespace Iit.Fibertest.DataCenterCore
     {
         private readonly IniFile _config;
         private readonly IMyLog _log;
-        private readonly IWcfServiceForClient _wcfServiceForClient;
         private readonly ILifetimeScope _container;
         private ServiceHost _host;
 
-        public WcfServiceForClientBootstrapper(IniFile config, IMyLog log, IWcfServiceForClient wcfServiceForClient,  ILifetimeScope container)
+        public WcfServiceForClientBootstrapper(IniFile config, IMyLog log, ILifetimeScope container)
         {
             _config = config;
             _log = log;
-            _wcfServiceForClient = wcfServiceForClient;
             _container = container;
         }
 
@@ -32,8 +30,8 @@ namespace Iit.Fibertest.DataCenterCore
                 var uri = new Uri(WcfFactory.CombineUriString(@"localhost",
                     (int)TcpPorts.ServerListenToClient, @"WcfServiceForClient"));
 
-//                _host = new ServiceHost(typeof(WcfServiceForClient), uri);
-                _host = new ServiceHost(_wcfServiceForClient);
+                _host = new ServiceHost(typeof(WcfServiceForClient));
+//                _host = new ServiceHost(_wcfServiceForClient);
                 _host.AddServiceEndpoint(typeof(IWcfServiceForClient),
                     WcfFactory.CreateDefaultNetTcpBinding(_config), uri);
                 _host.AddDependencyInjectionBehavior<IWcfServiceForClient>(_container);

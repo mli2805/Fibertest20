@@ -129,9 +129,9 @@ namespace Iit.Fibertest.Client
             if (e.PropertyName == "Result")
             {
                 if (MainChannelTestViewModel.Result == true)
-                    MessageBox.Show("RTU connection established successfully!");
+                    MessageBox.Show(Resources.SID_RTU_connection_established_successfully_);
                 if (MainChannelTestViewModel.Result == false)
-                    MessageBox.Show("Cannot establish connection with RTU!");
+                    MessageBox.Show(Resources.SID_Cannot_establish_connection_with_RTU_);
             }
         }
 
