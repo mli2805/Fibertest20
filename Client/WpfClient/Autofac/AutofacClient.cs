@@ -54,7 +54,8 @@ namespace Iit.Fibertest.Client
                         ioc.Resolve<ReadModel>(),
                         ioc.Resolve<TreeOfRtuModel>(),
                         ioc.Resolve<GraphReadModel>()
-                    }))
+                    }, 
+                    logFile))
                 .SingleInstance();
 
             builder.RegisterType<AdministrativeDb>().SingleInstance();

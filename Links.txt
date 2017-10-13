@@ -31,5 +31,7 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
 19. Перенести GMap в папку
 
 - SendCommandAsObj vs SendCommand
+- клиент должен при запуске(после авторизации) читать локальную базу и только потом дочитывать с серевера, а новые ивенты должны записываться локально
+
 
 

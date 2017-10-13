@@ -40,9 +40,17 @@ namespace Iit.Fibertest.WcfConnections
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();
             if (wcfConnection == null)
-                return null;
+                return @"Cannot establish datacenter connection.";
 
-            return await wcfConnection.SendCommand(serializedCmd);
+            try
+            {
+                return await wcfConnection.SendCommand(serializedCmd);
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+                return @"Cannot send command to datacenter.";
+            }
         }
 
         public async Task<string[]> GetEvents(int revision)
@@ -51,8 +59,16 @@ namespace Iit.Fibertest.WcfConnections
             if (wcfConnection == null)
                 return null;
 
-            // await blocks client !!!!!!!!!!!
-            return wcfConnection.GetEvents(revision).Result;
+            try
+            {
+                // await blocks client !!!!!!!!!!!
+                return wcfConnection.GetEvents(revision).Result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+                return new string[0];
+            }
         }
 
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)

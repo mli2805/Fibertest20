@@ -114,6 +114,7 @@ namespace Iit.Fibertest.Client
             var localScope1 = _globalScope.BeginLifetimeScope(
                     ctx => ctx.RegisterInstance(new NetAddressForConnectionTest(OriginalRtu.MainChannel, true)));
             MainChannelTestViewModel = localScope1.Resolve<NetAddressTestViewModel>();
+            MainChannelTestViewModel.PropertyChanged += MainChannelTestViewModel_PropertyChanged;
 
             var localScope2 = _globalScope.BeginLifetimeScope(
                     ctx => ctx.RegisterInstance(new NetAddressForConnectionTest(OriginalRtu.ReserveChannel, true)));
@@ -121,6 +122,17 @@ namespace Iit.Fibertest.Client
 
             IsReserveChannelEnabled = OriginalRtu.IsReserveChannelSet;
             ClientWcfService.MessageReceived += ClientWcfService_MessageReceived;
+        }
+
+        private void MainChannelTestViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Result")
+            {
+                if (MainChannelTestViewModel.Result == true)
+                    MessageBox.Show("RTU connection established successfully!");
+                if (MainChannelTestViewModel.Result == false)
+                    MessageBox.Show("Cannot establish connection with RTU!");
+            }
         }
 
         private void ClientWcfService_MessageReceived(object e)

@@ -34,34 +34,16 @@ namespace Iit.Fibertest.Client
             _c2DWcfManager = c2DWcfManager;
             _netAddressForConnectionTest = netAddressForConnectionTest;
             NetAddressInputViewModel = new NetAddressInputViewModel(netAddressForConnectionTest.Address);
-            ClientWcfService.MessageReceived += ClientWcfService_MessageReceived;
             Result = true;
-        }
-
-        private void ClientWcfService_MessageReceived(object e)
-        {
-            var dto = e as RtuConnectionCheckedDto;
-            if (dto != null)
-            {
-                var caption = Resources.SID_Connection_check;
-                string message = Resources.SID_Can_t_connect_RTU + Environment.NewLine;
-                
-                if (dto.IsConnectionSuccessfull)
-                    message = Resources.SID_RTU_connected_successfully_;
-                else
-                {
-                    var ping = dto.IsPingSuccessful ? Resources.SID____Ping_passed__OK : Resources.SID_Ping_does_not_pass_;
-                    message += ping;
-                }
-
-                MessageBox.Show(message, caption);
-            }
         }
 
         public async void Test()
         {
-            Result = null;
-            Result = await TestConnection();
+            using (new WaitCursor())
+            {
+                Result = null;
+                Result = await TestConnection();
+            }
         }
 
         private async Task<bool> TestConnection()
