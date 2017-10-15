@@ -1202,4 +1202,10 @@ RTU is initializing right now!</value>
 	<data name="SID_Establishing_connection___" xml:space="preserve">
     <value>Establishing connection...</value>
   </data>
+	<data name="SID_RTU_connection_established_successfully_" xml:space="preserve">
+    <value>RTU connection established successfully!</value>
+  </data>
+	<data name="SID_Cannot_establish_connection_with_RTU_" xml:space="preserve">
+    <value>Cannot establish connection with RTU!</value>
+  </data>
 </root>

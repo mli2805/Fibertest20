@@ -25,7 +25,7 @@ namespace Iit.Fibertest.RtuManagement
             _serviceLog.AppendLine("Request for long task received...");
             await TaskEx.Delay(TimeSpan.FromSeconds(3));
 //                        _rtuManager.Initialize(dto);
-            _serviceLog.AppendLine("Request for long task 2");
+            _serviceLog.AppendLine("Long task performed");
             return new RtuInitializedDto
             {
                 Version = $"I detained {dto.ClientId.First6()} for 3 seconds"
@@ -37,18 +37,28 @@ namespace Iit.Fibertest.RtuManagement
         {
             _serviceLog.AppendLine("User demands async initialization - OK");
 
-//            var task = InitializeRtuAsync(dto);
-//            if (callback != null)
-//                task.ContinueWith(_ => callback(task));
-//            return task;
+            var task = InitializeRtuAsync(dto);
+            if (callback != null)
+                task.ContinueWith(_ => callback(task));
+            return task;
 
-                        return InitializeRtuAsync(dto);
+//                        return InitializeRtuAsync(dto);
         }
 
         public RtuInitializedDto EndInitializeRtu(IAsyncResult result)
         {
-            _serviceLog.AppendLine("point 21");
-            return ((Task<RtuInitializedDto>)result).Result;
+            try
+            {
+                _serviceLog.AppendLine("In EndInitializeRtu");
+                return ((Task<RtuInitializedDto>)result).Result;
+                //            return new RtuInitializedDto() {Version = "an experiment"};
+            }
+            catch (Exception e)
+            {
+                _serviceLog.AppendLine($"{e.Message}");
+                return new RtuInitializedDto() {Version = $"exception in RtuWcfService" };
+             }
+
         }
 
 

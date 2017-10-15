@@ -12,7 +12,7 @@ namespace Iit.Fibertest.DataCenterCore
         public IStoreEvents Init(IMyLog logFile)
         {
             var appPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var graphDbPath = Path.Combine(appPath, @"..\Db\graph.db");
+            var graphDbPath = appPath == null ? @"c:\graph.db" : Path.Combine(appPath, @"..\Db\graph.db");
             logFile.AppendLine($@"Graph Db : {graphDbPath}");
 
             try

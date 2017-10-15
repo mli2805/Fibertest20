@@ -1,4 +1,5 @@
-﻿using System.ServiceModel;
+﻿using System;
+using System.ServiceModel;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
@@ -6,7 +7,7 @@ using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.DataCenterCore
 {
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
     public class WcfServiceForClient : IWcfServiceForClient
     {
         // BUG: Initialize this!
@@ -58,13 +59,14 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)
         {
-            _logFile.AppendLine($"Client {dto.ClientId.First6()} check rtu {dto.RtuId.First6()} connection");
+            _logFile.AppendLine($"Client {dto.ClientId.First6()} check rtu {dto.NetAddress.ToStringA()} connection");
             return await _dcManager.CheckRtuConnectionAsync(dto);
         }
 
         public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
-            //            _logFile.AppendLine($"Client {dto.ClientId.First6()} sent initialize rtu {dto.RtuId.First6()} request");
+            _logFile.AppendLine($"Client {dto.ClientId.First6()} sent initialize rtu {dto.RtuId.First6()} request");
+
             //            RtuInitializedDto b = new RtuInitializedDto();
             //            try
             //            {
@@ -77,7 +79,6 @@ namespace Iit.Fibertest.DataCenterCore
             //            _logFile.AppendLine($"Initialization terminated. Result is {b.IsInitialized}");
             //            return b;
 
-//                        return await _dcManager.InitializeRtuAsync(dto);
 
             _dcManager.InitializeThroughBeginEnd(dto);
             return new RtuInitializedDto();

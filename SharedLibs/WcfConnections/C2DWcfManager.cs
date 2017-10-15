@@ -40,9 +40,17 @@ namespace Iit.Fibertest.WcfConnections
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();
             if (wcfConnection == null)
-                return null;
+                return @"Cannot establish datacenter connection.";
 
-            return await wcfConnection.SendCommand(serializedCmd);
+            try
+            {
+                return await wcfConnection.SendCommand(serializedCmd);
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+                return @"Cannot send command to datacenter.";
+            }
         }
 
         public async Task<string[]> GetEvents(int revision)
@@ -51,8 +59,16 @@ namespace Iit.Fibertest.WcfConnections
             if (wcfConnection == null)
                 return null;
 
-            // await blocks client !!!!!!!!!!!
-            return wcfConnection.GetEvents(revision).Result;
+            try
+            {
+                // await blocks client !!!!!!!!!!!
+                return wcfConnection.GetEvents(revision).Result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+                return new string[0];
+            }
         }
 
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
@@ -113,15 +129,15 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)
         {
-            _logFile.AppendLine($@"Check connection with RTU {dto.RtuId.First6()}");
-            var wcfConnection = _wcfFactory.CreateC2DConnection();
-            if (wcfConnection == null)
+            _logFile.AppendLine($@"Check connection with RTU {dto.NetAddress.ToStringA()}");
+            var c2DChannel = _wcfFactory.CreateC2DConnection();
+            if (c2DChannel == null)
                 return new RtuConnectionCheckedDto() { IsConnectionSuccessfull = false };
 
             try
             {
                 dto.ClientId = ClientId;
-                return await wcfConnection.CheckRtuConnectionAsync(dto);
+                return await c2DChannel.CheckRtuConnectionAsync(dto);
             }
             catch (Exception e)
             {
@@ -134,7 +150,7 @@ namespace Iit.Fibertest.WcfConnections
         {
             var c2DChannel = _wcfFactory.CreateC2DConnection();
             if (c2DChannel == null)
-                return new RtuInitializedDto() { IsInitialized = false, ErrorCode = 11 };
+                return new RtuInitializedDto() { IsInitialized = false, ErrorCode = 11, ErrorMessage = "Can't establish connection with DataCenter"};
 
             try
             {
@@ -145,7 +161,7 @@ namespace Iit.Fibertest.WcfConnections
             catch (Exception e)
             {
                 _logFile.AppendLine(e.Message);
-                return new RtuInitializedDto() { IsInitialized = false, ErrorCode = 12 };
+                return new RtuInitializedDto() { IsInitialized = false, ErrorCode = 12, ErrorMessage = e.Message};
             }
         }
 
