@@ -20,12 +20,7 @@ namespace Iit.Fibertest.DataCenterCore
             return _dcManager.ProcessRtuConnectionChecked(dto);
         }
 
-        public bool ProcessRtuInitialized(RtuInitializedDto dto)
-        {
-            return _dcManager.ConfirmRtuInitialized(dto);
-        }
-
-        public bool ConfirmStartMonitoring(MonitoringStartedDto dto)
+       public bool ConfirmStartMonitoring(MonitoringStartedDto dto)
         {
             return _dcManager.ConfirmMonitoringStarted(dto);
         }

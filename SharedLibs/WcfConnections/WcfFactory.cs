@@ -112,6 +112,27 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
+        public IRtuWcfService CreateDuplexRtuConnection(RtuWcfServiceBackward backward)
+        {
+            try
+            {
+                var netAddress = SelectNetAddressAvailableNow();
+                if (netAddress == null)
+                    return null;
+
+                var myClient = new DuplexChannelFactory<IRtuWcfService>(
+                    backward,
+                    CreateDefaultNetTcpBinding(_iniFile),
+                    new EndpointAddress(new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"RtuWcfService"))));
+                return myClient.CreateChannel();
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+                return null;
+            }
+        }
+
         private NetAddress SelectNetAddressAvailableNow(bool shouldWriteToLogProblems = true)
         {
             var openTimeout = TimeSpan.FromMilliseconds(_iniFile.Read(IniSection.NetTcpBinding, IniKey.OpenTimeoutMs, 1000));

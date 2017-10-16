@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using Iit.Fibertest.DirectCharonLibrary;
+﻿using System.Threading;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.WcfConnections;
 
@@ -30,30 +28,7 @@ namespace Iit.Fibertest.RtuManagement
             }
         }
 
-        private void SendToUserInitializationResult(CharonOperationResult result, DoubleAddress rtuDoubleAddress)
-        {
-            IsSenderBusy = true;
-
-            var dto = result == CharonOperationResult.Ok
-                ? new RtuInitializedDto()
-                {
-                    RtuId = _id,
-                    IsInitialized = true,
-                    PcDoubleAddress = rtuDoubleAddress,
-                    OtdrAddress = _mainCharon.NetAddress,
-                    Serial = _mainCharon.Serial,
-                    FullPortCount = _mainCharon.FullPortCount,
-                    OwnPortCount = _mainCharon.OwnPortCount,
-                    Version = _version,
-                    Children = new Dictionary<int, OtauDto>(),
-                }
-                : new RtuInitializedDto() { RtuId = _id, IsInitialized = false };
-            new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendInitializationConfirm(dto);
-
-            IsSenderBusy = false;
-        }
-
-        private void SendCurrentMonitoringStep(RtuCurrentMonitoringStep currentMonitoringStep, MonitorigPort monitorigPort, BaseRefType baseRefType = BaseRefType.None)
+       private void SendCurrentMonitoringStep(RtuCurrentMonitoringStep currentMonitoringStep, MonitorigPort monitorigPort, BaseRefType baseRefType = BaseRefType.None)
         {
             if (IsSenderBusy)
                 return;

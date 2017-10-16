@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.RtuWcfServiceInterface;
 using Iit.Fibertest.UtilsLib;
@@ -18,53 +17,15 @@ namespace Iit.Fibertest.WcfConnections
         }
 
 
-        public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
+      public async Task<RtuInitializedDto> Initialize(InitializeRtuDto dto)
         {
-            _logFile.AppendLine($"Still on datacenter, transmitting command");
-            var d2RContract = _wcfFactory.CreateRtuConnection();
-            if (d2RContract == null)
-                return new RtuInitializedDto() { IsInitialized = false, ErrorCode = 21, ErrorMessage = "Can't establish connection with RTU"};
-
-            _logFile.AppendLine($"Channel created");
-
-            try
-            {
-                return await d2RContract.InitializeRtuAsync(dto);
-
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine($"{e.Message}");
-                return new RtuInitializedDto() { IsInitialized = false, ErrorCode = 22, ErrorMessage = e.Message};
-            }
-        }
-
-        private IRtuWcfService _rtuWcfService;
-        public IAsyncResult BeginInitializeRtu(InitializeRtuDto dto, AsyncCallback callback, object asyncState)
-        {
-            _logFile.AppendLine($"Still on datacenter, transmitting command");
-            _rtuWcfService = _wcfFactory.CreateRtuConnection();
-            if (_rtuWcfService == null)
+            var backward = new RtuWcfServiceBackward();
+            var rtuDuplexConnection = _wcfFactory.CreateDuplexRtuConnection(backward);
+            if (rtuDuplexConnection == null)
                 return null;
 
-            _logFile.AppendLine($"Channel created");
-            var t = _rtuWcfService.BeginInitializeRtu(dto, callback, asyncState);
-            _logFile.AppendLine($"Begin finished");
-            return t;
-        }
-
-        public RtuInitializedDto EndInitializeRtu(IAsyncResult asyncResult)
-        {
-            try
-            {
-                return _rtuWcfService.EndInitializeRtu(asyncResult);
-
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine($"Exception in D2RWcfManager/EndInitializeRtu {e.Message}");
-                return new RtuInitializedDto() { Version = $"{e.Message}" };
-            }
+            var result = await rtuDuplexConnection.InitializeAsync(backward, dto);
+            return result;
         }
 
         public MessageProcessingResult StartMonitoring(StartMonitoringDto dto)

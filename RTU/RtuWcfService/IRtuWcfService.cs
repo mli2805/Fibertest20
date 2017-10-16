@@ -1,23 +1,36 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.ServiceModel;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.RtuWcfServiceInterface
 {
-    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "IRtuWcfService" in both code and config file together.
     [ServiceContract]
+    public interface IRtuWcfServiceBackward
+    {
+        [OperationContract(IsOneWay = true)]
+        void EndInitialize(RtuInitializedDto dto);
+    }
+
+    public class Handler<T>
+    {
+        private readonly Queue<TaskCompletionSource<T>> _handler = new Queue<TaskCompletionSource<T>>();
+        public void AddHandler(TaskCompletionSource<T> handler) => _handler.Enqueue(handler);
+        public void End(T result) => _handler.Dequeue().TrySetResult(result);
+    }
+
+    public class RtuWcfServiceBackward : IRtuWcfServiceBackward
+    {
+        public void EndInitialize(RtuInitializedDto dto) => HandlerForInitializeRtu.End(dto);
+        public Handler<RtuInitializedDto> HandlerForInitializeRtu { get; } = new Handler<RtuInitializedDto>();
+    }
+
+    [ServiceContract(CallbackContract = typeof(IRtuWcfServiceBackward))]
     public interface IRtuWcfService
     {
-     
-        [OperationContract(AsyncPattern = true)]
-        IAsyncResult BeginInitializeRtu(InitializeRtuDto dto, AsyncCallback callback, object asyncState);
-        RtuInitializedDto EndInitializeRtu(IAsyncResult result);
-        
-
-
         [OperationContract]
-        bool Initialize(InitializeRtuDto dto);
+        void BeginInitialize(InitializeRtuDto dto);
+
 
         [OperationContract]
         bool StartMonitoring(StartMonitoringDto dto);
@@ -44,11 +57,13 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
 
     public static class RtuWcfServiceExtension
     {
-        public static async Task<RtuInitializedDto> InitializeRtuAsync(
-            this IRtuWcfService rtuWcfService, InitializeRtuDto dto)
+   public static Task<RtuInitializedDto> InitializeAsync(
+            this IRtuWcfService rtuWcfService, RtuWcfServiceBackward backwardService, InitializeRtuDto dto)
         {
-            return await Task.Factory.FromAsync(rtuWcfService.BeginInitializeRtu, rtuWcfService.EndInitializeRtu, dto, null);
+            var src = new TaskCompletionSource<RtuInitializedDto>();
+            backwardService.HandlerForInitializeRtu.AddHandler(src);
+            rtuWcfService.BeginInitialize(dto);
+            return src.Task;
         }
     }
-
 }

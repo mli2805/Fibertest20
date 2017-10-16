@@ -21,18 +21,7 @@ namespace Iit.Fibertest.DataCenterCore
             return true;
         }
 
-        public bool ConfirmRtuInitialized(RtuInitializedDto dto)
-        {
-            var str = dto.IsInitialized ? "OK" : "ERROR";
-            _logFile.AppendLine($"Rtu {dto.RtuId.First6()} initialization {str}");
-
-           if (dto.IsInitialized)
-                RegisterRtu(dto);
-
-            return new D2CWcfManager(GetAllClientsAddresses(), _iniFile, _logFile).ConfirmRtuInitialized(dto);
-        }
-
-        public void RegisterRtu(RtuInitializedDto dto)
+  public void RegisterRtu(RtuInitializedDto dto)
         {
             var rtuStation = new RtuStation()
             {

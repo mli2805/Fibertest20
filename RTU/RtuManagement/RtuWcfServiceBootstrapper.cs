@@ -28,13 +28,9 @@ namespace Iit.Fibertest.RtuManagement
             {
                 var uri = new Uri(WcfFactory.CombineUriString(@"localhost", (int)TcpPorts.RtuListenTo, @"RtuWcfService"));
 
-                //                _host = new ServiceHost(typeof(RtuWcfService));
                 _host = new ServiceHost(_rtuWcfService);
-
                 _host.AddServiceEndpoint(typeof(IRtuWcfService),
                     WcfFactory.CreateDefaultNetTcpBinding(_serviceIni), uri);
-//                _host.AddDependencyInjectionBehavior<IWcfServiceForClient>(_container);
-
                 _host.Open();
                 _serviceLog.AppendLine("RTU is listening to DataCenter now.");
             }
@@ -53,6 +49,7 @@ namespace Iit.Fibertest.RtuManagement
                     throw;
             }
         }
+
         public void Dispose()
         {
             _host?.Close();

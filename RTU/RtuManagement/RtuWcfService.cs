@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ServiceModel;
-using System.Threading.Tasks;
+using System.Threading;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.RtuWcfServiceInterface;
 using Iit.Fibertest.UtilsLib;
@@ -20,59 +20,25 @@ namespace Iit.Fibertest.RtuManagement
         }
 
 
-        private async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
-        {
-            _serviceLog.AppendLine("Request for long task received...");
-            await TaskEx.Delay(TimeSpan.FromSeconds(3));
-//                        _rtuManager.Initialize(dto);
-            _serviceLog.AppendLine("Long task performed");
-            return new RtuInitializedDto
-            {
-                Version = $"I detained {dto.ClientId.First6()} for 3 seconds"
-            };
-        }
-
-
-        public IAsyncResult BeginInitializeRtu(InitializeRtuDto dto, AsyncCallback callback, object asyncState)
-        {
-            _serviceLog.AppendLine("User demands async initialization - OK");
-
-            var task = InitializeRtuAsync(dto);
-            if (callback != null)
-                task.ContinueWith(_ => callback(task));
-            return task;
-
-//                        return InitializeRtuAsync(dto);
-        }
-
-        public RtuInitializedDto EndInitializeRtu(IAsyncResult result)
-        {
-            try
-            {
-                _serviceLog.AppendLine("In EndInitializeRtu");
-                return ((Task<RtuInitializedDto>)result).Result;
-                //            return new RtuInitializedDto() {Version = "an experiment"};
-            }
-            catch (Exception e)
-            {
-                _serviceLog.AppendLine($"{e.Message}");
-                return new RtuInitializedDto() {Version = $"exception in RtuWcfService" };
-             }
-
-        }
-
-
-
-
-
-
-
-        public bool Initialize(InitializeRtuDto dto)
+        public void BeginInitialize(InitializeRtuDto dto)
         {
             _serviceLog.AppendLine("User demands initialization - OK");
-            _rtuManager.Initialize(dto);
-            return true;
+            var callbackChannel = OperationContext.Current.GetCallbackChannel<IRtuWcfServiceBackward>();
+            ThreadPool.QueueUserWorkItem(_ =>
+            {
+                try
+                {
+                    _rtuManager.Initialize(dto);
+                    _serviceLog.AppendLine("Initialization terminated");
+                    callbackChannel.EndInitialize(_rtuManager.GetInitializationResult());
+                }
+                catch (Exception e)
+                {
+                    _serviceLog.AppendLine("Thread pool: " + e);
+                }
+            });
         }
+
 
         public bool StartMonitoring(StartMonitoringDto dto)
         {

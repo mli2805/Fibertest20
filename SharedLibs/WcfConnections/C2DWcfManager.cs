@@ -61,7 +61,7 @@ namespace Iit.Fibertest.WcfConnections
 
             try
             {
-                // await blocks client !!!!!!!!!!!
+                // await wcfConnection.GetEvents(revision) blocks client !!!!!!!!!!!
                 return wcfConnection.GetEvents(revision).Result;
             }
             catch (Exception e)

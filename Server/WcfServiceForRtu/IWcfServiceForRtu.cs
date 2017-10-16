@@ -11,8 +11,7 @@ namespace Iit.Fibertest.WcfServiceForRtuInterface
         [OperationContract]
         bool ProcessRtuConnectionChecked(RtuConnectionCheckedDto result);
 
-        [OperationContract]
-        bool ProcessRtuInitialized(RtuInitializedDto result);
+      
 
         [OperationContract]
         bool ConfirmStartMonitoring(MonitoringStartedDto result);

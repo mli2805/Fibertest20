@@ -4,7 +4,6 @@ using System.Linq;
 using System.Windows;
 using Autofac;
 using Caliburn.Micro;
-using ClientWcfServiceLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
@@ -161,10 +160,7 @@ namespace Iit.Fibertest.Client
             using (new WaitCursor())
             {
                 var b = await _c2DWcfManager.InitializeRtuAsync(dto);
-                if (!b.IsInitialized)
-                {
-                    MessageBox.Show(b.ErrorMessage, Resources.SID_Error);
-                }
+                ProcessRtuInitialized(b);
             }
         }
 
@@ -186,8 +182,9 @@ namespace Iit.Fibertest.Client
             OriginalRtu.RtuManagerSoftwareVersion = dto.Version;
             OriginalRtu.Children = dto.Children;
 
+            // apply initialization to graph
             _c2DWcfManager.SendCommandAsObj(ParseInitializationResult(dto));
-        }
+    }
 
         public bool CheckAddressUniqueness()
         {

@@ -1,5 +1,4 @@
-﻿using System;
-using System.ServiceModel;
+﻿using System.ServiceModel;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
@@ -66,22 +65,9 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
             _logFile.AppendLine($"Client {dto.ClientId.First6()} sent initialize rtu {dto.RtuId.First6()} request");
-
-            //            RtuInitializedDto b = new RtuInitializedDto();
-            //            try
-            //            {
-            //                b = await _dcManager.InitializeRtuAsync(dto);
-            //            }
-            //            catch (Exception e)
-            //            {
-            //                _logFile.AppendLine($"{e.Message}");
-            //            }
-            //            _logFile.AppendLine($"Initialization terminated. Result is {b.IsInitialized}");
-            //            return b;
-
-
-            _dcManager.InitializeThroughBeginEnd(dto);
-            return new RtuInitializedDto();
+            var result = await _dcManager.InitializeAsync(dto);
+            _logFile.AppendLine($"Initialization result is {result.IsInitialized}");
+            return result;
         }
 
 

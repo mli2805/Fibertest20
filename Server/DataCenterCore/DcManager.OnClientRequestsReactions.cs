@@ -117,40 +117,12 @@ namespace Iit.Fibertest.DataCenterCore
             return Task.FromResult(result);
         }
 
-        public Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
+       public async Task<RtuInitializedDto> InitializeAsync(InitializeRtuDto dto)
         {
             dto.ServerAddresses = _serverDoubleAddress;
-            return new D2RWcfManager(dto.RtuAddresses, _iniFile, _logFile).InitializeRtuAsync(dto);
+            return await new D2RWcfManager(dto.RtuAddresses, _iniFile, _logFile).Initialize(dto);
         }
 
-
-        private D2RWcfManager _d2RWcfManager;
-        private readonly object _applicationSpecificObject = new object();
-        public void InitializeThroughBeginEnd(InitializeRtuDto dto)
-        {
-            dto.ServerAddresses = _serverDoubleAddress;
-            var callback = new AsyncCallback(MyCallback);
-
-            _d2RWcfManager = new D2RWcfManager(dto.RtuAddresses, _iniFile, _logFile);
-            _d2RWcfManager.BeginInitializeRtu(dto, callback, _applicationSpecificObject);
-            _logFile.AppendLine("Leave first part");
-        }
-
-        public void MyCallback(IAsyncResult asyncResult)
-        {
-            _logFile.AppendLine($"I'm in callback");
-
-            try
-            {
-                var result = _d2RWcfManager.EndInitializeRtu(asyncResult);
-                _logFile.AppendLine($"Version = {result.Version}");
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine($"Exception in DcManager/MyCallback {e.Message}");
-                throw;
-            }
-        }
 
 
 

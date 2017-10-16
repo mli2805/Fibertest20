@@ -102,7 +102,7 @@ namespace Iit.Fibertest.RtuManagement
 
             _rtuIni = new IniFile();
             _rtuIni.AssignFile("RtuManager.ini");
-          
+
             _rtuLog = new LogFile(_rtuIni).AssignFile("RtuManager.log");
 
             _mikrotikRebootTimeout =
@@ -118,9 +118,20 @@ namespace Iit.Fibertest.RtuManagement
             _serviceIni.Write(IniSection.General, IniKey.Version, _version);
         }
 
-        public void Start()
+        public RtuInitializedDto GetInitializationResult()
         {
-            
+            return new RtuInitializedDto()
+            {
+                RtuId = _id,
+                IsInitialized = IsRtuInitialized,
+                ErrorCode = IsRtuInitialized ? 0 : 99,
+                Serial = _mainCharon.Serial,
+                FullPortCount = _mainCharon.FullPortCount,
+                OwnPortCount = _mainCharon.OwnPortCount,
+                //                Children = _mainCharon.Children,
+                OtdrAddress = _mainCharon.NetAddress,
+                Version = _version,
+            };
         }
     }
 }

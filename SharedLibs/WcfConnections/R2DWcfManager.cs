@@ -91,24 +91,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public void SendInitializationConfirm(RtuInitializedDto rtu)
-        {
-            var wcfConnection = _wcfFactory.CreateR2DConnection();
-            if (wcfConnection == null)
-                return;
-
-            try
-            {
-                wcfConnection.ProcessRtuInitialized(rtu);
-                _logFile.AppendLine("Sent initializatioln result to server...");
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine(e.Message);
-            }
-        }
-
-        public void SendMonitoringSettingsApplied(MonitoringSettingsAppliedDto result)
+     public void SendMonitoringSettingsApplied(MonitoringSettingsAppliedDto result)
         {
             var wcfConnection = _wcfFactory.CreateR2DConnection();
             if (wcfConnection == null)

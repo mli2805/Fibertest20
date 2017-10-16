@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="C2D2R\AssignBaseRefDto.cs" />
+    <Compile Include="C2D2R\SomePortionOfData.cs" />
     <Compile Include="C2D\CheckServerConnectionDto.cs" />
     <Compile Include="D2C\ClientRegisteredDto.cs" />
     <Compile Include="Enums\MoniLevelType.cs" />

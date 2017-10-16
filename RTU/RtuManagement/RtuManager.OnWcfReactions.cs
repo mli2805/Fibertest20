@@ -34,8 +34,6 @@ namespace Iit.Fibertest.RtuManagement
             RestoreFunctions.ResetCharonThroughComPort(_rtuIni, _rtuLog);
 
             var initializationResult = InitializeRtuManager();
-            if (isUserAskedInitialization)
-                SendToUserInitializationResult(initializationResult, rtu?.RtuAddresses);
             if (initializationResult != CharonOperationResult.Ok)
                 return;
             IsRtuInitialized = true;
