@@ -106,7 +106,8 @@ namespace Iit.Fibertest.DataCenterCore
         {
             var result = new RtuConnectionCheckedDto() { RtuId = dto.RtuId };
             var backward = new RtuWcfServiceBackward();
-            var rtuConnection = new WcfFactory(new DoubleAddress() { Main = dto.NetAddress }, _iniFile, _logFile).CreateDuplexRtuConnection(backward);
+            var wcfFactory = new WcfFactory(new DoubleAddress() { Main = dto.NetAddress }, _iniFile, _logFile);
+            var rtuConnection = wcfFactory.CreateDuplexRtuConnection(backward);
             result.IsConnectionSuccessfull = rtuConnection != null;
             if (!result.IsConnectionSuccessfull)
                 result.IsPingSuccessful = Pinger.Ping(dto.NetAddress.IsAddressSetAsIp ? dto.NetAddress.Ip4Address : dto.NetAddress.HostName);
