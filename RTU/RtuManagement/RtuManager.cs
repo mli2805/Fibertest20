@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 using Iit.Fibertest.DirectCharonLibrary;
@@ -129,6 +130,7 @@ namespace Iit.Fibertest.RtuManagement
                 FullPortCount = _mainCharon.FullPortCount,
                 OwnPortCount = _mainCharon.OwnPortCount,
                 //                Children = _mainCharon.Children,
+                Children = new Dictionary<int, OtauDto>(),
                 OtdrAddress = _mainCharon.NetAddress,
                 Version = _version,
             };

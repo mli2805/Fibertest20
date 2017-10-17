@@ -18,5 +18,6 @@ namespace Iit.Fibertest.Graph
         public int OwnPortCount { get; set; }
         public int FullPortCount { get; set; }
         public List<OtauAttached> Otaus { get; set; } = new List<OtauAttached>();
+        public string Version { get; set; }
     }
 }

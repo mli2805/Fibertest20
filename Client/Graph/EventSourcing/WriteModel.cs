@@ -227,7 +227,7 @@ namespace Iit.Fibertest.Graph
                     }
                 };
                 rtuStation.OtdrIp = rtu.OtdrNetAddress.Ip4Address;
-                rtuStation.Version = rtu.RtuManagerSoftwareVersion;
+                rtuStation.Version = rtu.Version;
                 dict.TryAdd(rtu.Id, rtuStation);
             }
             return dict;

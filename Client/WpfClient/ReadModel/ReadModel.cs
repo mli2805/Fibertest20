@@ -204,6 +204,7 @@ namespace Iit.Fibertest.Client
                 if (rtu.FullPortCount == e.FullPortCount)
                 {
                     // just re-initialization, nothing should be done?
+                    rtu.Version = e.Version;
                 }
             }
 
@@ -226,6 +227,7 @@ namespace Iit.Fibertest.Client
             rtu.ReserveChannelState = e.ReserveChannelState;
             rtu.OtdrNetAddress = e.OtdrNetAddress;
             rtu.MonitoringState = MonitoringState.Off;
+            rtu.Version = e.Version;
         }
 
         public void Apply(RtuUpdated e)

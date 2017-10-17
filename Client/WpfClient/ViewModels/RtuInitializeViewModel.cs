@@ -9,47 +9,12 @@ using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
+using Newtonsoft.Json.Linq;
 
 namespace Iit.Fibertest.Client
 {
     public class RtuInitializeViewModel : Screen
     {
-        public Guid RtuId { get; set; }
-        public string Comment { get; set; }
-
-        public string Serial
-        {
-            get { return _serial; }
-            set
-            {
-                if (value == _serial) return;
-                _serial = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
-        public string PortCount
-        {
-            get { return _portCount; }
-            set
-            {
-                if (value == _portCount) return;
-                _portCount = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
-        public NetAddress OtdrNetAddress
-        {
-            get { return _otdrNetAddress; }
-            set
-            {
-                if (Equals(value, _otdrNetAddress)) return;
-                _otdrNetAddress = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
         public NetAddressTestViewModel MainChannelTestViewModel { get; set; }
         public bool IsReserveChannelEnabled { get; set; }
         public NetAddressTestViewModel ReserveChannelTestViewModel { get; set; }
@@ -60,6 +25,7 @@ namespace Iit.Fibertest.Client
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly IMyLog _logFile;
 
+        private Rtu _originalRtu;
         public Rtu OriginalRtu
         {
             get { return _originalRtu; }
@@ -71,11 +37,6 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private string _serial;
-        private string _portCount;
-        private NetAddress _otdrNetAddress;
-        private Rtu _originalRtu;
-
         public RtuInitializeViewModel(ILifetimeScope globalScope, ReadModel readModel, IWindowManager windowManager,
             IWcfServiceForClient c2DWcfManager, IMyLog logFile, RtuLeaf rtuLeaf)
         {
@@ -85,17 +46,12 @@ namespace Iit.Fibertest.Client
             _c2DWcfManager = c2DWcfManager;
             _logFile = logFile;
 
-            Initialize(rtuLeaf.Id);
+            UpdateView(rtuLeaf.Id);
         }
 
-        private void Initialize(Guid rtuId)
+        private void UpdateView(Guid rtuId)
         {
-            RtuId = rtuId;
-            OriginalRtu = _readModel.Rtus.First(r => r.Id == RtuId);
-            Comment = OriginalRtu.Comment;
-            Serial = OriginalRtu.Serial;
-            PortCount = $@"{OriginalRtu.OwnPortCount} / {OriginalRtu.FullPortCount}";
-            OtdrNetAddress = OriginalRtu.OtdrNetAddress;
+            OriginalRtu = _readModel.Rtus.First(r => r.Id == rtuId);
 
             var localScope1 = _globalScope.BeginLifetimeScope(
                     ctx => ctx.RegisterInstance(new NetAddressForConnectionTest(OriginalRtu.MainChannel, true)));
@@ -109,6 +65,7 @@ namespace Iit.Fibertest.Client
 
             IsReserveChannelEnabled = OriginalRtu.IsReserveChannelSet;
         }
+
 
         private void ReserveChannelTestViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
@@ -132,7 +89,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-       protected override void OnViewLoaded(object view)
+        protected override void OnViewLoaded(object view)
         {
             DisplayName = Resources.SID_Network_settings;
         }
@@ -175,18 +132,29 @@ namespace Iit.Fibertest.Client
             }
             _logFile.AppendLine(@"RTU initialized successfully!");
 
-            OriginalRtu.OtdrNetAddress = (NetAddress)dto.OtdrAddress.Clone();
-            OriginalRtu.Serial = dto.Serial;
-            OriginalRtu.OwnPortCount = dto.OwnPortCount;
-            OriginalRtu.FullPortCount = dto.FullPortCount;
-            OriginalRtu.RtuManagerSoftwareVersion = dto.Version;
-            OriginalRtu.Children = dto.Children;
-
             // apply initialization to graph
             _c2DWcfManager.SendCommandAsObj(ParseInitializationResult(dto));
-    }
+            UpdateRtuView(dto);
+        }
 
-        public bool CheckAddressUniqueness()
+        private void UpdateRtuView(RtuInitializedDto dto)
+        {
+            var originalRtu1 = new Rtu
+            {
+                Id = dto.RtuId,
+                Title = OriginalRtu.Title,
+                OtdrNetAddress = (NetAddress)dto.OtdrAddress.Clone(),
+                Serial = dto.Serial,
+                OwnPortCount = dto.OwnPortCount,
+                FullPortCount = dto.FullPortCount,
+                Version = dto.Version,
+                Children = dto.Children,
+                Comment = OriginalRtu.Comment,
+            };
+            OriginalRtu = originalRtu1;
+        }
+
+       public bool CheckAddressUniqueness()
         {
             var list = _readModel.Rtus.Where(r =>
                 r.MainChannel.Ip4Address ==
@@ -198,7 +166,7 @@ namespace Iit.Fibertest.Client
                  ReserveChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().Ip4Address ||
                  r.ReserveChannel.Ip4Address ==
                  ReserveChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().Ip4Address)).ToList();
-            if (!(list.Count == 0 || list.Count == 1 && list.First().Id == RtuId))
+            if (!(list.Count == 0 || list.Count == 1 && list.First().Id == OriginalRtu.Id))
             {
                 var vm = new NotificationViewModel(Resources.SID_Error, Resources.SID_There_is_RTU_with_the_same_ip_address_);
                 _windowManager.ShowDialog(vm);
@@ -211,7 +179,7 @@ namespace Iit.Fibertest.Client
         {
             var cmd = new InitializeRtu
             {
-                Id = RtuId,
+                Id = dto.RtuId,
                 MainChannel = MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress(),
                 MainChannelState = RtuPartState.Normal,
                 IsReserveChannelSet = IsReserveChannelEnabled,
@@ -235,7 +203,7 @@ namespace Iit.Fibertest.Client
             var otau = new AttachOtau()
             {
                 Id = Guid.NewGuid(),
-                RtuId = RtuId,
+                RtuId = OriginalRtu.Id,
                 MasterPort = pair.Key,
                 NetAddress = pair.Value.NetAddress,
                 PortCount = pair.Value.OwnPortCount,

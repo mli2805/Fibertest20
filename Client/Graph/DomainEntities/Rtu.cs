@@ -23,7 +23,7 @@ namespace Iit.Fibertest.Graph
 
         public string PortCount => $@"{OwnPortCount} / {FullPortCount}";
 
-        public string RtuManagerSoftwareVersion { get; set; }
+        public string Version { get; set; }
 
         public Dictionary<int, OtauDto> Children { get; set; }
 

@@ -60,7 +60,7 @@
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="{x:Static stringResources:Resources.SID_RTU_Manager_software_version}" Margin="5"/>
-                    <TextBlock Text="{Binding OriginalRtu.RtuManagerSoftwareVersion}" Margin="5"/>
+                    <TextBlock Text="{Binding OriginalRtu.Version}" Margin="5"/>
                 </DockPanel>
             </StackPanel>
         </GroupBox>
