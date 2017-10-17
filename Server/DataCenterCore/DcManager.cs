@@ -25,6 +25,10 @@ namespace Iit.Fibertest.DataCenterCore
         public void Start(ConcurrentDictionary<Guid, RtuStation> rtuStations)
         {
             _rtuStations = rtuStations;
+            foreach (var rtuStation in rtuStations)
+            {
+                _logFile.AppendLine($"{rtuStation.Value.Id.First6()} {rtuStation.Value.PcAddresses.DoubleAddress.Main.ToStringA()}");
+            }
             _logFile.AppendLine($"{_rtuStations.Count} RTU found");
 
             _clientStations = new ConcurrentDictionary<Guid, ClientStation>();

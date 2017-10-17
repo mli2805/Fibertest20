@@ -305,10 +305,11 @@ namespace WcfTestBench
             windowManager.ShowWindow(vm);
         }
 
-        public void StartMonitoring()
+        public async void StartMonitoring()
         {
-            DisplayString = _c2DWcfManager.StartMonitoring(
-                new StartMonitoringDto() { RtuId = SelectedRtu.Id }) ? Resources.SID_Command_sent__wait_please_ : Resources.SID_Error_;
+            var result = await _c2DWcfManager.StartMonitoringAsync(new StartMonitoringDto() { RtuId = SelectedRtu.Id });
+
+            DisplayString = result ? Resources.SID_Command_sent__wait_please_ : Resources.SID_Error_;
         }
 
         public void StopMonitoring()

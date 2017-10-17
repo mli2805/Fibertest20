@@ -10,13 +10,13 @@ namespace Iit.Fibertest.WcfConnections
         private readonly IMyLog _logFile;
         private readonly WcfFactory _wcfFactory;
 
-        public D2RWcfManager(DoubleAddress dataCenterAddress, IniFile iniFile, IMyLog logFile)
+        public D2RWcfManager(DoubleAddress rtuAddress, IniFile iniFile, IMyLog logFile)
         {
             _logFile = logFile;
-            _wcfFactory = new WcfFactory(dataCenterAddress, iniFile, _logFile);
+            _wcfFactory = new WcfFactory(rtuAddress, iniFile, _logFile);
         }
 
-        public async Task<RtuInitializedDto> Initialize(InitializeRtuDto dto)
+        public async Task<RtuInitializedDto> InitializeAsync(InitializeRtuDto dto)
         {
             var backward = new RtuWcfServiceBackward();
             var rtuDuplexConnection = _wcfFactory.CreateDuplexRtuConnection(backward);
@@ -27,15 +27,15 @@ namespace Iit.Fibertest.WcfConnections
             return result;
         }
 
-        public MessageProcessingResult StartMonitoring(StartMonitoringDto dto)
+        public async Task<bool> StartMonitoringAsync(StartMonitoringDto dto)
         {
-            var rtuConnection = _wcfFactory.CreateRtuConnection();
-            if (rtuConnection == null)
-                return MessageProcessingResult.FailedToTransmit;
+            var backward = new RtuWcfServiceBackward();
+            var rtuDuplexConnection = _wcfFactory.CreateDuplexRtuConnection(backward);
+            if (rtuDuplexConnection == null)
+                return false;
 
-            var result = rtuConnection.StartMonitoring(dto);
-            _logFile.AppendLine($"Transfered command to start monitoring on RTU {dto.RtuId.First6()}");
-            return result ? MessageProcessingResult.TransmittedSuccessfully : MessageProcessingResult.TransmittedSuccessfullyButRtuIsBusy;
+            var result = await rtuDuplexConnection.StartMonitoringAsync(backward, dto);
+            return result;
         }
 
         public MessageProcessingResult StopMonitoring(StopMonitoringDto dto)

@@ -53,15 +53,12 @@ namespace Iit.Fibertest.Client
             throw new NotImplementedException();
         }
 
-        public bool InitializeRtu(InitializeRtuDto rtu)
+        public Task<bool> StartMonitoringAsync(StartMonitoringDto dto)
         {
             throw new NotImplementedException();
         }
 
-        public bool StartMonitoring(StartMonitoringDto dto)
-        {
-            throw new NotImplementedException();
-        }
+
 
         public bool StopMonitoring(StopMonitoringDto dto)
         {

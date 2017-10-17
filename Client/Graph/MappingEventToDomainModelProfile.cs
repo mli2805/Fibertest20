@@ -20,6 +20,7 @@ namespace Iit.Fibertest.Graph
 
             CreateMap<RtuAtGpsLocationAdded, Node>();
             CreateMap<RtuAtGpsLocationAdded, Rtu>();
+            CreateMap<RtuInitialized, Rtu>();
 
             CreateMap<OtauAttached, Otau>();
 

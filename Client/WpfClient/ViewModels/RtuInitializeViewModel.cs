@@ -124,11 +124,14 @@ namespace Iit.Fibertest.Client
 
         private void ProcessRtuInitialized(RtuInitializedDto dto)
         {
-            var caption = dto.IsInitialized ? Resources.SID_Information : Resources.SID_Error;
-            var message = dto.IsInitialized ? Resources.SID_RTU_initialized_successfully_ : Resources.SID_RTU_initialization_failed_;
-            var vm = new NotificationViewModel(caption, message);
+            var vm = dto.IsInitialized
+                ? new NotificationViewModel(Resources.SID_Information, Resources.SID_RTU_initialized_successfully_)
+                : new NotificationViewModel(Resources.SID_Error, Resources.SID_RTU_initialization_failed_);
             _windowManager.ShowDialog(vm);
-            _logFile.AppendLine(message);
+
+            _logFile.AppendLine(dto.IsInitialized 
+                ? $@"RTU {dto.RtuId.First6()} initialized successfully." 
+                : @"RTU {dto.RtuId.First6()} initialization failed!");
 
             if (!dto.IsInitialized)
                 return;

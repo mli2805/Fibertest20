@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows.Media;
 using Autofac;
 using Caliburn.Micro;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WcfServiceForClientInterface;
@@ -228,6 +229,7 @@ namespace Iit.Fibertest.Client
 
         private void AutomaticModeAction(object param)
         {
+            C2DWcfManager.StartMonitoringAsync(new StartMonitoringDto() {RtuId = Id});
         }
 
         private void RtuRemoveAction(object param)

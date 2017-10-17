@@ -10,6 +10,9 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
     {
         [OperationContract(IsOneWay = true)]
         void EndInitialize(RtuInitializedDto dto);
+
+        [OperationContract(IsOneWay = true)]
+        void EndStartMonitoring(bool result);
     }
 
     public class Handler<T>
@@ -21,8 +24,11 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
 
     public class RtuWcfServiceBackward : IRtuWcfServiceBackward
     {
-        public void EndInitialize(RtuInitializedDto dto) => HandlerForInitializeRtu.End(dto);
         public Handler<RtuInitializedDto> HandlerForInitializeRtu { get; } = new Handler<RtuInitializedDto>();
+        public void EndInitialize(RtuInitializedDto dto) => HandlerForInitializeRtu.End(dto);
+
+        public Handler<bool> HandlerForStartMonitoring { get; } = new Handler<bool>();
+        public void EndStartMonitoring(bool result) => HandlerForStartMonitoring.End(result);
     }
 
     [ServiceContract(CallbackContract = typeof(IRtuWcfServiceBackward))]
@@ -31,9 +37,9 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
         [OperationContract]
         void BeginInitialize(InitializeRtuDto dto);
 
-
         [OperationContract]
-        bool StartMonitoring(StartMonitoringDto dto);
+        void BeginStartMonitoring(StartMonitoringDto dto);
+
 
         [OperationContract]
         bool StopMonitoring(StopMonitoringDto dto);
@@ -57,12 +63,20 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
 
     public static class RtuWcfServiceExtension
     {
-   public static Task<RtuInitializedDto> InitializeAsync(
-            this IRtuWcfService rtuWcfService, RtuWcfServiceBackward backwardService, InitializeRtuDto dto)
+        public static Task<RtuInitializedDto> InitializeAsync(
+                 this IRtuWcfService rtuWcfService, RtuWcfServiceBackward backwardService, InitializeRtuDto dto)
         {
             var src = new TaskCompletionSource<RtuInitializedDto>();
             backwardService.HandlerForInitializeRtu.AddHandler(src);
             rtuWcfService.BeginInitialize(dto);
+            return src.Task;
+        }
+        public static Task<bool> StartMonitoringAsync(
+                 this IRtuWcfService rtuWcfService, RtuWcfServiceBackward backwardService, StartMonitoringDto dto)
+        {
+            var src = new TaskCompletionSource<bool>();
+            backwardService.HandlerForStartMonitoring.AddHandler(src);
+            rtuWcfService.BeginStartMonitoring(dto);
             return src.Task;
         }
     }

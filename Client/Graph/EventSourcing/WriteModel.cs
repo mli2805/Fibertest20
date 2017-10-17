@@ -195,7 +195,17 @@ namespace Iit.Fibertest.Graph
         }
 
         public void Apply(RtuUpdated e) { }
-        public void Apply(RtuRemoved e) { }
+
+        public void Apply(RtuRemoved e)
+        {
+            _rtus.RemoveAll(r => r.Id == e.Id);
+        }
+
+        public void Apply(RtuInitialized e)
+        {
+            var rtu = _rtus.FirstOrDefault(r => r.Id == e.Id);
+            _mapper.Map(e, rtu);
+        }
         #endregion
 
         #region Trace

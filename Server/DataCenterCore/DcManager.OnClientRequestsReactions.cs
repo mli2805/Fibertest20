@@ -12,70 +12,19 @@ namespace Iit.Fibertest.DataCenterCore
 {
     public partial class DcManager
     {
-        private readonly RtuCommandDeliveredDto _rtuCommandDeliveredDto = new RtuCommandDeliveredDto();
-
-        public void HandleMessage(object msg)
-        {
-            var result = ProcessClientsMessage(msg);
-            switch (result)
-            {
-                case MessageProcessingResult.TransmittedSuccessfully:
-                case MessageProcessingResult.FailedToTransmit:
-                case MessageProcessingResult.TransmittedSuccessfullyButRtuIsBusy:
-                    _rtuCommandDeliveredDto.MessageProcessingResult = result;
-                    var thread = new Thread(NotifyRtuCommandDelivery);
-                    thread.Start();
-                    break;
-
-                case MessageProcessingResult.UnknownMessage:
-                    _logFile.AppendLine("Received unknown message.");
-                    break;
-
-                case MessageProcessingResult.ProcessedSuccessfully:
-                case MessageProcessingResult.FailedToProcess:
-                case MessageProcessingResult.NothingToReturn:
-                    break;
-            }
-        }
-
-        private void NotifyRtuCommandDelivery()
-        {
-            var clientStation = GetClientStation(_rtuCommandDeliveredDto.ClientId);
-            if (clientStation == null)
-                return;
-            new D2CWcfManager(new List<DoubleAddress>() { clientStation.PcAddresses.DoubleAddress }, _iniFile, _logFile)
-                .ConfirmRtuCommandDelivered(_rtuCommandDeliveredDto);
-        }
-
-        private MessageProcessingResult ProcessClientsMessage(object msg)
-        {
-            var dto5 = msg as StartMonitoringDto;
-            if (dto5 != null)
-                return StartMonitoring(dto5);
-
-            var dto6 = msg as StopMonitoringDto;
-            if (dto6 != null)
-                return StopMonitoring(dto6);
-
-            var dto7 = msg as AssignBaseRefDto;
-            if (dto7 != null)
-                return AssignBaseRef(dto7);
-
-            var dto8 = msg as ApplyMonitoringSettingsDto;
-            if (dto8 != null)
-                return ApplyMonitoringSettings(dto8);
-
-            return MessageProcessingResult.UnknownMessage;
-        }
 
         public Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {
             var result = new ClientRegisteredDto();
 
-            var clientStation = new ClientStation {
+            var clientStation = new ClientStation
+            {
                 Id = dto.ClientId,
-                PcAddresses = new DoubleAddressWithLastConnectionCheck {
-                    DoubleAddress = dto.Addresses } };
+                PcAddresses = new DoubleAddressWithLastConnectionCheck
+                {
+                    DoubleAddress = dto.Addresses
+                }
+            };
 
             try
             {
@@ -111,36 +60,30 @@ namespace Iit.Fibertest.DataCenterCore
             result.IsConnectionSuccessfull = rtuConnection != null;
             if (!result.IsConnectionSuccessfull)
                 result.IsPingSuccessful = Pinger.Ping(dto.NetAddress.IsAddressSetAsIp ? dto.NetAddress.Ip4Address : dto.NetAddress.HostName);
-//            return Task.FromResult(result);
+            //            return Task.FromResult(result);
             return result;
         }
 
-       public async Task<RtuInitializedDto> InitializeAsync(InitializeRtuDto dto)
+        public async Task<RtuInitializedDto> InitializeAsync(InitializeRtuDto dto)
         {
             dto.ServerAddresses = _serverDoubleAddress;
-            return await new D2RWcfManager(dto.RtuAddresses, _iniFile, _logFile).Initialize(dto);
+            return await new D2RWcfManager(dto.RtuAddresses, _iniFile, _logFile).InitializeAsync(dto);
         }
 
-
-
-
-
-
-        private MessageProcessingResult StartMonitoring(StartMonitoringDto dto)
+        public async Task<bool> StartMonitoringAsync(StartMonitoringDto dto)
         {
-            _rtuCommandDeliveredDto.ClientId = dto.ClientId;
-            _rtuCommandDeliveredDto.RtuId = dto.RtuId;
-
             RtuStation rtuStation;
-            return _rtuStations.TryGetValue(dto.RtuId, out rtuStation)
-                ? new D2RWcfManager(rtuStation.PcAddresses.DoubleAddress, _iniFile, _logFile).StartMonitoring(dto)
-                : MessageProcessingResult.UnknownRtu;
+            if (!_rtuStations.TryGetValue(dto.RtuId, out rtuStation))
+                return false;
+
+            return await new D2RWcfManager(rtuStation.PcAddresses.DoubleAddress, _iniFile, _logFile)
+                .StartMonitoringAsync(dto);
         }
+
+        
 
         private MessageProcessingResult StopMonitoring(StopMonitoringDto dto)
         {
-            _rtuCommandDeliveredDto.ClientId = dto.ClientId;
-            _rtuCommandDeliveredDto.RtuId = dto.RtuId;
 
             RtuStation rtuStation;
             return _rtuStations.TryGetValue(dto.RtuId, out rtuStation)
@@ -150,8 +93,6 @@ namespace Iit.Fibertest.DataCenterCore
 
         private MessageProcessingResult AssignBaseRef(AssignBaseRefDto dto)
         {
-            _rtuCommandDeliveredDto.ClientId = dto.ClientId;
-            _rtuCommandDeliveredDto.RtuId = dto.RtuId;
 
             RtuStation rtuStation;
             return _rtuStations.TryGetValue(dto.RtuId, out rtuStation)
@@ -161,8 +102,6 @@ namespace Iit.Fibertest.DataCenterCore
 
         private MessageProcessingResult ApplyMonitoringSettings(ApplyMonitoringSettingsDto dto)
         {
-            _rtuCommandDeliveredDto.ClientId = dto.ClientId;
-            _rtuCommandDeliveredDto.RtuId = dto.RtuId;
 
             RtuStation rtuStation;
             return _rtuStations.TryGetValue(dto.RtuId, out rtuStation)
