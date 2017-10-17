@@ -1,5 +1,4 @@
-﻿using System.Text.RegularExpressions;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -33,13 +32,24 @@ namespace Iit.Fibertest.Client
                 e.Handled = true;
             }
             else
-                e.Handled = !IsInputedTextAllowed(e.Text);
+            {
+                var textbox = (TextBox)sender;
+                var caret = textbox.CaretIndex;
+                var selectionStart = textbox.SelectionStart;
+                var selectionLength = textbox.SelectionLength;
+                var textWithoutSelected = textbox.Text.Substring(0, selectionStart) +
+                                          textbox.Text.Substring(selectionStart + selectionLength);
+                var resultingText = textWithoutSelected.Substring(0, caret) + e.Text + textWithoutSelected.Substring(caret);
+                e.Handled = !IsInRange(resultingText);
+            }
         }
 
-        private bool IsInputedTextAllowed(string text)
+        private bool IsInRange(string text)
         {
-            Regex regex = new Regex("[^0-9]+"); //regex that matches disallowed text
-            return !regex.IsMatch(text);
+            int number;
+            if (!int.TryParse(text, out number))
+                return false;
+            return number >= 0 && number < 256;
         }
 
         private void StackPanel_KeyDown(object sender, KeyEventArgs e)
@@ -58,5 +68,13 @@ namespace Iit.Fibertest.Client
             UIElement keyboardFocus = Keyboard.FocusedElement as UIElement;
             keyboardFocus?.MoveFocus(tRequest);
         }
+
+        private void OnLostFocus(object sender, RoutedEventArgs e)
+        {
+            var text = ((TextBox)e.Source).Text;
+            var number = int.Parse(text);
+            ((TextBox)e.Source).Text = number.ToString();
+        }
+
     }
 }
