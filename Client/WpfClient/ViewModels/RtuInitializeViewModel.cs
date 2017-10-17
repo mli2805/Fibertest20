@@ -114,23 +114,24 @@ namespace Iit.Fibertest.Client
                     Reserve = IsReserveChannelEnabled ? ReserveChannelTestViewModel.NetAddressInputViewModel.GetNetAddress() : null,
                 }
             };
+            RtuInitializedDto result;
             using (new WaitCursor())
             {
-                var b = await _c2DWcfManager.InitializeRtuAsync(dto);
-                ProcessRtuInitialized(b);
+                result = await _c2DWcfManager.InitializeRtuAsync(dto);
             }
+            ProcessRtuInitialized(result);
         }
 
         private void ProcessRtuInitialized(RtuInitializedDto dto)
         {
+            var caption = dto.IsInitialized ? Resources.SID_Information : Resources.SID_Error;
+            var message = dto.IsInitialized ? Resources.SID_RTU_initialized_successfully_ : Resources.SID_RTU_initialization_failed_;
+            var vm = new NotificationViewModel(caption, message);
+            _windowManager.ShowDialog(vm);
+            _logFile.AppendLine(message);
+
             if (!dto.IsInitialized)
-            {
-                var vm = new NotificationViewModel(Resources.SID_Error, @"RTU is not initialized");
-                _windowManager.ShowDialog(vm);
-                _logFile.AppendLine(@"RTU is not initialized");
                 return;
-            }
-            _logFile.AppendLine(@"RTU initialized successfully!");
 
             // apply initialization to graph
             _c2DWcfManager.SendCommandAsObj(ParseInitializationResult(dto));

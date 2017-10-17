@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.RtuWcfServiceInterface;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 
@@ -101,20 +102,16 @@ namespace Iit.Fibertest.DataCenterCore
             return Task.CompletedTask;
         }
 
-        public Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)
+        public async Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)
         {
             var result = new RtuConnectionCheckedDto() { RtuId = dto.RtuId };
-            var rtuConnection = new WcfFactory(new DoubleAddress() { Main = dto.NetAddress }, _iniFile, _logFile).CreateRtuConnection();
-            if (rtuConnection != null)
-            {
-                result.IsConnectionSuccessfull = true;
-            }
-            else
-            {
-                result.IsConnectionSuccessfull = false;
+            var backward = new RtuWcfServiceBackward();
+            var rtuConnection = new WcfFactory(new DoubleAddress() { Main = dto.NetAddress }, _iniFile, _logFile).CreateDuplexRtuConnection(backward);
+            result.IsConnectionSuccessfull = rtuConnection != null;
+            if (!result.IsConnectionSuccessfull)
                 result.IsPingSuccessful = Pinger.Ping(dto.NetAddress.IsAddressSetAsIp ? dto.NetAddress.Ip4Address : dto.NetAddress.HostName);
-            }
-            return Task.FromResult(result);
+//            return Task.FromResult(result);
+            return result;
         }
 
        public async Task<RtuInitializedDto> InitializeAsync(InitializeRtuDto dto)

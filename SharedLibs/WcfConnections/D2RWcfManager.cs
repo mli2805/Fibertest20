@@ -16,8 +16,7 @@ namespace Iit.Fibertest.WcfConnections
             _wcfFactory = new WcfFactory(dataCenterAddress, iniFile, _logFile);
         }
 
-
-      public async Task<RtuInitializedDto> Initialize(InitializeRtuDto dto)
+        public async Task<RtuInitializedDto> Initialize(InitializeRtuDto dto)
         {
             var backward = new RtuWcfServiceBackward();
             var rtuDuplexConnection = _wcfFactory.CreateDuplexRtuConnection(backward);

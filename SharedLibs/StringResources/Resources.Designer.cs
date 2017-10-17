@@ -2611,11 +2611,29 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to RTU initialization failed!.
+        /// </summary>
+        public static string SID_RTU_initialization_failed_ {
+            get {
+                return ResourceManager.GetString("SID_RTU_initialization_failed_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Service is started and initialized successfully..
         /// </summary>
         public static string SID_Rtu_initialized {
             get {
                 return ResourceManager.GetString("SID_Rtu_initialized", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RTU initialized successfully!.
+        /// </summary>
+        public static string SID_RTU_initialized_successfully_ {
+            get {
+                return ResourceManager.GetString("SID_RTU_initialized_successfully_", resourceCulture);
             }
         }
         

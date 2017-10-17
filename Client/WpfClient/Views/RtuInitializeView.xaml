@@ -22,8 +22,8 @@
     <StackPanel Margin="0,0,1,0">
         <GroupBox Header="RTU" Margin="5">
             <StackPanel>
-                <TextBlock Text="{Binding OriginalRtu.Id}" Margin="5"/>
-                <TextBox Text="{Binding OriginalRtu.Title}" Margin="5"/>
+                <TextBlock Text="{Binding OriginalRtu.Title}" Margin="5"/>
+                <TextBlock Text="{Binding OriginalRtu.Id}" TextAlignment="Right" Foreground="DarkGray" Margin="5"/>
             </StackPanel>
         </GroupBox>
         <GroupBox Header="{x:Static stringResources:Resources.SID_Main_channel}" Margin="5">
