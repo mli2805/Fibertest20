@@ -84,7 +84,7 @@ namespace WcfTestBench.MonitoringSettings
             DisplayName = Resources.SID_Monitoring_settings;
         }
 
-        public void Apply()
+        public async void Apply()
         {
             var dto = ConvertSettingsToDto();
             if (dto.IsMonitoringOn && !dto.Ports.Any())
@@ -92,7 +92,7 @@ namespace WcfTestBench.MonitoringSettings
                 MessageBox.Show(Resources.SID_There_are_no_ports_for_monitoring_, Resources.SID_Error_);
                 return;
             }
-            var transferResult = C2DWcfManager.ApplyMonitoringSettings(dto);
+            var transferResult = await C2DWcfManager.ApplyMonitoringSettingsAsync(dto);
             MessageProp = transferResult ? Resources.SID_Settings_were_transferred_successfully_ : Resources.SID_Settings_weren_t_transferred__See_logs_;
         }
 

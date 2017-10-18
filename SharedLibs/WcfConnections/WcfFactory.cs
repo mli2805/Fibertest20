@@ -185,7 +185,7 @@ namespace Iit.Fibertest.WcfConnections
                 _logFile.AppendLine(
                     $"Can't connect to {netAddress.ToStringA()} (Timeout {openTimeout.TotalMilliseconds} ms), ping {word}");
                 if (isPingPassed)
-                    _logFile.AppendLine("Check that on other end service started and versions match");
+                    _logFile.AppendLine("Check that on another end service started and versions match");
             }
             return false;
         }

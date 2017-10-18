@@ -78,35 +78,39 @@ namespace Iit.Fibertest.DataCenterCore
                 .StartMonitoringAsync(dto);
         }
 
-        
-
-        private MessageProcessingResult StopMonitoring(StopMonitoringDto dto)
+        public async Task<bool> StopMonitoringAsync(StopMonitoringDto dto)
         {
-
             RtuStation rtuStation;
-            return _rtuStations.TryGetValue(dto.RtuId, out rtuStation)
-                ? new D2RWcfManager(rtuStation.PcAddresses.DoubleAddress, _iniFile, _logFile).StopMonitoring(dto)
-                : MessageProcessingResult.UnknownRtu;
+            if (!_rtuStations.TryGetValue(dto.RtuId, out rtuStation))
+                return false;
+
+            return await new D2RWcfManager(rtuStation.PcAddresses.DoubleAddress, _iniFile, _logFile)
+                .StopMonitoringAsync(dto);
         }
 
-        private MessageProcessingResult AssignBaseRef(AssignBaseRefDto dto)
+        public async Task<bool> AssignBaseRefAsync(AssignBaseRefDto dto)
         {
-
             RtuStation rtuStation;
-            return _rtuStations.TryGetValue(dto.RtuId, out rtuStation)
-                ? new D2RWcfManager(rtuStation.PcAddresses.DoubleAddress, _iniFile, _logFile).AssignBaseRef(dto)
-                : MessageProcessingResult.UnknownRtu;
+            if (!_rtuStations.TryGetValue(dto.RtuId, out rtuStation))
+                return false;
+
+            return await new D2RWcfManager(rtuStation.PcAddresses.DoubleAddress, _iniFile, _logFile)
+                .AssignBaseRefAsync(dto);
         }
 
-        private MessageProcessingResult ApplyMonitoringSettings(ApplyMonitoringSettingsDto dto)
+       public async Task<bool> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
         {
-
             RtuStation rtuStation;
-            return _rtuStations.TryGetValue(dto.RtuId, out rtuStation)
-                ? new D2RWcfManager(rtuStation.PcAddresses.DoubleAddress, _iniFile, _logFile).ApplyMonitoringSettings(dto)
-                : MessageProcessingResult.UnknownRtu;
+            if (!_rtuStations.TryGetValue(dto.RtuId, out rtuStation))
+                return false;
+
+            return await new D2RWcfManager(rtuStation.PcAddresses.DoubleAddress, _iniFile, _logFile)
+                .ApplyMonitoringSettingsAsync(dto);
         }
 
+    
+
+    
         private ClientStation GetClientStation(Guid clientId)
         {
             return _clientStations.FirstOrDefault(c => c.Key == clientId).Value;

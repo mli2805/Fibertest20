@@ -60,17 +60,17 @@ namespace Iit.Fibertest.Client
 
 
 
-        public bool StopMonitoring(StopMonitoringDto dto)
+        public Task<bool> StopMonitoringAsync(StopMonitoringDto dto)
         {
             throw new NotImplementedException();
         }
 
-        public bool ApplyMonitoringSettings(ApplyMonitoringSettingsDto settings)
+        public Task<bool> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto settings)
         {
             throw new NotImplementedException();
         }
 
-        public bool AssignBaseRef(AssignBaseRefDto baseRef)
+        public Task<bool> AssignBaseRefAsync(AssignBaseRefDto baseRef)
         {
             throw new NotImplementedException();
         }

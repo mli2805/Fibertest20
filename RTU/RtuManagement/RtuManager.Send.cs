@@ -28,7 +28,7 @@ namespace Iit.Fibertest.RtuManagement
             }
         }
 
-       private void SendCurrentMonitoringStep(RtuCurrentMonitoringStep currentMonitoringStep, MonitorigPort monitorigPort, BaseRefType baseRefType = BaseRefType.None)
+        private void SendCurrentMonitoringStep(RtuCurrentMonitoringStep currentMonitoringStep, MonitorigPort monitorigPort, BaseRefType baseRefType = BaseRefType.None)
         {
             if (IsSenderBusy)
                 return;
@@ -48,14 +48,14 @@ namespace Iit.Fibertest.RtuManagement
                 BaseRefType = baseRefType,
             };
 
-            var thread = new Thread(SendCurrentMonitoringStepThread) {IsBackground = true};
+            var thread = new Thread(SendCurrentMonitoringStepThread) { IsBackground = true };
             thread.Start(dto);
         }
 
         private void SendCurrentMonitoringStepThread(object dto)
         {
             var step = dto as KnowRtuCurrentMonitoringStepDto;
-            new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendCurrentMonitoringStep(step);
+//            new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendCurrentMonitoringStep(step);
             IsSenderBusy = false;
         }
 

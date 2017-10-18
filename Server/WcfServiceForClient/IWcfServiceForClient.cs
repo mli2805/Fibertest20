@@ -33,22 +33,19 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
         [OperationContract]
         Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto rtuAddress);
 
-
         [OperationContract]
         Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto);
 
         [OperationContract]
         Task<bool> StartMonitoringAsync(StartMonitoringDto dto);
 
-
+        [OperationContract]
+        Task<bool> StopMonitoringAsync(StopMonitoringDto dto);
 
         [OperationContract]
-        bool StopMonitoring(StopMonitoringDto dto);
+        Task<bool> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto settings);
 
         [OperationContract]
-        bool ApplyMonitoringSettings(ApplyMonitoringSettingsDto settings);
-
-        [OperationContract]
-        bool AssignBaseRef(AssignBaseRefDto baseRef);
+        Task<bool> AssignBaseRefAsync(AssignBaseRefDto baseRef);
     }
 }

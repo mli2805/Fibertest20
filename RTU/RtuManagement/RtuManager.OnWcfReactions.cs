@@ -155,8 +155,6 @@ namespace Iit.Fibertest.RtuManagement
             _rtuLog.AppendLine($"Queue merged. {_monitoringQueue.Count()} port(s) in queue");
             _monitoringQueue.Save();
 
-            new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendMonitoringSettingsApplied(new MonitoringSettingsAppliedDto() { IsSuccessful = true });
-
             if (!_hasNewSettings &&  // in MANUAL mode so far
                     dto.IsMonitoringOn)
                         StartMonitoring();
@@ -197,9 +195,6 @@ namespace Iit.Fibertest.RtuManagement
                 if (baseRef.SorBytes != null)
                     File.WriteAllBytes(fullPath, baseRef.SorBytes);
             }
-
-            new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendBaseRefAssigned(
-                new BaseRefAssignedDto() { RtuId = assignBaseRefDto.RtuId, OtauPortDto = assignBaseRefDto.OtauPortDto, IsSuccessful = true });
         }
 
         private void ApplyNewFrequenciesToIni(MonitoringTimespansDto dto)

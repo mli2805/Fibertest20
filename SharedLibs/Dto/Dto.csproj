@@ -55,7 +55,6 @@
     <Compile Include="Enums\BaseRefTypeExtensions.cs" />
     <Compile Include="Enums\FiberState.cs" />
     <Compile Include="C2D2R\InitializeRtuDto.cs" />
-    <Compile Include="Enums\MessageProcessingResult.cs" />
     <Compile Include="R2D\MonitoringResultDto.cs" />
     <Compile Include="C2D2R\ApplyMonitoringSettingsDto.cs" />
     <Compile Include="R2D2C\MonitoringSettingsAppliedDto.cs" />
@@ -73,7 +72,6 @@
     <Compile Include="Underlying\OtauPortDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="C2D\RegisterClientDto.cs" />
-    <Compile Include="D2C\RtuCommandDeliveredDto.cs" />
     <Compile Include="R2D2C\RtuConnectionCheckedDto.cs" />
     <Compile Include="R2D2C\RtuInitializedDto.cs" />
     <Compile Include="C2D2R\StartMonitoringDto.cs" />

@@ -79,22 +79,28 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
-        public bool StopMonitoring(StopMonitoringDto dto)
+        public async Task<bool> StopMonitoringAsync(StopMonitoringDto dto)
         {
             _logFile.AppendLine($"Client {dto.ClientId.First6()} sent stop monitoring on rtu {dto.RtuId.First6()} request");
-            return true;
+            var result = await _dcManager.StopMonitoringAsync(dto);
+            _logFile.AppendLine($"Stop monitoring result is {result}");
+            return result;
         }
 
-        public bool ApplyMonitoringSettings(ApplyMonitoringSettingsDto dto)
+        public async Task<bool> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
         {
             _logFile.AppendLine($"Client {dto.ClientId.First6()} sent monitoring settings for rtu {dto.RtuId.First6()}");
-            return true;
+            var result = await _dcManager.ApplyMonitoringSettingsAsync(dto);
+            _logFile.AppendLine($"Apply monitoring settings result is {result}");
+            return result;
         }
 
-        public bool AssignBaseRef(AssignBaseRefDto dto)
+        public async Task<bool> AssignBaseRefAsync(AssignBaseRefDto dto)
         {
             _logFile.AppendLine($"Client {dto.ClientId.First6()} sent base ref for trace on rtu {dto.RtuId.First6()}");
-            return true;
+            var result = await _dcManager.AssignBaseRefAsync(dto);
+            _logFile.AppendLine($"Assign base ref result is {result}");
+            return result;
         }
     }
 }

@@ -184,7 +184,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public bool AssignBaseRef(AssignBaseRefDto dto)
+        public async Task<bool> StopMonitoringAsync(StopMonitoringDto dto)
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();
             if (wcfConnection == null)
@@ -192,50 +192,9 @@ namespace Iit.Fibertest.WcfConnections
 
             try
             {
-                dto.ClientId = ClientId;
-                wcfConnection.AssignBaseRef(dto);
-                _logFile.AppendLine($@"Sent base ref to RTU {dto.RtuId.First6()}");
-                return true;
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine(e.Message);
-                return false;
-            }
-        }
-
-        public bool ApplyMonitoringSettings(ApplyMonitoringSettingsDto dto)
-        {
-            var wcfConnection = _wcfFactory.CreateC2DConnection();
-            if (wcfConnection == null)
-                return false;
-
-            try
-            {
-                dto.ClientId = ClientId;
-                wcfConnection.ApplyMonitoringSettings(dto);
-                _logFile.AppendLine($@"Sent monitoring settings to RTU {dto.RtuId.First6()}");
-                return true;
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine(e.Message);
-                return false;
-            }
-        }
-
-        public bool StopMonitoring(StopMonitoringDto dto)
-        {
-            var wcfConnection = _wcfFactory.CreateC2DConnection();
-            if (wcfConnection == null)
-                return false;
-
-            try
-            {
-                dto.ClientId = ClientId;
-                wcfConnection.StopMonitoring(dto);
                 _logFile.AppendLine($@"Sent command to stop monitoring on RTU {dto.RtuId.First6()}");
-                return true;
+                dto.ClientId = ClientId;
+                return await wcfConnection.StopMonitoringAsync(dto);
             }
             catch (Exception e)
             {
@@ -244,6 +203,42 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
+        public async Task<bool> AssignBaseRefAsync(AssignBaseRefDto dto)
+        {
+            var wcfConnection = _wcfFactory.CreateC2DConnection();
+            if (wcfConnection == null)
+                return false;
 
+            try
+            {
+                _logFile.AppendLine($@"Sent base ref to RTU {dto.RtuId.First6()}");
+                dto.ClientId = ClientId;
+                return await wcfConnection.AssignBaseRefAsync(dto);
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+                return false;
+            }
+        }
+
+        public async Task<bool> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
+        {
+            var wcfConnection = _wcfFactory.CreateC2DConnection();
+            if (wcfConnection == null)
+                return false;
+
+            try
+            {
+                _logFile.AppendLine($@"Sent monitoring settings to RTU {dto.RtuId.First6()}");
+                dto.ClientId = ClientId;
+                return await wcfConnection.ApplyMonitoringSettingsAsync(dto);
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+                return false;
+            }
+        }
     }
 }

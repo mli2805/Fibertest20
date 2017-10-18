@@ -9,59 +9,6 @@ namespace Iit.Fibertest.DataCenterCore
 {
     public partial class DcManager
     {
-        #region RTU confirms
-        public bool ProcessRtuConnectionChecked(RtuConnectionCheckedDto dto)
-        {
-            _logFile.AppendLine($"Rtu {dto.RtuId.First6()} replied on connection check");
-            var clientStation = GetClientStation(dto.ClientId);
-            if (clientStation == null)
-                return false;
-            var addresses = new List<DoubleAddress>() { clientStation.PcAddresses.DoubleAddress };
-            new D2CWcfManager(addresses, _iniFile, _logFile).ConfirmRtuConnectionChecked(dto);
-            return true;
-        }
-
-  public void RegisterRtu(RtuInitializedDto dto)
-        {
-            var rtuStation = new RtuStation()
-            {
-                Id = dto.RtuId,
-                OtdrIp = dto.OtdrAddress.Ip4Address,
-                PcAddresses = new DoubleAddressWithLastConnectionCheck() { DoubleAddress = dto.PcDoubleAddress },
-                Version = dto.Version,
-            };
-
-            if (_rtuStations.ContainsKey(dto.RtuId))
-                _rtuStations[dto.RtuId] = rtuStation;
-            else
-                _rtuStations.TryAdd(rtuStation.Id, rtuStation);
-        }
-
-        public bool ConfirmMonitoringStarted(MonitoringStartedDto dto)
-        {
-            _logFile.AppendLine($"Rtu {dto.RtuId.First6()} monitoring started: {dto.IsSuccessful}");
-            return new D2CWcfManager(GetAllClientsAddresses(), _iniFile, _logFile).ConfirmMonitoringStarted(dto);
-        }
-
-        public bool ConfirmMonitoringStopped(MonitoringStoppedDto dto)
-        {
-            _logFile.AppendLine($"Rtu {dto.RtuId.First6()} monitoring stopped: {dto.IsSuccessful}");
-            return new D2CWcfManager(GetAllClientsAddresses(), _iniFile, _logFile).ConfirmMonitoringStopped(dto);
-        }
-
-        public bool ConfirmMonitoringSettingsApplied(MonitoringSettingsAppliedDto dto)
-        {
-            _logFile.AppendLine($"Rtu {dto.RtuId.First6()} applied monitoring settings: {dto.IsSuccessful}");
-            return new D2CWcfManager(GetAllClientsAddresses(), _iniFile, _logFile).ConfirmMonitoringSettingsApplied(dto);
-        }
-
-        public bool ConfirmBaseRefAssigned(BaseRefAssignedDto dto)
-        {
-            _logFile.AppendLine($"Rtu {dto.RtuId.First6()} assigned base ref: {dto.IsSuccessful}");
-            return new D2CWcfManager(GetAllClientsAddresses(), _iniFile, _logFile).ConfirmBaseRefAssigned(dto);
-        }
-        #endregion
-
         #region RTU notifies
         public bool ProcessRtuCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto monitoringStep)
         {
@@ -88,10 +35,10 @@ namespace Iit.Fibertest.DataCenterCore
                 $"Moniresult from RTU {result.RtuId.First6()}. {result.BaseRefType} on {result.OtauPort.OpticalPort} port. " +
                 $"Trace state is {result.TraceState}. Sor size is {result.SorData.Length}. {result.TimeStamp:yyyy-MM-dd hh-mm-ss}");
 
-//            var filename = $@"c:\temp\sor\{result.RtuId.First6()} {result.TimeStamp:yyyy-MM-dd hh-mm-ss}.sor";
-//            var fs = File.Create(filename);
-//            fs.Write(result.SorData, 0, result.SorData.Length);
-//            fs.Close();
+            //            var filename = $@"c:\temp\sor\{result.RtuId.First6()} {result.TimeStamp:yyyy-MM-dd hh-mm-ss}.sor";
+            //            var fs = File.Create(filename);
+            //            fs.Write(result.SorData, 0, result.SorData.Length);
+            //            fs.Close();
 
             return true;
         }
@@ -100,7 +47,7 @@ namespace Iit.Fibertest.DataCenterCore
         private List<DoubleAddress> GetAllClientsAddresses()
         {
             var addresses = new List<DoubleAddress>();
-                addresses.AddRange(_clientStations.Select(pair => ((ClientStation)pair.Value.Clone()).PcAddresses.DoubleAddress));
+            addresses.AddRange(_clientStations.Select(pair => ((ClientStation)pair.Value.Clone()).PcAddresses.DoubleAddress));
             return addresses;
         }
     }

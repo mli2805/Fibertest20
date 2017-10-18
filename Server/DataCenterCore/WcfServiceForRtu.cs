@@ -14,34 +14,7 @@ namespace Iit.Fibertest.DataCenterCore
             _dcManager = dcManager;
         }
 
-        #region RTU responses on DataCenter's (Client's) requestes
-        public bool ProcessRtuConnectionChecked(RtuConnectionCheckedDto dto)
-        {
-            return _dcManager.ProcessRtuConnectionChecked(dto);
-        }
-
-       public bool ConfirmStartMonitoring(MonitoringStartedDto dto)
-        {
-            return _dcManager.ConfirmMonitoringStarted(dto);
-        }
-
-        public bool ConfirmStopMonitoring(MonitoringStoppedDto dto)
-        {
-            return _dcManager.ConfirmMonitoringStopped(dto);
-        }
-
-        public bool ConfirmMonitoringSettingsApplied(MonitoringSettingsAppliedDto dto)
-        {
-            return _dcManager.ConfirmMonitoringSettingsApplied(dto);
-        }
-
-        public bool ConfirmBaseRefAssigned(BaseRefAssignedDto dto)
-        {
-            return _dcManager.ConfirmBaseRefAssigned(dto);
-        }
-        #endregion
-
-        #region RTU notifies
+       #region RTU notifies
         public bool KnowRtuCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto dto)
         {
             return _dcManager.ProcessRtuCurrentMonitoringStep(dto);

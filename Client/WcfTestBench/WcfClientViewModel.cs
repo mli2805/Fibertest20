@@ -28,97 +28,6 @@ namespace WcfTestBench
         private C2DWcfManager _c2DWcfManager;
         private readonly Guid _clientGuid;
 
-        #region Server messages
-        private void ProcessServerMessage(object msg)
-        {
-            var dto = msg as RtuCommandDeliveredDto;
-            if (dto != null)
-            {
-                ProcessRtuCommandDelivered(dto);
-                return;
-            }
-
-            var dto1 = msg as RtuInitializedDto;
-            if (dto1 != null)
-            {
-                ProcessRtuInitialized(dto1);
-                return;
-            }
-            var dto2 = msg as MonitoringStartedDto;
-            if (dto2 != null)
-            {
-                ProcessMonitoringStarted(dto2);
-                return;
-            }
-            var dto3 = msg as MonitoringStoppedDto;
-            if (dto3 != null)
-            {
-                ProcessMonitoringStopped(dto3);
-            }
-            var dto4 = msg as RtuConnectionCheckedDto;
-            if (dto4 != null)
-            {
-                ProcessRtuConnectionChecked(dto4);
-            }
-            var dto5 = msg as BaseRefAssignedDto;
-            if (dto5 != null)
-            {
-                ProcessBaseRefAssigned(dto5);
-            }
-            var dto6 = msg as MonitoringSettingsAppliedDto;
-            if (dto6 != null)
-            {
-                ProcessMonitoringSettingsApplied(dto6);
-            }
-        }
-
-        private void ProcessRtuCommandDelivered(RtuCommandDeliveredDto dto)
-        {
-            if (dto.MessageProcessingResult == MessageProcessingResult.FailedToTransmit)
-                DisplayString = string.Format(Resources.SID_Cannot_deliver_command_to_RTU__0_, dto.RtuId);
-            if (dto.MessageProcessingResult == MessageProcessingResult.TransmittedSuccessfullyButRtuIsBusy)
-                DisplayString = string.Format(Resources.SID_Command_was_delivered_to_RTU__0__but_RTU_ignored_it__RTU_is_busy_, dto.RtuId);
-        }
-
-        private void ProcessRtuInitialized(RtuInitializedDto rtu)
-        {
-            DisplayString = string.Format(Resources.SID_, rtu.Serial);
-        }
-
-        private void ProcessMonitoringStarted(MonitoringStartedDto ms)
-        {
-            DisplayString = string.Format(Resources.SID_Monitoring_started___0_, ms.IsSuccessful.ToString().ToUpper());
-        }
-
-        private void ProcessMonitoringStopped(MonitoringStoppedDto ms)
-        {
-            DisplayString = string.Format(Resources.SID_Monitoring_stopped___0_, ms.IsSuccessful.ToString().ToUpper());
-        }
-
-        private void ProcessBaseRefAssigned(BaseRefAssignedDto ms)
-        {
-            DisplayString = string.Format(Resources.SID_Base_ref_assigned_successfully___0_, ms.IsSuccessful.ToString().ToUpper());
-        }
-
-        private void ProcessMonitoringSettingsApplied(MonitoringSettingsAppliedDto ms)
-        {
-            DisplayString = string.Format(Resources.SID_Monitoring_settings_applied_successfully___0_, ms.IsSuccessful.ToString().ToUpper());
-        }
-
-        private void ProcessRtuConnectionChecked(RtuConnectionCheckedDto dto)
-        {
-            if (dto.IsConnectionSuccessfull)
-            {
-                DisplayString = Resources.SID_RTU_connected_successfully_;
-            }
-            else
-            {
-                var ping = dto.IsPingSuccessful ? Resources.SID____Ping_passed__OK : Resources.SID_Ping_does_not_pass_;
-                DisplayString = string.Format(Resources.SID_Can_t_connect_RTU___0_, ping);
-            }
-        }
-        #endregion
-
         private string _displayString;
 
         public string DisplayString
@@ -193,7 +102,6 @@ namespace WcfTestBench
         {
             MyServiceHost?.Close();
             ClientWcfService.ClientLog = _clientLog;
-            ClientWcfService.MessageReceived += ProcessServerMessage;
             MyServiceHost = new ServiceHost(typeof(ClientWcfService));
             try
             {
@@ -253,7 +161,7 @@ namespace WcfTestBench
             windowManager.ShowDialog(vm);
         }
 
-        public void BaseRefs()
+        public async void BaseRefs()
         {
             var openFileDialog = new OpenFileDialog { Filter = @"sor files|*.sor" };
             byte[] buffer = null;
@@ -287,7 +195,7 @@ namespace WcfTestBench
                 }
             };
 
-            _c2DWcfManager.AssignBaseRef(dto);
+            var result = await _c2DWcfManager.AssignBaseRefAsync(dto);
             DisplayString = Resources.SID_Command_sent__wait_please_;
         }
 
@@ -312,9 +220,9 @@ namespace WcfTestBench
             DisplayString = result ? Resources.SID_Command_sent__wait_please_ : Resources.SID_Error_;
         }
 
-        public void StopMonitoring()
+        public async void StopMonitoring()
         {
-            DisplayString = _c2DWcfManager.StopMonitoring(
+            DisplayString = await _c2DWcfManager.StopMonitoringAsync(
                 new StopMonitoringDto() { RtuId = SelectedRtu.Id }) ? Resources.SID_Command_sent__wait_please_ : Resources.SID_Error_;
         }
 

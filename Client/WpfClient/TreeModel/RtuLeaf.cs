@@ -225,6 +225,7 @@ namespace Iit.Fibertest.Client
 
         private void ManualModeAction(object param)
         {
+            C2DWcfManager.StopMonitoringAsync(new StopMonitoringDto() {RtuId = Id});
         }
 
         private void AutomaticModeAction(object param)

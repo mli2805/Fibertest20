@@ -42,24 +42,13 @@ namespace Iit.Fibertest.RtuManagement
 
         public void BeginStartMonitoring(StartMonitoringDto dto)
         {
-            if (!_rtuManager.IsRtuInitialized)
-            {
-                _serviceLog.AppendLine("User starts monitoring - Ignored - RTU is busy");
-                return;
-            }
-            if (_rtuManager.IsMonitoringOn)
-            {
-                _serviceLog.AppendLine("User starts monitoring - Ignored - AUTOMATIC mode already");
-                return;
-            }
-
-            _serviceLog.AppendLine("User starts monitoring");
             var callbackChannel = OperationContext.Current.GetCallbackChannel<IRtuWcfServiceBackward>();
             ThreadPool.QueueUserWorkItem(_ =>
             {
                 try
                 {
-                    _rtuManager.StartMonitoring();
+                    if (ShouldStart())
+                        _rtuManager.StartMonitoring();
                     _serviceLog.AppendLine("Monitoring started");
                 }
                 catch (Exception e)
@@ -70,7 +59,43 @@ namespace Iit.Fibertest.RtuManagement
             });
         }
 
-        public bool StopMonitoring(StopMonitoringDto dto)
+        private bool ShouldStart()
+        {
+            if (!_rtuManager.IsRtuInitialized)
+            {
+                _serviceLog.AppendLine("User starts monitoring - Ignored - RTU is busy");
+                return false;
+            }
+            if (_rtuManager.IsMonitoringOn)
+            {
+                _serviceLog.AppendLine("User starts monitoring - Ignored - AUTOMATIC mode already");
+                return false;
+            }
+            _serviceLog.AppendLine("User starts monitoring");
+            return true;
+        }
+
+        public void BeginStopMonitoring(StopMonitoringDto dto)
+        {
+            var callbackChannel = OperationContext.Current.GetCallbackChannel<IRtuWcfServiceBackward>();
+            ThreadPool.QueueUserWorkItem(_ =>
+            {
+                try
+                {
+                    if (ShouldStop())
+                        _rtuManager.StopMonitoring();
+                    _serviceLog.AppendLine("Monitoring stopped");
+                }
+                catch (Exception e)
+                {
+                    _serviceLog.AppendLine("Thread pool: " + e);
+                }
+                callbackChannel.EndStopMonitoring(_rtuManager.IsMonitoringOn);
+            });
+
+        }
+
+        private bool ShouldStop()
         {
             if (!_rtuManager.IsRtuInitialized)
             {
@@ -82,36 +107,67 @@ namespace Iit.Fibertest.RtuManagement
                 _serviceLog.AppendLine("User starts monitoring - Ignored - MANUAL mode already");
                 return false;
             }
-
             _serviceLog.AppendLine("User stops monitoring");
-            _rtuManager.StopMonitoring();
             return true;
-
         }
 
-        public bool ApplyMonitoringSettings(ApplyMonitoringSettingsDto dto)
+
+        public void BeginApplyMonitoringSettings(ApplyMonitoringSettingsDto dto)
         {
-            if (_rtuManager.IsRtuInitialized)
+            var callbackChannel = OperationContext.Current.GetCallbackChannel<IRtuWcfServiceBackward>();
+            ThreadPool.QueueUserWorkItem(_ =>
             {
-                _rtuManager.ChangeSettings(dto);
-                _serviceLog.AppendLine("User sent monitoring settings - Accepted");
-            }
-            else
+                try
+                {
+                    if (ShouldApplySettings())
+                        _rtuManager.ChangeSettings(dto);
+                    _serviceLog.AppendLine("Monitoring settings applied");
+                }
+                catch (Exception e)
+                {
+                    _serviceLog.AppendLine("Thread pool: " + e);
+                }
+                callbackChannel.EndApplyMonitoringSettings(_rtuManager.IsMonitoringOn);
+            });
+        }
+
+        private bool ShouldApplySettings()
+        {
+            if (!_rtuManager.IsRtuInitialized)
+            {
                 _serviceLog.AppendLine("User sent monitoring settings - Ignored - RTU is busy");
+                return false;
+            }
+            _serviceLog.AppendLine("User sent monitoring settings - Accepted");
             return true;
         }
 
-        public bool AssignBaseRef(AssignBaseRefDto dto)
+        public void BeginAssignBaseRef(AssignBaseRefDto dto)
         {
-            if (!_rtuManager.IsMonitoringOn)
+            var callbackChannel = OperationContext.Current.GetCallbackChannel<IRtuWcfServiceBackward>();
+            ThreadPool.QueueUserWorkItem(_ =>
             {
-                _serviceLog.AppendLine("User sent base ref - Accepted");
-                _rtuManager.AssignBaseRefs(dto);
-            }
-            else
+                try
+                {
+                    if (ShouldAssignBaseRef())
+                        _rtuManager.AssignBaseRefs(dto);
+                    _serviceLog.AppendLine("Base ref assigned");
+                }
+                catch (Exception e)
+                {
+                    _serviceLog.AppendLine("Thread pool: " + e);
+                }
+                callbackChannel.EndAssignBaseRef(_rtuManager.IsMonitoringOn);
+            });
+        }
+        private bool ShouldAssignBaseRef()
+        {
+            if (!_rtuManager.IsRtuInitialized)
             {
                 _serviceLog.AppendLine("User sent base ref - Ignored - RTU is busy");
+                return false;
             }
+            _serviceLog.AppendLine("User sent base ref - Accepted");
             return true;
         }
 

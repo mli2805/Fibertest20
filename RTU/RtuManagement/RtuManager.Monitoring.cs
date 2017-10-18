@@ -27,7 +27,6 @@ namespace Iit.Fibertest.RtuManagement
             {
                 _rtuLog.AppendLine("There are no ports in queue for monitoring.");
                 _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 0);
-                new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendMonitoringStarted(new MonitoringStartedDto() { RtuId = _id, IsSuccessful = false });
                 IsMonitoringOn = false;
                 return;
             }
@@ -37,7 +36,6 @@ namespace Iit.Fibertest.RtuManagement
                 _measurementNumber++;
                 if (shouldSendMessageMonitoringStarted)
                 {
-                    new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendMonitoringStarted(new MonitoringStartedDto() { RtuId = _id, IsSuccessful = true });
                     shouldSendMessageMonitoringStarted = false;
                 }
 
@@ -65,7 +63,6 @@ namespace Iit.Fibertest.RtuManagement
             IsMonitoringOn = false;
             _isMonitoringCancelled = false;
             _rtuLog.AppendLine("Rtu is turned into MANUAL mode.");
-            new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendMonitoringStopped(new MonitoringStoppedDto() { RtuId = _id, IsSuccessful = true });
         }
 
         private MoniResult DoFastMeasurement(MonitorigPort monitorigPort)

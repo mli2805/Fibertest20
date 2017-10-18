@@ -7,29 +7,6 @@ namespace ClientWcfServiceLibrary
     [ServiceContract]
     public interface IClientWcfService
     {
-        // Responses on Client's requests
-
-        [OperationContract]
-        void ConfirmDelivery(RtuCommandDeliveredDto dto);
-
-        [OperationContract]
-        void ConfirmRtuConnectionChecked(RtuConnectionCheckedDto dto);
-
-        [OperationContract]
-        void ConfirmRtuInitialized(RtuInitializedDto rtu);
-
-        [OperationContract]
-        void ConfirmMonitoringStarted(MonitoringStartedDto confirm);
-
-        [OperationContract]
-        void ConfirmMonitoringStopped(MonitoringStoppedDto confirm);
-
-        [OperationContract]
-        void ConfirmMonitoringSettingsApplied(MonitoringSettingsAppliedDto confirm);
-
-        [OperationContract]
-        void ConfirmBaseRefAssigned(BaseRefAssignedDto confirm);
-
 
         // Notifications
         [OperationContract]

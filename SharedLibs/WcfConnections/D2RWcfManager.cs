@@ -38,37 +38,38 @@ namespace Iit.Fibertest.WcfConnections
             return result;
         }
 
-        public MessageProcessingResult StopMonitoring(StopMonitoringDto dto)
+        public async Task<bool> StopMonitoringAsync(StopMonitoringDto dto)
         {
-            var rtuConnection = _wcfFactory.CreateRtuConnection();
-            if (rtuConnection == null)
-                return MessageProcessingResult.FailedToTransmit;
+            var backward = new RtuWcfServiceBackward();
+            var rtuDuplexConnection = _wcfFactory.CreateDuplexRtuConnection(backward);
+            if (rtuDuplexConnection == null)
+                return false;
 
-            var result = rtuConnection.StopMonitoring(dto);
-            _logFile.AppendLine($"Transfered command to stop monitoring on RTU {dto.RtuId.First6()}");
-            return result ? MessageProcessingResult.TransmittedSuccessfully : MessageProcessingResult.TransmittedSuccessfullyButRtuIsBusy;
+            var result = await rtuDuplexConnection.StopMonitoringAsync(backward, dto);
+            return result;
         }
 
-        public MessageProcessingResult AssignBaseRef(AssignBaseRefDto dto)
+        public async Task<bool> AssignBaseRefAsync(AssignBaseRefDto dto)
         {
-            var rtuConnection = _wcfFactory.CreateRtuConnection();
-            if (rtuConnection == null)
-                return MessageProcessingResult.FailedToTransmit;
+            var backward = new RtuWcfServiceBackward();
+            var rtuDuplexConnection = _wcfFactory.CreateDuplexRtuConnection(backward);
+            if (rtuDuplexConnection == null)
+                return false;
 
-            var result = rtuConnection.AssignBaseRef(dto);
-            _logFile.AppendLine($"Transfered command to assign base ref to RTU {dto.RtuId.First6()}");
-            return result ? MessageProcessingResult.TransmittedSuccessfully : MessageProcessingResult.TransmittedSuccessfullyButRtuIsBusy;
+            var result = await rtuDuplexConnection.AssignBaseRefAsync(backward, dto);
+            return result;
         }
 
-        public MessageProcessingResult ApplyMonitoringSettings(ApplyMonitoringSettingsDto dto)
+        public async Task<bool> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
         {
-            var rtuConnection = _wcfFactory.CreateRtuConnection();
-            if (rtuConnection == null)
-                return MessageProcessingResult.FailedToTransmit;
+            var backward = new RtuWcfServiceBackward();
+            var rtuDuplexConnection = _wcfFactory.CreateDuplexRtuConnection(backward);
+            if (rtuDuplexConnection == null)
+                return false;
 
-            rtuConnection.ApplyMonitoringSettings(dto);
-            _logFile.AppendLine($"Transfered command to apply monitoring settings for RTU {dto.RtuId.First6()}");
-            return MessageProcessingResult.TransmittedSuccessfully;
+            var result = await rtuDuplexConnection.ApplyMonitoringSettingsAsync(backward, dto);
+            return result;
         }
+
     }
 }
