@@ -17,6 +17,10 @@ namespace Iit.Fibertest.Graph
         public RtuPartState ReserveChannelState { get; set; }
         public bool IsReserveChannelSet { get; set; } = false;
         public NetAddress OtdrNetAddress { get; set; } = new NetAddress(@"0.0.0.0", 1500);
+
+        public string OtdrAddress => OtdrNetAddress.Ip4Address == @"192.168.88.101"
+            ? MainChannel.Ip4Address
+            : OtdrNetAddress.Ip4Address;
         public string Serial { get; set; }
         public int OwnPortCount { get; set; }
         public int FullPortCount { get; set; }
