@@ -15,13 +15,6 @@ namespace Iit.Fibertest.RtuService
             var container = builder.Build();
 
             ServiceBase.Run(container.Resolve<ServiceBase>());
-
-//            ServiceBase[] ServicesToRun;
-//            ServicesToRun = new ServiceBase[]
-//            {
-//                new Service1()
-//            };
-//            ServiceBase.Run(ServicesToRun);
         }
     }
 }

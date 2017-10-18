@@ -23,7 +23,7 @@ namespace Iit.Fibertest.Client
         private readonly IMyLog _logFile;
 
         public ObservableCollection<Leaf> Tree { get; set; } = new ObservableCollection<Leaf>();
-        public FreePorts FreePorts { get; } = new FreePorts(true);
+        public FreePorts FreePorts { get; }
 
         private PostOffice _postOffice;
         public PostOffice PostOffice
@@ -47,8 +47,10 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public TreeOfRtuModel(ILifetimeScope globalScope, IWindowManager windowManager, 
-            ReadModel readModel, IWcfServiceForClient c2DWcfManager, IniFile iniFile35, IMyLog logFile)
+        public TreeOfRtuModel(IWindowManager windowManager, ReadModel readModel, 
+            IWcfServiceForClient c2DWcfManager, IniFile iniFile35, IMyLog logFile,
+            // only for pass to it's leaves
+            ILifetimeScope globalScope, PostOffice postOffice, FreePorts freePorts )
         {
             _globalScope = globalScope;
             _windowManager = windowManager;
@@ -57,19 +59,17 @@ namespace Iit.Fibertest.Client
             _iniFile35 = iniFile35;
             _logFile = logFile;
 
-            PostOffice = new PostOffice();
+            PostOffice = postOffice;
+            FreePorts = freePorts;
+            FreePorts.AreVisible = true;
         }
 
         #region Rtu
         public void Apply(RtuAtGpsLocationAdded e)
         {
-            Tree.Add(new RtuLeaf(_globalScope, _readModel, _windowManager, _c2DWcfManager, PostOffice, FreePorts)
-            {
-                Id = e.Id,
-                Title = Resources.SID_noname_RTU,
-                Color = Brushes.DarkGray,
-                IsExpanded = true,
-            });
+            var newRtuLeaf = new RtuLeaf(_globalScope, _logFile, _readModel, _windowManager, _c2DWcfManager, PostOffice, FreePorts);
+            newRtuLeaf.Id = e.Id;
+            Tree.Add(newRtuLeaf);
             NotifyOfPropertyChange(nameof(Statistics));
         }
 

@@ -6,6 +6,7 @@ using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
@@ -13,6 +14,7 @@ namespace Iit.Fibertest.Client
     public class RtuLeaf : Leaf, IPortOwner
     {
         private readonly ILifetimeScope _globalScope;
+        private readonly IMyLog _logFile;
 
         #region Pictograms
         private MonitoringState _monitoringState;
@@ -98,12 +100,17 @@ namespace Iit.Fibertest.Client
             return null;
         }
 
-        public RtuLeaf(ILifetimeScope globalScope, ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager,
+        public RtuLeaf(ILifetimeScope globalScope, IMyLog logFile, ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager,
             PostOffice postOffice, FreePorts view)
             : base(readModel, windowManager, c2DWcfManager, postOffice)
         {
             _globalScope = globalScope;
+            _logFile = logFile;
             ChildrenImpresario = new ChildrenImpresario(view);
+
+            Title = Resources.SID_noname_RTU;
+            Color = Brushes.DarkGray;
+            IsExpanded = true;
         }
         protected override List<MenuItemVm> GetMenuItems()
         {
@@ -223,14 +230,20 @@ namespace Iit.Fibertest.Client
         {
         }
 
-        private void ManualModeAction(object param)
+        private async void ManualModeAction(object param)
         {
-            C2DWcfManager.StopMonitoringAsync(new StopMonitoringDto() {RtuId = Id});
+            var result = await C2DWcfManager.StopMonitoringAsync(new StopMonitoringDto() {RtuId = Id});
+            _logFile.AppendLine($@"Stop monitoring result - {result}");
+            if (result)
+                MonitoringState = MonitoringState.Off;
         }
 
-        private void AutomaticModeAction(object param)
+        private async void AutomaticModeAction(object param)
         {
-            C2DWcfManager.StartMonitoringAsync(new StartMonitoringDto() {RtuId = Id});
+            var result = await C2DWcfManager.StartMonitoringAsync(new StartMonitoringDto() {RtuId = Id});
+            _logFile.AppendLine($@"Start monitoring result - {result}");
+            if (result)
+                MonitoringState = MonitoringState.On;
         }
 
         private void RtuRemoveAction(object param)

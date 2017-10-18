@@ -29,8 +29,8 @@ namespace Iit.Fibertest.RtuManagement
         public ConcurrentQueue<MoniResultOnDisk> QueueOfMoniResultsOnDisk { get; set; }
         private object WcfParameter { get; set; }
 
-        private bool _isMonitoringCancelled;
-        private readonly object _isMonitoringCancelledLocker = new object();
+//        private bool _isMonitoringCancelled;
+//        private readonly object _isMonitoringCancelledLocker = new object();
 
         private readonly object _isMonitoringOnLocker = new object();
         private bool _isMonitoringOn;
@@ -74,7 +74,6 @@ namespace Iit.Fibertest.RtuManagement
 
         private readonly object _isRtuInitializedLocker = new object();
         private bool _isRtuInitialized;
-
         public bool IsRtuInitialized
         {
             get

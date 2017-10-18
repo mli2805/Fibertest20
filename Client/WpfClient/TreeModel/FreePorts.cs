@@ -16,9 +16,5 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public FreePorts(bool areVisible)
-        {
-            _areVisible = areVisible;
-        }
     }
 }

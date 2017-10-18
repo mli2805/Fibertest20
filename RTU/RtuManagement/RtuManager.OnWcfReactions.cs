@@ -52,7 +52,7 @@ namespace Iit.Fibertest.RtuManagement
 
             IsMonitoringOn = _rtuIni.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, 0) != 0;
             if (IsMonitoringOn)
-                RunMonitoringCycle(isUserAskedInitialization);
+                RunMonitoringCycle();
             else
                 DisconnectOtdr();
         }
@@ -88,7 +88,7 @@ namespace Iit.Fibertest.RtuManagement
             _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 1);
             IsMonitoringOn = true;
 
-            RunMonitoringCycle(true);
+            RunMonitoringCycle();
         }
 
         public void StopMonitoring()
@@ -104,42 +104,12 @@ namespace Iit.Fibertest.RtuManagement
             }
 
             _otdrManager.InterruptMeasurement();
-            lock (_isMonitoringCancelledLocker)
-            {
-                _isMonitoringCancelled = true;
-            }
+           
         }
 
         public void ChangeSettings(ApplyMonitoringSettingsDto settings)
         {
-            // only save variable and leave in order to not block wcf thread
-            WcfParameter = settings;
-
-            if (IsMonitoringOn) // AUTO
-            {
-                if (settings.IsMonitoringOn)
-                {
-                    lock (_isMonitoringCancelledLocker)
-                    {
-                        _hasNewSettings = true;
-                    }
-                }
-                else // should become MANUAL
-                {
-                    _otdrManager.InterruptMeasurement();
-                    lock (_isMonitoringCancelledLocker)
-                    {
-                        _isMonitoringCancelled = true;
-                    }
-                    var thread = new Thread(ApplyChangeSettings);
-                    thread.Start();
-                }
-            }
-            else  // MANUAL
-            {
-                var thread = new Thread(ApplyChangeSettings);
-                thread.Start();
-            }
+            
         }
 
         private void ApplyChangeSettings()

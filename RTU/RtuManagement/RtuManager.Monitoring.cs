@@ -17,7 +17,7 @@ namespace Iit.Fibertest.RtuManagement
         private TimeSpan _preciseSaveTimespan;
         private TimeSpan _fastSaveTimespan;
 
-        private void RunMonitoringCycle(bool shouldSendMessageMonitoringStarted)
+        private void RunMonitoringCycle()
         {
             _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 1);
             _rtuLog.EmptyLine();
@@ -34,26 +34,18 @@ namespace Iit.Fibertest.RtuManagement
             while (true)
             {
                 _measurementNumber++;
-                if (shouldSendMessageMonitoringStarted)
-                {
-                    shouldSendMessageMonitoringStarted = false;
-                }
-
                 var extendedPort = _monitoringQueue.Dequeue();
                 _monitoringQueue.Enqueue(extendedPort);
 
                 ProcessOnePort(extendedPort);
 
-                lock (_isMonitoringCancelledLocker)
-                {
-                    if (_isMonitoringCancelled)
-                        break;
-                    if (_hasNewSettings)
+                if (!_isMonitoringOn)
+                    break;
+                if (_hasNewSettings)
                     {
                         ApplyChangeSettings();
                         _hasNewSettings = false;
                     }
-                }
             }
 
             _rtuLog.AppendLine("Monitoring stopped.");
@@ -61,7 +53,6 @@ namespace Iit.Fibertest.RtuManagement
             var otdrAddress = _rtuIni.Read(IniSection.General, IniKey.OtdrIp, DefaultIp);
             _otdrManager.DisconnectOtdr(otdrAddress);
             IsMonitoringOn = false;
-            _isMonitoringCancelled = false;
             _rtuLog.AppendLine("Rtu is turned into MANUAL mode.");
         }
 
@@ -171,11 +162,11 @@ namespace Iit.Fibertest.RtuManagement
                 RunMainCharonRecovery();
                 return null;
             }
-            if (_isMonitoringCancelled)
-            {
-                SendCurrentMonitoringStep(RtuCurrentMonitoringStep.Interrupted, monitorigPort, baseRefType);
-                return null;
-            }
+//            if (_isMonitoringCancelled)
+//            {
+//                SendCurrentMonitoringStep(RtuCurrentMonitoringStep.Interrupted, monitorigPort, baseRefType);
+//                return null;
+//            }
             SendCurrentMonitoringStep(RtuCurrentMonitoringStep.Analysis, monitorigPort, baseRefType);
             var measBytes = _otdrManager.ApplyAutoAnalysis(_otdrManager.GetLastSorDataBuffer()); // is ApplyAutoAnalysis necessary ?
             var moniResult = _otdrManager.CompareMeasureWithBase(baseBytes, measBytes, true); // base is inserted into meas during comparison

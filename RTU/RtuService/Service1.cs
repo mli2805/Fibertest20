@@ -31,6 +31,7 @@ namespace Iit.Fibertest.RtuService
 
             _rtuManagerThread = new Thread(_rtuManager.Initialize) { IsBackground = true };
             _rtuManagerThread.Start();
+//            _rtuManager.Initialize();
 
             _rtuWcfServiceBootstrapper.Start();
         }
