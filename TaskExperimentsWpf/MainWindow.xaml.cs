@@ -1,129 +1,126 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows;
+using Iit.Fibertest.Dto;
 
 namespace TaskExperimentsWpf
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
+    public class X
+    {
+        public Task<RtuInitializedDto> RtuInitializedEvent { get; set; }
+
+        public X()
+        {
+        }
+
+        public async void InitializeRtuAsync(TaskCompletionSource<RtuInitializedDto> param)
+        {
+            RtuInitializedEvent = param.Task;
+            int i = 0;
+            while (true)
+            {
+                i++;
+                await TaskEx.Delay(10);
+                Console.WriteLine(i);
+                if (i == 200)
+                {
+                    var result = new RtuInitializedDto() { Version = "Rtu initialized" };
+                    param.SetResult(result);
+                }
+            }
+        }
+    }
+
+    class FF
+    {
+        private Task Calc1()
+        {
+            return TaskEx.Delay(100);
+        }
+
+        Task Calc2()
+        {
+            return TaskEx.Delay(100);
+        }
+
+        async void Fff()
+        {
+            //            Func<int, int> f = x => x + 1;
+            Func<Task> t1 = () => Calc1();
+            Action last = () => Console.WriteLine("");
+            //            Func<Task, Task> la2 = ll => Calc2().ContinueWith(ll);
+
+            //            var ttotal = t1.ContinueWith(la2);
+        }
+
+        // Превратить в async метод
+        Task Seq()
+        {
+            return Calc1().ContinueWith(t => Calc2());
+        }
+
+
+        async Task Wrap()
+        {
+            await Calc1();
+            await Calc2();
+            Console.WriteLine("");
+        }
+    }
+
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
+
+            Func<int, int, int> op1 = (x, y) => x + y;
+
+            Fffff(3, d => d * d);
+            Fffff(5, d =>
+            {
+                var n = d - 5;
+                return d - n;
+            });
+
+            Mm(op1, 3, 4);
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void Mm(Func<int, int, int> fu, int a, int b)
         {
-            Title = "Experiment";
-            Tb1.Text = "Let's go!";
+            var result = fu(a, b);
+            Console.WriteLine(result);
+        }
+        private void Fffff(int n, Func<double, double> ope)
+        {
+            for (int i = 0; i < n; i++)
+            {
+                Console.WriteLine(ope((double)i / 7));
+            }
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            await Experiment();
-//            Experiment().Wait();
+            TaskCompletionSource<RtuInitializedDto> tcs = new TaskCompletionSource<RtuInitializedDto>();
+
+            var myX = new X();
+            myX.InitializeRtuAsync(tcs);
+            var result = await myX.RtuInitializedEvent.TimeoutAfter(4000);
+
+            Tb1.Text = result == null ? "timeout expired" : result.Version;
         }
+    }
 
-        private async Task Experiment()
+
+    public static class TaEx
+    {
+        public static async Task<TResult> TimeoutAfter<TResult>(this Task<TResult> task, int millisecondsTimeout)
         {
-            await ThirdTask();
-        }
-
-        async Task ThirdTask()
-        {
-            for (int i = 0; i < 1000; i++)
-            {
-                await Task.Delay(10);
-                Console.WriteLine($"Third {(i*3333)}");
-            }
-        }
-
-        async Task FirstTask()
-        {
-            for (int i = 0; i < 1000; i++)
-            {
-                Console.WriteLine($"First {Math.Sqrt(i*1111)}");
-            }
-        }
-
-        void SecondTask()
-        {
-            for (int i = 0; i < 1000; i++)
-            {
-                Console.WriteLine($"Second {Math.Sqrt(i*2222)}");
-            }
-        }
-
-
-        private void Pospone()
-        {
-            Task task1 = new Task(() => {
-                Console.WriteLine("Id задачи: {0}", Task.CurrentId);
-            });
-
-            Task task2 = new Task(SecondTask);
-            Task<int> taskI = new Task<int>(Age);
-            var r = Sum(2, 3);
-            Console.WriteLine(r.Result);
-
-
-            // задача продолжения
-            task1.ContinueWith(Display);
-
-            task1.Start();
-
-            task1.Wait();
-            Task.Delay(1000).ContinueWith(_ => task2);
-
-
-            Task.WaitAll();
-            Task.WhenAll();
-
-            // ждем окончания второй задачи
-            //            task2.Wait();
-            //            Console.WriteLine("Выполняется работа метода Main");
-            //            for (int i = 0; i < 200; i++)
-            //            {
-            //                Console.WriteLine(i);  
-        }
-
-        int Age()
-        {
-            return 4;
-        }
-
-         Task<int> Ffff()
-        {
-            var sum = Sum(4, 3);
-            Console.WriteLine(sum);
-            return sum;
-        }
-
-         async Task<int> Sum(int param1, int param2)
-        {
-            Task task1 = new Task(() => {
-                Console.WriteLine("Id задачи: {0}", Task.CurrentId);
-            });
-            task1.Start();
-            await task1;
-            //            while (!task1.GetAwaiter().IsCompleted)
-            //            {
-
-            //            }
-
-            await Ffff();
-            await Task.Delay(10000);
-            return (param1 + param2);
-        }
-
-
-
-         void Display(Task t)
-        {
-            Console.WriteLine("Id задачи: {0}", Task.CurrentId);
-            Console.WriteLine("Id предыдущей задачи: {0}", t.Id);
+            if (task.IsCompleted)
+                return task.Result;
+            return await TaskEx.WhenAny(task, TaskEx.Delay(millisecondsTimeout)) == task
+                ? task.Result
+                : default(TResult);
         }
     }
 }
