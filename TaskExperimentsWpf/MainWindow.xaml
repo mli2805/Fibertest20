@@ -14,5 +14,6 @@
             <Button Content="Interrupt" Width="100" Margin="5" Click="Button_Click_2"/>
             <TextBlock Name="TbLoop" Margin="5" Width="300"/>
         </StackPanel>
+        <ProgressBar Name="MyProgressBar" Height="15" Margin="5"></ProgressBar>
     </StackPanel>
 </Window>

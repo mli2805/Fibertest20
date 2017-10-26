@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using Iit.Fibertest.Dto;
+using Microsoft;
 
 namespace TaskExperimentsWpf
 {
@@ -116,48 +117,49 @@ namespace TaskExperimentsWpf
         {
             // start
             _cts = new CancellationTokenSource();
-            var result = await LongOp(_cts.Token);
-            if (result)
-                TbLoop.Text = "done!";
+            var progressIndicator = new Progress<int>(ReportProgress);
+            await LongOp(_cts.Token, progressIndicator);
         }
 
-        private async Task<bool> LongOp(CancellationToken token)
+        void ReportProgress(int value)
+        {
+            TbLoop.Text = value == -1 ? "Interrupted!" : value.ToString();
+            MyProgressBar.Value = (double)value / 50 * 100;
+        }
+
+        private async Task LongOp(CancellationToken token, IProgress<int> progress)
         {
             bool b;
-            for (int i = 0; i < 50000; i++)
+            for (int i = 1; i <= 50; i++)
             {
                 try
                 {
-                    b = await ElementaryOp(i, token);
-
+                    progress?.Report(i);
+                    await ElementaryOp(i, token);
                 }
                 catch (OperationCanceledException)
                 {
-                    TbLoop.Text += "loop interrupted";
-                    return false;
+                    progress?.Report(-1);
+                    return;
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
                     throw;
                 }
-                if (!b)
-                Console.WriteLine("returned false");
             }
             Console.WriteLine("loop terminated at last");
-            return true;
         }
 
-        private async Task<bool> ElementaryOp(int param, CancellationToken token)
+        private async Task ElementaryOp(int param, CancellationToken token)
         {
             double a = 0;
-            for (int i = 0; i < 100000000; i++)
+            for (int i = 0; i < 1000*1000*10; i++)
             {
                 a = Math.Sqrt(param * 636597);
             }
             Console.WriteLine(a);
             await TaskEx.Delay(1, token);
-            return true;
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
