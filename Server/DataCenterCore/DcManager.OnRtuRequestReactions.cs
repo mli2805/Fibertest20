@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Messaging;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
@@ -35,12 +36,22 @@ namespace Iit.Fibertest.DataCenterCore
                 $"Moniresult from RTU {result.RtuId.First6()}. {result.BaseRefType} on {result.OtauPort.OpticalPort} port. " +
                 $"Trace state is {result.TraceState}. Sor size is {result.SorData.Length}. {result.TimeStamp:yyyy-MM-dd hh-mm-ss}");
 
+            // just for MSMQ testing
+          //  TestMsmq();
+
             //            var filename = $@"c:\temp\sor\{result.RtuId.First6()} {result.TimeStamp:yyyy-MM-dd hh-mm-ss}.sor";
             //            var fs = File.Create(filename);
             //            fs.Write(result.SorData, 0, result.SorData.Length);
             //            fs.Close();
 
             return true;
+        }
+
+        private void TestMsmq()
+        {
+            _logFile.AppendLine("Gonna check the message queue...");
+            var queue = new MessageQueue(@"FormatName:DIRECT=TCP:192.168.96.21\private$\Fibertest20");
+//            queue.Receive(MessageQueueTransactionType.Single);
         }
         #endregion
 

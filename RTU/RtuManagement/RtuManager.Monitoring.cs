@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Messaging;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.RtuManagement
 {
@@ -181,8 +181,23 @@ namespace Iit.Fibertest.RtuManagement
 
         private void PlaceMonitoringResultInSendingQueue(MoniResult moniResult, MonitorigPort monitorigPort)
         {
+            var dto = CreateDto(moniResult, monitorigPort);
+
+                SendByMsmq(dto);
+
+            var moniResultOnDisk = new MoniResultOnDisk(Guid.NewGuid(), dto, _serviceLog);
+            moniResultOnDisk.Save();
+            _rtuLog.AppendLine($"There are {QueueOfMoniResultsOnDisk.Count} moniresults in the queue");
+            QueueOfMoniResultsOnDisk.Enqueue(moniResultOnDisk);
+            _rtuLog.AppendLine("Monitoring result is placed in sending queue");
+            _rtuLog.AppendLine($"There are {QueueOfMoniResultsOnDisk.Count} moniresults in the queue");
+        }
+
+        private MonitoringResultDto CreateDto(MoniResult moniResult, MonitorigPort monitorigPort)
+        {
             var dto = new MonitoringResultDto()
             {
+                Id = Guid.NewGuid(),
                 RtuId = _id,
                 TimeStamp = DateTime.Now,
                 OtauPort = new OtauPortDto()
@@ -196,12 +211,15 @@ namespace Iit.Fibertest.RtuManagement
                 TraceState = moniResult.GetAggregatedResult(),
                 SorData = moniResult.SorBytes
             };
-            var moniResultOnDisk = new MoniResultOnDisk(Guid.NewGuid(), dto, _serviceLog);
-            moniResultOnDisk.Save();
-            _rtuLog.AppendLine($"There are {QueueOfMoniResultsOnDisk.Count} moniresults in the queue");
-            QueueOfMoniResultsOnDisk.Enqueue(moniResultOnDisk);
-            _rtuLog.AppendLine("Monitoring result is placed in sending queue");
-            _rtuLog.AppendLine($"There are {QueueOfMoniResultsOnDisk.Count} moniresults in the queue");
+            return dto;
+        }
+
+        private void SendByMsmq(MonitoringResultDto dto)
+        {
+            // get address from settings
+            var queue = new MessageQueue(@"FormatName:DIRECT=TCP:192.168.96.21\private$\Fibertest20");
+            Message message = new Message(dto, new BinaryMessageFormatter());
+            queue.Send(message, MessageQueueTransactionType.Single);
         }
 
         private readonly List<DamagedOtau> _damagedOtaus = new List<DamagedOtau>();

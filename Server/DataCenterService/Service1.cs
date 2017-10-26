@@ -14,11 +14,13 @@ namespace Iit.Fibertest.DataCenterService
         private readonly DcManager _dcManager;
         private readonly WcfServiceForClientBootstrapper _wcfServiceForClientBootstrapper;
         private readonly WcfServiceForRtuBootstrapper _wcfServiceForRtuBootstrapper;
+        private readonly MsmqHandler _msmqHandler;
 
-        public Service1(IniFile iniFile, IMyLog logFile, 
-            EventStoreService eventStoreService, DcManager dcManager, 
+        public Service1(IniFile iniFile, IMyLog logFile,
+            EventStoreService eventStoreService, DcManager dcManager,
             WcfServiceForClientBootstrapper wcfServiceForClientBootstrapper,
-            WcfServiceForRtuBootstrapper wcfServiceForRtuBootstrapper)
+            WcfServiceForRtuBootstrapper wcfServiceForRtuBootstrapper,
+            MsmqHandler msmqHandler)
         {
             IniFile = iniFile;
             _logFile = logFile;
@@ -27,6 +29,7 @@ namespace Iit.Fibertest.DataCenterService
             _dcManager = dcManager;
             _wcfServiceForClientBootstrapper = wcfServiceForClientBootstrapper;
             _wcfServiceForRtuBootstrapper = wcfServiceForRtuBootstrapper;
+            _msmqHandler = msmqHandler;
             InitializeComponent();
         }
 
@@ -37,9 +40,10 @@ namespace Iit.Fibertest.DataCenterService
             _logFile.AppendLine($"Windows service started. Process {pid}, thread {tid}");
 
             _eventStoreService.Init();
-            _dcManager.Start(_eventStoreService.WriteModel.InitializeRtuWithAddressesDict());
+            _dcManager.Start(_eventStoreService.WriteModel.GetDictionaryOfRtuWithAddresses());
             _wcfServiceForClientBootstrapper.Start();
             _wcfServiceForRtuBootstrapper.Start();
+            _msmqHandler.Start();
         }
 
         protected override void OnStop()

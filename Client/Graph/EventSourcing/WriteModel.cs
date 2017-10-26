@@ -222,7 +222,7 @@ namespace Iit.Fibertest.Graph
         #endregion
 
 
-        public ConcurrentDictionary<Guid, RtuStation> InitializeRtuWithAddressesDict()
+        public ConcurrentDictionary<Guid, RtuStation> GetDictionaryOfRtuWithAddresses()
         {
             var dict = new ConcurrentDictionary<Guid, RtuStation>();
             foreach (var rtu in _rtus)
