@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using Iit.Fibertest.Dto;
@@ -108,6 +109,60 @@ namespace TaskExperimentsWpf
             var result = await myX.RtuInitializedEvent.TimeoutAfter(4000);
 
             Tb1.Text = result == null ? "timeout expired" : result.Version;
+        }
+
+        private CancellationTokenSource _cts;
+        private async void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            // start
+            _cts = new CancellationTokenSource();
+            var result = await LongOp(_cts.Token);
+            if (result)
+                TbLoop.Text = "done!";
+        }
+
+        private async Task<bool> LongOp(CancellationToken token)
+        {
+            bool b;
+            for (int i = 0; i < 50000; i++)
+            {
+                try
+                {
+                    b = await ElementaryOp(i, token);
+
+                }
+                catch (OperationCanceledException)
+                {
+                    TbLoop.Text += "loop interrupted";
+                    return false;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+                if (!b)
+                Console.WriteLine("returned false");
+            }
+            Console.WriteLine("loop terminated at last");
+            return true;
+        }
+
+        private async Task<bool> ElementaryOp(int param, CancellationToken token)
+        {
+            double a = 0;
+            for (int i = 0; i < 100000000; i++)
+            {
+                a = Math.Sqrt(param * 636597);
+            }
+            Console.WriteLine(a);
+            await TaskEx.Delay(1, token);
+            return true;
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            _cts?.Cancel();
         }
     }
 

@@ -9,5 +9,10 @@
         <TextBlock Height="100"/>
         <TextBlock Name="Tb1" Width="300" Margin="5"/>
         <Button Content="Press me!" Width="120" Margin="5" Click="Button_Click"/>
+        <StackPanel Orientation="Horizontal">
+            <Button Content="Start" Width="100" Margin="5" Click="Button_Click_1"/>
+            <Button Content="Interrupt" Width="100" Margin="5" Click="Button_Click_2"/>
+            <TextBlock Name="TbLoop" Margin="5" Width="300"/>
+        </StackPanel>
     </StackPanel>
 </Window>
