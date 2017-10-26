@@ -175,6 +175,9 @@ namespace DirectRtuClient
             windowManager.ShowDialog(vm);
         }
 
+        private void ReportProgress(int value)
+        {
+        }
         public async Task StartMeasurement()
         {
             using (new WaitCursor())
@@ -182,7 +185,10 @@ namespace DirectRtuClient
                 IsMeasurementInProgress = true;
                 Message = Resources.SID_Wait__please___;
 
-                await Task.Run(() => OtdrManager.DoManualMeasurement(ShouldForceLmax, GetActiveChildCharon()));
+                var progressIndicator = new Progress<int>(ReportProgress);
+
+                //                await Task.Run(() => OtdrManager.DoManualMeasurement(ShouldForceLmax, GetActiveChildCharon()));
+                await OtdrManager.DoManualMeasurementAsync(ShouldForceLmax, GetActiveChildCharon(), progressIndicator);
 
                 IsMeasurementInProgress = false;
                 Message = Resources.SID_Measurement_is_finished_;
