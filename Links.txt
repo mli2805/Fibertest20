@@ -18,3 +18,10 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
 
 - await wcfConnection.GetEvents(revision) blocks client !!!!!!!!!!!
 
+- на домашнем компьютере 
+Severity	Code	Description	Project	File	Line	Suppression State
+Error		Could not locate .paket\paket.exe and .paket\paket.bootstrapper.exe under the folder 'C:\VSProjects\Fibertest20\'
+To download the binaries, visit https://github.com/fsprojects/Paket/releases
+To know more about Paket, visit https://fsprojects.github.io/Paket/getting-started.html		Paket restore error !	0	
+
+

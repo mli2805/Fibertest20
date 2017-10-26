@@ -262,7 +262,9 @@ namespace DirectRtuClient
                 Message = Resources.SID_Wait__please___;
 
                 byte[] baseBytes = File.ReadAllBytes(BaseFileName);
-                var result = await Task.Run(() => OtdrManager.MeasureWithBase(baseBytes, GetActiveChildCharon()));
+//                var result = await Task.Run(() => OtdrManager.MeasureWithBase(baseBytes, GetActiveChildCharon()));
+                var progressIndicator = new Progress<int>(ReportProgress);
+                var result = await OtdrManager.MeasureWithBaseAsync(baseBytes, GetActiveChildCharon(), progressIndicator);
 
                 IsMeasurementInProgress = false;
                 if (!result)
@@ -353,7 +355,9 @@ namespace DirectRtuClient
                     Message = string.Format(Resources.SID_Monitoring_cycle__0___Wait__please___, c);
                     _rtuLogger.AppendLine(string.Format(Resources.SID_Monitoring_cycle__0__, c));
 
-                    await Task.Run(() => OtdrManager.MeasureWithBase(baseBytes, GetActiveChildCharon()));
+//                    await Task.Run(() => OtdrManager.MeasureWithBase(baseBytes, GetActiveChildCharon()));
+                    var progressIndicator = new Progress<int>(ReportProgress);
+                    await OtdrManager.MeasureWithBaseAsync(baseBytes, GetActiveChildCharon(), progressIndicator);
 
                     IsMeasurementInProgress = false;
                     Message = string.Format(Resources.SID__0_th_measurement_is_finished_, c);

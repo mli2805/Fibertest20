@@ -27,6 +27,25 @@ namespace Iit.Fibertest.IitOtdrLibrary
             return result;
         }
 
+        public async Task<bool> MeasureWithBaseAsync(byte[] buffer, Charon activeChild, IProgress<int> progress)
+        {
+            var result = false;
+
+            // allocate memory inside c++ library
+            // put there base sor data
+            // return pointer to that data, than you can say c++ code to use this data
+            var baseSorData = IitOtdr.SetSorData(buffer);
+            if (IitOtdr.SetMeasurementParametersFromSor(ref baseSorData))
+            {
+                IitOtdr.ForceLmaxNs(IitOtdr.ConvertLmaxOwtToNs(buffer));
+                result = await MeasureAsync(activeChild, progress);
+            }
+
+            // free memory where was base sor data
+            IitOtdr.FreeSorDataMemory(baseSorData);
+            return result;
+        }
+
         public bool DoManualMeasurement(bool shouldForceLmax, Charon activeChild)
         {
             if (shouldForceLmax)

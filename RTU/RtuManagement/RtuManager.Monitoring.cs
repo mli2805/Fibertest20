@@ -164,11 +164,6 @@ namespace Iit.Fibertest.RtuManagement
                 RunMainCharonRecovery();
                 return null;
             }
-//            if (_isMonitoringCancelled)
-//            {
-//                SendCurrentMonitoringStep(RtuCurrentMonitoringStep.Interrupted, monitorigPort, baseRefType);
-//                return null;
-//            }
             SendCurrentMonitoringStep(RtuCurrentMonitoringStep.Analysis, monitorigPort, baseRefType);
             var measBytes = _otdrManager.ApplyAutoAnalysis(_otdrManager.GetLastSorDataBuffer()); // is ApplyAutoAnalysis necessary ?
             var moniResult = _otdrManager.CompareMeasureWithBase(baseBytes, measBytes, true); // base is inserted into meas during comparison
