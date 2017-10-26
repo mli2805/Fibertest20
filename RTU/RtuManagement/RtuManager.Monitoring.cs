@@ -80,7 +80,8 @@ namespace Iit.Fibertest.RtuManagement
                 if (message != "")
                 {
                     _rtuLog.AppendLine(message);
-                    PlaceMonitoringResultInSendingQueue(moniResult, monitorigPort);
+                    SendByMsmq(CreateDto(moniResult, monitorigPort));
+//                    PlaceMonitoringResultInSendingQueue(moniResult, monitorigPort);
                     monitorigPort.LastFastSavedTimestamp = DateTime.Now;
                 }
             }
@@ -110,7 +111,8 @@ namespace Iit.Fibertest.RtuManagement
                 if (message != "")
                 {
                     _rtuLog.AppendLine(message);
-                    PlaceMonitoringResultInSendingQueue(moniResult, monitorigPort);
+                    SendByMsmq(CreateDto(moniResult, monitorigPort));
+//                    PlaceMonitoringResultInSendingQueue(moniResult, monitorigPort);
                     monitorigPort.LastPreciseSavedTimestamp = DateTime.Now;
                 }
 
@@ -216,8 +218,10 @@ namespace Iit.Fibertest.RtuManagement
 
         private void SendByMsmq(MonitoringResultDto dto)
         {
+            var address = _serviceIni.Read(IniSection.ServerMainAddress, IniKey.Ip, "192.168.96.0");
+            var connectionString = $@"FormatName:DIRECT=TCP:{address}\private$\Fibertest20";
+            var queue = new MessageQueue(connectionString);
             // get address from settings
-            var queue = new MessageQueue(@"FormatName:DIRECT=TCP:192.168.96.21\private$\Fibertest20");
             Message message = new Message(dto, new BinaryMessageFormatter());
             queue.Send(message, MessageQueueTransactionType.Single);
         }

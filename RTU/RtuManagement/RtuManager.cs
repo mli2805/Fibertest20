@@ -23,7 +23,7 @@ namespace Iit.Fibertest.RtuManagement
         private OtdrManager _otdrManager;
         private Charon _mainCharon;
 
-        private Dove _dove;
+//        private Dove _dove;
         private WoodPecker _woodPecker;
 
         public ConcurrentQueue<MoniResultOnDisk> QueueOfMoniResultsOnDisk { get; set; }

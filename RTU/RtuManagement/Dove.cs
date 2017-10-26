@@ -46,18 +46,18 @@ namespace Iit.Fibertest.RtuManagement
             _serviceLog = serviceLog;
         }
 
-        public void Start()
-        {
-            var checkNewMoniresultsTimeout = TimeSpan.FromSeconds(1);
-            _lastLogRecord = DateTime.Now;
-            _serviceLog.AppendLine($"Dove {_id.First6()} is started");
-            while (!IsCancelled)
-            {
-                SendAllMoniResultsInQueue();
-                Thread.Sleep(checkNewMoniresultsTimeout);
-            }
-            _serviceLog.AppendLine($"Dove {_id.First6()} is finished");
-        }
+//        public void Start()
+//        {
+//            var checkNewMoniresultsTimeout = TimeSpan.FromSeconds(1);
+//            _lastLogRecord = DateTime.Now;
+//            _serviceLog.AppendLine($"Dove {_id.First6()} is started");
+//            while (!IsCancelled)
+//            {
+//                SendAllMoniResultsInQueue();
+//                Thread.Sleep(checkNewMoniresultsTimeout);
+//            }
+//            _serviceLog.AppendLine($"Dove {_id.First6()} is finished");
+//        }
 
         private void SendAllMoniResultsInQueue()
         {

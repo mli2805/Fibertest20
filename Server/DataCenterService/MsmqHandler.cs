@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Messaging;
+using Iit.Fibertest.DataCenterCore;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 
@@ -9,11 +10,13 @@ namespace Iit.Fibertest.DataCenterService
     {
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
+        private readonly DcManager _dcManager;
 
-        public MsmqHandler(IniFile iniFile, IMyLog logFile)
+        public MsmqHandler(IniFile iniFile, IMyLog logFile, DcManager dcManager)
         {
             _iniFile = iniFile;
             _logFile = logFile;
+            _dcManager = dcManager;
         }
 
         public void Start()
@@ -39,11 +42,13 @@ namespace Iit.Fibertest.DataCenterService
                 Message message = queue.EndReceive(asyncResult.AsyncResult);
 
                 _logFile.AppendLine($@"Message received, Body length = {message.BodyStream.Length}");
+
                 var mr = message.Body as MonitoringResultDto;
                 if (mr != null)
                 {
-                    _logFile.AppendLine($@"Monitoring result received, ID = {mr.Id}");
-                    _logFile.AppendLine($"RTU {mr.RtuId.First6()} port {mr.OtauPort.OpticalPort} state {mr.TraceState}");
+//                    _logFile.AppendLine($@"Monitoring result received, ID = {mr.Id}");
+//                    _logFile.AppendLine($"RTU {mr.RtuId.First6()} port {mr.OtauPort.OpticalPort} state {mr.TraceState}");
+                    _dcManager.ProcessMonitoringResult(mr);
                 }
 
                 // Restart the asynchronous receive operation.
