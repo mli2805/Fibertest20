@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Messaging;
+using System.Threading;
 using System.Threading.Tasks;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Dto;
@@ -19,7 +20,7 @@ namespace Iit.Fibertest.RtuManagement
         private TimeSpan _preciseSaveTimespan;
         private TimeSpan _fastSaveTimespan;
 
-        private void RunMonitoringCycle()
+        private async void RunMonitoringCycle()
         {
             _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 1);
             _rtuLog.EmptyLine();
@@ -33,13 +34,14 @@ namespace Iit.Fibertest.RtuManagement
                 return;
             }
 
+            _cts = new CancellationTokenSource();
             while (true)
             {
                 _measurementNumber++;
                 var extendedPort = _monitoringQueue.Dequeue();
                 _monitoringQueue.Enqueue(extendedPort);
 
-                ProcessOnePort(extendedPort);
+                await ProcessOnePort(extendedPort);
 
                 if (!_isMonitoringOn)
                     break;
@@ -123,7 +125,7 @@ namespace Iit.Fibertest.RtuManagement
             return moniResult;
         }
 
-       private async void ProcessOnePort(MonitorigPort monitorigPort)
+       private async Task ProcessOnePort(MonitorigPort monitorigPort)
         {
             var hasFastPerformed = false;
             if (monitorigPort.LastMoniResult == null ||
@@ -156,6 +158,7 @@ namespace Iit.Fibertest.RtuManagement
         private void ReportProgress(int value)
         {
         }
+        private CancellationTokenSource _cts;
         private async Task<MoniResult> DoMeasurement(BaseRefType baseRefType, MonitorigPort monitorigPort, bool shouldChangePort = true)
         {
             if (shouldChangePort && !ToggleToPort(monitorigPort))
@@ -166,7 +169,12 @@ namespace Iit.Fibertest.RtuManagement
             SendCurrentMonitoringStep(RtuCurrentMonitoringStep.Measure, monitorigPort, baseRefType);
 //            var isSuccess = _otdrManager.MeasureWithBase(baseBytes, _mainCharon.GetActiveChildCharon());
                 var progressIndicator = new Progress<int>(ReportProgress);
-            var isSuccess = await _otdrManager.MeasureWithBaseAsync(baseBytes, _mainCharon.GetActiveChildCharon(), progressIndicator);
+            var isSuccess = await _otdrManager.MeasureWithBaseAsync(baseBytes, _mainCharon.GetActiveChildCharon(), progressIndicator, _cts.Token);
+            if (_cts.IsCancellationRequested)
+            {
+                _isMonitoringOn = false;
+                return null;
+            }
             if (!isSuccess)
             {                                 // Error 814 during measurement prepare
                 RunMainCharonRecovery();

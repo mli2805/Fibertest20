@@ -103,8 +103,8 @@ namespace Iit.Fibertest.RtuManagement
                 return;
             }
 
-            _otdrManager.InterruptMeasurement();
-           
+//            _otdrManager.InterruptMeasurement();
+           _cts.Cancel();
         }
 
         public void ChangeSettings(ApplyMonitoringSettingsDto settings)
