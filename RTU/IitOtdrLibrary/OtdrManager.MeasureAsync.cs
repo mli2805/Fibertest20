@@ -14,7 +14,8 @@ namespace Iit.Fibertest.IitOtdrLibrary
             // put there base sor data
             // return pointer to that data, than you can say c++ code to use this data
             var baseSorData = IitOtdr.SetSorData(buffer);
-            if (IitOtdr.SetMeasurementParametersFromSor(ref baseSorData))
+            var isSuccess = await TaskEx.Run(()=> IitOtdr.SetMeasurementParametersFromSor(ref baseSorData));
+            if (isSuccess)
             {
                 IitOtdr.ForceLmaxNs(IitOtdr.ConvertLmaxOwtToNs(buffer));
                 result = await MeasureAsync(activeChild, progress);
@@ -40,8 +41,8 @@ namespace Iit.Fibertest.IitOtdrLibrary
                 _isMeasurementCanceled = false;
             }
 
-
-            if (!IitOtdr.PrepareMeasurement(true))
+            var isSuccess = await TaskEx.Run(() => IitOtdr.PrepareMeasurement(true));
+            if (!isSuccess)
             {
                 _rtuLogger.AppendLine("Prepare measurement error!");
                 return false;
@@ -78,7 +79,8 @@ namespace Iit.Fibertest.IitOtdrLibrary
                     }
 
                     progress?.Report(1);
-                    hasMoreSteps = IitOtdr.DoMeasurementStep(ref _sorData);
+//                    hasMoreSteps = IitOtdr.DoMeasurementStep(ref _sorData);
+                    hasMoreSteps = await TaskEx.Run(()=> IitOtdr.DoMeasurementStep(ref _sorData));
                 }
                 while (hasMoreSteps);
             }

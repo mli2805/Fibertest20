@@ -11,6 +11,7 @@ using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WpfCommonViews;
 using Microsoft.Win32;
+using Action = System.Action;
 
 namespace DirectRtuClient
 {
@@ -357,20 +358,26 @@ namespace DirectRtuClient
 
 //                    await Task.Run(() => OtdrManager.MeasureWithBase(baseBytes, GetActiveChildCharon()));
                     var progressIndicator = new Progress<int>(ReportProgress);
-                    await OtdrManager.MeasureWithBaseAsync(baseBytes, GetActiveChildCharon(), progressIndicator);
+                    var result = await OtdrManager.MeasureWithBaseAsync(baseBytes, GetActiveChildCharon(), progressIndicator);
 
                     IsMeasurementInProgress = false;
-                    Message = string.Format(Resources.SID__0_th_measurement_is_finished_, c);
-
-                    var measBytes = OtdrManager.ApplyAutoAnalysis(OtdrManager.GetLastSorDataBuffer()); // is ApplyAutoAnalysis necessary ?
-                    var moniResult = OtdrManager.CompareMeasureWithBase(baseBytes, measBytes, true);
-                    var sorData = SorData.FromBytes(moniResult.SorBytes);
-                    sorData.Save(MeasFileName);
-
-                    //_rtuLogger.AppendLine(moniResult.Result.ToString());
+                    if (!result)
+                        return;
+                    await Task.Run(() => ProcessMeasurementResult(baseBytes, c));
                 }
                 c++;
             }
+        }
+
+        private void ProcessMeasurementResult(byte[] baseBytes, int count)
+        {
+            Message = string.Format(Resources.SID__0_th_measurement_is_finished_, count);
+
+            var measBytes = OtdrManager.ApplyAutoAnalysis(OtdrManager.GetLastSorDataBuffer()); // is ApplyAutoAnalysis necessary ?
+            var moniResult = OtdrManager.CompareMeasureWithBase(baseBytes, measBytes, true);
+            var sorData = SorData.FromBytes(moniResult.SorBytes);
+            sorData.Save(MeasFileName);
+
         }
 
         public void StopCycle()
