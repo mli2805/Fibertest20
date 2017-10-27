@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Messaging;
+using System.Threading.Tasks;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
+using Microsoft;
 
 namespace Iit.Fibertest.RtuManagement
 {
@@ -56,12 +58,12 @@ namespace Iit.Fibertest.RtuManagement
             _rtuLog.AppendLine("Rtu is turned into MANUAL mode.");
         }
 
-        private MoniResult DoFastMeasurement(MonitorigPort monitorigPort)
+        private async Task<MoniResult> DoFastMeasurement(MonitorigPort monitorigPort)
         {
             _rtuLog.EmptyLine();
             _rtuLog.AppendLine($"MEAS. {_measurementNumber} port {monitorigPort.ToStringB(_mainCharon)}, Fast");
 
-            var moniResult = DoMeasurement(BaseRefType.Fast, monitorigPort);
+            var moniResult = await DoMeasurement(BaseRefType.Fast, monitorigPort);
             if (moniResult != null)
             {
                 if (moniResult.GetAggregatedResult() != FiberState.Ok)
@@ -88,14 +90,14 @@ namespace Iit.Fibertest.RtuManagement
             return moniResult;
         }
 
-        private MoniResult DoSecondMeasurement(MonitorigPort monitorigPort, bool hasFastPerformed, BaseRefType baseType)
+        private async Task<MoniResult> DoSecondMeasurement(MonitorigPort monitorigPort, bool hasFastPerformed, BaseRefType baseType)
         {
             _rtuLog.EmptyLine();
             var caption = $"MEAS. {_measurementNumber} port {monitorigPort.ToStringB(_mainCharon)}, {baseType}";
             caption += hasFastPerformed ? " (confirmation)" : "";
             _rtuLog.AppendLine(caption);
 
-            var moniResult = DoMeasurement(baseType, monitorigPort, !hasFastPerformed);
+            var moniResult = await DoMeasurement(baseType, monitorigPort, !hasFastPerformed);
             if (moniResult != null)
             {
                 var message = "";
@@ -121,14 +123,14 @@ namespace Iit.Fibertest.RtuManagement
             return moniResult;
         }
 
-       private void ProcessOnePort(MonitorigPort monitorigPort)
+       private async void ProcessOnePort(MonitorigPort monitorigPort)
         {
             var hasFastPerformed = false;
             if (monitorigPort.LastMoniResult == null ||
                 monitorigPort.LastMoniResult.GetAggregatedResult() == FiberState.Ok)
             {
                 // FAST 
-                monitorigPort.LastMoniResult = DoFastMeasurement(monitorigPort);
+                monitorigPort.LastMoniResult = await DoFastMeasurement(monitorigPort);
                 if (monitorigPort.LastMoniResult == null)
                     return;
                 hasFastPerformed = true;
@@ -147,11 +149,14 @@ namespace Iit.Fibertest.RtuManagement
                     ? BaseRefType.Additional
                     : BaseRefType.Precise;
 
-                monitorigPort.LastMoniResult = DoSecondMeasurement(monitorigPort, hasFastPerformed, baseType);
+                monitorigPort.LastMoniResult = await DoSecondMeasurement(monitorigPort, hasFastPerformed, baseType);
             }
         }
 
-        private MoniResult DoMeasurement(BaseRefType baseRefType, MonitorigPort monitorigPort, bool shouldChangePort = true)
+        private void ReportProgress(int value)
+        {
+        }
+        private async Task<MoniResult> DoMeasurement(BaseRefType baseRefType, MonitorigPort monitorigPort, bool shouldChangePort = true)
         {
             if (shouldChangePort && !ToggleToPort(monitorigPort))
                 return null;
@@ -159,7 +164,10 @@ namespace Iit.Fibertest.RtuManagement
             if (baseBytes == null)
                 return null;
             SendCurrentMonitoringStep(RtuCurrentMonitoringStep.Measure, monitorigPort, baseRefType);
-            if (!_otdrManager.MeasureWithBase(baseBytes, _mainCharon.GetActiveChildCharon()))
+//            var isSuccess = _otdrManager.MeasureWithBase(baseBytes, _mainCharon.GetActiveChildCharon());
+                var progressIndicator = new Progress<int>(ReportProgress);
+            var isSuccess = await _otdrManager.MeasureWithBaseAsync(baseBytes, _mainCharon.GetActiveChildCharon(), progressIndicator);
+            if (!isSuccess)
             {                                 // Error 814 during measurement prepare
                 RunMainCharonRecovery();
                 return null;

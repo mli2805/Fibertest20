@@ -187,8 +187,8 @@ namespace DirectRtuClient
 
                 var progressIndicator = new Progress<int>(ReportProgress);
 
-                //                await Task.Run(() => OtdrManager.DoManualMeasurement(ShouldForceLmax, GetActiveChildCharon()));
-                await OtdrManager.DoManualMeasurementAsync(ShouldForceLmax, GetActiveChildCharon(), progressIndicator);
+                                await Task.Run(() => OtdrManager.DoManualMeasurement(ShouldForceLmax, GetActiveChildCharon()));
+//                await OtdrManager.DoManualMeasurementAsync(ShouldForceLmax, GetActiveChildCharon(), progressIndicator);
 
                 IsMeasurementInProgress = false;
                 Message = Resources.SID_Measurement_is_finished_;

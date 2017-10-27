@@ -41,13 +41,11 @@ namespace Iit.Fibertest.DataCenterService
                 // End the asynchronous receive operation.
                 Message message = queue.EndReceive(asyncResult.AsyncResult);
 
-                _logFile.AppendLine($@"Message received, Body length = {message.BodyStream.Length}");
+                _logFile.AppendLine($@"MSMQ message received, Body length = {message.BodyStream.Length}");
 
                 var mr = message.Body as MonitoringResultDto;
                 if (mr != null)
                 {
-//                    _logFile.AppendLine($@"Monitoring result received, ID = {mr.Id}");
-//                    _logFile.AppendLine($"RTU {mr.RtuId.First6()} port {mr.OtauPort.OpticalPort} state {mr.TraceState}");
                     _dcManager.ProcessMonitoringResult(mr);
                 }
 
