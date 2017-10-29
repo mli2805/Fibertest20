@@ -36,18 +36,6 @@ namespace Iit.Fibertest.RtuManagement
                 return;
             IsRtuInitialized = true;
 
-            if (_heartbeat != null)
-                _heartbeat.IsCancelled = true;
-            _heartbeat = new Heartbeat(_id, _version, _serverAddresses, _serviceIni, _serviceLog);
-            var woodpeckerThread = new Thread(_heartbeat.Start) {IsBackground = true};
-            woodpeckerThread.Start();
-
-//            if (_dove != null)
-//                _dove.IsCancelled = true;
-//            _dove = new Dove(_serverAddresses, _serviceIni, _serviceLog) {QueueOfMoniResultsOnDisk = QueueOfMoniResultsOnDisk};
-//            var doveThread = new Thread(_dove.Start) {IsBackground = true};
-//            doveThread.Start();
-
             IsMonitoringOn = _rtuIni.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, 0) != 0;
             if (IsMonitoringOn)
                 RunMonitoringCycle();

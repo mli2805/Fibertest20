@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
+using System.Threading;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.IitOtdrLibrary;
@@ -22,15 +23,10 @@ namespace Iit.Fibertest.RtuManagement
         private readonly IniFile _serviceIni;
         private OtdrManager _otdrManager;
         private Charon _mainCharon;
-
-//        private Dove _dove;
         private Heartbeat _heartbeat;
 
         public ConcurrentQueue<MoniResultOnDisk> QueueOfMoniResultsOnDisk { get; set; }
         private object WcfParameter { get; set; }
-
-//        private bool _isMonitoringCancelled;
-//        private readonly object _isMonitoringCancelledLocker = new object();
 
         private readonly object _isMonitoringOnLocker = new object();
         private bool _isMonitoringOn;
@@ -116,6 +112,10 @@ namespace Iit.Fibertest.RtuManagement
             FileVersionInfo info = FileVersionInfo.GetVersionInfo(assembly.Location);
             _version = info.FileVersion;
             _serviceIni.Write(IniSection.General, IniKey.Version, _version);
+
+            _heartbeat = new Heartbeat(_id, _version, _serverAddresses, _serviceIni, _serviceLog);
+            var heartbeatThread = new Thread(_heartbeat.Start) { IsBackground = true };
+            heartbeatThread.Start();
         }
 
         public RtuInitializedDto GetInitializationResult()
