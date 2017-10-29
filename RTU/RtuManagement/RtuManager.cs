@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
@@ -25,7 +24,6 @@ namespace Iit.Fibertest.RtuManagement
         private Charon _mainCharon;
         private Heartbeat _heartbeat;
 
-        public ConcurrentQueue<MoniResultOnDisk> QueueOfMoniResultsOnDisk { get; set; }
         private object WcfParameter { get; set; }
 
         private readonly object _isMonitoringOnLocker = new object();
