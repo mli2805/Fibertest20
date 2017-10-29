@@ -24,7 +24,7 @@ namespace Iit.Fibertest.RtuManagement
         private Charon _mainCharon;
 
 //        private Dove _dove;
-        private WoodPecker _woodPecker;
+        private Heartbeat _heartbeat;
 
         public ConcurrentQueue<MoniResultOnDisk> QueueOfMoniResultsOnDisk { get; set; }
         private object WcfParameter { get; set; }

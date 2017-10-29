@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Messaging;
 using System.Threading;
-using System.Threading.Tasks;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
-using Microsoft;
 
 namespace Iit.Fibertest.RtuManagement
 {
@@ -20,7 +18,7 @@ namespace Iit.Fibertest.RtuManagement
         private TimeSpan _preciseSaveTimespan;
         private TimeSpan _fastSaveTimespan;
 
-        private async void RunMonitoringCycle()
+        private void RunMonitoringCycle()
         {
             _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 1);
             _rtuLog.EmptyLine();
@@ -41,15 +39,15 @@ namespace Iit.Fibertest.RtuManagement
                 var extendedPort = _monitoringQueue.Dequeue();
                 _monitoringQueue.Enqueue(extendedPort);
 
-                await ProcessOnePort(extendedPort);
+                ProcessOnePort(extendedPort);
 
                 if (!_isMonitoringOn)
                     break;
                 if (_hasNewSettings)
-                    {
-                        ApplyChangeSettings();
-                        _hasNewSettings = false;
-                    }
+                {
+                    ApplyChangeSettings();
+                    _hasNewSettings = false;
+                }
             }
 
             _rtuLog.AppendLine("Monitoring stopped.");
@@ -60,12 +58,12 @@ namespace Iit.Fibertest.RtuManagement
             _rtuLog.AppendLine("Rtu is turned into MANUAL mode.");
         }
 
-        private async Task<MoniResult> DoFastMeasurement(MonitorigPort monitorigPort)
+        private MoniResult DoFastMeasurement(MonitorigPort monitorigPort)
         {
             _rtuLog.EmptyLine();
             _rtuLog.AppendLine($"MEAS. {_measurementNumber} port {monitorigPort.ToStringB(_mainCharon)}, Fast");
 
-            var moniResult = await DoMeasurement(BaseRefType.Fast, monitorigPort);
+            var moniResult = DoMeasurement(BaseRefType.Fast, monitorigPort);
             if (moniResult != null)
             {
                 if (moniResult.GetAggregatedResult() != FiberState.Ok)
@@ -85,21 +83,21 @@ namespace Iit.Fibertest.RtuManagement
                 {
                     _rtuLog.AppendLine(message);
                     SendByMsmq(CreateDto(moniResult, monitorigPort));
-//                    PlaceMonitoringResultInSendingQueue(moniResult, monitorigPort);
+                    //                    PlaceMonitoringResultInSendingQueue(moniResult, monitorigPort);
                     monitorigPort.LastFastSavedTimestamp = DateTime.Now;
                 }
             }
             return moniResult;
         }
 
-        private async Task<MoniResult> DoSecondMeasurement(MonitorigPort monitorigPort, bool hasFastPerformed, BaseRefType baseType)
+        private MoniResult DoSecondMeasurement(MonitorigPort monitorigPort, bool hasFastPerformed, BaseRefType baseType)
         {
             _rtuLog.EmptyLine();
             var caption = $"MEAS. {_measurementNumber} port {monitorigPort.ToStringB(_mainCharon)}, {baseType}";
             caption += hasFastPerformed ? " (confirmation)" : "";
             _rtuLog.AppendLine(caption);
 
-            var moniResult = await DoMeasurement(baseType, monitorigPort, !hasFastPerformed);
+            var moniResult = DoMeasurement(baseType, monitorigPort, !hasFastPerformed);
             if (moniResult != null)
             {
                 var message = "";
@@ -116,7 +114,7 @@ namespace Iit.Fibertest.RtuManagement
                 {
                     _rtuLog.AppendLine(message);
                     SendByMsmq(CreateDto(moniResult, monitorigPort));
-//                    PlaceMonitoringResultInSendingQueue(moniResult, monitorigPort);
+                    //                    PlaceMonitoringResultInSendingQueue(moniResult, monitorigPort);
                     monitorigPort.LastPreciseSavedTimestamp = DateTime.Now;
                 }
 
@@ -125,14 +123,14 @@ namespace Iit.Fibertest.RtuManagement
             return moniResult;
         }
 
-       private async Task ProcessOnePort(MonitorigPort monitorigPort)
+        private void ProcessOnePort(MonitorigPort monitorigPort)
         {
             var hasFastPerformed = false;
             if (monitorigPort.LastMoniResult == null ||
                 monitorigPort.LastMoniResult.GetAggregatedResult() == FiberState.Ok)
             {
                 // FAST 
-                monitorigPort.LastMoniResult = await DoFastMeasurement(monitorigPort);
+                monitorigPort.LastMoniResult = DoFastMeasurement(monitorigPort);
                 if (monitorigPort.LastMoniResult == null)
                     return;
                 hasFastPerformed = true;
@@ -151,15 +149,12 @@ namespace Iit.Fibertest.RtuManagement
                     ? BaseRefType.Additional
                     : BaseRefType.Precise;
 
-                monitorigPort.LastMoniResult = await DoSecondMeasurement(monitorigPort, hasFastPerformed, baseType);
+                monitorigPort.LastMoniResult = DoSecondMeasurement(monitorigPort, hasFastPerformed, baseType);
             }
         }
 
-        private void ReportProgress(int value)
-        {
-        }
         private CancellationTokenSource _cts;
-        private async Task<MoniResult> DoMeasurement(BaseRefType baseRefType, MonitorigPort monitorigPort, bool shouldChangePort = true)
+        private MoniResult DoMeasurement(BaseRefType baseRefType, MonitorigPort monitorigPort, bool shouldChangePort = true)
         {
             if (shouldChangePort && !ToggleToPort(monitorigPort))
                 return null;
@@ -167,9 +162,7 @@ namespace Iit.Fibertest.RtuManagement
             if (baseBytes == null)
                 return null;
             SendCurrentMonitoringStep(RtuCurrentMonitoringStep.Measure, monitorigPort, baseRefType);
-//            var isSuccess = _otdrManager.MeasureWithBase(baseBytes, _mainCharon.GetActiveChildCharon());
-                var progressIndicator = new Progress<int>(ReportProgress);
-            var isSuccess = await _otdrManager.MeasureWithBaseAsync(baseBytes, _mainCharon.GetActiveChildCharon(), progressIndicator, _cts.Token);
+            var isSuccess = _otdrManager.MeasureWithBase(baseBytes, _mainCharon.GetActiveChildCharon());
             if (_cts.IsCancellationRequested)
             {
                 _isMonitoringOn = false;
@@ -190,20 +183,6 @@ namespace Iit.Fibertest.RtuManagement
 
             _rtuLog.AppendLine($"Trace state is {moniResult.GetAggregatedResult()}");
             return moniResult;
-        }
-
-        private void PlaceMonitoringResultInSendingQueue(MoniResult moniResult, MonitorigPort monitorigPort)
-        {
-            var dto = CreateDto(moniResult, monitorigPort);
-
-                SendByMsmq(dto);
-
-            var moniResultOnDisk = new MoniResultOnDisk(Guid.NewGuid(), dto, _serviceLog);
-            moniResultOnDisk.Save();
-            _rtuLog.AppendLine($"There are {QueueOfMoniResultsOnDisk.Count} moniresults in the queue");
-            QueueOfMoniResultsOnDisk.Enqueue(moniResultOnDisk);
-            _rtuLog.AppendLine("Monitoring result is placed in sending queue");
-            _rtuLog.AppendLine($"There are {QueueOfMoniResultsOnDisk.Count} moniresults in the queue");
         }
 
         private MonitoringResultDto CreateDto(MoniResult moniResult, MonitorigPort monitorigPort)

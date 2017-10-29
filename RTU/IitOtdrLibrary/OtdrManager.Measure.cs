@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using System.Threading.Tasks;
 using Iit.Fibertest.DirectCharonLibrary;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 
@@ -51,7 +50,6 @@ namespace Iit.Fibertest.IitOtdrLibrary
         private bool Measure(Charon activeChild)
         {
             _rtuLogger.AppendLine("Measurement begin.");
-    
 
             if (!IitOtdr.PrepareMeasurement(true))
             {
@@ -61,6 +59,17 @@ namespace Iit.Fibertest.IitOtdrLibrary
 
             activeChild?.ShowMessageMeasurementPort();
 
+            if (!MeasureSteps()) return false;
+
+            _rtuLogger.AppendLine("Measurement end.");
+
+            activeChild?.ShowOnDisplayMessageReady();
+
+            return true;
+        }
+
+        private bool MeasureSteps()
+        {
             try
             {
                 bool hasMoreSteps;
@@ -74,19 +83,13 @@ namespace Iit.Fibertest.IitOtdrLibrary
                     }
 
                     hasMoreSteps = IitOtdr.DoMeasurementStep(ref _sorData);
-                }
-                while (hasMoreSteps);
+                } while (hasMoreSteps);
             }
             catch (Exception e)
             {
                 _rtuLogger.AppendLine(e.Message);
                 return false;
             }
-
-            _rtuLogger.AppendLine("Measurement end.");
-
-            activeChild?.ShowOnDisplayMessageReady();
-
             return true;
         }
 

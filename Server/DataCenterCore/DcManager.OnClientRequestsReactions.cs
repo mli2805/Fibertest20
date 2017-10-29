@@ -58,7 +58,6 @@ namespace Iit.Fibertest.DataCenterCore
             result.IsConnectionSuccessfull = rtuConnection != null;
             if (!result.IsConnectionSuccessfull)
                 result.IsPingSuccessful = Pinger.Ping(dto.NetAddress.IsAddressSetAsIp ? dto.NetAddress.Ip4Address : dto.NetAddress.HostName);
-            //            return Task.FromResult(result);
             return result;
         }
 

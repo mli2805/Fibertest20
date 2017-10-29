@@ -26,7 +26,6 @@ namespace Iit.Fibertest.RtuManagement
 
             IsRtuInitialized = false;
 
-            bool isUserAskedInitialization = param != null;
             var rtu = param as InitializeRtuDto;
             if (rtu != null)
                 SaveInitializationParameters(rtu);
@@ -37,10 +36,10 @@ namespace Iit.Fibertest.RtuManagement
                 return;
             IsRtuInitialized = true;
 
-            if (_woodPecker != null)
-                _woodPecker.IsCancelled = true;
-            _woodPecker = new WoodPecker(_id, _version, _serverAddresses, _serviceIni, _serviceLog);
-            var woodpeckerThread = new Thread(_woodPecker.Start) {IsBackground = true};
+            if (_heartbeat != null)
+                _heartbeat.IsCancelled = true;
+            _heartbeat = new Heartbeat(_id, _version, _serverAddresses, _serviceIni, _serviceLog);
+            var woodpeckerThread = new Thread(_heartbeat.Start) {IsBackground = true};
             woodpeckerThread.Start();
 
 //            if (_dove != null)

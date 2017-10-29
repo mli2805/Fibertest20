@@ -6,7 +6,7 @@ using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.RtuManagement
 {
-    public class WoodPecker
+    public class Heartbeat
     {
         private readonly Guid _id;
         private readonly Guid _rtuId;
@@ -35,7 +35,7 @@ namespace Iit.Fibertest.RtuManagement
             }
         }
 
-        public WoodPecker(Guid rtuId, string version, DoubleAddressWithConnectionStats serverAddresses, IniFile serviceIni, IMyLog serviceLog)
+        public Heartbeat(Guid rtuId, string version, DoubleAddressWithConnectionStats serverAddresses, IniFile serviceIni, IMyLog serviceLog)
         {
             _id = Guid.NewGuid();
             _rtuId = rtuId;
