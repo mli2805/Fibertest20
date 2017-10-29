@@ -12,7 +12,6 @@ using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WpfCommonViews;
 using Microsoft.Win32;
-using Action = System.Action;
 
 namespace DirectRtuClient
 {
@@ -179,7 +178,7 @@ namespace DirectRtuClient
 
         private void ReportProgress(int value)
         {
-            Message = value == -1 ? "Measurement interrupted!" : $"Progress {value}";
+            Message = value == -1 ? @"Measurement interrupted!" : $@"Progress {value}";
         }
         public async Task StartMeasurement()
         {
@@ -188,9 +187,8 @@ namespace DirectRtuClient
                 IsMeasurementInProgress = true;
                 Message = Resources.SID_Wait__please___;
 
-                var progressIndicator = new Progress<int>(ReportProgress);
-
                 await Task.Run(() => OtdrManager.DoManualMeasurement(ShouldForceLmax, GetActiveChildCharon()));
+//                var progressIndicator = new Progress<int>(ReportProgress);
                 //                await OtdrManager.DoManualMeasurementAsync(ShouldForceLmax, GetActiveChildCharon(), progressIndicator);
 
                 IsMeasurementInProgress = false;

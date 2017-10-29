@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Iit.Fibertest.DirectCharonLibrary;
-using Microsoft;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 
 namespace Iit.Fibertest.IitOtdrLibrary
