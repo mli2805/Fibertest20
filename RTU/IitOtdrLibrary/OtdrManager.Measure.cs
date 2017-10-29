@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Iit.Fibertest.DirectCharonLibrary;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 
@@ -25,7 +27,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
             return result;
         }
 
-       
+
 
         public bool DoManualMeasurement(bool shouldForceLmax, Charon activeChild)
         {
@@ -35,12 +37,11 @@ namespace Iit.Fibertest.IitOtdrLibrary
             return Measure(activeChild);
         }
 
-      
 
-      
 
-        private readonly object _lockObj = new object();
-        private bool _isMeasurementCanceled;
+
+
+        private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
         private IntPtr _sorData = IntPtr.Zero;
 
         /// <summary>
@@ -50,11 +51,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
         private bool Measure(Charon activeChild)
         {
             _rtuLogger.AppendLine("Measurement begin.");
-            lock (_lockObj)
-            {
-                _isMeasurementCanceled = false;
-            }
-
+    
 
             if (!IitOtdr.PrepareMeasurement(true))
             {
@@ -69,14 +66,11 @@ namespace Iit.Fibertest.IitOtdrLibrary
                 bool hasMoreSteps;
                 do
                 {
-                    lock (_lockObj)
+                    if (_cancellationTokenSource.IsCancellationRequested)
                     {
-                        if (_isMeasurementCanceled)
-                        {
-                            IitOtdr.StopMeasurement(true);
-                            _rtuLogger.AppendLine("Measurement interrupted.");
-                            break;
-                        }
+                        IitOtdr.StopMeasurement(true);
+                        _rtuLogger.AppendLine("Measurement interrupted.");
+                        break;
                     }
 
                     hasMoreSteps = IitOtdr.DoMeasurementStep(ref _sorData);
@@ -98,10 +92,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
 
         public void InterruptMeasurement()
         {
-            lock (_lockObj)
-            {
-                _isMeasurementCanceled = true;
-            }
+            _cancellationTokenSource.Cancel();
         }
 
         public byte[] GetLastSorDataBuffer()
@@ -120,7 +111,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
                 _rtuLogger.AppendLine("Error in GetLastSorData");
                 return null;
             }
-//            _rtuLogger.AppendLine("Measurement result received.");
+            //            _rtuLogger.AppendLine("Measurement result received.");
             return buffer;
         }
 
