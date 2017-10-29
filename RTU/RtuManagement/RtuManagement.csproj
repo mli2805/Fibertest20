@@ -121,7 +121,6 @@
     <Compile Include="RtuManager.Recovering.cs" />
     <Compile Include="RtuWcfService.cs" />
     <Compile Include="RtuWcfServiceBootstrapper.cs" />
-    <Compile Include="Heartbeat.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\SharedLibs\Dto\Dto.csproj">

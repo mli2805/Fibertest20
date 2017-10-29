@@ -11,13 +11,15 @@ namespace Iit.Fibertest.RtuService
         private readonly IMyLog _serviceLog;
         private readonly RtuManager _rtuManager;
         private readonly RtuWcfServiceBootstrapper _rtuWcfServiceBootstrapper;
+        private readonly Heartbeat _heartbeat;
         private Thread _rtuManagerThread;
 
-        public Service1(IMyLog serviceLog, RtuManager rtuManager, RtuWcfServiceBootstrapper rtuWcfServiceBootstrapper)
+        public Service1(IMyLog serviceLog, RtuManager rtuManager, RtuWcfServiceBootstrapper rtuWcfServiceBootstrapper, Heartbeat heartbeat)
         {
             _serviceLog = serviceLog;
             _rtuManager = rtuManager;
             _rtuWcfServiceBootstrapper = rtuWcfServiceBootstrapper;
+            _heartbeat = heartbeat;
             _serviceLog.AssignFile("RtuService.log");
             InitializeComponent();
         }
@@ -33,6 +35,9 @@ namespace Iit.Fibertest.RtuService
             _rtuManagerThread.Start();
 
             _rtuWcfServiceBootstrapper.Start();
+
+            var heartbeatThread = new Thread(_heartbeat.Start) {IsBackground = true};
+            heartbeatThread.Start();
         }
 
         protected override void OnStop()

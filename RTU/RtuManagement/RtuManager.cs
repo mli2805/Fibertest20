@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
-using System.Threading;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.IitOtdrLibrary;
@@ -22,7 +21,6 @@ namespace Iit.Fibertest.RtuManagement
         private readonly IniFile _serviceIni;
         private OtdrManager _otdrManager;
         private Charon _mainCharon;
-        private Heartbeat _heartbeat;
 
         private object WcfParameter { get; set; }
 
@@ -110,10 +108,6 @@ namespace Iit.Fibertest.RtuManagement
             FileVersionInfo info = FileVersionInfo.GetVersionInfo(assembly.Location);
             _version = info.FileVersion;
             _serviceIni.Write(IniSection.General, IniKey.Version, _version);
-
-            _heartbeat = new Heartbeat(_id, _version, _serverAddresses, _serviceIni, _serviceLog);
-            var heartbeatThread = new Thread(_heartbeat.Start) { IsBackground = true };
-            heartbeatThread.Start();
         }
 
         public RtuInitializedDto GetInitializationResult()
