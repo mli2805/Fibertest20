@@ -683,7 +683,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot initialize dll!.
+        ///   Looks up a localized string similar to Cannot initialize measurement dll!.
         /// </summary>
         public static string SID_Cannot_initialize_dll_ {
             get {
@@ -697,6 +697,24 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Cannot_toggle_to_port_ {
             get {
                 return ResourceManager.GetString("SID_Cannot_toggle_to_port_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot turn RTU into automatic mode.
+        /// </summary>
+        public static string SID_Cannot_turn_RTU_into_automatic_mode {
+            get {
+                return ResourceManager.GetString("SID_Cannot_turn_RTU_into_automatic_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot turn RTU into manual mode.
+        /// </summary>
+        public static string SID_Cannot_turn_RTU_into_manual_mode {
+            get {
+                return ResourceManager.GetString("SID_Cannot_turn_RTU_into_manual_mode", resourceCulture);
             }
         }
         
@@ -2679,6 +2697,24 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_RTU_is_not_found {
             get {
                 return ResourceManager.GetString("SID_RTU_is_not_found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RTU is turned into automatic mode.
+        /// </summary>
+        public static string SID_RTU_is_turned_into_automatic_mode {
+            get {
+                return ResourceManager.GetString("SID_RTU_is_turned_into_automatic_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RTU is turned into manual mode.
+        /// </summary>
+        public static string SID_RTU_is_turned_into_manual_mode {
+            get {
+                return ResourceManager.GetString("SID_RTU_is_turned_into_manual_mode", resourceCulture);
             }
         }
         

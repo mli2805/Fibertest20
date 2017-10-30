@@ -163,14 +163,14 @@ namespace Iit.Fibertest.Client
             menu.Add(new MenuItemVm()
             {
                 Header = Resources.SID_Manual_mode,
-                Command = new ContextMenuAction(ManualModeAction, CanSomeAction),
+                Command = new ContextMenuAction(ManualModeAction, CanStopMonitoring),
                 CommandParameter = this
             });
 
             menu.Add(new MenuItemVm()
             {
                 Header = Resources.SID_Automatic_mode,
-                Command = new ContextMenuAction(AutomaticModeAction, CanSomeAction),
+                Command = new ContextMenuAction(AutomaticModeAction, CanStartMonitoring),
                 CommandParameter = this
             });
 
@@ -236,6 +236,10 @@ namespace Iit.Fibertest.Client
             _logFile.AppendLine($@"Stop monitoring result - {result}");
             if (result)
                 MonitoringState = MonitoringState.Off;
+            var vm = new NotificationViewModel(
+                result ? Resources.SID_Information : Resources.SID_Error_, 
+                result ? Resources.SID_RTU_is_turned_into_manual_mode : Resources.SID_Cannot_turn_RTU_into_manual_mode);
+            WindowManager.ShowDialog(vm);
         }
 
         private async void AutomaticModeAction(object param)
@@ -244,6 +248,10 @@ namespace Iit.Fibertest.Client
             _logFile.AppendLine($@"Start monitoring result - {result}");
             if (result)
                 MonitoringState = MonitoringState.On;
+            var vm = new NotificationViewModel(
+                result ? Resources.SID_Information : Resources.SID_Error_, 
+                result ? Resources.SID_RTU_is_turned_into_automatic_mode : Resources.SID_Cannot_turn_RTU_into_automatic_mode);
+            WindowManager.ShowDialog(vm);
         }
 
         private void RtuRemoveAction(object param)
@@ -254,6 +262,16 @@ namespace Iit.Fibertest.Client
         private bool CanRtuRemoveAction(object param)
         {
             return !HasAttachedTraces;
+        }
+
+        private bool CanStartMonitoring(object param)
+        {
+            return MonitoringState == MonitoringState.Off;
+        }
+
+        private bool CanStopMonitoring(object param)
+        {
+            return MonitoringState == MonitoringState.On;
         }
 
         private void DefineTraceStepByStepAction(object param)

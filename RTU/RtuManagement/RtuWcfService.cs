@@ -87,8 +87,8 @@ namespace Iit.Fibertest.RtuManagement
                 {
                     _serviceLog.AppendLine("Thread pool: " + e);
                 }
-                _serviceLog.AppendLine($"StopMonitoring terminated {_rtuManager.IsMonitoringOn}");
-                callbackChannel.EndStopMonitoring(_rtuManager.IsMonitoringOn);
+                _serviceLog.AppendLine($"StopMonitoring terminated successfully {!_rtuManager.IsMonitoringOn}");
+                callbackChannel.EndStopMonitoring(!_rtuManager.IsMonitoringOn);
             });
 
         }

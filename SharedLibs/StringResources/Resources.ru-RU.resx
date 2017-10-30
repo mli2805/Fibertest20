@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
 	<!-- 
     Microsoft ResX Schema 
@@ -1225,5 +1225,17 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Cannot_establish_connection_with_DataCenter_" xml:space="preserve">
 		<value>Не удалось установить соединение с ДатаЦентром!</value>
+	</data>
+	<data name="SID_RTU_is_turned_into_manual_mode" xml:space="preserve">
+		<value>RTU переведен в ручной режим</value>
+	</data>
+	<data name="SID_Cannot_turn_RTU_into_manual_mode" xml:space="preserve">
+		<value>Не удалось перевести RTU в ручной режим</value>
+	</data>
+	<data name="SID_RTU_is_turned_into_automatic_mode" xml:space="preserve">
+		<value>RTU переведен в автоматический режим</value>
+	</data>
+	<data name="SID_Cannot_turn_RTU_into_automatic_mode" xml:space="preserve">
+		<value>Не удалось перевести RTU в автоматический режим</value>
 	</data>
 </root>
