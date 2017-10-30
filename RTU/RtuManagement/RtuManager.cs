@@ -84,6 +84,8 @@ namespace Iit.Fibertest.RtuManagement
             }
         }
 
+        private ErrorCode _rtuInitializationResult;
+
         public RtuManager(IMyLog serviceLog, IniFile serviceIni)
         {
             IsRtuInitialized = false;
@@ -110,19 +112,24 @@ namespace Iit.Fibertest.RtuManagement
             _serviceIni.Write(IniSection.General, IniKey.Version, _version);
         }
 
+        public void OnServiceStart()
+        {
+            Initialize(null, null);
+        }
+
         public RtuInitializedDto GetInitializationResult()
         {
             return new RtuInitializedDto()
             {
                 RtuId = _id,
                 IsInitialized = IsRtuInitialized,
-                ErrorCode = IsRtuInitialized ? 0 : 99,
-                Serial = _mainCharon.Serial,
-                FullPortCount = _mainCharon.FullPortCount,
-                OwnPortCount = _mainCharon.OwnPortCount,
+                ErrorCode = _rtuInitializationResult,
+                Serial = _mainCharon?.Serial,
+                FullPortCount = _mainCharon?.FullPortCount ?? 0,
+                OwnPortCount = _mainCharon?.OwnPortCount ?? 0,
                 //                Children = _mainCharon.Children,
                 Children = new Dictionary<int, OtauDto>(),
-                OtdrAddress = _mainCharon.NetAddress,
+                OtdrAddress = _mainCharon?.NetAddress,
                 Version = _version,
             };
         }

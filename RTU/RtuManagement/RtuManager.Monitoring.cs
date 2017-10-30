@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Messaging;
-using System.Threading;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
@@ -32,7 +31,6 @@ namespace Iit.Fibertest.RtuManagement
                 return;
             }
 
-            _cts = new CancellationTokenSource();
             while (true)
             {
                 _measurementNumber++;
@@ -153,7 +151,6 @@ namespace Iit.Fibertest.RtuManagement
             }
         }
 
-        private CancellationTokenSource _cts;
         private MoniResult DoMeasurement(BaseRefType baseRefType, MonitorigPort monitorigPort, bool shouldChangePort = true)
         {
             if (shouldChangePort && !ToggleToPort(monitorigPort))
@@ -162,13 +159,13 @@ namespace Iit.Fibertest.RtuManagement
             if (baseBytes == null)
                 return null;
             SendCurrentMonitoringStep(RtuCurrentMonitoringStep.Measure, monitorigPort, baseRefType);
-            var isSuccess = _otdrManager.MeasureWithBase(baseBytes, _mainCharon.GetActiveChildCharon());
-            if (_cts.IsCancellationRequested)
+            var result = _otdrManager.MeasureWithBase(baseBytes, _mainCharon.GetActiveChildCharon());
+            if (result == ErrorCode.MeasurementInterrupted)
             {
                 _isMonitoringOn = false;
                 return null;
             }
-            if (!isSuccess)
+            if (result != ErrorCode.MeasurementEndedNormally)
             {                                 // Error 814 during measurement prepare
                 RunMainCharonRecovery();
                 return null;

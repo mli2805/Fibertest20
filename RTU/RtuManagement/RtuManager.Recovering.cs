@@ -24,9 +24,9 @@ namespace Iit.Fibertest.RtuManagement
 
         private void RunMainCharonRecovery()
         {
-            var step = (RecoveryStep)_serviceIni.Read(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.Ok);
+            var previousStep = (RecoveryStep)_serviceIni.Read(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.Ok);
 
-            switch (step)
+            switch (previousStep)
             {
                 case RecoveryStep.Ok:
                     _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.ClearArp);

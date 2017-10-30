@@ -647,6 +647,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot establish connection with DataCenter!.
+        /// </summary>
+        public static string SID_Cannot_establish_connection_with_DataCenter_ {
+            get {
+                return ResourceManager.GetString("SID_Cannot_establish_connection_with_DataCenter_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot establish connection with RTU!.
         /// </summary>
         public static string SID_Cannot_establish_connection_with_RTU_ {
@@ -656,11 +665,29 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot find dll file!.
+        /// </summary>
+        public static string SID_Cannot_find_dll_file_ {
+            get {
+                return ResourceManager.GetString("SID_Cannot_find_dll_file_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot find Reflect.exe.
         /// </summary>
         public static string SID_Cannot_find_Reflect_exe {
             get {
                 return ResourceManager.GetString("SID_Cannot_find_Reflect_exe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot initialize dll!.
+        /// </summary>
+        public static string SID_Cannot_initialize_dll_ {
+            get {
+                return ResourceManager.GetString("SID_Cannot_initialize_dll_", resourceCulture);
             }
         }
         
@@ -2607,6 +2634,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_RTU_Information {
             get {
                 return ResourceManager.GetString("SID_RTU_Information", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RTU initialization error!.
+        /// </summary>
+        public static string SID_RTU_initialization_error_ {
+            get {
+                return ResourceManager.GetString("SID_RTU_initialization_error_", resourceCulture);
             }
         }
         

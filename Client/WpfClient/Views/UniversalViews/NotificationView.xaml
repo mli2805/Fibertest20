@@ -6,7 +6,7 @@
         mc:Ignorable="d"
         Title="NotificationView" SizeToContent="Height" Width="400" WindowStartupLocation="CenterScreen">
     <StackPanel>
-        <TextBlock Text="{Binding Message}" Margin="10, 40" HorizontalAlignment="Center"/>
+        <TextBlock Text="{Binding Message}" Margin="10, 40" HorizontalAlignment="Center" TextWrapping="Wrap"/>
         <Button Name="CloseView"  Content="Close" Margin="0,0,0,15" HorizontalAlignment="Center" Width="100"/>
     </StackPanel>
 </Window>

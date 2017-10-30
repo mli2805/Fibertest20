@@ -9,20 +9,21 @@ namespace Iit.Fibertest.RtuManagement
 {
     public partial class RtuManager
     {
-        private CharonOperationResult InitializeRtuManager()
+        private ErrorCode InitializeRtuManager()
         {
             LedDisplay.Show(_rtuIni, _rtuLog, LedDisplayCode.Connecting);
 
-            if (!InitializeOtdr())
+            var otdrInitializationResult = InitializeOtdr();
+            if (otdrInitializationResult != ErrorCode.Ok)
             {
                 // We can't be here because InitializeOtdr should endlessly continue
                 // until Otdr is initialized Ok.
                 // (It's senseless to work without OTDR.)
                 _rtuLog.AppendLine("Otdr initialization failed.");
-                return CharonOperationResult.OtdrError;
+                return otdrInitializationResult;
             }
 
-            var result = InitializeOtau();
+            var otauInitializationResult = InitializeOtau();
 
             _mainCharon.ShowOnDisplayMessageReady();
 
@@ -31,17 +32,17 @@ namespace Iit.Fibertest.RtuManagement
             GetMonitoringParams();
 
             _rtuLog.AppendLine("Rtu Manager initialized successfully.");
-            return result;
+            return otauInitializationResult;
         }
 
-        private bool InitializeOtdr()
+        private ErrorCode InitializeOtdr()
         {
             _otdrManager = new OtdrManager(@"OtdrMeasEngine\", _rtuIni, _rtuLog);
             if (_otdrManager.LoadDll() != "")
-                return false;
+                return ErrorCode.OtdrInitializationCannotLoadDll;
 
             if (!_otdrManager.InitializeLibrary())
-                return false;
+                return ErrorCode.OtdrInitializationCannotInitializeDll;
 
             var otdrAddress = _rtuIni.Read(IniSection.General, IniKey.OtdrIp, DefaultIp);
             Thread.Sleep(3000);
@@ -54,22 +55,22 @@ namespace Iit.Fibertest.RtuManagement
                     RunMainCharonRecovery(); // one of recovery steps inevitably exits process
             }
             _rtuIni.Write(IniSection.Recovering, IniKey.RecoveryStep, 0);
-            return true;
+            return ErrorCode.Ok;
         }
 
-        private CharonOperationResult InitializeOtau()
+        private ErrorCode InitializeOtau()
         {
             var otauIpAddress = _rtuIni.Read(IniSection.General, IniKey.OtauIp, DefaultIp);
             _mainCharon = new Charon(new NetAddress(otauIpAddress, 23), _rtuIni, _rtuLog);
             var res = _mainCharon.InitializeOtau();
 
             if (res == null)
-                return CharonOperationResult.Ok;
+                return ErrorCode.Ok;
 
             if (!res.Equals(_mainCharon.NetAddress))
             {
                 RunAdditionalOtauRecovery(null, res.Ip4Address);
-                return CharonOperationResult.Ok;
+                return ErrorCode.Ok;
             }
             else // main charon
             {
@@ -78,7 +79,7 @@ namespace Iit.Fibertest.RtuManagement
                 if (res != null)
                     RunMainCharonRecovery(); // one of recovery steps inevitably exits process
             }
-            return CharonOperationResult.Ok;
+            return ErrorCode.Ok;
         }
       
         private void GetMonitoringParams()

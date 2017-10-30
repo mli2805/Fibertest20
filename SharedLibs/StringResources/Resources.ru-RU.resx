@@ -1214,4 +1214,16 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_RTU_initialization_failed_" xml:space="preserve">
 		<value>Инициализация RTU не удалась!</value>
 	</data>
+	<data name="SID_RTU_initialization_error_" xml:space="preserve">
+		<value>Оибка инициализации RTU!</value>
+	</data>
+	<data name="SID_Cannot_find_dll_file_" xml:space="preserve">
+		<value>Не найден dll файл!</value>
+	</data>
+	<data name="SID_Cannot_initialize_dll_" xml:space="preserve">
+		<value>Не удалось проинициализировать измерительную dll!</value>
+	</data>
+	<data name="SID_Cannot_establish_connection_with_DataCenter_" xml:space="preserve">
+		<value>Не удалось установить соединение с ДатаЦентром!</value>
+	</data>
 </root>

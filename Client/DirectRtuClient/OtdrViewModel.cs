@@ -21,7 +21,6 @@ namespace DirectRtuClient
         private readonly string _appDir;
         public string IpAddress { get; set; }
 
-        private bool _isMeasurementCancelled;
         public OtdrManager OtdrManager { get; set; }
 
         public bool ShouldForceLmax { get; set; } = true;
@@ -253,21 +252,20 @@ namespace DirectRtuClient
             using (new WaitCursor())
             {
                 IsMeasurementInProgress = true;
-                _isMeasurementCancelled = false;
                 Message = Resources.SID_Wait__please___;
 
                 byte[] baseBytes = File.ReadAllBytes(BaseFileName);
                 var result = await Task.Run(() => OtdrManager.MeasureWithBase(baseBytes, GetActiveChildCharon()));
 
                 IsMeasurementInProgress = false;
-                if (!result)
-                {
-                    Message = Resources.SID_Measurement_error__see_log;
-                    return;
-                }
-                if (_isMeasurementCancelled)
+                if (result == ErrorCode.MeasurementInterrupted)
                 {
                     Message = @"Measurement interrupted";
+                    return;
+                }
+                if (result != ErrorCode.MeasurementEndedNormally)
+                {
+                    Message = Resources.SID_Measurement_error__see_log;
                     return;
                 }
 
@@ -333,14 +331,13 @@ namespace DirectRtuClient
                 using (new WaitCursor())
                 {
                     IsMeasurementInProgress = true;
-                    _isMeasurementCancelled = false;
                     Message = string.Format(Resources.SID_Monitoring_cycle__0___Wait__please___, c);
                     _rtuLogger.AppendLine(string.Format(Resources.SID_Monitoring_cycle__0__, c));
 
                     var result = await Task.Run(() => OtdrManager.MeasureWithBase(baseBytes, GetActiveChildCharon()));
 
                     IsMeasurementInProgress = false;
-                    if (!result || _isMeasurementCancelled)
+                    if (result != ErrorCode.MeasurementEndedNormally)
                         return;
                     await Task.Run(() => ProcessMeasurementResult(baseBytes, c));
                 }
@@ -362,7 +359,6 @@ namespace DirectRtuClient
         public void StopCycle()
         {
             OtdrManager.InterruptMeasurement();
-            _isMeasurementCancelled = true;
             Message = Resources.SID_Stop_command_is_sent;
         }
 
@@ -370,7 +366,6 @@ namespace DirectRtuClient
         public void InterruptMeasurement()
         {
             OtdrManager.InterruptMeasurement();
-            _isMeasurementCancelled = true;
             Message = Resources.SID_Stop_command_is_sent;
         }
 

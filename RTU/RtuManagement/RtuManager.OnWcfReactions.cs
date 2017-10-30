@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
@@ -10,31 +11,40 @@ namespace Iit.Fibertest.RtuManagement
 {
     public partial class RtuManager
     {
-        /// <summary>
-        /// user sends param when wants to initialize rtu
-        /// elsewhere it is initialization on start
-        /// </summary>
-        /// <param name="param"></param>
-        public void Initialize(object param = null)
-        {
-            _rtuLog.EmptyLine();
-            _rtuLog.EmptyLine('-');
+        // could contain only one element at any time
+        // used as thread safe way to exchange between Wcf thread and Measurement thread
+        public ConcurrentQueue<object> WcfCommandsQueue = new ConcurrentQueue<object>();
 
-            var pid = Process.GetCurrentProcess().Id;
-            var tid = Thread.CurrentThread.ManagedThreadId;
-            _rtuLog.AppendLine($"RTU Manager started. Process {pid}, thread {tid}");
+        public void Initialize(InitializeRtuDto param, Action callback)
+        {
+            if (IsMonitoringOn)
+            {
+                IsMonitoringOn = false;
+                _rtuLog.AppendLine("Interrupting current measurement...");
+                _otdrManager.InterruptMeasurement();
+                Thread.Sleep(TimeSpan.FromSeconds(5)); //for long measurements it could be not enough!!!
+                _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 1);
+            }
+
+            LogInitializationStart();
 
             IsRtuInitialized = false;
 
-            var rtu = param as InitializeRtuDto;
-            if (rtu != null)
-                SaveInitializationParameters(rtu);
+            if (param != null)
+                SaveInitializationParameters(param);
             RestoreFunctions.ResetCharonThroughComPort(_rtuIni, _rtuLog);
 
-            var initializationResult = InitializeRtuManager();
-            if (initializationResult != CharonOperationResult.Ok)
+            _rtuInitializationResult = InitializeRtuManager();
+            if (_rtuInitializationResult != ErrorCode.Ok)
+            {
+                // usualy can't find some file
+                // in other cases if there is a way to recover it doesn't come here but start recover procedure
+                callback?.Invoke();
                 return;
+            }
+
             IsRtuInitialized = true;
+            callback?.Invoke();
 
             IsMonitoringOn = _rtuIni.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, 0) != 0;
             if (IsMonitoringOn)
@@ -43,12 +53,22 @@ namespace Iit.Fibertest.RtuManagement
                 DisconnectOtdr();
         }
 
+        private void LogInitializationStart()
+        {
+            _rtuLog.EmptyLine();
+            _rtuLog.EmptyLine('-');
+
+            var pid = Process.GetCurrentProcess().Id;
+            var tid = Thread.CurrentThread.ManagedThreadId;
+            _rtuLog.AppendLine($"RTU initialization started. Process {pid}, thread {tid}");
+        }
+
         private void SaveInitializationParameters(InitializeRtuDto rtu)
         {
             _id = rtu.RtuId;
             _serviceIni.Write(IniSection.Server, IniKey.RtuGuid, _id.ToString());
 
-            _serverAddresses = new DoubleAddressWithConnectionStats() {DoubleAddress = (DoubleAddress)rtu.ServerAddresses.Clone()};
+            _serverAddresses = new DoubleAddressWithConnectionStats() { DoubleAddress = (DoubleAddress)rtu.ServerAddresses.Clone() };
             _serviceIni.WriteServerAddresses(_serverAddresses.DoubleAddress);
         }
 
@@ -89,13 +109,12 @@ namespace Iit.Fibertest.RtuManagement
                 return;
             }
 
-//            _otdrManager.InterruptMeasurement();
-           _cts.Cancel();
+            _otdrManager.InterruptMeasurement();
         }
 
         public void ChangeSettings(ApplyMonitoringSettingsDto settings)
         {
-            
+
         }
 
         private void ApplyChangeSettings()
@@ -113,7 +132,7 @@ namespace Iit.Fibertest.RtuManagement
 
             if (!_hasNewSettings &&  // in MANUAL mode so far
                     dto.IsMonitoringOn)
-                        StartMonitoring();
+                StartMonitoring();
         }
 
         public void AssignBaseRefs(object param)

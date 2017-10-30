@@ -19,18 +19,16 @@ namespace Iit.Fibertest.RtuManagement
             _rtuManager = rtuManager;
         }
 
-
         public void BeginInitialize(InitializeRtuDto dto)
         {
             _serviceLog.AppendLine("User demands initialization - OK");
             var callbackChannel = OperationContext.Current.GetCallbackChannel<IRtuWcfServiceBackward>();
+
             ThreadPool.QueueUserWorkItem(_ =>
             {
                 try
                 {
-                    _rtuManager.Initialize(dto);
-                    _serviceLog.AppendLine("Initialization terminated");
-                    callbackChannel.EndInitialize(_rtuManager.GetInitializationResult());
+                    _rtuManager.Initialize(dto, () => callbackChannel.EndInitialize(_rtuManager.GetInitializationResult()));
                 }
                 catch (Exception e)
                 {

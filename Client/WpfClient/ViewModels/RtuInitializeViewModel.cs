@@ -123,15 +123,16 @@ namespace Iit.Fibertest.Client
 
         private void ProcessRtuInitialized(RtuInitializedDto dto)
         {
+            var message = dto.IsInitialized
+                ? $@"RTU {dto.RtuId.First6()} initialized successfully."
+                : dto.ErrorCode.GetLocalizedString(dto.ErrorMessage);
+
+            _logFile.AppendLine(message);
             var vm = dto.IsInitialized
                 ? new NotificationViewModel(Resources.SID_Information, Resources.SID_RTU_initialized_successfully_)
-                : new NotificationViewModel(Resources.SID_Error, Resources.SID_RTU_initialization_failed_);
+                : new NotificationViewModel(Resources.SID_Error, message);
             _windowManager.ShowDialog(vm);
-
-            _logFile.AppendLine(dto.IsInitialized 
-                ? $@"RTU {dto.RtuId.First6()} initialized successfully." 
-                : @"RTU {dto.RtuId.First6()} initialization failed!");
-
+            
             if (!dto.IsInitialized)
                 return;
 
@@ -157,7 +158,7 @@ namespace Iit.Fibertest.Client
             OriginalRtu = originalRtu1;
         }
 
-       public bool CheckAddressUniqueness()
+        public bool CheckAddressUniqueness()
         {
             var list = _readModel.Rtus.Where(r =>
                 r.MainChannel.Ip4Address ==
