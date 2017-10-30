@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
@@ -12,7 +11,6 @@ using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WpfCommonViews;
 using Microsoft.Win32;
-using Action = System.Action;
 
 namespace DirectRtuClient
 {
@@ -23,6 +21,7 @@ namespace DirectRtuClient
         private readonly string _appDir;
         public string IpAddress { get; set; }
 
+        private bool _isMeasurementCancelled;
         public OtdrManager OtdrManager { get; set; }
 
         public bool ShouldForceLmax { get; set; } = true;
@@ -153,7 +152,6 @@ namespace DirectRtuClient
 
         public async Task ConnectOtdr()
         {
-            //            InitializationMessage = "Wait, please...";
             InitializationMessage = Resources.SID_Wait__please___;
 
             await ConnectionProcess();
@@ -177,10 +175,6 @@ namespace DirectRtuClient
             windowManager.ShowDialog(vm);
         }
 
-        private void ReportProgress(int value)
-        {
-            Message = value == -1 ? "Measurement interrupted!" : $"Progress {value}";
-        }
         public async Task StartMeasurement()
         {
             using (new WaitCursor())
@@ -188,10 +182,7 @@ namespace DirectRtuClient
                 IsMeasurementInProgress = true;
                 Message = Resources.SID_Wait__please___;
 
-                var progressIndicator = new Progress<int>(ReportProgress);
-
                 await Task.Run(() => OtdrManager.DoManualMeasurement(ShouldForceLmax, GetActiveChildCharon()));
-                //                await OtdrManager.DoManualMeasurementAsync(ShouldForceLmax, GetActiveChildCharon(), progressIndicator);
 
                 IsMeasurementInProgress = false;
                 Message = Resources.SID_Measurement_is_finished_;
@@ -257,19 +248,16 @@ namespace DirectRtuClient
                 MeasFileName = fd.FileName;
         }
 
-        private CancellationTokenSource _cts;
         public async Task StartMeasurementWithBase()
         {
             using (new WaitCursor())
             {
                 IsMeasurementInProgress = true;
+                _isMeasurementCancelled = false;
                 Message = Resources.SID_Wait__please___;
 
                 byte[] baseBytes = File.ReadAllBytes(BaseFileName);
-                //                var result = await Task.Run(() => OtdrManager.MeasureWithBase(baseBytes, GetActiveChildCharon()));
-                var progressIndicator = new Progress<int>(ReportProgress);
-                _cts = new CancellationTokenSource();
-                var result = await OtdrManager.MeasureWithBaseAsync(baseBytes, GetActiveChildCharon(), progressIndicator, _cts.Token);
+                var result = await Task.Run(() => OtdrManager.MeasureWithBase(baseBytes, GetActiveChildCharon()));
 
                 IsMeasurementInProgress = false;
                 if (!result)
@@ -277,9 +265,11 @@ namespace DirectRtuClient
                     Message = Resources.SID_Measurement_error__see_log;
                     return;
                 }
-                if (_cts.IsCancellationRequested)
+                if (_isMeasurementCancelled)
+                {
+                    Message = @"Measurement interrupted";
                     return;
-
+                }
 
                 var lastSorDataBuffer = OtdrManager.GetLastSorDataBuffer();
                 if (lastSorDataBuffer == null)
@@ -333,43 +323,24 @@ namespace DirectRtuClient
         }
 
 
-        private bool _isMonitoringCycleCanceled;
-        private readonly object _cycleLockObj = new object();
         public async Task StartCycle()
         {
-            //            lock (_cycleLockObj)
-            //            {
-            //                _isMonitoringCycleCanceled = false;
-            //            }
-
             int c = 0;
             byte[] baseBytes = File.ReadAllBytes(BaseFileName);
-            //            var isFilterOn = OtdrManager.IsFilterOnInBase(baseBytes);
 
-                    _cts = new CancellationTokenSource();
             while (true)
             {
-                //                lock (_cycleLockObj)
-                //                {
-                //                    if (_isMonitoringCycleCanceled)
-                //                    {
-                //                        OtdrManager.InterruptMeasurement();
-                //                        break;
-                //                    }
-                //                }
-
                 using (new WaitCursor())
                 {
                     IsMeasurementInProgress = true;
+                    _isMeasurementCancelled = false;
                     Message = string.Format(Resources.SID_Monitoring_cycle__0___Wait__please___, c);
                     _rtuLogger.AppendLine(string.Format(Resources.SID_Monitoring_cycle__0__, c));
 
-                    //                    await Task.Run(() => OtdrManager.MeasureWithBase(baseBytes, GetActiveChildCharon()));
-                    var progressIndicator = new Progress<int>(ReportProgress);
-                    var result = await OtdrManager.MeasureWithBaseAsync(baseBytes, GetActiveChildCharon(), progressIndicator, _cts.Token);
+                    var result = await Task.Run(() => OtdrManager.MeasureWithBase(baseBytes, GetActiveChildCharon()));
 
                     IsMeasurementInProgress = false;
-                    if (!result || _cts.IsCancellationRequested)
+                    if (!result || _isMeasurementCancelled)
                         return;
                     await Task.Run(() => ProcessMeasurementResult(baseBytes, c));
                 }
@@ -381,7 +352,7 @@ namespace DirectRtuClient
         {
             Message = string.Format(Resources.SID__0_th_measurement_is_finished_, count);
 
-            var measBytes = OtdrManager.ApplyAutoAnalysis(OtdrManager.GetLastSorDataBuffer()); // is ApplyAutoAnalysis necessary ?
+            var measBytes = OtdrManager.ApplyAutoAnalysis(OtdrManager.GetLastSorDataBuffer()); // does ApplyAutoAnalysis necessary ?
             var moniResult = OtdrManager.CompareMeasureWithBase(baseBytes, measBytes, true);
             var sorData = SorData.FromBytes(moniResult.SorBytes);
             sorData.Save(MeasFileName);
@@ -390,18 +361,16 @@ namespace DirectRtuClient
 
         public void StopCycle()
         {
-            //            lock (_cycleLockObj)
-            //            {
-            //                _isMonitoringCycleCanceled = true;
-            //                InterruptMeasurement();
-            //            }
-            _cts.Cancel();
+            OtdrManager.InterruptMeasurement();
+            _isMeasurementCancelled = true;
+            Message = Resources.SID_Stop_command_is_sent;
         }
 
 
         public void InterruptMeasurement()
         {
             OtdrManager.InterruptMeasurement();
+            _isMeasurementCancelled = true;
             Message = Resources.SID_Stop_command_is_sent;
         }
 

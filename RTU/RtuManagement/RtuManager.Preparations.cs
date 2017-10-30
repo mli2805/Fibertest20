@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
-using System.IO;
-using System.Linq;
 using System.Threading;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Dto;
@@ -32,8 +29,6 @@ namespace Iit.Fibertest.RtuManagement
             _monitoringQueue = new MonitoringQueue(_rtuLog);
             _monitoringQueue.Load();
             GetMonitoringParams();
-
-            LoadMoniResultsFromDisk();
 
             _rtuLog.AppendLine("Rtu Manager initialized successfully.");
             return result;
@@ -103,51 +98,5 @@ namespace Iit.Fibertest.RtuManagement
             _rtuLog.AppendLine("Rtu is in MANUAL mode.");
         }
 
-        private void LoadMoniResultsFromDisk()
-        {
-            QueueOfMoniResultsOnDisk = new ConcurrentQueue<MoniResultOnDisk>();
-
-            try
-            {
-                if (!Directory.Exists(GetStorePath()))
-                    Directory.CreateDirectory(GetStorePath());
-                DirectoryInfo info = new DirectoryInfo(GetStorePath());
-                FileInfo[] files = info.GetFiles().OrderBy(p => p.CreationTime).ToArray();
-                _serviceLog.AppendLine($"There're {files.Length} stored files");
-
-                foreach (FileInfo file in files)
-                {
-                    PlaceMoniresultInQueue(file);
-                }
-                _serviceLog.AppendLine($"There're {QueueOfMoniResultsOnDisk.Count} moniresults in queue");
-
-            }
-            catch (Exception e)
-            {
-                _serviceLog.AppendLine(e.Message);
-            }
-        }
-
-        private void PlaceMoniresultInQueue(FileInfo file)
-        {
-            var filename = Path.GetFileNameWithoutExtension(file.Name);
-            _serviceLog.AppendLine(filename);
-            Guid id;
-            if (!Guid.TryParse(filename, out id))
-                return;
-
-            var moniResult = new MoniResultOnDisk(id, null, _serviceLog);
-            moniResult.Load();
-            QueueOfMoniResultsOnDisk.Enqueue(moniResult);
-        }
-
-        private string GetStorePath()
-        {
-            var app = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            var appPath = Path.GetDirectoryName(app);
-            var storePath = appPath + @"\..\ResultStore\";
-            _serviceLog.AppendLine($"{storePath}");
-            return storePath;
-        }
     }
 }

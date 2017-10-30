@@ -5,7 +5,6 @@ using System.Threading;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.RtuManagement
 {
@@ -27,7 +26,6 @@ namespace Iit.Fibertest.RtuManagement
 
             IsRtuInitialized = false;
 
-            bool isUserAskedInitialization = param != null;
             var rtu = param as InitializeRtuDto;
             if (rtu != null)
                 SaveInitializationParameters(rtu);
@@ -37,18 +35,6 @@ namespace Iit.Fibertest.RtuManagement
             if (initializationResult != CharonOperationResult.Ok)
                 return;
             IsRtuInitialized = true;
-
-            if (_woodPecker != null)
-                _woodPecker.IsCancelled = true;
-            _woodPecker = new WoodPecker(_id, _version, _serverAddresses, _serviceIni, _serviceLog);
-            var woodpeckerThread = new Thread(_woodPecker.Start) {IsBackground = true};
-            woodpeckerThread.Start();
-
-//            if (_dove != null)
-//                _dove.IsCancelled = true;
-//            _dove = new Dove(_serverAddresses, _serviceIni, _serviceLog) {QueueOfMoniResultsOnDisk = QueueOfMoniResultsOnDisk};
-//            var doveThread = new Thread(_dove.Start) {IsBackground = true};
-//            doveThread.Start();
 
             IsMonitoringOn = _rtuIni.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, 0) != 0;
             if (IsMonitoringOn)

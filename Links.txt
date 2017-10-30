@@ -24,4 +24,6 @@ Error		Could not locate .paket\paket.exe and .paket\paket.bootstrapper.exe under
 To download the binaries, visit https://github.com/fsprojects/Paket/releases
 To know more about Paket, visit https://fsprojects.github.io/Paket/getting-started.html		Paket restore error !	0	
 
-
+- сообщение I'm alive 
+	как лучше от RTU к датацентру или датацентр опрашивает
+	если от рту - просто TaskEx.Run, а внутри цикл c Task.Delay (вместо new thread и thread.Sleep) ?

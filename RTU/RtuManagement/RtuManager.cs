@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
@@ -23,14 +22,7 @@ namespace Iit.Fibertest.RtuManagement
         private OtdrManager _otdrManager;
         private Charon _mainCharon;
 
-//        private Dove _dove;
-        private WoodPecker _woodPecker;
-
-        public ConcurrentQueue<MoniResultOnDisk> QueueOfMoniResultsOnDisk { get; set; }
         private object WcfParameter { get; set; }
-
-//        private bool _isMonitoringCancelled;
-//        private readonly object _isMonitoringCancelledLocker = new object();
 
         private readonly object _isMonitoringOnLocker = new object();
         private bool _isMonitoringOn;

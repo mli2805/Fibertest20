@@ -196,7 +196,8 @@ namespace WcfTestBench
             };
 
             var result = await _c2DWcfManager.AssignBaseRefAsync(dto);
-            DisplayString = Resources.SID_Command_sent__wait_please_;
+
+            DisplayString = $@"Command result is {result}";
         }
 
         public void RtuState()

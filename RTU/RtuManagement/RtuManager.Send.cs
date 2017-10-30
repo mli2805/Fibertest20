@@ -1,6 +1,5 @@
 ﻿using System.Threading;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.RtuManagement
 {
