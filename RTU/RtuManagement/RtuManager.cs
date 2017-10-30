@@ -127,8 +127,7 @@ namespace Iit.Fibertest.RtuManagement
                 Serial = _mainCharon?.Serial,
                 FullPortCount = _mainCharon?.FullPortCount ?? 0,
                 OwnPortCount = _mainCharon?.OwnPortCount ?? 0,
-                //                Children = _mainCharon.Children,
-                Children = new Dictionary<int, OtauDto>(),
+                Children = _mainCharon?.GetChildrenDto(),
                 OtdrAddress = _mainCharon?.NetAddress,
                 Version = _version,
             };

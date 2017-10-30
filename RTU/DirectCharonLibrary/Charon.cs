@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 
@@ -101,5 +102,14 @@ namespace Iit.Fibertest.DirectCharonLibrary
             _rtuLogFile.AppendLine($"OTAU initialized successfully.  {Serial}  {OwnPortCount}/{FullPortCount}");
             return null;
         }
+
+        public Dictionary<int, OtauDto> GetChildrenDto()
+        {
+            return Children.ToDictionary(
+                pair => pair.Key, 
+                pair => new OtauDto()
+                { Serial = pair.Value.Serial, OwnPortCount = pair.Value.OwnPortCount, NetAddress = pair.Value.NetAddress});
+        }
     }
+
 }
