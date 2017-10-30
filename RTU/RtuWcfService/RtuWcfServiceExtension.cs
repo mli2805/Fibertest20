@@ -25,7 +25,7 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
             this IRtuWcfService rtuWcfService, RtuWcfServiceBackward backwardService, StopMonitoringDto dto)
         {
             var src = new TaskCompletionSource<bool>();
-            backwardService.HandlerForStartMonitoring.AddHandler(src);
+            backwardService.HandlerForStopMonitoring.AddHandler(src);
             rtuWcfService.BeginStopMonitoring(dto);
             return src.Task;
         }

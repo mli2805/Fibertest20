@@ -72,44 +72,25 @@ namespace Iit.Fibertest.RtuManagement
             _serviceIni.WriteServerAddresses(_serverAddresses.DoubleAddress);
         }
 
-        public void StartMonitoring()
+        public void StartMonitoring(Action callback)
         {
-            var pid = Process.GetCurrentProcess().Id;
-            var tid = Thread.CurrentThread.ManagedThreadId;
-            _rtuLog.EmptyLine();
-            _rtuLog.AppendLine($"RtuManager now in process {pid}, thread {tid}");
-
-            if (IsMonitoringOn)
-            {
-                _rtuLog.AppendLine("Rtu is in AUTOMATIC mode already.");
-                return;
-            }
-
             IsRtuInitialized = false;
             InitializeRtuManager();
             IsRtuInitialized = true;
 
             _rtuLog.EmptyLine();
-            _rtuLog.AppendLine($"Rtu is turned into AUTOMATIC mode. Process {pid}, thread {tid}");
+            _rtuLog.AppendLine("Rtu is turned into AUTOMATIC mode.");
             _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 1);
             IsMonitoringOn = true;
+            callback?.Invoke();
 
             RunMonitoringCycle();
         }
 
         public void StopMonitoring()
         {
-            var pid = Process.GetCurrentProcess().Id;
-            var tid = Thread.CurrentThread.ManagedThreadId;
-            _rtuLog.AppendLine($"RtuManager now in process {pid}, thread {tid}");
-
-            if (!IsMonitoringOn)
-            {
-                _rtuLog.AppendLine("Rtu is in MANUAL mode already.");
-                return;
-            }
-
-            _otdrManager.InterruptMeasurement();
+            IsMonitoringOn = false;
+           _otdrManager.InterruptMeasurement();
         }
 
         public void ChangeSettings(ApplyMonitoringSettingsDto settings)
@@ -132,7 +113,7 @@ namespace Iit.Fibertest.RtuManagement
 
             if (!_hasNewSettings &&  // in MANUAL mode so far
                     dto.IsMonitoringOn)
-                StartMonitoring();
+                StartMonitoring(null);
         }
 
         public void AssignBaseRefs(object param)
@@ -194,7 +175,7 @@ namespace Iit.Fibertest.RtuManagement
             // TODO measurement
 
             if (wasMonitoringOn)
-                StartMonitoring();
+                StartMonitoring(null);
         }
 
         public bool ToggleToPort(OtauPortDto port)

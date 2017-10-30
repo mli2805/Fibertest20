@@ -46,14 +46,14 @@ namespace Iit.Fibertest.RtuManagement
                 try
                 {
                     if (ShouldStart())
-                        _rtuManager.StartMonitoring();
-                    _serviceLog.AppendLine("Monitoring started");
+                        _rtuManager.StartMonitoring(() => callbackChannel.EndStartMonitoring(_rtuManager.IsMonitoringOn));
+                    else
+                        callbackChannel.EndStartMonitoring(_rtuManager.IsMonitoringOn);
                 }
                 catch (Exception e)
                 {
                     _serviceLog.AppendLine("Thread pool: " + e);
                 }
-                callbackChannel.EndStartMonitoring(_rtuManager.IsMonitoringOn);
             });
         }
 
@@ -69,7 +69,7 @@ namespace Iit.Fibertest.RtuManagement
                 _serviceLog.AppendLine("User starts monitoring - Ignored - AUTOMATIC mode already");
                 return false;
             }
-            _serviceLog.AppendLine("User starts monitoring");
+            _serviceLog.AppendLine("User demands start monitoring");
             return true;
         }
 
@@ -82,12 +82,12 @@ namespace Iit.Fibertest.RtuManagement
                 {
                     if (ShouldStop())
                         _rtuManager.StopMonitoring();
-                    _serviceLog.AppendLine("Monitoring stopped");
                 }
                 catch (Exception e)
                 {
                     _serviceLog.AppendLine("Thread pool: " + e);
                 }
+                _serviceLog.AppendLine($"StopMonitoring terminated {_rtuManager.IsMonitoringOn}");
                 callbackChannel.EndStopMonitoring(_rtuManager.IsMonitoringOn);
             });
 
@@ -105,7 +105,7 @@ namespace Iit.Fibertest.RtuManagement
                 _serviceLog.AppendLine("User starts monitoring - Ignored - MANUAL mode already");
                 return false;
             }
-            _serviceLog.AppendLine("User stops monitoring");
+            _serviceLog.AppendLine("User demands stop monitoring");
             return true;
         }
 

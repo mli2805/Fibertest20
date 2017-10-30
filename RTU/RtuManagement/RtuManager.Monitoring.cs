@@ -39,7 +39,7 @@ namespace Iit.Fibertest.RtuManagement
 
                 ProcessOnePort(extendedPort);
 
-                if (!_isMonitoringOn)
+            if (!_isMonitoringOn)
                     break;
                 if (_hasNewSettings)
                 {
