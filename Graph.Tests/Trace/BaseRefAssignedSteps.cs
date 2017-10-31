@@ -34,7 +34,6 @@ namespace Graph.Tests
         {
             _trace.PreciseId.Should().NotBe(Guid.Empty);
             _trace.FastId.Should().NotBe(Guid.Empty);
-
         }
 
         [When(@"Пользователь изменяет быструю и жмет сохранить")]

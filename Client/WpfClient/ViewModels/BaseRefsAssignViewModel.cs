@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -61,7 +63,6 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public AssignBaseRef Command { get; set; }
 
         public BaseRefsAssignViewModel(Trace trace, ReadModel readModel, IWcfServiceForClient c2DWcfManager)
         {
@@ -87,13 +88,7 @@ namespace Iit.Fibertest.Client
             DisplayName = Resources.SID_Base_refs_assignment;
         }
 
-        private void SendAssingBaseRef(string filename, BaseRefType type)
-        {
-            var guid = filename != "" ? Guid.NewGuid() : Guid.Empty;
-            Command.Ids.Add(type, guid);
-            var content = filename != "" ? File.ReadAllBytes(filename) : null;
-            Command.Contents.Add(guid, content);
-        }
+      
 
         private bool IsFilenameChanged(string filename, Guid previousBaseRefId)
         {
@@ -130,20 +125,40 @@ namespace Iit.Fibertest.Client
         public void ClearPathToAdditional() { AdditionalBaseFilename = ""; }
         public async void Save()
         {
-            Command = new AssignBaseRef() {TraceId = _trace.Id};
-            if (IsFilenameChanged(PreciseBaseFilename, _trace.PreciseId))
-                SendAssingBaseRef(PreciseBaseFilename, BaseRefType.Precise);
-            if (IsFilenameChanged(FastBaseFilename, _trace.FastId))
-                SendAssingBaseRef(FastBaseFilename, BaseRefType.Fast);
-            if (IsFilenameChanged(AdditionalBaseFilename, _trace.AdditionalId))
-                SendAssingBaseRef(AdditionalBaseFilename, BaseRefType.Additional);
+            await SaveInGraph();
 
-            await _c2DWcfManager.SendCommandAsObj(Command);
-//            _bus.SendCommand(Command);
+            await SendToRtu();
 
             TryClose();
         }
 
+        private async Task SendToRtu()
+        {
+            var listBaseRef = new List<BaseRefDto>();
+            var dto = new AssignBaseRefDto() {RtuId = _trace.RtuId, OtauPortDto = _trace.OtauAddress, BaseRefs = listBaseRef};
+//            await _c2DWcfManager.AssignBaseRefAsync(dto);
+        }
+
+        private AssignBaseRef _command;
+        private async Task SaveInGraph()
+        {
+            _command = new AssignBaseRef() {TraceId = _trace.Id};
+            if (IsFilenameChanged(PreciseBaseFilename, _trace.PreciseId))
+                IncludeBaseRef(PreciseBaseFilename, BaseRefType.Precise);
+            if (IsFilenameChanged(FastBaseFilename, _trace.FastId))
+                IncludeBaseRef(FastBaseFilename, BaseRefType.Fast);
+            if (IsFilenameChanged(AdditionalBaseFilename, _trace.AdditionalId))
+                IncludeBaseRef(AdditionalBaseFilename, BaseRefType.Additional);
+
+            await _c2DWcfManager.SendCommandAsObj(_command); // graph
+        }
+
+        private void IncludeBaseRef(string filename, BaseRefType type)
+        {
+            var guid = filename != "" ? Guid.NewGuid() : Guid.Empty;
+            var content = filename != "" ? File.ReadAllBytes(filename) : null;
+            _command.BaseRefs.Add(new BaseRefDto() {Id = guid, BaseRefType = type, SorBytes = content});
+        }
         public void Cancel()
         {
             TryClose();

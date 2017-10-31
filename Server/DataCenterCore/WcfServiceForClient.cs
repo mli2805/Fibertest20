@@ -9,7 +9,6 @@ namespace Iit.Fibertest.DataCenterCore
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
     public class WcfServiceForClient : IWcfServiceForClient
     {
-        // BUG: Initialize this!
         private readonly EventStoreService _eventStoreService;
 
         private readonly IMyLog _logFile;

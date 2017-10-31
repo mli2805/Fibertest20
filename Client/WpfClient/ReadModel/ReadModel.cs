@@ -324,13 +324,15 @@ namespace Iit.Fibertest.Client
             // в полях трассы хранятся id ее базовых
             // BaseRefs.Add(_mapper.Map<BaseRef>(e));
             var trace = Traces.Single(t => t.Id == e.TraceId);
-
-            if (e.Ids.ContainsKey(BaseRefType.Precise))
-                trace.PreciseId = e.Ids[BaseRefType.Precise];
-            if (e.Ids.ContainsKey(BaseRefType.Fast))
-                trace.FastId = e.Ids[BaseRefType.Fast];
-            if (e.Ids.ContainsKey(BaseRefType.Additional))
-                trace.AdditionalId = e.Ids[BaseRefType.Additional];
+            var preciseBaseRef = e.BaseRefs.FirstOrDefault(b => b.BaseRefType == BaseRefType.Precise);
+            if (preciseBaseRef != null)
+                trace.PreciseId = preciseBaseRef.Id;
+            var fastBaseRef = e.BaseRefs.FirstOrDefault(b => b.BaseRefType == BaseRefType.Fast);
+            if (fastBaseRef != null)
+                trace.FastId = fastBaseRef.Id;
+            var additionalBaseRef = e.BaseRefs.FirstOrDefault(b => b.BaseRefType == BaseRefType.Additional);
+            if (additionalBaseRef != null)
+                trace.AdditionalId = additionalBaseRef.Id;
         }
         #endregion
     }

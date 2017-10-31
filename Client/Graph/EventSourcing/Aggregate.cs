@@ -217,12 +217,16 @@ namespace Iit.Fibertest.Graph
         {
             WriteModel.Add(_mapper.Map<BaseRefAssigned>(cmd));
             var trace = WriteModel.GetTrace(cmd.TraceId);
-            if (cmd.Ids.ContainsKey(BaseRefType.Precise))
-                trace.PreciseId = cmd.Ids[BaseRefType.Precise];
-            if (cmd.Ids.ContainsKey(BaseRefType.Fast))
-                trace.FastId = cmd.Ids[BaseRefType.Fast];
-            if (cmd.Ids.ContainsKey(BaseRefType.Additional))
-                trace.AdditionalId = cmd.Ids[BaseRefType.Additional];
+
+            var preciseBaseRef = cmd.BaseRefs.FirstOrDefault(b => b.BaseRefType == BaseRefType.Precise);
+            if (preciseBaseRef != null)
+                trace.PreciseId = preciseBaseRef.Id;
+            var fastBaseRef = cmd.BaseRefs.FirstOrDefault(b => b.BaseRefType == BaseRefType.Fast);
+            if (fastBaseRef != null)
+                trace.FastId = fastBaseRef.Id;
+            var additionalBaseRef = cmd.BaseRefs.FirstOrDefault(b => b.BaseRefType == BaseRefType.Additional);
+            if (additionalBaseRef != null)
+                trace.AdditionalId = additionalBaseRef.Id;
         }
         #endregion
     }

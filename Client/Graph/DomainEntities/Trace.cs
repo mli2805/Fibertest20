@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Graph
 {
@@ -8,6 +9,7 @@ namespace Iit.Fibertest.Graph
         public Guid Id { get; set; }
         public string Title { get; set; }
         public Guid RtuId { get; set; } // лучше хранить, т.к. поиск через список РТУ...
+        public OtauPortDto OtauAddress { get; set; } // лучше сохранять при атаче к порту, т.к. очень сложный поиск
         public int Port { get; set; } = -1;
         public TraceMode Mode { get; set; } = TraceMode.Light;
         public List<Guid> Nodes { get; set; } = new List<Guid>();
