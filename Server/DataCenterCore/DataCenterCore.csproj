@@ -80,6 +80,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DbManager.cs" />
     <Compile Include="EventStoreInitializer.cs" />
     <Compile Include="IEventStoreInitializer.cs" />
     <Compile Include="WcfServiceForClientBootstrapper.cs" />

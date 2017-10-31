@@ -8,8 +8,9 @@ namespace Graph.Tests
     [Binding]
     public sealed class BaseRefAssignedSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest();
+        private readonly SutForTraceAttach _sut = new SutForTraceAttach();
         private Iit.Fibertest.Graph.Trace _trace;
+        private TraceLeaf _traceLeaf;
         private Guid _oldPreciseId;
         private Guid _oldFastId;
 
@@ -17,15 +18,14 @@ namespace Graph.Tests
         public void GivenБылаСозданаТрасса()
         {
             _trace = _sut.CreateTraceRtuEmptyTerminal();
+            _traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_trace.Id);
         }
 
         [When(@"Пользователь указывает пути к точной и быстрой базовам и жмет сохранить")]
         public void WhenПользовательУказываетПутиКТочнойИБыстройБазовамИЖметСохранить()
         {
-            var vm = new BaseRefsAssignViewModel(_trace, _sut.ReadModel, _sut.ShellVm.C2DWcfManager);
-            vm.PreciseBaseFilename = SystemUnderTest.Path;
-            vm.FastBaseFilename = SystemUnderTest.Path;
-            vm.Save();
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, _trace.Id, SystemUnderTest.Path, SystemUnderTest.Path, null, Answer.Yes));
+            _traceLeaf.AssignBaseRefsAction(null);
             _sut.Poller.Tick();
         }
 
@@ -41,9 +41,9 @@ namespace Graph.Tests
         {
             _oldPreciseId = _trace.PreciseId;
             _oldFastId = _trace.FastId;
-            var vm = new BaseRefsAssignViewModel(_trace, _sut.ReadModel, _sut.ShellVm.C2DWcfManager);
-            vm.FastBaseFilename = SystemUnderTest.Path;
-            vm.Save();
+
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, _trace.Id, null, SystemUnderTest.Path2, null, Answer.Yes));
+            _traceLeaf.AssignBaseRefsAction(null);
             _sut.Poller.Tick();
         }
 
@@ -57,10 +57,8 @@ namespace Graph.Tests
         [When(@"Пользователь сбрасывает точную и задает дополнительную и жмет сохранить")]
         public void WhenПользовательСбрасываетТочнуюЗадаетДополнительнуюИЖметСохранить()
         {
-            var vm = new BaseRefsAssignViewModel(_trace, _sut.ReadModel, _sut.ShellVm.C2DWcfManager);
-            vm.ClearPathToPrecise();
-            vm.AdditionalBaseFilename = SystemUnderTest.Path;
-            vm.Save();
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, _trace.Id, "",  null, SystemUnderTest.Path, Answer.Yes));
+            _traceLeaf.AssignBaseRefsAction(null);
             _sut.Poller.Tick();
         }
 

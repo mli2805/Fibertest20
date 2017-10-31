@@ -22,6 +22,7 @@ namespace Graph.Tests
         public ShellViewModel ShellVm { get; }
         public int CurrentEventNumber => Poller.CurrentEventNumber;
         public const string Path = @"..\..\Sut\base.sor";
+        public const string Path2 = @"..\..\Sut\anotherBase.sor";
 
         public SystemUnderTest()
         {
@@ -32,6 +33,7 @@ namespace Graph.Tests
 
             builder.RegisterType<FakeEventStoreInitializer>().As<IEventStoreInitializer>().SingleInstance();
             builder.RegisterType<EventStoreService>().SingleInstance();
+            builder.RegisterType<DbManager>().SingleInstance();
             builder.RegisterType<DcManager>().SingleInstance();
             builder.RegisterType<WcfServiceForClient>().As<IWcfServiceForClient>().SingleInstance();
 

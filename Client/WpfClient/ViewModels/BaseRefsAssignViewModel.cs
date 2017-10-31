@@ -125,39 +125,36 @@ namespace Iit.Fibertest.Client
         public void ClearPathToAdditional() { AdditionalBaseFilename = ""; }
         public async void Save()
         {
-            await SaveInGraph();
+            var dto = new AssignBaseRefDto()
+                { RtuId = _trace.RtuId, OtauPortDto = _trace.OtauAddress, BaseRefs = GetBaseRefChangesList() };
+            var result = await _c2DWcfManager.AssignBaseRefAsync(dto); // send to rtu
+            if (!result)
+                return;
 
-            await SendToRtu();
+            var cmd = new AssignBaseRef() { TraceId = _trace.Id, BaseRefs = dto.BaseRefs };
+            await _c2DWcfManager.SendCommandAsObj(cmd); // graph
 
             TryClose();
         }
 
-        private async Task SendToRtu()
+        public List<BaseRefDto> GetBaseRefChangesList()
         {
-            var listBaseRef = new List<BaseRefDto>();
-            var dto = new AssignBaseRefDto() {RtuId = _trace.RtuId, OtauPortDto = _trace.OtauAddress, BaseRefs = listBaseRef};
-//            await _c2DWcfManager.AssignBaseRefAsync(dto);
-        }
-
-        private AssignBaseRef _command;
-        private async Task SaveInGraph()
-        {
-            _command = new AssignBaseRef() {TraceId = _trace.Id};
+            var result = new List<BaseRefDto>();
             if (IsFilenameChanged(PreciseBaseFilename, _trace.PreciseId))
-                IncludeBaseRef(PreciseBaseFilename, BaseRefType.Precise);
+                result.Add(GetBaseRef(PreciseBaseFilename, BaseRefType.Precise));
             if (IsFilenameChanged(FastBaseFilename, _trace.FastId))
-                IncludeBaseRef(FastBaseFilename, BaseRefType.Fast);
+                result.Add(GetBaseRef(FastBaseFilename, BaseRefType.Fast));
             if (IsFilenameChanged(AdditionalBaseFilename, _trace.AdditionalId))
-                IncludeBaseRef(AdditionalBaseFilename, BaseRefType.Additional);
-
-            await _c2DWcfManager.SendCommandAsObj(_command); // graph
+                result.Add(GetBaseRef(AdditionalBaseFilename, BaseRefType.Additional));
+            return result;
         }
 
-        private void IncludeBaseRef(string filename, BaseRefType type)
+
+        private BaseRefDto GetBaseRef(string filename, BaseRefType type)
         {
             var guid = filename != "" ? Guid.NewGuid() : Guid.Empty;
             var content = filename != "" ? File.ReadAllBytes(filename) : null;
-            _command.BaseRefs.Add(new BaseRefDto() {Id = guid, BaseRefType = type, SorBytes = content});
+            return new BaseRefDto() {Id = guid, BaseRefType = type, SorBytes = content};
         }
         public void Cancel()
         {

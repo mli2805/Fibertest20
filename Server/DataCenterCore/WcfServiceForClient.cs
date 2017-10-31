@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
+using Newtonsoft.Json;
+using PrivateReflectionUsingDynamic;
 
 namespace Iit.Fibertest.DataCenterCore
 {
@@ -14,22 +16,39 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IMyLog _logFile;
 
         private readonly DcManager _dcManager;
+        private readonly DbManager _dbManager;
 
-        public WcfServiceForClient(EventStoreService eventStoreService, DcManager dcManager, IMyLog logFile)
+        private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
+        {
+            TypeNameHandling = TypeNameHandling.All
+        };
+
+        public WcfServiceForClient(EventStoreService eventStoreService, DcManager dcManager, DbManager dbManager, IMyLog logFile)
         {
             _logFile = logFile;
             _dcManager = dcManager;
+            _dbManager = dbManager;
             _eventStoreService = eventStoreService;
         }
 
         public async Task<string> SendCommandAsObj(object cmd)
         {
-            return await Task.FromResult(_eventStoreService.SendCommand(cmd));
+            return await _eventStoreService.SendCommand(cmd);
         }
 
         public async Task<string> SendCommand(string json)
         {
-            return await Task.FromResult(_eventStoreService.SendCommand(json));
+            var cmd = JsonConvert.DeserializeObject(json, JsonSerializerSettings);
+
+            var resultInGraph = await _eventStoreService.SendCommand(cmd);
+            if (!string.IsNullOrEmpty(resultInGraph))
+                return resultInGraph;
+
+            // save baseRefs in BD
+            _dbManager.AsDynamic().Apply(cmd);
+            // transmit to RTU
+
+            return "";
         }
 
         public async Task<string[]> GetEvents(int revision)

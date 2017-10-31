@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Newtonsoft.Json;
@@ -43,33 +44,27 @@ namespace Iit.Fibertest.DataCenterCore
         }
 
 
-        public string SendCommand(object cmd)
-        {
-            var result = (string)_aggregate.AsDynamic().When(cmd);
-            if (IsSuccess(result))
-            {
-                var eventStream = _storeEvents.OpenStream(AggregateId);
-                foreach (var e in WriteModel.EventsWaitingForCommit)
-                    eventStream.Add(new EventMessage { Body = e });
-                WriteModel.Commit();
-                eventStream.CommitChanges(Guid.NewGuid());
-            }
-            return result;
-        }
+//        public Task<string> SendCommand(string json)
+//        {
+//            var cmd = JsonConvert.DeserializeObject(json, JsonSerializerSettings);
+//            return SendCommand(cmd);
+//        }
 
-        public string SendCommand(string json)
+        public Task<string> SendCommand(object cmd)
         {
-            var cmd = JsonConvert.DeserializeObject(json, JsonSerializerSettings);
-            var result = (string)_aggregate.AsDynamic().When(cmd);
-            if (IsSuccess(result))
+            var result = (string)_aggregate.AsDynamic().When(cmd); // Aggregate checks if command is valid
+                                                                   // and if so transforms command into event and passes it to WriteModel
+                                                                   // WriteModel applies event
+
+            if (IsSuccess(result))                                   // if command was valid
             {
-                var eventStream = _storeEvents.OpenStream(AggregateId);
-                foreach (var e in WriteModel.EventsWaitingForCommit)
-                    eventStream.Add(new EventMessage { Body = e });
-                WriteModel.Commit();
+                var eventStream = _storeEvents.OpenStream(AggregateId);  
+                foreach (var e in WriteModel.EventsWaitingForCommit)   // takes already applied event from WriteModel's list
+                    eventStream.Add(new EventMessage { Body = e });   // and stores this event in BD
+                WriteModel.Commit();                                     // now cleans WriteModel's list
                 eventStream.CommitChanges(Guid.NewGuid());
             }
-            return result;
+            return Task.FromResult(result);
         }
 
         private static bool IsSuccess(string result)
