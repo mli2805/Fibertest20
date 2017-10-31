@@ -3,7 +3,7 @@ using Iit.Fibertest.Graph;
 
 namespace Graph.Tests
 {
-    public class SutForEquipment : SystemUnderTest
+    public class SutForEquipment : SutForBaseRefs
     {
         public const string NewTitleForTest = "New name for old equipment";
         public const EquipmentType NewTypeForTest = EquipmentType.Cross;

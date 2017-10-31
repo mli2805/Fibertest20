@@ -10,7 +10,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class NodeRemovedSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest();
+        private readonly SutForBaseRefs _sut = new SutForBaseRefs();
         private Guid _nodeId;
         private Guid _rtuNodeId;
         private Guid _anotherNodeId;
@@ -59,7 +59,7 @@ namespace Graph.Tests
         [Given(@"Для трассы задана базовая")]
         public void GivenДляТрассыЗаданаБазовая()
         {
-            _sut.FakeWindowManager.BaseIsSet();
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, _trace.Id, SystemUnderTest.Path, SystemUnderTest.Path, null, Answer.Yes));
             var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_trace.Id);
             traceLeaf.AssignBaseRefsAction(null);
             _sut.Poller.Tick();

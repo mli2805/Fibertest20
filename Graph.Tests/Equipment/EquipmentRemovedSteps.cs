@@ -26,9 +26,9 @@ namespace Graph.Tests
         [Given(@"Для этой трассы задана базовая")]
         public void GivenДляЭтойТрассыЗаданаБазовая()
         {
-            var vm = new BaseRefsAssignViewModel(_trace, _sut.ReadModel, _sut.ShellVm.C2DWcfManager);
-            vm.PreciseBaseFilename = SystemUnderTest.Path;
-            vm.Save();
+            var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_trace.Id);
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, _trace.Id, SystemUnderTest.Path, SystemUnderTest.Path, null, Answer.Yes));
+            traceLeaf.AssignBaseRefsAction(null);
             _sut.Poller.Tick();
         }
 

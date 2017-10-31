@@ -29,8 +29,8 @@ namespace Graph.Tests
         [Given(@"Для трассы проходящей по данному отрезку задана базовая")]
         public void GivenДляДаннойТрассыЗаданаБазовая()
         {
-            _sut.FakeWindowManager.BaseIsSet();
             var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_trace.Id);
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, _trace.Id, SystemUnderTest.Path, SystemUnderTest.Path, null, Answer.Yes));
             traceLeaf.AssignBaseRefsAction(null);
             _sut.Poller.Tick();
         }

@@ -47,17 +47,6 @@ namespace Graph.Tests
             _handlersQueue.Add(del);
         }
 
-        public void BaseIsSet()
-        {
-            RegisterHandler(model =>
-            {
-                var vm = model as BaseRefsAssignViewModel;
-                if (vm == null) return false;
-                vm.PreciseBaseFilename = SystemUnderTest.Path;
-                vm.FastBaseFilename = SystemUnderTest.Path;
-                vm.Save();
-                return true;
-            });
-        }
+     
     }
 }

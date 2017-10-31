@@ -40,9 +40,9 @@ namespace Graph.Tests
         [Given(@"Задаем базовую")]
         public void GivenЗадаемБазовую()
         {
-            var vm = new BaseRefsAssignViewModel(_trace, _sut.ReadModel, _sut.ShellVm.C2DWcfManager);
-            vm.PreciseBaseFilename = SystemUnderTest.Path;
-            vm.Save();
+            var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_trace.Id);
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, _trace.Id, SystemUnderTest.Path, null, null, Answer.Yes));
+            traceLeaf.AssignBaseRefsAction(null);
             _sut.Poller.Tick();
         }
 

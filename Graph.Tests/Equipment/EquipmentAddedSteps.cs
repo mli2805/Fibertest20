@@ -46,9 +46,10 @@ namespace Graph.Tests
         [Given(@"Для одной из трасс задана базовая")]
         public void GivenДляОднойИзТрассЗаданаБазовая()
         {
-            _sut.FakeWindowManager.BaseIsSet();
+            var trace = _sut.ReadModel.Traces.First();
+            var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(trace.Id);
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, trace.Id, SystemUnderTest.Path, SystemUnderTest.Path, null, Answer.Yes));
 
-            var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_sut.ShortTraceId);
             traceLeaf.AssignBaseRefsAction(null);
             _sut.Poller.Tick();
         }
