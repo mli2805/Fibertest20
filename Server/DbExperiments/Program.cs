@@ -2,6 +2,8 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Threading;
 
 namespace DbExperiments
 {
@@ -23,36 +25,37 @@ namespace DbExperiments
 
             Console.WriteLine();
 
-            byte[] buffer = null;
-            buffer = File.ReadAllBytes(@"c:\temp\123.sor");
-            var moniResultBlob = new MoniResultBlob()
+            var someGuid = Guid.NewGuid();
+            for (int i = 0; i < 10; i++)
             {
-                IsFailed = true,
-                DistanceToFirstBreak = 20.356,
-                SorBytes = buffer,
-            };
-            using (MemoryStream ms = new MemoryStream())
-            {
-                var bw = new BinaryWriter(ms);
-//                bw.Write(moniResultBlob);
+                var buffer = File.ReadAllBytes(@"c:\temp\123.sor");
+                var monitoringResult = new MonitoringResult()
+                {
+                    RtuId = i % 2 == 0 ? Guid.NewGuid() : someGuid,
+                    TraceId = Guid.NewGuid(),
+                    Timestamp = DateTime.Now,
+                    SorBytes = buffer,
+                };
+                context.MonitoringResults.Add(monitoringResult);
             }
-
-            var monitoringResult = new MonitoringResult()
-            {
-                RtuId = Guid.NewGuid(),
-                TraceId = Guid.NewGuid(),
-                Data = moniResultBlob,
-            };
-            context.MonitoringResults.Add(monitoringResult);
             context.SaveChanges();
 
             var monitoringResults = context.MonitoringResults.ToList();
-            var result = monitoringResults.First();
-            Console.WriteLine($"RTU {result.RtuId}      Trace {result.TraceId}");
-            File.WriteAllBytes(@"c:\temp\789.sor", result.Data.SorBytes);
-
+            foreach (var result in monitoringResults.Where(r=>r.Timestamp.LaterThan(new DateTime(2017,11,1,18,35,0))))
+            {
+                Console.WriteLine($"RTU {result.RtuId}      Trace {result.TraceId} ");
+                Console.WriteLine($"Timestamp {result.Timestamp}");
+            }
             Console.WriteLine("Done.");
             Console.ReadLine();
+        }
+    }
+
+    public static class DateTimeExt
+    {
+        public static bool LaterThan(this DateTime timestamp, DateTime anotherDateTime)
+        {
+            return timestamp > anotherDateTime;
         }
     }
 }
