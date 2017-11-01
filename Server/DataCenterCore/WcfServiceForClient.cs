@@ -46,6 +46,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             // save baseRefs in BD
             _dbManager.AsDynamic().Apply(cmd);
+
             // transmit to RTU
 
             return "";

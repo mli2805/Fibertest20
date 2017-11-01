@@ -14,7 +14,7 @@ namespace Iit.Fibertest.Dto
         public bool IsInitialized { get; set; }
 
         [DataMember]
-        public ErrorCode ErrorCode { get; set; }
+        public ReturnCode ReturnCode { get; set; }
         [DataMember]
         public string ErrorMessage { get; set; }
 

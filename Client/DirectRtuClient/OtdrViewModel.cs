@@ -258,12 +258,12 @@ namespace DirectRtuClient
                 var result = await Task.Run(() => OtdrManager.MeasureWithBase(baseBytes, GetActiveChildCharon()));
 
                 IsMeasurementInProgress = false;
-                if (result == ErrorCode.MeasurementInterrupted)
+                if (result == ReturnCode.MeasurementInterrupted)
                 {
                     Message = @"Measurement interrupted";
                     return;
                 }
-                if (result != ErrorCode.MeasurementEndedNormally)
+                if (result != ReturnCode.MeasurementEndedNormally)
                 {
                     Message = Resources.SID_Measurement_error__see_log;
                     return;
@@ -337,7 +337,7 @@ namespace DirectRtuClient
                     var result = await Task.Run(() => OtdrManager.MeasureWithBase(baseBytes, GetActiveChildCharon()));
 
                     IsMeasurementInProgress = false;
-                    if (result != ErrorCode.MeasurementEndedNormally)
+                    if (result != ReturnCode.MeasurementEndedNormally)
                         return;
                     await Task.Run(() => ProcessMeasurementResult(baseBytes, c));
                 }

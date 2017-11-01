@@ -84,7 +84,7 @@ namespace Iit.Fibertest.RtuManagement
             }
         }
 
-        private ErrorCode _rtuInitializationResult;
+        private ReturnCode _rtuInitializationResult;
 
         public RtuManager(IMyLog serviceLog, IniFile serviceIni)
         {
@@ -123,7 +123,7 @@ namespace Iit.Fibertest.RtuManagement
             {
                 RtuId = _id,
                 IsInitialized = IsRtuInitialized,
-                ErrorCode = _rtuInitializationResult,
+                ReturnCode = _rtuInitializationResult,
                 Serial = _mainCharon?.Serial,
                 FullPortCount = _mainCharon?.FullPortCount ?? 0,
                 OwnPortCount = _mainCharon?.OwnPortCount ?? 0,

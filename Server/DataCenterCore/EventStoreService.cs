@@ -43,13 +43,6 @@ namespace Iit.Fibertest.DataCenterCore
             _aggregate = new Aggregate(WriteModel);
         }
 
-
-//        public Task<string> SendCommand(string json)
-//        {
-//            var cmd = JsonConvert.DeserializeObject(json, JsonSerializerSettings);
-//            return SendCommand(cmd);
-//        }
-
         public Task<string> SendCommand(object cmd)
         {
             var result = (string)_aggregate.AsDynamic().When(cmd); // Aggregate checks if command is valid

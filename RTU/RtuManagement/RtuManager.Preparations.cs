@@ -9,12 +9,12 @@ namespace Iit.Fibertest.RtuManagement
 {
     public partial class RtuManager
     {
-        private ErrorCode InitializeRtuManager()
+        private ReturnCode InitializeRtuManager()
         {
             LedDisplay.Show(_rtuIni, _rtuLog, LedDisplayCode.Connecting);
 
             var otdrInitializationResult = InitializeOtdr();
-            if (otdrInitializationResult != ErrorCode.Ok)
+            if (otdrInitializationResult != ReturnCode.Ok)
             {
                 // We can't be here because InitializeOtdr should endlessly continue
                 // until Otdr is initialized Ok.
@@ -35,14 +35,14 @@ namespace Iit.Fibertest.RtuManagement
             return otauInitializationResult;
         }
 
-        private ErrorCode InitializeOtdr()
+        private ReturnCode InitializeOtdr()
         {
             _otdrManager = new OtdrManager(@"OtdrMeasEngine\", _rtuIni, _rtuLog);
             if (_otdrManager.LoadDll() != "")
-                return ErrorCode.OtdrInitializationCannotLoadDll;
+                return ReturnCode.OtdrInitializationCannotLoadDll;
 
             if (!_otdrManager.InitializeLibrary())
-                return ErrorCode.OtdrInitializationCannotInitializeDll;
+                return ReturnCode.OtdrInitializationCannotInitializeDll;
 
             var otdrAddress = _rtuIni.Read(IniSection.General, IniKey.OtdrIp, DefaultIp);
             Thread.Sleep(3000);
@@ -55,22 +55,22 @@ namespace Iit.Fibertest.RtuManagement
                     RunMainCharonRecovery(); // one of recovery steps inevitably exits process
             }
             _rtuIni.Write(IniSection.Recovering, IniKey.RecoveryStep, 0);
-            return ErrorCode.Ok;
+            return ReturnCode.Ok;
         }
 
-        private ErrorCode InitializeOtau()
+        private ReturnCode InitializeOtau()
         {
             var otauIpAddress = _rtuIni.Read(IniSection.General, IniKey.OtauIp, DefaultIp);
             _mainCharon = new Charon(new NetAddress(otauIpAddress, 23), _rtuIni, _rtuLog);
             var res = _mainCharon.InitializeOtau();
 
             if (res == null)
-                return ErrorCode.Ok;
+                return ReturnCode.Ok;
 
             if (!res.Equals(_mainCharon.NetAddress))
             {
                 RunAdditionalOtauRecovery(null, res.Ip4Address);
-                return ErrorCode.Ok;
+                return ReturnCode.Ok;
             }
             else // main charon
             {
@@ -79,7 +79,7 @@ namespace Iit.Fibertest.RtuManagement
                 if (res != null)
                     RunMainCharonRecovery(); // one of recovery steps inevitably exits process
             }
-            return ErrorCode.Ok;
+            return ReturnCode.Ok;
         }
       
         private void GetMonitoringParams()

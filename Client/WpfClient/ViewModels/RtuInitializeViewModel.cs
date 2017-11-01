@@ -125,7 +125,7 @@ namespace Iit.Fibertest.Client
         {
             var message = dto.IsInitialized
                 ? $@"RTU {dto.RtuId.First6()} initialized successfully."
-                : dto.ErrorCode.GetLocalizedString(dto.ErrorMessage);
+                : dto.ReturnCode.GetLocalizedString(dto.ErrorMessage);
 
             _logFile.AppendLine(message);
             var vm = dto.IsInitialized

@@ -160,12 +160,12 @@ namespace Iit.Fibertest.RtuManagement
                 return null;
             SendCurrentMonitoringStep(RtuCurrentMonitoringStep.Measure, monitorigPort, baseRefType);
             var result = _otdrManager.MeasureWithBase(baseBytes, _mainCharon.GetActiveChildCharon());
-            if (result == ErrorCode.MeasurementInterrupted)
+            if (result == ReturnCode.MeasurementInterrupted)
             {
                 _isMonitoringOn = false;
                 return null;
             }
-            if (result != ErrorCode.MeasurementEndedNormally)
+            if (result != ReturnCode.MeasurementEndedNormally)
             {                                 // Error 814 during measurement prepare
                 RunMainCharonRecovery();
                 return null;

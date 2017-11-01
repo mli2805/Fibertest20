@@ -8,9 +8,9 @@ namespace Iit.Fibertest.IitOtdrLibrary
 {
     public partial class OtdrManager
     {
-        public ErrorCode MeasureWithBase(byte[] buffer, Charon activeChild)
+        public ReturnCode MeasureWithBase(byte[] buffer, Charon activeChild)
         {
-            var result = ErrorCode.Error;
+            var result = ReturnCode.Error;
 
             // allocate memory inside c++ library
             // put there base sor data
@@ -27,7 +27,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
             return result;
         }
 
-        public ErrorCode DoManualMeasurement(bool shouldForceLmax, Charon activeChild)
+        public ReturnCode DoManualMeasurement(bool shouldForceLmax, Charon activeChild)
         {
             if (shouldForceLmax)
                 IitOtdr.ForceLmaxNs(IitOtdr.ConvertLmaxKmToNs());
@@ -41,14 +41,14 @@ namespace Iit.Fibertest.IitOtdrLibrary
         /// after Measure() use GetLastSorData() to obtain measurement result
         /// </summary>
         /// <returns></returns>
-        private ErrorCode Measure(Charon activeChild)
+        private ReturnCode Measure(Charon activeChild)
         {
             _rtuLogger.AppendLine("Measurement begin.");
 
             if (!IitOtdr.PrepareMeasurement(true))
             {
                 _rtuLogger.AppendLine("Prepare measurement error!");
-                return ErrorCode.MeasurementPreparationError;
+                return ReturnCode.MeasurementPreparationError;
             }
 
             activeChild?.ShowMessageMeasurementPort();
@@ -61,7 +61,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
         }
 
         private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
-        private ErrorCode MeasureSteps()
+        private ReturnCode MeasureSteps()
         {
             try
             {
@@ -72,7 +72,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
                     {
                         IitOtdr.StopMeasurement(true);
                         _rtuLogger.AppendLine("Measurement interrupted.");
-                        return ErrorCode.MeasurementInterrupted;
+                        return ReturnCode.MeasurementInterrupted;
                     }
 
                     hasMoreSteps = IitOtdr.DoMeasurementStep(ref _sorData);
@@ -82,11 +82,11 @@ namespace Iit.Fibertest.IitOtdrLibrary
             catch (Exception e)
             {
                 _rtuLogger.AppendLine(e.Message);
-                return ErrorCode.MeasurementError;
+                return ReturnCode.MeasurementError;
             }
 
             _rtuLogger.AppendLine("Measurement ended normally.");
-            return ErrorCode.MeasurementEndedNormally;
+            return ReturnCode.MeasurementEndedNormally;
         }
 
         public void InterruptMeasurement()

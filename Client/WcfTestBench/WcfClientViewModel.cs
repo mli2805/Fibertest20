@@ -147,7 +147,7 @@ namespace WcfTestBench
             using (new WaitCursor())
             {
                 var b = await _c2DWcfManager.InitializeRtuAsync(dto);
-                DisplayString = b.IsInitialized ? @"RTU initialized successfully." : $@"Error code {b.ErrorCode}";
+                DisplayString = b.IsInitialized ? @"RTU initialized successfully." : $@"Error code {b.ReturnCode}";
             }
         }
 

@@ -150,7 +150,7 @@ namespace Iit.Fibertest.WcfConnections
         {
             var c2DChannel = _wcfFactory.CreateC2DConnection();
             if (c2DChannel == null)
-                return new RtuInitializedDto() { IsInitialized = false, ErrorCode = ErrorCode.C2DWcfConnectionError, ErrorMessage = "Can't establish connection with DataCenter"};
+                return new RtuInitializedDto() { IsInitialized = false, ReturnCode = ReturnCode.C2DWcfConnectionError, ErrorMessage = "Can't establish connection with DataCenter"};
 
             try
             {
@@ -161,7 +161,7 @@ namespace Iit.Fibertest.WcfConnections
             catch (Exception e)
             {
                 _logFile.AppendLine(e.Message);
-                return new RtuInitializedDto() { IsInitialized = false, ErrorCode = ErrorCode.C2DWcfOperationError, ErrorMessage = e.Message};
+                return new RtuInitializedDto() { IsInitialized = false, ReturnCode = ReturnCode.C2DWcfOperationError, ErrorMessage = e.Message};
             }
         }
 

@@ -35,7 +35,7 @@ namespace Iit.Fibertest.RtuManagement
             RestoreFunctions.ResetCharonThroughComPort(_rtuIni, _rtuLog);
 
             _rtuInitializationResult = InitializeRtuManager();
-            if (_rtuInitializationResult != ErrorCode.Ok)
+            if (_rtuInitializationResult != ReturnCode.Ok)
             {
                 // usualy can't find some file
                 // in other cases if there is a way to recover it doesn't come here but start recover procedure
