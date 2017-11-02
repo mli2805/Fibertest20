@@ -45,6 +45,14 @@
       <HintPath>..\..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MySql.Data, Version=6.8.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MySql.Data.6.8.8\lib\net45\MySql.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MySql.Data.Entity.EF6, Version=6.8.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MySql.Data.Entity.6.8.8\lib\net45\MySql.Data.Entity.EF6.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -66,13 +74,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MyContext.cs" />
+    <Compile Include="DbContexts\IFibertestDbContext.cs" />
+    <Compile Include="DbContexts\MySqlContext.cs" />
+    <Compile Include="Migrations\201711021117109_PasswordNameChanged.cs" />
+    <Compile Include="Migrations\201711021117109_PasswordNameChanged.Designer.cs">
+      <DependentUpon>201711021117109_PasswordNameChanged.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711021122544_PasswordAccessibilityChanged.cs" />
+    <Compile Include="Migrations\201711021122544_PasswordAccessibilityChanged.Designer.cs">
+      <DependentUpon>201711021122544_PasswordAccessibilityChanged.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Model\MonitoringResult.cs" />
+    <Compile Include="Model\Role.cs" />
+    <Compile Include="DbContexts\SqliteContext.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Model\User.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201711021117109_PasswordNameChanged.resx">
+      <DependentUpon>201711021117109_PasswordNameChanged.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711021122544_PasswordAccessibilityChanged.resx">
+      <DependentUpon>201711021122544_PasswordAccessibilityChanged.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\System.Data.SQLite.Core.1.0.105.2\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\..\packages\System.Data.SQLite.Core.1.0.105.2\build\net46\System.Data.SQLite.Core.targets')" />
