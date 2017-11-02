@@ -22,7 +22,8 @@ namespace Iit.Fibertest.DataCenterService
             var logFile = new LogFile(iniFile);
             builder.RegisterInstance<IMyLog>(logFile);
 
-            builder.RegisterType<EventStoreInitializer>().As<IEventStoreInitializer>().SingleInstance();
+//            builder.RegisterType<SqliteEventStoreInitializer>().As<IEventStoreInitializer>().SingleInstance();
+            builder.RegisterType<MySqlEventStoreInitializer>().As<IEventStoreInitializer>().SingleInstance();
             builder.RegisterType<EventStoreService>().SingleInstance();
             builder.RegisterType<DbManager>().SingleInstance();
             builder.RegisterType<DcManager>().SingleInstance();

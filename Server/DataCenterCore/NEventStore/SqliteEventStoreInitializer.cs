@@ -7,8 +7,10 @@ using NEventStore.Persistence.Sql.SqlDialects;
 
 namespace Iit.Fibertest.DataCenterCore
 {
-    public sealed class EventStoreInitializer : IEventStoreInitializer
+
+    public sealed class SqliteEventStoreInitializer : IEventStoreInitializer
     {
+
         public IStoreEvents Init(IMyLog logFile)
         {
             var appPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
@@ -17,14 +19,14 @@ namespace Iit.Fibertest.DataCenterCore
 
             try
             {
-                var storeEvents = Wireup.Init()
+                var eventStore = Wireup.Init()
                     .UsingSqlPersistence("NEventStoreSQLite", "System.Data.SQLite", $@"Data Source={graphDbPath};Version=3;New=True;")
                     .WithDialect(new SqliteDialect())
                     .InitializeStorageEngine()
                     .Build();
 
                 logFile.AppendLine(@"EventStoreService initialized successfully");
-                return storeEvents;
+                return eventStore;
             }
             catch (Exception e)
             {
