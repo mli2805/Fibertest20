@@ -13,7 +13,7 @@ namespace Iit.Fibertest.Client
         private string _zoneName;
         private Guid _zoneId;
         private bool _isDefaultZoneUser;
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         public string Name
         {

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Client
 {

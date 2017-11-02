@@ -88,8 +88,7 @@ namespace Iit.Fibertest.Client
 
             Zones = zones;
 
-            SelectedZone = (UserVm.Id == Guid.Empty || UserVm.IsDefaultZoneUser) ? Zones.First() : Zones.First(z=>z.Id == userVm.ZoneId);
-            UserVm.Id = Guid.NewGuid();
+            SelectedZone = (UserVm.IsDefaultZoneUser) ? Zones.First() : Zones.First(z=>z.Id == userVm.ZoneId);
         }
 
         protected override void OnViewLoaded(object view)

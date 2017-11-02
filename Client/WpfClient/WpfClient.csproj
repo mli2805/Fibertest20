@@ -199,7 +199,6 @@
     <Compile Include="ViewControls\NetAddressTestViewModel.cs" />
     <Compile Include="TreeModel\Post\CenterToRtu.cs" />
     <Compile Include="ViewModels\Administrative\ObjectsToZonesViewModel.cs" />
-    <Compile Include="ViewModels\Administrative\User.cs" />
     <Compile Include="ViewModels\Administrative\ZonesContentViewModel.cs" />
     <Compile Include="ViewModels\Administrative\ZonesViewModel.cs" />
     <Compile Include="ViewModels\Landmarks\Landmark.cs" />
