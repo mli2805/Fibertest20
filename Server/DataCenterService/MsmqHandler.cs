@@ -21,7 +21,9 @@ namespace Iit.Fibertest.DataCenterService
 
         public void Start()
         {
-            var connectionString = @"FormatName:DIRECT=TCP:127.0.0.1\private$\Fibertest20";
+            // ini file should contain correct local ip (127.0.0.1 or localhost are NOT valid in this case)
+            var address = _iniFile.Read(IniSection.ServerMainAddress, IniKey.Ip, "192.168.96.0");
+            var connectionString = $@"FormatName:DIRECT=TCP:{address}\private$\Fibertest20";
             var queue = new MessageQueue(connectionString);
             queue.ReceiveCompleted += MyReceiveCompleted;
 
