@@ -1,4 +1,4 @@
-﻿namespace Iit.Fibertest.Client
+﻿namespace Iit.Fibertest.Dto
 {
     public enum Role
     {
