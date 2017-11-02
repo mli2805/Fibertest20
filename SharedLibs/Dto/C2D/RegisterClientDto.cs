@@ -14,5 +14,8 @@ namespace Iit.Fibertest.Dto
 
         [DataMember]
         public string UserName { get; set; }
+
+        [DataMember]
+        public string Password { get; set; }
     }
 }

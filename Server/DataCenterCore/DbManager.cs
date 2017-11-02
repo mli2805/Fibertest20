@@ -56,7 +56,7 @@ namespace Iit.Fibertest.DataCenterCore
         public ReturnCode CheckUserPassword(string username, string password)
         {
 
-            return ReturnCode.UserAuthenticatedSuccessfully;
+            return ReturnCode.ClientRegisteredSuccessfully;
         }
     }
 }

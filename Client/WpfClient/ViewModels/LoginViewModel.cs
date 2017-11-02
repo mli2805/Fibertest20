@@ -57,15 +57,15 @@ namespace Iit.Fibertest.Client
 
         private void ParseServerAnswer(ClientRegisteredDto dto)
         {
-            if (dto.IsRegistered)
+            if (dto.ReturnCode == ReturnCode.ClientRegisteredSuccessfully)
             {
                 _logFile.AppendLine(@"Registered successfully");
                 TryClose(true);
             }
             else
             {
-                _logFile.AppendLine(@"Something goes wrong with registration");
-                Status = $@"Error = {dto.ErrorCode}";
+                _logFile.AppendLine(dto.ReturnCode.ToString());
+                Status = $@"Error = {dto.ReturnCode.GetLocalizedString()}";
             }
         }
 
@@ -78,26 +78,14 @@ namespace Iit.Fibertest.Client
         {
 #if DEBUG
             if (string.IsNullOrEmpty(UserName))
-                UserName = @"root";
+                UserName = @"developer";
             if (string.IsNullOrEmpty(Password))
-                Password = @"root";
+                Password = @"developer";
 #endif
-            if (CheckPassword(UserName, Password))
-            {
-                _logFile.AppendLine($@"User signed in as {UserName}");
-                Status = Resources.SID_Client_registraion_is_performing;
-                var result = await RegisterClientAsync();
-                ParseServerAnswer(result);
-            }
-            else
-            {
-                Status = Resources.SID_Wrong_user_name_or_password_;
-            }
-        }
-
-        private bool CheckPassword(string username, string password)
-        {
-            return true;
+            _logFile.AppendLine(@"Client registration attempt");
+            Status = Resources.SID_Client_registraion_is_performing;
+            var result = await RegisterClientAsync();
+            ParseServerAnswer(result);
         }
 
         private async Task<ClientRegisteredDto> RegisterClientAsync()
@@ -111,11 +99,12 @@ namespace Iit.Fibertest.Client
                 new RegisterClientDto()
                 {
                     Addresses = new DoubleAddress() { Main = clientAddresses, HasReserveAddress = false },
-                    UserName = UserName
+                    UserName = UserName,
+                    Password = Password,
                 });
 
-            if (!result.IsRegistered)
-                MessageBox.Show(Resources.SID_Can_t_establish_connection_with_server_, Resources.SID_Error);
+            if (result.ReturnCode != ReturnCode.ClientRegisteredSuccessfully)
+                MessageBox.Show(result.ReturnCode.GetLocalizedString(), Resources.SID_Error);
             return result;
         }
 

@@ -75,7 +75,7 @@ namespace Iit.Fibertest.WcfConnections
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();
             if (wcfConnection == null)
-                return new ClientRegisteredDto() { IsRegistered = false };
+                return new ClientRegisteredDto() { ReturnCode = ReturnCode.C2DWcfConnectionError };
 
             try
             {
@@ -85,7 +85,7 @@ namespace Iit.Fibertest.WcfConnections
             catch (Exception e)
             {
                 _logFile.AppendLine(e.Message);
-                return new ClientRegisteredDto() { IsRegistered = false };
+                return new ClientRegisteredDto() { ReturnCode = ReturnCode.C2DWcfOperationError };
             }
         }
 

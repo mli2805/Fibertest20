@@ -25,13 +25,15 @@ namespace Iit.Fibertest.Dto
         DbInitializedSuccessfully = 3001,
         DbIsNotInitializedError = 3002,
 
-        UserAuthenticatedSuccessfully = 9001,
+        ClientRegistrationError = 9000,
+        ClientRegisteredSuccessfully = 9001,
         NoSuchUserOrWrongPassword = 9002,
+        ThisUserRegisteredOnAnotherPc = 9003,
     }
 
     public static class ErrorCodeExt
     {
-        public static string GetLocalizedString(this ReturnCode returnCode, string exceptionMessage)
+        public static string GetLocalizedString(this ReturnCode returnCode, string exceptionMessage = "")
         {
             switch (returnCode)
             {
@@ -41,10 +43,18 @@ namespace Iit.Fibertest.Dto
                     return Resources.SID_Cannot_find_dll_file_;
                 case ReturnCode.OtdrInitializationCannotInitializeDll:
                     return Resources.SID_Cannot_initialize_dll_;
+
+                    // 2000
                 case ReturnCode.C2DWcfConnectionError:
                     return Resources.SID_Cannot_establish_connection_with_DataCenter_;
                 case ReturnCode.C2DWcfOperationError:
                     return Resources.SID_RTU_initialization_error_ + $"\n\n{exceptionMessage}";
+
+                    // 9000
+                case ReturnCode.NoSuchUserOrWrongPassword:
+                    return "No such user or wrong password!";
+                case ReturnCode.ThisUserRegisteredOnAnotherPc:
+                    return "User with the same name is registered on another PC";
                 default: return "";
             }
         }

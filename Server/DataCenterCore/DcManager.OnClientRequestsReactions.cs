@@ -27,14 +27,12 @@ namespace Iit.Fibertest.DataCenterCore
             try
             {
                 _clientStations.AddOrUpdate(dto.ClientId, clientStation, (id, _) => clientStation);
-                result.IsRegistered = true;
-                result.ErrorCode = 0;
+                result.ReturnCode = ReturnCode.ClientRegisteredSuccessfully;
             }
             catch (Exception e)
             {
                 _logFile.AppendLine(e.Message);
-                result.IsRegistered = false;
-                result.ErrorCode = 2;
+                result.ReturnCode = ReturnCode.ClientRegistrationError;
             }
 
             _logFile.AppendLine($"There are {_clientStations.Count} clients");

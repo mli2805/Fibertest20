@@ -89,7 +89,7 @@ namespace WcfTestBench
                     Addresses = new DoubleAddress() { Main = clientAddresses, HasReserveAddress = false },
                     UserName = @"Vasya"
                 });
-            if (!registrationResult.IsRegistered)
+            if (registrationResult.ReturnCode != ReturnCode.ClientRegisteredSuccessfully)
                 MessageBox.Show(@"Cannot register on server!");
         }
 

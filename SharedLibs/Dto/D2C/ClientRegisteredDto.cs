@@ -6,9 +6,6 @@ namespace Iit.Fibertest.Dto
     public class ClientRegisteredDto
     {
         [DataMember]
-        public bool IsRegistered { get; set; }
-
-        [DataMember]
-        public int ErrorCode { get; set; }
+        public ReturnCode ReturnCode { get; set; }
     }
 }
