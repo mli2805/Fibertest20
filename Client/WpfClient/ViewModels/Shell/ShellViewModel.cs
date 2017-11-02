@@ -30,7 +30,6 @@ namespace Iit.Fibertest.Client
         public GraphReadModel GraphReadModel { get; set; }
 
         private bool? _isAuthenticationSuccessfull;
-        public AdministrativeDb AdministrativeDb { get; set; }
 
         private Visibility _sysEventsVisibility;
         private int _selectedTabIndex;
@@ -58,7 +57,7 @@ namespace Iit.Fibertest.Client
         }
 
         public ShellViewModel(ReadModel readModel, TreeOfRtuModel treeOfRtuModel, IWcfServiceForClient c2DWcfManager,
-                AdministrativeDb administrativeDb, GraphReadModel graphReadModel, IWindowManager windowManager, 
+                GraphReadModel graphReadModel, IWindowManager windowManager, 
                 ILogger clientLogger, IniFile iniFile, IMyLog logFile, IClientWcfServiceHost host)
         {
             ReadModel = readModel;
@@ -66,7 +65,6 @@ namespace Iit.Fibertest.Client
             TreeOfRtuModel.PostOffice.PropertyChanged += PostOffice_PropertyChanged;
             MainMenuViewModel = new MainMenuViewModel(windowManager);
             TreeOfRtuViewModel = new TreeOfRtuViewModel(treeOfRtuModel);
-            AdministrativeDb = administrativeDb;
             GraphReadModel = graphReadModel;
             GraphReadModel.MapVisibility = Visibility.Visible;
             SysEventsVisibility = Visibility.Collapsed;
@@ -89,7 +87,6 @@ namespace Iit.Fibertest.Client
         {
             // if user cancelled login view - _c2DWcfManager would be null
             C2DWcfManager?.UnregisterClientAsync(new UnRegisterClientDto());
-            Save();
             _logFile.AppendLine(@"Client application finished!");
             base.CanClose(callback);
         }
@@ -146,10 +143,6 @@ namespace Iit.Fibertest.Client
             SysEventsVisibility = GraphReadModel.MapVisibility == Visibility.Visible
                 ? Visibility.Collapsed
                 : Visibility.Visible;
-        }
-        public void Save()
-        {
-            AdministrativeDb.Save();
         }
 
         public void TestTraceState()

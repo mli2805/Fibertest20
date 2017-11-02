@@ -61,8 +61,6 @@ namespace Iit.Fibertest.Client
                     logFile))
                 .SingleInstance();
 
-            builder.RegisterType<AdministrativeDb>().SingleInstance();
-
 
             builder.RegisterType<LoginViewModel>();
             builder.RegisterType<ServerConnectViewModel>();

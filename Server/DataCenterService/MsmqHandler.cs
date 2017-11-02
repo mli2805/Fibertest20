@@ -21,13 +21,21 @@ namespace Iit.Fibertest.DataCenterService
 
         public void Start()
         {
-            var address = _iniFile.Read(IniSection.ServerMainAddress, IniKey.Ip, "192.168.96.0");
-            var connectionString = $@"FormatName:DIRECT=TCP:{address}\private$\Fibertest20";
+            var connectionString = @"FormatName:DIRECT=TCP:127.0.0.1\private$\Fibertest20";
             var queue = new MessageQueue(connectionString);
             queue.ReceiveCompleted += MyReceiveCompleted;
 
             // Begin the asynchronous receive operation.
-            queue.BeginReceive();
+            _logFile.AppendLine($"MSMQ {connectionString} listener started");
+            try
+            {
+                queue.BeginReceive();
+
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+            }
         }
 
         private void MyReceiveCompleted(object source, ReceiveCompletedEventArgs asyncResult)

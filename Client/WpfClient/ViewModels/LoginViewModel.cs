@@ -16,7 +16,6 @@ namespace Iit.Fibertest.Client
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly IWcfServiceForClient _c2DWcfManager;
-        private readonly AdministrativeDb _administrativeDb;
         public Guid ClientId { private get; set; }
 
         private string _userName;
@@ -48,13 +47,12 @@ namespace Iit.Fibertest.Client
 
 
         public LoginViewModel(IWindowManager windowManager, IniFile iniFile, IMyLog logFile,
-            IWcfServiceForClient c2DWcfManager, AdministrativeDb administrativeDb)
+            IWcfServiceForClient c2DWcfManager)
         {
             _windowManager = windowManager;
             _iniFile = iniFile;
             _logFile = logFile;
             _c2DWcfManager = c2DWcfManager;
-            _administrativeDb = administrativeDb;
         }
 
         private void ParseServerAnswer(ClientRegisteredDto dto)
@@ -84,7 +82,7 @@ namespace Iit.Fibertest.Client
             if (string.IsNullOrEmpty(Password))
                 Password = @"root";
 #endif
-            if (_administrativeDb.CheckPassword(UserName, Password))
+            if (CheckPassword(UserName, Password))
             {
                 _logFile.AppendLine($@"User signed in as {UserName}");
                 Status = Resources.SID_Client_registraion_is_performing;
@@ -95,6 +93,11 @@ namespace Iit.Fibertest.Client
             {
                 Status = Resources.SID_Wrong_user_name_or_password_;
             }
+        }
+
+        private bool CheckPassword(string username, string password)
+        {
+            return true;
         }
 
         private async Task<ClientRegisteredDto> RegisterClientAsync()

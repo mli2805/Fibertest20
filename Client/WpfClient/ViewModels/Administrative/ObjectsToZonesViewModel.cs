@@ -9,15 +9,15 @@ namespace Iit.Fibertest.Client
 {
     public class ObjectsToZonesViewModel : Screen
     {
-        private readonly AdministrativeDb _administrativeDb;
+        private List<Zone> _zones;
         private readonly TreeOfRtuModel _treeOfRtuModel;
 
         public DataTable BindableTable { get; set; }
         public List<Guid> ObjectList { get; set; } = new List<Guid>();
 
-        public ObjectsToZonesViewModel(AdministrativeDb administrativeDb, TreeOfRtuModel treeOfRtuModel)
+        public ObjectsToZonesViewModel(List<Zone> zones, TreeOfRtuModel treeOfRtuModel)
         {
-            _administrativeDb = administrativeDb;
+            _zones = zones;
             _treeOfRtuModel = treeOfRtuModel;
 
             CreateTable();
@@ -52,7 +52,7 @@ namespace Iit.Fibertest.Client
             newRow[1] = true;
 
             int i = 2;
-            foreach (var zone in _administrativeDb.Zones.Skip(1))
+            foreach (var zone in _zones.Skip(1))
             {
                 newRow[i] = zone.Objects.Contains(id);
                 i++;
@@ -69,7 +69,7 @@ namespace Iit.Fibertest.Client
             DataColumn objectsColumn = new DataColumn() {ColumnName = "Objects"};
             BindableTable.Columns.Add(objectsColumn);
 
-            foreach (var zone in _administrativeDb.Zones)
+            foreach (var zone in _zones)
             {
                 BindableTable.Columns.Add(new DataColumn(zone.Title) {DataType = typeof(bool)});
             }
@@ -77,7 +77,7 @@ namespace Iit.Fibertest.Client
 
         public void Save()
         {
-            foreach (var zone in _administrativeDb.Zones.Skip(1))
+            foreach (var zone in _zones.Skip(1))
                 zone.Objects = new List<Guid>();
 
             for (var r = 0; r < BindableTable.Rows.Count; r++)
@@ -86,11 +86,11 @@ namespace Iit.Fibertest.Client
                 {
                     if ((bool)BindableTable.Rows[r][c])
                     {
-                        _administrativeDb.Zones[c-1].Objects.Add(ObjectList[r]);
+                        _zones[c-1].Objects.Add(ObjectList[r]);
                     }
                 }
             }
-            _administrativeDb.Save();
+            // TODO send _zones to server for saving
             TryClose(true);
         }
 

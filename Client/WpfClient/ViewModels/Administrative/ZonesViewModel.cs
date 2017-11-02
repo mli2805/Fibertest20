@@ -8,15 +8,12 @@ namespace Iit.Fibertest.Client
 {
     public class ZonesViewModel : Screen
     {
-        private readonly AdministrativeDb _administrativeDb;
-
+        private List<Zone> _zones;
         public ObservableCollection<Zone> Rows { get; set; } = new ObservableCollection<Zone>();
 
-        public ZonesViewModel(AdministrativeDb administrativeDb)
+        public ZonesViewModel(List<Zone> zones)
         {
-            _administrativeDb = administrativeDb;
-
-            foreach (var zone in administrativeDb.Zones)
+            foreach (var zone in zones)
             {
                 Rows.Add((Zone)zone.Clone());
             }
@@ -29,14 +26,13 @@ namespace Iit.Fibertest.Client
 
         public void Save()
         {
-            _administrativeDb.Zones = new List<Zone>();
+            _zones = new List<Zone>();
             foreach (var zone in Rows)
             {
                 if (zone.Id == Guid.Empty)
                     zone.Id = Guid.NewGuid();
-                _administrativeDb.Zones.Add((Zone)zone.Clone());
+                _zones.Add((Zone)zone.Clone());
             }
-            _administrativeDb.Save();
             TryClose(true);
         }
 
