@@ -84,6 +84,10 @@
     <Compile Include="Migrations\201711031242213_ClientStationsFieldRename.Designer.cs">
       <DependentUpon>201711031242213_ClientStationsFieldRename.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711031802166_StationIpRemoved.cs" />
+    <Compile Include="Migrations\201711031802166_StationIpRemoved.Designer.cs">
+      <DependentUpon>201711031802166_StationIpRemoved.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -107,6 +111,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711031242213_ClientStationsFieldRename.resx">
       <DependentUpon>201711031242213_ClientStationsFieldRename.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711031802166_StationIpRemoved.resx">
+      <DependentUpon>201711031802166_StationIpRemoved.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
