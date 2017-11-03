@@ -84,8 +84,11 @@ namespace Iit.Fibertest.Client
 #endif
             _logFile.AppendLine(@"Client registration attempt");
             Status = Resources.SID_Client_registraion_is_performing;
-            var result = await RegisterClientAsync();
-            ParseServerAnswer(result);
+            using (new WaitCursor())
+            {
+                var result = await RegisterClientAsync();
+                ParseServerAnswer(result);
+            }
         }
 
         private async Task<ClientRegisteredDto> RegisterClientAsync()

@@ -12,6 +12,7 @@ namespace Iit.Fibertest.DbStartPoint
             //            SqliteExperiment();
             MySqlExperiment();
 
+
             Console.WriteLine("");
             Console.WriteLine("Done.");
             Console.ReadLine();
@@ -57,6 +58,11 @@ namespace Iit.Fibertest.DbStartPoint
             var context = new MySqlContext();
             SeedUsersTable(context);
             PrintUsersTable(context);
+
+            var clientStations = context.ClientStations.ToList();
+            clientStations.Add(new ClientStation() {StationId = Guid.NewGuid()});
+            context.SaveChanges();
+
         }
         private static void SqliteExperiment()
         {

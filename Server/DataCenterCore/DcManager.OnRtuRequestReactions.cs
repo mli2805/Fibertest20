@@ -13,7 +13,7 @@ namespace Iit.Fibertest.DataCenterCore
         #region RTU notifies
         public bool ProcessRtuCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto monitoringStep)
         {
-            return new D2CWcfManager(GetAllClientsAddresses(), _iniFile, _logFile).ProcessRtuCurrentMonitoringStep(monitoringStep);
+            return true;
         }
 
         public bool ProcessRtuChecksChannel(RtuChecksChannelDto dto)
@@ -45,11 +45,6 @@ namespace Iit.Fibertest.DataCenterCore
         }
         #endregion
 
-        private List<DoubleAddress> GetAllClientsAddresses()
-        {
-            var addresses = new List<DoubleAddress>();
-            addresses.AddRange(_clientStations.Select(pair => ((ClientStation)pair.Value.Clone()).PcAddresses.DoubleAddress));
-            return addresses;
-        }
+     
     }
 }

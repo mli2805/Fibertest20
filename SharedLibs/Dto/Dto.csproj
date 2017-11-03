@@ -54,6 +54,7 @@
     <Compile Include="C2D2R\SomePortionOfData.cs" />
     <Compile Include="C2D\CheckServerConnectionDto.cs" />
     <Compile Include="D2C\ClientRegisteredDto.cs" />
+    <Compile Include="Db\ClientStation.cs" />
     <Compile Include="Db\User.cs" />
     <Compile Include="Enums\MoniLevelType.cs" />
     <Compile Include="Enums\Role.cs" />

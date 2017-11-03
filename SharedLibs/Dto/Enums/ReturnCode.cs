@@ -25,10 +25,9 @@ namespace Iit.Fibertest.Dto
         DbInitializedSuccessfully = 3001,
         DbIsNotInitializedError = 3002,
 
-        ClientRegistrationError = 9000,
-        ClientRegisteredSuccessfully = 9001,
-        NoSuchUserOrWrongPassword = 9002,
-        ThisUserRegisteredOnAnotherPc = 9003,
+        NoSuchUserOrWrongPassword = 9001,
+        ThisUserRegisteredOnAnotherPc = 9002,
+        ClientRegisteredSuccessfully = 9011,
     }
 
     public static class ErrorCodeExt

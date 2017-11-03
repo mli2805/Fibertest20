@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.RtuWcfServiceInterface;
 using Iit.Fibertest.UtilsLib;
@@ -10,46 +8,6 @@ namespace Iit.Fibertest.DataCenterCore
 {
     public partial class DcManager
     {
-
-        public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
-        {
-            var result = await _dbManager.CheckUserPassword(dto);
-            if (result.ReturnCode != ReturnCode.ClientRegisteredSuccessfully)
-                return result;
-
-
-            var clientStation = new ClientStation
-            {
-                Id = dto.ClientId,
-                PcAddresses = new DoubleAddressWithLastConnectionCheck
-                {
-                    DoubleAddress = dto.Addresses
-                }
-            };
-
-            try
-            {
-                _clientStations.AddOrUpdate(dto.ClientId, clientStation, (id, _) => clientStation);
-                result.ReturnCode = ReturnCode.ClientRegisteredSuccessfully;
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine(e.Message);
-                result.ReturnCode = ReturnCode.ClientRegistrationError;
-            }
-
-            _logFile.AppendLine($"There are {_clientStations.Count} clients");
-            return result;
-        }
-
-        public Task UnregisterClientAsync(UnRegisterClientDto dto)
-        {
-            ClientStation station;
-            _clientStations.TryRemove(dto.ClientId, out station);
-            _logFile.AppendLine($"There are {_clientStations.Count} clients");
-            return Task.CompletedTask;
-        }
-
         public async Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)
         {
             var result = new RtuConnectionCheckedDto() { RtuId = dto.RtuId };
@@ -112,9 +70,6 @@ namespace Iit.Fibertest.DataCenterCore
 
 
 
-        private ClientStation GetClientStation(Guid clientId)
-        {
-            return _clientStations.FirstOrDefault(c => c.Key == clientId).Value;
-        }
+      
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Client;
+using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.DatabaseLibrary.DbContexts;
 using Iit.Fibertest.DataCenterCore;
 using Iit.Fibertest.Graph;
@@ -11,6 +12,7 @@ using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using Serilog;
+using DbManager = Iit.Fibertest.DataCenterCore.DbManager;
 
 namespace Graph.Tests
 {
@@ -36,6 +38,7 @@ namespace Graph.Tests
             builder.RegisterType<EventStoreService>().SingleInstance();
 
             builder.RegisterType<MySqlContext>().As<IFibertestDbContext>().SingleInstance();
+            builder.RegisterType<ClientRegistrationManager>().SingleInstance();
             builder.RegisterType<DbManager>().SingleInstance();
             builder.RegisterType<DcManager>().SingleInstance();
             builder.RegisterType<WcfServiceForClient>().As<IWcfServiceForClient>().SingleInstance();

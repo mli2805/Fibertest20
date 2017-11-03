@@ -1,5 +1,6 @@
 ﻿using System.ServiceModel;
 using System.Threading.Tasks;
+using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
@@ -17,18 +18,20 @@ namespace Iit.Fibertest.DataCenterCore
 
         private readonly DcManager _dcManager;
         private readonly DbManager _dbManager;
+        private readonly ClientRegistrationManager _clientRegistrationManager;
 
         private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
         {
             TypeNameHandling = TypeNameHandling.All
         };
 
-        public WcfServiceForClient(EventStoreService eventStoreService, DcManager dcManager, DbManager dbManager, IMyLog logFile)
+        public WcfServiceForClient(EventStoreService eventStoreService, DcManager dcManager, DbManager dbManager, IMyLog logFile, ClientRegistrationManager clientRegistrationManager)
         {
             _logFile = logFile;
             _dcManager = dcManager;
             _dbManager = dbManager;
             _eventStoreService = eventStoreService;
+            _clientRegistrationManager = clientRegistrationManager;
         }
 
         public async Task<string> SendCommandAsObj(object cmd)
@@ -60,13 +63,13 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {
             _logFile.AppendLine($"Client {dto.ClientId.First6()} asks registration");
-            return await _dcManager.RegisterClientAsync(dto);
+            return await _clientRegistrationManager.RegisterClientAsync(dto);
         }
 
         public async Task UnregisterClientAsync(UnRegisterClientDto dto)
         {
+            await _clientRegistrationManager.UnregisterClientAsync(dto);
             _logFile.AppendLine($"Client {dto.ClientId.First6()} exited");
-            await _dcManager.UnregisterClientAsync(dto);
         }
 
         public Task<bool> CheckServerConnection(CheckServerConnectionDto dto)

@@ -71,9 +71,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClientRegistrationManager.cs" />
     <Compile Include="DbContexts\IFibertestDbContext.cs" />
     <Compile Include="DbContexts\MySqlContext.cs" />
     <Compile Include="DbContexts\SqliteContext.cs" />
+    <Compile Include="DbManager.cs" />
+    <Compile Include="Migrations\201711031240377_InitialCreate.cs" />
+    <Compile Include="Migrations\201711031240377_InitialCreate.Designer.cs">
+      <DependentUpon>201711031240377_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711031242213_ClientStationsFieldRename.cs" />
+    <Compile Include="Migrations\201711031242213_ClientStationsFieldRename.Designer.cs">
+      <DependentUpon>201711031242213_ClientStationsFieldRename.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -85,6 +96,18 @@
       <Project>{86a00748-2a4e-4180-b04e-0e1f6a62a258}</Project>
       <Name>Dto</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\SharedLibs\Utils35\UtilsLib.csproj">
+      <Project>{716240ff-d1e8-4bd3-9e63-431382617398}</Project>
+      <Name>UtilsLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201711031240377_InitialCreate.resx">
+      <DependentUpon>201711031240377_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711031242213_ClientStationsFieldRename.resx">
+      <DependentUpon>201711031242213_ClientStationsFieldRename.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\System.Data.SQLite.Core.1.0.106.0\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\..\packages\System.Data.SQLite.Core.1.0.106.0\build\net46\System.Data.SQLite.Core.targets')" />

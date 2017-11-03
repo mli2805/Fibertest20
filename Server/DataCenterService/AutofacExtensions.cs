@@ -1,10 +1,12 @@
 ﻿using System.ServiceProcess;
 using Autofac;
+using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.DatabaseLibrary.DbContexts;
 using Iit.Fibertest.DataCenterCore;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using Iit.Fibertest.WcfServiceForRtuInterface;
+using DbManager = Iit.Fibertest.DataCenterCore.DbManager;
 
 namespace Iit.Fibertest.DataCenterService
 {
@@ -29,6 +31,7 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<MySqlContext>().As<IFibertestDbContext>().SingleInstance();
 
             builder.RegisterType<EventStoreService>().SingleInstance();
+            builder.RegisterType<ClientRegistrationManager>().SingleInstance();
             builder.RegisterType<DbManager>().SingleInstance();
             builder.RegisterType<DcManager>().SingleInstance();
             builder.RegisterType<WcfServiceForClient>().As<IWcfServiceForClient>().SingleInstance();
