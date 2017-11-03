@@ -575,9 +575,9 @@
       <Project>{0a6dfc12-dc4a-4c44-923f-cee3dd6b3521}</Project>
       <Name>WpfClient</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DbLibrary\DbLibrary.csproj">
-      <Project>{5a837012-b2dc-48ea-a520-c3aee42722d4}</Project>
-      <Name>DbLibrary</Name>
+    <ProjectReference Include="..\Server\DatabaseLibrary\DatabaseLibrary.csproj">
+      <Project>{84edd696-9478-4cdc-abd1-e4c83a764072}</Project>
+      <Name>DatabaseLibrary</Name>
     </ProjectReference>
     <ProjectReference Include="..\Server\DataCenterCore\DataCenterCore.csproj">
       <Project>{6BA3EA08-6BDB-4B2D-8729-409E136D4D74}</Project>

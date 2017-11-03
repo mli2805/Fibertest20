@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
-using Iit.Fibertest.DbLibrary.DbContexts;
+using Iit.Fibertest.DatabaseLibrary.DbContexts;
 using Iit.Fibertest.Dto;
 
-namespace DbExperiments
+namespace Iit.Fibertest.DbStartPoint
 {
     class Program
     {
@@ -16,22 +16,21 @@ namespace DbExperiments
             Console.WriteLine("Done.");
             Console.ReadLine();
         }
-
         private static void SeedUsersTable(IFibertestDbContext dbContext)
         {
             if (dbContext.Users.Any(u => u.Role == Role.Developer) &&
                 dbContext.Users.Any(u => u.Role == Role.Root))
                 return; // seeded already
 
-            var developer = new User() {Name = "developer", Password = "developer", Email = "", IsEmailActivated = false, Role = Role.Developer, IsDefaultZoneUser = true};
+            var developer = new User() { Name = "developer", Password = "developer", Email = "", IsEmailActivated = false, Role = Role.Developer, IsDefaultZoneUser = true };
             dbContext.Users.Add(developer);
-            var root = new User() {Name = "root", Password = "root", Email = "", IsEmailActivated = false, Role = Role.Root, IsDefaultZoneUser = true };
+            var root = new User() { Name = "root", Password = "root", Email = "", IsEmailActivated = false, Role = Role.Root, IsDefaultZoneUser = true };
             dbContext.Users.Add(root);
-            var oper = new User() {Name = "operator", Password = "operator", Email = "", IsEmailActivated = false, Role = Role.Operator, IsDefaultZoneUser = true };
+            var oper = new User() { Name = "operator", Password = "operator", Email = "", IsEmailActivated = false, Role = Role.Operator, IsDefaultZoneUser = true };
             dbContext.Users.Add(oper);
-            var supervisor = new User() {Name = "supervisor", Password = "supervisor", Email = "", IsEmailActivated = false, Role = Role.Supervisor, IsDefaultZoneUser = true };
+            var supervisor = new User() { Name = "supervisor", Password = "supervisor", Email = "", IsEmailActivated = false, Role = Role.Supervisor, IsDefaultZoneUser = true };
             dbContext.Users.Add(supervisor);
-            var superclient = new User() {Name = "superclient", Password = "superclient", Email = "", IsEmailActivated = false, Role = Role.Superclient, IsDefaultZoneUser = true };
+            var superclient = new User() { Name = "superclient", Password = "superclient", Email = "", IsEmailActivated = false, Role = Role.Superclient, IsDefaultZoneUser = true };
             dbContext.Users.Add(superclient);
             try
             {

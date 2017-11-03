@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Threading;
-using Iit.Fibertest.DbLibrary.DbContexts;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 

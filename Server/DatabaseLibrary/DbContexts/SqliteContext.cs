@@ -1,7 +1,7 @@
 ﻿using System.Data.Entity;
 using Iit.Fibertest.Dto;
 
-namespace Iit.Fibertest.DbLibrary.DbContexts
+namespace Iit.Fibertest.DatabaseLibrary.DbContexts
 {
     public class SqliteContext : DbContext, IFibertestDbContext
     {
