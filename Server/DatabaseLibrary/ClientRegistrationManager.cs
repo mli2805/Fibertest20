@@ -18,13 +18,39 @@ namespace Iit.Fibertest.DatabaseLibrary
             _dbContext = dbContext;
         }
 
+        private void SeedUsersTableIfNeeded()
+        {
+            if (_dbContext.Users.Any())
+                return; // seeded already
+
+            var developer = new User() { Name = "developer", Password = "developer", Email = "", IsEmailActivated = false, Role = Role.Developer, IsDefaultZoneUser = true };
+            _dbContext.Users.Add(developer);
+            var root = new User() { Name = "root", Password = "root", Email = "", IsEmailActivated = false, Role = Role.Root, IsDefaultZoneUser = true };
+            _dbContext.Users.Add(root);
+            var oper = new User() { Name = "operator", Password = "operator", Email = "", IsEmailActivated = false, Role = Role.Operator, IsDefaultZoneUser = true };
+            _dbContext.Users.Add(oper);
+            var supervisor = new User() { Name = "supervisor", Password = "supervisor", Email = "", IsEmailActivated = false, Role = Role.Supervisor, IsDefaultZoneUser = true };
+            _dbContext.Users.Add(supervisor);
+            var superclient = new User() { Name = "superclient", Password = "superclient", Email = "", IsEmailActivated = false, Role = Role.Superclient, IsDefaultZoneUser = true };
+            _dbContext.Users.Add(superclient);
+            try
+            {
+                _dbContext.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("SeedUsersTableIfNeeded:" + e.Message);
+            }
+        }
+
         private Task<ClientRegisteredDto> CheckUserPassword(RegisterClientDto dto)
         {
+            SeedUsersTableIfNeeded();
             var result = new ClientRegisteredDto();
 
             try
             {
-                var users = _dbContext.Users.ToList();
+                var users = _dbContext.Users.ToList(); // there is no field Password in Db , so it should be instances in memory to address that property
                 if (users.FirstOrDefault(u => u.Name == dto.UserName && u.Password == dto.Password) == null)
                 {
                     result.ReturnCode = ReturnCode.NoSuchUserOrWrongPassword;
@@ -59,7 +85,6 @@ namespace Iit.Fibertest.DatabaseLibrary
                 if (station != null)
                 {
                     station.Username = dto.UserName;
-                    station.StationIp = dto.Addresses.Main.Ip4Address;
                     station.LastConnectionTimestamp = DateTime.Now;
                     await _dbContext.SaveChangesAsync();
                     _logFile.AppendLine("This station was registered already. Re-registered.");
@@ -70,7 +95,6 @@ namespace Iit.Fibertest.DatabaseLibrary
                     {
                         Username = dto.UserName,
                         StationId = dto.ClientId,
-                        StationIp = dto.Addresses.Main.Ip4Address,
                         LastConnectionTimestamp = DateTime.Now,
                     };
                     _dbContext.ClientStations.Add(station);
