@@ -50,6 +50,10 @@ namespace Iit.Fibertest.Dto
                 case ReturnCode.C2DWcfOperationError:
                     return Resources.SID_RTU_initialization_error_ + $"\n\n{exceptionMessage}";
 
+                    // 3000
+                case ReturnCode.DbError:
+                    return "Database error!" + $"\n\n{exceptionMessage}";
+
                     // 9000
                 case ReturnCode.NoSuchUserOrWrongPassword:
                     return "No such user or wrong password!";

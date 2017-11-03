@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Iit.Fibertest.DbLibrary.DbContexts;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.RtuWcfServiceInterface;
 using Iit.Fibertest.UtilsLib;
@@ -11,9 +12,12 @@ namespace Iit.Fibertest.DataCenterCore
     public partial class DcManager
     {
 
-        public Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
+        public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {
-            var result = new ClientRegisteredDto();
+            var result = await _dbManager.CheckUserPassword(dto);
+            if (result.ReturnCode != ReturnCode.ClientRegisteredSuccessfully)
+                return result;
+
 
             var clientStation = new ClientStation
             {
@@ -36,7 +40,7 @@ namespace Iit.Fibertest.DataCenterCore
             }
 
             _logFile.AppendLine($"There are {_clientStations.Count} clients");
-            return Task.FromResult(result);
+            return result;
         }
 
         public Task UnregisterClientAsync(UnRegisterClientDto dto)
@@ -96,7 +100,7 @@ namespace Iit.Fibertest.DataCenterCore
                 .AssignBaseRefAsync(dto);
         }
 
-       public async Task<bool> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
+        public async Task<bool> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
         {
             RtuStation rtuStation;
             if (!_rtuStations.TryGetValue(dto.RtuId, out rtuStation))
@@ -106,9 +110,9 @@ namespace Iit.Fibertest.DataCenterCore
                 .ApplyMonitoringSettingsAsync(dto);
         }
 
-    
 
-    
+
+
         private ClientStation GetClientStation(Guid clientId)
         {
             return _clientStations.FirstOrDefault(c => c.Key == clientId).Value;

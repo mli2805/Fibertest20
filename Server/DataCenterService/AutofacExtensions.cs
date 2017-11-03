@@ -1,6 +1,7 @@
 ﻿using System.ServiceProcess;
 using Autofac;
 using Iit.Fibertest.DataCenterCore;
+using Iit.Fibertest.DbLibrary.DbContexts;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using Iit.Fibertest.WcfServiceForRtuInterface;
@@ -18,12 +19,15 @@ namespace Iit.Fibertest.DataCenterService
 //                new LogFile(ctx.Resolve<IniFile>()).AssignFile("DataCenter.log"));
 
 //            var logFile = new LogFile(iniFile).AssignFile("DataCenter.log");
-// filename will be assigned before first usage ( in Service1 ctor )
+//            filename will be assigned before first usage ( in Service1 ctor )
             var logFile = new LogFile(iniFile);
             builder.RegisterInstance<IMyLog>(logFile);
 
 //            builder.RegisterType<SqliteEventStoreInitializer>().As<IEventStoreInitializer>().SingleInstance();
             builder.RegisterType<MySqlEventStoreInitializer>().As<IEventStoreInitializer>().SingleInstance();
+
+            builder.RegisterType<MySqlContext>().As<IFibertestDbContext>().SingleInstance();
+
             builder.RegisterType<EventStoreService>().SingleInstance();
             builder.RegisterType<DbManager>().SingleInstance();
             builder.RegisterType<DcManager>().SingleInstance();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Threading;
+using Iit.Fibertest.DbLibrary.DbContexts;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 
@@ -10,14 +11,16 @@ namespace Iit.Fibertest.DataCenterCore
     {
         private readonly DoubleAddress _serverDoubleAddress;
         private readonly IMyLog _logFile;
+        private readonly DbManager _dbManager;
         private readonly IniFile _iniFile;
 
         private ConcurrentDictionary<Guid, RtuStation> _rtuStations;
         private ConcurrentDictionary<Guid, ClientStation> _clientStations;
 
-        public DcManager(IniFile iniFile, IMyLog logFile)
+        public DcManager(IniFile iniFile, IMyLog logFile, DbManager dbManager)
         {
             _logFile = logFile;
+            _dbManager = dbManager;
             _iniFile = iniFile;
             _serverDoubleAddress = _iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToRtu);
         }

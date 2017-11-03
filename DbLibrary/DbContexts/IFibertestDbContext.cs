@@ -1,11 +1,11 @@
 using System.Data.Entity;
+using Iit.Fibertest.Dto;
 
-namespace DbExperiments
+namespace Iit.Fibertest.DbLibrary.DbContexts
 {
     public interface IFibertestDbContext 
     {
         DbSet<User> Users { get; set; }
-        DbSet<MonitoringResult> MonitoringResults { get; set; }
 
         void SaveChanges();
     }

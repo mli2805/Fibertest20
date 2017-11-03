@@ -116,6 +116,10 @@
       <Project>{A734876E-977B-4DDA-B6A4-AD1DD525C6D1}</Project>
       <Name>Graph</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\DbLibrary\DbLibrary.csproj">
+      <Project>{5a837012-b2dc-48ea-a520-c3aee42722d4}</Project>
+      <Name>DbLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\RTU\RtuWcfService\RtuWcfServiceInterface.csproj">
       <Project>{d7c82e5d-e536-4684-b18f-9e1a341324d6}</Project>
       <Name>RtuWcfServiceInterface</Name>

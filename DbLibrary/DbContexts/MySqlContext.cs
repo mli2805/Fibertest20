@@ -1,7 +1,8 @@
 using System.Data.Entity;
+using Iit.Fibertest.Dto;
 using MySql.Data.Entity;
 
-namespace DbExperiments
+namespace Iit.Fibertest.DbLibrary.DbContexts
 {
     [DbConfigurationType(typeof(MySqlEFConfiguration))]
     public class MySqlContext : DbContext, IFibertestDbContext
@@ -9,8 +10,6 @@ namespace DbExperiments
         public MySqlContext() : base("ftdb") { }
 
         public DbSet<User> Users { get; set; }
-        public DbSet<MonitoringResult> MonitoringResults { get; set; }
-
 
         public new void SaveChanges()
         {

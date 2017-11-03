@@ -7,5 +7,8 @@ namespace Iit.Fibertest.Dto
     {
         [DataMember]
         public ReturnCode ReturnCode { get; set; }
+
+        [DataMember]
+        public string ExceptionMessage { get; set; }
     }
 }

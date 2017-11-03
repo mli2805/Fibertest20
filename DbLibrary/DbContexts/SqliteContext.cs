@@ -1,12 +1,12 @@
 ﻿using System.Data.Entity;
+using Iit.Fibertest.Dto;
 
-namespace DbExperiments
+namespace Iit.Fibertest.DbLibrary.DbContexts
 {
     public class SqliteContext : DbContext, IFibertestDbContext
     {
         public SqliteContext() : base("sqlitedb") { }
         public DbSet<User> Users { get; set; }
-        public DbSet<MonitoringResult> MonitoringResults { get; set; }
       
         public new void SaveChanges()
         {

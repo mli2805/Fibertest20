@@ -5,6 +5,7 @@ using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.DataCenterCore;
+using Iit.Fibertest.DbLibrary.DbContexts;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
@@ -33,6 +34,8 @@ namespace Graph.Tests
 
             builder.RegisterType<FakeEventStoreInitializer>().As<IEventStoreInitializer>().SingleInstance();
             builder.RegisterType<EventStoreService>().SingleInstance();
+
+            builder.RegisterType<MySqlContext>().As<IFibertestDbContext>().SingleInstance();
             builder.RegisterType<DbManager>().SingleInstance();
             builder.RegisterType<DcManager>().SingleInstance();
             builder.RegisterType<WcfServiceForClient>().As<IWcfServiceForClient>().SingleInstance();
