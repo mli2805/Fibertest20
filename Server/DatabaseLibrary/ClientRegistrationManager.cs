@@ -78,7 +78,7 @@ namespace Iit.Fibertest.DatabaseLibrary
                     _dbContext.ClientStations.FirstOrDefault
                       (s => s.Username == dto.UserName && s.StationId != dto.ClientId) != null)
                 {
-                    _logFile.AppendLine("This user registered on another PC");
+                    _logFile.AppendLine($"User {dto.UserName} registered on another PC");
                     result.ReturnCode = ReturnCode.ThisUserRegisteredOnAnotherPc;
                     return result;
                 }
@@ -90,7 +90,7 @@ namespace Iit.Fibertest.DatabaseLibrary
                     station.LastConnectionTimestamp = DateTime.Now;
                     await _dbContext.SaveChangesAsync();
                     if (!dto.IsHeartbeat)
-                        _logFile.AppendLine("This station was registered already. Re-registered.");
+                        _logFile.AppendLine($"Station {dto.ClientId.First6()} was registered already. Re-registered.");
                 }
                 else
                 {
@@ -103,11 +103,11 @@ namespace Iit.Fibertest.DatabaseLibrary
                     _dbContext.ClientStations.Add(station);
                     await _dbContext.SaveChangesAsync();
                     if (!dto.IsHeartbeat)
-                        _logFile.AppendLine("Station registered");
+                        _logFile.AppendLine($"Client station {dto.ClientId.First6()} registered");
                 }
 
                 if (!dto.IsHeartbeat)
-                    _logFile.AppendLine($"There are {_dbContext.ClientStations.Count()} clients");
+                    _logFile.AppendLine($"There are {_dbContext.ClientStations.Count()} client(s)");
                 result.ReturnCode = ReturnCode.ClientRegisteredSuccessfully;
                 return result;
             }
@@ -122,9 +122,12 @@ namespace Iit.Fibertest.DatabaseLibrary
 
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {
-            var result = await CheckUserPassword(dto);
-            if (result.ReturnCode != ReturnCode.ClientRegisteredSuccessfully)
-                return result;
+            if (!dto.IsHeartbeat)
+            {
+                var result = await CheckUserPassword(dto);
+                if (result.ReturnCode != ReturnCode.ClientRegisteredSuccessfully)
+                    return result;
+            }
 
             return await RegisterClientStation(dto);
         }

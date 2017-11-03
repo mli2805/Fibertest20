@@ -20,6 +20,7 @@ namespace Iit.Fibertest.Client
 
         private readonly Guid _clientId;
         private readonly IWindowManager _windowManager;
+        private readonly ClientHeartbeat _clientHeartbeat;
         private readonly IMyLog _logFile;
         public IWcfServiceForClient C2DWcfManager { get; }
 
@@ -57,7 +58,7 @@ namespace Iit.Fibertest.Client
         }
 
         public ShellViewModel(ReadModel readModel, TreeOfRtuModel treeOfRtuModel, IWcfServiceForClient c2DWcfManager,
-                GraphReadModel graphReadModel, IWindowManager windowManager, 
+                GraphReadModel graphReadModel, IWindowManager windowManager, ClientHeartbeat clientHeartbeat,
                 ILogger clientLogger, IniFile iniFile, IMyLog logFile, IClientWcfServiceHost host)
         {
             ReadModel = readModel;
@@ -71,6 +72,7 @@ namespace Iit.Fibertest.Client
             _selectedTabIndex = 1;
             C2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
+            _clientHeartbeat = clientHeartbeat;
 
             Guid.TryParse(iniFile.Read(IniSection.General, IniKey.ClientGuidOnServer, Guid.NewGuid().ToString()), out _clientId);
 
@@ -107,7 +109,11 @@ namespace Iit.Fibertest.Client
             _isAuthenticationSuccessfull = _windowManager.ShowDialog(vm);
             ((App)Application.Current).ShutdownMode = ShutdownMode.OnMainWindowClose;
             if (_isAuthenticationSuccessfull == true)
+            {
                 StartPolling();
+                _clientHeartbeat.Start();
+            }
+
             else
                 TryClose();
         }

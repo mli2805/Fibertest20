@@ -50,6 +50,8 @@ namespace Iit.Fibertest.Client
 
             builder.RegisterType<C2DWcfManager>().AsSelf().As<IWcfServiceForClient>().SingleInstance();
 
+            builder.RegisterType<ClientHeartbeat>().SingleInstance();
+
             builder.Register(ioc => new ClientPoller(
                     ioc.Resolve<IWcfServiceForClient>(),
                     new List<object>

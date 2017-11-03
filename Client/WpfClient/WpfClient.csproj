@@ -166,6 +166,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Autofac\FakeWcfServiceForClient.cs" />
+    <Compile Include="ClientHeartbeat.cs" />
     <Compile Include="EventSourcing\ClientPoller.cs" />
     <Compile Include="Logic\WaitCursor.cs" />
     <Compile Include="ViewModels\Administrative\PasswordHelper.cs" />

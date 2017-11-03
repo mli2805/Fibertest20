@@ -21,8 +21,8 @@ namespace Iit.Fibertest.RtuService
 
         public void Start()
         {
-            var checkChannelsTimeout =
-                TimeSpan.FromSeconds(_serviceIni.Read(IniSection.General, IniKey.CheckChannelsTimeout, 30));
+            var rtuHeartbeatRate =
+                TimeSpan.FromSeconds(_serviceIni.Read(IniSection.General, IniKey.RtuHeartbeatRate, 30));
             _serviceLog.AppendLine("Heartbeat started");
 
             // couldn't be changed in service runtime
@@ -37,9 +37,11 @@ namespace Iit.Fibertest.RtuService
                 _serverAddressWithConnectionStats = 
                     new R2DWcfManager(_serverAddressWithConnectionStats, _serviceIni, _serviceLog)
                     .SendImAliveByBothChannels(rtuId, version);
-                Thread.Sleep(checkChannelsTimeout);
+                Thread.Sleep(rtuHeartbeatRate);
             }
         }
+
+       
 
     }
 }

@@ -22,7 +22,9 @@
         OtauIp,
         OtauPort,
         LogLevel,
-        CheckChannelsTimeout,
+
+        ClientHeartbeatRate,
+        RtuHeartbeatRate,
 
         CheckHeartbeatEvery,
         ClientHeartbeatPermittedGap,

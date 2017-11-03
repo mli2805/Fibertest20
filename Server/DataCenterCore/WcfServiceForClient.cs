@@ -62,7 +62,6 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {
-            _logFile.AppendLine($"Client {dto.ClientId.First6()} asks registration");
             return await _clientRegistrationManager.RegisterClientAsync(dto);
         }
 
