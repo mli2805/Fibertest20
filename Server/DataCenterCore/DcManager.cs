@@ -35,10 +35,8 @@ namespace Iit.Fibertest.DataCenterCore
             }
             _logFile.AppendLine($"{_rtuStations.Count} RTU found");
 
-            var lastConnectionTimeChecker =
-                new LastConnectionTimeChecker(_logFile, _iniFile) { RtuStations = _rtuStations };
-            var thread = new Thread(lastConnectionTimeChecker.Start) { IsBackground = true };
-            thread.Start();
+           
+         
         }
         
     }

@@ -74,20 +74,23 @@ namespace Iit.Fibertest.DatabaseLibrary
             var result = new ClientRegisteredDto();
             try
             {
-                if (_dbContext.ClientStations.FirstOrDefault(s => s.Username == dto.UserName
-                                                       && s.StationId != dto.ClientId) != null)
+                if (!dto.IsHeartbeat && // this check for registration, not for heartbeat
+                    _dbContext.ClientStations.FirstOrDefault
+                      (s => s.Username == dto.UserName && s.StationId != dto.ClientId) != null)
                 {
                     _logFile.AppendLine("This user registered on another PC");
                     result.ReturnCode = ReturnCode.ThisUserRegisteredOnAnotherPc;
                     return result;
                 }
+
                 var station = _dbContext.ClientStations.FirstOrDefault(s => s.StationId == dto.ClientId);
                 if (station != null)
                 {
                     station.Username = dto.UserName;
                     station.LastConnectionTimestamp = DateTime.Now;
                     await _dbContext.SaveChangesAsync();
-                    _logFile.AppendLine("This station was registered already. Re-registered.");
+                    if (!dto.IsHeartbeat)
+                        _logFile.AppendLine("This station was registered already. Re-registered.");
                 }
                 else
                 {
@@ -99,16 +102,18 @@ namespace Iit.Fibertest.DatabaseLibrary
                     };
                     _dbContext.ClientStations.Add(station);
                     await _dbContext.SaveChangesAsync();
-                    _logFile.AppendLine("Station registered");
+                    if (!dto.IsHeartbeat)
+                        _logFile.AppendLine("Station registered");
                 }
 
-                _logFile.AppendLine($"There are {_dbContext.ClientStations.Count()} clients");
+                if (!dto.IsHeartbeat)
+                    _logFile.AppendLine($"There are {_dbContext.ClientStations.Count()} clients");
                 result.ReturnCode = ReturnCode.ClientRegisteredSuccessfully;
                 return result;
             }
             catch (Exception e)
             {
-                _logFile.AppendLine(e.Message);
+                _logFile.AppendLine("RegisterClientStation:" + e.Message);
                 result.ReturnCode = ReturnCode.DbError;
                 result.ExceptionMessage = e.Message;
                 return result;
@@ -141,7 +146,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
             catch (Exception e)
             {
-                _logFile.AppendLine(e.Message);
+                _logFile.AppendLine("UnregisterClientAsync" + e.Message);
                 return -1;
             }
         }
@@ -155,12 +160,29 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
             catch (Exception e)
             {
-                _logFile.AppendLine(e.Message);
+                _logFile.AppendLine("CleanClientStations" + e.Message);
                 return -1;
             }
         }
 
-        //TODO 
-//        public async Task<int> CleanDeadClients(TimeSpan timeSpan) { }
+        public async Task<int> CleanDeadClients(TimeSpan timeSpan)
+        {
+            try
+            {
+                DateTime noLaterThan = DateTime.Now - timeSpan;
+                var deadStations = _dbContext.ClientStations.Where(s => s.LastConnectionTimestamp < noLaterThan).ToList();
+                foreach (var deadStation in deadStations)
+                {
+                    _logFile.AppendLine($"Dead station {deadStation.StationId} registered by {deadStation.Username} will be removed.");
+                    _dbContext.ClientStations.Remove(deadStation);
+                }
+                return await _dbContext.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("CleanDeadClients:" + e.Message);
+                return -1;
+            }
+        }
     }
 }

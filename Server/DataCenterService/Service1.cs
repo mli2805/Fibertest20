@@ -14,13 +14,15 @@ namespace Iit.Fibertest.DataCenterService
         private readonly EventStoreService _eventStoreService;
         private readonly ClientRegistrationManager _clientRegistrationManager;
         private readonly DcManager _dcManager;
+        private readonly LastConnectionTimeChecker _lastConnectionTimeChecker;
         private readonly WcfServiceForClientBootstrapper _wcfServiceForClientBootstrapper;
         private readonly WcfServiceForRtuBootstrapper _wcfServiceForRtuBootstrapper;
         private readonly MsmqHandler _msmqHandler;
 
         public Service1(IniFile iniFile, IMyLog logFile,
             EventStoreService eventStoreService, ClientRegistrationManager clientRegistrationManager,
-            DcManager dcManager, WcfServiceForClientBootstrapper wcfServiceForClientBootstrapper,
+            DcManager dcManager, LastConnectionTimeChecker lastConnectionTimeChecker,
+            WcfServiceForClientBootstrapper wcfServiceForClientBootstrapper,
             WcfServiceForRtuBootstrapper wcfServiceForRtuBootstrapper,
             MsmqHandler msmqHandler)
         {
@@ -30,6 +32,7 @@ namespace Iit.Fibertest.DataCenterService
             _clientRegistrationManager = clientRegistrationManager;
             _logFile.AssignFile("DataCenter.log");
             _dcManager = dcManager;
+            _lastConnectionTimeChecker = lastConnectionTimeChecker;
             _wcfServiceForClientBootstrapper = wcfServiceForClientBootstrapper;
             _wcfServiceForRtuBootstrapper = wcfServiceForRtuBootstrapper;
             _msmqHandler = msmqHandler;
@@ -45,6 +48,7 @@ namespace Iit.Fibertest.DataCenterService
             _eventStoreService.Init();
             _dcManager.Start(_eventStoreService.WriteModel.GetDictionaryOfRtuWithAddresses());
             _clientRegistrationManager.CleanClientStations().Wait();
+            _lastConnectionTimeChecker.Start();
             _wcfServiceForClientBootstrapper.Start();
             _wcfServiceForRtuBootstrapper.Start();
             _msmqHandler.Start();

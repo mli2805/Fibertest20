@@ -2,62 +2,50 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
+using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.DataCenterCore
 {
     public class LastConnectionTimeChecker
     {
-        private readonly IMyLog _dcLog;
-        private readonly IniFile _coreIni;
-        public ConcurrentDictionary<Guid, RtuStation> RtuStations { get; set; }
+        private readonly IniFile _iniFile;
+        private readonly IMyLog _logFile;
+        private readonly ClientRegistrationManager _clientRegistrationManager;
 
-        public LastConnectionTimeChecker(IMyLog dcLog, IniFile coreIni)
+        public LastConnectionTimeChecker(IniFile iniFile, IMyLog logFile, ClientRegistrationManager clientRegistrationManager)
         {
-            _dcLog = dcLog;
-            _coreIni = coreIni;
+            _logFile = logFile;
+            _clientRegistrationManager = clientRegistrationManager;
+            _iniFile = iniFile;
         }
 
         public void Start()
         {
-            var checkRtuIsAliveTimeout =
-                TimeSpan.FromSeconds(_coreIni.Read(IniSection.General, IniKey.CheckRtuIsAliveTimeout, 1));
-            var permittedTimeBetweenConnection =
-                TimeSpan.FromSeconds(_coreIni.Read(IniSection.General, IniKey.PermittedTimeBetweenConnection, 70));
+            var thread = new Thread(Check) { IsBackground = true };
+            thread.Start();
+
+        }
+
+        private void Check()
+        {
+            var checkHeartbeatEvery =
+                TimeSpan.FromSeconds(_iniFile.Read(IniSection.General, IniKey.CheckHeartbeatEvery, 3));
+            var rtuHeartbeatPermittedGap =
+                TimeSpan.FromSeconds(_iniFile.Read(IniSection.General, IniKey.RtuHeartbeatPermittedGap, 70));
+            var clientHeartbeatPermittedGap =
+                TimeSpan.FromSeconds(_iniFile.Read(IniSection.General, IniKey.ClientHeartbeatPermittedGap, 180));
 
             while (true)
             {
-                foreach (var rtuStation in RtuStations)
-                {
-                    CheckLastConnectionOnMainChannelTime(rtuStation, permittedTimeBetweenConnection);
-                    if (rtuStation.Value.PcAddresses.DoubleAddress.HasReserveAddress)
-                        CheckConnectionOnReserveChannelTime(rtuStation, permittedTimeBetweenConnection);
-                }
 
-                Thread.Sleep(checkRtuIsAliveTimeout);
+                _clientRegistrationManager.CleanDeadClients(clientHeartbeatPermittedGap).Wait();
+
+                Thread.Sleep(checkHeartbeatEvery);
             }
 
         }
 
-        private void CheckConnectionOnReserveChannelTime(KeyValuePair<Guid, RtuStation> rtuStation, TimeSpan permittedTimeBetweenConnection)
-        {
-            var isTimeoutExceeded = DateTime.Now - rtuStation.Value.PcAddresses.LastConnectionOnReserve >
-                                    permittedTimeBetweenConnection;
-            if (!isTimeoutExceeded && rtuStation.Value.PcAddresses.IsLastCheckOfReserveSuccessfull == false)
-                _dcLog.AppendLine($"RTU {rtuStation.Key.First6()} established connection by reserve channel");
-            if (isTimeoutExceeded && rtuStation.Value.PcAddresses.IsLastCheckOfReserveSuccessfull == true)
-                _dcLog.AppendLine($"Alarm! RTU {rtuStation.Key.First6()} reserve channel check-in timeout exceeded");
-            rtuStation.Value.PcAddresses.IsLastCheckOfReserveSuccessfull = !isTimeoutExceeded;
-        }
-
-        private void CheckLastConnectionOnMainChannelTime(KeyValuePair<Guid, RtuStation> rtuStation, TimeSpan permittedTimeBetweenConnection)
-        {
-            var isTimeoutExceeded = (DateTime.Now - rtuStation.Value.PcAddresses.LastConnectionOnMain) > permittedTimeBetweenConnection;
-            if (!isTimeoutExceeded && rtuStation.Value.PcAddresses.IsLastCheckOfMainSuccessfull == false)
-                _dcLog.AppendLine($"RTU {rtuStation.Key.First6()} established connection by main channel");
-            if (isTimeoutExceeded && rtuStation.Value.PcAddresses.IsLastCheckOfMainSuccessfull == true)
-                _dcLog.AppendLine($"Alarm! RTU {rtuStation.Key.First6()} main channel check-in timeout exceeded");
-            rtuStation.Value.PcAddresses.IsLastCheckOfMainSuccessfull = !isTimeoutExceeded;
-        }
+       
     }
 }

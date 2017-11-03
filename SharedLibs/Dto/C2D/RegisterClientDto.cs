@@ -17,5 +17,8 @@ namespace Iit.Fibertest.Dto
 
         [DataMember]
         public string Password { get; set; }
+
+        [DataMember]
+        public bool IsHeartbeat { get; set; }
     }
 }

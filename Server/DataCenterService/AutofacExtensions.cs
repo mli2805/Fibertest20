@@ -32,6 +32,8 @@ namespace Iit.Fibertest.DataCenterService
 
             builder.RegisterType<EventStoreService>().SingleInstance();
             builder.RegisterType<ClientRegistrationManager>().SingleInstance();
+            builder.RegisterType<LastConnectionTimeChecker>().SingleInstance();
+
             builder.RegisterType<DbManager>().SingleInstance();
             builder.RegisterType<DcManager>().SingleInstance();
             builder.RegisterType<WcfServiceForClient>().As<IWcfServiceForClient>().SingleInstance();

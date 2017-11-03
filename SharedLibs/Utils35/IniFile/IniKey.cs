@@ -23,8 +23,10 @@
         OtauPort,
         LogLevel,
         CheckChannelsTimeout,
-        CheckRtuIsAliveTimeout,
-        PermittedTimeBetweenConnection,
+
+        CheckHeartbeatEvery,
+        ClientHeartbeatPermittedGap,
+        RtuHeartbeatPermittedGap,
 
         // Charon
         ConnectionTimeout,
