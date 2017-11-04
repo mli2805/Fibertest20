@@ -1,15 +1,16 @@
-﻿using System.Threading;
-using Iit.Fibertest.Dto;
+﻿using Iit.Fibertest.Dto;
+using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.RtuManagement
 {
     public partial class RtuManager
     {
-        private DoubleAddressWithConnectionStats _serverAddresses;
+        private DoubleAddress _serverAddresses;
 
         private readonly object _isSenderBusyLocker = new object();
         private bool _isSenderBusy;
-        public bool IsSenderBusy
+
+        private bool IsSenderBusy
         {
             get
             {
@@ -27,7 +28,8 @@ namespace Iit.Fibertest.RtuManagement
             }
         }
 
-        private void SendCurrentMonitoringStep(RtuCurrentMonitoringStep currentMonitoringStep, MonitorigPort monitorigPort, BaseRefType baseRefType = BaseRefType.None)
+        private void SendCurrentMonitoringStep(RtuCurrentMonitoringStep currentMonitoringStep,
+            MonitorigPort monitorigPort, BaseRefType baseRefType = BaseRefType.None)
         {
             if (IsSenderBusy)
                 return;
@@ -47,17 +49,11 @@ namespace Iit.Fibertest.RtuManagement
                 BaseRefType = baseRefType,
             };
 
-            var thread = new Thread(SendCurrentMonitoringStepThread) { IsBackground = true };
-            thread.Start(dto);
+            new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendCurrentMonitoringStep(dto);
+
+            IsMonitoringOn = false;
         }
 
-        private void SendCurrentMonitoringStepThread(object dto)
-        {
-            var step = dto as KnowRtuCurrentMonitoringStepDto;
-//            new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendCurrentMonitoringStep(step);
-            IsSenderBusy = false;
-        }
-
+      
     }
 }
-

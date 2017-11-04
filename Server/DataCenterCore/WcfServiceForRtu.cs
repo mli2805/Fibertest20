@@ -27,11 +27,6 @@ namespace Iit.Fibertest.DataCenterCore
         {
             _rtuRegistrationManager.RegisterRtuHeartbeatAsync(dto).Wait();
         }
-
-        public bool ProcessMonitoringResult(MonitoringResultDto dto)
-        {
-            return _dcManager.ProcessMonitoringResult(dto);
-        }
         #endregion
     }
 }

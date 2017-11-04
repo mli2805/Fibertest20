@@ -68,8 +68,8 @@ namespace Iit.Fibertest.RtuManagement
             _id = rtu.RtuId;
             _serviceIni.Write(IniSection.Server, IniKey.RtuGuid, _id.ToString());
 
-            _serverAddresses = new DoubleAddressWithConnectionStats() { DoubleAddress = (DoubleAddress)rtu.ServerAddresses.Clone() };
-            _serviceIni.WriteServerAddresses(_serverAddresses.DoubleAddress);
+            _serverAddresses = (DoubleAddress)rtu.ServerAddresses.Clone();
+            _serviceIni.WriteServerAddresses(_serverAddresses);
         }
 
         public void StartMonitoring(Action callback)

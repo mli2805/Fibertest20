@@ -91,7 +91,7 @@ namespace Iit.Fibertest.RtuManagement
 
             _serviceLog = serviceLog;
             _serviceIni = serviceIni;
-            _serverAddresses = new DoubleAddressWithConnectionStats() { DoubleAddress = _serviceIni.ReadDoubleAddress((int)TcpPorts.ServerListenToRtu), };
+            _serverAddresses = _serviceIni.ReadDoubleAddress((int)TcpPorts.ServerListenToRtu);
 
             _rtuIni = new IniFile();
             _rtuIni.AssignFile("RtuManager.ini");
