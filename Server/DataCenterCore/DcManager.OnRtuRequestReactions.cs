@@ -15,14 +15,14 @@ namespace Iit.Fibertest.DataCenterCore
 
         public bool ProcessRtuChecksChannel(RtuChecksChannelDto dto)
         {
-            RtuStation rtuStation;
-            if (_rtuStations.TryGetValue(dto.RtuId, out rtuStation))
+            OldRtuStation oldRtuStation;
+            if (_rtuStations.TryGetValue(dto.RtuId, out oldRtuStation))
             {
                 if (dto.IsMainChannel)
-                    rtuStation.PcAddresses.LastConnectionOnMain = DateTime.Now;
+                    oldRtuStation.PcAddresses.LastConnectionOnMain = DateTime.Now;
                 else
-                    rtuStation.PcAddresses.LastConnectionOnReserve = DateTime.Now;
-                rtuStation.Version = dto.Version;
+                    oldRtuStation.PcAddresses.LastConnectionOnReserve = DateTime.Now;
+                oldRtuStation.Version = dto.Version;
             }
             return true;
         }

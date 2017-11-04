@@ -9,11 +9,14 @@ namespace Iit.Fibertest.DataCenterCore
     {
         private readonly IniFile _iniFile;
         private readonly ClientRegistrationManager _clientRegistrationManager;
+        private readonly RtuRegistrationManager _rtuRegistrationManager;
 
-        public LastConnectionTimeChecker(IniFile iniFile, ClientRegistrationManager clientRegistrationManager)
+        public LastConnectionTimeChecker(IniFile iniFile, 
+            ClientRegistrationManager clientRegistrationManager, RtuRegistrationManager rtuRegistrationManager)
         {
             _iniFile = iniFile;
             _clientRegistrationManager = clientRegistrationManager;
+            _rtuRegistrationManager = rtuRegistrationManager;
         }
 
         public void Start()
@@ -34,9 +37,8 @@ namespace Iit.Fibertest.DataCenterCore
 
             while (true)
             {
-
                 _clientRegistrationManager.CleanDeadClients(clientHeartbeatPermittedGap).Wait();
-
+                _rtuRegistrationManager.NotifyAboutRtuThatChangedAvailability(rtuHeartbeatPermittedGap).Wait();
                 Thread.Sleep(checkHeartbeatEvery);
             }
 

@@ -144,8 +144,9 @@ namespace Iit.Fibertest.DatabaseLibrary
                 }
 
                 _dbContext.ClientStations.Remove(station);
-                _logFile.AppendLine($"Client unregistered. There are {_dbContext.ClientStations.Count()} clients now");
-                return await _dbContext.SaveChangesAsync();
+                var countAffected = await _dbContext.SaveChangesAsync();
+                _logFile.AppendLine($"Client unregistered. There are {_dbContext.ClientStations.Count()} client(s) now");
+                return countAffected;
             }
             catch (Exception e)
             {

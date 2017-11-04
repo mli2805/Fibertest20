@@ -3,7 +3,7 @@ using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.UtilsLib
 {
-    public class RtuStation
+    public class OldRtuStation
     {
         public Guid Id { get; set; }
         public string Version { get; set; }

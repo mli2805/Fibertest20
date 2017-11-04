@@ -3,6 +3,7 @@ using System.ServiceProcess;
 using System.Threading;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.DataCenterCore;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.DataCenterService
@@ -13,13 +14,18 @@ namespace Iit.Fibertest.DataCenterService
         private readonly IMyLog _logFile;
         private readonly EventStoreService _eventStoreService;
         private readonly ClientRegistrationManager _clientRegistrationManager;
+        private readonly WriteModel _writeModel;
+        private readonly RtuRegistrationManager _rtuRegistrationManager;
         private readonly LastConnectionTimeChecker _lastConnectionTimeChecker;
         private readonly WcfServiceForClientBootstrapper _wcfServiceForClientBootstrapper;
         private readonly WcfServiceForRtuBootstrapper _wcfServiceForRtuBootstrapper;
         private readonly MsmqHandler _msmqHandler;
 
         public Service1(IniFile iniFile, IMyLog logFile,
-            EventStoreService eventStoreService, ClientRegistrationManager clientRegistrationManager,
+            EventStoreService eventStoreService, 
+            ClientRegistrationManager clientRegistrationManager,
+            WriteModel writeModel,
+            RtuRegistrationManager rtuRegistrationManager,
             LastConnectionTimeChecker lastConnectionTimeChecker,
             WcfServiceForClientBootstrapper wcfServiceForClientBootstrapper,
             WcfServiceForRtuBootstrapper wcfServiceForRtuBootstrapper,
@@ -29,6 +35,8 @@ namespace Iit.Fibertest.DataCenterService
             _logFile = logFile;
             _eventStoreService = eventStoreService;
             _clientRegistrationManager = clientRegistrationManager;
+            _writeModel = writeModel;
+            _rtuRegistrationManager = rtuRegistrationManager;
             _logFile.AssignFile("DataCenter.log");
             _lastConnectionTimeChecker = lastConnectionTimeChecker;
             _wcfServiceForClientBootstrapper = wcfServiceForClientBootstrapper;
@@ -45,6 +53,7 @@ namespace Iit.Fibertest.DataCenterService
 
             _eventStoreService.Init();
             _clientRegistrationManager.CleanClientStations().Wait();
+            _rtuRegistrationManager.Init(_writeModel.GetInitializedRtuList()).Wait();
             _lastConnectionTimeChecker.Start();
             _wcfServiceForClientBootstrapper.Start();
             _wcfServiceForRtuBootstrapper.Start();

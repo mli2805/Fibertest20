@@ -13,7 +13,7 @@ namespace WcfTestBench.MonitoringSettings
 {
     public class MonitoringSettingsViewModel : Screen
     {
-        private readonly RtuStation _rtuStation;
+        private readonly OldRtuStation _oldRtuStation;
         public MonitoringSettingsModel Model { get; set; }
         public C2DWcfManager C2DWcfManager { get; set; }
 
@@ -31,9 +31,9 @@ namespace WcfTestBench.MonitoringSettings
             }
         }
 
-        public MonitoringSettingsViewModel(RtuStation rtuStation, MonitoringSettingsModel model)
+        public MonitoringSettingsViewModel(OldRtuStation oldRtuStation, MonitoringSettingsModel model)
         {
-            _rtuStation = rtuStation;
+            _oldRtuStation = oldRtuStation;
 
             Model = model;
             Model.CalculateCycleTime();
@@ -100,7 +100,7 @@ namespace WcfTestBench.MonitoringSettings
         {
             return new ApplyMonitoringSettingsDto
             {
-                RtuId = _rtuStation.Id,
+                RtuId = _oldRtuStation.Id,
                 IsMonitoringOn = Model.IsMonitoringOn,
                 Timespans = ConvertFrequenciesToDto(),
                 Ports = ConvertPorts()
@@ -117,7 +117,7 @@ namespace WcfTestBench.MonitoringSettings
                     ports.Add(
                         new OtauPortDto
                         {
-                            OtauIp = charon.IsMainCharon ? _rtuStation.OtdrIp : charon.CharonIpAddress,
+                            OtauIp = charon.IsMainCharon ? _oldRtuStation.OtdrIp : charon.CharonIpAddress,
                             OtauTcpPort = charon.CharonTcpPort,
                             OpticalPort = port.PortNumber,
                             IsPortOnMainCharon = charon.IsMainCharon

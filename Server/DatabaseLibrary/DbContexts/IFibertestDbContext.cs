@@ -8,6 +8,7 @@ namespace Iit.Fibertest.DatabaseLibrary.DbContexts
     {
         DbSet<User> Users { get; set; }
         DbSet<ClientStation> ClientStations { get; set; }
+        DbSet<RtuStation> RtuStations { get; set; }
 
         void SaveChanges();
         Task<int> SaveChangesAsync();

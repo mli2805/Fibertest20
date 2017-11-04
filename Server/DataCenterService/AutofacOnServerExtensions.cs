@@ -36,6 +36,7 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<Aggregate>().SingleInstance();
             builder.RegisterType<EventStoreService>().SingleInstance();
             builder.RegisterType<ClientRegistrationManager>().SingleInstance();
+            builder.RegisterType<RtuRegistrationManager>().SingleInstance();
             builder.RegisterType<LastConnectionTimeChecker>().SingleInstance();
 
             builder.RegisterType<DcManager>().SingleInstance();

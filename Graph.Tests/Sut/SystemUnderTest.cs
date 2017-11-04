@@ -38,6 +38,7 @@ namespace Graph.Tests
 
             builder.RegisterType<MySqlContext>().As<IFibertestDbContext>().SingleInstance();
             builder.RegisterType<ClientRegistrationManager>().SingleInstance();
+            builder.RegisterType<RtuRegistrationManager>().SingleInstance();
             builder.RegisterType<DcManager>().SingleInstance();
             builder.RegisterType<WcfServiceForClient>().As<IWcfServiceForClient>().SingleInstance();
 

@@ -22,13 +22,17 @@ namespace Iit.Fibertest.Graph
         private readonly List<Trace> _traces = new List<Trace>();
         private readonly List<Rtu> _rtus = new List<Rtu>();
 
-
         public void Init(IEnumerable<object> events)
         {
             foreach (var dbEvent in events)
             {
                 this.AsDynamic().Apply(dbEvent);
             }
+        }
+
+        public List<Rtu> GetInitializedRtuList()
+        {
+            return _rtus.Where(r=>!string.IsNullOrEmpty(r.Serial)).ToList();
         }
 
         public void Add(object evnt)
@@ -218,28 +222,5 @@ namespace Iit.Fibertest.Graph
 
         public void Apply(BaseRefAssigned e) { }
         #endregion
-
-
-        public ConcurrentDictionary<Guid, RtuStation> GetDictionaryOfRtuWithAddresses()
-        {
-            var dict = new ConcurrentDictionary<Guid, RtuStation>();
-            foreach (var rtu in _rtus)
-            {
-                var rtuStation = new RtuStation();
-                rtuStation.Id = rtu.Id;
-                rtuStation.PcAddresses = new DoubleAddressWithLastConnectionCheck()
-                {
-                    DoubleAddress = new DoubleAddress()
-                    {
-                        Main = rtu.MainChannel, HasReserveAddress = rtu.IsReserveChannelSet, Reserve = rtu.ReserveChannel
-                    }
-                };
-                rtuStation.OtdrIp = rtu.OtdrNetAddress.Ip4Address;
-                rtuStation.Version = rtu.Version;
-                dict.TryAdd(rtu.Id, rtuStation);
-            }
-            return dict;
-        }
-
     }
 }

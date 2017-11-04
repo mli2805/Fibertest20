@@ -44,10 +44,10 @@ namespace WcfTestBench
         public List<NetAddress> ServerAddressList { get; set; }
         public DoubleAddress DcServiceAddresses { get; set; }
 
-        public List<RtuStation> RtuList { get; set; }
+        public List<OldRtuStation> RtuList { get; set; }
 
-        private RtuStation _selectedRtu;
-        public RtuStation SelectedRtu
+        private OldRtuStation _selectedRtu;
+        public OldRtuStation SelectedRtu
         {
             get { return _selectedRtu; }
             set
@@ -327,9 +327,9 @@ namespace WcfTestBench
             return result;
         }
 
-        private List<RtuStation> ReadDbTempTxt()
+        private List<OldRtuStation> ReadDbTempTxt()
         {
-            var list = new List<RtuStation>();
+            var list = new List<OldRtuStation>();
 
             var app = System.Reflection.Assembly.GetExecutingAssembly().Location;
             var path = Path.GetDirectoryName(app);
@@ -345,10 +345,10 @@ namespace WcfTestBench
             return list;
         }
 
-        private static RtuStation ParseLine(string line)
+        private static OldRtuStation ParseLine(string line)
         {
             var parts = line.Split(' ');
-            var rtuStation = new RtuStation()
+            var rtuStation = new OldRtuStation()
             {
                 Id = Guid.Parse(parts[0]),
                 PcAddresses = new DoubleAddressWithLastConnectionCheck()

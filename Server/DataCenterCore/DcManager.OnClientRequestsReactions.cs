@@ -24,46 +24,50 @@ namespace Iit.Fibertest.DataCenterCore
         {
             dto.ServerAddresses = _serverDoubleAddress;
             var rtuInitializedDto = await new D2RWcfManager(dto.RtuAddresses, _iniFile, _logFile).InitializeAsync(dto);
+            if (rtuInitializedDto.IsInitialized)
+            {
+                await _rtuRegistrationManager.RegisterRtuAsync(rtuInitializedDto);
+            }
             return rtuInitializedDto;
         }
 
         public async Task<bool> StartMonitoringAsync(StartMonitoringDto dto)
         {
-            RtuStation rtuStation;
-            if (!_rtuStations.TryGetValue(dto.RtuId, out rtuStation))
+            OldRtuStation oldRtuStation;
+            if (!_rtuStations.TryGetValue(dto.RtuId, out oldRtuStation))
                 return false;
 
-            return await new D2RWcfManager(rtuStation.PcAddresses.DoubleAddress, _iniFile, _logFile)
+            return await new D2RWcfManager(oldRtuStation.PcAddresses.DoubleAddress, _iniFile, _logFile)
                 .StartMonitoringAsync(dto);
         }
 
         public async Task<bool> StopMonitoringAsync(StopMonitoringDto dto)
         {
-            RtuStation rtuStation;
-            if (!_rtuStations.TryGetValue(dto.RtuId, out rtuStation))
+            OldRtuStation oldRtuStation;
+            if (!_rtuStations.TryGetValue(dto.RtuId, out oldRtuStation))
                 return false;
 
-            return await new D2RWcfManager(rtuStation.PcAddresses.DoubleAddress, _iniFile, _logFile)
+            return await new D2RWcfManager(oldRtuStation.PcAddresses.DoubleAddress, _iniFile, _logFile)
                 .StopMonitoringAsync(dto);
         }
 
         public async Task<bool> AssignBaseRefAsync(AssignBaseRefDto dto)
         {
-            RtuStation rtuStation;
-            if (!_rtuStations.TryGetValue(dto.RtuId, out rtuStation))
+            OldRtuStation oldRtuStation;
+            if (!_rtuStations.TryGetValue(dto.RtuId, out oldRtuStation))
                 return false;
 
-            return await new D2RWcfManager(rtuStation.PcAddresses.DoubleAddress, _iniFile, _logFile)
+            return await new D2RWcfManager(oldRtuStation.PcAddresses.DoubleAddress, _iniFile, _logFile)
                 .AssignBaseRefAsync(dto);
         }
 
         public async Task<bool> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
         {
-            RtuStation rtuStation;
-            if (!_rtuStations.TryGetValue(dto.RtuId, out rtuStation))
+            OldRtuStation oldRtuStation;
+            if (!_rtuStations.TryGetValue(dto.RtuId, out oldRtuStation))
                 return false;
 
-            return await new D2RWcfManager(rtuStation.PcAddresses.DoubleAddress, _iniFile, _logFile)
+            return await new D2RWcfManager(oldRtuStation.PcAddresses.DoubleAddress, _iniFile, _logFile)
                 .ApplyMonitoringSettingsAsync(dto);
         }
 
