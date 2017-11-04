@@ -11,7 +11,11 @@ namespace Iit.Fibertest.RtuService
         private readonly IniFile _serviceIni;
         private readonly IMyLog _serviceLog;
 
-        DoubleAddressWithConnectionStats _serverAddressWithConnectionStats = new DoubleAddressWithConnectionStats();
+        private Guid _rtuId;
+        private string _version;
+        private DoubleAddress _mainAddressOnly;
+        private DoubleAddress _reserveAddressOnly;
+        private bool _hasReserveAddress;
 
         public Heartbeat(IniFile serviceIni, IMyLog serviceLog)
         {
@@ -23,25 +27,50 @@ namespace Iit.Fibertest.RtuService
         {
             var rtuHeartbeatRate =
                 TimeSpan.FromSeconds(_serviceIni.Read(IniSection.General, IniKey.RtuHeartbeatRate, 30));
-            _serviceLog.AppendLine("Heartbeat started");
+            _serviceLog.AppendLine($"Heartbeat started with {rtuHeartbeatRate} sec rate");
 
             // couldn't be changed in service runtime
-                var version = _serviceIni.Read(IniSection.General, IniKey.Version, "2.0.1.0");
+            _version = _serviceIni.Read(IniSection.General, IniKey.Version, "2.0.1.0");
+
+            bool? isLastConnectionOnMainChannelSuccessful = null;
+            bool? isLastConnectionOnReserveChannelSuccessful = null;
+
             while (true)
             {
-                // both could be changed due initialization
-                var rtuId = Guid.Parse(_serviceIni.Read(IniSection.Server, IniKey.RtuGuid, Guid.Empty.ToString()));
-                var currentAddresses = _serviceIni.ReadDoubleAddress((int) TcpPorts.ServerListenToRtu);
+                ReadMutableParameters();
 
-                _serverAddressWithConnectionStats.DoubleAddress = (DoubleAddress)currentAddresses.Clone();
-                _serverAddressWithConnectionStats = 
-                    new R2DWcfManager(_serverAddressWithConnectionStats, _serviceIni, _serviceLog)
-                    .SendImAliveByBothChannels(rtuId, version);
+                SendHeartbeatByOneChannel(_mainAddressOnly, true, ref isLastConnectionOnMainChannelSuccessful);
+                if (_hasReserveAddress)
+                    SendHeartbeatByOneChannel(_reserveAddressOnly, false, ref isLastConnectionOnReserveChannelSuccessful);
+
                 Thread.Sleep(rtuHeartbeatRate);
             }
         }
 
-       
+        private void SendHeartbeatByOneChannel(DoubleAddress oneChannelAddressOnly, bool isMainChannel, ref bool? isLastSuccess)
+        {
+            var dto = new RtuChecksChannelDto() { RtuId = _rtuId, Version = _version, IsMainChannel = isMainChannel };
+            var channel = new R2DWcfManager(oneChannelAddressOnly, _serviceIni, _serviceLog);
+            var isSuccess = channel.SendHeartbeat(dto);
+            if (isSuccess == isLastSuccess)
+                return;
+
+            var channelName = isMainChannel ? "main" : "reserve";
+            _serviceLog.AppendLine(isSuccess ? $"Heartbeat sent by {channelName} channel" : $"Can't send heartbeat by {channelName} channel");
+            isLastSuccess = isSuccess;
+        }
+
+        private void ReadMutableParameters()
+        {
+            // both could be changed due initialization
+            _rtuId = Guid.Parse(_serviceIni.Read(IniSection.Server, IniKey.RtuGuid, Guid.Empty.ToString()));
+            var currentAddresses = _serviceIni.ReadDoubleAddress((int)TcpPorts.ServerListenToRtu);
+            _mainAddressOnly = new DoubleAddress() { Main = (NetAddress)currentAddresses.Main.Clone() };
+            _hasReserveAddress = currentAddresses.HasReserveAddress;
+            _reserveAddressOnly = new DoubleAddress() { Main = (NetAddress)currentAddresses.Reserve.Clone() };
+        }
+
+
 
     }
 }

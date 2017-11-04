@@ -9,63 +9,6 @@ using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.DatabaseLibrary
 {
-    public enum ChannelStateChanges
-    {
-        Broken,
-        TheSame,
-        Recovered,
-    }
-
-    public class RtuWithChannelChanges
-    {
-        public Guid RtuId { get; set; }
-        public ChannelStateChanges MainChannel { get; set; } = ChannelStateChanges.TheSame;
-        public ChannelStateChanges ReserveChannel { get; set; } = ChannelStateChanges.TheSame;
-
-        public string Report()
-        {
-            var mainChannel = MainChannel == ChannelStateChanges.TheSame
-                ? ""
-                : MainChannel == ChannelStateChanges.Broken
-                    ? "Main channel is Broken"
-                    : "Main channel Recovered";
-
-            var reserveChannel = ReserveChannel == ChannelStateChanges.TheSame
-                ? ""
-                : ReserveChannel == ChannelStateChanges.Broken
-                    ? "Reserve channel is Broken"
-                    : "Reserve channel Recovered";
-
-            return $"RTU {RtuId.First6()} " + mainChannel + reserveChannel;
-        }
-    }
-
-    public class RtuWithChannelChangesList
-    {
-        public List<RtuWithChannelChanges> List = new List<RtuWithChannelChanges>();
-
-        public void AddOrUpdate(RtuStation rtuStation, bool isMainChannel, ChannelStateChanges changes)
-        {
-            var rtu = List.FirstOrDefault(r => r.RtuId == rtuStation.StationId);
-            if (rtu == null)
-            {
-                var rtuWithChannelChanges = new RtuWithChannelChanges() { RtuId = rtuStation.StationId };
-                if (isMainChannel)
-                    rtuWithChannelChanges.MainChannel = changes;
-                else
-                    rtuWithChannelChanges.ReserveChannel = changes;
-                List.Add(rtuWithChannelChanges);
-            }
-            else
-            {
-                if (isMainChannel)
-                    rtu.MainChannel = changes;
-                else
-                    rtu.ReserveChannel = changes;
-            }
-        }
-    }
-
     public class RtuRegistrationManager
     {
         private readonly IMyLog _logFile;
@@ -140,6 +83,32 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
         }
 
+        public async Task<int> RegisterRtuHeartbeatAsync(RtuChecksChannelDto dto)
+        {
+            try
+            {
+                var rtu = _dbContext.RtuStations.FirstOrDefault(r => r.StationId == dto.RtuId);
+                if (rtu == null)
+                {
+                    _logFile.AppendLine($"Unknown RTU's {dto.RtuId.First6()} heartbeat.");
+                }
+                else
+                {
+                    if (dto.IsMainChannel)
+                        rtu.LastConnectionByMainAddressTimestamp = DateTime.Now;
+                    else
+                        rtu.LastConnectionByReserveAddressTimestamp = DateTime.Now;
+                    rtu.Version = dto.Version;
+                }
+                return await _dbContext.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("RegisterRtuHeartbeatAsync: " + e.Message);
+                return -1;
+            }
+        }
+
         public async Task<int> NotifyAboutRtuThatChangedAvailability(TimeSpan timeSpan)
         {
             try
@@ -184,6 +153,7 @@ namespace Iit.Fibertest.DatabaseLibrary
                     foreach (var station in changes.List)
                     {
                         _logFile.AppendLine(station.Report());
+                        // TODO notify client
                     }
                     return await _dbContext.SaveChangesAsync();
                 }

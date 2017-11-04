@@ -8,70 +8,33 @@ namespace Iit.Fibertest.WcfConnections
     {
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
-        private readonly DoubleAddressWithConnectionStats _serverAddresses;
 
         private readonly WcfFactory _wcfFactory;
 
-        public R2DWcfManager(DoubleAddressWithConnectionStats dataCenterAddresses, IniFile iniFile, IMyLog logFile)
+        public R2DWcfManager(DoubleAddress dataCenterAddresses, IniFile iniFile, IMyLog logFile)
         {
-            _serverAddresses = dataCenterAddresses;
             _iniFile = iniFile;
             _logFile = logFile;
 
-            _wcfFactory = new WcfFactory(dataCenterAddresses.DoubleAddress, iniFile, _logFile);
+            _wcfFactory = new WcfFactory(dataCenterAddresses, iniFile, _logFile);
         }
 
-        public DoubleAddressWithConnectionStats SendImAliveByBothChannels(Guid rtuId, string version)
+        public bool SendHeartbeat(RtuChecksChannelDto dto)
         {
-            _serverAddresses.IsLastConnectionOnMainSuccessfull =
-                SendImAliveByOneChannel(rtuId, version, _serverAddresses.DoubleAddress.Main, true);
-
-            if (_serverAddresses.DoubleAddress.HasReserveAddress)
-                _serverAddresses.IsLastConnectionOnReserveSuccessfull =
-                    SendImAliveByOneChannel(rtuId, version, _serverAddresses.DoubleAddress.Reserve, false);
-
-            return _serverAddresses;
-        }
-
-
-        private bool SendImAliveByOneChannel(Guid rtuId, string version, NetAddress address, bool isMainChannel)
-        {
-            var doubleAddress =
-                new DoubleAddress { Main = address, HasReserveAddress = false };
-            var wcfFactoryMainAddress = new WcfFactory(doubleAddress, _iniFile, _logFile);
-
-            var isPreviousSuccessfull = isMainChannel
-                ? _serverAddresses.IsLastConnectionOnMainSuccessfull
-                : _serverAddresses.IsLastConnectionOnReserveSuccessfull;
-            return SendImAlive(rtuId, version, isMainChannel, wcfFactoryMainAddress, isPreviousSuccessfull);
-        }
-
-        private bool SendImAlive(Guid rtuId, string version, bool isMainChannel, WcfFactory wcfFactory, bool? isPreviousResultSuccessfull)
-        {
-            var st = isMainChannel ? "main" : "reserve";
-            var shouldWriteToLogProblems = isPreviousResultSuccessfull != false;
-            var wcfConnection = wcfFactory.CreateR2DConnection(shouldWriteToLogProblems);
+            var wcfConnection = _wcfFactory.CreateR2DConnection(false);
             if (wcfConnection == null)
-            {
-                if (isPreviousResultSuccessfull != false)
-                    _logFile.AppendLine($"Can't send ImAlive-message by {st} channel");
                 return false;
-            }
 
             try
             {
-                var dto = new RtuChecksChannelDto() { RtuId = rtuId, Version = version, IsMainChannel = isMainChannel };
-                wcfConnection.ProcessRtuChecksChannel(dto);
-                if (isPreviousResultSuccessfull != true)
-                    _logFile.AppendLine($"Sent ImAlive-message by {st} channel");
+                wcfConnection.RegisterRtuHeartbeat(dto);
+                return true;
             }
             catch (Exception e)
             {
-                _logFile.AppendLine(e.Message);
+                _logFile.AppendLine("SendHeartbeat: " + e.Message);
                 return false;
             }
-
-            return true;
         }
 
         public bool SendMonitoringResult(MonitoringResultDto dto)

@@ -75,7 +75,8 @@
     <Compile Include="DbContexts\IFibertestDbContext.cs" />
     <Compile Include="DbContexts\MySqlContext.cs" />
     <Compile Include="DbContexts\SqliteContext.cs" />
-    <Compile Include="MapperToRtuStation.cs" />
+    <Compile Include="RtuRegistration\ChannelStateChanges.cs" />
+    <Compile Include="RtuRegistration\MapperToRtuStation.cs" />
     <Compile Include="Migrations\201711031240377_InitialCreate.cs" />
     <Compile Include="Migrations\201711031240377_InitialCreate.Designer.cs">
       <DependentUpon>201711031240377_InitialCreate.cs</DependentUpon>
@@ -102,7 +103,9 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RtuRegistrationManager.cs" />
+    <Compile Include="RtuRegistration\RtuRegistrationManager.cs" />
+    <Compile Include="RtuRegistration\RtuWithChannelChanges.cs" />
+    <Compile Include="RtuRegistration\RtuWithChannelChangesList.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

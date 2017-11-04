@@ -1,4 +1,5 @@
 ﻿using System.ServiceModel;
+using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.WcfServiceForRtuInterface;
 
@@ -8,10 +9,12 @@ namespace Iit.Fibertest.DataCenterCore
     public class WcfServiceForRtu : IWcfServiceForRtu
     {
         private readonly DcManager _dcManager;
+        private readonly RtuRegistrationManager _rtuRegistrationManager;
 
-        public WcfServiceForRtu(DcManager dcManager)
+        public WcfServiceForRtu(DcManager dcManager, RtuRegistrationManager rtuRegistrationManager)
         {
             _dcManager = dcManager;
+            _rtuRegistrationManager = rtuRegistrationManager;
         }
 
        #region RTU notifies
@@ -20,9 +23,9 @@ namespace Iit.Fibertest.DataCenterCore
             return _dcManager.ProcessRtuCurrentMonitoringStep(dto);
         }
 
-        public bool ProcessRtuChecksChannel(RtuChecksChannelDto dto)
+        public void RegisterRtuHeartbeat(RtuChecksChannelDto dto)
         {
-            return _dcManager.ProcessRtuChecksChannel(dto);
+            _rtuRegistrationManager.RegisterRtuHeartbeatAsync(dto).Wait();
         }
 
         public bool ProcessMonitoringResult(MonitoringResultDto dto)

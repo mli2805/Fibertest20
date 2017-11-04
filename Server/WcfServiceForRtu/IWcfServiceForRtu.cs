@@ -13,7 +13,8 @@ namespace Iit.Fibertest.WcfServiceForRtuInterface
         bool KnowRtuCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto monitoringStep);
 
         [OperationContract]
-        bool ProcessRtuChecksChannel(RtuChecksChannelDto result);
+        void RegisterRtuHeartbeat(RtuChecksChannelDto result);
+
 
         [OperationContract]
         bool ProcessMonitoringResult(MonitoringResultDto result);

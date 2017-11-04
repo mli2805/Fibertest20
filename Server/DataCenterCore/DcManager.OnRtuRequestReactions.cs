@@ -13,20 +13,6 @@ namespace Iit.Fibertest.DataCenterCore
             return true;
         }
 
-        public bool ProcessRtuChecksChannel(RtuChecksChannelDto dto)
-        {
-            OldRtuStation oldRtuStation;
-            if (_rtuStations.TryGetValue(dto.RtuId, out oldRtuStation))
-            {
-                if (dto.IsMainChannel)
-                    oldRtuStation.PcAddresses.LastConnectionOnMain = DateTime.Now;
-                else
-                    oldRtuStation.PcAddresses.LastConnectionOnReserve = DateTime.Now;
-                oldRtuStation.Version = dto.Version;
-            }
-            return true;
-        }
-
         public bool ProcessMonitoringResult(MonitoringResultDto result)
         {
             _logFile.AppendLine(
@@ -42,6 +28,6 @@ namespace Iit.Fibertest.DataCenterCore
         }
         #endregion
 
-     
+
     }
 }
