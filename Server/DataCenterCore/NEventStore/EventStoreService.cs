@@ -14,22 +14,24 @@ namespace Iit.Fibertest.DataCenterCore
     {
         private readonly IMyLog _logFile;
         private readonly IEventStoreInitializer _eventStoreInitializer;
+        private readonly WriteModel _writeModel;
         private IStoreEvents _storeEvents;
         private Aggregate _aggregate;
         private static readonly Guid AggregateId =
             new Guid("1C28CBB5-A9F5-4A5C-B7AF-3D188F8F24ED");
 
-        public WriteModel WriteModel;
 
         private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
         {
             TypeNameHandling = TypeNameHandling.All
         };
 
-        public EventStoreService(IMyLog logFile, IEventStoreInitializer eventStoreInitializer)
+        public EventStoreService(IMyLog logFile, IEventStoreInitializer eventStoreInitializer, WriteModel writeModel, Aggregate aggregate)
         {
             _logFile = logFile;
             _eventStoreInitializer = eventStoreInitializer;
+            _writeModel = writeModel;
+            _aggregate = aggregate;
         }
 
         public void Init()
@@ -39,8 +41,7 @@ namespace Iit.Fibertest.DataCenterCore
             var eventStream = _storeEvents.OpenStream(AggregateId);
             var events = eventStream.CommittedEvents.Select(x => x.Body);
 
-            WriteModel = new WriteModel(events);
-            _aggregate = new Aggregate(WriteModel);
+            _writeModel.Init(events);
         }
 
         public Task<string> SendCommand(object cmd)
@@ -52,9 +53,9 @@ namespace Iit.Fibertest.DataCenterCore
             if (IsSuccess(result))                                   // if command was valid
             {
                 var eventStream = _storeEvents.OpenStream(AggregateId);  
-                foreach (var e in WriteModel.EventsWaitingForCommit)   // takes already applied event from WriteModel's list
+                foreach (var e in _writeModel.EventsWaitingForCommit)   // takes already applied event from WriteModel's list
                     eventStream.Add(new EventMessage { Body = e });   // and stores this event in BD
-                WriteModel.Commit();                                     // now cleans WriteModel's list
+                _writeModel.Commit();                                     // now cleans WriteModel's list
                 eventStream.CommitChanges(Guid.NewGuid());
             }
             return Task.FromResult(result);

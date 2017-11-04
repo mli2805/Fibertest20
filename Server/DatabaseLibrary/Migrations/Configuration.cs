@@ -1,8 +1,9 @@
+using System.Data.Entity.Migrations;
+using Iit.Fibertest.DatabaseLibrary.DbContexts;
+
 namespace Iit.Fibertest.DatabaseLibrary.Migrations
 {
-    using System.Data.Entity.Migrations;
-
-    internal sealed class Configuration : DbMigrationsConfiguration<Iit.Fibertest.DatabaseLibrary.DbContexts.MySqlContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<MySqlContext>
     {
         public Configuration()
         {
@@ -10,7 +11,7 @@ namespace Iit.Fibertest.DatabaseLibrary.Migrations
             ContextKey = "Iit.Fibertest.DatabaseLibrary.DbContexts.MySqlContext";
         }
 
-        protected override void Seed(Iit.Fibertest.DatabaseLibrary.DbContexts.MySqlContext context)
+        protected override void Seed(MySqlContext context)
         {
             //  This method will be called after migrating to the latest version.
 

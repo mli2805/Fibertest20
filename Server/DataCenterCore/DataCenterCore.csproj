@@ -88,7 +88,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DbManager.cs" />
     <Compile Include="NEventStore\MySqlEventStoreInitializer.cs" />
     <Compile Include="NEventStore\SqliteEventStoreInitializer.cs" />
     <Compile Include="NEventStore\IEventStoreInitializer.cs" />

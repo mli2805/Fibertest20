@@ -5,7 +5,6 @@ using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using Newtonsoft.Json;
-using PrivateReflectionUsingDynamic;
 
 namespace Iit.Fibertest.DataCenterCore
 {
@@ -17,7 +16,6 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IMyLog _logFile;
 
         private readonly DcManager _dcManager;
-        private readonly DbManager _dbManager;
         private readonly ClientRegistrationManager _clientRegistrationManager;
 
         private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
@@ -25,11 +23,10 @@ namespace Iit.Fibertest.DataCenterCore
             TypeNameHandling = TypeNameHandling.All
         };
 
-        public WcfServiceForClient(EventStoreService eventStoreService, DcManager dcManager, DbManager dbManager, IMyLog logFile, ClientRegistrationManager clientRegistrationManager)
+        public WcfServiceForClient(EventStoreService eventStoreService, DcManager dcManager, IMyLog logFile, ClientRegistrationManager clientRegistrationManager)
         {
             _logFile = logFile;
             _dcManager = dcManager;
-            _dbManager = dbManager;
             _eventStoreService = eventStoreService;
             _clientRegistrationManager = clientRegistrationManager;
         }
@@ -47,8 +44,7 @@ namespace Iit.Fibertest.DataCenterCore
             if (!string.IsNullOrEmpty(resultInGraph))
                 return resultInGraph;
 
-            // save baseRefs in BD
-            _dbManager.AsDynamic().Apply(cmd);
+           
 
             // transmit to RTU
 

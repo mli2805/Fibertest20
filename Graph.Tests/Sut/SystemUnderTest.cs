@@ -12,7 +12,6 @@ using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using Serilog;
-using DbManager = Iit.Fibertest.DataCenterCore.DbManager;
 
 namespace Graph.Tests
 {
@@ -39,7 +38,6 @@ namespace Graph.Tests
 
             builder.RegisterType<MySqlContext>().As<IFibertestDbContext>().SingleInstance();
             builder.RegisterType<ClientRegistrationManager>().SingleInstance();
-            builder.RegisterType<DbManager>().SingleInstance();
             builder.RegisterType<DcManager>().SingleInstance();
             builder.RegisterType<WcfServiceForClient>().As<IWcfServiceForClient>().SingleInstance();
 

@@ -3,14 +3,14 @@ using Autofac;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.DatabaseLibrary.DbContexts;
 using Iit.Fibertest.DataCenterCore;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using Iit.Fibertest.WcfServiceForRtuInterface;
-using DbManager = Iit.Fibertest.DataCenterCore.DbManager;
 
 namespace Iit.Fibertest.DataCenterService
 {
-    public static class AutofacExtensions
+    public static class AutofacOnServerExtensions
     {
         public static ContainerBuilder WithProduction(this ContainerBuilder builder)
         {
@@ -25,16 +25,19 @@ namespace Iit.Fibertest.DataCenterService
             var logFile = new LogFile(iniFile);
             builder.RegisterInstance<IMyLog>(logFile);
 
+
+
 //            builder.RegisterType<SqliteEventStoreInitializer>().As<IEventStoreInitializer>().SingleInstance();
             builder.RegisterType<MySqlEventStoreInitializer>().As<IEventStoreInitializer>().SingleInstance();
 
             builder.RegisterType<MySqlContext>().As<IFibertestDbContext>().SingleInstance();
 
+            builder.RegisterType<WriteModel>().SingleInstance();
+            builder.RegisterType<Aggregate>().SingleInstance();
             builder.RegisterType<EventStoreService>().SingleInstance();
             builder.RegisterType<ClientRegistrationManager>().SingleInstance();
             builder.RegisterType<LastConnectionTimeChecker>().SingleInstance();
 
-            builder.RegisterType<DbManager>().SingleInstance();
             builder.RegisterType<DcManager>().SingleInstance();
             builder.RegisterType<WcfServiceForClient>().As<IWcfServiceForClient>().SingleInstance();
             builder.RegisterType<WcfServiceForClientBootstrapper>().SingleInstance();

@@ -23,15 +23,13 @@ namespace Iit.Fibertest.Graph
         private readonly List<Rtu> _rtus = new List<Rtu>();
 
 
-        public WriteModel(IEnumerable<object> events)
+        public void Init(IEnumerable<object> events)
         {
             foreach (var dbEvent in events)
             {
                 this.AsDynamic().Apply(dbEvent);
             }
         }
-
-
 
         public void Add(object evnt)
         {

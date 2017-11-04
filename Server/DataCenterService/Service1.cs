@@ -13,7 +13,6 @@ namespace Iit.Fibertest.DataCenterService
         private readonly IMyLog _logFile;
         private readonly EventStoreService _eventStoreService;
         private readonly ClientRegistrationManager _clientRegistrationManager;
-        private readonly DcManager _dcManager;
         private readonly LastConnectionTimeChecker _lastConnectionTimeChecker;
         private readonly WcfServiceForClientBootstrapper _wcfServiceForClientBootstrapper;
         private readonly WcfServiceForRtuBootstrapper _wcfServiceForRtuBootstrapper;
@@ -21,7 +20,7 @@ namespace Iit.Fibertest.DataCenterService
 
         public Service1(IniFile iniFile, IMyLog logFile,
             EventStoreService eventStoreService, ClientRegistrationManager clientRegistrationManager,
-            DcManager dcManager, LastConnectionTimeChecker lastConnectionTimeChecker,
+            LastConnectionTimeChecker lastConnectionTimeChecker,
             WcfServiceForClientBootstrapper wcfServiceForClientBootstrapper,
             WcfServiceForRtuBootstrapper wcfServiceForRtuBootstrapper,
             MsmqHandler msmqHandler)
@@ -31,7 +30,6 @@ namespace Iit.Fibertest.DataCenterService
             _eventStoreService = eventStoreService;
             _clientRegistrationManager = clientRegistrationManager;
             _logFile.AssignFile("DataCenter.log");
-            _dcManager = dcManager;
             _lastConnectionTimeChecker = lastConnectionTimeChecker;
             _wcfServiceForClientBootstrapper = wcfServiceForClientBootstrapper;
             _wcfServiceForRtuBootstrapper = wcfServiceForRtuBootstrapper;
@@ -46,7 +44,6 @@ namespace Iit.Fibertest.DataCenterService
             _logFile.AppendLine($"Windows service started. Process {pid}, thread {tid}");
 
             _eventStoreService.Init();
-            _dcManager.Start(_eventStoreService.WriteModel.GetDictionaryOfRtuWithAddresses());
             _clientRegistrationManager.CleanClientStations().Wait();
             _lastConnectionTimeChecker.Start();
             _wcfServiceForClientBootstrapper.Start();

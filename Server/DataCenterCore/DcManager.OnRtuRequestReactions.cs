@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.DataCenterCore
 {

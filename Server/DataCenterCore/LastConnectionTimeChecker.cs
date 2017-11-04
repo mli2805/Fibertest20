@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Threading;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.UtilsLib;
@@ -10,14 +8,12 @@ namespace Iit.Fibertest.DataCenterCore
     public class LastConnectionTimeChecker
     {
         private readonly IniFile _iniFile;
-        private readonly IMyLog _logFile;
         private readonly ClientRegistrationManager _clientRegistrationManager;
 
-        public LastConnectionTimeChecker(IniFile iniFile, IMyLog logFile, ClientRegistrationManager clientRegistrationManager)
+        public LastConnectionTimeChecker(IniFile iniFile, ClientRegistrationManager clientRegistrationManager)
         {
-            _logFile = logFile;
-            _clientRegistrationManager = clientRegistrationManager;
             _iniFile = iniFile;
+            _clientRegistrationManager = clientRegistrationManager;
         }
 
         public void Start()
