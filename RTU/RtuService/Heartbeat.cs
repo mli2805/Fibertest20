@@ -27,7 +27,7 @@ namespace Iit.Fibertest.RtuService
         {
             var rtuHeartbeatRate =
                 TimeSpan.FromSeconds(_serviceIni.Read(IniSection.General, IniKey.RtuHeartbeatRate, 30));
-            _serviceLog.AppendLine($"Heartbeat started with {rtuHeartbeatRate} sec rate");
+            _serviceLog.AppendLine($"Heartbeat started with {rtuHeartbeatRate.TotalSeconds} sec rate");
 
             // couldn't be changed in service runtime
             _version = _serviceIni.Read(IniSection.General, IniKey.Version, "2.0.1.0");

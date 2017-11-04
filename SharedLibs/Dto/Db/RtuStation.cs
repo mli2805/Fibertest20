@@ -20,4 +20,36 @@ namespace Iit.Fibertest.Dto
         public bool IsReserveAddressOkDuePreviousCheck { get; set; }
 
     }
+
+    public static class RtuStationExt
+    {
+        public static DoubleAddress GetRtuDoubleAddress(this RtuStation rtuStation)
+        {
+            var rtuAddress = new DoubleAddress()
+            {
+                Main = GetAddress(rtuStation.MainAddress, rtuStation.MainAddressPort),
+                HasReserveAddress = rtuStation.IsReserveAddressSet,
+            };
+            if (rtuAddress.HasReserveAddress)
+                rtuAddress.Reserve = GetAddress(rtuStation.ReserveAddress, rtuStation.ReserveAddressPort);
+            return rtuAddress;
+        }
+
+        private static NetAddress GetAddress(string address, int port)
+        {
+            var netAddress = new NetAddress();
+            if (NetAddress.IsValidIp4(address))
+            {
+                netAddress.Ip4Address = address;
+                netAddress.IsAddressSetAsIp = true;
+            }
+            else
+            {
+                netAddress.HostName = address;
+                netAddress.IsAddressSetAsIp = false;
+            }
+            netAddress.Port = port;
+            return netAddress;
+        }
+    }
 }

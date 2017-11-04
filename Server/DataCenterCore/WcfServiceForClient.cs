@@ -15,20 +15,21 @@ namespace Iit.Fibertest.DataCenterCore
 
         private readonly IMyLog _logFile;
 
-        private readonly DcManager _dcManager;
         private readonly ClientRegistrationManager _clientRegistrationManager;
+        private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
 
         private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
         {
             TypeNameHandling = TypeNameHandling.All
         };
 
-        public WcfServiceForClient(EventStoreService eventStoreService, DcManager dcManager, IMyLog logFile, ClientRegistrationManager clientRegistrationManager)
+        public WcfServiceForClient(EventStoreService eventStoreService, IMyLog logFile, 
+            ClientRegistrationManager clientRegistrationManager, ClientToRtuTransmitter clientToRtuTransmitter)
         {
             _logFile = logFile;
-            _dcManager = dcManager;
             _eventStoreService = eventStoreService;
             _clientRegistrationManager = clientRegistrationManager;
+            _clientToRtuTransmitter = clientToRtuTransmitter;
         }
 
         public async Task<string> SendCommandAsObj(object cmd)
@@ -76,13 +77,13 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)
         {
             _logFile.AppendLine($"Client {dto.ClientId.First6()} check rtu {dto.NetAddress.ToStringA()} connection");
-            return await _dcManager.CheckRtuConnectionAsync(dto);
+            return await _clientToRtuTransmitter.CheckRtuConnectionAsync(dto);
         }
 
         public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
             _logFile.AppendLine($"Client {dto.ClientId.First6()} sent initialize rtu {dto.RtuId.First6()} request");
-            var result = await _dcManager.InitializeAsync(dto);
+            var result = await _clientToRtuTransmitter.InitializeAsync(dto);
             _logFile.AppendLine($"Initialization result is {result.IsInitialized}");
             return result;
         }
@@ -91,7 +92,7 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<bool> StartMonitoringAsync(StartMonitoringDto dto)
         {
             _logFile.AppendLine($"Client {dto.ClientId.First6()} sent start monitoring on rtu {dto.RtuId.First6()} request");
-            var result = await _dcManager.StartMonitoringAsync(dto);
+            var result = await _clientToRtuTransmitter.StartMonitoringAsync(dto);
             _logFile.AppendLine($"Start monitoring result is {result}");
             return result;
         }
@@ -99,7 +100,7 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<bool> StopMonitoringAsync(StopMonitoringDto dto)
         {
             _logFile.AppendLine($"Client {dto.ClientId.First6()} sent stop monitoring on rtu {dto.RtuId.First6()} request");
-            var result = await _dcManager.StopMonitoringAsync(dto);
+            var result = await _clientToRtuTransmitter.StopMonitoringAsync(dto);
             _logFile.AppendLine($"Stop monitoring result is {result}");
             return result;
         }
@@ -107,7 +108,7 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<bool> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
         {
             _logFile.AppendLine($"Client {dto.ClientId.First6()} sent monitoring settings for rtu {dto.RtuId.First6()}");
-            var result = await _dcManager.ApplyMonitoringSettingsAsync(dto);
+            var result = await _clientToRtuTransmitter.ApplyMonitoringSettingsAsync(dto);
             _logFile.AppendLine($"Apply monitoring settings result is {result}");
             return result;
         }
@@ -115,7 +116,7 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<bool> AssignBaseRefAsync(AssignBaseRefDto dto)
         {
             _logFile.AppendLine($"Client {dto.ClientId.First6()} sent base ref for trace on rtu {dto.RtuId.First6()}");
-            var result = await _dcManager.AssignBaseRefAsync(dto);
+            var result = await _clientToRtuTransmitter.AssignBaseRefAsync(dto);
             _logFile.AppendLine($"Assign base ref result is {result}");
             return result;
         }

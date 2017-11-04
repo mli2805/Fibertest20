@@ -55,9 +55,9 @@ namespace Iit.Fibertest.Dto
         public string ToStringA() => IsAddressSetAsIp ? $@"{Ip4Address}:{Port}" : $@"{HostName} : {Port}";
         public string ToStringB() => Port == 11834 ? $@"{Ip4Address}(1)" : $@"{Ip4Address}(2)";
 
-        public bool HasValidIp4Address()
+        public static bool IsValidIp4(string str)
         {
-            var parts = Ip4Address.Split('.');
+            var parts = str.Split('.');
             if (parts.Length != 4)
                 return false;
 
@@ -71,6 +71,11 @@ namespace Iit.Fibertest.Dto
             }
 
             return true;
+        }
+
+        public bool HasValidIp4Address()
+        {
+            return IsValidIp4(Ip4Address);
         }
 
         public bool HasValidTcpPort()

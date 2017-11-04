@@ -88,13 +88,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClientToRtuTransmitter.cs" />
     <Compile Include="NEventStore\MySqlEventStoreInitializer.cs" />
     <Compile Include="NEventStore\SqliteEventStoreInitializer.cs" />
     <Compile Include="NEventStore\IEventStoreInitializer.cs" />
     <Compile Include="WcfServiceForClientBootstrapper.cs" />
     <Compile Include="NEventStore\EventStoreService.cs" />
     <Compile Include="LastConnectionTimeChecker.cs" />
-    <Compile Include="DcManager.OnClientRequestsReactions.cs" />
     <Compile Include="DcManager.OnRtuRequestReactions.cs" />
     <Compile Include="DcManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

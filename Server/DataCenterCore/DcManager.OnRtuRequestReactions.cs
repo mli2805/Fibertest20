@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 
