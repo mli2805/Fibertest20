@@ -86,6 +86,7 @@
     <Compile Include="MonitoringSettings\MonitoringSettingsViewModel.cs" />
     <Compile Include="MonitoringSettings\MonitoringPortModel.cs" />
     <Compile Include="Enums\Frequency.cs" />
+    <Compile Include="OldRtuStation.cs" />
     <Compile Include="RtuState\RtuStateView.xaml.cs">
       <DependentUpon>RtuStateView.xaml</DependentUpon>
     </Compile>

@@ -5,7 +5,7 @@ namespace Iit.Fibertest.Dto
     public class RtuStation
     {
         public int Id { get; set; }
-        public Guid StationId { get; set; }
+        public Guid RtuGuid { get; set; }
         public string Version { get; set; }
 
         public string MainAddress { get; set; }

@@ -40,7 +40,7 @@ namespace Graph.Tests
             builder.RegisterType<ClientRegistrationManager>().SingleInstance();
             builder.RegisterType<RtuRegistrationManager>().SingleInstance();
             builder.RegisterType<ClientToRtuTransmitter>().SingleInstance();
-            builder.RegisterType<DcManager>().SingleInstance();
+            builder.RegisterType<MonitoringResultsManager>().SingleInstance();
             builder.RegisterType<WcfServiceForClient>().As<IWcfServiceForClient>().SingleInstance();
 
             builder.RegisterInstance(LoggerForTests = new LoggerConfiguration()

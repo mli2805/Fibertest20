@@ -57,7 +57,7 @@ namespace Tests
     }
     public class DcManagerFacts
     {
-        private DcManager _sut;
+        private MonitoringResultsManager _sut;
 
         public DcManagerFacts()
         {
@@ -67,7 +67,7 @@ namespace Tests
             builder.RegisterType<NullLog>().As<IMyLog>();
 
             var container = builder.Build();
-            _sut = container.Resolve<DcManager>();
+            _sut = container.Resolve<MonitoringResultsManager>();
         }
 
         [Fact]

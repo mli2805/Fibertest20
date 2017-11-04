@@ -63,7 +63,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                var rtu = _dbContext.RtuStations.FirstOrDefault(r => r.StationId == dto.RtuId);
+                var rtu = _dbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == dto.RtuId);
                 if (rtu == null)
                 {
                     _dbContext.RtuStations.Add(MapperToRtuStation.Map(dto));
@@ -87,7 +87,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                var rtu = _dbContext.RtuStations.FirstOrDefault(r => r.StationId == dto.RtuId);
+                var rtu = _dbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == dto.RtuId);
                 if (rtu == null)
                 {
                     _logFile.AppendLine($"Unknown RTU's {dto.RtuId.First6()} heartbeat.");

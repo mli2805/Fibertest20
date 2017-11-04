@@ -10,7 +10,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             var rtuStation = new RtuStation()
             {
-                StationId = rtu.Id,
+                RtuGuid = rtu.Id,
                 Version = rtu.Version,
                 MainAddress = rtu.MainChannel.GetAddress(),
                 MainAddressPort = rtu.MainChannel.Port,
@@ -30,7 +30,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             var rtuStation = new RtuStation()
             {
-                StationId = dto.RtuId,
+                RtuGuid = dto.RtuId,
                 Version = dto.Version,
                 MainAddress = dto.PcDoubleAddress.Main.GetAddress(),
                 MainAddressPort = dto.PcDoubleAddress.Main.Port,

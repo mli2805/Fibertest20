@@ -56,7 +56,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             try
             {
-                var rtuStation = _dbContext.RtuStations.FirstOrDefault(r => r.StationId == dto.RtuId);
+                var rtuStation = _dbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == dto.RtuId);
 
                 if (rtuStation != null)
                     return await new D2RWcfManager(rtuStation.GetRtuDoubleAddress(), _iniFile, _logFile)
@@ -76,7 +76,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             try
             {
-                var rtuStation = _dbContext.RtuStations.FirstOrDefault(r => r.StationId == dto.RtuId);
+                var rtuStation = _dbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == dto.RtuId);
 
                 if (rtuStation != null)
                     return await new D2RWcfManager(rtuStation.GetRtuDoubleAddress(), _iniFile, _logFile)
@@ -96,7 +96,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             try
             {
-                var rtuStation = _dbContext.RtuStations.FirstOrDefault(r => r.StationId == dto.RtuId);
+                var rtuStation = _dbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == dto.RtuId);
 
                 if (rtuStation != null)
                     return await new D2RWcfManager(rtuStation.GetRtuDoubleAddress(), _iniFile, _logFile)
@@ -116,7 +116,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             try
             {
-                var rtuStation = _dbContext.RtuStations.FirstOrDefault(r => r.StationId == dto.RtuId);
+                var rtuStation = _dbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == dto.RtuId);
 
                 if (rtuStation != null)
                     return await new D2RWcfManager(rtuStation.GetRtuDoubleAddress(), _iniFile, _logFile)

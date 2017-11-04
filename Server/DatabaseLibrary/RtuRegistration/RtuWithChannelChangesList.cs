@@ -10,10 +10,10 @@ namespace Iit.Fibertest.DatabaseLibrary
 
         public void AddOrUpdate(RtuStation rtuStation, bool isMainChannel, ChannelStateChanges changes)
         {
-            var rtu = List.FirstOrDefault(r => r.RtuId == rtuStation.StationId);
+            var rtu = List.FirstOrDefault(r => r.RtuId == rtuStation.RtuGuid);
             if (rtu == null)
             {
-                var rtuWithChannelChanges = new RtuWithChannelChanges() { RtuId = rtuStation.StationId };
+                var rtuWithChannelChanges = new RtuWithChannelChanges() { RtuId = rtuStation.RtuGuid };
                 if (isMainChannel)
                     rtuWithChannelChanges.MainChannel = changes;
                 else

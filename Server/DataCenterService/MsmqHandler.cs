@@ -10,13 +10,13 @@ namespace Iit.Fibertest.DataCenterService
     {
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
-        private readonly DcManager _dcManager;
+        private readonly MonitoringResultsManager _monitoringResultsManager;
 
-        public MsmqHandler(IniFile iniFile, IMyLog logFile, DcManager dcManager)
+        public MsmqHandler(IniFile iniFile, IMyLog logFile, MonitoringResultsManager monitoringResultsManager)
         {
             _iniFile = iniFile;
             _logFile = logFile;
-            _dcManager = dcManager;
+            _monitoringResultsManager = monitoringResultsManager;
         }
 
         public void Start()
@@ -56,7 +56,7 @@ namespace Iit.Fibertest.DataCenterService
                 var mr = message.Body as MonitoringResultDto;
                 if (mr != null)
                 {
-                    _dcManager.ProcessMonitoringResult(mr);
+                    _monitoringResultsManager.ProcessMonitoringResult(mr);
                 }
 
                 // Restart the asynchronous receive operation.

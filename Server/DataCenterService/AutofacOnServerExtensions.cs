@@ -40,7 +40,7 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<ClientToRtuTransmitter>().SingleInstance();
             builder.RegisterType<LastConnectionTimeChecker>().SingleInstance();
 
-            builder.RegisterType<DcManager>().SingleInstance();
+            builder.RegisterType<MonitoringResultsManager>().SingleInstance();
             builder.RegisterType<WcfServiceForClient>().As<IWcfServiceForClient>().SingleInstance();
             builder.RegisterType<WcfServiceForClientBootstrapper>().SingleInstance();
             builder.RegisterType<WcfServiceForRtu>().As<IWcfServiceForRtu>().SingleInstance();

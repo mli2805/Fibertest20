@@ -8,19 +8,19 @@ namespace Iit.Fibertest.DataCenterCore
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
     public class WcfServiceForRtu : IWcfServiceForRtu
     {
-        private readonly DcManager _dcManager;
+        private readonly MonitoringResultsManager _monitoringResultsManager;
         private readonly RtuRegistrationManager _rtuRegistrationManager;
 
-        public WcfServiceForRtu(DcManager dcManager, RtuRegistrationManager rtuRegistrationManager)
+        public WcfServiceForRtu(MonitoringResultsManager monitoringResultsManager, RtuRegistrationManager rtuRegistrationManager)
         {
-            _dcManager = dcManager;
+            _monitoringResultsManager = monitoringResultsManager;
             _rtuRegistrationManager = rtuRegistrationManager;
         }
 
        #region RTU notifies
         public bool KnowRtuCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto dto)
         {
-            return _dcManager.ProcessRtuCurrentMonitoringStep(dto);
+            return _monitoringResultsManager.ProcessRtuCurrentMonitoringStep(dto);
         }
 
         public void RegisterRtuHeartbeat(RtuChecksChannelDto dto)

@@ -75,6 +75,10 @@
     <Compile Include="DbContexts\IFibertestDbContext.cs" />
     <Compile Include="DbContexts\MySqlContext.cs" />
     <Compile Include="DbContexts\SqliteContext.cs" />
+    <Compile Include="Migrations\201711041334132_ClientsAddressAdded.cs" />
+    <Compile Include="Migrations\201711041334132_ClientsAddressAdded.Designer.cs">
+      <DependentUpon>201711041334132_ClientsAddressAdded.cs</DependentUpon>
+    </Compile>
     <Compile Include="RtuRegistration\ChannelStateChanges.cs" />
     <Compile Include="RtuRegistration\MapperToRtuStation.cs" />
     <Compile Include="Migrations\201711031240377_InitialCreate.cs" />
@@ -143,6 +147,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711040909281_IsPreviousCheckOkAdded.resx">
       <DependentUpon>201711040909281_IsPreviousCheckOkAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711041334132_ClientsAddressAdded.resx">
+      <DependentUpon>201711041334132_ClientsAddressAdded.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

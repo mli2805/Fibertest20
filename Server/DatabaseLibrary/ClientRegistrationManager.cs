@@ -76,14 +76,14 @@ namespace Iit.Fibertest.DatabaseLibrary
             {
                 if (!dto.IsHeartbeat && // this check for registration, not for heartbeat
                     _dbContext.ClientStations.FirstOrDefault
-                      (s => s.Username == dto.UserName && s.StationId != dto.ClientId) != null)
+                      (s => s.Username == dto.UserName && s.ClientGuid != dto.ClientId) != null)
                 {
                     _logFile.AppendLine($"User {dto.UserName} registered on another PC");
                     result.ReturnCode = ReturnCode.ThisUserRegisteredOnAnotherPc;
                     return result;
                 }
 
-                var station = _dbContext.ClientStations.FirstOrDefault(s => s.StationId == dto.ClientId);
+                var station = _dbContext.ClientStations.FirstOrDefault(s => s.ClientGuid == dto.ClientId);
                 if (station != null)
                 {
                     station.Username = dto.UserName;
@@ -97,7 +97,7 @@ namespace Iit.Fibertest.DatabaseLibrary
                     station = new ClientStation()
                     {
                         Username = dto.UserName,
-                        StationId = dto.ClientId,
+                        ClientGuid = dto.ClientId,
                         LastConnectionTimestamp = DateTime.Now,
                     };
                     _dbContext.ClientStations.Add(station);
@@ -136,7 +136,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                var station = _dbContext.ClientStations.FirstOrDefault(s => s.StationId == dto.ClientId);
+                var station = _dbContext.ClientStations.FirstOrDefault(s => s.ClientGuid == dto.ClientId);
                 if (station == null)
                 {
                     _logFile.AppendLine("There is no client station with such guid");
@@ -177,7 +177,7 @@ namespace Iit.Fibertest.DatabaseLibrary
                 var deadStations = _dbContext.ClientStations.Where(s => s.LastConnectionTimestamp < noLaterThan).ToList();
                 foreach (var deadStation in deadStations)
                 {
-                    _logFile.AppendLine($"Dead station {deadStation.StationId} registered by {deadStation.Username} will be removed.");
+                    _logFile.AppendLine($"Dead station {deadStation.ClientGuid} registered by {deadStation.Username} will be removed.");
                     _dbContext.ClientStations.Remove(deadStation);
                 }
                 return await _dbContext.SaveChangesAsync();

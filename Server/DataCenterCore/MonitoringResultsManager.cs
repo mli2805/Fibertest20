@@ -1,12 +1,21 @@
 ﻿using System.IO;
+using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.DataCenterCore
 {
-    public partial class DcManager
+    public class MonitoringResultsManager
     {
-        #region RTU notifies
+        private readonly IMyLog _logFile;
+        private readonly ClientRegistrationManager _clientRegistrationManager;
+
+
+        public MonitoringResultsManager(IMyLog logFile, ClientRegistrationManager clientRegistrationManager)
+        {
+            _logFile = logFile;
+            _clientRegistrationManager = clientRegistrationManager;
+        }
         public bool ProcessRtuCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto monitoringStep)
         {
             return true;
@@ -25,8 +34,5 @@ namespace Iit.Fibertest.DataCenterCore
 
             return true;
         }
-        #endregion
-
-
     }
 }
