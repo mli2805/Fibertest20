@@ -22,7 +22,7 @@ namespace Iit.Fibertest.Dto
         public string Serial { get; set; }
 
         [DataMember]
-        public DoubleAddress PcDoubleAddress { get; set; }
+        public DoubleAddress RtuAddresses { get; set; }
 
         [DataMember]
         public NetAddress OtdrAddress { get; set; }

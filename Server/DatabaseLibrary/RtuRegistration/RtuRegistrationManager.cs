@@ -12,20 +12,20 @@ namespace Iit.Fibertest.DatabaseLibrary
     public class RtuRegistrationManager
     {
         private readonly IMyLog _logFile;
-        private readonly IFibertestDbContext _dbContext;
+//        private readonly IFibertestDbContext _dbContext;
 
-        public RtuRegistrationManager(IMyLog logFile, IFibertestDbContext dbContext)
+        public RtuRegistrationManager(IMyLog logFile)
         {
             _logFile = logFile;
-            _dbContext = dbContext;
         }
 
         private async Task<int> CleanRtuStations()
         {
             try
             {
-                _dbContext.RtuStations.RemoveRange(_dbContext.RtuStations);
-                return await _dbContext.SaveChangesAsync();
+                var dbContext = new MySqlContext();
+                dbContext.RtuStations.RemoveRange(dbContext.RtuStations);
+                return await dbContext.SaveChangesAsync();
             }
             catch (Exception e)
             {
@@ -38,13 +38,15 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
+                var dbContext = new MySqlContext();
                 foreach (var rtu in initializedRtus)
                 {
-                    _dbContext.RtuStations.Add(MapperToRtuStation.Map(rtu));
+                    dbContext.RtuStations.Add(MapperToRtuStation.Map(rtu));
                     _logFile.AppendLine($"RTU {rtu.Id.First6()}  main address {rtu.MainChannel.ToStringA()}");
                 }
-                _logFile.AppendLine($"{initializedRtus.Count} RTU found.");
-                return await _dbContext.SaveChangesAsync();
+                var savedRows = await dbContext.SaveChangesAsync();
+                _logFile.AppendLine($"{savedRows} RTU found.");
+                return savedRows;
             }
             catch (Exception e)
             {
@@ -53,7 +55,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
         }
 
-        public async Task<int> Init(List<Rtu> initializedRtu)
+        public async Task<int> InitManager(List<Rtu> initializedRtu)
         {
             await CleanRtuStations();
             return await InitializeRtuStationTable(initializedRtu);
@@ -63,18 +65,20 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                var rtu = _dbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == dto.RtuId);
+                var dbContext = new MySqlContext();
+                var rtu = dbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == dto.RtuId);
                 if (rtu == null)
                 {
-                    _dbContext.RtuStations.Add(MapperToRtuStation.Map(dto));
+                    var rtuStation = MapperToRtuStation.Map(dto);
+                    dbContext.RtuStations.Add(rtuStation);
                     _logFile.AppendLine("New RTU registered.");
                 }
                 else
                 {
                     rtu.LastConnectionByMainAddressTimestamp = DateTime.Now;
-                    _logFile.AppendLine("Existed RTU re-registered");
+                    _logFile.AppendLine("Existing RTU re-registered");
                 }
-                return await _dbContext.SaveChangesAsync();
+                return await dbContext.SaveChangesAsync();
             }
             catch (Exception e)
             {
@@ -83,11 +87,61 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
         }
 
+        public async Task<int> RemoveRtuAsync(Guid rtuId)
+        {
+            try
+            {
+                var dbContext = new MySqlContext();
+                var rtu = dbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == rtuId);
+                if (rtu != null)
+                {
+                    dbContext.RtuStations.Remove(rtu);
+                    _logFile.AppendLine("RTU removed.");
+                    return await dbContext.SaveChangesAsync();
+                }
+                else
+                {
+                    _logFile.AppendLine($"RTU with id {rtuId.First6()} not found");
+                    return 0;
+                }
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("RegisterRtuAsync: " + e.Message);
+                return -1;
+            }
+        }
+
+        public Task<DoubleAddress> GetRtuAddresses(Guid rtuId)
+        {
+            try
+            {
+                var dbContext = new MySqlContext();
+                var rtu = dbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == rtuId);
+                if (rtu != null)
+                {
+                    return Task.FromResult(rtu.GetRtuDoubleAddress());
+                }
+                else
+                {
+                    _logFile.AppendLine($"RTU with id {rtuId.First6()} not found");
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("RegisterRtuAsync: " + e.Message);
+                return null;
+            }
+        }
+
+
         public async Task<int> RegisterRtuHeartbeatAsync(RtuChecksChannelDto dto)
         {
             try
             {
-                var rtu = _dbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == dto.RtuId);
+                var dbContext = new MySqlContext();
+                var rtu = dbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == dto.RtuId);
                 if (rtu == null)
                 {
                     _logFile.AppendLine($"Unknown RTU's {dto.RtuId.First6()} heartbeat.");
@@ -100,7 +154,7 @@ namespace Iit.Fibertest.DatabaseLibrary
                         rtu.LastConnectionByReserveAddressTimestamp = DateTime.Now;
                     rtu.Version = dto.Version;
                 }
-                return await _dbContext.SaveChangesAsync();
+                return await dbContext.SaveChangesAsync();
             }
             catch (Exception e)
             {
@@ -113,17 +167,18 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
+                var dbContext = new MySqlContext();
                 DateTime noLaterThan = DateTime.Now - timeSpan;
                 var changes = new RtuWithChannelChangesList();
 
-                var stationsWithExpiredMainChannel = _dbContext.RtuStations.
+                var stationsWithExpiredMainChannel = dbContext.RtuStations.
                     Where(s => s.LastConnectionByMainAddressTimestamp < noLaterThan && s.IsMainAddressOkDuePreviousCheck).ToList();
                 foreach (var rtuStation in stationsWithExpiredMainChannel)
                 {
                     rtuStation.IsMainAddressOkDuePreviousCheck = false;
                     changes.AddOrUpdate(rtuStation, true, ChannelStateChanges.Broken);
                 }
-                var stationsWithRecoveredMainChannel = _dbContext.RtuStations.
+                var stationsWithRecoveredMainChannel = dbContext.RtuStations.
                     Where(s => s.LastConnectionByMainAddressTimestamp >= noLaterThan && !s.IsMainAddressOkDuePreviousCheck).ToList();
                 foreach (var rtuStation in stationsWithRecoveredMainChannel)
                 {
@@ -131,7 +186,7 @@ namespace Iit.Fibertest.DatabaseLibrary
                     changes.AddOrUpdate(rtuStation, true, ChannelStateChanges.Recovered);
                 }
 
-                var stationsWithExpiredReserveChannel = _dbContext.RtuStations
+                var stationsWithExpiredReserveChannel = dbContext.RtuStations
                     .Where(s => s.IsReserveAddressSet &&
                         s.LastConnectionByReserveAddressTimestamp < noLaterThan && s.IsReserveAddressOkDuePreviousCheck).ToList();
                 foreach (var rtuStation in stationsWithExpiredReserveChannel)
@@ -139,7 +194,7 @@ namespace Iit.Fibertest.DatabaseLibrary
                     rtuStation.IsReserveAddressOkDuePreviousCheck = false;
                     changes.AddOrUpdate(rtuStation, false, ChannelStateChanges.Broken);
                 }
-                var stationsWithRecoveredReserveChannel = _dbContext.RtuStations
+                var stationsWithRecoveredReserveChannel = dbContext.RtuStations
                     .Where(s => s.IsReserveAddressSet &&
                         s.LastConnectionByReserveAddressTimestamp >= noLaterThan && !s.IsReserveAddressOkDuePreviousCheck).ToList();
                 foreach (var rtuStation in stationsWithRecoveredReserveChannel)
@@ -155,7 +210,7 @@ namespace Iit.Fibertest.DatabaseLibrary
                         _logFile.AppendLine(station.Report());
                         // TODO notify client
                     }
-                    return await _dbContext.SaveChangesAsync();
+                    return await dbContext.SaveChangesAsync();
                 }
 
                 return 0;

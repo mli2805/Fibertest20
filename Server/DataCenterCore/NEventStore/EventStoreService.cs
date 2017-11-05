@@ -47,7 +47,7 @@ namespace Iit.Fibertest.DataCenterCore
         public Task<string> SendCommand(object cmd)
         {
             var result = (string)_aggregate.AsDynamic().When(cmd); // Aggregate checks if command is valid
-                                                                   // and if so transforms command into event and passes it to WriteModel
+                                                                   // and if so, transforms command into event and passes it to WriteModel
                                                                    // WriteModel applies event
 
             if (IsSuccess(result))                                   // if command was valid

@@ -10,32 +10,33 @@ namespace Iit.Fibertest.DatabaseLibrary
     public class ClientRegistrationManager
     {
         private readonly IMyLog _logFile;
-        private readonly IFibertestDbContext _dbContext;
+        //        private readonly IFibertestDbContext _dbContext;
 
-        public ClientRegistrationManager(IMyLog logFile, IFibertestDbContext dbContext)
+        public ClientRegistrationManager(IMyLog logFile)
         {
             _logFile = logFile;
-            _dbContext = dbContext;
+            //            _dbContext = dbContext;
         }
 
         private void SeedUsersTableIfNeeded()
         {
-            if (_dbContext.Users.Any())
+            var dbContext = new MySqlContext();
+            if (dbContext.Users.Any())
                 return; // seeded already
 
             var developer = new User() { Name = "developer", Password = "developer", Email = "", IsEmailActivated = false, Role = Role.Developer, IsDefaultZoneUser = true };
-            _dbContext.Users.Add(developer);
+            dbContext.Users.Add(developer);
             var root = new User() { Name = "root", Password = "root", Email = "", IsEmailActivated = false, Role = Role.Root, IsDefaultZoneUser = true };
-            _dbContext.Users.Add(root);
+            dbContext.Users.Add(root);
             var oper = new User() { Name = "operator", Password = "operator", Email = "", IsEmailActivated = false, Role = Role.Operator, IsDefaultZoneUser = true };
-            _dbContext.Users.Add(oper);
+            dbContext.Users.Add(oper);
             var supervisor = new User() { Name = "supervisor", Password = "supervisor", Email = "", IsEmailActivated = false, Role = Role.Supervisor, IsDefaultZoneUser = true };
-            _dbContext.Users.Add(supervisor);
+            dbContext.Users.Add(supervisor);
             var superclient = new User() { Name = "superclient", Password = "superclient", Email = "", IsEmailActivated = false, Role = Role.Superclient, IsDefaultZoneUser = true };
-            _dbContext.Users.Add(superclient);
+            dbContext.Users.Add(superclient);
             try
             {
-                _dbContext.SaveChanges();
+                dbContext.SaveChanges();
             }
             catch (Exception e)
             {
@@ -50,7 +51,8 @@ namespace Iit.Fibertest.DatabaseLibrary
 
             try
             {
-                var users = _dbContext.Users.ToList(); // there is no field Password in Db , so it should be instances in memory to address that property
+                var dbContext = new MySqlContext();
+                var users = dbContext.Users.ToList(); // there is no field Password in Db , so it should be instances in memory to address that property
                 if (users.FirstOrDefault(u => u.Name == dto.UserName && u.Password == dto.Password) == null)
                 {
                     result.ReturnCode = ReturnCode.NoSuchUserOrWrongPassword;
@@ -74,8 +76,9 @@ namespace Iit.Fibertest.DatabaseLibrary
             var result = new ClientRegisteredDto();
             try
             {
+                var dbContext = new MySqlContext();
                 if (!dto.IsHeartbeat && // this check for registration, not for heartbeat
-                    _dbContext.ClientStations.FirstOrDefault
+                    dbContext.ClientStations.FirstOrDefault
                       (s => s.Username == dto.UserName && s.ClientGuid != dto.ClientId) != null)
                 {
                     _logFile.AppendLine($"User {dto.UserName} registered on another PC");
@@ -83,12 +86,12 @@ namespace Iit.Fibertest.DatabaseLibrary
                     return result;
                 }
 
-                var station = _dbContext.ClientStations.FirstOrDefault(s => s.ClientGuid == dto.ClientId);
+                var station = dbContext.ClientStations.FirstOrDefault(s => s.ClientGuid == dto.ClientId);
                 if (station != null)
                 {
                     station.Username = dto.UserName;
                     station.LastConnectionTimestamp = DateTime.Now;
-                    await _dbContext.SaveChangesAsync();
+                    await dbContext.SaveChangesAsync();
                     if (!dto.IsHeartbeat)
                         _logFile.AppendLine($"Station {dto.ClientId.First6()} was registered already. Re-registered.");
                 }
@@ -100,14 +103,14 @@ namespace Iit.Fibertest.DatabaseLibrary
                         ClientGuid = dto.ClientId,
                         LastConnectionTimestamp = DateTime.Now,
                     };
-                    _dbContext.ClientStations.Add(station);
-                    await _dbContext.SaveChangesAsync();
+                    dbContext.ClientStations.Add(station);
+                    await dbContext.SaveChangesAsync();
                     if (!dto.IsHeartbeat)
                         _logFile.AppendLine($"Client station {dto.ClientId.First6()} registered");
                 }
 
                 if (!dto.IsHeartbeat)
-                    _logFile.AppendLine($"There are {_dbContext.ClientStations.Count()} client(s)");
+                    _logFile.AppendLine($"There are {dbContext.ClientStations.Count()} client(s)");
                 result.ReturnCode = ReturnCode.ClientRegisteredSuccessfully;
                 return result;
             }
@@ -136,16 +139,17 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                var station = _dbContext.ClientStations.FirstOrDefault(s => s.ClientGuid == dto.ClientId);
+                var dbContext = new MySqlContext();
+                var station = dbContext.ClientStations.FirstOrDefault(s => s.ClientGuid == dto.ClientId);
                 if (station == null)
                 {
                     _logFile.AppendLine("There is no client station with such guid");
                     return 0;
                 }
 
-                _dbContext.ClientStations.Remove(station);
-                var countAffected = await _dbContext.SaveChangesAsync();
-                _logFile.AppendLine($"Client unregistered. There are {_dbContext.ClientStations.Count()} client(s) now");
+                dbContext.ClientStations.Remove(station);
+                var countAffected = await dbContext.SaveChangesAsync();
+                _logFile.AppendLine($"Client unregistered. There are {dbContext.ClientStations.Count()} client(s) now");
                 return countAffected;
             }
             catch (Exception e)
@@ -159,8 +163,9 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                _dbContext.ClientStations.RemoveRange(_dbContext.ClientStations);
-                return await _dbContext.SaveChangesAsync();
+                var dbContext = new MySqlContext();
+                dbContext.ClientStations.RemoveRange(dbContext.ClientStations);
+                return await dbContext.SaveChangesAsync();
             }
             catch (Exception e)
             {
@@ -173,14 +178,15 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
+                var dbContext = new MySqlContext();
                 DateTime noLaterThan = DateTime.Now - timeSpan;
-                var deadStations = _dbContext.ClientStations.Where(s => s.LastConnectionTimestamp < noLaterThan).ToList();
+                var deadStations = dbContext.ClientStations.Where(s => s.LastConnectionTimestamp < noLaterThan).ToList();
                 foreach (var deadStation in deadStations)
                 {
                     _logFile.AppendLine($"Dead station {deadStation.ClientGuid} registered by {deadStation.Username} will be removed.");
-                    _dbContext.ClientStations.Remove(deadStation);
+                    dbContext.ClientStations.Remove(deadStation);
                 }
-                return await _dbContext.SaveChangesAsync();
+                return await dbContext.SaveChangesAsync();
             }
             catch (Exception e)
             {

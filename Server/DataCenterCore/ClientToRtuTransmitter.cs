@@ -14,16 +14,16 @@ namespace Iit.Fibertest.DataCenterCore
     {
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
-        private readonly IFibertestDbContext _dbContext;
+//        private readonly IFibertestDbContext _dbContext;
         private readonly RtuRegistrationManager _rtuRegistrationManager;
 
         private readonly DoubleAddress _serverDoubleAddress;
 
-        public ClientToRtuTransmitter(IniFile iniFile, IMyLog logFile, IFibertestDbContext dbContext, RtuRegistrationManager rtuRegistrationManager)
+        public ClientToRtuTransmitter(IniFile iniFile, IMyLog logFile, RtuRegistrationManager rtuRegistrationManager)
         {
             _iniFile = iniFile;
             _logFile = logFile;
-            _dbContext = dbContext;
+//            _dbContext = dbContext;
             _rtuRegistrationManager = rtuRegistrationManager;
 
             _serverDoubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToRtu);
@@ -47,6 +47,7 @@ namespace Iit.Fibertest.DataCenterCore
             var rtuInitializedDto = await new D2RWcfManager(dto.RtuAddresses, _iniFile, _logFile).InitializeAsync(dto);
             if (rtuInitializedDto.IsInitialized)
             {
+                rtuInitializedDto.RtuAddresses = dto.RtuAddresses;
                 await _rtuRegistrationManager.RegisterRtuAsync(rtuInitializedDto);
             }
             return rtuInitializedDto;
@@ -56,10 +57,9 @@ namespace Iit.Fibertest.DataCenterCore
         {
             try
             {
-                var rtuStation = _dbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == dto.RtuId);
-
-                if (rtuStation != null)
-                    return await new D2RWcfManager(rtuStation.GetRtuDoubleAddress(), _iniFile, _logFile)
+                var rtuAddresses = await _rtuRegistrationManager.GetRtuAddresses(dto.RtuId);
+                if (rtuAddresses != null)
+                    return await new D2RWcfManager(rtuAddresses, _iniFile, _logFile)
                         .StartMonitoringAsync(dto);
 
                 _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
@@ -76,10 +76,9 @@ namespace Iit.Fibertest.DataCenterCore
         {
             try
             {
-                var rtuStation = _dbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == dto.RtuId);
-
-                if (rtuStation != null)
-                    return await new D2RWcfManager(rtuStation.GetRtuDoubleAddress(), _iniFile, _logFile)
+                var rtuAddresses = await _rtuRegistrationManager.GetRtuAddresses(dto.RtuId);
+                if (rtuAddresses != null)
+                    return await new D2RWcfManager(rtuAddresses, _iniFile, _logFile)
                         .StopMonitoringAsync(dto);
 
                 _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
@@ -96,10 +95,9 @@ namespace Iit.Fibertest.DataCenterCore
         {
             try
             {
-                var rtuStation = _dbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == dto.RtuId);
-
-                if (rtuStation != null)
-                    return await new D2RWcfManager(rtuStation.GetRtuDoubleAddress(), _iniFile, _logFile)
+                var rtuAddresses = await _rtuRegistrationManager.GetRtuAddresses(dto.RtuId);
+                if (rtuAddresses != null)
+                    return await new D2RWcfManager(rtuAddresses, _iniFile, _logFile)
                         .AssignBaseRefAsync(dto);
 
                 _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
@@ -116,10 +114,9 @@ namespace Iit.Fibertest.DataCenterCore
         {
             try
             {
-                var rtuStation = _dbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == dto.RtuId);
-
-                if (rtuStation != null)
-                    return await new D2RWcfManager(rtuStation.GetRtuDoubleAddress(), _iniFile, _logFile)
+                var rtuAddresses = await _rtuRegistrationManager.GetRtuAddresses(dto.RtuId);
+                if (rtuAddresses != null)
+                    return await new D2RWcfManager(rtuAddresses, _iniFile, _logFile)
                         .ApplyMonitoringSettingsAsync(dto);
 
                 _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");

@@ -32,15 +32,15 @@ namespace Iit.Fibertest.DatabaseLibrary
             {
                 RtuGuid = dto.RtuId,
                 Version = dto.Version,
-                MainAddress = dto.PcDoubleAddress.Main.GetAddress(),
-                MainAddressPort = dto.PcDoubleAddress.Main.Port,
+                MainAddress = dto.RtuAddresses.Main.GetAddress(),
+                MainAddressPort = dto.RtuAddresses.Main.Port,
                 LastConnectionByMainAddressTimestamp = DateTime.Now,
-                IsReserveAddressSet = dto.PcDoubleAddress.HasReserveAddress,
+                IsReserveAddressSet = dto.RtuAddresses.HasReserveAddress,
             };
-            if (dto.PcDoubleAddress.HasReserveAddress)
+            if (dto.RtuAddresses.HasReserveAddress)
             {
-                rtuStation.ReserveAddress = dto.PcDoubleAddress.Reserve.GetAddress();
-                rtuStation.ReserveAddressPort = dto.PcDoubleAddress.Reserve.Port;
+                rtuStation.ReserveAddress = dto.RtuAddresses.Reserve.GetAddress();
+                rtuStation.ReserveAddressPort = dto.RtuAddresses.Reserve.Port;
                 rtuStation.LastConnectionByReserveAddressTimestamp = DateTime.Now;
             }
             return rtuStation;

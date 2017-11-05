@@ -53,7 +53,7 @@ namespace Iit.Fibertest.DataCenterService
 
             _eventStoreService.Init();
             _clientRegistrationManager.CleanClientStations().Wait();
-            _rtuRegistrationManager.Init(_writeModel.GetInitializedRtuList()).Wait();
+            _rtuRegistrationManager.InitManager(_writeModel.GetInitializedRtuList()).Wait();
             _lastConnectionTimeChecker.Start();
             _wcfServiceForClientBootstrapper.Start();
             _wcfServiceForRtuBootstrapper.Start();

@@ -1,7 +1,9 @@
-﻿using System.ServiceModel;
+﻿using System;
+using System.ServiceModel;
 using System.Threading.Tasks;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using Newtonsoft.Json;
@@ -17,19 +19,22 @@ namespace Iit.Fibertest.DataCenterCore
 
         private readonly ClientRegistrationManager _clientRegistrationManager;
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
+        private readonly RtuRegistrationManager _rtuRegistrationManager;
 
         private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
         {
             TypeNameHandling = TypeNameHandling.All
         };
 
-        public WcfServiceForClient(EventStoreService eventStoreService, IMyLog logFile, 
-            ClientRegistrationManager clientRegistrationManager, ClientToRtuTransmitter clientToRtuTransmitter)
+        public WcfServiceForClient(IMyLog logFile, EventStoreService eventStoreService, 
+            ClientRegistrationManager clientRegistrationManager, ClientToRtuTransmitter clientToRtuTransmitter,
+            RtuRegistrationManager rtuRegistrationManager)
         {
             _logFile = logFile;
             _eventStoreService = eventStoreService;
             _clientRegistrationManager = clientRegistrationManager;
             _clientToRtuTransmitter = clientToRtuTransmitter;
+            _rtuRegistrationManager = rtuRegistrationManager;
         }
 
         public async Task<string> SendCommandAsObj(object cmd)
@@ -45,10 +50,10 @@ namespace Iit.Fibertest.DataCenterCore
             if (!string.IsNullOrEmpty(resultInGraph))
                 return resultInGraph;
 
-           
-
-            // transmit to RTU
-
+           // A few commands should be applied to Db
+            var removeRtu = cmd as RemoveRtu;
+            if (removeRtu != null)
+                await _rtuRegistrationManager.RemoveRtuAsync(removeRtu.Id);
             return "";
         }
 

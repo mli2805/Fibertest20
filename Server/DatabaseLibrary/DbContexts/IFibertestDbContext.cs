@@ -4,7 +4,7 @@ using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.DatabaseLibrary.DbContexts
 {
-    public interface IFibertestDbContext 
+    public interface IFibertestDbContext
     {
         DbSet<User> Users { get; set; }
         DbSet<ClientStation> ClientStations { get; set; }
