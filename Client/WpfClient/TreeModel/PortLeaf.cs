@@ -89,7 +89,14 @@ namespace Iit.Fibertest.Client
         public void AttachFromListAction(object param)
         {
             var rtuId = Parent is RtuLeaf ? Parent.Id : Parent.Parent.Id;
-            var vm = new TraceToAttachViewModel(rtuId, ExtendedPortNumber, ReadModel, C2DWcfManager);
+            var otauPortDto = new OtauPortDto()
+            {
+                OtauIp = ((IPortOwner)Parent).OtauNetAddress.Ip4Address,
+                OtauTcpPort = ((IPortOwner)Parent).OtauNetAddress.Port,
+                IsPortOnMainCharon = Parent is RtuLeaf,
+                OpticalPort = PortNumber
+            };
+            var vm = new TraceToAttachViewModel(rtuId, ExtendedPortNumber, otauPortDto, ReadModel, C2DWcfManager);
             WindowManager.ShowDialog(vm);
         }
 

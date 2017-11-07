@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows.Media;
 using Caliburn.Micro;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WcfServiceForClientInterface;
@@ -14,6 +15,7 @@ namespace Iit.Fibertest.Client
         public int PortCount { get; set; }
         public int FirstPortNumber { get; set; }
         public int MasterPort { get; set; }
+        public NetAddress OtauNetAddress { get; set; }
         public RtuPartState OtauState { get; set; }
         public ImageSource OtauStatePictogram => OtauState.GetPictogram();
 

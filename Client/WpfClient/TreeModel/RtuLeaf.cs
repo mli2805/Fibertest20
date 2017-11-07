@@ -78,6 +78,7 @@ namespace Iit.Fibertest.Client
         public int OwnPortCount { get; set; }
         public int FullPortCount { get; set; }
         public string Serial { get; set; }
+        public NetAddress OtauNetAddress { get; set; }
         public override string Name => Title;
 
         public ChildrenImpresario ChildrenImpresario { get; }
@@ -277,5 +278,6 @@ namespace Iit.Fibertest.Client
         private void DefineTraceStepByStepAction(object param)
         {
         }
+
     }
 }

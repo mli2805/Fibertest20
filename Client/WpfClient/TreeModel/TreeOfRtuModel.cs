@@ -119,6 +119,7 @@ namespace Iit.Fibertest.Client
             rtuLeaf.MainChannelState = e.MainChannelState;
             rtuLeaf.ReserveChannelState = e.ReserveChannelState;
             rtuLeaf.MonitoringState = MonitoringState.Off;
+            rtuLeaf.OtauNetAddress = e.OtdrNetAddress;
 
             rtuLeaf.Color = Brushes.Black;
             for (int i = 1; i <= rtuLeaf.OwnPortCount; i++)
@@ -167,6 +168,7 @@ namespace Iit.Fibertest.Client
                 MasterPort = e.MasterPort,
                 FirstPortNumber = rtuLeaf.FullPortCount + 1,
                 PortCount = e.PortCount,
+                OtauNetAddress = e.NetAddress,
                 OtauState = RtuPartState.Normal,
                 IsExpanded = true,
             };

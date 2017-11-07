@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Caliburn.Micro;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WcfServiceForClientInterface;
@@ -11,6 +12,7 @@ namespace Iit.Fibertest.Client
     public class TraceToAttachViewModel : Screen
     {
         private readonly int _portNumber;
+        private readonly OtauPortDto _otauPortDto;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private Trace _selectedTrace;
 
@@ -27,9 +29,10 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public TraceToAttachViewModel(Guid rtuId, int portNumber, ReadModel readModel, IWcfServiceForClient c2DWcfManager)
+        public TraceToAttachViewModel(Guid rtuId, int portNumber, OtauPortDto otauPortDto, ReadModel readModel, IWcfServiceForClient c2DWcfManager)
         {
             _portNumber = portNumber;
+            _otauPortDto = otauPortDto;
             _c2DWcfManager = c2DWcfManager;
 
             Choices = readModel.Traces.Where(t => t.RtuId == rtuId && t.Port < 1).ToList();
@@ -44,7 +47,7 @@ namespace Iit.Fibertest.Client
         public void Attach()
         {
 //            _bus.SendCommand(new AttachTrace() {Port = _portNumber, TraceId = SelectedTrace.Id});
-            _c2DWcfManager.SendCommandAsObj(new AttachTrace() {Port = _portNumber, TraceId = SelectedTrace.Id});
+            _c2DWcfManager.SendCommandAsObj(new AttachTrace() {Port = _portNumber, TraceId = SelectedTrace.Id, OtauPortDto = _otauPortDto});
             TryClose();
         }
 

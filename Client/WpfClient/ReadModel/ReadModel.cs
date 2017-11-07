@@ -310,6 +310,7 @@ namespace Iit.Fibertest.Client
         {
             var trace = Traces.First(t => t.Id == e.TraceId);
             trace.Port = e.Port;
+            trace.OtauPort = e.OtauPortDto;
         }
 
         public void Apply(TraceDetached e)
