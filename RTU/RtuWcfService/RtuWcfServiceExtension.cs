@@ -33,7 +33,7 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
             this IRtuWcfService rtuWcfService, RtuWcfServiceBackward backwardService, ApplyMonitoringSettingsDto dto)
         {
             var src = new TaskCompletionSource<bool>();
-            backwardService.HandlerForStartMonitoring.AddHandler(src);
+            backwardService.HandlerForApplyMonitoringSettings.AddHandler(src);
             rtuWcfService.BeginApplyMonitoringSettings(dto);
             return src.Task;
         }
@@ -41,7 +41,7 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
             this IRtuWcfService rtuWcfService, RtuWcfServiceBackward backwardService, AssignBaseRefDto dto)
         {
             var src = new TaskCompletionSource<bool>();
-            backwardService.HandlerForStartMonitoring.AddHandler(src);
+            backwardService.HandlerForAssignBaseRef.AddHandler(src);
             rtuWcfService.BeginAssignBaseRef(dto);
             return src.Task;
         }
