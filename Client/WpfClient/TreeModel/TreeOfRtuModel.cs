@@ -119,7 +119,7 @@ namespace Iit.Fibertest.Client
             rtuLeaf.MainChannelState = e.MainChannelState;
             rtuLeaf.ReserveChannelState = e.ReserveChannelState;
             rtuLeaf.MonitoringState = MonitoringState.Off;
-            rtuLeaf.OtauNetAddress = e.OtdrNetAddress;
+            rtuLeaf.OtauNetAddress = e.OtauNetAddress;
 
             rtuLeaf.Color = Brushes.Black;
             for (int i = 1; i <= rtuLeaf.OwnPortCount; i++)

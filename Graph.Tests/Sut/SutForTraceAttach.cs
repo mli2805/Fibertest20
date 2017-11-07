@@ -101,7 +101,9 @@ namespace Graph.Tests
                     ReserveChannel = new NetAddress(reserveIpAddress, TcpPorts.RtuListenTo),
                     FullPortCount = 8,
                     OwnPortCount = 8,
-                    Serial = @"123456"
+                    Serial = @"123456",
+                    OtauNetAddress = new NetAddress(mainIpAddress, 23),
+                    Version = @"2.0.1.0",
                 };
                 ShellVm.C2DWcfManager.SendCommandAsObj(cmd).Wait();
             }

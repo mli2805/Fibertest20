@@ -225,7 +225,7 @@ namespace Iit.Fibertest.Client
             if (e.IsReserveChannelSet)
                 rtu.ReserveChannel = e.ReserveChannel;
             rtu.ReserveChannelState = e.ReserveChannelState;
-            rtu.OtdrNetAddress = e.OtdrNetAddress;
+            rtu.OtdrNetAddress = e.OtauNetAddress;
             rtu.MonitoringState = MonitoringState.Off;
             rtu.Version = e.Version;
         }

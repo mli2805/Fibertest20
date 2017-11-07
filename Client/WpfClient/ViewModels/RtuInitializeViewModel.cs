@@ -189,7 +189,7 @@ namespace Iit.Fibertest.Client
                 IsReserveChannelSet = IsReserveChannelEnabled,
                 ReserveChannel = IsReserveChannelEnabled ? ReserveChannelTestViewModel.NetAddressInputViewModel.GetNetAddress() : null,
                 ReserveChannelState = IsReserveChannelEnabled ? RtuPartState.Normal : RtuPartState.NotSetYet,
-                OtdrNetAddress = dto.OtdrAddress,
+                OtauNetAddress = dto.OtdrAddress,
                 OwnPortCount = dto.OwnPortCount,
                 FullPortCount = dto.FullPortCount,
                 Serial = dto.Serial,

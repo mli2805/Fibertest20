@@ -117,7 +117,7 @@ namespace Iit.Fibertest.DbMigrator
                 FullPortCount = Int32.Parse(parts[2]), // FullPortCount will be increased by OtauAttached event if happened
                 Serial = Int32.Parse(parts[4]).ToString(),
                 MainChannel = new NetAddress() { Ip4Address = parts[5], Port = Int32.Parse(parts[6]) },
-                OtdrNetAddress = new NetAddress() { Ip4Address = parts[7], Port = Int32.Parse(parts[8]) },
+                OtauNetAddress = new NetAddress() { Ip4Address = parts[7], Port = Int32.Parse(parts[8]) },
                 ReserveChannel = new NetAddress() { Ip4Address = parts[9], Port = Int32.Parse(parts[10]) },
             });
         }
