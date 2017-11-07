@@ -148,7 +148,7 @@ namespace Iit.Fibertest.RtuManagement
                 try
                 {
                     if (ShouldAssignBaseRef())
-                        _rtuManager.AssignBaseRefs(dto);
+                        _rtuManager.SaveBaseRefs(dto);
                     _serviceLog.AppendLine("Base ref assigned");
                 }
                 catch (Exception e)

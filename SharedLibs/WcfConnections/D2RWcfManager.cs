@@ -56,6 +56,8 @@ namespace Iit.Fibertest.WcfConnections
             if (rtuDuplexConnection == null)
                 return false;
 
+            // 
+            _logFile.AppendLine("Still on server, duplex channel established");
             var result = await rtuDuplexConnection.AssignBaseRefAsync(backward, dto);
             return result;
         }

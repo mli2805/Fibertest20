@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Dto;
@@ -116,41 +117,52 @@ namespace Iit.Fibertest.RtuManagement
                 StartMonitoring(null);
         }
 
-        public void AssignBaseRefs(object param)
+        public void SaveBaseRefs(AssignBaseRefDto dto)
         {
             _rtuLog.AppendLine("Base refs received.");
-            var assignBaseRefDto = param as AssignBaseRefDto;
-            if (assignBaseRefDto == null)
-                return;
 
-            _rtuLog.AppendLine("Base refs valid dto.");
+            string fullFolderName;
+            if (TryBuildPathForBaseRef(dto, out fullFolderName))
+                foreach (var baseRef in dto.BaseRefs)
+                    RemoveOldSaveNew(baseRef, fullFolderName);
+
+        }
+
+        private void RemoveOldSaveNew(BaseRefDto baseRef, string fullFolderName)
+        {
+            var fullPath = BuildFullPath(baseRef.BaseRefType, fullFolderName);
+            if (File.Exists(fullPath))
+                File.Delete(fullPath);
+            if (baseRef.SorBytes != null)
+                File.WriteAllBytes(fullPath, baseRef.SorBytes);
+        }
+
+        private string BuildFullPath(BaseRefType baseRefType, string fullFolderName)
+        {
+            var filename = baseRefType.ToBaseFileName();
+            var fullPath = Path.Combine(fullFolderName, filename);
+            _rtuLog.AppendLine($"with name: {fullPath}");
+            return fullPath;
+        }
+
+        private bool TryBuildPathForBaseRef(AssignBaseRefDto dto, out string fullFolderName)
+        {
+            fullFolderName = "";
             var otdrIp = _rtuIni.Read(IniSection.General, IniKey.OtdrIp, "192.168.88.101");
-
-            var portFolderName = assignBaseRefDto.OtauPortDto.IsPortOnMainCharon
-                ? $@"{otdrIp}t{assignBaseRefDto.OtauPortDto.OtauTcpPort}p{assignBaseRefDto.OtauPortDto.OpticalPort}\"
-                : $@"{assignBaseRefDto.OtauPortDto.OtauIp}t{assignBaseRefDto.OtauPortDto.OtauTcpPort}p{assignBaseRefDto.OtauPortDto.OpticalPort}\";
+            var portFolderName = dto.OtauPortDto.IsPortOnMainCharon
+                ? $@"{otdrIp}t{dto.OtauPortDto.OtauTcpPort}p{dto.OtauPortDto.OpticalPort}\"
+                : $@"{dto.OtauPortDto.OtauIp}t{dto.OtauPortDto.OtauTcpPort}p{dto.OtauPortDto.OpticalPort}\";
 
             var appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
             var appDir = Path.GetDirectoryName(appPath);
             if (appDir == null)
-                return;
-            var fullFolderName = Path.Combine(appDir, @"..\PortData\", portFolderName);
+                return false;
+            fullFolderName = Path.Combine(appDir, @"..\PortData\", portFolderName);
             if (!Directory.Exists(fullFolderName))
                 Directory.CreateDirectory(fullFolderName);
 
             _rtuLog.AppendLine($"Base refs will be saved in {fullFolderName}.");
-            foreach (var baseRef in assignBaseRefDto.BaseRefs)
-            {
-                var filename = baseRef.BaseRefType.ToBaseFileName();
-
-                var fullPath = Path.Combine(fullFolderName, filename);
-                _rtuLog.AppendLine($"with name: {fullPath}");
-
-                if (File.Exists(fullPath))
-                    File.Delete(fullPath);
-                if (baseRef.SorBytes != null)
-                    File.WriteAllBytes(fullPath, baseRef.SorBytes);
-            }
+            return true;
         }
 
         private void ApplyNewFrequenciesToIni(MonitoringTimespansDto dto)
