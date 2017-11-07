@@ -6,6 +6,7 @@ using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using Iit.Fibertest.WpfCommonViews;
 
@@ -48,11 +49,14 @@ namespace Iit.Fibertest.Client
         public ImageSource MonitoringPictogram => MonitoringState.GetPictogram();
         public ImageSource TraceStatePictogram => TraceState.GetPictogram();
 
-
-        public TraceLeaf(ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, PostOffice postOffice, IPortOwner parent) 
+        private readonly IniFile _iniFile;
+        public TraceLeaf(IniFile iniFile, ReadModel readModel, 
+            IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, 
+            PostOffice postOffice, IPortOwner parent) 
             : base(readModel, windowManager, c2DWcfManager, postOffice)
         {
             Parent = (Leaf)parent;
+            _iniFile = iniFile;
         }
 
         protected override List<MenuItemVm> GetMenuItems()
@@ -173,7 +177,8 @@ namespace Iit.Fibertest.Client
         public void AssignBaseRefsAction(object param)
         {
             var trace = ReadModel.Traces.First(t => t.Id == Id);
-            var vm = new BaseRefsAssignViewModel(trace, ReadModel, C2DWcfManager);
+            var vm = new BaseRefsAssignViewModel(_iniFile, ReadModel, C2DWcfManager);
+            vm.Initialize(trace);
             WindowManager.ShowDialog(vm);
         }
         private void TraceStateAction(object param) { }

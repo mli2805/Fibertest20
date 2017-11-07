@@ -12,5 +12,6 @@
         Recovering,
         Watchdog,
         NetTcpBinding,
+        Miscellaneous,
     }
 }

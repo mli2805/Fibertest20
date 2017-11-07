@@ -6,6 +6,7 @@ using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using Microsoft.Win32;
 
@@ -13,7 +14,8 @@ namespace Iit.Fibertest.Client
 {
     public class BaseRefsAssignViewModel : Screen
     {
-        private readonly Trace _trace;
+        private readonly IniFile _iniFile;
+        private Trace _trace;
         private readonly ReadModel _readModel;
 
         private readonly IWcfServiceForClient _c2DWcfManager;
@@ -62,24 +64,27 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        private string _initialDirectory;
 
-        public BaseRefsAssignViewModel(Trace trace, ReadModel readModel, IWcfServiceForClient c2DWcfManager)
+        public BaseRefsAssignViewModel(IniFile iniFile, ReadModel readModel, IWcfServiceForClient c2DWcfManager)
         {
-            _trace = trace;
+            _iniFile = iniFile;
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
 
-            Initialize();
         }
 
-        private void Initialize()
+        public void Initialize(Trace trace)
         {
+            _trace = trace;
             TraceTitle = _trace.Title;
             TracePortOnRtu = _trace.Port > 0 ? _trace.Port.ToString() : Resources.SID_not_attached;
             PreciseBaseFilename = _trace.PreciseId == Guid.Empty ? "" : _savedInDb;
             FastBaseFilename = _trace.FastId == Guid.Empty ? "" : _savedInDb;
             AdditionalBaseFilename = _trace.AdditionalId == Guid.Empty ? "" : _savedInDb;
             RtuTitle = _readModel.Rtus.First(r => r.Id == _trace.RtuId).Title;
+
+            _initialDirectory = _iniFile.Read(IniSection.Miscellaneous, IniKey.PathToSor, @"c:\temp\");
         }
 
         protected override void OnViewLoaded(object view)
@@ -96,25 +101,19 @@ namespace Iit.Fibertest.Client
 
         public void GetPathToPrecise()
         {
-            //TODO get from inifile
-            var initialDirectory = @"c:\temp\";
-            OpenFileDialog dialog = new OpenFileDialog() {Filter = Resources.SID_Reflectogram_files, InitialDirectory = initialDirectory, };
+            OpenFileDialog dialog = new OpenFileDialog() {Filter = Resources.SID_Reflectogram_files, InitialDirectory = _initialDirectory, };
             if (dialog.ShowDialog() == true)
                 PreciseBaseFilename = dialog.FileName;
         }
         public void GetPathToFast()
         {
-            //TODO get from inifile
-            var initialDirectory = @"c:\temp\";
-            OpenFileDialog dialog = new OpenFileDialog() {Filter = Resources.SID_Reflectogram_files, InitialDirectory = initialDirectory, };
+            OpenFileDialog dialog = new OpenFileDialog() {Filter = Resources.SID_Reflectogram_files, InitialDirectory = _initialDirectory, };
             if (dialog.ShowDialog() == true)
                 FastBaseFilename = dialog.FileName;
         }
         public void GetPathToAdditional()
         {
-            //TODO get from inifile
-            var initialDirectory = @"c:\temp\";
-            OpenFileDialog dialog = new OpenFileDialog() {Filter = Resources.SID_Reflectogram_files, InitialDirectory = initialDirectory, };
+            OpenFileDialog dialog = new OpenFileDialog() {Filter = Resources.SID_Reflectogram_files, InitialDirectory = _initialDirectory, };
             if (dialog.ShowDialog() == true)
                 AdditionalBaseFilename = dialog.FileName;
         }

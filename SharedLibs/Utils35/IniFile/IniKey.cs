@@ -59,5 +59,8 @@
         ReceiveTimeout,
         SendTimeout,
         PingTimeoutMs,
+
+        // Miscellaneous
+        PathToSor
     }
 }
