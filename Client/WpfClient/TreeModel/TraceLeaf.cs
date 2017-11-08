@@ -177,7 +177,8 @@ namespace Iit.Fibertest.Client
         private bool CanAssignBaseRefsAction(object param)
         {
             //TODO  it should be UNattached trace OR rtu should be Available
-            return true;
+            var rtuLeaf = Parent is RtuLeaf ? (RtuLeaf)Parent : (RtuLeaf)Parent.Parent;
+            return PortNumber < 1 || rtuLeaf.IsAvailable;
         }
         public void AssignBaseRefsAction(object param)
         {
