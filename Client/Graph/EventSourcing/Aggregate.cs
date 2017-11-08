@@ -3,19 +3,22 @@ using System.Linq;
 using AutoMapper;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Graph
 {
     public class Aggregate
     {
+        private readonly IMyLog _logFile;
 
         public WriteModel WriteModel { get; }
 
         private readonly IMapper _mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingCmdToEventProfile>()).CreateMapper();
 
-        public Aggregate(WriteModel writeModel)
+        public Aggregate(IMyLog logFile,  WriteModel writeModel)
         {
+            _logFile = logFile;
             WriteModel = writeModel;
         }
 
@@ -107,6 +110,11 @@ namespace Iit.Fibertest.Graph
             foreach (var traceId in cmd.TracesForInsertion)
             {
                 var trace = WriteModel.GetTrace(traceId);
+                if (trace == null)
+                {
+                    _logFile.AppendLine($@"AddEquipmentIntoNode: Trace {traceId.First6()} not found");
+                    break;
+                }
                 if (trace.HasBase)
                     return Resources.SID_Base_ref_is_set_for_trace;
             }
@@ -115,6 +123,11 @@ namespace Iit.Fibertest.Graph
             foreach (var traceId in cmd.TracesForInsertion)
             {
                 var trace = WriteModel.GetTrace(traceId);
+                if (trace == null)
+                {
+                    _logFile.AppendLine($@"AddEquipmentIntoNode: Trace {traceId.First6()} not found");
+                    break;
+                }
                 var idx = trace.Nodes.IndexOf(cmd.NodeId);
                 trace.Equipments[idx] = cmd.Id;
             }
@@ -217,6 +230,11 @@ namespace Iit.Fibertest.Graph
         {
             WriteModel.Add(_mapper.Map<BaseRefAssigned>(cmd));
             var trace = WriteModel.GetTrace(cmd.TraceId);
+            if (trace == null)
+            {
+                _logFile.AppendLine($@"AssignBaseRef: Trace {cmd.TraceId.First6()} not found");
+                return;
+            }
 
             var preciseBaseRef = cmd.BaseRefs.FirstOrDefault(b => b.BaseRefType == BaseRefType.Precise);
             if (preciseBaseRef != null)

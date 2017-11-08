@@ -7,6 +7,6 @@ namespace Iit.Fibertest.Graph
     public class NodeRemoved
     {
         public Guid Id { get; set; }
-        public Dictionary<Guid,Guid> TraceFiberPairForDetour { get; set; }
+        public Dictionary<Guid,Guid> TraceWithNewFiberForDetourRemovedNode { get; set; }
     }
 }

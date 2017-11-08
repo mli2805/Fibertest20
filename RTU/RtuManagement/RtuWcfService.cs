@@ -145,27 +145,27 @@ namespace Iit.Fibertest.RtuManagement
             var callbackChannel = OperationContext.Current.GetCallbackChannel<IRtuWcfServiceBackward>();
             ThreadPool.QueueUserWorkItem(_ =>
             {
+                var result = false;
                 try
                 {
                     if (ShouldAssignBaseRef())
-                        _rtuManager.SaveBaseRefs(dto);
-                    _serviceLog.AppendLine("Base ref assigned");
+                        result = _rtuManager.SaveBaseRefs(dto);
                 }
                 catch (Exception e)
                 {
                     _serviceLog.AppendLine("Thread pool: " + e);
                 }
-                callbackChannel.EndAssignBaseRef(_rtuManager.IsMonitoringOn);
+                callbackChannel.EndAssignBaseRef(result);
             });
         }
         private bool ShouldAssignBaseRef()
         {
             if (!_rtuManager.IsRtuInitialized)
             {
-                _serviceLog.AppendLine("User sent base ref - Ignored - RTU is busy");
+                _serviceLog.AppendLine("User sent assign base refs command - Ignored - RTU is busy");
                 return false;
             }
-            _serviceLog.AppendLine("User sent base ref - Accepted");
+            _serviceLog.AppendLine("User sent assing base refs command - Accepted");
             return true;
         }
 

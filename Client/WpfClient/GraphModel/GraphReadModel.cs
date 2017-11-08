@@ -8,11 +8,13 @@ using Caliburn.Micro;
 using GMap.NET;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Client
 {
     public partial class GraphReadModel : PropertyChangedBase
     {
+        private readonly IMyLog _logFile;
         private Visibility _mapVisibility;
         public Visibility MapVisibility
         {
@@ -74,8 +76,9 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public GraphReadModel()
+        public GraphReadModel(IMyLog logFile)
         {
+            _logFile = logFile;
             Nodes = new ObservableCollection<NodeVm>();
             Fibers = new ObservableCollection<FiberVm>();
             Rtus = new ObservableCollection<RtuVm>();
@@ -169,7 +172,7 @@ namespace Iit.Fibertest.Client
         public void Apply(NodeRemoved evnt)
         {
             foreach (var traceVm in Traces.Where(t => t.Nodes.Contains(evnt.Id)))
-                ExcludeNodeFromTrace(traceVm, evnt.TraceFiberPairForDetour[traceVm.Id], evnt.Id);
+                ExcludeNodeFromTrace(traceVm, evnt.TraceWithNewFiberForDetourRemovedNode[traceVm.Id], evnt.Id);
             RemoveNodeWithAllHis(evnt.Id);
         }
 
@@ -188,7 +191,10 @@ namespace Iit.Fibertest.Client
             foreach (var equipmentVm in Equipments.Where(e => e.Node.Id == nodeId).ToList())
                 Equipments.Remove(equipmentVm);
 
-            Nodes.Remove(Nodes.First(n => n.Id == nodeId));
+            var nodeVm = Nodes.FirstOrDefault(n => n.Id == nodeId);
+            if (nodeVm != null)
+                Nodes.Remove(nodeVm);
+            else _logFile.AppendLine($@"NodeVm {nodeId.First6()} not found");
         }
         private void CreateDetourIfAbsent(TraceVm traceVm, Guid fiberId, int idxInTrace)
         {

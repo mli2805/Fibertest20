@@ -17,8 +17,7 @@ namespace Iit.Fibertest.Client
                 return null; // It's prohibited to remove any node from trace with base ref
 
             var dictionary = GraphReadModel.Traces.Where(t => t.Nodes.Contains(request.Id)).ToDictionary(trace => trace.Id, trace => Guid.NewGuid());
-            return new RemoveNode { Id = request.Id, TraceFiberPairForDetour = dictionary };
-
+            return new RemoveNode { Id = request.Id, TraceWithNewFiberForDetourRemovedNode = dictionary };
         }
 
         private UpdateNode PrepareCommand(UpdateNode request)

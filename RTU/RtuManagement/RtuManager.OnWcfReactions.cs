@@ -61,13 +61,14 @@ namespace Iit.Fibertest.RtuManagement
 
             var pid = Process.GetCurrentProcess().Id;
             var tid = Thread.CurrentThread.ManagedThreadId;
-            _rtuLog.AppendLine($"RTU initialization started. Process {pid}, thread {tid}");
+            _rtuLog.AppendLine($"RTU {_id.First6()} initialization started. Process {pid}, thread {tid}");
         }
 
         private void SaveInitializationParameters(InitializeRtuDto rtu)
         {
             _id = rtu.RtuId;
             _serviceIni.Write(IniSection.Server, IniKey.RtuGuid, _id.ToString());
+            _rtuLog.AppendLine($@"Server sent guid for RTU {_id.First6()}");
 
             _serverAddresses = (DoubleAddress)rtu.ServerAddresses.Clone();
             _serviceIni.WriteServerAddresses(_serverAddresses);
@@ -91,7 +92,7 @@ namespace Iit.Fibertest.RtuManagement
         public void StopMonitoring()
         {
             IsMonitoringOn = false;
-           _otdrManager.InterruptMeasurement();
+            _otdrManager.InterruptMeasurement();
         }
 
         public void ChangeSettings(ApplyMonitoringSettingsDto settings)
@@ -117,15 +118,15 @@ namespace Iit.Fibertest.RtuManagement
                 StartMonitoring(null);
         }
 
-        public void SaveBaseRefs(AssignBaseRefDto dto)
+        public bool SaveBaseRefs(AssignBaseRefDto dto)
         {
-            _rtuLog.AppendLine("Base refs received.");
-
             string fullFolderName;
-            if (TryBuildPathForBaseRef(dto, out fullFolderName))
-                foreach (var baseRef in dto.BaseRefs)
-                    RemoveOldSaveNew(baseRef, fullFolderName);
+            if (!TryBuildPathForBaseRef(dto, out fullFolderName))
+                return false;
 
+            foreach (var baseRef in dto.BaseRefs)
+                RemoveOldSaveNew(baseRef, fullFolderName);
+            return true;
         }
 
         private void RemoveOldSaveNew(BaseRefDto baseRef, string fullFolderName)
@@ -161,7 +162,6 @@ namespace Iit.Fibertest.RtuManagement
             if (!Directory.Exists(fullFolderName))
                 Directory.CreateDirectory(fullFolderName);
 
-            _rtuLog.AppendLine($"Base refs will be saved in {fullFolderName}.");
             return true;
         }
 

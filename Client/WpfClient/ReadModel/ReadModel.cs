@@ -6,11 +6,14 @@ using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Algorithms;
+using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Client
 {
     public class ReadModel : PropertyChangedBase
     {
+        private readonly IMyLog _logFile;
+
         private readonly IMapper _mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
 
@@ -22,6 +25,11 @@ namespace Iit.Fibertest.Client
         public List<Otau> Otaus { get; } = new List<Otau>();
 
         public int JustForNotification { get; set; }
+
+        public ReadModel(IMyLog logFile)
+        {
+            _logFile = logFile;
+        }
 
         #region Node
         public void Apply(NodeAdded e)
@@ -72,7 +80,7 @@ namespace Iit.Fibertest.Client
         public void Apply(NodeRemoved e)
         {
             foreach (var trace in Traces.Where(t => t.Nodes.Contains(e.Id)))
-                ExcludeNodeFromTrace(trace, e.TraceFiberPairForDetour[trace.Id], e.Id);
+                ExcludeNodeFromTrace(trace, e.TraceWithNewFiberForDetourRemovedNode[trace.Id], e.Id);
 
             RemoveNodeWithAllHis(e.Id);
         }
@@ -90,7 +98,11 @@ namespace Iit.Fibertest.Client
         {
             Fibers.RemoveAll(f => f.Node1 == nodeId || f.Node2 == nodeId);
             Equipments.RemoveAll(e => e.NodeId == nodeId);
-            Nodes.Remove(Nodes.First(n => n.Id == nodeId));
+            var node = Nodes.FirstOrDefault(n => n.Id == nodeId);
+            if (node != null)
+                Nodes.Remove(node);
+            else
+                _logFile.AppendLine($@"Node {nodeId.First6()} not found");
         }
 
         private void CreateDetourIfAbsent(Trace trace, Guid fiberId, int idxInTrace)

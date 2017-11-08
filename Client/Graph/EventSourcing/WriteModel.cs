@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph.Algorithms;
 using Iit.Fibertest.UtilsLib;
 using PrivateReflectionUsingDynamic;
@@ -12,6 +10,7 @@ namespace Iit.Fibertest.Graph
 {
     public class WriteModel
     {
+        private readonly IMyLog _logFile;
         public List<object> EventsWaitingForCommit { get; } = new List<object>();
         private readonly IMapper _mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
@@ -22,8 +21,14 @@ namespace Iit.Fibertest.Graph
         private readonly List<Trace> _traces = new List<Trace>();
         private readonly List<Rtu> _rtus = new List<Rtu>();
 
+        public WriteModel(IMyLog logFile)
+        {
+            _logFile = logFile;
+        }
+
         public void Init(IEnumerable<object> events)
         {
+//            Thread.Sleep(TimeSpan.FromSeconds(10));
             foreach (var dbEvent in events)
             {
                 this.AsDynamic().Apply(dbEvent);
@@ -60,7 +65,7 @@ namespace Iit.Fibertest.Graph
 
         public Trace GetTrace(Guid traceId)
         {
-            return _traces.Single(t => t.Id == traceId);
+            return _traces.FirstOrDefault(t => t.Id == traceId);
         }
 
         public Rtu GetRtu(Guid id)
@@ -80,7 +85,10 @@ namespace Iit.Fibertest.Graph
             _nodes.Add(new Node() { Id = e.Id, Latitude = e.Position.Lat, Longitude = e.Position.Lng });
             AddTwoFibersToNewNode(e);
             FixTracesWhichContainedOldFiber(e);
-            _fibers.Remove(_fibers.Single(f => f.Id == e.FiberId));
+            var fiber = _fibers.FirstOrDefault(f => f.Id == e.FiberId);
+            if (fiber != null)
+                _fibers.Remove(fiber);
+            else _logFile.AppendLine($@"NodeIntoFiberAdded: Fiber {e.FiberId.First6()} not found");
         }
 
         private void FixTracesWhichContainedOldFiber(NodeIntoFiberAdded e)
@@ -96,8 +104,14 @@ namespace Iit.Fibertest.Graph
         }
         private void AddTwoFibersToNewNode(NodeIntoFiberAdded e)
         {
-            Guid nodeId1 = _fibers.Single(f => f.Id == e.FiberId).Node1;
-            Guid nodeId2 = _fibers.Single(f => f.Id == e.FiberId).Node2;
+            var fiber = _fibers.FirstOrDefault(f => f.Id == e.FiberId);
+            if (fiber == null)
+            {
+                _logFile.AppendLine($@"AddTwoFibersToNewNode: Fiber {e.FiberId.First6()} not found");
+                return;
+            }
+            Guid nodeId1 = fiber.Node1;
+            Guid nodeId2 = fiber.Node2;
 
             _fibers.Add(new Fiber() { Id = e.NewFiberId1, Node1 = nodeId1, Node2 = e.Id });
             _fibers.Add(new Fiber() { Id = e.NewFiberId2, Node1 = e.Id, Node2 = nodeId2 });
@@ -105,7 +119,10 @@ namespace Iit.Fibertest.Graph
 
         public void Apply(NodeUpdated source)
         {
-            _mapper.Map(source, _nodes.Single(x => x.Id == source.Id));
+            var node = _nodes.FirstOrDefault(x => x.Id == source.Id);
+            if (node != null)
+                _mapper.Map(source, node);
+            else _logFile.AppendLine($@"NodeUpdated: Node {source.Id.First6()} not found");
         }
 
         public void Apply(NodeMoved newLocation) { }
@@ -113,7 +130,13 @@ namespace Iit.Fibertest.Graph
         public void Apply(NodeRemoved e)
         {
             foreach (var trace in _traces.Where(t => t.Nodes.Contains(e.Id)))
-                ExcludeNodeFromTrace(trace, e.TraceFiberPairForDetour[trace.Id], e.Id);
+            {
+                if (e.TraceWithNewFiberForDetourRemovedNode == null ||
+                    !e.TraceWithNewFiberForDetourRemovedNode.ContainsKey(trace.Id))
+                    _logFile.AppendLine($@"NodeRemoved: No fiber prepared to detour trace {trace.Id}");
+                else
+                    ExcludeNodeFromTrace(trace, e.TraceWithNewFiberForDetourRemovedNode[trace.Id], e.Id);
+            }
 
             RemoveNodeWithAllHis(e.Id);
         }
@@ -131,7 +154,10 @@ namespace Iit.Fibertest.Graph
         {
             _fibers.RemoveAll(f => f.Node1 == nodeId || f.Node2 == nodeId);
             _equipments.RemoveAll(e => e.NodeId == nodeId);
-            _nodes.Remove(_nodes.Single(n => n.Id == nodeId));
+            var node = _nodes.FirstOrDefault(n => n.Id == nodeId);
+            if (node != null)
+                _nodes.Remove(node);
+            else _logFile.AppendLine($@"RemoveNodeWithAllHis: Node {nodeId.First6()} not found");
         }
 
         private void CreateDetourIfAbsent(Trace trace, Guid fiberId, int idxInTrace)
@@ -147,7 +173,11 @@ namespace Iit.Fibertest.Graph
         public bool IsFiberContainedInAnyTraceWithBase(Guid fiberId)
         {
             var tracesWithBase = _traces.Where(t => t.HasBase);
-            var fiber = _fibers.First(f => f.Id == fiberId);
+            var fiber = _fibers.FirstOrDefault(f => f.Id == fiberId);
+            if (fiber == null)
+            {
+                _logFile.AppendLine($@"IsFiberContainedInAnyTraceWithBase: Fiber {fiberId.First6()} not found");
+            }
             return tracesWithBase.Any(trace => Topo.GetFiberIndexInTrace(trace, fiber) != -1);
         }
         public bool IsNodeContainedInAnyTraceWithBase(Guid nodeId)
@@ -169,7 +199,10 @@ namespace Iit.Fibertest.Graph
 
         public void Apply(FiberRemoved e)
         {
-            _fibers.Remove(_fibers.First(f => f.Id == e.Id));
+            var fiber = _fibers.FirstOrDefault(f => f.Id == e.Id);
+            if (fiber != null)
+                _fibers.Remove(fiber);
+            else _logFile.AppendLine($@"FiberRemoved: Fiber {e.Id.First6()} not found");
         }
         #endregion
 
@@ -182,7 +215,6 @@ namespace Iit.Fibertest.Graph
             _nodes.Add(new Node() { Id = e.NodeId, Latitude = e.Latitude, Longitude = e.Longitude });
         }
 
-        public Equipment GetEquipment(Guid id) { return _equipments.SingleOrDefault(e=>e.Id == id); }
         public void Apply(EquipmentUpdated e) { }
 
         public void Apply(EquipmentRemoved e) { }
@@ -206,7 +238,9 @@ namespace Iit.Fibertest.Graph
         public void Apply(RtuInitialized e)
         {
             var rtu = _rtus.FirstOrDefault(r => r.Id == e.Id);
-            _mapper.Map(e, rtu);
+            if (rtu != null)
+                _mapper.Map(e, rtu);
+            else _logFile.AppendLine($@"RtuInitialized: RTU {e.Id.First6()} not found");
         }
         #endregion
 
@@ -214,6 +248,14 @@ namespace Iit.Fibertest.Graph
         public void Apply(TraceAdded e)
         {
             _traces.Add(_mapper.Map<Trace>(e));
+        }
+
+        public void Apply(TraceRemoved e)
+        {
+            var trace = _traces.FirstOrDefault(t => t.Id == e.Id);
+            if (trace != null)
+                _traces.Remove(trace);
+            else _logFile.AppendLine($@"TraceRemoved: Trace {e.Id} not found");
         }
 
         public void Apply(TraceAttached e) { }

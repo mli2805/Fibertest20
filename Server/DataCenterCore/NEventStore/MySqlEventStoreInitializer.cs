@@ -7,7 +7,6 @@ namespace Iit.Fibertest.DataCenterCore
 {
     public sealed class MySqlEventStoreInitializer : IEventStoreInitializer
     {
-        // Empty schema ft20graph need to be created manually beforehand
         public IStoreEvents Init(IMyLog logFile)
         {
             try
@@ -25,6 +24,7 @@ namespace Iit.Fibertest.DataCenterCore
             catch (Exception e)
             {
                 logFile.AppendLine(e.Message);
+                logFile.AppendLine("Empty schema ft20graph need to be created manually beforehand");
                 return null;
             }
         }

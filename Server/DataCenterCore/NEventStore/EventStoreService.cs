@@ -42,6 +42,7 @@ namespace Iit.Fibertest.DataCenterCore
             var events = eventStream.CommittedEvents.Select(x => x.Body);
 
             _writeModel.Init(events);
+            _logFile.AppendLine("All events from base are applied to WriteModel");
         }
 
         public Task<string> SendCommand(object cmd)
