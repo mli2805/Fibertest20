@@ -80,7 +80,7 @@ namespace Iit.Fibertest.Client
             menu.Add(new MenuItemVm()
             {
                 Header = Resources.SID_Base_refs_assignment,
-                Command = new ContextMenuAction(AssignBaseRefsAction, CanSomeAction),
+                Command = new ContextMenuAction(AssignBaseRefsAction, CanAssignBaseRefsAction),
                 CommandParameter = this
             });
 
@@ -174,6 +174,11 @@ namespace Iit.Fibertest.Client
         }
         private void ShowTraceAction(object param) { }
 
+        private bool CanAssignBaseRefsAction(object param)
+        {
+            //TODO  it should be UNattached trace OR rtu should be Available
+            return true;
+        }
         public void AssignBaseRefsAction(object param)
         {
             var trace = ReadModel.Traces.First(t => t.Id == Id);

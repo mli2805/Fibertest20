@@ -55,7 +55,7 @@ namespace Iit.Fibertest.Client
             yield return new MenuItemVm()
             {
                 Header = Resources.SID_Attach_from_list,
-                Command = new ContextMenuAction(AttachFromListAction, CanSomeAction),
+                Command = new ContextMenuAction(AttachFromListAction, CanAttachTraceAction),
                 CommandParameter = this,
             };
 
@@ -111,7 +111,13 @@ namespace Iit.Fibertest.Client
             if (Parent is OtauLeaf)
                 return false;
             var rtuLeaf = (RtuLeaf)Parent;
-            return !rtuLeaf.HasAttachedTraces;
+            return rtuLeaf.IsAvailable && !rtuLeaf.HasAttachedTraces;
+        }
+
+        private bool CanAttachTraceAction(object param)
+        {
+            var rtuLeaf = Parent is RtuLeaf ? (RtuLeaf) Parent : (RtuLeaf) Parent.Parent;
+            return rtuLeaf.IsAvailable;
         }
 
         private void MeasurementRftsReflectAction(object param)
