@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph.Algorithms;
 using Iit.Fibertest.UtilsLib;
 using PrivateReflectionUsingDynamic;

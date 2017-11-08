@@ -5,6 +5,7 @@ using Iit.Fibertest.DatabaseLibrary.DbContexts;
 using Iit.Fibertest.DataCenterCore;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using Iit.Fibertest.WcfServiceForRtuInterface;
 
@@ -39,6 +40,8 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<ClientRegistrationManager>().SingleInstance();
             builder.RegisterType<RtuRegistrationManager>().SingleInstance();
             builder.RegisterType<ClientToRtuTransmitter>().SingleInstance();
+
+            builder.RegisterType<D2CWcfManager>().SingleInstance();
             builder.RegisterType<LastConnectionTimeChecker>().SingleInstance();
 
             builder.RegisterType<MonitoringResultsManager>().SingleInstance();
@@ -53,4 +56,5 @@ namespace Iit.Fibertest.DataCenterService
             return builder;
         }
     }
+
 }

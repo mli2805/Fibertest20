@@ -1,4 +1,4 @@
-﻿namespace Iit.Fibertest.Graph
+﻿namespace Iit.Fibertest.Dto
 {
     public enum RtuPartState
     {

@@ -1,4 +1,4 @@
-namespace Iit.Fibertest.DatabaseLibrary
+namespace Iit.Fibertest.Dto
 {
     public enum ChannelStateChanges
     {

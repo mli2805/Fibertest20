@@ -1,4 +1,5 @@
 ﻿using System.ServiceModel;
+using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 
 namespace ClientWcfServiceLibrary
@@ -11,6 +12,9 @@ namespace ClientWcfServiceLibrary
         // Notifications
         [OperationContract]
         void ProcessRtuCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto dto);
+
+        [OperationContract]
+        Task<int> NotifyAboutRtuChangedAvailability(ListOfRtuWithChangedAvailabilityDto dto);
     }
 
 

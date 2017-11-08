@@ -12,7 +12,7 @@ namespace Iit.Fibertest.DatabaseLibrary
     public class RtuRegistrationManager
     {
         private readonly IMyLog _logFile;
-//        private readonly IFibertestDbContext _dbContext;
+        //        private readonly IFibertestDbContext _dbContext;
 
         public RtuRegistrationManager(IMyLog logFile)
         {
@@ -163,27 +163,27 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
         }
 
-        public async Task<int> NotifyAboutRtuThatChangedAvailability(TimeSpan timeSpan)
+        public async Task<RtuWithChannelChangesList> CheckAndSaveRtuAvailability(TimeSpan timeSpan)
         {
+            var changes = new RtuWithChannelChangesList();
             try
             {
                 var dbContext = new MySqlContext();
                 DateTime noLaterThan = DateTime.Now - timeSpan;
-                var changes = new RtuWithChannelChangesList();
 
                 var stationsWithExpiredMainChannel = dbContext.RtuStations.
                     Where(s => s.LastConnectionByMainAddressTimestamp < noLaterThan && s.IsMainAddressOkDuePreviousCheck).ToList();
                 foreach (var rtuStation in stationsWithExpiredMainChannel)
                 {
                     rtuStation.IsMainAddressOkDuePreviousCheck = false;
-                    changes.AddOrUpdate(rtuStation, true, ChannelStateChanges.Broken);
+                    changes.AddOrUpdate(rtuStation, Channel.Main, ChannelStateChanges.Broken);
                 }
                 var stationsWithRecoveredMainChannel = dbContext.RtuStations.
                     Where(s => s.LastConnectionByMainAddressTimestamp >= noLaterThan && !s.IsMainAddressOkDuePreviousCheck).ToList();
                 foreach (var rtuStation in stationsWithRecoveredMainChannel)
                 {
                     rtuStation.IsMainAddressOkDuePreviousCheck = true;
-                    changes.AddOrUpdate(rtuStation, true, ChannelStateChanges.Recovered);
+                    changes.AddOrUpdate(rtuStation, Channel.Main, ChannelStateChanges.Recovered);
                 }
 
                 var stationsWithExpiredReserveChannel = dbContext.RtuStations
@@ -192,7 +192,7 @@ namespace Iit.Fibertest.DatabaseLibrary
                 foreach (var rtuStation in stationsWithExpiredReserveChannel)
                 {
                     rtuStation.IsReserveAddressOkDuePreviousCheck = false;
-                    changes.AddOrUpdate(rtuStation, false, ChannelStateChanges.Broken);
+                    changes.AddOrUpdate(rtuStation, Channel.Reserve, ChannelStateChanges.Broken);
                 }
                 var stationsWithRecoveredReserveChannel = dbContext.RtuStations
                     .Where(s => s.IsReserveAddressSet &&
@@ -200,26 +200,19 @@ namespace Iit.Fibertest.DatabaseLibrary
                 foreach (var rtuStation in stationsWithRecoveredReserveChannel)
                 {
                     rtuStation.IsReserveAddressOkDuePreviousCheck = true;
-                    changes.AddOrUpdate(rtuStation, false, ChannelStateChanges.Recovered);
+                    changes.AddOrUpdate(rtuStation, Channel.Reserve, ChannelStateChanges.Recovered);
                 }
+                await dbContext.SaveChangesAsync();
+                return changes;
 
-                if (changes.List.Count != 0)
-                {
-                    foreach (var station in changes.List)
-                    {
-                        _logFile.AppendLine(station.Report());
-                        // TODO notify client
-                    }
-                    return await dbContext.SaveChangesAsync();
-                }
+             
 
-                return 0;
             }
             catch (Exception e)
             {
-                _logFile.AppendLine("NotifyAboutRtuThatChangedAvailability:" + e.Message);
-                return -1;
+                _logFile.AppendLine("CheckAndSaveRtuAvailability:" + e.Message);
             }
+            return new RtuWithChannelChangesList();
         }
 
     }

@@ -1,7 +1,6 @@
 using System;
-using Iit.Fibertest.UtilsLib;
 
-namespace Iit.Fibertest.DatabaseLibrary
+namespace Iit.Fibertest.Dto
 {
     public class RtuWithChannelChanges
     {

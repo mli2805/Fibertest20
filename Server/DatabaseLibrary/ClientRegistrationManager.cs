@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.DatabaseLibrary.DbContexts;
@@ -192,6 +193,20 @@ namespace Iit.Fibertest.DatabaseLibrary
             {
                 _logFile.AppendLine("CleanDeadClients:" + e.Message);
                 return -1;
+            }
+        }
+
+        public async Task<List<ClientStation>> GetAllLiveClients()
+        {
+            try
+            {
+                var dbContext = new MySqlContext();
+                return dbContext.ClientStations.ToList();
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("GetAllLiveClients:" + e.Message);
+                return null;
             }
         }
     }

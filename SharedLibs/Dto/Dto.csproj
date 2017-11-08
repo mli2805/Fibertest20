@@ -54,11 +54,14 @@
     <Compile Include="C2D2R\SomePortionOfData.cs" />
     <Compile Include="C2D\CheckServerConnectionDto.cs" />
     <Compile Include="D2C\ClientRegisteredDto.cs" />
+    <Compile Include="D2C\RtuWithChangedAvailabilityDto.cs" />
     <Compile Include="Db\ClientStation.cs" />
     <Compile Include="Db\RtuStation.cs" />
     <Compile Include="Db\User.cs" />
+    <Compile Include="Enums\ChannelStateChanges.cs" />
     <Compile Include="Enums\MoniLevelType.cs" />
     <Compile Include="Enums\Role.cs" />
+    <Compile Include="Enums\RtuPartState.cs" />
     <Compile Include="R2D2C\BaseRefAssignedDto.cs" />
     <Compile Include="R2D\KnowRtuCurrentMonitoringStepDto.cs" />
     <Compile Include="Enums\RtuCurrentMonitoringStep.cs" />
@@ -76,6 +79,7 @@
     <Compile Include="C2D2R\CheckRtuConnectionDto.cs" />
     <Compile Include="Underlying\DoubleAddressWithLastConnectioncheck.cs" />
     <Compile Include="Enums\ReturnCode.cs" />
+    <Compile Include="Underlying\GuidExt.cs" />
     <Compile Include="Underlying\LastSuccessfullMeasTimeDto.cs" />
     <Compile Include="Underlying\MoniLevel.cs" />
     <Compile Include="Underlying\MoniResult.cs" />
@@ -92,6 +96,7 @@
     <Compile Include="C2D2R\StopMonitoringDto.cs" />
     <Compile Include="C2D\UnRegisterClientDto.cs" />
     <Compile Include="Enums\TcpPorts.cs" />
+    <Compile Include="Underlying\RtuWithChannelChanges.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\StringResources\StringResources.csproj">
