@@ -5,7 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:monitoringSettings="clr-namespace:Iit.Fibertest.Client.MonitoringSettings"
-        xmlns:dto="clr-namespace:Iit.Fibertest.Dto;assembly=Iit.Fibertest.Dto"
         mc:Ignorable="d"
         SizeToContent="WidthAndHeight" MinHeight="520" MinWidth="650" WindowStartupLocation="CenterScreen"
         d:DataContext="{d:DesignInstance monitoringSettings:MonitoringSettingsViewModel}">
