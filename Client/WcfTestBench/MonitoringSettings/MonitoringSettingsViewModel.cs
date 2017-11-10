@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
-using Iit.Fibertest.ClientWcfServiceLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
-using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 
 namespace WcfTestBench.MonitoringSettings
@@ -39,45 +37,7 @@ namespace WcfTestBench.MonitoringSettings
             Model.CalculateCycleTime();
             SelectedTabIndex = 0; // strange but it's necessary
 
-            ClientWcfService.MessageReceived += MonitoringSettingsProcessServerMessage;
         }
-
-        private void MonitoringSettingsProcessServerMessage(object msg)
-        {
-            var dto2 = msg as MonitoringStartedDto;
-            if (dto2 != null)
-            {
-                ProcessMonitoringStarted(dto2);
-                return;
-            }
-
-            var dto3 = msg as MonitoringStoppedDto;
-            if (dto3 != null)
-            {
-                ProcessMonitoringStopped(dto3);
-            }
-
-            var dto4 = msg as MonitoringSettingsAppliedDto;
-            if (dto4 != null)
-            {
-                ProcessMonitoringSettingsApplied(dto4);
-            }
-
-        }
-
-        private void ProcessMonitoringStarted(MonitoringStartedDto ms)
-        {
-            MessageProp = string.Format(Resources.SID_Monitoring_started___0_, ms.IsSuccessful.ToString().ToUpper());
-        }
-        private void ProcessMonitoringStopped(MonitoringStoppedDto ms)
-        {
-            MessageProp = string.Format(Resources.SID_Monitoring_stopped___0_, ms.IsSuccessful.ToString().ToUpper());
-        }
-        private void ProcessMonitoringSettingsApplied(MonitoringSettingsAppliedDto ms)
-        {
-            MessageProp = string.Format(Resources.SID_Monitoring_settings_applied___0_, ms.IsSuccessful.ToString().ToUpper());
-        }
-
 
         protected override void OnViewLoaded(object view)
         {
@@ -93,7 +53,11 @@ namespace WcfTestBench.MonitoringSettings
                 return;
             }
             var transferResult = await C2DWcfManager.ApplyMonitoringSettingsAsync(dto);
+            // TODO refactor to async result and show message with rtu reply, not fact of transfering command
             MessageProp = transferResult ? Resources.SID_Settings_were_transferred_successfully_ : Resources.SID_Settings_weren_t_transferred__See_logs_;
+        //    MessageProp = string.Format(Resources.SID_Monitoring_started___0_, ms.IsSuccessful.ToString().ToUpper());
+        //    MessageProp = string.Format(Resources.SID_Monitoring_stopped___0_, ms.IsSuccessful.ToString().ToUpper());
+        //    MessageProp = string.Format(Resources.SID_Monitoring_settings_applied___0_, ms.IsSuccessful.ToString().ToUpper());
         }
 
         private ApplyMonitoringSettingsDto ConvertSettingsToDto()

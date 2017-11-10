@@ -6,15 +6,12 @@ using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using Caliburn.Micro;
-using ClientWcfServiceInterface;
-using Iit.Fibertest.ClientWcfServiceLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WpfCommonViews;
 using WcfTestBench.MonitoringSettings;
-using WcfTestBench.RtuState;
 using MessageBox = System.Windows.MessageBox;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 using Screen = Caliburn.Micro.Screen;
@@ -76,7 +73,7 @@ namespace WcfTestBench
             RegisterClient(clientAddresses);
 
             // start 11843 listener
-            StartWcfListener();
+//            StartWcfListener();
         }
 
         private async void RegisterClient(NetAddress clientAddresses)
@@ -99,25 +96,7 @@ namespace WcfTestBench
             DisplayName = Resources.SID_Test_RTU_communication_functions;
         }
 
-        private void StartWcfListener()
-        {
-            MyServiceHost?.Close();
-            MyServiceHost = new ServiceHost(typeof(ClientWcfService));
-            try
-            {
-                MyServiceHost.AddServiceEndpoint(typeof(IClientWcfService),
-                    WcfFactory.CreateDefaultNetTcpBinding(_clientIni),
-                    WcfFactory.CombineUriString(@"localhost", (int)TcpPorts.ClientListenTo, @"ClientWcfService"));
-                MyServiceHost.Open();
-            }
-            catch (Exception e)
-            {
-                _clientLog.AppendLine(e.Message);
-                throw;
-            }
-        }
-
-        public override async void CanClose(Action<bool> callback)
+      public override async void CanClose(Action<bool> callback)
         {
             await _c2DWcfManager.UnregisterClientAsync(new UnRegisterClientDto());
             base.CanClose(callback);
@@ -198,13 +177,6 @@ namespace WcfTestBench
             var result = await _c2DWcfManager.AssignBaseRefAsync(dto);
 
             DisplayString = $@"Command result is {result}";
-        }
-
-        public void RtuState()
-        {
-            var vm = new RtuStateViewModel(SelectedRtu.Id);
-            IWindowManager windowManager = new WindowManager();
-            windowManager.ShowWindow(vm);
         }
 
         public void TraceState()

@@ -1,6 +1,5 @@
 namespace Iit.Fibertest.DatabaseLibrary.Migrations
 {
-    using System;
     using System.Data.Entity.Migrations;
     
     public partial class ClientsAddressAdded : DbMigration

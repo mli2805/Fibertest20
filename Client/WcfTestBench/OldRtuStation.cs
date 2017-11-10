@@ -1,7 +1,7 @@
 using System;
 using Iit.Fibertest.Dto;
 
-namespace Iit.Fibertest.UtilsLib
+namespace WcfTestBench
 {
     public class OldRtuStation
     {

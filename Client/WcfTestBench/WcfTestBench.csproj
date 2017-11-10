@@ -87,10 +87,6 @@
     <Compile Include="MonitoringSettings\MonitoringPortModel.cs" />
     <Compile Include="Enums\Frequency.cs" />
     <Compile Include="OldRtuStation.cs" />
-    <Compile Include="RtuState\RtuStateView.xaml.cs">
-      <DependentUpon>RtuStateView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="RtuState\RtuStateViewModel.cs" />
     <Compile Include="ShellViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -103,10 +99,6 @@
     <Page Include="MonitoringSettings\MonitoringSettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="RtuState\RtuStateView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ShellView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -143,10 +135,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ClientWcfService\ClientWcfServiceLibrary.csproj">
-      <Project>{264e577f-6bca-4e6b-984d-74337d9ccabb}</Project>
-      <Name>ClientWcfServiceLibrary</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\RTU\RtuWcfService\RtuWcfServiceInterface.csproj">
       <Project>{d7c82e5d-e536-4684-b18f-9e1a341324d6}</Project>
       <Name>RtuWcfServiceInterface</Name>
@@ -170,10 +158,6 @@
     <ProjectReference Include="..\..\SharedLibs\WcfConnections\WcfConnections.csproj">
       <Project>{5194ad3b-e031-4f61-aded-c1e92999acf2}</Project>
       <Name>WcfConnections</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ClientWcfServiceLibrary\ClientWcfServiceInterface.csproj">
-      <Project>{1822c528-4719-4c53-877e-bc57dbf6d7ff}</Project>
-      <Name>ClientWcfServiceInterface</Name>
     </ProjectReference>
     <ProjectReference Include="..\WpfCommonViews\WpfCommonViews.csproj">
       <Project>{e98e6cc5-94e4-44b7-af5c-7f4f74746467}</Project>
