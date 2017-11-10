@@ -1,5 +1,6 @@
 ﻿using System;
 using Caliburn.Micro;
+using Iit.Fibertest.ClientWcfServiceLibrary;
 using Iit.Fibertest.Dto;
 
 namespace WcfTestBench.RtuState

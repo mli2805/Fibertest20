@@ -128,7 +128,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
-    <Compile Include="ClientWcfService.cs" />
     <Compile Include="IShell.cs" />
     <Compile Include="OtauView.xaml.cs">
       <DependentUpon>OtauView.xaml</DependentUpon>
@@ -184,6 +183,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ClientWcfService\ClientWcfServiceLibrary.csproj">
+      <Project>{264e577f-6bca-4e6b-984d-74337d9ccabb}</Project>
+      <Name>ClientWcfServiceLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\SharedLibs\Utils35\UtilsLib.csproj">
       <Project>{716240ff-d1e8-4bd3-9e63-431382617398}</Project>
       <Name>UtilsLib</Name>

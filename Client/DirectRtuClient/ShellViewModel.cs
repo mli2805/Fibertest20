@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
 using System.ServiceModel;
+using Iit.Fibertest.ClientWcfServiceLibrary;
 using Iit.Fibertest.UtilsLib;
 
 namespace DirectRtuClient
