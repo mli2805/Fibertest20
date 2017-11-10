@@ -25,4 +25,6 @@ To download the binaries, visit https://github.com/fsprojects/Paket/releases
 To know more about Paket, visit https://fsprojects.github.io/Paket/getting-started.html		Paket restore error !	0	
 
 
+- на датацентре всф стартер запускает всф сервис с конструктором с параметрами через автофак, на клиенте ругается что нужен коструктор без параметров
+
 		

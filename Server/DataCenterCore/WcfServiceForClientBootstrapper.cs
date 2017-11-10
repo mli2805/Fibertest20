@@ -31,7 +31,6 @@ namespace Iit.Fibertest.DataCenterCore
                     (int)TcpPorts.ServerListenToClient, @"WcfServiceForClient"));
 
                 _host = new ServiceHost(typeof(WcfServiceForClient));
-//                _host = new ServiceHost(_wcfServiceForClient);
                 _host.AddServiceEndpoint(typeof(IWcfServiceForClient),
                     WcfFactory.CreateDefaultNetTcpBinding(_config), uri);
                 _host.AddDependencyInjectionBehavior<IWcfServiceForClient>(_container);

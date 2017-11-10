@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Threading;
 using Autofac;
 using Caliburn.Micro;
+using Iit.Fibertest.ClientWcfServiceLibrary;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
@@ -21,7 +22,8 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<ZonesViewModel>();
             builder.RegisterType<ObjectsToZonesViewModel>();
             builder.RegisterType<ZonesContentViewModel>();
-            builder.RegisterType<ClientWcfServiceHost>().As<IClientWcfServiceHost>();
+            builder.RegisterType<ClientWcfService>().SingleInstance();
+            builder.RegisterType<ClientWcfServiceHost>().As<IClientWcfServiceHost>().SingleInstance();
 
             var logger = new LoggerConfiguration()
                 .WriteTo.Seq(@"http://localhost:5341").CreateLogger();

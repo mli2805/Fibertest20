@@ -57,7 +57,7 @@ namespace Iit.Fibertest.DataCenterCore
                     var allClients = _clientRegistrationManager.GetAllLiveClients().Result;
                     if (allClients != null && allClients.Any())
                     {
-                        var clientsAddresses = GetClientsAddresses(allClients);
+                        var clientsAddresses = ExtractClientsAddresses(allClients);
                         _d2CWcfManager.SetClientsAddresses(clientsAddresses);
                         _d2CWcfManager.NotifyAboutRtuChangedAvailability(dto).Wait();
                     }
@@ -67,7 +67,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         }
 
-        private List<DoubleAddress> GetClientsAddresses(List<ClientStation> clientStations)
+        private List<DoubleAddress> ExtractClientsAddresses(List<ClientStation> clientStations)
         {
             var result = new List<DoubleAddress>();
             foreach (var clientStation in clientStations)

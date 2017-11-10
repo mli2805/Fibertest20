@@ -102,6 +102,8 @@ namespace Iit.Fibertest.DatabaseLibrary
                     {
                         Username = dto.UserName,
                         ClientGuid = dto.ClientId,
+                        ClientAddress = dto.Addresses.Main.GetAddress(),
+                        ClientAddressPort = dto.Addresses.Main.Port,
                         LastConnectionTimestamp = DateTime.Now,
                     };
                     dbContext.ClientStations.Add(station);
