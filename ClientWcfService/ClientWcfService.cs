@@ -9,8 +9,6 @@ namespace Iit.Fibertest.ClientWcfServiceLibrary
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public class ClientWcfService : IClientWcfService
     {
-        public static IMyLog ClientLog { get; set; }
-
         private readonly IMyLog _logFile;
         public static event OnMessageReceived MessageReceived;
         public delegate void OnMessageReceived(object e);
@@ -22,7 +20,6 @@ namespace Iit.Fibertest.ClientWcfServiceLibrary
 
         public void ProcessRtuCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto dto)
         {
-//            ClientLog.AppendLine($"RTU {dto.RtuId} sent current state: {dto.MonitoringStep}");
             MessageReceived?.Invoke(dto);
         }
 

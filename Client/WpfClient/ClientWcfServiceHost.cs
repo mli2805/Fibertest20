@@ -31,7 +31,6 @@ namespace Iit.Fibertest.Client
 
         public void StartWcfListener()
         {
-            ClientWcfService.ClientLog = _logFile;
             ClientWcfService.MessageReceived += ClientWcfService_MessageReceived;
 
             try

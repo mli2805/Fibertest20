@@ -30,7 +30,6 @@ namespace DirectRtuClient
         private void StartWcf()
         {
             MyServiceHost?.Close();
-            ClientWcfService.ClientLog = _rtuLogger;
             MyServiceHost = new ServiceHost(typeof(ClientWcfService));
             MyServiceHost.Open();
         }

@@ -102,7 +102,6 @@ namespace WcfTestBench
         private void StartWcfListener()
         {
             MyServiceHost?.Close();
-            ClientWcfService.ClientLog = _clientLog;
             MyServiceHost = new ServiceHost(typeof(ClientWcfService));
             try
             {
