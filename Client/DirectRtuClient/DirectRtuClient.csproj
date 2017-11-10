@@ -183,17 +183,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ClientWcfService\ClientWcfServiceLibrary.csproj">
-      <Project>{264e577f-6bca-4e6b-984d-74337d9ccabb}</Project>
-      <Name>ClientWcfServiceLibrary</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\SharedLibs\Utils35\UtilsLib.csproj">
       <Project>{716240ff-d1e8-4bd3-9e63-431382617398}</Project>
       <Name>UtilsLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ClientWcfServiceLibrary\ClientWcfServiceInterface.csproj">
-      <Project>{1822c528-4719-4c53-877e-bc57dbf6d7ff}</Project>
-      <Name>ClientWcfServiceInterface</Name>
     </ProjectReference>
     <ProjectReference Include="..\WpfCommonViews\WpfCommonViews.csproj">
       <Project>{e98e6cc5-94e4-44b7-af5c-7f4f74746467}</Project>

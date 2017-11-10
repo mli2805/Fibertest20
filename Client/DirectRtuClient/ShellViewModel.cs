@@ -1,6 +1,4 @@
 ﻿using Caliburn.Micro;
-using System.ServiceModel;
-using Iit.Fibertest.ClientWcfServiceLibrary;
 using Iit.Fibertest.UtilsLib;
 
 namespace DirectRtuClient
@@ -13,7 +11,6 @@ namespace DirectRtuClient
         private readonly IMyLog _rtuLogger;
         private static IniFile _iniFile35;
 
-        internal static ServiceHost MyServiceHost;
         public ShellViewModel()
         {
             _iniFile35 = new IniFile();
@@ -23,15 +20,6 @@ namespace DirectRtuClient
 
             IpAddress = _iniFile35.Read(IniSection.General, IniKey.OtauIp, @"192.168.96.53");
 
-            StartWcf();
-
-        }
-
-        private void StartWcf()
-        {
-            MyServiceHost?.Close();
-            MyServiceHost = new ServiceHost(typeof(ClientWcfService));
-            MyServiceHost.Open();
         }
 
         public void OtdrView()
