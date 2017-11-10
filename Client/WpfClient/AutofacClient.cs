@@ -3,7 +3,6 @@ using System.Globalization;
 using System.Threading;
 using Autofac;
 using Caliburn.Micro;
-using Iit.Fibertest.ClientWcfServiceLibrary;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;

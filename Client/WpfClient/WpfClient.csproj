@@ -166,6 +166,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ClientHeartbeat.cs" />
+    <Compile Include="ClientWcfService.cs" />
     <Compile Include="EventSourcing\ClientPoller.cs" />
     <Compile Include="Logic\WaitCursor.cs" />
     <Compile Include="ViewModels\Administrative\PasswordHelper.cs" />
@@ -528,10 +529,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ClientWcfService\ClientWcfServiceLibrary.csproj">
-      <Project>{264e577f-6bca-4e6b-984d-74337d9ccabb}</Project>
-      <Name>ClientWcfServiceLibrary</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Server\WcfServiceForClient\WcfServiceForClientInterface.csproj">
       <Project>{72f6524c-e7ee-4dfd-8ae2-15a4e5225d3b}</Project>
       <Name>WcfServiceForClientInterface</Name>

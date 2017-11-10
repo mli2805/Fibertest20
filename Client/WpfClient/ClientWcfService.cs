@@ -4,7 +4,7 @@ using ClientWcfServiceInterface;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 
-namespace Iit.Fibertest.ClientWcfServiceLibrary
+namespace Iit.Fibertest.Client
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public class ClientWcfService : IClientWcfService
