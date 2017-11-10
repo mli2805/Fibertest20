@@ -167,16 +167,16 @@ namespace Iit.Fibertest.Client
                 Color = Brushes.Black,
                 MasterPort = e.MasterPort,
                 FirstPortNumber = rtuLeaf.FullPortCount + 1,
-                PortCount = e.PortCount,
+                OwnPortCount = e.PortCount,
                 OtauNetAddress = e.NetAddress,
                 OtauState = RtuPartState.Normal,
                 IsExpanded = true,
             };
-            for (int i = 0; i < otauLeaf.PortCount; i++)
+            for (int i = 0; i < otauLeaf.OwnPortCount; i++)
                 otauLeaf.ChildrenImpresario.Children.Add(new PortLeaf(_readModel, _windowManager, _c2DWcfManager, _iniFile35, _logFile, PostOffice, otauLeaf, i + 1));
             rtuLeaf.ChildrenImpresario.Children.Remove(rtuLeaf.ChildrenImpresario.Children[e.MasterPort - 1]);
             rtuLeaf.ChildrenImpresario.Children.Insert(e.MasterPort - 1, otauLeaf);
-            rtuLeaf.FullPortCount += otauLeaf.PortCount;
+            rtuLeaf.FullPortCount += otauLeaf.OwnPortCount;
         }
 
         public void Apply(OtauDetached e)
@@ -184,7 +184,7 @@ namespace Iit.Fibertest.Client
             var rtuLeaf = (RtuLeaf)Tree.GetById(e.RtuId);
             var otauLeaf = (OtauLeaf)Tree.GetById(e.Id);
             var port = otauLeaf.MasterPort;
-            rtuLeaf.FullPortCount -= otauLeaf.PortCount;
+            rtuLeaf.FullPortCount -= otauLeaf.OwnPortCount;
             rtuLeaf.ChildrenImpresario.Children.Remove(otauLeaf);
 
             var portLeaf = new PortLeaf(_readModel, _windowManager, _c2DWcfManager, _iniFile35, _logFile, PostOffice, rtuLeaf, port);

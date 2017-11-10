@@ -12,7 +12,7 @@ namespace Iit.Fibertest.Client
     public class OtauLeaf : Leaf, IPortOwner
     {
         public RtuPartState State { get; set; }
-        public int PortCount { get; set; }
+        public int OwnPortCount { get; set; }
         public int FirstPortNumber { get; set; }
         public int MasterPort { get; set; }
         public NetAddress OtauNetAddress { get; set; }

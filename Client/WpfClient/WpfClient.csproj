@@ -172,6 +172,7 @@
     <Compile Include="Forms\MonitoringSettings\MonitoringCharonModel.cs" />
     <Compile Include="Forms\MonitoringSettings\MonitoringFrequenciesModel.cs" />
     <Compile Include="Forms\MonitoringSettings\MonitoringPortModel.cs" />
+    <Compile Include="Forms\MonitoringSettings\MonitoringSettingsManager.cs" />
     <Compile Include="Forms\MonitoringSettings\MonitoringSettingsModel.cs" />
     <Compile Include="Forms\MonitoringSettings\MonitoringSettingsView.xaml.cs">
       <DependentUpon>MonitoringSettingsView.xaml</DependentUpon>

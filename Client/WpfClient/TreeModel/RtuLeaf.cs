@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Windows.Media;
 using Autofac;
 using Caliburn.Micro;
@@ -99,7 +101,7 @@ namespace Iit.Fibertest.Client
                 var otau = child as OtauLeaf;
                 if (otau != null &&
                     extendedPortNumber >= otau.FirstPortNumber &&
-                    extendedPortNumber < otau.FirstPortNumber + otau.PortCount)
+                    extendedPortNumber < otau.FirstPortNumber + otau.OwnPortCount)
                     return otau;
             }
             return null;
@@ -233,7 +235,8 @@ namespace Iit.Fibertest.Client
 
         private void MonitoringSettingsAction(object param)
         {
-            var model = new MonitoringSettingsModel();
+
+            var model = new MonitoringSettingsManager(this).PrepareMonitoringSettingsModel();
             var vm = new MonitoringSettingsViewModel(model);
             WindowManager.ShowDialog(vm);
         }
