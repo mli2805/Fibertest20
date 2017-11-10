@@ -1,16 +1,16 @@
-﻿<Window x:Class="WcfTestBench.MonitoringSettings.MonitoringSettingsView"
+﻿<Window x:Class="Iit.Fibertest.Client.MonitoringSettings.MonitoringSettingsView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:monitoringSettings="clr-namespace:WcfTestBench.MonitoringSettings"
-        xmlns:wcfTestBench="clr-namespace:WcfTestBench"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
+        xmlns:monitoringSettings="clr-namespace:Iit.Fibertest.Client.MonitoringSettings"
+        xmlns:dto="clr-namespace:Iit.Fibertest.Dto;assembly=Iit.Fibertest.Dto"
         mc:Ignorable="d"
         SizeToContent="WidthAndHeight" MinHeight="520" MinWidth="650" WindowStartupLocation="CenterScreen"
         d:DataContext="{d:DesignInstance monitoringSettings:MonitoringSettingsViewModel}">
     <Window.Resources>
-        <wcfTestBench:FrequencyConverter x:Key="FrConverter"/>
+        <monitoringSettings:FrequencyConverter x:Key="FrConverter"/>
     </Window.Resources>
     <DockPanel>
         <DockPanel DockPanel.Dock="Right" Width="200" Margin="5">

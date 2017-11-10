@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows.Media;
 using Autofac;
 using Caliburn.Micro;
+using Iit.Fibertest.Client.MonitoringSettings;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
@@ -232,6 +233,9 @@ namespace Iit.Fibertest.Client
 
         private void MonitoringSettingsAction(object param)
         {
+            var model = new MonitoringSettingsModel();
+            var vm = new MonitoringSettingsViewModel(model);
+            WindowManager.ShowDialog(vm);
         }
 
         private async void ManualModeAction(object param)

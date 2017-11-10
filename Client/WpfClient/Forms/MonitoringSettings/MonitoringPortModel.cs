@@ -2,7 +2,7 @@
 using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
 
-namespace WcfTestBench.MonitoringSettings
+namespace Iit.Fibertest.Client.MonitoringSettings
 {
     public class MonitoringPortModel : PropertyChangedBase
     {

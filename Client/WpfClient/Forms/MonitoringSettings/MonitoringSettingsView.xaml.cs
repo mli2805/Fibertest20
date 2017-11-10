@@ -1,4 +1,4 @@
-﻿namespace WcfTestBench.MonitoringSettings
+﻿namespace Iit.Fibertest.Client.MonitoringSettings
 {
     /// <summary>
     /// Interaction logic for MonitoringSettingsView.xaml

@@ -168,6 +168,15 @@
     <Compile Include="ClientHeartbeat.cs" />
     <Compile Include="ClientWcfService.cs" />
     <Compile Include="EventSourcing\ClientPoller.cs" />
+    <Compile Include="Forms\MonitoringSettings\FrequencyConverter.cs" />
+    <Compile Include="Forms\MonitoringSettings\MonitoringCharonModel.cs" />
+    <Compile Include="Forms\MonitoringSettings\MonitoringFrequenciesModel.cs" />
+    <Compile Include="Forms\MonitoringSettings\MonitoringPortModel.cs" />
+    <Compile Include="Forms\MonitoringSettings\MonitoringSettingsModel.cs" />
+    <Compile Include="Forms\MonitoringSettings\MonitoringSettingsView.xaml.cs">
+      <DependentUpon>MonitoringSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MonitoringSettings\MonitoringSettingsViewModel.cs" />
     <Compile Include="Logic\WaitCursor.cs" />
     <Compile Include="ViewModels\Administrative\PasswordHelper.cs" />
     <Compile Include="ViewModels\Administrative\UserMappings.cs" />
@@ -377,6 +386,10 @@
     <Compile Include="Views\Administrative\UserListView.xaml.cs">
       <DependentUpon>UserListView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Forms\MonitoringSettings\MonitoringSettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="ViewControls\GpsInputControl\GpsInputView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -1,9 +1,10 @@
 using System;
 using System.Globalization;
 using System.Windows.Data;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 
-namespace WcfTestBench
+namespace Iit.Fibertest.Client.MonitoringSettings
 {
     public class FrequencyConverter : IValueConverter
     {

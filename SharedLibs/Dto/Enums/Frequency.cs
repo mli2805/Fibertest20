@@ -1,4 +1,4 @@
-namespace WcfTestBench
+namespace Iit.Fibertest.Dto
 {
     public enum Frequency
     {

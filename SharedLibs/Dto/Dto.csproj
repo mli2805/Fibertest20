@@ -60,6 +60,7 @@
     <Compile Include="Db\RtuStation.cs" />
     <Compile Include="Db\User.cs" />
     <Compile Include="Enums\ChannelStateChanges.cs" />
+    <Compile Include="Enums\Frequency.cs" />
     <Compile Include="Enums\MoniLevelType.cs" />
     <Compile Include="Enums\Role.cs" />
     <Compile Include="Enums\RtuPartState.cs" />
