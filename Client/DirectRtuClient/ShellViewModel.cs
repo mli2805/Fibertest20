@@ -1,5 +1,4 @@
 ﻿using Caliburn.Micro;
-using ClientWcfServiceLibrary;
 using System.ServiceModel;
 using Iit.Fibertest.UtilsLib;
 

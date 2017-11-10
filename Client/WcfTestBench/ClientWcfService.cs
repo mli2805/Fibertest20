@@ -1,6 +1,6 @@
 ﻿using System.ServiceModel;
 using System.Threading.Tasks;
-using ClientWcfServiceLibrary;
+using ClientWcfServiceInterface;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 

@@ -16,7 +16,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GMap.NET.WindowsPresentatio
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{30F780F4-2EC3-46E4-B4A5-285511FA269D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientWcfServiceLibrary", "Client\ClientWcfServiceLibrary\ClientWcfServiceLibrary.csproj", "{1822C528-4719-4C53-877E-BC57DBF6D7FF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientWcfServiceInterface", "Client\ClientWcfServiceLibrary\ClientWcfServiceInterface.csproj", "{1822C528-4719-4C53-877E-BC57DBF6D7FF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RTU", "RTU", "{42AA9301-85D4-4443-8326-367AAEC4A258}"
 EndProject

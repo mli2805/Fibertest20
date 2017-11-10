@@ -80,9 +80,9 @@
     <Compile Include="WcfFactory.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Client\ClientWcfServiceLibrary\ClientWcfServiceLibrary.csproj">
+    <ProjectReference Include="..\..\Client\ClientWcfServiceLibrary\ClientWcfServiceInterface.csproj">
       <Project>{1822c528-4719-4c53-877e-bc57dbf6d7ff}</Project>
-      <Name>ClientWcfServiceLibrary</Name>
+      <Name>ClientWcfServiceInterface</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\RTU\RtuWcfService\RtuWcfServiceInterface.csproj">
       <Project>{d7c82e5d-e536-4684-b18f-9e1a341324d6}</Project>

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
-using ClientWcfServiceLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;

@@ -6,7 +6,7 @@ using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using Caliburn.Micro;
-using ClientWcfServiceLibrary;
+using ClientWcfServiceInterface;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
