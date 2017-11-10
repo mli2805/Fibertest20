@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.WcfServiceForClientInterface;
 
-namespace Iit.Fibertest.Client
+namespace Graph.Tests
 {
     public class FakeWcfServiceForClient : IWcfServiceForClient
     {

@@ -165,7 +165,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Autofac\FakeWcfServiceForClient.cs" />
     <Compile Include="ClientHeartbeat.cs" />
     <Compile Include="EventSourcing\ClientPoller.cs" />
     <Compile Include="Logic\WaitCursor.cs" />
@@ -266,7 +265,7 @@
     <Compile Include="Requests\RequestRemoveNode.cs" />
     <Compile Include="Requests\RequestUpdateFiber.cs" />
     <Compile Include="Requests\RequestUpdateRtu.cs" />
-    <Compile Include="Autofac\AutofacClient.cs" />
+    <Compile Include="AutofacClient.cs" />
     <Compile Include="ViewControls\GpsInputControl\GpsInputView.xaml.cs">
       <DependentUpon>GpsInputView.xaml</DependentUpon>
     </Compile>
