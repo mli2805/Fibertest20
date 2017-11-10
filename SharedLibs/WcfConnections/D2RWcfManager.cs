@@ -49,12 +49,12 @@ namespace Iit.Fibertest.WcfConnections
             return result;
         }
 
-        public async Task<bool> AssignBaseRefAsync(AssignBaseRefDto dto)
+        public async Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefDto dto)
         {
             var backward = new RtuWcfServiceBackward();
             var rtuDuplexConnection = _wcfFactory.CreateDuplexRtuConnection(backward);
             if (rtuDuplexConnection == null)
-                return false;
+                return new BaseRefAssignedDto() {ReturnCode = ReturnCode.D2RWcfConnectionError};
 
             // 
             _logFile.AppendLine("Still on server, duplex channel established");

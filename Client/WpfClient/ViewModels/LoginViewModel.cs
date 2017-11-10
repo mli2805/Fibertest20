@@ -17,6 +17,7 @@ namespace Iit.Fibertest.Client
         private readonly IMyLog _logFile;
         private readonly IWcfServiceForClient _c2DWcfManager;
         public Guid ClientId { private get; set; }
+        public int UserId { get; set; }
 
         private string _userName;
         public string UserName
@@ -59,6 +60,7 @@ namespace Iit.Fibertest.Client
         {
             if (dto.ReturnCode == ReturnCode.ClientRegisteredSuccessfully)
             {
+                UserId = dto.UserId;
                 _logFile.AppendLine(@"Registered successfully");
                 TryClose(true);
             }

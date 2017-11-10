@@ -19,6 +19,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly ClientRegistrationManager _clientRegistrationManager;
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
         private readonly RtuRegistrationManager _rtuRegistrationManager;
+        private readonly BaseRefManager _baseRefManager;
 
         private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
         {
@@ -27,13 +28,14 @@ namespace Iit.Fibertest.DataCenterCore
 
         public WcfServiceForClient(IMyLog logFile, EventStoreService eventStoreService, 
             ClientRegistrationManager clientRegistrationManager, ClientToRtuTransmitter clientToRtuTransmitter,
-            RtuRegistrationManager rtuRegistrationManager)
+            RtuRegistrationManager rtuRegistrationManager, BaseRefManager baseRefManager)
         {
             _logFile = logFile;
             _eventStoreService = eventStoreService;
             _clientRegistrationManager = clientRegistrationManager;
             _clientToRtuTransmitter = clientToRtuTransmitter;
             _rtuRegistrationManager = rtuRegistrationManager;
+            _baseRefManager = baseRefManager;
         }
 
         public async Task<string> SendCommandAsObj(object cmd)
@@ -117,12 +119,17 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
-        public async Task<bool> AssignBaseRefAsync(AssignBaseRefDto dto)
+        public async Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefDto dto)
         {
-            _logFile.AppendLine($"Client {dto.ClientId.First6()} sent base ref for trace on rtu {dto.RtuId.First6()}");
-            var result = await _clientToRtuTransmitter.AssignBaseRefAsync(dto);
-            _logFile.AppendLine($"Assign base ref result is {result}");
-            return result;
+            _logFile.AppendLine($"Client {dto.ClientId.First6()} sent base ref for trace {dto.TraceId.First6()}");
+            var result = await _baseRefManager.AddOrUpdateBaseRef(dto);
+            if (result.ReturnCode != ReturnCode.Ok)
+                return result;
+
+            if (dto.OtauPortDto == null) // unattached trace
+                return result;
+
+            return await _clientToRtuTransmitter.AssignBaseRefAsync(dto);
         }
     }
 }

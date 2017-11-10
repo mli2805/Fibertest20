@@ -19,6 +19,6 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
         void EndApplyMonitoringSettings(bool result);
 
         [OperationContract(IsOneWay = true)]
-        void EndAssignBaseRef(bool result);
+        void EndAssignBaseRef(BaseRefAssignedDto result);
     }
 }

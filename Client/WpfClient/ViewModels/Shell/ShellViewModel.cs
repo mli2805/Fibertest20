@@ -19,6 +19,7 @@ namespace Iit.Fibertest.Client
         public ILogger Log { get; set; }
 
         private readonly Guid _clientId;
+        private int _userId;
         private readonly IWindowManager _windowManager;
         private readonly ClientHeartbeat _clientHeartbeat;
         private readonly IMyLog _logFile;
@@ -59,7 +60,7 @@ namespace Iit.Fibertest.Client
 
         public ShellViewModel(ReadModel readModel, TreeOfRtuModel treeOfRtuModel, IWcfServiceForClient c2DWcfManager,
                 GraphReadModel graphReadModel, IWindowManager windowManager, ClientHeartbeat clientHeartbeat,
-                ILogger clientLogger, IniFile iniFile, IMyLog logFile, IClientWcfServiceHost host)
+                ILogger clientLogger, IniFile iniFile, IMyLog logFile, ClientWcfService clientWcfService, IClientWcfServiceHost host)
         {
             ReadModel = readModel;
             TreeOfRtuModel = treeOfRtuModel;
@@ -82,9 +83,25 @@ namespace Iit.Fibertest.Client
             Log.Information(@"Client application started!");
 
             host.StartWcfListener();
+            clientWcfService.MessageReceived += ClientWcfService_MessageReceived;
         }
 
-     
+        private void ClientWcfService_MessageReceived(object e)
+        {
+            var dto = e as ListOfRtuWithChangedAvailabilityDto;
+            if (dto != null)
+            {
+                _logFile.AppendLine(@"ShellViewModel recieved RTU availability changed");
+                return;
+            }
+
+            var dto1 = e as MonitoringResultDto;
+            if (dto1 != null)
+            {
+                _logFile.AppendLine(@"ShellViewModel recieved monitoring result");
+            }
+        }
+
         public override void CanClose(Action<bool> callback)
         {
             // if user cancelled login view - _c2DWcfManager would be null
@@ -110,6 +127,7 @@ namespace Iit.Fibertest.Client
             ((App)Application.Current).ShutdownMode = ShutdownMode.OnMainWindowClose;
             if (_isAuthenticationSuccessfull == true)
             {
+                _userId = vm.UserId;
                 StartPolling();
                 _clientHeartbeat.Start();
             }

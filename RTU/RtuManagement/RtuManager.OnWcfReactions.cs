@@ -117,15 +117,15 @@ namespace Iit.Fibertest.RtuManagement
                 StartMonitoring(null);
         }
 
-        public bool SaveBaseRefs(AssignBaseRefDto dto)
+        public ReturnCode SaveBaseRefs(AssignBaseRefDto dto)
         {
             string fullFolderName;
             if (!TryBuildPathForBaseRef(dto, out fullFolderName))
-                return false;
+                return ReturnCode.RtuCantGetAppFolder;
 
             foreach (var baseRef in dto.BaseRefs)
                 RemoveOldSaveNew(baseRef, fullFolderName);
-            return true;
+            return ReturnCode.Ok;
         }
 
         private void RemoveOldSaveNew(BaseRefDto baseRef, string fullFolderName)

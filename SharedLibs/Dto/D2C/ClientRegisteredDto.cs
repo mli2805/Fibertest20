@@ -10,5 +10,8 @@ namespace Iit.Fibertest.Dto
 
         [DataMember]
         public string ExceptionMessage { get; set; }
+
+        [DataMember]
+        public int UserId { get; set; }
     }
 }

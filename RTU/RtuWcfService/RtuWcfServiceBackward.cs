@@ -25,7 +25,7 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
         public Handler<bool> HandlerForApplyMonitoringSettings { get; } = new Handler<bool>();
         public void EndApplyMonitoringSettings(bool result) => HandlerForApplyMonitoringSettings.End(result);
 
-        public Handler<bool> HandlerForAssignBaseRef { get; } = new Handler<bool>();
-        public void EndAssignBaseRef(bool result) => HandlerForAssignBaseRef.End(result);
+        public Handler<BaseRefAssignedDto> HandlerForAssignBaseRef { get; } = new Handler<BaseRefAssignedDto>();
+        public void EndAssignBaseRef(BaseRefAssignedDto result) => HandlerForAssignBaseRef.End(result);
     }
 }

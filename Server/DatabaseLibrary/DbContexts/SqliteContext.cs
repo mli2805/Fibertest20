@@ -11,6 +11,7 @@ namespace Iit.Fibertest.DatabaseLibrary.DbContexts
         public DbSet<User> Users { get; set; }
         public DbSet<ClientStation> ClientStations { get; set; }
         public DbSet<RtuStation> RtuStations { get; set; }
+        public DbSet<BaseRef> BaseRefs { get; set; }
 
         public new void SaveChanges()
         {

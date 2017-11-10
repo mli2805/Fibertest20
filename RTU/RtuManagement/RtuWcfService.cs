@@ -145,15 +145,16 @@ namespace Iit.Fibertest.RtuManagement
             var callbackChannel = OperationContext.Current.GetCallbackChannel<IRtuWcfServiceBackward>();
             ThreadPool.QueueUserWorkItem(_ =>
             {
-                var result = false;
+                var result = new BaseRefAssignedDto();
                 try
                 {
-                    if (ShouldAssignBaseRef())
-                        result = _rtuManager.SaveBaseRefs(dto);
+                    result.ReturnCode = ShouldAssignBaseRef() ? _rtuManager.SaveBaseRefs(dto) : ReturnCode.RtuIsBusy;
                 }
                 catch (Exception e)
                 {
                     _serviceLog.AppendLine("Thread pool: " + e);
+                    result.ReturnCode = ReturnCode.RtuBaseRefAssignmentError;
+                    result.ExceptionMessage = e.Message;
                 }
                 callbackChannel.EndAssignBaseRef(result);
             });

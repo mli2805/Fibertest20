@@ -54,11 +54,17 @@ namespace Iit.Fibertest.DatabaseLibrary
             {
                 var dbContext = new MySqlContext();
                 var users = dbContext.Users.ToList(); // there is no field Password in Db , so it should be instances in memory to address that property
-                if (users.FirstOrDefault(u => u.Name == dto.UserName && u.Password == dto.Password) == null)
+                var user = users.FirstOrDefault(u => u.Name == dto.UserName && u.Password == dto.Password);
+                if (user != null)
+                {
+                    result.UserId = user.Id;
+                    result.ReturnCode = ReturnCode.ClientRegisteredSuccessfully;
+                }
+                else
                 {
                     result.ReturnCode = ReturnCode.NoSuchUserOrWrongPassword;
-                    return Task.FromResult(result);
                 }
+                return Task.FromResult(result);
             }
             catch (Exception e)
             {
@@ -68,19 +74,42 @@ namespace Iit.Fibertest.DatabaseLibrary
                 return Task.FromResult(result);
             }
 
-            result.ReturnCode = ReturnCode.ClientRegisteredSuccessfully;
-            return Task.FromResult(result);
         }
 
+        private async Task<ClientRegisteredDto> RegisterHeartbeat(RegisterClientDto dto)
+        {
+            try
+            {
+                var dbContext = new MySqlContext();
+                var station = dbContext.ClientStations.FirstOrDefault(s => s.ClientGuid == dto.ClientId);
+                if (station != null)
+                {
+                    station.LastConnectionTimestamp = DateTime.Now;
+                    await dbContext.SaveChangesAsync();
+                    return new ClientRegisteredDto() { ReturnCode = ReturnCode.ClientRegisteredSuccessfully };
+                }
+                return new ClientRegisteredDto() { ReturnCode = ReturnCode.NoSuchClientStation };
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("RegisterHeartbeat:" + e.Message);
+                return new ClientRegisteredDto() { ReturnCode = ReturnCode.DbError, ExceptionMessage = e.Message };
+            }
+        }
         private async Task<ClientRegisteredDto> RegisterClientStation(RegisterClientDto dto)
         {
             var result = new ClientRegisteredDto();
             try
             {
                 var dbContext = new MySqlContext();
-                if (!dto.IsHeartbeat && // this check for registration, not for heartbeat
-                    dbContext.ClientStations.FirstOrDefault
-                      (s => s.Username == dto.UserName && s.ClientGuid != dto.ClientId) != null)
+                var user = dbContext.Users.FirstOrDefault(u => u.Name == dto.UserName);
+                if (user == null)
+                {
+                    result.ReturnCode = ReturnCode.NoSuchUserOrWrongPassword;
+                    return result;
+                }
+
+                if (dbContext.ClientStations.Any(s => s.UserId == user.Id && s.ClientGuid != dto.ClientId))
                 {
                     _logFile.AppendLine($"User {dto.UserName} registered on another PC");
                     result.ReturnCode = ReturnCode.ThisUserRegisteredOnAnotherPc;
@@ -90,17 +119,16 @@ namespace Iit.Fibertest.DatabaseLibrary
                 var station = dbContext.ClientStations.FirstOrDefault(s => s.ClientGuid == dto.ClientId);
                 if (station != null)
                 {
-                    station.Username = dto.UserName;
+                    station.UserId = user.Id;
                     station.LastConnectionTimestamp = DateTime.Now;
                     await dbContext.SaveChangesAsync();
-                    if (!dto.IsHeartbeat)
-                        _logFile.AppendLine($"Station {dto.ClientId.First6()} was registered already. Re-registered.");
+                    _logFile.AppendLine($"Station {dto.ClientId.First6()} was registered already. Re-registered.");
                 }
                 else
                 {
                     station = new ClientStation()
                     {
-                        Username = dto.UserName,
+                        UserId = user.Id,
                         ClientGuid = dto.ClientId,
                         ClientAddress = dto.Addresses.Main.GetAddress(),
                         ClientAddressPort = dto.Addresses.Main.Port,
@@ -112,8 +140,7 @@ namespace Iit.Fibertest.DatabaseLibrary
                         _logFile.AppendLine($"Client station {dto.ClientId.First6()} registered");
                 }
 
-                if (!dto.IsHeartbeat)
-                    _logFile.AppendLine($"There are {dbContext.ClientStations.Count()} client(s)");
+                _logFile.AppendLine($"There are {dbContext.ClientStations.Count()} client(s)");
                 result.ReturnCode = ReturnCode.ClientRegisteredSuccessfully;
                 return result;
             }
@@ -128,13 +155,13 @@ namespace Iit.Fibertest.DatabaseLibrary
 
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {
-            if (!dto.IsHeartbeat)
-            {
-                var result = await CheckUserPassword(dto);
-                if (result.ReturnCode != ReturnCode.ClientRegisteredSuccessfully)
-                    return result;
-            }
+            if (dto.IsHeartbeat)
+                return await RegisterHeartbeat(dto);
 
+
+            var result = await CheckUserPassword(dto);
+            if (result.ReturnCode != ReturnCode.ClientRegisteredSuccessfully)
+                return result;
             return await RegisterClientStation(dto);
         }
 
@@ -186,7 +213,7 @@ namespace Iit.Fibertest.DatabaseLibrary
                 var deadStations = dbContext.ClientStations.Where(s => s.LastConnectionTimestamp < noLaterThan).ToList();
                 foreach (var deadStation in deadStations)
                 {
-                    _logFile.AppendLine($"Dead station {deadStation.ClientGuid} registered by {deadStation.Username} will be removed.");
+                    _logFile.AppendLine($"Dead station {deadStation.ClientGuid} will be removed.");
                     dbContext.ClientStations.Remove(deadStation);
                 }
                 return await dbContext.SaveChangesAsync();

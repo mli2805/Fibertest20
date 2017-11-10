@@ -1,0 +1,302 @@
+https://codeshare.io/5NjEx1
+
+0. Что такое таск
+		Событие (Окончание операции) + Данные (Результат операции)
+   Например:
+    1) Запрос в БД. Событие: запрос выполнен, Данные: результат запроса
+    2) Секция кода. Событие: код выполнен, Данные: результат выполнения кода
+      Примеры:
+        2а) Код выполнен на другом потоке
+        Task t = Task.Factory.StartNew(() => ...)
+        2б) Код выполнен на потоке окна (и результат ожидается на потоке окна)
+        Task t = Dispatcher.Current.BeginInvoke(() => ...)
+        2в) Код выполнен синхронно
+        Task t = TaskEx.FromResult(0);
+	
+	  
+	  
+1. Как превратить событие в таск?
+	  1) C# event (пользователь щелкнул на кнопку "да")
+    	Task<bool> AskAlternativeQuestion(string questionText)
+      {
+      	var yes, no;
+        var tsc = new TaskCompletionSource<bool>();
+      	var w = new Window {
+        	Child = new StackPanel {
+          	Children = {
+            	new TextBlock {
+              	Text = questionText
+              },
+              yes = new Button {
+              	Content = "yes"
+              },
+              no = new Button {
+                Content = "no"
+              }
+            }
+          }
+        };
+        
+        w.Closed += (s, e) => tcs.SetResult(false);
+        yes.Click += (s, e) => tcs.SetResult(true);
+        no.Click += (s, e) => tcs.SetResult(false);
+        return tsc.Task;
+      }
+      
+    2) WCF callback
+      var calls = new Dictionary<Guid, TaskCompletionSource<stirng>>();
+    	class Forward {
+      	void Hello(Guid callId, strin message) => backward.CompleteHello(callId, "Hello " + message);
+      }
+      class Backward {
+      	void CompleteHello(Guid callId, string result) => calls[callId].TrySetResul(result);
+      }
+      
+      await container.Resolve<Forward>().Hello("John!");
+      
+    3) Пользователь ввел строку "exit"
+    	Task Main() {
+        var tsc = new TaskCompletionSource<int>();
+      	while (true)
+        {
+        	var line = Console.ReadLine();
+          switch (line)
+          {
+          	case "exit":
+            	tsc.SetResult(0);
+            	break;
+          }
+        }
+      }
+    4) Код завершился на другом потоке
+    	 int LongCalculation();
+       Task<int> t = Task.Factory.StartNew(LongCalculation);
+       
+    5) Код завершился на потоке окна
+    	 	Task t = Dispatcher.InvokeAsync(() => ...)
+        
+       	public static class DispatcherExt {
+          public static Task<T> InvokeAsync<T>(this Dispatcher dispatcher, Func<T> f)
+          {
+        		var tsc = new TaskCompletionSource<T>();
+          	dispatcher.BeginInvoke(() => { tsc.TrySetResult(f()); }); // такой метод существует. Он ставит лямбду в очередь
+            return tsc.Task;
+          }
+      	}
+    
+    6) Код выполнен синхронно
+       TaskEx.FromResult(LongCalculation());
+    
+    
+
+2. Где выполняется таск?
+		не важно. Таск = событие. Например, пользователь выполняет таск и вводит exit когда закончит
+    типично таск выполняется на другом устройстве
+		
+3. Как выполнить код параллельно с таском?
+		- запустить async метод без await
+		- засунуть код в Action, создать из него второй таск и запустить оба таска на выполнение
+		- просто стартовать таск посреди кода - они будут выполняться параллельно
+		
+4. Как после?
+     - await task1.Wait(); after();
+	   - task1.Wait(); // task2.Start() - вообще не стоит этим пользоваться  StartNew
+	   - task1.ContinueWith(_ => after());
+
+5. Как после одного из двух тасков?
+       тоже что и 4   
+	   имелось ввиду третий послеодного из двух?
+     WhenAny(task1, task2).ContinueWith(_=>after());
+     Task.WaitAny()
+     
+6. Как после обоих?
+      статический метод Task.WaitAll(); Task.WhenAll(); можно передавать список задач
+	  
+7. Что такое Task.Delay? (как реализован)
+
+		 async Task MyDelay(TimeSpan pause)
+     {
+          var tsc = new TaskCompletionSource<int>();
+          var timer = new Timer(pause);
+          timer.Tick += () => {
+          	tsc.Task.TrySetResult(0);
+            timer.Dispose();
+          }
+          return tsc.Task;
+     }
+    
+    
+    
+
+8. Как реализовать Timeout имея ответы на вопрос 3, 5 и 6
+		- стартовать таск, дождаться delay, проверить состояние первого таска - если завершен взять резалт, а если нет просто идти дальше?
+		- в методе таска предусмотреть параметр CancellationToken , вызывающий код создает источник  CancellationTokenSource 
+		стартует таск с токеном , дождается delay и кидает токен прерваться. но это подходит дя циклических задач,
+		которые между итерациями проверяют токен
+		
+		public static async Task<TResult> TimeoutAfter<TResult>(this Task<TResult> task, int millisecondsTimeout)
+    {
+        var timeoutTask = ТaskEx.Delay(millisecondsTimeout);
+        var completedFirst = await TaskEx.WhenAny(task, timoutTask);
+        if (completedFirst == timeoutTask)
+        {
+        ...
+        }
+        else{
+        ..
+        }
+            
+    }
+    
+    public static class TaEx
+    {
+        public static async Task<TResult> TimeoutAfter<TResult>(this Task<TResult> task, int millisecondsTimeout)
+        {
+            if (task.IsCompleted)
+                return task.Result;
+            return await TaskEx.WhenAny(task, TaskEx.Delay(millisecondsTimeout)) == task
+                ? task.Result
+                : default(TResult);
+        }
+    }
+
+        
+		
+9. Что такое async метод
+		
+		Task Calc1();
+		Task Calc2();
+    
+    // Превратить в async метод
+    Task Seq(){
+    	return Calc1().ContinueWith(t => Calc2());
+    }
+    
+        async Task Seq()
+        {
+            await Calc1();            
+            await Calc2();
+        }
+        
+        ----
+        
+        // 
+        async Task Seq()
+        {
+            Calc1();            
+            await Calc2();
+        }
+        
+        Task Seq(){
+        
+        }
+        
+        а давай я попробую сначала сформулировать какие-то правила исполнения, это кажется мне более базовым чем предыдущие вопросы
+        
+        метод возвращающий таск запускается на выполнение асинхронно на одном из потоков пула
+        если таск(), то результат не ожидаем, 
+        если таск.Wait() , то ожидается результат этого таска с блокировкой вызвавшего потока
+        если await таск() , то ожидается результат этого таска без блокировки вызвавшего потока
+        
+       	[Fact]
+        public async Task Original1()
+        {
+            var t1 = await Task.Delay(0);
+            var t2 =await Task.Delay(0);
+					  Console.WriteLIne("Done!");
+        }
+        
+        [Fact]
+        public Task Lowered1()
+        {
+            return Task.Delay(0)
+                .ContinueWith(t => Task.Delay(0)
+                    .ContinueWith(t2 => Console.WriteLine("Done!")));
+        }
+        
+        // ---------- DONE -------------
+       
+        [Fact]
+      	public async Task Original2()
+        {
+            await Task.Delay(0);
+            Console.WriteLine("temp");
+            await Task.Delay(1000);
+        }
+        core  Total: 1, Errors: 0, Failed: 0, Skipped: 0, Time: 1.090s
+    
+
+        public static class TaskExt
+        {
+            public static async Task ContinueWithEx(this Task before, Func<Task, Task> createAfter)
+            {
+                try
+                {
+                    await before;
+                }
+                catch { }
+                var after = createAfter(before);
+                await after;
+            }
+            public static async Task<T> ContinueWithEx<T>(this Task before, Func<Task, Task<T>> createAfter)
+            {
+                try
+                {
+                    await before;
+                }
+                catch { }
+                var after = createAfter(before);
+                return await after;
+            }
+        }
+
+        [Fact]
+        public Task Lowered2()
+        {
+            return Task.Delay(0)
+                .ContinueWithEx(t => 
+                {
+                    Console.WriteLine("temp");
+                    return Task.Delay(1000);
+                });
+        }
+      	core  Total: 1, Errors: 0, Failed: 0, Skipped: 0, Time: 1.089s
+    
+		Теперь тут
+		в 4.0 был механизм асинхронного вызова делегатов
+		из любой ф-ции можно сделать делегат, а у делегата вызвать BeginInvoke, которому передаются параметры для ф-ции и колбэк
+		ф-ция будет исполнятся не на основном потоке и по завершении вызовет колбэк
+		в котором можно вызвать EndInvoke и получить резалт ф-ции
+		
+9\2	как работает await
+        awaitить можно только таск (метод возвращающий таск) при этом метод возвращающий таск может быть или не быть помечен async
+		await останавливает/(но не блокирует) выполнение вызывающего потока пока не task.GetAwaiter().IsCompleted
+			ожидать чье-то завершение можно 2 способами:
+			через колбэк и через поллинг, причем поллинг блокирует текущий поток,
+			т.к. await не блокирует , то вроде он код ниже себя заворачивает в ф-цию и подсовывает как колбэк вызванной задаче, 
+			кроме того должен быть сохранен контекст (лок переменные, регистры, стэк) - это где-то в инфраструктуре
+		
+		await vs Task.Wait
+		(проверял в впф приложении:
+		await
+			если до самого низа вторая задача асинхронная (Task.Delay) все отлично работает
+			если внизу синхронная/тяжелая? операция (sqrt) - вызывающий поток заморозится, но по завершении второго оживет
+			
+		Task.Wait
+			если до самого низа вторая задача асинхронная (Task.Delay)  - DeadLock повисают оба потока
+			  но если всем(!) await до низа добавить .ConfigureAwait(false) вызывающий поток заморозится, но по окончании второго оживет
+			если внизу синхронная/тяжелая? операция (sqrt) - вызывающий поток заморозится, но по завершении второго оживет
+		)
+		https://msdn.microsoft.com/en-us/magazine/jj991977.aspx?f=255&MSPPError=-2147217396
+		
+10. Что такое async метод который не возвращает Task?
+		Event handler
+		
+		async void предпочтительно не использовать, кроме Event handler
+		т.к. нет таска то нельзя авэйтить
+		проблемы с обработкой эксэпшенов
+
+11. Как сделан async метод с циклом?
+
+12. Как сделан async метод который может бросить exception
+		

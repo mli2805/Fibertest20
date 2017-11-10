@@ -9,7 +9,6 @@ namespace Iit.Fibertest.Client
 {
     public sealed class ClientWcfServiceHost : IClientWcfServiceHost
     {
-//        private readonly ServiceHost _wcfHost = new ServiceHost(typeof(ClientWcfService));
         private ServiceHost _wcfHost;
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
@@ -22,16 +21,9 @@ namespace Iit.Fibertest.Client
             _clientWcfService = clientWcfService;
         }
 
-        private void ClientWcfService_MessageReceived(object e)
-        {
-            if (e is MonitoringResultDto)
-                _logFile.AppendLine(@"Moniresult happened");
-        }
-
+       
         public void StartWcfListener()
         {
-            ClientWcfService.MessageReceived += ClientWcfService_MessageReceived;
-
             try
             {
                 var uri = new Uri(WcfFactory.CombineUriString(@"localhost", (int)TcpPorts.ClientListenTo, @"ClientWcfService"));

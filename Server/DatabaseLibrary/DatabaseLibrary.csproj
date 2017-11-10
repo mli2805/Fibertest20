@@ -71,6 +71,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseRefManager.cs" />
     <Compile Include="ClientRegistrationManager.cs" />
     <Compile Include="DbContexts\IFibertestDbContext.cs" />
     <Compile Include="DbContexts\MySqlContext.cs" />
@@ -78,6 +79,14 @@
     <Compile Include="Migrations\201711041334132_ClientsAddressAdded.cs" />
     <Compile Include="Migrations\201711041334132_ClientsAddressAdded.Designer.cs">
       <DependentUpon>201711041334132_ClientsAddressAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711101250158_BaseRefsTableAdded.cs" />
+    <Compile Include="Migrations\201711101250158_BaseRefsTableAdded.Designer.cs">
+      <DependentUpon>201711101250158_BaseRefsTableAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711101301002_UserIdForStationAdded.cs" />
+    <Compile Include="Migrations\201711101301002_UserIdForStationAdded.Designer.cs">
+      <DependentUpon>201711101301002_UserIdForStationAdded.cs</DependentUpon>
     </Compile>
     <Compile Include="RtuRegistration\MapperToRtuStation.cs" />
     <Compile Include="Migrations\201711031240377_InitialCreate.cs" />
@@ -148,6 +157,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711041334132_ClientsAddressAdded.resx">
       <DependentUpon>201711041334132_ClientsAddressAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711101250158_BaseRefsTableAdded.resx">
+      <DependentUpon>201711101250158_BaseRefsTableAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711101301002_UserIdForStationAdded.resx">
+      <DependentUpon>201711101301002_UserIdForStationAdded.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

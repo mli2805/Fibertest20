@@ -37,10 +37,10 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
             rtuWcfService.BeginApplyMonitoringSettings(dto);
             return src.Task;
         }
-        public static Task<bool> AssignBaseRefAsync(
+        public static Task<BaseRefAssignedDto> AssignBaseRefAsync(
             this IRtuWcfService rtuWcfService, RtuWcfServiceBackward backwardService, AssignBaseRefDto dto)
         {
-            var src = new TaskCompletionSource<bool>();
+            var src = new TaskCompletionSource<BaseRefAssignedDto>();
             backwardService.HandlerForAssignBaseRef.AddHandler(src);
             rtuWcfService.BeginAssignBaseRef(dto);
             return src.Task;

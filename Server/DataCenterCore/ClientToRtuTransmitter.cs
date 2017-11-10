@@ -89,22 +89,26 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
-        public async Task<bool> AssignBaseRefAsync(AssignBaseRefDto dto)
+        public async Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefDto dto)
         {
             try
             {
                 var rtuAddresses = await _rtuRegistrationManager.GetRtuAddresses(dto.RtuId);
                 if (rtuAddresses != null)
-                    return await new D2RWcfManager(rtuAddresses, _iniFile, _logFile)
+                {
+                    var result = await new D2RWcfManager(rtuAddresses, _iniFile, _logFile)
                         .AssignBaseRefAsync(dto);
+                    _logFile.AppendLine($"Assign base ref(s) result is {result.ReturnCode}");
+                    return result;
+                }
 
                 _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
-                return false;
+                return new BaseRefAssignedDto() {ReturnCode = ReturnCode.DbError};
             }
             catch (Exception e)
             {
                 _logFile.AppendLine("AssignBaseRefAsync:" + e.Message);
-                return false;
+                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.DbError, ExceptionMessage = e.Message};
             }
         }
 

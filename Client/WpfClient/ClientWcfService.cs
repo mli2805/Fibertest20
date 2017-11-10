@@ -10,7 +10,7 @@ namespace Iit.Fibertest.Client
     public class ClientWcfService : IClientWcfService
     {
         private readonly IMyLog _logFile;
-        public static event OnMessageReceived MessageReceived;
+        public event OnMessageReceived MessageReceived;
         public delegate void OnMessageReceived(object e);
 
         public ClientWcfService(IMyLog logFile)
@@ -23,12 +23,15 @@ namespace Iit.Fibertest.Client
             MessageReceived?.Invoke(dto);
         }
 
+        public async Task<int> ProcessMonitoringResult(MonitoringResultDto dto)
+        {
+            MessageReceived?.Invoke(dto);
+            return 0;
+        }
+
         public async Task<int> NotifyAboutRtuChangedAvailability(ListOfRtuWithChangedAvailabilityDto dto)
         {
-            foreach (var rtu in dto.List)
-            {
-               _logFile.AppendLine(rtu.Report()); 
-            }
+            MessageReceived?.Invoke(dto);
             return 0;
         }
 

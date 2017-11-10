@@ -55,6 +55,7 @@
     <Compile Include="C2D\CheckServerConnectionDto.cs" />
     <Compile Include="D2C\ClientRegisteredDto.cs" />
     <Compile Include="D2C\RtuWithChangedAvailabilityDto.cs" />
+    <Compile Include="Db\BaseRef.cs" />
     <Compile Include="Db\ClientStation.cs" />
     <Compile Include="Db\RtuStation.cs" />
     <Compile Include="Db\User.cs" />
