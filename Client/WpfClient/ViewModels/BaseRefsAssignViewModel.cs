@@ -163,16 +163,16 @@ namespace Iit.Fibertest.Client
         {
             var result = new List<BaseRefDto>();
             if (IsFilenameChanged(PreciseBaseFilename, _trace.PreciseId))
-                result.Add(GetBaseRef(PreciseBaseFilename, BaseRefType.Precise));
+                result.Add(GetBaseRefDto(PreciseBaseFilename, BaseRefType.Precise));
             if (IsFilenameChanged(FastBaseFilename, _trace.FastId))
-                result.Add(GetBaseRef(FastBaseFilename, BaseRefType.Fast));
+                result.Add(GetBaseRefDto(FastBaseFilename, BaseRefType.Fast));
             if (IsFilenameChanged(AdditionalBaseFilename, _trace.AdditionalId))
-                result.Add(GetBaseRef(AdditionalBaseFilename, BaseRefType.Additional));
+                result.Add(GetBaseRefDto(AdditionalBaseFilename, BaseRefType.Additional));
             return result;
         }
 
 
-        private BaseRefDto GetBaseRef(string filename, BaseRefType type)
+        private BaseRefDto GetBaseRefDto(string filename, BaseRefType type)
         {
             var guid = filename != "" ? Guid.NewGuid() : Guid.Empty;
             var content = filename != "" ? File.ReadAllBytes(filename) : null;

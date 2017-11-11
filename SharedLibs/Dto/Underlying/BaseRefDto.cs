@@ -14,5 +14,8 @@ namespace Iit.Fibertest.Dto
 
         [DataMember]
         public byte[] SorBytes { get; set; }
+
+        [DataMember]
+        public int Duration { get; set; } //sec
     }
 }
