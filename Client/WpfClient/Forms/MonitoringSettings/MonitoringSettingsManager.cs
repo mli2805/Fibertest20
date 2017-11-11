@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 
@@ -7,10 +8,12 @@ namespace Iit.Fibertest.Client.MonitoringSettings
     public class MonitoringSettingsManager
     {
         private readonly RtuLeaf _rtuLeaf;
+        private readonly ReadModel _readModel;
 
-        public MonitoringSettingsManager(RtuLeaf rtuLeaf)
+        public MonitoringSettingsManager(RtuLeaf rtuLeaf, ReadModel readModel)
         {
             _rtuLeaf = rtuLeaf;
+            _readModel = readModel;
         }
 
         public MonitoringSettingsModel PrepareMonitoringSettingsModel()
@@ -63,18 +66,22 @@ namespace Iit.Fibertest.Client.MonitoringSettings
         private List<MonitoringPortModel> PrepareMonitoringPortModels(IPortOwner portOwner)
         {
             var result = new List<MonitoringPortModel>();
-//            var i = 1;
-//            foreach (var leaf in portOwner.ChildrenImpresario.Children)
             for (int i = 0; i < portOwner.OwnPortCount; i++)
             {
 
                 var traceLeaf = portOwner.ChildrenImpresario.Children[i] as TraceLeaf;
                 if (traceLeaf != null)
                 {
+                    var trace = _readModel.Traces.FirstOrDefault(t => t.Id == traceLeaf.Id);
+                    if (trace == null)
+                        return null; // it couldn't be!
                     result.Add(new MonitoringPortModel()
                     {
                         PortNumber = i+1,
                         TraceTitle = traceLeaf.Title,
+                        PreciseBaseSpan = trace.PreciseDuration,
+                        FastBaseSpan = trace.FastDuration,
+                        AdditionalBaseSpan = trace.AdditionalDuration,
                     });
                 }
                 else
@@ -86,7 +93,6 @@ namespace Iit.Fibertest.Client.MonitoringSettings
                     });
 
                 }
-//                i++;
             }
             return result;
         }

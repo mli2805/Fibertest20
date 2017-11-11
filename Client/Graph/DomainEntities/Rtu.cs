@@ -32,6 +32,9 @@ namespace Iit.Fibertest.Graph
         public Dictionary<int, OtauDto> Children { get; set; }
 
         public MonitoringState MonitoringState { get; set; }
+        public Frequency PreciseMeas { get; set; } = Frequency.EveryHour;
+        public Frequency PreciseSave { get; set; } = Frequency.EveryHour;
+        public Frequency FastSave { get; set; } = Frequency.EveryHour;
 
     }
 }

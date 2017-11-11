@@ -16,7 +16,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             _logFile = logFile;
         }
 
-        public async Task<BaseRefAssignedDto> AddOrUpdateBaseRef(AssignBaseRefDto dto)
+        public async Task<BaseRefAssignedDto> AddUpdateOrRemoveBaseRef(AssignBaseRefDto dto)
         {
             var result = new BaseRefAssignedDto();
             try
@@ -25,24 +25,35 @@ namespace Iit.Fibertest.DatabaseLibrary
 
                 foreach (var baseRef in dto.BaseRefs)
                 {
-                    var newBaseRef = new BaseRef()
+                    if (baseRef.Id == Guid.Empty)
                     {
-                        BaseRefId = baseRef.Id,
-                        TraceId = dto.TraceId,
-                        BaseRefType = baseRef.BaseRefType,
-                        SaveTimestamp = DateTime.Now,
-                        SorBytes = baseRef.SorBytes,
-                    };
+                        var oldBaseRef =
+                            dbContext.BaseRefs.FirstOrDefault(
+                                b => b.TraceId == dto.TraceId && b.BaseRefType == baseRef.BaseRefType);
+                        if (oldBaseRef != null)
+                            dbContext.BaseRefs.Remove(oldBaseRef);
+                    }
+                    else
+                    {
+                        var newBaseRef = new BaseRef()
+                        {
+                            BaseRefId = baseRef.Id,
+                            TraceId = dto.TraceId,
+                            BaseRefType = baseRef.BaseRefType,
+                            SaveTimestamp = DateTime.Now,
+                            SorBytes = baseRef.SorBytes,
+                        };
 
-                    var existingBaseRef =
-                        dbContext.BaseRefs.FirstOrDefault(b => b.TraceId == dto.TraceId &&
-                                                               b.BaseRefType == baseRef.BaseRefType);
+                        var existingBaseRef =
+                            dbContext.BaseRefs.FirstOrDefault(b => b.TraceId == dto.TraceId &&
+                                                                   b.BaseRefType == baseRef.BaseRefType);
 
-                    if (existingBaseRef != null)
-                        dbContext.BaseRefs.Remove(existingBaseRef);
-                    dbContext.BaseRefs.Add(newBaseRef);
-                    await dbContext.SaveChangesAsync();
+                        if (existingBaseRef != null)
+                            dbContext.BaseRefs.Remove(existingBaseRef);
+                        dbContext.BaseRefs.Add(newBaseRef);
+                    }
                 }
+                await dbContext.SaveChangesAsync();
             }
             catch (Exception e)
             {

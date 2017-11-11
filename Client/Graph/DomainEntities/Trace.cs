@@ -16,8 +16,11 @@ namespace Iit.Fibertest.Graph
         public List<Guid> Equipments { get; set; } = new List<Guid>();
 
         public Guid PreciseId { get; set; } = Guid.Empty;
+        public TimeSpan PreciseDuration { get; set; }
         public Guid FastId { get; set; } = Guid.Empty;
+        public TimeSpan FastDuration { get; set; }
         public Guid AdditionalId { get; set; } = Guid.Empty;
+        public TimeSpan AdditionalDuration { get; set; }
         public string Comment { get; set; }
 
         public bool HasBase => PreciseId != Guid.Empty || FastId != Guid.Empty || AdditionalId != Guid.Empty;

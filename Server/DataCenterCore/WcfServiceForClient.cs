@@ -127,7 +127,7 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefDto dto)
         {
             _logFile.AppendLine($"Client {dto.ClientId.First6()} sent base ref for trace {dto.TraceId.First6()}");
-            var result = await _baseRefManager.AddOrUpdateBaseRef(dto);
+            var result = await _baseRefManager.AddUpdateOrRemoveBaseRef(dto);
             if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                 return result;
 

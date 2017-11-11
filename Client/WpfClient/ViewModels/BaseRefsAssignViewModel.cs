@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -163,21 +162,15 @@ namespace Iit.Fibertest.Client
         {
             var result = new List<BaseRefDto>();
             if (IsFilenameChanged(PreciseBaseFilename, _trace.PreciseId))
-                result.Add(GetBaseRefDto(PreciseBaseFilename, BaseRefType.Precise));
+                result.Add(SorExt.GetBaseRefDto(PreciseBaseFilename, BaseRefType.Precise));
             if (IsFilenameChanged(FastBaseFilename, _trace.FastId))
-                result.Add(GetBaseRefDto(FastBaseFilename, BaseRefType.Fast));
+                result.Add(SorExt.GetBaseRefDto(FastBaseFilename, BaseRefType.Fast));
             if (IsFilenameChanged(AdditionalBaseFilename, _trace.AdditionalId))
-                result.Add(GetBaseRefDto(AdditionalBaseFilename, BaseRefType.Additional));
+                result.Add(SorExt.GetBaseRefDto(AdditionalBaseFilename, BaseRefType.Additional));
             return result;
         }
 
 
-        private BaseRefDto GetBaseRefDto(string filename, BaseRefType type)
-        {
-            var guid = filename != "" ? Guid.NewGuid() : Guid.Empty;
-            var content = filename != "" ? File.ReadAllBytes(filename) : null;
-            return new BaseRefDto() {Id = guid, BaseRefType = type, SorBytes = content};
-        }
         public void Cancel()
         {
             TryClose();

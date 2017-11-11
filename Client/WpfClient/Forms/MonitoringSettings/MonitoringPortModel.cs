@@ -24,7 +24,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
             }
         }
 
-        public bool IsAnyBaseAssigned => PreciseBaseSpan != TimeSpan.Zero || FastBaseSpan != TimeSpan.Zero;
+        public bool IsReadyForMonitoring => PreciseBaseSpan != TimeSpan.Zero && FastBaseSpan != TimeSpan.Zero;
 
         public string Duration => FastBaseSpan.TotalSeconds + @" / " + PreciseBaseSpan.TotalSeconds + Resources.SID__sec;
     }

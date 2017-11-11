@@ -19,7 +19,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
             set
             {
                 _groupenCheck = value;
-                foreach (var port in Ports.Where(p=>p.IsAnyBaseAssigned))
+                foreach (var port in Ports.Where(p=>p.IsReadyForMonitoring))
                 {
                     port.IsIncluded = _groupenCheck;
                 }

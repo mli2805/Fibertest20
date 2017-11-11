@@ -89,7 +89,7 @@
                                             <DockPanel >
                                                 <Border DockPanel.Dock="Left" BorderBrush="LightGray" BorderThickness="1" Margin="0,3">
                                                     <CheckBox Margin="5,2" IsChecked="{Binding IsIncluded, Mode=TwoWay}" VerticalAlignment="Center"
-                                                          Content="{Binding PortNumber}" Width="40" IsEnabled="{Binding IsAnyBaseAssigned}"/>
+                                                          Content="{Binding PortNumber}" Width="40" IsEnabled="{Binding IsReadyForMonitoring}"/>
                                                 </Border>
                                                 <Border DockPanel.Dock="Right" BorderBrush="LightGray" BorderThickness="1" Margin="0,3">
                                                     <TextBlock Margin="5,1" Width="70" Text="{Binding Duration}"/>

@@ -339,13 +339,22 @@ namespace Iit.Fibertest.Client
             var trace = Traces.Single(t => t.Id == e.TraceId);
             var preciseBaseRef = e.BaseRefs.FirstOrDefault(b => b.BaseRefType == BaseRefType.Precise);
             if (preciseBaseRef != null)
+            {
                 trace.PreciseId = preciseBaseRef.Id;
+                trace.PreciseDuration = preciseBaseRef.Duration;
+            }
             var fastBaseRef = e.BaseRefs.FirstOrDefault(b => b.BaseRefType == BaseRefType.Fast);
             if (fastBaseRef != null)
+            {
                 trace.FastId = fastBaseRef.Id;
+                trace.FastDuration = fastBaseRef.Duration;
+            }
             var additionalBaseRef = e.BaseRefs.FirstOrDefault(b => b.BaseRefType == BaseRefType.Additional);
             if (additionalBaseRef != null)
+            {
                 trace.AdditionalId = additionalBaseRef.Id;
+                trace.AdditionalDuration = additionalBaseRef.Duration;
+            }
         }
         #endregion
     }
