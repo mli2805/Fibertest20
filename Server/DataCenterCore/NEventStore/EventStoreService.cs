@@ -65,7 +65,7 @@ namespace Iit.Fibertest.DataCenterCore
         private static bool IsSuccess(string result)
         {
             // TODO: Make sure this is correct
-            return string.IsNullOrEmpty(result);
+            return result == null;
         }
 
         public string[] GetEvents(int revision)

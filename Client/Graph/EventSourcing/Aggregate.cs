@@ -23,9 +23,10 @@ namespace Iit.Fibertest.Graph
         }
 
         #region Node
-        public void When(AddNode cmd)
+        public string When(AddNode cmd)
         {
             WriteModel.Add(_mapper.Map<NodeAdded>(cmd));
+            return null;
         }
 
         public string When(AddNodeIntoFiber cmd)
@@ -90,9 +91,10 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        public void When(UpdateFiber cmd)
+        public string When(UpdateFiber cmd)
         {
             WriteModel.Add(_mapper.Map<FiberUpdated>(cmd));
+            return null;
         }
         public string When(RemoveFiber cmd)
         {
@@ -134,9 +136,10 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        public void When(AddEquipmentAtGpsLocation cmd)
+        public string When(AddEquipmentAtGpsLocation cmd)
         {
             WriteModel.Add(_mapper.Map<EquipmentAtGpsLocationAdded>(cmd));
+            return null;
         }
 
         public string When(UpdateEquipment cmd)
@@ -146,40 +149,47 @@ namespace Iit.Fibertest.Graph
             WriteModel.Add(_mapper.Map<EquipmentUpdated>(cmd));
             return null;
         }
-        public void When(RemoveEquipment cmd)
+        public string When(RemoveEquipment cmd)
         {
             WriteModel.Add(_mapper.Map<EquipmentRemoved>(cmd));
+            return null;
         }
         #endregion
 
         #region Rtu
-        public void When(AddRtuAtGpsLocation cmd)
+        public string When(AddRtuAtGpsLocation cmd)
         {
             WriteModel.Add(_mapper.Map<RtuAtGpsLocationAdded>(cmd));
+            return null;
         }
 
-        public void When(InitializeRtu cmd)
+        public string When(InitializeRtu cmd)
         {
             var evnt = _mapper.Map<RtuInitialized>(cmd);
             WriteModel.Add(evnt);
+            return null;
         }
 
-        public void When(UpdateRtu cmd)
+        public string When(UpdateRtu cmd)
         {
             WriteModel.Add(_mapper.Map<RtuUpdated>(cmd));
+            return null;
         }
 
-        public void When(RemoveRtu cmd)
+        public string When(RemoveRtu cmd)
         {
             WriteModel.Add(_mapper.Map<RtuRemoved>(cmd));
+            return null;
         }
-        public void When(AttachOtau cmd)
+        public string When(AttachOtau cmd)
         {
             WriteModel.Add(_mapper.Map<OtauAttached>(cmd));
+            return null;
         }
-        public void When(DetachOtau cmd)
+        public string When(DetachOtau cmd)
         {
             WriteModel.Add(_mapper.Map<OtauDetached>(cmd));
+            return null;
         }
         #endregion
 
@@ -201,39 +211,45 @@ namespace Iit.Fibertest.Graph
             //_traces.Add(_mapper2.Map<Trace>(cmd));
         }
 
-        public void When(UpdateTrace cmd)
+        public string When(UpdateTrace cmd)
         {
             WriteModel.Add(_mapper.Map<TraceUpdated>(cmd));
+            return null;
         }
 
-        public void When(CleanTrace cmd)
+        public string When(CleanTrace cmd)
         {
             WriteModel.Add(_mapper.Map<TraceCleaned>(cmd));
+            return null;
         }
 
-        public void When(RemoveTrace cmd)
+        public string When(RemoveTrace cmd)
         {
             WriteModel.Add(_mapper.Map<TraceRemoved>(cmd));
+            return null;
         }
 
-        public void When(AttachTrace cmd)
+        public string When(AttachTrace cmd)
         {
             WriteModel.Add(_mapper.Map<TraceAttached>(cmd));
+            return null;
         }
 
-        public void When(DetachTrace cmd)
+        public string When(DetachTrace cmd)
         {
             WriteModel.Add(_mapper.Map<TraceDetached>(cmd));
+            return null;
         }
 
-        public void When(AssignBaseRef cmd)
+        public string When(AssignBaseRef cmd)
         {
             WriteModel.Add(_mapper.Map<BaseRefAssigned>(cmd));
             var trace = WriteModel.GetTrace(cmd.TraceId);
             if (trace == null)
             {
-                _logFile.AppendLine($@"AssignBaseRef: Trace {cmd.TraceId.First6()} not found");
-                return;
+                var message = $@"AssignBaseRef: Trace {cmd.TraceId.First6()} not found";
+                _logFile.AppendLine(message);
+                return message;
             }
 
             var preciseBaseRef = cmd.BaseRefs.FirstOrDefault(b => b.BaseRefType == BaseRefType.Precise);
@@ -245,6 +261,7 @@ namespace Iit.Fibertest.Graph
             var additionalBaseRef = cmd.BaseRefs.FirstOrDefault(b => b.BaseRefType == BaseRefType.Additional);
             if (additionalBaseRef != null)
                 trace.AdditionalId = additionalBaseRef.Id;
+            return null;
         }
         #endregion
     }

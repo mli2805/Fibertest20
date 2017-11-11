@@ -48,14 +48,19 @@ namespace Iit.Fibertest.DataCenterCore
             var cmd = JsonConvert.DeserializeObject(json, JsonSerializerSettings);
 
             var resultInGraph = await _eventStoreService.SendCommand(cmd);
-            if (!string.IsNullOrEmpty(resultInGraph))
+            if (resultInGraph != null)
                 return resultInGraph;
 
-           // A few commands should be applied to Db
+           // A few commands need postprocessing in Db or RTU
             var removeRtu = cmd as RemoveRtu;
             if (removeRtu != null)
-                await _rtuRegistrationManager.RemoveRtuAsync(removeRtu.Id);
-            return "";
+                return await _rtuRegistrationManager.RemoveRtuAsync(removeRtu.Id);
+
+            // var attachTrace = cmd as AttachTrace;
+            // if trace has base refs they should be sent to RTU
+            // if (attachTrace != null)
+            //    
+            return null;
         }
 
         public async Task<string[]> GetEvents(int revision)

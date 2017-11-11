@@ -87,7 +87,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
         }
 
-        public async Task<int> RemoveRtuAsync(Guid rtuId)
+        public async Task<string> RemoveRtuAsync(Guid rtuId)
         {
             try
             {
@@ -97,18 +97,20 @@ namespace Iit.Fibertest.DatabaseLibrary
                 {
                     dbContext.RtuStations.Remove(rtu);
                     _logFile.AppendLine("RTU removed.");
-                    return await dbContext.SaveChangesAsync();
+                    await dbContext.SaveChangesAsync();
+                    return null;
                 }
                 else
                 {
-                    _logFile.AppendLine($"RTU with id {rtuId.First6()} not found");
-                    return 0;
+                    var message = $"RTU with id {rtuId.First6()} not found";
+                    _logFile.AppendLine(message);
+                    return message;
                 }
             }
             catch (Exception e)
             {
                 _logFile.AppendLine("RegisterRtuAsync: " + e.Message);
-                return -1;
+                return e.Message;
             }
         }
 
