@@ -49,12 +49,8 @@ namespace Iit.Fibertest.Client.MonitoringSettings
                 MessageBox.Show(Resources.SID_There_are_no_ports_for_monitoring_, Resources.SID_Error_);
                 return;
             }
-            var transferResult = await C2DWcfManager.ApplyMonitoringSettingsAsync(dto);
-            // TODO refactor to async result and show message with rtu reply, not fact of transfering command
-            MessageProp = transferResult ? Resources.SID_Settings_were_transferred_successfully_ : Resources.SID_Settings_weren_t_transferred__See_logs_;
-        //    MessageProp = string.Format(Resources.SID_Monitoring_started___0_, ms.IsSuccessful.ToString().ToUpper());
-        //    MessageProp = string.Format(Resources.SID_Monitoring_stopped___0_, ms.IsSuccessful.ToString().ToUpper());
-        //    MessageProp = string.Format(Resources.SID_Monitoring_settings_applied___0_, ms.IsSuccessful.ToString().ToUpper());
+            var resultDto = await C2DWcfManager.ApplyMonitoringSettingsAsync(dto);
+            MessageProp = resultDto.ReturnCode.GetLocalizedString(resultDto.ExceptionMessage);
         }
 
         private ApplyMonitoringSettingsDto ConvertSettingsToDto()

@@ -59,15 +59,14 @@ namespace Iit.Fibertest.WcfConnections
             return await rtuDuplexConnection.AssignBaseRefAsync(backward, dto);
         }
 
-        public async Task<bool> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
+        public async Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
         {
             var backward = new RtuWcfServiceBackward();
             var rtuDuplexConnection = _wcfFactory.CreateDuplexRtuConnection(backward);
             if (rtuDuplexConnection == null)
-                return false;
+                return new MonitoringSettingsAppliedDto() {ReturnCode = ReturnCode.D2RWcfConnectionError};
 
-            var result = await rtuDuplexConnection.ApplyMonitoringSettingsAsync(backward, dto);
-            return result;
+            return await rtuDuplexConnection.ApplyMonitoringSettingsAsync(backward, dto);
         }
 
     }

@@ -65,7 +65,7 @@ namespace Graph.Tests
             throw new NotImplementedException();
         }
 
-        public Task<bool> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto settings)
+        public Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto settings)
         {
             throw new NotImplementedException();
         }

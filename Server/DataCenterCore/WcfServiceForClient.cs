@@ -116,7 +116,7 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
-        public async Task<bool> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
+        public async Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
         {
             _logFile.AppendLine($"Client {dto.ClientId.First6()} sent monitoring settings for rtu {dto.RtuId.First6()}");
             var result = await _clientToRtuTransmitter.ApplyMonitoringSettingsAsync(dto);

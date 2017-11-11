@@ -14,6 +14,7 @@ namespace Iit.Fibertest.Dto
         RtuIsBusy = 1004,
         RtuCantGetAppFolder = 1005,
         RtuBaseRefAssignmentError = 1006,
+        RtuMonitoringSettingsApplyError = 1007,
 
         MeasurementError = 1100,
         MeasurementEndedNormally = 1101,
@@ -32,6 +33,7 @@ namespace Iit.Fibertest.Dto
         DbIsNotInitializedError = 3002,
 
         BaseRefAssignedSuccessfully = 4001,
+        MonitoringSettingsAppliedSuccessfully = 4002,
 
         NoSuchUserOrWrongPassword = 9001,
         ThisUserRegisteredOnAnotherPc = 9002,

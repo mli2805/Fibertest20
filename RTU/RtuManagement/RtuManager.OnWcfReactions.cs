@@ -94,9 +94,9 @@ namespace Iit.Fibertest.RtuManagement
             _otdrManager.InterruptMeasurement();
         }
 
-        public void ChangeSettings(ApplyMonitoringSettingsDto settings)
+        public ReturnCode ChangeSettings(ApplyMonitoringSettingsDto settings)
         {
-
+            return ReturnCode.MonitoringSettingsAppliedSuccessfully;
         }
 
         private void ApplyChangeSettings()

@@ -112,7 +112,7 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
-        public async Task<bool> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
+        public async Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
         {
             try
             {
@@ -122,12 +122,12 @@ namespace Iit.Fibertest.DataCenterCore
                         .ApplyMonitoringSettingsAsync(dto);
 
                 _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
-                return false;
+                return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.DbError };
             }
             catch (Exception e)
             {
                 _logFile.AppendLine("ApplyMonitoringSettingsAsync:" + e.Message);
-                return false;
+                return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.DbError, ExceptionMessage = e.Message };
             }
         }
     }

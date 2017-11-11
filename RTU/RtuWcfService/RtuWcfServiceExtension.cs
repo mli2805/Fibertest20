@@ -29,10 +29,10 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
             rtuWcfService.BeginStopMonitoring(dto);
             return src.Task;
         }
-        public static Task<bool> ApplyMonitoringSettingsAsync(
+        public static Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(
             this IRtuWcfService rtuWcfService, RtuWcfServiceBackward backwardService, ApplyMonitoringSettingsDto dto)
         {
-            var src = new TaskCompletionSource<bool>();
+            var src = new TaskCompletionSource<MonitoringSettingsAppliedDto>();
             backwardService.HandlerForApplyMonitoringSettings.AddHandler(src);
             rtuWcfService.BeginApplyMonitoringSettings(dto);
             return src.Task;

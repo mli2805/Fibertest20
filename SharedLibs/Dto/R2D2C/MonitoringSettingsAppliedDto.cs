@@ -7,9 +7,9 @@ namespace Iit.Fibertest.Dto
     public class MonitoringSettingsAppliedDto
     {
         [DataMember]
-        public Guid RtuId { get; set; }
+        public ReturnCode ReturnCode { get; set; }
 
         [DataMember]
-        public bool IsSuccessful { get; set; }
+        public string ExceptionMessage { get; set; }
     }
 }
