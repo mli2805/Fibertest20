@@ -20,6 +20,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
         {
             var model = new MonitoringSettingsModel()
             {
+                RtuId = _rtuLeaf.Id,
                 IsMonitoringOn = _rtuLeaf.MonitoringState == MonitoringState.On,
                 Charons = PrepareMonitoringCharonModels(),
             };

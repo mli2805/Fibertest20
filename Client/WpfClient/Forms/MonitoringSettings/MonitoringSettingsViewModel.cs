@@ -61,7 +61,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
         {
             return new ApplyMonitoringSettingsDto
             {
-                RtuId = Guid.Empty,
+                RtuId = Model.RtuId,
                 IsMonitoringOn = Model.IsMonitoringOn,
                 Timespans = ConvertFrequenciesToDto(),
                 Ports = ConvertPorts()

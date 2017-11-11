@@ -26,32 +26,9 @@ namespace Iit.Fibertest.DatabaseLibrary
                 foreach (var baseRef in dto.BaseRefs)
                 {
                     if (baseRef.Id == Guid.Empty)
-                    {
-                        var oldBaseRef =
-                            dbContext.BaseRefs.FirstOrDefault(
-                                b => b.TraceId == dto.TraceId && b.BaseRefType == baseRef.BaseRefType);
-                        if (oldBaseRef != null)
-                            dbContext.BaseRefs.Remove(oldBaseRef);
-                    }
+                        RemoveBaseRef(dbContext, dto.TraceId, baseRef);
                     else
-                    {
-                        var newBaseRef = new BaseRef()
-                        {
-                            BaseRefId = baseRef.Id,
-                            TraceId = dto.TraceId,
-                            BaseRefType = baseRef.BaseRefType,
-                            SaveTimestamp = DateTime.Now,
-                            SorBytes = baseRef.SorBytes,
-                        };
-
-                        var existingBaseRef =
-                            dbContext.BaseRefs.FirstOrDefault(b => b.TraceId == dto.TraceId &&
-                                                                   b.BaseRefType == baseRef.BaseRefType);
-
-                        if (existingBaseRef != null)
-                            dbContext.BaseRefs.Remove(existingBaseRef);
-                        dbContext.BaseRefs.Add(newBaseRef);
-                    }
+                        AddOrUpdateBaseRef(dto, dbContext, baseRef);
                 }
                 await dbContext.SaveChangesAsync();
             }
@@ -65,6 +42,46 @@ namespace Iit.Fibertest.DatabaseLibrary
             _logFile.AppendLine("Base ref(s) saved in Db");
             result.ReturnCode = ReturnCode.BaseRefAssignedSuccessfully;
             return result;
+        }
+
+        private static void AddOrUpdateBaseRef(AssignBaseRefDto dto, MySqlContext dbContext, BaseRefDto baseRef)
+        {
+            var newBaseRef = PrepareNewRecordFromDto(dbContext, dto, baseRef);
+
+            var existingBaseRef =
+                dbContext.BaseRefs.FirstOrDefault(b => b.TraceId == dto.TraceId &&
+                                                       b.BaseRefType == baseRef.BaseRefType);
+
+            if (existingBaseRef != null)
+                dbContext.BaseRefs.Remove(existingBaseRef);
+            dbContext.BaseRefs.Add(newBaseRef);
+        }
+
+        private static BaseRef PrepareNewRecordFromDto(MySqlContext dbContext, AssignBaseRefDto dto, BaseRefDto baseRef)
+        {
+            var userId = 0;
+            var clientStation = dbContext.ClientStations.FirstOrDefault(s => s.ClientGuid == dto.ClientId);
+            if (clientStation != null)
+                userId = clientStation.UserId;
+            var newBaseRef = new BaseRef()
+            {
+                BaseRefId = baseRef.Id,
+                TraceId = dto.TraceId,
+                UserId = userId,
+                BaseRefType = baseRef.BaseRefType,
+                SaveTimestamp = DateTime.Now,
+                SorBytes = baseRef.SorBytes,
+            };
+            return newBaseRef;
+        }
+
+        private static void RemoveBaseRef(MySqlContext dbContext, Guid traceId, BaseRefDto baseRef)
+        {
+            var oldBaseRef =
+                dbContext.BaseRefs.FirstOrDefault(
+                    b => b.TraceId == traceId && b.BaseRefType == baseRef.BaseRefType);
+            if (oldBaseRef != null)
+                dbContext.BaseRefs.Remove(oldBaseRef);
         }
     }
 }

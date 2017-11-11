@@ -7,6 +7,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
 {
     public class MonitoringSettingsModel : PropertyChangedBase
     {
+        public Guid RtuId { get; set; }
         public List<MonitoringCharonModel> Charons { get; set; } = new List<MonitoringCharonModel>();
         public MonitoringFrequenciesModel Frequencies { get; set; } = new MonitoringFrequenciesModel();
         public bool IsMonitoringOn { get; set; }
