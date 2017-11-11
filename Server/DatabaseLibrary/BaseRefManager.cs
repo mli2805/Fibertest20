@@ -52,7 +52,7 @@ namespace Iit.Fibertest.DatabaseLibrary
                 return result;
             }
             _logFile.AppendLine("Base ref(s) saved in Db");
-            result.ReturnCode = ReturnCode.Ok;
+            result.ReturnCode = ReturnCode.BaseRefAssignedSuccessfully;
             return result;
         }
     }

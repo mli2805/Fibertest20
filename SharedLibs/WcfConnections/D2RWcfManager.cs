@@ -56,10 +56,7 @@ namespace Iit.Fibertest.WcfConnections
             if (rtuDuplexConnection == null)
                 return new BaseRefAssignedDto() {ReturnCode = ReturnCode.D2RWcfConnectionError};
 
-            // 
-            _logFile.AppendLine("Still on server, duplex channel established");
-            var result = await rtuDuplexConnection.AssignBaseRefAsync(backward, dto);
-            return result;
+            return await rtuDuplexConnection.AssignBaseRefAsync(backward, dto);
         }
 
         public async Task<bool> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)

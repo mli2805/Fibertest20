@@ -19,6 +19,7 @@ namespace Iit.Fibertest.Client
         private readonly ReadModel _readModel;
 
         private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWindowManager _windowManager;
 
         private string _preciseBaseFilename;
         private string _fastBaseFilename;
@@ -38,6 +39,7 @@ namespace Iit.Fibertest.Client
             {
                 if (value == _preciseBaseFilename) return;
                 _preciseBaseFilename = value;
+                IsButtonSaveEnabled = true;
                 NotifyOfPropertyChange();
             }
         }
@@ -49,6 +51,7 @@ namespace Iit.Fibertest.Client
             {
                 if (value == _fastBaseFilename) return;
                 _fastBaseFilename = value;
+                IsButtonSaveEnabled = true;
                 NotifyOfPropertyChange();
             }
         }
@@ -60,18 +63,32 @@ namespace Iit.Fibertest.Client
             {
                 if (value == _additionalBaseFilename) return;
                 _additionalBaseFilename = value;
+                IsButtonSaveEnabled = true;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        private bool _isButtonSaveEnabled;
+        public bool IsButtonSaveEnabled
+        {
+            get { return _isButtonSaveEnabled; }
+            set
+            {
+                if (value == _isButtonSaveEnabled) return;
+                _isButtonSaveEnabled = value;
                 NotifyOfPropertyChange();
             }
         }
 
         private string _initialDirectory;
 
-        public BaseRefsAssignViewModel(IniFile iniFile, ReadModel readModel, IWcfServiceForClient c2DWcfManager)
+        public BaseRefsAssignViewModel(IniFile iniFile, ReadModel readModel, 
+            IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
         {
             _iniFile = iniFile;
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
-
+            _windowManager = windowManager;
         }
 
         public void Initialize(Trace trace)
@@ -82,6 +99,7 @@ namespace Iit.Fibertest.Client
             PreciseBaseFilename = _trace.PreciseId == Guid.Empty ? "" : _savedInDb;
             FastBaseFilename = _trace.FastId == Guid.Empty ? "" : _savedInDb;
             AdditionalBaseFilename = _trace.AdditionalId == Guid.Empty ? "" : _savedInDb;
+                IsButtonSaveEnabled = false;
             RtuTitle = _readModel.Rtus.First(r => r.Id == _trace.RtuId).Title;
 
             _initialDirectory = _iniFile.Read(IniSection.Miscellaneous, IniKey.PathToSor, @"c:\temp\");
@@ -121,13 +139,19 @@ namespace Iit.Fibertest.Client
         public void ClearPathToPrecise() { PreciseBaseFilename = ""; }
         public void ClearPathToFast() { FastBaseFilename = ""; }
         public void ClearPathToAdditional() { AdditionalBaseFilename = ""; }
+
         public async void Save()
         {
             var dto = new AssignBaseRefDto()
                 { RtuId = _trace.RtuId, TraceId = _trace.Id, OtauPortDto = _trace.OtauPort, BaseRefs = GetBaseRefChangesList() };
-            var result = await _c2DWcfManager.AssignBaseRefAsync(dto); // send to rtu
-            if (result.ReturnCode != ReturnCode.Ok)
+            var result = await _c2DWcfManager.AssignBaseRefAsync(dto); // send to Db and RTU
+            if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
+            {
+                var vm = new NotificationViewModel(Resources.SID_Error_,
+                    result.ReturnCode.GetLocalizedString(result.ExceptionMessage));
+                _windowManager.ShowDialog(vm);
                 return;
+            }
 
             var cmd = new AssignBaseRef() { TraceId = _trace.Id, BaseRefs = dto.BaseRefs };
             await _c2DWcfManager.SendCommandAsObj(cmd); // graph

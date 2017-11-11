@@ -8,7 +8,7 @@ namespace Iit.Fibertest.Dto
         Ok = 1,
 
         RtuInitializationError = 1000,
-        OtderInitializedSuccessfully = 1001,
+        OtdrInitializedSuccessfully = 1001,
         OtdrInitializationCannotLoadDll = 1002,
         OtdrInitializationCannotInitializeDll = 1003,
         RtuIsBusy = 1004,
@@ -31,7 +31,7 @@ namespace Iit.Fibertest.Dto
         DbInitializedSuccessfully = 3001,
         DbIsNotInitializedError = 3002,
 
-
+        BaseRefAssignedSuccessfully = 4001,
 
         NoSuchUserOrWrongPassword = 9001,
         ThisUserRegisteredOnAnotherPc = 9002,
@@ -47,6 +47,8 @@ namespace Iit.Fibertest.Dto
             {
                 case ReturnCode.Error:
                     return Resources.SID_Error_;
+
+                    // 1000
                 case ReturnCode.OtdrInitializationCannotLoadDll:
                     return Resources.SID_Cannot_find_dll_file_;
                 case ReturnCode.OtdrInitializationCannotInitializeDll:

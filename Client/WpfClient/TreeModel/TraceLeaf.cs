@@ -182,7 +182,7 @@ namespace Iit.Fibertest.Client
         public void AssignBaseRefsAction(object param)
         {
             var trace = ReadModel.Traces.First(t => t.Id == Id);
-            var vm = new BaseRefsAssignViewModel(_iniFile, ReadModel, C2DWcfManager);
+            var vm = new BaseRefsAssignViewModel(_iniFile, ReadModel, C2DWcfManager, WindowManager);
             vm.Initialize(trace);
             WindowManager.ShowDialog(vm);
         }

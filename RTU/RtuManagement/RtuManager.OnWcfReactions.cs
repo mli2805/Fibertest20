@@ -125,7 +125,7 @@ namespace Iit.Fibertest.RtuManagement
 
             foreach (var baseRef in dto.BaseRefs)
                 RemoveOldSaveNew(baseRef, fullFolderName);
-            return ReturnCode.Ok;
+            return ReturnCode.BaseRefAssignedSuccessfully;
         }
 
         private void RemoveOldSaveNew(BaseRefDto baseRef, string fullFolderName)

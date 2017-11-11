@@ -128,7 +128,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             _logFile.AppendLine($"Client {dto.ClientId.First6()} sent base ref for trace {dto.TraceId.First6()}");
             var result = await _baseRefManager.AddOrUpdateBaseRef(dto);
-            if (result.ReturnCode != ReturnCode.Ok)
+            if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                 return result;
 
             if (dto.OtauPortDto == null) // unattached trace
