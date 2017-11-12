@@ -21,11 +21,17 @@ namespace Iit.Fibertest.Client.MonitoringSettings
             var model = new MonitoringSettingsModel()
             {
                 RtuId = _rtuLeaf.Id,
+                RealOtdrAddress = GetRealOtdrAddress(),
                 IsMonitoringOn = _rtuLeaf.MonitoringState == MonitoringState.On,
                 Charons = PrepareMonitoringCharonModels(),
             };
             model.Frequencies.InitializeComboboxes(Frequency.EveryHour, Frequency.EveryHour, Frequency.EveryHour);
             return model;
+        }
+
+        private string GetRealOtdrAddress()
+        {
+            return _readModel.Rtus.FirstOrDefault(r => r.Id == _rtuLeaf.Id)?.OtdrNetAddress.Ip4Address;
         }
 
         private List<MonitoringCharonModel> PrepareMonitoringCharonModels()

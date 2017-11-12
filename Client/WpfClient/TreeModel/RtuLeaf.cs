@@ -233,9 +233,7 @@ namespace Iit.Fibertest.Client
 
         private void MonitoringSettingsAction(object param)
         {
-
-            var model = new MonitoringSettingsManager(this, ReadModel).PrepareMonitoringSettingsModel();
-            var vm = new MonitoringSettingsViewModel(model);
+            var vm = new MonitoringSettingsViewModel(this, ReadModel, C2DWcfManager);
             WindowManager.ShowDialog(vm);
         }
 

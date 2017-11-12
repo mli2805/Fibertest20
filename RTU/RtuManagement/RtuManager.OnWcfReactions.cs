@@ -94,7 +94,7 @@ namespace Iit.Fibertest.RtuManagement
             _otdrManager.InterruptMeasurement();
         }
 
-        public ReturnCode ChangeSettings(ApplyMonitoringSettingsDto settings)
+        public void ChangeSettings(ApplyMonitoringSettingsDto settings, Action callback)
         {
             if (IsMonitoringOn)
             {
@@ -105,8 +105,7 @@ namespace Iit.Fibertest.RtuManagement
             }
 
             ApplyChangeSettings(settings);
-
-            return ReturnCode.MonitoringSettingsAppliedSuccessfully;
+            callback?.Invoke();
         }
 
         private void ApplyChangeSettings(ApplyMonitoringSettingsDto dto)

@@ -59,7 +59,7 @@
             <GroupBox Header="{x:Static stringResources:Resources.SID_Monitoring_mode}" DockPanel.Dock="Top">
                 <StackPanel>
                     <RadioButton Content="{x:Static stringResources:Resources.SID_Automatic}" IsChecked="{Binding Model.IsMonitoringOn}" Margin="5"/>
-                    <RadioButton Content="{x:Static stringResources:Resources.SID_Manual}" Margin="5"/>
+                    <RadioButton Content="{x:Static stringResources:Resources.SID_Manual}" IsChecked="{Binding Model.IsMonitoringOff, Mode=OneWay}" Margin="5"/>
                 </StackPanel>
             </GroupBox>
             <StackPanel></StackPanel>

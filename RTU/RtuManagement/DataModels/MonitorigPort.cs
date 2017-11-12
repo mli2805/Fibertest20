@@ -58,7 +58,7 @@ namespace Iit.Fibertest.RtuManagement
             return $"{NetAddress.Ip4Address}t{NetAddress.Port}p{OpticalPort}";
         }
 
-        public string ToStringA()
+        private string ToStringA()
         {
             return IsPortOnMainCharon
                 ? $"{OpticalPort}"

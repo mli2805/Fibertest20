@@ -112,22 +112,29 @@ namespace Iit.Fibertest.RtuManagement
 
         public void BeginApplyMonitoringSettings(ApplyMonitoringSettingsDto dto)
         {
+            _serviceLog.AppendLine("User sent monitoring settings");
             var callbackChannel = OperationContext.Current.GetCallbackChannel<IRtuWcfServiceBackward>();
+
             ThreadPool.QueueUserWorkItem(_ =>
             {
-                var result = new MonitoringSettingsAppliedDto();
+                var result = new MonitoringSettingsAppliedDto() {ReturnCode = ReturnCode.MonitoringSettingsAppliedSuccessfully};
                 try
                 {
-                    result.ReturnCode = ShouldApplySettings() ? _rtuManager.ChangeSettings(dto) : ReturnCode.RtuIsBusy;
-                    _serviceLog.AppendLine("Monitoring settings applied");
+                    if (ShouldApplySettings())
+                        _rtuManager.ChangeSettings(dto, () => callbackChannel.EndApplyMonitoringSettings(result));
+                    else
+                    {
+                        result.ReturnCode = ReturnCode.RtuIsBusy;
+                        callbackChannel.EndApplyMonitoringSettings(result);
+                    }
                 }
                 catch (Exception e)
                 {
                     _serviceLog.AppendLine("Thread pool: " + e);
                     result.ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError;
                     result.ExceptionMessage = e.Message;
+                    callbackChannel.EndApplyMonitoringSettings(result);
                 }
-                callbackChannel.EndApplyMonitoringSettings(result);
             });
         }
 
