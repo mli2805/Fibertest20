@@ -251,7 +251,9 @@ namespace Iit.Fibertest.Client
 
         public void Apply(RtuUpdated evnt)
         {
-            var rtu = Rtus.First(r => r.Id == evnt.Id);
+            var rtu = Rtus.FirstOrDefault(r => r.Id == evnt.Id);
+            if (rtu == null)
+                return;
             rtu.Title = evnt.Title;
             rtu.Node.Title = evnt.Title;
         }

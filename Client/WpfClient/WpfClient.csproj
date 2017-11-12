@@ -311,7 +311,6 @@
     <Compile Include="ViewModels\Shell\ShellViewModelApplyEquipment.cs" />
     <Compile Include="ViewModels\Shell\ShellViewModelApplyFiber.cs" />
     <Compile Include="ViewModels\Shell\ShellViewModelApplyNode.cs" />
-    <Compile Include="ViewModels\Shell\ShellViewModelApplyRtu.cs" />
     <Compile Include="ViewModels\Shell\ShellViewModelApplyTrace.cs" />
     <Compile Include="ViewModels\TraceInfoViewModel.cs" />
     <Compile Include="ViewModels\TraceChoiceViewModel.cs" />

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
@@ -275,20 +276,19 @@ namespace Iit.Fibertest.Client
             await C2DWcfManager.SendCommandAsObj(cmd);
         }
 
-        public async Task ComplyWithRequest(RequestUpdateRtu request)
+        public void ComplyWithRequest(RequestUpdateRtu request)
         {
-            //            var cmd = PrepareCommand(request);
-            //            if (cmd == null)
-            //                return;
-            var cmd = new UpdateRtu() { Id = request.Id };
-            await C2DWcfManager.SendCommandAsObj(cmd);
+            var rtu = ReadModel.Rtus.First(r => r.NodeId == request.NodeId);
+            var vm = new RtuUpdateViewModel(rtu.Id, ReadModel, C2DWcfManager);
+            _windowManager.ShowDialog(vm);
         }
 
         public async Task ComplyWithRequest(RequestRemoveRtu request)
         {
-            var cmd = PrepareCommand(request);
-            if (cmd == null)
+            var rtu = GraphReadModel.Rtus.FirstOrDefault(r => r.Node.Id == request.NodeId);
+            if (rtu == null)
                 return;
+            var cmd = new RemoveRtu() { Id = rtu.Id };
             await C2DWcfManager.SendCommandAsObj(cmd);
         }
         #endregion

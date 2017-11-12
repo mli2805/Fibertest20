@@ -90,10 +90,9 @@ namespace Iit.Fibertest.Client
         {
             if (IsChanged())
             {
-                UpdateRtu cmd = new UpdateRtu();
                 IMapper mapper =
                     new MapperConfiguration(cfg => cfg.AddProfile<MappingViewModelToCommand>()).CreateMapper();
-                cmd = mapper.Map<UpdateRtu>(this);
+                UpdateRtu cmd = mapper.Map<UpdateRtu>(this);
                 cmd.Id = _originalRtu.Id;
                 _c2DWcfManager.SendCommandAsObj(cmd);
             }

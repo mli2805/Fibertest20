@@ -3,7 +3,6 @@ using System.Linq;
 using System.Windows.Media;
 using Autofac;
 using Caliburn.Micro;
-using Iit.Fibertest.Client.MonitoringSettings;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
@@ -119,7 +118,7 @@ namespace Iit.Fibertest.Client
         }
         protected override List<MenuItemVm> GetMenuItems()
         {
-            return new RtuLeafContextMenuProvider(this, _logFile).GetMenu();
+            return new RtuLeafContextMenuProvider(_logFile).GetMenu();
         }
 
 

@@ -244,7 +244,9 @@ namespace Iit.Fibertest.Client
 
         public void Apply(RtuUpdated e)
         {
-            var rtu = Rtus.First(r => r.Id == e.Id);
+            var rtu = Rtus.FirstOrDefault(r => r.Id == e.Id);
+            if (rtu == null)
+                return;
             rtu.Title = e.Title;
             rtu.Comment = e.Comment;
         }

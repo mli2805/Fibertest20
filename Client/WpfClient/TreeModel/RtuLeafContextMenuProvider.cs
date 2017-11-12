@@ -6,13 +6,11 @@ namespace Iit.Fibertest.Client
 {
     public class RtuLeafContextMenuProvider
     {
-        private readonly RtuLeaf _rtuLeaf;
         private readonly RtuLeafActions _rtuLeafActions;
         private readonly RtuLeafActionsPermissions _rtuLeafActionsPermissions;
 
-        public RtuLeafContextMenuProvider(RtuLeaf rtuLeaf, IMyLog logFile)
+        public RtuLeafContextMenuProvider(IMyLog logFile)
         {
-            _rtuLeaf = rtuLeaf;
             _rtuLeafActions = new RtuLeafActions(logFile);
             _rtuLeafActionsPermissions = new RtuLeafActionsPermissions();
         }
