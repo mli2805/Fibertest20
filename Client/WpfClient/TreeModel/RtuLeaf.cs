@@ -161,7 +161,7 @@ namespace Iit.Fibertest.Client
             menu.Add(new MenuItemVm()
             {
                 Header = Resources.SID_Monitoring_settings,
-                Command = new ContextMenuAction(MonitoringSettingsAction, CanSomeAction),
+                Command = new ContextMenuAction(MonitoringSettingsAction, CanMonitoringSettingsAction),
                 CommandParameter = this
             });
 
@@ -271,14 +271,20 @@ namespace Iit.Fibertest.Client
             return !HasAttachedTraces;
         }
 
+        private bool CanMonitoringSettingsAction(object param)
+        {
+            return IsAvailable;
+        }
         private bool CanStartMonitoring(object param)
         {
-            return MonitoringState == MonitoringState.Off;
+            var rtuLeaf = param as RtuLeaf;
+
+            return IsAvailable && MonitoringState == MonitoringState.Off;
         }
 
         private bool CanStopMonitoring(object param)
         {
-            return MonitoringState == MonitoringState.On;
+            return IsAvailable && MonitoringState == MonitoringState.On;
         }
 
         private void DefineTraceStepByStepAction(object param)
