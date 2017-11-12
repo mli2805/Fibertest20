@@ -10,7 +10,6 @@ namespace Iit.Fibertest.RtuManagement
 {
     public partial class RtuManager
     {
-        private bool _hasNewSettings;
         private MonitoringQueue _monitoringQueue;
         private int _measurementNumber;
         private TimeSpan _preciseMakeTimespan;
@@ -41,11 +40,6 @@ namespace Iit.Fibertest.RtuManagement
 
                 if (!_isMonitoringOn)
                     break;
-                if (_hasNewSettings)
-                {
-                    ApplyChangeSettings();
-                    _hasNewSettings = false;
-                }
             }
 
             _rtuLog.AppendLine("Monitoring stopped.");

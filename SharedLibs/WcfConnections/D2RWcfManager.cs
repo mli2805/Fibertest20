@@ -7,13 +7,11 @@ namespace Iit.Fibertest.WcfConnections
 {
     public class D2RWcfManager
     {
-        private readonly IMyLog _logFile;
         private readonly WcfFactory _wcfFactory;
 
         public D2RWcfManager(DoubleAddress rtuAddress, IniFile iniFile, IMyLog logFile)
         {
-            _logFile = logFile;
-            _wcfFactory = new WcfFactory(rtuAddress, iniFile, _logFile);
+            _wcfFactory = new WcfFactory(rtuAddress, iniFile, logFile);
         }
 
         public async Task<RtuInitializedDto> InitializeAsync(InitializeRtuDto dto)

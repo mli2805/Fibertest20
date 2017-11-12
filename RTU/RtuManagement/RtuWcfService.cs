@@ -150,7 +150,7 @@ namespace Iit.Fibertest.RtuManagement
                 var result = new BaseRefAssignedDto();
                 try
                 {
-                    result.ReturnCode = ShouldAssignBaseRef() ? _rtuManager.SaveBaseRefs(dto) : ReturnCode.RtuIsBusy;
+                    result.ReturnCode = ShouldAssignBaseRef() ? _rtuManager.BaseRefsSaver.SaveBaseRefs(dto) : ReturnCode.RtuIsBusy;
                 }
                 catch (Exception e)
                 {

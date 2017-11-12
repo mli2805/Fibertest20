@@ -23,7 +23,7 @@ namespace Iit.Fibertest.RtuManagement
                 _rtuLog.AppendLine("Interrupting current measurement...");
                 _otdrManager.InterruptMeasurement();
                 Thread.Sleep(TimeSpan.FromSeconds(5)); //for long measurements it could be not enough!!!
-                _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 1);
+                _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 1); // after initialization monitoring should be resumed
             }
 
             LogInitializationStart();
@@ -96,74 +96,31 @@ namespace Iit.Fibertest.RtuManagement
 
         public ReturnCode ChangeSettings(ApplyMonitoringSettingsDto settings)
         {
+            if (IsMonitoringOn)
+            {
+                IsMonitoringOn = false;
+                _rtuLog.AppendLine("Interrupting current measurement...");
+                _otdrManager.InterruptMeasurement();
+                Thread.Sleep(TimeSpan.FromSeconds(5)); //for long measurements it could be not enough!!!
+            }
+
+            ApplyChangeSettings(settings);
+
             return ReturnCode.MonitoringSettingsAppliedSuccessfully;
         }
 
-        private void ApplyChangeSettings()
+        private void ApplyChangeSettings(ApplyMonitoringSettingsDto dto)
         {
             _rtuLog.EmptyLine();
             _rtuLog.AppendLine("Start ApplyChangeSettings");
-            var dto = WcfParameter as ApplyMonitoringSettingsDto;
-            if (dto == null)
-                return;
 
             ApplyNewFrequenciesToIni(dto.Timespans);
             _monitoringQueue.MergeNewPortsIntQueue(dto.Ports);
             _rtuLog.AppendLine($"Queue merged. {_monitoringQueue.Count()} port(s) in queue");
             _monitoringQueue.Save();
-
-            if (!_hasNewSettings &&  // in MANUAL mode so far
-                    dto.IsMonitoringOn)
-                StartMonitoring(null);
         }
 
-        public ReturnCode SaveBaseRefs(AssignBaseRefDto dto)
-        {
-            string fullFolderName;
-            if (!TryBuildPathForBaseRef(dto, out fullFolderName))
-                return ReturnCode.RtuCantGetAppFolder;
-
-            foreach (var baseRef in dto.BaseRefs)
-                RemoveOldSaveNew(baseRef, fullFolderName);
-            return ReturnCode.BaseRefAssignedSuccessfully;
-        }
-
-        private void RemoveOldSaveNew(BaseRefDto baseRef, string fullFolderName)
-        {
-            var fullPath = BuildFullPath(baseRef.BaseRefType, fullFolderName);
-            if (File.Exists(fullPath))
-                File.Delete(fullPath);
-            if (baseRef.SorBytes != null)
-                File.WriteAllBytes(fullPath, baseRef.SorBytes);
-        }
-
-        private string BuildFullPath(BaseRefType baseRefType, string fullFolderName)
-        {
-            var filename = baseRefType.ToBaseFileName();
-            var fullPath = Path.Combine(fullFolderName, filename);
-            _rtuLog.AppendLine($"with name: {fullPath}");
-            return fullPath;
-        }
-
-        private bool TryBuildPathForBaseRef(AssignBaseRefDto dto, out string fullFolderName)
-        {
-            fullFolderName = "";
-            var otdrIp = _rtuIni.Read(IniSection.General, IniKey.OtdrIp, "192.168.88.101");
-            var portFolderName = dto.OtauPortDto.IsPortOnMainCharon
-                ? $@"{otdrIp}t{dto.OtauPortDto.OtauTcpPort}p{dto.OtauPortDto.OpticalPort}\"
-                : $@"{dto.OtauPortDto.OtauIp}t{dto.OtauPortDto.OtauTcpPort}p{dto.OtauPortDto.OpticalPort}\";
-
-            var appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            var appDir = Path.GetDirectoryName(appPath);
-            if (appDir == null)
-                return false;
-            fullFolderName = Path.Combine(appDir, @"..\PortData\", portFolderName);
-            if (!Directory.Exists(fullFolderName))
-                Directory.CreateDirectory(fullFolderName);
-
-            return true;
-        }
-
+       
         private void ApplyNewFrequenciesToIni(MonitoringTimespansDto dto)
         {
             _preciseMakeTimespan = dto.PreciseMeas;

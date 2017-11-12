@@ -106,6 +106,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseRefsSaver.cs" />
     <Compile Include="DataModels\DamagedOtau.cs" />
     <Compile Include="DataModels\MonitorigPort.cs" />
     <Compile Include="DataModels\MonitoringQueue.cs" />

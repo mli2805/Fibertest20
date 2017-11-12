@@ -21,7 +21,7 @@ namespace Iit.Fibertest.RtuManagement
         private OtdrManager _otdrManager;
         private Charon _mainCharon;
 
-        private object WcfParameter { get; set; }
+        public BaseRefsSaver BaseRefsSaver { get; set; }
 
         private readonly object _isMonitoringOnLocker = new object();
         private bool _isMonitoringOn;
@@ -109,6 +109,8 @@ namespace Iit.Fibertest.RtuManagement
             FileVersionInfo info = FileVersionInfo.GetVersionInfo(assembly.Location);
             _version = info.FileVersion;
             _serviceIni.Write(IniSection.General, IniKey.Version, _version);
+
+            BaseRefsSaver = new BaseRefsSaver(_rtuIni, _rtuLog);
         }
 
         public void OnServiceStart()
