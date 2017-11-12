@@ -47,7 +47,8 @@ namespace Graph.Tests
             _sut.FakeWindowManager.RegisterHandler(m => m is NotificationViewModel);
             _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler(model, _rtuLeaf.Id, p0, "", Answer.Yes));
 
-            _rtuLeaf.RtuSettingsAction(null);
+            var actions = new RtuLeafActions(_sut.MyLogFile);
+            actions.InitializeRtu(_rtuLeaf);
             _sut.Poller.Tick();
         }
 
@@ -59,7 +60,8 @@ namespace Graph.Tests
             _sut.FakeWindowManager.RegisterHandler(m => m is NotificationViewModel);
             _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler(model, _rtuLeaf.Id, p0, p1, Answer.Yes));
 
-            _rtuLeaf.RtuSettingsAction(null);
+            var actions = new RtuLeafActions(_sut.MyLogFile);
+            actions.InitializeRtu(_rtuLeaf);
             _sut.Poller.Tick();
         }
 
@@ -82,7 +84,8 @@ namespace Graph.Tests
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler(model, _rtuLeaf.Id, "", "", Answer.Cancel));
 
-            _rtuLeaf.RtuSettingsAction(null);
+            var actions = new RtuLeafActions(_sut.MyLogFile);
+            actions.InitializeRtu(_rtuLeaf);
             _sut.Poller.Tick();
         }
 

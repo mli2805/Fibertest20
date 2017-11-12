@@ -277,9 +277,10 @@ namespace Iit.Fibertest.Client
 
         public async Task ComplyWithRequest(RequestUpdateRtu request)
         {
-            var cmd = PrepareCommand(request);
-            if (cmd == null)
-                return;
+            //            var cmd = PrepareCommand(request);
+            //            if (cmd == null)
+            //                return;
+            var cmd = new UpdateRtu() { Id = request.Id };
             await C2DWcfManager.SendCommandAsObj(cmd);
         }
 

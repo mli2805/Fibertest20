@@ -14,7 +14,7 @@ namespace Iit.Fibertest.Client
 {
     public class RtuLeaf : Leaf, IPortOwner
     {
-        private readonly ILifetimeScope _globalScope;
+        public readonly ILifetimeScope GlobalScope;
         private readonly IMyLog _logFile;
 
         #region Pictograms
@@ -109,7 +109,7 @@ namespace Iit.Fibertest.Client
             PostOffice postOffice, FreePorts view)
             : base(readModel, windowManager, c2DWcfManager, postOffice)
         {
-            _globalScope = globalScope;
+            GlobalScope = globalScope;
             _logFile = logFile;
             ChildrenImpresario = new ChildrenImpresario(view);
 
@@ -119,177 +119,11 @@ namespace Iit.Fibertest.Client
         }
         protected override List<MenuItemVm> GetMenuItems()
         {
-            var menu = new List<MenuItemVm>();
-
-            menu.Add(new MenuItemVm()
-            {
-                Header = Resources.SID_Information,
-                Command = new ContextMenuAction(RtuInformationAction, CanSomeAction),
-                CommandParameter = this
-            });
-
-            menu.Add(new MenuItemVm()
-            {
-                Header = Resources.SID_Show_RTU,
-                Command = new ContextMenuAction(ShowRtuAction, CanSomeAction),
-                CommandParameter = this
-            });
-
-            menu.Add(new MenuItemVm()
-            {
-                Header = Resources.SID_Network_settings,
-                Command = new ContextMenuAction(RtuSettingsAction, CanSomeAction),
-                CommandParameter = this
-            });
-
-            menu.Add(new MenuItemVm()
-            {
-                Header = Resources.SID_State,
-                Command = new ContextMenuAction(RtuStateAction, CanSomeAction),
-                CommandParameter = this
-            });
-
-            menu.Add(new MenuItemVm()
-            {
-                Header = Resources.SID_Landmarks,
-                Command = new ContextMenuAction(RtuLandmarksAction, CanSomeAction),
-                CommandParameter = this
-            });
-
-            menu.Add(null);
-
-            menu.Add(new MenuItemVm()
-            {
-                Header = Resources.SID_Monitoring_settings,
-                Command = new ContextMenuAction(MonitoringSettingsAction, CanMonitoringSettingsAction),
-                CommandParameter = this
-            });
-
-            menu.Add(new MenuItemVm()
-            {
-                Header = Resources.SID_Manual_mode,
-                Command = new ContextMenuAction(ManualModeAction, CanStopMonitoring),
-                CommandParameter = this
-            });
-
-            menu.Add(new MenuItemVm()
-            {
-                Header = Resources.SID_Automatic_mode,
-                Command = new ContextMenuAction(AutomaticModeAction, CanStartMonitoring),
-                CommandParameter = this
-            });
-
-            menu.Add(null);
-
-            menu.Add(new MenuItemVm()
-            {
-                Header = Resources.SID_Remove,
-                Command = new ContextMenuAction(RtuRemoveAction, CanRtuRemoveAction),
-                CommandParameter = this
-            });
-
-            menu.Add(null);
-
-            menu.Add(new MenuItemVm()
-            {
-                Header = Resources.SID_Define_trace_step_by_step,
-                Command = new ContextMenuAction(DefineTraceStepByStepAction, CanSomeAction),
-                CommandParameter = this
-            });
-
-            return menu;
+            return new RtuLeafContextMenuProvider(this, _logFile).GetMenu();
         }
 
-        private void RtuInformationAction(object param)
-        {
-            var vm = new RtuUpdateViewModel(Id, ReadModel);
-            WindowManager.ShowDialog(vm);
-            if (vm.Command != null)
-                C2DWcfManager.SendCommandAsObj(vm.Command);
-        }
 
-        private void ShowRtuAction(object param)
-        {
-            PostOffice.Message = new CenterToRtu() { RtuId = Id };
-        }
 
-        public void RtuSettingsAction(object param)
-        {
-            var localScope = _globalScope.BeginLifetimeScope(ctx => ctx.RegisterInstance(this));
-            var vm = localScope.Resolve<RtuInitializeViewModel>();
-            WindowManager.ShowDialog(vm);
-        }
-
-        private void RtuStateAction(object param)
-        {
-        }
-
-        private void RtuLandmarksAction(object param)
-        {
-            var vm = new LandmarksViewModel(ReadModel, WindowManager);
-            vm.Initialize(Id, true);
-            WindowManager.ShowDialog(vm);
-        }
-
-        private void MonitoringSettingsAction(object param)
-        {
-            var vm = new MonitoringSettingsViewModel(this, ReadModel, C2DWcfManager);
-            WindowManager.ShowDialog(vm);
-        }
-
-        private async void ManualModeAction(object param)
-        {
-            var result = await C2DWcfManager.StopMonitoringAsync(new StopMonitoringDto() {RtuId = Id});
-            _logFile.AppendLine($@"Stop monitoring result - {result}");
-            if (result)
-                MonitoringState = MonitoringState.Off;
-            var vm = new NotificationViewModel(
-                result ? Resources.SID_Information : Resources.SID_Error_, 
-                result ? Resources.SID_RTU_is_turned_into_manual_mode : Resources.SID_Cannot_turn_RTU_into_manual_mode);
-            WindowManager.ShowDialog(vm);
-        }
-
-        private async void AutomaticModeAction(object param)
-        {
-            var result = await C2DWcfManager.StartMonitoringAsync(new StartMonitoringDto() {RtuId = Id});
-            _logFile.AppendLine($@"Start monitoring result - {result}");
-            if (result)
-                MonitoringState = MonitoringState.On;
-            var vm = new NotificationViewModel(
-                result ? Resources.SID_Information : Resources.SID_Error_, 
-                result ? Resources.SID_RTU_is_turned_into_automatic_mode : Resources.SID_Cannot_turn_RTU_into_automatic_mode);
-            WindowManager.ShowDialog(vm);
-        }
-
-        private void RtuRemoveAction(object param)
-        {
-            C2DWcfManager.SendCommandAsObj(new RemoveRtu() { Id = Id });
-        }
-
-        private bool CanRtuRemoveAction(object param)
-        {
-            return !HasAttachedTraces;
-        }
-
-        private bool CanMonitoringSettingsAction(object param)
-        {
-            return IsAvailable;
-        }
-        private bool CanStartMonitoring(object param)
-        {
-            var rtuLeaf = param as RtuLeaf;
-
-            return IsAvailable && MonitoringState == MonitoringState.Off;
-        }
-
-        private bool CanStopMonitoring(object param)
-        {
-            return IsAvailable && MonitoringState == MonitoringState.On;
-        }
-
-        private void DefineTraceStepByStepAction(object param)
-        {
-        }
 
     }
 }

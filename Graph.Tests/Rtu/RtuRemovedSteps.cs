@@ -53,7 +53,7 @@ namespace Graph.Tests
         public void WhenПользовательКликаетНаПервомRtuвДеревеУдалить()
         {
             var menuItemVm = _rtuLeaf.MyContextMenu.FirstOrDefault(i => i?.Header == Resources.SID_Remove);
-            menuItemVm?.Command.Execute(null);
+            menuItemVm?.Command.Execute(_rtuLeaf);
             _sut.Poller.Tick();
         }
 

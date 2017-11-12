@@ -5,13 +5,13 @@ namespace Iit.Fibertest.Client
 {
     public partial class ShellViewModel
     {
-        private UpdateRtu PrepareCommand(RequestUpdateRtu request)
-        {
-            var rtu = ReadModel.Rtus.First(r => r.NodeId == request.NodeId);
-            var vm = new RtuUpdateViewModel(rtu.Id, ReadModel);
-            _windowManager.ShowDialog(vm);
-            return vm.Command;
-        }
+//        private UpdateRtu PrepareCommand(RequestUpdateRtu request)
+//        {
+//            var rtu = ReadModel.Rtus.First(r => r.NodeId == request.NodeId);
+//            var vm = new RtuUpdateViewModel(rtu.Id, ReadModel, C2DWcfManager);
+//            _windowManager.ShowDialog(vm);
+//            return vm.Command;
+//        }
 
         private RemoveRtu PrepareCommand(RequestRemoveRtu request)
         {

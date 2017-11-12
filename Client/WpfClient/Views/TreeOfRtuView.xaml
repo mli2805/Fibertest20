@@ -17,6 +17,7 @@
         <Style x:Key="ContextMenuItemStyle" TargetType="{x:Type MenuItem}">
             <Setter Property="Header" Value="{Binding Header}"/>
             <Setter Property="ItemsSource" Value="{Binding Children}"/>
+            <Setter Property="CommandParameter" Value="{Binding CommandParameter}"/>
             <Setter Property="Command" Value="{Binding Command}" />
             <Style.Triggers>
                 <DataTrigger Binding="{Binding }" Value="{x:Null}">

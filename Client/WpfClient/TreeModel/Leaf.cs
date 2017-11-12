@@ -8,9 +8,9 @@ namespace Iit.Fibertest.Client
 {
     public class Leaf : PropertyChangedBase
     {
-        protected readonly ReadModel ReadModel;
-        protected readonly IWindowManager WindowManager;
-        protected readonly IWcfServiceForClient C2DWcfManager;
+        public readonly ReadModel ReadModel;
+        public readonly IWindowManager WindowManager;
+        public readonly IWcfServiceForClient C2DWcfManager;
         public Guid Id { get; set; }
 
         private string _title;

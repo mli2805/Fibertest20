@@ -19,8 +19,10 @@ namespace Graph.Tests
     {
         public ReadModel ReadModel { get; }
         public ILogger LoggerForTests { get; set; }
+        public IMyLog MyLogFile { get; set; }
         public ClientPoller Poller { get; }
         public FakeWindowManager FakeWindowManager { get; }
+        public WcfServiceForClient WcfServiceForClient { get; }
         public ShellViewModel ShellVm { get; }
         public int CurrentEventNumber => Poller.CurrentEventNumber;
         public const string Path = @"..\..\Sut\base.sor";
@@ -54,7 +56,8 @@ namespace Graph.Tests
 
             Poller = container.Resolve<ClientPoller>();
             FakeWindowManager = (FakeWindowManager)container.Resolve<IWindowManager>();
-
+            MyLogFile = container.Resolve<IMyLog>();
+            WcfServiceForClient = (WcfServiceForClient) container.Resolve<IWcfServiceForClient>();
             ShellVm = (ShellViewModel)container.Resolve<IShell>();
             ReadModel = ShellVm.ReadModel;
             var ev = container.Resolve<EventStoreService>();

@@ -31,7 +31,7 @@ namespace Graph.Tests
 
             var rtuLeaf = (RtuLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.First(r => r.Id == _saidRtuId);
             var menuItem = rtuLeaf.MyContextMenu.First(i => i.Header == Resources.SID_Information);
-            menuItem.Command.Execute(null);
+            menuItem.Command.Execute(rtuLeaf);
             _sut.Poller.Tick();
         }
 

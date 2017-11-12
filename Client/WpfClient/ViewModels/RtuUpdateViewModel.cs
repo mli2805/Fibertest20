@@ -6,6 +6,7 @@ using Caliburn.Micro;
 using GMap.NET;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
 {
@@ -14,6 +15,7 @@ namespace Iit.Fibertest.Client
         public readonly Guid RtuId;
         private Rtu _originalRtu;
         private readonly ReadModel _readModel;
+        private readonly IWcfServiceForClient _c2DWcfManager;
 
         private string _title;
         public string Title
@@ -58,12 +60,11 @@ namespace Iit.Fibertest.Client
         }
         public GpsInputViewModel GpsInputViewModel { get; set; }
 
-        public UpdateRtu Command { get; set; }
-
-        public RtuUpdateViewModel(Guid rtuId, ReadModel readModel)
+        public RtuUpdateViewModel(Guid rtuId, ReadModel readModel, IWcfServiceForClient c2DWcfManager)
         {
             RtuId = rtuId;
             _readModel = readModel;
+            _c2DWcfManager = c2DWcfManager;
 
             Initilize();
         }
@@ -89,10 +90,12 @@ namespace Iit.Fibertest.Client
         {
             if (IsChanged())
             {
+                UpdateRtu cmd = new UpdateRtu();
                 IMapper mapper =
                     new MapperConfiguration(cfg => cfg.AddProfile<MappingViewModelToCommand>()).CreateMapper();
-                Command = mapper.Map<UpdateRtu>(this);
-                Command.Id = _originalRtu.Id;
+                cmd = mapper.Map<UpdateRtu>(this);
+                cmd.Id = _originalRtu.Id;
+                _c2DWcfManager.SendCommandAsObj(cmd);
             }
             TryClose();
         }

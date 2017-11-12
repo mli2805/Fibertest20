@@ -67,7 +67,7 @@ namespace Graph.Tests
         [Given(@"Пользователь открыл окно нового RTU и ввел название существующего (.*)")]
         public void GivenПользовательОткрылОкноНовогоRtuиВвелНазваниеСуществующего(string title)
         {
-            _rtuUpdateViewModel = new RtuUpdateViewModel(_saidRtuId, _sut.ReadModel);
+            _rtuUpdateViewModel = new RtuUpdateViewModel(_saidRtuId, _sut.ReadModel, _sut.WcfServiceForClient);
             _rtuUpdateViewModel.Title = title;
         }
 
@@ -110,7 +110,7 @@ namespace Graph.Tests
         [When(@"Пользователь открыл окно редактирования нового RTU")]
         public void WhenПользовательОткрылОкноРедактированияНовогоRtu()
         {
-            _rtuUpdateViewModel = new RtuUpdateViewModel(_saidRtuId, _sut.ReadModel);
+            _rtuUpdateViewModel = new RtuUpdateViewModel(_saidRtuId, _sut.ReadModel, _sut.WcfServiceForClient);
         }
 
         [Then(@"Кнопка Сохранить пока заблокирована")]

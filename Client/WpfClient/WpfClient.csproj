@@ -179,6 +179,9 @@
     </Compile>
     <Compile Include="Forms\MonitoringSettings\MonitoringSettingsViewModel.cs" />
     <Compile Include="Logic\WaitCursor.cs" />
+    <Compile Include="TreeModel\RtuLeafActions.cs" />
+    <Compile Include="TreeModel\RtuLeafActionsPermissions.cs" />
+    <Compile Include="TreeModel\RtuLeafContextMenuProvider.cs" />
     <Compile Include="ViewModels\Administrative\PasswordHelper.cs" />
     <Compile Include="ViewModels\Administrative\UserMappings.cs" />
     <Compile Include="ReadModel\VerboseTasks.cs" />

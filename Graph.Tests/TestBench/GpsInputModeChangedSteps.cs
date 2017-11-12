@@ -25,7 +25,7 @@ namespace Graph.Tests
         [When(@"Пользователь открывает окно для редактирования")]
         public void WhenПользовательОткрываетОкноДляРедактирования()
         {
-            _rtuUpdateViewModel = new RtuUpdateViewModel(_rtuId, _sut.ReadModel);
+            _rtuUpdateViewModel = new RtuUpdateViewModel(_rtuId, _sut.ReadModel, _sut.WcfServiceForClient);
         }
 
         [Then(@"Координаты должны быть ""(.*)"" ""(.*)""  ""(.*)"" ""(.*)""")]
