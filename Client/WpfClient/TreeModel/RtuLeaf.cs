@@ -118,7 +118,7 @@ namespace Iit.Fibertest.Client
         }
         protected override List<MenuItemVm> GetMenuItems()
         {
-            return new RtuLeafContextMenuProvider(_logFile).GetMenu();
+            return new RtuLeafContextMenuProvider(_logFile).GetMenu(this);
         }
 
 

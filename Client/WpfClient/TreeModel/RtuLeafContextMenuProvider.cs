@@ -15,42 +15,42 @@ namespace Iit.Fibertest.Client
             _rtuLeafActionsPermissions = new RtuLeafActionsPermissions();
         }
 
-        public List<MenuItemVm> GetMenu()
+        public List<MenuItemVm> GetMenu(RtuLeaf rtuLeaf)
         {
             var menu = new List<MenuItemVm>();
             menu.Add(new MenuItemVm()
             {
                 Header = Resources.SID_Information,
                 Command = new ContextMenuAction(_rtuLeafActions.UpdateRtu, _rtuLeafActionsPermissions.CanUpdateRtu),
-                CommandParameter = this
+                CommandParameter = rtuLeaf
             });
 
             menu.Add(new MenuItemVm()
             {
                 Header = Resources.SID_Show_RTU,
                 Command = new ContextMenuAction(_rtuLeafActions.ShowRtu, _rtuLeafActionsPermissions.CanShowRtu),
-                CommandParameter = this
+                CommandParameter = rtuLeaf
             });
 
             menu.Add(new MenuItemVm()
             {
                 Header = Resources.SID_Network_settings,
                 Command = new ContextMenuAction(_rtuLeafActions.InitializeRtu, _rtuLeafActionsPermissions.CanInitializeRtu),
-                CommandParameter = this
+                CommandParameter = rtuLeaf
             });
 
             menu.Add(new MenuItemVm()
             {
                 Header = Resources.SID_State,
                 Command = new ContextMenuAction(_rtuLeafActions.ShowRtuState, _rtuLeafActionsPermissions.CanShowRtuState),
-                CommandParameter = this
+                CommandParameter = rtuLeaf
             });
 
             menu.Add(new MenuItemVm()
             {
                 Header = Resources.SID_Landmarks,
                 Command = new ContextMenuAction(_rtuLeafActions.ShowRtuLandmarks, _rtuLeafActionsPermissions.CanShowRtuLandmarks),
-                CommandParameter = this
+                CommandParameter = rtuLeaf
             });
 
             menu.Add(null);
@@ -59,21 +59,21 @@ namespace Iit.Fibertest.Client
             {
                 Header = Resources.SID_Monitoring_settings,
                 Command = new ContextMenuAction(_rtuLeafActions.ShowMonitoringSettings, _rtuLeafActionsPermissions.CanShowMonitoringSettings),
-                CommandParameter = this
+                CommandParameter = rtuLeaf
             });
 
             menu.Add(new MenuItemVm()
             {
                 Header = Resources.SID_Manual_mode,
                 Command = new ContextMenuAction(_rtuLeafActions.StopMonitoring, _rtuLeafActionsPermissions.CanStopMonitoring),
-                CommandParameter = this
+                CommandParameter = rtuLeaf
             });
 
             menu.Add(new MenuItemVm()
             {
                 Header = Resources.SID_Automatic_mode,
                 Command = new ContextMenuAction(_rtuLeafActions.StartMonitoring, _rtuLeafActionsPermissions.CanStartMonitoring),
-                CommandParameter = this
+                CommandParameter = rtuLeaf
             });
 
             menu.Add(null);
@@ -82,7 +82,7 @@ namespace Iit.Fibertest.Client
             {
                 Header = Resources.SID_Remove,
                 Command = new ContextMenuAction(_rtuLeafActions.RemoveRtu, _rtuLeafActionsPermissions.CanRemoveRtu),
-                CommandParameter = this
+                CommandParameter = rtuLeaf
             });
 
             menu.Add(null);
@@ -91,7 +91,7 @@ namespace Iit.Fibertest.Client
             {
                 Header = Resources.SID_Define_trace_step_by_step,
                 Command = new ContextMenuAction(_rtuLeafActions.DefineTraceStepByStep, _rtuLeafActionsPermissions.CanDefineTraceStepByStep),
-                CommandParameter = this
+                CommandParameter = rtuLeaf
             });
             return menu;
         }
