@@ -276,7 +276,7 @@ namespace Iit.Fibertest.Client
             await C2DWcfManager.SendCommandAsObj(cmd);
         }
 
-        public void ComplyWithRequest(RequestUpdateRtu request)
+        public async Task ComplyWithRequest(RequestUpdateRtu request)
         {
             var rtu = ReadModel.Rtus.First(r => r.NodeId == request.NodeId);
             var vm = new RtuUpdateViewModel(rtu.Id, ReadModel, C2DWcfManager);
