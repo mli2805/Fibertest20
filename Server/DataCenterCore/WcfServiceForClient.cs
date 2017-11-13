@@ -120,7 +120,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             _logFile.AppendLine($"Client {dto.ClientId.First6()} sent monitoring settings for rtu {dto.RtuId.First6()}");
             var result = await _clientToRtuTransmitter.ApplyMonitoringSettingsAsync(dto);
-            _logFile.AppendLine($"Apply monitoring settings result is {result}");
+            _logFile.AppendLine($"Apply monitoring settings result is {result.ReturnCode}");
             return result;
         }
 

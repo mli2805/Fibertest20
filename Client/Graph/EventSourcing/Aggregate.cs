@@ -170,6 +170,13 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
+        public string When(ChangeMonitoringSettings cmd)
+        {
+            var evnt = _mapper.Map<MonitoringSettingsChanged>(cmd);
+            WriteModel.Add(evnt);
+            return null;
+        }
+
         public string When(UpdateRtu cmd)
         {
             WriteModel.Add(_mapper.Map<RtuUpdated>(cmd));

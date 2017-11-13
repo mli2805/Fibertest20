@@ -24,6 +24,7 @@ namespace Iit.Fibertest.Graph
         public string Comment { get; set; }
 
         public bool HasBase => PreciseId != Guid.Empty || FastId != Guid.Empty || AdditionalId != Guid.Empty;
+        public bool IsIncludedInMonitoringCycle { get; set; }
 
         public override string ToString()
         {

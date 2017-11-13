@@ -22,11 +22,13 @@ namespace Iit.Fibertest.Graph
             CreateMap<RemoveFiber, FiberRemoved>();
 
             CreateMap<AddRtuAtGpsLocation, RtuAtGpsLocationAdded>();
-            CreateMap<InitializeRtu, RtuInitialized>();
             CreateMap<UpdateRtu, RtuUpdated>();
             CreateMap<RemoveRtu, RtuRemoved>();
             CreateMap<AttachOtau, OtauAttached>();
             CreateMap<DetachOtau, OtauDetached>();
+
+            CreateMap<InitializeRtu, RtuInitialized>();
+            CreateMap<ChangeMonitoringSettings, MonitoringSettingsChanged>();
 
             CreateMap<AttachTrace, TraceAttached>();
             CreateMap<DetachTrace, TraceDetached>();

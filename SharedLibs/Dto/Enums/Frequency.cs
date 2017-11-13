@@ -1,3 +1,5 @@
+using System;
+
 namespace Iit.Fibertest.Dto
 {
     public enum Frequency
@@ -10,5 +12,18 @@ namespace Iit.Fibertest.Dto
         Every2Days   = 48,
         Every7Days   = 168,
         Every30Days  = 720,
+    }
+
+    public static class FrequencyExt
+    {
+        public static TimeSpan GetTimeSpan(this Frequency frequency)
+        {
+            return frequency == Frequency.DoNot ? TimeSpan.Zero : TimeSpan.FromHours((int) frequency);
+        }
+
+        public static Frequency GetFrequency(this TimeSpan timeSpan)
+        {
+            return timeSpan.Hours > 8760 ? Frequency.DoNot : (Frequency) timeSpan.TotalHours;
+        }
     }
 }

@@ -243,6 +243,11 @@ namespace Iit.Fibertest.Graph
                 _mapper.Map(e, rtu);
             else _logFile.AppendLine($@"RtuInitialized: RTU {e.Id.First6()} not found");
         }
+
+        public void Apply(MonitoringSettingsChanged e)
+        {
+            
+        }
         #endregion
 
         #region Trace

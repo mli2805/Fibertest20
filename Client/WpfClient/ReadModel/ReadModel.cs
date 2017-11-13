@@ -274,6 +274,25 @@ namespace Iit.Fibertest.Client
             rtu.FullPortCount -= otau.PortCount;
             Otaus.Remove(otau);
         }
+
+        public void Apply(MonitoringSettingsChanged e)
+        {
+            var rtu = Rtus.FirstOrDefault(r => r.Id == e.RtuId);
+            if (rtu == null)
+            {
+                _logFile.AppendLine(@"MonitoringSettingsChanged: cant find RTU");
+                return;
+            }
+            rtu.PreciseMeas = e.PreciseMeas;
+            rtu.PreciseSave = e.PreciseSave;
+            rtu.FastSave = e.FastSave;
+            rtu.MonitoringState = e.IsMonitoringOn ? MonitoringState.On : MonitoringState.Off;
+
+            foreach (var trace in Traces.Where(t => t.RtuId == e.RtuId))
+            {
+                trace.IsIncludedInMonitoringCycle = e.TracesInMonitoringCycle.Contains(trace.Id);
+            }
+        }
         #endregion
 
         #region Trace

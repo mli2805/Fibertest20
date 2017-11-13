@@ -43,13 +43,37 @@ namespace Iit.Fibertest.Client
             set { }
         }
 
-        public MonitoringState MonitoringState { get; set; }
-        public FiberState TraceState { get; set; }
+        private MonitoringState _monitoringState;
+        public MonitoringState MonitoringState
+        {
+            get { return _monitoringState; }
+            set
+            {
+                if (value == _monitoringState) return;
+                _monitoringState = value;
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(MonitoringPictogram));
+            }
+        }
+
+        private FiberState _traceState;
+        public FiberState TraceState
+        {
+            get { return _traceState; }
+            set
+            {
+                if (value == _traceState) return;
+                _traceState = value;
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(TraceStatePictogram));
+            }
+        }
 
         public ImageSource MonitoringPictogram => MonitoringState.GetPictogram();
         public ImageSource TraceStatePictogram => TraceState.GetPictogram();
 
         private readonly IniFile _iniFile;
+
         public TraceLeaf(IniFile iniFile, ReadModel readModel, 
             IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, 
             PostOffice postOffice, IPortOwner parent) 

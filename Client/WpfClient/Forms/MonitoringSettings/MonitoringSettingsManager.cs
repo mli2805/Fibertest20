@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client.MonitoringSettings
@@ -18,6 +17,9 @@ namespace Iit.Fibertest.Client.MonitoringSettings
 
         public MonitoringSettingsModel PrepareMonitoringSettingsModel()
         {
+            var rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == _rtuLeaf.Id);
+            if (rtu == null)
+                return null;
             var model = new MonitoringSettingsModel()
             {
                 RtuId = _rtuLeaf.Id,
@@ -25,7 +27,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
                 IsMonitoringOn = _rtuLeaf.MonitoringState == MonitoringState.On,
                 Charons = PrepareMonitoringCharonModels(),
             };
-            model.Frequencies.InitializeComboboxes(Frequency.EveryHour, Frequency.EveryHour, Frequency.EveryHour);
+            model.Frequencies.InitializeComboboxes(rtu.FastSave, rtu.PreciseMeas, rtu.PreciseSave);
             return model;
         }
 
@@ -89,6 +91,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
                         PreciseBaseSpan = trace.PreciseDuration,
                         FastBaseSpan = trace.FastDuration,
                         AdditionalBaseSpan = trace.AdditionalDuration,
+                        IsIncluded = trace.IsIncludedInMonitoringCycle,
                     });
                 }
                 else

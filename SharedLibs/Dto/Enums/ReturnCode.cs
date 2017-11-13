@@ -66,12 +66,17 @@ namespace Iit.Fibertest.Dto
                 case ReturnCode.DbError:
                     return "Database error!" + $"\n\n{exceptionMessage}";
 
+                // 4000
+                case ReturnCode.BaseRefAssignedSuccessfully:
+                    return "Base ref(s) are saved successfully.";
+                case ReturnCode.MonitoringSettingsAppliedSuccessfully:
+                    return "Monitoring settings are applied successfully.";
                     // 9000
                 case ReturnCode.NoSuchUserOrWrongPassword:
                     return "No such user or wrong password!";
                 case ReturnCode.ThisUserRegisteredOnAnotherPc:
                     return "User with the same name is registered on another PC";
-                default: return "";
+                default: return "Unknown return code";
             }
         }
     }

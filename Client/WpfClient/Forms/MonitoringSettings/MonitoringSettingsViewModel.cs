@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WcfServiceForClientInterface;
 
@@ -11,6 +12,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
 {
     public class MonitoringSettingsViewModel : Screen
     {
+        private readonly ReadModel _readModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
         public MonitoringSettingsModel Model { get; set; }
 
@@ -30,6 +32,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
 
         public MonitoringSettingsViewModel(RtuLeaf rtuLeaf, ReadModel readModel, IWcfServiceForClient c2DWcfManager)
         {
+            _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
 
             Model = new MonitoringSettingsManager(rtuLeaf, readModel).PrepareMonitoringSettingsModel();
@@ -45,6 +48,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
 
         public async void Apply()
         {
+            MessageProp = "Command is processing...";
             var dto = ConvertSettingsToDto();
             if (dto.IsMonitoringOn && !dto.Ports.Any())
             {
@@ -52,9 +56,49 @@ namespace Iit.Fibertest.Client.MonitoringSettings
                 return;
             }
             var resultDto = await _c2DWcfManager.ApplyMonitoringSettingsAsync(dto);
-            MessageProp = resultDto.ReturnCode.GetLocalizedString(resultDto.ExceptionMessage);
+            if (resultDto.ReturnCode == ReturnCode.MonitoringSettingsAppliedSuccessfully)
+            {
+                var cmd = PrepareCommand(dto);
+                var result = await _c2DWcfManager.SendCommandAsObj(cmd);
+                MessageProp = result == null ? resultDto.ReturnCode.GetLocalizedString() : result;
+            }
+            else
+                MessageProp = resultDto.ReturnCode.GetLocalizedString(resultDto.ExceptionMessage);
         }
 
+        private ChangeMonitoringSettings PrepareCommand(ApplyMonitoringSettingsDto dto)
+        {
+            var cmd = new ChangeMonitoringSettings()
+            {
+                RtuId = dto.RtuId,
+                PreciseMeas = dto.Timespans.PreciseMeas.GetFrequency(),
+                PreciseSave = dto.Timespans.PreciseSave.GetFrequency(),
+                FastSave = dto.Timespans.FastSave.GetFrequency(),
+                TracesInMonitoringCycle = GetTracesIncludedInMonitoringCycle(dto.Ports),
+                IsMonitoringOn = dto.IsMonitoringOn,
+            };
+            return cmd;
+        }
+
+
+        private List<Guid> GetTracesIncludedInMonitoringCycle(List<OtauPortDto> ports)
+        {
+            var result = new List<Guid>();
+            foreach (var otauPortDto in ports)
+            {
+                var trace = _readModel.Traces.FirstOrDefault(t => t.OtauPort != null && IsTheSamePort(t.OtauPort, otauPortDto));
+                if (trace != null)
+                    result.Add(trace.Id);
+            }
+            return result;
+        }
+
+        private bool IsTheSamePort(OtauPortDto otauPortDto1, OtauPortDto otauPortDto2)
+        {
+            return otauPortDto1.OtauIp == otauPortDto2.OtauIp 
+                && otauPortDto1.OtauTcpPort == otauPortDto2.OtauTcpPort
+                   && otauPortDto1.OpticalPort == otauPortDto2.OpticalPort;
+        }
         private ApplyMonitoringSettingsDto ConvertSettingsToDto()
         {
             return new ApplyMonitoringSettingsDto
@@ -90,15 +134,9 @@ namespace Iit.Fibertest.Client.MonitoringSettings
         {
             return new MonitoringTimespansDto
             {
-                PreciseMeas = Model.Frequencies.SelectedPreciseMeasFreq == Frequency.DoNot
-                    ? TimeSpan.Zero
-                    : TimeSpan.FromHours((int)Model.Frequencies.SelectedPreciseMeasFreq),
-                PreciseSave = Model.Frequencies.SelectedPreciseSaveFreq == Frequency.DoNot
-                    ? TimeSpan.Zero
-                    : TimeSpan.FromHours((int)Model.Frequencies.SelectedPreciseSaveFreq),
-                FastSave = Model.Frequencies.SelectedFastSaveFreq == Frequency.DoNot
-                    ? TimeSpan.Zero
-                    : TimeSpan.FromHours((int)Model.Frequencies.SelectedFastSaveFreq),
+                PreciseMeas = Model.Frequencies.SelectedPreciseMeasFreq.GetTimeSpan(),
+                PreciseSave = Model.Frequencies.SelectedPreciseSaveFreq.GetTimeSpan(),
+                FastSave = Model.Frequencies.SelectedFastSaveFreq.GetTimeSpan(),
             };
         }
     }

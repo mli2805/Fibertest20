@@ -118,7 +118,9 @@ namespace Iit.Fibertest.Client
             {
                 case MonitoringState.Off:
                     return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
-                case MonitoringState.OffButReady:
+                case MonitoringState.OffButHasBaseRef:
+                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreyHalfSquare.png"));
+                case MonitoringState.OnButRtuOff:
                     return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreySquare.png"));
                 case MonitoringState.On:
                     return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/BlueSquare.png"));
