@@ -50,7 +50,9 @@ namespace Iit.Fibertest.Dto
                 case ReturnCode.Error:
                     return Resources.SID_Error_;
 
-                    // 1000
+                // 1000
+                case ReturnCode.RtuInitializationError:
+                    return Resources.SID_RTU_initialization_error_ + $"\n\n{exceptionMessage}";
                 case ReturnCode.OtdrInitializationCannotLoadDll:
                     return Resources.SID_Cannot_find_dll_file_;
                 case ReturnCode.OtdrInitializationCannotInitializeDll:
@@ -60,9 +62,13 @@ namespace Iit.Fibertest.Dto
                 case ReturnCode.C2DWcfConnectionError:
                     return Resources.SID_Cannot_establish_connection_with_DataCenter_;
                 case ReturnCode.C2DWcfOperationError:
-                    return Resources.SID_RTU_initialization_error_ + $"\n\n{exceptionMessage}";
+                    return "Error during Client-Datacenter connection" + $"\n\n{exceptionMessage}";
+                case ReturnCode.D2RWcfConnectionError:
+                    return "Cannot establish connection with RTU";
+                case ReturnCode.D2RWcfOperationError:
+                    return "Error during Datacenter-Rtu connection" + $"\n\n{exceptionMessage}";
 
-                    // 3000
+                // 3000
                 case ReturnCode.DbError:
                     return "Database error!" + $"\n\n{exceptionMessage}";
 

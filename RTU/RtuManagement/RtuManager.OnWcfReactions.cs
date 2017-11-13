@@ -104,11 +104,13 @@ namespace Iit.Fibertest.RtuManagement
                 Thread.Sleep(TimeSpan.FromSeconds(5)); //for long measurements it could be not enough!!!
             }
 
-            ApplyChangeSettings(settings);
-            callback?.Invoke();
+            ApplyChangeSettings(settings, callback);
+
+            if (!settings.IsMonitoringOn)
+                callback?.Invoke();
         }
 
-        private void ApplyChangeSettings(ApplyMonitoringSettingsDto dto)
+        private void ApplyChangeSettings(ApplyMonitoringSettingsDto dto, Action callback)
         {
             _rtuLog.EmptyLine();
             _rtuLog.AppendLine("Start ApplyChangeSettings");
@@ -117,6 +119,9 @@ namespace Iit.Fibertest.RtuManagement
             _monitoringQueue.MergeNewPortsIntQueue(dto.Ports);
             _rtuLog.AppendLine($"Queue merged. {_monitoringQueue.Count()} port(s) in queue");
             _monitoringQueue.Save();
+
+            if (dto.IsMonitoringOn)
+                StartMonitoring(callback);
         }
 
        

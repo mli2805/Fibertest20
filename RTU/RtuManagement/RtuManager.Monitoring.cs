@@ -38,7 +38,7 @@ namespace Iit.Fibertest.RtuManagement
 
                 ProcessOnePort(extendedPort);
 
-                if (!_isMonitoringOn)
+                if (!IsMonitoringOn)
                     break;
             }
 
@@ -56,6 +56,7 @@ namespace Iit.Fibertest.RtuManagement
             _rtuLog.AppendLine($"MEAS. {_measurementNumber} port {monitorigPort.ToStringB(_mainCharon)}, Fast");
 
             var moniResult = DoMeasurement(BaseRefType.Fast, monitorigPort);
+
             if (moniResult != null)
             {
                 if (moniResult.GetAggregatedResult() != FiberState.Ok)
@@ -90,6 +91,7 @@ namespace Iit.Fibertest.RtuManagement
             _rtuLog.AppendLine(caption);
 
             var moniResult = DoMeasurement(baseType, monitorigPort, !hasFastPerformed);
+
             if (moniResult != null)
             {
                 var message = "";
@@ -149,16 +151,21 @@ namespace Iit.Fibertest.RtuManagement
         {
             if (shouldChangePort && !ToggleToPort(monitorigPort))
                 return null;
+
             var baseBytes = monitorigPort.GetBaseBytes(baseRefType, _rtuLog);
             if (baseBytes == null)
                 return null;
+
             SendCurrentMonitoringStep(RtuCurrentMonitoringStep.Measure, monitorigPort, baseRefType);
+
             var result = _otdrManager.MeasureWithBase(baseBytes, _mainCharon.GetActiveChildCharon());
+
             if (result == ReturnCode.MeasurementInterrupted)
             {
-                _isMonitoringOn = false;
+                IsMonitoringOn = false;
                 return null;
             }
+
             if (result != ReturnCode.MeasurementEndedNormally)
             {                                 // Error 814 during measurement prepare
                 RunMainCharonRecovery();
@@ -221,6 +228,7 @@ namespace Iit.Fibertest.RtuManagement
             }
 
             SendCurrentMonitoringStep(RtuCurrentMonitoringStep.Toggle, monitorigPort);
+
             var toggleResult = _mainCharon.SetExtendedActivePort(monitorigPort.NetAddress, monitorigPort.OpticalPort);
             switch (toggleResult)
             {

@@ -51,7 +51,7 @@ namespace Iit.Fibertest.RtuManagement
 
             new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendCurrentMonitoringStep(dto);
 
-            IsMonitoringOn = false;
+            IsSenderBusy = false;
         }
 
       

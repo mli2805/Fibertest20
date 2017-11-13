@@ -296,6 +296,24 @@ namespace Iit.Fibertest.Client
 
             rtu.ChildrenImpresario.Children.Add(detachedTraceLeaf);
         }
+
+        public void Apply(BaseRefAssigned e)
+        {
+            TraceLeaf traceLeaf = (TraceLeaf)Tree.GetById(e.TraceId);
+            var trace = _readModel.Traces.FirstOrDefault(t => t.Id == traceLeaf.Id);
+            if (trace == null)
+                return;
+
+            RtuLeaf rtuLeaf = (RtuLeaf)Tree.GetById(trace.RtuId);
+
+            traceLeaf.MonitoringState = !trace.ReadyForMonitoring
+                ? MonitoringState.Off
+                : trace.IsIncludedInMonitoringCycle
+                    ? MonitoringState.OffButHasBaseRef
+                    : rtuLeaf.MonitoringState == MonitoringState.Off
+                        ? MonitoringState.OnButRtuOff
+                        : MonitoringState.On;
+        }
         #endregion
     }
 }
