@@ -19,6 +19,7 @@ namespace Iit.Fibertest.Client
 
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly IWindowManager _windowManager;
+        private readonly SorExt _sorExt;
 
         private string _preciseBaseFilename;
         private string _fastBaseFilename;
@@ -82,12 +83,13 @@ namespace Iit.Fibertest.Client
         private string _initialDirectory;
 
         public BaseRefsAssignViewModel(IniFile iniFile, ReadModel readModel, 
-            IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
+            IWcfServiceForClient c2DWcfManager, IWindowManager windowManager, SorExt sorExt)
         {
             _iniFile = iniFile;
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
+            _sorExt = sorExt;
         }
 
         public void Initialize(Trace trace)
@@ -162,11 +164,11 @@ namespace Iit.Fibertest.Client
         {
             var result = new List<BaseRefDto>();
             if (IsFilenameChanged(PreciseBaseFilename, _trace.PreciseId))
-                result.Add(SorExt.GetBaseRefDto(PreciseBaseFilename, BaseRefType.Precise));
+                result.Add(_sorExt.GetBaseRefDto(PreciseBaseFilename, BaseRefType.Precise));
             if (IsFilenameChanged(FastBaseFilename, _trace.FastId))
-                result.Add(SorExt.GetBaseRefDto(FastBaseFilename, BaseRefType.Fast));
+                result.Add(_sorExt.GetBaseRefDto(FastBaseFilename, BaseRefType.Fast));
             if (IsFilenameChanged(AdditionalBaseFilename, _trace.AdditionalId))
-                result.Add(SorExt.GetBaseRefDto(AdditionalBaseFilename, BaseRefType.Additional));
+                result.Add(_sorExt.GetBaseRefDto(AdditionalBaseFilename, BaseRefType.Additional));
             return result;
         }
 

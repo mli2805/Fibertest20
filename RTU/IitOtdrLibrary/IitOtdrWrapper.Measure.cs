@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using Optixsoft.SorExaminer.OtdrDataFormat;
 
 namespace Iit.Fibertest.IitOtdrLibrary
 {
@@ -52,9 +53,13 @@ namespace Iit.Fibertest.IitOtdrLibrary
         {
             const int owtsInTwoWayNs = 5;
 
-            string str;
-            var sorData = SorData.FromBytes(buffer, out str);
-            if (!string.IsNullOrEmpty(str)) _rtuLogger.AppendLine(str);
+            OtdrDataKnownBlocks sorData;
+            var str = SorData.TryGetFromBytes(buffer, out sorData);
+            if (!string.IsNullOrEmpty(str))
+            {
+                _rtuLogger.AppendLine(str);
+                return -1;
+            }
             int lmaxOwt = sorData.IitParameters.DistnaceRangeUser;
             if (lmaxOwt == -1)
                 lmaxOwt = (int)sorData.FixedParameters.AcquisitionRange;

@@ -168,6 +168,7 @@
     <Compile Include="ClientHeartbeat.cs" />
     <Compile Include="ClientWcfService.cs" />
     <Compile Include="EventSourcing\ClientPoller.cs" />
+    <Compile Include="Forms\BaseRefs\SorExt.cs" />
     <Compile Include="Forms\MonitoringSettings\FrequencyConverter.cs" />
     <Compile Include="Forms\MonitoringSettings\MonitoringCharonModel.cs" />
     <Compile Include="Forms\MonitoringSettings\MonitoringFrequenciesModel.cs" />
@@ -301,7 +302,7 @@
     <Compile Include="MarkerControl\MarkerControlMouseHandling.cs" />
     <Compile Include="MarkerControl\MarkerControlNodeContextMenu.cs" />
     <Compile Include="MarkerControl\MarkerControlRtuContextMenu.cs" />
-    <Compile Include="ViewModels\BaseRefsAssignViewModel.cs" />
+    <Compile Include="Forms\BaseRefs\BaseRefsAssignViewModel.cs" />
     <Compile Include="GraphModel\EqItemVm.cs" />
     <Compile Include="ViewModels\Primitive\CheckBoxModel.cs" />
     <Compile Include="ViewModels\EquipmentChoiceViewModel.cs" />
@@ -316,7 +317,7 @@
     <Compile Include="ViewModels\TraceChoiceViewModel.cs" />
     <Compile Include="ViewModels\UniversalViewModels\NotificationViewModel.cs" />
     <Compile Include="ViewModels\UniversalViewModels\QuestionViewModel.cs" />
-    <Compile Include="Views\BaseRefsAssignView.xaml.cs">
+    <Compile Include="Forms\BaseRefs\BaseRefsAssignView.xaml.cs">
       <DependentUpon>BaseRefsAssignView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\EquipmentChoiceView.xaml.cs">
@@ -449,7 +450,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\BaseRefsAssignView.xaml">
+    <Page Include="Forms\BaseRefs\BaseRefsAssignView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -56,6 +56,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
+      
         private FiberState _traceState;
         public FiberState TraceState
         {
@@ -73,14 +74,16 @@ namespace Iit.Fibertest.Client
         public ImageSource TraceStatePictogram => TraceState.GetPictogram();
 
         private readonly IniFile _iniFile;
+        private readonly IMyLog _logFile;
 
-        public TraceLeaf(IniFile iniFile, ReadModel readModel, 
+        public TraceLeaf(IniFile iniFile, IMyLog logFile, ReadModel readModel, 
             IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, 
             PostOffice postOffice, IPortOwner parent) 
             : base(readModel, windowManager, c2DWcfManager, postOffice)
         {
             Parent = (Leaf)parent;
             _iniFile = iniFile;
+            _logFile = logFile;
         }
 
         protected override List<MenuItemVm> GetMenuItems()
@@ -198,18 +201,23 @@ namespace Iit.Fibertest.Client
         }
         private void ShowTraceAction(object param) { }
 
+        // if trace attached to port and rtu is not available now - it is prohibited to assign base - you can't send base to rtu
         private bool CanAssignBaseRefsAction(object param)
         {
-            var rtuLeaf = Parent is RtuLeaf ? (RtuLeaf)Parent : (RtuLeaf)Parent.Parent;
-            return PortNumber < 1 || rtuLeaf.IsAvailable;
+            var leaf = Parent as RtuLeaf;
+            var rtuLeaf = leaf ?? (RtuLeaf)Parent.Parent;
+
+            return PortNumber < 1 || rtuLeaf.IsAvailable && MonitoringState != MonitoringState.On;
         }
+
         public void AssignBaseRefsAction(object param)
         {
             var trace = ReadModel.Traces.First(t => t.Id == Id);
-            var vm = new BaseRefsAssignViewModel(_iniFile, ReadModel, C2DWcfManager, WindowManager);
+            var vm = new BaseRefsAssignViewModel(_iniFile, ReadModel, C2DWcfManager, WindowManager, new SorExt(_logFile));
             vm.Initialize(trace);
             WindowManager.ShowDialog(vm);
         }
+
         private void TraceStateAction(object param) { }
         private void TraceStatisticsAction(object param) { }
 

@@ -7,21 +7,20 @@ namespace Iit.Fibertest.IitOtdrLibrary
 {
     public static class SorData
     {
-        public static OtdrDataKnownBlocks FromBytes(byte[] buffer, out string message)
+        public static string TryGetFromBytes(byte[] buffer, out OtdrDataKnownBlocks otdrDataKnownBlocks)
         {
             using (var stream = new MemoryStream(buffer))
             {
-                OtdrDataKnownBlocks otdrDataKnownBlocks = null;
                 try
                 {
-                     otdrDataKnownBlocks = new OtdrDataKnownBlocks(new OtdrReader(stream).Data);
-                    message = "";
+                    otdrDataKnownBlocks = new OtdrDataKnownBlocks(new OtdrReader(stream).Data);
+                    return "";
                 }
                 catch (Exception e)
                 {
-                    message = e.Message;
+                    otdrDataKnownBlocks = null;
+                    return e.Message;
                 }
-                return otdrDataKnownBlocks;
             }
         }
 
