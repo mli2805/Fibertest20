@@ -37,7 +37,7 @@ namespace Graph.Tests
         public void WhenПользовательЖметОчиститьУнЕприсоединеннойТрассы()
         {
             var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_sut.TraceId2);
-            traceLeaf.TraceCleanAction(null);
+            _sut.TraceLeafActions.CleanTrace(traceLeaf);
             _sut.Poller.Tick();
         }
 
@@ -45,7 +45,7 @@ namespace Graph.Tests
         public void WhenПользовательЖметУдалитьУнЕприсоединеннойТрассы()
         {
             var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_sut.TraceId2);
-            traceLeaf.TraceRemoveAction(null);
+            _sut.TraceLeafActions.RemoveTrace(traceLeaf);
             _sut.Poller.Tick();
         }
 

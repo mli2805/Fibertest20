@@ -61,7 +61,7 @@ namespace Graph.Tests
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, _trace.Id, SystemUnderTest.Path, SystemUnderTest.Path, null, Answer.Yes));
             var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_trace.Id);
-            traceLeaf.AssignBaseRefsAction(null);
+            _sut.TraceLeafActions.AssignBaseRefs(traceLeaf);
             _sut.Poller.Tick();
         }
 

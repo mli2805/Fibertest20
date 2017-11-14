@@ -14,6 +14,7 @@ namespace Iit.Fibertest.Client
     public class TreeOfRtuModel : PropertyChangedBase
     {
         private readonly ILifetimeScope _globalScope;
+        private readonly TraceLeafContextMenuProvider _traceLeafContextMenuProvider;
         private readonly IWindowManager _windowManager;
         private readonly ReadModel _readModel;
 
@@ -50,9 +51,10 @@ namespace Iit.Fibertest.Client
         public TreeOfRtuModel(IWindowManager windowManager, ReadModel readModel, 
             IWcfServiceForClient c2DWcfManager, IniFile iniFile35, IMyLog logFile,
             // only for pass to it's leaves
-            ILifetimeScope globalScope, PostOffice postOffice, FreePorts freePorts )
+            ILifetimeScope globalScope, PostOffice postOffice, FreePorts freePorts, TraceLeafContextMenuProvider traceLeafContextMenuProvider)
         {
             _globalScope = globalScope;
+            _traceLeafContextMenuProvider = traceLeafContextMenuProvider;
             _windowManager = windowManager;
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
@@ -221,7 +223,7 @@ namespace Iit.Fibertest.Client
         public void Apply(TraceAdded e)
         {
             var rtu = (RtuLeaf)Tree.GetById(e.RtuId);
-            var trace = new TraceLeaf(_iniFile35, _logFile, _readModel, _windowManager, _c2DWcfManager, PostOffice, rtu)
+            var trace = new TraceLeaf(_iniFile35, _logFile, _readModel, _windowManager, _c2DWcfManager, PostOffice, rtu, _traceLeafContextMenuProvider)
             {
                 Id = e.Id,
                 Title = e.Title,
@@ -264,7 +266,7 @@ namespace Iit.Fibertest.Client
             var port = portOwner is RtuLeaf ? e.Port : e.Port - ((OtauLeaf)portOwner).FirstPortNumber + 1;
 
             portOwner.ChildrenImpresario.Children[port - 1] =
-                new TraceLeaf(_iniFile35, _logFile, _readModel, _windowManager, _c2DWcfManager, PostOffice, portOwner)
+                new TraceLeaf(_iniFile35, _logFile, _readModel, _windowManager, _c2DWcfManager, PostOffice, portOwner, _traceLeafContextMenuProvider)
                 {
                     Id = e.TraceId,
                     TraceState = FiberState.NotChecked,
@@ -281,7 +283,7 @@ namespace Iit.Fibertest.Client
             var owner = Tree.GetById(traceLeaf.Parent.Id);
             RtuLeaf rtu = owner is RtuLeaf ? (RtuLeaf)owner : (RtuLeaf)(owner.Parent);
             int port = traceLeaf.PortNumber;
-            var detachedTraceLeaf = new TraceLeaf(_iniFile35, _logFile, _readModel, _windowManager, _c2DWcfManager, PostOffice, rtu)
+            var detachedTraceLeaf = new TraceLeaf(_iniFile35, _logFile, _readModel, _windowManager, _c2DWcfManager, PostOffice, rtu, _traceLeafContextMenuProvider)
             {
                 Id = traceLeaf.Id,
                 PortNumber = 0,

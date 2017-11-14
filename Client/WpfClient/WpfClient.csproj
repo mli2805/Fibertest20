@@ -183,6 +183,9 @@
     <Compile Include="TreeModel\RtuLeafActions.cs" />
     <Compile Include="TreeModel\RtuLeafActionsPermissions.cs" />
     <Compile Include="TreeModel\RtuLeafContextMenuProvider.cs" />
+    <Compile Include="TreeModel\TraceLeafActions.cs" />
+    <Compile Include="TreeModel\TraceLeafActionsPermissions.cs" />
+    <Compile Include="TreeModel\TraceLeafContextMenuProvider.cs" />
     <Compile Include="ViewModels\Administrative\PasswordHelper.cs" />
     <Compile Include="ViewModels\Administrative\UserMappings.cs" />
     <Compile Include="ReadModel\VerboseTasks.cs" />

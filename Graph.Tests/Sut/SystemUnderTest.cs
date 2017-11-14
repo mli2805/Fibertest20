@@ -23,6 +23,7 @@ namespace Graph.Tests
         public ClientPoller Poller { get; }
         public FakeWindowManager FakeWindowManager { get; }
         public WcfServiceForClient WcfServiceForClient { get; }
+        public TraceLeafActions TraceLeafActions { get; }
         public ShellViewModel ShellVm { get; }
         public int CurrentEventNumber => Poller.CurrentEventNumber;
         public const string Path = @"..\..\Sut\base.sor";
@@ -50,7 +51,7 @@ namespace Graph.Tests
                 .WriteTo.Console().CreateLogger()).As<ILogger>();
 
             builder.RegisterInstance<IMyLog>(new NullLog());
-
+            
            
             var container = builder.Build();
 
@@ -60,6 +61,8 @@ namespace Graph.Tests
             WcfServiceForClient = (WcfServiceForClient) container.Resolve<IWcfServiceForClient>();
             ShellVm = (ShellViewModel)container.Resolve<IShell>();
             ReadModel = ShellVm.ReadModel;
+            TraceLeafActions = container.Resolve<TraceLeafActions>();
+
             var ev = container.Resolve<EventStoreService>();
             ev.Init();
         }

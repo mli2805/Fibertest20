@@ -42,6 +42,12 @@ namespace Iit.Fibertest.Client
 
             builder.RegisterType<Aggregate>().SingleInstance();
             builder.RegisterType<ReadModel>().SingleInstance();
+
+            builder.RegisterType<TraceLeafActions>().SingleInstance();
+            builder.RegisterType<TraceLeafActionsPermissions>().SingleInstance();
+            builder.RegisterType<TraceLeafContextMenuProvider>().SingleInstance();
+
+
             builder.RegisterType<TreeOfRtuModel>().SingleInstance();
             builder.RegisterType<WriteModel>().SingleInstance();
             builder.RegisterType<GraphReadModel>().SingleInstance();

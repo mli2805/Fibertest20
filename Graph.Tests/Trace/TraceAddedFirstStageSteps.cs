@@ -26,9 +26,9 @@ namespace Graph.Tests
         [Given(@"И кликнул определить трассу на узле где нет оборудования")]
         public void GivenИКликнулОпределитьТрассуНаУзлеГдеНетОборудования()
         {
-            
-            _sut.ShellVm.ComplyWithRequest(new RequestAddTrace() {LastNodeId = _wrongNodeId, NodeWithRtuId = _rtuNodeId})
-                ;
+
+            _sut.ShellVm.ComplyWithRequest(
+                new RequestAddTrace() {LastNodeId = _wrongNodeId, NodeWithRtuId = _rtuNodeId});
         }
 
         [Given(@"Между выбираемыми узлами нет пути")]

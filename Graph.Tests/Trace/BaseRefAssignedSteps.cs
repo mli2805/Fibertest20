@@ -25,7 +25,7 @@ namespace Graph.Tests
         public void WhenПользовательУказываетПутиКТочнойИБыстройБазовамИЖметСохранить()
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, _trace.Id, SystemUnderTest.Path, SystemUnderTest.Path, null, Answer.Yes));
-            _traceLeaf.AssignBaseRefsAction(null);
+            _sut.TraceLeafActions.AssignBaseRefs(_traceLeaf);
             _sut.Poller.Tick();
         }
 
@@ -43,7 +43,7 @@ namespace Graph.Tests
             _oldFastId = _trace.FastId;
 
             _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, _trace.Id, null, SystemUnderTest.Path2, null, Answer.Yes));
-            _traceLeaf.AssignBaseRefsAction(null);
+            _sut.TraceLeafActions.AssignBaseRefs(_traceLeaf);
             _sut.Poller.Tick();
         }
 
@@ -58,7 +58,7 @@ namespace Graph.Tests
         public void WhenПользовательСбрасываетТочнуюЗадаетДополнительнуюИЖметСохранить()
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, _trace.Id, "",  null, SystemUnderTest.Path, Answer.Yes));
-            _traceLeaf.AssignBaseRefsAction(null);
+            _sut.TraceLeafActions.AssignBaseRefs(_traceLeaf);
             _sut.Poller.Tick();
         }
 
