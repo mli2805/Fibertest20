@@ -1241,4 +1241,31 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Command_is_processing___" xml:space="preserve">
 		<value>Обработка команды...</value>
 	</data>
+	<data name="SID_Error_during_Client_Datacenter_connection" xml:space="preserve">
+		<value>Ошибка во время соединения Клиент-Датацентр</value>
+	</data>
+	<data name="SID_Cannot_establish_connection_with_RTU" xml:space="preserve">
+		<value>Невозможно установить соединение с RTU</value>
+	</data>
+	<data name="SID_Error_during_Datacenter_Rtu_connection" xml:space="preserve">
+		<value>Оштбка во время соединения Датацентр-RTU</value>
+	</data>
+	<data name="SID_Database_error_" xml:space="preserve">
+		<value>Ошибка базы данных!</value>
+	</data>
+	<data name="SID_Base_ref_s__are_saved_successfully_" xml:space="preserve">
+		<value>Базовая/ые сохранены успешно</value>
+	</data>
+	<data name="SID_Monitoring_settings_are_applied_successfully_" xml:space="preserve">
+		<value>Настройки мониторинга применены успешно.</value>
+	</data>
+	<data name="SID_User_with_the_same_name_is_registered_on_another_PC" xml:space="preserve">
+		<value>Пользователь с таким именем подключился за другим PC</value>
+	</data>
+	<data name="SID_Unknown_return_code" xml:space="preserve">
+		<value>Неизвестный код ошибки</value>
+	</data>
+	<data name="SID_No_such_user_or_wrong_password_" xml:space="preserve">
+		<value>Нет такого пользователя или неверный пароль</value>
+	</data>
 </root>

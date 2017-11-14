@@ -1241,4 +1241,31 @@ RTU is initializing right now!</value>
 	<data name="SID_Command_is_processing___" xml:space="preserve">
     <value>Command is processing...</value>
   </data>
+	<data name="SID_Error_during_Client_Datacenter_connection" xml:space="preserve">
+    <value>Error during Client-Datacenter connection</value>
+  </data>
+	<data name="SID_Cannot_establish_connection_with_RTU" xml:space="preserve">
+    <value>Cannot establish connection with RTU</value>
+  </data>
+	<data name="SID_Error_during_Datacenter_Rtu_connection" xml:space="preserve">
+    <value>Error during Datacenter-Rtu connection</value>
+  </data>
+	<data name="SID_Database_error_" xml:space="preserve">
+    <value>Database error!</value>
+  </data>
+	<data name="SID_Base_ref_s__are_saved_successfully_" xml:space="preserve">
+    <value>Base ref(s) are saved successfully.</value>
+  </data>
+	<data name="SID_Monitoring_settings_are_applied_successfully_" xml:space="preserve">
+    <value>Monitoring settings are applied successfully.</value>
+  </data>
+	<data name="SID_User_with_the_same_name_is_registered_on_another_PC" xml:space="preserve">
+    <value>User with the same name is registered on another PC</value>
+  </data>
+	<data name="SID_Unknown_return_code" xml:space="preserve">
+    <value>Unknown return code</value>
+  </data>
+	<data name="SID_No_such_user_or_wrong_password_" xml:space="preserve">
+    <value>No such user or wrong password!</value>
+  </data>
 </root>

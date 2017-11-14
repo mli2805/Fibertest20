@@ -179,6 +179,7 @@
       <DependentUpon>MonitoringSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\MonitoringSettings\MonitoringSettingsViewModel.cs" />
+    <Compile Include="Logic\ReturnCodeExt.cs" />
     <Compile Include="Logic\WaitCursor.cs" />
     <Compile Include="TreeModel\RtuLeafActions.cs" />
     <Compile Include="TreeModel\RtuLeafActionsPermissions.cs" />

@@ -494,6 +494,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Base ref(s) are saved successfully..
+        /// </summary>
+        public static string SID_Base_ref_s__are_saved_successfully_ {
+            get {
+                return ResourceManager.GetString("SID_Base_ref_s__are_saved_successfully_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Base reflectograms.
         /// </summary>
         public static string SID_Base_reflectograms {
@@ -652,6 +661,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Cannot_establish_connection_with_DataCenter_ {
             get {
                 return ResourceManager.GetString("SID_Cannot_establish_connection_with_DataCenter_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot establish connection with RTU.
+        /// </summary>
+        public static string SID_Cannot_establish_connection_with_RTU {
+            get {
+                return ResourceManager.GetString("SID_Cannot_establish_connection_with_RTU", resourceCulture);
             }
         }
         
@@ -945,6 +963,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Database error!.
+        /// </summary>
+        public static string SID_Database_error_ {
+            get {
+                return ResourceManager.GetString("SID_Database_error_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to DataCenter Server.
         /// </summary>
         public static string SID_DataCenter_Server {
@@ -1193,6 +1220,24 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Error_ {
             get {
                 return ResourceManager.GetString("SID_Error_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error during Client-Datacenter connection.
+        /// </summary>
+        public static string SID_Error_during_Client_Datacenter_connection {
+            get {
+                return ResourceManager.GetString("SID_Error_during_Client_Datacenter_connection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error during Datacenter-Rtu connection.
+        /// </summary>
+        public static string SID_Error_during_Datacenter_Rtu_connection {
+            get {
+                return ResourceManager.GetString("SID_Error_during_Datacenter_Rtu_connection", resourceCulture);
             }
         }
         
@@ -1917,6 +1962,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Monitoring settings are applied successfully..
+        /// </summary>
+        public static string SID_Monitoring_settings_are_applied_successfully_ {
+            get {
+                return ResourceManager.GetString("SID_Monitoring_settings_are_applied_successfully_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Monitoring started: {0}.
         /// </summary>
         public static string SID_Monitoring_started___0_ {
@@ -1985,6 +2039,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_No_Fiber_ {
             get {
                 return ResourceManager.GetString("SID_No_Fiber_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No such user or wrong password!.
+        /// </summary>
+        public static string SID_No_such_user_or_wrong_password_ {
+            get {
+                return ResourceManager.GetString("SID_No_such_user_or_wrong_password_", resourceCulture);
             }
         }
         
@@ -3278,6 +3341,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unknown return code.
+        /// </summary>
+        public static string SID_Unknown_return_code {
+            get {
+                return ResourceManager.GetString("SID_Unknown_return_code", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Update.
         /// </summary>
         public static string SID_Update {
@@ -3319,6 +3391,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_User_s {
             get {
                 return ResourceManager.GetString("SID_User_s", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User with the same name is registered on another PC.
+        /// </summary>
+        public static string SID_User_with_the_same_name_is_registered_on_another_PC {
+            get {
+                return ResourceManager.GetString("SID_User_with_the_same_name_is_registered_on_another_PC", resourceCulture);
             }
         }
         

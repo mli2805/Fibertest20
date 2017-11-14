@@ -48,22 +48,25 @@ namespace Iit.Fibertest.Client.MonitoringSettings
 
         public async void Apply()
         {
-            MessageProp = Resources.SID_Command_is_processing___;
-            var dto = ConvertSettingsToDto();
-            if (dto.IsMonitoringOn && !dto.Ports.Any())
+            using (new WaitCursor())
             {
-                MessageBox.Show(Resources.SID_There_are_no_ports_for_monitoring_, Resources.SID_Error_);
-                return;
+                MessageProp = Resources.SID_Command_is_processing___;
+                var dto = ConvertSettingsToDto();
+                if (dto.IsMonitoringOn && !dto.Ports.Any())
+                {
+                    MessageBox.Show(Resources.SID_There_are_no_ports_for_monitoring_, Resources.SID_Error_);
+                    return;
+                }
+                var resultDto = await _c2DWcfManager.ApplyMonitoringSettingsAsync(dto);
+                if (resultDto.ReturnCode == ReturnCode.MonitoringSettingsAppliedSuccessfully)
+                {
+                    var cmd = PrepareCommand(dto);
+                    var result = await _c2DWcfManager.SendCommandAsObj(cmd);
+                    MessageProp = result == null ? resultDto.ReturnCode.GetLocalizedString() : result;
+                }
+                else
+                    MessageProp = resultDto.ReturnCode.GetLocalizedString(resultDto.ExceptionMessage);
             }
-            var resultDto = await _c2DWcfManager.ApplyMonitoringSettingsAsync(dto);
-            if (resultDto.ReturnCode == ReturnCode.MonitoringSettingsAppliedSuccessfully)
-            {
-                var cmd = PrepareCommand(dto);
-                var result = await _c2DWcfManager.SendCommandAsObj(cmd);
-                MessageProp = result == null ? resultDto.ReturnCode.GetLocalizedString() : result;
-            }
-            else
-                MessageProp = resultDto.ReturnCode.GetLocalizedString(resultDto.ExceptionMessage);
         }
 
         private ChangeMonitoringSettings PrepareCommand(ApplyMonitoringSettingsDto dto)
