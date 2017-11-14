@@ -76,20 +76,23 @@ namespace Iit.Fibertest.Client
             if (rtuLeaf == null)
                 return;
 
+            bool result;
             using (new WaitCursor())
             {
-                var result = await rtuLeaf.C2DWcfManager.StopMonitoringAsync(new StopMonitoringDto() { RtuId = rtuLeaf.Id });
-                _logFile.AppendLine($@"Stop monitoring result - {result}");
-                var vm = new NotificationViewModel(
-                    result ? Resources.SID_Information : Resources.SID_Error_,
-                    result ? Resources.SID_RTU_is_turned_into_manual_mode : Resources.SID_Cannot_turn_RTU_into_manual_mode);
-                if (result)
-                {
-                    var cmd = new StopMonitoring() { RtuId = rtuLeaf.Id };
-                    await rtuLeaf.C2DWcfManager.SendCommandAsObj(cmd);
-                    rtuLeaf.WindowManager.ShowDialog(vm);
-                }
+                result =
+                    await rtuLeaf.C2DWcfManager.StopMonitoringAsync(new StopMonitoringDto() { RtuId = rtuLeaf.Id });
             }
+            _logFile.AppendLine($@"Stop monitoring result - {result}");
+            var vm = new NotificationViewModel(
+                result ? Resources.SID_Information : Resources.SID_Error_,
+                result ? Resources.SID_RTU_is_turned_into_manual_mode : Resources.SID_Cannot_turn_RTU_into_manual_mode);
+            if (result)
+            {
+                var cmd = new StopMonitoring() { RtuId = rtuLeaf.Id };
+                await rtuLeaf.C2DWcfManager.SendCommandAsObj(cmd);
+            }
+            rtuLeaf.WindowManager.ShowDialog(vm);
+
         }
 
         public async void StartMonitoring(object param)
@@ -98,40 +101,24 @@ namespace Iit.Fibertest.Client
             if (rtuLeaf == null)
                 return;
 
+            bool result;
             using (new WaitCursor())
             {
-                var result = await rtuLeaf.C2DWcfManager.StartMonitoringAsync(new StartMonitoringDto() { RtuId = rtuLeaf.Id });
-                _logFile.AppendLine($@"Start monitoring result - {result}");
-                var vm = new NotificationViewModel(
-                    result ? Resources.SID_Information : Resources.SID_Error_,
-                    result ? Resources.SID_RTU_is_turned_into_automatic_mode : Resources.SID_Cannot_turn_RTU_into_automatic_mode);
-                if (result)
-                {
-                    var cmd = new StartMonitoring() { RtuId = rtuLeaf.Id };
-                    await rtuLeaf.C2DWcfManager.SendCommandAsObj(cmd);
-                    rtuLeaf.WindowManager.ShowDialog(vm);
-                }
+                result =
+                    await rtuLeaf.C2DWcfManager.StartMonitoringAsync(new StartMonitoringDto() { RtuId = rtuLeaf.Id });
             }
-        }
-
-        private void ApplyToAllTraces(IPortOwner portOwner, MonitoringState rtuMonitoringState)
-        {
-            foreach (var leaf in portOwner.ChildrenImpresario.Children)
+            _logFile.AppendLine($@"Start monitoring result - {result}");
+            var vm = new NotificationViewModel(
+                result ? Resources.SID_Information : Resources.SID_Error_,
+                result ? Resources.SID_RTU_is_turned_into_automatic_mode : Resources.SID_Cannot_turn_RTU_into_automatic_mode);
+            if (result)
             {
-                var traceLeaf = leaf as TraceLeaf;
-                if (traceLeaf != null)
-                {
-                    if (traceLeaf.MonitoringState == MonitoringState.On && rtuMonitoringState == MonitoringState.Off)
-                        traceLeaf.MonitoringState = MonitoringState.OnButRtuOff;
-                    if (traceLeaf.MonitoringState == MonitoringState.OnButRtuOff && rtuMonitoringState == MonitoringState.On)
-                        traceLeaf.MonitoringState = MonitoringState.On;
-                }
-
-                var otauLeaf = leaf as OtauLeaf;
-                if (otauLeaf != null)
-                    ApplyToAllTraces(otauLeaf, rtuMonitoringState);
+                var cmd = new StartMonitoring() { RtuId = rtuLeaf.Id };
+                await rtuLeaf.C2DWcfManager.SendCommandAsObj(cmd);
             }
+            rtuLeaf.WindowManager.ShowDialog(vm);
         }
+
 
         public void RemoveRtu(object param)
         {

@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -54,6 +56,9 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        public bool HasBase { get; set; }
+        public bool IsInMonitoringCycle { get; set; }
+
       
         private FiberState _traceState;
         public FiberState TraceState
@@ -68,7 +73,8 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public ImageSource MonitoringPictogram => MonitoringState.GetPictogram();
+//        public ImageSource MonitoringPictogram => MonitoringState.GetPictogram();
+        public ImageSource MonitoringPictogram => GetPictogram();
         public ImageSource TraceStatePictogram => TraceState.GetPictogram();
 
         private readonly TraceLeafContextMenuProvider _contextMenuProvider;
@@ -86,6 +92,16 @@ namespace Iit.Fibertest.Client
             return _contextMenuProvider.GetMenu(this);
         }
 
+        private ImageSource GetPictogram()
+        {
+            return IsInMonitoringCycle
+                ? MonitoringState == MonitoringState.On
+                    ? new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/BlueSquare.png"))
+                    : new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreySquare.png"))
+                : HasBase 
+                    ? new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreyHalfSquare.png")) 
+                    : new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
+        }
     }
 }
 

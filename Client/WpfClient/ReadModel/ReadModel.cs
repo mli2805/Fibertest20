@@ -382,10 +382,27 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public void Apply(MonitoringStarted e) { }
-        public void Apply(MonitoringStopped e) { }
+        public void Apply(MonitoringStarted e)
+        {
+            var rtu = Rtus.FirstOrDefault(r => r.Id == e.RtuId);
+            if (rtu == null)
+            {
+                _logFile.AppendLine(@"MonitoringStarted: cant find RTU");
+                return;
+            }
+            rtu.MonitoringState = MonitoringState.On;
+        }
 
-
+        public void Apply(MonitoringStopped e)
+        {
+            var rtu = Rtus.FirstOrDefault(r => r.Id == e.RtuId);
+            if (rtu == null)
+            {
+                _logFile.AppendLine(@"MonitoringStopped: cant find RTU");
+                return;
+            }
+            rtu.MonitoringState = MonitoringState.Off;
+        }
         #endregion
     }
 }

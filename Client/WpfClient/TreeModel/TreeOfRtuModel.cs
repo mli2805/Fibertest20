@@ -321,8 +321,37 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public void Apply(MonitoringStarted e) { }
-        public void Apply(MonitoringStopped e) { }
+        public void Apply(MonitoringStarted e)
+        {
+            var rtuLeaf = (RtuLeaf)Tree.GetById(e.RtuId);
+            rtuLeaf.MonitoringState = MonitoringState.On;
+            ApplyRecursively(rtuLeaf, MonitoringState.On);
+        }
+
+        public void Apply(MonitoringStopped e)
+        {
+            var rtuLeaf = (RtuLeaf)Tree.GetById(e.RtuId);
+            rtuLeaf.MonitoringState = MonitoringState.Off;
+            ApplyRecursively(rtuLeaf, MonitoringState.Off);
+        }
+        private void ApplyRecursively(IPortOwner portOwner, MonitoringState rtuMonitoringState)
+        {
+            foreach (var leaf in portOwner.ChildrenImpresario.Children)
+            {
+                var traceLeaf = leaf as TraceLeaf;
+                if (traceLeaf != null)
+                {
+                    if (traceLeaf.MonitoringState == MonitoringState.On && rtuMonitoringState == MonitoringState.Off)
+                        traceLeaf.MonitoringState = MonitoringState.OnButRtuOff;
+                    if (traceLeaf.MonitoringState == MonitoringState.OnButRtuOff && rtuMonitoringState == MonitoringState.On)
+                        traceLeaf.MonitoringState = MonitoringState.On;
+                }
+
+                var otauLeaf = leaf as OtauLeaf;
+                if (otauLeaf != null)
+                    ApplyRecursively(otauLeaf, rtuMonitoringState);
+            }
+        }
         #endregion
     }
 }
