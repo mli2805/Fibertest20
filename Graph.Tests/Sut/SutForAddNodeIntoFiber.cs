@@ -6,7 +6,8 @@ namespace Graph.Tests
 {
     public class SutForAddNodeIntoFiber : SutForBaseRefs
     {
-        public void CreatePositionForAddNodeIntoFiberTest(out Iit.Fibertest.Graph.Fiber fiberForInsertion, out Iit.Fibertest.Graph.Trace traceForInsertionId)
+        public void CreatePositionForAddNodeIntoFiberTest(out Iit.Fibertest.Graph.Fiber fiberForInsertion,
+            out Iit.Fibertest.Graph.Trace traceForInsertionId)
         {
             ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation() { Latitude = 55, Longitude = 30 }).Wait();
             Poller.Tick();

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Dto;
@@ -6,40 +7,32 @@ using Iit.Fibertest.Graph;
 
 namespace Graph.Tests
 {
-    public class SutForBaseRefs : SystemUnderTest
+    public class SutForMonitoringStatePictograms : SutForTraceAttach
     {
-        public bool BaseRefAssignHandler(object model, Guid traceId, string precisePath, string fastPath, string aditionalPath, Answer answer)
+        public List<Iit.Fibertest.Graph.Trace> CreateThreeTracesRtuEmptyTerminal()
         {
-            var vm = model as BaseRefsAssignViewModel;
-            if (vm == null) return false;
-            if (answer == Answer.Yes)
+            var result = new List<Iit.Fibertest.Graph.Trace>();
+
+            ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation() { Latitude = 55, Longitude = 30 }).Wait();
+            Poller.Tick();
+            var nodeForRtuId = ReadModel.Rtus.Last().NodeId;
+
+            ShellVm.ComplyWithRequest(new AddNode()).Wait();
+            Poller.Tick();
+            var middleNodeId = ReadModel.Nodes.Last().Id;
+            ShellVm.ComplyWithRequest(new AddFiber() { Node1 = nodeForRtuId, Node2 = middleNodeId }).Wait();
+
+            for (int i = 0; i < 3; i++)
             {
-                if (precisePath == "")
-                    vm.ClearPathToPrecise();
-                else if (precisePath != null)
-                    vm.PreciseBaseFilename = precisePath;
+                ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() {Type = EquipmentType.Terminal}).Wait();
+                Poller.Tick();
+                var endNodeId = ReadModel.Nodes.Last().Id;
 
-                if (fastPath == "")
-                    vm.ClearPathToFast();
-                else if (fastPath != null)
-                    vm.FastBaseFilename = fastPath;
-
-                if (aditionalPath == "")
-                    vm.ClearPathToAdditional();
-                else if (aditionalPath != null)
-                    vm.AdditionalBaseFilename = aditionalPath;
-
-
-                var cmd = new AssignBaseRef()
-                {
-                    TraceId = traceId,
-                    BaseRefs = vm.GetBaseRefChangesList(),
-                };
-                ShellVm.C2DWcfManager.SendCommandAsObj(cmd).Wait();
+                ShellVm.ComplyWithRequest(new AddFiber() {Node1 = middleNodeId, Node2 = endNodeId}).Wait();
+                Poller.Tick();
+                result.Add(DefineTrace(endNodeId, nodeForRtuId));
             }
-            else
-                vm.Cancel();
-            return true;
+            return result;
         }
     }
 
@@ -75,7 +68,7 @@ namespace Graph.Tests
             FakeWindowManager.RegisterHandler(model => OtauToAttachHandler(model, rtuLeaf.Id, port, Answer.Yes));
             portLeaf.AttachOtauAction(null);
             Poller.Tick();
-            return (OtauLeaf) rtuLeaf.ChildrenImpresario.Children[port - 1];
+            return (OtauLeaf)rtuLeaf.ChildrenImpresario.Children[port - 1];
         }
 
         public bool RtuInitializeHandler(object model, Guid rtuId, string mainIpAddress, string reserveIpAddress, Answer answer)
@@ -116,7 +109,7 @@ namespace Graph.Tests
         public RtuLeaf InitializeRtu(Guid rtuId)
         {
             var rtuLeaf = (RtuLeaf)ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(rtuId);
-            FakeWindowManager.RegisterHandler(model=>RtuInitializeHandler(model, rtuId, "", "", Answer.Yes));
+            FakeWindowManager.RegisterHandler(model => RtuInitializeHandler(model, rtuId, "", "", Answer.Yes));
 
             var actions = new RtuLeafActions(MyLogFile);
             actions.InitializeRtu(rtuLeaf);
