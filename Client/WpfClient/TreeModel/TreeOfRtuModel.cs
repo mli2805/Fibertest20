@@ -48,7 +48,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public TreeOfRtuModel(IWindowManager windowManager, ReadModel readModel, 
+        public TreeOfRtuModel(IWindowManager windowManager, ReadModel readModel,
             IWcfServiceForClient c2DWcfManager, IniFile iniFile35, IMyLog logFile,
             // only for pass to it's leaves
             ILifetimeScope globalScope, PostOffice postOffice, FreePorts freePorts, TraceLeafContextMenuProvider traceLeafContextMenuProvider)
@@ -221,20 +221,7 @@ namespace Iit.Fibertest.Client
         #region JustEchosOfCmdsSentToRtu
         public void Apply(BaseRefAssigned e)
         {
-            TraceLeaf traceLeaf = (TraceLeaf)Tree.GetById(e.TraceId);
-            var trace = _readModel.Traces.FirstOrDefault(t => t.Id == traceLeaf.Id);
-            if (trace == null)
-                return;
-
-            RtuLeaf rtuLeaf = (RtuLeaf)Tree.GetById(trace.RtuId);
-
-            traceLeaf.MonitoringState = !trace.ReadyForMonitoring
-                ? MonitoringState.Off
-                : !trace.IsIncludedInMonitoringCycle
-                    ? MonitoringState.OffButHasBaseRef
-                    : rtuLeaf.MonitoringState == MonitoringState.Off
-                        ? MonitoringState.OnButRtuOff
-                        : MonitoringState.On;
+            ((TraceLeaf)Tree.GetById(e.TraceId)).HasBase = true;
         }
 
         public void Apply(RtuInitialized e)
@@ -302,23 +289,25 @@ namespace Iit.Fibertest.Client
         {
             var rtuLeaf = (RtuLeaf)Tree.GetById(e.RtuId);
             rtuLeaf.MonitoringState = e.IsMonitoringOn ? MonitoringState.On : MonitoringState.Off;
+            ApplyMonitoringSettingsRecursively(rtuLeaf, e);
+        }
 
-            foreach (var leaf in rtuLeaf.ChildrenImpresario.Children)
+        private void ApplyMonitoringSettingsRecursively(IPortOwner portOwner, MonitoringSettingsChanged e)
+        {
+            foreach (var leaf in portOwner.ChildrenImpresario.Children)
             {
                 var traceLeaf = leaf as TraceLeaf;
                 if (traceLeaf != null)
                 {
-                    var trace = _readModel.Traces.FirstOrDefault(t => t.Id == traceLeaf.Id);
-                    if (trace != null)
-                        traceLeaf.MonitoringState = e.TracesInMonitoringCycle.Contains(traceLeaf.Id)
-                            ? e.IsMonitoringOn
-                                ? MonitoringState.On
-                                : MonitoringState.OnButRtuOff
-                            : trace.HasBase
-                                ? MonitoringState.OffButHasBaseRef
-                                : MonitoringState.Off;
+                    traceLeaf.IsInMonitoringCycle = e.TracesInMonitoringCycle.Contains(traceLeaf.Id);
+                    traceLeaf.RtuMonitoringState = e.IsMonitoringOn ? MonitoringState.On : MonitoringState.Off;
                 }
+
+                var otauLeaf = leaf as OtauLeaf;
+                if (otauLeaf != null)
+                    ApplyMonitoringSettingsRecursively(otauLeaf, e);
             }
+
         }
 
         public void Apply(MonitoringStarted e)
@@ -340,12 +329,7 @@ namespace Iit.Fibertest.Client
             {
                 var traceLeaf = leaf as TraceLeaf;
                 if (traceLeaf != null)
-                {
-                    if (traceLeaf.MonitoringState == MonitoringState.On && rtuMonitoringState == MonitoringState.Off)
-                        traceLeaf.MonitoringState = MonitoringState.OnButRtuOff;
-                    if (traceLeaf.MonitoringState == MonitoringState.OnButRtuOff && rtuMonitoringState == MonitoringState.On)
-                        traceLeaf.MonitoringState = MonitoringState.On;
-                }
+                    traceLeaf.RtuMonitoringState = rtuMonitoringState;
 
                 var otauLeaf = leaf as OtauLeaf;
                 if (otauLeaf != null)

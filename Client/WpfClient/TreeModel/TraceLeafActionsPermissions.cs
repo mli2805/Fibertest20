@@ -23,7 +23,9 @@ namespace Iit.Fibertest.Client
             var leaf = traceLeaf.Parent as RtuLeaf;
             var rtuLeaf = leaf ?? (RtuLeaf)traceLeaf.Parent.Parent;
 
-            return traceLeaf.PortNumber < 1 || rtuLeaf.IsAvailable && traceLeaf.MonitoringState != MonitoringState.On;
+            return traceLeaf.PortNumber < 1
+                   || traceLeaf.RtuMonitoringState == MonitoringState.Off
+                   || !traceLeaf.IsInMonitoringCycle;
         }
 
         public bool CanShowTraceState(object param)

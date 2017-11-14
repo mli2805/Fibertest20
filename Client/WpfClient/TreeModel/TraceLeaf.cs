@@ -28,38 +28,61 @@ namespace Iit.Fibertest.Client
                 NotifyOfPropertyChange(nameof(Name));
             }
         }
-//        public int ExtendedPortNumber => Parent is OtauLeaf ? ((OtauLeaf)Parent).FirstPortNumber + PortNumber - 1 : PortNumber;
 
         public int LeftMargin => PortNumber < 1 ? 78 : Parent is RtuLeaf ? 53 : 74;
         public Visibility IconsVisibility => PortNumber > 0 ? Visibility.Visible : Visibility.Hidden;
 
         public override string Name
         {
-            get { return PortNumber < 1 ? 
-                            Title : 
-//                            Parent is OtauLeaf ?
-//                                string.Format(Resources.SID_Port_trace_on_otau, PortNumber, ExtendedPortNumber, Title) :
-                                string.Format(Resources.SID_Port_trace, PortNumber, Title) ; }
+            get
+            {
+                return PortNumber < 1
+                  ? Title
+                  : string.Format(Resources.SID_Port_trace, PortNumber, Title);
+            }
             set { }
         }
 
-        private MonitoringState _monitoringState;
-        public MonitoringState MonitoringState
+        private MonitoringState _rtuMonitoringState;
+        public MonitoringState RtuMonitoringState
         {
-            get { return _monitoringState; }
+            get { return _rtuMonitoringState; }
             set
             {
-                if (value == _monitoringState) return;
-                _monitoringState = value;
+                if (value == _rtuMonitoringState) return;
+                _rtuMonitoringState = value;
                 NotifyOfPropertyChange();
                 NotifyOfPropertyChange(nameof(MonitoringPictogram));
             }
         }
 
-        public bool HasBase { get; set; }
-        public bool IsInMonitoringCycle { get; set; }
+        private bool _hasBase;
+        public bool HasBase
+        {
+            get { return _hasBase; }
+            set
+            {
+                if (value == _hasBase) return;
+                _hasBase = value;
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(MonitoringPictogram));
+            }
+        }
 
-      
+        private bool _isInMonitoringCycle;
+        public bool IsInMonitoringCycle
+        {
+            get { return _isInMonitoringCycle; }
+            set
+            {
+                if (value == _isInMonitoringCycle) return;
+                _isInMonitoringCycle = value;
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(MonitoringPictogram));
+            }
+        }
+
+
         private FiberState _traceState;
         public FiberState TraceState
         {
@@ -73,14 +96,13 @@ namespace Iit.Fibertest.Client
             }
         }
 
-//        public ImageSource MonitoringPictogram => MonitoringState.GetPictogram();
         public ImageSource MonitoringPictogram => GetPictogram();
         public ImageSource TraceStatePictogram => TraceState.GetPictogram();
 
         private readonly TraceLeafContextMenuProvider _contextMenuProvider;
 
-        public TraceLeaf(ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, 
-            PostOffice postOffice, IPortOwner parent, TraceLeafContextMenuProvider contextMenuProvider) 
+        public TraceLeaf(ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager,
+            PostOffice postOffice, IPortOwner parent, TraceLeafContextMenuProvider contextMenuProvider)
             : base(readModel, windowManager, c2DWcfManager, postOffice)
         {
             Parent = (Leaf)parent;
@@ -95,11 +117,11 @@ namespace Iit.Fibertest.Client
         private ImageSource GetPictogram()
         {
             return IsInMonitoringCycle
-                ? MonitoringState == MonitoringState.On
+                ? RtuMonitoringState == MonitoringState.On
                     ? new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/BlueSquare.png"))
                     : new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreySquare.png"))
-                : HasBase 
-                    ? new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreyHalfSquare.png")) 
+                : HasBase
+                    ? new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreyHalfSquare.png"))
                     : new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
         }
     }

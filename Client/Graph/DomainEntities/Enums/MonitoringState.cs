@@ -3,8 +3,6 @@
     public enum MonitoringState
     {
         Off,
-        OffButHasBaseRef,
-        OnButRtuOff,
         On,
     }
 }
