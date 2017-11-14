@@ -791,6 +791,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Command is processing....
+        /// </summary>
+        public static string SID_Command_is_processing___ {
+            get {
+                return ResourceManager.GetString("SID_Command_is_processing___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Command is transmitted to RTU. {0}Confirmation is waited..
         /// </summary>
         public static string SID_Command_is_transmitted_to_RTU___0_Confirmation_is_waited_ {

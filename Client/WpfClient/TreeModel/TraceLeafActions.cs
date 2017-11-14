@@ -28,11 +28,6 @@ namespace Iit.Fibertest.Client
 
         public void ShowTrace(object param)
         {
-            var traceLeaf = param as TraceLeaf;
-            if (traceLeaf == null)
-                return;
-
-
         }
 
         // if trace attached to port and rtu is not available now - it is prohibited to assign base - you can't send base to rtu

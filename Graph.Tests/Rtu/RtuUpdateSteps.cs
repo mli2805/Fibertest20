@@ -27,7 +27,7 @@ namespace Graph.Tests
             _firstNodeId = _sut.ShellVm.ReadModel.Nodes.Last().Id;
 
             _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuUpdateHandler(model, title, @"comment doesn't matter", Answer.Yes));
-            _sut.ShellVm.ComplyWithRequest(new RequestUpdateRtu() { Id = _firstRtuId, NodeId = _firstNodeId });
+            _sut.ShellVm.ComplyWithRequest(new RequestUpdateRtu() { Id = _firstRtuId, NodeId = _firstNodeId }).Wait();
             _sut.Poller.Tick();
         }
 
@@ -46,7 +46,7 @@ namespace Graph.Tests
         {
             _cutOff = _sut.CurrentEventNumber;
             _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuUpdateHandler(model, null, null, Answer.Yes));
-            _sut.ShellVm.ComplyWithRequest(new RequestUpdateRtu() { Id = _firstRtuId, NodeId = _firstNodeId });
+            _sut.ShellVm.ComplyWithRequest(new RequestUpdateRtu() { Id = _firstRtuId, NodeId = _firstNodeId }).Wait();
             _sut.Poller.Tick();
         }
 
@@ -60,7 +60,7 @@ namespace Graph.Tests
         public void GivenTitleWasSetToBlah_Blah(string title)
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuUpdateHandler(model, title, null, Answer.Yes));
-            _sut.ShellVm.ComplyWithRequest(new RequestUpdateRtu() { Id = _saidRtuId, NodeId = _saidNodeId });
+            _sut.ShellVm.ComplyWithRequest(new RequestUpdateRtu() { Id = _saidRtuId, NodeId = _saidNodeId }).Wait();
             _sut.Poller.Tick();
         }
 
@@ -76,7 +76,7 @@ namespace Graph.Tests
         {
             _cutOff = _sut.CurrentEventNumber;
             _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuUpdateHandler(model, @"something", @"doesn't matter", Answer.Cancel));
-            _sut.ShellVm.ComplyWithRequest(new RequestUpdateRtu() { Id = _saidRtuId, NodeId = _saidNodeId });
+            _sut.ShellVm.ComplyWithRequest(new RequestUpdateRtu() { Id = _saidRtuId, NodeId = _saidNodeId }).Wait();
             _sut.Poller.Tick();
         }
 
@@ -90,7 +90,7 @@ namespace Graph.Tests
         public void GivenПользовательВвелКомментарийКУзлу(string comment)
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuUpdateHandler(model, null, comment, Answer.Yes));
-            _sut.ShellVm.ComplyWithRequest(new RequestUpdateRtu() { Id = _saidRtuId, NodeId = _saidNodeId });
+            _sut.ShellVm.ComplyWithRequest(new RequestUpdateRtu() { Id = _saidRtuId, NodeId = _saidNodeId }).Wait();
             _sut.Poller.Tick();
         }
 

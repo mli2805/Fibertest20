@@ -6,7 +6,6 @@ using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
@@ -72,18 +71,13 @@ namespace Iit.Fibertest.Client
         public ImageSource MonitoringPictogram => MonitoringState.GetPictogram();
         public ImageSource TraceStatePictogram => TraceState.GetPictogram();
 
-        private readonly IniFile _iniFile;
-        private readonly IMyLog _logFile;
         private readonly TraceLeafContextMenuProvider _contextMenuProvider;
 
-        public TraceLeaf(IniFile iniFile, IMyLog logFile, 
-            ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, 
+        public TraceLeaf(ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, 
             PostOffice postOffice, IPortOwner parent, TraceLeafContextMenuProvider contextMenuProvider) 
             : base(readModel, windowManager, c2DWcfManager, postOffice)
         {
             Parent = (Leaf)parent;
-            _iniFile = iniFile;
-            _logFile = logFile;
             _contextMenuProvider = contextMenuProvider;
         }
 

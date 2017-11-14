@@ -48,7 +48,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
 
         public async void Apply()
         {
-            MessageProp = "Command is processing...";
+            MessageProp = Resources.SID_Command_is_processing___;
             var dto = ConvertSettingsToDto();
             if (dto.IsMonitoringOn && !dto.Ports.Any())
             {

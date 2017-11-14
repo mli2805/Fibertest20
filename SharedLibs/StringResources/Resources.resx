@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
 	<!-- 
     Microsoft ResX Schema 
@@ -1237,5 +1237,8 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID_Cannot_turn_RTU_into_automatic_mode" xml:space="preserve">
     <value>Cannot turn RTU into automatic mode</value>
+  </data>
+	<data name="SID_Command_is_processing___" xml:space="preserve">
+    <value>Command is processing...</value>
   </data>
 </root>
