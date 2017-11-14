@@ -28,7 +28,7 @@ namespace Iit.Fibertest.Client
                 NotifyOfPropertyChange(nameof(Name));
             }
         }
-        public int ExtendedPortNumber => Parent is OtauLeaf ? ((OtauLeaf)Parent).FirstPortNumber + PortNumber - 1 : PortNumber;
+//        public int ExtendedPortNumber => Parent is OtauLeaf ? ((OtauLeaf)Parent).FirstPortNumber + PortNumber - 1 : PortNumber;
 
         public int LeftMargin => PortNumber < 1 ? 78 : Parent is RtuLeaf ? 53 : 74;
         public Visibility IconsVisibility => PortNumber > 0 ? Visibility.Visible : Visibility.Hidden;
@@ -37,8 +37,8 @@ namespace Iit.Fibertest.Client
         {
             get { return PortNumber < 1 ? 
                             Title : 
-                            Parent is OtauLeaf ?
-                                string.Format(Resources.SID_Port_trace_on_otau, PortNumber, ExtendedPortNumber, Title) :
+//                            Parent is OtauLeaf ?
+//                                string.Format(Resources.SID_Port_trace_on_otau, PortNumber, ExtendedPortNumber, Title) :
                                 string.Format(Resources.SID_Port_trace, PortNumber, Title) ; }
             set { }
         }

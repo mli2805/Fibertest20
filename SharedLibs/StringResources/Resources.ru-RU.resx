@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
 	<!-- 
     Microsoft ResX Schema 
@@ -526,12 +526,6 @@
   </data>
 	<data name="SID_Optical_switch_with_Address" xml:space="preserve">
     <value>Переключатель {0}</value>
-  </data>
-	<data name="SID_Port_N_on_otau" xml:space="preserve">
-    <value>N{0} ({1})</value>
-  </data>
-	<data name="SID_Port_trace_on_otau" xml:space="preserve">
-    <value>N{0} ({1}) : {2}</value>
   </data>
 	<data name="SID_Tree_statistics" xml:space="preserve">
     <value>RTU {0} ;  Переключатели {1} ;  Порты {2} ;  Трассы {3} ;  Использование {4:F}%</value>

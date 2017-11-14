@@ -21,9 +21,7 @@ namespace Iit.Fibertest.Client
         {
             get
             {
-                return Parent is OtauLeaf ?
-                    string.Format(Resources.SID_Port_N_on_otau, PortNumber, ExtendedPortNumber) :
-                    string.Format(Resources.SID_Port_N, PortNumber);
+                    return string.Format(Resources.SID_Port_N, PortNumber);
             }
             set { }
         }

@@ -75,8 +75,7 @@ namespace Graph.Tests
         public void ThenИмяВДеревеЭтоНомерПортаПереключателяНомерРасширенногоПортаRtuиИмяТрассы()
         {
             _traceLeaf.Name.Should().
-                Be(string.Format(Resources.SID_Port_trace_on_otau, 
-                    _portNumber, _traceLeaf.ExtendedPortNumber, _traceLeaf.Title));
+                Be(string.Format(Resources.SID_Port_trace, _portNumber, _traceLeaf.Title));
         }
 
         [When(@"Пользователь выбирает присоединить к порту (.*) трассу а жмет Отмена")]
