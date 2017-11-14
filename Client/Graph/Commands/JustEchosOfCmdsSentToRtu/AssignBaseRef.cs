@@ -9,6 +9,5 @@ namespace Iit.Fibertest.Graph
         public Guid TraceId { get; set; }
 
         public List<BaseRefDto> BaseRefs { get; set; } = new List<BaseRefDto>();
-
     }
 }

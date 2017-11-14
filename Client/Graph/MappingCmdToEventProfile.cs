@@ -29,6 +29,9 @@ namespace Iit.Fibertest.Graph
 
             CreateMap<InitializeRtu, RtuInitialized>();
             CreateMap<ChangeMonitoringSettings, MonitoringSettingsChanged>();
+            CreateMap<AssignBaseRef, BaseRefAssigned>();
+            CreateMap<StartMonitoring, MonitoringStarted>();
+            CreateMap<StopMonitoring, MonitoringStopped>();
 
             CreateMap<AttachTrace, TraceAttached>();
             CreateMap<DetachTrace, TraceDetached>();

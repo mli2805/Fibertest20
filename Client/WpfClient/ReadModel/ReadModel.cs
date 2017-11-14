@@ -188,60 +188,6 @@ namespace Iit.Fibertest.Client
             Rtus.Add(rtu);
         }
 
-        public void Apply(RtuInitialized e)
-        {
-            var rtu = Rtus.First(r => r.Id == e.Id);
-            if (rtu.Serial == null)
-            {
-                InitializeRtuFirstTime(e, rtu);
-                return;
-            }
-
-            if (rtu.Serial == e.Serial)
-            {
-                if (rtu.OwnPortCount != e.OwnPortCount)
-                {
-                    // main otdr problem
-                    // TODO
-                    return;
-                }
-
-                if (rtu.FullPortCount != e.FullPortCount)
-                {
-                    // bop changes
-                    // TODO
-                    return;
-                }
-
-                if (rtu.FullPortCount == e.FullPortCount)
-                {
-                    // just re-initialization, nothing should be done?
-                    rtu.Version = e.Version;
-                }
-            }
-
-            if (rtu.Serial != e.Serial)
-            {
-                //TODO discuss and implement rtu replacement scenario
-            }
-        }
-
-        private static void InitializeRtuFirstTime(RtuInitialized e, Rtu rtu)
-        {
-            rtu.OwnPortCount = e.OwnPortCount;
-            rtu.FullPortCount = e.FullPortCount;
-            rtu.Serial = e.Serial;
-            rtu.MainChannel = e.MainChannel;
-            rtu.MainChannelState = e.MainChannelState;
-            rtu.IsReserveChannelSet = e.IsReserveChannelSet;
-            if (e.IsReserveChannelSet)
-                rtu.ReserveChannel = e.ReserveChannel;
-            rtu.ReserveChannelState = e.ReserveChannelState;
-            rtu.OtdrNetAddress = e.OtauNetAddress;
-            rtu.MonitoringState = MonitoringState.Off;
-            rtu.Version = e.Version;
-        }
-
         public void Apply(RtuUpdated e)
         {
             var rtu = Rtus.FirstOrDefault(r => r.Id == e.Id);
@@ -275,24 +221,6 @@ namespace Iit.Fibertest.Client
             Otaus.Remove(otau);
         }
 
-        public void Apply(MonitoringSettingsChanged e)
-        {
-            var rtu = Rtus.FirstOrDefault(r => r.Id == e.RtuId);
-            if (rtu == null)
-            {
-                _logFile.AppendLine(@"MonitoringSettingsChanged: cant find RTU");
-                return;
-            }
-            rtu.PreciseMeas = e.PreciseMeas;
-            rtu.PreciseSave = e.PreciseSave;
-            rtu.FastSave = e.FastSave;
-            rtu.MonitoringState = e.IsMonitoringOn ? MonitoringState.On : MonitoringState.Off;
-
-            foreach (var trace in Traces.Where(t => t.RtuId == e.RtuId))
-            {
-                trace.IsIncludedInMonitoringCycle = e.TracesInMonitoringCycle.Contains(trace.Id);
-            }
-        }
         #endregion
 
         #region Trace
@@ -352,6 +280,9 @@ namespace Iit.Fibertest.Client
             trace.Port = -1;
         }
 
+        #endregion
+
+        #region JustEchosOfCmdsSentToRtu
         public void Apply(BaseRefAssigned e)
         {
             // базовая не хранится на клиенте, а получается по запросу
@@ -377,6 +308,84 @@ namespace Iit.Fibertest.Client
                 trace.AdditionalDuration = additionalBaseRef.Duration;
             }
         }
+
+        public void Apply(RtuInitialized e)
+        {
+            var rtu = Rtus.First(r => r.Id == e.Id);
+            if (rtu.Serial == null)
+            {
+                InitializeRtuFirstTime(e, rtu);
+                return;
+            }
+
+            if (rtu.Serial == e.Serial)
+            {
+                if (rtu.OwnPortCount != e.OwnPortCount)
+                {
+                    // main otdr problem
+                    // TODO
+                    return;
+                }
+
+                if (rtu.FullPortCount != e.FullPortCount)
+                {
+                    // bop changes
+                    // TODO
+                    return;
+                }
+
+                if (rtu.FullPortCount == e.FullPortCount)
+                {
+                    // just re-initialization, nothing should be done?
+                    rtu.Version = e.Version;
+                }
+            }
+
+            if (rtu.Serial != e.Serial)
+            {
+                //TODO discuss and implement rtu replacement scenario
+            }
+        }
+
+        private static void InitializeRtuFirstTime(RtuInitialized e, Rtu rtu)
+        {
+            rtu.OwnPortCount = e.OwnPortCount;
+            rtu.FullPortCount = e.FullPortCount;
+            rtu.Serial = e.Serial;
+            rtu.MainChannel = e.MainChannel;
+            rtu.MainChannelState = e.MainChannelState;
+            rtu.IsReserveChannelSet = e.IsReserveChannelSet;
+            if (e.IsReserveChannelSet)
+                rtu.ReserveChannel = e.ReserveChannel;
+            rtu.ReserveChannelState = e.ReserveChannelState;
+            rtu.OtdrNetAddress = e.OtauNetAddress;
+            rtu.MonitoringState = MonitoringState.Off;
+            rtu.Version = e.Version;
+        }
+
+        public void Apply(MonitoringSettingsChanged e)
+        {
+            var rtu = Rtus.FirstOrDefault(r => r.Id == e.RtuId);
+            if (rtu == null)
+            {
+                _logFile.AppendLine(@"MonitoringSettingsChanged: cant find RTU");
+                return;
+            }
+            rtu.PreciseMeas = e.PreciseMeas;
+            rtu.PreciseSave = e.PreciseSave;
+            rtu.FastSave = e.FastSave;
+            rtu.MonitoringState = e.IsMonitoringOn ? MonitoringState.On : MonitoringState.Off;
+
+            foreach (var trace in Traces.Where(t => t.RtuId == e.RtuId))
+            {
+                trace.IsIncludedInMonitoringCycle = e.TracesInMonitoringCycle.Contains(trace.Id);
+            }
+        }
+
+        public void Apply(MonitoringStarted e) { }
+        public void Apply(MonitoringStopped e) { }
+
+
         #endregion
     }
 }

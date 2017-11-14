@@ -75,67 +75,6 @@ namespace Iit.Fibertest.Client
             NotifyOfPropertyChange(nameof(Statistics));
         }
 
-        public void Apply(RtuInitialized e)
-        {
-            var rtuLeaf = (RtuLeaf)Tree.GetById(e.Id);
-
-            if (rtuLeaf.Serial == null)
-            {
-                InitializeRtuFirstTime(e, rtuLeaf);
-                return;
-            }
-
-            if (rtuLeaf.Serial == e.Serial)
-            {
-                if (rtuLeaf.OwnPortCount != e.OwnPortCount)
-                {
-                    // main otdr problem ?
-                    // TODO
-                    return;
-                }
-
-                if (rtuLeaf.FullPortCount != e.FullPortCount)
-                {
-                    // bop changes
-                    // TODO
-                    return;
-                }
-
-                if (rtuLeaf.FullPortCount == e.FullPortCount)
-                {
-                    // just re-initialization, nothing should be done?
-                }
-            }
-
-            if (rtuLeaf.Serial != e.Serial)
-            {
-                //TODO discuss and implement rtu replacement scenario
-            }
-        }
-
-        private void InitializeRtuFirstTime(RtuInitialized e, RtuLeaf rtuLeaf)
-        {
-            rtuLeaf.OwnPortCount = e.OwnPortCount;
-            rtuLeaf.FullPortCount = e.OwnPortCount; // otauAttached then will increase 
-            rtuLeaf.Serial = e.Serial;
-            rtuLeaf.MainChannelState = e.MainChannelState;
-            rtuLeaf.ReserveChannelState = e.ReserveChannelState;
-            rtuLeaf.MonitoringState = MonitoringState.Off;
-            rtuLeaf.OtauNetAddress = e.OtauNetAddress;
-
-            rtuLeaf.Color = Brushes.Black;
-            for (int i = 1; i <= rtuLeaf.OwnPortCount; i++)
-            {
-                var port = new PortLeaf(_readModel, _windowManager, _c2DWcfManager, _iniFile35, _logFile, PostOffice, rtuLeaf, i);
-                rtuLeaf.ChildrenImpresario.Children.Insert(i - 1, port);
-                port.Parent = rtuLeaf;
-            }
-            if (e.Otaus != null)
-                foreach (var otauAttached in e.Otaus)
-                    Apply(otauAttached);
-        }
-
-
         public void Apply(RtuUpdated e)
         {
             var rtu = Tree.GetById(e.Id);
@@ -194,28 +133,6 @@ namespace Iit.Fibertest.Client
             portLeaf.Parent = rtuLeaf;
         }
 
-        public void Apply(MonitoringSettingsChanged e)
-        {
-            var rtuLeaf = (RtuLeaf)Tree.GetById(e.RtuId);
-            rtuLeaf.MonitoringState = e.IsMonitoringOn ? MonitoringState.On : MonitoringState.Off;
-
-            foreach (var leaf in rtuLeaf.ChildrenImpresario.Children)
-            {
-                var traceLeaf = leaf as TraceLeaf;
-                if (traceLeaf != null)
-                {
-                    var trace = _readModel.Traces.FirstOrDefault(t => t.Id == traceLeaf.Id);
-                    if (trace != null)
-                        traceLeaf.MonitoringState = e.TracesInMonitoringCycle.Contains(traceLeaf.Id) 
-                            ? e.IsMonitoringOn
-                                ? MonitoringState.On
-                                : MonitoringState.OnButRtuOff
-                            : trace.HasBase
-                                ? MonitoringState.OffButHasBaseRef
-                                : MonitoringState.Off;
-                }
-            }
-        }
 
         #endregion
 
@@ -299,6 +216,9 @@ namespace Iit.Fibertest.Client
             rtu.ChildrenImpresario.Children.Add(detachedTraceLeaf);
         }
 
+        #endregion
+
+        #region JustEchosOfCmdsSentToRtu
         public void Apply(BaseRefAssigned e)
         {
             TraceLeaf traceLeaf = (TraceLeaf)Tree.GetById(e.TraceId);
@@ -316,6 +236,93 @@ namespace Iit.Fibertest.Client
                         ? MonitoringState.OnButRtuOff
                         : MonitoringState.On;
         }
+
+        public void Apply(RtuInitialized e)
+        {
+            var rtuLeaf = (RtuLeaf)Tree.GetById(e.Id);
+
+            if (rtuLeaf.Serial == null)
+            {
+                InitializeRtuFirstTime(e, rtuLeaf);
+                return;
+            }
+
+            if (rtuLeaf.Serial == e.Serial)
+            {
+                if (rtuLeaf.OwnPortCount != e.OwnPortCount)
+                {
+                    // main otdr problem ?
+                    // TODO
+                    return;
+                }
+
+                if (rtuLeaf.FullPortCount != e.FullPortCount)
+                {
+                    // bop changes
+                    // TODO
+                    return;
+                }
+
+                if (rtuLeaf.FullPortCount == e.FullPortCount)
+                {
+                    // just re-initialization, nothing should be done?
+                }
+            }
+
+            if (rtuLeaf.Serial != e.Serial)
+            {
+                //TODO discuss and implement rtu replacement scenario
+            }
+        }
+
+        private void InitializeRtuFirstTime(RtuInitialized e, RtuLeaf rtuLeaf)
+        {
+            rtuLeaf.OwnPortCount = e.OwnPortCount;
+            rtuLeaf.FullPortCount = e.OwnPortCount; // otauAttached then will increase 
+            rtuLeaf.Serial = e.Serial;
+            rtuLeaf.MainChannelState = e.MainChannelState;
+            rtuLeaf.ReserveChannelState = e.ReserveChannelState;
+            rtuLeaf.MonitoringState = MonitoringState.Off;
+            rtuLeaf.OtauNetAddress = e.OtauNetAddress;
+
+            rtuLeaf.Color = Brushes.Black;
+            for (int i = 1; i <= rtuLeaf.OwnPortCount; i++)
+            {
+                var port = new PortLeaf(_readModel, _windowManager, _c2DWcfManager, _iniFile35, _logFile, PostOffice, rtuLeaf, i);
+                rtuLeaf.ChildrenImpresario.Children.Insert(i - 1, port);
+                port.Parent = rtuLeaf;
+            }
+            if (e.Otaus != null)
+                foreach (var otauAttached in e.Otaus)
+                    Apply(otauAttached);
+        }
+
+
+        public void Apply(MonitoringSettingsChanged e)
+        {
+            var rtuLeaf = (RtuLeaf)Tree.GetById(e.RtuId);
+            rtuLeaf.MonitoringState = e.IsMonitoringOn ? MonitoringState.On : MonitoringState.Off;
+
+            foreach (var leaf in rtuLeaf.ChildrenImpresario.Children)
+            {
+                var traceLeaf = leaf as TraceLeaf;
+                if (traceLeaf != null)
+                {
+                    var trace = _readModel.Traces.FirstOrDefault(t => t.Id == traceLeaf.Id);
+                    if (trace != null)
+                        traceLeaf.MonitoringState = e.TracesInMonitoringCycle.Contains(traceLeaf.Id)
+                            ? e.IsMonitoringOn
+                                ? MonitoringState.On
+                                : MonitoringState.OnButRtuOff
+                            : trace.HasBase
+                                ? MonitoringState.OffButHasBaseRef
+                                : MonitoringState.Off;
+                }
+            }
+        }
+
+        public void Apply(MonitoringStarted e) { }
+        public void Apply(MonitoringStopped e) { }
         #endregion
     }
 }

@@ -236,14 +236,6 @@ namespace Iit.Fibertest.Graph
             _rtus.RemoveAll(r => r.Id == e.Id);
         }
 
-        public void Apply(RtuInitialized e)
-        {
-            var rtu = _rtus.FirstOrDefault(r => r.Id == e.Id);
-            if (rtu != null)
-                _mapper.Map(e, rtu);
-            else _logFile.AppendLine($@"RtuInitialized: RTU {e.Id.First6()} not found");
-        }
-
         public void Apply(MonitoringSettingsChanged e)
         {
             
@@ -269,6 +261,21 @@ namespace Iit.Fibertest.Graph
         public void Apply(TraceDetached e) { }
 
         public void Apply(BaseRefAssigned e) { }
+        #endregion
+
+        #region JustEchosOfCmdsSentToRtu
+        public void Apply(RtuInitialized e)
+        {
+            var rtu = _rtus.FirstOrDefault(r => r.Id == e.Id);
+            if (rtu != null)
+                _mapper.Map(e, rtu);
+            else _logFile.AppendLine($@"RtuInitialized: RTU {e.Id.First6()} not found");
+        }
+
+        public void Apply(MonitoringStarted e) { }
+        public void Apply(MonitoringStopped e) { }
+
+
         #endregion
     }
 }

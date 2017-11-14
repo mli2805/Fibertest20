@@ -73,64 +73,45 @@ namespace Iit.Fibertest.Client
         public async void StopMonitoring(object param)
         {
             var rtuLeaf = param as RtuLeaf;
-            var rtu = rtuLeaf?.ReadModel.Rtus.FirstOrDefault(r => r.Id == rtuLeaf.Id);
-            if (rtu == null)
+            if (rtuLeaf == null)
                 return;
 
-            bool result;
             using (new WaitCursor())
             {
-                result = await rtuLeaf.C2DWcfManager.StopMonitoringAsync(new StopMonitoringDto() { RtuId = rtuLeaf.Id });
+                var result = await rtuLeaf.C2DWcfManager.StopMonitoringAsync(new StopMonitoringDto() { RtuId = rtuLeaf.Id });
+                _logFile.AppendLine($@"Stop monitoring result - {result}");
+                var vm = new NotificationViewModel(
+                    result ? Resources.SID_Information : Resources.SID_Error_,
+                    result ? Resources.SID_RTU_is_turned_into_manual_mode : Resources.SID_Cannot_turn_RTU_into_manual_mode);
+                if (result)
+                {
+                    var cmd = new StopMonitoring() { RtuId = rtuLeaf.Id };
+                    await rtuLeaf.C2DWcfManager.SendCommandAsObj(cmd);
+                    rtuLeaf.WindowManager.ShowDialog(vm);
+                }
             }
-            ReactOnStopMonitoringResult(result, rtuLeaf, rtu);
-        }
-
-        private void ReactOnStopMonitoringResult(bool result, RtuLeaf rtuLeaf, Rtu rtu)
-        {
-            _logFile.AppendLine($@"Stop monitoring result - {result}");
-            if (result)
-            {
-                rtuLeaf.MonitoringState = MonitoringState.Off;
-                rtu.MonitoringState = MonitoringState.Off;
-
-                ApplyToAllTraces(rtuLeaf, rtuLeaf.MonitoringState);
-            }
-            var vm = new NotificationViewModel(
-                result ? Resources.SID_Information : Resources.SID_Error_,
-                result ? Resources.SID_RTU_is_turned_into_manual_mode : Resources.SID_Cannot_turn_RTU_into_manual_mode);
-            rtuLeaf.WindowManager.ShowDialog(vm);
         }
 
         public async void StartMonitoring(object param)
         {
             var rtuLeaf = param as RtuLeaf;
-            var rtu = rtuLeaf?.ReadModel.Rtus.FirstOrDefault(r => r.Id == rtuLeaf.Id);
-            if (rtu == null)
+            if (rtuLeaf == null)
                 return;
 
-            bool result;
             using (new WaitCursor())
             {
-                result = await rtuLeaf.C2DWcfManager.StartMonitoringAsync(new StartMonitoringDto() { RtuId = rtuLeaf.Id });
+                var result = await rtuLeaf.C2DWcfManager.StartMonitoringAsync(new StartMonitoringDto() { RtuId = rtuLeaf.Id });
+                _logFile.AppendLine($@"Start monitoring result - {result}");
+                var vm = new NotificationViewModel(
+                    result ? Resources.SID_Information : Resources.SID_Error_,
+                    result ? Resources.SID_RTU_is_turned_into_automatic_mode : Resources.SID_Cannot_turn_RTU_into_automatic_mode);
+                if (result)
+                {
+                    var cmd = new StartMonitoring() { RtuId = rtuLeaf.Id };
+                    await rtuLeaf.C2DWcfManager.SendCommandAsObj(cmd);
+                    rtuLeaf.WindowManager.ShowDialog(vm);
+                }
             }
-            ReactOnStartMonitoringResult(result, rtuLeaf, rtu);
-        }
-
-        private void ReactOnStartMonitoringResult(bool result, RtuLeaf rtuLeaf, Rtu rtu)
-        {
-            _logFile.AppendLine($@"Start monitoring result - {result}");
-            if (result)
-            {
-                rtuLeaf.MonitoringState = MonitoringState.On;
-                rtu.MonitoringState = MonitoringState.On;
-
-                ApplyToAllTraces(rtuLeaf, rtuLeaf.MonitoringState);
-
-            }
-            var vm = new NotificationViewModel(
-                result ? Resources.SID_Information : Resources.SID_Error_,
-                result ? Resources.SID_RTU_is_turned_into_automatic_mode : Resources.SID_Cannot_turn_RTU_into_automatic_mode);
-            rtuLeaf.WindowManager.ShowDialog(vm);
         }
 
         private void ApplyToAllTraces(IPortOwner portOwner, MonitoringState rtuMonitoringState)

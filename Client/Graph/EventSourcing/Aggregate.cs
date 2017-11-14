@@ -163,20 +163,6 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        public string When(InitializeRtu cmd)
-        {
-            var evnt = _mapper.Map<RtuInitialized>(cmd);
-            WriteModel.Add(evnt);
-            return null;
-        }
-
-        public string When(ChangeMonitoringSettings cmd)
-        {
-            var evnt = _mapper.Map<MonitoringSettingsChanged>(cmd);
-            WriteModel.Add(evnt);
-            return null;
-        }
-
         public string When(UpdateRtu cmd)
         {
             WriteModel.Add(_mapper.Map<RtuUpdated>(cmd));
@@ -188,19 +174,24 @@ namespace Iit.Fibertest.Graph
             WriteModel.Add(_mapper.Map<RtuRemoved>(cmd));
             return null;
         }
+
         public string When(AttachOtau cmd)
         {
             WriteModel.Add(_mapper.Map<OtauAttached>(cmd));
             return null;
         }
+
         public string When(DetachOtau cmd)
         {
             WriteModel.Add(_mapper.Map<OtauDetached>(cmd));
             return null;
         }
+
         #endregion
 
+
         #region Trace
+
         public string When(AddTrace cmd)
         {
             var rtu = WriteModel.GetRtu(cmd.RtuId);
@@ -247,7 +238,9 @@ namespace Iit.Fibertest.Graph
             WriteModel.Add(_mapper.Map<TraceDetached>(cmd));
             return null;
         }
+        #endregion
 
+        #region JustEchosOfCmdsSentToRtu
         public string When(AssignBaseRef cmd)
         {
             WriteModel.Add(_mapper.Map<BaseRefAssigned>(cmd));
@@ -268,6 +261,33 @@ namespace Iit.Fibertest.Graph
             var additionalBaseRef = cmd.BaseRefs.FirstOrDefault(b => b.BaseRefType == BaseRefType.Additional);
             if (additionalBaseRef != null)
                 trace.AdditionalId = additionalBaseRef.Id;
+            return null;
+        }
+        public string When(ChangeMonitoringSettings cmd)
+        {
+            var evnt = _mapper.Map<MonitoringSettingsChanged>(cmd);
+            WriteModel.Add(evnt);
+            return null;
+        }
+
+        public string When(InitializeRtu cmd)
+        {
+            var evnt = _mapper.Map<RtuInitialized>(cmd);
+            WriteModel.Add(evnt);
+            return null;
+        }
+
+        public string When(StartMonitoring cmd)
+        {
+            var evnt = _mapper.Map<MonitoringStarted>(cmd);
+            WriteModel.Add(evnt);
+            return null;
+        }
+
+        public string When(StopMonitoring cmd)
+        {
+            var evnt = _mapper.Map<MonitoringStopped>(cmd);
+            WriteModel.Add(evnt);
             return null;
         }
         #endregion

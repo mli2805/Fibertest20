@@ -98,6 +98,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\JustEchosOfCmdsSentToRtu\ChangeMonitoringSettings.cs" />
+    <Compile Include="Commands\JustEchosOfCmdsSentToRtu\StartMonitoring.cs" />
+    <Compile Include="Commands\JustEchosOfCmdsSentToRtu\StopMonitoring.cs" />
     <Compile Include="EventSourcing\Aggregate.cs" />
     <Compile Include="EventSourcing\WriteModel.cs" />
     <Compile Include="Algorithms\Topo.cs" />
@@ -133,6 +135,8 @@
     <Compile Include="Events\Equipment\EquipmentUpdated.cs" />
     <Compile Include="Events\Fiber\FiberUpdated.cs" />
     <Compile Include="Events\Fiber\FiberRemoved.cs" />
+    <Compile Include="Events\JustEchosOfCmdsSentToRtu\MonitoringStarted.cs" />
+    <Compile Include="Events\JustEchosOfCmdsSentToRtu\MonitoringStopped.cs" />
     <Compile Include="Events\Node\NodeIntoFiberAdded.cs" />
     <Compile Include="Events\Node\NodeMoved.cs" />
     <Compile Include="Events\JustEchosOfCmdsSentToRtu\MonitoringSettingsChanged.cs" />
