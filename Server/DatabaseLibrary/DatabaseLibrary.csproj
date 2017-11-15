@@ -88,6 +88,10 @@
     <Compile Include="Migrations\201711101301002_UserIdForStationAdded.Designer.cs">
       <DependentUpon>201711101301002_UserIdForStationAdded.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711151005557_MeasurementsAndEventsTablesAdded.cs" />
+    <Compile Include="Migrations\201711151005557_MeasurementsAndEventsTablesAdded.Designer.cs">
+      <DependentUpon>201711151005557_MeasurementsAndEventsTablesAdded.cs</DependentUpon>
+    </Compile>
     <Compile Include="RtuRegistration\MapperToRtuStation.cs" />
     <Compile Include="Migrations\201711031240377_InitialCreate.cs" />
     <Compile Include="Migrations\201711031240377_InitialCreate.Designer.cs">
@@ -163,6 +167,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711101301002_UserIdForStationAdded.resx">
       <DependentUpon>201711101301002_UserIdForStationAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711151005557_MeasurementsAndEventsTablesAdded.resx">
+      <DependentUpon>201711151005557_MeasurementsAndEventsTablesAdded.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

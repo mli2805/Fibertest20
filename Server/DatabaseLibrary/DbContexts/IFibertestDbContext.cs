@@ -11,6 +11,12 @@ namespace Iit.Fibertest.DatabaseLibrary.DbContexts
         DbSet<RtuStation> RtuStations { get; set; }
         DbSet<BaseRef> BaseRefs { get; set; }
 
+        DbSet<NetworkEvent> NetworkEvents { get; set; }
+        DbSet<OpticalEvent> OpticalEvents { get; set; }
+        DbSet<Measurement> Measurements { get; set; }
+        DbSet<SorFile> SorFiles { get; set; }
+
+
         void SaveChanges();
         Task<int> SaveChangesAsync();
     }

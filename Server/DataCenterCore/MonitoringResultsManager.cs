@@ -1,5 +1,9 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using Iit.Fibertest.DatabaseLibrary;
+using Iit.Fibertest.DatabaseLibrary.DbContexts;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 
@@ -21,18 +25,91 @@ namespace Iit.Fibertest.DataCenterCore
             return true;
         }
 
-        public bool ProcessMonitoringResult(MonitoringResultDto result)
+        public async Task<bool> ProcessMonitoringResult(MonitoringResultDto result)
         {
-            _logFile.AppendLine(
-                $"Moniresult from RTU {result.RtuId.First6()}. {result.BaseRefType} on {result.PortWithTrace.OtauPort.OpticalPort} port. " +
-                $"Trace {result.PortWithTrace.TraceId.First6()} state is {result.TraceState}. Sor size is {result.SorData.Length}. {result.TimeStamp:yyyy-MM-dd hh-mm-ss}");
+            if (!await SaveMeasurementInDb(result))
+                return false;
 
-            var filename = $@"c:\temp\sor\{result.RtuId.First6()} {result.TimeStamp:yyyy-MM-dd hh-mm-ss}.sor";
-            var fs = File.Create(filename);
-            fs.Write(result.SorData, 0, result.SorData.Length);
-            fs.Close();
+            if (IsTraceStateChanged(result))
+            {
+                await SaveOpticalEventInDb(result);
+                await SendMoniresultToClients(result);
+            }
 
             return true;
+        }
+
+        private async Task<bool> SendMoniresultToClients(MonitoringResultDto result)
+        {
+            return true;
+        }
+        private async Task<bool> SaveOpticalEventInDb(MonitoringResultDto result)
+        {
+            try
+            {
+                var dbContext = new MySqlContext();
+                dbContext.OpticalEvents.Add(new OpticalEvent()
+                {
+                    RtuId = result.RtuId,
+                    TraceId = result.PortWithTrace.TraceId,
+                    EventTimestamp = result.TimeStamp,
+                    TraceState = result.TraceState,
+                    EventStatus = EventStatus.Current,
+                    StatusTimestamp = DateTime.Now,
+                    StatusUserId = 0,
+                });
+                await dbContext.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("SaveOpticalEventInDb " + e.Message);
+                return false;
+            }
+        }
+
+        private bool IsTraceStateChanged(MonitoringResultDto result)
+        {
+            try
+            {
+                var dbContext = new MySqlContext();
+                var lastEventOnTrace = dbContext.OpticalEvents.Where(ev => ev.TraceId == result.PortWithTrace.TraceId).ToList()
+                    .LastOrDefault();
+                return lastEventOnTrace?.TraceState != result.TraceState;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("IsTraceStateChanged " + e.Message);
+                return false;
+            }
+        }
+        private async Task<bool> SaveMeasurementInDb(MonitoringResultDto result)
+        {
+            try
+            {
+                var dbContext = new MySqlContext();
+                dbContext.Measurements.Add(new Measurement()
+                {
+                    MeasurementId = result.Id,
+                    RtuId = result.RtuId,
+                    TraceId = result.PortWithTrace.TraceId,
+                    BaseRefType = result.BaseRefType,
+                    TraceState = result.TraceState,
+                    Timestamp = result.TimeStamp,
+                });
+                dbContext.SorFiles.Add(new SorFile()
+                {
+                    MeasurementId = result.Id,
+                    SorBytes = result.SorData,
+                });
+                await dbContext.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("SaveMeasurementInDb " + e.Message);
+                return false;
+            }
         }
     }
 }

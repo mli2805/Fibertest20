@@ -54,7 +54,7 @@ namespace Iit.Fibertest.DataCenterService
 
                 var mr = message.Body as MonitoringResultDto;
                 if (mr != null)
-                    _monitoringResultsManager.ProcessMonitoringResult(mr);
+                    _monitoringResultsManager.ProcessMonitoringResult(mr).Wait();
             }
             catch (Exception e)
             {
