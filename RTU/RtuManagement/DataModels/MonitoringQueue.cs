@@ -65,17 +65,11 @@ namespace Iit.Fibertest.RtuManagement
             }
         }
 
-        public void MergeNewPortsIntQueue(List<OtauPortDto> ports)
+        public void ComposeNewQueue(List<PortWithTraceDto> ports)
         {
-            var newQueue = new Queue<MonitorigPort>();
-
-            foreach (var otauPortDto in ports)
-            {
-                var extendedPort = Queue.FirstOrDefault(p => p.IsTheSamePort(otauPortDto)) ?? new MonitorigPort(otauPortDto);
-                newQueue.Enqueue(extendedPort);
-            }
-
-            Queue = newQueue;
+            Queue.Clear();
+            foreach (var portWithTrace in ports)
+                Queue.Enqueue(new MonitorigPort(portWithTrace));
         }
     }
 }

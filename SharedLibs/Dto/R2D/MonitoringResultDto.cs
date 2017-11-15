@@ -17,7 +17,7 @@ namespace Iit.Fibertest.Dto
         public DateTime TimeStamp { get; set; }
 
         [DataMember]
-        public OtauPortDto OtauPort { get; set; }
+        public PortWithTraceDto PortWithTrace { get; set; }
 
         [DataMember]
         public BaseRefType BaseRefType { get; set; }

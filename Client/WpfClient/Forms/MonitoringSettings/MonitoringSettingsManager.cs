@@ -87,6 +87,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
                     result.Add(new MonitoringPortModel()
                     {
                         PortNumber = i+1,
+                        TraceId = traceLeaf.Id,
                         TraceTitle = traceLeaf.Title,
                         PreciseBaseSpan = trace.PreciseDuration,
                         FastBaseSpan = trace.FastDuration,

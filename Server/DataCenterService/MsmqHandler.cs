@@ -22,7 +22,7 @@ namespace Iit.Fibertest.DataCenterService
         public void Start()
         {
             // ini file should contain correct local ip (127.0.0.1 or localhost are NOT valid in this case)
-            var address = _iniFile.Read(IniSection.ServerMainAddress, IniKey.Ip, "192.168.96.0");
+            var address = _iniFile.Read(IniSection.ServerMainAddress, IniKey.Ip, "0.0.0.0");
             var connectionString = $@"FormatName:DIRECT=TCP:{address}\private$\Fibertest20";
             var queue = new MessageQueue(connectionString);
             queue.ReceiveCompleted += MyReceiveCompleted;
@@ -32,7 +32,6 @@ namespace Iit.Fibertest.DataCenterService
             try
             {
                 queue.BeginReceive();
-
             }
             catch (Exception e)
             {
@@ -42,10 +41,10 @@ namespace Iit.Fibertest.DataCenterService
 
         private void MyReceiveCompleted(object source, ReceiveCompletedEventArgs asyncResult)
         {
+            // Connect to the queue.
+            MessageQueue queue = (MessageQueue)source;
             try
             {
-                // Connect to the queue.
-                MessageQueue queue = (MessageQueue)source;
                 queue.Formatter = new BinaryMessageFormatter();
 
                 // End the asynchronous receive operation.
@@ -55,16 +54,16 @@ namespace Iit.Fibertest.DataCenterService
 
                 var mr = message.Body as MonitoringResultDto;
                 if (mr != null)
-                {
                     _monitoringResultsManager.ProcessMonitoringResult(mr);
-                }
-
-                // Restart the asynchronous receive operation.
-                queue.BeginReceive();
             }
             catch (Exception e)
             {
                 _logFile.AppendLine($"MyReceiveCompleted: {e.Message}");
+            }
+            finally
+            {
+                // Restart the asynchronous receive operation.
+                queue.BeginReceive();
             }
         }
     }

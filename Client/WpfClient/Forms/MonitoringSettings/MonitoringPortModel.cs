@@ -8,6 +8,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
     {
         private bool _isIncluded;
         public int PortNumber { get; set; }
+        public Guid TraceId { get; set; }
         public string TraceTitle { get; set; }
         public TimeSpan PreciseBaseSpan { get; set; } = TimeSpan.Zero;
         public TimeSpan FastBaseSpan { get; set; } = TimeSpan.Zero;

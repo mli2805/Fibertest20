@@ -19,6 +19,6 @@ namespace Iit.Fibertest.Dto
         public MonitoringTimespansDto Timespans { get; set; }
 
         [DataMember]
-        public List<OtauPortDto> Ports { get; set; }
+        public List<PortWithTraceDto> Ports { get; set; }
     }
 }

@@ -11,6 +11,7 @@ namespace Iit.Fibertest.RtuManagement
         public NetAddress NetAddress { get; set; }
         public bool IsPortOnMainCharon { get; set; }
         public int OpticalPort { get; set; }
+        public Guid TraceId { get; set; }
 
         public DateTime? LastPreciseMadeTimestamp { get; set; }
         public DateTime LastPreciseSavedTimestamp { get; set; }
@@ -26,6 +27,7 @@ namespace Iit.Fibertest.RtuManagement
         {
             NetAddress = port.NetAddress;
             OpticalPort = port.OpticalPort;
+            TraceId = port.TraceId;
             LastTraceState = port.LastTraceState;
 
             LastFastSavedTimestamp = port.LastFastSavedTimestamp;
@@ -35,10 +37,11 @@ namespace Iit.Fibertest.RtuManagement
         }
 
         // new port for monitoring in user's command
-        public MonitorigPort(OtauPortDto port)
+        public MonitorigPort(PortWithTraceDto port)
         {
-            NetAddress = new NetAddress(port.OtauIp, port.OtauTcpPort);
-            OpticalPort = port.OpticalPort;
+            NetAddress = new NetAddress(port.OtauPort.OtauIp, port.OtauPort.OtauTcpPort);
+            OpticalPort = port.OtauPort.OpticalPort;
+            TraceId = port.TraceId;
             LastTraceState = FiberState.NotChecked;
 
             LastFastSavedTimestamp = DateTime.Now;

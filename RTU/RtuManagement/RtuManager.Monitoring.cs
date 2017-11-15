@@ -53,7 +53,7 @@ namespace Iit.Fibertest.RtuManagement
         private MoniResult DoFastMeasurement(MonitorigPort monitorigPort)
         {
             _rtuLog.EmptyLine();
-            _rtuLog.AppendLine($"MEAS. {_measurementNumber} port {monitorigPort.ToStringB(_mainCharon)}, Fast");
+            _rtuLog.AppendLine($"MEAS. {_measurementNumber} port {monitorigPort.ToStringB(_mainCharon)}, trace {monitorigPort.TraceId.First6()} Fast");
 
             var moniResult = DoMeasurement(BaseRefType.Fast, monitorigPort);
 
@@ -190,12 +190,16 @@ namespace Iit.Fibertest.RtuManagement
                 Id = Guid.NewGuid(),
                 RtuId = _id,
                 TimeStamp = DateTime.Now,
-                OtauPort = new OtauPortDto()
+                PortWithTrace = new PortWithTraceDto()
                 {
-                    OtauIp = monitorigPort.NetAddress.Ip4Address,
-                    OtauTcpPort = monitorigPort.NetAddress.Port,
-                    IsPortOnMainCharon = monitorigPort.IsPortOnMainCharon,
-                    OpticalPort = monitorigPort.OpticalPort,
+                    OtauPort = new OtauPortDto()
+                    {
+                        OtauIp = monitorigPort.NetAddress.Ip4Address,
+                        OtauTcpPort = monitorigPort.NetAddress.Port,
+                        IsPortOnMainCharon = monitorigPort.IsPortOnMainCharon,
+                        OpticalPort = monitorigPort.OpticalPort,
+                    },
+                    TraceId = monitorigPort.TraceId,
                 },
                 BaseRefType = moniResult.BaseRefType,
                 TraceState = moniResult.GetAggregatedResult(),

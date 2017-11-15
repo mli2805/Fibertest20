@@ -77,28 +77,16 @@ namespace Iit.Fibertest.Client.MonitoringSettings
                 PreciseMeas = dto.Timespans.PreciseMeas.GetFrequency(),
                 PreciseSave = dto.Timespans.PreciseSave.GetFrequency(),
                 FastSave = dto.Timespans.FastSave.GetFrequency(),
-                TracesInMonitoringCycle = GetTracesIncludedInMonitoringCycle(dto.Ports),
+                TracesInMonitoringCycle = dto.Ports.Select(p => p.TraceId).ToList(),
                 IsMonitoringOn = dto.IsMonitoringOn,
             };
             return cmd;
         }
 
 
-        private List<Guid> GetTracesIncludedInMonitoringCycle(List<OtauPortDto> ports)
-        {
-            var result = new List<Guid>();
-            foreach (var otauPortDto in ports)
-            {
-                var trace = _readModel.Traces.FirstOrDefault(t => t.OtauPort != null && IsTheSamePort(t.OtauPort, otauPortDto));
-                if (trace != null)
-                    result.Add(trace.Id);
-            }
-            return result;
-        }
-
         private bool IsTheSamePort(OtauPortDto otauPortDto1, OtauPortDto otauPortDto2)
         {
-            return otauPortDto1.OtauIp == otauPortDto2.OtauIp 
+            return otauPortDto1.OtauIp == otauPortDto2.OtauIp
                 && otauPortDto1.OtauTcpPort == otauPortDto2.OtauTcpPort
                    && otauPortDto1.OpticalPort == otauPortDto2.OpticalPort;
         }
@@ -113,20 +101,24 @@ namespace Iit.Fibertest.Client.MonitoringSettings
             };
         }
 
-        private List<OtauPortDto> ConvertPorts()
+        private List<PortWithTraceDto> ConvertPorts()
         {
-            var ports = new List<OtauPortDto>();
+            var ports = new List<PortWithTraceDto>();
             foreach (var charon in Model.Charons)
             {
                 foreach (var port in charon.Ports.Where(p => p.IsIncluded))
                 {
                     ports.Add(
-                        new OtauPortDto
+                        new PortWithTraceDto()
                         {
-                            OtauIp = charon.IsMainCharon ? Model.RealOtdrAddress : charon.CharonIpAddress,
-                            OtauTcpPort = charon.CharonTcpPort,
-                            OpticalPort = port.PortNumber,
-                            IsPortOnMainCharon = charon.IsMainCharon
+                            OtauPort = new OtauPortDto
+                            {
+                                OtauIp = charon.IsMainCharon ? Model.RealOtdrAddress : charon.CharonIpAddress,
+                                OtauTcpPort = charon.CharonTcpPort,
+                                OpticalPort = port.PortNumber,
+                                IsPortOnMainCharon = charon.IsMainCharon
+                            },
+                            TraceId = port.TraceId,
                         });
                 }
             }

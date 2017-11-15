@@ -115,7 +115,7 @@ namespace Iit.Fibertest.RtuManagement
             _rtuLog.AppendLine("Start ApplyChangeSettings");
 
             ApplyNewFrequenciesToIni(dto.Timespans);
-            _monitoringQueue.MergeNewPortsIntQueue(dto.Ports);
+            _monitoringQueue.ComposeNewQueue(dto.Ports);
             _rtuLog.AppendLine($"Queue merged. {_monitoringQueue.Count()} port(s) in queue");
             _monitoringQueue.Save();
 
