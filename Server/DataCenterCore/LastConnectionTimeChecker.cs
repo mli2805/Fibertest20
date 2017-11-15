@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Iit.Fibertest.DatabaseLibrary;
+using Iit.Fibertest.DatabaseLibrary.DbContexts;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
@@ -16,6 +18,9 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly ClientRegistrationManager _clientRegistrationManager;
         private readonly RtuRegistrationManager _rtuRegistrationManager;
         private readonly D2CWcfManager _d2CWcfManager;
+        private TimeSpan _checkHeartbeatEvery;
+        private TimeSpan _rtuHeartbeatPermittedGap;
+        private TimeSpan _clientHeartbeatPermittedGap;
 
         public LastConnectionTimeChecker(IniFile iniFile, IMyLog logFile,
             ClientRegistrationManager clientRegistrationManager, RtuRegistrationManager rtuRegistrationManager,
@@ -32,39 +37,71 @@ namespace Iit.Fibertest.DataCenterCore
         {
             var thread = new Thread(Check) { IsBackground = true };
             thread.Start();
-
         }
 
         private void Check()
         {
-            var checkHeartbeatEvery =
-                TimeSpan.FromSeconds(_iniFile.Read(IniSection.General, IniKey.CheckHeartbeatEvery, 3));
-            var rtuHeartbeatPermittedGap =
-                TimeSpan.FromSeconds(_iniFile.Read(IniSection.General, IniKey.RtuHeartbeatPermittedGap, 70));
-            var clientHeartbeatPermittedGap =
-                TimeSpan.FromSeconds(_iniFile.Read(IniSection.General, IniKey.ClientHeartbeatPermittedGap, 180));
+            _checkHeartbeatEvery = TimeSpan.FromSeconds(_iniFile.Read(IniSection.General, IniKey.CheckHeartbeatEvery, 3));
+            _rtuHeartbeatPermittedGap = TimeSpan.FromSeconds(_iniFile.Read(IniSection.General, IniKey.RtuHeartbeatPermittedGap, 70));
+            _clientHeartbeatPermittedGap = TimeSpan.FromSeconds(_iniFile.Read(IniSection.General, IniKey.ClientHeartbeatPermittedGap, 180));
 
             while (true)
             {
-                _clientRegistrationManager.CleanDeadClients(clientHeartbeatPermittedGap).Wait();
+                Tick().Wait();
+                Thread.Sleep(_checkHeartbeatEvery);
+            }
+        }
 
-                var changes = _rtuRegistrationManager.CheckAndSaveRtuAvailability(rtuHeartbeatPermittedGap).Result;
-                if (changes.List.Count != 0)
+        private async Task<int> Tick()
+        {
+            _clientRegistrationManager.CleanDeadClients(_clientHeartbeatPermittedGap).Wait();
+
+            var changes = await _rtuRegistrationManager.GetAndSaveRtuStationsAvailabilityChanges(_rtuHeartbeatPermittedGap);
+            if (changes.List.Count == 0)
+                return 0;
+
+            await RecordNetworkEvents(changes);
+            await NotifyClientsRtuAvailabilityChanged(changes);
+            return 0;
+        }
+
+        private async Task<int> RecordNetworkEvents(RtuWithChannelChangesList changes)
+        {
+            try
+            {
+                var dbContext = new MySqlContext();
+                foreach (var rtuWithChannelChanges in changes.List)
                 {
-                    changes.List.ForEach(r => _logFile.AppendLine(r.Report()));
-                    var dto = new ListOfRtuWithChangedAvailabilityDto() {List = changes.List};
-
-                    var allClients = _clientRegistrationManager.GetAllLiveClients().Result;
-                    if (allClients != null && allClients.Any())
+                    dbContext.NetworkEvents.Add(new NetworkEvent()
                     {
-                        var clientsAddresses = ExtractClientsAddresses(allClients);
-                        _d2CWcfManager.SetClientsAddresses(clientsAddresses);
-                        _d2CWcfManager.NotifyAboutRtuChangedAvailability(dto).Wait();
-                    }
+                        RtuId = rtuWithChannelChanges.RtuId,
+                        EventTimestamp = DateTime.Now,
+                        MainChannelState = rtuWithChannelChanges.MainChannel,
+                        ReserveChannelState = rtuWithChannelChanges.ReserveChannel,
+                        BopString = "", // rabbish
+                    });
                 }
-                Thread.Sleep(checkHeartbeatEvery);
+                return await dbContext.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("RecordNetworkEvents:" + e.Message);
+                return -1;
             }
 
+        }
+        private async Task<int> NotifyClientsRtuAvailabilityChanged(RtuWithChannelChangesList changes)
+        {
+            changes.List.ForEach(r => _logFile.AppendLine(r.Report()));
+            var dto = new ListOfRtuWithChangedAvailabilityDto() { List = changes.List };
+
+            var allClients = _clientRegistrationManager.GetAllLiveClients().Result;
+            if (allClients == null || !allClients.Any())
+                return 0;
+
+            var clientsAddresses = ExtractClientsAddresses(allClients);
+            _d2CWcfManager.SetClientsAddresses(clientsAddresses);
+            return await _d2CWcfManager.NotifyAboutRtuChangedAvailability(dto);
         }
 
         private List<DoubleAddress> ExtractClientsAddresses(List<ClientStation> clientStations)
@@ -79,6 +116,6 @@ namespace Iit.Fibertest.DataCenterCore
             }
             return result;
         }
-     
+
     }
 }

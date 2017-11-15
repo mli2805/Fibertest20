@@ -165,7 +165,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
         }
 
-        public async Task<RtuWithChannelChangesList> CheckAndSaveRtuAvailability(TimeSpan timeSpan)
+        public async Task<RtuWithChannelChangesList> GetAndSaveRtuStationsAvailabilityChanges(TimeSpan timeSpan)
         {
             var changes = new RtuWithChannelChangesList();
             try
@@ -206,13 +206,10 @@ namespace Iit.Fibertest.DatabaseLibrary
                 }
                 await dbContext.SaveChangesAsync();
                 return changes;
-
-             
-
             }
             catch (Exception e)
             {
-                _logFile.AppendLine("CheckAndSaveRtuAvailability:" + e.Message);
+                _logFile.AppendLine("GetAndSaveRtuStationsAvailabilityChanges:" + e.Message);
             }
             return new RtuWithChannelChangesList();
         }

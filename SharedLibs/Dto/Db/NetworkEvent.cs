@@ -7,7 +7,9 @@ namespace Iit.Fibertest.Dto
         public int Id { get; set; }
         public DateTime EventTimestamp { get; set; }
         public Guid RtuId { get; set; }
-        public RtuPart Part { get; set; }
-        public RtuPartState PartState { get; set; }
+        public ChannelStateChanges MainChannelState { get; set; }
+        public ChannelStateChanges ReserveChannelState { get; set; }
+
+        public string BopString { get; set; } // 
     }
 }

@@ -2,8 +2,8 @@ namespace Iit.Fibertest.Dto
 {
     public enum ChannelStateChanges
     {
-        Broken,
-        TheSame,
-        Recovered,
+        Broken    = -1,
+        TheSame   =  0,
+        Recovered =  1,
     }
 }
