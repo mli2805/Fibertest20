@@ -1,4 +1,5 @@
-﻿using System.ServiceModel;
+﻿using System.Collections.Generic;
+using System.ServiceModel;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 
@@ -16,7 +17,8 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
         [OperationContract]
         Task<string[]> GetEvents(int revision);
 
-
+        [OperationContract]
+        Task<List<OpticalEvent>> GetOpticalEvents(int revision);
 
         // C2D
         [OperationContract]

@@ -1,5 +1,7 @@
-﻿using System.Windows;
+﻿using System.Collections.ObjectModel;
+using System.Windows;
 using Caliburn.Micro;
+using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Client
 {
@@ -16,6 +18,8 @@ namespace Iit.Fibertest.Client
                 NotifyOfPropertyChange();
             }
         }
+
+        public ObservableCollection<OpticalEvent> Rows { get; set; } = new ObservableCollection<OpticalEvent>();
 
         public string Message { get; set; } = @"Hello, World!";
     }

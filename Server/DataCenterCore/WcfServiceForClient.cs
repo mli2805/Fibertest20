@@ -1,4 +1,5 @@
-﻿using System.ServiceModel;
+﻿using System.Collections.Generic;
+using System.ServiceModel;
 using System.Threading.Tasks;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
@@ -20,6 +21,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
         private readonly RtuRegistrationManager _rtuRegistrationManager;
         private readonly BaseRefManager _baseRefManager;
+        private readonly DbRequestManager _dbRequestManager;
 
         private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
         {
@@ -28,7 +30,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public WcfServiceForClient(IMyLog logFile, EventStoreService eventStoreService, 
             ClientRegistrationManager clientRegistrationManager, ClientToRtuTransmitter clientToRtuTransmitter,
-            RtuRegistrationManager rtuRegistrationManager, BaseRefManager baseRefManager)
+            RtuRegistrationManager rtuRegistrationManager, BaseRefManager baseRefManager, DbRequestManager dbRequestManager)
         {
             _logFile = logFile;
             _eventStoreService = eventStoreService;
@@ -36,6 +38,7 @@ namespace Iit.Fibertest.DataCenterCore
             _clientToRtuTransmitter = clientToRtuTransmitter;
             _rtuRegistrationManager = rtuRegistrationManager;
             _baseRefManager = baseRefManager;
+            _dbRequestManager = dbRequestManager;
         }
 
         public async Task<string> SendCommandAsObj(object cmd)
@@ -66,6 +69,11 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<string[]> GetEvents(int revision)
         {
             return await Task.FromResult(_eventStoreService.GetEvents(revision));
+        }
+
+        public async Task<List<OpticalEvent>> GetOpticalEvents(int revision)
+        {
+            return await Task.FromResult(_dbRequestManager.GetOpticalEvents(revision));
         }
 
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)

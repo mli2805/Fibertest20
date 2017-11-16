@@ -16,6 +16,8 @@ namespace Iit.Fibertest.Client
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<WindowManager>().As<IWindowManager>().SingleInstance();
+
+            builder.RegisterType<OpticalEventsViewModel>();
             builder.RegisterType<ShellViewModel>().As<IShell>();
             builder.RegisterType<UserListViewModel>();
             builder.RegisterType<ZonesViewModel>();
@@ -66,7 +68,8 @@ namespace Iit.Fibertest.Client
                         ioc.Resolve<ReadModel>(),
                         ioc.Resolve<TreeOfRtuModel>(),
                         ioc.Resolve<GraphReadModel>()
-                    }, 
+                    },
+                    ioc.Resolve<OpticalEventsViewModel>(),
                     logFile))
                 .SingleInstance();
 

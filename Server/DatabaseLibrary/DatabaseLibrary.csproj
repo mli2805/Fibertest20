@@ -76,6 +76,7 @@
     <Compile Include="DbContexts\IFibertestDbContext.cs" />
     <Compile Include="DbContexts\MySqlContext.cs" />
     <Compile Include="DbContexts\SqliteContext.cs" />
+    <Compile Include="DbRequestManager.cs" />
     <Compile Include="Migrations\201711041334132_ClientsAddressAdded.cs" />
     <Compile Include="Migrations\201711041334132_ClientsAddressAdded.Designer.cs">
       <DependentUpon>201711041334132_ClientsAddressAdded.cs</DependentUpon>

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.WcfServiceForClientInterface;
@@ -20,6 +21,11 @@ namespace Graph.Tests
         Task<string[]> IWcfServiceForClient.GetEvents(int revision)
         {
             return Task.FromResult(new string[0]);
+        }
+
+        public Task<List<OpticalEvent>> GetOpticalEvents(int revision)
+        {
+            throw new NotImplementedException();
         }
 
 

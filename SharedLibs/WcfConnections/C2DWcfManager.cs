@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
@@ -68,6 +69,24 @@ namespace Iit.Fibertest.WcfConnections
             {
                 _logFile.AppendLine(e.Message);
                 return new string[0];
+            }
+        }
+
+        public async Task<List<OpticalEvent>> GetOpticalEvents(int revision)
+        {
+            var wcfConnection = _wcfFactory.CreateC2DConnection();
+            if (wcfConnection == null)
+                return null;
+
+            try
+            {
+                // await wcfConnection.GetEvents(revision) blocks client !!!!!!!!!!!
+                return wcfConnection.GetOpticalEvents(revision).Result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+                return new List<OpticalEvent>();
             }
         }
 

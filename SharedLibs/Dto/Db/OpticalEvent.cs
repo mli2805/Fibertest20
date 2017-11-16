@@ -1,7 +1,9 @@
 using System;
+using System.Runtime.Serialization;
 
 namespace Iit.Fibertest.Dto
 {
+    [DataContract]
     public class OpticalEvent
     {
         public int Id { get; set; }

@@ -161,13 +161,6 @@ namespace Iit.Fibertest.Client
                 : Visibility.Visible;
         }
 
-        public void TestTraceState()
-        {
-            var vm = new TraceStateViewModel();
-            IWindowManager windowManager = new WindowManager();
-            windowManager.ShowDialog(vm);
-        }
-
         #region Node
         public async Task ComplyWithRequest(AddNode request)
         {
