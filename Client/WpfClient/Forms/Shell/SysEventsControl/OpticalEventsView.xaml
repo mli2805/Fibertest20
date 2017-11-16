@@ -10,7 +10,13 @@
     <DataGrid Margin="5" ItemsSource="{Binding Rows, Mode=TwoWay}" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="No" Binding="{Binding Nomer}" Width="30"/>
-                <DataGridTextColumn Header="RTU" Binding="{Binding RtuTitle}" Width="100"/>
+                <DataGridTextColumn Header="Event timestamp" Binding="{Binding EventTimestamp}" Width="120"/>
+                <DataGridTextColumn Header="RTU" Binding="{Binding RtuTitle}" Width="200"/>
+                <DataGridTextColumn Header="Trace" Binding="{Binding TraceTitle}" Width="200"/>
+                <DataGridTextColumn Header="State" Binding="{Binding TraceState}" Width="100"/>
+                <DataGridTextColumn Header="Event status" Binding="{Binding EventStatus}" Width="100"/>
+                <DataGridTextColumn Header="Status timestamp" Binding="{Binding StatusTimestamp}" Width="120"/>
+                <DataGridTextColumn Header="Status user" Binding="{Binding StatusUsername}" Width="100"/>
             </DataGrid.Columns>
         </DataGrid>
     </StackPanel>

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
+using System.Windows;
+using System.Windows.Markup;
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;

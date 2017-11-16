@@ -37,7 +37,6 @@ namespace Iit.Fibertest.Client
         public OpticalEventsViewModel(ReadModel readModel)
         {
             _readModel = readModel;
-            Rows.Add(new OpticalEventVm() {Nomer = 1, RtuTitle = @"just for test"});
         }
 
         public void Apply(OpticalEvent newOpticalEvent)

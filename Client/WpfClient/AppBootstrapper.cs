@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Reflection;
+using System.Windows;
+using System.Windows.Markup;
 using Autofac;
 using Caliburn.Micro;
 
@@ -18,6 +21,14 @@ namespace Iit.Fibertest.Client {
             var builder = new ContainerBuilder();
             builder.RegisterModule<AutofacClient>();
             _container = builder.Build();
+
+            // Ensure the current culture passed into bindings 
+            // is the OS culture. By default, WPF uses en-US 
+            // as the culture, regardless of the system settings.
+            FrameworkElement.LanguageProperty.OverrideMetadata(
+                typeof(FrameworkElement),
+                new FrameworkPropertyMetadata(
+                    XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
         }
 
 
