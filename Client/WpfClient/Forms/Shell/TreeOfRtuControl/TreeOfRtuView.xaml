@@ -25,8 +25,8 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        <Image x:Key="PortsPlus" Source="../Resources/Buttons/ShowPorts.png" Width="16" Height="16"/>
-        <Image x:Key="PortsMinus" Source="../Resources/Buttons/HidePorts.png" Width="16" Height="16"/>
+        <Image x:Key="PortsPlus" Source="../../../Resources/Buttons/ShowPorts.png" Width="16" Height="16"/>
+        <Image x:Key="PortsMinus" Source="../../../Resources/Buttons/HidePorts.png" Width="16" Height="16"/>
         <Style TargetType="{x:Type ToggleButton}" x:Key="MyToggleButtonStyle">
             <Setter Property="Content" Value="{DynamicResource PortsMinus}" />
             <Style.Triggers>
@@ -42,11 +42,11 @@
             <ToolBar Name="ExpandBar">
                 <Button Name="Expand" Background="Transparent" BorderThickness="0" Width="20" Height="20" Click="Expand_Click"
                     RenderOptions.BitmapScalingMode="NearestNeighbor">
-                    <Image Source="../Resources/Buttons/Expand.png" Width="16" Height="16"/>
+                    <Image Source="../../../Resources/Buttons/Expand.png" Width="16" Height="16"/>
                 </Button>
                 <Button Name="Collapse" Background="Transparent" BorderThickness="0" Width="20" Height="20" Click="Collapse_Click"
                     RenderOptions.BitmapScalingMode="NearestNeighbor">
-                    <Image Source="../Resources/Buttons/Collapse.png" Width="16" Height="16"/>
+                    <Image Source="../../../Resources/Buttons/Collapse.png" Width="16" Height="16"/>
                 </Button>
                 <ToggleButton Name="ChangeFreePortsVisibility" Background="Transparent" BorderThickness="0" Width="20" Height="20"
                           Style="{StaticResource MyToggleButtonStyle}"

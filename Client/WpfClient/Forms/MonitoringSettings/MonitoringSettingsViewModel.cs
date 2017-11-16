@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
@@ -12,7 +11,6 @@ namespace Iit.Fibertest.Client.MonitoringSettings
 {
     public class MonitoringSettingsViewModel : Screen
     {
-        private readonly ReadModel _readModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
         public MonitoringSettingsModel Model { get; set; }
 
@@ -32,7 +30,6 @@ namespace Iit.Fibertest.Client.MonitoringSettings
 
         public MonitoringSettingsViewModel(RtuLeaf rtuLeaf, ReadModel readModel, IWcfServiceForClient c2DWcfManager)
         {
-            _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
 
             Model = new MonitoringSettingsManager(rtuLeaf, readModel).PrepareMonitoringSettingsModel();
@@ -84,12 +81,6 @@ namespace Iit.Fibertest.Client.MonitoringSettings
         }
 
 
-        private bool IsTheSamePort(OtauPortDto otauPortDto1, OtauPortDto otauPortDto2)
-        {
-            return otauPortDto1.OtauIp == otauPortDto2.OtauIp
-                && otauPortDto1.OtauTcpPort == otauPortDto2.OtauTcpPort
-                   && otauPortDto1.OpticalPort == otauPortDto2.OpticalPort;
-        }
         private ApplyMonitoringSettingsDto ConvertSettingsToDto()
         {
             return new ApplyMonitoringSettingsDto

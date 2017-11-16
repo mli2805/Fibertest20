@@ -182,6 +182,7 @@
     <Compile Include="Forms\Shell\SysEventsControl\OpticalEventsView.xaml.cs">
       <DependentUpon>OpticalEventsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Shell\SysEventsControl\OpticalEventsViewModel.cs" />
     <Compile Include="Logic\ReturnCodeExt.cs" />
     <Compile Include="Logic\WaitCursor.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\RtuLeafActions.cs" />

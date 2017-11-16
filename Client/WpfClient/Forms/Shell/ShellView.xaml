@@ -5,7 +5,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
-        xmlns:sysEventsControl="clr-namespace:Iit.Fibertest.Client.Forms.Shell.SysEventsControl"
         mc:Ignorable="d"
         Height="800" Width="1100" WindowStartupLocation="CenterScreen" d:DataContext="{d:DesignInstance client:ShellViewModel}">
 
@@ -45,7 +44,7 @@
                         </TabItem.Header>
                     </TabItem>
                 </TabControl>
-                <sysEventsControl:OpticalEventsView Visibility="{Binding SysEventsVisibility}"/>
+                <client:OpticalEventsView DataContext="{Binding OpticalEventsViewModel}" Visibility="{Binding OpticalEventsVisiblility}"/>
                 <client:MapUserControl DataContext="{Binding GraphReadModel}" Visibility="{Binding MapVisibility}" Margin="3,0,3,3"/>
             </DockPanel>
         </Grid>

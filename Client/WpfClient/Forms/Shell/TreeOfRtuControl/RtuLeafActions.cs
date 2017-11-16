@@ -1,4 +1,3 @@
-using System.Linq;
 using Autofac;
 using Iit.Fibertest.Client.MonitoringSettings;
 using Iit.Fibertest.Dto;

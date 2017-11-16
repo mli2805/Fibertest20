@@ -31,22 +31,11 @@ namespace Iit.Fibertest.Client
         public TreeOfRtuModel TreeOfRtuModel { get; }
         public TreeOfRtuViewModel TreeOfRtuViewModel { get; set; }
         public GraphReadModel GraphReadModel { get; set; }
+        public OpticalEventsViewModel OpticalEventsViewModel { get; set; }
 
         private bool? _isAuthenticationSuccessfull;
 
-        private Visibility _sysEventsVisibility;
         private int _selectedTabIndex;
-
-        public Visibility SysEventsVisibility
-        {
-            get { return _sysEventsVisibility; }
-            set
-            {
-                if (value == _sysEventsVisibility) return;
-                _sysEventsVisibility = value;
-                NotifyOfPropertyChange();
-            }
-        }
 
         public int SelectedTabIndex
         {
@@ -68,9 +57,10 @@ namespace Iit.Fibertest.Client
             TreeOfRtuModel.PostOffice.PropertyChanged += PostOffice_PropertyChanged;
             MainMenuViewModel = new MainMenuViewModel(windowManager);
             TreeOfRtuViewModel = new TreeOfRtuViewModel(treeOfRtuModel);
+            OpticalEventsViewModel = new OpticalEventsViewModel();
             GraphReadModel = graphReadModel;
             GraphReadModel.MapVisibility = Visibility.Visible;
-            SysEventsVisibility = Visibility.Collapsed;
+            OpticalEventsViewModel.OpticalEventsVisiblility = Visibility.Collapsed;
             _selectedTabIndex = 1;
             C2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
@@ -165,7 +155,8 @@ namespace Iit.Fibertest.Client
         public void ChangeGisVisibility()
         {
             GraphReadModel.MapVisibility = GraphReadModel.MapVisibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
-            SysEventsVisibility = GraphReadModel.MapVisibility == Visibility.Visible
+
+            OpticalEventsViewModel.OpticalEventsVisiblility = GraphReadModel.MapVisibility == Visibility.Visible
                 ? Visibility.Collapsed
                 : Visibility.Visible;
         }
