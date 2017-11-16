@@ -52,10 +52,12 @@ namespace Iit.Fibertest.DataCenterCore
                     RtuId = result.RtuId,
                     TraceId = result.PortWithTrace.TraceId,
                     EventTimestamp = result.TimeStamp,
+                    BaseRefType = result.BaseRefType,
                     TraceState = result.TraceState,
                     EventStatus = EventStatus.Current,
                     StatusTimestamp = DateTime.Now,
                     StatusUserId = 0,
+                    Comment = "",
                 });
                 await dbContext.SaveChangesAsync();
                 return true;

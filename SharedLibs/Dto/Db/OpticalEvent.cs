@@ -1,5 +1,4 @@
 using System;
-using System.Runtime.Serialization;
 
 namespace Iit.Fibertest.Dto
 {
@@ -15,5 +14,13 @@ namespace Iit.Fibertest.Dto
         public DateTime StatusTimestamp { get; set; }
         public int StatusUserId { get; set; }
         public string Comment { get; set; }
+    }
+
+    public static class OpticalEventExtension
+    {
+        public static bool IsStatusAcceptable(this OpticalEvent opticalEvent)
+        {
+            return opticalEvent.TraceState != FiberState.Ok && opticalEvent.BaseRefType != BaseRefType.Fast;
+        }
     }
 }

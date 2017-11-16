@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Media;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 
@@ -39,19 +40,31 @@ namespace Iit.Fibertest.Client
             _readModel = readModel;
         }
 
-        public void Apply(OpticalEvent newOpticalEvent)
+        public void Apply(OpticalEvent opticalEvent)
         {
             Rows.Add(new OpticalEventVm()
             {
-                Nomer = newOpticalEvent.Id,
-                EventTimestamp = newOpticalEvent.EventTimestamp,
-                RtuTitle = _readModel.Rtus.FirstOrDefault(r=>r.Id == newOpticalEvent.RtuId)?.Title,
-                TraceTitle = _readModel.Traces.FirstOrDefault(t=>t.Id == newOpticalEvent.TraceId)?.Title,
-                TraceState = newOpticalEvent.TraceState,
-                EventStatus = newOpticalEvent.EventStatus,
-                StatusTimestamp = newOpticalEvent.StatusTimestamp,
-                StatusUsername = newOpticalEvent.StatusUserId.ToString(),
+                Nomer = opticalEvent.Id,
+                EventTimestamp = opticalEvent.EventTimestamp,
+                RtuTitle = _readModel.Rtus.FirstOrDefault(r=>r.Id == opticalEvent.RtuId)?.Title,
+                TraceTitle = _readModel.Traces.FirstOrDefault(t=>t.Id == opticalEvent.TraceId)?.Title,
+                BaseRefTypeBrush = 
+                    opticalEvent.TraceState == FiberState.Ok 
+                        ? Brushes.LightGreen 
+                        : opticalEvent.BaseRefType == BaseRefType.Fast 
+                            ? Brushes.Yellow : Brushes.LightPink,
+                TraceState = opticalEvent.TraceState,
+
+                EventStatus = 
+                    opticalEvent.IsStatusAcceptable()
+                        ? opticalEvent.EventStatus.ToString() 
+                        : "",
+                StatusTimestamp = opticalEvent.IsStatusAcceptable() ? opticalEvent.StatusTimestamp.ToString() : "",
+                StatusUsername = opticalEvent.IsStatusAcceptable() ? opticalEvent.StatusUserId.ToString() : "",
+                Comment = opticalEvent.Comment,
             });
         }
+
+
     }
 }
