@@ -183,6 +183,7 @@
       <DependentUpon>OpticalEventsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\Shell\SysEventsControl\OpticalEventsViewModel.cs" />
+    <Compile Include="Forms\Shell\SysEventsControl\OpticalEventVm.cs" />
     <Compile Include="Logic\ReturnCodeExt.cs" />
     <Compile Include="Logic\WaitCursor.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\RtuLeafActions.cs" />
@@ -224,12 +225,12 @@
     <Compile Include="ViewModels\Administrative\ObjectsToZonesViewModel.cs" />
     <Compile Include="ViewModels\Administrative\ZonesContentViewModel.cs" />
     <Compile Include="ViewModels\Administrative\ZonesViewModel.cs" />
-    <Compile Include="ViewModels\Landmarks\Landmark.cs" />
-    <Compile Include="ViewModels\Landmarks\LandmarkRow.cs" />
-    <Compile Include="ViewModels\Landmarks\LandmarksBaseParser.cs" />
-    <Compile Include="ViewModels\Landmarks\LandmarksGraphParser.cs" />
-    <Compile Include="ViewModels\Landmarks\LandmarksViewModel.cs" />
-    <Compile Include="ViewModels\Landmarks\LandmarkViewModel.cs" />
+    <Compile Include="Forms\Landmarks\Landmark.cs" />
+    <Compile Include="Forms\Landmarks\LandmarkRow.cs" />
+    <Compile Include="Forms\Landmarks\LandmarksBaseParser.cs" />
+    <Compile Include="Forms\Landmarks\LandmarksGraphParser.cs" />
+    <Compile Include="Forms\Landmarks\LandmarksViewModel.cs" />
+    <Compile Include="Forms\Landmarks\LandmarkViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\ServerConnectViewModel.cs" />
     <Compile Include="ViewModels\Administrative\Licence.cs" />

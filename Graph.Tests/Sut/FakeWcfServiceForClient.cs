@@ -23,7 +23,7 @@ namespace Graph.Tests
             return Task.FromResult(new string[0]);
         }
 
-        public Task<List<OpticalEvent>> GetOpticalEvents(int revision)
+        public Task<OpticalEventsList> GetOpticalEvents(int revision)
         {
             throw new NotImplementedException();
         }

@@ -17,7 +17,7 @@ namespace Iit.Fibertest.Client
         {
             builder.RegisterType<WindowManager>().As<IWindowManager>().SingleInstance();
 
-            builder.RegisterType<OpticalEventsViewModel>();
+            builder.RegisterType<OpticalEventsViewModel>().SingleInstance();
             builder.RegisterType<ShellViewModel>().As<IShell>();
             builder.RegisterType<UserListViewModel>();
             builder.RegisterType<ZonesViewModel>();

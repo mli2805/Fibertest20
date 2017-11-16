@@ -49,7 +49,7 @@ namespace Iit.Fibertest.Client
         }
 
         public ShellViewModel(ReadModel readModel, TreeOfRtuModel treeOfRtuModel, IWcfServiceForClient c2DWcfManager,
-                GraphReadModel graphReadModel, IWindowManager windowManager, ClientHeartbeat clientHeartbeat,
+                GraphReadModel graphReadModel, OpticalEventsViewModel opticalEventsViewModel, IWindowManager windowManager, ClientHeartbeat clientHeartbeat,
                 ILogger clientLogger, IniFile iniFile, IMyLog logFile, ClientWcfService clientWcfService, IClientWcfServiceHost host)
         {
             ReadModel = readModel;
@@ -57,11 +57,11 @@ namespace Iit.Fibertest.Client
             TreeOfRtuModel.PostOffice.PropertyChanged += PostOffice_PropertyChanged;
             MainMenuViewModel = new MainMenuViewModel(windowManager);
             TreeOfRtuViewModel = new TreeOfRtuViewModel(treeOfRtuModel);
-            OpticalEventsViewModel = new OpticalEventsViewModel();
             GraphReadModel = graphReadModel;
-            GraphReadModel.MapVisibility = Visibility.Visible;
-            OpticalEventsViewModel.OpticalEventsVisiblility = Visibility.Collapsed;
-            _selectedTabIndex = 1;
+            GraphReadModel.MapVisibility = Visibility.Collapsed;
+            OpticalEventsViewModel = opticalEventsViewModel;
+            OpticalEventsViewModel.OpticalEventsVisiblility = Visibility.Visible;
+            _selectedTabIndex = 0;
             C2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
             _clientHeartbeat = clientHeartbeat;

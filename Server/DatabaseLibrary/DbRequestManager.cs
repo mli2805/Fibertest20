@@ -16,18 +16,19 @@ namespace Iit.Fibertest.DatabaseLibrary
             _logFile = logFile;
         }
 
-        public List<OpticalEvent> GetOpticalEvents(int afterIndex)
+        public OpticalEventsList GetOpticalEvents(int afterIndex)
         {
+            var result = new OpticalEventsList() {Events = new List<OpticalEvent>()};
             try
             {
                 var dbContext = new MySqlContext();
-                var opticalEvents = dbContext.OpticalEvents.Where(e => e.Id > afterIndex).ToList();
-                return opticalEvents;
+                result.Events = dbContext.OpticalEvents.Where(e => e.Id > afterIndex).ToList();
+                return result;
             }
             catch (Exception e)
             {
                 _logFile.AppendLine("GetOpticalEvents: " + e.Message);
-                return new List<OpticalEvent>();
+                return result;
             }
         }
     }

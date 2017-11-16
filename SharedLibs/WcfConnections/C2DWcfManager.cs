@@ -72,7 +72,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public async Task<List<OpticalEvent>> GetOpticalEvents(int revision)
+        public async Task<OpticalEventsList> GetOpticalEvents(int revision)
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();
             if (wcfConnection == null)
@@ -86,7 +86,7 @@ namespace Iit.Fibertest.WcfConnections
             catch (Exception e)
             {
                 _logFile.AppendLine(e.Message);
-                return new List<OpticalEvent>();
+                return new OpticalEventsList() {Events = new List<OpticalEvent>()};
             }
         }
 

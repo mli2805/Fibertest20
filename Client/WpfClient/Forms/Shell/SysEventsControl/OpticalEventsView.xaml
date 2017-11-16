@@ -5,8 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:client="clr-namespace:Iit.Fibertest.Client"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" d:DataContext="{d:DesignInstance client:OpticalEventsViewModel}">
-    <Grid Background="AliceBlue">
-            <TextBlock Text="{Binding Message}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-    </Grid>
+              d:DataContext="{d:DesignInstance client:OpticalEventsViewModel}">
+    <StackPanel Background="AliceBlue">
+    <DataGrid Margin="5" ItemsSource="{Binding Rows, Mode=TwoWay}" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="No" Binding="{Binding Nomer}" Width="30"/>
+                <DataGridTextColumn Header="RTU" Binding="{Binding RtuTitle}" Width="100"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </StackPanel>
 </UserControl>

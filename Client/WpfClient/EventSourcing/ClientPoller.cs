@@ -58,10 +58,10 @@ namespace Iit.Fibertest.Client
             }
 
             var opticalEvents = Channel.GetOpticalEvents(LastOpticalEventNumber).Result;
-            LastOpticalEventNumber += opticalEvents.Count;
-            foreach (var opticalEvent in opticalEvents)
+            LastOpticalEventNumber += opticalEvents.Events.Count;
+            foreach (var opticalEvent in opticalEvents.Events)
             {
-                _opticalEventsViewModel.Rows.Add(opticalEvent);
+                _opticalEventsViewModel.Apply(opticalEvent);
             }
         }
     }

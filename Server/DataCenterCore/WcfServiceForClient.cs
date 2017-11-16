@@ -71,7 +71,7 @@ namespace Iit.Fibertest.DataCenterCore
             return await Task.FromResult(_eventStoreService.GetEvents(revision));
         }
 
-        public async Task<List<OpticalEvent>> GetOpticalEvents(int revision)
+        public async Task<OpticalEventsList> GetOpticalEvents(int revision)
         {
             return await Task.FromResult(_dbRequestManager.GetOpticalEvents(revision));
         }
