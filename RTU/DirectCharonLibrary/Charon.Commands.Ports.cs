@@ -35,8 +35,13 @@ namespace Iit.Fibertest.DirectCharonLibrary
             if (NetAddress.Equals(charonAddress))
             {
                 var activePort = SetActivePort(port);
+                if (activePort != port)
+                {
+                    _rtuLogFile.AppendLine("Toggle to port on Main Otau error");
+                    return CharonOperationResult.MainOtauError;
+                }
                 _rtuLogFile.AppendLine("Toggled Ok.");
-                return activePort == port ? CharonOperationResult.Ok : CharonOperationResult.MainOtauError;
+                return CharonOperationResult.Ok;
             }
 
             var charon = Children.Values.FirstOrDefault(c => c.NetAddress.Equals(charonAddress));
