@@ -9,7 +9,7 @@
     <StackPanel Background="AliceBlue">
     <DataGrid Margin="5" ItemsSource="{Binding Rows, Mode=TwoWay}" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="No" Binding="{Binding Nomer}" Width="30"/>
+                <DataGridTextColumn Header="No" Binding="{Binding Nomer}" Width="30" SortDirection="Descending"/>
                 <DataGridTextColumn Header="Event timestamp" Binding="{Binding EventTimestamp}" Width="120"/>
                 <DataGridTextColumn Header="RTU" Binding="{Binding RtuTitle}" Width="200"/>
                 <DataGridTextColumn Header="Trace" Binding="{Binding TraceTitle}" Width="200"/>

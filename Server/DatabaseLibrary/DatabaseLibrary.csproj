@@ -97,6 +97,10 @@
     <Compile Include="Migrations\201711151404027_NetworkEventsTableChanged.Designer.cs">
       <DependentUpon>201711151404027_NetworkEventsTableChanged.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711161135342_OpticalEventsFieldsAdded.cs" />
+    <Compile Include="Migrations\201711161135342_OpticalEventsFieldsAdded.Designer.cs">
+      <DependentUpon>201711161135342_OpticalEventsFieldsAdded.cs</DependentUpon>
+    </Compile>
     <Compile Include="RtuRegistration\MapperToRtuStation.cs" />
     <Compile Include="Migrations\201711031240377_InitialCreate.cs" />
     <Compile Include="Migrations\201711031240377_InitialCreate.Designer.cs">
@@ -178,6 +182,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711151404027_NetworkEventsTableChanged.resx">
       <DependentUpon>201711151404027_NetworkEventsTableChanged.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711161135342_OpticalEventsFieldsAdded.resx">
+      <DependentUpon>201711161135342_OpticalEventsFieldsAdded.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
