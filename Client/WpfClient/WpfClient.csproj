@@ -179,24 +179,27 @@
       <DependentUpon>MonitoringSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\MonitoringSettings\MonitoringSettingsViewModel.cs" />
+    <Compile Include="Forms\Shell\SysEventsControl\OpticalEventsView.xaml.cs">
+      <DependentUpon>OpticalEventsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Logic\ReturnCodeExt.cs" />
     <Compile Include="Logic\WaitCursor.cs" />
-    <Compile Include="TreeModel\RtuLeafActions.cs" />
-    <Compile Include="TreeModel\RtuLeafActionsPermissions.cs" />
-    <Compile Include="TreeModel\RtuLeafContextMenuProvider.cs" />
-    <Compile Include="TreeModel\TraceLeafActions.cs" />
-    <Compile Include="TreeModel\TraceLeafActionsPermissions.cs" />
-    <Compile Include="TreeModel\TraceLeafContextMenuProvider.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\RtuLeafActions.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\RtuLeafActionsPermissions.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\RtuLeafContextMenuProvider.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\TraceLeafActions.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\TraceLeafActionsPermissions.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\TraceLeafContextMenuProvider.cs" />
     <Compile Include="ViewModels\Administrative\PasswordHelper.cs" />
     <Compile Include="ViewModels\Administrative\UserMappings.cs" />
     <Compile Include="ReadModel\VerboseTasks.cs" />
     <Compile Include="Requests\RequestAddEquipmentAtGpsLocation.cs" />
     <Compile Include="Requests\RequestAddRtuAtGpsLocation.cs" />
-    <Compile Include="TreeModel\ChildrenImpresario.cs" />
-    <Compile Include="TreeModel\IPortOwner.cs" />
-    <Compile Include="TreeModel\OtauLeaf.cs" />
-    <Compile Include="TreeModel\FreePorts.cs" />
-    <Compile Include="TreeModel\Post\PostOffice.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\ChildrenImpresario.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\IPortOwner.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\OtauLeaf.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\FreePorts.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\Post\PostOffice.cs" />
     <Compile Include="ViewControls\GpsInputControl\GpsInputModeComboItem.cs" />
     <Compile Include="ReadModel\PathFinder.cs" />
     <Compile Include="AppBootstrapper.cs" />
@@ -216,7 +219,7 @@
       <DependentUpon>NetAddressTestView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewControls\NetAddressTestViewModel.cs" />
-    <Compile Include="TreeModel\Post\CenterToRtu.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\Post\CenterToRtu.cs" />
     <Compile Include="ViewModels\Administrative\ObjectsToZonesViewModel.cs" />
     <Compile Include="ViewModels\Administrative\ZonesContentViewModel.cs" />
     <Compile Include="ViewModels\Administrative\ZonesViewModel.cs" />
@@ -260,7 +263,7 @@
     <Compile Include="ViewModels\Primitive\NodesStatisticsItem.cs" />
     <Compile Include="ViewModels\RtuInitializeViewModel.cs" />
     <Compile Include="ViewModels\TraceToAttachViewModel.cs" />
-    <Compile Include="ViewModels\TreeOfRtuViewModel.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\TreeOfRtuViewModel.cs" />
     <Compile Include="Views\OtauToAttachView.xaml.cs">
       <DependentUpon>OtauToAttachView.xaml</DependentUpon>
     </Compile>
@@ -273,9 +276,9 @@
     <Compile Include="Views\TraceToAttachView.xaml.cs">
       <DependentUpon>TraceToAttachView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TreeModel\PortExtensions.cs" />
-    <Compile Include="TreeModel\PortLeaf.cs" />
-    <Compile Include="TreeModel\TreeOfRtuModel.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\PortExtensions.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\PortLeaf.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\TreeOfRtuModel.cs" />
     <Compile Include="Requests\RequestAddEquipmentIntoNode.cs" />
     <Compile Include="Requests\RequestAddFiberWithNodes.cs" />
     <Compile Include="Requests\RequestAddNodeIntoFiber.cs" />
@@ -296,16 +299,16 @@
     <Compile Include="Logic\PointLatLngExtensions.cs" />
     <Compile Include="Mappings\MappingDomainModelToViewModel.cs" />
     <Compile Include="Mappings\MappingViewModelToCommand.cs" />
-    <Compile Include="MapUserControl\MapUserControlApplyFibersToRoutes.cs" />
-    <Compile Include="MapUserControl\MapUserControlApplyNodesToMarkers.cs" />
-    <Compile Include="MapUserControl\MapUserControlMapContextMenu.cs" />
-    <Compile Include="MapUserControl\MapUserControlRouteContextMenu.cs" />
-    <Compile Include="MarkerControl\MarkerControl.xaml.cs">
+    <Compile Include="Forms\Shell\MapUserControl\MapUserControlApplyFibersToRoutes.cs" />
+    <Compile Include="Forms\Shell\MapUserControl\MapUserControlApplyNodesToMarkers.cs" />
+    <Compile Include="Forms\Shell\MapUserControl\MapUserControlMapContextMenu.cs" />
+    <Compile Include="Forms\Shell\MapUserControl\MapUserControlRouteContextMenu.cs" />
+    <Compile Include="Forms\Shell\MarkerControl\MarkerControl.xaml.cs">
       <DependentUpon>MarkerControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MarkerControl\MarkerControlMouseHandling.cs" />
-    <Compile Include="MarkerControl\MarkerControlNodeContextMenu.cs" />
-    <Compile Include="MarkerControl\MarkerControlRtuContextMenu.cs" />
+    <Compile Include="Forms\Shell\MarkerControl\MarkerControlMouseHandling.cs" />
+    <Compile Include="Forms\Shell\MarkerControl\MarkerControlNodeContextMenu.cs" />
+    <Compile Include="Forms\Shell\MarkerControl\MarkerControlRtuContextMenu.cs" />
     <Compile Include="Forms\BaseRefs\BaseRefsAssignViewModel.cs" />
     <Compile Include="GraphModel\EqItemVm.cs" />
     <Compile Include="ViewModels\Primitive\CheckBoxModel.cs" />
@@ -313,10 +316,10 @@
     <Compile Include="ViewModels\EquipmentInfoViewModel.cs" />
     <Compile Include="ViewModels\MainMenuViewModel.cs" />
     <Compile Include="ViewModels\NodeUpdateViewModel.cs" />
-    <Compile Include="ViewModels\Shell\ShellViewModelApplyEquipment.cs" />
-    <Compile Include="ViewModels\Shell\ShellViewModelApplyFiber.cs" />
-    <Compile Include="ViewModels\Shell\ShellViewModelApplyNode.cs" />
-    <Compile Include="ViewModels\Shell\ShellViewModelApplyTrace.cs" />
+    <Compile Include="Forms\Shell\ShellViewModelApplyEquipment.cs" />
+    <Compile Include="Forms\Shell\ShellViewModelApplyFiber.cs" />
+    <Compile Include="Forms\Shell\ShellViewModelApplyNode.cs" />
+    <Compile Include="Forms\Shell\ShellViewModelApplyTrace.cs" />
     <Compile Include="ViewModels\TraceInfoViewModel.cs" />
     <Compile Include="ViewModels\TraceChoiceViewModel.cs" />
     <Compile Include="ViewModels\UniversalViewModels\NotificationViewModel.cs" />
@@ -342,7 +345,7 @@
     <Compile Include="Views\TraceChoiceView.xaml.cs">
       <DependentUpon>TraceChoiceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TreeOfRtuView.xaml.cs">
+    <Compile Include="Forms\Shell\TreeOfRtuControl\TreeOfRtuView.xaml.cs">
       <DependentUpon>TreeOfRtuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UniversalViews\NotificationView.xaml.cs">
@@ -355,19 +358,19 @@
     <Compile Include="GraphModel\FiberVm.cs" />
     <Compile Include="GraphModel\GraphVisibilityVm.cs" />
     <Compile Include="GraphModel\GraphReadModel.cs" />
-    <Compile Include="ViewModels\Shell\IShell.cs" />
+    <Compile Include="Forms\Shell\IShell.cs" />
     <Compile Include="Logic\Interpreter.cs" />
-    <Compile Include="MapUserControl\Map.cs" />
-    <Compile Include="MapUserControl\MapUserControl.xaml.cs">
+    <Compile Include="Forms\Shell\MapUserControl\Map.cs" />
+    <Compile Include="Forms\Shell\MapUserControl\MapUserControl.xaml.cs">
       <DependentUpon>MapUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TreeModel\Leaf.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\Leaf.cs" />
     <Compile Include="GraphModel\NodeVm.cs" />
     <Compile Include="ViewModels\Primitive\ContextMenuAction.cs" />
-    <Compile Include="Views\ShellView.xaml.cs">
+    <Compile Include="Forms\Shell\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\Shell\ShellViewModel.cs" />
+    <Compile Include="Forms\Shell\ShellViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -388,15 +391,19 @@
     <Compile Include="GraphModel\RtuVm.cs" />
     <Compile Include="GraphModel\TraceVm.cs" />
     <Compile Include="ViewModels\Primitive\MenuItemVm.cs" />
-    <Compile Include="TreeModel\RtuLeaf.cs" />
-    <Compile Include="TreeModel\TraceLeaf.cs" />
-    <Compile Include="TreeModel\TreeExtensions.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\RtuLeaf.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\TraceLeaf.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\TreeExtensions.cs" />
     <Compile Include="Views\Administrative\UserListView.xaml.cs">
       <DependentUpon>UserListView.xaml</DependentUpon>
     </Compile>
     <Page Include="Forms\MonitoringSettings\MonitoringSettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Forms\Shell\SysEventsControl\OpticalEventsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ViewControls\GpsInputControl\GpsInputView.xaml">
       <SubType>Designer</SubType>
@@ -406,11 +413,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MarkerControl\MarkerControl.xaml">
+    <Page Include="Forms\Shell\MarkerControl\MarkerControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MapUserControl\MapUserControl.xaml">
+    <Page Include="Forms\Shell\MapUserControl\MapUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -486,7 +493,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ShellView.xaml">
+    <Page Include="Forms\Shell\ShellView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -510,7 +517,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TreeOfRtuView.xaml">
+    <Page Include="Forms\Shell\TreeOfRtuControl\TreeOfRtuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -709,6 +716,7 @@
   <ItemGroup>
     <Resource Include="Resources\LeftPanel\GreyHalfSquare.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
