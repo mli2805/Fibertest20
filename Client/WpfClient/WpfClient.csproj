@@ -259,10 +259,10 @@
     <Compile Include="Views\Administrative\ZonesView.xaml.cs">
       <DependentUpon>ZonesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\LandmarksView.xaml.cs">
+    <Compile Include="Forms\Landmarks\LandmarksView.xaml.cs">
       <DependentUpon>LandmarksView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\LandmarkView.xaml.cs">
+    <Compile Include="Forms\Landmarks\LandmarkView.xaml.cs">
       <DependentUpon>LandmarkView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LoginView.xaml.cs">
@@ -462,11 +462,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\LandmarksView.xaml">
+    <Page Include="Forms\Landmarks\LandmarksView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\LandmarkView.xaml">
+    <Page Include="Forms\Landmarks\LandmarkView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

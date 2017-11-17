@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:client="clr-namespace:Iit.Fibertest.Client"
-             xmlns:StringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
+             xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance client:OpticalEventsViewModel}">
     <DockPanel>
@@ -13,11 +13,12 @@
                 <TextBlock Text="This is status bar for event table" Margin="5,0,20,0"/>
             </StatusBarItem>
         </StatusBar>
-        <DockPanel DockPanel.Dock="Bottom" Height="150">
-            <GroupBox Header="Filters" Margin="5">
-                
+            <GroupBox Header="Filters" Margin="5" Padding="305,5,5,5" DockPanel.Dock="Bottom">
+                <StackPanel Orientation="Horizontal">
+                    <ComboBox Height="25" Width="120" Margin="3"/>
+                    <ComboBox Height="25" Width="120" Margin="3"/>
+                </StackPanel>
             </GroupBox>
-        </DockPanel>
         <DockPanel DockPanel.Dock="Bottom" >
             <GroupBox Header="Comment" Margin="5">
                 <TextBlock Height="25" Background="AliceBlue"/>
@@ -25,11 +26,11 @@
         </DockPanel>
         <DataGrid Margin="5" ItemsSource="{Binding Rows, Mode=TwoWay}" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="{x:Static StringResources:Resources.SID_Number}" Binding="{Binding Nomer}" Width="30"/>
-                <DataGridTextColumn Header="{x:Static StringResources:Resources.SID_Event_timestamp}" Binding="{Binding EventTimestamp}" Width="120"/>
+                <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Number}" Binding="{Binding Nomer}" Width="30"/>
+                <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Event_timestamp}" Binding="{Binding EventTimestamp}" Width="120"/>
                 <DataGridTextColumn Header="RTU" Binding="{Binding RtuTitle}" Width="200*"/>
-                <DataGridTextColumn Header="{x:Static StringResources:Resources.SID_Trace}" Binding="{Binding TraceTitle}" Width="200*"/>
-                <DataGridTextColumn Header="{x:Static StringResources:Resources.SID_State}" Binding="{Binding TraceStateInTable}" Width="100">
+                <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Trace}" Binding="{Binding TraceTitle}" Width="200*"/>
+                <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_State}" Binding="{Binding TraceStateInTable}" Width="100">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="DataGridCell">
                             <Setter Property="Background" Value="{Binding BaseRefTypeBrush}" />
@@ -39,7 +40,7 @@
                 <DataGridTextColumn Binding="{Binding EventStatus}" Width="120">
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{x:Static StringResources:Resources.SID_Event_status}" TextWrapping="Wrap" TextAlignment="Center"/>
+                            <TextBlock Text="{x:Static stringResources:Resources.SID_Event_status}" TextWrapping="Wrap" TextAlignment="Center"/>
                         </DataTemplate>
                     </DataGridTextColumn.HeaderTemplate>
                     <DataGridTextColumn.CellStyle>
@@ -51,14 +52,14 @@
                 <DataGridTextColumn Binding="{Binding StatusTimestamp}" Width="120">
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{x:Static StringResources:Resources.SID_Status_assignment_time}" TextWrapping="Wrap" TextAlignment="Center"/>
+                            <TextBlock Text="{x:Static stringResources:Resources.SID_Status_assignment_time}" TextWrapping="Wrap" TextAlignment="Center"/>
                         </DataTemplate>
                     </DataGridTextColumn.HeaderTemplate>
                 </DataGridTextColumn>
                 <DataGridTextColumn Binding="{Binding StatusUsername}" Width="100">
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{x:Static StringResources:Resources.SID_Status_changed_by}" TextWrapping="Wrap" TextAlignment="Center"/>
+                            <TextBlock Text="{x:Static stringResources:Resources.SID_Status_changed_by}" TextWrapping="Wrap" TextAlignment="Center"/>
                         </DataTemplate>
                     </DataGridTextColumn.HeaderTemplate>
                 </DataGridTextColumn>

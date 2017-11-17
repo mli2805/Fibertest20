@@ -33,7 +33,7 @@ namespace Iit.Fibertest.Client
                 case FiberState.Suspicion:
                     return Brushes.Yellow;
                 case FiberState.Minor:
-                    return Brushes.Plum;
+                    return Brushes.LightPink;
                 case FiberState.Major:
                     return Brushes.HotPink;
                 case FiberState.User:
