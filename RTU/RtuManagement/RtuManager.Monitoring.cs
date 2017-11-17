@@ -53,7 +53,7 @@ namespace Iit.Fibertest.RtuManagement
         private MoniResult DoFastMeasurement(MonitorigPort monitorigPort)
         {
             _rtuLog.EmptyLine();
-            _rtuLog.AppendLine($"MEAS. {_measurementNumber} port {monitorigPort.ToStringB(_mainCharon)}, trace {monitorigPort.TraceId.First6()} Fast");
+            _rtuLog.AppendLine($"MEAS. {_measurementNumber} port {monitorigPort.ToStringB(_mainCharon)}, Fast");
 
             var moniResult = DoMeasurement(BaseRefType.Fast, monitorigPort);
 
@@ -76,7 +76,6 @@ namespace Iit.Fibertest.RtuManagement
                 {
                     _rtuLog.AppendLine(message);
                     SendByMsmq(CreateDto(moniResult, monitorigPort));
-                    //                    PlaceMonitoringResultInSendingQueue(moniResult, monitorigPort);
                     monitorigPort.LastFastSavedTimestamp = DateTime.Now;
                 }
             }
@@ -101,6 +100,10 @@ namespace Iit.Fibertest.RtuManagement
                     monitorigPort.LastTraceState = moniResult.GetAggregatedResult();
                     _monitoringQueue.Save();
                 }
+                else if (monitorigPort.LastMoniResult.BaseRefType == BaseRefType.Fast)
+                {
+                    message = "Breakdown confirmation - should be saved";
+                }
                 else if (DateTime.Now - monitorigPort.LastPreciseSavedTimestamp > _preciseSaveTimespan)
                     message = "It's time to save precise reflectogram";
 
@@ -108,7 +111,6 @@ namespace Iit.Fibertest.RtuManagement
                 {
                     _rtuLog.AppendLine(message);
                     SendByMsmq(CreateDto(moniResult, monitorigPort));
-                    //                    PlaceMonitoringResultInSendingQueue(moniResult, monitorigPort);
                     monitorigPort.LastPreciseSavedTimestamp = DateTime.Now;
                 }
 

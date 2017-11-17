@@ -71,6 +71,7 @@ namespace Iit.Fibertest.Client
                         ioc.Resolve<GraphReadModel>()
                     },
                     ioc.Resolve<OpticalEventsViewModel>(),
+                    ioc.Resolve<NetworkEventsViewModel>(),
                     logFile))
                 .SingleInstance();
 

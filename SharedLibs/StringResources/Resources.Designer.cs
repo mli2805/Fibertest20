@@ -1278,6 +1278,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Event status.
+        /// </summary>
+        public static string SID_Event_status {
+            get {
+                return ResourceManager.GetString("SID_Event_status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Event timestamp.
+        /// </summary>
+        public static string SID_Event_timestamp {
+            get {
+                return ResourceManager.GetString("SID_Event_timestamp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Event Type.
         /// </summary>
         public static string SID_Event_Type {
@@ -2156,6 +2174,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Now_active_is_port__0__on__1_ {
             get {
                 return ResourceManager.GetString("SID_Now_active_is_port__0__on__1_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        public static string SID_Number {
+            get {
+                return ResourceManager.GetString("SID_Number", resourceCulture);
             }
         }
         
@@ -3049,6 +3076,24 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Statistics {
             get {
                 return ResourceManager.GetString("SID_Statistics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status assignment ttimestamp.
+        /// </summary>
+        public static string SID_Status_assignment_time {
+            get {
+                return ResourceManager.GetString("SID_Status_assignment_time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status changed by.
+        /// </summary>
+        public static string SID_Status_changed_by {
+            get {
+                return ResourceManager.GetString("SID_Status_changed_by", resourceCulture);
             }
         }
         

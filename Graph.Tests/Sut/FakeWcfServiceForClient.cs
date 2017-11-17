@@ -27,6 +27,11 @@ namespace Graph.Tests
             throw new NotImplementedException();
         }
 
+        public Task<NetworkEventsList> GetNetworkEvents(int revision)
+        {
+            throw new NotImplementedException();
+        }
+
 
         public Task<ClientRegisteredDto> MakeExperimentAsync(RegisterClientDto dto)
         {

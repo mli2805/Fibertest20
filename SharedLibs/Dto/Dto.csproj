@@ -54,6 +54,7 @@
     <Compile Include="C2D2R\SomePortionOfData.cs" />
     <Compile Include="C2D\CheckServerConnectionDto.cs" />
     <Compile Include="D2C\ClientRegisteredDto.cs" />
+    <Compile Include="D2C\NetworkEventsList.cs" />
     <Compile Include="D2C\OpticalEventsList.cs" />
     <Compile Include="D2C\RtuWithChangedAvailabilityDto.cs" />
     <Compile Include="Db\BaseRef.cs" />

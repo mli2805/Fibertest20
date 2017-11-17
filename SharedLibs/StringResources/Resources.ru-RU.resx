@@ -1268,4 +1268,19 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Optical_events" xml:space="preserve">
 		<value>Оптические события</value>
 	</data>
+	<data name="SID_Event_timestamp" xml:space="preserve">
+		<value>Время события</value>
+	</data>
+	<data name="SID_Event_status" xml:space="preserve">
+		<value>Статус события</value>
+	</data>
+	<data name="SID_Status_assignment_time" xml:space="preserve">
+		<value>Время присвоения статуса</value>
+	</data>
+	<data name="SID_Status_changed_by" xml:space="preserve">
+		<value>Пользователь изменивший статус</value>
+	</data>
+	<data name="SID_Number" xml:space="preserve">
+		<value>№</value>
+	</data>
 </root>

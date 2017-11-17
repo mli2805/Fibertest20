@@ -31,5 +31,21 @@ namespace Iit.Fibertest.DatabaseLibrary
                 return result;
             }
         }
+
+        public NetworkEventsList GetNetworkEvents(int afterIndex)
+        {
+            var result = new NetworkEventsList() {Events = new List<NetworkEvent>()};
+            try
+            {
+                var dbContext = new MySqlContext();
+                result.Events = dbContext.NetworkEvents.Where(e => e.Id > afterIndex).ToList();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("GetNetworkEvents: " + e.Message);
+                return result;
+            }
+        }
     }
 }

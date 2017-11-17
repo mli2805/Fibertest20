@@ -17,17 +17,21 @@ namespace Iit.Fibertest.Client
             };
         public IWcfServiceForClient Channel;
         private readonly OpticalEventsViewModel _opticalEventsViewModel;
+        private readonly NetworkEventsViewModel _networkEventsViewModel;
         private readonly IMyLog _logFile;
         public List<object> ReadModels { get; }
 
         public int CurrentEventNumber { get; private set; }
 
         public int LastOpticalEventNumber { get; set; }
+        public int LastNetworkEventNumber { get; set; }
 
-        public ClientPoller(IWcfServiceForClient channel, List<object> readModels, OpticalEventsViewModel opticalEventsViewModel, IMyLog logFile)
+        public ClientPoller(IWcfServiceForClient channel, List<object> readModels, 
+            OpticalEventsViewModel opticalEventsViewModel, NetworkEventsViewModel networkEventsViewModel, IMyLog logFile)
         {
             Channel = channel;
             _opticalEventsViewModel = opticalEventsViewModel;
+            _networkEventsViewModel = networkEventsViewModel;
             _logFile = logFile;
             ReadModels = readModels;
         }
@@ -62,6 +66,13 @@ namespace Iit.Fibertest.Client
             foreach (var opticalEvent in opticalEvents.Events)
             {
                 _opticalEventsViewModel.Apply(opticalEvent);
+            }
+
+            var networkEvents = Channel.GetNetworkEvents(LastNetworkEventNumber).Result;
+            LastNetworkEventNumber += networkEvents.Events.Count;
+            foreach (var networkEvent in networkEvents.Events)
+            {
+                _networkEventsViewModel.Apply(networkEvent);
             }
         }
     }

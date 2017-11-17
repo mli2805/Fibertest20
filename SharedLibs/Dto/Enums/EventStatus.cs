@@ -2,9 +2,10 @@
 {
     public enum EventStatus
     {
-        Current,
-        Accepted,
-        Declined,
-        Suspended,
+        Planned       = -2,
+        NotConfirmed  = -1,
+        Current       =  0,
+        Suspended     =  1,
+        Confirmed     =  2,
     }
 }

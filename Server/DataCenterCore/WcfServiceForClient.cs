@@ -76,6 +76,11 @@ namespace Iit.Fibertest.DataCenterCore
             return await Task.FromResult(_dbRequestManager.GetOpticalEvents(revision));
         }
 
+        public async Task<NetworkEventsList> GetNetworkEvents(int revision)
+        {
+            return await Task.FromResult(_dbRequestManager.GetNetworkEvents(revision));
+        }
+
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {
             return await _clientRegistrationManager.RegisterClientAsync(dto);

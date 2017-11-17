@@ -76,7 +76,7 @@ namespace Iit.Fibertest.DataCenterCore
                 var dbContext = new MySqlContext();
                 var lastEventOnTrace = dbContext.OpticalEvents.Where(ev => ev.TraceId == result.PortWithTrace.TraceId).ToList()
                     .LastOrDefault();
-                return lastEventOnTrace?.TraceState != result.TraceState;
+                return lastEventOnTrace?.TraceState != result.TraceState || lastEventOnTrace?.BaseRefType != result.BaseRefType;
             }
             catch (Exception e)
             {

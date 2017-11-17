@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
@@ -23,18 +24,9 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private ObservableCollection<OpticalEventVm> _rows = new ObservableCollection<OpticalEventVm>();
-        public ObservableCollection<OpticalEventVm> Rows
-        {
-            get { return _rows; }
-            set
-            {
-                if (Equals(value, _rows)) return;
-                _rows = value;
-                NotifyOfPropertyChange();
-            }
-        }
+        public List<OpticalEventVm> CurrentEventsRows => Rows.Where(e => e.TraceState != FiberState.Ok).ToList();
 
+        public ObservableCollection<OpticalEventVm> Rows { get; set; } = new ObservableCollection<OpticalEventVm>();
         public OpticalEventsViewModel(ReadModel readModel)
         {
             _readModel = readModel;
@@ -50,7 +42,7 @@ namespace Iit.Fibertest.Client
                 TraceTitle = _readModel.Traces.FirstOrDefault(t=>t.Id == opticalEvent.TraceId)?.Title,
                 BaseRefTypeBrush = 
                     opticalEvent.TraceState == FiberState.Ok 
-                        ? Brushes.LightGreen 
+                        ? Brushes.White 
                         : opticalEvent.BaseRefType == BaseRefType.Fast 
                             ? Brushes.Yellow : Brushes.LightPink,
                 TraceState = opticalEvent.TraceState,

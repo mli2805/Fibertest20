@@ -90,6 +90,24 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
+        public async Task<NetworkEventsList> GetNetworkEvents(int revision)
+        {
+            var wcfConnection = _wcfFactory.CreateC2DConnection();
+            if (wcfConnection == null)
+                return null;
+
+            try
+            {
+                // await wcfConnection.GetEvents(revision) blocks client !!!!!!!!!!!
+                return wcfConnection.GetNetworkEvents(revision).Result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+                return new NetworkEventsList() { Events = new List<NetworkEvent>() };
+            }
+        }
+
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();
