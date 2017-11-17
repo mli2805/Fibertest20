@@ -10,15 +10,15 @@ namespace Iit.Fibertest.Client
     public class OpticalEventsViewModel : PropertyChangedBase
     {
         private readonly ReadModel _readModel;
-        private Visibility _opticalEventsVisiblility;
+        private Visibility _opticalEventsVisibility;
 
-        public Visibility OpticalEventsVisiblility
+        public Visibility OpticalEventsVisibility
         {
-            get { return _opticalEventsVisiblility; }
+            get { return _opticalEventsVisibility; }
             set
             {
-                if (value == _opticalEventsVisiblility) return;
-                _opticalEventsVisiblility = value;
+                if (value == _opticalEventsVisibility) return;
+                _opticalEventsVisibility = value;
                 NotifyOfPropertyChange();
             }
         }

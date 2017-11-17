@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
 	<!-- 
     Microsoft ResX Schema 
@@ -1261,5 +1261,11 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID_No_such_user_or_wrong_password_" xml:space="preserve">
     <value>No such user or wrong password!</value>
+  </data>
+	<data name="SID_Network_events" xml:space="preserve">
+    <value>Network events</value>
+  </data>
+	<data name="SID_Optical_events" xml:space="preserve">
+    <value>Optical events</value>
   </data>
 </root>

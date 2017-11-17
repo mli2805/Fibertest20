@@ -2007,6 +2007,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Network events.
+        /// </summary>
+        public static string SID_Network_events {
+            get {
+                return ResourceManager.GetString("SID_Network_events", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Network settings.
         /// </summary>
         public static string SID_Network_settings {
@@ -2184,6 +2193,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_on_port_N_charon_ {
             get {
                 return ResourceManager.GetString("SID_on_port_N_charon_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Optical events.
+        /// </summary>
+        public static string SID_Optical_events {
+            get {
+                return ResourceManager.GetString("SID_Optical_events", resourceCulture);
             }
         }
         
@@ -2440,29 +2458,11 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to N{0} ({1}).
-        /// </summary>
-        public static string SID_Port_N_on_otau {
-            get {
-                return ResourceManager.GetString("SID_Port_N_on_otau", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to N{0} : {1}.
         /// </summary>
         public static string SID_Port_trace {
             get {
                 return ResourceManager.GetString("SID_Port_trace", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to N{0} ({1}) : {2}.
-        /// </summary>
-        public static string SID_Port_trace_on_otau {
-            get {
-                return ResourceManager.GetString("SID_Port_trace_on_otau", resourceCulture);
             }
         }
         

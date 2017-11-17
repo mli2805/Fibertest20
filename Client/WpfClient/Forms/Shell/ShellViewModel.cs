@@ -32,6 +32,7 @@ namespace Iit.Fibertest.Client
         public TreeOfRtuViewModel TreeOfRtuViewModel { get; set; }
         public GraphReadModel GraphReadModel { get; set; }
         public OpticalEventsViewModel OpticalEventsViewModel { get; set; }
+        public NetworkEventsViewModel NetworkEventsViewModel { get; set; }
 
         private bool? _isAuthenticationSuccessfull;
 
@@ -49,7 +50,8 @@ namespace Iit.Fibertest.Client
         }
 
         public ShellViewModel(ReadModel readModel, TreeOfRtuModel treeOfRtuModel, IWcfServiceForClient c2DWcfManager,
-                GraphReadModel graphReadModel, OpticalEventsViewModel opticalEventsViewModel, IWindowManager windowManager, ClientHeartbeat clientHeartbeat,
+                GraphReadModel graphReadModel, OpticalEventsViewModel opticalEventsViewModel, NetworkEventsViewModel networkEventsViewModel,
+                IWindowManager windowManager, ClientHeartbeat clientHeartbeat,
                 ILogger clientLogger, IniFile iniFile, IMyLog logFile, ClientWcfService clientWcfService, IClientWcfServiceHost host)
         {
             ReadModel = readModel;
@@ -60,7 +62,9 @@ namespace Iit.Fibertest.Client
             GraphReadModel = graphReadModel;
             GraphReadModel.MapVisibility = Visibility.Collapsed;
             OpticalEventsViewModel = opticalEventsViewModel;
-            OpticalEventsViewModel.OpticalEventsVisiblility = Visibility.Visible;
+            OpticalEventsViewModel.OpticalEventsVisibility = Visibility.Visible;
+            NetworkEventsViewModel = networkEventsViewModel;
+            NetworkEventsViewModel.NetworkEventsVisibility = Visibility.Collapsed;
             _selectedTabIndex = 0;
             C2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
@@ -152,13 +156,26 @@ namespace Iit.Fibertest.Client
                     .ConfigureAwait(false);
         }
 
-        public void ChangeGisVisibility()
+        private void ChangeGisVisibility()
         {
-            GraphReadModel.MapVisibility = GraphReadModel.MapVisibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
-
-            OpticalEventsViewModel.OpticalEventsVisiblility = GraphReadModel.MapVisibility == Visibility.Visible
-                ? Visibility.Collapsed
-                : Visibility.Visible;
+            switch (_selectedTabIndex)
+            {
+                case 0:
+                    OpticalEventsViewModel.OpticalEventsVisibility = Visibility.Visible;
+                    NetworkEventsViewModel.NetworkEventsVisibility = Visibility.Collapsed;
+                    GraphReadModel.MapVisibility = Visibility.Collapsed;
+                    break;
+                case 1:
+                    OpticalEventsViewModel.OpticalEventsVisibility = Visibility.Collapsed;
+                    NetworkEventsViewModel.NetworkEventsVisibility = Visibility.Visible;
+                    GraphReadModel.MapVisibility = Visibility.Collapsed;
+                    break;
+                case 2:
+                    OpticalEventsViewModel.OpticalEventsVisibility = Visibility.Collapsed;
+                    NetworkEventsViewModel.NetworkEventsVisibility = Visibility.Collapsed;
+                    GraphReadModel.MapVisibility = Visibility.Visible;
+                    break;
+            }
         }
 
         #region Node

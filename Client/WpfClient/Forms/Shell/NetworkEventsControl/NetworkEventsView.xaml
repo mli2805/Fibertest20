@@ -1,11 +1,11 @@
-﻿<UserControl x:Class="Iit.Fibertest.Client.OpticalEventsView"
+﻿<UserControl x:Class="Iit.Fibertest.Client.NetworkEventsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:client="clr-namespace:Iit.Fibertest.Client"
-             mc:Ignorable="d" 
-             d:DataContext="{d:DesignInstance client:OpticalEventsViewModel}">
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance client:NetworkEventsViewModel}">
     <DockPanel>
         <StatusBar DockPanel.Dock="Bottom" Height="28" BorderBrush="DarkGray" BorderThickness="0,1,0,0">
             <StatusBarItem>
@@ -14,12 +14,7 @@
         </StatusBar>
         <DockPanel DockPanel.Dock="Bottom" Height="150">
             <GroupBox Header="Filters" Margin="5">
-                
-            </GroupBox>
-        </DockPanel>
-        <DockPanel DockPanel.Dock="Bottom" >
-            <GroupBox Header="Comment" Margin="5">
-                <TextBlock Height="25" Background="AliceBlue"/>
+
             </GroupBox>
         </DockPanel>
         <DataGrid Margin="5" ItemsSource="{Binding Rows, Mode=TwoWay}" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
@@ -27,17 +22,9 @@
                 <DataGridTextColumn Header="No" Binding="{Binding Nomer}" Width="30"/>
                 <DataGridTextColumn Header="Event timestamp" Binding="{Binding EventTimestamp}" Width="120"/>
                 <DataGridTextColumn Header="RTU" Binding="{Binding RtuTitle}" Width="200*"/>
-                <DataGridTextColumn Header="Trace" Binding="{Binding TraceTitle}" Width="200*"/>
-                <DataGridTextColumn Header="State" Binding="{Binding TraceState}" Width="100">
-                    <DataGridTextColumn.CellStyle>
-                        <Style TargetType="DataGridCell">
-                            <Setter Property="Background" Value="{Binding BaseRefTypeBrush}" />
-                        </Style>
-                    </DataGridTextColumn.CellStyle>
-                </DataGridTextColumn>
-                <DataGridTextColumn Header="Event status" Binding="{Binding EventStatus}" Width="100"/>
-                <DataGridTextColumn Header="Status timestamp" Binding="{Binding StatusTimestamp}" Width="120"/>
-                <DataGridTextColumn Header="Status user" Binding="{Binding StatusUsername}" Width="100"/>
+                <DataGridTextColumn Header="Main channel" Binding="{Binding MainChannelState}" Width="100"/>
+                <DataGridTextColumn Header="Reserve channel" Binding="{Binding ReserveChannelState}" Width="100"/>
+                <DataGridTextColumn Header="Bop" Binding="{Binding BopString}" Width="100"/>
             </DataGrid.Columns>
         </DataGrid>
     </DockPanel>

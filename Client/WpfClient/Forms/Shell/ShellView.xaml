@@ -30,7 +30,12 @@
                 <TabControl Height="25" DockPanel.Dock="Top" SelectedIndex="{Binding SelectedTabIndex}">
                     <TabItem>
                         <TabItem.Header>
-                            <TextBlock Text="{x:Static stringResources:Resources.SID_System_events }" Margin="5,0,20,0"/>
+                            <TextBlock Text="{x:Static stringResources:Resources.SID_Optical_events}" Margin="5,0,20,0"/>
+                        </TabItem.Header>
+                    </TabItem>
+                    <TabItem>
+                        <TabItem.Header>
+                            <TextBlock Text="{x:Static stringResources:Resources.SID_Network_events}" Margin="5,0,20,0"/>
                         </TabItem.Header>
                     </TabItem>
                     <TabItem>
@@ -44,7 +49,8 @@
                         </TabItem.Header>
                     </TabItem>
                 </TabControl>
-                <client:OpticalEventsView DataContext="{Binding OpticalEventsViewModel}" Visibility="{Binding OpticalEventsVisiblility}"/>
+                <client:OpticalEventsView DataContext="{Binding OpticalEventsViewModel}" Visibility="{Binding OpticalEventsVisibility}"/>
+                <client:NetworkEventsView DataContext="{Binding NetworkEventsViewModel}" Visibility="{Binding NetworkEventsVisibility}"/>
                 <client:MapUserControl DataContext="{Binding GraphReadModel}" Visibility="{Binding MapVisibility}" Margin="3,0,3,3"/>
             </DockPanel>
         </Grid>
