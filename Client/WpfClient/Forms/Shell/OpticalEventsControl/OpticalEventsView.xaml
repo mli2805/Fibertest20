@@ -13,9 +13,9 @@
                 <TextBlock Text="This is status bar for event table" Margin="5,0,20,0"/>
             </StatusBarItem>
         </StatusBar>
-            <GroupBox Header="Filters" Margin="5" Padding="305,5,5,5" DockPanel.Dock="Bottom">
+            <GroupBox Header="Filters" Margin="5" Padding="405,5,5,5" DockPanel.Dock="Bottom">
                 <StackPanel Orientation="Horizontal">
-                    <ComboBox Height="25" Width="120" Margin="3"/>
+                    <ComboBox ItemsSource="{Binding StateList}" SelectedItem="{Binding SelectedState, Mode=TwoWay}"  Height="25" Width="120" Margin="3"/>
                     <ComboBox Height="25" Width="120" Margin="3"/>
                 </StackPanel>
             </GroupBox>
@@ -24,19 +24,36 @@
                 <TextBlock Height="25" Background="AliceBlue"/>
             </GroupBox>
         </DockPanel>
-        <DataGrid Margin="5" ItemsSource="{Binding Rows, Mode=TwoWay}" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+        <DataGrid Margin="5" ItemsSource="{Binding Rows}" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Number}" Binding="{Binding Nomer}" Width="30"/>
                 <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Event_timestamp}" Binding="{Binding EventTimestamp}" Width="120"/>
                 <DataGridTextColumn Header="RTU" Binding="{Binding RtuTitle}" Width="200*"/>
                 <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Trace}" Binding="{Binding TraceTitle}" Width="200*"/>
-                <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_State}" Binding="{Binding TraceStateInTable}" Width="100">
-                    <DataGridTextColumn.CellStyle>
+                <DataGridTemplateColumn Width="120">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <DockPanel >
+                                <TextBlock DockPanel.Dock="Top" Margin="0,0,0,5" Text="{x:Static stringResources:Resources.SID_State}" Width="115" TextAlignment="Center"/>
+                                <ComboBox Height="23" 
+                                          ItemsSource="{Binding Path=DataContext.StateList, 
+                                    RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" 
+                                          SelectedItem="{Binding Path=DataContext.SelectedState, 
+                                    RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Mode=TwoWay}" />
+                            </DockPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellStyle>
                         <Style TargetType="DataGridCell">
                             <Setter Property="Background" Value="{Binding BaseRefTypeBrush}" />
                         </Style>
-                    </DataGridTextColumn.CellStyle>
-                </DataGridTextColumn>
+                    </DataGridTemplateColumn.CellStyle>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding TraceStateInTable}" TextAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Binding="{Binding EventStatus}" Width="120">
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>
@@ -56,7 +73,7 @@
                         </DataTemplate>
                     </DataGridTextColumn.HeaderTemplate>
                 </DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding StatusUsername}" Width="100">
+                <DataGridTextColumn Binding="{Binding StatusUsername}" Width="120">
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock Text="{x:Static stringResources:Resources.SID_Status_changed_by}" TextWrapping="Wrap" TextAlignment="Center"/>

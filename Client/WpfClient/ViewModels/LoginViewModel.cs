@@ -67,7 +67,7 @@ namespace Iit.Fibertest.Client
             else
             {
                 _logFile.AppendLine(dto.ReturnCode.ToString());
-                Status = $@"Error = {dto.ReturnCode.GetLocalizedString()}";
+                Status = dto.ReturnCode.GetLocalizedString();
             }
         }
 
@@ -115,7 +115,6 @@ namespace Iit.Fibertest.Client
 
         public void SetServerAddress()
         {
-            //            var vm = new ServerConnectViewModel(_c2DWcfManager, _iniFile);
             var vm = IoC.Get<ServerConnectViewModel>();
             _windowManager.ShowDialog(vm);
         }

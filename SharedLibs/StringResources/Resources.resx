@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
 	<!-- 
     Microsoft ResX Schema 
@@ -861,7 +861,7 @@ If chosen trace use some equipment in this node it will be replaced</value>
     <value>new</value>
   </data>
 	<data name="SID_fiber_break" xml:space="preserve">
-    <value>fiber break</value>
+    <value>Fiber break</value>
   </data>
 	<data name="SID___new_" xml:space="preserve">
     <value> (new)</value>

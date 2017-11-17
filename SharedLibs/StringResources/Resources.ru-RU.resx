@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
 	<!-- 
     Microsoft ResX Schema 
@@ -852,7 +852,7 @@
     <value>новое</value>
   </data>
 	<data name="SID_fiber_break" xml:space="preserve">
-    <value>обрыв волокна</value>
+    <value>Обрыв волокна</value>
   </data>
 	<data name="SID___new_" xml:space="preserve">
     <value> (нов)</value>
@@ -1209,7 +1209,7 @@ RTU инициализируется в данный момент!</value>
 		<value>Инициализация RTU не удалась!</value>
 	</data>
 	<data name="SID_RTU_initialization_error_" xml:space="preserve">
-		<value>Оибка инициализации RTU!</value>
+		<value>Ошибка инициализации RTU!</value>
 	</data>
 	<data name="SID_Cannot_find_dll_file_" xml:space="preserve">
 		<value>Не найден dll файл!</value>
@@ -1278,7 +1278,7 @@ RTU инициализируется в данный момент!</value>
 		<value>Время присвоения статуса</value>
 	</data>
 	<data name="SID_Status_changed_by" xml:space="preserve">
-		<value>Пользователь изменивший статус</value>
+		<value>Статус изменен пользователем</value>
 	</data>
 	<data name="SID_Number" xml:space="preserve">
 		<value>№</value>

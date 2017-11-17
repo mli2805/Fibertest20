@@ -13,6 +13,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly ReadModel _readModel;
         private Visibility _opticalEventsVisibility;
+        private string _selectedState;
 
         public Visibility OpticalEventsVisibility
         {
@@ -28,9 +29,40 @@ namespace Iit.Fibertest.Client
         public List<OpticalEventVm> CurrentEventsRows => Rows.Where(e => e.TraceState != FiberState.Ok).ToList();
 
         public ObservableCollection<OpticalEventVm> Rows { get; set; } = new ObservableCollection<OpticalEventVm>();
+
+        public List<string> StateList { get; set; }
+
+        public string SelectedState
+        {
+            get { return _selectedState; }
+            set
+            {
+                if (value == _selectedState) return;
+                _selectedState = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public OpticalEventsViewModel(ReadModel readModel)
         {
             _readModel = readModel;
+            InitializeStateList();
+        }
+
+        private void InitializeStateList()
+        {
+            StateList = new List<string>()
+            {
+                "All",
+                FiberState.Ok.GetLocalizedString(), 
+                FiberState.Minor.GetLocalizedString(),
+                FiberState.Major.GetLocalizedString(),
+                FiberState.Critical.GetLocalizedString(),
+                FiberState.FiberBreak.GetLocalizedString(),
+                FiberState.NoFiber.GetLocalizedString(),
+                FiberState.User.GetLocalizedString(),
+            };
+            SelectedState = StateList.First();
         }
 
         public void Apply(OpticalEvent opticalEvent)

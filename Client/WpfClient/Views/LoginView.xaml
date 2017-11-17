@@ -6,7 +6,7 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         mc:Ignorable="d"
-        SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        Width="400" Height="225" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         d:DataContext="{d:DesignInstance client:LoginViewModel}">
     <StackPanel>
         <StackPanel Orientation="Horizontal" Margin="5" >
@@ -36,7 +36,7 @@
                     <TextBlock Text="{x:Static stringResources:Resources.SID_Password}" TextAlignment="Right"/>
                 </DockPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,10">
-                    <TextBlock Text="{Binding Status}" Background="AliceBlue" Padding="10,0"/>
+                    <TextBlock Text="{Binding Status}" Background="AliceBlue" Padding="10,0" TextWrapping="Wrap"/>
                 </StackPanel>
             </StackPanel>
         </Border>

@@ -5,9 +5,11 @@
     /// </summary>
     public partial class OpticalEventsView
     {
+       
         public OpticalEventsView()
         {
             InitializeComponent();
         }
+
     }
 }
