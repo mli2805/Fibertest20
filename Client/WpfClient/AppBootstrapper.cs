@@ -49,7 +49,7 @@ namespace Iit.Fibertest.Client {
             _container.InjectProperties(instance);
         }
 
-        protected override void OnStartup(object sender, System.Windows.StartupEventArgs e) {
+        protected override void OnStartup(object sender, StartupEventArgs e) {
             DisplayRootViewFor<IShell>();
         }
 

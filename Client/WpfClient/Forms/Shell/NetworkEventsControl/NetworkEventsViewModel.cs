@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using System.Windows.Media;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 

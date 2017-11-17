@@ -9,7 +9,6 @@ using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
-using Iit.Fibertest.WpfCommonViews;
 using PrivateReflectionUsingDynamic;
 using Serilog;
 
