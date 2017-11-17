@@ -1283,4 +1283,43 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Number" xml:space="preserve">
 		<value>№</value>
 	</data>
+	<data name="SID_Not_in_trace" xml:space="preserve">
+		<value>Не в трассе</value>
+	</data>
+	<data name="SID_Not_joined" xml:space="preserve">
+		<value>Не присоединен</value>
+	</data>
+	<data name="SID_Distace_measurement" xml:space="preserve">
+		<value>Измерение расстояния</value>
+	</data>
+	<data name="SID_Not_checked" xml:space="preserve">
+		<value>Не отмечен</value>
+	</data>
+	<data name="SID_Suspicion" xml:space="preserve">
+		<value>Подозрение</value>
+	</data>
+	<data name="SID_User_s_threshold" xml:space="preserve">
+		<value>Пользовательский порог</value>
+	</data>
+	<data name="SID_No_fiber" xml:space="preserve">
+		<value>Нет волокна</value>
+	</data>
+	<data name="SID_Highlighted" xml:space="preserve">
+		<value>Подсвечен</value>
+	</data>
+	<data name="SID_Planned" xml:space="preserve">
+		<value>Плановое</value>
+	</data>
+	<data name="SID_Not_confirmed" xml:space="preserve">
+		<value>Не подтверждено</value>
+	</data>
+	<data name="SID_Unprocessed" xml:space="preserve">
+		<value>Не обработано</value>
+	</data>
+	<data name="SID_Suspended" xml:space="preserve">
+		<value>Отложено</value>
+	</data>
+	<data name="SID_Confirmed" xml:space="preserve">
+		<value>Подтверждено</value>
+	</data>
 </root>

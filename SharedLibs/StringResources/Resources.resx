@@ -1283,4 +1283,43 @@ RTU is initializing right now!</value>
 	<data name="SID_Number" xml:space="preserve">
     <value>No</value>
   </data>
+	<data name="SID_Not_in_trace" xml:space="preserve">
+    <value>Not in trace</value>
+  </data>
+	<data name="SID_Not_joined" xml:space="preserve">
+    <value>Not joined</value>
+  </data>
+	<data name="SID_Distace_measurement" xml:space="preserve">
+    <value>Distace measurement</value>
+  </data>
+	<data name="SID_Not_checked" xml:space="preserve">
+    <value>Not checked</value>
+  </data>
+	<data name="SID_Suspicion" xml:space="preserve">
+    <value>Suspicion</value>
+  </data>
+	<data name="SID_User_s_threshold" xml:space="preserve">
+    <value>User's threshold</value>
+  </data>
+	<data name="SID_No_fiber" xml:space="preserve">
+    <value>No fiber</value>
+  </data>
+	<data name="SID_Highlighted" xml:space="preserve">
+    <value>Highlighted</value>
+  </data>
+	<data name="SID_Planned" xml:space="preserve">
+    <value>Planned</value>
+  </data>
+	<data name="SID_Not_confirmed" xml:space="preserve">
+    <value>Not confirmed</value>
+  </data>
+	<data name="SID_Unprocessed" xml:space="preserve">
+    <value>Unprocessed</value>
+  </data>
+	<data name="SID_Suspended" xml:space="preserve">
+    <value>Suspended</value>
+  </data>
+	<data name="SID_Confirmed" xml:space="preserve">
+    <value>Confirmed</value>
+  </data>
 </root>

@@ -30,12 +30,12 @@ namespace Iit.Fibertest.Client
                 case FiberState.NotChecked:
                 case FiberState.Ok:
                     return Brushes.Black;
-                case FiberState.Suspect:
+                case FiberState.Suspicion:
                     return Brushes.Yellow;
                 case FiberState.Minor:
-                    return Brushes.Purple;
+                    return Brushes.Plum;
                 case FiberState.Major:
-                    return Brushes.Fuchsia;
+                    return Brushes.HotPink;
                 case FiberState.User:
                     return Brushes.Green;
                 case FiberState.Critical:
@@ -46,6 +46,41 @@ namespace Iit.Fibertest.Client
                     return Brushes.Lime;
                 default:
                     return Brushes.Black;
+            }
+        }
+
+        public static string GetLocalizedString(this FiberState state)
+        {
+            switch (state)
+            {
+                case FiberState.NotInTrace:
+                    return Resources.SID_Not_in_trace;
+                case FiberState.NotJoined:
+                    return Resources.SID_Not_joined;
+                case FiberState.DistanceMeasurement:
+                    return Resources.SID_Distace_measurement;
+                case FiberState.NotChecked:
+                    return Resources.SID_Not_checked;
+                case FiberState.Ok:
+                    return Resources.SID_Ok;
+                case FiberState.Suspicion:
+                    return Resources.SID_Suspicion;
+                case FiberState.Minor:
+                    return Resources.SID_Minor;
+                case FiberState.Major:
+                    return Resources.SID_Major;
+                case FiberState.User:
+                    return Resources.SID_User_s_threshold;
+                case FiberState.Critical:
+                    return Resources.SID_Critical;
+                case FiberState.FiberBreak:
+                    return Resources.SID_fiber_break;
+                case FiberState.NoFiber:
+                    return Resources.SID_No_fiber;
+                case FiberState.HighLighted:
+                    return Resources.SID_Highlighted;
+                default:
+                    return Resources.SID_Ok;
             }
         }
 

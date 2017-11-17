@@ -29,19 +29,24 @@
                 <DataGridTextColumn Header="{x:Static StringResources:Resources.SID_Event_timestamp}" Binding="{Binding EventTimestamp}" Width="120"/>
                 <DataGridTextColumn Header="RTU" Binding="{Binding RtuTitle}" Width="200*"/>
                 <DataGridTextColumn Header="{x:Static StringResources:Resources.SID_Trace}" Binding="{Binding TraceTitle}" Width="200*"/>
-                <DataGridTextColumn Header="{x:Static StringResources:Resources.SID_State}" Binding="{Binding TraceState}" Width="100">
+                <DataGridTextColumn Header="{x:Static StringResources:Resources.SID_State}" Binding="{Binding TraceStateInTable}" Width="100">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="DataGridCell">
                             <Setter Property="Background" Value="{Binding BaseRefTypeBrush}" />
                         </Style>
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding EventStatus}" Width="100">
+                <DataGridTextColumn Binding="{Binding EventStatus}" Width="120">
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock Text="{x:Static StringResources:Resources.SID_Event_status}" TextWrapping="Wrap" TextAlignment="Center"/>
                         </DataTemplate>
                     </DataGridTextColumn.HeaderTemplate>
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="Background" Value="{Binding EventStatusBrush}" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
                 <DataGridTextColumn Binding="{Binding StatusTimestamp}" Width="120">
                     <DataGridTextColumn.HeaderTemplate>
@@ -58,6 +63,12 @@
                     </DataGridTextColumn.HeaderTemplate>
                 </DataGridTextColumn>
             </DataGrid.Columns>
+            <DataGrid.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="LightBlue" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="GhostWhite" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="Black" />
+            </DataGrid.Resources>
         </DataGrid>
     </DockPanel>
 </UserControl>

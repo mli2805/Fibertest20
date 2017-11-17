@@ -9,7 +9,7 @@
         NotChecked = 0x2,
         //
         Ok = 0x4,
-        Suspect = 0x5,
+        Suspicion = 0x5,
         Minor = 0x6,
         Major = 0x7,
         Critical = 0x8,

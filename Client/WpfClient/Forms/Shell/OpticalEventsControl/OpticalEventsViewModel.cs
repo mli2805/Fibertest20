@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Media;
 using Caliburn.Micro;
@@ -44,14 +45,15 @@ namespace Iit.Fibertest.Client
                     opticalEvent.TraceState == FiberState.Ok 
                         ? Brushes.White 
                         : opticalEvent.BaseRefType == BaseRefType.Fast 
-                            ? Brushes.Yellow : Brushes.LightPink,
+                            ? Brushes.Yellow : opticalEvent.TraceState.GetBrush(),
                 TraceState = opticalEvent.TraceState,
 
                 EventStatus = 
                     opticalEvent.IsStatusAcceptable()
-                        ? opticalEvent.EventStatus.ToString() 
+                        ? opticalEvent.EventStatus.GetLocalizedString() 
                         : "",
-                StatusTimestamp = opticalEvent.IsStatusAcceptable() ? opticalEvent.StatusTimestamp.ToString() : "",
+                EventStatusBrush = opticalEvent.EventStatus == EventStatus.Confirmed ? Brushes.Red : Brushes.White,
+                StatusTimestamp = opticalEvent.IsStatusAcceptable() ? opticalEvent.StatusTimestamp.ToString(Thread.CurrentThread.CurrentUICulture) : "",
                 StatusUsername = opticalEvent.IsStatusAcceptable() ? opticalEvent.StatusUserId.ToString() : "",
                 Comment = opticalEvent.Comment,
             });

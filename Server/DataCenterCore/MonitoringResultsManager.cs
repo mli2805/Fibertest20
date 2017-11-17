@@ -54,7 +54,7 @@ namespace Iit.Fibertest.DataCenterCore
                     EventTimestamp = result.TimeStamp,
                     BaseRefType = result.BaseRefType,
                     TraceState = result.TraceState,
-                    EventStatus = EventStatus.Current,
+                    EventStatus = EventStatus.Unprocessed,
                     StatusTimestamp = DateTime.Now,
                     StatusUserId = 0,
                     Comment = "",
