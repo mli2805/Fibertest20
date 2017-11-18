@@ -22,6 +22,7 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
         [OperationContract]
         Task<NetworkEventsList> GetNetworkEvents(int revision);
 
+
         // C2D
         [OperationContract]
         Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto);

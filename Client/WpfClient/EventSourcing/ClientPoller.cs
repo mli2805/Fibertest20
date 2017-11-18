@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
@@ -26,7 +28,7 @@ namespace Iit.Fibertest.Client
         public int LastOpticalEventNumber { get; set; }
         public int LastNetworkEventNumber { get; set; }
 
-        public ClientPoller(IWcfServiceForClient channel, List<object> readModels, 
+        public ClientPoller(IWcfServiceForClient channel, List<object> readModels,
             OpticalEventsViewModel opticalEventsViewModel, NetworkEventsViewModel networkEventsViewModel, IMyLog logFile)
         {
             Channel = channel;
@@ -62,17 +64,23 @@ namespace Iit.Fibertest.Client
             }
 
             var opticalEvents = Channel.GetOpticalEvents(LastOpticalEventNumber).Result;
-            LastOpticalEventNumber += opticalEvents.Events.Count;
-            foreach (var opticalEvent in opticalEvents.Events)
+            if (opticalEvents?.Events != null && opticalEvents.Events.Any())
             {
-                _opticalEventsViewModel.Apply(opticalEvent);
+                LastOpticalEventNumber = opticalEvents.Events.Last().Id;
+                foreach (var opticalEvent in opticalEvents.Events)
+                {
+                    _opticalEventsViewModel.Apply(opticalEvent);
+                }
             }
 
             var networkEvents = Channel.GetNetworkEvents(LastNetworkEventNumber).Result;
-            LastNetworkEventNumber += networkEvents.Events.Count;
-            foreach (var networkEvent in networkEvents.Events)
+            if (networkEvents?.Events != null && networkEvents.Events.Any())
             {
-                _networkEventsViewModel.Apply(networkEvent);
+                LastNetworkEventNumber += networkEvents.Events.Count;
+                foreach (var networkEvent in networkEvents.Events)
+                {
+                    _networkEventsViewModel.Apply(networkEvent);
+                }
             }
         }
     }

@@ -80,7 +80,8 @@ namespace Iit.Fibertest.WcfConnections
 
             try
             {
-                // await wcfConnection.GetEvents(revision) blocks client !!!!!!!!!!!
+//                var result = await wcfConnection.GetOpticalEvents(revision); // blocks client too
+//                return result;
                 return wcfConnection.GetOpticalEvents(revision).Result;
             }
             catch (Exception e)
@@ -122,7 +123,7 @@ namespace Iit.Fibertest.WcfConnections
             catch (Exception e)
             {
                 _logFile.AppendLine(e.Message);
-                return new ClientRegisteredDto() { ReturnCode = ReturnCode.C2DWcfOperationError };
+                return new ClientRegisteredDto() { ReturnCode = ReturnCode.C2DWcfOperationError, ExceptionMessage = e.Message};
             }
         }
 
@@ -277,5 +278,7 @@ namespace Iit.Fibertest.WcfConnections
                 return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.C2DWcfConnectionError, ExceptionMessage = e.Message};
             }
         }
+
+      
     }
 }

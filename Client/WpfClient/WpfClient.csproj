@@ -186,11 +186,13 @@
     </Compile>
     <Compile Include="Forms\Shell\NetworkEventsControl\NetworkEventsViewModel.cs" />
     <Compile Include="Forms\Shell\NetworkEventsControl\NetworkEventVm.cs" />
+    <Compile Include="Forms\Shell\OpticalEventsControl\EventStatusFilter.cs" />
     <Compile Include="Forms\Shell\OpticalEventsControl\OpticalEventsView.xaml.cs">
       <DependentUpon>OpticalEventsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\Shell\OpticalEventsControl\OpticalEventsViewModel.cs" />
     <Compile Include="Forms\Shell\OpticalEventsControl\OpticalEventVm.cs" />
+    <Compile Include="Forms\Shell\OpticalEventsControl\TraceStateFilter.cs" />
     <Compile Include="Logic\ReturnCodeExt.cs" />
     <Compile Include="Logic\WaitCursor.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\RtuLeafActions.cs" />

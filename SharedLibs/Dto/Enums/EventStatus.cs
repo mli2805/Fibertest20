@@ -4,6 +4,7 @@ namespace Iit.Fibertest.Dto
 {
     public enum EventStatus
     {
+        NotAnAccident = -9,
         Planned       = -2,
         NotConfirmed  = -1,
         Unprocessed   =  0,
@@ -17,6 +18,8 @@ namespace Iit.Fibertest.Dto
         {
             switch (eventStatus)
             {
+                    case EventStatus.NotAnAccident:
+                        return "";
                     case EventStatus.Planned:
                         return Resources.SID_Planned;
                     case EventStatus.NotConfirmed:

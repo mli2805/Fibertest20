@@ -5,6 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:client="clr-namespace:Iit.Fibertest.Client"
              xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance client:OpticalEventsViewModel}">
     <DockPanel>
@@ -15,30 +17,31 @@
         </StatusBar>
             <GroupBox Header="Filters" Margin="5" Padding="405,5,5,5" DockPanel.Dock="Bottom">
                 <StackPanel Orientation="Horizontal">
-                    <ComboBox ItemsSource="{Binding StateList}" SelectedItem="{Binding SelectedState, Mode=TwoWay}"  Height="25" Width="120" Margin="3"/>
+                    <ComboBox ItemsSource="{Binding TraceStateFilters}" SelectedItem="{Binding SelectedTraceStateFilter, Mode=TwoWay}"  Height="25" Width="120" Margin="3"/>
                     <ComboBox Height="25" Width="120" Margin="3"/>
                 </StackPanel>
             </GroupBox>
         <DockPanel DockPanel.Dock="Bottom" >
             <GroupBox Header="Comment" Margin="5">
-                <TextBlock Height="25" Background="AliceBlue"/>
+                <TextBlock Height="25" Background="AliceBlue" Text="{Binding SelectedRow.Comment}"/>
             </GroupBox>
         </DockPanel>
-        <DataGrid Margin="5" ItemsSource="{Binding Rows}" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+        <DataGrid Margin="5" ItemsSource="{Binding Rows}" SelectedItem="{Binding SelectedRow, Mode=TwoWay}" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Number}" Binding="{Binding Nomer}" Width="30"/>
                 <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Event_timestamp}" Binding="{Binding EventTimestamp}" Width="120"/>
                 <DataGridTextColumn Header="RTU" Binding="{Binding RtuTitle}" Width="200*"/>
                 <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Trace}" Binding="{Binding TraceTitle}" Width="200*"/>
+
                 <DataGridTemplateColumn Width="120">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <DockPanel >
                                 <TextBlock DockPanel.Dock="Top" Margin="0,0,0,5" Text="{x:Static stringResources:Resources.SID_State}" Width="115" TextAlignment="Center"/>
                                 <ComboBox Height="23" 
-                                          ItemsSource="{Binding Path=DataContext.StateList, 
+                                          ItemsSource="{Binding Path=DataContext.TraceStateFilters, 
                                     RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" 
-                                          SelectedItem="{Binding Path=DataContext.SelectedState, 
+                                          SelectedItem="{Binding Path=DataContext.SelectedTraceStateFilter, 
                                     RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Mode=TwoWay}" />
                             </DockPanel>
                         </DataTemplate>
@@ -54,18 +57,32 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Binding="{Binding EventStatus}" Width="120">
-                    <DataGridTextColumn.HeaderTemplate>
+                
+                <DataGridTemplateColumn Width="120">
+                    <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{x:Static stringResources:Resources.SID_Event_status}" TextWrapping="Wrap" TextAlignment="Center"/>
+                            <DockPanel >
+                                <TextBlock DockPanel.Dock="Top" Margin="0,0,0,5" Text="{x:Static stringResources:Resources.SID_Event_status}" Width="115" TextAlignment="Center"/>
+                                <ComboBox Height="23" 
+                                          ItemsSource="{Binding Path=DataContext.EventStatusFilters, 
+                                    RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" 
+                                          SelectedItem="{Binding Path=DataContext.SelectedEventStatusFilter, 
+                                    RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Mode=TwoWay}" />
+                            </DockPanel>
                         </DataTemplate>
-                    </DataGridTextColumn.HeaderTemplate>
-                    <DataGridTextColumn.CellStyle>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellStyle>
                         <Style TargetType="DataGridCell">
                             <Setter Property="Background" Value="{Binding EventStatusBrush}" />
                         </Style>
-                    </DataGridTextColumn.CellStyle>
-                </DataGridTextColumn>
+                    </DataGridTemplateColumn.CellStyle>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding EventStatusInTable}" TextAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
                 <DataGridTextColumn Binding="{Binding StatusTimestamp}" Width="120">
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>

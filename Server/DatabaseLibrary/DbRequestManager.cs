@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using Iit.Fibertest.DatabaseLibrary.DbContexts;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
@@ -16,35 +18,36 @@ namespace Iit.Fibertest.DatabaseLibrary
             _logFile = logFile;
         }
 
-        public OpticalEventsList GetOpticalEvents(int afterIndex)
+        public async Task<List<OpticalEvent>> GetOpticalEventsAsync(int afterIndex)
         {
-            var result = new OpticalEventsList() {Events = new List<OpticalEvent>()};
             try
             {
                 var dbContext = new MySqlContext();
-                result.Events = dbContext.OpticalEvents.Where(e => e.Id > afterIndex).ToList();
-                return result;
+                var events = await dbContext.OpticalEvents.Where(e => e.Id > afterIndex).ToListAsync();
+                return events;
             }
             catch (Exception e)
             {
                 _logFile.AppendLine("GetOpticalEvents: " + e.Message);
-                return result;
+                return null;
             }
         }
 
-        public NetworkEventsList GetNetworkEvents(int afterIndex)
+        public async Task<NetworkEventsList> GetNetworkEventsAsync(int afterIndex)
         {
-            var result = new NetworkEventsList() {Events = new List<NetworkEvent>()};
             try
             {
                 var dbContext = new MySqlContext();
-                result.Events = dbContext.NetworkEvents.Where(e => e.Id > afterIndex).ToList();
+                var result = new NetworkEventsList
+                {
+                    Events = await dbContext.NetworkEvents.Where(e => e.Id > afterIndex).ToListAsync()
+                };
                 return result;
             }
             catch (Exception e)
             {
                 _logFile.AppendLine("GetNetworkEvents: " + e.Message);
-                return result;
+                return null;
             }
         }
     }

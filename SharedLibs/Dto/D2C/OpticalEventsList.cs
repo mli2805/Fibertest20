@@ -9,4 +9,14 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public List<OpticalEvent> Events { get; set; }
     }
+
+    [DataContract]
+    public class ListOfOpticalEvents
+    {
+        [DataMember]
+        public ReturnCode ReturnCode { get; set; }
+
+        [DataMember]
+        public List<OpticalEvent> Events { get; set; }
+    }
 }

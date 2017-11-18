@@ -72,12 +72,12 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<OpticalEventsList> GetOpticalEvents(int revision)
         {
-            return await Task.FromResult(_dbRequestManager.GetOpticalEvents(revision));
+            return new OpticalEventsList {Events = await _dbRequestManager.GetOpticalEventsAsync(revision)};
         }
 
         public async Task<NetworkEventsList> GetNetworkEvents(int revision)
         {
-            return await Task.FromResult(_dbRequestManager.GetNetworkEvents(revision));
+            return await _dbRequestManager.GetNetworkEventsAsync(revision);
         }
 
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
@@ -148,5 +148,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             return await _clientToRtuTransmitter.AssignBaseRefAsync(dto);
         }
+
+     
     }
 }

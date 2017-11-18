@@ -33,10 +33,6 @@ namespace Graph.Tests
         }
 
 
-        public Task<ClientRegisteredDto> MakeExperimentAsync(RegisterClientDto dto)
-        {
-            throw new NotImplementedException();
-        }
 
         public Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {

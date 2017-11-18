@@ -11,11 +11,14 @@ namespace Iit.Fibertest.Client
         public string RtuTitle { get; set; }
         public string TraceTitle { get; set; }
         public Brush BaseRefTypeBrush { get; set; }
+
         public FiberState TraceState { get; set; }
         public string TraceStateInTable => TraceState.GetLocalizedString();
 
-        public string EventStatus { get; set; }
+        public EventStatus EventStatus { get; set; }
         public Brush EventStatusBrush { get; set; }
+        public string EventStatusInTable => EventStatus.GetLocalizedString();
+
         public string StatusTimestamp { get; set; }
         public string StatusUsername { get; set; }
 
