@@ -56,7 +56,7 @@ namespace Iit.Fibertest.DataCenterCore
                     TraceState = result.TraceState,
                     EventStatus = result.TraceState == FiberState.Ok || result.BaseRefType == BaseRefType.Fast ? EventStatus.NotAnAccident : EventStatus.Unprocessed,
                     StatusTimestamp = DateTime.Now,
-                    StatusUserId = 0,
+                    StatusUser = "<system>",
                     Comment = "",
                 });
                 await dbContext.SaveChangesAsync();

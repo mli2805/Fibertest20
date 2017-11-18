@@ -13,12 +13,6 @@
                 <TextBlock Text="This is status bar for event table" Margin="5,0,20,0"/>
             </StatusBarItem>
         </StatusBar>
-            <GroupBox Header="Filters" Margin="5" Padding="405,5,5,5" DockPanel.Dock="Bottom">
-                <StackPanel Orientation="Horizontal">
-                    <ComboBox ItemsSource="{Binding TraceStateFilters}" SelectedItem="{Binding SelectedTraceStateFilter, Mode=TwoWay}"  Height="25" Width="120" Margin="3"/>
-                    <ComboBox Height="25" Width="120" Margin="3"/>
-                </StackPanel>
-            </GroupBox>
         <DockPanel DockPanel.Dock="Bottom" >
             <GroupBox Header="Comment" Margin="5">
                 <TextBlock Height="25" Background="AliceBlue" Text="{Binding SelectedRow.Comment}"/>

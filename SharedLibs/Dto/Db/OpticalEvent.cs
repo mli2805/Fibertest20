@@ -12,7 +12,7 @@ namespace Iit.Fibertest.Dto
         public FiberState TraceState { get; set; }
         public EventStatus EventStatus { get; set; }
         public DateTime StatusTimestamp { get; set; }
-        public int StatusUserId { get; set; }
+        public string StatusUser { get; set; }
         public string Comment { get; set; }
     }
 

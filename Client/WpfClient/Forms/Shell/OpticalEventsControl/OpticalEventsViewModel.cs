@@ -139,8 +139,8 @@ namespace Iit.Fibertest.Client
                 EventStatus = opticalEvent.EventStatus,
                 EventStatusBrush = opticalEvent.EventStatus == EventStatus.Confirmed ? Brushes.Red : Brushes.White,
 
-                StatusTimestamp = opticalEvent.IsStatusAcceptable() ? opticalEvent.StatusTimestamp.ToString(Thread.CurrentThread.CurrentUICulture) : "",
-                StatusUsername = opticalEvent.IsStatusAcceptable() ? opticalEvent.StatusUserId.ToString() : "",
+                StatusTimestamp = opticalEvent.EventStatus != EventStatus.NotAnAccident ? opticalEvent.StatusTimestamp.ToString(Thread.CurrentThread.CurrentUICulture) : "",
+                StatusUsername = opticalEvent.EventStatus != EventStatus.NotAnAccident ? opticalEvent.StatusUser : "",
                 Comment = opticalEvent.Comment,
             });
         }

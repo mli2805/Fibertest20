@@ -101,6 +101,10 @@
     <Compile Include="Migrations\201711161135342_OpticalEventsFieldsAdded.Designer.cs">
       <DependentUpon>201711161135342_OpticalEventsFieldsAdded.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711181823317_StatusUserChanged.cs" />
+    <Compile Include="Migrations\201711181823317_StatusUserChanged.Designer.cs">
+      <DependentUpon>201711181823317_StatusUserChanged.cs</DependentUpon>
+    </Compile>
     <Compile Include="RtuRegistration\MapperToRtuStation.cs" />
     <Compile Include="Migrations\201711031240377_InitialCreate.cs" />
     <Compile Include="Migrations\201711031240377_InitialCreate.Designer.cs">
@@ -185,6 +189,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711161135342_OpticalEventsFieldsAdded.resx">
       <DependentUpon>201711161135342_OpticalEventsFieldsAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711181823317_StatusUserChanged.resx">
+      <DependentUpon>201711181823317_StatusUserChanged.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
