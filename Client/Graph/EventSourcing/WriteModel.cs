@@ -29,16 +29,11 @@ namespace Iit.Fibertest.Graph
 
         public void Init(IEnumerable<object> events)
         {
-//            Thread.Sleep(TimeSpan.FromSeconds(10));
+            //            Thread.Sleep(TimeSpan.FromSeconds(10));
             foreach (var dbEvent in events)
             {
                 this.AsDynamic().Apply(dbEvent);
             }
-        }
-
-        public List<Rtu> GetInitializedRtuList()
-        {
-            return _rtus.Where(r=>!string.IsNullOrEmpty(r.Serial)).ToList();
         }
 
         public void Add(object evnt)
@@ -168,7 +163,7 @@ namespace Iit.Fibertest.Graph
 
             if (!_fibers.Any(f => f.Node1 == nodeBefore && f.Node2 == nodeAfter
                                   || f.Node2 == nodeBefore && f.Node1 == nodeAfter))
-                _fibers.Add(new Fiber() {Id = fiberId, Node1 = nodeBefore, Node2 = nodeAfter});
+                _fibers.Add(new Fiber() { Id = fiberId, Node1 = nodeBefore, Node2 = nodeAfter });
         }
 
         public bool IsFiberContainedInAnyTraceWithBase(Guid fiberId)
@@ -208,7 +203,7 @@ namespace Iit.Fibertest.Graph
         #endregion
 
         #region Equipment
-        public void Apply(EquipmentIntoNodeAdded e) { _equipments.Add(new Equipment() {Id = e.Id, Type = e.Type, NodeId = e.NodeId}); }
+        public void Apply(EquipmentIntoNodeAdded e) { _equipments.Add(new Equipment() { Id = e.Id, Type = e.Type, NodeId = e.NodeId }); }
 
         public void Apply(EquipmentAtGpsLocationAdded e)
         {
@@ -238,7 +233,7 @@ namespace Iit.Fibertest.Graph
 
         public void Apply(MonitoringSettingsChanged e)
         {
-            
+
         }
         #endregion
 

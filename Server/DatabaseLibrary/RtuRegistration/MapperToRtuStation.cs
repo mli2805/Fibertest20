@@ -6,26 +6,6 @@ namespace Iit.Fibertest.DatabaseLibrary
 {
     public static class MapperToRtuStation
     {
-        public static RtuStation Map(Rtu rtu)
-        {
-            var rtuStation = new RtuStation()
-            {
-                RtuGuid = rtu.Id,
-                Version = rtu.Version,
-                MainAddress = rtu.MainChannel.GetAddress(),
-                MainAddressPort = rtu.MainChannel.Port,
-                LastConnectionByMainAddressTimestamp = DateTime.Now,
-                IsReserveAddressSet = rtu.IsReserveChannelSet,
-            };
-            if (rtu.IsReserveChannelSet)
-            {
-                rtuStation.ReserveAddress = rtu.ReserveChannel.GetAddress();
-                rtuStation.ReserveAddressPort = rtu.ReserveChannel.Port;
-                rtuStation.LastConnectionByReserveAddressTimestamp = DateTime.Now;
-            }
-            return rtuStation;
-        }
-
         public static RtuStation Map(RtuInitializedDto dto)
         {
             var rtuStation = new RtuStation()

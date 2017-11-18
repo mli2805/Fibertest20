@@ -75,7 +75,7 @@ namespace Iit.Fibertest.Client
             var networkEvents = Channel.GetNetworkEvents(LastNetworkEventNumber).Result;
             if (networkEvents?.Events != null && networkEvents.Events.Any())
             {
-                LastNetworkEventNumber += networkEvents.Events.Count;
+                LastNetworkEventNumber = networkEvents.Events.Last().Id;
                 foreach (var networkEvent in networkEvents.Events)
                 {
                     _networkEventsViewModel.Apply(networkEvent);

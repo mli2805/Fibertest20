@@ -19,48 +19,35 @@ namespace Iit.Fibertest.DatabaseLibrary
             _logFile = logFile;
         }
 
-        private async Task<int> CleanRtuStations()
-        {
-            try
-            {
-                var dbContext = new MySqlContext();
-                dbContext.RtuStations.RemoveRange(dbContext.RtuStations);
-                return await dbContext.SaveChangesAsync();
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine("CleanRtuStations: " + e.Message);
-                return -1;
-            }
-        }
 
-        private async Task<int> InitializeRtuStationTable(List<Rtu> initializedRtus)
+
+        public async Task<int> RefreshRtuStations()
         {
             try
             {
-                var dbContext = new MySqlContext();
-                foreach (var rtu in initializedRtus)
+                using (var dbContext = new MySqlContext())
                 {
-                    dbContext.RtuStations.Add(MapperToRtuStation.Map(rtu));
-                    _logFile.AppendLine($"RTU {rtu.Id.First6()}  main address {rtu.MainChannel.ToStringA()}");
+                    foreach (var rtuStation in dbContext.RtuStations.ToList())
+                    {
+                        rtuStation.LastConnectionByMainAddressTimestamp = DateTime.Now;
+                        if (rtuStation.IsReserveAddressSet)
+                            rtuStation.LastConnectionByReserveAddressTimestamp = DateTime.Now;
+
+                        _logFile.AppendLine($"RTU {rtuStation.RtuGuid.First6()}  main address {rtuStation.MainAddress}");
+                    }
+                    var savedRows = await dbContext.SaveChangesAsync();
+                    _logFile.AppendLine($"{savedRows} RTU found.");
+                    return savedRows;
                 }
-                var savedRows = await dbContext.SaveChangesAsync();
-                _logFile.AppendLine($"{savedRows} RTU found.");
-                return savedRows;
             }
             catch (Exception e)
             {
-                _logFile.AppendLine("InitializeRtuStationTable: " + e.Message);
+                _logFile.AppendLine("FreshUpRtuStations: " + e.Message);
                 return -1;
             }
         }
 
-        public async Task<int> InitManager(List<Rtu> initializedRtu)
-        {
-            await CleanRtuStations();
-            return await InitializeRtuStationTable(initializedRtu);
-        }
-
+     
         public async Task<int> RegisterRtuAsync(RtuInitializedDto dto)
         {
             try
