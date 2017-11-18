@@ -5,8 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:client="clr-namespace:Iit.Fibertest.Client"
              xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance client:OpticalEventsViewModel}">
     <DockPanel>

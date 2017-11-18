@@ -9,7 +9,6 @@ using System.Windows.Data;
 using System.Windows.Media;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.Client
 {
@@ -83,7 +82,7 @@ namespace Iit.Fibertest.Client
 
             var view = CollectionViewSource.GetDefaultView(Rows);
             view.Filter += OnFilter;
-            view.SortDescriptions.Add(new SortDescription("Nomer",ListSortDirection.Descending));
+            view.SortDescriptions.Add(new SortDescription(@"Nomer",ListSortDirection.Descending));
 
 
         }

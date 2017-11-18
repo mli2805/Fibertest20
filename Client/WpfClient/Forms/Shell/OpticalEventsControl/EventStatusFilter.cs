@@ -24,7 +24,7 @@ namespace Iit.Fibertest.Client
 
         public override string ToString()
         {
-            return IsOn ? EventStatus.GetLocalizedString() : "<no filter>";
+            return IsOn ? EventStatus.GetLocalizedString() : @"<no filter>";
         }
     }
 }
