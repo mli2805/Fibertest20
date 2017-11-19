@@ -58,6 +58,7 @@ namespace Iit.Fibertest.DataCenterCore
                     StatusTimestamp = DateTime.Now,
                     StatusUser = "<system>",
                     Comment = "",
+                    MeasurementId = result.Id,
                 });
                 await dbContext.SaveChangesAsync();
                 return true;

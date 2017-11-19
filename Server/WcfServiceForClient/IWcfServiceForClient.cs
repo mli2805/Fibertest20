@@ -1,4 +1,5 @@
-﻿using System.ServiceModel;
+﻿using System;
+using System.ServiceModel;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 
@@ -16,12 +17,15 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
         [OperationContract]
         Task<string[]> GetEvents(int revision);
 
+        // C2Database
         [OperationContract]
         Task<OpticalEventsList> GetOpticalEvents(int revision);
 
         [OperationContract]
         Task<NetworkEventsList> GetNetworkEvents(int revision);
 
+        [OperationContract]
+        Task<byte[]> GetSorBytesOfMeasurement(Guid measurementId);
 
         // C2D
         [OperationContract]

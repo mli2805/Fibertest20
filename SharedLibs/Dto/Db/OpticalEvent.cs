@@ -14,6 +14,7 @@ namespace Iit.Fibertest.Dto
         public DateTime StatusTimestamp { get; set; }
         public string StatusUser { get; set; }
         public string Comment { get; set; }
+        public Guid MeasurementId { get; set; }
     }
 
     public static class OpticalEventExtension

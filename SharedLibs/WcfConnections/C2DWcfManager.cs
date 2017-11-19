@@ -109,6 +109,24 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
+        public Task<byte[]> GetSorBytesOfMeasurement(Guid measurementId)
+        {
+            var wcfConnection = _wcfFactory.CreateC2DConnection();
+            if (wcfConnection == null)
+                return null;
+
+            try
+            {
+                return wcfConnection.GetSorBytesOfMeasurement(measurementId);
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+                return null;
+            }
+        }
+
+
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();
@@ -279,6 +297,5 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-      
     }
 }

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows;
@@ -9,12 +11,16 @@ using System.Windows.Data;
 using System.Windows.Media;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.Client
 {
     public class OpticalEventsViewModel : PropertyChangedBase
     {
+        private readonly IMyLog _logFile;
         private readonly ReadModel _readModel;
+        private readonly C2DWcfManager _c2DWcfManager;
         private Visibility _opticalEventsVisibility;
         private TraceStateFilter _selectedTraceStateFilter;
         private EventStatusFilter _selectedEventStatusFilter;
@@ -73,9 +79,11 @@ namespace Iit.Fibertest.Client
         }
 
 
-        public OpticalEventsViewModel(ReadModel readModel)
+        public OpticalEventsViewModel(IMyLog logFile, ReadModel readModel, C2DWcfManager c2DWcfManager)
         {
+            _logFile = logFile;
             _readModel = readModel;
+            _c2DWcfManager = c2DWcfManager;
 
             InitializeTraceStateFilters();
             InitializeEventStatusFilters();
@@ -142,7 +150,37 @@ namespace Iit.Fibertest.Client
                 StatusTimestamp = opticalEvent.EventStatus != EventStatus.NotAnAccident ? opticalEvent.StatusTimestamp.ToString(Thread.CurrentThread.CurrentUICulture) : "",
                 StatusUsername = opticalEvent.EventStatus != EventStatus.NotAnAccident ? opticalEvent.StatusUser : "",
                 Comment = opticalEvent.Comment,
+                MeasurementId = opticalEvent.MeasurementId,
             });
+        }
+
+        public void ChangeRow()
+        {
+            
+            _logFile.AppendLine($"Change row for line {SelectedRow.Nomer}");
+
+        }
+
+        public async void ShowReflectogram()
+        {
+            var sorbytes = await _c2DWcfManager.GetSorBytesOfMeasurement(SelectedRow.MeasurementId);
+            if (sorbytes == null)
+            {
+                _logFile.AppendLine($@"Cannot get reflectogram for line {SelectedRow.Nomer}");
+                return;
+            }
+            var assemblyFilename = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            var assemblyFolder = Path.GetDirectoryName(assemblyFilename) ?? @"c:\";
+            var tempFolder = Path.Combine(assemblyFolder, @"..\Temp\");
+            if (!Directory.Exists(tempFolder))
+                Directory.CreateDirectory(tempFolder);
+            var sorFilename = Path.Combine(tempFolder, @"meas.sor");
+            File.WriteAllBytes(sorFilename, sorbytes);
+
+            Process process = new Process();
+            process.StartInfo.FileName = Path.Combine(assemblyFolder, @"..\..\RFTSReflect\reflect.exe");
+            process.StartInfo.Arguments = sorFilename;
+            process.Start();
         }
 
     }

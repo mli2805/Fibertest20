@@ -32,6 +32,11 @@ namespace Graph.Tests
             throw new NotImplementedException();
         }
 
+        public Task<byte[]> GetSorBytesOfMeasurement(Guid measurementId)
+        {
+            throw new NotImplementedException();
+        }
+
 
 
         public Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)

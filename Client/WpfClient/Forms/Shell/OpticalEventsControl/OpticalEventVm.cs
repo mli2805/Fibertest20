@@ -23,5 +23,6 @@ namespace Iit.Fibertest.Client
         public string StatusUsername { get; set; }
 
         public string Comment { get; set; }
+        public Guid MeasurementId { get; set; }
     }
 }

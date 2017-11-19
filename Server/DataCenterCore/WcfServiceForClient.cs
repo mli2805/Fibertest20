@@ -1,4 +1,5 @@
-﻿using System.ServiceModel;
+﻿using System;
+using System.ServiceModel;
 using System.Threading.Tasks;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
@@ -79,6 +80,10 @@ namespace Iit.Fibertest.DataCenterCore
         {
             return await _dbRequestManager.GetNetworkEventsAsync(revision);
         }
+        public Task<byte[]> GetSorBytesOfMeasurement(Guid measurementId)
+        {
+            return _dbRequestManager.GetSorBytesOfMeasurement(measurementId);
+        }
 
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {
@@ -149,6 +154,5 @@ namespace Iit.Fibertest.DataCenterCore
             return await _clientToRtuTransmitter.AssignBaseRefAsync(dto);
         }
 
-     
     }
 }
