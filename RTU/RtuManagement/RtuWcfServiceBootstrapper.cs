@@ -27,12 +27,13 @@ namespace Iit.Fibertest.RtuManagement
             try
             {
                 var uri = new Uri(WcfFactory.CombineUriString(@"localhost", (int)TcpPorts.RtuListenTo, @"RtuWcfService"));
+                var rtuId = Guid.Parse(_serviceIni.Read(IniSection.Server, IniKey.RtuGuid, Guid.Empty.ToString()));
 
                 _host = new ServiceHost(_rtuWcfService);
                 _host.AddServiceEndpoint(typeof(IRtuWcfService),
                     WcfFactory.CreateDefaultNetTcpBinding(_serviceIni), uri);
                 _host.Open();
-                _serviceLog.AppendLine("RTU is listening to DataCenter now.");
+                _serviceLog.AppendLine($"RTU {rtuId.First6()} is listening to DataCenter now.");
             }
             catch (Exception e)
             {

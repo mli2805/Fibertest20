@@ -101,6 +101,7 @@
                 <ContextMenu>
                     <MenuItem Header="Change" cal:Message.Attach="[Event Click] = [Action ChangeRow]" BorderBrush="{x:Null}" Background="White" />
                     <MenuItem Header="Reflectogram" cal:Message.Attach="[Event Click] = [Action ShowReflectogram]" BorderBrush="{x:Null}" Background="White" />
+                    <MenuItem Header="RftsEvents" cal:Message.Attach="[Event Click] = [Action ShowRftsEvents]" BorderBrush="{x:Null}" Background="White" />
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>

@@ -11,8 +11,11 @@ using System.Windows.Data;
 using System.Windows.Media;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
+using Iit.Fibertest.WpfCommonViews;
+using Optixsoft.SorExaminer.OtdrDataFormat;
 
 namespace Iit.Fibertest.Client
 {
@@ -21,6 +24,7 @@ namespace Iit.Fibertest.Client
         private readonly IMyLog _logFile;
         private readonly ReadModel _readModel;
         private readonly C2DWcfManager _c2DWcfManager;
+        private readonly IWindowManager _windowManager;
         private Visibility _opticalEventsVisibility;
         private TraceStateFilter _selectedTraceStateFilter;
         private EventStatusFilter _selectedEventStatusFilter;
@@ -79,11 +83,12 @@ namespace Iit.Fibertest.Client
         }
 
 
-        public OpticalEventsViewModel(IMyLog logFile, ReadModel readModel, C2DWcfManager c2DWcfManager)
+        public OpticalEventsViewModel(IMyLog logFile, ReadModel readModel, C2DWcfManager c2DWcfManager, IWindowManager windowManager)
         {
             _logFile = logFile;
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
+            _windowManager = windowManager;
 
             InitializeTraceStateFilters();
             InitializeEventStatusFilters();
@@ -181,6 +186,27 @@ namespace Iit.Fibertest.Client
             process.StartInfo.FileName = Path.Combine(assemblyFolder, @"..\..\RFTSReflect\reflect.exe");
             process.StartInfo.Arguments = sorFilename;
             process.Start();
+        }
+
+        public async void ShowRftsEvents()
+        {
+            var sorbytes = await _c2DWcfManager.GetSorBytesOfMeasurement(SelectedRow.MeasurementId);
+            if (sorbytes == null)
+            {
+                _logFile.AppendLine($@"Cannot get reflectogram for line {SelectedRow.Nomer}");
+                return;
+            }
+
+            OtdrDataKnownBlocks sorData;
+            var result = SorData.TryGetFromBytes(sorbytes, out sorData);
+            if (result != "")
+            {
+                _logFile.AppendLine(result);
+                return;
+            }
+
+            var vm = new RftsEventsViewModel(sorData);
+            _windowManager.ShowWindow(vm);
         }
 
     }
