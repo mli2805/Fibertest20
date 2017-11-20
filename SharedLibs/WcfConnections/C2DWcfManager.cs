@@ -109,6 +109,23 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
+        public Task<TraceStatistics> GetTraceStatistics(Guid traceId)
+        {
+            var wcfConnection = _wcfFactory.CreateC2DConnection();
+            if (wcfConnection == null)
+                return null;
+
+            try
+            {
+                return wcfConnection.GetTraceStatistics(traceId);
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+                return null;
+            }
+        }
+
         public Task<byte[]> GetSorBytesOfMeasurement(Guid measurementId)
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();

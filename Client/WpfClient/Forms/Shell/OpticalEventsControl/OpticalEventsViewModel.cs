@@ -163,9 +163,8 @@ namespace Iit.Fibertest.Client
 
         public void ChangeRow()
         {
-            
-            _logFile.AppendLine($"Change row for line {SelectedRow.Nomer}");
-
+            var vm = new OpticalEventViewModel(SelectedRow);
+            _windowManager.ShowDialog(vm);
         }
 
         public async void ShowReflectogram()

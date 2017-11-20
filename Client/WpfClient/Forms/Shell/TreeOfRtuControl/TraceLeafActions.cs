@@ -44,7 +44,17 @@ namespace Iit.Fibertest.Client
         }
 
         public void ShowTraceState(object param) { }
-        public void ShowTraceStatistics(object param) { }
+
+        public void ShowTraceStatistics(object param)
+        {
+            var traceLeaf = param as TraceLeaf;
+            if (traceLeaf == null)
+                return;
+
+            var vm = new TraceStatisticsViewModel(traceLeaf.ReadModel, traceLeaf.C2DWcfManager);
+            vm.Initialize(traceLeaf.Id);
+            traceLeaf.WindowManager.ShowDialog(vm);
+        }
 
         public void ShowTraceEvents(object param)
         {

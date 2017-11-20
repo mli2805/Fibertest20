@@ -191,8 +191,17 @@
       <DependentUpon>OpticalEventsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\Shell\OpticalEventsControl\OpticalEventsViewModel.cs" />
+    <Compile Include="Forms\Shell\OpticalEventsControl\OpticalEventView.xaml.cs">
+      <DependentUpon>OpticalEventView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Shell\OpticalEventsControl\OpticalEventViewModel.cs" />
     <Compile Include="Forms\Shell\OpticalEventsControl\OpticalEventVm.cs" />
     <Compile Include="Forms\Shell\OpticalEventsControl\TraceStateFilter.cs" />
+    <Compile Include="Forms\TraceStatistics\MeasurementVm.cs" />
+    <Compile Include="Forms\TraceStatistics\TraceStatisticsView.xaml.cs">
+      <DependentUpon>TraceStatisticsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\TraceStatistics\TraceStatisticsViewModel.cs" />
     <Compile Include="Logic\ReturnCodeExt.cs" />
     <Compile Include="Logic\WaitCursor.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\RtuLeafActions.cs" />
@@ -417,6 +426,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\Shell\OpticalEventsControl\OpticalEventsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\Shell\OpticalEventsControl\OpticalEventView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\TraceStatistics\TraceStatisticsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

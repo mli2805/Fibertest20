@@ -77,7 +77,22 @@ namespace Iit.Fibertest.DataCenterCore
                 var dbContext = new MySqlContext();
                 var lastEventOnTrace = dbContext.OpticalEvents.Where(ev => ev.TraceId == result.PortWithTrace.TraceId).ToList()
                     .LastOrDefault();
-                return lastEventOnTrace?.TraceState != result.TraceState || lastEventOnTrace?.BaseRefType != result.BaseRefType;
+                if (lastEventOnTrace == null)
+                {
+                    _logFile.AppendLine($"First event on trace {result.PortWithTrace.TraceId.First6()} - Save.");
+                    return true;
+                }
+                if (lastEventOnTrace.TraceState != result.TraceState)
+                {
+                    _logFile.AppendLine($"State of trace {result.PortWithTrace.TraceId.First6()} changed - Save.");
+                    return true;
+                }
+                if (lastEventOnTrace.BaseRefType != result.BaseRefType)
+                {
+                    _logFile.AppendLine($"Confirmation of accident on trace {result.PortWithTrace.TraceId.First6()} - Save.");
+                    return true;
+                }
+                return false;
             }
             catch (Exception e)
             {

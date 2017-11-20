@@ -1,0 +1,22 @@
+﻿<Window x:Class="Iit.Fibertest.Client.TraceStatisticsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:client="clr-namespace:Iit.Fibertest.Client"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance client:TraceStatisticsViewModel}">
+    <DockPanel>
+        <DataGrid DockPanel.Dock="Bottom" ItemsSource="{Binding Rows}">
+
+        </DataGrid>
+        <GroupBox Header="Info">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="RTU" Margin="5" />
+                    <TextBlock Text="{Binding RtuTitle}" Margin="5"/>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+    </DockPanel>
+</Window>

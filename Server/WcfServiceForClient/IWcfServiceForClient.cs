@@ -25,6 +25,9 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
         Task<NetworkEventsList> GetNetworkEvents(int revision);
 
         [OperationContract]
+        Task<TraceStatistics> GetTraceStatistics(Guid traceId);
+
+        [OperationContract]
         Task<byte[]> GetSorBytesOfMeasurement(Guid measurementId);
 
         // C2D

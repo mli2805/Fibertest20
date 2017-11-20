@@ -80,6 +80,12 @@ namespace Iit.Fibertest.DataCenterCore
         {
             return await _dbRequestManager.GetNetworkEventsAsync(revision);
         }
+
+        public async Task<TraceStatistics> GetTraceStatistics(Guid traceId)
+        {
+            return await _dbRequestManager.GetTraceMeasurementsAsync(traceId);
+        }
+
         public Task<byte[]> GetSorBytesOfMeasurement(Guid measurementId)
         {
             return _dbRequestManager.GetSorBytesOfMeasurement(measurementId);
