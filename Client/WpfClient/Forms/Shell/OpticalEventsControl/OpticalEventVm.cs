@@ -7,7 +7,7 @@ namespace Iit.Fibertest.Client
     public class OpticalEventVm
     {
         public int Nomer { get; set; }
-        public DateTime EventTimestamp { get; set; }
+        public DateTime EventRegistrationTimestamp { get; set; }
         public string RtuTitle { get; set; }
         public string TraceTitle { get; set; }
         public Brush BaseRefTypeBrush { get; set; }
@@ -19,8 +19,8 @@ namespace Iit.Fibertest.Client
         public Brush EventStatusBrush { get; set; }
         public string EventStatusInTable => EventStatus.GetLocalizedString();
 
-        public string StatusTimestamp { get; set; }
-        public string StatusUsername { get; set; }
+        public string StatusChangedTimestamp { get; set; }
+        public string StatusChangedByUser { get; set; }
 
         public string Comment { get; set; }
         public Guid MeasurementId { get; set; }

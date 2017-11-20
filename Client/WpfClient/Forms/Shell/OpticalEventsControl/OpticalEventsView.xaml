@@ -21,8 +21,14 @@
         </DockPanel>
         <DataGrid Margin="5" ItemsSource="{Binding Rows}" SelectedItem="{Binding SelectedRow, Mode=TwoWay}" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Number}" Binding="{Binding Nomer}" Width="30"/>
-                <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Event_timestamp}" Binding="{Binding EventTimestamp}" Width="120"/>
+                <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Number}" Binding="{Binding Nomer}" Width="40"/>
+                <DataGridTextColumn Binding="{Binding EventRegistrationTimestamp}" Width="120">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{x:Static stringResources:Resources.SID_Event_timestamp}" TextWrapping="Wrap" TextAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
                 <DataGridTextColumn Header="RTU" Binding="{Binding RtuTitle}" Width="200*"/>
                 <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Trace}" Binding="{Binding TraceTitle}" Width="200*"/>
 
@@ -76,14 +82,14 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 
-                <DataGridTextColumn Binding="{Binding StatusTimestamp}" Width="120">
+                <DataGridTextColumn Binding="{Binding StatusChangedTimestamp}" Width="120">
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock Text="{x:Static stringResources:Resources.SID_Status_assignment_time}" TextWrapping="Wrap" TextAlignment="Center"/>
                         </DataTemplate>
                     </DataGridTextColumn.HeaderTemplate>
                 </DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding StatusUsername}" Width="120">
+                <DataGridTextColumn Binding="{Binding StatusChangedByUser}" Width="120">
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock Text="{x:Static stringResources:Resources.SID_Status_changed_by}" TextWrapping="Wrap" TextAlignment="Center"/>

@@ -109,6 +109,10 @@
     <Compile Include="Migrations\201711191544407_MeasurementIdAdded.Designer.cs">
       <DependentUpon>201711191544407_MeasurementIdAdded.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711200850343_FieldsRenamed.cs" />
+    <Compile Include="Migrations\201711200850343_FieldsRenamed.Designer.cs">
+      <DependentUpon>201711200850343_FieldsRenamed.cs</DependentUpon>
+    </Compile>
     <Compile Include="RtuRegistration\MapperToRtuStation.cs" />
     <Compile Include="Migrations\201711031240377_InitialCreate.cs" />
     <Compile Include="Migrations\201711031240377_InitialCreate.Designer.cs">
@@ -199,6 +203,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711191544407_MeasurementIdAdded.resx">
       <DependentUpon>201711191544407_MeasurementIdAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711200850343_FieldsRenamed.resx">
+      <DependentUpon>201711200850343_FieldsRenamed.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
 	<!-- 
     Microsoft ResX Schema 
@@ -1269,13 +1269,13 @@ RTU инициализируется в данный момент!</value>
 		<value>Оптические события</value>
 	</data>
 	<data name="SID_Event_timestamp" xml:space="preserve">
-		<value>Время события</value>
+		<value>Время регистрации события</value>
 	</data>
 	<data name="SID_Event_status" xml:space="preserve">
 		<value>Статус события</value>
 	</data>
 	<data name="SID_Status_assignment_time" xml:space="preserve">
-		<value>Время присвоения статуса</value>
+		<value>Время изменения статуса</value>
 	</data>
 	<data name="SID_Status_changed_by" xml:space="preserve">
 		<value>Статус изменен пользователем</value>

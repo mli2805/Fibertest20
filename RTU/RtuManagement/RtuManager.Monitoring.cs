@@ -102,7 +102,7 @@ namespace Iit.Fibertest.RtuManagement
                 }
                 else if (monitorigPort.LastMoniResult.BaseRefType == BaseRefType.Fast)
                 {
-                    message = "Breakdown confirmation - should be saved";
+                    message = "Accident confirmation - should be saved";
                 }
                 else if (DateTime.Now - monitorigPort.LastPreciseSavedTimestamp > _preciseSaveTimespan)
                     message = "It's time to save precise reflectogram";

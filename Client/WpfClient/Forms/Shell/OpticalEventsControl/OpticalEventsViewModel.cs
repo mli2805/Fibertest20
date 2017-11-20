@@ -139,7 +139,7 @@ namespace Iit.Fibertest.Client
             Rows.Add(new OpticalEventVm()
             {
                 Nomer = opticalEvent.Id,
-                EventTimestamp = opticalEvent.EventTimestamp,
+                EventRegistrationTimestamp = opticalEvent.EventRegistrationTimestamp,
                 RtuTitle = _readModel.Rtus.FirstOrDefault(r=>r.Id == opticalEvent.RtuId)?.Title,
                 TraceTitle = _readModel.Traces.FirstOrDefault(t=>t.Id == opticalEvent.TraceId)?.Title,
                 BaseRefTypeBrush = 
@@ -152,8 +152,10 @@ namespace Iit.Fibertest.Client
                 EventStatus = opticalEvent.EventStatus,
                 EventStatusBrush = opticalEvent.EventStatus == EventStatus.Confirmed ? Brushes.Red : Brushes.White,
 
-                StatusTimestamp = opticalEvent.EventStatus != EventStatus.NotAnAccident ? opticalEvent.StatusTimestamp.ToString(Thread.CurrentThread.CurrentUICulture) : "",
-                StatusUsername = opticalEvent.EventStatus != EventStatus.NotAnAccident ? opticalEvent.StatusUser : "",
+                StatusChangedTimestamp = opticalEvent.StatusChangedByUser != ""
+                    ? opticalEvent.StatusChangedTimestamp.ToString(Thread.CurrentThread.CurrentUICulture) 
+                    : "",
+                StatusChangedByUser = "",
                 Comment = opticalEvent.Comment,
                 MeasurementId = opticalEvent.MeasurementId,
             });

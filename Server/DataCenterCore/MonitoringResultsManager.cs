@@ -51,12 +51,12 @@ namespace Iit.Fibertest.DataCenterCore
                 {
                     RtuId = result.RtuId,
                     TraceId = result.PortWithTrace.TraceId,
-                    EventTimestamp = result.TimeStamp,
+                    EventRegistrationTimestamp = result.TimeStamp,
                     BaseRefType = result.BaseRefType,
                     TraceState = result.TraceState,
                     EventStatus = result.TraceState == FiberState.Ok || result.BaseRefType == BaseRefType.Fast ? EventStatus.NotAnAccident : EventStatus.Unprocessed,
-                    StatusTimestamp = DateTime.Now,
-                    StatusUser = "<system>",
+                    StatusChangedTimestamp = result.TimeStamp,
+                    StatusChangedByUser = "",
                     Comment = "",
                     MeasurementId = result.Id,
                 });
