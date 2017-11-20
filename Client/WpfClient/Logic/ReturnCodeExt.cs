@@ -14,7 +14,7 @@ namespace Iit.Fibertest.Client
 
                 // 1000
                 case ReturnCode.RtuInitializationError:
-                    return Resources.SID_RTU_initialization_error_ + $@"\n\n{exceptionMessage}";
+                    return Resources.SID_RTU_initialization_error_ + $@" {exceptionMessage}";
                 case ReturnCode.OtdrInitializationCannotLoadDll:
                     return Resources.SID_Cannot_find_dll_file_;
                 case ReturnCode.OtdrInitializationCannotInitializeDll:
@@ -24,15 +24,15 @@ namespace Iit.Fibertest.Client
                 case ReturnCode.C2DWcfConnectionError:
                     return Resources.SID_Cannot_establish_connection_with_DataCenter_;
                 case ReturnCode.C2DWcfOperationError:
-                    return Resources.SID_Error_during_Client_Datacenter_connection + $@"\n\n{exceptionMessage}";
+                    return Resources.SID_Error_during_Client_Datacenter_connection + $@" {exceptionMessage}";
                 case ReturnCode.D2RWcfConnectionError:
                     return Resources.SID_Cannot_establish_connection_with_RTU;
                 case ReturnCode.D2RWcfOperationError:
-                    return Resources.SID_Error_during_Datacenter_Rtu_connection + $@"\n\n{exceptionMessage}";
+                    return Resources.SID_Error_during_Datacenter_Rtu_connection + $@" {exceptionMessage}";
 
                 // 3000
                 case ReturnCode.DbError:
-                    return Resources.SID_Database_error_ + $@"\n\n{exceptionMessage}";
+                    return Resources.SID_Database_error_ + $@" {exceptionMessage}";
 
                 // 4000
                 case ReturnCode.BaseRefAssignedSuccessfully:

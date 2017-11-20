@@ -18,7 +18,6 @@ namespace Iit.Fibertest.Client
     {
         public ILogger Log { get; set; }
 
-        private readonly Guid _clientId;
         private int _userId;
         private readonly IWindowManager _windowManager;
         private readonly ClientHeartbeat _clientHeartbeat;
@@ -51,7 +50,7 @@ namespace Iit.Fibertest.Client
         public ShellViewModel(ReadModel readModel, TreeOfRtuModel treeOfRtuModel, IWcfServiceForClient c2DWcfManager,
                 GraphReadModel graphReadModel, OpticalEventsViewModel opticalEventsViewModel, NetworkEventsViewModel networkEventsViewModel,
                 IWindowManager windowManager, ClientHeartbeat clientHeartbeat,
-                ILogger clientLogger, IniFile iniFile, IMyLog logFile, ClientWcfService clientWcfService, IClientWcfServiceHost host)
+                ILogger clientLogger, IMyLog logFile, ClientWcfService clientWcfService, IClientWcfServiceHost host)
         {
             ReadModel = readModel;
             TreeOfRtuModel = treeOfRtuModel;
@@ -68,8 +67,6 @@ namespace Iit.Fibertest.Client
             C2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
             _clientHeartbeat = clientHeartbeat;
-
-            Guid.TryParse(iniFile.Read(IniSection.General, IniKey.ClientGuidOnServer, Guid.NewGuid().ToString()), out _clientId);
 
             _logFile = logFile;
 
@@ -116,7 +113,6 @@ namespace Iit.Fibertest.Client
             _logFile.AssignFile(@"Client.log");
             _logFile.AppendLine(@"Client application started!");
             var vm = IoC.Get<LoginViewModel>();
-            vm.ClientId = _clientId;
             _isAuthenticationSuccessfull = _windowManager.ShowDialog(vm);
             ((App)Application.Current).ShutdownMode = ShutdownMode.OnMainWindowClose;
             if (_isAuthenticationSuccessfull == true)

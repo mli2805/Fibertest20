@@ -18,13 +18,14 @@ namespace Iit.Fibertest.WcfConnections
 
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
-        public Guid ClientId { private get; set; }
+        private readonly Guid _clientId;
         private WcfFactory _wcfFactory;
 
         public C2DWcfManager(IniFile iniFile, IMyLog logFile)
         {
             _iniFile = iniFile;
             _logFile = logFile;
+            Guid.TryParse(iniFile.Read(IniSection.General, IniKey.ClientGuidOnServer, Guid.NewGuid().ToString()), out _clientId);
         }
 
         public void SetServerAddresses(DoubleAddress newServerAddress)
@@ -152,7 +153,7 @@ namespace Iit.Fibertest.WcfConnections
 
             try
             {
-                dto.ClientId = ClientId;
+                dto.ClientId = _clientId;
                 return await wcfConnection.RegisterClientAsync(dto);
             }
             catch (Exception e)
@@ -170,7 +171,7 @@ namespace Iit.Fibertest.WcfConnections
 
             try
             {
-                dto.ClientId = ClientId;
+                dto.ClientId = _clientId;
                 await wcfConnection.UnregisterClientAsync(dto);
                 _logFile.AppendLine($@"Unregistered on server");
             }
@@ -188,10 +189,8 @@ namespace Iit.Fibertest.WcfConnections
 
             try
             {
-                dto.ClientId = ClientId;
-                var result = wcfConnection.CheckServerConnection(dto);
-                _logFile.AppendLine($@"Server connection is {result.ToString().ToUpper()}");
-                return result;
+                dto.ClientId = _clientId;
+                return wcfConnection.CheckServerConnection(dto);
             }
             catch (Exception e)
             {
@@ -209,7 +208,7 @@ namespace Iit.Fibertest.WcfConnections
 
             try
             {
-                dto.ClientId = ClientId;
+                dto.ClientId = _clientId;
                 return await c2DChannel.CheckRtuConnectionAsync(dto);
             }
             catch (Exception e)
@@ -228,7 +227,7 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 _logFile.AppendLine($@"Sent command to initialize RTU {dto.RtuId.First6()}");
-                dto.ClientId = ClientId;
+                dto.ClientId = _clientId;
                 return await c2DChannel.InitializeRtuAsync(dto);
             }
             catch (Exception e)
@@ -247,7 +246,7 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 _logFile.AppendLine($@"Sent command to start monitoring on RTU {dto.RtuId.First6()}");
-                dto.ClientId = ClientId;
+                dto.ClientId = _clientId;
                 return await wcfConnection.StartMonitoringAsync(dto);
             }
             catch (Exception e)
@@ -266,7 +265,7 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 _logFile.AppendLine($@"Sent command to stop monitoring on RTU {dto.RtuId.First6()}");
-                dto.ClientId = ClientId;
+                dto.ClientId = _clientId;
                 return await wcfConnection.StopMonitoringAsync(dto);
             }
             catch (Exception e)
@@ -285,7 +284,7 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 _logFile.AppendLine($@"Sent base ref to RTU {dto.RtuId.First6()}");
-                dto.ClientId = ClientId;
+                dto.ClientId = _clientId;
                 return await wcfConnection.AssignBaseRefAsync(dto);
             }
             catch (Exception e)
@@ -304,7 +303,7 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 _logFile.AppendLine($@"Sent monitoring settings to RTU {dto.RtuId.First6()}");
-                dto.ClientId = ClientId;
+                dto.ClientId = _clientId;
                 return await wcfConnection.ApplyMonitoringSettingsAsync(dto);
             }
             catch (Exception e)

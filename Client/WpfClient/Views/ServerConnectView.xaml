@@ -6,8 +6,8 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         mc:Ignorable="d"
-        SizeToContent="WidthAndHeight" ResizeMode="NoResize" WindowStartupLocation="CenterOwner"
-        d:DataContext="{d:DesignInstance client:ServerConnectViewModel}">
+        SizeToContent="Height" ResizeMode="NoResize" WindowStartupLocation="CenterOwner"
+        d:DataContext="{d:DesignInstance client:ServerConnectViewModel}" Width="340">
     <StackPanel>
         <StackPanel Orientation="Horizontal" Margin="5" >
             <Grid Width="70">
@@ -21,7 +21,7 @@
         <Border BorderThickness="0,2,0,0" BorderBrush="LightGray" Margin="5,0">
             <client:NetAddressTestView DataContext="{Binding ServerConnectionTestViewModel}" Margin="15,10,15,0"/>
         </Border>
-        <TextBlock Text="{Binding Message}" Background="AliceBlue" Margin="10,10,10,5" HorizontalAlignment="Center" Padding="15,0"/>
+        <TextBlock Text="{Binding Message}" TextWrapping="Wrap" Background="AliceBlue" Margin="10,10,10,5" HorizontalAlignment="Center" Padding="15,0"/>
         <StackPanel Orientation="Horizontal" Margin="10,5,5,10">
             <Button Name="Save" Content="{x:Static stringResources:Resources.SID_Save}" Width="80" Margin="5"/>
             <Button Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}" IsCancel="True" Width="80" Margin="5"/>

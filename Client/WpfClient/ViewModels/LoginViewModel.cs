@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -16,7 +15,6 @@ namespace Iit.Fibertest.Client
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly IWcfServiceForClient _c2DWcfManager;
-        public Guid ClientId { private get; set; }
         public int UserId { get; set; }
 
         private string _userName;
@@ -97,7 +95,6 @@ namespace Iit.Fibertest.Client
         {
             var dcServiceAddresses = _iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
             ((C2DWcfManager)_c2DWcfManager).SetServerAddresses(dcServiceAddresses);
-            ((C2DWcfManager)_c2DWcfManager).ClientId = ClientId;
 
             var clientAddresses = _iniFile.Read(IniSection.ClientLocalAddress, (int)TcpPorts.ClientListenTo);
             var result = await _c2DWcfManager.RegisterClientAsync(
