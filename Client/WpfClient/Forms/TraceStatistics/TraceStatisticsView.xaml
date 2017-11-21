@@ -4,19 +4,39 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
-        mc:Ignorable="d"
+        mc:Ignorable="d" Width="400"
         d:DataContext="{d:DesignInstance client:TraceStatisticsViewModel}">
     <DockPanel>
-        <DataGrid DockPanel.Dock="Bottom" ItemsSource="{Binding Rows}">
-
-        </DataGrid>
-        <GroupBox Header="Info">
+        <GroupBox Header="Info" DockPanel.Dock="Top" Margin="5" >
             <StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="RTU" Margin="5" />
-                    <TextBlock Text="{Binding RtuTitle}" Margin="5"/>
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="RTU" Margin="5" />
+                        <TextBlock Text="{Binding RtuTitle}" Margin="5"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Port" Margin="5" />
+                        <TextBlock Text="{Binding PortNumber}" Margin="5"/>
+                    </StackPanel>
                 </StackPanel>
+                <DataGrid ItemsSource="{Binding BaseRefs}" AutoGenerateColumns="False" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Base ref type" Binding="{Binding BaseRefType}" Width="80*"/>
+                        <DataGridTextColumn Header="Assigned at" Binding="{Binding AssignedAt}" Width="120*"/>
+                        <DataGridTextColumn Header="Assigned by" Binding="{Binding AssignedBy}" Width="120*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
             </StackPanel>
         </GroupBox>
+        <GroupBox Header="Statistics" DockPanel.Dock="Bottom" Margin="5" >
+        <DataGrid ItemsSource="{Binding Rows}" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="No" Binding="{Binding Nomer}" Width="50*"/>
+                <DataGridTextColumn Header="Base ref type" Binding="{Binding BaseRefType}" Width="100*"/>
+                <DataGridTextColumn Header="Measurement time" Binding="{Binding Timestamp}" Width="120*"/>
+                <DataGridTextColumn Header="Trace state" Binding="{Binding TraceState}" Width="120*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+            </GroupBox>
     </DockPanel>
 </Window>
