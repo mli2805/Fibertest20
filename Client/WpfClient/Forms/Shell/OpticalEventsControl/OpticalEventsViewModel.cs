@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows;
@@ -11,11 +9,6 @@ using System.Windows.Data;
 using System.Windows.Media;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.IitOtdrLibrary;
-using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WcfConnections;
-using Iit.Fibertest.WpfCommonViews;
-using Optixsoft.SorExaminer.OtdrDataFormat;
 
 namespace Iit.Fibertest.Client
 {

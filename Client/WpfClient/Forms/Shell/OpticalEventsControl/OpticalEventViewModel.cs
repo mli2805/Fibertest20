@@ -1,5 +1,4 @@
 ﻿using Caliburn.Micro;
-using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Client
 {
