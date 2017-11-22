@@ -1322,4 +1322,22 @@ RTU is initializing right now!</value>
 	<data name="SID_Confirmed" xml:space="preserve">
     <value>Confirmed</value>
   </data>
+	<data name="SID_Additional" xml:space="preserve">
+    <value>Additional</value>
+  </data>
+	<data name="SID_Base_ref_type" xml:space="preserve">
+    <value>Base ref type</value>
+  </data>
+	<data name="SID_Assigned_at" xml:space="preserve">
+    <value>Assigned at</value>
+  </data>
+	<data name="SID_Assigned_by" xml:space="preserve">
+    <value>Assigned by</value>
+  </data>
+	<data name="SID_Recieved_at" xml:space="preserve">
+    <value>Recieved at</value>
+  </data>
+	<data name="SID_Trace__0__statistics" xml:space="preserve">
+    <value>Trace {0} statistics</value>
+  </data>
 </root>

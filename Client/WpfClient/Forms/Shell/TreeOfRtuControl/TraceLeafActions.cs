@@ -9,11 +9,13 @@ namespace Iit.Fibertest.Client
     {
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
+        private readonly TraceStatisticsViewModel _traceStatisticsViewModel;
 
-        public TraceLeafActions(IniFile iniFile, IMyLog logFile)
+        public TraceLeafActions(IniFile iniFile, IMyLog logFile, TraceStatisticsViewModel traceStatisticsViewModel)
         {
             _iniFile = iniFile;
             _logFile = logFile;
+            _traceStatisticsViewModel = traceStatisticsViewModel;
         }
 
         public void UpdateTrace(object param)
@@ -51,9 +53,8 @@ namespace Iit.Fibertest.Client
             if (traceLeaf == null)
                 return;
 
-            var vm = new TraceStatisticsViewModel(traceLeaf.ReadModel, traceLeaf.C2DWcfManager);
-            vm.Initialize(traceLeaf.Id);
-            traceLeaf.WindowManager.ShowDialog(vm);
+            _traceStatisticsViewModel.Initialize(traceLeaf.Id);
+            traceLeaf.WindowManager.ShowDialog(_traceStatisticsViewModel);
         }
 
         public void ShowTraceEvents(object param)

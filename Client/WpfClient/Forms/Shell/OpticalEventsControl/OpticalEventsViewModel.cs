@@ -21,10 +21,9 @@ namespace Iit.Fibertest.Client
 {
     public class OpticalEventsViewModel : PropertyChangedBase
     {
-        private readonly IMyLog _logFile;
         private readonly ReadModel _readModel;
-        private readonly C2DWcfManager _c2DWcfManager;
         private readonly IWindowManager _windowManager;
+        private readonly MeasurementManager _measurementManager;
         private Visibility _opticalEventsVisibility;
         private TraceStateFilter _selectedTraceStateFilter;
         private EventStatusFilter _selectedEventStatusFilter;
@@ -83,12 +82,11 @@ namespace Iit.Fibertest.Client
         }
 
 
-        public OpticalEventsViewModel(IMyLog logFile, ReadModel readModel, C2DWcfManager c2DWcfManager, IWindowManager windowManager)
+        public OpticalEventsViewModel(ReadModel readModel, IWindowManager windowManager, MeasurementManager measurementManager)
         {
-            _logFile = logFile;
             _readModel = readModel;
-            _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
+            _measurementManager = measurementManager;
 
             InitializeTraceStateFilters();
             InitializeEventStatusFilters();
@@ -96,8 +94,6 @@ namespace Iit.Fibertest.Client
             var view = CollectionViewSource.GetDefaultView(Rows);
             view.Filter += OnFilter;
             view.SortDescriptions.Add(new SortDescription(@"Nomer",ListSortDirection.Descending));
-
-
         }
 
         private void InitializeTraceStateFilters()
@@ -146,7 +142,7 @@ namespace Iit.Fibertest.Client
                     opticalEvent.TraceState == FiberState.Ok 
                         ? Brushes.White 
                         : opticalEvent.BaseRefType == BaseRefType.Fast 
-                            ? Brushes.Yellow : opticalEvent.TraceState.GetBrush(),
+                            ? Brushes.Yellow : opticalEvent.TraceState.GetBrush(isForeground:false),
                 TraceState = opticalEvent.TraceState,
 
                 EventStatus = opticalEvent.EventStatus,
@@ -167,48 +163,14 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowDialog(vm);
         }
 
-        public async void ShowReflectogram()
+        public void ShowReflectogram()
         {
-            var sorbytes = await _c2DWcfManager.GetSorBytesOfMeasurement(SelectedRow.MeasurementId);
-            if (sorbytes == null)
-            {
-                _logFile.AppendLine($@"Cannot get reflectogram for line {SelectedRow.Nomer}");
-                return;
-            }
-            var assemblyFilename = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            var assemblyFolder = Path.GetDirectoryName(assemblyFilename) ?? @"c:\";
-            var tempFolder = Path.Combine(assemblyFolder, @"..\Temp\");
-            if (!Directory.Exists(tempFolder))
-                Directory.CreateDirectory(tempFolder);
-            var sorFilename = Path.Combine(tempFolder, @"meas.sor");
-            File.WriteAllBytes(sorFilename, sorbytes);
-
-            Process process = new Process();
-            process.StartInfo.FileName = Path.Combine(assemblyFolder, @"..\..\RFTSReflect\reflect.exe");
-            process.StartInfo.Arguments = sorFilename;
-            process.Start();
+            _measurementManager.ShowReflectogram(SelectedRow.MeasurementId);
         }
 
-        public async void ShowRftsEvents()
+        public void ShowRftsEvents()
         {
-            var sorbytes = await _c2DWcfManager.GetSorBytesOfMeasurement(SelectedRow.MeasurementId);
-            if (sorbytes == null)
-            {
-                _logFile.AppendLine($@"Cannot get reflectogram for line {SelectedRow.Nomer}");
-                return;
-            }
-
-            OtdrDataKnownBlocks sorData;
-            var result = SorData.TryGetFromBytes(sorbytes, out sorData);
-            if (result != "")
-            {
-                _logFile.AppendLine(result);
-                return;
-            }
-
-            var vm = new RftsEventsViewModel(sorData);
-            _windowManager.ShowWindow(vm);
+            _measurementManager.ShowRftsEvents(SelectedRow.MeasurementId);
         }
-
     }
 }

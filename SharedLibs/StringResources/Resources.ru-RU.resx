@@ -1322,4 +1322,22 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Confirmed" xml:space="preserve">
 		<value>Подтверждено</value>
 	</data>
+	<data name="SID_Additional" xml:space="preserve">
+		<value>Дополнительная</value>
+	</data>
+	<data name="SID_Base_ref_type" xml:space="preserve">
+		<value>Тип базовой</value>
+	</data>
+	<data name="SID_Assigned_at" xml:space="preserve">
+		<value>Назначено</value>
+	</data>
+	<data name="SID_Assigned_by" xml:space="preserve">
+		<value>Назначил</value>
+	</data>
+	<data name="SID_Recieved_at" xml:space="preserve">
+		<value>Получено</value>
+	</data>
+	<data name="SID_Trace__0__statistics" xml:space="preserve">
+		<value>Статистика трассы {0}</value>
+	</data>
 </root>

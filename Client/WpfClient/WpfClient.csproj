@@ -202,6 +202,7 @@
       <DependentUpon>TraceStatisticsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\TraceStatistics\TraceStatisticsViewModel.cs" />
+    <Compile Include="Logic\MeasurementManager.cs" />
     <Compile Include="Logic\ReturnCodeExt.cs" />
     <Compile Include="Logic\WaitCursor.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\RtuLeafActions.cs" />

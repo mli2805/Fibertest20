@@ -17,7 +17,7 @@ namespace Iit.Fibertest.Client
             return new BitmapImage(new Uri(path));
         }
 
-        public static Brush GetBrush(this FiberState state)
+        public static Brush GetBrush(this FiberState state, bool isForeground = true)
         {
             switch (state)
             {
@@ -29,7 +29,7 @@ namespace Iit.Fibertest.Client
 
                 case FiberState.NotChecked:
                 case FiberState.Ok:
-                    return Brushes.Black;
+                    return isForeground ? Brushes.Black : Brushes.White;
                 case FiberState.Suspicion:
                     return Brushes.Yellow;
                 case FiberState.Minor:

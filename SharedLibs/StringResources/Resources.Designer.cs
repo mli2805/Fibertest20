@@ -305,6 +305,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Additional.
+        /// </summary>
+        public static string SID_Additional {
+            get {
+                return ResourceManager.GetString("SID_Additional", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Additional base ref.
         /// </summary>
         public static string SID_Additional_base_ref {
@@ -364,6 +373,24 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Apply {
             get {
                 return ResourceManager.GetString("SID_Apply", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assigned at.
+        /// </summary>
+        public static string SID_Assigned_at {
+            get {
+                return ResourceManager.GetString("SID_Assigned_at", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assigned by.
+        /// </summary>
+        public static string SID_Assigned_by {
+            get {
+                return ResourceManager.GetString("SID_Assigned_by", resourceCulture);
             }
         }
         
@@ -499,6 +526,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Base_ref_s__are_saved_successfully_ {
             get {
                 return ResourceManager.GetString("SID_Base_ref_s__are_saved_successfully_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Base ref type.
+        /// </summary>
+        public static string SID_Base_ref_type {
+            get {
+                return ResourceManager.GetString("SID_Base_ref_type", resourceCulture);
             }
         }
         
@@ -1305,7 +1341,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Event timestamp.
+        ///   Looks up a localized string similar to Event registration timestamp.
         /// </summary>
         public static string SID_Event_timestamp {
             get {
@@ -1458,7 +1494,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to fiber break.
+        ///   Looks up a localized string similar to Fiber break.
         /// </summary>
         public static string SID_fiber_break {
             get {
@@ -2656,6 +2692,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Recieved at.
+        /// </summary>
+        public static string SID_Recieved_at {
+            get {
+                return ResourceManager.GetString("SID_Recieved_at", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reflectance coefficient, dB.
         /// </summary>
         public static string SID_Reflectance_coefficient__dB {
@@ -3161,7 +3206,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Status assignment timestamp.
+        ///   Looks up a localized string similar to Status changed at.
         /// </summary>
         public static string SID_Status_assignment_time {
             get {
@@ -3391,6 +3436,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Trace {
             get {
                 return ResourceManager.GetString("SID_Trace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trace {0} statistics.
+        /// </summary>
+        public static string SID_Trace__0__statistics {
+            get {
+                return ResourceManager.GetString("SID_Trace__0__statistics", resourceCulture);
             }
         }
         
