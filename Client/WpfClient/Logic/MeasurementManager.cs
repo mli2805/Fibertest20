@@ -1,8 +1,6 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
 using Caliburn.Micro;
-using Iit.Fibertest.Dto;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;

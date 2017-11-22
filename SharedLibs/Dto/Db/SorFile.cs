@@ -1,5 +1,3 @@
-using System;
-
 namespace Iit.Fibertest.Dto
 {
     public class SorFile

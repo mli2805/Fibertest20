@@ -6,7 +6,6 @@ using System.Linq;
 using System.Windows.Data;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using Trace = Iit.Fibertest.Graph.Trace;
 
