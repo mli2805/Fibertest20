@@ -77,68 +77,12 @@
     <Compile Include="DbContexts\MySqlContext.cs" />
     <Compile Include="DbContexts\SqliteContext.cs" />
     <Compile Include="DbRequestManager.cs" />
-    <Compile Include="Migrations\201711041334132_ClientsAddressAdded.cs" />
-    <Compile Include="Migrations\201711041334132_ClientsAddressAdded.Designer.cs">
-      <DependentUpon>201711041334132_ClientsAddressAdded.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711101250158_BaseRefsTableAdded.cs" />
-    <Compile Include="Migrations\201711101250158_BaseRefsTableAdded.Designer.cs">
-      <DependentUpon>201711101250158_BaseRefsTableAdded.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711101301002_UserIdForStationAdded.cs" />
-    <Compile Include="Migrations\201711101301002_UserIdForStationAdded.Designer.cs">
-      <DependentUpon>201711101301002_UserIdForStationAdded.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711151005557_MeasurementsAndEventsTablesAdded.cs" />
-    <Compile Include="Migrations\201711151005557_MeasurementsAndEventsTablesAdded.Designer.cs">
-      <DependentUpon>201711151005557_MeasurementsAndEventsTablesAdded.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711151404027_NetworkEventsTableChanged.cs" />
-    <Compile Include="Migrations\201711151404027_NetworkEventsTableChanged.Designer.cs">
-      <DependentUpon>201711151404027_NetworkEventsTableChanged.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711161135342_OpticalEventsFieldsAdded.cs" />
-    <Compile Include="Migrations\201711161135342_OpticalEventsFieldsAdded.Designer.cs">
-      <DependentUpon>201711161135342_OpticalEventsFieldsAdded.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711181823317_StatusUserChanged.cs" />
-    <Compile Include="Migrations\201711181823317_StatusUserChanged.Designer.cs">
-      <DependentUpon>201711181823317_StatusUserChanged.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711191544407_MeasurementIdAdded.cs" />
-    <Compile Include="Migrations\201711191544407_MeasurementIdAdded.Designer.cs">
-      <DependentUpon>201711191544407_MeasurementIdAdded.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711200850343_FieldsRenamed.cs" />
-    <Compile Include="Migrations\201711200850343_FieldsRenamed.Designer.cs">
-      <DependentUpon>201711200850343_FieldsRenamed.cs</DependentUpon>
-    </Compile>
-    <Compile Include="RtuRegistration\MapperToRtuStation.cs" />
-    <Compile Include="Migrations\201711031240377_InitialCreate.cs" />
-    <Compile Include="Migrations\201711031240377_InitialCreate.Designer.cs">
-      <DependentUpon>201711031240377_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711031242213_ClientStationsFieldRename.cs" />
-    <Compile Include="Migrations\201711031242213_ClientStationsFieldRename.Designer.cs">
-      <DependentUpon>201711031242213_ClientStationsFieldRename.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711031802166_StationIpRemoved.cs" />
-    <Compile Include="Migrations\201711031802166_StationIpRemoved.Designer.cs">
-      <DependentUpon>201711031802166_StationIpRemoved.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711040630327_RtuStationsTableAdded.cs" />
-    <Compile Include="Migrations\201711040630327_RtuStationsTableAdded.Designer.cs">
-      <DependentUpon>201711040630327_RtuStationsTableAdded.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711040809127_IsReserveAddressSetAdded.cs" />
-    <Compile Include="Migrations\201711040809127_IsReserveAddressSetAdded.Designer.cs">
-      <DependentUpon>201711040809127_IsReserveAddressSetAdded.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711040909281_IsPreviousCheckOkAdded.cs" />
-    <Compile Include="Migrations\201711040909281_IsPreviousCheckOkAdded.Designer.cs">
-      <DependentUpon>201711040909281_IsPreviousCheckOkAdded.cs</DependentUpon>
+    <Compile Include="Migrations\201711221538144_InitialCreate.cs" />
+    <Compile Include="Migrations\201711221538144_InitialCreate.Designer.cs">
+      <DependentUpon>201711221538144_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="RtuRegistration\MapperToRtuStation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RtuRegistration\RtuRegistrationManager.cs" />
     <Compile Include="RtuRegistration\RtuWithChannelChangesList.cs" />
@@ -162,50 +106,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201711031240377_InitialCreate.resx">
-      <DependentUpon>201711031240377_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711031242213_ClientStationsFieldRename.resx">
-      <DependentUpon>201711031242213_ClientStationsFieldRename.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711031802166_StationIpRemoved.resx">
-      <DependentUpon>201711031802166_StationIpRemoved.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711040630327_RtuStationsTableAdded.resx">
-      <DependentUpon>201711040630327_RtuStationsTableAdded.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711040809127_IsReserveAddressSetAdded.resx">
-      <DependentUpon>201711040809127_IsReserveAddressSetAdded.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711040909281_IsPreviousCheckOkAdded.resx">
-      <DependentUpon>201711040909281_IsPreviousCheckOkAdded.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711041334132_ClientsAddressAdded.resx">
-      <DependentUpon>201711041334132_ClientsAddressAdded.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711101250158_BaseRefsTableAdded.resx">
-      <DependentUpon>201711101250158_BaseRefsTableAdded.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711101301002_UserIdForStationAdded.resx">
-      <DependentUpon>201711101301002_UserIdForStationAdded.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711151005557_MeasurementsAndEventsTablesAdded.resx">
-      <DependentUpon>201711151005557_MeasurementsAndEventsTablesAdded.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711151404027_NetworkEventsTableChanged.resx">
-      <DependentUpon>201711151404027_NetworkEventsTableChanged.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711161135342_OpticalEventsFieldsAdded.resx">
-      <DependentUpon>201711161135342_OpticalEventsFieldsAdded.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711181823317_StatusUserChanged.resx">
-      <DependentUpon>201711181823317_StatusUserChanged.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711191544407_MeasurementIdAdded.resx">
-      <DependentUpon>201711191544407_MeasurementIdAdded.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711200850343_FieldsRenamed.resx">
-      <DependentUpon>201711200850343_FieldsRenamed.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201711221538144_InitialCreate.resx">
+      <DependentUpon>201711221538144_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
