@@ -24,7 +24,7 @@ namespace Iit.Fibertest.Client
             _windowManager = windowManager;
         }
 
-        public async void ShowReflectogram(Guid measurementId)
+        public async void ShowRefWithBase(Guid measurementId)
         {
             var sorbytes = await _c2DWcfManager.GetSorBytesOfMeasurement(measurementId);
             if (sorbytes == null)
@@ -44,6 +44,19 @@ namespace Iit.Fibertest.Client
             process.StartInfo.FileName = Path.Combine(assemblyFolder, @"..\..\RFTSReflect\reflect.exe");
             process.StartInfo.Arguments = sorFilename;
             process.Start();
+        }
+        public async void ShowReflectogram(Guid measurementId)
+        {
+        }
+
+        public async void SaveRefWithBase(Guid measurementId)
+        {
+            
+        }
+
+        public async void SaveReflectogram(Guid measurementId)
+        {
+            
         }
 
         public async void ShowRftsEvents(Guid measurementId)

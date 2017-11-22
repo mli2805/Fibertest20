@@ -156,9 +156,10 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowDialog(vm);
         }
 
-        public void ShowReflectogram()
+        public void ShowReflectogram(int param)
         {
-            _measurementManager.ShowReflectogram(SelectedRow.MeasurementId);
+            if (param == 2)
+                _measurementManager.ShowReflectogram(SelectedRow.MeasurementId);
         }
 
         public void ShowRftsEvents()

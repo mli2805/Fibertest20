@@ -79,7 +79,7 @@ namespace Iit.Fibertest.Client
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = string.Format(Resources.SID_Trace__0__statistics, _trace.Title);
+            DisplayName = @"Trace statistics";
         }
 
         public void ShowReflectogram()

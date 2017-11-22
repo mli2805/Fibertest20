@@ -57,7 +57,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                
+
                 <DataGridTemplateColumn Width="120">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
@@ -82,7 +82,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                
+
                 <DataGridTextColumn Binding="{Binding StatusChangedTimestamp}" Width="120">
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>
@@ -106,9 +106,13 @@
             </DataGrid.Resources>
             <DataGrid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Change" cal:Message.Attach="[Event Click] = [Action ChangeRow]" BorderBrush="{x:Null}" Background="White" />
-                    <MenuItem Header="Reflectogram" cal:Message.Attach="[Event Click] = [Action ShowReflectogram]" BorderBrush="{x:Null}" Background="White" />
-                    <MenuItem Header="RftsEvents" cal:Message.Attach="[Event Click] = [Action ShowRftsEvents]" BorderBrush="{x:Null}" Background="White" />
+                    <MenuItem Header="Show reflectogram" cal:Message.Attach="[Event Click] = [Action ShowReflectogram(1)]"/>
+                    <MenuItem Header="Show ref + base" cal:Message.Attach="[Event Click] = [Action ShowReflectogram(2)]"/>
+                    <MenuItem Header="Save reflectogram" cal:Message.Attach="[Event Click] = [Action ShowReflectogram(1)]"/>
+                    <MenuItem Header="Save ref + base" cal:Message.Attach="[Event Click] = [Action ShowReflectogram(2)]"/>
+                    <Separator />
+                    <MenuItem Header="RftsEvents" cal:Message.Attach="[Event Click] = [Action ShowRftsEvents]"/>
+                    <MenuItem Header="Change" cal:Message.Attach="[Event Click] = [Action ChangeRow]"/>
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>

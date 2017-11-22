@@ -13,6 +13,10 @@
             <StackPanel>
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Trace" Margin="5" />
+                        <TextBlock Text="{Binding TraceTitle}" Margin="5"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
                         <TextBlock Text="RTU" Margin="5" />
                         <TextBlock Text="{Binding RtuTitle}" Margin="5"/>
                     </StackPanel>
@@ -21,7 +25,7 @@
                         <TextBlock Text="{Binding PortNumber}" Margin="5"/>
                     </StackPanel>
                 </StackPanel>
-                <DataGrid ItemsSource="{Binding BaseRefs}" AutoGenerateColumns="False" IsReadOnly="True">
+                <DataGrid ItemsSource="{Binding BaseRefs}" AutoGenerateColumns="False" IsReadOnly="True" Margin="0,5">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Base_ref_type}" Binding="{Binding BaseRefTypeString}" Width="80*"/>
                         <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Assigned_at}" Binding="{Binding AssignedAt}" Width="120*"/>
@@ -37,6 +41,7 @@
                     <DataGridTextColumn Header="No" Binding="{Binding Nomer}" Width="50*"/>
                     <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Base_ref_type}" Binding="{Binding BaseRefTypeString}" Width="100*"/>
                     <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Recieved_at}" Binding="{Binding Timestamp}" Width="120*"/>
+                    <DataGridCheckBoxColumn Binding="{Binding IsOpticalEvent}"/>
                     <DataGridTemplateColumn Width="120*" Header="{x:Static stringResources:Resources.SID_Trace_state}">
                         <DataGridTemplateColumn.CellStyle>
                             <Style TargetType="DataGridCell">
