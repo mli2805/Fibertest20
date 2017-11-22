@@ -66,11 +66,10 @@ namespace Iit.Fibertest.Client
             {
                 Rows.Add(new MeasurementVm()
                 {
-                    Nomer = measurement.Id,
                     BaseRefType = measurement.BaseRefType,
                     TraceState = measurement.TraceState,
                     Timestamp = measurement.Timestamp,
-                    MeasurementId = measurement.MeasurementId,
+                    SorFileId = measurement.SorFileId,
                 });
             }
 
@@ -84,12 +83,12 @@ namespace Iit.Fibertest.Client
 
         public void ShowReflectogram()
         {
-            _measurementManager.ShowReflectogram(SelectedRow.MeasurementId);
+            _measurementManager.ShowReflectogram(SelectedRow.SorFileId);
         }
 
         public void ShowRftsEvents()
         {
-            _measurementManager.ShowRftsEvents(SelectedRow.MeasurementId);
+            _measurementManager.ShowRftsEvents(SelectedRow.SorFileId);
         }
     }
 }

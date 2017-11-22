@@ -38,7 +38,7 @@
             <DataGrid ItemsSource="{Binding Rows}" SelectedItem="{Binding SelectedRow, Mode=TwoWay}" 
                       AutoGenerateColumns="False" IsReadOnly="True" Margin="0,5" SelectionMode="Single" CanUserSortColumns="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="No" Binding="{Binding Nomer}" Width="50*"/>
+                    <DataGridTextColumn Header="ID" Binding="{Binding SorFileId}" Width="50*"/>
                     <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Base_ref_type}" Binding="{Binding BaseRefTypeString}" Width="100*"/>
                     <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Recieved_at}" Binding="{Binding Timestamp}" Width="120*"/>
                     <DataGridCheckBoxColumn Binding="{Binding IsOpticalEvent}"/>

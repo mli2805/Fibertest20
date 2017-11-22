@@ -26,12 +26,13 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<bool> ProcessMonitoringResult(MonitoringResultDto result)
         {
-            if (!await SaveMeasurementInDb(result))
+            var sorFileId = await SaveMeasurementInDb(result);
+            if (sorFileId == -1)
                 return false;
 
             if (IsTraceStateChanged(result))
             {
-                await SaveOpticalEventInDb(result);
+                await SaveOpticalEventInDb(result, sorFileId);
                 await SendMoniresultToClients(result);
             }
 
@@ -42,7 +43,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             return true;
         }
-        private async Task<bool> SaveOpticalEventInDb(MonitoringResultDto result)
+        private async Task<bool> SaveOpticalEventInDb(MonitoringResultDto result, int measurementId)
         {
             try
             {
@@ -58,7 +59,7 @@ namespace Iit.Fibertest.DataCenterCore
                     StatusChangedTimestamp = result.TimeStamp,
                     StatusChangedByUser = "",
                     Comment = "",
-                    MeasurementId = result.Id,
+                    SorFileId = measurementId,
                 });
                 await dbContext.SaveChangesAsync();
                 return true;
@@ -100,32 +101,35 @@ namespace Iit.Fibertest.DataCenterCore
                 return false;
             }
         }
-        private async Task<bool> SaveMeasurementInDb(MonitoringResultDto result)
+
+        private async Task<int> SaveMeasurementInDb(MonitoringResultDto result)
         {
             try
             {
                 var dbContext = new MySqlContext();
+
+                var sorFile = new SorFile() { SorBytes = result.SorData };
+                dbContext.SorFiles.Add(sorFile);
+                await dbContext.SaveChangesAsync();
+
+                var sorFileId = sorFile.Id;
+
                 dbContext.Measurements.Add(new Measurement()
                 {
-                    MeasurementId = result.Id,
+                    SorFileId = sorFileId,
                     RtuId = result.RtuId,
                     TraceId = result.PortWithTrace.TraceId,
                     BaseRefType = result.BaseRefType,
                     TraceState = result.TraceState,
                     Timestamp = result.TimeStamp,
                 });
-                dbContext.SorFiles.Add(new SorFile()
-                {
-                    MeasurementId = result.Id,
-                    SorBytes = result.SorData,
-                });
                 await dbContext.SaveChangesAsync();
-                return true;
+                return sorFileId;
             }
             catch (Exception e)
             {
                 _logFile.AppendLine("SaveMeasurementInDb " + e.Message);
-                return false;
+                return -1;
             }
         }
     }

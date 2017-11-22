@@ -81,13 +81,13 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
         }
 
-        public async Task<byte[]> GetSorBytesOfMeasurement(Guid measurementId)
+        public async Task<byte[]> GetSorBytesOfMeasurement(int sorFileId)
         {
             try
             {
                 using (var dbContext = new MySqlContext())
                 {
-                    var result = await dbContext.SorFiles.Where(s => s.MeasurementId == measurementId).FirstOrDefaultAsync();
+                    var result = await dbContext.SorFiles.Where(s => s.Id == sorFileId).FirstOrDefaultAsync();
                     return result?.SorBytes;
                 }
             }

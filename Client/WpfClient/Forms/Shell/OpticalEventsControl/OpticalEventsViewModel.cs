@@ -146,7 +146,7 @@ namespace Iit.Fibertest.Client
                     : "",
                 StatusChangedByUser = "",
                 Comment = opticalEvent.Comment,
-                MeasurementId = opticalEvent.MeasurementId,
+                SorFileId = opticalEvent.SorFileId,
             });
         }
 
@@ -159,12 +159,12 @@ namespace Iit.Fibertest.Client
         public void ShowReflectogram(int param)
         {
             if (param == 2)
-                _measurementManager.ShowReflectogram(SelectedRow.MeasurementId);
+                _measurementManager.ShowReflectogram(SelectedRow.SorFileId);
         }
 
         public void ShowRftsEvents()
         {
-            _measurementManager.ShowRftsEvents(SelectedRow.MeasurementId);
+            _measurementManager.ShowRftsEvents(SelectedRow.SorFileId);
         }
     }
 }

@@ -127,7 +127,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public Task<byte[]> GetSorBytesOfMeasurement(Guid measurementId)
+        public Task<byte[]> GetSorBytesOfMeasurement(int sorFileId)
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();
             if (wcfConnection == null)
@@ -135,7 +135,7 @@ namespace Iit.Fibertest.WcfConnections
 
             try
             {
-                return wcfConnection.GetSorBytesOfMeasurement(measurementId);
+                return wcfConnection.GetSorBytesOfMeasurement(sorFileId);
             }
             catch (Exception e)
             {

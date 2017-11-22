@@ -189,7 +189,6 @@ namespace Iit.Fibertest.RtuManagement
         {
             var dto = new MonitoringResultDto()
             {
-                Id = Guid.NewGuid(),
                 RtuId = _id,
                 TimeStamp = DateTime.Now,
                 PortWithTrace = new PortWithTraceDto()

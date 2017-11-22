@@ -23,6 +23,6 @@ namespace Iit.Fibertest.Client
         public string StatusChangedByUser { get; set; }
 
         public string Comment { get; set; }
-        public Guid MeasurementId { get; set; }
+        public int SorFileId { get; set; }
     }
 }

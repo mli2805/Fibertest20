@@ -81,6 +81,10 @@
     <Compile Include="Migrations\201711221538144_InitialCreate.Designer.cs">
       <DependentUpon>201711221538144_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711221619387_SorFileIdInsteadOfMeasurementGuid.cs" />
+    <Compile Include="Migrations\201711221619387_SorFileIdInsteadOfMeasurementGuid.Designer.cs">
+      <DependentUpon>201711221619387_SorFileIdInsteadOfMeasurementGuid.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="RtuRegistration\MapperToRtuStation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -108,6 +112,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201711221538144_InitialCreate.resx">
       <DependentUpon>201711221538144_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711221619387_SorFileIdInsteadOfMeasurementGuid.resx">
+      <DependentUpon>201711221619387_SorFileIdInsteadOfMeasurementGuid.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

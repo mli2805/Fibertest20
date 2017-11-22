@@ -24,12 +24,12 @@ namespace Iit.Fibertest.Client
             _windowManager = windowManager;
         }
 
-        public async void ShowRefWithBase(Guid measurementId)
+        public async void ShowRefWithBase(int sorFileId)
         {
-            var sorbytes = await _c2DWcfManager.GetSorBytesOfMeasurement(measurementId);
+            var sorbytes = await _c2DWcfManager.GetSorBytesOfMeasurement(sorFileId);
             if (sorbytes == null)
             {
-                _logFile.AppendLine($@"Cannot get reflectogram for measurement {measurementId.First6()}");
+                _logFile.AppendLine($@"Cannot get reflectogram for measurement {sorFileId}");
                 return;
             }
             var assemblyFilename = System.Reflection.Assembly.GetExecutingAssembly().Location;
@@ -45,26 +45,26 @@ namespace Iit.Fibertest.Client
             process.StartInfo.Arguments = sorFilename;
             process.Start();
         }
-        public async void ShowReflectogram(Guid measurementId)
+        public async void ShowReflectogram(int sorFileId)
         {
         }
 
-        public async void SaveRefWithBase(Guid measurementId)
+        public async void SaveRefWithBase(int sorFileId)
         {
             
         }
 
-        public async void SaveReflectogram(Guid measurementId)
+        public async void SaveReflectogram(int sorFileId)
         {
             
         }
 
-        public async void ShowRftsEvents(Guid measurementId)
+        public async void ShowRftsEvents(int sorFileId)
         {
-            var sorbytes = await _c2DWcfManager.GetSorBytesOfMeasurement(measurementId);
+            var sorbytes = await _c2DWcfManager.GetSorBytesOfMeasurement(sorFileId);
             if (sorbytes == null)
             {
-                _logFile.AppendLine($@"Cannot get reflectogram for measurement {measurementId.First6()}");
+                _logFile.AppendLine($@"Cannot get reflectogram for measurement {sorFileId}");
                 return;
             }
 
