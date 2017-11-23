@@ -197,6 +197,10 @@
     <Compile Include="Forms\Shell\OpticalEventsControl\OpticalEventViewModel.cs" />
     <Compile Include="Forms\Shell\OpticalEventsControl\OpticalEventVm.cs" />
     <Compile Include="Forms\Shell\OpticalEventsControl\TraceStateFilter.cs" />
+    <Compile Include="Forms\TraceState\TraceStateView.xaml.cs">
+      <DependentUpon>TraceStateView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\TraceState\TraceStateViewModel.cs" />
     <Compile Include="Forms\TraceStatistics\MeasurementVm.cs" />
     <Compile Include="Forms\TraceStatistics\TraceStatisticsView.xaml.cs">
       <DependentUpon>TraceStatisticsView.xaml</DependentUpon>
@@ -431,6 +435,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\Shell\OpticalEventsControl\OpticalEventView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\TraceState\TraceStateView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

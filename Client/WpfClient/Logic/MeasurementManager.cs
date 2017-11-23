@@ -65,10 +65,22 @@ namespace Iit.Fibertest.Client
             OpenSorInReflect(_tempSorFile);
         }
 
-        public async void SaveBaseReflectogramAs(Guid baseRefId, string defaultFilename)
+        public async void SaveBaseReflectogramAs(Guid baseRefId, string partFilename)
         {
             byte[] sorbytes = await GetBaseSorBytes(baseRefId);
-            SaveAs(sorbytes, defaultFilename);
+
+            OtdrDataKnownBlocks sorData;
+            var result = SorData.TryGetFromBytes(sorbytes, out sorData);
+            if (result != "")
+            {
+                _logFile.AppendLine(result);
+                return;
+            }
+
+            
+            var timestamp = $@"{sorData.IitParameters.LocalTimeStamp:dd-MM-yyyy HH-mm-ss}";
+            
+            SaveAs(sorbytes, partFilename + timestamp);
         }
 
 
@@ -93,6 +105,13 @@ namespace Iit.Fibertest.Client
             var vm = new RftsEventsViewModel(sorData);
             _windowManager.ShowWindow(vm);
         }
+
+        public async void ShowTraceState()
+        {
+            var vm = new TraceStateViewModel();
+            _windowManager.ShowWindow(vm);
+        }
+
 
 
         //------------------------------------------------------------------------------------------------

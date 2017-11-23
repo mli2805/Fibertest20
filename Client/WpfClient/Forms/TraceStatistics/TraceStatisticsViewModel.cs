@@ -120,12 +120,18 @@ namespace Iit.Fibertest.Client
 
         public void SaveBaseReflectogramAs()
         {
-            _measurementManager.SaveBaseReflectogramAs(SelectedBaseRef.BaseRefId, @"baseRef.sor");
+            var partFilename = $@"{TraceTitle} [{SelectedBaseRef.BaseRefType.GetLocalizedString()}] ";
+            _measurementManager.SaveBaseReflectogramAs(SelectedBaseRef.BaseRefId, partFilename);
         }
 
         public void ShowRftsEvents()
         {
             _measurementManager.ShowRftsEvents(SelectedRow.SorFileId);
+        }
+
+        public void ShowTraceState()
+        {
+            _measurementManager.ShowTraceState();
         }
     }
 }

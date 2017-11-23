@@ -175,5 +175,10 @@ namespace Iit.Fibertest.Client
         {
             _measurementManager.ShowRftsEvents(SelectedRow.SorFileId);
         }
+
+        public void ShowTraceState()
+        {
+            _measurementManager.ShowTraceState();
+        }
     }
 }

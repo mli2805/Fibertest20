@@ -82,6 +82,7 @@
                         <MenuItem Header="Save ref + base as" cal:Message.Attach="[Event Click] = [Action SaveReflectogramAs('false')]"/>
                         <Separator />
                         <MenuItem Header="RftsEvents" cal:Message.Attach="[Event Click] = [Action ShowRftsEvents]"/>
+                        <MenuItem Header="Trace state" cal:Message.Attach="[Event Click] = [Action ShowTraceState]"/>
                     </ContextMenu>
                 </DataGrid.ContextMenu>
             </DataGrid>
