@@ -16,6 +16,7 @@ namespace Iit.Fibertest.Client
         private readonly ReadModel _readModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly MeasurementManager _measurementManager;
+        private readonly IWindowManager _windowManager;
         private Trace _trace;
 
         public string TraceTitle { get; set; }
@@ -50,11 +51,13 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public TraceStatisticsViewModel(ReadModel readModel, IWcfServiceForClient c2DWcfManager, MeasurementManager measurementManager)
+        public TraceStatisticsViewModel(ReadModel readModel, IWcfServiceForClient c2DWcfManager,
+            MeasurementManager measurementManager, IWindowManager windowManager )
         {
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
             _measurementManager = measurementManager;
+            _windowManager = windowManager;
 
             var view = CollectionViewSource.GetDefaultView(Rows);
             view.SortDescriptions.Add(new SortDescription(@"SorFileId", ListSortDirection.Descending));
@@ -131,7 +134,22 @@ namespace Iit.Fibertest.Client
 
         public void ShowTraceState()
         {
-            _measurementManager.ShowTraceState();
+            var vm = new TraceStateViewModel();
+            vm.Initialize(Prepare());
+            _windowManager.ShowDialog(vm);
+        }
+
+        private TraceStateVm Prepare()
+        {
+            return new TraceStateVm()
+            {
+                TraceTitle = TraceTitle,
+                RtuTitle = RtuTitle,
+                PortTitle = PortNumber,
+
+                BaseRefType = SelectedRow.BaseRefType,
+                TraceState = SelectedRow.TraceState,
+            };
         }
     }
 }

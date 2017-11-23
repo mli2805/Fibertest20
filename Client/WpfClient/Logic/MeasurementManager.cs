@@ -106,13 +106,6 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowWindow(vm);
         }
 
-        public async void ShowTraceState()
-        {
-            var vm = new TraceStateViewModel();
-            _windowManager.ShowWindow(vm);
-        }
-
-
 
         //------------------------------------------------------------------------------------------------
 

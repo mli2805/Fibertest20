@@ -178,7 +178,10 @@ namespace Iit.Fibertest.Client
 
         public void ShowTraceState()
         {
-            _measurementManager.ShowTraceState();
+            var vm = new TraceStateViewModel();
+            vm.Initialize(new TraceStateVm());
+            _windowManager.ShowDialog(vm);
+
         }
     }
 }

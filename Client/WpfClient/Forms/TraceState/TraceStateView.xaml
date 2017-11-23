@@ -4,28 +4,29 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
-        mc:Ignorable="d"
+        mc:Ignorable="d" Width="400" SizeToContent="Height"
         d:DataContext="{d:DesignInstance client:TraceStateViewModel}">
     <StackPanel>
-        <GroupBox Header="Info">
+        <GroupBox Header="Info" Margin="5">
             <StackPanel>
-                <TextBlock Text="{Binding TraceTitle}"/>
-                <TextBlock Text="{Binding RtuTitle}"/>
-                <TextBlock Text="{Binding PortTitle}"/>
+                <TextBlock Text="{Binding Model.TraceTitle}" TextAlignment="Center"/>
+                <TextBlock Text="{Binding Model.RtuTitle}"/>
+                <TextBlock Text="{Binding Model.PortTitle}"/>
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="State">
+        <GroupBox Header="State" Margin="5">
             <StackPanel>
-                <TextBlock Text="{Binding FiberState}" FontSize="16" FontWeight="Bold" Foreground="{Binding }" />
+                <TextBlock Text="{Binding Model.TraceState}" FontSize="16" FontWeight="Bold" 
+                           Foreground="{Binding Model.TraceStateBrush}" TextAlignment="Center" />
                 <Button Content="Turn alarm off/on" Margin="5"/>
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Events">
+        <GroupBox Header="Events" Margin="5">
             <DataGrid>
 
             </DataGrid>
         </GroupBox>
-        <GroupBox Header="Status">
+        <GroupBox Header="Status" Margin="5">
             <StackPanel>
                 <ComboBox Margin="5"/>
                 <TextBox Margin="5"/>

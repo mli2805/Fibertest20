@@ -201,6 +201,7 @@
       <DependentUpon>TraceStateView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\TraceState\TraceStateViewModel.cs" />
+    <Compile Include="Forms\TraceState\TraceStateVm.cs" />
     <Compile Include="Forms\TraceStatistics\MeasurementVm.cs" />
     <Compile Include="Forms\TraceStatistics\TraceStatisticsView.xaml.cs">
       <DependentUpon>TraceStatisticsView.xaml</DependentUpon>

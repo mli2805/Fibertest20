@@ -388,11 +388,6 @@ namespace DirectRtuClient
             windowManager.ShowDialog(vm);
         }
 
-        public void ShowTraceState()
-        {
-            var vm = new TraceStateViewModel();
-            IWindowManager windowManager = new WindowManager();
-            windowManager.ShowDialog(vm);
-        }
+      
     }
 }
