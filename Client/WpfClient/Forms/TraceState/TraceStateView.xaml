@@ -3,11 +3,37 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:client="clr-namespace:Iit.Fibertest.Client"
         mc:Ignorable="d"
-        Title="TraceStateView" Height="300" Width="300">
+        d:DataContext="{d:DesignInstance client:TraceStateViewModel}">
     <StackPanel>
-        <GroupBox Header="Trace title">
-            <TextBlock Text=""></TextBlock>
+        <GroupBox Header="Info">
+            <StackPanel>
+                <TextBlock Text="{Binding TraceTitle}"/>
+                <TextBlock Text="{Binding RtuTitle}"/>
+                <TextBlock Text="{Binding PortTitle}"/>
+            </StackPanel>
         </GroupBox>
+        <GroupBox Header="State">
+            <StackPanel>
+                <TextBlock Text="{Binding FiberState}" FontSize="16" FontWeight="Bold" Foreground="{Binding }" />
+                <Button Content="Turn alarm off/on" Margin="5"/>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Header="Events">
+            <DataGrid>
+
+            </DataGrid>
+        </GroupBox>
+        <GroupBox Header="Status">
+            <StackPanel>
+                <ComboBox Margin="5"/>
+                <TextBox Margin="5"/>
+            </StackPanel>
+        </GroupBox>
+        <StackPanel>
+            <Button Content="Statistics" Width="120" Height="25"/>
+        </StackPanel>
     </StackPanel>
+
 </Window>
