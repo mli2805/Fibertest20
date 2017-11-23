@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -69,6 +70,7 @@ namespace Iit.Fibertest.Client
         }
 
         private bool _isButtonSaveEnabled;
+
         public bool IsButtonSaveEnabled
         {
             get { return _isButtonSaveEnabled; }
@@ -81,6 +83,17 @@ namespace Iit.Fibertest.Client
         }
 
         private string _initialDirectory;
+        private string InitialDirectory
+        {
+            get { return _initialDirectory; }
+            set
+            {
+                if (value == _initialDirectory)
+                    return;
+                _initialDirectory = value;
+                _iniFile.Write(IniSection.Miscellaneous, IniKey.PathToSor, InitialDirectory);
+            }
+        }
 
         public BaseRefsAssignViewModel(IniFile iniFile, ReadModel readModel, 
             IWcfServiceForClient c2DWcfManager, IWindowManager windowManager, SorExt sorExt)
@@ -103,7 +116,7 @@ namespace Iit.Fibertest.Client
                 IsButtonSaveEnabled = false;
             RtuTitle = _readModel.Rtus.First(r => r.Id == _trace.RtuId).Title;
 
-            _initialDirectory = _iniFile.Read(IniSection.Miscellaneous, IniKey.PathToSor, @"c:\temp\");
+            InitialDirectory = _iniFile.Read(IniSection.Miscellaneous, IniKey.PathToSor, @"c:\temp\");
         }
 
         protected override void OnViewLoaded(object view)
@@ -120,19 +133,22 @@ namespace Iit.Fibertest.Client
 
         public void GetPathToPrecise()
         {
-            OpenFileDialog dialog = new OpenFileDialog() {Filter = Resources.SID_Reflectogram_files, InitialDirectory = _initialDirectory, };
+            OpenFileDialog dialog = new OpenFileDialog() {Filter = Resources.SID_Reflectogram_files, InitialDirectory = InitialDirectory, };
             if (dialog.ShowDialog() == true)
+            {
                 PreciseBaseFilename = dialog.FileName;
+                InitialDirectory = Path.GetDirectoryName(dialog.FileName);
+            }
         }
         public void GetPathToFast()
         {
-            OpenFileDialog dialog = new OpenFileDialog() {Filter = Resources.SID_Reflectogram_files, InitialDirectory = _initialDirectory, };
+            OpenFileDialog dialog = new OpenFileDialog() {Filter = Resources.SID_Reflectogram_files, InitialDirectory = InitialDirectory, };
             if (dialog.ShowDialog() == true)
                 FastBaseFilename = dialog.FileName;
         }
         public void GetPathToAdditional()
         {
-            OpenFileDialog dialog = new OpenFileDialog() {Filter = Resources.SID_Reflectogram_files, InitialDirectory = _initialDirectory, };
+            OpenFileDialog dialog = new OpenFileDialog() {Filter = Resources.SID_Reflectogram_files, InitialDirectory = InitialDirectory, };
             if (dialog.ShowDialog() == true)
                 AdditionalBaseFilename = dialog.FileName;
         }

@@ -6,7 +6,7 @@
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:cal="http://www.caliburnproject.org"
-        mc:Ignorable="d" Width="500"
+        mc:Ignorable="d" Width="600"
         d:DataContext="{d:DesignInstance client:TraceStatisticsViewModel}">
     <DockPanel>
         <GroupBox Header="Info" DockPanel.Dock="Top" Margin="5" >
@@ -25,12 +25,25 @@
                         <TextBlock Text="{Binding PortNumber}" Margin="5"/>
                     </StackPanel>
                 </StackPanel>
-                <DataGrid ItemsSource="{Binding BaseRefs}" AutoGenerateColumns="False" IsReadOnly="True" Margin="0,5">
+                <DataGrid ItemsSource="{Binding BaseRefs}" SelectedItem="{Binding SelectedBaseRef}" 
+                          AutoGenerateColumns="False" IsReadOnly="True" Margin="0,5">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Base_ref_type}" Binding="{Binding BaseRefTypeString}" Width="80*"/>
                         <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Assigned_at}" Binding="{Binding AssignedAt}" Width="120*"/>
                         <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Assigned_by}" Binding="{Binding AssignedBy}" Width="120*"/>
                     </DataGrid.Columns>
+                    <DataGrid.Resources>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="LightBlue" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="GhostWhite" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="Black" />
+                    </DataGrid.Resources>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Show reflectogram" cal:Message.Attach="[Event Click] = [Action ShowBaseReflectogram]"/>
+                            <MenuItem Header="Save reflectogram as" cal:Message.Attach="[Event Click] = [Action SaveBaseReflectogramAs]"/>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
                 </DataGrid>
             </StackPanel>
         </GroupBox>
@@ -38,11 +51,11 @@
             <DataGrid ItemsSource="{Binding Rows}" SelectedItem="{Binding SelectedRow, Mode=TwoWay}" 
                       AutoGenerateColumns="False" IsReadOnly="True" Margin="0,5" SelectionMode="Single" CanUserSortColumns="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID" Binding="{Binding SorFileId}" Width="50*"/>
-                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Base_ref_type}" Binding="{Binding BaseRefTypeString}" Width="100*"/>
-                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Recieved_at}" Binding="{Binding Timestamp}" Width="120*"/>
+                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Reflectogram_Id}" Binding="{Binding SorFileId}" Width="90*"/>
+                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Base_ref_type}" Binding="{Binding BaseRefTypeString}" Width="90*"/>
+                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Recieved_at}" Binding="{Binding Timestamp}" Width="110*"/>
                     <DataGridCheckBoxColumn Binding="{Binding IsOpticalEvent}"/>
-                    <DataGridTemplateColumn Width="120*" Header="{x:Static stringResources:Resources.SID_Trace_state}">
+                    <DataGridTemplateColumn Width="110*" Header="{x:Static stringResources:Resources.SID_Trace_state}">
                         <DataGridTemplateColumn.CellStyle>
                             <Style TargetType="DataGridCell">
                                 <Setter Property="Background" Value="{Binding TraceStateBrush}" />
@@ -63,8 +76,12 @@
                 </DataGrid.Resources>
                 <DataGrid.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Reflectogram" cal:Message.Attach="[Event Click] = [Action ShowReflectogram]" BorderBrush="{x:Null}" Background="White" />
-                        <MenuItem Header="RftsEvents" cal:Message.Attach="[Event Click] = [Action ShowRftsEvents]" BorderBrush="{x:Null}" Background="White" />
+                        <MenuItem Header="Show reflectogram" cal:Message.Attach="[Event Click] = [Action ShowReflectogram(1)]"/>
+                        <MenuItem Header="Show ref + base" cal:Message.Attach="[Event Click] = [Action ShowReflectogram(2)]"/>
+                        <MenuItem Header="Save reflectogram as" cal:Message.Attach="[Event Click] = [Action SaveReflectogramAs('true')]"/>
+                        <MenuItem Header="Save ref + base as" cal:Message.Attach="[Event Click] = [Action SaveReflectogramAs('false')]"/>
+                        <Separator />
+                        <MenuItem Header="RftsEvents" cal:Message.Attach="[Event Click] = [Action ShowRftsEvents]"/>
                     </ContextMenu>
                 </DataGrid.ContextMenu>
             </DataGrid>

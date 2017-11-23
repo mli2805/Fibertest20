@@ -26,11 +26,13 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<bool> ProcessMonitoringResult(MonitoringResultDto result)
         {
-            var sorFileId = await SaveMeasurementInDb(result);
+            var isTraceStateChanged = IsTraceStateChanged(result);
+
+            var sorFileId = await SaveMeasurementInDb(result, isTraceStateChanged);
             if (sorFileId == -1)
                 return false;
 
-            if (IsTraceStateChanged(result))
+            if (isTraceStateChanged)
             {
                 await SaveOpticalEventInDb(result, sorFileId);
                 await SendMoniresultToClients(result);
@@ -102,7 +104,7 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
-        private async Task<int> SaveMeasurementInDb(MonitoringResultDto result)
+        private async Task<int> SaveMeasurementInDb(MonitoringResultDto result, bool isTraceStateChanged)
         {
             try
             {
@@ -121,6 +123,7 @@ namespace Iit.Fibertest.DataCenterCore
                     TraceId = result.PortWithTrace.TraceId,
                     BaseRefType = result.BaseRefType,
                     TraceState = result.TraceState,
+                    IsOpticalEvent = isTraceStateChanged,
                     Timestamp = result.TimeStamp,
                 });
                 await dbContext.SaveChangesAsync();

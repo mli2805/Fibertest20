@@ -86,6 +86,11 @@ namespace Iit.Fibertest.DataCenterCore
             return await _dbRequestManager.GetTraceMeasurementsAsync(traceId);
         }
 
+        public Task<byte[]> GetSorBytesOfBase(Guid baseRefId)
+        {
+            return _dbRequestManager.GetSorBytesOfBase(baseRefId);
+        }
+
         public Task<byte[]> GetSorBytesOfMeasurement(int sorFileId)
         {
             return _dbRequestManager.GetSorBytesOfMeasurement(sorFileId);

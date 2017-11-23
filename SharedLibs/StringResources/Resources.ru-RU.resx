@@ -1340,4 +1340,10 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Trace__0__statistics" xml:space="preserve">
 		<value>Статистика трассы {0}</value>
 	</data>
+	<data name="SID_Reflectogram_Id" xml:space="preserve">
+		<value>ID рефлектограммы</value>
+	</data>
+	<data name="SID_Event_Id" xml:space="preserve">
+		<value>ID события</value>
+	</data>
 </root>

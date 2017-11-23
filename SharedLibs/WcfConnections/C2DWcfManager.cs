@@ -127,6 +127,23 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
+        public Task<byte[]> GetSorBytesOfBase(Guid baseRefId)
+        {
+            var wcfConnection = _wcfFactory.CreateC2DConnection();
+            if (wcfConnection == null)
+                return null;
+
+            try
+            {
+                return wcfConnection.GetSorBytesOfBase(baseRefId);
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+                return null;
+            }
+        }
+
         public Task<byte[]> GetSorBytesOfMeasurement(int sorFileId)
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();

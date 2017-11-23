@@ -22,7 +22,7 @@
         <DataGrid Margin="5" ItemsSource="{Binding Rows}" SelectedItem="{Binding SelectedRow, Mode=TwoWay}" 
                   AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" CanUserSortColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding SorFileId}" Width="40"/>
+                <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Event_Id}" Binding="{Binding SorFileId}" Width="70"/>
                 <DataGridTextColumn Binding="{Binding EventRegistrationTimestamp}" Width="120">
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>
@@ -108,8 +108,8 @@
                 <ContextMenu>
                     <MenuItem Header="Show reflectogram" cal:Message.Attach="[Event Click] = [Action ShowReflectogram(1)]"/>
                     <MenuItem Header="Show ref + base" cal:Message.Attach="[Event Click] = [Action ShowReflectogram(2)]"/>
-                    <MenuItem Header="Save reflectogram" cal:Message.Attach="[Event Click] = [Action ShowReflectogram(1)]"/>
-                    <MenuItem Header="Save ref + base" cal:Message.Attach="[Event Click] = [Action ShowReflectogram(2)]"/>
+                    <MenuItem Header="Save reflectogram as" cal:Message.Attach="[Event Click] = [Action SaveReflectogramAs('true')]"/>
+                    <MenuItem Header="Save ref + base as" cal:Message.Attach="[Event Click] = [Action SaveReflectogramAs('false')]"/>
                     <Separator />
                     <MenuItem Header="RftsEvents" cal:Message.Attach="[Event Click] = [Action ShowRftsEvents]"/>
                     <MenuItem Header="Change" cal:Message.Attach="[Event Click] = [Action ChangeRow]"/>

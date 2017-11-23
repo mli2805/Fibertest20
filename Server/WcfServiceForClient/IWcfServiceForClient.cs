@@ -28,6 +28,9 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
         Task<TraceStatistics> GetTraceStatistics(Guid traceId);
 
         [OperationContract]
+        Task<byte[]> GetSorBytesOfBase(Guid baseRefId);
+
+        [OperationContract]
         Task<byte[]> GetSorBytesOfMeasurement(int sorFileId);
 
         // C2D

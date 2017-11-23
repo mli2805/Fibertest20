@@ -159,7 +159,16 @@ namespace Iit.Fibertest.Client
         public void ShowReflectogram(int param)
         {
             if (param == 2)
-                _measurementManager.ShowReflectogram(SelectedRow.SorFileId);
+                _measurementManager.ShowRefWithBase(SelectedRow.SorFileId);
+            else
+                _measurementManager.ShowOnlyCurrentMeasurement(SelectedRow.SorFileId);
+        }
+
+        public void SaveReflectogramAs(bool shouldBaseRefBeExcluded)
+        {
+            var timestamp = $@"{SelectedRow.EventRegistrationTimestamp:dd-MM-yyyy HH-mm-ss}";
+            var defaultFilename = $@"{SelectedRow.TraceTitle} [N{SelectedRow.SorFileId}] {timestamp}";
+            _measurementManager.SaveReflectogramAs(SelectedRow.SorFileId, defaultFilename, shouldBaseRefBeExcluded);
         }
 
         public void ShowRftsEvents()

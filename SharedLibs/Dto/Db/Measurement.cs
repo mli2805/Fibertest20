@@ -10,6 +10,7 @@ namespace Iit.Fibertest.Dto
         public Guid TraceId { get; set; }
         public BaseRefType BaseRefType { get; set; }
         public DateTime Timestamp { get; set; }
+        public bool IsOpticalEvent { get; set; }
         public FiberState TraceState { get; set; }
     }
 }

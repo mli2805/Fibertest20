@@ -37,6 +37,11 @@ namespace Graph.Tests
             throw new NotImplementedException();
         }
 
+        public Task<byte[]> GetSorBytesOfBase(Guid baseRefId)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<byte[]> GetSorBytesOfMeasurement(int sorFileId)
         {
             throw new NotImplementedException();

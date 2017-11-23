@@ -1323,6 +1323,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Event ID.
+        /// </summary>
+        public static string SID_Event_Id {
+            get {
+                return ResourceManager.GetString("SID_Event_Id", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Event # {0}.
         /// </summary>
         public static string SID_Event_N_0_ {
@@ -2724,6 +2733,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Reflectogram_files {
             get {
                 return ResourceManager.GetString("SID_Reflectogram_files", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reflectogram ID.
+        /// </summary>
+        public static string SID_Reflectogram_Id {
+            get {
+                return ResourceManager.GetString("SID_Reflectogram_Id", resourceCulture);
             }
         }
         

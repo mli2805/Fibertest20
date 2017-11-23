@@ -18,9 +18,24 @@ namespace Iit.Fibertest.Client
         private readonly MeasurementManager _measurementManager;
         private Trace _trace;
 
+        public string TraceTitle { get; set; }
         public string RtuTitle { get; set; }
         public string PortNumber { get; set; }
+
+        private BaseRefForStats _selectedBaseRef;
+        public BaseRefForStats SelectedBaseRef
+        {
+            get { return _selectedBaseRef; }
+            set
+            {
+                if (Equals(value, _selectedBaseRef)) return;
+                _selectedBaseRef = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public List<BaseRefForStats> BaseRefs { get; set; }
+
         public ObservableCollection<MeasurementVm> Rows { get; set; } = new ObservableCollection<MeasurementVm>();
 
         private MeasurementVm _selectedRow;
@@ -42,7 +57,7 @@ namespace Iit.Fibertest.Client
             _measurementManager = measurementManager;
 
             var view = CollectionViewSource.GetDefaultView(Rows);
-            view.SortDescriptions.Add(new SortDescription(@"Nomer",ListSortDirection.Descending));
+            view.SortDescriptions.Add(new SortDescription(@"SorFileId", ListSortDirection.Descending));
         }
 
         public bool Initialize(Guid traceId)
@@ -50,6 +65,7 @@ namespace Iit.Fibertest.Client
             _trace = _readModel.Traces.FirstOrDefault(t => t.Id == traceId);
             if (_trace == null)
                 return false;
+            TraceTitle = _trace.Title;
             RtuTitle = _readModel.Rtus.FirstOrDefault(r => r.Id == _trace.RtuId)?.Title;
             PortNumber = _trace.OtauPort.IsPortOnMainCharon
                 ? _trace.OtauPort.OpticalPort.ToString()
@@ -61,6 +77,7 @@ namespace Iit.Fibertest.Client
 
             BaseRefs = traceStatistics.BaseRefs;
 
+            Rows.Clear();
             foreach (var measurement in traceStatistics.Measurements)
             {
                 Rows.Add(new MeasurementVm()
@@ -69,6 +86,7 @@ namespace Iit.Fibertest.Client
                     TraceState = measurement.TraceState,
                     Timestamp = measurement.Timestamp,
                     SorFileId = measurement.SorFileId,
+                    IsOpticalEvent = measurement.IsOpticalEvent,
                 });
             }
 
@@ -80,9 +98,29 @@ namespace Iit.Fibertest.Client
             DisplayName = @"Trace statistics";
         }
 
-        public void ShowReflectogram()
+        public void ShowReflectogram(int param)
         {
-            _measurementManager.ShowReflectogram(SelectedRow.SorFileId);
+            if (param == 2)
+                _measurementManager.ShowRefWithBase(SelectedRow.SorFileId);
+            else
+                _measurementManager.ShowOnlyCurrentMeasurement(SelectedRow.SorFileId);
+        }
+
+        public void SaveReflectogramAs(bool param)
+        {
+            var timestamp = $@"{SelectedRow.Timestamp:dd-MM-yyyy HH-mm-ss}";
+            var defaultFilename = $@"{TraceTitle} [N{SelectedRow.SorFileId}] {timestamp}";
+            _measurementManager.SaveReflectogramAs(SelectedRow.SorFileId, defaultFilename, param);
+        }
+
+        public void ShowBaseReflectogram()
+        {
+            _measurementManager.ShowBaseReflectogram(SelectedBaseRef.BaseRefId);
+        }
+
+        public void SaveBaseReflectogramAs()
+        {
+            _measurementManager.SaveBaseReflectogramAs(SelectedBaseRef.BaseRefId, @"baseRef.sor");
         }
 
         public void ShowRftsEvents()
