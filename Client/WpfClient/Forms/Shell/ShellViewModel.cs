@@ -19,8 +19,22 @@ namespace Iit.Fibertest.Client
         public ILogger Log { get; set; }
 
         private int _userId;
+
+        private string _userName;
+        private string UserName
+        {
+            get { return _userName; }
+            set
+            {
+                if (value == _userName) return;
+                _userName = value;
+                DisplayName = $@"Fibertest v2.0 :: {_userName}";
+            }
+        }
+
         private readonly IWindowManager _windowManager;
         private readonly ClientHeartbeat _clientHeartbeat;
+        private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         public IWcfServiceForClient C2DWcfManager { get; }
 
@@ -50,7 +64,7 @@ namespace Iit.Fibertest.Client
         public ShellViewModel(ReadModel readModel, TreeOfRtuModel treeOfRtuModel, IWcfServiceForClient c2DWcfManager,
                 GraphReadModel graphReadModel, OpticalEventsViewModel opticalEventsViewModel, NetworkEventsViewModel networkEventsViewModel,
                 IWindowManager windowManager, ClientHeartbeat clientHeartbeat,
-                ILogger clientLogger, IMyLog logFile, ClientWcfService clientWcfService, IClientWcfServiceHost host)
+                IniFile iniFile, ILogger clientLogger, IMyLog logFile, ClientWcfService clientWcfService, IClientWcfServiceHost host)
         {
             ReadModel = readModel;
             TreeOfRtuModel = treeOfRtuModel;
@@ -67,6 +81,7 @@ namespace Iit.Fibertest.Client
             C2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
             _clientHeartbeat = clientHeartbeat;
+            _iniFile = iniFile;
 
             _logFile = logFile;
 
@@ -118,6 +133,7 @@ namespace Iit.Fibertest.Client
             if (_isAuthenticationSuccessfull == true)
             {
                 _userId = vm.UserId;
+                UserName = vm.UserName;
                 StartPolling();
                 _clientHeartbeat.Start();
             }
@@ -128,9 +144,10 @@ namespace Iit.Fibertest.Client
 
         private void StartPolling()
         {
+            var pollingRate = _iniFile.Read(IniSection.General, IniKey.ClientPollingRate, 1);
             var clientPoller = IoC.Get<ClientPoller>();
             GC.KeepAlive(new DispatcherTimer(
-                TimeSpan.FromSeconds(1),
+                TimeSpan.FromSeconds(pollingRate),
                 DispatcherPriority.Background,
                 (s, e) => clientPoller.Tick(),
                 Dispatcher.CurrentDispatcher));
@@ -139,7 +156,7 @@ namespace Iit.Fibertest.Client
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = @"Fibertest v2.0";
+            DisplayName = $@"Fibertest v2.0 {UserName}";
             GraphReadModel.PropertyChanged += GraphReadModel_PropertyChanged;
         }
 

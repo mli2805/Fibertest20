@@ -24,6 +24,7 @@
         LogLevel,
 
         ClientHeartbeatRate,
+        ClientPollingRate,
         RtuHeartbeatRate,
 
         CheckHeartbeatEvery,
