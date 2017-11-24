@@ -53,6 +53,7 @@
     <Compile Include="C2D2R\AssignBaseRefDto.cs" />
     <Compile Include="C2D2R\SomePortionOfData.cs" />
     <Compile Include="C2D\CheckServerConnectionDto.cs" />
+    <Compile Include="D2C\TraceStateDto.cs" />
     <Compile Include="Underlying\BaseRefForStats.cs" />
     <Compile Include="D2C\ClientRegisteredDto.cs" />
     <Compile Include="D2C\NetworkEventsList.cs" />

@@ -47,6 +47,10 @@ namespace Graph.Tests
             throw new NotImplementedException();
         }
 
+        public Task<TraceStateDto> GetLastTraceState(Guid traceId)
+        {
+            throw new NotImplementedException();
+        }
 
 
         public Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)

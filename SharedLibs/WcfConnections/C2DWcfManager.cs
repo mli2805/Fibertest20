@@ -161,6 +161,23 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
+        public Task<TraceStateDto> GetLastTraceState(Guid traceId)
+        {
+            var wcfConnection = _wcfFactory.CreateC2DConnection();
+            if (wcfConnection == null)
+                return null;
+
+            try
+            {
+                return wcfConnection.GetLastTraceState(traceId);
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+                return null;
+            }
+        }
+
 
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {

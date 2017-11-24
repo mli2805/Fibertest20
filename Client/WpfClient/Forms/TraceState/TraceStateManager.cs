@@ -1,15 +1,26 @@
 using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Caliburn.Micro;
+using Iit.Fibertest.Dto;
+using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
 {
     public class TraceStateManager
     {
+        private readonly IMyLog _logFile;
+        private readonly ReadModel _readModel;
         private readonly IWindowManager _windowManager;
+        private readonly IWcfServiceForClient _c2DWcfManager;
 
-        public TraceStateManager(IWindowManager windowManager)
+        public TraceStateManager(IMyLog logFile, ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager)
         {
+            _logFile = logFile;
+            _readModel = readModel;
             _windowManager = windowManager;
+            _c2DWcfManager = c2DWcfManager;
         }
 
         // from TraceLeaf
@@ -31,6 +42,12 @@ namespace Iit.Fibertest.Client
             ShowTraceState(Prepare(opticalEventVm));
         }
 
+        // from Accident happend
+        public void ShowTraceState(MonitoringResultDto monitoringResultDto)
+        {
+            ShowTraceState(Prepare(monitoringResultDto));
+        }
+
         //----------------------------------------------------
 
         private void ShowTraceState(TraceStateVm traceStateVm)
@@ -42,11 +59,12 @@ namespace Iit.Fibertest.Client
 
         private TraceStateVm Prepare(Guid traceId)
         {
-            return new TraceStateVm()
-            {
-//                BaseRefType = measurementVm.BaseRefType,
-//                TraceState = measurementVm.TraceState,
-            };
+            var result = new TraceStateVm();
+            PrepareCaption(traceId, ref result);
+
+            TraceStateDto dto = GetLastTraceState(traceId).Result;
+
+            return result;
         }
 
         private TraceStateVm Prepare(MeasurementVm measurementVm)
@@ -66,8 +84,38 @@ namespace Iit.Fibertest.Client
             };
         }
 
+        private TraceStateVm Prepare(MonitoringResultDto monitoringResultDto)
+        {
+            return new TraceStateVm()
+            {
+                TraceState = monitoringResultDto.TraceState,
+            };
+        }
 
+        //-----------------------------
+        private void PrepareCaption(Guid traceId, ref TraceStateVm result)
+        {
+            var trace = _readModel.Traces.FirstOrDefault(t => t.Id == traceId);
+            if (trace == null)
+                return;
 
+            result.TraceTitle = trace.Title;
+            result.RtuTitle = _readModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId)?.Title;
+            result.PortTitle = trace.OtauPort.IsPortOnMainCharon
+                ? trace.OtauPort.OpticalPort.ToString()
+                : $@"{trace.OtauPort.OtauIp}:{trace.OtauPort.OtauTcpPort}-{trace.OtauPort.OpticalPort}";
+        }
+
+        private async Task<TraceStateDto> GetLastTraceState(Guid traceId)
+        {
+            var traceStateDto = await _c2DWcfManager.GetLastTraceState(traceId);
+            if (traceStateDto == null)
+            {
+                _logFile.AppendLine($@"Cannot get last state for trace {traceId.First6()}");
+                return null;
+            }
+            return traceStateDto;
+        }
 
     }
 }

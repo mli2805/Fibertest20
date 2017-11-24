@@ -114,5 +114,39 @@ namespace Iit.Fibertest.DatabaseLibrary
                 return null;
             }
         }
+
+        public async Task<TraceStateDto> GetLastTraceState(Guid traceId)
+        {
+            try
+            {
+                using (var dbContext = new MySqlContext())
+                {
+
+                    var list = await dbContext.Measurements.Where(s => s.TraceId == traceId).ToListAsync();
+                    var lastMeas = list?.LastOrDefault();
+                    if (lastMeas == null)
+                        return null;
+
+                    var sorFile = await dbContext.SorFiles.Where(s => s.Id == lastMeas.SorFileId).FirstOrDefaultAsync();
+                    if (sorFile == null)
+                        return null;
+
+                    var result = new TraceStateDto() { LastMeasurement = lastMeas, SorBytes = sorFile.SorBytes};
+
+                    if (lastMeas.IsOpticalEvent)
+                    {
+                        result.CorrespondentEvent = 
+                            await dbContext.OpticalEvents.Where(o => o.SorFileId == lastMeas.SorFileId).FirstOrDefaultAsync();
+                    }
+                   
+                    return result;
+                }
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("GetLastTraceState: " + e.Message);
+                return null;
+            }
+        }
     }
 }

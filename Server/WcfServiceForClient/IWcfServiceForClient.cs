@@ -33,6 +33,9 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
         [OperationContract]
         Task<byte[]> GetSorBytesOfMeasurement(int sorFileId);
 
+        [OperationContract]
+        Task<TraceStateDto> GetLastTraceState(Guid traceId);
+
         // C2D
         [OperationContract]
         Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto);
