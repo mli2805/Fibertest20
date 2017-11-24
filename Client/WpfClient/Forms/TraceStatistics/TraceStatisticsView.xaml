@@ -17,12 +17,12 @@
                         <TextBlock Text="{Binding TraceTitle}" Margin="5"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="RTU" Margin="5" />
-                        <TextBlock Text="{Binding RtuTitle}" Margin="5"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{x:Static stringResources:Resources.SID_Port}" Margin="5" />
                         <TextBlock Text="{Binding PortNumber}" Margin="5"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="RTU" Margin="5" />
+                        <TextBlock Text="{Binding RtuTitle}" Margin="5"/>
                     </StackPanel>
                 </StackPanel>
                 <DataGrid ItemsSource="{Binding BaseRefs}" SelectedItem="{Binding SelectedBaseRef}" 

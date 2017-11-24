@@ -36,7 +36,7 @@ namespace Iit.Fibertest.Client
             Parent = parent;
             var otauLeaf = Parent as OtauLeaf;
             ExtendedPortNumber = otauLeaf != null ? otauLeaf.FirstPortNumber + PortNumber - 1 : PortNumber;
-            Color = Brushes.Blue;
+            Color = Brushes.Black;
         }
 
         protected override List<MenuItemVm> GetMenuItems()

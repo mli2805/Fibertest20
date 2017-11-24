@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -11,7 +10,6 @@ using Iit.Fibertest.WcfServiceForClientInterface;
 using Iit.Fibertest.WpfCommonViews;
 using Microsoft.Win32;
 using Optixsoft.SorExaminer.OtdrDataFormat;
-using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
 
 namespace Iit.Fibertest.Client
 {
@@ -105,6 +103,7 @@ namespace Iit.Fibertest.Client
             var vm = new RftsEventsViewModel(sorData);
             _windowManager.ShowWindow(vm);
         }
+
 
 
         //------------------------------------------------------------------------------------------------

@@ -17,6 +17,7 @@ namespace Iit.Fibertest.Client
         private readonly ReadModel _readModel;
         private readonly IWindowManager _windowManager;
         private readonly MeasurementManager _measurementManager;
+        private readonly TraceStateManager _traceStateManager;
         private Visibility _opticalEventsVisibility;
         private TraceStateFilter _selectedTraceStateFilter;
         private EventStatusFilter _selectedEventStatusFilter;
@@ -75,23 +76,25 @@ namespace Iit.Fibertest.Client
         }
 
 
-        public OpticalEventsViewModel(ReadModel readModel, IWindowManager windowManager, MeasurementManager measurementManager)
+        public OpticalEventsViewModel(ReadModel readModel, IWindowManager windowManager,
+            MeasurementManager measurementManager, TraceStateManager traceStateManager)
         {
             _readModel = readModel;
             _windowManager = windowManager;
             _measurementManager = measurementManager;
+            _traceStateManager = traceStateManager;
 
             InitializeTraceStateFilters();
             InitializeEventStatusFilters();
 
             var view = CollectionViewSource.GetDefaultView(Rows);
             view.Filter += OnFilter;
-            view.SortDescriptions.Add(new SortDescription(@"Nomer",ListSortDirection.Descending));
+            view.SortDescriptions.Add(new SortDescription(@"Nomer", ListSortDirection.Descending));
         }
 
         private void InitializeTraceStateFilters()
         {
-            TraceStateFilters = new List<TraceStateFilter>() {new TraceStateFilter()};
+            TraceStateFilters = new List<TraceStateFilter>() { new TraceStateFilter() };
             TraceStateFilters.Add(new TraceStateFilter(FiberState.Ok));
             TraceStateFilters.Add(new TraceStateFilter(FiberState.Minor));
             TraceStateFilters.Add(new TraceStateFilter(FiberState.Major));
@@ -105,7 +108,7 @@ namespace Iit.Fibertest.Client
 
         private void InitializeEventStatusFilters()
         {
-            EventStatusFilters = new List<EventStatusFilter>() {new EventStatusFilter()};
+            EventStatusFilters = new List<EventStatusFilter>() { new EventStatusFilter() };
             foreach (var eventStatus in Enum.GetValues(typeof(EventStatus)).OfType<EventStatus>())
             {
                 EventStatusFilters.Add(new EventStatusFilter(eventStatus));
@@ -116,7 +119,7 @@ namespace Iit.Fibertest.Client
 
         private bool OnFilter(object o)
         {
-            var  opticalEventVm = (OpticalEventVm)o;
+            var opticalEventVm = (OpticalEventVm)o;
             return (SelectedTraceStateFilter.IsOn == false ||
                 SelectedTraceStateFilter.TraceState == opticalEventVm.TraceState) &&
                     (SelectedEventStatusFilter.IsOn == false ||
@@ -129,20 +132,20 @@ namespace Iit.Fibertest.Client
             {
                 Nomer = opticalEvent.Id,
                 EventRegistrationTimestamp = opticalEvent.EventRegistrationTimestamp,
-                RtuTitle = _readModel.Rtus.FirstOrDefault(r=>r.Id == opticalEvent.RtuId)?.Title,
-                TraceTitle = _readModel.Traces.FirstOrDefault(t=>t.Id == opticalEvent.TraceId)?.Title,
-                BaseRefTypeBrush = 
-                    opticalEvent.TraceState == FiberState.Ok 
-                        ? Brushes.White 
-                        : opticalEvent.BaseRefType == BaseRefType.Fast 
-                            ? Brushes.Yellow : opticalEvent.TraceState.GetBrush(isForeground:false),
+                RtuTitle = _readModel.Rtus.FirstOrDefault(r => r.Id == opticalEvent.RtuId)?.Title,
+                TraceTitle = _readModel.Traces.FirstOrDefault(t => t.Id == opticalEvent.TraceId)?.Title,
+                BaseRefTypeBrush =
+                    opticalEvent.TraceState == FiberState.Ok
+                        ? Brushes.White
+                        : opticalEvent.BaseRefType == BaseRefType.Fast
+                            ? Brushes.Yellow : opticalEvent.TraceState.GetBrush(isForeground: false),
                 TraceState = opticalEvent.TraceState,
 
                 EventStatus = opticalEvent.EventStatus,
                 EventStatusBrush = opticalEvent.EventStatus == EventStatus.Confirmed ? Brushes.Red : Brushes.White,
 
                 StatusChangedTimestamp = opticalEvent.StatusChangedByUser != ""
-                    ? opticalEvent.StatusChangedTimestamp.ToString(Thread.CurrentThread.CurrentUICulture) 
+                    ? opticalEvent.StatusChangedTimestamp.ToString(Thread.CurrentThread.CurrentUICulture)
                     : "",
                 StatusChangedByUser = "",
                 Comment = opticalEvent.Comment,
@@ -178,10 +181,7 @@ namespace Iit.Fibertest.Client
 
         public void ShowTraceState()
         {
-            var vm = new TraceStateViewModel();
-            vm.Initialize(new TraceStateVm());
-            _windowManager.ShowDialog(vm);
-
+            _traceStateManager.ShowTraceState(SelectedRow);
         }
     }
 }

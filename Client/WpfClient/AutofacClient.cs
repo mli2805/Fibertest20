@@ -18,6 +18,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<WindowManager>().As<IWindowManager>().SingleInstance();
 
             builder.RegisterType<MeasurementManager>().SingleInstance();
+            builder.RegisterType<TraceStateManager>().SingleInstance();
 
             builder.RegisterType<OpticalEventsViewModel>().SingleInstance();
             builder.RegisterType<NetworkEventsViewModel>().SingleInstance();

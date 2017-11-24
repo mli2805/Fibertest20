@@ -4,37 +4,74 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
-        mc:Ignorable="d" Width="400" SizeToContent="Height"
+        mc:Ignorable="d" Width="450" SizeToContent="Height"
         d:DataContext="{d:DesignInstance client:TraceStateViewModel}">
     <StackPanel>
         <GroupBox Header="Info" Margin="5">
             <StackPanel>
-                <TextBlock Text="{Binding Model.TraceTitle}" TextAlignment="Center"/>
-                <TextBlock Text="{Binding Model.RtuTitle}"/>
-                <TextBlock Text="{Binding Model.PortTitle}"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Trace" Margin="5"/>
+                    <TextBlock Text="{Binding Model.TraceTitle}" Margin="5"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Port" Margin="5"/>
+                    <TextBlock Text="{Binding Model.PortTitle}" Margin="5"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="RTU" Margin="5"/>
+                    <TextBlock Text="{Binding Model.RtuTitle}" Margin="5"/>
+                </StackPanel>
             </StackPanel>
         </GroupBox>
         <GroupBox Header="State" Margin="5">
             <StackPanel>
                 <TextBlock Text="{Binding Model.TraceState}" FontSize="16" FontWeight="Bold" 
-                           Foreground="{Binding Model.TraceStateBrush}" TextAlignment="Center" />
+                           Foreground="{Binding Model.TraceStateBrush}" TextAlignment="Center" Margin="5"/>
                 <Button Content="Turn alarm off/on" Margin="5"/>
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Events" Margin="5">
-            <DataGrid>
-
-            </DataGrid>
+        <GroupBox Header="Accidents" Margin="5">
+            <DockPanel>
+                <DataGrid DockPanel.Dock="Top" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="No"/>
+                        <DataGridTextColumn Header="State"/>
+                        <DataGridTextColumn Header="Distance"/>
+                        <DataGridTextColumn Header="Left node"/>
+                        <DataGridTextColumn Header="Dist. to left"/>
+                        <DataGridTextColumn Header="Right node"/>
+                        <DataGridTextColumn Header="Dist. to right"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <TextBlock Text="GPS coordinates:" Margin="5"/>
+            </DockPanel>
         </GroupBox>
-        <GroupBox Header="Status" Margin="5">
+        <GroupBox Header="Optical event" Margin="5">
             <StackPanel>
-                <ComboBox Margin="5"/>
-                <TextBox Margin="5"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Status" Margin="10,5"/>
+                    <ComboBox Margin="5" Width="200"/>
+                </StackPanel>
+                <DockPanel>
+                    <TextBlock Text="Comment" Margin="10,5"/>
+                    <TextBox Margin="5" TextWrapping="Wrap" Height="40"/>
+                </DockPanel>
             </StackPanel>
         </GroupBox>
-        <StackPanel>
-            <Button Content="Statistics" Width="120" Height="25"/>
-        </StackPanel>
+        <GroupBox Margin="5">
+            <StackPanel Margin="5">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Content="Accident's place" Width="120" Height="25" Margin="5"/>
+                    <Button Content="Reflectogram" Width="120" Height="25" Margin="5"/>
+                    <Button Content="Rfts Events" Width="120" Height="25" Margin="5"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Content="Statistics" Width="120" Height="25" Margin="5"/>
+                    <Button Content="Export to kml" Width="120" Height="25" Margin="5"/>
+                    <Button Content="Report" Width="120" Height="25" Margin="5"/>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
     </StackPanel>
 
 </Window>
