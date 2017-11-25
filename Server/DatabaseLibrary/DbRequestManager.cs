@@ -138,7 +138,6 @@ namespace Iit.Fibertest.DatabaseLibrary
                         result.CorrespondentEvent = 
                             await dbContext.OpticalEvents.Where(o => o.SorFileId == lastMeas.SorFileId).FirstOrDefaultAsync();
                     }
-                   
                     return result;
                 }
             }

@@ -114,7 +114,11 @@ namespace Iit.Fibertest.Client
                 _logFile.AppendLine($@"Cannot get last state for trace {traceId.First6()}");
                 return null;
             }
-            return traceStateDto;
+            else
+            {
+                _logFile.AppendLine($@"Last state for trace {traceId.First6()} recieved");
+                return traceStateDto;
+            }
         }
 
     }

@@ -161,7 +161,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public Task<TraceStateDto> GetLastTraceState(Guid traceId)
+        public async Task<TraceStateDto> GetLastTraceState(Guid traceId)
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();
             if (wcfConnection == null)
@@ -169,7 +169,7 @@ namespace Iit.Fibertest.WcfConnections
 
             try
             {
-                return wcfConnection.GetLastTraceState(traceId);
+                return wcfConnection.GetLastTraceState(traceId).Result;
             }
             catch (Exception e)
             {

@@ -28,7 +28,7 @@ namespace Iit.Fibertest.DataCenterCore
             TypeNameHandling = TypeNameHandling.All
         };
 
-        public WcfServiceForClient(IMyLog logFile, EventStoreService eventStoreService, 
+        public WcfServiceForClient(IMyLog logFile, EventStoreService eventStoreService,
             ClientRegistrationManager clientRegistrationManager, ClientToRtuTransmitter clientToRtuTransmitter,
             RtuRegistrationManager rtuRegistrationManager, BaseRefManager baseRefManager, DbRequestManager dbRequestManager)
         {
@@ -54,7 +54,7 @@ namespace Iit.Fibertest.DataCenterCore
             if (resultInGraph != null)
                 return resultInGraph;
 
-           // A few commands need postprocessing in Db or RTU
+            // A few commands need postprocessing in Db or RTU
             var removeRtu = cmd as RemoveRtu;
             if (removeRtu != null)
                 return await _rtuRegistrationManager.RemoveRtuAsync(removeRtu.Id);
@@ -73,7 +73,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<OpticalEventsList> GetOpticalEvents(int revision)
         {
-            return new OpticalEventsList {Events = await _dbRequestManager.GetOpticalEventsAsync(revision)};
+            return new OpticalEventsList { Events = await _dbRequestManager.GetOpticalEventsAsync(revision) };
         }
 
         public async Task<NetworkEventsList> GetNetworkEvents(int revision)
