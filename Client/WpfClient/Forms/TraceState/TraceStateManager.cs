@@ -27,13 +27,12 @@ namespace Iit.Fibertest.Client
         public void ShowTraceState(Guid traceId)
         {
             ShowTraceState(Prepare(traceId));
-
         }
 
         // from TraceStatistics
-        public void ShowTraceState(MeasurementVm measurementVm)
+        public void ShowTraceState(Guid traceId, MeasurementVm measurementVm)
         {
-            ShowTraceState(Prepare(measurementVm));
+            ShowTraceState(Prepare(traceId, measurementVm));
         }
 
         // from OpticalEvents
@@ -64,24 +63,47 @@ namespace Iit.Fibertest.Client
 
             TraceStateDto dto = GetLastTraceState(traceId).Result;
 
+            result.TraceState = dto.LastMeasurement.TraceState;
+            result.BaseRefType = dto.LastMeasurement.BaseRefType;
+
+            if (dto.CorrespondentEvent != null)
+            {
+                result.OpticalEventId = dto.CorrespondentEvent.Id;
+                result.EventStatus = dto.CorrespondentEvent.EventStatus;
+                result.OpticalEventComment = dto.CorrespondentEvent.Comment;
+            }
+
+            result.SorBytes = dto.SorBytes;
+
             return result;
         }
 
-        private TraceStateVm Prepare(MeasurementVm measurementVm)
+        private TraceStateVm Prepare(Guid traceId, MeasurementVm measurementVm)
         {
-            return new TraceStateVm()
-            {
-                BaseRefType = measurementVm.BaseRefType,
-                TraceState = measurementVm.TraceState,
-            };
+
+            var result = new TraceStateVm();
+            PrepareCaption(traceId, ref result);
+
+            result.TraceState = measurementVm.TraceState;
+            result.BaseRefType = measurementVm.BaseRefType;
+
+            return result;
         }
 
         private TraceStateVm Prepare(OpticalEventVm opticalEventVm)
         {
-            return new TraceStateVm()
-            {
-                TraceState = opticalEventVm.TraceState,
-            };
+            var result = new TraceStateVm();
+            PrepareCaption(opticalEventVm.TraceId, ref result);
+
+            result.TraceState = opticalEventVm.TraceState;
+            result.BaseRefType = opticalEventVm.BaseRefType;
+
+            result.OpticalEventId = opticalEventVm.Nomer;
+            result.EventStatus = opticalEventVm.EventStatus;
+            result.OpticalEventComment = opticalEventVm.Comment;
+
+            return result;
+
         }
 
         private TraceStateVm Prepare(MonitoringResultDto monitoringResultDto)

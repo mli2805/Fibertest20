@@ -10,10 +10,12 @@ namespace Iit.Fibertest.Dto
         public Guid TraceId { get; set; }
         public BaseRefType BaseRefType { get; set; }
         public FiberState TraceState { get; set; }
+
         public EventStatus EventStatus { get; set; }
         public DateTime StatusChangedTimestamp { get; set; }
         public string StatusChangedByUser { get; set; }
         public string Comment { get; set; }
+
         public int SorFileId { get; set; }
     }
 

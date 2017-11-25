@@ -137,7 +137,7 @@ namespace Iit.Fibertest.Client
 
         public void ShowTraceState()
         {
-           _traceStateManager.ShowTraceState(SelectedRow);
+           _traceStateManager.ShowTraceState(_trace.Id, SelectedRow);
         }
      
     }

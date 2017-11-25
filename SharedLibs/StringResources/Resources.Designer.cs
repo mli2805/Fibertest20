@@ -188,6 +188,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Accidents.
+        /// </summary>
+        public static string SID_Accidents {
+            get {
+                return ResourceManager.GetString("SID_Accidents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Accident&apos;s place.
+        /// </summary>
+        public static string SID_Accidents_place {
+            get {
+                return ResourceManager.GetString("SID_Accidents_place", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Active port.
         /// </summary>
         public static string SID_Active_port {
@@ -1107,11 +1125,38 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dist. to left.
+        /// </summary>
+        public static string SID_Dist_to_left {
+            get {
+                return ResourceManager.GetString("SID_Dist_to_left", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dist. to right.
+        /// </summary>
+        public static string SID_Dist_to_right {
+            get {
+                return ResourceManager.GetString("SID_Dist_to_right", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Distace measurement.
         /// </summary>
         public static string SID_Distace_measurement {
             get {
                 return ResourceManager.GetString("SID_Distace_measurement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Distance.
+        /// </summary>
+        public static string SID_Distance {
+            get {
+                return ResourceManager.GetString("SID_Distance", resourceCulture);
             }
         }
         
@@ -1449,6 +1494,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Export to kml.
+        /// </summary>
+        public static string SID_Export_to_kml {
+            get {
+                return ResourceManager.GetString("SID_Export_to_kml", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to fail.
         /// </summary>
         public static string SID_fail {
@@ -1656,6 +1710,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Info.
+        /// </summary>
+        public static string SID_Info {
+            get {
+                return ResourceManager.GetString("SID_Info", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Information.
         /// </summary>
         public static string SID_Information {
@@ -1814,6 +1877,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Last_node_of_trace_must_contain_some_equipment {
             get {
                 return ResourceManager.GetString("SID_Last_node_of_trace_must_contain_some_equipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Left node.
+        /// </summary>
+        public static string SID_Left_node {
+            get {
+                return ResourceManager.GetString("SID_Left_node", resourceCulture);
             }
         }
         
@@ -2341,6 +2413,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Optical event.
+        /// </summary>
+        public static string SID_Optical_event {
+            get {
+                return ResourceManager.GetString("SID_Optical_event", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Optical events.
         /// </summary>
         public static string SID_Optical_events {
@@ -2791,6 +2872,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Report.
+        /// </summary>
+        public static string SID_Report {
+            get {
+                return ResourceManager.GetString("SID_Report", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Request is sent.
         /// </summary>
         public static string SID_Request_is_sent {
@@ -2841,6 +2931,24 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Responsibility_zones_settings {
             get {
                 return ResourceManager.GetString("SID_Responsibility_zones_settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rfts Events.
+        /// </summary>
+        public static string SID_Rfts_Events {
+            get {
+                return ResourceManager.GetString("SID_Rfts_Events", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Right node.
+        /// </summary>
+        public static string SID_Right_node {
+            get {
+                return ResourceManager.GetString("SID_Right_node", resourceCulture);
             }
         }
         
@@ -3220,6 +3328,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Statistics {
             get {
                 return ResourceManager.GetString("SID_Statistics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status.
+        /// </summary>
+        public static string SID_Status {
+            get {
+                return ResourceManager.GetString("SID_Status", resourceCulture);
             }
         }
         

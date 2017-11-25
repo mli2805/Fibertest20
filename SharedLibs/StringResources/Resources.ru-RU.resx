@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
 	<!-- 
     Microsoft ResX Schema 
@@ -1345,5 +1345,44 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Event_Id" xml:space="preserve">
 		<value>ID события</value>
+	</data>
+	<data name="SID_Accidents_place" xml:space="preserve">
+		<value>Место аварии</value>
+	</data>
+	<data name="SID_Rfts_Events" xml:space="preserve">
+		<value>События</value>
+	</data>
+	<data name="SID_Export_to_kml" xml:space="preserve">
+		<value>Выгрузить в kml</value>
+	</data>
+	<data name="SID_Report" xml:space="preserve">
+		<value>Отчет</value>
+	</data>
+	<data name="SID_Info" xml:space="preserve">
+		<value>Инфо</value>
+	</data>
+	<data name="SID_Accidents" xml:space="preserve">
+		<value>Аварии</value>
+	</data>
+	<data name="SID_Distance" xml:space="preserve">
+		<value>Расстояние</value>
+	</data>
+	<data name="SID_Left_node" xml:space="preserve">
+		<value>Узел слева</value>
+	</data>
+	<data name="SID_Dist_to_left" xml:space="preserve">
+		<value>Расст. до левого</value>
+	</data>
+	<data name="SID_Right_node" xml:space="preserve">
+		<value>Узел справа</value>
+	</data>
+	<data name="SID_Dist_to_right" xml:space="preserve">
+		<value>Расст. до правого</value>
+	</data>
+	<data name="SID_Optical_event" xml:space="preserve">
+		<value>Оптические событие</value>
+	</data>
+	<data name="SID_Status" xml:space="preserve">
+		<value>Статус</value>
 	</data>
 </root>

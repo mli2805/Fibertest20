@@ -133,16 +133,13 @@ namespace Iit.Fibertest.Client
                 Nomer = opticalEvent.Id,
                 EventRegistrationTimestamp = opticalEvent.EventRegistrationTimestamp,
                 RtuTitle = _readModel.Rtus.FirstOrDefault(r => r.Id == opticalEvent.RtuId)?.Title,
+                TraceId = opticalEvent.TraceId,
                 TraceTitle = _readModel.Traces.FirstOrDefault(t => t.Id == opticalEvent.TraceId)?.Title,
-                BaseRefTypeBrush =
-                    opticalEvent.TraceState == FiberState.Ok
-                        ? Brushes.White
-                        : opticalEvent.BaseRefType == BaseRefType.Fast
-                            ? Brushes.Yellow : opticalEvent.TraceState.GetBrush(isForeground: false),
+                BaseRefType = opticalEvent.BaseRefType,
+               
                 TraceState = opticalEvent.TraceState,
 
                 EventStatus = opticalEvent.EventStatus,
-                EventStatusBrush = opticalEvent.EventStatus == EventStatus.Confirmed ? Brushes.Red : Brushes.White,
 
                 StatusChangedTimestamp = opticalEvent.StatusChangedByUser != ""
                     ? opticalEvent.StatusChangedTimestamp.ToString(Thread.CurrentThread.CurrentUICulture)

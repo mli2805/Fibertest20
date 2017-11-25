@@ -34,5 +34,10 @@ namespace Iit.Fibertest.Dto
                         return Resources.SID_Unprocessed;
             }
         }
+
+        public static string ToString(this EventStatus eventStatus)
+        {
+            return "bbb";
+        }
     }
 }

@@ -4,28 +4,29 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
+        xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d" Width="500" SizeToContent="Height"
         d:DataContext="{d:DesignInstance client:TraceStateViewModel}">
     <StackPanel>
         <DockPanel>
             <GroupBox DockPanel.Dock="Right" Margin="5,14,5,5">
                 <StackPanel>
-                    <Button Content="Accident's place" Width="120" Height="25" Margin="5,10,5,5"/>
-                    <Button Content="Reflectogram" Width="120" Height="25" Margin="5"/>
-                    <Button Content="Rfts Events" Width="120" Height="25" Margin="5"/>
-                    <Button Content="Statistics" Width="120" Height="25" Margin="5"/>
-                    <Button Content="Export to kml" Width="120" Height="25" Margin="5"/>
-                    <Button Content="Report" Width="120" Height="25" Margin="5"/>
+                    <Button Content="{x:Static stringResources:Resources.SID_Accidents_place}" Width="120" Height="25" Margin="5,10,5,5"/>
+                    <Button Content="{x:Static stringResources:Resources.SID_Reflectogram}" Width="120" Height="25" Margin="5"/>
+                    <Button Content="{x:Static stringResources:Resources.SID_Rfts_Events}" Width="120" Height="25" Margin="5"/>
+                    <Button Content="{x:Static stringResources:Resources.SID_Statistics}" Width="120" Height="25" Margin="5"/>
+                    <Button Content="{x:Static stringResources:Resources.SID_Export_to_kml}" Width="120" Height="25" Margin="5"/>
+                    <Button Content="{x:Static stringResources:Resources.SID_Report}" Width="120" Height="25" Margin="5"/>
                 </StackPanel>
             </GroupBox>
-            <GroupBox Header="Info" Margin="5" DockPanel.Dock="Top">
+            <GroupBox Header="{x:Static stringResources:Resources.SID_Info}" Margin="5" DockPanel.Dock="Top">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Trace" Margin="5"/>
+                        <TextBlock Text="{x:Static stringResources:Resources.SID_Trace}" Margin="5"/>
                         <TextBlock Text="{Binding Model.TraceTitle}" Margin="5"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Port" Margin="5"/>
+                        <TextBlock Text="{x:Static stringResources:Resources.SID_Port}" Margin="5"/>
                         <TextBlock Text="{Binding Model.PortTitle}" Margin="5"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
@@ -34,7 +35,7 @@
                     </StackPanel>
                 </StackPanel>
             </GroupBox>
-            <GroupBox Header="State" Margin="5,0,5,5">
+            <GroupBox Header="{x:Static stringResources:Resources.SID_State}" Margin="5,0,5,5">
                 <StackPanel>
                     <TextBlock Text="{Binding Model.TraceState}" FontSize="18" FontWeight="Bold" 
                            Foreground="{Binding Model.TraceStateBrush}" TextAlignment="Center" Margin="5,12"/>
@@ -42,30 +43,30 @@
                 </StackPanel>
             </GroupBox>
         </DockPanel>
-        <GroupBox Header="Accidents" Margin="5">
+        <GroupBox Header="{x:Static stringResources:Resources.SID_Accidents}" Margin="5">
             <DockPanel>
                 <DataGrid DockPanel.Dock="Top" AutoGenerateColumns="False" >
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="No"/>
-                        <DataGridTextColumn Header="State"/>
-                        <DataGridTextColumn Header="Distance"/>
-                        <DataGridTextColumn Header="Left node"/>
-                        <DataGridTextColumn Header="Dist. to left"/>
-                        <DataGridTextColumn Header="Right node"/>
-                        <DataGridTextColumn Header="Dist. to right"/>
+                        <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_State}"/>
+                        <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Distance}"/>
+                        <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Left_node}"/>
+                        <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Dist_to_left}"/>
+                        <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Right_node}"/>
+                        <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Dist_to_right}"/>
                     </DataGrid.Columns>
                 </DataGrid>
                 <TextBlock Text="GPS coordinates:" Margin="5"/>
             </DockPanel>
         </GroupBox>
-        <GroupBox Header="Optical event" Margin="5" Visibility="{Binding HasCorrespondentEvent}">
+        <GroupBox Header="{x:Static stringResources:Resources.SID_Optical_event}" Margin="5" Visibility="{Binding Model.OpticalEventPanelVisibility}">
             <StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Status" Margin="10,5" Width="80"/>
-                    <ComboBox Margin="5" Width="200"/>
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Status}" Margin="10,5" Width="80"/>
+                    <ComboBox Margin="5" Width="200" ItemsSource="{Binding StatusRows}" SelectedItem="{Binding SelectedEventStatus}"/>
                 </StackPanel>
                 <DockPanel>
-                    <TextBlock Text="Comment" Margin="10,5" Width="80"/>
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Comment}" Margin="10,5" Width="80"/>
                     <TextBox Margin="5" TextWrapping="Wrap" Height="40"/>
                 </DockPanel>
             </StackPanel>
