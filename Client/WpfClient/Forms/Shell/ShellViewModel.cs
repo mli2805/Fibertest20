@@ -32,6 +32,8 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        private string _server;
+
         private readonly IWindowManager _windowManager;
         private readonly ClientHeartbeat _clientHeartbeat;
         private readonly IniFile _iniFile;
@@ -134,6 +136,8 @@ namespace Iit.Fibertest.Client
             {
                 _userId = vm.UserId;
                 UserName = vm.UserName;
+                var da = _iniFile.ReadDoubleAddress(11840);
+                _server = da.Main.GetAddress();
                 StartPolling();
                 _clientHeartbeat.Start();
             }
@@ -152,7 +156,8 @@ namespace Iit.Fibertest.Client
                 (s, e) => clientPoller.Tick(),
                 Dispatcher.CurrentDispatcher));
 
-            clientPoller.LoadCache();
+
+            clientPoller.LoadCache(_server);
             clientPoller.Tick();
         }
 

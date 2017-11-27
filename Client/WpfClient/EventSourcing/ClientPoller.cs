@@ -32,7 +32,7 @@ namespace Iit.Fibertest.Client
         public int LastNetworkEventNumber { get; set; }
 
         public ClientPoller(IWcfServiceForClient channel, List<object> readModels,
-            OpticalEventsViewModel opticalEventsViewModel, NetworkEventsViewModel networkEventsViewModel, 
+            OpticalEventsViewModel opticalEventsViewModel, NetworkEventsViewModel networkEventsViewModel,
             IMyLog logFile, ILocalDbManager localDbManager)
         {
             Channel = channel;
@@ -43,8 +43,9 @@ namespace Iit.Fibertest.Client
             ReadModels = readModels;
         }
 
-        public void LoadCache()
+        public void LoadCache(string serverAddress)
         {
+            ((LocalDbManager)_localDbManager).Initialize(serverAddress);
             var jsonsInCache = _localDbManager.LoadEvents();
             ApplyEventSourcingEvents(jsonsInCache);
         }
@@ -57,9 +58,13 @@ namespace Iit.Fibertest.Client
                 _logFile.AppendLine(@"Cannot establish datacenter connection.");
                 return;
             }
-            _localDbManager.SaveEvents(events);
 
-            ApplyEventSourcingEvents(events);
+            if (events.Length > 0)
+            {
+                _localDbManager.SaveEvents(events);
+                ApplyEventSourcingEvents(events);
+            }
+
 
             var opticalEvents = Channel.GetOpticalEvents(LastOpticalEventNumber).Result;
             if (opticalEvents?.Events != null && opticalEvents.Events.Any())

@@ -230,10 +230,14 @@
       <DependentUpon>TraceStatisticsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\TraceStatistics\TraceStatisticsViewModel.cs" />
-    <Compile Include="LocalGraphDb\EsEvent.cs" />
-    <Compile Include="LocalGraphDb\ILocalDbManager.cs" />
-    <Compile Include="LocalGraphDb\LocalDbContext.cs" />
-    <Compile Include="LocalGraphDb\LocalDbManager.cs" />
+    <Compile Include="LocalDb\EsEvent.cs" />
+    <Compile Include="LocalDb\ILocalDbManager.cs" />
+    <Compile Include="LocalDb\LocalDbManager.cs" />
+    <Compile Include="LocalDb\LocalDbSqliteContext.cs" />
+    <Compile Include="LocalDb\SQLiteDbConfiguration.cs" />
+    <Compile Include="LocalDb\SQLiteDbDependencyResolver.cs" />
+    <Compile Include="LocalDb\SQLiteDbProviderFactoryResolver.cs" />
+    <Compile Include="LocalDb\SQLiteProviderInvariantName.cs" />
     <Compile Include="Logic\MeasurementManager.cs" />
     <Compile Include="Logic\ReturnCodeExt.cs" />
     <Compile Include="Forms\TraceState\TraceStateManager.cs" />

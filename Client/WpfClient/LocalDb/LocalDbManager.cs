@@ -7,32 +7,31 @@ using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Client
 {
-
-    /// <summary>
-    /// While install Fibertest Client - 
-    ///     create in Sqlite Db Browser database in folder "data source =..\Db\localGraph.sqlite3"
-    ///     (check connection string in App.config)
-    ///     and create only table:
-    ///         CREATE TABLE `EsEvents` ( `Id` INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, `Json` TEXT )
-    /// </summary>
-
-
     public class LocalDbManager : ILocalDbManager
     {
         private readonly IMyLog _logFile;
-        private const string Filename = @"..\Db\localGraph.sqlite3";
+
+        private string _serverAddress;
+        private string _filename;
+        private string _connectionString;
 
         public LocalDbManager(IMyLog logFile)
         {
             _logFile = logFile;
         }
 
+        public void Initialize(string serverAddress)
+        {
+            _serverAddress = serverAddress;
+            _filename = $@"..\Db\{serverAddress}\localGraph.sqlite3";
+            _connectionString = $@"Data Source={_filename}; Version=3;";
+        }
+
         public void SaveEvents(string[] jsons)
         {
             try
             {
-//                using (var dbContext = new LocalDbContext())
-                using (var dbContext = new LocalSqliteContext($@"Data Source={Filename}; Version=3;"))
+                using (var dbContext = new LocalDbSqliteContext(_connectionString))
                 {
                     foreach (var json in jsons)
                     {
@@ -48,23 +47,12 @@ namespace Iit.Fibertest.Client
         }
 
 
-        public void CreateIfNeeded()
-        {
-            if (!Directory.Exists(@"..\Db"))
-                Directory.CreateDirectory(@"..\Db");
-            if (!File.Exists(Filename))
-            {
-                InitializeLocalBase();
-            }
-        }
-
         public string[] LoadEvents()
         {
             try
             {
                 CreateIfNeeded();
-//                using (var dbContext = new LocalDbContext())
-                using (var dbContext = new LocalSqliteContext($@"Data Source={Filename}; Version=3;"))
+                using (var dbContext = new LocalDbSqliteContext(_connectionString))
                 {
                     var jsons = dbContext.EsEvents.Select(j => j.Json).ToArray();
                     return jsons;
@@ -77,10 +65,22 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public void InitializeLocalBase()
+        private void CreateIfNeeded()
         {
-            SQLiteConnection.CreateFile(Filename);
-            using (SQLiteConnection conn = new SQLiteConnection($@"Data Source={Filename}; Version=3;"))
+            if (!Directory.Exists(@"..\Db"))
+                Directory.CreateDirectory(@"..\Db");
+            if (!Directory.Exists($@"..\Db\{_serverAddress}"))
+                Directory.CreateDirectory($@"..\Db\{_serverAddress}");
+            if (!File.Exists(_filename))
+            {
+                InitializeLocalBase();
+            }
+        }
+
+        private void InitializeLocalBase()
+        {
+            SQLiteConnection.CreateFile(_filename);
+            using (SQLiteConnection conn = new SQLiteConnection($@"Data Source={_filename}; Version=3;"))
             {
                 try
                 {
