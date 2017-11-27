@@ -1,6 +1,7 @@
 using System;
 using System.Data;
 using System.Data.SQLite;
+using System.IO;
 using System.Linq;
 using Iit.Fibertest.UtilsLib;
 
@@ -19,6 +20,7 @@ namespace Iit.Fibertest.Client
     public class LocalDbManager : ILocalDbManager
     {
         private readonly IMyLog _logFile;
+        private const string Filename = @"..\Db\localGraph.sqlite3";
 
         public LocalDbManager(IMyLog logFile)
         {
@@ -29,7 +31,8 @@ namespace Iit.Fibertest.Client
         {
             try
             {
-                using (var dbContext = new LocalDbContext())
+//                using (var dbContext = new LocalDbContext())
+                using (var dbContext = new LocalSqliteContext($@"Data Source={Filename}; Version=3;"))
                 {
                     foreach (var json in jsons)
                     {
@@ -44,11 +47,24 @@ namespace Iit.Fibertest.Client
             }
         }
 
+
+        public void CreateIfNeeded()
+        {
+            if (!Directory.Exists(@"..\Db"))
+                Directory.CreateDirectory(@"..\Db");
+            if (!File.Exists(Filename))
+            {
+                InitializeLocalBase();
+            }
+        }
+
         public string[] LoadEvents()
         {
             try
             {
-                using (var dbContext = new LocalDbContext())
+                CreateIfNeeded();
+//                using (var dbContext = new LocalDbContext())
+                using (var dbContext = new LocalSqliteContext($@"Data Source={Filename}; Version=3;"))
                 {
                     var jsons = dbContext.EsEvents.Select(j => j.Json).ToArray();
                     return jsons;
@@ -63,11 +79,16 @@ namespace Iit.Fibertest.Client
 
         public void InitializeLocalBase()
         {
-            using (SQLiteConnection conn = new SQLiteConnection(@"Data Source=..\Db\localGraph.sqlite3; Version=3;"))
+            SQLiteConnection.CreateFile(Filename);
+            using (SQLiteConnection conn = new SQLiteConnection($@"Data Source={Filename}; Version=3;"))
             {
                 try
                 {
                     conn.Open();
+                    string sql = @"CREATE TABLE EsEvents (Id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, Json TEXT)";
+
+                    SQLiteCommand command = new SQLiteCommand(sql, conn);
+                    command.ExecuteNonQuery();
                 }
                 catch (SQLiteException ex)
                 {
