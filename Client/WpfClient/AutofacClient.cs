@@ -17,6 +17,7 @@ namespace Iit.Fibertest.Client
         {
             builder.RegisterType<WindowManager>().As<IWindowManager>().SingleInstance();
 
+            builder.RegisterType<LocalDbManager>().As<ILocalDbManager>().SingleInstance();
             builder.RegisterType<MeasurementManager>().SingleInstance();
             builder.RegisterType<TraceStateManager>().SingleInstance();
 
@@ -76,7 +77,9 @@ namespace Iit.Fibertest.Client
                     },
                     ioc.Resolve<OpticalEventsViewModel>(),
                     ioc.Resolve<NetworkEventsViewModel>(),
-                    logFile))
+                    logFile,
+                    ioc.Resolve<ILocalDbManager>()
+                    ))
                 .SingleInstance();
 
 

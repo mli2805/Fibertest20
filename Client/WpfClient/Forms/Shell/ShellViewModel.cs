@@ -151,6 +151,8 @@ namespace Iit.Fibertest.Client
                 DispatcherPriority.Background,
                 (s, e) => clientPoller.Tick(),
                 Dispatcher.CurrentDispatcher));
+
+            clientPoller.LoadCache();
             clientPoller.Tick();
         }
 

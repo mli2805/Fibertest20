@@ -34,6 +34,7 @@ namespace Graph.Tests
             var builder = new ContainerBuilder();
             builder.RegisterModule<AutofacClient>();
             builder.RegisterType<FakeWindowManager>().As<IWindowManager>().SingleInstance();
+            builder.RegisterType<FakeLocalDbManager>().As<ILocalDbManager>().SingleInstance();
             builder.RegisterType<FakeClientWcfServiceHost>().As<IClientWcfServiceHost>();
 
             builder.RegisterType<FakeEventStoreInitializer>().As<IEventStoreInitializer>().SingleInstance();
