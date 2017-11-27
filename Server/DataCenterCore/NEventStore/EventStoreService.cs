@@ -72,12 +72,13 @@ namespace Iit.Fibertest.DataCenterCore
         {
             try
             {
-                return _storeEvents
+                var events = _storeEvents
                     .OpenStream(AggregateId, revision + 1)
                     .CommittedEvents
                     .Select(x => x.Body)
                     .Select(x => JsonConvert.SerializeObject(x, JsonSerializerSettings))
                     .ToArray();
+                return events;
             }
             catch (StreamNotFoundException)
             {

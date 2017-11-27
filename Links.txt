@@ -27,4 +27,7 @@ To know more about Paket, visit https://fsprojects.github.io/Paket/getting-start
 
 - на датацентре всф стартер запускает всф сервис с конструктором с параметрами через автофак, на клиенте ругается что нужен коструктор без параметров
 
+20. 27/11/2017
+	386 commit превысили 4Мб (tcp) - как брать порциями ? или применять snapshots ?
+	wcf contract - async task - или без тасков ?
 		

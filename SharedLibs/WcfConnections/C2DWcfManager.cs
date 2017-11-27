@@ -55,7 +55,9 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public async Task<string[]> GetEvents(int revision)
+//        public async Task<string[]> GetEvents(int revision)
+//        public Task<string[]> GetEvents(int revision)
+        public string[] GetEvents(int revision)
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();
             if (wcfConnection == null)
@@ -64,7 +66,7 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 // await wcfConnection.GetEvents(revision) blocks client !!!!!!!!!!!
-                return wcfConnection.GetEvents(revision).Result;
+                return wcfConnection.GetEvents(revision);
             }
             catch (Exception e)
             {

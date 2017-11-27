@@ -17,9 +17,14 @@ namespace Graph.Tests
             return null;
         }
 
-        Task<string[]> IWcfServiceForClient.GetEvents(int revision)
+//        Task<string[]> IWcfServiceForClient.GetEvents(int revision)
+//        {
+//            return Task.FromResult(new string[0]);
+//        }
+
+        string[] IWcfServiceForClient.GetEvents(int revision)
         {
-            return Task.FromResult(new string[0]);
+            return new string[0];
         }
 
         public Task<OpticalEventsList> GetOpticalEvents(int revision)

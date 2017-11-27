@@ -39,7 +39,7 @@ namespace Iit.Fibertest.Client
 
         public void Tick()
         {
-            string[] events = Channel.GetEvents(CurrentEventNumber).Result;
+            string[] events = Channel.GetEvents(CurrentEventNumber);// .Result;
             if (events == null)
             {
                 _logFile.AppendLine(@"Cannot establish datacenter connection.");
