@@ -10,8 +10,5 @@ namespace Iit.Fibertest.Dto
 
         [DataMember]
         public OpticalEvent CorrespondentEvent { get; set; }
-
-        [DataMember]
-        public byte[] SorBytes { get; set; }
     }
 }

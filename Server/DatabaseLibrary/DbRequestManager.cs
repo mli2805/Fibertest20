@@ -127,11 +127,7 @@ namespace Iit.Fibertest.DatabaseLibrary
                     if (lastMeas == null)
                         return null;
 
-                    var sorFile = await dbContext.SorFiles.Where(s => s.Id == lastMeas.SorFileId).FirstOrDefaultAsync();
-                    if (sorFile == null)
-                        return null;
-
-                    var result = new TraceStateDto() { LastMeasurement = lastMeas, SorBytes = sorFile.SorBytes};
+                    var result = new TraceStateDto() { LastMeasurement = lastMeas};
 
                     if (lastMeas.IsOpticalEvent)
                     {

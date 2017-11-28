@@ -18,12 +18,15 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<WindowManager>().As<IWindowManager>().SingleInstance();
 
             builder.RegisterType<LocalDbManager>().As<ILocalDbManager>().SingleInstance();
-            builder.RegisterType<MeasurementManager>().SingleInstance();
+            builder.RegisterType<ReflectogramManager>().SingleInstance();
             builder.RegisterType<TraceStateManager>().SingleInstance();
 
             builder.RegisterType<OpticalEventsViewModel>().SingleInstance();
             builder.RegisterType<NetworkEventsViewModel>().SingleInstance();
-            builder.RegisterType<TraceStatisticsViewModel>().SingleInstance();
+
+            builder.RegisterType<TraceStateViewModel>();
+            builder.RegisterType<TraceStatisticsViewModel>();
+
             builder.RegisterType<ShellViewModel>().As<IShell>();
             builder.RegisterType<UserListViewModel>();
             builder.RegisterType<ZonesViewModel>();

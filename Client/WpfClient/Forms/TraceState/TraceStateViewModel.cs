@@ -10,15 +10,15 @@ namespace Iit.Fibertest.Client
 {
     public class TraceStateViewModel : Screen
     {
-
+        private readonly ReflectogramManager _reflectogramManager;
         public TraceStateVm Model { get; set; }
 
         public List<EventStatusComboItem> StatusRows { get; set; } = new List<EventStatusComboItem>();
         public EventStatusComboItem SelectedEventStatus { get; set; }
 
-        public TraceStateViewModel()
+        public TraceStateViewModel(ReflectogramManager reflectogramManager)
         {
-
+            _reflectogramManager = reflectogramManager;
         }
 
         public void Initialize(TraceStateVm model)
@@ -40,15 +40,15 @@ namespace Iit.Fibertest.Client
             }
             SelectedEventStatus = StatusRows.First(r=>r.EventStatus == Model.EventStatus);
         }
-    }
 
-    public class EventStatusComboItem
-    {
-        public EventStatus EventStatus { get; set; }
 
-        public override string ToString()
-        {
-            return EventStatus.GetLocalizedString();
-        }
+        //----
+
+        public void ShowAccidentPlace() { }
+        public void ShowReflectogram() { _reflectogramManager.ShowRefWithBase(Model.SorFileId); }
+        public void ShowRftsEvents() { }
+        public void ShowTraceStatistics() { }
+        public void ExportToKml() { }
+        public void ShowReport() { }
     }
 }

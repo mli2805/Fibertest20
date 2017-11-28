@@ -13,7 +13,7 @@ using Optixsoft.SorExaminer.OtdrDataFormat;
 
 namespace Iit.Fibertest.Client
 {
-    public class MeasurementManager
+    public class ReflectogramManager
     {
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
@@ -23,7 +23,7 @@ namespace Iit.Fibertest.Client
         private readonly string _assemblyFolder;
         private string _tempSorFile;
 
-        public MeasurementManager(IniFile iniFile, IMyLog logFile, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
+        public ReflectogramManager(IniFile iniFile, IMyLog logFile, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
         {
             _iniFile = iniFile;
             _logFile = logFile;

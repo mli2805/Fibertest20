@@ -16,7 +16,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly ReadModel _readModel;
         private readonly IWindowManager _windowManager;
-        private readonly MeasurementManager _measurementManager;
+        private readonly ReflectogramManager _reflectogramManager;
         private readonly TraceStateManager _traceStateManager;
         private Visibility _opticalEventsVisibility;
         private TraceStateFilter _selectedTraceStateFilter;
@@ -77,11 +77,11 @@ namespace Iit.Fibertest.Client
 
 
         public OpticalEventsViewModel(ReadModel readModel, IWindowManager windowManager,
-            MeasurementManager measurementManager, TraceStateManager traceStateManager)
+            ReflectogramManager reflectogramManager, TraceStateManager traceStateManager)
         {
             _readModel = readModel;
             _windowManager = windowManager;
-            _measurementManager = measurementManager;
+            _reflectogramManager = reflectogramManager;
             _traceStateManager = traceStateManager;
 
             InitializeTraceStateFilters();
@@ -150,30 +150,24 @@ namespace Iit.Fibertest.Client
             });
         }
 
-        public void ChangeRow()
-        {
-            var vm = new OpticalEventViewModel(SelectedRow);
-            _windowManager.ShowDialog(vm);
-        }
-
-        public void ShowReflectogram(int param)
+       public void ShowReflectogram(int param)
         {
             if (param == 2)
-                _measurementManager.ShowRefWithBase(SelectedRow.SorFileId);
+                _reflectogramManager.ShowRefWithBase(SelectedRow.SorFileId);
             else
-                _measurementManager.ShowOnlyCurrentMeasurement(SelectedRow.SorFileId);
+                _reflectogramManager.ShowOnlyCurrentMeasurement(SelectedRow.SorFileId);
         }
 
         public void SaveReflectogramAs(bool shouldBaseRefBeExcluded)
         {
             var timestamp = $@"{SelectedRow.EventRegistrationTimestamp:dd-MM-yyyy HH-mm-ss}";
             var defaultFilename = $@"{SelectedRow.TraceTitle} [N{SelectedRow.SorFileId}] {timestamp}";
-            _measurementManager.SaveReflectogramAs(SelectedRow.SorFileId, defaultFilename, shouldBaseRefBeExcluded);
+            _reflectogramManager.SaveReflectogramAs(SelectedRow.SorFileId, defaultFilename, shouldBaseRefBeExcluded);
         }
 
         public void ShowRftsEvents()
         {
-            _measurementManager.ShowRftsEvents(SelectedRow.SorFileId);
+            _reflectogramManager.ShowRftsEvents(SelectedRow.SorFileId);
         }
 
         public void ShowTraceState()

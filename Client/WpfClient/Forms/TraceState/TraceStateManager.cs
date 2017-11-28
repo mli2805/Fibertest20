@@ -14,13 +14,17 @@ namespace Iit.Fibertest.Client
         private readonly ReadModel _readModel;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly TraceStateViewModel _traceStateViewModel;
 
-        public TraceStateManager(IMyLog logFile, ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager)
+        public TraceStateManager(IMyLog logFile, ReadModel readModel, 
+            IWindowManager windowManager, IWcfServiceForClient c2DWcfManager,
+            TraceStateViewModel traceStateViewModel)
         {
             _logFile = logFile;
             _readModel = readModel;
             _windowManager = windowManager;
             _c2DWcfManager = c2DWcfManager;
+            _traceStateViewModel = traceStateViewModel;
         }
 
         // from TraceLeaf
@@ -51,9 +55,8 @@ namespace Iit.Fibertest.Client
 
         private void ShowTraceState(TraceStateVm traceStateVm)
         {
-            var vm = new TraceStateViewModel();
-            vm.Initialize(traceStateVm);
-            _windowManager.ShowDialog(vm);
+            _traceStateViewModel.Initialize(traceStateVm);
+            _windowManager.ShowWindow(_traceStateViewModel);
         }
 
         private TraceStateVm Prepare(Guid traceId)
@@ -65,6 +68,7 @@ namespace Iit.Fibertest.Client
 
             result.TraceState = dto.LastMeasurement.TraceState;
             result.BaseRefType = dto.LastMeasurement.BaseRefType;
+            result.SorFileId = dto.LastMeasurement.SorFileId;
 
             if (dto.CorrespondentEvent != null)
             {
@@ -72,9 +76,6 @@ namespace Iit.Fibertest.Client
                 result.EventStatus = dto.CorrespondentEvent.EventStatus;
                 result.OpticalEventComment = dto.CorrespondentEvent.Comment;
             }
-
-            result.SorBytes = dto.SorBytes;
-
             return result;
         }
 
@@ -86,6 +87,7 @@ namespace Iit.Fibertest.Client
 
             result.TraceState = measurementVm.TraceState;
             result.BaseRefType = measurementVm.BaseRefType;
+            result.SorFileId = measurementVm.SorFileId;
 
             return result;
         }
@@ -97,6 +99,7 @@ namespace Iit.Fibertest.Client
 
             result.TraceState = opticalEventVm.TraceState;
             result.BaseRefType = opticalEventVm.BaseRefType;
+            result.SorFileId = opticalEventVm.SorFileId;
 
             result.OpticalEventId = opticalEventVm.Nomer;
             result.EventStatus = opticalEventVm.EventStatus;

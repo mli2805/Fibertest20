@@ -13,19 +13,25 @@ namespace Iit.Fibertest.Client
         public FiberState TraceState { get; set; }
         public BaseRefType BaseRefType { get; set; }
 
-        //public Brush TraceStateBrush => BaseRefType == BaseRefType.Fast && TraceState != FiberState.Ok ? 
         public Brush TraceStateBrush => TraceState.GetBrush(isForeground: true);
+        public string TraceStateString => TraceState.GetLocalizedString();
 
         public int OpticalEventId { get; set; }
         public EventStatus EventStatus { get; set; } = EventStatus.NotAnAccident;
         public string OpticalEventComment { get; set; }
 
 
-        public byte[] SorBytes { get; set; }
+        public int SorFileId { get; set; }
 
+
+        //---------
         public Visibility OpticalEventPanelVisibility
             => EventStatus == EventStatus.NotAnAccident ? Visibility.Collapsed : Visibility.Visible;
 
+        public Visibility AccidentsPanelVisibility
+            => TraceState == FiberState.Ok ? Visibility.Collapsed : Visibility.Visible;
+
+        public bool IsAccidentButtonsEnabled => TraceState != FiberState.Ok;
 
 
     }

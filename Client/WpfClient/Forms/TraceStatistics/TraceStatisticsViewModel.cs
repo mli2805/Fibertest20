@@ -15,7 +15,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly ReadModel _readModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
-        private readonly MeasurementManager _measurementManager;
+        private readonly ReflectogramManager _reflectogramManager;
         private readonly TraceStateManager _traceStateManager;
         private readonly IWindowManager _windowManager;
         private Trace _trace;
@@ -53,12 +53,12 @@ namespace Iit.Fibertest.Client
         }
 
         public TraceStatisticsViewModel(ReadModel readModel, IWcfServiceForClient c2DWcfManager,
-            MeasurementManager measurementManager, TraceStateManager traceStateManager,
+            ReflectogramManager reflectogramManager, TraceStateManager traceStateManager,
             IWindowManager windowManager )
         {
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
-            _measurementManager = measurementManager;
+            _reflectogramManager = reflectogramManager;
             _traceStateManager = traceStateManager;
             _windowManager = windowManager;
 
@@ -107,32 +107,32 @@ namespace Iit.Fibertest.Client
         public void ShowReflectogram(int param)
         {
             if (param == 2)
-                _measurementManager.ShowRefWithBase(SelectedRow.SorFileId);
+                _reflectogramManager.ShowRefWithBase(SelectedRow.SorFileId);
             else
-                _measurementManager.ShowOnlyCurrentMeasurement(SelectedRow.SorFileId);
+                _reflectogramManager.ShowOnlyCurrentMeasurement(SelectedRow.SorFileId);
         }
 
         public void SaveReflectogramAs(bool param)
         {
             var timestamp = $@"{SelectedRow.Timestamp:dd-MM-yyyy HH-mm-ss}";
             var defaultFilename = $@"{TraceTitle} [N{SelectedRow.SorFileId}] {timestamp}";
-            _measurementManager.SaveReflectogramAs(SelectedRow.SorFileId, defaultFilename, param);
+            _reflectogramManager.SaveReflectogramAs(SelectedRow.SorFileId, defaultFilename, param);
         }
 
         public void ShowBaseReflectogram()
         {
-            _measurementManager.ShowBaseReflectogram(SelectedBaseRef.BaseRefId);
+            _reflectogramManager.ShowBaseReflectogram(SelectedBaseRef.BaseRefId);
         }
 
         public void SaveBaseReflectogramAs()
         {
             var partFilename = $@"{TraceTitle} [{SelectedBaseRef.BaseRefType.GetLocalizedString()}] ";
-            _measurementManager.SaveBaseReflectogramAs(SelectedBaseRef.BaseRefId, partFilename);
+            _reflectogramManager.SaveBaseReflectogramAs(SelectedBaseRef.BaseRefId, partFilename);
         }
 
         public void ShowRftsEvents()
         {
-            _measurementManager.ShowRftsEvents(SelectedRow.SorFileId);
+            _reflectogramManager.ShowRftsEvents(SelectedRow.SorFileId);
         }
 
         public void ShowTraceState()

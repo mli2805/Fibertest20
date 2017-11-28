@@ -214,12 +214,9 @@
       <DependentUpon>OpticalEventsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\Shell\OpticalEventsControl\OpticalEventsViewModel.cs" />
-    <Compile Include="Forms\Shell\OpticalEventsControl\OpticalEventView.xaml.cs">
-      <DependentUpon>OpticalEventView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Shell\OpticalEventsControl\OpticalEventViewModel.cs" />
     <Compile Include="Forms\Shell\OpticalEventsControl\OpticalEventVm.cs" />
     <Compile Include="Forms\Shell\OpticalEventsControl\TraceStateFilter.cs" />
+    <Compile Include="ViewModels\Primitive\EventStatusComboItem.cs" />
     <Compile Include="Forms\TraceState\TraceStateView.xaml.cs">
       <DependentUpon>TraceStateView.xaml</DependentUpon>
     </Compile>
@@ -238,7 +235,7 @@
     <Compile Include="LocalDb\SQLiteDbDependencyResolver.cs" />
     <Compile Include="LocalDb\SQLiteDbProviderFactoryResolver.cs" />
     <Compile Include="LocalDb\SQLiteProviderInvariantName.cs" />
-    <Compile Include="Logic\MeasurementManager.cs" />
+    <Compile Include="Logic\ReflectogramManager.cs" />
     <Compile Include="Logic\ReturnCodeExt.cs" />
     <Compile Include="Forms\TraceState\TraceStateManager.cs" />
     <Compile Include="Logic\WaitCursor.cs" />
@@ -464,10 +461,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\Shell\OpticalEventsControl\OpticalEventsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Forms\Shell\OpticalEventsControl\OpticalEventView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

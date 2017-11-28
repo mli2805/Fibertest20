@@ -11,12 +11,13 @@
         <DockPanel>
             <GroupBox DockPanel.Dock="Right" Margin="5,14,5,5">
                 <StackPanel>
-                    <Button Content="{x:Static stringResources:Resources.SID_Accidents_place}" Width="120" Height="25" Margin="5,10,5,5"/>
-                    <Button Content="{x:Static stringResources:Resources.SID_Reflectogram}" Width="120" Height="25" Margin="5"/>
-                    <Button Content="{x:Static stringResources:Resources.SID_Rfts_Events}" Width="120" Height="25" Margin="5"/>
-                    <Button Content="{x:Static stringResources:Resources.SID_Statistics}" Width="120" Height="25" Margin="5"/>
-                    <Button Content="{x:Static stringResources:Resources.SID_Export_to_kml}" Width="120" Height="25" Margin="5"/>
-                    <Button Content="{x:Static stringResources:Resources.SID_Report}" Width="120" Height="25" Margin="5"/>
+                    <Button Name="ShowAccidentPlace" Content="{x:Static stringResources:Resources.SID_Accidents_place}" Width="120" Height="25" Margin="5,10,5,5"
+                            IsEnabled="{Binding Model.IsAccidentButtonsEnabled}"/>
+                    <Button Name="ShowReflectogram" Content="{x:Static stringResources:Resources.SID_Reflectogram}" Width="120" Height="25" Margin="5"/>
+                    <Button Name="ShowRftsEvents" Content="{x:Static stringResources:Resources.SID_Rfts_Events}" Width="120" Height="25" Margin="5"/>
+                    <Button Name="ShowTraceStatistics" Content="{x:Static stringResources:Resources.SID_Statistics}" Width="120" Height="25" Margin="5"/>
+                    <Button Name="ExportToKml" Content="{x:Static stringResources:Resources.SID_Export_to_kml}" Width="120" Height="25" Margin="5"/>
+                    <Button Name="ShowReport" Content="{x:Static stringResources:Resources.SID_Report}" Width="120" Height="25" Margin="5"/>
                 </StackPanel>
             </GroupBox>
             <GroupBox Header="{x:Static stringResources:Resources.SID_Info}" Margin="5" DockPanel.Dock="Top">
@@ -37,13 +38,13 @@
             </GroupBox>
             <GroupBox Header="{x:Static stringResources:Resources.SID_State}" Margin="5,0,5,5">
                 <StackPanel>
-                    <TextBlock Text="{Binding Model.TraceState}" FontSize="18" FontWeight="Bold" 
+                    <TextBlock Text="{Binding Model.TraceStateString}" FontSize="18" FontWeight="Bold" 
                            Foreground="{Binding Model.TraceStateBrush}" TextAlignment="Center" Margin="5,12"/>
-                    <Button Content="Turn alarm off/on" Margin="25,5" Height="25"/>
+                    <Button Content="Turn alarm off/on" Margin="25,5" Height="25" IsEnabled="{Binding Model.IsAccidentButtonsEnabled}"/>
                 </StackPanel>
             </GroupBox>
         </DockPanel>
-        <GroupBox Header="{x:Static stringResources:Resources.SID_Accidents}" Margin="5">
+        <GroupBox Header="{x:Static stringResources:Resources.SID_Accidents}" Margin="5" Visibility="{Binding Model.AccidentsPanelVisibility}">
             <DockPanel>
                 <DataGrid DockPanel.Dock="Top" AutoGenerateColumns="False" >
                     <DataGrid.Columns>
