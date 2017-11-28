@@ -7,12 +7,12 @@ using System.Data.SQLite.EF6;
 
 namespace Iit.Fibertest.Client
 {
-    class SQLiteDbDependencyResolver : IDbDependencyResolver
+    class SqLiteDbDependencyResolver : IDbDependencyResolver
     {
         public object GetService(Type type, object key)
         {
-            if (type == typeof(IDbProviderFactoryResolver)) return SQLiteDbProviderFactoryResolver.Instance;
-            if (type == typeof(IProviderInvariantName)) return SQLiteProviderInvariantName.Instance;
+            if (type == typeof(IDbProviderFactoryResolver)) return SqLiteDbProviderFactoryResolver.Instance;
+            if (type == typeof(IProviderInvariantName)) return SqLiteProviderInvariantName.Instance;
             if (type == typeof(DbProviderFactory)) return SQLiteProviderFactory.Instance;
             return SQLiteProviderFactory.Instance.GetService(type);
         }

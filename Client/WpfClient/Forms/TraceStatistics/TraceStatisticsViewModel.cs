@@ -17,7 +17,6 @@ namespace Iit.Fibertest.Client
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly ReflectogramManager _reflectogramManager;
         private readonly TraceStateManager _traceStateManager;
-        private readonly IWindowManager _windowManager;
         private Trace _trace;
 
         public string TraceTitle { get; set; }
@@ -53,14 +52,12 @@ namespace Iit.Fibertest.Client
         }
 
         public TraceStatisticsViewModel(ReadModel readModel, IWcfServiceForClient c2DWcfManager,
-            ReflectogramManager reflectogramManager, TraceStateManager traceStateManager,
-            IWindowManager windowManager )
+            ReflectogramManager reflectogramManager, TraceStateManager traceStateManager)
         {
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
             _reflectogramManager = reflectogramManager;
             _traceStateManager = traceStateManager;
-            _windowManager = windowManager;
 
             var view = CollectionViewSource.GetDefaultView(Rows);
             view.SortDescriptions.Add(new SortDescription(@"SorFileId", ListSortDirection.Descending));

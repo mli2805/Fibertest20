@@ -6,10 +6,10 @@ using System.Data.SQLite.EF6;
 
 namespace Iit.Fibertest.Client
 {
-    class SQLiteDbProviderFactoryResolver : IDbProviderFactoryResolver
+    class SqLiteDbProviderFactoryResolver : IDbProviderFactoryResolver
     {
-        public static readonly SQLiteDbProviderFactoryResolver Instance = new SQLiteDbProviderFactoryResolver();
-        private SQLiteDbProviderFactoryResolver() { }
+        public static readonly SqLiteDbProviderFactoryResolver Instance = new SqLiteDbProviderFactoryResolver();
+        private SqLiteDbProviderFactoryResolver() { }
         public DbProviderFactory ResolveProviderFactory(DbConnection connection)
         {
             if (connection is SQLiteConnection) return SQLiteProviderFactory.Instance;

@@ -2,11 +2,11 @@ using System.Data.Entity;
 
 namespace Iit.Fibertest.Client
 {
-    class SQLiteDbConfiguration : DbConfiguration
+    class SqLiteDbConfiguration : DbConfiguration
     {
-        public SQLiteDbConfiguration()
+        public SqLiteDbConfiguration()
         {
-            AddDependencyResolver(new SQLiteDbDependencyResolver());
+            AddDependencyResolver(new SqLiteDbDependencyResolver());
         }
     }
 }

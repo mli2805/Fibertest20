@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.DatabaseLibrary.DbContexts;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
@@ -11,13 +10,11 @@ namespace Iit.Fibertest.DataCenterCore
     public class MonitoringResultsManager
     {
         private readonly IMyLog _logFile;
-        private readonly ClientRegistrationManager _clientRegistrationManager;
 
 
-        public MonitoringResultsManager(IMyLog logFile, ClientRegistrationManager clientRegistrationManager)
+        public MonitoringResultsManager(IMyLog logFile)
         {
             _logFile = logFile;
-            _clientRegistrationManager = clientRegistrationManager;
         }
         public bool ProcessRtuCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto monitoringStep)
         {

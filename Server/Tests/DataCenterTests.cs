@@ -2,10 +2,8 @@
 using System.ServiceProcess;
 using Autofac;
 using FluentAssertions;
-using Iit.Fibertest.DataCenterCore;
 using Iit.Fibertest.DataCenterService;
 using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WcfServiceForClientInterface;
 using Xunit;
 
 namespace Tests
@@ -34,46 +32,5 @@ namespace Tests
         }
     }
 
-    public class WcfServiceForClientFacts
-    {
-        private IWcfServiceForClient _sut;
-
-        public WcfServiceForClientFacts()
-        {
-            var builder = new ContainerBuilder()
-                .WithProduction();
-
-            builder.RegisterType<NullLog>().As<IMyLog>();
-
-            var container = builder.Build();
-            _sut = container.Resolve<IWcfServiceForClient>();
-        }
-
-        [Fact]
-        public void FactMethodName()
-        {
-            
-        }
-    }
-    public class DcManagerFacts
-    {
-        private MonitoringResultsManager _sut;
-
-        public DcManagerFacts()
-        {
-            var builder = new ContainerBuilder()
-                .WithProduction();
-
-            builder.RegisterType<NullLog>().As<IMyLog>();
-
-            var container = builder.Build();
-            _sut = container.Resolve<MonitoringResultsManager>();
-        }
-
-        [Fact]
-        public void Start()
-        {
-            //_sut.Start();
-        }
-    }
+  
 }
