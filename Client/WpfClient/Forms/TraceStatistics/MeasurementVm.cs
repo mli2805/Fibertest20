@@ -12,7 +12,14 @@ namespace Iit.Fibertest.Client
         public string BaseRefTypeString => BaseRefType.GetLocalizedString();
         public DateTime Timestamp { get; set; }
         public FiberState TraceState { get; set; }
-        public Brush TraceStateBrush => TraceState.GetBrush(isForeground:false);
-        public string TraceStateInTable => TraceState.GetLocalizedString();
+        public Brush TraceStateBrush =>
+            TraceState == FiberState.Ok
+                ? Brushes.White
+                : BaseRefType == BaseRefType.Fast
+                    ? Brushes.Yellow
+                    : TraceState.GetBrush(isForeground: false);
+        public string TraceStateOnScreen => BaseRefType == BaseRefType.Fast && TraceState != FiberState.Ok
+            ? FiberState.Suspicion.GetLocalizedString()
+            : TraceState.GetLocalizedString();
     }
 }

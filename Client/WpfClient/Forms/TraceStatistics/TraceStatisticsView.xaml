@@ -63,7 +63,7 @@
                         </DataGridTemplateColumn.CellStyle>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding TraceStateInTable}" TextAlignment="Center" />
+                                <TextBlock Text="{Binding TraceStateOnScreen}" TextAlignment="Center" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

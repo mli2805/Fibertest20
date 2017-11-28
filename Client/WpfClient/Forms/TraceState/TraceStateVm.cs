@@ -13,8 +13,16 @@ namespace Iit.Fibertest.Client
         public FiberState TraceState { get; set; }
         public BaseRefType BaseRefType { get; set; }
 
-        public Brush TraceStateBrush => TraceState.GetBrush(isForeground: true);
-        public string TraceStateString => TraceState.GetLocalizedString();
+        public Brush TraceStateBrush =>
+            TraceState == FiberState.Ok
+                ? Brushes.White
+                : BaseRefType == BaseRefType.Fast
+                    ? Brushes.Yellow
+                    : TraceState.GetBrush(isForeground: true);
+
+        public string TraceStateOnScreen => BaseRefType == BaseRefType.Fast && TraceState != FiberState.Ok
+            ? FiberState.Suspicion.GetLocalizedString()
+            : TraceState.GetLocalizedString();
 
         public int OpticalEventId { get; set; }
         public EventStatus EventStatus { get; set; } = EventStatus.NotAnAccident;

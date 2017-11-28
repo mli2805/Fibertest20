@@ -81,7 +81,6 @@ namespace Iit.Fibertest.Client
 
         private TraceStateVm Prepare(Guid traceId, MeasurementVm measurementVm)
         {
-
             var result = new TraceStateVm();
             PrepareCaption(traceId, ref result);
 

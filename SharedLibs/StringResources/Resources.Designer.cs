@@ -2944,6 +2944,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to RftsEvents.
+        /// </summary>
+        public static string SID_RftsEvents {
+            get {
+                return ResourceManager.GetString("SID_RftsEvents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Right node.
         /// </summary>
         public static string SID_Right_node {
@@ -3102,6 +3111,24 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Save_frequency {
             get {
                 return ResourceManager.GetString("SID_Save_frequency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save ref + base as.
+        /// </summary>
+        public static string SID_Save_ref_and_base_as {
+            get {
+                return ResourceManager.GetString("SID_Save_ref_and_base_as", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save reflectogram as.
+        /// </summary>
+        public static string SID_Save_reflectogram_as {
+            get {
+                return ResourceManager.GetString("SID_Save_reflectogram_as", resourceCulture);
             }
         }
         
@@ -3283,6 +3310,24 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Show {
             get {
                 return ResourceManager.GetString("SID_Show", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show ref + base.
+        /// </summary>
+        public static string SID_Show_ref_and_base {
+            get {
+                return ResourceManager.GetString("SID_Show_ref_and_base", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show reflectogram.
+        /// </summary>
+        public static string SID_Show_reflectogram {
+            get {
+                return ResourceManager.GetString("SID_Show_reflectogram", resourceCulture);
             }
         }
         
@@ -3616,6 +3661,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Trace_state {
             get {
                 return ResourceManager.GetString("SID_Trace_state", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trace state / Event status.
+        /// </summary>
+        public static string SID_Trace_state_Event_status {
+            get {
+                return ResourceManager.GetString("SID_Trace_state_Event_status", resourceCulture);
             }
         }
         

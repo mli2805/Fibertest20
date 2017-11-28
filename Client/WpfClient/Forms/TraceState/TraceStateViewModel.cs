@@ -13,7 +13,7 @@ namespace Iit.Fibertest.Client
         private readonly ReflectogramManager _reflectogramManager;
         public TraceStateVm Model { get; set; }
 
-        public List<EventStatusComboItem> StatusRows { get; set; } = new List<EventStatusComboItem>();
+        public List<EventStatusComboItem> StatusRows { get; set; }
         public EventStatusComboItem SelectedEventStatus { get; set; }
 
         public TraceStateViewModel(ReflectogramManager reflectogramManager)
@@ -34,10 +34,15 @@ namespace Iit.Fibertest.Client
 
         private void InitializeEventStatusCombobox()
         {
-            foreach (var eventStatus in Enum.GetValues(typeof(EventStatus)).OfType<EventStatus>())
-            {
-                StatusRows.Add(new EventStatusComboItem() {EventStatus = eventStatus});
-            }
+            StatusRows = new List<EventStatusComboItem>
+            {  // not foreach because order matters
+                new EventStatusComboItem() {EventStatus = EventStatus.Confirmed},
+                new EventStatusComboItem() {EventStatus = EventStatus.NotConfirmed},
+                new EventStatusComboItem() {EventStatus = EventStatus.Planned},
+                new EventStatusComboItem() {EventStatus = EventStatus.Suspended},
+                new EventStatusComboItem() {EventStatus = EventStatus.Unprocessed}
+            };
+
             SelectedEventStatus = StatusRows.First(r=>r.EventStatus == Model.EventStatus);
         }
 
