@@ -1392,10 +1392,10 @@ RTU инициализируется в данный момент!</value>
 		<value>Показать рефлектограмму + базовую</value>
 	</data>
 	<data name="SID_Save_reflectogram_as" xml:space="preserve">
-		<value>Сохранить рефлектограмму</value>
+		<value>Сохранить рефлектограмму как</value>
 	</data>
 	<data name="SID_Save_ref_and_base_as" xml:space="preserve">
-		<value>Сохранить рефлектограмму + базовую</value>
+		<value>Сохранить рефлектограмму + базовую как</value>
 	</data>
 	<data name="SID_RftsEvents" xml:space="preserve">
 		<value>События</value>

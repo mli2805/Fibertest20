@@ -41,8 +41,8 @@
                     </DataGrid.Resources>
                     <DataGrid.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Header="Show reflectogram" cal:Message.Attach="[Event Click] = [Action ShowBaseReflectogram]"/>
-                            <MenuItem Header="Save reflectogram as" cal:Message.Attach="[Event Click] = [Action SaveBaseReflectogramAs]"/>
+                            <MenuItem Header="{x:Static stringResources:Resources.SID_Show_reflectogram}" cal:Message.Attach="[Event Click] = [Action ShowBaseReflectogram]"/>
+                            <MenuItem Header="{x:Static stringResources:Resources.SID_Save_reflectogram_as}" cal:Message.Attach="[Event Click] = [Action SaveBaseReflectogramAs]"/>
                         </ContextMenu>
                     </DataGrid.ContextMenu>
                 </DataGrid>
@@ -77,13 +77,13 @@
                 </DataGrid.Resources>
                 <DataGrid.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Show reflectogram" cal:Message.Attach="[Event Click] = [Action ShowReflectogram(1)]"/>
-                        <MenuItem Header="Show ref + base" cal:Message.Attach="[Event Click] = [Action ShowReflectogram(2)]"/>
-                        <MenuItem Header="Save reflectogram as" cal:Message.Attach="[Event Click] = [Action SaveReflectogramAs('true')]"/>
-                        <MenuItem Header="Save ref + base as" cal:Message.Attach="[Event Click] = [Action SaveReflectogramAs('false')]"/>
+                        <MenuItem Header="{x:Static stringResources:Resources.SID_Show_reflectogram}" cal:Message.Attach="[Event Click] = [Action ShowReflectogram(1)]"/>
+                        <MenuItem Header="{x:Static stringResources:Resources.SID_Show_ref_and_base}" cal:Message.Attach="[Event Click] = [Action ShowReflectogram(2)]"/>
+                        <MenuItem Header="{x:Static stringResources:Resources.SID_Save_reflectogram_as}" cal:Message.Attach="[Event Click] = [Action SaveReflectogramAs('true')]"/>
+                        <MenuItem Header="{x:Static stringResources:Resources.SID_Save_ref_and_base_as}" cal:Message.Attach="[Event Click] = [Action SaveReflectogramAs('false')]"/>
                         <Separator />
-                        <MenuItem Header="RftsEvents" cal:Message.Attach="[Event Click] = [Action ShowRftsEvents]"/>
-                        <MenuItem Header="Trace state" cal:Message.Attach="[Event Click] = [Action ShowTraceState]"/>
+                        <MenuItem Header="{x:Static stringResources:Resources.SID_RftsEvents}" cal:Message.Attach="[Event Click] = [Action ShowRftsEvents]"/>
+                        <MenuItem Header="{x:Static stringResources:Resources.SID_Trace_state_Event_status}" cal:Message.Attach="[Event Click] = [Action ShowTraceState]"/>
                     </ContextMenu>
                 </DataGrid.ContextMenu>
             </DataGrid>
