@@ -31,7 +31,6 @@ namespace Iit.Fibertest.RtuManagement
 
             if (param != null)
                 SaveInitializationParameters(param);
-            RestoreFunctions.ResetCharonThroughComPort(_rtuIni, _rtuLog);
 
             _rtuInitializationResult = InitializeRtuManager();
             if (_rtuInitializationResult != ReturnCode.Ok)

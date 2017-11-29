@@ -33,8 +33,14 @@ namespace Iit.Fibertest.Client
                 if (Equals(value, _originalRtu)) return;
                 _originalRtu = value;
                 NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(OtdrAddress));
             }
         }
+
+        public string OtdrAddress => OriginalRtu.OtdrNetAddress.Ip4Address == @"192.168.88.101" // fake address on screen
+            ? OriginalRtu.MainChannel.Ip4Address
+            : OriginalRtu.OtdrNetAddress.Ip4Address;
+
 
         public RtuInitializeViewModel(ILifetimeScope globalScope, ReadModel readModel, IWindowManager windowManager,
             IWcfServiceForClient c2DWcfManager, IMyLog logFile, RtuLeaf rtuLeaf)
@@ -132,7 +138,7 @@ namespace Iit.Fibertest.Client
                 ? new NotificationViewModel(Resources.SID_Information, Resources.SID_RTU_initialized_successfully_)
                 : new NotificationViewModel(Resources.SID_Error, message);
             _windowManager.ShowDialog(vm);
-            
+
             if (!dto.IsInitialized)
                 return;
 

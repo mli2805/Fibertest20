@@ -33,7 +33,7 @@
             <StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="IP" Margin="5" Width="40" TextAlignment="Right"/>
-                    <TextBlock Text="{Binding OriginalRtu.OtdrAddress}" Margin="5"/>
+                    <TextBlock Text="{Binding OtdrAddress}" Margin="5"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="{x:Static stringResources:Resources.SID_Port}" Margin="5" Width="40" TextAlignment="Right"/>

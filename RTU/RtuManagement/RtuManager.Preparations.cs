@@ -11,6 +11,7 @@ namespace Iit.Fibertest.RtuManagement
     {
         private ReturnCode InitializeRtuManager()
         {
+            RestoreFunctions.ResetCharonThroughComPort(_rtuIni, _rtuLog);
             LedDisplay.Show(_rtuIni, _rtuLog, LedDisplayCode.Connecting);
 
             var otdrInitializationResult = InitializeOtdr();

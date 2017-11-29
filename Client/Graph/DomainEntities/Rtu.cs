@@ -18,9 +18,6 @@ namespace Iit.Fibertest.Graph
         public bool IsReserveChannelSet { get; set; } = false;
         public NetAddress OtdrNetAddress { get; set; } = new NetAddress(@"0.0.0.0", 1500); // real address
 
-        public string OtdrAddress => OtdrNetAddress.Ip4Address == @"192.168.88.101" // fake address
-            ? MainChannel.Ip4Address
-            : OtdrNetAddress.Ip4Address;
         public string Serial { get; set; }
         public int OwnPortCount { get; set; }
         public int FullPortCount { get; set; }
