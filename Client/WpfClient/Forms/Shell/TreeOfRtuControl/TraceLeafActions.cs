@@ -28,7 +28,7 @@ namespace Iit.Fibertest.Client
                 return;
 
             var vm = new TraceInfoViewModel(traceLeaf.ReadModel, traceLeaf.C2DWcfManager, traceLeaf.WindowManager, traceLeaf.Id);
-            traceLeaf.WindowManager.ShowDialog(vm);
+            traceLeaf.WindowManager.ShowWindow(vm);
         }
 
         public void ShowTrace(object param)
@@ -45,7 +45,7 @@ namespace Iit.Fibertest.Client
             var trace = traceLeaf.ReadModel.Traces.First(t => t.Id == traceLeaf.Id);
             var vm = new BaseRefsAssignViewModel(_iniFile, traceLeaf.ReadModel, traceLeaf.C2DWcfManager, traceLeaf.WindowManager, new SorExt(_logFile));
             vm.Initialize(trace);
-            traceLeaf.WindowManager.ShowDialog(vm);
+            traceLeaf.WindowManager.ShowWindow(vm);
         }
 
         public void ShowTraceState(object param)
@@ -80,7 +80,7 @@ namespace Iit.Fibertest.Client
             //                return;
             //            }
             var vm = new RftsEventsViewModel();
-            traceLeaf.WindowManager.ShowDialog(vm);
+            traceLeaf.WindowManager.ShowWindow(vm);
         }
 
         public void ShowTraceLandmarks(object param)
@@ -91,7 +91,7 @@ namespace Iit.Fibertest.Client
 
             var vm = new LandmarksViewModel(traceLeaf.ReadModel, traceLeaf.WindowManager);
             vm.Initialize(traceLeaf.Id, false);
-            traceLeaf.WindowManager.ShowDialog(vm);
+            traceLeaf.WindowManager.ShowWindow(vm);
         }
 
         public void DetachTrace(object param)

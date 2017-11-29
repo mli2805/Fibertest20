@@ -26,7 +26,12 @@ namespace Graph.Tests
         [ExcludeFromCodeCoverage]
         public void ShowWindow(object rootModel, object context = null, IDictionary<string, object> settings = null)
         {
-            throw new NotImplementedException();
+            Log.Add(rootModel);
+            var one = _handlersQueue.FirstOrDefault(handler => handler(rootModel));
+            if (one == null)
+                throw new InvalidOperationException(
+                    @"We have forgotten to predefine handler for the following model: " + rootModel);
+            _handlersQueue.Remove(one);
         }
 
         [ExcludeFromCodeCoverage]

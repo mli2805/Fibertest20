@@ -14,19 +14,19 @@ namespace Iit.Fibertest.Client
         public void LaunchUserListView()
         {
             var vm = IoC.Get<UserListViewModel>();
-            _windowManager.ShowDialog(vm);
+            _windowManager.ShowWindow(vm);
         }
 
         public void LaunchResponsibilityZonesView()
         {
             var vm = IoC.Get<ZonesViewModel>();
-            _windowManager.ShowDialog(vm);
+            _windowManager.ShowWindow(vm);
         }
 
         public void LaunchObjectsToZonesView()
         {
             var vm = IoC.Get<ZonesContentViewModel>();
-            _windowManager.ShowDialog(vm);
+            _windowManager.ShowWindow(vm);
         }
     }
 }

@@ -123,7 +123,7 @@ namespace Iit.Fibertest.Client
             vm.Initialize(landmark);
             vm.RtuTitle = _readModel.Rtus.First(r => r.Id == _selectedTrace.RtuId).Title;
             vm.TraceTitle = _selectedTrace.Title;
-            _windowManager.ShowDialog(vm);
+            _windowManager.ShowWindow(vm);
         }
     }
 }

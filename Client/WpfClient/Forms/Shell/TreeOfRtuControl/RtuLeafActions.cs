@@ -23,7 +23,7 @@ namespace Iit.Fibertest.Client
                 return;
 
             var vm = new RtuUpdateViewModel(rtuLeaf.Id, rtuLeaf.ReadModel, rtuLeaf.C2DWcfManager);
-            rtuLeaf.WindowManager.ShowDialog(vm);
+            rtuLeaf.WindowManager.ShowWindow(vm);
         }
 
         public void ShowRtu(object param)
@@ -41,7 +41,7 @@ namespace Iit.Fibertest.Client
 
             var localScope = rtuLeaf.GlobalScope.BeginLifetimeScope(ctx => ctx.RegisterInstance(rtuLeaf));
             var vm = localScope.Resolve<RtuInitializeViewModel>();
-            rtuLeaf.WindowManager.ShowDialog(vm);
+            rtuLeaf.WindowManager.ShowWindow(vm);
         }
 
         public void ShowRtuState(object param)
@@ -56,7 +56,7 @@ namespace Iit.Fibertest.Client
 
             var vm = new LandmarksViewModel(rtuLeaf.ReadModel, rtuLeaf.WindowManager);
             vm.Initialize(rtuLeaf.Id, true);
-            rtuLeaf.WindowManager.ShowDialog(vm);
+            rtuLeaf.WindowManager.ShowWindow(vm);
         }
 
         public void ShowMonitoringSettings(object param)
@@ -66,7 +66,7 @@ namespace Iit.Fibertest.Client
                 return;
 
             var vm = new MonitoringSettingsViewModel(rtuLeaf, rtuLeaf.ReadModel, rtuLeaf.C2DWcfManager);
-            rtuLeaf.WindowManager.ShowDialog(vm);
+            rtuLeaf.WindowManager.ShowWindow(vm);
         }
 
         public async void StopMonitoring(object param)
@@ -82,15 +82,15 @@ namespace Iit.Fibertest.Client
                     await rtuLeaf.C2DWcfManager.StopMonitoringAsync(new StopMonitoringDto() { RtuId = rtuLeaf.Id });
             }
             _logFile.AppendLine($@"Stop monitoring result - {result}");
-            var vm = new NotificationViewModel(
-                result ? Resources.SID_Information : Resources.SID_Error_,
-                result ? Resources.SID_RTU_is_turned_into_manual_mode : Resources.SID_Cannot_turn_RTU_into_manual_mode);
+//            var vm = new NotificationViewModel(
+//                result ? Resources.SID_Information : Resources.SID_Error_,
+//                result ? Resources.SID_RTU_is_turned_into_manual_mode : Resources.SID_Cannot_turn_RTU_into_manual_mode);
             if (result)
             {
                 var cmd = new StopMonitoring() { RtuId = rtuLeaf.Id };
                 await rtuLeaf.C2DWcfManager.SendCommandAsObj(cmd);
             }
-            rtuLeaf.WindowManager.ShowDialog(vm);
+//            rtuLeaf.WindowManager.ShowDialog(vm);
 
         }
 
@@ -107,15 +107,15 @@ namespace Iit.Fibertest.Client
                     await rtuLeaf.C2DWcfManager.StartMonitoringAsync(new StartMonitoringDto() { RtuId = rtuLeaf.Id });
             }
             _logFile.AppendLine($@"Start monitoring result - {result}");
-            var vm = new NotificationViewModel(
-                result ? Resources.SID_Information : Resources.SID_Error_,
-                result ? Resources.SID_RTU_is_turned_into_automatic_mode : Resources.SID_Cannot_turn_RTU_into_automatic_mode);
+//            var vm = new NotificationViewModel(
+//                result ? Resources.SID_Information : Resources.SID_Error_,
+//                result ? Resources.SID_RTU_is_turned_into_automatic_mode : Resources.SID_Cannot_turn_RTU_into_automatic_mode);
             if (result)
             {
                 var cmd = new StartMonitoring() { RtuId = rtuLeaf.Id };
                 await rtuLeaf.C2DWcfManager.SendCommandAsObj(cmd);
             }
-            rtuLeaf.WindowManager.ShowDialog(vm);
+//            rtuLeaf.WindowManager.ShowDialog(vm);
         }
 
 

@@ -6,7 +6,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         mc:Ignorable="d"
-        Height="800" Width="1600" WindowStartupLocation="CenterScreen" d:DataContext="{d:DesignInstance client:ShellViewModel}">
+        WindowState="Maximized"
+        d:DataContext="{d:DesignInstance client:ShellViewModel}">
 
     <DockPanel>
         <client:MainMenuView DockPanel.Dock="Top" DataContext="{Binding MainMenuViewModel}"/>
