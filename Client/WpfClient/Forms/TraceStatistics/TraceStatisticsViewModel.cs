@@ -70,7 +70,7 @@ namespace Iit.Fibertest.Client
                 return false;
             TraceTitle = _trace.Title;
             RtuTitle = _readModel.Rtus.FirstOrDefault(r => r.Id == _trace.RtuId)?.Title;
-            PortNumber = _trace.OtauPort.IsPortOnMainCharon
+            PortNumber = _trace.OtauPort == null ? "<not attached>" : _trace.OtauPort.IsPortOnMainCharon
                 ? _trace.OtauPort.OpticalPort.ToString()
                 : $@"{_trace.OtauPort.OtauIp}:{_trace.OtauPort.OtauTcpPort}-{_trace.OtauPort.OpticalPort}";
 

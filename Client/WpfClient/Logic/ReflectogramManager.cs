@@ -157,7 +157,7 @@ namespace Iit.Fibertest.Client
         {
             Process process = new Process();
             process.StartInfo.FileName = Path.Combine(_assemblyFolder, @"..\..\RFTSReflect\reflect.exe");
-            process.StartInfo.Arguments = sorFilename;
+            process.StartInfo.Arguments = '"' + sorFilename + '"';
             process.Start();
         }
 
