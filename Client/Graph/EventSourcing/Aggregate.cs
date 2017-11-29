@@ -117,7 +117,7 @@ namespace Iit.Fibertest.Graph
                     _logFile.AppendLine($@"AddEquipmentIntoNode: Trace {traceId.First6()} not found");
                     break;
                 }
-                if (trace.HasBase)
+                if (trace.HasAnyBaseRef)
                     return Resources.SID_Base_ref_is_set_for_trace;
             }
             WriteModel.Add(_mapper.Map<EquipmentIntoNodeAdded>(cmd));

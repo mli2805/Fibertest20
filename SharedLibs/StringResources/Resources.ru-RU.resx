@@ -160,7 +160,7 @@
     <value>Показать RTU</value>
   </data>
 	<data name="SID_Accept_the_path" xml:space="preserve">
-    <value>Принять путь?</value>
+    <value>Принять подсвеченный зеленым путь ?</value>
   </data>
 	<data name="SID_It_s_impossible_to_change_trace_with_base_reflectogram" xml:space="preserve">
     <value>Нельзя изменять трассу с заданной базовой рефлектограммой</value>

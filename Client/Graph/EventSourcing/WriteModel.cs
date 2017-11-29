@@ -168,7 +168,7 @@ namespace Iit.Fibertest.Graph
 
         public bool IsFiberContainedInAnyTraceWithBase(Guid fiberId)
         {
-            var tracesWithBase = _traces.Where(t => t.HasBase);
+            var tracesWithBase = _traces.Where(t => t.HasAnyBaseRef);
             var fiber = _fibers.FirstOrDefault(f => f.Id == fiberId);
             if (fiber == null)
             {
@@ -178,7 +178,7 @@ namespace Iit.Fibertest.Graph
         }
         public bool IsNodeContainedInAnyTraceWithBase(Guid nodeId)
         {
-            return _traces.Any(t => t.HasBase && t.Nodes.Contains(nodeId));
+            return _traces.Any(t => t.HasAnyBaseRef && t.Nodes.Contains(nodeId));
         }
         public bool IsNodeLastForAnyTrace(Guid nodeId)
         {

@@ -72,7 +72,7 @@ namespace Iit.Fibertest.Client
         private bool IsFiberContainedInAnyTraceWithBase(Guid fiberId)
         {
             var fiber = ReadModel.Fibers.First(f => f.Id == fiberId);
-            return ReadModel.Traces.Where(t => t.HasBase).ToList().Any(trace => Topo.GetFiberIndexInTrace(trace, fiber) != -1);
+            return ReadModel.Traces.Where(t => t.HasAnyBaseRef).ToList().Any(trace => Topo.GetFiberIndexInTrace(trace, fiber) != -1);
         }
 
         private PointLatLng GetFiberCenter(Guid fiberId)

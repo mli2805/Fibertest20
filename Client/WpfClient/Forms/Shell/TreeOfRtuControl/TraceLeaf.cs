@@ -55,14 +55,14 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private bool _hasBase;
-        public bool HasBase
+        private bool _hasEnoughBaseRefsToPerformMonitoring;
+        public bool HasEnoughBaseRefsToPerformMonitoring
         {
-            get { return _hasBase; }
+            get { return _hasEnoughBaseRefsToPerformMonitoring; }
             set
             {
-                if (value == _hasBase) return;
-                _hasBase = value;
+                if (value == _hasEnoughBaseRefsToPerformMonitoring) return;
+                _hasEnoughBaseRefsToPerformMonitoring = value;
                 NotifyOfPropertyChange();
                 NotifyOfPropertyChange(nameof(MonitoringPictogram));
             }
@@ -119,7 +119,7 @@ namespace Iit.Fibertest.Client
                 ? RtuMonitoringState == MonitoringState.On
                     ? new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/BlueSquare.png"))
                     : new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreySquare.png"))
-                : HasBase
+                : HasEnoughBaseRefsToPerformMonitoring
                     ? new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreyHalfSquare.png"))
                     : new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
         }

@@ -152,7 +152,7 @@ namespace Iit.Fibertest.Client
                 .Aggregate("", (current, traceVm) => current + (traceVm.Title + @" ;  "));
 
             var isLastForSomeTrace = _readModel.Traces.Any(t => t.Equipments.Last() == equipment.Id);
-            var isPartOfTraceWithBase = _readModel.Traces.Any(t => t.Equipments.Contains(equipment.Id) && t.HasBase);
+            var isPartOfTraceWithBase = _readModel.Traces.Any(t => t.Equipments.Contains(equipment.Id) && t.HasAnyBaseRef);
 
             var eqItem = new EqItemVm()
             {

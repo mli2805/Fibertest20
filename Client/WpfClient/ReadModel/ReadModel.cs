@@ -308,6 +308,8 @@ namespace Iit.Fibertest.Client
                 trace.AdditionalId = additionalBaseRef.Id;
                 trace.AdditionalDuration = additionalBaseRef.Duration;
             }
+            if (!trace.HasEnoughBaseRefsToPerformMonitoring)
+                trace.IsIncludedInMonitoringCycle = false;
         }
 
         public void Apply(RtuInitialized e)

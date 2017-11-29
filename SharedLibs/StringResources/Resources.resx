@@ -160,7 +160,7 @@
     <value>Show RTU</value>
   </data>
 	<data name="SID_Accept_the_path" xml:space="preserve">
-    <value>Accept the path?</value>
+    <value>Accept the highlighted with lime color path?</value>
   </data>
 	<data name="SID_It_s_impossible_to_change_trace_with_base_reflectogram" xml:space="preserve">
     <value>It's impossible to change trace with base reflectogram</value>

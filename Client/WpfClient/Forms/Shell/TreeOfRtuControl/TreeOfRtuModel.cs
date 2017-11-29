@@ -221,7 +221,13 @@ namespace Iit.Fibertest.Client
         #region JustEchosOfCmdsSentToRtu
         public void Apply(BaseRefAssigned e)
         {
-            ((TraceLeaf)Tree.GetById(e.TraceId)).HasBase = true;
+            var trace = _readModel.Traces.FirstOrDefault(t => t.Id == e.TraceId);
+            if (trace == null) return;
+            var traceLeaf = (TraceLeaf)Tree.GetById(e.TraceId);
+            traceLeaf.HasEnoughBaseRefsToPerformMonitoring 
+                = trace.HasEnoughBaseRefsToPerformMonitoring;
+            if (!traceLeaf.HasEnoughBaseRefsToPerformMonitoring)
+                traceLeaf.IsInMonitoringCycle =  false;
         }
 
         public void Apply(RtuInitialized e)

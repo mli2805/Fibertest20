@@ -23,8 +23,8 @@ namespace Iit.Fibertest.Graph
         public TimeSpan AdditionalDuration { get; set; }
         public string Comment { get; set; }
 
-        public bool HasBase => PreciseId != Guid.Empty || FastId != Guid.Empty || AdditionalId != Guid.Empty;
-        public bool ReadyForMonitoring => PreciseId != Guid.Empty && FastId != Guid.Empty;
+        public bool HasAnyBaseRef => PreciseId != Guid.Empty || FastId != Guid.Empty || AdditionalId != Guid.Empty;
+        public bool HasEnoughBaseRefsToPerformMonitoring => PreciseId != Guid.Empty && FastId != Guid.Empty;
         public bool IsIncludedInMonitoringCycle { get; set; }
 
         public override string ToString()
