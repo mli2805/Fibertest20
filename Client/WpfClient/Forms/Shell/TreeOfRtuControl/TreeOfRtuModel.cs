@@ -173,6 +173,10 @@ namespace Iit.Fibertest.Client
 
         public void Apply(TraceAttached e)
         {
+            var trace = _readModel.Traces.FirstOrDefault(t => t.Id == e.TraceId);
+            if (trace == null)
+                return;
+
             TraceLeaf traceLeaf = (TraceLeaf)Tree.GetById(e.TraceId);
             RtuLeaf rtuLeaf = (RtuLeaf)Tree.GetById(traceLeaf.Parent.Id);
             var portOwner = rtuLeaf.GetOwnerOfExtendedPort(e.Port);
@@ -190,6 +194,7 @@ namespace Iit.Fibertest.Client
                     Title = traceLeaf.Title,
                     Color = Brushes.Black,
                     PortNumber = port,
+                    HasEnoughBaseRefsToPerformMonitoring = trace.HasEnoughBaseRefsToPerformMonitoring,
                 };
             rtuLeaf.ChildrenImpresario.Children.Remove(traceLeaf);
         }
