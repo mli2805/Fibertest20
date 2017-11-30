@@ -20,7 +20,7 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
         void BeginApplyMonitoringSettings(ApplyMonitoringSettingsDto settings);
 
         [OperationContract]
-        void BeginAssignBaseRef(AssignBaseRefDto baseRef);
+        void BeginAssignBaseRef(AssignBaseRefsDto baseRefs);
 
 
         // for Client

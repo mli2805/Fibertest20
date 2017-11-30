@@ -159,7 +159,7 @@ namespace Iit.Fibertest.Client
 
         public async void Save()
         {
-            var dto = new AssignBaseRefDto()
+            var dto = new AssignBaseRefsDto()
                 { RtuId = _trace.RtuId, TraceId = _trace.Id, OtauPortDto = _trace.OtauPort, BaseRefs = GetBaseRefChangesList() };
             var result = await _c2DWcfManager.AssignBaseRefAsync(dto); // send to Db and RTU
             if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)

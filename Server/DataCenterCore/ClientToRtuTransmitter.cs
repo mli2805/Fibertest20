@@ -89,7 +89,7 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
-        public async Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefDto dto)
+        public async Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto dto)
         {
             try
             {
@@ -107,7 +107,7 @@ namespace Iit.Fibertest.DataCenterCore
             }
             catch (Exception e)
             {
-                _logFile.AppendLine("AssignBaseRefAsync:" + e.Message);
+                _logFile.AppendLine("AssignBaseRefAsync: " + e.Message);
                 return new BaseRefAssignedDto() { ReturnCode = ReturnCode.DbError, ExceptionMessage = e.Message};
             }
         }

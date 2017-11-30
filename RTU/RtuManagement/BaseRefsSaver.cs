@@ -19,7 +19,7 @@ namespace Iit.Fibertest.RtuManagement
             _appDir = TryGetAppFolder() ?? @"c:\";
         }
 
-        public ReturnCode SaveBaseRefs(AssignBaseRefDto dto)
+        public ReturnCode SaveBaseRefs(AssignBaseRefsDto dto)
         {
             var fullFolderName = GetAbsolutePortFolder(dto.OtauPortDto);
 

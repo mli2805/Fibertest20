@@ -100,10 +100,14 @@ namespace Graph.Tests
             throw new NotImplementedException();
         }
 
-        public Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefDto baseRef)
+        public Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto baseRefs)
         {
             throw new NotImplementedException();
         }
 
+        public Task<BaseRefAssignedDto> ReSendBaseRefAsync(ReSendBaseRefsDto baseRefs)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

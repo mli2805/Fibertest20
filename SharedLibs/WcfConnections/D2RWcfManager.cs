@@ -47,7 +47,7 @@ namespace Iit.Fibertest.WcfConnections
             return result;
         }
 
-        public async Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefDto dto)
+        public async Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto dto)
         {
             var backward = new RtuWcfServiceBackward();
             var rtuDuplexConnection = _wcfFactory.CreateDuplexRtuConnection(backward);

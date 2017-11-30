@@ -187,6 +187,7 @@ namespace Iit.Fibertest.Client
             Nodes.Add(node);
             Rtu rtu = _mapper.Map<Rtu>(e);
             Rtus.Add(rtu);
+
         }
 
         public void Apply(RtuUpdated e)

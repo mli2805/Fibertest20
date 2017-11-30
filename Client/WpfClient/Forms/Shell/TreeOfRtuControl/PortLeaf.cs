@@ -94,7 +94,7 @@ namespace Iit.Fibertest.Client
                 IsPortOnMainCharon = Parent is RtuLeaf,
                 OpticalPort = PortNumber
             };
-            var vm = new TraceToAttachViewModel(rtuId, ExtendedPortNumber, otauPortDto, ReadModel, C2DWcfManager);
+            var vm = new TraceToAttachViewModel(rtuId, ExtendedPortNumber, otauPortDto, ReadModel, C2DWcfManager, WindowManager);
             WindowManager.ShowDialog(vm);
         }
 

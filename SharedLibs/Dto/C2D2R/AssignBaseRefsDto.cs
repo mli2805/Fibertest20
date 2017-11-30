@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace Iit.Fibertest.Dto
 {
     [DataContract]
-    public class AssignBaseRefDto
+    public class AssignBaseRefsDto
     {
         [DataMember]
         public Guid ClientId { get; set; }

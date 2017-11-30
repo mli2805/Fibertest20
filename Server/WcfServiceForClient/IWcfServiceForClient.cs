@@ -65,6 +65,9 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
         Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto settings);
 
         [OperationContract]
-        Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefDto baseRef);
+        Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto baseRefs);
+
+        [OperationContract]
+        Task<BaseRefAssignedDto> ReSendBaseRefAsync(ReSendBaseRefsDto baseRefs);
     }
 }

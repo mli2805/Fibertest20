@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
 using Iit.Fibertest.DatabaseLibrary;
@@ -162,7 +163,7 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
-        public async Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefDto dto)
+        public async Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto dto)
         {
             _logFile.AppendLine($"Client {dto.ClientId.First6()} sent base ref for trace {dto.TraceId.First6()}");
             var result = await _baseRefManager.AddUpdateOrRemoveBaseRef(dto);
@@ -175,5 +176,18 @@ namespace Iit.Fibertest.DataCenterCore
             return await _clientToRtuTransmitter.AssignBaseRefAsync(dto);
         }
 
+        public async Task<BaseRefAssignedDto> ReSendBaseRefAsync(ReSendBaseRefsDto dto)
+        {
+            _logFile.AppendLine($"Client {dto.ClientId.First6()} asked to re-send base ref for trace {dto.TraceId.First6()}");
+
+            var convertedDto = await _baseRefManager.ConvertReSendToAssign(dto);
+
+            if (convertedDto?.BaseRefs == null)
+                return new BaseRefAssignedDto() {ReturnCode = ReturnCode.DbCannotConvertThisReSendToAssign};
+            if (!convertedDto.BaseRefs.Any())
+                return new BaseRefAssignedDto() {ReturnCode = ReturnCode.BaseRefAssignedSuccessfully};
+
+            return await _clientToRtuTransmitter.AssignBaseRefAsync(convertedDto);
+        }
     }
 }

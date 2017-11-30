@@ -76,7 +76,7 @@ namespace Iit.Fibertest.Client
                     {
                         ioc.Resolve<ReadModel>(),
                         ioc.Resolve<TreeOfRtuModel>(),
-                        ioc.Resolve<GraphReadModel>()
+                        ioc.Resolve<GraphReadModel>(),
                     },
                     ioc.Resolve<OpticalEventsViewModel>(),
                     ioc.Resolve<NetworkEventsViewModel>(),

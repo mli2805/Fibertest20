@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.DatabaseLibrary.DbContexts;
@@ -16,7 +18,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             _logFile = logFile;
         }
 
-        public async Task<BaseRefAssignedDto> AddUpdateOrRemoveBaseRef(AssignBaseRefDto dto)
+        public async Task<BaseRefAssignedDto> AddUpdateOrRemoveBaseRef(AssignBaseRefsDto dto)
         {
             var result = new BaseRefAssignedDto();
             try
@@ -44,7 +46,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             return result;
         }
 
-        private static void AddOrUpdateBaseRef(AssignBaseRefDto dto, MySqlContext dbContext, BaseRefDto baseRef)
+        private static void AddOrUpdateBaseRef(AssignBaseRefsDto dto, MySqlContext dbContext, BaseRefDto baseRef)
         {
             var newBaseRef = PrepareNewRecordFromDto(dbContext, dto, baseRef);
 
@@ -57,7 +59,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             dbContext.BaseRefs.Add(newBaseRef);
         }
 
-        private static BaseRef PrepareNewRecordFromDto(MySqlContext dbContext, AssignBaseRefDto dto, BaseRefDto baseRef)
+        private static BaseRef PrepareNewRecordFromDto(MySqlContext dbContext, AssignBaseRefsDto dto, BaseRefDto baseRef)
         {
             var userId = 0;
             var clientStation = dbContext.ClientStations.FirstOrDefault(s => s.ClientGuid == dto.ClientId);
@@ -82,6 +84,45 @@ namespace Iit.Fibertest.DatabaseLibrary
                     b => b.TraceId == traceId && b.BaseRefType == baseRef.BaseRefType);
             if (oldBaseRef != null)
                 dbContext.BaseRefs.Remove(oldBaseRef);
+        }
+
+        public async Task<AssignBaseRefsDto> ConvertReSendToAssign(ReSendBaseRefsDto dto)
+        {
+            var result = new AssignBaseRefsDto()
+            {
+                TraceId = dto.TraceId,
+                RtuId = dto.RtuId,
+                ClientId = dto.ClientId,
+                OtauPortDto = dto.OtauPortDto,
+                BaseRefs = await GetTraceBaseRefs(dto.TraceId)
+            };
+            return result;
+        }
+
+        private async Task<List<BaseRefDto>> GetTraceBaseRefs(Guid traceId)
+        {
+            var result = new List<BaseRefDto>();
+            try
+            {
+                var dbContext = new MySqlContext();
+                var list = await dbContext.BaseRefs.Where(b => b.TraceId == traceId).ToListAsync();
+                result.AddRange(
+                    list.Select(baseRef => new BaseRefDto()
+                    {
+                        Id = baseRef.BaseRefId,
+                        BaseRefType = baseRef.BaseRefType,
+                        SorBytes = baseRef.SorBytes,
+                    }));
+            }
+
+            catch (Exception e)
+            {
+                _logFile.AppendLine("GetTraceBaseRefs:" + e.Message);
+                return null;
+            }
+            _logFile.AppendLine($"Db extracted {result.Count} base refs");
+            return result;
+
         }
     }
 }

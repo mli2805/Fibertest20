@@ -311,7 +311,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public async Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefDto dto)
+        public async Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto dto)
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();
             if (wcfConnection == null)
@@ -327,6 +327,26 @@ namespace Iit.Fibertest.WcfConnections
             {
                 _logFile.AppendLine(e.Message);
                 return new BaseRefAssignedDto() { ReturnCode = ReturnCode.C2DWcfConnectionError, ExceptionMessage = e.Message};
+            }
+        }
+
+        public async Task<BaseRefAssignedDto> ReSendBaseRefAsync(ReSendBaseRefsDto dto)
+        {
+            var wcfConnection = _wcfFactory.CreateC2DConnection();
+            if (wcfConnection == null)
+                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.C2DWcfConnectionError };
+
+            try
+            {
+                _logFile.AppendLine($@"Re-Sent base ref to RTU {dto.RtuId.First6()}");
+                dto.ClientId = _clientId;
+                //return await wcfConnection.ReSendBaseRefAsync(dto);
+                return wcfConnection.ReSendBaseRefAsync(dto).Result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.C2DWcfConnectionError, ExceptionMessage = e.Message };
             }
         }
 

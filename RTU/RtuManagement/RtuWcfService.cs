@@ -149,7 +149,7 @@ namespace Iit.Fibertest.RtuManagement
             return true;
         }
 
-        public void BeginAssignBaseRef(AssignBaseRefDto dto)
+        public void BeginAssignBaseRef(AssignBaseRefsDto dto)
         {
             var callbackChannel = OperationContext.Current.GetCallbackChannel<IRtuWcfServiceBackward>();
             ThreadPool.QueueUserWorkItem(_ =>

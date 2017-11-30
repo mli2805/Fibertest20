@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SQLite;
 using System.Linq;
 using Caliburn.Micro;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using Newtonsoft.Json;
@@ -104,6 +105,8 @@ namespace Iit.Fibertest.Client
                     treeModel?.NotifyOfPropertyChange(nameof(treeModel.Statistics));
                 }
                 CurrentEventNumber++;
+
+
             }
         }
     }

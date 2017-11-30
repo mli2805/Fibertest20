@@ -38,7 +38,7 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
             return src.Task;
         }
         public static Task<BaseRefAssignedDto> AssignBaseRefAsync(
-            this IRtuWcfService rtuWcfService, RtuWcfServiceBackward backwardService, AssignBaseRefDto dto)
+            this IRtuWcfService rtuWcfService, RtuWcfServiceBackward backwardService, AssignBaseRefsDto dto)
         {
             var src = new TaskCompletionSource<BaseRefAssignedDto>();
             backwardService.HandlerForAssignBaseRef.AddHandler(src);

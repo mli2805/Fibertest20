@@ -29,6 +29,7 @@
         DbError = 3000,
         DbInitializedSuccessfully = 3001,
         DbIsNotInitializedError = 3002,
+        DbCannotConvertThisReSendToAssign = 3003,
 
         BaseRefAssignedSuccessfully = 4001,
         MonitoringSettingsAppliedSuccessfully = 4002,
