@@ -125,5 +125,6 @@ namespace Iit.Fibertest.Client.MonitoringSettings
                 FastSave = Model.Frequencies.SelectedFastSaveFreq.GetTimeSpan(),
             };
         }
+        public void Close() { TryClose(); }
     }
 }
