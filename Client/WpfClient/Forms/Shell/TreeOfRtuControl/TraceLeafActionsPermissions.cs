@@ -51,7 +51,13 @@ namespace Iit.Fibertest.Client
 
         public bool CanDetachTrace(object param)
         {
-            return true;
+            var traceLeaf = param as TraceLeaf;
+            if (traceLeaf == null)
+                return false;
+
+            return 
+                   (traceLeaf.RtuMonitoringState == MonitoringState.Off
+                    || !traceLeaf.IsInMonitoringCycle);
         }
 
         public bool CanCleanTrace(object param)
