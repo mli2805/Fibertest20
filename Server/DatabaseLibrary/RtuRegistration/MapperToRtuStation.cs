@@ -14,6 +14,7 @@ namespace Iit.Fibertest.DatabaseLibrary
                 MainAddress = dto.RtuAddresses.Main.GetAddress(),
                 MainAddressPort = dto.RtuAddresses.Main.Port,
                 LastConnectionByMainAddressTimestamp = DateTime.Now,
+                IsMainAddressOkDuePreviousCheck = true,
                 IsReserveAddressSet = dto.RtuAddresses.HasReserveAddress,
             };
             if (dto.RtuAddresses.HasReserveAddress)

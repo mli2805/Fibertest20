@@ -19,33 +19,6 @@ namespace Iit.Fibertest.DatabaseLibrary
 
 
 
-        public async Task<int> RefreshRtuStations()
-        {
-            try
-            {
-                using (var dbContext = new MySqlContext())
-                {
-                    foreach (var rtuStation in dbContext.RtuStations.ToList())
-                    {
-                        rtuStation.LastConnectionByMainAddressTimestamp = DateTime.Now;
-                        if (rtuStation.IsReserveAddressSet)
-                            rtuStation.LastConnectionByReserveAddressTimestamp = DateTime.Now;
-
-                        _logFile.AppendLine($"RTU {rtuStation.RtuGuid.First6()}  main address {rtuStation.MainAddress}");
-                    }
-                    var savedRows = await dbContext.SaveChangesAsync();
-                    _logFile.AppendLine($"{savedRows} RTU found.");
-                    return savedRows;
-                }
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine("FreshUpRtuStations: " + e.Message);
-                return -1;
-            }
-        }
-
-     
         public async Task<int> RegisterRtuAsync(RtuInitializedDto dto)
         {
             try
@@ -150,13 +123,13 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
         }
 
-        public async Task<RtuWithChannelChangesList> GetAndSaveRtuStationsAvailabilityChanges(TimeSpan timeSpan)
+        public async Task<RtuWithChannelChangesList> GetAndSaveRtuStationsAvailabilityChanges(TimeSpan rtuHeartbeatPermittedGap)
         {
             var changes = new RtuWithChannelChangesList();
             try
             {
                 var dbContext = new MySqlContext();
-                DateTime noLaterThan = DateTime.Now - timeSpan;
+                DateTime noLaterThan = DateTime.Now - rtuHeartbeatPermittedGap;
 
                 var stationsWithExpiredMainChannel = dbContext.RtuStations.
                     Where(s => s.LastConnectionByMainAddressTimestamp < noLaterThan && s.IsMainAddressOkDuePreviousCheck).ToList();
