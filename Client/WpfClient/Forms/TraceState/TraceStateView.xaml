@@ -10,7 +10,6 @@
         d:DataContext="{d:DesignInstance client:TraceStateViewModel}">
     <Window.Resources>
         <SolidColorBrush x:Key="TransparentBrush" Color="Transparent"/>
-        <SolidColorBrush x:Key="BlackBrush" Color="Black"/>
     </Window.Resources>
 
     <StackPanel>

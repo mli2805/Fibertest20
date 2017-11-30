@@ -58,7 +58,7 @@ namespace Iit.Fibertest.Client
             var result = _c2DWcfManager.ReSendBaseRefAsync(cmd).Result;
             if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
             {
-                _windowManager.ShowDialog(new NotificationViewModel("Error!", "Cannot send base refs to RTU"));
+                _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error_, Resources.SID_Cannot_send_base_refs_to_RTU));
                 return;
             }
 

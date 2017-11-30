@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Data;
-using System.Windows.Media;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 

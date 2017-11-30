@@ -179,7 +179,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Accept the path?.
+        ///   Looks up a localized string similar to Accept the highlighted with lime color path?.
         /// </summary>
         public static string SID_Accept_the_path {
             get {
@@ -760,6 +760,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Cannot_initialize_dll_ {
             get {
                 return ResourceManager.GetString("SID_Cannot_initialize_dll_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot send base refs to RTU.
+        /// </summary>
+        public static string SID_Cannot_send_base_refs_to_RTU {
+            get {
+                return ResourceManager.GetString("SID_Cannot_send_base_refs_to_RTU", resourceCulture);
             }
         }
         
