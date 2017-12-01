@@ -281,6 +281,7 @@ namespace Iit.Fibertest.Client
             var trace = Traces.First(t => t.Id == e.TraceId);
             trace.Port = -1;
             trace.OtauPort = null;
+            trace.IsIncludedInMonitoringCycle = false;
         }
 
         #endregion

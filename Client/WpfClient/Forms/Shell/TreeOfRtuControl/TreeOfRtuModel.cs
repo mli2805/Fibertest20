@@ -212,6 +212,7 @@ namespace Iit.Fibertest.Client
                 Title = traceLeaf.Title,
                 TraceState = FiberState.NotJoined,
                 Color = Brushes.Blue,
+                IsInMonitoringCycle = false,
             };
 
             ((IPortOwner)owner).ChildrenImpresario.Children.RemoveAt(port - 1);
