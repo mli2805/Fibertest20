@@ -102,6 +102,11 @@ namespace Iit.Fibertest.DataCenterCore
             return _dbRequestManager.GetSorBytesOfMeasurement(sorFileId);
         }
 
+        public Task<byte[]> GetSorBytesOfLastTraceMeasurement(Guid traceId)
+        {
+            return _dbRequestManager.GetSorBytesOfLastTraceMeasurement(traceId);
+        }
+
         public Task<TraceStateDto> GetLastTraceState(Guid traceId)
         {
             return _dbRequestManager.GetLastTraceState(traceId);

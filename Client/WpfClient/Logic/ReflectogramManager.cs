@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
@@ -81,16 +82,9 @@ namespace Iit.Fibertest.Client
             SaveAs(sorbytes, partFilename + timestamp);
         }
 
-
-
         public async void ShowRftsEvents(int sorFileId)
         {
-            var sorbytes = await _c2DWcfManager.GetSorBytesOfMeasurement(sorFileId);
-            if (sorbytes == null)
-            {
-                _logFile.AppendLine($@"Cannot get reflectogram for measurement {sorFileId}");
-                return;
-            }
+            var sorbytes = await GetSorBytes(sorFileId);
 
             OtdrDataKnownBlocks sorData;
             var result = SorData.TryGetFromBytes(sorbytes, out sorData);
@@ -104,7 +98,21 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowWindow(vm);
         }
 
+        public async void ShowRftsEventsOfLastTraceMeasurement(Guid traceId)
+        {
+            var sorbytes = await GetSorBytesOfLastTraceMeasurement(traceId);
 
+            OtdrDataKnownBlocks sorData;
+            var result = SorData.TryGetFromBytes(sorbytes, out sorData);
+            if (result != "")
+            {
+                _logFile.AppendLine(result);
+                return;
+            }
+
+            var vm = new RftsEventsViewModel(sorData);
+            _windowManager.ShowWindow(vm);
+        }
 
         //------------------------------------------------------------------------------------------------
 
@@ -114,6 +122,17 @@ namespace Iit.Fibertest.Client
             if (sorbytes == null)
             {
                 _logFile.AppendLine($@"Cannot get reflectogram for measurement {sorFileId}");
+                return new byte[0];
+            }
+            return sorbytes;
+        }
+
+        private async Task<byte[]> GetSorBytesOfLastTraceMeasurement(Guid traceId)
+        {
+            var sorbytes = await _c2DWcfManager.GetSorBytesOfLastTraceMeasurement(traceId);
+            if (sorbytes == null)
+            {
+                _logFile.AppendLine($@"Cannot get reflectogram for last measurement of trace {traceId.First6()}");
                 return new byte[0];
             }
             return sorbytes;

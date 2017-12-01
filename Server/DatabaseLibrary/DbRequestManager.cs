@@ -115,6 +115,28 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
         }
 
+        public async Task<byte[]> GetSorBytesOfLastTraceMeasurement(Guid traceId)
+        {
+            try
+            {
+                using (var dbContext = new MySqlContext())
+                {
+                    var lastMeas = await dbContext.Measurements.OrderByDescending(m => m.Id).
+                                            Where(m => m.TraceId == traceId).FirstOrDefaultAsync();
+                    if (lastMeas == null)
+                        return null;
+
+                    var result = await dbContext.SorFiles.Where(s => s.Id == lastMeas.SorFileId).FirstOrDefaultAsync();
+                    return result?.SorBytes;
+                }
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("GetSorBytesOfLastTraceMeasurement: " + e.Message);
+                return null;
+            }
+        }
+
         public async Task<TraceStateDto> GetLastTraceState(Guid traceId)
         {
             try
@@ -122,8 +144,8 @@ namespace Iit.Fibertest.DatabaseLibrary
                 using (var dbContext = new MySqlContext())
                 {
 
-                    var list = await dbContext.Measurements.Where(s => s.TraceId == traceId).ToListAsync();
-                    var lastMeas = list?.LastOrDefault();
+                    var lastMeas = await dbContext.Measurements.OrderByDescending(m => m.Id).
+                                            Where(s => s.TraceId == traceId).FirstOrDefaultAsync();
                     if (lastMeas == null)
                         return null;
 

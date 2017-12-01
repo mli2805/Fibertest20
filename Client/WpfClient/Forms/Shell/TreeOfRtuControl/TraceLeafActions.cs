@@ -1,4 +1,6 @@
+using System.Dynamic;
 using System.Linq;
+using System.Windows;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WpfCommonViews;
@@ -11,14 +13,16 @@ namespace Iit.Fibertest.Client
         private readonly IMyLog _logFile;
         private readonly TraceStateManager _traceStateManager;
         private readonly TraceStatisticsViewModel _traceStatisticsViewModel;
+        private readonly ReflectogramManager _reflectogramManager;
 
         public TraceLeafActions(IniFile iniFile, IMyLog logFile, TraceStateManager traceStateManager,
-            TraceStatisticsViewModel traceStatisticsViewModel)
+            TraceStatisticsViewModel traceStatisticsViewModel, ReflectogramManager reflectogramManager)
         {
             _iniFile = iniFile;
             _logFile = logFile;
             _traceStateManager = traceStateManager;
             _traceStatisticsViewModel = traceStatisticsViewModel;
+            _reflectogramManager = reflectogramManager;
         }
 
         public void UpdateTrace(object param)
@@ -64,7 +68,10 @@ namespace Iit.Fibertest.Client
                 return;
 
             _traceStatisticsViewModel.Initialize(traceLeaf.Id);
-            traceLeaf.WindowManager.ShowWindow(_traceStatisticsViewModel);
+
+            dynamic settings = new ExpandoObject();
+            settings.Owner = Application.Current.MainWindow;
+            traceLeaf.WindowManager.ShowWindow(_traceStatisticsViewModel, null, settings);
         }
 
         public void ShowTraceEvents(object param)
@@ -73,14 +80,7 @@ namespace Iit.Fibertest.Client
             if (traceLeaf == null)
                 return;
 
-            //TODO get last measurement sordata and pass it to vm
-            //            if (sorData.RftsEvents.MonitoringResult == (int)ComparisonReturns.NoFiber)
-            //            {
-            //                MessageBox.Show("No Fiber!", "Events");
-            //                return;
-            //            }
-            var vm = new RftsEventsViewModel();
-            traceLeaf.WindowManager.ShowWindow(vm);
+            _reflectogramManager.ShowRftsEventsOfLastTraceMeasurement(traceLeaf.Id);
         }
 
         public void ShowTraceLandmarks(object param)

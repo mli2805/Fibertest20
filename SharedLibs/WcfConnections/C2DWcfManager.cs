@@ -163,6 +163,23 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
+        public async Task<byte[]> GetSorBytesOfLastTraceMeasurement(Guid traceId)
+        {
+            var wcfConnection = _wcfFactory.CreateC2DConnection();
+            if (wcfConnection == null)
+                return null;
+
+            try
+            {
+                return wcfConnection.GetSorBytesOfLastTraceMeasurement(traceId).Result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+                return null;
+            }
+        }
+
         public async Task<TraceStateDto> GetLastTraceState(Guid traceId)
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();

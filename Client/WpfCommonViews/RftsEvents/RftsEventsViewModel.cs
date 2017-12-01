@@ -13,14 +13,8 @@ namespace Iit.Fibertest.WpfCommonViews
 
         public int SelectedIndex { get; set; } = -1;
 
-        public RftsEventsViewModel(OtdrDataKnownBlocks sorData = null)
+        public RftsEventsViewModel(OtdrDataKnownBlocks sorData)
         {
-            if (sorData == null)
-            {
-                var buffer = File.ReadAllBytes(@"..\..\..\WpfCommonViews\SorExample\measwithbase.sor");
-                sorData = SorData.FromBytes(buffer);
-            }
-
             var rftsParameters = sorData.RftsParameters;
             for (int i = 0; i < rftsParameters.LevelsCount; i++)
             {

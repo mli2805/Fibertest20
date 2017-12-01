@@ -7,7 +7,6 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:cal="http://www.caliburnproject.org"
         mc:Ignorable="d" Width="600"
-        Topmost="True"
         d:DataContext="{d:DesignInstance client:TraceStatisticsViewModel}">
     <DockPanel>
         <GroupBox Header="Info" DockPanel.Dock="Top" Margin="5" >
