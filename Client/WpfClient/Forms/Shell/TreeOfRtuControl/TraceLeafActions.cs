@@ -1,6 +1,7 @@
 using System.Dynamic;
 using System.Linq;
 using System.Windows;
+using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WpfCommonViews;
@@ -12,16 +13,14 @@ namespace Iit.Fibertest.Client
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly TraceStateManager _traceStateManager;
-        private readonly TraceStatisticsViewModel _traceStatisticsViewModel;
         private readonly ReflectogramManager _reflectogramManager;
 
         public TraceLeafActions(IniFile iniFile, IMyLog logFile, TraceStateManager traceStateManager,
-            TraceStatisticsViewModel traceStatisticsViewModel, ReflectogramManager reflectogramManager)
+             ReflectogramManager reflectogramManager)
         {
             _iniFile = iniFile;
             _logFile = logFile;
             _traceStateManager = traceStateManager;
-            _traceStatisticsViewModel = traceStatisticsViewModel;
             _reflectogramManager = reflectogramManager;
         }
 
@@ -67,8 +66,9 @@ namespace Iit.Fibertest.Client
             if (traceLeaf == null)
                 return;
 
-            _traceStatisticsViewModel.Initialize(traceLeaf.Id);
-            traceLeaf.WindowManager.ShowWindow(_traceStatisticsViewModel);
+            var vm = IoC.Get<TraceStatisticsViewModel>();
+            vm.Initialize(traceLeaf.Id);
+            traceLeaf.WindowManager.ShowWindow(vm);
         }
 
         public void ShowTraceEvents(object param)
