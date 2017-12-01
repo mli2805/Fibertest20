@@ -7,7 +7,6 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:cal="http://www.caliburnproject.org"
         mc:Ignorable="d"
-        Topmost="True"
         Title="LandmarksView" SizeToContent="Width" Height="708"
         d:DataContext="{d:DesignInstance client:LandmarksViewModel}">
     <DockPanel>

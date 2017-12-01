@@ -14,7 +14,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly ReadModel _readModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
-        private readonly IWindowManager _windowManager;
+        private readonly IMyWindowManager _windowManager;
 
         private Rtu _rtu;
         private readonly Guid _traceId;
@@ -86,7 +86,7 @@ namespace Iit.Fibertest.Client
         /// <param name="traceId"></param>
         /// <param name="traceEquipments"></param>
         /// <param name="traceNodes"></param>
-        public TraceInfoViewModel(ReadModel readModel, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager, 
+        public TraceInfoViewModel(ReadModel readModel, IWcfServiceForClient c2DWcfManager, IMyWindowManager windowManager, 
             Guid traceId, List<Guid> traceEquipments = null, List<Guid> traceNodes = null)
         {
             _readModel = readModel;

@@ -104,7 +104,7 @@ namespace Iit.Fibertest.Client
             return null;
         }
 
-        public RtuLeaf(ILifetimeScope globalScope, IMyLog logFile, ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager,
+        public RtuLeaf(ILifetimeScope globalScope, IMyLog logFile, ReadModel readModel, IMyWindowManager windowManager, IWcfServiceForClient c2DWcfManager,
             PostOffice postOffice, FreePorts view)
             : base(readModel, windowManager, c2DWcfManager, postOffice)
         {

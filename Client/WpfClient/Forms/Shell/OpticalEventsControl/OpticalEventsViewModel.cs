@@ -14,7 +14,7 @@ namespace Iit.Fibertest.Client
     public class OpticalEventsViewModel : PropertyChangedBase
     {
         private readonly ReadModel _readModel;
-        private readonly IWindowManager _windowManager;
+        private readonly IMyWindowManager _windowManager;
         private readonly ReflectogramManager _reflectogramManager;
         private readonly TraceStateManager _traceStateManager;
         private Visibility _opticalEventsVisibility;
@@ -75,7 +75,7 @@ namespace Iit.Fibertest.Client
         }
 
 
-        public OpticalEventsViewModel(ReadModel readModel, IWindowManager windowManager,
+        public OpticalEventsViewModel(ReadModel readModel, IMyWindowManager windowManager,
             ReflectogramManager reflectogramManager, TraceStateManager traceStateManager)
         {
             _readModel = readModel;

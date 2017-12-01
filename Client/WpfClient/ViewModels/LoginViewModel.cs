@@ -11,7 +11,7 @@ namespace Iit.Fibertest.Client
 {
     public class LoginViewModel : Screen
     {
-        private readonly IWindowManager _windowManager;
+        private readonly IMyWindowManager _windowManager;
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly IWcfServiceForClient _c2DWcfManager;
@@ -45,7 +45,7 @@ namespace Iit.Fibertest.Client
         }
 
 
-        public LoginViewModel(IWindowManager windowManager, IniFile iniFile, IMyLog logFile,
+        public LoginViewModel(IMyWindowManager windowManager, IniFile iniFile, IMyLog logFile,
             IWcfServiceForClient c2DWcfManager)
         {
             _windowManager = windowManager;

@@ -13,7 +13,7 @@ namespace Iit.Fibertest.Client
     {
         private List<User> _users;
         private List<Zone> _zones;
-        private readonly IWindowManager _windowManager;
+        private readonly IMyWindowManager _windowManager;
         public ObservableCollection<UserVm> Rows { get; set; }
 
         private UserVm _selectedUserVm;
@@ -31,7 +31,7 @@ namespace Iit.Fibertest.Client
 
         public static List<Role> Roles { get; set; }
 
-        public UserListViewModel(List<User> users, List<Zone> zones, IWindowManager windowManager)
+        public UserListViewModel(List<User> users, List<Zone> zones, IMyWindowManager windowManager)
         {
             _users = users;
             _zones = zones;

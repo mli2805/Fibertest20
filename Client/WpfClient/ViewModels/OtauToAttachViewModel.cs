@@ -18,7 +18,7 @@ namespace Iit.Fibertest.Client
         private readonly int _portNumberForAttachment;
         private readonly ReadModel _readModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
-        private readonly IWindowManager _windowManager;
+        private readonly IMyWindowManager _windowManager;
         private readonly IniFile _iniFile35;
         private readonly IMyLog _logFile;
 
@@ -73,7 +73,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public OtauToAttachViewModel(Guid rtuId, int portNumberForAttachment, ReadModel readModel, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager, IniFile iniFile35, IMyLog logFile)
+        public OtauToAttachViewModel(Guid rtuId, int portNumberForAttachment, ReadModel readModel, IWcfServiceForClient c2DWcfManager, IMyWindowManager windowManager, IniFile iniFile35, IMyLog logFile)
         {
             _rtuId = rtuId;
             _portNumberForAttachment = portNumberForAttachment;

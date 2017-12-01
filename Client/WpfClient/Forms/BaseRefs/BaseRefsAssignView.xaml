@@ -5,7 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
-        Topmost="True"
         Title="BaseRefsAssignView" SizeToContent="Height" WindowStartupLocation="CenterOwner" Width="300">
     <StackPanel>
         <GroupBox Margin="5" Header="{x:Static stringResources:Resources.SID_Trace_information}">

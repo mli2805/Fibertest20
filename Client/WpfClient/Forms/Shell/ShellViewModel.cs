@@ -34,7 +34,7 @@ namespace Iit.Fibertest.Client
 
         private string _server;
 
-        private readonly IWindowManager _windowManager;
+        private readonly IMyWindowManager _windowManager;
         private readonly ClientHeartbeat _clientHeartbeat;
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
@@ -65,7 +65,7 @@ namespace Iit.Fibertest.Client
 
         public ShellViewModel(ReadModel readModel, TreeOfRtuModel treeOfRtuModel, IWcfServiceForClient c2DWcfManager,
                 GraphReadModel graphReadModel, OpticalEventsViewModel opticalEventsViewModel, NetworkEventsViewModel networkEventsViewModel,
-                IWindowManager windowManager, ClientHeartbeat clientHeartbeat,
+            IMyWindowManager windowManager, ClientHeartbeat clientHeartbeat,
                 IniFile iniFile, ILogger clientLogger, IMyLog logFile, ClientWcfService clientWcfService, IClientWcfServiceHost host)
         {
             ReadModel = readModel;

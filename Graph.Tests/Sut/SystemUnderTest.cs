@@ -33,7 +33,7 @@ namespace Graph.Tests
         {
             var builder = new ContainerBuilder();
             builder.RegisterModule<AutofacClient>();
-            builder.RegisterType<FakeWindowManager>().As<IWindowManager>().SingleInstance();
+            builder.RegisterType<FakeWindowManager>().As<IMyWindowManager>().SingleInstance();
             builder.RegisterType<FakeLocalDbManager>().As<ILocalDbManager>().SingleInstance();
             builder.RegisterType<FakeClientWcfServiceHost>().As<IClientWcfServiceHost>();
 
@@ -58,7 +58,7 @@ namespace Graph.Tests
             var container = builder.Build();
 
             Poller = container.Resolve<ClientPoller>();
-            FakeWindowManager = (FakeWindowManager)container.Resolve<IWindowManager>();
+            FakeWindowManager = (FakeWindowManager)container.Resolve<IMyWindowManager>();
             MyLogFile = container.Resolve<IMyLog>();
             WcfServiceForClient = (WcfServiceForClient) container.Resolve<IWcfServiceForClient>();
             ShellVm = (ShellViewModel)container.Resolve<IShell>();

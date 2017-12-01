@@ -12,12 +12,12 @@ namespace Iit.Fibertest.Client
     {
         private readonly IMyLog _logFile;
         private readonly ReadModel _readModel;
-        private readonly IWindowManager _windowManager;
+        private readonly IMyWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly TraceStateViewModel _traceStateViewModel;
 
         public TraceStateManager(IMyLog logFile, ReadModel readModel, 
-            IWindowManager windowManager, IWcfServiceForClient c2DWcfManager,
+            IMyWindowManager windowManager, IWcfServiceForClient c2DWcfManager,
             TraceStateViewModel traceStateViewModel)
         {
             _logFile = logFile;

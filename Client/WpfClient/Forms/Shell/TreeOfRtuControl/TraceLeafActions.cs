@@ -68,10 +68,7 @@ namespace Iit.Fibertest.Client
                 return;
 
             _traceStatisticsViewModel.Initialize(traceLeaf.Id);
-
-            dynamic settings = new ExpandoObject();
-            settings.Owner = Application.Current.MainWindow;
-            traceLeaf.WindowManager.ShowWindow(_traceStatisticsViewModel, null, settings);
+            traceLeaf.WindowManager.ShowWindow(_traceStatisticsViewModel);
         }
 
         public void ShowTraceEvents(object param)

@@ -6,7 +6,6 @@
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
-        Topmost="True"
         SizeToContent="Height" Width="550" WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
         d:DataContext="{d:DesignInstance client:LandmarkViewModel}">
     <StackPanel>

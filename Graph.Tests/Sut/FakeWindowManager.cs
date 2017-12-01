@@ -7,12 +7,13 @@ using Iit.Fibertest.Client;
 
 namespace Graph.Tests
 {
-    public class FakeWindowManager : IWindowManager
+    public class FakeWindowManager : IMyWindowManager
     {
         private readonly List<Func<object, bool>> _handlersQueue =
             new List<Func<object, bool>>();
         public readonly List<object> Log = new List<object>();
-        public bool? ShowDialog(object rootModel, object context = null, IDictionary<string, object> settings = null)
+        //public bool? ShowDialog(object rootModel, object context = null, IDictionary<string, object> settings = null)
+        public bool? ShowDialog(object rootModel)
         {
             Log.Add(rootModel);
             var one = _handlersQueue.FirstOrDefault(handler => handler(rootModel));
@@ -24,7 +25,8 @@ namespace Graph.Tests
         }
 
         [ExcludeFromCodeCoverage]
-        public void ShowWindow(object rootModel, object context = null, IDictionary<string, object> settings = null)
+        //public void ShowWindow(object rootModel, object context = null, IDictionary<string, object> settings = null)
+        public void ShowWindow(object rootModel)
         {
             Log.Add(rootModel);
             var one = _handlersQueue.FirstOrDefault(handler => handler(rootModel));

@@ -6,7 +6,6 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         mc:Ignorable="d"
-        Topmost ="True"
         SizeToContent="Height" Width="400" WindowStartupLocation="CenterOwner"
         d:DataContext="{d:DesignInstance client:RtuUpdateViewModel}"
         FocusManager.FocusedElement="{Binding ElementName=TextBoxTitle}">

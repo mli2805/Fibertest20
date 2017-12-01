@@ -5,7 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
-        Topmost ="True"
         SizeToContent="Height" Width="350" WindowStartupLocation="CenterOwner">
     <StackPanel FocusManager.FocusedElement="{Binding ElementName=Count}">
         <StackPanel Orientation="Horizontal" Margin="5">

@@ -11,7 +11,7 @@ namespace Iit.Fibertest.Client
     {
         //user asks equipment addition on the map
         public static async Task AddEquipmentIntoNodeFullTask(RequestAddEquipmentIntoNode request, 
-            ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager)
+            ReadModel readModel, IMyWindowManager windowManager, IWcfServiceForClient c2DWcfManager)
         {
             var cmd = BuildAddEquipmentIntoNodeCommand(request.NodeId, readModel, windowManager);
             if (cmd == null)
@@ -21,7 +21,7 @@ namespace Iit.Fibertest.Client
 
         // user asks equipment addition from node update view
         public static AddEquipmentIntoNode BuildAddEquipmentIntoNodeCommand(Guid nodeId, 
-            ReadModel readModel, IWindowManager windowManager)
+            ReadModel readModel, IMyWindowManager windowManager)
         {
             var tracesInNode = readModel.Traces.Where(t => t.Nodes.Contains(nodeId)).ToList();
             TraceChoiceViewModel traceChoiceVm = null;

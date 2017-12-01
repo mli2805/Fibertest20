@@ -14,7 +14,7 @@ namespace Iit.Fibertest.Client
         private readonly int _portNumber;
         private readonly OtauPortDto _otauPortDto;
         private readonly IWcfServiceForClient _c2DWcfManager;
-        private readonly IWindowManager _windowManager;
+        private readonly IMyWindowManager _windowManager;
         private Trace _selectedTrace;
 
         public List<Trace> Choices { get; set; }
@@ -31,7 +31,7 @@ namespace Iit.Fibertest.Client
         }
 
         public TraceToAttachViewModel(Guid rtuId, int portNumber, OtauPortDto otauPortDto, 
-            ReadModel readModel, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
+            ReadModel readModel, IWcfServiceForClient c2DWcfManager, IMyWindowManager windowManager)
         {
             _portNumber = portNumber;
             _otauPortDto = otauPortDto;

@@ -66,7 +66,7 @@ namespace Iit.Fibertest.Client
         }
 
         private readonly ReadModel _readModel;
-        private readonly IWindowManager _windowManager;
+        private readonly IMyWindowManager _windowManager;
         private List<Landmark> _landmarks;
 
         private ObservableCollection<LandmarkRow> _rows;
@@ -83,7 +83,7 @@ namespace Iit.Fibertest.Client
 
         public LandmarkRow SelectedRow { get; set; }
 
-        public LandmarksViewModel(ReadModel readModel, IWindowManager windowManager)
+        public LandmarksViewModel(ReadModel readModel, IMyWindowManager windowManager)
         {
             _readModel = readModel;
             _windowManager = windowManager;

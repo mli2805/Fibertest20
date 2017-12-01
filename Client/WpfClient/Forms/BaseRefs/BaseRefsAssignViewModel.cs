@@ -19,7 +19,7 @@ namespace Iit.Fibertest.Client
         private readonly ReadModel _readModel;
 
         private readonly IWcfServiceForClient _c2DWcfManager;
-        private readonly IWindowManager _windowManager;
+        private readonly IMyWindowManager _windowManager;
         private readonly SorExt _sorExt;
 
         private string _preciseBaseFilename;
@@ -96,7 +96,7 @@ namespace Iit.Fibertest.Client
         }
 
         public BaseRefsAssignViewModel(IniFile iniFile, ReadModel readModel, 
-            IWcfServiceForClient c2DWcfManager, IWindowManager windowManager, SorExt sorExt)
+            IWcfServiceForClient c2DWcfManager, IMyWindowManager windowManager, SorExt sorExt)
         {
             _iniFile = iniFile;
             _readModel = readModel;

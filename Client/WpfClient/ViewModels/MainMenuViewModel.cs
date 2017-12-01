@@ -4,9 +4,9 @@ namespace Iit.Fibertest.Client
 {
     public class MainMenuViewModel
     {
-        private readonly IWindowManager _windowManager;
+        private readonly IMyWindowManager _windowManager;
 
-        public MainMenuViewModel(IWindowManager windowManager)
+        public MainMenuViewModel(IMyWindowManager windowManager)
         {
             _windowManager = windowManager;
         }

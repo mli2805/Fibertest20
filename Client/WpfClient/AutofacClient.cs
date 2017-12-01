@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Dynamic;
 using System.Globalization;
 using System.Threading;
+using System.Windows;
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
@@ -11,11 +13,48 @@ using Serilog;
 
 namespace Iit.Fibertest.Client
 {
+    public interface IMyWindowManager
+    {
+        bool? ShowDialog(object rootModel);
+        void ShowWindow(object rootModel);
+        void ShowPopup(object rootModel, object context = null, IDictionary<string, object> settings = null);
+    }
+
+    public class MyWindowManager : IMyWindowManager
+    {
+        private readonly IWindowManager _windowManager;
+
+        public MyWindowManager(IWindowManager windowManager)
+        {
+            _windowManager = windowManager;
+        }
+
+        public bool? ShowDialog(object rootModel)
+        {
+            dynamic settings = new ExpandoObject();
+            settings.Owner = Application.Current.MainWindow;
+            return _windowManager.ShowDialog(rootModel, null, settings);
+        }
+
+        public void ShowWindow(object rootModel)
+        {
+            dynamic settings = new ExpandoObject();
+            settings.Owner = Application.Current.MainWindow;
+            _windowManager.ShowWindow(rootModel, null, settings);
+        }
+
+        public void ShowPopup(object rootModel, object context = null, IDictionary<string, object> settings = null)
+        {
+            throw new System.NotImplementedException();
+        }
+    }
+
     public sealed class AutofacClient : Module
     {
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<WindowManager>().As<IWindowManager>().SingleInstance();
+            builder.RegisterType<MyWindowManager>().As<IMyWindowManager>().SingleInstance();
 
             builder.RegisterType<LocalDbManager>().As<ILocalDbManager>().SingleInstance();
             builder.RegisterType<ReflectogramManager>().SingleInstance();

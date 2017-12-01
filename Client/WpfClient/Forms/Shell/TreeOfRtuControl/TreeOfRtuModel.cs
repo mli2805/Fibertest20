@@ -15,7 +15,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly TraceLeafContextMenuProvider _traceLeafContextMenuProvider;
-        private readonly IWindowManager _windowManager;
+        private readonly IMyWindowManager _windowManager;
         private readonly ReadModel _readModel;
 
         private readonly IWcfServiceForClient _c2DWcfManager;
@@ -48,7 +48,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public TreeOfRtuModel(IWindowManager windowManager, ReadModel readModel,
+        public TreeOfRtuModel(IMyWindowManager windowManager, ReadModel readModel,
             IWcfServiceForClient c2DWcfManager, IniFile iniFile35, IMyLog logFile,
             // only for pass to it's leaves
             ILifetimeScope globalScope, PostOffice postOffice, FreePorts freePorts, TraceLeafContextMenuProvider traceLeafContextMenuProvider)

@@ -20,7 +20,7 @@ namespace Iit.Fibertest.Client
 
         private readonly ILifetimeScope _globalScope;
         private readonly ReadModel _readModel;
-        private readonly IWindowManager _windowManager;
+        private readonly IMyWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly IMyLog _logFile;
 
@@ -42,7 +42,7 @@ namespace Iit.Fibertest.Client
             : OriginalRtu.OtdrNetAddress.Ip4Address;
 
 
-        public RtuInitializeViewModel(ILifetimeScope globalScope, ReadModel readModel, IWindowManager windowManager,
+        public RtuInitializeViewModel(ILifetimeScope globalScope, ReadModel readModel, IMyWindowManager windowManager,
             IWcfServiceForClient c2DWcfManager, IMyLog logFile, RtuLeaf rtuLeaf)
         {
             _globalScope = globalScope;
