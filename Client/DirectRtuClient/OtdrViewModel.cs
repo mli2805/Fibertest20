@@ -339,7 +339,8 @@ namespace DirectRtuClient
                     IsMeasurementInProgress = false;
                     if (result != ReturnCode.MeasurementEndedNormally)
                         return;
-                    await Task.Run(() => ProcessMeasurementResult(baseBytes, c));
+                    //await Task.Run(() => ProcessMeasurementResult(baseBytes, c));
+                    ProcessMeasurementResult(baseBytes, c);
                 }
                 c++;
             }

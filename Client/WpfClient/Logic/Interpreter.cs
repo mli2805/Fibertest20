@@ -17,7 +17,7 @@ namespace Iit.Fibertest.Client
             return new BitmapImage(new Uri(path));
         }
 
-        public static Brush GetBrush(this FiberState state, bool isForeground = true)
+        public static Brush GetBrush(this FiberState state, bool isForeground)
         {
             switch (state)
             {

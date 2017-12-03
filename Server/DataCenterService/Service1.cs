@@ -13,7 +13,6 @@ namespace Iit.Fibertest.DataCenterService
         private readonly IMyLog _logFile;
         private readonly EventStoreService _eventStoreService;
         private readonly ClientRegistrationManager _clientRegistrationManager;
-        private readonly RtuRegistrationManager _rtuRegistrationManager;
         private readonly LastConnectionTimeChecker _lastConnectionTimeChecker;
         private readonly WcfServiceForClientBootstrapper _wcfServiceForClientBootstrapper;
         private readonly WcfServiceForRtuBootstrapper _wcfServiceForRtuBootstrapper;
@@ -22,7 +21,6 @@ namespace Iit.Fibertest.DataCenterService
         public Service1(IniFile iniFile, IMyLog logFile,
             EventStoreService eventStoreService, 
             ClientRegistrationManager clientRegistrationManager,
-            RtuRegistrationManager rtuRegistrationManager,
             LastConnectionTimeChecker lastConnectionTimeChecker,
             WcfServiceForClientBootstrapper wcfServiceForClientBootstrapper,
             WcfServiceForRtuBootstrapper wcfServiceForRtuBootstrapper,
@@ -32,7 +30,6 @@ namespace Iit.Fibertest.DataCenterService
             _logFile = logFile;
             _eventStoreService = eventStoreService;
             _clientRegistrationManager = clientRegistrationManager;
-            _rtuRegistrationManager = rtuRegistrationManager;
             _logFile.AssignFile("DataCenter.log");
             _lastConnectionTimeChecker = lastConnectionTimeChecker;
             _wcfServiceForClientBootstrapper = wcfServiceForClientBootstrapper;
