@@ -31,7 +31,7 @@
                 <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Responsibility_zone}" Width="220" Binding="{Binding ZoneName}" />
                 <DataGridTemplateColumn Header="{x:Static stringResources:Resources.SID_Email}" Width="320">
                     <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
+                        <DataTemplate DataType="{x:Type testBench:UserVm}">
                             <StackPanel Orientation="Horizontal">
                                 <CheckBox IsChecked="{Binding IsEmailActivated}" IsEnabled="False" Margin="5,0"/>
                                 <TextBlock Text="{Binding Email}"/>

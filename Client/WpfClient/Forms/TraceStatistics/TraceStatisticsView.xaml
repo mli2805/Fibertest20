@@ -62,7 +62,7 @@
                             </Style>
                         </DataGridTemplateColumn.CellStyle>
                         <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
+                            <DataTemplate DataType="{x:Type client:MeasurementVm}">
                                 <TextBlock Text="{Binding TraceStateOnScreen}" TextAlignment="Center" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>

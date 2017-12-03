@@ -52,7 +52,7 @@
                         </Style>
                     </DataGridTemplateColumn.CellStyle>
                     <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
+                        <DataTemplate DataType="{x:Type client:OpticalEventVm}">
                             <TextBlock Text="{Binding TraceStateOnScreen}" TextAlignment="Center"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -62,7 +62,8 @@
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <DockPanel >
-                                <TextBlock DockPanel.Dock="Top" Margin="0,0,0,5" Text="{x:Static stringResources:Resources.SID_Event_status}" Width="115" TextAlignment="Center"/>
+                                <TextBlock DockPanel.Dock="Top" Margin="0,0,0,5" Text="{x:Static stringResources:Resources.SID_Event_status}"
+                                           Width="115" TextAlignment="Center"/>
                                 <ComboBox Height="23" 
                                           ItemsSource="{Binding Path=DataContext.EventStatusFilters, 
                                     RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" 
@@ -77,7 +78,7 @@
                         </Style>
                     </DataGridTemplateColumn.CellStyle>
                     <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
+                        <DataTemplate DataType="{x:Type client:OpticalEventVm}">
                             <TextBlock Text="{Binding EventStatusInTable}" TextAlignment="Center"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
