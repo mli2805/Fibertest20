@@ -1,6 +1,4 @@
-﻿using System.IO;
-using Caliburn.Micro;
-using Iit.Fibertest.IitOtdrLibrary;
+﻿using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 

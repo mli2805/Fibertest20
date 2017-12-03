@@ -1,10 +1,7 @@
-using System.Dynamic;
 using System.Linq;
-using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.Client
 {

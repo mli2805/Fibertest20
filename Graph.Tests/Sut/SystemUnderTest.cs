@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Autofac;
-using Caliburn.Micro;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.DatabaseLibrary.DbContexts;
