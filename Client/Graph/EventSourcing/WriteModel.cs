@@ -243,6 +243,14 @@ namespace Iit.Fibertest.Graph
             _traces.Add(_mapper.Map<Trace>(e));
         }
 
+        public void Apply(TraceCleaned e)
+        {
+            var trace = _traces.FirstOrDefault(t => t.Id == e.Id);
+            if (trace != null)
+                _traces.Remove(trace);
+            else _logFile.AppendLine($@"TraceCleaned: Trace {e.Id} not found");
+        }
+
         public void Apply(TraceRemoved e)
         {
             var trace = _traces.FirstOrDefault(t => t.Id == e.Id);
