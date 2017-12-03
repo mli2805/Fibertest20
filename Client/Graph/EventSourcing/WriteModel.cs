@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using AutoMapper;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph.Algorithms;
@@ -241,6 +242,13 @@ namespace Iit.Fibertest.Graph
         public void Apply(TraceAdded e)
         {
             _traces.Add(_mapper.Map<Trace>(e));
+        }
+
+        public void Apply(TraceCleaned e)
+        {
+            var trace = _traces.FirstOrDefault(t => t.Id == e.Id);
+            if (trace != null)
+                _traces.Remove(trace);
         }
 
         public void Apply(TraceRemoved e)
