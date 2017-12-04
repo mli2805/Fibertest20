@@ -1,6 +1,8 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Data;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 
@@ -37,6 +39,9 @@ namespace Iit.Fibertest.Client
         public NetworkEventsViewModel(ReadModel readModel)
         {
             _readModel = readModel;
+
+            var view = CollectionViewSource.GetDefaultView(Rows);
+            view.SortDescriptions.Add(new SortDescription(@"Nomer", ListSortDirection.Descending));
         }
 
         public void Apply(NetworkEvent networkEvent)

@@ -26,6 +26,12 @@
                 <DataGridTextColumn Header="Reserve channel" Binding="{Binding ReserveChannelState}" Width="100"/>
                 <DataGridTextColumn Header="Bop" Binding="{Binding BopString}" Width="100"/>
             </DataGrid.Columns>
+            <DataGrid.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="LightBlue" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="GhostWhite" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="Black" />
+            </DataGrid.Resources>
         </DataGrid>
     </DockPanel>
 </UserControl>
