@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Caliburn.Micro;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using Newtonsoft.Json;
@@ -16,7 +17,7 @@ namespace Iit.Fibertest.Client
             {
                 TypeNameHandling = TypeNameHandling.All
             };
-        public IWcfServiceForClient Channel;
+        public IWcfServiceForClient WcfConnection;
         private readonly OpticalEventsViewModel _opticalEventsViewModel;
         private readonly NetworkEventsViewModel _networkEventsViewModel;
         private readonly IMyLog _logFile;
@@ -28,11 +29,11 @@ namespace Iit.Fibertest.Client
         public int LastOpticalEventNumber { get; set; }
         public int LastNetworkEventNumber { get; set; }
 
-        public ClientPoller(IWcfServiceForClient channel, List<object> readModels,
+        public ClientPoller(IWcfServiceForClient wcfConnection, List<object> readModels,
             OpticalEventsViewModel opticalEventsViewModel, NetworkEventsViewModel networkEventsViewModel,
             IMyLog logFile, ILocalDbManager localDbManager)
         {
-            Channel = channel;
+            WcfConnection = wcfConnection;
             _opticalEventsViewModel = opticalEventsViewModel;
             _networkEventsViewModel = networkEventsViewModel;
             _logFile = logFile;
@@ -49,7 +50,7 @@ namespace Iit.Fibertest.Client
 
         public void Tick()
         {
-            string[] events = Channel.GetEvents(CurrentEventNumber);// .Result;
+            string[] events = WcfConnection.GetEvents(CurrentEventNumber);// .Result;
             if (events == null)
             {
                 _logFile.AppendLine(@"Cannot establish datacenter connection.");
@@ -63,9 +64,11 @@ namespace Iit.Fibertest.Client
             }
 
 
-            var opticalEvents = Channel.GetOpticalEvents(LastOpticalEventNumber).Result;
+            var opticalEvents = WcfConnection.GetOpticalEvents(LastOpticalEventNumber).Result;
             if (opticalEvents?.Events != null && opticalEvents.Events.Any())
             {
+                ApplyOpticalEvents(opticalEvents);
+
                 LastOpticalEventNumber = opticalEvents.Events.Last().Id;
                 foreach (var opticalEvent in opticalEvents.Events)
                 {
@@ -73,15 +76,18 @@ namespace Iit.Fibertest.Client
                 }
             }
 
-            var networkEvents = Channel.GetNetworkEvents(LastNetworkEventNumber).Result;
+            var networkEvents = WcfConnection.GetNetworkEvents(LastNetworkEventNumber).Result;
             if (networkEvents?.Events != null && networkEvents.Events.Any())
             {
+                ApplyNetworkEvents(networkEvents);
+
                 LastNetworkEventNumber = networkEvents.Events.Last().Id;
                 foreach (var networkEvent in networkEvents.Events)
                 {
                     _networkEventsViewModel.Apply(networkEvent);
                 }
             }
+            
         }
 
         private void ApplyEventSourcingEvents(string[] events)
@@ -103,6 +109,27 @@ namespace Iit.Fibertest.Client
                 CurrentEventNumber++;
 
 
+            }
+        }
+
+        private void ApplyNetworkEvents(NetworkEventsList list)
+        {
+            foreach (var networkEvent in list.Events)
+            {
+                foreach (var m in ReadModels)
+                {
+                    m.AsDynamic().Apply(networkEvent);
+                }
+            }
+        }
+        private void ApplyOpticalEvents(OpticalEventsList list)
+        {
+            foreach (var opticalEvent in list.Events)
+            {
+                foreach (var m in ReadModels)
+                {
+                    m.AsDynamic().Apply(opticalEvent);
+                }
             }
         }
     }

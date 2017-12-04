@@ -21,7 +21,7 @@ namespace Iit.Fibertest.Client
 
         public int FullPortCount { get; set; }
         public int OwnPortCount { get; set; }
-        public string PortCountOnScreen => $"{OwnPortCount}/{FullPortCount}";
+        public string PortCountOnScreen => $@"{OwnPortCount}/{FullPortCount}";
         public int ActivePort { get; set; }
         public string ActivePortOnScreen => ActivePort < 1 ? "unknown" : $@"{ActivePort}";
 

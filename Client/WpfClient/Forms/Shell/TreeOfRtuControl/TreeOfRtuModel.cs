@@ -151,6 +151,27 @@ namespace Iit.Fibertest.Client
                     rtuLeaf.MainChannelState = RtuPartState.Broken;
             }
         }
+
+        public void Apply(NetworkEvent networkEvent)
+        {
+            var rtuLeaf = (RtuLeaf)Tree.GetById(networkEvent.RtuId);
+            if (rtuLeaf == null)
+                return;
+
+            if (networkEvent.MainChannelState != ChannelStateChanges.TheSame)
+                rtuLeaf.MainChannelState = (RtuPartState)(int)networkEvent.MainChannelState;
+            if (networkEvent.ReserveChannelState != ChannelStateChanges.TheSame)
+                rtuLeaf.ReserveChannelState = (RtuPartState)(int)networkEvent.ReserveChannelState;
+        }
+
+        public void Apply(OpticalEvent opticalEvent)
+        {
+            var traceLeaf = (TraceLeaf)Tree.GetById(opticalEvent.TraceId);
+            if (traceLeaf == null)
+                return;
+
+            traceLeaf.TraceState = opticalEvent.TraceState;
+        }
         #endregion
 
         #region Trace
