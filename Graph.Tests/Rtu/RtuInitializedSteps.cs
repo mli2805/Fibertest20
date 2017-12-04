@@ -11,9 +11,14 @@ namespace Graph.Tests
     [Binding]
     public sealed class RtuInitializedSteps
     {
-        private readonly SutForTraceAttach _sut = new SutForTraceAttach();
+        private readonly SutForTraceAttach _sut;
         private RtuLeaf _rtuLeaf;
         private string _mainAddress, _reserveAddress;
+
+        public RtuInitializedSteps(SutForTraceAttach sut)
+        {
+            _sut = sut;
+        }
 
         [Given(@"Существует RTU с основным (.*) и резервным (.*) адресами")]
         public void GivenСуществуетRTUСОсновным_ИРезервным_Адресами(string p0, string p1)
@@ -47,8 +52,7 @@ namespace Graph.Tests
             _sut.FakeWindowManager.RegisterHandler(m => m is NotificationViewModel);
             _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler(model, _rtuLeaf.Id, p0, "", Answer.Yes));
 
-            var actions = new RtuLeafActions(_sut.MyLogFile);
-            actions.InitializeRtu(_rtuLeaf);
+            _sut.RtuLeafActions.InitializeRtu(_rtuLeaf);
             _sut.Poller.Tick();
         }
 
@@ -60,8 +64,7 @@ namespace Graph.Tests
             _sut.FakeWindowManager.RegisterHandler(m => m is NotificationViewModel);
             _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler(model, _rtuLeaf.Id, p0, p1, Answer.Yes));
 
-            var actions = new RtuLeafActions(_sut.MyLogFile);
-            actions.InitializeRtu(_rtuLeaf);
+            _sut.RtuLeafActions.InitializeRtu(_rtuLeaf);
             _sut.Poller.Tick();
         }
 
@@ -84,8 +87,7 @@ namespace Graph.Tests
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler(model, _rtuLeaf.Id, "", "", Answer.Cancel));
 
-            var actions = new RtuLeafActions(_sut.MyLogFile);
-            actions.InitializeRtu(_rtuLeaf);
+            _sut.RtuLeafActions.InitializeRtu(_rtuLeaf);
             _sut.Poller.Tick();
         }
 

@@ -111,8 +111,7 @@ namespace Graph.Tests
             var rtuLeaf = (RtuLeaf)ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(rtuId);
             FakeWindowManager.RegisterHandler(model => RtuInitializeHandler(model, rtuId, "", "", Answer.Yes));
 
-            var actions = new RtuLeafActions(MyLogFile);
-            actions.InitializeRtu(rtuLeaf);
+            RtuLeafActions.InitializeRtu(rtuLeaf);
 
             Poller.Tick();
 

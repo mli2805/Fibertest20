@@ -14,6 +14,7 @@ namespace Iit.Fibertest.Client
     {
         public readonly ILifetimeScope GlobalScope;
         private readonly IMyLog _logFile;
+        private readonly RtuLeafContextMenuProvider _rtuLeafContextMenuProvider;
 
         #region Pictograms
         private MonitoringState _monitoringState;
@@ -103,12 +104,14 @@ namespace Iit.Fibertest.Client
             return null;
         }
 
-        public RtuLeaf(ILifetimeScope globalScope, IMyLog logFile, ReadModel readModel, IMyWindowManager windowManager, IWcfServiceForClient c2DWcfManager,
+        public RtuLeaf(ILifetimeScope globalScope, IMyLog logFile, ReadModel readModel, IMyWindowManager windowManager, 
+            IWcfServiceForClient c2DWcfManager, RtuLeafContextMenuProvider rtuLeafContextMenuProvider,
             PostOffice postOffice, FreePorts view)
             : base(readModel, windowManager, c2DWcfManager, postOffice)
         {
             GlobalScope = globalScope;
             _logFile = logFile;
+            _rtuLeafContextMenuProvider = rtuLeafContextMenuProvider;
             ChildrenImpresario = new ChildrenImpresario(view);
 
             Title = Resources.SID_noname_RTU;
@@ -117,11 +120,7 @@ namespace Iit.Fibertest.Client
         }
         protected override List<MenuItemVm> GetMenuItems()
         {
-            return new RtuLeafContextMenuProvider(_logFile).GetMenu(this);
+            return _rtuLeafContextMenuProvider.GetMenu(this);
         }
-
-
-
-
     }
 }

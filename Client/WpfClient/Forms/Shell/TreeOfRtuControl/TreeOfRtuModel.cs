@@ -14,6 +14,7 @@ namespace Iit.Fibertest.Client
     public class TreeOfRtuModel : PropertyChangedBase
     {
         private readonly ILifetimeScope _globalScope;
+        private readonly RtuLeafContextMenuProvider _rtuLeafContextMenuProvider;
         private readonly TraceLeafContextMenuProvider _traceLeafContextMenuProvider;
         private readonly IMyWindowManager _windowManager;
         private readonly ReadModel _readModel;
@@ -51,9 +52,12 @@ namespace Iit.Fibertest.Client
         public TreeOfRtuModel(IMyWindowManager windowManager, ReadModel readModel,
             IWcfServiceForClient c2DWcfManager, IniFile iniFile35, IMyLog logFile,
             // only for pass to it's leaves
-            ILifetimeScope globalScope, PostOffice postOffice, FreePorts freePorts, TraceLeafContextMenuProvider traceLeafContextMenuProvider)
+            ILifetimeScope globalScope, PostOffice postOffice, FreePorts freePorts, 
+            RtuLeafContextMenuProvider rtuLeafContextMenuProvider,
+            TraceLeafContextMenuProvider traceLeafContextMenuProvider)
         {
             _globalScope = globalScope;
+            _rtuLeafContextMenuProvider = rtuLeafContextMenuProvider;
             _traceLeafContextMenuProvider = traceLeafContextMenuProvider;
             _windowManager = windowManager;
             _readModel = readModel;
@@ -69,7 +73,8 @@ namespace Iit.Fibertest.Client
         #region Rtu
         public void Apply(RtuAtGpsLocationAdded e)
         {
-            var newRtuLeaf = new RtuLeaf(_globalScope, _logFile, _readModel, _windowManager, _c2DWcfManager, PostOffice, FreePorts);
+            var newRtuLeaf = new RtuLeaf(_globalScope, _logFile, _readModel, _windowManager,
+                _c2DWcfManager, _rtuLeafContextMenuProvider, PostOffice, FreePorts);
             newRtuLeaf.Id = e.Id;
             Tree.Add(newRtuLeaf);
             NotifyOfPropertyChange(nameof(Statistics));
@@ -133,7 +138,19 @@ namespace Iit.Fibertest.Client
             portLeaf.Parent = rtuLeaf;
         }
 
-
+        public void Apply(ListOfRtuWithChangedAvailabilityDto dto)
+        {
+            foreach (var rtuWithChannelChanges in dto.List)
+            {
+                var rtuLeaf = (RtuLeaf)Tree.GetById(rtuWithChannelChanges.RtuId);
+                if (rtuLeaf == null)
+                    continue;
+                if (rtuWithChannelChanges.MainChannel == ChannelStateChanges.Recovered)
+                    rtuLeaf.MainChannelState = RtuPartState.Normal;
+                else if (rtuWithChannelChanges.MainChannel == ChannelStateChanges.Broken)
+                    rtuLeaf.MainChannelState = RtuPartState.Broken;
+            }
+        }
         #endregion
 
         #region Trace

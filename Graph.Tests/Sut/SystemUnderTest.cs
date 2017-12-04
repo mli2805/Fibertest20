@@ -22,6 +22,7 @@ namespace Graph.Tests
         public ClientPoller Poller { get; }
         public FakeWindowManager FakeWindowManager { get; }
         public WcfServiceForClient WcfServiceForClient { get; }
+        public RtuLeafActions RtuLeafActions { get; }
         public TraceLeafActions TraceLeafActions { get; }
         public ShellViewModel ShellVm { get; }
         public int CurrentEventNumber => Poller.CurrentEventNumber;
@@ -62,6 +63,7 @@ namespace Graph.Tests
             WcfServiceForClient = (WcfServiceForClient) container.Resolve<IWcfServiceForClient>();
             ShellVm = (ShellViewModel)container.Resolve<IShell>();
             ReadModel = ShellVm.ReadModel;
+            RtuLeafActions = container.Resolve<RtuLeafActions>();
             TraceLeafActions = container.Resolve<TraceLeafActions>();
 
             var ev = container.Resolve<EventStoreService>();

@@ -204,6 +204,13 @@
       <DependentUpon>MonitoringSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\MonitoringSettings\MonitoringSettingsViewModel.cs" />
+    <Compile Include="Forms\RtuState\PortLineVm.cs" />
+    <Compile Include="Forms\RtuState\RtuStateView.xaml.cs">
+      <DependentUpon>RtuStateView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\RtuState\RtuStateViewModel.cs" />
+    <Compile Include="Forms\RtuState\RtuStateViewsManager.cs" />
+    <Compile Include="Forms\RtuState\RtuStateVm.cs" />
     <Compile Include="Forms\Shell\NetworkEventsControl\NetworkEventsView.xaml.cs">
       <DependentUpon>NetworkEventsView.xaml</DependentUpon>
     </Compile>
@@ -216,6 +223,8 @@
     <Compile Include="Forms\Shell\OpticalEventsControl\OpticalEventsViewModel.cs" />
     <Compile Include="Forms\Shell\OpticalEventsControl\OpticalEventVm.cs" />
     <Compile Include="Forms\Shell\OpticalEventsControl\TraceStateFilter.cs" />
+    <Compile Include="IMyWindowManager.cs" />
+    <Compile Include="MyWindowManager.cs" />
     <Compile Include="ViewModels\Primitive\EventStatusComboItem.cs" />
     <Compile Include="Forms\TraceState\TraceStateView.xaml.cs">
       <DependentUpon>TraceStateView.xaml</DependentUpon>
@@ -455,6 +464,10 @@
     <Page Include="Forms\MonitoringSettings\MonitoringSettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Forms\RtuState\RtuStateView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\Shell\NetworkEventsControl\NetworkEventsView.xaml">
       <SubType>Designer</SubType>

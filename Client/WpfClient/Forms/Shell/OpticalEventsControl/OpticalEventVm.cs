@@ -25,8 +25,8 @@ namespace Iit.Fibertest.Client
                     : TraceState.GetBrush(isForeground: false);
 
         public string TraceStateOnScreen => BaseRefType == BaseRefType.Fast && TraceState != FiberState.Ok
-            ? FiberState.Suspicion.GetLocalizedString() 
-            : TraceState.GetLocalizedString();
+            ? FiberState.Suspicion.ToLocalizedString() 
+            : TraceState.ToLocalizedString();
 
 
         public EventStatus EventStatus { get; set; }

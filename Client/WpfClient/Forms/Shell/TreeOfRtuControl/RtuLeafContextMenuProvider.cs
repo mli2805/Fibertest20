@@ -9,10 +9,10 @@ namespace Iit.Fibertest.Client
         private readonly RtuLeafActions _rtuLeafActions;
         private readonly RtuLeafActionsPermissions _rtuLeafActionsPermissions;
 
-        public RtuLeafContextMenuProvider(IMyLog logFile)
+        public RtuLeafContextMenuProvider(RtuLeafActions rtuLeafActions, RtuLeafActionsPermissions rtuLeafActionsPermissions)
         {
-            _rtuLeafActions = new RtuLeafActions(logFile);
-            _rtuLeafActionsPermissions = new RtuLeafActionsPermissions();
+            _rtuLeafActions = rtuLeafActions;
+            _rtuLeafActionsPermissions = rtuLeafActionsPermissions;
         }
 
         public List<MenuItemVm> GetMenu(RtuLeaf rtuLeaf)

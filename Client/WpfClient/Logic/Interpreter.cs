@@ -49,7 +49,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public static string GetLocalizedString(this FiberState state)
+        public static string ToLocalizedString(this FiberState state)
         {
             switch (state)
             {
@@ -157,6 +157,17 @@ namespace Iit.Fibertest.Client
                     return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/BlueSquare.png"));
                 default:
                     return null;
+            }
+        }
+
+        public static string ToLocalizedString(this RtuPartState state)
+        {
+            switch (state)
+            {
+                  case  RtuPartState.Broken: return "Broken";
+                  case  RtuPartState.NotSetYet: return "Not set";
+                  case  RtuPartState.Normal: return "OK";
+                default: return null;
             }
         }
     }
