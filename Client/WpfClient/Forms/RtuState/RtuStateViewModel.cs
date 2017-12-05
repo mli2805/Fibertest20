@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
@@ -13,7 +14,7 @@ namespace Iit.Fibertest.Client
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = $"State of RTU \"{Model.Title}\"";
+            DisplayName = Resources.SID_State_of_RTU;
         }
 
         public void Close()

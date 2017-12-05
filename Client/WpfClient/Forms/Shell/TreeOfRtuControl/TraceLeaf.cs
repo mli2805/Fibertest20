@@ -4,7 +4,6 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WcfServiceForClientInterface;
 

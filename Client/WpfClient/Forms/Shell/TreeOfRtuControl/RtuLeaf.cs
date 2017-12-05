@@ -3,9 +3,7 @@ using System.Linq;
 using System.Windows.Media;
 using Autofac;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
-using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
@@ -13,7 +11,6 @@ namespace Iit.Fibertest.Client
     public class RtuLeaf : Leaf, IPortOwner
     {
         public readonly ILifetimeScope GlobalScope;
-        private readonly IMyLog _logFile;
         private readonly RtuLeafContextMenuProvider _rtuLeafContextMenuProvider;
 
         #region Pictograms
@@ -104,13 +101,12 @@ namespace Iit.Fibertest.Client
             return null;
         }
 
-        public RtuLeaf(ILifetimeScope globalScope, IMyLog logFile, ReadModel readModel, IMyWindowManager windowManager, 
+        public RtuLeaf(ILifetimeScope globalScope, ReadModel readModel, IMyWindowManager windowManager, 
             IWcfServiceForClient c2DWcfManager, RtuLeafContextMenuProvider rtuLeafContextMenuProvider,
             PostOffice postOffice, FreePorts view)
             : base(readModel, windowManager, c2DWcfManager, postOffice)
         {
             GlobalScope = globalScope;
-            _logFile = logFile;
             _rtuLeafContextMenuProvider = rtuLeafContextMenuProvider;
             ChildrenImpresario = new ChildrenImpresario(view);
 

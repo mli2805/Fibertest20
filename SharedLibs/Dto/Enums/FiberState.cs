@@ -6,7 +6,7 @@
         NotInTrace = 0x0,
         NotJoined = 0x1,
         //
-        NotChecked = 0x2,
+        Unknown = 0x2, // there were no measurements for this trace yet
         //
         Ok = 0x4,
         Suspicion = 0x5,

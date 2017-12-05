@@ -61,7 +61,7 @@ namespace Graph.Tests
             foreach (var fiberVm in _sut.ShellVm.GraphReadModel.Fibers)
             {
                 if (fiberVm.States.ContainsKey(_sut.TraceId1))
-                    fiberVm.State.Should().Be(FiberState.NotChecked);
+                    fiberVm.State.Should().Be(FiberState.Unknown);
                 else
                     fiberVm.State.Should().Be(FiberState.NotInTrace);
             }
@@ -70,7 +70,7 @@ namespace Graph.Tests
         [Then(@"Те ее отрезки что не входят в присоединенную трассу удаляются")]
         public void ThenТеЕеОтрезкиЧтоНеВходятВПрисоединеннуюТрассуУдаляются()
         {
-            _sut.ShellVm.GraphReadModel.Fibers.All(f => f.State == FiberState.NotChecked).Should().BeTrue();
+            _sut.ShellVm.GraphReadModel.Fibers.All(f => f.State == FiberState.Unknown).Should().BeTrue();
         }
     }
 }

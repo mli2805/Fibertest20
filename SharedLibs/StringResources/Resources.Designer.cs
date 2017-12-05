@@ -512,6 +512,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Available.
+        /// </summary>
+        public static string SID_Available {
+            get {
+                return ResourceManager.GetString("SID_Available", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Backscattered Coefficient:.
         /// </summary>
         public static string SID_Backscattered_Coefficient {
@@ -575,6 +584,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to BOP.
+        /// </summary>
+        public static string SID_Bop {
+            get {
+                return ResourceManager.GetString("SID_Bop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bop count.
+        /// </summary>
+        public static string SID_Bop_count {
+            get {
+                return ResourceManager.GetString("SID_Bop_count", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to BOP IP address.
         /// </summary>
         public static string SID_BOP_IP_address {
@@ -589,6 +616,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_BOP_TCP_port {
             get {
                 return ResourceManager.GetString("SID_BOP_TCP_port", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Broken.
+        /// </summary>
+        public static string SID_Broken {
+            get {
+                return ResourceManager.GetString("SID_Broken", resourceCulture);
             }
         }
         
@@ -2313,6 +2349,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to None.
+        /// </summary>
+        public static string SID_None {
+            get {
+                return ResourceManager.GetString("SID_None", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to not attached.
         /// </summary>
         public static string SID_not_attached {
@@ -2327,6 +2372,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Not_attached_traces_list {
             get {
                 return ResourceManager.GetString("SID_Not_attached_traces_list", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not available.
+        /// </summary>
+        public static string SID_Not_available {
+            get {
+                return ResourceManager.GetString("SID_Not_available", resourceCulture);
             }
         }
         
@@ -3377,6 +3431,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to State of RTU.
+        /// </summary>
+        public static string SID_State_of_RTU {
+            get {
+                return ResourceManager.GetString("SID_State_of_RTU", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Statistics.
         /// </summary>
         public static string SID_Statistics {
@@ -3566,6 +3629,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Timestamp.
+        /// </summary>
+        public static string SID_Timestamp {
+            get {
+                return ResourceManager.GetString("SID_Timestamp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Title.
         /// </summary>
         public static string SID_Title {
@@ -3634,6 +3706,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Trace__0__statistics {
             get {
                 return ResourceManager.GetString("SID_Trace__0__statistics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trace count.
+        /// </summary>
+        public static string SID_Trace_count {
+            get {
+                return ResourceManager.GetString("SID_Trace_count", resourceCulture);
             }
         }
         
@@ -3710,6 +3791,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Traces state.
+        /// </summary>
+        public static string SID_Traces_state {
+            get {
+                return ResourceManager.GetString("SID_Traces_state", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to RTU {0} ;  OTAU {1} ;  Ports {2} ;  Traces {3} ;  Occupancy {4:F}%.
         /// </summary>
         public static string SID_Tree_statistics {
@@ -3733,6 +3823,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_unexpected_input {
             get {
                 return ResourceManager.GetString("SID_unexpected_input", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown.
+        /// </summary>
+        public static string SID_Unknown {
+            get {
+                return ResourceManager.GetString("SID_Unknown", resourceCulture);
             }
         }
         

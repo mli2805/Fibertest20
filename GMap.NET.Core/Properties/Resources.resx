@@ -159,4 +159,10 @@ END;</value>
   <data name="System_Data_SQLite_x86_NET4_dll" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\System.Data.SQLite.x86.NET4.dll.gz;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="SID_Manual" xml:space="preserve">
+    <value>Manual</value>
+  </data>
+  <data name="SID_Automatic" xml:space="preserve">
+    <value>Automatic</value>
+  </data>
 </root>

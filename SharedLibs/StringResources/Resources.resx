@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
 	<!-- 
     Microsoft ResX Schema 
@@ -1405,5 +1405,38 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID_Cannot_send_base_refs_to_RTU" xml:space="preserve">
     <value>Cannot send base refs to RTU</value>
+  </data>
+	<data name="SID_Bop" xml:space="preserve">
+    <value>BOP</value>
+  </data>
+	<data name="SID_Traces_state" xml:space="preserve">
+    <value>Traces state</value>
+  </data>
+	<data name="SID_Bop_count" xml:space="preserve">
+    <value>Bop count</value>
+  </data>
+	<data name="SID_Trace_count" xml:space="preserve">
+    <value>Trace count</value>
+  </data>
+	<data name="SID_Timestamp" xml:space="preserve">
+    <value>Timestamp</value>
+  </data>
+	<data name="SID_Unknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+	<data name="SID_None" xml:space="preserve">
+    <value>None</value>
+  </data>
+	<data name="SID_Available" xml:space="preserve">
+    <value>Available</value>
+  </data>
+	<data name="SID_Not_available" xml:space="preserve">
+    <value>Not available</value>
+  </data>
+	<data name="SID_Broken" xml:space="preserve">
+    <value>Broken</value>
+  </data>
+	<data name="SID_State_of_RTU" xml:space="preserve">
+    <value>State of RTU</value>
   </data>
 </root>

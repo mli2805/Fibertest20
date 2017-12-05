@@ -55,6 +55,8 @@
     <Compile Include="C2D2R\SomePortionOfData.cs" />
     <Compile Include="C2D\CheckServerConnectionDto.cs" />
     <Compile Include="D2C\TraceStateDto.cs" />
+    <Compile Include="Enums\MonitoringState.cs" />
+    <Compile Include="Enums\MonitoringStateExt.cs" />
     <Compile Include="Underlying\BaseRefForStats.cs" />
     <Compile Include="D2C\ClientRegisteredDto.cs" />
     <Compile Include="D2C\NetworkEventsList.cs" />
@@ -74,7 +76,6 @@
     <Compile Include="Enums\Frequency.cs" />
     <Compile Include="Enums\MoniLevelType.cs" />
     <Compile Include="Enums\Role.cs" />
-    <Compile Include="Enums\RtuPart.cs" />
     <Compile Include="Enums\RtuPartState.cs" />
     <Compile Include="R2D2C\BaseRefAssignedDto.cs" />
     <Compile Include="R2D\KnowRtuCurrentMonitoringStepDto.cs" />

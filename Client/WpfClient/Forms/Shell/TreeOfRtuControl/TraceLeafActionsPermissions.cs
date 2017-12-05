@@ -1,4 +1,4 @@
-using Iit.Fibertest.Graph;
+using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Client
 {

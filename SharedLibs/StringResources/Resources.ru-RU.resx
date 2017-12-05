@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
 	<!-- 
     Microsoft ResX Schema 
@@ -1405,5 +1405,38 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Cannot_send_base_refs_to_RTU" xml:space="preserve">
 		<value>Невозможно переслать базовые рефлектограммы на RTU</value>
+	</data>
+	<data name="SID_Bop" xml:space="preserve">
+		<value>БОП</value>
+	</data>
+	<data name="SID_Traces_state" xml:space="preserve">
+		<value>Состояние трасс</value>
+	</data>
+	<data name="SID_Bop_count" xml:space="preserve">
+		<value>Количество БОП</value>
+	</data>
+	<data name="SID_Trace_count" xml:space="preserve">
+		<value>Количество трасс</value>
+	</data>
+	<data name="SID_Timestamp" xml:space="preserve">
+		<value>Измерено</value>
+	</data>
+	<data name="SID_Unknown" xml:space="preserve">
+		<value>Неизвестно</value>
+	</data>
+	<data name="SID_None" xml:space="preserve">
+		<value>Нет</value>
+	</data>
+	<data name="SID_Available" xml:space="preserve">
+		<value>Доступен</value>
+	</data>
+	<data name="SID_Not_available" xml:space="preserve">
+		<value>Не доступен</value>
+	</data>
+	<data name="SID_Broken" xml:space="preserve">
+		<value>Авария</value>
+	</data>
+	<data name="SID_State_of_RTU" xml:space="preserve">
+		<value>Состояние RTU</value>
 	</data>
 </root>

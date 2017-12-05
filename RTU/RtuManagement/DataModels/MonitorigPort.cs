@@ -42,7 +42,7 @@ namespace Iit.Fibertest.RtuManagement
             NetAddress = new NetAddress(port.OtauPort.OtauIp, port.OtauPort.OtauTcpPort);
             OpticalPort = port.OtauPort.OpticalPort;
             TraceId = port.TraceId;
-            LastTraceState = FiberState.NotChecked;
+            LastTraceState = FiberState.Unknown;
 
             LastFastSavedTimestamp = DateTime.Now;
             LastPreciseSavedTimestamp = DateTime.Now;

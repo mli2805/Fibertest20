@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Iit.Fibertest.StringResources;
-using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Client
 {

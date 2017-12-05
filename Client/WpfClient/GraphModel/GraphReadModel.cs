@@ -366,7 +366,7 @@ namespace Iit.Fibertest.Client
 
         public void Apply(TraceAttached evnt)
         {
-            ChangeTraceState(evnt.TraceId, FiberState.NotChecked);
+            ChangeTraceState(evnt.TraceId, FiberState.Unknown);
         }
 
         public void Apply(TraceDetached evnt)

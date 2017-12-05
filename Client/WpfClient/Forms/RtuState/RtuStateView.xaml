@@ -4,66 +4,120 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
-        mc:Ignorable="d" Width="500" MaxHeight="800"
+        xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
+        mc:Ignorable="d" Width="600" Height="624"
         Title="RtuStateView" d:DataContext="{d:DesignInstance client:RtuStateViewModel}">
-    <StackPanel>
-        <GroupBox Header="RTU" Margin="5,5,5,0">
-            <DockPanel Height="36">
-                <TextBlock DockPanel.Dock="Right" Text="{Binding Model.RtuAvailabilityOnScreen}" 
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top">
+            <GroupBox Header="RTU" Margin="5,5,5,0">
+                <DockPanel Height="36">
+                    <TextBlock DockPanel.Dock="Right" Text="{Binding Model.RtuAvailabilityOnScreen}" 
                            Foreground="{Binding Model.RtuAvailabilityBrush}"
-                       TextAlignment="Center" Margin="5" 
+                           TextAlignment="Center" Margin="5" 
                            FontWeight="Bold" FontSize="18" Width="150"/>
-                <TextBlock Text="{Binding Model.Title}" VerticalAlignment="Center" Margin="5"/>
-            </DockPanel>
-        </GroupBox>
-        <GroupBox Header="Main address" Margin="5,0">
-            <DockPanel>
-                <TextBlock DockPanel.Dock="Right" Text="{Binding Model.MainAddressStateOnScreen}" 
-                       TextAlignment="Center" Margin="5" Width="150"/>
-                <TextBlock Text="{Binding Model.MainAddress}" Margin="5"/>
-            </DockPanel>
-        </GroupBox>
-        <GroupBox Header="Reserve address" Margin="5,0" Foreground="LightGray">
-            <DockPanel>
-                <TextBlock DockPanel.Dock="Right" Text="{Binding Model.ReserveAddressStateOnScreen}" 
-                       TextAlignment="Center" Margin="5" Width="150"/>
-                <TextBlock Text="{Binding Model.ReserveAddress}" Margin="5"/>
-            </DockPanel>
-        </GroupBox>
-        <DockPanel>
-            <StackPanel DockPanel.Dock="Right" Width="200" Margin="0,0,5,0">
-                <GroupBox Header="BOP">
-                    <TextBlock Text="{Binding Model.BopState}" TextAlignment="Center" Margin="5"/>
-                </GroupBox>
-                <GroupBox Header="Traces state">
-                    <TextBlock Text="{Binding Model.TracesState}" TextAlignment="Center" Margin="5"/>
-                </GroupBox>
-                <GroupBox Header="Monitoring mode">
-                    <TextBlock Text="{Binding Model.MonitoringMode}" TextAlignment="Center" Margin="5"/>
-                </GroupBox>
-            </StackPanel>
-            <GroupBox Margin="5">
-                <StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Port count" TextAlignment="Left" Margin="5" Width="80"/>
-                        <TextBlock Text="{Binding Model.PortCountOnScreen}" TextAlignment="Left" Margin="5" Width="30"/>
-                        <TextBlock Text="Active port" TextAlignment="Left" Margin="5" Width="80"/>
-                        <TextBlock Text="{Binding Model.ActivePortOnScreen}" TextAlignment="Left" Margin="5"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Bop count" TextAlignment="Left" Margin="5" Width="80"/>
-                        <TextBlock Text="{Binding Model.BopCount}" TextAlignment="Center" Margin="5" Width="30"/>
-                        <TextBlock Text="Trace count" TextAlignment="Left" Margin="5" Width="80"/>
-                        <TextBlock Text="{Binding Model.TraceCount}" TextAlignment="Center" Margin="5" Width="30"/>
-                    </StackPanel>
-                    <TextBlock Text="{Binding Model.CurrentMeasurementStep}" TextAlignment="Center" 
-                               VerticalAlignment="Center" TextWrapping="Wrap" 
-                               Margin="5" Background="AliceBlue" Height="73"/>
-                </StackPanel>
+                    <TextBlock Text="{Binding Model.Title}" VerticalAlignment="Center" Margin="5"/>
+                </DockPanel>
             </GroupBox>
-        </DockPanel>
-        <DataGrid Margin="5" ItemsSource="{Binding Model.Ports}" IsReadOnly="True">
-            
+            <GroupBox Header="{x:Static stringResources:Resources.SID_Main_channel}" Margin="5,0">
+                <DockPanel>
+                    <TextBlock DockPanel.Dock="Right" Text="{Binding Model.MainAddressStateOnScreen}" 
+                       TextAlignment="Center" Margin="5" Width="150"/>
+                    <TextBlock Text="{Binding Model.MainAddress}" Margin="5"/>
+                </DockPanel>
+            </GroupBox>
+            <GroupBox Header="{x:Static stringResources:Resources.SID_Reserve_channel}" Margin="5,0" Foreground="{Binding Model.ReserveAddressBrush}">
+                <DockPanel>
+                    <TextBlock DockPanel.Dock="Right" Text="{Binding Model.ReserveAddressStateOnScreen}" 
+                       TextAlignment="Center" Margin="5" Width="150"/>
+                    <TextBlock Text="{Binding Model.ReserveAddress}" Margin="5"/>
+                </DockPanel>
+            </GroupBox>
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Right" Width="200" Margin="0,0,5,0">
+                    <GroupBox Header="{x:Static stringResources:Resources.SID_Bop}" Foreground="{Binding Model.BopStateBrush}">
+                        <TextBlock Text="{Binding Model.BopStateOnScreen}" Foreground="{Binding Model.BopStateBrush}"
+                               TextAlignment="Center" Margin="5"/>
+                    </GroupBox>
+                    <GroupBox Header="{x:Static stringResources:Resources.SID_Traces_state}">
+                        <TextBlock Text="{Binding Model.TracesStateOnScreen}" TextAlignment="Center" 
+                               FontWeight="Bold" FontSize="14" Margin="5" Foreground="{Binding Model.TracesStateBrush}"/>
+                    </GroupBox>
+                    <GroupBox Header="{x:Static stringResources:Resources.SID_Monitoring_mode}">
+                        <TextBlock Text="{Binding Model.MonitoringMode}" TextAlignment="Center" Margin="5"/>
+                    </GroupBox>
+                </StackPanel>
+                <GroupBox Margin="5,8,5,5">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{x:Static stringResources:Resources.SID_Port_count}" TextAlignment="Left" Margin="5" Width="110"/>
+                            <TextBlock Text="{Binding Model.PortCountOnScreen}" TextAlignment="Left" Margin="5" Width="30"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{x:Static stringResources:Resources.SID_Bop_count}" TextAlignment="Left" Margin="5" Width="110"/>
+                            <TextBlock Text="{Binding Model.BopCount}" TextAlignment="Center" Margin="5" Width="30"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{x:Static stringResources:Resources.SID_Trace_count}" TextAlignment="Left" Margin="5" Width="110"/>
+                            <TextBlock Text="{Binding Model.TraceCount}" TextAlignment="Center" Margin="5" Width="30"/>
+                        </StackPanel>
+                        <TextBlock Text="{Binding Model.CurrentMeasurementStep}" TextAlignment="Center" 
+                               VerticalAlignment="Center" TextWrapping="Wrap" 
+                               Margin="5" Background="AliceBlue" Height="47"/>
+                    </StackPanel>
+                </GroupBox>
+            </DockPanel>
+        </StackPanel>
+        <DataGrid Margin="5" ItemsSource="{Binding Model.Ports}" IsReadOnly="True" 
+                  AutoGenerateColumns="False" >
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="{x:Static stringResources:Resources.SID_Port}" Width="50">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="{x:Type client:PortLineVm}">
+                            <Border Height="26" >
+                                <TextBlock Text="{Binding Number}" TextAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="{x:Static stringResources:Resources.SID_Trace}" Width="1*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="{x:Type client:PortLineVm}">
+                            <Border Height="26" Margin="5,0,0,0" >
+                                <TextBlock Text="{Binding TraceTitle}" TextAlignment="Left" VerticalAlignment="Center"/>
+                            </Border>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="{x:Static stringResources:Resources.SID_State}" Width="100">
+                    <DataGridTemplateColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="Background" Value="{Binding TraceStateBrush}" />
+                        </Style>
+                    </DataGridTemplateColumn.CellStyle>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="{x:Type client:PortLineVm}">
+                            <Border Height="26">
+                                <TextBlock Text="{Binding TraceStateOnScreen}" TextAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="{x:Static stringResources:Resources.SID_Timestamp}" Width="120">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="{x:Type client:PortLineVm}">
+                            <Border Height="26" >
+                                <TextBlock Text="{Binding TimestampOnScreen}" TextAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+            <DataGrid.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="LightBlue" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="GhostWhite" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="Black" />
+            </DataGrid.Resources>
         </DataGrid>
-    </StackPanel>
+    </DockPanel>
 </Window>

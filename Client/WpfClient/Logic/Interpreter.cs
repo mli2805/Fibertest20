@@ -27,9 +27,9 @@ namespace Iit.Fibertest.Client
                 case FiberState.DistanceMeasurement:
                     return Brushes.Blue;
 
-                case FiberState.NotChecked:
+                case FiberState.Unknown:
                 case FiberState.Ok:
-                    return isForeground ? Brushes.Black : Brushes.White;
+                    return isForeground ? Brushes.Black : Brushes.Transparent;
                 case FiberState.Suspicion:
                     return Brushes.Yellow;
                 case FiberState.Minor:
@@ -59,8 +59,8 @@ namespace Iit.Fibertest.Client
                     return Resources.SID_Not_joined;
                 case FiberState.DistanceMeasurement:
                     return Resources.SID_Distace_measurement;
-                case FiberState.NotChecked:
-                    return Resources.SID_Not_checked;
+                case FiberState.Unknown:
+                    return Resources.SID_Unknown;
                 case FiberState.Ok:
                     return Resources.SID_Ok;
                 case FiberState.Suspicion:
@@ -89,10 +89,10 @@ namespace Iit.Fibertest.Client
             switch (state)
             {
                 case FiberState.NotJoined:
-                case FiberState.NotChecked:
+                case FiberState.Unknown:
                     return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
                 case FiberState.Ok:
-                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/BlackSquare.png"));
+                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreenSquare.png"));
                 case FiberState.Minor:
                     return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/PurpleSquare.png"));
                 case FiberState.Major:
@@ -164,10 +164,25 @@ namespace Iit.Fibertest.Client
         {
             switch (state)
             {
-                  case  RtuPartState.Broken: return "Broken";
-                  case  RtuPartState.NotSetYet: return "Not set";
-                  case  RtuPartState.Normal: return "OK";
+                  case  RtuPartState.Broken: return Resources.SID_Broken;
+                  case  RtuPartState.NotSetYet: return "";
+                  case  RtuPartState.Normal: return @"OK";
                 default: return null;
+            }
+        }
+
+        public static Brush GetBrush(this RtuPartState state, bool isForeground)
+        {
+            switch (state)
+            {
+                case RtuPartState.Broken:
+                    return Brushes.Red;
+                case RtuPartState.NotSetYet:
+                    return isForeground ? Brushes.LightGray : Brushes.Transparent;
+                case RtuPartState.Normal:
+                    return Brushes.Black;
+                default:
+                    return Brushes.Black;
             }
         }
     }

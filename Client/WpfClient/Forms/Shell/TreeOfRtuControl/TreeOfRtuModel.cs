@@ -73,7 +73,7 @@ namespace Iit.Fibertest.Client
         #region Rtu
         public void Apply(RtuAtGpsLocationAdded e)
         {
-            var newRtuLeaf = new RtuLeaf(_globalScope, _logFile, _readModel, _windowManager,
+            var newRtuLeaf = new RtuLeaf(_globalScope, _readModel, _windowManager,
                 _c2DWcfManager, _rtuLeafContextMenuProvider, PostOffice, FreePorts);
             newRtuLeaf.Id = e.Id;
             Tree.Add(newRtuLeaf);
@@ -228,7 +228,7 @@ namespace Iit.Fibertest.Client
                 new TraceLeaf(_readModel, _windowManager, _c2DWcfManager, PostOffice, portOwner, _traceLeafContextMenuProvider)
                 {
                     Id = e.TraceId,
-                    TraceState = FiberState.NotChecked,
+                    TraceState = FiberState.Unknown,
                     Title = traceLeaf.Title,
                     Color = Brushes.Black,
                     PortNumber = port,
