@@ -95,27 +95,9 @@ namespace Iit.Fibertest.DataCenterCore
             changes.List.ForEach(r => _logFile.AppendLine(r.Report()));
             var dto = new ListOfRtuWithChangedAvailabilityDto() { List = changes.List };
 
-            var allClients = _clientRegistrationManager.GetAllLiveClients().Result;
-            if (allClients == null || !allClients.Any())
-                return 0;
-
-            var clientsAddresses = ExtractClientsAddresses(allClients);
-            _d2CWcfManager.SetClientsAddresses(clientsAddresses);
+            var addresses = await _clientRegistrationManager.GetClientsAddresses();
+            _d2CWcfManager.SetClientsAddresses(addresses);
             return await _d2CWcfManager.NotifyAboutRtuChangedAvailability(dto);
         }
-
-        private List<DoubleAddress> ExtractClientsAddresses(List<ClientStation> clientStations)
-        {
-            var result = new List<DoubleAddress>();
-            foreach (var clientStation in clientStations)
-            {
-                result.Add(new DoubleAddress()
-                {
-                    Main = new NetAddress(clientStation.ClientAddress, clientStation.ClientAddressPort)
-                });
-            }
-            return result;
-        }
-
     }
 }

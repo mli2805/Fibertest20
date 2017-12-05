@@ -137,6 +137,11 @@ namespace Iit.Fibertest.Client
             ShowRtuState(rtuLeaf);
         }
 
+        public void NotifyUsersRtuCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto dto)
+        {
+
+        }
+
         public void CleanClosedView()
         {
 

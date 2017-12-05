@@ -24,7 +24,7 @@ namespace Iit.Fibertest.WcfConnections
             _addresses = addresses;
         }
 
-        public bool ProcessRtuCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto dto)
+        public async Task<int> NotifyUsersRtuCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto dto)
         {
             foreach (var clientAddress in _addresses)
             {
@@ -34,15 +34,14 @@ namespace Iit.Fibertest.WcfConnections
 
                 try
                 {
-                    wcfConnection.ProcessRtuCurrentMonitoringStep(dto);
-//                    _logFile.AppendLine($"Transfered RTU {dto.RtuId.First6()} monitoring step to client {clientAddress.Main.ToStringA()}");
+                    await wcfConnection.NotifyUsersRtuCurrentMonitoringStep(dto);
                 }
                 catch (Exception e)
                 {
                     _logFile.AppendLine(e.Message);
                 }
             }
-            return true;
+            return 0;
         }
 
         public async Task<int> NotifyAboutRtuChangedAvailability(ListOfRtuWithChangedAvailabilityDto dto)

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.DatabaseLibrary.DbContexts;
@@ -225,18 +226,40 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
         }
 
-        public async Task<List<ClientStation>> GetAllLiveClients()
+        private async Task<List<ClientStation>> GetAllLiveClients()
         {
             try
             {
                 var dbContext = new MySqlContext();
-                return dbContext.ClientStations.ToList();
+                return await dbContext.ClientStations.ToListAsync();
             }
             catch (Exception e)
             {
                 _logFile.AppendLine("GetAllLiveClients:" + e.Message);
                 return null;
             }
+        }
+
+        public async Task<List<DoubleAddress>> GetClientsAddresses()
+        {
+            var allClients = await GetAllLiveClients();
+            if (allClients == null || !allClients.Any())
+                return null;
+
+            return ExtractClientsAddresses(allClients);
+        }
+
+        private List<DoubleAddress> ExtractClientsAddresses(List<ClientStation> clientStations)
+        {
+            var result = new List<DoubleAddress>();
+            foreach (var clientStation in clientStations)
+            {
+                result.Add(new DoubleAddress()
+                {
+                    Main = new NetAddress(clientStation.ClientAddress, clientStation.ClientAddressPort)
+                });
+            }
+            return result;
         }
     }
 }

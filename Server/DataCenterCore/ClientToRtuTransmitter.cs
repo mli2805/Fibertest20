@@ -12,7 +12,6 @@ namespace Iit.Fibertest.DataCenterCore
     {
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
-//        private readonly IFibertestDbContext _dbContext;
         private readonly RtuRegistrationManager _rtuRegistrationManager;
 
         private readonly DoubleAddress _serverDoubleAddress;
@@ -21,7 +20,6 @@ namespace Iit.Fibertest.DataCenterCore
         {
             _iniFile = iniFile;
             _logFile = logFile;
-//            _dbContext = dbContext;
             _rtuRegistrationManager = rtuRegistrationManager;
 
             _serverDoubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToRtu);

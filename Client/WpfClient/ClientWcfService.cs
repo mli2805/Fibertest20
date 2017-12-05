@@ -11,8 +11,8 @@ namespace Iit.Fibertest.Client
         public event OnMessageReceived MessageReceived;
         public delegate void OnMessageReceived(object e);
 
-        private TreeOfRtuModel _treeOfRtuModel;
-        private RtuStateViewsManager _rtuStateViewsManager;
+        private readonly TreeOfRtuModel _treeOfRtuModel;
+        private readonly RtuStateViewsManager _rtuStateViewsManager;
 
         public ClientWcfService(TreeOfRtuModel treeOfRtuModel, RtuStateViewsManager rtuStateViewsManager)
         {
@@ -20,9 +20,10 @@ namespace Iit.Fibertest.Client
             _rtuStateViewsManager = rtuStateViewsManager;
         }
 
-        public void ProcessRtuCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto dto)
+        public async Task<int> NotifyUsersRtuCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto dto)
         {
-            MessageReceived?.Invoke(dto);
+            _rtuStateViewsManager.NotifyUsersRtuCurrentMonitoringStep(dto);
+            return 0;
         }
 
         public async Task<int> ProcessMonitoringResult(MonitoringResultDto dto)

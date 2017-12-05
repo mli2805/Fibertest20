@@ -18,6 +18,7 @@ namespace Iit.Fibertest.DataCenterCore
         }
         public bool ProcessRtuCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto monitoringStep)
         {
+            _logFile.AppendLine($"step on RTU {monitoringStep.RtuId.First6()}");
             return true;
         }
 
