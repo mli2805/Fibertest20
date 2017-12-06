@@ -41,6 +41,7 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<ClientRegistrationManager>().SingleInstance();
             builder.RegisterType<RtuRegistrationManager>().SingleInstance();
             builder.RegisterType<ClientToRtuTransmitter>().SingleInstance();
+            builder.RegisterType<RtuToClientsTransmitter>().SingleInstance();
             builder.RegisterType<BaseRefManager>().SingleInstance();
 
             builder.RegisterType<D2CWcfManager>().SingleInstance();

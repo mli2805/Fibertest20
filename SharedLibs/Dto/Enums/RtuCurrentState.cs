@@ -1,6 +1,6 @@
 ﻿namespace Iit.Fibertest.Dto
 {
-    public enum RtuCurrentMonitoringStep
+    public enum RtuCurrentState
     {
         Idle,
         Toggle,

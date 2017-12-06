@@ -73,6 +73,7 @@ namespace Iit.Fibertest.Client
                     ? RtuPartState.Broken
                     : RtuPartState.Normal;
 
+            rtuStateVm.CurrentMeasurementStep = "Unknown";
             return rtuStateVm;
         }
 
@@ -137,9 +138,11 @@ namespace Iit.Fibertest.Client
             ShowRtuState(rtuLeaf);
         }
 
-        public void NotifyUsersRtuCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto dto)
+        public void NotifyUsersRtuCurrentMonitoringStep(CurrentMonitoringStepDto dto)
         {
-
+            RtuStateViewModel vm;
+            if (LaunchedViews.TryGetValue(dto.RtuId, out vm))
+                vm.NotifyUserCurrentMonitoringStep(dto);
         }
 
         public void CleanClosedView()

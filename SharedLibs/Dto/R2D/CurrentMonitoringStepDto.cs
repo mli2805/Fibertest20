@@ -4,15 +4,15 @@ using System.Runtime.Serialization;
 namespace Iit.Fibertest.Dto
 {
     [DataContract]
-    public class KnowRtuCurrentMonitoringStepDto
+    public class CurrentMonitoringStepDto
     {
         [DataMember]
         public Guid RtuId { get; set; }
 
         [DataMember]
-        public RtuCurrentMonitoringStep MonitoringStep { get; set; }
+        public RtuCurrentState State { get; set; }
         [DataMember]
-        public OtauPortDto OtauPort { get; set; }
+        public PortWithTraceDto PortWithTraceDto { get; set; }
         [DataMember]
         public BaseRefType BaseRefType { get; set; }
     }

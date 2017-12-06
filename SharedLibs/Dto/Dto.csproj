@@ -78,8 +78,8 @@
     <Compile Include="Enums\Role.cs" />
     <Compile Include="Enums\RtuPartState.cs" />
     <Compile Include="R2D2C\BaseRefAssignedDto.cs" />
-    <Compile Include="R2D\KnowRtuCurrentMonitoringStepDto.cs" />
-    <Compile Include="Enums\RtuCurrentMonitoringStep.cs" />
+    <Compile Include="R2D\CurrentMonitoringStepDto.cs" />
+    <Compile Include="Enums\RtuCurrentState.cs" />
     <Compile Include="R2D\RtuChecksChannelDto.cs" />
     <Compile Include="Underlying\BaseRefDto.cs" />
     <Compile Include="Enums\BaseRefType.cs" />
@@ -110,6 +110,7 @@
     <Compile Include="C2D2R\StopMonitoringDto.cs" />
     <Compile Include="C2D\UnRegisterClientDto.cs" />
     <Compile Include="Enums\TcpPorts.cs" />
+    <Compile Include="Underlying\PortWithTraceDto.cs" />
     <Compile Include="Underlying\RtuWithChannelChanges.cs" />
   </ItemGroup>
   <ItemGroup>

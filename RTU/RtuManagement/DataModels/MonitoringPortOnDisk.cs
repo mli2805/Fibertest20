@@ -8,6 +8,7 @@ namespace Iit.Fibertest.RtuManagement
     {
         public NetAddress NetAddress { get; set; }
         public int OpticalPort { get; set; }
+        public bool IsPortOnMainCharon { get; set; }
         public Guid TraceId { get; set; }
         public FiberState LastTraceState { get; set; }
 
@@ -26,6 +27,7 @@ namespace Iit.Fibertest.RtuManagement
         {
             NetAddress = (NetAddress) port.NetAddress.Clone();
             OpticalPort = port.OpticalPort;
+            IsPortOnMainCharon = port.IsPortOnMainCharon;
             TraceId = port.TraceId;
             LastTraceState = port.LastTraceState;
 

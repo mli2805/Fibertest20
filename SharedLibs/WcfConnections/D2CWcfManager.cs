@@ -24,8 +24,13 @@ namespace Iit.Fibertest.WcfConnections
             _addresses = addresses;
         }
 
-        public async Task<int> NotifyUsersRtuCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto dto)
+        public async Task<int> NotifyUsersRtuCurrentMonitoringStep(CurrentMonitoringStepDto dto)
         {
+            if (_addresses == null)
+            {
+                _logFile.AppendLine("There are no clients, who are you sending to?");
+                return 0;
+            }
             foreach (var clientAddress in _addresses)
             {
                 var wcfConnection = new WcfFactory(clientAddress, _iniFile, _logFile).CreateClientConnection();
@@ -38,7 +43,7 @@ namespace Iit.Fibertest.WcfConnections
                 }
                 catch (Exception e)
                 {
-                    _logFile.AppendLine(e.Message);
+                    _logFile.AppendLine("D2CWcfManager.NotifyUsersRtuCurrentMonitoringStep: " + e.Message);
                 }
             }
             return 0;
@@ -46,6 +51,11 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<int> NotifyAboutRtuChangedAvailability(ListOfRtuWithChangedAvailabilityDto dto)
         {
+            if (_addresses == null)
+            {
+                _logFile.AppendLine("There are no clients, who are you sending to?");
+                return 0;
+            }
             foreach (var clientAddress in _addresses)
             {
                 var wcfConnection = new WcfFactory(clientAddress, _iniFile, _logFile).CreateClientConnection();

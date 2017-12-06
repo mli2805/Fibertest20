@@ -96,6 +96,8 @@ namespace Iit.Fibertest.DataCenterCore
             var dto = new ListOfRtuWithChangedAvailabilityDto() { List = changes.List };
 
             var addresses = await _clientRegistrationManager.GetClientsAddresses();
+            if (addresses == null)
+                return 0;
             _d2CWcfManager.SetClientsAddresses(addresses);
             return await _d2CWcfManager.NotifyAboutRtuChangedAvailability(dto);
         }

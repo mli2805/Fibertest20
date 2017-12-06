@@ -1439,4 +1439,19 @@ RTU is initializing right now!</value>
 	<data name="SID_State_of_RTU" xml:space="preserve">
     <value>State of RTU</value>
   </data>
+	<data name="SID_Measurement_interrupted" xml:space="preserve">
+    <value>Measurement interrupted</value>
+  </data>
+	<data name="SID_Measurement_s_result_analysis__port__0____trace___1__" xml:space="preserve">
+    <value>Measurement's result analysis (port {0}), trace "{1}"</value>
+  </data>
+	<data name="SID_Measurement_on_port__0___trace___1__" xml:space="preserve">
+    <value>Measurement on port {0}, trace "{1}"</value>
+  </data>
+	<data name="SID_Toggling_to_the_port__0_" xml:space="preserve">
+    <value>Toggling to the port {0}</value>
+  </data>
+	<data name="SID_Is_waiting_for_the_command" xml:space="preserve">
+    <value>Is waiting for the command</value>
+  </data>
 </root>

@@ -1836,6 +1836,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Is waiting for the command.
+        /// </summary>
+        public static string SID_Is_waiting_for_the_command {
+            get {
+                return ResourceManager.GetString("SID_Is_waiting_for_the_command", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to It&apos;s impossible to change trace with base reflectogram.
         /// </summary>
         public static string SID_It_s_impossible_to_change_trace_with_base_reflectogram {
@@ -2070,6 +2079,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Measurement interrupted.
+        /// </summary>
+        public static string SID_Measurement_interrupted {
+            get {
+                return ResourceManager.GetString("SID_Measurement_interrupted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Measurement is finished..
         /// </summary>
         public static string SID_Measurement_is_finished_ {
@@ -2079,11 +2097,29 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Measurement on port {0}, trace &quot;{1}&quot;.
+        /// </summary>
+        public static string SID_Measurement_on_port__0___trace___1__ {
+            get {
+                return ResourceManager.GetString("SID_Measurement_on_port__0___trace___1__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Measurement parameters.
         /// </summary>
         public static string SID_Measurement_parameters {
             get {
                 return ResourceManager.GetString("SID_Measurement_parameters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Measurement&apos;s result analysis (port {0}), trace &quot;{1}&quot;.
+        /// </summary>
+        public static string SID_Measurement_s_result_analysis__port__0____trace___1__ {
+            get {
+                return ResourceManager.GetString("SID_Measurement_s_result_analysis__port__0____trace___1__", resourceCulture);
             }
         }
         
@@ -3679,6 +3715,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Toggle_to_port {
             get {
                 return ResourceManager.GetString("SID_Toggle_to_port", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Toggling to the port {0}.
+        /// </summary>
+        public static string SID_Toggling_to_the_port__0_ {
+            get {
+                return ResourceManager.GetString("SID_Toggling_to_the_port__0_", resourceCulture);
             }
         }
         

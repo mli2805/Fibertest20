@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
-        mc:Ignorable="d" Width="600" Height="624"
+        mc:Ignorable="d" Width="600" Height="620"
         Title="RtuStateView" d:DataContext="{d:DesignInstance client:RtuStateViewModel}">
     <DockPanel>
         <StackPanel DockPanel.Dock="Top">
@@ -46,7 +46,7 @@
                         <TextBlock Text="{Binding Model.MonitoringMode}" TextAlignment="Center" Margin="5"/>
                     </GroupBox>
                 </StackPanel>
-                <GroupBox Margin="5,8,5,5">
+                <Border Margin="5,8,5,1" BorderBrush="Gainsboro" BorderThickness="1" CornerRadius="3">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{x:Static stringResources:Resources.SID_Port_count}" TextAlignment="Left" Margin="5" Width="110"/>
@@ -61,10 +61,20 @@
                             <TextBlock Text="{Binding Model.TraceCount}" TextAlignment="Center" Margin="5" Width="30"/>
                         </StackPanel>
                         <TextBlock Text="{Binding Model.CurrentMeasurementStep}" TextAlignment="Center" 
-                               VerticalAlignment="Center" TextWrapping="Wrap" 
-                               Margin="5" Background="AliceBlue" Height="47"/>
+                               TextWrapping="Wrap" FontWeight="Bold"
+                               Margin="5,10,5,5" Height="Auto">
+                            <TextBlock.Triggers>
+                                <EventTrigger RoutedEvent="TextBlock.Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" 
+                                                            From="Lime" To="Black" Duration="0:0:01" RepeatBehavior="Forever" AutoReverse="True"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </TextBlock.Triggers></TextBlock>
                     </StackPanel>
-                </GroupBox>
+                </Border>
             </DockPanel>
         </StackPanel>
         <DataGrid Margin="5" ItemsSource="{Binding Model.Ports}" IsReadOnly="True" 

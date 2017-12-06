@@ -18,15 +18,4 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public int OtauTcpPort { get; set; }
     }
-
-    [Serializable]
-    [DataContract]
-    public class PortWithTraceDto
-    {
-        [DataMember]
-        public OtauPortDto OtauPort { get; set; }
-
-        [DataMember]
-        public Guid TraceId { get; set; }
-    }
 }

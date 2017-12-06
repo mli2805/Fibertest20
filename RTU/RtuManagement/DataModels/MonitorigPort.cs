@@ -29,6 +29,7 @@ namespace Iit.Fibertest.RtuManagement
             OpticalPort = port.OpticalPort;
             TraceId = port.TraceId;
             LastTraceState = port.LastTraceState;
+            IsPortOnMainCharon = port.IsPortOnMainCharon;
 
             LastFastSavedTimestamp = port.LastFastSavedTimestamp;
             LastPreciseSavedTimestamp = port.LastPreciseSavedTimestamp;
@@ -41,6 +42,7 @@ namespace Iit.Fibertest.RtuManagement
         {
             NetAddress = new NetAddress(port.OtauPort.OtauIp, port.OtauPort.OtauTcpPort);
             OpticalPort = port.OtauPort.OpticalPort;
+            IsPortOnMainCharon = port.OtauPort.IsPortOnMainCharon;
             TraceId = port.TraceId;
             LastTraceState = FiberState.Unknown;
 

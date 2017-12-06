@@ -34,7 +34,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public void SendCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto dto)
+        public void SendCurrentMonitoringStep(CurrentMonitoringStepDto dto)
         {
             var wcfConnection = _wcfFactory.CreateR2DConnection(false);
             if (wcfConnection == null)
@@ -42,7 +42,7 @@ namespace Iit.Fibertest.WcfConnections
 
             try
             {
-                wcfConnection.KnowRtuCurrentMonitoringStep(dto);
+                wcfConnection.NotifyUserCurrentMonitoringStep(dto);
             }
             catch (Exception e)
             {

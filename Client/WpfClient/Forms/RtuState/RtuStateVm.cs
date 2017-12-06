@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Media;
+using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
-    public class RtuStateVm
+    public class RtuStateVm : PropertyChangedBase
     {
+        private string _currentMeasurementStep;
         public string Title { get; set; }
         public string RtuAvailabilityOnScreen => RtuAvailabilityToString();
         public Brush RtuAvailabilityBrush => RtuAvalilabilityToBrush(true);
@@ -37,7 +39,16 @@ namespace Iit.Fibertest.Client
         public Brush TracesStateBrush => TracesState.GetBrush(true);
         public string MonitoringMode { get; set; }
 
-        public string CurrentMeasurementStep { get; set; }
+        public string CurrentMeasurementStep
+        {
+            get { return _currentMeasurementStep; }
+            set
+            {
+                if (value == _currentMeasurementStep) return;
+                _currentMeasurementStep = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         public List<PortLineVm> Ports { get; set; }
 

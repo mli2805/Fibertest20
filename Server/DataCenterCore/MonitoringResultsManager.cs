@@ -10,15 +10,18 @@ namespace Iit.Fibertest.DataCenterCore
     public class MonitoringResultsManager
     {
         private readonly IMyLog _logFile;
+        private readonly RtuToClientsTransmitter _rtuToClientsTransmitter;
 
 
-        public MonitoringResultsManager(IMyLog logFile)
+        public MonitoringResultsManager(IMyLog logFile, RtuToClientsTransmitter rtuToClientsTransmitter)
         {
             _logFile = logFile;
+            _rtuToClientsTransmitter = rtuToClientsTransmitter;
         }
-        public bool ProcessRtuCurrentMonitoringStep(KnowRtuCurrentMonitoringStepDto monitoringStep)
+        public bool ProcessRtuCurrentMonitoringStep(CurrentMonitoringStepDto monitoringStep)
         {
             _logFile.AppendLine($"step on RTU {monitoringStep.RtuId.First6()}");
+            _rtuToClientsTransmitter.NotifyUsersRtuCurrentMonitoringStep(monitoringStep);
             return true;
         }
 

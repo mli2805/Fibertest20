@@ -28,23 +28,28 @@ namespace Iit.Fibertest.RtuManagement
             }
         }
 
-        private void SendCurrentMonitoringStep(RtuCurrentMonitoringStep currentMonitoringStep,
-            MonitorigPort monitorigPort, BaseRefType baseRefType = BaseRefType.None)
+        private void SendCurrentMonitoringStep(RtuCurrentState currentState,
+            MonitorigPort monitorigPort = null, BaseRefType baseRefType = BaseRefType.None)
         {
             if (IsSenderBusy)
                 return;
 
             IsSenderBusy = true;
 
-            var dto = new KnowRtuCurrentMonitoringStepDto()
+            var dto = new CurrentMonitoringStepDto()
             {
                 RtuId = _id,
-                MonitoringStep = currentMonitoringStep,
-                OtauPort = new OtauPortDto()
+                State = currentState,
+                PortWithTraceDto = monitorigPort == null ? null : new PortWithTraceDto()
                 {
-                    OtauIp = monitorigPort.NetAddress.Ip4Address,
-                    OtauTcpPort = monitorigPort.NetAddress.Port,
-                    OpticalPort = monitorigPort.OpticalPort
+                    OtauPort = new OtauPortDto()
+                    {
+                        OtauIp = monitorigPort.NetAddress.Ip4Address,
+                        OtauTcpPort = monitorigPort.NetAddress.Port,
+                        OpticalPort = monitorigPort.OpticalPort,
+                        IsPortOnMainCharon = monitorigPort.IsPortOnMainCharon,
+                    },
+                    TraceId = monitorigPort.TraceId,
                 },
                 BaseRefType = baseRefType,
             };
@@ -54,6 +59,6 @@ namespace Iit.Fibertest.RtuManagement
             IsSenderBusy = false;
         }
 
-      
+
     }
 }
