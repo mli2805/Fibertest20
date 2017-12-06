@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Iit.Fibertest.Dto
 {
@@ -13,9 +12,6 @@ namespace Iit.Fibertest.Dto
         public Role Role { get; set; }
         public Guid ZoneId { get; set; }
         public bool IsDefaultZoneUser { get; set; }
-
-
-       
     }
   
 }

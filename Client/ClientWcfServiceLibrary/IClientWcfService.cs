@@ -14,7 +14,7 @@ namespace ClientWcfServiceInterface
         Task<int> NotifyUsersRtuCurrentMonitoringStep(CurrentMonitoringStepDto dto);
 
         [OperationContract]
-        Task<int> ProcessMonitoringResult(MonitoringResultDto dto);
+        Task<int> NotifyAboutMonitoringResult(MonitoringResultDto dto);
 
         [OperationContract]
         Task<int> NotifyAboutRtuChangedAvailability(ListOfRtuWithChangedAvailabilityDto dto);

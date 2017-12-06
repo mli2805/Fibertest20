@@ -91,23 +91,6 @@ namespace Iit.Fibertest.Client
             Log.Information(@"Client application started!");
 
             host.StartWcfListener();
-            clientWcfService.MessageReceived += ClientWcfService_MessageReceived;
-        }
-
-        private void ClientWcfService_MessageReceived(object e)
-        {
-            var dto = e as ListOfRtuWithChangedAvailabilityDto;
-            if (dto != null)
-            {
-                _logFile.AppendLine(@"ShellViewModel recieved RTU availability changed");
-                return;
-            }
-
-            var dto1 = e as MonitoringResultDto;
-            if (dto1 != null)
-            {
-                _logFile.AppendLine(@"ShellViewModel recieved monitoring result");
-            }
         }
 
         public override void CanClose(Action<bool> callback)

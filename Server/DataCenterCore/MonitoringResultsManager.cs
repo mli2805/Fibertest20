@@ -1,28 +1,26 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.DatabaseLibrary.DbContexts;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.DataCenterCore
 {
     public class MonitoringResultsManager
     {
         private readonly IMyLog _logFile;
-        private readonly RtuToClientsTransmitter _rtuToClientsTransmitter;
+        private readonly ClientRegistrationManager _clientRegistrationManager;
+        private readonly D2CWcfManager _d2CWcfManager;
 
 
-        public MonitoringResultsManager(IMyLog logFile, RtuToClientsTransmitter rtuToClientsTransmitter)
+        public MonitoringResultsManager(IMyLog logFile, ClientRegistrationManager clientRegistrationManager, D2CWcfManager d2CWcfManager)
         {
             _logFile = logFile;
-            _rtuToClientsTransmitter = rtuToClientsTransmitter;
-        }
-        public bool ProcessRtuCurrentMonitoringStep(CurrentMonitoringStepDto monitoringStep)
-        {
-            _logFile.AppendLine($"step on RTU {monitoringStep.RtuId.First6()}");
-            _rtuToClientsTransmitter.NotifyUsersRtuCurrentMonitoringStep(monitoringStep);
-            return true;
+            _clientRegistrationManager = clientRegistrationManager;
+            _d2CWcfManager = d2CWcfManager;
         }
 
         public async Task<bool> ProcessMonitoringResult(MonitoringResultDto result)
@@ -42,10 +40,15 @@ namespace Iit.Fibertest.DataCenterCore
             return true;
         }
 
-        private async Task<bool> SendMoniresultToClients(MonitoringResultDto result)
+        private async Task<int> SendMoniresultToClients(MonitoringResultDto result)
         {
-            return true;
+            var addresses = await _clientRegistrationManager.GetClientsAddresses();
+            if (addresses == null)
+                return 0;
+            _d2CWcfManager.SetClientsAddresses(addresses);
+            return await _d2CWcfManager.NotifyAboutMonitoringResult(result);
         }
+
         private async Task<bool> SaveOpticalEventInDb(MonitoringResultDto result, int measurementId)
         {
             try

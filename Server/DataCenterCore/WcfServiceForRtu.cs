@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ServiceModel;
-using System.Threading;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WcfServiceForRtuInterface;
 
 namespace Iit.Fibertest.DataCenterCore
@@ -12,23 +12,30 @@ namespace Iit.Fibertest.DataCenterCore
     public class WcfServiceForRtu : IWcfServiceForRtu
     {
         private readonly IMyLog _logFile;
+        private readonly ClientRegistrationManager _clientRegistrationManager;
         private readonly RtuRegistrationManager _rtuRegistrationManager;
-        private readonly RtuToClientsTransmitter _rtuToClientsTransmitter;
+        private readonly D2CWcfManager _d2CWcfManager;
 
         public WcfServiceForRtu(IMyLog logFile,
+            ClientRegistrationManager clientRegistrationManager,
             RtuRegistrationManager rtuRegistrationManager,
-            RtuToClientsTransmitter rtuToClientsTransmitter)
+            D2CWcfManager d2CWcfManager)
         {
             _logFile = logFile;
+            _clientRegistrationManager = clientRegistrationManager;
             _rtuRegistrationManager = rtuRegistrationManager;
-            _rtuToClientsTransmitter = rtuToClientsTransmitter;
+            _d2CWcfManager = d2CWcfManager;
         }
 
         public void NotifyUserCurrentMonitoringStep(CurrentMonitoringStepDto dto)
         {
             try
             {
-                _rtuToClientsTransmitter.NotifyUsersRtuCurrentMonitoringStep(dto);
+                var addresses = _clientRegistrationManager.GetClientsAddresses().Result;
+                if (addresses == null)
+                    return;
+                _d2CWcfManager.SetClientsAddresses(addresses);
+                _d2CWcfManager.NotifyUsersRtuCurrentMonitoringStep(dto).Wait();
             }
             catch (Exception e)
             {

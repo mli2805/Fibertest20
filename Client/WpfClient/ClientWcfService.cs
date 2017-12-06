@@ -8,9 +8,6 @@ namespace Iit.Fibertest.Client
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public class ClientWcfService : IClientWcfService
     {
-        public event OnMessageReceived MessageReceived;
-        public delegate void OnMessageReceived(object e);
-
         private readonly TreeOfRtuModel _treeOfRtuModel;
         private readonly RtuStateViewsManager _rtuStateViewsManager;
 
@@ -26,9 +23,8 @@ namespace Iit.Fibertest.Client
             return 0;
         }
 
-        public async Task<int> ProcessMonitoringResult(MonitoringResultDto dto)
+        public async Task<int> NotifyAboutMonitoringResult(MonitoringResultDto dto)
         {
-            MessageReceived?.Invoke(dto);
             return 0;
         }
 

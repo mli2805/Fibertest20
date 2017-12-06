@@ -92,7 +92,6 @@
     <Compile Include="NEventStore\MySqlEventStoreInitializer.cs" />
     <Compile Include="NEventStore\SqliteEventStoreInitializer.cs" />
     <Compile Include="NEventStore\IEventStoreInitializer.cs" />
-    <Compile Include="RtuToClientsTransmitter.cs" />
     <Compile Include="WcfServiceForClientBootstrapper.cs" />
     <Compile Include="NEventStore\EventStoreService.cs" />
     <Compile Include="LastConnectionTimeChecker.cs" />
