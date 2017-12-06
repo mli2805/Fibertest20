@@ -211,6 +211,7 @@
     <Compile Include="Forms\RtuState\RtuStateViewModel.cs" />
     <Compile Include="Forms\RtuState\RtuStateViewsManager.cs" />
     <Compile Include="Forms\RtuState\RtuStateVm.cs" />
+    <Compile Include="Forms\RtuState\RtuStateVmFactory.cs" />
     <Compile Include="Forms\Shell\NetworkEventsControl\NetworkEventsView.xaml.cs">
       <DependentUpon>NetworkEventsView.xaml</DependentUpon>
     </Compile>

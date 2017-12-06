@@ -19,12 +19,13 @@ namespace Iit.Fibertest.Client
 
         public async Task<int> NotifyUsersRtuCurrentMonitoringStep(CurrentMonitoringStepDto dto)
         {
-            _rtuStateViewsManager.NotifyUsersRtuCurrentMonitoringStep(dto);
+            _rtuStateViewsManager.NotifyUserRtuCurrentMonitoringStep(dto);
             return 0;
         }
 
         public async Task<int> NotifyAboutMonitoringResult(MonitoringResultDto dto)
         {
+            _rtuStateViewsManager.NotifyUserMonitoringResult(dto);
             return 0;
         }
 

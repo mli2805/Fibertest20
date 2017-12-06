@@ -19,6 +19,16 @@ namespace Iit.Fibertest.Client
             DisplayName = Resources.SID_State_of_RTU;
         }
 
+        public void NotifyUserMonitoringResult(MonitoringResultDto dto)
+        {
+            var portLineVm = Model.Ports.FirstOrDefault(p => p.TraceId == dto.PortWithTrace.TraceId);
+            if (portLineVm == null)
+                return;
+
+            portLineVm.TraceState = dto.BaseRefType == BaseRefType.Fast && dto.TraceState != FiberState.Ok? FiberState.Suspicion : dto.TraceState;
+            portLineVm.Timestamp = dto.TimeStamp;
+        }
+
         public void NotifyUserCurrentMonitoringStep(CurrentMonitoringStepDto dto)
         {
             string portName = "";
@@ -38,33 +48,28 @@ namespace Iit.Fibertest.Client
                     traceTitle = portLineVm.TraceTitle;
                     portName = portLineVm.Number;
                 }
-
             }
 
-            string message;
-            switch (dto.State)
+            Model.CurrentMeasurementStep = BuildMessage(dto.State, portName, traceTitle);
+        }
+
+        private string BuildMessage(RtuCurrentState state, string portName, string traceTitle)
+        {
+            switch (state)
             {
                 case RtuCurrentState.Idle:
-                    message = Resources.SID_Is_waiting_for_the_command;
-                    break;
+                    return Resources.SID_Is_waiting_for_the_command;
                 case RtuCurrentState.Toggle:
-                    message = string.Format(Resources.SID_Toggling_to_the_port__0_, portName);
-                    break;
+                   return string.Format(Resources.SID_Toggling_to_the_port__0_, portName);
                 case RtuCurrentState.Measure:
-                    message = string.Format(Resources.SID_Measurement_on_port__0___trace___1__, portName, traceTitle);
-                    break;
+                    return string.Format(Resources.SID_Measurement_on_port__0___trace___1__, portName, traceTitle);
                 case RtuCurrentState.Analysis:
-                    message = string.Format(Resources.SID_Measurement_s_result_analysis__port__0____trace___1__, portName, traceTitle);
-                    break;
+                    return string.Format(Resources.SID_Measurement_s_result_analysis__port__0____trace___1__, portName, traceTitle);
                 case RtuCurrentState.Interrupted:
-                    message = Resources.SID_Measurement_interrupted;
-                    break;
+                    return Resources.SID_Measurement_interrupted;
                 default:
-                    message = Resources.SID_Unknown;
-                    break;
+                    return Resources.SID_Unknown;
             }
-
-            Model.CurrentMeasurementStep = message;
         }
 
         public void Close()

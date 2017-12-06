@@ -63,7 +63,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<TraceLeafActionsPermissions>().SingleInstance();
             builder.RegisterType<TraceLeafContextMenuProvider>().SingleInstance();
 
-
+            builder.RegisterType<RtuStateVmFactory>().SingleInstance();
             builder.RegisterType<RtuStateViewsManager>().SingleInstance();
 
             builder.RegisterType<TreeOfRtuModel>().SingleInstance();
