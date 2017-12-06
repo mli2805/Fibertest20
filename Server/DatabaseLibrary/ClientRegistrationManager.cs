@@ -26,15 +26,15 @@ namespace Iit.Fibertest.DatabaseLibrary
             if (dbContext.Users.Any())
                 return; // seeded already
 
-            var developer = new User() { Name = "developer", Password = "developer", Email = "", IsEmailActivated = false, Role = Role.Developer, IsDefaultZoneUser = true };
+            var developer = new User() { Name = "developer", EncodedPassword = FlipFlop("developer"), Email = "", IsEmailActivated = false, Role = Role.Developer, IsDefaultZoneUser = true };
             dbContext.Users.Add(developer);
-            var root = new User() { Name = "root", Password = "root", Email = "", IsEmailActivated = false, Role = Role.Root, IsDefaultZoneUser = true };
+            var root = new User() { Name = "root", EncodedPassword = FlipFlop("root"), Email = "", IsEmailActivated = false, Role = Role.Root, IsDefaultZoneUser = true };
             dbContext.Users.Add(root);
-            var oper = new User() { Name = "operator", Password = "operator", Email = "", IsEmailActivated = false, Role = Role.Operator, IsDefaultZoneUser = true };
+            var oper = new User() { Name = "operator", EncodedPassword = FlipFlop("operator"), Email = "", IsEmailActivated = false, Role = Role.Operator, IsDefaultZoneUser = true };
             dbContext.Users.Add(oper);
-            var supervisor = new User() { Name = "supervisor", Password = "supervisor", Email = "", IsEmailActivated = false, Role = Role.Supervisor, IsDefaultZoneUser = true };
+            var supervisor = new User() { Name = "supervisor", EncodedPassword = FlipFlop("supervisor"), Email = "", IsEmailActivated = false, Role = Role.Supervisor, IsDefaultZoneUser = true };
             dbContext.Users.Add(supervisor);
-            var superclient = new User() { Name = "superclient", Password = "superclient", Email = "", IsEmailActivated = false, Role = Role.Superclient, IsDefaultZoneUser = true };
+            var superclient = new User() { Name = "superclient", EncodedPassword = FlipFlop("superclient"), Email = "", IsEmailActivated = false, Role = Role.Superclient, IsDefaultZoneUser = true };
             dbContext.Users.Add(superclient);
             try
             {
@@ -45,6 +45,11 @@ namespace Iit.Fibertest.DatabaseLibrary
                 _logFile.AppendLine("SeedUsersTableIfNeeded:" + e.Message);
             }
         }
+        private string FlipFlop(string before)
+        {
+            return string.IsNullOrEmpty(before) ? "" : before.Substring(before.Length - 1, 1) + FlipFlop(before.Substring(0, before.Length - 1));
+        }
+
 
         private Task<ClientRegisteredDto> CheckUserPassword(RegisterClientDto dto)
         {
@@ -55,7 +60,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             {
                 var dbContext = new MySqlContext();
                 var users = dbContext.Users.ToList(); // there is no field Password in Db , so it should be instances in memory to address that property
-                var user = users.FirstOrDefault(u => u.Name == dto.UserName && u.Password == dto.Password);
+                var user = users.FirstOrDefault(u => u.Name == dto.UserName && FlipFlop(u.EncodedPassword) == dto.Password);
                 if (user != null)
                 {
                     result.UserId = user.Id;
