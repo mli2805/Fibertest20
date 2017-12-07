@@ -25,90 +25,70 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<bool> ProcessMonitoringResult(MonitoringResultDto result)
         {
-            var isTraceStateChanged = IsTraceStateChanged(result);
-
-            var sorFileId = await SaveMeasurementInDb(result, isTraceStateChanged);
-            if (sorFileId == -1)
+            var measurement = await SaveMeasurementInDb(result);
+            if (measurement == null)
                 return false;
 
-            if (isTraceStateChanged)
-            {
-                await SaveOpticalEventInDb(result, sorFileId);
-                await SendMoniresultToClients(result);
-            }
+            await SendMoniresultToClients(measurement);
 
             return true;
         }
 
-        private async Task<int> SendMoniresultToClients(MonitoringResultDto result)
+        private async Task<int> SendMoniresultToClients(Measurement measurement)
         {
             var addresses = await _clientRegistrationManager.GetClientsAddresses();
             if (addresses == null)
                 return 0;
             _d2CWcfManager.SetClientsAddresses(addresses);
-            return await _d2CWcfManager.NotifyAboutMonitoringResult(result);
+            return await _d2CWcfManager.NotifyAboutMonitoringResult(measurement);
         }
 
-        private async Task<bool> SaveOpticalEventInDb(MonitoringResultDto result, int measurementId)
+        private bool IsEvent(MonitoringResultDto result)
         {
             try
             {
                 var dbContext = new MySqlContext();
-                dbContext.OpticalEvents.Add(new OpticalEvent()
-                {
-                    RtuId = result.RtuId,
-                    TraceId = result.PortWithTrace.TraceId,
-                    EventRegistrationTimestamp = result.TimeStamp,
-                    BaseRefType = result.BaseRefType,
-                    TraceState = result.TraceState,
-                    EventStatus = result.TraceState == FiberState.Ok || result.BaseRefType == BaseRefType.Fast ? EventStatus.NotAnAccident : EventStatus.Unprocessed,
-                    StatusChangedTimestamp = result.TimeStamp,
-                    StatusChangedByUser = "",
-                    Comment = "",
-                    SorFileId = measurementId,
-                });
-                await dbContext.SaveChangesAsync();
-                return true;
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine("SaveOpticalEventInDb " + e.Message);
-                return false;
-            }
-        }
-
-        private bool IsTraceStateChanged(MonitoringResultDto result)
-        {
-            try
-            {
-                var dbContext = new MySqlContext();
-                var lastEventOnTrace = dbContext.OpticalEvents.Where(ev => ev.TraceId == result.PortWithTrace.TraceId).ToList()
+                var previousMeasurementOnTrace = dbContext.Measurements.Where(ev => ev.TraceId == result.PortWithTrace.TraceId).ToList()
                     .LastOrDefault();
-                if (lastEventOnTrace == null)
+                if (previousMeasurementOnTrace == null)
                 {
-                    _logFile.AppendLine($"First event on trace {result.PortWithTrace.TraceId.First6()} - Save.");
+                    _logFile.AppendLine($"First measurement on trace {result.PortWithTrace.TraceId.First6()} - event.");
                     return true;
                 }
-                if (lastEventOnTrace.TraceState != result.TraceState)
+                if (previousMeasurementOnTrace.TraceState != result.TraceState)
                 {
-                    _logFile.AppendLine($"State of trace {result.PortWithTrace.TraceId.First6()} changed - Save.");
+                    _logFile.AppendLine($"State of trace {result.PortWithTrace.TraceId.First6()} changed - event.");
                     return true;
                 }
-                if (lastEventOnTrace.BaseRefType != result.BaseRefType)
+                if (previousMeasurementOnTrace.BaseRefType == BaseRefType.Fast 
+                        && previousMeasurementOnTrace.EventStatus > EventStatus.JustMeasurementNotAnEvent // fast measurement could be made 
+                                                                                                          // when monitoring mode is turned to Automatic 
+                                                                                                          // or it could be made by schedule
+                                                                                                          // but we are interested only in Events
+                            && result.BaseRefType != BaseRefType.Fast) // Precise or Additional
                 {
-                    _logFile.AppendLine($"Confirmation of accident on trace {result.PortWithTrace.TraceId.First6()} - Save.");
+                    _logFile.AppendLine($"Confirmation of accident on trace {result.PortWithTrace.TraceId.First6()} - event.");
                     return true;
                 }
                 return false;
             }
             catch (Exception e)
             {
-                _logFile.AppendLine("IsTraceStateChanged " + e.Message);
+                _logFile.AppendLine("IsEvent " + e.Message);
                 return false;
             }
         }
 
-        private async Task<int> SaveMeasurementInDb(MonitoringResultDto result, bool isTraceStateChanged)
+        private EventStatus EvaluateStatus(MonitoringResultDto result)
+        {
+            if (!IsEvent(result))
+                return EventStatus.JustMeasurementNotAnEvent;
+            if (result.TraceState == FiberState.Ok || result.BaseRefType == BaseRefType.Fast)
+                return EventStatus.NotAnAccident;
+            return EventStatus.Unprocessed;
+        }
+
+        private async Task<Measurement> SaveMeasurementInDb(MonitoringResultDto result)
         {
             try
             {
@@ -120,23 +100,30 @@ namespace Iit.Fibertest.DataCenterCore
 
                 var sorFileId = sorFile.Id;
 
-                dbContext.Measurements.Add(new Measurement()
+                var measurement = new Measurement()
                 {
-                    SorFileId = sorFileId,
+                    MeasurementTimestamp = result.TimeStamp,
+                    EventRegistrationTimestamp = DateTime.Now,
                     RtuId = result.RtuId,
                     TraceId = result.PortWithTrace.TraceId,
                     BaseRefType = result.BaseRefType,
                     TraceState = result.TraceState,
-                    IsOpticalEvent = isTraceStateChanged,
-                    Timestamp = result.TimeStamp,
-                });
+
+                    EventStatus = EvaluateStatus(result),
+                    StatusChangedTimestamp = DateTime.Now,
+                    StatusChangedByUser = "system",
+                    Comment = "",
+
+                    SorFileId = sorFileId,
+                };
+                dbContext.Measurements.Add(measurement);
                 await dbContext.SaveChangesAsync();
-                return sorFileId;
+                return measurement;
             }
             catch (Exception e)
             {
                 _logFile.AppendLine("SaveMeasurementInDb " + e.Message);
-                return -1;
+                return null;
             }
         }
     }

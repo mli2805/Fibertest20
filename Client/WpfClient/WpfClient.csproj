@@ -247,7 +247,7 @@
     <Compile Include="LocalDb\SQLiteProviderInvariantName.cs" />
     <Compile Include="Logic\ReflectogramManager.cs" />
     <Compile Include="Logic\ReturnCodeExt.cs" />
-    <Compile Include="Forms\TraceState\TraceStateManager.cs" />
+    <Compile Include="Forms\TraceState\TraceStateViewsManager.cs" />
     <Compile Include="Logic\WaitCursor.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\RtuLeafActions.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\RtuLeafActionsPermissions.cs" />

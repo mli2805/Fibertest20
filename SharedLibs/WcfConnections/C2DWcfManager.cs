@@ -75,7 +75,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public async Task<OpticalEventsList> GetOpticalEvents(int revision)
+        public async Task<MeasurementsList> GetOpticalEvents(int revision)
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();
             if (wcfConnection == null)
@@ -90,7 +90,7 @@ namespace Iit.Fibertest.WcfConnections
             catch (Exception e)
             {
                 _logFile.AppendLine(e.Message);
-                return new OpticalEventsList() {Events = new List<OpticalEvent>()};
+                return new MeasurementsList() {Measurements = new List<Measurement>()};
             }
         }
 
@@ -180,7 +180,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public async Task<TraceStateDto> GetLastTraceState(Guid traceId)
+        public async Task<Measurement> GetLastTraceMeasurement(Guid traceId)
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();
             if (wcfConnection == null)
@@ -188,7 +188,7 @@ namespace Iit.Fibertest.WcfConnections
 
             try
             {
-                return wcfConnection.GetLastTraceState(traceId).Result;
+                return wcfConnection.GetLastTraceMeasurement(traceId).Result;
             }
             catch (Exception e)
             {
@@ -196,7 +196,6 @@ namespace Iit.Fibertest.WcfConnections
                 return null;
             }
         }
-
 
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {

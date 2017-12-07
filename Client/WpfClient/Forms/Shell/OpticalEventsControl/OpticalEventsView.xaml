@@ -23,6 +23,13 @@
                   AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" CanUserSortColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Event_Id}" Binding="{Binding SorFileId}" Width="70"/>
+                <DataGridTextColumn Binding="{Binding MeasurementTimestamp}" Width="120">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{x:Static stringResources:Resources.SID_Measurement_termination_timestamp}" TextWrapping="Wrap" TextAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
                 <DataGridTextColumn Binding="{Binding EventRegistrationTimestamp}" Width="120">
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>

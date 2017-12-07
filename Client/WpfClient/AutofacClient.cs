@@ -20,7 +20,7 @@ namespace Iit.Fibertest.Client
 
             builder.RegisterType<LocalDbManager>().As<ILocalDbManager>().SingleInstance();
             builder.RegisterType<ReflectogramManager>().SingleInstance();
-            builder.RegisterType<TraceStateManager>().SingleInstance();
+            builder.RegisterType<TraceStateViewsManager>().SingleInstance();
 
             builder.RegisterType<OpticalEventsViewModel>().SingleInstance();
             builder.RegisterType<NetworkEventsViewModel>().SingleInstance();

@@ -4,12 +4,13 @@ namespace Iit.Fibertest.Dto
 {
     public enum EventStatus
     {
-        NotAnAccident = -9,
-        Planned       = -2,
-        NotConfirmed  = -1,
-        Unprocessed   =  0,
-        Suspended     =  1,
-        Confirmed     =  2,
+        JustMeasurementNotAnEvent = -99, // only for trace statistics
+        NotAnAccident             = -9,  // Ok or Suspicion (made by Fast)
+        Planned                   = -2,
+        NotConfirmed              = -1,
+        Unprocessed               =  0,
+        Suspended                 =  1,
+        Confirmed                 =  2,
     }
 
     public static class EventStatusExt
@@ -33,11 +34,6 @@ namespace Iit.Fibertest.Dto
                     default:
                         return Resources.SID_Unprocessed;
             }
-        }
-
-        public static string ToString(this EventStatus eventStatus)
-        {
-            return "bbb";
         }
     }
 }

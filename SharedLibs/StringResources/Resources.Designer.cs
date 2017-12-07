@@ -2124,6 +2124,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Measurement termination timestamp.
+        /// </summary>
+        public static string SID_Measurement_termination_timestamp {
+            get {
+                return ResourceManager.GetString("SID_Measurement_termination_timestamp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Measuring with averaging.
         /// </summary>
         public static string SID_Measuring_with_averaging {

@@ -7,6 +7,7 @@ namespace Iit.Fibertest.Client
     public class OpticalEventVm
     {
         public int Nomer { get; set; }
+        public DateTime MeasurementTimestamp { get; set; }
         public DateTime EventRegistrationTimestamp { get; set; }
         public string RtuTitle { get; set; }
 

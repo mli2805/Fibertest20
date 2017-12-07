@@ -65,12 +65,12 @@ namespace Iit.Fibertest.Client
 
 
             var opticalEvents = WcfConnection.GetOpticalEvents(LastOpticalEventNumber).Result;
-            if (opticalEvents?.Events != null && opticalEvents.Events.Any())
+            if (opticalEvents?.Measurements != null && opticalEvents.Measurements.Any())
             {
                 ApplyOpticalEvents(opticalEvents);
 
-                LastOpticalEventNumber = opticalEvents.Events.Last().Id;
-                foreach (var opticalEvent in opticalEvents.Events)
+                LastOpticalEventNumber = opticalEvents.Measurements.Last().Id;
+                foreach (var opticalEvent in opticalEvents.Measurements)
                 {
                     _opticalEventsViewModel.Apply(opticalEvent);
                 }
@@ -122,9 +122,9 @@ namespace Iit.Fibertest.Client
                 }
             }
         }
-        private void ApplyOpticalEvents(OpticalEventsList list)
+        private void ApplyOpticalEvents(MeasurementsList list)
         {
-            foreach (var opticalEvent in list.Events)
+            foreach (var opticalEvent in list.Measurements)
             {
                 foreach (var m in ReadModels)
                 {

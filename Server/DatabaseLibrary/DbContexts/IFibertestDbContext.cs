@@ -12,7 +12,6 @@ namespace Iit.Fibertest.DatabaseLibrary.DbContexts
         DbSet<BaseRef> BaseRefs { get; set; }
 
         DbSet<NetworkEvent> NetworkEvents { get; set; }
-        DbSet<OpticalEvent> OpticalEvents { get; set; }
         DbSet<Measurement> Measurements { get; set; }
         DbSet<SorFile> SorFiles { get; set; }
 

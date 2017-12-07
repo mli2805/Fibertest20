@@ -77,9 +77,9 @@ namespace Iit.Fibertest.DataCenterCore
             return _eventStoreService.GetEvents(revision);
         }
 
-        public async Task<OpticalEventsList> GetOpticalEvents(int revision)
+        public async Task<MeasurementsList> GetOpticalEvents(int revision)
         {
-            return new OpticalEventsList { Events = await _dbRequestManager.GetOpticalEventsAsync(revision) };
+            return new MeasurementsList { Measurements = await _dbRequestManager.GetOpticalEventsAsync(revision) };
         }
 
         public async Task<NetworkEventsList> GetNetworkEvents(int revision)
@@ -107,9 +107,9 @@ namespace Iit.Fibertest.DataCenterCore
             return _dbRequestManager.GetSorBytesOfLastTraceMeasurement(traceId);
         }
 
-        public Task<TraceStateDto> GetLastTraceState(Guid traceId)
+        public Task<Measurement> GetLastTraceMeasurement(Guid traceId)
         {
-            return _dbRequestManager.GetLastTraceState(traceId);
+            return _dbRequestManager.GetLastTraceMeasurement(traceId);
         }
 
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)

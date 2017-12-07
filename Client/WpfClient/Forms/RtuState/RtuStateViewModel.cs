@@ -19,14 +19,14 @@ namespace Iit.Fibertest.Client
             DisplayName = Resources.SID_State_of_RTU;
         }
 
-        public void NotifyUserMonitoringResult(MonitoringResultDto dto)
+        public void NotifyUserMonitoringResult(Measurement dto)
         {
-            var portLineVm = Model.Ports.FirstOrDefault(p => p.TraceId == dto.PortWithTrace.TraceId);
+            var portLineVm = Model.Ports.FirstOrDefault(p => p.TraceId == dto.TraceId);
             if (portLineVm == null)
                 return;
 
             portLineVm.TraceState = dto.BaseRefType == BaseRefType.Fast && dto.TraceState != FiberState.Ok? FiberState.Suspicion : dto.TraceState;
-            portLineVm.Timestamp = dto.TimeStamp;
+            portLineVm.Timestamp = dto.MeasurementTimestamp;
         }
 
         public void NotifyUserCurrentMonitoringStep(CurrentMonitoringStepDto dto)

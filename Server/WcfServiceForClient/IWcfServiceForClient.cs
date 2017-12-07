@@ -20,7 +20,7 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
 
         // C2Database
         [OperationContract]
-        Task<OpticalEventsList> GetOpticalEvents(int revision);
+        Task<MeasurementsList> GetOpticalEvents(int revision);
 
         [OperationContract]
         Task<NetworkEventsList> GetNetworkEvents(int revision);
@@ -38,7 +38,7 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
         Task<byte[]> GetSorBytesOfLastTraceMeasurement(Guid traceId);
 
         [OperationContract]
-        Task<TraceStateDto> GetLastTraceState(Guid traceId);
+        Task<Measurement> GetLastTraceMeasurement(Guid traceId);
 
         // C2D
         [OperationContract]

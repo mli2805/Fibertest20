@@ -7,7 +7,14 @@ using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
 {
-    public class TraceStateManager
+    public class TraceStateVmFactory
+    {
+        public TraceStateVm Create()
+        {
+            return new TraceStateVm();
+        }
+    }
+    public class TraceStateViewsManager
     {
         private readonly IMyLog _logFile;
         private readonly ReadModel _readModel;
@@ -15,7 +22,7 @@ namespace Iit.Fibertest.Client
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly TraceStateViewModel _traceStateViewModel;
 
-        public TraceStateManager(IMyLog logFile, ReadModel readModel, 
+        public TraceStateViewsManager(IMyLog logFile, ReadModel readModel, 
             IMyWindowManager windowManager, IWcfServiceForClient c2DWcfManager,
             TraceStateViewModel traceStateViewModel)
         {
@@ -63,18 +70,15 @@ namespace Iit.Fibertest.Client
             var result = new TraceStateVm();
             PrepareCaption(traceId, ref result);
 
-            TraceStateDto dto = GetLastTraceState(traceId).Result;
+            Measurement dto = GetLastTraceMeasurement(traceId).Result;
 
-            result.TraceState = dto.LastMeasurement.TraceState;
-            result.BaseRefType = dto.LastMeasurement.BaseRefType;
-            result.SorFileId = dto.LastMeasurement.SorFileId;
+            result.TraceState = dto.TraceState;
+            result.BaseRefType = dto.BaseRefType;
+            result.SorFileId = dto.SorFileId;
 
-            if (dto.CorrespondentEvent != null)
-            {
-                result.OpticalEventId = dto.CorrespondentEvent.Id;
-                result.EventStatus = dto.CorrespondentEvent.EventStatus;
-                result.OpticalEventComment = dto.CorrespondentEvent.Comment;
-            }
+            result.EventStatus = dto.EventStatus;
+            result.OpticalEventComment = dto.Comment;
+           
             return result;
         }
 
@@ -129,18 +133,18 @@ namespace Iit.Fibertest.Client
                 : $@"{trace.OtauPort.OtauIp}:{trace.OtauPort.OtauTcpPort}-{trace.OtauPort.OpticalPort}";
         }
 
-        private async Task<TraceStateDto> GetLastTraceState(Guid traceId)
+        private async Task<Measurement> GetLastTraceMeasurement(Guid traceId)
         {
-            var traceStateDto = await _c2DWcfManager.GetLastTraceState(traceId);
-            if (traceStateDto == null)
+            var measurement = await _c2DWcfManager.GetLastTraceMeasurement(traceId);
+            if (measurement == null)
             {
-                _logFile.AppendLine($@"Cannot get last state for trace {traceId.First6()}");
+                _logFile.AppendLine($@"Cannot get last measurement for trace {traceId.First6()}");
                 return null;
             }
             else
             {
-                _logFile.AppendLine($@"Last state for trace {traceId.First6()} recieved");
-                return traceStateDto;
+                _logFile.AppendLine($@"Last measurement for trace {traceId.First6()} recieved");
+                return measurement;
             }
         }
 

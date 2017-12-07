@@ -16,7 +16,7 @@ namespace Iit.Fibertest.Client
         private readonly ReadModel _readModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly ReflectogramManager _reflectogramManager;
-        private readonly TraceStateManager _traceStateManager;
+        private readonly TraceStateViewsManager _traceStateViewsManager;
         private Trace _trace;
 
         public string TraceTitle { get; set; }
@@ -52,12 +52,12 @@ namespace Iit.Fibertest.Client
         }
 
         public TraceStatisticsViewModel(ReadModel readModel, IWcfServiceForClient c2DWcfManager,
-            ReflectogramManager reflectogramManager, TraceStateManager traceStateManager)
+            ReflectogramManager reflectogramManager, TraceStateViewsManager traceStateViewsManager)
         {
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
             _reflectogramManager = reflectogramManager;
-            _traceStateManager = traceStateManager;
+            _traceStateViewsManager = traceStateViewsManager;
 
             var view = CollectionViewSource.GetDefaultView(Rows);
             view.SortDescriptions.Add(new SortDescription(@"SorFileId", ListSortDirection.Descending));
@@ -87,9 +87,9 @@ namespace Iit.Fibertest.Client
                 {
                     BaseRefType = measurement.BaseRefType,
                     TraceState = measurement.TraceState,
-                    Timestamp = measurement.Timestamp,
+                    Timestamp = measurement.MeasurementTimestamp,
                     SorFileId = measurement.SorFileId,
-                    IsOpticalEvent = measurement.IsOpticalEvent,
+                    IsOpticalEvent = measurement.EventStatus != EventStatus.JustMeasurementNotAnEvent,
                 });
             }
 
@@ -134,7 +134,7 @@ namespace Iit.Fibertest.Client
 
         public void ShowTraceState()
         {
-           _traceStateManager.ShowTraceState(_trace.Id, SelectedRow);
+           _traceStateViewsManager.ShowTraceState(_trace.Id, SelectedRow);
         }
      
     }

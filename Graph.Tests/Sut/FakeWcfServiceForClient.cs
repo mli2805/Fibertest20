@@ -27,7 +27,7 @@ namespace Graph.Tests
             return new string[0];
         }
 
-        public Task<OpticalEventsList> GetOpticalEvents(int revision)
+        public Task<MeasurementsList> GetOpticalEvents(int revision)
         {
             throw new NotImplementedException();
         }
@@ -57,11 +57,10 @@ namespace Graph.Tests
             throw new NotImplementedException();
         }
 
-        public Task<TraceStateDto> GetLastTraceState(Guid traceId)
+        public Task<Measurement> GetLastTraceMeasurement(Guid traceId)
         {
             throw new NotImplementedException();
         }
-
 
         public Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {

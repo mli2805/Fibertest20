@@ -1454,4 +1454,7 @@ RTU is initializing right now!</value>
 	<data name="SID_Is_waiting_for_the_command" xml:space="preserve">
     <value>Is waiting for the command</value>
   </data>
+	<data name="SID_Measurement_termination_timestamp" xml:space="preserve">
+    <value>Measurement termination timestamp</value>
+  </data>
 </root>

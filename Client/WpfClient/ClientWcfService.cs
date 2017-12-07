@@ -23,7 +23,7 @@ namespace Iit.Fibertest.Client
             return 0;
         }
 
-        public async Task<int> NotifyAboutMonitoringResult(MonitoringResultDto dto)
+        public async Task<int> NotifyAboutMonitoringResult(Measurement dto)
         {
             _rtuStateViewsManager.NotifyUserMonitoringResult(dto);
             return 0;

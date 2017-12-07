@@ -2,7 +2,7 @@ using System;
 
 namespace Iit.Fibertest.Dto
 {
-    public class OpticalEvent
+    public class OpticalEvent1
     {
         public int Id { get; set; }
         public DateTime EventRegistrationTimestamp { get; set; }
@@ -17,13 +17,5 @@ namespace Iit.Fibertest.Dto
         public string Comment { get; set; }
 
         public int SorFileId { get; set; }
-    }
-
-    public static class OpticalEventExtension
-    {
-        public static bool IsStatusAcceptable(this OpticalEvent opticalEvent)
-        {
-            return opticalEvent.TraceState != FiberState.Ok && opticalEvent.BaseRefType != BaseRefType.Fast;
-        }
     }
 }

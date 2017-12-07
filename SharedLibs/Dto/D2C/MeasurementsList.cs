@@ -4,9 +4,9 @@ using System.Runtime.Serialization;
 namespace Iit.Fibertest.Dto
 {
     [DataContract]
-    public class OpticalEventsList
+    public class MeasurementsList
     {
         [DataMember]
-        public List<OpticalEvent> Events { get; set; }
+        public List<Measurement> Measurements { get; set; }
     }
 }

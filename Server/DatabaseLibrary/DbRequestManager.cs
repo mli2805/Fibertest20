@@ -18,12 +18,12 @@ namespace Iit.Fibertest.DatabaseLibrary
             _logFile = logFile;
         }
 
-        public async Task<List<OpticalEvent>> GetOpticalEventsAsync(int afterIndex)
+        public async Task<List<Measurement>> GetOpticalEventsAsync(int afterIndex)
         {
             try
             {
                 var dbContext = new MySqlContext();
-                var events = await dbContext.OpticalEvents.Where(e => e.Id > afterIndex).ToListAsync();
+                var events = await dbContext.Measurements.Where(e => e.Id > afterIndex && e.EventStatus != EventStatus.JustMeasurementNotAnEvent).ToListAsync();
                 return events;
             }
             catch (Exception e)
@@ -93,7 +93,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
             catch (Exception e)
             {
-                _logFile.AppendLine("GetSorBytesOfMeasurement: " + e.Message);
+                _logFile.AppendLine("GetSorBytesOfBase: " + e.Message);
                 return null;
             }
         }
@@ -136,34 +136,22 @@ namespace Iit.Fibertest.DatabaseLibrary
                 return null;
             }
         }
-
-        public async Task<TraceStateDto> GetLastTraceState(Guid traceId)
+         public async Task<Measurement> GetLastTraceMeasurement(Guid traceId)
         {
             try
             {
                 using (var dbContext = new MySqlContext())
                 {
-
-                    var lastMeas = await dbContext.Measurements.OrderByDescending(m => m.Id).
-                                            Where(s => s.TraceId == traceId).FirstOrDefaultAsync();
-                    if (lastMeas == null)
-                        return null;
-
-                    var result = new TraceStateDto() { LastMeasurement = lastMeas};
-
-                    if (lastMeas.IsOpticalEvent)
-                    {
-                        result.CorrespondentEvent = 
-                            await dbContext.OpticalEvents.Where(o => o.SorFileId == lastMeas.SorFileId).FirstOrDefaultAsync();
-                    }
-                    return result;
+                    return await dbContext.Measurements.OrderByDescending(m => m.Id).
+                                            Where(m => m.TraceId == traceId).FirstOrDefaultAsync();
                 }
             }
             catch (Exception e)
             {
-                _logFile.AppendLine("GetLastTraceState: " + e.Message);
+                _logFile.AppendLine("GetLastTraceMeasurement: " + e.Message);
                 return null;
             }
         }
+       
     }
 }

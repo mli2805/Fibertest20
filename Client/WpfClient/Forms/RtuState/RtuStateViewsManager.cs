@@ -46,7 +46,7 @@ namespace Iit.Fibertest.Client
                 vm.NotifyUserCurrentMonitoringStep(dto);
         }
 
-        public void NotifyUserMonitoringResult(MonitoringResultDto dto)
+        public void NotifyUserMonitoringResult(Measurement dto)
         {
             RtuStateViewModel vm;
             if (LaunchedViews.TryGetValue(dto.RtuId, out vm))

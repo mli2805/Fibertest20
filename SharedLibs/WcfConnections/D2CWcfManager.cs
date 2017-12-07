@@ -74,7 +74,7 @@ namespace Iit.Fibertest.WcfConnections
             return 0;
         }
 
-        public async Task<int> NotifyAboutMonitoringResult(MonitoringResultDto dto)
+        public async Task<int> NotifyAboutMonitoringResult(Measurement dto)
         {
             if (_addresses == null)
             {

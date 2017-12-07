@@ -9,15 +9,15 @@ namespace Iit.Fibertest.Client
     {
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
-        private readonly TraceStateManager _traceStateManager;
+        private readonly TraceStateViewsManager _traceStateViewsManager;
         private readonly ReflectogramManager _reflectogramManager;
 
-        public TraceLeafActions(IniFile iniFile, IMyLog logFile, TraceStateManager traceStateManager,
+        public TraceLeafActions(IniFile iniFile, IMyLog logFile, TraceStateViewsManager traceStateViewsManager,
              ReflectogramManager reflectogramManager)
         {
             _iniFile = iniFile;
             _logFile = logFile;
-            _traceStateManager = traceStateManager;
+            _traceStateViewsManager = traceStateViewsManager;
             _reflectogramManager = reflectogramManager;
         }
 
@@ -54,7 +54,7 @@ namespace Iit.Fibertest.Client
             if (traceLeaf == null)
                 return;
 
-            _traceStateManager.ShowTraceState(traceLeaf.Id);
+            _traceStateViewsManager.ShowTraceState(traceLeaf.Id);
         }
 
         public void ShowTraceStatistics(object param)

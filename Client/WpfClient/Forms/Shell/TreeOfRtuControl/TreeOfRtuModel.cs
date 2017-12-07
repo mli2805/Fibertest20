@@ -164,13 +164,13 @@ namespace Iit.Fibertest.Client
                 rtuLeaf.ReserveChannelState = (RtuPartState)(int)networkEvent.ReserveChannelState;
         }
 
-        public void Apply(OpticalEvent opticalEvent)
+        public void Apply(Measurement measurement)
         {
-            var traceLeaf = (TraceLeaf)Tree.GetById(opticalEvent.TraceId);
+            var traceLeaf = (TraceLeaf)Tree.GetById(measurement.TraceId);
             if (traceLeaf == null)
                 return;
 
-            traceLeaf.TraceState = opticalEvent.TraceState;
+            traceLeaf.TraceState = measurement.TraceState;
         }
         #endregion
 

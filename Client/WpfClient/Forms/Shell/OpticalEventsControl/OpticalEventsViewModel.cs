@@ -15,7 +15,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly ReadModel _readModel;
         private readonly ReflectogramManager _reflectogramManager;
-        private readonly TraceStateManager _traceStateManager;
+        private readonly TraceStateViewsManager _traceStateViewsManager;
         private Visibility _opticalEventsVisibility;
         private TraceStateFilter _selectedTraceStateFilter;
         private EventStatusFilter _selectedEventStatusFilter;
@@ -75,11 +75,11 @@ namespace Iit.Fibertest.Client
 
 
         public OpticalEventsViewModel(ReadModel readModel,
-            ReflectogramManager reflectogramManager, TraceStateManager traceStateManager)
+            ReflectogramManager reflectogramManager, TraceStateViewsManager traceStateViewsManager)
         {
             _readModel = readModel;
             _reflectogramManager = reflectogramManager;
-            _traceStateManager = traceStateManager;
+            _traceStateViewsManager = traceStateViewsManager;
 
             InitializeTraceStateFilters();
             InitializeEventStatusFilters();
@@ -123,27 +123,28 @@ namespace Iit.Fibertest.Client
                 SelectedEventStatusFilter.EventStatus == opticalEventVm.EventStatus);
         }
 
-        public void Apply(OpticalEvent opticalEvent)
+        public void Apply(Measurement measurement)
         {
             Rows.Add(new OpticalEventVm()
             {
-                Nomer = opticalEvent.Id,
-                EventRegistrationTimestamp = opticalEvent.EventRegistrationTimestamp,
-                RtuTitle = _readModel.Rtus.FirstOrDefault(r => r.Id == opticalEvent.RtuId)?.Title,
-                TraceId = opticalEvent.TraceId,
-                TraceTitle = _readModel.Traces.FirstOrDefault(t => t.Id == opticalEvent.TraceId)?.Title,
-                BaseRefType = opticalEvent.BaseRefType,
+                Nomer = measurement.Id,
+                MeasurementTimestamp = measurement.MeasurementTimestamp,
+                EventRegistrationTimestamp = measurement.EventRegistrationTimestamp,
+                RtuTitle = _readModel.Rtus.FirstOrDefault(r => r.Id == measurement.RtuId)?.Title,
+                TraceId = measurement.TraceId,
+                TraceTitle = _readModel.Traces.FirstOrDefault(t => t.Id == measurement.TraceId)?.Title,
+                BaseRefType = measurement.BaseRefType,
                
-                TraceState = opticalEvent.TraceState,
+                TraceState = measurement.TraceState,
 
-                EventStatus = opticalEvent.EventStatus,
+                EventStatus = measurement.EventStatus,
 
-                StatusChangedTimestamp = opticalEvent.StatusChangedByUser != ""
-                    ? opticalEvent.StatusChangedTimestamp.ToString(Thread.CurrentThread.CurrentUICulture)
+                StatusChangedTimestamp = measurement.StatusChangedByUser != ""
+                    ? measurement.StatusChangedTimestamp.ToString(Thread.CurrentThread.CurrentUICulture)
                     : "",
                 StatusChangedByUser = "",
-                Comment = opticalEvent.Comment,
-                SorFileId = opticalEvent.SorFileId,
+                Comment = measurement.Comment,
+                SorFileId = measurement.SorFileId,
             });
         }
 
@@ -169,7 +170,7 @@ namespace Iit.Fibertest.Client
 
         public void ShowTraceState()
         {
-            _traceStateManager.ShowTraceState(SelectedRow);
+            _traceStateViewsManager.ShowTraceState(SelectedRow);
         }
     }
 }
