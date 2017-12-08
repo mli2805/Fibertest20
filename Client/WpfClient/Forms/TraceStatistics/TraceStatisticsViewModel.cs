@@ -10,6 +10,34 @@ using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
 {
+    public class TraceStatisticsViewsManager
+    {
+        private readonly IMyWindowManager _windowManager;
+        private Dictionary<Guid, TraceStatisticsViewModel> LaunchedViews { get; set; } = new Dictionary<Guid, TraceStatisticsViewModel>();
+
+        public TraceStatisticsViewsManager(IMyWindowManager windowManager)
+        {
+            _windowManager = windowManager;
+        }
+
+        public void Show(Guid traceId)
+        {
+            TraceStatisticsViewModel vm;
+            if (LaunchedViews.TryGetValue(traceId, out vm))
+            {
+                vm.TryClose();
+                LaunchedViews.Remove(traceId);
+            }
+
+            vm = IoC.Get<TraceStatisticsViewModel>();
+            vm.Initialize(traceId);
+            _windowManager.ShowWindow(vm);
+
+            LaunchedViews.Add(traceId, vm);
+        }
+
+    }
+
     public class TraceStatisticsViewModel : Screen
     {
         private readonly ReadModel _readModel;
