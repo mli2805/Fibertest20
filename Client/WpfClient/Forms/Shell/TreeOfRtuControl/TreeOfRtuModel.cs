@@ -373,6 +373,7 @@ namespace Iit.Fibertest.Client
             rtuLeaf.MonitoringState = MonitoringState.Off;
             ApplyRecursively(rtuLeaf, MonitoringState.Off);
         }
+
         private void ApplyRecursively(IPortOwner portOwner, MonitoringState rtuMonitoringState)
         {
             foreach (var leaf in portOwner.ChildrenImpresario.Children)
