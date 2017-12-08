@@ -10,15 +10,17 @@ namespace Iit.Fibertest.Client
     public class TraceStateViewModel : Screen
     {
         private readonly ReflectogramManager _reflectogramManager;
+        private readonly SoundManager _soundManager;
         public TraceStateVm Model { get; set; }
         public bool IsLastStateForThisTrace { get; set; } = false;
 
         public List<EventStatusComboItem> StatusRows { get; set; }
         public EventStatusComboItem SelectedEventStatus { get; set; }
 
-        public TraceStateViewModel(ReflectogramManager reflectogramManager)
+        public TraceStateViewModel(ReflectogramManager reflectogramManager, SoundManager soundManager)
         {
             _reflectogramManager = reflectogramManager;
+            _soundManager = soundManager;
         }
 
         public void Initialize(TraceStateVm model, bool isLastStateForThisTrace)
@@ -50,6 +52,10 @@ namespace Iit.Fibertest.Client
 
 
         //----
+        public void TurnSound()
+        {
+            _soundManager.PlayOk();
+        }
 
         public void ShowAccidentPlace() { }
         public void ShowReflectogram() { _reflectogramManager.ShowRefWithBase(Model.SorFileId); }

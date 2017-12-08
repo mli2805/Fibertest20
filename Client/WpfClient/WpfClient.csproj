@@ -227,6 +227,7 @@
     <Compile Include="Forms\TraceState\TraceStateVmFactory.cs" />
     <Compile Include="Forms\TraceStatistics\TraceStatisticsViewsManager.cs" />
     <Compile Include="IMyWindowManager.cs" />
+    <Compile Include="Logic\SoundManager.cs" />
     <Compile Include="MyWindowManager.cs" />
     <Compile Include="ViewModels\Primitive\EventStatusComboItem.cs" />
     <Compile Include="Forms\TraceState\TraceStateView.xaml.cs">
@@ -801,6 +802,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\LeftPanel\YellowSquare.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Resources\Sounds\Accident.mp3" />
+    <Content Include="Resources\Sounds\Ok.mp3" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\System.Data.SQLite.Core.1.0.106.0\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\..\packages\System.Data.SQLite.Core.1.0.106.0\build\net46\System.Data.SQLite.Core.targets')" />

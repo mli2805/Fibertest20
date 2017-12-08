@@ -58,7 +58,7 @@
                             </EventTrigger>
                         </TextBlock.Triggers>
                     </TextBlock>
-                    <Button Content="Turn alarm off/on" Margin="25,5" Height="25" IsEnabled="{Binding Model.IsAccidentButtonsEnabled}"/>
+                    <Button Name="TurnSound" Content="Turn alarm off/on" Margin="25,5" Height="25" IsEnabled="{Binding Model.IsAccidentButtonsEnabled}"/>
                 </StackPanel>
             </GroupBox>
         </DockPanel>
