@@ -66,7 +66,7 @@ namespace Iit.Fibertest.Client
         public ShellViewModel(ReadModel readModel, TreeOfRtuModel treeOfRtuModel, IWcfServiceForClient c2DWcfManager,
                 GraphReadModel graphReadModel, OpticalEventsViewModel opticalEventsViewModel, NetworkEventsViewModel networkEventsViewModel,
             IMyWindowManager windowManager, ClientHeartbeat clientHeartbeat,
-                IniFile iniFile, ILogger clientLogger, IMyLog logFile, ClientWcfService clientWcfService, IClientWcfServiceHost host)
+                IniFile iniFile, ILogger clientLogger, IMyLog logFile, IClientWcfServiceHost host)
         {
             ReadModel = readModel;
             TreeOfRtuModel = treeOfRtuModel;

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -12,7 +11,7 @@ namespace Iit.Fibertest.Client
         private readonly ReflectogramManager _reflectogramManager;
         private readonly SoundManager _soundManager;
         public TraceStateVm Model { get; set; }
-        public bool IsLastStateForThisTrace { get; set; } = false;
+        public bool IsLastStateForThisTrace { get; set; } 
 
         public List<EventStatusComboItem> StatusRows { get; set; }
         public EventStatusComboItem SelectedEventStatus { get; set; }

@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
 {
