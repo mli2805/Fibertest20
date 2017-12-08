@@ -71,10 +71,12 @@ namespace Iit.Fibertest.RtuManagement
             _serviceIni.WriteServerAddresses(_serverAddresses);
         }
 
-        public void StartMonitoring(Action callback)
+        public void StartMonitoring(Action callback, bool wasMonitoringOn)
         {
             IsRtuInitialized = false;
             InitializeRtuManager();
+            if (!wasMonitoringOn)
+                _monitoringQueue.RaiseMonitoringModeChangedFlag();
             IsRtuInitialized = true;
 
             _rtuLog.EmptyLine();
@@ -94,6 +96,7 @@ namespace Iit.Fibertest.RtuManagement
 
         public void ChangeSettings(ApplyMonitoringSettingsDto settings, Action callback)
         {
+            var wasMonitoringOn = IsMonitoringOn;
             if (IsMonitoringOn)
             {
                 IsMonitoringOn = false;
@@ -102,13 +105,13 @@ namespace Iit.Fibertest.RtuManagement
                 Thread.Sleep(TimeSpan.FromSeconds(5)); //for long measurements it could be not enough!!!
             }
 
-            ApplyChangeSettings(settings, callback);
+            ApplyChangeSettings(settings, callback, wasMonitoringOn);
 
             if (!settings.IsMonitoringOn)
                 callback?.Invoke();
         }
 
-        private void ApplyChangeSettings(ApplyMonitoringSettingsDto dto, Action callback)
+        private void ApplyChangeSettings(ApplyMonitoringSettingsDto dto, Action callback, bool wasMonitoringOn)
         {
             _rtuLog.EmptyLine();
             _rtuLog.AppendLine("Start ApplyChangeSettings");
@@ -119,7 +122,7 @@ namespace Iit.Fibertest.RtuManagement
             _monitoringQueue.Save();
 
             if (dto.IsMonitoringOn)
-                StartMonitoring(callback);
+                StartMonitoring(callback, wasMonitoringOn);
         }
 
        
@@ -133,21 +136,7 @@ namespace Iit.Fibertest.RtuManagement
             _rtuIni.Write(IniSection.Monitoring, IniKey.FastSaveTimespan, (int)dto.FastSave.TotalSeconds);
         }
 
-        public void MeasurementOutOfTurn()
-        {
-            var wasMonitoringOn = IsMonitoringOn;
-            if (wasMonitoringOn)
-            {
-                StopMonitoring();
-                Thread.Sleep(TimeSpan.FromSeconds(3));
-            }
-
-            // TODO measurement
-
-            if (wasMonitoringOn)
-                StartMonitoring(null);
-        }
-
+      
         public bool ToggleToPort(OtauPortDto port)
         {
             if (port.OtauTcpPort == 23)

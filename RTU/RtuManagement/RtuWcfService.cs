@@ -46,7 +46,7 @@ namespace Iit.Fibertest.RtuManagement
                 try
                 {
                     if (ShouldStart())
-                        _rtuManager.StartMonitoring(() => callbackChannel.EndStartMonitoring(_rtuManager.IsMonitoringOn));
+                        _rtuManager.StartMonitoring(() => callbackChannel.EndStartMonitoring(_rtuManager.IsMonitoringOn), false);
                     else
                         callbackChannel.EndStartMonitoring(_rtuManager.IsMonitoringOn);
                 }

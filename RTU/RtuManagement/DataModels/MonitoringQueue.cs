@@ -2,14 +2,19 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Web.Script.Serialization;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
+using Newtonsoft.Json;
 
 namespace Iit.Fibertest.RtuManagement
 {
     public class MonitoringQueue
     {
+        private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
+        {
+            TypeNameHandling = TypeNameHandling.All
+        };
+
         private readonly IMyLog _logFile;
         private readonly string _monitoringSettingsFile = Utils.FileNameForSure(@"..\ini\", @"monitoring.que", false);
         public Queue<MonitorigPort> Queue { get; set; }
@@ -24,7 +29,6 @@ namespace Iit.Fibertest.RtuManagement
         public void Enqueue(MonitorigPort item) { Queue.Enqueue(item); }
 
 
-        // Queue is stored on disk as json serialized list of MonitoringPortOnDisk
         public void Load()
         {
             _logFile.EmptyLine();
@@ -34,9 +38,9 @@ namespace Iit.Fibertest.RtuManagement
             try
             {
                 var contents = File.ReadAllLines(_monitoringSettingsFile);
-                var javaScriptSerializer = new JavaScriptSerializer();
 
-                var list = contents.Select(s => javaScriptSerializer.Deserialize<MonitoringPortOnDisk>(s)).ToList();
+                var list = contents.Select(s => (MonitoringPortOnDisk)JsonConvert.DeserializeObject(s, JsonSerializerSettings)).ToList();
+
                 foreach (var port in list)
                 {
                     Queue.Enqueue(new MonitorigPort(port));
@@ -54,8 +58,8 @@ namespace Iit.Fibertest.RtuManagement
         {
             try
             {
-                var javaScriptSerializer = new JavaScriptSerializer();
-                var list = Queue.Select(p => javaScriptSerializer.Serialize(new MonitoringPortOnDisk(p)));
+                
+                var list = Queue.Select(p => JsonConvert.SerializeObject(new MonitoringPortOnDisk(p), JsonSerializerSettings));
 
                 File.WriteAllLines(_monitoringSettingsFile, list);
             }
@@ -67,9 +71,43 @@ namespace Iit.Fibertest.RtuManagement
 
         public void ComposeNewQueue(List<PortWithTraceDto> ports)
         {
+            var oldQueue = Queue.Select(p => p).ToList();
             Queue.Clear();
+
             foreach (var portWithTrace in ports)
-                Queue.Enqueue(new MonitorigPort(portWithTrace));
+            {
+                MonitorigPort oldPort;
+                Queue.Enqueue(TryGetMonitoringPort(oldQueue, portWithTrace, out oldPort)
+                    ? oldPort
+                    : new MonitorigPort(portWithTrace));
+            }
+        }
+
+        private bool TryGetMonitoringPort(List<MonitorigPort> oldQueue, PortWithTraceDto portWithTrace, out MonitorigPort theSameOldPort)
+        {
+            theSameOldPort = null;
+            foreach (var oldPort in oldQueue)
+            {
+                if (oldPort.NetAddress.Ip4Address == portWithTrace.OtauPort.OtauIp
+                    && oldPort.NetAddress.Port == portWithTrace.OtauPort.OtauTcpPort
+                    && oldPort.OpticalPort == portWithTrace.OtauPort.OpticalPort)
+                {
+                    theSameOldPort = oldPort;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public void RaiseMonitoringModeChangedFlag()
+        {
+            var temp = Queue.ToList();
+            Queue.Clear();
+            foreach (var monitorigPort in temp)
+            {
+                monitorigPort.MonitoringModeChangedFlag = true;
+                Queue.Enqueue(monitorigPort);
+            }
         }
     }
 }

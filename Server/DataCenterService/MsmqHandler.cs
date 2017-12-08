@@ -50,11 +50,13 @@ namespace Iit.Fibertest.DataCenterService
                 // End the asynchronous receive operation.
                 Message message = queue.EndReceive(asyncResult.AsyncResult);
 
-                _logFile.AppendLine($@"MSMQ message received, Body length = {message.BodyStream.Length}");
 
                 var mr = message.Body as MonitoringResultDto;
                 if (mr != null)
+                {
+                    _logFile.AppendLine($@"MSMQ message received, RTU {mr.RtuId.First6()}, Trace {mr.PortWithTrace.TraceId.First6()} - {mr.TraceState} ({mr.BaseRefType})");
                     _monitoringResultsManager.ProcessMonitoringResult(mr).Wait();
+                }
             }
             catch (Exception e)
             {

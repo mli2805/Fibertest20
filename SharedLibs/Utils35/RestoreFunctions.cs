@@ -9,6 +9,7 @@ namespace Iit.Fibertest.UtilsLib
     {
         public static void ResetCharonThroughComPort(IniFile iniFile35, IMyLog logFile)
         {
+            logFile.EmptyLine();
             logFile.AppendLine("Charon RESET");
             string comPortName = iniFile35.Read(IniSection.Charon, IniKey.ComPort, "COM2");
             int comSpeed = iniFile35.Read(IniSection.Charon, IniKey.ComSpeed, 115200);
