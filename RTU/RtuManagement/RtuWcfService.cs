@@ -175,7 +175,7 @@ namespace Iit.Fibertest.RtuManagement
                 _serviceLog.AppendLine("User sent assign base refs command - Ignored - RTU is busy");
                 return false;
             }
-            _serviceLog.AppendLine("User sent assing base refs command - Accepted");
+            _serviceLog.AppendLine("User sent assign base refs command - Accepted");
             return true;
         }
 

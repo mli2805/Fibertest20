@@ -12,15 +12,17 @@ namespace Iit.Fibertest.Client
         private readonly TraceStateViewsManager _traceStateViewsManager;
         private readonly TraceStatisticsViewsManager _traceStatisticsViewsManager;
         private readonly RtuStateViewsManager _rtuStateViewsManager;
+        private readonly OpticalEventsViewModel _opticalEventsViewModel;
 
         public ClientWcfService(TreeOfRtuModel treeOfRtuModel,
             TraceStateViewsManager traceStateViewsManager, TraceStatisticsViewsManager traceStatisticsViewsManager,
-            RtuStateViewsManager rtuStateViewsManager)
+            RtuStateViewsManager rtuStateViewsManager, OpticalEventsViewModel opticalEventsViewModel)
         {
             _treeOfRtuModel = treeOfRtuModel;
             _traceStateViewsManager = traceStateViewsManager;
             _traceStatisticsViewsManager = traceStatisticsViewsManager;
             _rtuStateViewsManager = rtuStateViewsManager;
+            _opticalEventsViewModel = opticalEventsViewModel;
         }
 
         public async Task<int> NotifyUsersRtuCurrentMonitoringStep(CurrentMonitoringStepDto dto)
@@ -29,12 +31,19 @@ namespace Iit.Fibertest.Client
             return 0;
         }
 
-        public async Task<int> NotifyAboutMonitoringResult(Measurement dto)
+        public async Task<int> NotifyAboutMonitoringResult(Measurement measurement)
         {
-            _treeOfRtuModel.Apply(dto);
-            _traceStateViewsManager.NotifyAboutMonitoringResult(dto);
-            _traceStatisticsViewsManager.AddNewMeasurement(dto);
-            _rtuStateViewsManager.NotifyUserMonitoringResult(dto);
+            _treeOfRtuModel.Apply(measurement);
+            _traceStateViewsManager.NotifyAboutMonitoringResult(measurement);
+            _traceStatisticsViewsManager.AddNewMeasurement(measurement);
+            _rtuStateViewsManager.NotifyUserMonitoringResult(measurement);
+
+            //TODO - polling or reacting ?
+//            if (measurement.EventStatus > EventStatus.JustMeasurementNotAnEvent)
+//            {
+//                _opticalEventsViewModel.Apply(measurement);
+//            }
+
             return 0;
         }
 
