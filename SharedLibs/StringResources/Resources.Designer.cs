@@ -3485,6 +3485,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to State on {0}.
+        /// </summary>
+        public static string SID_State_on__0_ {
+            get {
+                return ResourceManager.GetString("SID_State_on__0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Statistics.
         /// </summary>
         public static string SID_Statistics {

@@ -20,43 +20,28 @@ namespace Iit.Fibertest.Client
             _c2DWcfManager = c2DWcfManager;
         }
 
+        // TraceLeaf
         public TraceStateVm Create(Guid traceId)
         {
-            var vm = new TraceStateVm();
-            PrepareCaption(traceId, ref vm);
-
-            Measurement dto = GetLastTraceMeasurement(traceId).Result;
-
-            vm.TraceState = dto.TraceState;
-            vm.BaseRefType = dto.BaseRefType;
-            vm.SorFileId = dto.SorFileId;
-
-            vm.EventStatus = dto.EventStatus;
-            vm.OpticalEventComment = dto.Comment;
-
-            return vm;
+            Measurement measurement = GetLastTraceMeasurement(traceId).Result;
+            return Create(measurement);
         }
 
-        public TraceStateVm Create(Guid traceId, MeasurementVm measurementVm)
-        {
-            var vm = new TraceStateVm();
-            PrepareCaption(traceId, ref vm);
-
-            vm.TraceState = measurementVm.TraceState;
-            vm.BaseRefType = measurementVm.BaseRefType;
-            vm.SorFileId = measurementVm.SorFileId;
-
-            return vm;
-        }
-
+        // Trace statistics
+        // Server
         public TraceStateVm Create(Measurement measurement)
         {
             var vm = new TraceStateVm();
             PrepareCaption(measurement.TraceId, ref vm);
 
+            vm.TraceId = measurement.TraceId;
             vm.TraceState = measurement.TraceState;
             vm.BaseRefType = measurement.BaseRefType;
+            vm.MeasurementTimestamp = measurement.MeasurementTimestamp;
             vm.SorFileId = measurement.SorFileId;
+
+            vm.EventStatus = measurement.EventStatus;
+            vm.OpticalEventComment = measurement.Comment;
 
             return vm;
         }
@@ -66,8 +51,10 @@ namespace Iit.Fibertest.Client
             var vm = new TraceStateVm();
             PrepareCaption(opticalEventVm.TraceId, ref vm);
 
+            vm.TraceId = opticalEventVm.TraceId;
             vm.TraceState = opticalEventVm.TraceState;
             vm.BaseRefType = opticalEventVm.BaseRefType;
+            vm.MeasurementTimestamp = opticalEventVm.MeasurementTimestamp;
             vm.SorFileId = opticalEventVm.SorFileId;
 
             vm.OpticalEventId = opticalEventVm.Nomer;

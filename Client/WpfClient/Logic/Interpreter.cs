@@ -93,6 +93,8 @@ namespace Iit.Fibertest.Client
                     return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
                 case FiberState.Ok:
                     return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreenSquare.png"));
+                case FiberState.Suspicion:
+                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/YellowSquare.png"));
                 case FiberState.Minor:
                     return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/PurpleSquare.png"));
                 case FiberState.Major:

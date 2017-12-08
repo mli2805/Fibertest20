@@ -1457,4 +1457,7 @@ RTU is initializing right now!</value>
 	<data name="SID_Measurement_termination_timestamp" xml:space="preserve">
     <value>Measurement termination timestamp</value>
   </data>
+  <data name="SID_State_on__0_" xml:space="preserve">
+    <value>State on {0}</value>
+  </data>
 </root>

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
@@ -9,57 +10,83 @@ namespace Iit.Fibertest.Client
 {
     public class TraceStateViewsManager
     {
-        private readonly IMyLog _logFile;
         private readonly TraceStateVmFactory _traceStateVmFactory;
-        private readonly ReadModel _readModel;
         private readonly IMyWindowManager _windowManager;
-        private readonly IWcfServiceForClient _c2DWcfManager;
 
-        private Dictionary<Guid, TraceStateViewModel> LaunchedViews { get; set; } = new Dictionary<Guid, TraceStateViewModel>();
+        private List<TraceStateViewModel> LaunchedViews { get; set; } = new List<TraceStateViewModel>();
 
 
-        public TraceStateViewsManager(IMyLog logFile, TraceStateVmFactory traceStateVmFactory, ReadModel readModel,
-            IMyWindowManager windowManager, IWcfServiceForClient c2DWcfManager)
+        public TraceStateViewsManager(TraceStateVmFactory traceStateVmFactory,
+            IMyWindowManager windowManager)
         {
-            _logFile = logFile;
             _traceStateVmFactory = traceStateVmFactory;
-            _readModel = readModel;
             _windowManager = windowManager;
-            _c2DWcfManager = c2DWcfManager;
         }
-
-
 
         // from TraceLeaf
         public void ShowTraceState(Guid traceId)
         {
-            var vm = IoC.Get<TraceStateViewModel>();
-            vm.Initialize(_traceStateVmFactory.Create(traceId));
-            _windowManager.ShowWindow(vm);
+            var traceStateVm = _traceStateVmFactory.Create(traceId);
+            Show(traceStateVm, true);
+        }
+
+        // from Accident happend
+        public void NotifyAboutMonitoringResult(Measurement measurement)
+        {
+            var traceStateVm = _traceStateVmFactory.Create(measurement);
+            Show(traceStateVm, true);
         }
 
         // from TraceStatistics
-        public void ShowTraceState(Guid traceId, MeasurementVm measurementVm)
+        public void ShowTraceState(Measurement measurement, bool isLastMeasurementOnThisTrace)
         {
+            var traceStateVm = _traceStateVmFactory.Create(measurement);
+
             var vm = IoC.Get<TraceStateViewModel>();
-            vm.Initialize(_traceStateVmFactory.Create(traceId, measurementVm));
+            vm.Initialize(traceStateVm, isLastMeasurementOnThisTrace);
             _windowManager.ShowWindow(vm);
         }
 
         // from OpticalEvents
         public void ShowTraceState(OpticalEventVm opticalEventVm)
         {
+            var traceStateVm = _traceStateVmFactory.Create(opticalEventVm);
+            var temp = true;
+
             var vm = IoC.Get<TraceStateViewModel>();
-            vm.Initialize(_traceStateVmFactory.Create(opticalEventVm));
+            vm.Initialize(traceStateVm, temp);
             _windowManager.ShowWindow(vm);
         }
 
-        // from Accident happend
-        public void NotifyAboutMonitoringResult(Measurement measurement)
+
+        //---------------------------------------------------------------
+        private void Show(TraceStateVm traceStateVm, bool isLastMeasurementOnThisTrace)
         {
-            var vm = IoC.Get<TraceStateViewModel>();
-            vm.Initialize(_traceStateVmFactory.Create(measurement));
+            TraceStateViewModel vm;
+
+            if (isLastMeasurementOnThisTrace)
+            {
+                vm = LaunchedViews.FirstOrDefault(v => v.Model.TraceId == traceStateVm.TraceId &&
+                                                  (v.Model.SorFileId == traceStateVm.SorFileId ||
+                                                    v.IsLastStateForThisTrace));
+            }
+            else
+            {
+                vm = LaunchedViews.FirstOrDefault(v => v.Model.TraceId == traceStateVm.TraceId &&
+                                                       (v.Model.SorFileId == traceStateVm.SorFileId));
+            }
+
+            if (vm != null)
+            {
+                vm.TryClose();
+                LaunchedViews.Remove(vm);
+            }
+
+            vm = IoC.Get<TraceStateViewModel>();
+            vm.Initialize(traceStateVm, isLastMeasurementOnThisTrace);
             _windowManager.ShowWindow(vm);
+
+            LaunchedViews.Add(vm);
         }
     }
 }

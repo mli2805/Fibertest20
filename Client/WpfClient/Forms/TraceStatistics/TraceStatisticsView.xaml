@@ -51,10 +51,10 @@
             <DataGrid ItemsSource="{Binding Rows}" SelectedItem="{Binding SelectedRow, Mode=TwoWay}" 
                       AutoGenerateColumns="False" IsReadOnly="True" Margin="0,5" SelectionMode="Single" CanUserSortColumns="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Reflectogram_Id}" Binding="{Binding SorFileId}" Width="90*"/>
+                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Reflectogram_Id}" Binding="{Binding Measurement.SorFileId}" Width="90*"/>
                     <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Base_ref_type}" Binding="{Binding BaseRefTypeString}" Width="90*"/>
-                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Recieved_at}" Binding="{Binding Timestamp}" Width="110*"/>
-                    <DataGridCheckBoxColumn Binding="{Binding IsOpticalEvent}"/>
+                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Recieved_at}" Binding="{Binding Measurement.MeasurementTimestamp}" Width="110*"/>
+                    <DataGridCheckBoxColumn Binding="{Binding IsOpticalEvent, Mode=OneWay}"/>
                     <DataGridTemplateColumn Width="110*" Header="{x:Static stringResources:Resources.SID_Trace_state}">
                         <DataGridTemplateColumn.CellStyle>
                             <Style TargetType="DataGridCell">

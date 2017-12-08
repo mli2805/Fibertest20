@@ -170,7 +170,8 @@ namespace Iit.Fibertest.Client
             if (traceLeaf == null)
                 return;
 
-            traceLeaf.TraceState = measurement.TraceState;
+            traceLeaf.TraceState = measurement.TraceState != FiberState.Ok && measurement.BaseRefType == BaseRefType.Fast 
+                ? FiberState.Suspicion : measurement.TraceState;
         }
         #endregion
 

@@ -65,7 +65,8 @@ namespace Iit.Fibertest.DataCenterCore
                                                                                                           // when monitoring mode is turned to Automatic 
                                                                                                           // or it could be made by schedule
                                                                                                           // but we are interested only in Events
-                            && result.BaseRefType != BaseRefType.Fast) // Precise or Additional
+                            && result.BaseRefType != BaseRefType.Fast // Precise or Additional
+                            && result.TraceState != FiberState.Ok) 
                 {
                     _logFile.AppendLine($"Confirmation of accident on trace {result.PortWithTrace.TraceId.First6()} - event.");
                     return true;

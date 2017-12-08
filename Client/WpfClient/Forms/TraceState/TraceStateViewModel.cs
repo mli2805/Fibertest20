@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -10,6 +11,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly ReflectogramManager _reflectogramManager;
         public TraceStateVm Model { get; set; }
+        public bool IsLastStateForThisTrace { get; set; } = false;
 
         public List<EventStatusComboItem> StatusRows { get; set; }
         public EventStatusComboItem SelectedEventStatus { get; set; }
@@ -19,12 +21,14 @@ namespace Iit.Fibertest.Client
             _reflectogramManager = reflectogramManager;
         }
 
-        public void Initialize(TraceStateVm model)
+        public void Initialize(TraceStateVm model, bool isLastStateForThisTrace)
         {
             Model = model;
+            IsLastStateForThisTrace = isLastStateForThisTrace;
             if (Model.EventStatus != EventStatus.NotAnAccident)
                 InitializeEventStatusCombobox();
         }
+
         protected override void OnViewLoaded(object view)
         {
             DisplayName = Resources.SID_Trace_state;
@@ -41,7 +45,7 @@ namespace Iit.Fibertest.Client
                 new EventStatusComboItem() {EventStatus = EventStatus.Unprocessed}
             };
 
-            SelectedEventStatus = StatusRows.First(r=>r.EventStatus == Model.EventStatus);
+            SelectedEventStatus = StatusRows.FirstOrDefault(r=>r.EventStatus == Model.EventStatus);
         }
 
 

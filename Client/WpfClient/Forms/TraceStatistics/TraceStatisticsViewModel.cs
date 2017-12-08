@@ -7,7 +7,6 @@ using System.Windows.Data;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.WcfServiceForClientInterface;
-using Trace = Iit.Fibertest.Graph.Trace;
 
 namespace Iit.Fibertest.Client
 {
@@ -17,7 +16,6 @@ namespace Iit.Fibertest.Client
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly ReflectogramManager _reflectogramManager;
         private readonly TraceStateViewsManager _traceStateViewsManager;
-        private Trace _trace;
 
         public string TraceTitle { get; set; }
         public string RtuTitle { get; set; }
@@ -60,19 +58,19 @@ namespace Iit.Fibertest.Client
             _traceStateViewsManager = traceStateViewsManager;
 
             var view = CollectionViewSource.GetDefaultView(Rows);
-            view.SortDescriptions.Add(new SortDescription(@"SorFileId", ListSortDirection.Descending));
+            view.SortDescriptions.Add(new SortDescription(@"Measurement.SorFileId", ListSortDirection.Descending));
         }
 
         public bool Initialize(Guid traceId)
         {
-            _trace = _readModel.Traces.FirstOrDefault(t => t.Id == traceId);
-            if (_trace == null)
+            var trace = _readModel.Traces.FirstOrDefault(t => t.Id == traceId);
+            if (trace == null)
                 return false;
-            TraceTitle = _trace.Title;
-            RtuTitle = _readModel.Rtus.FirstOrDefault(r => r.Id == _trace.RtuId)?.Title;
-            PortNumber = _trace.OtauPort == null ? "<not attached>" : _trace.OtauPort.IsPortOnMainCharon
-                ? _trace.OtauPort.OpticalPort.ToString()
-                : $@"{_trace.OtauPort.OtauIp}:{_trace.OtauPort.OtauTcpPort}-{_trace.OtauPort.OpticalPort}";
+            TraceTitle = trace.Title;
+            RtuTitle = _readModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId)?.Title;
+            PortNumber = trace.OtauPort == null ? "<not attached>" : trace.OtauPort.IsPortOnMainCharon
+                ? trace.OtauPort.OpticalPort.ToString()
+                : $@"{trace.OtauPort.OtauIp}:{trace.OtauPort.OtauTcpPort}-{trace.OtauPort.OpticalPort}";
 
             var traceStatistics = _c2DWcfManager.GetTraceStatistics(traceId).Result;
             if (traceStatistics == null)
@@ -82,16 +80,7 @@ namespace Iit.Fibertest.Client
 
             Rows.Clear();
             foreach (var measurement in traceStatistics.Measurements)
-            {
-                Rows.Add(new MeasurementVm()
-                {
-                    BaseRefType = measurement.BaseRefType,
-                    TraceState = measurement.TraceState,
-                    Timestamp = measurement.MeasurementTimestamp,
-                    SorFileId = measurement.SorFileId,
-                    IsOpticalEvent = measurement.EventStatus != EventStatus.JustMeasurementNotAnEvent,
-                });
-            }
+                Rows.Add(new MeasurementVm(measurement));
 
             return true;
         }
@@ -104,16 +93,16 @@ namespace Iit.Fibertest.Client
         public void ShowReflectogram(int param)
         {
             if (param == 2)
-                _reflectogramManager.ShowRefWithBase(SelectedRow.SorFileId);
+                _reflectogramManager.ShowRefWithBase(SelectedRow.Measurement.SorFileId);
             else
-                _reflectogramManager.ShowOnlyCurrentMeasurement(SelectedRow.SorFileId);
+                _reflectogramManager.ShowOnlyCurrentMeasurement(SelectedRow.Measurement.SorFileId);
         }
 
         public void SaveReflectogramAs(bool param)
         {
-            var timestamp = $@"{SelectedRow.Timestamp:dd-MM-yyyy HH-mm-ss}";
-            var defaultFilename = $@"{TraceTitle} [N{SelectedRow.SorFileId}] {timestamp}";
-            _reflectogramManager.SaveReflectogramAs(SelectedRow.SorFileId, defaultFilename, param);
+            var timestamp = $@"{SelectedRow.Measurement.MeasurementTimestamp:dd-MM-yyyy HH-mm-ss}";
+            var defaultFilename = $@"{TraceTitle} [N{SelectedRow.Measurement.SorFileId}] {timestamp}";
+            _reflectogramManager.SaveReflectogramAs(SelectedRow.Measurement.SorFileId, defaultFilename, param);
         }
 
         public void ShowBaseReflectogram()
@@ -129,12 +118,13 @@ namespace Iit.Fibertest.Client
 
         public void ShowRftsEvents()
         {
-            _reflectogramManager.ShowRftsEvents(SelectedRow.SorFileId);
+            _reflectogramManager.ShowRftsEvents(SelectedRow.Measurement.SorFileId);
         }
 
         public void ShowTraceState()
-        {
-           _traceStateViewsManager.ShowTraceState(_trace.Id, SelectedRow);
+        {                 
+            var lastRow = Rows.First(); // click on the Row , so Row couldn't be null
+            _traceStateViewsManager.ShowTraceState(SelectedRow.Measurement, lastRow.Measurement.Id == SelectedRow.Measurement.Id);
         }
      
     }
