@@ -10,13 +10,16 @@ namespace Iit.Fibertest.Client
     {
         private readonly TreeOfRtuModel _treeOfRtuModel;
         private readonly TraceStateViewsManager _traceStateViewsManager;
+        private readonly TraceStatisticsViewsManager _traceStatisticsViewsManager;
         private readonly RtuStateViewsManager _rtuStateViewsManager;
 
         public ClientWcfService(TreeOfRtuModel treeOfRtuModel,
-            TraceStateViewsManager traceStateViewsManager, RtuStateViewsManager rtuStateViewsManager)
+            TraceStateViewsManager traceStateViewsManager, TraceStatisticsViewsManager traceStatisticsViewsManager,
+            RtuStateViewsManager rtuStateViewsManager)
         {
             _treeOfRtuModel = treeOfRtuModel;
             _traceStateViewsManager = traceStateViewsManager;
+            _traceStatisticsViewsManager = traceStatisticsViewsManager;
             _rtuStateViewsManager = rtuStateViewsManager;
         }
 
@@ -30,6 +33,7 @@ namespace Iit.Fibertest.Client
         {
             _treeOfRtuModel.Apply(dto);
             _traceStateViewsManager.NotifyAboutMonitoringResult(dto);
+            _traceStatisticsViewsManager.AddNewMeasurement(dto);
             _rtuStateViewsManager.NotifyUserMonitoringResult(dto);
             return 0;
         }

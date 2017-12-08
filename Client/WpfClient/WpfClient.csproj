@@ -225,6 +225,7 @@
     <Compile Include="Forms\Shell\OpticalEventsControl\OpticalEventVm.cs" />
     <Compile Include="Forms\Shell\OpticalEventsControl\TraceStateFilter.cs" />
     <Compile Include="Forms\TraceState\TraceStateVmFactory.cs" />
+    <Compile Include="Forms\TraceStatistics\TraceStatisticsViewsManager.cs" />
     <Compile Include="IMyWindowManager.cs" />
     <Compile Include="MyWindowManager.cs" />
     <Compile Include="ViewModels\Primitive\EventStatusComboItem.cs" />
