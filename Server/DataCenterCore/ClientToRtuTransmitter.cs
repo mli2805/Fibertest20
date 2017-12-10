@@ -25,7 +25,7 @@ namespace Iit.Fibertest.DataCenterCore
             _serverDoubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToRtu);
         }
 
-        public async Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)
+        public RtuConnectionCheckedDto CheckRtuConnection(CheckRtuConnectionDto dto)
         {
             var result = new RtuConnectionCheckedDto() { RtuId = dto.RtuId };
             var backward = new RtuWcfServiceBackward();

@@ -16,6 +16,7 @@ namespace Iit.Fibertest.RtuWatchdog
             _watchLog = watchLog;
         }
 
+        // ReSharper disable once FunctionNeverReturns -- as intended
         public void RunCycle()
         {
             var rtuServiceName = _watchIniFile.Read(IniSection.Watchdog, IniKey.RtuServiceName, "FibertestRtuService");
