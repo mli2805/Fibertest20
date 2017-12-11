@@ -77,6 +77,7 @@ namespace Iit.Fibertest.DataCenterCore
                     .CommittedEvents
                     .Select(x => x.Body)
                     .Select(x => JsonConvert.SerializeObject(x, JsonSerializerSettings))
+                    .Take(200) // it depends on tcp buffer size
                     .ToArray();
                 return events;
             }

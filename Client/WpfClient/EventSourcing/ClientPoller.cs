@@ -80,8 +80,8 @@ namespace Iit.Fibertest.Client
             while (true)
             {
                 EventSourcingTick();
-//                OpticalEventsTick();
-//                NetworkEventsTick();
+                OpticalEventsTick();
+                NetworkEventsTick();
                 Thread.Sleep(TimeSpan.FromSeconds(_pollingRate));
             }
         }
@@ -98,11 +98,7 @@ namespace Iit.Fibertest.Client
             if (events.Length > 0)
             {
                 _localDbManager.SaveEvents(events);
-
-//                Application.Current.Dispatcher.Invoke(() => ApplyEventSourcingEvents(events));
-//                Dispatcher.CurrentDispatcher.Invoke(() => ApplyEventSourcingEvents(events));
                 _dispatcherProvider.GetDispatcher().Invoke(() => ApplyEventSourcingEvents(events));
-                //ApplyEventSourcingEvents(events);
             }
         }
 
@@ -129,31 +125,19 @@ namespace Iit.Fibertest.Client
         private void OpticalEventsTick()
         {
             var opticalEvents = WcfConnection.GetOpticalEvents(LastOpticalEventNumber).Result;
-            if (opticalEvents?.Measurements != null && opticalEvents.Measurements.Any())
-            {
-                ApplyOpticalEvents(opticalEvents);
+            if (opticalEvents?.Measurements == null || !opticalEvents.Measurements.Any())
+                return;
 
-                LastOpticalEventNumber = opticalEvents.Measurements.Last().Id;
-                foreach (var opticalEvent in opticalEvents.Measurements)
-                {
-                    _opticalEventsViewModel.Apply(opticalEvent);
-                }
-            }
+            _dispatcherProvider.GetDispatcher().Invoke(() => ApplyOpticalEvents(opticalEvents));
         }
 
         private void NetworkEventsTick()
         {
             var networkEvents = WcfConnection.GetNetworkEvents(LastNetworkEventNumber).Result;
-            if (networkEvents?.Events != null && networkEvents.Events.Any())
-            {
-                ApplyNetworkEvents(networkEvents);
+            if (networkEvents?.Events == null || !networkEvents.Events.Any())
+                return;
 
-                LastNetworkEventNumber = networkEvents.Events.Last().Id;
-                foreach (var networkEvent in networkEvents.Events)
-                {
-                    _networkEventsViewModel.Apply(networkEvent);
-                }
-            }
+            _dispatcherProvider.GetDispatcher().Invoke(()=>ApplyNetworkEvents(networkEvents));
         }
 
         private void ApplyNetworkEvents(NetworkEventsList list)
@@ -165,6 +149,11 @@ namespace Iit.Fibertest.Client
                     m.AsDynamic().Apply(networkEvent);
                 }
             }
+            LastNetworkEventNumber = list.Events.Last().Id;
+            foreach (var networkEvent in list.Events)
+            {
+                _networkEventsViewModel.Apply(networkEvent);
+            }
         }
         private void ApplyOpticalEvents(MeasurementsList list)
         {
@@ -174,6 +163,12 @@ namespace Iit.Fibertest.Client
                 {
                     m.AsDynamic().Apply(opticalEvent);
                 }
+            }
+
+            LastOpticalEventNumber = list.Measurements.Last().Id;
+            foreach (var opticalEvent in list.Measurements)
+            {
+                _opticalEventsViewModel.Apply(opticalEvent);
             }
         }
     }

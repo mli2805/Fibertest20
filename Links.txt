@@ -35,3 +35,9 @@ To know more about Paket, visit https://fsprojects.github.io/Paket/getting-start
 	как убрать 
             builder.RegisterType<WindowManager>().As<IWindowManager>().SingleInstance();
 	чтобы случайно не использовать, а использовать только IMyWindowManager
+
+22. 11/12/17
+	ловить закрытие калибурновских окон снаружи
+
+23. 11/12/17
+	не могу запретить ворнинг в xaml
