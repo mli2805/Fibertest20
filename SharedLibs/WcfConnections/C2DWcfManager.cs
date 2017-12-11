@@ -56,7 +56,6 @@ namespace Iit.Fibertest.WcfConnections
         }
 
         public async Task<string[]> GetEvents(int revision)
-//        public string[] GetEvents(int revision)
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();
             if (wcfConnection == null)
@@ -64,8 +63,7 @@ namespace Iit.Fibertest.WcfConnections
 
             try
             {
-                return await wcfConnection.GetEvents(revision);// blocks client !!!!!!!!!!!
-//                return wcfConnection.GetEvents(revision);
+                return await wcfConnection.GetEvents(revision);
             }
             catch (Exception e)
             {
@@ -82,9 +80,8 @@ namespace Iit.Fibertest.WcfConnections
 
             try
             {
-//                var result = await wcfConnection.GetOpticalEvents(revision); // blocks client too
-//                return result;
-                return wcfConnection.GetOpticalEvents(revision).Result;
+                var result = await wcfConnection.GetOpticalEvents(revision);
+                return result;
             }
             catch (Exception e)
             {
@@ -101,8 +98,7 @@ namespace Iit.Fibertest.WcfConnections
 
             try
             {
-                // await wcfConnection.GetEvents(revision) blocks client !!!!!!!!!!!
-                return wcfConnection.GetNetworkEvents(revision).Result;
+                return await wcfConnection.GetNetworkEvents(revision);
             }
             catch (Exception e)
             {
@@ -111,7 +107,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public Task<TraceStatistics> GetTraceStatistics(Guid traceId)
+        public async Task<TraceStatistics> GetTraceStatistics(Guid traceId)
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();
             if (wcfConnection == null)
@@ -119,7 +115,7 @@ namespace Iit.Fibertest.WcfConnections
 
             try
             {
-                return wcfConnection.GetTraceStatistics(traceId);
+                return await wcfConnection.GetTraceStatistics(traceId);
             }
             catch (Exception e)
             {
@@ -170,7 +166,7 @@ namespace Iit.Fibertest.WcfConnections
 
             try
             {
-                return wcfConnection.GetSorBytesOfLastTraceMeasurement(traceId).Result;
+                return await wcfConnection.GetSorBytesOfLastTraceMeasurement(traceId);
             }
             catch (Exception e)
             {
@@ -179,7 +175,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public async Task<Measurement> GetLastTraceMeasurement(Guid traceId)
+        public async Task<Measurement> GetLastMeasurementForTrace(Guid traceId)
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();
             if (wcfConnection == null)
@@ -187,7 +183,7 @@ namespace Iit.Fibertest.WcfConnections
 
             try
             {
-                return wcfConnection.GetLastTraceMeasurement(traceId).Result;
+                return await wcfConnection.GetLastMeasurementForTrace(traceId);
             }
             catch (Exception e)
             {

@@ -158,13 +158,17 @@ namespace Iit.Fibertest.Client
 
         public void Apply(NodeMoved evnt)
         {
-            var nodeVm = Nodes.First(n => n.Id == evnt.Id);
+            var nodeVm = Nodes.FirstOrDefault(n => n.Id == evnt.Id);
+            if (nodeVm == null)
+                return;
             nodeVm.Position = new PointLatLng(evnt.Latitude, evnt.Longitude);
         }
 
         public void Apply(NodeUpdated evnt)
         {
-            var nodeVm = Nodes.First(n => n.Id == evnt.Id);
+            var nodeVm = Nodes.FirstOrDefault(n => n.Id == evnt.Id);
+            if (nodeVm == null)
+                return;
             nodeVm.Title = evnt.Title;
             nodeVm.Comment = evnt.Comment;
         }

@@ -81,7 +81,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
         }
 
-        public async Task<byte[]> GetSorBytesOfBase(Guid baseRefId)
+        public async Task<byte[]> GetSorBytesOfBaseAsync(Guid baseRefId)
         {
             try
             {
@@ -93,12 +93,12 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
             catch (Exception e)
             {
-                _logFile.AppendLine("GetSorBytesOfBase: " + e.Message);
+                _logFile.AppendLine("GetSorBytesOfBaseAsync: " + e.Message);
                 return null;
             }
         }
 
-        public async Task<byte[]> GetSorBytesOfMeasurement(int sorFileId)
+        public async Task<byte[]> GetSorBytesOfMeasurementAsync(int sorFileId)
         {
             try
             {
@@ -110,12 +110,12 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
             catch (Exception e)
             {
-                _logFile.AppendLine("GetSorBytesOfMeasurement: " + e.Message);
+                _logFile.AppendLine("GetSorBytesOfMeasurementAsync: " + e.Message);
                 return null;
             }
         }
 
-        public async Task<byte[]> GetSorBytesOfLastTraceMeasurement(Guid traceId)
+        public async Task<byte[]> GetSorBytesOfLastTraceMeasurementAsync(Guid traceId)
         {
             try
             {
@@ -132,11 +132,11 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
             catch (Exception e)
             {
-                _logFile.AppendLine("GetSorBytesOfLastTraceMeasurement: " + e.Message);
+                _logFile.AppendLine("GetSorBytesOfLastTraceMeasurementAsync: " + e.Message);
                 return null;
             }
         }
-         public async Task<Measurement> GetLastTraceMeasurement(Guid traceId)
+         public async Task<Measurement> GetLastMeasurementForTraceAsync(Guid traceId)
         {
             try
             {
@@ -148,7 +148,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
             catch (Exception e)
             {
-                _logFile.AppendLine("GetLastTraceMeasurement: " + e.Message);
+                _logFile.AppendLine("GetLastMeasurementForTraceAsync: " + e.Message);
                 return null;
             }
         }

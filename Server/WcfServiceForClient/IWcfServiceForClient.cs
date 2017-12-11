@@ -38,7 +38,7 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
         Task<byte[]> GetSorBytesOfLastTraceMeasurement(Guid traceId);
 
         [OperationContract]
-        Task<Measurement> GetLastTraceMeasurement(Guid traceId);
+        Task<Measurement> GetLastMeasurementForTrace(Guid traceId);
 
         // C2D
         [OperationContract]

@@ -66,7 +66,6 @@ namespace Iit.Fibertest.Client
                 return;
 
             _traceStatisticsViewsManager.Show(traceLeaf.Id);
-
         }
 
         public void ShowTraceEvents(object param)

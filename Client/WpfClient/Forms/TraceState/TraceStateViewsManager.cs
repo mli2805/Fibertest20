@@ -22,23 +22,23 @@ namespace Iit.Fibertest.Client
         }
 
         // from TraceLeaf
-        public void ShowTraceState(Guid traceId)
+        public async void ShowTraceState(Guid traceId)
         {
-            var traceStateVm = _traceStateVmFactory.Create(traceId);
+            var traceStateVm = await _traceStateVmFactory.Create(traceId);
             Show(traceStateVm, true);
         }
 
         // from Accident happend
         public void NotifyAboutMonitoringResult(Measurement measurement)
         {
-            var traceStateVm = _traceStateVmFactory.Create(measurement);
+            var traceStateVm = _traceStateVmFactory.CreateVm(measurement);
             Show(traceStateVm, true);
         }
 
         // from TraceStatistics
         public void ShowTraceState(Measurement measurement, bool isLastMeasurementOnThisTrace)
         {
-            var traceStateVm = _traceStateVmFactory.Create(measurement);
+            var traceStateVm = _traceStateVmFactory.CreateVm(measurement);
 
             var vm = IoC.Get<TraceStateViewModel>();
             vm.Initialize(traceStateVm, isLastMeasurementOnThisTrace);
@@ -48,7 +48,7 @@ namespace Iit.Fibertest.Client
         // from OpticalEvents
         public void ShowTraceState(OpticalEventVm opticalEventVm)
         {
-            var traceStateVm = _traceStateVmFactory.Create(opticalEventVm);
+            var traceStateVm = _traceStateVmFactory.CreateVm(opticalEventVm);
             var temp = true;
 
             var vm = IoC.Get<TraceStateViewModel>();

@@ -62,28 +62,26 @@ namespace Iit.Fibertest.Client
             view.SortDescriptions.Add(new SortDescription(@"Measurement.SorFileId", ListSortDirection.Descending));
         }
 
-        public bool Initialize(Guid traceId)
+        public async void Initialize(Guid traceId)
         {
             var trace = _readModel.Traces.FirstOrDefault(t => t.Id == traceId);
             if (trace == null)
-                return false;
+                return;
             TraceTitle = trace.Title;
             RtuTitle = _readModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId)?.Title;
             PortNumber = trace.OtauPort == null ? Resources.SID__not_attached_ : trace.OtauPort.IsPortOnMainCharon
                 ? trace.OtauPort.OpticalPort.ToString()
                 : $@"{trace.OtauPort.OtauIp}:{trace.OtauPort.OtauTcpPort}-{trace.OtauPort.OpticalPort}";
 
-            var traceStatistics = _c2DWcfManager.GetTraceStatistics(traceId).Result;
+            var traceStatistics = await _c2DWcfManager.GetTraceStatistics(traceId);
             if (traceStatistics == null)
-                return false;
+                return;
 
             BaseRefs = traceStatistics.BaseRefs;
 
             Rows.Clear();
             foreach (var measurement in traceStatistics.Measurements)
                 Rows.Add(new MeasurementVm(measurement));
-
-            return true;
         }
 
         public void AddNewMeasurement(Measurement measurement)

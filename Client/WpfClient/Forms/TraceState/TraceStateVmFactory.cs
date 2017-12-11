@@ -22,15 +22,15 @@ namespace Iit.Fibertest.Client
         }
 
         // TraceLeaf
-        public TraceStateVm Create(Guid traceId)
+        public async Task<TraceStateVm> Create(Guid traceId)
         {
-            Measurement measurement = GetLastTraceMeasurement(traceId).Result;
-            return Create(measurement);
+            Measurement measurement = await GetLastTraceMeasurement(traceId);
+            return CreateVm(measurement);
         }
 
         // Trace statistics
         // Server
-        public TraceStateVm Create(Measurement measurement)
+        public TraceStateVm CreateVm(Measurement measurement)
         {
             var vm = new TraceStateVm();
             PrepareCaption(measurement.TraceId, ref vm);
@@ -47,7 +47,7 @@ namespace Iit.Fibertest.Client
             return vm;
         }
 
-        public TraceStateVm Create(OpticalEventVm opticalEventVm)
+        public TraceStateVm CreateVm(OpticalEventVm opticalEventVm)
         {
             var vm = new TraceStateVm();
             PrepareCaption(opticalEventVm.TraceId, ref vm);
@@ -79,9 +79,10 @@ namespace Iit.Fibertest.Client
                 : $@"{trace.OtauPort.OtauIp}:{trace.OtauPort.OtauTcpPort}-{trace.OtauPort.OpticalPort}";
         }
 
-        private async Task<Measurement> GetLastTraceMeasurement(Guid traceId)
+        private  async Task<Measurement> GetLastTraceMeasurement(Guid traceId)
+//        private Measurement GetLastTraceMeasurement(Guid traceId)
         {
-            var measurement = await _c2DWcfManager.GetLastTraceMeasurement(traceId);
+            var measurement = await _c2DWcfManager.GetLastMeasurementForTrace(traceId);
             if (measurement == null)
             {
                 _logFile.AppendLine($@"Cannot get last measurement for trace {traceId.First6()}");

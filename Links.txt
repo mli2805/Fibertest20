@@ -41,3 +41,7 @@ To know more about Paket, visit https://fsprojects.github.io/Paket/getting-start
 
 23. 11/12/17
 	не могу запретить ворнинг в xaml
+
+24. 11/12/17
+	разобрать случай с GetLastTraceMeasurement
+	вешил клиент пока не дотянул async/await почти до верха (но почти, не до самого :) )

@@ -57,7 +57,7 @@ namespace Graph.Tests
             throw new NotImplementedException();
         }
 
-        public Task<Measurement> GetLastTraceMeasurement(Guid traceId)
+        public Task<Measurement> GetLastMeasurementForTrace(Guid traceId)
         {
             throw new NotImplementedException();
         }
