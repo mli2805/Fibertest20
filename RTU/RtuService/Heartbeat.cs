@@ -23,6 +23,7 @@ namespace Iit.Fibertest.RtuService
             _serviceLog = serviceLog;
         }
 
+        // ReSharper disable once FunctionNeverReturns 
         public void Start()
         {
             var rtuHeartbeatRate =

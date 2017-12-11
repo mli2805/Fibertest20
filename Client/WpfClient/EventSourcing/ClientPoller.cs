@@ -107,8 +107,6 @@ namespace Iit.Fibertest.Client
                     treeModel?.NotifyOfPropertyChange(nameof(treeModel.Statistics));
                 }
                 CurrentEventNumber++;
-
-
             }
         }
 

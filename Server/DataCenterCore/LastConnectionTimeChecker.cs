@@ -37,6 +37,7 @@ namespace Iit.Fibertest.DataCenterCore
             thread.Start();
         }
 
+        // ReSharper disable once FunctionNeverReturns 
         private void Check()
         {
             _checkHeartbeatEvery = TimeSpan.FromSeconds(_iniFile.Read(IniSection.General, IniKey.CheckHeartbeatEvery, 3));

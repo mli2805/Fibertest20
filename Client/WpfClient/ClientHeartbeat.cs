@@ -37,6 +37,7 @@ namespace Iit.Fibertest.Client
             heartbeatThread.Start();
         }
 
+        // ReSharper disable once FunctionNeverReturns 
         private void Beat()
         {
             while (true)
