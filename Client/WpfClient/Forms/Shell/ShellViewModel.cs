@@ -135,11 +135,11 @@ namespace Iit.Fibertest.Client
 
         private void StartPolling()
         {
-            var pollingRate = _iniFile.Read(IniSection.General, IniKey.ClientPollingRate, 1);
+            var pollingRateMs = _iniFile.Read(IniSection.General, IniKey.ClientPollingRateMs, 500);
             var clientPoller = IoC.Get<ClientPoller>();
 
             GC.KeepAlive(new DispatcherTimer(
-                TimeSpan.FromSeconds(pollingRate),
+                TimeSpan.FromMilliseconds(pollingRateMs),
                 DispatcherPriority.Background,
                 (s, e) => clientPoller.EventSourcingTick(),
                 Dispatcher.CurrentDispatcher));

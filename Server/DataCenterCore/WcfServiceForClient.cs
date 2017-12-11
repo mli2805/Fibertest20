@@ -67,15 +67,15 @@ namespace Iit.Fibertest.DataCenterCore
             return null;
         }
 
-//        public async Task<string[]> GetEvents(int revision)
-//        {
-//            return await Task.FromResult(_eventStoreService.GetEvents(revision));
-//        }
-
-        public string[] GetEvents(int revision)
+        public async Task<string[]> GetEvents(int revision)
         {
-            return _eventStoreService.GetEvents(revision);
+            return await Task.FromResult(_eventStoreService.GetEvents(revision));
         }
+
+//        public string[] GetEvents(int revision)
+//        {
+//            return _eventStoreService.GetEvents(revision);
+//        }
 
         public async Task<MeasurementsList> GetOpticalEvents(int revision)
         {

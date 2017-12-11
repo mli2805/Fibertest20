@@ -58,7 +58,7 @@ namespace Iit.Fibertest.Client
             _iniFile = iniFile;
             _localDbManager = localDbManager;
             ReadModels = readModels;
-            _pollingRate = _iniFile.Read(IniSection.General, IniKey.ClientPollingRate, 1);
+            _pollingRate = _iniFile.Read(IniSection.General, IniKey.ClientPollingRateMs, 500);
         }
 
         public void LoadEventSourcingCache(string serverAddress)
@@ -82,13 +82,13 @@ namespace Iit.Fibertest.Client
                 EventSourcingTick();
                 OpticalEventsTick();
                 NetworkEventsTick();
-                Thread.Sleep(TimeSpan.FromSeconds(_pollingRate));
+                Thread.Sleep(TimeSpan.FromMilliseconds(_pollingRate));
             }
         }
 
-        public void EventSourcingTick()
+        public async void EventSourcingTick()
         {
-            string[] events = WcfConnection.GetEvents(CurrentEventNumber);// .Result;
+            string[] events = await WcfConnection.GetEvents(CurrentEventNumber);// .Result;
             if (events == null)
             {
                 _logFile.AppendLine(@"Cannot establish datacenter connection.");
