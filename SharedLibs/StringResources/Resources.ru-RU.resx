@@ -330,7 +330,7 @@
     <value>Изменить</value>
   </data>
 	<data name="SID_Attach_from_list" xml:space="preserve">
-    <value>Присоединить из списка</value>
+    <value>Подключить из списка</value>
   </data>
 	<data name="SID_Port_N" xml:space="preserve">
     <value>N{0}</value>
@@ -402,13 +402,13 @@
     <value>Пошаговое определение трассы</value>
   </data>
 	<data name="SID_Attach_optical_switch" xml:space="preserve">
-    <value>Присоединить переключатель</value>
+    <value>Подключить переключатель</value>
   </data>
 	<data name="SID_Measurement__RFTS_Reflect_" xml:space="preserve">
     <value>Измерение (RFTS Reflect)</value>
   </data>
 	<data name="SID_Detach_trace" xml:space="preserve">
-    <value>Отсоединить трассу</value>
+    <value>Отключить трассу</value>
   </data>
 	<data name="SID_Not_attached_traces_list" xml:space="preserve">
     <value>Список неприсоединенных трасс</value>
@@ -510,13 +510,13 @@
     <value>Инициализировать</value>
   </data>
 	<data name="SID_Attach_to" xml:space="preserve">
-    <value>Присоединить к</value>
+    <value>Подключить к</value>
   </data>
 	<data name="SID_Port1" xml:space="preserve">
     <value>Порт:</value>
   </data>
 	<data name="SID_Attach" xml:space="preserve">
-    <value>Присоединить</value>
+    <value>Подключить</value>
   </data>
 	<data name="SID_Close" xml:space="preserve">
     <value>Закрыть</value>
@@ -579,7 +579,7 @@
     <value>Переключатель с таким адресом уже существует!</value>
   </data>
 	<data name="SID_Attachment" xml:space="preserve">
-    <value>Присоединение</value>
+    <value>Подключение</value>
   </data>
 	<data name="SID_Input_user_name_and_password" xml:space="preserve">
     <value>Введите имя пользователя и пароль</value>
@@ -925,7 +925,7 @@ on port {0}: charon {1} ip {2} has {3} ports</value>
     <value>Инициализировать главный переключатель</value>
   </data>
 	<data name="SID_Detach" xml:space="preserve">
-    <value>Отсоединить</value>
+    <value>Отключить</value>
   </data>
 	<data name="SID_from_optical_port" xml:space="preserve">
     <value>от оптического порта</value>
@@ -1456,5 +1456,11 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Measurement_termination_timestamp" xml:space="preserve">
 		<value>Время окончания измерения</value>
+	</data>
+	<data name="SID_State_on__0_" xml:space="preserve">
+		<value>Состояние на {0}</value>
+	</data>
+	<data name="SID__not_attached_" xml:space="preserve">
+		<value>&lt;не подключена&gt;</value>
 	</data>
 </root>

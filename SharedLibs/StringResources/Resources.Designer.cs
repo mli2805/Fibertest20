@@ -161,6 +161,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;not attached&gt;.
+        /// </summary>
+        public static string SID__not_attached_ {
+            get {
+                return ResourceManager.GetString("SID__not_attached_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to (rel.).
         /// </summary>
         public static string SID__rel__ {

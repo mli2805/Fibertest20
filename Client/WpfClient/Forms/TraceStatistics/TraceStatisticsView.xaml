@@ -58,7 +58,7 @@
                     <DataGridTemplateColumn Width="110*" Header="{x:Static stringResources:Resources.SID_Trace_state}">
                         <DataGridTemplateColumn.CellStyle>
                             <Style TargetType="DataGridCell">
-                                <Setter Property="Background" Value="{Binding TraceStateBrush}" />
+                                <Setter Property="Background" Value="{Binding TraceStateBrush}"/>
                             </Style>
                         </DataGridTemplateColumn.CellStyle>
                         <DataGridTemplateColumn.CellTemplate>

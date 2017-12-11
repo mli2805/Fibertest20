@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Data;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
@@ -68,7 +69,7 @@ namespace Iit.Fibertest.Client
                 return false;
             TraceTitle = trace.Title;
             RtuTitle = _readModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId)?.Title;
-            PortNumber = trace.OtauPort == null ? "<not attached>" : trace.OtauPort.IsPortOnMainCharon
+            PortNumber = trace.OtauPort == null ? Resources.SID__not_attached_ : trace.OtauPort.IsPortOnMainCharon
                 ? trace.OtauPort.OpticalPort.ToString()
                 : $@"{trace.OtauPort.OtauIp}:{trace.OtauPort.OtauTcpPort}-{trace.OtauPort.OpticalPort}";
 

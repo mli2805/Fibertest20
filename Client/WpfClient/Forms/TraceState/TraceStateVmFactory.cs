@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 
@@ -73,7 +74,7 @@ namespace Iit.Fibertest.Client
 
             result.TraceTitle = trace.Title;
             result.RtuTitle = _readModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId)?.Title;
-            result.PortTitle = trace.OtauPort == null ? "<not attached>" : trace.OtauPort.IsPortOnMainCharon
+            result.PortTitle = trace.OtauPort == null ? Resources.SID__not_attached_ : trace.OtauPort.IsPortOnMainCharon
                 ? trace.OtauPort.OpticalPort.ToString()
                 : $@"{trace.OtauPort.OtauIp}:{trace.OtauPort.OtauTcpPort}-{trace.OtauPort.OpticalPort}";
         }
