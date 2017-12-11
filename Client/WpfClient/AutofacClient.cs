@@ -82,6 +82,7 @@ namespace Iit.Fibertest.Client
 
             builder.RegisterType<ClientHeartbeat>().SingleInstance();
 
+            builder.RegisterType<UiDispatcherProvider>().As<IDispatcherProvider>().SingleInstance();
             builder.Register(ioc => new ClientPoller(
                     ioc.Resolve<IWcfServiceForClient>(),
                     new List<object>
@@ -90,9 +91,11 @@ namespace Iit.Fibertest.Client
                         ioc.Resolve<TreeOfRtuModel>(),
                         ioc.Resolve<GraphReadModel>(),
                     },
+                    ioc.Resolve<IDispatcherProvider>(),
                     ioc.Resolve<OpticalEventsViewModel>(),
                     ioc.Resolve<NetworkEventsViewModel>(),
                     logFile,
+                    iniFile,
                     ioc.Resolve<ILocalDbManager>()
                     ))
                 .SingleInstance();

@@ -17,38 +17,38 @@ namespace Graph.Tests
         public Guid CreateRtu()
         {
             ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation()).Wait();
-            Poller.Tick();
+            Poller.EventSourcingTick();
             RtuANodeId = ReadModel.Rtus.Last().NodeId;
             return ReadModel.Rtus.Last().Id;
         }
         public void CreateOneRtuAndFewNodesAndFibers()
         {
             ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation()).Wait();
-            Poller.Tick();
+            Poller.EventSourcingTick();
             RtuBNodeId = ReadModel.Rtus.Last().NodeId;
 
             ShellVm.ComplyWithRequest(new AddNode()).Wait();
-            Poller.Tick();
+            Poller.EventSourcingTick();
             var node1Id = ReadModel.Nodes.Last().Id;
 
             ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait();
-            Poller.Tick();
+            Poller.EventSourcingTick();
             _node2Id = ReadModel.Nodes.Last().Id;
             ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait();
-            Poller.Tick();
+            Poller.EventSourcingTick();
             _node3Id = ReadModel.Nodes.Last().Id;
 
             ShellVm.ComplyWithRequest(new AddFiber() { Node1 = RtuANodeId, Node2 = node1Id }).Wait();
-            Poller.Tick();
+            Poller.EventSourcingTick();
             Fiber1Id = ReadModel.Fibers.Last().Id;
             ShellVm.ComplyWithRequest(new AddFiber() { Node1 = node1Id, Node2 = _node2Id }).Wait();
-            Poller.Tick();
+            Poller.EventSourcingTick();
             Fiber2Id = ReadModel.Fibers.Last().Id;
             ShellVm.ComplyWithRequest(new AddFiber() { Node1 = _node2Id, Node2 = _node3Id }).Wait();
-            Poller.Tick();
+            Poller.EventSourcingTick();
             Fiber3Id = ReadModel.Fibers.Last().Id;
             ShellVm.ComplyWithRequest(new AddFiber() { Node1 = _node3Id, Node2 = RtuBNodeId }).Wait();
-            Poller.Tick();
+            Poller.EventSourcingTick();
             Fiber4Id = ReadModel.Fibers.Last().Id;
         }
 
@@ -60,7 +60,7 @@ namespace Graph.Tests
             FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, @"some trace title", "", Answer.Yes));
 
             ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = _node3Id, NodeWithRtuId = RtuANodeId });
-            Poller.Tick();
+            Poller.EventSourcingTick();
             return ReadModel.Traces.Last().Id;
         }
 
@@ -72,7 +72,7 @@ namespace Graph.Tests
             FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, @"some trace title", "", Answer.Yes));
 
             ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = _node2Id, NodeWithRtuId = RtuBNodeId });
-            Poller.Tick();
+            Poller.EventSourcingTick();
         }
     }
 }

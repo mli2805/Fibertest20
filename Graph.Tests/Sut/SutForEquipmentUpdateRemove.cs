@@ -21,7 +21,7 @@ namespace Graph.Tests
         private void SetNodeWithEquipment(out Guid nodeA, out Guid eqA)
         {
             ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Closure }).Wait();
-            Poller.Tick();
+            Poller.EventSourcingTick();
             nodeA = ReadModel.Nodes.Last().Id;
             eqA = ReadModel.Equipments.Last().Id;
         }
@@ -29,14 +29,14 @@ namespace Graph.Tests
         private void SetRtuAndFibers(Guid nodeAId, Guid nodeBId)
         {
             ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation()).Wait();
-            Poller.Tick();
+            Poller.EventSourcingTick();
             _rtuNodeId = ReadModel.Nodes.Last().Id;
 
             ShellVm.ComplyWithRequest(new AddFiber() { Node1 = _rtuNodeId, Node2 = nodeAId }).Wait();
-            Poller.Tick();
+            Poller.EventSourcingTick();
 
             ShellVm.ComplyWithRequest(new AddFiber() { Node1 = nodeAId, Node2 = nodeBId }).Wait();
-            Poller.Tick();
+            Poller.EventSourcingTick();
         }
 
         private Iit.Fibertest.Graph.Trace SeTrace(Guid lastNodeId)
@@ -47,7 +47,7 @@ namespace Graph.Tests
             FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, @"some title", "", Answer.Yes));
 
             ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = lastNodeId, NodeWithRtuId = _rtuNodeId });
-            Poller.Tick();
+            Poller.EventSourcingTick();
             return ReadModel.Traces.Last();
         }
     }

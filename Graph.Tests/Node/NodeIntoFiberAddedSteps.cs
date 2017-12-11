@@ -32,14 +32,14 @@ namespace Graph.Tests
             var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_trace.Id);
             _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, _trace.Id, SystemUnderTest.Path, SystemUnderTest.Path, null, Answer.Yes));
             _sut.TraceLeafActions.AssignBaseRefs(traceLeaf);
-            _sut.Poller.Tick();
+            _sut.Poller.EventSourcingTick();
         }
 
         [When(@"Пользователь кликает добавить узел в первый отрезок этой трассы")]
         public void WhenПользовательКликаетДобавитьУзелВОтрезок()
         {
             _sut.ShellVm.ComplyWithRequest(new RequestAddNodeIntoFiber() {FiberId = _fiber.Id}).Wait();
-            _sut.Poller.Tick();
+            _sut.Poller.EventSourcingTick();
             _nodeId = _sut.ReadModel.Nodes.Last().Id;
         }
 

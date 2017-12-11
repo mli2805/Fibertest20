@@ -43,7 +43,7 @@ namespace Graph.Tests
             var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_trace.Id);
             _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, _trace.Id, SystemUnderTest.Path, null, null, Answer.Yes));
             _sut.TraceLeafActions.AssignBaseRefs(traceLeaf);
-            _sut.Poller.Tick();
+            _sut.Poller.EventSourcingTick();
         }
 
         [Then(@"Для А1 доступно удаление")]
@@ -71,7 +71,7 @@ namespace Graph.Tests
 
             var item = _nodeUpdateViewModel.EquipmentsInNode.First(i => i.Id == _equipmentB1Id);
             item.Command = new UpdateEquipment() {Id = _equipmentB1Id};
-            _sut.Poller.Tick();
+            _sut.Poller.EventSourcingTick();
         }
 
         [Given(@"Пользователь кликает изменить B1 вводит новые значения и жмет Отмена")]
@@ -82,7 +82,7 @@ namespace Graph.Tests
             var item = _nodeUpdateViewModel.EquipmentsInNode.First(i => i.Id == _equipmentB1Id);
             item.Command = new UpdateEquipment() { Id = _equipmentB1Id };
             _cutOff = _sut.Poller.CurrentEventNumber;
-            _sut.Poller.Tick();
+            _sut.Poller.EventSourcingTick();
         }
 
         [Then(@"Все должно быть сохранено")]

@@ -46,7 +46,7 @@ namespace Graph.Tests
         {
             var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_traceId);
             _sut.TraceLeafActions.DetachTrace(traceLeaf);
-            _sut.Poller.Tick();
+            _sut.Poller.EventSourcingTick();
         }
 
         [Then(@"Трасса отсоединена")]

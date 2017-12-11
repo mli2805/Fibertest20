@@ -36,6 +36,7 @@ namespace Iit.Fibertest.Client
 
         private readonly IMyWindowManager _windowManager;
         private readonly ClientHeartbeat _clientHeartbeat;
+        private readonly ClientPoller _clientPoller;
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         public IWcfServiceForClient C2DWcfManager { get; }
@@ -65,7 +66,7 @@ namespace Iit.Fibertest.Client
 
         public ShellViewModel(ReadModel readModel, TreeOfRtuModel treeOfRtuModel, IWcfServiceForClient c2DWcfManager,
                 GraphReadModel graphReadModel, OpticalEventsViewModel opticalEventsViewModel, NetworkEventsViewModel networkEventsViewModel,
-            IMyWindowManager windowManager, ClientHeartbeat clientHeartbeat,
+                IMyWindowManager windowManager, ClientHeartbeat clientHeartbeat, ClientPoller clientPoller,
                 IniFile iniFile, ILogger clientLogger, IMyLog logFile, IClientWcfServiceHost host)
         {
             ReadModel = readModel;
@@ -83,6 +84,7 @@ namespace Iit.Fibertest.Client
             C2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
             _clientHeartbeat = clientHeartbeat;
+            _clientPoller = clientPoller;
             _iniFile = iniFile;
 
             _logFile = logFile;
@@ -121,7 +123,9 @@ namespace Iit.Fibertest.Client
                 UserName = vm.UserName;
                 var da = _iniFile.ReadDoubleAddress(11840);
                 _server = da.Main.GetAddress();
-                StartPolling();
+//                StartPolling();
+                _clientPoller.LoadEventSourcingCache(_server);
+                _clientPoller.Start();
                 _clientHeartbeat.Start();
             }
 
@@ -134,17 +138,15 @@ namespace Iit.Fibertest.Client
             var pollingRate = _iniFile.Read(IniSection.General, IniKey.ClientPollingRate, 1);
             var clientPoller = IoC.Get<ClientPoller>();
 
-          // var readLine = Console.ReadLine();
-          // Dispatcher.CurrentDispatcher.Invoke(() => { readLine?.ToString(); });
             GC.KeepAlive(new DispatcherTimer(
                 TimeSpan.FromSeconds(pollingRate),
                 DispatcherPriority.Background,
-                (s, e) => clientPoller.Tick(),
+                (s, e) => clientPoller.EventSourcingTick(),
                 Dispatcher.CurrentDispatcher));
 
 
-            clientPoller.LoadCache(_server);
-            clientPoller.Tick();
+            clientPoller.LoadEventSourcingCache(_server);
+            clientPoller.EventSourcingTick();
         }
 
         protected override void OnViewLoaded(object view)

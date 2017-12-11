@@ -19,7 +19,7 @@ namespace Graph.Tests
         public void GivenСуществуетRtu()
         {
             _sut.ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation()).Wait();
-            _sut.Poller.Tick();
+            _sut.Poller.EventSourcingTick();
             _saidRtuId = _sut.ShellVm.ReadModel.Rtus.Last().Id;
         }
 
@@ -32,7 +32,7 @@ namespace Graph.Tests
             var rtuLeaf = (RtuLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.First(r => r.Id == _saidRtuId);
             var menuItem = rtuLeaf.MyContextMenu.First(i => i.Header == Resources.SID_Information);
             menuItem.Command.Execute(rtuLeaf);
-            _sut.Poller.Tick();
+            _sut.Poller.EventSourcingTick();
         }
 
         [Then(@"Изменения применяются")]

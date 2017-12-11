@@ -15,7 +15,7 @@ namespace Graph.Tests
         public void WhenПользовательКликаетДобавитьУзелСОборудованием()
         {
             _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() {Type = EquipmentType.Terminal}).Wait();
-            _sut.Poller.Tick();
+            _sut.Poller.EventSourcingTick();
         }
 
         [Then(@"Новый узел с оборудованием сохраняется")]

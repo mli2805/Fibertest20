@@ -35,7 +35,7 @@ namespace Graph.Tests
                 SystemUnderTest.Path, SystemUnderTest.Path, null, Answer.Yes));
             var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_traces[0].Id);
             _sut.TraceLeafActions.AssignBaseRefs(traceLeaf);
-            _sut.Poller.Tick();
+            _sut.Poller.EventSourcingTick();
         }
 
 
@@ -49,7 +49,7 @@ namespace Graph.Tests
                 SystemUnderTest.Path, SystemUnderTest.Path, null, Answer.Yes));
             var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_traces[2].Id);
             _sut.TraceLeafActions.AssignBaseRefs(traceLeaf);
-            _sut.Poller.Tick();
+            _sut.Poller.EventSourcingTick();
         }
 
         [When(@"Пользователь жмет Автоматический режим")]

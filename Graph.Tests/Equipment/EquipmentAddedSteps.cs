@@ -51,7 +51,7 @@ namespace Graph.Tests
             _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, trace.Id, SystemUnderTest.Path, SystemUnderTest.Path, null, Answer.Yes));
 
             _sut.TraceLeafActions.AssignBaseRefs(traceLeaf);
-            _sut.Poller.Tick();
+            _sut.Poller.EventSourcingTick();
         }
 
         [Then(@"Пользователь не отмечает ни одну трассу для включения оборудования")]
@@ -96,7 +96,7 @@ namespace Graph.Tests
         public void ThenВОкнеДобавитьОборудование()
         {
             _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentIntoNode() { NodeId = _sut.NodeId }).Wait();
-            _sut.Poller.Tick();
+            _sut.Poller.EventSourcingTick();
         }
 
         [Then(@"В узле создается новое оборудование")]

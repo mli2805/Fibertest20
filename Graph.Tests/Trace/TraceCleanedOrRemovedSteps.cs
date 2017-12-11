@@ -38,7 +38,7 @@ namespace Graph.Tests
         {
             var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_sut.TraceId2);
             _sut.TraceLeafActions.CleanTrace(traceLeaf);
-            _sut.Poller.Tick();
+            _sut.Poller.EventSourcingTick();
         }
 
         [When(@"Пользователь жмет Удалить у НЕприсоединенной трассы")]
@@ -46,7 +46,7 @@ namespace Graph.Tests
         {
             var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_sut.TraceId2);
             _sut.TraceLeafActions.RemoveTrace(traceLeaf);
-            _sut.Poller.Tick();
+            _sut.Poller.EventSourcingTick();
         }
 
         [Then(@"Неприсоединенная трасса удаляется")]

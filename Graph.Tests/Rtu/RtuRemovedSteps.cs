@@ -46,7 +46,7 @@ namespace Graph.Tests
         public void WhenПользовательКликаетУдалитьПервыйRtu()
         {
             _sut.ShellVm.ComplyWithRequest(new RequestRemoveRtu() { NodeId = _sut.RtuANodeId }).Wait();
-            _sut.Poller.Tick();
+            _sut.Poller.EventSourcingTick();
         }
 
         [When(@"Пользователь кликает на первом RTU в дереве удалить")]
@@ -54,7 +54,7 @@ namespace Graph.Tests
         {
             var menuItemVm = _rtuLeaf.MyContextMenu.FirstOrDefault(i => i?.Header == Resources.SID_Remove);
             menuItemVm?.Command.Execute(_rtuLeaf);
-            _sut.Poller.Tick();
+            _sut.Poller.EventSourcingTick();
         }
 
         [Given(@"Трасса присоединенна к порту РТУ")]

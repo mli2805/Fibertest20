@@ -51,7 +51,7 @@ namespace Graph.Tests
         public void GivenПользовательЖметУдалитьОптическийПереключатель()
         {
             _otauLeaf.OtauRemoveAction(null);
-            _sut.Poller.Tick();
+            _sut.Poller.EventSourcingTick();
         }
 
         [Then(@"Оптический переключатель удален")]

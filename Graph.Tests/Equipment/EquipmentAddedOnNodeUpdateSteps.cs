@@ -34,7 +34,7 @@ namespace Graph.Tests
             _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentInfoViewModelHandler(model, Answer.Yes));
 
             _nodeUpdateViewModel.AddEquipment().Wait();
-            _sut.Poller.Tick();
+            _sut.Poller.EventSourcingTick();
         }
 
         [When(@"Пользователь жмет добавить оборудование вводит парамы и резко отказывается от сохранения")]
@@ -47,7 +47,7 @@ namespace Graph.Tests
             _cutOff = _sut.Poller.CurrentEventNumber;
             _itemsCount = _nodeUpdateViewModel.EquipmentsInNode.Count;
             _nodeUpdateViewModel.AddEquipment().Wait();
-            _sut.Poller.Tick();
+            _sut.Poller.EventSourcingTick();
         }
 
         [Then(@"Новое оборудование сохраняется и появляется на форме редактирования узла")]

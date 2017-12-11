@@ -18,7 +18,7 @@ namespace Graph.Tests
         public void GivenПользовательСоздаетRtuвТочкеСКоординатамиИ(double p0, double p1)
         {
             _sut.ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation() { Latitude = p0, Longitude = p1 }).Wait();
-            _sut.Poller.Tick();
+            _sut.Poller.EventSourcingTick();
             _rtuId = _sut.ReadModel.Rtus.Last().Id;
         }
 

@@ -14,22 +14,22 @@ namespace Graph.Tests
             var result = new List<Iit.Fibertest.Graph.Trace>();
 
             ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation() { Latitude = 55, Longitude = 30 }).Wait();
-            Poller.Tick();
+            Poller.EventSourcingTick();
             var nodeForRtuId = ReadModel.Rtus.Last().NodeId;
 
             ShellVm.ComplyWithRequest(new AddNode()).Wait();
-            Poller.Tick();
+            Poller.EventSourcingTick();
             var middleNodeId = ReadModel.Nodes.Last().Id;
             ShellVm.ComplyWithRequest(new AddFiber() { Node1 = nodeForRtuId, Node2 = middleNodeId }).Wait();
 
             for (int i = 0; i < 3; i++)
             {
                 ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() {Type = EquipmentType.Terminal}).Wait();
-                Poller.Tick();
+                Poller.EventSourcingTick();
                 var endNodeId = ReadModel.Nodes.Last().Id;
 
                 ShellVm.ComplyWithRequest(new AddFiber() {Node1 = middleNodeId, Node2 = endNodeId}).Wait();
-                Poller.Tick();
+                Poller.EventSourcingTick();
                 result.Add(DefineTrace(endNodeId, nodeForRtuId));
             }
             return result;
@@ -67,7 +67,7 @@ namespace Graph.Tests
             var portLeaf = (PortLeaf)rtuLeaf.ChildrenImpresario.Children[port - 1];
             FakeWindowManager.RegisterHandler(model => OtauToAttachHandler(model, rtuLeaf.Id, port, Answer.Yes));
             portLeaf.AttachOtauAction(null);
-            Poller.Tick();
+            Poller.EventSourcingTick();
             return (OtauLeaf)rtuLeaf.ChildrenImpresario.Children[port - 1];
         }
 
@@ -113,7 +113,7 @@ namespace Graph.Tests
 
             RtuLeafActions.InitializeRtu(rtuLeaf);
 
-            Poller.Tick();
+            Poller.EventSourcingTick();
 
             return rtuLeaf;
         }
@@ -125,7 +125,7 @@ namespace Graph.Tests
             var portLeaf = (PortLeaf)(owner.ChildrenImpresario.Children[port - 1]);
 
             portLeaf.AttachFromListAction(null);
-            Poller.Tick();
+            Poller.EventSourcingTick();
         }
 
         public RtuLeaf TraceCreatedAndRtuInitialized(out Guid traceId, out Guid rtuId)

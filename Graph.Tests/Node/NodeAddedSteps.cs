@@ -21,7 +21,7 @@ namespace Graph.Tests
         [Then(@"Новый узел сохраняется")]
         public void ThenTheNewNodeGetSaved()
         {
-            _sut.Poller.Tick();
+            _sut.Poller.EventSourcingTick();
             _sut.ReadModel.Nodes.Count.Should().BeGreaterThan(_cutOff);
         }
 

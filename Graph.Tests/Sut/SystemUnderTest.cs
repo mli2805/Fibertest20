@@ -54,7 +54,8 @@ namespace Graph.Tests
 
             builder.RegisterInstance<IMyLog>(new NullLog());
             
-           
+            builder.RegisterType<TestsDispatcherProvider>().As<IDispatcherProvider>().SingleInstance();
+
             var container = builder.Build();
 
             Poller = container.Resolve<ClientPoller>();
@@ -73,20 +74,20 @@ namespace Graph.Tests
         public Iit.Fibertest.Graph.Trace CreateTraceRtuEmptyTerminal()
         {
             ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation() { Latitude = 55, Longitude = 30 }).Wait();
-            Poller.Tick();
+            Poller.EventSourcingTick();
             var nodeForRtuId = ReadModel.Rtus.Last().NodeId;
 
             ShellVm.ComplyWithRequest(new AddNode()).Wait();
-            Poller.Tick();
+            Poller.EventSourcingTick();
             var firstNodeId = ReadModel.Nodes.Last().Id;
 
             ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait();
-            Poller.Tick();
+            Poller.EventSourcingTick();
             var secondNodeId = ReadModel.Nodes.Last().Id;
 
             ShellVm.ComplyWithRequest(new AddFiber() { Node1 = nodeForRtuId, Node2 = firstNodeId }).Wait();
             ShellVm.ComplyWithRequest(new AddFiber() { Node1 = firstNodeId, Node2 = secondNodeId }).Wait();
-            Poller.Tick();
+            Poller.EventSourcingTick();
 
             return DefineTrace(secondNodeId, nodeForRtuId);
         }
@@ -98,7 +99,7 @@ namespace Graph.Tests
             FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
             FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, @"some title", "", Answer.Yes));
             ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = lastNodeId, NodeWithRtuId = nodeForRtuId });
-            Poller.Tick();
+            Poller.EventSourcingTick();
             return ShellVm.ReadModel.Traces.Last();
         }
 

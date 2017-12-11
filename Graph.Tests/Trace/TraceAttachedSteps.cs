@@ -30,7 +30,7 @@ namespace Graph.Tests
         {
             _portNumber = p0;
             _sut.AttachTraceTo(_traceId, _rtuLeaf, _portNumber, Answer.Yes);
-            _sut.Poller.Tick();
+            _sut.Poller.EventSourcingTick();
             _traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_traceId);
         }
 
@@ -67,7 +67,7 @@ namespace Graph.Tests
         {
             _portNumber = p0;
             _sut.AttachTraceTo(_traceId, _otauLeaf, _portNumber, Answer.Yes);
-            _sut.Poller.Tick();
+            _sut.Poller.EventSourcingTick();
             _traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_traceId);
         }
 
@@ -90,7 +90,7 @@ namespace Graph.Tests
         {
             var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_traceId);
             _sut.TraceLeafActions.DetachTrace(traceLeaf);
-            _sut.Poller.Tick();
+            _sut.Poller.EventSourcingTick();
         }
 
         [Then(@"Трасса присоединяется к порту РТУ")]

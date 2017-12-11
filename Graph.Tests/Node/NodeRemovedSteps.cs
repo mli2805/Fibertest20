@@ -22,7 +22,7 @@ namespace Graph.Tests
         public void GivenСуществуетУзел()
         {
             _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation()).Wait();
-            _sut.Poller.Tick();
+            _sut.Poller.EventSourcingTick();
             _nodeId = _sut.ReadModel.Nodes.Last().Id;
         }
 
@@ -30,10 +30,10 @@ namespace Graph.Tests
         public void GivenКДанномуУзлуПрисоединенОтрезок()
         {
             _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
-            _sut.Poller.Tick();
+            _sut.Poller.EventSourcingTick();
             _anotherNodeId = _sut.ReadModel.Nodes.Last().Id;
             _sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = _nodeId, Node2 = _anotherNodeId }).Wait();
-            _sut.Poller.Tick();
+            _sut.Poller.EventSourcingTick();
         }
 
         [Given(@"Задана трасса")]
@@ -62,14 +62,14 @@ namespace Graph.Tests
             _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, _trace.Id, SystemUnderTest.Path, SystemUnderTest.Path, null, Answer.Yes));
             var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_trace.Id);
             _sut.TraceLeafActions.AssignBaseRefs(traceLeaf);
-            _sut.Poller.Tick();
+            _sut.Poller.EventSourcingTick();
         }
 
         [When(@"Пользователь кликает удалить узел")]
         public void WhenПользовательКликаетУдалитьУзел()
         {
             _sut.ShellVm.ComplyWithRequest(new RequestRemoveNode() { Id = _nodeId }).Wait();
-            _sut.Poller.Tick();
+            _sut.Poller.EventSourcingTick();
         }
 
         [Then(@"Создается отрезок между соседними с данным узлами")]
