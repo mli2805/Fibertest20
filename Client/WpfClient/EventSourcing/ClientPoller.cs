@@ -69,12 +69,12 @@ namespace Iit.Fibertest.Client
 
         public void Start()
         {
-            var pollerThread = new Thread(Cycle) { IsBackground = true };
+            var pollerThread = new Thread(DoPolling) { IsBackground = true };
             pollerThread.Start();
         }
 
         // ReSharper disable once FunctionNeverReturns
-        private async void Cycle()
+        private async void DoPolling()
         {
             while (true)
             {

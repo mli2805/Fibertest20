@@ -7,7 +7,8 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         Topmost="True"
         mc:Ignorable="d" Width="500" SizeToContent="Height"
-        d:DataContext="{d:DesignInstance client:TraceStateViewModel}">
+        d:DataContext="{d:DesignInstance client:TraceStateViewModel}"
+        >
     <Window.Resources>
         <SolidColorBrush x:Key="TransparentBrush" Color="Transparent"/>
     </Window.Resources>
@@ -58,7 +59,7 @@
                             </EventTrigger>
                         </TextBlock.Triggers>
                     </TextBlock>
-                    <Button Name="TurnSound" Content="Turn alarm off/on" Margin="25,5" Height="25" IsEnabled="{Binding Model.IsAccidentButtonsEnabled}"/>
+                    <Button Name="TurnSoundOff" Content="Turn alarm off" Margin="25,5" Height="25" IsEnabled="{Binding Model.IsAccidentButtonsEnabled}"/>
                 </StackPanel>
             </GroupBox>
         </DockPanel>

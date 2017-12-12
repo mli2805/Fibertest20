@@ -1,32 +1,54 @@
 using System;
-using System.Threading.Tasks;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace Iit.Fibertest.Client
 {
     public class SoundManager
     {
+        private MediaPlayer AlertPlayer;
+        private DispatcherTimer AlertTimer;
 
-        private void f()
+        private int _alertCounter;
+
+        public SoundManager()
         {
-            MediaPlayer player = new MediaPlayer();
-            var uri = new Uri(@"c:\temp\Accident.mp3", UriKind.RelativeOrAbsolute);
-            player.Open(uri);
-            player.Play();
+            AlertPlayer = new MediaPlayer();
+            var folder = AppDomain.CurrentDomain.BaseDirectory;
+            var alertUri = new Uri(folder + @"\Resources\Sounds\Accident.mp3");
+            AlertPlayer.Open(alertUri);
+            AlertTimer = new DispatcherTimer(TimeSpan.FromSeconds(15),
+                DispatcherPriority.Background, (s, e) => PlayAlert(), Dispatcher.CurrentDispatcher);
+            AlertTimer.IsEnabled = false;
+            _alertCounter = 0;
         }
 
-        private void g()
+
+
+        public void StartAlert()
         {
-            MediaPlayer player = new MediaPlayer();
-            var uri = new Uri(@"c:\temp\Ok.mp3", UriKind.RelativeOrAbsolute);
-            player.Open(uri);
-            player.Play();
+            _alertCounter++;
+            if (_alertCounter == 1)
+            {
+                PlayAlert();
+                AlertTimer.IsEnabled = true;
+            }
         }
 
-        public void PlayOk()
+        public void StopAlert()
         {
-                Task.Factory.StartNew(f);
-                Task.Factory.StartNew(g);
+            _alertCounter--;
+            if (_alertCounter == 0)
+            {
+                AlertTimer.IsEnabled = false;
+                AlertPlayer.Stop();
+            }
+        }
+
+        private void PlayAlert()
+        {
+            AlertPlayer.Position = TimeSpan.Zero;
+            AlertPlayer.Play();
         }
     }
 }

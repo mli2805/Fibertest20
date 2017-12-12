@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -10,8 +11,9 @@ namespace Iit.Fibertest.Client
     {
         private readonly ReflectogramManager _reflectogramManager;
         private readonly SoundManager _soundManager;
+        private bool _isMySoundOn;
         public TraceStateVm Model { get; set; }
-        public bool IsLastStateForThisTrace { get; set; } 
+        public bool IsLastStateForThisTrace { get; set; }
 
         public List<EventStatusComboItem> StatusRows { get; set; }
         public EventStatusComboItem SelectedEventStatus { get; set; }
@@ -33,6 +35,9 @@ namespace Iit.Fibertest.Client
         protected override void OnViewLoaded(object view)
         {
             DisplayName = Resources.SID_Trace_state;
+
+            _isMySoundOn = true;
+            _soundManager.StartAlert();
         }
 
         private void InitializeEventStatusCombobox()
@@ -53,7 +58,16 @@ namespace Iit.Fibertest.Client
         //----
         public void TurnSound()
         {
-            _soundManager.PlayOk();
+            if (_isMySoundOn)
+                _soundManager.StopAlert();
+            _isMySoundOn = false;
+        }
+
+        public override void CanClose(Action<bool> callback)
+        {
+            if (_isMySoundOn)
+                _soundManager.StopAlert();
+            callback(true);
         }
 
         public void ShowAccidentPlace() { }
