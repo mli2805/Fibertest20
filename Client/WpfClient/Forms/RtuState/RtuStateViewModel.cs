@@ -28,7 +28,7 @@ namespace Iit.Fibertest.Client
             portLineVm.TraceState = dto.BaseRefType == BaseRefType.Fast && dto.TraceState != FiberState.Ok? FiberState.Suspicion : dto.TraceState;
             portLineVm.Timestamp = dto.MeasurementTimestamp;
 
-            NotifyOfPropertyChange(nameof(Model.TracesState));
+            Model.SetWorstTraceStateAsAggregate();
         }
 
         public void NotifyUserCurrentMonitoringStep(CurrentMonitoringStepDto dto)

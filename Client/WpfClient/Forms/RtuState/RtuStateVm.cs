@@ -10,6 +10,7 @@ namespace Iit.Fibertest.Client
     public class RtuStateVm : PropertyChangedBase
     {
         private string _currentMeasurementStep;
+        private FiberState _tracesState;
         public string Title { get; set; }
         public string RtuAvailabilityOnScreen => RtuAvailabilityToString();
         public Brush RtuAvailabilityBrush => RtuAvalilabilityToBrush(true);
@@ -35,7 +36,19 @@ namespace Iit.Fibertest.Client
         public string BopStateOnScreen => BopState.ToLocalizedString();
         public Brush BopStateBrush => BopState.GetBrush(true);
 
-        public FiberState TracesState => Ports.Max(p => p.TraceState);
+        public FiberState TracesState
+        {
+            get { return _tracesState; }
+            set
+            {
+                if (value == _tracesState) return;
+                _tracesState = value;
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(TracesStateOnScreen));
+                NotifyOfPropertyChange(nameof(TracesStateBrush));
+            }
+        }
+
         public string TracesStateOnScreen => TracesState.ToLocalizedString();
         public Brush TracesStateBrush => TracesState.GetBrush(true);
         public string MonitoringMode { get; set; }
@@ -52,6 +65,11 @@ namespace Iit.Fibertest.Client
         }
 
         public List<PortLineVm> Ports { get; set; } = new List<PortLineVm>();
+
+        public void SetWorstTraceStateAsAggregate()
+        {
+            TracesState = Ports.Max(p => p.TraceState);
+        }
 
         //------------------
         private string RtuAvailabilityToString()

@@ -41,7 +41,7 @@ namespace Iit.Fibertest.Client
             var hasBrokenBop = false;
             var traceCount = 0;
             rtuStateVm.Ports = PreparePortLines(rtuLeaf.ChildrenImpresario.Children, "", ref bopCount, ref hasBrokenBop, ref traceCount);
-          //  rtuStateVm.TracesState = GetTheWorstTraceState(rtuStateVm.Ports);
+            rtuStateVm.SetWorstTraceStateAsAggregate();
             rtuStateVm.TraceCount = traceCount;
             rtuStateVm.BopCount = bopCount;
             rtuStateVm.BopState = bopCount == 0
@@ -54,11 +54,6 @@ namespace Iit.Fibertest.Client
             return rtuStateVm;
         }
 
-        private FiberState GetTheWorstTraceState(List<PortLineVm> ports)
-        {
-            return ports.Max(p => p.TraceState);
-        }
-
         private List<PortLineVm> PreparePortLines(ObservableCollection<Leaf> leaves, string mainPort, ref int bopCount, ref bool hasBrokenBop, ref int traceCount)
         {
             var result = new List<PortLineVm>();
@@ -69,7 +64,7 @@ namespace Iit.Fibertest.Client
                     result.Add(PreparePortLine(portLeaf, mainPort));
 
                 var traceLeaf = leaf as TraceLeaf;
-                if (traceLeaf != null)
+                if (traceLeaf != null && traceLeaf.PortNumber > 0)
                 {
                     result.Add(PreparePortLine(traceLeaf, mainPort));
                     traceCount++;

@@ -39,7 +39,7 @@
                                TextAlignment="Center" Margin="5"/>
                     </GroupBox>
                     <GroupBox Header="{x:Static stringResources:Resources.SID_Traces_state}">
-                        <TextBlock Text="{Binding Model.TracesStateOnScreen}" TextAlignment="Center" 
+                        <TextBlock Text="{Binding Model.TracesStateOnScreen, Mode=OneWay}" TextAlignment="Center" 
                                FontWeight="Bold" FontSize="14" Margin="5" Foreground="{Binding Model.TracesStateBrush}"/>
                     </GroupBox>
                     <GroupBox Header="{x:Static stringResources:Resources.SID_Monitoring_mode}">
