@@ -21,7 +21,7 @@ namespace Graph.Tests
         public void GivenСуществуетУзелСОборудованием()
         {
             _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Closure }).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
             _nodeAId = _sut.ReadModel.Nodes.Last().Id;
             _equipmentA1Id = _sut.ReadModel.Equipments.Last().Id;
         }
@@ -44,7 +44,7 @@ namespace Graph.Tests
                 _sut.EquipmentInfoViewModelHandler(model, Answer.Yes));
 
             _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentIntoNode() {NodeId = nodeId}).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
             _notInTraceEquipmentId = _sut.ReadModel.Equipments.Last().Id;
         }
 
@@ -76,14 +76,14 @@ namespace Graph.Tests
         public void WhenПользовательЖметУдалитьОборудование()
         {
             _vm.RemoveEquipment(new RemoveEquipment() { Id = _vm.EquipmentsInNode.First().Id });
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
         }
 
         [When(@"Пользователь жмет удалить неиспользуемое оборудование")]
         public void WhenПользовательЖметУдалитьНеиспользуемоеОборудование()
         {
             _vm.RemoveEquipment(new RemoveEquipment() { Id = _vm.EquipmentsInNode.First(item => item.Id == _notInTraceEquipmentId).Id });
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
         }
 
         [Then(@"И оборудование удаляется")]

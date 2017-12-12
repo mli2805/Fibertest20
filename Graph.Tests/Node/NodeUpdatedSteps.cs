@@ -20,19 +20,19 @@ namespace Graph.Tests
         public void CreateNode(string title)
         {
             _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
             var nodeId = _sut.ShellVm.GraphReadModel.Nodes.Last().Id;
 
             _sut.FakeWindowManager.RegisterHandler(model => _sut.NodeUpdateHandler(model, title, @"doesn't matter", Answer.Yes));
             _sut.ShellVm.ComplyWithRequest(new UpdateNode() {Id = nodeId }).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
         }
 
         [Given(@"Добавлен узел")]
         public void CreateNode()
         {
             _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
 
             _saidNodeId = _sut.ReadModel.Nodes.Last().Id;
         }
@@ -69,7 +69,7 @@ namespace Graph.Tests
             _cutOff = _sut.CurrentEventNumber;
             _sut.FakeWindowManager.RegisterHandler(model => _sut.NodeUpdateHandler(model, null, null, Answer.Yes));
             _sut.ShellVm.ComplyWithRequest(new UpdateNode() { Id = _saidNodeId }).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
         }
 
 
@@ -78,7 +78,7 @@ namespace Graph.Tests
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.NodeUpdateHandler(model, title, null, Answer.Yes));
             _sut.ShellVm.ComplyWithRequest(new UpdateNode() { Id = _saidNodeId }).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
         }
 
         [Then(@"Сохраняется название узла (.*)")]
@@ -92,7 +92,7 @@ namespace Graph.Tests
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.NodeUpdateHandler(model, null, comment, Answer.Yes));
             _sut.ShellVm.ComplyWithRequest(new UpdateNode() { Id = _saidNodeId }).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
         }
 
         [Then(@"Сохраняется комментарий узла (.*)")]
@@ -107,7 +107,7 @@ namespace Graph.Tests
             _cutOff = _sut.CurrentEventNumber;
             _sut.FakeWindowManager.RegisterHandler(model => _sut.NodeUpdateHandler(model, @"something", @"doesn't matter", Answer.Cancel));
             _sut.ShellVm.ComplyWithRequest(new UpdateNode() { Id = _saidNodeId }).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
         }
 
         [Then(@"Никаких команд не подается")]

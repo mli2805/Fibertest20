@@ -35,14 +35,13 @@ namespace Iit.Fibertest.Client
             rtuStateVm.FullPortCount = rtuLeaf.FullPortCount;
             rtuStateVm.OwnPortCount = rtuLeaf.OwnPortCount;
 
-
             rtuStateVm.MonitoringMode = rtuLeaf.MonitoringState.ToLocalizedString();
 
             var bopCount = 0;
             var hasBrokenBop = false;
             var traceCount = 0;
             rtuStateVm.Ports = PreparePortLines(rtuLeaf.ChildrenImpresario.Children, "", ref bopCount, ref hasBrokenBop, ref traceCount);
-            rtuStateVm.TracesState = GetTheWorstTraceState(rtuStateVm.Ports);
+          //  rtuStateVm.TracesState = GetTheWorstTraceState(rtuStateVm.Ports);
             rtuStateVm.TraceCount = traceCount;
             rtuStateVm.BopCount = bopCount;
             rtuStateVm.BopState = bopCount == 0

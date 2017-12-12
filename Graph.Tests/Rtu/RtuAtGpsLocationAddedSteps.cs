@@ -13,10 +13,10 @@ namespace Graph.Tests
         [When(@"Пользователь кликает добавить РТУ")]
         public void WhenUserClicksAddRtu()
         {
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
             _rtuCutOff = _sut.ReadModel.Rtus.Count;
             _sut.ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation()).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
         }
 
         [Then(@"Новый РТУ сохраняется")]

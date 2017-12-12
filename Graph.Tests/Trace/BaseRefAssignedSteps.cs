@@ -26,7 +26,7 @@ namespace Graph.Tests
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, _trace.Id, SystemUnderTest.Path, SystemUnderTest.Path, null, Answer.Yes));
             _sut.TraceLeafActions.AssignBaseRefs(_traceLeaf);
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
         }
 
         [Then(@"У трассы заданы точная и быстрая базовые")]
@@ -44,7 +44,7 @@ namespace Graph.Tests
 
             _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, _trace.Id, null, SystemUnderTest.Path2, null, Answer.Yes));
             _sut.TraceLeafActions.AssignBaseRefs(_traceLeaf);
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
         }
 
         [Then(@"У трассы старая точная и новая быстрая базовые")]
@@ -59,7 +59,7 @@ namespace Graph.Tests
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, _trace.Id, "",  null, SystemUnderTest.Path, Answer.Yes));
             _sut.TraceLeafActions.AssignBaseRefs(_traceLeaf);
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
         }
 
         [Then(@"У трассы не задана точная и старая быстрая и есть дополнительная базовые")]

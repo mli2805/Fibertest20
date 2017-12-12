@@ -37,17 +37,7 @@ namespace Iit.Fibertest.Client
 
             TraceStatisticsViewModel vm;
             if (LaunchedViews.TryGetValue(traceId, out vm))
-            {
                 vm.AddNewMeasurement(measurement);
-            }
-            else
-            {
-                vm = IoC.Get<TraceStatisticsViewModel>();
-                vm.Initialize(traceId);
-                _windowManager.ShowWindow(vm);
-
-                LaunchedViews.Add(traceId, vm);
-            }
         }
 
     }

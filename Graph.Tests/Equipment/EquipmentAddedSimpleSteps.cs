@@ -18,7 +18,7 @@ namespace Graph.Tests
         public void GivenСуществуетПустойУзел()
         {
             _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
             _nodeId = _sut.ReadModel.Nodes.Last().Id;
         }
 
@@ -26,7 +26,7 @@ namespace Graph.Tests
         public void GivenСуществуетНекоторыйУзелСОборудованием()
         {
             _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation()).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
             _nodeId = _sut.ReadModel.Nodes.Last().Id;
             _oldEquipmentId = _sut.ReadModel.Equipments.Last().Id;
         }
@@ -49,7 +49,7 @@ namespace Graph.Tests
         public void WhenПользовательКликаетДобавитьОборудование()
         {
             _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentIntoNode() { NodeId = _nodeId }).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
         }
 
         [Then(@"Создается оборудование в узле")]

@@ -123,7 +123,6 @@ namespace Iit.Fibertest.Client
                 UserName = vm.UserName;
                 var da = _iniFile.ReadDoubleAddress(11840);
                 _server = da.Main.GetAddress();
-//                StartPolling();
                 _clientPoller.LoadEventSourcingCache(_server);
                 _clientPoller.Start();
                 _clientHeartbeat.Start();
@@ -131,22 +130,6 @@ namespace Iit.Fibertest.Client
 
             else
                 TryClose();
-        }
-
-        private void StartPolling()
-        {
-            var pollingRateMs = _iniFile.Read(IniSection.General, IniKey.ClientPollingRateMs, 500);
-            var clientPoller = IoC.Get<ClientPoller>();
-
-            GC.KeepAlive(new DispatcherTimer(
-                TimeSpan.FromMilliseconds(pollingRateMs),
-                DispatcherPriority.Background,
-                (s, e) => clientPoller.EventSourcingTick(),
-                Dispatcher.CurrentDispatcher));
-
-
-            clientPoller.LoadEventSourcingCache(_server);
-            clientPoller.EventSourcingTick();
         }
 
         protected override void OnViewLoaded(object view)

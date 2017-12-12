@@ -20,14 +20,17 @@ namespace Iit.Fibertest.DataCenterCore
         private static readonly Guid AggregateId =
             new Guid("1C28CBB5-A9F5-4A5C-B7AF-3D188F8F24ED");
 
+        private readonly int _eventsPortion;
+
 
         private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
         {
             TypeNameHandling = TypeNameHandling.All
         };
 
-        public EventStoreService(IMyLog logFile, IEventStoreInitializer eventStoreInitializer, WriteModel writeModel, Aggregate aggregate)
+        public EventStoreService(IniFile iniFile, IMyLog logFile, IEventStoreInitializer eventStoreInitializer, WriteModel writeModel, Aggregate aggregate)
         {
+            _eventsPortion = iniFile.Read(IniSection.General, IniKey.EventSourcingPortion, 100);
             _logFile = logFile;
             _eventStoreInitializer = eventStoreInitializer;
             _writeModel = writeModel;
@@ -77,7 +80,7 @@ namespace Iit.Fibertest.DataCenterCore
                     .CommittedEvents
                     .Select(x => x.Body)
                     .Select(x => JsonConvert.SerializeObject(x, JsonSerializerSettings))
-                    .Take(200) // it depends on tcp buffer size
+                    .Take(_eventsPortion) // it depends on tcp buffer size and performance of clients' pc
                     .ToArray();
                 return events;
             }

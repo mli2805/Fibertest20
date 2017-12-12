@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using Caliburn.Micro;
@@ -36,7 +37,6 @@ namespace Iit.Fibertest.Client
         private readonly OpticalEventsViewModel _opticalEventsViewModel;
         private readonly NetworkEventsViewModel _networkEventsViewModel;
         private readonly IMyLog _logFile;
-        private readonly IniFile _iniFile;
         private readonly ILocalDbManager _localDbManager;
         private readonly int _pollingRate;
         public List<object> ReadModels { get; }
@@ -55,10 +55,9 @@ namespace Iit.Fibertest.Client
             _opticalEventsViewModel = opticalEventsViewModel;
             _networkEventsViewModel = networkEventsViewModel;
             _logFile = logFile;
-            _iniFile = iniFile;
             _localDbManager = localDbManager;
             ReadModels = readModels;
-            _pollingRate = _iniFile.Read(IniSection.General, IniKey.ClientPollingRateMs, 500);
+            _pollingRate = iniFile.Read(IniSection.General, IniKey.ClientPollingRateMs, 500);
         }
 
         public void LoadEventSourcingCache(string serverAddress)
@@ -75,20 +74,20 @@ namespace Iit.Fibertest.Client
         }
 
         // ReSharper disable once FunctionNeverReturns
-        private void Cycle()
+        private async void Cycle()
         {
             while (true)
             {
-                EventSourcingTick();
+                await EventSourcingTick();
                 OpticalEventsTick();
                 NetworkEventsTick();
                 Thread.Sleep(TimeSpan.FromMilliseconds(_pollingRate));
             }
         }
 
-        public async void EventSourcingTick()
+        public async Task EventSourcingTick()
         {
-            string[] events = await WcfConnection.GetEvents(CurrentEventNumber);// .Result;
+            string[] events = await WcfConnection.GetEvents(CurrentEventNumber);
             if (events == null)
             {
                 _logFile.AppendLine(@"Cannot establish datacenter connection.");
@@ -97,8 +96,8 @@ namespace Iit.Fibertest.Client
 
             if (events.Length > 0)
             {
-                _localDbManager.SaveEvents(events);
-                _dispatcherProvider.GetDispatcher().Invoke(() => ApplyEventSourcingEvents(events));
+                _localDbManager.SaveEvents(events); // sync
+                _dispatcherProvider.GetDispatcher().Invoke(() => ApplyEventSourcingEvents(events)); // sync
             }
         }
 

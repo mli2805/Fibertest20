@@ -25,13 +25,13 @@ namespace Iit.Fibertest.Client
             _opticalEventsViewModel = opticalEventsViewModel;
         }
 
-        public async Task<int> NotifyUsersRtuCurrentMonitoringStep(CurrentMonitoringStepDto dto)
+        public Task<int> NotifyUsersRtuCurrentMonitoringStep(CurrentMonitoringStepDto dto)
         {
             _rtuStateViewsManager.NotifyUserRtuCurrentMonitoringStep(dto);
-            return 0;
+            return Task.FromResult(0);
         }
 
-        public async Task<int> NotifyAboutMonitoringResult(Measurement measurement)
+        public Task<int> NotifyAboutMonitoringResult(Measurement measurement)
         {
             _treeOfRtuModel.Apply(measurement);
             _traceStateViewsManager.NotifyAboutMonitoringResult(measurement);
@@ -44,10 +44,10 @@ namespace Iit.Fibertest.Client
 //                _opticalEventsViewModel.Apply(measurement);
 //            }
 
-            return 0;
+            return Task.FromResult(0);
         }
 
-        public async Task<int> NotifyAboutRtuChangedAvailability(ListOfRtuWithChangedAvailabilityDto dto)
+        public Task<int> NotifyAboutRtuChangedAvailability(ListOfRtuWithChangedAvailabilityDto dto)
         {
             _treeOfRtuModel.Apply(dto);
             foreach (var rtuWithChannelChanges in dto.List)
@@ -55,7 +55,7 @@ namespace Iit.Fibertest.Client
                 var rtuLeaf = (RtuLeaf)_treeOfRtuModel.Tree.GetById(rtuWithChannelChanges.RtuId);
                 _rtuStateViewsManager.NotifyUserRtuAvailabilityChanged(rtuLeaf);
             }
-            return 0;
+            return Task.FromResult(0);
         }
 
     }

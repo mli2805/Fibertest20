@@ -24,7 +24,7 @@ namespace Graph.Tests
         public void GivenСуществуетRTUСОсновным_ИРезервным_Адресами(string p0, string p1)
         {
             _sut.ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation() { Latitude = 55, Longitude = 30 }).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
             var rtuId = _sut.ReadModel.Rtus.Last().Id;
             InitializeRtu cmd = new InitializeRtu()
             {
@@ -34,7 +34,7 @@ namespace Graph.Tests
                 ReserveChannel = new NetAddress(p1, TcpPorts.RtuListenTo)
             };
             _sut.ShellVm.C2DWcfManager.SendCommandAsObj(cmd).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
         }
 
         [Given(@"Создан РТУ даже с трассой")]
@@ -53,7 +53,7 @@ namespace Graph.Tests
             _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler(model, _rtuLeaf.Id, p0, "", Answer.Yes));
 
             _sut.RtuLeafActions.InitializeRtu(_rtuLeaf);
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
         }
 
         [When(@"Пользователь вводит основной (.*) и резервный (.*) адреса и жмет Инициализировать")]
@@ -65,7 +65,7 @@ namespace Graph.Tests
             _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler(model, _rtuLeaf.Id, p0, p1, Answer.Yes));
 
             _sut.RtuLeafActions.InitializeRtu(_rtuLeaf);
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
         }
 
         [Then(@"Сообщение об существовании RTU с таким адресом")]
@@ -88,7 +88,7 @@ namespace Graph.Tests
             _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler(model, _rtuLeaf.Id, "", "", Answer.Cancel));
 
             _sut.RtuLeafActions.InitializeRtu(_rtuLeaf);
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
         }
 
         [Then(@"RTU инициализирован только с основным адресом")]

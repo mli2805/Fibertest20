@@ -19,15 +19,15 @@ namespace Graph.Tests
         public void GivenСуществуетОтрезок()
         {
             _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
             var n1 = _sut.ReadModel.Nodes.Last().Id;
 
             _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
             var n2 = _sut.ReadModel.Nodes.Last().Id;
 
             _sut.ShellVm.ComplyWithRequest(new AddFiber() {Node1 = n1, Node2 = n2}).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
             _saidFiberId = _sut.ReadModel.Fibers.Last().Id;
 
             _cutOff = _sut.CurrentEventNumber;
@@ -38,7 +38,7 @@ namespace Graph.Tests
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.FiberUpdateHandler(model, Answer.Yes));
             _sut.ShellVm.ComplyWithRequest(new RequestUpdateFiber() {Id = _saidFiberId}).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
         }
 
         [When(@"Пользователь открыл форму редактирования и нажал отмена")]
@@ -46,13 +46,13 @@ namespace Graph.Tests
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.FiberUpdateHandler(model, Answer.Cancel));
             _sut.ShellVm.ComplyWithRequest(new RequestUpdateFiber() { Id = _saidFiberId }).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
         }
 
         [Then(@"Отрезок должен измениться")]
         public void ThenОтрезокДолженИзмениться()
         {
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
             _sut.CurrentEventNumber.Should().Be(_cutOff+1);
         }
 

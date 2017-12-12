@@ -52,7 +52,7 @@ namespace Iit.Fibertest.Client
         public TreeOfRtuModel(IMyWindowManager windowManager, ReadModel readModel,
             IWcfServiceForClient c2DWcfManager, IniFile iniFile35, IMyLog logFile,
             // only for pass to it's leaves
-            ILifetimeScope globalScope, PostOffice postOffice, FreePorts freePorts, 
+            ILifetimeScope globalScope, PostOffice postOffice, FreePorts freePorts,
             RtuLeafContextMenuProvider rtuLeafContextMenuProvider,
             TraceLeafContextMenuProvider traceLeafContextMenuProvider)
         {
@@ -170,7 +170,7 @@ namespace Iit.Fibertest.Client
             if (traceLeaf == null)
                 return;
 
-            traceLeaf.TraceState = measurement.TraceState != FiberState.Ok && measurement.BaseRefType == BaseRefType.Fast 
+            traceLeaf.TraceState = measurement.TraceState != FiberState.Ok && measurement.BaseRefType == BaseRefType.Fast
                 ? FiberState.Suspicion : measurement.TraceState;
         }
         #endregion
@@ -244,6 +244,9 @@ namespace Iit.Fibertest.Client
             var owner = Tree.GetById(traceLeaf.Parent.Id);
             RtuLeaf rtu = owner is RtuLeaf ? (RtuLeaf)owner : (RtuLeaf)(owner.Parent);
             int port = traceLeaf.PortNumber;
+            if (port == 0)
+                return; // some error
+
             var detachedTraceLeaf = new TraceLeaf(_readModel, _windowManager, _c2DWcfManager, PostOffice, rtu, _traceLeafContextMenuProvider)
             {
                 Id = traceLeaf.Id,
@@ -255,9 +258,9 @@ namespace Iit.Fibertest.Client
             };
 
             ((IPortOwner)owner).ChildrenImpresario.Children.RemoveAt(port - 1);
-            ((IPortOwner)owner).ChildrenImpresario.Children.
-                Insert(port - 1, new PortLeaf(_readModel, _windowManager, _c2DWcfManager, _iniFile35, _logFile, PostOffice, owner, port));
-
+            ((IPortOwner)owner).ChildrenImpresario.Children.Insert(port - 1,
+                new PortLeaf(_readModel, _windowManager, _c2DWcfManager, _iniFile35, _logFile, PostOffice, owner,
+                    port));
             rtu.ChildrenImpresario.Children.Add(detachedTraceLeaf);
         }
 
@@ -269,10 +272,10 @@ namespace Iit.Fibertest.Client
             var trace = _readModel.Traces.FirstOrDefault(t => t.Id == e.TraceId);
             if (trace == null) return;
             var traceLeaf = (TraceLeaf)Tree.GetById(e.TraceId);
-            traceLeaf.HasEnoughBaseRefsToPerformMonitoring 
+            traceLeaf.HasEnoughBaseRefsToPerformMonitoring
                 = trace.HasEnoughBaseRefsToPerformMonitoring;
             if (!traceLeaf.HasEnoughBaseRefsToPerformMonitoring)
-                traceLeaf.IsInMonitoringCycle =  false;
+                traceLeaf.IsInMonitoringCycle = false;
         }
 
         public void Apply(RtuInitialized e)

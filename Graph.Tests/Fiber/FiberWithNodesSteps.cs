@@ -23,10 +23,10 @@ namespace Graph.Tests
         public void GivenЛевыйИПравыйУзлыУжеСозданы()
         {
             _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
             _leftNodeId = _sut.ShellVm.ReadModel.Nodes.Last().Id;
             _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
             _rightNodeId = _sut.ShellVm.ReadModel.Nodes.Last().Id;
             _nodesCountCutOff = _sut.ShellVm.ReadModel.Nodes.Count;
             _fibersCountCutOff = _sut.ShellVm.ReadModel.Fibers.Count;
@@ -37,7 +37,7 @@ namespace Graph.Tests
         public void GivenМеждуЛевымИПравымУзломУжеДобавленОтрезок()
         {
             _sut.ShellVm.ComplyWithRequest(new AddFiber() {Node1 = _leftNodeId, Node2 = _rightNodeId}).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
             _fibersCountCutOff = _sut.ShellVm.ReadModel.Fibers.Count;
         }
 
@@ -53,7 +53,7 @@ namespace Graph.Tests
             var bluh = EquipmentType.Cross;
             _sut.FakeWindowManager.RegisterHandler(model => _sut.FiberWithNodesAdditionHandler(model, 0, bluh, Answer.Yes));
             _sut.ShellVm.ComplyWithRequest(new RequestAddFiberWithNodes() {Node1 = _leftNodeId, Node2 = _rightNodeId}).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
         }
 
         [When(@"Пользователь кликает добавить отрезок с (.*) пустыми узлами")]
@@ -61,7 +61,7 @@ namespace Graph.Tests
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.FiberWithNodesAdditionHandler(model, p0, EquipmentType.Well, Answer.Yes));
             _sut.ShellVm.ComplyWithRequest(new RequestAddFiberWithNodes() {Node1 = _leftNodeId, Node2 = _rightNodeId}).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
         }
 
         [When(@"Пользователь кликает добавить отрезок с (.*) узлами с муфтами")]
@@ -69,7 +69,7 @@ namespace Graph.Tests
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.FiberWithNodesAdditionHandler(model, p0, EquipmentType.Closure, Answer.Yes));
             _sut.ShellVm.ComplyWithRequest(new RequestAddFiberWithNodes() {Node1 = _leftNodeId, Node2 = _rightNodeId}).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
         }
 
 

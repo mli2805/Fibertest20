@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Media;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -34,7 +35,7 @@ namespace Iit.Fibertest.Client
         public string BopStateOnScreen => BopState.ToLocalizedString();
         public Brush BopStateBrush => BopState.GetBrush(true);
 
-        public FiberState TracesState { get; set; }
+        public FiberState TracesState => Ports.Max(p => p.TraceState);
         public string TracesStateOnScreen => TracesState.ToLocalizedString();
         public Brush TracesStateBrush => TracesState.GetBrush(true);
         public string MonitoringMode { get; set; }
@@ -50,7 +51,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public List<PortLineVm> Ports { get; set; }
+        public List<PortLineVm> Ports { get; set; } = new List<PortLineVm>();
 
         //------------------
         private string RtuAvailabilityToString()

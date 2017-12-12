@@ -30,7 +30,7 @@ namespace Graph.Tests
         public void WhenПользовательКликаетУдалитьЭтотRtu()
         {
             _sut.ShellVm.ComplyWithRequest(new RequestRemoveRtu() { NodeId = _sut.RtuANodeId }).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
         }
 
         [When(@"Пользователь кликает на RTU в дереве удалить")]
@@ -38,7 +38,7 @@ namespace Graph.Tests
         {
             var menuItemVm = _rtuLeaf.MyContextMenu.FirstOrDefault(i => i?.Header == Resources.SID_Remove);
             menuItemVm?.Command.Execute(_rtuLeaf);
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
         }
 
         [Then(@"РТУ удаляется")]

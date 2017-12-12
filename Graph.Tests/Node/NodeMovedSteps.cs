@@ -18,7 +18,7 @@ namespace Graph.Tests
         public void GivenNodeAdded()
         {
             _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
             _cutOff = _sut.CurrentEventNumber;
             _nodeId = _sut.ReadModel.Nodes.Last().Id;
         }
@@ -27,7 +27,7 @@ namespace Graph.Tests
         public void WhenUserMovedNode()
         {
             _sut.ShellVm.ComplyWithRequest(new MoveNode() {Id = _nodeId}).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
         }
 
         [Then(@"Новые координаты должны быть сохранены")]

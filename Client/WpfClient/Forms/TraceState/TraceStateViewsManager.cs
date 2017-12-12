@@ -21,44 +21,52 @@ namespace Iit.Fibertest.Client
             _windowManager = windowManager;
         }
 
-        // from TraceLeaf
+        // User clicked on TraceLeaf - State
         public async void ShowTraceState(Guid traceId)
         {
             var traceStateVm = await _traceStateVmFactory.Create(traceId);
-            Show(traceStateVm, true);
+            Show(traceStateVm, true, true);
         }
 
-        // from Accident happend
+        // MonitoringResult arrived by Wcf
         public void NotifyAboutMonitoringResult(Measurement measurement)
         {
+            var mustBeOpen = (measurement.EventStatus > EventStatus.JustMeasurementNotAnEvent);
+
             var traceStateVm = _traceStateVmFactory.CreateVm(measurement);
-            Show(traceStateVm, true);
+            Show(traceStateVm, true, mustBeOpen);
         }
 
-        // from TraceStatistics
+        // User clicked on line in TraceStatistics (maybe not on the last line - see parameter)
         public void ShowTraceState(Measurement measurement, bool isLastMeasurementOnThisTrace)
         {
             var traceStateVm = _traceStateVmFactory.CreateVm(measurement);
-
-            var vm = IoC.Get<TraceStateViewModel>();
-            vm.Initialize(traceStateVm, isLastMeasurementOnThisTrace);
-            _windowManager.ShowWindow(vm);
+            Show(traceStateVm, isLastMeasurementOnThisTrace, true);
         }
 
-        // from OpticalEvents
+        // User clicked on line in OpticalEvents (maybe last or not last line, and last event could be not last measurement for this trace) 
         public void ShowTraceState(OpticalEventVm opticalEventVm)
         {
             var traceStateVm = _traceStateVmFactory.CreateVm(opticalEventVm);
             var temp = true;
 
-            var vm = IoC.Get<TraceStateViewModel>();
-            vm.Initialize(traceStateVm, temp);
-            _windowManager.ShowWindow(vm);
+            Show(traceStateVm, temp, true);
         }
 
 
-        //---------------------------------------------------------------
-        private void Show(TraceStateVm traceStateVm, bool isLastMeasurementOnThisTrace)
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="traceStateVm"></param>
+        /// <param name="isLastMeasurementOnThisTrace"></param>
+        /// <param name="mustBeOpen"> 
+        /// false - it is monitoring result arrival (with no state changed) 
+        /// and new view shouldnt be shown open, 
+        /// but if for this trace last state view opened already - change timestamp
+        /// true - trace state changed - view should be open 
+        /// </param>
+        private void Show(TraceStateVm traceStateVm, bool isLastMeasurementOnThisTrace, bool mustBeOpen)
         {
             TraceStateViewModel vm;
 
@@ -73,6 +81,9 @@ namespace Iit.Fibertest.Client
                 vm = LaunchedViews.FirstOrDefault(v => v.Model.TraceId == traceStateVm.TraceId &&
                                                        (v.Model.SorFileId == traceStateVm.SorFileId));
             }
+
+            if (vm == null && !mustBeOpen)
+                return;
 
             if (vm != null)
             {

@@ -22,20 +22,20 @@ namespace Graph.Tests
         public void CreateRtu(string title)
         {
             _sut.ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation()).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
             _firstRtuId = _sut.ShellVm.ReadModel.Rtus.Last().Id;
             _firstNodeId = _sut.ShellVm.ReadModel.Nodes.Last().Id;
 
             _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuUpdateHandler(model, title, @"comment doesn't matter", Answer.Yes));
             _sut.ShellVm.ComplyWithRequest(new RequestUpdateRtu() { Id = _firstRtuId, NodeId = _firstNodeId }).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
         }
 
         [Given(@"Добавлен RTU")]
         public void CreateRtu()
         {
             _sut.ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation()).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
 
             _saidRtuId = _sut.ReadModel.Rtus.Last().Id;
             _saidNodeId = _sut.ReadModel.Nodes.Last().Id;
@@ -47,7 +47,7 @@ namespace Graph.Tests
             _cutOff = _sut.CurrentEventNumber;
             _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuUpdateHandler(model, null, null, Answer.Yes));
             _sut.ShellVm.ComplyWithRequest(new RequestUpdateRtu() { Id = _firstRtuId, NodeId = _firstNodeId }).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
         }
 
         [Then(@"Команд не подается")]
@@ -61,7 +61,7 @@ namespace Graph.Tests
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuUpdateHandler(model, title, null, Answer.Yes));
             _sut.ShellVm.ComplyWithRequest(new RequestUpdateRtu() { Id = _saidRtuId, NodeId = _saidNodeId }).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
         }
 
         [Given(@"Пользователь открыл окно нового RTU и ввел название существующего (.*)")]
@@ -77,7 +77,7 @@ namespace Graph.Tests
             _cutOff = _sut.CurrentEventNumber;
             _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuUpdateHandler(model, @"something", @"doesn't matter", Answer.Cancel));
             _sut.ShellVm.ComplyWithRequest(new RequestUpdateRtu() { Id = _saidRtuId, NodeId = _saidNodeId }).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
         }
 
         [Then(@"Сохраняется название RTU (.*)")]
@@ -91,7 +91,7 @@ namespace Graph.Tests
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuUpdateHandler(model, null, comment, Answer.Yes));
             _sut.ShellVm.ComplyWithRequest(new RequestUpdateRtu() { Id = _saidRtuId, NodeId = _saidNodeId }).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
         }
 
         [Then(@"Сохраняется комментарий RTU (.*)")]

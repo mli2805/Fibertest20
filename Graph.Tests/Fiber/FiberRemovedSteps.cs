@@ -19,13 +19,13 @@ namespace Graph.Tests
         public void GivenЕстьДваУзлаИОтрезокМеждуНими()
         {
             _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
             _leftNodeId = _sut.ReadModel.Nodes.Last().Id;
             _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
             _rightNodeId = _sut.ReadModel.Nodes.Last().Id;
             _sut.ShellVm.ComplyWithRequest(new AddFiber() {Node1 = _leftNodeId, Node2 = _rightNodeId}).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
             _fiberId = _sut.ReadModel.Fibers.Last().Id;
         }
 
@@ -33,7 +33,7 @@ namespace Graph.Tests
         public void WhenПользовательКликаетУдалитьОтрезок()
         {
             _sut.ShellVm.ComplyWithRequest(new RemoveFiber() {Id = _fiberId}).Wait();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
         }
 
         [Then(@"Отрезок удаляется")]

@@ -32,7 +32,7 @@ namespace Graph.Tests
         public void WhenПользовательЖметСохранить()
         {
             _viewModel.Save();
-            _sut.Poller.EventSourcingTick();
+            _sut.Poller.EventSourcingTick().Wait();
         }
 
         [When(@"Пользователь жмет Отмена")]

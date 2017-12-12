@@ -31,6 +31,8 @@
         ClientHeartbeatPermittedGap,
         RtuHeartbeatPermittedGap,
 
+        EventSourcingPortion,
+
         // Charon
         ConnectionTimeout,
         ReadTimeout,
