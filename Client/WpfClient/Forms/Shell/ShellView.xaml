@@ -50,7 +50,7 @@
                         </TabItem.Header>
                     </TabItem>
                 </TabControl>
-                <client:OpticalEventsView DataContext="{Binding OpticalEventsViewModel}" Visibility="{Binding OpticalEventsVisibility}"/>
+                <client:OpticalEventsDoubleView DataContext="{Binding OpticalEventsDoubleViewModel}" Visibility="{Binding OpticalEventsVisibility}"/>
                 <client:NetworkEventsView DataContext="{Binding NetworkEventsViewModel}" Visibility="{Binding NetworkEventsVisibility}"/>
                 <client:MapUserControl DataContext="{Binding GraphReadModel}" Visibility="{Binding MapVisibility}" Margin="3,0,3,3"/>
             </DockPanel>

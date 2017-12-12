@@ -95,7 +95,6 @@ namespace Iit.Fibertest.Client
                 return;
 
             traceLeaf.C2DWcfManager.SendCommandAsObj(new DetachTrace() { TraceId = traceLeaf.Id });
-
         }
 
         public void CleanTrace(object param)

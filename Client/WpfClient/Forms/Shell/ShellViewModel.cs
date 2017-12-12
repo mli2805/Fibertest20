@@ -47,6 +47,7 @@ namespace Iit.Fibertest.Client
         public TreeOfRtuViewModel TreeOfRtuViewModel { get; set; }
         public GraphReadModel GraphReadModel { get; set; }
         public OpticalEventsViewModel OpticalEventsViewModel { get; set; }
+        public OpticalEventsDoubleViewModel OpticalEventsDoubleViewModel { get; set; }
         public NetworkEventsViewModel NetworkEventsViewModel { get; set; }
 
         private bool? _isAuthenticationSuccessfull;
@@ -64,8 +65,11 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public ShellViewModel(ReadModel readModel, TreeOfRtuModel treeOfRtuModel, IWcfServiceForClient c2DWcfManager,
-                GraphReadModel graphReadModel, OpticalEventsViewModel opticalEventsViewModel, NetworkEventsViewModel networkEventsViewModel,
+        public ShellViewModel(ReadModel readModel, TreeOfRtuModel treeOfRtuModel, 
+            IWcfServiceForClient c2DWcfManager,
+                GraphReadModel graphReadModel, 
+                OpticalEventsViewModel opticalEventsViewModel, NetworkEventsViewModel networkEventsViewModel,
+                OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
                 IMyWindowManager windowManager, ClientHeartbeat clientHeartbeat, ClientPoller clientPoller,
                 IniFile iniFile, ILogger clientLogger, IMyLog logFile, IClientWcfServiceHost host)
         {
@@ -79,6 +83,7 @@ namespace Iit.Fibertest.Client
             OpticalEventsViewModel = opticalEventsViewModel;
             OpticalEventsViewModel.OpticalEventsVisibility = Visibility.Visible;
             NetworkEventsViewModel = networkEventsViewModel;
+            OpticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
             NetworkEventsViewModel.NetworkEventsVisibility = Visibility.Collapsed;
             _selectedTabIndex = 0;
             C2DWcfManager = c2DWcfManager;

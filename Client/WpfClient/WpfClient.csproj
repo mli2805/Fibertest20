@@ -218,6 +218,10 @@
     <Compile Include="Forms\Shell\NetworkEventsControl\NetworkEventsViewModel.cs" />
     <Compile Include="Forms\Shell\NetworkEventsControl\NetworkEventVm.cs" />
     <Compile Include="Forms\Shell\OpticalEventsControl\EventStatusFilter.cs" />
+    <Compile Include="Forms\Shell\OpticalEventsControl\OpticalEventsDoubleView.xaml.cs">
+      <DependentUpon>OpticalEventsDoubleView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Shell\OpticalEventsControl\OpticalEventsDoubleViewModel.cs" />
     <Compile Include="Forms\Shell\OpticalEventsControl\OpticalEventsView.xaml.cs">
       <DependentUpon>OpticalEventsView.xaml</DependentUpon>
     </Compile>
@@ -474,6 +478,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\Shell\NetworkEventsControl\NetworkEventsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\Shell\OpticalEventsControl\OpticalEventsDoubleView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
