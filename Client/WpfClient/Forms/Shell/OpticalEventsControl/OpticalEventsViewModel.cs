@@ -16,21 +16,9 @@ namespace Iit.Fibertest.Client
         private readonly ReadModel _readModel;
         private readonly ReflectogramManager _reflectogramManager;
         private readonly TraceStateViewsManager _traceStateViewsManager;
-        private Visibility _opticalEventsVisibility;
         private TraceStateFilter _selectedTraceStateFilter;
         private EventStatusFilter _selectedEventStatusFilter;
         private OpticalEventVm _selectedRow;
-
-        public Visibility OpticalEventsVisibility
-        {
-            get { return _opticalEventsVisibility; }
-            set
-            {
-                if (value == _opticalEventsVisibility) return;
-                _opticalEventsVisibility = value;
-                NotifyOfPropertyChange();
-            }
-        }
 
         public ObservableCollection<OpticalEventVm> Rows { get; set; } = new ObservableCollection<OpticalEventVm>();
 

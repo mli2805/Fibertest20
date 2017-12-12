@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:client="clr-namespace:Iit.Fibertest.Client"
-             mc:Ignorable="d" >
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance client:OpticalEventsDoubleViewModel}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="500*"/>
@@ -12,9 +12,9 @@
             <RowDefinition Height="500*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <client:OpticalEventsView DataContext="{Binding OpticalEventsViewModel}" Visibility="{Binding OpticalEventsVisibility}"/>
+        <client:OpticalEventsView DataContext="{Binding ActualOpticalEventsViewModel}"/>
         <GridSplitter Grid.Row="1" Height="4" HorizontalAlignment="Stretch" />
-        <client:OpticalEventsView Grid.Row="2" DataContext="{Binding OpticalEventsViewModel}" Visibility="{Binding OpticalEventsVisibility}"/>
+        <client:OpticalEventsView Grid.Row="2" DataContext="{Binding AllOpticalEventsViewModel}"/>
         <StatusBar Grid.Row="3" Height="28" BorderBrush="DarkGray" BorderThickness="0,1,0,0">
             <StatusBarItem>
                 <TextBlock Text="This is status bar for event table" Margin="5,0,20,0"/>

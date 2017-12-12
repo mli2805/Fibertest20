@@ -46,7 +46,6 @@ namespace Iit.Fibertest.Client
         public TreeOfRtuModel TreeOfRtuModel { get; }
         public TreeOfRtuViewModel TreeOfRtuViewModel { get; set; }
         public GraphReadModel GraphReadModel { get; set; }
-        public OpticalEventsViewModel OpticalEventsViewModel { get; set; }
         public OpticalEventsDoubleViewModel OpticalEventsDoubleViewModel { get; set; }
         public NetworkEventsViewModel NetworkEventsViewModel { get; set; }
 
@@ -68,7 +67,7 @@ namespace Iit.Fibertest.Client
         public ShellViewModel(ReadModel readModel, TreeOfRtuModel treeOfRtuModel, 
             IWcfServiceForClient c2DWcfManager,
                 GraphReadModel graphReadModel, 
-                OpticalEventsViewModel opticalEventsViewModel, NetworkEventsViewModel networkEventsViewModel,
+                NetworkEventsViewModel networkEventsViewModel,
                 OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
                 IMyWindowManager windowManager, ClientHeartbeat clientHeartbeat, ClientPoller clientPoller,
                 IniFile iniFile, ILogger clientLogger, IMyLog logFile, IClientWcfServiceHost host)
@@ -80,10 +79,9 @@ namespace Iit.Fibertest.Client
             TreeOfRtuViewModel = new TreeOfRtuViewModel(treeOfRtuModel);
             GraphReadModel = graphReadModel;
             GraphReadModel.MapVisibility = Visibility.Collapsed;
-            OpticalEventsViewModel = opticalEventsViewModel;
-            OpticalEventsViewModel.OpticalEventsVisibility = Visibility.Visible;
-            NetworkEventsViewModel = networkEventsViewModel;
             OpticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
+            OpticalEventsDoubleViewModel.OpticalEventsVisibility = Visibility.Visible;
+            NetworkEventsViewModel = networkEventsViewModel;
             NetworkEventsViewModel.NetworkEventsVisibility = Visibility.Collapsed;
             _selectedTabIndex = 0;
             C2DWcfManager = c2DWcfManager;
@@ -156,17 +154,17 @@ namespace Iit.Fibertest.Client
             switch (_selectedTabIndex)
             {
                 case 0:
-                    OpticalEventsViewModel.OpticalEventsVisibility = Visibility.Visible;
+                    OpticalEventsDoubleViewModel.OpticalEventsVisibility = Visibility.Visible;
                     NetworkEventsViewModel.NetworkEventsVisibility = Visibility.Collapsed;
                     GraphReadModel.MapVisibility = Visibility.Collapsed;
                     break;
                 case 1:
-                    OpticalEventsViewModel.OpticalEventsVisibility = Visibility.Collapsed;
+                    OpticalEventsDoubleViewModel.OpticalEventsVisibility = Visibility.Collapsed;
                     NetworkEventsViewModel.NetworkEventsVisibility = Visibility.Visible;
                     GraphReadModel.MapVisibility = Visibility.Collapsed;
                     break;
                 case 2:
-                    OpticalEventsViewModel.OpticalEventsVisibility = Visibility.Collapsed;
+                    OpticalEventsDoubleViewModel.OpticalEventsVisibility = Visibility.Collapsed;
                     NetworkEventsViewModel.NetworkEventsVisibility = Visibility.Collapsed;
                     GraphReadModel.MapVisibility = Visibility.Visible;
                     break;

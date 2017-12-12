@@ -34,7 +34,7 @@ namespace Iit.Fibertest.Client
             };
         public IWcfServiceForClient WcfConnection;
         private readonly IDispatcherProvider _dispatcherProvider;
-        private readonly OpticalEventsViewModel _opticalEventsViewModel;
+        private readonly OpticalEventsDoubleViewModel _opticalEventsDoubleViewModel;
         private readonly NetworkEventsViewModel _networkEventsViewModel;
         private readonly IMyLog _logFile;
         private readonly ILocalDbManager _localDbManager;
@@ -47,12 +47,12 @@ namespace Iit.Fibertest.Client
         public int LastNetworkEventNumber { get; set; }
 
         public ClientPoller(IWcfServiceForClient wcfConnection, List<object> readModels, IDispatcherProvider dispatcherProvider,
-            OpticalEventsViewModel opticalEventsViewModel, NetworkEventsViewModel networkEventsViewModel,
+            OpticalEventsDoubleViewModel opticalEventsDoubleViewModel, NetworkEventsViewModel networkEventsViewModel,
             IMyLog logFile, IniFile iniFile, ILocalDbManager localDbManager)
         {
             WcfConnection = wcfConnection;
             _dispatcherProvider = dispatcherProvider;
-            _opticalEventsViewModel = opticalEventsViewModel;
+            _opticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
             _networkEventsViewModel = networkEventsViewModel;
             _logFile = logFile;
             _localDbManager = localDbManager;
@@ -167,7 +167,7 @@ namespace Iit.Fibertest.Client
             LastOpticalEventNumber = list.Measurements.Last().Id;
             foreach (var opticalEvent in list.Measurements)
             {
-                _opticalEventsViewModel.Apply(opticalEvent);
+                _opticalEventsDoubleViewModel.Apply(opticalEvent);
             }
         }
     }

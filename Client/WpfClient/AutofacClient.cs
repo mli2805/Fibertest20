@@ -22,7 +22,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<ReflectogramManager>().SingleInstance();
             builder.RegisterType<TraceStateViewsManager>().SingleInstance();
 
-            builder.RegisterType<OpticalEventsViewModel>().SingleInstance();
+            builder.RegisterType<OpticalEventsViewModel>();
             builder.RegisterType<OpticalEventsDoubleViewModel>().SingleInstance();
             builder.RegisterType<NetworkEventsViewModel>().SingleInstance();
 
@@ -93,7 +93,7 @@ namespace Iit.Fibertest.Client
                         ioc.Resolve<GraphReadModel>(),
                     },
                     ioc.Resolve<IDispatcherProvider>(),
-                    ioc.Resolve<OpticalEventsViewModel>(),
+                    ioc.Resolve<OpticalEventsDoubleViewModel>(),
                     ioc.Resolve<NetworkEventsViewModel>(),
                     logFile,
                     iniFile,
