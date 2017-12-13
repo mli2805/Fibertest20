@@ -2088,7 +2088,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Measurement interrupted.
+        ///   Looks up a localized string similar to No measurement.
         /// </summary>
         public static string SID_Measurement_interrupted {
             get {
@@ -2318,6 +2318,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_No_Fiber_ {
             get {
                 return ResourceManager.GetString("SID_No_Fiber_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No measurement.
+        /// </summary>
+        public static string SID_No_measurement {
+            get {
+                return ResourceManager.GetString("SID_No_measurement", resourceCulture);
             }
         }
         

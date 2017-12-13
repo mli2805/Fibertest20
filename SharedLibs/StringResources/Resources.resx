@@ -1463,4 +1463,7 @@ RTU is initializing right now!</value>
 	<data name="SID__not_attached_" xml:space="preserve">
     <value>&lt;not attached&gt;</value>
   </data>
+	<data name="SID_No_measurement" xml:space="preserve">
+    <value>No measurement</value>
+  </data>
 </root>

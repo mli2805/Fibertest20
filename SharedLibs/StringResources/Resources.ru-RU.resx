@@ -1463,4 +1463,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID__not_attached_" xml:space="preserve">
 		<value>&lt;не подключена&gt;</value>
 	</data>
+	<data name="SID_No_measurement" xml:space="preserve">
+		<value>Нет измерения</value>
+	</data>
 </root>
