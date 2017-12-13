@@ -149,19 +149,6 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public static ImageSource GetPictogram(this MonitoringState state)
-        {
-            switch (state)
-            {
-                case MonitoringState.Off:
-                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
-                case MonitoringState.On:
-                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/BlueSquare.png"));
-                default:
-                    return null;
-            }
-        }
-
         public static string ToLocalizedString(this RtuPartState state)
         {
             switch (state)

@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using Autofac;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
@@ -69,7 +71,7 @@ namespace Iit.Fibertest.Client
         public bool IsAvailable => MainChannelState == RtuPartState.Normal ||
                                    ReserveChannelState == RtuPartState.Normal;
 
-        public ImageSource MonitoringPictogram => MonitoringState.GetPictogram();
+        public ImageSource MonitoringPictogram => GetPictogram();
         public ImageSource BopPictogram => BopState.GetPictogram();
         public ImageSource MainChannelPictogram => MainChannelState.GetPictogram();
         public ImageSource ReserveChannelPictogram => ReserveChannelState.GetPictogram();
@@ -101,7 +103,7 @@ namespace Iit.Fibertest.Client
             return null;
         }
 
-        public RtuLeaf(ILifetimeScope globalScope, ReadModel readModel, IMyWindowManager windowManager, 
+        public RtuLeaf(ILifetimeScope globalScope, ReadModel readModel, IMyWindowManager windowManager,
             IWcfServiceForClient c2DWcfManager, RtuLeafContextMenuProvider rtuLeafContextMenuProvider,
             PostOffice postOffice, FreePorts view)
             : base(readModel, windowManager, c2DWcfManager, postOffice)
@@ -112,11 +114,27 @@ namespace Iit.Fibertest.Client
 
             Title = Resources.SID_noname_RTU;
             Color = Brushes.DarkGray;
+            MonitoringState = MonitoringState.Unknown;
             IsExpanded = true;
         }
         protected override List<MenuItemVm> GetMenuItems()
         {
             return _rtuLeafContextMenuProvider.GetMenu(this);
+        }
+
+        private ImageSource GetPictogram()
+        {
+            switch (MonitoringState)
+            {
+                case MonitoringState.Unknown:
+                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
+                case MonitoringState.Off:
+                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreySquare.png"));
+                case MonitoringState.On:
+                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/BlueSquare.png"));
+                default:
+                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
+            }
         }
     }
 }
