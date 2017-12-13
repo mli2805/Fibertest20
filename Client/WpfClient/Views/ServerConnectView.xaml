@@ -6,10 +6,16 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         mc:Ignorable="d"
-        SizeToContent="Height" ResizeMode="NoResize" WindowStartupLocation="CenterOwner"
-        d:DataContext="{d:DesignInstance client:ServerConnectViewModel}" Width="340">
-    <StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="5" >
+        ResizeMode="NoResize" WindowStartupLocation="CenterOwner" SizeToContent="Height"
+        d:DataContext="{d:DesignInstance client:ServerConnectViewModel}" Width="340" >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="5" >
             <Grid Width="70">
                 <Image Source="../Resources/Ico/IIT.ico" Width="32"/>
             </Grid>
@@ -18,13 +24,17 @@
                 <TextBlock FontWeight="Bold" Text="{x:Static stringResources:Resources.SID_DataCenter_Server}"/>
             </StackPanel>
         </StackPanel>
-        <Border BorderThickness="0,2,0,0" BorderBrush="LightGray" Margin="5,0">
+        <Border Grid.Row="1" BorderThickness="0,2,0,0" BorderBrush="LightGray" Margin="5,0">
             <client:NetAddressTestView DataContext="{Binding ServerConnectionTestViewModel}" Margin="15,10,15,0"/>
         </Border>
-        <TextBlock Text="{Binding Message}" TextWrapping="Wrap" Background="AliceBlue" Margin="10,10,10,5" HorizontalAlignment="Center" Padding="15,0"/>
-        <StackPanel Orientation="Horizontal" Margin="10,5,5,10">
+        <Border Grid.Row="2">
+            <TextBlock Grid.Row="2" Text="{Binding Message}" TextWrapping="Wrap" Background="AliceBlue" 
+                   Margin="10,10,10,5" HorizontalAlignment="Center" Padding="15,5"
+                   VerticalAlignment="Center"/>
+        </Border>
+        <StackPanel Grid.Row="3"  Orientation="Horizontal" Margin="10,5,5,10">
             <Button Name="Save" Content="{x:Static stringResources:Resources.SID_Save}" Width="80" Margin="5"/>
             <Button Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}" IsCancel="True" Width="80" Margin="5"/>
         </StackPanel>
-    </StackPanel>
+    </Grid>
 </Window>
