@@ -18,7 +18,7 @@ namespace DirectRtuClient
     {
         private readonly IniFile _iniFile35;
         private readonly IMyLog _rtuLogger;
-        private readonly string _appDir;
+    //    private readonly string _appDir;
         public string IpAddress { get; set; }
 
         public OtdrManager OtdrManager { get; set; }
@@ -128,9 +128,9 @@ namespace DirectRtuClient
             _rtuLogger = rtuLogger;
             IpAddress = ipAddress;
 
-            var appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            _appDir = Path.GetDirectoryName(appPath);
-            rtuLogger.AppendLine(_appDir);
+//            var appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+//            _appDir = Path.GetDirectoryName(appPath);
+//            rtuLogger.AppendLine(_appDir);
 
             BaseFileName = @"..\out\base3ev.sor";
             MeasFileName = @"..\out\123.sor";
@@ -222,7 +222,7 @@ namespace DirectRtuClient
             var fd = new OpenFileDialog();
             fd.Filter = @"Sor files (*.sor)|*.sor";
             //            fd.InitialDirectory = @"c:\temp\";
-            fd.InitialDirectory = Path.GetFullPath(Path.Combine(_appDir + "\\", @"..\out\"));
+            fd.InitialDirectory = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\out\"));
             if (fd.ShowDialog() == true)
                 BaseFileName = fd.FileName;
         }
@@ -232,7 +232,7 @@ namespace DirectRtuClient
             var fd = new OpenFileDialog();
             fd.Filter = @"Sor files (*.sor)|*.sor";
             //            fd.InitialDirectory = @"c:\temp\";
-            fd.InitialDirectory = Path.GetFullPath(Path.Combine(_appDir + "\\", @"..\out\"));
+            fd.InitialDirectory = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\out\"));
             if (fd.ShowDialog() == true)
                 ResultFileName = fd.FileName;
         }
@@ -242,7 +242,7 @@ namespace DirectRtuClient
             var fd = new SaveFileDialog();
             fd.Filter = @"Sor files (*.sor)|*.sor";
             //            fd.InitialDirectory = @"c:\temp\";
-            fd.InitialDirectory = Path.GetFullPath(Path.Combine(_appDir + "\\", @"..\out\"));
+            fd.InitialDirectory = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\out\"));
             if (fd.ShowDialog() == true)
                 MeasFileName = fd.FileName;
         }

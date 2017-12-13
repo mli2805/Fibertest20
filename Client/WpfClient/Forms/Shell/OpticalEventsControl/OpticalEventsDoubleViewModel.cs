@@ -25,9 +25,9 @@ namespace Iit.Fibertest.Client
             OpticalEventsViewModel actualOpticalEventsViewModel)
         {
             ActualOpticalEventsViewModel = actualOpticalEventsViewModel;
-            ActualOpticalEventsViewModel.TableTitle = "Actual optical events";
+            ActualOpticalEventsViewModel.TableTitle = @"Actual optical events";
             AllOpticalEventsViewModel = allOpticalEventsViewModel;
-            AllOpticalEventsViewModel.TableTitle = "All optical events";
+            AllOpticalEventsViewModel.TableTitle = @"All optical events";
         }
 
         public void Apply(Measurement measurement)

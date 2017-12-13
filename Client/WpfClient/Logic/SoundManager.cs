@@ -22,8 +22,7 @@ namespace Iit.Fibertest.Client
         private void InitializeAlertPlayer()
         {
             _alertPlayer = new MediaPlayer();
-            var folder = AppDomain.CurrentDomain.BaseDirectory;
-            var alertUri = new Uri(folder + @"\Resources\Sounds\Accident.mp3");
+            var alertUri = new Uri(AppDomain.CurrentDomain.BaseDirectory + @"Resources\Sounds\Accident.mp3");
             _alertPlayer.Open(alertUri);
             _alertTimer = new DispatcherTimer(TimeSpan.FromSeconds(14.2),
                 DispatcherPriority.Background, (s, e) => PlayAlert(), Dispatcher.CurrentDispatcher);
@@ -34,8 +33,7 @@ namespace Iit.Fibertest.Client
         private void InitializeOkPlayer()
         {
             _okPlayer = new MediaPlayer();
-            var folder = AppDomain.CurrentDomain.BaseDirectory;
-            var alertUri = new Uri(folder + @"\Resources\Sounds\Ok.mp3");
+            var alertUri = new Uri(AppDomain.CurrentDomain.BaseDirectory + @"\Resources\Sounds\Ok.mp3");
             _okPlayer.Open(alertUri);
         }
 

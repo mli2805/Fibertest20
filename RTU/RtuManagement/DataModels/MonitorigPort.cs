@@ -90,9 +90,10 @@ namespace Iit.Fibertest.RtuManagement
 
         public byte[] GetBaseBytes(BaseRefType baseRefType, IMyLog rtuLog)
         {
-            var appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            var appDir = Path.GetDirectoryName(appPath);
-            var basefile = appDir + $@"\..\PortData\{GetFolderName()}\{baseRefType.ToBaseFileName()}";
+//            var appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+//            var appDir = Path.GetDirectoryName(appPath);
+//            var basefile = appDir + $@"\..\PortData\{GetFolderName()}\{baseRefType.ToBaseFileName()}";
+            var basefile = AppDomain.CurrentDomain.BaseDirectory + $@"..\PortData\{GetFolderName()}\{baseRefType.ToBaseFileName()}";
             if (File.Exists(basefile))
                 return File.ReadAllBytes(basefile);
             rtuLog.AppendLine($"Can't find {basefile}");
@@ -101,9 +102,10 @@ namespace Iit.Fibertest.RtuManagement
 
         public void SaveMeasBytes(BaseRefType baseRefType, byte[] bytes)
         {
-            var appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            var appDir = Path.GetDirectoryName(appPath);
-            var measfile = appDir + $@"\..\PortData\{GetFolderName()}\{baseRefType.ToMeasFileName()}";
+//            var appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+//            var appDir = Path.GetDirectoryName(appPath);
+//            var measfile = appDir + $@"\..\PortData\{GetFolderName()}\{baseRefType.ToMeasFileName()}";
+            var measfile = AppDomain.CurrentDomain.BaseDirectory + $@"..\PortData\{GetFolderName()}\{baseRefType.ToMeasFileName()}";
             File.WriteAllBytes(measfile, bytes);
         }
     }

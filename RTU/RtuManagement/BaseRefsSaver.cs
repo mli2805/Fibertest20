@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 
@@ -47,7 +48,8 @@ namespace Iit.Fibertest.RtuManagement
 
         private string GetAbsolutePortFolder(OtauPortDto otauPortDto)
         {
-            var fullFolderName = Path.Combine(_appDir, @"..\PortData\", GetPortFolder(otauPortDto));
+//            var fullFolderName = Path.Combine(_appDir, @"..\PortData\", GetPortFolder(otauPortDto));
+            var fullFolderName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\PortData\", GetPortFolder(otauPortDto));
             if (!Directory.Exists(fullFolderName))
                 Directory.CreateDirectory(fullFolderName);
 

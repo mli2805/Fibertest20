@@ -20,7 +20,7 @@ namespace Iit.Fibertest.Client
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly IMyWindowManager _windowManager;
 
-        private readonly string _assemblyFolder;
+//        private readonly string _assemblyFolder;
         private string _tempSorFile;
 
         public ReflectogramManager(IniFile iniFile, IMyLog logFile, IWcfServiceForClient c2DWcfManager, IMyWindowManager windowManager)
@@ -30,7 +30,7 @@ namespace Iit.Fibertest.Client
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
 
-            _assemblyFolder = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) ?? @"c:\";
+//            _assemblyFolder = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) ?? @"c:\";
             SetTempSorFileName();
         }
 
@@ -165,7 +165,7 @@ namespace Iit.Fibertest.Client
 
         private void SetTempSorFileName()
         {
-            var tempFolder = Path.Combine(_assemblyFolder, @"..\Temp\");
+            var tempFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\Temp\");
             if (!Directory.Exists(tempFolder))
                 Directory.CreateDirectory(tempFolder);
             _tempSorFile = Path.Combine(tempFolder, @"meas.sor");
@@ -174,7 +174,7 @@ namespace Iit.Fibertest.Client
         private void OpenSorInReflect(string sorFilename)
         {
             Process process = new Process();
-            process.StartInfo.FileName = Path.Combine(_assemblyFolder, @"..\..\RFTSReflect\reflect.exe");
+            process.StartInfo.FileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\RFTSReflect\reflect.exe");
             process.StartInfo.Arguments = '"' + sorFilename + '"';
             process.Start();
         }
