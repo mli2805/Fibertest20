@@ -24,14 +24,18 @@ namespace Iit.Fibertest.Client
         public OpticalEventsDoubleViewModel(OpticalEventsViewModel allOpticalEventsViewModel,
             OpticalEventsViewModel actualOpticalEventsViewModel)
         {
-            AllOpticalEventsViewModel = allOpticalEventsViewModel;
             ActualOpticalEventsViewModel = actualOpticalEventsViewModel;
+            ActualOpticalEventsViewModel.TableTitle = "Actual optical events";
+            AllOpticalEventsViewModel = allOpticalEventsViewModel;
+            AllOpticalEventsViewModel.TableTitle = "All optical events";
         }
 
         public void Apply(Measurement measurement)
         {
-            AllOpticalEventsViewModel.Apply(measurement);
-            ActualOpticalEventsViewModel.Apply(measurement);
+            AllOpticalEventsViewModel.AddEvent(measurement);
+
+            ActualOpticalEventsViewModel.RemoveOldEventForTraceIfExists(measurement.TraceId);
+            ActualOpticalEventsViewModel.AddEvent(measurement);
         }
     }
 }

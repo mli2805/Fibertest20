@@ -20,6 +20,7 @@ namespace Iit.Fibertest.Client
         private EventStatusFilter _selectedEventStatusFilter;
         private OpticalEventVm _selectedRow;
 
+        public string TableTitle { get; set; }
         public ObservableCollection<OpticalEventVm> Rows { get; set; } = new ObservableCollection<OpticalEventVm>();
 
         public OpticalEventVm SelectedRow
@@ -111,7 +112,7 @@ namespace Iit.Fibertest.Client
                 SelectedEventStatusFilter.EventStatus == opticalEventVm.EventStatus);
         }
 
-        public void Apply(Measurement measurement)
+        public void AddEvent(Measurement measurement)
         {
             Rows.Add(new OpticalEventVm()
             {
@@ -122,7 +123,7 @@ namespace Iit.Fibertest.Client
                 TraceId = measurement.TraceId,
                 TraceTitle = _readModel.Traces.FirstOrDefault(t => t.Id == measurement.TraceId)?.Title,
                 BaseRefType = measurement.BaseRefType,
-               
+
                 TraceState = measurement.TraceState,
 
                 EventStatus = measurement.EventStatus,
@@ -136,7 +137,14 @@ namespace Iit.Fibertest.Client
             });
         }
 
-       public void ShowReflectogram(int param)
+        public void RemoveOldEventForTraceIfExists(Guid traceId)
+        {
+            var oldEvent = Rows.FirstOrDefault(l => l.TraceId == traceId);
+            if (oldEvent != null)
+                Rows.Remove(oldEvent);
+        }
+
+        public void ShowReflectogram(int param)
         {
             if (param == 2)
                 _reflectogramManager.ShowRefWithBase(SelectedRow.SorFileId);

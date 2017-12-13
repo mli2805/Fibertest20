@@ -41,7 +41,7 @@ namespace Iit.Fibertest.Client
             //TODO - polling or reacting ?
 //            if (measurement.EventStatus > EventStatus.JustMeasurementNotAnEvent)
 //            {
-//                _opticalEventsViewModel.Apply(measurement);
+//                _opticalEventsViewModel.AddEvent(measurement);
 //            }
 
             return Task.FromResult(0);
