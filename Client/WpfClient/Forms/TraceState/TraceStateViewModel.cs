@@ -11,7 +11,8 @@ namespace Iit.Fibertest.Client
     {
         private readonly ReflectogramManager _reflectogramManager;
         private readonly SoundManager _soundManager;
-        private bool _isMySoundOn;
+        private bool _isSoundForThisVmInstanceOn;
+        private bool _isUserAskedToOpenView;
         public TraceStateVm Model { get; set; }
         public bool IsLastStateForThisTrace { get; set; }
 
@@ -24,10 +25,11 @@ namespace Iit.Fibertest.Client
             _soundManager = soundManager;
         }
 
-        public void Initialize(TraceStateVm model, bool isLastStateForThisTrace)
+        public void Initialize(TraceStateVm model, bool isLastStateForThisTrace, bool isUserAskedToOpenView)
         {
             Model = model;
             IsLastStateForThisTrace = isLastStateForThisTrace;
+            _isUserAskedToOpenView = isUserAskedToOpenView;
             if (Model.EventStatus != EventStatus.NotAnAccident)
                 InitializeEventStatusCombobox();
         }
@@ -36,8 +38,19 @@ namespace Iit.Fibertest.Client
         {
             DisplayName = Resources.SID_Trace_state;
 
-            _isMySoundOn = true;
-            _soundManager.StartAlert();
+            if (!_isUserAskedToOpenView)
+                return;
+
+            if (Model.TraceState != FiberState.Ok)
+            {
+                _isSoundForThisVmInstanceOn = true;
+                _soundManager.StartAlert();
+                Model.IsSoundButtonEnabled = true;
+            }
+            else
+            {
+                _soundManager.PlayOk();
+            }
         }
 
         private void InitializeEventStatusCombobox()
@@ -51,21 +64,22 @@ namespace Iit.Fibertest.Client
                 new EventStatusComboItem() {EventStatus = EventStatus.Unprocessed}
             };
 
-            SelectedEventStatus = StatusRows.FirstOrDefault(r=>r.EventStatus == Model.EventStatus);
+            SelectedEventStatus = StatusRows.FirstOrDefault(r => r.EventStatus == Model.EventStatus);
         }
 
 
         //----
-        public void TurnSound()
+        public void TurnSoundOff()
         {
-            if (_isMySoundOn)
+            if (_isSoundForThisVmInstanceOn)
                 _soundManager.StopAlert();
-            _isMySoundOn = false;
+            _isSoundForThisVmInstanceOn = false;
+            Model.IsSoundButtonEnabled = false;
         }
 
         public override void CanClose(Action<bool> callback)
         {
-            if (_isMySoundOn)
+            if (_isSoundForThisVmInstanceOn)
                 _soundManager.StopAlert();
             callback(true);
         }

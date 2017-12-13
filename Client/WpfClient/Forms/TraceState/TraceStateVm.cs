@@ -2,12 +2,13 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
+using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
-    public class TraceStateVm
+    public class TraceStateVm : PropertyChangedBase
     {
         public Guid TraceId { get; set; }
         public string TraceTitle { get; set; }
@@ -42,8 +43,18 @@ namespace Iit.Fibertest.Client
         public Visibility AccidentsPanelVisibility
             => TraceState == FiberState.Ok ? Visibility.Collapsed : Visibility.Visible;
 
-        public bool IsAccidentButtonsEnabled => TraceState != FiberState.Ok;
+        public bool IsAccidentPlaceButtonEnabled => TraceState != FiberState.Ok;
 
-
+        private bool _isSoundButtonEnabled;
+        public bool IsSoundButtonEnabled
+        {
+            get { return _isSoundButtonEnabled; }
+            set
+            {
+                if (value == _isSoundButtonEnabled) return;
+                _isSoundButtonEnabled = value;
+                NotifyOfPropertyChange();
+            }
+        }
     }
 }

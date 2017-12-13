@@ -62,7 +62,7 @@ namespace Iit.Fibertest.Client
             vm.EventStatus = opticalEventVm.EventStatus;
             vm.OpticalEventComment = opticalEventVm.Comment;
 
-            return vm;
+           return vm;
 
         }
 
@@ -80,7 +80,6 @@ namespace Iit.Fibertest.Client
         }
 
         private  async Task<Measurement> GetLastTraceMeasurement(Guid traceId)
-//        private Measurement GetLastTraceMeasurement(Guid traceId)
         {
             var measurement = await _c2DWcfManager.GetLastMeasurementForTrace(traceId);
             if (measurement == null)

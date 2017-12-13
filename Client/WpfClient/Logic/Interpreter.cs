@@ -17,38 +17,6 @@ namespace Iit.Fibertest.Client
             return new BitmapImage(new Uri(path));
         }
 
-        public static Brush GetBrush(this FiberState state, bool isForeground)
-        {
-            switch (state)
-            {
-                case FiberState.NotInTrace:
-                    return Brushes.Aqua;
-                case FiberState.NotJoined:
-                case FiberState.DistanceMeasurement:
-                    return Brushes.Blue;
-
-                case FiberState.Unknown:
-                case FiberState.Ok:
-                    return isForeground ? Brushes.Black : Brushes.Transparent;
-                case FiberState.Suspicion:
-                    return Brushes.Yellow;
-                case FiberState.Minor:
-                    return Brushes.LightPink;
-                case FiberState.Major:
-                    return Brushes.HotPink;
-                case FiberState.User:
-                    return Brushes.Green;
-                case FiberState.Critical:
-                case FiberState.FiberBreak:
-                case FiberState.NoFiber:
-                    return Brushes.Red;
-                case FiberState.HighLighted:
-                    return Brushes.Lime;
-                default:
-                    return Brushes.Black;
-            }
-        }
-
         public static string ToLocalizedString(this FiberState state)
         {
             switch (state)
@@ -81,6 +49,38 @@ namespace Iit.Fibertest.Client
                     return Resources.SID_Highlighted;
                 default:
                     return Resources.SID_Ok;
+            }
+        }
+
+        public static Brush GetBrush(this FiberState state, bool isForeground)
+        {
+            switch (state)
+            {
+                case FiberState.NotInTrace:
+                    return Brushes.Aqua;
+                case FiberState.NotJoined:
+                case FiberState.DistanceMeasurement:
+                    return Brushes.Blue;
+
+                case FiberState.Unknown:
+                case FiberState.Ok:
+                    return isForeground ? Brushes.Black : Brushes.Transparent;
+                case FiberState.Suspicion:
+                    return Brushes.Yellow;
+                case FiberState.Minor:
+                    return Brushes.LightPink;
+                case FiberState.Major:
+                    return Brushes.HotPink;
+                case FiberState.User:
+                    return Brushes.Green;
+                case FiberState.Critical:
+                case FiberState.FiberBreak:
+                case FiberState.NoFiber:
+                    return Brushes.Red;
+                case FiberState.HighLighted:
+                    return Brushes.Lime;
+                default:
+                    return Brushes.Black;
             }
         }
 

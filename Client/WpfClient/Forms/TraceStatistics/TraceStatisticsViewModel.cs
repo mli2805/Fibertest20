@@ -127,7 +127,7 @@ namespace Iit.Fibertest.Client
 
         public void ShowTraceState()
         {                 
-            var lastRow = Rows.First(); // click on the Row , so Row couldn't be null
+            var lastRow = Rows.First(); // click on the Row , so Rows collection couldn't be empty
             _traceStateViewsManager.ShowTraceState(SelectedRow.Measurement, lastRow.Measurement.Id == SelectedRow.Measurement.Id);
         }
      

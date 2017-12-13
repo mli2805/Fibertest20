@@ -18,7 +18,7 @@
             <GroupBox DockPanel.Dock="Right" Margin="5,14,5,5">
                 <StackPanel>
                     <Button Name="ShowAccidentPlace" Content="{x:Static stringResources:Resources.SID_Accidents_place}" Width="120" Height="25" Margin="5,10,5,5"
-                            IsEnabled="{Binding Model.IsAccidentButtonsEnabled}"/>
+                            IsEnabled="{Binding Model.IsAccidentPlaceButtonEnabled}"/>
                     <Button Name="ShowReflectogram" Content="{x:Static stringResources:Resources.SID_Reflectogram}" Width="120" Height="25" Margin="5"/>
                     <Button Name="ShowRftsEvents" Content="{x:Static stringResources:Resources.SID_Rfts_Events}" Width="120" Height="25" Margin="5"/>
                     <Button Name="ShowTraceStatistics" Content="{x:Static stringResources:Resources.SID_Statistics}" Width="120" Height="25" Margin="5"/>
@@ -59,7 +59,7 @@
                             </EventTrigger>
                         </TextBlock.Triggers>
                     </TextBlock>
-                    <Button Name="TurnSoundOff" Content="Turn alarm off" Margin="25,5" Height="25" IsEnabled="{Binding Model.IsAccidentButtonsEnabled}"/>
+                    <Button Name="TurnSoundOff" Content="Turn alarm off" Margin="25,5" Height="25" IsEnabled="{Binding Model.IsSoundButtonEnabled}"/>
                 </StackPanel>
             </GroupBox>
         </DockPanel>

@@ -6,23 +6,38 @@ namespace Iit.Fibertest.Client
 {
     public class SoundManager
     {
-        private MediaPlayer AlertPlayer;
-        private DispatcherTimer AlertTimer;
+        private MediaPlayer _alertPlayer;
+        private DispatcherTimer _alertTimer;
+
+        private MediaPlayer _okPlayer;
 
         private int _alertCounter;
 
         public SoundManager()
         {
-            AlertPlayer = new MediaPlayer();
+            InitializeAlertPlayer();
+            InitializeOkPlayer();
+        }
+
+        private void InitializeAlertPlayer()
+        {
+            _alertPlayer = new MediaPlayer();
             var folder = AppDomain.CurrentDomain.BaseDirectory;
             var alertUri = new Uri(folder + @"\Resources\Sounds\Accident.mp3");
-            AlertPlayer.Open(alertUri);
-            AlertTimer = new DispatcherTimer(TimeSpan.FromSeconds(15),
+            _alertPlayer.Open(alertUri);
+            _alertTimer = new DispatcherTimer(TimeSpan.FromSeconds(14.2),
                 DispatcherPriority.Background, (s, e) => PlayAlert(), Dispatcher.CurrentDispatcher);
-            AlertTimer.IsEnabled = false;
+            _alertTimer.IsEnabled = false;
             _alertCounter = 0;
         }
 
+        private void InitializeOkPlayer()
+        {
+            _okPlayer = new MediaPlayer();
+            var folder = AppDomain.CurrentDomain.BaseDirectory;
+            var alertUri = new Uri(folder + @"\Resources\Sounds\Ok.mp3");
+            _okPlayer.Open(alertUri);
+        }
 
 
         public void StartAlert()
@@ -31,7 +46,7 @@ namespace Iit.Fibertest.Client
             if (_alertCounter == 1)
             {
                 PlayAlert();
-                AlertTimer.IsEnabled = true;
+                _alertTimer.IsEnabled = true;
             }
         }
 
@@ -40,15 +55,21 @@ namespace Iit.Fibertest.Client
             _alertCounter--;
             if (_alertCounter == 0)
             {
-                AlertTimer.IsEnabled = false;
-                AlertPlayer.Stop();
+                _alertTimer.IsEnabled = false;
+                _alertPlayer.Stop();
             }
         }
 
         private void PlayAlert()
         {
-            AlertPlayer.Position = TimeSpan.Zero;
-            AlertPlayer.Play();
+            _alertPlayer.Position = TimeSpan.Zero;
+            _alertPlayer.Play();
+        }
+
+        public void PlayOk()
+        {
+            _okPlayer.Position = TimeSpan.Zero;
+            _okPlayer.Play();
         }
     }
 }
