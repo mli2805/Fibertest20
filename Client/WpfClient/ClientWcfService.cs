@@ -53,7 +53,8 @@ namespace Iit.Fibertest.Client
             foreach (var rtuWithChannelChanges in dto.List)
             {
                 var rtuLeaf = (RtuLeaf)_treeOfRtuModel.Tree.GetById(rtuWithChannelChanges.RtuId);
-                _rtuStateViewsManager.NotifyUserRtuAvailabilityChanged(rtuLeaf);
+                if (rtuLeaf != null)
+                    _rtuStateViewsManager.NotifyUserRtuAvailabilityChanged(rtuLeaf);
             }
             return Task.FromResult(0);
         }
