@@ -28,7 +28,7 @@
             <client:NetAddressTestView DataContext="{Binding ServerConnectionTestViewModel}" Margin="15,10,15,0"/>
         </Border>
         <Border Grid.Row="2">
-            <TextBlock Grid.Row="2" Text="{Binding Message}" TextWrapping="Wrap" Background="AliceBlue" 
+            <TextBlock Text="{Binding Message}" TextWrapping="Wrap" Background="AliceBlue" 
                    Margin="10,10,10,5" HorizontalAlignment="Center" Padding="15,5"
                    VerticalAlignment="Center"/>
         </Border>

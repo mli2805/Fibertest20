@@ -10,14 +10,14 @@ namespace Iit.Fibertest.RtuManagement
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
 
-        private readonly string _appDir;
+//        private readonly string _appDir;
 
         public BaseRefsSaver(IniFile iniFile, IMyLog logFile)
         {
             _iniFile = iniFile;
             _logFile = logFile;
 
-            _appDir = TryGetAppFolder() ?? @"c:\";
+//            _appDir = TryGetAppFolder() ?? @"c:\";
         }
 
         public ReturnCode SaveBaseRefs(AssignBaseRefsDto dto)
@@ -64,11 +64,11 @@ namespace Iit.Fibertest.RtuManagement
                 : $@"{otauPortDto.OtauIp}t{otauPortDto.OtauTcpPort}p{otauPortDto.OpticalPort}\";
         }
 
-        private string TryGetAppFolder()
-        {
-            var appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            return Path.GetDirectoryName(appPath);
-        }
+//        private string TryGetAppFolder()
+//        {
+//            var appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+//            return Path.GetDirectoryName(appPath);
+//        }
 
     }
 }

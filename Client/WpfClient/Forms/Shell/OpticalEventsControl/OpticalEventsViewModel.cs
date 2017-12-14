@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
-using System.Windows;
 using System.Windows.Data;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -16,6 +15,8 @@ namespace Iit.Fibertest.Client
         private readonly ReadModel _readModel;
         private readonly ReflectogramManager _reflectogramManager;
         private readonly TraceStateViewsManager _traceStateViewsManager;
+        private readonly RtuFilterViewModel _rtuFilterViewModel;
+        private readonly IMyWindowManager _windowManager;
         private TraceStateFilter _selectedTraceStateFilter;
         private EventStatusFilter _selectedEventStatusFilter;
         private OpticalEventVm _selectedRow;
@@ -48,6 +49,21 @@ namespace Iit.Fibertest.Client
             }
         }
 
+
+        private RtuGuidFilter _selectedRtuFilter;
+        public RtuGuidFilter SelectedRtuFilter
+        {
+            get { return _selectedRtuFilter; }
+            set
+            {
+                if (Equals(value, _selectedRtuFilter)) return;
+                _selectedRtuFilter = value;
+                var view = CollectionViewSource.GetDefaultView(Rows);
+                view.Refresh();
+            }
+        }
+
+
         public List<EventStatusFilter> EventStatusFilters { get; set; }
 
         public EventStatusFilter SelectedEventStatusFilter
@@ -64,13 +80,17 @@ namespace Iit.Fibertest.Client
 
 
         public OpticalEventsViewModel(ReadModel readModel,
-            ReflectogramManager reflectogramManager, TraceStateViewsManager traceStateViewsManager)
+            ReflectogramManager reflectogramManager, TraceStateViewsManager traceStateViewsManager,
+            RtuFilterViewModel rtuFilterViewModel, IMyWindowManager windowManager)
         {
             _readModel = readModel;
             _reflectogramManager = reflectogramManager;
             _traceStateViewsManager = traceStateViewsManager;
+            _rtuFilterViewModel = rtuFilterViewModel;
+            _windowManager = windowManager;
 
             InitializeTraceStateFilters();
+            SelectedRtuFilter = new RtuGuidFilter();
             InitializeEventStatusFilters();
 
             var view = CollectionViewSource.GetDefaultView(Rows);
@@ -109,7 +129,9 @@ namespace Iit.Fibertest.Client
             return (SelectedTraceStateFilter.IsOn == false ||
                 SelectedTraceStateFilter.TraceState == opticalEventVm.TraceState) &&
                     (SelectedEventStatusFilter.IsOn == false ||
-                SelectedEventStatusFilter.EventStatus == opticalEventVm.EventStatus);
+                SelectedEventStatusFilter.EventStatus == opticalEventVm.EventStatus) &&
+                    (SelectedRtuFilter.IsOn == false ||
+                SelectedRtuFilter.RtuId == opticalEventVm.RtuId);
         }
 
         public void AddEvent(Measurement measurement)
@@ -119,6 +141,7 @@ namespace Iit.Fibertest.Client
                 Nomer = measurement.Id,
                 MeasurementTimestamp = measurement.MeasurementTimestamp,
                 EventRegistrationTimestamp = measurement.EventRegistrationTimestamp,
+                RtuId = measurement.RtuId,
                 RtuTitle = _readModel.Rtus.FirstOrDefault(r => r.Id == measurement.RtuId)?.Title,
                 TraceId = measurement.TraceId,
                 TraceTitle = _readModel.Traces.FirstOrDefault(t => t.Id == measurement.TraceId)?.Title,
@@ -168,5 +191,14 @@ namespace Iit.Fibertest.Client
         {
             _traceStateViewsManager.ShowTraceState(SelectedRow);
         }
+
+        public void ShowRtuFilter()
+        {
+            _rtuFilterViewModel.Initialize();
+            var modalResult = _windowManager.ShowDialog(_rtuFilterViewModel);
+            if (modalResult == true)
+                SelectedRtuFilter = _rtuFilterViewModel.SelectedRow;
+        }
+      
     }
 }

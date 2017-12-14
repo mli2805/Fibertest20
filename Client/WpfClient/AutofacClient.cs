@@ -65,6 +65,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<TraceLeafContextMenuProvider>().SingleInstance();
 
             builder.RegisterType<SoundManager>().SingleInstance();
+            builder.RegisterType<RtuFilterViewModel>().SingleInstance();
 
             builder.RegisterType<RtuStateVmFactory>().SingleInstance();
             builder.RegisterType<RtuStateViewsManager>().SingleInstance();
