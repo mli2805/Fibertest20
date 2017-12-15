@@ -10,6 +10,7 @@ namespace Iit.Fibertest.Client
         public DateTime MeasurementTimestamp { get; set; }
         public DateTime EventRegistrationTimestamp { get; set; }
         public string RtuTitle { get; set; }
+        public Guid RtuId { get; set; }
 
         public Guid TraceId { get; set; }
         public string TraceTitle { get; set; }

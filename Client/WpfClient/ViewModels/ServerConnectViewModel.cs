@@ -12,6 +12,7 @@ namespace Iit.Fibertest.Client
         private readonly IniFile _clientIni;
         private string _message;
         private DoubleAddress _dcServiceAddresses;
+        private string _clientAddress;
         public NetAddressTestViewModel ServerConnectionTestViewModel { get; set; }
 
         public string Message
@@ -32,7 +33,7 @@ namespace Iit.Fibertest.Client
 
             var localScope = globalScope.BeginLifetimeScope(
                 ctx => ctx.RegisterInstance(
-                    new NetAddressForConnectionTest((NetAddress) _dcServiceAddresses.Main.Clone(), false)));
+                    new NetAddressForConnectionTest((NetAddress)_dcServiceAddresses.Main.Clone(), false)));
             ServerConnectionTestViewModel = localScope.Resolve<NetAddressTestViewModel>();
             ServerConnectionTestViewModel.PropertyChanged += ServerConnectionTestViewModel_PropertyChanged;
         }
@@ -41,10 +42,16 @@ namespace Iit.Fibertest.Client
         {
             if (e.PropertyName == "Result")
             {
-                Message = ServerConnectionTestViewModel.Result == null 
-                    ? Resources.SID_Establishing_connection___ 
-                    : ServerConnectionTestViewModel.Result == true 
-                        ? Resources.SID_Connection_established_successfully_ 
+                if (ServerConnectionTestViewModel.Result == true)
+                {
+                    var serverAddress = ServerConnectionTestViewModel.NetAddressInputViewModel.GetNetAddress().Ip4Address;
+                    _clientAddress = LocalAddressResearcher.GetLocalAddressToConnectServer(serverAddress);
+                    Message = Resources.SID_Connection_established_successfully_
+                        + System.Environment.NewLine + string.Format(Resources.SID___Client_s_address__0_, _clientAddress);
+                }
+                else
+                    Message = ServerConnectionTestViewModel.Result == null
+                        ? Resources.SID_Establishing_connection___
                         : Resources.SID_Cant_establish_connection_;
             }
         }
@@ -59,6 +66,9 @@ namespace Iit.Fibertest.Client
         {
             _dcServiceAddresses.Main = (NetAddress)ServerConnectionTestViewModel.NetAddressInputViewModel.GetNetAddress().Clone();
             _clientIni.WriteServerAddresses(_dcServiceAddresses);
+
+            var clientAddress = new NetAddress(_clientAddress, TcpPorts.ClientListenTo);
+            _clientIni.Write(clientAddress, IniSection.ClientLocalAddress);
 
             _dcServiceAddresses = _clientIni.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
             IoC.Get<C2DWcfManager>().SetServerAddresses(_dcServiceAddresses);
