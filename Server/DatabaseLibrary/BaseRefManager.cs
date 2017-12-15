@@ -61,15 +61,15 @@ namespace Iit.Fibertest.DatabaseLibrary
 
         private static BaseRef PrepareNewRecordFromDto(MySqlContext dbContext, AssignBaseRefsDto dto, BaseRefDto baseRef)
         {
-            var userId = 0;
+            var userName = "";
             var clientStation = dbContext.ClientStations.FirstOrDefault(s => s.ClientGuid == dto.ClientId);
             if (clientStation != null)
-                userId = clientStation.UserId;
+                userName = clientStation.UserName;
             var newBaseRef = new BaseRef()
             {
                 BaseRefId = baseRef.Id,
                 TraceId = dto.TraceId,
-                UserId = userId,
+                UserName = userName,
                 BaseRefType = baseRef.BaseRefType,
                 SaveTimestamp = DateTime.Now,
                 SorBytes = baseRef.SorBytes,

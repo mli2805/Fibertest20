@@ -71,6 +71,8 @@ namespace Iit.Fibertest.Client
             TracesState = Ports.Max(p => p.TraceState);
         }
 
+        public bool IsSoundButtonEnabled { get; set; }
+
         //------------------
         private string RtuAvailabilityToString()
         {

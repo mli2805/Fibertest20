@@ -68,7 +68,7 @@ namespace Iit.Fibertest.DatabaseLibrary
                     {
                         BaseRefType = baseRef.BaseRefType,
                         AssignedAt = baseRef.SaveTimestamp,
-                        AssignedBy = baseRef.UserId.ToString(),
+                        AssignedBy = baseRef.UserName,
                         BaseRefId = baseRef.BaseRefId,
                     });
                 }
@@ -136,7 +136,8 @@ namespace Iit.Fibertest.DatabaseLibrary
                 return null;
             }
         }
-         public async Task<Measurement> GetLastMeasurementForTraceAsync(Guid traceId)
+
+        public async Task<Measurement> GetLastMeasurementForTraceAsync(Guid traceId)
         {
             try
             {
@@ -152,6 +153,49 @@ namespace Iit.Fibertest.DatabaseLibrary
                 return null;
             }
         }
-       
+
+        public async Task<MeasurementUpdatedDto> SaveMeasurementChangesAsync(UpdateMeasurementDto dto)
+        {
+            try
+            {
+                using (var dbContext = new MySqlContext())
+                {
+                    var measurement = await dbContext.Measurements.FirstOrDefaultAsync(m => m.SorFileId == dto.SorFileId);
+                    if (measurement == null)
+                    {
+                        return new MeasurementUpdatedDto() { ReturnCode = ReturnCode.DbEntityToUpdateNotFound };
+                    }
+
+                    var clientStation = await dbContext.ClientStations.FirstOrDefaultAsync(s => s.ClientGuid == dto.ClientId);
+                    if (clientStation == null)
+                    {
+                        return new MeasurementUpdatedDto() {ReturnCode = ReturnCode.DbError};
+                    }
+
+                    var userName = clientStation.UserName;
+
+                    if (measurement.EventStatus != dto.EventStatus)
+                    {
+                        measurement.EventStatus = dto.EventStatus;
+                        measurement.StatusChangedByUser = userName;
+                        measurement.StatusChangedTimestamp = DateTime.Now;
+                    }
+                    measurement.Comment = dto.Comment;
+                    await dbContext.SaveChangesAsync();
+
+                    return new MeasurementUpdatedDto()
+                    {
+                        ReturnCode = ReturnCode.Ok, SorFileId = dto.SorFileId, StatusChangedTimestamp = measurement.StatusChangedTimestamp
+                    };
+                }
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("SaveMeasurementChangesAsync: " + e.Message);
+                return null;
+            }
+        }
+
+
     }
 }

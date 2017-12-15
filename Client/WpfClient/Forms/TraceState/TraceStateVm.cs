@@ -29,9 +29,8 @@ namespace Iit.Fibertest.Client
             ? FiberState.Suspicion.ToLocalizedString()
             : TraceState.ToLocalizedString();
 
-        public int OpticalEventId { get; set; }
         public EventStatus EventStatus { get; set; } = EventStatus.NotAnAccident;
-        public string OpticalEventComment { get; set; }
+        public string Comment { get; set; }
 
         public DateTime MeasurementTimestamp { get; set; }
         public int SorFileId { get; set; }

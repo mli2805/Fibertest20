@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
@@ -7,7 +8,15 @@ namespace Iit.Fibertest.Client
 {
     public class RtuStateViewModel : Screen
     {
+        private readonly SoundManager _soundManager;
+        private bool _isSoundForThisVmInstanceOn;
+
         public RtuStateVm Model { get; set; }
+
+        public RtuStateViewModel(SoundManager soundManager)
+        {
+            _soundManager = soundManager;
+        }
 
         public void Initialize(RtuStateVm model)
         {
@@ -74,6 +83,20 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        public void TurnSoundOff()
+        {
+            if (_isSoundForThisVmInstanceOn)
+                _soundManager.StopAlert();
+            _isSoundForThisVmInstanceOn = false;
+            Model.IsSoundButtonEnabled = false;
+        }
+
+        public override void CanClose(Action<bool> callback)
+        {
+            if (_isSoundForThisVmInstanceOn)
+                _soundManager.StopAlert();
+            callback(true);
+        }
         public void Close()
         {
             TryClose();

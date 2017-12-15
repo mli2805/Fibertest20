@@ -42,7 +42,7 @@ namespace Iit.Fibertest.Client
             vm.SorFileId = measurement.SorFileId;
 
             vm.EventStatus = measurement.EventStatus;
-            vm.OpticalEventComment = measurement.Comment;
+            vm.Comment = measurement.Comment;
 
             return vm;
         }
@@ -58,9 +58,8 @@ namespace Iit.Fibertest.Client
             vm.MeasurementTimestamp = opticalEventVm.MeasurementTimestamp;
             vm.SorFileId = opticalEventVm.SorFileId;
 
-            vm.OpticalEventId = opticalEventVm.Nomer;
             vm.EventStatus = opticalEventVm.EventStatus;
-            vm.OpticalEventComment = opticalEventVm.Comment;
+            vm.Comment = opticalEventVm.Comment;
 
            return vm;
 

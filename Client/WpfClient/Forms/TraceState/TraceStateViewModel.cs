@@ -4,13 +4,17 @@ using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
 {
     public class TraceStateViewModel : Screen
     {
+        private readonly IMyLog _logFile;
         private readonly ReflectogramManager _reflectogramManager;
         private readonly SoundManager _soundManager;
+        private readonly IWcfServiceForClient _c2DWcfManager;
         private bool _isSoundForThisVmInstanceOn;
         private bool _isUserAskedToOpenView;
         public TraceStateVm Model { get; set; }
@@ -19,10 +23,13 @@ namespace Iit.Fibertest.Client
         public List<EventStatusComboItem> StatusRows { get; set; }
         public EventStatusComboItem SelectedEventStatus { get; set; }
 
-        public TraceStateViewModel(ReflectogramManager reflectogramManager, SoundManager soundManager)
+        public TraceStateViewModel(IMyLog logFile, ReflectogramManager reflectogramManager, 
+            SoundManager soundManager, IWcfServiceForClient c2DWcfManager)
         {
+            _logFile = logFile;
             _reflectogramManager = reflectogramManager;
             _soundManager = soundManager;
+            _c2DWcfManager = c2DWcfManager;
         }
 
         public void Initialize(TraceStateVm model, bool isLastStateForThisTrace, bool isUserAskedToOpenView)
@@ -90,5 +97,24 @@ namespace Iit.Fibertest.Client
         public void ShowTraceStatistics() { }
         public void ExportToKml() { }
         public void ShowReport() { }
+
+        public async void SaveMeasurementChanges()
+        {
+            var dto = new UpdateMeasurementDto()
+            {
+                SorFileId = Model.SorFileId,
+                EventStatus = SelectedEventStatus.EventStatus,
+                Comment = Model.Comment,
+            };
+
+            var result = await _c2DWcfManager.SaveMeasurementChanges(dto);
+            if (result.ReturnCode != ReturnCode.Ok)
+            {
+                _logFile.AppendLine(@"Cannot update measurement!");
+            }
+            TryClose();
+        }
+
+        public void Cancel() { TryClose(); }
     }
 }

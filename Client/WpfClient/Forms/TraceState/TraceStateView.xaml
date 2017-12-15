@@ -79,17 +79,19 @@
                 <TextBlock Text="GPS coordinates:" Margin="5"/>
             </DockPanel>
         </GroupBox>
-        <GroupBox Header="{x:Static stringResources:Resources.SID_Optical_event}" Margin="5" Visibility="{Binding Model.OpticalEventPanelVisibility}">
-            <StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{x:Static stringResources:Resources.SID_Status}" Margin="10,5" Width="80"/>
-                    <ComboBox Margin="5" Width="200" ItemsSource="{Binding StatusRows}" SelectedItem="{Binding SelectedEventStatus}"/>
-                </StackPanel>
-                <DockPanel>
-                    <TextBlock Text="{x:Static stringResources:Resources.SID_Comment}" Margin="10,5" Width="80"/>
-                    <TextBox Margin="5" TextWrapping="Wrap" Height="40"/>
-                </DockPanel>
+        <Border Visibility="{Binding Model.OpticalEventPanelVisibility}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{x:Static stringResources:Resources.SID_Status_of_optical_event}" Margin="10,5"/>
+                <ComboBox Margin="5" Width="200" ItemsSource="{Binding StatusRows}" SelectedItem="{Binding SelectedEventStatus, Mode=TwoWay}"/>
             </StackPanel>
-        </GroupBox>
+        </Border>
+        <DockPanel>
+            <TextBlock Text="{x:Static stringResources:Resources.SID_Comment}" Margin="10,5"/>
+            <TextBox Margin="10" TextWrapping="Wrap" Height="40" Text="{Binding Model.Comment}"/>
+        </DockPanel>
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <Button Name="SaveMeasurementChanges" Content="Save" Width="100" Margin="5"/>
+            <Button Name="Cancel" Content="Cancel" Width="100" Margin="10,5,5,5"/>
+        </StackPanel>
     </StackPanel>
 </Window>

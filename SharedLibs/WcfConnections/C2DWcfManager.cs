@@ -192,6 +192,24 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
+        public async Task<MeasurementUpdatedDto> SaveMeasurementChanges(UpdateMeasurementDto dto)
+        {
+            var wcfConnection = _wcfFactory.CreateC2DConnection();
+            if (wcfConnection == null)
+                return null;
+
+            try
+            {
+                dto.ClientId = _clientId;
+                return await wcfConnection.SaveMeasurementChanges(dto);
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+                return null;
+            }
+        }
+
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();

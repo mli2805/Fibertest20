@@ -3557,6 +3557,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Status of optical event.
+        /// </summary>
+        public static string SID_Status_of_optical_event {
+            get {
+                return ResourceManager.GetString("SID_Status_of_optical_event", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Stop command is sent.
         /// </summary>
         public static string SID_Stop_command_is_sent {

@@ -126,6 +126,7 @@ namespace Iit.Fibertest.DatabaseLibrary
                 if (station != null)
                 {
                     station.UserId = user.Id;
+                    station.UserName = dto.UserName;
                     station.LastConnectionTimestamp = DateTime.Now;
                     await dbContext.SaveChangesAsync();
                     _logFile.AppendLine($"Station {dto.ClientId.First6()} was registered already. Re-registered.");
@@ -135,6 +136,7 @@ namespace Iit.Fibertest.DatabaseLibrary
                     station = new ClientStation()
                     {
                         UserId = user.Id,
+                        UserName = dto.UserName,
                         ClientGuid = dto.ClientId,
                         ClientAddress = dto.Addresses.Main.GetAddress(),
                         ClientAddressPort = dto.Addresses.Main.Port,

@@ -22,11 +22,6 @@ namespace Graph.Tests
             return Task.FromResult(new string[0]);
         }
 
-//        string[] IWcfServiceForClient.GetEvents(int revision)
-//        {
-//            return new string[0];
-//        }
-
         public Task<MeasurementsList> GetOpticalEvents(int revision)
         {
             throw new NotImplementedException();
@@ -58,6 +53,11 @@ namespace Graph.Tests
         }
 
         public Task<Measurement> GetLastMeasurementForTrace(Guid traceId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<MeasurementUpdatedDto> SaveMeasurementChanges(UpdateMeasurementDto dto)
         {
             throw new NotImplementedException();
         }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Client
@@ -27,7 +28,7 @@ namespace Iit.Fibertest.Client
                 LaunchedViews.Remove(rtuId);
             }
 
-            vm = new RtuStateViewModel();
+            vm = IoC.Get<RtuStateViewModel>();
             vm.Initialize(_rtuStateVmFactory.Create(rtuLeaf));
             _windowManager.ShowWindow(vm);
 

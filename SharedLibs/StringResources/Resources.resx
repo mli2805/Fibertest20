@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
 	<!-- 
     Microsoft ResX Schema 
@@ -1468,5 +1468,8 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID___Client_s_address__0_" xml:space="preserve">
     <value>  Client's address {0}</value>
+  </data>
+	<data name="SID_Status_of_optical_event" xml:space="preserve">
+    <value>Status of optical event</value>
   </data>
 </root>

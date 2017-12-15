@@ -16,7 +16,6 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
 
         [OperationContract]
         Task<string[]> GetEvents(int revision);
-//        string[] GetEvents(int revision);
 
         // C2Database
         [OperationContract]
@@ -39,6 +38,9 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
 
         [OperationContract]
         Task<Measurement> GetLastMeasurementForTrace(Guid traceId);
+
+        [OperationContract]
+        Task<MeasurementUpdatedDto> SaveMeasurementChanges(UpdateMeasurementDto dto);
 
         // C2D
         [OperationContract]

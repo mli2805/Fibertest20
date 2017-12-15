@@ -112,6 +112,11 @@ namespace Iit.Fibertest.DataCenterCore
             return await _dbRequestManager.GetLastMeasurementForTraceAsync(traceId);
         }
 
+        public async Task<MeasurementUpdatedDto> SaveMeasurementChanges(UpdateMeasurementDto dto)
+        {
+            return await _dbRequestManager.SaveMeasurementChangesAsync(dto);
+        }
+
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {
             return await _clientRegistrationManager.RegisterClientAsync(dto);

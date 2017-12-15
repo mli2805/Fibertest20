@@ -8,7 +8,7 @@ namespace Iit.Fibertest.Dto
         public Guid BaseRefId { get; set; }
         public Guid TraceId { get; set; }
         public BaseRefType BaseRefType { get; set; }
-        public int UserId { get; set; }
+        public string UserName { get; set; }
         public DateTime SaveTimestamp { get; set; }
         public byte[] SorBytes { get; set; }
     }

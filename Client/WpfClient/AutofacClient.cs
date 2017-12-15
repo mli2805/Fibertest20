@@ -26,6 +26,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<OpticalEventsDoubleViewModel>().SingleInstance();
             builder.RegisterType<NetworkEventsViewModel>().SingleInstance();
 
+            builder.RegisterType<RtuStateViewModel>();
             builder.RegisterType<TraceStateViewModel>();
             builder.RegisterType<TraceStatisticsViewModel>();
 
