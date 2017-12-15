@@ -19,5 +19,6 @@ namespace Iit.Fibertest.Graph
         public string Version { get; set; }
 
         public List<AttachOtau> Otaus { get; set; } = new List<AttachOtau>();
+        public bool IsMonitoringOn { get; set; }
     }
 }

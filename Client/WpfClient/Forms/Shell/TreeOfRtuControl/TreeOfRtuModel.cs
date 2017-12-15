@@ -314,6 +314,8 @@ namespace Iit.Fibertest.Client
             {
                 //TODO discuss and implement rtu replacement scenario
             }
+
+            rtuLeaf.MonitoringState = e.IsMonitoringOn ? MonitoringState.On : MonitoringState.Off;
         }
 
         private void InitializeRtuFirstTime(RtuInitialized e, RtuLeaf rtuLeaf)

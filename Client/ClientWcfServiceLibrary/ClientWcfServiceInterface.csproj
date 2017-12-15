@@ -9,8 +9,8 @@
     <ProjectGuid>{1822C528-4719-4C53-877E-BC57DBF6D7FF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ClientWcfServiceInterface</RootNamespace>
-    <AssemblyName>ClientWcfServiceInterface</AssemblyName>
+    <RootNamespace>Iit.Fibertest.ClientWcfServiceInterface</RootNamespace>
+    <AssemblyName>Iit.Fibertest.ClientWcfServiceInterface</AssemblyName>
     <ProjectTypeGuids>{3D9AD99F-2412-4246-B90B-4EAA41C64699};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <StartArguments>/client:"WcfTestClient.exe"</StartArguments>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>

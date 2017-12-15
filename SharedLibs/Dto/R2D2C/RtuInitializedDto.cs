@@ -39,5 +39,7 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public Dictionary<int, OtauDto> Children { get; set; }
 
+        [DataMember]
+        public bool IsMonitoringOn { get; set; }
     }
 }

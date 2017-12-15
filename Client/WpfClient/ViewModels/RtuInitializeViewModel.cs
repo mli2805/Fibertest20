@@ -200,6 +200,7 @@ namespace Iit.Fibertest.Client
                 FullPortCount = dto.FullPortCount,
                 Serial = dto.Serial,
                 Version = dto.Version,
+                IsMonitoringOn = dto.IsMonitoringOn,
             };
 
             foreach (var portCharonPair in dto.Children)

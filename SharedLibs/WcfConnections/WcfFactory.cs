@@ -2,7 +2,7 @@
 using System.Net.Sockets;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
-using ClientWcfServiceInterface;
+using Iit.Fibertest.ClientWcfServiceInterface;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.RtuWcfServiceInterface;
 using Iit.Fibertest.UtilsLib;
