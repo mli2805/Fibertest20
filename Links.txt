@@ -13,24 +13,9 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
 
 19. Перенести GMap в папку
 
-- SendCommandAsObj vs SendCommand
-- клиент должен при запуске(после авторизации) читать локальную базу и только потом дочитывать с серевера, а новые ивенты должны записываться локально
-
-- await wcfConnection.GetEvents(revision) blocks client !!!!!!!!!!!
-
-- на домашнем компьютере 
-Severity	Code	Description	Project	File	Line	Suppression State
-Error		Could not locate .paket\paket.exe and .paket\paket.bootstrapper.exe under the folder 'C:\VSProjects\Fibertest20\'
-To download the binaries, visit https://github.com/fsprojects/Paket/releases
-To know more about Paket, visit https://fsprojects.github.io/Paket/getting-started.html		Paket restore error !	0	
-
-
 - на датацентре всф стартер запускает всф сервис с конструктором с параметрами через автофак, на клиенте ругается что нужен коструктор без параметров
 
-20. 27/11/2017
-	386 commit превысили 4Мб (tcp) - как брать порциями ? или применять snapshots ?
-	wcf contract - async task - или без тасков ?
-		
+
 21. 1/12/17
 	как убрать 
             builder.RegisterType<WindowManager>().As<IWindowManager>().SingleInstance();
@@ -45,3 +30,6 @@ To know more about Paket, visit https://fsprojects.github.io/Paket/getting-start
 24. 11/12/17
 	разобрать случай с GetLastTraceMeasurement
 	вешил клиент пока не дотянул async/await почти до верха (но почти, не до самого :) )
+
+	25. 15/12/17
+	включить в event sourcing время и автора (по возможности автоматически)

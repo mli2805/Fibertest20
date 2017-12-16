@@ -264,7 +264,8 @@ namespace Iit.Fibertest.Client
 
         public void Apply(RtuRemoved evnt)
         {
-            var rtuVm = Rtus.First(r => r.Id == evnt.Id);
+            var rtuVm = Rtus.FirstOrDefault(r => r.Id == evnt.Id);
+            if (rtuVm == null) return;
             Guid nodeId = rtuVm.Node.Id;
             foreach (var t in Traces.Where(t => t.RtuId == rtuVm.Id).ToList())
             {

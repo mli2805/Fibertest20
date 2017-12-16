@@ -201,7 +201,9 @@ namespace Iit.Fibertest.Client
 
         public void Apply(RtuRemoved e)
         {
-            var rtu = Rtus.First(r => r.Id == e.Id);
+            var rtu = Rtus.FirstOrDefault(r => r.Id == e.Id);
+            if (rtu == null)
+                return;
             var nodeId = rtu.NodeId;
             Traces.RemoveAll(t => t.RtuId == rtu.Id);
             Rtus.Remove(rtu);
