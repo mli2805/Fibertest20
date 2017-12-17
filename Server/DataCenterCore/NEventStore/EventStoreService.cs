@@ -48,8 +48,10 @@ namespace Iit.Fibertest.DataCenterCore
             _logFile.AppendLine("All events from base are applied to WriteModel");
         }
 
+        // ilya: can add user name\id\ip address as an argument here\client timestamp
         public Task<string> SendCommand(object cmd)
         {
+            // ilya: can pass user id\role as an argument to When to check permissions
             var result = (string)_aggregate.AsDynamic().When(cmd); // Aggregate checks if command is valid
                                                                    // and if so, transforms command into event and passes it to WriteModel
                                                                    // WriteModel applies event
@@ -58,7 +60,13 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 var eventStream = _storeEvents.OpenStream(AggregateId);  
                 foreach (var e in _writeModel.EventsWaitingForCommit)   // takes already applied event from WriteModel's list
-                    eventStream.Add(new EventMessage { Body = e });   // and stores this event in BD
+                {
+                    var msg = new EventMessage();
+                    // can save timestamp, user name
+                    // msg.Headers.Add("blah", 1);
+                    msg.Body = e;
+                    eventStream.Add(msg);   // and stores this event in BD
+                }
                 _writeModel.Commit();                                     // now cleans WriteModel's list
                 eventStream.CommitChanges(Guid.NewGuid());
             }
