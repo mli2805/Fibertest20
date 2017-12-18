@@ -94,9 +94,9 @@ namespace Iit.Fibertest.Client
         private async Task<ClientRegisteredDto> RegisterClientAsync()
         {
             var dcServiceAddresses = _iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
-            ((C2DWcfManager)_c2DWcfManager).SetServerAddresses(dcServiceAddresses);
-
             var clientAddresses = _iniFile.Read(IniSection.ClientLocalAddress, (int)TcpPorts.ClientListenTo);
+            ((C2DWcfManager)_c2DWcfManager).SetServerAddresses(dcServiceAddresses, UserName, clientAddresses.Ip4Address);
+
             var result = await _c2DWcfManager.RegisterClientAsync(
                 new RegisterClientDto()
                 {

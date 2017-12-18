@@ -58,7 +58,7 @@ namespace Iit.Fibertest.Client
                     HasReserveAddress = false,
                     Main = (NetAddress) NetAddressInputViewModel.GetNetAddress().Clone()
                 };
-                ((C2DWcfManager) _c2DWcfManager).SetServerAddresses(addressForTesting);
+                ((C2DWcfManager) _c2DWcfManager).SetServerAddresses(addressForTesting, "", "");
                 return await _c2DWcfManager.CheckServerConnection(new CheckServerConnectionDto());
             }
         }

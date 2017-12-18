@@ -70,8 +70,8 @@ namespace Iit.Fibertest.Client
             var clientAddress = new NetAddress(_clientAddress, TcpPorts.ClientListenTo);
             _clientIni.Write(clientAddress, IniSection.ClientLocalAddress);
 
-            _dcServiceAddresses = _clientIni.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
-            IoC.Get<C2DWcfManager>().SetServerAddresses(_dcServiceAddresses);
+//            _dcServiceAddresses = _clientIni.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
+//            IoC.Get<C2DWcfManager>().SetServerAddresses(_dcServiceAddresses);
 
             TryClose(true);
         }

@@ -41,7 +41,7 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
 25. 15/12/17
 	включить в event sourcing время и автора (по возможности автоматически)
 
-	в хедер ивента включил имя пользователя и время
+	в хедер ивента включил имя пользователя и время и ip клиента
 	FakeWcfServiceForClient - удалил
 
 	как их теперь читать ??

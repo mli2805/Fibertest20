@@ -49,7 +49,7 @@ namespace Iit.Fibertest.DataCenterCore
         }
 
         // ilya: can add user name\id\ip address as an argument here\client timestamp
-        public Task<string> SendCommand(object cmd, string username)
+        public Task<string> SendCommand(object cmd, string username, string clientIp)
         {
             // ilya: can pass user id\role as an argument to When to check permissions
             var result = (string)_aggregate.AsDynamic().When(cmd); // Aggregate checks if command is valid
@@ -64,6 +64,7 @@ namespace Iit.Fibertest.DataCenterCore
                     var msg = new EventMessage();
                     msg.Headers.Add("Timestamp", DateTime.Now);
                     msg.Headers.Add("Username", username);
+                    msg.Headers.Add("ClientIp", clientIp);
                     msg.Body = e;
                     eventStream.Add(msg);   // and stores this event in BD
                 }

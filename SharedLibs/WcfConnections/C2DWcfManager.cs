@@ -19,6 +19,8 @@ namespace Iit.Fibertest.WcfConnections
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly Guid _clientId;
+        private string _username;
+        private string _clientIp;
         private WcfFactory _wcfFactory;
 
         public C2DWcfManager(IniFile iniFile, IMyLog logFile)
@@ -28,20 +30,19 @@ namespace Iit.Fibertest.WcfConnections
             Guid.TryParse(iniFile.Read(IniSection.General, IniKey.ClientGuidOnServer, Guid.NewGuid().ToString()), out _clientId);
         }
 
-        public void SetServerAddresses(DoubleAddress newServerAddress)
+        public void SetServerAddresses(DoubleAddress newServerAddress, string username, string clientIp)
         {
             _wcfFactory = new WcfFactory(newServerAddress, _iniFile, _logFile);
+            _username = username;
+            _clientIp = clientIp;
         }
 
         public async Task<string> SendCommandAsObj(object cmd)
         {
-            // TODO C2DWcfManager should get real username
-            var username = _clientId.ToString();
-
-            return await SendCommand(JsonConvert.SerializeObject(cmd, cmd.GetType(), JsonSerializerSettings), username);
+            return await SendCommand(JsonConvert.SerializeObject(cmd, cmd.GetType(), JsonSerializerSettings), _username, _clientIp);
         }
 
-        public async Task<string> SendCommand(string serializedCmd, string username)
+        public async Task<string> SendCommand(string serializedCmd, string username, string clientIp)
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();
             if (wcfConnection == null)
@@ -49,7 +50,7 @@ namespace Iit.Fibertest.WcfConnections
 
             try
             {
-                return await wcfConnection.SendCommand(serializedCmd, username);
+                return await wcfConnection.SendCommand(serializedCmd, username, clientIp);
             }
             catch (Exception e)
             {
