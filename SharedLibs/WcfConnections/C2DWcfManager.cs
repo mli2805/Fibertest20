@@ -35,10 +35,13 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<string> SendCommandAsObj(object cmd)
         {
-            return await SendCommand(JsonConvert.SerializeObject(cmd, cmd.GetType(), JsonSerializerSettings));
+            // TODO C2DWcfManager should get real username
+            var username = _clientId.ToString();
+
+            return await SendCommand(JsonConvert.SerializeObject(cmd, cmd.GetType(), JsonSerializerSettings), username);
         }
 
-        public async Task<string> SendCommand(string serializedCmd)
+        public async Task<string> SendCommand(string serializedCmd, string username)
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();
             if (wcfConnection == null)
@@ -46,7 +49,7 @@ namespace Iit.Fibertest.WcfConnections
 
             try
             {
-                return await wcfConnection.SendCommand(serializedCmd);
+                return await wcfConnection.SendCommand(serializedCmd, username);
             }
             catch (Exception e)
             {

@@ -268,7 +268,6 @@
     <Compile Include="Sut\FakeClientWcfServiceHost.cs" />
     <Compile Include="Sut\FakeEventStoreInitializer.cs" />
     <Compile Include="Sut\FakeLocalDbManager.cs" />
-    <Compile Include="Sut\FakeWcfServiceForClient.cs" />
     <Compile Include="Sut\FakeWindowManager.cs" />
     <Compile Include="Fiber\FiberAdded.feature.cs">
       <AutoGen>True</AutoGen>

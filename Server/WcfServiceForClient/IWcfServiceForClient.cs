@@ -12,7 +12,7 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
         Task<string> SendCommandAsObj(object cmd);
 
         [OperationContract]
-        Task<string> SendCommand(string json);
+        Task<string> SendCommand(string json, string username);
 
         [OperationContract]
         Task<string[]> GetEvents(int revision);

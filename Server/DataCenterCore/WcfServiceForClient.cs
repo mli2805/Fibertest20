@@ -44,14 +44,17 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<string> SendCommandAsObj(object cmd)
         {
-            return await _eventStoreService.SendCommand(cmd);
+            // during the tests "client" invokes not the C2DWcfManager's method to communicate by network
+            // but right server's method from WcfServiceForClient
+            var username = "NCrunch";
+            return await _eventStoreService.SendCommand(cmd, username);
         }
 
-        public async Task<string> SendCommand(string json)
+        public async Task<string> SendCommand(string json, string username)
         {
             var cmd = JsonConvert.DeserializeObject(json, JsonSerializerSettings);
 
-            var resultInGraph = await _eventStoreService.SendCommand(cmd);
+            var resultInGraph = await _eventStoreService.SendCommand(cmd, username);
             if (resultInGraph != null)
                 return resultInGraph;
 
