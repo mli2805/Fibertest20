@@ -62,7 +62,7 @@
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellStyle>
                         <Style TargetType="DataGridCell">
-                            <Setter Property="Background" Value="{Binding BaseRefTypeBrush}" />
+                            <Setter Property="Background" Value="{Binding (client:OpticalEventVm.BaseRefTypeBrush)}" />
                         </Style>
                     </DataGridTemplateColumn.CellStyle>
                     <DataGridTemplateColumn.CellTemplate>
@@ -88,7 +88,7 @@
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellStyle>
                         <Style TargetType="DataGridCell">
-                            <Setter Property="Background" Value="{Binding EventStatusBrush}" />
+                            <Setter Property="Background" Value="{Binding (client:OpticalEventVm.EventStatusBrush)}" />
                         </Style>
                     </DataGridTemplateColumn.CellStyle>
                     <DataGridTemplateColumn.CellTemplate>

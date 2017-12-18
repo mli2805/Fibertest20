@@ -117,9 +117,6 @@ namespace Iit.Fibertest.Client
             _logFile.AssignFile(@"Client.log");
             _logFile.AppendLine(@"Client application started!");
             var vm = IoC.Get<LoginViewModel>();
-
-            Caliburn.Micro.IWindowManager windowManager = new WindowManager();
-
             _isAuthenticationSuccessfull = _windowManager.ShowDialogWithAssignedOwner(vm);
             ((App)Application.Current).ShutdownMode = ShutdownMode.OnMainWindowClose;
             if (_isAuthenticationSuccessfull == true)

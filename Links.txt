@@ -21,7 +21,7 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
             builder.RegisterType<WindowManager>().As<IWindowManager>().SingleInstance();
 	чтобы случайно не использовать, а использовать только IWindowManager
 
-	переделать черех экстеншен метод
+	 + переделать черех экстеншен метод
 
 22. 11/12/17
 	ловить закрытие калибурновских окон снаружи

@@ -104,7 +104,7 @@
                 <DataGridTemplateColumn Header="{x:Static stringResources:Resources.SID_State}" Width="100">
                     <DataGridTemplateColumn.CellStyle>
                         <Style TargetType="DataGridCell">
-                            <Setter Property="Background" Value="{Binding TraceStateBrush}" />
+                            <Setter Property="Background" Value="{Binding (client:PortLineVm.TraceStateBrush)}" />
                         </Style>
                     </DataGridTemplateColumn.CellStyle>
                     <DataGridTemplateColumn.CellTemplate>
