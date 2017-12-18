@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WcfServiceForClientInterface;
@@ -98,7 +99,7 @@ namespace Iit.Fibertest.Client
 
         private readonly TraceLeafContextMenuProvider _contextMenuProvider;
 
-        public TraceLeaf(ReadModel readModel, IMyWindowManager windowManager, IWcfServiceForClient c2DWcfManager,
+        public TraceLeaf(ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager,
             PostOffice postOffice, IPortOwner parent, TraceLeafContextMenuProvider contextMenuProvider)
             : base(readModel, windowManager, c2DWcfManager, postOffice)
         {

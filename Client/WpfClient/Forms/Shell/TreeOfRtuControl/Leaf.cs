@@ -9,7 +9,7 @@ namespace Iit.Fibertest.Client
     public class Leaf : PropertyChangedBase
     {
         public readonly ReadModel ReadModel;
-        public readonly IMyWindowManager WindowManager;
+        public readonly IWindowManager WindowManager;
         public readonly IWcfServiceForClient C2DWcfManager;
         public Guid Id { get; set; }
 
@@ -60,7 +60,7 @@ namespace Iit.Fibertest.Client
 
         public Leaf Parent { get; set; }
 
-        protected Leaf(ReadModel readModel, IMyWindowManager windowManager, IWcfServiceForClient c2DWcfManager, PostOffice postOffice)
+        protected Leaf(ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, PostOffice postOffice)
         {
             ReadModel = readModel;
             WindowManager = windowManager;

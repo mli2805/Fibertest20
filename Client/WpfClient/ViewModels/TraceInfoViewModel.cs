@@ -14,7 +14,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly ReadModel _readModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
-        private readonly IMyWindowManager _windowManager;
+        private readonly IWindowManager _windowManager;
 
         private Rtu _rtu;
         private readonly Guid _traceId;
@@ -86,7 +86,7 @@ namespace Iit.Fibertest.Client
         /// <param name="traceId"></param>
         /// <param name="traceEquipments"></param>
         /// <param name="traceNodes"></param>
-        public TraceInfoViewModel(ReadModel readModel, IWcfServiceForClient c2DWcfManager, IMyWindowManager windowManager, 
+        public TraceInfoViewModel(ReadModel readModel, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager, 
             Guid traceId, List<Guid> traceEquipments = null, List<Guid> traceNodes = null)
         {
             _readModel = readModel;
@@ -170,7 +170,7 @@ namespace Iit.Fibertest.Client
                     await _c2DWcfManager.SendCommandAsObj(cmd);
 
             if (message != null)
-                _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, message));
+                _windowManager.ShowDialogWithAssignedOwner(new NotificationViewModel(Resources.SID_Error, message));
         }
 
         private async Task SendUpdateTraceCommand()

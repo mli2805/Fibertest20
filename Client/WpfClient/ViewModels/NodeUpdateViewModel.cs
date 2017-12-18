@@ -16,7 +16,7 @@ namespace Iit.Fibertest.Client
     public class NodeUpdateViewModel : Screen, IDataErrorInfo
     {
         private readonly ReadModel _readModel;
-        private readonly IMyWindowManager _windowManager;
+        private readonly IWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly Node _originalNode;
         private readonly PointLatLng _nodeCoors;
@@ -117,7 +117,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public NodeUpdateViewModel(Guid nodeId, ReadModel readModel, IMyWindowManager windowManager, IWcfServiceForClient c2DWcfManager)
+        public NodeUpdateViewModel(Guid nodeId, ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager)
         {
             _readModel = readModel;
             _readModel.PropertyChanged += _readModel_PropertyChanged;
@@ -193,7 +193,7 @@ namespace Iit.Fibertest.Client
             IMapper mapperDomainModelToViewModel = new MapperConfiguration(
                     cfg => cfg.AddProfile<MappingDomainModelToViewModel>()).CreateMapper();
             mapperDomainModelToViewModel.Map(equipment, equipmentViewModel);
-            _windowManager.ShowDialog(equipmentViewModel);
+            _windowManager.ShowDialogWithAssignedOwner(equipmentViewModel);
 
             if (equipmentViewModel.Command == null)
                 return;

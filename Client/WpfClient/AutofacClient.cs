@@ -16,7 +16,6 @@ namespace Iit.Fibertest.Client
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<WindowManager>().As<IWindowManager>().SingleInstance();
-            builder.RegisterType<MyWindowManager>().As<IMyWindowManager>().SingleInstance();
 
             builder.RegisterType<LocalDbManager>().As<ILocalDbManager>().SingleInstance();
             builder.RegisterType<ReflectogramManager>().SingleInstance();

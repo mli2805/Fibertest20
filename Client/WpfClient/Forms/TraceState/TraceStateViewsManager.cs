@@ -10,14 +10,14 @@ namespace Iit.Fibertest.Client
     public class TraceStateViewsManager
     {
         private readonly TraceStateVmFactory _traceStateVmFactory;
-        private readonly IMyWindowManager _windowManager;
+        private readonly IWindowManager _windowManager;
         private readonly C2DWcfManager _c2DWcfManager;
 
         private List<TraceStateViewModel> LaunchedViews { get; set; } = new List<TraceStateViewModel>();
 
 
         public TraceStateViewsManager(TraceStateVmFactory traceStateVmFactory,
-            IMyWindowManager windowManager, C2DWcfManager c2DWcfManager)
+            IWindowManager windowManager, C2DWcfManager c2DWcfManager)
         {
             _traceStateVmFactory = traceStateVmFactory;
             _windowManager = windowManager;
@@ -89,7 +89,7 @@ namespace Iit.Fibertest.Client
 
             vm = IoC.Get<TraceStateViewModel>();
             vm.Initialize(traceStateVm, isLastMeasurementOnThisTrace, isTraceStateChanged);
-            _windowManager.ShowWindow(vm);
+            _windowManager.ShowWindowWithAssignedOwner(vm);
 
             LaunchedViews.Add(vm);
         }

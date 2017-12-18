@@ -21,7 +21,7 @@ namespace Iit.Fibertest.Client
             ChangeTraceColor(traceId, traceNodes, FiberState.HighLighted);
 
             var questionViewModel = new QuestionViewModel(Resources.SID_Accept_the_path);
-            _windowManager.ShowDialog(questionViewModel);
+            _windowManager.ShowDialogWithAssignedOwner(questionViewModel);
 
             ChangeTraceColor(traceId, traceNodes, FiberState.NotInTrace);
 
@@ -33,14 +33,14 @@ namespace Iit.Fibertest.Client
                 return;
 
             var traceAddViewModel = new TraceInfoViewModel(ReadModel, C2DWcfManager, _windowManager, Guid.Empty, traceEquipments, traceNodes);
-            _windowManager.ShowDialog(traceAddViewModel);
+            _windowManager.ShowDialogWithAssignedOwner(traceAddViewModel);
         }
 
         private bool Validate(RequestAddTrace request)
         {
             if (ReadModel.Equipments.Any(e => e.NodeId == request.LastNodeId)) return true;
 
-            _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, Resources.SID_Last_node_of_trace_must_contain_some_equipment));
+            _windowManager.ShowDialogWithAssignedOwner(new NotificationViewModel(Resources.SID_Error, Resources.SID_Last_node_of_trace_must_contain_some_equipment));
             return false;
         }
 
@@ -48,7 +48,7 @@ namespace Iit.Fibertest.Client
         {
             List<Guid> path;
             if (!new PathFinder(ReadModel).FindPath(request.NodeWithRtuId, request.LastNodeId, out path))
-                _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, Resources.SID_Path_couldn_t_be_found));
+                _windowManager.ShowDialogWithAssignedOwner(new NotificationViewModel(Resources.SID_Error, Resources.SID_Path_couldn_t_be_found));
 
             return path;
         }
@@ -78,7 +78,7 @@ namespace Iit.Fibertest.Client
                 {
                     var equipmentChoiceViewModel = new EquipmentChoiceViewModel(_windowManager, C2DWcfManager, 
                         possibleEquipments, ReadModel.Nodes.First(n=>n.Id==nodeId).Title, nodeId == nodes.Last());
-                    _windowManager.ShowDialog(equipmentChoiceViewModel);
+                    _windowManager.ShowDialogWithAssignedOwner(equipmentChoiceViewModel);
                     if (!equipmentChoiceViewModel.ShouldWeContinue) // пользователь прервал процесс, отказавшись выбирать оборудование
                         return null;
 

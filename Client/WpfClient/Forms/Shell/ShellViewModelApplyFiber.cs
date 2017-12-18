@@ -69,7 +69,7 @@ namespace Iit.Fibertest.Client
                 return null;
 
             var vm = new FiberWithNodesAddViewModel();
-            _windowManager.ShowDialog(vm);
+            _windowManager.ShowDialogWithAssignedOwner(vm);
             if (!vm.Result)
                 return null;
 
@@ -87,7 +87,7 @@ namespace Iit.Fibertest.Client
                         f.Node1.Id == request.Node2 && f.Node2.Id == request.Node1);
             if (fiber == null)
                 return true;
-            _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, Resources.SID_Section_already_exists));
+            _windowManager.ShowDialogWithAssignedOwner(new NotificationViewModel(Resources.SID_Error, Resources.SID_Section_already_exists));
             return false;
         }
 
@@ -110,14 +110,14 @@ namespace Iit.Fibertest.Client
                         f.Node1.Id == cmd.Node2 && f.Node2.Id == cmd.Node1);
             if (fiber == null)
                 return true;
-            _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, Resources.SID_Section_already_exists));
+            _windowManager.ShowDialogWithAssignedOwner(new NotificationViewModel(Resources.SID_Error, Resources.SID_Section_already_exists));
             return false;
         }
 
         private UpdateFiber PrepareCommand(RequestUpdateFiber request)
         {
             var vm = new FiberUpdateViewModel(request.Id, GraphReadModel);
-            _windowManager.ShowDialog(vm);
+            _windowManager.ShowDialogWithAssignedOwner(vm);
 
             return vm.Command;
         }

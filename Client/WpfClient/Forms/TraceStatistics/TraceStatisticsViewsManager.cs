@@ -7,10 +7,10 @@ namespace Iit.Fibertest.Client
 {
     public class TraceStatisticsViewsManager
     {
-        private readonly IMyWindowManager _windowManager;
+        private readonly IWindowManager _windowManager;
         private Dictionary<Guid, TraceStatisticsViewModel> LaunchedViews { get; set; } = new Dictionary<Guid, TraceStatisticsViewModel>();
 
-        public TraceStatisticsViewsManager(IMyWindowManager windowManager)
+        public TraceStatisticsViewsManager(IWindowManager windowManager)
         {
             _windowManager = windowManager;
         }
@@ -26,7 +26,7 @@ namespace Iit.Fibertest.Client
 
             vm = IoC.Get<TraceStatisticsViewModel>();
             vm.Initialize(traceId);
-            _windowManager.ShowWindow(vm);
+            _windowManager.ShowWindowWithAssignedOwner(vm);
 
             LaunchedViews.Add(traceId, vm);
         }

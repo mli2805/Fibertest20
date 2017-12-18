@@ -24,7 +24,7 @@ namespace Iit.Fibertest.Client
         {
             var vm = new NodeUpdateViewModel(request.Id, ReadModel, _windowManager, C2DWcfManager);
             vm.PropertyChanged += Vm_PropertyChanged;
-            _windowManager.ShowDialog(vm);
+            _windowManager.ShowDialogWithAssignedOwner(vm);
             return (UpdateNode)vm.Command;
         }
 
@@ -55,7 +55,7 @@ namespace Iit.Fibertest.Client
         {
             if (IsFiberContainedInAnyTraceWithBase(request.FiberId))
             {
-                _windowManager.ShowDialog(new NotificationViewModel("", Resources.SID_It_s_impossible_to_change_trace_with_base_reflectogram));
+                _windowManager.ShowDialogWithAssignedOwner(new NotificationViewModel("", Resources.SID_It_s_impossible_to_change_trace_with_base_reflectogram));
                 return null;
             }
 

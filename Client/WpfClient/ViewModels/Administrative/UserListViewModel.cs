@@ -13,7 +13,7 @@ namespace Iit.Fibertest.Client
     {
         private List<User> _users;
         private List<Zone> _zones;
-        private readonly IMyWindowManager _windowManager;
+        private readonly IWindowManager _windowManager;
         public ObservableCollection<UserVm> Rows { get; set; }
 
         private UserVm _selectedUserVm;
@@ -31,7 +31,7 @@ namespace Iit.Fibertest.Client
 
         public static List<Role> Roles { get; set; }
 
-        public UserListViewModel(List<User> users, List<Zone> zones, IMyWindowManager windowManager)
+        public UserListViewModel(List<User> users, List<Zone> zones, IWindowManager windowManager)
         {
             _users = users;
             _zones = zones;
@@ -64,7 +64,7 @@ namespace Iit.Fibertest.Client
         {
             var userUnderConstruction = new UserVm();
             var vm = new UserViewModel(userUnderConstruction, _zones);
-            if (_windowManager.ShowDialog(vm) == true)
+            if (_windowManager.ShowDialogWithAssignedOwner(vm) == true)
             {
                 Rows.Add(userUnderConstruction);
                 SelectedUserVm = Rows.Last(); // doesn't work
@@ -75,7 +75,7 @@ namespace Iit.Fibertest.Client
         {
             var userUnderConstruction =  (UserVm)SelectedUserVm.Clone();
             var vm = new UserViewModel(userUnderConstruction, _zones);
-            if (_windowManager.ShowDialog(vm) == true)
+            if (_windowManager.ShowDialogWithAssignedOwner(vm) == true)
             {
                 userUnderConstruction.CopyTo(SelectedUserVm);
             }

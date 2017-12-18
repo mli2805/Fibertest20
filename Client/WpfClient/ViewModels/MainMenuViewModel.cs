@@ -4,9 +4,9 @@ namespace Iit.Fibertest.Client
 {
     public class MainMenuViewModel
     {
-        private readonly IMyWindowManager _windowManager;
+        private readonly IWindowManager _windowManager;
 
-        public MainMenuViewModel(IMyWindowManager windowManager)
+        public MainMenuViewModel(IWindowManager windowManager)
         {
             _windowManager = windowManager;
         }
@@ -14,19 +14,19 @@ namespace Iit.Fibertest.Client
         public void LaunchUserListView()
         {
             var vm = IoC.Get<UserListViewModel>();
-            _windowManager.ShowWindow(vm);
+            _windowManager.ShowWindowWithAssignedOwner(vm);
         }
 
         public void LaunchResponsibilityZonesView()
         {
             var vm = IoC.Get<ZonesViewModel>();
-            _windowManager.ShowWindow(vm);
+            _windowManager.ShowWindowWithAssignedOwner(vm);
         }
 
         public void LaunchObjectsToZonesView()
         {
             var vm = IoC.Get<ZonesContentViewModel>();
-            _windowManager.ShowWindow(vm);
+            _windowManager.ShowWindowWithAssignedOwner(vm);
         }
     }
 }

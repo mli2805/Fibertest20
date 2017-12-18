@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Autofac;
+using Caliburn.Micro;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.DatabaseLibrary.DbContexts;
@@ -33,7 +34,7 @@ namespace Graph.Tests
         {
             var builder = new ContainerBuilder();
             builder.RegisterModule<AutofacClient>();
-            builder.RegisterType<FakeWindowManager>().As<IMyWindowManager>().SingleInstance();
+            builder.RegisterType<FakeWindowManager>().As<IWindowManager>().SingleInstance();
             builder.RegisterType<FakeLocalDbManager>().As<ILocalDbManager>().SingleInstance();
             builder.RegisterType<FakeClientWcfServiceHost>().As<IClientWcfServiceHost>();
 
@@ -59,7 +60,7 @@ namespace Graph.Tests
             var container = builder.Build();
 
             Poller = container.Resolve<ClientPoller>();
-            FakeWindowManager = (FakeWindowManager)container.Resolve<IMyWindowManager>();
+            FakeWindowManager = (FakeWindowManager)container.Resolve<IWindowManager>();
             MyLogFile = container.Resolve<IMyLog>();
             WcfServiceForClient = (WcfServiceForClient) container.Resolve<IWcfServiceForClient>();
             ShellVm = (ShellViewModel)container.Resolve<IShell>();

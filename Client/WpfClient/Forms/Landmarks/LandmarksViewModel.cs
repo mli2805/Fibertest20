@@ -66,7 +66,7 @@ namespace Iit.Fibertest.Client
         }
 
         private readonly ReadModel _readModel;
-        private readonly IMyWindowManager _windowManager;
+        private readonly IWindowManager _windowManager;
         private List<Landmark> _landmarks;
 
         private ObservableCollection<LandmarkRow> _rows;
@@ -83,7 +83,7 @@ namespace Iit.Fibertest.Client
 
         public LandmarkRow SelectedRow { get; set; }
 
-        public LandmarksViewModel(ReadModel readModel, IMyWindowManager windowManager)
+        public LandmarksViewModel(ReadModel readModel, IWindowManager windowManager)
         {
             _readModel = readModel;
             _windowManager = windowManager;
@@ -123,7 +123,7 @@ namespace Iit.Fibertest.Client
             vm.Initialize(landmark);
             vm.RtuTitle = _readModel.Rtus.First(r => r.Id == _selectedTrace.RtuId).Title;
             vm.TraceTitle = _selectedTrace.Title;
-            _windowManager.ShowWindow(vm);
+            _windowManager.ShowWindowWithAssignedOwner(vm);
         }
     }
 }

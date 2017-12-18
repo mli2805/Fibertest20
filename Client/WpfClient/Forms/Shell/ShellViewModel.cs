@@ -33,7 +33,7 @@ namespace Iit.Fibertest.Client
 
         private string _server;
 
-        private readonly IMyWindowManager _windowManager;
+        private readonly IWindowManager _windowManager;
         private readonly ClientHeartbeat _clientHeartbeat;
         private readonly ClientPoller _clientPoller;
         private readonly IniFile _iniFile;
@@ -68,7 +68,7 @@ namespace Iit.Fibertest.Client
                 GraphReadModel graphReadModel, 
                 NetworkEventsViewModel networkEventsViewModel,
                 OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
-                IMyWindowManager windowManager, ClientHeartbeat clientHeartbeat, ClientPoller clientPoller,
+                IWindowManager windowManager, ClientHeartbeat clientHeartbeat, ClientPoller clientPoller,
                 IniFile iniFile, ILogger clientLogger, IMyLog logFile, IClientWcfServiceHost host)
         {
             ReadModel = readModel;
@@ -117,7 +117,10 @@ namespace Iit.Fibertest.Client
             _logFile.AssignFile(@"Client.log");
             _logFile.AppendLine(@"Client application started!");
             var vm = IoC.Get<LoginViewModel>();
-            _isAuthenticationSuccessfull = _windowManager.ShowDialog(vm);
+
+            Caliburn.Micro.IWindowManager windowManager = new WindowManager();
+
+            _isAuthenticationSuccessfull = _windowManager.ShowDialogWithAssignedOwner(vm);
             ((App)Application.Current).ShutdownMode = ShutdownMode.OnMainWindowClose;
             if (_isAuthenticationSuccessfull == true)
             {
@@ -187,7 +190,7 @@ namespace Iit.Fibertest.Client
                 await C2DWcfManager.SendCommandAsObj(cmd);
             if (message != null)
             {
-                _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, message));
+                _windowManager.ShowDialogWithAssignedOwner(new NotificationViewModel(Resources.SID_Error, message));
             }
         }
 
@@ -214,7 +217,7 @@ namespace Iit.Fibertest.Client
                 await C2DWcfManager.SendCommandAsObj(cmd);
             if (message != null)
             {
-                _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, message));
+                _windowManager.ShowDialogWithAssignedOwner(new NotificationViewModel(Resources.SID_Error, message));
             }
         }
         #endregion
@@ -237,7 +240,7 @@ namespace Iit.Fibertest.Client
                 await C2DWcfManager.SendCommandAsObj(cmd);
             if (message != null)
             {
-                _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error, message));
+                _windowManager.ShowDialogWithAssignedOwner(new NotificationViewModel(Resources.SID_Error, message));
             }
         }
 
@@ -273,7 +276,7 @@ namespace Iit.Fibertest.Client
         {
             var rtu = ReadModel.Rtus.First(r => r.NodeId == request.NodeId);
             var vm = new RtuUpdateViewModel(rtu.Id, ReadModel, C2DWcfManager);
-            _windowManager.ShowDialog(vm);
+            _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
         public async Task ComplyWithRequest(RequestRemoveRtu request)

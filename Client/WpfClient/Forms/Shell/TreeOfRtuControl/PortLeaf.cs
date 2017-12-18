@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Media;
+using Caliburn.Micro;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
@@ -26,7 +27,7 @@ namespace Iit.Fibertest.Client
         }
         public int LeftMargin => Parent is OtauLeaf ? 106 : 85;
 
-        public PortLeaf(ReadModel readModel, IMyWindowManager windowManager, IWcfServiceForClient c2DWcfManager, IniFile iniFile35, IMyLog logFile, PostOffice postOffice, Leaf parent, int portNumber)
+        public PortLeaf(ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, IniFile iniFile35, IMyLog logFile, PostOffice postOffice, Leaf parent, int portNumber)
             : base(readModel, windowManager, c2DWcfManager, postOffice)
         {
             _iniFile35 = iniFile35;
@@ -94,13 +95,13 @@ namespace Iit.Fibertest.Client
                 OpticalPort = PortNumber
             };
             var vm = new TraceToAttachViewModel(rtuId, ExtendedPortNumber, otauPortDto, ReadModel, C2DWcfManager, WindowManager);
-            WindowManager.ShowDialog(vm);
+            WindowManager.ShowDialogWithAssignedOwner(vm);
         }
 
         public void AttachOtauAction(object param)
         {
             var vm = new OtauToAttachViewModel(Parent.Id, PortNumber, ReadModel, C2DWcfManager, WindowManager, _iniFile35, _logFile);
-            WindowManager.ShowDialog(vm);
+            WindowManager.ShowDialogWithAssignedOwner(vm);
         }
 
         private bool CanAttachOtauAction(object param)
@@ -130,7 +131,7 @@ namespace Iit.Fibertest.Client
             else
             {
                 var vm = new NotificationViewModel(Resources.SID_Error, $@"{charon.LastErrorMessage}");
-                WindowManager.ShowDialog(vm);
+                WindowManager.ShowDialogWithAssignedOwner(vm);
             }
         }
     }

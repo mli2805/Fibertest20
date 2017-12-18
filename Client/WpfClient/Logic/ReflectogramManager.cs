@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.UtilsLib;
@@ -18,12 +19,12 @@ namespace Iit.Fibertest.Client
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly IWcfServiceForClient _c2DWcfManager;
-        private readonly IMyWindowManager _windowManager;
+        private readonly IWindowManager _windowManager;
 
 //        private readonly string _assemblyFolder;
         private string _tempSorFile;
 
-        public ReflectogramManager(IniFile iniFile, IMyLog logFile, IWcfServiceForClient c2DWcfManager, IMyWindowManager windowManager)
+        public ReflectogramManager(IniFile iniFile, IMyLog logFile, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
         {
             _iniFile = iniFile;
             _logFile = logFile;
@@ -94,7 +95,7 @@ namespace Iit.Fibertest.Client
             }
 
             var vm = new RftsEventsViewModel(sorData);
-            _windowManager.ShowWindow(vm);
+            _windowManager.ShowWindowWithAssignedOwner(vm);
         }
 
         public async void ShowRftsEventsOfLastTraceMeasurement(Guid traceId)
@@ -110,7 +111,7 @@ namespace Iit.Fibertest.Client
             }
 
             var vm = new RftsEventsViewModel(sorData);
-            _windowManager.ShowWindow(vm);
+            _windowManager.ShowWindowWithAssignedOwner(vm);
         }
 
         //------------------------------------------------------------------------------------------------

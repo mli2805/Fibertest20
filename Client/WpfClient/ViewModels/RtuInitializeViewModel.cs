@@ -20,7 +20,7 @@ namespace Iit.Fibertest.Client
 
         private readonly ILifetimeScope _globalScope;
         private readonly ReadModel _readModel;
-        private readonly IMyWindowManager _windowManager;
+        private readonly IWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly IMyLog _logFile;
 
@@ -42,7 +42,7 @@ namespace Iit.Fibertest.Client
             : OriginalRtu.OtdrNetAddress.Ip4Address;
 
 
-        public RtuInitializeViewModel(ILifetimeScope globalScope, ReadModel readModel, IMyWindowManager windowManager,
+        public RtuInitializeViewModel(ILifetimeScope globalScope, ReadModel readModel, IWindowManager windowManager,
             IWcfServiceForClient c2DWcfManager, IMyLog logFile, RtuLeaf rtuLeaf)
         {
             _globalScope = globalScope;
@@ -137,7 +137,7 @@ namespace Iit.Fibertest.Client
             var vm = dto.IsInitialized
                 ? new NotificationViewModel(Resources.SID_Information, Resources.SID_RTU_initialized_successfully_)
                 : new NotificationViewModel(Resources.SID_Error, message);
-            _windowManager.ShowDialog(vm);
+            _windowManager.ShowDialogWithAssignedOwner(vm);
 
             if (!dto.IsInitialized)
                 return;
@@ -179,7 +179,7 @@ namespace Iit.Fibertest.Client
             if (!(list.Count == 0 || list.Count == 1 && list.First().Id == OriginalRtu.Id))
             {
                 var vm = new NotificationViewModel(Resources.SID_Error, Resources.SID_There_is_RTU_with_the_same_ip_address_);
-                _windowManager.ShowDialog(vm);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
                 return false;
             }
             return true;

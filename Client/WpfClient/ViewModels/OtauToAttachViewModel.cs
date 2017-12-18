@@ -18,7 +18,7 @@ namespace Iit.Fibertest.Client
         private readonly int _portNumberForAttachment;
         private readonly ReadModel _readModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
-        private readonly IMyWindowManager _windowManager;
+        private readonly IWindowManager _windowManager;
         private readonly IniFile _iniFile35;
         private readonly IMyLog _logFile;
 
@@ -73,7 +73,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public OtauToAttachViewModel(Guid rtuId, int portNumberForAttachment, ReadModel readModel, IWcfServiceForClient c2DWcfManager, IMyWindowManager windowManager, IniFile iniFile35, IMyLog logFile)
+        public OtauToAttachViewModel(Guid rtuId, int portNumberForAttachment, ReadModel readModel, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager, IniFile iniFile35, IMyLog logFile)
         {
             _rtuId = rtuId;
             _portNumberForAttachment = portNumberForAttachment;
@@ -130,7 +130,7 @@ namespace Iit.Fibertest.Client
                 return true;
 
             var vm = new NotificationViewModel(Resources.SID_Error, Resources.SID_There_is_optical_switch_with_the_same_tcp_address_);
-            _windowManager.ShowDialog(vm);
+            _windowManager.ShowDialogWithAssignedOwner(vm);
             return false;
         }
 
@@ -149,7 +149,7 @@ namespace Iit.Fibertest.Client
             if (!otau.IsLastCommandSuccessful)
             {
                 var vm = new NotificationViewModel(Resources.SID_Error, $@"{otau.LastErrorMessage}");
-                _windowManager.ShowDialog(vm);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
                 AttachmentProgress = Resources.SID_Failed_;
                 return null;
             }

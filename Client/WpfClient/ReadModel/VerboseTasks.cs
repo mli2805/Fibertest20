@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.WcfServiceForClientInterface;
 
@@ -10,7 +11,7 @@ namespace Iit.Fibertest.Client
     {
         //user asks equipment addition on the map
         public static async Task AddEquipmentIntoNodeFullTask(RequestAddEquipmentIntoNode request, 
-            ReadModel readModel, IMyWindowManager windowManager, IWcfServiceForClient c2DWcfManager)
+            ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager)
         {
             var cmd = BuildAddEquipmentIntoNodeCommand(request.NodeId, readModel, windowManager);
             if (cmd == null)
@@ -20,19 +21,19 @@ namespace Iit.Fibertest.Client
 
         // user asks equipment addition from node update view
         public static AddEquipmentIntoNode BuildAddEquipmentIntoNodeCommand(Guid nodeId, 
-            ReadModel readModel, IMyWindowManager windowManager)
+            ReadModel readModel, IWindowManager windowManager)
         {
             var tracesInNode = readModel.Traces.Where(t => t.Nodes.Contains(nodeId)).ToList();
             TraceChoiceViewModel traceChoiceVm = null;
             if (tracesInNode.Count > 0)
             {
                 traceChoiceVm = new TraceChoiceViewModel(tracesInNode);
-                windowManager.ShowDialog(traceChoiceVm);
+                windowManager.ShowDialogWithAssignedOwner(traceChoiceVm);
                 if (!traceChoiceVm.ShouldWeContinue)
                     return null;
             }
             var vm = new EquipmentInfoViewModel(nodeId);
-            windowManager.ShowDialog(vm);
+            windowManager.ShowDialogWithAssignedOwner(vm);
             if (vm.Command == null)
                 return null;
             var command = (AddEquipmentIntoNode)vm.Command;

@@ -14,7 +14,7 @@ namespace Iit.Fibertest.Client
         private readonly int _portNumber;
         private readonly OtauPortDto _otauPortDto;
         private readonly IWcfServiceForClient _c2DWcfManager;
-        private readonly IMyWindowManager _windowManager;
+        private readonly IWindowManager _windowManager;
         private Trace _selectedTrace;
 
         public List<Trace> Choices { get; set; }
@@ -31,7 +31,7 @@ namespace Iit.Fibertest.Client
         }
 
         public TraceToAttachViewModel(Guid rtuId, int portNumber, OtauPortDto otauPortDto, 
-            ReadModel readModel, IWcfServiceForClient c2DWcfManager, IMyWindowManager windowManager)
+            ReadModel readModel, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
         {
             _portNumber = portNumber;
             _otauPortDto = otauPortDto;
@@ -58,7 +58,7 @@ namespace Iit.Fibertest.Client
             var result = _c2DWcfManager.ReSendBaseRefAsync(cmd).Result;
             if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
             {
-                _windowManager.ShowDialog(new NotificationViewModel(Resources.SID_Error_, Resources.SID_Cannot_send_base_refs_to_RTU));
+                _windowManager.ShowDialogWithAssignedOwner(new NotificationViewModel(Resources.SID_Error_, Resources.SID_Cannot_send_base_refs_to_RTU));
                 return;
             }
 
