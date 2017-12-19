@@ -67,9 +67,9 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<SoundManager>().SingleInstance();
             builder.RegisterType<RtuFilterViewModel>().SingleInstance();
 
-            builder.RegisterType<RtuStateVmFactory>().SingleInstance();
+            builder.RegisterType<RtuStateModelFactory>().SingleInstance();
             builder.RegisterType<RtuStateViewsManager>().SingleInstance();
-            builder.RegisterType<TraceStateVmFactory>().SingleInstance();
+            builder.RegisterType<TraceStateModelFactory>().SingleInstance();
             builder.RegisterType<TraceStateViewsManager>().SingleInstance();
             builder.RegisterType<TraceStatisticsViewsManager>().SingleInstance();
 

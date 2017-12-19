@@ -6,7 +6,7 @@ using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Client
 {
-    public class PortLineVm : PropertyChangedBase
+    public class PortLineModel : PropertyChangedBase
     {
         public string Number { get; set; }
         public Guid TraceId { get; set; } = Guid.Empty;

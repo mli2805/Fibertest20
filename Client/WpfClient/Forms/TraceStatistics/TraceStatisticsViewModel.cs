@@ -36,10 +36,10 @@ namespace Iit.Fibertest.Client
 
         public List<BaseRefForStats> BaseRefs { get; set; }
 
-        public ObservableCollection<MeasurementVm> Rows { get; set; } = new ObservableCollection<MeasurementVm>();
+        public ObservableCollection<MeasurementModel> Rows { get; set; } = new ObservableCollection<MeasurementModel>();
 
-        private MeasurementVm _selectedRow;
-        public MeasurementVm SelectedRow
+        private MeasurementModel _selectedRow;
+        public MeasurementModel SelectedRow
         {
             get { return _selectedRow; }
             set
@@ -81,12 +81,12 @@ namespace Iit.Fibertest.Client
 
             Rows.Clear();
             foreach (var measurement in traceStatistics.Measurements)
-                Rows.Add(new MeasurementVm(measurement));
+                Rows.Add(new MeasurementModel(measurement));
         }
 
         public void AddNewMeasurement(Measurement measurement)
         {
-            Rows.Add(new MeasurementVm(measurement));
+            Rows.Add(new MeasurementModel(measurement));
         }
 
         protected override void OnViewLoaded(object view)

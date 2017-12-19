@@ -9,17 +9,17 @@ namespace Iit.Fibertest.Client
 {
     public class TraceStateViewsManager
     {
-        private readonly TraceStateVmFactory _traceStateVmFactory;
+        private readonly TraceStateModelFactory _traceStateModelFactory;
         private readonly IWindowManager _windowManager;
         private readonly C2DWcfManager _c2DWcfManager;
 
         private List<TraceStateViewModel> LaunchedViews { get; set; } = new List<TraceStateViewModel>();
 
 
-        public TraceStateViewsManager(TraceStateVmFactory traceStateVmFactory,
+        public TraceStateViewsManager(TraceStateModelFactory traceStateModelFactory,
             IWindowManager windowManager, C2DWcfManager c2DWcfManager)
         {
-            _traceStateVmFactory = traceStateVmFactory;
+            _traceStateModelFactory = traceStateModelFactory;
             _windowManager = windowManager;
             _c2DWcfManager = c2DWcfManager;
         }
@@ -27,14 +27,14 @@ namespace Iit.Fibertest.Client
         // User clicked on TraceLeaf - State
         public async void ShowTraceState(Guid traceId)
         {
-            var traceStateVm = await _traceStateVmFactory.Create(traceId);
+            var traceStateVm = await _traceStateModelFactory.Create(traceId);
             Show(traceStateVm, true);
         }
 
         // MonitoringResult arrived by Wcf
         public void NotifyAboutMonitoringResult(Measurement measurement)
         {
-            var traceStateVm = _traceStateVmFactory.CreateVm(measurement);
+            var traceStateVm = _traceStateModelFactory.CreateVm(measurement);
             Show(traceStateVm, 
                 isLastMeasurementOnThisTrace: true, 
                 isUserAskedToOpenView: false, 
@@ -44,38 +44,38 @@ namespace Iit.Fibertest.Client
         // User clicked on line in TraceStatistics (maybe not on the last line - see parameter)
         public void ShowTraceState(Measurement measurement, bool isLastMeasurementOnThisTrace)
         {
-            var traceStateVm = _traceStateVmFactory.CreateVm(measurement);
+            var traceStateVm = _traceStateModelFactory.CreateVm(measurement);
             Show(traceStateVm, isLastMeasurementOnThisTrace);
         }
 
         // User clicked on line in OpticalEvents (maybe last or not last line, and last event could be not last measurement for this trace) 
-        public async void ShowTraceState(OpticalEventVm opticalEventVm)
+        public async void ShowTraceState(OpticalEventModel opticalEventModel)
         {
-            var lastMeasurement = await _c2DWcfManager.GetLastMeasurementForTrace(opticalEventVm.TraceId);
+            var lastMeasurement = await _c2DWcfManager.GetLastMeasurementForTrace(opticalEventModel.TraceId);
             if (lastMeasurement == null)
                 return;
 
-            var traceStateVm = _traceStateVmFactory.CreateVm(opticalEventVm);
+            var traceStateVm = _traceStateModelFactory.CreateVm(opticalEventModel);
 
-            Show(traceStateVm, lastMeasurement.SorFileId == opticalEventVm.SorFileId);
+            Show(traceStateVm, lastMeasurement.SorFileId == opticalEventModel.SorFileId);
         }
 
 
-        private void Show(TraceStateVm traceStateVm, bool isLastMeasurementOnThisTrace, bool isUserAskedToOpenView = true, bool isTraceStateChanged = false)
+        private void Show(TraceStateModel traceStateModel, bool isLastMeasurementOnThisTrace, bool isUserAskedToOpenView = true, bool isTraceStateChanged = false)
         {
             LaunchedViews.RemoveAll(v => !v.IsOpen);
 
             TraceStateViewModel vm;
             if (isLastMeasurementOnThisTrace)
             {
-                vm = LaunchedViews.FirstOrDefault(v => v.Model.TraceId == traceStateVm.TraceId &&
-                                                  (v.Model.SorFileId == traceStateVm.SorFileId ||
+                vm = LaunchedViews.FirstOrDefault(v => v.Model.TraceId == traceStateModel.TraceId &&
+                                                  (v.Model.SorFileId == traceStateModel.SorFileId ||
                                                     v.IsLastStateForThisTrace));
             }
             else
             {
-                vm = LaunchedViews.FirstOrDefault(v => v.Model.TraceId == traceStateVm.TraceId &&
-                                                       (v.Model.SorFileId == traceStateVm.SorFileId));
+                vm = LaunchedViews.FirstOrDefault(v => v.Model.TraceId == traceStateModel.TraceId &&
+                                                       (v.Model.SorFileId == traceStateModel.SorFileId));
             }
 
             var mustBeOpen = isUserAskedToOpenView || isTraceStateChanged;
@@ -89,7 +89,7 @@ namespace Iit.Fibertest.Client
             }
 
             vm = IoC.Get<TraceStateViewModel>();
-            vm.Initialize(traceStateVm, isLastMeasurementOnThisTrace, isTraceStateChanged);
+            vm.Initialize(traceStateModel, isLastMeasurementOnThisTrace, isTraceStateChanged);
             _windowManager.ShowWindowWithAssignedOwner(vm);
 
             LaunchedViews.Add(vm);

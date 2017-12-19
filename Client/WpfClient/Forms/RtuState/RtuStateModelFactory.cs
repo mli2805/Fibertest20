@@ -6,23 +6,23 @@ using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
-    public class RtuStateVmFactory
+    public class RtuStateModelFactory
     {
         private readonly ReadModel _readModel;
         private readonly OpticalEventsViewModel _opticalEventsViewModel;
 
-        public RtuStateVmFactory(ReadModel readModel, OpticalEventsViewModel opticalEventsViewModel)
+        public RtuStateModelFactory(ReadModel readModel, OpticalEventsViewModel opticalEventsViewModel)
         {
             _readModel = readModel;
             _opticalEventsViewModel = opticalEventsViewModel;
         }
 
-        public RtuStateVm Create(RtuLeaf rtuLeaf)
+        public RtuStateModel Create(RtuLeaf rtuLeaf)
         {
             var rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == rtuLeaf.Id);
             if (rtu == null) return null;
 
-            var rtuStateVm = new RtuStateVm();
+            var rtuStateVm = new RtuStateModel();
             rtuStateVm.Title = rtuLeaf.Title;
 
             rtuStateVm.MainAddress = rtu.MainChannel.ToStringA();
@@ -54,9 +54,9 @@ namespace Iit.Fibertest.Client
             return rtuStateVm;
         }
 
-        private List<PortLineVm> PreparePortLines(ObservableCollection<Leaf> leaves, string mainPort, ref int bopCount, ref bool hasBrokenBop, ref int traceCount)
+        private List<PortLineModel> PreparePortLines(ObservableCollection<Leaf> leaves, string mainPort, ref int bopCount, ref bool hasBrokenBop, ref int traceCount)
         {
-            var result = new List<PortLineVm>();
+            var result = new List<PortLineModel>();
             foreach (var leaf in leaves)
             {
                 var portLeaf = leaf as PortLeaf;
@@ -83,9 +83,9 @@ namespace Iit.Fibertest.Client
             return result;
         }
 
-        private PortLineVm PreparePortLine(PortLeaf portLeaf, string mainPort)
+        private PortLineModel PreparePortLine(PortLeaf portLeaf, string mainPort)
         {
-            return new PortLineVm()
+            return new PortLineModel()
             {
                 Number = mainPort + portLeaf.PortNumber,
                 TraceTitle = Resources.SID_None,
@@ -93,9 +93,9 @@ namespace Iit.Fibertest.Client
             };
         }
 
-        private PortLineVm PreparePortLine(TraceLeaf traceLeaf, string mainPort)
+        private PortLineModel PreparePortLine(TraceLeaf traceLeaf, string mainPort)
         {
-            return new PortLineVm()
+            return new PortLineModel()
             {
                 Number = mainPort + traceLeaf.PortNumber,
                 TraceId = traceLeaf.Id,

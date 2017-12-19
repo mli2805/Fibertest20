@@ -12,14 +12,14 @@ namespace Iit.Fibertest.Client
         private bool _isSoundForThisVmInstanceOn;
         public bool IsOpen { get; set; }
 
-        public RtuStateVm Model { get; set; }
+        public RtuStateModel Model { get; set; }
 
         public RtuStateViewModel(SoundManager soundManager)
         {
             _soundManager = soundManager;
         }
 
-        public void Initialize(RtuStateVm model)
+        public void Initialize(RtuStateModel model)
         {
             Model = model;
         }

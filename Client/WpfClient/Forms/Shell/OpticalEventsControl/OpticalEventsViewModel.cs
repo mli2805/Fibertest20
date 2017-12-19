@@ -19,12 +19,12 @@ namespace Iit.Fibertest.Client
         private readonly IWindowManager _windowManager;
         private TraceStateFilter _selectedTraceStateFilter;
         private EventStatusFilter _selectedEventStatusFilter;
-        private OpticalEventVm _selectedRow;
+        private OpticalEventModel _selectedRow;
 
         public string TableTitle { get; set; }
-        public ObservableCollection<OpticalEventVm> Rows { get; set; } = new ObservableCollection<OpticalEventVm>();
+        public ObservableCollection<OpticalEventModel> Rows { get; set; } = new ObservableCollection<OpticalEventModel>();
 
-        public OpticalEventVm SelectedRow
+        public OpticalEventModel SelectedRow
         {
             get { return _selectedRow; }
             set
@@ -125,7 +125,7 @@ namespace Iit.Fibertest.Client
 
         private bool OnFilter(object o)
         {
-            var opticalEventVm = (OpticalEventVm)o;
+            var opticalEventVm = (OpticalEventModel)o;
             return (SelectedTraceStateFilter.IsOn == false ||
                 SelectedTraceStateFilter.TraceState == opticalEventVm.TraceState) &&
                     (SelectedEventStatusFilter.IsOn == false ||
@@ -136,7 +136,7 @@ namespace Iit.Fibertest.Client
 
         public void AddEvent(Measurement measurement)
         {
-            Rows.Add(new OpticalEventVm()
+            Rows.Add(new OpticalEventModel()
             {
                 Nomer = measurement.Id,
                 MeasurementTimestamp = measurement.MeasurementTimestamp,

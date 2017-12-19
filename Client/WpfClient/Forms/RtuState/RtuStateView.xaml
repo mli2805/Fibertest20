@@ -85,7 +85,7 @@
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="{x:Static stringResources:Resources.SID_Port}" Width="50">
                     <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate DataType="{x:Type client:PortLineVm}">
+                        <DataTemplate DataType="{x:Type client:PortLineModel}">
                             <Border Height="26" >
                                 <TextBlock Text="{Binding Number}" TextAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
@@ -94,7 +94,7 @@
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn Header="{x:Static stringResources:Resources.SID_Trace}" Width="1*">
                     <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate DataType="{x:Type client:PortLineVm}">
+                        <DataTemplate DataType="{x:Type client:PortLineModel}">
                             <Border Height="26" Margin="5,0,0,0" >
                                 <TextBlock Text="{Binding TraceTitle}" TextAlignment="Left" VerticalAlignment="Center"/>
                             </Border>
@@ -110,7 +110,7 @@
                         </Style>
                     </DataGridTemplateColumn.CellStyle>
                     <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate DataType="{x:Type client:PortLineVm}">
+                        <DataTemplate DataType="{x:Type client:PortLineModel}">
                             <Border Height="26">
                                 <TextBlock Text="{Binding TraceStateOnScreen}" TextAlignment="Center" VerticalAlignment="Center" />
                             </Border>
@@ -119,7 +119,7 @@
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn Header="{x:Static stringResources:Resources.SID_Timestamp}" Width="120">
                     <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate DataType="{x:Type client:PortLineVm}">
+                        <DataTemplate DataType="{x:Type client:PortLineModel}">
                             <Border Height="26" >
                                 <TextBlock Text="{Binding TimestampOnScreen}" TextAlignment="Center" VerticalAlignment="Center"/>
                             </Border>

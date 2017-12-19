@@ -62,11 +62,11 @@
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellStyle>
                         <Style TargetType="DataGridCell">
-                            <Setter Property="Background" Value="{Binding (client:OpticalEventVm.BaseRefTypeBrush)}" />
+                            <Setter Property="Background" Value="{Binding (client:OpticalEventModel.BaseRefTypeBrush)}" />
                         </Style>
                     </DataGridTemplateColumn.CellStyle>
                     <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate DataType="{x:Type client:OpticalEventVm}">
+                        <DataTemplate DataType="{x:Type client:OpticalEventModel}">
                             <TextBlock Text="{Binding TraceStateOnScreen}" TextAlignment="Center"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -88,11 +88,11 @@
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellStyle>
                         <Style TargetType="DataGridCell">
-                            <Setter Property="Background" Value="{Binding (client:OpticalEventVm.EventStatusBrush)}" />
+                            <Setter Property="Background" Value="{Binding (client:OpticalEventModel.EventStatusBrush)}" />
                         </Style>
                     </DataGridTemplateColumn.CellStyle>
                     <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate DataType="{x:Type client:OpticalEventVm}">
+                        <DataTemplate DataType="{x:Type client:OpticalEventModel}">
                             <TextBlock Text="{Binding EventStatusInTable}" TextAlignment="Center"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

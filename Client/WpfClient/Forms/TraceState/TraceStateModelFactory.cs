@@ -8,13 +8,13 @@ using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.Client
 {
-    public class TraceStateVmFactory
+    public class TraceStateModelFactory
     {
         private readonly IMyLog _logFile;
         private readonly ReadModel _readModel;
         private readonly C2DWcfManager _c2DWcfManager;
 
-        public TraceStateVmFactory(IMyLog logFile, ReadModel readModel, C2DWcfManager c2DWcfManager)
+        public TraceStateModelFactory(IMyLog logFile, ReadModel readModel, C2DWcfManager c2DWcfManager)
         {
             _logFile = logFile;
             _readModel = readModel;
@@ -22,7 +22,7 @@ namespace Iit.Fibertest.Client
         }
 
         // TraceLeaf
-        public async Task<TraceStateVm> Create(Guid traceId)
+        public async Task<TraceStateModel> Create(Guid traceId)
         {
             Measurement measurement = await GetLastTraceMeasurement(traceId);
             return CreateVm(measurement);
@@ -30,9 +30,9 @@ namespace Iit.Fibertest.Client
 
         // Trace statistics
         // Server
-        public TraceStateVm CreateVm(Measurement measurement)
+        public TraceStateModel CreateVm(Measurement measurement)
         {
-            var vm = new TraceStateVm();
+            var vm = new TraceStateModel();
             PrepareCaption(measurement.TraceId, ref vm);
 
             vm.TraceId = measurement.TraceId;
@@ -47,25 +47,25 @@ namespace Iit.Fibertest.Client
             return vm;
         }
 
-        public TraceStateVm CreateVm(OpticalEventVm opticalEventVm)
+        public TraceStateModel CreateVm(OpticalEventModel opticalEventModel)
         {
-            var vm = new TraceStateVm();
-            PrepareCaption(opticalEventVm.TraceId, ref vm);
+            var vm = new TraceStateModel();
+            PrepareCaption(opticalEventModel.TraceId, ref vm);
 
-            vm.TraceId = opticalEventVm.TraceId;
-            vm.TraceState = opticalEventVm.TraceState;
-            vm.BaseRefType = opticalEventVm.BaseRefType;
-            vm.MeasurementTimestamp = opticalEventVm.MeasurementTimestamp;
-            vm.SorFileId = opticalEventVm.SorFileId;
+            vm.TraceId = opticalEventModel.TraceId;
+            vm.TraceState = opticalEventModel.TraceState;
+            vm.BaseRefType = opticalEventModel.BaseRefType;
+            vm.MeasurementTimestamp = opticalEventModel.MeasurementTimestamp;
+            vm.SorFileId = opticalEventModel.SorFileId;
 
-            vm.EventStatus = opticalEventVm.EventStatus;
-            vm.Comment = opticalEventVm.Comment;
+            vm.EventStatus = opticalEventModel.EventStatus;
+            vm.Comment = opticalEventModel.Comment;
 
            return vm;
 
         }
 
-        private void PrepareCaption(Guid traceId, ref TraceStateVm result)
+        private void PrepareCaption(Guid traceId, ref TraceStateModel result)
         {
             var trace = _readModel.Traces.FirstOrDefault(t => t.Id == traceId);
             if (trace == null)

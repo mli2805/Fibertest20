@@ -3,7 +3,7 @@ using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Client
 {
-    public class NetworkEventVm
+    public class NetworkEventModel
     {
         public int Nomer { get; set; }
         public DateTime EventTimestamp { get; set; }

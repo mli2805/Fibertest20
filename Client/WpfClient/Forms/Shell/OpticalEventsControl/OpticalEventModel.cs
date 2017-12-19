@@ -4,7 +4,7 @@ using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Client
 {
-    public class OpticalEventVm
+    public class OpticalEventModel
     {
         public int Nomer { get; set; }
         public DateTime MeasurementTimestamp { get; set; }

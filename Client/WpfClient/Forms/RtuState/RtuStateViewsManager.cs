@@ -8,13 +8,13 @@ namespace Iit.Fibertest.Client
     public class RtuStateViewsManager
     {
         private readonly IWindowManager _windowManager;
-        private readonly RtuStateVmFactory _rtuStateVmFactory;
+        private readonly RtuStateModelFactory _rtuStateModelFactory;
         private Dictionary<Guid, RtuStateViewModel> LaunchedViews { get; set; } = new Dictionary<Guid, RtuStateViewModel>();
 
-        public RtuStateViewsManager(IWindowManager windowManager, RtuStateVmFactory rtuStateVmFactory)
+        public RtuStateViewsManager(IWindowManager windowManager, RtuStateModelFactory rtuStateModelFactory)
         {
             _windowManager = windowManager;
-            _rtuStateVmFactory = rtuStateVmFactory;
+            _rtuStateModelFactory = rtuStateModelFactory;
         }
 
         public void ShowRtuState(RtuLeaf rtuLeaf)
@@ -31,7 +31,7 @@ namespace Iit.Fibertest.Client
             }
 
             vm = IoC.Get<RtuStateViewModel>();
-            vm.Initialize(_rtuStateVmFactory.Create(rtuLeaf));
+            vm.Initialize(_rtuStateModelFactory.Create(rtuLeaf));
             _windowManager.ShowWindowWithAssignedOwner(vm);
 //            _windowManager.ShowWindow(vm);
 

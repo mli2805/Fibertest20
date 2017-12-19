@@ -19,7 +19,7 @@ namespace Iit.Fibertest.Client
         private bool _isUserAskedToOpenView;
         public bool IsOpen { get; set; }
 
-        public TraceStateVm Model { get; set; }
+        public TraceStateModel Model { get; set; }
         public bool IsLastStateForThisTrace { get; set; }
 
         public List<EventStatusComboItem> StatusRows { get; set; }
@@ -34,7 +34,7 @@ namespace Iit.Fibertest.Client
             _c2DWcfManager = c2DWcfManager;
         }
 
-        public void Initialize(TraceStateVm model, bool isLastStateForThisTrace, bool isUserAskedToOpenView)
+        public void Initialize(TraceStateModel model, bool isLastStateForThisTrace, bool isUserAskedToOpenView)
         {
             Model = model;
             IsLastStateForThisTrace = isLastStateForThisTrace;

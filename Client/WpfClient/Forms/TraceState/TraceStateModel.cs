@@ -8,7 +8,7 @@ using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
-    public class TraceStateVm : PropertyChangedBase
+    public class TraceStateModel : PropertyChangedBase
     {
         public Guid TraceId { get; set; }
         public string TraceTitle { get; set; }

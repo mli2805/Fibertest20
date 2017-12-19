@@ -3,7 +3,7 @@ using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Client
 {
-    public class MeasurementVm
+    public class MeasurementModel
     {
         public Measurement Measurement { get; set; }
 
@@ -19,7 +19,7 @@ namespace Iit.Fibertest.Client
             ? FiberState.Suspicion.ToLocalizedString()
             : Measurement.TraceState.ToLocalizedString();
 
-        public MeasurementVm(Measurement measurement)
+        public MeasurementModel(Measurement measurement)
         {
             Measurement = measurement;
         }

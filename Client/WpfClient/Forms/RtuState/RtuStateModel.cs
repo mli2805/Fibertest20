@@ -7,7 +7,7 @@ using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
-    public class RtuStateVm : PropertyChangedBase
+    public class RtuStateModel : PropertyChangedBase
     {
         private string _currentMeasurementStep;
         private FiberState _tracesState;
@@ -64,7 +64,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public List<PortLineVm> Ports { get; set; } = new List<PortLineVm>();
+        public List<PortLineModel> Ports { get; set; } = new List<PortLineModel>();
 
         public void SetWorstTraceStateAsAggregate()
         {

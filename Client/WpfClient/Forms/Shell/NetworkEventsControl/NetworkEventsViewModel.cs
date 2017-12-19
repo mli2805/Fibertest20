@@ -24,8 +24,8 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private ObservableCollection<NetworkEventVm> _rows = new ObservableCollection<NetworkEventVm>();
-        public ObservableCollection<NetworkEventVm> Rows
+        private ObservableCollection<NetworkEventModel> _rows = new ObservableCollection<NetworkEventModel>();
+        public ObservableCollection<NetworkEventModel> Rows
         {
             get { return _rows; }
             set
@@ -46,7 +46,7 @@ namespace Iit.Fibertest.Client
 
         public void Apply(NetworkEvent networkEvent)
         {
-            Rows.Add(new NetworkEventVm()
+            Rows.Add(new NetworkEventModel()
             {
                 Nomer = networkEvent.Id,
                 EventTimestamp = networkEvent.EventTimestamp,
