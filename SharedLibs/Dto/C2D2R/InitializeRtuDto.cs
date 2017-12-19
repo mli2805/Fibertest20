@@ -15,5 +15,8 @@ namespace Iit.Fibertest.Dto
         public DoubleAddress ServerAddresses { get; set; }
         [DataMember]
         public DoubleAddress RtuAddresses { get; set; }
+
+        [DataMember]
+        public bool ShouldMonitoringBeStopped { get; set; }
     }
 }

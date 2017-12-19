@@ -117,7 +117,8 @@ namespace Iit.Fibertest.Client
                     Main = MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress(),
                     HasReserveAddress = IsReserveChannelEnabled,
                     Reserve = IsReserveChannelEnabled ? ReserveChannelTestViewModel.NetAddressInputViewModel.GetNetAddress() : null,
-                }
+                },
+                ShouldMonitoringBeStopped = OriginalRtu.OwnPortCount == 0, // new RTU should be stopped
             };
             RtuInitializedDto result;
             using (new WaitCursor())

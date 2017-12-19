@@ -30,7 +30,11 @@ namespace Iit.Fibertest.RtuManagement
             IsRtuInitialized = false;
 
             if (param != null)
+            {
                 SaveInitializationParameters(param);
+                if (param.ShouldMonitoringBeStopped)
+                    _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, false);
+            }
 
             _rtuInitializationResult = InitializeRtuManager();
             if (_rtuInitializationResult != ReturnCode.Ok)
