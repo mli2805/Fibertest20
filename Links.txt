@@ -27,7 +27,7 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
 	ловить закрытие калибурновских окон снаружи
 
 	добавить проперти, по кенклосе менять его и проверять при обращении
-	
+	+ done
 
 23. 11/12/17
 	не могу запретить ворнинг в xaml
@@ -36,7 +36,7 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
 
 24. 11/12/17
 	разобрать случай с GetLastTraceMeasurement
-	вешил клиент пока не дотянул async/await почти до верха (но почти, не до самого :) )
+	вешал клиент пока не дотянул async/await почти до верха (но почти, не до самого :) )
 
 25. 15/12/17
 	включить в event sourcing время и автора (по возможности автоматически)

@@ -17,6 +17,8 @@ namespace Iit.Fibertest.Client
         private readonly IWcfServiceForClient _c2DWcfManager;
         private bool _isSoundForThisVmInstanceOn;
         private bool _isUserAskedToOpenView;
+        public bool IsOpen { get; set; }
+
         public TraceStateVm Model { get; set; }
         public bool IsLastStateForThisTrace { get; set; }
 
@@ -44,6 +46,7 @@ namespace Iit.Fibertest.Client
         protected override void OnViewLoaded(object view)
         {
             DisplayName = Resources.SID_Trace_state;
+            IsOpen = true;
 
             if (!_isUserAskedToOpenView)
                 return;
@@ -88,6 +91,7 @@ namespace Iit.Fibertest.Client
         {
             if (_isSoundForThisVmInstanceOn)
                 _soundManager.StopAlert();
+            IsOpen = false;
             callback(true);
         }
 

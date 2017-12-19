@@ -19,6 +19,8 @@ namespace Iit.Fibertest.Client
 
         public void ShowRtuState(RtuLeaf rtuLeaf)
         {
+            ClearClosedViews();
+
             var rtuId = rtuLeaf.Id;
 
             RtuStateViewModel vm;
@@ -31,8 +33,18 @@ namespace Iit.Fibertest.Client
             vm = IoC.Get<RtuStateViewModel>();
             vm.Initialize(_rtuStateVmFactory.Create(rtuLeaf));
             _windowManager.ShowWindowWithAssignedOwner(vm);
+//            _windowManager.ShowWindow(vm);
 
             LaunchedViews.Add(rtuId, vm);
+        }
+
+        private void ClearClosedViews()
+        {
+            foreach (var pair in LaunchedViews)
+            {
+                if (!pair.Value.IsOpen)
+                    LaunchedViews.Remove(pair.Key);
+            }
         }
 
         public void NotifyUserRtuAvailabilityChanged(RtuLeaf rtuLeaf)

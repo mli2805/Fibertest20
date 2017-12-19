@@ -10,6 +10,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly SoundManager _soundManager;
         private bool _isSoundForThisVmInstanceOn;
+        public bool IsOpen { get; set; }
 
         public RtuStateVm Model { get; set; }
 
@@ -26,6 +27,7 @@ namespace Iit.Fibertest.Client
         protected override void OnViewLoaded(object view)
         {
             DisplayName = Resources.SID_State_of_RTU;
+            IsOpen = true;
         }
 
         public void NotifyUserMonitoringResult(Measurement dto)
@@ -95,6 +97,7 @@ namespace Iit.Fibertest.Client
         {
             if (_isSoundForThisVmInstanceOn)
                 _soundManager.StopAlert();
+            IsOpen = false;
             callback(true);
         }
         public void Close()

@@ -63,8 +63,9 @@ namespace Iit.Fibertest.Client
 
         private void Show(TraceStateVm traceStateVm, bool isLastMeasurementOnThisTrace, bool isUserAskedToOpenView = true, bool isTraceStateChanged = false)
         {
-            TraceStateViewModel vm;
+            LaunchedViews.RemoveAll(v => !v.IsOpen);
 
+            TraceStateViewModel vm;
             if (isLastMeasurementOnThisTrace)
             {
                 vm = LaunchedViews.FirstOrDefault(v => v.Model.TraceId == traceStateVm.TraceId &&
