@@ -153,6 +153,7 @@ namespace Iit.Fibertest.Client
             {
                 Id = dto.RtuId,
                 Title = OriginalRtu.Title,
+                MainChannel = MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress(),
                 OtdrNetAddress = (NetAddress)dto.OtdrAddress.Clone(),
                 Serial = dto.Serial,
                 OwnPortCount = dto.OwnPortCount,

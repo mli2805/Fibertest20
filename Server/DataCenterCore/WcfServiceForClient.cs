@@ -150,7 +150,10 @@ namespace Iit.Fibertest.DataCenterCore
         {
             _logFile.AppendLine($"Client {dto.ClientId.First6()} sent initialize rtu {dto.RtuId.First6()} request");
             var result = await _clientToRtuTransmitter.InitializeAsync(dto);
-            _logFile.AppendLine($"Initialization result is {result.IsInitialized}");
+            var message = result.IsInitialized
+                ? "RTU initialized successfully, monitoring mode is " + (result.IsMonitoringOn ? "AUTO" : "MANUAL")
+                : "RTU initialization failed";
+            _logFile.AppendLine(message);
             return result;
         }
 
