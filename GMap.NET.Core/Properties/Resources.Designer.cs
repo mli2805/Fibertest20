@@ -77,6 +77,15 @@ namespace GMap.NET.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to (own/total) {0} / {1}.
+        /// </summary>
+        internal static string SID__own_total___0_____1_ {
+            get {
+                return ResourceManager.GetString("SID__own_total___0_____1_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Automatic.
         /// </summary>
         internal static string SID_Automatic {

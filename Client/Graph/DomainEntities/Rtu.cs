@@ -22,7 +22,7 @@ namespace Iit.Fibertest.Graph
         public int OwnPortCount { get; set; }
         public int FullPortCount { get; set; }
 
-        public string PortCount => $@"{OwnPortCount} / {FullPortCount}";
+        public string PortCount => OwnPortCount == FullPortCount ? $@"{FullPortCount}" : $@"{OwnPortCount} / {FullPortCount}";
 
         public string Version { get; set; }
 

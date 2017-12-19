@@ -144,10 +144,10 @@ namespace Iit.Fibertest.Client
 
             // apply initialization to graph
             _c2DWcfManager.SendCommandAsObj(ParseInitializationResult(dto));
-            UpdateRtuView(dto);
+            ShowNewRtuInfo(dto);
         }
 
-        private void UpdateRtuView(RtuInitializedDto dto)
+        private void ShowNewRtuInfo(RtuInitializedDto dto)
         {
             var originalRtu1 = new Rtu
             {
