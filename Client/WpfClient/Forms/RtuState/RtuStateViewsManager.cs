@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 
@@ -40,10 +41,10 @@ namespace Iit.Fibertest.Client
 
         private void ClearClosedViews()
         {
-            foreach (var pair in LaunchedViews)
+            var closed = (from pair in LaunchedViews where !pair.Value.IsOpen select pair.Key).ToList();
+            foreach (var view in closed)
             {
-                if (!pair.Value.IsOpen)
-                    LaunchedViews.Remove(pair.Key);
+                LaunchedViews.Remove(view);
             }
         }
 

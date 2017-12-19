@@ -76,27 +76,29 @@ namespace Iit.Fibertest.RtuManagement
 
             foreach (var portWithTrace in ports)
             {
-                MonitorigPort oldPort;
-                Queue.Enqueue(TryGetMonitoringPort(oldQueue, portWithTrace, out oldPort)
-                    ? oldPort
-                    : new MonitorigPort(portWithTrace));
+                MonitorigPort theSamePortInOldQueue = TryGetTheSameMonitoringPortInOldQueue(oldQueue, portWithTrace);
+                if (theSamePortInOldQueue != null)
+                {
+                    theSamePortInOldQueue.TraceId = portWithTrace.TraceId;
+                    Queue.Enqueue(theSamePortInOldQueue);
+                }
+                else
+                    Queue.Enqueue(new MonitorigPort(portWithTrace));
             }
         }
 
-        private bool TryGetMonitoringPort(List<MonitorigPort> oldQueue, PortWithTraceDto portWithTrace, out MonitorigPort theSameOldPort)
+        private MonitorigPort TryGetTheSameMonitoringPortInOldQueue(List<MonitorigPort> oldQueue, PortWithTraceDto portWithTrace)
         {
-            theSameOldPort = null;
-            foreach (var oldPort in oldQueue)
+            foreach (var portInOldQueue in oldQueue)
             {
-                if (oldPort.NetAddress.Ip4Address == portWithTrace.OtauPort.OtauIp
-                    && oldPort.NetAddress.Port == portWithTrace.OtauPort.OtauTcpPort
-                    && oldPort.OpticalPort == portWithTrace.OtauPort.OpticalPort)
+                if (portInOldQueue.NetAddress.Ip4Address == portWithTrace.OtauPort.OtauIp
+                    && portInOldQueue.NetAddress.Port == portWithTrace.OtauPort.OtauTcpPort
+                    && portInOldQueue.OpticalPort == portWithTrace.OtauPort.OpticalPort)
                 {
-                    theSameOldPort = oldPort;
-                    return true;
+                    return portInOldQueue;
                 }
             }
-            return false;
+            return null;
         }
 
         public void RaiseMonitoringModeChangedFlag()

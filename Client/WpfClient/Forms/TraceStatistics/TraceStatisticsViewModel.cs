@@ -7,12 +7,14 @@ using System.Windows.Data;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
 {
     public class TraceStatisticsViewModel : Screen
     {
+        private readonly IMyLog _logFile;
         private readonly ReadModel _readModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly ReflectogramManager _reflectogramManager;
@@ -34,7 +36,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public List<BaseRefForStats> BaseRefs { get; set; }
+        public ObservableCollection<BaseRefForStats> BaseRefs { get; set; } = new ObservableCollection<BaseRefForStats>();
 
         public ObservableCollection<MeasurementModel> Rows { get; set; } = new ObservableCollection<MeasurementModel>();
 
@@ -50,9 +52,10 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public TraceStatisticsViewModel(ReadModel readModel, IWcfServiceForClient c2DWcfManager,
+        public TraceStatisticsViewModel(IMyLog logFile, ReadModel readModel, IWcfServiceForClient c2DWcfManager,
             ReflectogramManager reflectogramManager, TraceStateViewsManager traceStateViewsManager)
         {
+            _logFile = logFile;
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
             _reflectogramManager = reflectogramManager;
@@ -76,8 +79,13 @@ namespace Iit.Fibertest.Client
             var traceStatistics = await _c2DWcfManager.GetTraceStatistics(traceId);
             if (traceStatistics == null)
                 return;
+            _logFile.AppendLine($@"There {traceStatistics.BaseRefs.Count} base refs and {traceStatistics.Measurements.Count} measurements");
 
-            BaseRefs = traceStatistics.BaseRefs;
+            BaseRefs.Clear();
+            foreach (var baseRef in traceStatistics.BaseRefs)
+            {
+                BaseRefs.Add(baseRef);   
+            }
 
             Rows.Clear();
             foreach (var measurement in traceStatistics.Measurements)

@@ -119,7 +119,8 @@ namespace Iit.Fibertest.WcfConnections
 
             try
             {
-                return await wcfConnection.GetTraceStatistics(traceId);
+                var traceStatistics = await wcfConnection.GetTraceStatistics(traceId);
+                return traceStatistics;
             }
             catch (Exception e)
             {

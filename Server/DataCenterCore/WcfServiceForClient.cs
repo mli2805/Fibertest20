@@ -93,7 +93,9 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<TraceStatistics> GetTraceStatistics(Guid traceId)
         {
-            return await _dbRequestManager.GetTraceMeasurementsAsync(traceId);
+            var traceStatistics = await _dbRequestManager.GetTraceMeasurementsAsync(traceId);
+            _logFile.AppendLine($"There {traceStatistics.BaseRefs.Count} base refs and {traceStatistics.Measurements.Count} measurements");
+            return traceStatistics;
         }
 
         public Task<byte[]> GetSorBytesOfBase(Guid baseRefId)
