@@ -87,7 +87,7 @@ namespace Iit.Fibertest.DataCenterCore
                 var events = _storeEvents
                     .OpenStream(AggregateId, revision + 1)
                     .CommittedEvents
-                    .Select(x => x.Body)
+               //     .Select(x => x.Body) // not only Body but Header too
                     .Select(x => JsonConvert.SerializeObject(x, JsonSerializerSettings))
                     .Take(_eventsPortion) // it depends on tcp buffer size and performance of clients' pc
                     .ToArray();

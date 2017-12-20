@@ -10,6 +10,7 @@ using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using Newtonsoft.Json;
+using NEventStore;
 using PrivateReflectionUsingDynamic;
 
 namespace Iit.Fibertest.Client
@@ -105,7 +106,8 @@ namespace Iit.Fibertest.Client
         {
             foreach (var json in events)
             {
-                var e = JsonConvert.DeserializeObject(json, JsonSerializerSettings);
+                var msg = (EventMessage)JsonConvert.DeserializeObject(json, JsonSerializerSettings);
+                var e = msg.Body;
                 foreach (var m in ReadModels)
                 {
                     m.AsDynamic().Apply(e);
