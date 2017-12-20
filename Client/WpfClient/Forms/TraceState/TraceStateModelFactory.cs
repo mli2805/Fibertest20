@@ -33,7 +33,7 @@ namespace Iit.Fibertest.Client
         public TraceStateModel CreateVm(Measurement measurement)
         {
             var vm = new TraceStateModel();
-            PrepareCaption(measurement.TraceId, ref vm);
+            PrepareHeader(measurement.TraceId, ref vm);
 
             vm.TraceId = measurement.TraceId;
             vm.TraceState = measurement.TraceState;
@@ -50,7 +50,7 @@ namespace Iit.Fibertest.Client
         public TraceStateModel CreateVm(OpticalEventModel opticalEventModel)
         {
             var vm = new TraceStateModel();
-            PrepareCaption(opticalEventModel.TraceId, ref vm);
+            PrepareHeader(opticalEventModel.TraceId, ref vm);
 
             vm.TraceId = opticalEventModel.TraceId;
             vm.TraceState = opticalEventModel.TraceState;
@@ -65,7 +65,7 @@ namespace Iit.Fibertest.Client
 
         }
 
-        private void PrepareCaption(Guid traceId, ref TraceStateModel result)
+        private void PrepareHeader(Guid traceId, ref TraceStateModel result)
         {
             var trace = _readModel.Traces.FirstOrDefault(t => t.Id == traceId);
             if (trace == null)

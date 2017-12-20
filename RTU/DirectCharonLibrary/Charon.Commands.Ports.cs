@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Runtime.InteropServices;
 using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.DirectCharonLibrary

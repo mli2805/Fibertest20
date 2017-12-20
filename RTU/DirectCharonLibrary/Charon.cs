@@ -19,7 +19,6 @@ namespace Iit.Fibertest.DirectCharonLibrary
         public int OwnPortCount { get; set; }
         public int FullPortCount { get; set; }
 
-        public Charon Parent { get; set; }
         public Dictionary<int, Charon> Children { get; set; }
 
         public string LastErrorMessage { get; set; }
@@ -34,7 +33,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
             _connectionTimeout = _iniFile35.Read(IniSection.Charon, IniKey.ConnectionTimeout, 5);
             _readTimeout = _iniFile35.Read(IniSection.Charon, IniKey.ReadTimeout, 2);
             _writeTimeout = _iniFile35.Read(IniSection.Charon, IniKey.WriteTimeout, 2);
-            _writeTimeout = _iniFile35.Read(IniSection.Charon, IniKey.PauseBetweenCommandsMs, 200);
+            _pauseBetweenCommands = _iniFile35.Read(IniSection.Charon, IniKey.PauseBetweenCommandsMs, 200);
             NetAddress = netAddress;
         }
 
@@ -84,7 +83,6 @@ namespace Iit.Fibertest.DirectCharonLibrary
                 foreach (var expendedPort in expendedPorts)
                 {
                     var childCharon = new Charon(expendedPort.Value, _iniFile35, _rtuLogFile);
-                    childCharon.Parent = this;
                     Children.Add(expendedPort.Key, childCharon);
                     if (childCharon.InitializeOtau() != null)
                     {
