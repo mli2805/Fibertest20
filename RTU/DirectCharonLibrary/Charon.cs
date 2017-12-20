@@ -13,6 +13,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
         private readonly int _connectionTimeout;
         private readonly int _readTimeout;
         private readonly int _writeTimeout;
+        private readonly int _pauseBetweenCommands;
         public NetAddress NetAddress { get; set; }
         public string Serial { get; set; }
         public int OwnPortCount { get; set; }
@@ -33,6 +34,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
             _connectionTimeout = _iniFile35.Read(IniSection.Charon, IniKey.ConnectionTimeout, 5);
             _readTimeout = _iniFile35.Read(IniSection.Charon, IniKey.ReadTimeout, 2);
             _writeTimeout = _iniFile35.Read(IniSection.Charon, IniKey.WriteTimeout, 2);
+            _writeTimeout = _iniFile35.Read(IniSection.Charon, IniKey.PauseBetweenCommandsMs, 200);
             NetAddress = netAddress;
         }
 

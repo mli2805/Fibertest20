@@ -9,7 +9,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
     {
         private void SendCommand(string cmd)
         {
-            Thread.Sleep(TimeSpan.FromMilliseconds(200));
+            Thread.Sleep(TimeSpan.FromMilliseconds(_pauseBetweenCommands));
             LastAnswer = "";
             LastErrorMessage = "";
             IsLastCommandSuccessful = false;
@@ -58,7 +58,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
 
         private void SendWriteIniCommand(string content)
         {
-            Thread.Sleep(TimeSpan.FromMilliseconds(200));
+            Thread.Sleep(TimeSpan.FromMilliseconds(_pauseBetweenCommands));
             LastAnswer = "";
             LastErrorMessage = "";
             IsLastCommandSuccessful = false;

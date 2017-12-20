@@ -15,8 +15,6 @@ namespace Iit.Fibertest.DatabaseLibrary
             _logFile = logFile;
         }
 
-
-
         public async Task<int> RegisterRtuAsync(RtuInitializedDto dto)
         {
             try

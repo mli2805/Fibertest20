@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Runtime.InteropServices;
 using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.DirectCharonLibrary
@@ -33,51 +34,70 @@ namespace Iit.Fibertest.DirectCharonLibrary
         {
             _rtuLogFile.AppendLine($"Toggling to port {port} on {charonAddress.ToStringA()}...");
             if (NetAddress.Equals(charonAddress))
+                return SetActivePortOnMainCharon(port);
+            else
             {
-                var activePort = SetActivePort(port);
-                if (activePort != port)
+                var bopCharon = GetBopCharonWithLogging(charonAddress);
+                if (bopCharon == null)
+                    return CharonOperationResult.LogicalError;
+                else
                 {
-                    _rtuLogFile.AppendLine("Toggle to port on Main Otau error");
-                    return CharonOperationResult.MainOtauError;
+                    var result = ToggleMasterCharonToBopIfNeeded(bopCharon);
+                    return result == CharonOperationResult.Ok ? SetActivePortOnBopCharon(bopCharon, port) : result;
                 }
-                _rtuLogFile.AppendLine("Toggled Ok.");
-                return CharonOperationResult.Ok;
             }
+        }
 
+        private CharonOperationResult SetActivePortOnMainCharon(int port)
+        {
+            var activePort = SetActivePort(port);
+            if (activePort == port)
+                return CharonOperationResult.Ok;
+
+            _rtuLogFile.AppendLine("Toggling second attempt...");
+            activePort = SetActivePort(port);
+            if (activePort == port)
+                return CharonOperationResult.Ok;
+
+            LastErrorMessage = $"Can't toggle switch into {port} port";
+            _rtuLogFile.AppendLine(LastErrorMessage, 2);
+            return CharonOperationResult.MainOtauError;
+        }
+
+        private Charon GetBopCharonWithLogging(NetAddress charonAddress)
+        {
             var charon = Children.Values.FirstOrDefault(c => c.NetAddress.Equals(charonAddress));
             if (charon == null)
             {
                 LastErrorMessage = "There is no such optical switch";
                 if (_charonLogLevel >= CharonLogLevel.PublicCommands)
                     _rtuLogFile.AppendLine(LastErrorMessage, 2);
-                return CharonOperationResult.LogicalError;
             }
+            return charon;
+        }
 
+        private CharonOperationResult ToggleMasterCharonToBopIfNeeded(Charon charon)
+        {
             var masterPort = Children.First(pair => pair.Value == charon).Key;
-            if (GetActivePort() != masterPort)
-            {
-                var newMasterPort = SetActivePort(masterPort);
-                if (newMasterPort != masterPort)
-                {
-                    LastErrorMessage = $"Can't toggle master switch into {masterPort} port";
-                    if (_charonLogLevel >= CharonLogLevel.PublicCommands)
-                        _rtuLogFile.AppendLine(LastErrorMessage, 2);
-                    return CharonOperationResult.MainOtauError;
-                }
-            }
+            return GetActivePort() != masterPort ? SetActivePortOnMainCharon(masterPort) : CharonOperationResult.Ok;
+        }
 
-            var resultingPort = charon.SetActivePort(port);
-            if (resultingPort != port)
-            {
-                LastErrorMessage = charon.LastErrorMessage;
-                IsLastCommandSuccessful = charon.IsLastCommandSuccessful;
-                if (_charonLogLevel >= CharonLogLevel.PublicCommands)
-                    _rtuLogFile.AppendLine(LastErrorMessage, 2);
-                return CharonOperationResult.AdditionalOtauError;
-            }
+        private CharonOperationResult SetActivePortOnBopCharon(Charon charon, int port)
+        {
+            var activePort = charon.SetActivePort(port);
+            if (activePort == port)
+                return CharonOperationResult.Ok;
 
-            _rtuLogFile.AppendLine("Toggled Ok.");
-            return CharonOperationResult.Ok;
+            _rtuLogFile.AppendLine("Toggling second attempt...");
+            activePort = charon.SetActivePort(port);
+            if (activePort == port)
+                return CharonOperationResult.Ok;
+
+            LastErrorMessage = charon.LastErrorMessage;
+            IsLastCommandSuccessful = charon.IsLastCommandSuccessful;
+            if (_charonLogLevel >= CharonLogLevel.PublicCommands)
+                _rtuLogFile.AppendLine(LastErrorMessage, 2);
+            return CharonOperationResult.AdditionalOtauError;
         }
     }
 }

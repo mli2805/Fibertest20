@@ -255,6 +255,7 @@ namespace Iit.Fibertest.RtuManagement
             {
                 case CharonOperationResult.Ok:
                     {
+                        _rtuLog.AppendLine("Toggled Ok.");
                         if (damagedOtau != null)
                             damagedOtau.RebootAttempts = 0;
                         _rtuIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.Ok);

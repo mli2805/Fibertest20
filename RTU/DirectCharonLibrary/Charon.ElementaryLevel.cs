@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.DirectCharonLibrary
@@ -14,13 +15,13 @@ namespace Iit.Fibertest.DirectCharonLibrary
             return LastAnswer == "OK\r\n";
         }
 
-//        private bool ResetOtdr(bool isOtdrOld)
-//        {
-//            SendCommand(isOtdrOld ? "otdr_reset\r\n" : "otdr_reset_\r\n");
-//            if (!IsLastCommandSuccessful)
-//                return false;
-//            return LastAnswer == "OK\r\n";
-//        }
+        //        private bool ResetOtdr(bool isOtdrOld)
+        //        {
+        //            SendCommand(isOtdrOld ? "otdr_reset\r\n" : "otdr_reset_\r\n");
+        //            if (!IsLastCommandSuccessful)
+        //                return false;
+        //            return LastAnswer == "OK\r\n";
+        //        }
 
         private string GetSerial()
         {
@@ -77,7 +78,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
                     IsLastCommandSuccessful = false;
                     LastErrorMessage = $"{e.Message} in GetExtentedPorts!";
                 }
-                return null; 
+                return null;
             }
         }
 

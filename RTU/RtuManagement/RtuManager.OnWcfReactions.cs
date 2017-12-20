@@ -58,7 +58,6 @@ namespace Iit.Fibertest.RtuManagement
         private void LogInitializationStart()
         {
             _rtuLog.EmptyLine();
-            _rtuLog.EmptyLine('-');
 
             var pid = Process.GetCurrentProcess().Id;
             var tid = Thread.CurrentThread.ManagedThreadId;

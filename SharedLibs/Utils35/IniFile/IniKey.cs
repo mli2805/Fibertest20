@@ -40,6 +40,7 @@
         ComPort,
         ComSpeed,
         PauseAfterReset,
+        PauseBetweenCommandsMs,
 
         // Monitoring
         IsMonitoringOn,
