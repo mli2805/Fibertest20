@@ -22,7 +22,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                var dbContext = new MySqlContext();
+                var dbContext = new FtDbContext();
                 var events = await dbContext.Measurements.Where(e => e.Id > afterIndex && e.EventStatus != EventStatus.JustMeasurementNotAnEvent).ToListAsync();
                 return events;
             }
@@ -37,7 +37,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                var dbContext = new MySqlContext();
+                var dbContext = new FtDbContext();
                 var result = new NetworkEventsList
                 {
                     Events = await dbContext.NetworkEvents.Where(e => e.Id > afterIndex).ToListAsync()
@@ -55,7 +55,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                var dbContext = new MySqlContext();
+                var dbContext = new FtDbContext();
                 var result = new TraceStatistics
                 {
                     Measurements = await dbContext.Measurements.Where(m => m.TraceId == traceId).ToListAsync(),
@@ -85,7 +85,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                using (var dbContext = new MySqlContext())
+                using (var dbContext = new FtDbContext())
                 {
                     var result = await dbContext.BaseRefs.Where(s => s.BaseRefId == baseRefId).FirstOrDefaultAsync();
                     return result?.SorBytes;
@@ -102,7 +102,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                using (var dbContext = new MySqlContext())
+                using (var dbContext = new FtDbContext())
                 {
                     var result = await dbContext.SorFiles.Where(s => s.Id == sorFileId).FirstOrDefaultAsync();
                     return result?.SorBytes;
@@ -119,7 +119,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                using (var dbContext = new MySqlContext())
+                using (var dbContext = new FtDbContext())
                 {
                     var lastMeas = await dbContext.Measurements.OrderByDescending(m => m.Id).
                                             Where(m => m.TraceId == traceId).FirstOrDefaultAsync();
@@ -141,7 +141,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                using (var dbContext = new MySqlContext())
+                using (var dbContext = new FtDbContext())
                 {
                     return await dbContext.Measurements.OrderByDescending(m => m.Id).
                                             Where(m => m.TraceId == traceId).FirstOrDefaultAsync();
@@ -158,7 +158,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                using (var dbContext = new MySqlContext())
+                using (var dbContext = new FtDbContext())
                 {
                     var measurement = await dbContext.Measurements.FirstOrDefaultAsync(m => m.SorFileId == dto.SorFileId);
                     if (measurement == null)

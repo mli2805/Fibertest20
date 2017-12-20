@@ -47,7 +47,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             try
             {
-                var dbContext = new MySqlContext();
+                var dbContext = new FtDbContext();
                 var previousMeasurementOnTrace = dbContext.Measurements.Where(ev => ev.TraceId == result.PortWithTrace.TraceId).ToList()
                     .LastOrDefault();
                 if (previousMeasurementOnTrace == null)
@@ -93,7 +93,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             try
             {
-                var dbContext = new MySqlContext();
+                var dbContext = new FtDbContext();
 
                 var sorFile = new SorFile() { SorBytes = result.SorData };
                 dbContext.SorFiles.Add(sorFile);

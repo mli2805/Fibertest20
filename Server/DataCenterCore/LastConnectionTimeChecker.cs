@@ -68,7 +68,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             try
             {
-                var dbContext = new MySqlContext();
+                var dbContext = new FtDbContext();
                 foreach (var rtuWithChannelChanges in changes.List)
                 {
                     dbContext.NetworkEvents.Add(new NetworkEvent()

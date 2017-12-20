@@ -31,8 +31,6 @@ namespace Iit.Fibertest.DataCenterService
 //            builder.RegisterType<SqliteEventStoreInitializer>().As<IEventStoreInitializer>().SingleInstance();
             builder.RegisterType<MySqlEventStoreInitializer>().As<IEventStoreInitializer>().SingleInstance();
 
-            // https://stackoverflow.com/questions/42207523/entity-framework-different-connection-issues-occurring-occasionally
-            builder.RegisterType<MySqlContext>().As<IFibertestDbContext>().SingleInstance();
 
             builder.RegisterType<WriteModel>().SingleInstance();
             builder.RegisterType<Aggregate>().SingleInstance();

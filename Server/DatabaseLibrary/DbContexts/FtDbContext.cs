@@ -1,12 +1,16 @@
-﻿using System.Data.Entity;
-using System.Threading.Tasks;
+using System.Data.Entity;
 using Iit.Fibertest.Dto;
+using MySql.Data.Entity;
 
 namespace Iit.Fibertest.DatabaseLibrary.DbContexts
 {
-    public class SqliteContext : DbContext, IFibertestDbContext
+    [DbConfigurationType(typeof(MySqlEFConfiguration))]
+    public class FtDbContext : DbContext
     {
-        public SqliteContext() : base("sqlitedb") { }
+        private const string MySqlConnectionString = "server=localhost;user id=root;password=root;database=fibertest20";
+        
+        // to use another db engine just change another connection string
+        public FtDbContext() : base(MySqlConnectionString) { }
 
         public DbSet<User> Users { get; set; }
         public DbSet<ClientStation> ClientStations { get; set; }
@@ -15,14 +19,5 @@ namespace Iit.Fibertest.DatabaseLibrary.DbContexts
         public DbSet<NetworkEvent> NetworkEvents { get; set; }
         public DbSet<Measurement> Measurements { get; set; }
         public DbSet<SorFile> SorFiles { get; set; }
-
-        public new void SaveChanges()
-        {
-            base.SaveChanges();
-        }
-        public new async Task<int> SaveChangesAsync()
-        {
-            return await base.SaveChangesAsync();
-        }
     }
 }

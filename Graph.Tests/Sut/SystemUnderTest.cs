@@ -41,7 +41,6 @@ namespace Graph.Tests
             builder.RegisterType<FakeEventStoreInitializer>().As<IEventStoreInitializer>().SingleInstance();
             builder.RegisterType<EventStoreService>().SingleInstance();
 
-            builder.RegisterType<MySqlContext>().As<IFibertestDbContext>().SingleInstance();
             builder.RegisterType<ClientRegistrationManager>().SingleInstance();
             builder.RegisterType<RtuRegistrationManager>().SingleInstance();
             builder.RegisterType<ClientToRtuTransmitter>().SingleInstance();

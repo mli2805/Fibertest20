@@ -22,7 +22,7 @@ namespace Iit.Fibertest.DatabaseLibrary
 
         private void SeedUsersTableIfNeeded()
         {
-            var dbContext = new MySqlContext();
+            var dbContext = new FtDbContext();
             if (dbContext.Users.Any())
                 return; // seeded already
 
@@ -58,7 +58,7 @@ namespace Iit.Fibertest.DatabaseLibrary
 
             try
             {
-                var dbContext = new MySqlContext();
+                var dbContext = new FtDbContext();
                 var users = dbContext.Users.ToList(); // there is no field Password in Db , so it should be instances in memory to address that property
                 var user = users.FirstOrDefault(u => u.Name == dto.UserName && FlipFlop(u.EncodedPassword) == dto.Password);
                 if (user != null)
@@ -86,7 +86,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                var dbContext = new MySqlContext();
+                var dbContext = new FtDbContext();
                 var station = dbContext.ClientStations.FirstOrDefault(s => s.ClientGuid == dto.ClientId);
                 if (station != null)
                 {
@@ -107,7 +107,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             var result = new ClientRegisteredDto();
             try
             {
-                var dbContext = new MySqlContext();
+                var dbContext = new FtDbContext();
                 var user = dbContext.Users.FirstOrDefault(u => u.Name == dto.UserName);
                 if (user == null)
                 {
@@ -177,7 +177,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                var dbContext = new MySqlContext();
+                var dbContext = new FtDbContext();
                 var station = dbContext.ClientStations.FirstOrDefault(s => s.ClientGuid == dto.ClientId);
                 if (station == null)
                 {
@@ -201,7 +201,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                var dbContext = new MySqlContext();
+                var dbContext = new FtDbContext();
                 dbContext.ClientStations.RemoveRange(dbContext.ClientStations);
                 return await dbContext.SaveChangesAsync();
             }
@@ -216,7 +216,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                var dbContext = new MySqlContext();
+                var dbContext = new FtDbContext();
                 DateTime noLaterThan = DateTime.Now - timeSpan;
                 var deadStations = dbContext.ClientStations.Where(s => s.LastConnectionTimestamp < noLaterThan).ToList();
                 foreach (var deadStation in deadStations)
@@ -237,7 +237,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                var dbContext = new MySqlContext();
+                var dbContext = new FtDbContext();
                 return await dbContext.ClientStations.ToListAsync();
             }
             catch (Exception e)

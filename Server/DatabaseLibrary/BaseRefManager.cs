@@ -23,7 +23,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             var result = new BaseRefAssignedDto();
             try
             {
-                var dbContext = new MySqlContext();
+                var dbContext = new FtDbContext();
 
                 foreach (var baseRef in dto.BaseRefs)
                 {
@@ -46,7 +46,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             return result;
         }
 
-        private static void AddOrUpdateBaseRef(AssignBaseRefsDto dto, MySqlContext dbContext, BaseRefDto baseRef)
+        private static void AddOrUpdateBaseRef(AssignBaseRefsDto dto, FtDbContext dbContext, BaseRefDto baseRef)
         {
             var newBaseRef = PrepareNewRecordFromDto(dbContext, dto, baseRef);
 
@@ -59,7 +59,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             dbContext.BaseRefs.Add(newBaseRef);
         }
 
-        private static BaseRef PrepareNewRecordFromDto(MySqlContext dbContext, AssignBaseRefsDto dto, BaseRefDto baseRef)
+        private static BaseRef PrepareNewRecordFromDto(FtDbContext dbContext, AssignBaseRefsDto dto, BaseRefDto baseRef)
         {
             var userName = "";
             var clientStation = dbContext.ClientStations.FirstOrDefault(s => s.ClientGuid == dto.ClientId);
@@ -77,7 +77,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             return newBaseRef;
         }
 
-        private static void RemoveBaseRef(MySqlContext dbContext, Guid traceId, BaseRefDto baseRef)
+        private static void RemoveBaseRef(FtDbContext dbContext, Guid traceId, BaseRefDto baseRef)
         {
             var oldBaseRef =
                 dbContext.BaseRefs.FirstOrDefault(
@@ -104,7 +104,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             var result = new List<BaseRefDto>();
             try
             {
-                var dbContext = new MySqlContext();
+                var dbContext = new FtDbContext();
                 var list = await dbContext.BaseRefs.Where(b => b.TraceId == traceId).ToListAsync();
                 result.AddRange(
                     list.Select(baseRef => new BaseRefDto()

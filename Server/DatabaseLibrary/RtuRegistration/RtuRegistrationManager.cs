@@ -10,7 +10,6 @@ namespace Iit.Fibertest.DatabaseLibrary
     public class RtuRegistrationManager
     {
         private readonly IMyLog _logFile;
-        //        private readonly IFibertestDbContext _dbContext;
 
         public RtuRegistrationManager(IMyLog logFile)
         {
@@ -23,7 +22,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                var dbContext = new MySqlContext();
+                var dbContext = new FtDbContext();
                 var rtu = dbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == dto.RtuId);
                 if (rtu == null)
                 {
@@ -49,7 +48,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                var dbContext = new MySqlContext();
+                var dbContext = new FtDbContext();
                 var rtu = dbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == rtuId);
                 if (rtu != null)
                 {
@@ -76,7 +75,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                var dbContext = new MySqlContext();
+                var dbContext = new FtDbContext();
                 var rtu = dbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == rtuId);
                 if (rtu != null)
                 {
@@ -100,7 +99,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                var dbContext = new MySqlContext();
+                var dbContext = new FtDbContext();
                 var rtu = dbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == dto.RtuId);
                 if (rtu == null)
                 {
@@ -128,7 +127,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             var changes = new RtuWithChannelChangesList();
             try
             {
-                var dbContext = new MySqlContext();
+                var dbContext = new FtDbContext();
                 DateTime noLaterThan = DateTime.Now - rtuHeartbeatPermittedGap;
 
                 var stationsWithExpiredMainChannel = dbContext.RtuStations.

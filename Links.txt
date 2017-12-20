@@ -52,6 +52,8 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
 	+ done
 
 28. бд убрать интерфейс, сделать через connection string
+	+ done
+
 	рассмотреть паттерн репозиторий 
 
 29. Ioc.Get<> заменить ?
