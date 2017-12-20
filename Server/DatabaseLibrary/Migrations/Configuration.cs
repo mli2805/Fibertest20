@@ -2,7 +2,7 @@ namespace Iit.Fibertest.DatabaseLibrary.Migrations
 {
     using System.Data.Entity.Migrations;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<DbContexts.FtDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<FtDbContext>
     {
         public Configuration()
         {
@@ -10,7 +10,7 @@ namespace Iit.Fibertest.DatabaseLibrary.Migrations
             ContextKey = "Iit.Fibertest.DatabaseLibrary.DbContexts.FtDbContext";
         }
 
-        protected override void Seed(DbContexts.FtDbContext context)
+        protected override void Seed(FtDbContext context)
         {
             //  This method will be called after migrating to the latest version.
 

@@ -73,7 +73,7 @@
   <ItemGroup>
     <Compile Include="BaseRefManager.cs" />
     <Compile Include="ClientRegistrationManager.cs" />
-    <Compile Include="DbContexts\FtDbContext.cs" />
+    <Compile Include="FtDbContext.cs" />
     <Compile Include="DbRequestManager.cs" />
     <Compile Include="Migrations\201712070715534_InitialCreate.cs" />
     <Compile Include="Migrations\201712070715534_InitialCreate.Designer.cs">

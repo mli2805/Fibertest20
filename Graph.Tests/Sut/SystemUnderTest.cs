@@ -5,7 +5,6 @@ using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.DatabaseLibrary;
-using Iit.Fibertest.DatabaseLibrary.DbContexts;
 using Iit.Fibertest.DataCenterCore;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;

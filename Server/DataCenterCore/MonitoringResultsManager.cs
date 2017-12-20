@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.DatabaseLibrary;
-using Iit.Fibertest.DatabaseLibrary.DbContexts;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;

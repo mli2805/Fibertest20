@@ -2,7 +2,7 @@ using System.Data.Entity;
 using Iit.Fibertest.Dto;
 using MySql.Data.Entity;
 
-namespace Iit.Fibertest.DatabaseLibrary.DbContexts
+namespace Iit.Fibertest.DatabaseLibrary
 {
     [DbConfigurationType(typeof(MySqlEFConfiguration))]
     public class FtDbContext : DbContext
