@@ -49,6 +49,7 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
 26. верификация на сервере операций - write model почти идентична read model
 
 27. Vm переименовать в Model
+	+ done
 
 28. бд убрать интерфейс, сделать через connection string
 	рассмотреть паттерн репозиторий 

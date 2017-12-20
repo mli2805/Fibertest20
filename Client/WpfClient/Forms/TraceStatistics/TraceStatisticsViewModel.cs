@@ -18,6 +18,7 @@ namespace Iit.Fibertest.Client
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly ReflectogramManager _reflectogramManager;
         private readonly TraceStateViewsManager _traceStateViewsManager;
+        public bool IsOpen { get; private set; }
 
         public string TraceTitle { get; set; }
         public string RtuTitle { get; set; }
@@ -99,6 +100,7 @@ namespace Iit.Fibertest.Client
         protected override void OnViewLoaded(object view)
         {
             DisplayName = @"Trace statistics";
+            IsOpen = true;
         }
 
         public void ShowReflectogram(int param)
@@ -137,6 +139,11 @@ namespace Iit.Fibertest.Client
             var lastRow = Rows.First(); // click on the Row , so Rows collection couldn't be empty
             _traceStateViewsManager.ShowTraceState(SelectedRow.Measurement, lastRow.Measurement.Id == SelectedRow.Measurement.Id);
         }
-     
+
+        public override void CanClose(Action<bool> callback)
+        {
+            IsOpen = false;
+            base.CanClose(callback);
+        }
     }
 }

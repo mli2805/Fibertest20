@@ -10,7 +10,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly SoundManager _soundManager;
         private bool _isSoundForThisVmInstanceOn;
-        public bool IsOpen { get; set; }
+        public bool IsOpen { get; private set; }
 
         public RtuStateModel Model { get; set; }
 

@@ -17,7 +17,7 @@ namespace Iit.Fibertest.Client
         private readonly IWcfServiceForClient _c2DWcfManager;
         private bool _isSoundForThisVmInstanceOn;
         private bool _isUserAskedToOpenView;
-        public bool IsOpen { get; set; }
+        public bool IsOpen { get; private set; }
 
         public TraceStateModel Model { get; set; }
         public bool IsLastStateForThisTrace { get; set; }

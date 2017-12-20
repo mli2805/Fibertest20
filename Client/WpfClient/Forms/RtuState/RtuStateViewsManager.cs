@@ -34,7 +34,6 @@ namespace Iit.Fibertest.Client
             vm = IoC.Get<RtuStateViewModel>();
             vm.Initialize(_rtuStateModelFactory.Create(rtuLeaf));
             _windowManager.ShowWindowWithAssignedOwner(vm);
-//            _windowManager.ShowWindow(vm);
 
             LaunchedViews.Add(rtuId, vm);
         }
@@ -55,6 +54,7 @@ namespace Iit.Fibertest.Client
 
         public void NotifyUserRtuCurrentMonitoringStep(CurrentMonitoringStepDto dto)
         {
+            CleanClosedView();
             RtuStateViewModel vm;
             if (LaunchedViews.TryGetValue(dto.RtuId, out vm))
                 vm.NotifyUserCurrentMonitoringStep(dto);
@@ -62,6 +62,7 @@ namespace Iit.Fibertest.Client
 
         public void NotifyUserMonitoringResult(Measurement dto)
         {
+            CleanClosedView();
             RtuStateViewModel vm;
             if (LaunchedViews.TryGetValue(dto.RtuId, out vm))
                 vm.NotifyUserMonitoringResult(dto);

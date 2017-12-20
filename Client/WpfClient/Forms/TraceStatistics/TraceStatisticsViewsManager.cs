@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 
@@ -15,8 +16,18 @@ namespace Iit.Fibertest.Client
             _windowManager = windowManager;
         }
 
+        private void ClearClosedViews()
+        {
+            var closed = (from pair in LaunchedViews where !pair.Value.IsOpen select pair.Key).ToList();
+            foreach (var view in closed)
+            {
+                LaunchedViews.Remove(view);
+            }
+        }
+
         public void Show(Guid traceId)
         {
+            ClearClosedViews();
             TraceStatisticsViewModel vm;
             if (LaunchedViews.TryGetValue(traceId, out vm))
             {
@@ -33,6 +44,7 @@ namespace Iit.Fibertest.Client
 
         public void AddNewMeasurement(Measurement measurement)
         {
+            ClearClosedViews();
             var traceId = measurement.TraceId;
 
             TraceStatisticsViewModel vm;
