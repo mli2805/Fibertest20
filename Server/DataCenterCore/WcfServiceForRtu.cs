@@ -12,17 +12,17 @@ namespace Iit.Fibertest.DataCenterCore
     public class WcfServiceForRtu : IWcfServiceForRtu
     {
         private readonly IMyLog _logFile;
-        private readonly ClientRegistrationManager _clientRegistrationManager;
+        private readonly ClientStationsRepository _clientStationsRepository;
         private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly D2CWcfManager _d2CWcfManager;
 
         public WcfServiceForRtu(IMyLog logFile,
-            ClientRegistrationManager clientRegistrationManager,
+            ClientStationsRepository clientStationsRepository,
             RtuStationsRepository rtuStationsRepository,
             D2CWcfManager d2CWcfManager)
         {
             _logFile = logFile;
-            _clientRegistrationManager = clientRegistrationManager;
+            _clientStationsRepository = clientStationsRepository;
             _rtuStationsRepository = rtuStationsRepository;
             _d2CWcfManager = d2CWcfManager;
         }
@@ -31,7 +31,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             try
             {
-                var addresses = _clientRegistrationManager.GetClientsAddresses().Result;
+                var addresses = _clientStationsRepository.GetClientsAddresses().Result;
                 if (addresses == null)
                     return;
                 _d2CWcfManager.SetClientsAddresses(addresses);

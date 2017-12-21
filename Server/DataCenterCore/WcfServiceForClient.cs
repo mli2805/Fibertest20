@@ -18,10 +18,10 @@ namespace Iit.Fibertest.DataCenterCore
 
         private readonly IMyLog _logFile;
 
-        private readonly ClientRegistrationManager _clientRegistrationManager;
+        private readonly ClientStationsRepository _clientStationsRepository;
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
         private readonly RtuStationsRepository _rtuStationsRepository;
-        private readonly BaseRefManager _baseRefManager;
+        private readonly BaseRefsRepository _baseRefsRepository;
         private readonly MeasurementsRepository _measurementsRepository;
         private readonly NetworkEventsRepository _networkEventsRepository;
 
@@ -31,16 +31,16 @@ namespace Iit.Fibertest.DataCenterCore
         };
 
         public WcfServiceForClient(IMyLog logFile, EventStoreService eventStoreService,
-            ClientRegistrationManager clientRegistrationManager, ClientToRtuTransmitter clientToRtuTransmitter,
-            RtuStationsRepository rtuStationsRepository, BaseRefManager baseRefManager, 
+            ClientStationsRepository clientStationsRepository, ClientToRtuTransmitter clientToRtuTransmitter,
+            RtuStationsRepository rtuStationsRepository, BaseRefsRepository baseRefsRepository, 
             MeasurementsRepository measurementsRepository, NetworkEventsRepository networkEventsRepository)
         {
             _logFile = logFile;
             _eventStoreService = eventStoreService;
-            _clientRegistrationManager = clientRegistrationManager;
+            _clientStationsRepository = clientStationsRepository;
             _clientToRtuTransmitter = clientToRtuTransmitter;
             _rtuStationsRepository = rtuStationsRepository;
-            _baseRefManager = baseRefManager;
+            _baseRefsRepository = baseRefsRepository;
             _measurementsRepository = measurementsRepository;
             _networkEventsRepository = networkEventsRepository;
         }
@@ -123,12 +123,12 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {
-            return await _clientRegistrationManager.RegisterClientAsync(dto);
+            return await _clientStationsRepository.RegisterClientAsync(dto);
         }
 
         public async Task UnregisterClientAsync(UnRegisterClientDto dto)
         {
-            await _clientRegistrationManager.UnregisterClientAsync(dto);
+            await _clientStationsRepository.UnregisterClientAsync(dto);
             _logFile.AppendLine($"Client {dto.ClientId.First6()} exited");
         }
 
@@ -183,7 +183,7 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto dto)
         {
             _logFile.AppendLine($"Client {dto.ClientId.First6()} sent base ref for trace {dto.TraceId.First6()}");
-            var result = await _baseRefManager.AddUpdateOrRemoveBaseRef(dto);
+            var result = await _baseRefsRepository.AddUpdateOrRemoveBaseRef(dto);
             if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                 return result;
 
@@ -197,7 +197,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             _logFile.AppendLine($"Client {dto.ClientId.First6()} asked to re-send base ref for trace {dto.TraceId.First6()}");
 
-            var convertedDto = await _baseRefManager.ConvertReSendToAssign(dto);
+            var convertedDto = await _baseRefsRepository.ConvertReSendToAssign(dto);
 
             if (convertedDto?.BaseRefs == null)
                 return new BaseRefAssignedDto() {ReturnCode = ReturnCode.DbCannotConvertThisReSendToAssign};

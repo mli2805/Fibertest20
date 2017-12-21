@@ -12,7 +12,7 @@ namespace Iit.Fibertest.DataCenterCore
     {
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
-        private readonly ClientRegistrationManager _clientRegistrationManager;
+        private readonly ClientStationsRepository _clientStationsRepository;
         private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly D2CWcfManager _d2CWcfManager;
         private TimeSpan _checkHeartbeatEvery;
@@ -20,12 +20,12 @@ namespace Iit.Fibertest.DataCenterCore
         private TimeSpan _clientHeartbeatPermittedGap;
 
         public LastConnectionTimeChecker(IniFile iniFile, IMyLog logFile,
-            ClientRegistrationManager clientRegistrationManager, RtuStationsRepository rtuStationsRepository,
+            ClientStationsRepository clientStationsRepository, RtuStationsRepository rtuStationsRepository,
             D2CWcfManager d2CWcfManager)
         {
             _iniFile = iniFile;
             _logFile = logFile;
-            _clientRegistrationManager = clientRegistrationManager;
+            _clientStationsRepository = clientStationsRepository;
             _rtuStationsRepository = rtuStationsRepository;
             _d2CWcfManager = d2CWcfManager;
         }
@@ -52,7 +52,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task<int> Tick()
         {
-            _clientRegistrationManager.CleanDeadClients(_clientHeartbeatPermittedGap).Wait();
+            _clientStationsRepository.CleanDeadClients(_clientHeartbeatPermittedGap).Wait();
 
             var changes = await _rtuStationsRepository.GetAndSaveRtuStationsAvailabilityChanges(_rtuHeartbeatPermittedGap);
             if (changes.List.Count == 0)
@@ -93,7 +93,7 @@ namespace Iit.Fibertest.DataCenterCore
             changes.List.ForEach(r => _logFile.AppendLine(r.Report()));
             var dto = new ListOfRtuWithChangedAvailabilityDto() { List = changes.List };
 
-            var addresses = await _clientRegistrationManager.GetClientsAddresses();
+            var addresses = await _clientStationsRepository.GetClientsAddresses();
             if (addresses == null)
                 return 0;
             _d2CWcfManager.SetClientsAddresses(addresses);

@@ -8,15 +8,13 @@ using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.DatabaseLibrary
 {
-    public class ClientRegistrationManager
+    public class ClientStationsRepository
     {
         private readonly IMyLog _logFile;
-        //        private readonly IFibertestDbContext _dbContext;
 
-        public ClientRegistrationManager(IMyLog logFile)
+        public ClientStationsRepository(IMyLog logFile)
         {
             _logFile = logFile;
-            //            _dbContext = dbContext;
         }
 
         private void SeedUsersTableIfNeeded()
@@ -196,7 +194,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
         }
 
-        public async Task<int> CleanClientStations()
+        public async Task<int> CleanClientStationsTable()
         {
             try
             {
@@ -206,7 +204,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
             catch (Exception e)
             {
-                _logFile.AppendLine("CleanClientStations" + e.Message);
+                _logFile.AppendLine("CleanClientStationsTable" + e.Message);
                 return -1;
             }
         }

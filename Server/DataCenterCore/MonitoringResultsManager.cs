@@ -11,14 +11,14 @@ namespace Iit.Fibertest.DataCenterCore
     public class MonitoringResultsManager
     {
         private readonly IMyLog _logFile;
-        private readonly ClientRegistrationManager _clientRegistrationManager;
+        private readonly ClientStationsRepository _clientStationsRepository;
         private readonly D2CWcfManager _d2CWcfManager;
 
 
-        public MonitoringResultsManager(IMyLog logFile, ClientRegistrationManager clientRegistrationManager, D2CWcfManager d2CWcfManager)
+        public MonitoringResultsManager(IMyLog logFile, ClientStationsRepository clientStationsRepository, D2CWcfManager d2CWcfManager)
         {
             _logFile = logFile;
-            _clientRegistrationManager = clientRegistrationManager;
+            _clientStationsRepository = clientStationsRepository;
             _d2CWcfManager = d2CWcfManager;
         }
 
@@ -35,7 +35,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task<int> SendMoniresultToClients(Measurement measurement)
         {
-            var addresses = await _clientRegistrationManager.GetClientsAddresses();
+            var addresses = await _clientStationsRepository.GetClientsAddresses();
             if (addresses == null)
                 return 0;
             _d2CWcfManager.SetClientsAddresses(addresses);

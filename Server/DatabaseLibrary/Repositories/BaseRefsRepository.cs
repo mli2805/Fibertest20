@@ -8,11 +8,11 @@ using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.DatabaseLibrary
 {
-    public class BaseRefManager
+    public class BaseRefsRepository
     {
         private readonly IMyLog _logFile;
 
-        public BaseRefManager(IMyLog logFile)
+        public BaseRefsRepository(IMyLog logFile)
         {
             _logFile = logFile;
         }

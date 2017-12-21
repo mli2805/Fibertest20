@@ -71,8 +71,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseRefManager.cs" />
-    <Compile Include="ClientRegistrationManager.cs" />
+    <Compile Include="Repositories\BaseRefsRepository.cs" />
+    <Compile Include="Repositories\ClientStationsRepository.cs" />
     <Compile Include="FtDbContext.cs" />
     <Compile Include="Repositories\MeasurementsRepository.cs" />
     <Compile Include="Migrations\201712070715534_InitialCreate.cs" />

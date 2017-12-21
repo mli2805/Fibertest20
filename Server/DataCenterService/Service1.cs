@@ -12,7 +12,7 @@ namespace Iit.Fibertest.DataCenterService
         public IniFile IniFile { get; }
         private readonly IMyLog _logFile;
         private readonly EventStoreService _eventStoreService;
-        private readonly ClientRegistrationManager _clientRegistrationManager;
+        private readonly ClientStationsRepository _clientStationsRepository;
         private readonly LastConnectionTimeChecker _lastConnectionTimeChecker;
         private readonly WcfServiceForClientBootstrapper _wcfServiceForClientBootstrapper;
         private readonly WcfServiceForRtuBootstrapper _wcfServiceForRtuBootstrapper;
@@ -20,7 +20,7 @@ namespace Iit.Fibertest.DataCenterService
 
         public Service1(IniFile iniFile, IMyLog logFile,
             EventStoreService eventStoreService, 
-            ClientRegistrationManager clientRegistrationManager,
+            ClientStationsRepository clientStationsRepository,
             LastConnectionTimeChecker lastConnectionTimeChecker,
             WcfServiceForClientBootstrapper wcfServiceForClientBootstrapper,
             WcfServiceForRtuBootstrapper wcfServiceForRtuBootstrapper,
@@ -29,7 +29,7 @@ namespace Iit.Fibertest.DataCenterService
             IniFile = iniFile;
             _logFile = logFile;
             _eventStoreService = eventStoreService;
-            _clientRegistrationManager = clientRegistrationManager;
+            _clientStationsRepository = clientStationsRepository;
             _logFile.AssignFile("DataCenter.log");
             _lastConnectionTimeChecker = lastConnectionTimeChecker;
             _wcfServiceForClientBootstrapper = wcfServiceForClientBootstrapper;
@@ -45,7 +45,7 @@ namespace Iit.Fibertest.DataCenterService
             _logFile.AppendLine($"Windows service started. Process {pid}, thread {tid}");
 
             _eventStoreService.Init();
-            _clientRegistrationManager.CleanClientStations().Wait();
+            _clientStationsRepository.CleanClientStationsTable().Wait();
             _lastConnectionTimeChecker.Start();
             _wcfServiceForClientBootstrapper.Start();
             _wcfServiceForRtuBootstrapper.Start();
