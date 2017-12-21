@@ -1,22 +1,31 @@
 ﻿using System;
 using System.Messaging;
-using Iit.Fibertest.DataCenterCore;
+using System.Threading.Tasks;
+using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WcfConnections;
 
-namespace Iit.Fibertest.DataCenterService
+namespace Iit.Fibertest.DataCenterCore
 {
     public class MsmqHandler
     {
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
-        private readonly MonitoringResultsManager _monitoringResultsManager;
+        private readonly MonitoringResultsRepository _monitoringResultsRepository;
+        private readonly ClientStationsRepository _clientStationsRepository;
+        private readonly D2CWcfManager _d2CWcfManager;
 
-        public MsmqHandler(IniFile iniFile, IMyLog logFile, MonitoringResultsManager monitoringResultsManager)
+        public MsmqHandler(IniFile iniFile, IMyLog logFile, 
+            MonitoringResultsRepository monitoringResultsRepository,
+            ClientStationsRepository clientStationsRepository,
+            D2CWcfManager d2CWcfManager)
         {
             _iniFile = iniFile;
             _logFile = logFile;
-            _monitoringResultsManager = monitoringResultsManager;
+            _monitoringResultsRepository = monitoringResultsRepository;
+            _clientStationsRepository = clientStationsRepository;
+            _d2CWcfManager = d2CWcfManager;
         }
 
         public void Start()
@@ -50,13 +59,8 @@ namespace Iit.Fibertest.DataCenterService
                 // End the asynchronous receive operation.
                 Message message = queue.EndReceive(asyncResult.AsyncResult);
 
-
-                var mr = message.Body as MonitoringResultDto;
-                if (mr != null)
-                {
-                    _logFile.AppendLine($@"MSMQ message received, RTU {mr.RtuId.First6()}, Trace {mr.PortWithTrace.TraceId.First6()} - {mr.TraceState} ({mr.BaseRefType})");
-                    _monitoringResultsManager.ProcessMonitoringResult(mr).Wait();
-                }
+                ProcessMessage(message);
+           
             }
             catch (Exception e)
             {
@@ -67,6 +71,28 @@ namespace Iit.Fibertest.DataCenterService
                 // Restart the asynchronous receive operation.
                 queue.BeginReceive();
             }
+        }
+
+
+        private void ProcessMessage(Message message)
+        {
+            var mr = message.Body as MonitoringResultDto;
+            if (mr != null)
+            {
+                _logFile.AppendLine($@"MSMQ message received, RTU {mr.RtuId.First6()}, Trace {mr.PortWithTrace.TraceId.First6()} - {mr.TraceState} ({mr.BaseRefType})");
+                var measurement = _monitoringResultsRepository.SaveMonitoringResultAsync(mr).Result;
+                if (measurement != null)
+                    SendMoniresultToClients(measurement).Wait();
+            }
+        }
+
+        private async Task<int> SendMoniresultToClients(Measurement measurement)
+        {
+            var addresses = await _clientStationsRepository.GetClientsAddresses();
+            if (addresses == null)
+                return 0;
+            _d2CWcfManager.SetClientsAddresses(addresses);
+            return await _d2CWcfManager.NotifyAboutMonitoringResult(measurement);
         }
     }
 }

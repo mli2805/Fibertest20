@@ -38,13 +38,13 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<NetworkEventsRepository>().SingleInstance();
             builder.RegisterType<ClientStationsRepository>().SingleInstance();
             builder.RegisterType<RtuStationsRepository>().SingleInstance();
-            builder.RegisterType<ClientToRtuTransmitter>().SingleInstance();
             builder.RegisterType<BaseRefsRepository>().SingleInstance();
+            builder.RegisterType<MonitoringResultsRepository>().SingleInstance();
+            builder.RegisterType<ClientToRtuTransmitter>().SingleInstance();
 
             builder.RegisterType<D2CWcfManager>().SingleInstance();
             builder.RegisterType<LastConnectionTimeChecker>().SingleInstance();
 
-            builder.RegisterType<MonitoringResultsManager>().SingleInstance();
             builder.RegisterType<WcfServiceForClient>().As<IWcfServiceForClient>().SingleInstance();
             builder.RegisterType<WcfServiceForClientBootstrapper>().SingleInstance();
             builder.RegisterType<WcfServiceForRtu>().As<IWcfServiceForRtu>().SingleInstance();

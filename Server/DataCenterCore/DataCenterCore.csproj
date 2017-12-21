@@ -89,13 +89,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientToRtuTransmitter.cs" />
+    <Compile Include="MsmqHandler.cs" />
     <Compile Include="NEventStore\MySqlEventStoreInitializer.cs" />
     <Compile Include="NEventStore\SqliteEventStoreInitializer.cs" />
     <Compile Include="NEventStore\IEventStoreInitializer.cs" />
     <Compile Include="WcfServiceForClientBootstrapper.cs" />
     <Compile Include="NEventStore\EventStoreService.cs" />
     <Compile Include="LastConnectionTimeChecker.cs" />
-    <Compile Include="MonitoringResultsManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WcfServiceForClient.cs" />
     <Compile Include="WcfServiceForRtu.cs" />
