@@ -199,6 +199,19 @@ namespace Iit.Fibertest.Client
             if (modalResult == true)
                 SelectedRtuFilter = _rtuFilterViewModel.SelectedRow;
         }
-      
+
+        public void ApplyUsersChanges(UpdateMeasurementDto dto)
+        {
+            var opticalEventModel = Rows.FirstOrDefault(r => r.SorFileId == dto.SorFileId);
+            if (opticalEventModel == null)
+                return;
+
+            opticalEventModel.EventStatus = dto.EventStatus;
+            opticalEventModel.Comment = dto.Comment;
+
+            Rows.Remove(opticalEventModel);
+            Rows.Add(opticalEventModel);
+            SelectedRow = opticalEventModel;
+        }
     }
 }

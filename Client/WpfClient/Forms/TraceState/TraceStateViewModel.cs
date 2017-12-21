@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
@@ -15,6 +16,7 @@ namespace Iit.Fibertest.Client
         private readonly ReflectogramManager _reflectogramManager;
         private readonly SoundManager _soundManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly OpticalEventsDoubleViewModel _opticalEventsDoubleViewModel;
         private bool _isSoundForThisVmInstanceOn;
         private bool _isUserAskedToOpenView;
         public bool IsOpen { get; private set; }
@@ -26,12 +28,13 @@ namespace Iit.Fibertest.Client
         public EventStatusComboItem SelectedEventStatus { get; set; }
 
         public TraceStateViewModel(IMyLog logFile, ReflectogramManager reflectogramManager, 
-            SoundManager soundManager, IWcfServiceForClient c2DWcfManager)
+            SoundManager soundManager, IWcfServiceForClient c2DWcfManager, OpticalEventsDoubleViewModel opticalEventsDoubleViewModel)
         {
             _logFile = logFile;
             _reflectogramManager = reflectogramManager;
             _soundManager = soundManager;
             _c2DWcfManager = c2DWcfManager;
+            _opticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
         }
 
         public void Initialize(TraceStateModel model, bool isLastStateForThisTrace, bool isUserAskedToOpenView)
@@ -39,7 +42,7 @@ namespace Iit.Fibertest.Client
             Model = model;
             IsLastStateForThisTrace = isLastStateForThisTrace;
             _isUserAskedToOpenView = isUserAskedToOpenView;
-            if (Model.EventStatus != EventStatus.NotAnAccident)
+            if (Model.EventStatus > EventStatus.NotAnAccident)
                 InitializeEventStatusCombobox();
         }
 
@@ -104,17 +107,26 @@ namespace Iit.Fibertest.Client
 
         public async void SaveMeasurementChanges()
         {
-            var dto = new UpdateMeasurementDto()
+            using (new WaitCursor())
             {
-                SorFileId = Model.SorFileId,
-                EventStatus = SelectedEventStatus.EventStatus,
-                Comment = Model.Comment,
-            };
+                var dto = new UpdateMeasurementDto
+                {
+                    SorFileId = Model.SorFileId,
+                    Comment = Model.Comment,
+                    EventStatus = Model.OpticalEventPanelVisibility == Visibility.Visible
+                        ? SelectedEventStatus.EventStatus
+                        : Model.EventStatus,
+                };
 
-            var result = await _c2DWcfManager.SaveMeasurementChanges(dto);
-            if (result.ReturnCode != ReturnCode.Ok)
-            {
-                _logFile.AppendLine(@"Cannot update measurement!");
+                var result = await _c2DWcfManager.SaveMeasurementChanges(dto);
+                if (result.ReturnCode != ReturnCode.Ok)
+                {
+                    _logFile.AppendLine(@"Cannot update measurement!");
+                }
+                else
+                {
+                    _opticalEventsDoubleViewModel.ApplyUsersChanges(dto);
+                }
             }
             TryClose();
         }

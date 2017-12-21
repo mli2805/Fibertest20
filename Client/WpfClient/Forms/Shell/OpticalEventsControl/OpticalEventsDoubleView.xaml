@@ -15,10 +15,5 @@
         <client:OpticalEventsView DataContext="{Binding ActualOpticalEventsViewModel}"/>
         <GridSplitter Grid.Row="1" Height="4" HorizontalAlignment="Stretch" />
         <client:OpticalEventsView Grid.Row="2" DataContext="{Binding AllOpticalEventsViewModel}"/>
-        <StatusBar Grid.Row="3" Height="28" BorderBrush="DarkGray" BorderThickness="0,1,0,0">
-            <StatusBarItem>
-                <TextBlock Text="This is status bar for event table" Margin="5,0,20,0"/>
-            </StatusBarItem>
-        </StatusBar>
     </Grid>
 </UserControl>

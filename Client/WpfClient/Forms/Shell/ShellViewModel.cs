@@ -31,6 +31,18 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        private string _statusBarMessage;
+        public string StatusBarMessage
+        {
+            get { return _statusBarMessage; }
+            set
+            {
+                if (value == _statusBarMessage) return;
+                _statusBarMessage = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         private string _server;
 
         private readonly IWindowManager _windowManager;

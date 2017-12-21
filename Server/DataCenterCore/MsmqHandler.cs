@@ -74,16 +74,16 @@ namespace Iit.Fibertest.DataCenterCore
         }
 
 
-        private void ProcessMessage(Message message)
+        private async void ProcessMessage(Message message)
         {
-            var mr = message.Body as MonitoringResultDto;
-            if (mr != null)
-            {
-                _logFile.AppendLine($@"MSMQ message received, RTU {mr.RtuId.First6()}, Trace {mr.PortWithTrace.TraceId.First6()} - {mr.TraceState} ({mr.BaseRefType})");
-                var measurement = _monitoringResultsRepository.SaveMonitoringResultAsync(mr).Result;
-                if (measurement != null)
-                    SendMoniresultToClients(measurement).Wait();
-            }
+            var monitoringResultDto = message.Body as MonitoringResultDto;
+            if (monitoringResultDto == null)
+                return;
+
+            _logFile.AppendLine($@"MSMQ message received, RTU {monitoringResultDto.RtuId.First6()}, Trace {monitoringResultDto.PortWithTrace.TraceId.First6()} - {monitoringResultDto.TraceState} ({monitoringResultDto.BaseRefType})");
+            var measurement = await _monitoringResultsRepository.SaveMonitoringResultAsync(monitoringResultDto);
+            if (measurement != null)
+                await SendMoniresultToClients(measurement);
         }
 
         private async Task<int> SendMoniresultToClients(Measurement measurement)

@@ -9,6 +9,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly ReadModel _readModel;
         private Visibility _opticalEventsVisibility;
+
         public Visibility OpticalEventsVisibility
         {
             get { return _opticalEventsVisibility; }
@@ -22,6 +23,8 @@ namespace Iit.Fibertest.Client
 
         public OpticalEventsViewModel AllOpticalEventsViewModel { get; set; }
         public OpticalEventsViewModel ActualOpticalEventsViewModel { get; set; }
+
+    
 
         public OpticalEventsDoubleViewModel(ReadModel readModel,
             OpticalEventsViewModel allOpticalEventsViewModel,
@@ -51,6 +54,12 @@ namespace Iit.Fibertest.Client
         public void ApplyToTableAll(Measurement measurement)
         {
             AllOpticalEventsViewModel.AddEvent(measurement);
+        }
+
+        public void ApplyUsersChanges(UpdateMeasurementDto dto)
+        {
+            ActualOpticalEventsViewModel.ApplyUsersChanges(dto);
+            AllOpticalEventsViewModel.ApplyUsersChanges(dto);
         }
     }
 }

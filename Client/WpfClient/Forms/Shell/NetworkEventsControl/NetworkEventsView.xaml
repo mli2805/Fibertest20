@@ -7,11 +7,6 @@
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance client:NetworkEventsViewModel}">
     <DockPanel>
-        <StatusBar DockPanel.Dock="Bottom" Height="28" BorderBrush="DarkGray" BorderThickness="0,1,0,0">
-            <StatusBarItem>
-                <TextBlock Text="This is status bar for event table" Margin="5,0,20,0"/>
-            </StatusBarItem>
-        </StatusBar>
         <DockPanel DockPanel.Dock="Bottom" Height="150">
             <GroupBox Header="Filters" Margin="5">
 

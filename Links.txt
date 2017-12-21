@@ -54,5 +54,6 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
 	+ done
 
 	рассмотреть паттерн репозиторий 
+	+ done
 
 29. Ioc.Get<> заменить ?
