@@ -36,8 +36,6 @@ namespace Iit.Fibertest.Client
 
         public void Apply(Measurement measurement)
         {
-            AllOpticalEventsViewModel.AddEvent(measurement);
-
             var trace = _readModel.Traces.FirstOrDefault(t => t.Id == measurement.TraceId);
             if (trace == null || !trace.IsAttached)
                 return;
@@ -46,7 +44,13 @@ namespace Iit.Fibertest.Client
 
             if (measurement.TraceState == FiberState.Ok)
                 return;
+
             ActualOpticalEventsViewModel.AddEvent(measurement);
+        }
+
+        public void ApplyToTableAll(Measurement measurement)
+        {
+            AllOpticalEventsViewModel.AddEvent(measurement);
         }
     }
 }

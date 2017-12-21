@@ -36,6 +36,7 @@ namespace Iit.Fibertest.Client
         private readonly IWindowManager _windowManager;
         private readonly ClientHeartbeat _clientHeartbeat;
         private readonly ClientPoller _clientPoller;
+        private readonly OpticalEventsProvider _opticalEventsProvider;
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         public IWcfServiceForClient C2DWcfManager { get; }
@@ -68,7 +69,8 @@ namespace Iit.Fibertest.Client
                 GraphReadModel graphReadModel, 
                 NetworkEventsViewModel networkEventsViewModel,
                 OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
-                IWindowManager windowManager, ClientHeartbeat clientHeartbeat, ClientPoller clientPoller,
+                IWindowManager windowManager, ClientHeartbeat clientHeartbeat, 
+                ClientPoller clientPoller, OpticalEventsProvider opticalEventsProvider,
                 IniFile iniFile, ILogger clientLogger, IMyLog logFile, IClientWcfServiceHost host)
         {
             ReadModel = readModel;
@@ -87,6 +89,7 @@ namespace Iit.Fibertest.Client
             _windowManager = windowManager;
             _clientHeartbeat = clientHeartbeat;
             _clientPoller = clientPoller;
+            _opticalEventsProvider = opticalEventsProvider;
             _iniFile = iniFile;
 
             _logFile = logFile;
@@ -125,6 +128,8 @@ namespace Iit.Fibertest.Client
                 UserName = vm.UserName;
                 var da = _iniFile.ReadDoubleAddress(11840);
                 _server = da.Main.GetAddress();
+
+                _opticalEventsProvider.LetsGetStarted();
                 _clientPoller.LoadEventSourcingCache(_server);
                 _clientPoller.Start();
                 _clientHeartbeat.Start();

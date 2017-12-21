@@ -76,7 +76,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public async Task<MeasurementsList> GetOpticalEvents(int revision)
+        public async Task<MeasurementsList> GetOpticalEvents()
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();
             if (wcfConnection == null)
@@ -84,13 +84,13 @@ namespace Iit.Fibertest.WcfConnections
 
             try
             {
-                var result = await wcfConnection.GetOpticalEvents(revision);
+                var result = await wcfConnection.GetOpticalEvents();
                 return result;
             }
             catch (Exception e)
             {
                 _logFile.AppendLine(e.Message);
-                return new MeasurementsList() {Measurements = new List<Measurement>()};
+                return new MeasurementsList() {ActualMeasurements = new List<Measurement>(), PageOfLastMeasurements = new List<Measurement>()};
             }
         }
 

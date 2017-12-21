@@ -12,17 +12,17 @@ namespace Iit.Fibertest.Client
         private readonly TraceStateViewsManager _traceStateViewsManager;
         private readonly TraceStatisticsViewsManager _traceStatisticsViewsManager;
         private readonly RtuStateViewsManager _rtuStateViewsManager;
-        private readonly OpticalEventsViewModel _opticalEventsViewModel;
+        private readonly OpticalEventsDoubleViewModel _opticalEventsDoubleViewModel;
 
         public ClientWcfService(TreeOfRtuModel treeOfRtuModel,
             TraceStateViewsManager traceStateViewsManager, TraceStatisticsViewsManager traceStatisticsViewsManager,
-            RtuStateViewsManager rtuStateViewsManager, OpticalEventsViewModel opticalEventsViewModel)
+            RtuStateViewsManager rtuStateViewsManager, OpticalEventsDoubleViewModel opticalEventsDoubleViewModel)
         {
             _treeOfRtuModel = treeOfRtuModel;
             _traceStateViewsManager = traceStateViewsManager;
             _traceStatisticsViewsManager = traceStatisticsViewsManager;
             _rtuStateViewsManager = rtuStateViewsManager;
-            _opticalEventsViewModel = opticalEventsViewModel;
+            _opticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
         }
 
         public Task<int> NotifyUsersRtuCurrentMonitoringStep(CurrentMonitoringStepDto dto)
@@ -38,11 +38,11 @@ namespace Iit.Fibertest.Client
             _traceStatisticsViewsManager.AddNewMeasurement(measurement);
             _rtuStateViewsManager.NotifyUserMonitoringResult(measurement);
 
-            //TODO - polling or reacting ?
-//            if (measurement.EventStatus > EventStatus.JustMeasurementNotAnEvent)
-//            {
-//                _opticalEventsViewModel.AddEvent(measurement);
-//            }
+            if (measurement.EventStatus > EventStatus.JustMeasurementNotAnEvent)
+            {
+                _opticalEventsDoubleViewModel.Apply(measurement);
+                _opticalEventsDoubleViewModel.ApplyToTableAll(measurement);
+            }
 
             return Task.FromResult(0);
         }

@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Threading;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
@@ -15,17 +13,6 @@ using PrivateReflectionUsingDynamic;
 
 namespace Iit.Fibertest.Client
 {
-    public interface IDispatcherProvider { Dispatcher GetDispatcher(); }
-    public class UiDispatcherProvider : IDispatcherProvider
-    {
-        public Dispatcher GetDispatcher() { return Application.Current.Dispatcher; }
-    }
-
-    public class TestsDispatcherProvider : IDispatcherProvider
-    {
-        public Dispatcher GetDispatcher() { return Dispatcher.CurrentDispatcher; }
-    }
-
     public class ClientPoller : PropertyChangedBase
     {
         private static readonly JsonSerializerSettings JsonSerializerSettings =
@@ -80,7 +67,7 @@ namespace Iit.Fibertest.Client
             while (true)
             {
                 await EventSourcingTick();
-                OpticalEventsTick();
+                //                OpticalEventsTick();
                 NetworkEventsTick();
                 Thread.Sleep(TimeSpan.FromMilliseconds(_pollingRate));
             }
@@ -123,22 +110,13 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private void OpticalEventsTick()
-        {
-            var opticalEvents = WcfConnection.GetOpticalEvents(LastOpticalEventNumber).Result;
-            if (opticalEvents?.Measurements == null || !opticalEvents.Measurements.Any())
-                return;
-
-            _dispatcherProvider.GetDispatcher().Invoke(() => ApplyOpticalEvents(opticalEvents));
-        }
-
         private void NetworkEventsTick()
         {
             var networkEvents = WcfConnection.GetNetworkEvents(LastNetworkEventNumber).Result;
             if (networkEvents?.Events == null || !networkEvents.Events.Any())
                 return;
 
-            _dispatcherProvider.GetDispatcher().Invoke(()=>ApplyNetworkEvents(networkEvents));
+            _dispatcherProvider.GetDispatcher().Invoke(() => ApplyNetworkEvents(networkEvents));
         }
 
         private void ApplyNetworkEvents(NetworkEventsList list)
@@ -154,22 +132,6 @@ namespace Iit.Fibertest.Client
             foreach (var networkEvent in list.Events)
             {
                 _networkEventsViewModel.Apply(networkEvent);
-            }
-        }
-        private void ApplyOpticalEvents(MeasurementsList list)
-        {
-            foreach (var opticalEvent in list.Measurements)
-            {
-                foreach (var m in ReadModels)
-                {
-                    m.AsDynamic().Apply(opticalEvent);
-                }
-            }
-
-            LastOpticalEventNumber = list.Measurements.Last().Id;
-            foreach (var opticalEvent in list.Measurements)
-            {
-                _opticalEventsDoubleViewModel.Apply(opticalEvent);
             }
         }
     }

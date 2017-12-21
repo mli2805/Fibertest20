@@ -7,6 +7,9 @@ namespace Iit.Fibertest.Dto
     public class MeasurementsList
     {
         [DataMember]
-        public List<Measurement> Measurements { get; set; }
+        public List<Measurement> ActualMeasurements { get; set; }
+
+        [DataMember]
+        public List<Measurement> PageOfLastMeasurements { get; set; }
     }
 }

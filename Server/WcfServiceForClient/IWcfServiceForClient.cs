@@ -19,7 +19,7 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
 
         // C2Database
         [OperationContract]
-        Task<MeasurementsList> GetOpticalEvents(int revision);
+        Task<MeasurementsList> GetOpticalEvents();
 
         [OperationContract]
         Task<NetworkEventsList> GetNetworkEvents(int revision);

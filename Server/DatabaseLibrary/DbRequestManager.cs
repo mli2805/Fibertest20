@@ -17,17 +17,55 @@ namespace Iit.Fibertest.DatabaseLibrary
             _logFile = logFile;
         }
 
-        public async Task<List<Measurement>> GetOpticalEventsAsync(int afterIndex)
+        public async Task<MeasurementsList> GetOpticalEventsAsync()
         {
             try
             {
-                var dbContext = new FtDbContext();
-                var events = await dbContext.Measurements.Where(e => e.Id > afterIndex && e.EventStatus != EventStatus.JustMeasurementNotAnEvent).ToListAsync();
-                return events;
+                var actualEvents = await GetActualOpticalEventsAsync();
+                var page = await GetLastPageOfOpticalEventsAsync();
+                return new MeasurementsList() {ActualMeasurements = actualEvents, PageOfLastMeasurements = page};
             }
             catch (Exception e)
             {
                 _logFile.AppendLine("GetOpticalEvents: " + e.Message);
+                return null;
+            }
+        }
+
+        // SELECT * FROM
+        //  (SELECT max(SorFileId) as MaxSorFileId 
+        //   FROM fibertest20.measurements WHERE eventstatus > -99 GROUP BY TraceId) as x 
+        // inner join fibertest20.measurements as m 
+        // on m.SorFileId = x.MaxSorFileId;
+        private async Task<List<Measurement>> GetActualOpticalEventsAsync()
+        {
+            try
+            {
+                var dbContext = new FtDbContext();
+                var events = await dbContext.Measurements.Where(m => (int) m.EventStatus > -99).GroupBy(p => p.TraceId)
+                    .Select(e => e.OrderByDescending(p => p.SorFileId).FirstOrDefault()).ToListAsync();
+                return events;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("GetActualOpticalEventsAsync: " + e.Message);
+                return null;
+            }
+        }
+
+        private async Task<List<Measurement>> GetLastPageOfOpticalEventsAsync()
+        {
+            const int pageSize = 200;
+            try
+            {
+                var dbContext = new FtDbContext();
+                var events = await dbContext.Measurements.Where(m => (int)m.EventStatus > -9).
+                    OrderByDescending(p=>p.SorFileId).Take(pageSize).ToListAsync();
+                return events;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("GetLastPageOfOpticalEventsAsync: " + e.Message);
                 return null;
             }
         }
