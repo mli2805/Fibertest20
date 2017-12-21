@@ -96,7 +96,6 @@ namespace Iit.Fibertest.Client
                         ioc.Resolve<GraphReadModel>(),
                     },
                     ioc.Resolve<IDispatcherProvider>(),
-                    ioc.Resolve<OpticalEventsDoubleViewModel>(),
                     ioc.Resolve<NetworkEventsViewModel>(),
                     logFile,
                     iniFile,

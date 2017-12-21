@@ -20,9 +20,10 @@ namespace Iit.Fibertest.DataCenterCore
 
         private readonly ClientRegistrationManager _clientRegistrationManager;
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
-        private readonly RtuRegistrationManager _rtuRegistrationManager;
+        private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly BaseRefManager _baseRefManager;
-        private readonly DbRequestManager _dbRequestManager;
+        private readonly MeasurementsRepository _measurementsRepository;
+        private readonly NetworkEventsRepository _networkEventsRepository;
 
         private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
         {
@@ -31,15 +32,17 @@ namespace Iit.Fibertest.DataCenterCore
 
         public WcfServiceForClient(IMyLog logFile, EventStoreService eventStoreService,
             ClientRegistrationManager clientRegistrationManager, ClientToRtuTransmitter clientToRtuTransmitter,
-            RtuRegistrationManager rtuRegistrationManager, BaseRefManager baseRefManager, DbRequestManager dbRequestManager)
+            RtuStationsRepository rtuStationsRepository, BaseRefManager baseRefManager, 
+            MeasurementsRepository measurementsRepository, NetworkEventsRepository networkEventsRepository)
         {
             _logFile = logFile;
             _eventStoreService = eventStoreService;
             _clientRegistrationManager = clientRegistrationManager;
             _clientToRtuTransmitter = clientToRtuTransmitter;
-            _rtuRegistrationManager = rtuRegistrationManager;
+            _rtuStationsRepository = rtuStationsRepository;
             _baseRefManager = baseRefManager;
-            _dbRequestManager = dbRequestManager;
+            _measurementsRepository = measurementsRepository;
+            _networkEventsRepository = networkEventsRepository;
         }
 
         public async Task<string> SendCommandAsObj(object cmd)
@@ -62,7 +65,7 @@ namespace Iit.Fibertest.DataCenterCore
             // A few commands need postprocessing in Db or RTU
             var removeRtu = cmd as RemoveRtu;
             if (removeRtu != null)
-                return await _rtuRegistrationManager.RemoveRtuAsync(removeRtu.Id);
+                return await _rtuStationsRepository.RemoveRtuAsync(removeRtu.Id);
 
             // var attachTrace = cmd as AttachTrace;
             // if trace has base refs they should be sent to RTU
@@ -78,44 +81,44 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<MeasurementsList> GetOpticalEvents()
         {
-            return await _dbRequestManager.GetOpticalEventsAsync();
+            return await _measurementsRepository.GetOpticalEventsAsync();
         }
 
         public async Task<NetworkEventsList> GetNetworkEvents(int revision)
         {
-            return await _dbRequestManager.GetNetworkEventsAsync(revision);
+            return await _networkEventsRepository.GetNetworkEventsAsync(revision);
         }
 
         public async Task<TraceStatistics> GetTraceStatistics(Guid traceId)
         {
-            var traceStatistics = await _dbRequestManager.GetTraceMeasurementsAsync(traceId);
+            var traceStatistics = await _measurementsRepository.GetTraceMeasurementsAsync(traceId);
             _logFile.AppendLine($"There {traceStatistics.BaseRefs.Count} base refs and {traceStatistics.Measurements.Count} measurements");
             return traceStatistics;
         }
 
         public Task<byte[]> GetSorBytesOfBase(Guid baseRefId)
         {
-            return _dbRequestManager.GetSorBytesOfBaseAsync(baseRefId);
+            return _measurementsRepository.GetSorBytesOfBaseAsync(baseRefId);
         }
 
         public Task<byte[]> GetSorBytesOfMeasurement(int sorFileId)
         {
-            return _dbRequestManager.GetSorBytesOfMeasurementAsync(sorFileId);
+            return _measurementsRepository.GetSorBytesOfMeasurementAsync(sorFileId);
         }
 
         public async Task<byte[]> GetSorBytesOfLastTraceMeasurement(Guid traceId)
         {
-            return await _dbRequestManager.GetSorBytesOfLastTraceMeasurementAsync(traceId);
+            return await _measurementsRepository.GetSorBytesOfLastTraceMeasurementAsync(traceId);
         }
 
         public async Task<Measurement> GetLastMeasurementForTrace(Guid traceId)
         {
-            return await _dbRequestManager.GetLastMeasurementForTraceAsync(traceId);
+            return await _measurementsRepository.GetLastMeasurementForTraceAsync(traceId);
         }
 
         public async Task<MeasurementUpdatedDto> SaveMeasurementChanges(UpdateMeasurementDto dto)
         {
-            return await _dbRequestManager.SaveMeasurementChangesAsync(dto);
+            return await _measurementsRepository.SaveMeasurementChangesAsync(dto);
         }
 
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)

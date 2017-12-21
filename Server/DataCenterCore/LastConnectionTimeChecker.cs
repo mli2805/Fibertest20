@@ -13,20 +13,20 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly ClientRegistrationManager _clientRegistrationManager;
-        private readonly RtuRegistrationManager _rtuRegistrationManager;
+        private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly D2CWcfManager _d2CWcfManager;
         private TimeSpan _checkHeartbeatEvery;
         private TimeSpan _rtuHeartbeatPermittedGap;
         private TimeSpan _clientHeartbeatPermittedGap;
 
         public LastConnectionTimeChecker(IniFile iniFile, IMyLog logFile,
-            ClientRegistrationManager clientRegistrationManager, RtuRegistrationManager rtuRegistrationManager,
+            ClientRegistrationManager clientRegistrationManager, RtuStationsRepository rtuStationsRepository,
             D2CWcfManager d2CWcfManager)
         {
             _iniFile = iniFile;
             _logFile = logFile;
             _clientRegistrationManager = clientRegistrationManager;
-            _rtuRegistrationManager = rtuRegistrationManager;
+            _rtuStationsRepository = rtuStationsRepository;
             _d2CWcfManager = d2CWcfManager;
         }
 
@@ -54,7 +54,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             _clientRegistrationManager.CleanDeadClients(_clientHeartbeatPermittedGap).Wait();
 
-            var changes = await _rtuRegistrationManager.GetAndSaveRtuStationsAvailabilityChanges(_rtuHeartbeatPermittedGap);
+            var changes = await _rtuStationsRepository.GetAndSaveRtuStationsAvailabilityChanges(_rtuHeartbeatPermittedGap);
             if (changes.List.Count == 0)
                 return 0;
 

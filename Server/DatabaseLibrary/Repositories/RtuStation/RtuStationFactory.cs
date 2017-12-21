@@ -3,9 +3,9 @@ using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.DatabaseLibrary
 {
-    public static class MapperToRtuStation
+    public static class RtuStationFactory
     {
-        public static RtuStation Map(RtuInitializedDto dto)
+        public static RtuStation Create(RtuInitializedDto dto)
         {
             var rtuStation = new RtuStation()
             {

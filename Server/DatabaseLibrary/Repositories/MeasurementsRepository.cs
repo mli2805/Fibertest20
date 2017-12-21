@@ -8,11 +8,11 @@ using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.DatabaseLibrary
 {
-    public class DbRequestManager
+    public class MeasurementsRepository
     {
         private readonly IMyLog _logFile;
 
-        public DbRequestManager(IMyLog logFile)
+        public MeasurementsRepository(IMyLog logFile)
         {
             _logFile = logFile;
         }
@@ -70,23 +70,6 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
         }
 
-        public async Task<NetworkEventsList> GetNetworkEventsAsync(int afterIndex)
-        {
-            try
-            {
-                var dbContext = new FtDbContext();
-                var result = new NetworkEventsList
-                {
-                    Events = await dbContext.NetworkEvents.Where(e => e.Id > afterIndex).ToListAsync()
-                };
-                return result;
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine("GetNetworkEvents: " + e.Message);
-                return null;
-            }
-        }
 
         public async Task<TraceStatistics> GetTraceMeasurementsAsync(Guid traceId)
         {
@@ -232,7 +215,6 @@ namespace Iit.Fibertest.DatabaseLibrary
                 return null;
             }
         }
-
 
     }
 }

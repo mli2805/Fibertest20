@@ -13,17 +13,17 @@ namespace Iit.Fibertest.DataCenterCore
     {
         private readonly IMyLog _logFile;
         private readonly ClientRegistrationManager _clientRegistrationManager;
-        private readonly RtuRegistrationManager _rtuRegistrationManager;
+        private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly D2CWcfManager _d2CWcfManager;
 
         public WcfServiceForRtu(IMyLog logFile,
             ClientRegistrationManager clientRegistrationManager,
-            RtuRegistrationManager rtuRegistrationManager,
+            RtuStationsRepository rtuStationsRepository,
             D2CWcfManager d2CWcfManager)
         {
             _logFile = logFile;
             _clientRegistrationManager = clientRegistrationManager;
-            _rtuRegistrationManager = rtuRegistrationManager;
+            _rtuStationsRepository = rtuStationsRepository;
             _d2CWcfManager = d2CWcfManager;
         }
 
@@ -47,7 +47,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             try
             {
-                _rtuRegistrationManager.RegisterRtuHeartbeatAsync(dto).Wait();
+                _rtuStationsRepository.RegisterRtuHeartbeatAsync(dto).Wait();
             }
             catch (Exception e)
             {

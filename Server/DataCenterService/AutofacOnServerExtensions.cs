@@ -34,9 +34,10 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<WriteModel>().SingleInstance();
             builder.RegisterType<Aggregate>().SingleInstance();
             builder.RegisterType<EventStoreService>().SingleInstance();
-            builder.RegisterType<DbRequestManager>().SingleInstance();
+            builder.RegisterType<MeasurementsRepository>().SingleInstance();
+            builder.RegisterType<NetworkEventsRepository>().SingleInstance();
             builder.RegisterType<ClientRegistrationManager>().SingleInstance();
-            builder.RegisterType<RtuRegistrationManager>().SingleInstance();
+            builder.RegisterType<RtuStationsRepository>().SingleInstance();
             builder.RegisterType<ClientToRtuTransmitter>().SingleInstance();
             builder.RegisterType<BaseRefManager>().SingleInstance();
 

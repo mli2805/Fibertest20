@@ -6,24 +6,23 @@ using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.DatabaseLibrary
 {
-    public class RtuRegistrationManager
+    public class RtuStationsRepository
     {
         private readonly IMyLog _logFile;
 
-        public RtuRegistrationManager(IMyLog logFile)
+        public RtuStationsRepository(IMyLog logFile)
         {
             _logFile = logFile;
         }
 
-        public async Task<int> RegisterRtuAsync(RtuInitializedDto dto)
+        public async Task<int> RegisterRtuAsync(RtuStation rtuStation)
         {
             try
             {
                 var dbContext = new FtDbContext();
-                var rtu = dbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == dto.RtuId);
+                var rtu = dbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == rtuStation.RtuGuid);
                 if (rtu == null)
                 {
-                    var rtuStation = MapperToRtuStation.Map(dto);
                     dbContext.RtuStations.Add(rtuStation);
                     _logFile.AppendLine("New RTU registered.");
                 }

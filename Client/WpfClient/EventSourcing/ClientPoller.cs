@@ -22,7 +22,6 @@ namespace Iit.Fibertest.Client
             };
         public IWcfServiceForClient WcfConnection;
         private readonly IDispatcherProvider _dispatcherProvider;
-        private readonly OpticalEventsDoubleViewModel _opticalEventsDoubleViewModel;
         private readonly NetworkEventsViewModel _networkEventsViewModel;
         private readonly IMyLog _logFile;
         private readonly ILocalDbManager _localDbManager;
@@ -35,12 +34,11 @@ namespace Iit.Fibertest.Client
         public int LastNetworkEventNumber { get; set; }
 
         public ClientPoller(IWcfServiceForClient wcfConnection, List<object> readModels, IDispatcherProvider dispatcherProvider,
-            OpticalEventsDoubleViewModel opticalEventsDoubleViewModel, NetworkEventsViewModel networkEventsViewModel,
+            NetworkEventsViewModel networkEventsViewModel,
             IMyLog logFile, IniFile iniFile, ILocalDbManager localDbManager)
         {
             WcfConnection = wcfConnection;
             _dispatcherProvider = dispatcherProvider;
-            _opticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
             _networkEventsViewModel = networkEventsViewModel;
             _logFile = logFile;
             _localDbManager = localDbManager;
