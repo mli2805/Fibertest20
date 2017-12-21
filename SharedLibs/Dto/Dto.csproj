@@ -69,7 +69,6 @@
     <Compile Include="Db\SorFile.cs" />
     <Compile Include="Db\Measurement.cs" />
     <Compile Include="Db\NetworkEvent.cs" />
-    <Compile Include="Db\OpticalEvent.cs" />
     <Compile Include="Db\RtuStation.cs" />
     <Compile Include="Db\User.cs" />
     <Compile Include="Enums\ChannelStateChanges.cs" />

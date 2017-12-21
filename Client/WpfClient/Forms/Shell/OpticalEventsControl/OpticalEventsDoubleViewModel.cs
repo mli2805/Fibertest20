@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 
@@ -6,6 +7,7 @@ namespace Iit.Fibertest.Client
 {
     public class OpticalEventsDoubleViewModel : PropertyChangedBase
     {
+        private readonly ReadModel _readModel;
         private Visibility _opticalEventsVisibility;
         public Visibility OpticalEventsVisibility
         {
@@ -21,9 +23,11 @@ namespace Iit.Fibertest.Client
         public OpticalEventsViewModel AllOpticalEventsViewModel { get; set; }
         public OpticalEventsViewModel ActualOpticalEventsViewModel { get; set; }
 
-        public OpticalEventsDoubleViewModel(OpticalEventsViewModel allOpticalEventsViewModel,
+        public OpticalEventsDoubleViewModel(ReadModel readModel,
+            OpticalEventsViewModel allOpticalEventsViewModel,
             OpticalEventsViewModel actualOpticalEventsViewModel)
         {
+            _readModel = readModel;
             ActualOpticalEventsViewModel = actualOpticalEventsViewModel;
             ActualOpticalEventsViewModel.TableTitle = @"Actual optical events";
             AllOpticalEventsViewModel = allOpticalEventsViewModel;
@@ -34,7 +38,14 @@ namespace Iit.Fibertest.Client
         {
             AllOpticalEventsViewModel.AddEvent(measurement);
 
+            var trace = _readModel.Traces.FirstOrDefault(t => t.Id == measurement.TraceId);
+            if (trace == null || !trace.IsAttached)
+                return;
+
             ActualOpticalEventsViewModel.RemoveOldEventForTraceIfExists(measurement.TraceId);
+
+            if (measurement.TraceState == FiberState.Ok)
+                return;
             ActualOpticalEventsViewModel.AddEvent(measurement);
         }
     }
