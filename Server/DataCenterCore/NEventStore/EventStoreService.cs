@@ -54,9 +54,9 @@ namespace Iit.Fibertest.DataCenterCore
             // ilya: can pass user id\role as an argument to When to check permissions
             var result = (string)_aggregate.AsDynamic().When(cmd); // Aggregate checks if command is valid
                                                                    // and if so, transforms command into event and passes it to WriteModel
-                                                                   // WriteModel applies event
+                                                                   // WriteModel applies event and returns whether event was applied successfully
 
-            if (IsSuccess(result))                                   // if command was valid
+            if (result == null)                                   // if command was valid and applied successfully it should be persisted
             {
                 var eventStream = _storeEvents.OpenStream(AggregateId);  
                 foreach (var e in _writeModel.EventsWaitingForCommit)   // takes already applied event from WriteModel's list
@@ -72,12 +72,6 @@ namespace Iit.Fibertest.DataCenterCore
                 eventStream.CommitChanges(Guid.NewGuid());
             }
             return Task.FromResult(result);
-        }
-
-        private static bool IsSuccess(string result)
-        {
-            // TODO: Make sure this is correct
-            return result == null;
         }
 
         public string[] GetEvents(int revision)

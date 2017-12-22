@@ -291,10 +291,8 @@ namespace Iit.Fibertest.Client
         #region JustEchosOfCmdsSentToRtu
         public void Apply(BaseRefAssigned e)
         {
-            // базовая не хранится на клиенте, а получается по запросу
-            // в полях трассы хранятся id ее базовых
-            // BaseRefs.Add(_mapper.Map<BaseRef>(e));
             var trace = Traces.Single(t => t.Id == e.TraceId);
+
             var preciseBaseRef = e.BaseRefs.FirstOrDefault(b => b.BaseRefType == BaseRefType.Precise);
             if (preciseBaseRef != null)
             {

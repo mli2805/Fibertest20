@@ -67,10 +67,6 @@ namespace Iit.Fibertest.DataCenterCore
             if (removeRtu != null)
                 return await _rtuStationsRepository.RemoveRtuAsync(removeRtu.Id);
 
-            // var attachTrace = cmd as AttachTrace;
-            // if trace has base refs they should be sent to RTU
-            // if (attachTrace != null)
-            //    
             return null;
         }
 

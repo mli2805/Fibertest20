@@ -29,17 +29,18 @@ namespace Iit.Fibertest.Graph
 
         public void Init(IEnumerable<object> events)
         {
-            //            Thread.Sleep(TimeSpan.FromSeconds(10));
             foreach (var dbEvent in events)
             {
                 this.AsDynamic().Apply(dbEvent);
             }
         }
 
-        public void Add(object evnt)
+        public string Add(object evnt)
         {
-            EventsWaitingForCommit.Add(evnt);
-            this.AsDynamic().Apply(evnt);
+            var result = (string)this.AsDynamic().Apply(evnt);
+            if (result == null)
+                EventsWaitingForCommit.Add(evnt);
+            return result;
         }
 
         public void Commit()
@@ -70,21 +71,27 @@ namespace Iit.Fibertest.Graph
         }
 
         #region Node
-
-        public void Apply(NodeAdded e)
+        public string Apply(NodeAdded e)
         {
             _nodes.Add(_mapper.Map<Node>(e));
+            return null;
         }
 
-        public void Apply(NodeIntoFiberAdded e)
+        public string Apply(NodeIntoFiberAdded e)
         {
             _nodes.Add(new Node() { Id = e.Id, Latitude = e.Position.Lat, Longitude = e.Position.Lng });
             AddTwoFibersToNewNode(e);
             FixTracesWhichContainedOldFiber(e);
             var fiber = _fibers.FirstOrDefault(f => f.Id == e.FiberId);
             if (fiber != null)
+            {
                 _fibers.Remove(fiber);
-            else _logFile.AppendLine($@"NodeIntoFiberAdded: Fiber {e.FiberId.First6()} not found");
+                return null;
+            }
+
+            var message = $@"NodeIntoFiberAdded: Fiber {e.FiberId.First6()} not found";
+            _logFile.AppendLine(message);
+            return message;
         }
 
         private void FixTracesWhichContainedOldFiber(NodeIntoFiberAdded e)
@@ -113,28 +120,51 @@ namespace Iit.Fibertest.Graph
             _fibers.Add(new Fiber() { Id = e.NewFiberId2, Node1 = e.Id, Node2 = nodeId2 });
         }
 
-        public void Apply(NodeUpdated source)
+        public string Apply(NodeUpdated source)
         {
             var node = _nodes.FirstOrDefault(x => x.Id == source.Id);
             if (node != null)
+            {
                 _mapper.Map(source, node);
-            else _logFile.AppendLine($@"NodeUpdated: Node {source.Id.First6()} not found");
+                return null;
+            }
+
+            var message = $@"NodeUpdated: Node {source.Id.First6()} not found";
+            _logFile.AppendLine(message);
+            return message;
         }
 
-        public void Apply(NodeMoved newLocation) { }
+        public string Apply(NodeMoved cmd)
+        {
+            var node = _nodes.FirstOrDefault(x => x.Id == cmd.Id);
+            if (node != null)
+            {
+                node.Latitude = cmd.Latitude;
+                node.Longitude = cmd.Longitude;
+                return null;
+            }
 
-        public void Apply(NodeRemoved e)
+            var message = $@"NodeMoved: Node {cmd.Id.First6()} not found";
+            _logFile.AppendLine(message);
+            return message;
+        }
+
+        public string Apply(NodeRemoved e)
         {
             foreach (var trace in _traces.Where(t => t.Nodes.Contains(e.Id)))
             {
                 if (e.TraceWithNewFiberForDetourRemovedNode == null ||
                     !e.TraceWithNewFiberForDetourRemovedNode.ContainsKey(trace.Id))
-                    _logFile.AppendLine($@"NodeRemoved: No fiber prepared to detour trace {trace.Id}");
+                {
+                    var message = $@"NodeRemoved: No fiber prepared to detour trace {trace.Id}";
+                    _logFile.AppendLine(message);
+                    return message;
+                }
                 else
                     ExcludeNodeFromTrace(trace, e.TraceWithNewFiberForDetourRemovedNode[trace.Id], e.Id);
             }
 
-            RemoveNodeWithAllHis(e.Id);
+            return RemoveNodeWithAllHis(e.Id);
         }
 
         private void ExcludeNodeFromTrace(Trace trace, Guid fiberId, Guid nodeId)
@@ -146,14 +176,21 @@ namespace Iit.Fibertest.Graph
             trace.Nodes.RemoveAt(idxInTrace);
         }
 
-        private void RemoveNodeWithAllHis(Guid nodeId)
+        private string RemoveNodeWithAllHis(Guid nodeId)
         {
             _fibers.RemoveAll(f => f.Node1 == nodeId || f.Node2 == nodeId);
             _equipments.RemoveAll(e => e.NodeId == nodeId);
             var node = _nodes.FirstOrDefault(n => n.Id == nodeId);
             if (node != null)
+            {
                 _nodes.Remove(node);
-            else _logFile.AppendLine($@"RemoveNodeWithAllHis: Node {nodeId.First6()} not found");
+                return null;
+            }
+
+            var message = $@"RemoveNodeWithAllHis: Node {nodeId.First6()} not found";
+            _logFile.AppendLine(message);
+            return message;
+
         }
 
         private void CreateDetourIfAbsent(Trace trace, Guid fiberId, int idxInTrace)
@@ -176,6 +213,7 @@ namespace Iit.Fibertest.Graph
             }
             return tracesWithBase.Any(trace => Topo.GetFiberIndexInTrace(trace, fiber) != -1);
         }
+
         public bool IsNodeContainedInAnyTraceWithBase(Guid nodeId)
         {
             return _traces.Any(t => t.HasAnyBaseRef && t.Nodes.Contains(nodeId));
@@ -187,98 +225,281 @@ namespace Iit.Fibertest.Graph
         #endregion
 
         #region Fiber
-        public void Apply(FiberAdded e)
+        public string Apply(FiberAdded e)
         {
             _fibers.Add(_mapper.Map<Fiber>(e));
+            return null;
         }
-        public void Apply(FiberUpdated source) { }
 
-        public void Apply(FiberRemoved e)
+        public string Apply(FiberUpdated source)
+        {
+            var fiber = _fibers.FirstOrDefault(f => f.Id == source.Id);
+            if (fiber != null)
+            {
+                fiber.UserInputedLength = source.UserInputedLength;
+                return null;
+            }
+
+            var message = $@"FiberUpdated: Fiber {source.Id.First6()} not found";
+            _logFile.AppendLine(message);
+            return message;
+        }
+
+        public string Apply(FiberRemoved e)
         {
             var fiber = _fibers.FirstOrDefault(f => f.Id == e.Id);
             if (fiber != null)
+            {
                 _fibers.Remove(fiber);
-            else _logFile.AppendLine($@"FiberRemoved: Fiber {e.Id.First6()} not found");
+                return null;
+            }
+
+            var message = $@"FiberRemoved: Fiber {e.Id.First6()} not found";
+            _logFile.AppendLine(message);
+            return message;
         }
         #endregion
 
         #region Equipment
-        public void Apply(EquipmentIntoNodeAdded e) { _equipments.Add(new Equipment() { Id = e.Id, Type = e.Type, NodeId = e.NodeId }); }
+        public string Apply(EquipmentIntoNodeAdded e)
+        {
+            var node = _nodes.FirstOrDefault(n => n.Id == e.NodeId);
+            if (node == null)
+            {
+                var message = $@"EquipmentIntoNodeAdded: Node {e.NodeId.First6()} not found";
+                _logFile.AppendLine(message);
+                return message;
+            }
+            _equipments.Add(new Equipment() { Id = e.Id, Type = e.Type, NodeId = e.NodeId });
+            return null;
+        }
 
-        public void Apply(EquipmentAtGpsLocationAdded e)
+        public string Apply(EquipmentAtGpsLocationAdded e)
         {
             _equipments.Add(new Equipment() { Id = e.Id, Type = e.Type, NodeId = e.NodeId });
             _nodes.Add(new Node() { Id = e.NodeId, Latitude = e.Latitude, Longitude = e.Longitude });
+            return null;
         }
 
-        public void Apply(EquipmentUpdated e) { }
+        public string Apply(EquipmentUpdated cmd)
+        {
+            var equipment = _equipments.FirstOrDefault(e => e.Id == cmd.Id);
+            if (equipment != null)
+            {
+                equipment.Title = cmd.Title;
+                equipment.Type = cmd.Type;
+                equipment.CableReserveLeft = cmd.CableReserveLeft;
+                equipment.CableReserveRight = cmd.CableReserveRight;
+                equipment.Comment = cmd.Comment;
+                return null;
+            }
 
-        public void Apply(EquipmentRemoved e) { }
+            var message = $@"EquipmentUpdated: Equipment {cmd.Id.First6()} not found";
+            _logFile.AppendLine(message);
+            return message;
+        }
+
+        public string Apply(EquipmentRemoved cmd)
+        {
+            var equipment = _equipments.FirstOrDefault(e => e.Id == cmd.Id);
+            if (equipment != null)
+            {
+                _equipments.Remove(equipment);
+                return null;
+            }
+
+            var message = $@"EquipmentUpdated: Equipment {cmd.Id.First6()} not found";
+            _logFile.AppendLine(message);
+            return message;
+        }
         #endregion
 
         #region Rtu
-
-        public void Apply(RtuAtGpsLocationAdded e)
+        public string Apply(RtuAtGpsLocationAdded e)
         {
             _nodes.Add(new Node() { Id = e.NodeId, Latitude = e.Latitude, Longitude = e.Longitude });
             _rtus.Add(_mapper.Map<Rtu>(e));
+            return null;
         }
 
-        public void Apply(RtuUpdated e) { }
-
-        public void Apply(RtuRemoved e)
+        public string Apply(RtuUpdated cmd)
         {
-            _rtus.RemoveAll(r => r.Id == e.Id);
+            var rtu = _rtus.FirstOrDefault(r => r.Id == cmd.Id);
+            if (rtu != null)
+            {
+                rtu.Title = cmd.Title;
+                rtu.Comment = cmd.Comment;
+                return null;
+            }
+
+            var message = $@"RtuUpdated: RTU {cmd.Id.First6()} not found";
+            _logFile.AppendLine(message);
+            return message;
         }
 
-        public void Apply(MonitoringSettingsChanged e)
+        public string Apply(RtuRemoved cmd)
         {
+            var rtu = _rtus.FirstOrDefault(r => r.Id == cmd.Id);
+            if (rtu != null)
+            {
+                _rtus.Remove(rtu);
+                return null;
+            }
+
+            var message = $@"RtuRemoved: RTU {cmd.Id.First6()} not found";
+            _logFile.AppendLine(message);
+            return message;
+        }
+
+        public string Apply(MonitoringSettingsChanged cmd)
+        {
+            var rtu = _rtus.FirstOrDefault(r => r.Id == cmd.RtuId);
+            if (rtu != null)
+            {
+                rtu.MonitoringState = cmd.IsMonitoringOn ? MonitoringState.On : MonitoringState.Off;
+                rtu.FastSave = cmd.FastSave;
+                rtu.PreciseMeas = cmd.PreciseMeas;
+                rtu.PreciseSave = cmd.PreciseSave;
+                return null;
+            }
+
+            var message = $@"MonitoringSettingsChanged: RTU {cmd.RtuId.First6()} not found";
+            _logFile.AppendLine(message);
+            return message;
 
         }
         #endregion
 
         #region Trace
-        public void Apply(TraceAdded e)
+        public string Apply(TraceAdded e)
         {
             _traces.Add(_mapper.Map<Trace>(e));
+            return null;
         }
 
-        public void Apply(TraceCleaned e)
+        public string Apply(TraceCleaned e)
         {
             var trace = _traces.FirstOrDefault(t => t.Id == e.Id);
             if (trace != null)
+            {
                 _traces.Remove(trace);
-            else _logFile.AppendLine($@"TraceCleaned: Trace {e.Id} not found");
+                return null;
+            }
+            var message = $@"TraceCleaned: Trace {e.Id} not found";
+            _logFile.AppendLine(message);
+            return message;
         }
 
-        public void Apply(TraceRemoved e)
+        public string Apply(TraceRemoved e)
         {
             var trace = _traces.FirstOrDefault(t => t.Id == e.Id);
             if (trace != null)
+            {
                 _traces.Remove(trace);
-            else _logFile.AppendLine($@"TraceRemoved: Trace {e.Id} not found");
+                return null;
+            }
+            var message = $@"TraceRemoved: Trace {e.Id} not found";
+            _logFile.AppendLine(message);
+            return message;
         }
 
-        public void Apply(TraceAttached e) { }
+        public string Apply(TraceAttached cmd)
+        {
+            var trace = _traces.FirstOrDefault(t => t.Id == cmd.TraceId);
+            if (trace != null)
+            {
+                trace.OtauPort = cmd.OtauPortDto;
+                return null;
+            }
+            var message = $@"TraceAttached: Trace {cmd.TraceId} not found";
+            _logFile.AppendLine(message);
+            return message;
+        }
 
-        public void Apply(TraceDetached e) { }
+        public string Apply(TraceDetached cmd)
+        {
+            var trace = _traces.FirstOrDefault(t => t.Id == cmd.TraceId);
+            if (trace != null)
+            {
+                trace.OtauPort = null;
+                return null;
+            }
+            var message = $@"TraceDetached: Trace {cmd.TraceId} not found";
+            _logFile.AppendLine(message);
+            return message;
+        }
 
-        public void Apply(BaseRefAssigned e) { }
+        public string Apply(BaseRefAssigned cmd)
+        {
+            var trace = _traces.FirstOrDefault(t => t.Id == cmd.TraceId);
+            if (trace != null)
+            {
+                foreach (var baseRefDto in cmd.BaseRefs)
+                {
+                    if (baseRefDto.BaseRefType == BaseRefType.Precise)
+                    {
+                        trace.PreciseId = baseRefDto.Id;
+                        trace.PreciseDuration = baseRefDto.Duration;
+                    }
+                    if (baseRefDto.BaseRefType == BaseRefType.Fast)
+                    {
+                        trace.FastId = baseRefDto.Id;
+                        trace.FastDuration = baseRefDto.Duration;
+                    }
+                    if (baseRefDto.BaseRefType == BaseRefType.Additional)
+                    {
+                        trace.AdditionalId = baseRefDto.Id;
+                        trace.AdditionalDuration = baseRefDto.Duration;
+                    }
+                }
+                if (!trace.HasEnoughBaseRefsToPerformMonitoring)
+                    trace.IsIncludedInMonitoringCycle = false;
+                return null;
+            }
+            var message = $@"BaseRefAssigned: Trace {cmd.TraceId} not found";
+            _logFile.AppendLine(message);
+            return message;
+        }
         #endregion
 
         #region JustEchosOfCmdsSentToRtu
-        public void Apply(RtuInitialized e)
+        public string Apply(RtuInitialized e)
         {
             var rtu = _rtus.FirstOrDefault(r => r.Id == e.Id);
             if (rtu != null)
+            {
                 _mapper.Map(e, rtu);
-            else _logFile.AppendLine($@"RtuInitialized: RTU {e.Id.First6()} not found");
+                return null;
+            }
+            var message = $@"RtuInitialized: RTU {e.Id.First6()} not found";
+            _logFile.AppendLine(message);
+            return message;
         }
 
-        public void Apply(MonitoringStarted e) { }
-        public void Apply(MonitoringStopped e) { }
-
-
+        public string Apply(MonitoringStarted e)
+        {
+            var rtu = _rtus.FirstOrDefault(r => r.Id == e.RtuId);
+            if (rtu != null)
+            {
+                rtu.MonitoringState = MonitoringState.On;
+                return null;
+            }
+            var message = $@"MonitoringStarted: RTU {e.RtuId.First6()} not found";
+            _logFile.AppendLine(message);
+            return message;
+        }
+        public string Apply(MonitoringStopped e)
+        {
+            var rtu = _rtus.FirstOrDefault(r => r.Id == e.RtuId);
+            if (rtu != null)
+            {
+                rtu.MonitoringState = MonitoringState.Off;
+                return null;
+            }
+            var message = $@"MonitoringStopped: RTU {e.RtuId.First6()} not found";
+            _logFile.AppendLine(message);
+            return message;
+        }
         #endregion
     }
 }
