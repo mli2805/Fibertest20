@@ -76,7 +76,7 @@ namespace Iit.Fibertest.Client
         //------------------
         private string RtuAvailabilityToString()
         {
-            return MainAddressState == RtuPartState.Normal || ReserveAddressState == RtuPartState.Normal
+            return MainAddressState == RtuPartState.Ok || ReserveAddressState == RtuPartState.Ok
                 ? Resources.SID_Available
                 : Resources.SID_Not_available;
         }

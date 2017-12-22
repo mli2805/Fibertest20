@@ -173,14 +173,14 @@ namespace Iit.Fibertest.RtuManagement
             if (baseBytes == null)
                 return null;
 
-            SendCurrentMonitoringStep(RtuCurrentState.Measure, monitorigPort, baseRefType);
+            SendCurrentMonitoringStep(MonitoringCurrentStep.Measure, monitorigPort, baseRefType);
 
             var result = _otdrManager.MeasureWithBase(baseBytes, _mainCharon.GetActiveChildCharon());
 
             if (result == ReturnCode.MeasurementInterrupted)
             {
                 IsMonitoringOn = false;
-                SendCurrentMonitoringStep(RtuCurrentState.Interrupted);
+                SendCurrentMonitoringStep(MonitoringCurrentStep.Interrupted);
                 return null;
             }
 
@@ -189,7 +189,7 @@ namespace Iit.Fibertest.RtuManagement
                 RunMainCharonRecovery();
                 return null;
             }
-            SendCurrentMonitoringStep(RtuCurrentState.Analysis, monitorigPort, baseRefType);
+            SendCurrentMonitoringStep(MonitoringCurrentStep.Analysis, monitorigPort, baseRefType);
             var measBytes = _otdrManager.ApplyAutoAnalysis(_otdrManager.GetLastSorDataBuffer()); // is ApplyAutoAnalysis necessary ?
             var moniResult = _otdrManager.CompareMeasureWithBase(baseBytes, measBytes, true); // base is inserted into meas during comparison
             monitorigPort.SaveMeasBytes(baseRefType, measBytes); // so re-save meas after comparison
@@ -248,7 +248,7 @@ namespace Iit.Fibertest.RtuManagement
                 return false;
             }
 
-            SendCurrentMonitoringStep(RtuCurrentState.Toggle, monitorigPort);
+            SendCurrentMonitoringStep(MonitoringCurrentStep.Toggle, monitorigPort);
 
             var toggleResult = _mainCharon.SetExtendedActivePort(monitorigPort.NetAddress, monitorigPort.OpticalPort);
             switch (toggleResult)

@@ -342,7 +342,10 @@ namespace Iit.Fibertest.Graph
             var rtu = _rtus.FirstOrDefault(r => r.Id == cmd.Id);
             if (rtu != null)
             {
+                var nodeId = rtu.NodeId;
+                _traces.RemoveAll(t => t.RtuId == rtu.Id);
                 _rtus.Remove(rtu);
+                RemoveNodeWithAllHis(nodeId);
                 return null;
             }
 

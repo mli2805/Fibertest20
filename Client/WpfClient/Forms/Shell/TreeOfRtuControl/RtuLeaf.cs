@@ -69,8 +69,8 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public bool IsAvailable => MainChannelState == RtuPartState.Normal ||
-                                   ReserveChannelState == RtuPartState.Normal;
+        public bool IsAvailable => MainChannelState == RtuPartState.Ok ||
+                                   ReserveChannelState == RtuPartState.Ok;
 
         public ImageSource MonitoringPictogram => GetPictogram();
         public ImageSource BopPictogram => BopState.GetPictogram();

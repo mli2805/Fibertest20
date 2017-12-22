@@ -43,9 +43,11 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
 	+ в хедер ивента включил имя пользователя и время и ip клиента
 	+ FakeWcfServiceForClient - удалил
 
-	+ как их теперь читать ??
+	как их теперь читать ??
+	+ done
 
 26. верификация на сервере операций - write model почти идентична read model
+	+ done
 
 27. Vm переименовать в Model
 	+ done
@@ -56,4 +58,8 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
 	рассмотреть паттерн репозиторий 
 	+ done
 
-29. Ioc.Get<> заменить ?
+29. IoC.Get<> заменить ?
+	остались только вьюмодели
+	делать их через Factory?
+
+

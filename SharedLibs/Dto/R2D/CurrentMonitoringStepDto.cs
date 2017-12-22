@@ -10,7 +10,7 @@ namespace Iit.Fibertest.Dto
         public Guid RtuId { get; set; }
 
         [DataMember]
-        public RtuCurrentState State { get; set; }
+        public MonitoringCurrentStep Step { get; set; }
         [DataMember]
         public PortWithTraceDto PortWithTraceDto { get; set; }
         [DataMember]

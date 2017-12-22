@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,6 +32,21 @@ namespace Iit.Fibertest.DatabaseLibrary
             {
                 _logFile.AppendLine("GetNetworkEvents: " + e.Message);
                 return null;
+            }
+        }
+
+        public async Task<int> SaveNetworkEventAsync(List<NetworkEvent> networkEvents)
+        {
+            try
+            {
+                var dbContext = new FtDbContext();
+                dbContext.NetworkEvents.AddRange(networkEvents);
+                return await dbContext.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("GetNetworkEvents: " + e.Message);
+                return 0;
             }
         }
 

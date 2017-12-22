@@ -47,12 +47,13 @@ namespace Iit.Fibertest.Client
             return Task.FromResult(0);
         }
 
-        public Task<int> NotifyAboutRtuChangedAvailability(ListOfRtuWithChangedAvailabilityDto dto)
+        public Task<int> NotifyAboutNetworkEvents(NetworkEventsList dto)
         {
-            _treeOfRtuModel.Apply(dto);
-            foreach (var rtuWithChannelChanges in dto.List)
+            foreach (var networkEvent in dto.Events)
             {
-                var rtuLeaf = (RtuLeaf)_treeOfRtuModel.Tree.GetById(rtuWithChannelChanges.RtuId);
+                _treeOfRtuModel.Apply(networkEvent);
+
+                var rtuLeaf = (RtuLeaf)_treeOfRtuModel.Tree.GetById(networkEvent.RtuId);
                 if (rtuLeaf != null)
                     _rtuStateViewsManager.NotifyUserRtuAvailabilityChanged(rtuLeaf);
             }

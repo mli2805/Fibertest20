@@ -5,20 +5,18 @@ namespace Iit.Fibertest.Dto
     public class RtuWithChannelChanges
     {
         public Guid RtuId { get; set; }
-        public ChannelStateChanges MainChannel { get; set; } = ChannelStateChanges.TheSame;
-        public ChannelStateChanges ReserveChannel { get; set; } = ChannelStateChanges.TheSame;
+        public RtuPartState MainChannel { get; set; } = RtuPartState.NotSetYet;
+        public RtuPartState ReserveChannel { get; set; } = RtuPartState.NotSetYet;
 
         public string Report()
         {
-            var mainChannel = MainChannel == ChannelStateChanges.TheSame
-                ? ""
-                : MainChannel == ChannelStateChanges.Broken
+            var mainChannel = MainChannel == RtuPartState.Broken
                     ? "Main channel is Broken"
                     : "Main channel Recovered";
 
-            var reserveChannel = ReserveChannel == ChannelStateChanges.TheSame
+            var reserveChannel = ReserveChannel == RtuPartState.NotSetYet
                 ? ""
-                : ReserveChannel == ChannelStateChanges.Broken
+                : ReserveChannel == RtuPartState.Broken
                     ? "Reserve channel is Broken"
                     : "Reserve channel Recovered";
 

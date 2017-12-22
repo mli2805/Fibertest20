@@ -48,7 +48,7 @@ namespace Iit.Fibertest.Client
                 ? RtuPartState.NotSetYet
                 : hasBrokenBop
                     ? RtuPartState.Broken
-                    : RtuPartState.Normal;
+                    : RtuPartState.Ok;
 
             rtuStateVm.CurrentMeasurementStep = rtuLeaf.MonitoringState == MonitoringState.Off ? Resources.SID_No_measurement : Resources.SID_Unknown;
             return rtuStateVm;

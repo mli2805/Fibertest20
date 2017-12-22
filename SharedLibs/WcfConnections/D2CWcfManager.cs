@@ -49,7 +49,7 @@ namespace Iit.Fibertest.WcfConnections
             return 0;
         }
 
-        public async Task<int> NotifyAboutRtuChangedAvailability(ListOfRtuWithChangedAvailabilityDto dto)
+        public async Task<int> NotifyAboutNetworkEvents(NetworkEventsList dto)
         {
             if (_addresses == null)
             {
@@ -64,7 +64,7 @@ namespace Iit.Fibertest.WcfConnections
 
                 try
                 {
-                    await wcfConnection.NotifyAboutRtuChangedAvailability(dto);
+                    await wcfConnection.NotifyAboutNetworkEvents(dto);
                 }
                 catch (Exception e)
                 {

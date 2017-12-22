@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Iit.Fibertest.DatabaseLibrary;
@@ -14,19 +15,23 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IMyLog _logFile;
         private readonly ClientStationsRepository _clientStationsRepository;
         private readonly RtuStationsRepository _rtuStationsRepository;
+        private readonly NetworkEventsRepository _networkEventsRepository;
         private readonly D2CWcfManager _d2CWcfManager;
         private TimeSpan _checkHeartbeatEvery;
         private TimeSpan _rtuHeartbeatPermittedGap;
         private TimeSpan _clientHeartbeatPermittedGap;
 
         public LastConnectionTimeChecker(IniFile iniFile, IMyLog logFile,
-            ClientStationsRepository clientStationsRepository, RtuStationsRepository rtuStationsRepository,
+            ClientStationsRepository clientStationsRepository,
+            RtuStationsRepository rtuStationsRepository,
+            NetworkEventsRepository networkEventsRepository,
             D2CWcfManager d2CWcfManager)
         {
             _iniFile = iniFile;
             _logFile = logFile;
             _clientStationsRepository = clientStationsRepository;
             _rtuStationsRepository = rtuStationsRepository;
+            _networkEventsRepository = networkEventsRepository;
             _d2CWcfManager = d2CWcfManager;
         }
 
@@ -54,50 +59,101 @@ namespace Iit.Fibertest.DataCenterCore
         {
             _clientStationsRepository.CleanDeadClients(_clientHeartbeatPermittedGap).Wait();
 
-            var changes = await _rtuStationsRepository.GetAndSaveRtuStationsAvailabilityChanges(_rtuHeartbeatPermittedGap);
-            if (changes.List.Count == 0)
+            var networkEvents = await GetNewNetworkEvents(_rtuHeartbeatPermittedGap);
+            if (networkEvents.Count == 0)
                 return 0;
 
-            await RecordNetworkEvents(changes);
-            await NotifyClientsRtuAvailabilityChanged(changes);
+            await _networkEventsRepository.SaveNetworkEventAsync(networkEvents);
+            await NotifyAboutNetworkEvents(networkEvents);
             return 0;
         }
 
-        private async Task<int> RecordNetworkEvents(RtuWithChannelChangesList changes)
-        {
-            try
-            {
-                var dbContext = new FtDbContext();
-                foreach (var rtuWithChannelChanges in changes.List)
-                {
-                    dbContext.NetworkEvents.Add(new NetworkEvent()
-                    {
-                        RtuId = rtuWithChannelChanges.RtuId,
-                        EventTimestamp = DateTime.Now,
-                        MainChannelState = rtuWithChannelChanges.MainChannel,
-                        ReserveChannelState = rtuWithChannelChanges.ReserveChannel,
-                        BopString = "", // rabbish
-                    });
-                }
-                return await dbContext.SaveChangesAsync();
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine("RecordNetworkEvents:" + e.Message);
-                return -1;
-            }
 
-        }
-        private async Task<int> NotifyClientsRtuAvailabilityChanged(RtuWithChannelChangesList changes)
+        private async Task<int> NotifyAboutNetworkEvents(List<NetworkEvent> networkEvents)
         {
-            changes.List.ForEach(r => _logFile.AppendLine(r.Report()));
-            var dto = new ListOfRtuWithChangedAvailabilityDto() { List = changes.List };
+            var dto = new NetworkEventsList() { Events = networkEvents };
 
             var addresses = await _clientStationsRepository.GetClientsAddresses();
             if (addresses == null)
                 return 0;
             _d2CWcfManager.SetClientsAddresses(addresses);
-            return await _d2CWcfManager.NotifyAboutRtuChangedAvailability(dto);
+            return await _d2CWcfManager.NotifyAboutNetworkEvents(dto);
+        }
+
+        public async Task<List<NetworkEvent>> GetNewNetworkEvents(TimeSpan rtuHeartbeatPermittedGap)
+        {
+            DateTime noLaterThan = DateTime.Now - rtuHeartbeatPermittedGap;
+            var stations = await _rtuStationsRepository.GetAllRtuStations();
+
+            List<RtuStation> changedStations = new List<RtuStation>();
+            List<NetworkEvent> networkEvents = new List<NetworkEvent>();
+            foreach (var rtuStation in stations)
+            {
+                NetworkEvent networkEvent = CheckRtuStation(rtuStation, noLaterThan);
+                if (networkEvent != null)
+                {
+                    changedStations.Add(rtuStation);
+                    networkEvents.Add(networkEvent);
+                }
+            }
+            if (changedStations.Count > 0)
+                await _rtuStationsRepository.SaveAvailabilityChanges(changedStations);
+
+            return networkEvents;
+        }
+
+        private NetworkEvent CheckRtuStation(RtuStation rtuStation, DateTime noLaterThan)
+        {
+            var networkEvent = new NetworkEvent() { RtuId = rtuStation.RtuGuid, EventTimestamp = DateTime.Now};
+
+            var flag = CheckMainChannel(rtuStation, noLaterThan, networkEvent);
+
+            if (rtuStation.IsReserveAddressSet)
+                flag = CheckReserveChannel(rtuStation, noLaterThan, networkEvent);
+
+            return flag ? networkEvent : null;
+        }
+
+        private bool CheckReserveChannel(RtuStation rtuStation, DateTime noLaterThan, NetworkEvent networkEvent)
+        {
+            if (rtuStation.LastConnectionByReserveAddressTimestamp < noLaterThan &&
+                rtuStation.IsReserveAddressOkDuePreviousCheck)
+            {
+                rtuStation.IsMainAddressOkDuePreviousCheck = false;
+                networkEvent.ReserveChannelState = RtuPartState.Broken;
+                _logFile.AppendLine($"RTU {rtuStation.RtuGuid.First6()} Reserve channel - Broken");
+                return true;
+            }
+
+            if (rtuStation.LastConnectionByReserveAddressTimestamp >= noLaterThan &&
+                !rtuStation.IsReserveAddressOkDuePreviousCheck)
+            {
+                rtuStation.IsMainAddressOkDuePreviousCheck = true;
+                networkEvent.ReserveChannelState = RtuPartState.Ok;
+                _logFile.AppendLine($"RTU {rtuStation.RtuGuid.First6()} Reserve channel - Recovered");
+                return true;
+            }
+            return false;
+        }
+
+        private bool CheckMainChannel(RtuStation rtuStation, DateTime noLaterThan, NetworkEvent networkEvent)
+        {
+            if (rtuStation.LastConnectionByMainAddressTimestamp < noLaterThan && rtuStation.IsMainAddressOkDuePreviousCheck)
+            {
+                rtuStation.IsMainAddressOkDuePreviousCheck = false;
+                networkEvent.MainChannelState = RtuPartState.Broken;
+                _logFile.AppendLine($"RTU {rtuStation.RtuGuid.First6()} Main channel - Broken");
+                return true;
+            }
+
+            if (rtuStation.LastConnectionByMainAddressTimestamp >= noLaterThan && !rtuStation.IsMainAddressOkDuePreviousCheck)
+            {
+                rtuStation.IsMainAddressOkDuePreviousCheck = true;
+                networkEvent.MainChannelState = RtuPartState.Ok;
+                _logFile.AppendLine($"RTU {rtuStation.RtuGuid.First6()} Main channel - Recovered");
+                return true;
+            }
+            return false;
         }
     }
 }

@@ -8,8 +8,8 @@ namespace Iit.Fibertest.Client
         public int Nomer { get; set; }
         public DateTime EventTimestamp { get; set; }
         public string RtuTitle { get; set; }
-        public ChannelStateChanges MainChannelState { get; set; }
-        public ChannelStateChanges ReserveChannelState { get; set; }
+        public RtuPartState MainChannelState { get; set; }
+        public RtuPartState ReserveChannelState { get; set; }
 
         public string BopString { get; set; } // 
     }

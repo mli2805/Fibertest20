@@ -142,7 +142,7 @@ namespace Iit.Fibertest.Client
                     return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/RedSquare.png"));
                 case RtuPartState.NotSetYet:
                     return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
-                case RtuPartState.Normal:
+                case RtuPartState.Ok:
                     return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreenSquare.png"));
                 default:
                     return null;
@@ -155,7 +155,7 @@ namespace Iit.Fibertest.Client
             {
                   case  RtuPartState.Broken: return Resources.SID_Broken;
                   case  RtuPartState.NotSetYet: return "";
-                  case  RtuPartState.Normal: return @"OK";
+                  case  RtuPartState.Ok: return @"OK";
                 default: return null;
             }
         }
@@ -168,7 +168,7 @@ namespace Iit.Fibertest.Client
                     return Brushes.Red;
                 case RtuPartState.NotSetYet:
                     return isForeground ? Brushes.LightGray : Brushes.Transparent;
-                case RtuPartState.Normal:
+                case RtuPartState.Ok:
                     return Brushes.Black;
                 default:
                     return Brushes.Black;

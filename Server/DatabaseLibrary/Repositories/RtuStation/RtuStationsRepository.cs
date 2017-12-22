@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
@@ -118,54 +120,41 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
         }
 
-        public async Task<RtuWithChannelChangesList> GetAndSaveRtuStationsAvailabilityChanges(TimeSpan rtuHeartbeatPermittedGap)
+        public async Task<List<RtuStation>> GetAllRtuStations()
         {
-            var changes = new RtuWithChannelChangesList();
             try
             {
                 var dbContext = new FtDbContext();
-                DateTime noLaterThan = DateTime.Now - rtuHeartbeatPermittedGap;
-
-                var stationsWithExpiredMainChannel = dbContext.RtuStations.
-                    Where(s => s.LastConnectionByMainAddressTimestamp < noLaterThan && s.IsMainAddressOkDuePreviousCheck).ToList();
-                foreach (var rtuStation in stationsWithExpiredMainChannel)
-                {
-                    rtuStation.IsMainAddressOkDuePreviousCheck = false;
-                    changes.AddOrUpdate(rtuStation, Channel.Main, ChannelStateChanges.Broken);
-                }
-                var stationsWithRecoveredMainChannel = dbContext.RtuStations.
-                    Where(s => s.LastConnectionByMainAddressTimestamp >= noLaterThan && !s.IsMainAddressOkDuePreviousCheck).ToList();
-                foreach (var rtuStation in stationsWithRecoveredMainChannel)
-                {
-                    rtuStation.IsMainAddressOkDuePreviousCheck = true;
-                    changes.AddOrUpdate(rtuStation, Channel.Main, ChannelStateChanges.Recovered);
-                }
-
-                var stationsWithExpiredReserveChannel = dbContext.RtuStations
-                    .Where(s => s.IsReserveAddressSet &&
-                        s.LastConnectionByReserveAddressTimestamp < noLaterThan && s.IsReserveAddressOkDuePreviousCheck).ToList();
-                foreach (var rtuStation in stationsWithExpiredReserveChannel)
-                {
-                    rtuStation.IsReserveAddressOkDuePreviousCheck = false;
-                    changes.AddOrUpdate(rtuStation, Channel.Reserve, ChannelStateChanges.Broken);
-                }
-                var stationsWithRecoveredReserveChannel = dbContext.RtuStations
-                    .Where(s => s.IsReserveAddressSet &&
-                        s.LastConnectionByReserveAddressTimestamp >= noLaterThan && !s.IsReserveAddressOkDuePreviousCheck).ToList();
-                foreach (var rtuStation in stationsWithRecoveredReserveChannel)
-                {
-                    rtuStation.IsReserveAddressOkDuePreviousCheck = true;
-                    changes.AddOrUpdate(rtuStation, Channel.Reserve, ChannelStateChanges.Recovered);
-                }
-                await dbContext.SaveChangesAsync();
-                return changes;
+                return await dbContext.RtuStations.ToListAsync();
             }
             catch (Exception e)
             {
-                _logFile.AppendLine("GetAndSaveRtuStationsAvailabilityChanges:" + e.Message);
+                _logFile.AppendLine("GetAllRtuStations: " + e.Message);
+                return null;
             }
-            return new RtuWithChannelChangesList();
         }
+
+        public async Task<int> SaveAvailabilityChanges(List<RtuStation> changedStations)
+        {
+            try
+            {
+                var dbContext = new FtDbContext();
+                foreach (var changedStation in changedStations)
+                {
+                    var rtuStation = dbContext.RtuStations.First(r => r.RtuGuid == changedStation.RtuGuid);
+                    dbContext.RtuStations.Remove(rtuStation);
+                    dbContext.RtuStations.Add(changedStation);
+                }
+                return await dbContext.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("GetAllRtuStations: " + e.Message);
+                return -1;
+            }
+        }
+
+
 
     }
 }

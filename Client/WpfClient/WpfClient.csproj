@@ -244,6 +244,7 @@
     <Compile Include="Forms\TraceState\TraceStateModelFactory.cs" />
     <Compile Include="Forms\TraceStatistics\TraceStatisticsViewsManager.cs" />
     <Compile Include="Logic\LocalAddressResearcher.cs" />
+    <Compile Include="Logic\RtuPartStateExt.cs" />
     <Compile Include="Logic\SoundManager.cs" />
     <Compile Include="WindowManagerExt.cs" />
     <Compile Include="ViewModels\Primitive\EventStatusComboItem.cs" />

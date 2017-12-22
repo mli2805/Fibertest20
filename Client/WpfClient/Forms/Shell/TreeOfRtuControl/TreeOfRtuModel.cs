@@ -115,7 +115,7 @@ namespace Iit.Fibertest.Client
                 FirstPortNumber = rtuLeaf.FullPortCount + 1,
                 OwnPortCount = e.PortCount,
                 OtauNetAddress = e.NetAddress,
-                OtauState = RtuPartState.Normal,
+                OtauState = RtuPartState.Ok,
                 IsExpanded = true,
             };
             for (int i = 0; i < otauLeaf.OwnPortCount; i++)
@@ -138,30 +138,14 @@ namespace Iit.Fibertest.Client
             portLeaf.Parent = rtuLeaf;
         }
 
-        public void Apply(ListOfRtuWithChangedAvailabilityDto dto)
-        {
-            foreach (var rtuWithChannelChanges in dto.List)
-            {
-                var rtuLeaf = (RtuLeaf)Tree.GetById(rtuWithChannelChanges.RtuId);
-                if (rtuLeaf == null)
-                    continue;
-                if (rtuWithChannelChanges.MainChannel == ChannelStateChanges.Recovered)
-                    rtuLeaf.MainChannelState = RtuPartState.Normal;
-                else if (rtuWithChannelChanges.MainChannel == ChannelStateChanges.Broken)
-                    rtuLeaf.MainChannelState = RtuPartState.Broken;
-            }
-        }
-
         public void Apply(NetworkEvent networkEvent)
         {
             var rtuLeaf = (RtuLeaf)Tree.GetById(networkEvent.RtuId);
             if (rtuLeaf == null)
                 return;
 
-            if (networkEvent.MainChannelState != ChannelStateChanges.TheSame)
-                rtuLeaf.MainChannelState = (RtuPartState)(int)networkEvent.MainChannelState;
-            if (networkEvent.ReserveChannelState != ChannelStateChanges.TheSame)
-                rtuLeaf.ReserveChannelState = (RtuPartState)(int)networkEvent.ReserveChannelState;
+            rtuLeaf.MainChannelState = networkEvent.MainChannelState;
+            rtuLeaf.ReserveChannelState = networkEvent.ReserveChannelState;
         }
 
         public void Apply(Measurement measurement)

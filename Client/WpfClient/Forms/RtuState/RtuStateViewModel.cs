@@ -63,22 +63,22 @@ namespace Iit.Fibertest.Client
                 }
             }
 
-            Model.CurrentMeasurementStep = BuildMessage(dto.State, portName, traceTitle);
+            Model.CurrentMeasurementStep = BuildMessage(dto.Step, portName, traceTitle);
         }
 
-        private string BuildMessage(RtuCurrentState state, string portName, string traceTitle)
+        private string BuildMessage(MonitoringCurrentStep step, string portName, string traceTitle)
         {
-            switch (state)
+            switch (step)
             {
-                case RtuCurrentState.Idle:
+                case MonitoringCurrentStep.Idle:
                     return Resources.SID_Is_waiting_for_the_command;
-                case RtuCurrentState.Toggle:
+                case MonitoringCurrentStep.Toggle:
                    return string.Format(Resources.SID_Toggling_to_the_port__0_, portName);
-                case RtuCurrentState.Measure:
+                case MonitoringCurrentStep.Measure:
                     return string.Format(Resources.SID_Measurement_on_port__0___trace___1__, portName, traceTitle);
-                case RtuCurrentState.Analysis:
+                case MonitoringCurrentStep.Analysis:
                     return string.Format(Resources.SID_Measurement_s_result_analysis__port__0____trace___1__, portName, traceTitle);
-                case RtuCurrentState.Interrupted:
+                case MonitoringCurrentStep.Interrupted:
                     return Resources.SID_Measurement_interrupted;
                 default:
                     return Resources.SID_Unknown;

@@ -193,10 +193,10 @@ namespace Iit.Fibertest.Client
             {
                 Id = dto.RtuId,
                 MainChannel = MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress(),
-                MainChannelState = RtuPartState.Normal,
+                MainChannelState = RtuPartState.Ok,
                 IsReserveChannelSet = IsReserveChannelEnabled,
                 ReserveChannel = IsReserveChannelEnabled ? ReserveChannelTestViewModel.NetAddressInputViewModel.GetNetAddress() : null,
-                ReserveChannelState = IsReserveChannelEnabled ? RtuPartState.Normal : RtuPartState.NotSetYet,
+                ReserveChannelState = IsReserveChannelEnabled ? RtuPartState.Ok : RtuPartState.NotSetYet,
                 OtauNetAddress = dto.OtdrAddress,
                 OwnPortCount = dto.OwnPortCount,
                 FullPortCount = dto.FullPortCount,
