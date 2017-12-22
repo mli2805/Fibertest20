@@ -4,6 +4,6 @@
     {
         Broken = -1,
         NotSetYet = 0,
-        Ok,
+        Ok = 1,
     }
 }
