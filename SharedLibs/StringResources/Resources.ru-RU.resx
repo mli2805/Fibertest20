@@ -1472,4 +1472,13 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Status_of_optical_event" xml:space="preserve">
 		<value>Статус оптического события</value>
 	</data>
+	<data name="SID_Current_accidents" xml:space="preserve">
+		<value>Текущие аварии</value>
+	</data>
+	<data name="SID_All_optical_events" xml:space="preserve">
+		<value>Все оптические события</value>
+	</data>
+	<data name="SID_All_network_events" xml:space="preserve">
+		<value>Все сетевые события</value>
+	</data>
 </root>

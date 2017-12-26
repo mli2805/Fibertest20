@@ -1472,4 +1472,13 @@ RTU is initializing right now!</value>
 	<data name="SID_Status_of_optical_event" xml:space="preserve">
     <value>Status of optical event</value>
   </data>
+	<data name="SID_Current_accidents" xml:space="preserve">
+    <value>Current accidents</value>
+  </data>
+	<data name="SID_All_optical_events" xml:space="preserve">
+    <value>All optical events</value>
+  </data>
+	<data name="SID_All_network_events" xml:space="preserve">
+    <value>All network events</value>
+  </data>
 </root>

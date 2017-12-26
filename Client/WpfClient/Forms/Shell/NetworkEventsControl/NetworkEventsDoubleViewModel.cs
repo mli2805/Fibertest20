@@ -2,6 +2,7 @@
 using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
@@ -26,7 +27,9 @@ namespace Iit.Fibertest.Client
             NetworkEventsViewModel actualNetworkEventsViewModel, NetworkEventsViewModel allNetworkEventsViewModel)
         {
             ActualNetworkEventsViewModel = actualNetworkEventsViewModel;
+            ActualNetworkEventsViewModel.TableTitle = Resources.SID_Current_accidents;
             AllNetworkEventsViewModel = allNetworkEventsViewModel;
+            AllNetworkEventsViewModel.TableTitle = Resources.SID_All_network_events;
             _readModel = readModel;
         }
 

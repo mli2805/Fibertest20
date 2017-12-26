@@ -10,8 +10,9 @@ namespace Iit.Fibertest.Client
 {
     public class NetworkEventsViewModel : PropertyChangedBase
     {
-        private readonly ReadModel _readModel;
+        public string TableTitle { get; set; }
 
+        private readonly ReadModel _readModel;
       
         private ObservableCollection<NetworkEventModel> _rows = new ObservableCollection<NetworkEventModel>();
         public ObservableCollection<NetworkEventModel> Rows

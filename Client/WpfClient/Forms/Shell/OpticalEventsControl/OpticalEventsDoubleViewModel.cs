@@ -2,6 +2,7 @@
 using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
@@ -32,9 +33,9 @@ namespace Iit.Fibertest.Client
         {
             _readModel = readModel;
             ActualOpticalEventsViewModel = actualOpticalEventsViewModel;
-            ActualOpticalEventsViewModel.TableTitle = @"Actual optical events";
+            ActualOpticalEventsViewModel.TableTitle = Resources.SID_Current_accidents;
             AllOpticalEventsViewModel = allOpticalEventsViewModel;
-            AllOpticalEventsViewModel.TableTitle = @"All optical events";
+            AllOpticalEventsViewModel.TableTitle = Resources.SID_All_optical_events;
         }
 
         public void Apply(Measurement measurement)

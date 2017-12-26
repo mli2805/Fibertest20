@@ -395,6 +395,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All network events.
+        /// </summary>
+        public static string SID_All_network_events {
+            get {
+                return ResourceManager.GetString("SID_All_network_events", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All optical events.
+        /// </summary>
+        public static string SID_All_optical_events {
+            get {
+                return ResourceManager.GetString("SID_All_optical_events", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Analysis is finished.
         /// </summary>
         public static string SID_Analysis_is_finished {
@@ -1058,6 +1076,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Cross {
             get {
                 return ResourceManager.GetString("SID_Cross", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current accidents.
+        /// </summary>
+        public static string SID_Current_accidents {
+            get {
+                return ResourceManager.GetString("SID_Current_accidents", resourceCulture);
             }
         }
         

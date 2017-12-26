@@ -33,7 +33,7 @@ namespace Iit.Fibertest.Client
 
         public EventStatus EventStatus { get; set; }
 
-        public Brush EventStatusBrush => EventStatus == EventStatus.Confirmed ? Brushes.Red : Brushes.White;
+        public Brush EventStatusBrush => GetBrush();
         public string EventStatusInTable => EventStatus.GetLocalizedString();
 
         public string StatusChangedTimestamp { get; set; }
@@ -42,5 +42,18 @@ namespace Iit.Fibertest.Client
 
 
         public int SorFileId { get; set; }
+
+        private Brush GetBrush()
+        {
+            switch (EventStatus)
+            {
+                    case EventStatus.Confirmed: return Brushes.Red;
+                    case EventStatus.Suspended:
+                    case EventStatus.Unprocessed: return Brushes.LightSkyBlue;
+                    case EventStatus.NotConfirmed:
+                    case EventStatus.Planned: return Brushes.Transparent;
+            }
+            return Brushes.Transparent;
+        }
     }
 }

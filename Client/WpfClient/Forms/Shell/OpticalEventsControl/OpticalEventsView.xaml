@@ -10,7 +10,7 @@
              cal:Bind.ModelWithoutContext="{Binding .}"
              d:DataContext="{d:DesignInstance client:OpticalEventsViewModel}">
     <DockPanel>
-        <TextBlock DockPanel.Dock="Top" Height="20" Text="{Binding TableTitle}" HorizontalAlignment="Center" FontSize="12" FontWeight="Bold"/>
+        <TextBlock DockPanel.Dock="Top" Height="20" Margin="0,10,0,0" Text="{Binding TableTitle}" HorizontalAlignment="Center" FontSize="12" FontWeight="Bold"/>
 
         <!--        <GroupBox Header="Comment" DockPanel.Dock="Bottom" Margin="5">-->
         <TextBlock DockPanel.Dock="Bottom" Margin="5,0" Height="20" Background="AliceBlue" Text="{Binding SelectedRow.Comment}"/>
