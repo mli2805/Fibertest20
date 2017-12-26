@@ -80,9 +80,9 @@ namespace Iit.Fibertest.DataCenterCore
             return await _measurementsRepository.GetOpticalEventsAsync();
         }
 
-        public async Task<NetworkEventsList> GetNetworkEvents(int revision)
+        public async Task<NetworkEventsList> GetNetworkEvents()
         {
-            return await _networkEventsRepository.GetNetworkEventsAsync(revision);
+            return await _networkEventsRepository.GetNetworkEventsAsync();
         }
 
         public async Task<TraceStatistics> GetTraceStatistics(Guid traceId)

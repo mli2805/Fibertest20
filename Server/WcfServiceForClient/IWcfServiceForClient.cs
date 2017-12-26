@@ -22,7 +22,7 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
         Task<MeasurementsList> GetOpticalEvents();
 
         [OperationContract]
-        Task<NetworkEventsList> GetNetworkEvents(int revision);
+        Task<NetworkEventsList> GetNetworkEvents();
 
         [OperationContract]
         Task<TraceStatistics> GetTraceStatistics(Guid traceId);

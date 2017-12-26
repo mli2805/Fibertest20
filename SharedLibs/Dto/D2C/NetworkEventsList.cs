@@ -7,6 +7,9 @@ namespace Iit.Fibertest.Dto
     public class NetworkEventsList
     {
         [DataMember]
-        public List<NetworkEvent> Events { get; set; }
+        public List<NetworkEvent> ActualEvents { get; set; }
+
+        [DataMember]
+        public List<NetworkEvent> PageOfLastEvents { get; set; }
     }
 }

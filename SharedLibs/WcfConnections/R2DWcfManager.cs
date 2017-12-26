@@ -46,10 +46,8 @@ namespace Iit.Fibertest.WcfConnections
             }
             catch (Exception e)
             {
-                _logFile.AppendLine("SendHeartbeat: " + e.Message);
+                _logFile.AppendLine("SendCurrentMonitoringStep: " + e.Message);
             }
-
         }
-
     }
 }

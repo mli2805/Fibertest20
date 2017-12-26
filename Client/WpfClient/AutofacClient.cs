@@ -23,7 +23,11 @@ namespace Iit.Fibertest.Client
 
             builder.RegisterType<OpticalEventsViewModel>();
             builder.RegisterType<OpticalEventsDoubleViewModel>().SingleInstance();
-            builder.RegisterType<NetworkEventsViewModel>().SingleInstance();
+            builder.RegisterType<OpticalEventsProvider>().SingleInstance();
+
+            builder.RegisterType<NetworkEventsViewModel>();
+            builder.RegisterType<NetworkEventsDoubleViewModel>().SingleInstance();
+            builder.RegisterType<NetworkEventsProvider>().SingleInstance();
 
             builder.RegisterType<RtuStateViewModel>();
             builder.RegisterType<TraceStateViewModel>();
@@ -83,7 +87,6 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<C2DWcfManager>().AsSelf().As<IWcfServiceForClient>().SingleInstance();
 
             builder.RegisterType<ClientHeartbeat>().SingleInstance();
-            builder.RegisterType<OpticalEventsProvider>().SingleInstance();
 
 
             builder.RegisterType<UiDispatcherProvider>().As<IDispatcherProvider>().SingleInstance();
@@ -96,7 +99,6 @@ namespace Iit.Fibertest.Client
                         ioc.Resolve<GraphReadModel>(),
                     },
                     ioc.Resolve<IDispatcherProvider>(),
-                    ioc.Resolve<NetworkEventsViewModel>(),
                     logFile,
                     iniFile,
                     ioc.Resolve<ILocalDbManager>()

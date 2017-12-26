@@ -17,10 +17,11 @@ namespace Iit.Fibertest.Client
             OpticalEventsDoubleViewModel opticalEventsDoubleViewModel)
         {
             _c2DWcfManager = c2DWcfManager;
+            _opticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
+
             _models.Add(readModel);
             _models.Add(treeOfRtuModel);
             _models.Add(opticalEventsDoubleViewModel);
-            _opticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
         }
 
         public async void LetsGetStarted()
@@ -30,7 +31,6 @@ namespace Iit.Fibertest.Client
                 return;
 
             ApplyOpticalEvents(opticalEvents);
-
         }
 
         private void ApplyOpticalEvents(MeasurementsList list)

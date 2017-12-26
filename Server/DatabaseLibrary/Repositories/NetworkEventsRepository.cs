@@ -17,16 +17,45 @@ namespace Iit.Fibertest.DatabaseLibrary
             _logFile = logFile;
         }
 
-        public async Task<NetworkEventsList> GetNetworkEventsAsync(int afterIndex)
+        public async Task<NetworkEventsList> GetNetworkEventsAsync()
+        {
+            try
+            {
+                var actualEvents = await GetActualNetworkEventsAsync();
+                var page = await GetPageOfLastNetworkEventsAsync();
+                return new NetworkEventsList() {ActualEvents = actualEvents, PageOfLastEvents = page};
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("GetNetworkEvents: " + e.Message);
+                return null;
+            }
+        }
+
+        private async Task<List<NetworkEvent>> GetActualNetworkEventsAsync()
         {
             try
             {
                 var dbContext = new FtDbContext();
-                var result = new NetworkEventsList
-                {
-                    Events = await dbContext.NetworkEvents.Where(e => e.Id > afterIndex).ToListAsync()
-                };
-                return result;
+                var events = await dbContext.NetworkEvents.GroupBy(p => p.RtuId)
+                    .Select(e => e.OrderByDescending(p => p.Id).FirstOrDefault()).ToListAsync();
+                return events;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("GetNetworkEvents: " + e.Message);
+                return null;
+            }
+        }
+
+        private async Task<List<NetworkEvent>> GetPageOfLastNetworkEventsAsync()
+        {
+            const int pageSize = 200;
+            try
+            {
+                var dbContext = new FtDbContext();
+                var pageOfLastEvents = await dbContext.NetworkEvents.Take(pageSize).ToListAsync();
+                return pageOfLastEvents;
             }
             catch (Exception e)
             {

@@ -1,7 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Windows;
 using System.Windows.Data;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -12,18 +12,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly ReadModel _readModel;
 
-        private Visibility _networkEventsVisibility;
-        public Visibility NetworkEventsVisibility
-        {
-            get { return _networkEventsVisibility; }
-            set
-            {
-                if (value == _networkEventsVisibility) return;
-                _networkEventsVisibility = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
+      
         private ObservableCollection<NetworkEventModel> _rows = new ObservableCollection<NetworkEventModel>();
         public ObservableCollection<NetworkEventModel> Rows
         {
@@ -44,17 +33,25 @@ namespace Iit.Fibertest.Client
             view.SortDescriptions.Add(new SortDescription(@"Nomer", ListSortDirection.Descending));
         }
 
-        public void Apply(NetworkEvent networkEvent)
+        public void AddEvent(NetworkEvent networkEvent)
         {
             Rows.Add(new NetworkEventModel()
             {
                 Nomer = networkEvent.Id,
                 EventTimestamp = networkEvent.EventTimestamp,
+                RtuId = networkEvent.RtuId,
                 RtuTitle = _readModel.Rtus.FirstOrDefault(r => r.Id == networkEvent.RtuId)?.Title,
                 MainChannelState = networkEvent.MainChannelState,
                 ReserveChannelState = networkEvent.ReserveChannelState,
                 BopString = networkEvent.BopString,
             });
+        }
+
+        public void RemoveOldEventForRtuIfExists(Guid rtuId)
+        {
+            var oldEvent = Rows.FirstOrDefault(r => r.RtuId == rtuId);
+            if (oldEvent != null)
+                Rows.Remove(oldEvent);
         }
     }
 }

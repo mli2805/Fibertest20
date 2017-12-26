@@ -94,7 +94,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public async Task<NetworkEventsList> GetNetworkEvents(int revision)
+        public async Task<NetworkEventsList> GetNetworkEvents()
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();
             if (wcfConnection == null)
@@ -102,12 +102,12 @@ namespace Iit.Fibertest.WcfConnections
 
             try
             {
-                return await wcfConnection.GetNetworkEvents(revision);
+                return await wcfConnection.GetNetworkEvents();
             }
             catch (Exception e)
             {
                 _logFile.AppendLine(e.Message);
-                return new NetworkEventsList() { Events = new List<NetworkEvent>() };
+                return new NetworkEventsList() { ActualEvents = new List<NetworkEvent>(), PageOfLastEvents = new List<NetworkEvent>()};
             }
         }
 

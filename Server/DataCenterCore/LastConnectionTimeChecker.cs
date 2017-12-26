@@ -71,13 +71,11 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task<int> NotifyAboutNetworkEvents(List<NetworkEvent> networkEvents)
         {
-            var dto = new NetworkEventsList() { Events = networkEvents };
-
             var addresses = await _clientStationsRepository.GetClientsAddresses();
             if (addresses == null)
                 return 0;
             _d2CWcfManager.SetClientsAddresses(addresses);
-            return await _d2CWcfManager.NotifyAboutNetworkEvents(dto);
+            return await _d2CWcfManager.NotifyAboutNetworkEvents(networkEvents);
         }
 
         public async Task<List<NetworkEvent>> GetNewNetworkEvents(TimeSpan rtuHeartbeatPermittedGap)

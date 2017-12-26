@@ -198,6 +198,11 @@
     <Compile Include="ClientWcfService.cs" />
     <Compile Include="EventSourcing\ClientPoller.cs" />
     <Compile Include="EventSourcing\IDispatcherProvider.cs" />
+    <Compile Include="Forms\Shell\NetworkEventsControl\NetworkEventsDoubleView.xaml.cs">
+      <DependentUpon>NetworkEventsDoubleView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Shell\NetworkEventsControl\NetworkEventsDoubleViewModel.cs" />
+    <Compile Include="Forms\Shell\NetworkEventsControl\NetworkEventsProvider.cs" />
     <Compile Include="Forms\Shell\OpticalEventsControl\OpticalEventsProvider.cs" />
     <Compile Include="EventSourcing\TestsDispatcherProvider.cs" />
     <Compile Include="EventSourcing\UiDispatcherProvider.cs" />
@@ -488,6 +493,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Forms\RtuState\RtuStateView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\Shell\NetworkEventsControl\NetworkEventsDoubleView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

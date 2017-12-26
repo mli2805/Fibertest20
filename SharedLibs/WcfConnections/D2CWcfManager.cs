@@ -49,7 +49,7 @@ namespace Iit.Fibertest.WcfConnections
             return 0;
         }
 
-        public async Task<int> NotifyAboutNetworkEvents(NetworkEventsList dto)
+        public async Task<int> NotifyAboutNetworkEvents(List<NetworkEvent> dto)
         {
             if (_addresses == null)
             {

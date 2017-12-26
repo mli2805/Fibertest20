@@ -56,7 +56,7 @@
                     </StatusBarItem>
                 </StatusBar>
                 <client:OpticalEventsDoubleView DataContext="{Binding OpticalEventsDoubleViewModel}" Visibility="{Binding OpticalEventsVisibility}"/>
-                <client:NetworkEventsView DataContext="{Binding NetworkEventsViewModel}" Visibility="{Binding NetworkEventsVisibility}"/>
+                <client:NetworkEventsDoubleView DataContext="{Binding NetworkEventsDoubleViewModel}" Visibility="{Binding NetworkEventsVisibility}"/>
                 <client:MapUserControl DataContext="{Binding GraphReadModel}" Visibility="{Binding MapVisibility}" Margin="3,0,3,3"/>
             </DockPanel>
         </Grid>
