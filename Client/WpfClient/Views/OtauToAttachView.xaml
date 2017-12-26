@@ -41,7 +41,7 @@
             </StackPanel>
         </GroupBox>
         <StackPanel Orientation="Horizontal" Margin="15,10">
-            <Button Name="Attach" Content="{x:Static stringResources:Resources.SID_Attach}" Width="100" Margin="5"/>
+            <Button Name="AttachOtau" Content="{x:Static stringResources:Resources.SID_Attach}" Width="100" Margin="5"/>
             <Button Name="Close" Content="{x:Static stringResources:Resources.SID_Close}" Width="90" Margin="5"/>
         </StackPanel>
     </StackPanel>

@@ -42,7 +42,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             try
             {
                 var dbContext = new FtDbContext();
-                var events = await dbContext.Measurements.Where(m => (int) m.EventStatus > -99).GroupBy(p => p.TraceId)
+                var events = await dbContext.Measurements.Where(m => m.EventStatus > EventStatus.JustMeasurementNotAnEvent).GroupBy(p => p.TraceId)
                     .Select(e => e.OrderByDescending(p => p.SorFileId).FirstOrDefault()).ToListAsync();
                 return events;
             }
@@ -59,7 +59,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             try
             {
                 var dbContext = new FtDbContext();
-                var events = await dbContext.Measurements.Where(m => (int)m.EventStatus > -9).
+                var events = await dbContext.Measurements.Where(m => m.EventStatus > EventStatus.JustMeasurementNotAnEvent).
                     OrderByDescending(p=>p.SorFileId).Take(pageSize).ToListAsync();
                 return events;
             }
