@@ -35,5 +35,10 @@ namespace Iit.Fibertest.Client
             }
 
         }
+
+        public static WorseOrBetter BecomeBetterOrWorse(this RtuPartState before, RtuPartState now)
+        {
+            return before < now ? WorseOrBetter.Better : before == now ? WorseOrBetter.TheSame : WorseOrBetter.Worse;
+        }
     }
 }

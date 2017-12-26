@@ -10,6 +10,9 @@ namespace Iit.Fibertest.Client
     {
         private readonly SoundManager _soundManager;
         private bool _isSoundForThisVmInstanceOn;
+        private bool _isUserAskedToOpenView;
+        private RtuPartStateChanges _changes;
+        
         public bool IsOpen { get; private set; }
 
         public RtuStateModel Model { get; set; }
@@ -19,15 +22,30 @@ namespace Iit.Fibertest.Client
             _soundManager = soundManager;
         }
 
-        public void Initialize(RtuStateModel model)
+        public void Initialize(RtuStateModel model, bool isUserAskedToOpenView, RtuPartStateChanges changes)
         {
             Model = model;
+            _isUserAskedToOpenView = isUserAskedToOpenView;
+            _changes = changes;
         }
 
         protected override void OnViewLoaded(object view)
         {
             DisplayName = Resources.SID_State_of_RTU;
             IsOpen = true;
+
+            if (_isUserAskedToOpenView)
+                return;
+
+            if (_changes == RtuPartStateChanges.DifferentPartsHaveDifferentChanges || _changes == RtuPartStateChanges.OnlyBetter)
+                _soundManager.PlayOk();
+
+            if (_changes == RtuPartStateChanges.DifferentPartsHaveDifferentChanges || _changes == RtuPartStateChanges.OnlyWorse)
+            {
+                _isSoundForThisVmInstanceOn = true;
+                _soundManager.StartAlert();
+                Model.IsSoundButtonEnabled = true;
+            }
         }
 
         public void NotifyUserMonitoringResult(Measurement dto)

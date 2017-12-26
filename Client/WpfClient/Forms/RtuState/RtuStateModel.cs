@@ -15,15 +15,16 @@ namespace Iit.Fibertest.Client
         public string RtuAvailabilityOnScreen => RtuAvailabilityToString();
         public Brush RtuAvailabilityBrush => RtuAvalilabilityToBrush(true);
 
-        public RtuPartState MainAddressState { get; set; }
         public string MainAddress { get; set; }
+        public RtuPartState MainAddressState { get; set; }
         public string MainAddressStateOnScreen => MainAddressState.ToLocalizedString();
+        public Brush MainAddressBrush => MainAddressState.GetBrush(true);
 
         public bool HasReserveAddress { get; set; }
-        public RtuPartState ReserveAddressState { get; set; }
-        public Brush ReserveAddressBrush => ReserveAddressState.GetBrush(true);
         public string ReserveAddress { get; set; }
+        public RtuPartState ReserveAddressState { get; set; }
         public string ReserveAddressStateOnScreen => ReserveAddressState.ToLocalizedString();
+        public Brush ReserveAddressBrush => ReserveAddressState.GetBrush(true);
 
         public int FullPortCount { get; set; }
         public int OwnPortCount { get; set; }
@@ -71,7 +72,17 @@ namespace Iit.Fibertest.Client
             TracesState = Ports.Max(p => p.TraceState);
         }
 
-        public bool IsSoundButtonEnabled { get; set; }
+        private bool _isSoundButtonEnabled;
+        public bool IsSoundButtonEnabled
+        {
+            get { return _isSoundButtonEnabled; }
+            set
+            {
+                if (value == _isSoundButtonEnabled) return;
+                _isSoundButtonEnabled = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         //------------------
         private string RtuAvailabilityToString()

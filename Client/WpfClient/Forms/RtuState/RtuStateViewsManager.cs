@@ -18,7 +18,44 @@ namespace Iit.Fibertest.Client
             _rtuStateModelFactory = rtuStateModelFactory;
         }
 
+        // user clicked on RtuLeaf
         public void ShowRtuState(RtuLeaf rtuLeaf)
+        {
+            Show(rtuLeaf, isUserAskedToOpenView: true, changes: RtuPartStateChanges.NoChanges);
+        }
+
+        // Server sent network event
+        public void NotifyUserRtuAvailabilityChanged(RtuLeaf rtuLeaf, RtuPartStateChanges changes)
+        {
+            Show(rtuLeaf, isUserAskedToOpenView: false, changes: changes);
+        }
+
+        public void NotifyUserRtuCurrentMonitoringStep(CurrentMonitoringStepDto dto)
+        {
+            ClearClosedViews();
+            RtuStateViewModel vm;
+            if (LaunchedViews.TryGetValue(dto.RtuId, out vm))
+                vm.NotifyUserCurrentMonitoringStep(dto);
+        }
+
+        public void NotifyUserMonitoringResult(Measurement dto)
+        {
+            ClearClosedViews();
+            RtuStateViewModel vm;
+            if (LaunchedViews.TryGetValue(dto.RtuId, out vm))
+                vm.NotifyUserMonitoringResult(dto);
+        }
+
+        private void ClearClosedViews()
+        {
+            var closed = (from pair in LaunchedViews where !pair.Value.IsOpen select pair.Key).ToList();
+            foreach (var view in closed)
+            {
+                LaunchedViews.Remove(view);
+            }
+        }
+
+        private void Show(RtuLeaf rtuLeaf, bool isUserAskedToOpenView, RtuPartStateChanges changes)
         {
             ClearClosedViews();
 
@@ -32,45 +69,12 @@ namespace Iit.Fibertest.Client
             }
 
             vm = IoC.Get<RtuStateViewModel>();
-            vm.Initialize(_rtuStateModelFactory.Create(rtuLeaf));
+            vm.Initialize(_rtuStateModelFactory.Create(rtuLeaf), isUserAskedToOpenView, changes);
             _windowManager.ShowWindowWithAssignedOwner(vm);
 
             LaunchedViews.Add(rtuId, vm);
         }
 
-        private void ClearClosedViews()
-        {
-            var closed = (from pair in LaunchedViews where !pair.Value.IsOpen select pair.Key).ToList();
-            foreach (var view in closed)
-            {
-                LaunchedViews.Remove(view);
-            }
-        }
-
-        public void NotifyUserRtuAvailabilityChanged(RtuLeaf rtuLeaf)
-        {
-            ShowRtuState(rtuLeaf);
-        }
-
-        public void NotifyUserRtuCurrentMonitoringStep(CurrentMonitoringStepDto dto)
-        {
-            CleanClosedView();
-            RtuStateViewModel vm;
-            if (LaunchedViews.TryGetValue(dto.RtuId, out vm))
-                vm.NotifyUserCurrentMonitoringStep(dto);
-        }
-
-        public void NotifyUserMonitoringResult(Measurement dto)
-        {
-            CleanClosedView();
-            RtuStateViewModel vm;
-            if (LaunchedViews.TryGetValue(dto.RtuId, out vm))
-                vm.NotifyUserMonitoringResult(dto);
-        }
-
-        public void CleanClosedView()
-        {
-
-        }
+     
     }
 }

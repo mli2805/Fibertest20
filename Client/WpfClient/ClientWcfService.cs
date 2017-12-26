@@ -55,11 +55,17 @@ namespace Iit.Fibertest.Client
         {
             foreach (var networkEvent in dto)
             {
-                _treeOfRtuModel.Apply(networkEvent);
-
                 var rtuLeaf = (RtuLeaf)_treeOfRtuModel.Tree.GetById(networkEvent.RtuId);
-                if (rtuLeaf != null)
-                    _rtuStateViewsManager.NotifyUserRtuAvailabilityChanged(rtuLeaf);
+                if (rtuLeaf == null)
+                    continue;
+
+                // should be evaluate just now, before NetworkEvent applied to Tree
+                var changes = IsStateWorseOrBetterThanBefore(rtuLeaf, networkEvent);
+                if (changes == RtuPartStateChanges.NoChanges) // strange case, but...
+                    return Task.FromResult(0); 
+
+                _treeOfRtuModel.Apply(networkEvent);
+                _rtuStateViewsManager.NotifyUserRtuAvailabilityChanged(rtuLeaf, changes);
 
                 _networkEventsDoubleViewModel.Apply(networkEvent);
                 _networkEventsDoubleViewModel.ApplyToTableAll(networkEvent);
@@ -67,5 +73,23 @@ namespace Iit.Fibertest.Client
             return Task.FromResult(0);
         }
 
+        private RtuPartStateChanges IsStateWorseOrBetterThanBefore(RtuLeaf rtuLeaf, NetworkEvent networkEvent)
+        {
+            List<WorseOrBetter> parts = new List<WorseOrBetter> {
+                rtuLeaf.MainChannelState.BecomeBetterOrWorse(networkEvent.MainChannelState),
+                rtuLeaf.ReserveChannelState.BecomeBetterOrWorse(networkEvent.ReserveChannelState),
+                // TODO network event doesn't contain bop so far
+                rtuLeaf.BopState.BecomeBetterOrWorse(RtuPartState.NotSetYet),
+            };
+
+            if (parts.Contains(WorseOrBetter.Worse) && parts.Contains(WorseOrBetter.Better))
+                return RtuPartStateChanges.DifferentPartsHaveDifferentChanges;
+            if (parts.Contains(WorseOrBetter.Worse))
+                return RtuPartStateChanges.OnlyWorse;
+            if (parts.Contains(WorseOrBetter.Better))
+                return RtuPartStateChanges.OnlyBetter;
+            return RtuPartStateChanges.NoChanges;
+        }
     }
+
 }

@@ -21,7 +21,7 @@
                     <TextBlock Text="{Binding Model.Title}" VerticalAlignment="Center" Margin="5"/>
                 </DockPanel>
             </GroupBox>
-            <GroupBox Header="{x:Static stringResources:Resources.SID_Main_channel}" Margin="5,0">
+            <GroupBox Header="{x:Static stringResources:Resources.SID_Main_channel}" Margin="5,0" Foreground="{Binding Model.MainAddressBrush}">
                 <DockPanel>
                     <TextBlock DockPanel.Dock="Right" Text="{Binding Model.MainAddressStateOnScreen}" 
                        TextAlignment="Center" Margin="5" Width="150"/>

@@ -18,7 +18,7 @@ namespace Iit.Fibertest.Client
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly OpticalEventsDoubleViewModel _opticalEventsDoubleViewModel;
         private bool _isSoundForThisVmInstanceOn;
-        private bool _isUserAskedToOpenView;
+        private bool _isTraceStateChanged;
         public bool IsOpen { get; private set; }
 
         public TraceStateModel Model { get; set; }
@@ -37,11 +37,11 @@ namespace Iit.Fibertest.Client
             _opticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
         }
 
-        public void Initialize(TraceStateModel model, bool isLastStateForThisTrace, bool isUserAskedToOpenView)
+        public void Initialize(TraceStateModel model, bool isLastStateForThisTrace, bool isTraceStateChanged)
         {
             Model = model;
             IsLastStateForThisTrace = isLastStateForThisTrace;
-            _isUserAskedToOpenView = isUserAskedToOpenView;
+            _isTraceStateChanged = isTraceStateChanged;
             if (Model.EventStatus > EventStatus.NotAnAccident)
                 InitializeEventStatusCombobox();
         }
@@ -51,7 +51,7 @@ namespace Iit.Fibertest.Client
             DisplayName = Resources.SID_Trace_state;
             IsOpen = true;
 
-            if (!_isUserAskedToOpenView)
+            if (!_isTraceStateChanged)
                 return;
 
             if (Model.TraceState != FiberState.Ok)
