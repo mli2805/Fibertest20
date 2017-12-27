@@ -111,6 +111,23 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
+        public async Task<BopNetworkEventsList> GetBopNetworkEvents()
+        {
+            var wcfConnection = _wcfFactory.CreateC2DConnection();
+            if (wcfConnection == null)
+                return null;
+
+            try
+            {
+                return await wcfConnection.GetBopNetworkEvents();
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+                return new BopNetworkEventsList() { ActualEvents = new List<BopNetworkEvent>(), PageOfLastEvents = new List<BopNetworkEvent>() };
+            }
+        }
+
         public async Task<TraceStatistics> GetTraceStatistics(Guid traceId)
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();

@@ -26,9 +26,6 @@ namespace Iit.Fibertest.Client
         public Brush ReserveChannelStateBrush => ReserveChannelState.GetBrush();
 
 
-        public string BopString { get; set; } // 
-
-
         private Brush GetAvailabilityBrush()
         {
             if (MainChannelState == RtuPartState.Ok && ReserveChannelState != RtuPartState.Broken)

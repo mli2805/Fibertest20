@@ -24,6 +24,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly BaseRefsRepository _baseRefsRepository;
         private readonly MeasurementsRepository _measurementsRepository;
         private readonly NetworkEventsRepository _networkEventsRepository;
+        private readonly BopNetworkEventsRepository _bopNetworkEventsRepository;
 
         private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
         {
@@ -33,7 +34,8 @@ namespace Iit.Fibertest.DataCenterCore
         public WcfServiceForClient(IMyLog logFile, EventStoreService eventStoreService,
             ClientStationsRepository clientStationsRepository, ClientToRtuTransmitter clientToRtuTransmitter,
             RtuStationsRepository rtuStationsRepository, BaseRefsRepository baseRefsRepository, 
-            MeasurementsRepository measurementsRepository, NetworkEventsRepository networkEventsRepository)
+            MeasurementsRepository measurementsRepository, NetworkEventsRepository networkEventsRepository,
+            BopNetworkEventsRepository bopNetworkEventsRepository)
         {
             _logFile = logFile;
             _eventStoreService = eventStoreService;
@@ -43,6 +45,7 @@ namespace Iit.Fibertest.DataCenterCore
             _baseRefsRepository = baseRefsRepository;
             _measurementsRepository = measurementsRepository;
             _networkEventsRepository = networkEventsRepository;
+            _bopNetworkEventsRepository = bopNetworkEventsRepository;
         }
 
         public async Task<string> SendCommandAsObj(object cmd)
@@ -83,6 +86,11 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<NetworkEventsList> GetNetworkEvents()
         {
             return await _networkEventsRepository.GetNetworkEventsAsync();
+        }
+
+        public async Task<BopNetworkEventsList> GetBopNetworkEvents()
+        {
+            return await _bopNetworkEventsRepository.GetBopNetworkEventsAsync();
         }
 
         public async Task<TraceStatistics> GetTraceStatistics(Guid traceId)

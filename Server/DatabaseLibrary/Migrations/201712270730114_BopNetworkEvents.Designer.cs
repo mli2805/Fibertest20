@@ -7,13 +7,13 @@ namespace Iit.Fibertest.DatabaseLibrary.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class InitialCreate : IMigrationMetadata
+    public sealed partial class BopNetworkEvents : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialCreate));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(BopNetworkEvents));
         
         string IMigrationMetadata.Id
         {
-            get { return "201712070715534_InitialCreate"; }
+            get { return "201712270730114_BopNetworkEvents"; }
         }
         
         string IMigrationMetadata.Source

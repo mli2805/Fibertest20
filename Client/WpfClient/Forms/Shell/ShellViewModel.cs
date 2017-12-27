@@ -50,6 +50,7 @@ namespace Iit.Fibertest.Client
         private readonly ClientPoller _clientPoller;
         private readonly OpticalEventsProvider _opticalEventsProvider;
         private readonly NetworkEventsProvider _networkEventsProvider;
+        private readonly BopNetworkEventsProvider _bopNetworkEventsProvider;
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         public IWcfServiceForClient C2DWcfManager { get; }
@@ -61,6 +62,7 @@ namespace Iit.Fibertest.Client
         public GraphReadModel GraphReadModel { get; set; }
         public OpticalEventsDoubleViewModel OpticalEventsDoubleViewModel { get; set; }
         public NetworkEventsDoubleViewModel NetworkEventsDoubleViewModel { get; set; }
+        public BopNetworkEventsDoubleViewModel BopNetworkEventsDoubleViewModel { get; set; }
 
         private bool? _isAuthenticationSuccessfull;
 
@@ -79,9 +81,9 @@ namespace Iit.Fibertest.Client
 
         public ShellViewModel(ReadModel readModel, TreeOfRtuModel treeOfRtuModel, GraphReadModel graphReadModel,
                 IWcfServiceForClient c2DWcfManager, IWindowManager windowManager,
-                NetworkEventsDoubleViewModel networkEventsDoubleViewModel,
-                OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
-                OpticalEventsProvider opticalEventsProvider, NetworkEventsProvider networkEventsProvider,
+                NetworkEventsDoubleViewModel networkEventsDoubleViewModel, NetworkEventsProvider networkEventsProvider,
+                OpticalEventsDoubleViewModel opticalEventsDoubleViewModel, OpticalEventsProvider opticalEventsProvider,
+                BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel, BopNetworkEventsProvider bopNetworkEventsProvider,
                 ClientHeartbeat clientHeartbeat, ClientPoller clientPoller, 
                 IniFile iniFile, ILogger clientLogger, IMyLog logFile, IClientWcfServiceHost host)
         {
@@ -96,9 +98,12 @@ namespace Iit.Fibertest.Client
             OpticalEventsDoubleViewModel.OpticalEventsVisibility = Visibility.Visible;
             NetworkEventsDoubleViewModel = networkEventsDoubleViewModel;
             NetworkEventsDoubleViewModel.NetworkEventsVisibility = Visibility.Collapsed;
+            BopNetworkEventsDoubleViewModel = bopNetworkEventsDoubleViewModel;
+            BopNetworkEventsDoubleViewModel.BopNetworkEventsVisibility = Visibility.Collapsed;
             _selectedTabIndex = 0;
             C2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
+            _bopNetworkEventsProvider = bopNetworkEventsProvider;
             _clientHeartbeat = clientHeartbeat;
             _clientPoller = clientPoller;
             _opticalEventsProvider = opticalEventsProvider;
@@ -144,6 +149,7 @@ namespace Iit.Fibertest.Client
 
                 _opticalEventsProvider.LetsGetStarted();
                 _networkEventsProvider.LetsGetStarted();
+                _bopNetworkEventsProvider.LetsGetStarted();
                 _clientPoller.LoadEventSourcingCache(_server);
                 _clientPoller.Start();
                 _clientHeartbeat.Start();
@@ -174,16 +180,25 @@ namespace Iit.Fibertest.Client
                 case 0:
                     OpticalEventsDoubleViewModel.OpticalEventsVisibility = Visibility.Visible;
                     NetworkEventsDoubleViewModel.NetworkEventsVisibility = Visibility.Collapsed;
+                    BopNetworkEventsDoubleViewModel.BopNetworkEventsVisibility = Visibility.Collapsed;
                     GraphReadModel.MapVisibility = Visibility.Collapsed;
                     break;
                 case 1:
                     OpticalEventsDoubleViewModel.OpticalEventsVisibility = Visibility.Collapsed;
                     NetworkEventsDoubleViewModel.NetworkEventsVisibility = Visibility.Visible;
+                    BopNetworkEventsDoubleViewModel.BopNetworkEventsVisibility = Visibility.Collapsed;
                     GraphReadModel.MapVisibility = Visibility.Collapsed;
                     break;
                 case 2:
                     OpticalEventsDoubleViewModel.OpticalEventsVisibility = Visibility.Collapsed;
                     NetworkEventsDoubleViewModel.NetworkEventsVisibility = Visibility.Collapsed;
+                    BopNetworkEventsDoubleViewModel.BopNetworkEventsVisibility = Visibility.Visible;
+                    GraphReadModel.MapVisibility = Visibility.Collapsed;
+                    break;
+                case 3:
+                    OpticalEventsDoubleViewModel.OpticalEventsVisibility = Visibility.Collapsed;
+                    NetworkEventsDoubleViewModel.NetworkEventsVisibility = Visibility.Collapsed;
+                    BopNetworkEventsDoubleViewModel.BopNetworkEventsVisibility = Visibility.Collapsed;
                     GraphReadModel.MapVisibility = Visibility.Visible;
                     break;
             }

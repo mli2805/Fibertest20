@@ -1263,7 +1263,7 @@ RTU инициализируется в данный момент!</value>
 		<value>Нет такого пользователя или неверный пароль</value>
 	</data>
 	<data name="SID_Network_events" xml:space="preserve">
-		<value>Сетевые события</value>
+		<value>Сетевые события RTU</value>
 	</data>
 	<data name="SID_Optical_events" xml:space="preserve">
 		<value>Оптические события</value>
@@ -1480,5 +1480,8 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_All_network_events" xml:space="preserve">
 		<value>Все сетевые события</value>
+	</data>
+	<data name="SID_Network_events_Bop" xml:space="preserve">
+		<value>Сетевые события БОП</value>
 	</data>
 </root>

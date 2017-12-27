@@ -1263,7 +1263,7 @@ RTU is initializing right now!</value>
     <value>No such user or wrong password!</value>
   </data>
 	<data name="SID_Network_events" xml:space="preserve">
-    <value>Network events</value>
+    <value>Network events RTU</value>
   </data>
 	<data name="SID_Optical_events" xml:space="preserve">
     <value>Optical events</value>
@@ -1480,5 +1480,8 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID_All_network_events" xml:space="preserve">
     <value>All network events</value>
+  </data>
+	<data name="SID_Network_events_Bop" xml:space="preserve">
+    <value>Network events BOP</value>
   </data>
 </root>

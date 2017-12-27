@@ -17,6 +17,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         public DbSet<RtuStation> RtuStations { get; set; }
         public DbSet<BaseRef> BaseRefs { get; set; }
         public DbSet<NetworkEvent> NetworkEvents { get; set; }
+        public DbSet<BopNetworkEvent> BopNetworkEvents { get; set; }
         public DbSet<Measurement> Measurements { get; set; }
         public DbSet<SorFile> SorFiles { get; set; }
     }

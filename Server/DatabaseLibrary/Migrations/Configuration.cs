@@ -7,7 +7,6 @@ namespace Iit.Fibertest.DatabaseLibrary.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            ContextKey = "Iit.Fibertest.DatabaseLibrary.DbContexts.FtDbContext";
         }
 
         protected override void Seed(FtDbContext context)

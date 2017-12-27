@@ -10,8 +10,6 @@ namespace Iit.Fibertest.Dto
         public RtuPartState MainChannelState { get; set; }
         public RtuPartState ReserveChannelState { get; set; }
 
-        public string BopString { get; set; } // 
-
         public bool IsAllRight => MainChannelState == RtuPartState.Ok && ReserveChannelState != RtuPartState.Broken;
     }
 }

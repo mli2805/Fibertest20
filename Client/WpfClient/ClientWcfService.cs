@@ -78,8 +78,6 @@ namespace Iit.Fibertest.Client
             List<WorseOrBetter> parts = new List<WorseOrBetter> {
                 rtuLeaf.MainChannelState.BecomeBetterOrWorse(networkEvent.MainChannelState),
                 rtuLeaf.ReserveChannelState.BecomeBetterOrWorse(networkEvent.ReserveChannelState),
-                // TODO network event doesn't contain bop so far
-                rtuLeaf.BopState.BecomeBetterOrWorse(RtuPartState.NotSetYet),
             };
 
             if (parts.Contains(WorseOrBetter.Worse) && parts.Contains(WorseOrBetter.Better))

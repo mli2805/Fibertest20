@@ -71,19 +71,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Migrations\201712270730114_BopNetworkEvents.cs" />
+    <Compile Include="Migrations\201712270730114_BopNetworkEvents.Designer.cs">
+      <DependentUpon>201712270730114_BopNetworkEvents.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Repositories\BaseRefsRepository.cs" />
+    <Compile Include="Repositories\BopNetworkEventsRepository.cs" />
     <Compile Include="Repositories\ClientStationsRepository.cs" />
     <Compile Include="FtDbContext.cs" />
     <Compile Include="Repositories\MeasurementsRepository.cs" />
-    <Compile Include="Migrations\201712070715534_InitialCreate.cs" />
-    <Compile Include="Migrations\201712070715534_InitialCreate.Designer.cs">
-      <DependentUpon>201712070715534_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201712151101314_UserName.cs" />
-    <Compile Include="Migrations\201712151101314_UserName.Designer.cs">
-      <DependentUpon>201712151101314_UserName.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Repositories\MonitoringResultsRepository.cs" />
     <Compile Include="Repositories\NetworkEventsRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -109,14 +106,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201712070715534_InitialCreate.resx">
-      <DependentUpon>201712070715534_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201712151101314_UserName.resx">
-      <DependentUpon>201712151101314_UserName.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201712270730114_BopNetworkEvents.resx">
+      <DependentUpon>201712270730114_BopNetworkEvents.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\System.Data.SQLite.Core.1.0.106.0\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\..\packages\System.Data.SQLite.Core.1.0.106.0\build\net46\System.Data.SQLite.Core.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

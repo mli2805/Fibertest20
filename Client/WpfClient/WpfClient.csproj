@@ -198,6 +198,16 @@
     <Compile Include="ClientWcfService.cs" />
     <Compile Include="EventSourcing\ClientPoller.cs" />
     <Compile Include="EventSourcing\IDispatcherProvider.cs" />
+    <Compile Include="Forms\Shell\BopNetworkEventsControl\BopNetworkEventModel.cs" />
+    <Compile Include="Forms\Shell\BopNetworkEventsControl\BopNetworkEventsDoubleView.xaml.cs">
+      <DependentUpon>BopNetworkEventsDoubleView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Shell\BopNetworkEventsControl\BopNetworkEventsDoubleViewModel.cs" />
+    <Compile Include="Forms\Shell\BopNetworkEventsControl\BopNetworkEventsProvider.cs" />
+    <Compile Include="Forms\Shell\BopNetworkEventsControl\BopNetworkEventsView.xaml.cs">
+      <DependentUpon>BopNetworkEventsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Shell\BopNetworkEventsControl\BopNetworkEventsViewModel.cs" />
     <Compile Include="Forms\Shell\NetworkEventsControl\NetworkEventsDoubleView.xaml.cs">
       <DependentUpon>NetworkEventsDoubleView.xaml</DependentUpon>
     </Compile>
@@ -493,6 +503,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Forms\RtuState\RtuStateView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\Shell\BopNetworkEventsControl\BopNetworkEventsDoubleView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\Shell\BopNetworkEventsControl\BopNetworkEventsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -51,7 +51,5 @@ namespace Iit.Fibertest.Client
         {
             AllNetworkEventsViewModel.AddEvent(networkEvent);
         }
-
-
     }
 }

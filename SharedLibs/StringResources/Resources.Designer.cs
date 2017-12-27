@@ -2304,11 +2304,20 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Network events.
+        ///   Looks up a localized string similar to Network events RTU.
         /// </summary>
         public static string SID_Network_events {
             get {
                 return ResourceManager.GetString("SID_Network_events", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Network events BOP.
+        /// </summary>
+        public static string SID_Network_events_Bop {
+            get {
+                return ResourceManager.GetString("SID_Network_events_Bop", resourceCulture);
             }
         }
         

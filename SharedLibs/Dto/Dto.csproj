@@ -54,8 +54,10 @@
     <Compile Include="C2D2R\ReSendBaseRefsDto.cs" />
     <Compile Include="C2D2R\SomePortionOfData.cs" />
     <Compile Include="C2D\CheckServerConnectionDto.cs" />
+    <Compile Include="D2C\BopNetworkEventsList.cs" />
     <Compile Include="D2C\MeasurementUpdatedDto.cs" />
     <Compile Include="C2D\UpdateMeasurementDto.cs" />
+    <Compile Include="Db\BopNetworkEvent.cs" />
     <Compile Include="Enums\MonitoringState.cs" />
     <Compile Include="Enums\MonitoringStateExt.cs" />
     <Compile Include="Enums\RtuPartStateChanges.cs" />

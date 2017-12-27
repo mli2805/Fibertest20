@@ -25,6 +25,9 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
         Task<NetworkEventsList> GetNetworkEvents();
 
         [OperationContract]
+        Task<BopNetworkEventsList> GetBopNetworkEvents();
+
+        [OperationContract]
         Task<TraceStatistics> GetTraceStatistics(Guid traceId);
 
         [OperationContract]

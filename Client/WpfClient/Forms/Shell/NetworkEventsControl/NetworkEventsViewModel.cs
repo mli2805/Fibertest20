@@ -44,7 +44,6 @@ namespace Iit.Fibertest.Client
                 RtuTitle = _readModel.Rtus.FirstOrDefault(r => r.Id == networkEvent.RtuId)?.Title,
                 MainChannelState = networkEvent.MainChannelState,
                 ReserveChannelState = networkEvent.ReserveChannelState,
-                BopString = networkEvent.BopString,
             });
         }
 
