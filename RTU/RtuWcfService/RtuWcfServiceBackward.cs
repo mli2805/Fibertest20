@@ -15,7 +15,10 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
     {
         public Handler<RtuInitializedDto> HandlerForInitializeRtu { get; } = new Handler<RtuInitializedDto>();
         public void EndInitialize(RtuInitializedDto dto) => HandlerForInitializeRtu.End(dto);
-
+        public Handler<OtauAttachedDto> HandlerForAttachOtau { get; } = new Handler<OtauAttachedDto>();
+        public void EndAttachOtau(OtauAttachedDto dto) => HandlerForAttachOtau.End(dto);
+        public Handler<OtauDetachedDto> HandlerForDetachOtau { get; } = new Handler<OtauDetachedDto>();
+        public void EndDetachOtau(OtauDetachedDto dto) => HandlerForDetachOtau.End(dto);
         public Handler<bool> HandlerForStartMonitoring { get; } = new Handler<bool>();
         public void EndStartMonitoring(bool result) => HandlerForStartMonitoring.End(result);
 

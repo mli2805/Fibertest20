@@ -10,8 +10,14 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
         void BeginInitialize(InitializeRtuDto dto);
 
         [OperationContract]
-        void BeginStartMonitoring(StartMonitoringDto dto);
+        void BeginAttachOtau(AttachOtauDto dto);
 
+        [OperationContract]
+        void BeginDetachOtau(DetachOtauDto dto);
+
+
+        [OperationContract]
+        void BeginStartMonitoring(StartMonitoringDto dto);
 
         [OperationContract]
         void BeginStopMonitoring(StopMonitoringDto dto);

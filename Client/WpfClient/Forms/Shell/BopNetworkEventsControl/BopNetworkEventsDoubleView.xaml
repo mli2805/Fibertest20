@@ -8,7 +8,7 @@
              d:DesignHeight="300" d:DesignWidth="300" d:DataContext="{d:DesignInstance client:BopNetworkEventsDoubleViewModel}">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="500*"/>
+            <RowDefinition Height="200*"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="500*"/>
         </Grid.RowDefinitions>

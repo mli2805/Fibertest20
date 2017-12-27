@@ -13,6 +13,25 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
             rtuWcfService.BeginInitialize(dto);
             return src.Task;
         }
+
+        public static Task<OtauAttachedDto> AttachOtauAsync(
+            this IRtuWcfService rtuWcfService, RtuWcfServiceBackward backwardService, AttachOtauDto dto)
+        {
+            var src = new TaskCompletionSource<OtauAttachedDto>();
+            backwardService.HandlerForAttachOtau.AddHandler(src);
+            rtuWcfService.BeginAttachOtau(dto);
+            return src.Task;
+        }
+
+        public static Task<OtauDetachedDto> DetachOtauAsync(
+            this IRtuWcfService rtuWcfService, RtuWcfServiceBackward backwardService, DetachOtauDto dto)
+        {
+            var src = new TaskCompletionSource<OtauDetachedDto>();
+            backwardService.HandlerForDetachOtau.AddHandler(src);
+            rtuWcfService.BeginDetachOtau(dto);
+            return src.Task;
+        }
+
         public static Task<bool> StartMonitoringAsync(
             this IRtuWcfService rtuWcfService, RtuWcfServiceBackward backwardService, StartMonitoringDto dto)
         {

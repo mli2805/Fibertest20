@@ -10,6 +10,12 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
         void EndInitialize(RtuInitializedDto dto);
 
         [OperationContract(IsOneWay = true)]
+        void EndAttachOtau(OtauAttachedDto dto);
+
+        [OperationContract(IsOneWay = true)]
+        void EndDetachOtau(OtauDetachedDto dto);
+
+        [OperationContract(IsOneWay = true)]
         void EndStartMonitoring(bool result);
 
         [OperationContract(IsOneWay = true)]

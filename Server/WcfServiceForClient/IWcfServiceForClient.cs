@@ -64,6 +64,12 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
         Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto);
 
         [OperationContract]
+        Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto);
+
+        [OperationContract]
+        Task<OtauDetachedDto> DetachOtauAsync(DetachOtauDto dto);
+
+        [OperationContract]
         Task<bool> StartMonitoringAsync(StartMonitoringDto dto);
 
         [OperationContract]

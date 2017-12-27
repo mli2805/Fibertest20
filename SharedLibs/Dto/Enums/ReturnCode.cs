@@ -13,6 +13,8 @@
         RtuCantGetAppFolder = 1005,
         RtuBaseRefAssignmentError = 1006,
         RtuMonitoringSettingsApplyError = 1007,
+        RtuAttachOtauError = 1008,
+        RtuDetachOtauError = 1009,
 
         MeasurementError = 1100,
         MeasurementEndedNormally = 1101,
@@ -34,10 +36,13 @@
 
         BaseRefAssignedSuccessfully = 4001,
         MonitoringSettingsAppliedSuccessfully = 4002,
+        OtauAttachedSuccesfully = 4003,
+        OtauDetachedSuccesfully = 4004,
 
         NoSuchUserOrWrongPassword = 9001,
         ThisUserRegisteredOnAnotherPc = 9002,
         NoSuchClientStation = 9003,
+        NoSuchRtu = 9004,
         ClientRegisteredSuccessfully = 9011,
     }
 }

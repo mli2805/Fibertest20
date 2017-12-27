@@ -79,6 +79,10 @@ namespace Iit.Fibertest.DirectCharonLibrary
                     _rtuLogFile.AppendLine(LastErrorMessage, 2);
                 return NetAddress;
             }
+            if (LastAnswer.Substring(0, 15) == "ERROR_COMMAND\r\n")
+            {
+                _rtuLogFile.AppendLine("Charon too old, knows nothing about extensions", 2);
+            }
             if (expendedPorts != null)
                 foreach (var expendedPort in expendedPorts)
                 {

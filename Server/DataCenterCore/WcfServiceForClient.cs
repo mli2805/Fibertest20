@@ -159,6 +159,24 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
+        public async Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto)
+        {
+            _logFile.AppendLine($"Client {dto.ClientId.First6()} sent attach otau {dto.OtauId.First6()} request");
+            var result = await _clientToRtuTransmitter.AttachOtauAsync(dto);
+            var message = result.IsAttached ? "Otau attached successfully" : "Failed to attach otau";
+            _logFile.AppendLine(message);
+            return result;
+        }
+
+        public  async Task<OtauDetachedDto> DetachOtauAsync(DetachOtauDto dto)
+        {
+            _logFile.AppendLine($"Client {dto.ClientId.First6()} sent detach otau {dto.OtauId.First6()} request");
+            var result = await _clientToRtuTransmitter.DetachOtauAsync(dto);
+            var message = result.IsDetached ? "Otau detached successfully" : "Failed to detach otau";
+            _logFile.AppendLine(message);
+            return result;
+        }
+
 
         public async Task<bool> StartMonitoringAsync(StartMonitoringDto dto)
         {

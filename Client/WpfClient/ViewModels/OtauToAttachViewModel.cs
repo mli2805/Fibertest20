@@ -92,7 +92,8 @@ namespace Iit.Fibertest.Client
             RtuPortNumber = _portNumberForAttachment;
 
             NetAddressInputViewModel = new NetAddressInputViewModel(
-                new NetAddress() {Ip4Address = @"192.168.96.57", Port = 11834, IsAddressSetAsIp = true});
+//                new NetAddress() {Ip4Address = @"192.168.96.57", Port = 11834, IsAddressSetAsIp = true});
+                new NetAddress() {Ip4Address = @"172.16.5.57", Port = 11834, IsAddressSetAsIp = true});
         }
 
         protected override void OnViewLoaded(object view)
@@ -105,21 +106,39 @@ namespace Iit.Fibertest.Client
             if (!CheckAddressUniqueness())
                 return;
 
-            var otau = await OtauAttachProcess();
-            if (otau == null)
-                return;
-
-            var cmd = new AttachOtau()
+            var otauAddress = new NetAddress(NetAddressInputViewModel.GetNetAddress().Ip4Address,
+                NetAddressInputViewModel.GetNetAddress().Port);
+            var dto = new AttachOtauDto()
             {
-                Id = Guid.NewGuid(),
                 RtuId = _rtuId,
-                MasterPort = _portNumberForAttachment,
-                Serial = otau.Serial,
-                PortCount = otau.OwnPortCount,
-                NetAddress = NetAddressInputViewModel.GetNetAddress(),
+                OtauId = Guid.NewGuid(),
+                OtauAddresses = otauAddress,
+                OpticalPort = _portNumberForAttachment
             };
-//            await _bus.SendCommand(cmd);
-            await _c2DWcfManager.SendCommandAsObj(cmd);
+
+            using (new WaitCursor())
+            {
+                var result = await _c2DWcfManager.AttachOtauAsync(dto);
+                if (result.IsAttached)
+                {
+                    var cmd = new AttachOtau()
+                    {
+                        Id = result.OtauId,
+                        RtuId = result.RtuId,
+                        MasterPort = _portNumberForAttachment,
+                        Serial = result.Serial,
+                        PortCount = result.PortCount,
+                        NetAddress = NetAddressInputViewModel.GetNetAddress(),
+                    };
+                    await _c2DWcfManager.SendCommandAsObj(cmd);
+                }
+                else
+                {
+                    AttachmentProgress = result.ErrorMessage;
+                }
+            }
+
+           
         }
 
         public bool CheckAddressUniqueness()

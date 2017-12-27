@@ -9,6 +9,11 @@ namespace Iit.Fibertest.DirectCharonLibrary
             var extPorts = GetExtentedPorts();
             if (extPorts == null)
                 return false;
+            if (LastAnswer.Substring(0, 15) == "ERROR_COMMAND\r\n")
+            {
+                _rtuLogFile.AppendLine("Charon too old, know nothing about extensions", 2);
+                return false;
+            }
             if (!extPorts.ContainsKey(fromOpticalPort))
             {
                 LastErrorMessage = "There is no such extended port. Nothing to do.";
@@ -36,12 +41,18 @@ namespace Iit.Fibertest.DirectCharonLibrary
                     _rtuLogFile.AppendLine(LastErrorMessage, 2);
                 return false;
             }
+            if (LastAnswer.Substring(0, 15) == "ERROR_COMMAND\r\n")
+            {
+                LastErrorMessage = "Charon too old, knows nothing about extensions";
+                _rtuLogFile.AppendLine(LastErrorMessage, 2);
+                return false;
+            }
             if (extPorts.ContainsKey(toOpticalPort))
             {
                 LastErrorMessage = "This is extended port already. Denied.";
                 if (_charonLogLevel >= CharonLogLevel.PublicCommands)
                     _rtuLogFile.AppendLine(LastErrorMessage, 2);
-                return true;
+                return false;
             }
             extPorts.Add(toOpticalPort, additionalOtauAddress);
             var content = DictionaryToContent(extPorts);

@@ -51,6 +51,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="C2D2R\AssignBaseRefsDto.cs" />
+    <Compile Include="C2D2R\AttachOtauDto.cs" />
+    <Compile Include="C2D2R\DetachOtauDto.cs" />
     <Compile Include="C2D2R\ReSendBaseRefsDto.cs" />
     <Compile Include="C2D2R\SomePortionOfData.cs" />
     <Compile Include="C2D\CheckServerConnectionDto.cs" />
@@ -62,6 +64,8 @@
     <Compile Include="Enums\MonitoringStateExt.cs" />
     <Compile Include="Enums\RtuPartStateChanges.cs" />
     <Compile Include="Enums\WorseOrBetter.cs" />
+    <Compile Include="R2D2C\OtauAttachedDto.cs" />
+    <Compile Include="R2D2C\OtauDetachedDto.cs" />
     <Compile Include="Underlying\BaseRefForStats.cs" />
     <Compile Include="D2C\ClientRegisteredDto.cs" />
     <Compile Include="D2C\NetworkEventsList.cs" />

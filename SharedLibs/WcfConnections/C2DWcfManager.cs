@@ -324,6 +324,44 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
+        public async Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto)
+        {
+            var c2DChannel = _wcfFactory.CreateC2DConnection();
+            if (c2DChannel == null)
+                return new OtauAttachedDto() { IsAttached = false, ReturnCode = ReturnCode.C2DWcfConnectionError, ErrorMessage = "Can't establish connection with DataCenter" };
+
+            try
+            {
+                _logFile.AppendLine($@"Sent command to attach OTAU {dto.OtauId.First6()}");
+                dto.ClientId = _clientId;
+                return await c2DChannel.AttachOtauAsync(dto);
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+                return new OtauAttachedDto() { IsAttached = false, ReturnCode = ReturnCode.C2DWcfOperationError, ErrorMessage = e.Message };
+            }
+        }
+
+        public async Task<OtauDetachedDto> DetachOtauAsync(DetachOtauDto dto)
+        {
+            var c2DChannel = _wcfFactory.CreateC2DConnection();
+            if (c2DChannel == null)
+                return new OtauDetachedDto() { IsDetached = false, ReturnCode = ReturnCode.C2DWcfConnectionError, ErrorMessage = "Can't establish connection with DataCenter" };
+
+            try
+            {
+                _logFile.AppendLine($@"Sent command to detach OTAU {dto.OtauId.First6()}");
+                dto.ClientId = _clientId;
+                return await c2DChannel.DetachOtauAsync(dto);
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+                return new OtauDetachedDto() { IsDetached = false, ReturnCode = ReturnCode.C2DWcfOperationError, ErrorMessage = e.Message };
+            }
+        }
+
         public async Task<bool> StartMonitoringAsync(StartMonitoringDto dto)
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();

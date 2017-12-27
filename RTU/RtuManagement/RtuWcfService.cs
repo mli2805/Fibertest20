@@ -37,7 +37,6 @@ namespace Iit.Fibertest.RtuManagement
             });
         }
 
-
         public void BeginStartMonitoring(StartMonitoringDto dto)
         {
             var callbackChannel = OperationContext.Current.GetCallbackChannel<IRtuWcfServiceBackward>();
@@ -73,6 +72,69 @@ namespace Iit.Fibertest.RtuManagement
             return true;
         }
 
+        public void BeginAttachOtau(AttachOtauDto dto)
+        {
+            var callbackChannel = OperationContext.Current.GetCallbackChannel<IRtuWcfServiceBackward>();
+            ThreadPool.QueueUserWorkItem(_ =>
+            {
+                try
+                {
+                    if (ShouldPerformOtauOperation())
+                        _rtuManager.AttachOtau(dto, () => callbackChannel.EndAttachOtau(_rtuManager.OtauAttachedDto));
+                    else
+                        callbackChannel.EndAttachOtau(new OtauAttachedDto() { IsAttached = false, ReturnCode = ReturnCode.RtuIsBusy });
+                }
+                catch (Exception e)
+                {
+                    _serviceLog.AppendLine("Thread pool: " + e);
+                    var result = new OtauAttachedDto() { IsAttached = false, ReturnCode = ReturnCode.RtuAttachOtauError, ErrorMessage = e.Message };
+                    callbackChannel.EndAttachOtau(result);
+                }
+            });
+        }
+
+        public void BeginDetachOtau(DetachOtauDto dto)
+        {
+            var callbackChannel = OperationContext.Current.GetCallbackChannel<IRtuWcfServiceBackward>();
+            ThreadPool.QueueUserWorkItem(_ =>
+            {
+                try
+                {
+                    if (ShouldPerformOtauOperation())
+                        _rtuManager.DetachOtau(dto, () => callbackChannel.EndDetachOtau(_rtuManager.OtauDetachedDto));
+                    else
+                        callbackChannel.EndDetachOtau(new OtauDetachedDto() { IsDetached = false, ReturnCode = ReturnCode.RtuIsBusy });
+                }
+                catch (Exception e)
+                {
+                    _serviceLog.AppendLine("Thread pool: " + e);
+                    var result = new OtauDetachedDto
+                    {
+                        IsDetached = true,
+                        ReturnCode = ReturnCode.RtuDetachOtauError,
+                        ErrorMessage = e.Message
+                    };
+                    callbackChannel.EndDetachOtau(result);
+                }
+            });
+        }
+
+        private bool ShouldPerformOtauOperation()
+        {
+            if (!_rtuManager.IsRtuInitialized)
+            {
+                _serviceLog.AppendLine("User asks otau operation - Ignored - RTU is busy");
+                return false;
+            }
+            if (_rtuManager.IsMonitoringOn)
+            {
+                _serviceLog.AppendLine("User asks otau operation - Ignored - RTU in AUTOMATIC mode");
+                return false;
+            }
+            _serviceLog.AppendLine("User demands otau operation");
+            return true;
+        }
+
         public void BeginStopMonitoring(StopMonitoringDto dto)
         {
             var callbackChannel = OperationContext.Current.GetCallbackChannel<IRtuWcfServiceBackward>();
@@ -102,7 +164,7 @@ namespace Iit.Fibertest.RtuManagement
             }
             if (!_rtuManager.IsMonitoringOn)
             {
-                _serviceLog.AppendLine("User starts monitoring - Ignored - MANUAL mode already");
+                _serviceLog.AppendLine("User stops monitoring - Ignored - MANUAL mode already");
                 return false;
             }
             _serviceLog.AppendLine("User demands stop monitoring");
@@ -117,7 +179,7 @@ namespace Iit.Fibertest.RtuManagement
 
             ThreadPool.QueueUserWorkItem(_ =>
             {
-                var result = new MonitoringSettingsAppliedDto() {ReturnCode = ReturnCode.MonitoringSettingsAppliedSuccessfully};
+                var result = new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.MonitoringSettingsAppliedSuccessfully };
                 try
                 {
                     if (ShouldApplySettings())

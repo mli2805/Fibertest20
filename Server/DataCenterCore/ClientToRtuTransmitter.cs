@@ -50,6 +50,45 @@ namespace Iit.Fibertest.DataCenterCore
             return rtuInitializedDto;
         }
 
+        public async Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto)
+        {
+            try
+            {
+                var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
+                if (rtuAddresses != null)
+                {
+                    var result = await new D2RWcfManager(rtuAddresses, _iniFile, _logFile).AttachOtauAsync(dto);
+                    return result;
+                }
+
+                _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
+                return new OtauAttachedDto() {IsAttached = false, ReturnCode = ReturnCode.NoSuchRtu};
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("AttachOtauAsync:" + e.Message);
+                return new OtauAttachedDto() {IsAttached = false, ReturnCode = ReturnCode.RtuAttachOtauError, ErrorMessage = e.Message};
+            }
+        }
+
+        public async Task<OtauDetachedDto> DetachOtauAsync(DetachOtauDto dto)
+        {
+            try
+            {
+                var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
+                if (rtuAddresses != null)
+                    return await new D2RWcfManager(rtuAddresses, _iniFile, _logFile).DetachOtauAsync(dto);
+
+                _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
+                return new OtauDetachedDto() { IsDetached = false, ReturnCode = ReturnCode.NoSuchRtu };
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("DetachOtauAsync:" + e.Message);
+                return new OtauDetachedDto() { IsDetached = false, ReturnCode = ReturnCode.RtuDetachOtauError, ErrorMessage = e.Message };
+            }
+        }
+
         public async Task<bool> StartMonitoringAsync(StartMonitoringDto dto)
         {
             try

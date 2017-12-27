@@ -218,8 +218,12 @@ namespace Iit.Fibertest.Client
 
         public void Apply(OtauDetached e)
         {
-            var otau = Otaus.First(o => o.Id == e.Id);
-            var rtu = Rtus.First(r => r.Id == e.RtuId);
+            var otau = Otaus.FirstOrDefault(o => o.Id == e.Id);
+            if (otau == null)
+                return;
+            var rtu = Rtus.FirstOrDefault(r => r.Id == e.RtuId);
+            if (rtu == null)
+                return;
 
             rtu.FullPortCount -= otau.PortCount;
             Otaus.Remove(otau);

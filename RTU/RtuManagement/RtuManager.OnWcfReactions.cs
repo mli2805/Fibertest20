@@ -74,6 +74,42 @@ namespace Iit.Fibertest.RtuManagement
             _serviceIni.WriteServerAddresses(_serverAddresses);
         }
 
+        public OtauAttachedDto OtauAttachedDto { get; set; }
+        public void AttachOtau(AttachOtauDto param, Action callback)
+        {
+            _rtuLog.EmptyLine();
+            if (_mainCharon.AttachOtauToPort(param.OtauAddresses, param.OpticalPort))
+                OtauAttachedDto = new OtauAttachedDto()
+                {
+                    IsAttached = true,
+                    ReturnCode = ReturnCode.OtauAttachedSuccesfully,
+                    OtauId = param.OtauId,
+                    RtuId = param.RtuId,
+                };
+            else
+                OtauAttachedDto = new OtauAttachedDto
+                {
+                    IsAttached = false,
+                    ReturnCode = ReturnCode.RtuAttachOtauError,
+                    ErrorMessage = _mainCharon.LastErrorMessage
+                };
+            callback?.Invoke();
+        }
+
+        public OtauDetachedDto OtauDetachedDto { get; set; }
+        public void DetachOtau(DetachOtauDto param, Action callback)
+        {
+            _rtuLog.EmptyLine();
+            OtauDetachedDto = new OtauDetachedDto() {IsDetached = true, ReturnCode = ReturnCode.OtauDetachedSuccesfully};
+            if (!_mainCharon.DetachOtauFromPort(param.OpticalPort))
+            {
+                OtauDetachedDto.IsDetached = false;
+                OtauDetachedDto.ReturnCode = ReturnCode.RtuDetachOtauError;
+                OtauDetachedDto.ErrorMessage = _mainCharon.LastErrorMessage;
+            }
+            callback?.Invoke();
+        }
+
         public void StartMonitoring(Action callback, bool wasMonitoringOn)
         {
             IsRtuInitialized = false;
