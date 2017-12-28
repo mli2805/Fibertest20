@@ -70,9 +70,6 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
         Task<OtauDetachedDto> DetachOtauAsync(DetachOtauDto dto);
 
         [OperationContract]
-        Task<bool> StartMonitoringAsync(StartMonitoringDto dto);
-
-        [OperationContract]
         Task<bool> StopMonitoringAsync(StopMonitoringDto dto);
 
         [OperationContract]

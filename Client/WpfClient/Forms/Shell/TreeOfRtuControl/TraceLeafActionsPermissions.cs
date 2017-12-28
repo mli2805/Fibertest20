@@ -25,7 +25,7 @@ namespace Iit.Fibertest.Client
 
             return traceLeaf.PortNumber < 1
                     || rtuLeaf.IsAvailable &&
-                   (traceLeaf.RtuMonitoringState == MonitoringState.Off
+                   (traceLeaf.TraceMonitoringState == MonitoringState.Off
                    || !traceLeaf.IsInMonitoringCycle);
         }
 
@@ -56,7 +56,7 @@ namespace Iit.Fibertest.Client
                 return false;
 
             return 
-                   (traceLeaf.RtuMonitoringState == MonitoringState.Off
+                   (traceLeaf.TraceMonitoringState == MonitoringState.Off
                     || !traceLeaf.IsInMonitoringCycle);
         }
 

@@ -41,14 +41,14 @@ namespace Iit.Fibertest.Client
             set { }
         }
 
-        private MonitoringState _rtuMonitoringState;
-        public MonitoringState RtuMonitoringState
+        private MonitoringState _traceMonitoringState;
+        public MonitoringState TraceMonitoringState
         {
-            get { return _rtuMonitoringState; }
+            get { return _traceMonitoringState; }
             set
             {
-                if (value == _rtuMonitoringState) return;
-                _rtuMonitoringState = value;
+                if (value == _traceMonitoringState) return;
+                _traceMonitoringState = value;
                 NotifyOfPropertyChange();
                 NotifyOfPropertyChange(nameof(MonitoringPictogram));
             }
@@ -115,7 +115,7 @@ namespace Iit.Fibertest.Client
         private ImageSource GetPictogram()
         {
             return IsInMonitoringCycle
-                ? RtuMonitoringState == MonitoringState.On
+                ? TraceMonitoringState == MonitoringState.On
                     ? new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/BlueSquare.png"))
                     : new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreySquare.png"))
                 : HasEnoughBaseRefsToPerformMonitoring

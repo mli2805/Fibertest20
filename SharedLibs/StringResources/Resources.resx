@@ -1484,4 +1484,7 @@ RTU is initializing right now!</value>
 	<data name="SID_Network_events_Bop" xml:space="preserve">
     <value>Network events BOP</value>
   </data>
+	<data name="SID_No_traces_selected_for_monitoring_" xml:space="preserve">
+    <value>No traces selected for monitoring!</value>
+  </data>
 </root>

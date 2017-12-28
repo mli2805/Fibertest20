@@ -348,7 +348,7 @@ namespace Iit.Fibertest.Client
                 if (traceLeaf != null)
                 {
                     traceLeaf.IsInMonitoringCycle = e.TracesInMonitoringCycle.Contains(traceLeaf.Id);
-                    traceLeaf.RtuMonitoringState = e.IsMonitoringOn ? MonitoringState.On : MonitoringState.Off;
+                    traceLeaf.TraceMonitoringState = e.IsMonitoringOn ? MonitoringState.On : MonitoringState.Off;
                 }
 
                 var otauLeaf = leaf as OtauLeaf;
@@ -378,7 +378,7 @@ namespace Iit.Fibertest.Client
             {
                 var traceLeaf = leaf as TraceLeaf;
                 if (traceLeaf != null)
-                    traceLeaf.RtuMonitoringState = rtuMonitoringState;
+                    traceLeaf.TraceMonitoringState = rtuMonitoringState;
 
                 var otauLeaf = leaf as OtauLeaf;
                 if (otauLeaf != null)

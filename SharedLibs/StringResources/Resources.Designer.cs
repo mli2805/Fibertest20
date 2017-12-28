@@ -2385,6 +2385,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No traces selected for monitoring!.
+        /// </summary>
+        public static string SID_No_traces_selected_for_monitoring_ {
+            get {
+                return ResourceManager.GetString("SID_No_traces_selected_for_monitoring_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No zone assigned.
         /// </summary>
         public static string SID_No_zone_assigned {

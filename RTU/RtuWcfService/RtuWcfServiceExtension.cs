@@ -32,14 +32,6 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
             return src.Task;
         }
 
-        public static Task<bool> StartMonitoringAsync(
-            this IRtuWcfService rtuWcfService, RtuWcfServiceBackward backwardService, StartMonitoringDto dto)
-        {
-            var src = new TaskCompletionSource<bool>();
-            backwardService.HandlerForStartMonitoring.AddHandler(src);
-            rtuWcfService.BeginStartMonitoring(dto);
-            return src.Task;
-        }
         public static Task<bool> StopMonitoringAsync(
             this IRtuWcfService rtuWcfService, RtuWcfServiceBackward backwardService, StopMonitoringDto dto)
         {

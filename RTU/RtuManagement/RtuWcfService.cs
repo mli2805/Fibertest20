@@ -37,41 +37,6 @@ namespace Iit.Fibertest.RtuManagement
             });
         }
 
-        public void BeginStartMonitoring(StartMonitoringDto dto)
-        {
-            var callbackChannel = OperationContext.Current.GetCallbackChannel<IRtuWcfServiceBackward>();
-            ThreadPool.QueueUserWorkItem(_ =>
-            {
-                try
-                {
-                    if (ShouldStart())
-                        _rtuManager.StartMonitoring(() => callbackChannel.EndStartMonitoring(_rtuManager.IsMonitoringOn), false);
-                    else
-                        callbackChannel.EndStartMonitoring(_rtuManager.IsMonitoringOn);
-                }
-                catch (Exception e)
-                {
-                    _serviceLog.AppendLine("Thread pool: " + e);
-                }
-            });
-        }
-
-        private bool ShouldStart()
-        {
-            if (!_rtuManager.IsRtuInitialized)
-            {
-                _serviceLog.AppendLine("User starts monitoring - Ignored - RTU is busy");
-                return false;
-            }
-            if (_rtuManager.IsMonitoringOn)
-            {
-                _serviceLog.AppendLine("User starts monitoring - Ignored - AUTOMATIC mode already");
-                return false;
-            }
-            _serviceLog.AppendLine("User demands start monitoring");
-            return true;
-        }
-
         public void BeginAttachOtau(AttachOtauDto dto)
         {
             var callbackChannel = OperationContext.Current.GetCallbackChannel<IRtuWcfServiceBackward>();

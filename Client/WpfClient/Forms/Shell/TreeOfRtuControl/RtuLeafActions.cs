@@ -1,7 +1,12 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Autofac;
+using Caliburn.Micro;
 using Iit.Fibertest.Client.MonitoringSettings;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Client
@@ -9,11 +14,15 @@ namespace Iit.Fibertest.Client
     public class RtuLeafActions
     {
         private readonly IMyLog _logFile;
+        private readonly ReadModel _readModel;
+        private readonly IWindowManager _windowManager;
         private readonly RtuStateViewsManager _rtuStateViewsManager;
 
-        public RtuLeafActions(IMyLog logFile, RtuStateViewsManager rtuStateViewsManager)
+        public RtuLeafActions(IMyLog logFile, ReadModel readModel, IWindowManager windowManager, RtuStateViewsManager rtuStateViewsManager)
         {
             _logFile = logFile;
+            _readModel = readModel;
+            _windowManager = windowManager;
             _rtuStateViewsManager = rtuStateViewsManager;
         }
 
@@ -86,16 +95,58 @@ namespace Iit.Fibertest.Client
                     await rtuLeaf.C2DWcfManager.StopMonitoringAsync(new StopMonitoringDto() { RtuId = rtuLeaf.Id });
             }
             _logFile.AppendLine($@"Stop monitoring result - {result}");
-            //            var vm = new NotificationViewModel(
-            //                result ? Resources.SID_Information : Resources.SID_Error_,
-            //                result ? Resources.SID_RTU_is_turned_into_manual_mode : Resources.SID_Cannot_turn_RTU_into_manual_mode);
             if (result)
             {
                 var cmd = new StopMonitoring() { RtuId = rtuLeaf.Id };
                 await rtuLeaf.C2DWcfManager.SendCommandAsObj(cmd);
             }
-            //            rtuLeaf.WindowManager.ShowDialogWithAssignedOwner(vm);
+        }
 
+
+        private ApplyMonitoringSettingsDto CollectMonitoringSettingsFromTree(RtuLeaf rtuLeaf)
+        {
+            var rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == rtuLeaf.Id);
+            if (rtu == null) return null;
+
+            var result = new ApplyMonitoringSettingsDto()
+            {
+                RtuId = rtuLeaf.Id,
+                Timespans = new MonitoringTimespansDto()
+                {
+                    FastSave = TimeSpan.FromHours((int)rtu.FastSave),
+                    PreciseMeas = TimeSpan.FromHours((int)rtu.PreciseMeas),
+                    PreciseSave = TimeSpan.FromHours((int)rtu.PreciseSave),
+                },
+                Ports = CollectTracesInMonitoringCycle(rtuLeaf, true),
+            };
+            return result;
+        }
+
+        private List<PortWithTraceDto> CollectTracesInMonitoringCycle(IPortOwner portOwnerLeaf, bool isMainCharon)
+        {
+            var result = new List<PortWithTraceDto>();
+            foreach (var child in portOwnerLeaf.ChildrenImpresario.Children)
+            {
+                var otauLeaf = child as IPortOwner;
+                if (otauLeaf != null)
+                {
+                    result.AddRange(CollectTracesInMonitoringCycle(otauLeaf, false));
+                    continue;
+                }
+                var trace = child as TraceLeaf;
+                if (trace == null)
+                    continue;
+
+                if (trace.IsInMonitoringCycle)
+                    result.Add(new PortWithTraceDto() {TraceId = trace.Id, OtauPort = new OtauPortDto()
+                    {
+                        OtauIp = portOwnerLeaf.OtauNetAddress.Ip4Address, 
+                        OtauTcpPort = portOwnerLeaf.OtauNetAddress.Port,
+                        IsPortOnMainCharon = isMainCharon,
+                        OpticalPort = trace.PortNumber,
+                    } });
+            }
+            return result;
         }
 
         public async void StartMonitoring(object param)
@@ -104,22 +155,25 @@ namespace Iit.Fibertest.Client
             if (rtuLeaf == null)
                 return;
 
-            bool result;
+            var dto = CollectMonitoringSettingsFromTree(rtuLeaf);
+            if (dto.Ports.Count == 0)
+            {
+                var vm = new NotificationViewModel(Resources.SID_Error_, Resources.SID_No_traces_selected_for_monitoring_);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+                return;
+            }
+            dto.IsMonitoringOn = true;
+
             using (new WaitCursor())
             {
-                result =
-                    await rtuLeaf.C2DWcfManager.StartMonitoringAsync(new StartMonitoringDto() { RtuId = rtuLeaf.Id });
+                var resultDto = await rtuLeaf.C2DWcfManager.ApplyMonitoringSettingsAsync(dto);
+                _logFile.AppendLine($@"Start monitoring result - {resultDto.ReturnCode == ReturnCode.MonitoringSettingsAppliedSuccessfully}");
+                if (resultDto.ReturnCode == ReturnCode.MonitoringSettingsAppliedSuccessfully)
+                {
+                    var cmd = new StartMonitoring() {RtuId = rtuLeaf.Id};
+                    await rtuLeaf.C2DWcfManager.SendCommandAsObj(cmd);
+                }
             }
-            _logFile.AppendLine($@"Start monitoring result - {result}");
-            //            var vm = new NotificationViewModel(
-            //                result ? Resources.SID_Information : Resources.SID_Error_,
-            //                result ? Resources.SID_RTU_is_turned_into_automatic_mode : Resources.SID_Cannot_turn_RTU_into_automatic_mode);
-            if (result)
-            {
-                var cmd = new StartMonitoring() { RtuId = rtuLeaf.Id };
-                await rtuLeaf.C2DWcfManager.SendCommandAsObj(cmd);
-            }
-            //            rtuLeaf.WindowManager.ShowDialogWithAssignedOwner(vm);
         }
 
 

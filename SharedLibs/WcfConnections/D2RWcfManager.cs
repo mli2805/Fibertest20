@@ -47,17 +47,7 @@ namespace Iit.Fibertest.WcfConnections
             return result;
         }
 
-        public async Task<bool> StartMonitoringAsync(StartMonitoringDto dto)
-        {
-            var backward = new RtuWcfServiceBackward();
-            var rtuDuplexConnection = _wcfFactory.CreateDuplexRtuConnection(backward);
-            if (rtuDuplexConnection == null)
-                return false;
-
-            var result = await rtuDuplexConnection.StartMonitoringAsync(backward, dto);
-            return result;
-        }
-
+    
         public async Task<bool> StopMonitoringAsync(StopMonitoringDto dto)
         {
             var backward = new RtuWcfServiceBackward();

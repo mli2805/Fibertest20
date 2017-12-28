@@ -15,10 +15,6 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
         [OperationContract]
         void BeginDetachOtau(DetachOtauDto dto);
 
-
-        [OperationContract]
-        void BeginStartMonitoring(StartMonitoringDto dto);
-
         [OperationContract]
         void BeginStopMonitoring(StopMonitoringDto dto);
 

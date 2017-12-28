@@ -112,7 +112,6 @@
     <Compile Include="C2D\RegisterClientDto.cs" />
     <Compile Include="R2D2C\RtuConnectionCheckedDto.cs" />
     <Compile Include="R2D2C\RtuInitializedDto.cs" />
-    <Compile Include="C2D2R\StartMonitoringDto.cs" />
     <Compile Include="C2D2R\StopMonitoringDto.cs" />
     <Compile Include="C2D\UnRegisterClientDto.cs" />
     <Compile Include="Enums\TcpPorts.cs" />

@@ -177,15 +177,7 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
-
-        public async Task<bool> StartMonitoringAsync(StartMonitoringDto dto)
-        {
-            _logFile.AppendLine($"Client {dto.ClientId.First6()} sent start monitoring on rtu {dto.RtuId.First6()} request");
-            var result = await _clientToRtuTransmitter.StartMonitoringAsync(dto);
-            _logFile.AppendLine($"Start monitoring result is {result}");
-            return result;
-        }
-
+    
         public async Task<bool> StopMonitoringAsync(StopMonitoringDto dto)
         {
             _logFile.AppendLine($"Client {dto.ClientId.First6()} sent stop monitoring on rtu {dto.RtuId.First6()} request");

@@ -19,9 +19,6 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
         public void EndAttachOtau(OtauAttachedDto dto) => HandlerForAttachOtau.End(dto);
         public Handler<OtauDetachedDto> HandlerForDetachOtau { get; } = new Handler<OtauDetachedDto>();
         public void EndDetachOtau(OtauDetachedDto dto) => HandlerForDetachOtau.End(dto);
-        public Handler<bool> HandlerForStartMonitoring { get; } = new Handler<bool>();
-        public void EndStartMonitoring(bool result) => HandlerForStartMonitoring.End(result);
-
         public Handler<bool> HandlerForStopMonitoring { get; } = new Handler<bool>();
         public void EndStopMonitoring(bool result) => HandlerForStopMonitoring.End(result);
 

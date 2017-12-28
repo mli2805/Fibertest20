@@ -362,25 +362,6 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public async Task<bool> StartMonitoringAsync(StartMonitoringDto dto)
-        {
-            var wcfConnection = _wcfFactory.CreateC2DConnection();
-            if (wcfConnection == null)
-                return false;
-
-            try
-            {
-                _logFile.AppendLine($@"Sent command to start monitoring on RTU {dto.RtuId.First6()}");
-                dto.ClientId = _clientId;
-                return await wcfConnection.StartMonitoringAsync(dto);
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine(e.Message);
-                return false;
-            }
-        }
-
         public async Task<bool> StopMonitoringAsync(StopMonitoringDto dto)
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();

@@ -16,9 +16,6 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
         void EndDetachOtau(OtauDetachedDto dto);
 
         [OperationContract(IsOneWay = true)]
-        void EndStartMonitoring(bool result);
-
-        [OperationContract(IsOneWay = true)]
         void EndStopMonitoring(bool result);
 
         [OperationContract(IsOneWay = true)]

@@ -89,25 +89,7 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
-        public async Task<bool> StartMonitoringAsync(StartMonitoringDto dto)
-        {
-            try
-            {
-                var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
-                if (rtuAddresses != null)
-                    return await new D2RWcfManager(rtuAddresses, _iniFile, _logFile)
-                        .StartMonitoringAsync(dto);
-
-                _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
-                return false;
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine("StartMonitoringAsync:" + e.Message);
-                return false;
-            }
-        }
-
+    
         public async Task<bool> StopMonitoringAsync(StopMonitoringDto dto)
         {
             try
