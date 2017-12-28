@@ -49,7 +49,7 @@ namespace Iit.Fibertest.Client
             DisplayName = Resources.SID_Not_attached_traces_list;
         }
 
-        public void Attach()
+        public async void Attach()
         {
             var cmd = new ReSendBaseRefsDto()
             {
@@ -57,14 +57,14 @@ namespace Iit.Fibertest.Client
                 RtuId = _selectedTrace.RtuId,
                 OtauPortDto = _otauPortDto,
             };
-            var result = _c2DWcfManager.ReSendBaseRefAsync(cmd).Result;
+            var result = await _c2DWcfManager.ReSendBaseRefAsync(cmd);
             if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
             {
                 _windowManager.ShowDialogWithAssignedOwner(new NotificationViewModel(Resources.SID_Error_, Resources.SID_Cannot_send_base_refs_to_RTU));
                 return;
             }
 
-            _c2DWcfManager.SendCommandAsObj(new AttachTrace() {TraceId = SelectedTrace.Id, OtauPortDto = _otauPortDto});
+            await _c2DWcfManager.SendCommandAsObj(new AttachTrace() {TraceId = SelectedTrace.Id, OtauPortDto = _otauPortDto});
             TryClose();
         }
 
