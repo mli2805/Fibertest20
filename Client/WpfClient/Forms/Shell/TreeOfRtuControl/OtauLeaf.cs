@@ -47,9 +47,22 @@ namespace Iit.Fibertest.Client
             };
         }
 
-        public void OtauRemoveAction(object param)
+        public async void OtauRemoveAction(object param)
         {
-            C2DWcfManager.SendCommandAsObj(new DetachOtau() { Id = Id, RtuId = Parent.Id });
+            var dto = new DetachOtauDto() {OtauId = Id, RtuId = Parent.Id, OpticalPort = MasterPort};
+            using (new WaitCursor())
+            {
+                var result = await C2DWcfManager.DetachOtauAsync(dto);
+                if (result.IsDetached)
+                {
+                    RemoveOtauFromGraph();
+                }
+            }
+        }
+
+        public async void RemoveOtauFromGraph()
+        {
+            await C2DWcfManager.SendCommandAsObj(new DetachOtau() { Id = Id, RtuId = Parent.Id });
         }
 
         private bool CanOtauRemoveAction(object param)

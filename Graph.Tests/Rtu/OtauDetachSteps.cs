@@ -50,7 +50,7 @@ namespace Graph.Tests
         [Given(@"Пользователь жмет удалить оптический переключатель")]
         public void GivenПользовательЖметУдалитьОптическийПереключатель()
         {
-            _otauLeaf.OtauRemoveAction(null);
+            _otauLeaf.RemoveOtauFromGraph();
             _sut.Poller.EventSourcingTick().Wait();
         }
 
