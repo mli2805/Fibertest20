@@ -54,7 +54,6 @@ namespace Graph.Tests
 
             _rtuLeaf.FullPortCount.Should().Be(24);
             _rtuLeaf.ChildrenImpresario.Children[portNumber-1].Should().Be(_otauLeaf);
-            _rtuLeaf.GetOwnerOfExtendedPort(9).Should().Be(_otauLeaf);
             _otauLeaf.ChildrenImpresario.Children.Count.Should().Be(16);
 
             _otauLeaf.ChildrenImpresario.Children.Any(

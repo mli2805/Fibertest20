@@ -89,19 +89,11 @@ namespace Iit.Fibertest.Client
         public int TraceCount => ChildrenImpresario.Children.Count(c => c is TraceLeaf) +
                 ChildrenImpresario.Children.Where(c => c is OtauLeaf).Sum(otauLeaf => ((OtauLeaf)otauLeaf).TraceCount);
 
-        public IPortOwner GetOwnerOfExtendedPort(int extendedPortNumber)
+        public IPortOwner GetCharon(NetAddress netAddress)
         {
-            if (extendedPortNumber <= OwnPortCount)
-                return this;
-            foreach (var child in ChildrenImpresario.Children)
-            {
-                var otau = child as OtauLeaf;
-                if (otau != null &&
-                    extendedPortNumber >= otau.FirstPortNumber &&
-                    extendedPortNumber < otau.FirstPortNumber + otau.OwnPortCount)
-                    return otau;
-            }
-            return null;
+            if (OtauNetAddress.Equals(netAddress)) return this;
+            return ChildrenImpresario.Children.Select(child => child as OtauLeaf).
+                FirstOrDefault(otau => otau?.OtauNetAddress.Equals(netAddress) == true);
         }
 
         public RtuLeaf(ILifetimeScope globalScope, ReadModel readModel, IWindowManager windowManager,

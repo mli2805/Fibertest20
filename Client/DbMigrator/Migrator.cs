@@ -220,7 +220,7 @@ namespace Iit.Fibertest.DbMigrator
                     new TraceAttached()
                     {
                         TraceId = traceGuid,
-                        Port = port
+                        OtauPortDto = new OtauPortDto() { OpticalPort = port}
                     });
         }
 

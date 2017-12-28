@@ -278,7 +278,7 @@ namespace Iit.Fibertest.Client
         public void Apply(TraceAttached e)
         {
             var trace = Traces.First(t => t.Id == e.TraceId);
-            trace.Port = e.Port;
+            trace.Port = e.OtauPortDto.OpticalPort;
             trace.OtauPort = e.OtauPortDto;
         }
 

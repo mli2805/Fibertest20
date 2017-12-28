@@ -12,10 +12,11 @@ namespace Iit.Fibertest.Client
 {
     public class PortLeaf : Leaf
     {
+        private readonly OtauToAttachViewModel _otauToAttachViewModel;
+        private readonly TraceToAttachViewModel _traceToAttachViewModel;
         private readonly IniFile _iniFile35;
         private readonly IMyLog _logFile;
         public readonly int PortNumber;
-        public readonly int ExtendedPortNumber;
 
         public override string Name
         {
@@ -27,15 +28,17 @@ namespace Iit.Fibertest.Client
         }
         public int LeftMargin => Parent is OtauLeaf ? 106 : 85;
 
-        public PortLeaf(ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, IniFile iniFile35, IMyLog logFile, PostOffice postOffice, Leaf parent, int portNumber)
+        public PortLeaf(ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, 
+            OtauToAttachViewModel otauToAttachViewModel, TraceToAttachViewModel traceToAttachViewModel,
+            IniFile iniFile35, IMyLog logFile, PostOffice postOffice, Leaf parent, int portNumber)
             : base(readModel, windowManager, c2DWcfManager, postOffice)
         {
+            _otauToAttachViewModel = otauToAttachViewModel;
+            _traceToAttachViewModel = traceToAttachViewModel;
             _iniFile35 = iniFile35;
             _logFile = logFile;
             PortNumber = portNumber;
             Parent = parent;
-            var otauLeaf = Parent as OtauLeaf;
-            ExtendedPortNumber = otauLeaf != null ? otauLeaf.FirstPortNumber + PortNumber - 1 : PortNumber;
             Color = Brushes.Black;
         }
 
@@ -94,14 +97,14 @@ namespace Iit.Fibertest.Client
                 IsPortOnMainCharon = Parent is RtuLeaf,
                 OpticalPort = PortNumber
             };
-            var vm = new TraceToAttachViewModel(rtuId, ExtendedPortNumber, otauPortDto, ReadModel, C2DWcfManager, WindowManager);
-            WindowManager.ShowDialogWithAssignedOwner(vm);
+            _traceToAttachViewModel.Initialize(rtuId, otauPortDto);
+            WindowManager.ShowDialogWithAssignedOwner(_traceToAttachViewModel);
         }
 
         public void AttachOtauAction(object param)
         {
-            var vm = new OtauToAttachViewModel(Parent.Id, PortNumber, ReadModel, C2DWcfManager, WindowManager, _iniFile35, _logFile);
-            WindowManager.ShowDialogWithAssignedOwner(vm);
+            _otauToAttachViewModel.Initialize(Parent.Id, PortNumber);
+            WindowManager.ShowDialogWithAssignedOwner(_otauToAttachViewModel);
         }
 
         private bool CanAttachOtauAction(object param)
@@ -125,7 +128,7 @@ namespace Iit.Fibertest.Client
             NetAddress otauAddress = new NetAddress(otdrAddress.Ip4Address, 23);
 
             var charon = new Charon(otauAddress, _iniFile35, _logFile);
-            var result = charon.SetExtendedActivePort(charon.NetAddress, ExtendedPortNumber);
+            var result = charon.SetExtendedActivePort(charon.NetAddress, PortNumber);
             if (result == CharonOperationResult.Ok)
                 System.Diagnostics.Process.Start(@"TraceEngine\Reflect.exe", $"-fnw -n {otdrAddress.Ip4Address} -p {otdrAddress.Port}");
             else

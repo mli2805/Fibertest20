@@ -11,10 +11,10 @@ namespace Iit.Fibertest.Client
 {
     public class TraceToAttachViewModel : Screen
     {
-        private readonly int _portNumber;
-        private readonly OtauPortDto _otauPortDto;
+        private readonly ReadModel _readModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly IWindowManager _windowManager;
+        private OtauPortDto _otauPortDto;
         private Trace _selectedTrace;
 
         public List<Trace> Choices { get; set; }
@@ -30,15 +30,17 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public TraceToAttachViewModel(Guid rtuId, int portNumber, OtauPortDto otauPortDto, 
-            ReadModel readModel, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
+        public TraceToAttachViewModel(ReadModel readModel, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
         {
-            _portNumber = portNumber;
-            _otauPortDto = otauPortDto;
+            _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
+        }
 
-            Choices = readModel.Traces.Where(t => t.RtuId == rtuId && t.Port < 1).ToList();
+        public void Initialize(Guid rtuId, OtauPortDto otauPortDto)
+        {
+            _otauPortDto = otauPortDto;
+            Choices = _readModel.Traces.Where(t => t.RtuId == rtuId && t.Port < 1).ToList();
             SelectedTrace = Choices.FirstOrDefault();
         }
 
@@ -62,7 +64,7 @@ namespace Iit.Fibertest.Client
                 return;
             }
 
-            _c2DWcfManager.SendCommandAsObj(new AttachTrace() {Port = _portNumber, TraceId = SelectedTrace.Id, OtauPortDto = _otauPortDto});
+            _c2DWcfManager.SendCommandAsObj(new AttachTrace() {TraceId = SelectedTrace.Id, OtauPortDto = _otauPortDto});
             TryClose();
         }
 

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Caliburn.Micro;
-using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
@@ -14,13 +12,11 @@ namespace Iit.Fibertest.Client
 {
     public class OtauToAttachViewModel : Screen
     {
-        private readonly Guid _rtuId;
-        private readonly int _portNumberForAttachment;
+        private Guid _rtuId;
+        private int _portNumberForAttachment;
         private readonly ReadModel _readModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly IWindowManager _windowManager;
-        private readonly IniFile _iniFile35;
-        private readonly IMyLog _logFile;
 
         public string RtuTitle { get; set; }
         public int RtuPortNumber { get; set; }
@@ -73,16 +69,17 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public OtauToAttachViewModel(Guid rtuId, int portNumberForAttachment, ReadModel readModel, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager, IniFile iniFile35, IMyLog logFile)
+        public OtauToAttachViewModel(ReadModel readModel, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
         {
-            _rtuId = rtuId;
-            _portNumberForAttachment = portNumberForAttachment;
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
-            _iniFile35 = iniFile35;
-            _logFile = logFile;
+        }
 
+        public void Initialize(Guid rtuId, int portNumberForAttachment)
+        {
+            _rtuId = rtuId;
+            _portNumberForAttachment = portNumberForAttachment;
             InitializeView();
         }
 
@@ -92,8 +89,8 @@ namespace Iit.Fibertest.Client
             RtuPortNumber = _portNumberForAttachment;
 
             NetAddressInputViewModel = new NetAddressInputViewModel(
-//                new NetAddress() {Ip4Address = @"192.168.96.57", Port = 11834, IsAddressSetAsIp = true});
-                new NetAddress() {Ip4Address = @"172.16.5.57", Port = 11834, IsAddressSetAsIp = true});
+                //                new NetAddress() {Ip4Address = @"192.168.96.57", Port = 11834, IsAddressSetAsIp = true});
+                new NetAddress() { Ip4Address = @"172.16.5.57", Port = 11834, IsAddressSetAsIp = true });
         }
 
         protected override void OnViewLoaded(object view)
@@ -103,9 +100,30 @@ namespace Iit.Fibertest.Client
 
         public async Task AttachOtau()
         {
-            if (!CheckAddressUniqueness())
-                return;
+            if (!CheckAddressUniqueness()) return;
+          
+            using (new WaitCursor())
+            {
+                AttachmentProgress = Resources.SID_Please__wait_;
+                var result = await AttachOtauIntoRtu();
+                if (result.IsAttached)
+                {
+                    AttachmentProgress = Resources.SID_Successful_;
+                    var eventSourcingResult = await AttachOtauIntoGraph(result);
+                    if (eventSourcingResult == null)
+                        UpdateView(result);
+                }
+                else
+                {
+                    AttachmentProgress = Resources.SID_Failed_;
+                    var vm = new NotificationViewModel(Resources.SID_Error, $@"{result.ErrorMessage}");
+                    _windowManager.ShowDialogWithAssignedOwner(vm);
+                }
+            }
+        }
 
+        private async Task<OtauAttachedDto> AttachOtauIntoRtu()
+        {
             var otauAddress = new NetAddress(NetAddressInputViewModel.GetNetAddress().Ip4Address,
                 NetAddressInputViewModel.GetNetAddress().Port);
             var dto = new AttachOtauDto()
@@ -115,22 +133,8 @@ namespace Iit.Fibertest.Client
                 OtauAddresses = otauAddress,
                 OpticalPort = _portNumberForAttachment
             };
-
-            using (new WaitCursor())
-            {
-                var result = await _c2DWcfManager.AttachOtauAsync(dto);
-                if (result.IsAttached)
-                {
-                    AttachmentProgress = "Bop attached successfully";
-                    var eventSourcingResult = await AttachOtauIntoGraph(result);
-                    if (eventSourcingResult == null)
-                        UpdateView(result);
-                }
-                else
-                {
-                    AttachmentProgress = result.ErrorMessage;
-                }
-            }
+            var result = await _c2DWcfManager.AttachOtauAsync(dto);
+            return result;
         }
 
         private async Task<string> AttachOtauIntoGraph(OtauAttachedDto result)
@@ -163,39 +167,6 @@ namespace Iit.Fibertest.Client
             var vm = new NotificationViewModel(Resources.SID_Error, Resources.SID_There_is_optical_switch_with_the_same_tcp_address_);
             _windowManager.ShowDialogWithAssignedOwner(vm);
             return false;
-        }
-
-        private async Task<Charon> OtauAttachProcess()
-        {
-            AttachmentProgress = Resources.SID_Please__wait_;
-
-            Charon otau = new Charon(
-                new NetAddress(NetAddressInputViewModel.GetNetAddress().Ip4Address, NetAddressInputViewModel.GetNetAddress().Port),
-                _iniFile35, _logFile);
-            using (new WaitCursor())
-            {
-               await Task.Run(() => RealOtauAttachProcess(otau));
-            }
-
-            if (!otau.IsLastCommandSuccessful)
-            {
-                var vm = new NotificationViewModel(Resources.SID_Error, $@"{otau.LastErrorMessage}");
-                _windowManager.ShowDialogWithAssignedOwner(vm);
-                AttachmentProgress = Resources.SID_Failed_;
-                return null;
-            }
-
-            AttachmentProgress = Resources.SID_Successful_;
-            return otau;
-        }
-
-        private Charon RealOtauAttachProcess(Charon otau)
-        {
-            //TODO really attach otau
-            Thread.Sleep(1000);
-            otau.Serial = @"123456";
-            otau.OwnPortCount = 16;
-            return otau;
         }
 
         public void Close()

@@ -38,6 +38,8 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<TraceStatisticsViewModel>();
 
             builder.RegisterType<ShellViewModel>().As<IShell>();
+            builder.RegisterType<OtauToAttachViewModel>().SingleInstance();
+            builder.RegisterType<TraceToAttachViewModel>().SingleInstance();
             builder.RegisterType<UserListViewModel>();
             builder.RegisterType<ZonesViewModel>();
             builder.RegisterType<ObjectsToZonesViewModel>();
