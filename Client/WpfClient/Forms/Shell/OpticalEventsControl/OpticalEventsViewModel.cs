@@ -115,10 +115,11 @@ namespace Iit.Fibertest.Client
         private void InitializeEventStatusFilters()
         {
             EventStatusFilters = new List<EventStatusFilter>() { new EventStatusFilter() };
-            foreach (var eventStatus in Enum.GetValues(typeof(EventStatus)).OfType<EventStatus>())
-            {
-                EventStatusFilters.Add(new EventStatusFilter(eventStatus));
-            }
+            EventStatusFilters.Add(new EventStatusFilter(EventStatus.Confirmed));
+            EventStatusFilters.Add(new EventStatusFilter(EventStatus.NotConfirmed));
+            EventStatusFilters.Add(new EventStatusFilter(EventStatus.Planned));
+            EventStatusFilters.Add(new EventStatusFilter(EventStatus.Suspended));
+            EventStatusFilters.Add(new EventStatusFilter(EventStatus.Unprocessed));
 
             SelectedEventStatusFilter = EventStatusFilters.First();
         }

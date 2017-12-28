@@ -1487,4 +1487,7 @@ RTU is initializing right now!</value>
 	<data name="SID_No_traces_selected_for_monitoring_" xml:space="preserve">
     <value>No traces selected for monitoring!</value>
   </data>
+	<data name="SID_Select_RTU" xml:space="preserve">
+    <value>Select RTU</value>
+  </data>
 </root>

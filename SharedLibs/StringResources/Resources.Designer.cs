@@ -3394,6 +3394,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select RTU.
+        /// </summary>
+        public static string SID_Select_RTU {
+            get {
+                return ResourceManager.GetString("SID_Select_RTU", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select traces for equipment.
         /// </summary>
         public static string SID_Select_traces_for_equipment {
