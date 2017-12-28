@@ -63,7 +63,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
             return CharonOperationResult.MainOtauError;
         }
 
-        private Charon GetBopCharonWithLogging(NetAddress charonAddress)
+        public Charon GetBopCharonWithLogging(NetAddress charonAddress)
         {
             var charon = Children.Values.FirstOrDefault(c => c.NetAddress.Equals(charonAddress));
             if (charon == null)

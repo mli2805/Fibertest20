@@ -79,13 +79,19 @@ namespace Iit.Fibertest.RtuManagement
         {
             _rtuLog.EmptyLine();
             if (_mainCharon.AttachOtauToPort(param.OtauAddresses, param.OpticalPort))
+            {
+                _mainCharon.InitializeOtau();
+                var child = _mainCharon.GetBopCharonWithLogging(param.OtauAddresses);
                 OtauAttachedDto = new OtauAttachedDto()
                 {
                     IsAttached = true,
                     ReturnCode = ReturnCode.OtauAttachedSuccesfully,
                     OtauId = param.OtauId,
                     RtuId = param.RtuId,
+                    Serial = child.Serial,
+                    PortCount = child.OwnPortCount,
                 };
+            }
             else
                 OtauAttachedDto = new OtauAttachedDto
                 {
@@ -100,12 +106,23 @@ namespace Iit.Fibertest.RtuManagement
         public void DetachOtau(DetachOtauDto param, Action callback)
         {
             _rtuLog.EmptyLine();
-            OtauDetachedDto = new OtauDetachedDto() {IsDetached = true, ReturnCode = ReturnCode.OtauDetachedSuccesfully};
-            if (!_mainCharon.DetachOtauFromPort(param.OpticalPort))
+            if (_mainCharon.DetachOtauFromPort(param.OpticalPort))
             {
-                OtauDetachedDto.IsDetached = false;
-                OtauDetachedDto.ReturnCode = ReturnCode.RtuDetachOtauError;
-                OtauDetachedDto.ErrorMessage = _mainCharon.LastErrorMessage;
+                _mainCharon.InitializeOtau();
+                OtauDetachedDto = new OtauDetachedDto()
+                {
+                    IsDetached = true,
+                    ReturnCode = ReturnCode.OtauDetachedSuccesfully
+                };
+            }
+            else
+            {
+                OtauDetachedDto = new OtauDetachedDto
+                {
+                    IsDetached = false,
+                    ReturnCode = ReturnCode.RtuDetachOtauError,
+                    ErrorMessage = _mainCharon.LastErrorMessage
+                };
             }
             callback?.Invoke();
         }

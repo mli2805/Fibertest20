@@ -121,24 +121,36 @@ namespace Iit.Fibertest.Client
                 var result = await _c2DWcfManager.AttachOtauAsync(dto);
                 if (result.IsAttached)
                 {
-                    var cmd = new AttachOtau()
-                    {
-                        Id = result.OtauId,
-                        RtuId = result.RtuId,
-                        MasterPort = _portNumberForAttachment,
-                        Serial = result.Serial,
-                        PortCount = result.PortCount,
-                        NetAddress = NetAddressInputViewModel.GetNetAddress(),
-                    };
-                    await _c2DWcfManager.SendCommandAsObj(cmd);
+                    AttachmentProgress = "Bop attached successfully";
+                    var eventSourcingResult = await AttachOtauIntoGraph(result);
+                    if (eventSourcingResult == null)
+                        UpdateView(result);
                 }
                 else
                 {
                     AttachmentProgress = result.ErrorMessage;
                 }
             }
+        }
 
-           
+        private async Task<string> AttachOtauIntoGraph(OtauAttachedDto result)
+        {
+            var cmd = new AttachOtau()
+            {
+                Id = result.OtauId,
+                RtuId = result.RtuId,
+                MasterPort = _portNumberForAttachment,
+                Serial = result.Serial,
+                PortCount = result.PortCount,
+                NetAddress = NetAddressInputViewModel.GetNetAddress(),
+            };
+            return await _c2DWcfManager.SendCommandAsObj(cmd);
+        }
+
+        private void UpdateView(OtauAttachedDto result)
+        {
+            OtauSerial = result.Serial;
+            OtauPortCount = result.PortCount;
         }
 
         public bool CheckAddressUniqueness()

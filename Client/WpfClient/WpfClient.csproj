@@ -360,12 +360,12 @@
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\OtauToAttachViewModel.cs" />
+    <Compile Include="Forms\OtauAttach\OtauToAttachViewModel.cs" />
     <Compile Include="ViewModels\Primitive\NodesStatisticsItem.cs" />
     <Compile Include="ViewModels\RtuInitializeViewModel.cs" />
     <Compile Include="ViewModels\TraceToAttachViewModel.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\TreeOfRtuViewModel.cs" />
-    <Compile Include="Views\OtauToAttachView.xaml.cs">
+    <Compile Include="Forms\OtauAttach\OtauToAttachView.xaml.cs">
       <DependentUpon>OtauToAttachView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RtuInitializeView.xaml.cs">
@@ -618,7 +618,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\OtauToAttachView.xaml">
+    <Page Include="Forms\OtauAttach\OtauToAttachView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

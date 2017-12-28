@@ -6,6 +6,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
     {
         public bool DetachOtauFromPort(int fromOpticalPort)
         {
+            _rtuLogFile.AppendLine($"Detach from port {fromOpticalPort} requested...");
             var extPorts = GetExtentedPorts();
             if (extPorts == null)
                 return false;
