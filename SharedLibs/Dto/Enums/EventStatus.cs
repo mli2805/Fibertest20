@@ -5,11 +5,12 @@ namespace Iit.Fibertest.Dto
     public enum EventStatus
     {
         JustMeasurementNotAnEvent = -99, // only for trace statistics
-        NotAnAccident             = -9,  // Ok or Suspicion (made by Fast)
+        EventButNotAnAccident     = -9,  // Ok or Suspicion (made by Fast)
+
         Planned                   = -2,
         NotConfirmed              = -1,
-        Unprocessed               =  0,
-        Suspended                 =  1,
+        Unprocessed               = 0,
+        Suspended =  1,
         Confirmed                 =  2,
     }
 
@@ -19,7 +20,7 @@ namespace Iit.Fibertest.Dto
         {
             switch (eventStatus)
             {
-                    case EventStatus.NotAnAccident:
+                    case EventStatus.EventButNotAnAccident:
                         return "";
                     case EventStatus.Planned:
                         return Resources.SID_Planned;
@@ -34,6 +35,11 @@ namespace Iit.Fibertest.Dto
                     default:
                         return Resources.SID_Unprocessed;
             }
+        }
+
+        public static bool IsStatusAssignedByUser(this EventStatus eventStatus)
+        {
+            return eventStatus > EventStatus.EventButNotAnAccident && eventStatus != EventStatus.Unprocessed;
         }
     }
 }

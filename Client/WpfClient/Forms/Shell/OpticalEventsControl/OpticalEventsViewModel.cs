@@ -49,7 +49,6 @@ namespace Iit.Fibertest.Client
             }
         }
 
-
         private RtuGuidFilter _selectedRtuFilter;
         public RtuGuidFilter SelectedRtuFilter
         {
@@ -62,7 +61,6 @@ namespace Iit.Fibertest.Client
                 view.Refresh();
             }
         }
-
 
         public List<EventStatusFilter> EventStatusFilters { get; set; }
 
@@ -77,7 +75,6 @@ namespace Iit.Fibertest.Client
                 view.Refresh();
             }
         }
-
 
         public OpticalEventsViewModel(ReadModel readModel,
             ReflectogramManager reflectogramManager, TraceStateViewsManager traceStateViewsManager,
@@ -147,15 +144,16 @@ namespace Iit.Fibertest.Client
                 TraceId = measurement.TraceId,
                 TraceTitle = _readModel.Traces.FirstOrDefault(t => t.Id == measurement.TraceId)?.Title,
                 BaseRefType = measurement.BaseRefType,
-
                 TraceState = measurement.TraceState,
 
                 EventStatus = measurement.EventStatus,
-
-                StatusChangedTimestamp = measurement.StatusChangedByUser != ""
+                StatusChangedTimestamp = measurement.EventStatus.IsStatusAssignedByUser()
                     ? measurement.StatusChangedTimestamp.ToString(Thread.CurrentThread.CurrentUICulture)
                     : "",
-                StatusChangedByUser = "",
+                StatusChangedByUser = measurement.EventStatus.IsStatusAssignedByUser() 
+                    ? measurement.StatusChangedByUser 
+                    : "",
+
                 Comment = measurement.Comment,
                 SorFileId = measurement.SorFileId,
             });

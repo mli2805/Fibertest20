@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Threading;
 using Autofac;
 using Caliburn.Micro;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
@@ -11,10 +12,17 @@ using Serilog;
 
 namespace Iit.Fibertest.Client
 {
+    public class CurrentUser
+    {
+        public string UserName { get; set; }
+        public Role Role { get; set; }
+    }
+
     public sealed class AutofacClient : Module
     {
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterType<CurrentUser>().SingleInstance();
             builder.RegisterType<WindowManager>().As<IWindowManager>().SingleInstance();
 
             builder.RegisterType<LocalDbManager>().As<ILocalDbManager>().SingleInstance();

@@ -15,6 +15,7 @@ namespace Iit.Fibertest.Dto
         public EventStatus EventStatus { get; set; }
         public DateTime StatusChangedTimestamp { get; set; }
         public string StatusChangedByUser { get; set; }
+
         public string Comment { get; set; }
 
         public int SorFileId { get; set; }

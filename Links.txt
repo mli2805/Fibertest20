@@ -60,6 +60,8 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
 
 29. IoC.Get<> заменить ?
 	остались только вьюмодели
-	делать их через Factory?
+	делать их через Factory? где Factory будет брать экземпляры вьюмоделей ?
+	или через Resolve автофака?
 
+30. избавиться от new PortLeaf(...), TraceLeaf, OtauLeaf, RtuLeaf
 

@@ -15,7 +15,7 @@ namespace Iit.Fibertest.Client
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly IWcfServiceForClient _c2DWcfManager;
-        public int UserId { get; set; }
+        private readonly CurrentUser _currentUser;
 
         private string _userName;
         public string UserName
@@ -46,19 +46,21 @@ namespace Iit.Fibertest.Client
 
 
         public LoginViewModel(IWindowManager windowManager, IniFile iniFile, IMyLog logFile,
-            IWcfServiceForClient c2DWcfManager)
+            IWcfServiceForClient c2DWcfManager, CurrentUser currentUser)
         {
             _windowManager = windowManager;
             _iniFile = iniFile;
             _logFile = logFile;
             _c2DWcfManager = c2DWcfManager;
+            _currentUser = currentUser;
         }
 
         private void ParseServerAnswer(ClientRegisteredDto dto)
         {
             if (dto.ReturnCode == ReturnCode.ClientRegisteredSuccessfully)
             {
-                UserId = dto.UserId;
+                _currentUser.UserName = UserName;
+                _currentUser.Role = dto.Role;
                 _logFile.AppendLine(@"Registered successfully");
                 TryClose(true);
             }

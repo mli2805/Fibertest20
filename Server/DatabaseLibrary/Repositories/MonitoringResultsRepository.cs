@@ -96,7 +96,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             if (!IsEvent(result))
                 return EventStatus.JustMeasurementNotAnEvent;
             if (result.TraceState == FiberState.Ok || result.BaseRefType == BaseRefType.Fast)
-                return EventStatus.NotAnAccident;
+                return EventStatus.EventButNotAnAccident;
             return EventStatus.Unprocessed;
         }
     }

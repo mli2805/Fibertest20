@@ -17,20 +17,6 @@ namespace Iit.Fibertest.Client
     {
         public ILogger Log { get; set; }
 
-        private int _userId;
-
-        private string _userName;
-        private string UserName
-        {
-            get { return _userName; }
-            set
-            {
-                if (value == _userName) return;
-                _userName = value;
-                DisplayName = $@"Fibertest v2.0 :: {_userName}";
-            }
-        }
-
         private string _statusBarMessage;
         public string StatusBarMessage
         {
@@ -53,6 +39,7 @@ namespace Iit.Fibertest.Client
         private readonly BopNetworkEventsProvider _bopNetworkEventsProvider;
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
+        private readonly CurrentUser _currentUser;
         public IWcfServiceForClient C2DWcfManager { get; }
 
         public ReadModel ReadModel { get; }
@@ -85,7 +72,7 @@ namespace Iit.Fibertest.Client
                 OpticalEventsDoubleViewModel opticalEventsDoubleViewModel, OpticalEventsProvider opticalEventsProvider,
                 BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel, BopNetworkEventsProvider bopNetworkEventsProvider,
                 ClientHeartbeat clientHeartbeat, ClientPoller clientPoller, 
-                IniFile iniFile, ILogger clientLogger, IMyLog logFile, IClientWcfServiceHost host)
+                IniFile iniFile, ILogger clientLogger, IMyLog logFile, CurrentUser currentUser, IClientWcfServiceHost host)
         {
             ReadModel = readModel;
             TreeOfRtuModel = treeOfRtuModel;
@@ -111,6 +98,7 @@ namespace Iit.Fibertest.Client
             _iniFile = iniFile;
 
             _logFile = logFile;
+            _currentUser = currentUser;
 
             Log = clientLogger;
             Log.Information(@"Client application started!");
@@ -142,8 +130,7 @@ namespace Iit.Fibertest.Client
             ((App)Application.Current).ShutdownMode = ShutdownMode.OnMainWindowClose;
             if (_isAuthenticationSuccessfull == true)
             {
-                _userId = vm.UserId;
-                UserName = vm.UserName;
+                DisplayName = $@"Fibertest v2.0 {_currentUser.UserName} as {_currentUser.Role.ToString()}";
                 var da = _iniFile.ReadDoubleAddress(11840);
                 _server = da.Main.GetAddress();
 
@@ -161,7 +148,7 @@ namespace Iit.Fibertest.Client
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = $@"Fibertest v2.0 {UserName}";
+           // DisplayName = $@"Fibertest v2.0 {_currentUser.UserName}";
             GraphReadModel.PropertyChanged += GraphReadModel_PropertyChanged;
         }
 

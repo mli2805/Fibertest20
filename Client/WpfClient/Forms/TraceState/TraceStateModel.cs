@@ -29,7 +29,7 @@ namespace Iit.Fibertest.Client
             ? FiberState.Suspicion.ToLocalizedString()
             : TraceState.ToLocalizedString();
 
-        public EventStatus EventStatus { get; set; } = EventStatus.NotAnAccident;
+        public EventStatus EventStatus { get; set; } = EventStatus.EventButNotAnAccident;
         public string Comment { get; set; }
 
         public DateTime MeasurementTimestamp { get; set; }
@@ -37,7 +37,7 @@ namespace Iit.Fibertest.Client
         public string StateOn => string.Format(Resources.SID_State_on__0_, MeasurementTimestamp.ToString(CultureInfo.CurrentCulture));
 
         public Visibility OpticalEventPanelVisibility
-            => EventStatus > EventStatus.NotAnAccident ? Visibility.Visible : Visibility.Collapsed;
+            => EventStatus > EventStatus.EventButNotAnAccident ? Visibility.Visible : Visibility.Collapsed;
 
         public Visibility AccidentsPanelVisibility
             => TraceState == FiberState.Ok ? Visibility.Collapsed : Visibility.Visible;

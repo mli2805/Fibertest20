@@ -13,5 +13,8 @@ namespace Iit.Fibertest.Dto
 
         [DataMember]
         public int UserId { get; set; }
+
+        [DataMember]
+        public Role Role { get; set; }
     }
 }

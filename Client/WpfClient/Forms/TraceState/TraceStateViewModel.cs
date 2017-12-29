@@ -42,7 +42,7 @@ namespace Iit.Fibertest.Client
             Model = model;
             IsLastStateForThisTrace = isLastStateForThisTrace;
             _isTraceStateChanged = isTraceStateChanged;
-            if (Model.EventStatus > EventStatus.NotAnAccident)
+            if (Model.EventStatus > EventStatus.EventButNotAnAccident)
                 InitializeEventStatusCombobox();
         }
 

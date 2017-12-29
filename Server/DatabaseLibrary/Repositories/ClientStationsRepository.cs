@@ -48,35 +48,13 @@ namespace Iit.Fibertest.DatabaseLibrary
         }
 
 
-        private Task<ClientRegisteredDto> CheckUserPassword(RegisterClientDto dto)
+        private async Task<User> CheckUserPasswordAsync(RegisterClientDto dto)
         {
             SeedUsersTableIfNeeded();
-            var result = new ClientRegisteredDto();
 
-            try
-            {
-                var dbContext = new FtDbContext();
-                var users = dbContext.Users.ToList(); // there is no field Password in Db , so it should be instances in memory to address that property
-                var user = users.FirstOrDefault(u => u.Name == dto.UserName && FlipFlop(u.EncodedPassword) == dto.Password);
-                if (user != null)
-                {
-                    result.UserId = user.Id;
-                    result.ReturnCode = ReturnCode.ClientRegisteredSuccessfully;
-                }
-                else
-                {
-                    result.ReturnCode = ReturnCode.NoSuchUserOrWrongPassword;
-                }
-                return Task.FromResult(result);
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine(e.Message);
-                result.ReturnCode = ReturnCode.DbError;
-                result.ExceptionMessage = e.Message;
-                return Task.FromResult(result);
-            }
-
+            var dbContext = new FtDbContext();
+            var users = await dbContext.Users.ToListAsync(); // there is no field Password in Db , so it should be instances in memory to address that property
+            return users.FirstOrDefault(u => u.Name == dto.UserName && FlipFlop(u.EncodedPassword) == dto.Password);
         }
 
         private async Task<ClientRegisteredDto> RegisterHeartbeat(RegisterClientDto dto)
@@ -99,19 +77,14 @@ namespace Iit.Fibertest.DatabaseLibrary
                 return new ClientRegisteredDto() { ReturnCode = ReturnCode.DbError, ExceptionMessage = e.Message };
             }
         }
-        private async Task<ClientRegisteredDto> RegisterClientStation(RegisterClientDto dto)
+
+        private async Task<ClientRegisteredDto> RegisterClientStation(RegisterClientDto dto, User user)
         {
             var result = new ClientRegisteredDto();
             try
             {
                 var dbContext = new FtDbContext();
-                var user = dbContext.Users.FirstOrDefault(u => u.Name == dto.UserName);
-                if (user == null)
-                {
-                    result.ReturnCode = ReturnCode.NoSuchUserOrWrongPassword;
-                    return result;
-                }
-
+              
                 if (dbContext.ClientStations.Any(s => s.UserId == user.Id && s.ClientGuid != dto.ClientId))
                 {
                     _logFile.AppendLine($"User {dto.UserName} registered on another PC");
@@ -146,6 +119,8 @@ namespace Iit.Fibertest.DatabaseLibrary
                 }
 
                 _logFile.AppendLine($"There are {dbContext.ClientStations.Count()} client(s)");
+                result.UserId = user.Id;
+                result.Role = user.Role;
                 result.ReturnCode = ReturnCode.ClientRegisteredSuccessfully;
                 return result;
             }
@@ -163,11 +138,24 @@ namespace Iit.Fibertest.DatabaseLibrary
             if (dto.IsHeartbeat)
                 return await RegisterHeartbeat(dto);
 
-
-            var result = await CheckUserPassword(dto);
-            if (result.ReturnCode != ReturnCode.ClientRegisteredSuccessfully)
+            var result = new ClientRegisteredDto();
+            try
+            {
+                var user = await CheckUserPasswordAsync(dto);
+                if (user == null)
+                {
+                    result.ReturnCode = ReturnCode.NoSuchUserOrWrongPassword;
+                    return result;
+                }
+                return await RegisterClientStation(dto, user);
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("RegisterClientStation:" + e.Message);
+                result.ReturnCode = ReturnCode.DbError;
+                result.ExceptionMessage = e.Message;
                 return result;
-            return await RegisterClientStation(dto);
+            }
         }
 
         public async Task<int> UnregisterClientAsync(UnRegisterClientDto dto)
