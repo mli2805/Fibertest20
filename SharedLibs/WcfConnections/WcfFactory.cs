@@ -202,8 +202,8 @@ namespace Iit.Fibertest.WcfConnections
                 Security = { Mode = SecurityMode.None },
                 OpenTimeout = TimeSpan.FromSeconds(20),
                 
-                ReceiveTimeout = TimeSpan.FromSeconds(iniFile.Read(IniSection.NetTcpBinding, IniKey.ReadTimeout, 4)),
-                SendTimeout = TimeSpan.FromSeconds(iniFile.Read(IniSection.NetTcpBinding, IniKey.SendTimeout, 4)),
+                ReceiveTimeout = TimeSpan.FromSeconds(iniFile.Read(IniSection.NetTcpBinding, IniKey.ReadTimeout, 60)),
+                SendTimeout = TimeSpan.FromSeconds(iniFile.Read(IniSection.NetTcpBinding, IniKey.SendTimeout, 60)),
                 ReaderQuotas = { MaxArrayLength = 40960000},
                 MaxBufferSize = 40960000, //4M
                 MaxReceivedMessageSize = 40960000,

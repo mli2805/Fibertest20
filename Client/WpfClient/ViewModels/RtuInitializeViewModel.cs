@@ -23,6 +23,7 @@ namespace Iit.Fibertest.Client
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly IMyLog _logFile;
+        private readonly CommonStatusBarViewModel _commonStatusBarViewModel;
 
         private Rtu _originalRtu;
         public Rtu OriginalRtu
@@ -43,13 +44,14 @@ namespace Iit.Fibertest.Client
 
 
         public RtuInitializeViewModel(ILifetimeScope globalScope, ReadModel readModel, IWindowManager windowManager,
-            IWcfServiceForClient c2DWcfManager, IMyLog logFile, RtuLeaf rtuLeaf)
+            IWcfServiceForClient c2DWcfManager, IMyLog logFile, RtuLeaf rtuLeaf, CommonStatusBarViewModel commonStatusBarViewModel)
         {
             _globalScope = globalScope;
             _readModel = readModel;
             _windowManager = windowManager;
             _c2DWcfManager = c2DWcfManager;
             _logFile = logFile;
+            _commonStatusBarViewModel = commonStatusBarViewModel;
 
             UpdateView(rtuLeaf.Id);
         }
@@ -123,7 +125,9 @@ namespace Iit.Fibertest.Client
             RtuInitializedDto result;
             using (new WaitCursor())
             {
+                _commonStatusBarViewModel.StatusBarMessage2 = "RTU is initializing...";
                 result = await _c2DWcfManager.InitializeRtuAsync(dto);
+                _commonStatusBarViewModel.StatusBarMessage2 = "";
             }
             ProcessRtuInitialized(result);
         }

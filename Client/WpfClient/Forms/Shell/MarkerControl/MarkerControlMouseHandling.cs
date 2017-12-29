@@ -85,6 +85,7 @@ namespace Iit.Fibertest.Client
         {
             _mainMap.IsInTraceDefiningMode = false;
             _owner.GraphReadModel.Request = new RequestAddTrace() {NodeWithRtuId = _mainMap.StartNode.Id, LastNodeId = _marker.Id};
+            _owner.SetBanner("");
         }
 
         private void EndFiberCreation()

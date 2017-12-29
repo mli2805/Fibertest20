@@ -61,5 +61,10 @@ namespace Iit.Fibertest.Client
         {
             MainMap.Focus();
         }
+
+        public void SetBanner(string message)
+        {
+            GraphReadModel.CommonStatusBarViewModel.StatusBarMessage2 = message;
+        }
     }
 }

@@ -14,6 +14,7 @@ namespace Iit.Fibertest.Client
 {
     public partial class GraphReadModel : PropertyChangedBase
     {
+        public CommonStatusBarViewModel CommonStatusBarViewModel { get; }
         private readonly IMyLog _logFile;
         private Visibility _mapVisibility;
         public Visibility MapVisibility
@@ -76,8 +77,9 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public GraphReadModel(IMyLog logFile)
+        public GraphReadModel(IMyLog logFile, CommonStatusBarViewModel commonStatusBarViewModel)
         {
+            CommonStatusBarViewModel = commonStatusBarViewModel;
             _logFile = logFile;
             Nodes = new ObservableCollection<NodeVm>();
             Fibers = new ObservableCollection<FiberVm>();

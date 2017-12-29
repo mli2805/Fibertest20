@@ -22,6 +22,7 @@ namespace Iit.Fibertest.Client
         private bool CanStartDefineTrace(object parameter) { return true; }
         private void StartDefineTrace(object parameter)
         {
+            _owner.SetBanner("Trace definition");
             _mainMap.IsInTraceDefiningMode = true;
             _mainMap.StartNode = _marker;
         }
