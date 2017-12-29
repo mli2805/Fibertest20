@@ -4,8 +4,8 @@ namespace Iit.Fibertest.Client
 {
     public class CommonStatusBarViewModel : PropertyChangedBase
     {
-        private string _statusBarMessage1;
-        private string _statusBarMessage2;
+        private string _statusBarMessage1 = "BBBB";
+        private string _statusBarMessage2 = "AAA";
 
         public string StatusBarMessage1
         {

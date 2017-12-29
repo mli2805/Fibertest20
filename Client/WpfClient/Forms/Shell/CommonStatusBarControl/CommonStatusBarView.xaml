@@ -5,12 +5,31 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:client="clr-namespace:Iit.Fibertest.Client"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance client:CommonStatusBarViewModel}">
+    <UserControl.Resources>
+        <Style x:Key="TextBlockBlinking" TargetType="{x:Type TextBlock}">
+            <Style.Triggers>
+                <EventTrigger  RoutedEvent="Binding.TargetUpdated">
+                    <BeginStoryboard>
+                        <Storyboard Duration="0:0:1.5" RepeatBehavior="4x" >
+                            <ColorAnimation Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" 
+                                            From="Black" To="Transparent" Duration="0:0:0.05"/>
+                            <ColorAnimation Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" 
+                                            BeginTime="0:0:0.3" From="Transparent" To="Black" Duration="0:0:0.05"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
     <StatusBar Height="28" BorderBrush="DarkGray" BorderThickness="1" Background="Transparent" Margin="2">
         <StatusBarItem Width="150">
-            <TextBlock Text="{Binding StatusBarMessage1}" Margin="5,0,20,0"/>
+            <TextBlock Text="{Binding StatusBarMessage1, NotifyOnTargetUpdated=True}"  
+                       Margin="5,0,20,0" Foreground="Black" Style="{StaticResource TextBlockBlinking}"/>
         </StatusBarItem>
         <StatusBarItem >
-            <TextBlock Text="{Binding StatusBarMessage2}" Margin="5,0,20,0"/>
+            <TextBlock Text="{Binding StatusBarMessage2, NotifyOnTargetUpdated=True}" 
+                       Margin="5,0,20,0" Foreground="Black" FontWeight="Bold" Style="{StaticResource TextBlockBlinking}"/>
         </StatusBarItem>
     </StatusBar>
 </UserControl>
