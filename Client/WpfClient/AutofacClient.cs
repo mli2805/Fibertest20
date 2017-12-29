@@ -41,6 +41,8 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<BopNetworkEventsDoubleViewModel>().SingleInstance();
             builder.RegisterType<BopNetworkEventsProvider>().SingleInstance();
 
+            builder.RegisterType<CommonStatusBarViewModel>().SingleInstance();
+
             builder.RegisterType<RtuStateViewModel>();
             builder.RegisterType<TraceStateViewModel>();
             builder.RegisterType<TraceStatisticsViewModel>();

@@ -17,18 +17,6 @@ namespace Iit.Fibertest.Client
     {
         public ILogger Log { get; set; }
 
-        private string _statusBarMessage;
-        public string StatusBarMessage
-        {
-            get { return _statusBarMessage; }
-            set
-            {
-                if (value == _statusBarMessage) return;
-                _statusBarMessage = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
         private string _server;
 
         private readonly IWindowManager _windowManager;
@@ -50,6 +38,7 @@ namespace Iit.Fibertest.Client
         public OpticalEventsDoubleViewModel OpticalEventsDoubleViewModel { get; set; }
         public NetworkEventsDoubleViewModel NetworkEventsDoubleViewModel { get; set; }
         public BopNetworkEventsDoubleViewModel BopNetworkEventsDoubleViewModel { get; set; }
+        public CommonStatusBarViewModel CommonStatusBarViewModel { get; set; }
 
         private bool? _isAuthenticationSuccessfull;
 
@@ -71,6 +60,7 @@ namespace Iit.Fibertest.Client
                 NetworkEventsDoubleViewModel networkEventsDoubleViewModel, NetworkEventsProvider networkEventsProvider,
                 OpticalEventsDoubleViewModel opticalEventsDoubleViewModel, OpticalEventsProvider opticalEventsProvider,
                 BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel, BopNetworkEventsProvider bopNetworkEventsProvider,
+                CommonStatusBarViewModel commonStatusBarViewModel,
                 ClientHeartbeat clientHeartbeat, ClientPoller clientPoller, 
                 IniFile iniFile, ILogger clientLogger, IMyLog logFile, CurrentUser currentUser, IClientWcfServiceHost host)
         {
@@ -86,6 +76,7 @@ namespace Iit.Fibertest.Client
             NetworkEventsDoubleViewModel = networkEventsDoubleViewModel;
             NetworkEventsDoubleViewModel.NetworkEventsVisibility = Visibility.Collapsed;
             BopNetworkEventsDoubleViewModel = bopNetworkEventsDoubleViewModel;
+            CommonStatusBarViewModel = commonStatusBarViewModel;
             BopNetworkEventsDoubleViewModel.BopNetworkEventsVisibility = Visibility.Collapsed;
             _selectedTabIndex = 0;
             C2DWcfManager = c2DWcfManager;

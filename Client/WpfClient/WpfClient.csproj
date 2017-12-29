@@ -208,6 +208,10 @@
       <DependentUpon>BopNetworkEventsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\Shell\BopNetworkEventsControl\BopNetworkEventsViewModel.cs" />
+    <Compile Include="Forms\Shell\CommonStatusBarControl\CommonStatusBarView.xaml.cs">
+      <DependentUpon>CommonStatusBarView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Shell\CommonStatusBarControl\CommonStatusBarViewModel.cs" />
     <Compile Include="Forms\Shell\NetworkEventsControl\NetworkEventsDoubleView.xaml.cs">
       <DependentUpon>NetworkEventsDoubleView.xaml</DependentUpon>
     </Compile>
@@ -511,6 +515,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\Shell\BopNetworkEventsControl\BopNetworkEventsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\Shell\CommonStatusBarControl\CommonStatusBarView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -55,11 +55,7 @@
                         </TabItem.Header>
                     </TabItem>
                 </TabControl>
-                <StatusBar DockPanel.Dock="Bottom" Height="28" BorderBrush="DarkGray" BorderThickness="0,1,0,0">
-                    <StatusBarItem>
-                        <TextBlock Text="{Binding StatusBarMessage}" Margin="5,0,20,0"/>
-                    </StatusBarItem>
-                </StatusBar>
+                <client:CommonStatusBarView DockPanel.Dock="Bottom" DataContext="{Binding CommonStatusBarViewModel}"/>
                 <client:OpticalEventsDoubleView DataContext="{Binding OpticalEventsDoubleViewModel}" Visibility="{Binding OpticalEventsVisibility}"/>
                 <client:NetworkEventsDoubleView DataContext="{Binding NetworkEventsDoubleViewModel}" Visibility="{Binding NetworkEventsVisibility}"/>
                 <client:BopNetworkEventsDoubleView DataContext="{Binding BopNetworkEventsDoubleViewModel}" Visibility="{Binding BopNetworkEventsVisibility}"/>
