@@ -50,8 +50,6 @@
                             <EventTrigger RoutedEvent="TextBlock.Loaded">
                                 <BeginStoryboard>
                                     <Storyboard>
-<!--                                        <ColorAnimation Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" -->
-<!--                                                        From="{Binding Model.TraceStateBrush}" To="Transparent" Duration="0:0:02" RepeatBehavior="Forever" AutoReverse="True"/>-->
                                         <ColorAnimation Storyboard.TargetProperty="(TextBlock.Background).(SolidColorBrush.Color)" 
                                                         From="Transparent" To="Gray" Duration="0:0:01" RepeatBehavior="Forever" AutoReverse="True"/>
                                     </Storyboard>

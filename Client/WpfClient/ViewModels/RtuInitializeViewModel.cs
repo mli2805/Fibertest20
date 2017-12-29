@@ -125,7 +125,7 @@ namespace Iit.Fibertest.Client
             RtuInitializedDto result;
             using (new WaitCursor())
             {
-                _commonStatusBarViewModel.StatusBarMessage2 = "RTU is initializing...";
+                _commonStatusBarViewModel.StatusBarMessage2 = Resources.SID_RTU_is_being_initialized___;
                 result = await _c2DWcfManager.InitializeRtuAsync(dto);
                 _commonStatusBarViewModel.StatusBarMessage2 = "";
             }

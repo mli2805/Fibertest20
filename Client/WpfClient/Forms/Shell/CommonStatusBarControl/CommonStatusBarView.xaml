@@ -10,9 +10,9 @@
             <Style.Triggers>
                 <EventTrigger  RoutedEvent="Binding.TargetUpdated">
                     <BeginStoryboard>
-                        <Storyboard Duration="0:0:1.5" RepeatBehavior="4x" >
+                        <Storyboard Duration="0:0:1.2" RepeatBehavior="5x" >
                             <ColorAnimation Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" 
-                                            From="Black" To="Transparent" Duration="0:0:0.05"/>
+                                            BeginTime="0:0:0.6" From="Black" To="Transparent" Duration="0:0:0.05"/>
                             <ColorAnimation Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" 
                                             BeginTime="0:0:0.3" From="Transparent" To="Black" Duration="0:0:0.05"/>
                         </Storyboard>
@@ -23,13 +23,9 @@
     </UserControl.Resources>
 
     <StatusBar Height="28" BorderBrush="DarkGray" BorderThickness="1" Background="Transparent" Margin="2">
-        <StatusBarItem Width="150">
-            <TextBlock Text="{Binding StatusBarMessage1, NotifyOnTargetUpdated=True}"  
-                       Margin="5,0,20,0" Foreground="Black" Style="{StaticResource TextBlockBlinking}"/>
-        </StatusBarItem>
-        <StatusBarItem >
-            <TextBlock Text="{Binding StatusBarMessage2, NotifyOnTargetUpdated=True}" 
-                       Margin="5,0,20,0" Foreground="Black" FontWeight="Bold" Style="{StaticResource TextBlockBlinking}"/>
+        <StatusBarItem HorizontalAlignment="Center">
+            <TextBlock Text="{Binding StatusBarMessage2, NotifyOnTargetUpdated=True}" HorizontalAlignment="Center" 
+                       Margin="5,0,20,0" Foreground="Transparent" FontWeight="Bold" Style="{StaticResource TextBlockBlinking}"/>
         </StatusBarItem>
     </StatusBar>
 </UserControl>

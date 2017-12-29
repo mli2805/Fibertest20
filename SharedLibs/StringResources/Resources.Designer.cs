@@ -3232,6 +3232,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to RTU is being initialized....
+        /// </summary>
+        public static string SID_RTU_is_being_initialized___ {
+            get {
+                return ResourceManager.GetString("SID_RTU_is_being_initialized___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to RTU is not found.
         /// </summary>
         public static string SID_RTU_is_not_found {
@@ -3868,6 +3877,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Trace_count {
             get {
                 return ResourceManager.GetString("SID_Trace_count", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trace definition.
+        /// </summary>
+        public static string SID_Trace_definition {
+            get {
+                return ResourceManager.GetString("SID_Trace_definition", resourceCulture);
             }
         }
         
