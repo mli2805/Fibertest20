@@ -9,15 +9,4 @@
         Supervisor = 4,
         Superclient = 5,
     }
-
-    /*public static class RoleExt
-    {
-        public static string GetString(this Role role)
-        {
-            switch (role)
-            {
-                    case 
-            }
-        }
-    }*/
 }
