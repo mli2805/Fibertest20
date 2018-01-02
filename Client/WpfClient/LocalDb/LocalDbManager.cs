@@ -23,7 +23,7 @@ namespace Iit.Fibertest.Client
         public void Initialize(string serverAddress)
         {
             _serverAddress = serverAddress;
-            _filename = $@"..\Db\{serverAddress}\localGraph.sqlite3";
+            _filename = $@"..\Cache\GraphDb\{serverAddress}\localGraph.sqlite3";
             _connectionString = $@"Data Source={_filename}; Version=3;";
         }
 
@@ -67,14 +67,12 @@ namespace Iit.Fibertest.Client
 
         private void CreateIfNeeded()
         {
-            if (!Directory.Exists(@"..\Db"))
-                Directory.CreateDirectory(@"..\Db");
-            if (!Directory.Exists($@"..\Db\{_serverAddress}"))
-                Directory.CreateDirectory($@"..\Db\{_serverAddress}");
+            var s = AppDomain.CurrentDomain.BaseDirectory + $@"..\Cache\GraphDb\{_serverAddress}";
+            if (!Directory.Exists(s))
+                Directory.CreateDirectory(s);
+
             if (!File.Exists(_filename))
-            {
                 InitializeLocalBase();
-            }
         }
 
         private void InitializeLocalBase()
