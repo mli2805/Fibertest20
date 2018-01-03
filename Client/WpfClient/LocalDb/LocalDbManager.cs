@@ -95,7 +95,7 @@ namespace Iit.Fibertest.Client
 
                 if (conn.State == ConnectionState.Open)
                 {
-                    _logFile.AppendLine($@"Local db opened successfully");
+                    _logFile.AppendLine(@"Local cache created successfully");
                 }
             }
         }

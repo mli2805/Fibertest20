@@ -111,7 +111,7 @@ namespace Iit.Fibertest.Client
                 GraphReadModel.ProcessMessage(((PostOffice)sender).Message);
         }
 
-        protected override void OnViewReady(object view)
+        protected override async void OnViewReady(object view)
         {
             ((App)Application.Current).ShutdownMode = ShutdownMode.OnExplicitShutdown;
             _logFile.AssignFile(@"Client.log");
@@ -125,11 +125,15 @@ namespace Iit.Fibertest.Client
                 var da = _iniFile.ReadDoubleAddress(11840);
                 _server = da.Main.GetAddress();
 
+                // graph MUST be read before optical\network events
+                _clientPoller.LoadEventSourcingCache(_server);
+                await _clientPoller.LoadEventSourcingDb();
+
+                _clientPoller.Start();
+
                 _opticalEventsProvider.LetsGetStarted();
                 _networkEventsProvider.LetsGetStarted();
                 _bopNetworkEventsProvider.LetsGetStarted();
-                _clientPoller.LoadEventSourcingCache(_server);
-                _clientPoller.Start();
                 _clientHeartbeat.Start();
             }
 
