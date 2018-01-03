@@ -66,6 +66,7 @@
     <Compile Include="Enums\WorseOrBetter.cs" />
     <Compile Include="R2D2C\OtauAttachedDto.cs" />
     <Compile Include="R2D2C\OtauDetachedDto.cs" />
+    <Compile Include="Underlying\SetOfAcceptableMeasParams.cs" />
     <Compile Include="Underlying\BaseRefForStats.cs" />
     <Compile Include="D2C\ClientRegisteredDto.cs" />
     <Compile Include="D2C\NetworkEventsList.cs" />

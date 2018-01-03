@@ -44,6 +44,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
             try
             {
                 initOtdr = InitOTDR((int) type, ip, port);
+                InitializeAcceptableMeasParams();
             }
             catch (ExternalException e)
             {

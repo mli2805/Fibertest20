@@ -83,7 +83,7 @@ namespace Iit.Fibertest.Client
             string[] events = await WcfConnection.GetEvents(CurrentEventNumber);
             if (events == null)
             {
-                _logFile.AppendLine(@"Cannot establish datacenter connection.");
+                _logFile.AppendLine(@"Cannot establish connection with data-center.");
                 return 0;
             }
 

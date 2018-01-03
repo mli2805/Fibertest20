@@ -107,6 +107,7 @@
   <ItemGroup>
     <Compile Include="Enums\ConnectionTypes.cs" />
     <Compile Include="Enums\ServiceFunctionCommand.cs" />
+    <Compile Include="Enums\ServiceFunctionFirstParam.cs" />
     <Compile Include="IitOtdrWrapper.DataExchange.cs" />
     <Compile Include="IitOtdrWrapper.Initialization.cs" />
     <Compile Include="IitOtdrWrapper.Measure.cs" />
@@ -118,7 +119,6 @@
     <Compile Include="OtdrManager.cs" />
     <Compile Include="OtdrManager.Measure.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Enums\ServiceFunctionFirstParam.cs" />
     <Compile Include="SorData.cs" />
   </ItemGroup>
   <ItemGroup>
