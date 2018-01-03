@@ -207,6 +207,7 @@ namespace Iit.Fibertest.Client
                 Serial = dto.Serial,
                 Version = dto.Version,
                 IsMonitoringOn = dto.IsMonitoringOn,
+                AcceptableMeasParams = dto.AcceptableMeasParams,
             };
 
             foreach (var portCharonPair in dto.Children)

@@ -107,8 +107,7 @@ namespace Iit.Fibertest.Client
                 switch (columnName)
                 {
                     case "UserInputedLength":
-                        double length;
-                        if (!double.TryParse(_userInputedLength, out length))
+                        if (!double.TryParse(_userInputedLength, out _))
                         {
                             errorMessage = Resources.SID_Length_should_be_a_number;
                         }

@@ -9,7 +9,7 @@ namespace DirectRtuClient
 {
     public class OtdrParamViewModel : Screen
     {
-        #region Comboboxes
+        #region Combo-boxes
         private string _selectedUnit;
         private double _backscatteredCoefficient;
         private double _refractiveIndex;

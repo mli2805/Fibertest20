@@ -76,6 +76,10 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<Aggregate>().SingleInstance();
             builder.RegisterType<ReadModel>().SingleInstance();
 
+            builder.RegisterType<BaseRefsChecker>().SingleInstance();
+            builder.RegisterType<BaseRefDtoFactory>().SingleInstance();
+            builder.RegisterType<BaseRefsAssignViewModel>();
+
             builder.RegisterType<RtuLeafActions>().SingleInstance();
             builder.RegisterType<RtuLeafActionsPermissions>().SingleInstance();
             builder.RegisterType<RtuLeafContextMenuProvider>().SingleInstance();

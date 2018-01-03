@@ -322,9 +322,10 @@ namespace Iit.Fibertest.Client
         public void Apply(RtuInitialized e)
         {
             var rtu = Rtus.First(r => r.Id == e.Id);
+                InitializeRtuFirstTime(e, rtu);
+
             if (rtu.Serial == null)
             {
-                InitializeRtuFirstTime(e, rtu);
                 return;
             }
 
@@ -369,8 +370,9 @@ namespace Iit.Fibertest.Client
                 rtu.ReserveChannel = e.ReserveChannel;
             rtu.ReserveChannelState = e.ReserveChannelState;
             rtu.OtdrNetAddress = e.OtauNetAddress;
-            rtu.MonitoringState = MonitoringState.Off;
             rtu.Version = e.Version;
+            rtu.MonitoringState = MonitoringState.Off;
+            rtu.AcceptableMeasParams = e.AcceptableMeasParams;
         }
 
         public void Apply(MonitoringSettingsChanged e)

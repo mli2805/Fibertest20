@@ -1496,4 +1496,13 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Trace_definition" xml:space="preserve">
 		<value>Определение трассы</value>
 	</data>
+	<data name="SID_File_read_error__0__1_" xml:space="preserve">
+		<value>Ошибка чттения файла!{0}{1}</value>
+	</data>
+	<data name="SID_Invalid_measuring_parameters__0__Not_compatible_with_this_RTU_" xml:space="preserve">
+		<value>Недопустимые параметры измерения!{0}(Не совместимые с данным RTU){0}{0}{1}</value>
+	</data>
+	<data name="SID_Invalid_parameter___Wave_length__0_" xml:space="preserve">
+		<value>Неверный параметр : Длина волны {0}</value>
+	</data>
 </root>

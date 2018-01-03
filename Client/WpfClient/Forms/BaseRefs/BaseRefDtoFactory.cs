@@ -3,32 +3,30 @@ using System.IO;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.UtilsLib;
-using Optixsoft.SorExaminer.OtdrDataFormat;
 
 namespace Iit.Fibertest.Client
 {
-    public class SorExt
+    public class BaseRefDtoFactory
     {
         private readonly IMyLog _logFile;
 
-        public SorExt(IMyLog logFile)
+        public BaseRefDtoFactory(IMyLog logFile)
         {
             _logFile = logFile;
         }
 
-        public BaseRefDto GetBaseRefDto(string filename, BaseRefType type)
+        public BaseRefDto Create(string filename, BaseRefType type)
         {
             return filename != "" 
-                ? FullGetBaseRefDto(filename, type) 
+                ? GetBaseRefDto(filename, type) 
                 : new BaseRefDto() { Id = Guid.Empty, BaseRefType = type};
         }
 
-        private BaseRefDto FullGetBaseRefDto(string filename, BaseRefType type)
+        private BaseRefDto GetBaseRefDto(string filename, BaseRefType type)
         {
             var bytes = File.ReadAllBytes(filename);
 
-            OtdrDataKnownBlocks otdrDataKnownBlocks;
-            var str = SorData.TryGetFromBytes(bytes, out otdrDataKnownBlocks);
+            var str = SorData.TryGetFromBytes(bytes, out var otdrDataKnownBlocks);
             if (string.IsNullOrEmpty(str))
                 return new BaseRefDto()
                 {
@@ -41,6 +39,8 @@ namespace Iit.Fibertest.Client
             _logFile.AppendLine(str);
             return new BaseRefDto() { Id = Guid.Empty, BaseRefType = type };
         }
+
+     
 
     }
 }

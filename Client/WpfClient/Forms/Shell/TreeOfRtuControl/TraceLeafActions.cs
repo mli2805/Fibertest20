@@ -11,16 +11,18 @@ namespace Iit.Fibertest.Client
         private readonly TraceStateViewsManager _traceStateViewsManager;
         private readonly TraceStatisticsViewsManager _traceStatisticsViewsManager;
         private readonly ReflectogramManager _reflectogramManager;
+        private readonly BaseRefsAssignViewModel _baseRefsAssignViewModel;
 
         public TraceLeafActions(IniFile iniFile, IMyLog logFile,
             TraceStateViewsManager traceStateViewsManager, TraceStatisticsViewsManager traceStatisticsViewsManager,
-             ReflectogramManager reflectogramManager)
+             ReflectogramManager reflectogramManager, BaseRefsAssignViewModel baseRefsAssignViewModel)
         {
             _iniFile = iniFile;
             _logFile = logFile;
             _traceStateViewsManager = traceStateViewsManager;
             _traceStatisticsViewsManager = traceStatisticsViewsManager;
             _reflectogramManager = reflectogramManager;
+            _baseRefsAssignViewModel = baseRefsAssignViewModel;
         }
 
         public void UpdateTrace(object param)
@@ -37,17 +39,18 @@ namespace Iit.Fibertest.Client
         {
         }
 
-        // if trace attached to port and rtu is not available now - it is prohibited to assign base - you can't send base to rtu
+        // if trace attached to port and RTU is not available now - it is prohibited to assign base - you can't send base to RTU
         public void AssignBaseRefs(object param)
         {
-            var traceLeaf = param as TraceLeaf;
-            if (traceLeaf == null)
+            if (!(param is TraceLeaf traceLeaf))
                 return;
 
             var trace = traceLeaf.ReadModel.Traces.First(t => t.Id == traceLeaf.Id);
-            var vm = new BaseRefsAssignViewModel(_iniFile, traceLeaf.ReadModel, traceLeaf.C2DWcfManager, traceLeaf.WindowManager, new SorExt(_logFile));
-            vm.Initialize(trace);
-            traceLeaf.WindowManager.ShowWindowWithAssignedOwner(vm);
+            //            var vm = new BaseRefsAssignViewModel(_iniFile, traceLeaf.ReadModel, traceLeaf.C2DWcfManager, traceLeaf.WindowManager, new BaseRefDtoFactory(_logFile));
+            //            vm.Initialize(trace);
+            //            traceLeaf.WindowManager.ShowWindowWithAssignedOwner(vm);
+            _baseRefsAssignViewModel.Initialize(trace);
+            traceLeaf.WindowManager.ShowDialogWithAssignedOwner(_baseRefsAssignViewModel);
         }
 
         public void ShowTraceState(object param)

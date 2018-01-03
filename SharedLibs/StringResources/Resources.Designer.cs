@@ -19,7 +19,7 @@ namespace Iit.Fibertest.StringResources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -1674,6 +1674,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to File read error!{0}{1}.
+        /// </summary>
+        public static string SID_File_read_error__0__1_ {
+            get {
+                return ResourceManager.GetString("SID_File_read_error__0__1_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Filter.
         /// </summary>
         public static string SID_Filter {
@@ -1868,6 +1877,24 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Invalid_input {
             get {
                 return ResourceManager.GetString("SID_Invalid_input", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid measuring parameters!{0}(Not compatible with this RTU){0}{0}{1}.
+        /// </summary>
+        public static string SID_Invalid_measuring_parameters__0__Not_compatible_with_this_RTU_ {
+            get {
+                return ResourceManager.GetString("SID_Invalid_measuring_parameters__0__Not_compatible_with_this_RTU_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid parameter : Wave length {0}.
+        /// </summary>
+        public static string SID_Invalid_parameter___Wave_length__0_ {
+            get {
+                return ResourceManager.GetString("SID_Invalid_parameter___Wave_length__0_", resourceCulture);
             }
         }
         

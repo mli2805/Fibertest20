@@ -20,7 +20,8 @@ namespace Iit.Fibertest.Client
 
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly IWindowManager _windowManager;
-        private readonly SorExt _sorExt;
+        private readonly BaseRefDtoFactory _baseRefDtoFactory;
+        private readonly BaseRefsChecker _baseRefsChecker;
 
         private string _preciseBaseFilename;
         private string _fastBaseFilename;
@@ -96,13 +97,15 @@ namespace Iit.Fibertest.Client
         }
 
         public BaseRefsAssignViewModel(IniFile iniFile, ReadModel readModel, 
-            IWcfServiceForClient c2DWcfManager, IWindowManager windowManager, SorExt sorExt)
+            IWcfServiceForClient c2DWcfManager, IWindowManager windowManager, 
+            BaseRefDtoFactory baseRefDtoFactory, BaseRefsChecker baseRefsChecker)
         {
             _iniFile = iniFile;
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
-            _sorExt = sorExt;
+            _baseRefDtoFactory = baseRefDtoFactory;
+            _baseRefsChecker = baseRefsChecker;
         }
 
         public void Initialize(Trace trace)
@@ -159,6 +162,13 @@ namespace Iit.Fibertest.Client
 
         public async void Save()
         {
+            var baseRefs = GetBaseRefChangesList();
+            if (!baseRefs.Any())
+                return;
+
+            if (!_baseRefsChecker.IsBaseRefsAcceptable(baseRefs, _trace))
+                return;
+
             var dto = new AssignBaseRefsDto()
                 { RtuId = _trace.RtuId, TraceId = _trace.Id, OtauPortDto = _trace.OtauPort, BaseRefs = GetBaseRefChangesList() };
             var result = await _c2DWcfManager.AssignBaseRefAsync(dto); // send to Db and RTU
@@ -180,11 +190,11 @@ namespace Iit.Fibertest.Client
         {
             var result = new List<BaseRefDto>();
             if (IsFilenameChanged(PreciseBaseFilename, _trace.PreciseId))
-                result.Add(_sorExt.GetBaseRefDto(PreciseBaseFilename, BaseRefType.Precise));
+                result.Add(_baseRefDtoFactory.Create(PreciseBaseFilename, BaseRefType.Precise));
             if (IsFilenameChanged(FastBaseFilename, _trace.FastId))
-                result.Add(_sorExt.GetBaseRefDto(FastBaseFilename, BaseRefType.Fast));
+                result.Add(_baseRefDtoFactory.Create(FastBaseFilename, BaseRefType.Fast));
             if (IsFilenameChanged(AdditionalBaseFilename, _trace.AdditionalId))
-                result.Add(_sorExt.GetBaseRefDto(AdditionalBaseFilename, BaseRefType.Additional));
+                result.Add(_baseRefDtoFactory.Create(AdditionalBaseFilename, BaseRefType.Additional));
             return result;
         }
 

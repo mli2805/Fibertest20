@@ -1496,4 +1496,13 @@ RTU is initializing right now!</value>
 	<data name="SID_Trace_definition" xml:space="preserve">
     <value>Trace definition</value>
   </data>
+	<data name="SID_File_read_error__0__1_" xml:space="preserve">
+    <value>File read error!{0}{1}</value>
+  </data>
+	<data name="SID_Invalid_measuring_parameters__0__Not_compatible_with_this_RTU_" xml:space="preserve">
+    <value>Invalid measuring parameters!{0}(Not compatible with this RTU){0}{0}{1}</value>
+  </data>
+	<data name="SID_Invalid_parameter___Wave_length__0_" xml:space="preserve">
+    <value>Invalid parameter : Wave length {0}</value>
+  </data>
 </root>

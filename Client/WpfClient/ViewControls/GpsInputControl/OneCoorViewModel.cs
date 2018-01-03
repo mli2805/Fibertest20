@@ -204,8 +204,7 @@ namespace Iit.Fibertest.Client
                     case "Degrees":
                         if (string.IsNullOrEmpty(Degrees))
                             errorMessage = Resources.SID_Degrees_is_required;
-                        double t;
-                        if (!double.TryParse(Degrees, out t))
+                        if (!double.TryParse(Degrees, out _))
                             errorMessage = Resources.SID_Invalid_input;
                         Error = Resources.SID_Invalid_input;
                         break;

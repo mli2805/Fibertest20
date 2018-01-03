@@ -200,8 +200,7 @@ namespace DirectRtuClient
             var mainCharon = new Charon(new NetAddress(IpAddress, 23), _iniFile35, _rtuLogger);
             mainCharon.InitializeOtau();
             NetAddress activeCharonAddress;
-            int activePort;
-            if (!mainCharon.GetExtendedActivePort(out activeCharonAddress, out activePort))
+            if (!mainCharon.GetExtendedActivePort(out activeCharonAddress, out _))
             {
                 _rtuLogger.AppendLine(Resources.SID_Can_t_get_active_port);
                 return null;

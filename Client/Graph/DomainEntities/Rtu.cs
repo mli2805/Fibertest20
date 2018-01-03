@@ -33,5 +33,7 @@ namespace Iit.Fibertest.Graph
         public Frequency PreciseSave { get; set; } = Frequency.EveryHour;
         public Frequency FastSave { get; set; } = Frequency.EveryHour;
 
+        public SetOfAcceptableMeasParams AcceptableMeasParams { get; set; } = new SetOfAcceptableMeasParams();
+
     }
 }
