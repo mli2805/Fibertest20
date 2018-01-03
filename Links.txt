@@ -63,5 +63,13 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
 	делать их через Factory? где Factory будет брать экземпляры вьюмоделей ?
 	или через Resolve автофака?
 
+	получатель создается один раз и один раз получает в конструктор инстанс второго класса, а хотелось бы каждый раз разный
+	TraceLeafActions -> baseRefsAssignViewModel (здесь еще можно обойтись одним инстансом)
+	использовать IoC.Get не получается из-за тестов
+
+	TraceStateViewsManager -> 
+            vm = IoC.Get<TraceStateViewModel>();
+	здесь нет тестов
+
 30. избавиться от new PortLeaf(...), TraceLeaf, OtauLeaf, RtuLeaf
 

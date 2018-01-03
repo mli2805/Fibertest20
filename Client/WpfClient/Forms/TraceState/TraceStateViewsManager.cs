@@ -31,7 +31,7 @@ namespace Iit.Fibertest.Client
             Show(traceStateVm, true);
         }
 
-        // MonitoringResult arrived by Wcf
+        // MonitoringResult arrived by WCF
         public void NotifyAboutMonitoringResult(Measurement measurement)
         {
             var traceStateVm = _traceStateModelFactory.CreateVm(measurement);
