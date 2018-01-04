@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
@@ -56,13 +57,14 @@ namespace Iit.Fibertest.Client
         }
 
         public ShellViewModel(ReadModel readModel, TreeOfRtuModel treeOfRtuModel, GraphReadModel graphReadModel,
-                IWcfServiceForClient c2DWcfManager, IWindowManager windowManager,
-                NetworkEventsDoubleViewModel networkEventsDoubleViewModel, NetworkEventsProvider networkEventsProvider,
-                OpticalEventsDoubleViewModel opticalEventsDoubleViewModel, OpticalEventsProvider opticalEventsProvider,
-                BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel, BopNetworkEventsProvider bopNetworkEventsProvider,
-                CommonStatusBarViewModel commonStatusBarViewModel,
-                ClientHeartbeat clientHeartbeat, ClientPoller clientPoller, 
-                IniFile iniFile, ILogger clientLogger, IMyLog logFile, CurrentUser currentUser, IClientWcfServiceHost host)
+            IWcfServiceForClient c2DWcfManager, IWindowManager windowManager,
+            NetworkEventsDoubleViewModel networkEventsDoubleViewModel, NetworkEventsProvider networkEventsProvider,
+            OpticalEventsDoubleViewModel opticalEventsDoubleViewModel, OpticalEventsProvider opticalEventsProvider,
+            BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel,
+            BopNetworkEventsProvider bopNetworkEventsProvider,
+            CommonStatusBarViewModel commonStatusBarViewModel,
+            ClientHeartbeat clientHeartbeat, ClientPoller clientPoller,
+            IniFile iniFile, ILogger clientLogger, IMyLog logFile, CurrentUser currentUser, IClientWcfServiceHost host)
         {
             ReadModel = readModel;
             TreeOfRtuModel = treeOfRtuModel;
@@ -99,27 +101,29 @@ namespace Iit.Fibertest.Client
 
         public override void CanClose(Action<bool> callback)
         {
-            // if user canceled login view - _c2DWcfManager would be null
+            _clientPollerCts.Cancel();
             C2DWcfManager?.UnregisterClientAsync(new UnRegisterClientDto());
             _logFile.AppendLine(@"Client application finished!");
-            _clientPoller.Finish();
+            Thread.Sleep(TimeSpan.FromMilliseconds(400));
             base.CanClose(callback);
         }
 
         private void PostOffice_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "Message")
-                GraphReadModel.ProcessMessage(((PostOffice)sender).Message);
+                GraphReadModel.ProcessMessage(((PostOffice) sender).Message);
         }
+
+        private readonly CancellationTokenSource _clientPollerCts = new CancellationTokenSource();
 
         protected override async void OnViewReady(object view)
         {
-            ((App)Application.Current).ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            ((App) Application.Current).ShutdownMode = ShutdownMode.OnExplicitShutdown;
             _logFile.AssignFile(@"Client.log");
             _logFile.AppendLine(@"Client application started!");
             var vm = IoC.Get<LoginViewModel>();
             _isAuthenticationSuccessfull = _windowManager.ShowDialogWithAssignedOwner(vm);
-            ((App)Application.Current).ShutdownMode = ShutdownMode.OnMainWindowClose;
+            ((App) Application.Current).ShutdownMode = ShutdownMode.OnMainWindowClose;
             if (_isAuthenticationSuccessfull == true)
             {
                 DisplayName = $@"Fibertest v2.0 {_currentUser.UserName} as {_currentUser.Role.ToString()}";
@@ -127,10 +131,7 @@ namespace Iit.Fibertest.Client
                 _server = da.Main.GetAddress();
 
                 // graph MUST be read before optical/network events
-                _clientPoller.LoadEventSourcingCache(_server);
-                await _clientPoller.LoadEventSourcingDb();
-
-                _clientPoller.Start();
+                await InitializeAndRunClientPoller();
 
                 _opticalEventsProvider.LetsGetStarted();
                 _networkEventsProvider.LetsGetStarted();
@@ -142,9 +143,18 @@ namespace Iit.Fibertest.Client
                 TryClose();
         }
 
+        private async Task InitializeAndRunClientPoller()
+        {
+            _clientPoller.LoadEventSourcingCache(_server);
+            await _clientPoller.LoadEventSourcingDb();
+
+            _clientPoller.CancellationToken = _clientPollerCts.Token;
+            _clientPoller.Start();
+        }
+
         protected override void OnViewLoaded(object view)
         {
-           // DisplayName = $@"Fibertest v2.0 {_currentUser.UserName}";
+            // DisplayName = $@"Fibertest v2.0 {_currentUser.UserName}";
             GraphReadModel.PropertyChanged += GraphReadModel_PropertyChanged;
         }
 
@@ -188,6 +198,7 @@ namespace Iit.Fibertest.Client
         }
 
         #region Node
+
         public async Task ComplyWithRequest(AddNode request)
         {
             var cmd = request;
@@ -234,9 +245,11 @@ namespace Iit.Fibertest.Client
                 _windowManager.ShowDialogWithAssignedOwner(new NotificationViewModel(Resources.SID_Error, message));
             }
         }
+
         #endregion
 
         #region Fiber
+
         public async Task ComplyWithRequest(AddFiber request)
         {
             var cmd = PrepareCommand(request);
@@ -271,9 +284,11 @@ namespace Iit.Fibertest.Client
             var cmd = request;
             await C2DWcfManager.SendCommandAsObj(cmd);
         }
+
         #endregion
 
         #region RTU
+
         public async Task ComplyWithRequest(RequestAddRtuAtGpsLocation request)
         {
             var cmd = new AddRtuAtGpsLocation
@@ -298,12 +313,14 @@ namespace Iit.Fibertest.Client
             var rtu = GraphReadModel.Rtus.FirstOrDefault(r => r.Node.Id == request.NodeId);
             if (rtu == null)
                 return;
-            var cmd = new RemoveRtu() { Id = rtu.Id };
+            var cmd = new RemoveRtu() {Id = rtu.Id};
             await C2DWcfManager.SendCommandAsObj(cmd);
         }
+
         #endregion
 
         #region Equipment
+
         public async Task ComplyWithRequest(RequestAddEquipmentAtGpsLocation request)
         {
             var cmd = new AddEquipmentAtGpsLocation()
@@ -337,14 +354,17 @@ namespace Iit.Fibertest.Client
                 return;
             await C2DWcfManager.SendCommandAsObj(cmd);
         }
+
         #endregion
 
         #region Trace
+
         public Task ComplyWithRequest(RequestAddTrace request)
         {
             PrepareCommand(request);
             return Task.FromResult(0);
         }
+
         #endregion
     }
 }

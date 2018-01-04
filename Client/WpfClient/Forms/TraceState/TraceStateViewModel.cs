@@ -17,6 +17,7 @@ namespace Iit.Fibertest.Client
         private readonly SoundManager _soundManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly OpticalEventsDoubleViewModel _opticalEventsDoubleViewModel;
+        private readonly TraceStatisticsViewsManager _traceStatisticsViewsManager;
         private bool _isSoundForThisVmInstanceOn;
         private bool _isTraceStateChanged;
         public bool IsOpen { get; private set; }
@@ -28,13 +29,15 @@ namespace Iit.Fibertest.Client
         public EventStatusComboItem SelectedEventStatus { get; set; }
 
         public TraceStateViewModel(IMyLog logFile, ReflectogramManager reflectogramManager, 
-            SoundManager soundManager, IWcfServiceForClient c2DWcfManager, OpticalEventsDoubleViewModel opticalEventsDoubleViewModel)
+            SoundManager soundManager, IWcfServiceForClient c2DWcfManager, 
+            OpticalEventsDoubleViewModel opticalEventsDoubleViewModel, TraceStatisticsViewsManager traceStatisticsViewsManager)
         {
             _logFile = logFile;
             _reflectogramManager = reflectogramManager;
             _soundManager = soundManager;
             _c2DWcfManager = c2DWcfManager;
             _opticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
+            _traceStatisticsViewsManager = traceStatisticsViewsManager;
         }
 
         public void Initialize(TraceStateModel model, bool isLastStateForThisTrace, bool isTraceStateChanged)
@@ -100,8 +103,8 @@ namespace Iit.Fibertest.Client
 
         public void ShowAccidentPlace() { }
         public void ShowReflectogram() { _reflectogramManager.ShowRefWithBase(Model.SorFileId); }
-        public void ShowRftsEvents() { }
-        public void ShowTraceStatistics() { }
+        public void ShowRftsEvents() { _reflectogramManager.ShowRftsEvents(Model.SorFileId); }
+        public void ShowTraceStatistics() { _traceStatisticsViewsManager.Show(Model.TraceId); }
         public void ExportToKml() { }
         public void ShowReport() { }
 

@@ -26,6 +26,7 @@ namespace Iit.Fibertest.Client
         private readonly ILocalDbManager _localDbManager;
         private readonly int _pollingRate;
         private List<object> ReadModels { get; }
+        public CancellationToken CancellationToken { get; set; }
 
         public int CurrentEventNumber { get; private set; }
 
@@ -69,15 +70,9 @@ namespace Iit.Fibertest.Client
             _pollerThread.Start();
         }
 
-        public void Finish()
-        {
-            _pollerThread.Abort();
-        }
-
-        // ReSharper disable once FunctionNeverReturns
         private async void DoPolling()
         {
-            while (true)
+            while (!CancellationToken.IsCancellationRequested)
             {
                 await EventSourcingTick();
                 Thread.Sleep(TimeSpan.FromMilliseconds(_pollingRate));
