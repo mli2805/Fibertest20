@@ -142,6 +142,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0}{1}{2}Assign base reflectograms?.
+        /// </summary>
+        public static string SID__0__1__2_Assign_base_reflectograms_ {
+            get {
+                return ResourceManager.GetString("SID__0__1__2_Assign_base_reflectograms_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} base:{1}{2}.
+        /// </summary>
+        public static string SID__0__base__1__2_ {
+            get {
+                return ResourceManager.GetString("SID__0__base__1__2_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} base is not compatible with trace{1}{2}.
         /// </summary>
         public static string SID__0__base_is_not_compatible_with_trace_1__2_ {
@@ -2665,6 +2683,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Optical length is {0} km.
+        /// </summary>
+        public static string SID_Optical_length_is__0__km {
+            get {
+                return ResourceManager.GetString("SID_Optical_length_is__0__km", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Optical Length, m.
         /// </summary>
         public static string SID_Optical_length_m {
@@ -3791,6 +3818,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There are no selected row..
+        /// </summary>
+        public static string SID_There_are_no_selected_row_ {
+            get {
+                return ResourceManager.GetString("SID_There_are_no_selected_row_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There is a node with the same title.
         /// </summary>
         public static string SID_There_is_a_node_with_the_same_title {
@@ -3958,6 +3994,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Trace_information {
             get {
                 return ResourceManager.GetString("SID_Trace_information", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trace length on map is {0} km.
+        /// </summary>
+        public static string SID_Trace_length_on_map_is__0__km {
+            get {
+                return ResourceManager.GetString("SID_Trace_length_on_map_is__0__km", resourceCulture);
             }
         }
         

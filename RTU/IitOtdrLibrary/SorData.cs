@@ -62,5 +62,11 @@ namespace Iit.Fibertest.IitOtdrLibrary
         {
             return LightSpeed / sorData.FixedParameters.RefractionIndex / 10;
         }
+
+        public static double GetTraceLengthKm(this OtdrDataKnownBlocks sorData)
+        {
+            var owt = sorData.KeyEvents.KeyEvents[sorData.KeyEvents.KeyEventsCount - 1].EventPropagationTime;
+            return sorData.OwtToLenKm(owt);
+        }
     }
 }

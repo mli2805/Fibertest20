@@ -7,6 +7,7 @@ using System.Threading;
 using System.Windows.Data;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
@@ -168,6 +169,12 @@ namespace Iit.Fibertest.Client
 
         public void ShowReflectogram(int param)
         {
+            if (SelectedRow == null)
+            {
+                var vm = new NotificationViewModel(Resources.SID_Information,Resources.SID_There_are_no_selected_row_);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+                return;
+            }
             if (param == 2)
                 _reflectogramManager.ShowRefWithBase(SelectedRow.SorFileId);
             else

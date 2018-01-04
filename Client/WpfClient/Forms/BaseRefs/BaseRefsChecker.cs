@@ -31,20 +31,25 @@ namespace Iit.Fibertest.Client
 
             foreach (var baseRefDto in baseRefsDto)
             {
-                var res = SorData.TryGetFromBytes(baseRefDto.SorBytes, out var otdrKnownBlocks);
-                if (res != "")
+                var baseRefHeader = string.Format(Resources.SID__0__base__1__2_, baseRefDto.BaseRefType.GetLocalizedFemaleString(), 
+                    Environment.NewLine, Environment.NewLine);
+
+
+                var message = SorData.TryGetFromBytes(baseRefDto.SorBytes, out var otdrKnownBlocks);
+                if (message != "")
                 {
                     var vm = new NotificationViewModel(Resources.SID_Error_,
-                        string.Format(Resources.SID_File_read_error__0__1_, Environment.NewLine, res));
+                        baseRefHeader+$@"{message}");
                     _windowManager.ShowDialogWithAssignedOwner(vm);
                     return false;
                 }
 
-                var message = BaseRefMeasParamsChecker.IsBaseRefHasAcceptableMeasParams(otdrKnownBlocks, rtu.AcceptableMeasParams);
+                message = BaseRefMeasParamsChecker.IsBaseRefHasAcceptableMeasParams(otdrKnownBlocks, rtu.AcceptableMeasParams);
                 if (message != "")
                 {
                     var vm = new NotificationViewModel(Resources.SID_Error_,
-                        string.Format(Resources.SID_Invalid_measuring_parameters__0__Not_compatible_with_this_RTU_, Environment.NewLine, message));
+                        baseRefHeader+string.Format(Resources.SID_Invalid_measuring_parameters__0__Not_compatible_with_this_RTU_, 
+                            Environment.NewLine, message));
                     _windowManager.ShowDialogWithAssignedOwner(vm);
                     return false;
                 }
@@ -53,13 +58,15 @@ namespace Iit.Fibertest.Client
                 if (message != "")
                 {
                     var vm = new NotificationViewModel(Resources.SID_Error_,
-                        string.Format(Resources.SID__0__base_is_not_compatible_with_trace_1__2_, baseRefDto.BaseRefType.GetLocalizedFemaleString(), Environment.NewLine, message));
+                        string.Format(Resources.SID__0__base_is_not_compatible_with_trace_1__2_, 
+                            baseRefDto.BaseRefType.GetLocalizedFemaleString(), Environment.NewLine, message));
                     _windowManager.ShowDialogWithAssignedOwner(vm);
                     return false;
                 }
 
                 message = CompareDistances(otdrKnownBlocks, trace);
-                var vm1 = new QuestionViewModel($"{message}{Environment.NewLine}Assign base reflectograms");
+                var vm1 = new QuestionViewModel(baseRefHeader+string.Format(Resources.SID__0__1__2_Assign_base_reflectograms_, 
+                                                    message, Environment.NewLine, Environment.NewLine));
                 _windowManager.ShowDialogWithAssignedOwner(vm1);
                 if (!vm1.IsAnswerPositive)
                     return false;
@@ -78,9 +85,10 @@ namespace Iit.Fibertest.Client
 
         private string CompareDistances(OtdrDataKnownBlocks otdrKnownBlocks, Trace trace)
         {
-            var gpsDistance = _graphGpsCalculator.CalculateTraceGpsLength(trace);
-            // TODO get trace length from OtdrDataKnownBlocks
-            return $@"Trace length on map is {gpsDistance} km";
+            var gpsDistance = $@"{_graphGpsCalculator.CalculateTraceGpsLength(trace):#,0.##}";
+            var opticalLength = $@"{otdrKnownBlocks.GetTraceLengthKm():#,0.##}";
+            return string.Format(Resources.SID_Trace_length_on_map_is__0__km, gpsDistance) + 
+                   Environment.NewLine + string.Format(Resources.SID_Optical_length_is__0__km, opticalLength);
         }
 
      }
