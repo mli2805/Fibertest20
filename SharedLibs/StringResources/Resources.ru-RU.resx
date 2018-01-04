@@ -1505,4 +1505,16 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Invalid_parameter___Wave_length__0_" xml:space="preserve">
 		<value>Неверный параметр : Длина волны {0}</value>
 	</data>
+	<data name="SID_PreciseF" xml:space="preserve">
+		<value>Точная</value>
+	</data>
+	<data name="SID_FastF" xml:space="preserve">
+		<value>Быстрая</value>
+	</data>
+	<data name="SID_AdditionalF" xml:space="preserve">
+		<value>Дополнительная</value>
+	</data>
+	<data name="SID__0__base_is_not_compatible_with_trace_1__2_" xml:space="preserve">
+		<value>{0} базовая не совместима с трасой{1}{2}</value>
+	</data>
 </root>

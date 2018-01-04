@@ -22,5 +22,15 @@ namespace Iit.Fibertest.Dto
                 default: return "";
             }
         }
+        public static string GetLocalizedFemaleString(this BaseRefType baseRefType)
+        {
+            switch (baseRefType)
+            {
+                case BaseRefType.Precise: return Resources.SID_PreciseF;
+                case BaseRefType.Fast: return Resources.SID_FastF;
+                case BaseRefType.Additional: return Resources.SID_AdditionalF;
+                default: return "";
+            }
+        }
     }
 }

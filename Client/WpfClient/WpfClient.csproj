@@ -198,6 +198,7 @@
     <Compile Include="ClientWcfService.cs" />
     <Compile Include="EventSourcing\ClientPoller.cs" />
     <Compile Include="EventSourcing\IDispatcherProvider.cs" />
+    <Compile Include="Forms\BaseRefs\BaseRefMeasParamsChecker.cs" />
     <Compile Include="Forms\BaseRefs\BaseRefsChecker.cs" />
     <Compile Include="Forms\Shell\BopNetworkEventsControl\BopNetworkEventModel.cs" />
     <Compile Include="Forms\Shell\BopNetworkEventsControl\BopNetworkEventsDoubleView.xaml.cs">
@@ -266,6 +267,8 @@
     <Compile Include="Logic\LocalAddressResearcher.cs" />
     <Compile Include="Logic\RtuPartStateExt.cs" />
     <Compile Include="Logic\SoundManager.cs" />
+    <Compile Include="ReadModel\GpsCalculator.cs" />
+    <Compile Include="ReadModel\GraphGpsCalculator.cs" />
     <Compile Include="WindowManagerExt.cs" />
     <Compile Include="ViewModels\Primitive\EventStatusComboItem.cs" />
     <Compile Include="Forms\TraceState\TraceStateView.xaml.cs">

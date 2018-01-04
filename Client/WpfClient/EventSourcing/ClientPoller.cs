@@ -19,7 +19,8 @@ namespace Iit.Fibertest.Client
                 TypeNameHandling = TypeNameHandling.All
             };
 
-        public IWcfServiceForClient WcfConnection;
+        private readonly IWcfServiceForClient _wcfConnection;
+        private Thread _pollerThread;
         private readonly IDispatcherProvider _dispatcherProvider;
         private readonly IMyLog _logFile;
         private readonly ILocalDbManager _localDbManager;
@@ -31,7 +32,7 @@ namespace Iit.Fibertest.Client
         public ClientPoller(IWcfServiceForClient wcfConnection, List<object> readModels, IDispatcherProvider dispatcherProvider,
             IMyLog logFile, IniFile iniFile, ILocalDbManager localDbManager)
         {
-            WcfConnection = wcfConnection;
+            _wcfConnection = wcfConnection;
             _dispatcherProvider = dispatcherProvider;
             _logFile = logFile;
             _localDbManager = localDbManager;
@@ -53,7 +54,7 @@ namespace Iit.Fibertest.Client
             string[] events;
             do
             {
-                events = await WcfConnection.GetEvents(CurrentEventNumber);
+                events = await _wcfConnection.GetEvents(CurrentEventNumber);
                 _localDbManager.SaveEvents(events);
                 ApplyEventSourcingEvents(events);
             }
@@ -64,8 +65,13 @@ namespace Iit.Fibertest.Client
 
         public void Start()
         {
-            var pollerThread = new Thread(DoPolling) { IsBackground = true };
-            pollerThread.Start();
+            _pollerThread = new Thread(DoPolling) { IsBackground = true };
+            _pollerThread.Start();
+        }
+
+        public void Finish()
+        {
+            _pollerThread.Abort();
         }
 
         // ReSharper disable once FunctionNeverReturns
@@ -80,7 +86,7 @@ namespace Iit.Fibertest.Client
 
         public async Task<int> EventSourcingTick()
         {
-            string[] events = await WcfConnection.GetEvents(CurrentEventNumber);
+            string[] events = await _wcfConnection.GetEvents(CurrentEventNumber);
             if (events == null)
             {
                 _logFile.AppendLine(@"Cannot establish connection with data-center.");

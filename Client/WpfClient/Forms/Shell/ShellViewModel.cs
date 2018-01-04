@@ -99,9 +99,10 @@ namespace Iit.Fibertest.Client
 
         public override void CanClose(Action<bool> callback)
         {
-            // if user cancelled login view - _c2DWcfManager would be null
+            // if user canceled login view - _c2DWcfManager would be null
             C2DWcfManager?.UnregisterClientAsync(new UnRegisterClientDto());
             _logFile.AppendLine(@"Client application finished!");
+            _clientPoller.Finish();
             base.CanClose(callback);
         }
 
@@ -125,7 +126,7 @@ namespace Iit.Fibertest.Client
                 var da = _iniFile.ReadDoubleAddress(11840);
                 _server = da.Main.GetAddress();
 
-                // graph MUST be read before optical\network events
+                // graph MUST be read before optical/network events
                 _clientPoller.LoadEventSourcingCache(_server);
                 await _clientPoller.LoadEventSourcingDb();
 
@@ -272,7 +273,7 @@ namespace Iit.Fibertest.Client
         }
         #endregion
 
-        #region Rtu
+        #region RTU
         public async Task ComplyWithRequest(RequestAddRtuAtGpsLocation request)
         {
             var cmd = new AddRtuAtGpsLocation

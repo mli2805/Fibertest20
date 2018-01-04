@@ -1505,4 +1505,16 @@ RTU is initializing right now!</value>
 	<data name="SID_Invalid_parameter___Wave_length__0_" xml:space="preserve">
     <value>Invalid parameter : Wave length {0}</value>
   </data>
+	<data name="SID_PreciseF" xml:space="preserve">
+    <value>Precise</value>
+  </data>
+	<data name="SID_FastF" xml:space="preserve">
+    <value>Fast</value>
+  </data>
+	<data name="SID_AdditionalF" xml:space="preserve">
+    <value>Additional</value>
+  </data>
+	<data name="SID__0__base_is_not_compatible_with_trace_1__2_" xml:space="preserve">
+    <value>{0} base is not compatible with trace{1}{2}</value>
+  </data>
 </root>

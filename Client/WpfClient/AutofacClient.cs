@@ -22,6 +22,8 @@ namespace Iit.Fibertest.Client
     {
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterType<GraphGpsCalculator>().SingleInstance();
+
             builder.RegisterType<CurrentUser>().SingleInstance();
             builder.RegisterType<WindowManager>().As<IWindowManager>().SingleInstance();
 

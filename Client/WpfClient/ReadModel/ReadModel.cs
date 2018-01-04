@@ -180,7 +180,7 @@ namespace Iit.Fibertest.Client
         }
         #endregion
 
-        #region Rtu
+        #region RTU
         public void Apply(RtuAtGpsLocationAdded e)
         {
             Node node = new Node() { Id = e.NodeId, Latitude = e.Latitude, Longitude = e.Longitude };
@@ -322,7 +322,7 @@ namespace Iit.Fibertest.Client
         public void Apply(RtuInitialized e)
         {
             var rtu = Rtus.First(r => r.Id == e.Id);
-                InitializeRtuFirstTime(e, rtu);
+            InitializeRtuFirstTime(e, rtu);
 
             if (rtu.Serial == null)
             {

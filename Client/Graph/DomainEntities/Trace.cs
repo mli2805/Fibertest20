@@ -8,8 +8,8 @@ namespace Iit.Fibertest.Graph
     {
         public Guid Id { get; set; }
         public string Title { get; set; }
-        public Guid RtuId { get; set; } // лучше хранить, т.к. поиск через список РТУ...
-        public OtauPortDto OtauPort { get; set; } // лучше сохранять при атаче к порту, т.к. очень сложный поиск
+        public Guid RtuId { get; set; } // it's better to store than search through the RTU list
+        public OtauPortDto OtauPort { get; set; } // it's better to store due attach to port, cos search is too complicated
         public bool IsAttached => OtauPort != null;
         public int Port { get; set; } = -1;
         public TraceMode Mode { get; set; } = TraceMode.Light;

@@ -142,6 +142,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} base is not compatible with trace{1}{2}.
+        /// </summary>
+        public static string SID__0__base_is_not_compatible_with_trace_1__2_ {
+            get {
+                return ResourceManager.GetString("SID__0__base_is_not_compatible_with_trace_1__2_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0}th measurement is finished..
         /// </summary>
         public static string SID__0_th_measurement_is_finished_ {
@@ -364,6 +373,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Additional_optical_switch {
             get {
                 return ResourceManager.GetString("SID_Additional_optical_switch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Additional.
+        /// </summary>
+        public static string SID_AdditionalF {
+            get {
+                return ResourceManager.GetString("SID_AdditionalF", resourceCulture);
             }
         }
         
@@ -1643,6 +1661,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Fast_base_ref {
             get {
                 return ResourceManager.GetString("SID_Fast_base_ref", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fast.
+        /// </summary>
+        public static string SID_FastF {
+            get {
+                return ResourceManager.GetString("SID_FastF", resourceCulture);
             }
         }
         
@@ -2931,6 +2958,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Precise_base_ref {
             get {
                 return ResourceManager.GetString("SID_Precise_base_ref", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Precise.
+        /// </summary>
+        public static string SID_PreciseF {
+            get {
+                return ResourceManager.GetString("SID_PreciseF", resourceCulture);
             }
         }
         
