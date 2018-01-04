@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
@@ -32,50 +33,55 @@ namespace Iit.Fibertest.Client
         // Server
         public TraceStateModel CreateVm(Measurement measurement)
         {
-            var vm = new TraceStateModel();
-            PrepareHeader(measurement.TraceId, ref vm);
-
-            vm.TraceId = measurement.TraceId;
-            vm.TraceState = measurement.TraceState;
-            vm.BaseRefType = measurement.BaseRefType;
-            vm.MeasurementTimestamp = measurement.MeasurementTimestamp;
-            vm.SorFileId = measurement.SorFileId;
-
-            vm.EventStatus = measurement.EventStatus;
-            vm.Comment = measurement.Comment;
-
-            return vm;
+            var model = new TraceStateModel
+            {
+                Header = PrepareHeader(measurement.TraceId),
+                TraceId = measurement.TraceId,
+                TraceState = measurement.TraceState,
+                BaseRefType = measurement.BaseRefType,
+                MeasurementTimestamp = measurement.MeasurementTimestamp,
+                SorFileId = measurement.SorFileId,
+                EventStatus = measurement.EventStatus,
+                Comment = measurement.Comment
+            };
+            return model;
         }
 
+        // Optical events
         public TraceStateModel CreateVm(OpticalEventModel opticalEventModel)
         {
-            var vm = new TraceStateModel();
-            PrepareHeader(opticalEventModel.TraceId, ref vm);
-
-            vm.TraceId = opticalEventModel.TraceId;
-            vm.TraceState = opticalEventModel.TraceState;
-            vm.BaseRefType = opticalEventModel.BaseRefType;
-            vm.MeasurementTimestamp = opticalEventModel.MeasurementTimestamp;
-            vm.SorFileId = opticalEventModel.SorFileId;
-
-            vm.EventStatus = opticalEventModel.EventStatus;
-            vm.Comment = opticalEventModel.Comment;
-
-           return vm;
-
+            var model = new TraceStateModel
+            {
+                Header = PrepareHeader(opticalEventModel.TraceId),
+                TraceId = opticalEventModel.TraceId,
+                TraceState = opticalEventModel.TraceState,
+                BaseRefType = opticalEventModel.BaseRefType,
+                MeasurementTimestamp = opticalEventModel.MeasurementTimestamp,
+                SorFileId = opticalEventModel.SorFileId,
+                EventStatus = opticalEventModel.EventStatus,
+                Comment = opticalEventModel.Comment
+            };
+            return model;
         }
 
-        private void PrepareHeader(Guid traceId, ref TraceStateModel result)
+        private List<AccidentLineModel> PrepareAccidents()
         {
+            return new List<AccidentLineModel>();
+        }
+
+        private TraceStateModelHeader PrepareHeader(Guid traceId)
+        {
+            var result = new TraceStateModelHeader();
             var trace = _readModel.Traces.FirstOrDefault(t => t.Id == traceId);
             if (trace == null)
-                return;
+                return result;
 
             result.TraceTitle = trace.Title;
             result.RtuTitle = _readModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId)?.Title;
             result.PortTitle = trace.OtauPort == null ? Resources.SID__not_attached_ : trace.OtauPort.IsPortOnMainCharon
                 ? trace.OtauPort.OpticalPort.ToString()
                 : $@"{trace.OtauPort.OtauIp}:{trace.OtauPort.OtauTcpPort}-{trace.OtauPort.OpticalPort}";
+            return result;
         }
 
         private  async Task<Measurement> GetLastTraceMeasurement(Guid traceId)
@@ -88,7 +94,7 @@ namespace Iit.Fibertest.Client
             }
             else
             {
-                _logFile.AppendLine($@"Last measurement for trace {traceId.First6()} recieved");
+                _logFile.AppendLine($@"Last measurement for trace {traceId.First6()} received");
                 return measurement;
             }
         }

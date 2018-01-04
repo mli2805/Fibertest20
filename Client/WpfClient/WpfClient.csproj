@@ -262,6 +262,7 @@
     <Compile Include="Forms\Shell\OpticalEventsControl\OpticalEventModel.cs" />
     <Compile Include="Forms\Shell\OpticalEventsControl\Filters\RtuGuidFilter.cs" />
     <Compile Include="Forms\Shell\OpticalEventsControl\Filters\TraceStateFilter.cs" />
+    <Compile Include="Forms\TraceState\AccidentLineModel.cs" />
     <Compile Include="Forms\TraceState\TraceStateModelFactory.cs" />
     <Compile Include="Forms\TraceStatistics\TraceStatisticsViewsManager.cs" />
     <Compile Include="Logic\LocalAddressResearcher.cs" />

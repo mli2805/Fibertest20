@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
@@ -8,13 +9,16 @@ using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
+    public class TraceStateModelHeader
+    {
+        public string TraceTitle { get; set; } = "";
+        public string RtuTitle { get; set; } = "";
+        public string PortTitle { get; set; } = "";
+    }
     public class TraceStateModel : PropertyChangedBase
     {
         public Guid TraceId { get; set; }
-        public string TraceTitle { get; set; }
-        public string RtuTitle { get; set; }
-        public string PortTitle { get; set; }
-
+        public TraceStateModelHeader Header { get; set; }
         public FiberState TraceState { get; set; }
         public BaseRefType BaseRefType { get; set; }
 
@@ -39,15 +43,32 @@ namespace Iit.Fibertest.Client
         public Visibility OpticalEventPanelVisibility
             => EventStatus > EventStatus.EventButNotAnAccident ? Visibility.Visible : Visibility.Collapsed;
 
+        public List<AccidentLineModel> Accidents { get; set; } = new List<AccidentLineModel>();
+
+        private AccidentLineModel _selectedAccident;
+        public AccidentLineModel SelectedAccident
+        {
+            get => _selectedAccident;
+            set
+            {
+                if (Equals(value, _selectedAccident)) return;
+                _selectedAccident = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public string SelectedAccidentGpsCoordinates { get; set; }
+
         public Visibility AccidentsPanelVisibility
             => TraceState == FiberState.Ok ? Visibility.Collapsed : Visibility.Visible;
 
         public bool IsAccidentPlaceButtonEnabled => TraceState != FiberState.Ok;
 
         private bool _isSoundButtonEnabled;
+
         public bool IsSoundButtonEnabled
         {
-            get { return _isSoundButtonEnabled; }
+            get => _isSoundButtonEnabled;
             set
             {
                 if (value == _isSoundButtonEnabled) return;

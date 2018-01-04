@@ -29,15 +29,15 @@
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{x:Static stringResources:Resources.SID_Trace}" Margin="5"/>
-                        <TextBlock Text="{Binding Model.TraceTitle}" Margin="5"/>
+                        <TextBlock Text="{Binding Model.Header.TraceTitle}" Margin="5"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{x:Static stringResources:Resources.SID_Port}" Margin="5"/>
-                        <TextBlock Text="{Binding Model.PortTitle}" Margin="5"/>
+                        <TextBlock Text="{Binding Model.Header.PortTitle}" Margin="5"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="RTU" Margin="5"/>
-                        <TextBlock Text="{Binding Model.RtuTitle}" Margin="5"/>
+                        <TextBlock Text="{Binding Model.Header.RtuTitle}" Margin="5"/>
                     </StackPanel>
                 </StackPanel>
             </GroupBox>
@@ -62,18 +62,22 @@
         </DockPanel>
         <GroupBox Header="{x:Static stringResources:Resources.SID_Accidents}" Margin="5" Visibility="{Binding Model.AccidentsPanelVisibility}">
             <DockPanel>
-                <DataGrid DockPanel.Dock="Top" AutoGenerateColumns="False" >
+                <DataGrid DockPanel.Dock="Top" ItemsSource="{Binding Model.Accidents}" 
+                          SelectedItem="{Binding Model.SelectedAccident}"  AutoGenerateColumns="False" >
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="No"/>
-                        <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_State}"/>
-                        <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Distance}"/>
-                        <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Left_node}"/>
-                        <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Dist_to_left}"/>
-                        <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Right_node}"/>
-                        <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Dist_to_right}"/>
+                        <DataGridTextColumn Header="No" Binding="{Binding (client:AccidentLineModel.No)}"/>
+                        <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_State}" Binding="{Binding State}"/>
+                        <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Distance}" Binding="{Binding Distance}"/>
+                        <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Left_node}" Binding="{Binding LeftNode}"/>
+                        <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Dist_to_left}" Binding="{Binding DistanceToLeftNode}"/>
+                        <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Right_node}" Binding="{Binding RigthNode}"/>
+                        <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Dist_to_right}" Binding="{Binding DistanceToRightNode}"/>
                     </DataGrid.Columns>
                 </DataGrid>
-                <TextBlock Text="GPS coordinates:" Margin="5"/>
+            <DockPanel>
+                <TextBlock Text="Accident coordinates:" Margin="5"/>
+                <TextBlock Text="{Binding Model.SelectedAccidentGpsCoordinates}" Margin="5"/>
+            </DockPanel>
             </DockPanel>
         </GroupBox>
         <Border Visibility="{Binding Model.OpticalEventPanelVisibility}">
