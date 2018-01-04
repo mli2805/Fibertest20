@@ -44,6 +44,8 @@ namespace Iit.Fibertest.Client
                 EventStatus = measurement.EventStatus,
                 Comment = measurement.Comment
             };
+            if (model.TraceState != FiberState.Ok)
+                model.Accidents = PrepareAccidents();
             return model;
         }
 
@@ -61,6 +63,8 @@ namespace Iit.Fibertest.Client
                 EventStatus = opticalEventModel.EventStatus,
                 Comment = opticalEventModel.Comment
             };
+            if (model.TraceState != FiberState.Ok)
+                model.Accidents = PrepareAccidents();
             return model;
         }
 

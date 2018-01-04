@@ -80,6 +80,7 @@
     <Compile Include="Repositories\BopNetworkEventsRepository.cs" />
     <Compile Include="Repositories\ClientStationsRepository.cs" />
     <Compile Include="FtDbContext.cs" />
+    <Compile Include="Repositories\MeasurementFactory.cs" />
     <Compile Include="Repositories\MeasurementsRepository.cs" />
     <Compile Include="Repositories\MonitoringResultsRepository.cs" />
     <Compile Include="Repositories\NetworkEventsRepository.cs" />

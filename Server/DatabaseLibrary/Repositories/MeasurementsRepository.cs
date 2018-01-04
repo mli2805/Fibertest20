@@ -70,7 +70,6 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
         }
 
-
         public async Task<TraceStatistics> GetTraceMeasurementsAsync(Guid traceId)
         {
             try

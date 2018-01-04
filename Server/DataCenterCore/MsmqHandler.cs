@@ -76,12 +76,14 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async void ProcessMessage(Message message)
         {
-            var monitoringResultDto = message.Body as MonitoringResultDto;
-            if (monitoringResultDto == null)
+            if (!(message.Body is MonitoringResultDto monitoringResultDto))
                 return;
 
             _logFile.AppendLine($@"MSMQ message received, RTU {monitoringResultDto.RtuId.First6()}, Trace {monitoringResultDto.PortWithTrace.TraceId.First6()} - {monitoringResultDto.TraceState} ({monitoringResultDto.BaseRefType})");
             var measurement = await _monitoringResultsRepository.SaveMonitoringResultAsync(monitoringResultDto);
+
+            // TODO snmp, email, sms
+
             if (measurement != null)
                 await SendMoniresultToClients(measurement);
         }
