@@ -4,6 +4,13 @@ namespace Iit.Fibertest.Client
 {
     public class TraceLeafActionsPermissions
     {
+        private readonly CurrentUser _currentUser;
+
+        public TraceLeafActionsPermissions(CurrentUser currentUser)
+        {
+            _currentUser = currentUser;
+        }
+
         public bool CanUpdateTrace(object param)
         {
             return true;
@@ -62,12 +69,12 @@ namespace Iit.Fibertest.Client
 
         public bool CanCleanTrace(object param)
         {
-            return true;
+            return _currentUser.Role <= Role.Root;
         }
 
         public bool CanRemoveTrace(object param)
         {
-            return true;
+            return _currentUser.Role <= Role.Root;
         }
 
         public bool CanDoPreciseMeasurementOutOfTurn(object param)

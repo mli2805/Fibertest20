@@ -25,6 +25,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly MeasurementsRepository _measurementsRepository;
         private readonly NetworkEventsRepository _networkEventsRepository;
         private readonly BopNetworkEventsRepository _bopNetworkEventsRepository;
+        private readonly GraphPostProcessingRepository _graphPostProcessingRepository;
 
         private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
         {
@@ -35,7 +36,7 @@ namespace Iit.Fibertest.DataCenterCore
             ClientStationsRepository clientStationsRepository, ClientToRtuTransmitter clientToRtuTransmitter,
             RtuStationsRepository rtuStationsRepository, BaseRefsRepository baseRefsRepository, 
             MeasurementsRepository measurementsRepository, NetworkEventsRepository networkEventsRepository,
-            BopNetworkEventsRepository bopNetworkEventsRepository)
+            BopNetworkEventsRepository bopNetworkEventsRepository, GraphPostProcessingRepository graphPostProcessingRepository)
         {
             _logFile = logFile;
             _eventStoreService = eventStoreService;
@@ -46,6 +47,7 @@ namespace Iit.Fibertest.DataCenterCore
             _measurementsRepository = measurementsRepository;
             _networkEventsRepository = networkEventsRepository;
             _bopNetworkEventsRepository = bopNetworkEventsRepository;
+            _graphPostProcessingRepository = graphPostProcessingRepository;
         }
 
         public async Task<string> SendCommandAsObj(object cmd)
@@ -65,10 +67,14 @@ namespace Iit.Fibertest.DataCenterCore
             if (resultInGraph != null)
                 return resultInGraph;
 
-            // A few commands need postprocessing in Db or RTU
-            var removeRtu = cmd as RemoveRtu;
-            if (removeRtu != null)
+            // A few commands need post-processing in Db or RTU
+            if (cmd is RemoveRtu removeRtu)
                 return await _rtuStationsRepository.RemoveRtuAsync(removeRtu.Id);
+
+            if (cmd is RemoveTrace removeTrace)
+            {
+                return await _graphPostProcessingRepository.ProcessTraceRemoved(removeTrace.Id);
+            }
 
             return null;
         }

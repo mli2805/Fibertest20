@@ -47,6 +47,7 @@ namespace Graph.Tests
             builder.RegisterType<MeasurementsRepository>().SingleInstance();
             builder.RegisterType<NetworkEventsRepository>().SingleInstance();
             builder.RegisterType<BopNetworkEventsRepository>().SingleInstance();
+            builder.RegisterType<GraphPostProcessingRepository>().SingleInstance();
             builder.RegisterType<WcfServiceForClient>().As<IWcfServiceForClient>().SingleInstance();
 
             builder.RegisterInstance(LoggerForTests = new LoggerConfiguration()

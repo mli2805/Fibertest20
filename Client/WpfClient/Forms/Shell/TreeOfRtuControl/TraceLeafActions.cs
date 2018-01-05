@@ -1,4 +1,6 @@
+using System;
 using System.Linq;
+using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 
@@ -8,21 +10,26 @@ namespace Iit.Fibertest.Client
     {
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
+        private readonly IWindowManager _windowManager;
         private readonly TraceStateViewsManager _traceStateViewsManager;
         private readonly TraceStatisticsViewsManager _traceStatisticsViewsManager;
         private readonly ReflectogramManager _reflectogramManager;
         private readonly BaseRefsAssignViewModel _baseRefsAssignViewModel;
+        private readonly CommonStatusBarViewModel _commonStatusBarViewModel;
 
-        public TraceLeafActions(IniFile iniFile, IMyLog logFile,
+        public TraceLeafActions(IniFile iniFile, IMyLog logFile, IWindowManager windowManager,
             TraceStateViewsManager traceStateViewsManager, TraceStatisticsViewsManager traceStatisticsViewsManager,
-             ReflectogramManager reflectogramManager, BaseRefsAssignViewModel baseRefsAssignViewModel)
+             ReflectogramManager reflectogramManager, BaseRefsAssignViewModel baseRefsAssignViewModel,
+            CommonStatusBarViewModel commonStatusBarViewModel)
         {
             _iniFile = iniFile;
             _logFile = logFile;
+            _windowManager = windowManager;
             _traceStateViewsManager = traceStateViewsManager;
             _traceStatisticsViewsManager = traceStatisticsViewsManager;
             _reflectogramManager = reflectogramManager;
             _baseRefsAssignViewModel = baseRefsAssignViewModel;
+            _commonStatusBarViewModel = commonStatusBarViewModel;
         }
 
         public void UpdateTrace(object param)
@@ -100,19 +107,29 @@ namespace Iit.Fibertest.Client
             traceLeaf.C2DWcfManager.SendCommandAsObj(new DetachTrace() { TraceId = traceLeaf.Id });
         }
 
-        public void CleanTrace(object param)
+        public async void CleanTrace(object param)
         {
-            var traceLeaf = param as TraceLeaf;
-            if (traceLeaf == null)
+            if (!(param is TraceLeaf traceLeaf))
                 return;
 
-            traceLeaf.C2DWcfManager.SendCommandAsObj(new CleanTrace() { Id = traceLeaf.Id });
+            var message = $"Removal of trace {traceLeaf.Title}{Environment.NewLine}" +
+                          $"Will be removed all measurements for this trace!{Environment.NewLine}{Environment.NewLine}" +
+                          "Are you sure?";
+            var vm = new QuestionViewModel(message);
+            var result = _windowManager.ShowDialogWithAssignedOwner(vm);
+            if (result == true)
+            {
+                _commonStatusBarViewModel.StatusBarMessage2 = "Trace removal. Long operation.";
+                await traceLeaf.C2DWcfManager.SendCommandAsObj(new CleanTrace() { Id = traceLeaf.Id });
+                _commonStatusBarViewModel.StatusBarMessage2 = "";
+
+                // TODO event tables cleanup
+            }
         }
 
         public void RemoveTrace(object param)
         {
-            var traceLeaf = param as TraceLeaf;
-            if (traceLeaf == null)
+            if (!(param is TraceLeaf traceLeaf))
                 return;
 
             traceLeaf.C2DWcfManager.SendCommandAsObj(new RemoveTrace() { Id = traceLeaf.Id });
