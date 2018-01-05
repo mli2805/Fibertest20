@@ -17,7 +17,7 @@ namespace Iit.Fibertest.Client
         private readonly IWindowManager _windowManager;
 
         private Rtu _rtu;
-        private readonly Guid _traceId;
+        public Guid TraceId { get; set; }
         private List<Guid> _traceEquipments;
         private readonly List<Guid> _traceNodes;
         public string RtuTitle { get; set; }
@@ -92,7 +92,7 @@ namespace Iit.Fibertest.Client
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
-            _traceId = traceId;
+            TraceId = traceId;
             _traceEquipments = traceEquipments;
             _traceNodes = traceNodes;
 
@@ -108,7 +108,7 @@ namespace Iit.Fibertest.Client
             }
             else
             {          // trace editing
-                var trace = _readModel.Traces.First(t => t.Id == _traceId);
+                var trace = _readModel.Traces.First(t => t.Id == TraceId);
                 Title = trace.Title;
 
                 if (trace.Mode == TraceMode.Light)
@@ -177,7 +177,7 @@ namespace Iit.Fibertest.Client
         {
             var cmd = new UpdateTrace()
             {
-                Id = _traceId,
+                Id = TraceId,
                 Title = Title,
                 Mode = IsTraceModeLight ? TraceMode.Light : TraceMode.Dark,
                 Comment = Comment

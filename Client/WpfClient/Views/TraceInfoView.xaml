@@ -6,7 +6,8 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         mc:Ignorable="d"
-        Title="TraceInfoView" SizeToContent="Height" Width="300" WindowStartupLocation="CenterScreen">
+        Title="TraceInfoView" SizeToContent="Height" Width="300" WindowStartupLocation="CenterScreen"
+        d:DataContext="{d:DesignData TraceInfoViewModel}">
     <StackPanel>
         <GroupBox Header="{x:Static stringResources:Resources.SID_Information}" Margin="5">
             <StackPanel Margin="5">
@@ -15,6 +16,7 @@
                     <TextBox Margin="5" 
                              Text="{Binding Title, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 </DockPanel>
+                <TextBlock Margin="5" Text="{Binding TraceId}" HorizontalAlignment="Right" Foreground="DarkGray"/>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Margin="5" Text="RTU" />
                     <TextBlock Margin="5" Text="{Binding RtuTitle}" />
