@@ -46,7 +46,7 @@ namespace Iit.Fibertest.WcfConnections
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();
             if (wcfConnection == null)
-                return @"Cannot establish datacenter connection.";
+                return @"Cannot establish data-center connection.";
 
             try
             {
@@ -55,7 +55,7 @@ namespace Iit.Fibertest.WcfConnections
             catch (Exception e)
             {
                 _logFile.AppendLine(e.Message);
-                return @"Cannot send command to datacenter.";
+                return @"Cannot send command to data-center.";
             }
         }
 
@@ -163,7 +163,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public Task<byte[]> GetSorBytesOfMeasurement(int sorFileId)
+        public Task<byte[]> GetSorBytes(int sorFileId)
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();
             if (wcfConnection == null)
@@ -171,7 +171,7 @@ namespace Iit.Fibertest.WcfConnections
 
             try
             {
-                return wcfConnection.GetSorBytesOfMeasurement(sorFileId);
+                return wcfConnection.GetSorBytes(sorFileId);
             }
             catch (Exception e)
             {
@@ -197,7 +197,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public async Task<Measurement> GetLastMeasurementForTrace(Guid traceId)
+        public async Task<MeasurementWithSor> GetLastMeasurementForTrace(Guid traceId)
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();
             if (wcfConnection == null)

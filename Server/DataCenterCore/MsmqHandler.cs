@@ -80,21 +80,21 @@ namespace Iit.Fibertest.DataCenterCore
                 return;
 
             _logFile.AppendLine($@"MSMQ message received, RTU {monitoringResultDto.RtuId.First6()}, Trace {monitoringResultDto.PortWithTrace.TraceId.First6()} - {monitoringResultDto.TraceState} ({monitoringResultDto.BaseRefType})");
-            var measurement = await _monitoringResultsRepository.SaveMonitoringResultAsync(monitoringResultDto);
+            var measurementWithSor = await _monitoringResultsRepository.SaveMonitoringResultAsync(monitoringResultDto);
 
             // TODO snmp, email, sms
 
-            if (measurement != null)
-                await SendMoniresultToClients(measurement);
+            if (measurementWithSor != null)
+                await SendMoniresultToClients(measurementWithSor);
         }
 
-        private async Task<int> SendMoniresultToClients(Measurement measurement)
+        private async Task<int> SendMoniresultToClients(MeasurementWithSor measurementWithSor)
         {
             var addresses = await _clientStationsRepository.GetClientsAddresses();
             if (addresses == null)
                 return 0;
             _d2CWcfManager.SetClientsAddresses(addresses);
-            return await _d2CWcfManager.NotifyAboutMonitoringResult(measurement);
+            return await _d2CWcfManager.NotifyAboutMonitoringResult(measurementWithSor);
         }
     }
 }

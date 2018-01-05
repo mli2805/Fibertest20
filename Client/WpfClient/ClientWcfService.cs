@@ -35,17 +35,17 @@ namespace Iit.Fibertest.Client
             return Task.FromResult(0);
         }
 
-        public Task<int> NotifyAboutMonitoringResult(Measurement measurement)
+        public Task<int> NotifyAboutMonitoringResult(MeasurementWithSor measurementWithSor)
         {
-            _treeOfRtuModel.Apply(measurement);
-            _traceStateViewsManager.NotifyAboutMonitoringResult(measurement);
-            _traceStatisticsViewsManager.AddNewMeasurement(measurement);
-            _rtuStateViewsManager.NotifyUserMonitoringResult(measurement);
+            _treeOfRtuModel.Apply(measurementWithSor.Measurement);
+            _traceStateViewsManager.NotifyAboutMonitoringResult(measurementWithSor);
+            _traceStatisticsViewsManager.AddNewMeasurement(measurementWithSor.Measurement);
+            _rtuStateViewsManager.NotifyUserMonitoringResult(measurementWithSor.Measurement);
 
-            if (measurement.EventStatus > EventStatus.JustMeasurementNotAnEvent)
+            if (measurementWithSor.Measurement.EventStatus > EventStatus.JustMeasurementNotAnEvent)
             {
-                _opticalEventsDoubleViewModel.Apply(measurement);
-                _opticalEventsDoubleViewModel.ApplyToTableAll(measurement);
+                _opticalEventsDoubleViewModel.Apply(measurementWithSor.Measurement);
+                _opticalEventsDoubleViewModel.ApplyToTableAll(measurementWithSor.Measurement);
             }
 
             return Task.FromResult(0);

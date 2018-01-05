@@ -116,7 +116,7 @@ namespace Iit.Fibertest.Client
 
         private async Task<byte[]> GetSorBytes(int sorFileId)
         {
-            var sorbytes = await _c2DWcfManager.GetSorBytesOfMeasurement(sorFileId);
+            var sorbytes = await _c2DWcfManager.GetSorBytes(sorFileId);
             if (sorbytes == null)
             {
                 _logFile.AppendLine($@"Cannot get reflectogram for measurement {sorFileId}");

@@ -16,7 +16,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             _measurementFactory = measurementFactory;
         }
 
-        public async Task<Measurement> SaveMonitoringResultAsync(MonitoringResultDto result)
+        public async Task<MeasurementWithSor> SaveMonitoringResultAsync(MonitoringResultDto result)
         {
             try
             {
@@ -29,7 +29,7 @@ namespace Iit.Fibertest.DatabaseLibrary
                 var measurement = _measurementFactory.Create(result, sorFile.Id);
                 dbContext.Measurements.Add(measurement);
                 await dbContext.SaveChangesAsync();
-                return measurement;
+                return new MeasurementWithSor(){Measurement = measurement, SorData = result.SorData};
             }
             catch (Exception e)
             {

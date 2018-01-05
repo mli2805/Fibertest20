@@ -1,37 +1,24 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
-using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.Client
 {
     public class TraceStateModelFactory
     {
-        private readonly IMyLog _logFile;
         private readonly ReadModel _readModel;
-        private readonly C2DWcfManager _c2DWcfManager;
 
-        public TraceStateModelFactory(IMyLog logFile, ReadModel readModel, C2DWcfManager c2DWcfManager)
+        public TraceStateModelFactory(ReadModel readModel)
         {
-            _logFile = logFile;
             _readModel = readModel;
-            _c2DWcfManager = c2DWcfManager;
         }
 
         // TraceLeaf
-        public async Task<TraceStateModel> Create(Guid traceId)
-        {
-            Measurement measurement = await GetLastTraceMeasurement(traceId);
-            return CreateVm(measurement);
-        }
-
         // Trace statistics
-        // Server
-        public TraceStateModel CreateVm(Measurement measurement)
+        // Monitoring result notification
+        public TraceStateModel CreateModel(Measurement measurement, byte[] sorBytes)
         {
             var model = new TraceStateModel
             {
@@ -45,12 +32,12 @@ namespace Iit.Fibertest.Client
                 Comment = measurement.Comment
             };
             if (model.TraceState != FiberState.Ok)
-                model.Accidents = PrepareAccidents();
+                model.Accidents = PrepareAccidents(sorBytes);
             return model;
         }
 
         // Optical events
-        public TraceStateModel CreateVm(OpticalEventModel opticalEventModel)
+        public TraceStateModel CreateModel(OpticalEventModel opticalEventModel, byte[] sorBytes)
         {
             var model = new TraceStateModel
             {
@@ -64,13 +51,16 @@ namespace Iit.Fibertest.Client
                 Comment = opticalEventModel.Comment
             };
             if (model.TraceState != FiberState.Ok)
-                model.Accidents = PrepareAccidents();
+                model.Accidents = PrepareAccidents(sorBytes);
             return model;
         }
 
-        private List<AccidentLineModel> PrepareAccidents()
+        private List<AccidentLineModel> PrepareAccidents(byte[] sorBytes)
         {
-            return new List<AccidentLineModel>();
+            var lines = new List<AccidentLineModel>();
+            if (sorBytes != null)
+                lines.Add(new AccidentLineModel());
+            return lines;
         }
 
         private TraceStateModelHeader PrepareHeader(Guid traceId)
@@ -86,21 +76,6 @@ namespace Iit.Fibertest.Client
                 ? trace.OtauPort.OpticalPort.ToString()
                 : $@"{trace.OtauPort.OtauIp}:{trace.OtauPort.OtauTcpPort}-{trace.OtauPort.OpticalPort}";
             return result;
-        }
-
-        private  async Task<Measurement> GetLastTraceMeasurement(Guid traceId)
-        {
-            var measurement = await _c2DWcfManager.GetLastMeasurementForTrace(traceId);
-            if (measurement == null)
-            {
-                _logFile.AppendLine($@"Cannot get last measurement for trace {traceId.First6()}");
-                return null;
-            }
-            else
-            {
-                _logFile.AppendLine($@"Last measurement for trace {traceId.First6()} received");
-                return measurement;
-            }
         }
     }
 }

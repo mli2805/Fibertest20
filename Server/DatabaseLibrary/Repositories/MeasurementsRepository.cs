@@ -117,7 +117,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
         }
 
-        public async Task<byte[]> GetSorBytesOfMeasurementAsync(int sorFileId)
+        public async Task<byte[]> GetSorBytesAsync(int sorFileId)
         {
             try
             {
@@ -129,7 +129,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
             catch (Exception e)
             {
-                _logFile.AppendLine("GetSorBytesOfMeasurementAsync: " + e.Message);
+                _logFile.AppendLine("GetSorBytesAsync: " + e.Message);
                 return null;
             }
         }
@@ -156,14 +156,16 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
         }
 
-        public async Task<Measurement> GetLastMeasurementForTraceAsync(Guid traceId)
+        public async Task<MeasurementWithSor> GetLastMeasurementForTraceAsync(Guid traceId)
         {
             try
             {
                 using (var dbContext = new FtDbContext())
                 {
-                    return await dbContext.Measurements.OrderByDescending(m => m.Id).
+                    var measurement = await dbContext.Measurements.OrderByDescending(m => m.Id).
                                             Where(m => m.TraceId == traceId).FirstOrDefaultAsync();
+                    var sor = await dbContext.SorFiles.FirstOrDefaultAsync(s => s.Id == measurement.SorFileId);
+                    return new MeasurementWithSor(){Measurement = measurement, SorData = sor.SorBytes};
                 }
             }
             catch (Exception e)

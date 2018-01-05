@@ -34,13 +34,13 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
         Task<byte[]> GetSorBytesOfBase(Guid baseRefId);
 
         [OperationContract]
-        Task<byte[]> GetSorBytesOfMeasurement(int sorFileId);
+        Task<byte[]> GetSorBytes(int sorFileId);
 
         [OperationContract]
         Task<byte[]> GetSorBytesOfLastTraceMeasurement(Guid traceId);
 
         [OperationContract]
-        Task<Measurement> GetLastMeasurementForTrace(Guid traceId);
+        Task<MeasurementWithSor> GetLastMeasurementForTrace(Guid traceId);
 
         [OperationContract]
         Task<MeasurementUpdatedDto> SaveMeasurementChanges(UpdateMeasurementDto dto);

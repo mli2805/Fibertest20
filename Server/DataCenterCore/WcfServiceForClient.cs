@@ -105,9 +105,9 @@ namespace Iit.Fibertest.DataCenterCore
             return _measurementsRepository.GetSorBytesOfBaseAsync(baseRefId);
         }
 
-        public Task<byte[]> GetSorBytesOfMeasurement(int sorFileId)
+        public Task<byte[]> GetSorBytes(int sorFileId)
         {
-            return _measurementsRepository.GetSorBytesOfMeasurementAsync(sorFileId);
+            return _measurementsRepository.GetSorBytesAsync(sorFileId);
         }
 
         public async Task<byte[]> GetSorBytesOfLastTraceMeasurement(Guid traceId)
@@ -115,7 +115,7 @@ namespace Iit.Fibertest.DataCenterCore
             return await _measurementsRepository.GetSorBytesOfLastTraceMeasurementAsync(traceId);
         }
 
-        public async Task<Measurement> GetLastMeasurementForTrace(Guid traceId)
+        public async Task<MeasurementWithSor> GetLastMeasurementForTrace(Guid traceId)
         {
             return await _measurementsRepository.GetLastMeasurementForTraceAsync(traceId);
         }
@@ -144,13 +144,13 @@ namespace Iit.Fibertest.DataCenterCore
 
         public  Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)
         {
-            _logFile.AppendLine($"Client {dto.ClientId.First6()} check rtu {dto.NetAddress.ToStringA()} connection");
+            _logFile.AppendLine($"Client {dto.ClientId.First6()} check RTU {dto.NetAddress.ToStringA()} connection");
             return Task.FromResult(_clientToRtuTransmitter.CheckRtuConnection(dto));
         }
 
         public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
-            _logFile.AppendLine($"Client {dto.ClientId.First6()} sent initialize rtu {dto.RtuId.First6()} request");
+            _logFile.AppendLine($"Client {dto.ClientId.First6()} sent initialize RTU {dto.RtuId.First6()} request");
             var result = await _clientToRtuTransmitter.InitializeAsync(dto);
             var message = result.IsInitialized
                 ? "RTU initialized successfully, monitoring mode is " + (result.IsMonitoringOn ? "AUTO" : "MANUAL")
@@ -161,18 +161,18 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto)
         {
-            _logFile.AppendLine($"Client {dto.ClientId.First6()} sent attach otau {dto.OtauId.First6()} request");
+            _logFile.AppendLine($"Client {dto.ClientId.First6()} sent attach OTAU {dto.OtauId.First6()} request");
             var result = await _clientToRtuTransmitter.AttachOtauAsync(dto);
-            var message = result.IsAttached ? "Otau attached successfully" : "Failed to attach otau";
+            var message = result.IsAttached ? "OTAU attached successfully" : "Failed to attach OTAU";
             _logFile.AppendLine(message);
             return result;
         }
 
         public  async Task<OtauDetachedDto> DetachOtauAsync(DetachOtauDto dto)
         {
-            _logFile.AppendLine($"Client {dto.ClientId.First6()} sent detach otau {dto.OtauId.First6()} request");
+            _logFile.AppendLine($"Client {dto.ClientId.First6()} sent detach OTAU {dto.OtauId.First6()} request");
             var result = await _clientToRtuTransmitter.DetachOtauAsync(dto);
-            var message = result.IsDetached ? "Otau detached successfully" : "Failed to detach otau";
+            var message = result.IsDetached ? "OTAU detached successfully" : "Failed to detach OTAU";
             _logFile.AppendLine(message);
             return result;
         }
@@ -180,7 +180,7 @@ namespace Iit.Fibertest.DataCenterCore
     
         public async Task<bool> StopMonitoringAsync(StopMonitoringDto dto)
         {
-            _logFile.AppendLine($"Client {dto.ClientId.First6()} sent stop monitoring on rtu {dto.RtuId.First6()} request");
+            _logFile.AppendLine($"Client {dto.ClientId.First6()} sent stop monitoring on RTU {dto.RtuId.First6()} request");
             var result = await _clientToRtuTransmitter.StopMonitoringAsync(dto);
             _logFile.AppendLine($"Stop monitoring result is {result}");
             return result;
@@ -188,7 +188,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
         {
-            _logFile.AppendLine($"Client {dto.ClientId.First6()} sent monitoring settings for rtu {dto.RtuId.First6()}");
+            _logFile.AppendLine($"Client {dto.ClientId.First6()} sent monitoring settings for RTU {dto.RtuId.First6()}");
             var result = await _clientToRtuTransmitter.ApplyMonitoringSettingsAsync(dto);
             _logFile.AppendLine($"Apply monitoring settings result is {result.ReturnCode}");
             return result;
