@@ -219,5 +219,14 @@ namespace Iit.Fibertest.Client
             Rows.Add(opticalEventModel);
             SelectedRow = opticalEventModel;
         }
+
+        public void RemoveEventsOfTrace(Guid traceId)
+        {
+            for (var i = Rows.Count - 1; i >= 0; i--)
+            {
+                if (Rows[i].TraceId == traceId)
+                    Rows.RemoveAt(i);
+            }
+        }
     }
 }

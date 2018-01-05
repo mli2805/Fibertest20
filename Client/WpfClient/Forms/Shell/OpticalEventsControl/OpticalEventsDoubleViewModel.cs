@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -61,6 +62,12 @@ namespace Iit.Fibertest.Client
         {
             ActualOpticalEventsViewModel.ApplyUsersChanges(dto);
             AllOpticalEventsViewModel.ApplyUsersChanges(dto);
+        }
+
+        public void RemoveEventsOfTrace(Guid traceId)
+        {
+            ActualOpticalEventsViewModel.RemoveEventsOfTrace(traceId);
+            AllOpticalEventsViewModel.RemoveEventsOfTrace(traceId);
         }
     }
 }

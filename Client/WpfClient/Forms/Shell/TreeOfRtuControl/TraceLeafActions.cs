@@ -15,11 +15,13 @@ namespace Iit.Fibertest.Client
         private readonly TraceStatisticsViewsManager _traceStatisticsViewsManager;
         private readonly ReflectogramManager _reflectogramManager;
         private readonly BaseRefsAssignViewModel _baseRefsAssignViewModel;
+        private readonly OpticalEventsDoubleViewModel _opticalEventsDoubleViewModel;
         private readonly CommonStatusBarViewModel _commonStatusBarViewModel;
 
         public TraceLeafActions(IniFile iniFile, IMyLog logFile, IWindowManager windowManager,
             TraceStateViewsManager traceStateViewsManager, TraceStatisticsViewsManager traceStatisticsViewsManager,
              ReflectogramManager reflectogramManager, BaseRefsAssignViewModel baseRefsAssignViewModel,
+            OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
             CommonStatusBarViewModel commonStatusBarViewModel)
         {
             _iniFile = iniFile;
@@ -29,6 +31,7 @@ namespace Iit.Fibertest.Client
             _traceStatisticsViewsManager = traceStatisticsViewsManager;
             _reflectogramManager = reflectogramManager;
             _baseRefsAssignViewModel = baseRefsAssignViewModel;
+            _opticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
             _commonStatusBarViewModel = commonStatusBarViewModel;
         }
 
@@ -109,33 +112,39 @@ namespace Iit.Fibertest.Client
 
         public async void CleanTrace(object param)
         {
+            DoCleanOrRemoveTrace(param, false);
+        }
+
+        public void RemoveTrace(object param)
+        {
+           DoCleanOrRemoveTrace(param, true);
+        }
+
+        private async void DoCleanOrRemoveTrace(object param, bool isRemoval)
+        {
             if (!(param is TraceLeaf traceLeaf))
                 return;
+            var traceId = traceLeaf.Id;
 
-            var message = $"Removal of trace {traceLeaf.Title}{Environment.NewLine}" +
-                          $"Will be removed all measurements for this trace!{Environment.NewLine}{Environment.NewLine}" +
+            var message = $"Attention!{Environment.NewLine}" +
+                          $"All measurements for trace{Environment.NewLine}" +
+                          $"{traceLeaf.Title}{Environment.NewLine}{Environment.NewLine}" +
+                          $"will be removed{Environment.NewLine}{Environment.NewLine}" +
                           "Are you sure?";
             var vm = new QuestionViewModel(message);
             _windowManager.ShowDialogWithAssignedOwner(vm);
             if (vm.IsAnswerPositive)
             {
-//                using (new WaitCursor())
-//                {
-                    _commonStatusBarViewModel.StatusBarMessage2 = "Trace removal. Long operation.";
-                    var result = await traceLeaf.C2DWcfManager.SendCommandAsObj(new CleanTrace() { Id = traceLeaf.Id });
-                    _commonStatusBarViewModel.StatusBarMessage2 = result ?? "";
-//                }
+                //                using (new WaitCursor())
+                //                {
+                _commonStatusBarViewModel.StatusBarMessage2 = "Long operation: Removing trace measurements... Please wait.";
+                var cmd = isRemoval ? new RemoveTrace() {Id = traceId} : (object)new CleanTrace() {Id = traceId};
+                var result = await traceLeaf.C2DWcfManager.SendCommandAsObj(cmd);
+                _commonStatusBarViewModel.StatusBarMessage2 = result ?? "";
+                //                }
 
-                // TODO event tables cleanup
+                _opticalEventsDoubleViewModel.RemoveEventsOfTrace(traceId);
             }
-        }
-
-        public void RemoveTrace(object param)
-        {
-            if (!(param is TraceLeaf traceLeaf))
-                return;
-
-            traceLeaf.C2DWcfManager.SendCommandAsObj(new RemoveTrace() { Id = traceLeaf.Id });
         }
         public void DoPreciseMeasurementOutOfTurn(object param) { }
 
