@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
 	<!-- 
     Microsoft ResX Schema 
@@ -1531,5 +1531,23 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID__0__base__1__2_" xml:space="preserve">
     <value>{0} base:{1}{2}</value>
+  </data>
+	<data name="SID_Confirmation" xml:space="preserve">
+    <value>Confirmation</value>
+  </data>
+	<data name="SID_Long_operation__Removing_trace_s_measurements____Please_wait_" xml:space="preserve">
+    <value>Long operation: Removing trace's measurements... Please wait.</value>
+  </data>
+	<data name="SID_Attention_" xml:space="preserve">
+    <value>Attention!</value>
+  </data>
+	<data name="SID_All_measurements_for_trace" xml:space="preserve">
+    <value>All measurements for trace</value>
+  </data>
+	<data name="SID_will_be_removed" xml:space="preserve">
+    <value>will be removed!</value>
+  </data>
+	<data name="SID_Are_you_sure_" xml:space="preserve">
+    <value>Are you sure?</value>
   </data>
 </root>

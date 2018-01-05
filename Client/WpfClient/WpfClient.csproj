@@ -270,6 +270,11 @@
     <Compile Include="Logic\SoundManager.cs" />
     <Compile Include="ReadModel\GpsCalculator.cs" />
     <Compile Include="ReadModel\GraphGpsCalculator.cs" />
+    <Compile Include="Forms\UniversalForms\Confirmation\ConfirmaionLineModel.cs" />
+    <Compile Include="Forms\UniversalForms\Confirmation\ConfirmationView.xaml.cs">
+      <DependentUpon>ConfirmationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UniversalForms\Confirmation\ConfirmationViewModel.cs" />
     <Compile Include="WindowManagerExt.cs" />
     <Compile Include="ViewModels\Primitive\EventStatusComboItem.cs" />
     <Compile Include="Forms\TraceState\TraceStateView.xaml.cs">
@@ -668,6 +673,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\Shell\TreeOfRtuControl\TreeOfRtuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\UniversalForms\Confirmation\ConfirmationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

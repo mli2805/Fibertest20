@@ -1,7 +1,10 @@
-using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Client
@@ -112,32 +115,29 @@ namespace Iit.Fibertest.Client
 
         public async void CleanTrace(object param)
         {
-            DoCleanOrRemoveTrace(param, false);
+            await DoCleanOrRemoveTrace(param, false);
         }
 
-        public void RemoveTrace(object param)
+        public async void RemoveTrace(object param)
         {
-           DoCleanOrRemoveTrace(param, true);
+           await DoCleanOrRemoveTrace(param, true);
         }
 
-        private async void DoCleanOrRemoveTrace(object param, bool isRemoval)
+        private async Task DoCleanOrRemoveTrace(object param, bool isRemoval)
         {
             if (!(param is TraceLeaf traceLeaf))
                 return;
             var traceId = traceLeaf.Id;
 
-            var message = $"Attention!{Environment.NewLine}" +
-                          $"All measurements for trace{Environment.NewLine}" +
-                          $"{traceLeaf.Title}{Environment.NewLine}{Environment.NewLine}" +
-                          $"will be removed{Environment.NewLine}{Environment.NewLine}" +
-                          "Are you sure?";
-            var vm = new QuestionViewModel(message);
+            var question = AssembleTraceRemovalConfirmation(traceLeaf.Title);
+            var vm = new ConfirmationViewModel(Resources.SID_Confirmation, question);
             _windowManager.ShowDialogWithAssignedOwner(vm);
+
             if (vm.IsAnswerPositive)
             {
                 //                using (new WaitCursor())
                 //                {
-                _commonStatusBarViewModel.StatusBarMessage2 = "Long operation: Removing trace measurements... Please wait.";
+                _commonStatusBarViewModel.StatusBarMessage2 = Resources.SID_Long_operation__Removing_trace_s_measurements____Please_wait_;
                 var cmd = isRemoval ? new RemoveTrace() {Id = traceId} : (object)new CleanTrace() {Id = traceId};
                 var result = await traceLeaf.C2DWcfManager.SendCommandAsObj(cmd);
                 _commonStatusBarViewModel.StatusBarMessage2 = result ?? "";
@@ -146,6 +146,23 @@ namespace Iit.Fibertest.Client
                 _opticalEventsDoubleViewModel.RemoveEventsOfTrace(traceId);
             }
         }
+
+        private static List<ConfirmaionLineModel> AssembleTraceRemovalConfirmation(string traceTitle)
+        {
+            var list = new List<ConfirmaionLineModel>
+            {
+                new ConfirmaionLineModel() {Line = Resources.SID_Attention_},
+                new ConfirmaionLineModel() {Line = Resources.SID_All_measurements_for_trace},
+                new ConfirmaionLineModel() {Line = ""},
+                new ConfirmaionLineModel() {Line = $@"{traceTitle}", FontWeight = FontWeights.Bold},
+                new ConfirmaionLineModel() {Line = ""},
+                new ConfirmaionLineModel() {Line = Resources.SID_will_be_removed},
+                new ConfirmaionLineModel() {Line = ""},
+                new ConfirmaionLineModel() {Line = Resources.SID_Are_you_sure_},
+            };
+            return list;
+        }
+
         public void DoPreciseMeasurementOutOfTurn(object param) { }
 
         public void DoRftsReflectMeasurement(object param) { }

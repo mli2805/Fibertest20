@@ -431,6 +431,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All measurements for trace.
+        /// </summary>
+        public static string SID_All_measurements_for_trace {
+            get {
+                return ResourceManager.GetString("SID_All_measurements_for_trace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All network events.
         /// </summary>
         public static string SID_All_network_events {
@@ -463,6 +472,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Apply {
             get {
                 return ResourceManager.GetString("SID_Apply", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure?.
+        /// </summary>
+        public static string SID_Are_you_sure_ {
+            get {
+                return ResourceManager.GetString("SID_Are_you_sure_", resourceCulture);
             }
         }
         
@@ -535,6 +553,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Attachment {
             get {
                 return ResourceManager.GetString("SID_Attachment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attention!.
+        /// </summary>
+        public static string SID_Attention_ {
+            get {
+                return ResourceManager.GetString("SID_Attention_", resourceCulture);
             }
         }
         
@@ -1030,6 +1057,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Comparison_end__ {
             get {
                 return ResourceManager.GetString("SID_Comparison_end__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirmation.
+        /// </summary>
+        public static string SID_Confirmation {
+            get {
+                return ResourceManager.GetString("SID_Confirmation", resourceCulture);
             }
         }
         
@@ -2111,6 +2147,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Login {
             get {
                 return ResourceManager.GetString("SID_Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Long operation: Removing trace&apos;s measurements... Please wait..
+        /// </summary>
+        public static string SID_Long_operation__Removing_trace_s_measurements____Please_wait_ {
+            get {
+                return ResourceManager.GetString("SID_Long_operation__Removing_trace_s_measurements____Please_wait_", resourceCulture);
             }
         }
         
@@ -4255,6 +4300,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Well {
             get {
                 return ResourceManager.GetString("SID_Well", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to will be removed.
+        /// </summary>
+        public static string SID_will_be_removed {
+            get {
+                return ResourceManager.GetString("SID_will_be_removed", resourceCulture);
             }
         }
         
