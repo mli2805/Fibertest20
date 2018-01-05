@@ -116,12 +116,15 @@ namespace Iit.Fibertest.Client
                           $"Will be removed all measurements for this trace!{Environment.NewLine}{Environment.NewLine}" +
                           "Are you sure?";
             var vm = new QuestionViewModel(message);
-            var result = _windowManager.ShowDialogWithAssignedOwner(vm);
-            if (result == true)
+            _windowManager.ShowDialogWithAssignedOwner(vm);
+            if (vm.IsAnswerPositive)
             {
-                _commonStatusBarViewModel.StatusBarMessage2 = "Trace removal. Long operation.";
-                await traceLeaf.C2DWcfManager.SendCommandAsObj(new CleanTrace() { Id = traceLeaf.Id });
-                _commonStatusBarViewModel.StatusBarMessage2 = "";
+//                using (new WaitCursor())
+//                {
+                    _commonStatusBarViewModel.StatusBarMessage2 = "Trace removal. Long operation.";
+                    var result = await traceLeaf.C2DWcfManager.SendCommandAsObj(new CleanTrace() { Id = traceLeaf.Id });
+                    _commonStatusBarViewModel.StatusBarMessage2 = result ?? "";
+//                }
 
                 // TODO event tables cleanup
             }

@@ -109,7 +109,7 @@ namespace Graph.Tests
         {
             var vm = model as QuestionViewModel;
             if (vm == null) return false;
-            if (vm.QuestionMessage != question) return false;
+            if (vm.QuestionMessage != question && question != @"never mind") return false;
             if (answer == Answer.Yes)
                 vm.OkButton();
             else

@@ -30,7 +30,7 @@ namespace Iit.Fibertest.DatabaseLibrary
                 dbContext.Measurements.RemoveRange(measurementsList);
 
                 await dbContext.SaveChangesAsync();
-                return "";
+                return null;
             }
             catch (Exception e)
             {
