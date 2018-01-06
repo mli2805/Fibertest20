@@ -90,6 +90,11 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<TraceLeafActionsPermissions>().SingleInstance();
             builder.RegisterType<TraceLeafContextMenuProvider>().SingleInstance();
 
+            builder.RegisterType<PortLeafActions>().SingleInstance();
+            builder.RegisterType<PortLeafContextMenuProvider>().SingleInstance();
+
+            builder.RegisterType<CommonActions>().SingleInstance();
+
             builder.RegisterType<SoundManager>().SingleInstance();
             builder.RegisterType<RtuFilterViewModel>().SingleInstance();
 

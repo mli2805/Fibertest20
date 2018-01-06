@@ -262,6 +262,8 @@
     <Compile Include="Forms\Shell\OpticalEventsControl\OpticalEventModel.cs" />
     <Compile Include="Forms\Shell\OpticalEventsControl\Filters\RtuGuidFilter.cs" />
     <Compile Include="Forms\Shell\OpticalEventsControl\Filters\TraceStateFilter.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\PortLeaf\PortLeafActions.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\PortLeaf\PortLeafContextMenuProvider.cs" />
     <Compile Include="Forms\TraceState\AccidentLineModel.cs" />
     <Compile Include="Forms\TraceState\TraceStateModelFactory.cs" />
     <Compile Include="Forms\TraceStatistics\TraceStatisticsViewsManager.cs" />
@@ -391,8 +393,8 @@
     <Compile Include="Views\TraceToAttachView.xaml.cs">
       <DependentUpon>TraceToAttachView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Shell\TreeOfRtuControl\PortExtensions.cs" />
-    <Compile Include="Forms\Shell\TreeOfRtuControl\PortLeaf.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\CommonActions.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\PortLeaf\PortLeaf.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\TreeOfRtuModel.cs" />
     <Compile Include="Requests\RequestAddEquipmentIntoNode.cs" />
     <Compile Include="Requests\RequestAddFiberWithNodes.cs" />

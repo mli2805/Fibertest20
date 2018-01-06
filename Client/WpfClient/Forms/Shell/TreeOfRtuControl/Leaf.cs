@@ -6,7 +6,7 @@ using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
 {
-    public class Leaf : PropertyChangedBase
+   public class Leaf : PropertyChangedBase
     {
         public readonly ReadModel ReadModel;
         public readonly IWindowManager WindowManager;
@@ -16,7 +16,7 @@ namespace Iit.Fibertest.Client
         private string _title;
         public string Title
         {
-            get { return _title; }
+            get => _title;
             set
             {
                 if (value == _title) return;
@@ -30,7 +30,7 @@ namespace Iit.Fibertest.Client
 
         public Brush Color
         {
-            get { return _color; }
+            get => _color;
             set
             {
                 if (Equals(value, _color)) return;
@@ -44,8 +44,8 @@ namespace Iit.Fibertest.Client
         private PostOffice _postOffice;
         public PostOffice PostOffice
         {
-            get { return _postOffice; }
-            set
+            get => _postOffice;
+            private set
             {
                 if (Equals(value, _postOffice)) return;
                 _postOffice = value;
@@ -56,7 +56,6 @@ namespace Iit.Fibertest.Client
         public List<MenuItemVm> MyContextMenu => GetMenuItems();
 
         protected virtual List<MenuItemVm> GetMenuItems() { return null; }
-        protected bool CanSomeAction(object param) { return true; }
 
         public Leaf Parent { get; set; }
 

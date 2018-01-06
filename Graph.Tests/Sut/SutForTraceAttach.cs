@@ -66,7 +66,7 @@ namespace Graph.Tests
         {
             var portLeaf = (PortLeaf)rtuLeaf.ChildrenImpresario.Children[port - 1];
             FakeWindowManager.RegisterHandler(model => OtauToAttachHandler(model, rtuLeaf.Id, port, Answer.Yes));
-            portLeaf.AttachOtauAction(null);
+            PortLeafActions.AttachOtauAction(portLeaf);
             Poller.EventSourcingTick().Wait();
             return (OtauLeaf)rtuLeaf.ChildrenImpresario.Children[port - 1];
         }
@@ -124,7 +124,7 @@ namespace Graph.Tests
 
             var portLeaf = (PortLeaf)(owner.ChildrenImpresario.Children[port - 1]);
 
-            portLeaf.AttachFromListAction(null);
+            PortLeafActions.AttachFromListAction(portLeaf);
             Poller.EventSourcingTick().Wait();
         }
 

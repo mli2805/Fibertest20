@@ -8,4 +8,9 @@ namespace Iit.Fibertest.Client
         ChildrenImpresario ChildrenImpresario { get; }
         NetAddress OtauNetAddress { get; set; }
     }
+
+    public interface IPortNumber
+    {
+        int PortNumber { get; set; }
+    }
 }

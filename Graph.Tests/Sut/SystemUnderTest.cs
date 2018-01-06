@@ -24,6 +24,8 @@ namespace Graph.Tests
         public WcfServiceForClient WcfServiceForClient { get; }
         public RtuLeafActions RtuLeafActions { get; }
         public TraceLeafActions TraceLeafActions { get; }
+        public PortLeafActions PortLeafActions { get; }
+        public CommonActions CommonActions { get; }
         public ShellViewModel ShellVm { get; }
         public int CurrentEventNumber => Poller.CurrentEventNumber;
         public const string Path = @"..\..\Sut\base.sor";
@@ -67,6 +69,8 @@ namespace Graph.Tests
             ReadModel = ShellVm.ReadModel;
             RtuLeafActions = container.Resolve<RtuLeafActions>();
             TraceLeafActions = container.Resolve<TraceLeafActions>();
+            PortLeafActions = container.Resolve<PortLeafActions>();
+            CommonActions = container.Resolve<CommonActions>();
 
             var ev = container.Resolve<EventStoreService>();
             ev.Init();

@@ -18,6 +18,7 @@ namespace Iit.Fibertest.Client
 
         public bool CanShowTrace(object param) { return true; }
 
+        // if trace attached to port and RTU is not available now - it is prohibited to assign base - you can't send base to RTU
         public bool CanAssignBaseRefsAction(object param)
         {
             if (_currentUser.Role > Role.Root)
@@ -64,16 +65,6 @@ namespace Iit.Fibertest.Client
         }
 
         public bool CanDoPreciseMeasurementOutOfTurn(object param)
-        {
-            return _currentUser.Role <= Role.Operator;
-        }
-
-        public bool CanDoMeasurementClient(object param)
-        {
-            return _currentUser.Role <= Role.Operator;
-        }
-
-        public bool CanDoRftsReflectMeasurement(object param)
         {
             return _currentUser.Role <= Role.Operator;
         }

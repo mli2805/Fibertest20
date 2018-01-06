@@ -10,7 +10,7 @@ using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
 {
-    public class TraceLeaf : Leaf
+    public class TraceLeaf : Leaf, IPortNumber
     {
         private int _portNumber;
         public int PortNumber

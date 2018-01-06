@@ -13,7 +13,7 @@
         <client:MainMenuView DockPanel.Dock="Top" DataContext="{Binding MainMenuViewModel}"/>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="400" MinWidth="80"/>
+                <ColumnDefinition Width="420" MinWidth="80"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>

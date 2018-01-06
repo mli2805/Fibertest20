@@ -51,7 +51,6 @@ namespace Iit.Fibertest.Client
         {
         }
 
-        // if trace attached to port and RTU is not available now - it is prohibited to assign base - you can't send base to RTU
         public void AssignBaseRefs(object param)
         {
             if (!(param is TraceLeaf traceLeaf))
@@ -158,8 +157,5 @@ namespace Iit.Fibertest.Client
         }
 
         public void DoPreciseMeasurementOutOfTurn(object param) { }
-
-        public void DoRftsReflectMeasurement(object param) { }
-
     }
 }

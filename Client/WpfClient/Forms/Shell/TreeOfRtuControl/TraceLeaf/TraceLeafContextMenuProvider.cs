@@ -7,11 +7,14 @@ namespace Iit.Fibertest.Client
     {
         private readonly TraceLeafActions _traceLeafActions;
         private readonly TraceLeafActionsPermissions _traceLeafActionsPermissions;
+        private readonly CommonActions _commonActions;
 
-        public TraceLeafContextMenuProvider(TraceLeafActions traceLeafActions, TraceLeafActionsPermissions traceLeafActionsPermissions)
+        public TraceLeafContextMenuProvider(TraceLeafActions traceLeafActions, 
+            TraceLeafActionsPermissions traceLeafActionsPermissions, CommonActions commonActions)
         {
             _traceLeafActions = traceLeafActions;
             _traceLeafActionsPermissions = traceLeafActionsPermissions;
+            _commonActions = commonActions;
         }
 
         public List<MenuItemVm> GetMenu(TraceLeaf traceLeaf)
@@ -108,14 +111,14 @@ namespace Iit.Fibertest.Client
                 menu.Add(new MenuItemVm()
                 {
                     Header = Resources.SID_Measurement__Client_,
-                    Command = new ContextMenuAction(new PortExtensions().MeasurementClientAction, _traceLeafActionsPermissions.CanDoMeasurementClient),
+                    Command = new ContextMenuAction(_commonActions.MeasurementClientAction, _commonActions.CanMeasurementClientAction),
                     CommandParameter = traceLeaf
                 });
 
                 menu.Add(new MenuItemVm()
                 {
                     Header = Resources.SID_Measurement__RFTS_Reflect_,
-                    Command = new ContextMenuAction(_traceLeafActions.DoRftsReflectMeasurement, _traceLeafActionsPermissions.CanDoRftsReflectMeasurement),
+                    Command = new ContextMenuAction(_commonActions.MeasurementRftsReflectAction, _commonActions.CanMeasurementRftsReflectAction),
                     CommandParameter = traceLeaf,
                 });
             }
