@@ -299,12 +299,12 @@
     <Compile Include="Logic\ReturnCodeExt.cs" />
     <Compile Include="Forms\TraceState\TraceStateViewsManager.cs" />
     <Compile Include="Logic\WaitCursor.cs" />
-    <Compile Include="Forms\Shell\TreeOfRtuControl\RtuLeafActions.cs" />
-    <Compile Include="Forms\Shell\TreeOfRtuControl\RtuLeafActionsPermissions.cs" />
-    <Compile Include="Forms\Shell\TreeOfRtuControl\RtuLeafContextMenuProvider.cs" />
-    <Compile Include="Forms\Shell\TreeOfRtuControl\TraceLeafActions.cs" />
-    <Compile Include="Forms\Shell\TreeOfRtuControl\TraceLeafActionsPermissions.cs" />
-    <Compile Include="Forms\Shell\TreeOfRtuControl\TraceLeafContextMenuProvider.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\RtuLeaf\RtuLeafActions.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\RtuLeaf\RtuLeafActionsPermissions.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\RtuLeaf\RtuLeafContextMenuProvider.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\TraceLeaf\TraceLeafActions.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\TraceLeaf\TraceLeafActionsPermissions.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\TraceLeaf\TraceLeafContextMenuProvider.cs" />
     <Compile Include="ViewModels\Administrative\PasswordHelper.cs" />
     <Compile Include="ViewModels\Administrative\UserMappings.cs" />
     <Compile Include="ReadModel\VerboseTasks.cs" />
@@ -506,8 +506,8 @@
     <Compile Include="GraphModel\RtuVm.cs" />
     <Compile Include="GraphModel\TraceVm.cs" />
     <Compile Include="ViewModels\Primitive\MenuItemVm.cs" />
-    <Compile Include="Forms\Shell\TreeOfRtuControl\RtuLeaf.cs" />
-    <Compile Include="Forms\Shell\TreeOfRtuControl\TraceLeaf.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\RtuLeaf\RtuLeaf.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\TraceLeaf\TraceLeaf.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\TreeExtensions.cs" />
     <Compile Include="Views\Administrative\UserListView.xaml.cs">
       <DependentUpon>UserListView.xaml</DependentUpon>

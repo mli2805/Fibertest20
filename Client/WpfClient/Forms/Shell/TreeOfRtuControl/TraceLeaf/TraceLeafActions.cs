@@ -40,15 +40,14 @@ namespace Iit.Fibertest.Client
 
         public void UpdateTrace(object param)
         {
-            var traceLeaf = param as TraceLeaf;
-            if (traceLeaf == null)
+            if (!(param is TraceLeaf traceLeaf))
                 return;
 
             var vm = new TraceInfoViewModel(traceLeaf.ReadModel, traceLeaf.C2DWcfManager, traceLeaf.WindowManager, traceLeaf.Id);
             traceLeaf.WindowManager.ShowWindowWithAssignedOwner(vm);
         }
 
-        public void ShowTrace(object param)
+        public void ShowTrace(object param) 
         {
         }
 
@@ -68,8 +67,7 @@ namespace Iit.Fibertest.Client
 
         public void ShowTraceState(object param)
         {
-            var traceLeaf = param as TraceLeaf;
-            if (traceLeaf == null)
+            if (!(param is TraceLeaf traceLeaf))
                 return;
 
             _traceStateViewsManager.ShowTraceState(traceLeaf.Id);
@@ -77,8 +75,7 @@ namespace Iit.Fibertest.Client
 
         public void ShowTraceStatistics(object param)
         {
-            var traceLeaf = param as TraceLeaf;
-            if (traceLeaf == null)
+            if (!(param is TraceLeaf traceLeaf))
                 return;
 
             _traceStatisticsViewsManager.Show(traceLeaf.Id);
@@ -86,8 +83,7 @@ namespace Iit.Fibertest.Client
 
         public void ShowTraceEvents(object param)
         {
-            var traceLeaf = param as TraceLeaf;
-            if (traceLeaf == null)
+            if (!(param is TraceLeaf traceLeaf))
                 return;
 
             _reflectogramManager.ShowRftsEventsOfLastTraceMeasurement(traceLeaf.Id);
@@ -95,8 +91,7 @@ namespace Iit.Fibertest.Client
 
         public void ShowTraceLandmarks(object param)
         {
-            var traceLeaf = param as TraceLeaf;
-            if (traceLeaf == null)
+            if (!(param is TraceLeaf traceLeaf))
                 return;
 
             var vm = new LandmarksViewModel(traceLeaf.ReadModel, traceLeaf.WindowManager);
@@ -106,8 +101,7 @@ namespace Iit.Fibertest.Client
 
         public void DetachTrace(object param)
         {
-            var traceLeaf = param as TraceLeaf;
-            if (traceLeaf == null)
+            if (!(param is TraceLeaf traceLeaf))
                 return;
 
             traceLeaf.C2DWcfManager.SendCommandAsObj(new DetachTrace() { TraceId = traceLeaf.Id });
