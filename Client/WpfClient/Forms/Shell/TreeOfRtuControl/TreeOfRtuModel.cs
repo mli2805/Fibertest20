@@ -25,15 +25,10 @@ namespace Iit.Fibertest.Client
         public ObservableCollection<Leaf> Tree { get; set; } = new ObservableCollection<Leaf>();
         public FreePorts FreePorts { get; }
 
-        public string Statistics
-        {
-            get
-            {
-                return string.Format(Resources.SID_Tree_statistics, Tree.Count,
-                    Tree.Sum(r => ((RtuLeaf)r).ChildrenImpresario.Children.Count(c => c is OtauLeaf)),
-                    Tree.PortCount(), Tree.TraceCount(), (double)Tree.TraceCount() / Tree.PortCount() * 100);
-            }
-        }
+        public string Statistics => 
+            string.Format(Resources.SID_Tree_statistics, Tree.Count,
+                Tree.Sum(r => ((RtuLeaf)r).ChildrenImpresario.Children.Count(c => c is OtauLeaf)),
+                Tree.PortCount(), Tree.TraceCount(), (double)Tree.TraceCount() / Tree.PortCount() * 100);
 
         public TreeOfRtuModel(IWindowManager windowManager, ReadModel readModel,
             IWcfServiceForClient c2DWcfManager,

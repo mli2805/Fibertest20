@@ -7,7 +7,7 @@ namespace Iit.Fibertest.Client
         private bool _areVisible;
         public bool AreVisible
         {
-            get { return _areVisible; }
+            get => _areVisible;
             set
             {
                 if (value == _areVisible) return;

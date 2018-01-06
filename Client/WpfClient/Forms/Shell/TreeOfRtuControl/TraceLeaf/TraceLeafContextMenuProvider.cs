@@ -97,6 +97,7 @@ namespace Iit.Fibertest.Client
                     CommandParameter = traceLeaf
                 });
             }
+
             if (traceLeaf.PortNumber > 0)
             {
                 menu.Add(null);
