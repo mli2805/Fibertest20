@@ -27,7 +27,7 @@ namespace Iit.Fibertest.Client
         private PostOffice _postOffice;
         public PostOffice PostOffice
         {
-            get { return _postOffice; }
+            get => _postOffice;
             set
             {
                 if (Equals(value, _postOffice)) return;
@@ -67,7 +67,7 @@ namespace Iit.Fibertest.Client
             FreePorts.AreVisible = true;
         }
 
-        #region Rtu
+        #region RTU
         public void Apply(RtuAtGpsLocationAdded e)
         {
             var newRtuLeaf = new RtuLeaf(_globalScope, _readModel, _windowManager,
@@ -85,17 +85,14 @@ namespace Iit.Fibertest.Client
         public void Apply(RtuRemoved e)
         {
             var rtu = Tree.GetById(e.Id);
-            RemoveWithChildren(rtu);
+            RemoveWithAdditionalOtaus(rtu);
         }
 
-        private void RemoveWithChildren(Leaf leaf)
+        private void RemoveWithAdditionalOtaus(Leaf leaf)
         {
-            IPortOwner owner = leaf as IPortOwner;
-            if (owner != null)
+            if (leaf is IPortOwner owner)
                 foreach (var child in owner.ChildrenImpresario.Children)
-                {
-                    RemoveWithChildren(child);
-                }
+                    RemoveWithAdditionalOtaus(child);
             Tree.Remove(leaf);
         }
 
@@ -332,15 +329,13 @@ namespace Iit.Fibertest.Client
         {
             foreach (var leaf in portOwner.ChildrenImpresario.Children)
             {
-                var traceLeaf = leaf as TraceLeaf;
-                if (traceLeaf != null)
+                if (leaf is TraceLeaf traceLeaf)
                 {
                     traceLeaf.IsInMonitoringCycle = e.TracesInMonitoringCycle.Contains(traceLeaf.Id);
                     traceLeaf.TraceMonitoringState = e.IsMonitoringOn ? MonitoringState.On : MonitoringState.Off;
                 }
 
-                var otauLeaf = leaf as OtauLeaf;
-                if (otauLeaf != null)
+                if (leaf is OtauLeaf otauLeaf)
                     ApplyMonitoringSettingsRecursively(otauLeaf, e);
             }
 
@@ -364,12 +359,10 @@ namespace Iit.Fibertest.Client
         {
             foreach (var leaf in portOwner.ChildrenImpresario.Children)
             {
-                var traceLeaf = leaf as TraceLeaf;
-                if (traceLeaf != null)
+                if (leaf is TraceLeaf traceLeaf)
                     traceLeaf.TraceMonitoringState = rtuMonitoringState;
 
-                var otauLeaf = leaf as OtauLeaf;
-                if (otauLeaf != null)
+                if (leaf is OtauLeaf otauLeaf)
                     ApplyRecursively(otauLeaf, rtuMonitoringState);
             }
         }

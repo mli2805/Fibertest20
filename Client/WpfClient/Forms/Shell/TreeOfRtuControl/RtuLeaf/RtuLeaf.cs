@@ -85,7 +85,9 @@ namespace Iit.Fibertest.Client
         public override string Name => Title;
 
         public ChildrenImpresario ChildrenImpresario { get; }
-        public bool HasAttachedTraces => ChildrenImpresario.Children.Any(l => l is TraceLeaf && ((TraceLeaf)l).PortNumber > 0);
+        public bool HasAttachedTraces =>  ChildrenImpresario.Children.Any(l => l is TraceLeaf && ((TraceLeaf) l).PortNumber > 0) 
+                   || ChildrenImpresario.Children.Any(c => c is OtauLeaf && ((OtauLeaf) c).HasAttachedTraces);
+
         public int TraceCount => ChildrenImpresario.Children.Count(c => c is TraceLeaf) +
                 ChildrenImpresario.Children.Where(c => c is OtauLeaf).Sum(otauLeaf => ((OtauLeaf)otauLeaf).TraceCount);
 

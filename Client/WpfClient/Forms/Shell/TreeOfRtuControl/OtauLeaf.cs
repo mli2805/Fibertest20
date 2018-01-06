@@ -19,6 +19,8 @@ namespace Iit.Fibertest.Client
         public RtuPartState OtauState { get; set; }
         public ImageSource OtauStatePictogram => OtauState.GetPictogram();
 
+        public bool HasAttachedTraces => ChildrenImpresario.Children.Any(l => l is TraceLeaf && ((TraceLeaf)l).PortNumber > 0);
+
         public override string Name
         {
             get { return string.Format(Resources.SID_Port_trace, MasterPort, Title); }

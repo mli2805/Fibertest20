@@ -262,6 +262,7 @@
     <Compile Include="Forms\Shell\OpticalEventsControl\OpticalEventModel.cs" />
     <Compile Include="Forms\Shell\OpticalEventsControl\Filters\RtuGuidFilter.cs" />
     <Compile Include="Forms\Shell\OpticalEventsControl\Filters\TraceStateFilter.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\IPortNumber.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\PortLeaf\PortLeafActions.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\PortLeaf\PortLeafContextMenuProvider.cs" />
     <Compile Include="Forms\TraceState\AccidentLineModel.cs" />
