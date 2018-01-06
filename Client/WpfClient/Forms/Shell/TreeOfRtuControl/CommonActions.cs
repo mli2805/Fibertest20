@@ -7,6 +7,7 @@ using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Client
 {
+    // Could be done for TraceLeaf and PortLeaf
     public class CommonActions
     {
         private readonly IniFile _iniFile35;
@@ -34,7 +35,13 @@ namespace Iit.Fibertest.Client
 
         private void DoMeasurementClient(Leaf parent, int portNumber)
         {
+            RtuLeaf rtuLeaf = parent is RtuLeaf leaf ? leaf : (RtuLeaf)parent.Parent;
+            var otdrAddress = _readModel.Rtus.First(r => r.Id == rtuLeaf.Id).OtdrNetAddress;
+            NetAddress otauAddress = new NetAddress(otdrAddress.Ip4Address, 23);
 
+            ToggleToSelectedPort(otauAddress, portNumber);
+
+            // TODO ask user measurement parameters, start measurement
         }
 
         public void MeasurementRftsReflectAction(object param)
@@ -64,16 +71,21 @@ namespace Iit.Fibertest.Client
             var otdrAddress = _readModel.Rtus.First(r => r.Id == rtuLeaf.Id).OtdrNetAddress;
             NetAddress otauAddress = new NetAddress(otdrAddress.Ip4Address, 23);
 
+            if (ToggleToSelectedPort(otauAddress, portNumber))
+                System.Diagnostics.Process.Start(@"TraceEngine\Reflect.exe",
+                    $"-fnw -n {otdrAddress.Ip4Address} -p {otdrAddress.Port}");
+        }
+
+        private bool ToggleToSelectedPort(NetAddress otauAddress, int portNumber)
+        {
             var charon = new Charon(otauAddress, _iniFile35, _logFile);
             var result = charon.SetExtendedActivePort(charon.NetAddress, portNumber);
             if (result == CharonOperationResult.Ok)
-                System.Diagnostics.Process.Start(@"TraceEngine\Reflect.exe",
-                    $"-fnw -n {otdrAddress.Ip4Address} -p {otdrAddress.Port}");
-            else
-            {
-                var vm = new NotificationViewModel(Resources.SID_Error, $@"{charon.LastErrorMessage}");
-                _windowManager.ShowDialogWithAssignedOwner(vm);
-            }
+                return true;
+
+            var vm = new NotificationViewModel(Resources.SID_Error, $@"{charon.LastErrorMessage}");
+            _windowManager.ShowDialogWithAssignedOwner(vm);
+            return false;
         }
 
 
