@@ -15,21 +15,23 @@ namespace Iit.Fibertest.Client
     {
         private readonly IMyLog _logFile;
         private readonly ReadModel _readModel;
+        private readonly GraphReadModel _graphReadModel;
         private readonly IWindowManager _windowManager;
         private readonly RtuStateViewsManager _rtuStateViewsManager;
 
-        public RtuLeafActions(IMyLog logFile, ReadModel readModel, IWindowManager windowManager, RtuStateViewsManager rtuStateViewsManager)
+        public RtuLeafActions(IMyLog logFile, ReadModel readModel, GraphReadModel graphReadModel,
+            IWindowManager windowManager, RtuStateViewsManager rtuStateViewsManager)
         {
             _logFile = logFile;
             _readModel = readModel;
+            _graphReadModel = graphReadModel;
             _windowManager = windowManager;
             _rtuStateViewsManager = rtuStateViewsManager;
         }
 
         public void UpdateRtu(object param)
         {
-            var rtuLeaf = param as RtuLeaf;
-            if (rtuLeaf == null)
+            if (!(param is RtuLeaf rtuLeaf))
                 return;
 
             var vm = new RtuUpdateViewModel(rtuLeaf.Id, rtuLeaf.ReadModel, rtuLeaf.C2DWcfManager);
@@ -38,15 +40,14 @@ namespace Iit.Fibertest.Client
 
         public void ShowRtu(object param)
         {
-            var rtuLeaf = param as RtuLeaf;
-            if (rtuLeaf != null)
-                rtuLeaf.PostOffice.Message = new CenterToRtu() { RtuId = rtuLeaf.Id };
+            if (param is RtuLeaf rtuLeaf)
+             //   rtuLeaf.PostOffice.Message = new CenterToRtu() { RtuId = rtuLeaf.Id };
+            _graphReadModel.PlaceRtuIntoScreenCenter(rtuLeaf.Id);
         }
 
         public void InitializeRtu(object param)
         {
-            var rtuLeaf = param as RtuLeaf;
-            if (rtuLeaf == null)
+            if (!(param is RtuLeaf rtuLeaf))
                 return;
 
             var localScope = rtuLeaf.GlobalScope.BeginLifetimeScope(ctx => ctx.RegisterInstance(rtuLeaf));
@@ -56,15 +57,13 @@ namespace Iit.Fibertest.Client
 
         public void ShowRtuState(object param)
         {
-            var rtuLeaf = param as RtuLeaf;
-            if (rtuLeaf != null)
+            if (param is RtuLeaf rtuLeaf)
                 _rtuStateViewsManager.ShowRtuState(rtuLeaf);
         }
 
         public void ShowRtuLandmarks(object param)
         {
-            var rtuLeaf = param as RtuLeaf;
-            if (rtuLeaf == null)
+            if (!(param is RtuLeaf rtuLeaf))
                 return;
 
             var vm = new LandmarksViewModel(rtuLeaf.ReadModel, rtuLeaf.WindowManager);
@@ -74,8 +73,7 @@ namespace Iit.Fibertest.Client
 
         public void ShowMonitoringSettings(object param)
         {
-            var rtuLeaf = param as RtuLeaf;
-            if (rtuLeaf == null)
+            if (!(param is RtuLeaf rtuLeaf))
                 return;
 
             var vm = new MonitoringSettingsViewModel(rtuLeaf, rtuLeaf.ReadModel, rtuLeaf.C2DWcfManager);
@@ -84,8 +82,7 @@ namespace Iit.Fibertest.Client
 
         public async void StopMonitoring(object param)
         {
-            var rtuLeaf = param as RtuLeaf;
-            if (rtuLeaf == null)
+            if (!(param is RtuLeaf rtuLeaf))
                 return;
 
             bool result;
@@ -127,14 +124,13 @@ namespace Iit.Fibertest.Client
             var result = new List<PortWithTraceDto>();
             foreach (var child in portOwnerLeaf.ChildrenImpresario.Children)
             {
-                var otauLeaf = child as IPortOwner;
-                if (otauLeaf != null)
+                if (child is IPortOwner otauLeaf)
                 {
                     result.AddRange(CollectTracesInMonitoringCycle(otauLeaf, false));
                     continue;
                 }
-                var trace = child as TraceLeaf;
-                if (trace == null)
+
+                if (!(child is TraceLeaf trace))
                     continue;
 
                 if (trace.IsInMonitoringCycle)
@@ -151,8 +147,7 @@ namespace Iit.Fibertest.Client
 
         public async void StartMonitoring(object param)
         {
-            var rtuLeaf = param as RtuLeaf;
-            if (rtuLeaf == null)
+            if (!(param is RtuLeaf rtuLeaf))
                 return;
 
             var dto = CollectMonitoringSettingsFromTree(rtuLeaf);

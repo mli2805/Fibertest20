@@ -15,7 +15,7 @@ namespace Iit.Fibertest.Client
         private int _portNumber;
         public int PortNumber
         {
-            get { return _portNumber; }
+            get => _portNumber;
             set
             {
                 if (value == _portNumber) return;
@@ -44,7 +44,7 @@ namespace Iit.Fibertest.Client
         private MonitoringState _traceMonitoringState;
         public MonitoringState TraceMonitoringState
         {
-            get { return _traceMonitoringState; }
+            get => _traceMonitoringState;
             set
             {
                 if (value == _traceMonitoringState) return;
@@ -57,7 +57,7 @@ namespace Iit.Fibertest.Client
         private bool _hasEnoughBaseRefsToPerformMonitoring;
         public bool HasEnoughBaseRefsToPerformMonitoring
         {
-            get { return _hasEnoughBaseRefsToPerformMonitoring; }
+            get => _hasEnoughBaseRefsToPerformMonitoring;
             set
             {
                 if (value == _hasEnoughBaseRefsToPerformMonitoring) return;
@@ -70,7 +70,7 @@ namespace Iit.Fibertest.Client
         private bool _isInMonitoringCycle;
         public bool IsInMonitoringCycle
         {
-            get { return _isInMonitoringCycle; }
+            get => _isInMonitoringCycle;
             set
             {
                 if (value == _isInMonitoringCycle) return;
@@ -84,7 +84,7 @@ namespace Iit.Fibertest.Client
         private FiberState _traceState;
         public FiberState TraceState
         {
-            get { return _traceState; }
+            get => _traceState;
             set
             {
                 if (value == _traceState) return;
@@ -100,8 +100,8 @@ namespace Iit.Fibertest.Client
         private readonly TraceLeafContextMenuProvider _contextMenuProvider;
 
         public TraceLeaf(ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager,
-            PostOffice postOffice, IPortOwner parent, TraceLeafContextMenuProvider contextMenuProvider)
-            : base(readModel, windowManager, c2DWcfManager, postOffice)
+            IPortOwner parent, TraceLeafContextMenuProvider contextMenuProvider)
+            : base(readModel, windowManager, c2DWcfManager)
         {
             Parent = (Leaf)parent;
             _contextMenuProvider = contextMenuProvider;

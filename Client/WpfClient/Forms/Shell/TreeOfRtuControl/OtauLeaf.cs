@@ -29,8 +29,8 @@ namespace Iit.Fibertest.Client
         public ChildrenImpresario ChildrenImpresario { get; }
         public int TraceCount => ChildrenImpresario.Children.Count(c => c is TraceLeaf);
 
-        public OtauLeaf(ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, PostOffice postOffice, FreePorts freePorts) 
-            : base(readModel, windowManager, c2DWcfManager, postOffice)
+        public OtauLeaf(ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, FreePorts freePorts) 
+            : base(readModel, windowManager, c2DWcfManager)
         {
             ChildrenImpresario = new ChildrenImpresario(freePorts);
         }

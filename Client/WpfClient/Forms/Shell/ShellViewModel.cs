@@ -68,7 +68,6 @@ namespace Iit.Fibertest.Client
         {
             ReadModel = readModel;
             TreeOfRtuModel = treeOfRtuModel;
-            TreeOfRtuModel.PostOffice.PropertyChanged += PostOffice_PropertyChanged;
             MainMenuViewModel = new MainMenuViewModel(windowManager);
             TreeOfRtuViewModel = new TreeOfRtuViewModel(treeOfRtuModel);
             GraphReadModel = graphReadModel;
@@ -108,13 +107,7 @@ namespace Iit.Fibertest.Client
             base.CanClose(callback);
         }
 
-        private void PostOffice_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "Message")
-                GraphReadModel.ProcessMessage(((PostOffice) sender).Message);
-        }
-
-        private readonly CancellationTokenSource _clientPollerCts = new CancellationTokenSource();
+            private readonly CancellationTokenSource _clientPollerCts = new CancellationTokenSource();
 
         protected override async void OnViewReady(object view)
         {

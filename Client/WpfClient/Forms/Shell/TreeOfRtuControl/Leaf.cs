@@ -41,36 +41,23 @@ namespace Iit.Fibertest.Client
 
         public virtual string Name { get; set; }
 
-        private PostOffice _postOffice;
-        public PostOffice PostOffice
-        {
-            get => _postOffice;
-            private set
-            {
-                if (Equals(value, _postOffice)) return;
-                _postOffice = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
         public List<MenuItemVm> MyContextMenu => GetMenuItems();
 
         protected virtual List<MenuItemVm> GetMenuItems() { return null; }
 
         public Leaf Parent { get; set; }
 
-        protected Leaf(ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, PostOffice postOffice)
+        protected Leaf(ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager)
         {
             ReadModel = readModel;
             WindowManager = windowManager;
             C2DWcfManager = c2DWcfManager;
-            PostOffice = postOffice;
         }
 
         private bool _isSelected;
         public bool IsSelected
         {
-            get { return _isSelected; }
+            get => _isSelected;
             set
             {
                 if (value == _isSelected) return;
@@ -82,7 +69,7 @@ namespace Iit.Fibertest.Client
         private bool _isExpanded;
         public bool IsExpanded
         {
-            get { return _isExpanded; }
+            get => _isExpanded;
             set
             {
                 if (value == _isExpanded) return;

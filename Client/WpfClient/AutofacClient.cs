@@ -107,7 +107,6 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<TreeOfRtuModel>().SingleInstance();
             builder.RegisterType<WriteModel>().SingleInstance();
             builder.RegisterType<GraphReadModel>().SingleInstance();
-            builder.RegisterType<PostOffice>().SingleInstance();
             builder.RegisterType<FreePorts>().SingleInstance();
 
 

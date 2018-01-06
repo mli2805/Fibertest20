@@ -317,7 +317,6 @@
     <Compile Include="Forms\Shell\TreeOfRtuControl\IPortOwner.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\OtauLeaf.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\FreePorts.cs" />
-    <Compile Include="Forms\Shell\TreeOfRtuControl\Post\PostOffice.cs" />
     <Compile Include="ViewControls\GpsInputControl\GpsInputModeComboItem.cs" />
     <Compile Include="ReadModel\PathFinder.cs" />
     <Compile Include="AppBootstrapper.cs" />
@@ -337,7 +336,6 @@
       <DependentUpon>NetAddressTestView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewControls\NetAddressTestViewModel.cs" />
-    <Compile Include="Forms\Shell\TreeOfRtuControl\Post\CenterToRtu.cs" />
     <Compile Include="ViewModels\Administrative\ObjectsToZonesViewModel.cs" />
     <Compile Include="ViewModels\Administrative\ZonesContentViewModel.cs" />
     <Compile Include="ViewModels\Administrative\ZonesViewModel.cs" />

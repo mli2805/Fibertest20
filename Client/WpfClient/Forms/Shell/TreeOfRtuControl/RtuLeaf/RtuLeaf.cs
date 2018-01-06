@@ -33,7 +33,7 @@ namespace Iit.Fibertest.Client
         private RtuPartState _bopState;
         public RtuPartState BopState
         {
-            get { return _bopState; }
+            get => _bopState;
             set
             {
                 if (value == _bopState) return;
@@ -46,7 +46,7 @@ namespace Iit.Fibertest.Client
         private RtuPartState _mainChannelState;
         public RtuPartState MainChannelState
         {
-            get { return _mainChannelState; }
+            get => _mainChannelState;
             set
             {
                 if (value == _mainChannelState) return;
@@ -59,7 +59,7 @@ namespace Iit.Fibertest.Client
         private RtuPartState _reserveChannelState;
         public RtuPartState ReserveChannelState
         {
-            get { return _reserveChannelState; }
+            get => _reserveChannelState;
             set
             {
                 if (value == _reserveChannelState) return;
@@ -100,8 +100,8 @@ namespace Iit.Fibertest.Client
 
         public RtuLeaf(ILifetimeScope globalScope, ReadModel readModel, IWindowManager windowManager,
             IWcfServiceForClient c2DWcfManager, RtuLeafContextMenuProvider rtuLeafContextMenuProvider,
-            PostOffice postOffice, FreePorts view)
-            : base(readModel, windowManager, c2DWcfManager, postOffice)
+            FreePorts view)
+            : base(readModel, windowManager, c2DWcfManager)
         {
             GlobalScope = globalScope;
             _rtuLeafContextMenuProvider = rtuLeafContextMenuProvider;

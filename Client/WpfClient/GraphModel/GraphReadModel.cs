@@ -19,7 +19,7 @@ namespace Iit.Fibertest.Client
         private Visibility _mapVisibility;
         public Visibility MapVisibility
         {
-            get { return _mapVisibility; }
+            get => _mapVisibility;
             set
             {
                 if (value == _mapVisibility) return;
@@ -49,6 +49,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        private PointLatLng _toCenter;
         public PointLatLng ToCenter
         {
             get { return _toCenter; }
@@ -64,8 +65,6 @@ namespace Iit.Fibertest.Client
         public GpsInputMode CurrentGpsInputMode = GpsInputMode.DegreesMinutesAndSeconds;
 
         private object _request;
-        private PointLatLng _toCenter;
-
         public object Request
         {
             get { return _request; }
@@ -90,10 +89,9 @@ namespace Iit.Fibertest.Client
             InitilizeVisibility();
         }
 
-        public void ProcessMessage(object message)
+        public void PlaceRtuIntoScreenCenter(Guid rtuId)
         {
-            if (message is CenterToRtu)
-                ToCenter = Rtus.First(r => r.Id == ((CenterToRtu)message).RtuId).Node.Position;
+            ToCenter = Rtus.First(r => r.Id == rtuId).Node.Position;
         }
 
         #region Node
@@ -239,7 +237,7 @@ namespace Iit.Fibertest.Client
         }
         #endregion
 
-        #region Rtu
+        #region RTU
         public void Apply(RtuAtGpsLocationAdded evnt)
         {
             var nodeVm = new NodeVm()

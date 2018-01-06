@@ -19,9 +19,9 @@ namespace Iit.Fibertest.Client
         public int LeftMargin => Parent is OtauLeaf ? 106 : 85;
 
         public PortLeaf(ReadModel readModel, IWindowManager windowManager, 
-            IWcfServiceForClient c2DWcfManager, PostOffice postOffice, 
+            IWcfServiceForClient c2DWcfManager,  
             Leaf parent, int portNumber, PortLeafContextMenuProvider contextMenuProvider)
-            : base(readModel, windowManager, c2DWcfManager, postOffice)
+            : base(readModel, windowManager, c2DWcfManager)
         {
             PortNumber = portNumber;
             _contextMenuProvider = contextMenuProvider;
