@@ -4,59 +4,60 @@ namespace Iit.Fibertest.Client
 {
     public class RtuLeafActionsPermissions
     {
-        public bool CanUpdateRtu(object param)
+        private readonly CurrentUser _currentUser;
+
+        public RtuLeafActionsPermissions(CurrentUser currentUser)
         {
-            return true;
+            _currentUser = currentUser;
         }
 
-        public bool CanShowRtu(object param)
+        public bool CanUpdateRtu(object param)
         {
-            return true;
+            return _currentUser.Role <= Role.Root;
         }
+
+        public bool CanShowRtu(object param) { return true; }
 
         public bool CanInitializeRtu(object param)
         {
-            return true;
+            return _currentUser.Role <= Role.Root && param is RtuLeaf;
         }
 
-        public bool CanShowRtuState(object param)
-        {
-            return true;
-        }
+        public bool CanShowRtuState(object param) { return true; }
 
-        public bool CanShowRtuLandmarks(object param)
-        {
-            return true;
-        }
+        public bool CanShowRtuLandmarks(object param) { return true; }
 
         public bool CanShowMonitoringSettings(object param)
         {
-            var rtuLeaf = param as RtuLeaf;
-            return rtuLeaf != null && rtuLeaf.IsAvailable;
+            return param is RtuLeaf rtuLeaf && rtuLeaf.IsAvailable;
         }
 
         public bool CanStartMonitoring(object param)
         {
-            var rtuLeaf = param as RtuLeaf;
-            return rtuLeaf != null && rtuLeaf.IsAvailable && rtuLeaf.MonitoringState == MonitoringState.Off;
+            return _currentUser.Role <= Role.Operator 
+                   && param is RtuLeaf rtuLeaf 
+                   && rtuLeaf.IsAvailable 
+                   && rtuLeaf.MonitoringState == MonitoringState.Off;
         }
 
         public bool CanStopMonitoring(object param)
         {
-            var rtuLeaf = param as RtuLeaf;
-            return rtuLeaf != null && rtuLeaf.IsAvailable && rtuLeaf.MonitoringState == MonitoringState.On;
+            return _currentUser.Role <= Role.Operator
+                   && param is RtuLeaf rtuLeaf
+                   && rtuLeaf.IsAvailable
+                   && rtuLeaf.MonitoringState == MonitoringState.On;
         }
 
         public bool CanRemoveRtu(object param)
         {
-            var rtuLeaf = param as RtuLeaf;
-            return rtuLeaf != null && !rtuLeaf.HasAttachedTraces;
+            return _currentUser.Role <= Role.Root 
+                   && param is RtuLeaf rtuLeaf 
+                   && !rtuLeaf.HasAttachedTraces;
         }
 
         public bool CanDefineTraceStepByStep(object param)
         {
-            return true;
+            return _currentUser.Role <= Role.Root;
         }
-
     }
 }

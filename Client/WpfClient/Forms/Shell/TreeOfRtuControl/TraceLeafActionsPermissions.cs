@@ -13,18 +13,16 @@ namespace Iit.Fibertest.Client
 
         public bool CanUpdateTrace(object param)
         {
-            return true;
+            return _currentUser.Role <= Role.Root;
         }
 
-        public bool CanShowTrace(object param)
-        {
-            return true;
-        }
+        public bool CanShowTrace(object param) { return true; }
 
         public bool CanAssignBaseRefsAction(object param)
         {
-            var traceLeaf = param as TraceLeaf;
-            if (traceLeaf == null)
+            if (_currentUser.Role > Role.Root)
+                return false;
+            if (!(param is TraceLeaf traceLeaf))
                 return false;
 
             var leaf = traceLeaf.Parent as RtuLeaf;
@@ -36,35 +34,23 @@ namespace Iit.Fibertest.Client
                    || !traceLeaf.IsInMonitoringCycle);
         }
 
-        public bool CanShowTraceState(object param)
-        {
-            return true;
-        }
+        public bool CanShowTraceState(object param) { return true; }
 
-        public bool CanShowTraceStatistics(object param)
-        {
-            return true;
-        }
+        public bool CanShowTraceStatistics(object param) { return true; }
 
-        public bool CanShowTraceEvents(object param)
-        {
-            return true;
-        }
+        public bool CanShowTraceEvents(object param) { return true; }
 
-        public bool CanShowTraceLandmarks(object param)
-        {
-            return true;
-        }
+        public bool CanShowTraceLandmarks(object param) { return true; }
 
         public bool CanDetachTrace(object param)
         {
-            var traceLeaf = param as TraceLeaf;
-            if (traceLeaf == null)
+            if (!(param is TraceLeaf traceLeaf))
                 return false;
-
-            return 
-                   (traceLeaf.TraceMonitoringState == MonitoringState.Off
-                    || !traceLeaf.IsInMonitoringCycle);
+            if (_currentUser.Role > Role.Root)
+                return false;
+            
+            return traceLeaf.TraceMonitoringState == MonitoringState.Off
+                                || !traceLeaf.IsInMonitoringCycle;
         }
 
         public bool CanCleanTrace(object param)
@@ -79,17 +65,17 @@ namespace Iit.Fibertest.Client
 
         public bool CanDoPreciseMeasurementOutOfTurn(object param)
         {
-            return true;
+            return _currentUser.Role <= Role.Operator;
         }
 
         public bool CanDoMeasurementClient(object param)
         {
-            return true;
+            return _currentUser.Role <= Role.Operator;
         }
 
         public bool CanDoRftsReflectMeasurement(object param)
         {
-            return true;
+            return _currentUser.Role <= Role.Operator;
         }
     }
 }

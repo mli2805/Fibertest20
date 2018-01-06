@@ -17,6 +17,7 @@ namespace Iit.Fibertest.Client
         private readonly IniFile _iniFile35;
         private readonly IMyLog _logFile;
         public readonly int PortNumber;
+        private readonly CurrentUser _currentUser;
 
         public override string Name
         {
@@ -30,7 +31,7 @@ namespace Iit.Fibertest.Client
 
         public PortLeaf(ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, 
             OtauToAttachViewModel otauToAttachViewModel, TraceToAttachViewModel traceToAttachViewModel,
-            IniFile iniFile35, IMyLog logFile, PostOffice postOffice, Leaf parent, int portNumber)
+            IniFile iniFile35, IMyLog logFile, PostOffice postOffice, Leaf parent, int portNumber, CurrentUser currentUser)
             : base(readModel, windowManager, c2DWcfManager, postOffice)
         {
             _otauToAttachViewModel = otauToAttachViewModel;
@@ -38,6 +39,7 @@ namespace Iit.Fibertest.Client
             _iniFile35 = iniFile35;
             _logFile = logFile;
             PortNumber = portNumber;
+            _currentUser = currentUser;
             Parent = parent;
             Color = Brushes.Black;
         }
@@ -109,6 +111,8 @@ namespace Iit.Fibertest.Client
 
         private bool CanAttachOtauAction(object param)
         {
+            if (_currentUser.Role > Role.Root)
+                return false;
             if (Parent is OtauLeaf)
                 return false;
             var rtuLeaf = (RtuLeaf)Parent;
@@ -117,7 +121,9 @@ namespace Iit.Fibertest.Client
 
         private bool CanAttachTraceAction(object param)
         {
-            var rtuLeaf = Parent is RtuLeaf ? (RtuLeaf) Parent : (RtuLeaf) Parent.Parent;
+            if (_currentUser.Role > Role.Root)
+                return false;
+            var rtuLeaf = Parent is RtuLeaf leaf ? leaf : (RtuLeaf) Parent.Parent;
             return rtuLeaf.IsAvailable;
         }
 
