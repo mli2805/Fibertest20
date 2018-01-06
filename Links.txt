@@ -71,4 +71,4 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
 	здесь нет тестов
 
 30. избавиться от new PortLeaf(...), TraceLeaf, OtauLeaf, RtuLeaf
-
+	TreeOfRtuModel обрабатывает случившиеся события и создает новые инстансы листьев

@@ -13,6 +13,7 @@ namespace Iit.Fibertest.Client
     public class TreeOfRtuModel : PropertyChangedBase
     {
         private readonly ILifetimeScope _globalScope;
+        private readonly CurrentUser _currentUser;
         private readonly RtuLeafContextMenuProvider _rtuLeafContextMenuProvider;
         private readonly TraceLeafContextMenuProvider _traceLeafContextMenuProvider;
         private readonly PortLeafContextMenuProvider _portLeafContextMenuProvider;
@@ -37,12 +38,13 @@ namespace Iit.Fibertest.Client
         public TreeOfRtuModel(IWindowManager windowManager, ReadModel readModel,
             IWcfServiceForClient c2DWcfManager,
             // only for pass to it's leaves
-            ILifetimeScope globalScope, FreePorts freePorts,
+            ILifetimeScope globalScope, FreePorts freePorts, CurrentUser currentUser,
             RtuLeafContextMenuProvider rtuLeafContextMenuProvider,
             TraceLeafContextMenuProvider traceLeafContextMenuProvider,
             PortLeafContextMenuProvider portLeafContextMenuProvider)
         {
             _globalScope = globalScope;
+            _currentUser = currentUser;
             _rtuLeafContextMenuProvider = rtuLeafContextMenuProvider;
             _traceLeafContextMenuProvider = traceLeafContextMenuProvider;
             _portLeafContextMenuProvider = portLeafContextMenuProvider;
@@ -86,14 +88,13 @@ namespace Iit.Fibertest.Client
         public void Apply(OtauAttached e)
         {
             var rtuLeaf = (RtuLeaf)Tree.GetById(e.RtuId);
-            var otauLeaf = new OtauLeaf(_readModel, _windowManager, _c2DWcfManager, FreePorts)
+            var otauLeaf = new OtauLeaf(_readModel, _windowManager, _c2DWcfManager, _currentUser, FreePorts)
             {
                 Id = e.Id,
                 Parent = rtuLeaf,
                 Title = string.Format(Resources.SID_Optical_switch_with_Address, e.NetAddress.ToStringB()),
                 Color = Brushes.Black,
                 MasterPort = e.MasterPort,
-                FirstPortNumber = rtuLeaf.FullPortCount + 1,
                 OwnPortCount = e.PortCount,
                 OtauNetAddress = e.NetAddress,
                 OtauState = RtuPartState.Ok,
