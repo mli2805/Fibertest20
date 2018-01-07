@@ -97,7 +97,7 @@ namespace Iit.Fibertest.Client
             };
             for (int i = 0; i < otauLeaf.OwnPortCount; i++)
                 otauLeaf.ChildrenImpresario.Children.Add(
-                    new PortLeaf(_readModel, _windowManager, _c2DWcfManager, otauLeaf, i + 1, _portLeafContextMenuProvider));
+                    new PortLeaf(otauLeaf, i + 1, _readModel, _windowManager, _c2DWcfManager, _portLeafContextMenuProvider));
             rtuLeaf.ChildrenImpresario.Children.Remove(rtuLeaf.ChildrenImpresario.Children[e.MasterPort - 1]);
             rtuLeaf.ChildrenImpresario.Children.Insert(e.MasterPort - 1, otauLeaf);
             rtuLeaf.FullPortCount += otauLeaf.OwnPortCount;
@@ -111,7 +111,7 @@ namespace Iit.Fibertest.Client
             rtuLeaf.FullPortCount -= otauLeaf.OwnPortCount;
             rtuLeaf.ChildrenImpresario.Children.Remove(otauLeaf);
 
-            var portLeaf = new PortLeaf(_readModel, _windowManager, _c2DWcfManager, rtuLeaf, port, _portLeafContextMenuProvider);
+            var portLeaf = new PortLeaf(rtuLeaf, port, _readModel, _windowManager, _c2DWcfManager, _portLeafContextMenuProvider);
             rtuLeaf.ChildrenImpresario.Children.Insert(port - 1, portLeaf);
             portLeaf.Parent = rtuLeaf;
         }
@@ -220,7 +220,7 @@ namespace Iit.Fibertest.Client
 
             ((IPortOwner)owner).ChildrenImpresario.Children.RemoveAt(port - 1);
             ((IPortOwner)owner).ChildrenImpresario.Children.Insert(port - 1,
-                new PortLeaf(_readModel, _windowManager, _c2DWcfManager, owner, port, _portLeafContextMenuProvider));
+                new PortLeaf(owner, port, _readModel, _windowManager, _c2DWcfManager, _portLeafContextMenuProvider));
             rtu.ChildrenImpresario.Children.Add(detachedTraceLeaf);
         }
 
@@ -291,7 +291,10 @@ namespace Iit.Fibertest.Client
             rtuLeaf.Color = Brushes.Black;
             for (int i = 1; i <= rtuLeaf.OwnPortCount; i++)
             {
-                var port = new PortLeaf(_readModel, _windowManager, _c2DWcfManager, rtuLeaf, i, _portLeafContextMenuProvider);
+                var port = _globalScope.Resolve<PortLeaf>(
+                    new NamedParameter("parent", rtuLeaf),
+                    new NamedParameter("portNumber", i));
+               
                 rtuLeaf.ChildrenImpresario.Children.Insert(i - 1, port);
                 port.Parent = rtuLeaf;
             }
