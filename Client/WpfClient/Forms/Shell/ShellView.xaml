@@ -55,6 +55,7 @@
                         </TabItem.Header>
                     </TabItem>
                 </TabControl>
+                <client:TabulatorView DockPanel.Dock="Top" DataContext="{Binding TabulatorViewModel}"/>
                 <client:CommonStatusBarView DockPanel.Dock="Bottom" DataContext="{Binding CommonStatusBarViewModel}"/>
                 <client:OpticalEventsDoubleView DataContext="{Binding OpticalEventsDoubleViewModel}" Visibility="{Binding OpticalEventsVisibility}"/>
                 <client:NetworkEventsDoubleView DataContext="{Binding NetworkEventsDoubleViewModel}" Visibility="{Binding NetworkEventsVisibility}"/>

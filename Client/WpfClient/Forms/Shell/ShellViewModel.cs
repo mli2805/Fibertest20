@@ -39,15 +39,15 @@ namespace Iit.Fibertest.Client
         public OpticalEventsDoubleViewModel OpticalEventsDoubleViewModel { get; set; }
         public NetworkEventsDoubleViewModel NetworkEventsDoubleViewModel { get; set; }
         public BopNetworkEventsDoubleViewModel BopNetworkEventsDoubleViewModel { get; set; }
+        public TabulatorViewModel TabulatorViewModel { get; }
         public CommonStatusBarViewModel CommonStatusBarViewModel { get; set; }
 
         private bool? _isAuthenticationSuccessfull;
 
         private int _selectedTabIndex;
-
         public int SelectedTabIndex
         {
-            get { return _selectedTabIndex; }
+            get => _selectedTabIndex;
             set
             {
                 if (value == _selectedTabIndex) return;
@@ -62,6 +62,7 @@ namespace Iit.Fibertest.Client
             OpticalEventsDoubleViewModel opticalEventsDoubleViewModel, OpticalEventsProvider opticalEventsProvider,
             BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel,
             BopNetworkEventsProvider bopNetworkEventsProvider,
+            TabulatorViewModel tabulatorViewModel,
             CommonStatusBarViewModel commonStatusBarViewModel,
             ClientHeartbeat clientHeartbeat, ClientPoller clientPoller,
             IniFile iniFile, ILogger clientLogger, IMyLog logFile, CurrentUser currentUser, IClientWcfServiceHost host)
@@ -77,6 +78,7 @@ namespace Iit.Fibertest.Client
             NetworkEventsDoubleViewModel = networkEventsDoubleViewModel;
             NetworkEventsDoubleViewModel.NetworkEventsVisibility = Visibility.Collapsed;
             BopNetworkEventsDoubleViewModel = bopNetworkEventsDoubleViewModel;
+            TabulatorViewModel = tabulatorViewModel;
             CommonStatusBarViewModel = commonStatusBarViewModel;
             BopNetworkEventsDoubleViewModel.BopNetworkEventsVisibility = Visibility.Collapsed;
             _selectedTabIndex = 0;
@@ -107,7 +109,7 @@ namespace Iit.Fibertest.Client
             base.CanClose(callback);
         }
 
-            private readonly CancellationTokenSource _clientPollerCts = new CancellationTokenSource();
+        private readonly CancellationTokenSource _clientPollerCts = new CancellationTokenSource();
 
         protected override async void OnViewReady(object view)
         {

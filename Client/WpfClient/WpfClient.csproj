@@ -262,6 +262,10 @@
     <Compile Include="Forms\Shell\OpticalEventsControl\OpticalEventModel.cs" />
     <Compile Include="Forms\Shell\OpticalEventsControl\Filters\RtuGuidFilter.cs" />
     <Compile Include="Forms\Shell\OpticalEventsControl\Filters\TraceStateFilter.cs" />
+    <Compile Include="Forms\Shell\TabulatorControl\TabulatorView.xaml.cs">
+      <DependentUpon>TabulatorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Shell\TabulatorControl\TabulatorViewModel.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\IPortNumber.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\PortLeaf\PortLeafActions.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\PortLeaf\PortLeafContextMenuProvider.cs" />
@@ -550,6 +554,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\Shell\OpticalEventsControl\OpticalEventsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\Shell\TabulatorControl\TabulatorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

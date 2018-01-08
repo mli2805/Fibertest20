@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="Iit.Fibertest.Client.TabulatorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
+             mc:Ignorable="d" >
+    <TabControl Height="25" SelectedIndex="{Binding SelectedTabIndex}">
+        <TabItem>
+            <TabItem.Header>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="{Binding IsThereActualOpticalEventsPictogram}" Height="12" Width="12" Margin="0,0,4,0" />
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Optical_events}" Margin="5,0,20,0" />
+                </StackPanel>
+            </TabItem.Header>
+        </TabItem>
+        <TabItem>
+            <TabItem.Header>
+                <TextBlock Text="{x:Static stringResources:Resources.SID_Network_events}" Margin="5,0,20,0"/>
+            </TabItem.Header>
+        </TabItem>
+        <TabItem>
+            <TabItem.Header>
+                <TextBlock Text="{x:Static stringResources:Resources.SID_Network_events_Bop}" Margin="5,0,20,0"/>
+            </TabItem.Header>
+        </TabItem>
+        <TabItem>
+            <TabItem.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Gis}" Margin="10,0,40,0"/>
+                    <ComboBox Margin="0" FontSize="10" VerticalContentAlignment="Center"
+                              ItemsSource="{Binding GraphReadModel.GraphVisibilityLevels}" 
+                              SelectedItem="{Binding GraphReadModel.SelectedGraphVisibilityLevel}"/>
+                </StackPanel>
+            </TabItem.Header>
+        </TabItem>
+    </TabControl>
+
+</UserControl>

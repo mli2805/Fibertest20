@@ -43,6 +43,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<BopNetworkEventsDoubleViewModel>().SingleInstance();
             builder.RegisterType<BopNetworkEventsProvider>().SingleInstance();
 
+            builder.RegisterType<TabulatorViewModel>().SingleInstance();
             builder.RegisterType<CommonStatusBarViewModel>().SingleInstance();
 
             builder.RegisterType<RtuStateViewModel>();
