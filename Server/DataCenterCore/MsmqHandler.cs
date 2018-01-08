@@ -13,17 +13,19 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly MonitoringResultsRepository _monitoringResultsRepository;
+        private readonly MeasurementFactory _measurementFactory;
         private readonly ClientStationsRepository _clientStationsRepository;
         private readonly D2CWcfManager _d2CWcfManager;
 
         public MsmqHandler(IniFile iniFile, IMyLog logFile, 
-            MonitoringResultsRepository monitoringResultsRepository,
+            MonitoringResultsRepository monitoringResultsRepository, MeasurementFactory measurementFactory,
             ClientStationsRepository clientStationsRepository,
             D2CWcfManager d2CWcfManager)
         {
             _iniFile = iniFile;
             _logFile = logFile;
             _monitoringResultsRepository = monitoringResultsRepository;
+            _measurementFactory = measurementFactory;
             _clientStationsRepository = clientStationsRepository;
             _d2CWcfManager = d2CWcfManager;
         }
@@ -79,13 +81,21 @@ namespace Iit.Fibertest.DataCenterCore
             if (!(message.Body is MonitoringResultDto monitoringResultDto))
                 return;
 
-            _logFile.AppendLine($@"MSMQ message received, RTU {monitoringResultDto.RtuId.First6()}, Trace {monitoringResultDto.PortWithTrace.TraceId.First6()} - {monitoringResultDto.TraceState} ({monitoringResultDto.BaseRefType})");
-            var measurementWithSor = await _monitoringResultsRepository.SaveMonitoringResultAsync(monitoringResultDto);
-
-            // TODO snmp, email, sms
+            _logFile.AppendLine($@"MSMQ message received, RTU {monitoringResultDto.RtuId.First6()}, 
+                        Trace {monitoringResultDto.PortWithTrace.TraceId.First6()} - {monitoringResultDto.TraceState} ({monitoringResultDto.BaseRefType})");
+            var measurementWithSor = await _monitoringResultsRepository.
+                SaveMonitoringResultAsync(monitoringResultDto.SorData, _measurementFactory.Create(monitoringResultDto));
 
             if (measurementWithSor != null)
+            {
                 await SendMoniresultToClients(measurementWithSor);
+
+                // TODO snmp, email, sms
+                if (measurementWithSor.Measurement.EventStatus > EventStatus.JustMeasurementNotAnEvent)
+                {
+
+                }
+            }
         }
 
         private async Task<int> SendMoniresultToClients(MeasurementWithSor measurementWithSor)

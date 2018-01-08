@@ -391,6 +391,7 @@ namespace Iit.Fibertest.WcfConnections
             {
                 _logFile.AppendLine($@"Sent base ref to RTU {dto.RtuId.First6()}");
                 dto.ClientId = _clientId;
+                dto.UserName = _username;
                 return await wcfConnection.AssignBaseRefAsync(dto);
             }
             catch (Exception e)
@@ -411,7 +412,6 @@ namespace Iit.Fibertest.WcfConnections
                 _logFile.AppendLine($@"Re-Sent base ref to RTU {dto.RtuId.First6()}");
                 dto.ClientId = _clientId;
                 return await wcfConnection.ReSendBaseRefAsync(dto);
-//                return wcfConnection.ReSendBaseRefAsync(dto).Result;
             }
             catch (Exception e)
             {

@@ -21,11 +21,11 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly ClientStationsRepository _clientStationsRepository;
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
         private readonly RtuStationsRepository _rtuStationsRepository;
-        private readonly BaseRefsRepository _baseRefsRepository;
         private readonly MeasurementsRepository _measurementsRepository;
         private readonly NetworkEventsRepository _networkEventsRepository;
         private readonly BopNetworkEventsRepository _bopNetworkEventsRepository;
         private readonly GraphPostProcessingRepository _graphPostProcessingRepository;
+        private readonly BaseRefsBusinessToRepositoryIntermediary _baseRefsBusinessToRepositoryIntermediary;
 
         private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
         {
@@ -34,7 +34,8 @@ namespace Iit.Fibertest.DataCenterCore
 
         public WcfServiceForClient(IMyLog logFile, EventStoreService eventStoreService,
             ClientStationsRepository clientStationsRepository, ClientToRtuTransmitter clientToRtuTransmitter,
-            RtuStationsRepository rtuStationsRepository, BaseRefsRepository baseRefsRepository, 
+            RtuStationsRepository rtuStationsRepository, 
+            BaseRefsBusinessToRepositoryIntermediary baseRefsBusinessToRepositoryIntermediary,
             MeasurementsRepository measurementsRepository, NetworkEventsRepository networkEventsRepository,
             BopNetworkEventsRepository bopNetworkEventsRepository, GraphPostProcessingRepository graphPostProcessingRepository)
         {
@@ -43,11 +44,11 @@ namespace Iit.Fibertest.DataCenterCore
             _clientStationsRepository = clientStationsRepository;
             _clientToRtuTransmitter = clientToRtuTransmitter;
             _rtuStationsRepository = rtuStationsRepository;
-            _baseRefsRepository = baseRefsRepository;
             _measurementsRepository = measurementsRepository;
             _networkEventsRepository = networkEventsRepository;
             _bopNetworkEventsRepository = bopNetworkEventsRepository;
             _graphPostProcessingRepository = graphPostProcessingRepository;
+            _baseRefsBusinessToRepositoryIntermediary = baseRefsBusinessToRepositoryIntermediary;
         }
 
         public async Task<string> SendCommandAsObj(object cmd)
@@ -203,7 +204,7 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto dto)
         {
             _logFile.AppendLine($"Client {dto.ClientId.First6()} sent base ref for trace {dto.TraceId.First6()}");
-            var result = await _baseRefsRepository.AddUpdateOrRemoveBaseRef(dto);
+            var result = await _baseRefsBusinessToRepositoryIntermediary.AssignBaseRefAsync(dto);
             if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                 return result;
 
@@ -213,11 +214,13 @@ namespace Iit.Fibertest.DataCenterCore
             return await _clientToRtuTransmitter.AssignBaseRefAsync(dto);
         }
 
+        // Base refs had been assigned earlier (and saved in Db) and now user attached trace to the port
+        // base refs should be extracted from Db and sent to the RTU
         public async Task<BaseRefAssignedDto> ReSendBaseRefAsync(ReSendBaseRefsDto dto)
         {
             _logFile.AppendLine($"Client {dto.ClientId.First6()} asked to re-send base ref for trace {dto.TraceId.First6()}");
 
-            var convertedDto = await _baseRefsRepository.ConvertReSendToAssign(dto);
+            var convertedDto = await _baseRefsBusinessToRepositoryIntermediary.ConvertReSendToAssign(dto);
 
             if (convertedDto?.BaseRefs == null)
                 return new BaseRefAssignedDto() {ReturnCode = ReturnCode.DbCannotConvertThisReSendToAssign};
@@ -226,5 +229,6 @@ namespace Iit.Fibertest.DataCenterCore
 
             return await _clientToRtuTransmitter.AssignBaseRefAsync(convertedDto);
         }
+
     }
 }

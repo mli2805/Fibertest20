@@ -1,7 +1,7 @@
 using System;
 using Iit.Fibertest.Dto;
 
-namespace Iit.Fibertest.DatabaseLibrary
+namespace Iit.Fibertest.DataCenterCore
 {
     public static class RtuStationFactory
     {

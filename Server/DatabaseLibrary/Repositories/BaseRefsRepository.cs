@@ -8,6 +8,7 @@ using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.DatabaseLibrary
 {
+
     public class BaseRefsRepository
     {
         private readonly IMyLog _logFile;
@@ -17,19 +18,24 @@ namespace Iit.Fibertest.DatabaseLibrary
             _logFile = logFile;
         }
 
-        public async Task<BaseRefAssignedDto> AddUpdateOrRemoveBaseRef(AssignBaseRefsDto dto)
+        public async Task<BaseRefAssignedDto> AddUpdateOrRemoveBaseRef(List<BaseRef> baseRefs)
         {
             var result = new BaseRefAssignedDto();
             try
             {
                 using (var dbContext = new FtDbContext())
                 {
-                    foreach (var baseRef in dto.BaseRefs)
+                    foreach (var baseRef in baseRefs)
                     {
-                        if (baseRef.Id == Guid.Empty)
-                            RemoveBaseRef(dbContext, dto.TraceId, baseRef);
-                        else
-                            AddOrUpdateBaseRef(dto, dbContext, baseRef);
+                        // in any case - if exists base with the same type for this trace - it should be removed
+                        var existingBaseRef = dbContext.BaseRefs.FirstOrDefault
+                            (b => b.TraceId == baseRef.TraceId && b.BaseRefType == baseRef.BaseRefType);
+                        if (existingBaseRef != null)
+                            dbContext.BaseRefs.Remove(existingBaseRef);
+
+                        // if user sent replacement (not empty base) - it should be saved 
+                        if (baseRef.BaseRefId != Guid.Empty)
+                            dbContext.BaseRefs.Add(baseRef);
                     }
                     await dbContext.SaveChangesAsync();
                     _logFile.AppendLine("Base ref(s) saved in Db");
@@ -39,67 +45,15 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
             catch (Exception e)
             {
-                _logFile.AppendLine("AddOrUpdateBaseRef:" + e.Message);
+                _logFile.AppendLine("AddUpdateOrRemoveBaseRef:" + e.Message);
                 result.ReturnCode = ReturnCode.DbError;
                 result.ExceptionMessage = e.Message;
                 return result;
             }
         }
+    
 
-        private static void AddOrUpdateBaseRef(AssignBaseRefsDto dto, FtDbContext dbContext, BaseRefDto baseRef)
-        {
-            var newBaseRef = PrepareNewRecordFromDto(dbContext, dto, baseRef);
-
-            var existingBaseRef =
-                dbContext.BaseRefs.FirstOrDefault(b => b.TraceId == dto.TraceId &&
-                                                       b.BaseRefType == baseRef.BaseRefType);
-
-            if (existingBaseRef != null)
-                dbContext.BaseRefs.Remove(existingBaseRef);
-            dbContext.BaseRefs.Add(newBaseRef);
-        }
-
-        private static BaseRef PrepareNewRecordFromDto(FtDbContext dbContext, AssignBaseRefsDto dto, BaseRefDto baseRef)
-        {
-            var userName = "";
-            var clientStation = dbContext.ClientStations.FirstOrDefault(s => s.ClientGuid == dto.ClientId);
-            if (clientStation != null)
-                userName = clientStation.UserName;
-            var newBaseRef = new BaseRef()
-            {
-                BaseRefId = baseRef.Id,
-                TraceId = dto.TraceId,
-                UserName = userName,
-                BaseRefType = baseRef.BaseRefType,
-                SaveTimestamp = DateTime.Now,
-                SorBytes = baseRef.SorBytes,
-            };
-            return newBaseRef;
-        }
-
-        private static void RemoveBaseRef(FtDbContext dbContext, Guid traceId, BaseRefDto baseRef)
-        {
-            var oldBaseRef =
-                dbContext.BaseRefs.FirstOrDefault(
-                    b => b.TraceId == traceId && b.BaseRefType == baseRef.BaseRefType);
-            if (oldBaseRef != null)
-                dbContext.BaseRefs.Remove(oldBaseRef);
-        }
-
-        public async Task<AssignBaseRefsDto> ConvertReSendToAssign(ReSendBaseRefsDto dto)
-        {
-            var result = new AssignBaseRefsDto()
-            {
-                TraceId = dto.TraceId,
-                RtuId = dto.RtuId,
-                ClientId = dto.ClientId,
-                OtauPortDto = dto.OtauPortDto,
-                BaseRefs = await GetTraceBaseRefs(dto.TraceId)
-            };
-            return result;
-        }
-
-        private async Task<List<BaseRefDto>> GetTraceBaseRefs(Guid traceId)
+        public async Task<List<BaseRefDto>> GetTraceBaseRefs(Guid traceId)
         {
             var result = new List<BaseRefDto>();
             try
@@ -114,7 +68,6 @@ namespace Iit.Fibertest.DatabaseLibrary
                             BaseRefType = baseRef.BaseRefType,
                             SorBytes = baseRef.SorBytes,
                         }));
-                    
                 }
             }
 
@@ -125,7 +78,6 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
             _logFile.AppendLine($"Db extracted {result.Count} base refs");
             return result;
-
         }
     }
 }

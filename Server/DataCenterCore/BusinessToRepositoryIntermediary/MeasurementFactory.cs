@@ -1,9 +1,10 @@
 using System;
 using System.Linq;
+using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 
-namespace Iit.Fibertest.DatabaseLibrary
+namespace Iit.Fibertest.DataCenterCore
 {
     public class MeasurementFactory
     {
@@ -14,7 +15,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             _logFile = logFile;
         }
 
-        public Measurement Create(MonitoringResultDto result, int sorFileId)
+        public Measurement Create(MonitoringResultDto result)
         {
             return new Measurement()
             {
@@ -29,8 +30,6 @@ namespace Iit.Fibertest.DatabaseLibrary
                 StatusChangedTimestamp = DateTime.Now,
                 StatusChangedByUser = "system",
                 Comment = "",
-
-                SorFileId = sorFileId,
             };
         }
         private bool IsEvent(MonitoringResultDto result)

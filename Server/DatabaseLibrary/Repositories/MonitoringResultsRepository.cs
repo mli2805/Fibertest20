@@ -8,28 +8,26 @@ namespace Iit.Fibertest.DatabaseLibrary
     public class MonitoringResultsRepository
     {
         private readonly IMyLog _logFile;
-        private readonly MeasurementFactory _measurementFactory;
 
-        public MonitoringResultsRepository(IMyLog logFile, MeasurementFactory measurementFactory)
+        public MonitoringResultsRepository(IMyLog logFile)
         {
             _logFile = logFile;
-            _measurementFactory = measurementFactory;
         }
 
-        public async Task<MeasurementWithSor> SaveMonitoringResultAsync(MonitoringResultDto result)
+        public async Task<MeasurementWithSor> SaveMonitoringResultAsync(byte[] sorBytes, Measurement measurement)
         {
             try
             {
                 using (var dbContext = new FtDbContext())
                 {
-                    var sorFile = new SorFile() { SorBytes = result.SorData };
+                    var sorFile = new SorFile() { SorBytes = sorBytes };
                     dbContext.SorFiles.Add(sorFile);
                     await dbContext.SaveChangesAsync();
 
-                    var measurement = _measurementFactory.Create(result, sorFile.Id);
+                    measurement.SorFileId = sorFile.Id;
                     dbContext.Measurements.Add(measurement);
                     await dbContext.SaveChangesAsync();
-                    return new MeasurementWithSor(){Measurement = measurement, SorData = result.SorData};
+                    return new MeasurementWithSor(){Measurement = measurement, SorData = sorBytes};
                 }
             }
             catch (Exception e)
