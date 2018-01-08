@@ -22,16 +22,20 @@ namespace Iit.Fibertest.DatabaseLibrary
             var result = new BaseRefAssignedDto();
             try
             {
-                var dbContext = new FtDbContext();
-
-                foreach (var baseRef in dto.BaseRefs)
+                using (var dbContext = new FtDbContext())
                 {
-                    if (baseRef.Id == Guid.Empty)
-                        RemoveBaseRef(dbContext, dto.TraceId, baseRef);
-                    else
-                        AddOrUpdateBaseRef(dto, dbContext, baseRef);
+                    foreach (var baseRef in dto.BaseRefs)
+                    {
+                        if (baseRef.Id == Guid.Empty)
+                            RemoveBaseRef(dbContext, dto.TraceId, baseRef);
+                        else
+                            AddOrUpdateBaseRef(dto, dbContext, baseRef);
+                    }
+                    await dbContext.SaveChangesAsync();
+                    _logFile.AppendLine("Base ref(s) saved in Db");
+                    result.ReturnCode = ReturnCode.BaseRefAssignedSuccessfully;
+                    return result;
                 }
-                await dbContext.SaveChangesAsync();
             }
             catch (Exception e)
             {
@@ -40,9 +44,6 @@ namespace Iit.Fibertest.DatabaseLibrary
                 result.ExceptionMessage = e.Message;
                 return result;
             }
-            _logFile.AppendLine("Base ref(s) saved in Db");
-            result.ReturnCode = ReturnCode.BaseRefAssignedSuccessfully;
-            return result;
         }
 
         private static void AddOrUpdateBaseRef(AssignBaseRefsDto dto, FtDbContext dbContext, BaseRefDto baseRef)
@@ -103,15 +104,18 @@ namespace Iit.Fibertest.DatabaseLibrary
             var result = new List<BaseRefDto>();
             try
             {
-                var dbContext = new FtDbContext();
-                var list = await dbContext.BaseRefs.Where(b => b.TraceId == traceId).ToListAsync();
-                result.AddRange(
-                    list.Select(baseRef => new BaseRefDto()
-                    {
-                        Id = baseRef.BaseRefId,
-                        BaseRefType = baseRef.BaseRefType,
-                        SorBytes = baseRef.SorBytes,
-                    }));
+                using (var dbContext = new FtDbContext())
+                {
+                    var list = await dbContext.BaseRefs.Where(b => b.TraceId == traceId).ToListAsync();
+                    result.AddRange(
+                        list.Select(baseRef => new BaseRefDto()
+                        {
+                            Id = baseRef.BaseRefId,
+                            BaseRefType = baseRef.BaseRefType,
+                            SorBytes = baseRef.SorBytes,
+                        }));
+                    
+                }
             }
 
             catch (Exception e)

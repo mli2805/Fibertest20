@@ -88,7 +88,6 @@ namespace Iit.Fibertest.DataCenterCore
                 return new OtauDetachedDto() { IsDetached = false, ReturnCode = ReturnCode.RtuDetachOtauError, ErrorMessage = e.Message };
             }
         }
-
     
         public async Task<bool> StopMonitoringAsync(StopMonitoringDto dto)
         {

@@ -21,19 +21,21 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                var dbContext = new FtDbContext();
-                var rtu = dbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == rtuStation.RtuGuid);
-                if (rtu == null)
+                using (var dbContext = new FtDbContext())
                 {
-                    dbContext.RtuStations.Add(rtuStation);
-                    _logFile.AppendLine("New RTU registered.");
+                    var rtu = dbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == rtuStation.RtuGuid);
+                    if (rtu == null)
+                    {
+                        dbContext.RtuStations.Add(rtuStation);
+                        _logFile.AppendLine("New RTU registered.");
+                    }
+                    else
+                    {
+                        rtu.LastConnectionByMainAddressTimestamp = DateTime.Now;
+                        _logFile.AppendLine("Existing RTU re-registered");
+                    }
+                    return await dbContext.SaveChangesAsync();
                 }
-                else
-                {
-                    rtu.LastConnectionByMainAddressTimestamp = DateTime.Now;
-                    _logFile.AppendLine("Existing RTU re-registered");
-                }
-                return await dbContext.SaveChangesAsync();
             }
             catch (Exception e)
             {
@@ -46,17 +48,17 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                var dbContext = new FtDbContext();
-                var rtu = dbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == rtuId);
-                if (rtu != null)
+                using (var dbContext = new FtDbContext())
                 {
-                    dbContext.RtuStations.Remove(rtu);
-                    _logFile.AppendLine("RTU removed.");
-                    await dbContext.SaveChangesAsync();
-                    return null;
-                }
-                else
-                {
+                    var rtu = dbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == rtuId);
+                    if (rtu != null)
+                    {
+                        dbContext.RtuStations.Remove(rtu);
+                        await dbContext.SaveChangesAsync();
+                        _logFile.AppendLine("RTU removed.");
+                        return null;
+                    }
+
                     var message = $"RTU with id {rtuId.First6()} not found";
                     _logFile.AppendLine(message);
                     return message;
@@ -64,54 +66,55 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
             catch (Exception e)
             {
-                _logFile.AppendLine("RegisterRtuAsync: " + e.Message);
+                _logFile.AppendLine("RemoveRtuAsync: " + e.Message);
                 return e.Message;
             }
         }
 
-        public Task<DoubleAddress> GetRtuAddresses(Guid rtuId)
+        public async Task<DoubleAddress> GetRtuAddresses(Guid rtuId)
         {
             try
             {
-                var dbContext = new FtDbContext();
-                var rtu = dbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == rtuId);
-                if (rtu != null)
+                using (var dbContext = new FtDbContext())
                 {
-                    return Task.FromResult(rtu.GetRtuDoubleAddress());
-                }
-                else
-                {
+                    var rtu = await dbContext.RtuStations.FirstOrDefaultAsync(r => r.RtuGuid == rtuId);
+                    if (rtu != null)
+                    {
+                        return rtu.GetRtuDoubleAddress();
+                    }
+
                     _logFile.AppendLine($"RTU with id {rtuId.First6()} not found");
                     return null;
                 }
             }
             catch (Exception e)
             {
-                _logFile.AppendLine("RegisterRtuAsync: " + e.Message);
+                _logFile.AppendLine("GetRtuAddresses: " + e.Message);
                 return null;
             }
         }
-
 
         public async Task<int> RegisterRtuHeartbeatAsync(RtuChecksChannelDto dto)
         {
             try
             {
-                var dbContext = new FtDbContext();
-                var rtu = dbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == dto.RtuId);
-                if (rtu == null)
+                using (var dbContext = new FtDbContext())
                 {
-                    _logFile.AppendLine($"Unknown RTU's {dto.RtuId.First6()} heartbeat.");
-                }
-                else
-                {
-                    if (dto.IsMainChannel)
-                        rtu.LastConnectionByMainAddressTimestamp = DateTime.Now;
+                    var rtu = dbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == dto.RtuId);
+                    if (rtu == null)
+                    {
+                        _logFile.AppendLine($"Unknown RTU's {dto.RtuId.First6()} heartbeat.");
+                    }
                     else
-                        rtu.LastConnectionByReserveAddressTimestamp = DateTime.Now;
-                    rtu.Version = dto.Version;
+                    {
+                        if (dto.IsMainChannel)
+                            rtu.LastConnectionByMainAddressTimestamp = DateTime.Now;
+                        else
+                            rtu.LastConnectionByReserveAddressTimestamp = DateTime.Now;
+                        rtu.Version = dto.Version;
+                    }
+                    return await dbContext.SaveChangesAsync();
                 }
-                return await dbContext.SaveChangesAsync();
             }
             catch (Exception e)
             {
@@ -124,8 +127,10 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                var dbContext = new FtDbContext();
-                return await dbContext.RtuStations.ToListAsync();
+                using (var dbContext = new FtDbContext())
+                {
+                    return await dbContext.RtuStations.ToListAsync();
+                }
             }
             catch (Exception e)
             {
@@ -138,23 +143,22 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                var dbContext = new FtDbContext();
-                foreach (var changedStation in changedStations)
+                using (var dbContext = new FtDbContext())
                 {
-                    var rtuStation = dbContext.RtuStations.First(r => r.RtuGuid == changedStation.RtuGuid);
-                    dbContext.RtuStations.Remove(rtuStation);
-                    dbContext.RtuStations.Add(changedStation);
+                    foreach (var changedStation in changedStations)
+                    {
+                        var rtuStation = dbContext.RtuStations.First(r => r.RtuGuid == changedStation.RtuGuid);
+                        dbContext.RtuStations.Remove(rtuStation);
+                        dbContext.RtuStations.Add(changedStation);
+                    }
+                    return await dbContext.SaveChangesAsync();
                 }
-                return await dbContext.SaveChangesAsync();
             }
             catch (Exception e)
             {
-                _logFile.AppendLine("GetAllRtuStations: " + e.Message);
+                _logFile.AppendLine("SaveAvailabilityChanges: " + e.Message);
                 return -1;
             }
         }
-
-
-
     }
 }

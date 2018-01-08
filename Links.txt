@@ -1,9 +1,6 @@
 ﻿Event sourcing scheme 3 https://docs.google.com/open?id=1elmGMdKnNYGCkMavLgT6ViI1W9wa8NUw2IzEFd-DosM
-
 Client scheme https://docs.google.com/document/d/1kkl5jx77wnFhvV_w8EABgECvDMlZLrUQbxPXnEtfYIU/edit
-
 Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlFtQffganXN_LgeUeQk
-
 Операции https://docs.google.com/open?id=1vEk-U0RBY3aNtYu4amWjvQSyVfcIrcAhglXG35Nf6PQ
 
 13. UserListViewModel не могу SelectedUserVm перерисовать
@@ -14,48 +11,9 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
 
 - на датацентре всф стартер запускает всф сервис с конструктором с параметрами через автофак, на клиенте ругается что нужен коструктор без параметров
 
-
-21. 1/12/17
-	как убрать 
-            builder.RegisterType<WindowManager>().As<IWindowManager>().SingleInstance();
-	чтобы случайно не использовать, а использовать только IWindowManager
-
-	 + переделать черех экстеншен метод
-
-22. 11/12/17
-	ловить закрытие калибурновских окон снаружи
-
-	добавить проперти, по кенклосе менять его и проверять при обращении
-	+ done
-
-23. 11/12/17
-	не могу запретить ворнинг в xaml
-
-	+ done
-
 24. 11/12/17
 	разобрать случай с GetLastTraceMeasurement
 	вешал клиент пока не дотянул async/await почти до верха (но почти, не до самого :) )
-
-25. 15/12/17
-	включить в event sourcing время и автора (по возможности автоматически)
-	+ в хедер ивента включил имя пользователя и время и ip клиента
-	+ FakeWcfServiceForClient - удалил
-
-	как их теперь читать ??
-	+ done
-
-26. верификация на сервере операций - write model почти идентична read model
-	+ done
-
-27. Vm переименовать в Model
-	+ done
-
-28. бд убрать интерфейс, сделать через connection string
-	+ done
-
-	рассмотреть паттерн репозиторий 
-	+ done
 
 29. IoC.Get<> заменить ?
 	остались только вьюмодели
@@ -72,3 +30,5 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
 
 30. избавиться от new PortLeaf(...), TraceLeaf, OtauLeaf, RtuLeaf
 	TreeOfRtuModel обрабатывает случившиеся события и создает новые инстансы листьев
+
+31. в базе созданноЙ NEventStore есть таблица snapshots

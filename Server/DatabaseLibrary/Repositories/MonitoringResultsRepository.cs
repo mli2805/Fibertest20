@@ -20,16 +20,17 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                var dbContext = new FtDbContext();
+                using (var dbContext = new FtDbContext())
+                {
+                    var sorFile = new SorFile() { SorBytes = result.SorData };
+                    dbContext.SorFiles.Add(sorFile);
+                    await dbContext.SaveChangesAsync();
 
-                var sorFile = new SorFile() { SorBytes = result.SorData };
-                dbContext.SorFiles.Add(sorFile);
-                await dbContext.SaveChangesAsync();
-
-                var measurement = _measurementFactory.Create(result, sorFile.Id);
-                dbContext.Measurements.Add(measurement);
-                await dbContext.SaveChangesAsync();
-                return new MeasurementWithSor(){Measurement = measurement, SorData = result.SorData};
+                    var measurement = _measurementFactory.Create(result, sorFile.Id);
+                    dbContext.Measurements.Add(measurement);
+                    await dbContext.SaveChangesAsync();
+                    return new MeasurementWithSor(){Measurement = measurement, SorData = result.SorData};
+                }
             }
             catch (Exception e)
             {
