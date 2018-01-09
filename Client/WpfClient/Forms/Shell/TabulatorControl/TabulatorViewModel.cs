@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -8,6 +9,11 @@ namespace Iit.Fibertest.Client
 {
     public class TabulatorViewModel : PropertyChangedBase
     {
+        public GraphReadModel GraphReadModel { get; }
+        private readonly OpticalEventsDoubleViewModel _opticalEventsDoubleViewModel;
+        private readonly NetworkEventsDoubleViewModel _networkEventsDoubleViewModel;
+        private readonly BopNetworkEventsDoubleViewModel _bopNetworkEventsDoubleViewModel;
+
         private int _selectedTabIndex;
         public int SelectedTabIndex
         {
@@ -21,13 +27,13 @@ namespace Iit.Fibertest.Client
         }
 
 
-        public ImageSource IsThereActualOpticalEventsPictogram => GetPictogram();
-        private ImageSource GetPictogram()
-        {
-//            return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
-            return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/RedSquare.png"));
-        }
+        #region Pictograms
 
+        public Visibility IsThereActualOpticalEventsPictogram { get; set; } = Visibility.Hidden;
+        public Visibility IsThereActualNetworkEventsPictogram { get; set; } = Visibility.Hidden;
+        public Visibility IsThereActualBopEventsPictogram { get; set; } = Visibility.Hidden;
+
+        #endregion
 
         #region Visibilities
 
@@ -81,9 +87,42 @@ namespace Iit.Fibertest.Client
 
         #endregion
 
-        public TabulatorViewModel()
+        public TabulatorViewModel(OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
+            NetworkEventsDoubleViewModel networkEventsDoubleViewModel,
+            BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel,
+            GraphReadModel graphReadModel)
         {
+            GraphReadModel = graphReadModel;
+            _opticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
+            _networkEventsDoubleViewModel = networkEventsDoubleViewModel;
+            _bopNetworkEventsDoubleViewModel = bopNetworkEventsDoubleViewModel;
+            SubscribeActualEventsRowChanged();
             SelectedTabIndex = 3;
+        }
+
+        private void SubscribeActualEventsRowChanged()
+        {
+            _opticalEventsDoubleViewModel.ActualOpticalEventsViewModel.Rows.CollectionChanged += (s, e) =>
+            {
+                IsThereActualOpticalEventsPictogram = _opticalEventsDoubleViewModel.ActualOpticalEventsViewModel.Rows.Any()
+                    ? Visibility.Visible
+                    : Visibility.Hidden;
+                NotifyOfPropertyChange(nameof(IsThereActualOpticalEventsPictogram));
+            };
+            _networkEventsDoubleViewModel.ActualNetworkEventsViewModel.Rows.CollectionChanged += (s, e) =>
+            {
+                IsThereActualNetworkEventsPictogram = _networkEventsDoubleViewModel.ActualNetworkEventsViewModel.Rows.Any()
+                    ? Visibility.Visible
+                    : Visibility.Hidden;
+                NotifyOfPropertyChange(nameof(IsThereActualNetworkEventsPictogram));
+            };
+            _bopNetworkEventsDoubleViewModel.ActualBopNetworkEventsViewModel.Rows.CollectionChanged += (s, e) =>
+            {
+                IsThereActualBopEventsPictogram = _bopNetworkEventsDoubleViewModel.ActualBopNetworkEventsViewModel.Rows.Any()
+                    ? Visibility.Visible
+                    : Visibility.Hidden;
+                NotifyOfPropertyChange(nameof(IsThereActualBopEventsPictogram));
+            };
         }
 
         private void ChangeTabVisibility()

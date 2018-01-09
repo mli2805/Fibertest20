@@ -4,24 +4,34 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
-             mc:Ignorable="d" >
+             xmlns:client="clr-namespace:Iit.Fibertest.Client"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance client:TabulatorViewModel}">
     <TabControl Height="25" SelectedIndex="{Binding SelectedTabIndex}">
         <TabItem>
             <TabItem.Header>
                 <StackPanel Orientation="Horizontal">
-                    <Image Source="{Binding IsThereActualOpticalEventsPictogram}" Height="12" Width="12" Margin="0,0,4,0" />
+                    <Image Source="pack://application:,,,/Resources/LeftPanel/RedSquare.png" 
+                           Visibility="{Binding IsThereActualOpticalEventsPictogram}" Height="12" Width="12" Margin="0,0,4,0" />
                     <TextBlock Text="{x:Static stringResources:Resources.SID_Optical_events}" Margin="5,0,20,0" />
                 </StackPanel>
             </TabItem.Header>
         </TabItem>
         <TabItem>
             <TabItem.Header>
-                <TextBlock Text="{x:Static stringResources:Resources.SID_Network_events}" Margin="5,0,20,0"/>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="pack://application:,,,/Resources/LeftPanel/RedSquare.png" 
+                           Visibility="{Binding IsThereActualNetworkEventsPictogram}" Height="12" Width="12" Margin="0,0,4,0" />
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Network_events}" Margin="5,0,20,0"/>
+                </StackPanel>
             </TabItem.Header>
         </TabItem>
         <TabItem>
             <TabItem.Header>
-                <TextBlock Text="{x:Static stringResources:Resources.SID_Network_events_Bop}" Margin="5,0,20,0"/>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="pack://application:,,,/Resources/LeftPanel/RedSquare.png" 
+                           Visibility ="{Binding IsThereActualBopEventsPictogram}"  Height="12" Width="12" Margin="0,0,4,0" />
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Network_events_Bop}" Margin="5,0,20,0"/>
+                </StackPanel>
             </TabItem.Header>
         </TabItem>
         <TabItem>

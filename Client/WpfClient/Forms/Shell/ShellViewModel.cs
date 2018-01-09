@@ -132,7 +132,6 @@ namespace Iit.Fibertest.Client
 
         protected override void OnViewLoaded(object view)
         {
-            // DisplayName = $@"Fibertest v2.0 {_currentUser.UserName}";
             GraphReadModel.PropertyChanged += GraphReadModel_PropertyChanged;
         }
 
