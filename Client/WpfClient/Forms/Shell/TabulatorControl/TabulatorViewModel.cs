@@ -29,6 +29,8 @@ namespace Iit.Fibertest.Client
         }
 
 
+        #region Visibilities
+
         private Visibility _opticalEventsVisibility;
         public Visibility OpticalEventsVisibility
         {
@@ -77,6 +79,12 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        #endregion
+
+        public TabulatorViewModel()
+        {
+            SelectedTabIndex = 3;
+        }
 
         private void ChangeTabVisibility()
         {

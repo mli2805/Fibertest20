@@ -44,18 +44,6 @@ namespace Iit.Fibertest.Client
 
         private bool? _isAuthenticationSuccessfull;
 
-        private int _selectedTabIndex;
-        public int SelectedTabIndex
-        {
-            get => _selectedTabIndex;
-            set
-            {
-                if (value == _selectedTabIndex) return;
-                _selectedTabIndex = value;
-                ChangeGisVisibility();
-            }
-        }
-
         public ShellViewModel(ReadModel readModel, TreeOfRtuModel treeOfRtuModel, GraphReadModel graphReadModel,
             IWcfServiceForClient c2DWcfManager, IWindowManager windowManager,
             NetworkEventsDoubleViewModel networkEventsDoubleViewModel, NetworkEventsProvider networkEventsProvider,
@@ -72,16 +60,11 @@ namespace Iit.Fibertest.Client
             MainMenuViewModel = new MainMenuViewModel(windowManager);
             TreeOfRtuViewModel = new TreeOfRtuViewModel(treeOfRtuModel);
             GraphReadModel = graphReadModel;
-            GraphReadModel.MapVisibility = Visibility.Collapsed;
             OpticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
-            OpticalEventsDoubleViewModel.OpticalEventsVisibility = Visibility.Visible;
             NetworkEventsDoubleViewModel = networkEventsDoubleViewModel;
-            NetworkEventsDoubleViewModel.NetworkEventsVisibility = Visibility.Collapsed;
             BopNetworkEventsDoubleViewModel = bopNetworkEventsDoubleViewModel;
             TabulatorViewModel = tabulatorViewModel;
             CommonStatusBarViewModel = commonStatusBarViewModel;
-            BopNetworkEventsDoubleViewModel.BopNetworkEventsVisibility = Visibility.Collapsed;
-            _selectedTabIndex = 0;
             C2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
             _bopNetworkEventsProvider = bopNetworkEventsProvider;
@@ -159,37 +142,6 @@ namespace Iit.Fibertest.Client
                 this.AsDynamic().ComplyWithRequest(GraphReadModel.Request)
                     // This call is needed so there's no warning
                     .ConfigureAwait(false);
-        }
-
-        private void ChangeGisVisibility()
-        {
-            switch (_selectedTabIndex)
-            {
-                case 0:
-                    OpticalEventsDoubleViewModel.OpticalEventsVisibility = Visibility.Visible;
-                    NetworkEventsDoubleViewModel.NetworkEventsVisibility = Visibility.Collapsed;
-                    BopNetworkEventsDoubleViewModel.BopNetworkEventsVisibility = Visibility.Collapsed;
-                    GraphReadModel.MapVisibility = Visibility.Collapsed;
-                    break;
-                case 1:
-                    OpticalEventsDoubleViewModel.OpticalEventsVisibility = Visibility.Collapsed;
-                    NetworkEventsDoubleViewModel.NetworkEventsVisibility = Visibility.Visible;
-                    BopNetworkEventsDoubleViewModel.BopNetworkEventsVisibility = Visibility.Collapsed;
-                    GraphReadModel.MapVisibility = Visibility.Collapsed;
-                    break;
-                case 2:
-                    OpticalEventsDoubleViewModel.OpticalEventsVisibility = Visibility.Collapsed;
-                    NetworkEventsDoubleViewModel.NetworkEventsVisibility = Visibility.Collapsed;
-                    BopNetworkEventsDoubleViewModel.BopNetworkEventsVisibility = Visibility.Visible;
-                    GraphReadModel.MapVisibility = Visibility.Collapsed;
-                    break;
-                case 3:
-                    OpticalEventsDoubleViewModel.OpticalEventsVisibility = Visibility.Collapsed;
-                    NetworkEventsDoubleViewModel.NetworkEventsVisibility = Visibility.Collapsed;
-                    BopNetworkEventsDoubleViewModel.BopNetworkEventsVisibility = Visibility.Collapsed;
-                    GraphReadModel.MapVisibility = Visibility.Visible;
-                    break;
-            }
         }
 
         #region Node

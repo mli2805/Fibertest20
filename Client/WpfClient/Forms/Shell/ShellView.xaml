@@ -28,39 +28,20 @@
             </TabControl>
             <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Left"/>
             <DockPanel Grid.Column="2">
-                <TabControl Height="25" DockPanel.Dock="Top" SelectedIndex="{Binding SelectedTabIndex}">
-                    <TabItem>
-                        <TabItem.Header>
-                            <TextBlock Text="{x:Static stringResources:Resources.SID_Optical_events}" Margin="5,0,20,0"/>
-                        </TabItem.Header>
-                    </TabItem>
-                    <TabItem>
-                        <TabItem.Header>
-                            <TextBlock Text="{x:Static stringResources:Resources.SID_Network_events}" Margin="5,0,20,0"/>
-                        </TabItem.Header>
-                    </TabItem>
-                    <TabItem>
-                        <TabItem.Header>
-                            <TextBlock Text="{x:Static stringResources:Resources.SID_Network_events_Bop}" Margin="5,0,20,0"/>
-                        </TabItem.Header>
-                    </TabItem>
-                    <TabItem>
-                        <TabItem.Header>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{x:Static stringResources:Resources.SID_Gis}" Margin="10,0,40,0"/>
-                                <ComboBox Margin="0" FontSize="10" VerticalContentAlignment="Center"
-                                          ItemsSource="{Binding GraphReadModel.GraphVisibilityLevels}" 
-                                          SelectedItem="{Binding GraphReadModel.SelectedGraphVisibilityLevel}"/>
-                            </StackPanel>
-                        </TabItem.Header>
-                    </TabItem>
-                </TabControl>
                 <client:TabulatorView DockPanel.Dock="Top" DataContext="{Binding TabulatorViewModel}"/>
                 <client:CommonStatusBarView DockPanel.Dock="Bottom" DataContext="{Binding CommonStatusBarViewModel}"/>
-                <client:OpticalEventsDoubleView DataContext="{Binding OpticalEventsDoubleViewModel}" Visibility="{Binding OpticalEventsVisibility}"/>
-                <client:NetworkEventsDoubleView DataContext="{Binding NetworkEventsDoubleViewModel}" Visibility="{Binding NetworkEventsVisibility}"/>
-                <client:BopNetworkEventsDoubleView DataContext="{Binding BopNetworkEventsDoubleViewModel}" Visibility="{Binding BopNetworkEventsVisibility}"/>
-                <client:MapUserControl DataContext="{Binding GraphReadModel}" Visibility="{Binding MapVisibility}" Margin="3,0,3,3"/>
+                <DockPanel Visibility="{Binding TabulatorViewModel.OpticalEventsVisibility}">
+                    <client:OpticalEventsDoubleView DataContext="{Binding OpticalEventsDoubleViewModel}"/>
+                </DockPanel>
+                <DockPanel Visibility="{Binding TabulatorViewModel.NetworkEventsVisibility}">
+                    <client:NetworkEventsDoubleView DataContext="{Binding NetworkEventsDoubleViewModel}" />
+                </DockPanel>
+                <DockPanel Visibility="{Binding TabulatorViewModel.BopNetworkEventsVisibility}">
+                    <client:BopNetworkEventsDoubleView  DataContext="{Binding BopNetworkEventsDoubleViewModel}"/>
+                </DockPanel>
+                <DockPanel Visibility="{Binding TabulatorViewModel.MapVisibility}">
+                    <client:MapUserControl DataContext="{Binding GraphReadModel}" Margin="3,0,3,3"/>
+                </DockPanel>
             </DockPanel>
         </Grid>
 

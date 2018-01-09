@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
@@ -10,18 +9,6 @@ namespace Iit.Fibertest.Client
     public class OpticalEventsDoubleViewModel : PropertyChangedBase
     {
         private readonly ReadModel _readModel;
-        private Visibility _opticalEventsVisibility;
-
-        public Visibility OpticalEventsVisibility
-        {
-            get { return _opticalEventsVisibility; }
-            set
-            {
-                if (value == _opticalEventsVisibility) return;
-                _opticalEventsVisibility = value;
-                NotifyOfPropertyChange();
-            }
-        }
 
         public OpticalEventsViewModel AllOpticalEventsViewModel { get; set; }
         public OpticalEventsViewModel ActualOpticalEventsViewModel { get; set; }

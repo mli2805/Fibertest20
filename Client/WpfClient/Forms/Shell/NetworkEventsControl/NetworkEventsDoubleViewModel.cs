@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
@@ -9,17 +8,7 @@ namespace Iit.Fibertest.Client
     public class NetworkEventsDoubleViewModel : PropertyChangedBase
     {
         private readonly ReadModel _readModel;
-        private Visibility _networkEventsVisibility;
-        public Visibility NetworkEventsVisibility
-        {
-            get { return _networkEventsVisibility; }
-            set
-            {
-                if (value == _networkEventsVisibility) return;
-                _networkEventsVisibility = value;
-                NotifyOfPropertyChange();
-            }
-        }
+       
         public NetworkEventsViewModel ActualNetworkEventsViewModel { get; set; }
         public NetworkEventsViewModel AllNetworkEventsViewModel { get; set; }
 

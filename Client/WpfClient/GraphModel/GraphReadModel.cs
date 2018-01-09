@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
 using AutoMapper;
 using Caliburn.Micro;
 using GMap.NET;
@@ -16,19 +15,7 @@ namespace Iit.Fibertest.Client
     {
         public CommonStatusBarViewModel CommonStatusBarViewModel { get; }
         private readonly IMyLog _logFile;
-        private Visibility _mapVisibility;
-        public Visibility MapVisibility
-        {
-            get => _mapVisibility;
-            set
-            {
-                if (value == _mapVisibility) return;
-                _mapVisibility = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
-
+       
         public ObservableCollection<NodeVm> Nodes { get; }
         public ObservableCollection<FiberVm> Fibers { get; }
         public ObservableCollection<RtuVm> Rtus { get; }
