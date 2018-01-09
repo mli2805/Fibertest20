@@ -2,15 +2,11 @@
 using System.Collections.Generic;
 using System.Windows.Media;
 using Caliburn.Micro;
-using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
 {
    public class Leaf : PropertyChangedBase
     {
-        public readonly ReadModel ReadModel;
-        public readonly IWindowManager WindowManager;
-        public readonly IWcfServiceForClient C2DWcfManager;
         public Guid Id { get; set; }
 
         private string _title;
@@ -27,7 +23,6 @@ namespace Iit.Fibertest.Client
         }
 
         private Brush _color;
-
         public Brush Color
         {
             get => _color;
@@ -47,11 +42,9 @@ namespace Iit.Fibertest.Client
 
         public Leaf Parent { get; set; }
 
-        protected Leaf(ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager)
+        protected Leaf()
         {
-            ReadModel = readModel;
-            WindowManager = windowManager;
-            C2DWcfManager = c2DWcfManager;
+          
         }
 
         private bool _isSelected;

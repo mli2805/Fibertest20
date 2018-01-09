@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Media;
-using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
@@ -11,6 +10,7 @@ namespace Iit.Fibertest.Client
 {
     public class OtauLeaf : Leaf, IPortOwner
     {
+        public IWcfServiceForClient C2DWcfManager { get; }
         private readonly CurrentUser _currentUser;
         public int OwnPortCount { get; set; }
         public int MasterPort { get; set; }
@@ -26,10 +26,10 @@ namespace Iit.Fibertest.Client
         public ChildrenImpresario ChildrenImpresario { get; }
         public int TraceCount => ChildrenImpresario.Children.Count(c => c is TraceLeaf);
 
-        public OtauLeaf(ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager,
+        public OtauLeaf(IWcfServiceForClient c2DWcfManager,
             CurrentUser currentUser, FreePorts freePorts)
-            : base(readModel, windowManager, c2DWcfManager)
         {
+            C2DWcfManager = c2DWcfManager;
             _currentUser = currentUser;
             ChildrenImpresario = new ChildrenImpresario(freePorts);
         }

@@ -319,7 +319,7 @@
     <Compile Include="Requests\RequestAddRtuAtGpsLocation.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\ChildrenImpresario.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\IPortOwner.cs" />
-    <Compile Include="Forms\Shell\TreeOfRtuControl\OtauLeaf.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\OtauLeaf\OtauLeaf.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\FreePorts.cs" />
     <Compile Include="ViewControls\GpsInputControl\GpsInputModeComboItem.cs" />
     <Compile Include="ReadModel\PathFinder.cs" />

@@ -5,15 +5,15 @@ using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
-using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
 {
     public class TraceLeafActions
     {
-        private readonly IniFile _iniFile;
-        private readonly IMyLog _logFile;
+        private readonly ReadModel _readModel;
         private readonly IWindowManager _windowManager;
+        private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly TraceStateViewsManager _traceStateViewsManager;
         private readonly TraceStatisticsViewsManager _traceStatisticsViewsManager;
         private readonly ReflectogramManager _reflectogramManager;
@@ -21,15 +21,16 @@ namespace Iit.Fibertest.Client
         private readonly OpticalEventsDoubleViewModel _opticalEventsDoubleViewModel;
         private readonly CommonStatusBarViewModel _commonStatusBarViewModel;
 
-        public TraceLeafActions(IniFile iniFile, IMyLog logFile, IWindowManager windowManager,
+        public TraceLeafActions(ReadModel readModel,
+            IWindowManager windowManager, IWcfServiceForClient c2DWcfManager,
             TraceStateViewsManager traceStateViewsManager, TraceStatisticsViewsManager traceStatisticsViewsManager,
              ReflectogramManager reflectogramManager, BaseRefsAssignViewModel baseRefsAssignViewModel,
             OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
             CommonStatusBarViewModel commonStatusBarViewModel)
         {
-            _iniFile = iniFile;
-            _logFile = logFile;
+            _readModel = readModel;
             _windowManager = windowManager;
+            _c2DWcfManager = c2DWcfManager;
             _traceStateViewsManager = traceStateViewsManager;
             _traceStatisticsViewsManager = traceStatisticsViewsManager;
             _reflectogramManager = reflectogramManager;
@@ -43,8 +44,8 @@ namespace Iit.Fibertest.Client
             if (!(param is TraceLeaf traceLeaf))
                 return;
 
-            var vm = new TraceInfoViewModel(traceLeaf.ReadModel, traceLeaf.C2DWcfManager, traceLeaf.WindowManager, traceLeaf.Id);
-            traceLeaf.WindowManager.ShowWindowWithAssignedOwner(vm);
+            var vm = new TraceInfoViewModel(_readModel, _c2DWcfManager, _windowManager, traceLeaf.Id);
+            _windowManager.ShowWindowWithAssignedOwner(vm);
         }
 
         public void ShowTrace(object param) 
@@ -56,12 +57,9 @@ namespace Iit.Fibertest.Client
             if (!(param is TraceLeaf traceLeaf))
                 return;
 
-            var trace = traceLeaf.ReadModel.Traces.First(t => t.Id == traceLeaf.Id);
-            //            var vm = new BaseRefsAssignViewModel(_iniFile, traceLeaf.ReadModel, traceLeaf.C2DWcfManager, traceLeaf.WindowManager, new BaseRefDtoFactory(_logFile));
-            //            vm.Initialize(trace);
-            //            traceLeaf.WindowManager.ShowWindowWithAssignedOwner(vm);
+            var trace = _readModel.Traces.First(t => t.Id == traceLeaf.Id);
             _baseRefsAssignViewModel.Initialize(trace);
-            traceLeaf.WindowManager.ShowDialogWithAssignedOwner(_baseRefsAssignViewModel);
+            _windowManager.ShowDialogWithAssignedOwner(_baseRefsAssignViewModel);
         }
 
         public void ShowTraceState(object param)
@@ -93,9 +91,9 @@ namespace Iit.Fibertest.Client
             if (!(param is TraceLeaf traceLeaf))
                 return;
 
-            var vm = new LandmarksViewModel(traceLeaf.ReadModel, traceLeaf.WindowManager);
+            var vm = new LandmarksViewModel(_readModel, _windowManager);
             vm.Initialize(traceLeaf.Id, false);
-            traceLeaf.WindowManager.ShowWindowWithAssignedOwner(vm);
+            _windowManager.ShowWindowWithAssignedOwner(vm);
         }
 
         public void DetachTrace(object param)
@@ -103,7 +101,7 @@ namespace Iit.Fibertest.Client
             if (!(param is TraceLeaf traceLeaf))
                 return;
 
-            traceLeaf.C2DWcfManager.SendCommandAsObj(new DetachTrace() { TraceId = traceLeaf.Id });
+            _c2DWcfManager.SendCommandAsObj(new DetachTrace() { TraceId = traceLeaf.Id });
         }
 
         public async void CleanTrace(object param)
@@ -132,7 +130,7 @@ namespace Iit.Fibertest.Client
                 //                {
                 _commonStatusBarViewModel.StatusBarMessage2 = Resources.SID_Long_operation__Removing_trace_s_measurements____Please_wait_;
                 var cmd = isRemoval ? new RemoveTrace() {Id = traceId} : (object)new CleanTrace() {Id = traceId};
-                var result = await traceLeaf.C2DWcfManager.SendCommandAsObj(cmd);
+                var result = await _c2DWcfManager.SendCommandAsObj(cmd);
                 _commonStatusBarViewModel.StatusBarMessage2 = result ?? "";
                 //                }
 

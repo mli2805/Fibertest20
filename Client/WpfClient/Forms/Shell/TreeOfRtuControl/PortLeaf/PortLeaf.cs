@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Media;
-using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
-using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
 {
@@ -22,10 +20,7 @@ namespace Iit.Fibertest.Client
             // Specified manually
             Leaf parent, int portNumber, 
             // Resolved with Autofac
-            ReadModel readModel, IWindowManager windowManager,
-            IWcfServiceForClient c2DWcfManager,
             PortLeafContextMenuProvider contextMenuProvider)
-            : base(readModel, windowManager, c2DWcfManager)
         {
             PortNumber = portNumber;
             _contextMenuProvider = contextMenuProvider;

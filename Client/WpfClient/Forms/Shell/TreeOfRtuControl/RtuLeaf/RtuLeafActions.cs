@@ -8,24 +8,29 @@ using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
 {
     public class RtuLeafActions
     {
+        private readonly ILifetimeScope _globalScope;
         private readonly IMyLog _logFile;
         private readonly ReadModel _readModel;
         private readonly GraphReadModel _graphReadModel;
         private readonly IWindowManager _windowManager;
+        private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly RtuStateViewsManager _rtuStateViewsManager;
 
-        public RtuLeafActions(IMyLog logFile, ReadModel readModel, GraphReadModel graphReadModel,
-            IWindowManager windowManager, RtuStateViewsManager rtuStateViewsManager)
+        public RtuLeafActions(ILifetimeScope globalScope, IMyLog logFile, ReadModel readModel, GraphReadModel graphReadModel,
+            IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, RtuStateViewsManager rtuStateViewsManager)
         {
+            _globalScope = globalScope;
             _logFile = logFile;
             _readModel = readModel;
             _graphReadModel = graphReadModel;
             _windowManager = windowManager;
+            _c2DWcfManager = c2DWcfManager;
             _rtuStateViewsManager = rtuStateViewsManager;
         }
 
@@ -34,8 +39,8 @@ namespace Iit.Fibertest.Client
             if (!(param is RtuLeaf rtuLeaf))
                 return;
 
-            var vm = new RtuUpdateViewModel(rtuLeaf.Id, rtuLeaf.ReadModel, rtuLeaf.C2DWcfManager);
-            rtuLeaf.WindowManager.ShowWindowWithAssignedOwner(vm);
+            var vm = new RtuUpdateViewModel(rtuLeaf.Id, _readModel, _c2DWcfManager);
+            _windowManager.ShowWindowWithAssignedOwner(vm);
         }
 
         public void ShowRtu(object param)
@@ -50,9 +55,9 @@ namespace Iit.Fibertest.Client
             if (!(param is RtuLeaf rtuLeaf))
                 return;
 
-            var localScope = rtuLeaf.GlobalScope.BeginLifetimeScope(ctx => ctx.RegisterInstance(rtuLeaf));
+            var localScope = _globalScope.BeginLifetimeScope(ctx => ctx.RegisterInstance(rtuLeaf));
             var vm = localScope.Resolve<RtuInitializeViewModel>();
-            rtuLeaf.WindowManager.ShowWindowWithAssignedOwner(vm);
+            _windowManager.ShowWindowWithAssignedOwner(vm);
         }
 
         public void ShowRtuState(object param)
@@ -66,9 +71,9 @@ namespace Iit.Fibertest.Client
             if (!(param is RtuLeaf rtuLeaf))
                 return;
 
-            var vm = new LandmarksViewModel(rtuLeaf.ReadModel, rtuLeaf.WindowManager);
+            var vm = new LandmarksViewModel(_readModel, _windowManager);
             vm.Initialize(rtuLeaf.Id, true);
-            rtuLeaf.WindowManager.ShowWindowWithAssignedOwner(vm);
+            _windowManager.ShowWindowWithAssignedOwner(vm);
         }
 
         public void ShowMonitoringSettings(object param)
@@ -76,8 +81,8 @@ namespace Iit.Fibertest.Client
             if (!(param is RtuLeaf rtuLeaf))
                 return;
 
-            var vm = new MonitoringSettingsViewModel(rtuLeaf, rtuLeaf.ReadModel, rtuLeaf.C2DWcfManager);
-            rtuLeaf.WindowManager.ShowWindowWithAssignedOwner(vm);
+            var vm = new MonitoringSettingsViewModel(rtuLeaf, _readModel, _c2DWcfManager);
+            _windowManager.ShowWindowWithAssignedOwner(vm);
         }
 
         public async void StopMonitoring(object param)
@@ -89,13 +94,13 @@ namespace Iit.Fibertest.Client
             using (new WaitCursor())
             {
                 result =
-                    await rtuLeaf.C2DWcfManager.StopMonitoringAsync(new StopMonitoringDto() { RtuId = rtuLeaf.Id });
+                    await _c2DWcfManager.StopMonitoringAsync(new StopMonitoringDto() { RtuId = rtuLeaf.Id });
             }
             _logFile.AppendLine($@"Stop monitoring result - {result}");
             if (result)
             {
                 var cmd = new StopMonitoring() { RtuId = rtuLeaf.Id };
-                await rtuLeaf.C2DWcfManager.SendCommandAsObj(cmd);
+                await _c2DWcfManager.SendCommandAsObj(cmd);
             }
         }
 
@@ -161,12 +166,12 @@ namespace Iit.Fibertest.Client
 
             using (new WaitCursor())
             {
-                var resultDto = await rtuLeaf.C2DWcfManager.ApplyMonitoringSettingsAsync(dto);
+                var resultDto = await _c2DWcfManager.ApplyMonitoringSettingsAsync(dto);
                 _logFile.AppendLine($@"Start monitoring result - {resultDto.ReturnCode == ReturnCode.MonitoringSettingsAppliedSuccessfully}");
                 if (resultDto.ReturnCode == ReturnCode.MonitoringSettingsAppliedSuccessfully)
                 {
                     var cmd = new StartMonitoring() {RtuId = rtuLeaf.Id};
-                    await rtuLeaf.C2DWcfManager.SendCommandAsObj(cmd);
+                    await _c2DWcfManager.SendCommandAsObj(cmd);
                 }
             }
         }
@@ -174,8 +179,8 @@ namespace Iit.Fibertest.Client
 
         public void RemoveRtu(object param)
         {
-            var rtuLeaf = param as RtuLeaf;
-            rtuLeaf?.C2DWcfManager.SendCommandAsObj(new RemoveRtu() { Id = rtuLeaf.Id });
+            if (param is RtuLeaf rtuLeaf)
+                _c2DWcfManager.SendCommandAsObj(new RemoveRtu() { Id = rtuLeaf.Id });
         }
 
         public void DefineTraceStepByStep(object param)
