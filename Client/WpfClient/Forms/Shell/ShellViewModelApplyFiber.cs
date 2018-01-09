@@ -87,7 +87,7 @@ namespace Iit.Fibertest.Client
                         f.Node1.Id == request.Node2 && f.Node2.Id == request.Node1);
             if (fiber == null)
                 return true;
-            _windowManager.ShowDialogWithAssignedOwner(new NotificationViewModel(Resources.SID_Error, Resources.SID_Section_already_exists));
+            _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Section_already_exists));
             return false;
         }
 
@@ -110,7 +110,7 @@ namespace Iit.Fibertest.Client
                         f.Node1.Id == cmd.Node2 && f.Node2.Id == cmd.Node1);
             if (fiber == null)
                 return true;
-            _windowManager.ShowDialogWithAssignedOwner(new NotificationViewModel(Resources.SID_Error, Resources.SID_Section_already_exists));
+            _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Section_already_exists));
             return false;
         }
 

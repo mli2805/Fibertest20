@@ -171,7 +171,7 @@ namespace Iit.Fibertest.Client
         {
             if (SelectedRow == null)
             {
-                var vm = new NotificationViewModel(Resources.SID_Information,Resources.SID_There_are_no_selected_row_);
+                var vm = new MyMessageBoxViewModel(MessageType.Information, Resources.SID_There_are_no_selected_row_);
                 _windowManager.ShowDialogWithAssignedOwner(vm);
                 return;
             }

@@ -83,7 +83,7 @@ namespace Iit.Fibertest.Client
             if (result == CharonOperationResult.Ok)
                 return true;
 
-            var vm = new NotificationViewModel(Resources.SID_Error, $@"{charon.LastErrorMessage}");
+            var vm = new MyMessageBoxViewModel(MessageType.Error, $@"{charon.LastErrorMessage}");
             _windowManager.ShowDialogWithAssignedOwner(vm);
             return false;
         }

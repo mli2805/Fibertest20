@@ -27,6 +27,7 @@ namespace Graph.Tests
         public void GivenИКликнулОпределитьТрассуНаУзлеГдеНетОборудования()
         {
 
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
             _sut.ShellVm.ComplyWithRequest(
                 new RequestAddTrace() {LastNodeId = _wrongNodeId, NodeWithRtuId = _rtuNodeId});
         }
@@ -40,6 +41,7 @@ namespace Graph.Tests
         [Given(@"Но пользователь выбрал узел где есть оборудование и кликнул определить трассу")]
         public void GivenНоПользовательВыбралУзелГдеЕстьОборудованиеИКликнулОпределитьТрассу()
         {
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
             _sut.ShellVm.ComplyWithRequest(
                 new RequestAddTrace() { LastNodeId = _wrongNodeWithEqId, NodeWithRtuId = _rtuNodeId });
         }
@@ -54,9 +56,9 @@ namespace Graph.Tests
         public void ThenВыскакиваетСообщениеОНеобходимостиОборудованияВПоследнемУзле()
         {
             _sut.FakeWindowManager.Log
-                .OfType<NotificationViewModel>()
+                .OfType<MyMessageBoxViewModel>()
                 .Last()
-                .Message
+                .Lines[0].Line
                 .Should().Be(Resources.SID_Last_node_of_trace_must_contain_some_equipment);
         }
 
@@ -64,9 +66,9 @@ namespace Graph.Tests
         public void ThenВыскакиваетСообщениеОНевозможностиПроложитьПуть()
         {
             _sut.FakeWindowManager.Log
-                .OfType<NotificationViewModel>()
+                .OfType<MyMessageBoxViewModel>()
                 .Last()
-                .Message
+                .Lines[0].Line
                 .Should().Be(Resources.SID_Path_couldn_t_be_found);
         }
 

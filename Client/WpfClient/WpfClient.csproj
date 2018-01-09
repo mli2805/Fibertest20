@@ -444,7 +444,6 @@
     <Compile Include="Forms\Shell\ShellViewModelApplyTrace.cs" />
     <Compile Include="ViewModels\TraceInfoViewModel.cs" />
     <Compile Include="ViewModels\TraceChoiceViewModel.cs" />
-    <Compile Include="ViewModels\UniversalViewModels\NotificationViewModel.cs" />
     <Compile Include="Forms\BaseRefs\BaseRefsAssignView.xaml.cs">
       <DependentUpon>BaseRefsAssignView.xaml</DependentUpon>
     </Compile>
@@ -468,9 +467,6 @@
     </Compile>
     <Compile Include="Forms\Shell\TreeOfRtuControl\TreeOfRtuView.xaml.cs">
       <DependentUpon>TreeOfRtuView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UniversalViews\NotificationView.xaml.cs">
-      <DependentUpon>NotificationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="GraphModel\EquipmentVm.cs" />
     <Compile Include="GraphModel\FiberVm.cs" />
@@ -686,10 +682,6 @@
     <Page Include="Forms\UniversalForms\MyMessageBox\MyMessageBoxView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\UniversalViews\NotificationView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\RtuUpdateView.xaml">
       <Generator>MSBuild:Compile</Generator>

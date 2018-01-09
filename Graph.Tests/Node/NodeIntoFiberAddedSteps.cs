@@ -38,6 +38,7 @@ namespace Graph.Tests
         [When(@"Пользователь кликает добавить узел в первый отрезок этой трассы")]
         public void WhenПользовательКликаетДобавитьУзелВОтрезок()
         {
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
             _sut.ShellVm.ComplyWithRequest(new RequestAddNodeIntoFiber() {FiberId = _fiber.Id}).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             _nodeId = _sut.ReadModel.Nodes.Last().Id;
@@ -61,9 +62,9 @@ namespace Graph.Tests
         public void ThenCообщениемОбНевозможности()
         {
             _sut.FakeWindowManager.Log
-                .OfType<NotificationViewModel>()
+                .OfType<MyMessageBoxViewModel>()
                 .Last()
-                .Message
+                .Lines[0].Line
                 .Should().Be(Resources.SID_It_s_impossible_to_change_trace_with_base_reflectogram);
         }
 

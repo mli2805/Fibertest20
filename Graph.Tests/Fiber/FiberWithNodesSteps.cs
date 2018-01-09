@@ -44,6 +44,7 @@ namespace Graph.Tests
         [When(@"Пользователь кликает добавить отрезок с узлами")]
         public void WhenПользовательКликаетДобавитьОтрезокСУзлами()
         {
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
             _sut.ShellVm.ComplyWithRequest(new RequestAddFiberWithNodes() {Node1 = _leftNodeId, Node2 = _rightNodeId}).Wait();
         }
 
@@ -77,9 +78,9 @@ namespace Graph.Tests
         public void ThenПоявляетсяСАобщениеОСуществованииТакогоОтрезка()
         {
             _sut.FakeWindowManager.Log
-                .OfType<NotificationViewModel>()
+                .OfType<MyMessageBoxViewModel>()
                 .Last()
-                .Message
+                .Lines[0].Line
                 .Should().Be(Resources.SID_Section_already_exists);
         }
 

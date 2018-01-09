@@ -49,7 +49,7 @@ namespace Graph.Tests
         public void WhenПользовательВводитОсновнойАдрес_ИЖметИнициализировать(string p0)
         {
             _mainAddress = p0;
-            _sut.FakeWindowManager.RegisterHandler(m => m is NotificationViewModel);
+            _sut.FakeWindowManager.RegisterHandler(m => m is MyMessageBoxViewModel);
             _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler(model, _rtuLeaf.Id, p0, "", Answer.Yes));
 
             _sut.RtuLeafActions.InitializeRtu(_rtuLeaf);
@@ -61,7 +61,7 @@ namespace Graph.Tests
         {
             _mainAddress = p0;
             _reserveAddress = p1;
-            _sut.FakeWindowManager.RegisterHandler(m => m is NotificationViewModel);
+            _sut.FakeWindowManager.RegisterHandler(m => m is MyMessageBoxViewModel);
             _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler(model, _rtuLeaf.Id, p0, p1, Answer.Yes));
 
             _sut.RtuLeafActions.InitializeRtu(_rtuLeaf);
@@ -72,11 +72,11 @@ namespace Graph.Tests
         public void ThenСообщениеОбСуществованииRtuсТакимАдресом()
         {
             var lastNotificationViewModel = _sut.FakeWindowManager.Log
-                .OfType<NotificationViewModel>()
+                .OfType<MyMessageBoxViewModel>()
                 .Last();
 
             lastNotificationViewModel
-               .Message
+               .Lines[0].Line
                .Should().Be(Resources.SID_There_is_RTU_with_the_same_ip_address_);
 
             _sut.FakeWindowManager.Log.Remove(lastNotificationViewModel);

@@ -115,7 +115,7 @@ namespace Iit.Fibertest.Client
                 else
                 {
                     AttachmentProgress = Resources.SID_Failed_;
-                    var vm = new NotificationViewModel(Resources.SID_Error, $@"{result.ErrorMessage}");
+                    var vm = new MyMessageBoxViewModel(MessageType.Error, $@"{result.ErrorMessage}");
                     _windowManager.ShowDialogWithAssignedOwner(vm);
                 }
             }
@@ -163,7 +163,7 @@ namespace Iit.Fibertest.Client
                 o.NetAddress.Port == NetAddressInputViewModel.GetNetAddress().Port))
                 return true;
 
-            var vm = new NotificationViewModel(Resources.SID_Error, Resources.SID_There_is_optical_switch_with_the_same_tcp_address_);
+            var vm = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_There_is_optical_switch_with_the_same_tcp_address_);
             _windowManager.ShowDialogWithAssignedOwner(vm);
             return false;
         }

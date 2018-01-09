@@ -161,7 +161,7 @@ namespace Iit.Fibertest.Client
                 await C2DWcfManager.SendCommandAsObj(cmd);
             if (message != null)
             {
-                _windowManager.ShowDialogWithAssignedOwner(new NotificationViewModel(Resources.SID_Error, message));
+                _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, message));
             }
         }
 
@@ -188,7 +188,7 @@ namespace Iit.Fibertest.Client
                 await C2DWcfManager.SendCommandAsObj(cmd);
             if (message != null)
             {
-                _windowManager.ShowDialogWithAssignedOwner(new NotificationViewModel(Resources.SID_Error, message));
+                _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, message));
             }
         }
 
@@ -213,7 +213,7 @@ namespace Iit.Fibertest.Client
                 await C2DWcfManager.SendCommandAsObj(cmd);
             if (message != null)
             {
-                _windowManager.ShowDialogWithAssignedOwner(new NotificationViewModel(Resources.SID_Error, message));
+                _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, message));
             }
         }
 

@@ -41,7 +41,7 @@ namespace Iit.Fibertest.Client
         {
             if (ReadModel.Equipments.Any(e => e.NodeId == request.LastNodeId)) return true;
 
-            _windowManager.ShowDialogWithAssignedOwner(new NotificationViewModel(Resources.SID_Error, Resources.SID_Last_node_of_trace_must_contain_some_equipment));
+            _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Last_node_of_trace_must_contain_some_equipment));
             return false;
         }
 
@@ -49,7 +49,7 @@ namespace Iit.Fibertest.Client
         {
             List<Guid> path;
             if (!new PathFinder(ReadModel).FindPath(request.NodeWithRtuId, request.LastNodeId, out path))
-                _windowManager.ShowDialogWithAssignedOwner(new NotificationViewModel(Resources.SID_Error, Resources.SID_Path_couldn_t_be_found));
+                _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Path_couldn_t_be_found));
 
             return path;
         }

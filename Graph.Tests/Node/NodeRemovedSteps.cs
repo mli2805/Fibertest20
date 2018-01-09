@@ -68,6 +68,7 @@ namespace Graph.Tests
         [When(@"Пользователь кликает удалить узел")]
         public void WhenПользовательКликаетУдалитьУзел()
         {
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
             _sut.ShellVm.ComplyWithRequest(new RequestRemoveNode() { Id = _nodeId }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }

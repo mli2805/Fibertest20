@@ -55,7 +55,7 @@ namespace Iit.Fibertest.Client
         {
             if (IsFiberContainedInAnyTraceWithBase(request.FiberId))
             {
-                _windowManager.ShowDialogWithAssignedOwner(new NotificationViewModel("", Resources.SID_It_s_impossible_to_change_trace_with_base_reflectogram));
+                _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, Resources.SID_It_s_impossible_to_change_trace_with_base_reflectogram));
                 return null;
             }
 

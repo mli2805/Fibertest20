@@ -158,7 +158,7 @@ namespace Iit.Fibertest.Client
             var dto = CollectMonitoringSettingsFromTree(rtuLeaf);
             if (dto.Ports.Count == 0)
             {
-                var vm = new NotificationViewModel(Resources.SID_Error_, Resources.SID_No_traces_selected_for_monitoring_);
+                var vm = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_No_traces_selected_for_monitoring_);
                 _windowManager.ShowDialogWithAssignedOwner(vm);
                 return;
             }

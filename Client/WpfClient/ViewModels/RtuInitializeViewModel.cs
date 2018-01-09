@@ -140,8 +140,8 @@ namespace Iit.Fibertest.Client
 
             _logFile.AppendLine(message);
             var vm = dto.IsInitialized
-                ? new NotificationViewModel(Resources.SID_Information, Resources.SID_RTU_initialized_successfully_)
-                : new NotificationViewModel(Resources.SID_Error, message);
+                ? new MyMessageBoxViewModel(MessageType.Information, Resources.SID_RTU_initialized_successfully_)
+                : new MyMessageBoxViewModel(MessageType.Error, message);
             _windowManager.ShowDialogWithAssignedOwner(vm);
 
             if (!dto.IsInitialized)
@@ -184,7 +184,7 @@ namespace Iit.Fibertest.Client
                  ReserveChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().Ip4Address)).ToList();
             if (!(list.Count == 0 || list.Count == 1 && list.First().Id == OriginalRtu.Id))
             {
-                var vm = new NotificationViewModel(Resources.SID_Error, Resources.SID_There_is_RTU_with_the_same_ip_address_);
+                var vm = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_There_is_RTU_with_the_same_ip_address_);
                 _windowManager.ShowDialogWithAssignedOwner(vm);
                 return false;
             }
