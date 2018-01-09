@@ -142,15 +142,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0}{1}{2}Assign base reflectograms?.
-        /// </summary>
-        public static string SID__0__1__2_Assign_base_reflectograms_ {
-            get {
-                return ResourceManager.GetString("SID__0__1__2_Assign_base_reflectograms_", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to {0} base:{1}{2}.
         /// </summary>
         public static string SID__0__base__1__2_ {
@@ -183,6 +174,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID__abs__ {
             get {
                 return ResourceManager.GetString("SID__abs__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  base:.
+        /// </summary>
+        public static string SID__base_ {
+            get {
+                return ResourceManager.GetString("SID__base_", resourceCulture);
             }
         }
         
@@ -481,6 +481,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Are_you_sure_ {
             get {
                 return ResourceManager.GetString("SID_Are_you_sure_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assign base reflectogram?.
+        /// </summary>
+        public static string SID_Assign_base_reflectogram_ {
+            get {
+                return ResourceManager.GetString("SID_Assign_base_reflectogram_", resourceCulture);
             }
         }
         
@@ -2300,6 +2309,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Measuring_with_averaging {
             get {
                 return ResourceManager.GetString("SID_Measuring_with_averaging", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Message.
+        /// </summary>
+        public static string SID_Message {
+            get {
+                return ResourceManager.GetString("SID_Message", resourceCulture);
             }
         }
         
@@ -4304,7 +4322,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to will be removed.
+        ///   Looks up a localized string similar to will be removed!.
         /// </summary>
         public static string SID_will_be_removed {
             get {

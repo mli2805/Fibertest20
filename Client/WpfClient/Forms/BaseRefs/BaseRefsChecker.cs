@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -38,6 +39,8 @@ namespace Iit.Fibertest.Client
                 var message = SorData.TryGetFromBytes(baseRefDto.SorBytes, out var otdrKnownBlocks);
                 if (message != "")
                 {
+                    var vmm = new MyMessageBoxViewModel(MessageType.Error, new List<MyMessageBoxLineModel>(){});
+
                     var vm = new NotificationViewModel(Resources.SID_Error_,
                         baseRefHeader+$@"{message}");
                     _windowManager.ShowDialogWithAssignedOwner(vm);
@@ -65,13 +68,25 @@ namespace Iit.Fibertest.Client
                 }
 
                 message = CompareDistances(otdrKnownBlocks, trace);
-                var vm1 = new QuestionViewModel(baseRefHeader+string.Format(Resources.SID__0__1__2_Assign_base_reflectograms_, 
-                                                    message, Environment.NewLine, Environment.NewLine));
-                _windowManager.ShowDialogWithAssignedOwner(vm1);
-                if (!vm1.IsAnswerPositive)
+                var vmc = new MyMessageBoxViewModel(MessageType.Confirmation, AssembleConfirmation(baseRefDto, message));
+                _windowManager.ShowDialogWithAssignedOwner(vmc);
+                if (!vmc.IsAnswerPositive)
                     return false;
             }
             return true;
+        }
+
+        private List<MyMessageBoxLineModel> AssembleConfirmation(BaseRefDto baseRefDto, string message)
+        {
+            var result = new List<MyMessageBoxLineModel>();
+            result.Add(new MyMessageBoxLineModel(){ Line = baseRefDto.BaseRefType.GetLocalizedFemaleString() + Resources.SID__base_});
+            result.Add(new MyMessageBoxLineModel(){ Line = "" });
+            result.Add(new MyMessageBoxLineModel(){ Line = "" });
+            result.Add(new MyMessageBoxLineModel(){ Line = message, FontWeight = FontWeights.Bold });
+            result.Add(new MyMessageBoxLineModel(){ Line = "" });
+            result.Add(new MyMessageBoxLineModel(){ Line = "" });
+            result.Add(new MyMessageBoxLineModel(){ Line = Resources.SID_Assign_base_reflectogram_ });
+            return result;
         }
 
         private string IsBaseRefCompatibleWithTrace(OtdrDataKnownBlocks otdrKnownBlocks, Trace trace)

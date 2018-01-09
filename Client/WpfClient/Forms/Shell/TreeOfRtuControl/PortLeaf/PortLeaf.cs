@@ -14,6 +14,7 @@ namespace Iit.Fibertest.Client
             get { return string.Format(Resources.SID_Port_N, PortNumber); }
             set { }
         }
+
         public int LeftMargin => Parent is OtauLeaf ? 106 : 85;
 
         public PortLeaf(

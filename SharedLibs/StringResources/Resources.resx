@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
 	<!-- 
     Microsoft ResX Schema 
@@ -1520,9 +1520,6 @@ RTU is initializing right now!</value>
 	<data name="SID_There_are_no_selected_row_" xml:space="preserve">
     <value>There are no selected row.</value>
   </data>
-	<data name="SID__0__1__2_Assign_base_reflectograms_" xml:space="preserve">
-    <value>{0}{1}{2}Assign base reflectograms?</value>
-  </data>
 	<data name="SID_Trace_length_on_map_is__0__km" xml:space="preserve">
     <value>Trace length on map is {0} km</value>
   </data>
@@ -1549,5 +1546,14 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID_Are_you_sure_" xml:space="preserve">
     <value>Are you sure?</value>
+  </data>
+	<data name="SID_Assign_base_reflectogram_" xml:space="preserve">
+    <value>Assign base reflectogram?</value>
+  </data>
+	<data name="SID__base_" xml:space="preserve">
+    <value> base:</value>
+  </data>
+	<data name="SID_Message" xml:space="preserve">
+    <value>Message</value>
   </data>
 </root>

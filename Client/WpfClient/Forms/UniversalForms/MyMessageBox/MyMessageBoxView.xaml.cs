@@ -1,11 +1,11 @@
 ﻿namespace Iit.Fibertest.Client
 {
     /// <summary>
-    /// Interaction logic for ConfirmationView.xaml
+    /// Interaction logic for MyMessageBoxView.xaml
     /// </summary>
-    public partial class ConfirmationView
+    public partial class MyMessageBoxView
     {
-        public ConfirmationView()
+        public MyMessageBoxView()
         {
             InitializeComponent();
         }

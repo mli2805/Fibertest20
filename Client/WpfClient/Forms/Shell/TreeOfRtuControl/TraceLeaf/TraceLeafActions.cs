@@ -121,7 +121,7 @@ namespace Iit.Fibertest.Client
             var traceId = traceLeaf.Id;
 
             var question = AssembleTraceRemovalConfirmation(traceLeaf.Title);
-            var vm = new ConfirmationViewModel(Resources.SID_Confirmation, question);
+            var vm = new MyMessageBoxViewModel(MessageType.Confirmation, question);
             _windowManager.ShowDialogWithAssignedOwner(vm);
 
             if (vm.IsAnswerPositive)
@@ -138,18 +138,18 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private static List<ConfirmaionLineModel> AssembleTraceRemovalConfirmation(string traceTitle)
+        private static List<MyMessageBoxLineModel> AssembleTraceRemovalConfirmation(string traceTitle)
         {
-            var list = new List<ConfirmaionLineModel>
+            var list = new List<MyMessageBoxLineModel>
             {
-                new ConfirmaionLineModel() {Line = Resources.SID_Attention_},
-                new ConfirmaionLineModel() {Line = Resources.SID_All_measurements_for_trace},
-                new ConfirmaionLineModel() {Line = ""},
-                new ConfirmaionLineModel() {Line = $@"{traceTitle}", FontWeight = FontWeights.Bold},
-                new ConfirmaionLineModel() {Line = ""},
-                new ConfirmaionLineModel() {Line = Resources.SID_will_be_removed},
-                new ConfirmaionLineModel() {Line = ""},
-                new ConfirmaionLineModel() {Line = Resources.SID_Are_you_sure_},
+                new MyMessageBoxLineModel() {Line = Resources.SID_Attention_},
+                new MyMessageBoxLineModel() {Line = Resources.SID_All_measurements_for_trace},
+                new MyMessageBoxLineModel() {Line = ""},
+                new MyMessageBoxLineModel() {Line = $@"{traceTitle}", FontWeight = FontWeights.Bold},
+                new MyMessageBoxLineModel() {Line = ""},
+                new MyMessageBoxLineModel() {Line = Resources.SID_will_be_removed},
+                new MyMessageBoxLineModel() {Line = ""},
+                new MyMessageBoxLineModel() {Line = Resources.SID_Are_you_sure_},
             };
             return list;
         }

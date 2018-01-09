@@ -36,7 +36,7 @@ namespace Iit.Fibertest.Client
 
         public string PreciseBaseFilename
         {
-            get { return _preciseBaseFilename; }
+            get => _preciseBaseFilename;
             set
             {
                 if (value == _preciseBaseFilename) return;
@@ -48,7 +48,7 @@ namespace Iit.Fibertest.Client
 
         public string FastBaseFilename
         {
-            get { return _fastBaseFilename; }
+            get => _fastBaseFilename;
             set
             {
                 if (value == _fastBaseFilename) return;
@@ -60,7 +60,7 @@ namespace Iit.Fibertest.Client
 
         public string AdditionalBaseFilename
         {
-            get { return _additionalBaseFilename; }
+            get => _additionalBaseFilename;
             set
             {
                 if (value == _additionalBaseFilename) return;
@@ -74,7 +74,7 @@ namespace Iit.Fibertest.Client
 
         public bool IsButtonSaveEnabled
         {
-            get { return _isButtonSaveEnabled; }
+            get => _isButtonSaveEnabled;
             set
             {
                 if (value == _isButtonSaveEnabled) return;
@@ -86,7 +86,7 @@ namespace Iit.Fibertest.Client
         private string _initialDirectory;
         private string InitialDirectory
         {
-            get { return _initialDirectory; }
+            get => _initialDirectory;
             set
             {
                 if (value == _initialDirectory)
@@ -131,7 +131,7 @@ namespace Iit.Fibertest.Client
 
         private bool IsFilenameChanged(string filename, Guid previousBaseRefId)
         {
-            return ((filename != "" && filename != _savedInDb) || (filename == "" && previousBaseRefId != Guid.Empty));
+            return (filename != "" && filename != _savedInDb) || (filename == "" && previousBaseRefId != Guid.Empty);
         }
 
         public void GetPathToPrecise()

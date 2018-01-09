@@ -124,7 +124,7 @@ namespace Graph.Tests
 
         public bool ConfirmationAnswer(Answer answer, object model)
         {
-            var vm = model as ConfirmationViewModel;
+            var vm = model as MyMessageBoxViewModel;
             if (vm == null) return false;
             if (answer == Answer.Yes)
                 vm.OkButton();

@@ -272,16 +272,18 @@
     <Compile Include="Forms\TraceState\AccidentLineModel.cs" />
     <Compile Include="Forms\TraceState\TraceStateModelFactory.cs" />
     <Compile Include="Forms\TraceStatistics\TraceStatisticsViewsManager.cs" />
+    <Compile Include="Forms\UniversalForms\MyMessageBox\MessageType.cs" />
+    <Compile Include="Forms\UniversalForms\MyMessageBox\MessageTypeExt.cs" />
     <Compile Include="Logic\LocalAddressResearcher.cs" />
     <Compile Include="Logic\RtuPartStateExt.cs" />
     <Compile Include="Logic\SoundManager.cs" />
     <Compile Include="ReadModel\GpsCalculator.cs" />
     <Compile Include="ReadModel\GraphGpsCalculator.cs" />
-    <Compile Include="Forms\UniversalForms\Confirmation\ConfirmaionLineModel.cs" />
-    <Compile Include="Forms\UniversalForms\Confirmation\ConfirmationView.xaml.cs">
-      <DependentUpon>ConfirmationView.xaml</DependentUpon>
+    <Compile Include="Forms\UniversalForms\MyMessageBox\MyMessageBoxLineModel.cs" />
+    <Compile Include="Forms\UniversalForms\MyMessageBox\MyMessageBoxView.xaml.cs">
+      <DependentUpon>MyMessageBoxView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\UniversalForms\Confirmation\ConfirmationViewModel.cs" />
+    <Compile Include="Forms\UniversalForms\MyMessageBox\MyMessageBoxViewModel.cs" />
     <Compile Include="WindowManagerExt.cs" />
     <Compile Include="ViewModels\Primitive\EventStatusComboItem.cs" />
     <Compile Include="Forms\TraceState\TraceStateView.xaml.cs">
@@ -685,7 +687,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\UniversalForms\Confirmation\ConfirmationView.xaml">
+    <Page Include="Forms\UniversalForms\MyMessageBox\MyMessageBoxView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

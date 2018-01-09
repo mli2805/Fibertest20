@@ -3,7 +3,7 @@ using System.Windows.Media;
 
 namespace Iit.Fibertest.Client
 {
-    public class ConfirmaionLineModel
+    public class MyMessageBoxLineModel
     {
         public string Line { get; set; }
         public FontWeight FontWeight { get; set; } = FontWeights.Normal;
