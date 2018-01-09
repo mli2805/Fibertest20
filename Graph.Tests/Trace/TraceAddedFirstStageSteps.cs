@@ -74,7 +74,7 @@ namespace Graph.Tests
         public void DefineQuestionAnswer(string question, Answer answer)
         {
             _traceCountCutOff = _sut.ShellVm.ReadModel.Traces.Count;
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.QuestionAnswer(Resources.SID_Accept_the_path, answer, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.OneLineMessageBoxAnswer(Resources.SID_Accept_the_path, answer, model));
         }
 
         [Then(@"Новая трасса не сохраняется")]

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -27,9 +28,11 @@ namespace Iit.Fibertest.Client
             IsAnswerPositive = false;
         }
 
-        public MyMessageBoxViewModel(MessageType messageType, List<string> strs)
+        public MyMessageBoxViewModel(MessageType messageType, List<string> strs, int focusedString = Int32.MaxValue)
         {
             Lines = strs.Select(s => new MyMessageBoxLineModel() {Line = s}).ToList();
+            if (focusedString < Lines.Count)
+                Lines[focusedString].FontWeight = FontWeights.Bold;
 
             _caption = messageType.GetLocalizedString();
             CancelVisibility = messageType.ShouldCancelBeVisible();

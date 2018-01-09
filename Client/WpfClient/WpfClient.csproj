@@ -445,7 +445,6 @@
     <Compile Include="ViewModels\TraceInfoViewModel.cs" />
     <Compile Include="ViewModels\TraceChoiceViewModel.cs" />
     <Compile Include="ViewModels\UniversalViewModels\NotificationViewModel.cs" />
-    <Compile Include="ViewModels\UniversalViewModels\QuestionViewModel.cs" />
     <Compile Include="Forms\BaseRefs\BaseRefsAssignView.xaml.cs">
       <DependentUpon>BaseRefsAssignView.xaml</DependentUpon>
     </Compile>
@@ -472,9 +471,6 @@
     </Compile>
     <Compile Include="Views\UniversalViews\NotificationView.xaml.cs">
       <DependentUpon>NotificationView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UniversalViews\QuestionView.xaml.cs">
-      <DependentUpon>QuestionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="GraphModel\EquipmentVm.cs" />
     <Compile Include="GraphModel\FiberVm.cs" />
@@ -692,10 +688,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UniversalViews\NotificationView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\UniversalViews\QuestionView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

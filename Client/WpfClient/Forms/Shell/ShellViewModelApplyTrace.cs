@@ -20,12 +20,13 @@ namespace Iit.Fibertest.Client
             var traceId = Guid.NewGuid();
             ChangeTraceColor(traceId, traceNodes, FiberState.HighLighted);
 
-            var questionViewModel = new QuestionViewModel(Resources.SID_Accept_the_path);
-            _windowManager.ShowDialogWithAssignedOwner(questionViewModel);
+//            var questionViewModel = new QuestionViewModel(Resources.SID_Accept_the_path);
+            var vm = new MyMessageBoxViewModel(MessageType.Confirmation, Resources.SID_Accept_the_path);
+            _windowManager.ShowDialogWithAssignedOwner(vm);
 
             ChangeTraceColor(traceId, traceNodes, FiberState.NotInTrace);
 
-            if (!questionViewModel.IsAnswerPositive)
+            if (!vm.IsAnswerPositive)
                 return;
 
             List<Guid> traceEquipments = CollectEquipment(traceNodes);

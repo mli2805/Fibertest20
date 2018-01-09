@@ -32,17 +32,12 @@ namespace Iit.Fibertest.Client
 
             foreach (var baseRefDto in baseRefsDto)
             {
-                var baseRefHeader = string.Format(Resources.SID__0__base__1__2_, baseRefDto.BaseRefType.GetLocalizedFemaleString(), 
-                    Environment.NewLine, Environment.NewLine);
-
+                var baseRefHeader = baseRefDto.BaseRefType.GetLocalizedFemaleString() + Resources.SID__base_;
 
                 var message = SorData.TryGetFromBytes(baseRefDto.SorBytes, out var otdrKnownBlocks);
                 if (message != "")
                 {
-                    var vmm = new MyMessageBoxViewModel(MessageType.Error, new List<MyMessageBoxLineModel>(){});
-
-                    var vm = new NotificationViewModel(Resources.SID_Error_,
-                        baseRefHeader+$@"{message}");
+                    var vm = new MyMessageBoxViewModel(MessageType.Error, new List<string>(){baseRefHeader, "", "", message});
                     _windowManager.ShowDialogWithAssignedOwner(vm);
                     return false;
                 }
@@ -50,9 +45,9 @@ namespace Iit.Fibertest.Client
                 message = BaseRefMeasParamsChecker.IsBaseRefHasAcceptableMeasParams(otdrKnownBlocks, rtu.AcceptableMeasParams);
                 if (message != "")
                 {
-                    var vm = new NotificationViewModel(Resources.SID_Error_,
-                        baseRefHeader+string.Format(Resources.SID_Invalid_measuring_parameters__0__Not_compatible_with_this_RTU_, 
-                            Environment.NewLine, message));
+                    var vm = new MyMessageBoxViewModel(MessageType.Error, new List<string>() {
+                        baseRefHeader, "", "", Resources.SID_Measurement_parameters_are_not_compatible_with_this_RTU, "", message
+                    }, 5);
                     _windowManager.ShowDialogWithAssignedOwner(vm);
                     return false;
                 }
@@ -60,9 +55,10 @@ namespace Iit.Fibertest.Client
                 message = IsBaseRefCompatibleWithTrace(otdrKnownBlocks, trace);
                 if (message != "")
                 {
-                    var vm = new NotificationViewModel(Resources.SID_Error_,
-                        string.Format(Resources.SID__0__base_is_not_compatible_with_trace_1__2_, 
-                            baseRefDto.BaseRefType.GetLocalizedFemaleString(), Environment.NewLine, message));
+                    var vm = new MyMessageBoxViewModel(MessageType.Error, new List<string>() {
+                        string.Format(Resources.SID__0__base_is_not_compatible_with_trace, baseRefDto.BaseRefType.GetLocalizedFemaleString()),
+                        trace.Title, "", "", message
+                    }, 4);
                     _windowManager.ShowDialogWithAssignedOwner(vm);
                     return false;
                 }

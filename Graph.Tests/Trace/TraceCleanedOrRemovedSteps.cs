@@ -37,7 +37,7 @@ namespace Graph.Tests
         public void WhenПользовательЖметОчиститьУнЕприсоединеннойТрассы()
         {
             var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_sut.TraceId2);
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.ConfirmationAnswer(Answer.Yes, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
             _sut.TraceLeafActions.CleanTrace(traceLeaf);
             _sut.Poller.EventSourcingTick().Wait();
         }
@@ -46,7 +46,7 @@ namespace Graph.Tests
         public void WhenПользовательЖметУдалитьУнЕприсоединеннойТрассы()
         {
             var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_sut.TraceId2);
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.ConfirmationAnswer(Answer.Yes, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
             _sut.TraceLeafActions.RemoveTrace(traceLeaf);
             _sut.Poller.EventSourcingTick().Wait();
         }

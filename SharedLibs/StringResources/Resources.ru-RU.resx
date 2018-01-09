@@ -1499,9 +1499,6 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_File_read_error__0__1_" xml:space="preserve">
 		<value>Ошибка чттения файла!{0}{1}</value>
 	</data>
-	<data name="SID_Invalid_measuring_parameters__0__Not_compatible_with_this_RTU_" xml:space="preserve">
-		<value>Недопустимые параметры измерения!{0}(Не совместимые с данным RTU){0}{0}{1}</value>
-	</data>
 	<data name="SID_Invalid_parameter___Wave_length__0_" xml:space="preserve">
 		<value>Неверный параметр : Длина волны {0}</value>
 	</data>
@@ -1514,9 +1511,6 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_AdditionalF" xml:space="preserve">
 		<value>Дополнительная</value>
 	</data>
-	<data name="SID__0__base_is_not_compatible_with_trace_1__2_" xml:space="preserve">
-		<value>{0} базовая не совместима с трасой{1}{2}</value>
-	</data>
 	<data name="SID_There_are_no_selected_row_" xml:space="preserve">
 		<value>Нет выбранной строки</value>
 	</data>
@@ -1525,9 +1519,6 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Optical_length_is__0__km" xml:space="preserve">
 		<value>Оптическая длина {0} км</value>
-	</data>
-	<data name="SID__0__base__1__2_" xml:space="preserve">
-		<value>{0} базовая:{1}{2}</value>
 	</data>
 	<data name="SID_Confirmation" xml:space="preserve">
 		<value>Подтверждение</value>
@@ -1555,5 +1546,11 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Message" xml:space="preserve">
 		<value>Сообщение</value>
+	</data>
+	<data name="SID_Measurement_parameters_are_not_compatible_with_this_RTU" xml:space="preserve">
+		<value>Параметры измерения несовместимы с данным RTU</value>
+	</data>
+	<data name="SID__0__base_is_not_compatible_with_trace" xml:space="preserve">
+		<value>{0} базовая не совместима с трасой</value>
 	</data>
 </root>

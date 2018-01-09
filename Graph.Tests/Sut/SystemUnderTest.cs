@@ -101,7 +101,7 @@ namespace Graph.Tests
 
         protected Iit.Fibertest.Graph.Trace DefineTrace(Guid lastNodeId, Guid nodeForRtuId)
         {
-            FakeWindowManager.RegisterHandler(model => QuestionAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
+            FakeWindowManager.RegisterHandler(model => OneLineMessageBoxAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
             FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
             FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, @"some title", "", Answer.Yes));
             ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = lastNodeId, NodeWithRtuId = nodeForRtuId });
@@ -110,11 +110,11 @@ namespace Graph.Tests
         }
 
 
-        public bool QuestionAnswer(string question, Answer answer, object model)
+        public bool OneLineMessageBoxAnswer(string question, Answer answer, object model)
         {
-            var vm = model as QuestionViewModel;
+            var vm = model as MyMessageBoxViewModel;
             if (vm == null) return false;
-            if (vm.QuestionMessage != question) return false;
+            if (vm.Lines[0].Line != question) return false;
             if (answer == Answer.Yes)
                 vm.OkButton();
             else
@@ -122,7 +122,7 @@ namespace Graph.Tests
             return true;
         }
 
-        public bool ConfirmationAnswer(Answer answer, object model)
+        public bool ManyLinesMessageBoxAnswer(Answer answer, object model)
         {
             var vm = model as MyMessageBoxViewModel;
             if (vm == null) return false;

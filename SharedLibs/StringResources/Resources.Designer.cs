@@ -142,11 +142,11 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} base:{1}{2}.
+        ///   Looks up a localized string similar to {0} base is not compatible with trace.
         /// </summary>
-        public static string SID__0__base__1__2_ {
+        public static string SID__0__base_is_not_compatible_with_trace {
             get {
-                return ResourceManager.GetString("SID__0__base__1__2_", resourceCulture);
+                return ResourceManager.GetString("SID__0__base_is_not_compatible_with_trace", resourceCulture);
             }
         }
         
@@ -1971,15 +1971,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid measuring parameters!{0}(Not compatible with this RTU){0}{0}{1}.
-        /// </summary>
-        public static string SID_Invalid_measuring_parameters__0__Not_compatible_with_this_RTU_ {
-            get {
-                return ResourceManager.GetString("SID_Invalid_measuring_parameters__0__Not_compatible_with_this_RTU_", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Invalid parameter : Wave length {0}.
         /// </summary>
         public static string SID_Invalid_parameter___Wave_length__0_ {
@@ -2282,6 +2273,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Measurement_parameters {
             get {
                 return ResourceManager.GetString("SID_Measurement_parameters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Measurement parameters are not compatible with this RTU.
+        /// </summary>
+        public static string SID_Measurement_parameters_are_not_compatible_with_this_RTU {
+            get {
+                return ResourceManager.GetString("SID_Measurement_parameters_are_not_compatible_with_this_RTU", resourceCulture);
             }
         }
         

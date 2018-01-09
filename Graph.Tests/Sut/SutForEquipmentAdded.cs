@@ -47,7 +47,7 @@ namespace Graph.Tests
 
         public void SetShortTrace()
         {
-            FakeWindowManager.RegisterHandler(model => QuestionAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
+            FakeWindowManager.RegisterHandler(model => OneLineMessageBoxAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
             FakeWindowManager.RegisterHandler(
                 model => EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
             FakeWindowManager.RegisterHandler(
@@ -60,7 +60,7 @@ namespace Graph.Tests
 
         public void SetLongTraceWithEquipment()
         {
-            FakeWindowManager.RegisterHandler(model => QuestionAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
+            FakeWindowManager.RegisterHandler(model => OneLineMessageBoxAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
             FakeWindowManager.RegisterHandler(
                 model => EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
             FakeWindowManager.RegisterHandler(
@@ -79,7 +79,7 @@ namespace Graph.Tests
 
         public void SetLongTraceWithoutEquipment()
         {
-            FakeWindowManager.RegisterHandler(model => QuestionAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
+            FakeWindowManager.RegisterHandler(model => OneLineMessageBoxAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
             FakeWindowManager.RegisterHandler(
                 model => EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 1));
             FakeWindowManager.RegisterHandler(
