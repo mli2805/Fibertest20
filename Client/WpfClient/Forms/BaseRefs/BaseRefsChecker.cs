@@ -32,6 +32,9 @@ namespace Iit.Fibertest.Client
 
             foreach (var baseRefDto in baseRefsDto)
             {
+                if (baseRefDto.Id == Guid.Empty)
+                    continue;
+
                 var baseRefHeader = baseRefDto.BaseRefType.GetLocalizedFemaleString() + Resources.SID__base_;
 
                 var message = SorData.TryGetFromBytes(baseRefDto.SorBytes, out var otdrKnownBlocks);

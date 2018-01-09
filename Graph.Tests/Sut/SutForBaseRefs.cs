@@ -27,7 +27,6 @@ namespace Graph.Tests
                 else if (aditionalPath != null)
                     vm.AdditionalBaseFilename = aditionalPath;
 
-
                 var cmd = new AssignBaseRef()
                 {
                     TraceId = traceId,
