@@ -15,11 +15,11 @@ namespace Iit.Fibertest.Client
     {
         private Popup _popup;
         private Label _label;
-        public GMapMarker GMapMarker;
+        public readonly GMapMarker GMapMarker;
 
         public EquipmentType Type
         {
-            get { return _type; }
+            get => _type;
             set
             {
                 _type = value;
@@ -29,7 +29,7 @@ namespace Iit.Fibertest.Client
 
         public string Title
         {
-            get { return _title; }
+            get => _title;
             set
             {
                 _title = value;
@@ -37,8 +37,8 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public Map MainMap;
-        public MapUserControl Owner;
+        public readonly Map MainMap;
+        public readonly MapUserControl Owner;
         private EquipmentType _type;
         private string _title;
 
@@ -55,8 +55,6 @@ namespace Iit.Fibertest.Client
 
             Subscribe();
             InitializePopup();
-
-
         }
 
         private void Subscribe()
