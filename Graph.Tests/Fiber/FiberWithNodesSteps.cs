@@ -60,7 +60,7 @@ namespace Graph.Tests
         [When(@"Пользователь кликает добавить отрезок с (.*) пустыми узлами")]
         public void WhenПользовательКликаетДобавитьОтрезокСПустымиУзлами(int p0)
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.FiberWithNodesAdditionHandler(model, p0, EquipmentType.Well, Answer.Yes));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.FiberWithNodesAdditionHandler(model, p0, EquipmentType.EmptyNode, Answer.Yes));
             _sut.ShellVm.ComplyWithRequest(new RequestAddFiberWithNodes() {Node1 = _leftNodeId, Node2 = _rightNodeId}).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }

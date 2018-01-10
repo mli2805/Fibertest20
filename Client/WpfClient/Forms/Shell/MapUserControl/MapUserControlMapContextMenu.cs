@@ -5,7 +5,7 @@ using Iit.Fibertest.Graph;
 namespace Iit.Fibertest.Client
 {
     /// <summary>
-    /// Context Menu for map itself is a resource in Xaml
+    /// Context Menu for map itself is a resource in xaml
     /// 
     /// This is a handler
     /// </summary>
@@ -13,19 +13,22 @@ namespace Iit.Fibertest.Client
     {
         private void AddNodeOnClick(object sender, RoutedEventArgs e)
         {
-            var item = sender as MenuItem;
-            if (item == null) return;
-            var code = int.Parse((string)item.Tag);
-            var position = MainMap.FromLocalToLatLng(MainMap.ContextMenuPoint);
+            if (!(sender is MenuItem item)) return;
 
-            if ((EquipmentType)code == EquipmentType.Rtu)
+            var position = MainMap.FromLocalToLatLng(MainMap.ContextMenuPoint);
+            var code = int.Parse((string)item.Tag);
+
+            var equipmentType = (EquipmentType) code;
+            var isAdjustmentNode = equipmentType == EquipmentType.AdjustmentNode;
+
+            if (equipmentType == EquipmentType.Rtu)
                 GraphReadModel.Request = new RequestAddRtuAtGpsLocation() { Latitude = position.Lat, Longitude = position.Lng };
-            else if ((EquipmentType)code == EquipmentType.Well || (EquipmentType)code == EquipmentType.Invisible)
+            else if (equipmentType == EquipmentType.EmptyNode || equipmentType == EquipmentType.AdjustmentNode)
                 GraphReadModel.Request = new AddNode()
                 {
                     Latitude = position.Lat,
                     Longitude = position.Lng,
-                    IsJustForCurvature = (EquipmentType)code == EquipmentType.Invisible
+                    IsAdjustmentNode = isAdjustmentNode,
                 };
             else
                 GraphReadModel.Request = new RequestAddEquipmentAtGpsLocation()

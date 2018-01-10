@@ -795,9 +795,6 @@
     <Resource Include="Resources\Cross\CrossUser.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Invisible\InvisibleOk.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\Other\OtherCritical.png" />
     <Resource Include="Resources\Other\OtherMajor.png" />
     <Resource Include="Resources\Other\OtherMinor.png" />
@@ -840,14 +837,6 @@
     <Resource Include="Resources\Terminal\TerminalUser.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Well\WellCritical.png" />
-    <Resource Include="Resources\Well\WellMajor.png" />
-    <Resource Include="Resources\Well\WellMinor.png" />
-    <Resource Include="Resources\Well\WellOk.png" />
-    <Resource Include="Resources\Well\WellSuspected.png" />
-    <Resource Include="Resources\Well\WellUser.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\Buttons\Collapse.png" />
     <Resource Include="Resources\Buttons\Expand.png" />
   </ItemGroup>
@@ -875,6 +864,13 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Resource Include="Resources\AdjustmentNode\AdjustmentNodeOk.png" />
+    <Resource Include="Resources\EmptyNode\EmptyNodeCritical.png" />
+    <Resource Include="Resources\EmptyNode\EmptyNodeMajor.png" />
+    <Resource Include="Resources\EmptyNode\EmptyNodeMinor.png" />
+    <Resource Include="Resources\EmptyNode\EmptyNodeOk.png" />
+    <Resource Include="Resources\EmptyNode\EmptyNodeSuspected.png" />
+    <Resource Include="Resources\EmptyNode\EmptyNodeUser.png" />
     <Content Include="Resources\Sounds\Accident.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

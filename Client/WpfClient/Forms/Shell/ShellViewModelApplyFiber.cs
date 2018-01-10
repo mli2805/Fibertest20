@@ -18,10 +18,10 @@ namespace Iit.Fibertest.Client
 
             foreach (var o in CreateMidNodes(request.Node1, request.Node2, count, type))
             {
-                if (type == EquipmentType.Well || type == EquipmentType.Invisible)
+                if (type == EquipmentType.EmptyNode || type == EquipmentType.AdjustmentNode)
                 {
-                    result.AddNodes.Add((AddNode)o);
-                    nodeIds.Add(((AddNode)o).Id);
+                    result.AddNodes.Add((AddNode) o);
+                    nodeIds.Add(((AddNode) o).Id);
                 }
                 else
                 {
@@ -49,8 +49,8 @@ namespace Iit.Fibertest.Client
                 double lat = startNode.Latitude  + deltaLat * (i + 1);
                 double lng = startNode.Longitude + deltaLng * (i + 1);
 
-                if (type == EquipmentType.Well || type == EquipmentType.Invisible)
-                    yield return new AddNode() { Id = Guid.NewGuid(), Latitude = lat, Longitude = lng, IsJustForCurvature = type == EquipmentType.Invisible};
+                if (type == EquipmentType.EmptyNode || type == EquipmentType.AdjustmentNode)
+                    yield return new AddNode() { Id = Guid.NewGuid(), Latitude = lat, Longitude = lng, IsAdjustmentNode = type == EquipmentType.AdjustmentNode};
                 else
                     yield return new AddEquipmentAtGpsLocation() { Id = Guid.NewGuid(), NodeId = Guid.NewGuid(), Latitude = lat, Longitude = lng, Type = type };
             }

@@ -48,7 +48,7 @@ namespace Iit.Fibertest.Client
                     result.EquipmentTitle = equipment.Title;
                     result.EquipmentType = equipment.Type;
                 }
-                else result.EquipmentType = EquipmentType.Well;
+                else result.EquipmentType = EquipmentType.EmptyNode;
             }
             return result;
         }

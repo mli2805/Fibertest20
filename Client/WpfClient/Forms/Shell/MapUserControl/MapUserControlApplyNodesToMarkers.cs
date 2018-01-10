@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Specialized;
 using System.Linq;
 using GMap.NET.WindowsPresentation;
+using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
 {
@@ -41,7 +42,8 @@ namespace Iit.Fibertest.Client
                 nodeVm.PropertyChanged += NodeVm_PropertyChanged;
                 var marker = new GMapMarker(nodeVm.Id, nodeVm.Position);
                 marker.ZIndex = 2;
-                var markerControl = new MarkerControl(this, marker, nodeVm.Type, nodeVm.Title);
+                var equipmentType = nodeVm.IsAdjustmentNode ? EquipmentType.AdjustmentNode : nodeVm.Type;
+                var markerControl = new MarkerControl(this, marker, equipmentType, nodeVm.Title);
                 marker.Shape = markerControl;
                 MainMap.Markers.Add(marker);
             }

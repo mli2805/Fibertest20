@@ -54,11 +54,11 @@ namespace Iit.Fibertest.Client
                 case LandmarkCode.FiberDistributingFrame: return EquipmentType.Rtu;
                 case LandmarkCode.Coupler: return EquipmentType.Closure;
                 case LandmarkCode.WiringCloset: return EquipmentType.Cross;
-                case LandmarkCode.Manhole: return EquipmentType.Well;
+                case LandmarkCode.Manhole: return EquipmentType.EmptyNode;
                 case LandmarkCode.RemoteTerminal: return EquipmentType.Terminal;
                 case LandmarkCode.Other: return EquipmentType.Other;
             }
-            return EquipmentType.None;
+            return EquipmentType.Error;
         }
 
     }

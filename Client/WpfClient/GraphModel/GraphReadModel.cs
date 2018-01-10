@@ -88,7 +88,8 @@ namespace Iit.Fibertest.Client
             {
                 Id = evnt.Id,
                 State = FiberState.Ok,
-                Type = evnt.IsJustForCurvature ? EquipmentType.Invisible : EquipmentType.Well,
+                Type = EquipmentType.EmptyNode,
+                IsAdjustmentNode = evnt.IsAdjustmentNode,
                 Position = new PointLatLng(evnt.Latitude, evnt.Longitude)
             });
         }
@@ -99,8 +100,10 @@ namespace Iit.Fibertest.Client
             {
                 Id = evnt.Id,
                 Position = new PointLatLng(evnt.Position.Lat, evnt.Position.Lng),
+                
                 State = FiberState.Ok,
-                Type = EquipmentType.Well
+                Type = EquipmentType.EmptyNode,
+                IsAdjustmentNode = evnt.IsAdjustmentNode,
             });
             var fiberForDeletion = Fibers.First(f => f.Id == evnt.FiberId);
             AddTwoFibersToNewNode(evnt, fiberForDeletion);
@@ -301,7 +304,7 @@ namespace Iit.Fibertest.Client
             var nodeVm = equipmentVm.Node;
             Equipments.Remove(equipmentVm);
             var firstEquipmentInNode = Equipments.FirstOrDefault(e => e.Node.Id == nodeVm.Id);
-            nodeVm.Type = firstEquipmentInNode?.Type ?? EquipmentType.Well;
+            nodeVm.Type = firstEquipmentInNode?.Type ?? EquipmentType.EmptyNode;
         }
         #endregion
 

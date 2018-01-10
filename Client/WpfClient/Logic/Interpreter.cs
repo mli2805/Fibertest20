@@ -114,10 +114,8 @@ namespace Iit.Fibertest.Client
         {
             switch (type)
             {
-                case EquipmentType.Well:
+                case EquipmentType.EmptyNode:
                     return Resources.SID_Well;
-                case EquipmentType.Invisible:
-                    return Resources.SID_Adjustment_node;
                 case EquipmentType.Closure:
                     return Resources.SID_Closure;
                 case EquipmentType.Cross:

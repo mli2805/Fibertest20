@@ -2,15 +2,14 @@
 {
     public enum EquipmentType
     {
-        None = -1,
+        Error = -1,
         Other = 0,
         CableReserve = 1,
         Closure = 2,
         Cross = 3,
         Rtu = 4,
-        Well = 5,
+        EmptyNode = 5,
         Terminal = 6,
-        Invisible = 7,
-        Fake = 13,
+        AdjustmentNode = 7,  
     }
 }

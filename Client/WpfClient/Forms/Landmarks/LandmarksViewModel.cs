@@ -49,7 +49,7 @@ namespace Iit.Fibertest.Client
 
         private ObservableCollection<LandmarkRow> LandmarksToRows()
         {
-            var temp = _isFilterOn ? _landmarks.Where(l => l.EquipmentType != EquipmentType.Well) : _landmarks;
+            var temp = _isFilterOn ? _landmarks.Where(l => l.EquipmentType != EquipmentType.EmptyNode) : _landmarks;
             return new ObservableCollection<LandmarkRow>(temp.Select(l => l.ToRow(_selectedGpsInputMode.Mode)));
         }
 

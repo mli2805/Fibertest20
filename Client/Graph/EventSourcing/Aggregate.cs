@@ -30,7 +30,7 @@ namespace Iit.Fibertest.Graph
 
         public string When(AddNodeIntoFiber cmd)
         {
-            if (WriteModel.IsFiberContainedInAnyTraceWithBase(cmd.FiberId))
+            if (!cmd.IsAdjustmentNode && WriteModel.IsFiberContainedInAnyTraceWithBase(cmd.FiberId))
                 return Resources.SID_It_s_impossible_to_change_trace_with_base_reflectogram;
 
             return WriteModel.Add(_mapper.Map<NodeIntoFiberAdded>(cmd));

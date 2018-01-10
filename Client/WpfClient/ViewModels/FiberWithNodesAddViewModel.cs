@@ -37,9 +37,9 @@ namespace Iit.Fibertest.Client
         public EquipmentType GetSelectedType()
         {
             if (Node.IsChecked)
-                return EquipmentType.Well;
+                return EquipmentType.EmptyNode;
             if (AdjustmentNode.IsChecked)
-                return EquipmentType.Invisible;
+                return EquipmentType.AdjustmentNode;
 
             if (CableReserve.IsChecked)
                 return EquipmentType.CableReserve;
@@ -57,10 +57,10 @@ namespace Iit.Fibertest.Client
         {
             switch (type)
             {
-                case EquipmentType.Well:
+                case EquipmentType.EmptyNode:
                     Node.IsChecked = true;
                     break;
-                case EquipmentType.Invisible:
+                case EquipmentType.AdjustmentNode:
                     AdjustmentNode.IsChecked = true;
                     break;
                 case EquipmentType.CableReserve:

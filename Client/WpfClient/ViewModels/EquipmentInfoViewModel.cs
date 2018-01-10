@@ -81,7 +81,7 @@ namespace Iit.Fibertest.Client
         public RadioButtonModel Other { get; } = new RadioButtonModel() { Title = Resources.SID_Other };
 
         public bool IsClosed { get; set; }
-        public bool IsSaveEnabled => GetSelectedRadioButton() != EquipmentType.None;
+        public bool IsSaveEnabled => GetSelectedRadioButton() != EquipmentType.Error;
 
         public object Command { get; set; }
 
@@ -163,7 +163,7 @@ namespace Iit.Fibertest.Client
                 return EquipmentType.Terminal;
             if (Other.IsChecked)
                 return EquipmentType.Other;
-            return EquipmentType.None;
+            return EquipmentType.Error;
         }
         private void SetSelectedRadioButton(EquipmentType type)
         {

@@ -30,7 +30,17 @@ namespace Iit.Fibertest.Client
         private void AskAddNodeIntoFiber(object parameter)
         {
             var route = (GMapRoute)parameter;
-            GraphReadModel.Request = new RequestAddNodeIntoFiber() { FiberId = route.Id };
+            GraphReadModel.Request = new RequestAddNodeIntoFiber() { FiberId = route.Id, IsAdjustmentNode = false};
+        }
+
+        private bool CanAddAdjustmentNodeIntoFiber(object parameter)
+        {
+            return true;
+        }
+        private void AskAddAdjustmentNodeIntoFiber(object parameter)
+        {
+            var route = (GMapRoute)parameter;
+            GraphReadModel.Request = new RequestAddNodeIntoFiber() { FiberId = route.Id, IsAdjustmentNode = true};
         }
 
         private bool CanRemoveFiber(object parameter)
@@ -70,6 +80,12 @@ namespace Iit.Fibertest.Client
             {
                 Header = StringResources.Resources.SID_Add_node,
                 Command = new ContextMenuAction(AskAddNodeIntoFiber, CanAddNodeIntoFiber),
+                CommandParameter = route
+            });
+            route.ContextMenu.Items.Add(new MenuItem()
+            {
+                Header = StringResources.Resources.SID_Add_adjustment_node,
+                Command = new ContextMenuAction(AskAddAdjustmentNodeIntoFiber, CanAddAdjustmentNodeIntoFiber),
                 CommandParameter = route
             });
             route.ContextMenu.Items.Add(new MenuItem()

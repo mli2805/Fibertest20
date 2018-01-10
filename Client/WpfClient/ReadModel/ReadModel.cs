@@ -40,7 +40,7 @@ namespace Iit.Fibertest.Client
 
         public void Apply(NodeIntoFiberAdded e)
         {
-            Nodes.Add(new Node() { Id = e.Id, Latitude = e.Position.Lat, Longitude = e.Position.Lng });
+            Nodes.Add(new Node() { Id = e.Id, Latitude = e.Position.Lat, Longitude = e.Position.Lng, IsAdjustmentNode = e.IsAdjustmentNode});
             AddTwoFibersToNewNode(e);
             FixTracesWhichContainedOldFiber(e);
             Fibers.Remove(Fibers.First(f => f.Id == e.FiberId));

@@ -15,17 +15,6 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
 	разобрать случай с GetLastTraceMeasurement
 	вешал клиент пока не дотянул async/await почти до верха (но почти, не до самого :) )
 
-29. IoC.Get<> заменить ?
-	остались только вьюмодели
-	делать их через Factory? где Factory будет брать экземпляры вьюмоделей ?
-	или через Resolve автофака?
-
-	получатель создается один раз и один раз получает в конструктор инстанс второго класса, а хотелось бы каждый раз разный
-	TraceLeafActions -> baseRefsAssignViewModel (здесь еще можно обойтись одним инстансом)
-	использовать IoC.Get не получается из-за тестов
-
-	TraceStateViewsManager -> 
-            vm = IoC.Get<TraceStateViewModel>();
-	здесь нет тестов
-
 31. в базе созданноЙ NEventStore есть таблица snapshots ???  заюзать ?
+
+32. autofac упорядочить

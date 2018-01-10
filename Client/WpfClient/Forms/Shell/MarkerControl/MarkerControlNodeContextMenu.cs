@@ -7,14 +7,33 @@ namespace Iit.Fibertest.Client
 {
     public partial class MarkerControl
     {
-        private bool CanUpdateNode(object parameter) { return true; }
+        private bool CanUpdateNode(object parameter)
+        {
+            if (parameter == null)
+                return false;
+            var nodeVm = _owner.GraphReadModel.Nodes.FirstOrDefault(n => n.Id == (Guid) parameter);
+            if (nodeVm == null)
+                return false;
+            
+            return !nodeVm.IsAdjustmentNode;
+        }
         private void AskUpdateNode(object parameter)
         {
             var nodeId = (Guid)parameter;
             _owner.GraphReadModel.Request = new UpdateNode() { Id = nodeId };
         }
 
-        private bool CanAddEquipment(object parameter) { return true; }
+        private bool CanAddEquipment(object parameter)
+        {
+            if (parameter == null)
+                return false;
+            var nodeVm = _owner.GraphReadModel.Nodes.FirstOrDefault(n => n.Id == (Guid)parameter);
+            if (nodeVm == null)
+                return false;
+
+            return !nodeVm.IsAdjustmentNode;
+        }
+
         private void AskAddEquipment(object parameter)
         {
             _owner.GraphReadModel.Request = new RequestAddEquipmentIntoNode() {NodeId = (Guid)parameter};
