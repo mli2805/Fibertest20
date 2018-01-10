@@ -20,7 +20,6 @@ namespace Iit.Fibertest.Client
             var traceId = Guid.NewGuid();
             ChangeTraceColor(traceId, traceNodes, FiberState.HighLighted);
 
-//            var questionViewModel = new QuestionViewModel(Resources.SID_Accept_the_path);
             var vm = new MyMessageBoxViewModel(MessageType.Confirmation, Resources.SID_Accept_the_path);
             _windowManager.ShowDialogWithAssignedOwner(vm);
 
@@ -73,18 +72,18 @@ namespace Iit.Fibertest.Client
             foreach (var nodeId in nodes.Skip(1))
             {
                 var possibleEquipments = ReadModel.Equipments.Where(e => e.NodeId == nodeId).ToList();
-                if (possibleEquipments.Count == 0)
-                    equipments.Add(Guid.Empty);
-                else
+                if (possibleEquipments.Count != 0)
                 {
-                    var equipmentChoiceViewModel = new EquipmentChoiceViewModel(_windowManager, C2DWcfManager, 
-                        possibleEquipments, ReadModel.Nodes.First(n=>n.Id==nodeId).Title, nodeId == nodes.Last());
+                    var equipmentChoiceViewModel = new EquipmentChoiceViewModel(_windowManager, C2DWcfManager,
+                        possibleEquipments, ReadModel.Nodes.First(n => n.Id == nodeId).Title, nodeId == nodes.Last());
                     _windowManager.ShowDialogWithAssignedOwner(equipmentChoiceViewModel);
                     if (!equipmentChoiceViewModel.ShouldWeContinue) // пользователь прервал процесс, отказавшись выбирать оборудование
                         return null;
 
                     equipments.Add(equipmentChoiceViewModel.GetSelectedEquipmentGuid());
                 }
+                else
+                    equipments.Add(Guid.Empty);
             }
             return equipments;
         }

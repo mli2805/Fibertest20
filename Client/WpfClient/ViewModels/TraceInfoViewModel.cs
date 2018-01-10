@@ -86,8 +86,8 @@ namespace Iit.Fibertest.Client
         /// <param name="traceId"></param>
         /// <param name="traceEquipments"></param>
         /// <param name="traceNodes"></param>
-        public TraceInfoViewModel(ReadModel readModel, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager, 
-            Guid traceId, List<Guid> traceEquipments = null, List<Guid> traceNodes = null)
+        public TraceInfoViewModel(ReadModel readModel, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager,
+            Guid traceId, List<Guid> traceEquipments, List<Guid> traceNodes)
         {
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
@@ -121,15 +121,19 @@ namespace Iit.Fibertest.Client
             }
             _rtu = _readModel.Rtus.First(r => r.Id == _traceEquipments[0]);
             RtuTitle = _rtu.Title;
-            InitializeNodesStatistics(_traceEquipments);
+            InitializeNodesStatistics();
 
         }
-        private void InitializeNodesStatistics(List<Guid> traceEquipments)
+        private void InitializeNodesStatistics()
         {
-            NodesStatistics.Add(new NodesStatisticsItem(Resources.SID_In_total__including_RTU, traceEquipments.Count));
+            var nodes = _traceNodes.Select(i => _readModel.Nodes.FirstOrDefault(n => n.Id == i));
+            var adjustmentNodesCount = nodes.Count(n => n != null && n.IsAdjustmentNode);
+
+
+            NodesStatistics.Add(new NodesStatisticsItem(Resources.SID_In_total__including_RTU, _traceEquipments.Count - adjustmentNodesCount));
 
             var dict = new Dictionary<EquipmentType, int>();
-            foreach (var id in traceEquipments.Skip(1).Where(e => e != Guid.Empty))
+            foreach (var id in _traceEquipments.Skip(1).Where(e => e != Guid.Empty))
             {
                 var type = _readModel.Equipments.First(e => e.Id == id).Type;
                 if (dict.ContainsKey(type))
@@ -137,7 +141,12 @@ namespace Iit.Fibertest.Client
                 else dict.Add(type, 1);
             }
 
+            var emptyButNotAdjustmentNodesCount =
+                _traceNodes.Count - _traceEquipments.Count(e => e != Guid.Empty) - adjustmentNodesCount;
+
             NodesStatistics.AddRange(dict.Select(item => new NodesStatisticsItem(item.Key.ToLocalizedString(), item.Value)));
+            if (emptyButNotAdjustmentNodesCount > 0)
+                NodesStatistics.Add(new NodesStatisticsItem("Without equipment", emptyButNotAdjustmentNodesCount));
         }
 
         protected override void OnViewLoaded(object view)
@@ -165,8 +174,8 @@ namespace Iit.Fibertest.Client
                 Equipments = _traceEquipments,
                 Comment = Comment
             };
-            var message = 
-//                await _bus.SendCommand(cmd);
+            var message =
+                    //                await _bus.SendCommand(cmd);
                     await _c2DWcfManager.SendCommandAsObj(cmd);
 
             if (message != null)
@@ -182,8 +191,8 @@ namespace Iit.Fibertest.Client
                 Mode = IsTraceModeLight ? TraceMode.Light : TraceMode.Dark,
                 Comment = Comment
             };
-                    await _c2DWcfManager.SendCommandAsObj(cmd);
-//            await _bus.SendCommand(cmd);
+            await _c2DWcfManager.SendCommandAsObj(cmd);
+            //            await _bus.SendCommand(cmd);
         }
 
         public void Cancel()

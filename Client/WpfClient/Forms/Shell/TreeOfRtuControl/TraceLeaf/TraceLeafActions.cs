@@ -43,8 +43,10 @@ namespace Iit.Fibertest.Client
         {
             if (!(param is TraceLeaf traceLeaf))
                 return;
-
-            var vm = new TraceInfoViewModel(_readModel, _c2DWcfManager, _windowManager, traceLeaf.Id);
+            var trace = _readModel.Traces.FirstOrDefault(t => t.Id == traceLeaf.Id);
+            if (trace == null)
+                return;
+            var vm = new TraceInfoViewModel(_readModel, _c2DWcfManager, _windowManager, traceLeaf.Id, trace.Equipments, trace.Nodes);
             _windowManager.ShowWindowWithAssignedOwner(vm);
         }
 
