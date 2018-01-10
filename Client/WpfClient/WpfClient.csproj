@@ -214,6 +214,9 @@
       <DependentUpon>CommonStatusBarView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\Shell\CommonStatusBarControl\CommonStatusBarViewModel.cs" />
+    <Compile Include="Forms\Shell\MarkerControl\MarkerControlActions.cs" />
+    <Compile Include="Forms\Shell\MarkerControl\MarkerControlContextMenuProvider.cs" />
+    <Compile Include="Forms\Shell\MarkerControl\MarkerControlPermissions.cs" />
     <Compile Include="Forms\Shell\NetworkEventsControl\NetworkEventsDoubleView.xaml.cs">
       <DependentUpon>NetworkEventsDoubleView.xaml</DependentUpon>
     </Compile>
@@ -429,8 +432,6 @@
       <DependentUpon>MarkerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\Shell\MarkerControl\MarkerControlMouseHandling.cs" />
-    <Compile Include="Forms\Shell\MarkerControl\MarkerControlNodeContextMenu.cs" />
-    <Compile Include="Forms\Shell\MarkerControl\MarkerControlRtuContextMenu.cs" />
     <Compile Include="Forms\BaseRefs\BaseRefsAssignViewModel.cs" />
     <Compile Include="GraphModel\EqItemVm.cs" />
     <Compile Include="ViewModels\Primitive\CheckBoxModel.cs" />

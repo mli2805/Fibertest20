@@ -15,7 +15,7 @@ namespace Iit.Fibertest.Client
     {
         private Popup _popup;
         private Label _label;
-        private readonly GMapMarker _marker;
+        public GMapMarker GMapMarker;
 
         public EquipmentType Type
         {
@@ -37,24 +37,26 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private readonly Map _mainMap;
-        private readonly MapUserControl _owner;
+        public Map MainMap;
+        public MapUserControl Owner;
         private EquipmentType _type;
         private string _title;
 
         public new ContextMenu ContextMenu { get; set; }
 
-        public MarkerControl(MapUserControl owner, GMapMarker marker, EquipmentType type, string title)
+        public MarkerControl(MapUserControl owner, GMapMarker gMapMarker, EquipmentType type, string title)
         {
             InitializeComponent();
-            _owner = owner;
-            _mainMap = owner.MainMap;
-            _marker = marker;
+            Owner = owner;
+            MainMap = owner.MainMap;
+            GMapMarker = gMapMarker;
             Type = type;
             Title = title;
 
             Subscribe();
             InitializePopup();
+
+
         }
 
         private void Subscribe()
@@ -105,11 +107,29 @@ namespace Iit.Fibertest.Client
             PreviewMouseLeftButtonDown -= MarkerControl_PreviewMouseLeftButtonDown;
             PreviewMouseRightButtonUp -= MarkerControl_PreviewMouseRightButtonUp;
 
-            _marker.Shape = null;
+            GMapMarker.Shape = null;
             Icon.Source = null;
             Icon = null;
             _popup = null;
             _label = null;
         }
+
+        private void OpenNodeContextMenu()
+        {
+            var actions = new MarkerControlActions(this);
+            var permissions = new MarkerControlPermissions(new CurrentUser(){Role = Role.Root}, this);
+            var menuProvider = new MarkerControlContextMenuProvider(actions, permissions);
+            ContextMenu = menuProvider.GetNodeContextMenu(GMapMarker.Id);
+            ContextMenu.IsOpen = true;
+        }
+        private void OpenRtuContextMenu()
+        {
+            var actions = new MarkerControlActions(this);
+            var permissions = new MarkerControlPermissions(new CurrentUser(){Role = Role.Root}, this);
+            var menuProvider = new MarkerControlContextMenuProvider(actions, permissions);
+            ContextMenu = menuProvider.GetRtuContextMenu(GMapMarker.Id);
+            ContextMenu.IsOpen = true;
+        }
+
     }
 }

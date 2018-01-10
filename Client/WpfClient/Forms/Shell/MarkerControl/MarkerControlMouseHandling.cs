@@ -25,7 +25,7 @@ namespace Iit.Fibertest.Client
         // offset задает смещение пиктограммы относительно координат
         void MarkerControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            _marker.Offset = new Point(-e.NewSize.Width / 2, -e.NewSize.Height / 2);
+            GMapMarker.Offset = new Point(-e.NewSize.Width / 2, -e.NewSize.Height / 2);
         }
 
         // при нажатом Ctrl левая кнопка таскает данный маркер
@@ -41,19 +41,19 @@ namespace Iit.Fibertest.Client
 
         private void DragMarkerWithItsFibers(MouseEventArgs e)
         {
-            Point p = e.GetPosition(_mainMap);
-            _marker.Position = _mainMap.FromLocalToLatLng((int)(p.X), (int)(p.Y));
+            Point p = e.GetPosition(MainMap);
+            GMapMarker.Position = MainMap.FromLocalToLatLng((int)(p.X), (int)(p.Y));
 
-            foreach (var route in _mainMap.Markers.Where(m => m is GMapRoute))
+            foreach (var route in MainMap.Markers.Where(m => m is GMapRoute))
             {
                 var r = (GMapRoute)route;
-                if (r.LeftId != _marker.Id && r.RightId != _marker.Id)
+                if (r.LeftId != GMapMarker.Id && r.RightId != GMapMarker.Id)
                     continue;
-                if (r.LeftId == _marker.Id)
-                    r.Points[0] = _marker.Position;
-                if (r.RightId == _marker.Id)
-                    r.Points[1] = _marker.Position;
-                r.RegenerateShape(_mainMap);
+                if (r.LeftId == GMapMarker.Id)
+                    r.Points[0] = GMapMarker.Position;
+                if (r.RightId == GMapMarker.Id)
+                    r.Points[1] = GMapMarker.Position;
+                r.RegenerateShape(MainMap);
             }
         }
 
@@ -71,35 +71,35 @@ namespace Iit.Fibertest.Client
             if (IsMouseCaptured)
             {
                 Mouse.Capture(null);
-                _owner.GraphReadModel.Request = new MoveNode() { Id = _marker.Id, Latitude = _marker.Position.Lat, Longitude = _marker.Position.Lng };
+                Owner.GraphReadModel.Request = new MoveNode() { Id = GMapMarker.Id, Latitude = GMapMarker.Position.Lat, Longitude = GMapMarker.Position.Lng };
             }
 
-            if (_mainMap.IsInTraceDefiningMode)
+            if (MainMap.IsInTraceDefiningMode)
                 EndTraceDefinition();
-            else if (_mainMap.IsInFiberCreationMode)
+            else if (MainMap.IsInFiberCreationMode)
                 EndFiberCreation();
             e.Handled = true;
         }
 
         private void EndTraceDefinition()
         {
-            _mainMap.IsInTraceDefiningMode = false;
-            _owner.GraphReadModel.Request = new RequestAddTrace() {NodeWithRtuId = _mainMap.StartNode.Id, LastNodeId = _marker.Id};
-            _owner.SetBanner("");
+            MainMap.IsInTraceDefiningMode = false;
+            Owner.GraphReadModel.Request = new RequestAddTrace() {NodeWithRtuId = MainMap.StartNode.Id, LastNodeId = GMapMarker.Id};
+            Owner.SetBanner("");
         }
 
         private void EndFiberCreation()
         {
-            _mainMap.IsInFiberCreationMode = false;
+            MainMap.IsInFiberCreationMode = false;
             // it was a temporary fiber for creation purposes only
-            _mainMap.Markers.Remove(_mainMap.Markers.Single(m => m.Id == _mainMap.FiberUnderCreation));
+            MainMap.Markers.Remove(MainMap.Markers.Single(m => m.Id == MainMap.FiberUnderCreation));
 
-            if (!_mainMap.IsFiberWithNodes)
-                _owner.GraphReadModel.Request = new AddFiber() { Node1 = _mainMap.StartNode.Id, Node2 = _marker.Id };
+            if (!MainMap.IsFiberWithNodes)
+                Owner.GraphReadModel.Request = new AddFiber() { Node1 = MainMap.StartNode.Id, Node2 = GMapMarker.Id };
             else
-                _owner.GraphReadModel.Request = new RequestAddFiberWithNodes() { Node1 = _mainMap.StartNode.Id, Node2 = _marker.Id, };
+                Owner.GraphReadModel.Request = new RequestAddFiberWithNodes() { Node1 = MainMap.StartNode.Id, Node2 = GMapMarker.Id, };
 
-            _mainMap.FiberUnderCreation = Guid.Empty;
+            MainMap.FiberUnderCreation = Guid.Empty;
             Cursor = Cursors.Arrow;
         }
 
@@ -107,7 +107,7 @@ namespace Iit.Fibertest.Client
         private Cursor _cursorBeforeEnter;
         void MarkerControl_MouseLeave(object sender, MouseEventArgs e)
         {
-            _marker.ZIndex -= 10000;
+            GMapMarker.ZIndex -= 10000;
 //            Cursor = Cursors.Arrow;
             Cursor = _cursorBeforeEnter;
             if (!string.IsNullOrEmpty(Title))
@@ -116,7 +116,7 @@ namespace Iit.Fibertest.Client
 
         void MarkerControl_MouseEnter(object sender, MouseEventArgs e)
         {
-            _marker.ZIndex += 10000;
+            GMapMarker.ZIndex += 10000;
             _cursorBeforeEnter = Cursor;
             Cursor = Cursors.Hand;
 
