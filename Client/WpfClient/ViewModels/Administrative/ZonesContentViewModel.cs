@@ -15,11 +15,16 @@ namespace Iit.Fibertest.Client
         public DataTable BindableTable { get; set; }
         public List<Guid> ObjectList { get; set; } = new List<Guid>();
 
-        public ZonesContentViewModel(List<Zone> zones, TreeOfRtuModel treeOfRtuModel)
+        public ZonesContentViewModel(TreeOfRtuModel treeOfRtuModel)
         {
-            _zones = zones;
             _treeOfRtuModel = treeOfRtuModel;
 
+        }
+
+        public void Initialize()
+        {
+            // TODO get zones from Db
+            _zones = new List<Zone>();
             CreateTable();
             PopulateTable();
         }

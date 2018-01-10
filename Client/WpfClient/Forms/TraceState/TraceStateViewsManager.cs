@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.WcfConnections;
@@ -10,16 +11,18 @@ namespace Iit.Fibertest.Client
 {
     public class TraceStateViewsManager
     {
+        private readonly ILifetimeScope _globalScope;
         private readonly TraceStateModelFactory _traceStateModelFactory;
         private readonly IWindowManager _windowManager;
         private readonly C2DWcfManager _c2DWcfManager;
 
-        private List<TraceStateViewModel> LaunchedViews { get; set; } = new List<TraceStateViewModel>();
+        private List<TraceStateViewModel> LaunchedViews { get; } = new List<TraceStateViewModel>();
 
 
-        public TraceStateViewsManager(TraceStateModelFactory traceStateModelFactory,
-            IWindowManager windowManager, C2DWcfManager c2DWcfManager)
+        public TraceStateViewsManager(ILifetimeScope globalScope, IWindowManager windowManager,
+            C2DWcfManager c2DWcfManager, TraceStateModelFactory traceStateModelFactory)
         {
+            _globalScope = globalScope;
             _traceStateModelFactory = traceStateModelFactory;
             _windowManager = windowManager;
             _c2DWcfManager = c2DWcfManager;
@@ -100,7 +103,7 @@ namespace Iit.Fibertest.Client
                 LaunchedViews.Remove(vm);
             }
 
-            vm = IoC.Get<TraceStateViewModel>();
+            vm = _globalScope.Resolve<TraceStateViewModel>();
             vm.Initialize(traceStateModel, isLastMeasurementOnThisTrace, isTraceStateChanged);
             _windowManager.ShowWindowWithAssignedOwner(vm);
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 
@@ -8,11 +9,13 @@ namespace Iit.Fibertest.Client
 {
     public class TraceStatisticsViewsManager
     {
+        private readonly ILifetimeScope _globalScope;
         private readonly IWindowManager _windowManager;
-        private Dictionary<Guid, TraceStatisticsViewModel> LaunchedViews { get; set; } = new Dictionary<Guid, TraceStatisticsViewModel>();
+        private Dictionary<Guid, TraceStatisticsViewModel> LaunchedViews { get; } = new Dictionary<Guid, TraceStatisticsViewModel>();
 
-        public TraceStatisticsViewsManager(IWindowManager windowManager)
+        public TraceStatisticsViewsManager(ILifetimeScope globalScope, IWindowManager windowManager)
         {
+            _globalScope = globalScope;
             _windowManager = windowManager;
         }
 
@@ -28,14 +31,13 @@ namespace Iit.Fibertest.Client
         public void Show(Guid traceId)
         {
             ClearClosedViews();
-            TraceStatisticsViewModel vm;
-            if (LaunchedViews.TryGetValue(traceId, out vm))
+            if (LaunchedViews.TryGetValue(traceId, out var vm))
             {
                 vm.TryClose();
                 LaunchedViews.Remove(traceId);
             }
 
-            vm = IoC.Get<TraceStatisticsViewModel>();
+            vm = _globalScope.Resolve<TraceStatisticsViewModel>();
             vm.Initialize(traceId);
             _windowManager.ShowWindowWithAssignedOwner(vm);
 

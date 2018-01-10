@@ -6,7 +6,6 @@ using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using PrivateReflectionUsingDynamic;
@@ -21,6 +20,7 @@ namespace Iit.Fibertest.Client
         private string _server;
 
         private readonly IWindowManager _windowManager;
+        private readonly LoginViewModel _loginViewModel;
         private readonly ClientHeartbeat _clientHeartbeat;
         private readonly ClientPoller _clientPoller;
         private readonly OpticalEventsProvider _opticalEventsProvider;
@@ -32,7 +32,7 @@ namespace Iit.Fibertest.Client
         public IWcfServiceForClient C2DWcfManager { get; }
 
         public ReadModel ReadModel { get; }
-        public MainMenuViewModel MainMenuViewModel { get; set; }
+        public MainMenuViewModel MainMenuViewModel { get; }
         public TreeOfRtuModel TreeOfRtuModel { get; }
         public TreeOfRtuViewModel TreeOfRtuViewModel { get; set; }
         public GraphReadModel GraphReadModel { get; set; }
@@ -45,7 +45,9 @@ namespace Iit.Fibertest.Client
         private bool? _isAuthenticationSuccessfull;
 
         public ShellViewModel(ReadModel readModel, TreeOfRtuModel treeOfRtuModel, GraphReadModel graphReadModel,
+            MainMenuViewModel mainMenuViewModel,
             IWcfServiceForClient c2DWcfManager, IWindowManager windowManager,
+            LoginViewModel loginViewModel,
             NetworkEventsDoubleViewModel networkEventsDoubleViewModel, NetworkEventsProvider networkEventsProvider,
             OpticalEventsDoubleViewModel opticalEventsDoubleViewModel, OpticalEventsProvider opticalEventsProvider,
             BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel,
@@ -57,7 +59,7 @@ namespace Iit.Fibertest.Client
         {
             ReadModel = readModel;
             TreeOfRtuModel = treeOfRtuModel;
-            MainMenuViewModel = new MainMenuViewModel(windowManager);
+            MainMenuViewModel = mainMenuViewModel;
             TreeOfRtuViewModel = new TreeOfRtuViewModel(treeOfRtuModel);
             GraphReadModel = graphReadModel;
             OpticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
@@ -67,6 +69,7 @@ namespace Iit.Fibertest.Client
             CommonStatusBarViewModel = commonStatusBarViewModel;
             C2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
+            _loginViewModel = loginViewModel;
             _bopNetworkEventsProvider = bopNetworkEventsProvider;
             _clientHeartbeat = clientHeartbeat;
             _clientPoller = clientPoller;
@@ -99,8 +102,7 @@ namespace Iit.Fibertest.Client
             ((App) Application.Current).ShutdownMode = ShutdownMode.OnExplicitShutdown;
             _logFile.AssignFile(@"Client.log");
             _logFile.AppendLine(@"Client application started!");
-            var vm = IoC.Get<LoginViewModel>();
-            _isAuthenticationSuccessfull = _windowManager.ShowDialogWithAssignedOwner(vm);
+            _isAuthenticationSuccessfull = _windowManager.ShowDialogWithAssignedOwner(_loginViewModel);
             ((App) Application.Current).ShutdownMode = ShutdownMode.OnMainWindowClose;
             if (_isAuthenticationSuccessfull == true)
             {

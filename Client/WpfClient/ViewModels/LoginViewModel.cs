@@ -16,18 +16,19 @@ namespace Iit.Fibertest.Client
         private readonly IMyLog _logFile;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly CurrentUser _currentUser;
+        private readonly ServerConnectViewModel _serverConnectViewModel;
 
         private string _userName;
         public string UserName
         {
-            get { return _userName; }
+            get => _userName;
             set { _userName = value; Status = Resources.SID_Input_user_name_and_password; }
         }
 
         private string _password;
         public string Password
         {
-            get { return _password; }
+            get => _password;
             set { _password = value; Status = Resources.SID_Input_user_name_and_password; }
         }
 
@@ -35,7 +36,7 @@ namespace Iit.Fibertest.Client
 
         public string Status
         {
-            get { return _status; }
+            get => _status;
             set
             {
                 if (value == _status) return;
@@ -46,13 +47,14 @@ namespace Iit.Fibertest.Client
 
 
         public LoginViewModel(IWindowManager windowManager, IniFile iniFile, IMyLog logFile,
-            IWcfServiceForClient c2DWcfManager, CurrentUser currentUser)
+            IWcfServiceForClient c2DWcfManager, CurrentUser currentUser, ServerConnectViewModel serverConnectViewModel)
         {
             _windowManager = windowManager;
             _iniFile = iniFile;
             _logFile = logFile;
             _c2DWcfManager = c2DWcfManager;
             _currentUser = currentUser;
+            _serverConnectViewModel = serverConnectViewModel;
         }
 
         private void ParseServerAnswer(ClientRegisteredDto dto)
@@ -114,8 +116,7 @@ namespace Iit.Fibertest.Client
 
         public void SetServerAddress()
         {
-            var vm = IoC.Get<ServerConnectViewModel>();
-            _windowManager.ShowDialogWithAssignedOwner(vm);
+            _windowManager.ShowDialogWithAssignedOwner(_serverConnectViewModel);
         }
     }
 }

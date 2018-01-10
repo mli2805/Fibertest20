@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
 
@@ -8,15 +6,11 @@ namespace Iit.Fibertest.Client
 {
     public class ZonesViewModel : Screen
     {
-        private List<Zone> _zones;
         public ObservableCollection<Zone> Rows { get; set; } = new ObservableCollection<Zone>();
 
-        public ZonesViewModel(List<Zone> zones)
+        public void Initialize()
         {
-            foreach (var zone in zones)
-            {
-                Rows.Add((Zone)zone.Clone());
-            }
+            // TODO get zones from Db
         }
 
         protected override void OnViewLoaded(object view)
@@ -26,14 +20,7 @@ namespace Iit.Fibertest.Client
 
         public void Save()
         {
-            _zones = new List<Zone>();
-            foreach (var zone in Rows)
-            {
-                if (zone.Id == Guid.Empty)
-                    zone.Id = Guid.NewGuid();
-                _zones.Add((Zone)zone.Clone());
-            }
-            TryClose(true);
+                TryClose(true);
         }
 
         public void Cancel()

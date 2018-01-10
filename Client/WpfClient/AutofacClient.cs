@@ -50,6 +50,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<TraceStateViewModel>();
             builder.RegisterType<TraceStatisticsViewModel>();
 
+            builder.RegisterType<MainMenuViewModel>().SingleInstance();
             builder.RegisterType<ShellViewModel>().As<IShell>();
             builder.RegisterType<OtauToAttachViewModel>().SingleInstance();
             builder.RegisterType<TraceToAttachViewModel>().SingleInstance();

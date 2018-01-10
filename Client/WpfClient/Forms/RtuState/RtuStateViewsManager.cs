@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 
@@ -8,12 +9,14 @@ namespace Iit.Fibertest.Client
 {
     public class RtuStateViewsManager
     {
+        private readonly ILifetimeScope _globalScope;
         private readonly IWindowManager _windowManager;
         private readonly RtuStateModelFactory _rtuStateModelFactory;
         private Dictionary<Guid, RtuStateViewModel> LaunchedViews { get; set; } = new Dictionary<Guid, RtuStateViewModel>();
 
-        public RtuStateViewsManager(IWindowManager windowManager, RtuStateModelFactory rtuStateModelFactory)
+        public RtuStateViewsManager(ILifetimeScope globalScope, IWindowManager windowManager, RtuStateModelFactory rtuStateModelFactory)
         {
+            _globalScope = globalScope;
             _windowManager = windowManager;
             _rtuStateModelFactory = rtuStateModelFactory;
         }
@@ -68,7 +71,8 @@ namespace Iit.Fibertest.Client
                 LaunchedViews.Remove(rtuId);
             }
 
-            vm = IoC.Get<RtuStateViewModel>();
+            
+            vm = _globalScope.Resolve<RtuStateViewModel>();
             vm.Initialize(_rtuStateModelFactory.Create(rtuLeaf), isUserAskedToOpenView, changes);
             _windowManager.ShowWindowWithAssignedOwner(vm);
 

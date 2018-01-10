@@ -31,16 +31,21 @@ namespace Iit.Fibertest.Client
 
         public static List<Role> Roles { get; set; }
 
-        public UserListViewModel(List<User> users, List<Zone> zones, IWindowManager windowManager)
+        public UserListViewModel(IWindowManager windowManager)
         {
-            _users = users;
-            _zones = zones;
             _windowManager = windowManager;
-            Roles = Enum.GetValues(typeof(Role)).Cast<Role>().ToList();
-
-            MapUserVmList();
         }
 
+        public void Initialize()
+        {
+            // TODO get user and zones from Db
+            _users = new List<User>();
+            _zones = new List<Zone>();
+
+            Roles = Enum.GetValues(typeof(Role)).Cast<Role>().ToList();
+            MapUserVmList();
+
+        }
         private void MapUserVmList()
         {
             IMapper mapper = new MapperConfiguration(cfg => cfg.AddProfile<UserMappings>()).CreateMapper();
