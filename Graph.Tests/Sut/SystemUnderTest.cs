@@ -188,9 +188,8 @@ namespace Graph.Tests
         {
             var vm = model as TraceInfoViewModel;
             if (vm == null) return false;
-            vm.IsInTraceCreationMode = true;
-            vm.Title = title;
-            vm.Comment = comment;
+            vm.Model.Title = title;
+            vm.Model.Comment = comment;
             if (button == Answer.Yes)
                 vm.Save();
             else

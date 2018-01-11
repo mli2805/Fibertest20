@@ -8,8 +8,8 @@
         Closure = 2,
         Cross = 3,
         Rtu = 4,
-        EmptyNode = 5,
+         EmptyNode = 5,
         Terminal = 6,
-        AdjustmentNode = 7,  
+         AdjustmentNode = 7,  
     }
 }

@@ -1,11 +1,11 @@
 ﻿namespace Iit.Fibertest.Client
 {
-    public class NodesStatisticsItem
+    public class TraceInfoTableItem
     {
         public string NodeType { get; set; }
         public int Count { get; set; }
 
-        public NodesStatisticsItem(string nodeType, int count)
+        public TraceInfoTableItem(string nodeType, int count)
         {
             NodeType = nodeType;
             Count = count;

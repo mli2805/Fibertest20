@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -19,6 +20,7 @@ namespace Iit.Fibertest.Client
 
         private string _server;
 
+        public ILifetimeScope GlobalScope;
         private readonly IWindowManager _windowManager;
         private readonly LoginViewModel _loginViewModel;
         private readonly ClientHeartbeat _clientHeartbeat;
@@ -44,7 +46,7 @@ namespace Iit.Fibertest.Client
 
         private bool? _isAuthenticationSuccessfull;
 
-        public ShellViewModel(ReadModel readModel, TreeOfRtuModel treeOfRtuModel, GraphReadModel graphReadModel,
+        public ShellViewModel(ILifetimeScope globalScope, ReadModel readModel, TreeOfRtuModel treeOfRtuModel, GraphReadModel graphReadModel,
             MainMenuViewModel mainMenuViewModel,
             IWcfServiceForClient c2DWcfManager, IWindowManager windowManager,
             LoginViewModel loginViewModel,
@@ -68,6 +70,7 @@ namespace Iit.Fibertest.Client
             TabulatorViewModel = tabulatorViewModel;
             CommonStatusBarViewModel = commonStatusBarViewModel;
             C2DWcfManager = c2DWcfManager;
+            GlobalScope = globalScope;
             _windowManager = windowManager;
             _loginViewModel = loginViewModel;
             _bopNetworkEventsProvider = bopNetworkEventsProvider;

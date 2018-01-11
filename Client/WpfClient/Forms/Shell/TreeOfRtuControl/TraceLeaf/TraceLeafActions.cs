@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
@@ -11,6 +12,7 @@ namespace Iit.Fibertest.Client
 {
     public class TraceLeafActions
     {
+        private readonly ILifetimeScope _globalScope;
         private readonly ReadModel _readModel;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
@@ -21,13 +23,14 @@ namespace Iit.Fibertest.Client
         private readonly OpticalEventsDoubleViewModel _opticalEventsDoubleViewModel;
         private readonly CommonStatusBarViewModel _commonStatusBarViewModel;
 
-        public TraceLeafActions(ReadModel readModel,
+        public TraceLeafActions(ILifetimeScope globalScope, ReadModel readModel,
             IWindowManager windowManager, IWcfServiceForClient c2DWcfManager,
             TraceStateViewsManager traceStateViewsManager, TraceStatisticsViewsManager traceStatisticsViewsManager,
              ReflectogramManager reflectogramManager, BaseRefsAssignViewModel baseRefsAssignViewModel,
             OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
             CommonStatusBarViewModel commonStatusBarViewModel)
         {
+            _globalScope = globalScope;
             _readModel = readModel;
             _windowManager = windowManager;
             _c2DWcfManager = c2DWcfManager;
@@ -46,7 +49,8 @@ namespace Iit.Fibertest.Client
             var trace = _readModel.Traces.FirstOrDefault(t => t.Id == traceLeaf.Id);
             if (trace == null)
                 return;
-            var vm = new TraceInfoViewModel(_readModel, _c2DWcfManager, _windowManager, traceLeaf.Id, trace.Equipments, trace.Nodes);
+            var vm = _globalScope.Resolve<TraceInfoViewModel>();
+            vm.Initialize(traceLeaf.Id, trace.Equipments, trace.Nodes);
             _windowManager.ShowWindowWithAssignedOwner(vm);
         }
 

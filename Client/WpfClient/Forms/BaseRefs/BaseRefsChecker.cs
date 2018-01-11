@@ -93,7 +93,7 @@ namespace Iit.Fibertest.Client
         private string[] IsBaseRefCompatibleWithTrace(OtdrDataKnownBlocks otdrKnownBlocks, Trace trace)
         {
             var keyEventsCount = otdrKnownBlocks.KeyEvents.KeyEvents.Length;
-            var notAdjustmentNodesCount = _readModel.GetTraceNodes(trace).Count(n => !n.IsAdjustmentNode);
+            var notAdjustmentNodesCount = _readModel.GetTraceNodes(trace).Count(n => !n.IsAdjustmentPoint);
             if (notAdjustmentNodesCount == keyEventsCount)
                 return null;
 

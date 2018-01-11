@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Autofac;
 using FluentAssertions;
 using Iit.Fibertest.Client;
 using TechTalk.SpecFlow;
@@ -25,10 +26,12 @@ namespace Graph.Tests
         {
             var trace = _sut.ReadModel.Traces.FirstOrDefault(t => t.Id == _traceId);
             if (trace == null) return;
-            _viewModel = new TraceInfoViewModel(_sut.ReadModel, _sut.ShellVm.C2DWcfManager, _sut.FakeWindowManager, _traceId, trace.Equipments, trace.Nodes);
-            _viewModel.Title = NewTitle;
-            _viewModel.Comment = NewComment;
-            _viewModel.IsTraceModeLight = false;
+            // _viewModel = new TraceInfoViewModel(_sut.ReadModel, _sut.ShellVm.C2DWcfManager, _sut.FakeWindowManager);
+            _viewModel = _sut.ShellVm.GlobalScope.Resolve<TraceInfoViewModel>();
+            _viewModel.Initialize(_traceId, trace.Equipments, trace.Nodes);
+            _viewModel.Model.Title = NewTitle;
+            _viewModel.Model.Comment = NewComment;
+            _viewModel.Model.IsTraceModeLight = false;
         }
 
         [When(@"Пользователь жмет Сохранить")]
@@ -50,10 +53,12 @@ namespace Graph.Tests
             var trace = _sut.ReadModel.Traces.FirstOrDefault(t => t.Id == _traceId);
             if (trace == null) return;
 
-            _viewModel = new TraceInfoViewModel(_sut.ReadModel, _sut.ShellVm.C2DWcfManager, _sut.FakeWindowManager, _traceId, trace.Equipments, trace.Nodes);
-            _viewModel.Title.Should().Be(NewTitle);
-            _viewModel.Comment.Should().Be(NewComment);
-            _viewModel.IsTraceModeLight.Should().BeFalse();
+//            _viewModel = new TraceInfoViewModel(_sut.ReadModel, _sut.ShellVm.C2DWcfManager, _sut.FakeWindowManager, _traceId, trace.Equipments, trace.Nodes);
+            _viewModel = _sut.ShellVm.GlobalScope.Resolve<TraceInfoViewModel>();
+            _viewModel.Initialize(_traceId, trace.Equipments, trace.Nodes);
+            _viewModel.Model.Title.Should().Be(NewTitle);
+            _viewModel.Model.Comment.Should().Be(NewComment);
+            _viewModel.Model.IsTraceModeLight.Should().BeFalse();
         }
 
         [Then(@"Изменения НЕ сохраняются")]
@@ -62,10 +67,12 @@ namespace Graph.Tests
             var trace = _sut.ReadModel.Traces.FirstOrDefault(t => t.Id == _traceId);
             if (trace == null) return;
 
-            _viewModel = new TraceInfoViewModel(_sut.ReadModel, _sut.ShellVm.C2DWcfManager, _sut.FakeWindowManager, _traceId, trace.Equipments, trace.Nodes);
-            _viewModel.Title.Should().NotBe(NewTitle);
-            _viewModel.Comment.Should().NotBe(NewComment);
-            _viewModel.IsTraceModeLight.Should().BeTrue();
+//            _viewModel = new TraceInfoViewModel(_sut.ReadModel, _sut.ShellVm.C2DWcfManager, _sut.FakeWindowManager, _traceId, trace.Equipments, trace.Nodes);
+            _viewModel = _sut.ShellVm.GlobalScope.Resolve<TraceInfoViewModel>();
+            _viewModel.Initialize(_traceId, trace.Equipments, trace.Nodes);
+            _viewModel.Model.Title.Should().NotBe(NewTitle);
+            _viewModel.Model.Comment.Should().NotBe(NewComment);
+            _viewModel.Model.IsTraceModeLight.Should().BeTrue();
         }
     }
 }

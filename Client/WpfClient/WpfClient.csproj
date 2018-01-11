@@ -272,6 +272,8 @@
     <Compile Include="Forms\Shell\TreeOfRtuControl\IPortNumber.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\PortLeaf\PortLeafActions.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\PortLeaf\PortLeafContextMenuProvider.cs" />
+    <Compile Include="Forms\TraceInfo\TraceInfoCalculator.cs" />
+    <Compile Include="Forms\TraceInfo\TraceInfoModel.cs" />
     <Compile Include="Forms\TraceState\AccidentLineModel.cs" />
     <Compile Include="Forms\TraceState\TraceStateModelFactory.cs" />
     <Compile Include="Forms\TraceStatistics\TraceStatisticsViewsManager.cs" />
@@ -385,7 +387,7 @@
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\OtauAttach\OtauToAttachViewModel.cs" />
-    <Compile Include="ViewModels\Primitive\NodesStatisticsItem.cs" />
+    <Compile Include="Forms\TraceInfo\TraceInfoTableItem.cs" />
     <Compile Include="ViewModels\RtuInitializeViewModel.cs" />
     <Compile Include="ViewModels\TraceToAttachViewModel.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\TreeOfRtuViewModel.cs" />
@@ -443,7 +445,7 @@
     <Compile Include="Forms\Shell\ShellViewModelApplyFiber.cs" />
     <Compile Include="Forms\Shell\ShellViewModelApplyNode.cs" />
     <Compile Include="Forms\Shell\ShellViewModelApplyTrace.cs" />
-    <Compile Include="ViewModels\TraceInfoViewModel.cs" />
+    <Compile Include="Forms\TraceInfo\TraceInfoViewModel.cs" />
     <Compile Include="ViewModels\TraceChoiceViewModel.cs" />
     <Compile Include="Forms\BaseRefs\BaseRefsAssignView.xaml.cs">
       <DependentUpon>BaseRefsAssignView.xaml</DependentUpon>
@@ -460,7 +462,7 @@
     <Compile Include="Views\NodeUpdateView.xaml.cs">
       <DependentUpon>NodeUpdateView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TraceInfoView.xaml.cs">
+    <Compile Include="Forms\TraceInfo\TraceInfoView.xaml.cs">
       <DependentUpon>TraceInfoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TraceChoiceView.xaml.cs">
@@ -664,7 +666,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\TraceInfoView.xaml">
+    <Page Include="Forms\TraceInfo\TraceInfoView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

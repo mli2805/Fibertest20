@@ -105,6 +105,8 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<TraceStateModelFactory>().SingleInstance();
             builder.RegisterType<TraceStateViewsManager>().SingleInstance();
             builder.RegisterType<TraceStatisticsViewsManager>().SingleInstance();
+            builder.RegisterType<TraceInfoCalculator>().SingleInstance();
+            builder.RegisterType<TraceInfoViewModel>();
 
             builder.RegisterType<PortLeaf>();
             builder.RegisterType<OtauLeaf>();

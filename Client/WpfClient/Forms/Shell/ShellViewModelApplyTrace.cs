@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Autofac;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 
@@ -32,7 +33,8 @@ namespace Iit.Fibertest.Client
             if (traceEquipments == null)
                 return;
 
-            var traceAddViewModel = new TraceInfoViewModel(ReadModel, C2DWcfManager, _windowManager, Guid.Empty, traceEquipments, traceNodes);
+            var traceAddViewModel = GlobalScope.Resolve<TraceInfoViewModel>();
+            traceAddViewModel.Initialize(Guid.Empty, traceEquipments, traceNodes);
             _windowManager.ShowDialogWithAssignedOwner(traceAddViewModel);
         }
 

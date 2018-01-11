@@ -14,23 +14,35 @@
                 <DockPanel>
                     <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_Title}" />
                     <TextBox Margin="5" 
-                             Text="{Binding Title, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                             Text="{Binding Model.Title, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 </DockPanel>
-                <TextBlock Margin="5" Text="{Binding TraceId}" HorizontalAlignment="Right" Foreground="DarkGray"/>
+                <TextBlock Margin="5" Text="{Binding Model.TraceId}" HorizontalAlignment="Right" Foreground="DarkGray"/>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Margin="5" Text="RTU" />
-                    <TextBlock Margin="5" Text="{Binding RtuTitle}" />
+                    <TextBlock Margin="5" Text="{Binding Model.RtuTitle}" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Margin="5" Text="Port" />
-                    <TextBlock Margin="5" Text="{Binding PortNumber}" />
+                    <TextBlock Margin="5" Text="{Binding Model.PortNumber}" />
                 </StackPanel>
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="{x:Static stringResources:Resources.SID_Nodes}" Margin="5">
-            <ItemsControl ItemsSource="{Binding NodesStatistics}" Margin="5,5,5,20">
+        <GroupBox Header="{x:Static stringResources:Resources.SID_Equipment}" Margin="5">
+            <ItemsControl ItemsSource="{Binding Model.EquipmentsRows}" Margin="5,5,5,20">
                 <ItemsControl.ItemTemplate>
-                    <DataTemplate DataType="client:NodesStatisticsItem">
+                    <DataTemplate DataType="client:TraceInfoTableItem">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="5" Width="150" HorizontalAlignment="Right" Text="{Binding NodeType}" />
+                            <TextBlock Margin="5" Text="{Binding Count}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </GroupBox>
+        <GroupBox Header="{x:Static stringResources:Resources.SID_Nodes}" Margin="5">
+            <ItemsControl ItemsSource="{Binding Model.NodesRows}" Margin="5,5,5,20">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="client:TraceInfoTableItem">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Margin="5" Width="150" HorizontalAlignment="Right" Text="{Binding NodeType}" />
                             <TextBlock Margin="5" Text="{Binding Count}" />
@@ -42,13 +54,13 @@
         <GroupBox Header="{x:Static stringResources:Resources.SID_Trace_monitoring_mode}" Margin="5">
             <StackPanel Orientation="Horizontal" Margin="5">
                 <RadioButton GroupName="1" Name="Dark" Margin="30,5,5,5" Content="{x:Static stringResources:Resources.SID_Dark_OF}"
-                             IsChecked="{Binding IsTraceModeDark, Mode=TwoWay}"/>
+                             IsChecked="{Binding Model.IsTraceModeDark, Mode=TwoWay}"/>
                 <RadioButton GroupName="1" Name="Light" Margin="30,5,5,5" Content="{x:Static stringResources:Resources.SID_Light_OF}" 
-                             IsChecked="{Binding IsTraceModeLight, Mode=TwoWay}"/>
+                             IsChecked="{Binding Model.IsTraceModeLight, Mode=TwoWay}"/>
             </StackPanel>
         </GroupBox>
         <GroupBox Header="{x:Static stringResources:Resources.SID_Comment}" Margin="5">
-                <TextBox Margin="5,10" Text="{Binding Comment}"/>
+            <TextBox Margin="5,10" Text="{Binding Model.Comment}"/>
         </GroupBox>
         <StackPanel Orientation="Horizontal" Margin="15,15">
             <Button Name="Save" Height="25" Width="100" Margin="5" Content="{x:Static stringResources:Resources.SID_Save}" 
