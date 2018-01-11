@@ -12,7 +12,7 @@ namespace Iit.Fibertest.Client
 {
     public class ReadModel : PropertyChangedBase
     {
-        private readonly IMyLog _logFile;
+        public readonly IMyLog LogFile;
 
         private readonly IMapper _mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
@@ -28,7 +28,7 @@ namespace Iit.Fibertest.Client
 
         public ReadModel(IMyLog logFile)
         {
-            _logFile = logFile;
+            LogFile = logFile;
         }
 
         #region Node
@@ -52,7 +52,8 @@ namespace Iit.Fibertest.Client
                 int idx;
                 while ((idx = Topo.GetFiberIndexInTrace(trace, Fibers.First(f => f.Id == e.FiberId))) != -1)
                 {
-                    trace.Nodes.Insert(idx + 1, e.Id);
+                    trace.Nodes.Insert(idx + 1, e.Id); // GPS location добавляется во все трассы
+                    trace.Equipments.Insert(idx + 1, Guid.Empty); 
                 }
             }
         }
@@ -103,7 +104,7 @@ namespace Iit.Fibertest.Client
             if (node != null)
                 Nodes.Remove(node);
             else
-                _logFile.AppendLine($@"Node {nodeId.First6()} not found");
+                LogFile.AppendLine($@"Node {nodeId.First6()} not found");
         }
 
         private void CreateDetourIfAbsent(Trace trace, Guid fiberId, int idxInTrace)
@@ -380,7 +381,7 @@ namespace Iit.Fibertest.Client
             var rtu = Rtus.FirstOrDefault(r => r.Id == e.RtuId);
             if (rtu == null)
             {
-                _logFile.AppendLine(@"MonitoringSettingsChanged: cant find RTU");
+                LogFile.AppendLine(@"MonitoringSettingsChanged: cant find RTU");
                 return;
             }
             rtu.PreciseMeas = e.PreciseMeas;
@@ -399,7 +400,7 @@ namespace Iit.Fibertest.Client
             var rtu = Rtus.FirstOrDefault(r => r.Id == e.RtuId);
             if (rtu == null)
             {
-                _logFile.AppendLine(@"MonitoringStarted: cant find RTU");
+                LogFile.AppendLine(@"MonitoringStarted: cant find RTU");
                 return;
             }
             rtu.MonitoringState = MonitoringState.On;
@@ -410,7 +411,7 @@ namespace Iit.Fibertest.Client
             var rtu = Rtus.FirstOrDefault(r => r.Id == e.RtuId);
             if (rtu == null)
             {
-                _logFile.AppendLine(@"MonitoringStopped: cant find RTU");
+                LogFile.AppendLine(@"MonitoringStopped: cant find RTU");
                 return;
             }
             rtu.MonitoringState = MonitoringState.Off;

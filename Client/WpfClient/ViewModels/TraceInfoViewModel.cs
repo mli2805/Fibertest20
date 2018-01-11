@@ -130,7 +130,7 @@ namespace Iit.Fibertest.Client
             var adjustmentNodesCount = nodes.Count(n => n != null && n.IsAdjustmentNode);
 
 
-            NodesStatistics.Add(new NodesStatisticsItem(Resources.SID_In_total__including_RTU, _traceEquipments.Count - adjustmentNodesCount));
+            NodesStatistics.Add(new NodesStatisticsItem(Resources.SID_In_total__including_RTU, _traceNodes.Count - adjustmentNodesCount));
 
             var dict = new Dictionary<EquipmentType, int>();
             foreach (var id in _traceEquipments.Skip(1).Where(e => e != Guid.Empty))
@@ -146,7 +146,7 @@ namespace Iit.Fibertest.Client
 
             NodesStatistics.AddRange(dict.Select(item => new NodesStatisticsItem(item.Key.ToLocalizedString(), item.Value)));
             if (emptyButNotAdjustmentNodesCount > 0)
-                NodesStatistics.Add(new NodesStatisticsItem("Without equipment", emptyButNotAdjustmentNodesCount));
+                NodesStatistics.Add(new NodesStatisticsItem(Resources.SID_Without_equipment, emptyButNotAdjustmentNodesCount));
         }
 
         protected override void OnViewLoaded(object view)

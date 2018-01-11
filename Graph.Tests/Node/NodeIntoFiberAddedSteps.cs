@@ -56,6 +56,7 @@ namespace Graph.Tests
         public void ThenНовыйУзелВходитВТрассуАСвязностьТрассыСохраняется()
         {
             _trace.Nodes.Should().Contain(_nodeId);
+            _trace.Nodes.Count.ShouldBeEquivalentTo(_trace.Equipments.Count);
         }
 
         [Then(@"Cообщением об невозможности")]

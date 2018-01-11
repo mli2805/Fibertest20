@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
 {
@@ -17,6 +18,20 @@ namespace Iit.Fibertest.Client
             return readModel.Fibers.First(
                 f => f.Node1 == node1 && f.Node2 == node2 ||
                      f.Node1 == node2 && f.Node2 == node1).Id;
+        }
+
+        public static IEnumerable<Node> GetTraceNodes(this ReadModel readModel, Trace trace)
+        {
+            try
+            {
+                return trace.Nodes.Select(i => readModel.Nodes.Single(n => n.Id == i));
+            }
+            catch (Exception e)
+            {
+                readModel.LogFile.AppendLine(e.Message);
+                return null;
+            }
+
         }
     }
 }

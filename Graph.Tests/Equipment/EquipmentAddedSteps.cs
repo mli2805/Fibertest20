@@ -124,9 +124,18 @@ namespace Graph.Tests
         [Then(@"Новое оборудование входит во все трассы а старое ни в одну")]
         public void ThenНовоеОборудованиеВходитВоВсеТрассыАСтароеНиВОдну()
         {
-            _sut.ReadModel.Traces.First(t => t.Id == _sut.ShortTraceId).Equipments.Contains(_equipmentId).Should().BeTrue();
-            _sut.ReadModel.Traces.First(t => t.Id == _sut.TraceWithEqId).Equipments.Contains(_equipmentId).Should().BeTrue();
-            _sut.ReadModel.Traces.First(t => t.Id == _sut.TraceWithoutEqId).Equipments.Contains(_equipmentId).Should().BeTrue();
+            var shortTrace = _sut.ReadModel.Traces.First(t => t.Id == _sut.ShortTraceId);
+            shortTrace.Equipments.Contains(_equipmentId).Should().BeTrue();
+            shortTrace.Equipments.Count.ShouldBeEquivalentTo(shortTrace.Nodes.Count);
+
+            var traceWithEqId = _sut.ReadModel.Traces.First(t => t.Id == _sut.TraceWithEqId);
+            traceWithEqId.Equipments.Contains(_equipmentId).Should().BeTrue();
+            traceWithEqId.Equipments.Count.ShouldBeEquivalentTo(traceWithEqId.Nodes.Count);
+
+            var traceWithoutEqId = _sut.ReadModel.Traces.First(t => t.Id == _sut.TraceWithoutEqId);
+            traceWithoutEqId.Equipments.Contains(_equipmentId).Should().BeTrue();
+            traceWithoutEqId.Equipments.Count.ShouldBeEquivalentTo(traceWithoutEqId.Nodes.Count);
+
             _sut.ReadModel.Traces.Any(t => t.Equipments.Contains(_sut.OldEquipmentId)).Should().BeFalse();
         }
 

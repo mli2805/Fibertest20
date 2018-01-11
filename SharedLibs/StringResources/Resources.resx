@@ -213,8 +213,8 @@
 	<data name="SID_Well" xml:space="preserve">
     <value>Well</value>
   </data>
-	<data name="SID_Adjustment_node" xml:space="preserve">
-    <value>Adjustment node</value>
+	<data name="SID_Adjustment_point" xml:space="preserve">
+    <value>Adjustment point</value>
   </data>
 	<data name="SID_There_is_a_rtu_with_the_same_title" xml:space="preserve">
     <value>There is a rtu with the same title</value>
@@ -260,8 +260,8 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_Precise_base_ref" xml:space="preserve">
     <value>Precise base ref</value>
   </data>
-	<data name="SID_Additional_base_ref" xml:space="preserve">
-    <value>Additional base ref</value>
+	<data name="SID_Second_base_ref" xml:space="preserve">
+    <value>Second base ref</value>
   </data>
 	<data name="SID_Cable_reserve_to_the_left_m" xml:space="preserve">
     <value>Cable reserve to the left, m</value>
@@ -434,8 +434,8 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_Light_OF" xml:space="preserve">
     <value>In service</value>
   </data>
-	<data name="SID_Add_adjustment_node" xml:space="preserve">
-    <value>Add adjustment node</value>
+	<data name="SID_Add_adjustment_point" xml:space="preserve">
+    <value>Add adjustment point</value>
   </data>
 	<data name="SID_Add_node_with_cable_reserve" xml:space="preserve">
     <value>Add node with cable reserve</value>
@@ -1322,8 +1322,8 @@ RTU is initializing right now!</value>
 	<data name="SID_Confirmed" xml:space="preserve">
     <value>Confirmed</value>
   </data>
-	<data name="SID_Additional" xml:space="preserve">
-    <value>Additional</value>
+	<data name="SID_Second" xml:space="preserve">
+    <value>Second</value>
   </data>
 	<data name="SID_Base_ref_type" xml:space="preserve">
     <value>Base ref type</value>
@@ -1508,8 +1508,8 @@ RTU is initializing right now!</value>
 	<data name="SID_FastF" xml:space="preserve">
     <value>Fast</value>
   </data>
-	<data name="SID_AdditionalF" xml:space="preserve">
-    <value>Additional</value>
+	<data name="SID_SecondF" xml:space="preserve">
+    <value>Second</value>
   </data>
 	<data name="SID_There_are_no_selected_row_" xml:space="preserve">
     <value>There are no selected row.</value>
@@ -1552,5 +1552,20 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID__0__base_is_not_compatible_with_trace" xml:space="preserve">
     <value>{0} base is not compatible with trace</value>
+  </data>
+	<data name="SID_Landmarks_count_in_reflectogram_is__0_" xml:space="preserve">
+    <value>Landmarks count in reflectogram is {0}</value>
+  </data>
+	<data name="SID__while" xml:space="preserve">
+    <value>while</value>
+  </data>
+	<data name="SID_Trace_s_node_count_is__0_" xml:space="preserve">
+    <value>Trace's node count is {0}</value>
+  </data>
+	<data name="SID_Trace_s_equipment_count_is__0_" xml:space="preserve">
+    <value>Trace's equipment count is {0}</value>
+  </data>
+	<data name="SID_Without_equipment" xml:space="preserve">
+    <value>Without equipment</value>
   </data>
 </root>

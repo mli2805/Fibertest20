@@ -11,10 +11,11 @@
         <!-- call this resource from code -->
         <!-- ReSharper disable once Xaml.RedundantResource -->
         <ContextMenu x:Key="MapContextMenu">
-            <MenuItem Header="{x:Static stringResources:Resources.SID_Add_node}" Tag="5" Click="AddNodeOnClick"/>
-            <MenuItem Header="{x:Static stringResources:Resources.SID_Add_adjustment_node}" Tag="7" Click="AddNodeOnClick"/>
+            <MenuItem Header="{x:Static stringResources:Resources.SID_Add_adjustment_point}" Tag="7" Click="AddNodeOnClick"/>
             <Separator />
+            <MenuItem Header="{x:Static stringResources:Resources.SID_Add_node}" Tag="5" Click="AddNodeOnClick"/>
             <MenuItem Header="{x:Static stringResources:Resources.SID_Add_node_with_cable_reserve}" Tag="1" Click="AddNodeOnClick"/>
+            <Separator />
             <MenuItem Header="{x:Static stringResources:Resources.SID_Add_node_with_sleeve}" Tag="2" Click="AddNodeOnClick"/>
             <MenuItem Header="{x:Static stringResources:Resources.SID_Add_node_with_cross}" Tag="3" Click="AddNodeOnClick"/>
             <MenuItem Header="{x:Static stringResources:Resources.SID_Add_node_with_terminal}" Tag="6" Click="AddNodeOnClick"/>

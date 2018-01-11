@@ -84,7 +84,7 @@ namespace Iit.Fibertest.Client
             });
             route.ContextMenu.Items.Add(new MenuItem()
             {
-                Header = StringResources.Resources.SID_Add_adjustment_node,
+                Header = StringResources.Resources.SID_Add_adjustment_point,
                 Command = new ContextMenuAction(AskAddAdjustmentNodeIntoFiber, CanAddAdjustmentNodeIntoFiber),
                 CommandParameter = route
             });

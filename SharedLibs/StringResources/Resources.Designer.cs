@@ -151,15 +151,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} base is not compatible with trace{1}{2}.
-        /// </summary>
-        public static string SID__0__base_is_not_compatible_with_trace_1__2_ {
-            get {
-                return ResourceManager.GetString("SID__0__base_is_not_compatible_with_trace_1__2_", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to {0}th measurement is finished..
         /// </summary>
         public static string SID__0_th_measurement_is_finished_ {
@@ -224,6 +215,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to while.
+        /// </summary>
+        public static string SID__while {
+            get {
+                return ResourceManager.GetString("SID__while", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Accept the highlighted with lime color path?.
         /// </summary>
         public static string SID_Accept_the_path {
@@ -269,11 +269,11 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add adjustment node.
+        ///   Looks up a localized string similar to Add adjustment point.
         /// </summary>
-        public static string SID_Add_adjustment_node {
+        public static string SID_Add_adjustment_point {
             get {
-                return ResourceManager.GetString("SID_Add_adjustment_node", resourceCulture);
+                return ResourceManager.GetString("SID_Add_adjustment_point", resourceCulture);
             }
         }
         
@@ -368,24 +368,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Additional.
-        /// </summary>
-        public static string SID_Additional {
-            get {
-                return ResourceManager.GetString("SID_Additional", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Additional base ref.
-        /// </summary>
-        public static string SID_Additional_base_ref {
-            get {
-                return ResourceManager.GetString("SID_Additional_base_ref", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Additional optical switch.
         /// </summary>
         public static string SID_Additional_optical_switch {
@@ -395,20 +377,11 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Additional.
+        ///   Looks up a localized string similar to Adjustment point.
         /// </summary>
-        public static string SID_AdditionalF {
+        public static string SID_Adjustment_point {
             get {
-                return ResourceManager.GetString("SID_AdditionalF", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Adjustment node.
-        /// </summary>
-        public static string SID_Adjustment_node {
-            get {
-                return ResourceManager.GetString("SID_Adjustment_node", resourceCulture);
+                return ResourceManager.GetString("SID_Adjustment_point", resourceCulture);
             }
         }
         
@@ -2070,6 +2043,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Landmarks count in reflectogram is {0}.
+        /// </summary>
+        public static string SID_Landmarks_count_in_reflectogram_is__0_ {
+            get {
+                return ResourceManager.GetString("SID_Landmarks_count_in_reflectogram_is__0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Landmarks of trace {0}.
         /// </summary>
         public static string SID_Landmarks_of_trace__0_ {
@@ -3484,11 +3466,38 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Second.
+        /// </summary>
+        public static string SID_Second {
+            get {
+                return ResourceManager.GetString("SID_Second", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Second base ref.
+        /// </summary>
+        public static string SID_Second_base_ref {
+            get {
+                return ResourceManager.GetString("SID_Second_base_ref", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ″.
         /// </summary>
         public static string SID_Second_sign {
             get {
                 return ResourceManager.GetString("SID_Second_sign", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Second.
+        /// </summary>
+        public static string SID_SecondF {
+            get {
+                return ResourceManager.GetString("SID_SecondF", resourceCulture);
             }
         }
         
@@ -4079,6 +4088,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Trace&apos;s equipment count is {0}.
+        /// </summary>
+        public static string SID_Trace_s_equipment_count_is__0_ {
+            get {
+                return ResourceManager.GetString("SID_Trace_s_equipment_count_is__0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trace&apos;s node count is {0}.
+        /// </summary>
+        public static string SID_Trace_s_node_count_is__0_ {
+            get {
+                return ResourceManager.GetString("SID_Trace_s_node_count_is__0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Trace should start from RTU.
         /// </summary>
         public static string SID_Trace_should_start_from_RTU {
@@ -4327,6 +4354,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_will_be_removed {
             get {
                 return ResourceManager.GetString("SID_will_be_removed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Without equipment.
+        /// </summary>
+        public static string SID_Without_equipment {
+            get {
+                return ResourceManager.GetString("SID_Without_equipment", resourceCulture);
             }
         }
         

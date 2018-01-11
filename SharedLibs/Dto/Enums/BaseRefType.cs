@@ -18,7 +18,7 @@ namespace Iit.Fibertest.Dto
             {
                 case BaseRefType.Precise: return Resources.SID_Precise;
                 case BaseRefType.Fast: return Resources.SID_Fast;
-                case BaseRefType.Additional: return Resources.SID_Additional;
+                case BaseRefType.Additional: return Resources.SID_Second;
                 default: return "";
             }
         }
@@ -28,7 +28,7 @@ namespace Iit.Fibertest.Dto
             {
                 case BaseRefType.Precise: return Resources.SID_PreciseF;
                 case BaseRefType.Fast: return Resources.SID_FastF;
-                case BaseRefType.Additional: return Resources.SID_AdditionalF;
+                case BaseRefType.Additional: return Resources.SID_SecondF;
                 default: return "";
             }
         }

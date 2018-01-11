@@ -213,8 +213,8 @@
 	<data name="SID_Well" xml:space="preserve">
     <value>Колодец</value>
   </data>
-	<data name="SID_Adjustment_node" xml:space="preserve">
-    <value>Узел привязки</value>
+	<data name="SID_Adjustment_point" xml:space="preserve">
+    <value>Точка привязки</value>
   </data>
 	<data name="SID_There_is_a_rtu_with_the_same_title" xml:space="preserve">
     <value>Существует RTU с таким именем</value>
@@ -260,8 +260,8 @@
 	<data name="SID_Precise_base_ref" xml:space="preserve">
     <value>Точная базовая</value>
   </data>
-	<data name="SID_Additional_base_ref" xml:space="preserve">
-    <value>Дополнительная базовая</value>
+	<data name="SID_Second_base_ref" xml:space="preserve">
+    <value>Вторая базовая</value>
   </data>
 	<data name="SID_Cable_reserve_to_the_left_m" xml:space="preserve">
     <value>Запас кабеля слева, м</value>
@@ -434,8 +434,8 @@
 	<data name="SID_Light_OF" xml:space="preserve">
     <value>Светлое ОВ</value>
   </data>
-	<data name="SID_Add_adjustment_node" xml:space="preserve">
-    <value>Добавить узел привязки</value>
+	<data name="SID_Add_adjustment_point" xml:space="preserve">
+    <value>Добавить точку привязки</value>
   </data>
 	<data name="SID_Add_node_with_cable_reserve" xml:space="preserve">
     <value>Добавить узел с запасом кабеля</value>
@@ -1322,8 +1322,8 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Confirmed" xml:space="preserve">
 		<value>Подтверждено</value>
 	</data>
-	<data name="SID_Additional" xml:space="preserve">
-		<value>Дополнительная</value>
+	<data name="SID_Second" xml:space="preserve">
+		<value>Второй</value>
 	</data>
 	<data name="SID_Base_ref_type" xml:space="preserve">
 		<value>Тип базовой</value>
@@ -1508,8 +1508,8 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_FastF" xml:space="preserve">
 		<value>Быстрая</value>
 	</data>
-	<data name="SID_AdditionalF" xml:space="preserve">
-		<value>Дополнительная</value>
+	<data name="SID_SecondF" xml:space="preserve">
+		<value>Вторая</value>
 	</data>
 	<data name="SID_There_are_no_selected_row_" xml:space="preserve">
 		<value>Нет выбранной строки</value>
@@ -1552,5 +1552,20 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID__0__base_is_not_compatible_with_trace" xml:space="preserve">
 		<value>{0} базовая не совместима с трасой</value>
+	</data>
+	<data name="SID_Landmarks_count_in_reflectogram_is__0_" xml:space="preserve">
+		<value>Количество ориентиров на рефлектограмме {0}</value>
+	</data>
+	<data name="SID__while" xml:space="preserve">
+		<value>тогда как</value>
+	</data>
+	<data name="SID_Trace_s_node_count_is__0_" xml:space="preserve">
+		<value>Узлов в трассе {0}</value>
+	</data>
+	<data name="SID_Trace_s_equipment_count_is__0_" xml:space="preserve">
+		<value>Оборудования на трассе {0}</value>
+	</data>
+	<data name="SID_Without_equipment" xml:space="preserve">
+		<value>Без оборудования</value>
 	</data>
 </root>

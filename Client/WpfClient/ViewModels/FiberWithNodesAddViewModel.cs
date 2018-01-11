@@ -10,7 +10,7 @@ namespace Iit.Fibertest.Client
         public int Count { get; set; }
 
         public RadioButtonModel Node { get; set; } = new RadioButtonModel { Title = Resources.SID_Node, IsChecked = false };
-        public RadioButtonModel AdjustmentNode { get; } = new RadioButtonModel { Title = Resources.SID_Adjustment_node, IsChecked = false };
+        public RadioButtonModel AdjustmentNode { get; } = new RadioButtonModel { Title = Resources.SID_Adjustment_point, IsChecked = false };
         public RadioButtonModel CableReserve { get; set; } = new RadioButtonModel { Title = Resources.SID_CableReserve, IsChecked = false };
         public RadioButtonModel Sleeve { get; } = new RadioButtonModel { Title = Resources.SID_Closure, IsChecked = true };
         public RadioButtonModel Cross { get; } = new RadioButtonModel { Title = Resources.SID_Cross, IsChecked = false };

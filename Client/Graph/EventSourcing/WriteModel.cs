@@ -102,6 +102,7 @@ namespace Iit.Fibertest.Graph
                 while ((idx = Topo.GetFiberIndexInTrace(trace, _fibers.Single(f => f.Id == e.FiberId))) != -1)
                 {
                     trace.Nodes.Insert(idx + 1, e.Id); // GPS location добавляется во все трассы
+                    trace.Equipments.Insert(idx + 1, Guid.Empty); // GPS location добавляется во все трассы
                 }
             }
         }
