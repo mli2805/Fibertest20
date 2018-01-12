@@ -1,4 +1,5 @@
-﻿using Iit.Fibertest.Client;
+﻿using System;
+using Iit.Fibertest.Client;
 using Iit.Fibertest.Graph;
 
 namespace Graph.Tests
@@ -10,6 +11,8 @@ namespace Graph.Tests
         public const int NewLeftCableReserve = 15;
         public const int NewRightCableReserve = 7;
         public const string NewCommentForTest = "New comment for old equipment";
+
+        public Guid NewEquipmentId;
 
         public bool EquipmentInfoViewModelHandler(object model, Answer button)
         {
@@ -26,6 +29,8 @@ namespace Graph.Tests
                 vm.Save();
             else
                 vm.Cancel();
+
+            NewEquipmentId = vm.EquipmentId;
             return true;
         }
     }

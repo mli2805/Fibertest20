@@ -72,9 +72,9 @@ namespace Graph.Tests
         [Then(@"Создается еще одно оборудование в том же узле")]
         public void ThenСоздаетсяЕщеОдноОборудованиеВТомЖеУзле()
         {
-            _sut.ReadModel.Equipments.Count(e => e.NodeId == _nodeId).Should().Be(2);
+            _sut.ReadModel.Equipments.Count(e => e.NodeId == _nodeId).Should().Be(3);
 
-            var equipment = _sut.ReadModel.Equipments.First(e => e.NodeId == _nodeId && e.Id != _oldEquipmentId);
+            var equipment = _sut.ReadModel.Equipments.First(e => e.Id == _sut.NewEquipmentId);
             equipment.Title.Should().Be(SutForEquipment.NewTitleForTest);
             equipment.Type.Should().Be(SutForEquipment.NewTypeForTest);
             equipment.CableReserveLeft.Should().Be(SutForEquipment.NewLeftCableReserve);
