@@ -4,8 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
+        xmlns:client="clr-namespace:Iit.Fibertest.Client"
         mc:Ignorable="d"
-        SizeToContent="Height" Width="350" WindowStartupLocation="CenterOwner">
+        SizeToContent="Height" Width="350" WindowStartupLocation="CenterOwner" d:DataContext="{d:DesignInstance client:FiberWithNodesAddViewModel}">
     <StackPanel FocusManager.FocusedElement="{Binding ElementName=Count}">
         <StackPanel Orientation="Horizontal" Margin="5">
             <TextBlock Text="{x:Static stringResources:Resources.SID_Quantity}" Margin="5,0,15,0"/>
@@ -13,17 +14,17 @@
         </StackPanel>
         <GroupBox Header="{x:Static stringResources:Resources.SID_Nodes}" Margin="5" Padding="0,15,0,10">
             <StackPanel>
-                <RadioButton Margin="5" GroupName="1" IsChecked="{Binding Node.IsChecked}" Content="{Binding Node.Title}" />
-                <RadioButton Margin="5" GroupName="1" IsChecked="{Binding AdjustmentNode.IsChecked}" Content="{Binding AdjustmentNode.Title}" />
+                <RadioButton Margin="5" GroupName="1" IsChecked="{Binding AdjustmentPoint.IsChecked}" Content="{Binding AdjustmentPoint.Title}" />
+                <RadioButton Margin="5" GroupName="1" IsChecked="{Binding NodeWithoutEquipment.IsChecked}" Content="{Binding NodeWithoutEquipment.Title}" />
+                <RadioButton Margin="5" GroupName="1" IsChecked="{Binding CableReserve.IsChecked}" Content="{Binding CableReserve.Title}" />
             </StackPanel>
         </GroupBox>
         <GroupBox Header="{x:Static stringResources:Resources.SID_Nodes_with_equipment}" Margin="5" Padding="0,15,0,10">
             <StackPanel>
-                <RadioButton Margin="5" GroupName="1" IsChecked="{Binding CableReserve.IsChecked}" Content="{Binding CableReserve.Title}" />
-                <RadioButton Margin="5" GroupName="1" IsChecked="{Binding Sleeve.IsChecked}" Content="{Binding Sleeve.Title}" />
+                <RadioButton Margin="5" GroupName="1" IsChecked="{Binding Closure.IsChecked}" Content="{Binding Closure.Title}" />
                 <RadioButton Margin="5" GroupName="1" IsChecked="{Binding Cross.IsChecked}" Content="{Binding Cross.Title}" />
-                <RadioButton Margin="5" GroupName="1" IsChecked="{Binding Terminal.IsChecked}" Content="{Binding Terminal.Title}" />
                 <RadioButton Margin="5" GroupName="1" IsChecked="{Binding Other.IsChecked}" Content="{Binding Other.Title}" />
+                <RadioButton Margin="5" GroupName="1" IsChecked="{Binding Terminal.IsChecked}" Content="{Binding Terminal.Title}" />
             </StackPanel>
         </GroupBox>
         <StackPanel Orientation="Horizontal" Margin="10,15,10,5">

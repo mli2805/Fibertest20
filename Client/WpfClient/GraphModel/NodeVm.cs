@@ -59,8 +59,6 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public bool IsAdjustmentNode { get; set; }
-
         public string Comment { get; set; }
     }
 }

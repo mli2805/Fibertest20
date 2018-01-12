@@ -1413,6 +1413,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Equipment, including RTU.
+        /// </summary>
+        public static string SID_Equipment__including_RTU {
+            get {
+                return ResourceManager.GetString("SID_Equipment__including_RTU", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Equipment in node.
         /// </summary>
         public static string SID_Equipment_in_node {
@@ -2534,6 +2543,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Node_title_already_exists {
             get {
                 return ResourceManager.GetString("SID_Node_title_already_exists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Node without equipment.
+        /// </summary>
+        public static string SID_Node_without_equipment {
+            get {
+                return ResourceManager.GetString("SID_Node_without_equipment", resourceCulture);
             }
         }
         

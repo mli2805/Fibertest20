@@ -30,7 +30,7 @@ namespace Iit.Fibertest.Graph
 
         public string When(AddNodeIntoFiber cmd)
         {
-            if (!cmd.IsAdjustmentNode && WriteModel.IsFiberContainedInAnyTraceWithBase(cmd.FiberId))
+            if (!cmd.IsAdjustmentPoint && WriteModel.IsFiberContainedInAnyTraceWithBase(cmd.FiberId))
                 return Resources.SID_It_s_impossible_to_change_trace_with_base_reflectogram;
 
             return WriteModel.Add(_mapper.Map<NodeIntoFiberAdded>(cmd));
@@ -72,20 +72,13 @@ namespace Iit.Fibertest.Graph
             if (WriteModel.HasFiberBetween(cmd.Node1, cmd.Node2))
                 return Resources.SID_Section_already_exists;
 
-            if (cmd.AddNodes.Count > 0)
-                foreach (var cmdAddNode in cmd.AddNodes)
-                {
-                    var result = WriteModel.Add(_mapper.Map<NodeAdded>(cmdAddNode));
-                    if (result != null)
-                        return result;
-                }
-            else
-                foreach (var cmdAddEquipmentAtGpsLocation in cmd.AddEquipments)
-                {
-                    var result = WriteModel.Add(_mapper.Map<EquipmentAtGpsLocationAdded>(cmdAddEquipmentAtGpsLocation));
-                    if (result != null)
-                        return result;
-                }
+
+            foreach (var cmdAddEquipmentAtGpsLocation in cmd.AddEquipments)
+            {
+                var result = WriteModel.Add(_mapper.Map<EquipmentAtGpsLocationAdded>(cmdAddEquipmentAtGpsLocation));
+                if (result != null)
+                    return result;
+            }
 
             foreach (var cmdAddFiber in cmd.AddFibers)
             {
@@ -230,7 +223,7 @@ namespace Iit.Fibertest.Graph
         #region JustEchosOfCmdsSentToRtu
         public string When(AssignBaseRef cmd)
         {
-           return WriteModel.Add(_mapper.Map<BaseRefAssigned>(cmd));
+            return WriteModel.Add(_mapper.Map<BaseRefAssigned>(cmd));
         }
         public string When(ChangeMonitoringSettings cmd)
         {

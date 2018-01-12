@@ -122,7 +122,6 @@ namespace Iit.Fibertest.Client
                 var cmd = mapper.Map<UpdateEquipment>(this);
                 cmd.Id = EquipmentId;
                 Command = cmd; // nodeUpdateView take this command to update its equipment table
-//                _bus.SendCommand(cmd);
             await _c2DWcfManager.SendCommandAsObj(cmd);
             }
 

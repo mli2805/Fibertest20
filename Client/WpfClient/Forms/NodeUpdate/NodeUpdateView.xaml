@@ -58,7 +58,7 @@
                         </ContextMenu>
                     </ListBox.ContextMenu>
                     <ListBox.ItemTemplate>
-                        <DataTemplate DataType="client:EqItemVm">
+                        <DataTemplate DataType="client:ItemOfEquipmentTableModel">
                             <Grid>
                                 <Grid.ContextMenu>
                                     <ContextMenu>

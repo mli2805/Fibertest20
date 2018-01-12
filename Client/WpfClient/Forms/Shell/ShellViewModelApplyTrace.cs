@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Autofac;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
@@ -73,19 +74,31 @@ namespace Iit.Fibertest.Client
             var equipments = new List<Guid> { ReadModel.Rtus.First(r => r.NodeId == nodes[0]).Id };
             foreach (var nodeId in nodes.Skip(1))
             {
-                var possibleEquipments = ReadModel.Equipments.Where(e => e.NodeId == nodeId).ToList();
-                if (possibleEquipments.Count != 0)
+                var allEquipmentInNode = ReadModel.Equipments.Where(e => e.NodeId == nodeId).ToList();
+                var acceptableEquipment = allEquipmentInNode.Where(e => e.Type >= EquipmentType.CableReserve).ToList();
+                if (allEquipmentInNode.Count == 1)
                 {
-                    var equipmentChoiceViewModel = new EquipmentChoiceViewModel(_windowManager, C2DWcfManager,
-                        possibleEquipments, ReadModel.Nodes.First(n => n.Id == nodeId).Title, nodeId == nodes.Last());
+                    equipments.Add(allEquipmentInNode[0].Id);
+                }
+                else if (acceptableEquipment.Count == 0)
+                {
+                    var emptyEquipment = allEquipmentInNode.FirstOrDefault(e => e.Type == EquipmentType.EmptyNode);
+                    if (emptyEquipment != null)
+                    equipments.Add(emptyEquipment.Id);
+                }
+                else
+                {
+                    var nodeTitle = ReadModel.Nodes.First(n => n.Id == nodeId).Title;
+                    var equipmentChoiceViewModel =
+                        new EquipmentChoiceViewModel(_windowManager, C2DWcfManager, acceptableEquipment, nodeTitle, nodeId == nodes.Last());
                     _windowManager.ShowDialogWithAssignedOwner(equipmentChoiceViewModel);
-                    if (!equipmentChoiceViewModel.ShouldWeContinue) // пользователь прервал процесс, отказавшись выбирать оборудование
+
+                    // пользователь прервал процесс, отказавшись выбирать оборудование
+                    if (!equipmentChoiceViewModel.ShouldWeContinue)
                         return null;
 
                     equipments.Add(equipmentChoiceViewModel.GetSelectedEquipmentGuid());
                 }
-                else
-                    equipments.Add(Guid.Empty);
             }
             return equipments;
         }

@@ -19,21 +19,14 @@ namespace Iit.Fibertest.Client
             var code = int.Parse((string)item.Tag);
 
             var equipmentType = (EquipmentType) code;
-            var isAdjustmentNode = equipmentType == EquipmentType.AdjustmentNode;
 
             if (equipmentType == EquipmentType.Rtu)
                 GraphReadModel.Request = new RequestAddRtuAtGpsLocation() { Latitude = position.Lat, Longitude = position.Lng };
-            else if (equipmentType == EquipmentType.EmptyNode || equipmentType == EquipmentType.AdjustmentNode)
-                GraphReadModel.Request = new AddNode()
-                {
-                    Latitude = position.Lat,
-                    Longitude = position.Lng,
-                    IsAdjustmentNode = isAdjustmentNode,
-                };
+            
             else
                 GraphReadModel.Request = new RequestAddEquipmentAtGpsLocation()
                 {
-                    Type = (EquipmentType)code,
+                    Type = equipmentType,
                     Latitude = position.Lat,
                     Longitude = position.Lng
                 };

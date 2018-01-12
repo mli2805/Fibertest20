@@ -89,22 +89,23 @@ namespace Iit.Fibertest.Client
                 Id = evnt.Id,
                 State = FiberState.Ok,
                 Type = EquipmentType.EmptyNode,
-                IsAdjustmentNode = evnt.IsAdjustmentNode,
                 Position = new PointLatLng(evnt.Latitude, evnt.Longitude)
             });
         }
 
         public void Apply(NodeIntoFiberAdded evnt)
         {
-            Nodes.Add(new NodeVm()
+            var nodeVm = new NodeVm()
             {
                 Id = evnt.Id,
                 Position = new PointLatLng(evnt.Position.Lat, evnt.Position.Lng),
                 
                 State = FiberState.Ok,
-                Type = EquipmentType.EmptyNode,
-                IsAdjustmentNode = evnt.IsAdjustmentNode,
-            });
+                Type = evnt.IsAdjustmentPoint ? EquipmentType.AdjustmentPoint : EquipmentType.EmptyNode,
+            };
+            Nodes.Add(nodeVm);
+            Equipments.Add(new EquipmentVm() { Id = evnt.EquipmentId, Type = evnt.IsAdjustmentPoint ? EquipmentType.AdjustmentPoint : EquipmentType.EmptyNode, Node = nodeVm });
+
             var fiberForDeletion = Fibers.First(f => f.Id == evnt.FiberId);
             AddTwoFibersToNewNode(evnt, fiberForDeletion);
             FixTracesWhichContainedOldFiber(evnt);
@@ -279,7 +280,9 @@ namespace Iit.Fibertest.Client
             };
             Nodes.Add(nodeVm);
 
-            Equipments.Add(new EquipmentVm() { Id = evnt.Id, Node = nodeVm, Type = evnt.Type });
+            Equipments.Add(new EquipmentVm() { Id = evnt.RequestedEquipmentId, Node = nodeVm, Type = evnt.Type });
+            if (evnt.EmptyNodeEquipmentId != Guid.Empty)
+                Equipments.Add(new EquipmentVm() { Id = evnt.EmptyNodeEquipmentId, Node = nodeVm, Type = EquipmentType.EmptyNode });
         }
 
         public void Apply(EquipmentIntoNodeAdded evnt)

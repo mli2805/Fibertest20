@@ -1568,4 +1568,10 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Without_equipment" xml:space="preserve">
 		<value>Без оборудования</value>
 	</data>
+	<data name="SID_Equipment__including_RTU" xml:space="preserve">
+		<value>Оборудование, включая RTU</value>
+	</data>
+	<data name="SID_Node_without_equipment" xml:space="preserve">
+		<value>Узел без оборудования</value>
+	</data>
 </root>

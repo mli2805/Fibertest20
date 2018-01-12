@@ -1568,4 +1568,10 @@ RTU is initializing right now!</value>
 	<data name="SID_Without_equipment" xml:space="preserve">
     <value>Without equipment</value>
   </data>
+	<data name="SID_Equipment__including_RTU" xml:space="preserve">
+    <value>Equipment, including RTU</value>
+  </data>
+	<data name="SID_Node_without_equipment" xml:space="preserve">
+    <value>Node without equipment</value>
+  </data>
 </root>

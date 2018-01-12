@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
 {
@@ -20,21 +21,21 @@ namespace Iit.Fibertest.Client
         {
             if (parameter == null)
                 return false;
-            var nodeVm = _marker.Owner.GraphReadModel.Nodes.FirstOrDefault(n => n.Id == (Guid)parameter);
-            if (nodeVm == null)
+            var equipmentVm = _marker.Owner.GraphReadModel.Equipments.FirstOrDefault(n => n.Node.Id == (Guid)parameter);
+            if (equipmentVm == null)
                 return false;
 
-            return !nodeVm.IsAdjustmentNode;
+            return equipmentVm.Type != EquipmentType.AdjustmentPoint;
         }
         public bool CanAddEquipment(object parameter)
         {
             if (_currentUser.Role > Role.Root || parameter == null)
                 return false;
-            var nodeVm = _marker.Owner.GraphReadModel.Nodes.FirstOrDefault(n => n.Id == (Guid)parameter);
-            if (nodeVm == null)
+            var equipmentVm = _marker.Owner.GraphReadModel.Equipments.FirstOrDefault(n => n.Node.Id == (Guid)parameter);
+            if (equipmentVm == null)
                 return false;
 
-            return !nodeVm.IsAdjustmentNode;
+            return equipmentVm.Type != EquipmentType.AdjustmentPoint;
         }
         public bool CanLandmarks(object parameter) { return false; }
         public bool CanRemoveNode(object parameter)

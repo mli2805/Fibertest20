@@ -9,13 +9,13 @@ namespace Iit.Fibertest.Client
         public bool Result { get; set; }
         public int Count { get; set; }
 
-        public RadioButtonModel Node { get; set; } = new RadioButtonModel { Title = Resources.SID_Node, IsChecked = false };
-        public RadioButtonModel AdjustmentNode { get; } = new RadioButtonModel { Title = Resources.SID_Adjustment_point, IsChecked = false };
+        public RadioButtonModel AdjustmentPoint { get; } = new RadioButtonModel { Title = Resources.SID_Adjustment_point, IsChecked = false };
+        public RadioButtonModel NodeWithoutEquipment { get; set; } = new RadioButtonModel { Title = Resources.SID_Node_without_equipment, IsChecked = false };
         public RadioButtonModel CableReserve { get; set; } = new RadioButtonModel { Title = Resources.SID_CableReserve, IsChecked = false };
-        public RadioButtonModel Sleeve { get; } = new RadioButtonModel { Title = Resources.SID_Closure, IsChecked = true };
+        public RadioButtonModel Closure { get; } = new RadioButtonModel { Title = Resources.SID_Closure, IsChecked = true };
         public RadioButtonModel Cross { get; } = new RadioButtonModel { Title = Resources.SID_Cross, IsChecked = false };
-        public RadioButtonModel Terminal { get; } = new RadioButtonModel { Title = Resources.SID_Terminal, IsChecked = false };
         public RadioButtonModel Other { get; } = new RadioButtonModel { Title = Resources.SID_Other, IsChecked = false };
+        public RadioButtonModel Terminal { get; } = new RadioButtonModel { Title = Resources.SID_Terminal, IsChecked = false };
 
         protected override void OnViewLoaded(object view)
         {
@@ -36,14 +36,14 @@ namespace Iit.Fibertest.Client
 
         public EquipmentType GetSelectedType()
         {
-            if (Node.IsChecked)
+            if (AdjustmentPoint.IsChecked)
+                return EquipmentType.AdjustmentPoint;
+            if (NodeWithoutEquipment.IsChecked)
                 return EquipmentType.EmptyNode;
-            if (AdjustmentNode.IsChecked)
-                return EquipmentType.AdjustmentNode;
-
             if (CableReserve.IsChecked)
                 return EquipmentType.CableReserve;
-            if (Sleeve.IsChecked)
+
+            if (Closure.IsChecked)
                 return EquipmentType.Closure;
             if (Cross.IsChecked)
                 return EquipmentType.Cross;
@@ -57,14 +57,18 @@ namespace Iit.Fibertest.Client
         {
             switch (type)
             {
-                case EquipmentType.EmptyNode:
-                    Node.IsChecked = true;
+                case EquipmentType.AdjustmentPoint:
+                    AdjustmentPoint.IsChecked = true;
                     break;
-                case EquipmentType.AdjustmentNode:
-                    AdjustmentNode.IsChecked = true;
+                case EquipmentType.EmptyNode:
+                    NodeWithoutEquipment.IsChecked = true;
                     break;
                 case EquipmentType.CableReserve:
                     CableReserve.IsChecked = true;
+                    break;
+
+                case EquipmentType.Closure:
+                    Closure.IsChecked = true;
                     break;
                 case EquipmentType.Cross:
                     Cross.IsChecked = true;
@@ -74,9 +78,6 @@ namespace Iit.Fibertest.Client
                     break;
                 case EquipmentType.Other:
                     Other.IsChecked = true;
-                    break;
-                case EquipmentType.Closure:
-                    Sleeve.IsChecked = true;
                     break;
             }
         }

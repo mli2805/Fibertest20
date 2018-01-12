@@ -276,12 +276,13 @@ namespace Iit.Fibertest.Client
         {
             var cmd = new AddEquipmentAtGpsLocation()
             {
-                Id = Guid.NewGuid(),
+                RequestedEquipmentId = Guid.NewGuid(),
                 NodeId = Guid.NewGuid(),
                 Type = request.Type,
                 Latitude = request.Latitude,
                 Longitude = request.Longitude,
             };
+            cmd.EmptyNodeEquipmentId = request.Type == EquipmentType.EmptyNode || request.Type == EquipmentType.AdjustmentPoint ? Guid.Empty : Guid.NewGuid(); 
             await C2DWcfManager.SendCommandAsObj(cmd);
         }
 

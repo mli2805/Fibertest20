@@ -11,17 +11,17 @@
         <!-- call this resource from code -->
         <!-- ReSharper disable once Xaml.RedundantResource -->
         <ContextMenu x:Key="MapContextMenu">
-            <MenuItem Header="{x:Static stringResources:Resources.SID_Add_adjustment_point}" Tag="7" Click="AddNodeOnClick"/>
+            <MenuItem Header="{x:Static stringResources:Resources.SID_Add_adjustment_point}" Tag="100" Click="AddNodeOnClick"/>
             <Separator />
-            <MenuItem Header="{x:Static stringResources:Resources.SID_Add_node}" Tag="5" Click="AddNodeOnClick"/>
-            <MenuItem Header="{x:Static stringResources:Resources.SID_Add_node_with_cable_reserve}" Tag="1" Click="AddNodeOnClick"/>
+            <MenuItem Header="{x:Static stringResources:Resources.SID_Add_node}" Tag="200" Click="AddNodeOnClick"/>
+            <MenuItem Header="{x:Static stringResources:Resources.SID_Add_node_with_cable_reserve}" Tag="300" Click="AddNodeOnClick"/>
             <Separator />
-            <MenuItem Header="{x:Static stringResources:Resources.SID_Add_node_with_sleeve}" Tag="2" Click="AddNodeOnClick"/>
-            <MenuItem Header="{x:Static stringResources:Resources.SID_Add_node_with_cross}" Tag="3" Click="AddNodeOnClick"/>
-            <MenuItem Header="{x:Static stringResources:Resources.SID_Add_node_with_terminal}" Tag="6" Click="AddNodeOnClick"/>
-            <MenuItem Header="{x:Static stringResources:Resources.SID_Add_node_with_other_equipment}" Tag="0" Click="AddNodeOnClick"/>
+            <MenuItem Header="{x:Static stringResources:Resources.SID_Add_node_with_sleeve}" Tag="402" Click="AddNodeOnClick"/>
+            <MenuItem Header="{x:Static stringResources:Resources.SID_Add_node_with_cross}" Tag="403" Click="AddNodeOnClick"/>
+            <MenuItem Header="{x:Static stringResources:Resources.SID_Add_node_with_terminal}" Tag="406" Click="AddNodeOnClick"/>
+            <MenuItem Header="{x:Static stringResources:Resources.SID_Add_node_with_other_equipment}" Tag="400" Click="AddNodeOnClick"/>
             <Separator />
-            <MenuItem Header="{x:Static stringResources:Resources.SID_Add_RTU}" Tag="4" Click="AddNodeOnClick"/>
+            <MenuItem Header="{x:Static stringResources:Resources.SID_Add_RTU}" Tag="500" Click="AddNodeOnClick"/>
         </ContextMenu>
     </Control.Resources>
     <DockPanel>

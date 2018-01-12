@@ -435,12 +435,12 @@
     </Compile>
     <Compile Include="Forms\Shell\MarkerControl\MarkerControlMouseHandling.cs" />
     <Compile Include="Forms\BaseRefs\BaseRefsAssignViewModel.cs" />
-    <Compile Include="GraphModel\EqItemVm.cs" />
+    <Compile Include="Forms\NodeUpdate\ItemOfEquipmentTableModel.cs" />
     <Compile Include="ViewModels\Primitive\CheckBoxModel.cs" />
     <Compile Include="ViewModels\EquipmentChoiceViewModel.cs" />
     <Compile Include="ViewModels\EquipmentInfoViewModel.cs" />
     <Compile Include="ViewModels\MainMenuViewModel.cs" />
-    <Compile Include="ViewModels\NodeUpdateViewModel.cs" />
+    <Compile Include="Forms\NodeUpdate\NodeUpdateViewModel.cs" />
     <Compile Include="Forms\Shell\ShellViewModelApplyEquipment.cs" />
     <Compile Include="Forms\Shell\ShellViewModelApplyFiber.cs" />
     <Compile Include="Forms\Shell\ShellViewModelApplyNode.cs" />
@@ -459,7 +459,7 @@
     <Compile Include="Views\MainMenuView.xaml.cs">
       <DependentUpon>MainMenuView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NodeUpdateView.xaml.cs">
+    <Compile Include="Forms\NodeUpdate\NodeUpdateView.xaml.cs">
       <DependentUpon>NodeUpdateView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\TraceInfo\TraceInfoView.xaml.cs">
@@ -638,7 +638,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\NodeUpdateView.xaml">
+    <Page Include="Forms\NodeUpdate\NodeUpdateView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -867,13 +867,13 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Resource Include="Resources\AdjustmentNode\AdjustmentNodeOk.png" />
     <Resource Include="Resources\EmptyNode\EmptyNodeCritical.png" />
     <Resource Include="Resources\EmptyNode\EmptyNodeMajor.png" />
     <Resource Include="Resources\EmptyNode\EmptyNodeMinor.png" />
     <Resource Include="Resources\EmptyNode\EmptyNodeOk.png" />
     <Resource Include="Resources\EmptyNode\EmptyNodeSuspected.png" />
     <Resource Include="Resources\EmptyNode\EmptyNodeUser.png" />
+    <Resource Include="Resources\AdjustmentPoint\AdjustmentPointOk.png" />
     <Content Include="Resources\Sounds\Accident.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

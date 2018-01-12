@@ -37,8 +37,10 @@ namespace Iit.Fibertest.Client
             Model.TraceNodes = traceNodes;
             Model.Rtu = _readModel.Rtus.First(r => r.Id == Model.TraceEquipments[0]);
             Model.RtuTitle = Model.Rtu.Title;
-            Model.EquipmentsRows = _traceInfoCalculator.CalculateEquipment(Model.TraceEquipments);
-            Model.NodesRows = _traceInfoCalculator.CalculateNodes(Model.TraceNodes, Model.TraceEquipments);
+            Model.PortNumber = Resources.SID_not_attached;
+            var dict = _traceInfoCalculator.BuildDictionaryByEquipmentType(Model.TraceEquipments);
+            Model.EquipmentsRows = _traceInfoCalculator.CalculateEquipment(dict);
+            Model.NodesRows = _traceInfoCalculator.CalculateNodes(dict);
 
             if (traceId == Guid.Empty)
                 Model.IsTraceModeDark = true;

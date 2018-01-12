@@ -6,7 +6,7 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         mc:Ignorable="d"
-        Title="TraceInfoView" SizeToContent="Height" Width="300" WindowStartupLocation="CenterScreen"
+        Title="TraceInfoView" SizeToContent="Height" Width="350" WindowStartupLocation="CenterScreen"
         d:DataContext="{d:DesignData TraceInfoViewModel}">
     <StackPanel>
         <GroupBox Header="{x:Static stringResources:Resources.SID_Information}" Margin="5">
@@ -28,11 +28,11 @@
             </StackPanel>
         </GroupBox>
         <GroupBox Header="{x:Static stringResources:Resources.SID_Equipment}" Margin="5">
-            <ItemsControl ItemsSource="{Binding Model.EquipmentsRows}" Margin="5,5,5,20">
+            <ItemsControl ItemsSource="{Binding Model.EquipmentsRows}" Margin="5,5,5,10">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate DataType="client:TraceInfoTableItem">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Margin="5" Width="150" HorizontalAlignment="Right" Text="{Binding NodeType}" />
+                            <TextBlock Margin="5" Width="220" HorizontalAlignment="Right" Text="{Binding NodeType}" />
                             <TextBlock Margin="5" Text="{Binding Count}" />
                         </StackPanel>
                     </DataTemplate>
@@ -40,11 +40,11 @@
             </ItemsControl>
         </GroupBox>
         <GroupBox Header="{x:Static stringResources:Resources.SID_Nodes}" Margin="5">
-            <ItemsControl ItemsSource="{Binding Model.NodesRows}" Margin="5,5,5,20">
+            <ItemsControl ItemsSource="{Binding Model.NodesRows}" Margin="5,5,5,10">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate DataType="client:TraceInfoTableItem">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Margin="5" Width="150" HorizontalAlignment="Right" Text="{Binding NodeType}" />
+                            <TextBlock Margin="5" Width="220" HorizontalAlignment="Right" Text="{Binding NodeType}" />
                             <TextBlock Margin="5" Text="{Binding Count}" />
                         </StackPanel>
                     </DataTemplate>

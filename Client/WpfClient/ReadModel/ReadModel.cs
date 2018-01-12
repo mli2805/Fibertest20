@@ -40,7 +40,8 @@ namespace Iit.Fibertest.Client
 
         public void Apply(NodeIntoFiberAdded e)
         {
-            Nodes.Add(new Node() { Id = e.Id, Latitude = e.Position.Lat, Longitude = e.Position.Lng, IsAdjustmentPoint = e.IsAdjustmentNode});
+            Nodes.Add(new Node() { Id = e.Id, Latitude = e.Position.Lat, Longitude = e.Position.Lng});
+            Equipments.Add(new Equipment(){Id = e.EquipmentId, Type = e.IsAdjustmentPoint ? EquipmentType.AdjustmentPoint : EquipmentType.EmptyNode, NodeId = e.Id});
             AddTwoFibersToNewNode(e);
             FixTracesWhichContainedOldFiber(e);
             Fibers.Remove(Fibers.First(f => f.Id == e.FiberId));
@@ -160,7 +161,15 @@ namespace Iit.Fibertest.Client
             Node node = new Node() { Id = e.NodeId, Latitude = e.Latitude, Longitude = e.Longitude };
             Nodes.Add(node);
             Equipment equipment = _mapper.Map<Equipment>(e);
+            equipment.Id = e.RequestedEquipmentId;
             Equipments.Add(equipment);
+            if (e.EmptyNodeEquipmentId != Guid.Empty)
+            {
+                Equipment emptyEquipment = _mapper.Map<Equipment>(e);
+                emptyEquipment.Id = e.EmptyNodeEquipmentId;
+                emptyEquipment.Type = EquipmentType.EmptyNode;
+                Equipments.Add(emptyEquipment);
+            }
         }
 
         public void Apply(EquipmentUpdated e)

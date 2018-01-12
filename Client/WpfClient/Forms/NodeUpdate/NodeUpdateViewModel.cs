@@ -73,8 +73,8 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private ObservableCollection<EqItemVm> _equipmentsInNode;
-        public ObservableCollection<EqItemVm> EquipmentsInNode
+        private ObservableCollection<ItemOfEquipmentTableModel> _equipmentsInNode;
+        public ObservableCollection<ItemOfEquipmentTableModel> EquipmentsInNode
         {
             get { return _equipmentsInNode; }
             set
@@ -131,14 +131,14 @@ namespace Iit.Fibertest.Client
 
             TracesInNode = _readModel.Traces.Where(t => t.Nodes.Contains(nodeId)).ToList();
 
-            EquipmentsInNode = new ObservableCollection<EqItemVm>(
-                _readModel.Equipments.Where(e => e.NodeId == _originalNode.Id).Select(CreateEqItem));
+            EquipmentsInNode = new ObservableCollection<ItemOfEquipmentTableModel>(
+                _readModel.Equipments.Where(e => e.NodeId == _originalNode.Id && e.Type != EquipmentType.EmptyNode).Select(CreateEqItem));
         }
 
         private void _readModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            EquipmentsInNode = new ObservableCollection<EqItemVm>(
-                _readModel.Equipments.Where(eq => eq.NodeId == _originalNode.Id).Select(CreateEqItem));
+            EquipmentsInNode = new ObservableCollection<ItemOfEquipmentTableModel>(
+                _readModel.Equipments.Where(eq => eq.NodeId == _originalNode.Id && eq.Type != EquipmentType.EmptyNode).Select(CreateEqItem));
         }
 
         protected override void OnViewLoaded(object view)
@@ -146,7 +146,7 @@ namespace Iit.Fibertest.Client
             DisplayName = Resources.SID_Node;
         }
 
-        private EqItemVm CreateEqItem(Equipment equipment)
+        private ItemOfEquipmentTableModel CreateEqItem(Equipment equipment)
         {
             var tracesNames = _readModel.Traces.Where(t => t.Equipments.Contains(equipment.Id))
                 .Aggregate("", (current, traceVm) => current + (traceVm.Title + @" ;  "));
@@ -154,7 +154,7 @@ namespace Iit.Fibertest.Client
             var isLastForSomeTrace = _readModel.Traces.Any(t => t.Equipments.Last() == equipment.Id);
             var isPartOfTraceWithBase = _readModel.Traces.Any(t => t.Equipments.Contains(equipment.Id) && t.HasAnyBaseRef);
 
-            var eqItem = new EqItemVm()
+            var eqItem = new ItemOfEquipmentTableModel()
             {
                 Id = equipment.Id,
                 Type = equipment.Type.ToLocalizedString(),
@@ -169,7 +169,7 @@ namespace Iit.Fibertest.Client
 
         private void EqItem_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            var cmd = ((EqItemVm)sender).Command;
+            var cmd = ((ItemOfEquipmentTableModel)sender).Command;
             if (cmd is UpdateEquipment)
                 LaunchUpdateEquipmentView(((UpdateEquipment)cmd).Id);
             else
@@ -181,7 +181,6 @@ namespace Iit.Fibertest.Client
             var cmd = VerboseTasks.BuildAddEquipmentIntoNodeCommand(_originalNode.Id, _readModel, _windowManager);
             if (cmd == null)
                 return;
-//            _bus.SendCommand(cmd).Wait();
             await _c2DWcfManager.SendCommandAsObj(cmd);
         }
 
@@ -204,7 +203,6 @@ namespace Iit.Fibertest.Client
         public async void RemoveEquipment(RemoveEquipment cmd)
         {
             await _c2DWcfManager.SendCommandAsObj(cmd);
-//            _bus.SendCommand(cmd);
         }
 
         public void Save()

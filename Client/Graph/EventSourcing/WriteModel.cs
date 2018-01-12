@@ -79,7 +79,8 @@ namespace Iit.Fibertest.Graph
 
         public string Apply(NodeIntoFiberAdded e)
         {
-            _nodes.Add(new Node() { Id = e.Id, Latitude = e.Position.Lat, Longitude = e.Position.Lng, IsAdjustmentPoint = e.IsAdjustmentNode});
+            _nodes.Add(new Node() { Id = e.Id, Latitude = e.Position.Lat, Longitude = e.Position.Lng});
+            _equipments.Add(new Equipment(){Id = e.EquipmentId, Type = e.IsAdjustmentPoint ? EquipmentType.AdjustmentPoint : EquipmentType.EmptyNode, NodeId = e.Id});
             AddTwoFibersToNewNode(e);
             FixTracesWhichContainedOldFiber(e);
             var fiber = _fibers.FirstOrDefault(f => f.Id == e.FiberId);
@@ -277,8 +278,12 @@ namespace Iit.Fibertest.Graph
 
         public string Apply(EquipmentAtGpsLocationAdded e)
         {
-            _equipments.Add(new Equipment() { Id = e.Id, Type = e.Type, NodeId = e.NodeId });
             _nodes.Add(new Node() { Id = e.NodeId, Latitude = e.Latitude, Longitude = e.Longitude });
+
+            _equipments.Add(new Equipment() { Id = e.RequestedEquipmentId, Type = e.Type, NodeId = e.NodeId });
+            if (e.EmptyNodeEquipmentId != Guid.Empty )
+                _equipments.Add(new Equipment() { Id = e.EmptyNodeEquipmentId, Type = EquipmentType.EmptyNode, NodeId = e.NodeId });
+
             return null;
         }
 

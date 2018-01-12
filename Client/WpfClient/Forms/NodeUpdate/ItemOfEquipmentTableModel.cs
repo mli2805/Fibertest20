@@ -4,7 +4,7 @@ using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
 {
-    public class EqItemVm : PropertyChangedBase
+    public class ItemOfEquipmentTableModel : PropertyChangedBase
     {
         private string _title;
         private string _type;

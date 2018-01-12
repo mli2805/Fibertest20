@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
-        Title="EquipmentInfoView" SizeToContent="Height" Width="300" WindowStartupLocation="CenterScreen">
+        Title="EquipmentInfoView" SizeToContent="Height" Width="350" WindowStartupLocation="CenterScreen">
     <StackPanel>
         <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_Title}"/> 
         <TextBox Margin="5" Text="{Binding Title}"/>

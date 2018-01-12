@@ -6,6 +6,6 @@ namespace Iit.Fibertest.Client
     {
         public Guid FiberId { get; set; }
 
-        public bool IsAdjustmentNode { get; set; }
+        public bool IsAdjustmentPoint { get; set; }
     }
 }

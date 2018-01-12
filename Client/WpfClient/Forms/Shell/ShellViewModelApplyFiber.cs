@@ -12,55 +12,51 @@ namespace Iit.Fibertest.Client
         {
             var result = new AddFiberWithNodes()
             {
-                Node1 = request.Node1, Node2 = request.Node2, AddNodes = new List<AddNode>(), AddEquipments = new List<AddEquipmentAtGpsLocation>()
+                Node1 = request.Node1,
+                Node2 = request.Node2,
+                AddEquipments = new List<AddEquipmentAtGpsLocation>()
             };
             List<Guid> nodeIds = new List<Guid>();
 
-            foreach (var o in CreateMidNodes(request.Node1, request.Node2, count, type))
+            var intermediateNodes = CreateIntermediateNodes(request.Node1, request.Node2, count, type);
+            foreach (var cmd in intermediateNodes)
             {
-                if (type == EquipmentType.EmptyNode || type == EquipmentType.AdjustmentNode)
-                {
-                    result.AddNodes.Add((AddNode) o);
-                    nodeIds.Add(((AddNode) o).Id);
-                }
-                else
-                {
-                    result.AddEquipments.Add((AddEquipmentAtGpsLocation)o);
-                    nodeIds.Add(((AddEquipmentAtGpsLocation)o).NodeId);
-                }
+                result.AddEquipments.Add(cmd);
+                nodeIds.Add(cmd.NodeId);
             }
 
             nodeIds.Insert(0, request.Node1);
             nodeIds.Add(request.Node2);
-            result.AddFibers = CreateMidFibers(nodeIds, count).ToList();
+            result.AddFibers = CreateIntermediateFibers(nodeIds, count).ToList();
             return result;
         }
 
-        private IEnumerable<object> CreateMidNodes(Guid startId, Guid finishId, int count, EquipmentType type)
+        private IEnumerable<AddEquipmentAtGpsLocation> CreateIntermediateNodes(Guid startId, Guid finishId, int count, EquipmentType type)
         {
             var startNode = ReadModel.Nodes.First(n => n.Id == startId);
             var finishNode = ReadModel.Nodes.First(n => n.Id == finishId);
 
-            double deltaLat = (finishNode.Latitude  - startNode.Latitude ) / (count + 1);
+            double deltaLat = (finishNode.Latitude - startNode.Latitude) / (count + 1);
             double deltaLng = (finishNode.Longitude - startNode.Longitude) / (count + 1);
 
             for (int i = 0; i < count; i++)
             {
-                double lat = startNode.Latitude  + deltaLat * (i + 1);
+                double lat = startNode.Latitude + deltaLat * (i + 1);
                 double lng = startNode.Longitude + deltaLng * (i + 1);
 
-                if (type == EquipmentType.EmptyNode || type == EquipmentType.AdjustmentNode)
-                    yield return new AddNode() { Id = Guid.NewGuid(), Latitude = lat, Longitude = lng, IsAdjustmentNode = type == EquipmentType.AdjustmentNode};
-                else
-                    yield return new AddEquipmentAtGpsLocation() { Id = Guid.NewGuid(), NodeId = Guid.NewGuid(), Latitude = lat, Longitude = lng, Type = type };
+                var cmd = new AddEquipmentAtGpsLocation()
+                {
+                    RequestedEquipmentId = Guid.NewGuid(), NodeId = Guid.NewGuid(), Latitude = lat, Longitude = lng, Type = type
+                };
+                cmd.EmptyNodeEquipmentId = type <= EquipmentType.EmptyNode ? Guid.Empty : Guid.NewGuid();
+                yield return cmd;
             }
-
         }
 
-        private IEnumerable<AddFiber> CreateMidFibers(List<Guid> nodes, int count)
+        private IEnumerable<AddFiber> CreateIntermediateFibers(List<Guid> nodes, int count)
         {
             for (int i = 0; i <= count; i++)
-                yield return new AddFiber() {Id = Guid.NewGuid(), Node1 = nodes[i], Node2 = nodes[i+1]};
+                yield return new AddFiber() { Id = Guid.NewGuid(), Node1 = nodes[i], Node2 = nodes[i + 1] };
         }
 
         private AddFiberWithNodes PrepareCommand(RequestAddFiberWithNodes request)

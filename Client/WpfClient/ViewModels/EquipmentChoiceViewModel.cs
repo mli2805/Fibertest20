@@ -25,7 +25,8 @@ namespace Iit.Fibertest.Client
         public bool ShouldWeContinue { get; set; }
         public bool ShouldEquipmentViewBeOpen { get; set; }
 
-        public EquipmentChoiceViewModel(IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, List<Equipment> possibleEquipment, string nodeTitle, bool isLastNode)
+        public EquipmentChoiceViewModel(IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, 
+            List<Equipment> possibleEquipment, string nodeTitle, bool isLastNode)
         {
             _windowManager = windowManager;
             _c2DWcfManager = c2DWcfManager;
