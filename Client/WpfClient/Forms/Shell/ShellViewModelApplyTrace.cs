@@ -41,7 +41,7 @@ namespace Iit.Fibertest.Client
 
         private bool Validate(RequestAddTrace request)
         {
-            if (ReadModel.Equipments.Any(e => e.NodeId == request.LastNodeId)) return true;
+            if (ReadModel.Equipments.Any(e => e.NodeId == request.LastNodeId && e.Type > EquipmentType.EmptyNode)) return true;
 
             _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Last_node_of_trace_must_contain_some_equipment));
             return false;

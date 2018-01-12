@@ -13,25 +13,36 @@ namespace Graph.Tests
             Poller.EventSourcingTick().Wait();
             startId = ReadModel.Rtus.Last().NodeId;
 
-            ShellVm.ComplyWithRequest(new AddNode()).Wait(); Poller.EventSourcingTick().Wait(); var b0 = ReadModel.Nodes.Last().Id;
-            ShellVm.ComplyWithRequest(new AddNode()).Wait(); Poller.EventSourcingTick().Wait(); var b1 = ReadModel.Nodes.Last().Id;
-            ShellVm.ComplyWithRequest(new AddNode()).Wait(); Poller.EventSourcingTick().Wait(); var b2 = ReadModel.Nodes.Last().Id;
+            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation(){Type = EquipmentType.EmptyNode}).Wait();
+            Poller.EventSourcingTick().Wait(); var b0 = ReadModel.Nodes.Last().Id;
+            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation(){Type = EquipmentType.EmptyNode}).Wait();
+            Poller.EventSourcingTick().Wait(); var b1 = ReadModel.Nodes.Last().Id;
+            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation(){Type = EquipmentType.EmptyNode}).Wait();
+            Poller.EventSourcingTick().Wait(); var b2 = ReadModel.Nodes.Last().Id;
 
-            ShellVm.ComplyWithRequest(new AddNode()).Wait(); Poller.EventSourcingTick().Wait(); var c0 = ReadModel.Nodes.Last().Id; wrongNodeId = c0;
-            ShellVm.ComplyWithRequest(new AddNode()).Wait(); Poller.EventSourcingTick().Wait(); var c1 = ReadModel.Nodes.Last().Id;
+            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation(){Type = EquipmentType.EmptyNode}).Wait();
+            Poller.EventSourcingTick().Wait(); var c0 = ReadModel.Nodes.Last().Id; wrongNodeId = c0;
+            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation(){Type = EquipmentType.EmptyNode}).Wait();
+            Poller.EventSourcingTick().Wait(); var c1 = ReadModel.Nodes.Last().Id;
             ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Closure }).Wait(); var c2 = ReadModel.Nodes.Last().Id;
 
-            ShellVm.ComplyWithRequest(new AddNode()).Wait(); Poller.EventSourcingTick().Wait(); var d0 = ReadModel.Nodes.Last().Id;
-            ShellVm.ComplyWithRequest(new AddNode()).Wait(); Poller.EventSourcingTick().Wait(); var d1 = ReadModel.Nodes.Last().Id;
+            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation(){Type = EquipmentType.EmptyNode}).Wait();
+            Poller.EventSourcingTick().Wait(); var d0 = ReadModel.Nodes.Last().Id;
+            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation(){Type = EquipmentType.EmptyNode}).Wait();
+            Poller.EventSourcingTick().Wait(); var d1 = ReadModel.Nodes.Last().Id;
             ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Closure }).Wait(); var d2 = ReadModel.Nodes.Last().Id;
 
-            ShellVm.ComplyWithRequest(new AddNode()).Wait(); Poller.EventSourcingTick().Wait(); var e0 = ReadModel.Nodes.Last().Id;
-            ShellVm.ComplyWithRequest(new AddNode()).Wait(); Poller.EventSourcingTick().Wait(); var e1 = ReadModel.Nodes.Last().Id;
-            ShellVm.ComplyWithRequest(new AddNode()).Wait(); Poller.EventSourcingTick().Wait(); var e2 = ReadModel.Nodes.Last().Id;
+            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation(){Type = EquipmentType.EmptyNode}).Wait();
+            Poller.EventSourcingTick().Wait(); var e0 = ReadModel.Nodes.Last().Id;
+            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation(){Type = EquipmentType.EmptyNode}).Wait();
+            Poller.EventSourcingTick().Wait(); var e1 = ReadModel.Nodes.Last().Id;
+            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation(){Type = EquipmentType.EmptyNode}).Wait();
+            Poller.EventSourcingTick().Wait(); var e2 = ReadModel.Nodes.Last().Id;
 
             ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait(); Poller.EventSourcingTick().Wait(); finishId = ReadModel.Nodes.Last().Id;
 
-            ShellVm.ComplyWithRequest(new AddNode()).Wait(); Poller.EventSourcingTick().Wait(); var zz = ReadModel.Nodes.Last().Id;
+            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation(){Type = EquipmentType.EmptyNode}).Wait();
+            Poller.EventSourcingTick().Wait(); var zz = ReadModel.Nodes.Last().Id;
             ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait(); Poller.EventSourcingTick().Wait(); var z2 = ReadModel.Nodes.Last().Id;
             wrongNodeWithEqId = z2;
 

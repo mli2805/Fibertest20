@@ -12,10 +12,10 @@ namespace Graph.Tests
             ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation() { Latitude = 55, Longitude = 30 }).Wait();
             Poller.EventSourcingTick().Wait();
             var nodeForRtuId = ReadModel.Rtus.Last().NodeId;
-            ShellVm.ComplyWithRequest(new AddNode()).Wait();
+            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation(){Type = EquipmentType.EmptyNode}).Wait();
             Poller.EventSourcingTick().Wait();
             var a1 = ReadModel.Nodes.Last().Id;
-            ShellVm.ComplyWithRequest(new AddNode()).Wait();
+            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation(){Type = EquipmentType.EmptyNode}).Wait();
             Poller.EventSourcingTick().Wait();
             var b1 = ReadModel.Nodes.Last().Id;
             // fiber for insertion
