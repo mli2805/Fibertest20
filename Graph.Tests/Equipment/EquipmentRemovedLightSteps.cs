@@ -75,7 +75,7 @@ namespace Graph.Tests
         [When(@"Пользователь жмет удалить оборудование")]
         public void WhenПользовательЖметУдалитьОборудование()
         {
-            _vm.RemoveEquipment(new RemoveEquipment() { Id = _vm.EquipmentsInNode.First().Id });
+            _vm.RemoveEquipment(new RemoveEquipment() { Id = _equipmentA1Id });
             _sut.Poller.EventSourcingTick().Wait();
         }
 
@@ -89,6 +89,7 @@ namespace Graph.Tests
         [Then(@"И оборудование удаляется")]
         public void ThenИОборудованиеУдаляется()
         {
+            _sut.ReadModel.Equipments.Count(e => e.NodeId == _nodeAId).ShouldBeEquivalentTo(1);
             _sut.ReadModel.Equipments.FirstOrDefault(e => e.Id == _equipmentA1Id).Should().BeNull();
         }
 
