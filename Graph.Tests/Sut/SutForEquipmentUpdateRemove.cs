@@ -22,8 +22,9 @@ namespace Graph.Tests
         {
             ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Closure }).Wait();
             Poller.EventSourcingTick().Wait();
-            nodeA = ReadModel.Nodes.Last().Id;
-            eqA = ReadModel.Equipments.Last().Id;
+            var nodeId = ReadModel.Nodes.Last().Id;
+            nodeA = nodeId;
+            eqA = ReadModel.Equipments.Last(e=>e.NodeId == nodeId && e.Type == EquipmentType.Closure).Id;
         }
 
         private void SetRtuAndFibers(Guid nodeAId, Guid nodeBId)
