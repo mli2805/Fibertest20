@@ -27,7 +27,7 @@ namespace Graph.Tests
             Poller.EventSourcingTick().Wait();
             RtuBNodeId = ReadModel.Rtus.Last().NodeId;
 
-            ShellVm.ComplyWithRequest(new AddNode()).Wait();
+            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode }).Wait();
             Poller.EventSourcingTick().Wait();
             var node1Id = ReadModel.Nodes.Last().Id;
 

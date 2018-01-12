@@ -17,18 +17,18 @@ namespace Graph.Tests
             Poller.EventSourcingTick().Wait();
             var nodeForRtuId = ReadModel.Rtus.Last().NodeId;
 
-            ShellVm.ComplyWithRequest(new AddNode()).Wait();
+            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode }).Wait();
             Poller.EventSourcingTick().Wait();
             var middleNodeId = ReadModel.Nodes.Last().Id;
             ShellVm.ComplyWithRequest(new AddFiber() { Node1 = nodeForRtuId, Node2 = middleNodeId }).Wait();
 
             for (int i = 0; i < 3; i++)
             {
-                ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() {Type = EquipmentType.Terminal}).Wait();
+                ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait();
                 Poller.EventSourcingTick().Wait();
                 var endNodeId = ReadModel.Nodes.Last().Id;
 
-                ShellVm.ComplyWithRequest(new AddFiber() {Node1 = middleNodeId, Node2 = endNodeId}).Wait();
+                ShellVm.ComplyWithRequest(new AddFiber() { Node1 = middleNodeId, Node2 = endNodeId }).Wait();
                 Poller.EventSourcingTick().Wait();
                 result.Add(DefineTrace(endNodeId, nodeForRtuId));
             }
