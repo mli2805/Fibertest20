@@ -18,7 +18,7 @@ namespace Graph.Tests
             ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Closure }).Wait();
             Poller.EventSourcingTick().Wait();
             NodeId = ReadModel.Nodes.Last().Id;
-            OldEquipmentId = ReadModel.Equipments.Last().Id;
+            OldEquipmentId = ReadModel.Equipments.First(e=>e.NodeId == NodeId && e.Type == EquipmentType.Closure).Id;
         }
 
         public void SetRtuAndOthers()

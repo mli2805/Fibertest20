@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Client;
+using Iit.Fibertest.Graph;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -102,9 +103,9 @@ namespace Graph.Tests
         [Then(@"В узле создается новое оборудование")]
         public void ThenВУзлеСоздаетсяНовоеОборудование()
         {
-            _sut.ReadModel.Equipments.Count(e => e.NodeId == _sut.NodeId).Should().Be(2);
+            _sut.ReadModel.Equipments.Count(e => e.NodeId == _sut.NodeId).Should().Be(3);
 
-            var equipment = _sut.ReadModel.Equipments.First(e => e.NodeId == _sut.NodeId && e.Id != _sut.OldEquipmentId);
+            var equipment = _sut.ReadModel.Equipments.First(e => e.NodeId == _sut.NodeId && e.Id != _sut.OldEquipmentId && e.Type != EquipmentType.EmptyNode);
 
             equipment.Title.Should().Be(SutForEquipment.NewTitleForTest);
             equipment.Type.Should().Be(SutForEquipment.NewTypeForTest);
@@ -142,7 +143,7 @@ namespace Graph.Tests
         [Then(@"В узле НЕ создается новое оборудование")]
         public void ThenВУзлеНеСоздаетсяНовоеОборудование()
         {
-            _sut.ReadModel.Equipments.Count(e => e.NodeId == _sut.NodeId).Should().Be(1);
+            _sut.ReadModel.Equipments.Count(e => e.NodeId == _sut.NodeId).Should().Be(2);
         }
     }
 }
