@@ -81,7 +81,7 @@ namespace Iit.Fibertest.Client
             destination.Width = Type == EquipmentType.Rtu ? 40 : 8;
             destination.Height = Type == EquipmentType.Rtu ? 28 : 8;
             
-            destination.Source = Interpreter.GetPictogramBitmapImage(Type, FiberState.Ok);
+            destination.Source = EquipmentTypeExt.GetPictogramBitmapImage(Type, FiberState.Ok);
             destination.ContextMenu = ContextMenu;
         }
 

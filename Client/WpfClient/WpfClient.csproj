@@ -279,6 +279,7 @@
     <Compile Include="Forms\TraceStatistics\TraceStatisticsViewsManager.cs" />
     <Compile Include="Forms\UniversalForms\MyMessageBox\MessageType.cs" />
     <Compile Include="Forms\UniversalForms\MyMessageBox\MessageTypeExt.cs" />
+    <Compile Include="Logic\FiberStateExt.cs" />
     <Compile Include="Logic\LocalAddressResearcher.cs" />
     <Compile Include="Logic\RtuPartStateExt.cs" />
     <Compile Include="Logic\SoundManager.cs" />
@@ -290,7 +291,7 @@
     </Compile>
     <Compile Include="Forms\UniversalForms\MyMessageBox\MyMessageBoxViewModel.cs" />
     <Compile Include="WindowManagerExt.cs" />
-    <Compile Include="ViewModels\Primitive\EventStatusComboItem.cs" />
+    <Compile Include="Forms\TraceState\EventStatusComboItem.cs" />
     <Compile Include="Forms\TraceState\TraceStateView.xaml.cs">
       <DependentUpon>TraceStateView.xaml</DependentUpon>
     </Compile>
@@ -476,7 +477,7 @@
     <Compile Include="GraphModel\GraphVisibilityVm.cs" />
     <Compile Include="GraphModel\GraphReadModel.cs" />
     <Compile Include="Forms\Shell\IShell.cs" />
-    <Compile Include="Logic\Interpreter.cs" />
+    <Compile Include="Logic\EquipmentTypeExt.cs" />
     <Compile Include="Forms\Shell\MapUserControl\Map.cs" />
     <Compile Include="Forms\Shell\MapUserControl\MapUserControl.xaml.cs">
       <DependentUpon>MapUserControl.xaml</DependentUpon>

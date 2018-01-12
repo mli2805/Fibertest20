@@ -18,12 +18,12 @@ namespace Iit.Fibertest.Client
 
         public RtuPartState MainChannelState { get; set; }
 
-        public string MainChannelStateString => MainChannelState.GetLocalizedString();
-        public Brush MainChannelStateBrush => MainChannelState.GetBrush();
+        public string MainChannelStateString => MainChannelState.ToLocalizedString();
+        public Brush MainChannelStateBrush => MainChannelState.GetBrush(false);
 
         public RtuPartState ReserveChannelState { get; set; }
-        public string ReserveChannelStateString => ReserveChannelState.GetLocalizedString();
-        public Brush ReserveChannelStateBrush => ReserveChannelState.GetBrush();
+        public string ReserveChannelStateString => ReserveChannelState.ToLocalizedString();
+        public Brush ReserveChannelStateBrush => ReserveChannelState.GetBrush(false);
 
 
         private Brush GetAvailabilityBrush()

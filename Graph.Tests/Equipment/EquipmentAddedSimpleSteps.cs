@@ -12,7 +12,6 @@ namespace Graph.Tests
     {
         private readonly SutForEquipment _sut = new SutForEquipment();
         private Guid _nodeId;
-        private Guid _oldEquipmentId;
 
         [Given(@"Существует пустой узел")]
         public void GivenСуществуетПустойУзел()
@@ -28,7 +27,6 @@ namespace Graph.Tests
             _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation()).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             _nodeId = _sut.ReadModel.Nodes.Last().Id;
-            _oldEquipmentId = _sut.ReadModel.Equipments.Last().Id;
         }
 
         [Then(@"Пользователь вводит тип и другие параметры оборудования и жмет Сохранить")]

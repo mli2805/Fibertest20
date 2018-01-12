@@ -1,4 +1,6 @@
-﻿using System.Windows.Media;
+﻿using System;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 
@@ -6,7 +8,7 @@ namespace Iit.Fibertest.Client
 {
     public static class RtuPartStateExt
     {
-        public static string GetLocalizedString(this RtuPartState state)
+        public static string ToLocalizedString(this RtuPartState state)
         {
             switch (state)
             {
@@ -20,25 +22,39 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public static Brush GetBrush(this RtuPartState state)
+        public static Brush GetBrush(this RtuPartState state, bool isForeground)
         {
             switch (state)
             {
                 case RtuPartState.Broken:
                     return Brushes.Red;
                 case RtuPartState.NotSetYet:
-                    return Brushes.Transparent;
+                    return isForeground ? Brushes.LightGray : Brushes.Transparent;
                 case RtuPartState.Ok:
-                    return Brushes.Transparent;
+                    return Brushes.Black;
                 default:
-                    return Brushes.Transparent;
+                    return Brushes.Black;
             }
-
         }
 
         public static WorseOrBetter BecomeBetterOrWorse(this RtuPartState before, RtuPartState now)
         {
             return before < now ? WorseOrBetter.Better : before == now ? WorseOrBetter.TheSame : WorseOrBetter.Worse;
+        }
+
+        public static ImageSource GetPictogram(this RtuPartState state)
+        {
+            switch (state)
+            {
+                case RtuPartState.Broken:
+                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/RedSquare.png"));
+                case RtuPartState.NotSetYet:
+                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
+                case RtuPartState.Ok:
+                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreenSquare.png"));
+                default:
+                    return null;
+            }
         }
     }
 }

@@ -17,8 +17,8 @@ namespace Iit.Fibertest.Client
 
         public RtuPartState State { get; set; }
 
-        public string StateString => State.GetLocalizedString();
-        public Brush StateBrush => State.GetBrush();
+        public string StateString => State.ToLocalizedString();
+        public Brush StateBrush => State.GetBrush(false);
 
     }
 }

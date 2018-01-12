@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Specialized;
 using System.Linq;
 using GMap.NET.WindowsPresentation;
-using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
 {
