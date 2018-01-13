@@ -154,7 +154,7 @@ namespace Iit.Fibertest.Client
         {
             TraceLeaf traceLeaf = (TraceLeaf)Tree.GetById(e.TraceId);
             RtuLeaf rtuLeaf = (RtuLeaf)Tree.GetById(traceLeaf.Parent.Id);
-            var portOwner = rtuLeaf.GetCharon(new NetAddress(e.OtauPortDto.OtauIp, e.OtauPortDto.OtauTcpPort));
+            var portOwner = rtuLeaf.GetPortOwner(new NetAddress(e.OtauPortDto.OtauIp, e.OtauPortDto.OtauTcpPort));
 
             if (portOwner == null) return;
 

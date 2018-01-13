@@ -67,12 +67,23 @@ namespace Iit.Fibertest.Client
         private void DoMeasurementRftsReflection(Leaf parent, int portNumber)
         {
             RtuLeaf rtuLeaf = parent is RtuLeaf leaf ? leaf : (RtuLeaf)parent.Parent;
-            var otdrAddress = _readModel.Rtus.First(r => r.Id == rtuLeaf.Id).OtdrNetAddress;
-            NetAddress otauAddress = new NetAddress(otdrAddress.Ip4Address, 23);
+            var mainCharonAddress = rtuLeaf.OtauNetAddress;
+            var mainCharon = new Charon(mainCharonAddress, _iniFile35, _logFile);
+            mainCharon.OwnPortCount = rtuLeaf.OwnPortCount;
 
-            if (ToggleToSelectedPort(otauAddress, portNumber))
-                System.Diagnostics.Process.Start(@"TraceEngine\Reflect.exe",
-                    $"-fnw -n {otdrAddress.Ip4Address} -p {otdrAddress.Port}");
+            var portOwner = (IPortOwner)parent;
+            var charonWithThisPortAddresss = portOwner.OtauNetAddress;
+
+            var result = mainCharon.SetExtendedActivePort(charonWithThisPortAddresss, portNumber);
+            if (result != CharonOperationResult.Ok)
+            {
+                var vm = new MyMessageBoxViewModel(MessageType.Error, $@"{mainCharon.LastErrorMessage}");
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+                return;
+            }
+
+            System.Diagnostics.Process.Start(@"TraceEngine\Reflect.exe",
+                $"-fnw -n {charonWithThisPortAddresss.Ip4Address} -p {charonWithThisPortAddresss.Port}");
         }
 
         private bool ToggleToSelectedPort(NetAddress otauAddress, int portNumber)

@@ -87,7 +87,7 @@ namespace Iit.Fibertest.Client
         public int TraceCount => ChildrenImpresario.Children.Count(c => c is TraceLeaf) +
                 ChildrenImpresario.Children.Where(c => c is OtauLeaf).Sum(otauLeaf => ((OtauLeaf)otauLeaf).TraceCount);
 
-        public IPortOwner GetCharon(NetAddress netAddress)
+        public IPortOwner GetPortOwner(NetAddress netAddress)
         {
             if (OtauNetAddress.Equals(netAddress)) return this;
             return ChildrenImpresario.Children.Select(child => child as OtauLeaf).
