@@ -303,11 +303,19 @@ namespace Iit.Fibertest.Client
 
         public void Apply(EquipmentRemoved evnt)
         {
-            var equipmentVm = Equipments.First(e => e.Id == evnt.Id);
+            var equipmentVm = Equipments.FirstOrDefault(e => e.Id == evnt.Id);
+            if (equipmentVm == null)
+            {
+                var message = $@"EquipmentRemoved: Equipment {evnt.Id.First6()} not found";
+                _logFile.AppendLine(message);
+                return;
+            }
             var nodeVm = equipmentVm.Node;
+
             Equipments.Remove(equipmentVm);
-            var firstEquipmentInNode = Equipments.FirstOrDefault(e => e.Node.Id == nodeVm.Id);
-            nodeVm.Type = firstEquipmentInNode?.Type ?? EquipmentType.EmptyNode;
+
+            var majorEquipmentInNode = Equipments.Where(e => e.Node.Id == nodeVm.Id).Max(e=>e.Type);
+            nodeVm.Type = majorEquipmentInNode;
         }
         #endregion
 

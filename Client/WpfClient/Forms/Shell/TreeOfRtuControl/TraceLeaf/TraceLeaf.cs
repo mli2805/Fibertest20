@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
@@ -38,6 +39,8 @@ namespace Iit.Fibertest.Client
             }
             set { }
         }
+
+        public BaseRefsSet BaseRefsSet { get; set; } = new BaseRefsSet();
 
         private MonitoringState _traceMonitoringState;
         public MonitoringState TraceMonitoringState

@@ -180,11 +180,27 @@ namespace Iit.Fibertest.Client
 
         public void Apply(EquipmentRemoved e)
         {
+            var equipment = Equipments.FirstOrDefault(eq => eq.Id == e.Id);
+            if (equipment == null)
+            {
+                var message = $@"EquipmentRemoved: Equipment {e.Id.First6()} not found";
+                LogFile.AppendLine(message);
+                return;
+            }
+
+            var emptyEquipment = Equipments.FirstOrDefault(eq => eq.NodeId == equipment.NodeId && eq.Type == EquipmentType.EmptyNode);
+            if (emptyEquipment == null)
+            {
+                var message = $@"EquipmentRemoved: There is no empty equipment in node {equipment.NodeId.First6()}";
+                LogFile.AppendLine(message);
+                return;
+            }
+
             var traces = Traces.Where(t => t.Equipments.Contains(e.Id)).ToList();
             foreach (var trace in traces)
             {
                 var idx = trace.Equipments.IndexOf(e.Id);
-                trace.Equipments[idx] = Guid.Empty;
+                trace.Equipments[idx] = emptyEquipment.Id;
             }
             Equipments.Remove(Equipments.First(eq => eq.Id == e.Id));
         }

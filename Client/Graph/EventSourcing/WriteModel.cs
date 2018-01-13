@@ -79,8 +79,8 @@ namespace Iit.Fibertest.Graph
 
         public string Apply(NodeIntoFiberAdded e)
         {
-            _nodes.Add(new Node() { Id = e.Id, Latitude = e.Position.Lat, Longitude = e.Position.Lng});
-            _equipments.Add(new Equipment(){Id = e.EquipmentId, Type = e.IsAdjustmentPoint ? EquipmentType.AdjustmentPoint : EquipmentType.EmptyNode, NodeId = e.Id});
+            _nodes.Add(new Node() { Id = e.Id, Latitude = e.Position.Lat, Longitude = e.Position.Lng });
+            _equipments.Add(new Equipment() { Id = e.EquipmentId, Type = e.IsAdjustmentPoint ? EquipmentType.AdjustmentPoint : EquipmentType.EmptyNode, NodeId = e.Id });
             AddTwoFibersToNewNode(e);
             FixTracesWhichContainedOldFiber(e);
             var fiber = _fibers.FirstOrDefault(f => f.Id == e.FiberId);
@@ -281,7 +281,7 @@ namespace Iit.Fibertest.Graph
             _nodes.Add(new Node() { Id = e.NodeId, Latitude = e.Latitude, Longitude = e.Longitude });
 
             _equipments.Add(new Equipment() { Id = e.RequestedEquipmentId, Type = e.Type, NodeId = e.NodeId });
-            if (e.EmptyNodeEquipmentId != Guid.Empty )
+            if (e.EmptyNodeEquipmentId != Guid.Empty)
                 _equipments.Add(new Equipment() { Id = e.EmptyNodeEquipmentId, Type = EquipmentType.EmptyNode, NodeId = e.NodeId });
 
             return null;
@@ -308,15 +308,30 @@ namespace Iit.Fibertest.Graph
         public string Apply(EquipmentRemoved cmd)
         {
             var equipment = _equipments.FirstOrDefault(e => e.Id == cmd.Id);
-            if (equipment != null)
+            if (equipment == null)
             {
-                _equipments.Remove(equipment);
-                return null;
+                var message = $@"EquipmentRemoved: Equipment {cmd.Id.First6()} not found";
+                _logFile.AppendLine(message);
+                return message;
             }
 
-            var message = $@"EquipmentUpdated: Equipment {cmd.Id.First6()} not found";
-            _logFile.AppendLine(message);
-            return message;
+            var emptyEquipment = _equipments.FirstOrDefault(e => e.NodeId == equipment.NodeId && e.Type == EquipmentType.EmptyNode);
+            if (emptyEquipment == null)
+            {
+                var message = $@"EquipmentRemoved: There is no empty equipment in node {equipment.NodeId.First6()}";
+                _logFile.AppendLine(message);
+                return message;
+            }
+
+            var traces = _traces.Where(t => t.Equipments.Contains(equipment.Id));
+            foreach (var trace in traces)
+            {
+                var index = trace.Equipments.FindIndex(e => e == equipment.Id);
+                trace.Equipments.Insert(index, emptyEquipment.Id);
+            }
+            _equipments.Remove(equipment);
+            return null;
+
         }
         #endregion
 

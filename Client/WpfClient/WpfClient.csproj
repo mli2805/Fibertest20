@@ -272,6 +272,7 @@
     <Compile Include="Forms\Shell\TreeOfRtuControl\IPortNumber.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\PortLeaf\PortLeafActions.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\PortLeaf\PortLeafContextMenuProvider.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\TraceLeaf\BaseRefsSet.cs" />
     <Compile Include="Forms\TraceInfo\TraceInfoCalculator.cs" />
     <Compile Include="Forms\TraceInfo\TraceInfoModel.cs" />
     <Compile Include="Forms\TraceState\AccidentLineModel.cs" />
