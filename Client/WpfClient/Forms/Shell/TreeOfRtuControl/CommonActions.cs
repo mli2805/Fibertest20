@@ -1,8 +1,10 @@
-﻿using System.Linq;
+﻿using System.Threading.Tasks;
 using Caliburn.Micro;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.Client
 {
@@ -12,16 +14,14 @@ namespace Iit.Fibertest.Client
         private readonly IniFile _iniFile35;
         private readonly IMyLog _logFile;
         private readonly CurrentUser _currentUser;
-        private readonly ReadModel _readModel;
         private readonly IWindowManager _windowManager;
 
         public CommonActions(IniFile iniFile35, IMyLog logFile, CurrentUser currentUser,
-            ReadModel readModel, IWindowManager windowManager)
+            IWindowManager windowManager)
         {
             _iniFile35 = iniFile35;
             _logFile = logFile;
             _currentUser = currentUser;
-            _readModel = readModel;
             _windowManager = windowManager;
         }
 
@@ -32,15 +32,30 @@ namespace Iit.Fibertest.Client
                 DoMeasurementClient(parent, GetPortNumber(param));
         }
 
-        private void DoMeasurementClient(Leaf parent, int portNumber)
+        private async void DoMeasurementClient(Leaf parent, int portNumber)
         {
+            if (!ToggleToPort(parent, portNumber)) return;
             RtuLeaf rtuLeaf = parent is RtuLeaf leaf ? leaf : (RtuLeaf)parent.Parent;
-            var otdrAddress = _readModel.Rtus.First(r => r.Id == rtuLeaf.Id).OtdrNetAddress;
-            NetAddress otauAddress = new NetAddress(otdrAddress.Ip4Address, 23);
-
-            ToggleToSelectedPort(otauAddress, portNumber);
+            var mainCharonAddress = rtuLeaf.OtauNetAddress;
 
             // TODO ask user measurement parameters, start measurement
+            var otdrManager = new OtdrManager(@"OtdrMeasEngine\", _iniFile35, _logFile);
+            var initializationResult = otdrManager.LoadDll();
+            if (initializationResult != "")
+                return;
+
+            if (!otdrManager.InitializeLibrary())
+                return;
+
+            using (new WaitCursor())
+            {
+                await Task.Run(() => otdrManager.ConnectOtdr(mainCharonAddress.Ip4Address));
+                if (!otdrManager.IsOtdrConnected)
+                    return;
+            }
+            var vm = new OtdrParamViewModel(otdrManager.IitOtdr);
+            IWindowManager windowManager = new WindowManager();
+            windowManager.ShowDialog(vm);
         }
 
         public void MeasurementRftsReflectAction(object param)
@@ -66,35 +81,25 @@ namespace Iit.Fibertest.Client
 
         private void DoMeasurementRftsReflection(Leaf parent, int portNumber)
         {
-            RtuLeaf rtuLeaf = parent is RtuLeaf leaf ? leaf : (RtuLeaf)parent.Parent;
-            var mainCharonAddress = rtuLeaf.OtauNetAddress;
-            var mainCharon = new Charon(mainCharonAddress, _iniFile35, _logFile);
-            mainCharon.OwnPortCount = rtuLeaf.OwnPortCount;
+            if (!ToggleToPort(parent, portNumber)) return;
 
-            var portOwner = (IPortOwner)parent;
-            var charonWithThisPortAddresss = portOwner.OtauNetAddress;
-
-            var result = mainCharon.SetExtendedActivePort(charonWithThisPortAddresss, portNumber);
-            if (result != CharonOperationResult.Ok)
-            {
-                var vm = new MyMessageBoxViewModel(MessageType.Error, $@"{mainCharon.LastErrorMessage}");
-                _windowManager.ShowDialogWithAssignedOwner(vm);
-                return;
-            }
-
-            var otdrPort = charonWithThisPortAddresss.Port == 23 ? 1500 : charonWithThisPortAddresss.Port;
+            var addressOfCharonWithThisPort = ((IPortOwner) parent).OtauNetAddress;
+            var otdrPort = addressOfCharonWithThisPort.Port == 23 ? 1500 : addressOfCharonWithThisPort.Port;
             System.Diagnostics.Process.Start(@"..\RftsReflect\Reflect.exe",
-                $"-fnw -n {charonWithThisPortAddresss.Ip4Address} -p {otdrPort}");
+                $"-fnw -n {addressOfCharonWithThisPort.Ip4Address} -p {otdrPort}");
         }
 
-        private bool ToggleToSelectedPort(NetAddress otauAddress, int portNumber)
+        private bool ToggleToPort(Leaf parent, int portNumber)
         {
-            var charon = new Charon(otauAddress, _iniFile35, _logFile);
-            var result = charon.SetExtendedActivePort(charon.NetAddress, portNumber);
+            RtuLeaf rtuLeaf = parent is RtuLeaf leaf ? leaf : (RtuLeaf) parent.Parent;
+            var mainCharonAddress = rtuLeaf.OtauNetAddress;
+            var mainCharon = new Charon(mainCharonAddress, _iniFile35, _logFile) {OwnPortCount = rtuLeaf.OwnPortCount};
+
+            var addressOfCharonWithThisPort = ((IPortOwner) parent).OtauNetAddress;
+            var result = mainCharon.SetExtendedActivePort(addressOfCharonWithThisPort, portNumber);
             if (result == CharonOperationResult.Ok)
                 return true;
-
-            var vm = new MyMessageBoxViewModel(MessageType.Error, $@"{charon.LastErrorMessage}");
+            var vm = new MyMessageBoxViewModel(MessageType.Error, $@"{mainCharon.LastErrorMessage}");
             _windowManager.ShowDialogWithAssignedOwner(vm);
             return false;
         }

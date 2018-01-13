@@ -133,10 +133,6 @@
       <DependentUpon>OtauView.xaml</DependentUpon>
     </Compile>
     <Compile Include="OtauViewModel.cs" />
-    <Compile Include="OtdrParamView.xaml.cs">
-      <DependentUpon>OtdrParamView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="OtdrParamViewModel.cs" />
     <Compile Include="OtdrView.xaml.cs">
       <DependentUpon>OtdrView.xaml</DependentUpon>
     </Compile>
@@ -147,10 +143,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="OtauView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="OtdrParamView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

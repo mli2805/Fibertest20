@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace DirectRtuClient
+namespace Iit.Fibertest.WpfCommonViews
 {
     /// <summary>
     /// Interaction logic for OtdrParamView.xaml
