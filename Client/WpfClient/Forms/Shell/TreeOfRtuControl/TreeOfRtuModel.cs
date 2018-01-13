@@ -12,7 +12,6 @@ namespace Iit.Fibertest.Client
     public class TreeOfRtuModel : PropertyChangedBase
     {
         private readonly ILifetimeScope _globalScope;
-        private readonly ReadModel _readModel;
 
         public ObservableCollection<Leaf> Tree { get; set; } = new ObservableCollection<Leaf>();
         public FreePorts FreePorts { get; }
@@ -22,10 +21,9 @@ namespace Iit.Fibertest.Client
                 Tree.Sum(r => ((RtuLeaf)r).ChildrenImpresario.Children.Count(c => c is OtauLeaf)),
                 Tree.PortCount(), Tree.TraceCount(), (double)Tree.TraceCount() / Tree.PortCount() * 100);
 
-        public TreeOfRtuModel(ReadModel readModel, ILifetimeScope globalScope, FreePorts freePorts)
+        public TreeOfRtuModel(ILifetimeScope globalScope, FreePorts freePorts)
         {
             _globalScope = globalScope;
-            _readModel = readModel;
 
             FreePorts = freePorts;
             FreePorts.AreVisible = true;
@@ -154,10 +152,6 @@ namespace Iit.Fibertest.Client
 
         public void Apply(TraceAttached e)
         {
-            var trace = _readModel.Traces.FirstOrDefault(t => t.Id == e.TraceId);
-            if (trace == null)
-                return;
-
             TraceLeaf traceLeaf = (TraceLeaf)Tree.GetById(e.TraceId);
             RtuLeaf rtuLeaf = (RtuLeaf)Tree.GetById(traceLeaf.Parent.Id);
             var portOwner = rtuLeaf.GetCharon(new NetAddress(e.OtauPortDto.OtauIp, e.OtauPortDto.OtauTcpPort));
@@ -172,7 +166,6 @@ namespace Iit.Fibertest.Client
             newTraceLeaf.Title = traceLeaf.Title;
             newTraceLeaf.Color = Brushes.Black;
             newTraceLeaf.PortNumber = port;
-            newTraceLeaf.HasEnoughBaseRefsToPerformMonitoring = trace.HasEnoughBaseRefsToPerformMonitoring;
             portOwner.ChildrenImpresario.Children[port - 1] = newTraceLeaf;
             rtuLeaf.ChildrenImpresario.Children.Remove(traceLeaf);
         }
@@ -205,12 +198,28 @@ namespace Iit.Fibertest.Client
         #region JustEchosOfCmdsSentToRtu
         public void Apply(BaseRefAssigned e)
         {
-            var trace = _readModel.Traces.FirstOrDefault(t => t.Id == e.TraceId);
-            if (trace == null) return;
             var traceLeaf = (TraceLeaf)Tree.GetById(e.TraceId);
-            traceLeaf.HasEnoughBaseRefsToPerformMonitoring
-                = trace.HasEnoughBaseRefsToPerformMonitoring;
-            if (!traceLeaf.HasEnoughBaseRefsToPerformMonitoring)
+
+            var preciseBaseRef = e.BaseRefs.FirstOrDefault(b => b.BaseRefType == BaseRefType.Precise);
+            if (preciseBaseRef != null)
+            {
+                traceLeaf.BaseRefsSet.PreciseId = preciseBaseRef.Id;
+                traceLeaf.BaseRefsSet.PreciseDuration = preciseBaseRef.Duration;
+            }
+            var fastBaseRef = e.BaseRefs.FirstOrDefault(b => b.BaseRefType == BaseRefType.Fast);
+            if (fastBaseRef != null)
+            {
+                traceLeaf.BaseRefsSet.FastId = fastBaseRef.Id;
+                traceLeaf.BaseRefsSet.FastDuration = fastBaseRef.Duration;
+            }
+            var additionalBaseRef = e.BaseRefs.FirstOrDefault(b => b.BaseRefType == BaseRefType.Additional);
+            if (additionalBaseRef != null)
+            {
+                traceLeaf.BaseRefsSet.AdditionalId = additionalBaseRef.Id;
+                traceLeaf.BaseRefsSet.AdditionalDuration = additionalBaseRef.Duration;
+            }
+
+            if (!traceLeaf.BaseRefsSet.HasEnoughBaseRefsToPerformMonitoring)
                 traceLeaf.IsInMonitoringCycle = false;
         }
 

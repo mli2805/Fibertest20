@@ -4,7 +4,6 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
@@ -50,19 +49,6 @@ namespace Iit.Fibertest.Client
             {
                 if (value == _traceMonitoringState) return;
                 _traceMonitoringState = value;
-                NotifyOfPropertyChange();
-                NotifyOfPropertyChange(nameof(MonitoringPictogram));
-            }
-        }
-
-        private bool _hasEnoughBaseRefsToPerformMonitoring;
-        public bool HasEnoughBaseRefsToPerformMonitoring
-        {
-            get => _hasEnoughBaseRefsToPerformMonitoring;
-            set
-            {
-                if (value == _hasEnoughBaseRefsToPerformMonitoring) return;
-                _hasEnoughBaseRefsToPerformMonitoring = value;
                 NotifyOfPropertyChange();
                 NotifyOfPropertyChange(nameof(MonitoringPictogram));
             }
@@ -117,7 +103,7 @@ namespace Iit.Fibertest.Client
                 ? TraceMonitoringState == MonitoringState.On
                     ? new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/BlueSquare.png"))
                     : new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreySquare.png"))
-                : HasEnoughBaseRefsToPerformMonitoring
+                : BaseRefsSet.HasEnoughBaseRefsToPerformMonitoring
                     ? new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreyHalfSquare.png"))
                     : new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
         }
