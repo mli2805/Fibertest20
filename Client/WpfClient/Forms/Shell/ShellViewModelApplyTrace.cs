@@ -41,7 +41,7 @@ namespace Iit.Fibertest.Client
 
         private bool Validate(RequestAddTrace request)
         {
-            if (ReadModel.Equipments.Any(e => e.NodeId == request.LastNodeId && e.Type > EquipmentType.EmptyNode)) return true;
+            if (ReadModel.Equipments.Any(e => e.NodeId == request.LastNodeId && e.Type > EquipmentType.CableReserve)) return true;
 
             _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Last_node_of_trace_must_contain_some_equipment));
             return false;
@@ -75,29 +75,39 @@ namespace Iit.Fibertest.Client
             foreach (var nodeId in nodes.Skip(1))
             {
                 var allEquipmentInNode = ReadModel.Equipments.Where(e => e.NodeId == nodeId).ToList();
-                var acceptableEquipment = allEquipmentInNode.Where(e => e.Type >= EquipmentType.CableReserve).ToList();
+                var equipmentForUsersChoice = allEquipmentInNode.Where(e => e.Type >= EquipmentType.CableReserve).ToList();
                 if (allEquipmentInNode.Count == 1)
                 {
                     equipments.Add(allEquipmentInNode[0].Id);
+                    continue;
                 }
-                else if (acceptableEquipment.Count == 0)
+
+                var emptyEquipment = allEquipmentInNode.FirstOrDefault(e => e.Type == EquipmentType.EmptyNode);
+                if (emptyEquipment == null)
                 {
-                    var emptyEquipment = allEquipmentInNode.FirstOrDefault(e => e.Type == EquipmentType.EmptyNode);
-                    if (emptyEquipment != null)
-                    equipments.Add(emptyEquipment.Id);
+                    _logFile.AppendLine($@"There is no empty node equipment in node {nodeId.First6()}");
+                    return null;
+                }
+
+                if (equipmentForUsersChoice.Count == 0)
+                {
+                        equipments.Add(emptyEquipment.Id);
                 }
                 else
                 {
                     var nodeTitle = ReadModel.Nodes.First(n => n.Id == nodeId).Title;
                     var equipmentChoiceViewModel =
-                        new EquipmentChoiceViewModel(_windowManager, C2DWcfManager, acceptableEquipment, nodeTitle, nodeId == nodes.Last());
+                        new EquipmentChoiceViewModel(_windowManager, C2DWcfManager, equipmentForUsersChoice, nodeTitle, nodeId == nodes.Last());
                     _windowManager.ShowDialogWithAssignedOwner(equipmentChoiceViewModel);
 
                     // пользователь прервал процесс, отказавшись выбирать оборудование
                     if (!equipmentChoiceViewModel.ShouldWeContinue)
                         return null;
 
-                    equipments.Add(equipmentChoiceViewModel.GetSelectedEquipmentGuid());
+                    var selectedEquipmentGuid = equipmentChoiceViewModel.GetSelectedEquipmentGuid();
+                    if (selectedEquipmentGuid == Guid.Empty)
+                        selectedEquipmentGuid = emptyEquipment.Id;
+                    equipments.Add(selectedEquipmentGuid);
                 }
             }
             return equipments;

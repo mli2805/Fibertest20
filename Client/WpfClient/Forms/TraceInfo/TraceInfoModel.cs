@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 
@@ -18,6 +19,9 @@ namespace Iit.Fibertest.Client
 
         public List<TraceInfoTableItem> NodesRows { get; set; }
         public List<TraceInfoTableItem> EquipmentsRows { get; set; }
+
+        public string AdjustmentPointsLine { get; set; }
+        public Visibility AdjustmentPointsLineVisibility { get; set; } = Visibility.Collapsed;
 
         private string _title;
         public string Title

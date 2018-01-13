@@ -51,6 +51,8 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </GroupBox>
+        <TextBlock Margin="20,0" Foreground="LightGray" TextWrapping="Wrap" 
+                   Visibility="{Binding Model.AdjustmentPointsLineVisibility}" Text="{Binding Model.AdjustmentPointsLine}"/>
         <GroupBox Header="{x:Static stringResources:Resources.SID_Trace_monitoring_mode}" Margin="5">
             <StackPanel Orientation="Horizontal" Margin="5">
                 <RadioButton GroupName="1" Name="Dark" Margin="30,5,5,5" Content="{x:Static stringResources:Resources.SID_Dark_OF}"
@@ -60,7 +62,7 @@
             </StackPanel>
         </GroupBox>
         <GroupBox Header="{x:Static stringResources:Resources.SID_Comment}" Margin="5">
-            <TextBox Margin="5,10" Text="{Binding Model.Comment}"/>
+            <TextBox Margin="5,10" Text="{Binding Model.Comment}" TextWrapping="Wrap"/>
         </GroupBox>
         <StackPanel Orientation="Horizontal" Margin="15,15">
             <Button Name="Save" Height="25" Width="100" Margin="5" Content="{x:Static stringResources:Resources.SID_Save}" 

@@ -20,11 +20,11 @@ namespace Iit.Fibertest.Client
                      f.Node1 == node2 && f.Node2 == node1).Id;
         }
 
-        public static IEnumerable<Node> GetTraceNodes(this ReadModel readModel, Trace trace)
+        public static IEnumerable<Equipment> GetTraceEquipments(this ReadModel readModel, Trace trace)
         {
             try
             {
-                return trace.Nodes.Select(i => readModel.Nodes.Single(n => n.Id == i));
+                return trace.Equipments.Skip(1).Select(i => readModel.Equipments.Single(eq => eq.Id == i));
             }
             catch (Exception e)
             {

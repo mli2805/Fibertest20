@@ -93,14 +93,16 @@ namespace Iit.Fibertest.Client
         private string[] IsBaseRefCompatibleWithTrace(OtdrDataKnownBlocks otdrKnownBlocks, Trace trace)
         {
             var keyEventsCount = otdrKnownBlocks.KeyEvents.KeyEvents.Length;
-            var notAdjustmentNodesCount = _readModel.GetTraceNodes(trace).Count();
-            if (notAdjustmentNodesCount == keyEventsCount)
-                return null;
 
-            var equipmentsCount = trace.Equipments.Count;
+            var equipments = _readModel.GetTraceEquipments(trace).ToList(); // without RTU
+            var nodesCount = equipments.Count(eq => eq.Type > EquipmentType.AdjustmentPoint) + 1; // without adjustment points
+            var equipmentsCount = equipments.Count(eq => eq.Type > EquipmentType.CableReserve) + 1; // sic! in this case CableReserve is not an equipment
+
+            if (keyEventsCount == nodesCount)
+                return null;
             if (keyEventsCount == equipmentsCount)
             {
-                // TODO add landmarks on empty nodes places
+                // TODO add landmarks(keyEvents) into OtdrDataKnownBlocks on empty nodes places
                 return null;
             }
 
@@ -108,7 +110,7 @@ namespace Iit.Fibertest.Client
             {
                 string.Format(Resources.SID_Landmarks_count_in_reflectogram_is__0_, keyEventsCount),
                 Resources.SID__while,
-                string.Format(Resources.SID_Trace_s_node_count_is__0_, notAdjustmentNodesCount),
+                string.Format(Resources.SID_Trace_s_node_count_is__0_, nodesCount),
                 string.Format(Resources.SID_Trace_s_equipment_count_is__0_, equipmentsCount),
             };
             return result;

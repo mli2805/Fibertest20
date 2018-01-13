@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
@@ -41,6 +42,13 @@ namespace Iit.Fibertest.Client
             var dict = _traceInfoCalculator.BuildDictionaryByEquipmentType(Model.TraceEquipments);
             Model.EquipmentsRows = _traceInfoCalculator.CalculateEquipment(dict);
             Model.NodesRows = _traceInfoCalculator.CalculateNodes(dict);
+
+            if (dict.ContainsKey(EquipmentType.AdjustmentPoint))
+            {
+                // Model.AdjustmentPointsLine = $"To adjust trace drawing were used {dict[EquipmentType.AdjustmentPoint]} point(s)";
+                Model.AdjustmentPointsLine = $@"Для украшения трассы было использовано точек привязки: {dict[EquipmentType.AdjustmentPoint]} шт.";
+                Model.AdjustmentPointsLineVisibility = Visibility.Visible;
+            }
 
             if (traceId == Guid.Empty)
                 Model.IsTraceModeDark = true;
