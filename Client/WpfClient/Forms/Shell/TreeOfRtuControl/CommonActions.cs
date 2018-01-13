@@ -82,8 +82,9 @@ namespace Iit.Fibertest.Client
                 return;
             }
 
-            System.Diagnostics.Process.Start(@"TraceEngine\Reflect.exe",
-                $"-fnw -n {charonWithThisPortAddresss.Ip4Address} -p {charonWithThisPortAddresss.Port}");
+            var otdrPort = charonWithThisPortAddresss.Port == 23 ? 1500 : charonWithThisPortAddresss.Port;
+            System.Diagnostics.Process.Start(@"..\RftsReflect\Reflect.exe",
+                $"-fnw -n {charonWithThisPortAddresss.Ip4Address} -p {otdrPort}");
         }
 
         private bool ToggleToSelectedPort(NetAddress otauAddress, int portNumber)
