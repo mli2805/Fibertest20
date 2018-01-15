@@ -589,6 +589,10 @@
       <Project>{0a6dfc12-dc4a-4c44-923f-cee3dd6b3521}</Project>
       <Name>WpfClient</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Client\WpfCommonViews\WpfCommonViews.csproj">
+      <Project>{e98e6cc5-94e4-44b7-af5c-7f4f74746467}</Project>
+      <Name>WpfCommonViews</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Server\DatabaseLibrary\DatabaseLibrary.csproj">
       <Project>{84edd696-9478-4cdc-abd1-e4c83a764072}</Project>
       <Name>DatabaseLibrary</Name>

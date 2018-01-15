@@ -3,7 +3,12 @@ using System.Windows.Input;
 
 namespace Iit.Fibertest.Client
 {
-    public class WaitCursor : IDisposable
+    public interface ICursorBlah : IDisposable
+    {
+        
+    }
+
+    public class WaitCursor : ICursorBlah
     {
         private Cursor _previousCursor;
 
@@ -22,5 +27,14 @@ namespace Iit.Fibertest.Client
         }
 
         #endregion
+    }
+
+    public class FakeWaitCursor : ICursorBlah
+    {
+        public FakeWaitCursor()
+        {
+
+        }
+        public void Dispose() { }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.WcfServiceForClientInterface;
@@ -10,6 +11,7 @@ namespace Iit.Fibertest.Client
 {
     public class TraceContentChoiceViewModel : Screen
     {
+        private readonly ILifetimeScope _globalScope;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly EquipmentOfChoiceModelFactory _equipmentOfChoiceModelFactory;
         private List<Equipment> _possibleEquipment;
@@ -18,8 +20,10 @@ namespace Iit.Fibertest.Client
         public List<EquipmentOfChoiceModel> Choices { get; set; }
         public bool ShouldWeContinue { get; set; }
 
-        public TraceContentChoiceViewModel(IWcfServiceForClient c2DWcfManager, EquipmentOfChoiceModelFactory equipmentOfChoiceModelFactory)
+        public TraceContentChoiceViewModel(ILifetimeScope globalScope, IWcfServiceForClient c2DWcfManager, 
+            EquipmentOfChoiceModelFactory equipmentOfChoiceModelFactory)
         {
+            _globalScope = globalScope;
             _c2DWcfManager = c2DWcfManager;
             _equipmentOfChoiceModelFactory = equipmentOfChoiceModelFactory;
         }
@@ -68,7 +72,7 @@ namespace Iit.Fibertest.Client
 
         public async void NextButton()
         {
-            using (new WaitCursor())
+            using (_globalScope.Resolve<ICursorBlah>())
             {
                 ShouldWeContinue = true;
 

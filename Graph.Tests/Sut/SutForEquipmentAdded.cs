@@ -48,8 +48,7 @@ namespace Graph.Tests
         public void SetShortTrace()
         {
             FakeWindowManager.RegisterHandler(model => OneLineMessageBoxAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
-            FakeWindowManager.RegisterHandler(
-                model => EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
+            FakeWindowManager.RegisterHandler(model => TraceContentChoiceHandler(model, Answer.Yes, 0));
             FakeWindowManager.RegisterHandler(
                 model => AddTraceViewHandler(model, @"short trace", "", Answer.Yes));
 
@@ -61,10 +60,8 @@ namespace Graph.Tests
         public void SetLongTraceWithEquipment()
         {
             FakeWindowManager.RegisterHandler(model => OneLineMessageBoxAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
-            FakeWindowManager.RegisterHandler(
-                model => EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
-            FakeWindowManager.RegisterHandler(
-                model => EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
+            FakeWindowManager.RegisterHandler(model => TraceContentChoiceHandler(model, Answer.Yes, 0));
+            FakeWindowManager.RegisterHandler(model => TraceContentChoiceHandler(model, Answer.Yes, 0));
             FakeWindowManager.RegisterHandler(
                 model => AddTraceViewHandler(model, @"trace with eq", "", Answer.Yes));
 
@@ -80,10 +77,8 @@ namespace Graph.Tests
         public void SetLongTraceWithoutEquipment()
         {
             FakeWindowManager.RegisterHandler(model => OneLineMessageBoxAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
-            FakeWindowManager.RegisterHandler(
-                model => EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 1));
-            FakeWindowManager.RegisterHandler(
-                model => EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
+            FakeWindowManager.RegisterHandler(model => TraceContentChoiceHandler(model, Answer.Yes, 1));
+            FakeWindowManager.RegisterHandler(model => TraceContentChoiceHandler(model, Answer.Yes, 0));
             FakeWindowManager.RegisterHandler(
                 model => AddTraceViewHandler(model, @"trace without eq", "", Answer.Yes));
 

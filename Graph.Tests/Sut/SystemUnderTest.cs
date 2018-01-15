@@ -38,6 +38,7 @@ namespace Graph.Tests
             builder.RegisterType<FakeWindowManager>().As<IWindowManager>().SingleInstance();
             builder.RegisterType<FakeLocalDbManager>().As<ILocalDbManager>().SingleInstance();
             builder.RegisterType<FakeClientWcfServiceHost>().As<IClientWcfServiceHost>();
+            builder.RegisterType<FakeWaitCursor>().As<ICursorBlah>().SingleInstance();
 
             builder.RegisterType<FakeEventStoreInitializer>().As<IEventStoreInitializer>().SingleInstance();
             builder.RegisterType<EventStoreService>().SingleInstance();
@@ -102,7 +103,7 @@ namespace Graph.Tests
         protected Iit.Fibertest.Graph.Trace DefineTrace(Guid lastNodeId, Guid nodeForRtuId)
         {
             FakeWindowManager.RegisterHandler(model => OneLineMessageBoxAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
-            FakeWindowManager.RegisterHandler(model => EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
+            FakeWindowManager.RegisterHandler(model => TraceContentChoiceHandler(model, Answer.Yes, 0));
             FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, @"some title", "", Answer.Yes));
             ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = lastNodeId, NodeWithRtuId = nodeForRtuId });
             Poller.EventSourcingTick().Wait();
@@ -163,23 +164,18 @@ namespace Graph.Tests
             return true;
         }
 
-        public bool EquipmentChoiceHandler(object model, EquipmentChoiceAnswer answer, int chosenEquipmentNumber)
+        public bool TraceContentChoiceHandler(object model, Answer button, int selectedOptionNumber)
         {
-            var vm = model as EquipmentChoiceViewModel;
+            var vm = model as TraceContentChoiceViewModel;
             if (vm == null) return false;
-            switch (answer)
+            if (button == Answer.Yes)
             {
-                case EquipmentChoiceAnswer.Continue:
-                    vm.Choices[chosenEquipmentNumber].IsChecked = true;
-                    vm.SelectButton();
-                    break;
-                case EquipmentChoiceAnswer.SetupNameAndContinue:
-                    vm.Choices[chosenEquipmentNumber].IsChecked = true;
-                    vm.SelectAndSetupNameButton();
-                    break;
-                case EquipmentChoiceAnswer.Cancel:
-                    vm.CancelButton();
-                    break;
+                vm.Choices[selectedOptionNumber].IsSelected = true;
+                vm.NextButton();
+            }
+            else
+            {
+                vm.CancelButton();
             }
             return true;
         }

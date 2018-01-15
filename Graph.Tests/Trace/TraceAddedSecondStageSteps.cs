@@ -30,16 +30,16 @@ namespace Graph.Tests
         [Given(@"На предложение выбрать оборудование пользователь отвечает: ""(.*)""")]
         public void DefineEquipmentChoiceAnswer(EquipmentChoiceAnswer answer)
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentChoiceHandler(model, answer, 0));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.TraceContentChoiceHandler(model, Answer.Yes, 0));
         }
 
 
         [Given(@"Пользователь делает выбор для каждого предложенного узла")]
         public void GivenПользовательДелаетВыборДляКаждогоПредложенногоУзла()
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentChoiceHandler(model, EquipmentChoiceAnswer.SetupNameAndContinue, 0));
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentChoiceHandler(model, EquipmentChoiceAnswer.Continue, 0));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.TraceContentChoiceHandler(model, Answer.Yes, 0));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.TraceContentChoiceHandler(model, Answer.Yes, 0));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.TraceContentChoiceHandler(model, Answer.Yes, 0));
         }
 
         [Then(@"Список оборудования для трассы содержит выбранное пользователем оборудование")]

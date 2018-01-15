@@ -61,6 +61,9 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<ClientWcfService>().SingleInstance();
             builder.RegisterType<ClientWcfServiceHost>().As<IClientWcfServiceHost>().SingleInstance();
 
+            builder.RegisterType<WaitCursor>().As<ICursorBlah>();
+
+
             var logger = new LoggerConfiguration()
                 .WriteTo.Seq(@"http://localhost:5341").CreateLogger();
             builder.RegisterInstance<ILogger>(logger);
