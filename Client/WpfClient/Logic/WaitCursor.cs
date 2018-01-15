@@ -31,10 +31,6 @@ namespace Iit.Fibertest.Client
 
     public class FakeWaitCursor : ICursorBlah
     {
-        public FakeWaitCursor()
-        {
-
-        }
         public void Dispose() { }
     }
 }
