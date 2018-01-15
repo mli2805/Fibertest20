@@ -445,7 +445,6 @@
     <Compile Include="Forms\BaseRefs\BaseRefsAssignViewModel.cs" />
     <Compile Include="Forms\NodeUpdate\ItemOfEquipmentTableModel.cs" />
     <Compile Include="ViewModels\Primitive\CheckBoxModel.cs" />
-    <Compile Include="ViewModels\EquipmentChoiceViewModel.cs" />
     <Compile Include="ViewModels\EquipmentInfoViewModel.cs" />
     <Compile Include="ViewModels\MainMenuViewModel.cs" />
     <Compile Include="Forms\NodeUpdate\NodeUpdateViewModel.cs" />
@@ -457,9 +456,6 @@
     <Compile Include="ViewModels\TraceChoiceViewModel.cs" />
     <Compile Include="Forms\BaseRefs\BaseRefsAssignView.xaml.cs">
       <DependentUpon>BaseRefsAssignView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EquipmentChoiceView.xaml.cs">
-      <DependentUpon>EquipmentChoiceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\EquipmentInfoView.xaml.cs">
       <DependentUpon>EquipmentInfoView.xaml</DependentUpon>
@@ -635,10 +631,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\BaseRefs\BaseRefsAssignView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\EquipmentChoiceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
