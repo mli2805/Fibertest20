@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         mc:Ignorable="d"
-        SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" d:DataContext="{d:DesignData ConfirmationViewModel}">
+        SizeToContent="WidthAndHeight" MaxWidth="600" WindowStartupLocation="CenterScreen" d:DataContext="{d:DesignData ConfirmationViewModel}">
     <StackPanel>
         <ItemsControl ItemsSource="{Binding Lines}" Margin="100,25,100,50">
             <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="client:MyMessageBoxLineModel">
-                    <TextBlock Text="{Binding Line}" TextAlignment="Center" FontWeight="{Binding FontWeight}" Foreground="{Binding Foreground}"/>
+                    <TextBlock Text="{Binding Line}" TextAlignment="Center" TextWrapping="Wrap" FontWeight="{Binding FontWeight}" Foreground="{Binding Foreground}"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

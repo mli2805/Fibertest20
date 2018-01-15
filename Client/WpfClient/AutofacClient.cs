@@ -117,7 +117,8 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<GraphReadModel>().SingleInstance();
             builder.RegisterType<FreePorts>().SingleInstance();
 
-
+            builder.RegisterType<TraceContentChoiceViewModel>().SingleInstance();
+            builder.RegisterType<EquipmentOfChoiceModelFactory>().SingleInstance();
             builder.RegisterType<C2DWcfManager>().AsSelf().As<IWcfServiceForClient>().SingleInstance();
 
             builder.RegisterType<ClientHeartbeat>().SingleInstance();

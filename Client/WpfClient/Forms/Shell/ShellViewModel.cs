@@ -14,7 +14,9 @@ using Serilog;
 
 namespace Iit.Fibertest.Client
 {
-    public partial class ShellViewModel : Screen, IShell
+    public partial class 
+        
+    ShellViewModel : Screen, IShell
     {
         public ILogger Log { get; set; }
 
@@ -28,6 +30,7 @@ namespace Iit.Fibertest.Client
         private readonly OpticalEventsProvider _opticalEventsProvider;
         private readonly NetworkEventsProvider _networkEventsProvider;
         private readonly BopNetworkEventsProvider _bopNetworkEventsProvider;
+        private readonly TraceContentChoiceViewModel _traceContentChoiceViewModel;
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly CurrentUser _currentUser;
@@ -56,6 +59,8 @@ namespace Iit.Fibertest.Client
             BopNetworkEventsProvider bopNetworkEventsProvider,
             TabulatorViewModel tabulatorViewModel,
             CommonStatusBarViewModel commonStatusBarViewModel,
+
+            TraceContentChoiceViewModel traceContentChoiceViewModel,
             ClientHeartbeat clientHeartbeat, ClientPoller clientPoller,
             IniFile iniFile, ILogger clientLogger, IMyLog logFile, CurrentUser currentUser, IClientWcfServiceHost host)
         {
@@ -74,6 +79,7 @@ namespace Iit.Fibertest.Client
             _windowManager = windowManager;
             _loginViewModel = loginViewModel;
             _bopNetworkEventsProvider = bopNetworkEventsProvider;
+            _traceContentChoiceViewModel = traceContentChoiceViewModel;
             _clientHeartbeat = clientHeartbeat;
             _clientPoller = clientPoller;
             _opticalEventsProvider = opticalEventsProvider;

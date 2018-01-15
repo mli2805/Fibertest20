@@ -75,40 +75,45 @@ namespace Iit.Fibertest.Client
             foreach (var nodeId in nodes.Skip(1))
             {
                 var allEquipmentInNode = ReadModel.Equipments.Where(e => e.NodeId == nodeId).ToList();
-                var equipmentForUsersChoice = allEquipmentInNode.Where(e => e.Type >= EquipmentType.CableReserve).ToList();
-                if (allEquipmentInNode.Count == 1)
+                if (allEquipmentInNode.Count == 1) // EmptyNode or AdjustmentPoint
                 {
                     equipments.Add(allEquipmentInNode[0].Id);
                     continue;
                 }
 
-                var emptyEquipment = allEquipmentInNode.FirstOrDefault(e => e.Type == EquipmentType.EmptyNode);
-                if (emptyEquipment == null)
-                {
-                    _logFile.AppendLine($@"There is no empty node equipment in node {nodeId.First6()}");
-                    return null;
-                }
+             //   var equipmentForUsersChoice = allEquipmentInNode.Where(e => e.Type >= EquipmentType.EmptyNode).ToList();
+       //         var emptyEquipment = allEquipmentInNode.FirstOrDefault(e => e.Type == EquipmentType.EmptyNode);
+//                if (emptyEquipment == null)
+//                {
+ //                   _logFile.AppendLine($@"There is no empty node equipment in node {nodeId.First6()}");
+   //                 return null;
+     //           }
 
-                if (equipmentForUsersChoice.Count == 0)
-                {
-                        equipments.Add(emptyEquipment.Id);
-                }
-                else
-                {
+//                if (equipmentForUsersChoice.Count == 0)
+ //               {
+  //                      equipments.Add(emptyEquipment.Id);
+   //             }
+    //            else
+//                {
                     var nodeTitle = ReadModel.Nodes.First(n => n.Id == nodeId).Title;
-                    var equipmentChoiceViewModel =
-                        new EquipmentChoiceViewModel(_windowManager, C2DWcfManager, equipmentForUsersChoice, nodeTitle, nodeId == nodes.Last());
-                    _windowManager.ShowDialogWithAssignedOwner(equipmentChoiceViewModel);
+    //                var equipmentChoiceViewModel =
+      //                  new EquipmentChoiceViewModel(_windowManager, C2DWcfManager, equipmentForUsersChoice, nodeTitle, nodeId == nodes.Last());
+        //            _windowManager.ShowDialogWithAssignedOwner(equipmentChoiceViewModel);
+
+                    _traceContentChoiceViewModel.Initialize(allEquipmentInNode, nodeTitle, nodeId == nodes.Last());
+                    _windowManager.ShowDialogWithAssignedOwner(_traceContentChoiceViewModel);
 
                     // пользователь прервал процесс, отказавшись выбирать оборудование
-                    if (!equipmentChoiceViewModel.ShouldWeContinue)
+//                    if (!equipmentChoiceViewModel.ShouldWeContinue)
+  //                      return null;
+                    if (!_traceContentChoiceViewModel.ShouldWeContinue)
                         return null;
 
-                    var selectedEquipmentGuid = equipmentChoiceViewModel.GetSelectedEquipmentGuid();
-                    if (selectedEquipmentGuid == Guid.Empty)
-                        selectedEquipmentGuid = emptyEquipment.Id;
+                    var selectedEquipmentGuid = _traceContentChoiceViewModel.GetSelectedEquipmentGuid();
+//                    if (selectedEquipmentGuid == Guid.Empty)
+ //                       selectedEquipmentGuid = emptyEquipment.Id;
                     equipments.Add(selectedEquipmentGuid);
-                }
+  //              }
             }
             return equipments;
         }

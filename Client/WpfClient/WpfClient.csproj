@@ -273,6 +273,12 @@
     <Compile Include="Forms\Shell\TreeOfRtuControl\PortLeaf\PortLeafActions.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\PortLeaf\PortLeafContextMenuProvider.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\TraceLeaf\BaseRefsSet.cs" />
+    <Compile Include="Forms\TraceContentChoice\EquipmentOfChoiceModel.cs" />
+    <Compile Include="Forms\TraceContentChoice\EquipmentOfChoiceModelFactory.cs" />
+    <Compile Include="Forms\TraceContentChoice\TraceContentChoiceView.xaml.cs">
+      <DependentUpon>TraceContentChoiceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\TraceContentChoice\TraceContentChoiceViewModel.cs" />
     <Compile Include="Forms\TraceInfo\TraceInfoCalculator.cs" />
     <Compile Include="Forms\TraceInfo\TraceInfoModel.cs" />
     <Compile Include="Forms\TraceState\AccidentLineModel.cs" />
@@ -557,6 +563,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\Shell\TabulatorControl\TabulatorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\TraceContentChoice\TraceContentChoiceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

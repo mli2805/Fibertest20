@@ -128,10 +128,6 @@ namespace DirectRtuClient
             _rtuLogger = rtuLogger;
             IpAddress = ipAddress;
 
-//            var appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
-//            _appDir = Path.GetDirectoryName(appPath);
-//            rtuLogger.AppendLine(_appDir);
-
             BaseFileName = @"..\out\base3ev.sor";
             MeasFileName = @"..\out\123.sor";
             ResultFileName = @"..\out\measwithbase.sor";
@@ -169,7 +165,7 @@ namespace DirectRtuClient
 
         public void LaunchOtdrParamView()
         {
-            var vm = new OtdrParamViewModel(OtdrManager.IitOtdr);
+            var vm = new OtdrParametersSetterViewModel(OtdrManager.IitOtdr);
             IWindowManager windowManager = new WindowManager();
             windowManager.ShowDialog(vm);
         }

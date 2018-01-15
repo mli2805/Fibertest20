@@ -1431,6 +1431,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Equipment title.
+        /// </summary>
+        public static string SID_Equipment_title {
+            get {
+                return ResourceManager.GetString("SID_Equipment_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Equipment type.
         /// </summary>
         public static string SID_Equipment_type {
@@ -1863,7 +1872,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to in node {0}.
+        ///   Looks up a localized string similar to in node.
         /// </summary>
         public static string SID_in_node {
             get {
@@ -2466,6 +2475,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Next.
+        /// </summary>
+        public static string SID_Next {
+            get {
+                return ResourceManager.GetString("SID_Next", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to no.
         /// </summary>
         public static string SID_no {
@@ -2859,6 +2877,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_OTDR_connection_failed_ {
             get {
                 return ResourceManager.GetString("SID_OTDR_connection_failed_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OTDR initialization error!.
+        /// </summary>
+        public static string SID_OTDR_initialization_error_ {
+            get {
+                return ResourceManager.GetString("SID_OTDR_initialization_error_", resourceCulture);
             }
         }
         

@@ -531,7 +531,7 @@ If chosen trace use some equipment in this node it will be replaced</value>
     <value>RTU {0} ;  OTAU {1} ;  Ports {2} ;  Traces {3} ;  Occupancy {4:F}%</value>
   </data>
 	<data name="SID_in_node" xml:space="preserve">
-    <value>in node {0}</value>
+    <value>in node</value>
   </data>
 	<data name="SID_Trace_information" xml:space="preserve">
     <value>Trace information</value>
@@ -1573,5 +1573,14 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID_Node_without_equipment" xml:space="preserve">
     <value>Node without equipment</value>
+  </data>
+	<data name="SID_OTDR_initialization_error_" xml:space="preserve">
+    <value>OTDR initialization error!</value>
+  </data>
+	<data name="SID_Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+	<data name="SID_Equipment_title" xml:space="preserve">
+    <value>Equipment title</value>
   </data>
 </root>

@@ -7,7 +7,7 @@ using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.WpfCommonViews
 {
-    public class OtdrParamViewModel : Screen
+    public class OtdrParametersSetterViewModel : Screen
     {
         #region Combo-boxes
         private string _selectedUnit;
@@ -29,7 +29,7 @@ namespace Iit.Fibertest.WpfCommonViews
 
         public string SelectedUnit
         {
-            get { return _selectedUnit; }
+            get => _selectedUnit;
             set
             {
                 if (value == _selectedUnit) return;
@@ -43,7 +43,7 @@ namespace Iit.Fibertest.WpfCommonViews
 
         public double BackscatteredCoefficient
         {
-            get { return _backscatteredCoefficient; }
+            get => _backscatteredCoefficient;
             set
             {
                 if (value.Equals(_backscatteredCoefficient)) return;
@@ -57,7 +57,7 @@ namespace Iit.Fibertest.WpfCommonViews
 
         public double RefractiveIndex
         {
-            get { return _refractiveIndex; }
+            get => _refractiveIndex;
             set
             {
                 if (value.Equals(_refractiveIndex)) return;
@@ -71,7 +71,7 @@ namespace Iit.Fibertest.WpfCommonViews
 
         public List<string> Distances
         {
-            get { return _distances; }
+            get => _distances;
             set
             {
                 if (Equals(value, _distances)) return;
@@ -82,7 +82,7 @@ namespace Iit.Fibertest.WpfCommonViews
 
         public string SelectedDistance
         {
-            get { return _selectedDistance; }
+            get => _selectedDistance;
             set
             {
                 if (value == _selectedDistance) return;
@@ -96,7 +96,7 @@ namespace Iit.Fibertest.WpfCommonViews
 
         public List<string> Resolutions
         {
-            get { return _resolutions; }
+            get => _resolutions;
             set
             {
                 if (Equals(value, _resolutions)) return;
@@ -107,7 +107,7 @@ namespace Iit.Fibertest.WpfCommonViews
 
         public string SelectedResolution
         {
-            get { return _selectedResolution; }
+            get => _selectedResolution;
             set
             {
                 if (value == _selectedResolution) return;
@@ -122,7 +122,7 @@ namespace Iit.Fibertest.WpfCommonViews
 
         public List<string> PulseDurations
         {
-            get { return _pulseDurations; }
+            get => _pulseDurations;
             set
             {
                 if (Equals(value, _pulseDurations)) return;
@@ -133,7 +133,7 @@ namespace Iit.Fibertest.WpfCommonViews
 
         public string SelectedPulseDuration
         {
-            get { return _selectedPulseDuration; }
+            get => _selectedPulseDuration;
             set
             {
                 if (value == _selectedPulseDuration) return;
@@ -145,7 +145,7 @@ namespace Iit.Fibertest.WpfCommonViews
 
         public List<string> MeasCountsToAverage
         {
-            get { return _measCountsToAverage; }
+            get => _measCountsToAverage;
             set
             {
                 if (Equals(value, _measCountsToAverage)) return;
@@ -156,7 +156,7 @@ namespace Iit.Fibertest.WpfCommonViews
 
         public string SelectedMeasCountToAverage
         {
-            get { return _selectedMeasCountToAverage; }
+            get => _selectedMeasCountToAverage;
             set
             {
                 if (value == _selectedMeasCountToAverage) return;
@@ -175,7 +175,7 @@ namespace Iit.Fibertest.WpfCommonViews
 
         public List<string> PeriodsToAverage
         {
-            get { return _periodsToAverage; }
+            get => _periodsToAverage;
             set
             {
                 if (Equals(value, _periodsToAverage)) return;
@@ -186,7 +186,7 @@ namespace Iit.Fibertest.WpfCommonViews
 
         public string SelectedPeriodToAverage
         {
-            get { return _selectedPeriodToAverage; }
+            get => _selectedPeriodToAverage;
             set
             {
                 if (value == _selectedPeriodToAverage) return;
@@ -204,7 +204,7 @@ namespace Iit.Fibertest.WpfCommonViews
 
         public bool IsTimeToAverageSelected
         {
-            get { return _isTimeToAverageSelected; }
+            get => _isTimeToAverageSelected;
             set
             {
                 if (value == _isTimeToAverageSelected) return;
@@ -229,7 +229,7 @@ namespace Iit.Fibertest.WpfCommonViews
 
         private readonly IitOtdrWrapper _otdrWrapper;
 
-        public OtdrParamViewModel(IitOtdrWrapper otdrWrapper)
+        public OtdrParametersSetterViewModel(IitOtdrWrapper otdrWrapper)
         {
             _otdrWrapper = otdrWrapper;
 

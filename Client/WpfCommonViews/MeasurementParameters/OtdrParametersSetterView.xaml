@@ -1,4 +1,4 @@
-﻿<Window x:Class="Iit.Fibertest.WpfCommonViews.OtdrParamView"
+﻿<Window x:Class="Iit.Fibertest.WpfCommonViews.OtdrParametersSetterView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,8 +6,8 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:wpfCommonViews="clr-namespace:Iit.Fibertest.WpfCommonViews"
         mc:Ignorable="d"
-        Title="OtdrParamView" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
-        d:DataContext="{d:DesignInstance wpfCommonViews:OtdrParamViewModel}">
+        Title="OtdrParametersSetterView" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
+        d:DataContext="{d:DesignInstance wpfCommonViews:OtdrParametersSetterViewModel}">
     <StackPanel>
         <GroupBox Margin="5">
             <StackPanel Margin="0,5,0,0">

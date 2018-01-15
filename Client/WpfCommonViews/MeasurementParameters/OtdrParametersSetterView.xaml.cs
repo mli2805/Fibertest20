@@ -5,11 +5,11 @@ using System.Windows.Media;
 namespace Iit.Fibertest.WpfCommonViews
 {
     /// <summary>
-    /// Interaction logic for OtdrParamView.xaml
+    /// Interaction logic for OtdrParametersSetterView.xaml
     /// </summary>
-    public partial class OtdrParamView
+    public partial class OtdrParametersSetterView
     {
-        public OtdrParamView()
+        public OtdrParametersSetterView()
         {
             InitializeComponent();
         }
