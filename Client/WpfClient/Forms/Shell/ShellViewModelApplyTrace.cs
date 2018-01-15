@@ -95,12 +95,12 @@ namespace Iit.Fibertest.Client
    //             }
     //            else
 //                {
-                    var nodeTitle = ReadModel.Nodes.First(n => n.Id == nodeId).Title;
+                    var node = ReadModel.Nodes.First(n => n.Id == nodeId);
     //                var equipmentChoiceViewModel =
       //                  new EquipmentChoiceViewModel(_windowManager, C2DWcfManager, equipmentForUsersChoice, nodeTitle, nodeId == nodes.Last());
         //            _windowManager.ShowDialogWithAssignedOwner(equipmentChoiceViewModel);
 
-                    _traceContentChoiceViewModel.Initialize(allEquipmentInNode, nodeTitle, nodeId == nodes.Last());
+                    _traceContentChoiceViewModel.Initialize(allEquipmentInNode, node, nodeId == nodes.Last());
                     _windowManager.ShowDialogWithAssignedOwner(_traceContentChoiceViewModel);
 
                     // пользователь прервал процесс, отказавшись выбирать оборудование

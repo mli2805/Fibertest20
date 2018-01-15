@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.WcfServiceForClientInterface;
@@ -12,7 +13,7 @@ namespace Iit.Fibertest.Client
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly EquipmentOfChoiceModelFactory _equipmentOfChoiceModelFactory;
         private List<Equipment> _possibleEquipment;
-        private string _nodeTitle;
+        private Node _node;
         public string NameOfNode { get; set; }
         public List<EquipmentOfChoiceModel> Choices { get; set; }
         public bool ShouldWeContinue { get; set; }
@@ -23,10 +24,10 @@ namespace Iit.Fibertest.Client
             _equipmentOfChoiceModelFactory = equipmentOfChoiceModelFactory;
         }
 
-        public void Initialize(List<Equipment> possibleEquipment, string nodeTitle, bool isLastNode)
+        public void Initialize(List<Equipment> possibleEquipment, Node node, bool isLastNode)
         {
-            _nodeTitle = nodeTitle;
-            NameOfNode = nodeTitle;
+            _node = node;
+            NameOfNode = node.Title;
 
             _possibleEquipment = possibleEquipment;
             Choices = new List<EquipmentOfChoiceModel>();
@@ -65,28 +66,49 @@ namespace Iit.Fibertest.Client
             DisplayName = "";
         }
 
-        public void NextButton()
+        public async void NextButton()
         {
-            ShouldWeContinue = true;
-            if (_nodeTitle != NameOfNode)
-                SendNodeTitle();
-            foreach (var equipment in _possibleEquipment.Where(e=>e.Type != EquipmentType.EmptyNode))
+            using (new WaitCursor())
             {
-                var model = Choices.First(m => m.EquipmentId == equipment.Id);
-                if (equipment.Title != model.NameOfEquipment)
-                    SendEquipmentTitle();
+                ShouldWeContinue = true;
+
+                if (_node.Title != NameOfNode)
+                    await SendNodeTitle();
+
+                foreach (var equipment in _possibleEquipment.Where(e => e.Type != EquipmentType.EmptyNode))
+                {
+                    var model = Choices.First(m => m.EquipmentId == equipment.Id);
+                    if (equipment.Title != model.NameOfEquipment)
+                        await SendEquipmentTitle(equipment, model.NameOfEquipment);
+                }
+
+                TryClose();
             }
-            TryClose();
         }
 
-        private void SendNodeTitle()
+        private async Task<string> SendNodeTitle()
         {
-
+            var cmd = new UpdateNode
+            {
+                Id = _node.Id,
+                Title = NameOfNode.Trim(),
+                Comment = _node.Comment,
+            };
+            return await _c2DWcfManager.SendCommandAsObj(cmd);
         }
 
-        private void SendEquipmentTitle()
+        private async Task<string> SendEquipmentTitle(Equipment equipment, string newTitle)
         {
-
+            var cmd = new UpdateEquipment()
+            {
+                Id = equipment.Id,
+                Title = newTitle,
+                Type = equipment.Type,
+                CableReserveLeft = equipment.CableReserveLeft,
+                CableReserveRight = equipment.CableReserveRight,
+                Comment = equipment.Comment,
+            };
+            return await _c2DWcfManager.SendCommandAsObj(cmd);
         }
 
         public void CancelButton()
