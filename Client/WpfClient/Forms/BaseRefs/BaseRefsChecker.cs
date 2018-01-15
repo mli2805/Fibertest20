@@ -62,7 +62,7 @@ namespace Iit.Fibertest.Client
                         string.Format(Resources.SID__0__base_is_not_compatible_with_trace, baseRefDto.BaseRefType.GetLocalizedFemaleString()),
                         trace.Title, "", ""
                     };
-                    messageStrings.AddRange(errorStrings);
+                    messageStrings.Add(errorStrings);
                     var vm = new MyMessageBoxViewModel(MessageType.Error, messageStrings, 4);
                     _windowManager.ShowDialogWithAssignedOwner(vm);
                     return false;
@@ -90,7 +90,7 @@ namespace Iit.Fibertest.Client
             return result;
         }
 
-        private string[] IsBaseRefCompatibleWithTrace(OtdrDataKnownBlocks otdrKnownBlocks, Trace trace)
+        private string IsBaseRefCompatibleWithTrace(OtdrDataKnownBlocks otdrKnownBlocks, Trace trace)
         {
             var keyEventsCount = otdrKnownBlocks.KeyEvents.KeyEvents.Length;
 
@@ -106,13 +106,11 @@ namespace Iit.Fibertest.Client
                 return null;
             }
 
-            string[] result = new[]
-            {
-                string.Format(Resources.SID_Landmarks_count_in_reflectogram_is__0_, keyEventsCount),
-                Resources.SID__while,
-                string.Format(Resources.SID_Trace_s_node_count_is__0_, nodesCount),
-                string.Format(Resources.SID_Trace_s_equipment_count_is__0_, equipmentsCount),
-            };
+            string result = 
+                string.Format(Resources.SID_Landmarks_count_in_reflectogram_is__0_, keyEventsCount) + Environment.NewLine +
+                Environment.NewLine +
+                string.Format(Resources.SID_Trace_s_node_count_is__0_, nodesCount) + Environment.NewLine +
+                string.Format(Resources.SID_Trace_s_equipment_count_is__0_, equipmentsCount);
             return result;
         }
 
