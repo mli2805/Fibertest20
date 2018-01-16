@@ -147,7 +147,7 @@ namespace Iit.Fibertest.RtuManagement
                 var result = new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.MonitoringSettingsAppliedSuccessfully };
                 try
                 {
-                    if (ShouldApplySettings())
+                    if (ShouldExecute("User sent monitoring settings"))
                         _rtuManager.ChangeSettings(dto, () => callbackChannel.EndApplyMonitoringSettings(result));
                     else
                     {
@@ -165,14 +165,14 @@ namespace Iit.Fibertest.RtuManagement
             });
         }
 
-        private bool ShouldApplySettings()
+        private bool ShouldExecute(string message)
         {
             if (!_rtuManager.IsRtuInitialized)
             {
-                _serviceLog.AppendLine("User sent monitoring settings - Ignored - RTU is busy");
+                _serviceLog.AppendLine($"{message} - Ignored - RTU is busy");
                 return false;
             }
-            _serviceLog.AppendLine("User sent monitoring settings - Accepted");
+            _serviceLog.AppendLine($"{message} - Accepted");
             return true;
         }
 
@@ -184,7 +184,7 @@ namespace Iit.Fibertest.RtuManagement
                 var result = new BaseRefAssignedDto();
                 try
                 {
-                    result.ReturnCode = ShouldAssignBaseRef() ? _rtuManager.BaseRefsSaver.SaveBaseRefs(dto) : ReturnCode.RtuIsBusy;
+                    result.ReturnCode = ShouldExecute("User sent assign base refs command") ? _rtuManager.BaseRefsSaver.SaveBaseRefs(dto) : ReturnCode.RtuIsBusy;
                 }
                 catch (Exception e)
                 {
@@ -195,30 +195,48 @@ namespace Iit.Fibertest.RtuManagement
                 callbackChannel.EndAssignBaseRef(result);
             });
         }
-        private bool ShouldAssignBaseRef()
+
+        public void BeginClientMeasurement(DoClientMeasurementDto dto)
         {
-            if (!_rtuManager.IsRtuInitialized)
+            var callbackChannel = OperationContext.Current.GetCallbackChannel<IRtuWcfServiceBackward>();
+            ThreadPool.QueueUserWorkItem(_ =>
             {
-                _serviceLog.AppendLine("User sent assign base refs command - Ignored - RTU is busy");
-                return false;
-            }
-            _serviceLog.AppendLine("User sent assign base refs command - Accepted");
-            return true;
+                var result = new BaseRefAssignedDto();
+                try
+                {
+                    result.ReturnCode = ShouldExecute("User requested client's measurement") ? _rtuManager.StartClientMeasurement(dto) : ReturnCode.RtuIsBusy;
+                }
+                catch (Exception e)
+                {
+                    _serviceLog.AppendLine("Thread pool: " + e);
+                    result.ReturnCode = ReturnCode.RtuBaseRefAssignmentError;
+                    result.ExceptionMessage = e.Message;
+                }
+                callbackChannel.EndAssignBaseRef(result);
+            });
         }
 
-        public bool ToggleToPort(OtauPortDto dto)
+        public void BeginOutOfTurnPreciseMeasurement(DoOutOfTurnPreciseMeasurementDto dto)
         {
-            if (!_rtuManager.IsRtuInitialized || _rtuManager.IsMonitoringOn)
+            var callbackChannel = OperationContext.Current.GetCallbackChannel<IRtuWcfServiceBackward>();
+            ThreadPool.QueueUserWorkItem(_ =>
             {
-                _serviceLog.AppendLine("User demands port toggle - Ignored - RTU is busy");
-                return false;
-            }
-
-            _serviceLog.AppendLine("User demands port toggle");
-            _rtuManager.ToggleToPort(dto);
-            return true;
+                var result = new BaseRefAssignedDto();
+                try
+                {
+                    result.ReturnCode = ShouldExecute("User requested out of turn precise measurement") ? _rtuManager.StartOutOfTurnMeasurement(dto) : ReturnCode.RtuIsBusy;
+                }
+                catch (Exception e)
+                {
+                    _serviceLog.AppendLine("Thread pool: " + e);
+                    result.ReturnCode = ReturnCode.RtuBaseRefAssignmentError;
+                    result.ExceptionMessage = e.Message;
+                }
+                callbackChannel.EndAssignBaseRef(result);
+            });
         }
 
+        
         public bool CheckLastSuccessfullMeasTime()
         {
 

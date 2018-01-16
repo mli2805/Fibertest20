@@ -56,5 +56,21 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
             rtuWcfService.BeginAssignBaseRef(dto);
             return src.Task;
         }
+        public static Task<ClientMeasurementStartedDto> StartClientMeasurementAsync(
+            this IRtuWcfService rtuWcfService, RtuWcfServiceBackward backwardService, DoClientMeasurementDto dto)
+        {
+            var src = new TaskCompletionSource<ClientMeasurementStartedDto>();
+            backwardService.HandlerForClientMeasurement.AddHandler(src);
+            rtuWcfService.BeginClientMeasurement(dto);
+            return src.Task;
+        }
+        public static Task<OutOfTurnMeasurementStartedDto> StartOutOfTurnMeasurementAsync(
+            this IRtuWcfService rtuWcfService, RtuWcfServiceBackward backwardService, DoOutOfTurnPreciseMeasurementDto dto)
+        {
+            var src = new TaskCompletionSource<OutOfTurnMeasurementStartedDto>();
+            backwardService.HandlerForOutOfTurnMeasurement.AddHandler(src);
+            rtuWcfService.BeginOutOfTurnPreciseMeasurement(dto);
+            return src.Task;
+        }
     }
 }

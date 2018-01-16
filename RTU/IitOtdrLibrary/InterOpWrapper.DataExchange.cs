@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Iit.Fibertest.IitOtdrLibrary
 {
-    public partial class IitOtdrWrapper
+    public partial class InterOpWrapper
     {
         // EXTERN_C __declspec(dllexport) long GetSorSize(TSorData* sorData);
         [DllImport("iit_otdr.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "GetSorSize")]

@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Iit.Fibertest.IitOtdrLibrary
 {
-    public partial class IitOtdrWrapper
+    public partial class InterOpWrapper
     {
         // EXTERN_C __declspec(dllexport) int ServiceFunction(long cmd, long& prm1, void** prm2);
         [DllImport("iit_otdr.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "ServiceFunction")]

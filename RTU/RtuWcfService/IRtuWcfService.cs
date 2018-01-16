@@ -25,9 +25,11 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
         void BeginAssignBaseRef(AssignBaseRefsDto baseRefs);
 
 
-        // for Client
         [OperationContract]
-        bool ToggleToPort(OtauPortDto port);
+        void BeginClientMeasurement(DoClientMeasurementDto dto);
+
+        [OperationContract]
+        void BeginOutOfTurnPreciseMeasurement(DoOutOfTurnPreciseMeasurementDto dto);
 
 
         // for WatchDog

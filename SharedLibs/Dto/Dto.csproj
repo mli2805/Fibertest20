@@ -52,9 +52,11 @@
   <ItemGroup>
     <Compile Include="C2D2R\AssignBaseRefsDto.cs" />
     <Compile Include="C2D2R\AttachOtauDto.cs" />
+    <Compile Include="C2D2R\DoOutOfTurnPreciseMeasurementDto.cs" />
+    <Compile Include="R2D2C\ClientMeasurementDoneDto.cs" />
     <Compile Include="C2D2R\DetachOtauDto.cs" />
+    <Compile Include="C2D2R\DoClientMeasurementDto.cs" />
     <Compile Include="C2D2R\ReSendBaseRefsDto.cs" />
-    <Compile Include="C2D2R\SomePortionOfData.cs" />
     <Compile Include="C2D\CheckServerConnectionDto.cs" />
     <Compile Include="D2C\BopNetworkEventsList.cs" />
     <Compile Include="D2C\MeasurementUpdatedDto.cs" />
@@ -65,9 +67,13 @@
     <Compile Include="Enums\MonitoringStateExt.cs" />
     <Compile Include="Enums\RtuPartStateChanges.cs" />
     <Compile Include="Enums\WorseOrBetter.cs" />
+    <Compile Include="R2D2C\ClientMeasurementStartedDto.cs" />
     <Compile Include="R2D2C\OtauAttachedDto.cs" />
     <Compile Include="R2D2C\OtauDetachedDto.cs" />
-    <Compile Include="Underlying\SetOfAcceptableMeasParams.cs" />
+    <Compile Include="R2D2C\OutOfTurnMeasurementStartedDto.cs" />
+    <Compile Include="Underlying\MeasParamsTree\BranchOfAcceptableMeasParams.cs" />
+    <Compile Include="Underlying\MeasParamsTree\LeafOfAcceptableMeasParams.cs" />
+    <Compile Include="Underlying\MeasParamsTree\TreeOfAcceptableMeasParams.cs" />
     <Compile Include="Underlying\BaseRefForStats.cs" />
     <Compile Include="D2C\ClientRegisteredDto.cs" />
     <Compile Include="D2C\NetworkEventsList.cs" />
@@ -103,6 +109,7 @@
     <Compile Include="Underlying\DoubleAddress.cs" />
     <Compile Include="Enums\ReturnCode.cs" />
     <Compile Include="Underlying\GuidExt.cs" />
+    <Compile Include="Underlying\MeasParamsTree\UserInputedMeasParams.cs" />
     <Compile Include="Underlying\MoniLevel.cs" />
     <Compile Include="Underlying\MoniResult.cs" />
     <Compile Include="Underlying\MonitoringTimespansDto.cs" />

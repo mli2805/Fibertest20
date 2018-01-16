@@ -132,8 +132,17 @@ namespace Iit.Fibertest.RtuManagement
                 OtdrAddress = _mainCharon?.NetAddress,
                 Version = _version,
                 IsMonitoringOn = _rtuIni.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, 0) != 0,
-                AcceptableMeasParams = _otdrManager.IitOtdr.AcceptableMeasParams,
+                AcceptableMeasParams = _otdrManager.IitOtdr.GetTreeOfAcceptableMeasParams(),
             };
         }
+
+        public ReturnCode StartClientMeasurement(DoClientMeasurementDto dto)
+        {
+            return ReturnCode.Ok;
+        } 
+        public ReturnCode StartOutOfTurnMeasurement(DoOutOfTurnPreciseMeasurementDto dto)
+        {
+            return ReturnCode.Ok;
+        } 
     }
 }

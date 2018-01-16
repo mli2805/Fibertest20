@@ -108,12 +108,12 @@
     <Compile Include="Enums\ConnectionTypes.cs" />
     <Compile Include="Enums\ServiceFunctionCommand.cs" />
     <Compile Include="Enums\ServiceFunctionFirstParam.cs" />
-    <Compile Include="IitOtdrWrapper.DataExchange.cs" />
-    <Compile Include="IitOtdrWrapper.Initialization.cs" />
-    <Compile Include="IitOtdrWrapper.Measure.cs" />
+    <Compile Include="InterOpWrapper.DataExchange.cs" />
+    <Compile Include="InterOpWrapper.Initialization.cs" />
+    <Compile Include="InterOpWrapper.Measure.cs" />
     <Compile Include="Enums\MeasStepReturns.cs" />
-    <Compile Include="IitOtdrWrapper.MeasureParameters.cs" />
-    <Compile Include="IitOtdrWrapper.ServiceFunction.cs" />
+    <Compile Include="InterOpWrapper.MeasureParameters.cs" />
+    <Compile Include="InterOpWrapper.ServiceFunction.cs" />
     <Compile Include="Native.cs" />
     <Compile Include="OtdrManager.Compare.cs" />
     <Compile Include="OtdrManager.cs" />
@@ -137,6 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <Compile Include="InterOpWrapper.TreeOfMeasParams.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

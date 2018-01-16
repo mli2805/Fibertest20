@@ -11,7 +11,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
         private readonly IniFile _iniFile;
         private readonly IMyLog _rtuLogger;
 
-        public IitOtdrWrapper IitOtdr { get; set; }
+        public InterOpWrapper IitOtdr { get; set; }
         public bool IsLibraryInitialized;
         public bool IsOtdrConnected;
 
@@ -47,7 +47,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
         }
         public bool InitializeLibrary()
         {
-            IitOtdr = new IitOtdrWrapper(_rtuLogger);
+            IitOtdr = new InterOpWrapper(_rtuLogger);
             _rtuLogger.AppendLine("Initializing iit_otdr (log, ini, temp and other stuff) ...");
             if (!RestoreEtc())
             {

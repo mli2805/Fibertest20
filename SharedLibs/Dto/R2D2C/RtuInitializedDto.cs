@@ -43,6 +43,6 @@ namespace Iit.Fibertest.Dto
         public bool IsMonitoringOn { get; set; }
 
         [DataMember]
-        public SetOfAcceptableMeasParams AcceptableMeasParams { get; set; }
+        public TreeOfAcceptableMeasParams AcceptableMeasParams { get; set; }
     }
 }

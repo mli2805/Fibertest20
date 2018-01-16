@@ -1,24 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Runtime.InteropServices;
-using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.IitOtdrLibrary
 {
-    public partial class IitOtdrWrapper
+    public partial class InterOpWrapper
     {
-        public SetOfAcceptableMeasParams AcceptableMeasParams { get; set; }
-        private void InitializeAcceptableMeasParams()
-        {
-            AcceptableMeasParams = new SetOfAcceptableMeasParams
-            {
-                Units = GetLineOfVariantsForParam((int) ServiceFunctionFirstParam.Unit),
-                Distances = GetLineOfVariantsForParam((int) ServiceFunctionFirstParam.Lmax),
-                Resolutions = GetLineOfVariantsForParam((int) ServiceFunctionFirstParam.Res),
-                PulseDurations = GetLineOfVariantsForParam((int) ServiceFunctionFirstParam.Pulse)
-            };
-        }
-
         public string GetLineOfVariantsForParam(int param)
         {
             int cmd = (int)ServiceFunctionCommand.GetParam;

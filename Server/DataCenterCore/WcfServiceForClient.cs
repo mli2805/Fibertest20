@@ -230,5 +230,16 @@ namespace Iit.Fibertest.DataCenterCore
             return await _clientToRtuTransmitter.AssignBaseRefAsync(convertedDto);
         }
 
+        public async Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto)
+        {
+            _logFile.AppendLine($"Client {dto.ClientId.First6()} asked to do client's measurement on RTU {dto.RtuId.First6()}");
+            return await _clientToRtuTransmitter.DoClientMeasurementAsync(dto);
+        }
+
+        public async Task<OutOfTurnMeasurementStartedDto> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto)
+        {
+            _logFile.AppendLine($"Client {dto.ClientId.First6()} asked to do out of turn measurement on RTU {dto.RtuId.First6()}");
+            return await _clientToRtuTransmitter.DoOutOfTurnPreciseMeasurementAsync(dto);
+        }
     }
 }

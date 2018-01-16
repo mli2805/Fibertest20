@@ -227,9 +227,9 @@ namespace Iit.Fibertest.WpfCommonViews
         public bool IsMeasCountToAverageSelected { get; set; }
         #endregion
 
-        private readonly IitOtdrWrapper _otdrWrapper;
+        private readonly InterOpWrapper _otdrWrapper;
 
-        public OtdrParametersSetterViewModel(IitOtdrWrapper otdrWrapper)
+        public OtdrParametersSetterViewModel(InterOpWrapper otdrWrapper)
         {
             _otdrWrapper = otdrWrapper;
 

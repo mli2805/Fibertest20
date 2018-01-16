@@ -19,7 +19,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
     /// 
     /// </summary>
 
-    public partial class IitOtdrWrapper
+    public partial class InterOpWrapper
     {
         // EXTERN_C __declspec(dllexport) int MeasPrepare(int mMode);
         [DllImport("iit_otdr.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "MeasPrepare")]

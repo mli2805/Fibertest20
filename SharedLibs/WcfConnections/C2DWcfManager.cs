@@ -381,6 +381,25 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
+        public async Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
+        {
+            var wcfConnection = _wcfFactory.CreateC2DConnection();
+            if (wcfConnection == null)
+                return new MonitoringSettingsAppliedDto() {ReturnCode = ReturnCode.C2DWcfConnectionError};
+
+            try
+            {
+                _logFile.AppendLine($@"Sent monitoring settings to RTU {dto.RtuId.First6()}");
+                dto.ClientId = _clientId;
+                return await wcfConnection.ApplyMonitoringSettingsAsync(dto);
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+                return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.C2DWcfConnectionError, ExceptionMessage = e.Message};
+            }
+        }
+
         public async Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto dto)
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();
@@ -420,24 +439,42 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public async Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
+        public async Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto)
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();
             if (wcfConnection == null)
-                return new MonitoringSettingsAppliedDto() {ReturnCode = ReturnCode.C2DWcfConnectionError};
+                return new ClientMeasurementStartedDto() { ReturnCode = ReturnCode.C2DWcfConnectionError };
 
             try
             {
-                _logFile.AppendLine($@"Sent monitoring settings to RTU {dto.RtuId.First6()}");
+                _logFile.AppendLine($@"Send command to do client's measurement on RTU {dto.RtuId.First6()}");
                 dto.ClientId = _clientId;
-                return await wcfConnection.ApplyMonitoringSettingsAsync(dto);
+                return await wcfConnection.DoClientMeasurementAsync(dto);
             }
             catch (Exception e)
             {
-                _logFile.AppendLine(e.Message);
-                return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.C2DWcfConnectionError, ExceptionMessage = e.Message};
+                _logFile.AppendLine("DoClientMeasuremenTask:" + e.Message);
+                return new ClientMeasurementStartedDto() { ReturnCode = ReturnCode.C2DWcfConnectionError, ExceptionMessage = e.Message };
             }
         }
 
+        public async Task<OutOfTurnMeasurementStartedDto> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto)
+        {
+            var wcfConnection = _wcfFactory.CreateC2DConnection();
+            if (wcfConnection == null)
+                return new OutOfTurnMeasurementStartedDto() { ReturnCode = ReturnCode.C2DWcfConnectionError };
+
+            try
+            {
+                _logFile.AppendLine($@"Send command to do out of turn precise measurement on RTU {dto.RtuId.First6()}");
+                dto.ClientId = _clientId;
+                return await wcfConnection.DoOutOfTurnPreciseMeasurementAsync(dto);
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("DoOutOfTurnPreciseMeasurement:" + e.Message);
+                return new OutOfTurnMeasurementStartedDto() { ReturnCode = ReturnCode.C2DWcfConnectionError, ExceptionMessage = e.Message };
+            }
+        }
     }
 }

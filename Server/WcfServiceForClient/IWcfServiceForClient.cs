@@ -80,5 +80,11 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
 
         [OperationContract]
         Task<BaseRefAssignedDto> ReSendBaseRefAsync(ReSendBaseRefsDto baseRefs);
+
+        [OperationContract]
+        Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto);
+
+        [OperationContract]
+        Task<OutOfTurnMeasurementStartedDto> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto);
     }
 }

@@ -4,7 +4,7 @@ using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.IitOtdrLibrary
 {
-    public partial class IitOtdrWrapper
+    public partial class InterOpWrapper
     {
         private readonly IMyLog _rtuLogger;
         //EXTERN_C __declspec(dllexport) void DllInit(char* pathDLL, void* logFile, TLenUnit* lenUnit);
@@ -15,7 +15,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
         [DllImport("iit_otdr.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "InitOTDR")]
         public static extern int InitOTDR(int type, string ip, int port);
 
-        public IitOtdrWrapper(IMyLog rtuLogger)
+        public InterOpWrapper(IMyLog rtuLogger)
         {
             _rtuLogger = rtuLogger;
         }
@@ -39,12 +39,10 @@ namespace Iit.Fibertest.IitOtdrLibrary
 
         public bool InitOtdr(ConnectionTypes type, string ip, int port)
         {
-//                _rtuLogger.AppendLine($"Starting connection to {ip}:{port} type {(int)type}");
             int initOtdr;
             try
             {
                 initOtdr = InitOTDR((int) type, ip, port);
-                InitializeAcceptableMeasParams();
             }
             catch (ExternalException e)
             {

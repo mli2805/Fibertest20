@@ -149,5 +149,43 @@ namespace Iit.Fibertest.DataCenterCore
                 return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.DbError, ExceptionMessage = e.Message };
             }
         }
+
+        public async Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto)
+        {
+            try
+            {
+                var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
+                if (rtuAddresses != null)
+                    return await new D2RWcfManager(rtuAddresses, _iniFile, _logFile)
+                        .DoClientMeasurementAsync(dto);
+
+                _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
+                return new ClientMeasurementStartedDto() { ReturnCode = ReturnCode.DbError };
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("DoClientMeasurementAsync:" + e.Message);
+                return new ClientMeasurementStartedDto() { ReturnCode = ReturnCode.DbError, ExceptionMessage = e.Message };
+            }
+        }
+
+        public async Task<OutOfTurnMeasurementStartedDto> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto)
+        {
+            try
+            {
+                var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
+                if (rtuAddresses != null)
+                    return await new D2RWcfManager(rtuAddresses, _iniFile, _logFile)
+                        .DoOutOfTurnPreciseMeasurementAsync(dto);
+
+                _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
+                return new OutOfTurnMeasurementStartedDto() { ReturnCode = ReturnCode.DbError };
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("DoOutOfTurnPreciseMeasurementAsync:" + e.Message);
+                return new OutOfTurnMeasurementStartedDto() { ReturnCode = ReturnCode.DbError, ExceptionMessage = e.Message };
+            }
+        }
     }
 }

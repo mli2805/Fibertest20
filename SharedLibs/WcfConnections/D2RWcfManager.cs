@@ -79,5 +79,24 @@ namespace Iit.Fibertest.WcfConnections
             return await rtuDuplexConnection.ApplyMonitoringSettingsAsync(backward, dto);
         }
 
+        public async Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto)
+        {
+            var backward = new RtuWcfServiceBackward();
+            var rtuDuplexConnection = _wcfFactory.CreateDuplexRtuConnection(backward);
+            if (rtuDuplexConnection == null)
+                return new ClientMeasurementStartedDto() {ReturnCode = ReturnCode.D2RWcfConnectionError};
+
+            return await rtuDuplexConnection.StartClientMeasurementAsync(backward, dto);
+        }
+
+        public async Task<OutOfTurnMeasurementStartedDto> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto)
+        {
+            var backward = new RtuWcfServiceBackward();
+            var rtuDuplexConnection = _wcfFactory.CreateDuplexRtuConnection(backward);
+            if (rtuDuplexConnection == null)
+                return new OutOfTurnMeasurementStartedDto() {ReturnCode = ReturnCode.D2RWcfConnectionError};
+
+            return await rtuDuplexConnection.StartOutOfTurnMeasurementAsync(backward, dto);
+        }
     }
 }

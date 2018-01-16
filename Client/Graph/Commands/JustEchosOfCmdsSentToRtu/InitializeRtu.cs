@@ -20,6 +20,6 @@ namespace Iit.Fibertest.Graph
 
         public List<AttachOtau> Otaus { get; set; } = new List<AttachOtau>();
         public bool IsMonitoringOn { get; set; }
-        public SetOfAcceptableMeasParams AcceptableMeasParams { get; set; } = new SetOfAcceptableMeasParams();
+        public TreeOfAcceptableMeasParams AcceptableMeasParams { get; set; } = new TreeOfAcceptableMeasParams();
     }
 }
