@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Autofac;
 using FluentAssertions;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.StringResources;
@@ -14,6 +15,7 @@ namespace Graph.Tests
         private Guid _rtuNodeId;
         private Guid _lastNodeId;
         private TraceLeaf _traceLeaf;
+        private TraceInfoViewModel _traceInfoViewModel;
 
         private const string TraceTitle = "Some trace";
         private const string TraceComment = "Comment for trace";
@@ -30,6 +32,18 @@ namespace Graph.Tests
             _sut.FakeWindowManager.RegisterHandler(model => _sut.TraceContentChoiceHandler(model, Answer.Yes, 0));
 
             _traceCountCutOff = _sut.ReadModel.Traces.Count;
+        }
+
+        [When(@"Открылась форма сохранения трассы")]
+        public void WhenОткрыласьФормаСохраненияТрассы()
+        {
+            _traceInfoViewModel = _sut.ShellVm.GlobalScope.Resolve<TraceInfoViewModel>();
+        }
+
+        [Then(@"Кнопка Сохранить недоступна пока поле названия трассы пустое")]
+        public void ThenКнопкаСохранитьНедоступнаПокаПолеНазванияТрассыПустое()
+        {
+            _traceInfoViewModel.Model.IsButtonSaveEnabled.Should().BeFalse();
         }
 
         [When(@"Пользователь вводит название и коммент трассы и жмет Сохранить")]

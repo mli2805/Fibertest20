@@ -24,7 +24,7 @@ namespace Iit.Fibertest.Client
         private string _title;
         public string Title
         {
-            get { return _title; }
+            get => _title;
             set
             {
                 if (value == _title) return;
@@ -39,7 +39,7 @@ namespace Iit.Fibertest.Client
         private GpsInputModeComboItem _selectedGpsInputMode;
         public GpsInputModeComboItem SelectedGpsInputMode
         {
-            get { return _selectedGpsInputMode; }
+            get => _selectedGpsInputMode;
             set
             {
                 if (Equals(value, _selectedGpsInputMode)) return;
@@ -52,7 +52,7 @@ namespace Iit.Fibertest.Client
         private string _coors;
         public string Coors
         {
-            get { return _coors; }
+            get => _coors;
             set
             {
                 if (value == _coors) return;
@@ -64,7 +64,7 @@ namespace Iit.Fibertest.Client
         private string _comment;
         public string Comment
         {
-            get { return _comment; }
+            get => _comment;
             set
             {
                 if (value == _comment) return;
@@ -76,7 +76,7 @@ namespace Iit.Fibertest.Client
         private ObservableCollection<ItemOfEquipmentTableModel> _equipmentsInNode;
         public ObservableCollection<ItemOfEquipmentTableModel> EquipmentsInNode
         {
-            get { return _equipmentsInNode; }
+            get => _equipmentsInNode;
             set
             {
                 if (Equals(value, _equipmentsInNode)) return;
@@ -96,7 +96,7 @@ namespace Iit.Fibertest.Client
         private bool _isButtonSaveEnabled;
         public bool IsButtonSaveEnabled
         {
-            get { return _isButtonSaveEnabled; }
+            get => _isButtonSaveEnabled;
             set
             {
                 if (value == _isButtonSaveEnabled) return;

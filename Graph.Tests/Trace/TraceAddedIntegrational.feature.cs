@@ -90,14 +90,18 @@ this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
 #line 7
- testRunner.When("Пользователь вводит название и коммент трассы и жмет Сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("Открылась форма сохранения трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 8
- testRunner.Then("Трасса сохраняется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("Кнопка Сохранить недоступна пока поле названия трассы пустое", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 9
- testRunner.Then("Имя в дереве совпадает с именем трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("Пользователь вводит название и коммент трассы и жмет Сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 10
- testRunner.Then("У неприсоединенной трассы есть пункты Очистить и Удалить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("Трасса сохраняется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 11
+ testRunner.Then("Имя в дереве совпадает с именем трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 12
+ testRunner.Then("У неприсоединенной трассы есть пункты Очистить и Удалить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 13
  testRunner.Then("Нет пункта Отсоединить и трех пунктов Измерения", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -109,13 +113,13 @@ this.FeatureBackground();
         public virtual void ОтказОтСозданияТрассы()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Отказ от создания трассы", ((string[])(null)));
-#line 13
+#line 15
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 14
+#line 16
  testRunner.When("Пользователь что-то вводит но жмет Отмена", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 15
+#line 17
  testRunner.Then("Трасса не сохраняется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

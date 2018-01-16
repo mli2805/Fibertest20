@@ -19,7 +19,7 @@ namespace Iit.Fibertest.Client
         private readonly TraceInfoCalculator _traceInfoCalculator;
 
         public TraceInfoModel Model { get; set; } = new TraceInfoModel();
-
+        
         public TraceInfoViewModel(ReadModel readModel, IWcfServiceForClient c2DWcfManager,
             IWindowManager windowManager, TraceInfoCalculator traceInfoCalculator)
         {
@@ -124,7 +124,7 @@ namespace Iit.Fibertest.Client
                 String errorMessage = String.Empty;
                 switch (columnName)
                 {
-                    case "Title": if (String.IsNullOrEmpty(Model.Title))
+                    case "Model.Title": if (string.IsNullOrEmpty(Model.Title))
                                         errorMessage = Resources.SID_Title_is_required;
                                     break;
                 }

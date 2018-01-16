@@ -63,7 +63,7 @@ namespace Iit.Fibertest.Client
         private string _comment;
         public string Comment
         {
-            get { return _comment; }
+            get => _comment;
             set
             {
                 if (value == _comment) return;

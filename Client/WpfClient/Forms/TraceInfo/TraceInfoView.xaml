@@ -66,7 +66,7 @@
         </GroupBox>
         <StackPanel Orientation="Horizontal" Margin="15,15">
             <Button Name="Save" Height="25" Width="100" Margin="5" Content="{x:Static stringResources:Resources.SID_Save}" 
-                    IsEnabled="{Binding IsButtonSaveEnabled}"/>
+                    IsEnabled="{Binding Model.IsButtonSaveEnabled}"/>
             <Button Name="Cancel" Height="25" Width="100" Content="{x:Static stringResources:Resources.SID_Cancel}"/>
         </StackPanel>
 
