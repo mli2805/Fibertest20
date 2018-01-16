@@ -14,6 +14,7 @@ namespace Graph.Tests
         private readonly SystemUnderTest _sut = new SystemUnderTest();
         private Guid _leftNodeId;
         private Guid _rightNodeId;
+        private int _equipmentCountCutOff;
         private int _nodesCountCutOff;
         private int _fibersCountCutOff;
         private int _sleeveCountcutOff;
@@ -29,6 +30,7 @@ namespace Graph.Tests
             _sut.Poller.EventSourcingTick().Wait();
             _rightNodeId = _sut.ShellVm.ReadModel.Nodes.Last().Id;
             _nodesCountCutOff = _sut.ShellVm.ReadModel.Nodes.Count;
+            _equipmentCountCutOff = _sut.ShellVm.ReadModel.Equipments.Count;
             _fibersCountCutOff = _sut.ShellVm.ReadModel.Fibers.Count;
             _sleeveCountcutOff = _sut.ShellVm.ReadModel.Equipments.Count(e => e.Type == EquipmentType.Closure);
         }
@@ -54,6 +56,14 @@ namespace Graph.Tests
             var bluh = EquipmentType.Cross;
             _sut.FakeWindowManager.RegisterHandler(model => _sut.FiberWithNodesAdditionHandler(model, 0, bluh, Answer.Yes));
             _sut.ShellVm.ComplyWithRequest(new RequestAddFiberWithNodes() {Node1 = _leftNodeId, Node2 = _rightNodeId}).Wait();
+            _sut.Poller.EventSourcingTick().Wait();
+        }
+
+        [When(@"Пользователь кликает добавить отрезок с (.*) точками привязки")]
+        public void WhenПользовательКликаетДобавитьОтрезокСТочкамиПривязки(int p0)
+        {
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.FiberWithNodesAdditionHandler(model, p0, EquipmentType.AdjustmentPoint, Answer.Yes));
+            _sut.ShellVm.ComplyWithRequest(new RequestAddFiberWithNodes() { Node1 = _leftNodeId, Node2 = _rightNodeId }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 
@@ -101,6 +111,8 @@ namespace Graph.Tests
         public void ThenСоздаетсяУзлаИОтрезка(int p0, int p1)
         {
             _sut.ShellVm.ReadModel.Nodes.Count.Should().Be(_nodesCountCutOff + p0);
+            _sut.ShellVm.ReadModel.Equipments.Count.Should().Be(_equipmentCountCutOff + p0);
+            _sut.ShellVm.ReadModel.Equipments.FirstOrDefault(e => e.Id == Guid.Empty).Should().BeNull();
             _sut.ShellVm.ReadModel.Fibers.Count.Should().Be(_fibersCountCutOff + p1);
         }
 

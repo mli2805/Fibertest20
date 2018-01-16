@@ -14,6 +14,7 @@ namespace Graph.Tests
         private Guid _a1Id;
         private Guid _b1Id;
         private Guid _nodeId;
+        private Guid _equipmentId;
         private Iit.Fibertest.Graph.Fiber _fiber;
         private Iit.Fibertest.Graph.Trace _trace;
 
@@ -42,6 +43,7 @@ namespace Graph.Tests
             _sut.ShellVm.ComplyWithRequest(new RequestAddNodeIntoFiber() {FiberId = _fiber.Id}).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             _nodeId = _sut.ReadModel.Nodes.Last().Id;
+            _equipmentId = _sut.ReadModel.Equipments.Last().Id;
         }
 
         [Then(@"Старый отрезок удаляется и добавляются два новых и новый узел связывает их")]
@@ -57,6 +59,8 @@ namespace Graph.Tests
         {
             _trace.Nodes.Should().Contain(_nodeId);
             _trace.Nodes.Count.ShouldBeEquivalentTo(_trace.Equipments.Count);
+            _trace.Equipments.Contains(Guid.Empty).Should().BeFalse();
+            _trace.Equipments.Contains(_equipmentId).Should().BeTrue();
         }
 
         [Then(@"Cообщением об невозможности")]

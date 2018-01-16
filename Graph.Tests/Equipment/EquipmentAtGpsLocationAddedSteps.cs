@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Graph;
@@ -22,6 +23,7 @@ namespace Graph.Tests
         public void ThenНовыйУзелСОборудованиемСохраняется()
         {
             _sut.ReadModel.Equipments.Last().NodeId.Should().Be(_sut.ReadModel.Nodes.Last().Id);
+            _sut.ReadModel.Equipments.FirstOrDefault(e => e.Id == Guid.Empty).Should().BeNull();
         }
     }
 }

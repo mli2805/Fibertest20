@@ -59,6 +59,7 @@ namespace Graph.Tests
             equipment.CableReserveLeft.Should().Be(SutForEquipment.NewLeftCableReserve);
             equipment.CableReserveRight.Should().Be(SutForEquipment.NewRightCableReserve);
             equipment.Comment.Should().Be(SutForEquipment.NewCommentForTest);
+            _sut.ReadModel.Equipments.FirstOrDefault(e => e.Id == Guid.Empty).Should().BeNull();
 
         }
         [Then(@"Оборудование в узле не создается")]
@@ -78,6 +79,7 @@ namespace Graph.Tests
             equipment.CableReserveLeft.Should().Be(SutForEquipment.NewLeftCableReserve);
             equipment.CableReserveRight.Should().Be(SutForEquipment.NewRightCableReserve);
             equipment.Comment.Should().Be(SutForEquipment.NewCommentForTest);
+            _sut.ReadModel.Equipments.FirstOrDefault(e => e.Id == Guid.Empty).Should().BeNull();
         }
 
     }

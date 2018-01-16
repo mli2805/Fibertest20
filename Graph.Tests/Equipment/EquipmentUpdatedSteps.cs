@@ -93,6 +93,7 @@ namespace Graph.Tests
             _equipment.CableReserveLeft.Should().Be(SutForEquipment.NewLeftCableReserve);
             _equipment.CableReserveRight.Should().Be(SutForEquipment.NewRightCableReserve);
             _equipment.Comment.Should().Be(SutForEquipment.NewCommentForTest);
+            _sut.ReadModel.Equipments.FirstOrDefault(e => e.Id == Guid.Empty).Should().BeNull();
         }
 
         [Then(@"Комманда не подается")]

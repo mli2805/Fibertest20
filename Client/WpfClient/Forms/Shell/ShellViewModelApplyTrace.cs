@@ -80,40 +80,17 @@ namespace Iit.Fibertest.Client
                     equipments.Add(allEquipmentInNode[0].Id);
                     continue;
                 }
+                var node = ReadModel.Nodes.First(n => n.Id == nodeId);
 
-             //   var equipmentForUsersChoice = allEquipmentInNode.Where(e => e.Type >= EquipmentType.EmptyNode).ToList();
-       //         var emptyEquipment = allEquipmentInNode.FirstOrDefault(e => e.Type == EquipmentType.EmptyNode);
-//                if (emptyEquipment == null)
-//                {
- //                   _logFile.AppendLine($@"There is no empty node equipment in node {nodeId.First6()}");
-   //                 return null;
-     //           }
+                _traceContentChoiceViewModel.Initialize(allEquipmentInNode, node, nodeId == nodes.Last());
+                _windowManager.ShowDialogWithAssignedOwner(_traceContentChoiceViewModel);
 
-//                if (equipmentForUsersChoice.Count == 0)
- //               {
-  //                      equipments.Add(emptyEquipment.Id);
-   //             }
-    //            else
-//                {
-                    var node = ReadModel.Nodes.First(n => n.Id == nodeId);
-    //                var equipmentChoiceViewModel =
-      //                  new EquipmentChoiceViewModel(_windowManager, C2DWcfManager, equipmentForUsersChoice, nodeTitle, nodeId == nodes.Last());
-        //            _windowManager.ShowDialogWithAssignedOwner(equipmentChoiceViewModel);
+                // пользователь прервал процесс, отказавшись выбирать оборудование
+                if (!_traceContentChoiceViewModel.ShouldWeContinue)
+                    return null;
 
-                    _traceContentChoiceViewModel.Initialize(allEquipmentInNode, node, nodeId == nodes.Last());
-                    _windowManager.ShowDialogWithAssignedOwner(_traceContentChoiceViewModel);
-
-                    // пользователь прервал процесс, отказавшись выбирать оборудование
-//                    if (!equipmentChoiceViewModel.ShouldWeContinue)
-  //                      return null;
-                    if (!_traceContentChoiceViewModel.ShouldWeContinue)
-                        return null;
-
-                    var selectedEquipmentGuid = _traceContentChoiceViewModel.GetSelectedEquipmentGuid();
-//                    if (selectedEquipmentGuid == Guid.Empty)
- //                       selectedEquipmentGuid = emptyEquipment.Id;
-                    equipments.Add(selectedEquipmentGuid);
-  //              }
+                var selectedEquipmentGuid = _traceContentChoiceViewModel.GetSelectedEquipmentGuid();
+                equipments.Add(selectedEquipmentGuid);
             }
             return equipments;
         }

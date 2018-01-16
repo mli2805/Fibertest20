@@ -137,19 +137,37 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
+        [Xunit.FactAttribute(DisplayName="Добавление отрезка с N точек привязки")]
+        [Xunit.TraitAttribute("FeatureTitle", "FiberWithNodesAdded")]
+        [Xunit.TraitAttribute("Description", "Добавление отрезка с N точек привязки")]
+        public virtual void ДобавлениеОтрезкаСNТочекПривязки()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление отрезка с N точек привязки", ((string[])(null)));
+#line 20
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 21
+ testRunner.When("Пользователь кликает добавить отрезок с 3 точками привязки", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 22
+ testRunner.Then("Создается 3 узла и 4 отрезка", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
         [Xunit.FactAttribute(DisplayName="Добавление отрезка с N узлов c оборудованием")]
         [Xunit.TraitAttribute("FeatureTitle", "FiberWithNodesAdded")]
         [Xunit.TraitAttribute("Description", "Добавление отрезка с N узлов c оборудованием")]
         public virtual void ДобавлениеОтрезкаСNУзловCОборудованием()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление отрезка с N узлов c оборудованием", ((string[])(null)));
-#line 20
+#line 24
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 21
+#line 25
  testRunner.When("Пользователь кликает добавить отрезок с 3 узлами с муфтами", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 22
+#line 26
  testRunner.Then("Создается 3 узла столько же оборудования и 4 отрезка", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

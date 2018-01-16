@@ -48,6 +48,7 @@ namespace Graph.Tests
             trace.Title.Should().Be(TraceTitle);
             trace.Comment.Should().Be(TraceComment);
             _traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuModel.Tree.GetById(trace.Id);
+            trace.Equipments.Contains(Guid.Empty).Should().BeFalse();
         }
 
         [Then(@"Имя в дереве совпадает с именем трассы")]

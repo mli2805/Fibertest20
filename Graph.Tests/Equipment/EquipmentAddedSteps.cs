@@ -112,6 +112,7 @@ namespace Graph.Tests
             equipment.CableReserveLeft.Should().Be(SutForEquipment.NewLeftCableReserve);
             equipment.CableReserveRight.Should().Be(SutForEquipment.NewRightCableReserve);
             equipment.Comment.Should().Be(SutForEquipment.NewCommentForTest);
+            _sut.ReadModel.Equipments.FirstOrDefault(e => e.Id == Guid.Empty).Should().BeNull();
 
             _equipmentId = equipment.Id;
         }
@@ -138,6 +139,7 @@ namespace Graph.Tests
             traceWithoutEqId.Equipments.Count.ShouldBeEquivalentTo(traceWithoutEqId.Nodes.Count);
 
             _sut.ReadModel.Traces.Any(t => t.Equipments.Contains(_sut.OldEquipmentId)).Should().BeFalse();
+            _sut.ReadModel.Equipments.FirstOrDefault(e => e.Id == Guid.Empty).Should().BeNull();
         }
 
         [Then(@"В узле НЕ создается новое оборудование")]

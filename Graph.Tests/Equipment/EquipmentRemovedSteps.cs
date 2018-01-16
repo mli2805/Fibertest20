@@ -77,6 +77,7 @@ namespace Graph.Tests
             _sut.ReadModel.Equipments.Count(e => e.NodeId == _nodeAId).ShouldBeEquivalentTo(1);
             _trace.Equipments.Count.ShouldBeEquivalentTo(_trace.Nodes.Count);
             _sut.ReadModel.Equipments.First(e => e.NodeId == _nodeAId).Id.ShouldBeEquivalentTo(_trace.Equipments[1]);
+            _trace.Equipments.Contains(Guid.Empty).Should().BeFalse();
         }
 
         [Then(@"Оборудование удаляется")]

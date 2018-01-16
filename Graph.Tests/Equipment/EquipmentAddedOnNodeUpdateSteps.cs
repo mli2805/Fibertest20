@@ -67,6 +67,8 @@ namespace Graph.Tests
             item.Type.Should().Be(SutForEquipment.NewTypeForTest.ToLocalizedString());
             item.Comment.Should().Be(SutForEquipment.NewCommentForTest);
             item.Traces.Should().Be(_sut.ReadModel.Traces.First(t => t.Id == _sut.TraceWithoutEqId).Title+@" ;  ");
+
+            _sut.ReadModel.Equipments.FirstOrDefault(e => e.Id == Guid.Empty).Should().BeNull();
         }
 
         [Then(@"Новое оборудование НЕ сохраняется и НЕ появляется на форме редактирования узла")]

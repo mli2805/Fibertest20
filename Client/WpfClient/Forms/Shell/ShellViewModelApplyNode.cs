@@ -62,6 +62,7 @@ namespace Iit.Fibertest.Client
             return new AddNodeIntoFiber()
             {
                 Id = Guid.NewGuid(),
+                EquipmentId = Guid.NewGuid(),
                 Position = GetFiberCenter(request.FiberId),
                 IsAdjustmentPoint = request.IsAdjustmentPoint,
                 FiberId = request.FiberId,

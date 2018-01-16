@@ -54,7 +54,7 @@ namespace Iit.Fibertest.Client
                 while ((idx = Topo.GetFiberIndexInTrace(trace, Fibers.First(f => f.Id == e.FiberId))) != -1)
                 {
                     trace.Nodes.Insert(idx + 1, e.Id); // GPS location добавляется во все трассы
-                    trace.Equipments.Insert(idx + 1, Guid.Empty); 
+                    trace.Equipments.Insert(idx + 1, e.EquipmentId); 
                 }
             }
         }
