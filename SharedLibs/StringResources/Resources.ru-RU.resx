@@ -195,11 +195,8 @@
 	<data name="SID_noname_RTU" xml:space="preserve">
     <value>RTU без имени</value>
   </data>
-	<data name="SID_Select_equipment_for_trace" xml:space="preserve">
-    <value>Выберите оборудование для трассы</value>
-  </data>
 	<data name="SID_Do_not_use" xml:space="preserve">
-    <value>Не использовать</value>
+    <value>Не использовать оборудование</value>
   </data>
 	<data name="SID_Select_equipment" xml:space="preserve">
     <value>Выбор оборудования</value>
@@ -529,9 +526,6 @@
   </data>
 	<data name="SID_Tree_statistics" xml:space="preserve">
     <value>RTU {0} ;  Переключатели {1} ;  Порты {2} ;  Трассы {3} ;  Использование {4:F}%</value>
-  </data>
-	<data name="SID_in_node" xml:space="preserve">
-    <value>в узле</value>
   </data>
 	<data name="SID_Trace_information" xml:space="preserve">
     <value>Информация о трассе</value>
@@ -1580,7 +1574,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Next" xml:space="preserve">
 		<value>Далее</value>
 	</data>
-	<data name="SID_Equipment_title" xml:space="preserve">
-		<value>Название оборудования</value>
+	<data name="SID_Trace_equipment_selection" xml:space="preserve">
+		<value>Выбор оборудования трассы</value>
 	</data>
 </root>

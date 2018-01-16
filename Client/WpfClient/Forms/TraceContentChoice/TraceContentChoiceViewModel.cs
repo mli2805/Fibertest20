@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
@@ -67,7 +68,7 @@ namespace Iit.Fibertest.Client
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = "";
+            DisplayName = Resources.SID_Trace_equipment_selection;
         }
 
         public async void NextButton()

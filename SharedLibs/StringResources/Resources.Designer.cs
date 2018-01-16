@@ -1431,15 +1431,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Equipment title.
-        /// </summary>
-        public static string SID_Equipment_title {
-            get {
-                return ResourceManager.GetString("SID_Equipment_title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Equipment type.
         /// </summary>
         public static string SID_Equipment_type {
@@ -1868,15 +1859,6 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_In_degrees_minutes_and_seconds {
             get {
                 return ResourceManager.GetString("SID_In_degrees_minutes_and_seconds", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to in node.
-        /// </summary>
-        public static string SID_in_node {
-            get {
-                return ResourceManager.GetString("SID_in_node", resourceCulture);
             }
         }
         
@@ -3601,15 +3583,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select equipment for trace.
-        /// </summary>
-        public static string SID_Select_equipment_for_trace {
-            get {
-                return ResourceManager.GetString("SID_Select_equipment_for_trace", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Select RTU.
         /// </summary>
         public static string SID_Select_RTU {
@@ -4102,6 +4075,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Trace_definition {
             get {
                 return ResourceManager.GetString("SID_Trace_definition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trace equipment selection.
+        /// </summary>
+        public static string SID_Trace_equipment_selection {
+            get {
+                return ResourceManager.GetString("SID_Trace_equipment_selection", resourceCulture);
             }
         }
         
