@@ -1577,4 +1577,10 @@ RTU is initializing right now!</value>
 	<data name="SID_Trace_equipment_selection" xml:space="preserve">
     <value>Trace equipment selection</value>
   </data>
+	<data name="SID_Measurement_time_" xml:space="preserve">
+    <value>Measurement time:</value>
+  </data>
+	<data name="SID_Measure" xml:space="preserve">
+    <value>Measure</value>
+  </data>
 </root>

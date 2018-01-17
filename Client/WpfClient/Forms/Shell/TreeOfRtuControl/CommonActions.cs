@@ -1,12 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.IitOtdrLibrary;
-using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WpfCommonViews;
+using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
 {
@@ -17,14 +13,16 @@ namespace Iit.Fibertest.Client
         private readonly IMyLog _logFile;
         private readonly CurrentUser _currentUser;
         private readonly IWindowManager _windowManager;
+        private readonly IWcfServiceForClient _c2DWcfManager;
 
         public CommonActions(IniFile iniFile35, IMyLog logFile, CurrentUser currentUser,
-            IWindowManager windowManager)
+            IWindowManager windowManager, IWcfServiceForClient c2DWcfManager)
         {
             _iniFile35 = iniFile35;
             _logFile = logFile;
             _currentUser = currentUser;
             _windowManager = windowManager;
+            _c2DWcfManager = c2DWcfManager;
         }
 
         public void MeasurementClientAction(object param)
@@ -36,34 +34,31 @@ namespace Iit.Fibertest.Client
 
         private async void DoMeasurementClient(Leaf parent, int portNumber)
         {
+            RtuLeaf rtuLeaf = parent is RtuLeaf leaf ? leaf : (RtuLeaf)parent.Parent;
+            var otau = (IPortOwner) parent;
+            var address = otau.OtauNetAddress;
+
+            var vm = new OtdrParametersThroughServerSetterViewModel(rtuLeaf.TreeOfAcceptableMeasParams);
+            IWindowManager windowManager = new WindowManager();
+            windowManager.ShowDialog(vm);
+            if (!vm.IsAnswerPositive)
+                return;
+
             using (new WaitCursor())
             {
-                if (!ToggleToPort(parent, portNumber)) return;
-                RtuLeaf rtuLeaf = parent is RtuLeaf leaf ? leaf : (RtuLeaf)parent.Parent;
-                var mainCharonAddress = rtuLeaf.OtauNetAddress;
-
-                // TODO ask user measurement parameters, start measurement
-                var otdrManager = new OtdrManager(@"..\OtdrMeasEngine\", _iniFile35, _logFile);
-                var initializationResult = otdrManager.LoadDll();
-                if (initializationResult != "")
+                var dto = new DoClientMeasurementDto()
                 {
-                    var message = new List<string> { Resources.SID_OTDR_initialization_error_, "", initializationResult };
-                    var errorVm = new MyMessageBoxViewModel(MessageType.Error, message, 2);
-                    _windowManager.ShowDialog(errorVm);
-                    return;
-                }
-
-                if (!otdrManager.InitializeLibrary())
-                    return;
-
-                await Task.Run(() => otdrManager.ConnectOtdr(mainCharonAddress.Ip4Address));
-                if (!otdrManager.IsOtdrConnected)
-                    return;
-                var vm = new OtdrParametersThroughServerSetterViewModel(otdrManager.IitOtdr);
-                IWindowManager windowManager = new WindowManager();
-                windowManager.ShowDialog(vm);
-
-
+                    RtuId = rtuLeaf.Id,
+                    OtauPortDto = new OtauPortDto()
+                    {
+                        OtauIp = address.Ip4Address,
+                        OtauTcpPort = address.Port,
+                        IsPortOnMainCharon = rtuLeaf.OtauNetAddress.Equals(address),
+                        OpticalPort = portNumber
+                    },
+                    SelectedMeasParams = vm.GetSelectedParameters(),
+                };
+                await _c2DWcfManager.DoClientMeasurementAsync(dto);
             }
         }
 

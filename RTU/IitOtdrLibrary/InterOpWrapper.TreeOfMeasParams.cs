@@ -1,4 +1,5 @@
-﻿using Iit.Fibertest.Dto;
+﻿using System.Globalization;
+using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.IitOtdrLibrary
 {
@@ -19,6 +20,10 @@ namespace Iit.Fibertest.IitOtdrLibrary
         private BranchOfAcceptableMeasParams GetBranchOfAcceptableMeasParams()
         {
             var result = new BranchOfAcceptableMeasParams();
+
+            result.BackscatteredCoefficient = double.Parse(ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Bc)[0], new CultureInfo("en-US"));
+            result.RefractiveIndex = double.Parse(ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Ri)[0], new CultureInfo("en-US"));
+
             var distances = ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Lmax);
             for (int i = 0; i < distances.Length; i++)
             {
@@ -42,7 +47,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
             return result;
         }
 
-        public void SetMeasurementParametersFromUserInput(UserInputedMeasParams list)
+        public void SetMeasurementParametersFromUserInput(SelectedMeasParams list)
         {
             foreach (var measParam in list.MeasParams)
             {

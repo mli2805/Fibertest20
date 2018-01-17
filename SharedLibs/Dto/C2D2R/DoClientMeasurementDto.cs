@@ -13,7 +13,7 @@ namespace Iit.Fibertest.Dto
         public Guid RtuId { get; set; }
 
         [DataMember]
-        public UserInputedMeasParams UserInputedMeasParams { get; set; }
+        public SelectedMeasParams SelectedMeasParams { get; set; }
 
         [DataMember]
         public OtauPortDto OtauPortDto { get; set; }

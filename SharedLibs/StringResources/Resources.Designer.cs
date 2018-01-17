@@ -1350,7 +1350,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Do not use.
+        ///   Looks up a localized string similar to Do not use equipment.
         /// </summary>
         public static string SID_Do_not_use {
             get {
@@ -2187,6 +2187,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Measure.
+        /// </summary>
+        public static string SID_Measure {
+            get {
+                return ResourceManager.GetString("SID_Measure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Measurement (Client).
         /// </summary>
         public static string SID_Measurement__Client_ {
@@ -2282,6 +2291,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Measurement_termination_timestamp {
             get {
                 return ResourceManager.GetString("SID_Measurement_termination_timestamp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Measurement time:.
+        /// </summary>
+        public static string SID_Measurement_time_ {
+            get {
+                return ResourceManager.GetString("SID_Measurement_time_", resourceCulture);
             }
         }
         

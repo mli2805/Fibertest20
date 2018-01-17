@@ -79,6 +79,7 @@ namespace Iit.Fibertest.Client
         public string Serial { get; set; }
         public NetAddress OtauNetAddress { get; set; }
         public override string Name => Title;
+        public TreeOfAcceptableMeasParams TreeOfAcceptableMeasParams { get; set; }
 
         public ChildrenImpresario ChildrenImpresario { get; }
         public bool HasAttachedTraces =>  ChildrenImpresario.Children.Any(l => l is TraceLeaf && ((TraceLeaf) l).PortNumber > 0) 

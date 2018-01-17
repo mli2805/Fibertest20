@@ -283,6 +283,8 @@ namespace Iit.Fibertest.Client
             if (e.Otaus != null)
                 foreach (var otauAttached in e.Otaus)
                     Apply(otauAttached);
+
+            rtuLeaf.TreeOfAcceptableMeasParams = e.AcceptableMeasParams;
         }
 
 

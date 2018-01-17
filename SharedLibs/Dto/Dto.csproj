@@ -109,7 +109,7 @@
     <Compile Include="Underlying\DoubleAddress.cs" />
     <Compile Include="Enums\ReturnCode.cs" />
     <Compile Include="Underlying\GuidExt.cs" />
-    <Compile Include="Underlying\MeasParamsTree\UserInputedMeasParams.cs" />
+    <Compile Include="Underlying\MeasParamsTree\SelectedMeasParams.cs" />
     <Compile Include="Underlying\MoniLevel.cs" />
     <Compile Include="Underlying\MoniResult.cs" />
     <Compile Include="Underlying\MonitoringTimespansDto.cs" />

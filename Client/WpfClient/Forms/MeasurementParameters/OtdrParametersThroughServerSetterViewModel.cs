@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Caliburn.Micro;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.StringResources;
 
@@ -9,327 +10,82 @@ namespace Iit.Fibertest.Client
 {
     public class OtdrParametersThroughServerSetterViewModel : Screen
     {
-        #region Combo-boxes
-        private string _selectedUnit;
-        private double _backscatteredCoefficient;
-        private double _refractiveIndex;
-        private List<string> _distances;
-        private string _selectedDistance;
-        private List<string> _resolutions;
-        private string _selectedResolution;
-        private List<string> _pulseDurations;
-        private string _selectedPulseDuration;
-        private List<string> _measCountsToAverage;
-        private string _selectedMeasCountToAverage;
-        private List<string> _periodsToAverage;
-        private string _selectedPeriodToAverage;
-        private bool _isTimeToAverageSelected;
+        private readonly TreeOfAcceptableMeasParams _treeOfAcceptableMeasParams;
+        public OtdrParametersModel Model { get; set; }
+        public bool IsAnswerPositive { get; set; }
 
-        public List<string> Units { get; set; }
-
-        public string SelectedUnit
+        public OtdrParametersThroughServerSetterViewModel(TreeOfAcceptableMeasParams treeOfAcceptableMeasParams)
         {
-            get => _selectedUnit;
-            set
-            {
-                if (value == _selectedUnit) return;
-                _selectedUnit = value;
-                NotifyOfPropertyChange();
+            _treeOfAcceptableMeasParams = treeOfAcceptableMeasParams;
 
-                _interOpWrapper.SetParam((int)ServiceFunctionFirstParam.Unit, Units.IndexOf(SelectedUnit));
-                InitializeForSelectedUnit();
-            }
-        }
-
-        public double BackscatteredCoefficient
-        {
-            get => _backscatteredCoefficient;
-            set
-            {
-                if (value.Equals(_backscatteredCoefficient)) return;
-                _backscatteredCoefficient = value;
-                NotifyOfPropertyChange();
-
-                _interOpWrapper.SetParam((int)ServiceFunctionFirstParam.Bc, (int)(BackscatteredCoefficient*100));
-                InitializeFromSelectedDistance();
-            }
-        }
-
-        public double RefractiveIndex
-        {
-            get => _refractiveIndex;
-            set
-            {
-                if (value.Equals(_refractiveIndex)) return;
-                _refractiveIndex = value;
-                NotifyOfPropertyChange();
-
-                _interOpWrapper.SetParam((int)ServiceFunctionFirstParam.Ri, (int)(RefractiveIndex*100000));
-                InitializeFromSelectedDistance();
-            }
-        }
-
-        public List<string> Distances
-        {
-            get => _distances;
-            set
-            {
-                if (Equals(value, _distances)) return;
-                _distances = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
-        public string SelectedDistance
-        {
-            get => _selectedDistance;
-            set
-            {
-                if (value == _selectedDistance) return;
-                _selectedDistance = value;
-                NotifyOfPropertyChange();
-
-                _interOpWrapper.SetParam((int)ServiceFunctionFirstParam.Lmax, Distances.IndexOf(SelectedDistance));
-                InitializeFromSelectedDistance();
-            }
-        }
-
-        public List<string> Resolutions
-        {
-            get => _resolutions;
-            set
-            {
-                if (Equals(value, _resolutions)) return;
-                _resolutions = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
-        public string SelectedResolution
-        {
-            get => _selectedResolution;
-            set
-            {
-                if (value == _selectedResolution) return;
-                _selectedResolution = value;
-                NotifyOfPropertyChange();
-
-                var indexInLine = Resolutions.IndexOf(SelectedResolution) + 1; // AUTO was excluded
-                _interOpWrapper.SetParam((int)ServiceFunctionFirstParam.Res, indexInLine);
-                InitializeFromSelectedResolution();
-            }
-        }
-
-        public List<string> PulseDurations
-        {
-            get => _pulseDurations;
-            set
-            {
-                if (Equals(value, _pulseDurations)) return;
-                _pulseDurations = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
-        public string SelectedPulseDuration
-        {
-            get => _selectedPulseDuration;
-            set
-            {
-                if (value == _selectedPulseDuration) return;
-                _selectedPulseDuration = value;
-                NotifyOfPropertyChange();
-                _interOpWrapper.SetParam((int)ServiceFunctionFirstParam.Pulse, PulseDurations.IndexOf(SelectedPulseDuration));
-            }
-        }
-
-        public List<string> MeasCountsToAverage
-        {
-            get => _measCountsToAverage;
-            set
-            {
-                if (Equals(value, _measCountsToAverage)) return;
-                _measCountsToAverage = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
-        public string SelectedMeasCountToAverage
-        {
-            get => _selectedMeasCountToAverage;
-            set
-            {
-                if (value == _selectedMeasCountToAverage) return;
-                _selectedMeasCountToAverage = value;
-                NotifyOfPropertyChange();
-
-                if (!IsTimeToAverageSelected)
-                {
-                    _interOpWrapper.SetParam((int) ServiceFunctionFirstParam.Navr,
-                        MeasCountsToAverage.IndexOf(SelectedMeasCountToAverage));
-                    PeriodsToAverage = _interOpWrapper.ParseLineOfVariantsForParam((int) ServiceFunctionFirstParam.Time).ToList();
-                    SelectedPeriodToAverage = PeriodsToAverage.First();
-                }
-            }
-        }
-
-        public List<string> PeriodsToAverage
-        {
-            get => _periodsToAverage;
-            set
-            {
-                if (Equals(value, _periodsToAverage)) return;
-                _periodsToAverage = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
-        public string SelectedPeriodToAverage
-        {
-            get => _selectedPeriodToAverage;
-            set
-            {
-                if (value == _selectedPeriodToAverage) return;
-                _selectedPeriodToAverage = value;
-                NotifyOfPropertyChange();
-
-                if (IsTimeToAverageSelected)
-                {
-                    _interOpWrapper.SetParam((int) ServiceFunctionFirstParam.Time, PeriodsToAverage.IndexOf(SelectedPeriodToAverage));
-                    MeasCountsToAverage = _interOpWrapper.ParseLineOfVariantsForParam((int) ServiceFunctionFirstParam.Navr).ToList();
-                    SelectedMeasCountToAverage = MeasCountsToAverage.First();
-                }
-            }
-        }
-
-        public bool IsTimeToAverageSelected
-        {
-            get => _isTimeToAverageSelected;
-            set
-            {
-                if (value == _isTimeToAverageSelected) return;
-                _isTimeToAverageSelected = value;
-                NotifyOfPropertyChange();
-
-                _interOpWrapper.SetParam((int)ServiceFunctionFirstParam.IsTime, IsTimeToAverageSelected ? 1 : 0);
-                if (IsTimeToAverageSelected)
-                {
-                    PeriodsToAverage = _interOpWrapper.ParseLineOfVariantsForParam((int) ServiceFunctionFirstParam.Time).ToList();
-                    SelectedPeriodToAverage = PeriodsToAverage.First();
-                }
-                else
-                {
-                    MeasCountsToAverage = _interOpWrapper.ParseLineOfVariantsForParam((int) ServiceFunctionFirstParam.Navr).ToList();
-                    SelectedMeasCountToAverage = MeasCountsToAverage[2];
-                }
-            }
-        }
-        public bool IsMeasCountToAverageSelected { get; set; }
-        #endregion
-
-        private readonly InterOpWrapper _interOpWrapper;
-
-        public OtdrParametersThroughServerSetterViewModel(InterOpWrapper interOpWrapper)
-        {
-            _interOpWrapper = interOpWrapper;
-
+            Model = new OtdrParametersModel();
             InitializeControls();
+            Model.PropertyChanged += Model_PropertyChanged;
+        }
+
+        private void Model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case "SelectedUnit":
+                    ReInitializeForSelectedUnit();
+                    break;
+                case "SelectedDistance":
+                    ReInitializeForSelectedDistance();
+                    break;
+            }
         }
 
         private void InitializeControls()
         {
-            Units = _interOpWrapper.ParseLineOfVariantsForParam((int) ServiceFunctionFirstParam.Unit).ToList();
-            _selectedUnit = Units.First();
+            Model.Units = _treeOfAcceptableMeasParams.Units.Keys.ToList();
+            Model.SelectedUnit = Model.Units.First();
 
-            _backscatteredCoefficient = double.Parse(_interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Bc)[0], new CultureInfo("en-US"));
-            _refractiveIndex = double.Parse(_interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Ri)[0], new CultureInfo("en-US"));
+            var branchOfAcceptableMeasParams = _treeOfAcceptableMeasParams.Units[Model.SelectedUnit];
+            Model.BackscatteredCoefficient = branchOfAcceptableMeasParams.BackscatteredCoefficient;
+            Model.RefractiveIndex = branchOfAcceptableMeasParams.RefractiveIndex;
+            Model.Distances = branchOfAcceptableMeasParams.Distances.Keys.ToList();
+            Model.SelectedDistance = Model.Distances.First();
 
-            Distances = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Lmax).ToList();
-            var activeDistance = _interOpWrapper.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveLmax);
-            var index = Distances.IndexOf(activeDistance);
-            _selectedDistance = index != -1 ? Distances[index] : Distances.First();
-
-            Resolutions = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Res).Skip(1).ToList();
-            var activeResolution = _interOpWrapper.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveRes);
-            index = Resolutions.IndexOf(activeResolution);
-            _selectedResolution = index != -1 ? Resolutions[index] : Resolutions[1];
-
-            PulseDurations = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Pulse).ToList();
-            var activePulseDuration = _interOpWrapper.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActivePulse);
-            index = PulseDurations.IndexOf(activePulseDuration);
-            _selectedPulseDuration = index != -1 ? PulseDurations[index] : PulseDurations.First();
-
-            _isTimeToAverageSelected = int.Parse(_interOpWrapper.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveIsTime)) == 1;
-            if (_isTimeToAverageSelected)
-            {
-                PeriodsToAverage = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Time).ToList();
-                var activePeriodToAverage = _interOpWrapper.GetLineOfVariantsForParam((int) ServiceFunctionFirstParam.ActiveTime);
-                index = PeriodsToAverage.IndexOf(activePeriodToAverage);
-                _selectedPeriodToAverage = index != -1 ? PeriodsToAverage[index] : PeriodsToAverage.First();
-
-                MeasCountsToAverage = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Navr).ToList();
-                _selectedMeasCountToAverage = MeasCountsToAverage.First();
-            }
-            else
-            {
-                MeasCountsToAverage = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Navr).ToList();
-                var activeMeasCountToAverage = _interOpWrapper.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveNavr);
-                index = MeasCountsToAverage.IndexOf(activeMeasCountToAverage);
-                _selectedMeasCountToAverage = index != -1 ? MeasCountsToAverage[index] : MeasCountsToAverage.First();
-
-                PeriodsToAverage = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Time).ToList();
-                _selectedPeriodToAverage = PeriodsToAverage.First();
-            }
-            IsMeasCountToAverageSelected = !IsTimeToAverageSelected;
+            var leafOfAcceptableMeasParams = branchOfAcceptableMeasParams.Distances[Model.SelectedDistance];
+            Model.Resolutions = leafOfAcceptableMeasParams.Resolutions.ToList();
+            Model.SelectedResolution = Model.Resolutions.First();
+            Model.PulseDurations = leafOfAcceptableMeasParams.PulseDurations.ToList();
+            Model.SelectedPulseDuration = Model.PulseDurations.First();
+            Model.PeriodsToAverage = leafOfAcceptableMeasParams.PeriodsToAverage.ToList();
+            Model.SelectedPeriodToAverage = Model.PeriodsToAverage.First();
         }
 
-        private void InitializeForSelectedUnit()
+        private void ReInitializeForSelectedUnit()
         {
-            _backscatteredCoefficient = double.Parse(_interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Bc)[0], new CultureInfo("en-US"));
-            _refractiveIndex = double.Parse(_interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Ri)[0], new CultureInfo("en-US"));
-            Distances = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Lmax).ToList();
-            var activeDistance = _interOpWrapper.GetLineOfVariantsForParam((int) ServiceFunctionFirstParam.ActiveLmax);
-            var index = Distances.IndexOf(activeDistance);
-            SelectedDistance = index != -1 ? Distances[index] : Distances.First();
+            var branchOfAcceptableMeasParams = _treeOfAcceptableMeasParams.Units[Model.SelectedUnit];
+            Model.BackscatteredCoefficient = branchOfAcceptableMeasParams.BackscatteredCoefficient;
+            Model.RefractiveIndex = branchOfAcceptableMeasParams.RefractiveIndex;
+
+            var currentDistance = Model.SelectedDistance;
+            Model.Distances = branchOfAcceptableMeasParams.Distances.Keys.ToList();
+            var index = Model.Distances.IndexOf(currentDistance);
+            Model.SelectedDistance = index != -1 ?  Model.Distances[index] : Model.Distances.First();
         }
 
-        private void InitializeFromSelectedDistance()
+        private void ReInitializeForSelectedDistance()
         {
-            Resolutions = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Res).Skip(1).ToList();
-            var activeResolution = _interOpWrapper.GetLineOfVariantsForParam((int) ServiceFunctionFirstParam.ActiveRes);
-            var index1 = Resolutions.IndexOf(activeResolution);
-            SelectedResolution = index1 != -1 ? Resolutions[index1] : Resolutions[1];
+            var leafOfAcceptableMeasParams = _treeOfAcceptableMeasParams.Units[Model.SelectedUnit].Distances[Model.SelectedDistance];
 
-            PulseDurations = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Pulse).ToList();
-            var activePulseDuration = _interOpWrapper.GetLineOfVariantsForParam((int) ServiceFunctionFirstParam.ActivePulse);
-            var index = PulseDurations.IndexOf(activePulseDuration);
-            SelectedPulseDuration = index != -1 ? PulseDurations[index] : PulseDurations.First();
-        }
+            var currentResolution = Model.SelectedResolution;
+            Model.Resolutions = leafOfAcceptableMeasParams.Resolutions.ToList();
+            var index = Model.Resolutions.IndexOf(currentResolution);
+            Model.SelectedResolution = index != -1 ? Model.Resolutions[index] : Model.Resolutions.First();
 
-        private void InitializeFromSelectedResolution()
-        {
-            IsTimeToAverageSelected =
-                int.Parse(_interOpWrapper.ParseLineOfVariantsForParam((int) ServiceFunctionFirstParam.IsTime)[0]) == 1;
-            if (IsTimeToAverageSelected)
-            {
-                PeriodsToAverage = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Time).ToList();
-                var activePeriodToAverage = _interOpWrapper.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveTime);
-                var index = PeriodsToAverage.IndexOf(activePeriodToAverage);
-                SelectedPeriodToAverage = index != -1 ? PeriodsToAverage[index] : PeriodsToAverage.First();
+            var currentPulseDuration = Model.SelectedPulseDuration;
+            Model.PulseDurations = leafOfAcceptableMeasParams.PulseDurations.ToList();
+            index = Model.PulseDurations.IndexOf(currentPulseDuration);
+            Model.SelectedPulseDuration = index != -1 ? Model.PulseDurations[index] : Model.PulseDurations.First();
 
-                MeasCountsToAverage = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Navr).ToList();
-                SelectedMeasCountToAverage = MeasCountsToAverage.First();
-            }
-            else
-            {
-                MeasCountsToAverage = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Navr).ToList();
-                var activeMeasCountToAverage = _interOpWrapper.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveNavr);
-                var index = MeasCountsToAverage.IndexOf(activeMeasCountToAverage);
-                SelectedMeasCountToAverage = index != -1 ? MeasCountsToAverage[index] : MeasCountsToAverage.First();
-
-                PeriodsToAverage = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Time).ToList();
-                SelectedPeriodToAverage = PeriodsToAverage.First();
-            }
+            var currentPeriodToAverage = Model.SelectedPeriodToAverage;
+            Model.PeriodsToAverage = leafOfAcceptableMeasParams.PeriodsToAverage.ToList();
+            index = Model.PeriodsToAverage.IndexOf(currentPeriodToAverage);
+            Model.SelectedPeriodToAverage = index != -1 ? Model.PeriodsToAverage[index] : Model.PeriodsToAverage.First();
         }
 
         protected override void OnViewLoaded(object view)
@@ -337,11 +93,33 @@ namespace Iit.Fibertest.Client
             DisplayName = Resources.SID_Measurement_parameters;
         }
 
-        public void Close()
+        public void Measure()
         {
+            IsAnswerPositive = true;
             TryClose();
         }
 
+        public void Close()
+        {
+            IsAnswerPositive = false;
+            TryClose();
+        }
 
+        public SelectedMeasParams GetSelectedParameters()
+        {
+            var result = new SelectedMeasParams();
+            result.MeasParams = new List<Tuple<int, int>>
+            {
+                new Tuple<int, int>((int) ServiceFunctionFirstParam.Unit, Model.Units.IndexOf(Model.SelectedUnit)),
+                new Tuple<int, int>((int) ServiceFunctionFirstParam.Bc, (int)(Model.BackscatteredCoefficient*100)),
+                new Tuple<int, int>((int) ServiceFunctionFirstParam.Ri, (int)(Model.RefractiveIndex*100000)),
+                new Tuple<int, int>((int) ServiceFunctionFirstParam.Lmax, Model.Distances.IndexOf(Model.SelectedDistance)),
+                new Tuple<int, int>((int) ServiceFunctionFirstParam.Res, Model.Resolutions.IndexOf(Model.SelectedResolution)),
+                new Tuple<int, int>((int) ServiceFunctionFirstParam.Pulse, Model.PulseDurations.IndexOf(Model.SelectedPulseDuration)),
+                new Tuple<int, int>((int) ServiceFunctionFirstParam.Time, Model.PeriodsToAverage.IndexOf(Model.SelectedPeriodToAverage)),
+            };
+            return result;
+        }
+       
     }
 }
