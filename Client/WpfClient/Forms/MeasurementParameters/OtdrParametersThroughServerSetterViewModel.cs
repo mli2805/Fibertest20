@@ -36,7 +36,7 @@ namespace Iit.Fibertest.Client
                 _selectedUnit = value;
                 NotifyOfPropertyChange();
 
-                _otdrWrapper.SetParam((int)ServiceFunctionFirstParam.Unit, Units.IndexOf(SelectedUnit));
+                _interOpWrapper.SetParam((int)ServiceFunctionFirstParam.Unit, Units.IndexOf(SelectedUnit));
                 InitializeForSelectedUnit();
             }
         }
@@ -50,7 +50,7 @@ namespace Iit.Fibertest.Client
                 _backscatteredCoefficient = value;
                 NotifyOfPropertyChange();
 
-                _otdrWrapper.SetParam((int)ServiceFunctionFirstParam.Bc, (int)(BackscatteredCoefficient*100));
+                _interOpWrapper.SetParam((int)ServiceFunctionFirstParam.Bc, (int)(BackscatteredCoefficient*100));
                 InitializeFromSelectedDistance();
             }
         }
@@ -64,7 +64,7 @@ namespace Iit.Fibertest.Client
                 _refractiveIndex = value;
                 NotifyOfPropertyChange();
 
-                _otdrWrapper.SetParam((int)ServiceFunctionFirstParam.Ri, (int)(RefractiveIndex*100000));
+                _interOpWrapper.SetParam((int)ServiceFunctionFirstParam.Ri, (int)(RefractiveIndex*100000));
                 InitializeFromSelectedDistance();
             }
         }
@@ -89,7 +89,7 @@ namespace Iit.Fibertest.Client
                 _selectedDistance = value;
                 NotifyOfPropertyChange();
 
-                _otdrWrapper.SetParam((int)ServiceFunctionFirstParam.Lmax, Distances.IndexOf(SelectedDistance));
+                _interOpWrapper.SetParam((int)ServiceFunctionFirstParam.Lmax, Distances.IndexOf(SelectedDistance));
                 InitializeFromSelectedDistance();
             }
         }
@@ -115,7 +115,7 @@ namespace Iit.Fibertest.Client
                 NotifyOfPropertyChange();
 
                 var indexInLine = Resolutions.IndexOf(SelectedResolution) + 1; // AUTO was excluded
-                _otdrWrapper.SetParam((int)ServiceFunctionFirstParam.Res, indexInLine);
+                _interOpWrapper.SetParam((int)ServiceFunctionFirstParam.Res, indexInLine);
                 InitializeFromSelectedResolution();
             }
         }
@@ -139,7 +139,7 @@ namespace Iit.Fibertest.Client
                 if (value == _selectedPulseDuration) return;
                 _selectedPulseDuration = value;
                 NotifyOfPropertyChange();
-                _otdrWrapper.SetParam((int)ServiceFunctionFirstParam.Pulse, PulseDurations.IndexOf(SelectedPulseDuration));
+                _interOpWrapper.SetParam((int)ServiceFunctionFirstParam.Pulse, PulseDurations.IndexOf(SelectedPulseDuration));
             }
         }
 
@@ -165,9 +165,9 @@ namespace Iit.Fibertest.Client
 
                 if (!IsTimeToAverageSelected)
                 {
-                    _otdrWrapper.SetParam((int) ServiceFunctionFirstParam.Navr,
+                    _interOpWrapper.SetParam((int) ServiceFunctionFirstParam.Navr,
                         MeasCountsToAverage.IndexOf(SelectedMeasCountToAverage));
-                    PeriodsToAverage = _otdrWrapper.ParseLineOfVariantsForParam((int) ServiceFunctionFirstParam.Time).ToList();
+                    PeriodsToAverage = _interOpWrapper.ParseLineOfVariantsForParam((int) ServiceFunctionFirstParam.Time).ToList();
                     SelectedPeriodToAverage = PeriodsToAverage.First();
                 }
             }
@@ -195,8 +195,8 @@ namespace Iit.Fibertest.Client
 
                 if (IsTimeToAverageSelected)
                 {
-                    _otdrWrapper.SetParam((int) ServiceFunctionFirstParam.Time, PeriodsToAverage.IndexOf(SelectedPeriodToAverage));
-                    MeasCountsToAverage = _otdrWrapper.ParseLineOfVariantsForParam((int) ServiceFunctionFirstParam.Navr).ToList();
+                    _interOpWrapper.SetParam((int) ServiceFunctionFirstParam.Time, PeriodsToAverage.IndexOf(SelectedPeriodToAverage));
+                    MeasCountsToAverage = _interOpWrapper.ParseLineOfVariantsForParam((int) ServiceFunctionFirstParam.Navr).ToList();
                     SelectedMeasCountToAverage = MeasCountsToAverage.First();
                 }
             }
@@ -211,15 +211,15 @@ namespace Iit.Fibertest.Client
                 _isTimeToAverageSelected = value;
                 NotifyOfPropertyChange();
 
-                _otdrWrapper.SetParam((int)ServiceFunctionFirstParam.IsTime, IsTimeToAverageSelected ? 1 : 0);
+                _interOpWrapper.SetParam((int)ServiceFunctionFirstParam.IsTime, IsTimeToAverageSelected ? 1 : 0);
                 if (IsTimeToAverageSelected)
                 {
-                    PeriodsToAverage = _otdrWrapper.ParseLineOfVariantsForParam((int) ServiceFunctionFirstParam.Time).ToList();
+                    PeriodsToAverage = _interOpWrapper.ParseLineOfVariantsForParam((int) ServiceFunctionFirstParam.Time).ToList();
                     SelectedPeriodToAverage = PeriodsToAverage.First();
                 }
                 else
                 {
-                    MeasCountsToAverage = _otdrWrapper.ParseLineOfVariantsForParam((int) ServiceFunctionFirstParam.Navr).ToList();
+                    MeasCountsToAverage = _interOpWrapper.ParseLineOfVariantsForParam((int) ServiceFunctionFirstParam.Navr).ToList();
                     SelectedMeasCountToAverage = MeasCountsToAverage[2];
                 }
             }
@@ -227,57 +227,57 @@ namespace Iit.Fibertest.Client
         public bool IsMeasCountToAverageSelected { get; set; }
         #endregion
 
-        private readonly InterOpWrapper _otdrWrapper;
+        private readonly InterOpWrapper _interOpWrapper;
 
-        public OtdrParametersThroughServerSetterViewModel(InterOpWrapper otdrWrapper)
+        public OtdrParametersThroughServerSetterViewModel(InterOpWrapper interOpWrapper)
         {
-            _otdrWrapper = otdrWrapper;
+            _interOpWrapper = interOpWrapper;
 
             InitializeControls();
         }
 
         private void InitializeControls()
         {
-            Units = _otdrWrapper.ParseLineOfVariantsForParam((int) ServiceFunctionFirstParam.Unit).ToList();
+            Units = _interOpWrapper.ParseLineOfVariantsForParam((int) ServiceFunctionFirstParam.Unit).ToList();
             _selectedUnit = Units.First();
 
-            _backscatteredCoefficient = double.Parse(_otdrWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Bc)[0], new CultureInfo("en-US"));
-            _refractiveIndex = double.Parse(_otdrWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Ri)[0], new CultureInfo("en-US"));
+            _backscatteredCoefficient = double.Parse(_interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Bc)[0], new CultureInfo("en-US"));
+            _refractiveIndex = double.Parse(_interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Ri)[0], new CultureInfo("en-US"));
 
-            Distances = _otdrWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Lmax).ToList();
-            var activeDistance = _otdrWrapper.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveLmax);
+            Distances = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Lmax).ToList();
+            var activeDistance = _interOpWrapper.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveLmax);
             var index = Distances.IndexOf(activeDistance);
             _selectedDistance = index != -1 ? Distances[index] : Distances.First();
 
-            Resolutions = _otdrWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Res).Skip(1).ToList();
-            var activeResolution = _otdrWrapper.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveRes);
+            Resolutions = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Res).Skip(1).ToList();
+            var activeResolution = _interOpWrapper.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveRes);
             index = Resolutions.IndexOf(activeResolution);
             _selectedResolution = index != -1 ? Resolutions[index] : Resolutions[1];
 
-            PulseDurations = _otdrWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Pulse).ToList();
-            var activePulseDuration = _otdrWrapper.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActivePulse);
+            PulseDurations = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Pulse).ToList();
+            var activePulseDuration = _interOpWrapper.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActivePulse);
             index = PulseDurations.IndexOf(activePulseDuration);
             _selectedPulseDuration = index != -1 ? PulseDurations[index] : PulseDurations.First();
 
-            _isTimeToAverageSelected = int.Parse(_otdrWrapper.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveIsTime)) == 1;
+            _isTimeToAverageSelected = int.Parse(_interOpWrapper.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveIsTime)) == 1;
             if (_isTimeToAverageSelected)
             {
-                PeriodsToAverage = _otdrWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Time).ToList();
-                var activePeriodToAverage = _otdrWrapper.GetLineOfVariantsForParam((int) ServiceFunctionFirstParam.ActiveTime);
+                PeriodsToAverage = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Time).ToList();
+                var activePeriodToAverage = _interOpWrapper.GetLineOfVariantsForParam((int) ServiceFunctionFirstParam.ActiveTime);
                 index = PeriodsToAverage.IndexOf(activePeriodToAverage);
                 _selectedPeriodToAverage = index != -1 ? PeriodsToAverage[index] : PeriodsToAverage.First();
 
-                MeasCountsToAverage = _otdrWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Navr).ToList();
+                MeasCountsToAverage = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Navr).ToList();
                 _selectedMeasCountToAverage = MeasCountsToAverage.First();
             }
             else
             {
-                MeasCountsToAverage = _otdrWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Navr).ToList();
-                var activeMeasCountToAverage = _otdrWrapper.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveNavr);
+                MeasCountsToAverage = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Navr).ToList();
+                var activeMeasCountToAverage = _interOpWrapper.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveNavr);
                 index = MeasCountsToAverage.IndexOf(activeMeasCountToAverage);
                 _selectedMeasCountToAverage = index != -1 ? MeasCountsToAverage[index] : MeasCountsToAverage.First();
 
-                PeriodsToAverage = _otdrWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Time).ToList();
+                PeriodsToAverage = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Time).ToList();
                 _selectedPeriodToAverage = PeriodsToAverage.First();
             }
             IsMeasCountToAverageSelected = !IsTimeToAverageSelected;
@@ -285,23 +285,23 @@ namespace Iit.Fibertest.Client
 
         private void InitializeForSelectedUnit()
         {
-            _backscatteredCoefficient = double.Parse(_otdrWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Bc)[0], new CultureInfo("en-US"));
-            _refractiveIndex = double.Parse(_otdrWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Ri)[0], new CultureInfo("en-US"));
-            Distances = _otdrWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Lmax).ToList();
-            var activeDistance = _otdrWrapper.GetLineOfVariantsForParam((int) ServiceFunctionFirstParam.ActiveLmax);
+            _backscatteredCoefficient = double.Parse(_interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Bc)[0], new CultureInfo("en-US"));
+            _refractiveIndex = double.Parse(_interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Ri)[0], new CultureInfo("en-US"));
+            Distances = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Lmax).ToList();
+            var activeDistance = _interOpWrapper.GetLineOfVariantsForParam((int) ServiceFunctionFirstParam.ActiveLmax);
             var index = Distances.IndexOf(activeDistance);
             SelectedDistance = index != -1 ? Distances[index] : Distances.First();
         }
 
         private void InitializeFromSelectedDistance()
         {
-            Resolutions = _otdrWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Res).Skip(1).ToList();
-            var activeResolution = _otdrWrapper.GetLineOfVariantsForParam((int) ServiceFunctionFirstParam.ActiveRes);
+            Resolutions = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Res).Skip(1).ToList();
+            var activeResolution = _interOpWrapper.GetLineOfVariantsForParam((int) ServiceFunctionFirstParam.ActiveRes);
             var index1 = Resolutions.IndexOf(activeResolution);
             SelectedResolution = index1 != -1 ? Resolutions[index1] : Resolutions[1];
 
-            PulseDurations = _otdrWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Pulse).ToList();
-            var activePulseDuration = _otdrWrapper.GetLineOfVariantsForParam((int) ServiceFunctionFirstParam.ActivePulse);
+            PulseDurations = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Pulse).ToList();
+            var activePulseDuration = _interOpWrapper.GetLineOfVariantsForParam((int) ServiceFunctionFirstParam.ActivePulse);
             var index = PulseDurations.IndexOf(activePulseDuration);
             SelectedPulseDuration = index != -1 ? PulseDurations[index] : PulseDurations.First();
         }
@@ -309,25 +309,25 @@ namespace Iit.Fibertest.Client
         private void InitializeFromSelectedResolution()
         {
             IsTimeToAverageSelected =
-                int.Parse(_otdrWrapper.ParseLineOfVariantsForParam((int) ServiceFunctionFirstParam.IsTime)[0]) == 1;
+                int.Parse(_interOpWrapper.ParseLineOfVariantsForParam((int) ServiceFunctionFirstParam.IsTime)[0]) == 1;
             if (IsTimeToAverageSelected)
             {
-                PeriodsToAverage = _otdrWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Time).ToList();
-                var activePeriodToAverage = _otdrWrapper.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveTime);
+                PeriodsToAverage = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Time).ToList();
+                var activePeriodToAverage = _interOpWrapper.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveTime);
                 var index = PeriodsToAverage.IndexOf(activePeriodToAverage);
                 SelectedPeriodToAverage = index != -1 ? PeriodsToAverage[index] : PeriodsToAverage.First();
 
-                MeasCountsToAverage = _otdrWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Navr).ToList();
+                MeasCountsToAverage = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Navr).ToList();
                 SelectedMeasCountToAverage = MeasCountsToAverage.First();
             }
             else
             {
-                MeasCountsToAverage = _otdrWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Navr).ToList();
-                var activeMeasCountToAverage = _otdrWrapper.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveNavr);
+                MeasCountsToAverage = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Navr).ToList();
+                var activeMeasCountToAverage = _interOpWrapper.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveNavr);
                 var index = MeasCountsToAverage.IndexOf(activeMeasCountToAverage);
                 SelectedMeasCountToAverage = index != -1 ? MeasCountsToAverage[index] : MeasCountsToAverage.First();
 
-                PeriodsToAverage = _otdrWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Time).ToList();
+                PeriodsToAverage = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Time).ToList();
                 SelectedPeriodToAverage = PeriodsToAverage.First();
             }
         }
