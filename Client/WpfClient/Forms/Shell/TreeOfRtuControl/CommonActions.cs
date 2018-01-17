@@ -59,7 +59,7 @@ namespace Iit.Fibertest.Client
                 await Task.Run(() => otdrManager.ConnectOtdr(mainCharonAddress.Ip4Address));
                 if (!otdrManager.IsOtdrConnected)
                     return;
-                var vm = new OtdrParametersSetterViewModel(otdrManager.IitOtdr);
+                var vm = new OtdrParametersThroughServerSetterViewModel(otdrManager.IitOtdr);
                 IWindowManager windowManager = new WindowManager();
                 windowManager.ShowDialog(vm);
 

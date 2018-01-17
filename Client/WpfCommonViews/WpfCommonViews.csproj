@@ -102,10 +102,6 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MeasurementParameters\OtdrParametersSetterView.xaml.cs">
-      <DependentUpon>OtdrParametersSetterView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MeasurementParameters\OtdrParametersSetterViewModel.cs" />
     <Compile Include="RftsEvents\OneLevelTableContent.cs" />
     <Compile Include="RftsEvents\ForTableConvertor.cs" />
     <Compile Include="RftsEvents\LevelsContent.cs" />
@@ -127,10 +123,6 @@
     <Compile Include="RftsEvents\RftsEventsViewModel.cs" />
     <Compile Include="RftsEvents\SorDataToViewContent.cs" />
     <Compile Include="WaitCursor.cs" />
-    <Page Include="MeasurementParameters\OtdrParametersSetterView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="RftsEvents\RftsEventsFooterView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

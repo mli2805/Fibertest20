@@ -129,6 +129,10 @@
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="IShell.cs" />
+    <Compile Include="MeasurementParameters\OtdrParametersDirectSetterView.xaml.cs">
+      <DependentUpon>OtdrParametersDirectSetterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MeasurementParameters\OtdrParametersDirectSetterViewModel.cs" />
     <Compile Include="OtauView.xaml.cs">
       <DependentUpon>OtauView.xaml</DependentUpon>
     </Compile>
@@ -142,6 +146,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="WaitCursor.cs" />
+    <Page Include="MeasurementParameters\OtdrParametersDirectSetterView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="OtauView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

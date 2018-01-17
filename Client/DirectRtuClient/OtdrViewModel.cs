@@ -165,7 +165,7 @@ namespace DirectRtuClient
 
         public void LaunchOtdrParamView()
         {
-            var vm = new OtdrParametersSetterViewModel(OtdrManager.IitOtdr);
+            var vm = new OtdrParametersDirectSetterViewModel(OtdrManager.IitOtdr);
             IWindowManager windowManager = new WindowManager();
             windowManager.ShowDialog(vm);
         }

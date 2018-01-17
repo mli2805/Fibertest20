@@ -200,6 +200,10 @@
     <Compile Include="EventSourcing\IDispatcherProvider.cs" />
     <Compile Include="Forms\BaseRefs\BaseRefMeasParamsChecker.cs" />
     <Compile Include="Forms\BaseRefs\BaseRefsChecker.cs" />
+    <Compile Include="Forms\MeasurementParameters\OtdrParametersThroughServerSetterView.xaml.cs">
+      <DependentUpon>OtdrParametersThroughServerSetterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MeasurementParameters\OtdrParametersThroughServerSetterViewModel.cs" />
     <Compile Include="Forms\Shell\BopNetworkEventsControl\BopNetworkEventModel.cs" />
     <Compile Include="Forms\Shell\BopNetworkEventsControl\BopNetworkEventsDoubleView.xaml.cs">
       <DependentUpon>BopNetworkEventsDoubleView.xaml</DependentUpon>
@@ -518,6 +522,10 @@
     <Compile Include="Views\Administrative\UserListView.xaml.cs">
       <DependentUpon>UserListView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Forms\MeasurementParameters\OtdrParametersThroughServerSetterView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Forms\MonitoringSettings\MonitoringSettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

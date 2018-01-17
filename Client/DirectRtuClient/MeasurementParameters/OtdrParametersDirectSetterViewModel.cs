@@ -5,9 +5,9 @@ using Caliburn.Micro;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.StringResources;
 
-namespace Iit.Fibertest.WpfCommonViews
+namespace DirectRtuClient
 {
-    public class OtdrParametersSetterViewModel : Screen
+    public class OtdrParametersDirectSetterViewModel : Screen
     {
         #region Combo-boxes
         private string _selectedUnit;
@@ -229,7 +229,7 @@ namespace Iit.Fibertest.WpfCommonViews
 
         private readonly InterOpWrapper _otdrWrapper;
 
-        public OtdrParametersSetterViewModel(InterOpWrapper otdrWrapper)
+        public OtdrParametersDirectSetterViewModel(InterOpWrapper otdrWrapper)
         {
             _otdrWrapper = otdrWrapper;
 

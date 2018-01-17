@@ -1,13 +1,13 @@
-﻿<Window x:Class="Iit.Fibertest.WpfCommonViews.OtdrParametersSetterView"
+﻿<Window x:Class="Iit.Fibertest.Client.OtdrParametersThroughServerSetterView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
-        xmlns:wpfCommonViews="clr-namespace:Iit.Fibertest.WpfCommonViews"
+        xmlns:client="clr-namespace:Iit.Fibertest.Client"
         mc:Ignorable="d"
-        Title="OtdrParametersSetterView" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
-        d:DataContext="{d:DesignInstance wpfCommonViews:OtdrParametersSetterViewModel}">
+        Title="OtdrParametersThroughServerSetterView" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
+        d:DataContext="{d:DesignInstance client:OtdrParametersThroughServerSetterViewModel}">
     <StackPanel>
         <GroupBox Margin="5">
             <StackPanel Margin="0,5,0,0">

@@ -2,14 +2,14 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace Iit.Fibertest.WpfCommonViews
+namespace DirectRtuClient
 {
     /// <summary>
-    /// Interaction logic for OtdrParametersSetterView.xaml
+    /// Interaction logic for OtdrParametersDirectSetterView.xaml
     /// </summary>
-    public partial class OtdrParametersSetterView
+    public partial class OtdrParametersDirectSetterView
     {
-        public OtdrParametersSetterView()
+        public OtdrParametersDirectSetterView()
         {
             InitializeComponent();
         }
