@@ -2,9 +2,6 @@ namespace Iit.Fibertest.UtilsLib
 {
     public class NullLog : IMyLog
     {
-        public void AppendLine(string message, int offset = 0, string prefix = "")
-        {
-        }
 
         public IMyLog AssignFile(string filename)
         {
@@ -12,6 +9,10 @@ namespace Iit.Fibertest.UtilsLib
         }
 
         public void EmptyLine(char ch = ' ')
+        {
+        }
+
+        public void AppendLine(string message, int offset = 0, int messageLevel = 2, string prefix = "")
         {
         }
     }

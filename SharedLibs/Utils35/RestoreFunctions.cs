@@ -13,7 +13,6 @@ namespace Iit.Fibertest.UtilsLib
             logFile.AppendLine("Charon RESET");
             string comPortName = iniFile35.Read(IniSection.Charon, IniKey.ComPort, "COM2");
             int comSpeed = iniFile35.Read(IniSection.Charon, IniKey.ComSpeed, 115200);
-            int charonLogLevel = iniFile35.Read(IniSection.Charon, IniKey.LogLevel, 4);
 
             var serialPort = new SerialPort(comPortName, comSpeed);
             try
@@ -26,27 +25,22 @@ namespace Iit.Fibertest.UtilsLib
                 logFile.AppendLine($"Can't open {comPortName}", 2);
                 return;
             }
-            if (charonLogLevel >= 2)
-                logFile.AppendLine($"{comPortName} opened successfully.", 2);
+            logFile.AppendLine($"{comPortName} opened successfully.", 2);
 
-            if (charonLogLevel >= 2)
-                logFile.AppendLine($"Now RTS is {serialPort.RtsEnable}", 2);
+            logFile.AppendLine($"Now RTS is {serialPort.RtsEnable}", 2);
             serialPort.RtsEnable = !serialPort.RtsEnable;
             Thread.Sleep(10);
-            if (charonLogLevel >= 2)
-                logFile.AppendLine($"Now RTS is {serialPort.RtsEnable}", 2);
+            logFile.AppendLine($"Now RTS is {serialPort.RtsEnable}", 2);
             serialPort.RtsEnable = !serialPort.RtsEnable;
             Thread.Sleep(10);
-            if (charonLogLevel >= 2)
-                logFile.AppendLine($"Now RTS is {serialPort.RtsEnable}", 2);
+            logFile.AppendLine($"Now RTS is {serialPort.RtsEnable}", 2);
 
             serialPort.Close();
 
             var pause = iniFile35.Read(IniSection.Charon, IniKey.PauseAfterReset, 5);
             logFile.AppendLine($"Pause after charon reset {pause} seconds...");
             Thread.Sleep(TimeSpan.FromSeconds(pause));
-            if (charonLogLevel >= 2)
-                logFile.AppendLine("Charon reset finished", 2);
+            logFile.AppendLine("Charon reset finished", 2);
         }
 
         public static void RebootSystem(IMyLog logFile, int delay)

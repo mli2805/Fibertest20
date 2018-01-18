@@ -45,11 +45,6 @@ namespace Iit.Fibertest.RtuManagement
             });
         }
 
-        public void BeginAttachOtau(AttachOtauDto dto) { _wcfOtauOperator.AttachOtau(dto); }
-
-        public void BeginDetachOtau(DetachOtauDto dto) { _wcfOtauOperator.DetachOtau(dto); }
-
-
         public void BeginStopMonitoring(StopMonitoringDto dto)
         {
             var callbackChannel = OperationContext.Current.GetCallbackChannel<IRtuWcfServiceBackward>();
@@ -119,15 +114,13 @@ namespace Iit.Fibertest.RtuManagement
             });
         }
 
-        public void BeginClientMeasurement(DoClientMeasurementDto dto)
-        {
-            _wcfMeasurementsOperator.ClientMeasurement(dto);
-        }
+        public void BeginAttachOtau(AttachOtauDto dto) { _wcfOtauOperator.AttachOtau(dto); }
 
-        public void BeginOutOfTurnPreciseMeasurement(DoOutOfTurnPreciseMeasurementDto dto)
-        {
-            _wcfMeasurementsOperator.OutOfTurnPreciseMeasurement(dto);
-        }
+        public void BeginDetachOtau(DetachOtauDto dto) { _wcfOtauOperator.DetachOtau(dto); }
+
+        public void BeginClientMeasurement(DoClientMeasurementDto dto) { _wcfMeasurementsOperator.ClientMeasurement(dto); }
+
+        public void BeginOutOfTurnPreciseMeasurement(DoOutOfTurnPreciseMeasurementDto dto) { _wcfMeasurementsOperator.OutOfTurnPreciseMeasurement(dto); }
 
         public bool CheckLastSuccessfullMeasTime()
         {

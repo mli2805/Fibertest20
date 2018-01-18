@@ -137,21 +137,17 @@ namespace Iit.Fibertest.RtuManagement
             };
         }
 
-        public ReturnCode StartClientMeasurement(DoClientMeasurementDto dto)
+        public ClientMeasurementStartedDto StartClientMeasurement(DoClientMeasurementDto dto)
         {
             var isMonitoringOnBefore = IsMonitoringOn;
             if (IsMonitoringOn)
             {
                 StopMonitoring();
                 Thread.Sleep(TimeSpan.FromSeconds(5));
-                _rtuLog.AppendLine("Monitoring stopped.");
             }
 
-            _otdrManager.InterOpWrapper.SetMeasurementParametersFromUserInput(dto.SelectedMeasParams);
-            _rtuLog.AppendLine("Measurement parameters applied");
-
-            if (!ToggleToPort(dto.OtauPortDto))
-                return ReturnCode.Error;
+            _rtuLog.EmptyLine();
+            _rtuLog.AppendLine("Start client's measurement.");
 
             var res = _otdrManager.ConnectOtdr(_mainCharon.NetAddress.Ip4Address);
             if (!res)
@@ -162,19 +158,22 @@ namespace Iit.Fibertest.RtuManagement
                     RunMainCharonRecovery(); // one of recovery steps inevitably exits process
             }
 
+            _otdrManager.InterOpWrapper.SetMeasurementParametersFromUserInput(dto.SelectedMeasParams);
+            _rtuLog.AppendLine("User's measurement parameters applied");
+
+            if (!ToggleToPort(dto.OtauPortDto))
+                return new ClientMeasurementStartedDto(){ReturnCode = ReturnCode.RtuToggleToPortError};
+
             var activeBop = dto.OtauPortDto.IsPortOnMainCharon
                 ? null
                 : new Charon(new NetAddress(dto.OtauPortDto.OtauIp, dto.OtauPortDto.OtauTcpPort), _rtuIni, _rtuLog);
             _otdrManager.DoManualMeasurement(true, activeBop);
             var lastSorDataBuffer = _otdrManager.GetLastSorDataBuffer();
             if (lastSorDataBuffer == null)
-                return ReturnCode.Error;
+                return new ClientMeasurementStartedDto() {ReturnCode = ReturnCode.RtuMeasurementError};
 
-            var sorData = _otdrManager.ApplyFilter(_otdrManager.ApplyAutoAnalysis(lastSorDataBuffer), false);
-
-            _otdrManager.DisconnectOtdr(_mainCharon.NetAddress.Ip4Address);
-
-            return ReturnCode.Ok;
+            var sorBytes = _otdrManager.ApplyAutoAnalysis(lastSorDataBuffer);
+            return new ClientMeasurementStartedDto() {ReturnCode = ReturnCode.Ok, SorBytes = sorBytes };
         } 
         public ReturnCode StartOutOfTurnMeasurement(DoOutOfTurnPreciseMeasurementDto dto)
         {

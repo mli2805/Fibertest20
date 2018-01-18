@@ -14,8 +14,8 @@ namespace Iit.Fibertest.Client
         private string _selectedResolution;
         private List<string> _pulseDurations;
         private string _selectedPulseDuration;
-        private List<string> _periodsToAverage;
-        private string _selectedPeriodToAverage;
+        private List<string> _measurementTime;
+        private string _selectedMeasurementTime;
 
         public List<string> Units { get; set; }
 
@@ -118,24 +118,24 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public List<string> PeriodsToAverage
+        public List<string> MeasurementTime
         {
-            get => _periodsToAverage;
+            get => _measurementTime;
             set
             {
-                if (Equals(value, _periodsToAverage)) return;
-                _periodsToAverage = value;
+                if (Equals(value, _measurementTime)) return;
+                _measurementTime = value;
                 NotifyOfPropertyChange();
             }
         }
 
-        public string SelectedPeriodToAverage
+        public string SelectedMeasurementTime
         {
-            get => _selectedPeriodToAverage;
+            get => _selectedMeasurementTime;
             set
             {
-                if (value == _selectedPeriodToAverage) return;
-                _selectedPeriodToAverage = value;
+                if (value == _selectedMeasurementTime) return;
+                _selectedMeasurementTime = value;
                 NotifyOfPropertyChange();
             }
         }

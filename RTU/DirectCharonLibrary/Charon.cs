@@ -9,7 +9,6 @@ namespace Iit.Fibertest.DirectCharonLibrary
     {
         private readonly IniFile _iniFile35;
         private readonly IMyLog _rtuLogFile;
-        private readonly CharonLogLevel _charonLogLevel;
         private readonly int _connectionTimeout;
         private readonly int _readTimeout;
         private readonly int _writeTimeout;
@@ -29,7 +28,6 @@ namespace Iit.Fibertest.DirectCharonLibrary
         {
             _iniFile35 = iniFile35;
             _rtuLogFile = rtuLogFile;
-            _charonLogLevel = (CharonLogLevel)_iniFile35.Read(IniSection.Charon, IniKey.LogLevel, 1);
             _connectionTimeout = _iniFile35.Read(IniSection.Charon, IniKey.ConnectionTimeout, 5);
             _readTimeout = _iniFile35.Read(IniSection.Charon, IniKey.ReadTimeout, 2);
             _writeTimeout = _iniFile35.Read(IniSection.Charon, IniKey.WriteTimeout, 2);
@@ -51,32 +49,27 @@ namespace Iit.Fibertest.DirectCharonLibrary
             {
                 LedDisplay.Show(_iniFile35, _rtuLogFile, LedDisplayCode.ErrorConnectOtau);
                 LastErrorMessage = $"Get Serial error {LastErrorMessage}";
-                if (_charonLogLevel >= CharonLogLevel.PublicCommands)
-                    _rtuLogFile.AppendLine(LastErrorMessage, 2);
+                _rtuLogFile.AppendLine(LastErrorMessage, 2);
                 return NetAddress;
             }
             Serial = Serial.Substring(0, Serial.Length - 2); // "\r\n"
-            if (_charonLogLevel >= CharonLogLevel.PublicCommands)
-                _rtuLogFile.AppendLine($"Serial {Serial}", 2);
+            _rtuLogFile.AppendLine($"Serial {Serial}", 2);
 
             OwnPortCount = GetOwnPortCount();
             FullPortCount = OwnPortCount;
             if (!IsLastCommandSuccessful)
             {
                 LastErrorMessage = $"Get own port count error {LastErrorMessage}";
-                if (_charonLogLevel >= CharonLogLevel.PublicCommands)
-                    _rtuLogFile.AppendLine(LastErrorMessage, 2);
+                _rtuLogFile.AppendLine(LastErrorMessage, 2);
                 return NetAddress;
             }
-            if (_charonLogLevel >= CharonLogLevel.PublicCommands)
-                _rtuLogFile.AppendLine($"Own port count  {OwnPortCount}", 2);
+            _rtuLogFile.AppendLine($"Own port count  {OwnPortCount}", 2);
 
             var expendedPorts = GetExtentedPorts();
             if (!IsLastCommandSuccessful)
             {
                 LastErrorMessage = $"Get extended ports error {LastErrorMessage}";
-                if (_charonLogLevel >= CharonLogLevel.PublicCommands)
-                    _rtuLogFile.AppendLine(LastErrorMessage, 2);
+                _rtuLogFile.AppendLine(LastErrorMessage, 2);
                 return NetAddress;
             }
             if (LastAnswer.Substring(0, 15) == "ERROR_COMMAND\r\n")
@@ -93,15 +86,13 @@ namespace Iit.Fibertest.DirectCharonLibrary
                         LedDisplay.Show(_iniFile35, _rtuLogFile, LedDisplayCode.ErrorConnectBop);
                         IsLastCommandSuccessful = true; // child initialization should'n break full process
                         LastErrorMessage = $"Child charon {expendedPort.Value.ToStringA()} initialization failed";
-                        if (_charonLogLevel >= CharonLogLevel.PublicCommands)
-                            _rtuLogFile.AppendLine(LastErrorMessage, 2);
+                        _rtuLogFile.AppendLine(LastErrorMessage, 2);
                         return childCharon.NetAddress;
                     }
                     FullPortCount += childCharon.FullPortCount;
                 }
 
-            if (_charonLogLevel >= CharonLogLevel.PublicCommands)
-                _rtuLogFile.AppendLine($"Full port count  {FullPortCount}");
+            _rtuLogFile.AppendLine($"Full port count  {FullPortCount}");
 
             _rtuLogFile.AppendLine($"OTAU initialized successfully.  {Serial}  {OwnPortCount}/{FullPortCount}");
             return null;
@@ -110,9 +101,9 @@ namespace Iit.Fibertest.DirectCharonLibrary
         public Dictionary<int, OtauDto> GetChildrenDto()
         {
             return Children.ToDictionary(
-                pair => pair.Key, 
+                pair => pair.Key,
                 pair => new OtauDto()
-                { Serial = pair.Value.Serial, OwnPortCount = pair.Value.OwnPortCount, NetAddress = pair.Value.NetAddress});
+                { Serial = pair.Value.Serial, OwnPortCount = pair.Value.OwnPortCount, NetAddress = pair.Value.NetAddress });
         }
     }
 

@@ -195,7 +195,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ClientHeartbeat.cs" />
+    <Compile Include="Forms\ClientMeasurement\ClientMeasurementViewModel.cs" />
     <Compile Include="ClientWcfService.cs" />
+    <Compile Include="Forms\ClientMeasurement\ClientMeasurementView.xaml.cs">
+      <DependentUpon>ClientMeasurementView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="EventSourcing\ClientPoller.cs" />
     <Compile Include="EventSourcing\IDispatcherProvider.cs" />
     <Compile Include="Forms\BaseRefs\BaseRefMeasParamsChecker.cs" />
@@ -523,6 +527,10 @@
     <Compile Include="Views\Administrative\UserListView.xaml.cs">
       <DependentUpon>UserListView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Forms\ClientMeasurement\ClientMeasurementView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Forms\MeasurementParameters\OtdrParametersThroughServerSetterView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

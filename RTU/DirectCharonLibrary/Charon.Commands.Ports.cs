@@ -69,8 +69,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
             if (charon == null)
             {
                 LastErrorMessage = "There is no such optical switch";
-                if (_charonLogLevel >= CharonLogLevel.PublicCommands)
-                    _rtuLogFile.AppendLine(LastErrorMessage, 2);
+                _rtuLogFile.AppendLine(LastErrorMessage, 2);
             }
             return charon;
         }
@@ -94,8 +93,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
 
             LastErrorMessage = charon.LastErrorMessage;
             IsLastCommandSuccessful = charon.IsLastCommandSuccessful;
-            if (_charonLogLevel >= CharonLogLevel.PublicCommands)
-                _rtuLogFile.AppendLine(LastErrorMessage, 2);
+            _rtuLogFile.AppendLine(LastErrorMessage, 2);
             return CharonOperationResult.AdditionalOtauError;
         }
     }

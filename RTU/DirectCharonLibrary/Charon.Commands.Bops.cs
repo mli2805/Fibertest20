@@ -18,7 +18,6 @@ namespace Iit.Fibertest.DirectCharonLibrary
             if (!extPorts.ContainsKey(fromOpticalPort))
             {
                 LastErrorMessage = "There is no such extended port. Nothing to do.";
-                if (_charonLogLevel >= CharonLogLevel.PublicCommands)
                     _rtuLogFile.AppendLine(LastErrorMessage, 2);
                 return false;
             }
@@ -38,7 +37,6 @@ namespace Iit.Fibertest.DirectCharonLibrary
             if (extPorts == null) // read charon ini file error
             {
                 LastErrorMessage = "Read charon ini file error";
-                if (_charonLogLevel >= CharonLogLevel.PublicCommands)
                     _rtuLogFile.AppendLine(LastErrorMessage, 2);
                 return false;
             }
@@ -51,7 +49,6 @@ namespace Iit.Fibertest.DirectCharonLibrary
             if (extPorts.ContainsKey(toOpticalPort))
             {
                 LastErrorMessage = "This is extended port already. Denied.";
-                if (_charonLogLevel >= CharonLogLevel.PublicCommands)
                     _rtuLogFile.AppendLine(LastErrorMessage, 2);
                 return false;
             }
@@ -66,7 +63,6 @@ namespace Iit.Fibertest.DirectCharonLibrary
             if (toOpticalPort < 1 || toOpticalPort > OwnPortCount)
             {
                 LastErrorMessage = $"Optical port number should be from 1 to {OwnPortCount}";
-                if (_charonLogLevel >= CharonLogLevel.PublicCommands)
                     _rtuLogFile.AppendLine(LastErrorMessage, 2);
                 IsLastCommandSuccessful = false;
                 return false;
@@ -75,7 +71,6 @@ namespace Iit.Fibertest.DirectCharonLibrary
             if (!additionalOtauAddress.HasValidTcpPort())
             {
                 LastErrorMessage = "Tcp port number should be from 1 to 65355";
-                if (_charonLogLevel >= CharonLogLevel.PublicCommands)
                     _rtuLogFile.AppendLine(LastErrorMessage, 2);
                 IsLastCommandSuccessful = false;
                 return false;
@@ -84,7 +79,6 @@ namespace Iit.Fibertest.DirectCharonLibrary
             if (!additionalOtauAddress.HasValidIp4Address())
             {
                 LastErrorMessage = "Invalid ip address";
-                if (_charonLogLevel >= CharonLogLevel.PublicCommands)
                     _rtuLogFile.AppendLine(LastErrorMessage, 2);
                 IsLastCommandSuccessful = false;
                 return false;

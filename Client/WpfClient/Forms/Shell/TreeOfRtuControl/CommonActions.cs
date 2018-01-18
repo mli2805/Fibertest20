@@ -2,7 +2,6 @@
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
 {
@@ -12,17 +11,18 @@ namespace Iit.Fibertest.Client
         private readonly IniFile _iniFile35;
         private readonly IMyLog _logFile;
         private readonly CurrentUser _currentUser;
+        private readonly ClientMeasurementViewModel _clientMeasurementViewModel;
         private readonly IWindowManager _windowManager;
-        private readonly IWcfServiceForClient _c2DWcfManager;
 
         public CommonActions(IniFile iniFile35, IMyLog logFile, CurrentUser currentUser,
-            IWindowManager windowManager, IWcfServiceForClient c2DWcfManager)
+            ClientMeasurementViewModel clientMeasurementViewModel,
+            IWindowManager windowManager)
         {
             _iniFile35 = iniFile35;
             _logFile = logFile;
             _currentUser = currentUser;
+            _clientMeasurementViewModel = clientMeasurementViewModel;
             _windowManager = windowManager;
-            _c2DWcfManager = c2DWcfManager;
         }
 
         public void MeasurementClientAction(object param)
@@ -32,34 +32,10 @@ namespace Iit.Fibertest.Client
                 DoMeasurementClient(parent, GetPortNumber(param));
         }
 
-        private async void DoMeasurementClient(Leaf parent, int portNumber)
+        private void DoMeasurementClient(Leaf parent, int portNumber)
         {
-            RtuLeaf rtuLeaf = parent is RtuLeaf leaf ? leaf : (RtuLeaf)parent.Parent;
-            var otau = (IPortOwner) parent;
-            var address = otau.OtauNetAddress;
-
-            var vm = new OtdrParametersThroughServerSetterViewModel(rtuLeaf.TreeOfAcceptableMeasParams);
-            IWindowManager windowManager = new WindowManager();
-            windowManager.ShowDialog(vm);
-            if (!vm.IsAnswerPositive)
-                return;
-
-            using (new WaitCursor())
-            {
-                var dto = new DoClientMeasurementDto()
-                {
-                    RtuId = rtuLeaf.Id,
-                    OtauPortDto = new OtauPortDto()
-                    {
-                        OtauIp = address.Ip4Address,
-                        OtauTcpPort = address.Port,
-                        IsPortOnMainCharon = rtuLeaf.OtauNetAddress.Equals(address),
-                        OpticalPort = portNumber
-                    },
-                    SelectedMeasParams = vm.GetSelectedParameters(),
-                };
-                await _c2DWcfManager.DoClientMeasurementAsync(dto);
-            }
+            if (_clientMeasurementViewModel.Initialize(parent, portNumber))
+                _windowManager.ShowDialogWithAssignedOwner(_clientMeasurementViewModel);
         }
 
         public void MeasurementRftsReflectAction(object param)
@@ -119,7 +95,7 @@ namespace Iit.Fibertest.Client
                 return false;
 
             RtuLeaf rtuLeaf = parent is RtuLeaf leaf ? leaf : (RtuLeaf)parent.Parent;
-            return rtuLeaf.IsAvailable && rtuLeaf.MonitoringState == MonitoringState.Off;
+            return rtuLeaf.IsAvailable;
         }
 
         public bool CanMeasurementRftsReflectAction(object param)

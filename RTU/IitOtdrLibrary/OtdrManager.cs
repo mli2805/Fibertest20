@@ -98,7 +98,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
 
         public void DisconnectOtdr(string ipAddress)
         {
-            _rtuLogger.AppendLine($"Disconnecting to OTDR {ipAddress}...");
+            _rtuLogger.AppendLine($"Disconnecting OTDR {ipAddress}...");
             if (!InterOpWrapper.InitOtdr(ConnectionTypes.FreePort, ipAddress, 1500))
                 return;
 

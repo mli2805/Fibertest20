@@ -156,8 +156,11 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
                 if (rtuAddresses != null)
-                    return await new D2RWcfManager(rtuAddresses, _iniFile, _logFile)
-                        .DoClientMeasurementAsync(dto);
+                {
+                    var result = await new D2RWcfManager(rtuAddresses, _iniFile, _logFile).DoClientMeasurementAsync(dto);
+                    _logFile.AppendLine($"Client's measurement returns sor ({result.SorBytes.Length} bytes)");
+                    return result;
+                }
 
                 _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
                 return new ClientMeasurementStartedDto() { ReturnCode = ReturnCode.DbError };

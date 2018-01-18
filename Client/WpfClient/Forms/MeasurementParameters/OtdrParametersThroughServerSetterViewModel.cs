@@ -52,8 +52,8 @@ namespace Iit.Fibertest.Client
             Model.SelectedResolution = Model.Resolutions.First();
             Model.PulseDurations = leafOfAcceptableMeasParams.PulseDurations.ToList();
             Model.SelectedPulseDuration = Model.PulseDurations.First();
-            Model.PeriodsToAverage = leafOfAcceptableMeasParams.PeriodsToAverage.ToList();
-            Model.SelectedPeriodToAverage = Model.PeriodsToAverage.First();
+            Model.MeasurementTime = leafOfAcceptableMeasParams.PeriodsToAverage.ToList();
+            Model.SelectedMeasurementTime = Model.MeasurementTime.First();
         }
 
         private void ReInitializeForSelectedUnit()
@@ -82,10 +82,10 @@ namespace Iit.Fibertest.Client
             index = Model.PulseDurations.IndexOf(currentPulseDuration);
             Model.SelectedPulseDuration = index != -1 ? Model.PulseDurations[index] : Model.PulseDurations.First();
 
-            var currentPeriodToAverage = Model.SelectedPeriodToAverage;
-            Model.PeriodsToAverage = leafOfAcceptableMeasParams.PeriodsToAverage.ToList();
-            index = Model.PeriodsToAverage.IndexOf(currentPeriodToAverage);
-            Model.SelectedPeriodToAverage = index != -1 ? Model.PeriodsToAverage[index] : Model.PeriodsToAverage.First();
+            var currentPeriodToAverage = Model.SelectedMeasurementTime;
+            Model.MeasurementTime = leafOfAcceptableMeasParams.PeriodsToAverage.ToList();
+            index = Model.MeasurementTime.IndexOf(currentPeriodToAverage);
+            Model.SelectedMeasurementTime = index != -1 ? Model.MeasurementTime[index] : Model.MeasurementTime.First();
         }
 
         protected override void OnViewLoaded(object view)
@@ -107,19 +107,21 @@ namespace Iit.Fibertest.Client
 
         public SelectedMeasParams GetSelectedParameters()
         {
-            var result = new SelectedMeasParams();
-            result.MeasParams = new List<Tuple<int, int>>
+            var result = new SelectedMeasParams
             {
-                new Tuple<int, int>((int) ServiceFunctionFirstParam.Unit, Model.Units.IndexOf(Model.SelectedUnit)),
-                new Tuple<int, int>((int) ServiceFunctionFirstParam.Bc, (int)(Model.BackscatteredCoefficient*100)),
-                new Tuple<int, int>((int) ServiceFunctionFirstParam.Ri, (int)(Model.RefractiveIndex*100000)),
-                new Tuple<int, int>((int) ServiceFunctionFirstParam.Lmax, Model.Distances.IndexOf(Model.SelectedDistance)),
-                new Tuple<int, int>((int) ServiceFunctionFirstParam.Res, Model.Resolutions.IndexOf(Model.SelectedResolution)),
-                new Tuple<int, int>((int) ServiceFunctionFirstParam.Pulse, Model.PulseDurations.IndexOf(Model.SelectedPulseDuration)),
-                new Tuple<int, int>((int) ServiceFunctionFirstParam.Time, Model.PeriodsToAverage.IndexOf(Model.SelectedPeriodToAverage)),
+                MeasParams = new List<Tuple<int, int>>
+                {
+                    new Tuple<int, int>((int) ServiceFunctionFirstParam.Unit, Model.Units.IndexOf(Model.SelectedUnit)),
+                    new Tuple<int, int>((int) ServiceFunctionFirstParam.Bc, (int) (Model.BackscatteredCoefficient * 100)),
+                    new Tuple<int, int>((int) ServiceFunctionFirstParam.Ri, (int) (Model.RefractiveIndex * 100000)),
+                    new Tuple<int, int>((int) ServiceFunctionFirstParam.Lmax, Model.Distances.IndexOf(Model.SelectedDistance)),
+                    new Tuple<int, int>((int) ServiceFunctionFirstParam.Res, Model.Resolutions.IndexOf(Model.SelectedResolution)),
+                    new Tuple<int, int>((int) ServiceFunctionFirstParam.Pulse, Model.PulseDurations.IndexOf(Model.SelectedPulseDuration)),
+                    new Tuple<int, int>((int) ServiceFunctionFirstParam.IsTime, 1),
+                    new Tuple<int, int>((int) ServiceFunctionFirstParam.Time, Model.MeasurementTime.IndexOf(Model.SelectedMeasurementTime)),
+                }
             };
             return result;
         }
-       
     }
 }

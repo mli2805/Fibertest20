@@ -1,5 +1,7 @@
 ﻿using System.Globalization;
+using System.Threading;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.IitOtdrLibrary
 {
@@ -51,8 +53,8 @@ namespace Iit.Fibertest.IitOtdrLibrary
         {
             foreach (var measParam in list.MeasParams)
             {
-                _rtuLogger.AppendLine($"{measParam.Item1} - {measParam.Item2}");
-                
+                _rtuLogger.AppendLine($"{measParam.Item1} - {measParam.Item2}", 0, 3);
+                Thread.Sleep(50);
                 SetParam(measParam.Item1, measParam.Item2);
             }
         }

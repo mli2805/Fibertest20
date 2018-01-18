@@ -22,18 +22,18 @@ namespace Iit.Fibertest.RtuManagement
         {
             var callbackChannel = OperationContext.Current.GetCallbackChannel<IRtuWcfServiceBackward>();
             ThreadPool.QueueUserWorkItem(_ => {
-                var result = new BaseRefAssignedDto();
+                var result = new ClientMeasurementStartedDto();
                 try
                 {
-                    result.ReturnCode = _rtuManager.StartClientMeasurement(dto);
+                    result = _rtuManager.StartClientMeasurement(dto);
                 }
                 catch (Exception e)
                 {
                     _serviceLog.AppendLine("Thread pool: " + e);
-                    result.ReturnCode = ReturnCode.RtuBaseRefAssignmentError;
+                    result.ReturnCode = ReturnCode.Error;
                     result.ExceptionMessage = e.Message;
                 }
-                callbackChannel.EndAssignBaseRef(result);
+                callbackChannel.EndStartClientMeasurement(result);
             });
         }
 
@@ -41,7 +41,7 @@ namespace Iit.Fibertest.RtuManagement
         {
             var callbackChannel = OperationContext.Current.GetCallbackChannel<IRtuWcfServiceBackward>();
             ThreadPool.QueueUserWorkItem(_ => {
-                var result = new BaseRefAssignedDto();
+                var result = new OutOfTurnMeasurementStartedDto();
                 try
                 {
                     result.ReturnCode = _rtuManager.StartOutOfTurnMeasurement(dto);
@@ -49,10 +49,10 @@ namespace Iit.Fibertest.RtuManagement
                 catch (Exception e)
                 {
                     _serviceLog.AppendLine("Thread pool: " + e);
-                    result.ReturnCode = ReturnCode.RtuBaseRefAssignmentError;
+                    result.ReturnCode = ReturnCode.Error;
                     result.ExceptionMessage = e.Message;
                 }
-                callbackChannel.EndAssignBaseRef(result);
+                callbackChannel.EndStartOutOfTurnMeasurement(result);
             });
         }
 

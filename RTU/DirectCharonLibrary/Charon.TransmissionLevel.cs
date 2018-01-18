@@ -21,8 +21,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
                 if (!success)
                 {
                     LastErrorMessage = "Can't establish connection. Check connection timeout";
-                    if (_charonLogLevel >= CharonLogLevel.TransmissionCommands)
-                        _rtuLogFile.AppendLine(LastErrorMessage);
+                        _rtuLogFile.AppendLine(LastErrorMessage, 0, 3);
                     return;
                 }
                 client.SendTimeout = TimeSpan.FromSeconds(_writeTimeout).Milliseconds;
@@ -32,8 +31,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
                 byte[] bytesToSend = Encoding.ASCII.GetBytes(cmd);
 
                 //---send the text---
-                if (_charonLogLevel >= CharonLogLevel.TransmissionCommands)
-                    _rtuLogFile.AppendLine(cmd, 4, "Sending :");
+                _rtuLogFile.AppendLine(cmd, 4, 3, "Sending :");
                 nwStream.Write(bytesToSend, 0, bytesToSend.Length);
 
                 // for bulk command could be needed
@@ -43,15 +41,13 @@ namespace Iit.Fibertest.DirectCharonLibrary
                 byte[] bytesToRead = new byte[client.ReceiveBufferSize];
                 int bytesRead = nwStream.Read(bytesToRead, 0, client.ReceiveBufferSize);
                 client.Close();
-                if (_charonLogLevel >= CharonLogLevel.TransmissionCommands)
-                    _rtuLogFile.AppendLine(Encoding.ASCII.GetString(bytesToRead, 0, bytesRead), 4, "Received :");
+                _rtuLogFile.AppendLine(Encoding.ASCII.GetString(bytesToRead, 0, bytesRead), 4, 3, "Received :");
                 LastAnswer = Encoding.ASCII.GetString(bytesToRead, 0, bytesRead);
                 IsLastCommandSuccessful = true;
             }
             catch (Exception e)
             {
-                if (_charonLogLevel >= CharonLogLevel.TransmissionCommands)
-                    _rtuLogFile.AppendLine(e.Message);
+                    _rtuLogFile.AppendLine(e.Message,0,3);
                 LastErrorMessage = e.Message;
             }
         }
@@ -72,8 +68,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
                 if (!success)
                 {
                     LastErrorMessage = "Can't establish connection. Check connection timeout";
-                    if (_charonLogLevel >= CharonLogLevel.TransmissionCommands)
-                        _rtuLogFile.AppendLine(LastErrorMessage);
+                        _rtuLogFile.AppendLine(LastErrorMessage, 0, 3);
                     return;
                 }
                 client.SendTimeout = TimeSpan.FromSeconds(2).Milliseconds;
@@ -83,15 +78,13 @@ namespace Iit.Fibertest.DirectCharonLibrary
 
                 //---send the command---
                 byte[] bytesToSend = Encoding.ASCII.GetBytes(cmd);
-                if (_charonLogLevel >= CharonLogLevel.TransmissionCommands)
-                    _rtuLogFile.AppendLine(cmd, 4, "Sending :");
+                _rtuLogFile.AppendLine(cmd, 4, 3, "Sending :");
                 nwStream.Write(bytesToSend, 0, bytesToSend.Length);
 
                 //---read back the answer---
                 byte[] bytesToRead = new byte[client.ReceiveBufferSize];
                 int bytesRead = nwStream.Read(bytesToRead, 0, client.ReceiveBufferSize);
-                if (_charonLogLevel >= CharonLogLevel.TransmissionCommands)
-                    _rtuLogFile.AppendLine(Encoding.ASCII.GetString(bytesToRead, 0, bytesRead), 4, "Received :");
+                _rtuLogFile.AppendLine(Encoding.ASCII.GetString(bytesToRead, 0, bytesRead), 4, 3, "Received :");
 
                 //---send the content---
                 byte[] contentBytes = new byte[480];
@@ -111,8 +104,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
                 //---read back the answer---
                 bytesToRead = new byte[client.ReceiveBufferSize];
                 bytesRead = nwStream.Read(bytesToRead, 0, client.ReceiveBufferSize);
-                if (_charonLogLevel >= CharonLogLevel.TransmissionCommands)
-                    _rtuLogFile.AppendLine(Encoding.ASCII.GetString(bytesToRead, 0, bytesRead), 4, "Received : ");
+                _rtuLogFile.AppendLine(Encoding.ASCII.GetString(bytesToRead, 0, bytesRead), 4, 3, "Received : ");
 
                 client.Close();
                 LastAnswer = Encoding.ASCII.GetString(bytesToRead, 0, bytesRead);
@@ -120,8 +112,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
             }
             catch (Exception e)
             {
-                if (_charonLogLevel >= CharonLogLevel.TransmissionCommands)
-                    _rtuLogFile.AppendLine(e.Message);
+                    _rtuLogFile.AppendLine(e.Message, 0, 3);
                 LastErrorMessage = e.Message;
             }
 

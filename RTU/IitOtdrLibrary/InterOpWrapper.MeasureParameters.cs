@@ -41,7 +41,6 @@ namespace Iit.Fibertest.IitOtdrLibrary
             var result = ServiceFunction(cmd, ref prm1, ref prm2);
             if (result != 0)
                 _rtuLogger.AppendLine($"Set parameter error={result}!");
-            else _rtuLogger.AppendLine("Parameter set Ok");
         }
 
         public bool SetMeasurementParametersFromSor(ref IntPtr baseSorData)

@@ -6,6 +6,9 @@ namespace Iit.Fibertest.Dto
     public class ClientMeasurementStartedDto
     {
         [DataMember]
+        public byte[] SorBytes { get; set; }
+
+        [DataMember]
         public ReturnCode ReturnCode { get; set; }
 
         [DataMember]

@@ -15,6 +15,8 @@
         RtuMonitoringSettingsApplyError = 1007,
         RtuAttachOtauError = 1008,
         RtuDetachOtauError = 1009,
+        RtuToggleToPortError = 1010,
+        RtuMeasurementError = 1011,
 
         MeasurementError = 1100,
         MeasurementEndedNormally = 1101,

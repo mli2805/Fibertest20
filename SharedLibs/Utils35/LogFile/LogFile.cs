@@ -13,6 +13,7 @@ namespace Iit.Fibertest.UtilsLib
         private StreamWriter _logFile;
         public string Culture { get; }
         public int SizeLimitKb { get; }
+        public int LogLevel { get; }
         public string LogFullFileName { get; private set; }
 
         private readonly object _obj = new object();
@@ -21,6 +22,7 @@ namespace Iit.Fibertest.UtilsLib
         {
             Culture = config.Read(IniSection.General, IniKey.Culture, "ru-RU");
             SizeLimitKb = config.Read(IniSection.General, IniKey.LogFileSizeLimitKb, 0);
+            LogLevel = config.Read(IniSection.Charon, IniKey.LogLevel, 2);
         }
 
         public IMyLog AssignFile(string filename)
@@ -52,11 +54,15 @@ namespace Iit.Fibertest.UtilsLib
             }
         }
 
-        public void AppendLine(string message, int offset = 0, string prefix = "")
+        // LogFile gets its LogLevel due initialization
+        // if messageLevel more than LogLevel message is NOT logged
+        public void AppendLine(string message, int offset = 0, int messageLevel = 2, string prefix = "")
         {
             lock (_obj)
             {
                 if (_logFile == null)
+                    return;
+                if (messageLevel > LogLevel)
                     return;
 
                 CheckSizeLimit();
