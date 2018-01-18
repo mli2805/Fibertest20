@@ -12,11 +12,19 @@ namespace Iit.Fibertest.RtuManagement
     {
         private readonly IMyLog _serviceLog;
         private readonly RtuManager _rtuManager;
+        private readonly WcfOtauOperator _wcfOtauOperator;
+        private readonly WcfMeasurementsOperator _wcfMeasurementsOperator;
+        private readonly RtuWcfOperationsPermissions _rtuWcfOperationsPermissions;
 
-        public RtuWcfService(IMyLog serviceLog, RtuManager rtuManager)
+        public RtuWcfService(IMyLog serviceLog, RtuManager rtuManager,
+            WcfOtauOperator wcfOtauOperator, WcfMeasurementsOperator wcfMeasurementsOperator,
+            RtuWcfOperationsPermissions rtuWcfOperationsPermissions)
         {
             _serviceLog = serviceLog;
             _rtuManager = rtuManager;
+            _wcfOtauOperator = wcfOtauOperator;
+            _wcfMeasurementsOperator = wcfMeasurementsOperator;
+            _rtuWcfOperationsPermissions = rtuWcfOperationsPermissions;
         }
 
         public void BeginInitialize(InitializeRtuDto dto)
@@ -37,68 +45,10 @@ namespace Iit.Fibertest.RtuManagement
             });
         }
 
-        public void BeginAttachOtau(AttachOtauDto dto)
-        {
-            var callbackChannel = OperationContext.Current.GetCallbackChannel<IRtuWcfServiceBackward>();
-            ThreadPool.QueueUserWorkItem(_ =>
-            {
-                try
-                {
-                    if (ShouldPerformOtauOperation())
-                        _rtuManager.AttachOtau(dto, () => callbackChannel.EndAttachOtau(_rtuManager.OtauAttachedDto));
-                    else
-                        callbackChannel.EndAttachOtau(new OtauAttachedDto() { IsAttached = false, ReturnCode = ReturnCode.RtuIsBusy });
-                }
-                catch (Exception e)
-                {
-                    _serviceLog.AppendLine("Thread pool: " + e);
-                    var result = new OtauAttachedDto() { IsAttached = false, ReturnCode = ReturnCode.RtuAttachOtauError, ErrorMessage = e.Message };
-                    callbackChannel.EndAttachOtau(result);
-                }
-            });
-        }
+        public void BeginAttachOtau(AttachOtauDto dto) { _wcfOtauOperator.AttachOtau(dto); }
 
-        public void BeginDetachOtau(DetachOtauDto dto)
-        {
-            var callbackChannel = OperationContext.Current.GetCallbackChannel<IRtuWcfServiceBackward>();
-            ThreadPool.QueueUserWorkItem(_ =>
-            {
-                try
-                {
-                    if (ShouldPerformOtauOperation())
-                        _rtuManager.DetachOtau(dto, () => callbackChannel.EndDetachOtau(_rtuManager.OtauDetachedDto));
-                    else
-                        callbackChannel.EndDetachOtau(new OtauDetachedDto() { IsDetached = false, ReturnCode = ReturnCode.RtuIsBusy });
-                }
-                catch (Exception e)
-                {
-                    _serviceLog.AppendLine("Thread pool: " + e);
-                    var result = new OtauDetachedDto
-                    {
-                        IsDetached = true,
-                        ReturnCode = ReturnCode.RtuDetachOtauError,
-                        ErrorMessage = e.Message
-                    };
-                    callbackChannel.EndDetachOtau(result);
-                }
-            });
-        }
+        public void BeginDetachOtau(DetachOtauDto dto) { _wcfOtauOperator.DetachOtau(dto); }
 
-        private bool ShouldPerformOtauOperation()
-        {
-            if (!_rtuManager.IsRtuInitialized)
-            {
-                _serviceLog.AppendLine("User asks otau operation - Ignored - RTU is busy");
-                return false;
-            }
-            if (_rtuManager.IsMonitoringOn)
-            {
-                _serviceLog.AppendLine("User asks otau operation - Ignored - RTU in AUTOMATIC mode");
-                return false;
-            }
-            _serviceLog.AppendLine("User demands otau operation");
-            return true;
-        }
 
         public void BeginStopMonitoring(StopMonitoringDto dto)
         {
@@ -107,7 +57,7 @@ namespace Iit.Fibertest.RtuManagement
             {
                 try
                 {
-                    if (ShouldStop())
+                    if (_rtuWcfOperationsPermissions.ShouldStop())
                         _rtuManager.StopMonitoring();
                 }
                 catch (Exception e)
@@ -117,25 +67,7 @@ namespace Iit.Fibertest.RtuManagement
                 _serviceLog.AppendLine($"StopMonitoring terminated successfully {!_rtuManager.IsMonitoringOn}");
                 callbackChannel.EndStopMonitoring(!_rtuManager.IsMonitoringOn);
             });
-
         }
-
-        private bool ShouldStop()
-        {
-            if (!_rtuManager.IsRtuInitialized)
-            {
-                _serviceLog.AppendLine("User stops monitoring - Ignored - RTU is busy");
-                return false;
-            }
-            if (!_rtuManager.IsMonitoringOn)
-            {
-                _serviceLog.AppendLine("User stops monitoring - Ignored - MANUAL mode already");
-                return false;
-            }
-            _serviceLog.AppendLine("User demands stop monitoring");
-            return true;
-        }
-
 
         public void BeginApplyMonitoringSettings(ApplyMonitoringSettingsDto dto)
         {
@@ -147,7 +79,7 @@ namespace Iit.Fibertest.RtuManagement
                 var result = new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.MonitoringSettingsAppliedSuccessfully };
                 try
                 {
-                    if (ShouldExecute("User sent monitoring settings"))
+                    if (_rtuWcfOperationsPermissions.ShouldExecute("User sent monitoring settings"))
                         _rtuManager.ChangeSettings(dto, () => callbackChannel.EndApplyMonitoringSettings(result));
                     else
                     {
@@ -165,17 +97,6 @@ namespace Iit.Fibertest.RtuManagement
             });
         }
 
-        private bool ShouldExecute(string message)
-        {
-            if (!_rtuManager.IsRtuInitialized)
-            {
-                _serviceLog.AppendLine($"{message} - Ignored - RTU is busy");
-                return false;
-            }
-            _serviceLog.AppendLine($"{message} - Accepted");
-            return true;
-        }
-
         public void BeginAssignBaseRef(AssignBaseRefsDto dto)
         {
             var callbackChannel = OperationContext.Current.GetCallbackChannel<IRtuWcfServiceBackward>();
@@ -184,7 +105,9 @@ namespace Iit.Fibertest.RtuManagement
                 var result = new BaseRefAssignedDto();
                 try
                 {
-                    result.ReturnCode = ShouldExecute("User sent assign base refs command") ? _rtuManager.BaseRefsSaver.SaveBaseRefs(dto) : ReturnCode.RtuIsBusy;
+                    result.ReturnCode = _rtuWcfOperationsPermissions.ShouldExecute("User sent assign base refs command")
+                        ? _rtuManager.BaseRefsSaver.SaveBaseRefs(dto)
+                        : ReturnCode.RtuIsBusy;
                 }
                 catch (Exception e)
                 {
@@ -198,50 +121,17 @@ namespace Iit.Fibertest.RtuManagement
 
         public void BeginClientMeasurement(DoClientMeasurementDto dto)
         {
-            var callbackChannel = OperationContext.Current.GetCallbackChannel<IRtuWcfServiceBackward>();
-            ThreadPool.QueueUserWorkItem(_ =>
-            {
-                var result = new BaseRefAssignedDto();
-                try
-                {
-                    result.ReturnCode = ShouldExecute("User requested client's measurement") ? _rtuManager.StartClientMeasurement(dto) : ReturnCode.RtuIsBusy;
-                }
-                catch (Exception e)
-                {
-                    _serviceLog.AppendLine("Thread pool: " + e);
-                    result.ReturnCode = ReturnCode.RtuBaseRefAssignmentError;
-                    result.ExceptionMessage = e.Message;
-                }
-                callbackChannel.EndAssignBaseRef(result);
-            });
+            _wcfMeasurementsOperator.ClientMeasurement(dto);
         }
 
         public void BeginOutOfTurnPreciseMeasurement(DoOutOfTurnPreciseMeasurementDto dto)
         {
-            var callbackChannel = OperationContext.Current.GetCallbackChannel<IRtuWcfServiceBackward>();
-            ThreadPool.QueueUserWorkItem(_ =>
-            {
-                var result = new BaseRefAssignedDto();
-                try
-                {
-                    result.ReturnCode = ShouldExecute("User requested out of turn precise measurement") ? _rtuManager.StartOutOfTurnMeasurement(dto) : ReturnCode.RtuIsBusy;
-                }
-                catch (Exception e)
-                {
-                    _serviceLog.AppendLine("Thread pool: " + e);
-                    result.ReturnCode = ReturnCode.RtuBaseRefAssignmentError;
-                    result.ExceptionMessage = e.Message;
-                }
-                callbackChannel.EndAssignBaseRef(result);
-            });
+            _wcfMeasurementsOperator.OutOfTurnPreciseMeasurement(dto);
         }
 
-        
         public bool CheckLastSuccessfullMeasTime()
         {
-
-            _serviceLog.AppendLine("WatchDog asks time of last successfull measurement");
-            //            _rtuManager.
+            _serviceLog.AppendLine("WatchDog asks time of last successful measurement");
             return true;
         }
     }

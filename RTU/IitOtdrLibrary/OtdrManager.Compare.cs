@@ -133,16 +133,16 @@ namespace Iit.Fibertest.IitOtdrLibrary
             var moniLevel = new MoniLevel {Type = type};
 
             // allocate memory
-            var baseIntPtr = IitOtdr.SetSorData(SorData.ToBytes(baseSorData));
-            IitOtdr.SetBaseForComparison(baseIntPtr);
+            var baseIntPtr = InterOpWrapper.SetSorData(SorData.ToBytes(baseSorData));
+            InterOpWrapper.SetBaseForComparison(baseIntPtr);
 
             // allocate memory
-            var measIntPtr = IitOtdr.SetSorData(SorData.ToBytes(measSorData));
-            var returnCode = IitOtdr.CompareActiveLevel(measIntPtr);
+            var measIntPtr = InterOpWrapper.SetSorData(SorData.ToBytes(measSorData));
+            var returnCode = InterOpWrapper.CompareActiveLevel(measIntPtr);
 
-            var size = IitOtdr.GetSorDataSize(measIntPtr);
+            var size = InterOpWrapper.GetSorDataSize(measIntPtr);
             byte[] buffer = new byte[size];
-            IitOtdr.GetSordata(measIntPtr, buffer, size);
+            InterOpWrapper.GetSordata(measIntPtr, buffer, size);
             measSorData = SorData.FromBytes(buffer);
 
             moniLevel.IsLevelFailed = (measSorData.RftsEvents.Results & MonitoringResults.IsFailed) != 0;
@@ -154,8 +154,8 @@ namespace Iit.Fibertest.IitOtdrLibrary
             SetMoniResultFlags(moniResult, returnCode);
 
             // free memory
-            IitOtdr.FreeSorDataMemory(measIntPtr);
-            IitOtdr.FreeSorDataMemory(baseIntPtr);
+            InterOpWrapper.FreeSorDataMemory(measIntPtr);
+            InterOpWrapper.FreeSorDataMemory(baseIntPtr);
         }
     }
 }

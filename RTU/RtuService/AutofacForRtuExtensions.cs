@@ -18,6 +18,9 @@ namespace Iit.Fibertest.RtuService
 
             builder.RegisterType<Heartbeat>().SingleInstance();
             builder.RegisterType<RtuManager>().SingleInstance();
+            builder.RegisterType<RtuWcfOperationsPermissions>().SingleInstance();
+            builder.RegisterType<WcfOtauOperator>().SingleInstance();
+            builder.RegisterType<WcfMeasurementsOperator>().SingleInstance();
             builder.RegisterType<RtuWcfService>().As<IRtuWcfService>().SingleInstance();
             builder.RegisterType<RtuWcfServiceBootstrapper>().SingleInstance();
 

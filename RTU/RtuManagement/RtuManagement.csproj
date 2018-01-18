@@ -84,6 +84,10 @@
       <HintPath>..\..\packages\Newtonsoft.Json.10.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Optixsoft.OtdrDataFormat, Version=1.1.4.118, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Optixsoft.OtdrDataFormat\Optixsoft.OtdrDataFormat.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.IO, Version=2.6.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -124,8 +128,11 @@
     <Compile Include="RtuManager.Send.cs" />
     <Compile Include="RtuManager.OnWcfReactions.cs" />
     <Compile Include="RtuManager.Recovering.cs" />
+    <Compile Include="RtuWcfOperationsPermissions.cs" />
     <Compile Include="RtuWcfService.cs" />
     <Compile Include="RtuWcfServiceBootstrapper.cs" />
+    <Compile Include="WcfMeasurementsOperator.cs" />
+    <Compile Include="WcfOtauOperator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\SharedLibs\Dto\Dto.csproj">

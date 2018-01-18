@@ -122,7 +122,6 @@
     </Compile>
     <Compile Include="RftsEvents\RftsEventsViewModel.cs" />
     <Compile Include="RftsEvents\SorDataToViewContent.cs" />
-    <Compile Include="WaitCursor.cs" />
     <Page Include="RftsEvents\RftsEventsFooterView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

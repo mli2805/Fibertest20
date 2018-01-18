@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Reflection;
+using System.Threading;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.IitOtdrLibrary;
@@ -132,12 +133,47 @@ namespace Iit.Fibertest.RtuManagement
                 OtdrAddress = _mainCharon?.NetAddress,
                 Version = _version,
                 IsMonitoringOn = _rtuIni.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, 0) != 0,
-                AcceptableMeasParams = _otdrManager.IitOtdr.GetTreeOfAcceptableMeasParams(),
+                AcceptableMeasParams = _otdrManager.InterOpWrapper.GetTreeOfAcceptableMeasParams(),
             };
         }
 
         public ReturnCode StartClientMeasurement(DoClientMeasurementDto dto)
         {
+            var isMonitoringOnBefore = IsMonitoringOn;
+            if (IsMonitoringOn)
+            {
+                StopMonitoring();
+                Thread.Sleep(TimeSpan.FromSeconds(5));
+                _rtuLog.AppendLine("Monitoring stopped.");
+            }
+
+            _otdrManager.InterOpWrapper.SetMeasurementParametersFromUserInput(dto.SelectedMeasParams);
+            _rtuLog.AppendLine("Measurement parameters applied");
+
+            if (!ToggleToPort(dto.OtauPortDto))
+                return ReturnCode.Error;
+
+            var res = _otdrManager.ConnectOtdr(_mainCharon.NetAddress.Ip4Address);
+            if (!res)
+            {
+                RunMainCharonRecovery(); // one of recovery steps inevitably exits process
+                res = _otdrManager.ConnectOtdr(_mainCharon.NetAddress.Ip4Address);
+                if (!res)
+                    RunMainCharonRecovery(); // one of recovery steps inevitably exits process
+            }
+
+            var activeBop = dto.OtauPortDto.IsPortOnMainCharon
+                ? null
+                : new Charon(new NetAddress(dto.OtauPortDto.OtauIp, dto.OtauPortDto.OtauTcpPort), _rtuIni, _rtuLog);
+            _otdrManager.DoManualMeasurement(true, activeBop);
+            var lastSorDataBuffer = _otdrManager.GetLastSorDataBuffer();
+            if (lastSorDataBuffer == null)
+                return ReturnCode.Error;
+
+            var sorData = _otdrManager.ApplyFilter(_otdrManager.ApplyAutoAnalysis(lastSorDataBuffer), false);
+
+            _otdrManager.DisconnectOtdr(_mainCharon.NetAddress.Ip4Address);
+
             return ReturnCode.Ok;
         } 
         public ReturnCode StartOutOfTurnMeasurement(DoOutOfTurnPreciseMeasurementDto dto)

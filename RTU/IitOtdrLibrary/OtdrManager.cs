@@ -11,7 +11,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
         private readonly IniFile _iniFile;
         private readonly IMyLog _rtuLogger;
 
-        public InterOpWrapper IitOtdr { get; set; }
+        public InterOpWrapper InterOpWrapper { get; set; }
         public bool IsLibraryInitialized;
         public bool IsOtdrConnected;
 
@@ -47,14 +47,14 @@ namespace Iit.Fibertest.IitOtdrLibrary
         }
         public bool InitializeLibrary()
         {
-            IitOtdr = new InterOpWrapper(_rtuLogger);
+            InterOpWrapper = new InterOpWrapper(_rtuLogger);
             _rtuLogger.AppendLine("Initializing iit_otdr (log, ini, temp and other stuff) ...");
             if (!RestoreEtc())
             {
                 _rtuLogger.AppendLine("Etc restore problem.");
                 return false;
             }
-            IsLibraryInitialized = IitOtdr.InitDll(_iitotdrFolder);
+            IsLibraryInitialized = InterOpWrapper.InitDll(_iitotdrFolder);
             _rtuLogger.AppendLine(IsLibraryInitialized ? "Library initialized successfully!" : "Library initialization failed!");
             return IsLibraryInitialized;
         }
@@ -89,7 +89,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
         {
             _rtuLogger.AppendLine($"Connecting to OTDR {ipAddress}...");
             var tcpPort = _iniFile.Read(IniSection.Charon, IniKey.OtdrPort, 1500);
-            IsOtdrConnected = IitOtdr.InitOtdr(ConnectionTypes.Tcp, ipAddress, tcpPort);
+            IsOtdrConnected = InterOpWrapper.InitOtdr(ConnectionTypes.Tcp, ipAddress, tcpPort);
             _rtuLogger.AppendLine(IsOtdrConnected ? "OTDR connected successfully!" : "OTDR connection failed!");
             if (!IsOtdrConnected)
                 LedDisplay.Show(_iniFile, _rtuLogger, LedDisplayCode.ErrorConnectOtdr);
@@ -99,7 +99,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
         public void DisconnectOtdr(string ipAddress)
         {
             _rtuLogger.AppendLine($"Disconnecting to OTDR {ipAddress}...");
-            if (!IitOtdr.InitOtdr(ConnectionTypes.FreePort, ipAddress, 1500))
+            if (!InterOpWrapper.InitOtdr(ConnectionTypes.FreePort, ipAddress, 1500))
                 return;
 
             IsOtdrConnected = false;

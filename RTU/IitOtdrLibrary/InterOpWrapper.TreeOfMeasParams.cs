@@ -51,6 +51,8 @@ namespace Iit.Fibertest.IitOtdrLibrary
         {
             foreach (var measParam in list.MeasParams)
             {
+                _rtuLogger.AppendLine($"{measParam.Item1} - {measParam.Item2}");
+                
                 SetParam(measParam.Item1, measParam.Item2);
             }
         }

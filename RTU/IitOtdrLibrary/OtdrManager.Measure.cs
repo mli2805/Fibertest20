@@ -15,22 +15,22 @@ namespace Iit.Fibertest.IitOtdrLibrary
             // allocate memory inside c++ library
             // put there base sor data
             // return pointer to that data, than you can say c++ code to use this data
-            var baseSorData = IitOtdr.SetSorData(buffer);
-            if (IitOtdr.SetMeasurementParametersFromSor(ref baseSorData))
+            var baseSorData = InterOpWrapper.SetSorData(buffer);
+            if (InterOpWrapper.SetMeasurementParametersFromSor(ref baseSorData))
             {
-                IitOtdr.ForceLmaxNs(IitOtdr.ConvertLmaxOwtToNs(buffer));
+                InterOpWrapper.ForceLmaxNs(InterOpWrapper.ConvertLmaxOwtToNs(buffer));
                 result = Measure(activeChild);
             }
 
             // free memory where was base sor data
-            IitOtdr.FreeSorDataMemory(baseSorData);
+            InterOpWrapper.FreeSorDataMemory(baseSorData);
             return result;
         }
 
         public ReturnCode DoManualMeasurement(bool shouldForceLmax, Charon activeChild)
         {
             if (shouldForceLmax)
-                IitOtdr.ForceLmaxNs(IitOtdr.ConvertLmaxKmToNs());
+                InterOpWrapper.ForceLmaxNs(InterOpWrapper.ConvertLmaxKmToNs());
 
             return Measure(activeChild);
         }
@@ -45,7 +45,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
         {
             _rtuLogger.AppendLine("Measurement begin.");
 
-            if (!IitOtdr.PrepareMeasurement(true))
+            if (!InterOpWrapper.PrepareMeasurement(true))
             {
                 _rtuLogger.AppendLine("Prepare measurement error!");
                 return ReturnCode.MeasurementPreparationError;
@@ -70,12 +70,12 @@ namespace Iit.Fibertest.IitOtdrLibrary
                 {
                     if (_cancellationTokenSource.IsCancellationRequested)
                     {
-                        IitOtdr.StopMeasurement(true);
+                        InterOpWrapper.StopMeasurement(true);
                         _rtuLogger.AppendLine("Measurement interrupted.");
                         return ReturnCode.MeasurementInterrupted;
                     }
 
-                    hasMoreSteps = IitOtdr.DoMeasurementStep(ref _sorData);
+                    hasMoreSteps = InterOpWrapper.DoMeasurementStep(ref _sorData);
                 } while (hasMoreSteps);
 
             }
@@ -96,7 +96,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
 
         public byte[] GetLastSorDataBuffer()
         {
-            int bufferLength = IitOtdr.GetSorDataSize(_sorData);
+            int bufferLength = InterOpWrapper.GetSorDataSize(_sorData);
             if (bufferLength == -1)
             {
                 _rtuLogger.AppendLine("_sorData is null");
@@ -104,7 +104,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
             }
             byte[] buffer = new byte[bufferLength];
 
-            var size = IitOtdr.GetSordata(_sorData, buffer, bufferLength);
+            var size = InterOpWrapper.GetSordata(_sorData, buffer, bufferLength);
             if (size == -1)
             {
                 _rtuLogger.AppendLine("Error in GetLastSorData");
@@ -116,17 +116,17 @@ namespace Iit.Fibertest.IitOtdrLibrary
 
         public byte[] ApplyAutoAnalysis(byte[] measBytes)
         {
-            var measIntPtr = IitOtdr.SetSorData(measBytes);
-            if (!IitOtdr.MakeAutoAnalysis(ref measIntPtr))
+            var measIntPtr = InterOpWrapper.SetSorData(measBytes);
+            if (!InterOpWrapper.MakeAutoAnalysis(ref measIntPtr))
             {
                 _rtuLogger.AppendLine("ApplyAutoAnalysis error.");
                 return null;
             }
-            var size = IitOtdr.GetSorDataSize(measIntPtr);
+            var size = InterOpWrapper.GetSorDataSize(measIntPtr);
             byte[] resultBytes = new byte[size];
-            IitOtdr.GetSordata(measIntPtr, resultBytes, size);
+            InterOpWrapper.GetSordata(measIntPtr, resultBytes, size);
 
-            IitOtdr.FreeSorDataMemory(measIntPtr);
+            InterOpWrapper.FreeSorDataMemory(measIntPtr);
             return resultBytes;
         }
 
