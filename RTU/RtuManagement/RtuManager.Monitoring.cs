@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Messaging;
+using System.Threading;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
@@ -166,6 +167,8 @@ namespace Iit.Fibertest.RtuManagement
 
         private MoniResult DoMeasurement(BaseRefType baseRefType, MonitorigPort monitorigPort, bool shouldChangePort = true)
         {
+            _cancellationTokenSource = new CancellationTokenSource();
+
             if (shouldChangePort && !ToggleToPort(monitorigPort))
                 return null;
 
@@ -175,10 +178,10 @@ namespace Iit.Fibertest.RtuManagement
 
             SendCurrentMonitoringStep(MonitoringCurrentStep.Measure, monitorigPort, baseRefType);
 
-            if (!IsMonitoringOn) // command to interrupt monitoring came while port toggling
+            if (_cancellationTokenSource.IsCancellationRequested) // command to interrupt monitoring came while port toggling
                 return null;
 
-            var result = _otdrManager.MeasureWithBase(baseBytes, _mainCharon.GetActiveChildCharon());
+            var result = _otdrManager.MeasureWithBase(_cancellationTokenSource, baseBytes, _mainCharon.GetActiveChildCharon());
 
             if (result == ReturnCode.MeasurementInterrupted)
             {

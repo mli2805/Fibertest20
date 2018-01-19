@@ -145,7 +145,7 @@ namespace Iit.Fibertest.RtuManagement
         {
             IsMonitoringOn = false;
             _rtuLog.AppendLine($"{caller}: Interrupting current measurement...");
-            _otdrManager.InterruptMeasurement();
+            _cancellationTokenSource?.Cancel();
             Thread.Sleep(TimeSpan.FromSeconds(5)); //for long measurements it could be not enough!!!
         }
 

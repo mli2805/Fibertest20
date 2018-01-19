@@ -171,7 +171,8 @@ namespace Iit.Fibertest.RtuManagement
             var activeBop = dto.OtauPortDto.IsPortOnMainCharon
                 ? null
                 : new Charon(new NetAddress(dto.OtauPortDto.OtauIp, dto.OtauPortDto.OtauTcpPort), _rtuIni, _rtuLog);
-            _otdrManager.DoManualMeasurement(true, activeBop);
+            _cancellationTokenSource = new CancellationTokenSource();
+            _otdrManager.DoManualMeasurement(_cancellationTokenSource, true, activeBop);
             var lastSorDataBuffer = _otdrManager.GetLastSorDataBuffer();
             if (lastSorDataBuffer == null)
             {
@@ -193,6 +194,7 @@ namespace Iit.Fibertest.RtuManagement
                 DisconnectOtdr();
         }
 
+        private CancellationTokenSource _cancellationTokenSource;
 
         public ClientMeasurementDoneDto ClientMeasurementResult = new ClientMeasurementDoneDto();
        

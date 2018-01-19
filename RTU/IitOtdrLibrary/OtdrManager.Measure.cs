@@ -8,7 +8,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
 {
     public partial class OtdrManager
     {
-        public ReturnCode MeasureWithBase(byte[] buffer, Charon activeChild)
+        public ReturnCode MeasureWithBase(CancellationTokenSource cts, byte[] buffer, Charon bopCharonToShowPortOnDisplay)
         {
             var result = ReturnCode.Error;
 
@@ -19,7 +19,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
             if (InterOpWrapper.SetMeasurementParametersFromSor(ref baseSorData))
             {
                 InterOpWrapper.ForceLmaxNs(InterOpWrapper.ConvertLmaxOwtToNs(buffer));
-                result = Measure(activeChild);
+                result = Measure(cts, bopCharonToShowPortOnDisplay);
             }
 
             // free memory where was base sor data
@@ -27,12 +27,12 @@ namespace Iit.Fibertest.IitOtdrLibrary
             return result;
         }
 
-        public ReturnCode DoManualMeasurement(bool shouldForceLmax, Charon activeChild)
+        public ReturnCode DoManualMeasurement(CancellationTokenSource cts, bool shouldForceLmax, Charon bopCharonToShowPortOnDisplay)
         {
             if (shouldForceLmax)
                 InterOpWrapper.ForceLmaxNs(InterOpWrapper.ConvertLmaxKmToNs());
 
-            return Measure(activeChild);
+            return Measure(cts, bopCharonToShowPortOnDisplay);
         }
 
         private IntPtr _sorData = IntPtr.Zero;
@@ -41,7 +41,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
         /// after Measure() use GetLastSorData() to obtain measurement result
         /// </summary>
         /// <returns></returns>
-        private ReturnCode Measure(Charon activeChild)
+        private ReturnCode Measure(CancellationTokenSource cts, Charon bopCharonToShowPortOnDisplay)
         {
             _rtuLogger.AppendLine("Measurement begin.");
 
@@ -51,25 +51,23 @@ namespace Iit.Fibertest.IitOtdrLibrary
                 return ReturnCode.MeasurementPreparationError;
             }
 
-            activeChild?.ShowMessageMeasurementPort();
+            bopCharonToShowPortOnDisplay?.ShowMessageMeasurementPort();
 
-            var result = MeasureSteps();
+            var result = MeasureSteps(cts);
 
-            activeChild?.ShowOnDisplayMessageReady();
+            bopCharonToShowPortOnDisplay?.ShowOnDisplayMessageReady();
 
             return result;
         }
 
-        private CancellationTokenSource _cancellationTokenSource;
-        private ReturnCode MeasureSteps()
+        private ReturnCode MeasureSteps(CancellationTokenSource cts)
         {
-            _cancellationTokenSource = new CancellationTokenSource();
             try
             {
                 bool hasMoreSteps;
                 do
                 {
-                    if (_cancellationTokenSource.IsCancellationRequested)
+                    if (cts.IsCancellationRequested)
                     {
                         InterOpWrapper.StopMeasurement(true);
                         _rtuLogger.AppendLine("Measurement interrupted.");
@@ -88,11 +86,6 @@ namespace Iit.Fibertest.IitOtdrLibrary
 
             _rtuLogger.AppendLine("Measurement ended normally.");
             return ReturnCode.MeasurementEndedNormally;
-        }
-
-        public void InterruptMeasurement()
-        {
-            _cancellationTokenSource.Cancel();
         }
 
         public byte[] GetLastSorDataBuffer()

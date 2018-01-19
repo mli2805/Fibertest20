@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
@@ -170,6 +171,7 @@ namespace DirectRtuClient
             windowManager.ShowDialog(vm);
         }
 
+        private CancellationTokenSource _cancellationTokenSource;
         public async Task StartMeasurement()
         {
             using (new WaitCursor())
@@ -177,7 +179,8 @@ namespace DirectRtuClient
                 IsMeasurementInProgress = true;
                 Message = Resources.SID_Wait__please___;
 
-                await Task.Run(() => OtdrManager.DoManualMeasurement(ShouldForceLmax, GetActiveChildCharon()));
+                _cancellationTokenSource = new CancellationTokenSource();
+                await Task.Run(() => OtdrManager.DoManualMeasurement(_cancellationTokenSource, ShouldForceLmax, GetActiveChildCharon()));
 
                 IsMeasurementInProgress = false;
                 Message = Resources.SID_Measurement_is_finished_;
@@ -250,7 +253,8 @@ namespace DirectRtuClient
                 Message = Resources.SID_Wait__please___;
 
                 byte[] baseBytes = File.ReadAllBytes(BaseFileName);
-                var result = await Task.Run(() => OtdrManager.MeasureWithBase(baseBytes, GetActiveChildCharon()));
+                _cancellationTokenSource = new CancellationTokenSource();
+                var result = await Task.Run(() => OtdrManager.MeasureWithBase(_cancellationTokenSource, baseBytes, GetActiveChildCharon()));
 
                 IsMeasurementInProgress = false;
                 if (result == ReturnCode.MeasurementInterrupted)
@@ -329,7 +333,8 @@ namespace DirectRtuClient
                     Message = string.Format(Resources.SID_Monitoring_cycle__0___Wait__please___, c);
                     _rtuLogger.AppendLine(string.Format(Resources.SID_Monitoring_cycle__0__, c));
 
-                    var result = await Task.Run(() => OtdrManager.MeasureWithBase(baseBytes, GetActiveChildCharon()));
+                _cancellationTokenSource = new CancellationTokenSource();
+                    var result = await Task.Run(() => OtdrManager.MeasureWithBase(_cancellationTokenSource, baseBytes, GetActiveChildCharon()));
 
                     IsMeasurementInProgress = false;
                     if (result != ReturnCode.MeasurementEndedNormally)
@@ -354,14 +359,14 @@ namespace DirectRtuClient
 
         public void StopCycle()
         {
-            OtdrManager.InterruptMeasurement();
+            _cancellationTokenSource?.Cancel();
             Message = Resources.SID_Stop_command_is_sent;
         }
 
 
         public void InterruptMeasurement()
         {
-            OtdrManager.InterruptMeasurement();
+            _cancellationTokenSource?.Cancel();
             Message = Resources.SID_Stop_command_is_sent;
         }
 
