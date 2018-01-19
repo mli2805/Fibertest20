@@ -25,7 +25,7 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
         void EndAssignBaseRef(BaseRefAssignedDto result);
 
         [OperationContract(IsOneWay = true)]
-        void EndStartClientMeasurement(ClientMeasurementStartedDto result);
+        void EndClientMeasurement(ClientMeasurementDoneDto result);
 
         [OperationContract(IsOneWay = true)]
         void EndStartOutOfTurnMeasurement(OutOfTurnMeasurementStartedDto result);

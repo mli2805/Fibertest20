@@ -53,7 +53,6 @@
     <Compile Include="C2D2R\AssignBaseRefsDto.cs" />
     <Compile Include="C2D2R\AttachOtauDto.cs" />
     <Compile Include="C2D2R\DoOutOfTurnPreciseMeasurementDto.cs" />
-    <Compile Include="R2D2C\ClientMeasurementDoneDto.cs" />
     <Compile Include="C2D2R\DetachOtauDto.cs" />
     <Compile Include="C2D2R\DoClientMeasurementDto.cs" />
     <Compile Include="C2D2R\ReSendBaseRefsDto.cs" />
@@ -67,7 +66,7 @@
     <Compile Include="Enums\MonitoringStateExt.cs" />
     <Compile Include="Enums\RtuPartStateChanges.cs" />
     <Compile Include="Enums\WorseOrBetter.cs" />
-    <Compile Include="R2D2C\ClientMeasurementStartedDto.cs" />
+    <Compile Include="R2D2C\ClientMeasurementDoneDto.cs" />
     <Compile Include="R2D2C\OtauAttachedDto.cs" />
     <Compile Include="R2D2C\OtauDetachedDto.cs" />
     <Compile Include="R2D2C\OutOfTurnMeasurementStartedDto.cs" />

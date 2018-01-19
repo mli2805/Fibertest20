@@ -1,4 +1,3 @@
-using System;
 using System.Runtime.Serialization;
 
 namespace Iit.Fibertest.Dto
@@ -7,8 +6,12 @@ namespace Iit.Fibertest.Dto
     public class ClientMeasurementDoneDto
     {
         [DataMember]
-        public Guid ClientId { get; set; }
+        public byte[] SorBytes { get; set; }
 
+        [DataMember]
+        public ReturnCode ReturnCode { get; set; }
 
+        [DataMember]
+        public string ExceptionMessage { get; set; }
     }
 }

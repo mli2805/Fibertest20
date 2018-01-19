@@ -1,7 +1,6 @@
 ﻿using System.Globalization;
 using System.Threading;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.IitOtdrLibrary
 {

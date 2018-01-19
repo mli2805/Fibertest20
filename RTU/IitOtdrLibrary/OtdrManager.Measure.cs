@@ -60,9 +60,10 @@ namespace Iit.Fibertest.IitOtdrLibrary
             return result;
         }
 
-        private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
+        private CancellationTokenSource _cancellationTokenSource;
         private ReturnCode MeasureSteps()
         {
+            _cancellationTokenSource = new CancellationTokenSource();
             try
             {
                 bool hasMoreSteps;

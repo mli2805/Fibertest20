@@ -175,6 +175,9 @@ namespace Iit.Fibertest.RtuManagement
 
             SendCurrentMonitoringStep(MonitoringCurrentStep.Measure, monitorigPort, baseRefType);
 
+            if (!IsMonitoringOn) // command to interrupt monitoring came while port toggling
+                return null;
+
             var result = _otdrManager.MeasureWithBase(baseBytes, _mainCharon.GetActiveChildCharon());
 
             if (result == ReturnCode.MeasurementInterrupted)

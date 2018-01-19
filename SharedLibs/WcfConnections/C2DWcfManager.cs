@@ -439,11 +439,11 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public async Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto)
+        public async Task<ClientMeasurementDoneDto> DoClientMeasurementAsync(DoClientMeasurementDto dto)
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();
             if (wcfConnection == null)
-                return new ClientMeasurementStartedDto() { ReturnCode = ReturnCode.C2DWcfConnectionError };
+                return new ClientMeasurementDoneDto() { ReturnCode = ReturnCode.C2DWcfConnectionError };
 
             try
             {
@@ -454,7 +454,7 @@ namespace Iit.Fibertest.WcfConnections
             catch (Exception e)
             {
                 _logFile.AppendLine("DoClientMeasuremenTask:" + e.Message);
-                return new ClientMeasurementStartedDto() { ReturnCode = ReturnCode.C2DWcfConnectionError, ExceptionMessage = e.Message };
+                return new ClientMeasurementDoneDto() { ReturnCode = ReturnCode.C2DWcfConnectionError, ExceptionMessage = e.Message };
             }
         }
 

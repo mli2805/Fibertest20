@@ -137,12 +137,12 @@ namespace Iit.Fibertest.RtuManagement
             };
         }
 
-        public ClientMeasurementStartedDto StartClientMeasurement(DoClientMeasurementDto dto)
+        public void DoClientMeasurement(DoClientMeasurementDto dto, Action callback)
         {
-            var isMonitoringOnBefore = IsMonitoringOn;
+            var wasMonitoringOn = IsMonitoringOn;
             if (IsMonitoringOn)
             {
-                StopMonitoring();
+                StopMonitoring("Measurement (Client)");
                 Thread.Sleep(TimeSpan.FromSeconds(5));
             }
 
@@ -162,7 +162,11 @@ namespace Iit.Fibertest.RtuManagement
             _rtuLog.AppendLine("User's measurement parameters applied");
 
             if (!ToggleToPort(dto.OtauPortDto))
-                return new ClientMeasurementStartedDto(){ReturnCode = ReturnCode.RtuToggleToPortError};
+            {
+                ClientMeasurementResult.ReturnCode = ReturnCode.RtuToggleToPortError;
+                callback?.Invoke();
+                return;
+            }
 
             var activeBop = dto.OtauPortDto.IsPortOnMainCharon
                 ? null
@@ -170,14 +174,31 @@ namespace Iit.Fibertest.RtuManagement
             _otdrManager.DoManualMeasurement(true, activeBop);
             var lastSorDataBuffer = _otdrManager.GetLastSorDataBuffer();
             if (lastSorDataBuffer == null)
-                return new ClientMeasurementStartedDto() {ReturnCode = ReturnCode.RtuMeasurementError};
+            {
+                ClientMeasurementResult.ReturnCode = ReturnCode.RtuMeasurementError;
+                callback?.Invoke();
+                return;
+            }
 
-            var sorBytes = _otdrManager.ApplyAutoAnalysis(lastSorDataBuffer);
-            return new ClientMeasurementStartedDto() {ReturnCode = ReturnCode.Ok, SorBytes = sorBytes };
-        } 
+            ClientMeasurementResult.ReturnCode = ReturnCode.Ok;
+            ClientMeasurementResult.SorBytes = _otdrManager.ApplyAutoAnalysis(lastSorDataBuffer);
+            callback?.Invoke();
+
+            if (wasMonitoringOn)
+            {
+                IsMonitoringOn = true;
+                RunMonitoringCycle();
+            }
+            else
+                DisconnectOtdr();
+        }
+
+
+        public ClientMeasurementDoneDto ClientMeasurementResult = new ClientMeasurementDoneDto();
+       
         public ReturnCode StartOutOfTurnMeasurement(DoOutOfTurnPreciseMeasurementDto dto)
         {
             return ReturnCode.Ok;
-        } 
+        }
     }
 }

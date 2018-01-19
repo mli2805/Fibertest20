@@ -150,7 +150,7 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
-        public async Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto)
+        public async Task<ClientMeasurementDoneDto> DoClientMeasurementAsync(DoClientMeasurementDto dto)
         {
             try
             {
@@ -163,12 +163,12 @@ namespace Iit.Fibertest.DataCenterCore
                 }
 
                 _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
-                return new ClientMeasurementStartedDto() { ReturnCode = ReturnCode.DbError };
+                return new ClientMeasurementDoneDto() { ReturnCode = ReturnCode.DbError };
             }
             catch (Exception e)
             {
                 _logFile.AppendLine("DoClientMeasurementAsync:" + e.Message);
-                return new ClientMeasurementStartedDto() { ReturnCode = ReturnCode.DbError, ExceptionMessage = e.Message };
+                return new ClientMeasurementDoneDto() { ReturnCode = ReturnCode.DbError, ExceptionMessage = e.Message };
             }
         }
 

@@ -53,7 +53,7 @@ namespace Iit.Fibertest.RtuManagement
                 try
                 {
                     if (_rtuWcfOperationsPermissions.ShouldStop())
-                        _rtuManager.StopMonitoring();
+                        _rtuManager.StopMonitoring("Stop monitoring");
                 }
                 catch (Exception e)
                 {
@@ -118,7 +118,7 @@ namespace Iit.Fibertest.RtuManagement
 
         public void BeginDetachOtau(DetachOtauDto dto) { _wcfOtauOperator.DetachOtau(dto); }
 
-        public void BeginClientMeasurement(DoClientMeasurementDto dto) { _wcfMeasurementsOperator.ClientMeasurement(dto); }
+        public void BeginClientMeasurement(DoClientMeasurementDto dto) { _wcfMeasurementsOperator.DoClientMeasurement(dto); }
 
         public void BeginOutOfTurnPreciseMeasurement(DoOutOfTurnPreciseMeasurementDto dto) { _wcfMeasurementsOperator.OutOfTurnPreciseMeasurement(dto); }
 

@@ -18,10 +18,7 @@ namespace Iit.Fibertest.RtuManagement
         {
             if (IsMonitoringOn)
             {
-                IsMonitoringOn = false;
-                _rtuLog.AppendLine("Interrupting current measurement...");
-                _otdrManager.InterruptMeasurement();
-                Thread.Sleep(TimeSpan.FromSeconds(5)); //for long measurements it could be not enough!!!
+                StopMonitoring("Initialize");
                 _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 1); // after initialization monitoring should be resumed
             }
 
@@ -144,22 +141,19 @@ namespace Iit.Fibertest.RtuManagement
             RunMonitoringCycle();
         }
 
-        public void StopMonitoring()
+        public void StopMonitoring(string caller)
         {
             IsMonitoringOn = false;
+            _rtuLog.AppendLine($"{caller}: Interrupting current measurement...");
             _otdrManager.InterruptMeasurement();
+            Thread.Sleep(TimeSpan.FromSeconds(5)); //for long measurements it could be not enough!!!
         }
 
         public void ChangeSettings(ApplyMonitoringSettingsDto settings, Action callback)
         {
             var wasMonitoringOn = IsMonitoringOn;
             if (IsMonitoringOn)
-            {
-                IsMonitoringOn = false;
-                _rtuLog.AppendLine("Interrupting current measurement...");
-                _otdrManager.InterruptMeasurement();
-                Thread.Sleep(TimeSpan.FromSeconds(5)); //for long measurements it could be not enough!!!
-            }
+                StopMonitoring("Apply monitoring settings");
 
             ApplyChangeSettings(settings, callback, wasMonitoringOn);
 
@@ -181,7 +175,7 @@ namespace Iit.Fibertest.RtuManagement
                 StartMonitoring(callback, wasMonitoringOn);
         }
 
-       
+
         private void ApplyNewFrequenciesToIni(MonitoringTimespansDto dto)
         {
             _preciseMakeTimespan = dto.PreciseMeas;
@@ -192,7 +186,7 @@ namespace Iit.Fibertest.RtuManagement
             _rtuIni.Write(IniSection.Monitoring, IniKey.FastSaveTimespan, (int)dto.FastSave.TotalSeconds);
         }
 
-      
+
         public bool ToggleToPort(OtauPortDto port)
         {
             if (port.OtauTcpPort == 23)
