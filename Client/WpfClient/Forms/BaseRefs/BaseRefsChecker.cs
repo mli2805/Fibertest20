@@ -68,11 +68,15 @@ namespace Iit.Fibertest.Client
                     return false;
                 }
 
-                message = CompareDistances(otdrKnownBlocks, trace);
-                var vmc = new MyMessageBoxViewModel(MessageType.Confirmation, AssembleConfirmation(baseRefDto, message));
-                _windowManager.ShowDialogWithAssignedOwner(vmc);
-                if (!vmc.IsAnswerPositive)
-                    return false;
+                if (baseRefDto.BaseRefType == BaseRefType.Precise)
+                {
+                    message = CompareDistances(otdrKnownBlocks, trace);
+                    var vmc = new MyMessageBoxViewModel(MessageType.Confirmation,
+                        AssembleConfirmation(baseRefDto, message));
+                    _windowManager.ShowDialogWithAssignedOwner(vmc);
+                    if (!vmc.IsAnswerPositive)
+                        return false;
+                }
             }
             return true;
         }
