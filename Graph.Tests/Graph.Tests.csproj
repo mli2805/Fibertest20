@@ -434,7 +434,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TraceLeaf.feature</DependentUpon>
     </Compile>
-    <Compile Include="Trace\TraceLeafSteps.cs" />
+    <Compile Include="Trace\TraceLeafSteps.cs">
+      <DependentUpon>TraceLeaf.feature</DependentUpon>
+    </Compile>
     <Compile Include="Trace\TraceUpdated.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
