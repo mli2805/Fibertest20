@@ -1,4 +1,5 @@
-﻿using Caliburn.Micro;
+﻿using System.Linq;
+using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Client
@@ -66,7 +67,9 @@ namespace Iit.Fibertest.Client
                 return false;
 
             var rtuLeaf = portLeaf.Parent is RtuLeaf leaf ? leaf : (RtuLeaf)portLeaf.Parent.Parent;
-            return rtuLeaf.IsAvailable;
+
+            var hasFreeTraces = rtuLeaf.ChildrenImpresario.Children.Any(c=>c is TraceLeaf && ((TraceLeaf)c).PortNumber < 1);
+            return rtuLeaf.IsAvailable && hasFreeTraces;
         }
     }
 }
