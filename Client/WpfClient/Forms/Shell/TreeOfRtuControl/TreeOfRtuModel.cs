@@ -155,7 +155,6 @@ namespace Iit.Fibertest.Client
             TraceLeaf traceLeaf = (TraceLeaf)Tree.GetById(e.TraceId);
             RtuLeaf rtuLeaf = (RtuLeaf)Tree.GetById(traceLeaf.Parent.Id);
             var portOwner = rtuLeaf.GetPortOwner(new NetAddress(e.OtauPortDto.OtauIp, e.OtauPortDto.OtauTcpPort));
-
             if (portOwner == null) return;
 
             var port = e.OtauPortDto.OpticalPort;
@@ -166,7 +165,9 @@ namespace Iit.Fibertest.Client
             newTraceLeaf.Title = traceLeaf.Title;
             newTraceLeaf.Color = Brushes.Black;
             newTraceLeaf.PortNumber = port;
+
             portOwner.ChildrenImpresario.Children[port - 1] = newTraceLeaf;
+            newTraceLeaf.BaseRefsSet = traceLeaf.BaseRefsSet;
             rtuLeaf.ChildrenImpresario.Children.Remove(traceLeaf);
         }
 
@@ -185,7 +186,8 @@ namespace Iit.Fibertest.Client
             detachedTraceLeaf.Title = traceLeaf.Title;
             detachedTraceLeaf.TraceState = FiberState.NotJoined;
             detachedTraceLeaf.Color = Brushes.Blue;
-            detachedTraceLeaf.IsInMonitoringCycle = false;
+            detachedTraceLeaf.BaseRefsSet = traceLeaf.BaseRefsSet;
+            detachedTraceLeaf.BaseRefsSet.IsInMonitoringCycle = false;
 
             ((IPortOwner)owner).ChildrenImpresario.Children.RemoveAt(port - 1);
             ((IPortOwner)owner).ChildrenImpresario.Children.Insert(port - 1,
@@ -220,7 +222,7 @@ namespace Iit.Fibertest.Client
             }
 
             if (!traceLeaf.BaseRefsSet.HasEnoughBaseRefsToPerformMonitoring)
-                traceLeaf.IsInMonitoringCycle = false;
+                traceLeaf.BaseRefsSet.IsInMonitoringCycle = false;
         }
 
         public void Apply(RtuInitialized e)
@@ -301,8 +303,8 @@ namespace Iit.Fibertest.Client
             {
                 if (leaf is TraceLeaf traceLeaf)
                 {
-                    traceLeaf.IsInMonitoringCycle = e.TracesInMonitoringCycle.Contains(traceLeaf.Id);
-                    traceLeaf.TraceMonitoringState = e.IsMonitoringOn ? MonitoringState.On : MonitoringState.Off;
+                    traceLeaf.BaseRefsSet.IsInMonitoringCycle = e.TracesInMonitoringCycle.Contains(traceLeaf.Id);
+                    traceLeaf.BaseRefsSet.RtuMonitoringState = e.IsMonitoringOn ? MonitoringState.On : MonitoringState.Off;
                 }
 
                 if (leaf is OtauLeaf otauLeaf)
@@ -330,7 +332,7 @@ namespace Iit.Fibertest.Client
             foreach (var leaf in portOwner.ChildrenImpresario.Children)
             {
                 if (leaf is TraceLeaf traceLeaf)
-                    traceLeaf.TraceMonitoringState = rtuMonitoringState;
+                    traceLeaf.BaseRefsSet.RtuMonitoringState = rtuMonitoringState;
 
                 if (leaf is OtauLeaf otauLeaf)
                     ApplyRecursively(otauLeaf, rtuMonitoringState);

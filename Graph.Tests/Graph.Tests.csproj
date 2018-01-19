@@ -429,6 +429,12 @@
     <Compile Include="Trace\TraceDetachedSteps.cs">
       <DependentUpon>TraceDetached.feature</DependentUpon>
     </Compile>
+    <Compile Include="Trace\TraceLeaf.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TraceLeaf.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Trace\TraceLeafSteps.cs" />
     <Compile Include="Trace\TraceUpdated.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -574,6 +580,10 @@
     <None Include="Trace\TraceDetached.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>TraceDetached.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Trace\TraceLeaf.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>TraceLeaf.feature.cs</LastGenOutput>
     </None>
     <None Include="Trace\TraceUpdated.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

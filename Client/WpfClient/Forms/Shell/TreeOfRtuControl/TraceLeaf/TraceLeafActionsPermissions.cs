@@ -31,8 +31,8 @@ namespace Iit.Fibertest.Client
 
             return traceLeaf.PortNumber < 1
                     || rtuLeaf.IsAvailable &&
-                   (traceLeaf.TraceMonitoringState == MonitoringState.Off
-                   || !traceLeaf.IsInMonitoringCycle);
+                   (traceLeaf.BaseRefsSet.RtuMonitoringState == MonitoringState.Off
+                   || !traceLeaf.BaseRefsSet.IsInMonitoringCycle);
         }
 
         public bool CanShowTraceState(object param) { return true; }
@@ -50,8 +50,8 @@ namespace Iit.Fibertest.Client
             if (_currentUser.Role > Role.Root)
                 return false;
             
-            return traceLeaf.TraceMonitoringState == MonitoringState.Off
-                                || !traceLeaf.IsInMonitoringCycle;
+            return traceLeaf.BaseRefsSet.RtuMonitoringState == MonitoringState.Off
+                                || !traceLeaf.BaseRefsSet.IsInMonitoringCycle;
         }
 
         public bool CanCleanTrace(object param)

@@ -32,6 +32,8 @@ namespace Iit.Fibertest.Client
         public async void ShowTraceState(Guid traceId)
         {
             MeasurementWithSor measurementWithSor =  await _c2DWcfManager.GetLastMeasurementForTrace(traceId);
+            if (measurementWithSor == null)
+                return;
             var traceStateModel = _traceStateModelFactory.CreateModel(measurementWithSor.Measurement, measurementWithSor.SorData);
             Show(traceStateModel, true);
         }

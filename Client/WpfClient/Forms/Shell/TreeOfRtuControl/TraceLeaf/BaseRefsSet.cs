@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using Caliburn.Micro;
+using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Client
 {
@@ -19,6 +22,7 @@ namespace Iit.Fibertest.Client
                 NotifyOfPropertyChange();
                 NotifyOfPropertyChange(nameof(HasAnyBaseRef));
                 NotifyOfPropertyChange(nameof(HasEnoughBaseRefsToPerformMonitoring));
+                NotifyOfPropertyChange(nameof(MonitoringPictogram));
             }
         }
 
@@ -34,6 +38,7 @@ namespace Iit.Fibertest.Client
                 NotifyOfPropertyChange();
                 NotifyOfPropertyChange(nameof(HasAnyBaseRef));
                 NotifyOfPropertyChange(nameof(HasEnoughBaseRefsToPerformMonitoring));
+                NotifyOfPropertyChange(nameof(MonitoringPictogram));
             }
         }
 
@@ -56,5 +61,43 @@ namespace Iit.Fibertest.Client
         public bool HasAnyBaseRef => PreciseId != Guid.Empty || FastId != Guid.Empty || AdditionalId != Guid.Empty;
         public bool HasEnoughBaseRefsToPerformMonitoring => PreciseId != Guid.Empty && FastId != Guid.Empty;
 
+        private MonitoringState _rtuMonitoringState;
+        public MonitoringState RtuMonitoringState
+        {
+            get => _rtuMonitoringState;
+            set
+            {
+                if (value == _rtuMonitoringState) return;
+                _rtuMonitoringState = value;
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(MonitoringPictogram));
+            }
+        }
+
+        private bool _isInMonitoringCycle;
+        public bool IsInMonitoringCycle
+        {
+            get => _isInMonitoringCycle;
+            set
+            {
+                if (value == _isInMonitoringCycle) return;
+                _isInMonitoringCycle = value;
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(MonitoringPictogram));
+            }
+        }
+
+        public ImageSource MonitoringPictogram => GetPictogram();
+
+        private ImageSource GetPictogram()
+        {
+            return IsInMonitoringCycle
+                ? RtuMonitoringState == MonitoringState.On
+                    ? new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/BlueSquare.png"))
+                    : new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreySquare.png"))
+                : HasEnoughBaseRefsToPerformMonitoring
+                    ? new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreyHalfSquare.png"))
+                    : new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
+        }
     }
 }

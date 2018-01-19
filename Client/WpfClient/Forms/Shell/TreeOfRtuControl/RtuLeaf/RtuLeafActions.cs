@@ -138,7 +138,7 @@ namespace Iit.Fibertest.Client
                 if (!(child is TraceLeaf trace))
                     continue;
 
-                if (trace.IsInMonitoringCycle)
+                if (trace.BaseRefsSet.IsInMonitoringCycle)
                     result.Add(new PortWithTraceDto() {TraceId = trace.Id, OtauPort = new OtauPortDto()
                     {
                         OtauIp = portOwnerLeaf.OtauNetAddress.Ip4Address, 

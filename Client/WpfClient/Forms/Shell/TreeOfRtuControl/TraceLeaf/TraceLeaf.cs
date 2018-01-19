@@ -39,33 +39,19 @@ namespace Iit.Fibertest.Client
             set { }
         }
 
-        public BaseRefsSet BaseRefsSet { get; set; } = new BaseRefsSet();
-
-        private MonitoringState _traceMonitoringState;
-        public MonitoringState TraceMonitoringState
+        private BaseRefsSet _baseRefsSet = new BaseRefsSet();
+        public BaseRefsSet BaseRefsSet
         {
-            get => _traceMonitoringState;
+            get { return _baseRefsSet; }
             set
             {
-                if (value == _traceMonitoringState) return;
-                _traceMonitoringState = value;
+                if (Equals(value, _baseRefsSet)) return;
+                _baseRefsSet = value;
                 NotifyOfPropertyChange();
-                NotifyOfPropertyChange(nameof(MonitoringPictogram));
             }
         }
 
-        private bool _isInMonitoringCycle;
-        public bool IsInMonitoringCycle
-        {
-            get => _isInMonitoringCycle;
-            set
-            {
-                if (value == _isInMonitoringCycle) return;
-                _isInMonitoringCycle = value;
-                NotifyOfPropertyChange();
-                NotifyOfPropertyChange(nameof(MonitoringPictogram));
-            }
-        }
+     
 
 
         private FiberState _traceState;
@@ -81,7 +67,6 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public ImageSource MonitoringPictogram => GetPictogram();
         public ImageSource TraceStatePictogram => TraceState.GetPictogram();
 
         private readonly TraceLeafContextMenuProvider _contextMenuProvider;
@@ -97,16 +82,7 @@ namespace Iit.Fibertest.Client
             return _contextMenuProvider.GetMenu(this);
         }
 
-        private ImageSource GetPictogram()
-        {
-            return IsInMonitoringCycle
-                ? TraceMonitoringState == MonitoringState.On
-                    ? new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/BlueSquare.png"))
-                    : new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreySquare.png"))
-                : BaseRefsSet.HasEnoughBaseRefsToPerformMonitoring
-                    ? new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreyHalfSquare.png"))
-                    : new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
-        }
+     
     }
 }
 
