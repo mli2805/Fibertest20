@@ -33,7 +33,6 @@ namespace Iit.Fibertest.Client
         }
 
         private string _status = Resources.SID_Input_user_name_and_password;
-
         public string Status
         {
             get => _status;
@@ -44,7 +43,6 @@ namespace Iit.Fibertest.Client
                 NotifyOfPropertyChange();
             }
         }
-
 
         public LoginViewModel(IWindowManager windowManager, IniFile iniFile, IMyLog logFile,
             IWcfServiceForClient c2DWcfManager, CurrentUser currentUser, ServerConnectViewModel serverConnectViewModel)
@@ -118,5 +116,7 @@ namespace Iit.Fibertest.Client
         {
             _windowManager.ShowDialogWithAssignedOwner(_serverConnectViewModel);
         }
+
+        public void Cancel() { TryClose(false);}
     }
 }

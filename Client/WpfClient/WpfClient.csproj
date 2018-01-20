@@ -373,8 +373,8 @@
     <Compile Include="Forms\Landmarks\LandmarksGraphParser.cs" />
     <Compile Include="Forms\Landmarks\LandmarksViewModel.cs" />
     <Compile Include="Forms\Landmarks\LandmarkViewModel.cs" />
-    <Compile Include="ViewModels\LoginViewModel.cs" />
-    <Compile Include="ViewModels\ServerConnectViewModel.cs" />
+    <Compile Include="Forms\LoginServer\LoginViewModel.cs" />
+    <Compile Include="Forms\LoginServer\ServerConnectViewModel.cs" />
     <Compile Include="ViewModels\Administrative\Licence.cs" />
     <Compile Include="ViewModels\Administrative\UserVm.cs" />
     <Compile Include="ViewModels\Administrative\UserListViewModel.cs" />
@@ -400,7 +400,7 @@
     <Compile Include="Forms\Landmarks\LandmarkView.xaml.cs">
       <DependentUpon>LandmarkView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\LoginView.xaml.cs">
+    <Compile Include="Forms\LoginServer\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\OtauAttach\OtauToAttachViewModel.cs" />
@@ -414,7 +414,7 @@
     <Compile Include="Views\RtuInitializeView.xaml.cs">
       <DependentUpon>RtuInitializeView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ServerConnectView.xaml.cs">
+    <Compile Include="Forms\LoginServer\ServerConnectView.xaml.cs">
       <DependentUpon>ServerConnectView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TraceToAttachView.xaml.cs">
@@ -643,7 +643,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\LoginView.xaml">
+    <Page Include="Forms\LoginServer\LoginView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -671,7 +671,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ServerConnectView.xaml">
+    <Page Include="Forms\LoginServer\ServerConnectView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

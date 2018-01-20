@@ -16,6 +16,7 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
 	вешал клиент пока не дотянул async/await почти до верха (но почти, не до самого :) )
 
 31. в базе созданноЙ NEventStore есть таблица snapshots ???  заюзать ?
+	есть ли версия БД в NEventStore ? чтобы определить надо ли использовать кэш или надо перечитать БД с нуля
 
 32. autofac упорядочить
 
