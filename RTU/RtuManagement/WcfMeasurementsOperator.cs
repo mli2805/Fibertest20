@@ -21,18 +21,17 @@ namespace Iit.Fibertest.RtuManagement
         public void DoClientMeasurement(DoClientMeasurementDto dto)
         {
             var callbackChannel = OperationContext.Current.GetCallbackChannel<IRtuWcfServiceBackward>();
-            ThreadPool.QueueUserWorkItem(_ => {
-                var result = new ClientMeasurementDoneDto();
+            ThreadPool.QueueUserWorkItem(_ =>
+            {
                 try
                 {
-                    _rtuManager.DoClientMeasurement(dto, ()=>callbackChannel.EndClientMeasurement(_rtuManager.ClientMeasurementResult));
+                    _rtuManager.DoClientMeasurement(dto, () => callbackChannel.EndClientMeasurement(_rtuManager.ClientMeasurementResult));
                 }
                 catch (Exception e)
                 {
                     _serviceLog.AppendLine("Thread pool: " + e);
-                    result.ReturnCode = ReturnCode.Error;
-                    result.ExceptionMessage = e.Message;
-                     callbackChannel.EndClientMeasurement(result);
+                    var result = new ClientMeasurementDoneDto { ReturnCode = ReturnCode.Error, ExceptionMessage = e.Message };
+                    callbackChannel.EndClientMeasurement(result);
                 }
             });
         }
@@ -40,22 +39,20 @@ namespace Iit.Fibertest.RtuManagement
         public void OutOfTurnPreciseMeasurement(DoOutOfTurnPreciseMeasurementDto dto)
         {
             var callbackChannel = OperationContext.Current.GetCallbackChannel<IRtuWcfServiceBackward>();
-            ThreadPool.QueueUserWorkItem(_ => {
-                var result = new OutOfTurnMeasurementStartedDto();
+            ThreadPool.QueueUserWorkItem(_ =>
+            {
                 try
                 {
-                    result.ReturnCode = _rtuManager.StartOutOfTurnMeasurement(dto);
+                    _rtuManager.StartOutOfTurnMeasurement(dto, () => callbackChannel.EndStartOutOfTurnMeasurement(
+                            new OutOfTurnMeasurementStartedDto() { ReturnCode = ReturnCode.Ok, ExceptionMessage = "just for test purposes" }));
                 }
                 catch (Exception e)
                 {
                     _serviceLog.AppendLine("Thread pool: " + e);
-                    result.ReturnCode = ReturnCode.Error;
-                    result.ExceptionMessage = e.Message;
+                    var result = new OutOfTurnMeasurementStartedDto { ReturnCode = ReturnCode.Error, ExceptionMessage = e.Message };
+                    callbackChannel.EndStartOutOfTurnMeasurement(result);
                 }
-                callbackChannel.EndStartOutOfTurnMeasurement(result);
             });
         }
-
-
     }
 }

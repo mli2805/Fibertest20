@@ -149,7 +149,8 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<NetAddressTestViewModel>();
             builder.RegisterType<NetAddressInputViewModel>();
             builder.RegisterType<RtuInitializeViewModel>();
-            builder.RegisterType<ClientMeasurementViewModel>();
+            builder.RegisterType<ClientMeasurementViewModel>().SingleInstance();
+            builder.RegisterType<OutOfTurnPreciseMeasurementViewModel>().SingleInstance();
 
         }
     }

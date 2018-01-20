@@ -1,3 +1,4 @@
+using System;
 using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Client
@@ -66,7 +67,13 @@ namespace Iit.Fibertest.Client
 
         public bool CanDoPreciseMeasurementOutOfTurn(object param)
         {
-            return _currentUser.Role <= Role.Operator;
+            if (_currentUser.Role > Role.Operator)
+                return false;
+
+            if (!(param is TraceLeaf traceLeaf))
+                return false;
+
+            return traceLeaf.PortNumber > 0 && traceLeaf.BaseRefsSet.PreciseId != Guid.Empty;
         }
     }
 }

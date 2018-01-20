@@ -195,9 +195,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ClientHeartbeat.cs" />
-    <Compile Include="Forms\ClientMeasurement\ClientMeasurementViewModel.cs" />
+    <Compile Include="Forms\SpecialMeasurements\ClientMeasurementViewModel.cs" />
     <Compile Include="ClientWcfService.cs" />
-    <Compile Include="Forms\ClientMeasurement\ClientMeasurementView.xaml.cs">
+    <Compile Include="Forms\SpecialMeasurements\ClientMeasurementView.xaml.cs">
       <DependentUpon>ClientMeasurementView.xaml</DependentUpon>
     </Compile>
     <Compile Include="EventSourcing\ClientPoller.cs" />
@@ -282,6 +282,10 @@
     <Compile Include="Forms\Shell\TreeOfRtuControl\PortLeaf\PortLeafActions.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\PortLeaf\PortLeafContextMenuProvider.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\TraceLeaf\BaseRefsSet.cs" />
+    <Compile Include="Forms\SpecialMeasurements\OutOfTurnPreciseMeasurementView.xaml.cs">
+      <DependentUpon>OutOfTurnPreciseMeasurementView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SpecialMeasurements\OutOfTurnPreciseMeasurementViewModel.cs" />
     <Compile Include="Forms\TraceContentChoice\EquipmentOfChoiceModel.cs" />
     <Compile Include="Forms\TraceContentChoice\EquipmentOfChoiceModelFactory.cs" />
     <Compile Include="Forms\TraceContentChoice\TraceContentChoiceView.xaml.cs">
@@ -527,7 +531,7 @@
     <Compile Include="Views\Administrative\UserListView.xaml.cs">
       <DependentUpon>UserListView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Forms\ClientMeasurement\ClientMeasurementView.xaml">
+    <Page Include="Forms\SpecialMeasurements\ClientMeasurementView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -576,6 +580,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\Shell\TabulatorControl\TabulatorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\SpecialMeasurements\OutOfTurnPreciseMeasurementView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

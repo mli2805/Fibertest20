@@ -198,9 +198,38 @@ namespace Iit.Fibertest.RtuManagement
 
         public ClientMeasurementDoneDto ClientMeasurementResult = new ClientMeasurementDoneDto();
        
-        public ReturnCode StartOutOfTurnMeasurement(DoOutOfTurnPreciseMeasurementDto dto)
+        public void StartOutOfTurnMeasurement(DoOutOfTurnPreciseMeasurementDto dto, Action callback)
         {
-            return ReturnCode.Ok;
+            var wasMonitoringOn = IsMonitoringOn;
+            if (IsMonitoringOn)
+            {
+                StopMonitoring("Measurement (Client)");
+                Thread.Sleep(TimeSpan.FromSeconds(5));
+            }
+
+            _rtuLog.EmptyLine();
+            _rtuLog.AppendLine("Start out of turn precise measurement.");
+
+            var res = _otdrManager.ConnectOtdr(_mainCharon.NetAddress.Ip4Address);
+            if (!res)
+            {
+                RunMainCharonRecovery(); // one of recovery steps inevitably exits process
+                res = _otdrManager.ConnectOtdr(_mainCharon.NetAddress.Ip4Address);
+                if (!res)
+                    RunMainCharonRecovery(); // one of recovery steps inevitably exits process
+            }
+
+            callback?.Invoke();
+
+            DoSecondMeasurement(new MonitorigPort(dto.PortWithTraceDto), false, BaseRefType.Precise);
+
+            if (wasMonitoringOn)
+            {
+                IsMonitoringOn = true;
+                RunMonitoringCycle();
+            }
+            else
+                DisconnectOtdr();
         }
     }
 }

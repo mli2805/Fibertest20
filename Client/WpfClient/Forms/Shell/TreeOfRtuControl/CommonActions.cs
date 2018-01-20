@@ -28,13 +28,9 @@ namespace Iit.Fibertest.Client
         public void MeasurementClientAction(object param)
         {
             var parent = GetParent(param);
-            if (parent != null)
-                DoMeasurementClient(parent, GetPortNumber(param));
-        }
+            if (parent == null) return;
 
-        private void DoMeasurementClient(Leaf parent, int portNumber)
-        {
-            if (_clientMeasurementViewModel.Initialize(parent, portNumber))
+            if (_clientMeasurementViewModel.Initialize(parent, GetPortNumber(param)))
                 _windowManager.ShowDialogWithAssignedOwner(_clientMeasurementViewModel);
         }
 

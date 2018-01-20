@@ -13,6 +13,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly TraceStateModelFactory _traceStateModelFactory;
+        private readonly OutOfTurnPreciseMeasurementViewModel _outOfTurnPreciseMeasurementViewModel;
         private readonly IWindowManager _windowManager;
         private readonly C2DWcfManager _c2DWcfManager;
 
@@ -20,10 +21,12 @@ namespace Iit.Fibertest.Client
 
 
         public TraceStateViewsManager(ILifetimeScope globalScope, IWindowManager windowManager,
-            C2DWcfManager c2DWcfManager, TraceStateModelFactory traceStateModelFactory)
+            C2DWcfManager c2DWcfManager, TraceStateModelFactory traceStateModelFactory, 
+            OutOfTurnPreciseMeasurementViewModel outOfTurnPreciseMeasurementViewModel)
         {
             _globalScope = globalScope;
             _traceStateModelFactory = traceStateModelFactory;
+            _outOfTurnPreciseMeasurementViewModel = outOfTurnPreciseMeasurementViewModel;
             _windowManager = windowManager;
             _c2DWcfManager = c2DWcfManager;
         }
@@ -95,7 +98,10 @@ namespace Iit.Fibertest.Client
                                                        (v.Model.SorFileId == traceStateModel.SorFileId));
             }
 
-            var mustBeOpen = isUserAskedToOpenView || isTraceStateChanged;
+            var isOutOfTurnVmWaitsThisTrace = _outOfTurnPreciseMeasurementViewModel.IsOpen &&
+                     _outOfTurnPreciseMeasurementViewModel.TraceLeaf.Id == traceStateModel.TraceId;
+
+            var mustBeOpen = isUserAskedToOpenView || isTraceStateChanged || isOutOfTurnVmWaitsThisTrace;
             if (vm == null && !mustBeOpen)
                 return;
 
@@ -104,6 +110,9 @@ namespace Iit.Fibertest.Client
                 vm.TryClose();
                 LaunchedViews.Remove(vm);
             }
+
+            if (isOutOfTurnVmWaitsThisTrace)
+                _outOfTurnPreciseMeasurementViewModel.TryClose();
 
             vm = _globalScope.Resolve<TraceStateViewModel>();
             vm.Initialize(traceStateModel, isLastMeasurementOnThisTrace, isTraceStateChanged);

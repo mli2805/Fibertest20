@@ -21,13 +21,14 @@ namespace Iit.Fibertest.Client
         private readonly ReflectogramManager _reflectogramManager;
         private readonly BaseRefsAssignViewModel _baseRefsAssignViewModel;
         private readonly OpticalEventsDoubleViewModel _opticalEventsDoubleViewModel;
+        private readonly OutOfTurnPreciseMeasurementViewModel _outOfTurnPreciseMeasurementViewModel;
         private readonly CommonStatusBarViewModel _commonStatusBarViewModel;
 
         public TraceLeafActions(ILifetimeScope globalScope, ReadModel readModel,
             IWindowManager windowManager, IWcfServiceForClient c2DWcfManager,
             TraceStateViewsManager traceStateViewsManager, TraceStatisticsViewsManager traceStatisticsViewsManager,
              ReflectogramManager reflectogramManager, BaseRefsAssignViewModel baseRefsAssignViewModel,
-            OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
+            OpticalEventsDoubleViewModel opticalEventsDoubleViewModel, OutOfTurnPreciseMeasurementViewModel outOfTurnPreciseMeasurementViewModel,
             CommonStatusBarViewModel commonStatusBarViewModel)
         {
             _globalScope = globalScope;
@@ -39,6 +40,7 @@ namespace Iit.Fibertest.Client
             _reflectogramManager = reflectogramManager;
             _baseRefsAssignViewModel = baseRefsAssignViewModel;
             _opticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
+            _outOfTurnPreciseMeasurementViewModel = outOfTurnPreciseMeasurementViewModel;
             _commonStatusBarViewModel = commonStatusBarViewModel;
         }
 
@@ -54,7 +56,7 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowWindowWithAssignedOwner(vm);
         }
 
-        public void ShowTrace(object param) 
+        public void ShowTrace(object param)
         {
         }
 
@@ -117,7 +119,7 @@ namespace Iit.Fibertest.Client
 
         public async void RemoveTrace(object param)
         {
-           await DoCleanOrRemoveTrace(param, true);
+            await DoCleanOrRemoveTrace(param, true);
         }
 
         private async Task DoCleanOrRemoveTrace(object param, bool isRemoval)
@@ -135,7 +137,7 @@ namespace Iit.Fibertest.Client
                 //                using (new WaitCursor())
                 //                {
                 _commonStatusBarViewModel.StatusBarMessage2 = Resources.SID_Long_operation__Removing_trace_s_measurements____Please_wait_;
-                var cmd = isRemoval ? new RemoveTrace() {Id = traceId} : (object)new CleanTrace() {Id = traceId};
+                var cmd = isRemoval ? new RemoveTrace() { Id = traceId } : (object)new CleanTrace() { Id = traceId };
                 var result = await _c2DWcfManager.SendCommandAsObj(cmd);
                 _commonStatusBarViewModel.StatusBarMessage2 = result ?? "";
                 //                }
@@ -160,6 +162,13 @@ namespace Iit.Fibertest.Client
             return list;
         }
 
-        public void DoPreciseMeasurementOutOfTurn(object param) { }
+        public void DoPreciseMeasurementOutOfTurn(object param)
+        {
+            if (!(param is TraceLeaf traceLeaf))
+                return;
+
+            _outOfTurnPreciseMeasurementViewModel.Initialize(traceLeaf);
+            _windowManager.ShowDialogWithAssignedOwner(_outOfTurnPreciseMeasurementViewModel);
+        }
     }
 }

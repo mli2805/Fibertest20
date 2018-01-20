@@ -124,7 +124,7 @@ namespace Iit.Fibertest.RtuManagement
             return moniResult;
         }
 
-        private MoniResult DoSecondMeasurement(MonitorigPort monitorigPort, bool hasFastPerformed, BaseRefType baseType)
+        private MoniResult DoSecondMeasurement(MonitorigPort monitorigPort, bool hasFastPerformed, BaseRefType baseType, bool isOutOfTurnMeasurement = false)
         {
             _rtuLog.EmptyLine();
             _rtuLog.AppendLine($"MEAS. {_measurementNumber}, {baseType}, port {monitorigPort.ToStringB(_mainCharon)}");
@@ -136,7 +136,11 @@ namespace Iit.Fibertest.RtuManagement
                 monitorigPort.LastPreciseMadeTimestamp = DateTime.Now;
 
                 var message = "";
-                if (monitorigPort.LastTraceState != moniResult.GetAggregatedResult())
+                if (isOutOfTurnMeasurement)
+                {
+                    message = "It's out of turn precise measurement";
+                }
+                else if (monitorigPort.LastTraceState != moniResult.GetAggregatedResult())
                 {
                     message = "Trace state has changed";
                     monitorigPort.LastTraceState = moniResult.GetAggregatedResult();
