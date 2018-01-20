@@ -128,9 +128,9 @@ namespace Graph.Tests
             Poller.EventSourcingTick().Wait();
         }
 
-        public RtuLeaf TraceCreatedAndRtuInitialized(out Guid traceId, out Guid rtuId)
+        public RtuLeaf TraceCreatedAndRtuInitialized(out Guid traceId, out Guid rtuId, string traceTitle = "some title")
         {
-            traceId = CreateTraceRtuEmptyTerminal().Id;
+            traceId = CreateTraceRtuEmptyTerminal(traceTitle).Id;
             var id = traceId;
             rtuId = ReadModel.Traces.First(t => t.Id == id).RtuId;
             return InitializeRtu(rtuId);

@@ -25,8 +25,7 @@ namespace Graph.Tests
         [Given(@"Предусловия выполнены")]
         public void GivenПредусловияВыполнены()
         {
-            Guid wrongNodeId, wrongNodeWithEqId;
-            _sut.CreateFieldForPathFinderTest(out _rtuNodeId, out _lastNodeId, out wrongNodeId, out wrongNodeWithEqId);
+            _sut.CreateFieldForPathFinderTest(out _rtuNodeId, out _lastNodeId, out _, out _);
 
             _sut.FakeWindowManager.RegisterHandler(model => _sut.OneLineMessageBoxAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
             _sut.FakeWindowManager.RegisterHandler(model => _sut.TraceContentChoiceHandler(model, Answer.Yes, 0));

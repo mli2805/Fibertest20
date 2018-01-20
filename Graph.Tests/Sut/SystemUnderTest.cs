@@ -78,7 +78,7 @@ namespace Graph.Tests
             ev.Init();
         }
 
-        public Iit.Fibertest.Graph.Trace CreateTraceRtuEmptyTerminal()
+        public Iit.Fibertest.Graph.Trace CreateTraceRtuEmptyTerminal(string title = @"some title")
         {
             ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation() { Latitude = 55, Longitude = 30 }).Wait();
             Poller.EventSourcingTick().Wait();
@@ -96,15 +96,15 @@ namespace Graph.Tests
             ShellVm.ComplyWithRequest(new AddFiber() { Node1 = firstNodeId, Node2 = secondNodeId }).Wait();
             Poller.EventSourcingTick().Wait();
 
-            return DefineTrace(secondNodeId, nodeForRtuId);
+            return DefineTrace(secondNodeId, nodeForRtuId, title);
         }
 
 
-        protected Iit.Fibertest.Graph.Trace DefineTrace(Guid lastNodeId, Guid nodeForRtuId)
+        protected Iit.Fibertest.Graph.Trace DefineTrace(Guid lastNodeId, Guid nodeForRtuId, string title = @"some title")
         {
             FakeWindowManager.RegisterHandler(model => OneLineMessageBoxAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
             FakeWindowManager.RegisterHandler(model => TraceContentChoiceHandler(model, Answer.Yes, 0));
-            FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, @"some title", "", Answer.Yes));
+            FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, title, "", Answer.Yes));
             ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = lastNodeId, NodeWithRtuId = nodeForRtuId });
             Poller.EventSourcingTick().Wait();
             return ShellVm.ReadModel.Traces.Last();

@@ -12,7 +12,6 @@ namespace Graph.Tests
     {
         private readonly SutForTraceAttach _sut = new SutForTraceAttach();
         private Guid _traceId;
-        private Guid _rtuId;
         private int _portNumber = 3;
         private RtuLeaf _rtuLeaf;
         private OtauLeaf _otauLeaf;
@@ -20,7 +19,7 @@ namespace Graph.Tests
         [Given(@"Создана трассу инициализирован РТУ")]
         public void GivenСозданаТрассуИнициализированРту()
         {
-            _rtuLeaf = _sut.TraceCreatedAndRtuInitialized(out _traceId, out _rtuId);
+            _rtuLeaf = _sut.TraceCreatedAndRtuInitialized(out _traceId, out _);
         }
 
         [Given(@"Трасса присоединена к порту РТУ")]

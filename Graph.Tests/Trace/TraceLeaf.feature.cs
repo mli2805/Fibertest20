@@ -80,9 +80,26 @@ namespace Graph.Tests.Trace
 #line 4
 this.ScenarioSetup(scenarioInfo);
 #line 5
- testRunner.Given("Создаем трассу с названием Трасса1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("У инициализированного RTU cоздаем трассу с названием Трасса1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 6
- testRunner.Then("В дереве появляется лист с названием Трасса1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("В дереве появляется лист с названием Трасса1 без пиктограмм", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 7
+ testRunner.When("Задаем точную базовую", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 8
+ testRunner.Then("Лист трассы получает ее идентификатор остальное не меняется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 9
+ testRunner.When("Задаем быструю базовую", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 10
+ testRunner.Then("Лист трассы получает идентификатор быстрой остальное не меняется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 11
+ testRunner.When("Присоединяем трассу к порту 3", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 12
+ testRunner.Then("Новый лист трассы на месте листа порта получает имя N3 : Трасса1 и видимые пиктог" +
+                    "раммы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 13
+ testRunner.When("Удаляем быструю базовую", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 14
+ testRunner.Then("Первая пиктограмма изменяется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
