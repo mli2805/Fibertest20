@@ -30,7 +30,7 @@ namespace Graph.Tests
             _traceLeaf.PortNumber.ShouldBeEquivalentTo(0);
             _traceLeaf.BaseRefsSet.HasEnoughBaseRefsToPerformMonitoring.Should().BeFalse();
             _traceLeaf.IconsVisibility.Should().Be(Visibility.Hidden);
-            //       _traceLeaf.BaseRefsSet.MonitoringPictogram.ShouldBeEquivalentTo(new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png")));
+            _traceLeaf.BaseRefsSet.MonitoringPictogram.ShouldBeEquivalentTo(@"pack://application:,,,/Resources/LeftPanel/EmptySquare.png");
         }
 
         [When(@"Задаем точную базовую")]
@@ -81,6 +81,8 @@ namespace Graph.Tests
             _traceLeaf.PortNumber.ShouldBeEquivalentTo(_portNumber);
             _traceLeaf.BaseRefsSet.HasEnoughBaseRefsToPerformMonitoring.Should().BeTrue();
             _traceLeaf.IconsVisibility.Should().Be(Visibility.Visible);
+            _traceLeaf.TraceStatePictogram.ShouldBeEquivalentTo(@"pack://application:,,,/Resources/LeftPanel/EmptySquare.png");
+            _traceLeaf.BaseRefsSet.MonitoringPictogram.ShouldBeEquivalentTo(@"pack://application:,,,/Resources/LeftPanel/GreyHalfSquare.png");
         }
 
         [When(@"Удаляем быструю базовую")]
@@ -94,6 +96,7 @@ namespace Graph.Tests
         [Then(@"Первая пиктограмма изменяется")]
         public void ThenПерваяПиктограммаИзменяется()
         {
+            _traceLeaf.BaseRefsSet.MonitoringPictogram.ShouldBeEquivalentTo(@"pack://application:,,,/Resources/LeftPanel/EmptySquare.png");
         }
 
     }

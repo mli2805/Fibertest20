@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 
@@ -68,10 +66,10 @@ namespace Iit.Fibertest.Client
         public bool IsAvailable => MainChannelState == RtuPartState.Ok ||
                                    ReserveChannelState == RtuPartState.Ok;
 
-        public ImageSource MonitoringPictogram => GetPictogram();
-        public ImageSource BopPictogram => BopState.GetPictogram();
-        public ImageSource MainChannelPictogram => MainChannelState.GetPictogram();
-        public ImageSource ReserveChannelPictogram => ReserveChannelState.GetPictogram();
+        public string MonitoringPictogram => GetPathToPictogram();
+        public string BopPictogram => BopState.GetPathToPictogram();
+        public string MainChannelPictogram => MainChannelState.GetPathToPictogram();
+        public string ReserveChannelPictogram => ReserveChannelState.GetPathToPictogram();
         #endregion
 
         public int OwnPortCount { get; set; }
@@ -110,18 +108,18 @@ namespace Iit.Fibertest.Client
             return _rtuLeafContextMenuProvider.GetMenu(this);
         }
 
-        private ImageSource GetPictogram()
+        private string GetPathToPictogram()
         {
             switch (MonitoringState)
             {
                 case MonitoringState.Unknown:
-                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
+                    return @"pack://application:,,,/Resources/LeftPanel/EmptySquare.png";
                 case MonitoringState.Off:
-                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreySquare.png"));
+                    return @"pack://application:,,,/Resources/LeftPanel/GreySquare.png";
                 case MonitoringState.On:
-                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/BlueSquare.png"));
+                    return @"pack://application:,,,/Resources/LeftPanel/BlueSquare.png";
                 default:
-                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
+                    return @"pack://application:,,,/Resources/LeftPanel/EmptySquare.png";
             }
         }
     }

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 
@@ -87,17 +85,17 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public ImageSource MonitoringPictogram => GetPictogram();
+        public string MonitoringPictogram => GetPathToPictogram();
 
-        private ImageSource GetPictogram()
+        private string GetPathToPictogram()
         {
             return IsInMonitoringCycle
                 ? RtuMonitoringState == MonitoringState.On
-                    ? new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/BlueSquare.png"))
-                    : new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreySquare.png"))
+                    ? @"pack://application:,,,/Resources/LeftPanel/BlueSquare.png"
+                    : @"pack://application:,,,/Resources/LeftPanel/GreySquare.png"
                 : HasEnoughBaseRefsToPerformMonitoring
-                    ? new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreyHalfSquare.png"))
-                    : new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
+                    ? @"pack://application:,,,/Resources/LeftPanel/GreyHalfSquare.png"
+                    : @"pack://application:,,,/Resources/LeftPanel/EmptySquare.png";
         }
     }
 }

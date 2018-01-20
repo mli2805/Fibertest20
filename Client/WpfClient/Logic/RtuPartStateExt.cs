@@ -1,6 +1,4 @@
-﻿using System;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
+﻿using System.Windows.Media;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 
@@ -42,16 +40,16 @@ namespace Iit.Fibertest.Client
             return before < now ? WorseOrBetter.Better : before == now ? WorseOrBetter.TheSame : WorseOrBetter.Worse;
         }
 
-        public static ImageSource GetPictogram(this RtuPartState state)
+        public static string GetPathToPictogram(this RtuPartState state)
         {
             switch (state)
             {
                 case RtuPartState.Broken:
-                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/RedSquare.png"));
+                    return @"pack://application:,,,/Resources/LeftPanel/RedSquare.png";
                 case RtuPartState.NotSetYet:
-                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
+                    return @"pack://application:,,,/Resources/LeftPanel/EmptySquare.png";
                 case RtuPartState.Ok:
-                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreenSquare.png"));
+                    return @"pack://application:,,,/Resources/LeftPanel/GreenSquare.png";
                 default:
                     return null;
             }

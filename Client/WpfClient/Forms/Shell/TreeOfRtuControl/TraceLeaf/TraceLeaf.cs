@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Media;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 
@@ -40,7 +40,7 @@ namespace Iit.Fibertest.Client
         private BaseRefsSet _baseRefsSet = new BaseRefsSet();
         public BaseRefsSet BaseRefsSet
         {
-            get { return _baseRefsSet; }
+            get => _baseRefsSet;
             set
             {
                 if (Equals(value, _baseRefsSet)) return;
@@ -65,7 +65,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public ImageSource TraceStatePictogram => TraceState.GetPictogram();
+        public Uri TraceStatePictogram => TraceState.GetPictogram();
 
         private readonly TraceLeafContextMenuProvider _contextMenuProvider;
 

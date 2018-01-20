@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 
@@ -75,29 +74,29 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public static ImageSource GetPictogram(this FiberState state)
+        public static Uri GetPictogram(this FiberState state)
         {
             switch (state)
             {
                 case FiberState.NotJoined:
                 case FiberState.Unknown:
-                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
+                    return new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png");
                 case FiberState.Ok:
-                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreenSquare.png"));
+                    return new Uri("pack://application:,,,/Resources/LeftPanel/GreenSquare.png");
                 case FiberState.Suspicion:
-                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/YellowSquare.png"));
+                    return new Uri("pack://application:,,,/Resources/LeftPanel/YellowSquare.png");
                 case FiberState.Minor:
-                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/PurpleSquare.png"));
+                    return new Uri("pack://application:,,,/Resources/LeftPanel/PurpleSquare.png");
                 case FiberState.Major:
-                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/FuchsiaSquare.png"));
+                    return new Uri("pack://application:,,,/Resources/LeftPanel/FuchsiaSquare.png");
                 case FiberState.User:
-                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/GreenSquare.png"));
+                    return new Uri("pack://application:,,,/Resources/LeftPanel/GreenSquare.png");
                 case FiberState.Critical:
                 case FiberState.FiberBreak:
                 case FiberState.NoFiber:
-                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/RedSquare.png"));
+                    return new Uri("pack://application:,,,/Resources/LeftPanel/RedSquare.png");
                 default:
-                    return new BitmapImage(new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png"));
+                    return new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png");
             }
         }
     }

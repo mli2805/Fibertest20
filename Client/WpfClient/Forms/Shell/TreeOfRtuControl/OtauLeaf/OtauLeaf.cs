@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Media;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
@@ -16,7 +15,7 @@ namespace Iit.Fibertest.Client
         public int MasterPort { get; set; }
         public NetAddress OtauNetAddress { get; set; }
         public RtuPartState OtauState { get; set; }
-        public ImageSource OtauStatePictogram => OtauState.GetPictogram();
+        public string OtauStatePictogram => OtauState.GetPathToPictogram();
 
         public bool HasAttachedTraces =>
             ChildrenImpresario.Children.Any(l => l is TraceLeaf && ((TraceLeaf) l).PortNumber > 0);
