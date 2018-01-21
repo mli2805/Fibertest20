@@ -9,7 +9,7 @@ namespace Iit.Fibertest.DatabaseLibrary
     {
         private const string MySqlConnectionString = "server=localhost;user id=root;password=root;database=fibertest20";
         
-        // to use another db engine just change another connection string
+        // to use another db engine just set another connection string
         public FtDbContext() : base(MySqlConnectionString) { }
 
         public DbSet<User> Users { get; set; }
