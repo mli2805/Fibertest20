@@ -381,7 +381,7 @@ namespace DirectRtuClient
             var sorData = SorData.FromBytes(buffer);
             if (sorData.RftsEvents.MonitoringResult == (int)ComparisonReturns.NoFiber)
             {
-                MessageBox.Show(Resources.SID_No_Fiber_, Resources.SID_Events);
+                MessageBox.Show(Resources.SID_No_Fiber_, Resources.SID_Rfts_Events);
                 return;
             }
             var vm = new RftsEventsViewModel(sorData);

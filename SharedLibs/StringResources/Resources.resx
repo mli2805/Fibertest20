@@ -374,14 +374,8 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_Statistics" xml:space="preserve">
     <value>Statistics</value>
   </data>
-	<data name="SID_Events" xml:space="preserve">
-    <value>Events</value>
-  </data>
 	<data name="SID_Clean" xml:space="preserve">
     <value>Clean</value>
-  </data>
-	<data name="SID_Presice_out_of_turn_measurement" xml:space="preserve">
-    <value>Presice out of turn measurement</value>
   </data>
 	<data name="SID_Measurement__Client_" xml:space="preserve">
     <value>Measurement (Client)</value>
@@ -1344,7 +1338,7 @@ RTU is initializing right now!</value>
     <value>Accident's place</value>
   </data>
 	<data name="SID_Rfts_Events" xml:space="preserve">
-    <value>Rfts Events</value>
+    <value>RFTS Events</value>
   </data>
 	<data name="SID_Export_to_kml" xml:space="preserve">
     <value>Export to kml</value>
@@ -1390,9 +1384,6 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID_Save_ref_and_base_as" xml:space="preserve">
     <value>Save ref + base as</value>
-  </data>
-	<data name="SID_RftsEvents" xml:space="preserve">
-    <value>RftsEvents</value>
   </data>
 	<data name="SID_Trace_state_Event_status" xml:space="preserve">
     <value>Trace state / Event status</value>
@@ -1582,5 +1573,23 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID_Measure" xml:space="preserve">
     <value>Measure</value>
+  </data>
+	<data name="SID_Precise_monitoring_out_of_turn" xml:space="preserve">
+    <value>Precise monitoring out of turn</value>
+  </data>
+	<data name="SID_Precise_monitoring_in_progress_" xml:space="preserve">
+    <value>Precise monitoring in progress.</value>
+  </data>
+	<data name="SID_Trace____0___" xml:space="preserve">
+    <value>Trace &lt;&lt;{0}&gt;&gt;</value>
+  </data>
+	<data name="SID_Measurement_time_accordingly_to_base_ref_is__0_" xml:space="preserve">
+    <value>Measurement time accordingly to base ref is {0}</value>
+  </data>
+	<data name="SID_Sending_command__Wait_please___" xml:space="preserve">
+    <value>Sending command. Wait please...</value>
+  </data>
+	<data name="SID_Interrupting_out_of_turn_monitoring__Wait_please___" xml:space="preserve">
+    <value>Interrupting out of turn monitoring. Wait please...</value>
   </data>
 </root>

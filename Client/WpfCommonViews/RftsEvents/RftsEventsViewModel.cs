@@ -48,7 +48,7 @@ namespace Iit.Fibertest.WpfCommonViews
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = Resources.SID_Events;
+            DisplayName = Resources.SID_Rfts_Events;
         }
     }
 }

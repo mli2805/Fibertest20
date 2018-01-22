@@ -374,14 +374,8 @@
 	<data name="SID_Statistics" xml:space="preserve">
     <value>Статистика</value>
   </data>
-	<data name="SID_Events" xml:space="preserve">
-    <value>События</value>
-  </data>
 	<data name="SID_Clean" xml:space="preserve">
     <value>Очистить</value>
-  </data>
-	<data name="SID_Presice_out_of_turn_measurement" xml:space="preserve">
-    <value>Точное измерение вне очереди</value>
   </data>
 	<data name="SID_Measurement__Client_" xml:space="preserve">
     <value>Измерение (Client)</value>
@@ -1344,7 +1338,7 @@ RTU инициализируется в данный момент!</value>
 		<value>Место аварии</value>
 	</data>
 	<data name="SID_Rfts_Events" xml:space="preserve">
-		<value>События</value>
+		<value>RFTS События</value>
 	</data>
 	<data name="SID_Export_to_kml" xml:space="preserve">
 		<value>Выгрузить в kml</value>
@@ -1390,9 +1384,6 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Save_ref_and_base_as" xml:space="preserve">
 		<value>Сохранить рефлектограмму + базовую как</value>
-	</data>
-	<data name="SID_RftsEvents" xml:space="preserve">
-		<value>События</value>
 	</data>
 	<data name="SID_Trace_state_Event_status" xml:space="preserve">
 		<value>Состояние трассы / Статус события</value>
@@ -1582,5 +1573,23 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Measure" xml:space="preserve">
 		<value>Измерить</value>
+	</data>
+	<data name="SID_Precise_monitoring_out_of_turn" xml:space="preserve">
+		<value>Точный мониторинг вне очереди</value>
+	</data>
+	<data name="SID_Precise_monitoring_in_progress_" xml:space="preserve">
+		<value>Проводим точный мониторинг</value>
+	</data>
+	<data name="SID_Trace____0___" xml:space="preserve">
+		<value>Трасса &lt;&lt;{0}&gt;&gt;</value>
+	</data>
+	<data name="SID_Measurement_time_accordingly_to_base_ref_is__0_" xml:space="preserve">
+		<value>Время измерения в соответствии с базовой {0}</value>
+	</data>
+	<data name="SID_Sending_command__Wait_please___" xml:space="preserve">
+		<value>Отправляем команду. Пожалуйста, подождите...</value>
+	</data>
+	<data name="SID_Interrupting_out_of_turn_monitoring__Wait_please___" xml:space="preserve">
+		<value>Останавливаем внеочередное измерение. Пожалуйста, подождите...</value>
 	</data>
 </root>

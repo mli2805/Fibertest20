@@ -58,7 +58,7 @@ namespace Iit.Fibertest.Client
 
             menu.Add(new MenuItemVm()
             {
-                Header = Resources.SID_Events,
+                Header = Resources.SID_Rfts_Events,
                 Command = new ContextMenuAction(_traceLeafActions.ShowTraceEvents, _traceLeafActionsPermissions.CanShowTraceEvents),
                 CommandParameter = traceLeaf
             });
@@ -104,7 +104,7 @@ namespace Iit.Fibertest.Client
 
                 menu.Add(new MenuItemVm()
                 {
-                    Header = Resources.SID_Presice_out_of_turn_measurement,
+                    Header = Resources.SID_Precise_monitoring_out_of_turn,
                     Command = new ContextMenuAction(_traceLeafActions.DoPreciseMeasurementOutOfTurn, _traceLeafActionsPermissions.CanDoPreciseMeasurementOutOfTurn),
                     CommandParameter = traceLeaf
                 });

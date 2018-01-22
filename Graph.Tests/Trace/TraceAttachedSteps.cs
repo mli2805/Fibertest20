@@ -45,7 +45,7 @@ namespace Graph.Tests
         public void ThenЕстьПунктОтсоединитьИТриПунктаИзмерения()
         {
             _traceLeaf.MyContextMenu.FirstOrDefault(item => item?.Header == Resources.SID_Detach_trace).Should().NotBeNull();
-            _traceLeaf.MyContextMenu.FirstOrDefault(item => item?.Header == Resources.SID_Presice_out_of_turn_measurement).Should().NotBeNull();
+            _traceLeaf.MyContextMenu.FirstOrDefault(item => item?.Header == Resources.SID_Precise_monitoring_out_of_turn).Should().NotBeNull();
             _traceLeaf.MyContextMenu.FirstOrDefault(item => item?.Header == Resources.SID_Measurement__Client_).Should().NotBeNull();
             _traceLeaf.MyContextMenu.FirstOrDefault(item => item?.Header == Resources.SID_Measurement__RFTS_Reflect_).Should().NotBeNull();
         }

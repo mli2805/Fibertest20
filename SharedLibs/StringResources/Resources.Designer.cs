@@ -1935,6 +1935,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Interrupting out of turn monitoring. Wait please....
+        /// </summary>
+        public static string SID_Interrupting_out_of_turn_monitoring__Wait_please___ {
+            get {
+                return ResourceManager.GetString("SID_Interrupting_out_of_turn_monitoring__Wait_please___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid input.
         /// </summary>
         public static string SID_Invalid_input {
@@ -2300,6 +2309,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Measurement_time_ {
             get {
                 return ResourceManager.GetString("SID_Measurement_time_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Measurement time accordingly to base ref is {0}.
+        /// </summary>
+        public static string SID_Measurement_time_accordingly_to_base_ref_is__0_ {
+            get {
+                return ResourceManager.GetString("SID_Measurement_time_accordingly_to_base_ref_is__0_", resourceCulture);
             }
         }
         
@@ -3079,6 +3097,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Precise monitoring in progress..
+        /// </summary>
+        public static string SID_Precise_monitoring_in_progress_ {
+            get {
+                return ResourceManager.GetString("SID_Precise_monitoring_in_progress_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Precise monitoring out of turn.
+        /// </summary>
+        public static string SID_Precise_monitoring_out_of_turn {
+            get {
+                return ResourceManager.GetString("SID_Precise_monitoring_out_of_turn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Precise.
         /// </summary>
         public static string SID_PreciseF {
@@ -3638,6 +3674,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sending command. Wait please....
+        /// </summary>
+        public static string SID_Sending_command__Wait_please___ {
+            get {
+                return ResourceManager.GetString("SID_Sending_command__Wait_please___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Serial.
         /// </summary>
         public static string SID_Serial {
@@ -4066,6 +4111,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Trace {
             get {
                 return ResourceManager.GetString("SID_Trace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trace &lt;&lt;{0}&gt;&gt;.
+        /// </summary>
+        public static string SID_Trace____0___ {
+            get {
+                return ResourceManager.GetString("SID_Trace____0___", resourceCulture);
             }
         }
         
