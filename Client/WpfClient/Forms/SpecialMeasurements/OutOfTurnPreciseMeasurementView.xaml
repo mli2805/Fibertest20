@@ -9,6 +9,6 @@
     <StackPanel>
         <TextBlock Margin="20,30,10,10" Text="{Binding Message}" FontWeight="Bold"/>
         <ProgressBar Margin="10" Height="18" IsIndeterminate="True"/>
-        <Button Name="InterruptMeasurement" Content="Cancel" Width="120" Margin="0,40,0,20"/>
+        <Button Name="Cancel" Content="Cancel" Width="120" Margin="0,40,0,20" IsEnabled="{Binding IsCancelButtonEnabled}"/>
     </StackPanel>
 </Window>

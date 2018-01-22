@@ -10,7 +10,6 @@ using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using PrivateReflectionUsingDynamic;
-using Serilog;
 
 namespace Iit.Fibertest.Client
 {
@@ -18,11 +17,8 @@ namespace Iit.Fibertest.Client
         
     ShellViewModel : Screen, IShell
     {
-        public ILogger Log { get; set; }
-
         private string _server;
-
-        public ILifetimeScope GlobalScope;
+        public readonly ILifetimeScope GlobalScope;
         private readonly IWindowManager _windowManager;
         private readonly LoginViewModel _loginViewModel;
         private readonly ClientHeartbeat _clientHeartbeat;
@@ -62,7 +58,7 @@ namespace Iit.Fibertest.Client
 
             TraceContentChoiceViewModel traceContentChoiceViewModel,
             ClientHeartbeat clientHeartbeat, ClientPoller clientPoller,
-            IniFile iniFile, ILogger clientLogger, IMyLog logFile, CurrentUser currentUser, IClientWcfServiceHost host)
+            IniFile iniFile, IMyLog logFile, CurrentUser currentUser, IClientWcfServiceHost host)
         {
             ReadModel = readModel;
             TreeOfRtuModel = treeOfRtuModel;
@@ -85,12 +81,8 @@ namespace Iit.Fibertest.Client
             _opticalEventsProvider = opticalEventsProvider;
             _networkEventsProvider = networkEventsProvider;
             _iniFile = iniFile;
-
             _logFile = logFile;
             _currentUser = currentUser;
-
-            Log = clientLogger;
-            Log.Information(@"Client application started!");
 
             host.StartWcfListener();
         }
@@ -110,6 +102,7 @@ namespace Iit.Fibertest.Client
         {
             ((App) Application.Current).ShutdownMode = ShutdownMode.OnExplicitShutdown;
             _logFile.AssignFile(@"Client.log");
+
             _logFile.AppendLine(@"Client application started!");
             _isAuthenticationSuccessfull = _windowManager.ShowDialogWithAssignedOwner(_loginViewModel);
             ((App) Application.Current).ShutdownMode = ShutdownMode.OnMainWindowClose;

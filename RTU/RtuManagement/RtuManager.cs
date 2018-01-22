@@ -197,10 +197,11 @@ namespace Iit.Fibertest.RtuManagement
         private CancellationTokenSource _cancellationTokenSource;
 
         public ClientMeasurementDoneDto ClientMeasurementResult = new ClientMeasurementDoneDto();
-       
+
+        private bool _wasMonitoringOn;
         public void StartOutOfTurnMeasurement(DoOutOfTurnPreciseMeasurementDto dto, Action callback)
         {
-            var wasMonitoringOn = IsMonitoringOn;
+            _wasMonitoringOn = IsMonitoringOn;
             if (IsMonitoringOn)
             {
                 StopMonitoring("Measurement (Client)");
@@ -221,11 +222,12 @@ namespace Iit.Fibertest.RtuManagement
 
             callback?.Invoke();
 
-            DoSecondMeasurement(new MonitorigPort(dto.PortWithTraceDto), false, BaseRefType.Precise);
+            DoSecondMeasurement(new MonitorigPort(dto.PortWithTraceDto), false, BaseRefType.Precise, true);
 
-            if (wasMonitoringOn)
+            if (_wasMonitoringOn)
             {
                 IsMonitoringOn = true;
+                _wasMonitoringOn = false;
                 RunMonitoringCycle();
             }
             else

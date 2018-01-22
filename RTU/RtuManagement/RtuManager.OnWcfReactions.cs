@@ -16,7 +16,7 @@ namespace Iit.Fibertest.RtuManagement
 
         public void Initialize(InitializeRtuDto param, Action callback)
         {
-            if (IsMonitoringOn)
+            if (IsMonitoringOn || _wasMonitoringOn)
             {
                 StopMonitoring("Initialize");
                 _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 1); // after initialization monitoring should be resumed
@@ -46,7 +46,7 @@ namespace Iit.Fibertest.RtuManagement
             callback?.Invoke();
 
             IsMonitoringOn = _rtuIni.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, 0) != 0;
-            if (IsMonitoringOn)
+            if (IsMonitoringOn || _wasMonitoringOn)
                 RunMonitoringCycle();
             else
                 DisconnectOtdr();
