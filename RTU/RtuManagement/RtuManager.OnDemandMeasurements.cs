@@ -88,12 +88,12 @@ namespace Iit.Fibertest.RtuManagement
             _wasMonitoringOn = IsMonitoringOn;
             if (IsMonitoringOn)
             {
-                StopMonitoring("Out of turn measurement.");
+                StopMonitoring("Out of turn monitoring.");
                 Thread.Sleep(TimeSpan.FromSeconds(5));
             }
 
             _rtuLog.EmptyLine();
-            _rtuLog.AppendLine("Start out of turn precise measurement.");
+            _rtuLog.AppendLine("Start out of turn precise monitoring.");
 
             var res = _otdrManager.ConnectOtdr(_mainCharon.NetAddress.Ip4Address);
             if (!res)
@@ -107,6 +107,11 @@ namespace Iit.Fibertest.RtuManagement
             callback?.Invoke();
 
             DoSecondMeasurement(new MonitorigPort(dto.PortWithTraceDto), false, BaseRefType.Precise, true);
+            if (_cancellationTokenSource.IsCancellationRequested)
+            {
+                _rtuLog.AppendLine("Out of turn precise monitoring interrupted.");
+                return;
+            }
 
             if (_wasMonitoringOn)
             {
