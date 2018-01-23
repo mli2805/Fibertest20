@@ -118,7 +118,7 @@ namespace Iit.Fibertest.RtuManagement
 
         public void BeginDetachOtau(DetachOtauDto dto) { _wcfOtauOperator.DetachOtau(dto); }
 
-        public void BeginClientMeasurement(DoClientMeasurementDto dto) { _wcfMeasurementsOperator.DoClientMeasurement(dto); }
+        public void BeginClientMeasurement(DoClientMeasurementDto dto) { _wcfMeasurementsOperator.StartClientMeasurement(dto); }
 
         public void BeginOutOfTurnPreciseMeasurement(DoOutOfTurnPreciseMeasurementDto dto) { _wcfMeasurementsOperator.OutOfTurnPreciseMeasurement(dto); }
 

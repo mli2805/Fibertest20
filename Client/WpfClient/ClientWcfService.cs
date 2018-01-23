@@ -15,11 +15,13 @@ namespace Iit.Fibertest.Client
         private readonly RtuStateViewsManager _rtuStateViewsManager;
         private readonly OpticalEventsDoubleViewModel _opticalEventsDoubleViewModel;
         private readonly NetworkEventsDoubleViewModel _networkEventsDoubleViewModel;
+        private readonly ClientMeasurementViewModel _clientMeasurementViewModel;
 
         public ClientWcfService(TreeOfRtuModel treeOfRtuModel,
             TraceStateViewsManager traceStateViewsManager, TraceStatisticsViewsManager traceStatisticsViewsManager,
             OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
-            RtuStateViewsManager rtuStateViewsManager, NetworkEventsDoubleViewModel networkEventsDoubleViewModel)
+            RtuStateViewsManager rtuStateViewsManager, NetworkEventsDoubleViewModel networkEventsDoubleViewModel,
+            ClientMeasurementViewModel clientMeasurementViewModel)
         {
             _treeOfRtuModel = treeOfRtuModel;
             _traceStateViewsManager = traceStateViewsManager;
@@ -27,6 +29,7 @@ namespace Iit.Fibertest.Client
             _rtuStateViewsManager = rtuStateViewsManager;
             _opticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
             _networkEventsDoubleViewModel = networkEventsDoubleViewModel;
+            _clientMeasurementViewModel = clientMeasurementViewModel;
         }
 
         public Task<int> NotifyUsersRtuCurrentMonitoringStep(CurrentMonitoringStepDto dto)
@@ -70,6 +73,13 @@ namespace Iit.Fibertest.Client
                 _networkEventsDoubleViewModel.Apply(networkEvent);
                 _networkEventsDoubleViewModel.ApplyToTableAll(networkEvent);
             }
+            return Task.FromResult(0);
+        }
+
+        public Task<int> NotifyAboutMeasurementClientDone(ClientMeasurementDoneDto dto)
+        {
+            if (_clientMeasurementViewModel.IsOpen)
+                _clientMeasurementViewModel.ShowReflectogram(dto.SorBytes);
             return Task.FromResult(0);
         }
 

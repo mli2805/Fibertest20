@@ -231,42 +231,33 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
         }
 
-        private async Task<List<ClientStation>> GetAllLiveClients()
+
+        public async Task<List<DoubleAddress>> GetClientsAddresses(Guid? clientId = null)
         {
             try
             {
                 using (var dbContext = new FtDbContext())
                 {
-                    return await dbContext.ClientStations.ToListAsync();
+                    var clientStations = await dbContext.ClientStations.Where(c => c.ClientGuid == clientId).ToListAsync();
+                    if (clientStations == null || !clientStations.Any())
+                        return null;
+
+                    var result = new List<DoubleAddress>();
+                    foreach (var clientStation in clientStations)
+                    {
+                        result.Add(new DoubleAddress()
+                        {
+                            Main = new NetAddress(clientStation.ClientAddress, clientStation.ClientAddressPort)
+                        });
+                    }
+                    return result;
                 }
             }
             catch (Exception e)
             {
-                _logFile.AppendLine("GetAllLiveClients:" + e.Message);
+                _logFile.AppendLine("GetClientsAddresses:" + e.Message);
                 return null;
             }
-        }
-
-        public async Task<List<DoubleAddress>> GetClientsAddresses()
-        {
-            var allClients = await GetAllLiveClients();
-            if (allClients == null || !allClients.Any())
-                return null;
-
-            return ExtractClientsAddresses(allClients);
-        }
-
-        private List<DoubleAddress> ExtractClientsAddresses(List<ClientStation> clientStations)
-        {
-            var result = new List<DoubleAddress>();
-            foreach (var clientStation in clientStations)
-            {
-                result.Add(new DoubleAddress()
-                {
-                    Main = new NetAddress(clientStation.ClientAddress, clientStation.ClientAddressPort)
-                });
-            }
-            return result;
         }
     }
 }

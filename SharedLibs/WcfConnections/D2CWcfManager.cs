@@ -98,6 +98,30 @@ namespace Iit.Fibertest.WcfConnections
             }
             return 0;
         }
+        public async Task<int> NotifyMeasurementClientDone(ClientMeasurementDoneDto dto)
+        {
+            if (_addresses == null)
+            {
+                _logFile.AppendLine("There are no clients, who are you sending to?");
+                return 0;
+            }
+            foreach (var clientAddress in _addresses)
+            {
+                var wcfConnection = new WcfFactory(clientAddress, _iniFile, _logFile).CreateClientConnection();
+                if (wcfConnection == null)
+                    continue;
+
+                try
+                {
+                    await wcfConnection.NotifyAboutMeasurementClientDone(dto);
+                }
+                catch (Exception e)
+                {
+                    _logFile.AppendLine(e.Message);
+                }
+            }
+            return 0;
+        }
 
 
 

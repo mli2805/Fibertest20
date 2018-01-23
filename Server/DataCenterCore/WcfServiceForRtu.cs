@@ -51,7 +51,25 @@ namespace Iit.Fibertest.DataCenterCore
             }
             catch (Exception e)
             {
-                    _logFile.AppendLine("WcfServiceForRtu.RegisterRtuHeartbeat: " + e.Message);
+                _logFile.AppendLine("WcfServiceForRtu.RegisterRtuHeartbeat: " + e.Message);
+            }
+        }
+
+        public void TransmitClientMeasurementResult(ClientMeasurementDoneDto result)
+        {
+            _logFile.AppendLine($"Measurement Client result received ({result.SorBytes?.Length} bytes)");
+            if (result.SorBytes == null || result.SorBytes.Length == 0) return;
+            try
+            {
+                var addresses = _clientStationsRepository.GetClientsAddresses(result.ClientId).Result;
+                if (addresses == null)
+                    return;
+                _d2CWcfManager.SetClientsAddresses(addresses);
+                _d2CWcfManager.NotifyMeasurementClientDone(result).Wait();
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("WcfServiceForRtu.TransmitClientMeasurementResult: " + e.Message);
             }
         }
     }

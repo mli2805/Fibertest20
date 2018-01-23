@@ -59,6 +59,5 @@ namespace Iit.Fibertest.RtuManagement
             IsSenderBusy = false;
         }
 
-
     }
 }

@@ -230,7 +230,7 @@ namespace Iit.Fibertest.DataCenterCore
             return await _clientToRtuTransmitter.AssignBaseRefAsync(convertedDto);
         }
 
-        public async Task<ClientMeasurementDoneDto> DoClientMeasurementAsync(DoClientMeasurementDto dto)
+        public async Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto)
         {
             _logFile.AppendLine($"Client {dto.ClientId.First6()} asked to do client's measurement on RTU {dto.RtuId.First6()}");
             return await _clientToRtuTransmitter.DoClientMeasurementAsync(dto);

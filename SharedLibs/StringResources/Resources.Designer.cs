@@ -1566,15 +1566,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Events.
-        /// </summary>
-        public static string SID_Events {
-            get {
-                return ResourceManager.GetString("SID_Events", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Every 12 hours.
         /// </summary>
         public static string SID_Every_12_hours {
@@ -1935,6 +1926,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Interrupting Measurement (Client). Wait please....
+        /// </summary>
+        public static string SID_Interrupting_Measurement__Client___Wait_please___ {
+            get {
+                return ResourceManager.GetString("SID_Interrupting_Measurement__Client___Wait_please___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Interrupting out of turn monitoring. Wait please....
         /// </summary>
         public static string SID_Interrupting_out_of_turn_monitoring__Wait_please___ {
@@ -2210,6 +2210,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Measurement__Client_ {
             get {
                 return ResourceManager.GetString("SID_Measurement__Client_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Measurement (Client) in progress. Please wait....
+        /// </summary>
+        public static string SID_Measurement__Client__in_progress__Please_wait___ {
+            get {
+                return ResourceManager.GetString("SID_Measurement__Client__in_progress__Please_wait___", resourceCulture);
             }
         }
         
@@ -3124,15 +3133,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Presice out of turn measurement.
-        /// </summary>
-        public static string SID_Presice_out_of_turn_measurement {
-            get {
-                return ResourceManager.GetString("SID_Presice_out_of_turn_measurement", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Preview.
         /// </summary>
         public static string SID_Preview {
@@ -3331,20 +3331,11 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Rfts Events.
+        ///   Looks up a localized string similar to RFTS Events.
         /// </summary>
         public static string SID_Rfts_Events {
             get {
                 return ResourceManager.GetString("SID_Rfts_Events", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to RftsEvents.
-        /// </summary>
-        public static string SID_RftsEvents {
-            get {
-                return ResourceManager.GetString("SID_RftsEvents", resourceCulture);
             }
         }
         

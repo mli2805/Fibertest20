@@ -67,6 +67,7 @@
     <Compile Include="Enums\RtuPartStateChanges.cs" />
     <Compile Include="Enums\WorseOrBetter.cs" />
     <Compile Include="R2D2C\ClientMeasurementDoneDto.cs" />
+    <Compile Include="R2D2C\ClientMeasurementStartedDto.cs" />
     <Compile Include="R2D2C\OtauAttachedDto.cs" />
     <Compile Include="R2D2C\OtauDetachedDto.cs" />
     <Compile Include="R2D2C\OutOfTurnMeasurementStartedDto.cs" />

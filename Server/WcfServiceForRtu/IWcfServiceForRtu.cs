@@ -15,5 +15,8 @@ namespace Iit.Fibertest.WcfServiceForRtuInterface
         [OperationContract]
         void RegisterRtuHeartbeat(RtuChecksChannelDto result);
        
+        [OperationContract]
+        void TransmitClientMeasurementResult(ClientMeasurementDoneDto result);
+       
     }
 }

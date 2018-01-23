@@ -29,8 +29,8 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
         public void EndAssignBaseRef(BaseRefAssignedDto result) => HandlerForAssignBaseRef.End(result);
 
 
-        public Handler<ClientMeasurementDoneDto> HandlerForClientMeasurement { get; } = new Handler<ClientMeasurementDoneDto>();
-        public void EndClientMeasurement(ClientMeasurementDoneDto result) => HandlerForClientMeasurement.End(result);
+        public Handler<ClientMeasurementStartedDto> HandlerForClientMeasurement { get; } = new Handler<ClientMeasurementStartedDto>();
+        public void EndClientMeasurement(ClientMeasurementStartedDto result) => HandlerForClientMeasurement.End(result);
 
         public Handler<OutOfTurnMeasurementStartedDto> HandlerForOutOfTurnMeasurement { get; } = new Handler<OutOfTurnMeasurementStartedDto>();
         public void EndStartOutOfTurnMeasurement(OutOfTurnMeasurementStartedDto result) => HandlerForOutOfTurnMeasurement.End(result);

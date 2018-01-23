@@ -19,6 +19,9 @@ namespace Iit.Fibertest.ClientWcfServiceInterface
 
         [OperationContract]
         Task<int> NotifyAboutNetworkEvents(List<NetworkEvent> dto);
+
+        [OperationContract]
+        Task<int> NotifyAboutMeasurementClientDone(ClientMeasurementDoneDto dto);
     }
 
 

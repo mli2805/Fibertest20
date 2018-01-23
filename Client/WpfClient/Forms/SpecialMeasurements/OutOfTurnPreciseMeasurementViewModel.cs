@@ -13,14 +13,13 @@ namespace Iit.Fibertest.Client
     {
         public TraceLeaf TraceLeaf { get; set; }
         public RtuLeaf RtuLeaf { get; set; }
-        private readonly IMyLog _logFile;
-        private readonly ReadModel _readModel;
+        private readonly OnDemandMeasurement _onDemandMeasurement;
         private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWindowManager _windowManager;
 
         public bool IsOpen { get; set; }
 
         private string _message = "";
-
         public string Message
         {
             get => _message;
@@ -44,11 +43,12 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public OutOfTurnPreciseMeasurementViewModel(IMyLog logFile, ReadModel readModel, IWcfServiceForClient c2DWcfManager)
+        public OutOfTurnPreciseMeasurementViewModel(OnDemandMeasurement onDemandMeasurement, 
+            IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
         {
-            _logFile = logFile;
-            _readModel = readModel;
+            _onDemandMeasurement = onDemandMeasurement;
             _c2DWcfManager = c2DWcfManager;
+            _windowManager = windowManager;
         }
 
         public void Initialize(TraceLeaf traceLeaf)
@@ -62,10 +62,15 @@ namespace Iit.Fibertest.Client
             IsCancelButtonEnabled = false;
             DisplayName = Resources.SID_Precise_monitoring_out_of_turn;
 
-            await StartRequestedMeasurement();
+            var result = await StartRequestedMeasurement();
+            if (result.ReturnCode != ReturnCode.Ok)
+            {
+                var vm = new MyMessageBoxViewModel(MessageType.Error, result.ExceptionMessage);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+                TryClose();
+                return;
+            }
 
-//            var preciseDuration = TraceLeaf.BaseRefsSet.PreciseDuration.ToString(@"mm\:ss");
-//            Message = $@"Precise measurement on trace {TraceLeaf.Title} in progress. Wait please... ({preciseDuration})";
             Message = BuildMeasurementMessage();
             IsCancelButtonEnabled = true;
         }
@@ -114,23 +119,8 @@ namespace Iit.Fibertest.Client
         {
             Message = Resources.SID_Interrupting_out_of_turn_monitoring__Wait_please___;
             IsCancelButtonEnabled = false;
-            await InterruptOutOfTurnPreciseMeasurement();
+            await _onDemandMeasurement.Interrupt(RtuLeaf, @"out of turn precise monitoring");
             TryClose();
-        }
-
-        private async Task InterruptOutOfTurnPreciseMeasurement()
-        {
-            _logFile.AppendLine(@"Interrupting OutOfTurnPreciseMonitoring...");
-            var rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == RtuLeaf.Id);
-            if (rtu == null) return;
-
-            var dto = new InitializeRtuDto()
-            {
-                RtuId = RtuLeaf.Id,
-                RtuAddresses = new DoubleAddress() { Main = rtu.MainChannel, HasReserveAddress = rtu.IsReserveChannelSet, Reserve = rtu.ReserveChannel},
-                ShouldMonitoringBeStopped = false,
-            };
-            await _c2DWcfManager.InitializeRtuAsync(dto);
         }
     }
 }

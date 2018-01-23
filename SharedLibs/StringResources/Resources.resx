@@ -1592,4 +1592,10 @@ RTU is initializing right now!</value>
 	<data name="SID_Interrupting_out_of_turn_monitoring__Wait_please___" xml:space="preserve">
     <value>Interrupting out of turn monitoring. Wait please...</value>
   </data>
+	<data name="SID_Interrupting_Measurement__Client___Wait_please___" xml:space="preserve">
+    <value>Interrupting Measurement (Client). Wait please...</value>
+  </data>
+	<data name="SID_Measurement__Client__in_progress__Please_wait___" xml:space="preserve">
+    <value>Measurement (Client) in progress. Please wait...</value>
+  </data>
 </root>

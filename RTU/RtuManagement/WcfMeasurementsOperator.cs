@@ -18,19 +18,19 @@ namespace Iit.Fibertest.RtuManagement
             _rtuManager = rtuManager;
         }
 
-        public void DoClientMeasurement(DoClientMeasurementDto dto)
+        public void StartClientMeasurement(DoClientMeasurementDto dto)
         {
             var callbackChannel = OperationContext.Current.GetCallbackChannel<IRtuWcfServiceBackward>();
             ThreadPool.QueueUserWorkItem(_ =>
             {
                 try
                 {
-                    _rtuManager.DoClientMeasurement(dto, () => callbackChannel.EndClientMeasurement(_rtuManager.ClientMeasurementResult));
+                    _rtuManager.DoClientMeasurement(dto, () => callbackChannel.EndClientMeasurement(_rtuManager.ClientMeasurementStartedDto));
                 }
                 catch (Exception e)
                 {
                     _serviceLog.AppendLine("Thread pool: " + e);
-                    var result = new ClientMeasurementDoneDto { ReturnCode = ReturnCode.Error, ExceptionMessage = e.Message };
+                    var result = new ClientMeasurementStartedDto() { ReturnCode = ReturnCode.Error, ExceptionMessage = e.Message };
                     callbackChannel.EndClientMeasurement(result);
                 }
             });

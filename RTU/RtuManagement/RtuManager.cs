@@ -21,6 +21,7 @@ namespace Iit.Fibertest.RtuManagement
         private readonly IniFile _serviceIni;
         private OtdrManager _otdrManager;
         private Charon _mainCharon;
+        private CancellationTokenSource _cancellationTokenSource;
 
         public BaseRefsSaver BaseRefsSaver { get; set; }
 
@@ -28,21 +29,10 @@ namespace Iit.Fibertest.RtuManagement
         private bool _isMonitoringOn;
         public bool IsMonitoringOn
         {
-            get
-            {
-                lock (_isMonitoringOnLocker)
-                {
-                    return _isMonitoringOn;
-                }
-            }
-            set
-            {
-                lock (_isMonitoringOnLocker)
-                {
-                    _isMonitoringOn = value;
-                }
-            }
+            get { lock (_isMonitoringOnLocker) { return _isMonitoringOn; } }
+            set { lock (_isMonitoringOnLocker) { _isMonitoringOn = value; } }
         }
+        private bool _wasMonitoringOn;
 
         private readonly object _lastSuccessfullMeasTimestampLocker = new object();
         private DateTime _lastSuccessfullMeasTimestamp;
@@ -137,101 +127,5 @@ namespace Iit.Fibertest.RtuManagement
             };
         }
 
-        public void DoClientMeasurement(DoClientMeasurementDto dto, Action callback)
-        {
-            var wasMonitoringOn = IsMonitoringOn;
-            if (IsMonitoringOn)
-            {
-                StopMonitoring("Measurement (Client)");
-                Thread.Sleep(TimeSpan.FromSeconds(5));
-            }
-
-            _rtuLog.EmptyLine();
-            _rtuLog.AppendLine("Start client's measurement.");
-
-            var res = _otdrManager.ConnectOtdr(_mainCharon.NetAddress.Ip4Address);
-            if (!res)
-            {
-                RunMainCharonRecovery(); // one of recovery steps inevitably exits process
-                res = _otdrManager.ConnectOtdr(_mainCharon.NetAddress.Ip4Address);
-                if (!res)
-                    RunMainCharonRecovery(); // one of recovery steps inevitably exits process
-            }
-
-            _otdrManager.InterOpWrapper.SetMeasurementParametersFromUserInput(dto.SelectedMeasParams);
-            _rtuLog.AppendLine("User's measurement parameters applied");
-
-            if (!ToggleToPort(dto.OtauPortDto))
-            {
-                ClientMeasurementResult.ReturnCode = ReturnCode.RtuToggleToPortError;
-                callback?.Invoke();
-                return;
-            }
-
-            var activeBop = dto.OtauPortDto.IsPortOnMainCharon
-                ? null
-                : new Charon(new NetAddress(dto.OtauPortDto.OtauIp, dto.OtauPortDto.OtauTcpPort), _rtuIni, _rtuLog);
-            _cancellationTokenSource = new CancellationTokenSource();
-            _otdrManager.DoManualMeasurement(_cancellationTokenSource, true, activeBop);
-            var lastSorDataBuffer = _otdrManager.GetLastSorDataBuffer();
-            if (lastSorDataBuffer == null)
-            {
-                ClientMeasurementResult.ReturnCode = ReturnCode.RtuMeasurementError;
-                callback?.Invoke();
-                return;
-            }
-
-            ClientMeasurementResult.ReturnCode = ReturnCode.Ok;
-            ClientMeasurementResult.SorBytes = _otdrManager.ApplyAutoAnalysis(lastSorDataBuffer);
-            callback?.Invoke();
-
-            if (wasMonitoringOn)
-            {
-                IsMonitoringOn = true;
-                RunMonitoringCycle();
-            }
-            else
-                DisconnectOtdr();
-        }
-
-        private CancellationTokenSource _cancellationTokenSource;
-
-        public ClientMeasurementDoneDto ClientMeasurementResult = new ClientMeasurementDoneDto();
-
-        private bool _wasMonitoringOn;
-        public void StartOutOfTurnMeasurement(DoOutOfTurnPreciseMeasurementDto dto, Action callback)
-        {
-            _wasMonitoringOn = IsMonitoringOn;
-            if (IsMonitoringOn)
-            {
-                StopMonitoring("Measurement (Client)");
-                Thread.Sleep(TimeSpan.FromSeconds(5));
-            }
-
-            _rtuLog.EmptyLine();
-            _rtuLog.AppendLine("Start out of turn precise measurement.");
-
-            var res = _otdrManager.ConnectOtdr(_mainCharon.NetAddress.Ip4Address);
-            if (!res)
-            {
-                RunMainCharonRecovery(); // one of recovery steps inevitably exits process
-                res = _otdrManager.ConnectOtdr(_mainCharon.NetAddress.Ip4Address);
-                if (!res)
-                    RunMainCharonRecovery(); // one of recovery steps inevitably exits process
-            }
-
-            callback?.Invoke();
-
-            DoSecondMeasurement(new MonitorigPort(dto.PortWithTraceDto), false, BaseRefType.Precise, true);
-
-            if (_wasMonitoringOn)
-            {
-                IsMonitoringOn = true;
-                _wasMonitoringOn = false;
-                RunMonitoringCycle();
-            }
-            else
-                DisconnectOtdr();
-        }
     }
 }

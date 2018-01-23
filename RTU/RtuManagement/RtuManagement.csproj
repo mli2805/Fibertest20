@@ -124,6 +124,7 @@
     <Compile Include="DataModels\RecoveryStep.cs" />
     <Compile Include="RtuManager.cs" />
     <Compile Include="RtuManager.Monitoring.cs" />
+    <Compile Include="RtuManager.OnDemandMeasurements.cs" />
     <Compile Include="RtuManager.Preparations.cs" />
     <Compile Include="RtuManager.Send.cs" />
     <Compile Include="RtuManager.OnWcfReactions.cs" />
