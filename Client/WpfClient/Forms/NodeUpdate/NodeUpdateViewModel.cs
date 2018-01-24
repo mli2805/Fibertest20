@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using Caliburn.Micro;
 using GMap.NET;
 using Iit.Fibertest.Graph;

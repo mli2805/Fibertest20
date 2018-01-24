@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using GMap.NET;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Algorithms;
 using Iit.Fibertest.StringResources;
@@ -63,7 +62,7 @@ namespace Iit.Fibertest.Client
             {
                 Id = Guid.NewGuid(),
                 EquipmentId = Guid.NewGuid(),
-                Position = GetFiberCenter(request.FiberId),
+                Position = request.Position,
                 IsAdjustmentPoint = request.IsAdjustmentPoint,
                 FiberId = request.FiberId,
                 NewFiberId1 = Guid.NewGuid(),
@@ -75,14 +74,6 @@ namespace Iit.Fibertest.Client
         {
             var fiber = ReadModel.Fibers.First(f => f.Id == fiberId);
             return ReadModel.Traces.Where(t => t.HasAnyBaseRef).ToList().Any(trace => Topo.GetFiberIndexInTrace(trace, fiber) != -1);
-        }
-
-        private PointLatLng GetFiberCenter(Guid fiberId)
-        {
-            var fiber = GraphReadModel.Fibers.Single(f => f.Id == fiberId);
-            var node1 = GraphReadModel.Nodes.Single(n => n.Id == fiber.Node1.Id);
-            var node2 = GraphReadModel.Nodes.Single(n => n.Id == fiber.Node2.Id);
-            return new PointLatLng() { Lat = (node1.Position.Lat + node2.Position.Lat) / 2, Lng = (node1.Position.Lng + node2.Position.Lng) / 2 };
         }
         #endregion
     }

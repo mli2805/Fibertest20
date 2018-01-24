@@ -1,5 +1,4 @@
 ﻿using System;
-using AutoMapper;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;

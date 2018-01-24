@@ -30,7 +30,8 @@ namespace Iit.Fibertest.Client
         private void AskAddNodeIntoFiber(object parameter)
         {
             var route = (GMapRoute)parameter;
-            GraphReadModel.Request = new RequestAddNodeIntoFiber() { FiberId = route.Id, IsAdjustmentPoint = false};
+            var position = MainMap.FromLocalToLatLng(MainMap.ContextMenuPoint);
+            GraphReadModel.Request = new RequestAddNodeIntoFiber() { FiberId = route.Id, IsAdjustmentPoint = false, Position = position };
         }
 
         private bool CanAddAdjustmentNodeIntoFiber(object parameter)
@@ -40,7 +41,8 @@ namespace Iit.Fibertest.Client
         private void AskAddAdjustmentNodeIntoFiber(object parameter)
         {
             var route = (GMapRoute)parameter;
-            GraphReadModel.Request = new RequestAddNodeIntoFiber() { FiberId = route.Id, IsAdjustmentPoint = true};
+            var position = MainMap.FromLocalToLatLng(MainMap.ContextMenuPoint);
+            GraphReadModel.Request = new RequestAddNodeIntoFiber() { FiberId = route.Id, IsAdjustmentPoint = true, Position = position };
         }
 
         private bool CanRemoveFiber(object parameter)
