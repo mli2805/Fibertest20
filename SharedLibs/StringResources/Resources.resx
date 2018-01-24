@@ -260,12 +260,6 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_Second_base_ref" xml:space="preserve">
     <value>Second base ref</value>
   </data>
-	<data name="SID_Cable_reserve_to_the_left_m" xml:space="preserve">
-    <value>Cable reserve to the left, m</value>
-  </data>
-	<data name="SID_Cable_reserve_to_the_right_m" xml:space="preserve">
-    <value>Cable reserve to the right, m</value>
-  </data>
 	<data name="SID_Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
@@ -1597,5 +1591,17 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID_Measurement__Client__in_progress__Please_wait___" xml:space="preserve">
     <value>Measurement (Client) in progress. Please wait...</value>
+  </data>
+	<data name="SID_m" xml:space="preserve">
+    <value>m</value>
+  </data>
+	<data name="SID_Do_not_set_landmark_on_reflectogram" xml:space="preserve">
+    <value>* Do not set landmark on reflectogram</value>
+  </data>
+	<data name="SID_With_cable_reserve_to_the_left_m" xml:space="preserve">
+    <value>With cable reserve to the left, m</value>
+  </data>
+	<data name="SID_To_the_right_m" xml:space="preserve">
+    <value>To the right, m</value>
   </data>
 </root>

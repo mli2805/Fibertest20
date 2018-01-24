@@ -159,6 +159,8 @@ namespace Iit.Fibertest.Client
                 Id = equipment.Id,
                 Type = equipment.Type.ToLocalizedString(),
                 Title = equipment.Title,
+                CableReserveLeft = equipment.CableReserveLeft.ToString(),
+                CableReserveRight = equipment.CableReserveRight.ToString(),
                 Comment = equipment.Comment,
                 Traces = tracesNames,
                 IsRemoveEnabled = !isLastForSomeTrace && !isPartOfTraceWithBase,
@@ -187,11 +189,7 @@ namespace Iit.Fibertest.Client
         private async void LaunchUpdateEquipmentView(Guid id)
         {
             var equipment = _readModel.Equipments.First(e => e.Id == id);
-
             var equipmentViewModel = new EquipmentInfoViewModel(equipment, _c2DWcfManager);
-            IMapper mapperDomainModelToViewModel = new MapperConfiguration(
-                    cfg => cfg.AddProfile<MappingDomainModelToViewModel>()).CreateMapper();
-            mapperDomainModelToViewModel.Map(equipment, equipmentViewModel);
             _windowManager.ShowDialogWithAssignedOwner(equipmentViewModel);
 
             if (equipmentViewModel.Command == null)

@@ -7,8 +7,6 @@ namespace Iit.Fibertest.Client
     {
         public MappingViewModelToCommand()
         {
-            CreateMap<EquipmentInfoViewModel, AddEquipmentIntoNode>();
-            CreateMap<EquipmentInfoViewModel, UpdateEquipment>();
             CreateMap<RtuUpdateViewModel, UpdateRtu>();
         }
     }

@@ -710,24 +710,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cable reserve to the left, m.
-        /// </summary>
-        public static string SID_Cable_reserve_to_the_left_m {
-            get {
-                return ResourceManager.GetString("SID_Cable_reserve_to_the_left_m", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Cable reserve to the right, m.
-        /// </summary>
-        public static string SID_Cable_reserve_to_the_right_m {
-            get {
-                return ResourceManager.GetString("SID_Cable_reserve_to_the_right_m", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to CableReserve.
         /// </summary>
         public static string SID_CableReserve {
@@ -1346,6 +1328,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Do_not_save {
             get {
                 return ResourceManager.GetString("SID_Do_not_save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to * Do not set landmark on reflectogram.
+        /// </summary>
+        public static string SID_Do_not_set_landmark_on_reflectogram {
+            get {
+                return ResourceManager.GetString("SID_Do_not_set_landmark_on_reflectogram", resourceCulture);
             }
         }
         
@@ -2147,6 +2138,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Long_operation__Removing_trace_s_measurements____Please_wait_ {
             get {
                 return ResourceManager.GetString("SID_Long_operation__Removing_trace_s_measurements____Please_wait_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to m.
+        /// </summary>
+        public static string SID_m {
+            get {
+                return ResourceManager.GetString("SID_m", resourceCulture);
             }
         }
         
@@ -4070,6 +4070,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to To the right, m.
+        /// </summary>
+        public static string SID_To_the_right_m {
+            get {
+                return ResourceManager.GetString("SID_To_the_right_m", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Toggle to port.
         /// </summary>
         public static string SID_Toggle_to_port {
@@ -4444,6 +4453,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_will_be_removed {
             get {
                 return ResourceManager.GetString("SID_will_be_removed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to With cable reserve to the left, m.
+        /// </summary>
+        public static string SID_With_cable_reserve_to_the_left_m {
+            get {
+                return ResourceManager.GetString("SID_With_cable_reserve_to_the_left_m", resourceCulture);
             }
         }
         

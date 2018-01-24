@@ -19,11 +19,11 @@ namespace Graph.Tests
             var vm = model as EquipmentInfoViewModel;
             if (vm == null) return false;
 
-            vm.Title = NewTitleForTest;
-            vm.Type = NewTypeForTest;
-            vm.CableReserveLeft = NewLeftCableReserve;
-            vm.CableReserveRight = NewRightCableReserve;
-            vm.Comment = NewCommentForTest;
+            vm.Model.Title = NewTitleForTest;
+            vm.Model.SetSelectedRadioButton(NewTypeForTest);
+            vm.Model.CableReserveLeft = NewLeftCableReserve;
+            vm.Model.CableReserveRight = NewRightCableReserve;
+            vm.Model.Comment = NewCommentForTest;
 
             if (button == Answer.Yes)
                 vm.Save();

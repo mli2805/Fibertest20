@@ -195,6 +195,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ClientHeartbeat.cs" />
+    <Compile Include="Forms\EquipmentAddUpdate\EquipmentInfoModel.cs" />
+    <Compile Include="Forms\EquipmentAddUpdate\EquipmentViewMode.cs" />
     <Compile Include="Forms\SpecialMeasurements\ClientMeasurementViewModel.cs" />
     <Compile Include="ClientWcfService.cs" />
     <Compile Include="Forms\SpecialMeasurements\ClientMeasurementView.xaml.cs">
@@ -446,7 +448,6 @@
     </Compile>
     <Compile Include="ViewControls\GpsInputControl\OneCoorViewModel.cs" />
     <Compile Include="Logic\PointLatLngExtensions.cs" />
-    <Compile Include="Mappings\MappingDomainModelToViewModel.cs" />
     <Compile Include="Mappings\MappingViewModelToCommand.cs" />
     <Compile Include="Forms\Shell\MapUserControl\MapUserControlApplyFibersToRoutes.cs" />
     <Compile Include="Forms\Shell\MapUserControl\MapUserControlApplyNodesToMarkers.cs" />
@@ -459,7 +460,7 @@
     <Compile Include="Forms\BaseRefs\BaseRefsAssignViewModel.cs" />
     <Compile Include="Forms\NodeUpdate\ItemOfEquipmentTableModel.cs" />
     <Compile Include="ViewModels\Primitive\CheckBoxModel.cs" />
-    <Compile Include="ViewModels\EquipmentInfoViewModel.cs" />
+    <Compile Include="Forms\EquipmentAddUpdate\EquipmentInfoViewModel.cs" />
     <Compile Include="ViewModels\MainMenuViewModel.cs" />
     <Compile Include="Forms\NodeUpdate\NodeUpdateViewModel.cs" />
     <Compile Include="Forms\Shell\ShellViewModelApplyEquipment.cs" />
@@ -471,7 +472,7 @@
     <Compile Include="Forms\BaseRefs\BaseRefsAssignView.xaml.cs">
       <DependentUpon>BaseRefsAssignView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\EquipmentInfoView.xaml.cs">
+    <Compile Include="Forms\EquipmentAddUpdate\EquipmentInfoView.xaml.cs">
       <DependentUpon>EquipmentInfoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainMenuView.xaml.cs">
@@ -660,7 +661,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\EquipmentInfoView.xaml">
+    <Page Include="Forms\EquipmentAddUpdate\EquipmentInfoView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

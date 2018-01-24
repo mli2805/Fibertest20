@@ -12,12 +12,14 @@ namespace Iit.Fibertest.Client
         private string _traces;
         private bool _isRemoveEnabled;
         private object _command;
+        private string _cableReserveLeft;
+        private string _cableReserveRight;
 
         public Guid Id { get; set; }
 
         public string Type
         {
-            get { return _type; }
+            get => _type;
             set
             {
                 if (value == _type) return;
@@ -28,7 +30,7 @@ namespace Iit.Fibertest.Client
 
         public string Title
         {
-            get { return _title; }
+            get => _title;
             set
             {
                 if (value == _title) return;
@@ -37,9 +39,31 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        public string CableReserveLeft
+        {
+            get => _cableReserveLeft;
+            set
+            {
+                if (value == _cableReserveLeft) return;
+                _cableReserveLeft = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public string CableReserveRight
+        {
+            get => _cableReserveRight;
+            set
+            {
+                if (value == _cableReserveRight) return;
+                _cableReserveRight = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public string Comment
         {
-            get { return _comment; }
+            get => _comment;
             set
             {
                 if (value == _comment) return;
@@ -50,7 +74,7 @@ namespace Iit.Fibertest.Client
 
         public string Traces
         {
-            get { return _traces; }
+            get => _traces;
             set
             {
                 if (value == _traces) return;
@@ -61,7 +85,7 @@ namespace Iit.Fibertest.Client
 
         public bool IsRemoveEnabled
         {
-            get { return _isRemoveEnabled; }
+            get => _isRemoveEnabled;
             set
             {
                 if (value == _isRemoveEnabled) return;
@@ -72,7 +96,7 @@ namespace Iit.Fibertest.Client
 
         public object Command
         {
-            get { return _command; }
+            get => _command;
             set
             {
                 if (Equals(value, _command)) return;

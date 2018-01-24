@@ -260,12 +260,6 @@
 	<data name="SID_Second_base_ref" xml:space="preserve">
     <value>Вторая базовая</value>
   </data>
-	<data name="SID_Cable_reserve_to_the_left_m" xml:space="preserve">
-    <value>Запас кабеля слева, м</value>
-  </data>
-	<data name="SID_Cable_reserve_to_the_right_m" xml:space="preserve">
-    <value>Запас кабеля справа, м</value>
-  </data>
 	<data name="SID_Cancel" xml:space="preserve">
     <value>Отмена</value>
   </data>
@@ -1597,5 +1591,17 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Measurement__Client__in_progress__Please_wait___" xml:space="preserve">
 		<value>Проводим измерение (Client). Пожалуйста подождите...</value>
+	</data>
+	<data name="SID_m" xml:space="preserve">
+		<value>м</value>
+	</data>
+	<data name="SID_Do_not_set_landmark_on_reflectogram" xml:space="preserve">
+		<value>* Не ставить ориентир на рефлектограмме</value>
+	</data>
+	<data name="SID_With_cable_reserve_to_the_left_m" xml:space="preserve">
+		<value>С резервом кабеля слева, м</value>
+	</data>
+	<data name="SID_To_the_right_m" xml:space="preserve">
+		<value>справа, м</value>
 	</data>
 </root>
