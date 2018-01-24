@@ -238,7 +238,9 @@ namespace Iit.Fibertest.DatabaseLibrary
             {
                 using (var dbContext = new FtDbContext())
                 {
-                    var clientStations = await dbContext.ClientStations.Where(c => c.ClientGuid == clientId).ToListAsync();
+                    var clientStations = clientId == null 
+                        ? await dbContext.ClientStations.ToListAsync() 
+                        : await dbContext.ClientStations.Where(c => c.ClientGuid == clientId).ToListAsync();
                     if (clientStations == null || !clientStations.Any())
                         return null;
 
