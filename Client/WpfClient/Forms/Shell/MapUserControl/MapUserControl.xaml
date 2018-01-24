@@ -5,8 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
              xmlns:client="clr-namespace:Iit.Fibertest.Client"
-             mc:Ignorable="d" 
-             >
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance client:GraphReadModel}">
     <Control.Resources>
         <!-- call this resource from code -->
         <!-- ReSharper disable once Xaml.RedundantResource -->
@@ -30,6 +29,6 @@
                     <TextBlock Text="{Binding CurrentMousePositionString}" Margin="5,0,20,0"/>
                 </StatusBarItem>
             </StatusBar>
-        <client:Map x:Name="MainMap" Zoom="13" MaxZoom="19" MinZoom="1"/>
+        <client:Map x:Name="MainMap" Zoom="{Binding Zoom, Mode=TwoWay}" MaxZoom="19" MinZoom="1"/>
     </DockPanel>
 </UserControl>

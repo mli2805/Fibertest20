@@ -64,6 +64,11 @@
         SendTimeout,
         PingTimeoutMs,
 
+        // Map
+        Zoom,
+        CenterLatitude,
+        CenterLongitude,
+
         // Miscellaneous
         PathToSor
     }

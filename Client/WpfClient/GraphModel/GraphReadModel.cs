@@ -14,6 +14,7 @@ namespace Iit.Fibertest.Client
     public partial class GraphReadModel : PropertyChangedBase
     {
         public CommonStatusBarViewModel CommonStatusBarViewModel { get; }
+        private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
        
         public ObservableCollection<NodeVm> Nodes { get; }
@@ -23,7 +24,6 @@ namespace Iit.Fibertest.Client
         public ObservableCollection<TraceVm> Traces { get; }
 
         private PointLatLng _currentMousePosition;
-
         public PointLatLng CurrentMousePosition
         {
             get { return _currentMousePosition; }
@@ -36,6 +36,8 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        public int Zoom { get; set; } 
+
         private PointLatLng _toCenter;
         public PointLatLng ToCenter
         {
@@ -45,16 +47,20 @@ namespace Iit.Fibertest.Client
                 if (value.Equals(_toCenter)) return;
                 _toCenter = value;
                 NotifyOfPropertyChange();
+                CenterForIni = value;
             }
         }
+
+        public PointLatLng CenterForIni { get; set; }
 
         public string CurrentMousePositionString => CurrentMousePosition.ToDetailedString(CurrentGpsInputMode);
         public GpsInputMode CurrentGpsInputMode = GpsInputMode.DegreesMinutesAndSeconds;
 
         private object _request;
+
         public object Request
         {
-            get { return _request; }
+            get => _request;
             set
             {
                 if (Equals(value, _request)) return;
@@ -63,9 +69,10 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public GraphReadModel(IMyLog logFile, CommonStatusBarViewModel commonStatusBarViewModel)
+        public GraphReadModel(IniFile iniFile, IMyLog logFile, CommonStatusBarViewModel commonStatusBarViewModel)
         {
             CommonStatusBarViewModel = commonStatusBarViewModel;
+            _iniFile = iniFile;
             _logFile = logFile;
             Nodes = new ObservableCollection<NodeVm>();
             Fibers = new ObservableCollection<FiberVm>();
@@ -74,6 +81,12 @@ namespace Iit.Fibertest.Client
             Traces = new ObservableCollection<TraceVm>();
 
             InitilizeVisibility();
+            Zoom = iniFile.Read(IniSection.Map, IniKey.Zoom, 7);
+            ToCenter = new PointLatLng()
+            {
+                Lat = iniFile.Read(IniSection.Map, IniKey.CenterLatitude, 53.856),
+                Lng = iniFile.Read(IniSection.Map, IniKey.CenterLongitude, 27.49),
+            };
         }
 
         public void PlaceRtuIntoScreenCenter(Guid rtuId)

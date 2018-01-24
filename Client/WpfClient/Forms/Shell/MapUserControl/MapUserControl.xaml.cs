@@ -6,9 +6,9 @@ using GMap.NET.MapProviders;
 namespace Iit.Fibertest.Client
 {
     /// <summary>
-        /// Interaction logic for MapUserControl.xaml
-        /// </summary>
-        public partial class MapUserControl
+    /// Interaction logic for MapUserControl.xaml
+    /// </summary>
+    public partial class MapUserControl
     {
         public GraphReadModel GraphReadModel => (GraphReadModel)DataContext;
 
@@ -22,11 +22,12 @@ namespace Iit.Fibertest.Client
             MainMap.MouseEnter += MainMap_MouseEnter;
         }
 
+
         private void ConfigureMap()
         {
             MainMap.MapProvider = GMapProviders.OpenStreetMap;
-            MainMap.Position = new PointLatLng(53.856, 27.49);
-            MainMap.Zoom = 7;
+//            MainMap.Position = new PointLatLng(53.856, 27.49);
+//            MainMap.Zoom = 7;
         }
 
         private void MapUserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -40,8 +41,12 @@ namespace Iit.Fibertest.Client
             graph.Fibers.CollectionChanged += FibersCollectionChanged;
 
             graph.PropertyChanged += Graph_PropertyChanged;
-           ApplyAddedNodes(graph.Nodes);
-           ApplyAddedFibers(graph.Fibers);
+
+            MainMap.Zoom = graph.Zoom;
+            MainMap.Position = graph.ToCenter;
+
+            ApplyAddedNodes(graph.Nodes);
+            ApplyAddedFibers(graph.Fibers);
         }
 
         private void Graph_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -53,8 +58,9 @@ namespace Iit.Fibertest.Client
         void MainMap_MouseMove(object sender, MouseEventArgs e)
         {
             var p = e.GetPosition(MainMap);
-            GraphReadModel.CurrentMousePosition = 
+            GraphReadModel.CurrentMousePosition =
                 MainMap.FromLocalToLatLng((int)p.X, (int)p.Y);
+            GraphReadModel.CenterForIni = MainMap.Position;
         }
 
         void MainMap_MouseEnter(object sender, MouseEventArgs e)
