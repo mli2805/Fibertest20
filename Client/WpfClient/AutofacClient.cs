@@ -84,6 +84,8 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<ReadModel>().SingleInstance();
 
             builder.RegisterType<BaseRefsChecker>().SingleInstance();
+            builder.RegisterType<BaseRefMeasParamsChecker>().SingleInstance();
+            builder.RegisterType<BaseRefLandmarksCounter>().SingleInstance();
             builder.RegisterType<BaseRefDtoFactory>().SingleInstance();
             builder.RegisterType<BaseRefsAssignViewModel>();
 

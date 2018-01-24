@@ -195,6 +195,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ClientHeartbeat.cs" />
+    <Compile Include="Forms\BaseRefs\BaseRefLandmarksCounter.cs" />
     <Compile Include="Forms\EquipmentAddUpdate\EquipmentInfoModel.cs" />
     <Compile Include="Forms\EquipmentAddUpdate\EquipmentViewMode.cs" />
     <Compile Include="Forms\SpecialMeasurements\ClientMeasurementViewModel.cs" />
