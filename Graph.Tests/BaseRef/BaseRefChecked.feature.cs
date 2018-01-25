@@ -104,15 +104,15 @@ this.FeatureBackground();
 #line 14
  testRunner.Then("Отказ с подсказкой И базовые не заданы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 15
- testRunner.When("Базовые с порогами но не колво ориентиров не совпадает ни с узлами ни с оборудова" +
-                    "нием", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("Базовые с порогами но колво ориентиров не совпадает ни с узлами ни с оборудование" +
+                    "м", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 16
  testRunner.Then("Отказ с подсказкой о количестве и того и другого И базовые не заданы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 17
  testRunner.When("И наконец колво ориентиров совпадает с колвом узлов", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 18
- testRunner.Then("Выдается инфо по длинам трассы и рефлектограммы И у трассы становятся заданы выбр" +
-                    "анные базовые", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("Выдается инфо по длинам трассы и рефлектограммы И у трассы становится задани базо" +
+                    "вая", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

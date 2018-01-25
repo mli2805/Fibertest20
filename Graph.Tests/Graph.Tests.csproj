@@ -98,6 +98,10 @@
       <HintPath>..\packages\NEventStore.5.2.0\lib\net40\NEventStore.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Optixsoft.OtdrDataFormat, Version=1.1.4.118, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Optixsoft.OtdrDataFormat\Optixsoft.OtdrDataFormat.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
@@ -158,6 +162,14 @@
     </Compile>
     <Compile Include="BaseRef\BaseRefCheckedSteps.cs">
       <DependentUpon>BaseRefChecked.feature</DependentUpon>
+    </Compile>
+    <Compile Include="BaseRef\BaseRefModified.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BaseRefModified.feature</DependentUpon>
+    </Compile>
+    <Compile Include="BaseRef\BaseRefModifiedSteps.cs">
+      <DependentUpon>BaseRefModified.feature</DependentUpon>
     </Compile>
     <Compile Include="Equipment\EquipmentAddedOnNodeUpdate.feature.cs">
       <AutoGen>True</AutoGen>
@@ -371,6 +383,7 @@
     <Compile Include="Sut\SutForEquipment.cs" />
     <Compile Include="Sut\SutForEquipmentAdded.cs" />
     <Compile Include="Sut\SutForEquipmentUpdateRemove.cs" />
+    <Compile Include="Sut\SutForMonitoringStatePictograms.cs" />
     <Compile Include="Sut\SutForRtuRemoved.cs" />
     <Compile Include="Sut\SutForTraceAdded.cs" />
     <Compile Include="Sut\SutForTraceAttach.cs" />
@@ -461,6 +474,10 @@
     <None Include="BaseRef\BaseRefChecked.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>BaseRefChecked.feature.cs</LastGenOutput>
+    </None>
+    <None Include="BaseRef\BaseRefModified.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>BaseRefModified.feature.cs</LastGenOutput>
     </None>
     <None Include="Equipment\EquipmentAdded.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
@@ -620,6 +637,10 @@
       <Project>{e98e6cc5-94e4-44b7-af5c-7f4f74746467}</Project>
       <Name>WpfCommonViews</Name>
     </ProjectReference>
+    <ProjectReference Include="..\RTU\IitOtdrLibrary\IitOtdrLibrary.csproj">
+      <Project>{E9122BBB-B015-4710-BDD3-03243EE8CBCD}</Project>
+      <Name>IitOtdrLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Server\DatabaseLibrary\DatabaseLibrary.csproj">
       <Project>{84edd696-9478-4cdc-abd1-e4c83a764072}</Project>
       <Name>DatabaseLibrary</Name>
@@ -650,6 +671,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Sut\BaseRefs\anotherBase1625.sor" />
+    <Content Include="Sut\BaseRefs\base1550-2lm-3-thresholds.sor" />
+    <Content Include="Sut\BaseRefs\base1550-2lm-no-thresholds.sor" />
+    <Content Include="Sut\BaseRefs\base1550-4lm-3-thresholds.sor" />
     <Content Include="Sut\BaseRefs\base1625.sor" />
     <Content Include="Sut\BaseRefs\baseRtuCrossTerminal1550.sor" />
   </ItemGroup>

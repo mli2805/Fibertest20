@@ -50,7 +50,7 @@ namespace Graph.Tests
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
 //                        _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxContainsStringAnswer(p0, Answer.Yes, model));
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler2(model, SystemUnderTest.Base1625, SystemUnderTest.Base1625, null, Answer.Yes));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler2(model, SystemUnderTest.Base1625, null, null, Answer.Yes));
             _sut.TraceLeafActions.AssignBaseRefs(_traceLeaf);
             _sut.Poller.EventSourcingTick().Wait();
         }
@@ -65,11 +65,52 @@ namespace Graph.Tests
         [When(@"Пользователь выбирает базовые с правильной длиной волны но без порогов")]
         public void WhenПользовательВыбираетБазовыеСПравильнойДлинойВолныНоБезПорогов()
         {
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
+            //                        _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxContainsStringAnswer(p0, Answer.Yes, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler2(model, SystemUnderTest.Base1550Lm2NoThresholds, null, null, Answer.Yes));
+            _sut.TraceLeafActions.AssignBaseRefs(_traceLeaf);
+            _sut.Poller.EventSourcingTick().Wait();
         }
 
         [Then(@"Отказ с подсказкой И базовые не заданы")]
         public void ThenОтказСПодсказкойИБазовыеНеЗаданы()
         {
+            _trace.PreciseId.Should().Be(Guid.Empty);
+            _trace.FastId.Should().Be(Guid.Empty);
+        }
+
+        [When(@"Базовые с порогами но колво ориентиров не совпадает ни с узлами ни с оборудованием")]
+        public void WhenБазовыеСПорогамиНоКолвоОриентировНеСовпадаетНиСУзламиНиСОборудованием()
+        {
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
+            //                        _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxContainsStringAnswer(p0, Answer.Yes, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler2(model, SystemUnderTest.Base1550Lm4YesThresholds, null, null, Answer.Yes));
+            _sut.TraceLeafActions.AssignBaseRefs(_traceLeaf);
+            _sut.Poller.EventSourcingTick().Wait();
+        }
+
+        [Then(@"Отказ с подсказкой о количестве и того и другого И базовые не заданы")]
+        public void ThenОтказСПодсказкойОКоличествеИТогоИДругогоИБазовыеНеЗаданы()
+        {
+            _trace.PreciseId.Should().Be(Guid.Empty);
+            _trace.FastId.Should().Be(Guid.Empty);
+        }
+
+        [When(@"И наконец колво ориентиров совпадает с колвом узлов")]
+        public void WhenИНаконецКолвоОриентировСовпадаетСКолвомУзлов()
+        {
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
+            //                        _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxContainsStringAnswer(p0, Answer.Yes, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler2(model, SystemUnderTest.Base1550Lm2YesThresholds, null, null, Answer.Yes));
+            _sut.TraceLeafActions.AssignBaseRefs(_traceLeaf);
+            _sut.Poller.EventSourcingTick().Wait();
+        }
+
+        [Then(@"Выдается инфо по длинам трассы и рефлектограммы И у трассы становится задани базовая")]
+        public void ThenВыдаетсяИнфоПоДлинамТрассыИРефлектограммыИуТрассыСтановитсяЗаданиБазовая()
+        {
+            _trace.PreciseId.Should().NotBe(Guid.Empty);
+            _trace.FastId.Should().Be(Guid.Empty);
         }
 
     }

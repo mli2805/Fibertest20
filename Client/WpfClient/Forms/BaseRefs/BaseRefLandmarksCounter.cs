@@ -4,20 +4,34 @@ using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.StringResources;
 using Optixsoft.SorExaminer.OtdrDataFormat;
+using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
 
 namespace Iit.Fibertest.Client
 {
+    public class BaseRefAdjuster
+    {
+        public void AddKeyEventsForEmptyNodes(OtdrDataKnownBlocks otdrDataKnownBlocks, Trace trace)
+        {
+            var keyEvents = otdrDataKnownBlocks.KeyEvents.KeyEvents.ToList();
+            keyEvents.Add(new KeyEvent());
+            otdrDataKnownBlocks.KeyEvents.KeyEvents = keyEvents.ToArray();
+        }
+    }
     public class BaseRefLandmarksCounter
     {
         private readonly ReadModel _readModel;
         private readonly IWindowManager _windowManager;
+        private readonly BaseRefAdjuster _baseRefAdjuster;
 
-        public BaseRefLandmarksCounter(ReadModel readModel, IWindowManager windowManager)
+        public BaseRefLandmarksCounter(ReadModel readModel, IWindowManager windowManager, 
+            BaseRefAdjuster baseRefAdjuster)
         {
             _readModel = readModel;
             _windowManager = windowManager;
+            _baseRefAdjuster = baseRefAdjuster;
         }
 
         // not only checks but solve if possible
@@ -33,8 +47,9 @@ namespace Iit.Fibertest.Client
                 return true;
             if (keyEventsCount == equipmentsCount)
             {
-                // add landmarks(keyEvents) into OtdrDataKnownBlocks on empty nodes places
-                AddKeyEventsForEmptyNodes();
+                // add landmarks(keyEvents) into OtdrDataKnownBlocks.KeyEvents for empty nodes
+                _baseRefAdjuster.AddKeyEventsForEmptyNodes(otdrKnownBlocks, trace);
+                baseRefDto.SorBytes = SorData.ToBytes(otdrKnownBlocks);
                 return true;
             }
 
@@ -42,8 +57,6 @@ namespace Iit.Fibertest.Client
             ShowError(errorStrings, trace, baseRefDto);
             return false;
         }
-
-        private void AddKeyEventsForEmptyNodes() { }
 
         private string BuildErrorStrings(int keyEventsCount, int nodesCount, int equipmentsCount)
         {

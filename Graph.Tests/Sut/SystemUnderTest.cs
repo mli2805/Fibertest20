@@ -16,6 +16,8 @@ namespace Graph.Tests
 {
     public class SystemUnderTest
     {
+        public IContainer Container { get; set; }
+
         public ReadModel ReadModel { get; }
         public ILogger LoggerForTests { get; set; }
         public IMyLog MyLogFile { get; set; }
@@ -31,7 +33,9 @@ namespace Graph.Tests
         public int CurrentEventNumber => Poller.CurrentEventNumber;
         public const string Base1625 = @"..\..\Sut\BaseRefs\base1625.sor";
         public const string BaseAnother1625 = @"..\..\Sut\BaseRefs\anotherBase1625.sor";
-        public const string Base1550Lm3 = @"..\..\Sut\BaseRefs\baseRtuCrossTerminal1550.sor";
+        public const string Base1550Lm2NoThresholds = @"..\..\Sut\BaseRefs\base1550-2lm-no-thresholds.sor";
+        public const string Base1550Lm4YesThresholds = @"..\..\Sut\BaseRefs\base1550-4lm-3-thresholds.sor";
+        public const string Base1550Lm2YesThresholds = @"..\..\Sut\BaseRefs\base1550-2lm-3-thresholds.sor";
 
         public SystemUnderTest()
         {
@@ -63,21 +67,21 @@ namespace Graph.Tests
             
             builder.RegisterType<TestsDispatcherProvider>().As<IDispatcherProvider>().SingleInstance();
 
-            var container = builder.Build();
+            Container = builder.Build();
 
-            Poller = container.Resolve<ClientPoller>();
-            FakeWindowManager = (FakeWindowManager)container.Resolve<IWindowManager>();
-            MyLogFile = container.Resolve<IMyLog>();
-            WcfServiceForClient = (WcfServiceForClient) container.Resolve<IWcfServiceForClient>();
-            ShellVm = (ShellViewModel)container.Resolve<IShell>();
+            Poller = Container.Resolve<ClientPoller>();
+            FakeWindowManager = (FakeWindowManager)Container.Resolve<IWindowManager>();
+            MyLogFile = Container.Resolve<IMyLog>();
+            WcfServiceForClient = (WcfServiceForClient) Container.Resolve<IWcfServiceForClient>();
+            ShellVm = (ShellViewModel)Container.Resolve<IShell>();
             ReadModel = ShellVm.ReadModel;
-            RtuLeafActions = container.Resolve<RtuLeafActions>();
-            TraceLeafActions = container.Resolve<TraceLeafActions>();
-            TraceLeafActionsPermissions = container.Resolve<TraceLeafActionsPermissions>();
-            PortLeafActions = container.Resolve<PortLeafActions>();
-            CommonActions = container.Resolve<CommonActions>();
+            RtuLeafActions = Container.Resolve<RtuLeafActions>();
+            TraceLeafActions = Container.Resolve<TraceLeafActions>();
+            TraceLeafActionsPermissions = Container.Resolve<TraceLeafActionsPermissions>();
+            PortLeafActions = Container.Resolve<PortLeafActions>();
+            CommonActions = Container.Resolve<CommonActions>();
 
-            var ev = container.Resolve<EventStoreService>();
+            var ev = Container.Resolve<EventStoreService>();
             ev.Init();
         }
 
@@ -103,7 +107,7 @@ namespace Graph.Tests
         }
 
 
-        protected Iit.Fibertest.Graph.Trace DefineTrace(Guid lastNodeId, Guid nodeForRtuId, string title = @"some title")
+        public Iit.Fibertest.Graph.Trace DefineTrace(Guid lastNodeId, Guid nodeForRtuId, string title = @"some title")
         {
             FakeWindowManager.RegisterHandler(model => OneLineMessageBoxAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
             FakeWindowManager.RegisterHandler(model => TraceContentChoiceHandler(model, Answer.Yes, 0));

@@ -128,8 +128,6 @@ namespace Iit.Fibertest.Client
             DisplayName = Resources.SID_Base_refs_assignment;
         }
 
-      
-
         private bool IsFilenameChanged(string filename, Guid previousBaseRefId)
         {
             return (filename != "" && filename != _savedInDb) || (filename == "" && previousBaseRefId != Guid.Empty);
@@ -197,7 +195,6 @@ namespace Iit.Fibertest.Client
                 result.Add(_baseRefDtoFactory.Create(AdditionalBaseFilename, BaseRefType.Additional));
             return result;
         }
-
 
         public void Cancel()
         {
