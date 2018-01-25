@@ -1,5 +1,7 @@
-﻿using FluentAssertions;
+﻿using System.Linq;
+using FluentAssertions;
 using Iit.Fibertest.Client;
+using Iit.Fibertest.Dto;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -23,6 +25,11 @@ namespace Graph.Tests
         public void ThenNewRtuPersisted()
         {
             _sut.ReadModel.Rtus.Count.Should().Be(_rtuCutOff+1);
+            var rtu = _sut.ReadModel.Rtus.Last();
+            var rtuLeaf = (RtuLeaf)_sut.ShellVm.TreeOfRtuModel.Tree.GetById(rtu.Id);
+            rtuLeaf.MainChannelState.Should().Be(RtuPartState.NotSetYet);
+            rtuLeaf.ReserveChannelState.Should().Be(RtuPartState.NotSetYet);
+            rtuLeaf.TreeOfAcceptableMeasParams.Should().BeNull();
         }
 
 

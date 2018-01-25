@@ -71,7 +71,7 @@ namespace Graph.Tests
             return (OtauLeaf)rtuLeaf.ChildrenImpresario.Children[port - 1];
         }
 
-        public bool RtuInitializeHandler(object model, Guid rtuId, string mainIpAddress, string reserveIpAddress, Answer answer)
+        public bool RtuInitializeHandler(object model, Guid rtuId, string mainIpAddress, string reserveIpAddress, string waveLenght, Answer answer)
         {
             var vm = model as RtuInitializeViewModel;
             if (vm == null) return false;
@@ -86,6 +86,8 @@ namespace Graph.Tests
                 if (!vm.CheckAddressUniqueness())
                     return true;
 
+                var treeOfAcceptableParameters = new TreeOfAcceptableMeasParams();
+                treeOfAcceptableParameters.Units.Add(waveLenght, new BranchOfAcceptableMeasParams());
                 var cmd = new InitializeRtu()
                 {
                     Id = rtuId,
@@ -97,6 +99,7 @@ namespace Graph.Tests
                     Serial = @"123456",
                     OtauNetAddress = new NetAddress(mainIpAddress, 23),
                     Version = @"2.0.1.0",
+                    AcceptableMeasParams = treeOfAcceptableParameters,
                 };
                 ShellVm.C2DWcfManager.SendCommandAsObj(cmd).Wait();
             }
@@ -109,7 +112,7 @@ namespace Graph.Tests
         public RtuLeaf InitializeRtu(Guid rtuId)
         {
             var rtuLeaf = (RtuLeaf)ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(rtuId);
-            FakeWindowManager.RegisterHandler(model => RtuInitializeHandler(model, rtuId, "", "", Answer.Yes));
+            FakeWindowManager.RegisterHandler(model => RtuInitializeHandler(model, rtuId, "", "", "", Answer.Yes));
 
             RtuLeafActions.InitializeRtu(rtuLeaf);
 

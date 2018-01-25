@@ -3971,6 +3971,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There are no thresholds for comparison.
+        /// </summary>
+        public static string SID_There_are_no_thresholds_for_comparison {
+            get {
+                return ResourceManager.GetString("SID_There_are_no_thresholds_for_comparison", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There is a node with the same title.
         /// </summary>
         public static string SID_There_is_a_node_with_the_same_title {

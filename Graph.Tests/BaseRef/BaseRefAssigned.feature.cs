@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Graph.Tests.Trace
+namespace Graph.Tests.BaseRef
 {
     using TechTalk.SpecFlow;
     
@@ -67,6 +67,12 @@ namespace Graph.Tests.Trace
 #line 3
 #line 4
  testRunner.Given("Была создана трасса", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 5
+ testRunner.Then("Пункт Задать базовые недоступен", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 6
+ testRunner.When("RTU успешно инициализируется c длинной волны SM1550", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 7
+ testRunner.Then("Пункт Задать базовые становится доступен", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
         }
         
@@ -79,27 +85,27 @@ namespace Graph.Tests.Trace
             this.ScenarioTearDown();
         }
         
-        [Xunit.FactAttribute(DisplayName="Работа с базовыми")]
+        [Xunit.FactAttribute(DisplayName="Сохранение и очистка базовых")]
         [Xunit.TraitAttribute("FeatureTitle", "BaseRefAssigned")]
-        [Xunit.TraitAttribute("Description", "Работа с базовыми")]
-        public virtual void РаботаСБазовыми()
+        [Xunit.TraitAttribute("Description", "Сохранение и очистка базовых")]
+        public virtual void СохранениеИОчисткаБазовых()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Работа с базовыми", ((string[])(null)));
-#line 6
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Сохранение и очистка базовых", ((string[])(null)));
+#line 9
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 7
- testRunner.When("Пользователь указывает пути к точной и быстрой базовам и жмет сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 8
- testRunner.Then("У трассы заданы точная и быстрая базовые", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 9
- testRunner.When("Пользователь изменяет быструю и жмет сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 10
- testRunner.Then("У трассы старая точная и новая быстрая базовые", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("Пользователь указывает пути к точной и быстрой базовам и жмет сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 11
- testRunner.When("Пользователь сбрасывает точную и задает дополнительную и жмет сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Then("У трассы заданы точная и быстрая базовые", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 12
+ testRunner.When("Пользователь изменяет быструю и жмет сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 13
+ testRunner.Then("У трассы старая точная и новая быстрая базовые", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 14
+ testRunner.When("Пользователь сбрасывает точную и задает дополнительную и жмет сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 15
  testRunner.Then("У трассы не задана точная и старая быстрая и есть дополнительная базовые", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

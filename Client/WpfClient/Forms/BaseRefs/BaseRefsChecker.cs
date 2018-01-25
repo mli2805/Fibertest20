@@ -19,8 +19,8 @@ namespace Iit.Fibertest.Client
         private readonly BaseRefLandmarksCounter _baseRefLandmarksCounter;
         private readonly GraphGpsCalculator _graphGpsCalculator;
 
-        public BaseRefsChecker(ReadModel readModel, IWindowManager windowManager, 
-            BaseRefMeasParamsChecker baseRefMeasParamsChecker, BaseRefLandmarksCounter baseRefLandmarksCounter, 
+        public BaseRefsChecker(ReadModel readModel, IWindowManager windowManager,
+            BaseRefMeasParamsChecker baseRefMeasParamsChecker, BaseRefLandmarksCounter baseRefLandmarksCounter,
             GraphGpsCalculator graphGpsCalculator)
         {
             _readModel = readModel;
@@ -47,6 +47,9 @@ namespace Iit.Fibertest.Client
                 if (!_baseRefMeasParamsChecker.IsBaseRefHasAcceptableMeasParams(otdrKnownBlocks, rtu.AcceptableMeasParams, baseRefHeader))
                     return false;
 
+                if (!HasBaseThresholds(otdrKnownBlocks, baseRefHeader))
+                    return false;
+
                 if (!_baseRefLandmarksCounter.IsBaseRefLandmarksCountMatched(otdrKnownBlocks, trace, baseRefDto)) return false;
 
                 if (baseRefDto.BaseRefType == BaseRefType.Precise)
@@ -64,6 +67,19 @@ namespace Iit.Fibertest.Client
             var vm = new MyMessageBoxViewModel(MessageType.Error, new List<string>() { errorHeader, "", "", message });
             _windowManager.ShowDialogWithAssignedOwner(vm);
             return null;
+        }
+
+        private bool HasBaseThresholds(OtdrDataKnownBlocks otdrKnownBlocks, string errorHeader)
+        {
+            if (otdrKnownBlocks.RftsParameters.LevelsCount == 0)
+            {
+                var message = Resources.SID_There_are_no_thresholds_for_comparison;
+                var vm = new MyMessageBoxViewModel(MessageType.Error, new List<string>() { errorHeader, "", message }, 2);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+
+                return false;
+            }
+            return true;
         }
 
         private bool IsDistanceLengthAcceptable(OtdrDataKnownBlocks otdrKnownBlocks, Trace trace, BaseRefDto baseRefDto)

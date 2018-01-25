@@ -1604,4 +1604,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_To_the_right_m" xml:space="preserve">
 		<value>справа, м</value>
 	</data>
+	<data name="SID_There_are_no_thresholds_for_comparison" xml:space="preserve">
+		<value>Пороги для сравнения не заданы</value>
+	</data>
 </root>

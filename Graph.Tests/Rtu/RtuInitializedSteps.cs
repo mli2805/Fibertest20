@@ -50,7 +50,7 @@ namespace Graph.Tests
         {
             _mainAddress = p0;
             _sut.FakeWindowManager.RegisterHandler(m => m is MyMessageBoxViewModel);
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler(model, _rtuLeaf.Id, p0, "", Answer.Yes));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler(model, _rtuLeaf.Id, p0, "", "", Answer.Yes));
 
             _sut.RtuLeafActions.InitializeRtu(_rtuLeaf);
             _sut.Poller.EventSourcingTick().Wait();
@@ -62,7 +62,7 @@ namespace Graph.Tests
             _mainAddress = p0;
             _reserveAddress = p1;
             _sut.FakeWindowManager.RegisterHandler(m => m is MyMessageBoxViewModel);
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler(model, _rtuLeaf.Id, p0, p1, Answer.Yes));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler(model, _rtuLeaf.Id, p0, p1, "", Answer.Yes));
 
             _sut.RtuLeafActions.InitializeRtu(_rtuLeaf);
             _sut.Poller.EventSourcingTick().Wait();
@@ -85,7 +85,7 @@ namespace Graph.Tests
         [When(@"Пользователь открывает форму инициализации и жмет Отмена")]
         public void WhenПользовательОткрываетФормуИнициализацииИЖметОтмена()
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler(model, _rtuLeaf.Id, "", "", Answer.Cancel));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler(model, _rtuLeaf.Id, "", "", "", Answer.Cancel));
 
             _sut.RtuLeafActions.InitializeRtu(_rtuLeaf);
             _sut.Poller.EventSourcingTick().Wait();
@@ -98,6 +98,8 @@ namespace Graph.Tests
             var rtu = _sut.ReadModel.Rtus.First(r => r.Id == _rtuLeaf.Id);
             rtu.MainChannel.Ip4Address.Should().Be(_mainAddress);
             rtu.IsReserveChannelSet.Should().BeFalse();
+            rtu.AcceptableMeasParams.Units.Count.Should().NotBe(0);
+            _rtuLeaf.TreeOfAcceptableMeasParams.Units.Count.Should().NotBe(0);
         }
 
         [Then(@"RTU инициализирован с основным и резервным адресами")]
@@ -108,6 +110,8 @@ namespace Graph.Tests
             rtu.MainChannel.Ip4Address.Should().Be(_mainAddress);
             rtu.IsReserveChannelSet.Should().BeTrue();
             rtu.ReserveChannel.Ip4Address.Should().Be(_reserveAddress);
+            rtu.AcceptableMeasParams.Units.Count.Should().NotBe(0);
+            _rtuLeaf.TreeOfAcceptableMeasParams.Units.Count.Should().NotBe(0);
         }
 
         [Then(@"РТУ НЕ инициализирован")]

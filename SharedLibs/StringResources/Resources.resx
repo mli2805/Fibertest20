@@ -1604,4 +1604,7 @@ RTU is initializing right now!</value>
 	<data name="SID_To_the_right_m" xml:space="preserve">
     <value>To the right, m</value>
   </data>
+	<data name="SID_There_are_no_thresholds_for_comparison" xml:space="preserve">
+    <value>There are no thresholds for comparison</value>
+  </data>
 </root>

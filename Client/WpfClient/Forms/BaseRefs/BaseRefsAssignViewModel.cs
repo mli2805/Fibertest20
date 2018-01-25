@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -160,7 +161,7 @@ namespace Iit.Fibertest.Client
         public void ClearPathToFast() { FastBaseFilename = ""; }
         public void ClearPathToAdditional() { AdditionalBaseFilename = ""; }
 
-        public async void Save()
+        public async Task Save()
         {
             var baseRefs = GetBaseRefChangesList();
             if (!baseRefs.Any())

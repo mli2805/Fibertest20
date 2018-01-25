@@ -10,6 +10,7 @@ namespace Graph.Tests
     {
         private readonly SutForTraceAttach _sut = new SutForTraceAttach();
         private Iit.Fibertest.Graph.Trace _trace;
+        private RtuLeaf _rtuLeaf;
         private TraceLeaf _traceLeaf;
         private Guid _oldPreciseId;
         private Guid _oldFastId;
@@ -19,15 +20,42 @@ namespace Graph.Tests
         {
             _trace = _sut.CreateTraceRtuEmptyTerminal();
             _traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_trace.Id);
+            _rtuLeaf = (RtuLeaf) _traceLeaf.Parent;
         }
+
+        [Then(@"Пункт Задать базовые недоступен")]
+        public void ThenПунктЗадатьБазовыеНедоступен()
+        {
+            _sut.TraceLeafActionsPermissions.CanAssignBaseRefsAction(_traceLeaf).Should().BeFalse();
+        }
+
+        [When(@"RTU успешно инициализируется c длинной волны (.*)")]
+        public void WhenRtuУспешноИнициализируетсяCДлиннойВолны(string p0)
+        {
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler(model, _rtuLeaf.Id, @"1.1.1.1", "", p0, Answer.Yes));
+            _sut.RtuLeafActions.InitializeRtu(_rtuLeaf);
+            _sut.Poller.EventSourcingTick().Wait();
+            _rtuLeaf.TreeOfAcceptableMeasParams.Units.ContainsKey(p0).Should().BeTrue();
+        }
+
+
+        [Then(@"Пункт Задать базовые становится доступен")]
+        public void ThenПунктЗадатьБазовыеСтановитсяДоступен()
+        {
+            _sut.TraceLeafActionsPermissions.CanAssignBaseRefsAction(_traceLeaf).Should().BeTrue();
+        }
+
 
         [When(@"Пользователь указывает пути к точной и быстрой базовам и жмет сохранить")]
         public void WhenПользовательУказываетПутиКТочнойИБыстройБазовамИЖметСохранить()
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, _trace.Id, SystemUnderTest.Path, SystemUnderTest.Path, null, Answer.Yes));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, _trace.Id, SystemUnderTest.Base1625, SystemUnderTest.Base1625, null, Answer.Yes));
             _sut.TraceLeafActions.AssignBaseRefs(_traceLeaf);
             _sut.Poller.EventSourcingTick().Wait();
         }
+
+       
+
 
         [Then(@"У трассы заданы точная и быстрая базовые")]
         public void ThenУТрассыЗаданыТочнаяИБыстраяБазовые()
@@ -42,7 +70,7 @@ namespace Graph.Tests
             _oldPreciseId = _trace.PreciseId;
             _oldFastId = _trace.FastId;
 
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, _trace.Id, null, SystemUnderTest.Path2, null, Answer.Yes));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, _trace.Id, null, SystemUnderTest.BaseAnother1625, null, Answer.Yes));
             _sut.TraceLeafActions.AssignBaseRefs(_traceLeaf);
             _sut.Poller.EventSourcingTick().Wait();
         }
@@ -57,7 +85,7 @@ namespace Graph.Tests
         [When(@"Пользователь сбрасывает точную и задает дополнительную и жмет сохранить")]
         public void WhenПользовательСбрасываетТочнуюЗадаетДополнительнуюИЖметСохранить()
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, _trace.Id, "",  null, SystemUnderTest.Path, Answer.Yes));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, _trace.Id, "",  null, SystemUnderTest.Base1625, Answer.Yes));
             _sut.TraceLeafActions.AssignBaseRefs(_traceLeaf);
             _sut.Poller.EventSourcingTick().Wait();
         }

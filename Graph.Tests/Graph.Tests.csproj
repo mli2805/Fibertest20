@@ -151,6 +151,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseRef\BaseRefChecked.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BaseRefChecked.feature</DependentUpon>
+    </Compile>
+    <Compile Include="BaseRef\BaseRefCheckedSteps.cs">
+      <DependentUpon>BaseRefChecked.feature</DependentUpon>
+    </Compile>
     <Compile Include="Equipment\EquipmentAddedOnNodeUpdate.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -376,12 +384,12 @@
     <Compile Include="TestBench\GpsInputModeChangedSteps.cs">
       <DependentUpon>GpsInputModeChanged.feature</DependentUpon>
     </Compile>
-    <Compile Include="Trace\BaseRefAssigned.feature.cs">
+    <Compile Include="BaseRef\BaseRefAssigned.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>BaseRefAssigned.feature</DependentUpon>
     </Compile>
-    <Compile Include="Trace\BaseRefAssignedSteps.cs">
+    <Compile Include="BaseRef\BaseRefAssignedSteps.cs">
       <DependentUpon>BaseRefAssigned.feature</DependentUpon>
     </Compile>
     <Compile Include="Trace\TraceAddedFirstStageSteps.cs">
@@ -450,6 +458,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="BaseRef\BaseRefChecked.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>BaseRefChecked.feature.cs</LastGenOutput>
+    </None>
     <None Include="Equipment\EquipmentAdded.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>EquipmentAdded.feature.cs</LastGenOutput>
@@ -558,7 +570,7 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>GpsInputModeChanged.feature.cs</LastGenOutput>
     </None>
-    <None Include="Trace\BaseRefAssigned.feature">
+    <None Include="BaseRef\BaseRefAssigned.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>BaseRefAssigned.feature.cs</LastGenOutput>
     </None>
@@ -637,8 +649,9 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Sut\anotherBase.sor" />
-    <Content Include="Sut\base.sor" />
+    <Content Include="Sut\BaseRefs\anotherBase1625.sor" />
+    <Content Include="Sut\BaseRefs\base1625.sor" />
+    <Content Include="Sut\BaseRefs\baseRtuCrossTerminal1550.sor" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -32,7 +32,7 @@ namespace Graph.Tests
         {
             _sut.AttachTraceTo(_traces[0].Id, _rtuLeaf, 1, Answer.Yes);
             _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, _traces[0].Id,
-                SystemUnderTest.Path, SystemUnderTest.Path, null, Answer.Yes));
+                SystemUnderTest.Base1625, SystemUnderTest.Base1625, null, Answer.Yes));
             var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_traces[0].Id);
             _sut.TraceLeafActions.AssignBaseRefs(traceLeaf);
             _sut.Poller.EventSourcingTick().Wait();
@@ -46,7 +46,7 @@ namespace Graph.Tests
             _sut.AttachTraceTo(_traces[2].Id, _otauLeaf, 4, Answer.Yes);
 
             _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, _traces[2].Id,
-                SystemUnderTest.Path, SystemUnderTest.Path, null, Answer.Yes));
+                SystemUnderTest.Base1625, SystemUnderTest.Base1625, null, Answer.Yes));
             var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_traces[2].Id);
             _sut.TraceLeafActions.AssignBaseRefs(traceLeaf);
             _sut.Poller.EventSourcingTick().Wait();

@@ -30,6 +30,9 @@ namespace Iit.Fibertest.Client
             var leaf = traceLeaf.Parent as RtuLeaf;
             var rtuLeaf = leaf ?? (RtuLeaf)traceLeaf.Parent.Parent;
 
+            if (rtuLeaf.TreeOfAcceptableMeasParams == null) // RTU is not initialized yet
+                return false;
+
             return traceLeaf.PortNumber < 1
                     || rtuLeaf.IsAvailable &&
                    (traceLeaf.BaseRefsSet.RtuMonitoringState == MonitoringState.Off

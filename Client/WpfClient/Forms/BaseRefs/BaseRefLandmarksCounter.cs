@@ -33,7 +33,8 @@ namespace Iit.Fibertest.Client
                 return true;
             if (keyEventsCount == equipmentsCount)
             {
-                // TODO add landmarks(keyEvents) into OtdrDataKnownBlocks on empty nodes places
+                // add landmarks(keyEvents) into OtdrDataKnownBlocks on empty nodes places
+                AddKeyEventsForEmptyNodes();
                 return true;
             }
 
@@ -41,6 +42,8 @@ namespace Iit.Fibertest.Client
             ShowError(errorStrings, trace, baseRefDto);
             return false;
         }
+
+        private void AddKeyEventsForEmptyNodes() { }
 
         private string BuildErrorStrings(int keyEventsCount, int nodesCount, int equipmentsCount)
         {

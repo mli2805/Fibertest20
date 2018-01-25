@@ -24,12 +24,14 @@ namespace Graph.Tests
         public WcfServiceForClient WcfServiceForClient { get; }
         public RtuLeafActions RtuLeafActions { get; }
         public TraceLeafActions TraceLeafActions { get; }
+        public TraceLeafActionsPermissions TraceLeafActionsPermissions { get; }
         public PortLeafActions PortLeafActions { get; }
         public CommonActions CommonActions { get; }
         public ShellViewModel ShellVm { get; }
         public int CurrentEventNumber => Poller.CurrentEventNumber;
-        public const string Path = @"..\..\Sut\base.sor";
-        public const string Path2 = @"..\..\Sut\anotherBase.sor";
+        public const string Base1625 = @"..\..\Sut\BaseRefs\base1625.sor";
+        public const string BaseAnother1625 = @"..\..\Sut\BaseRefs\anotherBase1625.sor";
+        public const string Base1550Lm3 = @"..\..\Sut\BaseRefs\baseRtuCrossTerminal1550.sor";
 
         public SystemUnderTest()
         {
@@ -71,6 +73,7 @@ namespace Graph.Tests
             ReadModel = ShellVm.ReadModel;
             RtuLeafActions = container.Resolve<RtuLeafActions>();
             TraceLeafActions = container.Resolve<TraceLeafActions>();
+            TraceLeafActionsPermissions = container.Resolve<TraceLeafActionsPermissions>();
             PortLeafActions = container.Resolve<PortLeafActions>();
             CommonActions = container.Resolve<CommonActions>();
 
@@ -113,8 +116,7 @@ namespace Graph.Tests
 
         public bool OneLineMessageBoxAnswer(string question, Answer answer, object model)
         {
-            var vm = model as MyMessageBoxViewModel;
-            if (vm == null) return false;
+            if (!(model is MyMessageBoxViewModel vm)) return false;
             if (vm.Lines[0].Line != question) return false;
             if (answer == Answer.Yes)
                 vm.OkButton();
@@ -125,8 +127,20 @@ namespace Graph.Tests
 
         public bool ManyLinesMessageBoxAnswer(Answer answer, object model)
         {
-            var vm = model as MyMessageBoxViewModel;
-            if (vm == null) return false;
+            if (!(model is MyMessageBoxViewModel vm)) return false;
+            if (answer == Answer.Yes)
+                vm.OkButton();
+            else
+                vm.CancelButton();
+            return true;
+        }
+
+        public bool ManyLinesMessageBoxContainsStringAnswer(string str, Answer answer, object model)
+        {
+            if (!(model is MyMessageBoxViewModel vm))
+                return false;
+            if (vm.Lines.FirstOrDefault(i => i.Line == str) == null)
+                return false;
             if (answer == Answer.Yes)
                 vm.OkButton();
             else
