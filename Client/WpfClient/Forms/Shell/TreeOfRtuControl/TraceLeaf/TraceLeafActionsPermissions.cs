@@ -40,8 +40,6 @@ namespace Iit.Fibertest.Client
 
         public bool CanShowTraceStatistics(object param) { return true; }
 
-        public bool CanShowTraceEvents(object param) { return true; }
-
         public bool CanShowTraceLandmarks(object param) { return true; }
 
         public bool CanDetachTrace(object param)

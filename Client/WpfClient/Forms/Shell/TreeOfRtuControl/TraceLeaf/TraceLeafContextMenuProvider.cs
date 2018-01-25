@@ -58,13 +58,6 @@ namespace Iit.Fibertest.Client
 
             menu.Add(new MenuItemVm()
             {
-                Header = Resources.SID_Rfts_Events,
-                Command = new ContextMenuAction(_traceLeafActions.ShowTraceEvents, _traceLeafActionsPermissions.CanShowTraceEvents),
-                CommandParameter = traceLeaf
-            });
-
-            menu.Add(new MenuItemVm()
-            {
                 Header = Resources.SID_Landmarks,
                 Command = new ContextMenuAction(_traceLeafActions.ShowTraceLandmarks, _traceLeafActionsPermissions.CanShowTraceLandmarks),
                 CommandParameter = traceLeaf

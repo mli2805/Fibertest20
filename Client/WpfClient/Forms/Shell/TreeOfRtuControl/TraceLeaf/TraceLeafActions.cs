@@ -18,7 +18,6 @@ namespace Iit.Fibertest.Client
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly TraceStateViewsManager _traceStateViewsManager;
         private readonly TraceStatisticsViewsManager _traceStatisticsViewsManager;
-        private readonly ReflectogramManager _reflectogramManager;
         private readonly BaseRefsAssignViewModel _baseRefsAssignViewModel;
         private readonly OpticalEventsDoubleViewModel _opticalEventsDoubleViewModel;
         private readonly OutOfTurnPreciseMeasurementViewModel _outOfTurnPreciseMeasurementViewModel;
@@ -27,7 +26,7 @@ namespace Iit.Fibertest.Client
         public TraceLeafActions(ILifetimeScope globalScope, ReadModel readModel,
             IWindowManager windowManager, IWcfServiceForClient c2DWcfManager,
             TraceStateViewsManager traceStateViewsManager, TraceStatisticsViewsManager traceStatisticsViewsManager,
-             ReflectogramManager reflectogramManager, BaseRefsAssignViewModel baseRefsAssignViewModel,
+            BaseRefsAssignViewModel baseRefsAssignViewModel,
             OpticalEventsDoubleViewModel opticalEventsDoubleViewModel, OutOfTurnPreciseMeasurementViewModel outOfTurnPreciseMeasurementViewModel,
             CommonStatusBarViewModel commonStatusBarViewModel)
         {
@@ -37,7 +36,6 @@ namespace Iit.Fibertest.Client
             _c2DWcfManager = c2DWcfManager;
             _traceStateViewsManager = traceStateViewsManager;
             _traceStatisticsViewsManager = traceStatisticsViewsManager;
-            _reflectogramManager = reflectogramManager;
             _baseRefsAssignViewModel = baseRefsAssignViewModel;
             _opticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
             _outOfTurnPreciseMeasurementViewModel = outOfTurnPreciseMeasurementViewModel;
@@ -84,14 +82,6 @@ namespace Iit.Fibertest.Client
                 return;
 
             _traceStatisticsViewsManager.Show(traceLeaf.Id);
-        }
-
-        public void ShowTraceEvents(object param)
-        {
-            if (!(param is TraceLeaf traceLeaf))
-                return;
-
-            _reflectogramManager.ShowRftsEventsOfLastTraceMeasurement(traceLeaf.Id);
         }
 
         public void ShowTraceLandmarks(object param)

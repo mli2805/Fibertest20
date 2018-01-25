@@ -29,9 +29,9 @@ namespace Iit.Fibertest.Client
                 case RtuPartState.NotSetYet:
                     return isForeground ? Brushes.LightGray : Brushes.Transparent;
                 case RtuPartState.Ok:
-                    return Brushes.Black;
+                    return isForeground ? Brushes.Black : Brushes.Transparent;
                 default:
-                    return Brushes.Black;
+                    return isForeground ? Brushes.Black : Brushes.Transparent;
             }
         }
 
