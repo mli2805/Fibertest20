@@ -22,5 +22,4 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
 
 33 какой спелчекер используешь? чтобы он не проверял русские specflow
 
-34. не могу проверить сообщение в BaseRefCheckedSteps
-
+34 _sut.ManyLinesMessageBoxContainsStringAnswer - если строка не совпадает - сообщение об ошибке We have forgotten to define ... - хотелось бы конкретно о строке

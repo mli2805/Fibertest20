@@ -1,6 +1,8 @@
 ﻿using System;
 using FluentAssertions;
 using Iit.Fibertest.Client;
+using Iit.Fibertest.Dto;
+using Iit.Fibertest.StringResources;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -48,8 +50,8 @@ namespace Graph.Tests
         [When(@"Пользователь указывает путь к базовой c длинной волны SM(.*) и жмет сохранить")]
         public void WhenПользовательУказываетПутьКБазовойCДлиннойВолныSmиЖметСохранить(string p0)
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
-//                        _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxContainsStringAnswer(p0, Answer.Yes, model));
+            var errorString = string.Format(Resources.SID_Invalid_parameter___Wave_length__0_, p0);
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxContainsStringAnswer(errorString, Answer.Yes, model));
             _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler2(model, SystemUnderTest.Base1625, null, null, Answer.Yes));
             _sut.TraceLeafActions.AssignBaseRefs(_traceLeaf);
             _sut.Poller.EventSourcingTick().Wait();
@@ -65,8 +67,8 @@ namespace Graph.Tests
         [When(@"Пользователь выбирает базовые с правильной длиной волны но без порогов")]
         public void WhenПользовательВыбираетБазовыеСПравильнойДлинойВолныНоБезПорогов()
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
-            //                        _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxContainsStringAnswer(p0, Answer.Yes, model));
+            var errorString = Resources.SID_There_are_no_thresholds_for_comparison;
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxContainsStringAnswer(errorString, Answer.Yes, model));
             _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler2(model, SystemUnderTest.Base1550Lm2NoThresholds, null, null, Answer.Yes));
             _sut.TraceLeafActions.AssignBaseRefs(_traceLeaf);
             _sut.Poller.EventSourcingTick().Wait();
@@ -82,8 +84,8 @@ namespace Graph.Tests
         [When(@"Базовые с порогами но колво ориентиров не совпадает ни с узлами ни с оборудованием")]
         public void WhenБазовыеСПорогамиНоКолвоОриентировНеСовпадаетНиСУзламиНиСОборудованием()
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
-            //                        _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxContainsStringAnswer(p0, Answer.Yes, model));
+            var errorString = string.Format(Resources.SID__0__base_is_not_compatible_with_trace, BaseRefType.Precise.GetLocalizedFemaleString());
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxContainsStringAnswer(errorString, Answer.Yes, model));
             _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler2(model, SystemUnderTest.Base1550Lm4YesThresholds, null, null, Answer.Yes));
             _sut.TraceLeafActions.AssignBaseRefs(_traceLeaf);
             _sut.Poller.EventSourcingTick().Wait();
@@ -99,8 +101,9 @@ namespace Graph.Tests
         [When(@"И наконец колво ориентиров совпадает с колвом узлов")]
         public void WhenИНаконецКолвоОриентировСовпадаетСКолвомУзлов()
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
-            //                        _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxContainsStringAnswer(p0, Answer.Yes, model));
+            var message = string.Format(Resources.SID_Trace_length_on_map_is__0__km, 25.63) +
+                          Environment.NewLine + string.Format(Resources.SID_Optical_length_is__0__km, 3.27);
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxContainsStringAnswer(message, Answer.Yes, model));
             _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler2(model, SystemUnderTest.Base1550Lm2YesThresholds, null, null, Answer.Yes));
             _sut.TraceLeafActions.AssignBaseRefs(_traceLeaf);
             _sut.Poller.EventSourcingTick().Wait();

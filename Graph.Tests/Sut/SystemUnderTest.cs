@@ -91,11 +91,11 @@ namespace Graph.Tests
             Poller.EventSourcingTick().Wait();
             var nodeForRtuId = ReadModel.Rtus.Last().NodeId;
 
-            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation(){Type = EquipmentType.EmptyNode}).Wait();
+            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation(){Type = EquipmentType.EmptyNode, Latitude = 55.1, Longitude = 30.1 }).Wait();
             Poller.EventSourcingTick().Wait();
             var firstNodeId = ReadModel.Nodes.Last().Id;
 
-            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait();
+            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal, Latitude = 55.2, Longitude = 30.2 }).Wait();
             Poller.EventSourcingTick().Wait();
             var secondNodeId = ReadModel.Nodes.Last().Id;
 

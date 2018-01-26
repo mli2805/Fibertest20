@@ -48,9 +48,9 @@ namespace Iit.Fibertest.Client
             return false;
         }
 
-        private string BuildErrorStrings(int keyEventsCount, int nodesCount, int equipmentsCount)
+        private string BuildErrorStrings(int landmarksCount, int nodesCount, int equipmentsCount)
         {
-            return  string.Format(Resources.SID_Landmarks_count_in_reflectogram_is__0_, keyEventsCount) + Environment.NewLine +
+            return  string.Format(Resources.SID_Landmarks_count_in_reflectogram_is__0_, landmarksCount) + Environment.NewLine +
                 Environment.NewLine +
                 string.Format(Resources.SID_Trace_s_node_count_is__0_, nodesCount) + Environment.NewLine +
                 string.Format(Resources.SID_Trace_s_equipment_count_is__0_, equipmentsCount);
