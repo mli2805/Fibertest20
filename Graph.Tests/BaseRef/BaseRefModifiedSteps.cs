@@ -6,6 +6,7 @@ using Iit.Fibertest.Client;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.IitOtdrLibrary;
+using Optixsoft.SorExaminer.OtdrDataFormat;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -15,7 +16,6 @@ namespace Graph.Tests
     [Binding]
     public sealed class BaseRefModifiedSteps
     {
-        private readonly BaseRefAdjuster _baseRefAdjuster;
         private SutForTraceAttach _sut = new SutForTraceAttach();
         private RtuLeaf _rtuLeaf;
         private Iit.Fibertest.Graph.Rtu _rtu;
@@ -23,12 +23,7 @@ namespace Graph.Tests
         private Iit.Fibertest.Graph.Trace _trace;
         private List<BaseRefDto> _baseRefs;
 
-
-        public BaseRefModifiedSteps(BaseRefAdjuster baseRefAdjuster)
-        {
-            _baseRefAdjuster = baseRefAdjuster;
-        }
-
+      
         [Given(@"Существует инициализированный RTU")]
         public void GivenСуществуетИнициализированныйRtu()
         {
@@ -47,19 +42,48 @@ namespace Graph.Tests
         {
             var nodeForRtuId = _rtu.NodeId;
 
-            _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode, Latitude = 55.1, Longitude = 30.1}).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Cross, Latitude = 55.002, Longitude = 30.002 }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
-            var firstNodeId = _sut.ReadModel.Nodes.Last().Id;
+            var nodeIdA = _sut.ReadModel.Nodes.Last().Id;
+            _sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = nodeForRtuId, Node2 = nodeIdA }).Wait();
 
-            _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal, Latitude = 55.3, Longitude = 30.7 }).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode, Latitude = 55.02, Longitude = 30.02}).Wait();
             _sut.Poller.EventSourcingTick().Wait();
-            var secondNodeId = _sut.ReadModel.Nodes.Last().Id;
+            var nodeIdB = _sut.ReadModel.Nodes.Last().Id;
+            _sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = nodeIdA, Node2 = nodeIdB }).Wait();
 
-            _sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = nodeForRtuId, Node2 = firstNodeId }).Wait();
-            _sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = firstNodeId, Node2 = secondNodeId }).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode, Latitude = 55.04, Longitude = 30.04 }).Wait();
+            _sut.Poller.EventSourcingTick().Wait();
+            nodeIdA = _sut.ReadModel.Nodes.Last().Id;
+            _sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = nodeIdA, Node2 = nodeIdB }).Wait();
+
+            _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode, Latitude = 55.06, Longitude = 30.06 }).Wait();
+            _sut.Poller.EventSourcingTick().Wait();
+            nodeIdB = _sut.ReadModel.Nodes.Last().Id;
+            _sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = nodeIdA, Node2 = nodeIdB }).Wait();
+
+            _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Closure, Latitude = 55.08, Longitude = 30.08 }).Wait();
+            _sut.Poller.EventSourcingTick().Wait();
+            nodeIdA = _sut.ReadModel.Nodes.Last().Id;
+            _sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = nodeIdA, Node2 = nodeIdB }).Wait();
+
+            _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode, Latitude = 55.082, Longitude = 30.082 }).Wait();
+            _sut.Poller.EventSourcingTick().Wait();
+            nodeIdB = _sut.ReadModel.Nodes.Last().Id;
+            _sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = nodeIdA, Node2 = nodeIdB }).Wait();
+
+            _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode, Latitude = 55.084, Longitude = 30.084 }).Wait();
+            _sut.Poller.EventSourcingTick().Wait();
+            nodeIdA = _sut.ReadModel.Nodes.Last().Id;
+            _sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = nodeIdA, Node2 = nodeIdB }).Wait();
+
+            _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal, Latitude = 55.086, Longitude = 30.086 }).Wait();
+            _sut.Poller.EventSourcingTick().Wait();
+            nodeIdB = _sut.ReadModel.Nodes.Last().Id;
+            _sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = nodeIdA, Node2 = nodeIdB }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
 
-            _trace =  _sut.DefineTrace(secondNodeId, nodeForRtuId);
+            _trace =  _sut.DefineTrace(nodeIdB, nodeForRtuId, @"Трасса1", 3);
             _traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuModel.Tree.GetById(_trace.Id);
         }
 
@@ -68,7 +92,7 @@ namespace Graph.Tests
         {
             var vm = _sut.Container.Resolve<BaseRefsAssignViewModel>();
             vm.Initialize(_trace);
-            vm.PreciseBaseFilename = @"..\..\Sut\BaseRefs\base1550-2lm-3-thresholds.sor";
+            vm.PreciseBaseFilename = @"..\..\Sut\BaseRefs\base1550-4lm-3-thresholds.sor";
             _baseRefs = vm.GetBaseRefChangesList();
         }
 
@@ -81,9 +105,10 @@ namespace Graph.Tests
             baseRefChecker.IsBaseRefsAcceptable(_baseRefs, _trace).Should().BeTrue();
 
             SorData.TryGetFromBytes(_baseRefs[0].SorBytes, out var otdrKnownBlocks);
-            otdrKnownBlocks.KeyEvents.KeyEvents.Length.Should().Be(3);
-            var keyEvent = otdrKnownBlocks.KeyEvents.KeyEvents[1];
-            keyEvent.Comment.Should().Be("111");
+            otdrKnownBlocks.LinkParameters.LandmarkBlocks.Length.Should().Be(9);
+            var landmark = otdrKnownBlocks.LinkParameters.LandmarkBlocks[2];
+            landmark.Code.Should().Be(LandmarkCode.Manhole);
+            landmark.Location.Should().Be(114849);
         }
 
     }

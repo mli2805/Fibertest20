@@ -12,7 +12,7 @@ namespace Iit.Fibertest.Client
             _readModel = readModel;
         }
 
-        public double CalculateTraceGpsLength(Trace trace)
+        public double CalculateTraceGpsLengthKm(Trace trace)
         {
             double result = 0;
             for (int i = 0; i < trace.Nodes.Count-1; i++)
@@ -22,9 +22,15 @@ namespace Iit.Fibertest.Client
                 var node2 = _readModel.Nodes.FirstOrDefault(n => n.Id == trace.Nodes[i+1]);
                 if (node2 == null) return 0;
 
-                result = result + GpsCalculator.CalculateGpsDistance(node1.Latitude, node1.Longitude, node2.Latitude, node2.Longitude);
+                result = result + GpsCalculator.CalculateGpsDistanceBetweenPointsInDegrees(node1.Latitude, node1.Longitude, node2.Latitude, node2.Longitude);
             }
-            return result;
+            return result / 1000;
+        }
+
+        public int CalculateDistanceBetweenNodesMm(Node leftNode, Node rightNode)
+        {
+            return (int) (GpsCalculator.CalculateGpsDistanceBetweenPointsInDegrees(
+                              leftNode.Latitude, leftNode.Longitude, rightNode.Latitude, rightNode.Longitude) * 1000);
         }
     }
 }

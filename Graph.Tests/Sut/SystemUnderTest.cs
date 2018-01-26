@@ -107,10 +107,13 @@ namespace Graph.Tests
         }
 
 
-        public Iit.Fibertest.Graph.Trace DefineTrace(Guid lastNodeId, Guid nodeForRtuId, string title = @"some title")
+        public Iit.Fibertest.Graph.Trace DefineTrace(Guid lastNodeId, Guid nodeForRtuId, string title = @"some title", int equipmentCount = 1)
         {
             FakeWindowManager.RegisterHandler(model => OneLineMessageBoxAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
-            FakeWindowManager.RegisterHandler(model => TraceContentChoiceHandler(model, Answer.Yes, 0));
+            for (int i = 0; i < equipmentCount; i++)
+            {
+                FakeWindowManager.RegisterHandler(model => TraceContentChoiceHandler(model, Answer.Yes, 0));
+            }
             FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, title, "", Answer.Yes));
             ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = lastNodeId, NodeWithRtuId = nodeForRtuId });
             Poller.EventSourcingTick().Wait();

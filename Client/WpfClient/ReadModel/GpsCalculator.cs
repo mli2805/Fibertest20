@@ -4,11 +4,12 @@ namespace Iit.Fibertest.Client
 {
     public static class GpsCalculator
     {
-        public static double CalculateGpsDistance(
+        // in meters
+        public static double CalculateGpsDistanceBetweenPointsInDegrees(
             double lat1Degree, double lng1Degree, double lat2Degree, double lng2Degree)
         {
 
-            return CalculateGpsDistanceRadians(Degree2Radian(lat1Degree), Degree2Radian(lng1Degree), 
+            return CalculateGpsDistanceBetweenPointInRadians(Degree2Radian(lat1Degree), Degree2Radian(lng1Degree), 
                 Degree2Radian(lat2Degree), Degree2Radian(lng2Degree));
         }
 
@@ -17,7 +18,8 @@ namespace Iit.Fibertest.Client
             return degree * Math.PI / 180;
         }
 
-        private static double CalculateGpsDistanceRadians(
+        // in meters
+        private static double CalculateGpsDistanceBetweenPointInRadians(
             double lat1Radian, double lng1Radian, double lat2Radian, double lng2Radian)
         {
             const int earthRadius = 6372795;
@@ -33,7 +35,7 @@ namespace Iit.Fibertest.Client
             var y = Math.Sqrt(Math.Pow(lat2Cos * sinDeltaLong, 2) + Math.Pow(lat1Cos * lat2Sin - lat1Sin * lat2Cos * cosDeltaLong, 2));
             var x = lat1Sin * lat2Sin + lat1Cos * lat2Cos * cosDeltaLong;
 
-            return Math.Atan2(y, x) * earthRadius / 1000;
+            return Math.Atan2(y, x) * earthRadius;
         }
     }
 }

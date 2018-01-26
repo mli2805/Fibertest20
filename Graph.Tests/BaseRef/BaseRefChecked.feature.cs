@@ -66,7 +66,7 @@ namespace Graph.Tests.BaseRef
         {
 #line 3
 #line 4
- testRunner.Given("Была создана трасса 2 ориентира", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Была создана трасса 2 ориентира - 3 узла", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 5
  testRunner.Then("Пункт меню Задать базовые недоступен", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 6

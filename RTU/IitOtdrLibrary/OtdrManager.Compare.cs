@@ -69,7 +69,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
             measSorData.EmbeddedData.EmbeddedDataBlocks = embeddedData.ToArray();
             measSorData.EmbeddedData.EmbeddedBlocksCount = (ushort)embeddedData.Count;
 
-            moniResult.SorBytes = SorData.ToBytes(measSorData);
+            moniResult.SorBytes = measSorData.ToBytes();
 
             return moniResult;
         }
@@ -133,11 +133,11 @@ namespace Iit.Fibertest.IitOtdrLibrary
             var moniLevel = new MoniLevel {Type = type};
 
             // allocate memory
-            var baseIntPtr = InterOpWrapper.SetSorData(SorData.ToBytes(baseSorData));
+            var baseIntPtr = InterOpWrapper.SetSorData(baseSorData.ToBytes());
             InterOpWrapper.SetBaseForComparison(baseIntPtr);
 
             // allocate memory
-            var measIntPtr = InterOpWrapper.SetSorData(SorData.ToBytes(measSorData));
+            var measIntPtr = InterOpWrapper.SetSorData(measSorData.ToBytes());
             var returnCode = InterOpWrapper.CompareActiveLevel(measIntPtr);
 
             var size = InterOpWrapper.GetSorDataSize(measIntPtr);

@@ -7,19 +7,9 @@ using Iit.Fibertest.Graph;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.StringResources;
 using Optixsoft.SorExaminer.OtdrDataFormat;
-using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
 
 namespace Iit.Fibertest.Client
 {
-    public class BaseRefAdjuster
-    {
-        public void AddKeyEventsForEmptyNodes(OtdrDataKnownBlocks otdrDataKnownBlocks, Trace trace)
-        {
-            var keyEvents = otdrDataKnownBlocks.KeyEvents.KeyEvents.ToList();
-            keyEvents.Add(new KeyEvent());
-            otdrDataKnownBlocks.KeyEvents.KeyEvents = keyEvents.ToArray();
-        }
-    }
     public class BaseRefLandmarksCounter
     {
         private readonly ReadModel _readModel;
@@ -34,26 +24,26 @@ namespace Iit.Fibertest.Client
             _baseRefAdjuster = baseRefAdjuster;
         }
 
-        // not only checks but solve if possible
+        // not only checks but adjust empty nodes if needed
         public bool IsBaseRefLandmarksCountMatched(OtdrDataKnownBlocks otdrKnownBlocks, Trace trace, BaseRefDto baseRefDto)
         {
-            var keyEventsCount = otdrKnownBlocks.KeyEvents.KeyEvents.Length;
+            var landmarkCount = otdrKnownBlocks.LinkParameters.LandmarksCount;
 
             var equipments = _readModel.GetTraceEquipments(trace).ToList(); // without RTU
             var nodesCount = equipments.Count(eq => eq.Type > EquipmentType.AdjustmentPoint) + 1; // without adjustment points
             var equipmentsCount = equipments.Count(eq => eq.Type > EquipmentType.CableReserve) + 1; // sic! in this case CableReserve is not an equipment
 
-            if (keyEventsCount == nodesCount)
+            if (landmarkCount == nodesCount)
                 return true;
-            if (keyEventsCount == equipmentsCount)
+            if (landmarkCount == equipmentsCount)
             {
-                // add landmarks(keyEvents) into OtdrDataKnownBlocks.KeyEvents for empty nodes
-                _baseRefAdjuster.AddKeyEventsForEmptyNodes(otdrKnownBlocks, trace);
-                baseRefDto.SorBytes = SorData.ToBytes(otdrKnownBlocks);
+                // add landmarks into OtdrDataKnownBlocks.LinkParameters for empty nodes
+                _baseRefAdjuster.AddLandmarksForEmptyNodes(otdrKnownBlocks, trace);
+                baseRefDto.SorBytes = otdrKnownBlocks.ToBytes();
                 return true;
             }
 
-            string errorStrings = BuildErrorStrings(keyEventsCount, nodesCount, equipmentsCount);
+            string errorStrings = BuildErrorStrings(landmarkCount, nodesCount, equipmentsCount);
             ShowError(errorStrings, trace, baseRefDto);
             return false;
         }

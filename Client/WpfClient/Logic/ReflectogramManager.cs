@@ -159,7 +159,7 @@ namespace Iit.Fibertest.Client
 
             var n = otdrDataKnownBlocks.EmbeddedData.EmbeddedDataBlocks.Where(block => block.Description != @"SOR").ToArray();
             otdrDataKnownBlocks.EmbeddedData.EmbeddedDataBlocks = n;
-            return SorData.ToBytes(otdrDataKnownBlocks);
+            return otdrDataKnownBlocks.ToBytes();
         }
 
         private void SetTempSorFileName()

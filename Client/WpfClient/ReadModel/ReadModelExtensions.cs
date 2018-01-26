@@ -7,6 +7,11 @@ namespace Iit.Fibertest.Client
 {
     public static class ReadModelExtensions
     {
+        public static IEnumerable<Fiber> GetTraceFibers(this ReadModel readModel, Trace trace)
+        {
+            return readModel.GetFibersByNodes(trace.Nodes).Select(i => readModel.Fibers.Single(f=>f.Id == i));
+        }
+
         public static IEnumerable<Guid> GetFibersByNodes(this ReadModel readModel, List<Guid> nodes)
         {
             for (int i = 1; i < nodes.Count; i++)
@@ -18,6 +23,20 @@ namespace Iit.Fibertest.Client
             return readModel.Fibers.First(
                 f => f.Node1 == node1 && f.Node2 == node2 ||
                      f.Node1 == node2 && f.Node2 == node1).Id;
+        }
+
+        public static IEnumerable<Node> GetTraceNodes(this ReadModel readModel, Trace trace)
+        {
+            try
+            {
+                return trace.Nodes.Select(i => readModel.Nodes.Single(eq => eq.Id == i));
+            }
+            catch (Exception e)
+            {
+                readModel.LogFile.AppendLine(e.Message);
+                return null;
+            }
+
         }
 
         public static IEnumerable<Equipment> GetTraceEquipments(this ReadModel readModel, Trace trace)

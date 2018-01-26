@@ -21,3 +21,6 @@ Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlF
 32. autofac упорядочить
 
 33 какой спелчекер используешь? чтобы он не проверял русские specflow
+
+34. не могу проверить сообщение в BaseRefCheckedSteps
+

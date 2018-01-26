@@ -32,7 +32,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
             }
         }
 
-        public static byte[] ToBytes(OtdrDataKnownBlocks sorData)
+        public static byte[] ToBytes(this OtdrDataKnownBlocks sorData)
         {
             using (var stream = new MemoryStream())
             {
@@ -75,10 +75,29 @@ namespace Iit.Fibertest.IitOtdrLibrary
             return LightSpeed / sorData.FixedParameters.RefractionIndex / 10;
         }
 
+        private static double GetOwtToMmCoeff(this OtdrDataKnownBlocks sorData)
+        {
+            return LightSpeed * 100000 / sorData.FixedParameters.RefractionIndex;
+        }
+
         public static double GetTraceLengthKm(this OtdrDataKnownBlocks sorData)
         {
             var owt = sorData.KeyEvents.KeyEvents[sorData.KeyEvents.KeyEventsCount - 1].EventPropagationTime;
             return sorData.OwtToLenKm(owt);
+        }
+
+      
+        public static int GetDistanceBetweenLandmarksInMm(
+            this OtdrDataKnownBlocks sorData, int leftIndex, int rightIndex)
+        {
+            var owt1 = sorData.LinkParameters.LandmarkBlocks[leftIndex].Location;
+            var owt2 = sorData.LinkParameters.LandmarkBlocks[rightIndex].Location;
+            return (int) ((owt2 - owt1) * GetOwtToMmCoeff(sorData));
+        }
+
+        public static int GetOwtFromMm(this OtdrDataKnownBlocks sorData, int distance)
+        {
+            return (int) (distance / sorData.GetOwtToMmCoeff());
         }
     }
 }

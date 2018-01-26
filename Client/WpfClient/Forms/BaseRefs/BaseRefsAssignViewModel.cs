@@ -169,7 +169,7 @@ namespace Iit.Fibertest.Client
                 return;
 
             var dto = new AssignBaseRefsDto()
-                { RtuId = _trace.RtuId, TraceId = _trace.Id, OtauPortDto = _trace.OtauPort, BaseRefs = GetBaseRefChangesList() };
+                { RtuId = _trace.RtuId, TraceId = _trace.Id, OtauPortDto = _trace.OtauPort, BaseRefs = baseRefs };
             var result = await _c2DWcfManager.AssignBaseRefAsync(dto); // send to Db and RTU
             if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
             {

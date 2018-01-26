@@ -14,7 +14,7 @@ namespace Graph.Tests
         private TraceLeaf _traceLeaf;
 
 
-        [Given(@"Была создана трасса 2 ориентира")]
+        [Given(@"Была создана трасса 2 ориентира - 3 узла")]
         public void GivenБылаСозданаТрасса()
         {
             _trace = _sut.CreateTraceRtuEmptyTerminal();
