@@ -36,6 +36,8 @@ namespace Graph.Tests
         [When(@"Задаем точную базовую")]
         public void WhenЗадаемТочнуюБазовую()
         {
+//            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
+//            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler2(model, SystemUnderTest.Base1625, null, null, Answer.Yes));
             _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, _traceId, SystemUnderTest.Base1625, null, null, Answer.Yes));
             _sut.TraceLeafActions.AssignBaseRefs(_traceLeaf);
             _sut.Poller.EventSourcingTick().Wait();
@@ -52,6 +54,7 @@ namespace Graph.Tests
         [When(@"Задаем быструю базовую")]
         public void WhenЗадаемБыструюБазовую()
         {
+//            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler2(model, null, SystemUnderTest.Base1625, null, Answer.Yes));
             _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, _traceId, null, SystemUnderTest.Base1625, null, Answer.Yes));
             _sut.TraceLeafActions.AssignBaseRefs(_traceLeaf);
             _sut.Poller.EventSourcingTick().Wait();

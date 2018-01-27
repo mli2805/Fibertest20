@@ -32,9 +32,7 @@ namespace Graph.Tests
         [When(@"RTU успешно инициализируется c длинной волны (.*)")]
         public void WhenRtuУспешноИнициализируетсяCДлиннойВолны(string p0)
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler(model, _rtuLeaf.Id, @"1.1.1.1", "", p0, Answer.Yes));
-            _sut.RtuLeafActions.InitializeRtu(_rtuLeaf);
-            _sut.Poller.EventSourcingTick().Wait();
+            _sut.InitializeRtu(_rtuLeaf.Id, p0);
             _rtuLeaf.TreeOfAcceptableMeasParams.Units.ContainsKey(p0).Should().BeTrue();
         }
 
@@ -49,12 +47,11 @@ namespace Graph.Tests
         [When(@"Пользователь указывает пути к точной и быстрой базовам и жмет сохранить")]
         public void WhenПользовательУказываетПутиКТочнойИБыстройБазовамИЖметСохранить()
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, _trace.Id, SystemUnderTest.Base1625, SystemUnderTest.Base1625, null, Answer.Yes));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler2(model, SystemUnderTest.Base1625, SystemUnderTest.Base1625, null, Answer.Yes));
             _sut.TraceLeafActions.AssignBaseRefs(_traceLeaf);
             _sut.Poller.EventSourcingTick().Wait();
         }
-
-       
 
 
         [Then(@"У трассы заданы точная и быстрая базовые")]
@@ -70,7 +67,8 @@ namespace Graph.Tests
             _oldPreciseId = _trace.PreciseId;
             _oldFastId = _trace.FastId;
 
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, _trace.Id, null, SystemUnderTest.BaseAnother1625, null, Answer.Yes));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler2(model, null, SystemUnderTest.Base1625, null, Answer.Yes));
             _sut.TraceLeafActions.AssignBaseRefs(_traceLeaf);
             _sut.Poller.EventSourcingTick().Wait();
         }
@@ -85,7 +83,8 @@ namespace Graph.Tests
         [When(@"Пользователь сбрасывает точную и задает дополнительную и жмет сохранить")]
         public void WhenПользовательСбрасываетТочнуюЗадаетДополнительнуюИЖметСохранить()
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, _trace.Id, "",  null, SystemUnderTest.Base1625, Answer.Yes));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler2(model, "",  null, SystemUnderTest.Base1625, Answer.Yes));
             _sut.TraceLeafActions.AssignBaseRefs(_traceLeaf);
             _sut.Poller.EventSourcingTick().Wait();
         }

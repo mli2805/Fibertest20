@@ -31,8 +31,9 @@ namespace Graph.Tests
         public void GivenКrtuПодключенаТрассаСБазовыми()
         {
             _sut.AttachTraceTo(_traces[0].Id, _rtuLeaf, 1, Answer.Yes);
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, _traces[0].Id,
-                SystemUnderTest.Base1625, SystemUnderTest.Base1625, null, Answer.Yes));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler2(model, SystemUnderTest.Base1625, SystemUnderTest.Base1625, null, Answer.Yes));
             var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_traces[0].Id);
             _sut.TraceLeafActions.AssignBaseRefs(traceLeaf);
             _sut.Poller.EventSourcingTick().Wait();
@@ -45,8 +46,9 @@ namespace Graph.Tests
             _sut.AttachTraceTo(_traces[1].Id, _otauLeaf, 3, Answer.Yes);
             _sut.AttachTraceTo(_traces[2].Id, _otauLeaf, 4, Answer.Yes);
 
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, _traces[2].Id,
-                SystemUnderTest.Base1625, SystemUnderTest.Base1625, null, Answer.Yes));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler2(model, SystemUnderTest.Base1625, SystemUnderTest.Base1625, null, Answer.Yes));
             var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_traces[2].Id);
             _sut.TraceLeafActions.AssignBaseRefs(traceLeaf);
             _sut.Poller.EventSourcingTick().Wait();

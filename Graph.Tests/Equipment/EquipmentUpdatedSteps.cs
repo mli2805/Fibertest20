@@ -41,9 +41,13 @@ namespace Graph.Tests
         public void GivenЗадаемБазовую()
         {
             var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_trace.Id);
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, _trace.Id, SystemUnderTest.Base1625, null, null, Answer.Yes));
+            var rtuId = traceLeaf.Parent.Id;
+            _sut.InitializeRtu(rtuId);
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler2(model, SystemUnderTest.Base1625Lm3, SystemUnderTest.Base1625Lm3, null, Answer.Yes));
             _sut.TraceLeafActions.AssignBaseRefs(traceLeaf);
             _sut.Poller.EventSourcingTick().Wait();
+            traceLeaf.BaseRefsSet.PreciseId.Should().NotBe(Guid.Empty);
         }
 
         [Then(@"Для А1 доступно удаление")]

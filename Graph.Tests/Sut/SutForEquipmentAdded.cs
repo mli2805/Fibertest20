@@ -21,7 +21,7 @@ namespace Graph.Tests
             OldEquipmentId = ReadModel.Equipments.First(e=>e.NodeId == NodeId && e.Type == EquipmentType.Closure).Id;
         }
 
-        public void SetRtuAndOthers()
+        public Guid SetRtuAndOthers()
         {
             ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation()).Wait();
             Poller.EventSourcingTick().Wait();
@@ -43,6 +43,8 @@ namespace Graph.Tests
 
             ShellVm.ComplyWithRequest(new AddFiber() { Node1 = _anotherNodeId2, Node2 = NodeId }).Wait();
             Poller.EventSourcingTick().Wait();
+
+            return ReadModel.Rtus.Last().Id;
         }
 
         public void SetShortTrace()

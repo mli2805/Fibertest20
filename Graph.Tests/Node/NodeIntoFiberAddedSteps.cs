@@ -21,19 +21,23 @@ namespace Graph.Tests
         [Given(@"Две трассы проходят через отрезок и две нет")]
         public void GivenЕстьДвеТрассыПроходящиеЧерезОтрезокИОднаНе()
         {
-            
             _sut.CreatePositionForAddNodeIntoFiberTest(out _fiber, out _trace);
             _a1Id = _fiber.Node1;
             _b1Id = _fiber.Node2;
+
+            _sut.InitializeRtu(_trace.RtuId);
         }
 
         [Given(@"Для трассы проходящей по данному отрезку задана базовая")]
         public void GivenДляДаннойТрассыЗаданаБазовая()
         {
             var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_trace.Id);
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, _trace.Id, SystemUnderTest.Base1625, SystemUnderTest.Base1625, null, Answer.Yes));
+
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler2(model, SystemUnderTest.Base1625, SystemUnderTest.Base1625, null, Answer.Yes));
             _sut.TraceLeafActions.AssignBaseRefs(traceLeaf);
             _sut.Poller.EventSourcingTick().Wait();
+            traceLeaf.BaseRefsSet.PreciseId.Should().NotBe(Guid.Empty);
         }
 
         [When(@"Пользователь кликает добавить узел в первый отрезок этой трассы")]

@@ -32,7 +32,7 @@ namespace Graph.Tests
         public ShellViewModel ShellVm { get; }
         public int CurrentEventNumber => Poller.CurrentEventNumber;
         public const string Base1625 = @"..\..\Sut\BaseRefs\base1625.sor";
-        public const string BaseAnother1625 = @"..\..\Sut\BaseRefs\anotherBase1625.sor";
+        public const string Base1625Lm3 = @"..\..\Sut\BaseRefs\base1625-3lm.sor";
         public const string Base1550Lm2NoThresholds = @"..\..\Sut\BaseRefs\base1550-2lm-no-thresholds.sor";
         public const string Base1550Lm4YesThresholds = @"..\..\Sut\BaseRefs\base1550-4lm-3-thresholds.sor";
         public const string Base1550Lm2YesThresholds = @"..\..\Sut\BaseRefs\base1550-2lm-3-thresholds.sor";
@@ -64,16 +64,16 @@ namespace Graph.Tests
                 .WriteTo.Console().CreateLogger()).As<ILogger>();
 
             builder.RegisterInstance<IMyLog>(new NullLog());
-            
+
             builder.RegisterType<TestsDispatcherProvider>().As<IDispatcherProvider>().SingleInstance();
 
             Container = builder.Build();
 
             Poller = Container.Resolve<ClientPoller>();
-            FakeWindowManager = (FakeWindowManager)Container.Resolve<IWindowManager>();
+            FakeWindowManager = (FakeWindowManager) Container.Resolve<IWindowManager>();
             MyLogFile = Container.Resolve<IMyLog>();
             WcfServiceForClient = (WcfServiceForClient) Container.Resolve<IWcfServiceForClient>();
-            ShellVm = (ShellViewModel)Container.Resolve<IShell>();
+            ShellVm = (ShellViewModel) Container.Resolve<IShell>();
             ReadModel = ShellVm.ReadModel;
             RtuLeafActions = Container.Resolve<RtuLeafActions>();
             TraceLeafActions = Container.Resolve<TraceLeafActions>();
@@ -87,35 +87,48 @@ namespace Graph.Tests
 
         public Iit.Fibertest.Graph.Trace CreateTraceRtuEmptyTerminal(string title = @"some title")
         {
-            ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation() { Latitude = 55, Longitude = 30 }).Wait();
+            ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation() {Latitude = 55, Longitude = 30}).Wait();
             Poller.EventSourcingTick().Wait();
             var nodeForRtuId = ReadModel.Rtus.Last().NodeId;
 
-            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation(){Type = EquipmentType.EmptyNode, Latitude = 55.1, Longitude = 30.1 }).Wait();
+            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation()
+            {
+                Type = EquipmentType.EmptyNode,
+                Latitude = 55.1,
+                Longitude = 30.1
+            }).Wait();
             Poller.EventSourcingTick().Wait();
             var firstNodeId = ReadModel.Nodes.Last().Id;
 
-            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal, Latitude = 55.2, Longitude = 30.2 }).Wait();
+            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation()
+            {
+                Type = EquipmentType.Terminal,
+                Latitude = 55.2,
+                Longitude = 30.2
+            }).Wait();
             Poller.EventSourcingTick().Wait();
             var secondNodeId = ReadModel.Nodes.Last().Id;
 
-            ShellVm.ComplyWithRequest(new AddFiber() { Node1 = nodeForRtuId, Node2 = firstNodeId }).Wait();
-            ShellVm.ComplyWithRequest(new AddFiber() { Node1 = firstNodeId, Node2 = secondNodeId }).Wait();
+            ShellVm.ComplyWithRequest(new AddFiber() {Node1 = nodeForRtuId, Node2 = firstNodeId}).Wait();
+            ShellVm.ComplyWithRequest(new AddFiber() {Node1 = firstNodeId, Node2 = secondNodeId}).Wait();
             Poller.EventSourcingTick().Wait();
 
             return DefineTrace(secondNodeId, nodeForRtuId, title);
         }
 
 
-        public Iit.Fibertest.Graph.Trace DefineTrace(Guid lastNodeId, Guid nodeForRtuId, string title = @"some title", int equipmentCount = 1)
+        public Iit.Fibertest.Graph.Trace DefineTrace(Guid lastNodeId, Guid nodeForRtuId, string title = @"some title",
+            int equipmentCount = 1)
         {
-            FakeWindowManager.RegisterHandler(model => OneLineMessageBoxAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
+            FakeWindowManager.RegisterHandler(model =>
+                OneLineMessageBoxAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
             for (int i = 0; i < equipmentCount; i++)
             {
                 FakeWindowManager.RegisterHandler(model => TraceContentChoiceHandler(model, Answer.Yes, 0));
             }
+
             FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, title, "", Answer.Yes));
-            ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = lastNodeId, NodeWithRtuId = nodeForRtuId });
+            ShellVm.ComplyWithRequest(new RequestAddTrace() {LastNodeId = lastNodeId, NodeWithRtuId = nodeForRtuId});
             Poller.EventSourcingTick().Wait();
             return ShellVm.ReadModel.Traces.Last();
         }
@@ -157,8 +170,7 @@ namespace Graph.Tests
 
         public bool NodeUpdateHandler(object model, string title, string comment, Answer button)
         {
-            var vm = model as NodeUpdateViewModel;
-            if (vm == null) return false;
+            if (!(model is NodeUpdateViewModel vm)) return false;
             if (title != null)
                 vm.Title = title;
             if (comment != null)
@@ -198,6 +210,7 @@ namespace Graph.Tests
             {
                 vm.CancelButton();
             }
+
             return true;
         }
 
@@ -226,6 +239,7 @@ namespace Graph.Tests
                         checkbox.IsChecked = true;
                 }
             }
+
             if (answer == Answer.Yes)
                 vm.Accept();
             else

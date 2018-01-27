@@ -23,7 +23,8 @@ namespace Graph.Tests
         [Given(@"Еще есть РТУ другие узлы и волокна")]
         public void GivenЕщеЕстьРтуДругиеУзлыИВолокна()
         {
-            _sut.SetRtuAndOthers();
+            var rtuId = _sut.SetRtuAndOthers();
+            _sut.InitializeRtu(rtuId, @"SM1625");
         }
 
         [Given(@"Одна трасса заканчивается в данном узле")]
@@ -49,7 +50,8 @@ namespace Graph.Tests
         {
             var trace = _sut.ReadModel.Traces.First();
             var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(trace.Id);
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, trace.Id, SystemUnderTest.Base1625, SystemUnderTest.Base1625, null, Answer.Yes));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler2(model, SystemUnderTest.Base1625, SystemUnderTest.Base1625, null, Answer.Yes));
 
             _sut.TraceLeafActions.AssignBaseRefs(traceLeaf);
             _sut.Poller.EventSourcingTick().Wait();

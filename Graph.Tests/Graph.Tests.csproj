@@ -670,10 +670,10 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Sut\BaseRefs\anotherBase1625.sor" />
     <Content Include="Sut\BaseRefs\base1550-2lm-3-thresholds.sor" />
     <Content Include="Sut\BaseRefs\base1550-2lm-no-thresholds.sor" />
     <Content Include="Sut\BaseRefs\base1550-4lm-3-thresholds.sor" />
+    <Content Include="Sut\BaseRefs\base1625-3lm.sor" />
     <Content Include="Sut\BaseRefs\base1625.sor" />
     <Content Include="Sut\BaseRefs\baseRtuCrossTerminal1550.sor" />
   </ItemGroup>

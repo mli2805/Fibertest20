@@ -40,6 +40,8 @@ namespace Graph.Tests
         public void GivenЗаданаТрасса()
         {
             _trace = _sut.CreateTraceRtuEmptyTerminal();
+            _sut.InitializeRtu(_trace.RtuId);
+
             _rtuNodeId = _trace.Nodes[0];
             _lastNodeId = _trace.Nodes.Last();
         }
@@ -59,7 +61,8 @@ namespace Graph.Tests
         [Given(@"Для трассы задана базовая")]
         public void GivenДляТрассыЗаданаБазовая()
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, _trace.Id, SystemUnderTest.Base1625, SystemUnderTest.Base1625, null, Answer.Yes));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler2(model, SystemUnderTest.Base1625Lm3, SystemUnderTest.Base1625Lm3, null, Answer.Yes));
             var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_trace.Id);
             _sut.TraceLeafActions.AssignBaseRefs(traceLeaf);
             _sut.Poller.EventSourcingTick().Wait();
