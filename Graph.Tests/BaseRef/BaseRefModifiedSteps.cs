@@ -19,7 +19,6 @@ namespace Graph.Tests
         private SutForTraceAttach _sut = new SutForTraceAttach();
         private RtuLeaf _rtuLeaf;
         private Iit.Fibertest.Graph.Rtu _rtu;
-        private TraceLeaf _traceLeaf;
         private Iit.Fibertest.Graph.Trace _trace;
         private List<BaseRefDto> _baseRefs;
 
@@ -84,7 +83,6 @@ namespace Graph.Tests
             _sut.Poller.EventSourcingTick().Wait();
 
             _trace =  _sut.DefineTrace(nodeIdB, nodeForRtuId, @"Трасса1", 3);
-            _traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuModel.Tree.GetById(_trace.Id);
         }
 
         [When(@"Пользователь задает рефлектограмму")]

@@ -184,8 +184,7 @@ namespace Graph.Tests
 
         public bool RtuUpdateHandler(object model, string title, string comment, Answer button)
         {
-            var vm = model as RtuUpdateViewModel;
-            if (vm == null) return false;
+            if (!(model is RtuUpdateViewModel vm)) return false;
             if (title != null)
                 vm.Title = title;
             if (comment != null)

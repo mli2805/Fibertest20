@@ -25,15 +25,29 @@ namespace Graph.Tests
         {
             _sut.ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation() { Latitude = 55, Longitude = 30 }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
-            var rtuId = _sut.ReadModel.Rtus.Last().Id;
-            InitializeRtu cmd = new InitializeRtu()
-            {
-                Id = rtuId,
-                MainChannel = new NetAddress(p0, TcpPorts.RtuListenTo),
-                IsReserveChannelSet = true,
-                ReserveChannel = new NetAddress(p1, TcpPorts.RtuListenTo)
-            };
-            _sut.ShellVm.C2DWcfManager.SendCommandAsObj(cmd).Wait();
+            var rtu= _sut.ReadModel.Rtus.Last();
+
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuUpdateHandler(model, @"something", @"doesn't matter", Answer.Yes));
+            _sut.ShellVm.ComplyWithRequest(new RequestUpdateRtu() { Id = rtu.Id, NodeId = rtu.NodeId }).Wait();
+            _sut.Poller.EventSourcingTick().Wait();
+
+            var rtuLeaf = _sut.ShellVm.TreeOfRtuModel.Tree.GetById(rtu.Id);
+            _sut.FakeWindowManager.RegisterHandler(m => m is MyMessageBoxViewModel);
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler2(model, rtu.Id, p0, p1, Answer.Yes));
+            rtuLeaf.MyContextMenu.FirstOrDefault(i=>i.Header == Resources.SID_Network_settings)?.Command.Execute(rtuLeaf);
+
+//            InitializeRtu cmd = new InitializeRtu()
+//            {
+//                Id = rtuId,
+//                MainChannel = new NetAddress(p0, TcpPorts.RtuListenTo),
+//                IsReserveChannelSet = true,
+//                ReserveChannel = new NetAddress(p1, TcpPorts.RtuListenTo)
+//            };
+//            _sut.ShellVm.C2DWcfManager.SendCommandAsObj(cmd).Wait();
+
+
+
+
             _sut.Poller.EventSourcingTick().Wait();
         }
 

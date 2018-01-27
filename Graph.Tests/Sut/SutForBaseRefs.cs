@@ -11,8 +11,7 @@ namespace Graph.Tests
       
         public bool RtuInitializeHandler(object model, Guid rtuId, string mainIpAddress, string reserveIpAddress, string waveLenght, Answer answer)
         {
-            var vm = model as RtuInitializeViewModel;
-            if (vm == null) return false;
+            if (!(model is RtuInitializeViewModel vm)) return false;
             if (answer == Answer.Yes)
             {
                 vm.MainChannelTestViewModel.NetAddressInputViewModel.Ip4InputViewModel = new Ip4InputViewModel(mainIpAddress);
@@ -42,6 +41,25 @@ namespace Graph.Tests
                 ShellVm.C2DWcfManager.SendCommandAsObj(cmd).Wait();
             }
 
+            else
+                vm.Close();
+            return true;
+        }
+
+        public bool RtuInitializeHandler2(object model, Guid rtuId, string mainIpAddress, string reserveIpAddress, Answer answer)
+        {
+            if (!(model is RtuInitializeViewModel vm)) return false;
+            if (answer == Answer.Yes)
+            {
+                vm.MainChannelTestViewModel.NetAddressInputViewModel.Ip4InputViewModel = new Ip4InputViewModel(mainIpAddress);
+                if (reserveIpAddress != "")
+                {
+                    vm.IsReserveChannelEnabled = true;
+                    vm.ReserveChannelTestViewModel.NetAddressInputViewModel.Ip4InputViewModel = new Ip4InputViewModel(reserveIpAddress);
+                }
+
+                vm.InitializeRtu();
+            }
             else
                 vm.Close();
             return true;
