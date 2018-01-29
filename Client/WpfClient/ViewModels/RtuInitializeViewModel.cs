@@ -123,7 +123,7 @@ namespace Iit.Fibertest.Client
                 ShouldMonitoringBeStopped = OriginalRtu.OwnPortCount == 0, // if it's first initialization for this RTU - monitoring should be stopped - in case it's running somehow
             };
             RtuInitializedDto result;
-            using (new WaitCursor())
+            using (_globalScope.Resolve<IWaitCursor>())
             {
                 _commonStatusBarViewModel.StatusBarMessage2 = Resources.SID_RTU_is_being_initialized___;
                 result = await _c2DWcfManager.InitializeRtuAsync(dto);

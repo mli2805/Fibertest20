@@ -24,7 +24,7 @@ namespace Graph.Tests
         public void GivenЕщеЕстьРтуДругиеУзлыИВолокна()
         {
             var rtuId = _sut.SetRtuAndOthers();
-            _sut.InitializeRtu(rtuId, @"SM1625");
+            _sut.InitializeRtu(rtuId);
         }
 
         [Given(@"Одна трасса заканчивается в данном узле")]

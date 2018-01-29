@@ -73,7 +73,7 @@ namespace Iit.Fibertest.Client
 
         public async void NextButton()
         {
-            using (_globalScope.Resolve<ICursorBlah>())
+            using (_globalScope.Resolve<IWaitCursor>())
             {
                 ShouldWeContinue = true;
 

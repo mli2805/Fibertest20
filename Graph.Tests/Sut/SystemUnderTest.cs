@@ -9,6 +9,7 @@ using Iit.Fibertest.DataCenterCore;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using Serilog;
 
@@ -42,9 +43,10 @@ namespace Graph.Tests
             var builder = new ContainerBuilder();
             builder.RegisterModule<AutofacClient>();
             builder.RegisterType<FakeWindowManager>().As<IWindowManager>().SingleInstance();
+            builder.RegisterType<FakeD2RWcfManager>().As<ID2RWcfManager>().SingleInstance();
             builder.RegisterType<FakeLocalDbManager>().As<ILocalDbManager>().SingleInstance();
             builder.RegisterType<FakeClientWcfServiceHost>().As<IClientWcfServiceHost>();
-            builder.RegisterType<FakeWaitCursor>().As<ICursorBlah>().SingleInstance();
+            builder.RegisterType<FakeWaitCursor>().As<IWaitCursor>().SingleInstance();
 
             builder.RegisterType<FakeEventStoreInitializer>().As<IEventStoreInitializer>().SingleInstance();
             builder.RegisterType<EventStoreService>().SingleInstance();

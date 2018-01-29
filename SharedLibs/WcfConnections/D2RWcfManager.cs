@@ -5,13 +5,14 @@ using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.WcfConnections
 {
-    public class D2RWcfManager
+    public class D2RWcfManager : ID2RWcfManager
     {
-        private readonly WcfFactory _wcfFactory;
+        private WcfFactory _wcfFactory;
 
-        public D2RWcfManager(DoubleAddress rtuAddress, IniFile iniFile, IMyLog logFile)
+        public ID2RWcfManager Initialize(DoubleAddress rtuAddress, IniFile iniFile, IMyLog logFile)
         {
             _wcfFactory = new WcfFactory(rtuAddress, iniFile, logFile);
+            return this;
         }
 
         public async Task<RtuInitializedDto> InitializeAsync(InitializeRtuDto dto)

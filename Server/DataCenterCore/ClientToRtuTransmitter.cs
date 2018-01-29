@@ -13,14 +13,16 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly RtuStationsRepository _rtuStationsRepository;
+        private readonly ID2RWcfManager _d2RWcfManager;
 
         private readonly DoubleAddress _serverDoubleAddress;
 
-        public ClientToRtuTransmitter(IniFile iniFile, IMyLog logFile, RtuStationsRepository rtuStationsRepository)
+        public ClientToRtuTransmitter(IniFile iniFile, IMyLog logFile, RtuStationsRepository rtuStationsRepository, ID2RWcfManager d2RWcfManager)
         {
             _iniFile = iniFile;
             _logFile = logFile;
             _rtuStationsRepository = rtuStationsRepository;
+            _d2RWcfManager = d2RWcfManager;
 
             _serverDoubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToRtu);
         }
@@ -40,7 +42,8 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<RtuInitializedDto> InitializeAsync(InitializeRtuDto dto)
         {
             dto.ServerAddresses = _serverDoubleAddress;
-            var rtuInitializedDto = await new D2RWcfManager(dto.RtuAddresses, _iniFile, _logFile).InitializeAsync(dto);
+            //var rtuInitializedDto = await new D2RWcfManager(dto.RtuAddresses, _iniFile, _logFile).InitializeAsync(dto);
+            var rtuInitializedDto = await _d2RWcfManager.Initialize(dto.RtuAddresses, _iniFile, _logFile).InitializeAsync(dto);
             if (rtuInitializedDto.IsInitialized)
             {
                 rtuInitializedDto.RtuAddresses = dto.RtuAddresses;
@@ -57,7 +60,7 @@ namespace Iit.Fibertest.DataCenterCore
                 var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
                 if (rtuAddresses != null)
                 {
-                    var result = await new D2RWcfManager(rtuAddresses, _iniFile, _logFile).AttachOtauAsync(dto);
+                    var result = await _d2RWcfManager.Initialize(rtuAddresses, _iniFile, _logFile).AttachOtauAsync(dto);
                     return result;
                 }
 
@@ -77,7 +80,9 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
                 if (rtuAddresses != null)
-                    return await new D2RWcfManager(rtuAddresses, _iniFile, _logFile).DetachOtauAsync(dto);
+                {
+                    return await _d2RWcfManager.Initialize(rtuAddresses, _iniFile, _logFile).DetachOtauAsync(dto);
+                }
 
                 _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
                 return new OtauDetachedDto() { IsDetached = false, ReturnCode = ReturnCode.NoSuchRtu };
@@ -95,7 +100,7 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
                 if (rtuAddresses != null)
-                    return await new D2RWcfManager(rtuAddresses, _iniFile, _logFile)
+                    return await _d2RWcfManager.Initialize(rtuAddresses, _iniFile, _logFile)
                         .StopMonitoringAsync(dto);
 
                 _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
@@ -115,7 +120,7 @@ namespace Iit.Fibertest.DataCenterCore
                 var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
                 if (rtuAddresses != null)
                 {
-                    var result = await new D2RWcfManager(rtuAddresses, _iniFile, _logFile)
+                    var result = await _d2RWcfManager.Initialize(rtuAddresses, _iniFile, _logFile)
                         .AssignBaseRefAsync(dto);
                     _logFile.AppendLine($"Assign base ref(s) result is {result.ReturnCode}");
                     return result;
@@ -137,7 +142,7 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
                 if (rtuAddresses != null)
-                    return await new D2RWcfManager(rtuAddresses, _iniFile, _logFile)
+                    return await _d2RWcfManager.Initialize(rtuAddresses, _iniFile, _logFile)
                         .ApplyMonitoringSettingsAsync(dto);
 
                 _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
@@ -157,7 +162,7 @@ namespace Iit.Fibertest.DataCenterCore
                 var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
                 if (rtuAddresses != null)
                 {
-                    var result = await new D2RWcfManager(rtuAddresses, _iniFile, _logFile).DoClientMeasurementAsync(dto);
+                    var result = await _d2RWcfManager.Initialize(rtuAddresses, _iniFile, _logFile).DoClientMeasurementAsync(dto);
                     _logFile.AppendLine($"Client's measurement started with code {result.ReturnCode.ToString()}");
                     return result;
                 }
@@ -178,7 +183,7 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
                 if (rtuAddresses != null)
-                    return await new D2RWcfManager(rtuAddresses, _iniFile, _logFile)
+                    return await _d2RWcfManager.Initialize(rtuAddresses, _iniFile, _logFile)
                         .DoOutOfTurnPreciseMeasurementAsync(dto);
 
                 _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");

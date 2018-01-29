@@ -17,17 +17,9 @@ namespace Iit.Fibertest.DataCenterService
             var iniFile = new IniFile().AssignFile("DataCenter.ini");
             builder.RegisterInstance(iniFile);
 
-//            builder.Register<IMyLog>(ctx =>
-//                new LogFile(ctx.Resolve<IniFile>()).AssignFile("DataCenter.log"));
-
-//            var logFile = new LogFile(iniFile).AssignFile("DataCenter.log");
-//            filename will be assigned before first usage ( in Service1 ctor )
             var logFile = new LogFile(iniFile);
             builder.RegisterInstance<IMyLog>(logFile);
 
-
-
-//            builder.RegisterType<SqliteEventStoreInitializer>().As<IEventStoreInitializer>().SingleInstance();
             builder.RegisterType<MySqlEventStoreInitializer>().As<IEventStoreInitializer>().SingleInstance();
 
 
@@ -49,6 +41,8 @@ namespace Iit.Fibertest.DataCenterService
 
             builder.RegisterType<D2CWcfManager>().SingleInstance();
             builder.RegisterType<LastConnectionTimeChecker>().SingleInstance();
+
+            builder.RegisterType<D2RWcfManager>().As<ID2RWcfManager>().SingleInstance();
 
             builder.RegisterType<WcfServiceForClient>().As<IWcfServiceForClient>().SingleInstance();
             builder.RegisterType<WcfServiceForClientBootstrapper>().SingleInstance();
