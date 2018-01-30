@@ -246,9 +246,10 @@
     <Compile Include="Rtu\RtuUpdateSteps.cs">
       <DependentUpon>RtuUpdated.feature</DependentUpon>
     </Compile>
-    <Compile Include="Sut\Answer.cs" />
+    <Compile Include="Sut\Enums\Answer.cs" />
+    <Compile Include="Sut\SutExtensions\OtauAttacher.cs" />
     <Compile Include="Sut\SutExtensions\BaseRefAssigner.cs" />
-    <Compile Include="Sut\EquipmentChoiceAnswer.cs" />
+    <Compile Include="Sut\Enums\EquipmentChoiceAnswer.cs" />
     <Compile Include="Equipment\EquipmentAdded.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

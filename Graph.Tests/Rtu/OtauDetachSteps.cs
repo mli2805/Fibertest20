@@ -29,7 +29,7 @@ namespace Graph.Tests
         [Given(@"К RTU подключен доп оптический переключатель")]
         public void GivenКrtuПодключенДопОптическийПереключатель()
         {
-            _otauLeaf = _sut.AttachOtauToRtu(_rtuLeaf, portNumber);
+            _otauLeaf = _sut.AttachOtau(_rtuLeaf, portNumber);
         }
 
         [Given(@"Трасса подключена к переключателю")]

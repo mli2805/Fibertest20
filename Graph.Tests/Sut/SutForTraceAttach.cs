@@ -1,48 +1,11 @@
 ﻿using System;
 using System.Linq;
 using Iit.Fibertest.Client;
-using Iit.Fibertest.Dto;
-using Iit.Fibertest.Graph;
 
 namespace Graph.Tests
 {
     public class SutForTraceAttach : SystemUnderTest
     {
-        public bool OtauToAttachHandler(object model, Guid rtuId, int masterPort, Answer answer)
-        {
-            var vm = model as OtauToAttachViewModel;
-            if (vm == null) return false;
-            if (answer == Answer.Yes)
-            {
-                if (!vm.CheckAddressUniqueness())
-                    return true;
-                var cmd = new AttachOtau()
-                {
-                    Id = Guid.NewGuid(),
-                    RtuId = rtuId,
-                    MasterPort = masterPort,
-                    Serial = @"123456",
-                    PortCount = 16,
-                    NetAddress = new NetAddress(),
-                };
-                ShellVm.C2DWcfManager.SendCommandAsObj(cmd).Wait();
-            }
-            else
-                vm.Close();
-            return true;
-        }
-
-        public OtauLeaf AttachOtauToRtu(RtuLeaf rtuLeaf, int port)
-        {
-            var portLeaf = (PortLeaf)rtuLeaf.ChildrenImpresario.Children[port - 1];
-            FakeWindowManager.RegisterHandler(model => OtauToAttachHandler(model, rtuLeaf.Id, port, Answer.Yes));
-            PortLeafActions.AttachOtauAction(portLeaf);
-            Poller.EventSourcingTick().Wait();
-            return (OtauLeaf)rtuLeaf.ChildrenImpresario.Children[port - 1];
-        }
-
-       
-
         public void AttachTraceTo(Guid traceId, IPortOwner owner, int port, Answer answer)
         {
             FakeWindowManager.RegisterHandler(model => TraceToAttachHandler(model, traceId, answer));

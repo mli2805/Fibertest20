@@ -59,7 +59,7 @@ namespace Graph.Tests
         [Given(@"Пользователь подключает доп переключатель")]
         public void GivenПользовательПодключаетДопПереключатель()
         {
-            _otauLeaf = _sut.AttachOtauToRtu(_rtuLeaf, 2);
+            _otauLeaf = _sut.AttachOtau(_rtuLeaf, 2);
         }
 
         [When(@"Пользователь выбирает присоединить к (.*) порту переключателя трассу и жмет Сохранить")]

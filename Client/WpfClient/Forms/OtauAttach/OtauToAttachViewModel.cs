@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -13,6 +14,7 @@ namespace Iit.Fibertest.Client
     {
         private Guid _rtuId;
         private int _portNumberForAttachment;
+        private readonly ILifetimeScope _globalScope;
         private readonly ReadModel _readModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly IWindowManager _windowManager;
@@ -68,8 +70,9 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public OtauToAttachViewModel(ReadModel readModel, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
+        public OtauToAttachViewModel(ILifetimeScope globalScope, ReadModel readModel, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
         {
+            _globalScope = globalScope;
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
@@ -101,7 +104,7 @@ namespace Iit.Fibertest.Client
         {
             if (!CheckAddressUniqueness()) return;
           
-            using (new WaitCursor())
+            using (_globalScope.Resolve<IWaitCursor>())
             {
                 AttachmentProgress = Resources.SID_Please__wait_;
                 var result = await AttachOtauIntoRtu();

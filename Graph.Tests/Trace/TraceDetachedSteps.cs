@@ -31,7 +31,7 @@ namespace Graph.Tests
         [Given(@"Подключен переключатель")]
         public void GivenПодключенПереключатель()
         {
-            _otauLeaf = _sut.AttachOtauToRtu(_rtuLeaf, 3);
+            _otauLeaf = _sut.AttachOtau(_rtuLeaf, 3);
         }
 
         [Given(@"Трасса присоединена к порту переключателя")]

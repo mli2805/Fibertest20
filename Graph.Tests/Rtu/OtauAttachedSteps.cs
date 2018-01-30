@@ -44,7 +44,7 @@ namespace Graph.Tests
         public void GivenПользовательПодключаетДопПереключательКПортуRtu()
         {
             
-            _otauLeaf = _sut.AttachOtauToRtu(_rtuLeaf, portNumber);
+            _otauLeaf = _sut.AttachOtau(_rtuLeaf, portNumber);
         }
 
         [Then(@"Переключатель подключен")]
