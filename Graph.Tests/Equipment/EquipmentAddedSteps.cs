@@ -50,11 +50,8 @@ namespace Graph.Tests
         {
             var trace = _sut.ReadModel.Traces.First();
             var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(trace.Id);
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler2(model, SystemUnderTest.Base1625, SystemUnderTest.Base1625, null, Answer.Yes));
 
-            _sut.TraceLeafActions.AssignBaseRefs(traceLeaf);
-            _sut.Poller.EventSourcingTick().Wait();
+            _sut.AssignBaseRef(traceLeaf, SystemUnderTest.Base1625, SystemUnderTest.Base1625, null, Answer.Yes);
         }
 
         [Then(@"Пользователь не отмечает ни одну трассу для включения оборудования")]

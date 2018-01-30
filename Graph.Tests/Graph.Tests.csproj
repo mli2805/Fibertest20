@@ -374,7 +374,6 @@
     </Compile>
     <Compile Include="Sut\SutExtensions\RtuInitializer.cs" />
     <Compile Include="Sut\SutForAddNodeIntoFiber.cs" />
-    <Compile Include="Sut\SutForBaseRefs.cs" />
     <Compile Include="Sut\SutForEquipment.cs" />
     <Compile Include="Sut\SutForEquipmentAdded.cs" />
     <Compile Include="Sut\SutForEquipmentUpdateRemove.cs" />

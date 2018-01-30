@@ -10,7 +10,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class NodeRemovedSteps
     {
-        private readonly SutForBaseRefs _sut = new SutForBaseRefs();
+        private readonly SystemUnderTest _sut = new SystemUnderTest();
         private Guid _nodeId;
         private Guid _rtuNodeId;
         private Guid _anotherNodeId;
@@ -61,11 +61,8 @@ namespace Graph.Tests
         [Given(@"Для трассы задана базовая")]
         public void GivenДляТрассыЗаданаБазовая()
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler2(model, SystemUnderTest.Base1625Lm3, SystemUnderTest.Base1625Lm3, null, Answer.Yes));
             var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_trace.Id);
-            _sut.TraceLeafActions.AssignBaseRefs(traceLeaf);
-            _sut.Poller.EventSourcingTick().Wait();
+            _sut.AssignBaseRef(traceLeaf, SystemUnderTest.Base1625Lm3, SystemUnderTest.Base1625Lm3, null, Answer.Yes);
         }
 
         [When(@"Пользователь кликает удалить узел")]

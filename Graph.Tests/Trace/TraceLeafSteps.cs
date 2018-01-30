@@ -36,10 +36,7 @@ namespace Graph.Tests
         [When(@"Задаем точную базовую")]
         public void WhenЗадаемТочнуюБазовую()
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler2(model, SystemUnderTest.Base1625, null, null, Answer.Yes));
-            _sut.TraceLeafActions.AssignBaseRefs(_traceLeaf);
-            _sut.Poller.EventSourcingTick().Wait();
+            _sut.AssignBaseRef(_traceLeaf, SystemUnderTest.Base1625, null, null, Answer.Yes);
         }
 
         [Then(@"Лист трассы получает ее идентификатор остальное не меняется")]
@@ -53,9 +50,7 @@ namespace Graph.Tests
         [When(@"Задаем быструю базовую")]
         public void WhenЗадаемБыструюБазовую()
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler2(model, null, SystemUnderTest.Base1625, null, Answer.Yes));
-            _sut.TraceLeafActions.AssignBaseRefs(_traceLeaf);
-            _sut.Poller.EventSourcingTick().Wait();
+            _sut.AssignBaseRef(_traceLeaf, null, SystemUnderTest.Base1625, null, Answer.Yes);
         }
 
         [Then(@"Лист трассы получает идентификатор быстрой остальное не меняется")]
@@ -89,9 +84,7 @@ namespace Graph.Tests
         [When(@"Удаляем быструю базовую")]
         public void WhenУдаляемБыструюБазовую()
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler2(model, null, "", null, Answer.Yes));
-            _sut.TraceLeafActions.AssignBaseRefs(_traceLeaf);
-            _sut.Poller.EventSourcingTick().Wait();
+            _sut.AssignBaseRef(_traceLeaf, null, "", null, Answer.Yes);
         }
 
         [Then(@"Первая пиктограмма изменяется")]

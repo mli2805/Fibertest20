@@ -30,10 +30,7 @@ namespace Graph.Tests
             var rtuId = traceLeaf.Parent.Id;
             _sut.InitializeRtu(rtuId);
 
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler2(model, SystemUnderTest.Base1625Lm3, SystemUnderTest.Base1625Lm3, null, Answer.Yes));
-            _sut.TraceLeafActions.AssignBaseRefs(traceLeaf);
-            _sut.Poller.EventSourcingTick().Wait();
+            _sut.AssignBaseRef(traceLeaf, SystemUnderTest.Base1625Lm3, SystemUnderTest.Base1625Lm3, null, Answer.Yes);
             traceLeaf.BaseRefsSet.PreciseId.Should().NotBe(Guid.Empty);
         }
 

@@ -47,7 +47,7 @@ namespace Graph.Tests
         [When(@"Пользователь указывает пути к точной и быстрой базовам и жмет сохранить")]
         public void WhenПользовательУказываетПутиКТочнойИБыстройБазовамИЖметСохранить()
         {
-            _sut.AssignBaseRef(_traceLeaf.Id, SystemUnderTest.Base1625, SystemUnderTest.Base1625, null, Answer.Yes);
+            _sut.AssignBaseRef(_traceLeaf, SystemUnderTest.Base1625, SystemUnderTest.Base1625, null, Answer.Yes);
         }
 
 
@@ -64,7 +64,7 @@ namespace Graph.Tests
             _oldPreciseId = _trace.PreciseId;
             _oldFastId = _trace.FastId;
 
-            _sut.AssignBaseRef(_traceLeaf.Id, null, SystemUnderTest.Base1625, null, Answer.Yes);
+            _sut.AssignBaseRef(_traceLeaf, null, SystemUnderTest.Base1625, null, Answer.Yes);
         }
 
         [Then(@"У трассы старая точная и новая быстрая базовые")]
@@ -77,7 +77,7 @@ namespace Graph.Tests
         [When(@"Пользователь сбрасывает точную и задает дополнительную и жмет сохранить")]
         public void WhenПользовательСбрасываетТочнуюЗадаетДополнительнуюИЖметСохранить()
         {
-            _sut.AssignBaseRef(_traceLeaf.Id, "", null, SystemUnderTest.Base1625, Answer.Yes);
+            _sut.AssignBaseRef(_traceLeaf, "", null, SystemUnderTest.Base1625, Answer.Yes);
         }
 
         [Then(@"У трассы не задана точная и старая быстрая и есть дополнительная базовые")]

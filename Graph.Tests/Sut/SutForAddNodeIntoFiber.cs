@@ -4,7 +4,7 @@ using Iit.Fibertest.Graph;
 
 namespace Graph.Tests
 {
-    public class SutForAddNodeIntoFiber : SutForBaseRefs
+    public class SutForAddNodeIntoFiber : SystemUnderTest
     {
         public void CreatePositionForAddNodeIntoFiberTest(out Iit.Fibertest.Graph.Fiber fiberForInsertion,
             out Iit.Fibertest.Graph.Trace traceForInsertionId)

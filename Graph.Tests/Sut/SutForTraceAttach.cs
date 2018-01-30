@@ -6,7 +6,7 @@ using Iit.Fibertest.Graph;
 
 namespace Graph.Tests
 {
-    public class SutForTraceAttach : SutForBaseRefs
+    public class SutForTraceAttach : SystemUnderTest
     {
         public bool OtauToAttachHandler(object model, Guid rtuId, int masterPort, Answer answer)
         {

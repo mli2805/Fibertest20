@@ -7,11 +7,9 @@ namespace Graph.Tests
 {
     public static class BaseRefAssigner
     {
-        public static void AssignBaseRef(this SystemUnderTest sut, Guid traceId,
+        public static void AssignBaseRef(this SystemUnderTest sut, TraceLeaf traceLeaf,
             string precisePath, string fastPath, string aditionalPath, Answer answer)
         {
-            var traceLeaf = (TraceLeaf)sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(traceId);
-
             if (!String.IsNullOrEmpty(precisePath))
                 sut.FakeWindowManager.RegisterHandler(model => sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
 
