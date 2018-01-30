@@ -22,13 +22,12 @@ namespace Graph.Tests
         {
             _rtuLeaf = _sut.TraceCreatedAndRtuInitialized(out _traceId, out _);
             _traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_traceId);
-
         }
 
         [Given(@"Трасса присоединена к порту РТУ")]
         public void GivenТрассаПрисоединенаКПортуРту()
         {
-            _sut.AttachTraceTo(_traceId, _rtuLeaf, _portNumber, Answer.Yes);
+            _traceLeaf = _sut.AttachTraceTo(_traceId, _rtuLeaf, _portNumber, Answer.Yes);
         }
 
         [Given(@"Подключен переключатель")]
@@ -40,15 +39,13 @@ namespace Graph.Tests
         [Given(@"Трасса присоединена к порту переключателя")]
         public void GivenТрассаПрисоединенаКПортуПереключателя()
         {
-            _sut.AttachTraceTo(_traceId, _otauLeaf, _portNumber, Answer.Yes);
+            _traceLeaf = _sut.AttachTraceTo(_traceId, _otauLeaf, _portNumber, Answer.Yes);
         }
 
         [When(@"Пользователь отсоединяет трассу")]
         public void WhenПользовательОтсоединяетТрассу()
         {
-            var  menu = _traceLeaf.MyContextMenu;
-            var menuItem = menu.First(i => i.Header == Resources.SID_Unplug_trace);
-            menuItem.Command.Execute(_traceLeaf);
+            _traceLeaf.MyContextMenu.First(i =>  i?.Header == Resources.SID_Unplug_trace).Command.Execute(_traceLeaf);
             _sut.Poller.EventSourcingTick().Wait();
         }
 

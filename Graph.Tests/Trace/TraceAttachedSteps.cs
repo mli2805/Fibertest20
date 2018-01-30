@@ -30,7 +30,6 @@ namespace Graph.Tests
         {
             _portNumber = p0;
             _sut.AttachTraceTo(_traceId, _rtuLeaf, _portNumber, Answer.Yes);
-            _sut.Poller.EventSourcingTick().Wait();
             _traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_traceId);
         }
 
@@ -44,7 +43,7 @@ namespace Graph.Tests
         [Then(@"Есть пункт Отсоединить и три пункта Измерения")]
         public void ThenЕстьПунктОтсоединитьИТриПунктаИзмерения()
         {
-            _traceLeaf.MyContextMenu.FirstOrDefault(item => item?.Header == Resources.SID_Detach_trace).Should().NotBeNull();
+            _traceLeaf.MyContextMenu.FirstOrDefault(item => item?.Header == Resources.SID_Unplug_trace).Should().NotBeNull();
             _traceLeaf.MyContextMenu.FirstOrDefault(item => item?.Header == Resources.SID_Precise_monitoring_out_of_turn).Should().NotBeNull();
             _traceLeaf.MyContextMenu.FirstOrDefault(item => item?.Header == Resources.SID_Measurement__Client_).Should().NotBeNull();
             _traceLeaf.MyContextMenu.FirstOrDefault(item => item?.Header == Resources.SID_Measurement__RFTS_Reflect_).Should().NotBeNull();
@@ -88,11 +87,7 @@ namespace Graph.Tests
         [When(@"Пользователь выбирает отсоединить трассу")]
         public void WhenПользовательВыбираетОтсоединитьТрассу()
         {
-            var menu = _traceLeaf.MyContextMenu;
-            var header = Resources.SID_Unplug_trace;
-            var menuItem = menu.First(i => i.Header.Equals(header));
-//            var menuItem = menu[7];
-            menuItem.Command.Execute(_traceLeaf);
+            _traceLeaf.MyContextMenu.First(i =>  i?.Header == Resources.SID_Unplug_trace).Command.Execute(_traceLeaf);
             _sut.Poller.EventSourcingTick().Wait();
         }
 
