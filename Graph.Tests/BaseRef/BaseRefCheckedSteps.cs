@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Dto;
@@ -47,16 +48,24 @@ namespace Graph.Tests
         [When(@"Пользователь указывает путь к базовой c длинной волны SM(.*) и жмет сохранить")]
         public void WhenПользовательУказываетПутьКБазовойCДлиннойВолныSmиЖметСохранить(string p0)
         {
-            var errorString = string.Format(Resources.SID_Invalid_parameter___Wave_length__0_, p0);
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxContainsStringAnswer(errorString, Answer.Yes, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
             _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler2(model, SystemUnderTest.Base1625, null, null, Answer.Yes));
             _sut.TraceLeafActions.AssignBaseRefs(_traceLeaf);
             _sut.Poller.EventSourcingTick().Wait();
         }
 
-        [Then(@"Отказ с указанием неправильной длины волны И базовые не заданы")]
-        public void ThenОтказСУказаниемПравильнойДлиныВолныАБазовыеНеЗаданы()
+        [Then(@"Отказ с указанием неправильной длины волны SM(.*) И базовые не заданы")]
+        public void ThenОтказСУказаниемПравильнойДлиныВолныАБазовыеНеЗаданы(string p0)
         {
+            var lastNotificationViewModel = _sut.FakeWindowManager.Log
+                .OfType<MyMessageBoxViewModel>()
+                .Last();
+
+            lastNotificationViewModel.Lines.FirstOrDefault(
+                l => l.Line == string.Format(Resources.SID_Invalid_parameter___Wave_length__0_, p0)).Should().NotBe(null);
+
+            _sut.FakeWindowManager.Log.Remove(lastNotificationViewModel);
+
             _trace.PreciseId.Should().Be(Guid.Empty);
             _trace.FastId.Should().Be(Guid.Empty);
         }
@@ -64,8 +73,7 @@ namespace Graph.Tests
         [When(@"Пользователь выбирает базовые с правильной длиной волны но без порогов")]
         public void WhenПользовательВыбираетБазовыеСПравильнойДлинойВолныНоБезПорогов()
         {
-            var errorString = Resources.SID_There_are_no_thresholds_for_comparison;
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxContainsStringAnswer(errorString, Answer.Yes, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
             _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler2(model, SystemUnderTest.Base1550Lm2NoThresholds, null, null, Answer.Yes));
             _sut.TraceLeafActions.AssignBaseRefs(_traceLeaf);
             _sut.Poller.EventSourcingTick().Wait();
@@ -74,6 +82,15 @@ namespace Graph.Tests
         [Then(@"Отказ с подсказкой И базовые не заданы")]
         public void ThenОтказСПодсказкойИБазовыеНеЗаданы()
         {
+            var lastNotificationViewModel = _sut.FakeWindowManager.Log
+                .OfType<MyMessageBoxViewModel>()
+                .Last();
+
+            lastNotificationViewModel.Lines.FirstOrDefault(
+                l => l.Line == Resources.SID_There_are_no_thresholds_for_comparison).Should().NotBe(null);
+
+            _sut.FakeWindowManager.Log.Remove(lastNotificationViewModel);
+
             _trace.PreciseId.Should().Be(Guid.Empty);
             _trace.FastId.Should().Be(Guid.Empty);
         }
@@ -81,8 +98,7 @@ namespace Graph.Tests
         [When(@"Базовые с порогами но колво ориентиров не совпадает ни с узлами ни с оборудованием")]
         public void WhenБазовыеСПорогамиНоКолвоОриентировНеСовпадаетНиСУзламиНиСОборудованием()
         {
-            var errorString = string.Format(Resources.SID__0__base_is_not_compatible_with_trace, BaseRefType.Precise.GetLocalizedFemaleString());
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxContainsStringAnswer(errorString, Answer.Yes, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
             _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler2(model, SystemUnderTest.Base1550Lm4YesThresholds, null, null, Answer.Yes));
             _sut.TraceLeafActions.AssignBaseRefs(_traceLeaf);
             _sut.Poller.EventSourcingTick().Wait();
@@ -91,6 +107,15 @@ namespace Graph.Tests
         [Then(@"Отказ с подсказкой о количестве и того и другого И базовые не заданы")]
         public void ThenОтказСПодсказкойОКоличествеИТогоИДругогоИБазовыеНеЗаданы()
         {
+            var lastNotificationViewModel = _sut.FakeWindowManager.Log
+                .OfType<MyMessageBoxViewModel>()
+                .Last();
+
+            var errorString = string.Format(Resources.SID__0__base_is_not_compatible_with_trace, BaseRefType.Precise.GetLocalizedFemaleString());
+            lastNotificationViewModel.Lines.FirstOrDefault(l => l.Line == errorString).Should().NotBe(null);
+
+            _sut.FakeWindowManager.Log.Remove(lastNotificationViewModel);
+
             _trace.PreciseId.Should().Be(Guid.Empty);
             _trace.FastId.Should().Be(Guid.Empty);
         }
@@ -98,9 +123,7 @@ namespace Graph.Tests
         [When(@"И наконец колво ориентиров совпадает с колвом узлов")]
         public void WhenИНаконецКолвоОриентировСовпадаетСКолвомУзлов()
         {
-            var message = string.Format(Resources.SID_Trace_length_on_map_is__0__km, 25.63) +
-                          Environment.NewLine + string.Format(Resources.SID_Optical_length_is__0__km, 3.27);
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxContainsStringAnswer(message, Answer.Yes, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
             _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler2(model, SystemUnderTest.Base1550Lm2YesThresholds, null, null, Answer.Yes));
             _sut.TraceLeafActions.AssignBaseRefs(_traceLeaf);
             _sut.Poller.EventSourcingTick().Wait();
@@ -109,6 +132,16 @@ namespace Graph.Tests
         [Then(@"Выдается инфо по длинам трассы и рефлектограммы И у трассы становится задани базовая")]
         public void ThenВыдаетсяИнфоПоДлинамТрассыИРефлектограммыИуТрассыСтановитсяЗаданиБазовая()
         {
+            var lastNotificationViewModel = _sut.FakeWindowManager.Log
+                .OfType<MyMessageBoxViewModel>()
+                .Last();
+
+            var message = string.Format(Resources.SID_Trace_length_on_map_is__0__km, 25.63) +
+                          Environment.NewLine + string.Format(Resources.SID_Optical_length_is__0__km, 3.27);
+            lastNotificationViewModel.Lines.FirstOrDefault(l => l.Line == message).Should().NotBe(null);
+
+            _sut.FakeWindowManager.Log.Remove(lastNotificationViewModel);
+
             _trace.PreciseId.Should().NotBe(Guid.Empty);
             _trace.FastId.Should().Be(Guid.Empty);
         }

@@ -98,7 +98,7 @@ this.FeatureBackground();
 #line 11
  testRunner.When("Пользователь указывает путь к базовой c длинной волны SM1625 и жмет сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 12
- testRunner.Then("Отказ с указанием неправильной длины волны И базовые не заданы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("Отказ с указанием неправильной длины волны SM1625 И базовые не заданы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 13
  testRunner.When("Пользователь выбирает базовые с правильной длиной волны но без порогов", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 14

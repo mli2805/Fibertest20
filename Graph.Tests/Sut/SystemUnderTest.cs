@@ -157,19 +157,6 @@ namespace Graph.Tests
             return true;
         }
 
-        public bool ManyLinesMessageBoxContainsStringAnswer(string str, Answer answer, object model)
-        {
-            if (!(model is MyMessageBoxViewModel vm))
-                return false;
-            if (vm.Lines.FirstOrDefault(i => i.Line == str) == null)
-                return false;
-            if (answer == Answer.Yes)
-                vm.OkButton();
-            else
-                vm.CancelButton();
-            return true;
-        }
-
         public bool NodeUpdateHandler(object model, string title, string comment, Answer button)
         {
             if (!(model is NodeUpdateViewModel vm)) return false;
