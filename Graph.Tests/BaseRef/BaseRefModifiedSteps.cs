@@ -17,7 +17,6 @@ namespace Graph.Tests
     public sealed class BaseRefModifiedSteps
     {
         private SutForTraceAttach _sut = new SutForTraceAttach();
-        private RtuLeaf _rtuLeaf;
         private Iit.Fibertest.Graph.Rtu _rtu;
         private Iit.Fibertest.Graph.Trace _trace;
         private List<BaseRefDto> _baseRefs;
@@ -29,11 +28,8 @@ namespace Graph.Tests
             _sut.ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation() { Latitude = 55, Longitude = 30 }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             _rtu = _sut.ReadModel.Rtus.Last();
-            _rtuLeaf = (RtuLeaf)_sut.ShellVm.TreeOfRtuModel.Tree.GetById(_rtu.Id);
-            
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler(model, _rtuLeaf.Id, @"1.1.1.1", "", @"SM1550", Answer.Yes));
-            _sut.RtuLeafActions.InitializeRtu(_rtuLeaf);
-            _sut.Poller.EventSourcingTick().Wait();
+
+            _sut.InitializeRtu(_rtu.Id, @"1.1.1.1", "", @"SM1550");
         }
 
         [Given(@"К нему нарисована трасса1")]

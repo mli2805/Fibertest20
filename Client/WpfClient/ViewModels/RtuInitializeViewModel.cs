@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows;
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -79,9 +78,11 @@ namespace Iit.Fibertest.Client
             if (e.PropertyName == "Result")
             {
                 if (ReserveChannelTestViewModel.Result == true)
-                    MessageBox.Show(Resources.SID_RTU_connection_established_successfully_);
+                    _windowManager.ShowDialogWithAssignedOwner(
+                        new MyMessageBoxViewModel(MessageType.Information, Resources.SID_RTU_connection_established_successfully_));
                 if (ReserveChannelTestViewModel.Result == false)
-                    MessageBox.Show(Resources.SID_Cannot_establish_connection_with_RTU_);
+                    _windowManager.ShowDialogWithAssignedOwner(
+                        new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Cannot_establish_connection_with_RTU_));
             }
         }
 
@@ -90,9 +91,11 @@ namespace Iit.Fibertest.Client
             if (e.PropertyName == "Result")
             {
                 if (MainChannelTestViewModel.Result == true)
-                    MessageBox.Show(Resources.SID_RTU_connection_established_successfully_);
+                    _windowManager.ShowDialogWithAssignedOwner(
+                        new MyMessageBoxViewModel(MessageType.Information, Resources.SID_RTU_connection_established_successfully_));
                 if (MainChannelTestViewModel.Result == false)
-                    MessageBox.Show(Resources.SID_Cannot_establish_connection_with_RTU_);
+                    _windowManager.ShowDialogWithAssignedOwner(
+                        new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Cannot_establish_connection_with_RTU_));
             }
         }
 
@@ -105,7 +108,8 @@ namespace Iit.Fibertest.Client
         {
             if (string.IsNullOrEmpty(OriginalRtu.Title))
             {
-                MessageBox.Show(Resources.SID_Title_should_be_set_, Resources.SID_Error);
+                var vm = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Title_should_be_set_);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
                 return;
             }
             if (!CheckAddressUniqueness())

@@ -33,10 +33,7 @@ namespace Graph.Tests
         [When(@"RTU инициализируется c длинной волны (.*)")]
         public void WhenRtuУспешноИнициализируетсяCДлиннойВолны(string p0)
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler(model, _rtuLeaf.Id, @"1.1.1.1", "", p0, Answer.Yes));
-            _sut.RtuLeafActions.InitializeRtu(_rtuLeaf);
-            _sut.Poller.EventSourcingTick().Wait();
-            _rtuLeaf.TreeOfAcceptableMeasParams.Units.ContainsKey(p0).Should().BeTrue();
+            _sut.InitializeRtu(_rtuLeaf.Id, @"1.1.1.1", "", p0);
         }
 
 

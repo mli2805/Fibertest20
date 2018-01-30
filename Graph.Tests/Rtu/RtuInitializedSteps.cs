@@ -11,6 +11,7 @@ namespace Graph.Tests
     {
         private readonly SutForTraceAttach _sut;
         private RtuLeaf _rtuLeaf;
+        private Iit.Fibertest.Graph.Rtu _rtu;
         private string _mainAddress, _reserveAddress;
 
         public RtuInitializedSteps(SutForTraceAttach sut)
@@ -23,38 +24,17 @@ namespace Graph.Tests
         {
             _sut.ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation() { Latitude = 55, Longitude = 30 }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
-            var rtu= _sut.ReadModel.Rtus.Last();
 
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuUpdateHandler(model, @"something", @"doesn't matter", Answer.Yes));
-            _sut.ShellVm.ComplyWithRequest(new RequestUpdateRtu() { Id = rtu.Id, NodeId = rtu.NodeId }).Wait();
-            _sut.Poller.EventSourcingTick().Wait();
-
-            var rtuLeaf = _sut.ShellVm.TreeOfRtuModel.Tree.GetById(rtu.Id);
-            _sut.FakeWindowManager.RegisterHandler(m => m is MyMessageBoxViewModel);
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler2(model, rtu.Id, p0, p1, Answer.Yes));
-            rtuLeaf.MyContextMenu.FirstOrDefault(i=>i.Header == Resources.SID_Network_settings)?.Command.Execute(rtuLeaf);
-
-//            InitializeRtu cmd = new InitializeRtu()
-//            {
-//                Id = rtuId,
-//                MainChannel = new NetAddress(p0, TcpPorts.RtuListenTo),
-//                IsReserveChannelSet = true,
-//                ReserveChannel = new NetAddress(p1, TcpPorts.RtuListenTo)
-//            };
-//            _sut.ShellVm.C2DWcfManager.SendCommandAsObj(cmd).Wait();
-
-
-
-
+            _sut.InitializeRtu(_sut.ReadModel.Rtus.Last().Id, p0, p1);
             _sut.Poller.EventSourcingTick().Wait();
         }
 
-        [Given(@"Создан РТУ даже с трассой")]
+        [Given(@"Создан еще РТУ даже с трассой")]
         public void GivenСозданРтуДажеСТрассой()
         {
             _sut.CreateTraceRtuEmptyTerminal();
-            var rtuId = _sut.ReadModel.Rtus.Last().Id;
-            _rtuLeaf = (RtuLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(rtuId);
+            _rtu = _sut.ReadModel.Rtus.Last();
+            _rtuLeaf = (RtuLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_rtu.Id);
         }
 
         [When(@"Пользователь вводит основной адрес (.*) и жмет Инициализировать")]
@@ -62,9 +42,9 @@ namespace Graph.Tests
         {
             _mainAddress = p0;
             _sut.FakeWindowManager.RegisterHandler(m => m is MyMessageBoxViewModel);
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler(model, _rtuLeaf.Id, p0, "", "", Answer.Yes));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler2(model, p0, "", Answer.Yes));
 
-            _sut.RtuLeafActions.InitializeRtu(_rtuLeaf);
+            _rtuLeaf.MyContextMenu.FirstOrDefault(i => i.Header == Resources.SID_Network_settings)?.Command.Execute(_rtuLeaf);
             _sut.Poller.EventSourcingTick().Wait();
         }
 
@@ -74,9 +54,9 @@ namespace Graph.Tests
             _mainAddress = p0;
             _reserveAddress = p1;
             _sut.FakeWindowManager.RegisterHandler(m => m is MyMessageBoxViewModel);
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler(model, _rtuLeaf.Id, p0, p1, "", Answer.Yes));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler2(model, p0, p1, Answer.Yes));
 
-            _sut.RtuLeafActions.InitializeRtu(_rtuLeaf);
+            _rtuLeaf.MyContextMenu.FirstOrDefault(i => i.Header == Resources.SID_Network_settings)?.Command.Execute(_rtuLeaf);
             _sut.Poller.EventSourcingTick().Wait();
         }
 
@@ -94,13 +74,36 @@ namespace Graph.Tests
             _sut.FakeWindowManager.Log.Remove(lastNotificationViewModel);
         }
 
+        [Then(@"Сообщение о не заданом имени RTU")]
+        public void ThenСообщениеОНеЗаданомИмениRtu()
+        {
+            var lastNotificationViewModel = _sut.FakeWindowManager.Log
+                .OfType<MyMessageBoxViewModel>()
+                .Last();
+
+            lastNotificationViewModel
+               .Lines[0].Line
+               .Should().Be(Resources.SID_Title_should_be_set_);
+
+            _sut.FakeWindowManager.Log.Remove(lastNotificationViewModel);
+        }
+
         [When(@"Пользователь открывает форму инициализации и жмет Отмена")]
         public void WhenПользовательОткрываетФормуИнициализацииИЖметОтмена()
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler(model, _rtuLeaf.Id, "", "", "", Answer.Cancel));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler2(model, "", "", Answer.Cancel));
 
             _sut.RtuLeafActions.InitializeRtu(_rtuLeaf);
             _sut.Poller.EventSourcingTick().Wait();
+        }
+
+        [When(@"Пользователь задает имя RTU")]
+        public void WhenПользовательЗадаетИмяRtu()
+        {
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuUpdateHandler(model, @"something", @"doesn't matter", Answer.Yes));
+            _sut.ShellVm.ComplyWithRequest(new RequestUpdateRtu() { Id = _rtu.Id, NodeId = _rtu.NodeId }).Wait();
+            _sut.Poller.EventSourcingTick().Wait();
+
         }
 
         [Then(@"RTU инициализирован только с основным адресом")]

@@ -58,7 +58,7 @@ namespace Graph.Tests
             traceId = CreateTraceRtuEmptyTerminal(traceTitle).Id;
             var id = traceId;
             rtuId = ReadModel.Traces.First(t => t.Id == id).RtuId;
-            return InitializeRtu(rtuId, @"192.168.96.58");
+            return this.InitializeRtu(rtuId, @"192.168.96.58");
         }
 
         public bool TraceToAttachHandler(object model, Guid traceId, Answer answer)

@@ -379,6 +379,7 @@
     <Compile Include="Rtu\RtuRemovedSteps.cs">
       <DependentUpon>RtuRemoved.feature</DependentUpon>
     </Compile>
+    <Compile Include="Sut\SutExtensions\RtuInitializer.cs" />
     <Compile Include="Sut\SutForAddNodeIntoFiber.cs" />
     <Compile Include="Sut\SutForBaseRefs.cs" />
     <Compile Include="Sut\SutForEquipment.cs" />
