@@ -195,14 +195,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>EquipmentRemovedLight.feature</DependentUpon>
     </Compile>
-    <Compile Include="JustEchosOf\MonitoringStopped.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MonitoringStopped.feature</DependentUpon>
-    </Compile>
-    <Compile Include="JustEchosOf\MonitoringStoppedSteps.cs">
-      <DependentUpon>MonitoringStopped.feature</DependentUpon>
-    </Compile>
     <Compile Include="Node\NodeRemovedSteps.cs">
       <DependentUpon>NodeRemoved.feature</DependentUpon>
     </Compile>
@@ -527,10 +519,6 @@
     <None Include="Fiber\FiberWithNodesAdded.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>FiberWithNodesAdded.feature.cs</LastGenOutput>
-    </None>
-    <None Include="JustEchosOf\MonitoringStopped.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>MonitoringStopped.feature.cs</LastGenOutput>
     </None>
     <None Include="Node\NodeIntoFiberAdded.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
