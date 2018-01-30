@@ -9,7 +9,7 @@ namespace Iit.Fibertest.WcfConnections
     {
         private WcfFactory _wcfFactory;
 
-        public ID2RWcfManager Initialize(DoubleAddress rtuAddress, IniFile iniFile, IMyLog logFile)
+        public ID2RWcfManager SetRtuAddresses(DoubleAddress rtuAddress, IniFile iniFile, IMyLog logFile)
         {
             _wcfFactory = new WcfFactory(rtuAddress, iniFile, logFile);
             return this;

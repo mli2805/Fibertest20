@@ -1,8 +1,10 @@
 using System;
+using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.StringResources;
 
 namespace Graph.Tests
 {
@@ -65,11 +67,23 @@ namespace Graph.Tests
             return true;
         }
 
-        public RtuLeaf InitializeRtu(Guid rtuId, string waveLength = "SM1625")
+        public RtuLeaf InitializeRtu(Guid rtuId, string mainIpAddress = "", string reserveIpAddress = "", string waveLength = "SM1625")
         {
+            var rtu = ReadModel.Rtus.First(r => r.Id == rtuId);
+
             var rtuLeaf = (RtuLeaf)ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(rtuId);
-            FakeWindowManager.RegisterHandler(model => RtuInitializeHandler(model, rtuId, "", "", waveLength, Answer.Yes));
-            RtuLeafActions.InitializeRtu(rtuLeaf);
+
+            FakeWindowManager.RegisterHandler(model => RtuUpdateHandler(model, @"something", @"doesn't matter", Answer.Yes));
+            ShellVm.ComplyWithRequest(new RequestUpdateRtu() { Id = rtuId, NodeId = rtu.NodeId }).Wait();
+            Poller.EventSourcingTick().Wait();
+
+            FakeWindowManager.RegisterHandler(m => m is MyMessageBoxViewModel);
+            FakeWindowManager.RegisterHandler(model => RtuInitializeHandler2(model, rtuId, mainIpAddress, reserveIpAddress, Answer.Yes));
+            rtuLeaf.MyContextMenu.FirstOrDefault(i => i.Header == Resources.SID_Network_settings)?.Command.Execute(rtuLeaf);
+
+
+//            FakeWindowManager.RegisterHandler(model => RtuInitializeHandler(model, rtuId, "", "", waveLength, Answer.Yes));
+//            RtuLeafActions.InitializeRtu(rtuLeaf);
             Poller.EventSourcingTick().Wait();
             rtuLeaf.TreeOfAcceptableMeasParams.Units.ContainsKey(waveLength).Should().BeTrue();
             return rtuLeaf;

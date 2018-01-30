@@ -9,7 +9,7 @@ namespace Graph.Tests
 {
     public class FakeD2RWcfManager : ID2RWcfManager
     {
-        public ID2RWcfManager Initialize(DoubleAddress rtuAddress, IniFile iniFile, IMyLog logFile)
+        public ID2RWcfManager SetRtuAddresses(DoubleAddress rtuAddress, IniFile iniFile, IMyLog logFile)
         {
             return this;
         }
@@ -36,41 +36,53 @@ namespace Graph.Tests
             });
         }
 
-
-
         public Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(new OtauAttachedDto()
+            {
+                ReturnCode = ReturnCode.OtauAttachedSuccesfully,
+                IsAttached = true,
+                RtuId = dto.RtuId,
+                OtauId = dto.OtauId,
+                PortCount = 16,
+                Serial = @"6543210",
+            });
         }
 
         public Task<OtauDetachedDto> DetachOtauAsync(DetachOtauDto dto)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(new OtauDetachedDto()
+            {
+                ReturnCode = ReturnCode.OtauDetachedSuccesfully,
+                RtuId = dto.RtuId,
+                OtauId = dto.OtauId,
+                IsDetached = true,
+            });
         }
 
         public Task<bool> StopMonitoringAsync(StopMonitoringDto dto)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(true);
         }
 
         public Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto dto)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(new BaseRefAssignedDto(){ReturnCode = ReturnCode.BaseRefAssignedSuccessfully});
         }
 
         public Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(new MonitoringSettingsAppliedDto(){ReturnCode = ReturnCode.MonitoringSettingsAppliedSuccessfully});
         }
 
         public Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(new ClientMeasurementStartedDto(){ReturnCode = ReturnCode.Ok});
         }
 
         public Task<OutOfTurnMeasurementStartedDto> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(new OutOfTurnMeasurementStartedDto(){ReturnCode = ReturnCode.Ok});
         }
     }
 }

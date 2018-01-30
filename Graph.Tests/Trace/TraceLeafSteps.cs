@@ -17,7 +17,7 @@ namespace Graph.Tests
 
 
         [Given(@"У инициализированного RTU cоздаем трассу с названием (.*)")]
-        public void GivenСоздаемТрассуСНазваниемТрасса(string p0)
+        public void GivenСоздаемТрассуСНазванием(string p0)
         {
             _rtuLeaf = _sut.TraceCreatedAndRtuInitialized(out _traceId, out var _, p0);
         }
@@ -36,9 +36,9 @@ namespace Graph.Tests
         [When(@"Задаем точную базовую")]
         public void WhenЗадаемТочнуюБазовую()
         {
-//            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
-//            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler2(model, SystemUnderTest.Base1625, null, null, Answer.Yes));
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, _traceId, SystemUnderTest.Base1625, null, null, Answer.Yes));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler2(model, SystemUnderTest.Base1625, null, null, Answer.Yes));
+//            _sut.FakeWindowManager.RegisterHandler(model => _sut.BaseRefAssignHandler(model, _traceId, SystemUnderTest.Base1625, null, null, Answer.Yes));
             _sut.TraceLeafActions.AssignBaseRefs(_traceLeaf);
             _sut.Poller.EventSourcingTick().Wait();
         }
