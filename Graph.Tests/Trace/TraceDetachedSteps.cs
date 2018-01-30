@@ -10,16 +10,19 @@ namespace Graph.Tests
     [Binding]
     public sealed class TraceDetachedSteps
     {
-        private readonly SutForTraceAttach _sut = new SutForTraceAttach();
+        private readonly SystemUnderTest _sut = new SystemUnderTest();
         private Guid _traceId;
         private int _portNumber = 3;
         private RtuLeaf _rtuLeaf;
+        private TraceLeaf _traceLeaf;
         private OtauLeaf _otauLeaf;
 
         [Given(@"Создана трассу инициализирован РТУ")]
         public void GivenСозданаТрассуИнициализированРту()
         {
             _rtuLeaf = _sut.TraceCreatedAndRtuInitialized(out _traceId, out _);
+            _traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_traceId);
+
         }
 
         [Given(@"Трасса присоединена к порту РТУ")]
@@ -43,8 +46,9 @@ namespace Graph.Tests
         [When(@"Пользователь отсоединяет трассу")]
         public void WhenПользовательОтсоединяетТрассу()
         {
-            var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_traceId);
-            _sut.TraceLeafActions.DetachTrace(traceLeaf);
+            var  menu = _traceLeaf.MyContextMenu;
+            var menuItem = menu.First(i => i.Header == Resources.SID_Unplug_trace);
+            menuItem.Command.Execute(_traceLeaf);
             _sut.Poller.EventSourcingTick().Wait();
         }
 

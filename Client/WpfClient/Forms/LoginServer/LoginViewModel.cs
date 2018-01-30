@@ -108,7 +108,7 @@ namespace Iit.Fibertest.Client
                 });
 
             if (result.ReturnCode != ReturnCode.ClientRegisteredSuccessfully)
-                MessageBox.Show(result.ReturnCode.GetLocalizedString(), Resources.SID_Error);
+                MessageBox.Show(result.ReturnCode.GetLocalizedString(), Resources.SID_Error_);
             return result;
         }
 

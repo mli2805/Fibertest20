@@ -11,7 +11,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class BaseRefCheckedSteps
     {
-        private readonly SutForTraceAttach _sut = new SutForTraceAttach();
+        private readonly SystemUnderTest _sut = new SystemUnderTest();
         private Iit.Fibertest.Graph.Trace _trace;
         private RtuLeaf _rtuLeaf;
         private TraceLeaf _traceLeaf;
@@ -28,7 +28,7 @@ namespace Graph.Tests
         [Then(@"Пункт меню Задать базовые недоступен")]
         public void ThenПунктЗадатьБазовыеНедоступен()
         {
-            _sut.TraceLeafActionsPermissions.CanAssignBaseRefsAction(_traceLeaf).Should().BeFalse();
+            _traceLeaf.MyContextMenu.First(i => i.Header == Resources.SID_Base_refs_assignment).Command.CanExecute(_traceLeaf).Should().BeFalse();
         }
 
         [When(@"RTU инициализируется c длинной волны (.*)")]
@@ -41,7 +41,7 @@ namespace Graph.Tests
         [Then(@"Пункт меню Задать базовые становится доступен")]
         public void ThenПунктЗадатьБазовыеСтановитсяДоступен()
         {
-            _sut.TraceLeafActionsPermissions.CanAssignBaseRefsAction(_traceLeaf).Should().BeTrue();
+            _traceLeaf.MyContextMenu.First(i => i.Header == Resources.SID_Base_refs_assignment).Command.CanExecute(_traceLeaf).Should().BeTrue();
         }
 
 

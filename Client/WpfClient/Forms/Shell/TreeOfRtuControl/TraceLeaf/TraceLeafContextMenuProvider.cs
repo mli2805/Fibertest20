@@ -69,7 +69,7 @@ namespace Iit.Fibertest.Client
             {
                 menu.Add(new MenuItemVm()
                 {
-                    Header = Resources.SID_Detach_trace,
+                    Header = Resources.SID_Unplug_trace,
                     Command = new ContextMenuAction(_traceLeafActions.DetachTrace, _traceLeafActionsPermissions.CanDetachTrace),
                     CommandParameter = traceLeaf,
                 });

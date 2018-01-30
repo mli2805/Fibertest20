@@ -6,7 +6,7 @@ using Iit.Fibertest.StringResources;
 
 namespace Graph.Tests
 {
-    public class SutForRtuRemoved : SutForTraceAttach
+    public class SutForRtuRemoved : SystemUnderTest
     {
         public Guid RtuANodeId, RtuBNodeId;
         private Guid _node2Id, _node3Id;

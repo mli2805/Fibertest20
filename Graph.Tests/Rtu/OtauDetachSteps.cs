@@ -10,7 +10,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class OtauDetachSteps
     {
-        private readonly SutForTraceAttach _sut = new SutForTraceAttach();
+        private readonly SystemUnderTest _sut = new SystemUnderTest();
         private Guid _rtuId;
         private Iit.Fibertest.Graph.Trace _trace;
         private RtuLeaf _rtuLeaf;

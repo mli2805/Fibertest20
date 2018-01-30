@@ -59,7 +59,7 @@ namespace Iit.Fibertest.Client
             if (result.ReturnCode != ReturnCode.ClientRegisteredSuccessfully)
             {
                 _logFile.AppendLine(result.ReturnCode.ToString());
-                MessageBox.Show(result.ReturnCode.GetLocalizedString(), Resources.SID_Error);
+                MessageBox.Show(result.ReturnCode.GetLocalizedString(), Resources.SID_Error_);
             }
             return result;
         }

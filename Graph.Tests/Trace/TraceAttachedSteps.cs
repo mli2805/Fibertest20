@@ -10,7 +10,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class TraceAttachedSteps
     {
-        private readonly SutForTraceAttach _sut = new SutForTraceAttach();
+        private readonly SystemUnderTest _sut = new SystemUnderTest();
         private Guid _traceId;
         private int _portNumber;
         private Guid _rtuId;
@@ -88,8 +88,11 @@ namespace Graph.Tests
         [When(@"Пользователь выбирает отсоединить трассу")]
         public void WhenПользовательВыбираетОтсоединитьТрассу()
         {
-            var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_traceId);
-            _sut.TraceLeafActions.DetachTrace(traceLeaf);
+            var menu = _traceLeaf.MyContextMenu;
+            var header = Resources.SID_Unplug_trace;
+            var menuItem = menu.First(i => i.Header.Equals(header));
+//            var menuItem = menu[7];
+            menuItem.Command.Execute(_traceLeaf);
             _sut.Poller.EventSourcingTick().Wait();
         }
 

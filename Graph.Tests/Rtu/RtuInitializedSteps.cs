@@ -9,12 +9,12 @@ namespace Graph.Tests
     [Binding]
     public sealed class RtuInitializedSteps
     {
-        private readonly SutForTraceAttach _sut;
+        private readonly SystemUnderTest _sut;
         private RtuLeaf _rtuLeaf;
         private Iit.Fibertest.Graph.Rtu _rtu;
         private string _mainAddress, _reserveAddress;
 
-        public RtuInitializedSteps(SutForTraceAttach sut)
+        public RtuInitializedSteps(SystemUnderTest sut)
         {
             _sut = sut;
         }
@@ -92,8 +92,7 @@ namespace Graph.Tests
         public void WhenПользовательОткрываетФормуИнициализацииИЖметОтмена()
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler2(model, "", "", Answer.Cancel));
-
-            _sut.RtuLeafActions.InitializeRtu(_rtuLeaf);
+            _rtuLeaf.MyContextMenu.First(i => i.Header == Resources.SID_Network_settings).Command.Execute(_rtuLeaf);
             _sut.Poller.EventSourcingTick().Wait();
         }
 

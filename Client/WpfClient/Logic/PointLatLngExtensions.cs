@@ -9,9 +9,9 @@ namespace Iit.Fibertest.Client
     {
         public static string ToDetailedString(this PointLatLng pointLatLng, GpsInputMode mode)
         {
-            string degreeSign = Resources.SID_Degree_sign;
-            string minuteSign = Resources.SID_Minute_sign;
-            string secondSign = Resources.SID_Second_sign;
+            string degreeSign = @"°";
+            string minuteSign = @"′";
+            string secondSign = @"″";
             if (mode == GpsInputMode.Degrees)
             {
                 return $@"{pointLatLng.Lat:00.000000}{degreeSign}   {pointLatLng.Lng:00.000000}{degreeSign}";

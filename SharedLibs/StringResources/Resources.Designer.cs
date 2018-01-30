@@ -1197,15 +1197,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to °.
-        /// </summary>
-        public static string SID_Degree_sign {
-            get {
-                return ResourceManager.GetString("SID_Degree_sign", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Degrees is required.
         /// </summary>
         public static string SID_Degrees_is_required {
@@ -1445,15 +1436,6 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Equipments_count_in_trace_should_match_nodes_count {
             get {
                 return ResourceManager.GetString("SID_Equipments_count_in_trace_should_match_nodes_count", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Error!.
-        /// </summary>
-        public static string SID_Error {
-            get {
-                return ResourceManager.GetString("SID_Error", resourceCulture);
             }
         }
         
@@ -1814,33 +1796,6 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Host {
             get {
                 return ResourceManager.GetString("SID_Host", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ±ddd.dddddd°.
-        /// </summary>
-        public static string SID_In_degrees {
-            get {
-                return ResourceManager.GetString("SID_In_degrees", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ±ddd°mm.mmmm′.
-        /// </summary>
-        public static string SID_In_degrees_and_minutes {
-            get {
-                return ResourceManager.GetString("SID_In_degrees_and_minutes", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ±ddd°mm′ss.ss″.
-        /// </summary>
-        public static string SID_In_degrees_minutes_and_seconds {
-            get {
-                return ResourceManager.GetString("SID_In_degrees_minutes_and_seconds", resourceCulture);
             }
         }
         
@@ -2354,15 +2309,6 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Minor {
             get {
                 return ResourceManager.GetString("SID_Minor", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ′.
-        /// </summary>
-        public static string SID_Minute_sign {
-            get {
-                return ResourceManager.GetString("SID_Minute_sign", resourceCulture);
             }
         }
         
@@ -3556,15 +3502,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ″.
-        /// </summary>
-        public static string SID_Second_sign {
-            get {
-                return ResourceManager.GetString("SID_Second_sign", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Second.
         /// </summary>
         public static string SID_SecondF {
@@ -4318,6 +4255,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Unknown_return_code {
             get {
                 return ResourceManager.GetString("SID_Unknown_return_code", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unplug trace.
+        /// </summary>
+        public static string SID_Unplug_trace {
+            get {
+                return ResourceManager.GetString("SID_Unplug_trace", resourceCulture);
             }
         }
         

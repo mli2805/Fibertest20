@@ -17,11 +17,11 @@ namespace Iit.Fibertest.Client
             switch (Mode)
             {
                 case GpsInputMode.Degrees:
-                    return Resources.SID_In_degrees;
+                    return @"±ddd.dddddd°";
                 case GpsInputMode.DegreesAndMinutes:
-                    return Resources.SID_In_degrees_and_minutes;
+                    return @"±ddd°mm.mmmm′";
                 case GpsInputMode.DegreesMinutesAndSeconds:
-                    return Resources.SID_In_degrees_minutes_and_seconds;
+                    return @"±ddd°mm′ss.ss″";
                 default:
                     return "";
             }

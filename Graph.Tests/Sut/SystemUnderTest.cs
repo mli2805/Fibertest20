@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.DataCenterCore;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WcfServiceForClientInterface;
@@ -25,11 +23,7 @@ namespace Graph.Tests
         public ClientPoller Poller { get; }
         public FakeWindowManager FakeWindowManager { get; }
         public WcfServiceForClient WcfServiceForClient { get; }
-        public RtuLeafActions RtuLeafActions { get; }
         public TraceLeafActions TraceLeafActions { get; }
-        public TraceLeafActionsPermissions TraceLeafActionsPermissions { get; }
-        public PortLeafActions PortLeafActions { get; }
-        public CommonActions CommonActions { get; }
         public ShellViewModel ShellVm { get; }
         public int CurrentEventNumber => Poller.CurrentEventNumber;
         public const string Base1625 = @"..\..\Sut\SorFiles\base1625.sor";
@@ -77,62 +71,10 @@ namespace Graph.Tests
             WcfServiceForClient = (WcfServiceForClient) Container.Resolve<IWcfServiceForClient>();
             ShellVm = (ShellViewModel) Container.Resolve<IShell>();
             ReadModel = ShellVm.ReadModel;
-            RtuLeafActions = Container.Resolve<RtuLeafActions>();
             TraceLeafActions = Container.Resolve<TraceLeafActions>();
-            TraceLeafActionsPermissions = Container.Resolve<TraceLeafActionsPermissions>();
-            PortLeafActions = Container.Resolve<PortLeafActions>();
-            CommonActions = Container.Resolve<CommonActions>();
 
             var ev = Container.Resolve<EventStoreService>();
             ev.Init();
-        }
-
-        public Iit.Fibertest.Graph.Trace CreateTraceRtuEmptyTerminal(string title = @"some title")
-        {
-            ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation() {Latitude = 55, Longitude = 30}).Wait();
-            Poller.EventSourcingTick().Wait();
-            var nodeForRtuId = ReadModel.Rtus.Last().NodeId;
-
-            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation()
-            {
-                Type = EquipmentType.EmptyNode,
-                Latitude = 55.1,
-                Longitude = 30.1
-            }).Wait();
-            Poller.EventSourcingTick().Wait();
-            var firstNodeId = ReadModel.Nodes.Last().Id;
-
-            ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation()
-            {
-                Type = EquipmentType.Terminal,
-                Latitude = 55.2,
-                Longitude = 30.2
-            }).Wait();
-            Poller.EventSourcingTick().Wait();
-            var secondNodeId = ReadModel.Nodes.Last().Id;
-
-            ShellVm.ComplyWithRequest(new AddFiber() {Node1 = nodeForRtuId, Node2 = firstNodeId}).Wait();
-            ShellVm.ComplyWithRequest(new AddFiber() {Node1 = firstNodeId, Node2 = secondNodeId}).Wait();
-            Poller.EventSourcingTick().Wait();
-
-            return DefineTrace(secondNodeId, nodeForRtuId, title);
-        }
-
-
-        public Iit.Fibertest.Graph.Trace DefineTrace(Guid lastNodeId, Guid nodeForRtuId, string title = @"some title",
-            int equipmentCount = 1)
-        {
-            FakeWindowManager.RegisterHandler(model =>
-                OneLineMessageBoxAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
-            for (int i = 0; i < equipmentCount; i++)
-            {
-                FakeWindowManager.RegisterHandler(model => TraceContentChoiceHandler(model, Answer.Yes, 0));
-            }
-
-            FakeWindowManager.RegisterHandler(model => AddTraceViewHandler(model, title, "", Answer.Yes));
-            ShellVm.ComplyWithRequest(new RequestAddTrace() {LastNodeId = lastNodeId, NodeWithRtuId = nodeForRtuId});
-            Poller.EventSourcingTick().Wait();
-            return ShellVm.ReadModel.Traces.Last();
         }
 
 

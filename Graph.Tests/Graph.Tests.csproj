@@ -247,8 +247,9 @@
       <DependentUpon>RtuUpdated.feature</DependentUpon>
     </Compile>
     <Compile Include="Sut\Enums\Answer.cs" />
-    <Compile Include="Sut\SutExtensions\OtauAttacher.cs" />
-    <Compile Include="Sut\SutExtensions\BaseRefAssigner.cs" />
+    <Compile Include="Sut\SutExtensions\SceneCreators\BasicScene.cs" />
+    <Compile Include="Sut\SutExtensions\Tools\OtauAttacher.cs" />
+    <Compile Include="Sut\SutExtensions\Tools\BaseRefAssigner.cs" />
     <Compile Include="Sut\Enums\EquipmentChoiceAnswer.cs" />
     <Compile Include="Equipment\EquipmentAdded.feature.cs">
       <AutoGen>True</AutoGen>
@@ -373,24 +374,25 @@
     <Compile Include="Rtu\RtuRemovedSteps.cs">
       <DependentUpon>RtuRemoved.feature</DependentUpon>
     </Compile>
-    <Compile Include="Sut\SutExtensions\RtuInitializer.cs" />
-    <Compile Include="Sut\SutForAddNodeIntoFiber.cs" />
+    <Compile Include="Sut\SutExtensions\Tools\RtuInitializer.cs" />
+    <Compile Include="Sut\SutExtensions\Tools\TraceDefiner.cs" />
+    <Compile Include="Sut\SutExtensions\SceneCreators\SceneForAddNodeIntoFiber.cs" />
     <Compile Include="Sut\SutForEquipment.cs" />
     <Compile Include="Sut\SutForEquipmentAdded.cs" />
     <Compile Include="Sut\SutForEquipmentUpdateRemove.cs" />
-    <Compile Include="Sut\SutForMonitoringStatePictograms.cs" />
+    <Compile Include="Sut\SutExtensions\SceneCreators\SceneForMonitoringStatePictograms.cs" />
     <Compile Include="Sut\SutForRtuRemoved.cs" />
     <Compile Include="Sut\SutForTraceAdded.cs" />
-    <Compile Include="Sut\SutForTraceAttach.cs" />
+    <Compile Include="Sut\SutExtensions\SceneCreators\SceneForTraceAttach.cs" />
     <Compile Include="Sut\SystemUnderTest.cs" />
-    <Compile Include="Sut\SutForTraceCleanRemove.cs" />
-    <Compile Include="Sut\SutExtensions\TraceAttacher.cs" />
-    <Compile Include="TestBench\GpsInputModeChanged.feature.cs">
+    <Compile Include="Sut\SutExtensions\SceneCreators\SceneForTraceCleanRemove.cs" />
+    <Compile Include="Sut\SutExtensions\Tools\TraceAttacher.cs" />
+    <Compile Include="GpsInput\GpsInputModeChanged.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>GpsInputModeChanged.feature</DependentUpon>
     </Compile>
-    <Compile Include="TestBench\GpsInputModeChangedSteps.cs">
+    <Compile Include="GpsInput\GpsInputModeChangedSteps.cs">
       <DependentUpon>GpsInputModeChanged.feature</DependentUpon>
     </Compile>
     <Compile Include="BaseRef\BaseRefAssigned.feature.cs">
@@ -575,7 +577,7 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>RtuUpdatedFromTree.feature.cs</LastGenOutput>
     </None>
-    <None Include="TestBench\GpsInputModeChanged.feature">
+    <None Include="GpsInput\GpsInputModeChanged.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>GpsInputModeChanged.feature.cs</LastGenOutput>
     </None>

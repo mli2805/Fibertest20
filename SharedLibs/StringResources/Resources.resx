@@ -138,9 +138,6 @@
 	<data name="SID_Edit_Equipment" xml:space="preserve">
     <value>Edit Equipment</value>
   </data>
-	<data name="SID_Error" xml:space="preserve">
-    <value>Error!</value>
-  </data>
 	<data name="SID_Last_node_of_trace_must_contain_some_equipment" xml:space="preserve">
     <value>Last node of trace must contain some equipment</value>
   </data>
@@ -392,9 +389,6 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_Measurement__RFTS_Reflect_" xml:space="preserve">
     <value>Measurement (RFTS Reflect)</value>
   </data>
-	<data name="SID_Detach_trace" xml:space="preserve">
-    <value>Detach trace</value>
-  </data>
 	<data name="SID_Not_attached_traces_list" xml:space="preserve">
     <value>Not attached traces list</value>
   </data>
@@ -448,24 +442,6 @@ If chosen trace use some equipment in this node it will be replaced</value>
   </data>
 	<data name="SID_Coordinates" xml:space="preserve">
     <value>Coordinates</value>
-  </data>
-	<data name="SID_In_degrees" xml:space="preserve">
-    <value>±ddd.dddddd°</value>
-  </data>
-	<data name="SID_In_degrees_and_minutes" xml:space="preserve">
-    <value>±ddd°mm.mmmm′</value>
-  </data>
-	<data name="SID_In_degrees_minutes_and_seconds" xml:space="preserve">
-    <value>±ddd°mm′ss.ss″</value>
-  </data>
-	<data name="SID_Degree_sign" xml:space="preserve">
-    <value>°</value>
-  </data>
-	<data name="SID_Minute_sign" xml:space="preserve">
-    <value>′</value>
-  </data>
-	<data name="SID_Second_sign" xml:space="preserve">
-    <value>″</value>
   </data>
 	<data name="SID_Host" xml:space="preserve">
     <value>Host</value>
@@ -1606,5 +1582,8 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID_There_are_no_thresholds_for_comparison" xml:space="preserve">
     <value>There are no thresholds for comparison</value>
+  </data>
+	<data name="SID_Unplug_trace" xml:space="preserve">
+    <value>Unplug trace</value>
   </data>
 </root>

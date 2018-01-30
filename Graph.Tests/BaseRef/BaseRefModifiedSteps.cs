@@ -16,7 +16,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class BaseRefModifiedSteps
     {
-        private SutForTraceAttach _sut = new SutForTraceAttach();
+        private SystemUnderTest _sut = new SystemUnderTest();
         private Iit.Fibertest.Graph.Rtu _rtu;
         private Iit.Fibertest.Graph.Trace _trace;
         private List<BaseRefDto> _baseRefs;
