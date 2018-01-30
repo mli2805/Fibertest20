@@ -32,11 +32,11 @@ namespace Graph.Tests
         public CommonActions CommonActions { get; }
         public ShellViewModel ShellVm { get; }
         public int CurrentEventNumber => Poller.CurrentEventNumber;
-        public const string Base1625 = @"..\..\Sut\BaseRefs\base1625.sor";
-        public const string Base1625Lm3 = @"..\..\Sut\BaseRefs\base1625-3lm.sor";
-        public const string Base1550Lm2NoThresholds = @"..\..\Sut\BaseRefs\base1550-2lm-no-thresholds.sor";
-        public const string Base1550Lm4YesThresholds = @"..\..\Sut\BaseRefs\base1550-4lm-3-thresholds.sor";
-        public const string Base1550Lm2YesThresholds = @"..\..\Sut\BaseRefs\base1550-2lm-3-thresholds.sor";
+        public const string Base1625 = @"..\..\Sut\SorFiles\base1625.sor";
+        public const string Base1625Lm3 = @"..\..\Sut\SorFiles\base1625-3lm.sor";
+        public const string Base1550Lm2NoThresholds = @"..\..\Sut\SorFiles\base1550-2lm-no-thresholds.sor";
+        public const string Base1550Lm4YesThresholds = @"..\..\Sut\SorFiles\base1550-4lm-3-thresholds.sor";
+        public const string Base1550Lm2YesThresholds = @"..\..\Sut\SorFiles\base1550-2lm-3-thresholds.sor";
 
         public SystemUnderTest()
         {

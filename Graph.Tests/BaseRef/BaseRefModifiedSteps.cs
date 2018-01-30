@@ -86,7 +86,7 @@ namespace Graph.Tests
         {
             var vm = _sut.Container.Resolve<BaseRefsAssignViewModel>();
             vm.Initialize(_trace);
-            vm.PreciseBaseFilename = @"..\..\Sut\BaseRefs\base1550-4lm-3-thresholds.sor";
+            vm.PreciseBaseFilename = SystemUnderTest.Base1550Lm4YesThresholds;
             _baseRefs = vm.GetBaseRefChangesList();
         }
 
