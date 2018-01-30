@@ -384,6 +384,7 @@
     <Compile Include="Sut\SutForTraceAttach.cs" />
     <Compile Include="Sut\SystemUnderTest.cs" />
     <Compile Include="Sut\SutForTraceCleanRemove.cs" />
+    <Compile Include="Sut\SutExtensions\TraceAttacher.cs" />
     <Compile Include="TestBench\GpsInputModeChanged.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
