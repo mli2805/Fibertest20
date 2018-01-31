@@ -56,16 +56,16 @@ namespace Graph.Tests
             var equipment = _sut.ReadModel.Equipments.Last();
 
             equipment.NodeId.Should().Be(_sut.NodeId);
-            equipment.Title.Should().Be(SutForEquipment.NewTitleForTest);
-            equipment.Type.Should().Be(SutForEquipment.NewTypeForTest);
-            equipment.CableReserveLeft.Should().Be(SutForEquipment.NewLeftCableReserve);
-            equipment.CableReserveRight.Should().Be(SutForEquipment.NewRightCableReserve);
-            equipment.Comment.Should().Be(SutForEquipment.NewCommentForTest);
+            equipment.Title.Should().Be(SystemUnderTest.NewTitleForTest);
+            equipment.Type.Should().Be(SystemUnderTest.NewTypeForTest);
+            equipment.CableReserveLeft.Should().Be(SystemUnderTest.NewLeftCableReserve);
+            equipment.CableReserveRight.Should().Be(SystemUnderTest.NewRightCableReserve);
+            equipment.Comment.Should().Be(SystemUnderTest.NewCommentForTest);
 
             var item = _nodeUpdateViewModel.EquipmentsInNode.First(it => it.Id == equipment.Id);
-            item.Title.Should().Be(SutForEquipment.NewTitleForTest);
-            item.Type.Should().Be(SutForEquipment.NewTypeForTest.ToLocalizedString());
-            item.Comment.Should().Be(SutForEquipment.NewCommentForTest);
+            item.Title.Should().Be(SystemUnderTest.NewTitleForTest);
+            item.Type.Should().Be(SystemUnderTest.NewTypeForTest.ToLocalizedString());
+            item.Comment.Should().Be(SystemUnderTest.NewCommentForTest);
             item.Traces.Should().Be(_sut.ReadModel.Traces.First(t => t.Id == _sut.TraceWithoutEqId).Title+@" ;  ");
 
             _sut.ReadModel.Equipments.FirstOrDefault(e => e.Id == Guid.Empty).Should().BeNull();

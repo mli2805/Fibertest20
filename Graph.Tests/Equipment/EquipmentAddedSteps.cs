@@ -106,11 +106,11 @@ namespace Graph.Tests
 
             var equipment = _sut.ReadModel.Equipments.First(e => e.NodeId == _sut.NodeId && e.Id != _sut.OldEquipmentId && e.Type != EquipmentType.EmptyNode);
 
-            equipment.Title.Should().Be(SutForEquipment.NewTitleForTest);
-            equipment.Type.Should().Be(SutForEquipment.NewTypeForTest);
-            equipment.CableReserveLeft.Should().Be(SutForEquipment.NewLeftCableReserve);
-            equipment.CableReserveRight.Should().Be(SutForEquipment.NewRightCableReserve);
-            equipment.Comment.Should().Be(SutForEquipment.NewCommentForTest);
+            equipment.Title.Should().Be(SystemUnderTest.NewTitleForTest);
+            equipment.Type.Should().Be(SystemUnderTest.NewTypeForTest);
+            equipment.CableReserveLeft.Should().Be(SystemUnderTest.NewLeftCableReserve);
+            equipment.CableReserveRight.Should().Be(SystemUnderTest.NewRightCableReserve);
+            equipment.Comment.Should().Be(SystemUnderTest.NewCommentForTest);
             _sut.ReadModel.Equipments.FirstOrDefault(e => e.Id == Guid.Empty).Should().BeNull();
 
             _equipmentId = equipment.Id;

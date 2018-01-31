@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Autofac;
+﻿using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.DatabaseLibrary;
@@ -25,6 +23,13 @@ namespace Graph.Tests
         public WcfServiceForClient WcfServiceForClient { get; }
         public ShellViewModel ShellVm { get; }
         public int CurrentEventNumber => Poller.CurrentEventNumber;
+
+        public const string NewTitleForTest = "New name for old equipment";
+        public const EquipmentType NewTypeForTest = EquipmentType.Cross;
+        public const int NewLeftCableReserve = 15;
+        public const int NewRightCableReserve = 7;
+        public const string NewCommentForTest = "New comment for old equipment";
+
         public const string Base1625 = @"..\..\Sut\SorFiles\base1625.sor";
         public const string Base1625Lm3 = @"..\..\Sut\SorFiles\base1625-3lm.sor";
         public const string Base1550Lm2NoThresholds = @"..\..\Sut\SorFiles\base1550-2lm-no-thresholds.sor";
@@ -73,130 +78,6 @@ namespace Graph.Tests
 
             var ev = Container.Resolve<EventStoreService>();
             ev.Init();
-        }
-
-
-        public bool OneLineMessageBoxAnswer(string question, Answer answer, object model)
-        {
-            if (!(model is MyMessageBoxViewModel vm)) return false;
-            if (vm.Lines[0].Line != question) return false;
-            if (answer == Answer.Yes)
-                vm.OkButton();
-            else
-                vm.CancelButton();
-            return true;
-        }
-
-        public bool ManyLinesMessageBoxAnswer(Answer answer, object model)
-        {
-            if (!(model is MyMessageBoxViewModel vm)) return false;
-            if (answer == Answer.Yes)
-                vm.OkButton();
-            else
-                vm.CancelButton();
-            return true;
-        }
-
-        public bool NodeUpdateHandler(object model, string title, string comment, Answer button)
-        {
-            if (!(model is NodeUpdateViewModel vm)) return false;
-            if (title != null)
-                vm.Title = title;
-            if (comment != null)
-                vm.Comment = comment;
-            if (button == Answer.Yes)
-                vm.Save();
-            else
-                vm.Cancel();
-            return true;
-        }
-
-        public bool RtuUpdateHandler(object model, string title, string comment, Answer button)
-        {
-            if (!(model is RtuUpdateViewModel vm)) return false;
-            if (title != null)
-                vm.Title = title;
-            if (comment != null)
-                vm.Comment = comment;
-            if (button == Answer.Yes)
-                vm.Save();
-            else
-                vm.Cancel();
-            return true;
-        }
-
-        public bool TraceContentChoiceHandler(object model, Answer button, int selectedOptionNumber)
-        {
-            var vm = model as TraceContentChoiceViewModel;
-            if (vm == null) return false;
-            if (button == Answer.Yes)
-            {
-                vm.Choices[selectedOptionNumber].IsSelected = true;
-                vm.NextButton();
-            }
-            else
-            {
-                vm.CancelButton();
-            }
-
-            return true;
-        }
-
-        public bool AddTraceViewHandler(object model, string title, string comment, Answer button)
-        {
-            var vm = model as TraceInfoViewModel;
-            if (vm == null) return false;
-            vm.Model.Title = title;
-            vm.Model.Comment = comment;
-            if (button == Answer.Yes)
-                vm.Save();
-            else
-                vm.Cancel();
-            return true;
-        }
-
-        public bool TraceChoiceHandler(object model, List<Guid> chosenTraces, Answer answer)
-        {
-            var vm = model as TraceChoiceViewModel;
-            if (vm == null) return false;
-            foreach (var chosenTrace in chosenTraces)
-            {
-                foreach (var checkbox in vm.Choices)
-                {
-                    if (checkbox.Id == chosenTrace)
-                        checkbox.IsChecked = true;
-                }
-            }
-
-            if (answer == Answer.Yes)
-                vm.Accept();
-            else
-                vm.Cancel();
-            return true;
-        }
-
-        public bool FiberWithNodesAdditionHandler(object model, int count, EquipmentType type, Answer answer)
-        {
-            var vm = model as FiberWithNodesAddViewModel;
-            if (vm == null) return false;
-            vm.Count = count;
-            vm.SetSelectedType(type);
-            if (answer == Answer.Yes)
-                vm.Save();
-            else
-                vm.Cancel();
-            return true;
-        }
-
-        public bool FiberUpdateHandler(object model, Answer answer)
-        {
-            var vm = model as FiberUpdateViewModel;
-            if (vm == null) return false;
-            if (answer == Answer.Yes)
-                vm.Save();
-            else
-                vm.Cancel();
-            return true;
         }
     }
 }

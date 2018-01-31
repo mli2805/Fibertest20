@@ -6,7 +6,7 @@ using Iit.Fibertest.StringResources;
 
 namespace Graph.Tests
 {
-    public class SutForEquipmentAdded : SutForEquipment
+    public class SutForEquipmentAdded : SystemUnderTest
     {
         private Guid _rtuNodeId, _anotherNodeId, _anotherNodeId2;
         public Guid OldEquipmentId;
@@ -49,10 +49,10 @@ namespace Graph.Tests
 
         public void SetShortTrace()
         {
-            FakeWindowManager.RegisterHandler(model => OneLineMessageBoxAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
-            FakeWindowManager.RegisterHandler(model => TraceContentChoiceHandler(model, Answer.Yes, 0));
+            FakeWindowManager.RegisterHandler(model => this.OneLineMessageBoxAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
+            FakeWindowManager.RegisterHandler(model => this.TraceContentChoiceHandler(model, Answer.Yes, 0));
             FakeWindowManager.RegisterHandler(
-                model => AddTraceViewHandler(model, @"short trace", "", Answer.Yes));
+                model => this.AddTraceViewHandler(model, @"short trace", "", Answer.Yes));
 
             ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = NodeId, NodeWithRtuId = _rtuNodeId });
             Poller.EventSourcingTick().Wait();
@@ -61,11 +61,11 @@ namespace Graph.Tests
 
         public void SetLongTraceWithEquipment()
         {
-            FakeWindowManager.RegisterHandler(model => OneLineMessageBoxAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
-            FakeWindowManager.RegisterHandler(model => TraceContentChoiceHandler(model, Answer.Yes, 0));
-            FakeWindowManager.RegisterHandler(model => TraceContentChoiceHandler(model, Answer.Yes, 0));
+            FakeWindowManager.RegisterHandler(model => this.OneLineMessageBoxAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
+            FakeWindowManager.RegisterHandler(model => this.TraceContentChoiceHandler(model, Answer.Yes, 0));
+            FakeWindowManager.RegisterHandler(model => this.TraceContentChoiceHandler(model, Answer.Yes, 0));
             FakeWindowManager.RegisterHandler(
-                model => AddTraceViewHandler(model, @"trace with eq", "", Answer.Yes));
+                model => this.AddTraceViewHandler(model, @"trace with eq", "", Answer.Yes));
 
             ShellVm.ComplyWithRequest(new RequestAddTrace()
             {
@@ -78,11 +78,11 @@ namespace Graph.Tests
 
         public void SetLongTraceWithoutEquipment()
         {
-            FakeWindowManager.RegisterHandler(model => OneLineMessageBoxAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
-            FakeWindowManager.RegisterHandler(model => TraceContentChoiceHandler(model, Answer.Yes, 1));
-            FakeWindowManager.RegisterHandler(model => TraceContentChoiceHandler(model, Answer.Yes, 0));
+            FakeWindowManager.RegisterHandler(model => this.OneLineMessageBoxAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
+            FakeWindowManager.RegisterHandler(model => this.TraceContentChoiceHandler(model, Answer.Yes, 1));
+            FakeWindowManager.RegisterHandler(model => this.TraceContentChoiceHandler(model, Answer.Yes, 0));
             FakeWindowManager.RegisterHandler(
-                model => AddTraceViewHandler(model, @"trace without eq", "", Answer.Yes));
+                model => this.AddTraceViewHandler(model, @"trace without eq", "", Answer.Yes));
 
             ShellVm.ComplyWithRequest(new RequestAddTrace()
             {

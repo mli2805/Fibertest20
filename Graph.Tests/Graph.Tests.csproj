@@ -247,6 +247,7 @@
       <DependentUpon>RtuUpdated.feature</DependentUpon>
     </Compile>
     <Compile Include="Sut\Enums\Answer.cs" />
+    <Compile Include="Sut\Handlers.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\BasicScene.cs" />
     <Compile Include="Sut\SutExtensions\Tools\OtauAttacher.cs" />
     <Compile Include="Sut\SutExtensions\Tools\BaseRefAssigner.cs" />
@@ -377,7 +378,6 @@
     <Compile Include="Sut\SutExtensions\Tools\RtuInitializer.cs" />
     <Compile Include="Sut\SutExtensions\Tools\TraceDefiner.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForAddNodeIntoFiber.cs" />
-    <Compile Include="Sut\SutForEquipment.cs" />
     <Compile Include="Sut\SutForEquipmentAdded.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForEquipmentUpdateRemove.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForMonitoringStatePictograms.cs" />

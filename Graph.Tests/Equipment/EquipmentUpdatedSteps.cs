@@ -10,7 +10,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class EquipmentUpdatedSteps
     {
-        private readonly SutForEquipment _sut = new SutForEquipment();
+        private readonly SystemUnderTest _sut = new SystemUnderTest();
         private Guid _nodeAId, _equipmentA1Id;
         private Guid _nodeBId, _equipmentB1Id;
         private Iit.Fibertest.Graph.Trace _trace;
@@ -90,11 +90,11 @@ namespace Graph.Tests
         [Then(@"Все должно быть сохранено")]
         public void ThenВсеДолжноБытьСохранено()
         {
-            _equipment.Title.Should().Be(SutForEquipment.NewTitleForTest);
-            _equipment.Type.Should().Be(SutForEquipment.NewTypeForTest);
-            _equipment.CableReserveLeft.Should().Be(SutForEquipment.NewLeftCableReserve);
-            _equipment.CableReserveRight.Should().Be(SutForEquipment.NewRightCableReserve);
-            _equipment.Comment.Should().Be(SutForEquipment.NewCommentForTest);
+            _equipment.Title.Should().Be(SystemUnderTest.NewTitleForTest);
+            _equipment.Type.Should().Be(SystemUnderTest.NewTypeForTest);
+            _equipment.CableReserveLeft.Should().Be(SystemUnderTest.NewLeftCableReserve);
+            _equipment.CableReserveRight.Should().Be(SystemUnderTest.NewRightCableReserve);
+            _equipment.Comment.Should().Be(SystemUnderTest.NewCommentForTest);
             _sut.ReadModel.Equipments.FirstOrDefault(e => e.Id == Guid.Empty).Should().BeNull();
         }
 
@@ -103,11 +103,11 @@ namespace Graph.Tests
         {
             _sut.Poller.CurrentEventNumber.Should().Be(_cutOff);
 
-            _equipment.Title.Should().NotBe(SutForEquipment.NewTitleForTest);
-            _equipment.Type.Should().NotBe(SutForEquipment.NewTypeForTest);
-            _equipment.CableReserveLeft.Should().NotBe(SutForEquipment.NewLeftCableReserve);
-            _equipment.CableReserveRight.Should().NotBe(SutForEquipment.NewRightCableReserve);
-            _equipment.Comment.Should().NotBe(SutForEquipment.NewCommentForTest);
+            _equipment.Title.Should().NotBe(SystemUnderTest.NewTitleForTest);
+            _equipment.Type.Should().NotBe(SystemUnderTest.NewTypeForTest);
+            _equipment.CableReserveLeft.Should().NotBe(SystemUnderTest.NewLeftCableReserve);
+            _equipment.CableReserveRight.Should().NotBe(SystemUnderTest.NewRightCableReserve);
+            _equipment.Comment.Should().NotBe(SystemUnderTest.NewCommentForTest);
         }
     }
 }
