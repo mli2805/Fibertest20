@@ -10,7 +10,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class EquipmentUpdatedSteps
     {
-        private readonly SutForEquipmentUpdateRemove _sut = new SutForEquipmentUpdateRemove();
+        private readonly SutForEquipment _sut = new SutForEquipment();
         private Guid _nodeAId, _equipmentA1Id;
         private Guid _nodeBId, _equipmentB1Id;
         private Iit.Fibertest.Graph.Trace _trace;

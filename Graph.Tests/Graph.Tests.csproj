@@ -379,7 +379,7 @@
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForAddNodeIntoFiber.cs" />
     <Compile Include="Sut\SutForEquipment.cs" />
     <Compile Include="Sut\SutForEquipmentAdded.cs" />
-    <Compile Include="Sut\SutForEquipmentUpdateRemove.cs" />
+    <Compile Include="Sut\SutExtensions\SceneCreators\SceneForEquipmentUpdateRemove.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForMonitoringStatePictograms.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForRtuRemoved.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForTraceAdded.cs" />
