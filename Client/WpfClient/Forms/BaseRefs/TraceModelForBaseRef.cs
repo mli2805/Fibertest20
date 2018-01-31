@@ -6,6 +6,6 @@ namespace Iit.Fibertest.Client
     {
         public Node[] NodeArray;
         public Equipment[] EquipArray;
-        public int[] Distances;
+        public int[] DistancesMm;
     }
 }

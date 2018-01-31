@@ -7,9 +7,7 @@ namespace Iit.Fibertest.Client
     public class BaseRefAdjuster
     {
         private readonly TraceModelBuilder _traceModelBuilder;
-
         private OtdrDataKnownBlocks _otdrDataKnownBlocks;
-
 
         public BaseRefAdjuster(TraceModelBuilder traceModelBuilder)
         {
@@ -19,8 +17,7 @@ namespace Iit.Fibertest.Client
         public void AddLandmarksForEmptyNodes(OtdrDataKnownBlocks otdrDataKnownBlocks, Trace trace)
         {
             _otdrDataKnownBlocks = otdrDataKnownBlocks;
-            var originalModel = _traceModelBuilder.GetModel(trace);
-            var modelWithoutAdjustmentPoint = _traceModelBuilder.ExcludeAdjustmentPoints(originalModel);
+            var modelWithoutAdjustmentPoint = _traceModelBuilder.GetTraceModelWithoutAdjustmentPoints(trace);
 
             InsertLandmarks(modelWithoutAdjustmentPoint);
             SetLandmarksLocation(modelWithoutAdjustmentPoint);
@@ -56,7 +53,7 @@ namespace Iit.Fibertest.Client
                 if (landmarks[i].Location != 0) continue;
 
                 var ratio = GetRatioBaseRefToGraphAroundEmptyNode(model, i);
-                landmarks[i].Location = landmarks[i - 1].Location + _otdrDataKnownBlocks.GetOwtFromMm((int)(model.Distances[i-1] * ratio));
+                landmarks[i].Location = landmarks[i - 1].Location + _otdrDataKnownBlocks.GetOwtFromMm((int)(model.DistancesMm[i-1] * ratio));
             }
         }
         
@@ -77,9 +74,9 @@ namespace Iit.Fibertest.Client
         private int GetDistanceBetweenRealEquipmentsOnGraphMm(TraceModelForBaseRef model, int leftEquipmentIndex, int rightEquipmentIndex)
         {
             if (rightEquipmentIndex - leftEquipmentIndex == 1)
-                return model.Distances[leftEquipmentIndex];
+                return model.DistancesMm[leftEquipmentIndex];
 
-            return model.Distances[leftEquipmentIndex] +
+            return model.DistancesMm[leftEquipmentIndex] +
                        GetDistanceBetweenRealEquipmentsOnGraphMm(model, leftEquipmentIndex + 1, rightEquipmentIndex);
         }
        

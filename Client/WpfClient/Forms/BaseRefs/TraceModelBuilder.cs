@@ -15,7 +15,13 @@ namespace Iit.Fibertest.Client
             _graphGpsCalculator = graphGpsCalculator;
         }
 
-        public TraceModelForBaseRef GetModel(Trace trace)
+        public TraceModelForBaseRef GetTraceModelWithoutAdjustmentPoints(Trace trace)
+        {
+            var fullModel = GetTraceModel(trace);
+            return ExcludeAdjustmentPoints(fullModel);
+        }
+
+        private TraceModelForBaseRef GetTraceModel(Trace trace)
         {
             var nodes = _readModel.GetTraceNodes(trace).ToArray();
             var equipList =
@@ -36,11 +42,11 @@ namespace Iit.Fibertest.Client
             {
                 NodeArray = nodes,
                 EquipArray = equipList.ToArray(),
-                Distances = distances
+                DistancesMm = distances
             };
         }
 
-        public TraceModelForBaseRef ExcludeAdjustmentPoints(TraceModelForBaseRef originalModel)
+        private TraceModelForBaseRef ExcludeAdjustmentPoints(TraceModelForBaseRef originalModel)
         {
             var nodes = new List<Node>(){originalModel.NodeArray[0]};
             var equipments = new List<Equipment>(){originalModel.EquipArray[0]};
@@ -53,12 +59,12 @@ namespace Iit.Fibertest.Client
                 {
                     nodes.Add(originalModel.NodeArray[i]);
                     equipments.Add(originalModel.EquipArray[i]);
-                    distances.Add(originalModel.Distances[i-1] + distance);
+                    distances.Add(originalModel.DistancesMm[i-1] + distance);
                     distance = 0;
                 }
                 else
                 {
-                    distance = distance + originalModel.Distances[i];
+                    distance = distance + originalModel.DistancesMm[i];
                 }
             }
 
@@ -66,7 +72,7 @@ namespace Iit.Fibertest.Client
             {
                 NodeArray = nodes.ToArray(),
                 EquipArray = equipments.ToArray(),
-                Distances = distances.ToArray(),
+                DistancesMm = distances.ToArray(),
             };
         }
 
