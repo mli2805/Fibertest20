@@ -10,10 +10,12 @@ namespace Iit.Fibertest.DatabaseLibrary
 {
     public class ClientStationsRepository
     {
+        private readonly ISettings _settings;
         private readonly IMyLog _logFile;
 
-        public ClientStationsRepository(IMyLog logFile)
+        public ClientStationsRepository(ISettings settings, IMyLog logFile)
         {
+            _settings = settings;
             _logFile = logFile;
         }
 
@@ -42,7 +44,7 @@ namespace Iit.Fibertest.DatabaseLibrary
 
         private async Task<User> CheckUserPasswordAsync(RegisterClientDto dto)
         {
-            using (var dbContext = new FtDbContext())
+            using (var dbContext = new FtDbContext(_settings.MySqlConString))
             {
                 try
                 {
@@ -65,7 +67,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                using (var dbContext = new FtDbContext())
+                using (var dbContext = new FtDbContext(_settings.MySqlConString))
                 {
                     var station = dbContext.ClientStations.FirstOrDefault(s => s.ClientGuid == dto.ClientId);
                     if (station != null)
@@ -89,7 +91,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             var result = new ClientRegisteredDto();
             try
             {
-                using (var dbContext = new FtDbContext())
+                using (var dbContext = new FtDbContext(_settings.MySqlConString))
                 {
                     if (dbContext.ClientStations.Any(s => s.UserId == user.Id && s.ClientGuid != dto.ClientId))
                     {
@@ -169,7 +171,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                using (var dbContext = new FtDbContext())
+                using (var dbContext = new FtDbContext(_settings.MySqlConString))
                 {
                     var station = dbContext.ClientStations.FirstOrDefault(s => s.ClientGuid == dto.ClientId);
                     if (station == null)
@@ -195,7 +197,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                using (var dbContext = new FtDbContext())
+                using (var dbContext = new FtDbContext(_settings.MySqlConString))
                 {
                     dbContext.ClientStations.RemoveRange(dbContext.ClientStations);
                     return await dbContext.SaveChangesAsync();
@@ -212,7 +214,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                using (var dbContext = new FtDbContext())
+                using (var dbContext = new FtDbContext(_settings.MySqlConString))
                 {
                     DateTime noLaterThan = DateTime.Now - timeSpan;
                     var deadStations = dbContext.ClientStations.Where(s => s.LastConnectionTimestamp < noLaterThan).ToList();
@@ -236,7 +238,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                using (var dbContext = new FtDbContext())
+                using (var dbContext = new FtDbContext(_settings.MySqlConString))
                 {
                     var clientStations = clientId == null 
                         ? await dbContext.ClientStations.ToListAsync() 

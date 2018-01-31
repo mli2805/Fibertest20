@@ -49,6 +49,8 @@ namespace Graph.Tests
             builder.RegisterType<FakeEventStoreInitializer>().As<IEventStoreInitializer>().SingleInstance();
             builder.RegisterType<EventStoreService>().SingleInstance();
 
+            builder.RegisterType<TestSettings>().As<ISettings>().SingleInstance();
+
             builder.RegisterType<ClientStationsRepository>().SingleInstance();
             builder.RegisterType<RtuStationsRepository>().SingleInstance();
             builder.RegisterType<ClientToRtuTransmitter>().SingleInstance();

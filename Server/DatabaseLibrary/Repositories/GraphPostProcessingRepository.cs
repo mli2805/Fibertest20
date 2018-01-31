@@ -8,10 +8,12 @@ namespace Iit.Fibertest.DatabaseLibrary
 {
     public class GraphPostProcessingRepository
     {
+        private readonly ISettings _settings;
         private readonly IMyLog _logFile;
 
-        public GraphPostProcessingRepository(IMyLog logFile)
+        public GraphPostProcessingRepository(ISettings settings, IMyLog logFile)
         {
+            _settings = settings;
             _logFile = logFile;
         }
 
@@ -19,7 +21,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                using (var dbContext = new FtDbContext())
+                using (var dbContext = new FtDbContext(_settings.MySqlConString))
                 {
                     var baseRefsList = await dbContext.BaseRefs.Where(m => m.TraceId == traceId).ToListAsync();
                     dbContext.BaseRefs.RemoveRange(baseRefsList);

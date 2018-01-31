@@ -44,6 +44,8 @@ namespace Iit.Fibertest.DataCenterService
 
             builder.RegisterType<D2RWcfManager>().As<ID2RWcfManager>().SingleInstance();
 
+            builder.RegisterType<ServerSettings>().As<ISettings>().SingleInstance();
+
             builder.RegisterType<WcfServiceForClient>().As<IWcfServiceForClient>().SingleInstance();
             builder.RegisterType<WcfServiceForClientBootstrapper>().SingleInstance();
             builder.RegisterType<WcfServiceForRtu>().As<IWcfServiceForRtu>().SingleInstance();

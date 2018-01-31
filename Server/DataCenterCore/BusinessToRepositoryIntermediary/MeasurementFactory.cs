@@ -8,10 +8,12 @@ namespace Iit.Fibertest.DataCenterCore
 {
     public class MeasurementFactory
     {
+        private readonly ISettings _settings;
         private readonly IMyLog _logFile;
 
-        public MeasurementFactory(IMyLog logFile)
+        public MeasurementFactory(ISettings settings, IMyLog logFile)
         {
+            _settings = settings;
             _logFile = logFile;
         }
 
@@ -36,7 +38,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             try
             {
-                var dbContext = new FtDbContext();
+                var dbContext = new FtDbContext(_settings.MySqlConString);
                 var previousMeasurementOnTrace = dbContext.Measurements.Where(ev => ev.TraceId == result.PortWithTrace.TraceId).ToList()
                     .LastOrDefault();
                 if (previousMeasurementOnTrace == null)

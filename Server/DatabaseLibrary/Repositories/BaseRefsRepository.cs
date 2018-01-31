@@ -11,10 +11,12 @@ namespace Iit.Fibertest.DatabaseLibrary
 
     public class BaseRefsRepository
     {
+        private readonly ISettings _settings;
         private readonly IMyLog _logFile;
 
-        public BaseRefsRepository(IMyLog logFile)
+        public BaseRefsRepository(ISettings settings, IMyLog logFile)
         {
+            _settings = settings;
             _logFile = logFile;
         }
 
@@ -23,7 +25,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             var result = new BaseRefAssignedDto();
             try
             {
-                using (var dbContext = new FtDbContext())
+                using (var dbContext = new FtDbContext(_settings.MySqlConString))
                 {
                     foreach (var baseRef in baseRefs)
                     {
@@ -58,7 +60,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             var result = new List<BaseRefDto>();
             try
             {
-                using (var dbContext = new FtDbContext())
+                using (var dbContext = new FtDbContext(_settings.MySqlConString))
                 {
                     var list = await dbContext.BaseRefs.Where(b => b.TraceId == traceId).ToListAsync();
                     result.AddRange(

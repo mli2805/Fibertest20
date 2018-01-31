@@ -7,10 +7,12 @@ namespace Iit.Fibertest.DatabaseLibrary
 {
     public class MonitoringResultsRepository
     {
+        private readonly ISettings _settings;
         private readonly IMyLog _logFile;
 
-        public MonitoringResultsRepository(IMyLog logFile)
+        public MonitoringResultsRepository(ISettings settings, IMyLog logFile)
         {
+            _settings = settings;
             _logFile = logFile;
         }
 
@@ -18,7 +20,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                using (var dbContext = new FtDbContext())
+                using (var dbContext = new FtDbContext(_settings.MySqlConString))
                 {
                     var sorFile = new SorFile() { SorBytes = sorBytes };
                     dbContext.SorFiles.Add(sorFile);

@@ -9,10 +9,12 @@ namespace Iit.Fibertest.DatabaseLibrary
 {
     public class BopNetworkEventsRepository
     {
+        private readonly ISettings _settings;
         private readonly IMyLog _logFile;
 
-        public BopNetworkEventsRepository(IMyLog logFile)
+        public BopNetworkEventsRepository(ISettings settings, IMyLog logFile)
         {
+            _settings = settings;
             _logFile = logFile;
         }
 
@@ -21,7 +23,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             const int pageSize = 200;
             try
             {
-                using (var dbContext = new FtDbContext())
+                using (var dbContext = new FtDbContext(_settings.MySqlConString))
                 {
                     var actualEvents = await dbContext.BopNetworkEvents.GroupBy(p => p.BopId)
                         .Select(e => e.OrderByDescending(p => p.Id).FirstOrDefault()).ToListAsync();

@@ -11,6 +11,8 @@ namespace Iit.Fibertest.DatabaseLibrary
         
         // to use another db engine just set another connection string
         public FtDbContext() : base(MySqlConnectionString) { }
+        public FtDbContext(string connectionString) : base(connectionString) { }
+
 
         public DbSet<User> Users { get; set; }
         public DbSet<ClientStation> ClientStations { get; set; }
@@ -20,5 +22,18 @@ namespace Iit.Fibertest.DatabaseLibrary
         public DbSet<BopNetworkEvent> BopNetworkEvents { get; set; }
         public DbSet<Measurement> Measurements { get; set; }
         public DbSet<SorFile> SorFiles { get; set; }
+    }
+
+    public interface ISettings
+    {
+        string MySqlConString { get; }
+    }
+    public class ServerSettings : ISettings
+    {
+        public string MySqlConString => "server=localhost;user id=root;password=root;database=fibertest20";
+    }
+    public class TestSettings : ISettings
+    {
+        public string MySqlConString => "server=localhost;user id=root;password=root;database=fibertest20fake";
     }
 }

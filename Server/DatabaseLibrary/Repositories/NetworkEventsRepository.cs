@@ -10,10 +10,12 @@ namespace Iit.Fibertest.DatabaseLibrary
 {
     public class NetworkEventsRepository
     {
+        private readonly ISettings _settings;
         private readonly IMyLog _logFile;
 
-        public NetworkEventsRepository(IMyLog logFile)
+        public NetworkEventsRepository(ISettings settings, IMyLog logFile)
         {
+            _settings = settings;
             _logFile = logFile;
         }
 
@@ -22,7 +24,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             const int pageSize = 200;
             try
             {
-                using (var dbContext = new FtDbContext())
+                using (var dbContext = new FtDbContext(_settings.MySqlConString))
                 {
                     var actualEvents = await dbContext.NetworkEvents.GroupBy(p => p.RtuId)
                         .Select(e => e.OrderByDescending(p => p.Id).FirstOrDefault()).ToListAsync();
@@ -41,7 +43,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                using (var dbContext = new FtDbContext())
+                using (var dbContext = new FtDbContext(_settings.MySqlConString))
                 {
                     dbContext.NetworkEvents.AddRange(networkEvents);
                     return await dbContext.SaveChangesAsync();
