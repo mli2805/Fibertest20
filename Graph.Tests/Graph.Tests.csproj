@@ -381,8 +381,8 @@
     <Compile Include="Sut\SutForEquipmentAdded.cs" />
     <Compile Include="Sut\SutForEquipmentUpdateRemove.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForMonitoringStatePictograms.cs" />
-    <Compile Include="Sut\SutForRtuRemoved.cs" />
-    <Compile Include="Sut\SutForTraceAdded.cs" />
+    <Compile Include="Sut\SutExtensions\SceneCreators\SceneForRtuRemoved.cs" />
+    <Compile Include="Sut\SutExtensions\SceneCreators\SceneForTraceAdded.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForTraceAttach.cs" />
     <Compile Include="Sut\SystemUnderTest.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForTraceCleanRemove.cs" />

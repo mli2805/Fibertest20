@@ -70,7 +70,7 @@ namespace Graph.Tests.Rtu
 #line 5
  testRunner.Given("Существуют еще RTU несколько узлов и отрезки между ними", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 6
- testRunner.Given("Существует трасса от этого РТУ", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Существует трасса от первого РТУ", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 7
  testRunner.Given("Существует трасса от второго РТУ последние отрезки трасс совпадают", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden

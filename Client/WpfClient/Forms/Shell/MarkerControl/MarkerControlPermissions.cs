@@ -45,7 +45,16 @@ namespace Iit.Fibertest.Client
 
         // only for RTU
         public bool CanUpdateRtu(object parameter) { return true; }
-        public bool CanRemoveRtu(object parameter) { return true; }
+
+        public bool CanRemoveRtu(object parameter)
+        {
+            if (_currentUser.Role > Role.Root || parameter == null)
+                return false;
+            var rtuVm = _marker.Owner.GraphReadModel.Rtus.FirstOrDefault(r => r.Node.Id == (Guid) parameter);
+            if (rtuVm == null) return false;
+
+            return !_marker.Owner.GraphReadModel.Traces.Any(t => t.RtuId == rtuVm.Id && t.Port > 0);
+        }
         public bool CanStartDefineTrace(object parameter) { return true; }
         public bool CanStartDefineTraceStepByStep(object parameter) { return false; }
 

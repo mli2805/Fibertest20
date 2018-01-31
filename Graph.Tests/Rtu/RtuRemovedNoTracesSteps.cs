@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.StringResources;
@@ -10,26 +9,26 @@ namespace Graph.Tests
     [Binding]
     public sealed class RtuRemovedNoTracesSteps
     {
-        private readonly SutForRtuRemoved _sut = new SutForRtuRemoved();
-        private Guid _rtuId;
+        private readonly SystemUnderTest _sut = new SystemUnderTest();
+        private Iit.Fibertest.Graph.Rtu _rtu;
         private RtuLeaf _rtuLeaf;
 
         [Given(@"Существует РТУ для удаления")]
         public void GivenСуществуетРтуДляУдаления()
         {
-            _rtuId = _sut.CreateRtu();
-            _rtuLeaf = (RtuLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.First(r => r.Id == _rtuId);
+            _rtu = _sut.CreateRtuA();
+            _rtuLeaf = (RtuLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.First(r => r.Id == _rtu.Id);
         }
         [Given(@"Существуют еще несколько узлов и отрезки между ними")]
         public void GivenСуществуютЕщеНесколькоУзловИОтрезкиМеждуНими()
         {
-            _sut.CreateOneRtuAndFewNodesAndFibers();
+            _sut.CreateOneRtuAndFewNodesAndFibers(_rtu.NodeId);
         }
 
         [When(@"Пользователь кликает удалить этот RTU")]
         public void WhenПользовательКликаетУдалитьЭтотRtu()
         {
-            _sut.ShellVm.ComplyWithRequest(new RequestRemoveRtu() { NodeId = _sut.RtuANodeId }).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestRemoveRtu() { NodeId = _rtu.NodeId }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 
@@ -44,16 +43,16 @@ namespace Graph.Tests
         [Then(@"РТУ удаляется")]
         public void ThenРтуУдаляется()
         {
-            _sut.ReadModel.Rtus.FirstOrDefault(r => r.Id == _rtuId).Should().BeNull();
-            _sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.FirstOrDefault(r => r.Id == _rtuId).Should().BeNull();
-            _sut.ShellVm.GraphReadModel.Rtus.FirstOrDefault(r => r.Id == _rtuId).Should().BeNull();
+            _sut.ReadModel.Rtus.FirstOrDefault(r => r.Id == _rtu.Id).Should().BeNull();
+            _sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.FirstOrDefault(r => r.Id == _rtu.Id).Should().BeNull();
+            _sut.ShellVm.GraphReadModel.Rtus.FirstOrDefault(r => r.Id == _rtu.Id).Should().BeNull();
         }
 
         [Then(@"Узел под РТУ и присоединенные к нему отрезки удаляются")]
         public void ThenУзелПодРтуиПрисоединенныеКНемуОтрезкиУдаляются()
         {
-            _sut.ReadModel.Nodes.FirstOrDefault(n => n.Id == _sut.RtuANodeId).Should().Be(null);
-            _sut.ReadModel.Fibers.FirstOrDefault(f => f.Node1 == _sut.RtuANodeId || f.Node2 == _sut.RtuANodeId)
+            _sut.ReadModel.Nodes.FirstOrDefault(n => n.Id == _rtu.NodeId).Should().Be(null);
+            _sut.ReadModel.Fibers.FirstOrDefault(f => f.Node1 == _rtu.NodeId || f.Node2 == _rtu.NodeId)
                 .Should().BeNull();
         }
 

@@ -383,18 +383,17 @@ namespace Iit.Fibertest.Client
 
         public void Apply(TraceAttached evnt)
         {
-            ChangeTraceState(evnt.TraceId, FiberState.Unknown);
+            var traceVm = Traces.First(t => t.Id == evnt.TraceId);
+            traceVm.State = FiberState.Unknown;
+            traceVm.Port = evnt.OtauPortDto.OpticalPort;
+            ApplyTraceStateToFibers(traceVm);
         }
 
         public void Apply(TraceDetached evnt)
         {
-            ChangeTraceState(evnt.TraceId, FiberState.NotJoined);
-        }
-
-        private void ChangeTraceState(Guid traceId, FiberState state)
-        {
-            var traceVm = Traces.First(t => t.Id == traceId);
-            traceVm.State = state;
+            var traceVm = Traces.First(t => t.Id == evnt.TraceId);
+            traceVm.State = FiberState.NotJoined;
+            traceVm.Port = 0;
             ApplyTraceStateToFibers(traceVm);
         }
 

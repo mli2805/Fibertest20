@@ -40,7 +40,7 @@ namespace Graph.Tests
         {
             var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_traceId2);
             _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
-            _sut.TraceLeafActions.CleanTrace(traceLeaf);
+            traceLeaf.MyContextMenu.First(item => item?.Header == Resources.SID_Clean).Command.Execute(traceLeaf);
             _sut.Poller.EventSourcingTick().Wait();
         }
 
@@ -49,7 +49,7 @@ namespace Graph.Tests
         {
             var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_traceId2);
             _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
-            _sut.TraceLeafActions.RemoveTrace(traceLeaf);
+            traceLeaf.MyContextMenu.First(item => item?.Header == Resources.SID_Remove).Command.Execute(traceLeaf);
             _sut.Poller.EventSourcingTick().Wait();
         }
 

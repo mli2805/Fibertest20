@@ -23,7 +23,6 @@ namespace Graph.Tests
         public ClientPoller Poller { get; }
         public FakeWindowManager FakeWindowManager { get; }
         public WcfServiceForClient WcfServiceForClient { get; }
-        public TraceLeafActions TraceLeafActions { get; }
         public ShellViewModel ShellVm { get; }
         public int CurrentEventNumber => Poller.CurrentEventNumber;
         public const string Base1625 = @"..\..\Sut\SorFiles\base1625.sor";
@@ -71,7 +70,6 @@ namespace Graph.Tests
             WcfServiceForClient = (WcfServiceForClient) Container.Resolve<IWcfServiceForClient>();
             ShellVm = (ShellViewModel) Container.Resolve<IShell>();
             ReadModel = ShellVm.ReadModel;
-            TraceLeafActions = Container.Resolve<TraceLeafActions>();
 
             var ev = Container.Resolve<EventStoreService>();
             ev.Init();
