@@ -4,7 +4,7 @@ using Iit.Fibertest.Graph;
 
 namespace Graph.Tests
 {
-    public static class BasicScene
+    public static class SceneBasicTraceRtuEmptyTerminal
     {
         public static Iit.Fibertest.Graph.Trace CreateTraceRtuEmptyTerminal(this SystemUnderTest sut, string title = @"some title")
         {

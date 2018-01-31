@@ -10,27 +10,29 @@ namespace Graph.Tests
     [Binding]
     public sealed class EquipmentAddedOnNodeUpdateSteps
     {
-        private readonly SutForEquipmentAdded _sut = new SutForEquipmentAdded();
+        private readonly SystemUnderTest _sut = new SystemUnderTest();
+        private Iit.Fibertest.Graph.Equipment _oldEquipment;
         private NodeUpdateViewModel _nodeUpdateViewModel;
         private int _cutOff, _itemsCount;
+        private Guid _traceWithoutEqId;
 
         [Given(@"Через узел проходят три трассы")]
         public void GivenЧерезУзелПроходятТриТрассы()
         {
-            _sut.SetThreeTraceThroughNode();
+            _sut.SetThreeTraceThroughNode(out _oldEquipment, out _, out _, out _traceWithoutEqId);
         }
 
         [Given(@"Пользователь открывает форму редактирования узла")]
         public void GivenПользовательОткрываетФормуРедактированияУзла()
         {
-            _nodeUpdateViewModel = new NodeUpdateViewModel(_sut.NodeId, _sut.ReadModel, _sut.FakeWindowManager, _sut.ShellVm.C2DWcfManager);
+            _nodeUpdateViewModel = new NodeUpdateViewModel(_oldEquipment.NodeId, _sut.ReadModel, _sut.FakeWindowManager, _sut.ShellVm.C2DWcfManager);
         }
 
         [When(@"Пользователь жмет добавить оборудование вводит парамы и сохраняет")]
         public void WhenПользовательЖметДобавитьОборудованиеВводитПарамыИСохраняет()
         {
             _sut.FakeWindowManager.RegisterHandler(model =>
-                _sut.TraceChoiceHandler(model, new List<Guid>() { _sut.TraceWithoutEqId }, Answer.Yes));
+                _sut.TraceChoiceHandler(model, new List<Guid>() { _traceWithoutEqId }, Answer.Yes));
             _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentInfoViewModelHandler(model, Answer.Yes));
 
             _nodeUpdateViewModel.AddEquipment().Wait();
@@ -41,7 +43,7 @@ namespace Graph.Tests
         public void WhenПользовательЖметДобавитьОборудованиеВводитПарамыИРезкоОтказываетсяОтСохранения()
         {
             _sut.FakeWindowManager.RegisterHandler(model =>
-                _sut.TraceChoiceHandler(model, new List<Guid>() { _sut.TraceWithoutEqId }, Answer.Yes));
+                _sut.TraceChoiceHandler(model, new List<Guid>() { _traceWithoutEqId }, Answer.Yes));
             _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentInfoViewModelHandler(model, Answer.Cancel));
 
             _cutOff = _sut.Poller.CurrentEventNumber;
@@ -55,7 +57,7 @@ namespace Graph.Tests
         {
             var equipment = _sut.ReadModel.Equipments.Last();
 
-            equipment.NodeId.Should().Be(_sut.NodeId);
+            equipment.NodeId.Should().Be(_oldEquipment.NodeId);
             equipment.Title.Should().Be(SystemUnderTest.NewTitleForTest);
             equipment.Type.Should().Be(SystemUnderTest.NewTypeForTest);
             equipment.CableReserveLeft.Should().Be(SystemUnderTest.NewLeftCableReserve);
@@ -66,7 +68,7 @@ namespace Graph.Tests
             item.Title.Should().Be(SystemUnderTest.NewTitleForTest);
             item.Type.Should().Be(SystemUnderTest.NewTypeForTest.ToLocalizedString());
             item.Comment.Should().Be(SystemUnderTest.NewCommentForTest);
-            item.Traces.Should().Be(_sut.ReadModel.Traces.First(t => t.Id == _sut.TraceWithoutEqId).Title+@" ;  ");
+            item.Traces.Should().Be(_sut.ReadModel.Traces.First(t => t.Id == _traceWithoutEqId).Title+@" ;  ");
 
             _sut.ReadModel.Equipments.FirstOrDefault(e => e.Id == Guid.Empty).Should().BeNull();
         }
