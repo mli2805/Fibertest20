@@ -124,14 +124,21 @@ namespace Graph.Tests
             return true;
         }
 
-        public static bool EquipmentInfoViewModelHandler(this SystemUnderTest sut, object model, Answer button)
+        public static bool EquipmentInfoViewModelHandler(this SystemUnderTest sut, object model, Answer button, 
+            EquipmentType equipmentType = SystemUnderTest.NewTypeForTest, 
+            int cableReserveLeft = SystemUnderTest.NewLeftCableReserve, int cableReserveRight = SystemUnderTest.NewRightCableReserve)
         {
             if (!(model is EquipmentInfoViewModel vm)) return false;
 
             vm.Model.Title = SystemUnderTest.NewTitleForTest;
-            vm.Model.SetSelectedRadioButton(SystemUnderTest.NewTypeForTest);
-            vm.Model.CableReserveLeft = SystemUnderTest.NewLeftCableReserve;
-            vm.Model.CableReserveRight = SystemUnderTest.NewRightCableReserve;
+            vm.Model.SetSelectedRadioButton(equipmentType);
+
+            if (equipmentType == EquipmentType.CableReserve)
+                vm.Model.CableReserveM = cableReserveLeft;
+            else 
+                vm.Model.CableReserveLeft = cableReserveLeft;
+
+            vm.Model.CableReserveRight = cableReserveRight;
             vm.Model.Comment = SystemUnderTest.NewCommentForTest;
 
             if (button == Answer.Yes)

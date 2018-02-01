@@ -39,6 +39,7 @@ namespace Iit.Fibertest.Client
             {
                 // add landmarks into OtdrDataKnownBlocks.LinkParameters for empty nodes
                 _baseRefAdjuster.AddLandmarksForEmptyNodes(otdrKnownBlocks, trace);
+                otdrKnownBlocks.Save(@"..\Temp\baseref.sor");
                 baseRefDto.SorBytes = otdrKnownBlocks.ToBytes();
                 return true;
             }

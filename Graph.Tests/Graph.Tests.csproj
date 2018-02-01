@@ -249,6 +249,7 @@
     <Compile Include="Sut\Enums\Answer.cs" />
     <Compile Include="Sut\SutExtensions\Handlers.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneBasicTraceRtuEmptyTerminal.cs" />
+    <Compile Include="Sut\SutExtensions\SceneCreators\SceneForBaseRefAdjuster.cs" />
     <Compile Include="Sut\SutExtensions\Tools\OtauAttacher.cs" />
     <Compile Include="Sut\SutExtensions\Tools\BaseRefAssigner.cs" />
     <Compile Include="Sut\Enums\EquipmentChoiceAnswer.cs" />
@@ -630,6 +631,10 @@
     <ProjectReference Include="..\Client\WpfCommonViews\WpfCommonViews.csproj">
       <Project>{e98e6cc5-94e4-44b7-af5c-7f4f74746467}</Project>
       <Name>WpfCommonViews</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GMap.NET.Core\GMap.NET.Core.csproj">
+      <Project>{d0c39d9d-bed0-418b-9a5e-713176caf40c}</Project>
+      <Name>GMap.NET.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\RTU\IitOtdrLibrary\IitOtdrLibrary.csproj">
       <Project>{E9122BBB-B015-4710-BDD3-03243EE8CBCD}</Project>

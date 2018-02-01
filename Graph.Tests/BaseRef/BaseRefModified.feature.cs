@@ -82,11 +82,30 @@ this.ScenarioSetup(scenarioInfo);
 #line 5
  testRunner.Given("Существует инициализированный RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 6
- testRunner.And("К нему нарисована трасса1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("К нему нарисована трасса1 с пустыми узлами", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 7
- testRunner.When("Пользователь задает рефлектограмму", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("Пользователь задает рефлектограмму BaseRef1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 8
- testRunner.Then("Перед применением рефлектограмма изменена", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("На рефлектограмму добавляются ориентиры соответствующие пустым узлам Но расстояни" +
+                    "е до ориентиров оборудования не изменяется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 10
+ testRunner.When("Пользователь добавляет точки привязки и двигает их", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 11
+ testRunner.And("Пользователь задает рефлектограмму BaseRef1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 12
+ testRunner.Then("При применении базовой ориентиры пустые узлы оказываются на другом расстоянии", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 13
+ testRunner.And("Расстояние до ориентиров оборудования не изменяется Расстояние до ориентиров пуст" +
+                    "ых узлов правее оборудования не изменяется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 15
+ testRunner.When("Пользователь добавляет кабельный резерв в пустой узел после проверяемого", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 16
+ testRunner.And("Пользователь задает рефлектограмму BaseRef1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 17
+ testRunner.Then("При применении базовой ориентиры для пустых узлов снова сдвигаются", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 18
+ testRunner.And("Расстояние до ориентиров оборудования не изменяется Расстояние до ориентиров пуст" +
+                    "ых узлов правее оборудования не изменяется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }

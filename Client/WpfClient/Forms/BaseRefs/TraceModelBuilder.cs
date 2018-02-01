@@ -35,7 +35,7 @@ namespace Iit.Fibertest.Client
                 if (!fiber.UserInputedLength.Equals(0))
                     distances[i] = (int)fiber.UserInputedLength * 100;
                 else
-                    distances[i] = _graphGpsCalculator.CalculateDistanceBetweenNodesMm(nodes[i], nodes[i + 1]);
+                    distances[i] = _graphGpsCalculator.CalculateDistanceBetweenNodesMm(nodes[i], equipList[i], nodes[i + 1], equipList[i + 1]);
             }
 
             return new TraceModelForBaseRef
