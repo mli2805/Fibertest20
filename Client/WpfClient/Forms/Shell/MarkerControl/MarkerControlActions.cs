@@ -20,7 +20,12 @@ namespace Iit.Fibertest.Client
         }
         public void AskAddEquipment(object parameter)
         {
-            _marker.Owner.GraphReadModel.Request = new RequestAddEquipmentIntoNode() { NodeId = (Guid)parameter };
+            _marker.Owner.GraphReadModel.Request = new RequestAddEquipmentIntoNode() { NodeId = (Guid)parameter, IsCableReserveRequested = false};
+        }
+
+        public void AskAddCableReserve(object parameter)
+        {
+            _marker.Owner.GraphReadModel.Request = new RequestAddEquipmentIntoNode() { NodeId = (Guid)parameter, IsCableReserveRequested = true};
         }
 
         public void AskLandmarks(object parameter)

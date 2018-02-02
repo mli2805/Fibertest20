@@ -11,8 +11,8 @@
         SizeToContent="Height" Width="600" WindowStartupLocation="CenterScreen" 
         d:DataContext="{d:DesignInstance client:NodeUpdateViewModel}"
         FocusManager.FocusedElement="{Binding ElementName=TextBoxTitle}">
-    <StackPanel Orientation="Vertical">
-        <GroupBox Margin="5" Header="{x:Static stringResources:Resources.SID_Node}">
+    <DockPanel>
+        <GroupBox DockPanel.Dock="Top" Margin="5" Header="{x:Static stringResources:Resources.SID_Node}">
             <StackPanel>
                 <DockPanel>
                     <TextBlock DockPanel.Dock="Left" Margin="5" Text="{x:Static stringResources:Resources.SID_Title}" />
@@ -33,7 +33,17 @@
                 </DockPanel>
             </StackPanel>
         </GroupBox>
-        <GroupBox Margin="5" Header="{x:Static stringResources:Resources.SID_Equipment_in_node}">
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="5,15,5,5">
+            <Button Name="Save" Height="25" Width="100" Margin="5"
+                    Content="{x:Static stringResources:Resources.SID_Save}"
+                    IsEnabled="{Binding IsButtonSaveEnabled}" />
+            <Button Name="Cancel" Height="25" Width="100" Content="{x:Static stringResources:Resources.SID_Cancel}" />
+        </StackPanel>
+        <GroupBox DockPanel.Dock="Bottom" Margin="5" Header="{x:Static stringResources:Resources.SID_Traces_in_node}">
+            <ListBox Height="80" Margin="5"
+                     ItemsSource="{Binding TracesInNode}" />
+        </GroupBox>
+        <GroupBox Margin="5" Header="{x:Static stringResources:Resources.SID_In_node_are_placed_}">
             <DockPanel Name="Header" Margin="0,5,0,0">
                 <Grid DockPanel.Dock="Top" Background="AliceBlue" Height="20">
                     <Grid.ColumnDefinitions>
@@ -56,11 +66,11 @@
                     <Label Grid.Column="4" Content="{x:Static stringResources:Resources.SID_Comment}" Margin="0,-5,0,0" />
                     <Label Grid.Column="5" Content="{x:Static stringResources:Resources.SID_Traces}" Margin="0,-5,0,0" />
                 </Grid>
-                <ListBox Height="80" ItemsSource="{Binding EquipmentsInNode}" BorderThickness="0">
+                <ListBox MinHeight="80" ItemsSource="{Binding EquipmentsInNode}" BorderThickness="0">
                     <ListBox.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Header="{x:Static stringResources:Resources.SID_Add}"
-                                      cal:Message.Attach="AddEquipment" />
+                            <MenuItem Header="{x:Static stringResources:Resources.SID_Add_Equipment}" cal:Message.Attach="AddEquipment" />
+                            <MenuItem Header="{x:Static stringResources:Resources.SID_Add_cable_reserve}" cal:Message.Attach="AddCableReserve" />
                         </ContextMenu>
                     </ListBox.ContextMenu>
                     <ListBox.ItemTemplate>
@@ -68,11 +78,12 @@
                             <Grid>
                                 <Grid.ContextMenu>
                                     <ContextMenu>
-                                        <MenuItem Header="{x:Static stringResources:Resources.SID_Update}"
-                                                  cal:Message.Attach="UpdateEquipment" />
-                                        <MenuItem Header="{x:Static stringResources:Resources.SID_Remove}"
-                                                  cal:Message.Attach="RemoveEquipment"
+                                        <MenuItem Header="{x:Static stringResources:Resources.SID_Update}" cal:Message.Attach="UpdateEquipment" />
+                                        <MenuItem Header="{x:Static stringResources:Resources.SID_Remove}" cal:Message.Attach="RemoveEquipment"
                                                   IsEnabled="{Binding IsRemoveEnabled}" />
+                                        <Separator />
+                                        <MenuItem Header="{x:Static stringResources:Resources.SID_Add_Equipment}" cal:Message.Attach="AddEquipment" />
+                                        <MenuItem Header="{x:Static stringResources:Resources.SID_Add_cable_reserve}" cal:Message.Attach="AddCableReserve" />
                                     </ContextMenu>
                                 </Grid.ContextMenu>
                                 <Grid.ColumnDefinitions>
@@ -95,15 +106,5 @@
                 </ListBox>
             </DockPanel>
         </GroupBox>
-        <GroupBox Margin="5" Header="{x:Static stringResources:Resources.SID_Traces_in_node}">
-            <ListBox Height="80" Margin="5"
-                     ItemsSource="{Binding TracesInNode}" />
-        </GroupBox>
-        <StackPanel Orientation="Horizontal" Margin="5,15,5,5">
-            <Button Name="Save" Height="25" Width="100" Margin="5"
-                    Content="{x:Static stringResources:Resources.SID_Save}"
-                    IsEnabled="{Binding IsButtonSaveEnabled}" />
-            <Button Name="Cancel" Height="25" Width="100" Content="{x:Static stringResources:Resources.SID_Cancel}" />
-        </StackPanel>
-    </StackPanel>
+    </DockPanel>
 </Window>

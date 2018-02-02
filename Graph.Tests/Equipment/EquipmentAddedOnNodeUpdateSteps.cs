@@ -35,7 +35,7 @@ namespace Graph.Tests
                 _sut.TraceChoiceHandler(model, new List<Guid>() { _traceWithoutEqId }, Answer.Yes));
             _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentInfoViewModelHandler(model, Answer.Yes));
 
-            _nodeUpdateViewModel.AddEquipment().Wait();
+            _nodeUpdateViewModel.AddEquipmentIntoNode(false).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 
@@ -48,7 +48,7 @@ namespace Graph.Tests
 
             _cutOff = _sut.Poller.CurrentEventNumber;
             _itemsCount = _nodeUpdateViewModel.EquipmentsInNode.Count;
-            _nodeUpdateViewModel.AddEquipment().Wait();
+            _nodeUpdateViewModel.AddEquipmentIntoNode(false).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 

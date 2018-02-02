@@ -112,10 +112,10 @@ namespace Iit.Fibertest.Client
                 Position = new PointLatLng(evnt.Position.Lat, evnt.Position.Lng),
                 
                 State = FiberState.Ok,
-                Type = evnt.IsAdjustmentPoint ? EquipmentType.AdjustmentPoint : EquipmentType.EmptyNode,
+                Type = evnt.InjectionType,
             };
             Nodes.Add(nodeVm);
-            Equipments.Add(new EquipmentVm() { Id = evnt.EquipmentId, Type = evnt.IsAdjustmentPoint ? EquipmentType.AdjustmentPoint : EquipmentType.EmptyNode, Node = nodeVm });
+            Equipments.Add(new EquipmentVm() { Id = evnt.EquipmentId, Type = evnt.InjectionType, Node = nodeVm });
 
             var fiberForDeletion = Fibers.First(f => f.Id == evnt.FiberId);
             AddTwoFibersToNewNode(evnt, fiberForDeletion);

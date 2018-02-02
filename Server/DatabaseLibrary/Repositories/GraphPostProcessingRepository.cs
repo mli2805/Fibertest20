@@ -17,7 +17,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             _logFile = logFile;
         }
 
-        public async Task<string> ProcessTraceRemoved(Guid traceId)
+        public async Task<string> ProcessTraceRemovedAsync(Guid traceId)
         {
             try
             {
@@ -38,7 +38,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
             catch (Exception e)
             {
-                var message = $"ProcessTraceRemoved: {e.Message}";
+                var message = $"ProcessTraceRemovedAsync: {e.Message}";
                 _logFile.AppendLine(message);
                 return message;
             }

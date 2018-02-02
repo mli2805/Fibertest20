@@ -10,7 +10,7 @@ namespace Iit.Fibertest.Graph
         public PointLatLng Position { get; set; }
 
         public Guid EquipmentId { get; set; }
-        public bool IsAdjustmentPoint { get; set; }
+        public EquipmentType InjectionType { get; set; }
 
         public Guid FiberId { get; set; }
         public Guid NewFiberId1 { get; set; }

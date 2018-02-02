@@ -41,7 +41,7 @@ namespace Iit.Fibertest.Client
         public void Apply(NodeIntoFiberAdded e)
         {
             Nodes.Add(new Node() { Id = e.Id, Latitude = e.Position.Lat, Longitude = e.Position.Lng});
-            Equipments.Add(new Equipment(){Id = e.EquipmentId, Type = e.IsAdjustmentPoint ? EquipmentType.AdjustmentPoint : EquipmentType.EmptyNode, NodeId = e.Id});
+            Equipments.Add(new Equipment(){Id = e.EquipmentId, Type = e.InjectionType, NodeId = e.Id});
             AddTwoFibersToNewNode(e);
             FixTracesWhichContainedOldFiber(e);
             Fibers.Remove(Fibers.First(f => f.Id == e.FiberId));

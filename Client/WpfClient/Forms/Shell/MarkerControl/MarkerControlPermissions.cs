@@ -37,6 +37,16 @@ namespace Iit.Fibertest.Client
 
             return equipmentVm.Type != EquipmentType.AdjustmentPoint;
         }
+        public bool CanAddCableReserve(object parameter)
+        {
+            if (_currentUser.Role > Role.Root || parameter == null)
+                return false;
+            var equipmentVm = _marker.Owner.GraphReadModel.Equipments.FirstOrDefault(n => n.Node.Id == (Guid)parameter);
+            if (equipmentVm == null)
+                return false;
+
+            return equipmentVm.Type != EquipmentType.AdjustmentPoint;
+        }
         public bool CanLandmarks(object parameter) { return false; }
         public bool CanRemoveNode(object parameter)
         {

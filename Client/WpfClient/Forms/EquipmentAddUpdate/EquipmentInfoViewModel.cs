@@ -11,29 +11,25 @@ namespace Iit.Fibertest.Client
         public Guid EquipmentId { get; set; }
         public Equipment Equipment { get; }
         public Guid NodeId;
-        private readonly EquipmentViewMode _mode;
+        private readonly ViewMode _mode;
         private readonly IWcfServiceForClient _c2DWcfManager;
 
         public EquipmentInfoModel Model { get; set; } = new EquipmentInfoModel();
-
-        public bool IsClosed { get; set; }
 
         public object Command { get; set; }
 
         // Add
         public EquipmentInfoViewModel(Guid nodeId)
         {
-            _mode = EquipmentViewMode.Add;
+            _mode = ViewMode.Add;
             NodeId = nodeId;
             Model.SetSelectedRadioButton(EquipmentType.Cross);
-
-            IsClosed = false;
         }
 
         // Update
         public EquipmentInfoViewModel(Equipment equipment, IWcfServiceForClient c2DWcfManager)
         {
-            _mode = EquipmentViewMode.Update;
+            _mode = ViewMode.Update;
             Equipment = equipment;
             EquipmentId = equipment.Id;
             NodeId = equipment.NodeId;
@@ -45,20 +41,18 @@ namespace Iit.Fibertest.Client
             Model.Comment = equipment.Comment;
 
             _c2DWcfManager = c2DWcfManager;
-
-            IsClosed = false;
         }
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = _mode == EquipmentViewMode.Add ? Resources.SID_Add_Equipment : Resources.SID_Edit_Equipment;
+            DisplayName = _mode == ViewMode.Add ? Resources.SID_Add_Equipment : Resources.SID_Edit_Equipment;
         }
 
         public async void Save()
         {
             var eqType = Model.GetSelectedRadioButton();
 
-            if (_mode == EquipmentViewMode.Update)
+            if (_mode == ViewMode.Update)
             {
                 var cmd = new UpdateEquipment()
                 {
@@ -73,7 +67,7 @@ namespace Iit.Fibertest.Client
                 await _c2DWcfManager.SendCommandAsObj(cmd);
             }
 
-            if (_mode == EquipmentViewMode.Add)
+            if (_mode == ViewMode.Add)
             {
                 EquipmentId = Guid.NewGuid();
                 var cmd = new AddEquipmentIntoNode()
@@ -82,7 +76,7 @@ namespace Iit.Fibertest.Client
                     NodeId = NodeId,
                     Title = Model.Title,
                     Type = eqType,
-                    CableReserveLeft = eqType == EquipmentType.CableReserve ? Model.CableReserveM : Model.CableReserveLeft,
+                    CableReserveLeft = Model.CableReserveLeft,
                     CableReserveRight = Model.CableReserveRight,
                     Comment = Model.Comment,
                 };
@@ -91,18 +85,13 @@ namespace Iit.Fibertest.Client
                 // would be OUTSIDE amplified with list of trace which use this equipment 
             }
 
-            CloseView();
+            TryClose();
         }
 
         public void Cancel()
         {
-            CloseView();
-        }
-
-        private void CloseView()
-        {
-            IsClosed = true;
             TryClose();
         }
+
     }
 }

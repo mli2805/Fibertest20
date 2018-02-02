@@ -68,14 +68,14 @@ namespace Graph.Tests
         public static void AddAdjustmentPoints(this SystemUnderTest sut, Iit.Fibertest.Graph.Trace trace)
         {
             var fibers = sut.ReadModel.GetTraceFibers(trace).ToArray();
-            sut.ShellVm.ComplyWithRequest(new RequestAddNodeIntoFiber(){FiberId = fibers[1].Id, IsAdjustmentPoint = true, Position = new PointLatLng(55.01,30.01)}).Wait();
+            sut.ShellVm.ComplyWithRequest(new RequestAddNodeIntoFiber(){FiberId = fibers[1].Id, InjectionType = EquipmentType.AdjustmentPoint, Position = new PointLatLng(55.01,30.01)}).Wait();
             sut.Poller.EventSourcingTick().Wait();
             var nodeOfPointId = sut.ReadModel.Nodes.Last().Id;
 
             sut.ShellVm.ComplyWithRequest(new MoveNode() { Id = nodeOfPointId, Latitude = 55.0086, Longitude = 30.0114}).Wait();
             sut.Poller.EventSourcingTick().Wait();
 
-            sut.ShellVm.ComplyWithRequest(new RequestAddNodeIntoFiber(){FiberId = fibers[2].Id, IsAdjustmentPoint = true, Position = new PointLatLng(55.0306,30.0298)}).Wait();
+            sut.ShellVm.ComplyWithRequest(new RequestAddNodeIntoFiber(){FiberId = fibers[2].Id, InjectionType = EquipmentType.AdjustmentPoint, Position = new PointLatLng(55.0306,30.0298)}).Wait();
             sut.Poller.EventSourcingTick().Wait();
             nodeOfPointId = sut.ReadModel.Nodes.Last().Id;
 
@@ -86,8 +86,16 @@ namespace Graph.Tests
         public static void AddCableReserve(this SystemUnderTest sut, Iit.Fibertest.Graph.Trace trace)
         {
             sut.FakeWindowManager.RegisterHandler(model => sut.TraceChoiceHandler(model, new List<Guid>() { trace.Id }, Answer.Yes));
-            sut.FakeWindowManager.RegisterHandler(model => sut.EquipmentInfoViewModelHandler(model, Answer.Yes, EquipmentType.CableReserve, 100, 0));
-            sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentIntoNode() { NodeId = trace.Nodes[5] }).Wait();
+            sut.FakeWindowManager.RegisterHandler(model => sut.CableReserveInfoViewModelHandler(model, Answer.Yes, 100));
+            sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentIntoNode() { NodeId = trace.Nodes[5], IsCableReserveRequested = true}).Wait();
+            sut.Poller.EventSourcingTick().Wait();
+        }
+
+        public static void AddEquipmentWithCableReserve(this SystemUnderTest sut, Iit.Fibertest.Graph.Trace trace)
+        {
+            sut.FakeWindowManager.RegisterHandler(model => sut.TraceChoiceHandler(model, new List<Guid>() { trace.Id }, Answer.Yes));
+            sut.FakeWindowManager.RegisterHandler(model => sut.EquipmentInfoViewModelHandler(model, Answer.Yes, EquipmentType.CableReserve, 40, 30));
+            sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentIntoNode() { NodeId = trace.Nodes[5], IsCableReserveRequested = false}).Wait();
             sut.Poller.EventSourcingTick().Wait();
         }
     }

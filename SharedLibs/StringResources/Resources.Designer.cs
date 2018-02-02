@@ -278,6 +278,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add cable reserve.
+        /// </summary>
+        public static string SID_Add_cable_reserve {
+            get {
+                return ResourceManager.GetString("SID_Add_cable_reserve", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Equipment.
         /// </summary>
         public static string SID_Add_Equipment {
@@ -1215,15 +1224,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Detach trace.
-        /// </summary>
-        public static string SID_Detach_trace {
-            get {
-                return ResourceManager.GetString("SID_Detach_trace", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Detached successfully. Press Initialize main otau.
         /// </summary>
         public static string SID_Detached_successfully__Press_Initialize_main_otau {
@@ -1796,6 +1796,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Host {
             get {
                 return ResourceManager.GetString("SID_Host", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In node are placed:.
+        /// </summary>
+        public static string SID_In_node_are_placed_ {
+            get {
+                return ResourceManager.GetString("SID_In_node_are_placed_", resourceCulture);
             }
         }
         

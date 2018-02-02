@@ -80,7 +80,7 @@ namespace Graph.Tests
         [Then(@"Нет пункта Отсоединить и трех пунктов Измерения")]
         public void ThenНетПунктаОтсоединитьИТрехПунктовИзмерения()
         {
-            _traceLeaf.MyContextMenu.FirstOrDefault(item => item?.Header == Resources.SID_Detach_trace).Should().BeNull();
+            _traceLeaf.MyContextMenu.FirstOrDefault(item => item?.Header == Resources.SID_Unplug_trace).Should().BeNull();
             _traceLeaf.MyContextMenu.FirstOrDefault(item => item?.Header == Resources.SID_Precise_monitoring_out_of_turn).Should().BeNull();
             _traceLeaf.MyContextMenu.FirstOrDefault(item => item?.Header == Resources.SID_Measurement__Client_).Should().BeNull();
             _traceLeaf.MyContextMenu.FirstOrDefault(item => item?.Header == Resources.SID_Measurement__RFTS_Reflect_).Should().BeNull();

@@ -115,5 +115,8 @@ namespace Iit.Fibertest.Client
         {
             Command = new RemoveEquipment { Id = Id };
         }
+
+        public void AddEquipment() { Command = false; }
+        public void AddCableReserve() { Command = true; }
     }
 }

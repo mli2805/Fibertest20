@@ -52,7 +52,7 @@ namespace Iit.Fibertest.Client
         /// </summary>
         private AddNodeIntoFiber PrepareCommand(RequestAddNodeIntoFiber request)
         {
-            if (!request.IsAdjustmentPoint && IsFiberContainedInAnyTraceWithBase(request.FiberId))
+            if (request.InjectionType != EquipmentType.AdjustmentPoint  && IsFiberContainedInAnyTraceWithBase(request.FiberId))
             {
                 _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, Resources.SID_It_s_impossible_to_change_trace_with_base_reflectogram));
                 return null;
@@ -63,7 +63,7 @@ namespace Iit.Fibertest.Client
                 Id = Guid.NewGuid(),
                 EquipmentId = Guid.NewGuid(),
                 Position = request.Position,
-                IsAdjustmentPoint = request.IsAdjustmentPoint,
+                InjectionType = request.InjectionType,
                 FiberId = request.FiberId,
                 NewFiberId1 = Guid.NewGuid(),
                 NewFiberId2 = Guid.NewGuid()

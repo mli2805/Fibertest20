@@ -13,17 +13,7 @@
             <TextBox Margin="5" Text="{Binding Model.Title}"/>
         </GroupBox>
         <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_Equipment_type}"/>
-        <GroupBox Margin="5">
-            <StackPanel >
-                <StackPanel Orientation="Horizontal">
-                    <RadioButton Margin="5" GroupName="equipment" IsChecked="{Binding Model.CableReserve.IsChecked, Mode=TwoWay}" 
-                                 Content="{Binding Model.CableReserve.Title}" />
-                    <TextBox Margin="5" Text="{Binding Model.CableReserveM}" Width="30"/>
-                    <TextBlock Text="{x:Static stringResources:Resources.SID_m}" Margin="5,5,5,5"/>
-                </StackPanel>
-                <TextBlock Text="{x:Static stringResources:Resources.SID_Do_not_set_landmark_on_reflectogram}" Margin="30,5,5,5"/>
-            </StackPanel>
-        </GroupBox>
+    
         <GroupBox Margin="5">
             <StackPanel >
                 <RadioButton Margin="5" GroupName="equipment" IsChecked="{Binding Model.Sleeve.IsChecked, Mode=TwoWay}" Content="{Binding Model.Sleeve.Title}" />

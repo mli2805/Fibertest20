@@ -168,32 +168,53 @@ namespace Iit.Fibertest.Client
             return eqItem;
         }
 
-        private void EqItem_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private async void EqItem_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             var cmd = ((ItemOfEquipmentTableModel)sender).Command;
-            if (cmd is UpdateEquipment)
-                LaunchUpdateEquipmentView(((UpdateEquipment)cmd).Id);
+            if (cmd is UpdateEquipment equipment)
+                LaunchUpdateEquipmentView(equipment.Id);
+            else if (cmd is RemoveEquipment)
+                RemoveEquipment((RemoveEquipment) cmd);
             else
-                RemoveEquipment((RemoveEquipment)cmd);
+                await AddEquipmentIntoNode((bool)cmd);
         }
 
-        public async Task AddEquipment()
+        public async Task AddEquipmentIntoNode(bool isCableReserveRequested)
         {
-            var cmd = VerboseTasks.BuildAddEquipmentIntoNodeCommand(_originalNode.Id, _readModel, _windowManager);
+            var cmd = VerboseTasks.BuildAddEquipmentIntoNodeCommand(_originalNode.Id, isCableReserveRequested, _readModel, _windowManager);
             if (cmd == null)
                 return;
             await _c2DWcfManager.SendCommandAsObj(cmd);
         }
 
+        public async void AddEquipment()
+        {
+            await AddEquipmentIntoNode(false);
+        }
+
+        public async void AddCableReserve()
+        {
+            await AddEquipmentIntoNode(true);
+        }
+
         private async void LaunchUpdateEquipmentView(Guid id)
         {
             var equipment = _readModel.Equipments.First(e => e.Id == id);
-            var equipmentViewModel = new EquipmentInfoViewModel(equipment, _c2DWcfManager);
-            _windowManager.ShowDialogWithAssignedOwner(equipmentViewModel);
-
-            if (equipmentViewModel.Command == null)
-                return;
-            var cmd = (UpdateEquipment)equipmentViewModel.Command;
+            UpdateEquipment cmd;
+            if (equipment.Type == EquipmentType.CableReserve)
+            {
+                var cableReserveViewModel = new CableReserveInfoViewModel(equipment, _c2DWcfManager);
+                _windowManager.ShowDialogWithAssignedOwner(cableReserveViewModel);
+                if (cableReserveViewModel.Command == null) return;
+                cmd = (UpdateEquipment)cableReserveViewModel.Command;
+            }
+            else
+            {
+                var equipmentViewModel = new EquipmentInfoViewModel(equipment, _c2DWcfManager);
+                _windowManager.ShowDialogWithAssignedOwner(equipmentViewModel);
+                if (equipmentViewModel.Command == null) return;
+                cmd = (UpdateEquipment)equipmentViewModel.Command;
+            }
             await _c2DWcfManager.SendCommandAsObj(cmd);
         }
 

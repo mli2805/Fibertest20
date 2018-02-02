@@ -80,7 +80,7 @@ namespace Iit.Fibertest.Graph
         public string Apply(NodeIntoFiberAdded e)
         {
             _nodes.Add(new Node() { Id = e.Id, Latitude = e.Position.Lat, Longitude = e.Position.Lng });
-            _equipments.Add(new Equipment() { Id = e.EquipmentId, Type = e.IsAdjustmentPoint ? EquipmentType.AdjustmentPoint : EquipmentType.EmptyNode, NodeId = e.Id });
+            _equipments.Add(new Equipment() { Id = e.EquipmentId, Type = e.InjectionType, NodeId = e.Id });
             AddTwoFibersToNewNode(e);
             FixTracesWhichContainedOldFiber(e);
             var fiber = _fibers.FirstOrDefault(f => f.Id == e.FiberId);

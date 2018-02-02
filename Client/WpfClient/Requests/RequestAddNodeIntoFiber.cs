@@ -1,5 +1,6 @@
 ﻿using System;
 using GMap.NET;
+using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
 {
@@ -7,7 +8,7 @@ namespace Iit.Fibertest.Client
     {
         public Guid FiberId { get; set; }
 
-        public bool IsAdjustmentPoint { get; set; }
+        public EquipmentType InjectionType { get; set; } // adjustment point - empty node - cable reserve
         public PointLatLng Position { get; set; }
     }
 }

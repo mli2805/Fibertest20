@@ -296,9 +296,6 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_Node" xml:space="preserve">
     <value>Node</value>
   </data>
-	<data name="SID_Equipment_in_node" xml:space="preserve">
-    <value>Equipment in node</value>
-  </data>
 	<data name="SID_Traces_in_node" xml:space="preserve">
     <value>Traces in node</value>
   </data>
@@ -1585,5 +1582,11 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID_Unplug_trace" xml:space="preserve">
     <value>Unplug trace</value>
+  </data>
+	<data name="SID_Add_cable_reserve" xml:space="preserve">
+    <value>Add cable reserve</value>
+  </data>
+	<data name="SID_In_node_are_placed_" xml:space="preserve">
+    <value>In node are placed:</value>
   </data>
 </root>
