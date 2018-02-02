@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ServiceModel;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
@@ -44,6 +45,9 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
 
         [OperationContract]
         Task<MeasurementUpdatedDto> SaveMeasurementChanges(UpdateMeasurementDto dto);
+
+        [OperationContract]
+        Task<List<BaseRefDto>> GetTraceBaseRefsAsync(Guid traceId);
 
         // C2D
         [OperationContract]

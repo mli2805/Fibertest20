@@ -155,6 +155,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseRef\BaseRefAdjustedBehindTheScenes.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BaseRefAdjustedBehindTheScenes.feature</DependentUpon>
+    </Compile>
+    <Compile Include="BaseRef\BaseRefAdjustedBehindTheScenesSteps.cs">
+      <DependentUpon>BaseRefAdjustedBehindTheScenes.feature</DependentUpon>
+    </Compile>
     <Compile Include="BaseRef\BaseRefChecked.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -470,6 +478,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="BaseRef\BaseRefAdjustedBehindTheScenes.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>BaseRefAdjustedBehindTheScenes.feature.cs</LastGenOutput>
+    </None>
     <None Include="BaseRef\BaseRefChecked.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>BaseRefChecked.feature.cs</LastGenOutput>

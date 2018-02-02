@@ -23,9 +23,15 @@ namespace Iit.Fibertest.DataCenterCore
                 RtuId = dto.RtuId,
                 ClientId = dto.ClientId,
                 OtauPortDto = dto.OtauPortDto,
-                BaseRefs = await _baseRefsRepository.GetTraceBaseRefs(dto.TraceId)
+                BaseRefs = await _baseRefsRepository.GetTraceBaseRefsAsync(dto.TraceId)
             };
             return result;
+        }
+
+        // !!! Direct call from WcfService to Repository failed
+        public async Task<List<BaseRefDto>> GetTraceBaseRefsAsync(Guid traceId)
+        {
+            return await _baseRefsRepository.GetTraceBaseRefsAsync(traceId);
         }
 
         public async Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto dto)
@@ -44,13 +50,15 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 BaseRefId = baseRef.Id,
                 TraceId = dto.TraceId,
-                UserName = dto.UserName,
+                UserName = baseRef.UserName,
                 BaseRefType = baseRef.BaseRefType,
-                SaveTimestamp = DateTime.Now,
+                SaveTimestamp = baseRef.SaveTimestamp,
                 SorBytes = baseRef.SorBytes,
             };
             return newBaseRef;
         }
+
+
 
     }
 }

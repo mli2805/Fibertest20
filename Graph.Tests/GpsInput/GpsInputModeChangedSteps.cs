@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Autofac;
 using FluentAssertions;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Graph;
@@ -25,7 +26,8 @@ namespace Graph.Tests
         [When(@"Пользователь открывает окно для редактирования")]
         public void WhenПользовательОткрываетОкноДляРедактирования()
         {
-            _rtuUpdateViewModel = new RtuUpdateViewModel(_rtuId, _sut.ReadModel, _sut.WcfServiceForClient);
+            _rtuUpdateViewModel = _sut.Container.Resolve<RtuUpdateViewModel>();
+            _rtuUpdateViewModel.Initilize(_rtuId);
         }
 
         [Then(@"Координаты должны быть ""(.*)"" ""(.*)""  ""(.*)"" ""(.*)""")]

@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Data;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -65,7 +66,7 @@ namespace Iit.Fibertest.Client
             view.SortDescriptions.Add(new SortDescription(@"Measurement.SorFileId", ListSortDirection.Descending));
         }
 
-        public async void Initialize(Guid traceId)
+        public async Task Initialize(Guid traceId)
         {
             var trace = _readModel.Traces.FirstOrDefault(t => t.Id == traceId);
             if (trace == null)

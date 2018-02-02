@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Autofac;
 using FluentAssertions;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.StringResources;
@@ -67,7 +68,8 @@ namespace Graph.Tests
         [Given(@"Пользователь открыл окно нового RTU и ввел название существующего (.*)")]
         public void GivenПользовательОткрылОкноНовогоRtuиВвелНазваниеСуществующего(string title)
         {
-            _rtuUpdateViewModel = new RtuUpdateViewModel(_saidRtuId, _sut.ReadModel, _sut.WcfServiceForClient);
+            _rtuUpdateViewModel = _sut.Container.Resolve<RtuUpdateViewModel>();
+            _rtuUpdateViewModel.Initilize(_saidRtuId);
             _rtuUpdateViewModel.Title = title;
         }
 
@@ -110,7 +112,8 @@ namespace Graph.Tests
         [When(@"Пользователь открыл окно редактирования нового RTU")]
         public void WhenПользовательОткрылОкноРедактированияНовогоRtu()
         {
-            _rtuUpdateViewModel = new RtuUpdateViewModel(_saidRtuId, _sut.ReadModel, _sut.WcfServiceForClient);
+            _rtuUpdateViewModel = _sut.Container.Resolve<RtuUpdateViewModel>();
+            _rtuUpdateViewModel.Initilize(_saidRtuId);
         }
 
         [Then(@"Кнопка Сохранить пока заблокирована")]

@@ -13,6 +13,13 @@ namespace Iit.Fibertest.Dto
         public BaseRefType BaseRefType { get; set; }
 
         [DataMember]
+        public string UserName { get; set; }
+
+        [DataMember]
+        public DateTime SaveTimestamp { get; set; }
+
+
+        [DataMember]
         public byte[] SorBytes { get; set; }
 
         [DataMember]

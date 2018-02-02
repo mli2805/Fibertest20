@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
@@ -130,6 +131,11 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<MeasurementUpdatedDto> SaveMeasurementChanges(UpdateMeasurementDto dto)
         {
             return await _measurementsRepository.SaveMeasurementChangesAsync(dto);
+        }
+
+        public async Task<List<BaseRefDto>> GetTraceBaseRefsAsync(Guid traceId)
+        {
+            return await _baseRefsBusinessToRepositoryIntermediary.GetTraceBaseRefsAsync(traceId);
         }
 
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)

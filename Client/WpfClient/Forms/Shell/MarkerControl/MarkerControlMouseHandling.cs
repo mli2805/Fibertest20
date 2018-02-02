@@ -71,7 +71,7 @@ namespace Iit.Fibertest.Client
             if (IsMouseCaptured)
             {
                 Mouse.Capture(null);
-                Owner.GraphReadModel.Request = new MoveNode() { Id = GMapMarker.Id, Latitude = GMapMarker.Position.Lat, Longitude = GMapMarker.Position.Lng };
+                Owner.GraphReadModel.Request = new MoveNode() { NodeId = GMapMarker.Id, Latitude = GMapMarker.Position.Lat, Longitude = GMapMarker.Position.Lng };
             }
 
             if (MainMap.IsInTraceDefiningMode)

@@ -138,7 +138,7 @@ namespace Iit.Fibertest.Graph
 
         public string Apply(NodeMoved cmd)
         {
-            var node = _nodes.FirstOrDefault(x => x.Id == cmd.Id);
+            var node = _nodes.FirstOrDefault(x => x.Id == cmd.NodeId);
             if (node != null)
             {
                 node.Latitude = cmd.Latitude;
@@ -146,7 +146,7 @@ namespace Iit.Fibertest.Graph
                 return null;
             }
 
-            var message = $@"NodeMoved: Node {cmd.Id.First6()} not found";
+            var message = $@"NodeMoved: Node {cmd.NodeId.First6()} not found";
             _logFile.AppendLine(message);
             return message;
         }

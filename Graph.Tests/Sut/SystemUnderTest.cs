@@ -7,7 +7,6 @@ using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WcfServiceForClientInterface;
-using Serilog;
 
 namespace Graph.Tests
 {
@@ -16,11 +15,9 @@ namespace Graph.Tests
         public IContainer Container { get; set; }
 
         public ReadModel ReadModel { get; }
-        public ILogger LoggerForTests { get; set; }
         public IMyLog MyLogFile { get; set; }
         public ClientPoller Poller { get; }
         public FakeWindowManager FakeWindowManager { get; }
-        public WcfServiceForClient WcfServiceForClient { get; }
         public ShellViewModel ShellVm { get; }
         public int CurrentEventNumber => Poller.CurrentEventNumber;
 
@@ -62,9 +59,6 @@ namespace Graph.Tests
             builder.RegisterType<GraphPostProcessingRepository>().SingleInstance();
             builder.RegisterType<WcfServiceForClient>().As<IWcfServiceForClient>().SingleInstance();
 
-            builder.RegisterInstance(LoggerForTests = new LoggerConfiguration()
-                .WriteTo.Console().CreateLogger()).As<ILogger>();
-
             builder.RegisterInstance<IMyLog>(new NullLog());
 
             builder.RegisterType<TestsDispatcherProvider>().As<IDispatcherProvider>().SingleInstance();
@@ -74,7 +68,6 @@ namespace Graph.Tests
             Poller = Container.Resolve<ClientPoller>();
             FakeWindowManager = (FakeWindowManager) Container.Resolve<IWindowManager>();
             MyLogFile = Container.Resolve<IMyLog>();
-            WcfServiceForClient = (WcfServiceForClient) Container.Resolve<IWcfServiceForClient>();
             ShellVm = (ShellViewModel) Container.Resolve<IShell>();
             ReadModel = ShellVm.ReadModel;
 

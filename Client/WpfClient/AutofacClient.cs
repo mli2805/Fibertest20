@@ -54,6 +54,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<ShellViewModel>().As<IShell>();
             builder.RegisterType<OtauToAttachViewModel>().SingleInstance();
             builder.RegisterType<TraceToAttachViewModel>().SingleInstance();
+            builder.RegisterType<RtuUpdateViewModel>();
             builder.RegisterType<UserListViewModel>();
             builder.RegisterType<ZonesViewModel>();
             builder.RegisterType<ObjectsToZonesViewModel>();
@@ -86,6 +87,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<BaseRefsChecker>().SingleInstance();
             builder.RegisterType<TraceModelBuilder>().SingleInstance();
             builder.RegisterType<BaseRefAdjuster>().SingleInstance();
+            builder.RegisterType<BaseRefReAdjuster>().SingleInstance();
             builder.RegisterType<BaseRefMeasParamsChecker>().SingleInstance();
             builder.RegisterType<BaseRefLandmarksCounter>().SingleInstance();
             builder.RegisterType<BaseRefDtoFactory>().SingleInstance();

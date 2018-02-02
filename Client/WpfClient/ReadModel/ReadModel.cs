@@ -75,7 +75,7 @@ namespace Iit.Fibertest.Client
 
         public void Apply(NodeMoved newLocation)
         {
-            Node oldLocation = Nodes.FirstOrDefault(n => n.Id == newLocation.Id);
+            Node oldLocation = Nodes.FirstOrDefault(n => n.Id == newLocation.NodeId);
             if (oldLocation != null)
                 _mapper.Map(newLocation, oldLocation);
         }

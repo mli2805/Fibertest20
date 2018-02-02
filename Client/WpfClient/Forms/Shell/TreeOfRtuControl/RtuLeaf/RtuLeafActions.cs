@@ -39,7 +39,8 @@ namespace Iit.Fibertest.Client
             if (!(param is RtuLeaf rtuLeaf))
                 return;
 
-            var vm = new RtuUpdateViewModel(rtuLeaf.Id, _readModel, _c2DWcfManager);
+            var vm = _globalScope.Resolve<RtuUpdateViewModel>();
+            vm.Initilize(rtuLeaf.Id);
             _windowManager.ShowWindowWithAssignedOwner(vm);
         }
 

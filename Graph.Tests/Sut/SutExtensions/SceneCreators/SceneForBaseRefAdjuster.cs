@@ -72,14 +72,14 @@ namespace Graph.Tests
             sut.Poller.EventSourcingTick().Wait();
             var nodeOfPointId = sut.ReadModel.Nodes.Last().Id;
 
-            sut.ShellVm.ComplyWithRequest(new MoveNode() { Id = nodeOfPointId, Latitude = 55.0086, Longitude = 30.0114}).Wait();
+            sut.ShellVm.ComplyWithRequest(new MoveNode() { NodeId = nodeOfPointId, Latitude = 55.0086, Longitude = 30.0114}).Wait();
             sut.Poller.EventSourcingTick().Wait();
 
             sut.ShellVm.ComplyWithRequest(new RequestAddNodeIntoFiber(){FiberId = fibers[2].Id, InjectionType = EquipmentType.AdjustmentPoint, Position = new PointLatLng(55.0306,30.0298)}).Wait();
             sut.Poller.EventSourcingTick().Wait();
             nodeOfPointId = sut.ReadModel.Nodes.Last().Id;
 
-            sut.ShellVm.ComplyWithRequest(new MoveNode() { Id = nodeOfPointId, Latitude = 55.0326, Longitude = 30.0314}).Wait();
+            sut.ShellVm.ComplyWithRequest(new MoveNode() { NodeId = nodeOfPointId, Latitude = 55.0326, Longitude = 30.0314}).Wait();
             sut.Poller.EventSourcingTick().Wait();
         }
 

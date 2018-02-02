@@ -25,7 +25,7 @@ namespace Iit.Fibertest.Client
         private PointLatLng _currentMousePosition;
         public PointLatLng CurrentMousePosition
         {
-            get { return _currentMousePosition; }
+            get => _currentMousePosition;
             set
             {
                 if (value.Equals(_currentMousePosition)) return;
@@ -160,7 +160,7 @@ namespace Iit.Fibertest.Client
 
         public void Apply(NodeMoved evnt)
         {
-            var nodeVm = Nodes.FirstOrDefault(n => n.Id == evnt.Id);
+            var nodeVm = Nodes.FirstOrDefault(n => n.Id == evnt.NodeId);
             if (nodeVm == null)
                 return;
             nodeVm.Position = new PointLatLng(evnt.Latitude, evnt.Longitude);

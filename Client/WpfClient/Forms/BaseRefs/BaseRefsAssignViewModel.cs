@@ -97,7 +97,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public BaseRefsAssignViewModel(IniFile iniFile, ReadModel readModel, 
+        public BaseRefsAssignViewModel(IniFile iniFile, ReadModel readModel,  
             IWcfServiceForClient c2DWcfManager, IWindowManager windowManager, 
             BaseRefDtoFactory baseRefDtoFactory, BaseRefsChecker baseRefsChecker)
         {

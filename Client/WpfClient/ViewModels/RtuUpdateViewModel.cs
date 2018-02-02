@@ -12,7 +12,7 @@ namespace Iit.Fibertest.Client
 {
     public class RtuUpdateViewModel : Screen, IDataErrorInfo
     {
-        public readonly Guid RtuId;
+        public Guid RtuId;
         private Rtu _originalRtu;
         private readonly ReadModel _readModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
@@ -60,17 +60,15 @@ namespace Iit.Fibertest.Client
         }
         public GpsInputViewModel GpsInputViewModel { get; set; }
 
-        public RtuUpdateViewModel(Guid rtuId, ReadModel readModel, IWcfServiceForClient c2DWcfManager)
+        public RtuUpdateViewModel(ReadModel readModel, IWcfServiceForClient c2DWcfManager)
         {
-            RtuId = rtuId;
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
-
-            Initilize();
         }
 
-        private void Initilize()
+        public void Initilize(Guid rtuId)
         {
+            RtuId = rtuId;
             _originalRtu = _readModel.Rtus.First(r => r.Id == RtuId);
 
             var currentMode = GpsInputMode.DegreesAndMinutes; // somewhere in configuration file...

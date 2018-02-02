@@ -70,7 +70,7 @@ namespace Graph.Tests.BaseRef
 #line 5
  testRunner.Then("Пункт Задать базовые недоступен", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 6
- testRunner.When("RTU успешно инициализируется c длинной волны SM1550", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("RTU успешно инициализируется c длинной волны SM1625", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 7
  testRunner.Then("Пункт Задать базовые становится доступен", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden

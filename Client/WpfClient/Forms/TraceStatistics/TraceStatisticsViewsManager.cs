@@ -28,7 +28,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public void Show(Guid traceId)
+        public async void Show(Guid traceId)
         {
             ClearClosedViews();
             if (LaunchedViews.TryGetValue(traceId, out var vm))
@@ -38,7 +38,7 @@ namespace Iit.Fibertest.Client
             }
 
             vm = _globalScope.Resolve<TraceStatisticsViewModel>();
-            vm.Initialize(traceId);
+            await vm.Initialize(traceId);
             _windowManager.ShowWindowWithAssignedOwner(vm);
 
             LaunchedViews.Add(traceId, vm);

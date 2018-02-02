@@ -21,6 +21,7 @@ namespace Iit.Fibertest.Client
         public readonly ILifetimeScope GlobalScope;
         private readonly IWindowManager _windowManager;
         private readonly LoginViewModel _loginViewModel;
+        private readonly BaseRefReAdjuster _baseRefReAdjuster;
         private readonly ClientHeartbeat _clientHeartbeat;
         private readonly ClientPoller _clientPoller;
         private readonly OpticalEventsProvider _opticalEventsProvider;
@@ -48,11 +49,11 @@ namespace Iit.Fibertest.Client
         public ShellViewModel(ILifetimeScope globalScope, ReadModel readModel, TreeOfRtuModel treeOfRtuModel, GraphReadModel graphReadModel,
             MainMenuViewModel mainMenuViewModel,
             IWcfServiceForClient c2DWcfManager, IWindowManager windowManager,
-            LoginViewModel loginViewModel,
+            LoginViewModel loginViewModel, BaseRefReAdjuster baseRefReAdjuster,
             NetworkEventsDoubleViewModel networkEventsDoubleViewModel, NetworkEventsProvider networkEventsProvider,
             OpticalEventsDoubleViewModel opticalEventsDoubleViewModel, OpticalEventsProvider opticalEventsProvider,
             BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel,
-            BopNetworkEventsProvider bopNetworkEventsProvider,
+            BopNetworkEventsProvider bopNetworkEventsProvider, 
             TabulatorViewModel tabulatorViewModel,
             CommonStatusBarViewModel commonStatusBarViewModel,
 
@@ -74,6 +75,7 @@ namespace Iit.Fibertest.Client
             GlobalScope = globalScope;
             _windowManager = windowManager;
             _loginViewModel = loginViewModel;
+            _baseRefReAdjuster = baseRefReAdjuster;
             _bopNetworkEventsProvider = bopNetworkEventsProvider;
             _traceContentChoiceViewModel = traceContentChoiceViewModel;
             _clientHeartbeat = clientHeartbeat;
@@ -176,6 +178,12 @@ namespace Iit.Fibertest.Client
         {
             var cmd = request;
             await C2DWcfManager.SendCommandAsObj(cmd);
+
+            var tracesUseNode = ReadModel.Traces.Where(t => t.Nodes.Contains(request.NodeId));
+            foreach (var trace in tracesUseNode)
+            {
+                await _baseRefReAdjuster.ReAdjustBaseRefs(trace);
+            }
         }
 
         public async Task ComplyWithRequest(UpdateNode request)
@@ -257,7 +265,8 @@ namespace Iit.Fibertest.Client
         public async Task ComplyWithRequest(RequestUpdateRtu request)
         {
             var rtu = ReadModel.Rtus.First(r => r.NodeId == request.NodeId);
-            var vm = new RtuUpdateViewModel(rtu.Id, ReadModel, C2DWcfManager);
+            var vm = GlobalScope.Resolve<RtuUpdateViewModel>();
+            vm.Initilize(rtu.Id);
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 

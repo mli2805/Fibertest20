@@ -9,10 +9,12 @@ namespace Iit.Fibertest.Client
     public class BaseRefDtoFactory
     {
         private readonly IMyLog _logFile;
+        private readonly CurrentUser _currentUser;
 
-        public BaseRefDtoFactory(IMyLog logFile)
+        public BaseRefDtoFactory(IMyLog logFile, CurrentUser currentUser)
         {
             _logFile = logFile;
+            _currentUser = currentUser;
         }
 
         public BaseRefDto Create(string filename, BaseRefType type)
@@ -32,6 +34,8 @@ namespace Iit.Fibertest.Client
                 {
                     Id = Guid.NewGuid(),
                     BaseRefType = type,
+                    UserName = _currentUser.UserName,
+                    SaveTimestamp = DateTime.Now,
                     SorBytes = bytes,
                     Duration = TimeSpan.FromSeconds((int) otdrDataKnownBlocks.FixedParameters.AveragingTime)
                 };

@@ -232,6 +232,23 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
+        public async Task<List<BaseRefDto>> GetTraceBaseRefsAsync(Guid traceId)
+        {
+            var wcfConnection = _wcfFactory.CreateC2DConnection();
+            if (wcfConnection == null)
+                return null;
+
+            try
+            {
+                return await wcfConnection.GetTraceBaseRefsAsync(traceId);
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+                return null;
+            }
+        }
+
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();
@@ -410,7 +427,6 @@ namespace Iit.Fibertest.WcfConnections
             {
                 _logFile.AppendLine($@"Sent base ref to RTU {dto.RtuId.First6()}");
                 dto.ClientId = _clientId;
-                dto.UserName = _username;
                 return await wcfConnection.AssignBaseRefAsync(dto);
             }
             catch (Exception e)

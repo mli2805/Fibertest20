@@ -55,14 +55,16 @@ namespace Iit.Fibertest.DatabaseLibrary
         }
     
 
-        public async Task<List<BaseRefDto>> GetTraceBaseRefs(Guid traceId)
+        public async Task<List<BaseRefDto>> GetTraceBaseRefsAsync(Guid traceId)
         {
             var result = new List<BaseRefDto>();
             try
             {
                 using (var dbContext = new FtDbContext(_settings.MySqlConString))
                 {
+                _logFile.AppendLine("GetTraceBaseRefsAsync: db connected");
                     var list = await dbContext.BaseRefs.Where(b => b.TraceId == traceId).ToListAsync();
+                _logFile.AppendLine("GetTraceBaseRefsAsync: list retrieved");
                     result.AddRange(
                         list.Select(baseRef => new BaseRefDto()
                         {
@@ -75,7 +77,7 @@ namespace Iit.Fibertest.DatabaseLibrary
 
             catch (Exception e)
             {
-                _logFile.AppendLine("GetTraceBaseRefs:" + e.Message);
+                _logFile.AppendLine("GetTraceBaseRefsAsync:" + e.Message);
                 return null;
             }
             _logFile.AppendLine($"Db extracted {result.Count} base refs");
