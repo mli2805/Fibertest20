@@ -10,13 +10,13 @@ using Optixsoft.SorExaminer.OtdrDataFormat;
 
 namespace Iit.Fibertest.Client
 {
-    public class BaseRefLandmarksCounter
+    public class BaseRefLandmarksChecker
     {
         private readonly ReadModel _readModel;
         private readonly IWindowManager _windowManager;
         private readonly BaseRefAdjuster _baseRefAdjuster;
 
-        public BaseRefLandmarksCounter(ReadModel readModel, IWindowManager windowManager, 
+        public BaseRefLandmarksChecker(ReadModel readModel, IWindowManager windowManager, 
             BaseRefAdjuster baseRefAdjuster)
         {
             _readModel = readModel;

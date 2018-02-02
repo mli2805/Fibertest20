@@ -70,6 +70,8 @@ namespace Iit.Fibertest.DatabaseLibrary
                         {
                             Id = baseRef.BaseRefId,
                             BaseRefType = baseRef.BaseRefType,
+                            UserName = baseRef.UserName,
+                            SaveTimestamp = baseRef.SaveTimestamp,
                             SorBytes = baseRef.SorBytes,
                         }));
                 }

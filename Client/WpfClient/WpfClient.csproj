@@ -195,11 +195,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ClientHeartbeat.cs" />
-    <Compile Include="Forms\BaseRefs\BaseRefAdjuster.cs" />
-    <Compile Include="Forms\BaseRefs\BaseRefLandmarksCounter.cs" />
-    <Compile Include="Forms\BaseRefs\BaseRefReAdjuster.cs" />
-    <Compile Include="Forms\BaseRefs\TraceModelBuilder.cs" />
-    <Compile Include="Forms\BaseRefs\TraceModelForBaseRef.cs" />
+    <Compile Include="Forms\BaseRefs\ToolKit\BaseRefAdjuster.cs" />
+    <Compile Include="Forms\BaseRefs\BaseRefLandmarksChecker.cs" />
+    <Compile Include="Forms\BaseRefs\ToolKit\BaseRefLandmarksTool.cs" />
+    <Compile Include="Forms\BaseRefs\ToolKit\BaseRefRepairman.cs" />
+    <Compile Include="Forms\BaseRefs\ToolKit\TraceModelBuilder.cs" />
+    <Compile Include="Forms\BaseRefs\ToolKit\TraceModelForBaseRef.cs" />
     <Compile Include="Forms\EquipmentAddUpdate\CableReserveInfoView.xaml.cs">
       <DependentUpon>CableReserveInfoView.xaml</DependentUpon>
     </Compile>

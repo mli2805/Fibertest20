@@ -54,7 +54,7 @@ namespace Graph.Tests
             baseRefs.Count.Should().Be(1);
 
             var otdrDataKnownBlocks = SorData.FromBytes(baseRefs[0].SorBytes);
-            _closureLocation = otdrDataKnownBlocks.LinkParameters.LandmarkBlocks[2].Location;
+            _closureLocation = otdrDataKnownBlocks.LinkParameters.LandmarkBlocks[3].Location;
 
             _vm.TryClose();
         }
@@ -62,12 +62,12 @@ namespace Graph.Tests
         [When(@"Пользователь сдвигает узел трассы")]
         public void WhenПользовательСдвигаетУзелТрассы()
         {
-            var nodeId = _trace.Nodes[1];
+            var nodeId = _trace.Nodes[3];
             _sut.ShellVm.ComplyWithRequest(new MoveNode()
             {
                 NodeId = nodeId,
-                Latitude = 55.0086,
-                Longitude = 30.0114
+                Latitude = 40,
+                Longitude = 20
             }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
@@ -97,7 +97,7 @@ namespace Graph.Tests
             baseRefs.Count.Should().Be(1);
 
             var otdrDataKnownBlocks = SorData.FromBytes(baseRefs[0].SorBytes);
-            otdrDataKnownBlocks.LinkParameters.LandmarkBlocks[2].Location.Should().NotBe(_closureLocation);
+            otdrDataKnownBlocks.LinkParameters.LandmarkBlocks[3].Location.Should().NotBe(_closureLocation);
         }
     }
 }

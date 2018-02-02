@@ -16,17 +16,17 @@ namespace Iit.Fibertest.Client
         private readonly ReadModel _readModel;
         private readonly IWindowManager _windowManager;
         private readonly BaseRefMeasParamsChecker _baseRefMeasParamsChecker;
-        private readonly BaseRefLandmarksCounter _baseRefLandmarksCounter;
+        private readonly BaseRefLandmarksChecker _baseRefLandmarksChecker;
         private readonly GraphGpsCalculator _graphGpsCalculator;
 
         public BaseRefsChecker(ReadModel readModel, IWindowManager windowManager,
-            BaseRefMeasParamsChecker baseRefMeasParamsChecker, BaseRefLandmarksCounter baseRefLandmarksCounter,
+            BaseRefMeasParamsChecker baseRefMeasParamsChecker, BaseRefLandmarksChecker baseRefLandmarksChecker,
             GraphGpsCalculator graphGpsCalculator)
         {
             _readModel = readModel;
             _windowManager = windowManager;
             _baseRefMeasParamsChecker = baseRefMeasParamsChecker;
-            _baseRefLandmarksCounter = baseRefLandmarksCounter;
+            _baseRefLandmarksChecker = baseRefLandmarksChecker;
             _graphGpsCalculator = graphGpsCalculator;
         }
 
@@ -50,7 +50,7 @@ namespace Iit.Fibertest.Client
                 if (!HasBaseThresholds(otdrKnownBlocks, baseRefHeader))
                     return false;
 
-                if (!_baseRefLandmarksCounter.IsBaseRefLandmarksCountMatched(otdrKnownBlocks, trace, baseRefDto)) return false;
+                if (!_baseRefLandmarksChecker.IsBaseRefLandmarksCountMatched(otdrKnownBlocks, trace, baseRefDto)) return false;
 
                 if (baseRefDto.BaseRefType == BaseRefType.Precise)
                     if (!IsDistanceLengthAcceptable(otdrKnownBlocks, trace, baseRefDto))

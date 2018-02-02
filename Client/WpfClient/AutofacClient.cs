@@ -87,9 +87,10 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<BaseRefsChecker>().SingleInstance();
             builder.RegisterType<TraceModelBuilder>().SingleInstance();
             builder.RegisterType<BaseRefAdjuster>().SingleInstance();
-            builder.RegisterType<BaseRefReAdjuster>().SingleInstance();
+            builder.RegisterType<BaseRefRepairman>().SingleInstance();
+            builder.RegisterType<BaseRefLandmarksTool>().SingleInstance();
             builder.RegisterType<BaseRefMeasParamsChecker>().SingleInstance();
-            builder.RegisterType<BaseRefLandmarksCounter>().SingleInstance();
+            builder.RegisterType<BaseRefLandmarksChecker>().SingleInstance();
             builder.RegisterType<BaseRefDtoFactory>().SingleInstance();
             builder.RegisterType<BaseRefsAssignViewModel>();
 

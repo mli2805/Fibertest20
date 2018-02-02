@@ -21,7 +21,7 @@ namespace Iit.Fibertest.Client
         public readonly ILifetimeScope GlobalScope;
         private readonly IWindowManager _windowManager;
         private readonly LoginViewModel _loginViewModel;
-        private readonly BaseRefReAdjuster _baseRefReAdjuster;
+        private readonly BaseRefRepairman _baseRefRepairman;
         private readonly ClientHeartbeat _clientHeartbeat;
         private readonly ClientPoller _clientPoller;
         private readonly OpticalEventsProvider _opticalEventsProvider;
@@ -49,7 +49,7 @@ namespace Iit.Fibertest.Client
         public ShellViewModel(ILifetimeScope globalScope, ReadModel readModel, TreeOfRtuModel treeOfRtuModel, GraphReadModel graphReadModel,
             MainMenuViewModel mainMenuViewModel,
             IWcfServiceForClient c2DWcfManager, IWindowManager windowManager,
-            LoginViewModel loginViewModel, BaseRefReAdjuster baseRefReAdjuster,
+            LoginViewModel loginViewModel, BaseRefRepairman baseRefRepairman,
             NetworkEventsDoubleViewModel networkEventsDoubleViewModel, NetworkEventsProvider networkEventsProvider,
             OpticalEventsDoubleViewModel opticalEventsDoubleViewModel, OpticalEventsProvider opticalEventsProvider,
             BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel,
@@ -75,7 +75,7 @@ namespace Iit.Fibertest.Client
             GlobalScope = globalScope;
             _windowManager = windowManager;
             _loginViewModel = loginViewModel;
-            _baseRefReAdjuster = baseRefReAdjuster;
+            _baseRefRepairman = baseRefRepairman;
             _bopNetworkEventsProvider = bopNetworkEventsProvider;
             _traceContentChoiceViewModel = traceContentChoiceViewModel;
             _clientHeartbeat = clientHeartbeat;
@@ -182,7 +182,7 @@ namespace Iit.Fibertest.Client
             var tracesUseNode = ReadModel.Traces.Where(t => t.Nodes.Contains(request.NodeId));
             foreach (var trace in tracesUseNode)
             {
-                await _baseRefReAdjuster.ReAdjustBaseRefs(trace);
+                await _baseRefRepairman.Amend(trace);
             }
         }
 
