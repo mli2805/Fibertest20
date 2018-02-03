@@ -6,7 +6,6 @@ using Iit.Fibertest.Client;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.IitOtdrLibrary;
-using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using TechTalk.SpecFlow;
 
