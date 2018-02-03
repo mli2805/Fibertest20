@@ -8,7 +8,6 @@ using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WcfServiceForClientInterface;
-using Serilog;
 
 namespace Iit.Fibertest.Client
 {
@@ -63,13 +62,6 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<ClientWcfServiceHost>().As<IClientWcfServiceHost>().SingleInstance();
 
             builder.RegisterType<WaitCursor>().As<IWaitCursor>();
-
-
-            var logger = new LoggerConfiguration()
-                .WriteTo.Seq(@"http://localhost:5341").CreateLogger();
-            builder.RegisterInstance<ILogger>(logger);
-            logger.Information("");
-            logger.Information(new string('-', 99));
 
             var iniFile = new IniFile();
             iniFile.AssignFile(@"Client.ini");
