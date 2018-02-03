@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iit.Fibertest.DatabaseLibrary
 {
@@ -25,7 +25,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             var result = new BaseRefAssignedDto();
             try
             {
-                using (var dbContext = new FtDbContext(_settings.MySqlConString))
+                using (var dbContext = new FtDbContext(_settings.Options))
                 {
                     foreach (var baseRef in baseRefs)
                     {
@@ -60,7 +60,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             var result = new List<BaseRefDto>();
             try
             {
-                using (var dbContext = new FtDbContext(_settings.MySqlConString))
+                using (var dbContext = new FtDbContext(_settings.Options))
                 {
                 _logFile.AppendLine("GetTraceBaseRefsAsync: db connected");
                     var list = await dbContext.BaseRefs.Where(b => b.TraceId == traceId).ToListAsync();

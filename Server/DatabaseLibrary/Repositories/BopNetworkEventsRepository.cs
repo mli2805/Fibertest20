@@ -1,9 +1,9 @@
 using System;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iit.Fibertest.DatabaseLibrary
 {
@@ -23,7 +23,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             const int pageSize = 200;
             try
             {
-                using (var dbContext = new FtDbContext(_settings.MySqlConString))
+                using (var dbContext = new FtDbContext(_settings.Options))
                 {
                     var actualEvents = await dbContext.BopNetworkEvents.GroupBy(p => p.BopId)
                         .Select(e => e.OrderByDescending(p => p.Id).FirstOrDefault()).ToListAsync();

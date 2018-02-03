@@ -1,17 +1,12 @@
-using System.Data.Entity;
 using Iit.Fibertest.Dto;
-using MySql.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iit.Fibertest.DatabaseLibrary
 {
-    [DbConfigurationType(typeof(MySqlEFConfiguration))]
     public class FtDbContext : DbContext
     {
-        private const string MySqlConnectionString = "server=localhost;user id=root;password=root;database=fibertest20";
-        
-        // to use another db engine just set another connection string
-        public FtDbContext() : base(MySqlConnectionString) { }
-        public FtDbContext(string connectionString) : base(connectionString) { }
+        public FtDbContext()  { }
+        public FtDbContext(DbContextOptions<FtDbContext> options) : base(options) { }
 
 
         public DbSet<User> Users { get; set; }
@@ -26,14 +21,20 @@ namespace Iit.Fibertest.DatabaseLibrary
 
     public interface ISettings
     {
-        string MySqlConString { get; }
+        DbContextOptions<FtDbContext> Options { get; }
+
     }
     public class ServerSettings : ISettings
     {
-        public string MySqlConString => "server=localhost;user id=root;password=root;database=fibertest20";
+        private string MySqlConnectionString => "server=localhost;user id=root;password=root;database=ft20efcore";
+
+        public DbContextOptions<FtDbContext> Options =>
+            new DbContextOptionsBuilder<FtDbContext>().UseMySql(MySqlConnectionString).Options;
     }
     public class TestSettings : ISettings
     {
-        public string MySqlConString => "server=localhost;user id=root;password=root;database=fibertest20fake";
+        public DbContextOptions<FtDbContext> Options => new DbContextOptionsBuilder<FtDbContext>()
+            .UseInMemoryDatabase(databaseName: "Test_database")
+            .Options;
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.UtilsLib;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iit.Fibertest.DatabaseLibrary
 {
@@ -21,7 +21,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                using (var dbContext = new FtDbContext(_settings.MySqlConString))
+                using (var dbContext = new FtDbContext(_settings.Options))
                 {
                     var baseRefsList = await dbContext.BaseRefs.Where(m => m.TraceId == traceId).ToListAsync();
                     dbContext.BaseRefs.RemoveRange(baseRefsList);

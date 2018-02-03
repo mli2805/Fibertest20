@@ -20,7 +20,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                using (var dbContext = new FtDbContext(_settings.MySqlConString))
+                using (var dbContext = new FtDbContext(_settings.Options))
                 {
                     var sorFile = new SorFile() { SorBytes = sorBytes };
                     dbContext.SorFiles.Add(sorFile);

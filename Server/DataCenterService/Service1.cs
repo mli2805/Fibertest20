@@ -11,6 +11,7 @@ namespace Iit.Fibertest.DataCenterService
     {
         public IniFile IniFile { get; }
         private readonly IMyLog _logFile;
+        private readonly ISettings _serverSettings;
         private readonly EventStoreService _eventStoreService;
         private readonly ClientStationsRepository _clientStationsRepository;
         private readonly LastConnectionTimeChecker _lastConnectionTimeChecker;
@@ -18,7 +19,7 @@ namespace Iit.Fibertest.DataCenterService
         private readonly WcfServiceForRtuBootstrapper _wcfServiceForRtuBootstrapper;
         private readonly MsmqHandler _msmqHandler;
 
-        public Service1(IniFile iniFile, IMyLog logFile,
+        public Service1(IniFile iniFile, IMyLog logFile, ISettings serverSettings,
             EventStoreService eventStoreService, 
             ClientStationsRepository clientStationsRepository,
             LastConnectionTimeChecker lastConnectionTimeChecker,
@@ -28,6 +29,7 @@ namespace Iit.Fibertest.DataCenterService
         {
             IniFile = iniFile;
             _logFile = logFile;
+            _serverSettings = serverSettings;
             _eventStoreService = eventStoreService;
             _clientStationsRepository = clientStationsRepository;
             _logFile.AssignFile("DataCenter.log");
@@ -44,6 +46,10 @@ namespace Iit.Fibertest.DataCenterService
             var tid = Thread.CurrentThread.ManagedThreadId;
             _logFile.AppendLine($"Windows service started. Process {pid}, thread {tid}");
 
+            using (var dbContext = new FtDbContext(_serverSettings.Options))
+            {
+                    dbContext.Database.EnsureCreated();
+            }
             _eventStoreService.Init();
             _clientStationsRepository.CleanClientStationsTable().Wait();
             _lastConnectionTimeChecker.Start();

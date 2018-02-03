@@ -38,7 +38,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             try
             {
-                var dbContext = new FtDbContext(_settings.MySqlConString);
+                var dbContext = new FtDbContext(_settings.Options);
                 var previousMeasurementOnTrace = dbContext.Measurements.Where(ev => ev.TraceId == result.PortWithTrace.TraceId).ToList()
                     .LastOrDefault();
                 if (previousMeasurementOnTrace == null)
