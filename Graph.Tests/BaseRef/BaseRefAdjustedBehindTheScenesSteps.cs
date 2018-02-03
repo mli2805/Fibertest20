@@ -63,6 +63,9 @@ namespace Graph.Tests
         public void WhenПользовательСдвигаетУзелТрассы()
         {
             var nodeId = _trace.Nodes[3];
+            var node = _sut.ReadModel.Nodes.First(n => n.Id == nodeId);
+            node.Latitude = 40;
+            node.Longitude = 20;
             _sut.ShellVm.ComplyWithRequest(new MoveNode()
             {
                 NodeId = nodeId,
