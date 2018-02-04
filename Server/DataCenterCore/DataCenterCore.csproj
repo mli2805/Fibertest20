@@ -166,7 +166,6 @@
     <Compile Include="ClientToRtuTransmitter.cs" />
     <Compile Include="MsmqHandler.cs" />
     <Compile Include="NEventStore\MySqlEventStoreInitializer.cs" />
-    <Compile Include="NEventStore\SqliteEventStoreInitializer.cs" />
     <Compile Include="NEventStore\IEventStoreInitializer.cs" />
     <Compile Include="WcfServiceForClientBootstrapper.cs" />
     <Compile Include="NEventStore\EventStoreService.cs" />
