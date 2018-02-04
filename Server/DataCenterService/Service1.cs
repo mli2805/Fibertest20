@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.ServiceProcess;
 using System.Threading;
 using Iit.Fibertest.DatabaseLibrary;
@@ -63,6 +64,14 @@ namespace Iit.Fibertest.DataCenterService
             var pid = Process.GetCurrentProcess().Id;
             var tid = Thread.CurrentThread.ManagedThreadId;
             _logFile.AppendLine($"Windows service stopped. Process {pid}, thread {tid}");
+        }
+
+
+        internal void TestStartupAndStop(string[] args)
+        {
+            this.OnStart(args);
+            Console.ReadLine();
+            this.OnStop();
         }
     }
 }
