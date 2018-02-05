@@ -21,7 +21,7 @@ namespace Iit.Fibertest.DataCenterService
         private readonly MsmqHandler _msmqHandler;
 
         public Service1(IniFile iniFile, IMyLog logFile, ISettings serverSettings,
-            EventStoreService eventStoreService, 
+            EventStoreService eventStoreService,
             ClientStationsRepository clientStationsRepository,
             LastConnectionTimeChecker lastConnectionTimeChecker,
             WcfServiceForClientBootstrapper wcfServiceForClientBootstrapper,
@@ -49,7 +49,7 @@ namespace Iit.Fibertest.DataCenterService
 
             using (var dbContext = new FtDbContext(_serverSettings.Options))
             {
-                    dbContext.Database.EnsureCreated();
+                dbContext.Database.EnsureCreated();
             }
             _eventStoreService.Init();
             _clientStationsRepository.CleanClientStationsTable().Wait();
@@ -66,12 +66,12 @@ namespace Iit.Fibertest.DataCenterService
             _logFile.AppendLine($"Windows service stopped. Process {pid}, thread {tid}");
         }
 
-
+        // used for Debug as console application
         internal void TestStartupAndStop(string[] args)
         {
-            this.OnStart(args);
+            OnStart(args);
             Console.ReadLine();
-            this.OnStop();
+            OnStop();
         }
     }
 }
