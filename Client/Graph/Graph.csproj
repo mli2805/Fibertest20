@@ -82,9 +82,21 @@
       <HintPath>..\..\packages\AutoMapper.6.1.1\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Caliburn.Micro, Version=3.0.3.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Caliburn.Micro.Core.3.1.0\lib\net45\Caliburn.Micro.dll</HintPath>
+    </Reference>
+    <Reference Include="Caliburn.Micro.Platform, Version=3.0.3.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Caliburn.Micro.3.1.0\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Caliburn.Micro.Platform.Core, Version=3.0.3.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Caliburn.Micro.3.1.0\lib\net45\Caliburn.Micro.Platform.Core.dll</HintPath>
+    </Reference>
     <Reference Include="NEventStore, Version=5.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NEventStore.5.2.0\lib\net40\NEventStore.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="Optixsoft.OtdrDataFormat">
+      <HintPath>..\..\Optixsoft.OtdrDataFormat\Optixsoft.OtdrDataFormat.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -92,6 +104,10 @@
     <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Caliburn.Micro.3.1.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -100,6 +116,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithms\ToolKit\BaseRefAdjuster.cs" />
+    <Compile Include="Algorithms\ToolKit\BaseRefLandmarksTool.cs" />
+    <Compile Include="Algorithms\ToolKit\BaseRefRepairman.cs" />
+    <Compile Include="Algorithms\ToolKit\TraceModelBuilder.cs" />
+    <Compile Include="Algorithms\ToolKit\TraceModelForBaseRef.cs" />
     <Compile Include="Commands\JustEchosOfCmdsSentToRtu\ChangeMonitoringSettings.cs" />
     <Compile Include="Commands\JustEchosOfCmdsSentToRtu\StartMonitoring.cs" />
     <Compile Include="Commands\JustEchosOfCmdsSentToRtu\StopMonitoring.cs" />
@@ -174,14 +195,35 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DomainEntities\Rtu.cs" />
     <Compile Include="DomainEntities\Trace.cs" />
+    <Compile Include="ReadModel\GpsCalculator.cs" />
+    <Compile Include="ReadModel\GraphGpsCalculator.cs" />
+    <Compile Include="ReadModel\PathFinder.cs" />
+    <Compile Include="ReadModel\ReadModel.cs" />
+    <Compile Include="ReadModel\ReadModelExtensions.cs" />
+    <Compile Include="Requests\RequestAddEquipmentAtGpsLocation.cs" />
+    <Compile Include="Requests\RequestAddEquipmentIntoNode.cs" />
+    <Compile Include="Requests\RequestAddFiberWithNodes.cs" />
+    <Compile Include="Requests\RequestAddNodeIntoFiber.cs" />
+    <Compile Include="Requests\RequestAddRtuAtGpsLocation.cs" />
+    <Compile Include="Requests\RequestAddTrace.cs" />
+    <Compile Include="Requests\RequestAssignBaseRef.cs" />
+    <Compile Include="Requests\RequestRemoveNode.cs" />
+    <Compile Include="Requests\RequestRemoveRtu.cs" />
+    <Compile Include="Requests\RequestUpdateFiber.cs" />
+    <Compile Include="Requests\RequestUpdateRtu.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\GMap.NET.Core\GMap.NET.Core.csproj">
       <Project>{d0c39d9d-bed0-418b-9a5e-713176caf40c}</Project>
       <Name>GMap.NET.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\RTU\IitOtdrLibrary\IitOtdrLibrary.csproj">
+      <Project>{e9122bbb-b015-4710-bdd3-03243ee8cbcd}</Project>
+      <Name>IitOtdrLibrary</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\SharedLibs\Dto\Dto.csproj">
       <Project>{86a00748-2a4e-4180-b04e-0e1f6a62a258}</Project>

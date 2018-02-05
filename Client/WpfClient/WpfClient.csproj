@@ -185,12 +185,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ClientHeartbeat.cs" />
-    <Compile Include="Forms\BaseRefs\ToolKit\BaseRefAdjuster.cs" />
     <Compile Include="Forms\BaseRefs\BaseRefLandmarksChecker.cs" />
-    <Compile Include="Forms\BaseRefs\ToolKit\BaseRefLandmarksTool.cs" />
-    <Compile Include="Forms\BaseRefs\ToolKit\BaseRefRepairman.cs" />
-    <Compile Include="Forms\BaseRefs\ToolKit\TraceModelBuilder.cs" />
-    <Compile Include="Forms\BaseRefs\ToolKit\TraceModelForBaseRef.cs" />
     <Compile Include="Forms\EquipmentAddUpdate\CableReserveInfoView.xaml.cs">
       <DependentUpon>CableReserveInfoView.xaml</DependentUpon>
     </Compile>
@@ -302,17 +297,16 @@
     <Compile Include="Forms\TraceStatistics\TraceStatisticsViewsManager.cs" />
     <Compile Include="Forms\UniversalForms\MyMessageBox\MessageType.cs" />
     <Compile Include="Forms\UniversalForms\MyMessageBox\MessageTypeExt.cs" />
-    <Compile Include="Logic\FiberStateExt.cs" />
+    <Compile Include="Logic\Extensions\FiberStateExt.cs" />
     <Compile Include="Logic\LocalAddressResearcher.cs" />
-    <Compile Include="Logic\RtuPartStateExt.cs" />
+    <Compile Include="Logic\Extensions\RtuPartStateExt.cs" />
     <Compile Include="Logic\SoundManager.cs" />
-    <Compile Include="ReadModel\GpsCalculator.cs" />
-    <Compile Include="ReadModel\GraphGpsCalculator.cs" />
     <Compile Include="Forms\UniversalForms\MyMessageBox\MyMessageBoxLineModel.cs" />
     <Compile Include="Forms\UniversalForms\MyMessageBox\MyMessageBoxView.xaml.cs">
       <DependentUpon>MyMessageBoxView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\UniversalForms\MyMessageBox\MyMessageBoxViewModel.cs" />
+    <Compile Include="Logic\VerboseTasks.cs" />
     <Compile Include="WindowManagerExt.cs" />
     <Compile Include="Forms\TraceState\EventStatusComboItem.cs" />
     <Compile Include="Forms\TraceState\TraceStateView.xaml.cs">
@@ -334,7 +328,7 @@
     <Compile Include="LocalDb\SQLiteDbProviderFactoryResolver.cs" />
     <Compile Include="LocalDb\SQLiteProviderInvariantName.cs" />
     <Compile Include="Logic\ReflectogramManager.cs" />
-    <Compile Include="Logic\ReturnCodeExt.cs" />
+    <Compile Include="Logic\Extensions\ReturnCodeExt.cs" />
     <Compile Include="Forms\TraceState\TraceStateViewsManager.cs" />
     <Compile Include="Logic\WaitCursor.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\RtuLeaf\RtuLeafActions.cs" />
@@ -345,20 +339,13 @@
     <Compile Include="Forms\Shell\TreeOfRtuControl\TraceLeaf\TraceLeafContextMenuProvider.cs" />
     <Compile Include="ViewModels\Administrative\PasswordHelper.cs" />
     <Compile Include="ViewModels\Administrative\UserMappings.cs" />
-    <Compile Include="ReadModel\VerboseTasks.cs" />
-    <Compile Include="Requests\RequestAddEquipmentAtGpsLocation.cs" />
-    <Compile Include="Requests\RequestAddRtuAtGpsLocation.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\ChildrenImpresario.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\IPortOwner.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\OtauLeaf\OtauLeaf.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\FreePorts.cs" />
     <Compile Include="ViewControls\GpsInputControl\GpsInputModeComboItem.cs" />
-    <Compile Include="ReadModel\PathFinder.cs" />
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Mappings\MappingEventToVm.cs" />
-    <Compile Include="ReadModel\ReadModel.cs" />
-    <Compile Include="ReadModel\ReadModelExtensions.cs" />
-    <Compile Include="Requests\RequestRemoveRtu.cs" />
     <Compile Include="ViewControls\NetAddressInputControl\Ip4InputView.xaml.cs">
       <DependentUpon>Ip4InputView.xaml</DependentUpon>
     </Compile>
@@ -430,14 +417,6 @@
     <Compile Include="Forms\Shell\TreeOfRtuControl\CommonActions.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\PortLeaf\PortLeaf.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\TreeOfRtuModel.cs" />
-    <Compile Include="Requests\RequestAddEquipmentIntoNode.cs" />
-    <Compile Include="Requests\RequestAddFiberWithNodes.cs" />
-    <Compile Include="Requests\RequestAddNodeIntoFiber.cs" />
-    <Compile Include="Requests\RequestAddTrace.cs" />
-    <Compile Include="Requests\RequestAssignBaseRef.cs" />
-    <Compile Include="Requests\RequestRemoveNode.cs" />
-    <Compile Include="Requests\RequestUpdateFiber.cs" />
-    <Compile Include="Requests\RequestUpdateRtu.cs" />
     <Compile Include="AutofacClient.cs" />
     <Compile Include="ViewControls\GpsInputControl\GpsInputView.xaml.cs">
       <DependentUpon>GpsInputView.xaml</DependentUpon>
@@ -447,7 +426,7 @@
       <DependentUpon>OneCoorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewControls\GpsInputControl\OneCoorViewModel.cs" />
-    <Compile Include="Logic\PointLatLngExtensions.cs" />
+    <Compile Include="Logic\Extensions\PointLatLngExtensions.cs" />
     <Compile Include="Mappings\MappingViewModelToCommand.cs" />
     <Compile Include="Forms\Shell\MapUserControl\MapUserControlApplyFibersToRoutes.cs" />
     <Compile Include="Forms\Shell\MapUserControl\MapUserControlApplyNodesToMarkers.cs" />
@@ -495,7 +474,7 @@
     <Compile Include="GraphModel\GraphVisibilityVm.cs" />
     <Compile Include="GraphModel\GraphReadModel.cs" />
     <Compile Include="Forms\Shell\IShell.cs" />
-    <Compile Include="Logic\EquipmentTypeExt.cs" />
+    <Compile Include="Logic\Extensions\EquipmentTypeExt.cs" />
     <Compile Include="Forms\Shell\MapUserControl\Map.cs" />
     <Compile Include="Forms\Shell\MapUserControl\MapUserControl.xaml.cs">
       <DependentUpon>MapUserControl.xaml</DependentUpon>

@@ -9,7 +9,6 @@ using PrivateReflectionUsingDynamic;
 
 namespace Iit.Fibertest.DataCenterCore
 {
-    //TODO: Either merge projects, or use an interface
     public class EventStoreService
     {
         private readonly IMyLog _logFile;

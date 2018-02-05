@@ -2,6 +2,7 @@
 using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Client;
+using Iit.Fibertest.Graph.Requests;
 using Iit.Fibertest.StringResources;
 using TechTalk.SpecFlow;
 

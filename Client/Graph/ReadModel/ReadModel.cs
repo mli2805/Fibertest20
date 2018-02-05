@@ -4,11 +4,10 @@ using System.Linq;
 using AutoMapper;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Algorithms;
 using Iit.Fibertest.UtilsLib;
 
-namespace Iit.Fibertest.Client
+namespace Iit.Fibertest.Graph
 {
     public class ReadModel : PropertyChangedBase
     {

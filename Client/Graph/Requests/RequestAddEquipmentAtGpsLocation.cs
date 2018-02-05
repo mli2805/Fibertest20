@@ -1,6 +1,4 @@
-﻿using Iit.Fibertest.Graph;
-
-namespace Iit.Fibertest.Client
+﻿namespace Iit.Fibertest.Graph.Requests
 {
     public class RequestAddEquipmentAtGpsLocation
     {

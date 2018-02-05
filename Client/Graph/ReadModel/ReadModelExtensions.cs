@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Iit.Fibertest.Graph;
 
-namespace Iit.Fibertest.Client
+namespace Iit.Fibertest.Graph
 {
     public static class ReadModelExtensions
     {

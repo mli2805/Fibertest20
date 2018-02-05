@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.Graph.Requests;
 
 namespace Iit.Fibertest.Client
 {

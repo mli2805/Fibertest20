@@ -1,7 +1,6 @@
-﻿using Iit.Fibertest.Graph;
-using Optixsoft.SorExaminer.OtdrDataFormat;
+﻿using Optixsoft.SorExaminer.OtdrDataFormat;
 using OpxLandmark = Optixsoft.SorExaminer.OtdrDataFormat.Structures.Landmark;
-namespace Iit.Fibertest.Client
+namespace Iit.Fibertest.Graph.Algorithms.ToolKit
 {
     public class BaseRefAdjuster
     {

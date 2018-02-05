@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Data;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
 {

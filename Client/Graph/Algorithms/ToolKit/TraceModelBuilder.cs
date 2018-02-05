@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Iit.Fibertest.Graph;
 
-namespace Iit.Fibertest.Client
+namespace Iit.Fibertest.Graph.Algorithms.ToolKit
 {
     public class TraceModelBuilder
     {
@@ -28,6 +27,7 @@ namespace Iit.Fibertest.Client
                 new List<Equipment>() { new Equipment() { Type = EquipmentType.Rtu } }; // fake RTU, just for indexes match
             equipList.AddRange(_readModel.GetTraceEquipments(trace).ToList()); // without RTU
             var fibers = _readModel.GetTraceFibers(trace).ToArray();
+
             var distances = new int[fibers.Length];
             for (int i = 0; i < fibers.Length; i++)
             {

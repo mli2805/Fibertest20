@@ -74,9 +74,7 @@ namespace Iit.Fibertest.DataCenterCore
                 return await _rtuStationsRepository.RemoveRtuAsync(removeRtu.Id);
 
             if (cmd is RemoveTrace removeTrace)
-            {
                 return await _graphPostProcessingRepository.ProcessTraceRemovedAsync(removeTrace.Id);
-            }
 
             return null;
         }

@@ -1,8 +1,7 @@
-﻿using Iit.Fibertest.Graph;
-using Iit.Fibertest.IitOtdrLibrary;
+﻿using Iit.Fibertest.IitOtdrLibrary;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 
-namespace Iit.Fibertest.Client
+namespace Iit.Fibertest.Graph.Algorithms.ToolKit
 {
     public class BaseRefLandmarksTool
     {

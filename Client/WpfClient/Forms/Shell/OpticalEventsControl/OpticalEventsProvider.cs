@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using PrivateReflectionUsingDynamic;
 

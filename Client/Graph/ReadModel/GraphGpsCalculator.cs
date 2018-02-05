@@ -1,7 +1,6 @@
 ﻿using System.Linq;
-using Iit.Fibertest.Graph;
 
-namespace Iit.Fibertest.Client
+namespace Iit.Fibertest.Graph
 {
     public class GraphGpsCalculator
     {

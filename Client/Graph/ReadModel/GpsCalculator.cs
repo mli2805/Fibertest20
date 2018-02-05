@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Iit.Fibertest.Client
+namespace Iit.Fibertest.Graph
 {
     public static class GpsCalculator
     {
