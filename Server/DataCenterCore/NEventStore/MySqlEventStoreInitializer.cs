@@ -23,7 +23,7 @@ namespace Iit.Fibertest.DataCenterCore
             }
             catch (Exception e)
             {
-                logFile.AppendLine(e.Message);
+                logFile.AppendLine("MySqlEventStoreInitializer exception : " + e.Message);
                 logFile.AppendLine("Empty schema ft20graph need to be created manually beforehand");
                 return null;
             }
