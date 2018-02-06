@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using GMap.NET;
-using Iit.Fibertest.Client;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Requests;
 

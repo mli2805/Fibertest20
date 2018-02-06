@@ -1,49 +1,37 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace Iit.Fibertest.Graph.Algorithms.ToolKit
 {
     public class TraceModelBuilder
     {
-        private readonly ReadModel _readModel;
         private readonly GraphGpsCalculator _graphGpsCalculator;
 
-        public TraceModelBuilder(ReadModel readModel, GraphGpsCalculator graphGpsCalculator)
+        public TraceModelBuilder(GraphGpsCalculator graphGpsCalculator)
         {
-            _readModel = readModel;
             _graphGpsCalculator = graphGpsCalculator;
         }
 
-        public TraceModelForBaseRef GetTraceModelWithoutAdjustmentPoints(Trace trace)
+        public TraceModelForBaseRef GetTraceModelWithoutAdjustmentPoints(TraceModelForBaseRef traceModel)
         {
-            var fullModel = GetTraceModel(trace);
+            var fullModel = GetTraceModel(traceModel);
             return ExcludeAdjustmentPoints(fullModel);
         }
 
-        private TraceModelForBaseRef GetTraceModel(Trace trace)
+        
+        private TraceModelForBaseRef GetTraceModel(TraceModelForBaseRef model)
         {
-            var nodes = _readModel.GetTraceNodes(trace).ToArray();
-            var equipList =
-                new List<Equipment>() { new Equipment() { Type = EquipmentType.Rtu } }; // fake RTU, just for indexes match
-            equipList.AddRange(_readModel.GetTraceEquipments(trace).ToList()); // without RTU
-            var fibers = _readModel.GetTraceFibers(trace).ToArray();
-
-            var distances = new int[fibers.Length];
-            for (int i = 0; i < fibers.Length; i++)
+            model.DistancesMm = new int[model.FiberArray.Length];
+            for (int i = 0; i < model.FiberArray.Length; i++)
             {
-                var fiber = fibers[i];
+                var fiber = model.FiberArray[i];
                 if (!fiber.UserInputedLength.Equals(0))
-                    distances[i] = (int)fiber.UserInputedLength * 100;
+                    model.DistancesMm[i] = (int)fiber.UserInputedLength * 100;
                 else
-                    distances[i] = _graphGpsCalculator.CalculateDistanceBetweenNodesMm(nodes[i], equipList[i], nodes[i + 1], equipList[i + 1]);
+                    model.DistancesMm[i] = _graphGpsCalculator.CalculateDistanceBetweenNodesMm(
+                        model.NodeArray[i], model.EquipArray[i], model.NodeArray[i + 1], model.EquipArray[i + 1]);
             }
 
-            return new TraceModelForBaseRef
-            {
-                NodeArray = nodes,
-                EquipArray = equipList.ToArray(),
-                DistancesMm = distances
-            };
+            return model;
         }
 
         private TraceModelForBaseRef ExcludeAdjustmentPoints(TraceModelForBaseRef originalModel)

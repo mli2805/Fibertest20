@@ -197,9 +197,10 @@
     <Compile Include="DomainEntities\Trace.cs" />
     <Compile Include="ReadModel\GpsCalculator.cs" />
     <Compile Include="ReadModel\GraphGpsCalculator.cs" />
+    <Compile Include="ReadModel\IModel.cs" />
     <Compile Include="ReadModel\PathFinder.cs" />
     <Compile Include="ReadModel\ReadModel.cs" />
-    <Compile Include="ReadModel\ReadModelExtensions.cs" />
+    <Compile Include="ReadModel\ModelExt.cs" />
     <Compile Include="Requests\RequestAddEquipmentAtGpsLocation.cs" />
     <Compile Include="Requests\RequestAddEquipmentIntoNode.cs" />
     <Compile Include="Requests\RequestAddFiberWithNodes.cs" />

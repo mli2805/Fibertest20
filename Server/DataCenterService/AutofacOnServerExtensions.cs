@@ -3,6 +3,7 @@ using Autofac;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.DataCenterCore;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.Graph.Algorithms.ToolKit;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WcfServiceForClientInterface;
@@ -24,6 +25,7 @@ namespace Iit.Fibertest.DataCenterService
 
 
             builder.RegisterType<WriteModel>().SingleInstance();
+            builder.RegisterType<ReadModel>().SingleInstance();
             builder.RegisterType<Aggregate>().SingleInstance();
             builder.RegisterType<EventStoreService>().SingleInstance();
             builder.RegisterType<MeasurementFactory>().SingleInstance();
@@ -33,7 +35,12 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<ClientStationsRepository>().SingleInstance();
             builder.RegisterType<RtuStationsRepository>().SingleInstance();
             builder.RegisterType<BaseRefsRepository>().SingleInstance();
-            builder.RegisterType<BaseRefsBusinessToRepositoryIntermediary>().SingleInstance();
+            builder.RegisterType<BaseRefsRepositoryIntermediary>().SingleInstance();
+            builder.RegisterType<GraphGpsCalculator>().SingleInstance();
+            builder.RegisterType<TraceModelBuilder>().SingleInstance();
+            builder.RegisterType<BaseRefLandmarksTool>().SingleInstance();
+            builder.RegisterType<BaseRefRepairman>().SingleInstance();
+            builder.RegisterType<BaseRefRepairmanIntermediary>().SingleInstance();
 
             builder.RegisterType<MonitoringResultsRepository>().SingleInstance();
             builder.RegisterType<GraphPostProcessingRepository>().SingleInstance();

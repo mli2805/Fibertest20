@@ -6,11 +6,11 @@ using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.DataCenterCore
 {
-    public class BaseRefsBusinessToRepositoryIntermediary
+    public class BaseRefsRepositoryIntermediary
     {
         private readonly BaseRefsRepository _baseRefsRepository;
 
-        public BaseRefsBusinessToRepositoryIntermediary(BaseRefsRepository baseRefsRepository)
+        public BaseRefsRepositoryIntermediary(BaseRefsRepository baseRefsRepository)
         {
             _baseRefsRepository = baseRefsRepository;
         }

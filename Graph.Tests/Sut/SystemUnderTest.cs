@@ -52,7 +52,8 @@ namespace Graph.Tests
             builder.RegisterType<RtuStationsRepository>().SingleInstance();
             builder.RegisterType<ClientToRtuTransmitter>().SingleInstance();
             builder.RegisterType<BaseRefsRepository>().SingleInstance();
-            builder.RegisterType<BaseRefsBusinessToRepositoryIntermediary>().SingleInstance();
+            builder.RegisterType<BaseRefsRepositoryIntermediary>().SingleInstance();
+            builder.RegisterType<BaseRefRepairmanIntermediary>().SingleInstance();
             builder.RegisterType<MeasurementsRepository>().SingleInstance();
             builder.RegisterType<NetworkEventsRepository>().SingleInstance();
             builder.RegisterType<BopNetworkEventsRepository>().SingleInstance();

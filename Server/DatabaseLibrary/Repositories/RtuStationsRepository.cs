@@ -150,8 +150,7 @@ namespace Iit.Fibertest.DatabaseLibrary
                     foreach (var changedStation in changedStations)
                     {
                         var rtuStation = dbContext.RtuStations.First(r => r.RtuGuid == changedStation.RtuGuid);
-                        dbContext.RtuStations.Remove(rtuStation);
-                        dbContext.RtuStations.Add(changedStation);
+                        Cop(changedStation, rtuStation);
                     }
                     return await dbContext.SaveChangesAsync();
                 }
@@ -161,6 +160,21 @@ namespace Iit.Fibertest.DatabaseLibrary
                 _logFile.AppendLine("SaveAvailabilityChanges: " + e.Message);
                 return -1;
             }
+        }
+
+        private void Cop(RtuStation source, RtuStation destination)
+        {
+            destination.IsMainAddressOkDuePreviousCheck = source.IsMainAddressOkDuePreviousCheck;
+            destination.IsReserveAddressOkDuePreviousCheck = source.IsReserveAddressOkDuePreviousCheck;
+            destination.IsReserveAddressSet = source.IsReserveAddressSet;
+            destination.LastConnectionByMainAddressTimestamp = source.LastConnectionByMainAddressTimestamp;
+            destination.LastConnectionByReserveAddressTimestamp = source.LastConnectionByReserveAddressTimestamp;
+            destination.MainAddress = source.MainAddress;
+            destination.MainAddressPort = source.MainAddressPort;
+            destination.ReserveAddress = source.ReserveAddress;
+            destination.ReserveAddressPort = source.ReserveAddressPort;
+            destination.RtuGuid = source.RtuGuid;
+            destination.Version = source.Version;
         }
     }
 }

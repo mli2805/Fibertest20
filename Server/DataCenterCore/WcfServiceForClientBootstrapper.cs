@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ServiceModel;
+using System.ServiceModel.Description;
 using Autofac;
 using Autofac.Integration.Wcf;
 using Iit.Fibertest.Dto;
@@ -34,6 +35,12 @@ namespace Iit.Fibertest.DataCenterCore
                 _host.AddServiceEndpoint(typeof(IWcfServiceForClient),
                     WcfFactory.CreateDefaultNetTcpBinding(_config), uri);
                 _host.AddDependencyInjectionBehavior<IWcfServiceForClient>(_container);
+
+                var behavior = _host.Description.Behaviors.Find<ServiceDebugBehavior>();
+                if (behavior == null)
+                    _host.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });
+                else if (!behavior.IncludeExceptionDetailInFaults)
+                    behavior.IncludeExceptionDetailInFaults = true;
 
                 _host.Open();
                 _log.AppendLine("Clients listener started successfully");

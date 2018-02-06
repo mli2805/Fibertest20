@@ -26,7 +26,8 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly NetworkEventsRepository _networkEventsRepository;
         private readonly BopNetworkEventsRepository _bopNetworkEventsRepository;
         private readonly GraphPostProcessingRepository _graphPostProcessingRepository;
-        private readonly BaseRefsBusinessToRepositoryIntermediary _baseRefsBusinessToRepositoryIntermediary;
+        private readonly BaseRefsRepositoryIntermediary _baseRefsRepositoryIntermediary;
+        private readonly BaseRefRepairmanIntermediary _baseRefRepairmanIntermediary;
 
         private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
         {
@@ -36,7 +37,7 @@ namespace Iit.Fibertest.DataCenterCore
         public WcfServiceForClient(IMyLog logFile, EventStoreService eventStoreService,
             ClientStationsRepository clientStationsRepository, ClientToRtuTransmitter clientToRtuTransmitter,
             RtuStationsRepository rtuStationsRepository, 
-            BaseRefsBusinessToRepositoryIntermediary baseRefsBusinessToRepositoryIntermediary,
+            BaseRefsRepositoryIntermediary baseRefsRepositoryIntermediary, BaseRefRepairmanIntermediary baseRefRepairmanIntermediary,
             MeasurementsRepository measurementsRepository, NetworkEventsRepository networkEventsRepository,
             BopNetworkEventsRepository bopNetworkEventsRepository, GraphPostProcessingRepository graphPostProcessingRepository)
         {
@@ -49,7 +50,8 @@ namespace Iit.Fibertest.DataCenterCore
             _networkEventsRepository = networkEventsRepository;
             _bopNetworkEventsRepository = bopNetworkEventsRepository;
             _graphPostProcessingRepository = graphPostProcessingRepository;
-            _baseRefsBusinessToRepositoryIntermediary = baseRefsBusinessToRepositoryIntermediary;
+            _baseRefsRepositoryIntermediary = baseRefsRepositoryIntermediary;
+            _baseRefRepairmanIntermediary = baseRefRepairmanIntermediary;
         }
 
         public async Task<string> SendCommandAsObj(object cmd)
@@ -58,7 +60,7 @@ namespace Iit.Fibertest.DataCenterCore
             // but right server's method from WcfServiceForClient
             var username = "NCrunch";
             var clientIp = "127.0.0.1";
-            return await _eventStoreService.SendCommand(cmd, username, clientIp);
+            return await SendCommand(JsonConvert.SerializeObject(cmd, cmd.GetType(), JsonSerializerSettings), username, clientIp);
         }
 
         public async Task<string> SendCommand(string json, string username, string clientIp)
@@ -75,6 +77,17 @@ namespace Iit.Fibertest.DataCenterCore
 
             if (cmd is RemoveTrace removeTrace)
                 return await _graphPostProcessingRepository.ProcessTraceRemovedAsync(removeTrace.Id);
+
+            #region Base ref amend
+            if (cmd is MoveNode moveNode)
+                return await _baseRefRepairmanIntermediary.ProcessNodeMoved(moveNode.NodeId);
+            if (cmd is UpdateEquipment updateEquipment)
+                return await _baseRefRepairmanIntermediary.ProcessUpdateEquipment(updateEquipment.Id);
+            if (cmd is UpdateFiber updateFiber)
+                return await _baseRefRepairmanIntermediary.ProcessUpdateFiber(updateFiber.Id);
+            if (cmd is AddNodeIntoFiber addNodeIntoFiber)
+                return await _baseRefRepairmanIntermediary.ProcessAddIntoFiber(addNodeIntoFiber.Id);
+            #endregion
 
             return null;
         }
@@ -133,7 +146,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<List<BaseRefDto>> GetTraceBaseRefsAsync(Guid traceId)
         {
-            return await _baseRefsBusinessToRepositoryIntermediary.GetTraceBaseRefsAsync(traceId);
+            return await _baseRefsRepositoryIntermediary.GetTraceBaseRefsAsync(traceId);
         }
 
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
@@ -208,7 +221,7 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto dto)
         {
             _logFile.AppendLine($"Client {dto.ClientId.First6()} sent base ref for trace {dto.TraceId.First6()}");
-            var result = await _baseRefsBusinessToRepositoryIntermediary.AssignBaseRefAsync(dto);
+            var result = await _baseRefsRepositoryIntermediary.AssignBaseRefAsync(dto);
             if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                 return result;
 
@@ -224,7 +237,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             _logFile.AppendLine($"Client {dto.ClientId.First6()} asked to re-send base ref for trace {dto.TraceId.First6()}");
 
-            var convertedDto = await _baseRefsBusinessToRepositoryIntermediary.ConvertReSendToAssign(dto);
+            var convertedDto = await _baseRefsRepositoryIntermediary.ConvertReSendToAssign(dto);
 
             if (convertedDto?.BaseRefs == null)
                 return new BaseRefAssignedDto() {ReturnCode = ReturnCode.DbCannotConvertThisReSendToAssign};

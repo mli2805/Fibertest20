@@ -9,9 +9,9 @@ using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Graph
 {
-    public class ReadModel : PropertyChangedBase
+    public class ReadModel : PropertyChangedBase, IModel
     {
-        public readonly IMyLog LogFile;
+        public IMyLog LogFile { get; }
 
         private readonly IMapper _mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();

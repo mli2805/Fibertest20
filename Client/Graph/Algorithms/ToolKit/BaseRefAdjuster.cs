@@ -4,18 +4,21 @@ namespace Iit.Fibertest.Graph.Algorithms.ToolKit
 {
     public class BaseRefAdjuster
     {
+        private readonly ReadModel _readModel;
         private readonly TraceModelBuilder _traceModelBuilder;
         private readonly BaseRefLandmarksTool _baseRefLandmarksTool;
 
-        public BaseRefAdjuster(TraceModelBuilder traceModelBuilder, BaseRefLandmarksTool baseRefLandmarksTool)
+        public BaseRefAdjuster(ReadModel readModel, TraceModelBuilder traceModelBuilder, BaseRefLandmarksTool baseRefLandmarksTool)
         {
+            _readModel = readModel;
             _traceModelBuilder = traceModelBuilder;
             _baseRefLandmarksTool = baseRefLandmarksTool;
         }
 
         public void AddLandmarksForEmptyNodes(OtdrDataKnownBlocks otdrDataKnownBlocks, Trace trace)
         {
-            var modelWithoutAdjustmentPoint = _traceModelBuilder.GetTraceModelWithoutAdjustmentPoints(trace);
+            var traceModel = _readModel.GetTraceComponentsByIds(trace);
+            var modelWithoutAdjustmentPoint = _traceModelBuilder.GetTraceModelWithoutAdjustmentPoints(traceModel);
 
             InsertLandmarks(otdrDataKnownBlocks, modelWithoutAdjustmentPoint);
             _baseRefLandmarksTool.SetLandmarksLocation(otdrDataKnownBlocks, modelWithoutAdjustmentPoint);
