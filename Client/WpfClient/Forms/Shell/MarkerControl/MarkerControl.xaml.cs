@@ -114,18 +114,20 @@ namespace Iit.Fibertest.Client
 
         private void OpenNodeContextMenu()
         {
-            var actions = new MarkerControlActions(this);
-            var permissions = new MarkerControlPermissions(new CurrentUser(){Role = Role.Root}, this);
-            var menuProvider = new MarkerControlContextMenuProvider(actions, permissions);
-            ContextMenu = menuProvider.GetNodeContextMenu(GMapMarker.Id);
+            var actions = new NodeVmActions();
+            var actionsC = new CommonVmActions();
+            var permissions = new NodeVmPermissions(new CurrentUser(){Role = Role.Root});
+            var menuProvider = new NodeVmContextMenuProvider(actions, actionsC, permissions);
+            ContextMenu = menuProvider.GetNodeContextMenu(this);
             ContextMenu.IsOpen = true;
         }
         private void OpenRtuContextMenu()
         {
-            var actions = new MarkerControlActions(this);
-            var permissions = new MarkerControlPermissions(new CurrentUser(){Role = Role.Root}, this);
-            var menuProvider = new MarkerControlContextMenuProvider(actions, permissions);
-            ContextMenu = menuProvider.GetRtuContextMenu(GMapMarker.Id);
+            var actions = new RtuVmActions();
+            var actionsC = new CommonVmActions();
+            var permissions = new RtuVmPermissions(new CurrentUser(){Role = Role.Root});
+            var menuProvider = new RtuVmContextMenuProvider(actions, actionsC, permissions);
+            ContextMenu = menuProvider.GetRtuContextMenu(this);
             ContextMenu.IsOpen = true;
         }
 

@@ -10,8 +10,6 @@
         <!-- call this resource from code -->
         <!-- ReSharper disable once Xaml.RedundantResource -->
         <ContextMenu x:Key="MapContextMenu">
-            <MenuItem Header="{x:Static stringResources:Resources.SID_Add_adjustment_point}" Tag="100" Click="AddNodeOnClick"/>
-            <Separator />
             <MenuItem Header="{x:Static stringResources:Resources.SID_Add_node}" Tag="200" Click="AddNodeOnClick"/>
             <MenuItem Header="{x:Static stringResources:Resources.SID_Add_node_with_cable_reserve}" Tag="300" Click="AddNodeOnClick"/>
             <Separator />

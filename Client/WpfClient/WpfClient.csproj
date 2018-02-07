@@ -192,6 +192,10 @@
     <Compile Include="Forms\EquipmentAddUpdate\CableReserveInfoViewModel.cs" />
     <Compile Include="Forms\EquipmentAddUpdate\EquipmentInfoModel.cs" />
     <Compile Include="Forms\EquipmentAddUpdate\ViewMode.cs" />
+    <Compile Include="Forms\Shell\MarkerControl\CommonVmActions.cs" />
+    <Compile Include="Forms\Shell\MarkerControl\RtuVmActions.cs" />
+    <Compile Include="Forms\Shell\MarkerControl\RtuVmContextMenuProvider.cs" />
+    <Compile Include="Forms\Shell\MarkerControl\RtuVmPermissions.cs" />
     <Compile Include="Forms\SpecialMeasurements\ClientMeasurementViewModel.cs" />
     <Compile Include="ClientWcfService.cs" />
     <Compile Include="Forms\SpecialMeasurements\ClientMeasurementView.xaml.cs">
@@ -220,9 +224,9 @@
       <DependentUpon>CommonStatusBarView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\Shell\CommonStatusBarControl\CommonStatusBarViewModel.cs" />
-    <Compile Include="Forms\Shell\MarkerControl\MarkerControlActions.cs" />
-    <Compile Include="Forms\Shell\MarkerControl\MarkerControlContextMenuProvider.cs" />
-    <Compile Include="Forms\Shell\MarkerControl\MarkerControlPermissions.cs" />
+    <Compile Include="Forms\Shell\MarkerControl\NodeVmActions.cs" />
+    <Compile Include="Forms\Shell\MarkerControl\NodeVmContextMenuProvider.cs" />
+    <Compile Include="Forms\Shell\MarkerControl\NodeVmPermissions.cs" />
     <Compile Include="Forms\Shell\NetworkEventsControl\NetworkEventsDoubleView.xaml.cs">
       <DependentUpon>NetworkEventsDoubleView.xaml</DependentUpon>
     </Compile>
