@@ -476,7 +476,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Assigned at.
+        ///   Looks up a localized string similar to Assigned.
         /// </summary>
         public static string SID_Assigned_at {
             get {
@@ -485,7 +485,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Assigned by.
+        ///   Looks up a localized string similar to User.
         /// </summary>
         public static string SID_Assigned_by {
             get {
@@ -715,6 +715,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Broken {
             get {
                 return ResourceManager.GetString("SID_Broken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cable reserve could not be more than {0} m.
+        /// </summary>
+        public static string SID_Cable_reserve_could_not_be_more_than__0__m {
+            get {
+                return ResourceManager.GetString("SID_Cable_reserve_could_not_be_more_than__0__m", resourceCulture);
             }
         }
         
@@ -1400,15 +1409,6 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Equipment__including_RTU {
             get {
                 return ResourceManager.GetString("SID_Equipment__including_RTU", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Equipment in node.
-        /// </summary>
-        public static string SID_Equipment_in_node {
-            get {
-                return ResourceManager.GetString("SID_Equipment_in_node", resourceCulture);
             }
         }
         

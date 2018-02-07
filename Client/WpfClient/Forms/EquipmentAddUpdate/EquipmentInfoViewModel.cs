@@ -2,6 +2,7 @@
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
@@ -9,25 +10,32 @@ namespace Iit.Fibertest.Client
     public class EquipmentInfoViewModel : Screen
     {
         public Guid EquipmentId { get; set; }
-        public Equipment Equipment { get; }
+        public Equipment Equipment { get; set; }
         public Guid NodeId;
-        private readonly ViewMode _mode;
+        private ViewMode _mode;
+        private readonly IniFile _iniFile;
         private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWindowManager _windowManager;
 
         public EquipmentInfoModel Model { get; set; } = new EquipmentInfoModel();
 
         public object Command { get; set; }
 
-        // Add
-        public EquipmentInfoViewModel(Guid nodeId)
+        public EquipmentInfoViewModel(IniFile iniFile, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
+        {
+            _iniFile = iniFile;
+            _c2DWcfManager = c2DWcfManager;
+            _windowManager = windowManager;
+        }
+
+        public void InitializeForAdd(Guid nodeId)
         {
             _mode = ViewMode.Add;
             NodeId = nodeId;
             Model.SetSelectedRadioButton(EquipmentType.Cross);
         }
 
-        // Update
-        public EquipmentInfoViewModel(Equipment equipment, IWcfServiceForClient c2DWcfManager)
+        public void InitializeForUpdate(Equipment equipment)
         {
             _mode = ViewMode.Update;
             Equipment = equipment;
@@ -39,8 +47,6 @@ namespace Iit.Fibertest.Client
             Model.CableReserveLeft = equipment.CableReserveLeft;
             Model.CableReserveRight = equipment.CableReserveRight;
             Model.Comment = equipment.Comment;
-
-            _c2DWcfManager = c2DWcfManager;
         }
 
         protected override void OnViewLoaded(object view)
@@ -51,6 +57,13 @@ namespace Iit.Fibertest.Client
         public async void Save()
         {
             var eqType = Model.GetSelectedRadioButton();
+            var maxCableReserve = _iniFile.Read(IniSection.Miscellaneous, IniKey.MaxCableReserve, 200);
+            if (Model.CableReserveLeft > maxCableReserve || Model.CableReserveRight > maxCableReserve)
+            {
+                var vm = new MyMessageBoxViewModel(MessageType.Error, string.Format(Resources.SID_Cable_reserve_could_not_be_more_than__0__m, maxCableReserve));
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+                return;
+            }
 
             if (_mode == ViewMode.Update)
             {
@@ -59,7 +72,7 @@ namespace Iit.Fibertest.Client
                     Id = EquipmentId,
                     Title = Model.Title,
                     Type = eqType,
-                    CableReserveLeft = eqType == EquipmentType.CableReserve ? Model.CableReserveM : Model.CableReserveLeft,
+                    CableReserveLeft = Model.CableReserveLeft,
                     CableReserveRight = Model.CableReserveRight,
                     Comment = Model.Comment,
                 };

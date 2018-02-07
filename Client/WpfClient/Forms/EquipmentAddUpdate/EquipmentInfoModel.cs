@@ -18,18 +18,6 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private int _cableReserveM;
-        public int CableReserveM
-        {
-            get => _cableReserveM;
-            set
-            {
-                if (value == _cableReserveM) return;
-                _cableReserveM = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
         private int _cableReserveLeft;
         public int CableReserveLeft
         {
@@ -66,7 +54,6 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public RadioButtonModel CableReserve { get; } = new RadioButtonModel() { Title = Resources.SID_CableReserve };
         public RadioButtonModel Sleeve { get; } = new RadioButtonModel() { Title = Resources.SID_Closure };
         public RadioButtonModel Cross { get; } = new RadioButtonModel() { Title = Resources.SID_Cross };
         public RadioButtonModel Terminal { get; } = new RadioButtonModel() { Title = Resources.SID_Terminal };
@@ -81,8 +68,6 @@ namespace Iit.Fibertest.Client
 
         public EquipmentType GetSelectedRadioButton()
         {
-            if (CableReserve.IsChecked)
-                return EquipmentType.CableReserve;
             if (Sleeve.IsChecked)
                 return EquipmentType.Closure;
             if (Cross.IsChecked)
@@ -97,9 +82,7 @@ namespace Iit.Fibertest.Client
         public void SetSelectedRadioButton(EquipmentType type)
         {
             CleanSelectedRadioButton();
-            if (type == EquipmentType.CableReserve)
-                CableReserve.IsChecked = true;
-            else if (type == EquipmentType.Closure)
+            if (type == EquipmentType.Closure)
                 Sleeve.IsChecked = true;
             else if (type == EquipmentType.Cross)
                 Cross.IsChecked = true;
@@ -111,7 +94,6 @@ namespace Iit.Fibertest.Client
 
         private void CleanSelectedRadioButton()
         {
-            CableReserve.IsChecked = false;
             Sleeve.IsChecked = false;
             Cross.IsChecked = false;
             Terminal.IsChecked = false;

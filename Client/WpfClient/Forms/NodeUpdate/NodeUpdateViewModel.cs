@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Autofac;
 using Caliburn.Micro;
 using GMap.NET;
 using Iit.Fibertest.Graph;
@@ -14,6 +15,7 @@ namespace Iit.Fibertest.Client
 {
     public class NodeUpdateViewModel : Screen, IDataErrorInfo
     {
+        private readonly ILifetimeScope _globalScope;
         private readonly ReadModel _readModel;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
@@ -116,8 +118,9 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public NodeUpdateViewModel(ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager)
+        public NodeUpdateViewModel(ILifetimeScope globalScope, ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager)
         {
+            _globalScope = globalScope;
             _readModel = readModel;
             _readModel.PropertyChanged += _readModel_PropertyChanged;
             _windowManager = windowManager;
@@ -187,7 +190,7 @@ namespace Iit.Fibertest.Client
 
         public async Task AddEquipmentIntoNode(bool isCableReserveRequested)
         {
-            var cmd = VerboseTasks.BuildAddEquipmentIntoNodeCommand(_originalNode.Id, isCableReserveRequested, _readModel, _windowManager);
+            var cmd = VerboseTasks.BuildAddEquipmentIntoNodeCommand(_originalNode.Id, isCableReserveRequested, _readModel, _windowManager, _globalScope);
             if (cmd == null)
                 return;
             await _c2DWcfManager.SendCommandAsObj(cmd);
@@ -216,7 +219,8 @@ namespace Iit.Fibertest.Client
             }
             else
             {
-                var equipmentViewModel = new EquipmentInfoViewModel(equipment, _c2DWcfManager);
+                var equipmentViewModel = _globalScope.Resolve<EquipmentInfoViewModel>();
+                equipmentViewModel.InitializeForUpdate(equipment);
                 _windowManager.ShowDialogWithAssignedOwner(equipmentViewModel);
                 if (equipmentViewModel.Command == null) return;
                 cmd = (UpdateEquipment)equipmentViewModel.Command;

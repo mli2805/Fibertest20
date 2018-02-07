@@ -271,7 +271,7 @@ namespace Iit.Fibertest.Client
 
         public async Task ComplyWithRequest(RequestAddEquipmentIntoNode request)
         {
-            await VerboseTasks.AddEquipmentIntoNodeFullTask(request, ReadModel, _windowManager, C2DWcfManager);
+            await VerboseTasks.AddEquipmentIntoNodeFullTask(request, GlobalScope, ReadModel, _windowManager, C2DWcfManager);
         }
 
         public async Task ComplyWithRequest(UpdateEquipment request)

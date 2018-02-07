@@ -1284,10 +1284,10 @@ RTU is initializing right now!</value>
     <value>Base ref type</value>
   </data>
 	<data name="SID_Assigned_at" xml:space="preserve">
-    <value>Assigned at</value>
+    <value>Assigned</value>
   </data>
 	<data name="SID_Assigned_by" xml:space="preserve">
-    <value>Assigned by</value>
+    <value>User</value>
   </data>
 	<data name="SID_Recieved_at" xml:space="preserve">
     <value>Recieved at</value>
@@ -1588,5 +1588,8 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID_In_node_are_placed_" xml:space="preserve">
     <value>In node are placed:</value>
+  </data>
+	<data name="SID_Cable_reserve_could_not_be_more_than__0__m" xml:space="preserve">
+    <value>Cable reserve could not be more than {0} m</value>
   </data>
 </root>

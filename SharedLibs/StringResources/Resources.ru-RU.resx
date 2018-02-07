@@ -1284,10 +1284,10 @@ RTU инициализируется в данный момент!</value>
 		<value>Тип базовой</value>
 	</data>
 	<data name="SID_Assigned_at" xml:space="preserve">
-		<value>Назначено</value>
+		<value>Задано</value>
 	</data>
 	<data name="SID_Assigned_by" xml:space="preserve">
-		<value>Назначил</value>
+		<value>Пользователь</value>
 	</data>
 	<data name="SID_Recieved_at" xml:space="preserve">
 		<value>Получено</value>
@@ -1588,5 +1588,8 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_In_node_are_placed_" xml:space="preserve">
 		<value>В узле размещены:</value>
+	</data>
+	<data name="SID_Cable_reserve_could_not_be_more_than__0__m" xml:space="preserve">
+		<value>Запас кабеля не может быть более {0} м</value>
 	</data>
 </root>

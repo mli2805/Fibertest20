@@ -145,6 +145,7 @@ namespace Iit.Fibertest.Client
 
 
             builder.RegisterType<NodeUpdateViewModel>();
+            builder.RegisterType<EquipmentInfoViewModel>();
 
             builder.RegisterType<LoginViewModel>();
             builder.RegisterType<ServerConnectViewModel>();

@@ -70,6 +70,7 @@
         CenterLongitude,
 
         // Miscellaneous
-        PathToSor
+        PathToSor,
+        MaxCableReserve,
     }
 }
