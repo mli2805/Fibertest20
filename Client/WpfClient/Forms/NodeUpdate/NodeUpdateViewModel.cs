@@ -229,16 +229,18 @@ namespace Iit.Fibertest.Client
             await _c2DWcfManager.SendCommandAsObj(cmd);
         }
 
-        public void Save()
+        public async void Save()
         {
-            Command = IsChanged() ?
-                new UpdateNode
+            if (IsChanged())
+            {
+                var cmd = new UpdateNode
                 {
                     Id = _originalNode.Id,
                     Title = _title?.Trim(),
                     Comment = _comment?.Trim()
-                }
-                : null;
+                };
+                await _c2DWcfManager.SendCommandAsObj(cmd);
+            }
 
             TryClose();
         }

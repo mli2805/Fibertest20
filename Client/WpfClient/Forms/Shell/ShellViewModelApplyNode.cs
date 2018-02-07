@@ -21,14 +21,14 @@ namespace Iit.Fibertest.Client
             return new RemoveNode { Id = request.Id, TraceWithNewFiberForDetourRemovedNode = dictionary };
         }
 
-        private UpdateNode PrepareCommand(UpdateNode request)
-        {
-            var vm = GlobalScope.Resolve<NodeUpdateViewModel>();
-            vm.Initialize(request.Id);
-            vm.PropertyChanged += Vm_PropertyChanged;
-            _windowManager.ShowDialogWithAssignedOwner(vm);
-            return (UpdateNode)vm.Command;
-        }
+//        private UpdateNode PrepareCommand(UpdateNode request)
+//        {
+//            var vm = GlobalScope.Resolve<NodeUpdateViewModel>();
+//            vm.Initialize(request.Id);
+//            vm.PropertyChanged += Vm_PropertyChanged;
+//            _windowManager.ShowDialogWithAssignedOwner(vm);
+//            return (UpdateNode)vm.Command;
+//        }
 
         private void Vm_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {

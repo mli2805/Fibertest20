@@ -28,20 +28,6 @@ namespace Graph.Tests
             return true;
         }
 
-        public static bool NodeUpdateHandler(this SystemUnderTest sut, object model, string title, string comment, Answer button)
-        {
-            if (!(model is NodeUpdateViewModel vm)) return false;
-            if (title != null)
-                vm.Title = title;
-            if (comment != null)
-                vm.Comment = comment;
-            if (button == Answer.Yes)
-                vm.Save();
-            else
-                vm.Cancel();
-            return true;
-        }
-
         public static bool RtuUpdateHandler(this SystemUnderTest sut, object model, string title, string comment, Answer button)
         {
             if (!(model is RtuUpdateViewModel vm)) return false;

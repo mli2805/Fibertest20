@@ -179,13 +179,13 @@ namespace Iit.Fibertest.Client
             await C2DWcfManager.SendCommandAsObj(cmd);
         }
 
-        public async Task ComplyWithRequest(UpdateNode request)
-        {
-            var cmd = PrepareCommand(request);
-            if (cmd == null)
-                return;
-            await C2DWcfManager.SendCommandAsObj(cmd);
-        }
+//        public async Task ComplyWithRequest(UpdateNode request)
+//        {
+//            var cmd = PrepareCommand(request);
+//            if (cmd == null)
+//                return;
+//            await C2DWcfManager.SendCommandAsObj(cmd);
+//        }
 
         public async Task ComplyWithRequest(RequestRemoveNode request)
         {

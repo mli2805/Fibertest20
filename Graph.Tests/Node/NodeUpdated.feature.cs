@@ -132,8 +132,10 @@ this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
 #line 18
- testRunner.Given("Пользователь ввел название узла node-node", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.When("Пользователь открыл окно редактирования только что добавленного узла", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 19
+ testRunner.Given("Пользователь ввел название узла node-node", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 20
  testRunner.Then("Сохраняется название узла node-node", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -145,13 +147,15 @@ this.FeatureBackground();
         public virtual void СохранениеИзмененийКомментария()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Сохранение изменений комментария", ((string[])(null)));
-#line 21
+#line 22
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 22
- testRunner.Given("Пользователь ввел комментарий к узлу some comment", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 23
+ testRunner.When("Пользователь открыл окно редактирования только что добавленного узла", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 24
+ testRunner.Given("Пользователь ввел комментарий к узлу some comment", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 25
  testRunner.Then("Сохраняется комментарий узла some comment", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -163,13 +167,15 @@ this.FeatureBackground();
         public virtual void РазрешеноСохранениеССуществующимИменемУзла()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Разрешено сохранение с существующим именем узла", ((string[])(null)));
-#line 25
+#line 27
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 26
+#line 28
+ testRunner.When("Пользователь открыл окно редактирования только что добавленного узла", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 29
  testRunner.Given("Пользователь ввел название узла blah-blah", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 27
+#line 30
  testRunner.Then("Сохраняется название узла blah-blah", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -181,13 +187,13 @@ this.FeatureBackground();
         public virtual void ОтказОтИзмененияУзла()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Отказ от изменения узла", ((string[])(null)));
-#line 29
+#line 32
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 30
+#line 33
  testRunner.When("Пользователь открыл окно редактирования и что-то изменив нажал Отменить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 31
+#line 34
  testRunner.Then("Никаких команд не подается", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

@@ -23,10 +23,13 @@ namespace Graph.Tests
             _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             var nodeId = _sut.ShellVm.GraphReadModel.Nodes.Last().Id;
+            _nodeUpdateViewModel = _sut.Container.Resolve<NodeUpdateViewModel>();
+            _nodeUpdateViewModel.Initialize(nodeId);
+            _nodeUpdateViewModel.Title = title;
+            _nodeUpdateViewModel.Save();
 
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.NodeUpdateHandler(model, title, @"doesn't matter", Answer.Yes));
-            _sut.ShellVm.ComplyWithRequest(new UpdateNode() {Id = nodeId }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
+            _sut.ReadModel.Nodes.First(n => n.Id == nodeId).Title.Should().Be(title);
         }
 
         [Given(@"Добавлен узел")]
@@ -41,7 +44,6 @@ namespace Graph.Tests
         [When(@"Пользователь открыл окно редактирования только что добавленного узла")]
         public void WhenПользовательОткрылОкноРедактированияТолькоЧтоДобавленногоУзла()
         {
-//            _nodeUpdateViewModel = new NodeUpdateViewModel(_saidNodeId, _sut.ReadModel, new FakeWindowManager(), _sut.ShellVm.C2DWcfManager);
             _nodeUpdateViewModel = _sut.Container.Resolve<NodeUpdateViewModel>();
             _nodeUpdateViewModel.Initialize(_saidNodeId);
         }
@@ -70,8 +72,9 @@ namespace Graph.Tests
         public void WhenПользовательОткрылОкноРедактированияИНичегоНеИзменивНажалСохранить()
         {
             _cutOff = _sut.CurrentEventNumber;
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.NodeUpdateHandler(model, null, null, Answer.Yes));
-            _sut.ShellVm.ComplyWithRequest(new UpdateNode() { Id = _saidNodeId }).Wait();
+            _nodeUpdateViewModel = _sut.Container.Resolve<NodeUpdateViewModel>();
+            _nodeUpdateViewModel.Initialize(_saidNodeId);
+            _nodeUpdateViewModel.Save();
             _sut.Poller.EventSourcingTick().Wait();
         }
 
@@ -79,8 +82,8 @@ namespace Graph.Tests
         [Given(@"Пользователь ввел название узла (.*)")]
         public void GivenTitleWasSetToBlah_Blah(string title)
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.NodeUpdateHandler(model, title, null, Answer.Yes));
-            _sut.ShellVm.ComplyWithRequest(new UpdateNode() { Id = _saidNodeId }).Wait();
+            _nodeUpdateViewModel.Title = title;
+            _nodeUpdateViewModel.Save();
             _sut.Poller.EventSourcingTick().Wait();
         }
 
@@ -93,8 +96,8 @@ namespace Graph.Tests
         [Given(@"Пользователь ввел комментарий к узлу (.*)")]
         public void GivenПользовательВвелКомментарийКУзлу(string comment)
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.NodeUpdateHandler(model, null, comment, Answer.Yes));
-            _sut.ShellVm.ComplyWithRequest(new UpdateNode() { Id = _saidNodeId }).Wait();
+            _nodeUpdateViewModel.Comment = comment;
+            _nodeUpdateViewModel.Save();
             _sut.Poller.EventSourcingTick().Wait();
         }
 
@@ -108,8 +111,10 @@ namespace Graph.Tests
         public void WhenПользовательОткрылОкноРедактированияИЧто_ТоИзменивНажалОтменить()
         {
             _cutOff = _sut.CurrentEventNumber;
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.NodeUpdateHandler(model, @"something", @"doesn't matter", Answer.Cancel));
-            _sut.ShellVm.ComplyWithRequest(new UpdateNode() { Id = _saidNodeId }).Wait();
+            _nodeUpdateViewModel = _sut.Container.Resolve<NodeUpdateViewModel>();
+            _nodeUpdateViewModel.Initialize(_saidNodeId);
+            _nodeUpdateViewModel.Title = @"asdf";
+            _nodeUpdateViewModel.Cancel();
             _sut.Poller.EventSourcingTick().Wait();
         }
 
