@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
+using Autofac;
 using FluentAssertions;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Requests;
+using Iit.Fibertest.StringResources;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -70,7 +72,9 @@ namespace Graph.Tests
         public void WhenПользовательКликаетУдалитьУзел()
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
-            _sut.ShellVm.ComplyWithRequest(new RequestRemoveNode() { Id = _nodeId }).Wait();
+
+            var nodeVmActions = _sut.Container.Resolve<NodeVmActions>();
+            nodeVmActions.RemoveNode(_nodeId).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 

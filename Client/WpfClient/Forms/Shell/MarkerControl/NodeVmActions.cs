@@ -1,4 +1,7 @@
-﻿using Autofac;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Requests;
@@ -10,25 +13,23 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly IWindowManager _windowManager;
+        private readonly GraphReadModel _graphReadModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
 
-        public NodeVmActions(ILifetimeScope globalScope, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager)
+        public NodeVmActions(ILifetimeScope globalScope, IWindowManager windowManager, GraphReadModel graphReadModel, IWcfServiceForClient c2DWcfManager)
         {
             _globalScope = globalScope;
             _windowManager = windowManager;
+            _graphReadModel = graphReadModel;
             _c2DWcfManager = c2DWcfManager;
         }
 
         public void AskUpdateNode(object parameter)
         {
             var marker = (MarkerControl)parameter;
-
             var vm = _globalScope.Resolve<NodeUpdateViewModel>();
             vm.Initialize(marker.GMapMarker.Id);
             _windowManager.ShowDialogWithAssignedOwner(vm);
-
-
-//            marker.Owner.GraphReadModel.Request = new UpdateNode() { Id = marker.GMapMarker.Id };
         }
         public void AskAddEquipment(object parameter)
         {
@@ -46,10 +47,25 @@ namespace Iit.Fibertest.Client
         {
         }
 
-        public void AskRemoveNode(object parameter)
+        public async void AskRemoveNode(object parameter)
         {
             var marker = (MarkerControl)parameter;
-            marker.Owner.GraphReadModel.Request = new RequestRemoveNode() { Id = marker.GMapMarker.Id };
+            await RemoveNode(marker.GMapMarker.Id);
+        }
+
+        public async Task RemoveNode(Guid nodeId)
+        {
+            if (_graphReadModel.Traces.Any(t => t.Nodes.Last() == nodeId))
+                return;
+            if (_graphReadModel.Traces.Any(t => t.Nodes.Contains(nodeId) && t.HasBase))
+                return;
+
+            var dictionary = _graphReadModel.Traces.Where(t => t.Nodes.Contains(nodeId))
+                .ToDictionary(trace => trace.Id, trace => Guid.NewGuid());
+            var cmd = new RemoveNode {Id = nodeId, TraceWithNewFiberForDetourRemovedNode = dictionary};
+            var message = await _c2DWcfManager.SendCommandAsObj(cmd);
+            if (message != null)
+                _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, message));
         }
     }
 }
