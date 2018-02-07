@@ -85,7 +85,7 @@ namespace Iit.Fibertest.Client
         private void EndTraceDefinition()
         {
             MainMap.IsInTraceDefiningMode = false;
-            Owner.GraphReadModel.Request = new RequestAddTrace() {NodeWithRtuId = MainMap.StartNode.Id, LastNodeId = GMapMarker.Id};
+            Owner.GraphReadModel.Request = new RequestAddTrace() { NodeWithRtuId = MainMap.StartNode.Id, LastNodeId = GMapMarker.Id };
             Owner.SetBanner("");
         }
 
@@ -95,10 +95,15 @@ namespace Iit.Fibertest.Client
             // it was a temporary fiber for creation purposes only
             MainMap.Markers.Remove(MainMap.Markers.Single(m => m.Id == MainMap.FiberUnderCreation));
 
-            if (!MainMap.IsFiberWithNodes)
-                Owner.GraphReadModel.Request = new AddFiber() { Node1 = MainMap.StartNode.Id, Node2 = GMapMarker.Id };
-            else
-                Owner.GraphReadModel.Request = new RequestAddFiberWithNodes() { Node1 = MainMap.StartNode.Id, Node2 = GMapMarker.Id, };
+            if (Type != EquipmentType.AdjustmentPoint)
+            {
+                if (!MainMap.IsFiberWithNodes)
+                    Owner.GraphReadModel.Request = new AddFiber() { Node1 = MainMap.StartNode.Id, Node2 = GMapMarker.Id };
+                else
+                    Owner.GraphReadModel.Request =
+                        new RequestAddFiberWithNodes() { Node1 = MainMap.StartNode.Id, Node2 = GMapMarker.Id, };
+            }
+
 
             MainMap.FiberUnderCreation = Guid.Empty;
             Cursor = Cursors.Arrow;
@@ -109,7 +114,7 @@ namespace Iit.Fibertest.Client
         void MarkerControl_MouseLeave(object sender, MouseEventArgs e)
         {
             GMapMarker.ZIndex -= 10000;
-//            Cursor = Cursors.Arrow;
+            //            Cursor = Cursors.Arrow;
             Cursor = _cursorBeforeEnter;
             if (!string.IsNullOrEmpty(Title))
                 _popup.IsOpen = false;
