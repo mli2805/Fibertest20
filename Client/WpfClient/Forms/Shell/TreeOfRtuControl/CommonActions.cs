@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Dto;
@@ -59,36 +60,58 @@ namespace Iit.Fibertest.Client
             return 0;
         }
 
+
+        /*
+         * Old fashioned RTU has main address 192.168.96.58 which is different from its otau address 192.168.96.59
+         *      mainCharon = 192.168.96.59 : 23    addressOfCharonWithThisPort = 192.168.96.59 : 23
+         *          and than otdr address = 192.168.96.59 : 1500
+         *
+         * New RTU (MAK100) has main address 172.16.5.53 and its otau could be addressed by the same address, but in otau address stored value 192.168.88.101
+         *      mainCharon = 172.16.5.53 : 23    addressOfCharonWithThisPort = 172.16.5.53 : 23
+         *          and than otdr address = 172.16.5.53 : 1500
+         *
+         * Every of these RTU could be augmented with BOP (let it be that additional otau has address 172.16.5.57 : 11834)
+         * but OTDR is always part of RTU, not of BOP
+         *
+         *      so Old RTU with BOP:  mainCharon = 192.168.96.59 : 23      addressOfCharonWithThisPort = 172.16.5.57 : 11834
+         *          and than otdr address = 192.168.96.59 : 1500
+         *
+         *      while MAK100 with BOP:   mainCharon = 172.16.5.53 : 23      addressOfCharonWithThisPort = 172.16.5.57 : 11834
+         *          and than otdr address = 172.16.5.53 : 1500
+         */
         private void DoMeasurementRftsReflection(Leaf parent, int portNumber)
         {
-            if (!ToggleToPort(parent, portNumber)) return;
-
             RtuLeaf rtuLeaf = parent is RtuLeaf leaf ? leaf : (RtuLeaf)parent.Parent;
+            var isMak100 = rtuLeaf.OtauNetAddress.Ip4Address == @"192.168.88.101";
             var rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == rtuLeaf.Id);
             if (rtu == null) return;
 
-            var mainCharonAddress = rtu.MainChannel;
+            var mainCharonAddress = isMak100 ? rtu.MainChannel : rtu.OtdrNetAddress;
             mainCharonAddress.Port = 23;
             var mainCharon = new Charon(mainCharonAddress, _iniFile35, _logFile) { OwnPortCount = rtuLeaf.OwnPortCount };
 
-            var addressOfCharonWithThisPort = ((IPortOwner)parent).OtauNetAddress.Ip4Address == @"192.168.88.101" ? mainCharonAddress : ((IPortOwner)parent).OtauNetAddress;
-            var otdrPort = addressOfCharonWithThisPort.Port == 23 ? 1500 : addressOfCharonWithThisPort.Port;
+            NetAddress addressOfCharonWithThisPort;
+            if (parent is OtauLeaf otauLeaf)
+            {
+                addressOfCharonWithThisPort = otauLeaf.OtauNetAddress;
+                var bopCharon = new Charon(addressOfCharonWithThisPort, _iniFile35, _logFile);
+                bopCharon.OwnPortCount = otauLeaf.OwnPortCount;
+                mainCharon.Children = new Dictionary<int, Charon> { {otauLeaf.MasterPort, bopCharon} };
+            }
+            else
+            {
+                addressOfCharonWithThisPort = mainCharonAddress;
+            }
+
+            if (!ToggleToPort(mainCharon, addressOfCharonWithThisPort, portNumber)) return;
+
+            var otdrPort = 1500;
             System.Diagnostics.Process.Start(@"..\RftsReflect\Reflect.exe",
-                $"-fnw -n {addressOfCharonWithThisPort.Ip4Address} -p {otdrPort}");
+                $"-fnw -n {mainCharonAddress.Ip4Address} -p {otdrPort}");
         }
 
-        private bool ToggleToPort(Leaf parent, int portNumber)
+        private bool ToggleToPort(Charon mainCharon, NetAddress addressOfCharonWithThisPort, int portNumber)
         {
-            RtuLeaf rtuLeaf = parent is RtuLeaf leaf ? leaf : (RtuLeaf)parent.Parent;
-            var rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == rtuLeaf.Id);
-            if (rtu == null) return false;
-
-            var mainCharonAddress = rtu.MainChannel;
-            mainCharonAddress.Port = 23;
-            var mainCharon = new Charon(mainCharonAddress, _iniFile35, _logFile) { OwnPortCount = rtuLeaf.OwnPortCount };
-
-            var addressOfCharonWithThisPort = ((IPortOwner)parent).OtauNetAddress.Ip4Address == @"192.168.88.101" ? mainCharonAddress : ((IPortOwner)parent).OtauNetAddress;
-
             var result = mainCharon.SetExtendedActivePort(addressOfCharonWithThisPort, portNumber);
             if (result == CharonOperationResult.Ok)
                 return true;

@@ -26,14 +26,13 @@ namespace Iit.Fibertest.Client
             var vm = new MyMessageBoxViewModel(MessageType.Confirmation, Resources.SID_Accept_the_path);
             _windowManager.ShowDialogWithAssignedOwner(vm);
 
-            ChangeTraceColor(traceId, traceNodes, FiberState.NotInTrace);
-
-            if (!vm.IsAnswerPositive)
-                return;
+            if (!vm.IsAnswerPositive) return;
 
             List<Guid> traceEquipments = CollectEquipment(traceNodes);
             if (traceEquipments == null)
                 return;
+
+            ChangeTraceColor(traceId, traceNodes, FiberState.NotInTrace);
 
             var traceAddViewModel = GlobalScope.Resolve<TraceInfoViewModel>();
             traceAddViewModel.Initialize(Guid.Empty, traceEquipments, traceNodes);
