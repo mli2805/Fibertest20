@@ -29,7 +29,6 @@ namespace Graph.Tests
         [Given(@"Открыта форма изменения узла где лежит А1")]
         public void GivenОткрытаФормаИзмененияУзлаГдеЛежитА()
         {
-//            _nodeUpdateViewModel = new NodeUpdateViewModel(_nodeAId, _sut.ReadModel, _sut.FakeWindowManager, _sut.ShellVm.C2DWcfManager);
             _nodeUpdateViewModel = _sut.Container.Resolve<NodeUpdateViewModel>();
             _nodeUpdateViewModel.Initialize(_nodeAId);
         }
@@ -37,9 +36,8 @@ namespace Graph.Tests
         [Given(@"Открыта форма изменения узла где лежит B1")]
         public void GivenОткрытаФормаИзмененияУзлаГдеЛежитB()
         {
-//            _nodeUpdateViewModel = new NodeUpdateViewModel(_nodeBId, _sut.ReadModel, _sut.FakeWindowManager, _sut.ShellVm.C2DWcfManager);
             _nodeUpdateViewModel = _sut.Container.Resolve<NodeUpdateViewModel>();
-            _nodeUpdateViewModel.Initialize(_nodeAId);
+            _nodeUpdateViewModel.Initialize(_nodeBId);
         }
 
         [Given(@"Задаем базовую")]
