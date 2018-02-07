@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Autofac;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Algorithms;
 using Iit.Fibertest.Graph.Requests;
@@ -22,7 +23,8 @@ namespace Iit.Fibertest.Client
 
         private UpdateNode PrepareCommand(UpdateNode request)
         {
-            var vm = new NodeUpdateViewModel(request.Id, ReadModel, _windowManager, C2DWcfManager);
+            var vm = GlobalScope.Resolve<NodeUpdateViewModel>();
+            vm.Initialize(request.Id);
             vm.PropertyChanged += Vm_PropertyChanged;
             _windowManager.ShowDialogWithAssignedOwner(vm);
             return (UpdateNode)vm.Command;

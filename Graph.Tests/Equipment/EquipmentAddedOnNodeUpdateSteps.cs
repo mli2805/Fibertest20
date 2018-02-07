@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Autofac;
 using FluentAssertions;
 using Iit.Fibertest.Client;
 using TechTalk.SpecFlow;
@@ -25,7 +26,8 @@ namespace Graph.Tests
         [Given(@"Пользователь открывает форму редактирования узла")]
         public void GivenПользовательОткрываетФормуРедактированияУзла()
         {
-            _nodeUpdateViewModel = new NodeUpdateViewModel(_oldEquipment.NodeId, _sut.ReadModel, _sut.FakeWindowManager, _sut.ShellVm.C2DWcfManager);
+            _nodeUpdateViewModel = _sut.Container.Resolve<NodeUpdateViewModel>();
+            _nodeUpdateViewModel.Initialize(_oldEquipment.NodeId);
         }
 
         [When(@"Пользователь жмет добавить оборудование вводит парамы и сохраняет")]

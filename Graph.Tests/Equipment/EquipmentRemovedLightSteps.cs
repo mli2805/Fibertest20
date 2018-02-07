@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Autofac;
 using FluentAssertions;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Graph;
@@ -53,7 +54,9 @@ namespace Graph.Tests
         [When(@"Открыта форма редактирования этого узла")]
         public void WhenОткрытаФормаРедактированияЭтогоУзла()
         {
-            _vm = new NodeUpdateViewModel(_nodeAId, _sut.ReadModel, new FakeWindowManager(), _sut.ShellVm.C2DWcfManager);
+//            _vm = new NodeUpdateViewModel(_nodeAId, _sut.ReadModel, new FakeWindowManager(), _sut.ShellVm.C2DWcfManager);
+            _vm = _sut.Container.Resolve<NodeUpdateViewModel>();
+            _vm.Initialize(_nodeAId);
             _vm.EquipmentsInNode.Count.Should().Be(1);
             _vm.EquipmentsInNode.First().IsRemoveEnabled.Should().BeTrue();
         }
@@ -61,7 +64,9 @@ namespace Graph.Tests
         [When(@"Открыта форма редактирования последнего узла трассы")]
         public void WhenОткрытаФормаРедактированияПоследнегоУзлаТрассы()
         {
-            _vm = new NodeUpdateViewModel(_trace.Nodes.Last(), _sut.ReadModel, new FakeWindowManager(), _sut.ShellVm.C2DWcfManager);
+//            _vm = new NodeUpdateViewModel(_trace.Nodes.Last(), _sut.ReadModel, new FakeWindowManager(), _sut.ShellVm.C2DWcfManager);
+            _vm = _sut.Container.Resolve<NodeUpdateViewModel>();
+            _vm.Initialize(_trace.Nodes.Last());
             _vm.EquipmentsInNode.Count.Should().Be(2);
             _vm.EquipmentsInNode.First(item => item.Id == _notInTraceEquipmentId).IsRemoveEnabled.Should().BeTrue();
         }

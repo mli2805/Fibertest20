@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Autofac;
 using FluentAssertions;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Graph;
@@ -40,7 +41,9 @@ namespace Graph.Tests
         [When(@"Пользователь открыл окно редактирования только что добавленного узла")]
         public void WhenПользовательОткрылОкноРедактированияТолькоЧтоДобавленногоУзла()
         {
-            _nodeUpdateViewModel = new NodeUpdateViewModel(_saidNodeId, _sut.ReadModel, new FakeWindowManager(), _sut.ShellVm.C2DWcfManager);
+//            _nodeUpdateViewModel = new NodeUpdateViewModel(_saidNodeId, _sut.ReadModel, new FakeWindowManager(), _sut.ShellVm.C2DWcfManager);
+            _nodeUpdateViewModel = _sut.Container.Resolve<NodeUpdateViewModel>();
+            _nodeUpdateViewModel.Initialize(_saidNodeId);
         }
 
         [Then(@"Кнопка Сохранить запрещена")]

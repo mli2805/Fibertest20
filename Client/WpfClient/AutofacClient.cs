@@ -144,6 +144,8 @@ namespace Iit.Fibertest.Client
                 .SingleInstance();
 
 
+            builder.RegisterType<NodeUpdateViewModel>();
+
             builder.RegisterType<LoginViewModel>();
             builder.RegisterType<ServerConnectViewModel>();
             builder.RegisterType<NetAddressTestViewModel>();

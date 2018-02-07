@@ -17,8 +17,8 @@ namespace Iit.Fibertest.Client
         private readonly ReadModel _readModel;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
-        private readonly Node _originalNode;
-        private readonly PointLatLng _nodeCoors;
+        private Node _originalNode;
+        private PointLatLng _nodeCoors;
 
         private string _title;
         public string Title
@@ -116,14 +116,18 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public NodeUpdateViewModel(Guid nodeId, ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager)
+        public NodeUpdateViewModel(ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager)
         {
             _readModel = readModel;
             _readModel.PropertyChanged += _readModel_PropertyChanged;
             _windowManager = windowManager;
             _c2DWcfManager = c2DWcfManager;
+        }
+
+        public void Initialize(Guid nodeId)
+        {
             _originalNode = _readModel.Nodes.First(n => n.Id == nodeId);
-            _nodeCoors = new PointLatLng() {Lat = _originalNode.Latitude, Lng = _originalNode.Longitude};
+            _nodeCoors = new PointLatLng() { Lat = _originalNode.Latitude, Lng = _originalNode.Longitude };
             Title = _originalNode.Title;
             SelectedGpsInputMode = GpsInputModes.First();
             Comment = _originalNode.Comment;

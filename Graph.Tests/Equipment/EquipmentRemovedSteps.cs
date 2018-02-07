@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Autofac;
 using FluentAssertions;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Graph;
@@ -37,12 +38,16 @@ namespace Graph.Tests
         [Given(@"Открыта форма для редактирования узла где оборудование А1")]
         public void GivenОткрытаФормаДляРедактированияУзлаГдеОборудованиеА1()
         {
-            _vm = new NodeUpdateViewModel(_nodeAId, _sut.ShellVm.ReadModel, _sut.FakeWindowManager, _sut.ShellVm.C2DWcfManager);
+//            _vm = new NodeUpdateViewModel(_nodeAId, _sut.ShellVm.ReadModel, _sut.FakeWindowManager, _sut.ShellVm.C2DWcfManager);
+            _vm = _sut.Container.Resolve<NodeUpdateViewModel>();
+            _vm.Initialize(_nodeAId);
         }
         [Given(@"Открыта форма для редактирования узла где оборудование B1")]
         public void GivenОткрытаФормаДляРедактированияУзлаГдеОборудованиеB1()
         {
-            _vm = new NodeUpdateViewModel(_nodeBId, _sut.ShellVm.ReadModel, _sut.FakeWindowManager, _sut.ShellVm.C2DWcfManager);
+//            _vm = new NodeUpdateViewModel(_nodeBId, _sut.ShellVm.ReadModel, _sut.FakeWindowManager, _sut.ShellVm.C2DWcfManager);
+            _vm = _sut.Container.Resolve<NodeUpdateViewModel>();
+            _vm.Initialize(_nodeBId);
         }
 
         [Then(@"Пункт Удалить доступен для данного оборудования")]
@@ -66,7 +71,9 @@ namespace Graph.Tests
         [When(@"Пользователь нажимает удалить оборудование")]
         public void WhenПользовательНажимаетУдалитьОборудование()
         {
-            var vm = new NodeUpdateViewModel(_nodeAId, _sut.ShellVm.ReadModel, _sut.FakeWindowManager, _sut.ShellVm.C2DWcfManager);
+//            var vm = new NodeUpdateViewModel(_nodeAId, _sut.ShellVm.ReadModel, _sut.FakeWindowManager, _sut.ShellVm.C2DWcfManager);
+            var vm = _sut.Container.Resolve<NodeUpdateViewModel>();
+            vm.Initialize(_nodeAId);
             vm.EquipmentsInNode.First(it=>it.Id == _equipmentA1Id).Command = new RemoveEquipment() { Id = _equipmentA1Id};
             _sut.Poller.EventSourcingTick().Wait();
         }
