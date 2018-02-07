@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Autofac;
 using AutoMapper;
 using Caliburn.Micro;
 using GMap.NET;
@@ -14,6 +15,7 @@ namespace Iit.Fibertest.Client
     public partial class GraphReadModel : PropertyChangedBase
     {
         public CommonStatusBarViewModel CommonStatusBarViewModel { get; }
+        public readonly ILifetimeScope GlobalScope;
         private readonly IMyLog _logFile;
        
         public ObservableCollection<NodeVm> Nodes { get; }
@@ -68,9 +70,10 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public GraphReadModel(IniFile iniFile, IMyLog logFile, CommonStatusBarViewModel commonStatusBarViewModel)
+        public GraphReadModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile,  CommonStatusBarViewModel commonStatusBarViewModel)
         {
             CommonStatusBarViewModel = commonStatusBarViewModel;
+            GlobalScope = globalScope;
             _logFile = logFile;
             Nodes = new ObservableCollection<NodeVm>();
             Fibers = new ObservableCollection<FiberVm>();

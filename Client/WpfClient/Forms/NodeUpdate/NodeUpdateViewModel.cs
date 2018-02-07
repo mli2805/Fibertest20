@@ -134,6 +134,8 @@ namespace Iit.Fibertest.Client
                 _readModel.Equipments.Where(e => e.NodeId == _originalNode.Id && e.Type != EquipmentType.EmptyNode).Select(CreateEqItem));
         }
 
+
+
         private void _readModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             EquipmentsInNode = new ObservableCollection<ItemOfEquipmentTableModel>(

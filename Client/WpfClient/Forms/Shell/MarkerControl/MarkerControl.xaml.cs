@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
+using Autofac;
 using GMap.NET.WindowsPresentation;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -16,6 +17,7 @@ namespace Iit.Fibertest.Client
         private Popup _popup;
         private Label _label;
         public readonly GMapMarker GMapMarker;
+        private readonly ILifetimeScope _globalScope;
 
         public EquipmentType Type
         {
@@ -44,12 +46,13 @@ namespace Iit.Fibertest.Client
 
         public new ContextMenu ContextMenu { get; set; }
 
-        public MarkerControl(MapUserControl owner, GMapMarker gMapMarker, EquipmentType type, string title)
+        public MarkerControl(MapUserControl owner, GMapMarker gMapMarker, EquipmentType type, string title, ILifetimeScope globalScope)
         {
             InitializeComponent();
             Owner = owner;
             MainMap = owner.MainMap;
             GMapMarker = gMapMarker;
+            _globalScope = globalScope;
             Type = type;
             Title = title;
 
@@ -114,19 +117,13 @@ namespace Iit.Fibertest.Client
 
         private void OpenNodeContextMenu()
         {
-            var actions = new NodeVmActions();
-            var actionsC = new CommonVmActions();
-            var permissions = new NodeVmPermissions(new CurrentUser(){Role = Role.Root});
-            var menuProvider = new NodeVmContextMenuProvider(actions, actionsC, permissions);
+            var menuProvider = _globalScope.Resolve<NodeVmContextMenuProvider>();
             ContextMenu = menuProvider.GetNodeContextMenu(this);
             ContextMenu.IsOpen = true;
         }
         private void OpenRtuContextMenu()
         {
-            var actions = new RtuVmActions();
-            var actionsC = new CommonVmActions();
-            var permissions = new RtuVmPermissions(new CurrentUser(){Role = Role.Root});
-            var menuProvider = new RtuVmContextMenuProvider(actions, actionsC, permissions);
+            var menuProvider = _globalScope.Resolve<RtuVmContextMenuProvider>();
             ContextMenu = menuProvider.GetRtuContextMenu(this);
             ContextMenu.IsOpen = true;
         }

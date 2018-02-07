@@ -153,6 +153,14 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<ClientMeasurementViewModel>().SingleInstance();
             builder.RegisterType<OutOfTurnPreciseMeasurementViewModel>().SingleInstance();
 
+            builder.RegisterType<NodeVmActions>().SingleInstance();
+            builder.RegisterType<CommonVmActions>().SingleInstance();
+            builder.RegisterType<NodeVmPermissions>().SingleInstance();
+            builder.RegisterType<NodeVmContextMenuProvider>().SingleInstance();
+            builder.RegisterType<RtuVmActions>().SingleInstance();
+            builder.RegisterType<RtuVmPermissions>().SingleInstance();
+            builder.RegisterType<RtuVmContextMenuProvider>().SingleInstance();
+
         }
     }
 }

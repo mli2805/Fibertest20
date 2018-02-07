@@ -42,7 +42,7 @@ namespace Iit.Fibertest.Client
                 var marker = new GMapMarker(nodeVm.Id, nodeVm.Position);
                 marker.ZIndex = 2;
                 var equipmentType = nodeVm.Type;
-                var markerControl = new MarkerControl(this, marker, equipmentType, nodeVm.Title);
+                var markerControl = new MarkerControl(this, marker, equipmentType, nodeVm.Title, GraphReadModel.GlobalScope);
                 marker.Shape = markerControl;
                 MainMap.Markers.Add(marker);
             }

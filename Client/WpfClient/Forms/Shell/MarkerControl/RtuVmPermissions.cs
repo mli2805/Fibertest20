@@ -12,7 +12,10 @@ namespace Iit.Fibertest.Client
             _currentUser = currentUser;
         }
 
-        public bool CanUpdateRtu(object parameter) { return true; }
+        public bool CanUpdateRtu(object parameter)
+        {
+            return HasPriveligesAndParameterValid(parameter);
+        }
 
         public bool CanRemoveRtu(object parameter)
         {
@@ -24,25 +27,31 @@ namespace Iit.Fibertest.Client
 
             return !marker.Owner.GraphReadModel.Traces.Any(t => t.RtuId == rtuVm.Id && t.Port > 0);
         }
+
         public bool CanStartAddFiber(object parameter)
         {
-            if (_currentUser.Role > Role.Root || parameter == null)
-                return false;
-            var marker = (MarkerControl)parameter;
-            var rtuVm = marker.Owner.GraphReadModel.Rtus.FirstOrDefault(n => n.Node.Id == marker.GMapMarker.Id);
-            return rtuVm != null;
+            return HasPriveligesAndParameterValid(parameter);
         }
 
         public bool CanStartAddFiberWithNodes(object parameter)
         {
-            if (_currentUser.Role > Role.Root || parameter == null)
-                return false;
-            var marker = (MarkerControl)parameter;
-            var rtuVm = marker.Owner.GraphReadModel.Rtus.FirstOrDefault(n => n.Node.Id == marker.GMapMarker.Id);
-            return rtuVm != null;
+            return HasPriveligesAndParameterValid(parameter);
         }
 
-        public bool CanStartDefineTrace(object parameter) { return true; }
+        public bool CanStartDefineTrace(object parameter)
+        {
+            return HasPriveligesAndParameterValid(parameter);
+        }
+
         public bool CanStartDefineTraceStepByStep(object parameter) { return false; }
+
+        private bool HasPriveligesAndParameterValid(object parameter)
+        {
+            if (_currentUser.Role > Role.Root || parameter == null)
+                return false;
+            var marker = (MarkerControl) parameter;
+            var rtuVm = marker.Owner.GraphReadModel.Rtus.FirstOrDefault(r => r.Node.Id == marker.GMapMarker.Id);
+            return rtuVm != null;
+        }
     }
 }
