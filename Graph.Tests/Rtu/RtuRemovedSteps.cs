@@ -43,7 +43,7 @@ namespace Graph.Tests
         [Given(@"Существует трасса от второго РТУ последние отрезки трасс совпадают")]
         public void GivenСуществуетТрассаОтВторогоРтуПоследниеОтрезкиТрассСовпадают()
         {
-            _sut.DefineTrace(_nodes[1], _nodes[0], @"title", 2);
+            _sut.DefineTrace(_nodes[1], _nodes[0], @"title");
         }
 
         [When(@"Пользователь кликает удалить первый RTU")]

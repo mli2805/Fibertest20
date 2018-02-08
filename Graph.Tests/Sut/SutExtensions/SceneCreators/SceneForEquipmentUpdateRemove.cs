@@ -14,7 +14,7 @@ namespace Graph.Tests
             sut.SetNodeWithEquipment(out nodeBId, out equipmentB1Id);
             var rtuNodeId = sut.SetRtuAndFibers(nodeAId, nodeBId);
 
-            return sut.DefineTrace(nodeBId, rtuNodeId, @"title", 2);
+            return sut.DefineTrace(nodeBId, rtuNodeId, @"title");
         }
 
         private static void SetNodeWithEquipment(this SystemUnderTest sut, out Guid nodeA, out Guid eqA)
