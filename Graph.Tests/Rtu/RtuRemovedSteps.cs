@@ -36,7 +36,7 @@ namespace Graph.Tests
         [Given(@"Существует трасса от первого РТУ")]
         public void GivenСуществуетТрассаОтЭтогоРту()
         {
-            _traceId = _sut.DefineTrace(_nodes[2], _rtu.NodeId, @"title", 2).Id;
+            _traceId = _sut.DefineTrace(_nodes[2], _rtu.NodeId, @"title", 3).Id;
             _fibers = _sut.ReadModel.GetTraceFibers(_sut.ReadModel.Traces.FirstOrDefault(t => t.Id == _traceId)).Select(f=>f.Id).ToArray();
         }
 

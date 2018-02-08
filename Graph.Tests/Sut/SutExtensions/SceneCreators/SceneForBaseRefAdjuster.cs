@@ -62,7 +62,7 @@ namespace Graph.Tests
             sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = nodeIdA, Node2 = nodeIdB }).Wait();
             sut.Poller.EventSourcingTick().Wait();
 
-            return sut.DefineTrace(nodeIdB, rtuNodeId, title, 3);
+            return sut.DefineTrace(nodeIdB, rtuNodeId, title, 8);
         }
 
         public static void AddAdjustmentPoints(this SystemUnderTest sut, Iit.Fibertest.Graph.Trace trace)

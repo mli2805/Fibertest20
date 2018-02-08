@@ -23,6 +23,10 @@ namespace Graph.Tests
             _sut.CreateFieldForPathFinderTest(out _rtuNodeId, out _lastNodeId, out _, out _);
             new PathFinder(_sut.ReadModel).FindPath(_rtuNodeId, _lastNodeId, out _nodes);
 
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.TraceContentChoiceHandler(model, Answer.Yes, 0));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.TraceContentChoiceHandler(model, Answer.Yes, 0));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.TraceContentChoiceHandler(model, Answer.Yes, 0));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.TraceContentChoiceHandler(model, Answer.Yes, 0));
             _equipments = _sut.ShellVm.CollectEquipment(_nodes);
         }
 

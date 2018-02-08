@@ -29,10 +29,10 @@ namespace Iit.Fibertest.Client
             if (!vm.IsAnswerPositive) return;
 
             List<Guid> traceEquipments = CollectEquipment(traceNodes);
+            ChangeTraceColor(traceId, traceNodes, FiberState.NotInTrace);
+
             if (traceEquipments == null)
                 return;
-
-            ChangeTraceColor(traceId, traceNodes, FiberState.NotInTrace);
 
             var traceAddViewModel = GlobalScope.Resolve<TraceInfoViewModel>();
             traceAddViewModel.Initialize(Guid.Empty, traceEquipments, traceNodes);
@@ -75,7 +75,7 @@ namespace Iit.Fibertest.Client
             foreach (var nodeId in nodes.Skip(1))
             {
                 var allEquipmentInNode = ReadModel.Equipments.Where(e => e.NodeId == nodeId).ToList();
-                if (allEquipmentInNode.Count == 1) // EmptyNode or AdjustmentPoint
+                if (allEquipmentInNode.Count == 1 && allEquipmentInNode[0].Type == EquipmentType.AdjustmentPoint)
                 {
                     equipments.Add(allEquipmentInNode[0].Id);
                     continue;

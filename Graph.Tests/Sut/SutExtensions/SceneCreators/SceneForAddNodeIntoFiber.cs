@@ -44,9 +44,9 @@ namespace Graph.Tests
             sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = b1, Node2 = a2 }).Wait();
             sut.Poller.EventSourcingTick().Wait();
             
-            traceForInsertionId = sut.DefineTrace(a2, nodeForRtuId);
-            sut.DefineTrace(b2, nodeForRtuId);
-            sut.DefineTrace(c2, nodeForRtuId);
+            traceForInsertionId = sut.DefineTrace(a2, nodeForRtuId, @"some title", 3);
+            sut.DefineTrace(b2, nodeForRtuId, @"some title", 3);
+            sut.DefineTrace(c2, nodeForRtuId, @"some title", 3);
             sut.DefineTrace(d2, nodeForRtuId);
         }
 
