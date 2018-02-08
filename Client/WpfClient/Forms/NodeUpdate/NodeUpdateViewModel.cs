@@ -212,7 +212,8 @@ namespace Iit.Fibertest.Client
             UpdateEquipment cmd;
             if (equipment.Type == EquipmentType.CableReserve)
             {
-                var cableReserveViewModel = new CableReserveInfoViewModel(equipment, _c2DWcfManager);
+                var cableReserveViewModel = _globalScope.Resolve<CableReserveInfoViewModel>();
+                cableReserveViewModel.InitializeForUpdate(equipment);
                 _windowManager.ShowDialogWithAssignedOwner(cableReserveViewModel);
                 if (cableReserveViewModel.Command == null) return;
                 cmd = (UpdateEquipment)cableReserveViewModel.Command;

@@ -1,16 +1,20 @@
 ﻿using System;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.StringResources;
+using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
 {
     public class CableReserveInfoViewModel : Screen
     {
-        private readonly Equipment _equipment;
+        private readonly IniFile _iniFile;
         private readonly IWcfServiceForClient _c2DWcfManager;
-        private readonly Guid _nodeId;
-        private readonly ViewMode _mode;
+        private readonly IWindowManager _windowManager;
+        private ViewMode _mode;
+        private Equipment _equipment;
+        private Guid _nodeId;
         public string Title { get; set; }
         public int CableReserveM { get; set; }
         public string Comment { get; set; }
@@ -21,24 +25,38 @@ namespace Iit.Fibertest.Client
             DisplayName = @"Cable reserve";
         }
 
-        public CableReserveInfoViewModel(Guid nodeId)
+        public CableReserveInfoViewModel(IniFile iniFile, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
+        {
+            _iniFile = iniFile;
+            _c2DWcfManager = c2DWcfManager;
+            _windowManager = windowManager;
+        }
+
+        public void InitializeForAdd(Guid nodeId)
         {
             _nodeId = nodeId;
             _mode = ViewMode.Add;
         }
 
-        public CableReserveInfoViewModel(Equipment equipment, IWcfServiceForClient c2DWcfManager)
+        public void InitializeForUpdate(Equipment equipment)
         {
             _equipment = equipment;
             Title = equipment.Title;
             CableReserveM = equipment.CableReserveLeft;
             Comment = equipment.Comment;
-            _c2DWcfManager = c2DWcfManager;
             _mode = ViewMode.Update;
         }
 
         public async void Save()
         {
+            var maxCableReserve = _iniFile.Read(IniSection.Miscellaneous, IniKey.MaxCableReserve, 200);
+            if (CableReserveM > maxCableReserve)
+            {
+                var vm = new MyMessageBoxViewModel(MessageType.Error, string.Format(Resources.SID_Cable_reserve_could_not_be_more_than__0__m, maxCableReserve));
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+                return;
+            }
+
             if (_mode == ViewMode.Update)
             {
                 var cmd = new UpdateEquipment()

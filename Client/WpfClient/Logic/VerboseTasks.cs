@@ -38,7 +38,8 @@ namespace Iit.Fibertest.Client
             AddEquipmentIntoNode command;
             if (isCableReserveRequested)
             {
-                var vm = new CableReserveInfoViewModel(nodeId);
+                var vm = globalScope.Resolve<CableReserveInfoViewModel>();
+                vm.InitializeForAdd(nodeId);
                 windowManager.ShowDialogWithAssignedOwner(vm);
                 if (vm.Command == null)
                     return null;

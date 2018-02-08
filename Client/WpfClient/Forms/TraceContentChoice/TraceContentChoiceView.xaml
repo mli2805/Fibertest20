@@ -14,7 +14,7 @@
                     <TextBox Text="{Binding NameOfNode}" Margin="5,7" />
                 </DockPanel>
             </GroupBox>
-            <GroupBox Header="{x:Static stringResources:Resources.SID_Equipment}" Margin="5">
+            <GroupBox Header="{x:Static stringResources:Resources.SID_In_node_are_placed_}" Margin="5">
                 <DockPanel>
                     <TextBlock DockPanel.Dock="Top" Margin="145,5,5,5" Text="{x:Static stringResources:Resources.SID_Title}" HorizontalAlignment="Left" />
                     <ItemsControl ItemsSource="{Binding Choices}" Margin="10,5,5,10">

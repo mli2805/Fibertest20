@@ -42,7 +42,7 @@ namespace Iit.Fibertest.Client
         private PointLatLng _toCenter;
         public PointLatLng ToCenter
         {
-            get { return _toCenter; }
+            get => _toCenter;
             set
             {
                 if (value.Equals(_toCenter)) return;
