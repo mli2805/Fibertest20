@@ -8,6 +8,8 @@
         public TraceContentChoiceView()
         {
             InitializeComponent();
+
+            NodeTitle.Focus();
         }
     }
 }

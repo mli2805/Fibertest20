@@ -4088,6 +4088,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Trace components selection.
+        /// </summary>
+        public static string SID_Trace_components_selection {
+            get {
+                return ResourceManager.GetString("SID_Trace_components_selection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Trace count.
         /// </summary>
         public static string SID_Trace_count {

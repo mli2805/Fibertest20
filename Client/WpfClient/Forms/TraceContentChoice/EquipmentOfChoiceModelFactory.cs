@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
@@ -7,30 +6,30 @@ namespace Iit.Fibertest.Client
 {
     public class EquipmentOfChoiceModelFactory
     {
-        public EquipmentOfChoiceModel Create(Guid equipmentId, bool isLastNode)
-        {
-            var doNotUseOptionModel = new EquipmentOfChoiceModel()
-            {
-                EquipmentId = equipmentId,
-                TypeOfEquipment = Resources.SID_Do_not_use,
-                NameOfEquipment = "",
-                IsTitleVisible = Visibility.Hidden,
-                IsRadioButtonEnabled = !isLastNode,
-            };
-            return doNotUseOptionModel;
-        }
-       
-
         public EquipmentOfChoiceModel Create(Equipment equipment)
         {
             var equipmentOfChoiceModel = new EquipmentOfChoiceModel()
             {
                 EquipmentId = equipment.Id,
+                TitleOfEquipment = equipment.Title,
                 TypeOfEquipment = equipment.Type.ToLocalizedString(),
-                NameOfEquipment = equipment.Title,
+                LeftCableReserve = equipment.CableReserveLeft,
+                RightCableReserve = equipment.CableReserveRight,
                 IsRadioButtonEnabled = true,
             };
             return equipmentOfChoiceModel;
+        }
+
+        public EquipmentOfChoiceModel CreateDoNotUseEquipment(Guid equipmentId, bool isLastNode)
+        {
+            var doNotUseOptionModel = new EquipmentOfChoiceModel()
+            {
+                EquipmentId = equipmentId,
+                TitleOfEquipment = "",
+                TypeOfEquipment = Resources.SID_Do_not_use,
+                IsRadioButtonEnabled = !isLastNode,
+            };
+            return doNotUseOptionModel;
         }
     }
 }

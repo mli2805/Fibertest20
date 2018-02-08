@@ -47,7 +47,10 @@ namespace Graph.Tests
             if (!(model is TraceContentChoiceViewModel vm)) return false;
             if (button == Answer.Yes)
             {
-                vm.Choices[selectedOptionNumber].IsSelected = true;
+                if (selectedOptionNumber < vm.EquipmentChoices.Count)
+                    vm.EquipmentChoices[selectedOptionNumber].IsSelected = true;
+                else
+                    vm.NoEquipmentInNodeChoice.IsSelected = true;
                 vm.NextButton();
             }
             else

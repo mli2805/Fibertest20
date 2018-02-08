@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows;
 using Caliburn.Micro;
 
 namespace Iit.Fibertest.Client
@@ -20,9 +19,11 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        public string TitleOfEquipment { get; set; }
         public string TypeOfEquipment { get; set; }
-        public string NameOfEquipment { get; set; }
-        public Visibility IsTitleVisible { get; set; } = Visibility.Visible;
+
+        public int LeftCableReserve { get; set; }
+        public int RightCableReserve { get; set; }
         public bool IsRadioButtonEnabled { get; set; }
     }
 }

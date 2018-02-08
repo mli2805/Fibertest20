@@ -5,30 +5,52 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
-        mc:Ignorable="d" SizeToContent="Height" Width="350" d:DataContext="{d:DesignInstance client:TraceContentChoiceViewModel}">
+        SizeToContent="WidthAndHeight" MinWidth="350" Left="400" Top="250" 
+        mc:Ignorable="d" d:DataContext="{d:DesignInstance client:TraceContentChoiceViewModel}">
     <Grid>
         <StackPanel>
             <GroupBox Header="{x:Static stringResources:Resources.SID_Node}" Margin="5">
                 <DockPanel>
                     <TextBlock  Text="{x:Static stringResources:Resources.SID_Title}" Margin="5" />
-                    <TextBox Text="{Binding NameOfNode}" Margin="5,7" />
+                    <TextBox Name="NodeTitle" Text="{Binding NodeTitle}" Margin="5,7" />
                 </DockPanel>
             </GroupBox>
-            <GroupBox Header="{x:Static stringResources:Resources.SID_In_node_are_placed_}" Margin="5">
-                <DockPanel>
-                    <TextBlock DockPanel.Dock="Top" Margin="145,5,5,5" Text="{x:Static stringResources:Resources.SID_Title}" HorizontalAlignment="Left" />
-                    <ItemsControl ItemsSource="{Binding Choices}" Margin="10,5,5,10">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate DataType="client:EquipmentOfChoiceModel">
-                                <DockPanel>
-                                    <RadioButton DockPanel.Dock="Left" Content="{Binding TypeOfEquipment}" IsChecked="{Binding IsSelected, Mode=TwoWay}"
+            <GroupBox Header="" Margin="5">
+                <StackPanel>
+                    <DockPanel>
+<!--                        <TextBlock DockPanel.Dock="Top" Margin="145,5,5,5" Text="{x:Static stringResources:Resources.SID_Title}" HorizontalAlignment="Left" />-->
+                        <ItemsControl ItemsSource="{Binding EquipmentChoices}" Margin="10,5,5,10">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="client:EquipmentOfChoiceModel">
+                                    <DockPanel>
+                                        <RadioButton DockPanel.Dock="Left" Content="{Binding TypeOfEquipment}" IsChecked="{Binding IsSelected, Mode=TwoWay}"
                                          IsEnabled="{Binding IsRadioButtonEnabled}" Margin="5" Width="120" />
-                                    <TextBox Text="{Binding NameOfEquipment}" Visibility="{Binding IsTitleVisible}" Margin="5" />
-                                </DockPanel>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </DockPanel>
+                                        <TextBox Text="{Binding TitleOfEquipment}" Width="120" Margin="5" />
+                                        <TextBox Text="{Binding LeftCableReserve}" Width="35" Margin="5" />
+                                        <TextBox Text="{Binding RightCableReserve}" Width="35" Margin="5" />
+                                    </DockPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </DockPanel>
+                    <DockPanel>
+                        <ItemsControl ItemsSource="{Binding CableReserveChoices}" Margin="10,5,5,10">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="client:EquipmentOfChoiceModel">
+                                    <DockPanel>
+                                        <RadioButton DockPanel.Dock="Left" Content="{Binding TypeOfEquipment}" IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                                         IsEnabled="{Binding IsRadioButtonEnabled}" Margin="5" Width="120" />
+                                        <TextBox Text="{Binding TitleOfEquipment}" Width="120" Margin="5" />
+                                        <TextBox Text="{Binding LeftCableReserve}" Width="35" Margin="5" />
+                                    </DockPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </DockPanel>
+                    <RadioButton Content="{Binding NoEquipmentInNodeChoice.TypeOfEquipment}"  HorizontalAlignment="Left"
+                                     IsChecked="{Binding NoEquipmentInNodeChoice.IsSelected, Mode=TwoWay}"
+                                     IsEnabled="{Binding NoEquipmentInNodeChoice.IsRadioButtonEnabled}" Margin="15,5,5,10"/>
+                </StackPanel>
             </GroupBox>
 
             <StackPanel Orientation="Horizontal" Margin="10">

@@ -6,6 +6,7 @@ using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
@@ -13,62 +14,95 @@ namespace Iit.Fibertest.Client
     public class TraceContentChoiceViewModel : Screen
     {
         private readonly ILifetimeScope _globalScope;
+        private readonly IniFile _iniFile;
         private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWindowManager _windowManager;
         private readonly EquipmentOfChoiceModelFactory _equipmentOfChoiceModelFactory;
         private List<Equipment> _possibleEquipment;
         private Node _node;
-        public string NameOfNode { get; set; }
-        public List<EquipmentOfChoiceModel> Choices { get; set; }
+        public string NodeTitle { get; set; }
+        public List<EquipmentOfChoiceModel> EquipmentChoices { get; set; }
+        public List<EquipmentOfChoiceModel> CableReserveChoices { get; set; }
+        public EquipmentOfChoiceModel NoEquipmentInNodeChoice { get; set; }
+
         public bool ShouldWeContinue { get; set; }
 
-        public TraceContentChoiceViewModel(ILifetimeScope globalScope, IWcfServiceForClient c2DWcfManager, 
-            EquipmentOfChoiceModelFactory equipmentOfChoiceModelFactory)
+        public TraceContentChoiceViewModel(ILifetimeScope globalScope, IniFile iniFile, IWcfServiceForClient c2DWcfManager,
+            IWindowManager windowManager, EquipmentOfChoiceModelFactory equipmentOfChoiceModelFactory)
         {
             _globalScope = globalScope;
+            _iniFile = iniFile;
             _c2DWcfManager = c2DWcfManager;
+            _windowManager = windowManager;
             _equipmentOfChoiceModelFactory = equipmentOfChoiceModelFactory;
         }
 
         public void Initialize(List<Equipment> possibleEquipment, Node node, bool isLastNode)
         {
             _node = node;
-            NameOfNode = node.Title;
+            NodeTitle = node.Title;
 
             _possibleEquipment = possibleEquipment;
-            Choices = new List<EquipmentOfChoiceModel>();
-            foreach (var equipment in possibleEquipment.Where(e=>e.Type != EquipmentType.EmptyNode))
+            EquipmentChoices = new List<EquipmentOfChoiceModel>();
+            foreach (var equipment in possibleEquipment.Where(e => e.Type > EquipmentType.CableReserve))
             {
                 var equipmentOfChoiceModel = _equipmentOfChoiceModelFactory.Create(equipment);
                 equipmentOfChoiceModel.IsSelected = equipment == possibleEquipment.First();
                 equipmentOfChoiceModel.PropertyChanged += EquipmentOfChoiceModel_PropertyChanged;
-                Choices.Add(equipmentOfChoiceModel);
+                EquipmentChoices.Add(equipmentOfChoiceModel);
             }
 
-            // just because this option should be the last
+            CableReserveChoices = new List<EquipmentOfChoiceModel>();
+            foreach (var equipment in possibleEquipment.Where(e => e.Type == EquipmentType.CableReserve))
+            {
+                var equipmentOfChoiceModel = _equipmentOfChoiceModelFactory.Create(equipment);
+                equipmentOfChoiceModel.IsSelected = equipment == possibleEquipment.First();
+                equipmentOfChoiceModel.PropertyChanged += EquipmentOfChoiceModel_PropertyChanged;
+                CableReserveChoices.Add(equipmentOfChoiceModel);
+            }
+
             var emptyNode = possibleEquipment.Single(e => e.Type == EquipmentType.EmptyNode);
-            var doNotUseOptionModel = _equipmentOfChoiceModelFactory.Create(emptyNode.Id, isLastNode);
-            doNotUseOptionModel.PropertyChanged += EquipmentOfChoiceModel_PropertyChanged;
-            Choices.Add(doNotUseOptionModel);
+            NoEquipmentInNodeChoice = _equipmentOfChoiceModelFactory.CreateDoNotUseEquipment(emptyNode.Id, isLastNode);
+            NoEquipmentInNodeChoice.PropertyChanged += EquipmentOfChoiceModel_PropertyChanged;
+
+            if (EquipmentChoices.Any())
+                EquipmentChoices[0].IsSelected = true;
+            else if (CableReserveChoices.Any())
+                CableReserveChoices[0].IsSelected = true;
+            else
+                NoEquipmentInNodeChoice.IsSelected = true;
         }
 
-       
+
         private void EquipmentOfChoiceModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            EquipmentOfChoiceModel model = (EquipmentOfChoiceModel) sender;
+            EquipmentOfChoiceModel model = (EquipmentOfChoiceModel)sender;
             if (e.PropertyName == "IsSelected" && model.IsSelected)
-                foreach (var mo in Choices.Where(m=>m != model))
+            {
+                foreach (var mo in EquipmentChoices.Where(m => m != model))
                     mo.IsSelected = false;
+                foreach (var mo in CableReserveChoices.Where(m => m != model))
+                    mo.IsSelected = false;
+                if (NoEquipmentInNodeChoice != model)
+                    NoEquipmentInNodeChoice.IsSelected = false;
+            }
         }
 
         public Guid GetSelectedEquipmentGuid()
         {
-            return Choices.First(c=>c.IsSelected).EquipmentId;
+            foreach (var mo in EquipmentChoices)
+                if (mo.IsSelected)
+                    return mo.EquipmentId;
+            foreach (var mo in CableReserveChoices)
+                if (mo.IsSelected)
+                    return mo.EquipmentId;
+            return NoEquipmentInNodeChoice.EquipmentId;
         }
 
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = Resources.SID_Trace_equipment_selection;
+            DisplayName = Resources.SID_Trace_components_selection;
         }
 
         public async void NextButton()
@@ -76,15 +110,28 @@ namespace Iit.Fibertest.Client
             using (_globalScope.Resolve<IWaitCursor>())
             {
                 ShouldWeContinue = true;
+                var maxCableReserve = _iniFile.Read(IniSection.Miscellaneous, IniKey.MaxCableReserve, 200);
 
-                if (_node.Title != NameOfNode)
+                if (_node.Title != NodeTitle)
                     await SendNodeTitle();
 
                 foreach (var equipment in _possibleEquipment.Where(e => e.Type != EquipmentType.EmptyNode))
                 {
-                    var model = Choices.First(m => m.EquipmentId == equipment.Id);
-                    if (equipment.Title != model.NameOfEquipment)
-                        await SendEquipmentTitle(equipment, model.NameOfEquipment);
+                    var model = EquipmentChoices.FirstOrDefault(m => m.EquipmentId == equipment.Id) ??
+                                CableReserveChoices.First(m => m.EquipmentId == equipment.Id);
+
+                    if (equipment.Title != model.TitleOfEquipment ||
+                        equipment.CableReserveLeft != model.LeftCableReserve ||
+                        equipment.CableReserveRight != model.RightCableReserve)
+                    {
+                        if (model.LeftCableReserve > maxCableReserve || model.RightCableReserve > maxCableReserve)
+                        {
+                            var vm = new MyMessageBoxViewModel(MessageType.Error, string.Format(Resources.SID_Cable_reserve_could_not_be_more_than__0__m, maxCableReserve));
+                            _windowManager.ShowDialogWithAssignedOwner(vm);
+                            return;
+                        }
+                        await SendEquipmentChanges(equipment, model.TitleOfEquipment, model.LeftCableReserve, model.RightCableReserve);
+                    }
                 }
 
                 TryClose();
@@ -96,21 +143,21 @@ namespace Iit.Fibertest.Client
             var cmd = new UpdateNode
             {
                 Id = _node.Id,
-                Title = NameOfNode.Trim(),
+                Title = NodeTitle.Trim(),
                 Comment = _node.Comment,
             };
             return await _c2DWcfManager.SendCommandAsObj(cmd);
         }
 
-        private async Task<string> SendEquipmentTitle(Equipment equipment, string newTitle)
+        private async Task<string> SendEquipmentChanges(Equipment equipment, string newTitle, int leftCableReserve, int rightCableReserve)
         {
             var cmd = new UpdateEquipment()
             {
                 Id = equipment.Id,
                 Title = newTitle,
                 Type = equipment.Type,
-                CableReserveLeft = equipment.CableReserveLeft,
-                CableReserveRight = equipment.CableReserveRight,
+                CableReserveLeft = leftCableReserve,
+                CableReserveRight = rightCableReserve,
                 Comment = equipment.Comment,
             };
             return await _c2DWcfManager.SendCommandAsObj(cmd);
