@@ -220,7 +220,7 @@ namespace Iit.Fibertest.DatabaseLibrary
                     var deadStations = dbContext.ClientStations.Where(s => s.LastConnectionTimestamp < noLaterThan).ToList();
                     foreach (var deadStation in deadStations)
                     {
-                        _logFile.AppendLine($"Dead station {deadStation.ClientGuid} will be removed.");
+                        _logFile.AppendLine($"Dead station {deadStation.ClientGuid.First6()} will be removed.");
                         dbContext.ClientStations.Remove(deadStation);
                     }
                     return await dbContext.SaveChangesAsync();
