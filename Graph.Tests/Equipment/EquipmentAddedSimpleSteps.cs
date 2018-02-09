@@ -47,7 +47,7 @@ namespace Graph.Tests
         [Then(@"На форме Добавить оборудование")]
         public void WhenПользовательКликаетДобавитьОборудование()
         {
-            _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentIntoNode() { NodeId = _nodeId }).Wait();
+            _sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentIntoNode(new RequestAddEquipmentIntoNode() { NodeId = _nodeId }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             _equipment = _sut.ReadModel.Equipments.LastOrDefault();
         }

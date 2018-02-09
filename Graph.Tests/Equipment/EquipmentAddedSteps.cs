@@ -102,7 +102,7 @@ namespace Graph.Tests
         [Then(@"В окне Добавить оборудование")]
         public void ThenВОкнеДобавитьОборудование()
         {
-            _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentIntoNode() { NodeId = _oldEquipment.NodeId }).Wait();
+            _sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentIntoNode(new RequestAddEquipmentIntoNode() { NodeId = _oldEquipment.NodeId }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 

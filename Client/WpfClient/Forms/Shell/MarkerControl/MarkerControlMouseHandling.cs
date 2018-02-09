@@ -67,12 +67,12 @@ namespace Iit.Fibertest.Client
             e.Handled = true;
         }
 
-        void MarkerControl_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        async void MarkerControl_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             if (IsMouseCaptured)
             {
                 Mouse.Capture(null);
-                Owner.GraphReadModel.Request = new MoveNode() { NodeId = GMapMarker.Id, Latitude = GMapMarker.Position.Lat, Longitude = GMapMarker.Position.Lng };
+                await Owner.GraphReadModel.GrmNodeRequests.MoveNode(new MoveNode() { NodeId = GMapMarker.Id, Latitude = GMapMarker.Position.Lat, Longitude = GMapMarker.Position.Lng });
             }
 
             if (MainMap.IsInTraceDefiningMode)

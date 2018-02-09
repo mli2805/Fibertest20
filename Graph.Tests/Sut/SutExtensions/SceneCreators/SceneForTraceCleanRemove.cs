@@ -24,9 +24,9 @@ namespace Graph.Tests
             sut.Poller.EventSourcingTick().Wait();
             var b2 = sut.ReadModel.Nodes.Last().Id;
 
-            sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = nodeForRtuId, Node2 = a1 }).Wait();
-            sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = a1, Node2 = a2 }).Wait();
-            sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = a1, Node2 = b2 }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Node1 = nodeForRtuId, Node2 = a1 }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Node1 = a1, Node2 = a2 }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Node1 = a1, Node2 = b2 }).Wait();
             sut.Poller.EventSourcingTick().Wait();
 
             traceId1 = sut.DefineTrace(a2, nodeForRtuId).Id;

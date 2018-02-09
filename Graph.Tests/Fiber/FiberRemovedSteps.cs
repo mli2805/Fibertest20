@@ -25,7 +25,7 @@ namespace Graph.Tests
             _sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             _rightNodeId = _sut.ReadModel.Nodes.Last().Id;
-            _sut.ShellVm.ComplyWithRequest(new AddFiber() {Node1 = _leftNodeId, Node2 = _rightNodeId}).Wait();
+            _sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() {Node1 = _leftNodeId, Node2 = _rightNodeId}).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             _fiberId = _sut.ReadModel.Fibers.Last().Id;
         }
@@ -33,7 +33,7 @@ namespace Graph.Tests
         [When(@"Пользователь кликает удалить отрезок")]
         public void WhenПользовательКликаетУдалитьОтрезок()
         {
-            _sut.ShellVm.ComplyWithRequest(new RemoveFiber() {Id = _fiberId}).Wait();
+            _sut.GraphReadModel.GrmFiberRequests.RemoveFiber(new RemoveFiber() {Id = _fiberId}).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 

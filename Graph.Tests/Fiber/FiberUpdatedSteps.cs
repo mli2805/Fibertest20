@@ -26,7 +26,7 @@ namespace Graph.Tests
             _sut.Poller.EventSourcingTick().Wait();
             var n2 = _sut.ReadModel.Nodes.Last().Id;
 
-            _sut.ShellVm.ComplyWithRequest(new AddFiber() {Node1 = n1, Node2 = n2}).Wait();
+            _sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() {Node1 = n1, Node2 = n2}).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             _saidFiberId = _sut.ReadModel.Fibers.Last().Id;
 
@@ -37,7 +37,7 @@ namespace Graph.Tests
         public void WhenПользовательНажалСохранить()
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.FiberUpdateHandler(model, Answer.Yes));
-            _sut.ShellVm.ComplyWithRequest(new RequestUpdateFiber() {Id = _saidFiberId}).Wait();
+            _sut.GraphReadModel.GrmFiberRequests.UpdateFiber(new RequestUpdateFiber() {Id = _saidFiberId}).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 
@@ -45,7 +45,7 @@ namespace Graph.Tests
         public void WhenПользовательНажалОтмена()
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.FiberUpdateHandler(model, Answer.Cancel));
-            _sut.ShellVm.ComplyWithRequest(new RequestUpdateFiber() { Id = _saidFiberId }).Wait();
+            _sut.GraphReadModel.GrmFiberRequests.UpdateFiber(new RequestUpdateFiber() { Id = _saidFiberId }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 

@@ -151,25 +151,10 @@ namespace Iit.Fibertest.Client
                     .ConfigureAwait(false);
         }
 
-        #region Node
-
-        public async Task ComplyWithRequest(MoveNode request)
-        {
-            var cmd = request;
-            await C2DWcfManager.SendCommandAsObj(cmd);
-        }
-
-        #endregion
 
         #region Fiber
 
-        public async Task ComplyWithRequest(AddFiber request)
-        {
-            var cmd = PrepareCommand(request);
-            if (cmd == null)
-                return;
-            await C2DWcfManager.SendCommandAsObj(cmd);
-        }
+    
 
         public async Task ComplyWithRequest(RequestAddFiberWithNodes request)
         {
@@ -184,19 +169,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public async Task ComplyWithRequest(RequestUpdateFiber request)
-        {
-            var cmd = PrepareCommand(request);
-            if (cmd == null)
-                return;
-            await C2DWcfManager.SendCommandAsObj(cmd);
-        }
-
-        public async Task ComplyWithRequest(RemoveFiber request)
-        {
-            var cmd = request;
-            await C2DWcfManager.SendCommandAsObj(cmd);
-        }
+     
 
         #endregion
 
@@ -228,31 +201,6 @@ namespace Iit.Fibertest.Client
             if (rtu == null)
                 return;
             var cmd = new RemoveRtu() {Id = rtu.Id};
-            await C2DWcfManager.SendCommandAsObj(cmd);
-        }
-
-        #endregion
-
-        #region Equipment
-
-        public async Task ComplyWithRequest(RequestAddEquipmentIntoNode request)
-        {
-            await VerboseTasks.AddEquipmentIntoNodeFullTask(request, GlobalScope, ReadModel, _windowManager, C2DWcfManager);
-        }
-
-        public async Task ComplyWithRequest(UpdateEquipment request)
-        {
-            var cmd = PrepareCommand(request);
-            if (cmd == null)
-                return;
-            await C2DWcfManager.SendCommandAsObj(cmd);
-        }
-
-        public async Task ComplyWithRequest(RemoveEquipment request)
-        {
-            var cmd = PrepareCommand(request);
-            if (cmd == null)
-                return;
             await C2DWcfManager.SendCommandAsObj(cmd);
         }
 

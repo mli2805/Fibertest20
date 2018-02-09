@@ -34,7 +34,7 @@ namespace Graph.Tests
             _sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation()).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             _anotherNodeId = _sut.ReadModel.Nodes.Last().Id;
-            _sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = _nodeId, Node2 = _anotherNodeId }).Wait();
+            _sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Node1 = _nodeId, Node2 = _anotherNodeId }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 

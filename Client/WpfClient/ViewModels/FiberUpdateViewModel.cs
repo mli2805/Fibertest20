@@ -10,8 +10,8 @@ namespace Iit.Fibertest.Client
 {
     public class FiberUpdateViewModel : Screen, IDataErrorInfo
     {
-        private readonly GraphReadModel _graphReadModel;
-        private FiberVm _fiber;
+        private readonly ReadModel _readModel;
+        private Fiber _fiber;
         private string _userInputedLength;
 
         public string NodeAtitle { get; set; }
@@ -35,49 +35,21 @@ namespace Iit.Fibertest.Client
         public bool IsButtonSaveEnabled = true;
         public UpdateFiber Command { get; set; }
 
-        /// <summary>
-        /// вычисляет расстояние между двумя точками с координатами в градусах
-        /// </summary>
-        /// <param name="n1"></param>
-        /// <param name="n2"></param>
-        /// <returns>расстояние в метрах</returns>
-        private double GetGpsLength(NodeVm n1, NodeVm n2)
+       
+        public FiberUpdateViewModel(Guid fiberId, ReadModel readModel)
         {
-            const double latitude1M = 8.981e-6;
-
-            // растояние по вертикали не зависит от широты
-            const double latitude1Gr = 1 / latitude1M ; // это метров в градусе
-                                                              // он же расстояние и по горизонтали , если мерять на экваторе
-                                                              // иначе домножать на косинус широты на которой меряется
-            double lat1 = n1.Position.Lat;
-            double lat2 = n2.Position.Lat;
-            double lon1 = n1.Position.Lng;
-            double lon2 = n2.Position.Lng;
-
-            // расстояние между двуми точками находящимися на одной долготе
-            double d1 = (lat2 - lat1) * latitude1Gr;
-            // расстояние между двуми точками находящимися на одной широте надо домножать на косинус широты
-            double coslat = Math.Cos((lat1 + lat2) / 2);
-            double d2 = (lon2 - lon1) * latitude1Gr * coslat;
-            // расстояние между двуми точками по теореме пифагора
-            double l = Math.Sqrt(d1 * d1 + d2 * d2);
-
-            return l;
-        }
-        public FiberUpdateViewModel(Guid fiberId, GraphReadModel graphReadModel)
-        {
-            _graphReadModel = graphReadModel;
-            _fiber = graphReadModel.Fibers.Single(f => f.Id == fiberId);
+            _readModel = readModel;
+            _fiber = readModel.Fibers.Single(f => f.Id == fiberId);
             Initialize();
         }
 
         private void Initialize()
         {
-            var n1 = _graphReadModel.Nodes.Single(n => n.Id == _fiber.Node1.Id);
-            var n2 = _graphReadModel.Nodes.Single(n => n.Id == _fiber.Node2.Id);
+            var n1 = _readModel.Nodes.Single(n => n.Id == _fiber.Node1);
+            var n2 = _readModel.Nodes.Single(n => n.Id == _fiber.Node2);
             NodeAtitle = n1.Title;
             NodeBtitle = n2.Title;
-            GpsLength = $@"{GetGpsLength(n1, n2):#,##0}";
+            GpsLength = $@"{GpsCalculator.CalculateGpsDistanceBetweenPointsInDegrees(n1.Latitude, n1.Longitude, n2.Latitude, n2.Longitude):#,##0}";
 //            OpticalLength = _fiber.OpticalLength; // потом из базовых брать
             UserInputedLength = _fiber.UserInputedLength.ToString(CultureInfo.InvariantCulture);
         }

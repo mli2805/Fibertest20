@@ -49,31 +49,31 @@ namespace Graph.Tests
             wrongNodeWithEqId = z2;
 
 
-            sut.ShellVm.ComplyWithRequest(new AddFiber() { Id = Guid.NewGuid(), Node1 = startId, Node2 = b0 }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Id = Guid.NewGuid(), Node1 = startId, Node2 = b0 }).Wait();
             sut.Poller.EventSourcingTick().Wait();
 
-            sut.ShellVm.ComplyWithRequest(new AddFiber() { Id = new Guid(), Node1 = startId, Node2 = b1 }).Wait();
-            sut.ShellVm.ComplyWithRequest(new AddFiber() { Id = new Guid(), Node1 = startId, Node2 = b2 }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Id = new Guid(), Node1 = startId, Node2 = b1 }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Id = new Guid(), Node1 = startId, Node2 = b2 }).Wait();
             sut.Poller.EventSourcingTick().Wait();
             
-            sut.ShellVm.ComplyWithRequest(new AddFiber() { Id = new Guid(), Node1 = c0, Node2 = b0 }).Wait();
-            sut.ShellVm.ComplyWithRequest(new AddFiber() { Id = new Guid(), Node1 = c1, Node2 = b1 }).Wait();
-            sut.ShellVm.ComplyWithRequest(new AddFiber() { Id = new Guid(), Node1 = c2, Node2 = b2 }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Id = new Guid(), Node1 = c0, Node2 = b0 }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Id = new Guid(), Node1 = c1, Node2 = b1 }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Id = new Guid(), Node1 = c2, Node2 = b2 }).Wait();
             sut.Poller.EventSourcingTick().Wait();
             
-            sut.ShellVm.ComplyWithRequest(new AddFiber() { Id = new Guid(), Node1 = c0, Node2 = d0 }).Wait();
-            sut.ShellVm.ComplyWithRequest(new AddFiber() { Id = new Guid(), Node1 = c1, Node2 = d1 }).Wait();
-            sut.ShellVm.ComplyWithRequest(new AddFiber() { Id = new Guid(), Node1 = c2, Node2 = d2 }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Id = new Guid(), Node1 = c0, Node2 = d0 }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Id = new Guid(), Node1 = c1, Node2 = d1 }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Id = new Guid(), Node1 = c2, Node2 = d2 }).Wait();
             sut.Poller.EventSourcingTick().Wait();
             
-            sut.ShellVm.ComplyWithRequest(new AddFiber() { Id = new Guid(), Node1 = e0, Node2 = d0 }).Wait();
-            sut.ShellVm.ComplyWithRequest(new AddFiber() { Id = new Guid(), Node1 = e1, Node2 = d1 }).Wait();
-            sut.ShellVm.ComplyWithRequest(new AddFiber() { Id = new Guid(), Node1 = e2, Node2 = d2 }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Id = new Guid(), Node1 = e0, Node2 = d0 }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Id = new Guid(), Node1 = e1, Node2 = d1 }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Id = new Guid(), Node1 = e2, Node2 = d2 }).Wait();
             sut.Poller.EventSourcingTick().Wait();
             
-            sut.ShellVm.ComplyWithRequest(new AddFiber() { Id = new Guid(), Node1 = e2, Node2 = finishId }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Id = new Guid(), Node1 = e2, Node2 = finishId }).Wait();
             
-            sut.ShellVm.ComplyWithRequest(new AddFiber() { Id = new Guid(), Node1 = zz, Node2 = z2 }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Id = new Guid(), Node1 = zz, Node2 = z2 }).Wait();
             sut.Poller.EventSourcingTick().Wait();
         }
 

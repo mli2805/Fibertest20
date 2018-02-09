@@ -23,6 +23,11 @@ namespace Iit.Fibertest.Client
             _readModel = readModel;
         }
 
+        public async Task MoveNode(MoveNode cmd)
+        {
+            await _c2DWcfManager.SendCommandAsObj(cmd);
+        }
+
         public async Task AddNodeIntoFiber(RequestAddNodeIntoFiber request)
         {
             var cmd = PrepareAddNodeIntoFiber(request);

@@ -88,36 +88,9 @@ namespace Iit.Fibertest.Client
             return false;
         }
 
-        private AddFiber PrepareCommand(AddFiber request)
-        {
-            if (!Validate(request))
-                return null;
-            request.Id = Guid.NewGuid();
-            return request;
-        }
+        
 
-        private bool Validate(AddFiber cmd)
-        {
-            if (cmd.Node1 == cmd.Node2)
-                return false;
-            var fiber =
-                GraphReadModel.Fibers.FirstOrDefault(
-                    f =>
-                        f.Node1.Id == cmd.Node1 && f.Node2.Id == cmd.Node2 ||
-                        f.Node1.Id == cmd.Node2 && f.Node2.Id == cmd.Node1);
-            if (fiber == null)
-                return true;
-            _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Section_already_exists));
-            return false;
-        }
-
-        private UpdateFiber PrepareCommand(RequestUpdateFiber request)
-        {
-            var vm = new FiberUpdateViewModel(request.Id, GraphReadModel);
-            _windowManager.ShowDialogWithAssignedOwner(vm);
-
-            return vm.Command;
-        }
+       
 
     }
 }

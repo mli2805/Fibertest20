@@ -62,7 +62,7 @@ namespace Graph.Tests
         public void WhenПользовательСдвигаетУзелТрассы()
         {
             var nodeId = _trace.Nodes[3];
-            _sut.ShellVm.ComplyWithRequest(new MoveNode()
+            _sut.GraphReadModel.GrmNodeRequests.MoveNode(new MoveNode()
             {
                 NodeId = nodeId,
                 Latitude = 55.059,

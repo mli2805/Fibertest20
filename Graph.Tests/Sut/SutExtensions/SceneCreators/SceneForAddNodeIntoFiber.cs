@@ -19,7 +19,7 @@ namespace Graph.Tests
             sut.Poller.EventSourcingTick().Wait();
             var b1 = sut.ReadModel.Nodes.Last().Id;
             // fiber for insertion
-            sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = a1, Node2 = b1 }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Node1 = a1, Node2 = b1 }).Wait();
             sut.Poller.EventSourcingTick().Wait();
             fiberForInsertion = sut.ShellVm.ReadModel.Fibers.Last();
 
@@ -36,12 +36,12 @@ namespace Graph.Tests
             sut.Poller.EventSourcingTick().Wait();
             var d2 = sut.ReadModel.Nodes.Last().Id;
             
-            sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = nodeForRtuId, Node2 = a1 }).Wait();
-            sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = a1, Node2 = a2 }).Wait();
-            sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = b1, Node2 = b2 }).Wait();
-            sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = b1, Node2 = c2 }).Wait();
-            sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = nodeForRtuId, Node2 = d2 }).Wait();
-            sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = b1, Node2 = a2 }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Node1 = nodeForRtuId, Node2 = a1 }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Node1 = a1, Node2 = a2 }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Node1 = b1, Node2 = b2 }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Node1 = b1, Node2 = c2 }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Node1 = nodeForRtuId, Node2 = d2 }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Node1 = b1, Node2 = a2 }).Wait();
             sut.Poller.EventSourcingTick().Wait();
             
             traceForInsertionId = sut.DefineTrace(a2, nodeForRtuId, @"some title", 3);

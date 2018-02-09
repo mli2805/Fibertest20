@@ -45,7 +45,7 @@ namespace Graph.Tests
             _sut.FakeWindowManager.RegisterHandler(model =>
                 _sut.EquipmentInfoViewModelHandler(model, Answer.Yes));
 
-            _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentIntoNode() {NodeId = nodeId}).Wait();
+            _sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentIntoNode(new RequestAddEquipmentIntoNode() {NodeId = nodeId}).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             _notInTraceEquipmentId = _sut.ReadModel.Equipments.Last().Id;
         }

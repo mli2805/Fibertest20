@@ -32,10 +32,10 @@ namespace Graph.Tests
             sut.Poller.EventSourcingTick().Wait();
             var rtuNodeId = sut.ReadModel.Nodes.Last().Id;
 
-            sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = rtuNodeId, Node2 = nodeAId }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Node1 = rtuNodeId, Node2 = nodeAId }).Wait();
             sut.Poller.EventSourcingTick().Wait();
 
-            sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = nodeAId, Node2 = nodeBId }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Node1 = nodeAId, Node2 = nodeBId }).Wait();
             sut.Poller.EventSourcingTick().Wait();
 
             return rtuNodeId;

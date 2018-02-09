@@ -27,7 +27,7 @@ namespace Graph.Tests
         [When(@"Пользователь подвинул узел")]
         public void WhenUserMovedNode()
         {
-            _sut.ShellVm.ComplyWithRequest(new MoveNode() {NodeId = _nodeId}).Wait();
+            _sut.GraphReadModel.GrmNodeRequests.MoveNode(new MoveNode() {NodeId = _nodeId}).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 

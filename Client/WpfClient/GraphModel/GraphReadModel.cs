@@ -17,9 +17,12 @@ namespace Iit.Fibertest.Client
         public CommonStatusBarViewModel CommonStatusBarViewModel { get; }
         public GrmNodeRequests GrmNodeRequests { get; }
         public GrmEquipmentRequests GrmEquipmentRequests { get; }
+        public GrmFiberRequests GrmFiberRequests { get; }
+        public GrmTraceRequests GrmTraceRequests { get; }
+        public GrmRtuRequests GrmRtuRequests { get; }
         public readonly ILifetimeScope GlobalScope;
         private readonly IMyLog _logFile;
-       
+
         public ObservableCollection<NodeVm> Nodes { get; }
         public ObservableCollection<FiberVm> Fibers { get; }
         public ObservableCollection<RtuVm> Rtus { get; }
@@ -72,12 +75,17 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public GraphReadModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile,  CommonStatusBarViewModel commonStatusBarViewModel,
-            GrmNodeRequests grmNodeRequests, GrmEquipmentRequests grmEquipmentRequests)
+        public GraphReadModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile,  
+            CommonStatusBarViewModel commonStatusBarViewModel,
+            GrmNodeRequests grmNodeRequests, GrmEquipmentRequests grmEquipmentRequests, GrmFiberRequests grmFiberRequests,
+            GrmTraceRequests grmTraceRequests, GrmRtuRequests grmRtuRequests)
         {
             CommonStatusBarViewModel = commonStatusBarViewModel;
             GrmNodeRequests = grmNodeRequests;
             GrmEquipmentRequests = grmEquipmentRequests;
+            GrmFiberRequests = grmFiberRequests;
+            GrmTraceRequests = grmTraceRequests;
+            GrmRtuRequests = grmRtuRequests;
             GlobalScope = globalScope;
             _logFile = logFile;
             Nodes = new ObservableCollection<NodeVm>();
