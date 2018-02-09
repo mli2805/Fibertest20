@@ -7,12 +7,12 @@ namespace Iit.Fibertest.Client
         public void AskUpdateRtu(object parameter)
         {
             var marker = (MarkerControl)parameter;
-            marker.Owner.GraphReadModel.Request = new RequestUpdateRtu() { NodeId = marker.GMapMarker.Id };
+            marker.Owner.GraphReadModel.GrmRtuRequests.UpdateRtu(new RequestUpdateRtu() { NodeId = marker.GMapMarker.Id });
         }
-        public void AskRemoveRtu(object parameter)
+        public async void AskRemoveRtu(object parameter)
         {
             var marker = (MarkerControl)parameter;
-            marker.Owner.GraphReadModel.Request = new RequestRemoveRtu() { NodeId = marker.GMapMarker.Id };
+            await marker.Owner.GraphReadModel.GrmRtuRequests.RemoveRtu(new RequestRemoveRtu() { NodeId = marker.GMapMarker.Id });
         }
         public void StartDefineTrace(object parameter)
         {

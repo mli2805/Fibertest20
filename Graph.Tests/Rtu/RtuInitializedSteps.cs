@@ -23,7 +23,7 @@ namespace Graph.Tests
         [Given(@"Существует RTU с основным (.*) и резервным (.*) адресами")]
         public void GivenСуществуетRTUСОсновным_ИРезервным_Адресами(string p0, string p1)
         {
-            _sut.ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation() { Latitude = 55, Longitude = 30 }).Wait();
+            _sut.GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(new RequestAddRtuAtGpsLocation() { Latitude = 55, Longitude = 30 }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
 
             _sut.InitializeRtu(_sut.ReadModel.Rtus.Last().Id, p0, p1);
@@ -101,7 +101,7 @@ namespace Graph.Tests
         public void WhenПользовательЗадаетИмяRtu()
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuUpdateHandler(model, @"something", @"doesn't matter", Answer.Yes));
-            _sut.ShellVm.ComplyWithRequest(new RequestUpdateRtu() { Id = _rtu.Id, NodeId = _rtu.NodeId }).Wait();
+            _sut.GraphReadModel.GrmRtuRequests.UpdateRtu(new RequestUpdateRtu() { Id = _rtu.Id, NodeId = _rtu.NodeId });
             _sut.Poller.EventSourcingTick().Wait();
 
         }

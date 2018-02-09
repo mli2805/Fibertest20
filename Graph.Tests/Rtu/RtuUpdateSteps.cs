@@ -23,20 +23,20 @@ namespace Graph.Tests
         [Given(@"Ранее был создан RTU с именем (.*)")]
         public void CreateRtu(string title)
         {
-            _sut.ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation()).Wait();
+            _sut.GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(new RequestAddRtuAtGpsLocation()).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             _firstRtuId = _sut.ShellVm.ReadModel.Rtus.Last().Id;
             _firstNodeId = _sut.ShellVm.ReadModel.Nodes.Last().Id;
 
             _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuUpdateHandler(model, title, @"comment doesn't matter", Answer.Yes));
-            _sut.ShellVm.ComplyWithRequest(new RequestUpdateRtu() { Id = _firstRtuId, NodeId = _firstNodeId }).Wait();
+            _sut.GraphReadModel.GrmRtuRequests.UpdateRtu(new RequestUpdateRtu() { Id = _firstRtuId, NodeId = _firstNodeId });
             _sut.Poller.EventSourcingTick().Wait();
         }
 
         [Given(@"Добавлен RTU")]
         public void CreateRtu()
         {
-            _sut.ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation()).Wait();
+            _sut.GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(new RequestAddRtuAtGpsLocation()).Wait();
             _sut.Poller.EventSourcingTick().Wait();
 
             _saidRtuId = _sut.ReadModel.Rtus.Last().Id;
@@ -48,7 +48,7 @@ namespace Graph.Tests
         {
             _cutOff = _sut.CurrentEventNumber;
             _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuUpdateHandler(model, null, null, Answer.Yes));
-            _sut.ShellVm.ComplyWithRequest(new RequestUpdateRtu() { Id = _firstRtuId, NodeId = _firstNodeId }).Wait();
+            _sut.GraphReadModel.GrmRtuRequests.UpdateRtu(new RequestUpdateRtu() { Id = _firstRtuId, NodeId = _firstNodeId });
             _sut.Poller.EventSourcingTick().Wait();
         }
 
@@ -62,7 +62,7 @@ namespace Graph.Tests
         public void GivenTitleWasSetToBlah_Blah(string title)
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuUpdateHandler(model, title, null, Answer.Yes));
-            _sut.ShellVm.ComplyWithRequest(new RequestUpdateRtu() { Id = _saidRtuId, NodeId = _saidNodeId }).Wait();
+            _sut.GraphReadModel.GrmRtuRequests.UpdateRtu(new RequestUpdateRtu() { Id = _saidRtuId, NodeId = _saidNodeId });
             _sut.Poller.EventSourcingTick().Wait();
         }
 
@@ -79,7 +79,7 @@ namespace Graph.Tests
         {
             _cutOff = _sut.CurrentEventNumber;
             _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuUpdateHandler(model, @"something", @"doesn't matter", Answer.Cancel));
-            _sut.ShellVm.ComplyWithRequest(new RequestUpdateRtu() { Id = _saidRtuId, NodeId = _saidNodeId }).Wait();
+            _sut.GraphReadModel.GrmRtuRequests.UpdateRtu(new RequestUpdateRtu() { Id = _saidRtuId, NodeId = _saidNodeId });
             _sut.Poller.EventSourcingTick().Wait();
         }
 
@@ -93,7 +93,7 @@ namespace Graph.Tests
         public void GivenПользовательВвелКомментарийКУзлу(string comment)
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuUpdateHandler(model, null, comment, Answer.Yes));
-            _sut.ShellVm.ComplyWithRequest(new RequestUpdateRtu() { Id = _saidRtuId, NodeId = _saidNodeId }).Wait();
+            _sut.GraphReadModel.GrmRtuRequests.UpdateRtu(new RequestUpdateRtu() { Id = _saidRtuId, NodeId = _saidNodeId });
             _sut.Poller.EventSourcingTick().Wait();
         }
 

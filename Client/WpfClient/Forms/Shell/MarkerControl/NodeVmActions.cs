@@ -31,16 +31,16 @@ namespace Iit.Fibertest.Client
             vm.Initialize(marker.GMapMarker.Id);
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
-        public void AskAddEquipment(object parameter)
+        public async void AskAddEquipment(object parameter)
         {
             var marker = (MarkerControl)parameter;
-            marker.Owner.GraphReadModel.Request = new RequestAddEquipmentIntoNode() { NodeId = marker.GMapMarker.Id, IsCableReserveRequested = false };
+            await marker.Owner.GraphReadModel.GrmEquipmentRequests.AddEquipmentIntoNode(new RequestAddEquipmentIntoNode() { NodeId = marker.GMapMarker.Id, IsCableReserveRequested = false });
         }
 
-        public void AskAddCableReserve(object parameter)
+        public async void AskAddCableReserve(object parameter)
         {
             var marker = (MarkerControl)parameter;
-            marker.Owner.GraphReadModel.Request = new RequestAddEquipmentIntoNode() { NodeId = marker.GMapMarker.Id, IsCableReserveRequested = true };
+            await marker.Owner.GraphReadModel.GrmEquipmentRequests.AddEquipmentIntoNode(new RequestAddEquipmentIntoNode() { NodeId = marker.GMapMarker.Id, IsCableReserveRequested = true });
         }
 
         public void AskLandmarks(object parameter)

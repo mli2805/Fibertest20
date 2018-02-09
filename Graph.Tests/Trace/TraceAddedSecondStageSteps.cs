@@ -27,7 +27,7 @@ namespace Graph.Tests
             _sut.FakeWindowManager.RegisterHandler(model => _sut.TraceContentChoiceHandler(model, Answer.Yes, 0));
             _sut.FakeWindowManager.RegisterHandler(model => _sut.TraceContentChoiceHandler(model, Answer.Yes, 0));
             _sut.FakeWindowManager.RegisterHandler(model => _sut.TraceContentChoiceHandler(model, Answer.Yes, 0));
-            _equipments = _sut.ShellVm.CollectEquipment(_nodes);
+            _equipments = _sut.GraphReadModel.GrmTraceRequests.CollectEquipment(_nodes);
         }
 
         [Given(@"На предложение выбрать оборудование пользователь отвечает: ""(.*)""")]

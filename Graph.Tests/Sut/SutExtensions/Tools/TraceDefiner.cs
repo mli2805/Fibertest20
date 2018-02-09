@@ -18,7 +18,7 @@ namespace Graph.Tests
             }
 
             sut.FakeWindowManager.RegisterHandler(model => sut.AddTraceViewHandler(model, title, "", Answer.Yes));
-            sut.ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = lastNodeId, NodeWithRtuId = nodeForRtuId });
+            sut.GraphReadModel.GrmTraceRequests.AddTrace(new RequestAddTrace() { LastNodeId = lastNodeId, NodeWithRtuId = nodeForRtuId });
             sut.Poller.EventSourcingTick().Wait();
             return sut.ShellVm.ReadModel.Traces.Last();
         }

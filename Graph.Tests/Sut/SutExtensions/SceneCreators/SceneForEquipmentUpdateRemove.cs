@@ -28,7 +28,7 @@ namespace Graph.Tests
 
         private static Guid SetRtuAndFibers(this SystemUnderTest sut, Guid nodeAId, Guid nodeBId)
         {
-            sut.ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation()).Wait();
+            sut.GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(new RequestAddRtuAtGpsLocation()).Wait();
             sut.Poller.EventSourcingTick().Wait();
             var rtuNodeId = sut.ReadModel.Nodes.Last().Id;
 

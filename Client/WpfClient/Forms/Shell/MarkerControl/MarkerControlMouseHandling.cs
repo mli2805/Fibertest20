@@ -85,11 +85,11 @@ namespace Iit.Fibertest.Client
         private void EndTraceDefinition()
         {
             MainMap.IsInTraceDefiningMode = false;
-            Owner.GraphReadModel.Request = new RequestAddTrace() { NodeWithRtuId = MainMap.StartNode.Id, LastNodeId = GMapMarker.Id };
+            Owner.GraphReadModel.GrmTraceRequests.AddTrace(new RequestAddTrace() { NodeWithRtuId = MainMap.StartNode.Id, LastNodeId = GMapMarker.Id });
             Owner.SetBanner("");
         }
 
-        private void EndFiberCreation()
+        private async void EndFiberCreation()
         {
             MainMap.IsInFiberCreationMode = false;
             // it was a temporary fiber for creation purposes only
@@ -98,10 +98,10 @@ namespace Iit.Fibertest.Client
             if (Type != EquipmentType.AdjustmentPoint)
             {
                 if (!MainMap.IsFiberWithNodes)
-                    Owner.GraphReadModel.Request = new AddFiber() { Node1 = MainMap.StartNode.Id, Node2 = GMapMarker.Id };
+                    await Owner.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Node1 = MainMap.StartNode.Id, Node2 = GMapMarker.Id });
                 else
-                    Owner.GraphReadModel.Request =
-                        new RequestAddFiberWithNodes() { Node1 = MainMap.StartNode.Id, Node2 = GMapMarker.Id, };
+                    await Owner.GraphReadModel.GrmFiberWithNodesRequest.AddFiberWithNodes(
+                        new RequestAddFiberWithNodes() { Node1 = MainMap.StartNode.Id, Node2 = GMapMarker.Id, });
             }
 
 

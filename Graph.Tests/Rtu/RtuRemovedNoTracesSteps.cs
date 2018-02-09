@@ -29,7 +29,7 @@ namespace Graph.Tests
         [When(@"Пользователь кликает удалить этот RTU")]
         public void WhenПользовательКликаетУдалитьЭтотRtu()
         {
-            _sut.ShellVm.ComplyWithRequest(new RequestRemoveRtu() { NodeId = _rtu.NodeId }).Wait();
+            _sut.GraphReadModel.GrmRtuRequests.RemoveRtu(new RequestRemoveRtu() { NodeId = _rtu.NodeId }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 

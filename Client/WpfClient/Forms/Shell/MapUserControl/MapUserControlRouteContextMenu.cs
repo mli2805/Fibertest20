@@ -18,10 +18,10 @@ namespace Iit.Fibertest.Client
     {
         private bool CanUpdateFiber(object parameter) { return true; }
 
-        private void AskUpdateFiber(object parameter)
+        private async void AskUpdateFiber(object parameter)
         {
             var route = (GMapRoute)parameter;
-            GraphReadModel.Request = new RequestUpdateFiber() { Id = route.Id };
+            await GraphReadModel.GrmFiberRequests.UpdateFiber(new RequestUpdateFiber() { Id = route.Id });
         }
 
         private bool CanAddNodeIntoFiber(object parameter)
@@ -55,10 +55,10 @@ namespace Iit.Fibertest.Client
             return fiberVm.State == FiberState.NotInTrace;
         }
 
-        private void AskRemoveFiber(object parameter)
+        private async void AskRemoveFiber(object parameter)
         {
             var route = (GMapRoute)parameter;
-            GraphReadModel.Request = new RemoveFiber() { Id = route.Id };
+            await GraphReadModel.GrmFiberRequests.RemoveFiber(new RemoveFiber() { Id = route.Id });
         }
 
         private void Route_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

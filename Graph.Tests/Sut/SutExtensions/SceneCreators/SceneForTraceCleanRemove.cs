@@ -9,7 +9,7 @@ namespace Graph.Tests
     {
         public static void CreateTwoTraces(this SystemUnderTest sut, out Guid traceId1, out Guid traceId2)
         {
-            sut.ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation() { Latitude = 55, Longitude = 30 }).Wait();
+            sut.GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(new RequestAddRtuAtGpsLocation() { Latitude = 55, Longitude = 30 }).Wait();
             sut.Poller.EventSourcingTick().Wait();
             var nodeForRtuId = sut.ReadModel.Rtus.Last().NodeId;
 

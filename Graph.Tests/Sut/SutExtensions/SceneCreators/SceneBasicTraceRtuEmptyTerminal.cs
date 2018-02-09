@@ -8,7 +8,7 @@ namespace Graph.Tests
     {
         public static Iit.Fibertest.Graph.Trace CreateTraceRtuEmptyTerminal(this SystemUnderTest sut, string title = @"some title")
         {
-            sut.ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation() { Latitude = 55, Longitude = 30 }).Wait();
+            sut.GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(new RequestAddRtuAtGpsLocation() { Latitude = 55, Longitude = 30 }).Wait();
             sut.Poller.EventSourcingTick().Wait();
             var nodeForRtuId = sut.ReadModel.Rtus.Last().NodeId;
 

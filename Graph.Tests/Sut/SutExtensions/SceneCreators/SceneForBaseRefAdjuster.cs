@@ -11,7 +11,7 @@ namespace Graph.Tests
     {
         public static Iit.Fibertest.Graph.Rtu SetInitializedRtu(this SystemUnderTest sut)
         {
-            sut.ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation() { Latitude = 55, Longitude = 30 }).Wait();
+            sut.GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(new RequestAddRtuAtGpsLocation() { Latitude = 55, Longitude = 30 }).Wait();
             sut.Poller.EventSourcingTick().Wait();
             var rtu = sut.ReadModel.Rtus.Last();
 

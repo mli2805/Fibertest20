@@ -22,8 +22,8 @@ namespace Iit.Fibertest.Client
             var equipmentType = (EquipmentType) code;
 
             if (equipmentType == EquipmentType.Rtu)
-                GraphReadModel.Request =
-                    new RequestAddRtuAtGpsLocation() {Latitude = position.Lat, Longitude = position.Lng};
+                await GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(
+                    new RequestAddRtuAtGpsLocation() {Latitude = position.Lat, Longitude = position.Lng});
 
             else
                 await GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation()

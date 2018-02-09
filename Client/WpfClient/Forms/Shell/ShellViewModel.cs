@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -7,14 +6,12 @@ using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.Graph.Requests;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
-using PrivateReflectionUsingDynamic;
 
 namespace Iit.Fibertest.Client
 {
-    public partial class 
+    public class 
         
     ShellViewModel : Screen, IShell
     {
@@ -27,7 +24,6 @@ namespace Iit.Fibertest.Client
         private readonly OpticalEventsProvider _opticalEventsProvider;
         private readonly NetworkEventsProvider _networkEventsProvider;
         private readonly BopNetworkEventsProvider _bopNetworkEventsProvider;
-        private readonly TraceContentChoiceViewModel _traceContentChoiceViewModel;
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly CurrentUser _currentUser;
@@ -56,8 +52,6 @@ namespace Iit.Fibertest.Client
             BopNetworkEventsProvider bopNetworkEventsProvider, 
             TabulatorViewModel tabulatorViewModel,
             CommonStatusBarViewModel commonStatusBarViewModel,
-
-            TraceContentChoiceViewModel traceContentChoiceViewModel,
             ClientHeartbeat clientHeartbeat, ClientPoller clientPoller,
             IniFile iniFile, IMyLog logFile, CurrentUser currentUser, IClientWcfServiceHost host)
         {
@@ -76,7 +70,6 @@ namespace Iit.Fibertest.Client
             _windowManager = windowManager;
             _loginViewModel = loginViewModel;
             _bopNetworkEventsProvider = bopNetworkEventsProvider;
-            _traceContentChoiceViewModel = traceContentChoiceViewModel;
             _clientHeartbeat = clientHeartbeat;
             _clientPoller = clientPoller;
             _opticalEventsProvider = opticalEventsProvider;
@@ -137,83 +130,5 @@ namespace Iit.Fibertest.Client
             _clientPoller.CancellationToken = _clientPollerCts.Token;
             _clientPoller.Start();
         }
-
-        protected override void OnViewLoaded(object view)
-        {
-            GraphReadModel.PropertyChanged += GraphReadModel_PropertyChanged;
-        }
-
-        private void GraphReadModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "Request")
-                this.AsDynamic().ComplyWithRequest(GraphReadModel.Request)
-                    // This call is needed so there's no warning
-                    .ConfigureAwait(false);
-        }
-
-
-        #region Fiber
-
-    
-
-        public async Task ComplyWithRequest(RequestAddFiberWithNodes request)
-        {
-            var cmd = PrepareCommand(request);
-            if (cmd == null)
-                return;
-            var message =
-                await C2DWcfManager.SendCommandAsObj(cmd);
-            if (message != null)
-            {
-                _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, message));
-            }
-        }
-
-     
-
-        #endregion
-
-        #region RTU
-
-        public async Task ComplyWithRequest(RequestAddRtuAtGpsLocation request)
-        {
-            var cmd = new AddRtuAtGpsLocation
-            {
-                Latitude = request.Latitude,
-                Longitude = request.Longitude,
-                Id = Guid.NewGuid(),
-                NodeId = Guid.NewGuid()
-            };
-            await C2DWcfManager.SendCommandAsObj(cmd);
-        }
-
-        public async Task ComplyWithRequest(RequestUpdateRtu request)
-        {
-            var rtu = ReadModel.Rtus.First(r => r.NodeId == request.NodeId);
-            var vm = GlobalScope.Resolve<RtuUpdateViewModel>();
-            vm.Initilize(rtu.Id);
-            _windowManager.ShowDialogWithAssignedOwner(vm);
-        }
-
-        public async Task ComplyWithRequest(RequestRemoveRtu request)
-        {
-            var rtu = GraphReadModel.Rtus.FirstOrDefault(r => r.Node.Id == request.NodeId);
-            if (rtu == null)
-                return;
-            var cmd = new RemoveRtu() {Id = rtu.Id};
-            await C2DWcfManager.SendCommandAsObj(cmd);
-        }
-
-        #endregion
-
-        #region Trace
-
-        public Task ComplyWithRequest(RequestAddTrace request)
-        {
-            PrepareCommand(request);
-            return Task.FromResult(0);
-        }
-
-        #endregion
     }
 }

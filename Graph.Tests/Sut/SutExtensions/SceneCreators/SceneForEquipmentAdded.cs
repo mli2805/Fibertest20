@@ -19,7 +19,7 @@ namespace Graph.Tests
 
         public static Iit.Fibertest.Graph.Rtu SetRtuAndOthers(this SystemUnderTest sut, Guid nodeId, out Guid anotherNodeId, out Guid anotherNodeId2)
         {
-            sut.ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation()).Wait();
+            sut.GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(new RequestAddRtuAtGpsLocation()).Wait();
             sut.Poller.EventSourcingTick().Wait();
             var rtuNodeId = sut.ReadModel.Nodes.Last().Id;
 
@@ -50,7 +50,7 @@ namespace Graph.Tests
             sut.FakeWindowManager.RegisterHandler(
                 model => sut.AddTraceViewHandler(model, @"short trace", "", Answer.Yes));
 
-            sut.ShellVm.ComplyWithRequest(new RequestAddTrace() { LastNodeId = nodeId, NodeWithRtuId = rtuNodeId });
+            sut.GraphReadModel.GrmTraceRequests.AddTrace(new RequestAddTrace() { LastNodeId = nodeId, NodeWithRtuId = rtuNodeId });
             sut.Poller.EventSourcingTick().Wait();
             return sut.ReadModel.Traces.Last().Id;
         }
@@ -63,7 +63,7 @@ namespace Graph.Tests
             sut.FakeWindowManager.RegisterHandler(
                 model => sut.AddTraceViewHandler(model, @"trace with eq", "", Answer.Yes));
 
-            sut.ShellVm.ComplyWithRequest(new RequestAddTrace()
+            sut.GraphReadModel.GrmTraceRequests.AddTrace(new RequestAddTrace()
             {
                 LastNodeId = anotherNodeId,
                 NodeWithRtuId = rtuNodeId
@@ -80,7 +80,7 @@ namespace Graph.Tests
             sut.FakeWindowManager.RegisterHandler(
                 model => sut.AddTraceViewHandler(model, @"trace without eq", "", Answer.Yes));
 
-            sut.ShellVm.ComplyWithRequest(new RequestAddTrace()
+            sut.GraphReadModel.GrmTraceRequests.AddTrace(new RequestAddTrace()
             {
                 LastNodeId = anotherNodeId2,
                 NodeWithRtuId = rtuNodeId

@@ -18,6 +18,7 @@ namespace Iit.Fibertest.Client
         public GrmNodeRequests GrmNodeRequests { get; }
         public GrmEquipmentRequests GrmEquipmentRequests { get; }
         public GrmFiberRequests GrmFiberRequests { get; }
+        public GrmFiberWithNodesRequest GrmFiberWithNodesRequest { get; }
         public GrmTraceRequests GrmTraceRequests { get; }
         public GrmRtuRequests GrmRtuRequests { get; }
         public readonly ILifetimeScope GlobalScope;
@@ -62,28 +63,17 @@ namespace Iit.Fibertest.Client
         public string CurrentMousePositionString => CurrentMousePosition.ToDetailedString(CurrentGpsInputMode);
         public GpsInputMode CurrentGpsInputMode = GpsInputMode.DegreesMinutesAndSeconds;
 
-        private object _request;
-
-        public object Request
-        {
-            get => _request;
-            set
-            {
-                if (Equals(value, _request)) return;
-                _request = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
         public GraphReadModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile,  
             CommonStatusBarViewModel commonStatusBarViewModel,
-            GrmNodeRequests grmNodeRequests, GrmEquipmentRequests grmEquipmentRequests, GrmFiberRequests grmFiberRequests,
+            GrmNodeRequests grmNodeRequests, GrmEquipmentRequests grmEquipmentRequests, 
+            GrmFiberRequests grmFiberRequests, GrmFiberWithNodesRequest grmFiberWithNodesRequest,
             GrmTraceRequests grmTraceRequests, GrmRtuRequests grmRtuRequests)
         {
             CommonStatusBarViewModel = commonStatusBarViewModel;
             GrmNodeRequests = grmNodeRequests;
             GrmEquipmentRequests = grmEquipmentRequests;
             GrmFiberRequests = grmFiberRequests;
+            GrmFiberWithNodesRequest = grmFiberWithNodesRequest;
             GrmTraceRequests = grmTraceRequests;
             GrmRtuRequests = grmRtuRequests;
             GlobalScope = globalScope;

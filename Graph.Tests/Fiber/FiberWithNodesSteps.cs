@@ -48,7 +48,7 @@ namespace Graph.Tests
         public void WhenПользовательКликаетДобавитьОтрезокСУзлами()
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
-            _sut.ShellVm.ComplyWithRequest(new RequestAddFiberWithNodes() {Node1 = _leftNodeId, Node2 = _rightNodeId}).Wait();
+            _sut.GraphReadModel.GrmFiberWithNodesRequest.AddFiberWithNodes(new RequestAddFiberWithNodes() {Node1 = _leftNodeId, Node2 = _rightNodeId}).Wait();
         }
 
         [When(@"Пользователь кликает добавить отрезок с нулем узлов")]
@@ -56,7 +56,7 @@ namespace Graph.Tests
         {
             var bluh = EquipmentType.Cross;
             _sut.FakeWindowManager.RegisterHandler(model => _sut.FiberWithNodesAdditionHandler(model, 0, bluh, Answer.Yes));
-            _sut.ShellVm.ComplyWithRequest(new RequestAddFiberWithNodes() {Node1 = _leftNodeId, Node2 = _rightNodeId}).Wait();
+            _sut.GraphReadModel.GrmFiberWithNodesRequest.AddFiberWithNodes(new RequestAddFiberWithNodes() {Node1 = _leftNodeId, Node2 = _rightNodeId}).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 
@@ -64,7 +64,7 @@ namespace Graph.Tests
         public void WhenПользовательКликаетДобавитьОтрезокСТочкамиПривязки(int p0)
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.FiberWithNodesAdditionHandler(model, p0, EquipmentType.AdjustmentPoint, Answer.Yes));
-            _sut.ShellVm.ComplyWithRequest(new RequestAddFiberWithNodes() { Node1 = _leftNodeId, Node2 = _rightNodeId }).Wait();
+            _sut.GraphReadModel.GrmFiberWithNodesRequest.AddFiberWithNodes(new RequestAddFiberWithNodes() { Node1 = _leftNodeId, Node2 = _rightNodeId }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 
@@ -72,7 +72,7 @@ namespace Graph.Tests
         public void WhenПользовательКликаетДобавитьОтрезокСПустымиУзлами(int p0)
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.FiberWithNodesAdditionHandler(model, p0, EquipmentType.EmptyNode, Answer.Yes));
-            _sut.ShellVm.ComplyWithRequest(new RequestAddFiberWithNodes() {Node1 = _leftNodeId, Node2 = _rightNodeId}).Wait();
+            _sut.GraphReadModel.GrmFiberWithNodesRequest.AddFiberWithNodes(new RequestAddFiberWithNodes() {Node1 = _leftNodeId, Node2 = _rightNodeId}).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 
@@ -80,7 +80,7 @@ namespace Graph.Tests
         public void WhenПользовательКликаетДобавитьОтрезокСУзламиСОборудованием(int p0)
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.FiberWithNodesAdditionHandler(model, p0, EquipmentType.Closure, Answer.Yes));
-            _sut.ShellVm.ComplyWithRequest(new RequestAddFiberWithNodes() {Node1 = _leftNodeId, Node2 = _rightNodeId}).Wait();
+            _sut.GraphReadModel.GrmFiberWithNodesRequest.AddFiberWithNodes(new RequestAddFiberWithNodes() {Node1 = _leftNodeId, Node2 = _rightNodeId}).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 

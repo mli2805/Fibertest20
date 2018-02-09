@@ -119,6 +119,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<WriteModel>().SingleInstance();
             builder.RegisterType<GrmEquipmentRequests>().SingleInstance();
             builder.RegisterType<GrmNodeRequests>().SingleInstance();
+            builder.RegisterType<GrmFiberWithNodesRequest>().SingleInstance();
             builder.RegisterType<GrmFiberRequests>().SingleInstance();
             builder.RegisterType<GrmTraceRequests>().SingleInstance();
             builder.RegisterType<GrmRtuRequests>().SingleInstance();

@@ -9,7 +9,7 @@ namespace Graph.Tests
     {
         public static Iit.Fibertest.Graph.Rtu CreateRtuA(this SystemUnderTest sut)
         {
-            sut.ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation()).Wait();
+            sut.GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(new RequestAddRtuAtGpsLocation()).Wait();
             sut.Poller.EventSourcingTick().Wait();
             return sut.ReadModel.Rtus.Last();
         }
@@ -18,7 +18,7 @@ namespace Graph.Tests
         {
             var result = new Guid[3];
 
-            sut.ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation()).Wait();
+            sut.GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(new RequestAddRtuAtGpsLocation()).Wait();
             sut.Poller.EventSourcingTick().Wait();
             result[0] = sut.ReadModel.Rtus.Last().NodeId;
 

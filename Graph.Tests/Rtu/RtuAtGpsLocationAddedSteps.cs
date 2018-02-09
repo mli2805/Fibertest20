@@ -18,7 +18,7 @@ namespace Graph.Tests
         {
             _sut.Poller.EventSourcingTick().Wait();
             _rtuCutOff = _sut.ReadModel.Rtus.Count;
-            _sut.ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation()).Wait();
+            _sut.GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(new RequestAddRtuAtGpsLocation()).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 

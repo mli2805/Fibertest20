@@ -19,7 +19,7 @@ namespace Graph.Tests
         [Given(@"Существует RTU")]
         public void GivenСуществуетRtu()
         {
-            _sut.ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation()).Wait();
+            _sut.GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(new RequestAddRtuAtGpsLocation()).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             _saidRtuId = _sut.ShellVm.ReadModel.Rtus.Last().Id;
         }

@@ -17,7 +17,7 @@ namespace Graph.Tests
             var rtuLeaf = (RtuLeaf)sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(rtuId);
 
             sut.FakeWindowManager.RegisterHandler(model => sut.RtuUpdateHandler(model, @"something", @"doesn't matter", Answer.Yes));
-            sut.ShellVm.ComplyWithRequest(new RequestUpdateRtu() { Id = rtuId, NodeId = rtu.NodeId }).Wait();
+            sut.GraphReadModel.GrmRtuRequests.UpdateRtu(new RequestUpdateRtu() { Id = rtuId, NodeId = rtu.NodeId });
             sut.Poller.EventSourcingTick().Wait();
 
             sut.FakeWindowManager.RegisterHandler(m => m is MyMessageBoxViewModel);

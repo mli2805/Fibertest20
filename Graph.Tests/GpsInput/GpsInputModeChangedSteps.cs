@@ -19,7 +19,7 @@ namespace Graph.Tests
         [Given(@"Пользователь создает RTU в точке с координатами (.*) и (.*)")]
         public void GivenПользовательСоздаетRtuвТочкеСКоординатамиИ(double p0, double p1)
         {
-            _sut.ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation() { Latitude = p0, Longitude = p1 }).Wait();
+            _sut.GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(new RequestAddRtuAtGpsLocation() { Latitude = p0, Longitude = p1 }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             _rtuId = _sut.ReadModel.Rtus.Last().Id;
         }

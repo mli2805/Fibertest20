@@ -9,7 +9,7 @@ namespace Graph.Tests
         public static void CreatePositionForAddNodeIntoFiberTest(this SystemUnderTest sut, out Iit.Fibertest.Graph.Fiber fiberForInsertion,
             out Iit.Fibertest.Graph.Trace traceForInsertionId)
         {
-            sut.ShellVm.ComplyWithRequest(new RequestAddRtuAtGpsLocation() { Latitude = 55, Longitude = 30 }).Wait();
+            sut.GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(new RequestAddRtuAtGpsLocation() { Latitude = 55, Longitude = 30 }).Wait();
             sut.Poller.EventSourcingTick().Wait();
             var nodeForRtuId = sut.ReadModel.Rtus.Last().NodeId;
             sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation(){Type = EquipmentType.EmptyNode}).Wait();
