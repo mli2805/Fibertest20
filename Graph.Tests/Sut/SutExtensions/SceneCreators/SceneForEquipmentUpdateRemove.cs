@@ -19,7 +19,7 @@ namespace Graph.Tests
 
         private static void SetNodeWithEquipment(this SystemUnderTest sut, out Guid nodeA, out Guid eqA)
         {
-            sut.GraphReadModel.GrmNodeRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Closure }).Wait();
+            sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Closure }).Wait();
             sut.Poller.EventSourcingTick().Wait();
             var nodeId = sut.ReadModel.Nodes.Last().Id;
             nodeA = nodeId;

@@ -304,6 +304,7 @@
     <Compile Include="Forms\TraceStatistics\TraceStatisticsViewsManager.cs" />
     <Compile Include="Forms\UniversalForms\MyMessageBox\MessageType.cs" />
     <Compile Include="Forms\UniversalForms\MyMessageBox\MessageTypeExt.cs" />
+    <Compile Include="GraphModel\GrmEquipmentRequests.cs" />
     <Compile Include="GraphModel\GrmNodeRequests.cs" />
     <Compile Include="Logic\Extensions\FiberStateExt.cs" />
     <Compile Include="Logic\LocalAddressResearcher.cs" />
@@ -452,7 +453,6 @@
     <Compile Include="Forms\NodeUpdate\NodeUpdateViewModel.cs" />
     <Compile Include="Forms\Shell\ShellViewModelApplyEquipment.cs" />
     <Compile Include="Forms\Shell\ShellViewModelApplyFiber.cs" />
-    <Compile Include="Forms\Shell\ShellViewModelApplyNode.cs" />
     <Compile Include="Forms\Shell\ShellViewModelApplyTrace.cs" />
     <Compile Include="Forms\TraceInfo\TraceInfoViewModel.cs" />
     <Compile Include="ViewModels\TraceChoiceViewModel.cs" />

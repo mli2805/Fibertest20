@@ -16,6 +16,7 @@ namespace Iit.Fibertest.Client
     {
         public CommonStatusBarViewModel CommonStatusBarViewModel { get; }
         public GrmNodeRequests GrmNodeRequests { get; }
+        public GrmEquipmentRequests GrmEquipmentRequests { get; }
         public readonly ILifetimeScope GlobalScope;
         private readonly IMyLog _logFile;
        
@@ -72,10 +73,11 @@ namespace Iit.Fibertest.Client
         }
 
         public GraphReadModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile,  CommonStatusBarViewModel commonStatusBarViewModel,
-            GrmNodeRequests grmNodeRequests)
+            GrmNodeRequests grmNodeRequests, GrmEquipmentRequests grmEquipmentRequests)
         {
             CommonStatusBarViewModel = commonStatusBarViewModel;
             GrmNodeRequests = grmNodeRequests;
+            GrmEquipmentRequests = grmEquipmentRequests;
             GlobalScope = globalScope;
             _logFile = logFile;
             Nodes = new ObservableCollection<NodeVm>();

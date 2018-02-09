@@ -13,14 +13,14 @@ namespace Graph.Tests
             sut.Poller.EventSourcingTick().Wait();
             var nodeForRtuId = sut.ReadModel.Rtus.Last().NodeId;
 
-            sut.GraphReadModel.GrmNodeRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode }).Wait();
+            sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode }).Wait();
             sut.Poller.EventSourcingTick().Wait();
             var a1 = sut.ReadModel.Nodes.Last().Id;
 
-            sut.GraphReadModel.GrmNodeRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait();
+            sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait();
             sut.Poller.EventSourcingTick().Wait();
             var a2 = sut.ReadModel.Nodes.Last().Id;
-            sut.GraphReadModel.GrmNodeRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait();
+            sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait();
             sut.Poller.EventSourcingTick().Wait();
             var b2 = sut.ReadModel.Nodes.Last().Id;
 

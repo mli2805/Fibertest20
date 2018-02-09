@@ -23,7 +23,7 @@ namespace Graph.Tests
         [Given(@"Существует узел")]
         public void GivenСуществуетУзел()
         {
-            _sut.GraphReadModel.GrmNodeRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation()).Wait();
+            _sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation()).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             _nodeId = _sut.ReadModel.Nodes.Last().Id;
         }
@@ -31,7 +31,7 @@ namespace Graph.Tests
         [Given(@"К данному узлу присоединен отрезок")]
         public void GivenКДанномуУзлуПрисоединенОтрезок()
         {
-            _sut.GraphReadModel.GrmNodeRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation()).Wait();
+            _sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation()).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             _anotherNodeId = _sut.ReadModel.Nodes.Last().Id;
             _sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = _nodeId, Node2 = _anotherNodeId }).Wait();

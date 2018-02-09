@@ -16,7 +16,7 @@ namespace Graph.Tests
         public void WhenUserClicksAddNode()
         {
             _cutOff = _sut.ReadModel.Nodes.Count;
-            _sut.GraphReadModel.GrmNodeRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode }).Wait();
+            _sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode }).Wait();
         }
 
         [Then(@"Новый узел сохраняется")]

@@ -12,7 +12,7 @@ namespace Graph.Tests
             sut.Poller.EventSourcingTick().Wait();
             var nodeForRtuId = sut.ReadModel.Rtus.Last().NodeId;
 
-            sut.GraphReadModel.GrmNodeRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation()
+            sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation()
             {
                 Type = EquipmentType.EmptyNode,
                 Latitude = 55.1,
@@ -21,7 +21,7 @@ namespace Graph.Tests
             sut.Poller.EventSourcingTick().Wait();
             var firstNodeId = sut.ReadModel.Nodes.Last().Id;
 
-            sut.GraphReadModel.GrmNodeRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation()
+            sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation()
             {
                 Type = EquipmentType.Terminal,
                 Latitude = 55.2,

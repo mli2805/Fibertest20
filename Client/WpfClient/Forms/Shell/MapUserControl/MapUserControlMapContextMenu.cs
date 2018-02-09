@@ -26,7 +26,7 @@ namespace Iit.Fibertest.Client
                     new RequestAddRtuAtGpsLocation() {Latitude = position.Lat, Longitude = position.Lng};
 
             else
-                await GraphReadModel.GrmNodeRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation()
+                await GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation()
                 {
                     Type = equipmentType,
                     Latitude = position.Lat,

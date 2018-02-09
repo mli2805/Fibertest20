@@ -28,22 +28,22 @@ namespace Iit.Fibertest.Client
         {
             return true;
         }
-        private void AskAddNodeIntoFiber(object parameter)
+        private async void AskAddNodeIntoFiber(object parameter)
         {
             var route = (GMapRoute)parameter;
             var position = MainMap.FromLocalToLatLng(MainMap.ContextMenuPoint);
-            GraphReadModel.Request = new RequestAddNodeIntoFiber() { FiberId = route.Id, InjectionType = EquipmentType.EmptyNode, Position = position };
+            await GraphReadModel.GrmNodeRequests.AddNodeIntoFiber(new RequestAddNodeIntoFiber() { FiberId = route.Id, InjectionType = EquipmentType.EmptyNode, Position = position });
         }
 
         private bool CanAddAdjustmentNodeIntoFiber(object parameter)
         {
             return true;
         }
-        private void AskAddAdjustmentNodeIntoFiber(object parameter)
+        private async void AskAddAdjustmentNodeIntoFiber(object parameter)
         {
             var route = (GMapRoute)parameter;
             var position = MainMap.FromLocalToLatLng(MainMap.ContextMenuPoint);
-            GraphReadModel.Request = new RequestAddNodeIntoFiber() { FiberId = route.Id, InjectionType = EquipmentType.AdjustmentPoint, Position = position };
+            await GraphReadModel.GrmNodeRequests.AddNodeIntoFiber(new RequestAddNodeIntoFiber() { FiberId = route.Id, InjectionType = EquipmentType.AdjustmentPoint, Position = position });
         }
 
         private bool CanRemoveFiber(object parameter)

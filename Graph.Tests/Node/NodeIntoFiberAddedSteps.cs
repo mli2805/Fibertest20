@@ -42,7 +42,7 @@ namespace Graph.Tests
         public void WhenПользовательКликаетДобавитьУзелВОтрезок()
         {
             _scene.FakeWindowManager.RegisterHandler(model => _scene.ManyLinesMessageBoxAnswer(Answer.Yes, model));
-            _scene.ShellVm.ComplyWithRequest(new RequestAddNodeIntoFiber() {FiberId = _fiber.Id}).Wait();
+            _scene.ShellVm.GraphReadModel.GrmNodeRequests.AddNodeIntoFiber(new RequestAddNodeIntoFiber() {FiberId = _fiber.Id}).Wait();
             _scene.Poller.EventSourcingTick().Wait();
             _nodeId = _scene.ReadModel.Nodes.Last().Id;
             _equipmentId = _scene.ReadModel.Equipments.Last().Id;
