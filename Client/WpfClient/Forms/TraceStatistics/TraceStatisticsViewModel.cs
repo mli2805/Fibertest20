@@ -107,6 +107,7 @@ namespace Iit.Fibertest.Client
 
         public void ShowReflectogram(int param)
         {
+            _reflectogramManager.SetTempFileName(TraceTitle, SelectedRow.Measurement.SorFileId, SelectedRow.Measurement.EventRegistrationTimestamp);
             if (param == 2)
                 _reflectogramManager.ShowRefWithBase(SelectedRow.Measurement.SorFileId);
             else
@@ -115,20 +116,20 @@ namespace Iit.Fibertest.Client
 
         public void SaveReflectogramAs(bool param)
         {
-            var timestamp = $@"{SelectedRow.Measurement.MeasurementTimestamp:dd-MM-yyyy HH-mm-ss}";
-            var defaultFilename = $@"{TraceTitle} [N{SelectedRow.Measurement.SorFileId}] {timestamp}";
-            _reflectogramManager.SaveReflectogramAs(SelectedRow.Measurement.SorFileId, defaultFilename, param);
+            _reflectogramManager.SetTempFileName(TraceTitle, SelectedRow.Measurement.SorFileId, SelectedRow.Measurement.MeasurementTimestamp);
+            _reflectogramManager.SaveReflectogramAs(SelectedRow.Measurement.SorFileId, param);
         }
 
         public void ShowBaseReflectogram()
         {
+            _reflectogramManager.SetTempFileName(TraceTitle, SelectedBaseRef.BaseRefTypeString, SelectedBaseRef.AssignedAt);
             _reflectogramManager.ShowBaseReflectogram(SelectedBaseRef.BaseRefId);
         }
 
         public void SaveBaseReflectogramAs()
         {
-            var partFilename = $@"{TraceTitle} [{SelectedBaseRef.BaseRefType.GetLocalizedString()}] ";
-            _reflectogramManager.SaveBaseReflectogramAs(SelectedBaseRef.BaseRefId, partFilename);
+            _reflectogramManager.SetTempFileName(TraceTitle, SelectedBaseRef.BaseRefTypeString, SelectedBaseRef.AssignedAt);
+            _reflectogramManager.SaveBaseReflectogramAs(SelectedBaseRef.BaseRefId);
         }
 
         public void ShowRftsEvents()

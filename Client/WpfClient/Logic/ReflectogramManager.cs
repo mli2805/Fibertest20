@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
-using Iit.Fibertest.Dto;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
@@ -29,55 +28,58 @@ namespace Iit.Fibertest.Client
             _logFile = logFile;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
+        }
 
-            SetTempSorFileName();
+        public void SetTempFileName(string traceTitle, int sorFileId, DateTime timestamp)
+        {
+            _tempSorFile = $@"{traceTitle} - ID{sorFileId} - {timestamp:dd-MM-yyyy-HH-mm-ss}";
+        }
+
+        public void SetTempFileName(string traceTitle, string baseType, DateTime timestamp)
+        {
+            _tempSorFile = $@"{traceTitle} - {baseType} - {timestamp:dd-MM-yyyy-HH-mm-ss}";
+        }
+
+        private void SaveInTempFolderAndOpenInReflect(byte[] sorBytes)
+        {
+            var tempFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\Temp\");
+            if (!Directory.Exists(tempFolder))
+                Directory.CreateDirectory(tempFolder);
+            var fullFilename = Path.Combine(tempFolder, _tempSorFile);
+            File.WriteAllBytes(fullFilename, sorBytes);
+            OpenSorInReflect(fullFilename);
         }
 
         public async void ShowRefWithBase(int sorFileId)
         {
             byte[] sorbytes = await GetSorBytes(sorFileId);
-            File.WriteAllBytes(_tempSorFile, sorbytes);
-            OpenSorInReflect(_tempSorFile);
+            SaveInTempFolderAndOpenInReflect(sorbytes);
         }
 
         public async void ShowOnlyCurrentMeasurement(int sorFileId)
         {
-            byte[] sorbytes = await GetSorBytes(sorFileId);
-            byte[] sorbytesWithoutBase = GetRidOfBase(sorbytes);
-            File.WriteAllBytes(_tempSorFile, sorbytesWithoutBase);
-            OpenSorInReflect(_tempSorFile);
-        }
-
-
-        public async void SaveReflectogramAs(int sorFileId, string defaultFilename, bool shouldBaseRefBeExcluded)
-        {
-            byte[] sorbytes = await GetSorBytes(sorFileId);
-            SaveAs(shouldBaseRefBeExcluded ? GetRidOfBase(sorbytes) : sorbytes, defaultFilename);
+            byte[] sorbytesWithBase = await GetSorBytes(sorFileId);
+            byte[] sorbytes = GetRidOfBase(sorbytesWithBase);
+            SaveInTempFolderAndOpenInReflect(sorbytes);
         }
 
         public async void ShowBaseReflectogram(Guid baseRefId)
         {
             byte[] sorbytes = await GetBaseSorBytes(baseRefId);
-            File.WriteAllBytes(_tempSorFile, sorbytes);
-            OpenSorInReflect(_tempSorFile);
+            SaveInTempFolderAndOpenInReflect(sorbytes);
         }
 
-        public async void SaveBaseReflectogramAs(Guid baseRefId, string partFilename)
+
+        public async void SaveReflectogramAs(int sorFileId, bool shouldBaseRefBeExcluded)
+        {
+            byte[] sorbytes = await GetSorBytes(sorFileId);
+            SaveAs(shouldBaseRefBeExcluded ? GetRidOfBase(sorbytes) : sorbytes);
+        }
+
+        public async void SaveBaseReflectogramAs(Guid baseRefId)
         {
             byte[] sorbytes = await GetBaseSorBytes(baseRefId);
-
-            OtdrDataKnownBlocks sorData;
-            var result = SorData.TryGetFromBytes(sorbytes, out sorData);
-            if (result != "")
-            {
-                _logFile.AppendLine(result);
-                return;
-            }
-
-            
-            var timestamp = $@"{sorData.IitParameters.LocalTimeStamp:dd-MM-yyyy HH-mm-ss}";
-            
-            SaveAs(sorbytes, partFilename + timestamp);
+            SaveAs(sorbytes);
         }
 
         public async void ShowRftsEvents(int sorFileId)
@@ -96,24 +98,7 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowWindowWithAssignedOwner(vm);
         }
 
-        public async void ShowRftsEventsOfLastTraceMeasurement(Guid traceId)
-        {
-            var sorbytes = await GetSorBytesOfLastTraceMeasurement(traceId);
-
-            OtdrDataKnownBlocks sorData;
-            var result = SorData.TryGetFromBytes(sorbytes, out sorData);
-            if (result != "")
-            {
-                _logFile.AppendLine(result);
-                return;
-            }
-
-            var vm = new RftsEventsViewModel(sorData);
-            _windowManager.ShowWindowWithAssignedOwner(vm);
-        }
-
-        //------------------------------------------------------------------------------------------------
-
+     //------------------------------------------------------------------------------------------------
         private async Task<byte[]> GetSorBytes(int sorFileId)
         {
             var sorbytes = await _c2DWcfManager.GetSorBytes(sorFileId);
@@ -124,18 +109,7 @@ namespace Iit.Fibertest.Client
             }
             return sorbytes;
         }
-
-        private async Task<byte[]> GetSorBytesOfLastTraceMeasurement(Guid traceId)
-        {
-            var sorbytes = await _c2DWcfManager.GetSorBytesOfLastTraceMeasurement(traceId);
-            if (sorbytes == null)
-            {
-                _logFile.AppendLine($@"Cannot get reflectogram for last measurement of trace {traceId.First6()}");
-                return new byte[0];
-            }
-            return sorbytes;
-        }
-
+       
         private async Task<byte[]> GetBaseSorBytes(Guid baseRefId)
         {
             var sorbytes = await _c2DWcfManager.GetSorBytesOfBase(baseRefId);
@@ -149,8 +123,7 @@ namespace Iit.Fibertest.Client
 
         private byte[] GetRidOfBase(byte[] sorbytes)
         {
-            OtdrDataKnownBlocks otdrDataKnownBlocks;
-            var result = SorData.TryGetFromBytes(sorbytes, out otdrDataKnownBlocks);
+            var result = SorData.TryGetFromBytes(sorbytes, out var otdrDataKnownBlocks);
             if (result != "")
             {
                 _logFile.AppendLine(result);
@@ -162,14 +135,6 @@ namespace Iit.Fibertest.Client
             return otdrDataKnownBlocks.ToBytes();
         }
 
-        private void SetTempSorFileName()
-        {
-            var tempFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\Temp\");
-            if (!Directory.Exists(tempFolder))
-                Directory.CreateDirectory(tempFolder);
-            _tempSorFile = Path.Combine(tempFolder, @"meas.sor");
-        }
-
         private void OpenSorInReflect(string sorFilename)
         {
             Process process = new Process();
@@ -178,13 +143,13 @@ namespace Iit.Fibertest.Client
             process.Start();
         }
 
-        private void SaveAs(byte[] sorbytes, string defaultFileName)
+        private void SaveAs(byte[] sorbytes)
         {
             var sfd = new SaveFileDialog
             {
                 Filter = @"Sor file (*.sor)|*.sor",
                 InitialDirectory = _iniFile.Read(IniSection.Miscellaneous, IniKey.PathToSor, @"c:\temp\"),
-                FileName = defaultFileName,
+                FileName = _tempSorFile,
             };
             if (sfd.ShowDialog() == true)
             {

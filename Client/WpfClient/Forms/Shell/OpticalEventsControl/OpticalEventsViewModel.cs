@@ -176,6 +176,8 @@ namespace Iit.Fibertest.Client
                 _windowManager.ShowDialogWithAssignedOwner(vm);
                 return;
             }
+
+            _reflectogramManager.SetTempFileName(SelectedRow.TraceTitle, SelectedRow.Nomer, SelectedRow.EventRegistrationTimestamp);
             if (param == 2)
                 _reflectogramManager.ShowRefWithBase(SelectedRow.SorFileId);
             else
@@ -184,9 +186,8 @@ namespace Iit.Fibertest.Client
 
         public void SaveReflectogramAs(bool shouldBaseRefBeExcluded)
         {
-            var timestamp = $@"{SelectedRow.EventRegistrationTimestamp:dd-MM-yyyy HH-mm-ss}";
-            var defaultFilename = $@"{SelectedRow.TraceTitle} [N{SelectedRow.SorFileId}] {timestamp}";
-            _reflectogramManager.SaveReflectogramAs(SelectedRow.SorFileId, defaultFilename, shouldBaseRefBeExcluded);
+            _reflectogramManager.SetTempFileName(SelectedRow.TraceTitle, SelectedRow.SorFileId, SelectedRow.EventRegistrationTimestamp);
+            _reflectogramManager.SaveReflectogramAs(SelectedRow.SorFileId, shouldBaseRefBeExcluded);
         }
 
         public void ShowRftsEvents()

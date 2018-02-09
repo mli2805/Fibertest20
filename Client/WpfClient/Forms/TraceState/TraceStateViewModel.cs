@@ -102,7 +102,12 @@ namespace Iit.Fibertest.Client
         }
 
         public void ShowAccidentPlace() { }
-        public void ShowReflectogram() { _reflectogramManager.ShowRefWithBase(Model.SorFileId); }
+
+        public void ShowReflectogram()
+        {
+            _reflectogramManager.SetTempFileName(Model.Header.TraceTitle, Model.SorFileId, Model.MeasurementTimestamp);
+            _reflectogramManager.ShowRefWithBase(Model.SorFileId);
+        }
         public void ShowRftsEvents() { _reflectogramManager.ShowRftsEvents(Model.SorFileId); }
         public void ShowTraceStatistics() { _traceStatisticsViewsManager.Show(Model.TraceId); }
         public void ExportToKml() { }

@@ -53,7 +53,7 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Reflectogram_Id}" Binding="{Binding Measurement.SorFileId}" Width="90*"/>
                     <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Base_ref_type}" Binding="{Binding BaseRefTypeString}" Width="90*"/>
-                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Recieved_at}" Binding="{Binding Measurement.MeasurementTimestamp}" Width="110*"/>
+                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Recieved_at}" Binding="{Binding Measurement.EventRegistrationTimestamp}" Width="110*"/>
                     <DataGridCheckBoxColumn Binding="{Binding IsOpticalEvent, Mode=OneWay}"/>
                     <DataGridTemplateColumn Width="110*" Header="{x:Static stringResources:Resources.SID_Trace_state}">
                         <DataGridTemplateColumn.CellStyle>
