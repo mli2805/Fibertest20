@@ -4115,15 +4115,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Trace equipment selection.
-        /// </summary>
-        public static string SID_Trace_equipment_selection {
-            get {
-                return ResourceManager.GetString("SID_Trace_equipment_selection", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Trace information.
         /// </summary>
         public static string SID_Trace_information {
@@ -4201,6 +4192,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Trace_title {
             get {
                 return ResourceManager.GetString("SID_Trace_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trace title contains forbidden symbols.
+        /// </summary>
+        public static string SID_Trace_title_contains_forbidden_symbols {
+            get {
+                return ResourceManager.GetString("SID_Trace_title_contains_forbidden_symbols", resourceCulture);
             }
         }
         

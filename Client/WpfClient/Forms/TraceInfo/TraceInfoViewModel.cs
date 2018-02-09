@@ -76,6 +76,8 @@ namespace Iit.Fibertest.Client
 
         public async void Save()
         {
+            if (!IsTitleValid())
+                return;
             if (Model.TraceId == Guid.Empty)
                 await SendAddTraceCommand();
             else
@@ -83,6 +85,16 @@ namespace Iit.Fibertest.Client
             TryClose();
         }
 
+        private bool IsTitleValid()
+        {
+            var isTitleValid = Model.Title.IndexOfAny(@"*+:\/[];|=".ToCharArray()) == -1;
+            if (!isTitleValid)
+            {
+                var vm = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Trace_title_contains_forbidden_symbols);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+            }
+            return isTitleValid;
+        }
         private async Task SendAddTraceCommand()
         {
             var cmd = new AddTrace()

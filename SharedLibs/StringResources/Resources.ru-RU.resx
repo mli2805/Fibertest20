@@ -1592,4 +1592,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Trace_components_selection" xml:space="preserve">
 		<value>Выбор компонентов трассы</value>
 	</data>
+	<data name="SID_Trace_title_contains_forbidden_symbols" xml:space="preserve">
+		<value>Название трассы содержит недопустимые символы</value>
+	</data>
 </root>
