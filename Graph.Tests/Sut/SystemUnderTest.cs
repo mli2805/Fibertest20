@@ -15,6 +15,7 @@ namespace Graph.Tests
         public IContainer Container { get; set; }
 
         public ReadModel ReadModel { get; }
+        public GraphReadModel GraphReadModel { get; }
         public IMyLog MyLogFile { get; set; }
         public ClientPoller Poller { get; }
         public FakeWindowManager FakeWindowManager { get; }
@@ -42,6 +43,7 @@ namespace Graph.Tests
             MyLogFile = Container.Resolve<IMyLog>();
             ShellVm = (ShellViewModel) Container.Resolve<IShell>();
             ReadModel = ShellVm.ReadModel;
+            GraphReadModel = ShellVm.GraphReadModel;
 
             var ev = Container.Resolve<EventStoreService>();
             ev.Init();

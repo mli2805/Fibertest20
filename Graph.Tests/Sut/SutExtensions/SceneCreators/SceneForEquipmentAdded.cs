@@ -11,7 +11,7 @@ namespace Graph.Tests
 
         public static Iit.Fibertest.Graph.Equipment SetNode(this SystemUnderTest sut)
         {
-            sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Closure }).Wait();
+            sut.GraphReadModel.GrmNodeRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Closure }).Wait();
             sut.Poller.EventSourcingTick().Wait();
             var nodeId = sut.ReadModel.Nodes.Last().Id;
             return sut.ReadModel.Equipments.First(e => e.NodeId == nodeId && e.Type == EquipmentType.Closure);
@@ -26,14 +26,14 @@ namespace Graph.Tests
             sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = rtuNodeId, Node2 = nodeId }).Wait();
             sut.Poller.EventSourcingTick().Wait();
 
-            sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait();
+            sut.GraphReadModel.GrmNodeRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait();
             sut.Poller.EventSourcingTick().Wait();
             anotherNodeId = sut.ReadModel.Nodes.Last().Id;
 
             sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = anotherNodeId, Node2 = nodeId }).Wait();
             sut.Poller.EventSourcingTick().Wait();
 
-            sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Other }).Wait();
+            sut.GraphReadModel.GrmNodeRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Other }).Wait();
             sut.Poller.EventSourcingTick().Wait();
             anotherNodeId2 = sut.ReadModel.Nodes.Last().Id;
 

@@ -12,7 +12,7 @@ namespace Iit.Fibertest.Client
     /// </summary>
     public partial class MapUserControl
     {
-        private void AddNodeOnClick(object sender, RoutedEventArgs e)
+        private async void AddNodeOnClick(object sender, RoutedEventArgs e)
         {
             if (!(sender is MenuItem item)) return;
 
@@ -22,15 +22,16 @@ namespace Iit.Fibertest.Client
             var equipmentType = (EquipmentType) code;
 
             if (equipmentType == EquipmentType.Rtu)
-                GraphReadModel.Request = new RequestAddRtuAtGpsLocation() { Latitude = position.Lat, Longitude = position.Lng };
-            
+                GraphReadModel.Request =
+                    new RequestAddRtuAtGpsLocation() {Latitude = position.Lat, Longitude = position.Lng};
+
             else
-                GraphReadModel.Request = new RequestAddEquipmentAtGpsLocation()
+                await GraphReadModel.GrmNodeRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation()
                 {
                     Type = equipmentType,
                     Latitude = position.Lat,
                     Longitude = position.Lng
-                };
+                });
         }
     }
 

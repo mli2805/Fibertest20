@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.Graph.Requests;
 using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
@@ -14,5 +15,18 @@ namespace Iit.Fibertest.Client
             _c2DWcfManager = c2DWcfManager;
         }
 
+        public async Task AddEquipmentAtGpsLocation(RequestAddEquipmentAtGpsLocation request)
+        {
+            var cmd = new AddEquipmentAtGpsLocation()
+            {
+                RequestedEquipmentId = Guid.NewGuid(),
+                NodeId = Guid.NewGuid(),
+                Type = request.Type,
+                Latitude = request.Latitude,
+                Longitude = request.Longitude,
+            };
+            cmd.EmptyNodeEquipmentId = request.Type == EquipmentType.EmptyNode || request.Type == EquipmentType.AdjustmentPoint ? Guid.Empty : Guid.NewGuid();
+            await _c2DWcfManager.SendCommandAsObj(cmd);
+        }
     }
 }

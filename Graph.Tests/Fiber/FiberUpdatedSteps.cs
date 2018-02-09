@@ -18,11 +18,11 @@ namespace Graph.Tests
         [Given(@"Существует отрезок")]
         public void GivenСуществуетОтрезок()
         {
-            _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation()).Wait();
+            _sut.GraphReadModel.GrmNodeRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation()).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             var n1 = _sut.ReadModel.Nodes.Last().Id;
 
-            _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation()).Wait();
+            _sut.GraphReadModel.GrmNodeRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation()).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             var n2 = _sut.ReadModel.Nodes.Last().Id;
 

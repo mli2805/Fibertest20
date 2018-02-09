@@ -17,7 +17,7 @@ namespace Graph.Tests
         [Given(@"Существует пустой узел")]
         public void GivenСуществуетПустойУзел()
         {
-            _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode }).Wait();
+            _sut.GraphReadModel.GrmNodeRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             _nodeId = _sut.ReadModel.Nodes.Last().Id;
         }
@@ -25,7 +25,7 @@ namespace Graph.Tests
         [Given(@"Существует некоторый узел с оборудованием")]
         public void GivenСуществуетНекоторыйУзелСОборудованием()
         {
-            _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation()).Wait();
+            _sut.GraphReadModel.GrmNodeRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation()).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             _nodeId = _sut.ReadModel.Nodes.Last().Id;
         }

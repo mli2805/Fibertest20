@@ -21,7 +21,7 @@ namespace Graph.Tests
         [Given(@"Ранее был создан узел с именем (.*)")]
         public void CreateNode(string title)
         {
-            _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation(){Type = EquipmentType.EmptyNode}).Wait();
+            _sut.GraphReadModel.GrmNodeRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation(){Type = EquipmentType.EmptyNode}).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             var nodeId = _sut.ShellVm.GraphReadModel.Nodes.Last().Id;
             _nodeUpdateViewModel = _sut.Container.Resolve<NodeUpdateViewModel>();
@@ -36,7 +36,7 @@ namespace Graph.Tests
         [Given(@"Добавлен узел")]
         public void CreateNode()
         {
-            _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode }).Wait();
+            _sut.GraphReadModel.GrmNodeRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
 
             _saidNodeId = _sut.ReadModel.Nodes.Last().Id;

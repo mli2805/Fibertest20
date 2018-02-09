@@ -248,20 +248,6 @@ namespace Iit.Fibertest.Client
 
         #region Equipment
 
-        public async Task ComplyWithRequest(RequestAddEquipmentAtGpsLocation request)
-        {
-            var cmd = new AddEquipmentAtGpsLocation()
-            {
-                RequestedEquipmentId = Guid.NewGuid(),
-                NodeId = Guid.NewGuid(),
-                Type = request.Type,
-                Latitude = request.Latitude,
-                Longitude = request.Longitude,
-            };
-            cmd.EmptyNodeEquipmentId = request.Type == EquipmentType.EmptyNode || request.Type == EquipmentType.AdjustmentPoint ? Guid.Empty : Guid.NewGuid(); 
-            await C2DWcfManager.SendCommandAsObj(cmd);
-        }
-
         public async Task ComplyWithRequest(RequestAddEquipmentIntoNode request)
         {
             await VerboseTasks.AddEquipmentIntoNodeFullTask(request, GlobalScope, ReadModel, _windowManager, C2DWcfManager);
