@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.Graph.Requests;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -15,7 +16,7 @@ namespace Graph.Tests
         public void WhenUserClicksAddNode()
         {
             _cutOff = _sut.ReadModel.Nodes.Count;
-            _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode }).Wait();
         }
 
         [Then(@"Новый узел сохраняется")]

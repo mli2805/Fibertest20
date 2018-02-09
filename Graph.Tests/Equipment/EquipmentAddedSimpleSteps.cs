@@ -17,7 +17,7 @@ namespace Graph.Tests
         [Given(@"Существует пустой узел")]
         public void GivenСуществуетПустойУзел()
         {
-            _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             _nodeId = _sut.ReadModel.Nodes.Last().Id;
         }
@@ -55,19 +55,18 @@ namespace Graph.Tests
         [Then(@"Создается оборудование в узле")]
         public void ThenСоздаетсяОборудованиеВУзле()
         {
-            var equipment = _sut.ReadModel.Equipments.First(e => e.NodeId == _nodeId);
-            equipment.Title.Should().Be(SystemUnderTest.NewTitleForTest);
-            equipment.Type.Should().Be(SystemUnderTest.NewTypeForTest);
-            equipment.CableReserveLeft.Should().Be(SystemUnderTest.NewLeftCableReserve);
-            equipment.CableReserveRight.Should().Be(SystemUnderTest.NewRightCableReserve);
-            equipment.Comment.Should().Be(SystemUnderTest.NewCommentForTest);
+            _equipment.Title.Should().Be(SystemUnderTest.NewTitleForTest);
+            _equipment.Type.Should().Be(SystemUnderTest.NewTypeForTest);
+            _equipment.CableReserveLeft.Should().Be(SystemUnderTest.NewLeftCableReserve);
+            _equipment.CableReserveRight.Should().Be(SystemUnderTest.NewRightCableReserve);
+            _equipment.Comment.Should().Be(SystemUnderTest.NewCommentForTest);
             _sut.ReadModel.Equipments.FirstOrDefault(e => e.Id == Guid.Empty).Should().BeNull();
 
         }
         [Then(@"Оборудование в узле не создается")]
         public void ThenОборудованиеВУзлеНеСоздается()
         {
-            _sut.ReadModel.Equipments.FirstOrDefault(e => e.NodeId == _nodeId).Should().BeNull();
+            _sut.ReadModel.Equipments.FirstOrDefault(e => e.NodeId == _nodeId && e.Type != EquipmentType.EmptyNode).Should().BeNull();
         }
 
         [Then(@"Создается еще одно оборудование в том же узле")]

@@ -304,6 +304,7 @@
     <Compile Include="Forms\TraceStatistics\TraceStatisticsViewsManager.cs" />
     <Compile Include="Forms\UniversalForms\MyMessageBox\MessageType.cs" />
     <Compile Include="Forms\UniversalForms\MyMessageBox\MessageTypeExt.cs" />
+    <Compile Include="GraphModel\GrmNodeRequests.cs" />
     <Compile Include="Logic\Extensions\FiberStateExt.cs" />
     <Compile Include="Logic\LocalAddressResearcher.cs" />
     <Compile Include="Logic\Extensions\RtuPartStateExt.cs" />

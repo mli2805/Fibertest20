@@ -153,13 +153,6 @@ namespace Iit.Fibertest.Client
 
         #region Node
 
-        public async Task ComplyWithRequest(AddNode request)
-        {
-            var cmd = request;
-            cmd.Id = Guid.NewGuid();
-            await C2DWcfManager.SendCommandAsObj(cmd);
-        }
-
         public async Task ComplyWithRequest(RequestAddNodeIntoFiber request)
         {
             var cmd = PrepareCommand(request);

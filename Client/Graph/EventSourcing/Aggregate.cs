@@ -23,10 +23,7 @@ namespace Iit.Fibertest.Graph
         }
 
         #region Node
-        public string When(AddNode cmd)
-        {
-            return WriteModel.Add(_mapper.Map<NodeAdded>(cmd));
-        }
+     
 
         public string When(AddNodeIntoFiber cmd)
         {

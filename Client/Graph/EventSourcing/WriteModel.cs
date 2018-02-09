@@ -75,12 +75,7 @@ namespace Iit.Fibertest.Graph
         }
 
         #region Node
-        public string Apply(NodeAdded e)
-        {
-            Nodes.Add(_mapper.Map<Node>(e));
-            return null;
-        }
-
+      
         public string Apply(NodeIntoFiberAdded e)
         {
             Nodes.Add(new Node() { Id = e.Id, Latitude = e.Position.Lat, Longitude = e.Position.Lng });

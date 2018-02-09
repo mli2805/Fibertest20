@@ -117,6 +117,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<TraceLeaf>();
             builder.RegisterType<TreeOfRtuModel>().SingleInstance();
             builder.RegisterType<WriteModel>().SingleInstance();
+            builder.RegisterType<GrmNodeRequests>().SingleInstance();
             builder.RegisterType<GraphReadModel>().SingleInstance();
             builder.RegisterType<FreePorts>().SingleInstance();
 

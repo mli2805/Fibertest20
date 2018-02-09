@@ -3,6 +3,7 @@ using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.Graph.Requests;
 using Iit.Fibertest.StringResources;
 using TechTalk.SpecFlow;
 
@@ -20,10 +21,10 @@ namespace Graph.Tests
         [Given(@"Левый и правый узлы созданы")]
         public void GivenALeftAndRightNodesCreated()
         {
-            _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             _leftNodeId = _sut.ReadModel.Nodes.Last().Id;
-            _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             _rightNodeId = _sut.ReadModel.Nodes.Last().Id;
             _cutOff = _sut.CurrentEventNumber;

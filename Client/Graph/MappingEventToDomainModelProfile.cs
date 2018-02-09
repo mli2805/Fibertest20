@@ -6,7 +6,6 @@ namespace Iit.Fibertest.Graph
     {
         public MappingEventToDomainModelProfile()
         {
-            CreateMap<NodeAdded, Node>();
             CreateMap<NodeUpdated, Node>();
             CreateMap<NodeMoved, Node>();
 

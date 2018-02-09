@@ -31,7 +31,7 @@ namespace Graph.Tests
         [Given(@"К данному узлу присоединен отрезок")]
         public void GivenКДанномуУзлуПрисоединенОтрезок()
         {
-            _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation()).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             _anotherNodeId = _sut.ReadModel.Nodes.Last().Id;
             _sut.ShellVm.ComplyWithRequest(new AddFiber() { Node1 = _nodeId, Node2 = _anotherNodeId }).Wait();

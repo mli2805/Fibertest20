@@ -160,6 +160,8 @@
     <Compile Include="Events\Fiber\FiberRemoved.cs" />
     <Compile Include="Events\JustEchosOfCmdsSentToRtu\MonitoringStarted.cs" />
     <Compile Include="Events\JustEchosOfCmdsSentToRtu\MonitoringStopped.cs" />
+    <Compile Include="Events\Node\NodeExtinguished.cs" />
+    <Compile Include="Events\Node\NodeHighlighted.cs" />
     <Compile Include="Events\Node\NodeIntoFiberAdded.cs" />
     <Compile Include="Events\Node\NodeMoved.cs" />
     <Compile Include="Events\JustEchosOfCmdsSentToRtu\MonitoringSettingsChanged.cs" />
@@ -179,12 +181,10 @@
     <Compile Include="MappingCmdToEventProfile.cs" />
     <Compile Include="Commands\Equipment\AddEquipmentIntoNode.cs" />
     <Compile Include="Commands\Fiber\AddFiber.cs" />
-    <Compile Include="Commands\Node\AddNode.cs" />
     <Compile Include="Commands\Node\RemoveNode.cs" />
     <Compile Include="Commands\Node\UpdateNode.cs" />
     <Compile Include="Events\Equipment\EquipmentIntoNodeAdded.cs" />
     <Compile Include="Events\Fiber\FiberAdded.cs" />
-    <Compile Include="Events\Node\NodeAdded.cs" />
     <Compile Include="Events\Node\NodeRemoved.cs" />
     <Compile Include="Events\Node\NodeUpdated.cs" />
     <Compile Include="Magic\PrivateReflectionDynamicObject.cs" />

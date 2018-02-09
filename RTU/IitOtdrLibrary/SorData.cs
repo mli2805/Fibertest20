@@ -45,6 +45,9 @@ namespace Iit.Fibertest.IitOtdrLibrary
         {
             if (File.Exists(filename))
                 File.Delete(filename);
+            var folder = Path.GetDirectoryName(filename);
+            if (folder != null && !Directory.Exists(folder))
+                Directory.CreateDirectory(folder);
             using (FileStream fs = File.Create(filename))
             {
                 sorData.Save(fs);

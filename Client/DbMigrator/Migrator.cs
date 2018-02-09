@@ -149,9 +149,12 @@ namespace Iit.Fibertest.DbMigrator
             }
             else
             {
-                _db.Add(new NodeAdded()
+                _db.Add(new EquipmentAtGpsLocationAdded()
                 {
-                    Id = nodeGuid,
+                    NodeId = nodeGuid,
+                    Type = EquipmentType.EmptyNode,
+                    RequestedEquipmentId = Guid.NewGuid(),
+                    EmptyNodeEquipmentId = Guid.NewGuid(),
                     Latitude = double.Parse(parts[3]),
                     Longitude = double.Parse(parts[4]),
                 });

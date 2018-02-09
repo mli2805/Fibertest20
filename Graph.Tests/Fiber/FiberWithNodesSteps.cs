@@ -24,10 +24,10 @@ namespace Graph.Tests
         [Given(@"Левый и правый узлы уже созданы")]
         public void GivenЛевыйИПравыйУзлыУжеСозданы()
         {
-            _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation()).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             _leftNodeId = _sut.ShellVm.ReadModel.Nodes.Last().Id;
-            _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation()).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             _rightNodeId = _sut.ShellVm.ReadModel.Nodes.Last().Id;
             _nodesCountCutOff = _sut.ShellVm.ReadModel.Nodes.Count;

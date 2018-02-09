@@ -4,6 +4,7 @@ using Autofac;
 using FluentAssertions;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.Graph.Requests;
 using Iit.Fibertest.StringResources;
 using TechTalk.SpecFlow;
 
@@ -20,7 +21,7 @@ namespace Graph.Tests
         [Given(@"Ранее был создан узел с именем (.*)")]
         public void CreateNode(string title)
         {
-            _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation(){Type = EquipmentType.EmptyNode}).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             var nodeId = _sut.ShellVm.GraphReadModel.Nodes.Last().Id;
             _nodeUpdateViewModel = _sut.Container.Resolve<NodeUpdateViewModel>();
@@ -35,7 +36,7 @@ namespace Graph.Tests
         [Given(@"Добавлен узел")]
         public void CreateNode()
         {
-            _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
 
             _saidNodeId = _sut.ReadModel.Nodes.Last().Id;

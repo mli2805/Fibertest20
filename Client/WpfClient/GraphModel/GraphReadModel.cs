@@ -15,6 +15,7 @@ namespace Iit.Fibertest.Client
     public partial class GraphReadModel : PropertyChangedBase
     {
         public CommonStatusBarViewModel CommonStatusBarViewModel { get; }
+        public GrmNodeRequests GrmNodeRequests { get; }
         public readonly ILifetimeScope GlobalScope;
         private readonly IMyLog _logFile;
        
@@ -70,9 +71,11 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public GraphReadModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile,  CommonStatusBarViewModel commonStatusBarViewModel)
+        public GraphReadModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile,  CommonStatusBarViewModel commonStatusBarViewModel,
+            GrmNodeRequests grmNodeRequests)
         {
             CommonStatusBarViewModel = commonStatusBarViewModel;
+            GrmNodeRequests = grmNodeRequests;
             GlobalScope = globalScope;
             _logFile = logFile;
             Nodes = new ObservableCollection<NodeVm>();
@@ -111,16 +114,6 @@ namespace Iit.Fibertest.Client
 
 
         #region Node
-        public void Apply(NodeAdded evnt)
-        {
-            Nodes.Add(new NodeVm()
-            {
-                Id = evnt.Id,
-                State = FiberState.Ok,
-                Type = EquipmentType.EmptyNode,
-                Position = new PointLatLng(evnt.Latitude, evnt.Longitude)
-            });
-        }
 
         public void Apply(NodeIntoFiberAdded evnt)
         {

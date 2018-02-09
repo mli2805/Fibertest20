@@ -2,6 +2,7 @@
 using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.Graph.Requests;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -17,7 +18,7 @@ namespace Graph.Tests
         [Given(@"Создан узел")]
         public void GivenNodeAdded()
         {
-            _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             _cutOff = _sut.CurrentEventNumber;
             _nodeId = _sut.ReadModel.Nodes.Last().Id;

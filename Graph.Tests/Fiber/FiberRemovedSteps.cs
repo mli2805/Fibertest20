@@ -2,6 +2,7 @@
 using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.Graph.Requests;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -18,10 +19,10 @@ namespace Graph.Tests
         [Given(@"Есть два узла и отрезок между ними")]
         public void GivenЕстьДваУзлаИОтрезокМеждуНими()
         {
-            _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             _leftNodeId = _sut.ReadModel.Nodes.Last().Id;
-            _sut.ShellVm.ComplyWithRequest(new AddNode()).Wait();
+            _sut.ShellVm.ComplyWithRequest(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             _rightNodeId = _sut.ReadModel.Nodes.Last().Id;
             _sut.ShellVm.ComplyWithRequest(new AddFiber() {Node1 = _leftNodeId, Node2 = _rightNodeId}).Wait();
