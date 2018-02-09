@@ -41,6 +41,7 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<BaseRefLandmarksTool>().SingleInstance();
             builder.RegisterType<BaseRefRepairman>().SingleInstance();
             builder.RegisterType<BaseRefRepairmanIntermediary>().SingleInstance();
+            builder.RegisterType<MeasurementChangerIntermediary>().SingleInstance();
 
             builder.RegisterType<MonitoringResultsRepository>().SingleInstance();
             builder.RegisterType<GraphPostProcessingRepository>().SingleInstance();

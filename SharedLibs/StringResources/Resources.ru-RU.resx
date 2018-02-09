@@ -1403,9 +1403,6 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Toggling_to_the_port__0_" xml:space="preserve">
 		<value>Переключение в порт {0}</value>
 	</data>
-	<data name="SID_Is_waiting_for_the_command" xml:space="preserve">
-		<value>Ожидание команды</value>
-	</data>
 	<data name="SID_Measurement_termination_timestamp" xml:space="preserve">
 		<value>Время окончания измерения</value>
 	</data>

@@ -178,7 +178,8 @@ namespace Iit.Fibertest.DatabaseLibrary
 
                     return new MeasurementUpdatedDto()
                     {
-                        ReturnCode = ReturnCode.Ok, SorFileId = dto.SorFileId, StatusChangedTimestamp = measurement.StatusChangedTimestamp
+                        ReturnCode = ReturnCode.Ok,
+                        UpdatedMeasurement = measurement,
                     };
                 }
             }

@@ -39,7 +39,7 @@ namespace Iit.Fibertest.Client
 
         public FiberState TracesState
         {
-            get { return _tracesState; }
+            get => _tracesState;
             set
             {
                 if (value == _tracesState) return;
@@ -52,11 +52,21 @@ namespace Iit.Fibertest.Client
 
         public string TracesStateOnScreen => TracesState.ToLocalizedString();
         public Brush TracesStateBrush => TracesState.GetBrush(true);
-        public string MonitoringMode { get; set; }
+
+        public string MonitoringMode
+        {
+            get => _monitoringMode;
+            set
+            {
+                if (value == _monitoringMode) return;
+                _monitoringMode = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         public string CurrentMeasurementStep
         {
-            get { return _currentMeasurementStep; }
+            get => _currentMeasurementStep;
             set
             {
                 if (value == _currentMeasurementStep) return;
@@ -73,6 +83,8 @@ namespace Iit.Fibertest.Client
         }
 
         private bool _isSoundButtonEnabled;
+        private string _monitoringMode;
+
         public bool IsSoundButtonEnabled
         {
             get { return _isSoundButtonEnabled; }

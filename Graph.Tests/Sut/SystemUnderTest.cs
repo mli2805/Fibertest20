@@ -35,6 +35,20 @@ namespace Graph.Tests
 
         public SystemUnderTest()
         {
+            AutofacMess();
+
+            Poller = Container.Resolve<ClientPoller>();
+            FakeWindowManager = (FakeWindowManager) Container.Resolve<IWindowManager>();
+            MyLogFile = Container.Resolve<IMyLog>();
+            ShellVm = (ShellViewModel) Container.Resolve<IShell>();
+            ReadModel = ShellVm.ReadModel;
+
+            var ev = Container.Resolve<EventStoreService>();
+            ev.Init();
+        }
+
+        private void AutofacMess()
+        {
             var builder = new ContainerBuilder();
             builder.RegisterModule<AutofacClient>();
             builder.RegisterType<FakeWindowManager>().As<IWindowManager>().SingleInstance();
@@ -54,26 +68,19 @@ namespace Graph.Tests
             builder.RegisterType<BaseRefsRepository>().SingleInstance();
             builder.RegisterType<BaseRefsRepositoryIntermediary>().SingleInstance();
             builder.RegisterType<BaseRefRepairmanIntermediary>().SingleInstance();
+            builder.RegisterType<MeasurementChangerIntermediary>().SingleInstance();
             builder.RegisterType<MeasurementsRepository>().SingleInstance();
             builder.RegisterType<NetworkEventsRepository>().SingleInstance();
             builder.RegisterType<BopNetworkEventsRepository>().SingleInstance();
             builder.RegisterType<GraphPostProcessingRepository>().SingleInstance();
             builder.RegisterType<WcfServiceForClient>().As<IWcfServiceForClient>().SingleInstance();
+            builder.RegisterType<D2CWcfManager>().SingleInstance();
 
             builder.RegisterInstance<IMyLog>(new NullLog());
 
             builder.RegisterType<TestsDispatcherProvider>().As<IDispatcherProvider>().SingleInstance();
 
             Container = builder.Build();
-
-            Poller = Container.Resolve<ClientPoller>();
-            FakeWindowManager = (FakeWindowManager) Container.Resolve<IWindowManager>();
-            MyLogFile = Container.Resolve<IMyLog>();
-            ShellVm = (ShellViewModel) Container.Resolve<IShell>();
-            ReadModel = ShellVm.ReadModel;
-
-            var ev = Container.Resolve<EventStoreService>();
-            ev.Init();
         }
     }
 }

@@ -15,6 +15,9 @@ namespace Iit.Fibertest.ClientWcfServiceInterface
         Task<int> NotifyUsersRtuCurrentMonitoringStep(CurrentMonitoringStepDto dto);
 
         [OperationContract]
+        Task<int> NotifyUsersMeasurementUpdated(MeasurementUpdatedDto dto);
+
+        [OperationContract]
         Task<int> NotifyAboutMonitoringResult(MeasurementWithSor dto);
 
         [OperationContract]

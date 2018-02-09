@@ -38,6 +38,12 @@ namespace Iit.Fibertest.Client
             return Task.FromResult(0);
         }
 
+        public Task<int> NotifyUsersMeasurementUpdated(MeasurementUpdatedDto dto)
+        {
+            _opticalEventsDoubleViewModel.Apply(dto);
+            return Task.FromResult(0);
+        }
+
         public Task<int> NotifyAboutMonitoringResult(MeasurementWithSor measurementWithSor)
         {
             _treeOfRtuModel.Apply(measurementWithSor.Measurement);

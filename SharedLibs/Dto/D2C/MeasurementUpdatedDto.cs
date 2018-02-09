@@ -1,4 +1,3 @@
-using System;
 using System.Runtime.Serialization;
 
 namespace Iit.Fibertest.Dto
@@ -7,11 +6,7 @@ namespace Iit.Fibertest.Dto
     public class MeasurementUpdatedDto
     {
         [DataMember]
-        public int SorFileId { get; set; }
-        [DataMember]
-        public string StatusChangedByUser { get; set; }
-        [DataMember]
-        public DateTime StatusChangedTimestamp { get; set; }
+       public Measurement UpdatedMeasurement { get; set; }
 
 
         [DataMember]

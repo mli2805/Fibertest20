@@ -47,8 +47,8 @@ namespace Iit.Fibertest.Client
         public void ShowRtu(object param)
         {
             if (param is RtuLeaf rtuLeaf)
-             //   rtuLeaf.PostOffice.Message = new CenterToRtu() { RtuId = rtuLeaf.Id };
-            _graphReadModel.PlaceRtuIntoScreenCenter(rtuLeaf.Id);
+                //   rtuLeaf.PostOffice.Message = new CenterToRtu() { RtuId = rtuLeaf.Id };
+                _graphReadModel.PlaceRtuIntoScreenCenter(rtuLeaf.Id);
         }
 
         public void InitializeRtu(object param)
@@ -102,6 +102,7 @@ namespace Iit.Fibertest.Client
             {
                 var cmd = new StopMonitoring() { RtuId = rtuLeaf.Id };
                 await _c2DWcfManager.SendCommandAsObj(cmd);
+                _rtuStateViewsManager.NotifyUserMonitoringStopped(rtuLeaf.Id);
             }
         }
 
@@ -140,13 +141,17 @@ namespace Iit.Fibertest.Client
                     continue;
 
                 if (trace.BaseRefsSet.IsInMonitoringCycle)
-                    result.Add(new PortWithTraceDto() {TraceId = trace.Id, OtauPort = new OtauPortDto()
+                    result.Add(new PortWithTraceDto()
                     {
-                        OtauIp = portOwnerLeaf.OtauNetAddress.Ip4Address, 
-                        OtauTcpPort = portOwnerLeaf.OtauNetAddress.Port,
-                        IsPortOnMainCharon = isMainCharon,
-                        OpticalPort = trace.PortNumber,
-                    } });
+                        TraceId = trace.Id,
+                        OtauPort = new OtauPortDto()
+                        {
+                            OtauIp = portOwnerLeaf.OtauNetAddress.Ip4Address,
+                            OtauTcpPort = portOwnerLeaf.OtauNetAddress.Port,
+                            IsPortOnMainCharon = isMainCharon,
+                            OpticalPort = trace.PortNumber,
+                        }
+                    });
             }
             return result;
         }
@@ -171,8 +176,9 @@ namespace Iit.Fibertest.Client
                 _logFile.AppendLine($@"Start monitoring result - {resultDto.ReturnCode == ReturnCode.MonitoringSettingsAppliedSuccessfully}");
                 if (resultDto.ReturnCode == ReturnCode.MonitoringSettingsAppliedSuccessfully)
                 {
-                    var cmd = new StartMonitoring() {RtuId = rtuLeaf.Id};
+                    var cmd = new StartMonitoring() { RtuId = rtuLeaf.Id };
                     await _c2DWcfManager.SendCommandAsObj(cmd);
+                    _rtuStateViewsManager.NotifyUserMonitoringStarted(rtuLeaf.Id);
                 }
             }
         }

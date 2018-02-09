@@ -49,6 +49,18 @@ namespace Iit.Fibertest.Client
                 vm.NotifyUserMonitoringResult(dto);
         }
 
+        public void NotifyUserMonitoringStopped(Guid rtuId)
+        {
+            if (LaunchedViews.TryGetValue(rtuId, out var vm))
+                vm.MonitoringStopped();
+        }
+
+        public void NotifyUserMonitoringStarted(Guid rtuId)
+        {
+            if (LaunchedViews.TryGetValue(rtuId, out var vm))
+                vm.MonitoringStarted();
+        }
+
         private void ClearClosedViews()
         {
             var closed = (from pair in LaunchedViews where !pair.Value.IsOpen select pair.Key).ToList();

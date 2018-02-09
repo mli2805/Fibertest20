@@ -41,6 +41,12 @@ namespace Iit.Fibertest.Client
             ActualOpticalEventsViewModel.AddEvent(measurement);
         }
 
+        public void Apply(MeasurementUpdatedDto dto)
+        {
+            ActualOpticalEventsViewModel.UpdateEvent(dto);
+            AllOpticalEventsViewModel.UpdateEvent(dto);
+        }
+
         public void ApplyToTableAll(Measurement measurement)
         {
             AllOpticalEventsViewModel.AddEvent(measurement);

@@ -168,6 +168,15 @@ namespace Iit.Fibertest.Client
                 Rows.Remove(oldEvent);
         }
 
+        public void UpdateEvent(MeasurementUpdatedDto dto)
+        {
+            var oldEvent = Rows.FirstOrDefault(l => l.SorFileId == dto.UpdatedMeasurement.SorFileId);
+            if (oldEvent != null)
+                Rows.Remove(oldEvent);
+
+            AddEvent(dto.UpdatedMeasurement);
+        }
+
         public void ShowReflectogram(int param)
         {
             if (SelectedRow == null)

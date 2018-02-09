@@ -49,6 +49,31 @@ namespace Iit.Fibertest.WcfConnections
             return 0;
         }
 
+        public async Task<int> NotifyUsersMeasurementUpdated(MeasurementUpdatedDto dto)
+        {
+            if (_addresses == null)
+            {
+                _logFile.AppendLine("There are no clients, who are you sending to?");
+                return 0;
+            }
+            foreach (var clientAddress in _addresses)
+            {
+                var wcfConnection = new WcfFactory(clientAddress, _iniFile, _logFile).CreateClientConnection();
+                if (wcfConnection == null)
+                    continue;
+
+                try
+                {
+                    await wcfConnection.NotifyUsersMeasurementUpdated(dto);
+                }
+                catch (Exception e)
+                {
+                    _logFile.AppendLine("D2CWcfManager.NotifyUsersRtuCurrentMonitoringStep: " + e.Message);
+                }
+            }
+            return 0;
+        }
+
         public async Task<int> NotifyAboutNetworkEvents(List<NetworkEvent> dto)
         {
             if (_addresses == null)

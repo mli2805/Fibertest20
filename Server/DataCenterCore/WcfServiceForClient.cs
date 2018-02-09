@@ -28,6 +28,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly GraphPostProcessingRepository _graphPostProcessingRepository;
         private readonly BaseRefsRepositoryIntermediary _baseRefsRepositoryIntermediary;
         private readonly BaseRefRepairmanIntermediary _baseRefRepairmanIntermediary;
+        private readonly MeasurementChangerIntermediary _measurementChangerIntermediary;
 
         private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
         {
@@ -36,7 +37,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public WcfServiceForClient(IMyLog logFile, EventStoreService eventStoreService,
             ClientStationsRepository clientStationsRepository, ClientToRtuTransmitter clientToRtuTransmitter,
-            RtuStationsRepository rtuStationsRepository, 
+            RtuStationsRepository rtuStationsRepository, MeasurementChangerIntermediary measurementChangerIntermediary,
             BaseRefsRepositoryIntermediary baseRefsRepositoryIntermediary, BaseRefRepairmanIntermediary baseRefRepairmanIntermediary,
             MeasurementsRepository measurementsRepository, NetworkEventsRepository networkEventsRepository,
             BopNetworkEventsRepository bopNetworkEventsRepository, GraphPostProcessingRepository graphPostProcessingRepository)
@@ -52,6 +53,7 @@ namespace Iit.Fibertest.DataCenterCore
             _graphPostProcessingRepository = graphPostProcessingRepository;
             _baseRefsRepositoryIntermediary = baseRefsRepositoryIntermediary;
             _baseRefRepairmanIntermediary = baseRefRepairmanIntermediary;
+            _measurementChangerIntermediary = measurementChangerIntermediary;
         }
 
         public async Task<string> SendCommandAsObj(object cmd)
@@ -141,7 +143,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<MeasurementUpdatedDto> SaveMeasurementChanges(UpdateMeasurementDto dto)
         {
-            return await _measurementsRepository.SaveMeasurementChangesAsync(dto);
+            return await _measurementChangerIntermediary.UpdateMeasurementAsync(dto);
         }
 
         public async Task<List<BaseRefDto>> GetTraceBaseRefsAsync(Guid traceId)

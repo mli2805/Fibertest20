@@ -16,7 +16,6 @@ namespace Iit.Fibertest.Client
         private readonly ReflectogramManager _reflectogramManager;
         private readonly SoundManager _soundManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
-        private readonly OpticalEventsDoubleViewModel _opticalEventsDoubleViewModel;
         private readonly TraceStatisticsViewsManager _traceStatisticsViewsManager;
         private bool _isSoundForThisVmInstanceOn;
         private bool _isTraceStateChanged;
@@ -30,13 +29,12 @@ namespace Iit.Fibertest.Client
 
         public TraceStateViewModel(IMyLog logFile, ReflectogramManager reflectogramManager, 
             SoundManager soundManager, IWcfServiceForClient c2DWcfManager, 
-            OpticalEventsDoubleViewModel opticalEventsDoubleViewModel, TraceStatisticsViewsManager traceStatisticsViewsManager)
+            TraceStatisticsViewsManager traceStatisticsViewsManager)
         {
             _logFile = logFile;
             _reflectogramManager = reflectogramManager;
             _soundManager = soundManager;
             _c2DWcfManager = c2DWcfManager;
-            _opticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
             _traceStatisticsViewsManager = traceStatisticsViewsManager;
         }
 
@@ -128,13 +126,8 @@ namespace Iit.Fibertest.Client
 
                 var result = await _c2DWcfManager.SaveMeasurementChanges(dto);
                 if (result.ReturnCode != ReturnCode.Ok)
-                {
                     _logFile.AppendLine(@"Cannot update measurement!");
-                }
-                else
-                {
-                    _opticalEventsDoubleViewModel.ApplyUsersChanges(dto);
-                }
+              
             }
             TryClose();
         }

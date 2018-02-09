@@ -48,6 +48,18 @@ namespace Iit.Fibertest.Client
             }
         }
 
+
+        public void MonitoringStarted()
+        {
+            Model.MonitoringMode = MonitoringState.On.ToLocalizedString();
+        }
+
+        public void MonitoringStopped()
+        {
+            Model.MonitoringMode = MonitoringState.Off.ToLocalizedString();
+            Model.CurrentMeasurementStep = BuildMessage(MonitoringCurrentStep.Idle);
+        }
+
         public void NotifyUserMonitoringResult(Measurement dto)
         {
             var portLineVm = Model.Ports.FirstOrDefault(p => p.TraceId == dto.TraceId);
@@ -84,12 +96,12 @@ namespace Iit.Fibertest.Client
             Model.CurrentMeasurementStep = BuildMessage(dto.Step, portName, traceTitle);
         }
 
-        private string BuildMessage(MonitoringCurrentStep step, string portName, string traceTitle)
+        private string BuildMessage(MonitoringCurrentStep step, string portName = "", string traceTitle = "")
         {
             switch (step)
             {
                 case MonitoringCurrentStep.Idle:
-                    return Resources.SID_Is_waiting_for_the_command;
+                    return Resources.SID_No_measurement;
                 case MonitoringCurrentStep.Toggle:
                    return string.Format(Resources.SID_Toggling_to_the_port__0_, portName);
                 case MonitoringCurrentStep.Measure:
