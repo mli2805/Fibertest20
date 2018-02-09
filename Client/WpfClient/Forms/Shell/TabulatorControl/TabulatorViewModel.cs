@@ -153,5 +153,10 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        public void Extinguish()
+        {
+            GraphReadModel.Extinguish();
+        }
+
     }
 }

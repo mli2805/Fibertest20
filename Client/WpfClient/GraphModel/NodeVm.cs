@@ -14,10 +14,11 @@ namespace Iit.Fibertest.Client
         private PointLatLng _position;
         private FiberState _state;
         private EquipmentType _type;
+        private bool _isHighlighted;
 
         public string Title
         {
-            get { return _title; }
+            get => _title;
             set
             {
                 if (value == _title) return;
@@ -28,7 +29,7 @@ namespace Iit.Fibertest.Client
 
         public EquipmentType Type
         {
-            get { return _type; }
+            get => _type;
             set
             {
                 if (value == _type) return;
@@ -39,7 +40,7 @@ namespace Iit.Fibertest.Client
 
         public FiberState State
         {
-            get { return _state; }
+            get => _state;
             set
             {
                 if (value == _state) return;
@@ -50,11 +51,22 @@ namespace Iit.Fibertest.Client
 
         public PointLatLng Position
         {
-            get { return _position; }
+            get => _position;
             set
             {
                 if (value.Equals(_position)) return;
                 _position = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public bool IsHighlighted
+        {
+            get => _isHighlighted;
+            set
+            {
+                if (value == _isHighlighted) return;
+                _isHighlighted = value;
                 NotifyOfPropertyChange();
             }
         }

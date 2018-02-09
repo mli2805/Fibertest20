@@ -92,8 +92,23 @@ namespace Iit.Fibertest.Client
 
         public void PlaceRtuIntoScreenCenter(Guid rtuId)
         {
-            ToCenter = Rtus.First(r => r.Id == rtuId).Node.Position;
+            var nodeVm = Rtus.First(r => r.Id == rtuId).Node;
+            nodeVm.IsHighlighted = true;
+            ToCenter = nodeVm.Position;
         }
+
+        public void Extinguish()
+        {
+            var nodeVm = Nodes.FirstOrDefault(n => n.IsHighlighted);
+            if (nodeVm != null)
+                nodeVm.IsHighlighted = false;
+        }
+        public void Apply(NodeHighlighted evnt)
+        {
+            var nodeVm = Nodes.First(n => n.Id == evnt.NodeId);
+            nodeVm.IsHighlighted = true;
+        }
+
 
         #region Node
         public void Apply(NodeAdded evnt)

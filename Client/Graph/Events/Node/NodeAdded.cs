@@ -9,4 +9,14 @@ namespace Iit.Fibertest.Graph
         public double Latitude { get; set; }
         public double Longitude { get; set; }
     }
+
+    public class NodeHighlighted
+    {
+        public Guid NodeId { get; set; }
+    }
+    public class NodeExtinguished
+    {
+        public Guid NodeId { get; set; }
+    }
+
 }

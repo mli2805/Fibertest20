@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Windows;
 using GMap.NET.WindowsPresentation;
 
 namespace Iit.Fibertest.Client
@@ -39,7 +40,7 @@ namespace Iit.Fibertest.Client
             {
                 var nodeVm = (NodeVm)newItem;
                 nodeVm.PropertyChanged += NodeVm_PropertyChanged;
-                var marker = new GMapMarker(nodeVm.Id, nodeVm.Position);
+                var marker = new GMapMarker(nodeVm.Id, nodeVm.Position, false);
                 marker.ZIndex = 2;
                 var equipmentType = nodeVm.Type;
                 var markerControl = new MarkerControl(this, marker, equipmentType, nodeVm.Title, GraphReadModel.GlobalScope);
@@ -74,6 +75,29 @@ namespace Iit.Fibertest.Client
             {
                 ((MarkerControl)MainMap.Markers.First(m => m.Id == nodeVm.Id).Shape).Type = nodeVm.Type;
             }
+
+            if (e.PropertyName == "IsHighlighted")
+            {
+               if (nodeVm.IsHighlighted) Highlight(nodeVm);
+               else
+                   Extinguish();
+            }
+        }
+
+        private void Highlight(NodeVm nodeVm)
+        {
+            var marker = new GMapMarker(nodeVm.Id, nodeVm.Position, true);
+            marker.ZIndex = 2;
+            var highlightingControl = new HighlightingControl();
+            marker.Shape = highlightingControl;
+            marker.Offset = new Point(-24, -24);
+            MainMap.Markers.Add(marker);
+        }
+
+        private void Extinguish()
+        {
+            var marker = MainMap.Markers.FirstOrDefault(m => m.IsHighlighting);
+                MainMap.Markers.Remove(marker);
         }
 
         private void ApplyRemovedNodes(IList oldItems)

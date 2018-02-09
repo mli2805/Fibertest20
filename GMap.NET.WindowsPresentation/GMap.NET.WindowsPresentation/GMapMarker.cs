@@ -52,6 +52,8 @@ namespace GMap.NET.WindowsPresentation
             }
         }
 
+        
+
         private PointLatLng position;
         /// <summary>
         /// coordinate of marker
@@ -68,6 +70,8 @@ namespace GMap.NET.WindowsPresentation
                 }
             }
         }
+
+        public bool IsHighlighting { get; set; }
 
         GMapControl map;
         /// <summary>
@@ -173,10 +177,11 @@ namespace GMap.NET.WindowsPresentation
             }
         }
 
-        public GMapMarker(Guid id, PointLatLng pos)
+        public GMapMarker(Guid id, PointLatLng pos, bool isHighlighting)
         {
             Id = id;
             Position = pos;
+            IsHighlighting = isHighlighting;
         }
 
         internal GMapMarker()
@@ -198,7 +203,7 @@ namespace GMap.NET.WindowsPresentation
         }
 
         /// <summary>
-        /// updates marker position, internal access usualy
+        /// updates marker position, internal access usually
         /// </summary>
         void UpdateLocalPosition()
         {

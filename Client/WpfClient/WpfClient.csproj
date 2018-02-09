@@ -193,6 +193,9 @@
     <Compile Include="Forms\EquipmentAddUpdate\EquipmentInfoModel.cs" />
     <Compile Include="Forms\EquipmentAddUpdate\ViewMode.cs" />
     <Compile Include="Forms\Shell\MarkerControl\CommonVmActions.cs" />
+    <Compile Include="Forms\Shell\MarkerControl\HighlightingControl.xaml.cs">
+      <DependentUpon>HighlightingControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Shell\MarkerControl\RtuVmActions.cs" />
     <Compile Include="Forms\Shell\MarkerControl\RtuVmContextMenuProvider.cs" />
     <Compile Include="Forms\Shell\MarkerControl\RtuVmPermissions.cs" />
@@ -517,6 +520,10 @@
       <DependentUpon>UserListView.xaml</DependentUpon>
     </Compile>
     <Page Include="Forms\EquipmentAddUpdate\CableReserveInfoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\Shell\MarkerControl\HighlightingControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -895,6 +902,8 @@
     <Resource Include="Resources\EmptyNode\EmptyNodeSuspected.png" />
     <Resource Include="Resources\EmptyNode\EmptyNodeUser.png" />
     <Resource Include="Resources\AdjustmentPoint\AdjustmentPointOk.png" />
+    <Resource Include="Resources\OnMap\NodeSelection.png" />
+    <Resource Include="Resources\OnMap\NodeHighlighting.png" />
     <Content Include="Resources\Sounds\Accident.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
