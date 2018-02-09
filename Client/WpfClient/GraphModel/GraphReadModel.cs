@@ -8,11 +8,12 @@ using Caliburn.Micro;
 using GMap.NET;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Client
 {
-    public partial class GraphReadModel : PropertyChangedBase
+    public class GraphReadModel : PropertyChangedBase
     {
         public CommonStatusBarViewModel CommonStatusBarViewModel { get; }
         public GrmNodeRequests GrmNodeRequests { get; }
@@ -62,6 +63,15 @@ namespace Iit.Fibertest.Client
 
         public string CurrentMousePositionString => CurrentMousePosition.ToDetailedString(CurrentGpsInputMode);
         public GpsInputMode CurrentGpsInputMode = GpsInputMode.DegreesMinutesAndSeconds;
+
+        public List<string> GraphVisibilityLevels { get; set; }
+        public string SelectedGraphVisibilityLevel { get; set; }
+
+        private void InitilizeVisibility()
+        {
+            GraphVisibilityLevels = new List<string>() { Resources.SID_Rtu, Resources.SID_Lines, Resources.SID_Equip, Resources.SID_Nodes, Resources.SID_All };
+            SelectedGraphVisibilityLevel = GraphVisibilityLevels.Last();
+        }
 
         public GraphReadModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile,  
             CommonStatusBarViewModel commonStatusBarViewModel,

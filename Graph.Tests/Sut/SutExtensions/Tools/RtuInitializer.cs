@@ -14,7 +14,7 @@ namespace Graph.Tests
             string mainIpAddress = "", string reserveIpAddress = "", string waveLength = "SM1625")
         {
             var rtu = sut.ReadModel.Rtus.First(r => r.Id == rtuId);
-            var rtuLeaf = (RtuLeaf)sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(rtuId);
+            var rtuLeaf = (RtuLeaf)sut.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(rtuId);
 
             sut.FakeWindowManager.RegisterHandler(model => sut.RtuUpdateHandler(model, @"something", @"doesn't matter", Answer.Yes));
             sut.GraphReadModel.GrmRtuRequests.UpdateRtu(new RequestUpdateRtu() { Id = rtuId, NodeId = rtu.NodeId });

@@ -25,8 +25,8 @@ namespace Graph.Tests
         {
             _sut.GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(new RequestAddRtuAtGpsLocation()).Wait();
             _sut.Poller.EventSourcingTick().Wait();
-            _firstRtuId = _sut.ShellVm.ReadModel.Rtus.Last().Id;
-            _firstNodeId = _sut.ShellVm.ReadModel.Nodes.Last().Id;
+            _firstRtuId =_sut.ReadModel.Rtus.Last().Id;
+            _firstNodeId =_sut.ReadModel.Nodes.Last().Id;
 
             _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuUpdateHandler(model, title, @"comment doesn't matter", Answer.Yes));
             _sut.GraphReadModel.GrmRtuRequests.UpdateRtu(new RequestUpdateRtu() { Id = _firstRtuId, NodeId = _firstNodeId });
@@ -86,7 +86,7 @@ namespace Graph.Tests
         [Then(@"Сохраняется название RTU (.*)")]
         public void ThenСохраняетсяНазваниеУзла(string title)
         {
-            _sut.ShellVm.ReadModel.Rtus.First(n => n.Id == _saidRtuId).Title.Should().Be(title);
+           _sut.ReadModel.Rtus.First(n => n.Id == _saidRtuId).Title.Should().Be(title);
         }
 
         [Given(@"Пользователь ввел комментарий к RTU (.*)")]
@@ -100,7 +100,7 @@ namespace Graph.Tests
         [Then(@"Сохраняется комментарий RTU (.*)")]
         public void ThenСохраняетсяКомментарийУзла(string comment)
         {
-            _sut.ShellVm.ReadModel.Rtus.First(n => n.Id == _saidRtuId).Comment.Should().Be(comment);
+           _sut.ReadModel.Rtus.First(n => n.Id == _saidRtuId).Comment.Should().Be(comment);
         }
 
         [Then(@"Кнопка Сохранить заблокирована поле Название подсвечено")]

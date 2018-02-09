@@ -21,7 +21,7 @@ namespace Graph.Tests
         {
             _sut.GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(new RequestAddRtuAtGpsLocation()).Wait();
             _sut.Poller.EventSourcingTick().Wait();
-            _saidRtuId = _sut.ShellVm.ReadModel.Rtus.Last().Id;
+            _saidRtuId =_sut.ReadModel.Rtus.Last().Id;
         }
 
         [When(@"Пользователь кликает Информация в меню RTU что-то вводит и жмет сохранить")]
@@ -30,7 +30,7 @@ namespace Graph.Tests
             //_sut.FakeWindowManager.RegisterHandler(model => model is RtuUpdateViewModel);
             _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuUpdateHandler(model, Title, Comment, Answer.Yes));
 
-            var rtuLeaf = (RtuLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.First(r => r.Id == _saidRtuId);
+            var rtuLeaf = (RtuLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.Tree.First(r => r.Id == _saidRtuId);
             var menuItem = rtuLeaf.MyContextMenu.First(i => i.Header == Resources.SID_Information);
             menuItem.Command.Execute(rtuLeaf);
             _sut.Poller.EventSourcingTick().Wait();
@@ -46,7 +46,7 @@ namespace Graph.Tests
             _sut.ReadModel.Rtus.First(r => r.Id == _saidRtuId).Title.Should().Be(Title);
             _sut.ReadModel.Rtus.First(r => r.Id == _saidRtuId).Comment.Should().Be(Comment);
 
-            _sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.First(r => r.Id == _saidRtuId).Title.Should().Be(Title);
+            _sut.TreeOfRtuViewModel.TreeOfRtuModel.Tree.First(r => r.Id == _saidRtuId).Title.Should().Be(Title);
         }
     }
 }

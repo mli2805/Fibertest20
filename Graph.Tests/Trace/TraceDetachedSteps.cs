@@ -21,7 +21,7 @@ namespace Graph.Tests
         public void GivenСозданаТрассуИнициализированРту()
         {
             _rtuLeaf = _sut.TraceCreatedAndRtuInitialized(out _traceId, out _);
-            _traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_traceId);
+            _traceLeaf = (TraceLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_traceId);
         }
 
         [Given(@"Трасса присоединена к порту РТУ")]

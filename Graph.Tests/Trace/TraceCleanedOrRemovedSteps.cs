@@ -30,7 +30,7 @@ namespace Graph.Tests
         [Then(@"У присоединенной трассы нет пунктов Очистить и Удалить в меню")]
         public void ThenУПрисоединеннойТрассыНетПунктовОчиститьИУдалитьВМеню()
         {
-            var traceLeaf = _sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_traceId1);
+            var traceLeaf = _sut.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_traceId1);
             traceLeaf.MyContextMenu.FirstOrDefault(item => item?.Header == Resources.SID_Clean).Should().BeNull();
             traceLeaf.MyContextMenu.FirstOrDefault(item => item?.Header == Resources.SID_Remove).Should().BeNull();
         }
@@ -38,7 +38,7 @@ namespace Graph.Tests
         [When(@"Пользователь жмет Очистить у НЕприсоединенной трассы")]
         public void WhenПользовательЖметОчиститьУнЕприсоединеннойТрассы()
         {
-            var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_traceId2);
+            var traceLeaf = (TraceLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_traceId2);
             _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
             traceLeaf.MyContextMenu.First(item => item?.Header == Resources.SID_Clean).Command.Execute(traceLeaf);
             _sut.Poller.EventSourcingTick().Wait();
@@ -47,7 +47,7 @@ namespace Graph.Tests
         [When(@"Пользователь жмет Удалить у НЕприсоединенной трассы")]
         public void WhenПользовательЖметУдалитьУнЕприсоединеннойТрассы()
         {
-            var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_traceId2);
+            var traceLeaf = (TraceLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_traceId2);
             _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
             traceLeaf.MyContextMenu.First(item => item?.Header == Resources.SID_Remove).Command.Execute(traceLeaf);
             _sut.Poller.EventSourcingTick().Wait();
@@ -56,13 +56,13 @@ namespace Graph.Tests
         [Then(@"Неприсоединенная трасса удаляется")]
         public void ThenНеприсоединеннаяТрассаУдаляется()
         {
-            _sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_traceId2).Should().BeNull();
+            _sut.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_traceId2).Should().BeNull();
         }
 
         [Then(@"Те ее отрезки что не входят в присоединенную трассу меняют цвет")]
         public void ThenТеЕеОтрезкиЧтоНеВходятВПрисоединеннуюТрассуМеняютЦвет()
         {
-            foreach (var fiberVm in _sut.ShellVm.GraphReadModel.Fibers)
+            foreach (var fiberVm in _sut.GraphReadModel.Fibers)
             {
                 if (fiberVm.States.ContainsKey(_traceId1))
                     fiberVm.State.Should().Be(FiberState.Unknown);
@@ -74,7 +74,7 @@ namespace Graph.Tests
         [Then(@"Те ее отрезки что не входят в присоединенную трассу удаляются")]
         public void ThenТеЕеОтрезкиЧтоНеВходятВПрисоединеннуюТрассуУдаляются()
         {
-            _sut.ShellVm.GraphReadModel.Fibers.All(f => f.State == FiberState.Unknown).Should().BeTrue();
+            _sut.GraphReadModel.Fibers.All(f => f.State == FiberState.Unknown).Should().BeTrue();
         }
     }
 }

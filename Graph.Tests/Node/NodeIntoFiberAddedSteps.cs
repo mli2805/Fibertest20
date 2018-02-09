@@ -32,7 +32,7 @@ namespace Graph.Tests
         [Given(@"Для трассы проходящей по данному отрезку задана базовая")]
         public void GivenДляДаннойТрассыЗаданаБазовая()
         {
-            var traceLeaf = (TraceLeaf)_scene.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_trace.Id);
+            var traceLeaf = (TraceLeaf)_scene.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_trace.Id);
 
             _scene.AssignBaseRef(traceLeaf, SystemUnderTest.Base1625, SystemUnderTest.Base1625, null, Answer.Yes);
             traceLeaf.BaseRefsSet.PreciseId.Should().NotBe(Guid.Empty);
@@ -42,7 +42,7 @@ namespace Graph.Tests
         public void WhenПользовательКликаетДобавитьУзелВОтрезок()
         {
             _scene.FakeWindowManager.RegisterHandler(model => _scene.ManyLinesMessageBoxAnswer(Answer.Yes, model));
-            _scene.ShellVm.GraphReadModel.GrmNodeRequests.AddNodeIntoFiber(new RequestAddNodeIntoFiber() {FiberId = _fiber.Id}).Wait();
+            _scene.GraphReadModel.GrmNodeRequests.AddNodeIntoFiber(new RequestAddNodeIntoFiber() {FiberId = _fiber.Id}).Wait();
             _scene.Poller.EventSourcingTick().Wait();
             _nodeId = _scene.ReadModel.Nodes.Last().Id;
             _equipmentId = _scene.ReadModel.Equipments.Last().Id;

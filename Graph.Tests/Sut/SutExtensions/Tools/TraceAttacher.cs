@@ -14,7 +14,7 @@ namespace Graph.Tests
             var portLeaf = (PortLeaf)(owner.ChildrenImpresario.Children[port - 1]);
             portLeaf.MyContextMenu.First(i => i.Header == Resources.SID_Attach_from_list).Command.Execute(portLeaf);
             sut.Poller.EventSourcingTick().Wait();
-            return (TraceLeaf)sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(traceId);
+            return (TraceLeaf)sut.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(traceId);
         }
 
         private static bool TraceToAttachHandler(object model, Guid traceId, Answer answer)

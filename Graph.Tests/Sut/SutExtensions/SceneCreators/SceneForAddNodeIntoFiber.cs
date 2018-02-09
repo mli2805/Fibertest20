@@ -21,7 +21,7 @@ namespace Graph.Tests
             // fiber for insertion
             sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Node1 = a1, Node2 = b1 }).Wait();
             sut.Poller.EventSourcingTick().Wait();
-            fiberForInsertion = sut.ShellVm.ReadModel.Fibers.Last();
+            fiberForInsertion = sut.ReadModel.Fibers.Last();
 
             sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait();
             sut.Poller.EventSourcingTick().Wait();

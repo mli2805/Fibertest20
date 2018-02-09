@@ -76,7 +76,7 @@ namespace Graph.Tests
         [Given(@"На вопрос: ""(.*)"" пользователь ответил: ""(.*)""")]
         public void DefineQuestionAnswer(string question, Answer answer)
         {
-            _traceCountCutOff = _sut.ShellVm.ReadModel.Traces.Count;
+            _traceCountCutOff =_sut.ReadModel.Traces.Count;
             _sut.FakeWindowManager.RegisterHandler(model => _sut.OneLineMessageBoxAnswer(Resources.SID_Accept_the_path, answer, model));
         }
 

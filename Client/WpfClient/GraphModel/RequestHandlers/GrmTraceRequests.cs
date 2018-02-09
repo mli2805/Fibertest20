@@ -70,10 +70,10 @@ namespace Iit.Fibertest.Client
 
         private void ChangeTraceColor(Guid traceId, List<Guid> nodes, FiberState state)
         {
-            var fibers = _readModel.GetFibersByNodes(nodes);
-            foreach (var fiber in fibers)
+            var fiberIds = _readModel.GetFibersByNodes(nodes);
+            foreach (var fiberId in fiberIds)
             {
-                var fiberVm = _readModel.Fibers.First(f => f.Id == fiber);
+                var fiber = _readModel.Fibers.First(f => f.Id == fiberId);
 //                if (state != FiberState.NotInTrace)
 //                    fiberVm.SetState(traceId, state);
 //                else

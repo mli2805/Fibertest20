@@ -35,7 +35,7 @@ namespace Graph.Tests
         {
             _sut.CreateTraceRtuEmptyTerminal();
             _rtu = _sut.ReadModel.Rtus.Last();
-            _rtuLeaf = (RtuLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_rtu.Id);
+            _rtuLeaf = (RtuLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_rtu.Id);
         }
 
         [When(@"Пользователь вводит основной адрес (.*) и жмет Инициализировать")]

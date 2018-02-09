@@ -24,7 +24,7 @@ namespace Graph.Tests
         public void GivenСуществуетОдинRtu()
         {
             _rtu = _sut.CreateRtuA();
-            _rtuLeaf = (RtuLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.First(r => r.Id == _rtu.Id);
+            _rtuLeaf = (RtuLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.Tree.First(r => r.Id == _rtu.Id);
         }
 
         [Given(@"Существуют еще RTU несколько узлов и отрезки между ними")]
@@ -71,12 +71,12 @@ namespace Graph.Tests
         public void ThenТрассаУдаляемогоRtuНеУдаляютсяНоОчищаются()
         {
             _sut.ReadModel.Traces.FirstOrDefault(t => t.Id == _traceId).Should().BeNull();
-            _sut.ShellVm.GraphReadModel.Traces.FirstOrDefault(t => t.Id == _traceId).Should().BeNull();
+            _sut.GraphReadModel.Traces.FirstOrDefault(t => t.Id == _traceId).Should().BeNull();
 
-            _sut.ShellVm.GraphReadModel.Fibers.FirstOrDefault(f => f.Id == _fibers[0]).Should().BeNull();
-            _sut.ShellVm.GraphReadModel.Fibers.First(f => f.Id == _fibers[1]).State.Should()
+            _sut.GraphReadModel.Fibers.FirstOrDefault(f => f.Id == _fibers[0]).Should().BeNull();
+            _sut.GraphReadModel.Fibers.First(f => f.Id == _fibers[1]).State.Should()
                 .Be(FiberState.NotInTrace);
-            _sut.ShellVm.GraphReadModel.Fibers.First(f => f.Id == _fibers[2]).State.Should()
+            _sut.GraphReadModel.Fibers.First(f => f.Id == _fibers[2]).State.Should()
                 .Be(FiberState.NotJoined);
         }
 

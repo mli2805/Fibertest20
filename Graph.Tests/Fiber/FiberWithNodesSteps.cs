@@ -26,14 +26,14 @@ namespace Graph.Tests
         {
             _sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation()).Wait();
             _sut.Poller.EventSourcingTick().Wait();
-            _leftNodeId = _sut.ShellVm.ReadModel.Nodes.Last().Id;
+            _leftNodeId =_sut.ReadModel.Nodes.Last().Id;
             _sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation()).Wait();
             _sut.Poller.EventSourcingTick().Wait();
-            _rightNodeId = _sut.ShellVm.ReadModel.Nodes.Last().Id;
-            _nodesCountCutOff = _sut.ShellVm.ReadModel.Nodes.Count;
-            _equipmentCountCutOff = _sut.ShellVm.ReadModel.Equipments.Count;
-            _fibersCountCutOff = _sut.ShellVm.ReadModel.Fibers.Count;
-            _sleeveCountcutOff = _sut.ShellVm.ReadModel.Equipments.Count(e => e.Type == EquipmentType.Closure);
+            _rightNodeId =_sut.ReadModel.Nodes.Last().Id;
+            _nodesCountCutOff =_sut.ReadModel.Nodes.Count;
+            _equipmentCountCutOff =_sut.ReadModel.Equipments.Count;
+            _fibersCountCutOff =_sut.ReadModel.Fibers.Count;
+            _sleeveCountcutOff =_sut.ReadModel.Equipments.Count(e => e.Type == EquipmentType.Closure);
         }
 
         [Given(@"Между левым и правым узлом уже добавлен отрезок")]
@@ -41,7 +41,7 @@ namespace Graph.Tests
         {
             _sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() {Node1 = _leftNodeId, Node2 = _rightNodeId}).Wait();
             _sut.Poller.EventSourcingTick().Wait();
-            _fibersCountCutOff = _sut.ShellVm.ReadModel.Fibers.Count;
+            _fibersCountCutOff =_sut.ReadModel.Fibers.Count;
         }
 
         [When(@"Пользователь кликает добавить отрезок с узлами")]
@@ -99,30 +99,30 @@ namespace Graph.Tests
         [Then(@"Новый отрезок не сохраняется")]
         public void ThenНовыйОтрезокНеСохраняется()
         {
-            _sut.ShellVm.ReadModel.Fibers.Count.Should().Be(_fibersCountCutOff);
+           _sut.ReadModel.Fibers.Count.Should().Be(_fibersCountCutOff);
         }
 
         [Then(@"Новый отрезок сохраняется")]
         public void ThenНовыйОтрезокСохраняется()
         {
-            _sut.ShellVm.ReadModel.Fibers.Count.Should().Be(_fibersCountCutOff+1);
+           _sut.ReadModel.Fibers.Count.Should().Be(_fibersCountCutOff+1);
         }
 
         [Then(@"Создается (.*) узла и (.*) отрезка")]
         public void ThenСоздаетсяУзлаИОтрезка(int p0, int p1)
         {
-            _sut.ShellVm.ReadModel.Nodes.Count.Should().Be(_nodesCountCutOff + p0);
-            _sut.ShellVm.ReadModel.Equipments.Count.Should().Be(_equipmentCountCutOff + p0);
-            _sut.ShellVm.ReadModel.Equipments.FirstOrDefault(e => e.Id == Guid.Empty).Should().BeNull();
-            _sut.ShellVm.ReadModel.Fibers.Count.Should().Be(_fibersCountCutOff + p1);
+           _sut.ReadModel.Nodes.Count.Should().Be(_nodesCountCutOff + p0);
+           _sut.ReadModel.Equipments.Count.Should().Be(_equipmentCountCutOff + p0);
+           _sut.ReadModel.Equipments.FirstOrDefault(e => e.Id == Guid.Empty).Should().BeNull();
+           _sut.ReadModel.Fibers.Count.Should().Be(_fibersCountCutOff + p1);
         }
 
         [Then(@"Создается (.*) узла столько же оборудования и (.*) отрезка")]
         public void ThenСоздаетсяУзлаСтолькоЖеОборудованияИОтрезка(int p0, int p1)
         {
-            _sut.ShellVm.ReadModel.Nodes.Count.Should().Be(_nodesCountCutOff + p0);
-            _sut.ShellVm.ReadModel.Equipments.Count(e => e.Type == EquipmentType.Closure).Should().Be(_sleeveCountcutOff + p0);
-            _sut.ShellVm.ReadModel.Fibers.Count.Should().Be(_fibersCountCutOff + p1);
+           _sut.ReadModel.Nodes.Count.Should().Be(_nodesCountCutOff + p0);
+           _sut.ReadModel.Equipments.Count(e => e.Type == EquipmentType.Closure).Should().Be(_sleeveCountcutOff + p0);
+           _sut.ReadModel.Fibers.Count.Should().Be(_fibersCountCutOff + p1);
         }
     }
 }

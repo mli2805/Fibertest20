@@ -21,7 +21,7 @@ namespace Graph.Tests
         public void GivenБылаСозданаТрасса()
         {
             _trace = _sut.CreateTraceRtuEmptyTerminal();
-            _traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_trace.Id);
+            _traceLeaf = (TraceLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_trace.Id);
             _rtuLeaf = (RtuLeaf)_traceLeaf.Parent;
         }
 

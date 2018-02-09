@@ -26,8 +26,7 @@ namespace Graph.Tests
         {
             var trace = _sut.ReadModel.Traces.FirstOrDefault(t => t.Id == _traceId);
             if (trace == null) return;
-            // _viewModel = new TraceInfoViewModel(_sut.ReadModel, _sut.ShellVm.C2DWcfManager, _sut.FakeWindowManager);
-            _viewModel = _sut.ShellVm.GlobalScope.Resolve<TraceInfoViewModel>();
+            _viewModel = _sut.Container.Resolve<TraceInfoViewModel>();
             _viewModel.Initialize(_traceId, trace.Equipments, trace.Nodes);
             _viewModel.Model.Title = NewTitle;
             _viewModel.Model.Comment = NewComment;
@@ -53,8 +52,7 @@ namespace Graph.Tests
             var trace = _sut.ReadModel.Traces.FirstOrDefault(t => t.Id == _traceId);
             if (trace == null) return;
 
-//            _viewModel = new TraceInfoViewModel(_sut.ReadModel, _sut.ShellVm.C2DWcfManager, _sut.FakeWindowManager, _traceId, trace.Equipments, trace.Nodes);
-            _viewModel = _sut.ShellVm.GlobalScope.Resolve<TraceInfoViewModel>();
+            _viewModel = _sut.Container.Resolve<TraceInfoViewModel>();
             _viewModel.Initialize(_traceId, trace.Equipments, trace.Nodes);
             _viewModel.Model.Title.Should().Be(NewTitle);
             _viewModel.Model.Comment.Should().Be(NewComment);
@@ -67,8 +65,7 @@ namespace Graph.Tests
             var trace = _sut.ReadModel.Traces.FirstOrDefault(t => t.Id == _traceId);
             if (trace == null) return;
 
-//            _viewModel = new TraceInfoViewModel(_sut.ReadModel, _sut.ShellVm.C2DWcfManager, _sut.FakeWindowManager, _traceId, trace.Equipments, trace.Nodes);
-            _viewModel = _sut.ShellVm.GlobalScope.Resolve<TraceInfoViewModel>();
+            _viewModel = _sut.Container.Resolve<TraceInfoViewModel>();
             _viewModel.Initialize(_traceId, trace.Equipments, trace.Nodes);
             _viewModel.Model.Title.Should().NotBe(NewTitle);
             _viewModel.Model.Comment.Should().NotBe(NewComment);

@@ -43,7 +43,7 @@ namespace Graph.Tests
         [Given(@"Задаем базовую")]
         public void GivenЗадаемБазовую()
         {
-            var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_trace.Id);
+            var traceLeaf = (TraceLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_trace.Id);
             var rtuId = traceLeaf.Parent.Id;
             _sut.InitializeRtu(rtuId);
 

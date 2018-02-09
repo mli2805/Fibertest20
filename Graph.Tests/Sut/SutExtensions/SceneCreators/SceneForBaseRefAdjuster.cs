@@ -68,14 +68,14 @@ namespace Graph.Tests
         public static void AddAdjustmentPoints(this SystemUnderTest sut, Iit.Fibertest.Graph.Trace trace)
         {
             var fibers = sut.ReadModel.GetTraceFibers(trace).ToArray();
-            sut.ShellVm.GraphReadModel.GrmNodeRequests.AddNodeIntoFiber(new RequestAddNodeIntoFiber(){FiberId = fibers[1].Id, InjectionType = EquipmentType.AdjustmentPoint, Position = new PointLatLng(55.01,30.01)}).Wait();
+            sut.GraphReadModel.GrmNodeRequests.AddNodeIntoFiber(new RequestAddNodeIntoFiber(){FiberId = fibers[1].Id, InjectionType = EquipmentType.AdjustmentPoint, Position = new PointLatLng(55.01,30.01)}).Wait();
             sut.Poller.EventSourcingTick().Wait();
             var nodeOfPointId = sut.ReadModel.Nodes.Last().Id;
 
             sut.GraphReadModel.GrmNodeRequests.MoveNode(new MoveNode() { NodeId = nodeOfPointId, Latitude = 55.0086, Longitude = 30.0114}).Wait();
             sut.Poller.EventSourcingTick().Wait();
 
-            sut.ShellVm.GraphReadModel.GrmNodeRequests.AddNodeIntoFiber(new RequestAddNodeIntoFiber(){FiberId = fibers[2].Id, InjectionType = EquipmentType.AdjustmentPoint, Position = new PointLatLng(55.0306,30.0298)}).Wait();
+            sut.GraphReadModel.GrmNodeRequests.AddNodeIntoFiber(new RequestAddNodeIntoFiber(){FiberId = fibers[2].Id, InjectionType = EquipmentType.AdjustmentPoint, Position = new PointLatLng(55.0306,30.0298)}).Wait();
             sut.Poller.EventSourcingTick().Wait();
             nodeOfPointId = sut.ReadModel.Nodes.Last().Id;
 

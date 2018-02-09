@@ -63,7 +63,7 @@ namespace Graph.Tests
         [Given(@"Для трассы задана базовая")]
         public void GivenДляТрассыЗаданаБазовая()
         {
-            var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_trace.Id);
+            var traceLeaf = (TraceLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_trace.Id);
             _sut.AssignBaseRef(traceLeaf, SystemUnderTest.Base1625Lm3, SystemUnderTest.Base1625Lm3, null, Answer.Yes);
         }
 
@@ -85,7 +85,7 @@ namespace Graph.Tests
                     f.Node1 == _lastNodeId && f.Node2 == _rtuNodeId);
             fiber.Should().NotBeNull();
 
-            var fiberVm = _sut.ShellVm.GraphReadModel.Fibers.FirstOrDefault(f => f.Id == fiber?.Id);
+            var fiberVm = _sut.GraphReadModel.Fibers.FirstOrDefault(f => f.Id == fiber?.Id);
             fiberVm.Should().NotBeNull();
             fiberVm?.States.Should().ContainKey(_trace.Id);
         }
@@ -96,10 +96,10 @@ namespace Graph.Tests
             _trace.Nodes.Contains(_nodeId).Should().BeFalse();
             _trace.Nodes.Count.Should().Be(_trace.Equipments.Count);
 
-            var traceVm = _sut.ShellVm.GraphReadModel.Traces.First(t => t.Id == _trace.Id);
+            var traceVm = _sut.GraphReadModel.Traces.First(t => t.Id == _trace.Id);
             for (int i = 0; i < traceVm.Nodes.Count - 1; i++)
             {
-                _sut.ShellVm.GraphReadModel.Fibers.FirstOrDefault(
+                _sut.GraphReadModel.Fibers.FirstOrDefault(
                     f =>
                         f.Node1.Id == traceVm.Nodes[i] && f.Node2.Id == traceVm.Nodes[i + 1] ||
                         f.Node1.Id == traceVm.Nodes[i + 1] && f.Node2.Id == traceVm.Nodes[i]).Should().NotBeNull();

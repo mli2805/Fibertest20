@@ -2,21 +2,16 @@
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
 {
-    public class 
-        
-    ShellViewModel : Screen, IShell
+    public class ShellViewModel : Screen, IShell
     {
         private string _server;
-        public readonly ILifetimeScope GlobalScope;
         private readonly IWindowManager _windowManager;
         private readonly LoginViewModel _loginViewModel;
         private readonly ClientHeartbeat _clientHeartbeat;
@@ -27,46 +22,36 @@ namespace Iit.Fibertest.Client
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly CurrentUser _currentUser;
-        public IWcfServiceForClient C2DWcfManager { get; }
+        private readonly IWcfServiceForClient _c2DWcfManager;
 
-        public ReadModel ReadModel { get; }
-        public MainMenuViewModel MainMenuViewModel { get; }
-        public TreeOfRtuModel TreeOfRtuModel { get; }
-        public TreeOfRtuViewModel TreeOfRtuViewModel { get; set; }
         public GraphReadModel GraphReadModel { get; set; }
-        public OpticalEventsDoubleViewModel OpticalEventsDoubleViewModel { get; set; }
-        public NetworkEventsDoubleViewModel NetworkEventsDoubleViewModel { get; set; }
-        public BopNetworkEventsDoubleViewModel BopNetworkEventsDoubleViewModel { get; set; }
+        public MainMenuViewModel MainMenuViewModel { get; }
+        public TreeOfRtuViewModel TreeOfRtuViewModel { get; }
         public TabulatorViewModel TabulatorViewModel { get; }
-        public CommonStatusBarViewModel CommonStatusBarViewModel { get; set; }
+        public CommonStatusBarViewModel CommonStatusBarViewModel { get; }
+        public OpticalEventsDoubleViewModel OpticalEventsDoubleViewModel { get; }
+        public NetworkEventsDoubleViewModel NetworkEventsDoubleViewModel { get; }
+        public BopNetworkEventsDoubleViewModel BopNetworkEventsDoubleViewModel { get; }
 
-        private bool? _isAuthenticationSuccessfull;
-
-        public ShellViewModel(ILifetimeScope globalScope, ReadModel readModel, TreeOfRtuModel treeOfRtuModel, GraphReadModel graphReadModel,
-            MainMenuViewModel mainMenuViewModel,
-            IWcfServiceForClient c2DWcfManager, IWindowManager windowManager,
-            LoginViewModel loginViewModel, 
-            NetworkEventsDoubleViewModel networkEventsDoubleViewModel, NetworkEventsProvider networkEventsProvider,
-            OpticalEventsDoubleViewModel opticalEventsDoubleViewModel, OpticalEventsProvider opticalEventsProvider,
-            BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel,
-            BopNetworkEventsProvider bopNetworkEventsProvider, 
-            TabulatorViewModel tabulatorViewModel,
-            CommonStatusBarViewModel commonStatusBarViewModel,
-            ClientHeartbeat clientHeartbeat, ClientPoller clientPoller,
-            IniFile iniFile, IMyLog logFile, CurrentUser currentUser, IClientWcfServiceHost host)
+        public ShellViewModel(IniFile iniFile, IMyLog logFile, CurrentUser currentUser, IClientWcfServiceHost host,
+            GraphReadModel graphReadModel, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager,
+            LoginViewModel loginViewModel, ClientHeartbeat clientHeartbeat, ClientPoller clientPoller,
+            MainMenuViewModel mainMenuViewModel, TreeOfRtuViewModel treeOfRtuViewModel,
+            TabulatorViewModel tabulatorViewModel, CommonStatusBarViewModel commonStatusBarViewModel,
+            OpticalEventsProvider opticalEventsProvider, OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
+            NetworkEventsProvider networkEventsProvider, NetworkEventsDoubleViewModel networkEventsDoubleViewModel,
+            BopNetworkEventsProvider bopNetworkEventsProvider, BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel
+        )
         {
-            ReadModel = readModel;
-            TreeOfRtuModel = treeOfRtuModel;
-            MainMenuViewModel = mainMenuViewModel;
-            TreeOfRtuViewModel = new TreeOfRtuViewModel(treeOfRtuModel);
             GraphReadModel = graphReadModel;
+            MainMenuViewModel = mainMenuViewModel;
+            TreeOfRtuViewModel = treeOfRtuViewModel;
+            TabulatorViewModel = tabulatorViewModel;
+            CommonStatusBarViewModel = commonStatusBarViewModel;
             OpticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
             NetworkEventsDoubleViewModel = networkEventsDoubleViewModel;
             BopNetworkEventsDoubleViewModel = bopNetworkEventsDoubleViewModel;
-            TabulatorViewModel = tabulatorViewModel;
-            CommonStatusBarViewModel = commonStatusBarViewModel;
-            C2DWcfManager = c2DWcfManager;
-            GlobalScope = globalScope;
+            _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
             _loginViewModel = loginViewModel;
             _bopNetworkEventsProvider = bopNetworkEventsProvider;
@@ -81,15 +66,16 @@ namespace Iit.Fibertest.Client
             host.StartWcfListener();
         }
 
+
         public override void CanClose(Action<bool> callback)
         {
             _clientPollerCts.Cancel();
-            C2DWcfManager?.UnregisterClientAsync(new UnRegisterClientDto());
+            _c2DWcfManager?.UnregisterClientAsync(new UnRegisterClientDto());
             _iniFile.Write(IniSection.Map, IniKey.Zoom, GraphReadModel.Zoom);
             _iniFile.Write(IniSection.Map, IniKey.CenterLatitude, GraphReadModel.CenterForIni.Lat);
             _iniFile.Write(IniSection.Map, IniKey.CenterLongitude, GraphReadModel.CenterForIni.Lng);
             _logFile.AppendLine(@"Client application finished!");
-            Thread.Sleep(TimeSpan.FromMilliseconds(400));
+            Thread.Sleep(TimeSpan.FromMilliseconds(1000));
             base.CanClose(callback);
         }
 
@@ -101,9 +87,9 @@ namespace Iit.Fibertest.Client
             _logFile.AssignFile(@"Client.log");
 
             _logFile.AppendLine(@"Client application started!");
-            _isAuthenticationSuccessfull = _windowManager.ShowDialogWithAssignedOwner(_loginViewModel);
+            var isAuthenticationSuccessfull = _windowManager.ShowDialogWithAssignedOwner(_loginViewModel);
             ((App) Application.Current).ShutdownMode = ShutdownMode.OnMainWindowClose;
-            if (_isAuthenticationSuccessfull == true)
+            if (isAuthenticationSuccessfull == true)
             {
                 DisplayName = $@"Fibertest v2.0 {_currentUser.UserName} as {_currentUser.Role.ToString()}";
                 var da = _iniFile.ReadDoubleAddress(11840);

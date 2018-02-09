@@ -18,7 +18,7 @@ namespace Graph.Tests
         public void GivenСуществуетРтуДляУдаления()
         {
             _rtu = _sut.CreateRtuA();
-            _rtuLeaf = (RtuLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.First(r => r.Id == _rtu.Id);
+            _rtuLeaf = (RtuLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.Tree.First(r => r.Id == _rtu.Id);
         }
         [Given(@"Существуют еще несколько узлов и отрезки между ними")]
         public void GivenСуществуютЕщеНесколькоУзловИОтрезкиМеждуНими()
@@ -45,8 +45,8 @@ namespace Graph.Tests
         public void ThenРтуУдаляется()
         {
             _sut.ReadModel.Rtus.FirstOrDefault(r => r.Id == _rtu.Id).Should().BeNull();
-            _sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.FirstOrDefault(r => r.Id == _rtu.Id).Should().BeNull();
-            _sut.ShellVm.GraphReadModel.Rtus.FirstOrDefault(r => r.Id == _rtu.Id).Should().BeNull();
+            _sut.TreeOfRtuViewModel.TreeOfRtuModel.Tree.FirstOrDefault(r => r.Id == _rtu.Id).Should().BeNull();
+            _sut.GraphReadModel.Rtus.FirstOrDefault(r => r.Id == _rtu.Id).Should().BeNull();
         }
 
         [Then(@"Узел под РТУ и присоединенные к нему отрезки удаляются")]

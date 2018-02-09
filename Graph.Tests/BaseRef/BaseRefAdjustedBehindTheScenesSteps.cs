@@ -29,7 +29,7 @@ namespace Graph.Tests
         {
             _rtu = _sut.SetInitializedRtu();
             _trace = _sut.SetTrace(_rtu.NodeId, @"Trace1");
-            _traceLeaf = (TraceLeaf) _sut.ShellVm.TreeOfRtuModel.Tree.GetById(_trace.Id);
+            _traceLeaf = (TraceLeaf) _sut.TreeOfRtuModel.Tree.GetById(_trace.Id);
             _sut.AssignBaseRef(_traceLeaf, SystemUnderTest.Base1550Lm4YesThresholds, null, null, Answer.Yes);
         }
 

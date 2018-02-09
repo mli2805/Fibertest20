@@ -41,7 +41,7 @@ namespace Graph.Tests
         [When(@"Открылась форма сохранения трассы")]
         public void WhenОткрыласьФормаСохраненияТрассы()
         {
-            _traceInfoViewModel = _sut.ShellVm.GlobalScope.Resolve<TraceInfoViewModel>();
+            _traceInfoViewModel = _sut.Container.Resolve<TraceInfoViewModel>();
         }
 
         [Then(@"Кнопка Сохранить недоступна пока поле названия трассы пустое")]
@@ -65,7 +65,7 @@ namespace Graph.Tests
             var trace = _sut.ReadModel.Traces.Last();
             trace.Title.Should().Be(TraceTitle);
             trace.Comment.Should().Be(TraceComment);
-            _traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuModel.Tree.GetById(trace.Id);
+            _traceLeaf = (TraceLeaf)_sut.TreeOfRtuModel.Tree.GetById(trace.Id);
             trace.Equipments.Contains(Guid.Empty).Should().BeFalse();
         }
 

@@ -27,7 +27,7 @@ namespace Graph.Tests
         [Given(@"Для этой трассы задана базовая")]
         public void GivenДляЭтойТрассыЗаданаБазовая()
         {
-            var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_trace.Id);
+            var traceLeaf = (TraceLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_trace.Id);
             var rtuId = traceLeaf.Parent.Id;
             _sut.InitializeRtu(rtuId);
 
@@ -38,14 +38,14 @@ namespace Graph.Tests
         [Given(@"Открыта форма для редактирования узла где оборудование А1")]
         public void GivenОткрытаФормаДляРедактированияУзлаГдеОборудованиеА1()
         {
-//            _vm = new NodeUpdateViewModel(_nodeAId, _sut.ShellVm.ReadModel, _sut.FakeWindowManager, _sut.ShellVm.C2DWcfManager);
+//            _vm = new NodeUpdateViewModel(_nodeAId,_sut.ReadModel, _sut.FakeWindowManager, _sut.ShellVm.C2DWcfManager);
             _vm = _sut.Container.Resolve<NodeUpdateViewModel>();
             _vm.Initialize(_nodeAId);
         }
         [Given(@"Открыта форма для редактирования узла где оборудование B1")]
         public void GivenОткрытаФормаДляРедактированияУзлаГдеОборудованиеB1()
         {
-//            _vm = new NodeUpdateViewModel(_nodeBId, _sut.ShellVm.ReadModel, _sut.FakeWindowManager, _sut.ShellVm.C2DWcfManager);
+//            _vm = new NodeUpdateViewModel(_nodeBId,_sut.ReadModel, _sut.FakeWindowManager, _sut.ShellVm.C2DWcfManager);
             _vm = _sut.Container.Resolve<NodeUpdateViewModel>();
             _vm.Initialize(_nodeBId);
         }
@@ -71,7 +71,7 @@ namespace Graph.Tests
         [When(@"Пользователь нажимает удалить оборудование")]
         public void WhenПользовательНажимаетУдалитьОборудование()
         {
-//            var vm = new NodeUpdateViewModel(_nodeAId, _sut.ShellVm.ReadModel, _sut.FakeWindowManager, _sut.ShellVm.C2DWcfManager);
+//            var vm = new NodeUpdateViewModel(_nodeAId,_sut.ReadModel, _sut.FakeWindowManager, _sut.ShellVm.C2DWcfManager);
             var vm = _sut.Container.Resolve<NodeUpdateViewModel>();
             vm.Initialize(_nodeAId);
             vm.EquipmentsInNode.First(it=>it.Id == _equipmentA1Id).Command = new RemoveEquipment() { Id = _equipmentA1Id};

@@ -56,7 +56,7 @@ namespace Graph.Tests
         public void GivenДляОднойИзТрассЗаданаБазовая()
         {
             var trace = _sut.ReadModel.Traces.First();
-            var traceLeaf = (TraceLeaf)_sut.ShellVm.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(trace.Id);
+            var traceLeaf = (TraceLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(trace.Id);
 
             _sut.AssignBaseRef(traceLeaf, SystemUnderTest.Base1625, SystemUnderTest.Base1625, null, Answer.Yes);
         }
@@ -78,7 +78,7 @@ namespace Graph.Tests
         [Then(@"На форме выбора трасс эта трасса недоступна для выбора остальные доступны")]
         public void ThenНаФормеВыбораТрассЭтаТрассаНедоступнаДляВыбора()
         {
-            var traceList = _sut.ShellVm.ReadModel.Traces.Where(t => t.Equipments.Contains(_oldEquipment.Id)).ToList();
+            var traceList = _sut.ReadModel.Traces.Where(t => t.Equipments.Contains(_oldEquipment.Id)).ToList();
             var traceChoiceVm = new TraceChoiceViewModel(traceList);
             traceChoiceVm.Choices.First(l => l.Id == _shortTraceId).IsEnabled.Should().BeFalse();
             foreach (var traceChoice in traceChoiceVm.Choices.Where(l => l.Id != _shortTraceId))
