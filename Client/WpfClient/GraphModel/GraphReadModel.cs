@@ -111,7 +111,7 @@ namespace Iit.Fibertest.Client
             ToCenter = nodeVm.Position;
         }
 
-        public void Extinguish()
+        public void ExtinguishNode()
         {
             var nodeVm = Nodes.FirstOrDefault(n => n.IsHighlighted);
             if (nodeVm != null)
@@ -129,12 +129,6 @@ namespace Iit.Fibertest.Client
                 else
                     fiberVm.RemoveState(traceId);
             }
-        }
-
-        public void Apply(NodeHighlighted evnt)
-        {
-            var nodeVm = Nodes.First(n => n.Id == evnt.NodeId);
-            nodeVm.IsHighlighted = true;
         }
 
     }

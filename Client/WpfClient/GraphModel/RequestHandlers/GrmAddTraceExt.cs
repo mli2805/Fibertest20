@@ -68,6 +68,9 @@ namespace Iit.Fibertest.Client
             var traceContentChoiceViewModel = model.GlobalScope.Resolve<TraceContentChoiceViewModel>();
             foreach (var nodeId in nodes.Skip(1))
             {
+                var nodeVm = model.Nodes.First(n => n.Id == nodeId);
+                if (nodeVm.Type != EquipmentType.AdjustmentPoint)
+                    nodeVm.IsHighlighted = true;
                 var allEquipmentInNode = model.ReadModel.Equipments.Where(e => e.NodeId == nodeId).ToList();
                 if (allEquipmentInNode.Count == 1 && allEquipmentInNode[0].Type == EquipmentType.AdjustmentPoint)
                 {
@@ -78,9 +81,9 @@ namespace Iit.Fibertest.Client
 
                 traceContentChoiceViewModel.Initialize(allEquipmentInNode, node, nodeId == nodes.Last());
                 model.WindowManager.ShowDialogWithAssignedOwner(traceContentChoiceViewModel);
+                model.ExtinguishNode();
 
-                // пользователь прервал процесс, отказавшись выбирать оборудование
-                if (!traceContentChoiceViewModel.ShouldWeContinue)
+                if (!traceContentChoiceViewModel.ShouldWeContinue) // user left the process
                     return null;
 
                 var selectedEquipmentGuid = traceContentChoiceViewModel.GetSelectedEquipmentGuid();
