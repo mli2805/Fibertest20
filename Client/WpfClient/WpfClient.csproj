@@ -185,6 +185,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ClientHeartbeat.cs" />
+    <Compile Include="CurrentUser.cs" />
     <Compile Include="Forms\BaseRefs\BaseRefLandmarksChecker.cs" />
     <Compile Include="Forms\EquipmentAddUpdate\CableReserveInfoView.xaml.cs">
       <DependentUpon>CableReserveInfoView.xaml</DependentUpon>
@@ -200,6 +201,12 @@
     <Compile Include="Forms\Shell\MarkerControl\RtuVmContextMenuProvider.cs" />
     <Compile Include="Forms\Shell\MarkerControl\RtuVmPermissions.cs" />
     <Compile Include="Forms\SpecialMeasurements\ClientMeasurementViewModel.cs" />
+    <Compile Include="GraphModel\EventExecutors\EquipmentEventsOnGraphExecutor.cs" />
+    <Compile Include="GraphModel\EventExecutors\EventsOnGraphExecutor.cs" />
+    <Compile Include="GraphModel\EventExecutors\FiberEventsOnGraphExecutor.cs" />
+    <Compile Include="GraphModel\EventExecutors\NodeEventsOnGraphExecutor.cs" />
+    <Compile Include="GraphModel\EventExecutors\RtuEventsOnGraphExecutor.cs" />
+    <Compile Include="GraphModel\EventExecutors\TraceEventsOnGraphExecutor.cs" />
     <Compile Include="WcfClient\ClientWcfService.cs" />
     <Compile Include="Forms\SpecialMeasurements\ClientMeasurementView.xaml.cs">
       <DependentUpon>ClientMeasurementView.xaml</DependentUpon>

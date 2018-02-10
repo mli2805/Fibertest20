@@ -21,6 +21,7 @@ namespace Iit.Fibertest.Client
             };
 
         private readonly IWcfServiceForClient _wcfConnection;
+        private readonly EventsOnGraphExecutor _eventsOnGraphExecutor;
         private Thread _pollerThread;
         private readonly IDispatcherProvider _dispatcherProvider;
         private readonly IMyLog _logFile;
@@ -31,10 +32,12 @@ namespace Iit.Fibertest.Client
 
         public int CurrentEventNumber { get; private set; }
 
-        public ClientPoller(IWcfServiceForClient wcfConnection, List<object> readModels, IDispatcherProvider dispatcherProvider,
+        public ClientPoller(IWcfServiceForClient wcfConnection, List<object> readModels,
+            EventsOnGraphExecutor eventsOnGraphExecutor, IDispatcherProvider dispatcherProvider,
             IMyLog logFile, IniFile iniFile, ILocalDbManager localDbManager)
         {
             _wcfConnection = wcfConnection;
+            _eventsOnGraphExecutor = eventsOnGraphExecutor;
             _dispatcherProvider = dispatcherProvider;
             _logFile = logFile;
             _localDbManager = localDbManager;
@@ -100,10 +103,10 @@ namespace Iit.Fibertest.Client
             {
                 var msg = (EventMessage)JsonConvert.DeserializeObject(json, JsonSerializerSettings);
                 var e = msg.Body;
+                _eventsOnGraphExecutor.Apply(e);
                 foreach (var m in ReadModels)
                 {
                     m.AsDynamic().Apply(e);
-
                     //
                     var readModel = m as ReadModel;
                     readModel?.NotifyOfPropertyChange(nameof(readModel.JustForNotification));

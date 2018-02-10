@@ -3,7 +3,6 @@ using System.Globalization;
 using System.Threading;
 using Autofac;
 using Caliburn.Micro;
-using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Algorithms.ToolKit;
 using Iit.Fibertest.UtilsLib;
@@ -12,12 +11,6 @@ using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
 {
-    public class CurrentUser
-    {
-        public string UserName { get; set; }
-        public Role Role { get; set; }
-    }
-
     public sealed class AutofacClient : Module
     {
         protected override void Load(ContainerBuilder builder)
@@ -118,12 +111,22 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<TreeOfRtuModel>().SingleInstance();
             builder.RegisterType<TreeOfRtuViewModel>().SingleInstance();
             builder.RegisterType<WriteModel>().SingleInstance();
+
             builder.RegisterType<GrmEquipmentRequests>().SingleInstance();
             builder.RegisterType<GrmNodeRequests>().SingleInstance();
             builder.RegisterType<GrmFiberWithNodesRequest>().SingleInstance();
             builder.RegisterType<GrmFiberRequests>().SingleInstance();
             builder.RegisterType<GrmRtuRequests>().SingleInstance();
+
+            builder.RegisterType<NodeEventsOnGraphExecutor>().SingleInstance();
+            builder.RegisterType<FiberEventsOnGraphExecutor>().SingleInstance();
+            builder.RegisterType<EquipmentEventsOnGraphExecutor>().SingleInstance();
+            builder.RegisterType<TraceEventsOnGraphExecutor>().SingleInstance();
+            builder.RegisterType<RtuEventsOnGraphExecutor>().SingleInstance();
+            builder.RegisterType<EventsOnGraphExecutor>().SingleInstance();
+
             builder.RegisterType<GraphReadModel>().SingleInstance();
+
             builder.RegisterType<FreePorts>().SingleInstance();
 
             builder.RegisterType<TraceContentChoiceViewModel>();
@@ -134,14 +137,15 @@ namespace Iit.Fibertest.Client
 
 
             builder.RegisterType<UiDispatcherProvider>().As<IDispatcherProvider>().SingleInstance();
+
             builder.Register(ioc => new ClientPoller(
                     ioc.Resolve<IWcfServiceForClient>(),
                     new List<object>
                     {
                         ioc.Resolve<ReadModel>(),
                         ioc.Resolve<TreeOfRtuModel>(),
-                        ioc.Resolve<GraphReadModel>(),
                     },
+                    ioc.Resolve<EventsOnGraphExecutor>(),
                     ioc.Resolve<IDispatcherProvider>(),
                     logFile,
                     iniFile,
