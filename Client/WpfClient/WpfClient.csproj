@@ -200,7 +200,7 @@
     <Compile Include="Forms\Shell\MarkerControl\RtuVmContextMenuProvider.cs" />
     <Compile Include="Forms\Shell\MarkerControl\RtuVmPermissions.cs" />
     <Compile Include="Forms\SpecialMeasurements\ClientMeasurementViewModel.cs" />
-    <Compile Include="ClientWcfService.cs" />
+    <Compile Include="WcfClient\ClientWcfService.cs" />
     <Compile Include="Forms\SpecialMeasurements\ClientMeasurementView.xaml.cs">
       <DependentUpon>ClientMeasurementView.xaml</DependentUpon>
     </Compile>
@@ -388,8 +388,8 @@
     <Compile Include="ViewModels\Administrative\UserListViewModel.cs" />
     <Compile Include="ViewModels\Administrative\UserViewModel.cs" />
     <Compile Include="ViewModels\Administrative\Zone.cs" />
-    <Compile Include="ClientWcfServiceHost.cs" />
-    <Compile Include="IClientWcfServiceHost.cs" />
+    <Compile Include="WcfClient\ClientWcfServiceHost.cs" />
+    <Compile Include="WcfClient\IClientWcfServiceHost.cs" />
     <Compile Include="Views\Administrative\ObjectsToZonesView.xaml.cs">
       <DependentUpon>ObjectsToZonesView.xaml</DependentUpon>
     </Compile>
