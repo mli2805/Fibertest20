@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
+using Iit.Fibertest.Client;
 using Iit.Fibertest.Graph;
 using TechTalk.SpecFlow;
 
@@ -27,7 +28,7 @@ namespace Graph.Tests
             _sut.FakeWindowManager.RegisterHandler(model => _sut.TraceContentChoiceHandler(model, Answer.Yes, 0));
             _sut.FakeWindowManager.RegisterHandler(model => _sut.TraceContentChoiceHandler(model, Answer.Yes, 0));
             _sut.FakeWindowManager.RegisterHandler(model => _sut.TraceContentChoiceHandler(model, Answer.Yes, 0));
-            _equipments = _sut.GraphReadModel.GrmTraceRequests.CollectEquipment(_nodes);
+            _equipments = _sut.GraphReadModel.CollectEquipment(_nodes);
         }
 
         [Given(@"На предложение выбрать оборудование пользователь отвечает: ""(.*)""")]

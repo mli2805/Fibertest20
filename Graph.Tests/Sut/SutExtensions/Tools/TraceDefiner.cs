@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Iit.Fibertest.Client;
 using Iit.Fibertest.Graph.Requests;
 using Iit.Fibertest.StringResources;
 
@@ -18,7 +19,7 @@ namespace Graph.Tests
             }
 
             sut.FakeWindowManager.RegisterHandler(model => sut.AddTraceViewHandler(model, title, "", Answer.Yes));
-            sut.GraphReadModel.GrmTraceRequests.AddTrace(new RequestAddTrace() { LastNodeId = lastNodeId, NodeWithRtuId = nodeForRtuId });
+            sut.GraphReadModel.AddTrace(new RequestAddTrace() { LastNodeId = lastNodeId, NodeWithRtuId = nodeForRtuId });
             sut.Poller.EventSourcingTick().Wait();
             return sut.ReadModel.Traces.Last();
         }

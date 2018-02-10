@@ -35,6 +35,13 @@ namespace Iit.Fibertest.Graph
                 yield return GetFiberByNodes(model, nodes[i - 1], nodes[i]);
         }
 
+        private static Guid GetFiberByNodes(this IModel model, Guid node1, Guid node2)
+        {
+            return model.Fibers.First(
+                f => f.Node1 == node1 && f.Node2 == node2 ||
+                     f.Node1 == node2 && f.Node2 == node1).Id;
+        }
+
         public static IEnumerable<Trace> GetTracesPassingFiber(this IModel model, Guid fiberId)
         {
             foreach (var trace in model.Traces)
@@ -42,13 +49,6 @@ namespace Iit.Fibertest.Graph
                 if (model.GetFibersByNodes(trace.Nodes).Contains(fiberId))
                     yield return trace;
             }
-        }
-
-        private static Guid GetFiberByNodes(this IModel model, Guid node1, Guid node2)
-        {
-            return model.Fibers.First(
-                f => f.Node1 == node1 && f.Node2 == node2 ||
-                     f.Node1 == node2 && f.Node2 == node1).Id;
         }
 
         public static IEnumerable<Node> GetTraceNodes(this IModel model, Trace trace)

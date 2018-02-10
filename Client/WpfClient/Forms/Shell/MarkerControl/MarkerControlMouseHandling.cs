@@ -85,7 +85,7 @@ namespace Iit.Fibertest.Client
         private void EndTraceDefinition()
         {
             MainMap.IsInTraceDefiningMode = false;
-            Owner.GraphReadModel.GrmTraceRequests.AddTrace(new RequestAddTrace() { NodeWithRtuId = MainMap.StartNode.Id, LastNodeId = GMapMarker.Id });
+            Owner.GraphReadModel.AddTrace(new RequestAddTrace() { NodeWithRtuId = MainMap.StartNode.Id, LastNodeId = GMapMarker.Id });
             Owner.SetBanner("");
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Iit.Fibertest.Client;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Requests;
 using Iit.Fibertest.StringResources;
@@ -50,7 +51,7 @@ namespace Graph.Tests
             sut.FakeWindowManager.RegisterHandler(
                 model => sut.AddTraceViewHandler(model, @"short trace", "", Answer.Yes));
 
-            sut.GraphReadModel.GrmTraceRequests.AddTrace(new RequestAddTrace() { LastNodeId = nodeId, NodeWithRtuId = rtuNodeId });
+            sut.GraphReadModel.AddTrace(new RequestAddTrace() { LastNodeId = nodeId, NodeWithRtuId = rtuNodeId });
             sut.Poller.EventSourcingTick().Wait();
             return sut.ReadModel.Traces.Last().Id;
         }
@@ -63,7 +64,7 @@ namespace Graph.Tests
             sut.FakeWindowManager.RegisterHandler(
                 model => sut.AddTraceViewHandler(model, @"trace with eq", "", Answer.Yes));
 
-            sut.GraphReadModel.GrmTraceRequests.AddTrace(new RequestAddTrace()
+            sut.GraphReadModel.AddTrace(new RequestAddTrace()
             {
                 LastNodeId = anotherNodeId,
                 NodeWithRtuId = rtuNodeId
@@ -80,7 +81,7 @@ namespace Graph.Tests
             sut.FakeWindowManager.RegisterHandler(
                 model => sut.AddTraceViewHandler(model, @"trace without eq", "", Answer.Yes));
 
-            sut.GraphReadModel.GrmTraceRequests.AddTrace(new RequestAddTrace()
+            sut.GraphReadModel.AddTrace(new RequestAddTrace()
             {
                 LastNodeId = anotherNodeId2,
                 NodeWithRtuId = rtuNodeId

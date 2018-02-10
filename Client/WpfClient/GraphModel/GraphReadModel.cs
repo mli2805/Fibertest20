@@ -20,8 +20,9 @@ namespace Iit.Fibertest.Client
         public GrmEquipmentRequests GrmEquipmentRequests { get; }
         public GrmFiberRequests GrmFiberRequests { get; }
         public GrmFiberWithNodesRequest GrmFiberWithNodesRequest { get; }
-        public GrmTraceRequests GrmTraceRequests { get; }
         public GrmRtuRequests GrmRtuRequests { get; }
+        public IWindowManager WindowManager { get; }
+        public ReadModel ReadModel { get; }
         public readonly ILifetimeScope GlobalScope;
         private readonly IMyLog _logFile;
 
@@ -77,15 +78,18 @@ namespace Iit.Fibertest.Client
             CommonStatusBarViewModel commonStatusBarViewModel,
             GrmNodeRequests grmNodeRequests, GrmEquipmentRequests grmEquipmentRequests, 
             GrmFiberRequests grmFiberRequests, GrmFiberWithNodesRequest grmFiberWithNodesRequest,
-            GrmTraceRequests grmTraceRequests, GrmRtuRequests grmRtuRequests)
+             GrmRtuRequests grmRtuRequests,
+            
+            IWindowManager windowManager, ReadModel readModel)
         {
             CommonStatusBarViewModel = commonStatusBarViewModel;
             GrmNodeRequests = grmNodeRequests;
             GrmEquipmentRequests = grmEquipmentRequests;
             GrmFiberRequests = grmFiberRequests;
             GrmFiberWithNodesRequest = grmFiberWithNodesRequest;
-            GrmTraceRequests = grmTraceRequests;
             GrmRtuRequests = grmRtuRequests;
+            WindowManager = windowManager;
+            ReadModel = readModel;
             GlobalScope = globalScope;
             _logFile = logFile;
             Nodes = new ObservableCollection<NodeVm>();
@@ -116,6 +120,20 @@ namespace Iit.Fibertest.Client
             if (nodeVm != null)
                 nodeVm.IsHighlighted = false;
         }
+
+        public void ChangeTraceColor(Guid traceId, List<Guid> nodes, FiberState state)
+        {
+            var fiberIds = this.GetFibersByNodes(nodes);
+            foreach (var fiberId in fiberIds)
+            {
+                var fiberVm = Fibers.First(f => f.Id == fiberId);
+                if (state != FiberState.NotInTrace)
+                    fiberVm.SetState(traceId, state);
+                else
+                    fiberVm.RemoveState(traceId);
+            }
+        }
+
         public void Apply(NodeHighlighted evnt)
         {
             var nodeVm = Nodes.First(n => n.Id == evnt.NodeId);

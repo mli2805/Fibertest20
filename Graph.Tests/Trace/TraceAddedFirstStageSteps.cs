@@ -29,7 +29,7 @@ namespace Graph.Tests
         {
 
             _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
-            _sut.GraphReadModel.GrmTraceRequests.AddTrace(
+            _sut.GraphReadModel.AddTrace(
                 new RequestAddTrace() {LastNodeId = _wrongNodeId, NodeWithRtuId = _rtuNodeId});
         }
 
@@ -43,14 +43,14 @@ namespace Graph.Tests
         public void GivenНоПользовательВыбралУзелГдеЕстьОборудованиеИКликнулОпределитьТрассу()
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
-            _sut.GraphReadModel.GrmTraceRequests.AddTrace(
+            _sut.GraphReadModel.AddTrace(
                 new RequestAddTrace() { LastNodeId = _wrongNodeWithEqId, NodeWithRtuId = _rtuNodeId });
         }
 
         [Given(@"Хотя кликнул определить трассу на узле с оборудованием и путь между узлами существует")]
         public void GivenХотяКликнулОпределитьТрассуНаУзлеСОборудованиемИПутьМеждуУзламиСуществует()
         {
-            _sut.GraphReadModel.GrmTraceRequests.AddTrace(new RequestAddTrace() { LastNodeId = _lastNodeId, NodeWithRtuId = _rtuNodeId });
+            _sut.GraphReadModel.AddTrace(new RequestAddTrace() { LastNodeId = _lastNodeId, NodeWithRtuId = _rtuNodeId });
         }
 
         [Then(@"Выскакивает сообщение о необходимости оборудования в последнем узле")]
