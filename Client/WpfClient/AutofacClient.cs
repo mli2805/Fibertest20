@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Threading;
 using Autofac;
 using Caliburn.Micro;
@@ -140,11 +139,8 @@ namespace Iit.Fibertest.Client
 
             builder.Register(ioc => new ClientPoller(
                     ioc.Resolve<IWcfServiceForClient>(),
-                    new List<object>
-                    {
-                        ioc.Resolve<ReadModel>(),
-                        ioc.Resolve<TreeOfRtuModel>(),
-                    },
+                    ioc.Resolve<ReadModel>(),
+                    ioc.Resolve<TreeOfRtuModel>(),
                     ioc.Resolve<EventsOnGraphExecutor>(),
                     ioc.Resolve<IDispatcherProvider>(),
                     logFile,

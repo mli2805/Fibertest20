@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Caliburn.Micro;
@@ -15,33 +14,32 @@ namespace Iit.Fibertest.Client
     public class ClientPoller : PropertyChangedBase
     {
         private static readonly JsonSerializerSettings JsonSerializerSettings =
-            new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.All
-            };
+            new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
 
         private readonly IWcfServiceForClient _wcfConnection;
+        private readonly ReadModel _readModel;
+        private readonly TreeOfRtuModel _treeOfRtuModel;
         private readonly EventsOnGraphExecutor _eventsOnGraphExecutor;
         private Thread _pollerThread;
         private readonly IDispatcherProvider _dispatcherProvider;
         private readonly IMyLog _logFile;
         private readonly ILocalDbManager _localDbManager;
         private readonly int _pollingRate;
-        private List<object> ReadModels { get; }
         public CancellationToken CancellationToken { get; set; }
 
         public int CurrentEventNumber { get; private set; }
 
-        public ClientPoller(IWcfServiceForClient wcfConnection, List<object> readModels,
+        public ClientPoller(IWcfServiceForClient wcfConnection, ReadModel readModel, TreeOfRtuModel treeOfRtuModel,
             EventsOnGraphExecutor eventsOnGraphExecutor, IDispatcherProvider dispatcherProvider,
             IMyLog logFile, IniFile iniFile, ILocalDbManager localDbManager)
         {
             _wcfConnection = wcfConnection;
+            _readModel = readModel;
+            _treeOfRtuModel = treeOfRtuModel;
             _eventsOnGraphExecutor = eventsOnGraphExecutor;
             _dispatcherProvider = dispatcherProvider;
             _logFile = logFile;
             _localDbManager = localDbManager;
-            ReadModels = readModels;
             _pollingRate = iniFile.Read(IniSection.General, IniKey.ClientPollingRateMs, 500);
         }
 
@@ -104,16 +102,12 @@ namespace Iit.Fibertest.Client
                 var msg = (EventMessage)JsonConvert.DeserializeObject(json, JsonSerializerSettings);
                 var e = msg.Body;
                 _eventsOnGraphExecutor.Apply(e);
-                foreach (var m in ReadModels)
-                {
-                    m.AsDynamic().Apply(e);
-                    //
-                    var readModel = m as ReadModel;
-                    readModel?.NotifyOfPropertyChange(nameof(readModel.JustForNotification));
-                    //
-                    var treeModel = m as TreeOfRtuModel;
-                    treeModel?.NotifyOfPropertyChange(nameof(treeModel.Statistics));
-                }
+                _readModel.AsDynamic().Apply(e);
+                _treeOfRtuModel.AsDynamic().Apply(e);
+
+                _readModel.NotifyOfPropertyChange(nameof(_readModel.JustForNotification));
+                _treeOfRtuModel.NotifyOfPropertyChange(nameof(_treeOfRtuModel.Statistics));
+
                 CurrentEventNumber++;
             }
         }
