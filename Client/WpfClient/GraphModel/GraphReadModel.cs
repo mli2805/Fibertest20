@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Autofac;
-using AutoMapper;
 using Caliburn.Micro;
 using GMap.NET;
 using Iit.Fibertest.Dto;
@@ -24,7 +23,6 @@ namespace Iit.Fibertest.Client
         public IWindowManager WindowManager { get; }
         public ReadModel ReadModel { get; }
         public readonly ILifetimeScope GlobalScope;
-        private readonly IMyLog _logFile;
 
         public ObservableCollection<NodeVm> Nodes { get; }
         public ObservableCollection<FiberVm> Fibers { get; }
@@ -74,7 +72,7 @@ namespace Iit.Fibertest.Client
             SelectedGraphVisibilityLevel = GraphVisibilityLevels.Last();
         }
 
-        public GraphReadModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile,  
+        public GraphReadModel(ILifetimeScope globalScope, IniFile iniFile,   
             CommonStatusBarViewModel commonStatusBarViewModel,
             GrmNodeRequests grmNodeRequests, GrmEquipmentRequests grmEquipmentRequests, 
             GrmFiberRequests grmFiberRequests, GrmFiberWithNodesRequest grmFiberWithNodesRequest,
@@ -91,7 +89,6 @@ namespace Iit.Fibertest.Client
             WindowManager = windowManager;
             ReadModel = readModel;
             GlobalScope = globalScope;
-            _logFile = logFile;
             Nodes = new ObservableCollection<NodeVm>();
             Fibers = new ObservableCollection<FiberVm>();
             Rtus = new ObservableCollection<RtuVm>();
