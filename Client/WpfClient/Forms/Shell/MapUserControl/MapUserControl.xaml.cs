@@ -19,14 +19,17 @@ namespace Iit.Fibertest.Client
             // map events
             MainMap.MouseMove += MainMap_MouseMove;
             MainMap.MouseEnter += MainMap_MouseEnter;
+            MainMap.OnTraceDefiningCancelled += MainMap_OnTraceDefiningCancelled;
         }
 
+        private void MainMap_OnTraceDefiningCancelled()
+        {
+            SetBanner("");
+        }
 
         private void ConfigureMap()
         {
             MainMap.MapProvider = GMapProviders.OpenStreetMap;
-//            MainMap.Position = new PointLatLng(53.856, 27.49);
-//            MainMap.Zoom = 7;
         }
 
         private void MapUserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)

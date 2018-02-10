@@ -464,6 +464,7 @@
         /// occurs when mouse selection is changed
         /// </summary>        
         public event SelectionChange OnSelectionChange;
+        public event TraceDefiningCancelled OnTraceDefiningCancelled; 
 
         /// <summary>
         /// list of markers
@@ -1678,9 +1679,15 @@
                 ContextMenuCapturedRoute = RouteUnderMouse;
                 contextMenu.IsOpen = true;
             }
+            
 
             if (isSelected)
                 isSelected = false;
+            if (IsInTraceDefiningMode)
+            {
+                IsInTraceDefiningMode = false;
+                OnTraceDefiningCancelled?.Invoke();
+            }
 
             if (Core.IsDragging)
             {
@@ -1749,7 +1756,7 @@
                 else
                     Markers.Remove(Markers.Single(m => m.Id == FiberUnderCreation));
 
-                Markers.Add(new GMapRoute(FiberUnderCreation, StartNode.Id, Guid.Empty, Brushes.Black, 1, 
+                Markers.Add(new GMapRoute(FiberUnderCreation, StartNode.Id, Guid.Empty, Brushes.Black, 1,
                     new List<PointLatLng>() { StartNode.Position, FromLocalToLatLng(GetPointFromPosition(e)) }));
             }
             if (!Core.IsDragging && !Core.mouseDown.IsEmpty)
@@ -2462,4 +2469,5 @@
     }
 
     public delegate void SelectionChange(RectLatLng Selection, bool ZoomToFit);
+    public delegate void TraceDefiningCancelled();
 }
