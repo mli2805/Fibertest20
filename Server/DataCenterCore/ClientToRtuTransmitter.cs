@@ -27,16 +27,9 @@ namespace Iit.Fibertest.DataCenterCore
             _serverDoubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToRtu);
         }
 
-        public RtuConnectionCheckedDto CheckRtuConnection(CheckRtuConnectionDto dto)
+        public async Task<RtuConnectionCheckedDto> CheckRtuConnection(CheckRtuConnectionDto dto)
         {
-            var result = new RtuConnectionCheckedDto() { RtuId = dto.RtuId };
-            var backward = new RtuWcfServiceBackward();
-            var wcfFactory = new WcfFactory(new DoubleAddress() { Main = dto.NetAddress }, _iniFile, _logFile);
-            var rtuConnection = wcfFactory.CreateDuplexRtuConnection(backward);
-            result.IsConnectionSuccessfull = rtuConnection != null;
-            if (!result.IsConnectionSuccessfull)
-                result.IsPingSuccessful = Pinger.Ping(dto.NetAddress.IsAddressSetAsIp ? dto.NetAddress.Ip4Address : dto.NetAddress.HostName);
-            return result;
+            return await _d2RWcfManager.CheckRtuConnection(dto, _iniFile, _logFile);
         }
 
         public async Task<RtuInitializedDto> InitializeAsync(InitializeRtuDto dto)

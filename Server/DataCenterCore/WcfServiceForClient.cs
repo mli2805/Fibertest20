@@ -168,10 +168,10 @@ namespace Iit.Fibertest.DataCenterCore
             return Task.FromResult(true);
         }
 
-        public  Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)
+        public  async Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)
         {
             _logFile.AppendLine($"Client {dto.ClientId.First6()} check RTU {dto.NetAddress.ToStringA()} connection");
-            return Task.FromResult(_clientToRtuTransmitter.CheckRtuConnection(dto));
+            return await _clientToRtuTransmitter.CheckRtuConnection(dto);
         }
 
         public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)

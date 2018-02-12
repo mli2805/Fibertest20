@@ -8,6 +8,7 @@ namespace Iit.Fibertest.WcfConnections
     {
         ID2RWcfManager SetRtuAddresses(DoubleAddress rtuAddress, IniFile iniFile, IMyLog logFile);
 
+        Task<RtuConnectionCheckedDto> CheckRtuConnection(CheckRtuConnectionDto dto, IniFile iniFile, IMyLog logFile);
         Task<RtuInitializedDto> InitializeAsync(InitializeRtuDto dto);
         Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto);
         Task<OtauDetachedDto> DetachOtauAsync(DetachOtauDto dto);

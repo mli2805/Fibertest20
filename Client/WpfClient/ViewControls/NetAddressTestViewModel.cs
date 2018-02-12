@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.WcfConnections;
@@ -8,6 +9,7 @@ namespace Iit.Fibertest.Client
 {
     public class NetAddressTestViewModel : Screen
     {
+        private readonly ILifetimeScope _globalScope;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly NetAddressForConnectionTest _netAddressForConnectionTest;
         private bool? _result;
@@ -25,8 +27,9 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public NetAddressTestViewModel(IWcfServiceForClient c2DWcfManager, NetAddressForConnectionTest netAddressForConnectionTest)
+        public NetAddressTestViewModel(ILifetimeScope globalScope, IWcfServiceForClient c2DWcfManager, NetAddressForConnectionTest netAddressForConnectionTest)
         {
+            _globalScope = globalScope;
             _c2DWcfManager = c2DWcfManager;
             _netAddressForConnectionTest = netAddressForConnectionTest;
             NetAddressInputViewModel = new NetAddressInputViewModel(netAddressForConnectionTest.Address);
@@ -35,10 +38,18 @@ namespace Iit.Fibertest.Client
 
         public async void Test()
         {
-            using (new WaitCursor())
+            using (_globalScope.Resolve<IWaitCursor>())
             {
                 Result = null;
                 Result = await TestConnection();
+            }
+        }
+
+        public async Task<bool> ExternalTest()
+        {
+            using (_globalScope.Resolve<IWaitCursor>())
+            {
+                return await TestConnection();
             }
         }
 

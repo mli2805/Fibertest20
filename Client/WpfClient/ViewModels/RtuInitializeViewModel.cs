@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -129,11 +130,31 @@ namespace Iit.Fibertest.Client
             RtuInitializedDto result;
             using (_globalScope.Resolve<IWaitCursor>())
             {
+                if (!await CheckConnectionBeforeInitializaion()) return;
+
                 _commonStatusBarViewModel.StatusBarMessage2 = Resources.SID_RTU_is_being_initialized___;
                 result = await _c2DWcfManager.InitializeRtuAsync(dto);
                 _commonStatusBarViewModel.StatusBarMessage2 = "";
             }
             ProcessRtuInitialized(result);
+        }
+
+        private async Task<bool> CheckConnectionBeforeInitializaion()
+        {
+            if (!await MainChannelTestViewModel.ExternalTest())
+            {
+                _windowManager.ShowDialogWithAssignedOwner(
+                    new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Cannot_establish_connection_with_RTU_));
+                return false;
+            }
+
+            if (!IsReserveChannelEnabled) return true;
+
+            if (await ReserveChannelTestViewModel.ExternalTest()) return true;
+
+            _windowManager.ShowDialogWithAssignedOwner(
+                new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Cannot_establish_connection_with_RTU_));
+            return false;
         }
 
         private void ProcessRtuInitialized(RtuInitializedDto dto)

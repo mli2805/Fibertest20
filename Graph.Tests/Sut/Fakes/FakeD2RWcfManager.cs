@@ -13,6 +13,17 @@ namespace Graph.Tests
             return this;
         }
 
+        public Task<RtuConnectionCheckedDto> CheckRtuConnection(CheckRtuConnectionDto dto, IniFile iniFile, IMyLog logFile)
+        {
+            return Task.FromResult(new RtuConnectionCheckedDto()
+            {
+                ClientId = dto.ClientId,
+                RtuId = dto.RtuId,
+                IsConnectionSuccessfull = true,
+                IsPingSuccessful = true,
+            });
+        }
+
         public Task<RtuInitializedDto> InitializeAsync(InitializeRtuDto dto)
         {
             return Task.FromResult(new RtuInitializedDto()

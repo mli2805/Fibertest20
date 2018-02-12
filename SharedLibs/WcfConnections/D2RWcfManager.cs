@@ -15,6 +15,18 @@ namespace Iit.Fibertest.WcfConnections
             return this;
         }
 
+        public async Task<RtuConnectionCheckedDto> CheckRtuConnection(CheckRtuConnectionDto dto, IniFile iniFile, IMyLog logFile)
+        {
+            var result = new RtuConnectionCheckedDto() { RtuId = dto.RtuId };
+            var backward = new RtuWcfServiceBackward();
+            var wcfFactory = new WcfFactory(new DoubleAddress() { Main = dto.NetAddress }, iniFile, logFile);
+            var rtuConnection = wcfFactory.CreateDuplexRtuConnection(backward);
+            result.IsConnectionSuccessfull = rtuConnection != null;
+            if (!result.IsConnectionSuccessfull)
+                result.IsPingSuccessful = Pinger.Ping(dto.NetAddress.IsAddressSetAsIp ? dto.NetAddress.Ip4Address : dto.NetAddress.HostName);
+            return result;
+        }
+
         public async Task<RtuInitializedDto> InitializeAsync(InitializeRtuDto dto)
         {
             var backward = new RtuWcfServiceBackward();
