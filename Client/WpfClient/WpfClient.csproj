@@ -256,14 +256,14 @@
       <DependentUpon>MonitoringSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\MonitoringSettings\MonitoringSettingsViewModel.cs" />
-    <Compile Include="Forms\RtuState\PortLineModel.cs" />
-    <Compile Include="Forms\RtuState\RtuStateView.xaml.cs">
+    <Compile Include="Forms\RtuForms\RtuState\PortLineModel.cs" />
+    <Compile Include="Forms\RtuForms\RtuState\RtuStateView.xaml.cs">
       <DependentUpon>RtuStateView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\RtuState\RtuStateViewModel.cs" />
-    <Compile Include="Forms\RtuState\RtuStateViewsManager.cs" />
-    <Compile Include="Forms\RtuState\RtuStateModel.cs" />
-    <Compile Include="Forms\RtuState\RtuStateModelFactory.cs" />
+    <Compile Include="Forms\RtuForms\RtuState\RtuStateViewModel.cs" />
+    <Compile Include="Forms\RtuForms\RtuState\RtuStateViewsManager.cs" />
+    <Compile Include="Forms\RtuForms\RtuState\RtuStateModel.cs" />
+    <Compile Include="Forms\RtuForms\RtuState\RtuStateModelFactory.cs" />
     <Compile Include="Forms\Shell\NetworkEventsControl\NetworkEventsView.xaml.cs">
       <DependentUpon>NetworkEventsView.xaml</DependentUpon>
     </Compile>
@@ -298,17 +298,17 @@
       <DependentUpon>OutOfTurnPreciseMeasurementView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\SpecialMeasurements\OutOfTurnPreciseMeasurementViewModel.cs" />
-    <Compile Include="Forms\TraceContentChoice\EquipmentOfChoiceModel.cs" />
-    <Compile Include="Forms\TraceContentChoice\EquipmentOfChoiceModelFactory.cs" />
-    <Compile Include="Forms\TraceContentChoice\TraceContentChoiceView.xaml.cs">
+    <Compile Include="Forms\TraceForms\TraceContentChoice\EquipmentOfChoiceModel.cs" />
+    <Compile Include="Forms\TraceForms\TraceContentChoice\EquipmentOfChoiceModelFactory.cs" />
+    <Compile Include="Forms\TraceForms\TraceContentChoice\TraceContentChoiceView.xaml.cs">
       <DependentUpon>TraceContentChoiceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\TraceContentChoice\TraceContentChoiceViewModel.cs" />
-    <Compile Include="Forms\TraceInfo\TraceInfoCalculator.cs" />
-    <Compile Include="Forms\TraceInfo\TraceInfoModel.cs" />
-    <Compile Include="Forms\TraceState\AccidentLineModel.cs" />
-    <Compile Include="Forms\TraceState\TraceStateModelFactory.cs" />
-    <Compile Include="Forms\TraceStatistics\TraceStatisticsViewsManager.cs" />
+    <Compile Include="Forms\TraceForms\TraceContentChoice\TraceContentChoiceViewModel.cs" />
+    <Compile Include="Forms\TraceForms\TraceInfo\TraceInfoCalculator.cs" />
+    <Compile Include="Forms\TraceForms\TraceInfo\TraceInfoModel.cs" />
+    <Compile Include="Forms\TraceForms\TraceState\AccidentLineModel.cs" />
+    <Compile Include="Forms\TraceForms\TraceState\TraceStateModelFactory.cs" />
+    <Compile Include="Forms\TraceForms\TraceStatistics\TraceStatisticsViewsManager.cs" />
     <Compile Include="Forms\UniversalForms\MyMessageBox\MessageType.cs" />
     <Compile Include="Forms\UniversalForms\MyMessageBox\MessageTypeExt.cs" />
     <Compile Include="GraphModel\GraphModelExt.cs" />
@@ -329,17 +329,17 @@
     <Compile Include="Forms\UniversalForms\MyMessageBox\MyMessageBoxViewModel.cs" />
     <Compile Include="Logic\VerboseTasks.cs" />
     <Compile Include="WindowManagerExt.cs" />
-    <Compile Include="Forms\TraceState\EventStatusComboItem.cs" />
-    <Compile Include="Forms\TraceState\TraceStateView.xaml.cs">
+    <Compile Include="Forms\TraceForms\TraceState\EventStatusComboItem.cs" />
+    <Compile Include="Forms\TraceForms\TraceState\TraceStateView.xaml.cs">
       <DependentUpon>TraceStateView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\TraceState\TraceStateViewModel.cs" />
-    <Compile Include="Forms\TraceState\TraceStateModel.cs" />
-    <Compile Include="Forms\TraceStatistics\MeasurementModel.cs" />
-    <Compile Include="Forms\TraceStatistics\TraceStatisticsView.xaml.cs">
+    <Compile Include="Forms\TraceForms\TraceState\TraceStateViewModel.cs" />
+    <Compile Include="Forms\TraceForms\TraceState\TraceStateModel.cs" />
+    <Compile Include="Forms\TraceForms\TraceStatistics\MeasurementModel.cs" />
+    <Compile Include="Forms\TraceForms\TraceStatistics\TraceStatisticsView.xaml.cs">
       <DependentUpon>TraceStatisticsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\TraceStatistics\TraceStatisticsViewModel.cs" />
+    <Compile Include="Forms\TraceForms\TraceStatistics\TraceStatisticsViewModel.cs" />
     <Compile Include="LocalDb\EsEvent.cs" />
     <Compile Include="LocalDb\ILocalDbManager.cs" />
     <Compile Include="LocalDb\LocalDbManager.cs" />
@@ -350,7 +350,7 @@
     <Compile Include="LocalDb\SQLiteProviderInvariantName.cs" />
     <Compile Include="Logic\ReflectogramManager.cs" />
     <Compile Include="Logic\Extensions\ReturnCodeExt.cs" />
-    <Compile Include="Forms\TraceState\TraceStateViewsManager.cs" />
+    <Compile Include="Forms\TraceForms\TraceState\TraceStateViewsManager.cs" />
     <Compile Include="Logic\WaitCursor.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\RtuLeaf\RtuLeafActions.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\RtuLeaf\RtuLeafActionsPermissions.cs" />
@@ -358,8 +358,8 @@
     <Compile Include="Forms\Shell\TreeOfRtuControl\TraceLeaf\TraceLeafActions.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\TraceLeaf\TraceLeafActionsPermissions.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\TraceLeaf\TraceLeafContextMenuProvider.cs" />
-    <Compile Include="ViewModels\Administrative\PasswordHelper.cs" />
-    <Compile Include="ViewModels\Administrative\UserMappings.cs" />
+    <Compile Include="Forms\AdministrativeForms\PasswordHelper.cs" />
+    <Compile Include="Forms\AdministrativeForms\UserMappings.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\ChildrenImpresario.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\IPortOwner.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\OtauLeaf\OtauLeaf.cs" />
@@ -379,9 +379,9 @@
       <DependentUpon>NetAddressTestView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewControls\NetAddressTestViewModel.cs" />
-    <Compile Include="ViewModels\Administrative\ObjectsToZonesViewModel.cs" />
-    <Compile Include="ViewModels\Administrative\ZonesContentViewModel.cs" />
-    <Compile Include="ViewModels\Administrative\ZonesViewModel.cs" />
+    <Compile Include="Forms\AdministrativeForms\ObjectsToZonesViewModel.cs" />
+    <Compile Include="Forms\AdministrativeForms\ZonesContentViewModel.cs" />
+    <Compile Include="Forms\AdministrativeForms\ZonesViewModel.cs" />
     <Compile Include="Forms\Landmarks\Landmark.cs" />
     <Compile Include="Forms\Landmarks\LandmarkRow.cs" />
     <Compile Include="Forms\Landmarks\LandmarksBaseParser.cs" />
@@ -390,23 +390,23 @@
     <Compile Include="Forms\Landmarks\LandmarkViewModel.cs" />
     <Compile Include="Forms\LoginServer\LoginViewModel.cs" />
     <Compile Include="Forms\LoginServer\ServerConnectViewModel.cs" />
-    <Compile Include="ViewModels\Administrative\Licence.cs" />
-    <Compile Include="ViewModels\Administrative\UserVm.cs" />
-    <Compile Include="ViewModels\Administrative\UserListViewModel.cs" />
-    <Compile Include="ViewModels\Administrative\UserViewModel.cs" />
-    <Compile Include="ViewModels\Administrative\Zone.cs" />
+    <Compile Include="Forms\AdministrativeForms\Licence.cs" />
+    <Compile Include="Forms\AdministrativeForms\UserVm.cs" />
+    <Compile Include="Forms\AdministrativeForms\UserListViewModel.cs" />
+    <Compile Include="Forms\AdministrativeForms\UserViewModel.cs" />
+    <Compile Include="Forms\AdministrativeForms\Zone.cs" />
     <Compile Include="WcfClient\ClientWcfServiceHost.cs" />
     <Compile Include="WcfClient\IClientWcfServiceHost.cs" />
-    <Compile Include="Views\Administrative\ObjectsToZonesView.xaml.cs">
+    <Compile Include="Forms\AdministrativeForms\ObjectsToZonesView.xaml.cs">
       <DependentUpon>ObjectsToZonesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Administrative\UserView.xaml.cs">
+    <Compile Include="Forms\AdministrativeForms\UserView.xaml.cs">
       <DependentUpon>UserView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Administrative\ZonesContentView.xaml.cs">
+    <Compile Include="Forms\AdministrativeForms\ZonesContentView.xaml.cs">
       <DependentUpon>ZonesContentView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Administrative\ZonesView.xaml.cs">
+    <Compile Include="Forms\AdministrativeForms\ZonesView.xaml.cs">
       <DependentUpon>ZonesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\Landmarks\LandmarksView.xaml.cs">
@@ -419,14 +419,14 @@
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\OtauAttach\OtauToAttachViewModel.cs" />
-    <Compile Include="Forms\TraceInfo\TraceInfoTableItem.cs" />
-    <Compile Include="ViewModels\RtuInitializeViewModel.cs" />
+    <Compile Include="Forms\TraceForms\TraceInfo\TraceInfoTableItem.cs" />
+    <Compile Include="Forms\RtuForms\RtuInitialize\RtuInitializeViewModel.cs" />
     <Compile Include="ViewModels\TraceToAttachViewModel.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\TreeOfRtuViewModel.cs" />
     <Compile Include="Forms\OtauAttach\OtauToAttachView.xaml.cs">
       <DependentUpon>OtauToAttachView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\RtuInitializeView.xaml.cs">
+    <Compile Include="Forms\RtuForms\RtuInitialize\RtuInitializeView.xaml.cs">
       <DependentUpon>RtuInitializeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\LoginServer\ServerConnectView.xaml.cs">
@@ -461,9 +461,9 @@
     <Compile Include="Forms\NodeUpdate\ItemOfEquipmentTableModel.cs" />
     <Compile Include="ViewModels\Primitive\CheckBoxModel.cs" />
     <Compile Include="Forms\EquipmentAddUpdate\EquipmentInfoViewModel.cs" />
-    <Compile Include="ViewModels\MainMenuViewModel.cs" />
+    <Compile Include="Forms\Shell\MainMenu\MainMenuViewModel.cs" />
     <Compile Include="Forms\NodeUpdate\NodeUpdateViewModel.cs" />
-    <Compile Include="Forms\TraceInfo\TraceInfoViewModel.cs" />
+    <Compile Include="Forms\TraceForms\TraceInfo\TraceInfoViewModel.cs" />
     <Compile Include="ViewModels\TraceChoiceViewModel.cs" />
     <Compile Include="Forms\BaseRefs\BaseRefsAssignView.xaml.cs">
       <DependentUpon>BaseRefsAssignView.xaml</DependentUpon>
@@ -471,13 +471,13 @@
     <Compile Include="Forms\EquipmentAddUpdate\EquipmentInfoView.xaml.cs">
       <DependentUpon>EquipmentInfoView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MainMenuView.xaml.cs">
+    <Compile Include="Forms\Shell\MainMenu\MainMenuView.xaml.cs">
       <DependentUpon>MainMenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\NodeUpdate\NodeUpdateView.xaml.cs">
       <DependentUpon>NodeUpdateView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\TraceInfo\TraceInfoView.xaml.cs">
+    <Compile Include="Forms\TraceForms\TraceInfo\TraceInfoView.xaml.cs">
       <DependentUpon>TraceInfoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TraceChoiceView.xaml.cs">
@@ -509,14 +509,14 @@
     <Compile Include="ViewModels\FiberWithNodesAddViewModel.cs" />
     <Compile Include="ViewModels\FiberUpdateViewModel.cs" />
     <Compile Include="ViewModels\Primitive\RadioButtonModel.cs" />
-    <Compile Include="ViewModels\RtuUpdateViewModel.cs" />
+    <Compile Include="Forms\RtuForms\RtuUpdate\RtuUpdateViewModel.cs" />
     <Compile Include="Views\FiberWithNodesAddView.xaml.cs">
       <DependentUpon>FiberWithNodesAddView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FiberUpdateView.xaml.cs">
       <DependentUpon>FiberUpdateView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\RtuUpdateView.xaml.cs">
+    <Compile Include="Forms\RtuForms\RtuUpdate\RtuUpdateView.xaml.cs">
       <DependentUpon>RtuUpdateView.xaml</DependentUpon>
     </Compile>
     <Compile Include="GraphModel\Primitives\RtuVm.cs" />
@@ -525,7 +525,7 @@
     <Compile Include="Forms\Shell\TreeOfRtuControl\RtuLeaf\RtuLeaf.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\TraceLeaf\TraceLeaf.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\TreeExtensions.cs" />
-    <Compile Include="Views\Administrative\UserListView.xaml.cs">
+    <Compile Include="Forms\AdministrativeForms\UserListView.xaml.cs">
       <DependentUpon>UserListView.xaml</DependentUpon>
     </Compile>
     <Page Include="Forms\EquipmentAddUpdate\CableReserveInfoView.xaml">
@@ -548,7 +548,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Forms\RtuState\RtuStateView.xaml">
+    <Page Include="Forms\RtuForms\RtuState\RtuStateView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -592,15 +592,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\TraceContentChoice\TraceContentChoiceView.xaml">
+    <Page Include="Forms\TraceForms\TraceContentChoice\TraceContentChoiceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\TraceState\TraceStateView.xaml">
+    <Page Include="Forms\TraceForms\TraceState\TraceStateView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\TraceStatistics\TraceStatisticsView.xaml">
+    <Page Include="Forms\TraceForms\TraceStatistics\TraceStatisticsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -632,19 +632,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Administrative\ObjectsToZonesView.xaml">
+    <Page Include="Forms\AdministrativeForms\ObjectsToZonesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Administrative\UserView.xaml">
+    <Page Include="Forms\AdministrativeForms\UserView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Administrative\ZonesContentView.xaml">
+    <Page Include="Forms\AdministrativeForms\ZonesContentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Administrative\ZonesView.xaml">
+    <Page Include="Forms\AdministrativeForms\ZonesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -668,7 +668,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\MainMenuView.xaml">
+    <Page Include="Forms\Shell\MainMenu\MainMenuView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -680,7 +680,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\RtuInitializeView.xaml">
+    <Page Include="Forms\RtuForms\RtuInitialize\RtuInitializeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -700,7 +700,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Forms\TraceInfo\TraceInfoView.xaml">
+    <Page Include="Forms\TraceForms\TraceInfo\TraceInfoView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -720,11 +720,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\RtuUpdateView.xaml">
+    <Page Include="Forms\RtuForms\RtuUpdate\RtuUpdateView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Administrative\UserListView.xaml">
+    <Page Include="Forms\AdministrativeForms\UserListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
