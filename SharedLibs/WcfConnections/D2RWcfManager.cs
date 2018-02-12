@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.RtuWcfServiceInterface;
 using Iit.Fibertest.UtilsLib;
@@ -21,6 +22,7 @@ namespace Iit.Fibertest.WcfConnections
             var backward = new RtuWcfServiceBackward();
             var wcfFactory = new WcfFactory(new DoubleAddress() { Main = dto.NetAddress }, iniFile, logFile);
             var rtuConnection = wcfFactory.CreateDuplexRtuConnection(backward);
+            await Task.Factory.StartNew(() => Thread.Sleep(1)); // just to have await in function :)
             result.IsConnectionSuccessfull = rtuConnection != null;
             if (!result.IsConnectionSuccessfull)
                 result.IsPingSuccessful = Pinger.Ping(dto.NetAddress.IsAddressSetAsIp ? dto.NetAddress.Ip4Address : dto.NetAddress.HostName);
