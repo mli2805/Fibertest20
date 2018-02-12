@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Autofac;
 using FluentAssertions;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Graph;
@@ -14,6 +13,7 @@ namespace Graph.Tests
     {
         private readonly SystemUnderTest _sut = new SystemUnderTest();
         private Guid _nodeId;
+        private const EquipmentType Type = EquipmentType.Closure;
         private Guid _rtuNodeId;
         private Guid _anotherNodeId;
         private Guid _lastNodeId;
@@ -23,7 +23,7 @@ namespace Graph.Tests
         [Given(@"Существует узел")]
         public void GivenСуществуетУзел()
         {
-            _sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation()).Wait();
+            _sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation(){Type = Type}).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             _nodeId = _sut.ReadModel.Nodes.Last().Id;
         }
@@ -72,8 +72,7 @@ namespace Graph.Tests
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
 
-            var nodeVmActions = _sut.Container.Resolve<NodeVmActions>();
-            nodeVmActions.RemoveNode(_nodeId).Wait();
+            _sut.GraphReadModel.GrmNodeRequests.RemoveNode(_nodeId, Type).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 

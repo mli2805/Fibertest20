@@ -15,7 +15,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly BaseRefsRepositoryIntermediary _baseRefsRepositoryIntermediary;
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
 
-        public BaseRefRepairmanIntermediary(WriteModel writeModel, BaseRefRepairman baseRefRepairman, 
+        public BaseRefRepairmanIntermediary(WriteModel writeModel, BaseRefRepairman baseRefRepairman,
             BaseRefsRepositoryIntermediary baseRefsRepositoryIntermediary, ClientToRtuTransmitter clientToRtuTransmitter)
         {
             _writeModel = writeModel;
@@ -54,6 +54,18 @@ namespace Iit.Fibertest.DataCenterCore
         {
             var tracesWhichUseThisNode = _writeModel.Traces.Where(t => t.Nodes.Contains(nodeId)).ToList();
             return await AmendBaseRefs(tracesWhichUseThisNode);
+        }
+
+        public async Task<string> ProcessNodeRemoved(List<Guid> traceIds)
+        {
+            var tracesWhichUsedThisNode = new List<Trace>();
+            foreach (var id in traceIds)
+            {
+                var trace = _writeModel.Traces.FirstOrDefault(t => t.Id == id);
+                if (trace != null)
+                    tracesWhichUsedThisNode.Add(trace);
+            }
+            return await AmendBaseRefs(tracesWhichUsedThisNode);
         }
 
         private async Task<string> AmendBaseRefs(List<Trace> traces)

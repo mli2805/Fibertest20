@@ -63,5 +63,24 @@ namespace Iit.Fibertest.Client
             var fiber = _readModel.Fibers.First(f => f.Id == fiberId);
             return _readModel.Traces.Where(t => t.HasAnyBaseRef).ToList().Any(trace => Topo.GetFiberIndexInTrace(trace, fiber) != -1);
         }
+
+        public async Task RemoveNode(Guid nodeId, EquipmentType type)
+        {
+            if (_readModel.Traces.Any(t => t.Nodes.Last() == nodeId))
+                return;
+            if (_readModel.Traces.Any(t => t.Nodes.Contains(nodeId) && t.HasAnyBaseRef) && type != EquipmentType.AdjustmentPoint)
+                return;
+
+            var dictionary = _readModel.Traces.Where(t => t.Nodes.Contains(nodeId))
+                .ToDictionary(trace => trace.Id, trace => Guid.NewGuid());
+
+            var cmd = new RemoveNode { Id = nodeId, Type = type, TraceWithNewFiberForDetourRemovedNode = dictionary };
+            if (dictionary.Count == 0 && type == EquipmentType.AdjustmentPoint)
+                cmd.FiberIdToDetourAdjustmentPoint = Guid.NewGuid();
+
+            var message = await _c2DWcfManager.SendCommandAsObj(cmd);
+            if (message != null)
+                _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, message));
+        }
     }
 }

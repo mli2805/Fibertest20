@@ -89,6 +89,8 @@ namespace Iit.Fibertest.DataCenterCore
                 return await _baseRefRepairmanIntermediary.ProcessUpdateFiber(updateFiber.Id);
             if (cmd is AddNodeIntoFiber addNodeIntoFiber)
                 return await _baseRefRepairmanIntermediary.ProcessAddIntoFiber(addNodeIntoFiber.Id);
+            if (cmd is RemoveNode removeNode && removeNode.Type == EquipmentType.AdjustmentPoint)
+                return await _baseRefRepairmanIntermediary.ProcessNodeRemoved(removeNode.TraceWithNewFiberForDetourRemovedNode.Keys.ToList());
             #endregion
 
             return null;

@@ -48,7 +48,7 @@ namespace Iit.Fibertest.Graph
         {
             if (WriteModel.IsNodeLastForAnyTrace(cmd.Id))
                 return Resources.SID_It_s_prohibited_to_remove_last_node_from_trace;
-            if (WriteModel.IsNodeContainedInAnyTraceWithBase(cmd.Id))
+            if (WriteModel.IsNodeContainedInAnyTraceWithBase(cmd.Id) && cmd.Type != EquipmentType.AdjustmentPoint)
                 return Resources.SID_It_s_impossible_to_change_trace_with_base_reflectogram;
 
             return WriteModel.Add(_mapper.Map<NodeRemoved>(cmd));

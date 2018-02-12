@@ -75,7 +75,7 @@ namespace Iit.Fibertest.Graph
         }
 
         #region Node
-      
+
         public string Apply(NodeIntoFiberAdded e)
         {
             Nodes.Add(new Node() { Id = e.Id, Latitude = e.Position.Lat, Longitude = e.Position.Lng });
@@ -165,6 +165,12 @@ namespace Iit.Fibertest.Graph
                     ExcludeNodeFromTrace(trace, e.TraceWithNewFiberForDetourRemovedNode[trace.Id], e.Id);
             }
 
+            if (e.FiberIdToDetourAdjustmentPoint != Guid.Empty)
+                return ExcludeAdjustmentPoint(e.Id, e.FiberIdToDetourAdjustmentPoint);
+
+            if (e.TraceWithNewFiberForDetourRemovedNode.Count == 0 &&
+                Fibers.Count(f => f.Node1 == e.Id || f.Node2 == e.Id) == 1)
+                return RemoveNodeOnEdgeWhereNoTraces(e.Id);
             return RemoveNodeWithAllHis(e.Id);
         }
 
@@ -175,6 +181,66 @@ namespace Iit.Fibertest.Graph
 
             trace.Equipments.RemoveAt(idxInTrace);
             trace.Nodes.RemoveAt(idxInTrace);
+        }
+
+        private string ExcludeAdjustmentPoint(Guid nodeId, Guid detourFiberId)
+        {
+            var leftFiber = Fibers.FirstOrDefault(f => f.Node2 == nodeId);
+            if (leftFiber == null)
+            {
+                var message = @"IsFiberContainedInAnyTraceWithBase: Left fiber not found";
+                LogFile.AppendLine(message);
+                return message;
+            }
+            var leftNodeId = leftFiber.Node1;
+
+            var rightFiber = Fibers.FirstOrDefault(f => f.Node1 == nodeId);
+            if (rightFiber == null)
+            {
+                var message = @"IsFiberContainedInAnyTraceWithBase: Right fiber not found";
+                LogFile.AppendLine(message);
+                return message;
+            }
+            var rightNodeId = rightFiber.Node2;
+
+            Fibers.Remove(leftFiber);
+            Fibers.Remove(rightFiber);
+            Fibers.Add(new Fiber() { Id = detourFiberId, Node1 = leftNodeId, Node2 = rightNodeId });
+
+            var node = Nodes.FirstOrDefault(n => n.Id == nodeId);
+            if (node == null)
+            {
+                var message = $@"RemoveNodeWithAllHis: Node {nodeId.First6()} not found";
+                LogFile.AppendLine(message);
+                return message;
+            }
+
+            Nodes.Remove(node);
+            return null;
+        }
+
+        private string RemoveNodeOnEdgeWhereNoTraces(Guid nodeId)
+        {
+            do
+            {
+                var node = Nodes.First(n => n.Id == nodeId);
+                var fiber = Fibers.First(f => f.Node1 == nodeId || f.Node2 == nodeId);
+                var neighbourId = fiber.Node1 == nodeId ? fiber.Node2 : fiber.Node1;
+
+                Fibers.Remove(fiber);
+                Equipments.RemoveAll(e => e.NodeId == nodeId);
+                Nodes.Remove(node);
+
+                nodeId = neighbourId;
+            }
+            while (IsAdjustmentPoint(nodeId));
+
+            return null;
+        }
+
+        private bool IsAdjustmentPoint(Guid nodeId)
+        {
+            return Equipments.FirstOrDefault(e => e.NodeId == nodeId && e.Type == EquipmentType.AdjustmentPoint) != null;
         }
 
         private string RemoveNodeWithAllHis(Guid nodeId)
