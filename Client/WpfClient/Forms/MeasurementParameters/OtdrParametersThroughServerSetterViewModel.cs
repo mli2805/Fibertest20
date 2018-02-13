@@ -20,7 +20,7 @@ namespace Iit.Fibertest.Client
         public void Initialize(TreeOfAcceptableMeasParams treeOfAcceptableMeasParams)
         {
             _treeOfAcceptableMeasParams = treeOfAcceptableMeasParams;
-            File.WriteAllLines(@"c:\temp\tree.txt", _treeOfAcceptableMeasParams.Log());
+            File.WriteAllLines(@"..\temp\tree.txt", _treeOfAcceptableMeasParams.Log());
             Model = new OtdrParametersModel();
             InitializeControls();
             Model.PropertyChanged += Model_PropertyChanged;
