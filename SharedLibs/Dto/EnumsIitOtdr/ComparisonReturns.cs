@@ -1,14 +1,5 @@
-﻿namespace Iit.Fibertest.IitOtdrLibrary
+﻿namespace Iit.Fibertest.Dto
 {
-    public enum MeasStepReturns
-    {
-        IitReturnXxx = 10000,
-        ReturnFinish = 10001,
-        ReturnNolink = 10002,
-        ReturnNoactlevel = 10003,
-        ReturnFiberbreak = 10004,
-    }
-
     public enum ComparisonReturns
     {
         Ok                     = 0,

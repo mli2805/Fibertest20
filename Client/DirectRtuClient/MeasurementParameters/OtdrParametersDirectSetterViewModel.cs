@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Linq;
 using Caliburn.Micro;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.StringResources;
 
@@ -36,7 +37,7 @@ namespace DirectRtuClient
                 _selectedUnit = value;
                 NotifyOfPropertyChange();
 
-                _interOpWrapper.SetParam((int)ServiceFunctionFirstParam.Unit, Units.IndexOf(SelectedUnit));
+                _interOpWrapper.SetParam(ServiceFunctionFirstParam.Unit, Units.IndexOf(SelectedUnit));
                 InitializeForSelectedUnit();
             }
         }
@@ -50,7 +51,7 @@ namespace DirectRtuClient
                 _backscatteredCoefficient = value;
                 NotifyOfPropertyChange();
 
-                _interOpWrapper.SetParam((int)ServiceFunctionFirstParam.Bc, (int)(BackscatteredCoefficient*100));
+                _interOpWrapper.SetParam(ServiceFunctionFirstParam.Bc, (int)(BackscatteredCoefficient*100));
                 InitializeFromSelectedDistance();
             }
         }
@@ -64,7 +65,7 @@ namespace DirectRtuClient
                 _refractiveIndex = value;
                 NotifyOfPropertyChange();
 
-                _interOpWrapper.SetParam((int)ServiceFunctionFirstParam.Ri, (int)(RefractiveIndex*100000));
+                _interOpWrapper.SetParam(ServiceFunctionFirstParam.Ri, (int)(RefractiveIndex*100000));
                 InitializeFromSelectedDistance();
             }
         }
@@ -89,7 +90,7 @@ namespace DirectRtuClient
                 _selectedDistance = value;
                 NotifyOfPropertyChange();
 
-                _interOpWrapper.SetParam((int)ServiceFunctionFirstParam.Lmax, Distances.IndexOf(SelectedDistance));
+                _interOpWrapper.SetParam(ServiceFunctionFirstParam.Lmax, Distances.IndexOf(SelectedDistance));
                 InitializeFromSelectedDistance();
             }
         }
@@ -115,7 +116,7 @@ namespace DirectRtuClient
                 NotifyOfPropertyChange();
 
                 var indexInLine = Resolutions.IndexOf(SelectedResolution) + 1; // AUTO was excluded
-                _interOpWrapper.SetParam((int)ServiceFunctionFirstParam.Res, indexInLine);
+                _interOpWrapper.SetParam(ServiceFunctionFirstParam.Res, indexInLine);
                 InitializeFromSelectedResolution();
             }
         }
@@ -139,7 +140,7 @@ namespace DirectRtuClient
                 if (value == _selectedPulseDuration) return;
                 _selectedPulseDuration = value;
                 NotifyOfPropertyChange();
-                _interOpWrapper.SetParam((int)ServiceFunctionFirstParam.Pulse, PulseDurations.IndexOf(SelectedPulseDuration));
+                _interOpWrapper.SetParam(ServiceFunctionFirstParam.Pulse, PulseDurations.IndexOf(SelectedPulseDuration));
             }
         }
 
@@ -165,9 +166,9 @@ namespace DirectRtuClient
 
                 if (!IsTimeToAverageSelected)
                 {
-                    _interOpWrapper.SetParam((int) ServiceFunctionFirstParam.Navr,
+                    _interOpWrapper.SetParam(ServiceFunctionFirstParam.Navr,
                         MeasCountsToAverage.IndexOf(SelectedMeasCountToAverage));
-                    PeriodsToAverage = _interOpWrapper.ParseLineOfVariantsForParam((int) ServiceFunctionFirstParam.Time).ToList();
+                    PeriodsToAverage = _interOpWrapper.ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Time).ToList();
                     SelectedPeriodToAverage = PeriodsToAverage.First();
                 }
             }
@@ -195,8 +196,8 @@ namespace DirectRtuClient
 
                 if (IsTimeToAverageSelected)
                 {
-                    _interOpWrapper.SetParam((int) ServiceFunctionFirstParam.Time, PeriodsToAverage.IndexOf(SelectedPeriodToAverage));
-                    MeasCountsToAverage = _interOpWrapper.ParseLineOfVariantsForParam((int) ServiceFunctionFirstParam.Navr).ToList();
+                    _interOpWrapper.SetParam(ServiceFunctionFirstParam.Time, PeriodsToAverage.IndexOf(SelectedPeriodToAverage));
+                    MeasCountsToAverage = _interOpWrapper.ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Navr).ToList();
                     SelectedMeasCountToAverage = MeasCountsToAverage.First();
                 }
             }
@@ -211,15 +212,15 @@ namespace DirectRtuClient
                 _isTimeToAverageSelected = value;
                 NotifyOfPropertyChange();
 
-                _interOpWrapper.SetParam((int)ServiceFunctionFirstParam.IsTime, IsTimeToAverageSelected ? 1 : 0);
+                _interOpWrapper.SetParam(ServiceFunctionFirstParam.IsTime, IsTimeToAverageSelected ? 1 : 0);
                 if (IsTimeToAverageSelected)
                 {
-                    PeriodsToAverage = _interOpWrapper.ParseLineOfVariantsForParam((int) ServiceFunctionFirstParam.Time).ToList();
+                    PeriodsToAverage = _interOpWrapper.ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Time).ToList();
                     SelectedPeriodToAverage = PeriodsToAverage.First();
                 }
                 else
                 {
-                    MeasCountsToAverage = _interOpWrapper.ParseLineOfVariantsForParam((int) ServiceFunctionFirstParam.Navr).ToList();
+                    MeasCountsToAverage = _interOpWrapper.ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Navr).ToList();
                     SelectedMeasCountToAverage = MeasCountsToAverage[2];
                 }
             }
@@ -238,46 +239,46 @@ namespace DirectRtuClient
 
         private void InitializeControls()
         {
-            Units = _interOpWrapper.ParseLineOfVariantsForParam((int) ServiceFunctionFirstParam.Unit).ToList();
+            Units = _interOpWrapper.ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Unit).ToList();
             _selectedUnit = Units.First();
 
-            _backscatteredCoefficient = double.Parse(_interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Bc)[0], new CultureInfo("en-US"));
-            _refractiveIndex = double.Parse(_interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Ri)[0], new CultureInfo("en-US"));
+            _backscatteredCoefficient = double.Parse(_interOpWrapper.ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Bc)[0], new CultureInfo("en-US"));
+            _refractiveIndex = double.Parse(_interOpWrapper.ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Ri)[0], new CultureInfo("en-US"));
 
-            Distances = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Lmax).ToList();
-            var activeDistance = _interOpWrapper.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveLmax);
+            Distances = _interOpWrapper.ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Lmax).ToList();
+            var activeDistance = _interOpWrapper.GetLineOfVariantsForParam(ServiceFunctionFirstParam.ActiveLmax);
             var index = Distances.IndexOf(activeDistance);
             _selectedDistance = index != -1 ? Distances[index] : Distances.First();
 
-            Resolutions = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Res).Skip(1).ToList();
-            var activeResolution = _interOpWrapper.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveRes);
+            Resolutions = _interOpWrapper.ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Res).Skip(1).ToList();
+            var activeResolution = _interOpWrapper.GetLineOfVariantsForParam(ServiceFunctionFirstParam.ActiveRes);
             index = Resolutions.IndexOf(activeResolution);
             _selectedResolution = index != -1 ? Resolutions[index] : Resolutions[1];
 
-            PulseDurations = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Pulse).ToList();
-            var activePulseDuration = _interOpWrapper.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActivePulse);
+            PulseDurations = _interOpWrapper.ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Pulse).ToList();
+            var activePulseDuration = _interOpWrapper.GetLineOfVariantsForParam(ServiceFunctionFirstParam.ActivePulse);
             index = PulseDurations.IndexOf(activePulseDuration);
             _selectedPulseDuration = index != -1 ? PulseDurations[index] : PulseDurations.First();
 
-            _isTimeToAverageSelected = int.Parse(_interOpWrapper.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveIsTime)) == 1;
+            _isTimeToAverageSelected = int.Parse(_interOpWrapper.GetLineOfVariantsForParam(ServiceFunctionFirstParam.ActiveIsTime)) == 1;
             if (_isTimeToAverageSelected)
             {
-                PeriodsToAverage = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Time).ToList();
-                var activePeriodToAverage = _interOpWrapper.GetLineOfVariantsForParam((int) ServiceFunctionFirstParam.ActiveTime);
+                PeriodsToAverage = _interOpWrapper.ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Time).ToList();
+                var activePeriodToAverage = _interOpWrapper.GetLineOfVariantsForParam(ServiceFunctionFirstParam.ActiveTime);
                 index = PeriodsToAverage.IndexOf(activePeriodToAverage);
                 _selectedPeriodToAverage = index != -1 ? PeriodsToAverage[index] : PeriodsToAverage.First();
 
-                MeasCountsToAverage = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Navr).ToList();
+                MeasCountsToAverage = _interOpWrapper.ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Navr).ToList();
                 _selectedMeasCountToAverage = MeasCountsToAverage.First();
             }
             else
             {
-                MeasCountsToAverage = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Navr).ToList();
-                var activeMeasCountToAverage = _interOpWrapper.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveNavr);
+                MeasCountsToAverage = _interOpWrapper.ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Navr).ToList();
+                var activeMeasCountToAverage = _interOpWrapper.GetLineOfVariantsForParam(ServiceFunctionFirstParam.ActiveNavr);
                 index = MeasCountsToAverage.IndexOf(activeMeasCountToAverage);
                 _selectedMeasCountToAverage = index != -1 ? MeasCountsToAverage[index] : MeasCountsToAverage.First();
 
-                PeriodsToAverage = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Time).ToList();
+                PeriodsToAverage = _interOpWrapper.ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Time).ToList();
                 _selectedPeriodToAverage = PeriodsToAverage.First();
             }
             IsMeasCountToAverageSelected = !IsTimeToAverageSelected;
@@ -285,23 +286,23 @@ namespace DirectRtuClient
 
         private void InitializeForSelectedUnit()
         {
-            _backscatteredCoefficient = double.Parse(_interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Bc)[0], new CultureInfo("en-US"));
-            _refractiveIndex = double.Parse(_interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Ri)[0], new CultureInfo("en-US"));
-            Distances = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Lmax).ToList();
-            var activeDistance = _interOpWrapper.GetLineOfVariantsForParam((int) ServiceFunctionFirstParam.ActiveLmax);
+            _backscatteredCoefficient = double.Parse(_interOpWrapper.ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Bc)[0], new CultureInfo("en-US"));
+            _refractiveIndex = double.Parse(_interOpWrapper.ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Ri)[0], new CultureInfo("en-US"));
+            Distances = _interOpWrapper.ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Lmax).ToList();
+            var activeDistance = _interOpWrapper.GetLineOfVariantsForParam(ServiceFunctionFirstParam.ActiveLmax);
             var index = Distances.IndexOf(activeDistance);
             SelectedDistance = index != -1 ? Distances[index] : Distances.First();
         }
 
         private void InitializeFromSelectedDistance()
         {
-            Resolutions = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Res).Skip(1).ToList();
-            var activeResolution = _interOpWrapper.GetLineOfVariantsForParam((int) ServiceFunctionFirstParam.ActiveRes);
+            Resolutions = _interOpWrapper.ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Res).Skip(1).ToList();
+            var activeResolution = _interOpWrapper.GetLineOfVariantsForParam(ServiceFunctionFirstParam.ActiveRes);
             var index1 = Resolutions.IndexOf(activeResolution);
             SelectedResolution = index1 != -1 ? Resolutions[index1] : Resolutions[1];
 
-            PulseDurations = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Pulse).ToList();
-            var activePulseDuration = _interOpWrapper.GetLineOfVariantsForParam((int) ServiceFunctionFirstParam.ActivePulse);
+            PulseDurations = _interOpWrapper.ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Pulse).ToList();
+            var activePulseDuration = _interOpWrapper.GetLineOfVariantsForParam(ServiceFunctionFirstParam.ActivePulse);
             var index = PulseDurations.IndexOf(activePulseDuration);
             SelectedPulseDuration = index != -1 ? PulseDurations[index] : PulseDurations.First();
         }
@@ -309,25 +310,25 @@ namespace DirectRtuClient
         private void InitializeFromSelectedResolution()
         {
             IsTimeToAverageSelected =
-                int.Parse(_interOpWrapper.ParseLineOfVariantsForParam((int) ServiceFunctionFirstParam.IsTime)[0]) == 1;
+                int.Parse(_interOpWrapper.ParseLineOfVariantsForParam(ServiceFunctionFirstParam.IsTime)[0]) == 1;
             if (IsTimeToAverageSelected)
             {
-                PeriodsToAverage = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Time).ToList();
-                var activePeriodToAverage = _interOpWrapper.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveTime);
+                PeriodsToAverage = _interOpWrapper.ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Time).ToList();
+                var activePeriodToAverage = _interOpWrapper.GetLineOfVariantsForParam(ServiceFunctionFirstParam.ActiveTime);
                 var index = PeriodsToAverage.IndexOf(activePeriodToAverage);
                 SelectedPeriodToAverage = index != -1 ? PeriodsToAverage[index] : PeriodsToAverage.First();
 
-                MeasCountsToAverage = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Navr).ToList();
+                MeasCountsToAverage = _interOpWrapper.ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Navr).ToList();
                 SelectedMeasCountToAverage = MeasCountsToAverage.First();
             }
             else
             {
-                MeasCountsToAverage = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Navr).ToList();
-                var activeMeasCountToAverage = _interOpWrapper.GetLineOfVariantsForParam((int)ServiceFunctionFirstParam.ActiveNavr);
+                MeasCountsToAverage = _interOpWrapper.ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Navr).ToList();
+                var activeMeasCountToAverage = _interOpWrapper.GetLineOfVariantsForParam(ServiceFunctionFirstParam.ActiveNavr);
                 var index = MeasCountsToAverage.IndexOf(activeMeasCountToAverage);
                 SelectedMeasCountToAverage = index != -1 ? MeasCountsToAverage[index] : MeasCountsToAverage.First();
 
-                PeriodsToAverage = _interOpWrapper.ParseLineOfVariantsForParam((int)ServiceFunctionFirstParam.Time).ToList();
+                PeriodsToAverage = _interOpWrapper.ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Time).ToList();
                 SelectedPeriodToAverage = PeriodsToAverage.First();
             }
         }

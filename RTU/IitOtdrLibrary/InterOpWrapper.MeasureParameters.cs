@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Linq;
 using System.Runtime.InteropServices;
+using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.IitOtdrLibrary
 {
     public partial class InterOpWrapper
     {
-        public string GetLineOfVariantsForParam(int param)
+        public string GetLineOfVariantsForParam(ServiceFunctionFirstParam param)
         {
             int cmd = (int)ServiceFunctionCommand.GetParam;
-            int prm1 = param;
+            int prm1 = (int)param;
 
             IntPtr unmanagedPointer = IntPtr.Zero;
             int res = ServiceFunction(cmd, ref prm1, ref unmanagedPointer);
@@ -19,7 +20,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
             return Marshal.PtrToStringAnsi(unmanagedPointer);
         }
 
-        public string[] ParseLineOfVariantsForParam(int paramCode)
+        public string[] ParseLineOfVariantsForParam(ServiceFunctionFirstParam paramCode)
         {
             string value = GetLineOfVariantsForParam(paramCode);
             if (value == null)
@@ -33,10 +34,10 @@ namespace Iit.Fibertest.IitOtdrLibrary
             return strs.Skip(1).ToArray();
         }
 
-        public void SetParam(int param, int indexInLine)
+        public void SetParam(ServiceFunctionFirstParam param, int indexInLine)
         {
             int cmd = (int)ServiceFunctionCommand.SetParam;
-            int prm1 = param;
+            int prm1 = (int)param;
             IntPtr prm2 = new IntPtr(indexInLine);
             var result = ServiceFunction(cmd, ref prm1, ref prm2);
             if (result != 0)

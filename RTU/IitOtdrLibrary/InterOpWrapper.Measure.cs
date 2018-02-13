@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using Iit.Fibertest.Dto;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 
 namespace Iit.Fibertest.IitOtdrLibrary
@@ -35,11 +36,11 @@ namespace Iit.Fibertest.IitOtdrLibrary
 
         public int ConvertLmaxKmToNs()
         {
-            string lmaxString = GetLineOfVariantsForParam((int) ServiceFunctionFirstParam.ActiveLmax);
+            string lmaxString = GetLineOfVariantsForParam(ServiceFunctionFirstParam.ActiveLmax);
             int lmax;
             if (!int.TryParse(lmaxString, out lmax))
                 lmax = 200;
-            string riString = GetLineOfVariantsForParam((int) ServiceFunctionFirstParam.ActiveRi);
+            string riString = GetLineOfVariantsForParam(ServiceFunctionFirstParam.ActiveRi);
             int ri;
             if (!int.TryParse(riString, out ri))
                 ri = 147500;
