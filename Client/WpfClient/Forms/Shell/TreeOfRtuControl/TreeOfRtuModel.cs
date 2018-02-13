@@ -34,6 +34,7 @@ namespace Iit.Fibertest.Client
         {
             var newRtuLeaf = _globalScope.Resolve<RtuLeaf>();
             newRtuLeaf.Id = e.Id;
+            newRtuLeaf.Title = e.Title;
             Tree.Add(newRtuLeaf);
             NotifyOfPropertyChange(nameof(Statistics));
         }

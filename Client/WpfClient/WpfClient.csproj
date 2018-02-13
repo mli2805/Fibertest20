@@ -451,7 +451,7 @@
     <Compile Include="Mappings\MappingViewModelToCommand.cs" />
     <Compile Include="Forms\Shell\MapUserControl\MapUserControlApplyFibersToRoutes.cs" />
     <Compile Include="Forms\Shell\MapUserControl\MapUserControlApplyNodesToMarkers.cs" />
-    <Compile Include="Forms\Shell\MapUserControl\MapUserControlMapContextMenu.cs" />
+    <Compile Include="Forms\Shell\MapUserControl\MapUserControlMapActions.cs" />
     <Compile Include="Forms\Shell\MapUserControl\MapUserControlRouteContextMenu.cs" />
     <Compile Include="Forms\Shell\MarkerControl\MarkerControl.xaml.cs">
       <DependentUpon>MarkerControl.xaml</DependentUpon>

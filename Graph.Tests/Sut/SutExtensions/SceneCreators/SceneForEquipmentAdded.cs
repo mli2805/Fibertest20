@@ -20,7 +20,8 @@ namespace Graph.Tests
 
         public static Iit.Fibertest.Graph.Rtu SetRtuAndOthers(this SystemUnderTest sut, Guid nodeId, out Guid anotherNodeId, out Guid anotherNodeId2)
         {
-            sut.GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(new RequestAddRtuAtGpsLocation()).Wait();
+            sut.FakeWindowManager.RegisterHandler(model => sut.RtuUpdateHandler(model, @"something", @"doesn't matter", Answer.Yes));
+            sut.GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(new RequestAddRtuAtGpsLocation());
             sut.Poller.EventSourcingTick().Wait();
             var rtuNodeId = sut.ReadModel.Nodes.Last().Id;
 

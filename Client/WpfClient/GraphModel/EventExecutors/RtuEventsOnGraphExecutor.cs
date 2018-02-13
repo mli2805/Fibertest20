@@ -28,10 +28,12 @@ namespace Iit.Fibertest.Client
                 State = FiberState.Ok,
                 Type = EquipmentType.Rtu,
                 Position = new PointLatLng(evnt.Latitude, evnt.Longitude),
+                Title = evnt.Title,
+                Comment = evnt.Comment,
             };
             _model.Nodes.Add(nodeVm);
 
-            var rtuVm = new RtuVm() { Id = evnt.Id, Node = nodeVm };
+            var rtuVm = new RtuVm() { Id = evnt.Id, Node = nodeVm, Title = evnt.Title, Comment = evnt.Comment, };
             _model.Rtus.Add(rtuVm);
         }
 

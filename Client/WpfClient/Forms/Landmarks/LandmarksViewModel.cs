@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.IitOtdrLibrary;
@@ -65,6 +66,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        private readonly ILifetimeScope _globalScope;
         private readonly ReadModel _readModel;
         private readonly IWindowManager _windowManager;
         private List<Landmark> _landmarks;
@@ -83,8 +85,9 @@ namespace Iit.Fibertest.Client
 
         public LandmarkRow SelectedRow { get; set; }
 
-        public LandmarksViewModel(ReadModel readModel, IWindowManager windowManager)
+        public LandmarksViewModel(ILifetimeScope globalScope, ReadModel readModel, IWindowManager windowManager)
         {
+            _globalScope = globalScope;
             _readModel = readModel;
             _windowManager = windowManager;
             _selectedGpsInputMode = GpsInputModes.Last();
@@ -118,7 +121,7 @@ namespace Iit.Fibertest.Client
 
         public void ShowInformation()
         {
-            var vm = new LandmarkViewModel();
+            var vm = _globalScope.Resolve<LandmarkViewModel>();
             var landmark = _landmarks.First(l => l.Number == SelectedRow.Number);
             vm.Initialize(landmark);
             vm.RtuTitle = _readModel.Rtus.First(r => r.Id == _selectedTrace.RtuId).Title;

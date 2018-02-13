@@ -5,6 +5,7 @@ using FluentAssertions;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Requests;
+using Iit.Fibertest.UtilsLib;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -16,19 +17,27 @@ namespace Graph.Tests
         private Guid _rtuId;
         private RtuUpdateViewModel _rtuUpdateViewModel;
 
+        [Given(@"Ранее пользователь установил формат градусы-минуты")]
+        public void GivenРанееПользовательУстановилФорматГрадусы_Минуты()
+        {
+            var iniFile = _sut.Container.Resolve<IniFile>();
+            iniFile.Write(IniSection.Miscellaneous, IniKey.GpsInputMode, 1);
+        }
+
         [Given(@"Пользователь создает RTU в точке с координатами (.*) и (.*)")]
         public void GivenПользовательСоздаетRtuвТочкеСКоординатамиИ(double p0, double p1)
         {
-            _sut.GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(new RequestAddRtuAtGpsLocation() { Latitude = p0, Longitude = p1 }).Wait();
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuUpdateHandler(model, @"something", @"doesn't matter", Answer.Yes));
+            _sut.GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(new RequestAddRtuAtGpsLocation() { Latitude = p0, Longitude = p1 });
             _sut.Poller.EventSourcingTick().Wait();
             _rtuId = _sut.ReadModel.Rtus.Last().Id;
         }
 
-        [When(@"Пользователь открывает окно для редактирования")]
-        public void WhenПользовательОткрываетОкноДляРедактирования()
+        [When(@"Открывается окно для редактирования")]
+        public void WhenОткрываетсяОкноДляРедактирования()
         {
-            _rtuUpdateViewModel = _sut.Container.Resolve<RtuUpdateViewModel>();
-            _rtuUpdateViewModel.Initilize(_rtuId);
+             _rtuUpdateViewModel = _sut.Container.Resolve<RtuUpdateViewModel>();
+            _rtuUpdateViewModel.Initialize(_rtuId);
         }
 
         [Then(@"Координаты должны быть ""(.*)"" ""(.*)""  ""(.*)"" ""(.*)""")]

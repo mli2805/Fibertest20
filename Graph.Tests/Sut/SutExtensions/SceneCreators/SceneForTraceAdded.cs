@@ -9,7 +9,8 @@ namespace Graph.Tests
     {
         public static void CreateFieldForPathFinderTest(this SystemUnderTest sut, out Guid startId, out Guid finishId, out Guid wrongNodeId, out Guid wrongNodeWithEqId)
         {
-            sut.GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(new RequestAddRtuAtGpsLocation() { Latitude = 55, Longitude = 30 }).Wait();
+            sut.FakeWindowManager.RegisterHandler(model => sut.RtuUpdateHandler(model, @"something", @"doesn't matter", Answer.Yes));
+            sut.GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(new RequestAddRtuAtGpsLocation() { Latitude = 55, Longitude = 30 });
             sut.Poller.EventSourcingTick().Wait();
             startId = sut.ReadModel.Rtus.Last().NodeId;
 

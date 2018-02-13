@@ -23,25 +23,28 @@ namespace Graph.Tests
         [Given(@"Ранее был создан RTU с именем (.*)")]
         public void CreateRtu(string title)
         {
-            _sut.GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(new RequestAddRtuAtGpsLocation()).Wait();
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuUpdateHandler(model, title, @"doesn't matter", Answer.Yes));
+            _sut.GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(new RequestAddRtuAtGpsLocation());
             _sut.Poller.EventSourcingTick().Wait();
             _firstRtuId =_sut.ReadModel.Rtus.Last().Id;
             _firstNodeId =_sut.ReadModel.Nodes.Last().Id;
 
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuUpdateHandler(model, title, @"comment doesn't matter", Answer.Yes));
-            _sut.GraphReadModel.GrmRtuRequests.UpdateRtu(new RequestUpdateRtu() { Id = _firstRtuId, NodeId = _firstNodeId });
-            _sut.Poller.EventSourcingTick().Wait();
+          
         }
 
-        [Given(@"Добавлен RTU")]
-        public void CreateRtu()
+        [Given(@"Добавлен RTU с именем (.*)")]
+        public void GivenДобавленRtuсИменем(string title)
         {
-            _sut.GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(new RequestAddRtuAtGpsLocation()).Wait();
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuUpdateHandler(model, title, @"doesn't matter", Answer.Yes));
+            _sut.GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(new RequestAddRtuAtGpsLocation());
             _sut.Poller.EventSourcingTick().Wait();
 
             _saidRtuId = _sut.ReadModel.Rtus.Last().Id;
             _saidNodeId = _sut.ReadModel.Nodes.Last().Id;
         }
+
+
+        
 
         [When(@"Пользователь открыл окно редактирования первого RTU и ничего не изменив нажал Сохранить")]
         public void WhenПользовательОткрылОкноРедактированияRtuиНичегоНеИзменивНажалСохранить()
@@ -70,7 +73,7 @@ namespace Graph.Tests
         public void GivenПользовательОткрылОкноНовогоRtuиВвелНазваниеСуществующего(string title)
         {
             _rtuUpdateViewModel = _sut.Container.Resolve<RtuUpdateViewModel>();
-            _rtuUpdateViewModel.Initilize(_saidRtuId);
+            _rtuUpdateViewModel.Initialize(_saidRtuId);
             _rtuUpdateViewModel.Title = title;
         }
 
@@ -114,21 +117,18 @@ namespace Graph.Tests
         public void WhenПользовательОткрылОкноРедактированияНовогоRtu()
         {
             _rtuUpdateViewModel = _sut.Container.Resolve<RtuUpdateViewModel>();
-            _rtuUpdateViewModel.Initilize(_saidRtuId);
+            _rtuUpdateViewModel.Initialize(_saidRtuId);
         }
 
-        [Then(@"Кнопка Сохранить пока заблокирована")]
-        public void ThenКнопкаСохранитьПокаЗаблокирована()
+     
+        [Then(@"Кнопка Сохранить становится недоступна")]
+        public void ThenКнопкаСохранитьСтановитсяНедоступна()
         {
             _rtuUpdateViewModel["Title"].Should().Be(Resources.SID_Title_is_required);
             _rtuUpdateViewModel.IsButtonSaveEnabled.Should().BeFalse();
         }
 
-        [When(@"Пользователь ввел первый символ в поле Название")]
-        public void WhenПользовательВвелПервыйСимволВПолеНазвание()
-        {
-            _rtuUpdateViewModel.Title = @"R";
-        }
+
 
         [When(@"Пользователь очищает поле Название")]
         public void WhenПользовательОчищаетПолеНазвание()
@@ -136,12 +136,6 @@ namespace Graph.Tests
             _rtuUpdateViewModel.Title = "";
         }
 
-        [Then(@"Кнопка Сохранить доступна")]
-        public void ThenКнопкаСохранитьДоступна()
-        {
-            _rtuUpdateViewModel["Title"].Should().BeNullOrEmpty();
-            _rtuUpdateViewModel.IsButtonSaveEnabled.Should().BeTrue();
-        }
-
+       
     }
 }

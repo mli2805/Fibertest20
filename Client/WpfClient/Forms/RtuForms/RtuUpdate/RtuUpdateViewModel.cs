@@ -1,10 +1,13 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
+using Autofac;
 using AutoMapper;
 using Caliburn.Micro;
 using GMap.NET;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.Graph.Requests;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WcfServiceForClientInterface;
 
@@ -14,13 +17,16 @@ namespace Iit.Fibertest.Client
     {
         public Guid RtuId;
         private Rtu _originalRtu;
+        private Node _originalNode;
+        private readonly ILifetimeScope _globalScope;
         private readonly ReadModel _readModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
+        private bool _isInCreationMode;
 
         private string _title;
         public string Title
         {
-            get { return _title; }
+            get => _title;
             set
             {
                 if (value == _title) return;
@@ -32,7 +38,7 @@ namespace Iit.Fibertest.Client
         private string _comment;
         public string Comment
         {
-            get { return _comment; }
+            get => _comment;
             set
             {
                 if (value == _comment) return;
@@ -50,7 +56,7 @@ namespace Iit.Fibertest.Client
 
         public bool IsButtonSaveEnabled
         {
-            get { return _isButtonSaveEnabled; }
+            get => _isButtonSaveEnabled;
             set
             {
                 if (value == _isButtonSaveEnabled) return;
@@ -60,23 +66,36 @@ namespace Iit.Fibertest.Client
         }
         public GpsInputViewModel GpsInputViewModel { get; set; }
 
-        public RtuUpdateViewModel(ReadModel readModel, IWcfServiceForClient c2DWcfManager)
+        public RtuUpdateViewModel(ILifetimeScope globalScope, ReadModel readModel, IWcfServiceForClient c2DWcfManager)
         {
+            _globalScope = globalScope;
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
         }
 
-        public void Initilize(Guid rtuId)
+        public void Initialize(Guid rtuId)
         {
             RtuId = rtuId;
             _originalRtu = _readModel.Rtus.First(r => r.Id == RtuId);
 
-            var currentMode = GpsInputMode.DegreesAndMinutes; // somewhere in configuration file...
             var node = _readModel.Nodes.First(n => n.Id == _originalRtu.NodeId);
-            GpsInputViewModel = new GpsInputViewModel(currentMode, new PointLatLng(node.Latitude, node.Longitude));
+            GpsInputViewModel = _globalScope.Resolve<GpsInputViewModel>();
+            GpsInputViewModel.Initialize(new PointLatLng(node.Latitude, node.Longitude));
 
             Title = _originalRtu.Title;
             Comment = _originalRtu.Comment;
+        }
+
+        public void Initialize(RequestAddRtuAtGpsLocation request)
+        {
+            _isInCreationMode = true;
+            var nodeId = Guid.NewGuid();
+            _originalNode = new Node() { Id = nodeId, Latitude = request.Latitude, Longitude = request.Longitude };
+            RtuId = Guid.NewGuid();
+            _originalRtu = new Rtu() { Id = RtuId, NodeId = nodeId };
+
+            GpsInputViewModel = _globalScope.Resolve<GpsInputViewModel>();
+            GpsInputViewModel.Initialize(new PointLatLng(_originalNode.Latitude, _originalNode.Longitude));
         }
 
         protected override void OnViewLoaded(object view)
@@ -84,7 +103,30 @@ namespace Iit.Fibertest.Client
             DisplayName = Resources.SID_RTU_Information;
         }
 
-        public void Save()
+        public async void Save()
+        {
+            if (_isInCreationMode)
+                await CreateRtu();
+            else
+                await UpdateRtu();
+            TryClose();
+        }
+
+        private async Task CreateRtu()
+        {
+            var cmd = new AddRtuAtGpsLocation()
+            {
+                Id = _originalRtu.Id,
+                NodeId = _originalNode.Id,
+                Latitude = GpsInputViewModel.OneCoorViewModelLatitude.StringsToValue(),
+                Longitude = GpsInputViewModel.OneCoorViewModelLongitude.StringsToValue(),
+                Title = Title,
+                Comment = Comment,
+            };
+            await _c2DWcfManager.SendCommandAsObj(cmd);
+        }
+
+        private async Task UpdateRtu()
         {
             if (IsChanged())
             {
@@ -92,9 +134,8 @@ namespace Iit.Fibertest.Client
                     new MapperConfiguration(cfg => cfg.AddProfile<MappingViewModelToCommand>()).CreateMapper();
                 UpdateRtu cmd = mapper.Map<UpdateRtu>(this);
                 cmd.Id = _originalRtu.Id;
-                _c2DWcfManager.SendCommandAsObj(cmd);
+                await _c2DWcfManager.SendCommandAsObj(cmd);
             }
-            TryClose();
         }
 
         public void Cancel()

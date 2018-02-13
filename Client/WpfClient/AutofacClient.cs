@@ -150,6 +150,9 @@ namespace Iit.Fibertest.Client
                 .SingleInstance();
 
 
+            builder.RegisterType<GpsInputViewModel>();
+            builder.RegisterType<LandmarkViewModel>();
+            builder.RegisterType<LandmarksViewModel>();
             builder.RegisterType<NodeUpdateViewModel>();
             builder.RegisterType<EquipmentInfoViewModel>();
             builder.RegisterType<CableReserveInfoViewModel>();

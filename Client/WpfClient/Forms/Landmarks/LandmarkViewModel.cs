@@ -1,4 +1,5 @@
-﻿using Caliburn.Micro;
+﻿using Autofac;
+using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
@@ -6,6 +7,7 @@ namespace Iit.Fibertest.Client
 {
     public class LandmarkViewModel : Screen
     {
+        private readonly ILifetimeScope _globalScope;
         public string NodeTitle { get; set; }
         public string NodeComment { get; set; }
         public string EquipmentTitle { get; set; }
@@ -16,6 +18,11 @@ namespace Iit.Fibertest.Client
         public string Location { get; set; }
         public string LandmarkNumber { get; set; }
         public string EventNumber { get; set; }
+
+        public LandmarkViewModel(ILifetimeScope globalScope)
+        {
+            _globalScope = globalScope;
+        }
 
         public void Initialize(Landmark landmark)
         {
@@ -28,7 +35,8 @@ namespace Iit.Fibertest.Client
                 string.Format(Resources.SID_Event_N_0_, Resources.SID_no) :
                 string.Format(Resources.SID_Event_N_0_, landmark.EventNumber);
 
-            GpsInputViewModel = new GpsInputViewModel(GpsInputMode.DegreesMinutesAndSeconds, landmark.GpsCoors);
+            GpsInputViewModel = _globalScope.Resolve<GpsInputViewModel>();
+            GpsInputViewModel.Initialize(landmark.GpsCoors);
         }
     }
 }

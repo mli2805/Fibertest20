@@ -72,5 +72,6 @@
         // Miscellaneous
         PathToSor,
         MaxCableReserve,
+        GpsInputMode,
     }
 }

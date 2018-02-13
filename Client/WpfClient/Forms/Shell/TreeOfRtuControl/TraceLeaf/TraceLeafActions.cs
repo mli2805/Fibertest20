@@ -19,6 +19,7 @@ namespace Iit.Fibertest.Client
         private readonly TraceStateViewsManager _traceStateViewsManager;
         private readonly TraceStatisticsViewsManager _traceStatisticsViewsManager;
         private readonly BaseRefsAssignViewModel _baseRefsAssignViewModel;
+        private readonly LandmarksViewModel _landmarksViewModel;
         private readonly OpticalEventsDoubleViewModel _opticalEventsDoubleViewModel;
         private readonly OutOfTurnPreciseMeasurementViewModel _outOfTurnPreciseMeasurementViewModel;
         private readonly CommonStatusBarViewModel _commonStatusBarViewModel;
@@ -26,7 +27,7 @@ namespace Iit.Fibertest.Client
         public TraceLeafActions(ILifetimeScope globalScope, ReadModel readModel,
             IWindowManager windowManager, IWcfServiceForClient c2DWcfManager,
             TraceStateViewsManager traceStateViewsManager, TraceStatisticsViewsManager traceStatisticsViewsManager,
-            BaseRefsAssignViewModel baseRefsAssignViewModel,
+            BaseRefsAssignViewModel baseRefsAssignViewModel, LandmarksViewModel landmarksViewModel,
             OpticalEventsDoubleViewModel opticalEventsDoubleViewModel, OutOfTurnPreciseMeasurementViewModel outOfTurnPreciseMeasurementViewModel,
             CommonStatusBarViewModel commonStatusBarViewModel)
         {
@@ -37,6 +38,7 @@ namespace Iit.Fibertest.Client
             _traceStateViewsManager = traceStateViewsManager;
             _traceStatisticsViewsManager = traceStatisticsViewsManager;
             _baseRefsAssignViewModel = baseRefsAssignViewModel;
+            _landmarksViewModel = landmarksViewModel;
             _opticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
             _outOfTurnPreciseMeasurementViewModel = outOfTurnPreciseMeasurementViewModel;
             _commonStatusBarViewModel = commonStatusBarViewModel;
@@ -89,9 +91,8 @@ namespace Iit.Fibertest.Client
             if (!(param is TraceLeaf traceLeaf))
                 return;
 
-            var vm = new LandmarksViewModel(_readModel, _windowManager);
-            vm.Initialize(traceLeaf.Id, false);
-            _windowManager.ShowWindowWithAssignedOwner(vm);
+            _landmarksViewModel.Initialize(traceLeaf.Id, false);
+            _windowManager.ShowWindowWithAssignedOwner(_landmarksViewModel);
         }
 
         public void DetachTrace(object param)

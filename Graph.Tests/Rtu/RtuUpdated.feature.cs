@@ -68,7 +68,7 @@ namespace Graph.Tests.Rtu
 #line 4
  testRunner.Given("Ранее был создан RTU с именем blah-blah", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 5
- testRunner.Given("Добавлен RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Добавлен RTU с именем название рту", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
         }
         
@@ -185,15 +185,9 @@ this.FeatureBackground();
 #line 28
  testRunner.When("Пользователь открыл окно редактирования нового RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 29
- testRunner.Then("Кнопка Сохранить пока заблокирована", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 30
- testRunner.When("Пользователь ввел первый символ в поле Название", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 31
- testRunner.Then("Кнопка Сохранить доступна", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 32
  testRunner.When("Пользователь очищает поле Название", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 33
- testRunner.Then("Кнопка Сохранить пока заблокирована", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 30
+ testRunner.Then("Кнопка Сохранить становится недоступна", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

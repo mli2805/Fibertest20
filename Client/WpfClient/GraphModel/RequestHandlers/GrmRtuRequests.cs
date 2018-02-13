@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
 using Caliburn.Micro;
@@ -24,23 +23,18 @@ namespace Iit.Fibertest.Client
             _windowManager = windowManager;
         }
 
-        public async Task AddRtuAtGpsLocation(RequestAddRtuAtGpsLocation request)
+        public void AddRtuAtGpsLocation(RequestAddRtuAtGpsLocation request)
         {
-            var cmd = new AddRtuAtGpsLocation
-            {
-                Latitude = request.Latitude,
-                Longitude = request.Longitude,
-                Id = Guid.NewGuid(),
-                NodeId = Guid.NewGuid()
-            };
-            await _c2DWcfManager.SendCommandAsObj(cmd);
+            var vm = _globalScope.Resolve<RtuUpdateViewModel>();
+            vm.Initialize(request);
+            _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
         public void UpdateRtu(RequestUpdateRtu request)
         {
             var rtu = _readModel.Rtus.First(r => r.NodeId == request.NodeId);
             var vm = _globalScope.Resolve<RtuUpdateViewModel>();
-            vm.Initilize(rtu.Id);
+            vm.Initialize(rtu.Id);
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 

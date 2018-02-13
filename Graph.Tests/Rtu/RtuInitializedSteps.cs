@@ -23,7 +23,8 @@ namespace Graph.Tests
         [Given(@"Существует RTU с основным (.*) и резервным (.*) адресами")]
         public void GivenСуществуетRTUСОсновным_ИРезервным_Адресами(string p0, string p1)
         {
-            _sut.GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(new RequestAddRtuAtGpsLocation() { Latitude = 55, Longitude = 30 }).Wait();
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuUpdateHandler(model, @"something", @"doesn't matter", Answer.Yes));
+            _sut.GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(new RequestAddRtuAtGpsLocation() { Latitude = 55, Longitude = 30 });
             _sut.Poller.EventSourcingTick().Wait();
 
             _sut.InitializeRtu(_sut.ReadModel.Rtus.Last().Id, p0, p1);
@@ -75,20 +76,7 @@ namespace Graph.Tests
             _sut.FakeWindowManager.Log.Remove(lastNotificationViewModel);
         }
 
-        [Then(@"Сообщение о не заданом имени RTU")]
-        public void ThenСообщениеОНеЗаданомИмениRtu()
-        {
-            var lastNotificationViewModel = _sut.FakeWindowManager.Log
-                .OfType<MyMessageBoxViewModel>()
-                .Last();
-
-            lastNotificationViewModel
-               .Lines[0].Line
-               .Should().Be(Resources.SID_Title_should_be_set_);
-
-            _sut.FakeWindowManager.Log.Remove(lastNotificationViewModel);
-        }
-
+       
         [When(@"Пользователь открывает форму инициализации и жмет Отмена")]
         public void WhenПользовательОткрываетФормуИнициализацииИЖметОтмена()
         {
