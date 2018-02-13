@@ -5,19 +5,59 @@ using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Client
 {
+    public static class TreeOfAcceptableMeasParamsExt
+    {
+        public static void Log(this TreeOfAcceptableMeasParams parameters, IMyLog logFile)
+        {
+            logFile.EmptyLine();
+            foreach (var pair in parameters.Units)
+            {
+                logFile.AppendLine($@"Wave length {pair.Key}");
+                Log(pair.Value, logFile);
+            }
+        }
+
+        private static void Log(BranchOfAcceptableMeasParams branch, IMyLog logFile)
+        {
+            logFile.AppendLine($@"RI = {branch.RefractiveIndex}");
+            logFile.AppendLine($@"BC = {branch.BackscatteredCoefficient}");
+
+            foreach (var pair in branch.Distances)
+            {
+                logFile.AppendLine($@"Distance = {pair.Key}");
+                Log(pair.Value, logFile);
+            }
+        }
+
+        private static void Log(LeafOfAcceptableMeasParams leaf, IMyLog logFile)
+        {
+            logFile.AppendLine($@"resolutions:  {String.Join(@" ;   ", leaf.Resolutions)}"); 
+            logFile.AppendLine($@"pulse durations:  {String.Join(@" ;   ", leaf.PulseDurations)}"); 
+            logFile.AppendLine($@"time for meas:  {String.Join(@" ;   ", leaf.PeriodsToAverage)}"); 
+            logFile.AppendLine($@"count of meas:  {String.Join(@" ;   ", leaf.MeasCountsToAverage)}"); 
+        }
+    }
     public class OtdrParametersThroughServerSetterViewModel : Screen
     {
-        private readonly TreeOfAcceptableMeasParams _treeOfAcceptableMeasParams;
+        private readonly IMyLog _logFile;
+        private TreeOfAcceptableMeasParams _treeOfAcceptableMeasParams;
         public OtdrParametersModel Model { get; set; }
         public bool IsAnswerPositive { get; set; }
 
-        public OtdrParametersThroughServerSetterViewModel(TreeOfAcceptableMeasParams treeOfAcceptableMeasParams)
+
+        public OtdrParametersThroughServerSetterViewModel(IMyLog logFile)
+        {
+            _logFile = logFile;
+        }
+
+        public void Initialize(TreeOfAcceptableMeasParams treeOfAcceptableMeasParams)
         {
             _treeOfAcceptableMeasParams = treeOfAcceptableMeasParams;
-
+            _treeOfAcceptableMeasParams.Log(_logFile);
             Model = new OtdrParametersModel();
             InitializeControls();
             Model.PropertyChanged += Model_PropertyChanged;

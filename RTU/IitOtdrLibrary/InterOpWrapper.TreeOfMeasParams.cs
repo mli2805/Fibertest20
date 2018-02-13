@@ -52,7 +52,8 @@ namespace Iit.Fibertest.IitOtdrLibrary
         {
             foreach (var measParam in list.MeasParams)
             {
-                _rtuLogger.AppendLine($"{measParam.Item1} - {measParam.Item2}", 0, 3);
+//                _rtuLogger.AppendLine($"{measParam.Item1} - {measParam.Item2}", 0, 3);
+                _rtuLogger.AppendLine($"{((ServiceFunctionFirstParam)measParam.Item1).ToString()} - {measParam.Item2}", 0, 3);
                 Thread.Sleep(50);
                 SetParam(measParam.Item1, measParam.Item2);
             }

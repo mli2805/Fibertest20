@@ -163,6 +163,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<NetAddressInputViewModel>();
             builder.RegisterType<RtuInitializeViewModel>();
             builder.RegisterType<OnDemandMeasurement>().SingleInstance();
+            builder.RegisterType<OtdrParametersThroughServerSetterViewModel>().SingleInstance();
             builder.RegisterType<ClientMeasurementViewModel>().SingleInstance();
             builder.RegisterType<OutOfTurnPreciseMeasurementViewModel>().SingleInstance();
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.IitOtdrLibrary;
@@ -11,6 +12,7 @@ namespace Iit.Fibertest.Client
 {
     public class ClientMeasurementViewModel : Screen
     {
+        private readonly ILifetimeScope _globalScope;
         private readonly IMyLog _logFile;
         private readonly OnDemandMeasurement _onDemandMeasurement;
         private readonly IWcfServiceForClient _c2DWcfManager;
@@ -44,9 +46,10 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public ClientMeasurementViewModel(IMyLog logFile,  OnDemandMeasurement onDemandMeasurement, 
+        public ClientMeasurementViewModel(ILifetimeScope globalScope, IMyLog logFile,  OnDemandMeasurement onDemandMeasurement, 
             IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
         {
+            _globalScope = globalScope;
             _logFile = logFile;
             _onDemandMeasurement = onDemandMeasurement;
             _c2DWcfManager = c2DWcfManager;
@@ -59,7 +62,8 @@ namespace Iit.Fibertest.Client
             var otau = (IPortOwner)parent;
             var address = otau.OtauNetAddress;
 
-            var vm = new OtdrParametersThroughServerSetterViewModel(RtuLeaf.TreeOfAcceptableMeasParams);
+            var vm = _globalScope.Resolve<OtdrParametersThroughServerSetterViewModel>();
+            vm.Initialize(RtuLeaf.TreeOfAcceptableMeasParams);
             IWindowManager windowManager = new WindowManager();
             windowManager.ShowDialog(vm);
             if (!vm.IsAnswerPositive)
