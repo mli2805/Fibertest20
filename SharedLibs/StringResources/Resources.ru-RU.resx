@@ -1592,4 +1592,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Trace_title_contains_forbidden_symbols" xml:space="preserve">
 		<value>Название трассы содержит недопустимые символы</value>
 	</data>
+	<data name="SID_Remove_adjustment_point" xml:space="preserve">
+		<value>Удалить точку привязки</value>
+	</data>
 </root>

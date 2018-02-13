@@ -64,6 +64,12 @@ namespace Iit.Fibertest.Client
                 _windowManager.ShowDialogWithAssignedOwner(vm);
                 return;
             }
+            if (Model.Type == EquipmentType.Terminal && Model.CableReserveRight > 0)
+            {
+                var vm = new MyMessageBoxViewModel(MessageType.Error, @"Запас кабеля после оконечного кросса не имеет смысла");
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+                return;
+            }
 
             if (_mode == ViewMode.Update)
             {

@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
@@ -18,6 +19,7 @@ namespace Iit.Fibertest.Client
 
         public ContextMenu GetNodeContextMenu(MarkerControl marker)
         {
+            var isAdjustmentPoint = marker.Type == EquipmentType.AdjustmentPoint;
             var contextMenu = new ContextMenu();
             contextMenu.Items.Add(new MenuItem()
             {
@@ -45,7 +47,7 @@ namespace Iit.Fibertest.Client
             });
             contextMenu.Items.Add(new MenuItem()
             {
-                Header = Resources.SID_Remove_node,
+                Header = isAdjustmentPoint ? Resources.SID_Remove_adjustment_point : Resources.SID_Remove_node,
                 Command = new ContextMenuAction(_nodeVmActions.AskRemoveNode, _nodeVmPermissions.CanRemoveNode),
                 CommandParameter = marker
             });

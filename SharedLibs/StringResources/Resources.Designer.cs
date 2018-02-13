@@ -1926,15 +1926,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is waiting for the command.
-        /// </summary>
-        public static string SID_Is_waiting_for_the_command {
-            get {
-                return ResourceManager.GetString("SID_Is_waiting_for_the_command", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to It&apos;s impossible to change trace with base reflectogram.
         /// </summary>
         public static string SID_It_s_impossible_to_change_trace_with_base_reflectogram {
@@ -3192,6 +3183,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Remove {
             get {
                 return ResourceManager.GetString("SID_Remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove adjustment point.
+        /// </summary>
+        public static string SID_Remove_adjustment_point {
+            get {
+                return ResourceManager.GetString("SID_Remove_adjustment_point", resourceCulture);
             }
         }
         
