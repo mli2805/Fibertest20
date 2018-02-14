@@ -25,13 +25,13 @@ namespace Iit.Fibertest.RtuManagement
             {
                 try
                 {
-                    _rtuManager.DoClientMeasurement(dto, () => callbackChannel.EndClientMeasurement(_rtuManager.ClientMeasurementStartedDto));
+                    _rtuManager.DoClientMeasurement(dto, () => callbackChannel.EndStartClientMeasurement(_rtuManager.ClientMeasurementStartedDto));
                 }
                 catch (Exception e)
                 {
                     _serviceLog.AppendLine("Thread pool: " + e);
                     var result = new ClientMeasurementStartedDto() { ReturnCode = ReturnCode.Error, ExceptionMessage = e.Message };
-                    callbackChannel.EndClientMeasurement(result);
+                    callbackChannel.EndStartClientMeasurement(result);
                 }
             });
         }
