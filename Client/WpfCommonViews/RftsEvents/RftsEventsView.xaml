@@ -6,7 +6,7 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:wpfCommonViews="clr-namespace:Iit.Fibertest.WpfCommonViews"
         mc:Ignorable="d"
-        Width="700" WindowStartupLocation="CenterOwner" SizeToContent="Height" ResizeMode="NoResize"
+        Width="736" WindowStartupLocation="CenterOwner" SizeToContent="Height" ResizeMode="NoResize"
         d:DataContext="{d:DesignInstance wpfCommonViews:RftsEventsViewModel}">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />

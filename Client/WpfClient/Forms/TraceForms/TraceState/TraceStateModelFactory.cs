@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
@@ -58,6 +59,7 @@ namespace Iit.Fibertest.Client
 
         private List<AccidentLineModel> PrepareAccidents(byte[] sorBytes)
         {
+            var sorData = SorData.FromBytes(sorBytes);
             var lines = new List<AccidentLineModel>();
             if (sorBytes != null)
                 lines.Add(new AccidentLineModel());

@@ -93,14 +93,15 @@ namespace Iit.Fibertest.WpfCommonViews
 
         private void ParseCommonInformation(OneLevelTableContent oneLevelTableContent)
         {
-            for (int i = 0, j = 0; i < _eventCount; i++)
+            for (int i = 0; i < _eventCount; i++)
             {
-                if ((_sorData.RftsEvents.Events[i].EventTypes & RftsEventTypes.IsNew) == 0)
+                var landmark = _sorData.LinkParameters.LandmarkBlocks.FirstOrDefault(b => b.RelatedEventNumber == i + 1);
+                if (landmark != null)
                 {
-                    oneLevelTableContent.Table[101][i + 1] = _sorData.LinkParameters.LandmarkBlocks[j].Comment;
-                    oneLevelTableContent.Table[102][i + 1] = _sorData.LinkParameters.LandmarkBlocks[j].Code.ForTable();
-                    j++;
+                    oneLevelTableContent.Table[101][i + 1] = landmark.Comment;
+                    oneLevelTableContent.Table[102][i + 1] = landmark.Code.ForTable();
                 }
+
                 oneLevelTableContent.Table[103][i + 1] = _sorData.RftsEvents.Events[i].EventTypes.ForStateInTable();
                 oneLevelTableContent.Table[105][i + 1] = $@"{_sorData.OwtToLenKm(_sorData.KeyEvents.KeyEvents[i].EventPropagationTime):0.00000}";
                 if ((_sorData.RftsEvents.Events[i].EventTypes & RftsEventTypes.IsNew) != 0)
@@ -156,7 +157,7 @@ namespace Iit.Fibertest.WpfCommonViews
                     oneLevelTableContent.IsFailed = true;
                     oneLevelTableContent.Table[104][i + 1] = @"B";
                     if (string.IsNullOrEmpty(oneLevelTableContent.FirstProblemLocation))
-                        oneLevelTableContent.FirstProblemLocation = oneLevelTableContent.Table[105][i+1];
+                        oneLevelTableContent.FirstProblemLocation = oneLevelTableContent.Table[105][i + 1];
                 }
                 oneLevelTableContent.Table[401][i + 1] = ForDeviationInTable(oneLevelTableContent, rftsEvents.Events[i].ReflectanceThreshold, i + 1, @"R");
                 if (i < _eventCount - 1)
