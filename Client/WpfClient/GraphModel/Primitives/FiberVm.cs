@@ -29,6 +29,8 @@ namespace Iit.Fibertest.Client
             set { _node2 = value; }
         }
 
+        public bool IsVisible { get; set; } = true;
+
         // if empty - fiber is not in any trace
         public Dictionary<Guid, FiberState> States { get; set; } = new Dictionary<Guid, FiberState>();
 

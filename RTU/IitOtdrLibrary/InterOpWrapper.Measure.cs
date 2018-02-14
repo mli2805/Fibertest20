@@ -41,9 +41,9 @@ namespace Iit.Fibertest.IitOtdrLibrary
             if (!int.TryParse(lmaxString, out lmax))
                 lmax = 200;
             string riString = GetLineOfVariantsForParam(ServiceFunctionFirstParam.ActiveRi);
-            int ri;
-            if (!int.TryParse(riString, out ri))
-                ri = 147500;
+            double ri;
+            if (!double.TryParse(riString, out ri))
+                ri = 1.47500;
 
             const double lightSpeed = 0.000299792458; // km/ns
             int lmaxNs = (int) (lmax * ri / lightSpeed);

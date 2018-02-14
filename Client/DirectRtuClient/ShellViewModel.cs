@@ -18,7 +18,7 @@ namespace DirectRtuClient
 
             _rtuLogger = new LogFile(_iniFile35).AssignFile(@"rtu.log");
 
-            IpAddress = _iniFile35.Read(IniSection.General, IniKey.OtauIp, @"192.168.96.53");
+            IpAddress = _iniFile35.Read(IniSection.General, IniKey.OtauIp, @"172.16.5.53");
 
         }
 

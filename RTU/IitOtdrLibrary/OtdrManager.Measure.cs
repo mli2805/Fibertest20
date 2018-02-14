@@ -119,7 +119,6 @@ namespace Iit.Fibertest.IitOtdrLibrary
             var size = InterOpWrapper.GetSorDataSize(measIntPtr);
             byte[] resultBytes = new byte[size];
             InterOpWrapper.GetSordata(measIntPtr, resultBytes, size);
-
             InterOpWrapper.FreeSorDataMemory(measIntPtr);
             return resultBytes;
         }
@@ -127,7 +126,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
         public OtdrDataKnownBlocks ApplyFilter(byte[] sorBytes, bool isFilterOn)
         {
             var sorData = SorData.FromBytes(sorBytes);
-            sorData.IitParameters.Parameters = (IitBlockParameters)SetBitFlagInParameters((int)sorData.IitParameters.Parameters, IitBlockParameters.Filter, isFilterOn);
+            sorData.IitParameters.Parameters = SetBitFlagInParameters(sorData.IitParameters.Parameters, IitBlockParameters.Filter, isFilterOn);
             return sorData;
         }
 
@@ -137,11 +136,11 @@ namespace Iit.Fibertest.IitOtdrLibrary
             return (sorData.IitParameters.Parameters & IitBlockParameters.Filter) != 0;
         }
 
-        private int SetBitFlagInParameters(int parameters, IitBlockParameters parameter, bool flag)
+        private IitBlockParameters SetBitFlagInParameters(IitBlockParameters parameters, IitBlockParameters parameter, bool flag)
         {
             return flag
-                ? parameters | (int)parameter
-                : parameters & (65535 ^ (int)parameter);
+                ? parameters | parameter
+                : parameters & ~parameter;
         }
     }
 }

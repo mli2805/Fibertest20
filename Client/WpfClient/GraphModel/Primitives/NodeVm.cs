@@ -15,6 +15,7 @@ namespace Iit.Fibertest.Client
         private FiberState _state;
         private EquipmentType _type;
         private bool _isHighlighted;
+        private bool _isVisible;
 
         public string Title
         {
@@ -67,6 +68,17 @@ namespace Iit.Fibertest.Client
             {
                 if (value == _isHighlighted) return;
                 _isHighlighted = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public bool IsVisible
+        {
+            get => _isVisible;
+            set
+            {
+                if (value == _isVisible) return;
+                _isVisible = value;
                 NotifyOfPropertyChange();
             }
         }

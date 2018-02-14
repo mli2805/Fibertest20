@@ -61,7 +61,9 @@ namespace Iit.Fibertest.IitOtdrLibrary
             IntPtr reserved = IntPtr.Zero;
             var result = ServiceFunction(cmd, ref lmaxNs, ref reserved);
             if (result != 1)
-                _rtuLogger.AppendLine($"Force Lmax in ns error={result}!");
+                _rtuLogger.AppendLine($"Force Lmax {lmaxNs} ns: Error = {result}!");
+            else
+                _rtuLogger.AppendLine($"Force Lmax {lmaxNs} ns: Ok", 0, 3);
             return result == 1;
         }
 

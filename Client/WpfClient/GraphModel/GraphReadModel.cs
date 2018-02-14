@@ -62,9 +62,20 @@ namespace Iit.Fibertest.Client
 
         public string CurrentMousePositionString => CurrentMousePosition.ToDetailedString(CurrentGpsInputMode);
         public GpsInputMode CurrentGpsInputMode = GpsInputMode.DegreesMinutesAndSeconds;
+        private string _selectedGraphVisibilityLevel;
 
         public List<string> GraphVisibilityLevels { get; set; }
-        public string SelectedGraphVisibilityLevel { get; set; }
+
+        public string SelectedGraphVisibilityLevel
+        {
+            get { return _selectedGraphVisibilityLevel; }
+            set
+            {
+                if (value == _selectedGraphVisibilityLevel) return;
+                _selectedGraphVisibilityLevel = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         private void InitilizeVisibility()
         {

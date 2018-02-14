@@ -1756,7 +1756,7 @@
                 else
                     Markers.Remove(Markers.Single(m => m.Id == FiberUnderCreation));
 
-                Markers.Add(new GMapRoute(FiberUnderCreation, StartNode.Id, Guid.Empty, Brushes.Black, 1,
+                Markers.Add(new GMapRoute(FiberUnderCreation, StartNode.Id, Guid.Empty, true, Brushes.Black, 1,
                     new List<PointLatLng>() { StartNode.Position, FromLocalToLatLng(GetPointFromPosition(e)) }));
             }
             if (!Core.IsDragging && !Core.mouseDown.IsEmpty)

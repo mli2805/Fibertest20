@@ -52,7 +52,12 @@ namespace Iit.Fibertest.IitOtdrLibrary
         {
             foreach (var measParam in list.MeasParams)
             {
-                _rtuLogger.AppendLine($"{measParam.Item1.ToString()} - {measParam.Item2}", 0, 3);
+                var prms = ParseLineOfVariantsForParam(measParam.Item1);
+                Thread.Sleep(50);
+
+                if ((int)measParam.Item1 > 8)
+                    _rtuLogger.AppendLine($"{measParam.Item1.ToString()} - {measParam.Item2}", 0, 3);
+                else _rtuLogger.AppendLine($"{measParam.Item1.ToString()} - {measParam.Item2} ({prms[measParam.Item2]})", 0, 3);
                 Thread.Sleep(50);
                 SetParam(measParam.Item1, measParam.Item2);
             }

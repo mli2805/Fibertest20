@@ -188,6 +188,7 @@ namespace DirectRtuClient
                 var lastSorDataBuffer = OtdrManager.GetLastSorDataBuffer();
                 if (lastSorDataBuffer == null)
                     return;
+
                 var sorData = OtdrManager.ApplyFilter(OtdrManager.ApplyAutoAnalysis(lastSorDataBuffer), false);
                 sorData.Save(MeasFileName);
             }
