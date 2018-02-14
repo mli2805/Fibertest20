@@ -59,9 +59,9 @@ namespace Iit.Fibertest.Client
 
         private List<AccidentLineModel> PrepareAccidents(byte[] sorBytes)
         {
+            if (sorBytes == null) return null;
             var sorData = SorData.FromBytes(sorBytes);
             var lines = new List<AccidentLineModel>();
-            if (sorBytes != null)
                 lines.Add(new AccidentLineModel());
             return lines;
         }

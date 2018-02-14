@@ -4,6 +4,9 @@
     {
         Error = -1,
 
+        BreakInFakeNode = 50,
+        BreakInRealNode = 60,
+
         AdjustmentPoint = 100,
 
         EmptyNode = 200,

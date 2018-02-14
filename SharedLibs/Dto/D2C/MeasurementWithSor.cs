@@ -9,6 +9,6 @@ namespace Iit.Fibertest.Dto
         public Measurement Measurement { get; set; }
 
         [DataMember]
-        public byte[] SorData { get; set; }
+        public byte[] SorBytes { get; set; }
     }
 }

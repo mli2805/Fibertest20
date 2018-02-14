@@ -137,7 +137,7 @@ namespace Iit.Fibertest.DatabaseLibrary
                     var measurement = await dbContext.Measurements.OrderByDescending(m => m.Id).
                                             Where(m => m.TraceId == traceId).FirstOrDefaultAsync();
                     var sor = await dbContext.SorFiles.FirstOrDefaultAsync(s => s.Id == measurement.SorFileId);
-                    return new MeasurementWithSor(){Measurement = measurement, SorData = sor.SorBytes};
+                    return new MeasurementWithSor(){Measurement = measurement, SorBytes = sor.SorBytes};
                 }
             }
             catch (Exception e)

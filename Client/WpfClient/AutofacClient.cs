@@ -124,6 +124,9 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<RtuEventsOnGraphExecutor>().SingleInstance();
             builder.RegisterType<EventsOnGraphExecutor>().SingleInstance();
 
+            builder.RegisterType<BreakNotifier>().SingleInstance();
+
+
             builder.RegisterType<GraphReadModel>().SingleInstance();
 
             builder.RegisterType<FreePorts>().SingleInstance();

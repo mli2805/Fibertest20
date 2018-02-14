@@ -37,14 +37,14 @@ namespace Iit.Fibertest.Client
             MeasurementWithSor measurementWithSor =  await _c2DWcfManager.GetLastMeasurementForTrace(traceId);
             if (measurementWithSor == null)
                 return;
-            var traceStateModel = _traceStateModelFactory.CreateModel(measurementWithSor.Measurement, measurementWithSor.SorData);
+            var traceStateModel = _traceStateModelFactory.CreateModel(measurementWithSor.Measurement, measurementWithSor.SorBytes);
             Show(traceStateModel, true);
         }
 
         // MonitoringResult arrived by WCF
         public void NotifyAboutMonitoringResult(MeasurementWithSor measurementWithSor)
         {
-            var traceStateModel = _traceStateModelFactory.CreateModel(measurementWithSor.Measurement, measurementWithSor.SorData);
+            var traceStateModel = _traceStateModelFactory.CreateModel(measurementWithSor.Measurement, measurementWithSor.SorBytes);
             Show(traceStateModel, 
                 isLastMeasurementOnThisTrace: true, 
                 isUserAskedToOpenView: false, 

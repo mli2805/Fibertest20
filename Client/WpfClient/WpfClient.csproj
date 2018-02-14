@@ -201,6 +201,7 @@
     <Compile Include="Forms\Shell\MarkerControl\RtuVmContextMenuProvider.cs" />
     <Compile Include="Forms\Shell\MarkerControl\RtuVmPermissions.cs" />
     <Compile Include="Forms\SpecialMeasurements\ClientMeasurementViewModel.cs" />
+    <Compile Include="GraphModel\BreakNotifier.cs" />
     <Compile Include="GraphModel\EventExecutors\EquipmentEventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\EventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\FiberEventsOnGraphExecutor.cs" />

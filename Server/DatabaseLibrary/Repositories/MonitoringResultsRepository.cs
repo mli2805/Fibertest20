@@ -29,7 +29,7 @@ namespace Iit.Fibertest.DatabaseLibrary
                     measurement.SorFileId = sorFile.Id;
                     dbContext.Measurements.Add(measurement);
                     await dbContext.SaveChangesAsync();
-                    return new MeasurementWithSor(){Measurement = measurement, SorData = sorBytes};
+                    return new MeasurementWithSor(){Measurement = measurement, SorBytes = sorBytes};
                 }
             }
             catch (Exception e)
