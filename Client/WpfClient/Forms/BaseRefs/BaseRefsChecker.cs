@@ -5,6 +5,7 @@ using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.Graph.Algorithms.ToolKit;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.StringResources;
 using Optixsoft.SorExaminer.OtdrDataFormat;
@@ -18,16 +19,18 @@ namespace Iit.Fibertest.Client
         private readonly BaseRefMeasParamsChecker _baseRefMeasParamsChecker;
         private readonly BaseRefLandmarksChecker _baseRefLandmarksChecker;
         private readonly GraphGpsCalculator _graphGpsCalculator;
+        private readonly BaseRefAdjuster _baseRefAdjuster;
 
         public BaseRefsChecker(ReadModel readModel, IWindowManager windowManager,
             BaseRefMeasParamsChecker baseRefMeasParamsChecker, BaseRefLandmarksChecker baseRefLandmarksChecker,
-            GraphGpsCalculator graphGpsCalculator)
+            GraphGpsCalculator graphGpsCalculator, BaseRefAdjuster baseRefAdjuster)
         {
             _readModel = readModel;
             _windowManager = windowManager;
             _baseRefMeasParamsChecker = baseRefMeasParamsChecker;
             _baseRefLandmarksChecker = baseRefLandmarksChecker;
             _graphGpsCalculator = graphGpsCalculator;
+            _baseRefAdjuster = baseRefAdjuster;
         }
 
         public bool IsBaseRefsAcceptable(List<BaseRefDto> baseRefsDto, Trace trace)
@@ -50,7 +53,12 @@ namespace Iit.Fibertest.Client
                 if (!HasBaseThresholds(otdrKnownBlocks, baseRefHeader))
                     return false;
 
-                if (!_baseRefLandmarksChecker.IsBaseRefLandmarksCountMatched(otdrKnownBlocks, trace, baseRefDto)) return false;
+                if (!_baseRefLandmarksChecker.IsBaseRefLandmarksCountMatched(
+                    otdrKnownBlocks, trace, baseRefDto.BaseRefType.GetLocalizedFemaleString()))
+                        return false;
+                _baseRefAdjuster.AddLandmarksForEmptyNodes(otdrKnownBlocks, trace);
+                _baseRefAdjuster.AddNamesForLandmarks(otdrKnownBlocks, trace);
+                baseRefDto.SorBytes = otdrKnownBlocks.ToBytes();
 
                 if (baseRefDto.BaseRefType == BaseRefType.Precise)
                     if (!IsDistanceLengthAcceptable(otdrKnownBlocks, trace, baseRefDto))

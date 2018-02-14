@@ -1,4 +1,5 @@
-﻿using Optixsoft.SorExaminer.OtdrDataFormat;
+﻿using System.Linq;
+using Optixsoft.SorExaminer.OtdrDataFormat;
 using OpxLandmark = Optixsoft.SorExaminer.OtdrDataFormat.Structures.Landmark;
 namespace Iit.Fibertest.Graph.Algorithms.ToolKit
 {
@@ -23,7 +24,6 @@ namespace Iit.Fibertest.Graph.Algorithms.ToolKit
             InsertLandmarks(otdrDataKnownBlocks, modelWithoutAdjustmentPoint);
             _baseRefLandmarksTool.SetLandmarksLocation(otdrDataKnownBlocks, modelWithoutAdjustmentPoint);
         }
-        
 
         private void InsertLandmarks(OtdrDataKnownBlocks sorData, TraceModelForBaseRef model)
         {
@@ -44,6 +44,22 @@ namespace Iit.Fibertest.Graph.Algorithms.ToolKit
             sorData.LinkParameters.LandmarkBlocks = newLandmarks;
             sorData.LinkParameters.LandmarksCount = (short)newLandmarks.Length;
         }
-       
+
+        public void AddNamesForLandmarks(OtdrDataKnownBlocks sorData, Trace trace)
+        {
+            var nodes = _readModel.GetTraceNodes(trace).ToList();
+            var equipments = _readModel.GetTraceEquipments(trace).ToList(); // without RTU
+            var rtu = _readModel.Rtus.First(r => r.NodeId == nodes[0].Id);
+
+            var landmarks = sorData.LinkParameters.LandmarkBlocks;
+            landmarks[0].Comment = rtu.Title;
+            for (int i = 1; i < landmarks.Length; i++)
+            {
+                landmarks[i].Comment = nodes[i].Title;
+                if (!string.IsNullOrEmpty(equipments[i-1].Title))
+                    landmarks[i].Comment = landmarks[i].Comment + $@"{equipments[i-1].Title}";
+            }
+        }
+
     }
 }

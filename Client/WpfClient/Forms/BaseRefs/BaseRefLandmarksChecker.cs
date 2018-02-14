@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Caliburn.Micro;
-using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.Graph.Algorithms.ToolKit;
-using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.StringResources;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 
@@ -15,18 +12,15 @@ namespace Iit.Fibertest.Client
     {
         private readonly ReadModel _readModel;
         private readonly IWindowManager _windowManager;
-        private readonly BaseRefAdjuster _baseRefAdjuster;
 
-        public BaseRefLandmarksChecker(ReadModel readModel, IWindowManager windowManager, 
-            BaseRefAdjuster baseRefAdjuster)
+        public BaseRefLandmarksChecker(ReadModel readModel, IWindowManager windowManager)
         {
             _readModel = readModel;
             _windowManager = windowManager;
-            _baseRefAdjuster = baseRefAdjuster;
         }
 
         // not only checks but adjust empty nodes if needed
-        public bool IsBaseRefLandmarksCountMatched(OtdrDataKnownBlocks otdrKnownBlocks, Trace trace, BaseRefDto baseRefDto)
+        public bool IsBaseRefLandmarksCountMatched(OtdrDataKnownBlocks otdrKnownBlocks, Trace trace, string baseName)
         {
             var landmarkCount = otdrKnownBlocks.LinkParameters.LandmarksCount;
 
@@ -34,19 +28,10 @@ namespace Iit.Fibertest.Client
             var nodesCount = equipments.Count(eq => eq.Type > EquipmentType.AdjustmentPoint) + 1; // without adjustment points
             var equipmentsCount = equipments.Count(eq => eq.Type > EquipmentType.CableReserve) + 1; // sic! in this case CableReserve is not an equipment
 
-            if (landmarkCount == nodesCount)
-                return true;
-            if (landmarkCount == equipmentsCount)
-            {
-                // add landmarks into OtdrDataKnownBlocks.LinkParameters for empty nodes
-                _baseRefAdjuster.AddLandmarksForEmptyNodes(otdrKnownBlocks, trace);
-                otdrKnownBlocks.Save(@"..\Temp\baseref.sor");
-                baseRefDto.SorBytes = otdrKnownBlocks.ToBytes();
-                return true;
-            }
+            if (landmarkCount == nodesCount || landmarkCount == equipmentsCount) return true;
 
             string errorStrings = BuildErrorStrings(landmarkCount, nodesCount, equipmentsCount);
-            ShowError(errorStrings, trace, baseRefDto);
+            ShowError(errorStrings, trace, baseName);
             return false;
         }
 
@@ -58,10 +43,10 @@ namespace Iit.Fibertest.Client
                 string.Format(Resources.SID_Trace_s_equipment_count_is__0_, equipmentsCount);
         }
 
-        private void ShowError(string errorStrings, Trace trace, BaseRefDto baseRefDto)
+        private void ShowError(string errorStrings, Trace trace, string baseName)
         {
             var messageStrings = new List<string>() {
-                string.Format(Resources.SID__0__base_is_not_compatible_with_trace, baseRefDto.BaseRefType.GetLocalizedFemaleString()),
+                string.Format(Resources.SID__0__base_is_not_compatible_with_trace, baseName),
                 trace.Title, "", ""
             };
             messageStrings.Add(errorStrings);
