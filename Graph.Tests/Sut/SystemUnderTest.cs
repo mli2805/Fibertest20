@@ -3,6 +3,7 @@ using Caliburn.Micro;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.DataCenterCore;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Graph
 {

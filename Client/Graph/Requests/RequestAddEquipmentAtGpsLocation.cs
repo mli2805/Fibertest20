@@ -1,4 +1,6 @@
-﻿namespace Iit.Fibertest.Graph.Requests
+﻿using Iit.Fibertest.Dto;
+
+namespace Iit.Fibertest.Graph.Requests
 {
     public class RequestAddEquipmentAtGpsLocation
     {

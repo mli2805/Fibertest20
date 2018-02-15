@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using GMap.NET;
-using Iit.Fibertest.Graph;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.IitOtdrLibrary;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 

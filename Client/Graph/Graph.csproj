@@ -148,7 +148,6 @@
     <Compile Include="Commands\Trace\DetachTrace.cs" />
     <Compile Include="Commands\Trace\RemoveTrace.cs" />
     <Compile Include="Commands\Trace\UpdateTrace.cs" />
-    <Compile Include="DomainEntities\Enums\EquipmentType.cs" />
     <Compile Include="DomainEntities\Enums\GpsInputMode.cs" />
     <Compile Include="DomainEntities\Enums\LeafType.cs" />
     <Compile Include="DomainEntities\Enums\TraceMode.cs" />

@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using Autofac;
 using Caliburn.Micro;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.StringResources;

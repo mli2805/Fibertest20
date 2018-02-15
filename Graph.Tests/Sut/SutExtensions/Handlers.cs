@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Iit.Fibertest.Client;
-using Iit.Fibertest.Graph;
+using Iit.Fibertest.Dto;
 
 namespace Graph.Tests
 {

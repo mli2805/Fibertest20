@@ -1,5 +1,5 @@
 ﻿using Caliburn.Micro;
-using Iit.Fibertest.Graph;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client

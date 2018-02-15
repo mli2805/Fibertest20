@@ -1,4 +1,5 @@
-﻿using Iit.Fibertest.IitOtdrLibrary;
+﻿using Iit.Fibertest.Dto;
+using Iit.Fibertest.IitOtdrLibrary;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 
 namespace Iit.Fibertest.Graph.Algorithms.ToolKit

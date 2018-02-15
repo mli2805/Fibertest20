@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph.Algorithms.ToolKit;
 
 namespace Iit.Fibertest.Graph

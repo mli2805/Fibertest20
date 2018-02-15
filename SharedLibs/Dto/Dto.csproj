@@ -58,6 +58,7 @@
     <Compile Include="EnumsIitOtdr\ConnectionTypes.cs" />
     <Compile Include="EnumsIitOtdr\ServiceFunctionCommand.cs" />
     <Compile Include="EnumsIitOtdr\ServiceFunctionFirstParam.cs" />
+    <Compile Include="Enums\EquipmentType.cs" />
     <Compile Include="Enums\MonitoringState.cs" />
     <Compile Include="Enums\MonitoringStateExt.cs" />
     <Compile Include="Enums\RtuPartStateChanges.cs" />

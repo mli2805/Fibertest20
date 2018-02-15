@@ -2,7 +2,6 @@
 using Caliburn.Micro;
 using GMap.NET;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
 {

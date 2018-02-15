@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Autofac;
 using Caliburn.Micro;
 using GMap.NET;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WcfServiceForClientInterface;

@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using Iit.Fibertest.Graph;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph.Requests;
 using TechTalk.SpecFlow;
 

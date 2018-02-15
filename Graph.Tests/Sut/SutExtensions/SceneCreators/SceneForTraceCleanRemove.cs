@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Requests;
 
