@@ -2,7 +2,7 @@
 using Iit.Fibertest.IitOtdrLibrary;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 
-namespace Iit.Fibertest.Graph.Algorithms.ToolKit
+namespace Iit.Fibertest.Graph.Algorithms
 {
     public class BaseRefLandmarksTool
     {
@@ -12,8 +12,7 @@ namespace Iit.Fibertest.Graph.Algorithms.ToolKit
 
             for (int i = 1; i < model.EquipArray.Length; i++)
             {
-              //  if (landmarks[i].Location != 0) continue;
-                if (model.EquipArray[i].Type > EquipmentType.CableReserve) continue;
+                if (landmarks[i].RelatedEventNumber != 0) continue; // landmark is "tied" with keyEvent and we can't move it
 
                 var ratio = GetRatioBaseRefToGraphAroundEmptyNode(sorData, model, i);
                 landmarks[i].Location = landmarks[i - 1].Location + sorData.GetOwtFromMm((int)(model.DistancesMm[i - 1] * ratio));

@@ -1,8 +1,7 @@
 ﻿using System;
 using GMap.NET;
-using Iit.Fibertest.Graph;
 
-namespace Iit.Fibertest.Client
+namespace Iit.Fibertest.Graph
 {
     public static class PointLatLngExtensions
     {

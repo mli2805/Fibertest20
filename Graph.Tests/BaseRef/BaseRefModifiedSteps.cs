@@ -82,7 +82,7 @@ namespace Graph.Tests
             SorData.TryGetFromBytes(_baseRefs[0].SorBytes, out var otdrKnownBlocks);
             otdrKnownBlocks.LinkParameters.LandmarkBlocks.Length.Should().Be(9);
             var landmark = otdrKnownBlocks.LinkParameters.LandmarkBlocks[2];
-            landmark.Code.Should().Be(LandmarkCode.Manhole);
+            landmark.Code.Should().Be(LandmarkCode.Other);
             landmark.Location.Should().Be(139293);
 
             otdrKnownBlocks.LinkParameters.LandmarkBlocks[5].Location.Should().Be(_closureLocationOnOriginalBaseRef);
@@ -101,7 +101,7 @@ namespace Graph.Tests
             SorData.TryGetFromBytes(_baseRefs[0].SorBytes, out var otdrKnownBlocks);
             otdrKnownBlocks.LinkParameters.LandmarkBlocks.Length.Should().Be(9);
             var landmark = otdrKnownBlocks.LinkParameters.LandmarkBlocks[2];
-            landmark.Code.Should().Be(LandmarkCode.Manhole);
+            landmark.Code.Should().Be(LandmarkCode.Other);
             landmark.Location.Should().Be(137209);
 
             otdrKnownBlocks.LinkParameters.LandmarkBlocks[5].Location.Should().Be(_closureLocationOnOriginalBaseRef);

@@ -2,7 +2,7 @@
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 
-namespace Iit.Fibertest.Client
+namespace Iit.Fibertest.Graph
 {
     public static class RtuPartStateExt
     {

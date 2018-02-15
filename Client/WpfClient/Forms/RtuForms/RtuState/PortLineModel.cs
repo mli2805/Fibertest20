@@ -3,6 +3,7 @@ using System.Threading;
 using System.Windows.Media;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
 {

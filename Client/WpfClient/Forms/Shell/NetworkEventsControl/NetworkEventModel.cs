@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Media;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client

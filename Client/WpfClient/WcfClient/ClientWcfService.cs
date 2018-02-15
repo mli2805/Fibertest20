@@ -3,6 +3,7 @@ using System.ServiceModel;
 using System.Threading.Tasks;
 using Iit.Fibertest.ClientWcfServiceInterface;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
 {

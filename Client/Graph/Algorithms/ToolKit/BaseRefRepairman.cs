@@ -1,6 +1,6 @@
 ﻿using Iit.Fibertest.IitOtdrLibrary;
 
-namespace Iit.Fibertest.Graph.Algorithms.ToolKit
+namespace Iit.Fibertest.Graph.Algorithms
 {
     public class BaseRefRepairman
     {

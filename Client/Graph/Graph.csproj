@@ -98,6 +98,7 @@
     <Reference Include="Optixsoft.OtdrDataFormat">
       <HintPath>..\..\Optixsoft.OtdrDataFormat\Optixsoft.OtdrDataFormat.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -124,6 +125,11 @@
     <Compile Include="Commands\JustEchosOfCmdsSentToRtu\ChangeMonitoringSettings.cs" />
     <Compile Include="Commands\JustEchosOfCmdsSentToRtu\StartMonitoring.cs" />
     <Compile Include="Commands\JustEchosOfCmdsSentToRtu\StopMonitoring.cs" />
+    <Compile Include="DomainEntities\Extensions\EquipmentTypeExt.cs" />
+    <Compile Include="DomainEntities\Extensions\FiberStateExt.cs" />
+    <Compile Include="DomainEntities\Extensions\PointLatLngExtensions.cs" />
+    <Compile Include="DomainEntities\Extensions\ReturnCodeExt.cs" />
+    <Compile Include="DomainEntities\Extensions\RtuPartStateExt.cs" />
     <Compile Include="EventSourcing\Aggregate.cs" />
     <Compile Include="EventSourcing\WriteModel.cs" />
     <Compile Include="Algorithms\Topo.cs" />

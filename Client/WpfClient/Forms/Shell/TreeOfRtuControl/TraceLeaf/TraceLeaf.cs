@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client

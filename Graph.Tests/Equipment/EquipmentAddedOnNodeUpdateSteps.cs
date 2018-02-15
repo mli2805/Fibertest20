@@ -4,6 +4,7 @@ using System.Linq;
 using Autofac;
 using FluentAssertions;
 using Iit.Fibertest.Client;
+using Iit.Fibertest.Graph;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests

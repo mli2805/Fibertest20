@@ -3,7 +3,7 @@ using Autofac;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.DataCenterCore;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.Graph.Algorithms.ToolKit;
+using Iit.Fibertest.Graph.Algorithms;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WcfServiceForClientInterface;

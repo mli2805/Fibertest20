@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Media;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client

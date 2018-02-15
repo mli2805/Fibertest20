@@ -319,9 +319,7 @@
     <Compile Include="GraphModel\RequestHandlers\GrmFiberWithNodesRequest.cs" />
     <Compile Include="GraphModel\RequestHandlers\GrmNodeRequests.cs" />
     <Compile Include="GraphModel\RequestHandlers\GrmRtuRequests.cs" />
-    <Compile Include="Logic\Extensions\FiberStateExt.cs" />
     <Compile Include="Logic\LocalAddressResearcher.cs" />
-    <Compile Include="Logic\Extensions\RtuPartStateExt.cs" />
     <Compile Include="Logic\SoundManager.cs" />
     <Compile Include="Forms\UniversalForms\MyMessageBox\MyMessageBoxLineModel.cs" />
     <Compile Include="Forms\UniversalForms\MyMessageBox\MyMessageBoxView.xaml.cs">
@@ -350,7 +348,6 @@
     <Compile Include="LocalDb\SQLiteDbProviderFactoryResolver.cs" />
     <Compile Include="LocalDb\SQLiteProviderInvariantName.cs" />
     <Compile Include="Logic\ReflectogramManager.cs" />
-    <Compile Include="Logic\Extensions\ReturnCodeExt.cs" />
     <Compile Include="Forms\TraceForms\TraceState\TraceStateViewsManager.cs" />
     <Compile Include="Logic\WaitCursor.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\RtuLeaf\RtuLeafActions.cs" />
@@ -448,7 +445,6 @@
       <DependentUpon>OneCoorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewControls\GpsInputControl\OneCoorViewModel.cs" />
-    <Compile Include="Logic\Extensions\PointLatLngExtensions.cs" />
     <Compile Include="Mappings\MappingViewModelToCommand.cs" />
     <Compile Include="Forms\Shell\MapUserControl\MapUserControlApplyFibersToRoutes.cs" />
     <Compile Include="Forms\Shell\MapUserControl\MapUserControlApplyNodesToMarkers.cs" />
@@ -491,7 +487,6 @@
     <Compile Include="GraphModel\Primitives\FiberVm.cs" />
     <Compile Include="GraphModel\GraphReadModel.cs" />
     <Compile Include="Forms\Shell\IShell.cs" />
-    <Compile Include="Logic\Extensions\EquipmentTypeExt.cs" />
     <Compile Include="Forms\Shell\MapUserControl\Map.cs" />
     <Compile Include="Forms\Shell\MapUserControl\MapUserControl.xaml.cs">
       <DependentUpon>MapUserControl.xaml</DependentUpon>

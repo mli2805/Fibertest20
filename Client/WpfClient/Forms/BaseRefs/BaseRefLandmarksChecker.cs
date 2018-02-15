@@ -4,11 +4,13 @@ using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.Graph.Algorithms;
 using Iit.Fibertest.StringResources;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 
 namespace Iit.Fibertest.Client
 {
+    
     public class BaseRefLandmarksChecker
     {
         private readonly ReadModel _readModel;
@@ -21,7 +23,7 @@ namespace Iit.Fibertest.Client
         }
 
         // not only checks but adjust empty nodes if needed
-        public bool IsBaseRefLandmarksCountMatched(OtdrDataKnownBlocks otdrKnownBlocks, Trace trace, string baseName)
+        public CountMatch IsBaseRefLandmarksCountMatched(OtdrDataKnownBlocks otdrKnownBlocks, Trace trace, string baseName)
         {
             var landmarkCount = otdrKnownBlocks.LinkParameters.LandmarksCount;
 
@@ -29,11 +31,12 @@ namespace Iit.Fibertest.Client
             var nodesCount = equipments.Count(eq => eq.Type > EquipmentType.AdjustmentPoint) + 1; // without adjustment points
             var equipmentsCount = equipments.Count(eq => eq.Type > EquipmentType.CableReserve) + 1; // sic! in this case CableReserve is not an equipment
 
-            if (landmarkCount == nodesCount || landmarkCount == equipmentsCount) return true;
+            if (landmarkCount == nodesCount) return CountMatch.LandmarksMatchNodes; // even if equipments == nodes - result should be about nodes
+            if (landmarkCount == equipmentsCount) return CountMatch.LandmarksMatchEquipments;
 
             string errorStrings = BuildErrorStrings(landmarkCount, nodesCount, equipmentsCount);
             ShowError(errorStrings, trace, baseName);
-            return false;
+            return CountMatch.Error;
         }
 
         private string BuildErrorStrings(int landmarksCount, int nodesCount, int equipmentsCount)

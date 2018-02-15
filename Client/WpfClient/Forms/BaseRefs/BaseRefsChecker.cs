@@ -5,7 +5,7 @@ using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.Graph.Algorithms.ToolKit;
+using Iit.Fibertest.Graph.Algorithms;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.StringResources;
 using Optixsoft.SorExaminer.OtdrDataFormat;
@@ -19,18 +19,23 @@ namespace Iit.Fibertest.Client
         private readonly BaseRefMeasParamsChecker _baseRefMeasParamsChecker;
         private readonly BaseRefLandmarksChecker _baseRefLandmarksChecker;
         private readonly GraphGpsCalculator _graphGpsCalculator;
+        private readonly TraceModelBuilder _traceModelBuilder;
         private readonly BaseRefAdjuster _baseRefAdjuster;
+        private readonly BaseRefLandmarksTool _baseRefLandmarksTool;
 
         public BaseRefsChecker(ReadModel readModel, IWindowManager windowManager,
             BaseRefMeasParamsChecker baseRefMeasParamsChecker, BaseRefLandmarksChecker baseRefLandmarksChecker,
-            GraphGpsCalculator graphGpsCalculator, BaseRefAdjuster baseRefAdjuster)
+            GraphGpsCalculator graphGpsCalculator, TraceModelBuilder traceModelBuilder, 
+            BaseRefAdjuster baseRefAdjuster, BaseRefLandmarksTool baseRefLandmarksTool)
         {
             _readModel = readModel;
             _windowManager = windowManager;
             _baseRefMeasParamsChecker = baseRefMeasParamsChecker;
             _baseRefLandmarksChecker = baseRefLandmarksChecker;
             _graphGpsCalculator = graphGpsCalculator;
+            _traceModelBuilder = traceModelBuilder;
             _baseRefAdjuster = baseRefAdjuster;
+            _baseRefLandmarksTool = baseRefLandmarksTool;
         }
 
         public bool IsBaseRefsAcceptable(List<BaseRefDto> baseRefsDto, Trace trace)
@@ -53,11 +58,19 @@ namespace Iit.Fibertest.Client
                 if (!HasBaseThresholds(otdrKnownBlocks, baseRefHeader))
                     return false;
 
-                if (!_baseRefLandmarksChecker.IsBaseRefLandmarksCountMatched(
-                    otdrKnownBlocks, trace, baseRefDto.BaseRefType.GetLocalizedFemaleString()))
+                var comparisonResult = _baseRefLandmarksChecker.IsBaseRefLandmarksCountMatched(
+                            otdrKnownBlocks, trace, baseRefDto.BaseRefType.GetLocalizedFemaleString());
+                if (comparisonResult == CountMatch.Error)
                         return false;
-                _baseRefAdjuster.AddLandmarksForEmptyNodes(otdrKnownBlocks, trace);
-                _baseRefAdjuster.AddNamesForLandmarks(otdrKnownBlocks, trace);
+
+                var traceModel = _readModel.GetTraceComponentsByIds(trace);
+                var modelWithoutAdjustmentPoint = _traceModelBuilder.GetTraceModelWithoutAdjustmentPoints(traceModel);
+
+                if (comparisonResult == CountMatch.LandmarksMatchEquipments)
+                    _baseRefAdjuster.InsertLandmarks(otdrKnownBlocks, modelWithoutAdjustmentPoint);
+                _baseRefLandmarksTool.SetLandmarksLocation(otdrKnownBlocks, modelWithoutAdjustmentPoint);
+
+                _baseRefAdjuster.AddNamesAndTypesForLandmarks(otdrKnownBlocks, trace);
                 baseRefDto.SorBytes = otdrKnownBlocks.ToBytes();
 
                 if (baseRefDto.BaseRefType == BaseRefType.Precise)

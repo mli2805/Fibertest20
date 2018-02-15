@@ -5,6 +5,7 @@ using System.Windows.Media;
 using Autofac;
 using GMap.NET.WindowsPresentation;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
 {

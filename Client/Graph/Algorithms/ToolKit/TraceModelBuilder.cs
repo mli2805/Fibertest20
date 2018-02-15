@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Iit.Fibertest.Dto;
 
-namespace Iit.Fibertest.Graph.Algorithms.ToolKit
+namespace Iit.Fibertest.Graph.Algorithms
 {
     public class TraceModelBuilder
     {

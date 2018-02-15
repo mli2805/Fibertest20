@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using System.Windows.Media.Imaging;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
+using Optixsoft.SorExaminer.OtdrDataFormat;
 
-namespace Iit.Fibertest.Client
+namespace Iit.Fibertest.Graph
 {
     public static class EquipmentTypeExt
     {
@@ -15,7 +16,6 @@ namespace Iit.Fibertest.Client
             return new BitmapImage(new Uri(path));
         }
 
-        
         public static string ToLocalizedString(this EquipmentType type)
         {
             switch (type)
@@ -41,6 +41,28 @@ namespace Iit.Fibertest.Client
                     return Resources.SID_Rtu;
             }
             return Resources.SID_Switch_ended_unexpectedly;
+        }
+
+        public static LandmarkCode ToLandmarkCode(this EquipmentType type)
+        {
+            switch (type)
+            {
+                case EquipmentType.EmptyNode:
+                    return LandmarkCode.Manhole;
+                case EquipmentType.Other:
+                    return LandmarkCode.Other;
+                case EquipmentType.Closure:
+                    return LandmarkCode.Coupler;
+                case EquipmentType.Cross:
+                    return LandmarkCode.WiringCloset;
+                case EquipmentType.Terminal:
+                    return LandmarkCode.RemoteTerminal;
+
+                case EquipmentType.Rtu:
+                    return LandmarkCode.FiberDistributingFrame;
+            }
+
+            return LandmarkCode.Other;
         }
     }
 }

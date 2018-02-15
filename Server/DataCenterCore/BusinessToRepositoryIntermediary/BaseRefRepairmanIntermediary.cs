@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.Graph.Algorithms.ToolKit;
+using Iit.Fibertest.Graph.Algorithms;
 
 namespace Iit.Fibertest.DataCenterCore
 {
