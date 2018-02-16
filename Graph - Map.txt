@@ -1,0 +1,14 @@
+
+MapUserControl
+	имеет свойство MainMap (типа Map : GMapControl)
+	и DataContext типа GraphReadModel
+	и подписан на изменение его коллекций и выбранной висибилити 
+	
+GMapControl
+	имеет ObservableCollection<GMapMarker> Markers 
+	и при добавлении узла добавляет GMapMarker
+	а при добавлении волокна GMapRoute : GMapMarker
+
+GMapMarker
+	имеет свойство UIElement Shape
+	в это свойство записываем MarkerControl

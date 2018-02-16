@@ -18,8 +18,6 @@ namespace GMap.NET.WindowsPresentation
         public Guid LeftId { get; set; }
         public Guid RightId { get; set; }
 
-        public bool IsVisible { get; set; }
-
         private int _askContextMenu;
         public int AskContextMenu
         {
@@ -33,12 +31,11 @@ namespace GMap.NET.WindowsPresentation
 
         public ContextMenu ContextMenu { get; set; }
         
-        public GMapRoute(Guid id, Guid leftId, Guid rightId, bool isVisible, Brush color, double thickness, IEnumerable<PointLatLng> points)
+        public GMapRoute(Guid id, Guid leftId, Guid rightId, Brush color, double thickness, IEnumerable<PointLatLng> points)
         {
             Id = id;
             LeftId = leftId;
             RightId = rightId;
-            IsVisible = isVisible;
             Color = color;
             StrokeThickness = thickness;
             Points.AddRange(points);
@@ -59,12 +56,6 @@ namespace GMap.NET.WindowsPresentation
             if (map == null) return;
 
             Map = map;
-
-            if (!IsVisible)
-            {
-                Shape = null;
-                return;
-            }
 
             if (Points.Count > 1)
             {

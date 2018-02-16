@@ -7,7 +7,6 @@ using Caliburn.Micro;
 using GMap.NET;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Client
@@ -62,25 +61,19 @@ namespace Iit.Fibertest.Client
 
         public string CurrentMousePositionString => CurrentMousePosition.ToDetailedString(CurrentGpsInputMode);
         public GpsInputMode CurrentGpsInputMode = GpsInputMode.DegreesMinutesAndSeconds;
-        private string _selectedGraphVisibilityLevel;
 
-        public List<string> GraphVisibilityLevels { get; set; }
+        public List<GraphVisibilityLevelItem> GraphVisibilityLevels { get; set; } 
+        private GraphVisibilityLevelItem _selectedGraphVisibilityItem;
 
-        public string SelectedGraphVisibilityLevel
+        public GraphVisibilityLevelItem SelectedGraphVisibilityItem
         {
-            get { return _selectedGraphVisibilityLevel; }
+            get => _selectedGraphVisibilityItem;
             set
             {
-                if (value == _selectedGraphVisibilityLevel) return;
-                _selectedGraphVisibilityLevel = value;
+                if (value == _selectedGraphVisibilityItem) return;
+                _selectedGraphVisibilityItem = value;
                 NotifyOfPropertyChange();
             }
-        }
-
-        private void InitilizeVisibility()
-        {
-            GraphVisibilityLevels = new List<string>() { Resources.SID_Rtu, Resources.SID_Lines, Resources.SID_Equip, Resources.SID_Nodes, Resources.SID_All };
-            SelectedGraphVisibilityLevel = GraphVisibilityLevels.Last();
         }
 
         public GraphReadModel(ILifetimeScope globalScope, IniFile iniFile,   
@@ -106,7 +99,9 @@ namespace Iit.Fibertest.Client
             Equipments = new ObservableCollection<EquipmentVm>();
             Traces = new ObservableCollection<TraceVm>();
 
-            InitilizeVisibility();
+            GraphVisibilityLevels = GraphVisibilityExt.GetComboboxItems();
+            SelectedGraphVisibilityItem = GraphVisibilityLevels.Last(); // TODO from ini
+
             Zoom = iniFile.Read(IniSection.Map, IniKey.Zoom, 7);
             ToCenter = new PointLatLng()
             {

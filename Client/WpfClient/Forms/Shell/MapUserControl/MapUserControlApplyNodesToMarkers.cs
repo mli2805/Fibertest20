@@ -45,6 +45,10 @@ namespace Iit.Fibertest.Client
                 var equipmentType = nodeVm.Type;
                 var markerControl = new MarkerControl(this, marker, equipmentType, nodeVm.Title, GraphReadModel.GlobalScope);
                 marker.Shape = markerControl;
+                marker.Shape.Visibility =
+                    GraphReadModel.SelectedGraphVisibilityItem.Level >= ((MarkerControl)marker.Shape).EqType.GetEnabledVisibilityLevel()
+                        ? Visibility.Visible
+                        : Visibility.Hidden;
                 MainMap.Markers.Add(marker);
             }
         }
@@ -56,14 +60,14 @@ namespace Iit.Fibertest.Client
             if (e.PropertyName == "Position")
             {
                 MainMap.Markers.First(m => m.Id == nodeVm.Id).Position = nodeVm.Position;
-                foreach (var route in MainMap.Markers.OfType<GMapRoute>().Where(r=>r.LeftId == nodeVm.Id))
+                foreach (var route in MainMap.Markers.OfType<GMapRoute>().Where(r => r.LeftId == nodeVm.Id))
                 {
-                    route.Points[0] =nodeVm.Position;
+                    route.Points[0] = nodeVm.Position;
                     route.RegenerateShape(MainMap);
                 }
-                foreach (var route in MainMap.Markers.OfType<GMapRoute>().Where(r=>r.RightId == nodeVm.Id))
+                foreach (var route in MainMap.Markers.OfType<GMapRoute>().Where(r => r.RightId == nodeVm.Id))
                 {
-                    route.Points[1] =nodeVm.Position;
+                    route.Points[1] = nodeVm.Position;
                     route.RegenerateShape(MainMap);
                 }
             }
@@ -78,9 +82,9 @@ namespace Iit.Fibertest.Client
 
             if (e.PropertyName == "IsHighlighted")
             {
-               if (nodeVm.IsHighlighted) Highlight(nodeVm);
-               else
-                   Extinguish();
+                if (nodeVm.IsHighlighted) Highlight(nodeVm);
+                else
+                    Extinguish();
             }
         }
 
@@ -97,7 +101,7 @@ namespace Iit.Fibertest.Client
         private void Extinguish()
         {
             var marker = MainMap.Markers.FirstOrDefault(m => m.IsHighlighting);
-                MainMap.Markers.Remove(marker);
+            MainMap.Markers.Remove(marker);
         }
 
         private void ApplyRemovedNodes(IList oldItems)

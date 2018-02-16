@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
 	<!-- 
     Microsoft ResX Schema 
@@ -495,7 +495,7 @@ If chosen trace use some equipment in this node it will be replaced</value>
     <value>Traces</value>
   </data>
 	<data name="SID_Rtu" xml:space="preserve">
-    <value>RTU</value>
+    <value>Only RTU</value>
   </data>
 	<data name="SID_Servers" xml:space="preserve">
     <value>Servers</value>
@@ -504,10 +504,10 @@ If chosen trace use some equipment in this node it will be replaced</value>
     <value>Lines</value>
   </data>
 	<data name="SID_Equip" xml:space="preserve">
-    <value>Equip</value>
+    <value>Equipment</value>
   </data>
 	<data name="SID_All" xml:space="preserve">
-    <value>All</value>
+    <value>All points</value>
   </data>
 	<data name="SID_RTU_Title" xml:space="preserve">
     <value>RTU Title</value>

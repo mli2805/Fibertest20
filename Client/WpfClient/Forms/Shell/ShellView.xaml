@@ -18,13 +18,13 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <TabControl>
-                <TabItem >
+                <TabItem>
                     <TabItem.Header>
-                        <TextBlock Text="{x:Static stringResources:Resources.SID_Rtu}" Margin="5,0,30,0"/>
+                        <TextBlock FontSize="14" Text="{x:Static stringResources:Resources.SID_Rtu}" Margin="5,0,30,0"/>
                     </TabItem.Header>
                     <client:TreeOfRtuView DataContext="{Binding TreeOfRtuViewModel}"/>
                 </TabItem>
-                <TabItem Header="{x:Static stringResources:Resources.SID_Servers}"/>
+                <TabItem FontSize="14" Header="{x:Static stringResources:Resources.SID_Servers}"/>
             </TabControl>
             <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Left"/>
             <DockPanel Grid.Column="2">

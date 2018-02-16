@@ -7,7 +7,7 @@
              xmlns:cal="http://www.caliburnproject.org"
              xmlns:client="clr-namespace:Iit.Fibertest.Client"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance client:TabulatorViewModel}">
-    <TabControl Height="25" SelectedIndex="{Binding SelectedTabIndex}">
+    <TabControl Height="35" SelectedIndex="{Binding SelectedTabIndex}" FontSize="14">
         <TabItem>
             <TabItem.Header>
                 <StackPanel Orientation="Horizontal">
@@ -35,15 +35,15 @@
                 </StackPanel>
             </TabItem.Header>
         </TabItem>
-        <TabItem>
+        <TabItem >
             <TabItem.Header>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{x:Static stringResources:Resources.SID_Gis}" Margin="10,0,40,0"/>
-                    <ComboBox Margin="0" FontSize="10" VerticalContentAlignment="Center"
+                <DockPanel>
+                    <TextBlock DockPanel.Dock="Left" Text="{x:Static stringResources:Resources.SID_Gis}" Margin="10,4,30,0"/>
+                    <Button DockPanel.Dock="Right" Content="Gasi!" cal:Message.Attach="Extinguish" Width="50" Margin="5,0,0,0" Background="WhiteSmoke"/>
+                    <ComboBox Margin="0" FontSize="14" VerticalContentAlignment="Center"
                               ItemsSource="{Binding GraphReadModel.GraphVisibilityLevels}" 
-                              SelectedItem="{Binding GraphReadModel.SelectedGraphVisibilityLevel}"/>
-                    <Button Content="Gasi!" cal:Message.Attach="Extinguish" Width="80" Margin="5,0" Background="WhiteSmoke"/>
-                </StackPanel>
+                              SelectedItem="{Binding GraphReadModel.SelectedGraphVisibilityItem}"/>
+                </DockPanel>
             </TabItem.Header>
         </TabItem>
     </TabControl>

@@ -42,8 +42,7 @@ namespace Iit.Fibertest.Client
 
                 foreach (var child in ((RtuLeaf)root).ChildrenImpresario.Children)
                 {
-                    var traceLeaf = child as TraceLeaf;
-                    if (traceLeaf != null)
+                    if (child is TraceLeaf traceLeaf)
                         BindableTable.Rows.Add(CreateDataRow(traceLeaf.Id, rtuTitle, traceLeaf.Title));
 
                     rtuTitle = "";

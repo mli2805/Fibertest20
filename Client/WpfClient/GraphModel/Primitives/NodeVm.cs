@@ -15,6 +15,7 @@ namespace Iit.Fibertest.Client
         private EquipmentType _type;
         private bool _isHighlighted;
         private bool _isVisible;
+        private GraphVisibilityLevelItem _graphVisibilityLevelItem;
 
         public string Title
         {
@@ -83,5 +84,14 @@ namespace Iit.Fibertest.Client
         }
 
         public string Comment { get; set; }
+
+        public GraphVisibilityLevelItem GraphVisibilityLevelItem
+        {
+            get { return _graphVisibilityLevelItem; }
+            set
+            {
+                _graphVisibilityLevelItem = value;
+            }
+        }
     }
 }

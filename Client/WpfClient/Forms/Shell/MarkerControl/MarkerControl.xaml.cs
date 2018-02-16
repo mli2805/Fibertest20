@@ -21,10 +21,10 @@ namespace Iit.Fibertest.Client
 
         public EquipmentType Type
         {
-            get => _type;
+            get => EqType;
             set
             {
-                _type = value;
+                EqType = value;
                 AssignBitmapImageTo(Icon);
             }
         }
@@ -41,7 +41,7 @@ namespace Iit.Fibertest.Client
 
         public readonly Map MainMap;
         public readonly MapUserControl Owner;
-        private EquipmentType _type;
+        public EquipmentType EqType;
         private string _title;
 
         public new ContextMenu ContextMenu { get; set; }

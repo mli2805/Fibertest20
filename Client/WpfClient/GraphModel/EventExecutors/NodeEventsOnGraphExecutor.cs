@@ -27,6 +27,8 @@ namespace Iit.Fibertest.Client
 
                 State = FiberState.Ok,
                 Type = evnt.InjectionType,
+
+                GraphVisibilityLevelItem = _model.SelectedGraphVisibilityItem,
             };
             _model.Nodes.Add(nodeVm);
             _model.Equipments.Add(new EquipmentVm() { Id = evnt.EquipmentId, Type = evnt.InjectionType, Node = nodeVm });

@@ -1,13 +1,17 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Input;
 using GMap.NET.MapProviders;
+using GMap.NET.WindowsPresentation;
+using JetBrains.Annotations;
 
 namespace Iit.Fibertest.Client
 {
     /// <summary>
     /// Interaction logic for MapUserControl.xaml
     /// </summary>
-    public partial class MapUserControl
+    public partial class MapUserControl: INotifyPropertyChanged
     {
         public GraphReadModel GraphReadModel => (GraphReadModel)DataContext;
 
@@ -51,10 +55,32 @@ namespace Iit.Fibertest.Client
             ApplyAddedFibers(graph.Fibers);
         }
 
-        private void Graph_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void Graph_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "ToCenter")
+            if (e.PropertyName == nameof(GraphReadModel.ToCenter))
                 MainMap.Position = GraphReadModel.ToCenter;
+            if (e.PropertyName == nameof(GraphReadModel.SelectedGraphVisibilityItem))
+                ChangeVisibility(GraphReadModel.SelectedGraphVisibilityItem.Level);
+        }
+
+        private void ChangeVisibility(GraphVisibilityLevel selectedLevel)
+        {
+            foreach (var marker in MainMap.Markers)
+            {
+                if (marker is GMapRoute gMapRoute)
+                {
+                    gMapRoute.Shape.Visibility = selectedLevel >= GraphVisibilityLevel.Lines 
+                        ? Visibility.Visible
+                        : Visibility.Hidden;
+                }
+                else if (marker is GMapMarker gMapMarker) // GMapMarker - node
+                {
+                    gMapMarker.Shape.Visibility = 
+                        selectedLevel >= ((MarkerControl)gMapMarker.Shape).EqType.GetEnabledVisibilityLevel() 
+                        ? Visibility.Visible 
+                        : Visibility.Hidden;
+                }
+            }
         }
 
         void MainMap_MouseMove(object sender, MouseEventArgs e)
@@ -73,6 +99,15 @@ namespace Iit.Fibertest.Client
         public void SetBanner(string message)
         {
             GraphReadModel.CommonStatusBarViewModel.StatusBarMessage2 = message;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
         }
     }
 }

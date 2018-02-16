@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
 	<!-- 
     Microsoft ResX Schema 
@@ -495,7 +495,7 @@
     <value>Трассы</value>
   </data>
 	<data name="SID_Rtu" xml:space="preserve">
-    <value>RTU</value>
+    <value>Только RTU</value>
   </data>
 	<data name="SID_Servers" xml:space="preserve">
     <value>Сервера</value>
@@ -504,10 +504,10 @@
     <value>Линии</value>
   </data>
 	<data name="SID_Equip" xml:space="preserve">
-    <value>Обор</value>
+    <value>Оборудование</value>
   </data>
 	<data name="SID_All" xml:space="preserve">
-    <value>Все</value>
+    <value>Все точки</value>
   </data>
 	<data name="SID_RTU_Title" xml:space="preserve">
     <value>Название RTU</value>

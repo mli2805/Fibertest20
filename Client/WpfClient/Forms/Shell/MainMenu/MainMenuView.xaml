@@ -5,16 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:cal="http://www.caliburnproject.org"
              xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
-             mc:Ignorable="d" d:DesignWidth="300" 
-             >
+             mc:Ignorable="d" d:DesignWidth="300">
     <Grid>
-        <Menu Margin="10,0,0,10" Background="White" VerticalAlignment="Center">
+        <Menu Margin="10,-1,0,11" FontSize="14" Background="White" VerticalAlignment="Center">
            <MenuItem Header="{x:Static stringResources:Resources.SID_Administrative}">
                 <MenuItem Header="{x:Static stringResources:Resources.SID_Users}" cal:Message.Attach="LaunchUserListView()"/>
                 <MenuItem Header="{x:Static stringResources:Resources.SID_Responsibility_zones}" cal:Message.Attach="LaunchResponsibilityZonesView"/>
                 <MenuItem Header="{x:Static stringResources:Resources.SID_Responsibility_zones_settings}" cal:Message.Attach="LaunchObjectsToZonesView"/>
            </MenuItem> 
-           <MenuItem Header="Edit"></MenuItem> 
+           <MenuItem Header="Edit"/> 
         </Menu>    
     </Grid>
 </UserControl>

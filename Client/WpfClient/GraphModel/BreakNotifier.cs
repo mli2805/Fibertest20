@@ -25,8 +25,6 @@ namespace Iit.Fibertest.Client
 
             traceVm.State = measurementWithSor.Measurement.TraceState;
         }
-
-
     }
 
     public static class SorDataBreaksExtractorExt

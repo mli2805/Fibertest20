@@ -42,10 +42,13 @@ namespace Iit.Fibertest.Client
             {
                 var fiberVm = (FiberVm)newItem;
                 fiberVm.PropertyChanged += FiberVm_PropertyChanged;
-                var route = new GMapRoute(fiberVm.Id, fiberVm.Node1.Id, fiberVm.Node2.Id, fiberVm.IsVisible, fiberVm.State.GetBrush(isForeground: true),
+                var route = new GMapRoute(fiberVm.Id, fiberVm.Node1.Id, fiberVm.Node2.Id, fiberVm.State.GetBrush(isForeground: true),
                     2, new List<PointLatLng>() { fiberVm.Node1.Position, fiberVm.Node2.Position });
                 route.PropertyChanged += Route_PropertyChanged;
                 MainMap.Markers.Add(route);
+
+                if (GraphReadModel.SelectedGraphVisibilityItem.Level < GraphVisibilityLevel.Lines)
+                    route.Shape = null;
             }
         }
 
@@ -56,7 +59,7 @@ namespace Iit.Fibertest.Client
             var oldRoute = (GMapRoute)MainMap.Markers.First(r => r.Id == fiberVm.Id);
             MainMap.Markers.Remove(oldRoute);
 
-            var route = new GMapRoute(fiberVm.Id, fiberVm.Node1.Id, fiberVm.Node2.Id, fiberVm.IsVisible, fiberVm.State.GetBrush(isForeground: true),
+            var route = new GMapRoute(fiberVm.Id, fiberVm.Node1.Id, fiberVm.Node2.Id, fiberVm.State.GetBrush(isForeground: true),
                     2, new List<PointLatLng>() { fiberVm.Node1.Position, fiberVm.Node2.Position });
             route.PropertyChanged += Route_PropertyChanged;
             MainMap.Markers.Add(route);
