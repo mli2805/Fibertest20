@@ -180,15 +180,5 @@ namespace Iit.Fibertest.WpfCommonViews
             return formattedValue;
         }
 
-        //        private OtdrDataKnownBlocks ExtractBase()
-        //        {
-        //            if (_sorData.EmbeddedData.EmbeddedBlocksCount == 0 ||
-        //                _sorData.EmbeddedData.EmbeddedDataBlocks[0].Description != @"SOR")
-        //                return null;
-        //
-        //            var bytes = _sorData.EmbeddedData.EmbeddedDataBlocks[0].Data;
-        //            var baseSorData = SorBytes.FromBytes(bytes);
-        //            return baseSorData;
-        //        }
     }
 }

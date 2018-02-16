@@ -21,41 +21,85 @@ namespace Iit.Fibertest.Client
             if (traceVm == null) return;
 
             var sorData = SorData.FromBytes(measurementWithSor.SorBytes);
-            var newEvents = sorData.GetNewEvents().ToList();
+            var accidents = sorData.GetAccidents().ToList();
 
             traceVm.State = measurementWithSor.Measurement.TraceState;
         }
 
-        
+
     }
 
     public static class SorDataBreaksExtractorExt
     {
-        public static IEnumerable<BreakAsNewEvent> GetNewEvents(this OtdrDataKnownBlocks sorData)
+        public static IEnumerable<AccidentOnTrace> GetAccidents(this OtdrDataKnownBlocks sorData)
         {
-            for (int i = 1; i < sorData.KeyEvents.KeyEventsCount-1; i++)
+            for (int i = 0; i < sorData.RftsEvents.EventsCount; i++)
             {
+                var rftsEvent = sorData.RftsEvents.Events[i];
+                if (rftsEvent.EventTypes == RftsEventTypes.IsFailed ||
+                    rftsEvent.EventTypes == RftsEventTypes.IsFiberBreak)
+                {
+                    var brokenLandmark = sorData.LinkParameters.LandmarkBlocks.FirstOrDefault(l => l.RelatedEventNumber == i + 1);
+                    if (brokenLandmark == null) continue;
+
+                    var accident = new BreakInOldEvent()
+                    {
+                        EventNumber = brokenLandmark.Number,
+                        BreakOwt = brokenLandmark.Location,
+                        AccidentSeriousness = rftsEvent.EventTypes == RftsEventTypes.IsFiberBreak ? FiberState.FiberBreak : FiberState.Critical, //TODO
+                        BreakType = OpticalAccidentType.Reflectance, // TODO
+                    };
+
+                    yield return accident;
+                }
+
                 if (sorData.RftsEvents.Events[i].EventTypes == RftsEventTypes.IsNew)
                 {
                     var newEvent = new BreakAsNewEvent()
                     {
-                        LeftNodeOwt = sorData.KeyEvents.KeyEvents[i-1].EventPropagationTime,
+                        LeftNodeOwt = sorData.KeyEvents.KeyEvents[i - 1].EventPropagationTime,
                         BreakOwt = sorData.KeyEvents.KeyEvents[i].EventPropagationTime,
-                        RightNodeOwt = sorData.KeyEvents.KeyEvents[i+1].EventPropagationTime,
-                        BreakType = 0,
+                        RightNodeOwt = sorData.KeyEvents.KeyEvents[i + 1].EventPropagationTime,
+                        AccidentSeriousness = FiberState.FiberBreak, //TODO
+                        BreakType = OpticalAccidentType.Break, //TODO
                     };
+                     
                     yield return newEvent;
                 }
             }
         }
     }
 
-    public class BreakAsNewEvent
+
+
+
+    public class BreakInOldEvent : AccidentOnTrace
+    {
+        public int EventNumber { get; set; }
+        public int RelatedLandmarkNumber { get; set; }
+    }
+
+    public class BreakAsNewEvent : AccidentOnTrace
     {
         public int LeftNodeOwt { get; set; }
-        public int BreakOwt { get; set; }
         public int RightNodeOwt { get; set; }
 
-        public int BreakType { get; set; }
+    }
+
+    public class AccidentOnTrace
+    {
+        public int BreakOwt { get; set; } // km?
+        public FiberState AccidentSeriousness { get; set; } 
+
+        public OpticalAccidentType BreakType { get; set; }
+
+    }
+
+    public enum OpticalAccidentType
+    {
+        Break,                   // B,  обрыв
+        Loss,                    // L,  превышение порога затухания
+        Reflectance,             // R,  превышение порога коэффициента отражения 
+        LossCoeff,               // C,  превышение порога коэффициента затухания
     }
 }
