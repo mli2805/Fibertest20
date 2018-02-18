@@ -342,14 +342,14 @@
       <DependentUpon>TraceStatisticsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\TraceForms\TraceStatistics\TraceStatisticsViewModel.cs" />
-    <Compile Include="LocalDb\EsEvent.cs" />
-    <Compile Include="LocalDb\ILocalDbManager.cs" />
-    <Compile Include="LocalDb\LocalDbManager.cs" />
-    <Compile Include="LocalDb\LocalDbSqliteContext.cs" />
-    <Compile Include="LocalDb\SQLiteDbConfiguration.cs" />
-    <Compile Include="LocalDb\SQLiteDbDependencyResolver.cs" />
-    <Compile Include="LocalDb\SQLiteDbProviderFactoryResolver.cs" />
-    <Compile Include="LocalDb\SQLiteProviderInvariantName.cs" />
+    <Compile Include="EventSourcing\LocalDb\EsEvent.cs" />
+    <Compile Include="EventSourcing\LocalDb\ILocalDbManager.cs" />
+    <Compile Include="EventSourcing\LocalDb\LocalDbManager.cs" />
+    <Compile Include="EventSourcing\LocalDb\LocalDbSqliteContext.cs" />
+    <Compile Include="EventSourcing\LocalDb\SQLiteDbConfiguration.cs" />
+    <Compile Include="EventSourcing\LocalDb\SQLiteDbDependencyResolver.cs" />
+    <Compile Include="EventSourcing\LocalDb\SQLiteDbProviderFactoryResolver.cs" />
+    <Compile Include="EventSourcing\LocalDb\SQLiteProviderInvariantName.cs" />
     <Compile Include="Logic\ReflectogramManager.cs" />
     <Compile Include="Forms\TraceForms\TraceState\TraceStateViewsManager.cs" />
     <Compile Include="Logic\WaitCursor.cs" />
