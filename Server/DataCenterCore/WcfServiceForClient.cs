@@ -101,6 +101,11 @@ namespace Iit.Fibertest.DataCenterCore
             return await Task.FromResult(_eventStoreService.GetEvents(revision));
         }
 
+        public async Task<Guid> GetGraphDbVersion()
+        {
+            return await Task.FromResult(_eventStoreService.GraphDbVersionId);
+        }
+
         public async Task<MeasurementsList> GetOpticalEvents()
         {
             return await _measurementsRepository.GetOpticalEventsAsync();
@@ -155,7 +160,9 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {
-            return await _clientStationsRepository.RegisterClientAsync(dto);
+            var result = await _clientStationsRepository.RegisterClientAsync(dto);
+            result.GraphDbVersionId = _eventStoreService.GraphDbVersionId;
+            return result;
         }
 
         public async Task UnregisterClientAsync(UnRegisterClientDto dto)

@@ -20,7 +20,7 @@ namespace Iit.Fibertest.DataCenterCore
             new Guid("1C28CBB5-A9F5-4A5C-B7AF-3D188F8F24ED");
 
         private readonly int _eventsPortion;
-
+        public Guid GraphDbVersionId;
 
         private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
         {
@@ -41,13 +41,35 @@ namespace Iit.Fibertest.DataCenterCore
             _storeEvents = _eventStoreInitializer.Init(_logFile);
 
             var eventStream = _storeEvents.OpenStream(AggregateId);
-            var events = eventStream.CommittedEvents.Select(x => x.Body);
 
+            if (!AssignGraphDbVersion(eventStream)) return;
+
+            var events = eventStream.CommittedEvents.Select(x => x.Body).ToList();
             _writeModel.Init(events);
+
             _logFile.AppendLine("All events from base are applied to WriteModel");
         }
 
-        // ilya: can add user name\id\ip address as an argument here\client timestamp
+        private bool AssignGraphDbVersion(IEventStream eventStream)
+        {
+            var firstMessage = eventStream.CommittedEvents.FirstOrDefault();
+            if (firstMessage == null)
+            {
+                GraphDbVersionId = Guid.NewGuid();
+                _logFile.AppendLine("Graph database is empty so far.");
+                return false;
+            }
+
+            if (!firstMessage.Headers.TryGetValue("VersionId", out object obj))
+            {
+                _logFile.AppendLine("Cannot get VersionId from graph database.");
+                return false;
+            }
+
+            GraphDbVersionId = Guid.Parse((string) obj); // direct cast doesn't work
+            return true;
+        }
+
         public Task<string> SendCommand(object cmd, string username, string clientIp)
         {
             // ilya: can pass user id\role as an argument to When to check permissions
@@ -64,6 +86,7 @@ namespace Iit.Fibertest.DataCenterCore
                     msg.Headers.Add("Timestamp", DateTime.Now);
                     msg.Headers.Add("Username", username);
                     msg.Headers.Add("ClientIp", clientIp);
+                    msg.Headers.Add("VersionId", GraphDbVersionId);
                     msg.Body = e;
                     eventStream.Add(msg);   // and stores this event in BD
                 }
@@ -96,5 +119,6 @@ namespace Iit.Fibertest.DataCenterCore
                 return new string[0];
             }
         }
+
     }
 }

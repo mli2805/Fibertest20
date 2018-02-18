@@ -20,10 +20,10 @@ namespace Iit.Fibertest.Client
             _logFile = logFile;
         }
 
-        public void Initialize(string serverAddress)
+        public void Initialize(string serverAddress, Guid graphDbVersionOnServer)
         {
             _serverAddress = serverAddress;
-            _filename = $@"..\Cache\GraphDb\{serverAddress}\localGraph.sqlite3";
+            _filename = $@"..\Cache\GraphDb\{serverAddress}\{graphDbVersionOnServer.ToString()}.sqlite3";
             _connectionString = $@"Data Source={_filename}; Version=3;";
         }
 

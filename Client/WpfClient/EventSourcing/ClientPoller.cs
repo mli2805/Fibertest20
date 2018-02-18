@@ -44,9 +44,9 @@ namespace Iit.Fibertest.Client
         }
 
 
-        public void LoadEventSourcingCache(string serverAddress)
+        public void LoadEventSourcingCache(string serverAddress, Guid graphDbVersionId)
         {
-            ((LocalDbManager)_localDbManager).Initialize(serverAddress);
+            ((LocalDbManager)_localDbManager).Initialize(serverAddress, graphDbVersionId);
             var jsonsInCache = _localDbManager.LoadEvents();
             ApplyEventSourcingEvents(jsonsInCache);
             _logFile.AppendLine($@"{CurrentEventNumber} events found in cache");

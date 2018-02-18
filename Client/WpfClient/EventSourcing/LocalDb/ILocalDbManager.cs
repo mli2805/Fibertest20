@@ -4,5 +4,6 @@ namespace Iit.Fibertest.Client
     {
         void SaveEvents(string[] events);
         string[] LoadEvents();
+
     }
 }

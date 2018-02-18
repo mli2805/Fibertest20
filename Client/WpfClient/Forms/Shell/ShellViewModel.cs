@@ -96,7 +96,7 @@ namespace Iit.Fibertest.Client
                 _server = da.Main.GetAddress();
 
                 // graph MUST be read before optical/network events
-                await InitializeAndRunClientPoller();
+                await InitializeAndRunClientPoller(_loginViewModel.GraphDbVersionOnServer);
 
                 _opticalEventsProvider.LetsGetStarted();
                 _networkEventsProvider.LetsGetStarted();
@@ -108,9 +108,9 @@ namespace Iit.Fibertest.Client
                 TryClose();
         }
 
-        private async Task InitializeAndRunClientPoller()
+        private async Task InitializeAndRunClientPoller(Guid graphDbVersionOnServer)
         {
-            _clientPoller.LoadEventSourcingCache(_server);
+            _clientPoller.LoadEventSourcingCache(_server, graphDbVersionOnServer);
             await _clientPoller.LoadEventSourcingDb();
 
             _clientPoller.CancellationToken = _clientPollerCts.Token;

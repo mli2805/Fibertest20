@@ -18,6 +18,9 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
         [OperationContract]
         Task<string[]> GetEvents(int revision);
 
+        [OperationContract]
+        Task<Guid> GetGraphDbVersion();
+
         // C2Database
         [OperationContract]
         Task<MeasurementsList> GetOpticalEvents();

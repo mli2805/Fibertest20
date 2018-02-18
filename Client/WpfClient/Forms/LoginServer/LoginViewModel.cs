@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -45,6 +46,8 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        public Guid GraphDbVersionOnServer { get; set; }
+
         public LoginViewModel(IWindowManager windowManager, IniFile iniFile, IMyLog logFile,
             IWcfServiceForClient c2DWcfManager, CurrentUser currentUser, ServerConnectViewModel serverConnectViewModel)
         {
@@ -62,6 +65,7 @@ namespace Iit.Fibertest.Client
             {
                 _currentUser.UserName = UserName;
                 _currentUser.Role = dto.Role;
+                GraphDbVersionOnServer = dto.GraphDbVersionId;
                 _logFile.AppendLine(@"Registered successfully");
                 TryClose(true);
             }

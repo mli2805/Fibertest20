@@ -76,6 +76,23 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
+        public async Task<Guid> GetGraphDbVersion()
+        {
+            var wcfConnection = _wcfFactory.CreateC2DConnection();
+            if (wcfConnection == null)
+                return Guid.Empty;
+
+            try
+            {
+                return await wcfConnection.GetGraphDbVersion();
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+                return Guid.Empty;
+            }
+        }
+
         public async Task<MeasurementsList> GetOpticalEvents()
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();

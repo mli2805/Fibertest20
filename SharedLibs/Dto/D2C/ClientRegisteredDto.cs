@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.Serialization;
 
 namespace Iit.Fibertest.Dto
@@ -16,5 +17,8 @@ namespace Iit.Fibertest.Dto
 
         [DataMember]
         public Role Role { get; set; }
+
+        [DataMember]
+        public Guid GraphDbVersionId { get; set; }
     }
 }
