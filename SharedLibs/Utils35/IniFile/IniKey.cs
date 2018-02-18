@@ -73,5 +73,6 @@
         PathToSor,
         MaxCableReserve,
         GpsInputMode,
+        GraphVisibilityLevel,
     }
 }

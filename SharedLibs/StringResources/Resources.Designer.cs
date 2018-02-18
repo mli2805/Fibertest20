@@ -404,7 +404,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to All.
+        ///   Looks up a localized string similar to All points.
         /// </summary>
         public static string SID_All {
             get {
@@ -1386,7 +1386,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Equip.
+        ///   Looks up a localized string similar to Equipment.
         /// </summary>
         public static string SID_Equip {
             get {
@@ -2719,6 +2719,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Only RTU.
+        /// </summary>
+        public static string SID_Only_RTU {
+            get {
+                return ResourceManager.GetString("SID_Only_RTU", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Optical event.
         /// </summary>
         public static string SID_Optical_event {
@@ -3313,11 +3322,20 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to RTU.
+        ///   Looks up a localized string similar to Only RTU.
         /// </summary>
         public static string SID_Rtu {
             get {
                 return ResourceManager.GetString("SID_Rtu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RTU and traces.
+        /// </summary>
+        public static string SID_RTU_and_traces {
+            get {
+                return ResourceManager.GetString("SID_RTU_and_traces", resourceCulture);
             }
         }
         

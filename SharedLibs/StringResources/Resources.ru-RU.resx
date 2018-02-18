@@ -495,13 +495,10 @@
     <value>Трассы</value>
   </data>
 	<data name="SID_Rtu" xml:space="preserve">
-    <value>Только RTU</value>
+    <value>RTU</value>
   </data>
 	<data name="SID_Servers" xml:space="preserve">
     <value>Сервера</value>
-  </data>
-	<data name="SID_Lines" xml:space="preserve">
-    <value>Линии</value>
   </data>
 	<data name="SID_Equip" xml:space="preserve">
     <value>Оборудование</value>
@@ -1594,5 +1591,11 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Remove_adjustment_point" xml:space="preserve">
 		<value>Удалить точку привязки</value>
+	</data>
+	<data name="SID_Only_RTU" xml:space="preserve">
+		<value>Только RTU</value>
+	</data>
+	<data name="SID_RTU_and_traces" xml:space="preserve">
+		<value>RTU и трассы</value>
 	</data>
 </root>

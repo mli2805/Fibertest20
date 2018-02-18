@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Windows;
 using GMap.NET;
 using GMap.NET.WindowsPresentation;
 using Iit.Fibertest.Graph;
@@ -42,14 +43,21 @@ namespace Iit.Fibertest.Client
             {
                 var fiberVm = (FiberVm)newItem;
                 fiberVm.PropertyChanged += FiberVm_PropertyChanged;
-                var route = new GMapRoute(fiberVm.Id, fiberVm.Node1.Id, fiberVm.Node2.Id, fiberVm.State.GetBrush(isForeground: true),
-                    2, new List<PointLatLng>() { fiberVm.Node1.Position, fiberVm.Node2.Position });
-                route.PropertyChanged += Route_PropertyChanged;
-                MainMap.Markers.Add(route);
 
-                if (GraphReadModel.SelectedGraphVisibilityItem.Level < GraphVisibilityLevel.Lines)
-                    route.Shape = null;
+                CreateRoute(fiberVm);
             }
+        }
+
+        private void CreateRoute(FiberVm fiberVm)
+        {
+            var route = new GMapRoute(fiberVm.Id, fiberVm.Node1.Id, fiberVm.Node2.Id,
+                fiberVm.State.GetBrush(isForeground: true),
+                2, new List<PointLatLng>() { fiberVm.Node1.Position, fiberVm.Node2.Position });
+            route.PropertyChanged += Route_PropertyChanged;
+            MainMap.Markers.Add(route);
+            route.Shape.Visibility = GraphReadModel.SelectedGraphVisibilityItem.Level >= GraphVisibilityLevel.RtuAndTraces
+                ? Visibility.Visible
+                : Visibility.Hidden;
         }
 
         private void FiberVm_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -59,10 +67,7 @@ namespace Iit.Fibertest.Client
             var oldRoute = (GMapRoute)MainMap.Markers.First(r => r.Id == fiberVm.Id);
             MainMap.Markers.Remove(oldRoute);
 
-            var route = new GMapRoute(fiberVm.Id, fiberVm.Node1.Id, fiberVm.Node2.Id, fiberVm.State.GetBrush(isForeground: true),
-                    2, new List<PointLatLng>() { fiberVm.Node1.Position, fiberVm.Node2.Position });
-            route.PropertyChanged += Route_PropertyChanged;
-            MainMap.Markers.Add(route);
+            CreateRoute(fiberVm);
         }
 
         private void ApplyRemovedFibers(IList oldItems)

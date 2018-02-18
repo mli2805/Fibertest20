@@ -69,7 +69,7 @@ namespace Iit.Fibertest.Client
             {
                 if (marker is GMapRoute gMapRoute)
                 {
-                    gMapRoute.Shape.Visibility = selectedLevel >= GraphVisibilityLevel.Lines 
+                    gMapRoute.Shape.Visibility = selectedLevel >= GraphVisibilityLevel.RtuAndTraces 
                         ? Visibility.Visible
                         : Visibility.Hidden;
                 }

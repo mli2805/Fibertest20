@@ -26,12 +26,21 @@ namespace Iit.Fibertest.Client
                     new RequestAddRtuAtGpsLocation() {Latitude = position.Lat, Longitude = position.Lng});
 
             else
+            {
+                var expectedVisibilityLevel = equipmentType == EquipmentType.EmptyNode
+                    ? GraphVisibilityLevel.EmptyNodes
+                    : GraphVisibilityLevel.Equipments;
+                if (GraphReadModel.SelectedGraphVisibilityItem.Level < expectedVisibilityLevel)
+                {
+                    GraphReadModel.SetGraphVisibility(expectedVisibilityLevel);
+                }
                 await GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation()
                 {
                     Type = equipmentType,
                     Latitude = position.Lat,
                     Longitude = position.Lng
                 });
+            }
         }
     }
 

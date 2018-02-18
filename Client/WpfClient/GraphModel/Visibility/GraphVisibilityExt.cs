@@ -12,8 +12,8 @@ namespace Iit.Fibertest.Client
         {
             switch (level)
             {
-                case GraphVisibilityLevel.Rtus: return Resources.SID_Rtu;
-                case GraphVisibilityLevel.Lines: return Resources.SID_Lines;
+                case GraphVisibilityLevel.OnlyRtu: return Resources.SID_Only_RTU;
+                case GraphVisibilityLevel.RtuAndTraces: return Resources.SID_RTU_and_traces;
                 case GraphVisibilityLevel.Equipments: return Resources.SID_Equip;
                 case GraphVisibilityLevel.EmptyNodes: return Resources.SID_Nodes;
                 case GraphVisibilityLevel.AllDetails: return Resources.SID_All;
@@ -39,7 +39,7 @@ namespace Iit.Fibertest.Client
                 case EquipmentType.Cross:
                 case EquipmentType.Well:
                 case EquipmentType.Terminal: return GraphVisibilityLevel.Equipments;
-                case EquipmentType.Rtu: return GraphVisibilityLevel.Rtus;
+                case EquipmentType.Rtu: return GraphVisibilityLevel.OnlyRtu;
                 default: return GraphVisibilityLevel.AllDetails;
             }
         }

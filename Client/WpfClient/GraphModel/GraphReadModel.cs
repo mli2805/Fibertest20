@@ -22,6 +22,7 @@ namespace Iit.Fibertest.Client
         public IWindowManager WindowManager { get; }
         public ReadModel ReadModel { get; }
         public readonly ILifetimeScope GlobalScope;
+        private readonly IniFile _iniFile;
 
         public ObservableCollection<NodeVm> Nodes { get; }
         public ObservableCollection<FiberVm> Fibers { get; }
@@ -62,7 +63,7 @@ namespace Iit.Fibertest.Client
         public string CurrentMousePositionString => CurrentMousePosition.ToDetailedString(CurrentGpsInputMode);
         public GpsInputMode CurrentGpsInputMode = GpsInputMode.DegreesMinutesAndSeconds;
 
-        public List<GraphVisibilityLevelItem> GraphVisibilityLevels { get; set; } 
+        public List<GraphVisibilityLevelItem> GraphVisibilityItems { get; set; } 
         private GraphVisibilityLevelItem _selectedGraphVisibilityItem;
 
         public GraphVisibilityLevelItem SelectedGraphVisibilityItem
@@ -72,6 +73,7 @@ namespace Iit.Fibertest.Client
             {
                 if (value == _selectedGraphVisibilityItem) return;
                 _selectedGraphVisibilityItem = value;
+                _iniFile.Write(IniSection.Miscellaneous, IniKey.GraphVisibilityLevel, SelectedGraphVisibilityItem.Level.ToString());
                 NotifyOfPropertyChange();
             }
         }
@@ -93,14 +95,19 @@ namespace Iit.Fibertest.Client
             WindowManager = windowManager;
             ReadModel = readModel;
             GlobalScope = globalScope;
+            _iniFile = iniFile;
             Nodes = new ObservableCollection<NodeVm>();
             Fibers = new ObservableCollection<FiberVm>();
             Rtus = new ObservableCollection<RtuVm>();
             Equipments = new ObservableCollection<EquipmentVm>();
             Traces = new ObservableCollection<TraceVm>();
 
-            GraphVisibilityLevels = GraphVisibilityExt.GetComboboxItems();
-            SelectedGraphVisibilityItem = GraphVisibilityLevels.Last(); // TODO from ini
+            GraphVisibilityItems = GraphVisibilityExt.GetComboboxItems();
+            var levelString = iniFile.Read(IniSection.Miscellaneous, IniKey.GraphVisibilityLevel,
+                GraphVisibilityLevel.AllDetails.ToString());
+            if (!Enum.TryParse(levelString, out GraphVisibilityLevel level))
+                level = GraphVisibilityLevel.AllDetails;
+            SetGraphVisibility(level);
 
             Zoom = iniFile.Read(IniSection.Map, IniKey.Zoom, 7);
             ToCenter = new PointLatLng()
@@ -110,6 +117,12 @@ namespace Iit.Fibertest.Client
             };
         }
 
+        public void SetGraphVisibility(GraphVisibilityLevel level)
+        {
+            SelectedGraphVisibilityItem =
+                GraphVisibilityItems.First(i => i.Level == level);
+            _iniFile.Write(IniSection.Miscellaneous, IniKey.GraphVisibilityLevel, level.ToString());
+        }
         public void PlaceRtuIntoScreenCenter(Guid rtuId)
         {
             var nodeVm = Rtus.First(r => r.Id == rtuId).Node;

@@ -495,13 +495,10 @@ If chosen trace use some equipment in this node it will be replaced</value>
     <value>Traces</value>
   </data>
 	<data name="SID_Rtu" xml:space="preserve">
-    <value>Only RTU</value>
+    <value>RTU</value>
   </data>
 	<data name="SID_Servers" xml:space="preserve">
     <value>Servers</value>
-  </data>
-	<data name="SID_Lines" xml:space="preserve">
-    <value>Lines</value>
   </data>
 	<data name="SID_Equip" xml:space="preserve">
     <value>Equipment</value>
@@ -1594,5 +1591,11 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID_Remove_adjustment_point" xml:space="preserve">
     <value>Remove adjustment point</value>
+  </data>
+	<data name="SID_Only_RTU" xml:space="preserve">
+    <value>Only RTU</value>
+  </data>
+	<data name="SID_RTU_and_traces" xml:space="preserve">
+    <value>RTU and traces</value>
   </data>
 </root>
