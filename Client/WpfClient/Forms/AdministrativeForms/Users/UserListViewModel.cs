@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
 {
@@ -14,6 +16,7 @@ namespace Iit.Fibertest.Client
         private List<User> _users;
         private List<Zone> _zones;
         private readonly IWindowManager _windowManager;
+        private readonly IWcfServiceForClient _c2DWcfManager;
         public ObservableCollection<UserVm> Rows { get; set; }
 
         private UserVm _selectedUserVm;
@@ -31,20 +34,23 @@ namespace Iit.Fibertest.Client
 
         public static List<Role> Roles { get; set; }
 
-        public UserListViewModel(IWindowManager windowManager)
+        public UserListViewModel(IWindowManager windowManager, IWcfServiceForClient c2DWcfManager)
         {
             _windowManager = windowManager;
+            _c2DWcfManager = c2DWcfManager;
+
         }
 
-        public void Initialize()
+        public async Task<int> Initialize()
         {
             // TODO get user and zones from Db
-            _users = new List<User>();
+            _users = await _c2DWcfManager.GetUsersAsync();
             _zones = new List<Zone>();
 
             Roles = Enum.GetValues(typeof(Role)).Cast<Role>().ToList();
             MapUserVmList();
 
+            return 1;
         }
         private void MapUserVmList()
         {
@@ -94,17 +100,11 @@ namespace Iit.Fibertest.Client
         }
         #endregion
 
-        public void Save()
+        public void Close()
         {
-            IMapper mapper = new MapperConfiguration(cfg => cfg.AddProfile<UserMappings>()).CreateMapper();
-            _users = Rows.Select(userVm => mapper.Map<User>(userVm)).ToList();
-           // TODO send _users to server for saving
-            TryClose(true);
+            TryClose();
         }
 
-        public void Cancel()
-        {
-            TryClose(false);
-        }
+       
     }
 }

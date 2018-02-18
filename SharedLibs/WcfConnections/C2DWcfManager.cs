@@ -76,20 +76,20 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public async Task<Guid> GetGraphDbVersion()
+        public async Task<List<User>> GetUsersAsync()
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();
             if (wcfConnection == null)
-                return Guid.Empty;
+                return null;
 
             try
             {
-                return await wcfConnection.GetGraphDbVersion();
+                return await wcfConnection.GetUsersAsync();
             }
             catch (Exception e)
             {
                 _logFile.AppendLine(e.Message);
-                return Guid.Empty;
+                return null;
             }
         }
 

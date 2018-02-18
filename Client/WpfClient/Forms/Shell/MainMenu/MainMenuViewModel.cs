@@ -18,8 +18,9 @@ namespace Iit.Fibertest.Client
             _zonesContentViewModel = zonesContentViewModel;
         }
 
-        public void LaunchUserListView()
+        public async void LaunchUserListView()
         {
+            await _userListViewModel.Initialize();
             _windowManager.ShowWindowWithAssignedOwner(_userListViewModel);
         }
 

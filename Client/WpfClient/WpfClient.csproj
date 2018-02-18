@@ -359,8 +359,8 @@
     <Compile Include="Forms\Shell\TreeOfRtuControl\TraceLeaf\TraceLeafActions.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\TraceLeaf\TraceLeafActionsPermissions.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\TraceLeaf\TraceLeafContextMenuProvider.cs" />
-    <Compile Include="Forms\AdministrativeForms\PasswordHelper.cs" />
-    <Compile Include="Forms\AdministrativeForms\UserMappings.cs" />
+    <Compile Include="Forms\PasswordHelper.cs" />
+    <Compile Include="Forms\AdministrativeForms\Users\UserMappings.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\ChildrenImpresario.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\IPortOwner.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\OtauLeaf\OtauLeaf.cs" />
@@ -391,17 +391,16 @@
     <Compile Include="Forms\Landmarks\LandmarkViewModel.cs" />
     <Compile Include="Forms\LoginServer\LoginViewModel.cs" />
     <Compile Include="Forms\LoginServer\ServerConnectViewModel.cs" />
-    <Compile Include="Forms\AdministrativeForms\Licence.cs" />
-    <Compile Include="Forms\AdministrativeForms\UserVm.cs" />
-    <Compile Include="Forms\AdministrativeForms\UserListViewModel.cs" />
-    <Compile Include="Forms\AdministrativeForms\UserViewModel.cs" />
+    <Compile Include="Forms\AdministrativeForms\Users\UserVm.cs" />
+    <Compile Include="Forms\AdministrativeForms\Users\UserListViewModel.cs" />
+    <Compile Include="Forms\AdministrativeForms\Users\UserViewModel.cs" />
     <Compile Include="Forms\AdministrativeForms\Zone.cs" />
     <Compile Include="WcfClient\ClientWcfServiceHost.cs" />
     <Compile Include="WcfClient\IClientWcfServiceHost.cs" />
     <Compile Include="Forms\AdministrativeForms\ObjectsToZonesView.xaml.cs">
       <DependentUpon>ObjectsToZonesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\AdministrativeForms\UserView.xaml.cs">
+    <Compile Include="Forms\AdministrativeForms\Users\UserView.xaml.cs">
       <DependentUpon>UserView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\AdministrativeForms\ZonesContentView.xaml.cs">
@@ -524,7 +523,7 @@
     <Compile Include="Forms\Shell\TreeOfRtuControl\RtuLeaf\RtuLeaf.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\TraceLeaf\TraceLeaf.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\TreeExtensions.cs" />
-    <Compile Include="Forms\AdministrativeForms\UserListView.xaml.cs">
+    <Compile Include="Forms\AdministrativeForms\Users\UserListView.xaml.cs">
       <DependentUpon>UserListView.xaml</DependentUpon>
     </Compile>
     <Page Include="Forms\EquipmentAddUpdate\CableReserveInfoView.xaml">
@@ -635,7 +634,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\AdministrativeForms\UserView.xaml">
+    <Page Include="Forms\AdministrativeForms\Users\UserView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -723,7 +722,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Forms\AdministrativeForms\UserListView.xaml">
+    <Page Include="Forms\AdministrativeForms\Users\UserListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
