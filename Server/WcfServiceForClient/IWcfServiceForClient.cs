@@ -23,6 +23,9 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
         Task<List<User>> GetUsersAsync();
 
         [OperationContract]
+        Task<List<Zone>> GetZonesAsync();
+
+        [OperationContract]
         Task<MeasurementsList> GetOpticalEvents();
 
         [OperationContract]

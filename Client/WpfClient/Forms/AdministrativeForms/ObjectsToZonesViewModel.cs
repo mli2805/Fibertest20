@@ -9,13 +9,13 @@ namespace Iit.Fibertest.Client
 {
     public class ObjectsToZonesViewModel : Screen
     {
-        private List<Zone> _zones;
+        private List<WpfZone> _zones;
         private readonly TreeOfRtuModel _treeOfRtuModel;
 
         public DataTable BindableTable { get; set; }
         public List<Guid> ObjectList { get; set; } = new List<Guid>();
 
-        public ObjectsToZonesViewModel(List<Zone> zones, TreeOfRtuModel treeOfRtuModel)
+        public ObjectsToZonesViewModel(List<WpfZone> zones, TreeOfRtuModel treeOfRtuModel)
         {
             _zones = zones;
             _treeOfRtuModel = treeOfRtuModel;

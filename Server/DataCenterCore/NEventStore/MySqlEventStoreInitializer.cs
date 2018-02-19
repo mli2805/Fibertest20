@@ -11,7 +11,7 @@ namespace Iit.Fibertest.DataCenterCore
     {
         public IStoreEvents Init(IMyLog logFile)
         {
-            CreateDatabaseIfNotExists(logFile);
+            // CreateDatabaseIfNotExists(logFile);
             try
             {
                 var eventStore = Wireup.Init()

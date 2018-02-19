@@ -13,5 +13,4 @@ namespace Iit.Fibertest.Dto
         public Guid ZoneId { get; set; }
         public bool IsDefaultZoneUser { get; set; }
     }
-  
 }

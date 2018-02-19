@@ -22,7 +22,7 @@
                     <TextBlock Text="{x:Static stringResources:Resources.SID_Role}" Margin="5" HorizontalAlignment="Right"/>
                 </DockPanel>
                 <DockPanel>
-                    <ComboBox DockPanel.Dock="Right" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" 
+                    <ComboBox DockPanel.Dock="Right" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedWpfZone}" 
                               IsEnabled="{Binding IsntItRoot}" Margin="5" Width="150"/>
                     <TextBlock Text="{x:Static stringResources:Resources.SID_Zone}" Margin="5" HorizontalAlignment="Right"/>
                 </DockPanel>

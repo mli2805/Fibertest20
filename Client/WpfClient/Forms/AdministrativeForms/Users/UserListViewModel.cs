@@ -14,7 +14,7 @@ namespace Iit.Fibertest.Client
     public class UserListViewModel : Screen
     {
         private List<User> _users;
-        private List<Zone> _zones;
+        private List<WpfZone> _zones;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
         public ObservableCollection<UserVm> Rows { get; set; }
@@ -38,14 +38,13 @@ namespace Iit.Fibertest.Client
         {
             _windowManager = windowManager;
             _c2DWcfManager = c2DWcfManager;
-
         }
 
         public async Task<int> Initialize()
         {
             _users = await _c2DWcfManager.GetUsersAsync();
             // TODO get zones from Db
-            _zones = new List<Zone> {new Zone() {Id = Guid.Empty, Title = Resources.SID_Default_Zone, }};
+            _zones = new List<WpfZone> {new WpfZone() {Id = Guid.Empty, Title = Resources.SID_Default_Zone, }};
 
             Roles = Enum.GetValues(typeof(Role)).Cast<Role>().ToList();
             MapUserVmList();

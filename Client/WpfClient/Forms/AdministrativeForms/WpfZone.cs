@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Iit.Fibertest.Client
 {
     [Serializable]
-    public class Zone : ICloneable
+    public class WpfZone : ICloneable
     {
         public Guid Id { get; set; }
         public string Title { get; set; }
@@ -18,7 +18,7 @@ namespace Iit.Fibertest.Client
 
         public object Clone()
         {
-            var result = (Zone)MemberwiseClone();
+            var result = (WpfZone)MemberwiseClone();
             result.Objects = new List<Guid>(Objects);
             return result;
         }

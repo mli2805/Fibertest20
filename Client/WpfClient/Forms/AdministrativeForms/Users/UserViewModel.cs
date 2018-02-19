@@ -42,16 +42,16 @@ namespace Iit.Fibertest.Client
 
 
         public static List<Role> Roles { get; set; }
-        public static List<Zone> Zones { get; set; }
+        public static List<WpfZone> Zones { get; set; }
 
-        private Zone _selectedZone;
-        public Zone SelectedZone
+        private WpfZone _selectedWpfZone;
+        public WpfZone SelectedWpfZone
         {
-            get { return _selectedZone; }
+            get { return _selectedWpfZone; }
             set
             {
-                if (Equals(value, _selectedZone)) return;
-                _selectedZone = value;
+                if (Equals(value, _selectedWpfZone)) return;
+                _selectedWpfZone = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -68,7 +68,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public UserViewModel(UserVm userVm, List<Zone> zones)
+        public UserViewModel(UserVm userVm, List<WpfZone> zones)
         {
             UserVm = userVm;
 
@@ -88,7 +88,7 @@ namespace Iit.Fibertest.Client
 
             Zones = zones;
 
-            SelectedZone = (UserVm.IsDefaultZoneUser) ? Zones.First() : Zones.First(z=>z.Id == userVm.ZoneId);
+            SelectedWpfZone = (UserVm.IsDefaultZoneUser) ? Zones.First() : Zones.First(z=>z.Id == userVm.ZoneId);
         }
 
         protected override void OnViewLoaded(object view)
@@ -98,9 +98,9 @@ namespace Iit.Fibertest.Client
 
         public void Save()
         {
-            UserVm.ZoneId = SelectedZone.Id;
-            UserVm.ZoneName = SelectedZone.Title;
-            UserVm.IsDefaultZoneUser = SelectedZone.Title == Resources.SID_Default_Zone;
+            UserVm.ZoneId = SelectedWpfZone.Id;
+            UserVm.ZoneName = SelectedWpfZone.Title;
+            UserVm.IsDefaultZoneUser = SelectedWpfZone.Title == Resources.SID_Default_Zone;
             UserVm.Password = Password1;
 
             TryClose(true);

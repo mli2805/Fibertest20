@@ -9,7 +9,6 @@ namespace Iit.Fibertest.DatabaseLibrary
         public FtDbContext(DbContextOptions<FtDbContext> options) : base(options) { }
 
 
-        public DbSet<User> Users { get; set; }
         public DbSet<ClientStation> ClientStations { get; set; }
         public DbSet<RtuStation> RtuStations { get; set; }
         public DbSet<BaseRef> BaseRefs { get; set; }
@@ -17,6 +16,8 @@ namespace Iit.Fibertest.DatabaseLibrary
         public DbSet<BopNetworkEvent> BopNetworkEvents { get; set; }
         public DbSet<Measurement> Measurements { get; set; }
         public DbSet<SorFile> SorFiles { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Zone> Zones { get; set; }
     }
 
     public interface ISettings

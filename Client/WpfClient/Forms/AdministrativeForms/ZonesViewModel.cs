@@ -6,7 +6,7 @@ namespace Iit.Fibertest.Client
 {
     public class ZonesViewModel : Screen
     {
-        public ObservableCollection<Zone> Rows { get; set; } = new ObservableCollection<Zone>();
+        public ObservableCollection<WpfZone> Rows { get; set; } = new ObservableCollection<WpfZone>();
 
         public void Initialize()
         {

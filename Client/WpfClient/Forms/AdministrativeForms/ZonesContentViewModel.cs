@@ -9,7 +9,7 @@ namespace Iit.Fibertest.Client
 {
     public class ZonesContentViewModel : Screen
     {
-        private List<Zone> _zones;
+        private List<WpfZone> _zones;
         private readonly TreeOfRtuModel _treeOfRtuModel;
 
         public DataTable BindableTable { get; set; }
@@ -24,7 +24,7 @@ namespace Iit.Fibertest.Client
         public void Initialize()
         {
             // TODO get zones from Db
-            _zones = new List<Zone>();
+            _zones = new List<WpfZone>();
             CreateTable();
             PopulateTable();
         }

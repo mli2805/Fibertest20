@@ -394,7 +394,7 @@
     <Compile Include="Forms\AdministrativeForms\Users\UserVm.cs" />
     <Compile Include="Forms\AdministrativeForms\Users\UserListViewModel.cs" />
     <Compile Include="Forms\AdministrativeForms\Users\UserViewModel.cs" />
-    <Compile Include="Forms\AdministrativeForms\Zone.cs" />
+    <Compile Include="Forms\AdministrativeForms\WpfZone.cs" />
     <Compile Include="WcfClient\ClientWcfServiceHost.cs" />
     <Compile Include="WcfClient\IClientWcfServiceHost.cs" />
     <Compile Include="Forms\AdministrativeForms\ObjectsToZonesView.xaml.cs">
