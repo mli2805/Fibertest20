@@ -140,18 +140,19 @@ namespace Iit.Fibertest.Client
 
             builder.RegisterType<UiDispatcherProvider>().As<IDispatcherProvider>().SingleInstance();
 
-            builder.Register(ioc => new ClientPoller(
-                    ioc.Resolve<IWcfServiceForClient>(),
-                    ioc.Resolve<ReadModel>(),
-                    ioc.Resolve<TreeOfRtuModel>(),
-                    ioc.Resolve<EventsOnGraphExecutor>(),
-                    ioc.Resolve<IDispatcherProvider>(),
-                    logFile,
-                    iniFile,
-                    ioc.Resolve<ILocalDbManager>()
-                    ))
-                .SingleInstance();
+//            builder.Register(ioc => new ClientPoller(
+//                    ioc.Resolve<IWcfServiceForClient>(),
+//                    ioc.Resolve<IDispatcherProvider>(),
+//                    ioc.Resolve<ReadModel>(),
+//                    ioc.Resolve<TreeOfRtuModel>(),
+//                    ioc.Resolve<EventsOnGraphExecutor>(),
+//                    logFile,
+//                    iniFile,
+//                    ioc.Resolve<ILocalDbManager>()
+//                ))
+//                .SingleInstance();
 
+            builder.RegisterType<ClientPoller>().SingleInstance();
 
             builder.RegisterType<GpsInputViewModel>();
             builder.RegisterType<LandmarkViewModel>();

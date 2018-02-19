@@ -161,11 +161,21 @@ namespace Iit.Fibertest.Client
             });
         }
 
-        public void RemoveOldEventForTraceIfExists(Guid traceId)
+        // it will be replaced with just arrived event
+        public void RemovePreviousEventForTraceIfExists(Guid traceId)
         {
             var oldEvent = Rows.FirstOrDefault(l => l.TraceId == traceId);
             if (oldEvent != null)
                 Rows.Remove(oldEvent);
+        }
+
+        public void RemoveEventsOfTrace(Guid traceId)
+        {
+            for (var i = Rows.Count - 1; i >= 0; i--)
+            {
+                if (Rows[i].TraceId == traceId)
+                    Rows.RemoveAt(i);
+            }
         }
 
         public void UpdateEvent(MeasurementUpdatedDto dto)
@@ -231,13 +241,6 @@ namespace Iit.Fibertest.Client
             SelectedRow = opticalEventModel;
         }
 
-        public void RemoveEventsOfTrace(Guid traceId)
-        {
-            for (var i = Rows.Count - 1; i >= 0; i--)
-            {
-                if (Rows[i].TraceId == traceId)
-                    Rows.RemoveAt(i);
-            }
-        }
+    
     }
 }

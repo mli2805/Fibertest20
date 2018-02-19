@@ -95,12 +95,14 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowWindowWithAssignedOwner(_landmarksViewModel);
         }
 
-        public void DetachTrace(object param)
+        public async void DetachTrace(object param)
         {
             if (!(param is TraceLeaf traceLeaf))
                 return;
 
-            _c2DWcfManager.SendCommandAsObj(new DetachTrace() { TraceId = traceLeaf.Id });
+            var result = await _c2DWcfManager.SendCommandAsObj(new DetachTrace() { TraceId = traceLeaf.Id });
+            if (result == null)
+                _opticalEventsDoubleViewModel.ActualOpticalEventsViewModel.RemoveEventsOfTrace(traceLeaf.Id);
         }
 
         public async void CleanTrace(object param)

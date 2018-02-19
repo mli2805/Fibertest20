@@ -33,7 +33,7 @@ namespace Iit.Fibertest.Client
             if (trace == null || !trace.IsAttached)
                 return;
 
-            ActualOpticalEventsViewModel.RemoveOldEventForTraceIfExists(measurement.TraceId);
+            ActualOpticalEventsViewModel.RemovePreviousEventForTraceIfExists(measurement.TraceId);
 
             if (measurement.TraceState == FiberState.Ok)
                 return;

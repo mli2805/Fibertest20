@@ -29,8 +29,8 @@ namespace Iit.Fibertest.Client
 
         public int CurrentEventNumber { get; private set; }
 
-        public ClientPoller(IWcfServiceForClient wcfConnection, ReadModel readModel, TreeOfRtuModel treeOfRtuModel,
-            EventsOnGraphExecutor eventsOnGraphExecutor, IDispatcherProvider dispatcherProvider,
+        public ClientPoller(IWcfServiceForClient wcfConnection, IDispatcherProvider dispatcherProvider,
+            ReadModel readModel, TreeOfRtuModel treeOfRtuModel, EventsOnGraphExecutor eventsOnGraphExecutor,
             IMyLog logFile, IniFile iniFile, ILocalDbManager localDbManager)
         {
             _wcfConnection = wcfConnection;
