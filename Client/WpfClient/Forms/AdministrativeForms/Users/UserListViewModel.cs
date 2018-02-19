@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
+using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
@@ -14,28 +14,30 @@ namespace Iit.Fibertest.Client
     public class UserListViewModel : Screen
     {
         private List<User> _users;
-        private List<WpfZone> _zones;
+        private List<Zone> _zones;
+        private readonly ILifetimeScope _globalScope;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
-        public ObservableCollection<UserVm> Rows { get; set; }
+        public ObservableCollection<User> Rows { get; set; }
 
-        private UserVm _selectedUserVm;
-        public UserVm SelectedUserVm
+        private UserVm _selectedUser;
+        public UserVm SelectedUser
         {
-            get { return _selectedUserVm; }
+            get { return _selectedUser; }
             set
             {
-                _selectedUserVm = value;
+                _selectedUser = value;
                 NotifyOfPropertyChange(nameof(IsRemovable));
             }
         }
 
-        public bool IsRemovable => SelectedUserVm?.Role != Role.Root;
+        public bool IsRemovable => SelectedUser?.Role != Role.Root;
 
         public static List<Role> Roles { get; set; }
 
-        public UserListViewModel(IWindowManager windowManager, IWcfServiceForClient c2DWcfManager)
+        public UserListViewModel(ILifetimeScope globalScope, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager)
         {
+            _globalScope = globalScope;
             _windowManager = windowManager;
             _c2DWcfManager = c2DWcfManager;
         }
@@ -43,25 +45,14 @@ namespace Iit.Fibertest.Client
         public async Task<int> Initialize()
         {
             _users = await _c2DWcfManager.GetUsersAsync();
-            // TODO get zones from Db
-            _zones = new List<WpfZone> {new WpfZone() {Id = Guid.Empty, Title = Resources.SID_Default_Zone, }};
+            _zones = await _c2DWcfManager.GetZonesAsync();
+            var defaultZone = _zones.First(z => z.IsDefaultZone);
+            defaultZone.Title = Resources.SID_Default_Zone;
 
             Roles = Enum.GetValues(typeof(Role)).Cast<Role>().ToList();
-            MapUserVmList();
+            Rows = new ObservableCollection<User>(_users);
 
             return 1;
-        }
-        private void MapUserVmList()
-        {
-            IMapper mapper = new MapperConfiguration(cfg => cfg.AddProfile<UserMappings>()).CreateMapper();
-            var intermediateList = _users.Where(u=>u.Role > Role.Developer).Select(user => mapper.Map<UserVm>(user)).ToList();
-            intermediateList.ForEach(u => u.ZoneName =
-                u.ZoneId != Guid.Empty
-                    ? _zones.First(z => z.Id == u.ZoneId).Title
-                    : u.IsDefaultZoneUser
-                        ? Resources.SID_Default_Zone
-                        : Resources.SID_No_zone_assigned);
-            Rows = new ObservableCollection<UserVm>(intermediateList);
         }
 
         protected override void OnViewLoaded(object view)
@@ -72,30 +63,30 @@ namespace Iit.Fibertest.Client
         #region One User Actions
         public void AddNewUser()
         {
-            var userUnderConstruction = new UserVm();
-            var vm = new UserViewModel(userUnderConstruction, _zones);
+            var vm = _globalScope.Resolve<UserViewModel>();
+            vm.Initialize(new User(), _zones);
             if (_windowManager.ShowDialogWithAssignedOwner(vm) == true)
             {
-                Rows.Add(userUnderConstruction);
-                SelectedUserVm = Rows.Last(); // doesn't work
+                Rows.Add(vm.UserInWork);
             }
         }
 
         public void ChangeUser()
         {
-            var userUnderConstruction =  (UserVm)SelectedUserVm.Clone();
-            var vm = new UserViewModel(userUnderConstruction, _zones);
+            var userInWork =  (User)SelectedUser.Clone();
+            var vm = _globalScope.Resolve<UserViewModel>();
+            vm.Initialize(userInWork, _zones);
             if (_windowManager.ShowDialogWithAssignedOwner(vm) == true)
             {
-                userUnderConstruction.CopyTo(SelectedUserVm);
+                var oldUser = Rows.First(u => u.Id == userInWork.Id);
+                Rows.Remove(oldUser);
+                Rows.Add(vm.UserInWork);
             }
         }
 
         public void RemoveUser()
         {
-            _users.Remove(_users.First(u => u.Id == SelectedUserVm.Id));
-            Rows.Remove(SelectedUserVm);
-            SelectedUserVm = Rows.First(); // doesn't work
+          
         }
         #endregion
 

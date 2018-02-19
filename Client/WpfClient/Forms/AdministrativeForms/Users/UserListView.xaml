@@ -14,7 +14,7 @@
             <Button DockPanel.Dock="Right" Name="Close" Content="Close" IsDefault="True" Width="100" Margin="0,20,30,15"/>
             <Button Visibility="Hidden" />
         </DockPanel>
-        <DataGrid Margin="5" ItemsSource="{Binding Rows}" SelectedItem="{Binding SelectedUserVm, Mode=TwoWay}"
+        <DataGrid Margin="5" ItemsSource="{Binding Rows}" SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
                    AutoGenerateColumns="False" IsReadOnly="True" >
             <DataGrid.ContextMenu>
                 <ContextMenu>

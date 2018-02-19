@@ -380,8 +380,6 @@
       <DependentUpon>NetAddressTestView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewControls\NetAddressTestViewModel.cs" />
-    <Compile Include="Forms\AdministrativeForms\ObjectsToZonesViewModel.cs" />
-    <Compile Include="Forms\AdministrativeForms\ZonesContentViewModel.cs" />
     <Compile Include="Forms\AdministrativeForms\ZonesViewModel.cs" />
     <Compile Include="Forms\Landmarks\Landmark.cs" />
     <Compile Include="Forms\Landmarks\LandmarkRow.cs" />
@@ -394,17 +392,10 @@
     <Compile Include="Forms\AdministrativeForms\Users\UserVm.cs" />
     <Compile Include="Forms\AdministrativeForms\Users\UserListViewModel.cs" />
     <Compile Include="Forms\AdministrativeForms\Users\UserViewModel.cs" />
-    <Compile Include="Forms\AdministrativeForms\WpfZone.cs" />
     <Compile Include="WcfClient\ClientWcfServiceHost.cs" />
     <Compile Include="WcfClient\IClientWcfServiceHost.cs" />
-    <Compile Include="Forms\AdministrativeForms\ObjectsToZonesView.xaml.cs">
-      <DependentUpon>ObjectsToZonesView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Forms\AdministrativeForms\Users\UserView.xaml.cs">
       <DependentUpon>UserView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\AdministrativeForms\ZonesContentView.xaml.cs">
-      <DependentUpon>ZonesContentView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\AdministrativeForms\ZonesView.xaml.cs">
       <DependentUpon>ZonesView.xaml</DependentUpon>
@@ -630,15 +621,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\AdministrativeForms\ObjectsToZonesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Forms\AdministrativeForms\Users\UserView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Forms\AdministrativeForms\ZonesContentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -39,6 +39,11 @@ namespace Iit.Fibertest.DataCenterCore
         public void Init()
         {
             _storeEvents = _eventStoreInitializer.Init(_logFile);
+            if (_storeEvents == null)
+            {
+                _logFile.AppendLine("Second attempt to initialize ft20graph");
+                _storeEvents = _eventStoreInitializer.Init(_logFile);
+            }
 
             var eventStream = _storeEvents.OpenStream(AggregateId);
 

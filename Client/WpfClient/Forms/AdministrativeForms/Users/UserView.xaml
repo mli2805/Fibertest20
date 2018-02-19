@@ -13,16 +13,16 @@
         <Border Margin="5" BorderThickness="1" BorderBrush="LightGray" CornerRadius="3" Padding="5">
             <StackPanel>
                 <DockPanel>
-                    <TextBox Name="TextBoxTitle" DockPanel.Dock="Right" Text="{Binding UserVm.Name}" Margin="5" Width="150" />
+                    <TextBox Name="TextBoxTitle" DockPanel.Dock="Right" Text="{Binding UserInWork.Name}" Margin="5" Width="150" />
                     <TextBlock Text="{x:Static stringResources:Resources.SID_Name}" Margin="5" HorizontalAlignment="Right"/>
                 </DockPanel>
                 <DockPanel>
-                    <ComboBox DockPanel.Dock="Right" ItemsSource="{Binding Roles}" SelectedItem="{Binding UserVm.Role}" 
+                    <ComboBox DockPanel.Dock="Right" ItemsSource="{Binding Roles}" SelectedItem="{Binding UserInWork.Role}" 
                               IsEnabled="{Binding IsntItRoot}" Margin="5" Width="150"/>
                     <TextBlock Text="{x:Static stringResources:Resources.SID_Role}" Margin="5" HorizontalAlignment="Right"/>
                 </DockPanel>
                 <DockPanel>
-                    <ComboBox DockPanel.Dock="Right" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedWpfZone}" 
+                    <ComboBox DockPanel.Dock="Right" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" 
                               IsEnabled="{Binding IsntItRoot}" Margin="5" Width="150"/>
                     <TextBlock Text="{x:Static stringResources:Resources.SID_Zone}" Margin="5" HorizontalAlignment="Right"/>
                 </DockPanel>
@@ -41,8 +41,8 @@
         <GroupBox Header="{x:Static stringResources:Resources.SID_Email}" Margin="5" Padding="0,5">
             <DockPanel >
                 <CheckBox DockPanel.Dock="Bottom" Margin="30,5,5,0" Content="{x:Static stringResources:Resources.SID_Send_messages}" 
-                          IsChecked="{Binding UserVm.IsEmailActivated}" HorizontalAlignment="Left"/>
-                <TextBox DockPanel.Dock="Right" Text="{Binding UserVm.Email}" Margin="5" Width="250"/>
+                          IsChecked="{Binding UserInWork.IsEmailActivated}" HorizontalAlignment="Left"/>
+                <TextBox DockPanel.Dock="Right" Text="{Binding UserInWork.Email}" Margin="5" Width="250"/>
             </DockPanel>
         </GroupBox>
 

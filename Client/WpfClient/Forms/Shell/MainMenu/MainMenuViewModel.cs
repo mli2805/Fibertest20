@@ -7,15 +7,13 @@ namespace Iit.Fibertest.Client
         private readonly IWindowManager _windowManager;
         private readonly UserListViewModel _userListViewModel;
         private readonly ZonesViewModel _zonesViewModel;
-        private readonly ZonesContentViewModel _zonesContentViewModel;
 
         public MainMenuViewModel(IWindowManager windowManager, UserListViewModel userListViewModel, 
-            ZonesViewModel zonesViewModel, ZonesContentViewModel zonesContentViewModel)
+            ZonesViewModel zonesViewModel)
         {
             _windowManager = windowManager;
             _userListViewModel = userListViewModel;
             _zonesViewModel = zonesViewModel;
-            _zonesContentViewModel = zonesContentViewModel;
         }
 
         public async void LaunchUserListView()
@@ -24,14 +22,14 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowWindowWithAssignedOwner(_userListViewModel);
         }
 
-        public void LaunchResponsibilityZonesView()
+        public async void LaunchResponsibilityZonesView()
         {
+            await _zonesViewModel.Initialize();
             _windowManager.ShowWindowWithAssignedOwner(_zonesViewModel);
         }
 
         public void LaunchObjectsToZonesView()
         {
-            _windowManager.ShowWindowWithAssignedOwner(_zonesContentViewModel);
         }
     }
 }

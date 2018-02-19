@@ -47,10 +47,9 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<OtauToAttachViewModel>().SingleInstance();
             builder.RegisterType<TraceToAttachViewModel>().SingleInstance();
             builder.RegisterType<RtuUpdateViewModel>();
+            builder.RegisterType<UserViewModel>();
             builder.RegisterType<UserListViewModel>();
             builder.RegisterType<ZonesViewModel>();
-            builder.RegisterType<ObjectsToZonesViewModel>();
-            builder.RegisterType<ZonesContentViewModel>();
             builder.RegisterType<ClientWcfService>().SingleInstance();
             builder.RegisterType<ClientWcfServiceHost>().As<IClientWcfServiceHost>().SingleInstance();
 

@@ -8,62 +8,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Iit.Fibertest.DatabaseLibrary
 {
-    public class ZonesRepository
-    {
-        private readonly ISettings _settings;
-        private readonly IMyLog _logFile;
-
-        public ZonesRepository(ISettings settings, IMyLog logFile)
-        {
-            _settings = settings;
-            _logFile = logFile;
-        }
-
-        public async Task<List<Zone>> GetZonesAsync()
-        {
-            using (var dbContext = new FtDbContext(_settings.Options))
-            {
-                try
-                {
-                    return await dbContext.Zones.ToListAsync();
-                }
-                catch (Exception e)
-                {
-                    _logFile.AppendLine("GetZonesAsync:" + e.Message);
-                    return null;
-                }
-            }
-        }
-    }
-
-    public class UsersRepository
-    {
-        private readonly ISettings _settings;
-        private readonly IMyLog _logFile;
-
-        public UsersRepository(ISettings settings, IMyLog logFile)
-        {
-            _settings = settings;
-            _logFile = logFile;
-        }
-
-        public async Task<List<User>> GetUsersAsync()
-        {
-            using (var dbContext = new FtDbContext(_settings.Options))
-            {
-                try
-                {
-                    return await dbContext.Users.ToListAsync();
-                }
-                catch (Exception e)
-                {
-                    _logFile.AppendLine("GetUsersAsync:" + e.Message);
-                    return null;
-                }
-            }
-        }
-    }
-
     public class ClientStationsRepository
     {
         private readonly ISettings _settings;
@@ -75,7 +19,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             _logFile = logFile;
         }
 
-        private async Task<bool> SeedUsers(FtDbContext dbContext)
+        private async Task<bool> SeedUsersAndZones(FtDbContext dbContext)
         {
                 try
                 {
@@ -84,12 +28,14 @@ namespace Iit.Fibertest.DatabaseLibrary
                     dbContext.Users.Add(new User() { Name = "operator", EncodedPassword = FlipFlop("operator"), Email = "", IsEmailActivated = false, Role = Role.Operator, IsDefaultZoneUser = true });
                     dbContext.Users.Add(new User() { Name = "supervisor", EncodedPassword = FlipFlop("supervisor"), Email = "", IsEmailActivated = false, Role = Role.Supervisor, IsDefaultZoneUser = true });
                     dbContext.Users.Add(new User() { Name = "superclient", EncodedPassword = FlipFlop("superclient"), Email = "", IsEmailActivated = false, Role = Role.Superclient, IsDefaultZoneUser = true });
+
+                    dbContext.Zones.Add(new Zone() { ZoneId = Guid.Empty, IsDefaultZone = true});
                     await dbContext.SaveChangesAsync();
                     return true;
                 }
                 catch (Exception e)
                 {
-                    _logFile.AppendLine("SeedUsers:" + e.Message);
+                    _logFile.AppendLine("SeedUsersAndZones:" + e.Message);
                     return false;
                 }
         }
@@ -105,7 +51,7 @@ namespace Iit.Fibertest.DatabaseLibrary
                 try
                 {
                     if (!dbContext.Users.Any() &&
-                        await SeedUsers(dbContext) == false)
+                        await SeedUsersAndZones(dbContext) == false)
                             return null;
 
                     var users = await dbContext.Users.ToListAsync(); // there is no field Password in Db , so it should be instances in memory to address that property

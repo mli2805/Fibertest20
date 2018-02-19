@@ -2052,15 +2052,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Lines.
-        /// </summary>
-        public static string SID_Lines {
-            get {
-                return ResourceManager.GetString("SID_Lines", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to List of traces.
         /// </summary>
         public static string SID_List_of_traces {
@@ -3322,7 +3313,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Only RTU.
+        ///   Looks up a localized string similar to RTU.
         /// </summary>
         public static string SID_Rtu {
             get {
