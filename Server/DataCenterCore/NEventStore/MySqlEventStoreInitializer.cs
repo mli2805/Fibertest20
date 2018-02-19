@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using Iit.Fibertest.UtilsLib;
 using MySql.Data.MySqlClient;
 using NEventStore;
@@ -39,6 +40,7 @@ namespace Iit.Fibertest.DataCenterCore
                 connection.Open();
                 command.ExecuteNonQuery();
                 connection.Close();
+                Thread.Sleep(TimeSpan.FromSeconds(1));
             }
             catch (Exception e)
             {

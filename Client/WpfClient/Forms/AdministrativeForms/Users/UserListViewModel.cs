@@ -43,9 +43,9 @@ namespace Iit.Fibertest.Client
 
         public async Task<int> Initialize()
         {
-            // TODO get user and zones from Db
             _users = await _c2DWcfManager.GetUsersAsync();
-            _zones = new List<Zone>();
+            // TODO get zones from Db
+            _zones = new List<Zone> {new Zone() {Id = Guid.Empty, Title = Resources.SID_Default_Zone, }};
 
             Roles = Enum.GetValues(typeof(Role)).Cast<Role>().ToList();
             MapUserVmList();

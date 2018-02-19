@@ -20,12 +20,12 @@ namespace Iit.Fibertest.Client
 
         public void Save()
         {
-                TryClose(true);
+                TryClose();
         }
 
         public void Cancel()
         {
-            TryClose(false);
+            TryClose();
         }
     }
 }
