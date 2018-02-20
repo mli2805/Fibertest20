@@ -36,7 +36,7 @@ namespace Iit.Fibertest.DataCenterCore
             _aggregate = aggregate;
         }
 
-        public void Init()
+        public async void Init()
         {
             _storeEvents = _eventStoreInitializer.Init(_logFile);
             if (_storeEvents == null)
@@ -53,6 +53,7 @@ namespace Iit.Fibertest.DataCenterCore
             _writeModel.Init(events);
 
             _logFile.AppendLine("All events from base are applied to WriteModel");
+            await Seed();
         }
 
         private bool AssignGraphDbVersion(IEventStream eventStream)
@@ -73,6 +74,13 @@ namespace Iit.Fibertest.DataCenterCore
 
             GraphDbVersionId = Guid.Parse((string) obj); // direct cast doesn't work
             return true;
+        }
+
+        private async Task<string> Seed()
+        {
+            if (_writeModel.Zones.Count == 0)
+                return await SendCommand(new AddZone(){IsDefaultZone = true, Title = StringResources.Resources.SID_Default_Zone }, "developer", "OnServer");
+            return null;
         }
 
         public Task<string> SendCommand(object cmd, string username, string clientIp)
