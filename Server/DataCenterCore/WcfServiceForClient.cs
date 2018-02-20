@@ -19,7 +19,6 @@ namespace Iit.Fibertest.DataCenterCore
 
         private readonly IMyLog _logFile;
 
-        private readonly UsersRepository _usersRepository;
         private readonly ClientStationsRepository _clientStationsRepository;
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
         private readonly RtuStationsRepository _rtuStationsRepository;
@@ -37,7 +36,6 @@ namespace Iit.Fibertest.DataCenterCore
         };
 
         public WcfServiceForClient(IMyLog logFile, EventStoreService eventStoreService, 
-            UsersRepository usersRepository, 
             ClientStationsRepository clientStationsRepository, ClientToRtuTransmitter clientToRtuTransmitter,
             RtuStationsRepository rtuStationsRepository, MeasurementChangerIntermediary measurementChangerIntermediary,
             BaseRefsRepositoryIntermediary baseRefsRepositoryIntermediary, BaseRefRepairmanIntermediary baseRefRepairmanIntermediary,
@@ -46,7 +44,6 @@ namespace Iit.Fibertest.DataCenterCore
         {
             _logFile = logFile;
             _eventStoreService = eventStoreService;
-            _usersRepository = usersRepository;
             _clientStationsRepository = clientStationsRepository;
             _clientToRtuTransmitter = clientToRtuTransmitter;
             _rtuStationsRepository = rtuStationsRepository;
@@ -102,11 +99,6 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<string[]> GetEvents(int revision)
         {
             return await Task.FromResult(_eventStoreService.GetEvents(revision));
-        }
-
-        public async Task<List<User>> GetUsersAsync()
-        {
-            return await _usersRepository.GetUsersAsync();
         }
 
         public async Task<MeasurementsList> GetOpticalEvents()

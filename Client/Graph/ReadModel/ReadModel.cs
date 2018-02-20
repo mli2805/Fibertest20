@@ -22,6 +22,7 @@ namespace Iit.Fibertest.Graph
         public List<Rtu> Rtus { get; } = new List<Rtu>();
         public List<Trace> Traces { get; } = new List<Trace>();
         public List<Otau> Otaus { get; } = new List<Otau>();
+        public List<User> Users { get; } = new List<User>();
         public List<Zone> Zones { get; } = new List<Zone>();
 
         public int JustForNotification { get; set; }
@@ -29,9 +30,29 @@ namespace Iit.Fibertest.Graph
         public ReadModel(IMyLog logFile)
         {
             LogFile = logFile;
-            Zones.Add(new Zone() { IsDefaultZone = true, Title = StringResources.Resources.SID_Default_Zone});
         }
 
+        #region User
+        public string Apply(UserAdded e)
+        {
+            Users.Add(_mapper.Map<User>(e));
+            return null;
+        }
+
+        public string Apply(UserUpdated source)
+        {
+            var destination = Users.First(f => f.UserId == source.UserId);
+            _mapper.Map(source, destination);
+            return null;
+        }
+
+        public string Apply(UserRemoved e)
+        {
+            Users.Remove(Users.First(f => f.UserId == e.UserId));
+            return null;
+        }
+        #endregion
+        
         #region Zone
         public void Apply(ZoneAdded e)
         {

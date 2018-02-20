@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WcfServiceForClientInterface;
 
@@ -15,6 +15,7 @@ namespace Iit.Fibertest.Client
     {
         private List<User> _users;
         private readonly ILifetimeScope _globalScope;
+        private readonly ReadModel _readModel;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
         public ObservableCollection<User> Rows { get; set; }
@@ -34,21 +35,20 @@ namespace Iit.Fibertest.Client
 
         public static List<Role> Roles { get; set; }
 
-        public UserListViewModel(ILifetimeScope globalScope, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager)
+        public UserListViewModel(ILifetimeScope globalScope, ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager)
         {
             _globalScope = globalScope;
+            _readModel = readModel;
             _windowManager = windowManager;
             _c2DWcfManager = c2DWcfManager;
         }
 
-        public async Task<int> Initialize()
+        public void Initialize()
         {
-            _users = await _c2DWcfManager.GetUsersAsync();
+            _users = _readModel.Users;
 
             Roles = Enum.GetValues(typeof(Role)).Cast<Role>().ToList();
             Rows = new ObservableCollection<User>(_users);
-
-            return 1;
         }
 
         protected override void OnViewLoaded(object view)
@@ -74,7 +74,7 @@ namespace Iit.Fibertest.Client
             vm.Initialize(userInWork);
             if (_windowManager.ShowDialogWithAssignedOwner(vm) == true)
             {
-                var oldUser = Rows.First(u => u.Id == userInWork.Id);
+                var oldUser = Rows.First(u => u.UserId == userInWork.UserId);
                 Rows.Remove(oldUser);
                 Rows.Add(vm.UserInWork);
             }

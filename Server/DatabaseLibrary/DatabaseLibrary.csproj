@@ -154,7 +154,6 @@
     <Compile Include="Repositories\NetworkEventsRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\RtuStationsRepository.cs" />
-    <Compile Include="Repositories\UsersRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

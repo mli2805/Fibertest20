@@ -125,9 +125,17 @@
     <Compile Include="Commands\JustEchosOfCmdsSentToRtu\ChangeMonitoringSettings.cs" />
     <Compile Include="Commands\JustEchosOfCmdsSentToRtu\StartMonitoring.cs" />
     <Compile Include="Commands\JustEchosOfCmdsSentToRtu\StopMonitoring.cs" />
+    <Compile Include="Commands\User\AddUser.cs" />
     <Compile Include="Commands\Zone\AddZone.cs" />
+    <Compile Include="Commands\User\RemoveUser.cs" />
     <Compile Include="Commands\Zone\RemoveZone.cs" />
+    <Compile Include="Commands\User\UpdateUser.cs" />
     <Compile Include="Commands\Zone\UpdateZone.cs" />
+    <Compile Include="DomainEntities\Extensions\UserExt.cs" />
+    <Compile Include="Events\User\UserAdded.cs" />
+    <Compile Include="Events\User\UserRemoved.cs" />
+    <Compile Include="Events\User\UserUpdated.cs" />
+    <Compile Include="DomainEntities\UserInGraph.cs" />
     <Compile Include="Events\Zone\ZoneAdded.cs" />
     <Compile Include="Events\Zone\ZoneRemoved.cs" />
     <Compile Include="Events\Zone\ZoneUpdated.cs" />

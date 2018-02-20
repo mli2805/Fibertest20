@@ -13,7 +13,7 @@ namespace Iit.Fibertest.Dto
         public string ExceptionMessage { get; set; }
 
         [DataMember]
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
 
         [DataMember]
         public Role Role { get; set; }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,58 +13,15 @@ namespace Iit.Fibertest.DatabaseLibrary
     {
         private readonly ISettings _settings;
         private readonly IMyLog _logFile;
+        private readonly WriteModel _writeModel;
 
-        public ClientStationsRepository(ISettings settings, IMyLog logFile)
+        public ClientStationsRepository(ISettings settings, IMyLog logFile, WriteModel writeModel)
         {
             _settings = settings;
             _logFile = logFile;
+            _writeModel = writeModel;
         }
-
-        private async Task<bool> SeedUsersAndZones(FtDbContext dbContext)
-        {
-                try
-                {
-                    dbContext.Users.Add(new User() { Name = "developer", EncodedPassword = FlipFlop("developer"), Email = "", IsEmailActivated = false, Role = Role.Developer, IsDefaultZoneUser = true });
-                    dbContext.Users.Add(new User() { Name = "root", EncodedPassword = FlipFlop("root"), Email = "", IsEmailActivated = false, Role = Role.Root, IsDefaultZoneUser = true });
-                    dbContext.Users.Add(new User() { Name = "operator", EncodedPassword = FlipFlop("operator"), Email = "", IsEmailActivated = false, Role = Role.Operator, IsDefaultZoneUser = true });
-                    dbContext.Users.Add(new User() { Name = "supervisor", EncodedPassword = FlipFlop("supervisor"), Email = "", IsEmailActivated = false, Role = Role.Supervisor, IsDefaultZoneUser = true });
-                    dbContext.Users.Add(new User() { Name = "superclient", EncodedPassword = FlipFlop("superclient"), Email = "", IsEmailActivated = false, Role = Role.Superclient, IsDefaultZoneUser = true });
-
-                    await dbContext.SaveChangesAsync();
-                    return true;
-                }
-                catch (Exception e)
-                {
-                    _logFile.AppendLine("SeedUsersAndZones:" + e.Message);
-                    return false;
-                }
-        }
-        private string FlipFlop(string before)
-        {
-            return string.IsNullOrEmpty(before) ? "" : before.Substring(before.Length - 1, 1) + FlipFlop(before.Substring(0, before.Length - 1));
-        }
-
-        private async Task<User> CheckUserPasswordAsync(RegisterClientDto dto)
-        {
-            using (var dbContext = new FtDbContext(_settings.Options))
-            {
-                try
-                {
-                    if (!dbContext.Users.Any() &&
-                        await SeedUsersAndZones(dbContext) == false)
-                            return null;
-
-                    var users = await dbContext.Users.ToListAsync(); // there is no field Password in Db , so it should be instances in memory to address that property
-                    return users.FirstOrDefault(u => u.Name == dto.UserName && FlipFlop(u.EncodedPassword) == dto.Password);
-                }
-                catch (Exception e)
-                {
-                    _logFile.AppendLine("CheckUserPasswordAsync:" + e.Message);
-                    return null;
-                }                
-            }
-        }
-
+      
         private async Task<ClientRegisteredDto> RegisterHeartbeat(RegisterClientDto dto)
         {
             try
@@ -94,7 +52,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             {
                 using (var dbContext = new FtDbContext(_settings.Options))
                 {
-                    if (dbContext.ClientStations.Any(s => s.UserId == user.Id && s.ClientGuid != dto.ClientId))
+                    if (dbContext.ClientStations.Any(s => s.UserId == user.UserId && s.ClientGuid != dto.ClientId))
                     {
                         _logFile.AppendLine($"User {dto.UserName} registered on another PC");
                         result.ReturnCode = ReturnCode.ThisUserRegisteredOnAnotherPc;
@@ -104,7 +62,7 @@ namespace Iit.Fibertest.DatabaseLibrary
                     var station = dbContext.ClientStations.FirstOrDefault(s => s.ClientGuid == dto.ClientId);
                     if (station != null)
                     {
-                        station.UserId = user.Id;
+                        station.UserId = user.UserId;
                         station.UserName = dto.UserName;
                         station.LastConnectionTimestamp = DateTime.Now;
                         await dbContext.SaveChangesAsync();
@@ -114,7 +72,7 @@ namespace Iit.Fibertest.DatabaseLibrary
                     {
                         station = new ClientStation()
                         {
-                            UserId = user.Id,
+                            UserId = user.UserId,
                             UserName = dto.UserName,
                             ClientGuid = dto.ClientId,
                             ClientAddress = dto.Addresses.Main.GetAddress(),
@@ -128,7 +86,7 @@ namespace Iit.Fibertest.DatabaseLibrary
                     }
 
                     _logFile.AppendLine($"There are {dbContext.ClientStations.Count()} client(s)");
-                    result.UserId = user.Id;
+                    result.UserId = user.UserId;
                     result.Role = user.Role;
                     result.ReturnCode = ReturnCode.ClientRegisteredSuccessfully;
                     return result;
@@ -151,7 +109,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             var result = new ClientRegisteredDto();
             try
             {
-                var user = await CheckUserPasswordAsync(dto);
+                var user = _writeModel.Users.FirstOrDefault(u => u.Name == dto.UserName && UserExt.FlipFlop(u.EncodedPassword) == dto.Password);
                 if (user == null)
                 {
                     result.ReturnCode = ReturnCode.NoSuchUserOrWrongPassword;

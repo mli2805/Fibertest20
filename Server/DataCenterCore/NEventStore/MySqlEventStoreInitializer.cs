@@ -11,7 +11,7 @@ namespace Iit.Fibertest.DataCenterCore
     {
         public IStoreEvents Init(IMyLog logFile)
         {
-            // CreateDatabaseIfNotExists(logFile);
+            CreateDatabaseIfNotExists(logFile);
             try
             {
                 var eventStore = Wireup.Init()
@@ -40,7 +40,7 @@ namespace Iit.Fibertest.DataCenterCore
                 connection.Open();
                 command.ExecuteNonQuery();
                 connection.Close();
-                Thread.Sleep(TimeSpan.FromSeconds(1));
+                Thread.Sleep(TimeSpan.FromMilliseconds(100));
             }
             catch (Exception e)
             {

@@ -23,6 +23,24 @@ namespace Iit.Fibertest.Graph
         }
 
 
+        #region User
+        public string When(AddUser cmd)
+        {
+            return WriteModel.Add(_mapper.Map<UserAdded>(cmd));
+        }
+
+        public string When(UpdateUser cmd)
+        {
+            return WriteModel.Add(_mapper.Map<UserUpdated>(cmd));
+        }
+
+        public string When(RemoveUser cmd)
+        {
+            return WriteModel.Add(_mapper.Map<UserRemoved>(cmd));
+        }
+        #endregion
+
+
         #region Zone
         public string When(AddZone cmd)
         {

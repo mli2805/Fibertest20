@@ -37,7 +37,6 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<MeasurementsRepository>().SingleInstance();
             builder.RegisterType<NetworkEventsRepository>().SingleInstance();
             builder.RegisterType<BopNetworkEventsRepository>().SingleInstance();
-            builder.RegisterType<UsersRepository>().SingleInstance();
             builder.RegisterType<ClientStationsRepository>().SingleInstance();
             builder.RegisterType<RtuStationsRepository>().SingleInstance();
             builder.RegisterType<BaseRefsRepository>().SingleInstance();

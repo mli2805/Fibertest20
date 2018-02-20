@@ -16,7 +16,6 @@ namespace Iit.Fibertest.DatabaseLibrary
         public DbSet<BopNetworkEvent> BopNetworkEvents { get; set; }
         public DbSet<Measurement> Measurements { get; set; }
         public DbSet<SorFile> SorFiles { get; set; }
-        public DbSet<User> Users { get; set; }
     }
 
     public interface ISettings

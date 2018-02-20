@@ -28,6 +28,9 @@ namespace Iit.Fibertest.Graph
 
             CreateMap<ZoneAdded, Zone>();
             CreateMap<ZoneUpdated, Zone>();
+
+            CreateMap<UserAdded, User>();
+            CreateMap<UserUpdated, User>();
         }
 
         

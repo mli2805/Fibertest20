@@ -82,7 +82,6 @@
     <Compile Include="Db\Measurement.cs" />
     <Compile Include="Db\NetworkEvent.cs" />
     <Compile Include="Db\RtuStation.cs" />
-    <Compile Include="Db\User.cs" />
     <Compile Include="Enums\EventStatus.cs" />
     <Compile Include="Enums\Frequency.cs" />
     <Compile Include="Enums\MoniLevelType.cs" />

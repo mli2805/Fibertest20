@@ -44,6 +44,10 @@ namespace Iit.Fibertest.Graph
             CreateMap<AddZone, ZoneAdded>();
             CreateMap<UpdateZone, ZoneUpdated>();
             CreateMap<RemoveZone, ZoneRemoved>();
+
+            CreateMap<AddUser, UserAdded>();
+            CreateMap<UpdateUser, UserUpdated>();
+            CreateMap<RemoveUser, UserRemoved>();
         }
     }
 }

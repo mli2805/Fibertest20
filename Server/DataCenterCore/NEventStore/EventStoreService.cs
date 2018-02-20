@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Newtonsoft.Json;
@@ -36,15 +37,9 @@ namespace Iit.Fibertest.DataCenterCore
             _aggregate = aggregate;
         }
 
-        public async void Init()
+        public void Init()
         {
             _storeEvents = _eventStoreInitializer.Init(_logFile);
-            if (_storeEvents == null)
-            {
-                _logFile.AppendLine("Second attempt to initialize ft20graph");
-                _storeEvents = _eventStoreInitializer.Init(_logFile);
-            }
-
             var eventStream = _storeEvents.OpenStream(AggregateId);
 
             if (!AssignGraphDbVersion(eventStream)) return;
@@ -53,7 +48,6 @@ namespace Iit.Fibertest.DataCenterCore
             _writeModel.Init(events);
 
             _logFile.AppendLine("All events from base are applied to WriteModel");
-            await Seed();
         }
 
         private bool AssignGraphDbVersion(IEventStream eventStream)
@@ -62,7 +56,8 @@ namespace Iit.Fibertest.DataCenterCore
             if (firstMessage == null)
             {
                 GraphDbVersionId = Guid.NewGuid();
-                _logFile.AppendLine("Graph database is empty so far.");
+                Seed().Wait();
+                _logFile.AppendLine("Empty graph is seeded with default zone and users.");
                 return false;
             }
 
@@ -72,14 +67,19 @@ namespace Iit.Fibertest.DataCenterCore
                 return false;
             }
 
-            GraphDbVersionId = Guid.Parse((string) obj); // direct cast doesn't work
+            GraphDbVersionId = Guid.Parse((string)obj); // direct cast doesn't work
             return true;
         }
 
         private async Task<string> Seed()
         {
-            if (_writeModel.Zones.Count == 0)
-                return await SendCommand(new AddZone(){IsDefaultZone = true, Title = StringResources.Resources.SID_Default_Zone }, "developer", "OnServer");
+            await SendCommand(new AddZone() { IsDefaultZone = true, Title = StringResources.Resources.SID_Default_Zone }, "developer", "OnServer");
+
+            await SendCommand(new AddUser() { Name = "developer", EncodedPassword = UserExt.FlipFlop("developer"), Email = "", IsEmailActivated = false, Role = Role.Developer, IsDefaultZoneUser = true }, "developer", "OnServer");
+            await SendCommand(new AddUser() { Name = "root", EncodedPassword = UserExt.FlipFlop("root"), Email = "", IsEmailActivated = false, Role = Role.Root, IsDefaultZoneUser = true }, "developer", "OnServer");
+            await SendCommand(new AddUser() { Name = "operator", EncodedPassword = UserExt.FlipFlop("operator"), Email = "", IsEmailActivated = false, Role = Role.Operator, IsDefaultZoneUser = true }, "developer", "OnServer");
+            await SendCommand(new AddUser() { Name = "supervisor", EncodedPassword = UserExt.FlipFlop("supervisor"), Email = "", IsEmailActivated = false, Role = Role.Supervisor, IsDefaultZoneUser = true }, "developer", "OnServer");
+            await SendCommand(new AddUser() { Name = "superclient", EncodedPassword = UserExt.FlipFlop("superclient"), Email = "", IsEmailActivated = false, Role = Role.Superclient, IsDefaultZoneUser = true }, "developer", "OnServer");
             return null;
         }
 
@@ -92,7 +92,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             if (result == null)                                   // if command was valid and applied successfully it should be persisted
             {
-                var eventStream = _storeEvents.OpenStream(AggregateId);  
+                var eventStream = _storeEvents.OpenStream(AggregateId);
                 foreach (var e in _writeModel.EventsWaitingForCommit)   // takes already applied event from WriteModel's list
                 {
                     var msg = new EventMessage();
@@ -116,7 +116,7 @@ namespace Iit.Fibertest.DataCenterCore
                 var events = _storeEvents
                     .OpenStream(AggregateId, revision + 1)
                     .CommittedEvents
-               //     .Select(x => x.Body) // not only Body but Header too
+                    //     .Select(x => x.Body) // not only Body but Header too
                     .Select(x => JsonConvert.SerializeObject(x, JsonSerializerSettings))
                     .Take(_eventsPortion) // it depends on tcp buffer size and performance of clients' pc
                     .ToArray();

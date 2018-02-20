@@ -76,23 +76,6 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public async Task<List<User>> GetUsersAsync()
-        {
-            var wcfConnection = _wcfFactory.CreateC2DConnection();
-            if (wcfConnection == null)
-                return null;
-
-            try
-            {
-                return await wcfConnection.GetUsersAsync();
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine(e.Message);
-                return null;
-            }
-        }
-
         public async Task<MeasurementsList> GetOpticalEvents()
         {
             var wcfConnection = _wcfFactory.CreateC2DConnection();

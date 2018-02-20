@@ -22,9 +22,9 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowWindowWithAssignedOwner(vm);
         }
 
-        public async void LaunchUserListView()
+        public void LaunchUserListView()
         {
-            await _userListViewModel.Initialize();
+            _userListViewModel.Initialize();
             _windowManager.ShowWindowWithAssignedOwner(_userListViewModel);
         }
 

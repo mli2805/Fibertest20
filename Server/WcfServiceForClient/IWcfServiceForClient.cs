@@ -20,9 +20,6 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
 
         // C2Database
         [OperationContract]
-        Task<List<User>> GetUsersAsync();
-
-        [OperationContract]
         Task<MeasurementsList> GetOpticalEvents();
 
         [OperationContract]

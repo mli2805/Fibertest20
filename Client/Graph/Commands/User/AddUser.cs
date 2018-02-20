@@ -1,10 +1,11 @@
-using System;
+﻿using System;
+using Iit.Fibertest.Dto;
 
-namespace Iit.Fibertest.Dto
+namespace Iit.Fibertest.Graph
 {
-    public class User
+    public class AddUser
     {
-        public int Id { get; set; }
+        public Guid UserId { get; set; }
         public string Name { get; set; }
         public string EncodedPassword { get; set; }
         public string Email { get; set; }
