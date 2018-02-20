@@ -87,7 +87,7 @@ namespace Iit.Fibertest.UtilsLib
 
         public void Write(IniSection section, IniKey key, double value)
         {
-            Write(section, key, value.ToString(CultureInfo.CurrentCulture));
+            Write(section, key, value.ToString(CultureInfo.InvariantCulture));
         }
 
         public bool Read(IniSection section, IniKey key, bool defaultValue)
@@ -105,7 +105,7 @@ namespace Iit.Fibertest.UtilsLib
         public double Read(IniSection section, IniKey key, double defaultValue)
         {
             double result;
-            return double.TryParse(Read(section, key, defaultValue.ToString(CultureInfo.CurrentCulture)), out result) ? result : defaultValue;
+            return double.TryParse(Read(section, key, defaultValue.ToString(CultureInfo.InvariantCulture)), out result) ? result : defaultValue;
         }
 
         public NetAddress Read(IniSection section, int defaultTcpPort)
