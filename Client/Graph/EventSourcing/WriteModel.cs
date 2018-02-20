@@ -25,10 +25,12 @@ namespace Iit.Fibertest.Graph
         public List<Trace> Traces { get; } = new List<Trace>();
         public List<Rtu> Rtus { get; } = new List<Rtu>();
         public List<Otau> Otaus { get; } = new List<Otau>();
+        public List<Zone> Zones { get; } = new List<Zone>();
 
         public WriteModel(IMyLog logFile)
         {
             LogFile = logFile;
+            Zones.Add(new Zone() { IsDefaultZone = true });
         }
 
         public void Init(IEnumerable<object> events)
@@ -73,6 +75,28 @@ namespace Iit.Fibertest.Graph
         {
             return Rtus.FirstOrDefault(r => r.Id == id);
         }
+
+
+        #region Zone
+        public string Apply(ZoneAdded e)
+        {
+            Zones.Add(_mapper.Map<Zone>(e));
+            return null;
+        }
+
+        public string Apply(ZoneUpdated source)
+        {
+            var destination = Zones.First(f => f.ZoneId == source.ZoneId);
+            _mapper.Map(source, destination);
+            return null;
+        }
+
+        public string Apply(ZoneRemoved e)
+        {
+            Zones.Remove(Zones.First(f => f.ZoneId == e.ZoneId));
+            return null;
+        }
+        #endregion
 
         #region Node
 

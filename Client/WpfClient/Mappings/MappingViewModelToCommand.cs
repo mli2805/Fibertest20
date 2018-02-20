@@ -8,6 +8,8 @@ namespace Iit.Fibertest.Client
         public MappingViewModelToCommand()
         {
             CreateMap<RtuUpdateViewModel, UpdateRtu>();
+            CreateMap<ZoneViewModel, AddZone>();
+            CreateMap<ZoneViewModel, UpdateZone>();
         }
     }
 }

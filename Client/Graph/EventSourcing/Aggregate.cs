@@ -22,14 +22,28 @@ namespace Iit.Fibertest.Graph
             WriteModel = writeModel;
         }
 
-        #region Node
-     
 
+        #region Zone
+        public string When(AddZone cmd)
+        {
+            return WriteModel.Add(_mapper.Map<ZoneAdded>(cmd));
+        }
+
+        public string When(UpdateZone cmd)
+        {
+            return WriteModel.Add(_mapper.Map<ZoneUpdated>(cmd));
+        }
+
+        public string When(RemoveZone cmd)
+        {
+            // Checks?
+            return WriteModel.Add(_mapper.Map<ZoneRemoved>(cmd));
+        }
+        #endregion
+
+        #region Node
         public string When(AddNodeIntoFiber cmd)
         {
-//            if (!cmd.IsAdjustmentPoint && WriteModel.IsFiberContainedInAnyTraceWithBase(cmd.FiberId))
-//                return Resources.SID_It_s_impossible_to_change_trace_with_base_reflectogram;
-
             return WriteModel.Add(_mapper.Map<NodeIntoFiberAdded>(cmd));
         }
 

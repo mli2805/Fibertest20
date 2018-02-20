@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
 	<!-- 
     Microsoft ResX Schema 
@@ -598,9 +598,6 @@
   </data>
 	<data name="SID_Object" xml:space="preserve">
     <value>Объект</value>
-  </data>
-	<data name="SID_Add_zone" xml:space="preserve">
-    <value>Добавить зону</value>
   </data>
 	<data name="SID_Send_messages" xml:space="preserve">
     <value>Отсылать сообщения</value>
@@ -1597,5 +1594,11 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_RTU_and_traces" xml:space="preserve">
 		<value>RTU и трассы</value>
+	</data>
+	<data name="SID_New_responsibility_zone_creation" xml:space="preserve">
+		<value>Создание зоны ответственности</value>
+	</data>
+	<data name="SID_Update_responsibility_zone" xml:space="preserve">
+		<value>Изменение зоны ответственности</value>
 	</data>
 </root>

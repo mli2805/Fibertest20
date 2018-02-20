@@ -2439,6 +2439,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New responsibility zone creation.
+        /// </summary>
+        public static string SID_New_responsibility_zone_creation {
+            get {
+                return ResourceManager.GetString("SID_New_responsibility_zone_creation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Next.
         /// </summary>
         public static string SID_Next {
@@ -4309,6 +4318,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Update {
             get {
                 return ResourceManager.GetString("SID_Update", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update responsibility zone.
+        /// </summary>
+        public static string SID_Update_responsibility_zone {
+            get {
+                return ResourceManager.GetString("SID_Update_responsibility_zone", resourceCulture);
             }
         }
         

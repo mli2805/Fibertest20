@@ -105,7 +105,10 @@ namespace Iit.Fibertest.Client
                 _readModel.AsDynamic().Apply(e);
                 _treeOfRtuModel.AsDynamic().Apply(e);
 
+                // some forms refresh their view because they have sent command previously and are waiting event's coming
                 _readModel.NotifyOfPropertyChange(nameof(_readModel.JustForNotification));
+
+                // otherwise I should do this in almost all operations of applying events in tree
                 _treeOfRtuModel.NotifyOfPropertyChange(nameof(_treeOfRtuModel.Statistics));
 
                 CurrentEventNumber++;

@@ -29,7 +29,6 @@ namespace Iit.Fibertest.DatabaseLibrary
                     dbContext.Users.Add(new User() { Name = "supervisor", EncodedPassword = FlipFlop("supervisor"), Email = "", IsEmailActivated = false, Role = Role.Supervisor, IsDefaultZoneUser = true });
                     dbContext.Users.Add(new User() { Name = "superclient", EncodedPassword = FlipFlop("superclient"), Email = "", IsEmailActivated = false, Role = Role.Superclient, IsDefaultZoneUser = true });
 
-                    dbContext.Zones.Add(new Zone() { ZoneId = Guid.Empty, IsDefaultZone = true});
                     await dbContext.SaveChangesAsync();
                     return true;
                 }

@@ -186,6 +186,10 @@
     </ApplicationDefinition>
     <Compile Include="ClientHeartbeat.cs" />
     <Compile Include="CurrentUser.cs" />
+    <Compile Include="Forms\AdministrativeForms\Zones\ZoneView.xaml.cs">
+      <DependentUpon>ZoneView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AdministrativeForms\Zones\ZoneViewModel.cs" />
     <Compile Include="Forms\BaseRefs\BaseRefLandmarksChecker.cs" />
     <Compile Include="Forms\EquipmentAddUpdate\CableReserveInfoView.xaml.cs">
       <DependentUpon>CableReserveInfoView.xaml</DependentUpon>
@@ -380,7 +384,7 @@
       <DependentUpon>NetAddressTestView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewControls\NetAddressTestViewModel.cs" />
-    <Compile Include="Forms\AdministrativeForms\ZonesViewModel.cs" />
+    <Compile Include="Forms\AdministrativeForms\Zones\ZonesViewModel.cs" />
     <Compile Include="Forms\Landmarks\Landmark.cs" />
     <Compile Include="Forms\Landmarks\LandmarkRow.cs" />
     <Compile Include="Forms\Landmarks\LandmarksBaseParser.cs" />
@@ -397,7 +401,7 @@
     <Compile Include="Forms\AdministrativeForms\Users\UserView.xaml.cs">
       <DependentUpon>UserView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\AdministrativeForms\ZonesView.xaml.cs">
+    <Compile Include="Forms\AdministrativeForms\Zones\ZonesView.xaml.cs">
       <DependentUpon>ZonesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\Landmarks\LandmarksView.xaml.cs">
@@ -517,6 +521,10 @@
     <Compile Include="Forms\AdministrativeForms\Users\UserListView.xaml.cs">
       <DependentUpon>UserListView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Forms\AdministrativeForms\Zones\ZoneView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Forms\EquipmentAddUpdate\CableReserveInfoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -625,7 +633,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\AdministrativeForms\ZonesView.xaml">
+    <Page Include="Forms\AdministrativeForms\Zones\ZonesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

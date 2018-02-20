@@ -40,6 +40,10 @@ namespace Iit.Fibertest.Graph
             CreateMap<CleanTrace, TraceCleaned>();
             CreateMap<RemoveTrace, TraceRemoved>();
             CreateMap<AssignBaseRef, BaseRefAssigned>();
+
+            CreateMap<AddZone, ZoneAdded>();
+            CreateMap<UpdateZone, ZoneUpdated>();
+            CreateMap<RemoveZone, ZoneRemoved>();
         }
     }
 }

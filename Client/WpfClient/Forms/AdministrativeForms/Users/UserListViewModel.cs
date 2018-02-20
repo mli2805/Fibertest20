@@ -14,7 +14,6 @@ namespace Iit.Fibertest.Client
     public class UserListViewModel : Screen
     {
         private List<User> _users;
-        private List<Zone> _zones;
         private readonly ILifetimeScope _globalScope;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
@@ -45,9 +44,6 @@ namespace Iit.Fibertest.Client
         public async Task<int> Initialize()
         {
             _users = await _c2DWcfManager.GetUsersAsync();
-            _zones = await _c2DWcfManager.GetZonesAsync();
-            var defaultZone = _zones.First(z => z.IsDefaultZone);
-            defaultZone.Title = Resources.SID_Default_Zone;
 
             Roles = Enum.GetValues(typeof(Role)).Cast<Role>().ToList();
             Rows = new ObservableCollection<User>(_users);
@@ -64,7 +60,7 @@ namespace Iit.Fibertest.Client
         public void AddNewUser()
         {
             var vm = _globalScope.Resolve<UserViewModel>();
-            vm.Initialize(new User(), _zones);
+            vm.Initialize(new User());
             if (_windowManager.ShowDialogWithAssignedOwner(vm) == true)
             {
                 Rows.Add(vm.UserInWork);
@@ -75,7 +71,7 @@ namespace Iit.Fibertest.Client
         {
             var userInWork =  (User)SelectedUser.Clone();
             var vm = _globalScope.Resolve<UserViewModel>();
-            vm.Initialize(userInWork, _zones);
+            vm.Initialize(userInWork);
             if (_windowManager.ShowDialogWithAssignedOwner(vm) == true)
             {
                 var oldUser = Rows.First(u => u.Id == userInWork.Id);

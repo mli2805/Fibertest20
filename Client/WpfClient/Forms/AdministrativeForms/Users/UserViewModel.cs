@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WcfServiceForClientInterface;
 
@@ -12,6 +13,7 @@ namespace Iit.Fibertest.Client
     public class UserViewModel : Screen, IDataErrorInfo
     {
         private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly ReadModel _readModel;
         public User UserInWork { get; set; }
 
         public bool IsntItRoot { get; set; }
@@ -70,12 +72,13 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public UserViewModel(IWcfServiceForClient c2DWcfManager)
+        public UserViewModel(IWcfServiceForClient c2DWcfManager, ReadModel readModel)
         {
             _c2DWcfManager = c2DWcfManager;
+            _readModel = readModel;
         }
 
-        public void Initialize(User user, List<Zone> zones)
+        public void Initialize(User user)
         {
             UserInWork = user;
 
@@ -93,7 +96,7 @@ namespace Iit.Fibertest.Client
                 UserInWork.Role = Roles.First();
             Password1 = Password2 = UserInWork.EncodedPassword; //TODO decode
 
-            Zones = zones;
+            Zones = _readModel.Zones;
 
             SelectedZone = (UserInWork.IsDefaultZoneUser) ? Zones.First() : Zones.First(z=>z.ZoneId == user.ZoneId);
         }

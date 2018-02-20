@@ -22,16 +22,36 @@ namespace Iit.Fibertest.Graph
         public List<Rtu> Rtus { get; } = new List<Rtu>();
         public List<Trace> Traces { get; } = new List<Trace>();
         public List<Otau> Otaus { get; } = new List<Otau>();
+        public List<Zone> Zones { get; } = new List<Zone>();
 
         public int JustForNotification { get; set; }
 
         public ReadModel(IMyLog logFile)
         {
             LogFile = logFile;
+            Zones.Add(new Zone() { IsDefaultZone = true, Title = StringResources.Resources.SID_Default_Zone});
         }
 
+        #region Zone
+        public void Apply(ZoneAdded e)
+        {
+            Zones.Add(_mapper.Map<Zone>(e)); 
+        }
+
+        public void Apply(ZoneUpdated source)
+        {
+            var destination = Zones.First(f => f.ZoneId == source.ZoneId);
+            _mapper.Map(source, destination);
+        }
+
+        public void Apply(ZoneRemoved e)
+        {
+            Zones.Remove(Zones.First(f => f.ZoneId == e.ZoneId));
+        }
+        #endregion
+
         #region Node
-     
+
         public void Apply(NodeIntoFiberAdded e)
         {
             Nodes.Add(new Node() { Id = e.Id, Latitude = e.Position.Lat, Longitude = e.Position.Lng});

@@ -69,7 +69,6 @@ namespace Graph.Tests
 
             builder.RegisterType<TestSettings>().As<ISettings>().SingleInstance();
 
-            builder.RegisterType<ZonesRepository>().SingleInstance();
             builder.RegisterType<UsersRepository>().SingleInstance();
             builder.RegisterType<ClientStationsRepository>().SingleInstance();
             builder.RegisterType<RtuStationsRepository>().SingleInstance();

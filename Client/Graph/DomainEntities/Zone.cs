@@ -1,10 +1,9 @@
 using System;
 
-namespace Iit.Fibertest.Dto
+namespace Iit.Fibertest.Graph
 {
     public class Zone
     {
-        public int Id { get; set; }
         public Guid ZoneId { get; set; }
         public bool IsDefaultZone { get; set; }
 

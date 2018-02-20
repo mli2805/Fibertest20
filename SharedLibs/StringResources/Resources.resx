@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
 	<!-- 
     Microsoft ResX Schema 
@@ -607,9 +607,6 @@ If chosen trace use some equipment in this node it will be replaced</value>
   </data>
 	<data name="SID_Object" xml:space="preserve">
     <value>Object</value>
-  </data>
-	<data name="SID_Add_zone" xml:space="preserve">
-    <value>Add zone</value>
   </data>
 	<data name="SID_Send_messages" xml:space="preserve">
     <value>Send messages</value>
@@ -1597,5 +1594,11 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID_RTU_and_traces" xml:space="preserve">
     <value>RTU and traces</value>
+  </data>
+	<data name="SID_New_responsibility_zone_creation" xml:space="preserve">
+    <value>New responsibility zone creation</value>
+  </data>
+	<data name="SID_Update_responsibility_zone" xml:space="preserve">
+    <value>Update responsibility zone</value>
   </data>
 </root>

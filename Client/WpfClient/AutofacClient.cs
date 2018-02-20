@@ -49,6 +49,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<RtuUpdateViewModel>();
             builder.RegisterType<UserViewModel>();
             builder.RegisterType<UserListViewModel>();
+            builder.RegisterType<ZoneViewModel>();
             builder.RegisterType<ZonesViewModel>();
             builder.RegisterType<ClientWcfService>().SingleInstance();
             builder.RegisterType<ClientWcfServiceHost>().As<IClientWcfServiceHost>().SingleInstance();

@@ -54,7 +54,6 @@
     <Compile Include="C2D\UpdateMeasurementDto.cs" />
     <Compile Include="D2C\MeasurementWithSor.cs" />
     <Compile Include="Db\BopNetworkEvent.cs" />
-    <Compile Include="Db\Zone.cs" />
     <Compile Include="EnumsIitOtdr\ComparisonReturns.cs" />
     <Compile Include="EnumsIitOtdr\ConnectionTypes.cs" />
     <Compile Include="EnumsIitOtdr\ServiceFunctionCommand.cs" />
