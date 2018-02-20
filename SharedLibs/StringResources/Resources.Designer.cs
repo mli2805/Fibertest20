@@ -368,15 +368,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add zone.
-        /// </summary>
-        public static string SID_Add_zone {
-            get {
-                return ResourceManager.GetString("SID_Add_zone", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Additional optical switch.
         /// </summary>
         public static string SID_Additional_optical_switch {
@@ -2448,6 +2439,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New user creation.
+        /// </summary>
+        public static string SID_New_user_creation {
+            get {
+                return ResourceManager.GetString("SID_New_user_creation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Next.
         /// </summary>
         public static string SID_Next {
@@ -4327,6 +4327,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Update_responsibility_zone {
             get {
                 return ResourceManager.GetString("SID_Update_responsibility_zone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update user info.
+        /// </summary>
+        public static string SID_Update_user_info {
+            get {
+                return ResourceManager.GetString("SID_Update_user_info", resourceCulture);
             }
         }
         

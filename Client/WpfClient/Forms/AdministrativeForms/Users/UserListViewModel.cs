@@ -11,16 +11,52 @@ using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
 {
+
+    public class UserAsLine
+    {
+        public Guid UserId { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public bool IsEmailActivated { get; set; }
+        public Role Role { get; set; }
+        public bool IsDefaultZoneUser { get; set; }
+        public string ZoneTitle { get; set; }
+
+        public UserAsLine(User user, string zoneTitle)
+        {
+            UserId = user.UserId;
+            Name = user.Title;
+            Role = user.Role;
+            Email = user.Email;
+            IsEmailActivated = user.IsEmailActivated;
+            IsDefaultZoneUser = user.IsDefaultZoneUser;
+            ZoneTitle = zoneTitle;
+        }
+    }
+
     public class UserListViewModel : Screen
     {
         private List<User> _users;
+        private List<Zone> _zones;
         private readonly ILifetimeScope _globalScope;
         private readonly ReadModel _readModel;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
-        public ObservableCollection<User> Rows { get; set; }
+
+        private ObservableCollection<UserVm> _rows = new ObservableCollection<UserVm>();
+        public ObservableCollection<UserVm> Rows
+        {
+            get { return _rows; }
+            set
+            {
+                if (Equals(value, _rows)) return;
+                _rows = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         private UserVm _selectedUser;
+
         public UserVm SelectedUser
         {
             get { return _selectedUser; }
@@ -41,14 +77,27 @@ namespace Iit.Fibertest.Client
             _readModel = readModel;
             _windowManager = windowManager;
             _c2DWcfManager = c2DWcfManager;
+
+            Initialize();
         }
 
         public void Initialize()
         {
             _users = _readModel.Users;
+            _zones = _readModel.Zones;
 
             Roles = Enum.GetValues(typeof(Role)).Cast<Role>().ToList();
-            Rows = new ObservableCollection<User>(_users);
+            foreach (var user in _users.Where(u=>u.Role > Role.Developer))
+                Rows.Add(new UserVm(user, _zones.First(z=>z.ZoneId == user.ZoneId).Title));
+
+            _readModel.PropertyChanged += _readModel_PropertyChanged;
+        }
+
+        private void _readModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            Rows = new ObservableCollection<UserVm>();
+            foreach (var user in _users.Where(u => u.Role > Role.Developer))
+                Rows.Add(new UserVm(user, _zones.First(z => z.ZoneId == user.ZoneId).Title));
         }
 
         protected override void OnViewLoaded(object view)
@@ -60,29 +109,21 @@ namespace Iit.Fibertest.Client
         public void AddNewUser()
         {
             var vm = _globalScope.Resolve<UserViewModel>();
-            vm.Initialize(new User());
-            if (_windowManager.ShowDialogWithAssignedOwner(vm) == true)
-            {
-                Rows.Add(vm.UserInWork);
-            }
+            vm.Initialize();
+            _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
         public void ChangeUser()
         {
-            var userInWork =  (User)SelectedUser.Clone();
+            var userInWork = (UserVm)SelectedUser.Clone();
             var vm = _globalScope.Resolve<UserViewModel>();
             vm.Initialize(userInWork);
-            if (_windowManager.ShowDialogWithAssignedOwner(vm) == true)
-            {
-                var oldUser = Rows.First(u => u.UserId == userInWork.UserId);
-                Rows.Remove(oldUser);
-                Rows.Add(vm.UserInWork);
-            }
+            _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
         public void RemoveUser()
         {
-          
+
         }
         #endregion
 
@@ -91,6 +132,6 @@ namespace Iit.Fibertest.Client
             TryClose();
         }
 
-       
+
     }
 }

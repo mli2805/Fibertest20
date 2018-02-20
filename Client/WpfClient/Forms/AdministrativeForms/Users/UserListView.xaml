@@ -25,10 +25,10 @@
             </DataGrid.ContextMenu>
             <DataGrid.Columns>
                 
-                <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Name}" Width="120" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Name}" Width="120" Binding="{Binding Title}" />
                 <DataGridComboBoxColumn Header="{x:Static stringResources:Resources.SID_Role}" Width="120" ItemsSource="{x:Static testBench:UserListViewModel.Roles}"
                                         SelectedItemBinding="{Binding Role}"/>
-                <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Responsibility_zone}" Width="220" Binding="{Binding ZoneName}" />
+                <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Responsibility_zone}" Width="220" Binding="{Binding ZoneTitle}" />
                 <DataGridTemplateColumn Header="{x:Static stringResources:Resources.SID_Email}" Width="320">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="{x:Type testBench:UserVm}">

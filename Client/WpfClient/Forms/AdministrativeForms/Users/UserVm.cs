@@ -1,27 +1,29 @@
 ﻿using System;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
 {
     public class UserVm : PropertyChangedBase, ICloneable
     {
-        private string _name;
+        private string _title;
         private Role _role;
         private string _email;
         private bool _isEmailActivated;
-        private string _zoneName;
         private Guid _zoneId;
         private bool _isDefaultZoneUser;
-        public int Id { get; set; }
+        private string _zoneTitle;
 
-        public string Name
+        public Guid UserId { get; set; }
+
+        public string Title
         {
-            get { return _name; }
+            get { return _title; }
             set
             {
-                if (value == _name) return;
-                _name = value;
+                if (value == _title) return;
+                _title = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -83,15 +85,32 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public string ZoneName
+        public string ZoneTitle
         {
-            get { return _zoneName; }
+            get { return _zoneTitle; }
             set
             {
-                if (value == _zoneName) return;
-                _zoneName = value;
+                if (value == _zoneTitle) return;
+                _zoneTitle = value;
                 NotifyOfPropertyChange();
             }
+        }
+
+        public UserVm()
+        {
+            UserId = Guid.NewGuid();
+            Role = Role.Operator;
+        }
+        public UserVm(User user, string zoneTitle)
+        {
+            UserId = user.UserId;
+            Title = user.Title;
+            Password = UserExt.FlipFlop(user.EncodedPassword);
+            Role = user.Role;
+            Email = user.Email;
+            IsEmailActivated = user.IsEmailActivated;
+            IsDefaultZoneUser = user.IsDefaultZoneUser;
+            ZoneTitle = zoneTitle;
         }
 
         public object Clone()
@@ -101,15 +120,15 @@ namespace Iit.Fibertest.Client
 
         public void CopyTo(UserVm destination)
         {
-            destination.Id = Id;
-            destination.Name = Name;
+            destination.UserId = UserId;
+            destination.Title = Title;
             destination.Role = Role;
             destination.Password = Password;
             destination.Email = Email;
             destination.IsEmailActivated = IsEmailActivated;
             destination.ZoneId = ZoneId;
             destination.IsDefaultZoneUser = IsDefaultZoneUser;
-            destination.ZoneName = ZoneName;
+            destination.ZoneTitle = ZoneTitle;
         }
     }
 }

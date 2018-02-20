@@ -13,11 +13,11 @@
         <Border Margin="5" BorderThickness="1" BorderBrush="LightGray" CornerRadius="3" Padding="5">
             <StackPanel>
                 <DockPanel>
-                    <TextBox Name="TextBoxTitle" DockPanel.Dock="Right" Text="{Binding UserInWork.Name}" Margin="5" Width="150" />
+                    <TextBox Name="TextBoxTitle" DockPanel.Dock="Right" Text="{Binding UserInWork.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Margin="5" Width="150" />
                     <TextBlock Text="{x:Static stringResources:Resources.SID_Name}" Margin="5" HorizontalAlignment="Right"/>
                 </DockPanel>
                 <DockPanel>
-                    <ComboBox DockPanel.Dock="Right" ItemsSource="{Binding Roles}" SelectedItem="{Binding UserInWork.Role}" 
+                    <ComboBox DockPanel.Dock="Right" ItemsSource="{Binding Roles}" SelectedItem="{Binding UserInWork.Role, Mode=TwoWay}" 
                               IsEnabled="{Binding IsntItRoot}" Margin="5" Width="150"/>
                     <TextBlock Text="{x:Static stringResources:Resources.SID_Role}" Margin="5" HorizontalAlignment="Right"/>
                 </DockPanel>

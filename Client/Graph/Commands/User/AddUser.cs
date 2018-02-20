@@ -6,7 +6,7 @@ namespace Iit.Fibertest.Graph
     public class AddUser
     {
         public Guid UserId { get; set; }
-        public string Name { get; set; }
+        public string Title { get; set; }
         public string EncodedPassword { get; set; }
         public string Email { get; set; }
         public bool IsEmailActivated { get; set; }

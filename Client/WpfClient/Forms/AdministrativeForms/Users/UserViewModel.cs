@@ -13,8 +13,10 @@ namespace Iit.Fibertest.Client
     public class UserViewModel : Screen, IDataErrorInfo
     {
         private readonly IWcfServiceForClient _c2DWcfManager;
+        private bool _isInCreationMode;
+
         private readonly ReadModel _readModel;
-        public User UserInWork { get; set; }
+        public UserVm UserInWork { get; set; }
 
         public bool IsntItRoot { get; set; }
 
@@ -45,8 +47,8 @@ namespace Iit.Fibertest.Client
         }
 
 
-        public static List<Role> Roles { get; set; }
-        public static List<Zone> Zones { get; set; }
+        public List<Role> Roles { get; set; }
+        public List<Zone> Zones { get; set; }
 
         private Zone _selectedZone;
         public Zone SelectedZone
@@ -78,8 +80,21 @@ namespace Iit.Fibertest.Client
             _readModel = readModel;
         }
 
-        public void Initialize(User user)
+        public void Initialize()
         {
+            _isInCreationMode = true;
+            UserInWork = new UserVm();
+
+            Roles = Enum.GetValues(typeof(Role)).Cast<Role>().Skip(2).ToList();
+            IsntItRoot = true;
+
+            Zones = _readModel.Zones;
+            SelectedZone = Zones.First();
+        }
+        public void Initialize(UserVm user)
+        {
+            _isInCreationMode = false;
+
             UserInWork = user;
 
             if (UserInWork.Role == Role.Root)
@@ -94,22 +109,46 @@ namespace Iit.Fibertest.Client
             }
             if (UserInWork.Role == 0)
                 UserInWork.Role = Roles.First();
-            Password1 = Password2 = UserInWork.EncodedPassword; //TODO decode
+            Password1 = Password2 = UserInWork.Password;
 
             Zones = _readModel.Zones;
-
             SelectedZone = (UserInWork.IsDefaultZoneUser) ? Zones.First() : Zones.First(z=>z.ZoneId == user.ZoneId);
         }
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = Resources.SID_User;
+            DisplayName = _isInCreationMode ? Resources.SID_New_user_creation : Resources.SID_Update_user_info;
         }
 
-        public void Save()
+        public async void Save()
         {
-           
+            object cmd;
+            if (_isInCreationMode)
+                cmd = new AddUser()
+                {
+                    UserId = Guid.NewGuid(),
+                    Title = UserInWork.Title,
+                    Role = UserInWork.Role,
+                    Email = UserInWork.Email,
+                    IsEmailActivated = UserInWork.IsEmailActivated,
+                    EncodedPassword = UserExt.FlipFlop(UserInWork.Password),
+                    IsDefaultZoneUser = UserInWork.IsDefaultZoneUser,
+                    ZoneId = UserInWork.ZoneId,
+                };
+            else
+                cmd = new UpdateUser()
+                {
+                    UserId = UserInWork.UserId,
+                    Title = UserInWork.Title,
+                    Role = UserInWork.Role,
+                    Email = UserInWork.Email,
+                    IsEmailActivated = UserInWork.IsEmailActivated,
+                    EncodedPassword = UserExt.FlipFlop(UserInWork.Password),
+                    IsDefaultZoneUser = UserInWork.IsDefaultZoneUser,
+                    ZoneId = UserInWork.ZoneId,
+                };
 
+            await _c2DWcfManager.SendCommandAsObj(cmd);
             TryClose(true);
         }
         public void Cancel()
@@ -124,15 +163,19 @@ namespace Iit.Fibertest.Client
                 var errorMessage = string.Empty;
                 switch (columnName)
                 {
+                    case "Title":
+                        if (string.IsNullOrEmpty(UserInWork.Title?.Trim()))
+                            errorMessage = Resources.SID_Title_should_be_set_;
+                        break;
                     case "Password1":
                     case "Password2":
                         if (string.IsNullOrEmpty(Password1?.Trim()) || string.IsNullOrEmpty(Password2?.Trim()))
                             errorMessage = Resources.SID_Password_should_be_set;
                         else if (Password1 != Password2)
                             errorMessage = Resources.SID_Passwords_don_t_match;
-                        IsButtonSaveEnabled = errorMessage == string.Empty;
                         break;
                 }
+                IsButtonSaveEnabled = errorMessage == string.Empty;
                 return errorMessage;
 
             }

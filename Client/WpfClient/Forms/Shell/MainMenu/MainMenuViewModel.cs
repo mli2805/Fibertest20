@@ -7,13 +7,11 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly IWindowManager _windowManager;
-        private readonly UserListViewModel _userListViewModel;
 
-        public MainMenuViewModel(ILifetimeScope globalScope, IWindowManager windowManager, UserListViewModel userListViewModel)
+        public MainMenuViewModel(ILifetimeScope globalScope, IWindowManager windowManager)
         {
             _globalScope = globalScope;
             _windowManager = windowManager;
-            _userListViewModel = userListViewModel;
         }
 
         public void LaunchResponsibilityZonesView()
@@ -24,8 +22,8 @@ namespace Iit.Fibertest.Client
 
         public void LaunchUserListView()
         {
-            _userListViewModel.Initialize();
-            _windowManager.ShowWindowWithAssignedOwner(_userListViewModel);
+            var vm = _globalScope.Resolve<UserListViewModel>();
+            _windowManager.ShowWindowWithAssignedOwner(vm);
         }
 
         public void LaunchObjectsToZonesView()

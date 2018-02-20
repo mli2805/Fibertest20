@@ -109,7 +109,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             var result = new ClientRegisteredDto();
             try
             {
-                var user = _writeModel.Users.FirstOrDefault(u => u.Name == dto.UserName && UserExt.FlipFlop(u.EncodedPassword) == dto.Password);
+                var user = _writeModel.Users.FirstOrDefault(u => u.Title == dto.UserName && UserExt.FlipFlop(u.EncodedPassword) == dto.Password);
                 if (user == null)
                 {
                     result.ReturnCode = ReturnCode.NoSuchUserOrWrongPassword;
