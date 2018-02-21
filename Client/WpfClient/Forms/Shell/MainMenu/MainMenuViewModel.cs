@@ -1,6 +1,8 @@
-﻿using Autofac;
+﻿using System.Linq;
+using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
 {
@@ -8,6 +10,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly IWindowManager _windowManager;
+        private readonly ReadModel _readModel;
         private CurrentUser _currentUser;
 
         private bool _isZonesEnabled;
@@ -22,16 +25,30 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public MainMenuViewModel(ILifetimeScope globalScope, IWindowManager windowManager)
+        private bool _isUsersEnabled;
+        public bool IsUsersEnabled
+        {
+            get => _isUsersEnabled;
+            set
+            {
+                if (value == _isUsersEnabled) return;
+                _isUsersEnabled = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public MainMenuViewModel(ILifetimeScope globalScope, IWindowManager windowManager, ReadModel readModel)
         {
             _globalScope = globalScope;
             _windowManager = windowManager;
+            _readModel = readModel;
         }
 
         public void Initialize(CurrentUser currentUser)
         {
             _currentUser = currentUser;
             IsZonesEnabled = _currentUser.Role <= Role.Root;
+            IsUsersEnabled = _currentUser.Role <= Role.Root;
         }
 
         public void LaunchResponsibilityZonesView()
@@ -48,6 +65,14 @@ namespace Iit.Fibertest.Client
 
         public void LaunchObjectsToZonesView()
         {
+        }
+
+        public void LaunchChangePasswordView()
+        {
+            var vm = _globalScope.Resolve<ChangePasswordViewModel>();
+            var user = _readModel.Users.First(u => u.Title == _currentUser.UserName);
+            vm.Initialize(user);
+            _windowManager.ShowWindowWithAssignedOwner(vm);
         }
     }
 }

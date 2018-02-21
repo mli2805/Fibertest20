@@ -1863,6 +1863,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Input current password.
+        /// </summary>
+        public static string SID_Input_current_password {
+            get {
+                return ResourceManager.GetString("SID_Input_current_password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Input user name and password.
         /// </summary>
         public static string SID_Input_user_name_and_password {
@@ -2435,6 +2444,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_new {
             get {
                 return ResourceManager.GetString("SID_new", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New password.
+        /// </summary>
+        public static string SID_New_password {
+            get {
+                return ResourceManager.GetString("SID_New_password", resourceCulture);
             }
         }
         
@@ -4498,6 +4516,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Wrong_param {
             get {
                 return ResourceManager.GetString("SID_Wrong_param", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wrong password.
+        /// </summary>
+        public static string SID_Wrong_password {
+            get {
+                return ResourceManager.GetString("SID_Wrong_password", resourceCulture);
             }
         }
         

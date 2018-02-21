@@ -13,7 +13,8 @@
         <Border Margin="5" BorderThickness="1" BorderBrush="LightGray" CornerRadius="3" Padding="5">
             <StackPanel>
                 <DockPanel>
-                    <TextBox Name="TextBoxTitle" DockPanel.Dock="Right" Text="{Binding UserInWork.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Margin="5" Width="150" />
+                    <TextBox Name="TextBoxTitle" DockPanel.Dock="Right" Margin="5" Width="150" 
+                             Text="{Binding UserInWork.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
                     <TextBlock Text="{x:Static stringResources:Resources.SID_Name}" Margin="5" HorizontalAlignment="Right"/>
                 </DockPanel>
                 <DockPanel>
@@ -28,7 +29,7 @@
                 </DockPanel>
             </StackPanel>
         </Border>
-        <GroupBox Header="Password" Margin="5" Padding="0,5">
+        <GroupBox Header="Password" Margin="5" Padding="0,5" IsEnabled="{Binding IsPasswordsEnabled}">
             <StackPanel>
                 <PasswordBox client:PasswordHelper.Attach="True"  
                              client:PasswordHelper.Password="{Binding Password1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 

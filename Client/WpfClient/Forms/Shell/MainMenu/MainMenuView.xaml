@@ -9,14 +9,13 @@
              mc:Ignorable="d" d:DesignWidth="300" d:DataContext="{d:DesignInstance client:MainMenuViewModel}">
     <Grid>
         <Menu Margin="10,-1,0,11" FontSize="14" Background="White" VerticalAlignment="Center">
-           <MenuItem Header="{x:Static stringResources:Resources.SID_Administrative}">
-               <MenuItem Header="{x:Static stringResources:Resources.SID_Responsibility_zones}" 
+            <MenuItem Header="{x:Static stringResources:Resources.SID_Administrative}">
+                <MenuItem Header="{x:Static stringResources:Resources.SID_Responsibility_zones}" 
                          cal:Message.Attach="LaunchResponsibilityZonesView" IsEnabled="{Binding IsZonesEnabled}"/>
-               <MenuItem Header="{x:Static stringResources:Resources.SID_Users}" cal:Message.Attach="LaunchUserListView()"/>
-               <MenuItem Header="{x:Static stringResources:Resources.SID_Responsibility_zones_settings}" cal:Message.Attach="LaunchObjectsToZonesView"/>
-               <MenuItem Header="{x:Static stringResources:Resources.SID_Change_password}" />
-           </MenuItem> 
-           <MenuItem Header="Edit"/> 
-        </Menu>    
+                <MenuItem Header="{x:Static stringResources:Resources.SID_Users}" cal:Message.Attach="LaunchUserListView()"/>
+                <MenuItem Header="{x:Static stringResources:Resources.SID_Responsibility_zones_settings}" cal:Message.Attach="LaunchObjectsToZonesView"/>
+                <MenuItem Header="{x:Static stringResources:Resources.SID_Change_password}" cal:Message.Attach="LaunchChangePasswordView"/>
+            </MenuItem>
+        </Menu>
     </Grid>
 </UserControl>

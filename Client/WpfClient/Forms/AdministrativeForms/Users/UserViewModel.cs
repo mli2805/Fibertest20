@@ -23,7 +23,7 @@ namespace Iit.Fibertest.Client
         private string _password1;
         public string Password1
         {
-            get { return _password1; }
+            get => _password1;
             set
             {
                 if (value == _password1) return;
@@ -36,7 +36,7 @@ namespace Iit.Fibertest.Client
         private string _password2;
         public string Password2
         {
-            get { return _password2; }
+            get => _password2;
             set
             {
                 if (value == _password2) return;
@@ -46,6 +46,8 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        public bool IsPasswordsEnabled { get; set; }
+
 
         public List<Role> Roles { get; set; }
         public List<Zone> Zones { get; set; }
@@ -53,7 +55,7 @@ namespace Iit.Fibertest.Client
         private Zone _selectedZone;
         public Zone SelectedZone
         {
-            get { return _selectedZone; }
+            get => _selectedZone;
             set
             {
                 if (Equals(value, _selectedZone)) return;
@@ -65,7 +67,7 @@ namespace Iit.Fibertest.Client
         private bool _isButtonSaveEnabled;
         public bool IsButtonSaveEnabled
         {
-            get { return _isButtonSaveEnabled; }
+            get => _isButtonSaveEnabled;
             set
             {
                 if (value == _isButtonSaveEnabled) return;
@@ -80,18 +82,21 @@ namespace Iit.Fibertest.Client
             _readModel = readModel;
         }
 
-        public void Initialize()
+        public void InitializeForCreate()
         {
             _isInCreationMode = true;
             UserInWork = new UserVm();
 
-            Roles = Enum.GetValues(typeof(Role)).Cast<Role>().Skip(2).ToList();
+            Roles = Enum.GetValues(typeof(Role)).Cast<Role>().Skip(3).ToList();
             IsntItRoot = true;
+
+            IsPasswordsEnabled = true;
 
             Zones = _readModel.Zones;
             SelectedZone = Zones.First();
         }
-        public void Initialize(UserVm user)
+
+        public void InitializeForUpdate(UserVm user)
         {
             _isInCreationMode = false;
 
@@ -99,17 +104,19 @@ namespace Iit.Fibertest.Client
 
             if (UserInWork.Role == Role.Root)
             {
-                Roles = Enum.GetValues(typeof(Role)).Cast<Role>().Skip(1).ToList();
+                Roles = Enum.GetValues(typeof(Role)).Cast<Role>().Skip(2).ToList(); // system & developer
                 IsntItRoot = false;
             }
             else
             {
-                Roles = Enum.GetValues(typeof(Role)).Cast<Role>().Skip(2).ToList();
+                Roles = Enum.GetValues(typeof(Role)).Cast<Role>().Skip(3).ToList();
                 IsntItRoot = true;
             }
             if (UserInWork.Role == 0)
                 UserInWork.Role = Roles.First();
-            Password1 = Password2 = UserInWork.Password;
+
+            Password1 = Password2 = @"1234567890"; 
+            IsPasswordsEnabled = false;
 
             Zones = _readModel.Zones;
             SelectedZone = (UserInWork.IsDefaultZoneUser) ? Zones.First() : Zones.First(z=>z.ZoneId == user.ZoneId);
@@ -131,9 +138,9 @@ namespace Iit.Fibertest.Client
                     Role = UserInWork.Role,
                     Email = UserInWork.Email,
                     IsEmailActivated = UserInWork.IsEmailActivated,
-                    EncodedPassword = UserExt.FlipFlop(UserInWork.Password),
-                    IsDefaultZoneUser = UserInWork.IsDefaultZoneUser,
-                    ZoneId = UserInWork.ZoneId,
+                    EncodedPassword = UserExt.FlipFlop(Password1),
+                    IsDefaultZoneUser = SelectedZone.IsDefaultZone,
+                    ZoneId = SelectedZone.ZoneId,
                 };
             else
                 cmd = new UpdateUser()
@@ -143,14 +150,15 @@ namespace Iit.Fibertest.Client
                     Role = UserInWork.Role,
                     Email = UserInWork.Email,
                     IsEmailActivated = UserInWork.IsEmailActivated,
-                    EncodedPassword = UserExt.FlipFlop(UserInWork.Password),
-                    IsDefaultZoneUser = UserInWork.IsDefaultZoneUser,
-                    ZoneId = UserInWork.ZoneId,
+                    EncodedPassword = UserExt.FlipFlop(UserInWork.Password), // cannot be changed via this form
+                    IsDefaultZoneUser = SelectedZone.IsDefaultZone,
+                    ZoneId = SelectedZone.ZoneId,
                 };
 
             await _c2DWcfManager.SendCommandAsObj(cmd);
             TryClose(true);
         }
+
         public void Cancel()
         {
             TryClose(false);

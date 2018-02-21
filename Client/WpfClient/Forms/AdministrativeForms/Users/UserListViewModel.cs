@@ -12,28 +12,6 @@ using Iit.Fibertest.WcfServiceForClientInterface;
 namespace Iit.Fibertest.Client
 {
 
-    public class UserAsLine
-    {
-        public Guid UserId { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public bool IsEmailActivated { get; set; }
-        public Role Role { get; set; }
-        public bool IsDefaultZoneUser { get; set; }
-        public string ZoneTitle { get; set; }
-
-        public UserAsLine(User user, string zoneTitle)
-        {
-            UserId = user.UserId;
-            Name = user.Title;
-            Role = user.Role;
-            Email = user.Email;
-            IsEmailActivated = user.IsEmailActivated;
-            IsDefaultZoneUser = user.IsDefaultZoneUser;
-            ZoneTitle = zoneTitle;
-        }
-    }
-
     public class UserListViewModel : Screen
     {
         private List<User> _users;
@@ -56,18 +34,17 @@ namespace Iit.Fibertest.Client
         }
 
         private UserVm _selectedUser;
-
         public UserVm SelectedUser
         {
             get { return _selectedUser; }
             set
             {
                 _selectedUser = value;
-                NotifyOfPropertyChange(nameof(IsRemovable));
+ //               NotifyOfPropertyChange(nameof(IsRemovable));
             }
         }
 
-        public bool IsRemovable => SelectedUser?.Role != Role.Root;
+    //    public bool IsRemovable => SelectedUser?.Role != Role.Root;
 
         public static List<Role> Roles { get; set; }
 
@@ -109,7 +86,7 @@ namespace Iit.Fibertest.Client
         public void AddNewUser()
         {
             var vm = _globalScope.Resolve<UserViewModel>();
-            vm.Initialize();
+            vm.InitializeForCreate();
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
@@ -117,13 +94,14 @@ namespace Iit.Fibertest.Client
         {
             var userInWork = (UserVm)SelectedUser.Clone();
             var vm = _globalScope.Resolve<UserViewModel>();
-            vm.Initialize(userInWork);
+            vm.InitializeForUpdate(userInWork);
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
-        public void RemoveUser()
+        public async void RemoveUser()
         {
-
+            var cmd = new RemoveUser(){UserId = SelectedUser.UserId};
+            await _c2DWcfManager.SendCommandAsObj(cmd);
         }
         #endregion
 
@@ -131,7 +109,5 @@ namespace Iit.Fibertest.Client
         {
             TryClose();
         }
-
-
     }
 }

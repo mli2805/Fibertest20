@@ -111,6 +111,7 @@ namespace Iit.Fibertest.Client
             IsEmailActivated = user.IsEmailActivated;
             IsDefaultZoneUser = user.IsDefaultZoneUser;
             ZoneTitle = zoneTitle;
+            ZoneId = user.ZoneId;
         }
 
         public object Clone()

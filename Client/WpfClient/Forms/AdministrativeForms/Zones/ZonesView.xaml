@@ -8,7 +8,7 @@
         xmlns:cal="http://www.caliburnproject.org"
         cal:Bind.ModelWithoutContext="{Binding .}"
         mc:Ignorable="d"
-        Height="300" SizeToContent="Width" WindowStartupLocation="CenterOwner"
+        Height="300" SizeToContent="Width" WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
         d:DataContext="{d:DesignInstance client:ZonesViewModel}">
     <DockPanel>
         <DockPanel DockPanel.Dock="Bottom">

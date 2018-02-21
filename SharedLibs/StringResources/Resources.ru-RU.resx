@@ -1610,4 +1610,13 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Change_password" xml:space="preserve">
 		<value>Изменить пароль</value>
 	</data>
+	<data name="SID_Input_current_password" xml:space="preserve">
+		<value>Введите текущий пароль</value>
+	</data>
+	<data name="SID_New_password" xml:space="preserve">
+		<value>Новый пароль</value>
+	</data>
+	<data name="SID_Wrong_password" xml:space="preserve">
+		<value>Неверный пароль</value>
+	</data>
 </root>

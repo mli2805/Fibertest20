@@ -186,6 +186,10 @@
     </ApplicationDefinition>
     <Compile Include="ClientHeartbeat.cs" />
     <Compile Include="CurrentUser.cs" />
+    <Compile Include="Forms\AdministrativeForms\ChangePasswordView.xaml.cs">
+      <DependentUpon>ChangePasswordView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AdministrativeForms\ChangePasswordViewModel.cs" />
     <Compile Include="Forms\AdministrativeForms\Zones\ZoneView.xaml.cs">
       <DependentUpon>ZoneView.xaml</DependentUpon>
     </Compile>
@@ -521,6 +525,10 @@
     <Compile Include="Forms\AdministrativeForms\Users\UserListView.xaml.cs">
       <DependentUpon>UserListView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Forms\AdministrativeForms\ChangePasswordView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Forms\AdministrativeForms\Zones\ZoneView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

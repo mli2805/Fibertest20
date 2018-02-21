@@ -8,7 +8,8 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         cal:Bind.ModelWithoutContext="{Binding .}"
         mc:Ignorable="d"
-        Title="ZoneView" SizeToContent="WidthAndHeight" FocusManager.FocusedElement="{Binding ElementName=TextBoxTitle}"
+        Title="ZoneView" SizeToContent="WidthAndHeight" ResizeMode="NoResize"
+        FocusManager.FocusedElement="{Binding ElementName=TextBoxTitle}"
         d:DataContext="{d:DesignInstance client:ZoneViewModel}">
     <StackPanel Margin="5">
         <DockPanel Margin="5">
