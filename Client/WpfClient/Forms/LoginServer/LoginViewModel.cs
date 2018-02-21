@@ -65,6 +65,7 @@ namespace Iit.Fibertest.Client
             {
                 _currentUser.UserName = UserName;
                 _currentUser.Role = dto.Role;
+                _currentUser.ZoneTitle = dto.ZoneTitle;
                 GraphDbVersionOnServer = dto.GraphDbVersionId;
                 _logFile.AppendLine(@"Registered successfully");
                 TryClose(true);

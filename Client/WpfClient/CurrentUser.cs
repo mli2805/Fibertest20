@@ -6,5 +6,6 @@ namespace Iit.Fibertest.Client
     {
         public string UserName { get; set; }
         public Role Role { get; set; }
+        public string ZoneTitle { get; set; }
     }
 }

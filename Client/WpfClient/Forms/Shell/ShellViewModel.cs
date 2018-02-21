@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
 
@@ -91,7 +92,6 @@ namespace Iit.Fibertest.Client
             ((App) Application.Current).ShutdownMode = ShutdownMode.OnMainWindowClose;
             if (isAuthenticationSuccessfull == true)
             {
-                DisplayName = $@"Fibertest v2.0 {_currentUser.UserName} as {_currentUser.Role.ToString()}";
                 MainMenuViewModel.Initialize(_currentUser);
                 var da = _iniFile.ReadDoubleAddress(11840);
                 _server = da.Main.GetAddress();
@@ -103,6 +103,8 @@ namespace Iit.Fibertest.Client
                 _networkEventsProvider.LetsGetStarted();
                 _bopNetworkEventsProvider.LetsGetStarted();
                 _clientHeartbeat.Start();
+
+                DisplayName = $@"Fibertest v2.0 {_currentUser.UserName} as {_currentUser.Role.ToString()} [{_currentUser.ZoneTitle}]";
             }
 
             else

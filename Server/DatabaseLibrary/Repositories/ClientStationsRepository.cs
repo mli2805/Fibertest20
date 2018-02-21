@@ -88,6 +88,7 @@ namespace Iit.Fibertest.DatabaseLibrary
                     _logFile.AppendLine($"There are {dbContext.ClientStations.Count()} client(s)");
                     result.UserId = user.UserId;
                     result.Role = user.Role;
+                    result.ZoneTitle = _writeModel.Zones.First(z => z.ZoneId == user.ZoneId).Title;
                     result.ReturnCode = ReturnCode.ClientRegisteredSuccessfully;
                     return result;
                 }
