@@ -92,6 +92,7 @@ namespace Iit.Fibertest.Client
             if (isAuthenticationSuccessfull == true)
             {
                 DisplayName = $@"Fibertest v2.0 {_currentUser.UserName} as {_currentUser.Role.ToString()}";
+                MainMenuViewModel.Initialize(_currentUser);
                 var da = _iniFile.ReadDoubleAddress(11840);
                 _server = da.Main.GetAddress();
 

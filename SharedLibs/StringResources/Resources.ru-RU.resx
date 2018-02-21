@@ -1601,4 +1601,13 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Update_responsibility_zone" xml:space="preserve">
 		<value>Изменение зоны ответственности</value>
 	</data>
+	<data name="SID_New_user_creation" xml:space="preserve">
+		<value>Создание нового пользователя</value>
+	</data>
+	<data name="SID_Update_user_info" xml:space="preserve">
+		<value>Изменение данных пользователя</value>
+	</data>
+	<data name="SID_Change_password" xml:space="preserve">
+		<value>Изменить пароль</value>
+	</data>
 </root>

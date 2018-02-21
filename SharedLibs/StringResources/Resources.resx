@@ -1601,10 +1601,13 @@ RTU is initializing right now!</value>
 	<data name="SID_Update_responsibility_zone" xml:space="preserve">
     <value>Update responsibility zone</value>
   </data>
-  <data name="SID_New_user_creation" xml:space="preserve">
+	<data name="SID_New_user_creation" xml:space="preserve">
     <value>New user creation</value>
   </data>
-  <data name="SID_Update_user_info" xml:space="preserve">
+	<data name="SID_Update_user_info" xml:space="preserve">
     <value>Update user info</value>
+  </data>
+	<data name="SID_Change_password" xml:space="preserve">
+    <value>Change password</value>
   </data>
 </root>

@@ -926,6 +926,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change password.
+        /// </summary>
+        public static string SID_Change_password {
+            get {
+                return ResourceManager.GetString("SID_Change_password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change user.
         /// </summary>
         public static string SID_Change_user {
