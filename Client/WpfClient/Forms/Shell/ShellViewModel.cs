@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
 
@@ -82,14 +81,27 @@ namespace Iit.Fibertest.Client
 
         private readonly CancellationTokenSource _clientPollerCts = new CancellationTokenSource();
 
-        protected override async void OnViewReady(object view)
+        private bool _isEnabled;
+        public bool IsEnabled
         {
-            ((App) Application.Current).ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            get => _isEnabled;
+            set
+            {
+                if (value == _isEnabled) return;
+                _isEnabled = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        protected override async void OnViewLoaded(object view)
+        {
+
+            ((App)Application.Current).ShutdownMode = ShutdownMode.OnExplicitShutdown;
             _logFile.AssignFile(@"Client.log");
 
             _logFile.AppendLine(@"Client application started!");
-            var isAuthenticationSuccessfull = _windowManager.ShowDialogWithAssignedOwner(_loginViewModel);
-            ((App) Application.Current).ShutdownMode = ShutdownMode.OnMainWindowClose;
+            var isAuthenticationSuccessfull = _windowManager.ShowDialog(_loginViewModel);
+            ((App)Application.Current).ShutdownMode = ShutdownMode.OnMainWindowClose;
             if (isAuthenticationSuccessfull == true)
             {
                 MainMenuViewModel.Initialize(_currentUser);
@@ -104,6 +116,7 @@ namespace Iit.Fibertest.Client
                 _bopNetworkEventsProvider.LetsGetStarted();
                 _clientHeartbeat.Start();
 
+                IsEnabled = true;
                 DisplayName = $@"Fibertest v2.0 {_currentUser.UserName} as {_currentUser.Role.ToString()} [{_currentUser.ZoneTitle}]";
             }
 

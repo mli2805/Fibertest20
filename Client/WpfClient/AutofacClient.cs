@@ -164,6 +164,7 @@ namespace Iit.Fibertest.Client
 
             builder.RegisterType<LoginViewModel>();
             builder.RegisterType<ServerConnectViewModel>();
+            builder.RegisterType<ServersConnectViewModel>();
             builder.RegisterType<NetAddressTestViewModel>();
             builder.RegisterType<NetAddressInputViewModel>();
             builder.RegisterType<RtuInitializeViewModel>();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows;
+using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -13,12 +14,12 @@ namespace Iit.Fibertest.Client
 {
     public class LoginViewModel : Screen
     {
+        private readonly ILifetimeScope _globalScope;
         private readonly IWindowManager _windowManager;
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly CurrentUser _currentUser;
-        private readonly ServerConnectViewModel _serverConnectViewModel;
 
         private string _userName;
         public string UserName
@@ -48,15 +49,15 @@ namespace Iit.Fibertest.Client
 
         public Guid GraphDbVersionOnServer { get; set; }
 
-        public LoginViewModel(IWindowManager windowManager, IniFile iniFile, IMyLog logFile,
-            IWcfServiceForClient c2DWcfManager, CurrentUser currentUser, ServerConnectViewModel serverConnectViewModel)
+        public LoginViewModel(ILifetimeScope globalScope, IWindowManager windowManager, IniFile iniFile, IMyLog logFile,
+            IWcfServiceForClient c2DWcfManager, CurrentUser currentUser)
         {
+            _globalScope = globalScope;
             _windowManager = windowManager;
             _iniFile = iniFile;
             _logFile = logFile;
             _c2DWcfManager = c2DWcfManager;
             _currentUser = currentUser;
-            _serverConnectViewModel = serverConnectViewModel;
         }
 
         private void ParseServerAnswer(ClientRegisteredDto dto)
@@ -120,7 +121,8 @@ namespace Iit.Fibertest.Client
 
         public void SetServerAddress()
         {
-            _windowManager.ShowDialogWithAssignedOwner(_serverConnectViewModel);
+            var vm = _globalScope.Resolve<ServersConnectViewModel>();
+            _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
         public void Cancel() { TryClose(false);}

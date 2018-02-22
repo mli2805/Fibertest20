@@ -269,7 +269,7 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task UnregisterClientAsync(UnRegisterClientDto dto)
         {
-            var wcfConnection = _wcfFactory.CreateC2DConnection();
+            var wcfConnection = _wcfFactory?.CreateC2DConnection();
             if (wcfConnection == null)
                 return;
 

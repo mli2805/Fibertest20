@@ -24,7 +24,7 @@ namespace Iit.Fibertest.Client
         private ObservableCollection<UserVm> _rows = new ObservableCollection<UserVm>();
         public ObservableCollection<UserVm> Rows
         {
-            get { return _rows; }
+            get => _rows;
             set
             {
                 if (Equals(value, _rows)) return;
@@ -36,15 +36,15 @@ namespace Iit.Fibertest.Client
         private UserVm _selectedUser;
         public UserVm SelectedUser
         {
-            get { return _selectedUser; }
+            get => _selectedUser;
             set
             {
                 _selectedUser = value;
- //               NotifyOfPropertyChange(nameof(IsRemovable));
+                NotifyOfPropertyChange(nameof(IsRemovable));
             }
         }
 
-    //    public bool IsRemovable => SelectedUser?.Role != Role.Root;
+        public bool IsRemovable => SelectedUser?.Role != Role.Root;
 
         public static List<Role> Roles { get; set; }
 
@@ -58,7 +58,7 @@ namespace Iit.Fibertest.Client
             Initialize();
         }
 
-        public void Initialize()
+        private void Initialize()
         {
             _users = _readModel.Users;
             _zones = _readModel.Zones;

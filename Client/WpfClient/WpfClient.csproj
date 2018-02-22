@@ -201,6 +201,11 @@
     <Compile Include="Forms\EquipmentAddUpdate\CableReserveInfoViewModel.cs" />
     <Compile Include="Forms\EquipmentAddUpdate\EquipmentInfoModel.cs" />
     <Compile Include="Forms\EquipmentAddUpdate\ViewMode.cs" />
+    <Compile Include="Forms\LoginServer\Server.cs" />
+    <Compile Include="Forms\LoginServer\ServersConnectView.xaml.cs">
+      <DependentUpon>ServersConnectView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\LoginServer\ServersConnectViewModel.cs" />
     <Compile Include="Forms\Shell\MarkerControl\CommonVmActions.cs" />
     <Compile Include="Forms\Shell\MarkerControl\HighlightingControl.xaml.cs">
       <DependentUpon>HighlightingControl.xaml</DependentUpon>
@@ -534,6 +539,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\EquipmentAddUpdate\CableReserveInfoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\LoginServer\ServersConnectView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -6,6 +6,7 @@ using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Client
 {
@@ -20,7 +21,8 @@ namespace Iit.Fibertest.Client
         public void Initialize(TreeOfAcceptableMeasParams treeOfAcceptableMeasParams)
         {
             _treeOfAcceptableMeasParams = treeOfAcceptableMeasParams;
-            File.WriteAllLines(@"..\temp\tree.txt", _treeOfAcceptableMeasParams.Log());
+            var filename = Utils.FileNameForSure(@"..\temp\", @"tree.txt", false);
+            File.WriteAllLines(filename, _treeOfAcceptableMeasParams.Log());
             Model = new OtdrParametersModel();
             InitializeControls();
             Model.PropertyChanged += Model_PropertyChanged;

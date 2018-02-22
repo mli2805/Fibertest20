@@ -9,14 +9,14 @@ namespace Iit.Fibertest.Client
     public class ServerConnectViewModel : Screen
     {
         private readonly IniFile _clientIni;
-        private string _message;
         private DoubleAddress _dcServiceAddresses;
         private string _clientAddress;
         public NetAddressTestViewModel ServerConnectionTestViewModel { get; set; }
 
+        private string _message;
         public string Message
         {
-            get { return _message; }
+            get => _message;
             set
             {
                 if (value == _message) return;
