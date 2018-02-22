@@ -24,8 +24,7 @@ namespace Iit.Fibertest.Client
         public void StartDefineTraceStepByStep(object parameter)
         {
             var marker = (MarkerControl)parameter;
-            marker.MainMap.IsInTraceDefiningMode = true;
-            marker.MainMap.StartNode = marker.GMapMarker;
+            marker.Owner.GraphReadModel.GrmRtuRequests.DefineTraceStepByStep(marker.GMapMarker.Id);
         }
 
     }

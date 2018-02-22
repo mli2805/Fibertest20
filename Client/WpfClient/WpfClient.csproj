@@ -214,6 +214,10 @@
     <Compile Include="Forms\Shell\MarkerControl\RtuVmContextMenuProvider.cs" />
     <Compile Include="Forms\Shell\MarkerControl\RtuVmPermissions.cs" />
     <Compile Include="Forms\SpecialMeasurements\ClientMeasurementViewModel.cs" />
+    <Compile Include="Forms\TraceForms\TraceStepByStepView.xaml.cs">
+      <DependentUpon>TraceStepByStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\TraceForms\TraceStepByStepViewModel.cs" />
     <Compile Include="GraphModel\BreakNotifier.cs" />
     <Compile Include="GraphModel\EventExecutors\EquipmentEventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\EventsOnGraphExecutor.cs" />
@@ -615,6 +619,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\TraceForms\TraceStatistics\TraceStatisticsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\TraceForms\TraceStepByStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

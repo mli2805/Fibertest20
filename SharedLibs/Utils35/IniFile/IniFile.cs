@@ -92,20 +92,18 @@ namespace Iit.Fibertest.UtilsLib
 
         public bool Read(IniSection section, IniKey key, bool defaultValue)
         {
-            bool result;
-            return bool.TryParse(Read(section, key, defaultValue.ToString()), out result) ? result : defaultValue;
+            return bool.TryParse(Read(section, key, defaultValue.ToString()), out var result) ? result : defaultValue;
         }
 
         public int Read(IniSection section, IniKey key, int defaultValue)
         {
-            int result;
-            return int.TryParse(Read(section, key, defaultValue.ToString()), out result) ? result : defaultValue;
+            return int.TryParse(Read(section, key, defaultValue.ToString()), out var result) ? result : defaultValue;
         }
 
         public double Read(IniSection section, IniKey key, double defaultValue)
         {
-            double result;
-            return double.TryParse(Read(section, key, defaultValue.ToString(CultureInfo.InvariantCulture)), out result) ? result : defaultValue;
+            var str = Read(section, key, defaultValue.ToString(CultureInfo.InvariantCulture));
+            return double.TryParse(str, NumberStyles.Any, CultureInfo.InvariantCulture, out var result) ? result : defaultValue;
         }
 
         public NetAddress Read(IniSection section, int defaultTcpPort)

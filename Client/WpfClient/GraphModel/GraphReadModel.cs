@@ -13,6 +13,8 @@ namespace Iit.Fibertest.Client
 {
     public class GraphReadModel : PropertyChangedBase
     {
+        public Map MainMap { get; set; }
+
         public CommonStatusBarViewModel CommonStatusBarViewModel { get; }
         public GrmNodeRequests GrmNodeRequests { get; }
         public GrmEquipmentRequests GrmEquipmentRequests { get; }
@@ -22,7 +24,7 @@ namespace Iit.Fibertest.Client
         public IWindowManager WindowManager { get; }
         public ReadModel ReadModel { get; }
         public readonly ILifetimeScope GlobalScope;
-        private readonly IniFile _iniFile;
+        public readonly IniFile IniFile;
 
         public ObservableCollection<NodeVm> Nodes { get; }
         public ObservableCollection<FiberVm> Fibers { get; }
@@ -43,23 +45,6 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public int Zoom { get; set; } 
-
-        private PointLatLng _toCenter;
-        public PointLatLng ToCenter
-        {
-            get => _toCenter;
-            set
-            {
-                if (value.Equals(_toCenter)) return;
-                _toCenter = value;
-                NotifyOfPropertyChange();
-                CenterForIni = value;
-            }
-        }
-
-        public PointLatLng CenterForIni { get; set; }
-
         public string CurrentMousePositionString => CurrentMousePosition.ToDetailedString(CurrentGpsInputMode);
         public GpsInputMode CurrentGpsInputMode = GpsInputMode.DegreesMinutesAndSeconds;
 
@@ -73,7 +58,7 @@ namespace Iit.Fibertest.Client
             {
                 if (value == _selectedGraphVisibilityItem) return;
                 _selectedGraphVisibilityItem = value;
-                _iniFile.Write(IniSection.Miscellaneous, IniKey.GraphVisibilityLevel, SelectedGraphVisibilityItem.Level.ToString());
+                IniFile.Write(IniSection.Miscellaneous, IniKey.GraphVisibilityLevel, SelectedGraphVisibilityItem.Level.ToString());
                 NotifyOfPropertyChange();
             }
         }
@@ -95,7 +80,7 @@ namespace Iit.Fibertest.Client
             WindowManager = windowManager;
             ReadModel = readModel;
             GlobalScope = globalScope;
-            _iniFile = iniFile;
+            IniFile = iniFile;
             Nodes = new ObservableCollection<NodeVm>();
             Fibers = new ObservableCollection<FiberVm>();
             Rtus = new ObservableCollection<RtuVm>();
@@ -108,26 +93,21 @@ namespace Iit.Fibertest.Client
             if (!Enum.TryParse(levelString, out GraphVisibilityLevel level))
                 level = GraphVisibilityLevel.AllDetails;
             SetGraphVisibility(level);
-
-            Zoom = iniFile.Read(IniSection.Map, IniKey.Zoom, 7);
-            ToCenter = new PointLatLng()
-            {
-                Lat = iniFile.Read(IniSection.Map, IniKey.CenterLatitude, 53.856),
-                Lng = iniFile.Read(IniSection.Map, IniKey.CenterLongitude, 27.49),
-            };
         }
+
 
         public void SetGraphVisibility(GraphVisibilityLevel level)
         {
             SelectedGraphVisibilityItem =
                 GraphVisibilityItems.First(i => i.Level == level);
-            _iniFile.Write(IniSection.Miscellaneous, IniKey.GraphVisibilityLevel, level.ToString());
+            IniFile.Write(IniSection.Miscellaneous, IniKey.GraphVisibilityLevel, level.ToString());
         }
+
         public void PlaceRtuIntoScreenCenter(Guid rtuId)
         {
             var nodeVm = Rtus.First(r => r.Id == rtuId).Node;
             nodeVm.IsHighlighted = true;
-            ToCenter = nodeVm.Position;
+            MainMap.Position = nodeVm.Position;
         }
 
         public void ExtinguishNode()

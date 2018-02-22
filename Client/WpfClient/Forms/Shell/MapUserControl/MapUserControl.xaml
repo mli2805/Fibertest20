@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
              xmlns:client="clr-namespace:Iit.Fibertest.Client"
-             mc:Ignorable="d" d:DataContext="{d:DesignInstance client:GraphReadModel}">
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance client:GraphReadModel}" LostFocus="UserControl_LostFocus" Loaded="UserControl_Loaded">
     <Control.Resources>
         <!-- call this resource from code -->
         <!-- ReSharper disable once Xaml.RedundantResource -->

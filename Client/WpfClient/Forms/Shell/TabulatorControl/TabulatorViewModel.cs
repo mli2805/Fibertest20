@@ -94,7 +94,7 @@ namespace Iit.Fibertest.Client
             _networkEventsDoubleViewModel = networkEventsDoubleViewModel;
             _bopNetworkEventsDoubleViewModel = bopNetworkEventsDoubleViewModel;
             SubscribeActualEventsRowChanged();
-            SelectedTabIndex = 0;
+            SelectedTabIndex = 3;
         }
 
         private void SubscribeActualEventsRowChanged()

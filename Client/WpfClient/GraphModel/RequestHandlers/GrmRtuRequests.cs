@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
 using Caliburn.Micro;
@@ -45,6 +46,13 @@ namespace Iit.Fibertest.Client
                 return;
             var cmd = new RemoveRtu() { Id = rtu.Id };
             await _c2DWcfManager.SendCommandAsObj(cmd);
+        }
+
+        public void DefineTraceStepByStep(Guid rtuId)
+        {
+            var vm = _globalScope.Resolve<TraceStepByStepViewModel>();
+            vm.Initialize(rtuId);
+            _windowManager.ShowWindow(vm);
         }
     }
 }

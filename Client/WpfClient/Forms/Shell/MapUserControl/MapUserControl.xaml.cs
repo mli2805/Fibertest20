@@ -2,8 +2,10 @@
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
+using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsPresentation;
+using Iit.Fibertest.UtilsLib;
 using JetBrains.Annotations;
 
 namespace Iit.Fibertest.Client
@@ -11,7 +13,7 @@ namespace Iit.Fibertest.Client
     /// <summary>
     /// Interaction logic for MapUserControl.xaml
     /// </summary>
-    public partial class MapUserControl: INotifyPropertyChanged
+    public partial class MapUserControl : INotifyPropertyChanged
     {
         public GraphReadModel GraphReadModel => (GraphReadModel)DataContext;
 
@@ -41,6 +43,7 @@ namespace Iit.Fibertest.Client
             if (e.NewValue == null)
                 return;
             var graph = (GraphReadModel)e.NewValue;
+            graph.MainMap = this.MainMap;
             graph.CurrentMousePosition = MainMap.Position;
 
             graph.Nodes.CollectionChanged += NodesCollectionChanged;
@@ -48,36 +51,31 @@ namespace Iit.Fibertest.Client
 
             graph.PropertyChanged += Graph_PropertyChanged;
 
-            MainMap.Zoom = graph.Zoom;
-            MainMap.Position = graph.ToCenter;
-
             ApplyAddedNodes(graph.Nodes);
             ApplyAddedFibers(graph.Fibers);
         }
 
         private void Graph_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(GraphReadModel.ToCenter))
-                MainMap.Position = GraphReadModel.ToCenter;
             if (e.PropertyName == nameof(GraphReadModel.SelectedGraphVisibilityItem))
                 ChangeVisibility(GraphReadModel.SelectedGraphVisibilityItem.Level);
         }
 
-        private void ChangeVisibility(GraphVisibilityLevel selectedLevel)
+        public void ChangeVisibility(GraphVisibilityLevel selectedLevel)
         {
             foreach (var marker in MainMap.Markers)
             {
                 if (marker is GMapRoute gMapRoute)
                 {
-                    gMapRoute.Shape.Visibility = selectedLevel >= GraphVisibilityLevel.RtuAndTraces 
+                    gMapRoute.Shape.Visibility = selectedLevel >= GraphVisibilityLevel.RtuAndTraces
                         ? Visibility.Visible
                         : Visibility.Hidden;
                 }
                 else if (marker is GMapMarker gMapMarker) // GMapMarker - node
                 {
-                    gMapMarker.Shape.Visibility = 
-                        selectedLevel >= ((MarkerControl)gMapMarker.Shape).EqType.GetEnabledVisibilityLevel() 
-                        ? Visibility.Visible 
+                    gMapMarker.Shape.Visibility =
+                        selectedLevel >= ((MarkerControl)gMapMarker.Shape).EqType.GetEnabledVisibilityLevel()
+                        ? Visibility.Visible
                         : Visibility.Hidden;
                 }
             }
@@ -88,7 +86,6 @@ namespace Iit.Fibertest.Client
             var p = e.GetPosition(MainMap);
             GraphReadModel.CurrentMousePosition =
                 MainMap.FromLocalToLatLng((int)p.X, (int)p.Y);
-            GraphReadModel.CenterForIni = MainMap.Position;
         }
 
         void MainMap_MouseEnter(object sender, MouseEventArgs e)
@@ -107,7 +104,22 @@ namespace Iit.Fibertest.Client
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
+
+        private void UserControl_LostFocus(object sender, RoutedEventArgs e)
+        {
+            GraphReadModel.IniFile.Write(IniSection.Map, IniKey.Zoom, MainMap.Zoom);
+            GraphReadModel.IniFile.Write(IniSection.Map, IniKey.CenterLatitude, MainMap.Position.Lat);
+            GraphReadModel.IniFile.Write(IniSection.Map, IniKey.CenterLongitude, MainMap.Position.Lng);
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            MainMap.Zoom = GraphReadModel.IniFile.Read(IniSection.Map, IniKey.Zoom, 7);
+            var lat = GraphReadModel.IniFile.Read(IniSection.Map, IniKey.CenterLatitude, 53.856);
+            var lng = GraphReadModel.IniFile.Read(IniSection.Map, IniKey.CenterLongitude, 27.49);
+            MainMap.Position = new PointLatLng(lat, lng);
         }
     }
 }

@@ -6,10 +6,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         mc:Ignorable="d"
-        WindowState="Maximized" 
+        WindowState="Maximized"  
+        IsEnabled="{Binding IsEnabled}"
         d:DataContext="{d:DesignInstance client:ShellViewModel}" 
         >
-
     <DockPanel>
         <client:MainMenuView DockPanel.Dock="Top" DataContext="{Binding MainMenuViewModel}"/>
         <Grid>

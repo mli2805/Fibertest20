@@ -43,7 +43,10 @@ namespace Iit.Fibertest.Client
             return HasPriveligesAndParameterValid(parameter);
         }
 
-        public bool CanStartDefineTraceStepByStep(object parameter) { return false; }
+        public bool CanStartDefineTraceStepByStep(object parameter)
+        {
+            return HasPriveligesAndParameterValid(parameter);
+        }
 
         private bool HasPriveligesAndParameterValid(object parameter)
         {
