@@ -69,13 +69,14 @@ namespace Iit.Fibertest.Client
 
         public override void CanClose(Action<bool> callback)
         {
-            _clientPollerCts.Cancel();
-            _c2DWcfManager?.UnregisterClientAsync(new UnRegisterClientDto());
-            _iniFile.Write(IniSection.Map, IniKey.Zoom, GraphReadModel.Zoom);
-            _iniFile.Write(IniSection.Map, IniKey.CenterLatitude, GraphReadModel.CenterForIni.Lat);
-            _iniFile.Write(IniSection.Map, IniKey.CenterLongitude, GraphReadModel.CenterForIni.Lng);
-            _logFile.AppendLine(@"Client application finished!");
-            Thread.Sleep(TimeSpan.FromMilliseconds(1000));
+            Task.Factory.StartNew(() => {
+                _clientPollerCts.Cancel();
+                _c2DWcfManager?.UnregisterClientAsync(new UnRegisterClientDto());
+                _iniFile.Write(IniSection.Map, IniKey.Zoom, GraphReadModel.Zoom);
+                _iniFile.Write(IniSection.Map, IniKey.CenterLatitude, GraphReadModel.CenterForIni.Lat);
+                _iniFile.Write(IniSection.Map, IniKey.CenterLongitude, GraphReadModel.CenterForIni.Lng);
+                _logFile.AppendLine(@"Client application finished!");
+            });
             base.CanClose(callback);
         }
 
