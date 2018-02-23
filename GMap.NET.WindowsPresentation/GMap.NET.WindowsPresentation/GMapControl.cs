@@ -1539,6 +1539,17 @@
                     InvalidateVisual();
                 }
             }
+
+            if (e.Key == Key.Escape)
+            {
+                if (IsInFiberCreationMode)
+                {
+                    Markers.Remove(Markers.Single(m => m.Id == FiberUnderCreation));
+                    FiberUnderCreation = Guid.Empty;
+                    Cursor = cursorBefore;
+                    IsInFiberCreationMode = false;
+                }
+            }
         }
 
         /// <summary>
@@ -1611,6 +1622,8 @@
         }
 
         bool isSelected = false;
+
+        public bool IsInDistanceMesurementMode { get; set; } = false;
 
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {

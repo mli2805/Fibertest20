@@ -25,10 +25,11 @@ namespace Iit.Fibertest.Client
             _windowManager = windowManager;
         }
 
-        public void Initialize(Guid rtuId)
+        public void Initialize(Guid rtuNodeId)
         {
             Steps = new ObservableCollection<StepModel>();
-            var rtu = _graphReadModel.Rtus.First(r => r.Node.Id == rtuId);
+            var rtu = _graphReadModel.Rtus.First(r => r.Node.Id == rtuNodeId);
+            _graphReadModel.MainMap.Position = rtu.Node.Position;
             Steps.Add(new StepModel() { NodeId = rtu.Node.Id, Title = rtu.Title });
         }
 
@@ -85,6 +86,7 @@ namespace Iit.Fibertest.Client
 
         private bool JustStep(NodeVm nextNode)
         {
+
             Steps.Add(new StepModel() { NodeId = nextNode.Id, Title = nextNode.Title });
             _graphReadModel.MainMap.Position = nextNode.Position;
             return true;

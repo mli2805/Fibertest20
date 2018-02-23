@@ -194,6 +194,11 @@ namespace Iit.Fibertest.Client
 
         public void DefineTraceStepByStep(object param)
         {
+            if (!(param is RtuLeaf rtuLeaf))
+                return;
+
+            var rtuNodeId = _graphReadModel.Rtus.First(r => r.Id == rtuLeaf.Id).Node.Id;
+            _graphReadModel.GrmRtuRequests.DefineTraceStepByStep(rtuNodeId);
         }
     }
 }

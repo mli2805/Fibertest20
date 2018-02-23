@@ -121,5 +121,14 @@ namespace Iit.Fibertest.Client
             var lng = GraphReadModel.IniFile.Read(IniSection.Map, IniKey.CenterLongitude, 27.49);
             MainMap.Position = new PointLatLng(lat, lng);
         }
+
+        private void UserControl_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.L && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            {
+                SetBanner(MainMap.IsInDistanceMesurementMode ?"" : "Distance measurement mode");
+                MainMap.IsInDistanceMesurementMode = !MainMap.IsInDistanceMesurementMode;
+            }
+        }
     }
 }
