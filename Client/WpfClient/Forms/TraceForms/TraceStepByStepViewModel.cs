@@ -8,7 +8,7 @@ namespace Iit.Fibertest.Client
     public class TraceStepByStepViewModel : Screen
     {
         private readonly GraphReadModel _graphReadModel;
-        public ObservableCollection<string> Nodes { get; set; }
+        public ObservableCollection<string> Nodes { get; set;   }
 
         public TraceStepByStepViewModel(GraphReadModel graphReadModel)
         {
