@@ -12,7 +12,7 @@
         <TextBlock Text="{Binding Explanation}"  TextWrapping="Wrap" Margin="5, 20, 5,20" />
         <ItemsControl ItemsSource="{Binding Choices}" Margin="5,5,5,20">
             <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="client:RadioButtonModel">
+                <DataTemplate DataType="client:CheckBoxModel">
                     <CheckBox Content="{Binding Title}" IsChecked="{Binding IsChecked, Mode=TwoWay}" IsEnabled="{Binding IsEnabled}" Margin="5"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

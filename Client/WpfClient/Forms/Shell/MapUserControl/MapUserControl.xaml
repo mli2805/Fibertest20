@@ -27,6 +27,6 @@
                     <TextBlock Text="{Binding CurrentMousePositionString}" Margin="5,0,20,0"/>
                 </StatusBarItem>
             </StatusBar>
-        <client:Map x:Name="MainMap" Zoom="{Binding Zoom, Mode=TwoWay}" MaxZoom="19" MinZoom="1"/>
+        <client:Map x:Name="MainMap"  MaxZoom="19" MinZoom="1"/>
     </DockPanel>
 </UserControl>

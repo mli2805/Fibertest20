@@ -214,10 +214,14 @@
     <Compile Include="Forms\Shell\MarkerControl\RtuVmContextMenuProvider.cs" />
     <Compile Include="Forms\Shell\MarkerControl\RtuVmPermissions.cs" />
     <Compile Include="Forms\SpecialMeasurements\ClientMeasurementViewModel.cs" />
-    <Compile Include="Forms\TraceForms\TraceStepByStepView.xaml.cs">
+    <Compile Include="Forms\TraceForms\TraceStepByStep\StepChoiceView.xaml.cs">
+      <DependentUpon>StepChoiceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\TraceForms\TraceStepByStep\StepChoiceViewModel.cs" />
+    <Compile Include="Forms\TraceForms\TraceStepByStep\TraceStepByStepView.xaml.cs">
       <DependentUpon>TraceStepByStepView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\TraceForms\TraceStepByStepViewModel.cs" />
+    <Compile Include="Forms\TraceForms\TraceStepByStep\TraceStepByStepViewModel.cs" />
     <Compile Include="GraphModel\BreakNotifier.cs" />
     <Compile Include="GraphModel\EventExecutors\EquipmentEventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\EventsOnGraphExecutor.cs" />
@@ -622,7 +626,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\TraceForms\TraceStepByStepView.xaml">
+    <Page Include="Forms\TraceForms\TraceStepByStep\StepChoiceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\TraceForms\TraceStepByStep\TraceStepByStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

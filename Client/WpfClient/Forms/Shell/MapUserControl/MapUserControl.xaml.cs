@@ -43,7 +43,7 @@ namespace Iit.Fibertest.Client
             if (e.NewValue == null)
                 return;
             var graph = (GraphReadModel)e.NewValue;
-            graph.MainMap = this.MainMap;
+            graph.MainMap = MainMap;
             graph.CurrentMousePosition = MainMap.Position;
 
             graph.Nodes.CollectionChanged += NodesCollectionChanged;

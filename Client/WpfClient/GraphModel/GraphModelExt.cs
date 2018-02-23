@@ -18,5 +18,12 @@ namespace Iit.Fibertest.Client
                 f => f.Node1.Id == node1 && f.Node2.Id == node2 ||
                      f.Node1.Id == node2 && f.Node2.Id == node1).Id;
         }
+
+        public static List<NodeVm> GetNeighbours(this GraphReadModel model, Guid nodeId)
+        {
+            var nodes = model.Fibers.Where(f => f.Node1.Id == nodeId).Select(f=>f.Node2).ToList();
+            nodes.AddRange(model.Fibers.Where(f => f.Node2.Id == nodeId).Select(f => f.Node1));
+            return nodes;
+        }
     }
 }

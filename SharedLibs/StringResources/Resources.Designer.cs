@@ -115,6 +115,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to   (previous).
+        /// </summary>
+        public static string SID____previous_ {
+            get {
+                return ResourceManager.GetString("SID____previous_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to   Client&apos;s address {0}.
         /// </summary>
         public static string SID___Client_s_address__0_ {
@@ -2484,6 +2493,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Next step.
+        /// </summary>
+        public static string SID_Next_step {
+            get {
+                return ResourceManager.GetString("SID_Next_step", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to no.
         /// </summary>
         public static string SID_no {
@@ -3850,6 +3868,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Status_of_optical_event {
             get {
                 return ResourceManager.GetString("SID_Status_of_optical_event", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Step by step trace defining.
+        /// </summary>
+        public static string SID_Step_by_step_trace_defining {
+            get {
+                return ResourceManager.GetString("SID_Step_by_step_trace_defining", resourceCulture);
             }
         }
         
