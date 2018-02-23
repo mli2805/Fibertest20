@@ -233,6 +233,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Accept.
+        /// </summary>
+        public static string SID_Accept {
+            get {
+                return ResourceManager.GetString("SID_Accept", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Accept the highlighted with lime color path?.
         /// </summary>
         public static string SID_Accept_the_path {
@@ -805,6 +814,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Cancel {
             get {
                 return ResourceManager.GetString("SID_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel step.
+        /// </summary>
+        public static string SID_Cancel_step {
+            get {
+                return ResourceManager.GetString("SID_Cancel_step", resourceCulture);
             }
         }
         
@@ -3665,6 +3683,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Semi-automatic mode.
+        /// </summary>
+        public static string SID_Semiautomatic_mode {
+            get {
+                return ResourceManager.GetString("SID_Semiautomatic_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Send messages.
         /// </summary>
         public static string SID_Send_messages {
@@ -3872,11 +3899,29 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Step backward.
+        /// </summary>
+        public static string SID_Step_backward {
+            get {
+                return ResourceManager.GetString("SID_Step_backward", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Step by step trace defining.
         /// </summary>
         public static string SID_Step_by_step_trace_defining {
             get {
                 return ResourceManager.GetString("SID_Step_by_step_trace_defining", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Step forward.
+        /// </summary>
+        public static string SID_Step_forward {
+            get {
+                return ResourceManager.GetString("SID_Step_forward", resourceCulture);
             }
         }
         

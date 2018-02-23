@@ -4,21 +4,22 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
-        mc:Ignorable="d"
-        Height="600" Width="300">
+        xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
+        mc:Ignorable="d" Top="100" Left="50"
+        Height="600" Width="340" d:DataContext="{d:DesignInstance client:TraceStepByStepViewModel}">
     <DockPanel>
         <StackPanel DockPanel.Dock=" Bottom" Margin="0,5">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Name="GoToFork" Content="Go to fork" Margin="5,5" Width="120"/>
-                <Button Name="StepBackward" Content="Step backward" Margin="5,5" Width="120"/>
+                <Button Name="SemiautomaticMode" Content="{x:Static stringResources:Resources.SID_Semiautomatic_mode}" Margin="5,5" Width="300"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Name="StepForward" Content="Step forward" Margin="5,5" Width="120"/>
-                <Button Name="CancelStep" Content="Cancel step" Margin="5,5" Width="120"/>
+                <Button Name="StepForward" Content="{x:Static stringResources:Resources.SID_Step_forward}" Margin="5,5" Width="95"/>
+                <Button Name="StepBackward" Content="{x:Static stringResources:Resources.SID_Step_backward}" Margin="5,5" Width="90"/>
+                <Button Name="CancelStep" Content="{x:Static stringResources:Resources.SID_Cancel_step}" Margin="5,5" Width="95"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Name="Accept" Content="Accept" Margin="5,5" Width="120"/>
-                <Button Name="Cancel" Content="Cancel" Margin="5,5" Width="120"/>
+                <Button Name="Accept" Content="{x:Static stringResources:Resources.SID_Accept}" Margin="5,5" Width="145"/>
+                <Button Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}" Margin="5,5" Width="145"/>
             </StackPanel>
         </StackPanel>
         <Border BorderThickness="1" BorderBrush="LightGray" Margin="5">

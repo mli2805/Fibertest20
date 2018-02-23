@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Caliburn.Micro;
+using GMap.NET;
 using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
@@ -36,15 +37,19 @@ namespace Iit.Fibertest.Client
             DisplayName = Resources.SID_Step_by_step_trace_defining;
         }
 
-        public void GoToFork()
+        public void SemiautomaticMode()
         {
+            while (StepForward()){}
         }
 
         public void StepBackward()
         {
+            if (Steps.Count == 1) return;
+            Guid backwardNodeId = Steps[Steps.Count - 2].NodeId;
+            JustStep(_graphReadModel.Nodes.First(n=>n.Id == backwardNodeId));
         }
 
-        public void StepForward()
+        public bool StepForward()
         {
             var neighbours = _graphReadModel.GetNeighbours(Steps.Last().NodeId);
             Guid previousNodeId = Steps.Count == 1 ? Guid.Empty : Steps[Steps.Count - 2].NodeId;
@@ -53,38 +58,42 @@ namespace Iit.Fibertest.Client
             {
                 case 1:
                     if (neighbours[0].Id != previousNodeId)
-                        JustStep(neighbours[0]);
-                    break;
+                        return JustStep(neighbours[0]);
+                    return false;
                 case 2:
                     if (previousNodeId != Guid.Empty)
-                        JustStep(nextNode: neighbours[0].Id != previousNodeId ? neighbours[0] : neighbours[1]);
+                        return JustStep(nextNode: neighbours[0].Id != previousNodeId ? neighbours[0] : neighbours[1]);
                     else
-                        ForkIt(neighbours, previousNodeId);
-                    break;
+                        return ForkIt(neighbours, previousNodeId);
                 default:
-                    ForkIt(neighbours, previousNodeId);
-                    break;
+                    return ForkIt(neighbours, previousNodeId);
             }
         }
 
-        private void ForkIt(List<NodeVm> neighbours, Guid previousNodeId)
+        private bool ForkIt(List<NodeVm> neighbours, Guid previousNodeId)
         {
-            var vm = new StepChoiceViewModel(_graphReadModel);
+            var vm = new StepChoiceViewModel();
             vm.Initialize(neighbours, previousNodeId);
-            if (_windowManager.ShowDialogWithAssignedOwner(vm) == true)
-            {
-                var selectedNode = vm.GetSelected();
-                Steps.Add(new StepModel() { NodeId = selectedNode.Id, Title = selectedNode.Title });
-            }
+            if (_windowManager.ShowDialogWithAssignedOwner(vm) != true)
+                return false;
+
+            var selectedNode = vm.GetSelected();
+            Steps.Add(new StepModel() { NodeId = selectedNode.Id, Title = selectedNode.Title });
+            _graphReadModel.MainMap.Position = selectedNode.Position;
+            return true;
         }
 
-        private void JustStep(NodeVm nextNode)
+        private bool JustStep(NodeVm nextNode)
         {
             Steps.Add(new StepModel() { NodeId = nextNode.Id, Title = nextNode.Title });
+            _graphReadModel.MainMap.Position = nextNode.Position;
+            return true;
         }
 
         public void CancelStep()
         {
+            Steps.Remove(Steps.Last());
+            _graphReadModel.MainMap.Position = _graphReadModel.Nodes.First(n => n.Id == Steps.Last().NodeId).Position;
         }
 
         public void Accept()

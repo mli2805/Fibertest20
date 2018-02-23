@@ -4,12 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
-        mc:Ignorable="d"
+        xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
+        mc:Ignorable="d" Left="355" Top="200"
         SizeToContent="Height" Width="300" d:DataContext="{d:DesignInstance client:StepChoiceViewModel}">
     <DockPanel>
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" Margin="5,5,5,10">
-            <Button Name="Select" Content="Select" IsDefault="True" Margin="5" Width="80"/>
-            <Button Name="Cancel" Content="Cancel" IsCancel="True" Margin="5" Width="80"/>
+            <Button Name="Select" Content="{x:Static stringResources:Resources.SID_Select}" IsDefault="True" Margin="5" Width="80"/>
+            <Button Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}" IsCancel="True" Margin="5" Width="80"/>
         </StackPanel>
         <GroupBox Margin="5">
             <ItemsControl ItemsSource="{Binding Models}">

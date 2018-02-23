@@ -1625,4 +1625,22 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Step_by_step_trace_defining" xml:space="preserve">
 		<value>Пошаговое определение трассы</value>
 	</data>
+	<data name="SID____previous_" xml:space="preserve">
+		<value>  (предыдущий)</value>
+	</data>
+	<data name="SID_Accept" xml:space="preserve">
+		<value>Принять</value>
+	</data>
+	<data name="SID_Cancel_step" xml:space="preserve">
+		<value>Отменить шаг</value>
+	</data>
+	<data name="SID_Step_forward" xml:space="preserve">
+		<value>Шаг вперед</value>
+	</data>
+	<data name="SID_Step_backward" xml:space="preserve">
+		<value>Шаг назад</value>
+	</data>
+	<data name="SID_Semiautomatic_mode" xml:space="preserve">
+		<value>Полуавтоматический режим</value>
+	</data>
 </root>

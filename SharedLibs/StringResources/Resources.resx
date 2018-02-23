@@ -1625,7 +1625,22 @@ RTU is initializing right now!</value>
 	<data name="SID_Step_by_step_trace_defining" xml:space="preserve">
     <value>Step by step trace defining</value>
   </data>
-  <data name="SID____previous_" xml:space="preserve">
+	<data name="SID____previous_" xml:space="preserve">
     <value>  (previous)</value>
+  </data>
+	<data name="SID_Accept" xml:space="preserve">
+    <value>Accept</value>
+  </data>
+	<data name="SID_Cancel_step" xml:space="preserve">
+    <value>Cancel step</value>
+  </data>
+	<data name="SID_Step_forward" xml:space="preserve">
+    <value>Step forward</value>
+  </data>
+	<data name="SID_Step_backward" xml:space="preserve">
+    <value>Step backward</value>
+  </data>
+	<data name="SID_Semiautomatic_mode" xml:space="preserve">
+    <value>Semi-automatic mode</value>
   </data>
 </root>
