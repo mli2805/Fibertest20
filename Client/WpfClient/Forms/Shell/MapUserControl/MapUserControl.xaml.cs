@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
@@ -126,8 +127,14 @@ namespace Iit.Fibertest.Client
         {
             if (e.Key == Key.L && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
             {
-                SetBanner(MainMap.IsInDistanceMesurementMode ?"" : "Distance measurement mode");
-                MainMap.IsInDistanceMesurementMode = !MainMap.IsInDistanceMesurementMode;
+                SetBanner(MainMap.IsInDistanceMeasurementMode ? "" : "Distance measurement mode");
+
+                MainMap.IsInDistanceMeasurementMode = !MainMap.IsInDistanceMeasurementMode;
+                if (MainMap.IsInDistanceMeasurementMode)
+                {
+                    MainMap.DistanceMarkers = new List<GMapMarker>();
+                    MainMap.StartNode = null;
+                }
             }
         }
     }

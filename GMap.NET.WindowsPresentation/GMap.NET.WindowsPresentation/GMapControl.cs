@@ -464,7 +464,7 @@
         /// occurs when mouse selection is changed
         /// </summary>        
         public event SelectionChange OnSelectionChange;
-        public event TraceDefiningCancelled OnTraceDefiningCancelled; 
+        public event TraceDefiningCancelled OnTraceDefiningCancelled;
 
         /// <summary>
         /// list of markers
@@ -1549,8 +1549,38 @@
                     Cursor = cursorBefore;
                     IsInFiberCreationMode = false;
                 }
+
+                if (IsInDistanceMeasurementMode)
+                {
+                    Markers.Remove(Markers.Single(m => m.Id == DistanceFiberUnderCreation));
+                    DistanceFiberUnderCreation = Guid.Empty;
+                    Cursor = cursorBefore;
+                    IsInDistanceMeasurementMode = false;
+                }
             }
-        }
+
+            if (e.Key == Key.Z)
+                {
+                    if (IsInDistanceMeasurementMode)
+                    {
+                        var markerPosition = FromLocalToLatLng(GetPointFromPosition(Mouse.GetPosition(this)));
+                        var marker = new GMapMarker(Guid.NewGuid(), markerPosition, false);
+
+                        if (StartNode != null)
+                        {
+                            Markers.Add(new GMapRoute(FiberUnderCreation, StartNode.Id, marker.Id, Brushes.Blue, 2,
+                                new List<PointLatLng>() { StartNode.Position, markerPosition }));
+                        }
+
+                        Markers.Add(marker);
+                        DistanceMarkers.Add(marker);
+                        StartNode = marker;
+                    }
+                }
+            }
+        
+
+        public List<GMapMarker> DistanceMarkers;
 
         /// <summary>
         /// reverses MouseWheel zooming direction
@@ -1623,8 +1653,6 @@
 
         bool isSelected = false;
 
-        public bool IsInDistanceMesurementMode { get; set; } = false;
-
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
             base.OnMouseDown(e);
@@ -1635,6 +1663,18 @@
                 FiberUnderCreation = Guid.Empty;
                 Cursor = cursorBefore;
                 IsInFiberCreationMode = false;
+            }
+
+            if (IsInDistanceMeasurementMode)
+            {
+                if (StartNode == null)
+                {
+
+                }
+                else
+                {
+
+                }
             }
 
             if (CanDragMap && e.ChangedButton == DragButton)
@@ -1692,7 +1732,7 @@
                 ContextMenuCapturedRoute = RouteUnderMouse;
                 contextMenu.IsOpen = true;
             }
-            
+
 
             if (isSelected)
                 isSelected = false;
@@ -1747,20 +1787,28 @@
             }
         }
 
+        public bool IsInDistanceMeasurementMode { get; set; } = false;
         public bool IsInFiberCreationMode { get; set; } = false;
         public bool IsInTraceDefiningMode { get; set; } = false;
         public bool IsFiberWithNodes { get; set; } = false;
         public GMapMarker StartNode { get; set; }
         public Guid FiberUnderCreation { get; set; } = Guid.Empty;
+        public Guid DistanceFiberUnderCreation { get; set; } = Guid.Empty;
 
         Cursor cursorBefore = Cursors.Arrow;
 
         public PointLatLng MouseCurrentCoors { get; set; }
 
+        private void StartDistanceMeasurement()
+        {
+            StartNode = null;
+            var dd = new GMapMarker(Guid.NewGuid(), new PointLatLng(), false);
+        }
+
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
-            MouseCurrentCoors = FromLocalToLatLng(GetPointFromPosition(e));
+            MouseCurrentCoors = FromLocalToLatLng(GetPointFromPosition(e.GetPosition(this)));
 
             if (IsInFiberCreationMode)
             {
@@ -1770,11 +1818,23 @@
                     Markers.Remove(Markers.Single(m => m.Id == FiberUnderCreation));
 
                 Markers.Add(new GMapRoute(FiberUnderCreation, StartNode.Id, Guid.Empty, Brushes.Black, 1,
-                    new List<PointLatLng>() { StartNode.Position, FromLocalToLatLng(GetPointFromPosition(e)) }));
+                    new List<PointLatLng>() { StartNode.Position, FromLocalToLatLng(GetPointFromPosition(e.GetPosition(this))) }));
             }
+
+            if (IsInDistanceMeasurementMode && StartNode != null)
+            {
+                if (DistanceFiberUnderCreation == Guid.Empty)
+                    DistanceFiberUnderCreation = Guid.NewGuid();
+                else
+                    Markers.Remove(Markers.Single(m => m.Id == DistanceFiberUnderCreation));
+
+                Markers.Add(new GMapRoute(DistanceFiberUnderCreation, StartNode.Id, Guid.Empty, Brushes.Black, 1,
+                    new List<PointLatLng>() { StartNode.Position, FromLocalToLatLng(GetPointFromPosition(e.GetPosition(this))) }));
+            }
+
             if (!Core.IsDragging && !Core.mouseDown.IsEmpty)
             {
-                if (HasCursorMovedBeyondDragTolerance(GetPointFromPosition(e)))
+                if (HasCursorMovedBeyondDragTolerance(GetPointFromPosition(e.GetPosition(this))))
                     BeginDrag();
             }
 
@@ -1790,7 +1850,7 @@
             }
             else
             {
-                RouteUnderMouse = IsMouseOverRoute(GetPointFromPosition(e));
+                RouteUnderMouse = IsMouseOverRoute(GetPointFromPosition(e.GetPosition(this)));
 
                 if (renderHelperLine)
                     InvalidateVisual(true);
@@ -1896,7 +1956,7 @@
             }
             else
             {
-                Point p = GetPointFromPosition(e);
+                Point p = GetPointFromPosition(e.GetPosition(this));
                 Core.mouseCurrent.X = (int)p.X;
                 Core.mouseCurrent.Y = (int)p.Y;
 
@@ -1910,9 +1970,8 @@
             InvalidateVisual(true);
         }
 
-        public Point GetPointFromPosition(MouseEventArgs e)
+        public Point GetPointFromPosition(Point p)
         {
-            Point p = e.GetPosition(this);
             if (MapScaleTransform != null)
                 p = MapScaleTransform.Inverse.Transform(p);
             p = ApplyRotationInversion(p.X, p.Y);
