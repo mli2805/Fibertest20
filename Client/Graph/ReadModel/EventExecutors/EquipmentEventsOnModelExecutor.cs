@@ -20,18 +20,26 @@ namespace Iit.Fibertest.Graph
             _logFile = logFile;
             _model = model;
         }
-        public void AddEquipmentIntoNode(EquipmentIntoNodeAdded e)
+        public string AddEquipmentIntoNode(EquipmentIntoNodeAdded e)
         {
             Equipment equipment = _mapper.Map<Equipment>(e);
             _model.Equipments.Add(equipment);
             foreach (var traceId in e.TracesForInsertion)
             {
-                var trace = _model.Traces.Single(t => t.Id == traceId);
+                var trace = _model.Traces.FirstOrDefault(t => t.Id == traceId);
+                if (trace == null)
+                {
+                    var message = $@"EquipmentIntoNodeAdded: Trace {traceId.First6()} not found";
+                    _logFile.AppendLine(message);
+                    return message;
+                }
                 var idx = trace.Nodes.IndexOf(e.NodeId);
                 trace.Equipments[idx] = e.Id;
             }
+            return null;
         }
-        public void AddEquipmentAtGpsLocation(EquipmentAtGpsLocationAdded e)
+
+        public string AddEquipmentAtGpsLocation(EquipmentAtGpsLocationAdded e)
         {
             Node node = new Node() { Id = e.NodeId, Latitude = e.Latitude, Longitude = e.Longitude };
             _model.Nodes.Add(node);
@@ -45,22 +53,30 @@ namespace Iit.Fibertest.Graph
                 emptyEquipment.Type = EquipmentType.EmptyNode;
                 _model.Equipments.Add(emptyEquipment);
             }
+            return null;
         }
 
-        public void UpdateEquipment(EquipmentUpdated e)
+        public string UpdateEquipment(EquipmentUpdated e)
         {
             var equipment = _model.Equipments.FirstOrDefault(eq => eq.Id == e.Id);
+            if (equipment == null)
+            {
+                var message = $@"EquipmentUpdated: Equipment {e.Id.First6()} not found";
+                _logFile.AppendLine(message);
+                return message;
+            }
             _mapper.Map(e, equipment);
+            return null;
         }
 
-        public void RemoveEquipment(EquipmentRemoved e)
+        public string RemoveEquipment(EquipmentRemoved e)
         {
             var equipment = _model.Equipments.FirstOrDefault(eq => eq.Id == e.Id);
             if (equipment == null)
             {
                 var message = $@"EquipmentRemoved: Equipment {e.Id.First6()} not found";
                 _logFile.AppendLine(message);
-                return;
+                return message;
             }
 
             var emptyEquipment = _model.Equipments.FirstOrDefault(eq => eq.NodeId == equipment.NodeId && eq.Type == EquipmentType.EmptyNode);
@@ -68,7 +84,7 @@ namespace Iit.Fibertest.Graph
             {
                 var message = $@"EquipmentRemoved: There is no empty equipment in node {equipment.NodeId.First6()}";
                 _logFile.AppendLine(message);
-                return;
+                return message;
             }
 
             var traces = _model.Traces.Where(t => t.Equipments.Contains(e.Id)).ToList();
@@ -78,6 +94,7 @@ namespace Iit.Fibertest.Graph
                 trace.Equipments[idx] = emptyEquipment.Id;
             }
             _model.Equipments.Remove(_model.Equipments.First(eq => eq.Id == e.Id));
+            return null;
         }
     }
 }

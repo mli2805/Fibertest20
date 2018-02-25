@@ -14,20 +14,23 @@ namespace Iit.Fibertest.Graph
         {
             _model = model;
         }
-        public void AddZone(ZoneAdded e)
+        public string AddZone(ZoneAdded e)
         {
             _model.Zones.Add(_mapper.Map<Zone>(e));
+            return null;
         }
 
-        public void UpdateZone(ZoneUpdated source)
+        public string UpdateZone(ZoneUpdated source)
         {
             var destination =  _model.Zones.First(f => f.ZoneId == source.ZoneId);
             _mapper.Map(source, destination);
+            return null;
         }
 
-        public void RemoveZone(ZoneRemoved e)
+        public string RemoveZone(ZoneRemoved e)
         {
             _model.Zones.Remove( _model.Zones.First(f => f.ZoneId == e.ZoneId));
+            return null;
         }
     }
 }

@@ -14,9 +14,16 @@ namespace Iit.Fibertest.Graph
             _model = model;
             _logFile = logFile;
         }
-        public void AssignBaseRef(BaseRefAssigned e)
+
+        public string AssignBaseRef(BaseRefAssigned e)
         {
-            var trace = _model.Traces.Single(t => t.Id == e.TraceId);
+            var trace = _model.Traces.FirstOrDefault(t => t.Id == e.TraceId);
+            if (trace == null)
+            {
+                var message = $@"BaseRefAssigned: Trace {e.TraceId} not found";
+                _logFile.AppendLine(message);
+                return message;
+            }
 
             var preciseBaseRef = e.BaseRefs.FirstOrDefault(b => b.BaseRefType == BaseRefType.Precise);
             if (preciseBaseRef != null)
@@ -38,16 +45,25 @@ namespace Iit.Fibertest.Graph
             }
             if (!trace.HasEnoughBaseRefsToPerformMonitoring)
                 trace.IsIncludedInMonitoringCycle = false;
+
+            return null;
         }
 
-        public void InitializeRtu(RtuInitialized e)
+        public string InitializeRtu(RtuInitialized e)
         {
             var rtu =  _model.Rtus.First(r => r.Id == e.Id);
+            if (rtu == null)
+            {
+                var message = $@"RtuInitialized: RTU {e.Id.First6()} not found";
+                _logFile.AppendLine(message);
+                return message;
+            }
+
             InitializeRtuFirstTime(e, rtu);
 
             if (rtu.Serial == null)
             {
-                return;
+                return null;
             }
 
             if (rtu.Serial == e.Serial)
@@ -56,14 +72,14 @@ namespace Iit.Fibertest.Graph
                 {
                     // main otdr problem
                     // TODO
-                    return;
+                    return null;
                 }
 
                 if (rtu.FullPortCount != e.FullPortCount)
                 {
                     // bop changes
                     // TODO
-                    return;
+                    return null;
                 }
 
                 if (rtu.FullPortCount == e.FullPortCount)
@@ -77,6 +93,8 @@ namespace Iit.Fibertest.Graph
             {
                 //TODO discuss and implement rtu replacement scenario
             }
+
+            return null;
         }
 
         private static void InitializeRtuFirstTime(RtuInitialized e, Rtu rtu)
@@ -96,13 +114,14 @@ namespace Iit.Fibertest.Graph
             rtu.AcceptableMeasParams = e.AcceptableMeasParams;
         }
 
-        public void ChangeMonitoringSettings(MonitoringSettingsChanged e)
+        public string ChangeMonitoringSettings(MonitoringSettingsChanged e)
         {
             var rtu =  _model.Rtus.FirstOrDefault(r => r.Id == e.RtuId);
             if (rtu == null)
             {
-                _logFile.AppendLine(@"MonitoringSettingsChanged: cant find RTU");
-                return;
+                var message = $@"MonitoringSettingsChanged: RTU {e.RtuId.First6()} not found";
+                _logFile.AppendLine(message);
+                return message;
             }
             rtu.PreciseMeas = e.PreciseMeas;
             rtu.PreciseSave = e.PreciseSave;
@@ -113,28 +132,33 @@ namespace Iit.Fibertest.Graph
             {
                 trace.IsIncludedInMonitoringCycle = e.TracesInMonitoringCycle.Contains(trace.Id);
             }
+            return null;
         }
 
-        public void StartMonitoring(MonitoringStarted e)
+        public string StartMonitoring(MonitoringStarted e)
         {
             var rtu =  _model.Rtus.FirstOrDefault(r => r.Id == e.RtuId);
             if (rtu == null)
             {
-                _logFile.AppendLine(@"MonitoringStarted: cant find RTU");
-                return;
+                var message = $@"MonitoringStarted: RTU {e.RtuId.First6()} not found";
+                _logFile.AppendLine(message);
+                return message;
             }
             rtu.MonitoringState = MonitoringState.On;
+            return null;
         }
 
-        public void StopMonitoring(MonitoringStopped e)
+        public string StopMonitoring(MonitoringStopped e)
         {
             var rtu =  _model.Rtus.FirstOrDefault(r => r.Id == e.RtuId);
             if (rtu == null)
             {
-                _logFile.AppendLine(@"MonitoringStopped: cant find RTU");
-                return;
+                var message = $@"MonitoringStopped: RTU {e.RtuId.First6()} not found";
+                _logFile.AppendLine(message);
+                return message;
             }
             rtu.MonitoringState = MonitoringState.Off;
+            return null;
         }
     }
 }

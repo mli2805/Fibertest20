@@ -9,13 +9,11 @@ using PrivateReflectionUsingDynamic;
 
 namespace Iit.Fibertest.Graph
 {
-    public static class WriteModelExt
-    {
-    }
     public class WriteModel : IModel
     {
         public IMyLog LogFile { get; }
         public List<object> EventsWaitingForCommit { get; } = new List<object>();
+
         private readonly IMapper _mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
 
@@ -181,17 +179,17 @@ namespace Iit.Fibertest.Graph
             return message;
         }
 
-        public string Apply(NodeMoved cmd)
+        public string Apply(NodeMoved e)
         {
-            var node = Nodes.FirstOrDefault(x => x.Id == cmd.NodeId);
+            var node = Nodes.FirstOrDefault(x => x.Id == e.NodeId);
             if (node != null)
             {
-                node.Latitude = cmd.Latitude;
-                node.Longitude = cmd.Longitude;
+                node.Latitude = e.Latitude;
+                node.Longitude = e.Longitude;
                 return null;
             }
 
-            var message = $@"NodeMoved: Node {cmd.NodeId.First6()} not found";
+            var message = $@"NodeMoved: Node {e.NodeId.First6()} not found";
             LogFile.AppendLine(message);
             return message;
         }
@@ -486,23 +484,7 @@ namespace Iit.Fibertest.Graph
             return message;
         }
 
-        public string Apply(MonitoringSettingsChanged cmd)
-        {
-            var rtu = Rtus.FirstOrDefault(r => r.Id == cmd.RtuId);
-            if (rtu != null)
-            {
-                rtu.MonitoringState = cmd.IsMonitoringOn ? MonitoringState.On : MonitoringState.Off;
-                rtu.FastSave = cmd.FastSave;
-                rtu.PreciseMeas = cmd.PreciseMeas;
-                rtu.PreciseSave = cmd.PreciseSave;
-                return null;
-            }
-
-            var message = $@"MonitoringSettingsChanged: RTU {cmd.RtuId.First6()} not found";
-            LogFile.AppendLine(message);
-            return message;
-
-        }
+        
         #endregion
 
         #region Trace
@@ -538,32 +520,38 @@ namespace Iit.Fibertest.Graph
             return message;
         }
 
-        public string Apply(TraceAttached cmd)
+        public string Apply(TraceAttached e)
         {
-            var trace = Traces.FirstOrDefault(t => t.Id == cmd.TraceId);
-            if (trace != null)
+            var trace = Traces.FirstOrDefault(t => t.Id == e.TraceId);
+            if (trace == null)
             {
-                trace.OtauPort = cmd.OtauPortDto;
-                return null;
+                var message = $@"TraceAttached: Trace {e.TraceId} not found";
+                LogFile.AppendLine(message);
+                return message;
             }
-            var message = $@"TraceAttached: Trace {cmd.TraceId} not found";
-            LogFile.AppendLine(message);
-            return message;
+
+            trace.OtauPort = e.OtauPortDto;
+            return null;
         }
 
-        public string Apply(TraceDetached cmd)
+        public string Apply(TraceDetached e)
         {
-            var trace = Traces.FirstOrDefault(t => t.Id == cmd.TraceId);
-            if (trace != null)
+            var trace = Traces.FirstOrDefault(t => t.Id == e.TraceId);
+            if (trace == null)
             {
-                trace.OtauPort = null;
-                return null;
+                var message = $@"TraceDetached: Trace {e.TraceId} not found";
+                LogFile.AppendLine(message);
+                return message;
             }
-            var message = $@"TraceDetached: Trace {cmd.TraceId} not found";
-            LogFile.AppendLine(message);
-            return message;
+
+            trace.OtauPort = null;
+            return null;
         }
 
+
+        #endregion
+
+        #region JustEchosOfCmdsSentToRtu
         public string Apply(BaseRefAssigned cmd)
         {
             var trace = Traces.FirstOrDefault(t => t.Id == cmd.TraceId);
@@ -595,9 +583,7 @@ namespace Iit.Fibertest.Graph
             LogFile.AppendLine(message);
             return message;
         }
-        #endregion
 
-        #region JustEchosOfCmdsSentToRtu
         public string Apply(RtuInitialized e)
         {
             var rtu = Rtus.FirstOrDefault(r => r.Id == e.Id);
@@ -611,6 +597,23 @@ namespace Iit.Fibertest.Graph
             return message;
         }
 
+        public string Apply(MonitoringSettingsChanged cmd)
+        {
+            var rtu = Rtus.FirstOrDefault(r => r.Id == cmd.RtuId);
+            if (rtu != null)
+            {
+                rtu.MonitoringState = cmd.IsMonitoringOn ? MonitoringState.On : MonitoringState.Off;
+                rtu.FastSave = cmd.FastSave;
+                rtu.PreciseMeas = cmd.PreciseMeas;
+                rtu.PreciseSave = cmd.PreciseSave;
+                return null;
+            }
+
+            var message = $@"MonitoringSettingsChanged: RTU {cmd.RtuId.First6()} not found";
+            LogFile.AppendLine(message);
+            return message;
+
+        }
         public string Apply(MonitoringStarted e)
         {
             var rtu = Rtus.FirstOrDefault(r => r.Id == e.RtuId);
