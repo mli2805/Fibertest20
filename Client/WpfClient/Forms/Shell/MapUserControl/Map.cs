@@ -70,8 +70,8 @@ namespace Iit.Fibertest.Client
             _mouseCurrentCoors.ToDetailedString(CurrentGpsInputMode);
         #endregion
 
+        #region Distance measurement properties
         public bool IsInDistanceMeasurementMode { get; set; }
-        
 
         public List<GMapMarker> DistanceMarkers;
 
@@ -91,6 +91,7 @@ namespace Iit.Fibertest.Client
         }
 
         public string MeasuredDistance => IsInDistanceMeasurementMode ? $"{_lastDistance} m  / {Distances.Sum() + _lastDistance} m" : "";
+        #endregion
 
         protected override void OnKeyDown(KeyEventArgs e)
         {
@@ -160,7 +161,6 @@ namespace Iit.Fibertest.Client
                 LastDistance = (int)GpsCalculator.GetDistanceBetweenPointLatLng(StartNode.Position, endMarkerPosition);
             }
         }
-
 
         public event PropertyChangedEventHandler PropertyChanged;
 
