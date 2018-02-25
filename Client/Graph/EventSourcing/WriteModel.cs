@@ -289,7 +289,7 @@ namespace Iit.Fibertest.Graph
             return Equipments.FirstOrDefault(e => e.NodeId == nodeId && e.Type == EquipmentType.AdjustmentPoint) != null;
         }
 
-        private string RemoveNodeWithAllHis(Guid nodeId)
+        public string RemoveNodeWithAllHis(Guid nodeId)
         {
             Fibers.RemoveAll(f => f.Node1 == nodeId || f.Node2 == nodeId);
             Equipments.RemoveAll(e => e.NodeId == nodeId);

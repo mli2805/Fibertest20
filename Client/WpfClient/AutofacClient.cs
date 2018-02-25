@@ -68,7 +68,18 @@ namespace Iit.Fibertest.Client
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(currentCulture);
 
             builder.RegisterType<Aggregate>().SingleInstance();
+
+
             builder.RegisterType<ReadModel>().SingleInstance();
+            builder.RegisterType<EquipmentEventsOnModelExecutor>().SingleInstance();
+            builder.RegisterType<NodeEventsOnModelExecutor>().SingleInstance();
+            builder.RegisterType<FiberEventsOnModelExecutor>().SingleInstance();
+            builder.RegisterType<TraceEventsOnModelExecutor>().SingleInstance();
+            builder.RegisterType<RtuEventsOnModelExecutor>().SingleInstance();
+            builder.RegisterType<UserEventsOnModelExecutor>().SingleInstance();
+            builder.RegisterType<ZoneEventsOnModelExecutor>().SingleInstance();
+            builder.RegisterType<EchoEventsOnModelExecutor>().SingleInstance();
+            builder.RegisterType<EventsOnModelExecutor>().SingleInstance();
 
             builder.RegisterType<BaseRefsChecker>().SingleInstance();
             builder.RegisterType<TraceModelBuilder>().SingleInstance();
@@ -125,11 +136,10 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<TraceEventsOnGraphExecutor>().SingleInstance();
             builder.RegisterType<RtuEventsOnGraphExecutor>().SingleInstance();
             builder.RegisterType<EventsOnGraphExecutor>().SingleInstance();
+            builder.RegisterType<GraphReadModel>().SingleInstance();
 
             builder.RegisterType<BreakNotifier>().SingleInstance();
 
-
-            builder.RegisterType<GraphReadModel>().SingleInstance();
 
             builder.RegisterType<FreePorts>().SingleInstance();
 
@@ -141,19 +151,6 @@ namespace Iit.Fibertest.Client
 
 
             builder.RegisterType<UiDispatcherProvider>().As<IDispatcherProvider>().SingleInstance();
-
-//            builder.Register(ioc => new ClientPoller(
-//                    ioc.Resolve<IWcfServiceForClient>(),
-//                    ioc.Resolve<IDispatcherProvider>(),
-//                    ioc.Resolve<ReadModel>(),
-//                    ioc.Resolve<TreeOfRtuModel>(),
-//                    ioc.Resolve<EventsOnGraphExecutor>(),
-//                    logFile,
-//                    iniFile,
-//                    ioc.Resolve<ILocalDbManager>()
-//                ))
-//                .SingleInstance();
-
             builder.RegisterType<ClientPoller>().SingleInstance();
 
             builder.RegisterType<GpsInputViewModel>();

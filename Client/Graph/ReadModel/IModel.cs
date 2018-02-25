@@ -13,5 +13,9 @@ namespace Iit.Fibertest.Graph
         List<Rtu> Rtus { get; }
         List<Trace> Traces { get; }
         List<Otau> Otaus { get; }
+        List<User> Users { get; }
+        List<Zone> Zones { get; }
+
+        string RemoveNodeWithAllHis(System.Guid nodeId);
     }
 }

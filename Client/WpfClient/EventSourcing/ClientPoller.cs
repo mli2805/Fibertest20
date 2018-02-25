@@ -20,6 +20,7 @@ namespace Iit.Fibertest.Client
         private readonly ReadModel _readModel;
         private readonly TreeOfRtuModel _treeOfRtuModel;
         private readonly EventsOnGraphExecutor _eventsOnGraphExecutor;
+        private readonly EventsOnModelExecutor _eventsOnModelExecutor;
         private Thread _pollerThread;
         private readonly IDispatcherProvider _dispatcherProvider;
         private readonly IMyLog _logFile;
@@ -30,13 +31,14 @@ namespace Iit.Fibertest.Client
         public int CurrentEventNumber { get; private set; }
 
         public ClientPoller(IWcfServiceForClient wcfConnection, IDispatcherProvider dispatcherProvider,
-            ReadModel readModel, TreeOfRtuModel treeOfRtuModel, EventsOnGraphExecutor eventsOnGraphExecutor,
+            ReadModel readModel, TreeOfRtuModel treeOfRtuModel, EventsOnGraphExecutor eventsOnGraphExecutor, EventsOnModelExecutor eventsOnModelExecutor,
             IMyLog logFile, IniFile iniFile, ILocalDbManager localDbManager)
         {
             _wcfConnection = wcfConnection;
             _readModel = readModel;
             _treeOfRtuModel = treeOfRtuModel;
             _eventsOnGraphExecutor = eventsOnGraphExecutor;
+            _eventsOnModelExecutor = eventsOnModelExecutor;
             _dispatcherProvider = dispatcherProvider;
             _logFile = logFile;
             _localDbManager = localDbManager;
@@ -102,7 +104,8 @@ namespace Iit.Fibertest.Client
                 var msg = (EventMessage)JsonConvert.DeserializeObject(json, JsonSerializerSettings);
                 var e = msg.Body;
                 _eventsOnGraphExecutor.Apply(e);
-                _readModel.AsDynamic().Apply(e);
+                _eventsOnModelExecutor.Apply(e);
+//                _readModel.AsDynamic().Apply(e);
                 _treeOfRtuModel.AsDynamic().Apply(e);
 
                 // some forms refresh their view because they have sent command previously and are waiting event's coming
