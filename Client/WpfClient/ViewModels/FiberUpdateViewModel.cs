@@ -49,7 +49,7 @@ namespace Iit.Fibertest.Client
             var n2 = _readModel.Nodes.Single(n => n.Id == _fiber.Node2);
             NodeAtitle = n1.Title;
             NodeBtitle = n2.Title;
-            GpsLength = $@"{GpsCalculator.CalculateGpsDistanceBetweenPointsInDegrees(n1.Latitude, n1.Longitude, n2.Latitude, n2.Longitude):#,##0}";
+            GpsLength = $@"{GpsCalculator.GetDistanceBetweenPointsInDegrees(n1.Latitude, n1.Longitude, n2.Latitude, n2.Longitude):#,##0}";
 //            OpticalLength = _fiber.OpticalLength; // потом из базовых брать
             UserInputedLength = _fiber.UserInputedLength.ToString(CultureInfo.InvariantCulture);
         }

@@ -1,15 +1,20 @@
 ﻿using System;
+using GMap.NET;
 
 namespace Iit.Fibertest.Graph
 {
     public static class GpsCalculator
     {
+        public static double GetDistanceBetweenPointLatLng(PointLatLng p1, PointLatLng p2)
+        {
+            return GetDistanceBetweenPointsInDegrees(p1.Lat, p1.Lng, p2.Lat, p2.Lng);
+        }
         // in meters
-        public static double CalculateGpsDistanceBetweenPointsInDegrees(
+        public static double GetDistanceBetweenPointsInDegrees(
             double lat1Degree, double lng1Degree, double lat2Degree, double lng2Degree)
         {
 
-            return CalculateGpsDistanceBetweenPointInRadians(Degree2Radian(lat1Degree), Degree2Radian(lng1Degree), 
+            return GetDistanceBetweenPointsInRadians(Degree2Radian(lat1Degree), Degree2Radian(lng1Degree), 
                 Degree2Radian(lat2Degree), Degree2Radian(lng2Degree));
         }
 
@@ -19,7 +24,7 @@ namespace Iit.Fibertest.Graph
         }
 
         // in meters
-        private static double CalculateGpsDistanceBetweenPointInRadians(
+        private static double GetDistanceBetweenPointsInRadians(
             double lat1Radian, double lng1Radian, double lat2Radian, double lng2Radian)
         {
             const int earthRadius = 6372795;

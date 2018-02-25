@@ -1323,6 +1323,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Distance measurement mode.
+        /// </summary>
+        public static string SID_Distance_measurement_mode {
+            get {
+                return ResourceManager.GetString("SID_Distance_measurement_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Distance range - Lmax:.
         /// </summary>
         public static string SID_Distance_range {

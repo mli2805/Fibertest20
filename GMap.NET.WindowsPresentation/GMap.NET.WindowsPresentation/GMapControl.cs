@@ -1549,38 +1549,10 @@
                     Cursor = cursorBefore;
                     IsInFiberCreationMode = false;
                 }
-
-                if (IsInDistanceMeasurementMode)
-                {
-                    Markers.Remove(Markers.Single(m => m.Id == DistanceFiberUnderCreation));
-                    DistanceFiberUnderCreation = Guid.Empty;
-                    Cursor = cursorBefore;
-                    IsInDistanceMeasurementMode = false;
-                }
             }
+        }
 
-            if (e.Key == Key.Z)
-                {
-                    if (IsInDistanceMeasurementMode)
-                    {
-                        var markerPosition = FromLocalToLatLng(GetPointFromPosition(Mouse.GetPosition(this)));
-                        var marker = new GMapMarker(Guid.NewGuid(), markerPosition, false);
 
-                        if (StartNode != null)
-                        {
-                            Markers.Add(new GMapRoute(FiberUnderCreation, StartNode.Id, marker.Id, Brushes.Blue, 2,
-                                new List<PointLatLng>() { StartNode.Position, markerPosition }));
-                        }
-
-                        Markers.Add(marker);
-                        DistanceMarkers.Add(marker);
-                        StartNode = marker;
-                    }
-                }
-            }
-        
-
-        public List<GMapMarker> DistanceMarkers;
 
         /// <summary>
         /// reverses MouseWheel zooming direction
@@ -1663,18 +1635,6 @@
                 FiberUnderCreation = Guid.Empty;
                 Cursor = cursorBefore;
                 IsInFiberCreationMode = false;
-            }
-
-            if (IsInDistanceMeasurementMode)
-            {
-                if (StartNode == null)
-                {
-
-                }
-                else
-                {
-
-                }
             }
 
             if (CanDragMap && e.ChangedButton == DragButton)
@@ -1787,7 +1747,6 @@
             }
         }
 
-        public bool IsInDistanceMeasurementMode { get; set; } = false;
         public bool IsInFiberCreationMode { get; set; } = false;
         public bool IsInTraceDefiningMode { get; set; } = false;
         public bool IsFiberWithNodes { get; set; } = false;
@@ -1797,7 +1756,6 @@
 
         Cursor cursorBefore = Cursors.Arrow;
 
-        public PointLatLng MouseCurrentCoors { get; set; }
 
         private void StartDistanceMeasurement()
         {
@@ -1808,7 +1766,6 @@
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
-            MouseCurrentCoors = FromLocalToLatLng(GetPointFromPosition(e.GetPosition(this)));
 
             if (IsInFiberCreationMode)
             {
@@ -1818,17 +1775,6 @@
                     Markers.Remove(Markers.Single(m => m.Id == FiberUnderCreation));
 
                 Markers.Add(new GMapRoute(FiberUnderCreation, StartNode.Id, Guid.Empty, Brushes.Black, 1,
-                    new List<PointLatLng>() { StartNode.Position, FromLocalToLatLng(GetPointFromPosition(e.GetPosition(this))) }));
-            }
-
-            if (IsInDistanceMeasurementMode && StartNode != null)
-            {
-                if (DistanceFiberUnderCreation == Guid.Empty)
-                    DistanceFiberUnderCreation = Guid.NewGuid();
-                else
-                    Markers.Remove(Markers.Single(m => m.Id == DistanceFiberUnderCreation));
-
-                Markers.Add(new GMapRoute(DistanceFiberUnderCreation, StartNode.Id, Guid.Empty, Brushes.Black, 1,
                     new List<PointLatLng>() { StartNode.Position, FromLocalToLatLng(GetPointFromPosition(e.GetPosition(this))) }));
             }
 
@@ -2318,6 +2264,7 @@
                 }
             }
         }
+
 
         [Browsable(false)]
         public GPoint PositionPixel

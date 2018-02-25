@@ -1643,4 +1643,7 @@ RTU is initializing right now!</value>
 	<data name="SID_Semiautomatic_mode" xml:space="preserve">
     <value>Semi-automatic mode</value>
   </data>
+  <data name="SID_Distance_measurement_mode" xml:space="preserve">
+    <value>Distance measurement mode</value>
+  </data>
 </root>

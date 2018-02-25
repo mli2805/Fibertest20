@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Autofac;
 using Caliburn.Micro;
-using GMap.NET;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
@@ -32,22 +31,7 @@ namespace Iit.Fibertest.Client
         public ObservableCollection<EquipmentVm> Equipments { get; }
         public ObservableCollection<TraceVm> Traces { get; }
 
-        private PointLatLng _currentMousePosition;
-        public PointLatLng CurrentMousePosition
-        {
-            get => _currentMousePosition;
-            set
-            {
-                if (value.Equals(_currentMousePosition)) return;
-                _currentMousePosition = value;
-                NotifyOfPropertyChange();
-                NotifyOfPropertyChange(nameof(CurrentMousePositionString));
-            }
-        }
-
-        public string CurrentMousePositionString => CurrentMousePosition.ToDetailedString(CurrentGpsInputMode);
-        public GpsInputMode CurrentGpsInputMode = GpsInputMode.DegreesMinutesAndSeconds;
-
+      
         public List<GraphVisibilityLevelItem> GraphVisibilityItems { get; set; } 
         private GraphVisibilityLevelItem _selectedGraphVisibilityItem;
 
@@ -94,7 +78,6 @@ namespace Iit.Fibertest.Client
                 level = GraphVisibilityLevel.AllDetails;
             SetGraphVisibility(level);
         }
-
 
         public void SetGraphVisibility(GraphVisibilityLevel level)
         {

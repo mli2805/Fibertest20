@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
              xmlns:client="clr-namespace:Iit.Fibertest.Client"
-             mc:Ignorable="d" d:DataContext="{d:DesignInstance client:GraphReadModel}" LostFocus="UserControl_LostFocus" Loaded="UserControl_Loaded" KeyDown="UserControl_KeyDown">
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance client:GraphReadModel}" LostFocus="UserControl_LostFocus" Loaded="UserControl_Loaded" KeyDown="UserControl_KeyDown" PreviewKeyDown="UserControl_PreviewKeyDown">
     <Control.Resources>
         <!-- call this resource from code -->
         <!-- ReSharper disable once Xaml.RedundantResource -->
@@ -22,11 +22,14 @@
         </ContextMenu>
     </Control.Resources>
     <DockPanel>
-            <StatusBar DockPanel.Dock="Bottom" Height="25" BorderBrush="DarkGray" BorderThickness="0,1,0,0">
-                <StatusBarItem>
-                    <TextBlock Text="{Binding CurrentMousePositionString}" Margin="5,0,20,0"/>
-                </StatusBarItem>
-            </StatusBar>
+        <StatusBar DockPanel.Dock="Bottom" Height="25" BorderBrush="DarkGray" BorderThickness="0,1,0,0">
+            <StatusBarItem>
+                <TextBlock Text="{Binding MainMap.MouseCurrentCoorsString}" Margin="5,0,20,0" Width="175"/>
+            </StatusBarItem>
+            <StatusBarItem>
+                <TextBlock Text="{Binding MainMap.MeasuredDistance}"/>
+            </StatusBarItem>
+        </StatusBar>
         <client:Map x:Name="MainMap"  MaxZoom="19" MinZoom="1"/>
     </DockPanel>
 </UserControl>

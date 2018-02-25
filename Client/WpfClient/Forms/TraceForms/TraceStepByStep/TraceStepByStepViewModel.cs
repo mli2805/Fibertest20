@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Caliburn.Micro;
-using GMap.NET;
 using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client

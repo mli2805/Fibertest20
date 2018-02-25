@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
@@ -24,7 +23,6 @@ namespace Iit.Fibertest.Client
             DataContextChanged += MapUserControl_DataContextChanged;
             ConfigureMap();
             // map events
-            MainMap.MouseMove += MainMap_MouseMove;
             MainMap.MouseEnter += MainMap_MouseEnter;
             MainMap.OnTraceDefiningCancelled += MainMap_OnTraceDefiningCancelled;
         }
@@ -45,7 +43,6 @@ namespace Iit.Fibertest.Client
                 return;
             var graph = (GraphReadModel)e.NewValue;
             graph.MainMap = MainMap;
-            graph.CurrentMousePosition = MainMap.Position;
 
             graph.Nodes.CollectionChanged += NodesCollectionChanged;
             graph.Fibers.CollectionChanged += FibersCollectionChanged;
@@ -82,12 +79,6 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        void MainMap_MouseMove(object sender, MouseEventArgs e)
-        {
-            var p = e.GetPosition(MainMap);
-            GraphReadModel.CurrentMousePosition =
-                MainMap.FromLocalToLatLng((int)p.X, (int)p.Y);
-        }
 
         void MainMap_MouseEnter(object sender, MouseEventArgs e)
         {
@@ -125,16 +116,24 @@ namespace Iit.Fibertest.Client
 
         private void UserControl_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.L && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            if (e.Key == Key.Z && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
             {
-                SetBanner(MainMap.IsInDistanceMeasurementMode ? "" : "Distance measurement mode");
-
-                MainMap.IsInDistanceMeasurementMode = !MainMap.IsInDistanceMeasurementMode;
-                if (MainMap.IsInDistanceMeasurementMode)
+                if (!MainMap.IsInDistanceMeasurementMode)
                 {
-                    MainMap.DistanceMarkers = new List<GMapMarker>();
+                    SetBanner(StringResources.Resources.SID_Distance_measurement_mode);
+                    MainMap.IsInDistanceMeasurementMode = true;
                     MainMap.StartNode = null;
                 }
+            }
+
+        
+        }
+
+        private void UserControl_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape && MainMap.IsInDistanceMeasurementMode)
+            {
+                SetBanner("");
             }
         }
     }
