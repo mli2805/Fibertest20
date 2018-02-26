@@ -222,7 +222,6 @@
       <DependentUpon>TraceStepByStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\TraceForms\TraceStepByStep\TraceStepByStepViewModel.cs" />
-    <Compile Include="GraphModel\BreakNotifier.cs" />
     <Compile Include="GraphModel\EventExecutors\EquipmentEventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\EventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\FiberEventsOnGraphExecutor.cs" />

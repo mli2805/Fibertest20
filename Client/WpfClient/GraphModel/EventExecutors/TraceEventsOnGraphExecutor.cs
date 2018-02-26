@@ -87,5 +87,13 @@ namespace Iit.Fibertest.Client
             foreach (var fiberVm in GetTraceFibersByNodes(traceVm.Nodes))
                 fiberVm.SetState(traceVm.Id, traceVm.State);
         }
+
+        public void ShowMonitoringResult(MonitoringResultShown evnt)
+        {
+            var traceVm = _model.Traces.First(t => t.Id == evnt.TraceId);
+            traceVm.State = evnt.TraceState;
+            _model.ChangeTraceColor(evnt.TraceId, traceVm.Nodes, traceVm.State);
+            //TODO show the accidents themselves
+        }
     }
 }

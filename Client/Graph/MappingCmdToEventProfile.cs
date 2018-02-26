@@ -31,6 +31,7 @@ namespace Iit.Fibertest.Graph
             CreateMap<AssignBaseRef, BaseRefAssigned>();
             CreateMap<StartMonitoring, MonitoringStarted>();
             CreateMap<StopMonitoring, MonitoringStopped>();
+            CreateMap<ShowMonitoringResult, MonitoringResultShown>();
 
             CreateMap<AttachTrace, TraceAttached>();
             CreateMap<DetachTrace, TraceDetached>();

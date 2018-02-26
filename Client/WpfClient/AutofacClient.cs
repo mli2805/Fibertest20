@@ -138,9 +138,6 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<EventsOnGraphExecutor>().SingleInstance();
             builder.RegisterType<GraphReadModel>().SingleInstance();
 
-            builder.RegisterType<BreakNotifier>().SingleInstance();
-
-
             builder.RegisterType<FreePorts>().SingleInstance();
 
             builder.RegisterType<TraceContentChoiceViewModel>();

@@ -160,5 +160,11 @@ namespace Iit.Fibertest.Graph
             rtu.MonitoringState = MonitoringState.Off;
             return null;
         }
+
+        public string ShowMonitoringResult(MonitoringResultShown e)
+        {
+            // do nothing, this event only in order to draw accidents on Graph
+            return null;
+        }
     }
 }

@@ -273,6 +273,11 @@ namespace Iit.Fibertest.Graph
         {
             return WriteModel.Add(_mapper.Map<MonitoringStopped>(cmd));
         }
+
+        public string When(ShowMonitoringResult cmd)
+        {
+            return WriteModel.Add(_mapper.Map<MonitoringResultShown>(cmd));
+        }
         #endregion
     }
 }

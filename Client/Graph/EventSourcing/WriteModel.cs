@@ -638,6 +638,12 @@ namespace Iit.Fibertest.Graph
             LogFile.AppendLine(message);
             return message;
         }
+
+        public string Apply(MonitoringResultShown e)
+        {
+            // do nothing, this event only in order to draw accidents on Graph
+            return null;
+        }
         #endregion
     }
 }

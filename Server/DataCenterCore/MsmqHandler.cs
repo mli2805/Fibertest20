@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Linq;
 using System.Messaging;
 using System.Threading.Tasks;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
+using Iit.Fibertest.Graph.Algorithms;
+using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 
@@ -15,11 +19,12 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly MonitoringResultsRepository _monitoringResultsRepository;
         private readonly MeasurementFactory _measurementFactory;
         private readonly ClientStationsRepository _clientStationsRepository;
+        private readonly EventStoreService _eventStoreService;
         private readonly D2CWcfManager _d2CWcfManager;
 
         public MsmqHandler(IniFile iniFile, IMyLog logFile, 
             MonitoringResultsRepository monitoringResultsRepository, MeasurementFactory measurementFactory,
-            ClientStationsRepository clientStationsRepository,
+            ClientStationsRepository clientStationsRepository, EventStoreService eventStoreService,
             D2CWcfManager d2CWcfManager)
         {
             _iniFile = iniFile;
@@ -27,6 +32,7 @@ namespace Iit.Fibertest.DataCenterCore
             _monitoringResultsRepository = monitoringResultsRepository;
             _measurementFactory = measurementFactory;
             _clientStationsRepository = clientStationsRepository;
+            _eventStoreService = eventStoreService;
             _d2CWcfManager = d2CWcfManager;
         }
 
@@ -88,6 +94,19 @@ namespace Iit.Fibertest.DataCenterCore
 
             if (measurementWithSor != null)
             {
+                var sorData =  SorData.FromBytes(measurementWithSor.SorBytes);
+                var accidents = sorData.GetAccidents().ToList();
+                _logFile.AppendLine($"Trace state in measurement {measurementWithSor.Measurement.TraceState}");
+                var maxState = accidents.Count == 0 ? FiberState.Ok : accidents.Max(a => a.AccidentSeriousness);
+                _logFile.AppendLine($"{accidents.Count} accidents found. Max state is {maxState}");
+                var cmd = new ShowMonitoringResult()
+                {
+                    TraceId = measurementWithSor.Measurement.TraceId,
+                    TraceState = measurementWithSor.Measurement.TraceState,
+                    Accidents = accidents,
+                };
+                await _eventStoreService.SendCommand(cmd, "system", "OnServer");
+
                 await SendMoniresultToClients(measurementWithSor);
 
                 // TODO snmp, email, sms

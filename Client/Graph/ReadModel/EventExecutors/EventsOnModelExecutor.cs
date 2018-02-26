@@ -70,6 +70,7 @@
                 case MonitoringSettingsChanged evnt: return _echoEventsOnModelExecutor.ChangeMonitoringSettings(evnt); 
                 case MonitoringStarted evnt: return _echoEventsOnModelExecutor.StartMonitoring(evnt); 
                 case MonitoringStopped evnt: return _echoEventsOnModelExecutor.StopMonitoring(evnt); 
+                case MonitoringResultShown evnt: return _echoEventsOnModelExecutor.ShowMonitoringResult(evnt); 
 
                 default: return @"Unknown event";
             }

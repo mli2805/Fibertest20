@@ -17,13 +17,12 @@ namespace Iit.Fibertest.Client
         private readonly OpticalEventsDoubleViewModel _opticalEventsDoubleViewModel;
         private readonly NetworkEventsDoubleViewModel _networkEventsDoubleViewModel;
         private readonly ClientMeasurementViewModel _clientMeasurementViewModel;
-        private readonly BreakNotifier _breakNotifier;
 
         public ClientWcfService(TreeOfRtuModel treeOfRtuModel,
             TraceStateViewsManager traceStateViewsManager, TraceStatisticsViewsManager traceStatisticsViewsManager,
             OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
             RtuStateViewsManager rtuStateViewsManager, NetworkEventsDoubleViewModel networkEventsDoubleViewModel,
-            ClientMeasurementViewModel clientMeasurementViewModel, BreakNotifier breakNotifier)
+            ClientMeasurementViewModel clientMeasurementViewModel)
         {
             _treeOfRtuModel = treeOfRtuModel;
             _traceStateViewsManager = traceStateViewsManager;
@@ -32,7 +31,6 @@ namespace Iit.Fibertest.Client
             _opticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
             _networkEventsDoubleViewModel = networkEventsDoubleViewModel;
             _clientMeasurementViewModel = clientMeasurementViewModel;
-            _breakNotifier = breakNotifier;
         }
 
         public Task<int> NotifyUsersRtuCurrentMonitoringStep(CurrentMonitoringStepDto dto)
@@ -59,9 +57,6 @@ namespace Iit.Fibertest.Client
                 _opticalEventsDoubleViewModel.Apply(measurementWithSor.Measurement);
                 _opticalEventsDoubleViewModel.ApplyToTableAll(measurementWithSor.Measurement);
             }
-
-            if (measurementWithSor.SorBytes != null)
-                _breakNotifier.NotifyAboutMonitoringResult(measurementWithSor);
             return Task.FromResult(0);
         }
 
