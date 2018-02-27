@@ -93,5 +93,7 @@ namespace Iit.Fibertest.Client
                 _graphVisibilityLevelItem = value;
             }
         }
+
+        public Guid AccidentOnTraceVmId { get; set; } = Guid.Empty;
     }
 }

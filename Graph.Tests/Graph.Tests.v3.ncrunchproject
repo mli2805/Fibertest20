@@ -7,6 +7,9 @@
       <NamedTestSelector>
         <TestName>Graph.Tests.Equipment.EquipmentRemovedFeature.УдалениеОборудованияНеВходящегоВТрассы</TestName>
       </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Graph.Tests.Gps.BreakPlaceFeature.ОпределениеМестаАварии</TestName>
+      </NamedTestSelector>
     </IgnoredTests>
     <PreviouslyBuiltSuccessfully>True</PreviouslyBuiltSuccessfully>
   </Settings>

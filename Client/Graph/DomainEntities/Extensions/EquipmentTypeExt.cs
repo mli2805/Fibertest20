@@ -10,6 +10,10 @@ namespace Iit.Fibertest.Graph
     {
         public static BitmapImage GetPictogramBitmapImage(EquipmentType type, FiberState state)
         {
+            if (type == EquipmentType.AccidentPlace)
+                return new BitmapImage(new Uri($@"pack://application:,,,/Resources/OnMap/AccidentPlace.png"));
+
+
             string stateName = state.ToString();
             string typeName = type.ToString();
             var path = $@"pack://application:,,,/Resources/{typeName}/{typeName}{stateName}.png";

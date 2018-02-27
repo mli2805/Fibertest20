@@ -14,7 +14,7 @@ namespace Iit.Fibertest.Client
 
         public static FiberVm GetFiberByNodes(this GraphReadModel model, Guid node1, Guid node2)
         {
-            return model.Fibers.First(
+            return model.Fibers.FirstOrDefault(
                 f => f.Node1.Id == node1 && f.Node2.Id == node2 ||
                      f.Node1.Id == node2 && f.Node2.Id == node1);
         }

@@ -47,6 +47,7 @@ namespace Iit.Fibertest.Client
                 while ((idx = GetFiberIndexInTrace(trace, _model.Fibers.First(f => f.Id == e.FiberId))) != -1)
                 {
                     trace.Nodes.Insert(idx + 1, e.Id);
+                    trace.Equipments.Insert(idx + 1, e.EquipmentId);
                 }
             }
         }
@@ -114,6 +115,7 @@ namespace Iit.Fibertest.Client
             var idxInTrace = traceVm.Nodes.IndexOf(nodeId);
             CreateDetourIfAbsent(traceVm, fiberId, idxInTrace);
 
+            traceVm.Equipments.RemoveAt(idxInTrace);
             traceVm.Nodes.RemoveAt(idxInTrace);
         }
 

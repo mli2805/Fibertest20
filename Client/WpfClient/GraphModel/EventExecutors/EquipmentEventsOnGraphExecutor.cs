@@ -10,6 +10,7 @@ namespace Iit.Fibertest.Client
 {
     public class EquipmentEventsOnGraphExecutor
     {
+        readonly IMapper _mapper = new MapperConfiguration(cfg => cfg.AddProfile<MappingEventToVm>()).CreateMapper();
         private readonly GraphReadModel _model;
         private readonly IMyLog _logFile;
 
@@ -37,16 +38,29 @@ namespace Iit.Fibertest.Client
 
         public void AddEquipmentIntoNode(EquipmentIntoNodeAdded evnt)
         {
+            EquipmentVm equipmentVm = _mapper.Map<EquipmentVm>(evnt);
             var nodeVm = _model.Nodes.First(n => n.Id == evnt.NodeId);
-            _model.Equipments.Add(new EquipmentVm() { Id = evnt.Id, Node = nodeVm, Type = evnt.Type });
-            nodeVm.Type = evnt.Type;
+            equipmentVm.Node = nodeVm;
+            _model.Equipments.Add(equipmentVm);
+
+            foreach (var traceId in evnt.TracesForInsertion)
+            {
+                var traceVm = _model.Traces.FirstOrDefault(t => t.Id == traceId);
+                if (traceVm == null)
+                {
+                    var message = $@"EquipmentIntoNodeAdded: Trace {traceId.First6()} not found";
+                    _logFile.AppendLine(message);
+                    return;
+                }
+                var idx = traceVm.Nodes.IndexOf(evnt.NodeId);
+                traceVm.Equipments[idx] = evnt.Id;
+            }
         }
 
         public void UpdateEquipment(EquipmentUpdated evnt)
         {
             var equipmentVm = _model.Equipments.First(e => e.Id == evnt.Id);
-            IMapper mapper = new MapperConfiguration(cfg => cfg.AddProfile<MappingEventToVm>()).CreateMapper();
-            mapper.Map(evnt, equipmentVm);
+            _mapper.Map(evnt, equipmentVm);
             var nodeVm = equipmentVm.Node;
             nodeVm.Type = evnt.Type;
         }
@@ -60,6 +74,24 @@ namespace Iit.Fibertest.Client
                 _logFile.AppendLine(message);
                 return;
             }
+
+            #region replace equipment in trace with emptyEquipment
+            var emptyEquipment = _model.Equipments.FirstOrDefault(eq => eq.Node.Id == equipmentVm.Node.Id && eq.Type == EquipmentType.EmptyNode);
+            if (emptyEquipment == null)
+            {
+                var message = $@"EquipmentRemoved: There is no empty equipment in node {equipmentVm.Node.Id.First6()}";
+                _logFile.AppendLine(message);
+                return;
+            }
+
+            var traces = _model.Traces.Where(t => t.Equipments.Contains(evnt.Id)).ToList();
+            foreach (var traceVm in traces)
+            {
+                var idx = traceVm.Equipments.IndexOf(evnt.Id);
+                traceVm.Equipments[idx] = emptyEquipment.Id;
+            }
+            #endregion
+
             var nodeVm = equipmentVm.Node;
 
             _model.Equipments.Remove(equipmentVm);

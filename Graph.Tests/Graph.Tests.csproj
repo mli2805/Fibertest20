@@ -380,12 +380,12 @@
     <Compile Include="Sut\SystemUnderTest.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForTraceCleanRemove.cs" />
     <Compile Include="Sut\SutExtensions\Tools\TraceAttacher.cs" />
-    <Compile Include="GpsInput\GpsInputModeChanged.feature.cs">
+    <Compile Include="Gps\GpsInputModeChanged.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>GpsInputModeChanged.feature</DependentUpon>
     </Compile>
-    <Compile Include="GpsInput\GpsInputModeChangedSteps.cs">
+    <Compile Include="Gps\GpsInputModeChangedSteps.cs">
       <DependentUpon>GpsInputModeChanged.feature</DependentUpon>
     </Compile>
     <Compile Include="BaseRef\BaseRefAssigned.feature.cs">
@@ -578,7 +578,7 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>RtuUpdatedFromTree.feature.cs</LastGenOutput>
     </None>
-    <None Include="GpsInput\GpsInputModeChanged.feature">
+    <None Include="Gps\GpsInputModeChanged.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>GpsInputModeChanged.feature.cs</LastGenOutput>
     </None>

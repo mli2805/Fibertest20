@@ -4,8 +4,7 @@
     {
         Error = -1,
 
-        BreakInFakeNode = 50,
-        BreakInRealNode = 60,
+        AccidentPlace = 50,
 
         AdjustmentPoint = 100,
 

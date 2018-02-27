@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Graph.Tests.GpsInput
+namespace Graph.Tests.Gps
 {
     using TechTalk.SpecFlow;
     

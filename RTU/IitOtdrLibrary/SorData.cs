@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 using Optixsoft.SorExaminer.OtdrDataFormat.IO;
 
@@ -106,6 +107,12 @@ namespace Iit.Fibertest.IitOtdrLibrary
         public static int GetOwtFromMm(this OtdrDataKnownBlocks sorData, int distance)
         {
             return (int) (distance / sorData.GetOwtToMmCoeff());
+        }
+
+        public static OtdrDataKnownBlocks GetBase(this OtdrDataKnownBlocks sorData)
+        {
+            var baseBuffer = sorData.EmbeddedData.EmbeddedDataBlocks.FirstOrDefault(b => b.Description == @"SOR");
+            return baseBuffer == null ? null : FromBytes(baseBuffer.Data);
         }
     }
 }

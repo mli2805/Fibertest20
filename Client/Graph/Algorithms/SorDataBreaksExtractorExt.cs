@@ -32,13 +32,15 @@ namespace Iit.Fibertest.Graph.Algorithms
 
                 if ((sorData.RftsEvents.Events[i].EventTypes & RftsEventTypes.IsNew) != 0)
                 {
+                    var baseSorData = sorData.GetBase();
+
                     var newEvent = new BreakAsNewEvent()
                     {
                         LeftNodeKm = sorData.KeyEventDistanceKm(i-1),
                         LeftLandmarkIndex = sorData.GetLandmarkIndexForKeyEvent(i),
                         BreakKm = sorData.KeyEventDistanceKm(i),
-                        RightNodeKm = sorData.KeyEventDistanceKm(i + 1),
-                        RightLandmarkIndex = sorData.GetLandmarkIndexForKeyEvent(i + 2),
+                        RightNodeKm = baseSorData.KeyEventDistanceKm(i), // if FiberBreak happens there are no events after Break, so take them from Base
+                        RightLandmarkIndex = baseSorData.GetLandmarkIndexForKeyEvent(i + 1),
 
                         AccidentSeriousness = (sorData.RftsEvents.Events[i].EventTypes & RftsEventTypes.IsFiberBreak) == 0 ? FiberState.FiberBreak : FiberState.Critical,
                         BreakType = OpticalAccidentType.Break, //TODO

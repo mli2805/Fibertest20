@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using GMap.NET;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
@@ -11,12 +12,12 @@ namespace Iit.Fibertest.Client
     public class TraceEventsOnGraphExecutor
     {
         private readonly GraphReadModel _model;
-        private readonly IMyLog _logFile;
+        private readonly AccidentPlaceLocator _accidentPlaceLocator;
 
-        public TraceEventsOnGraphExecutor(GraphReadModel model, IMyLog logFile)
+        public TraceEventsOnGraphExecutor(GraphReadModel model, AccidentPlaceLocator accidentPlaceLocator)
         {
             _model = model;
-            _logFile = logFile;
+            _accidentPlaceLocator = accidentPlaceLocator;
         }
 
         public void AddTrace(TraceAdded evnt)
@@ -83,6 +84,7 @@ namespace Iit.Fibertest.Client
             traceVm.State = FiberState.NotJoined;
             traceVm.Port = 0;
             ApplyTraceStateToFibers(traceVm);
+            CleanAccidentPlacesOnTrace(traceVm);
         }
 
         private void ApplyTraceStateToFibers(TraceVm traceVm)
@@ -96,48 +98,50 @@ namespace Iit.Fibertest.Client
             var traceVm = _model.Traces.First(t => t.Id == evnt.TraceId);
             traceVm.State = evnt.TraceState;
             _model.ChangeTraceColor(evnt.TraceId, traceVm.Nodes, traceVm.State);
-            //TODO show the accidents themselves
+            if (traceVm.State == FiberState.Ok)
+                CleanAccidentPlacesOnTrace(traceVm);
+            else
+                ShowAccidentPlacesOnTrace(evnt, traceVm);
         }
 
-        private void GetAccidentGps(BreakAsNewEvent accident, TraceVm traceVm)
+        private void ShowAccidentPlacesOnTrace(MonitoringResultShown evnt, TraceVm traceVm)
         {
-            var fiberVm = _model.GetFiberByNodes(traceVm.Nodes[accident.LeftLandmarkIndex],
-                traceVm.Nodes[accident.RightLandmarkIndex]);
-
-            double gpsLength = GetGpsDistanceBetweenNeighbours(accident, traceVm);
-            double fiberLengthM = fiberVm.UserInputedLength != 0
-                ? fiberVm.UserInputedLength
-                : gpsLength;
-
-            fiberLengthM = fiberLengthM + 0;
-
-            var proportion = (accident.BreakKm - accident.LeftNodeKm) / (accident.RightNodeKm - accident.LeftNodeKm);
-            var segment1metres = fiberLengthM * proportion;
-            var segment2metres = fiberLengthM - segment1metres;
-        }
-
-        private double GetCableReserves(BreakAsNewEvent accident, TraceVm traceVm)
-        {
-            return 0;
-        }
-
-        private double GetGpsDistanceBetweenNeighbours(BreakAsNewEvent accident, TraceVm traceVm)
-        {
-            var leftNodeVm = _model.Nodes.FirstOrDefault(n => n.Id == traceVm.Nodes[accident.LeftLandmarkIndex]);
-            if (leftNodeVm == null)
+            foreach (var accident in evnt.Accidents)
             {
-                _logFile.AppendLine($@"NodeVm {traceVm.Nodes[accident.LeftLandmarkIndex].First6()} not found");
-                return 0;
+                if (accident is BreakAsNewEvent accidentOnTrace)
+                {
+                    var accidentGps = _accidentPlaceLocator.GetAccidentGps(accidentOnTrace, traceVm);
+                    if (accidentGps == null)
+                        continue;
+                    var accidentNode = new NodeVm()
+                    {
+                        Id = Guid.NewGuid(),
+                        Position = (PointLatLng) accidentGps,
+                        Type = EquipmentType.AccidentPlace,
+                        AccidentOnTraceVmId = traceVm.Id,
+                    };
+                    var breakEquipment = new EquipmentVm()
+                    {
+                        Id = Guid.NewGuid(),
+                        Node = accidentNode,
+                        Type = EquipmentType.AccidentPlace
+                    };
+                    _model.Nodes.Add(accidentNode);
+                    _model.Equipments.Add(breakEquipment);
+                }
             }
+        }
 
-            var rightNodeVm = _model.Nodes.FirstOrDefault(n => n.Id == traceVm.Nodes[accident.RightLandmarkIndex]);
-            if (rightNodeVm == null)
+        private void CleanAccidentPlacesOnTrace(TraceVm traceVm)
+        {
+            var nodeVms = _model.Nodes.Where(n => n.AccidentOnTraceVmId == traceVm.Id).ToList();
+            foreach (var nodeVm in nodeVms)
             {
-                _logFile.AppendLine($@"NodeVm {traceVm.Nodes[accident.RightLandmarkIndex].First6()} not found");
-                return 0;
+                var equipmentVm = _model.Equipments.FirstOrDefault(e => e.Node == nodeVm);
+                if (equipmentVm != null)
+                    _model.Equipments.Remove(equipmentVm);
+                _model.Nodes.Remove(nodeVm);
             }
-
-            return GpsCalculator.GetDistanceBetweenPointLatLng(leftNodeVm.Position, rightNodeVm.Position);
         }
     }
 }
