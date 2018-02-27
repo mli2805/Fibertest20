@@ -934,6 +934,7 @@
     <Resource Include="Resources\AdjustmentPoint\AdjustmentPointOk.png" />
     <Resource Include="Resources\OnMap\NodeSelection.png" />
     <Resource Include="Resources\OnMap\NodeHighlighting.png" />
+    <Resource Include="Resources\OnMap\BreakPlace.png" />
     <Content Include="Resources\Sounds\Accident.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

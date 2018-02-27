@@ -12,7 +12,7 @@ namespace Iit.Fibertest.Client
                 yield return GetFiberByNodes(model, nodes[i - 1], nodes[i]);
         }
 
-        private static FiberVm GetFiberByNodes(this GraphReadModel model, Guid node1, Guid node2)
+        public static FiberVm GetFiberByNodes(this GraphReadModel model, Guid node1, Guid node2)
         {
             return model.Fibers.First(
                 f => f.Node1.Id == node1 && f.Node2.Id == node2 ||
