@@ -504,7 +504,7 @@ If chosen trace use some equipment in this node it will be replaced</value>
     <value>Equipment</value>
   </data>
 	<data name="SID_All" xml:space="preserve">
-    <value>All points</value>
+    <value>All objects</value>
   </data>
 	<data name="SID_RTU_Title" xml:space="preserve">
     <value>RTU Title</value>
@@ -1643,7 +1643,7 @@ RTU is initializing right now!</value>
 	<data name="SID_Semiautomatic_mode" xml:space="preserve">
     <value>Semi-automatic mode</value>
   </data>
-  <data name="SID_Distance_measurement_mode" xml:space="preserve">
+	<data name="SID_Distance_measurement_mode" xml:space="preserve">
     <value>Distance measurement mode</value>
   </data>
 </root>

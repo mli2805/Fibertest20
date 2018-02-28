@@ -11,14 +11,16 @@
         <!-- ReSharper disable once Xaml.RedundantResource -->
         <ContextMenu x:Key="MapContextMenu">
             <MenuItem Header="{x:Static stringResources:Resources.SID_Add_node}" Tag="200" Click="AddNodeOnClick"/>
-            <MenuItem Header="{x:Static stringResources:Resources.SID_Add_node_with_cable_reserve}" Tag="300" Click="AddNodeOnClick"/>
             <Separator />
+            <MenuItem Header="{x:Static stringResources:Resources.SID_Add_node_with_cable_reserve}" Tag="300" Click="AddNodeOnClick"/>
             <MenuItem Header="{x:Static stringResources:Resources.SID_Add_node_with_sleeve}" Tag="402" Click="AddNodeOnClick"/>
             <MenuItem Header="{x:Static stringResources:Resources.SID_Add_node_with_cross}" Tag="403" Click="AddNodeOnClick"/>
             <MenuItem Header="{x:Static stringResources:Resources.SID_Add_node_with_terminal}" Tag="406" Click="AddNodeOnClick"/>
             <MenuItem Header="{x:Static stringResources:Resources.SID_Add_node_with_other_equipment}" Tag="400" Click="AddNodeOnClick"/>
             <Separator />
             <MenuItem Header="{x:Static stringResources:Resources.SID_Add_RTU}" Tag="500" Click="AddNodeOnClick"/>
+            <Separator />
+            <MenuItem Header="{x:Static stringResources:Resources.SID_Distace_measurement}" Tag="500" Click="ToggleToDistanceMeasurementMode"/>
         </ContextMenu>
     </Control.Resources>
     <DockPanel>

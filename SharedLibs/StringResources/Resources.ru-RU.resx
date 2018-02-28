@@ -504,7 +504,7 @@
     <value>Оборудование</value>
   </data>
 	<data name="SID_All" xml:space="preserve">
-    <value>Все точки</value>
+    <value>Все объекты</value>
   </data>
 	<data name="SID_RTU_Title" xml:space="preserve">
     <value>Название RTU</value>
@@ -1642,5 +1642,8 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Semiautomatic_mode" xml:space="preserve">
 		<value>Полуавтоматический режим</value>
+	</data>
+	<data name="SID_Distance_measurement_mode" xml:space="preserve">
+		<value>Режим измерения расстояния</value>
 	</data>
 </root>

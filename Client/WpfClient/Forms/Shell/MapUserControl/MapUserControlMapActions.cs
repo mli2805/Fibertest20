@@ -42,6 +42,16 @@ namespace Iit.Fibertest.Client
                 });
             }
         }
+
+        private void ToggleToDistanceMeasurementMode(object sender, RoutedEventArgs e)
+        {
+            if (!MainMap.IsInDistanceMeasurementMode)
+            {
+                SetBanner(StringResources.Resources.SID_Distance_measurement_mode);
+                MainMap.IsInDistanceMeasurementMode = true;
+                MainMap.StartNode = null;
+            }
+        }
     }
 
 }

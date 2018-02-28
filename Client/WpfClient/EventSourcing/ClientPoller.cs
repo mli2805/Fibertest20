@@ -102,17 +102,26 @@ namespace Iit.Fibertest.Client
             foreach (var json in events)
             {
                 var msg = (EventMessage)JsonConvert.DeserializeObject(json, JsonSerializerSettings);
-                var e = msg.Body;
-                _eventsOnGraphExecutor.Apply(e);
-                _eventsOnModelExecutor.Apply(e);
-//                _readModel.AsDynamic().Apply(e);
-                _treeOfRtuModel.AsDynamic().Apply(e);
+                var evnt = msg.Body;
 
-                // some forms refresh their view because they have sent command previously and are waiting event's coming
-                _readModel.NotifyOfPropertyChange(nameof(_readModel.JustForNotification));
+                try
+                {
+                    _eventsOnGraphExecutor.Apply(evnt);
+                    _eventsOnModelExecutor.Apply(evnt);
+                    _treeOfRtuModel.AsDynamic().Apply(evnt);
 
-                // otherwise I should do this in almost all operations of applying events in tree
-                _treeOfRtuModel.NotifyOfPropertyChange(nameof(_treeOfRtuModel.Statistics));
+                    // some forms refresh their view because they have sent command previously and are waiting event's coming
+                    _readModel.NotifyOfPropertyChange(nameof(_readModel.JustForNotification));
+
+                    // otherwise I should do this in almost all operations of applying events in tree
+                    _treeOfRtuModel.NotifyOfPropertyChange(nameof(_treeOfRtuModel.Statistics));
+                }
+                catch (Exception e)
+                {
+                    _logFile.AppendLine(e.Message);
+                    var header = @"Timestamp";
+                    _logFile.AppendLine($@"Exception thrown while processing event with timestamp {msg.Headers[header]}");
+                }
 
                 CurrentEventNumber++;
             }
