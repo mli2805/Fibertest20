@@ -96,24 +96,51 @@
                         <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Dist_to_right}" Binding="{Binding DistanceToRightNode}"/>
                     </DataGrid.Columns>
                 </DataGrid>
+                <Grid DockPanel.Dock="Top">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="22"/>
+                        <RowDefinition Height="22"/>
+                        <RowDefinition Height="22"/>
+                        <RowDefinition Height="22"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="90"/>
+                        <ColumnDefinition Width="90"/>
+                        <ColumnDefinition Width="90"/>
+                        <ColumnDefinition Width="90"/>
+                        <ColumnDefinition Width="90"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.ColumnSpan="5" Text="Авария (L) на участке " />
 
-                <StackPanel>
-                    <TextBlock Text="Авария (L) nnhgdfsk asdlkg " Height="25" />
-                    <TextBlock Text="Борисов " Height="25" />
-                    <Image Source="../../../Resources/OnMap/AccidentInNewPlace.png"></Image>
-                </StackPanel>
+                    <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="Борисов "/>
+                    <TextBlock Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" Text="Кросс установленный на АТС " HorizontalAlignment="Right"/>
+                    <TextBlock Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Text="53.26589  27.329487" HorizontalAlignment="Center"/>
+
+                    <Image Grid.Row="1" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="5" Source="../../../Resources/OnMap/AccidentInNewPlace.png"/>
+
+                    <TextBlock Grid.Row="3" Grid.Column="1" Text="3.129 km" HorizontalAlignment="Center"/>
+                    <TextBlock Grid.Row="3" Grid.Column="3" Text="0.421 km" HorizontalAlignment="Center"/>
+
+                </Grid>
                 <ItemsControl DockPanel.Dock="Top" Height="40">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate DataType="client:TraceInfoTableItem">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Margin="5" Width="220" HorizontalAlignment="Right" Text="Авария" />
-                                <Image Source="../../../Resources/Rtu/RtuOk.png"></Image>
-                            </StackPanel>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="22"/>
+                                    <RowDefinition Height="22"/>
+                                    <RowDefinition Height="22"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock  Text="Авария (L) nnhgdfsk asdlkg " Height="25" />
+                                <TextBlock Grid.Row="1" Text="Борисов " Height="25" />
+                                <Image Grid.Row="0" Grid.RowSpan="3" Source="../../../Resources/OnMap/AccidentInNewPlace.png"></Image>
+
+                            </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
 
-                <DockPanel>
+                <DockPanel Visibility="Collapsed">
                     <TextBlock Text="Accident coordinates:" Margin="5"/>
                     <TextBlock Text="{Binding Model.SelectedAccidentGpsCoordinates}" Margin="5"/>
                 </DockPanel>
