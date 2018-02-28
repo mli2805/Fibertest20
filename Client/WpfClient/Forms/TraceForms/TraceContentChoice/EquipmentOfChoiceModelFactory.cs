@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Windows;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
@@ -16,6 +18,7 @@ namespace Iit.Fibertest.Client
                 LeftCableReserve = equipment.CableReserveLeft,
                 RightCableReserve = equipment.CableReserveRight,
                 IsRadioButtonEnabled = true,
+                RightCableReserveVisible = (equipment.Type > EquipmentType.CableReserve && equipment.Type != EquipmentType.Terminal) ? Visibility.Visible : Visibility.Hidden,
             };
             return equipmentOfChoiceModel;
         }

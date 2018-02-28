@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using Caliburn.Micro;
 
 namespace Iit.Fibertest.Client
@@ -25,5 +26,7 @@ namespace Iit.Fibertest.Client
         public int LeftCableReserve { get; set; }
         public int RightCableReserve { get; set; }
         public bool IsRadioButtonEnabled { get; set; }
+
+        public Visibility RightCableReserveVisible { get; set; }
     }
 }

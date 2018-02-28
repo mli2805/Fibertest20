@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Text;
 using Iit.Fibertest.Dto;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 using OpxLandmark = Optixsoft.SorExaminer.OtdrDataFormat.Structures.Landmark;
@@ -22,7 +23,7 @@ namespace Iit.Fibertest.Graph.Algorithms
 
         public void InsertLandmarks(OtdrDataKnownBlocks sorData, TraceModelForBaseRef model)
         {
-             var newLandmarks = new OpxLandmark[model.EquipArray.Length];
+            var newLandmarks = new OpxLandmark[model.EquipArray.Length];
 
             var oldLandmarkIndex = 0;
             for (var i = 0; i < model.EquipArray.Length; i++)
@@ -33,7 +34,7 @@ namespace Iit.Fibertest.Graph.Algorithms
                     oldLandmarkIndex++;
                 }
                 else
-                    newLandmarks[i] = new OpxLandmark() {Code = LandmarkCode.Manhole};
+                    newLandmarks[i] = new OpxLandmark() { Code = LandmarkCode.Manhole };
             }
 
             sorData.LinkParameters.LandmarkBlocks = newLandmarks;
@@ -50,9 +51,11 @@ namespace Iit.Fibertest.Graph.Algorithms
             landmarks[0].Comment = rtu.Title;
             for (int i = 1; i < landmarks.Length; i++)
             {
-                landmarks[i].Comment = nodes[i].Title;
-                if (!string.IsNullOrEmpty(equipments[i-1].Title))
-                    landmarks[i].Comment = landmarks[i].Comment + $@" / {equipments[i - 1].Title}";
+                var landmarkTitle = nodes[i].Title;
+                if (!string.IsNullOrEmpty(equipments[i - 1].Title))
+                    landmarkTitle = landmarkTitle + $@" / {equipments[i - 1].Title}";
+
+                landmarks[i].Comment = landmarkTitle; // utf8, TODO reflect.exe should understand this
                 landmarks[i].Code = equipments[i - 1].Type.ToLandmarkCode();
             }
         }

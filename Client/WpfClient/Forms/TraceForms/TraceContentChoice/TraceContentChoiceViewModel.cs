@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -23,9 +24,21 @@ namespace Iit.Fibertest.Client
         private Node _node;
         public string NodeTitle { get; set; }
         public List<EquipmentOfChoiceModel> EquipmentChoices { get; set; }
-        public List<EquipmentOfChoiceModel> CableReserveChoices { get; set; }
         public EquipmentOfChoiceModel NoEquipmentInNodeChoice { get; set; }
 
+        private Visibility _leftAndRightVisibility = Visibility.Collapsed;
+        public Visibility LeftAndRightVisibility
+        {
+            get { return _leftAndRightVisibility; }
+            set
+            {
+                if (value == _leftAndRightVisibility) return;
+                _leftAndRightVisibility = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+     
         public bool ShouldWeContinue { get; set; }
 
         public TraceContentChoiceViewModel(ILifetimeScope globalScope, IniFile iniFile, IWcfServiceForClient c2DWcfManager,
@@ -45,22 +58,15 @@ namespace Iit.Fibertest.Client
 
             _possibleEquipment = possibleEquipment;
             EquipmentChoices = new List<EquipmentOfChoiceModel>();
-            foreach (var equipment in possibleEquipment.Where(e => e.Type > EquipmentType.CableReserve))
+            foreach (var equipment in possibleEquipment.Where(e => e.Type > EquipmentType.EmptyNode))
             {
                 var equipmentOfChoiceModel = _equipmentOfChoiceModelFactory.Create(equipment);
                 equipmentOfChoiceModel.IsSelected = equipment == possibleEquipment.First();
                 equipmentOfChoiceModel.PropertyChanged += EquipmentOfChoiceModel_PropertyChanged;
                 EquipmentChoices.Add(equipmentOfChoiceModel);
             }
+            if (EquipmentChoices.Any()) LeftAndRightVisibility = Visibility.Visible;
 
-            CableReserveChoices = new List<EquipmentOfChoiceModel>();
-            foreach (var equipment in possibleEquipment.Where(e => e.Type == EquipmentType.CableReserve))
-            {
-                var equipmentOfChoiceModel = _equipmentOfChoiceModelFactory.Create(equipment);
-                equipmentOfChoiceModel.IsSelected = equipment == possibleEquipment.First();
-                equipmentOfChoiceModel.PropertyChanged += EquipmentOfChoiceModel_PropertyChanged;
-                CableReserveChoices.Add(equipmentOfChoiceModel);
-            }
 
             var emptyNode = possibleEquipment.Single(e => e.Type == EquipmentType.EmptyNode);
             NoEquipmentInNodeChoice = _equipmentOfChoiceModelFactory.CreateDoNotUseEquipment(emptyNode.Id, isLastNode);
@@ -68,8 +74,6 @@ namespace Iit.Fibertest.Client
 
             if (EquipmentChoices.Any())
                 EquipmentChoices[0].IsSelected = true;
-            else if (CableReserveChoices.Any())
-                CableReserveChoices[0].IsSelected = true;
             else
                 NoEquipmentInNodeChoice.IsSelected = true;
         }
@@ -82,8 +86,6 @@ namespace Iit.Fibertest.Client
             {
                 foreach (var mo in EquipmentChoices.Where(m => m != model))
                     mo.IsSelected = false;
-                foreach (var mo in CableReserveChoices.Where(m => m != model))
-                    mo.IsSelected = false;
                 if (NoEquipmentInNodeChoice != model)
                     NoEquipmentInNodeChoice.IsSelected = false;
             }
@@ -92,9 +94,6 @@ namespace Iit.Fibertest.Client
         public Guid GetSelectedEquipmentGuid()
         {
             foreach (var mo in EquipmentChoices)
-                if (mo.IsSelected)
-                    return mo.EquipmentId;
-            foreach (var mo in CableReserveChoices)
                 if (mo.IsSelected)
                     return mo.EquipmentId;
             return NoEquipmentInNodeChoice.EquipmentId;
@@ -118,8 +117,8 @@ namespace Iit.Fibertest.Client
 
                 foreach (var equipment in _possibleEquipment.Where(e => e.Type != EquipmentType.EmptyNode))
                 {
-                    var model = EquipmentChoices.FirstOrDefault(m => m.EquipmentId == equipment.Id) ??
-                                CableReserveChoices.First(m => m.EquipmentId == equipment.Id);
+                    var model = EquipmentChoices.FirstOrDefault(m => m.EquipmentId == equipment.Id);
+                    if (model == null) continue;
 
                     if (equipment.Title != model.TitleOfEquipment ||
                         equipment.CableReserveLeft != model.LeftCableReserve ||
