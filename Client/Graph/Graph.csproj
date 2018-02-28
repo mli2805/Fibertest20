@@ -135,8 +135,8 @@
     <Compile Include="Commands\User\UpdateUser.cs" />
     <Compile Include="Commands\Zone\UpdateZone.cs" />
     <Compile Include="DomainEntities\Breaks\AccidentOnTrace.cs" />
-    <Compile Include="DomainEntities\Breaks\BreakAsNewEvent.cs" />
-    <Compile Include="DomainEntities\Breaks\BreakInOldEvent.cs" />
+    <Compile Include="DomainEntities\Breaks\AccidentAsNewEvent.cs" />
+    <Compile Include="DomainEntities\Breaks\AccidentInOldEvent.cs" />
     <Compile Include="DomainEntities\Enums\OpticalAccidentType.cs" />
     <Compile Include="DomainEntities\Extensions\UserExt.cs" />
     <Compile Include="Events\JustEchosOfCmdsSentToRtu\MonitoringResultShown.cs" />

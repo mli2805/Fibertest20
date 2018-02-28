@@ -62,7 +62,29 @@
         </DockPanel>
         <GroupBox Header="{x:Static stringResources:Resources.SID_Accidents}" Margin="5" Visibility="{Binding Model.AccidentsPanelVisibility}">
             <DockPanel>
-                <DataGrid DockPanel.Dock="Top" ItemsSource="{Binding Model.Accidents}" 
+
+                <DockPanel DockPanel.Dock="Top" Visibility="Collapsed">
+                    <StackPanel DockPanel.Dock="Top"  Orientation="Horizontal">
+                        <TextBlock Margin="5" Width="100" FontWeight="Bold" Text="{x:Static stringResources:Resources.SID_State}"/>
+                        <TextBlock Margin="5" Width="30"  FontWeight="Bold"  Text="Type"/>
+                        <TextBlock Margin="5" Width="100" FontWeight="Bold"  Text="Node"/>
+                        <TextBlock Margin="5" Width="50"  FontWeight="Bold"  Text="Distance, km"/>
+                    </StackPanel>
+                    <StackPanel DockPanel.Dock="Top"  Orientation="Horizontal">
+                        <TextBlock Margin="5" Width="100" Text="Повреждение"/>
+                        <TextBlock Margin="5" Width="30"  Text="(L)"/>
+                        <TextBlock Margin="5" Width="100" Text="new"/>
+                        <TextBlock Margin="5" Width="50"  Text="20,432"/>
+                    </StackPanel>
+                    <StackPanel DockPanel.Dock="Top"  Orientation="Horizontal">
+                        <TextBlock Margin="5" Width="100" Text="Авария"/>
+                        <TextBlock Margin="5" Width="30"  Text="(C)"/>
+                        <TextBlock Margin="5" Width="100" Text=""/>
+                        <TextBlock Margin="5" Width="50"  Text="13,432"/>
+                    </StackPanel>
+                </DockPanel>
+
+                <DataGrid DockPanel.Dock="Top" ItemsSource="{Binding Model.Accidents}" Visibility="Collapsed"
                           SelectedItem="{Binding Model.SelectedAccident}"  AutoGenerateColumns="False" >
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="No" Binding="{Binding (client:AccidentLineModel.No)}"/>
@@ -74,10 +96,27 @@
                         <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Dist_to_right}" Binding="{Binding DistanceToRightNode}"/>
                     </DataGrid.Columns>
                 </DataGrid>
-            <DockPanel>
-                <TextBlock Text="Accident coordinates:" Margin="5"/>
-                <TextBlock Text="{Binding Model.SelectedAccidentGpsCoordinates}" Margin="5"/>
-            </DockPanel>
+
+                <StackPanel>
+                    <TextBlock Text="Авария (L) nnhgdfsk asdlkg " Height="25" />
+                    <TextBlock Text="Борисов " Height="25" />
+                    <Image Source="../../../Resources/OnMap/AccidentInNewPlace.png"></Image>
+                </StackPanel>
+                <ItemsControl DockPanel.Dock="Top" Height="40">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="client:TraceInfoTableItem">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="5" Width="220" HorizontalAlignment="Right" Text="Авария" />
+                                <Image Source="../../../Resources/Rtu/RtuOk.png"></Image>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <DockPanel>
+                    <TextBlock Text="Accident coordinates:" Margin="5"/>
+                    <TextBlock Text="{Binding Model.SelectedAccidentGpsCoordinates}" Margin="5"/>
+                </DockPanel>
             </DockPanel>
         </GroupBox>
         <Border Visibility="{Binding Model.OpticalEventPanelVisibility}">

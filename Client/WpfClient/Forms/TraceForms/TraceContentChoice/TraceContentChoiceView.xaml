@@ -20,8 +20,8 @@
                     <DockPanel Visibility="{Binding LeftAndRightVisibility}">
                         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
                             <TextBlock DockPanel.Dock="Top" Margin="155,5,5,5" Text="{x:Static stringResources:Resources.SID_Title}" HorizontalAlignment="Left" />
-                            <TextBlock DockPanel.Dock="Top" Margin="65,5,5,5" Text="L m" HorizontalAlignment="Left" />
-                            <TextBlock DockPanel.Dock="Top" Margin="20,5,5,5" Text="R m" HorizontalAlignment="Left" />
+                            <TextBlock DockPanel.Dock="Top" Margin="65,5,5,5" Text="{x:Static stringResources:Resources.SID_L_m}" HorizontalAlignment="Left" />
+                            <TextBlock DockPanel.Dock="Top" Margin="20,5,5,5" Text="{x:Static stringResources:Resources.SID_R_m}" HorizontalAlignment="Left" />
                         </StackPanel>
                         <ItemsControl ItemsSource="{Binding EquipmentChoices}" Margin="10,5,5,10" KeyboardNavigation.IsTabStop="False">
                             <ItemsControl.ItemTemplate>

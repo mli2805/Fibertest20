@@ -1646,4 +1646,10 @@ RTU is initializing right now!</value>
 	<data name="SID_Distance_measurement_mode" xml:space="preserve">
     <value>Distance measurement mode</value>
   </data>
+	<data name="SID_L_m" xml:space="preserve">
+    <value>L, m</value>
+  </data>
+	<data name="SID_R_m" xml:space="preserve">
+    <value>R, m</value>
+  </data>
 </root>

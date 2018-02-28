@@ -17,7 +17,21 @@ namespace Iit.Fibertest.Client
             _logFile = logFile;
         }
 
-        public PointLatLng? GetAccidentGps(BreakAsNewEvent accident, TraceVm traceVm)
+        public PointLatLng? GetAccidentGps(AccidentOnTrace accident, TraceVm traceVm)
+        {
+            if (accident is AccidentAsNewEvent accidentAsNewEvent)
+                return GetAccidentGps(accidentAsNewEvent, traceVm);
+
+            if (accident is AccidentInOldEvent accidentInOldEvent)
+            {
+                var nodeVm = _model.Nodes.FirstOrDefault(n => n.Id == traceVm.Nodes[accidentInOldEvent.EventNumber]);
+                return nodeVm?.Position;
+            }
+
+            return null;
+        }
+
+        private PointLatLng? GetAccidentGps(AccidentAsNewEvent accident, TraceVm traceVm)
         {
             var fiberVm = _model.GetFiberByNodes(traceVm.Nodes[accident.LeftLandmarkIndex],
                 traceVm.Nodes[accident.RightLandmarkIndex]);
@@ -51,7 +65,7 @@ namespace Iit.Fibertest.Client
             return new PointLatLng(latBreak, lngBreak);
         }
 
-        private double GetLeftCableReserves(BreakAsNewEvent accident, TraceVm traceVm)
+        private double GetLeftCableReserves(AccidentAsNewEvent accident, TraceVm traceVm)
         {
             var leftEquipmentVm = _model.Equipments.FirstOrDefault(e => e.Id == traceVm.Equipments[accident.LeftLandmarkIndex]);
             if (leftEquipmentVm == null)
@@ -64,7 +78,7 @@ namespace Iit.Fibertest.Client
                 : leftEquipmentVm.CableReserveRight;
         }
 
-        private double GetRightCableReserves(BreakAsNewEvent accident, TraceVm traceVm)
+        private double GetRightCableReserves(AccidentAsNewEvent accident, TraceVm traceVm)
         {
             var rightEquipmentVm = _model.Equipments.FirstOrDefault(e => e.Id == traceVm.Equipments[accident.RightLandmarkIndex]);
             if (rightEquipmentVm == null)
@@ -77,7 +91,7 @@ namespace Iit.Fibertest.Client
                 : rightEquipmentVm.CableReserveLeft;
         }
 
-        private double GetGpsDistanceBetweenNeighbours(BreakAsNewEvent accident, TraceVm traceVm, out NodeVm leftNodeVm, out NodeVm rightNodeVm)
+        private double GetGpsDistanceBetweenNeighbours(AccidentAsNewEvent accident, TraceVm traceVm, out NodeVm leftNodeVm, out NodeVm rightNodeVm)
         {
             rightNodeVm = null;
 

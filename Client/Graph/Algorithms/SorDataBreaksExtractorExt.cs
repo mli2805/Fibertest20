@@ -19,7 +19,7 @@ namespace Iit.Fibertest.Graph.Algorithms
                     var brokenLandmark = sorData.LinkParameters.LandmarkBlocks.FirstOrDefault(l => l.RelatedEventNumber == i + 1);
                     if (brokenLandmark == null) continue;
 
-                    var accident = new BreakInOldEvent()
+                    var accident = new AccidentInOldEvent()
                     {
                         EventNumber = brokenLandmark.Number,
                         BreakKm = brokenLandmark.Location,
@@ -34,7 +34,7 @@ namespace Iit.Fibertest.Graph.Algorithms
                 {
                     var baseSorData = sorData.GetBase();
 
-                    var newEvent = new BreakAsNewEvent()
+                    var newEvent = new AccidentAsNewEvent()
                     {
                         LeftNodeKm = sorData.KeyEventDistanceKm(i-1),
                         LeftLandmarkIndex = sorData.GetLandmarkIndexForKeyEvent(i),

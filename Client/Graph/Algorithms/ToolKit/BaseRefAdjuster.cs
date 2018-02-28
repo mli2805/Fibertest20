@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Text;
 using Iit.Fibertest.Dto;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 using OpxLandmark = Optixsoft.SorExaminer.OtdrDataFormat.Structures.Landmark;

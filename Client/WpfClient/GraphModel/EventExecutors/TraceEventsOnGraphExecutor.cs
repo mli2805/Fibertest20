@@ -5,7 +5,6 @@ using AutoMapper;
 using GMap.NET;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Client
 {
@@ -108,27 +107,24 @@ namespace Iit.Fibertest.Client
         {
             foreach (var accident in evnt.Accidents)
             {
-                if (accident is BreakAsNewEvent accidentOnTrace)
+                var accidentGps = _accidentPlaceLocator.GetAccidentGps(accident, traceVm);
+                if (accidentGps == null)
+                    continue;
+
+                var accidentNode = new NodeVm()
                 {
-                    var accidentGps = _accidentPlaceLocator.GetAccidentGps(accidentOnTrace, traceVm);
-                    if (accidentGps == null)
-                        continue;
-                    var accidentNode = new NodeVm()
-                    {
-                        Id = Guid.NewGuid(),
-                        Position = (PointLatLng) accidentGps,
-                        Type = EquipmentType.AccidentPlace,
-                        AccidentOnTraceVmId = traceVm.Id,
-                    };
-                    var breakEquipment = new EquipmentVm()
-                    {
-                        Id = Guid.NewGuid(),
-                        Node = accidentNode,
-                        Type = EquipmentType.AccidentPlace
-                    };
-                    _model.Nodes.Add(accidentNode);
-                    _model.Equipments.Add(breakEquipment);
-                }
+                    Id = Guid.NewGuid(),
+                    Position = (PointLatLng)accidentGps,
+                    Type = EquipmentType.AccidentPlace,
+                    AccidentOnTraceVmId = traceVm.Id,
+                };
+                _model.Equipments.Add(new EquipmentVm()
+                {
+                    Id = Guid.NewGuid(),
+                    Node = accidentNode,
+                    Type = EquipmentType.AccidentPlace
+                });
+                _model.Nodes.Add(accidentNode);
             }
         }
 

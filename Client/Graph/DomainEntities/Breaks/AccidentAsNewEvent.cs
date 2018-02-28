@@ -1,6 +1,6 @@
 ﻿namespace Iit.Fibertest.Graph
 {
-    public class BreakAsNewEvent : AccidentOnTrace
+    public class AccidentAsNewEvent : AccidentOnTrace
     {
         public double LeftNodeKm { get; set; }
         public int LeftLandmarkIndex { get; set; }

@@ -936,6 +936,7 @@
     <Resource Include="Resources\OnMap\NodeSelection.png" />
     <Resource Include="Resources\OnMap\NodeHighlighting.png" />
     <Resource Include="Resources\OnMap\AccidentPlace.png" />
+    <Resource Include="Resources\OnMap\AccidentInNewPlace.png" />
     <Content Include="Resources\Sounds\Accident.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

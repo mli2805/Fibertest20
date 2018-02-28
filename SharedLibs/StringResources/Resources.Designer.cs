@@ -413,7 +413,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to All points.
+        ///   Looks up a localized string similar to All objects.
         /// </summary>
         public static string SID_All {
             get {
@@ -1989,6 +1989,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to L, m.
+        /// </summary>
+        public static string SID_L_m {
+            get {
+                return ResourceManager.GetString("SID_L_m", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Landmark.
         /// </summary>
         public static string SID_Landmark {
@@ -3192,6 +3201,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Question {
             get {
                 return ResourceManager.GetString("SID_Question", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to R, m.
+        /// </summary>
+        public static string SID_R_m {
+            get {
+                return ResourceManager.GetString("SID_R_m", resourceCulture);
             }
         }
         

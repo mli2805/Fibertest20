@@ -42,6 +42,7 @@ namespace Iit.Fibertest.Client
             var nodeVm = _model.Nodes.First(n => n.Id == evnt.NodeId);
             equipmentVm.Node = nodeVm;
             _model.Equipments.Add(equipmentVm);
+            nodeVm.Type = equipmentVm.Type;
 
             foreach (var traceId in evnt.TracesForInsertion)
             {
