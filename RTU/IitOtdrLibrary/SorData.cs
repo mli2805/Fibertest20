@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Optixsoft.SharedCommons.SorSerialization;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 using Optixsoft.SorExaminer.OtdrDataFormat.IO;
+using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
+using BinaryReader = System.IO.BinaryReader;
 
 namespace Iit.Fibertest.IitOtdrLibrary
 {
@@ -113,6 +117,23 @@ namespace Iit.Fibertest.IitOtdrLibrary
         {
             var baseBuffer = sorData.EmbeddedData.EmbeddedDataBlocks.FirstOrDefault(b => b.Description == @"SOR");
             return baseBuffer == null ? null : FromBytes(baseBuffer.Data);
+        }
+
+        public static IEnumerable<RftsEventsBlock> GetRftsEventsBlocks(this OtdrDataKnownBlocks sorData)
+        {
+            for (int i = 0; i < sorData.EmbeddedData.EmbeddedBlocksCount; i++)
+            {
+                if (sorData.EmbeddedData.EmbeddedDataBlocks[i].Description != @"RFTSEVENTS") continue;
+
+                var embData = sorData.EmbeddedData.EmbeddedDataBlocks[i];
+                var stream = new MemoryStream(embData.Data, 0, embData.DataSize);
+                var reader = new BinaryReader(stream);
+                var opxReader = new Optixsoft.SharedCommons.SorSerialization.BinaryReader(reader);
+                var revNumber = opxReader.ReadUInt16();
+
+                var deserializer = new OpxDeserializer(opxReader, revNumber);
+                yield return (RftsEventsBlock)deserializer.Deserialize(typeof(RftsEventsBlock));
+            }
         }
     }
 }

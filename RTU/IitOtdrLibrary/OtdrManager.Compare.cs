@@ -6,6 +6,7 @@ using Optixsoft.SharedCommons.SorSerialization;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 using Optixsoft.SorExaminer.OtdrDataFormat.IO;
 using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
+using BinaryWriter = System.IO.BinaryWriter;
 
 namespace Iit.Fibertest.IitOtdrLibrary
 {
@@ -98,7 +99,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
         private EmbeddedData RftsEventsToEmbeddedData(OtdrDataKnownBlocks sorData)
         {
             byte[] rftsEventsBytes = RftsEventsToBytes(sorData);
-            return new EmbeddedData()
+            return new EmbeddedData
             {
                 Description = "RFTSEVENTS",
                 BlockId = "",
@@ -112,14 +113,14 @@ namespace Iit.Fibertest.IitOtdrLibrary
             sorData.GeneralParameters.Language = LanguageCode.Utf8;
             using (MemoryStream ms = new MemoryStream())
             {
-                System.IO.BinaryWriter w = new System.IO.BinaryWriter(ms);
+                BinaryWriter w = new BinaryWriter(ms);
                 OpxSerializer opxSerializer = new OpxSerializer(
                     new Optixsoft.SharedCommons.SorSerialization.BinaryWriter(
                         w, sorData.GeneralParameters.Language.GetEncoding()), 
                         new FixDistancesContext(sorData.FixedParameters));
 
                 var otdrBlock = new OtdrBlock(sorData.RftsEvents);
-                var list = new List<OtdrBlock>() {otdrBlock};
+                var list = new List<OtdrBlock> {otdrBlock};
                 list.UpdateBlocks(otdrBlock.RevisionNumber);
 
                 w.Write((ushort)otdrBlock.RevisionNumber);

@@ -131,7 +131,8 @@ namespace DirectRtuClient
 
             BaseFileName = @"..\out\base3ev.sor";
             MeasFileName = @"..\out\123.sor";
-            ResultFileName = @"..\out\measwithbase.sor";
+            ResultFileName = @"c:\temp\sor\refWithMinorInExistingEvent.sor";
+//            ResultFileName = @"..\out\measwithbase.sor";
 
 
             OtdrManager = new OtdrManager(@"OtdrMeasEngine\", _iniFile35, _rtuLogger);
@@ -389,6 +390,22 @@ namespace DirectRtuClient
             IWindowManager windowManager = new WindowManager();
             windowManager.ShowDialog(vm);
         }
+
+        public void Accidents()
+        {
+            if (!File.Exists(ResultFileName))
+            {
+                MessageBox.Show(@"There's no such file");
+                return;
+            }
+            var measBytes = File.ReadAllBytes(ResultFileName);
+            var sorData = SorData.FromBytes(measBytes);
+
+            var r = sorData.GetRftsEventsBlocks().ToList();
+            _rtuLogger.AppendLine($@"Events for {r.Count} levels found");
+        }
+
+        
 
       
     }
