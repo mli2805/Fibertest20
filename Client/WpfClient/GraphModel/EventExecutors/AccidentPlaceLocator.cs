@@ -49,7 +49,7 @@ namespace Iit.Fibertest.Client
             var opticalLengthM = (accident.RightNodeKm - accident.LeftNodeKm) * 1000;
             var coeff = opticalLengthM / fullDistanceBetweenTwoEquipmentsOnGraphM;
 
-            var distanceToAccidentOnGraphM = (accident.BreakKm - accident.LeftNodeKm) * 1000 / coeff;
+            var distanceToAccidentOnGraphM = (accident.AccidentDistanceKm - accident.LeftNodeKm) * 1000 / coeff;
 
             if (distanceToAccidentOnGraphM <= leftReserveM)
                 return leftNodeVm.Position;

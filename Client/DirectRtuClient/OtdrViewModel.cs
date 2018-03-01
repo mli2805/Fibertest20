@@ -7,6 +7,7 @@ using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph.Algorithms;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
@@ -401,12 +402,9 @@ namespace DirectRtuClient
             var measBytes = File.ReadAllBytes(ResultFileName);
             var sorData = SorData.FromBytes(measBytes);
 
-            var r = sorData.GetRftsEventsBlocks().ToList();
-            _rtuLogger.AppendLine($@"Events for {r.Count} levels found");
+            var accidents = sorData.GetAccidents();
+            _rtuLogger.AppendLine($@"{accidents.Count} accidents found");
         }
 
-        
-
-      
     }
 }

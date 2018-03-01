@@ -119,7 +119,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
             return baseBuffer == null ? null : FromBytes(baseBuffer.Data);
         }
 
-        public static IEnumerable<RftsEventsBlock> GetRftsEventsBlocks(this OtdrDataKnownBlocks sorData)
+        public static IEnumerable<RftsEventsBlock> GetRftsEventsBlockForEveryLevel(this OtdrDataKnownBlocks sorData)
         {
             for (int i = 0; i < sorData.EmbeddedData.EmbeddedBlocksCount; i++)
             {
