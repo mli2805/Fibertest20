@@ -102,7 +102,6 @@ namespace Iit.Fibertest.WpfCommonViews
                     oneLevelTableContent.Table[102][i + 1] = landmark.Code.ForTable();
                 }
 
-                oneLevelTableContent.Table[103][i + 1] = _sorData.RftsEvents.Events[i].EventTypes.ForStateInTable();
                 oneLevelTableContent.Table[105][i + 1] = $@"{_sorData.OwtToLenKm(_sorData.KeyEvents.KeyEvents[i].EventPropagationTime):0.00000}";
                 if ((_sorData.RftsEvents.Events[i].EventTypes & RftsEventTypes.IsNew) != 0)
                 {
@@ -163,6 +162,8 @@ namespace Iit.Fibertest.WpfCommonViews
                 if (i < _eventCount - 1)
                     oneLevelTableContent.Table[402][i + 1] = ForDeviationInTable(oneLevelTableContent, rftsEvents.Events[i].AttenuationThreshold, i + 1, @"L");
                 oneLevelTableContent.Table[403][i + 1] = ForDeviationInTable(oneLevelTableContent, rftsEvents.Events[i].AttenuationCoefThreshold, i + 1, @"C");
+
+                oneLevelTableContent.Table[103][i + 1] = _sorData.RftsEvents.Events[i].EventTypes.ForStateInTable( oneLevelTableContent.Table[104][i+1] != null);
             }
         }
 

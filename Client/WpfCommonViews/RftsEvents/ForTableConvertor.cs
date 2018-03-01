@@ -6,7 +6,7 @@ namespace Iit.Fibertest.WpfCommonViews
 {
     public static class ForTableConvertor
     {
-        public static string ForStateInTable(this RftsEventTypes rftsEventType)
+        public static string ForStateInTable(this RftsEventTypes rftsEventType, bool isFailed)
         {
             if ((rftsEventType & RftsEventTypes.IsFiberBreak) != 0)
                 return Resources.SID_fiber_break;
@@ -15,8 +15,8 @@ namespace Iit.Fibertest.WpfCommonViews
             if ((rftsEventType & RftsEventTypes.IsFailed) != 0)
                 return Resources.SID_fail;
             if ((rftsEventType & RftsEventTypes.IsMonitored) != 0)
-                return Resources.SID_pass;
-            if (rftsEventType== RftsEventTypes.None)
+                return isFailed ? Resources.SID_fail : Resources.SID_pass;
+            if (rftsEventType == RftsEventTypes.None)
                 return "";
              //   return Resources.SID_pass;
             return Resources.SID_unexpected_input;

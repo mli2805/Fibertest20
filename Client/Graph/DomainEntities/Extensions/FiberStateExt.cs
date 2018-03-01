@@ -58,9 +58,9 @@ namespace Iit.Fibertest.Graph
                 case FiberState.Suspicion:
                     return Brushes.Yellow;
                 case FiberState.Minor:
-                    return Brushes.LightPink;
+                    return isForeground ? Brushes.Purple : Brushes.LightPink;
                 case FiberState.Major:
-                    return Brushes.HotPink;
+                    return isForeground ? Brushes.Fuchsia :  Brushes.HotPink;
                 case FiberState.User:
                     return Brushes.Green;
                 case FiberState.Critical:
