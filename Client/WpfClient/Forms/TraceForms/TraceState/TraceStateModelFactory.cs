@@ -57,12 +57,56 @@ namespace Iit.Fibertest.Client
             return model;
         }
 
-        private List<AccidentLineModel> PrepareAccidents(byte[] sorBytes)
+        private List<AccidentLineVm> PrepareAccidents(byte[] sorBytes)
         {
             if (sorBytes == null) return null;
             var sorData = SorData.FromBytes(sorBytes);
-            var lines = new List<AccidentLineModel>();
-                lines.Add(new AccidentLineModel());
+            var lines = new List<AccidentLineVm>();
+            lines.Add(new AccidentLineVm()
+            {
+                Caption = "This is a caption",
+
+                TopLeft = "This is a left node title",
+                TopCenter = "This text will be on the center",
+                TopRight = "This is a right node title",
+
+
+                Bottom0 = "Bottom0",
+                Bottom1 = "Bottom1",
+                Bottom2 = "Bottom2",
+                Bottom3 = "Bottom3",
+                Bottom4 = "Bottom4",
+            });
+            lines.Add(new AccidentLineVm()
+            {
+                Caption = "This is a caption",
+
+                TopLeft = "This is a left node title",
+                TopCenter = "This text will be on the center",
+                TopRight = "This is a right node title",
+
+
+                Bottom0 = "Bottom0",
+                Bottom1 = "Bottom1",
+                Bottom2 = "Bottom2",
+                Bottom3 = "Bottom3",
+                Bottom4 = "Bottom4",
+            });
+            lines.Add(new AccidentLineVm()
+            {
+                Caption = "This is a caption",
+
+                TopLeft = "This is a left node title",
+                TopCenter = "This text will be on the center",
+                TopRight = "This is a right node title",
+
+
+                Bottom0 = "Bottom0",
+                Bottom1 = "Bottom1",
+                Bottom2 = "Bottom2",
+                Bottom3 = "Bottom3",
+                Bottom4 = "Bottom4",
+            });
             return lines;
         }
 

@@ -26,6 +26,7 @@ namespace Iit.Fibertest.Client
 
         public int LeftMargin => PortNumber < 1 ? 78 : Parent is RtuLeaf ? 53 : 74;
         public Visibility IconsVisibility => PortNumber > 0 ? Visibility.Visible : Visibility.Hidden;
+        //public Visibility IconsVisibility => Visibility.Visible;
 
         public override string Name
         {
@@ -49,9 +50,6 @@ namespace Iit.Fibertest.Client
                 NotifyOfPropertyChange();
             }
         }
-
-     
-
 
         private FiberState _traceState;
         public FiberState TraceState
@@ -80,8 +78,6 @@ namespace Iit.Fibertest.Client
         {
             return _contextMenuProvider.GetMenu(this);
         }
-
-     
     }
 }
 

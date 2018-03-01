@@ -60,80 +60,40 @@
                 </StackPanel>
             </GroupBox>
         </DockPanel>
-        <GroupBox Header="{x:Static stringResources:Resources.SID_Accidents}" Margin="5" Visibility="{Binding Model.AccidentsPanelVisibility}">
+        <GroupBox Margin="5" Visibility="{Binding Model.AccidentsPanelVisibility}">
             <DockPanel>
-
-                <DockPanel DockPanel.Dock="Top" Visibility="Collapsed">
-                    <StackPanel DockPanel.Dock="Top"  Orientation="Horizontal">
-                        <TextBlock Margin="5" Width="100" FontWeight="Bold" Text="{x:Static stringResources:Resources.SID_State}"/>
-                        <TextBlock Margin="5" Width="30"  FontWeight="Bold"  Text="Type"/>
-                        <TextBlock Margin="5" Width="100" FontWeight="Bold"  Text="Node"/>
-                        <TextBlock Margin="5" Width="50"  FontWeight="Bold"  Text="Distance, km"/>
-                    </StackPanel>
-                    <StackPanel DockPanel.Dock="Top"  Orientation="Horizontal">
-                        <TextBlock Margin="5" Width="100" Text="Повреждение"/>
-                        <TextBlock Margin="5" Width="30"  Text="(L)"/>
-                        <TextBlock Margin="5" Width="100" Text="new"/>
-                        <TextBlock Margin="5" Width="50"  Text="20,432"/>
-                    </StackPanel>
-                    <StackPanel DockPanel.Dock="Top"  Orientation="Horizontal">
-                        <TextBlock Margin="5" Width="100" Text="Авария"/>
-                        <TextBlock Margin="5" Width="30"  Text="(C)"/>
-                        <TextBlock Margin="5" Width="100" Text=""/>
-                        <TextBlock Margin="5" Width="50"  Text="13,432"/>
-                    </StackPanel>
-                </DockPanel>
-
-                <DataGrid DockPanel.Dock="Top" ItemsSource="{Binding Model.Accidents}" Visibility="Collapsed"
-                          SelectedItem="{Binding Model.SelectedAccident}"  AutoGenerateColumns="False" >
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="No" Binding="{Binding (client:AccidentLineModel.No)}"/>
-                        <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_State}" Binding="{Binding State}"/>
-                        <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Distance}" Binding="{Binding Distance}"/>
-                        <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Left_node}" Binding="{Binding LeftNode}"/>
-                        <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Dist_to_left}" Binding="{Binding DistanceToLeftNode}"/>
-                        <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Right_node}" Binding="{Binding RigthNode}"/>
-                        <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Dist_to_right}" Binding="{Binding DistanceToRightNode}"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-                <Grid DockPanel.Dock="Top">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="22"/>
-                        <RowDefinition Height="22"/>
-                        <RowDefinition Height="22"/>
-                        <RowDefinition Height="22"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="90"/>
-                        <ColumnDefinition Width="90"/>
-                        <ColumnDefinition Width="90"/>
-                        <ColumnDefinition Width="90"/>
-                        <ColumnDefinition Width="90"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.ColumnSpan="5" Text="Авария (L) на участке " />
-
-                    <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="Борисов "/>
-                    <TextBlock Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" Text="Кросс установленный на АТС " HorizontalAlignment="Right"/>
-                    <TextBlock Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Text="53.26589  27.329487" HorizontalAlignment="Center"/>
-
-                    <Image Grid.Row="1" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="5" Source="../../../Resources/OnMap/AccidentInNewPlace.png"/>
-
-                    <TextBlock Grid.Row="3" Grid.Column="1" Text="3.129 km" HorizontalAlignment="Center"/>
-                    <TextBlock Grid.Row="3" Grid.Column="3" Text="0.421 km" HorizontalAlignment="Center"/>
-
-                </Grid>
-                <ItemsControl DockPanel.Dock="Top" Height="40">
+             
+                <ItemsControl DockPanel.Dock="Top" ItemsSource="{Binding Model.Accidents}">
                     <ItemsControl.ItemTemplate>
-                        <DataTemplate DataType="client:TraceInfoTableItem">
-                            <Grid>
+                        <DataTemplate DataType="client:AccidentLineVm">
+                            <Grid DockPanel.Dock="Top">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="22"/>
                                     <RowDefinition Height="22"/>
                                     <RowDefinition Height="22"/>
+                                    <RowDefinition Height="22"/>
                                 </Grid.RowDefinitions>
-                                <TextBlock  Text="Авария (L) nnhgdfsk asdlkg " Height="25" />
-                                <TextBlock Grid.Row="1" Text="Борисов " Height="25" />
-                                <Image Grid.Row="0" Grid.RowSpan="3" Source="../../../Resources/OnMap/AccidentInNewPlace.png"></Image>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="90"/>
+                                    <ColumnDefinition Width="90"/>
+                                    <ColumnDefinition Width="90"/>
+                                    <ColumnDefinition Width="90"/>
+                                    <ColumnDefinition Width="90"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.ColumnSpan="5" Text="{Binding Caption}" />
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding TopLeft}"/>
+                                <TextBlock Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding TopCenter}" HorizontalAlignment="Center"/>
+                                <TextBlock Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" Text="{Binding TopRight}" HorizontalAlignment="Right"/>
+
+                                <Image Grid.Row="1" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="5" Source="{Binding Scheme}"/>
+
+                                <TextBlock Grid.Row="3" Grid.Column="0" Text="{Binding Bottom0}" HorizontalAlignment="Left"/>
+                                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Bottom1}" HorizontalAlignment="Center"/>
+                                <TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding Bottom2}" HorizontalAlignment="Center"/>
+                                <TextBlock Grid.Row="3" Grid.Column="3" Text="{Binding Bottom3}" HorizontalAlignment="Center"/>
+                                <TextBlock Grid.Row="3" Grid.Column="4" Text="{Binding Bottom4}" HorizontalAlignment="Right"/>
 
                             </Grid>
                         </DataTemplate>

@@ -44,20 +44,9 @@ namespace Iit.Fibertest.Client
         public Visibility OpticalEventPanelVisibility
             => EventStatus > EventStatus.EventButNotAnAccident ? Visibility.Visible : Visibility.Collapsed;
 
-        public List<AccidentLineModel> Accidents { get; set; } = new List<AccidentLineModel>();
+        public List<AccidentLineVm> Accidents { get; set; } = new List<AccidentLineVm>();
 
-        private AccidentLineModel _selectedAccident;
-        public AccidentLineModel SelectedAccident
-        {
-            get => _selectedAccident;
-            set
-            {
-                if (Equals(value, _selectedAccident)) return;
-                _selectedAccident = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
+       
         public string SelectedAccidentGpsCoordinates { get; set; }
 
         public Visibility AccidentsPanelVisibility

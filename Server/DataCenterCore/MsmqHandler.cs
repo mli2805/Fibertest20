@@ -99,6 +99,7 @@ namespace Iit.Fibertest.DataCenterCore
                 _logFile.AppendLine($"Trace state in measurement {measurementWithSor.Measurement.TraceState}");
                 var maxState = accidents.Count == 0 ? FiberState.Ok : accidents.Max(a => a.AccidentSeriousness);
                 _logFile.AppendLine($"{accidents.Count} accidents found. Max state is {maxState}");
+
                 var cmd = new ShowMonitoringResult()
                 {
                     TraceId = measurementWithSor.Measurement.TraceId,
