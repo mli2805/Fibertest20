@@ -16,7 +16,7 @@ namespace Iit.Fibertest.Graph.Algorithms
             var levels = sorData.GetRftsEventsBlockForEveryLevel().ToList();
 
             var level = levels.FirstOrDefault(l => l.LevelName == RftsLevelType.Critical);
-            if (level != null)
+            if (level != null && (level.Results & MonitoringResults.IsFailed) != 0)
                 foreach (var accidentOnTrace in sorData.GetAccidentsForLevel(level))
                 {
                     if (result.All(a => a.RftsEventIndex != accidentOnTrace.RftsEventIndex))
@@ -24,7 +24,7 @@ namespace Iit.Fibertest.Graph.Algorithms
                 }
 
             level = levels.FirstOrDefault(l => l.LevelName == RftsLevelType.Major);
-            if (level != null)
+            if (level != null && (level.Results & MonitoringResults.IsFailed) != 0)
                 foreach (var accidentOnTrace in sorData.GetAccidentsForLevel(level))
                 {
                     if (result.All(a => a.RftsEventIndex != accidentOnTrace.RftsEventIndex))
@@ -32,7 +32,7 @@ namespace Iit.Fibertest.Graph.Algorithms
                 }
 
             level = levels.FirstOrDefault(l => l.LevelName == RftsLevelType.Minor);
-            if (level != null)
+            if (level != null && (level.Results & MonitoringResults.IsFailed) != 0)
                 foreach (var accidentOnTrace in sorData.GetAccidentsForLevel(level))
                 {
                     if (result.All(a => a.RftsEventIndex != accidentOnTrace.RftsEventIndex))
