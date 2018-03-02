@@ -1652,4 +1652,22 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_R_m" xml:space="preserve">
 		<value>П, м</value>
 	</data>
+	<data name="SID_Turn_alarm_off" xml:space="preserve">
+		<value>Выключить сигнализацию</value>
+	</data>
+	<data name="SID_km" xml:space="preserve">
+		<value>км</value>
+	</data>
+	<data name="SID_between_nodes" xml:space="preserve">
+		<value>между узлами</value>
+	</data>
+	<data name="SID_and" xml:space="preserve">
+		<value>и</value>
+	</data>
+	<data name="SID_in_the_node" xml:space="preserve">
+		<value>в узле</value>
+	</data>
+	<data name="SID_Accidents_count___0_" xml:space="preserve">
+		<value>Количество неисправностей: {0}</value>
+	</data>
 </root>

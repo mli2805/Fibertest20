@@ -19,7 +19,7 @@ namespace Iit.Fibertest.Graph.Algorithms
             if (level != null && (level.Results & MonitoringResults.IsFailed) != 0)
                 foreach (var accidentOnTrace in sorData.GetAccidentsForLevel(level))
                 {
-                    if (result.All(a => a.RftsEventIndex != accidentOnTrace.RftsEventIndex))
+                    if (result.All(a => a.KeyEventNumber != accidentOnTrace.KeyEventNumber))
                         result.Add(accidentOnTrace);
                 }
 
@@ -27,7 +27,7 @@ namespace Iit.Fibertest.Graph.Algorithms
             if (level != null && (level.Results & MonitoringResults.IsFailed) != 0)
                 foreach (var accidentOnTrace in sorData.GetAccidentsForLevel(level))
                 {
-                    if (result.All(a => a.RftsEventIndex != accidentOnTrace.RftsEventIndex))
+                    if (result.All(a => a.KeyEventNumber != accidentOnTrace.KeyEventNumber))
                         result.Add(accidentOnTrace);
                 }
 
@@ -35,7 +35,7 @@ namespace Iit.Fibertest.Graph.Algorithms
             if (level != null && (level.Results & MonitoringResults.IsFailed) != 0)
                 foreach (var accidentOnTrace in sorData.GetAccidentsForLevel(level))
                 {
-                    if (result.All(a => a.RftsEventIndex != accidentOnTrace.RftsEventIndex))
+                    if (result.All(a => a.KeyEventNumber != accidentOnTrace.KeyEventNumber))
                         result.Add(accidentOnTrace);
                 }
 
@@ -44,22 +44,42 @@ namespace Iit.Fibertest.Graph.Algorithms
 
         private static IEnumerable<AccidentOnTrace> GetAccidentsForLevel(this OtdrDataKnownBlocks sorData, RftsEventsBlock rftsEventsBlock)
         {
+            int newEventsFound = 0;
             for (int i = 1; i < rftsEventsBlock.EventsCount; i++) // 0 - RTU
             {
                 var rftsEvent = rftsEventsBlock.Events[i];
 
-                if ((rftsEvent.EventTypes & RftsEventTypes.IsNew) != 0 || (rftsEvent.EventTypes & RftsEventTypes.IsFailed) != 0)
-                    yield return sorData.BuildAccident(rftsEvent, i, rftsEventsBlock.LevelName);
+                if ((rftsEvent.EventTypes & RftsEventTypes.IsNew) != 0)
+                {
+                    yield return sorData.BuildAccidentAsNewEvent(rftsEvent, i, rftsEventsBlock.LevelName);
+                    newEventsFound++;
+                }
+                if ((rftsEvent.EventTypes & RftsEventTypes.IsFailed) != 0)
+                    yield return sorData.BuildAccidentInOldEvent(rftsEvent, i, newEventsFound, rftsEventsBlock.LevelName);
             }
         }
 
-        private static AccidentOnTrace BuildAccident(this OtdrDataKnownBlocks sorData, RftsEvent rftsEvent, int i, RftsLevelType level)
+        private static AccidentOnTrace BuildAccidentInOldEvent(this OtdrDataKnownBlocks sorData, RftsEvent rftsEvent, int i, int newEventsFound, RftsLevelType level)
+        {
+            var accidentInOldEvent = new AccidentInOldEvent
+            {
+                BrokenLandmarkIndex = i - newEventsFound,
+                AccidentDistanceKm = sorData.KeyEventDistanceKm(i),
+
+                AccidentSeriousness = (rftsEvent.EventTypes & RftsEventTypes.IsFiberBreak) != 0 ? FiberState.FiberBreak : level.ConvertToFiberState(),
+                OpticalTypeOfAccident = GetOpticalTypeOfAccident(rftsEvent),
+            };
+
+
+            return accidentInOldEvent;
+        }
+        private static AccidentOnTrace BuildAccidentAsNewEvent(this OtdrDataKnownBlocks sorData, RftsEvent rftsEvent, int i, RftsLevelType level)
         {
             var baseSorData = sorData.GetBase();
 
-            var newEvent = new AccidentAsNewEvent()
+            var accidentAsNewEvent = new AccidentAsNewEvent()
             {
-                RftsEventIndex = i,
+                KeyEventNumber = i+1,
                 LeftNodeKm = sorData.KeyEventDistanceKm(i - 1),
                 LeftLandmarkIndex = sorData.GetLandmarkIndexForKeyEvent(i),
                 AccidentDistanceKm = sorData.KeyEventDistanceKm(i),
@@ -70,7 +90,7 @@ namespace Iit.Fibertest.Graph.Algorithms
                 OpticalTypeOfAccident = GetOpticalTypeOfAccident(rftsEvent),
             };
 
-            return newEvent;
+            return accidentAsNewEvent;
         }
 
         private static OpticalAccidentType GetOpticalTypeOfAccident(RftsEvent rftsEvent)

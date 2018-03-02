@@ -260,6 +260,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Accidents count: {0}.
+        /// </summary>
+        public static string SID_Accidents_count___0_ {
+            get {
+                return ResourceManager.GetString("SID_Accidents_count___0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Accident&apos;s place.
         /// </summary>
         public static string SID_Accidents_place {
@@ -454,6 +463,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Analysis_is_finished {
             get {
                 return ResourceManager.GetString("SID_Analysis_is_finished", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to and.
+        /// </summary>
+        public static string SID_and {
+            get {
+                return ResourceManager.GetString("SID_and", resourceCulture);
             }
         }
         
@@ -679,6 +697,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Base_refs_assignment {
             get {
                 return ResourceManager.GetString("SID_Base_refs_assignment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to between nodes.
+        /// </summary>
+        public static string SID_between_nodes {
+            get {
+                return ResourceManager.GetString("SID_between_nodes", resourceCulture);
             }
         }
         
@@ -1845,6 +1872,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to in the node.
+        /// </summary>
+        public static string SID_in_the_node {
+            get {
+                return ResourceManager.GetString("SID_in_the_node", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to In total, including RTU.
         /// </summary>
         public static string SID_In_total__including_RTU {
@@ -1985,6 +2021,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_It_s_prohibited_to_remove_last_node_from_trace {
             get {
                 return ResourceManager.GetString("SID_It_s_prohibited_to_remove_last_node_from_trace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to km.
+        /// </summary>
+        public static string SID_km {
+            get {
+                return ResourceManager.GetString("SID_km", resourceCulture);
             }
         }
         
@@ -4381,6 +4426,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Tree_statistics {
             get {
                 return ResourceManager.GetString("SID_Tree_statistics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Turn alarm off.
+        /// </summary>
+        public static string SID_Turn_alarm_off {
+            get {
+                return ResourceManager.GetString("SID_Turn_alarm_off", resourceCulture);
             }
         }
         

@@ -5,16 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
-        mc:Ignorable="d" Width="500" SizeToContent="Height"
-        d:DataContext="{d:DesignInstance client:TraceStateViewModel}"
-        >
+        mc:Ignorable="d" Width="520" SizeToContent="Height" ResizeMode="NoResize"
+        d:DataContext="{d:DesignInstance client:TraceStateViewModel}" >
     <Window.Resources>
         <SolidColorBrush x:Key="TransparentBrush" Color="Transparent"/>
     </Window.Resources>
 
     <StackPanel>
         <DockPanel>
-            <GroupBox DockPanel.Dock="Right" Margin="5,14,5,5">
+            <GroupBox DockPanel.Dock="Right" Margin="5,0,5,5">
                 <StackPanel>
                     <Button Name="ShowAccidentPlace" Content="{x:Static stringResources:Resources.SID_Accidents_place}" Width="120" Height="25" Margin="5,10,5,5"
                             IsEnabled="{Binding Model.IsAccidentPlaceButtonEnabled}"/>
@@ -25,18 +24,18 @@
                     <Button Name="ShowReport" Content="{x:Static stringResources:Resources.SID_Report}" Width="120" Height="25" Margin="5"/>
                 </StackPanel>
             </GroupBox>
-            <GroupBox Header="{x:Static stringResources:Resources.SID_Info}" Margin="5" DockPanel.Dock="Top">
+            <GroupBox Margin="5,0,5,5" DockPanel.Dock="Top">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{x:Static stringResources:Resources.SID_Trace}" Margin="5"/>
+                        <TextBlock Text="{x:Static stringResources:Resources.SID_Trace}" Margin="5" Width ="60"/>
                         <TextBlock Text="{Binding Model.Header.TraceTitle}" Margin="5"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{x:Static stringResources:Resources.SID_Port}" Margin="5"/>
+                        <TextBlock Text="{x:Static stringResources:Resources.SID_Port}" Margin="5" Width ="60"/>
                         <TextBlock Text="{Binding Model.Header.PortTitle}" Margin="5"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="RTU" Margin="5"/>
+                        <TextBlock Text="RTU" Margin="5" Width ="60"/>
                         <TextBlock Text="{Binding Model.Header.RtuTitle}" Margin="5"/>
                     </StackPanel>
                 </StackPanel>
@@ -56,69 +55,75 @@
                             </EventTrigger>
                         </TextBlock.Triggers>
                     </TextBlock>
-                    <Button Name="TurnSoundOff" Content="Turn alarm off" Margin="25,5" Height="25" IsEnabled="{Binding Model.IsSoundButtonEnabled}"/>
+                    <Button Name="TurnSoundOff" Content="{x:Static stringResources:Resources.SID_Turn_alarm_off}" Margin="25,5" Height="25" IsEnabled="{Binding Model.IsSoundButtonEnabled}"/>
                 </StackPanel>
             </GroupBox>
         </DockPanel>
-        <GroupBox Margin="5" Visibility="{Binding Model.AccidentsPanelVisibility}">
+        <GroupBox Margin="5,0,5,5" Header="{Binding Model.AccidentsHeader}" Visibility="{Binding Model.AccidentsPanelVisibility}" MaxHeight="216">
+            <DockPanel HorizontalAlignment="Center" Margin="0,3">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" >
+                    <ItemsControl DockPanel.Dock="Top" ItemsSource="{Binding Model.Accidents}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="client:AccidentLineModel">
+                                <Border BorderThickness="0,0,0,1" BorderBrush="Gray" Padding="0,3,0,0">
+                                    <Grid DockPanel.Dock="Top">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="22"/>
+                                            <RowDefinition Height="22"/>
+                                            <RowDefinition Height="22"/>
+                                            <RowDefinition Height="22"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="5"/>
+                                            <ColumnDefinition Width="90"/>
+                                            <ColumnDefinition Width="90"/>
+                                            <ColumnDefinition Width="90"/>
+                                            <ColumnDefinition Width="90"/>
+                                            <ColumnDefinition Width="90"/>
+                                            <ColumnDefinition Width="5"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.ColumnSpan="5" Grid.Column="1" Text="{Binding Caption}" FontWeight="Bold"/>
+
+                                        <TextBlock Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding TopLeft}"/>
+                                        <TextBlock Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="3" Text="{Binding TopCenter}" HorizontalAlignment="Center"/>
+                                        <TextBlock Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="2" Text="{Binding TopRight}" HorizontalAlignment="Right"/>
+
+                                        <Image Grid.Row="1" Grid.RowSpan="3" Grid.Column="1" Grid.ColumnSpan="5" Source="{Binding Scheme}"/>
+
+                                        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Bottom0}" HorizontalAlignment="Left"/>
+                                        <TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding Bottom1}" HorizontalAlignment="Left"/>
+                                        <TextBlock Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="3" Text="{Binding Bottom2}" HorizontalAlignment="Center"/>
+                                        <TextBlock Grid.Row="3" Grid.Column="4" Text="{Binding Bottom3}" HorizontalAlignment="Right"/>
+                                        <TextBlock Grid.Row="3" Grid.Column="5" Text="{Binding Bottom4}" HorizontalAlignment="Right"/>
+
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </DockPanel>
+        </GroupBox>
+        <GroupBox Margin="5,0,5,5" Padding="0,5,0,0">
             <DockPanel>
-             
-                <ItemsControl DockPanel.Dock="Top" ItemsSource="{Binding Model.Accidents}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate DataType="client:AccidentLineVm">
-                            <Grid DockPanel.Dock="Top">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="22"/>
-                                    <RowDefinition Height="22"/>
-                                    <RowDefinition Height="22"/>
-                                    <RowDefinition Height="22"/>
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="90"/>
-                                    <ColumnDefinition Width="90"/>
-                                    <ColumnDefinition Width="90"/>
-                                    <ColumnDefinition Width="90"/>
-                                    <ColumnDefinition Width="90"/>
-                                </Grid.ColumnDefinitions>
-
-                                <TextBlock Grid.ColumnSpan="5" Text="{Binding Caption}" />
-
-                                <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding TopLeft}"/>
-                                <TextBlock Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding TopCenter}" HorizontalAlignment="Center"/>
-                                <TextBlock Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" Text="{Binding TopRight}" HorizontalAlignment="Right"/>
-
-                                <Image Grid.Row="1" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="5" Source="{Binding Scheme}"/>
-
-                                <TextBlock Grid.Row="3" Grid.Column="0" Text="{Binding Bottom0}" HorizontalAlignment="Left"/>
-                                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Bottom1}" HorizontalAlignment="Center"/>
-                                <TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding Bottom2}" HorizontalAlignment="Center"/>
-                                <TextBlock Grid.Row="3" Grid.Column="3" Text="{Binding Bottom3}" HorizontalAlignment="Center"/>
-                                <TextBlock Grid.Row="3" Grid.Column="4" Text="{Binding Bottom4}" HorizontalAlignment="Right"/>
-
-                            </Grid>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-
-                <DockPanel Visibility="Collapsed">
-                    <TextBlock Text="Accident coordinates:" Margin="5"/>
-                    <TextBlock Text="{Binding Model.SelectedAccidentGpsCoordinates}" Margin="5"/>
+                <Border DockPanel.Dock="Right" >
+                    <Button Name="SaveMeasurementChanges" Content="{x:Static stringResources:Resources.SID_Save}" 
+                            Width="120" Height="25" Margin="25,5,5,5" VerticalAlignment="Center"/>
+                </Border>
+                <Border DockPanel.Dock="Top" Visibility="{Binding Model.OpticalEventPanelVisibility}">
+                    <DockPanel>
+                        <TextBlock Text="{x:Static stringResources:Resources.SID_Status_of_optical_event}" Margin="10,5" DockPanel.Dock="Left"/>
+                        <ComboBox Margin="5" ItemsSource="{Binding StatusRows}" SelectedItem="{Binding SelectedEventStatus, Mode=TwoWay}"/>
+                    </DockPanel>
+                </Border>
+                <DockPanel>
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Comment}" Margin="10,5"/>
+                    <TextBox Margin="5" TextWrapping="Wrap" Height="40" Text="{Binding Model.Comment}"/>
                 </DockPanel>
             </DockPanel>
         </GroupBox>
-        <Border Visibility="{Binding Model.OpticalEventPanelVisibility}">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{x:Static stringResources:Resources.SID_Status_of_optical_event}" Margin="10,5"/>
-                <ComboBox Margin="5" Width="200" ItemsSource="{Binding StatusRows}" SelectedItem="{Binding SelectedEventStatus, Mode=TwoWay}"/>
-            </StackPanel>
-        </Border>
-        <DockPanel>
-            <TextBlock Text="{x:Static stringResources:Resources.SID_Comment}" Margin="10,5"/>
-            <TextBox Margin="10" TextWrapping="Wrap" Height="40" Text="{Binding Model.Comment}"/>
-        </DockPanel>
-        <StackPanel Orientation="Horizontal" Margin="5">
-            <Button Name="SaveMeasurementChanges" Content="Save" Width="100" Margin="5"/>
-            <Button Name="Cancel" Content="Cancel" Width="100" Margin="10,5,5,5"/>
-        </StackPanel>
+
+        <Button Name="Close" Content="{x:Static stringResources:Resources.SID_Close}" Width="120" Height="25" Margin="10,5,5,15"/>
     </StackPanel>
 </Window>

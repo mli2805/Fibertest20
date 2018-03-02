@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.Graph.Algorithms;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.StringResources;
 
@@ -11,10 +12,12 @@ namespace Iit.Fibertest.Client
     public class TraceStateModelFactory
     {
         private readonly ReadModel _readModel;
+        private readonly AccidentLineModelFactory _accidentLineModelFactory;
 
-        public TraceStateModelFactory(ReadModel readModel)
+        public TraceStateModelFactory(ReadModel readModel, AccidentLineModelFactory accidentLineModelFactory)
         {
             _readModel = readModel;
+            _accidentLineModelFactory = accidentLineModelFactory;
         }
 
         // TraceLeaf
@@ -34,7 +37,7 @@ namespace Iit.Fibertest.Client
                 Comment = measurement.Comment
             };
             if (model.TraceState != FiberState.Ok)
-                model.Accidents = PrepareAccidents(sorBytes);
+                model.Accidents = PrepareAccidents(sorBytes, measurement.TraceId);
             return model;
         }
 
@@ -52,61 +55,24 @@ namespace Iit.Fibertest.Client
                 EventStatus = opticalEventModel.EventStatus,
                 Comment = opticalEventModel.Comment
             };
-            if (model.TraceState != FiberState.Ok)
-                model.Accidents = PrepareAccidents(sorBytes);
+            if (model.TraceState != FiberState.Ok && model.TraceState != FiberState.NoFiber)
+                model.Accidents = PrepareAccidents(sorBytes, opticalEventModel.TraceId);
             return model;
         }
 
-        private List<AccidentLineVm> PrepareAccidents(byte[] sorBytes)
+        private List<AccidentLineModel> PrepareAccidents(byte[] sorBytes, Guid traceId)
         {
             if (sorBytes == null) return null;
             var sorData = SorData.FromBytes(sorBytes);
-            var lines = new List<AccidentLineVm>();
-            lines.Add(new AccidentLineVm()
+            var accidents = sorData.GetAccidents();
+            var trace = _readModel.Traces.First(t => t.Id == traceId);
+
+            var lines = new List<AccidentLineModel>();
+            for (var i = 0; i < accidents.Count; i++)
             {
-                Caption = "This is a caption",
+                lines.Add(_accidentLineModelFactory.Create(accidents[i], trace, i+1));
+            }
 
-                TopLeft = "This is a left node title",
-                TopCenter = "This text will be on the center",
-                TopRight = "This is a right node title",
-
-
-                Bottom0 = "Bottom0",
-                Bottom1 = "Bottom1",
-                Bottom2 = "Bottom2",
-                Bottom3 = "Bottom3",
-                Bottom4 = "Bottom4",
-            });
-            lines.Add(new AccidentLineVm()
-            {
-                Caption = "This is a caption",
-
-                TopLeft = "This is a left node title",
-                TopCenter = "This text will be on the center",
-                TopRight = "This is a right node title",
-
-
-                Bottom0 = "Bottom0",
-                Bottom1 = "Bottom1",
-                Bottom2 = "Bottom2",
-                Bottom3 = "Bottom3",
-                Bottom4 = "Bottom4",
-            });
-            lines.Add(new AccidentLineVm()
-            {
-                Caption = "This is a caption",
-
-                TopLeft = "This is a left node title",
-                TopCenter = "This text will be on the center",
-                TopRight = "This is a right node title",
-
-
-                Bottom0 = "Bottom0",
-                Bottom1 = "Bottom1",
-                Bottom2 = "Bottom2",
-                Bottom3 = "Bottom3",
-                Bottom4 = "Bottom4",
-            });
             return lines;
         }
 

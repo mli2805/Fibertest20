@@ -2,7 +2,7 @@
 
 namespace Iit.Fibertest.Client
 {
-    public class AccidentLineVm
+    public class AccidentLineModel
     {
         public string Caption { get; set; }
         public string TopLeft { get; set; }
@@ -13,6 +13,6 @@ namespace Iit.Fibertest.Client
         public string Bottom2 { get; set; }
         public string Bottom3 { get; set; }
         public string Bottom4 { get; set; }
-        public Uri Scheme => new Uri("pack://application:,,,/Resources/AccidentSchemes/AccidentBetweenNodes.png");
+        public Uri Scheme { get; set; }
     }
 }

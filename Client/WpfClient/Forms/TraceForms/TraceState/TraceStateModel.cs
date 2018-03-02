@@ -44,13 +44,15 @@ namespace Iit.Fibertest.Client
         public Visibility OpticalEventPanelVisibility
             => EventStatus > EventStatus.EventButNotAnAccident ? Visibility.Visible : Visibility.Collapsed;
 
-        public List<AccidentLineVm> Accidents { get; set; } = new List<AccidentLineVm>();
+        public List<AccidentLineModel> Accidents { get; set; } = new List<AccidentLineModel>();
 
        
         public string SelectedAccidentGpsCoordinates { get; set; }
 
         public Visibility AccidentsPanelVisibility
-            => TraceState == FiberState.Ok ? Visibility.Collapsed : Visibility.Visible;
+            => TraceState == FiberState.Ok || TraceState == FiberState.NoFiber ? Visibility.Collapsed : Visibility.Visible;
+
+        public string AccidentsHeader => string.Format(Resources.SID_Accidents_count___0_, Accidents.Count);
 
         public bool IsAccidentPlaceButtonEnabled => TraceState != FiberState.Ok;
 

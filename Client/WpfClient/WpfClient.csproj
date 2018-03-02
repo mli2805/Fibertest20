@@ -214,6 +214,7 @@
     <Compile Include="Forms\Shell\MarkerControl\RtuVmContextMenuProvider.cs" />
     <Compile Include="Forms\Shell\MarkerControl\RtuVmPermissions.cs" />
     <Compile Include="Forms\SpecialMeasurements\ClientMeasurementViewModel.cs" />
+    <Compile Include="Forms\TraceForms\TraceState\AccidentLineModelFactory.cs" />
     <Compile Include="Forms\TraceForms\TraceStepByStep\StepChoiceView.xaml.cs">
       <DependentUpon>StepChoiceView.xaml</DependentUpon>
     </Compile>

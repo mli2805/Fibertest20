@@ -24,7 +24,7 @@ namespace Iit.Fibertest.Client
 
             if (accident is AccidentInOldEvent accidentInOldEvent)
             {
-                var nodeVm = _model.Nodes.FirstOrDefault(n => n.Id == traceVm.Nodes[accidentInOldEvent.EventNumber]);
+                var nodeVm = _model.Nodes.FirstOrDefault(n => n.Id == traceVm.Nodes[accidentInOldEvent.BrokenLandmarkIndex]);
                 return nodeVm?.Position;
             }
 

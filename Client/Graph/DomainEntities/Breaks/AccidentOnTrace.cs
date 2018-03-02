@@ -4,7 +4,8 @@ namespace Iit.Fibertest.Graph
 {
     public class AccidentOnTrace
     {
-        public int RftsEventIndex { get; set; }
+        public int KeyEventNumber { get; set; }
+
         public double AccidentDistanceKm { get; set; } 
         public FiberState AccidentSeriousness { get; set; } 
 

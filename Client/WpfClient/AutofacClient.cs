@@ -109,6 +109,7 @@ namespace Iit.Fibertest.Client
 
             builder.RegisterType<RtuStateModelFactory>().SingleInstance();
             builder.RegisterType<RtuStateViewsManager>().SingleInstance();
+            builder.RegisterType<AccidentLineModelFactory>().SingleInstance();
             builder.RegisterType<TraceStateModelFactory>().SingleInstance();
             builder.RegisterType<TraceStateViewsManager>().SingleInstance();
             builder.RegisterType<TraceStatisticsViewsManager>().SingleInstance();

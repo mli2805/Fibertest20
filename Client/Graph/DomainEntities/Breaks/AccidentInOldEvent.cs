@@ -2,6 +2,6 @@
 {
     public class AccidentInOldEvent : AccidentOnTrace
     {
-        public int EventNumber { get; set; }
+        public int BrokenLandmarkIndex { get; set; }
     }
 }

@@ -132,6 +132,6 @@ namespace Iit.Fibertest.Client
             TryClose();
         }
 
-        public void Cancel() { TryClose(); }
+        public void Close() { TryClose(); }
     }
 }

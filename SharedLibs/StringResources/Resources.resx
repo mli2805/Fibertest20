@@ -1652,4 +1652,22 @@ RTU is initializing right now!</value>
 	<data name="SID_R_m" xml:space="preserve">
     <value>R, m</value>
   </data>
+	<data name="SID_Turn_alarm_off" xml:space="preserve">
+    <value>Turn alarm off</value>
+  </data>
+	<data name="SID_km" xml:space="preserve">
+    <value>km</value>
+  </data>
+	<data name="SID_between_nodes" xml:space="preserve">
+    <value>between nodes</value>
+  </data>
+	<data name="SID_and" xml:space="preserve">
+    <value>and</value>
+  </data>
+	<data name="SID_in_the_node" xml:space="preserve">
+    <value>in the node</value>
+  </data>
+	<data name="SID_Accidents_count___0_" xml:space="preserve">
+    <value>Accidents count: {0}</value>
+  </data>
 </root>
