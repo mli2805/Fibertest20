@@ -3,5 +3,7 @@
     public class AccidentInOldEvent : AccidentOnTrace
     {
         public int BrokenLandmarkIndex { get; set; }
+
+        public double PreviousLandmarkDistanceKm { get; set; }
     }
 }

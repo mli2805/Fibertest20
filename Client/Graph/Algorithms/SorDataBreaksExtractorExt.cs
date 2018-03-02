@@ -65,6 +65,7 @@ namespace Iit.Fibertest.Graph.Algorithms
             {
                 BrokenLandmarkIndex = i - newEventsFound,
                 AccidentDistanceKm = sorData.KeyEventDistanceKm(i),
+                PreviousLandmarkDistanceKm = sorData.KeyEventDistanceKm(i-1),
 
                 AccidentSeriousness = (rftsEvent.EventTypes & RftsEventTypes.IsFiberBreak) != 0 ? FiberState.FiberBreak : level.ConvertToFiberState(),
                 OpticalTypeOfAccident = GetOpticalTypeOfAccident(rftsEvent),
