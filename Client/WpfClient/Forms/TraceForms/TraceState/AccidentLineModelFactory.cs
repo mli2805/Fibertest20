@@ -9,10 +9,12 @@ namespace Iit.Fibertest.Client
     public class AccidentLineModelFactory
     {
         private readonly GraphReadModel _graphReadModel;
+        private readonly AccidentPlaceLocator _accidentPlaceLocator;
 
-        public AccidentLineModelFactory(GraphReadModel graphReadModel)
+        public AccidentLineModelFactory(GraphReadModel graphReadModel, AccidentPlaceLocator accidentPlaceLocator)
         {
             _graphReadModel = graphReadModel;
+            _accidentPlaceLocator = accidentPlaceLocator;
         }
 
         public AccidentLineModel Create(AccidentOnTrace accidentOnTrace, Trace trace, int number)
@@ -42,6 +44,9 @@ namespace Iit.Fibertest.Client
             var rightNodeVm = _graphReadModel.Nodes.FirstOrDefault(n => n.Id == rightNodeId);
             var rightNodeTitle = rightNodeVm?.Title;
 
+            var traceVm = _graphReadModel.Traces.First(t => t.Id == trace.Id);
+            var accidentGps = _accidentPlaceLocator.GetAccidentGps(accidentAsNewEvent, traceVm);
+
             var model = new AccidentLineModel();
             model.Caption =
                 $@"{number}. {accidentAsNewEvent.AccidentSeriousness.ToLocalizedString()} ({
@@ -53,7 +58,7 @@ namespace Iit.Fibertest.Client
             model.TopRight = rightNodeTitle;
 
             model.Bottom1 = $@"{accidentAsNewEvent.AccidentDistanceKm - accidentAsNewEvent.LeftNodeKm:0.000} {Resources.SID_km}";
-            model.Bottom2 = "здесь будет GPS";
+           // model.Bottom2 = accidentGps.T
             model.Bottom3 = $@"{accidentAsNewEvent.RightNodeKm - accidentAsNewEvent.AccidentDistanceKm:0.000} {Resources.SID_km}";
 
             model.Scheme = accidentAsNewEvent.AccidentSeriousness == FiberState.FiberBreak
