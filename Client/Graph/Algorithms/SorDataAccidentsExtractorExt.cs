@@ -7,7 +7,7 @@ using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
 
 namespace Iit.Fibertest.Graph.Algorithms
 {
-    public static class SorDataBreaksExtractorExt
+    public static class SorDataAccidentsExtractorExt
     {
         public static List<AccidentOnTrace> GetAccidents(this OtdrDataKnownBlocks sorData)
         {
@@ -19,7 +19,7 @@ namespace Iit.Fibertest.Graph.Algorithms
             if (level != null && (level.Results & MonitoringResults.IsFailed) != 0)
                 foreach (var accidentOnTrace in sorData.GetAccidentsForLevel(level))
                 {
-                    if (result.All(a => a.KeyEventNumber != accidentOnTrace.KeyEventNumber))
+                    if (result.All(a => a.RftsEventNumber != accidentOnTrace.RftsEventNumber))
                         result.Add(accidentOnTrace);
                 }
 
@@ -27,7 +27,7 @@ namespace Iit.Fibertest.Graph.Algorithms
             if (level != null && (level.Results & MonitoringResults.IsFailed) != 0)
                 foreach (var accidentOnTrace in sorData.GetAccidentsForLevel(level))
                 {
-                    if (result.All(a => a.KeyEventNumber != accidentOnTrace.KeyEventNumber))
+                    if (result.All(a => a.RftsEventNumber != accidentOnTrace.RftsEventNumber))
                         result.Add(accidentOnTrace);
                 }
 
@@ -35,7 +35,7 @@ namespace Iit.Fibertest.Graph.Algorithms
             if (level != null && (level.Results & MonitoringResults.IsFailed) != 0)
                 foreach (var accidentOnTrace in sorData.GetAccidentsForLevel(level))
                 {
-                    if (result.All(a => a.KeyEventNumber != accidentOnTrace.KeyEventNumber))
+                    if (result.All(a => a.RftsEventNumber != accidentOnTrace.RftsEventNumber))
                         result.Add(accidentOnTrace);
                 }
 
@@ -63,6 +63,8 @@ namespace Iit.Fibertest.Graph.Algorithms
         {
             var accidentInOldEvent = new AccidentInOldEvent
             {
+                RftsEventNumber = i+1, // i - index, i+1 number
+
                 BrokenLandmarkIndex = i - newEventsFound,
                 AccidentDistanceKm = sorData.KeyEventDistanceKm(i),
                 PreviousLandmarkDistanceKm = sorData.KeyEventDistanceKm(i-1),
@@ -74,13 +76,14 @@ namespace Iit.Fibertest.Graph.Algorithms
 
             return accidentInOldEvent;
         }
+
         private static AccidentOnTrace BuildAccidentAsNewEvent(this OtdrDataKnownBlocks sorData, RftsEvent rftsEvent, int i, RftsLevelType level)
         {
             var baseSorData = sorData.GetBase();
 
             var accidentAsNewEvent = new AccidentAsNewEvent()
             {
-                KeyEventNumber = i+1,
+                RftsEventNumber = i+1, // i - index, i+1 number
                 LeftNodeKm = sorData.KeyEventDistanceKm(i - 1),
                 LeftLandmarkIndex = sorData.GetLandmarkIndexForKeyEvent(i),
                 AccidentDistanceKm = sorData.KeyEventDistanceKm(i),
