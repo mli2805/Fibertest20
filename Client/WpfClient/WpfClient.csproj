@@ -223,6 +223,7 @@
       <DependentUpon>TraceStepByStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\TraceForms\TraceStepByStep\TraceStepByStepViewModel.cs" />
+    <Compile Include="GraphModel\EventExecutors\AccidentEventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\AccidentPlaceLocator.cs" />
     <Compile Include="GraphModel\EventExecutors\EquipmentEventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\EventsOnGraphExecutor.cs" />

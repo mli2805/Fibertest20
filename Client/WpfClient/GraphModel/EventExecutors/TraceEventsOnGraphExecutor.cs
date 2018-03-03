@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using GMap.NET;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 
@@ -11,12 +10,10 @@ namespace Iit.Fibertest.Client
     public class TraceEventsOnGraphExecutor
     {
         private readonly GraphReadModel _model;
-        private readonly AccidentPlaceLocator _accidentPlaceLocator;
 
-        public TraceEventsOnGraphExecutor(GraphReadModel model, AccidentPlaceLocator accidentPlaceLocator)
+        public TraceEventsOnGraphExecutor(GraphReadModel model)
         {
             _model = model;
-            _accidentPlaceLocator = accidentPlaceLocator;
         }
 
         public void AddTrace(TraceAdded evnt)
@@ -83,7 +80,7 @@ namespace Iit.Fibertest.Client
             traceVm.State = FiberState.NotJoined;
             traceVm.Port = 0;
             ApplyTraceStateToFibers(traceVm);
-            CleanAccidentPlacesOnTrace(traceVm);
+            _model.CleanAccidentPlacesOnTrace(traceVm);
         }
 
         private void ApplyTraceStateToFibers(TraceVm traceVm)
@@ -91,53 +88,6 @@ namespace Iit.Fibertest.Client
             foreach (var fiberVm in GetTraceFibersByNodes(traceVm.Nodes))
                 fiberVm.SetState(traceVm.Id, traceVm.State);
         }
-
-        public void ShowMonitoringResult(MonitoringResultShown evnt)
-        {
-            var traceVm = _model.Traces.First(t => t.Id == evnt.TraceId);
-            traceVm.State = evnt.TraceState;
-            _model.ChangeTraceColor(evnt.TraceId, traceVm.Nodes, traceVm.State);
-            if (traceVm.State == FiberState.Ok)
-                CleanAccidentPlacesOnTrace(traceVm);
-            else
-                ShowAccidentPlacesOnTrace(evnt, traceVm);
-        }
-
-        private void ShowAccidentPlacesOnTrace(MonitoringResultShown evnt, TraceVm traceVm)
-        {
-            foreach (var accident in evnt.Accidents)
-            {
-                var accidentGps = _accidentPlaceLocator.GetAccidentGps(accident, traceVm);
-                if (accidentGps == null)
-                    continue;
-
-                var accidentNode = new NodeVm()
-                {
-                    Id = Guid.NewGuid(),
-                    Position = (PointLatLng)accidentGps,
-                    Type = EquipmentType.AccidentPlace,
-                    AccidentOnTraceVmId = traceVm.Id,
-                };
-                _model.Equipments.Add(new EquipmentVm()
-                {
-                    Id = Guid.NewGuid(),
-                    Node = accidentNode,
-                    Type = EquipmentType.AccidentPlace
-                });
-                _model.Nodes.Add(accidentNode);
-            }
-        }
-
-        private void CleanAccidentPlacesOnTrace(TraceVm traceVm)
-        {
-            var nodeVms = _model.Nodes.Where(n => n.AccidentOnTraceVmId == traceVm.Id).ToList();
-            foreach (var nodeVm in nodeVms)
-            {
-                var equipmentVm = _model.Equipments.FirstOrDefault(e => e.Node == nodeVm);
-                if (equipmentVm != null)
-                    _model.Equipments.Remove(equipmentVm);
-                _model.Nodes.Remove(nodeVm);
-            }
-        }
+       
     }
 }

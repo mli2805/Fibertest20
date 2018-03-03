@@ -25,7 +25,7 @@ namespace Iit.Fibertest.Client
                     return CreateBetweenNodes(accidentAsNewEvent, trace, number);
 
                 case AccidentInOldEvent accidentInOldEvent:
-                    if (accidentOnTrace.OpticalTypeOfAccident == OpticalAccidentType.LossCoeff)
+                    if (accidentInOldEvent.OpticalTypeOfAccident == OpticalAccidentType.LossCoeff)
                         return CreateBadSegment(accidentInOldEvent, trace, number);
 
                     return CreateInNode(accidentInOldEvent, trace, number);

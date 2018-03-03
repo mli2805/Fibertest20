@@ -53,6 +53,29 @@ namespace Iit.Fibertest.Client
 
         public FiberState State => States.Count == 0 ? FiberState.NotInTrace : States.Values.Max();
 
+        public List<Guid> TracesWithExceededLossCoeff { get; set; } = new List<Guid>();
+        public bool IsBadSegment => TracesWithExceededLossCoeff.Any();
+
+        public void AddBadSegment(Guid traceId)
+        {
+            if (TracesWithExceededLossCoeff.Contains(traceId)) return;
+
+            TracesWithExceededLossCoeff.Add(traceId);
+            if (TracesWithExceededLossCoeff.Count > 1) return;
+
+            NotifyOfPropertyChange(nameof(IsBadSegment));
+        }
+
+        public void CleanBadSegment(Guid traceId)
+        {
+            if (!TracesWithExceededLossCoeff.Contains(traceId)) return;
+
+            TracesWithExceededLossCoeff.Remove(traceId);
+            if (TracesWithExceededLossCoeff.Count > 0) return;
+
+            NotifyOfPropertyChange(nameof(IsBadSegment));
+        }
+
         public int UserInputedLength { get; set; }
     }
 }

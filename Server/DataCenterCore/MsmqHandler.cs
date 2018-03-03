@@ -22,7 +22,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly EventStoreService _eventStoreService;
         private readonly D2CWcfManager _d2CWcfManager;
 
-        public MsmqHandler(IniFile iniFile, IMyLog logFile, 
+        public MsmqHandler(IniFile iniFile, IMyLog logFile,
             MonitoringResultsRepository monitoringResultsRepository, MeasurementFactory measurementFactory,
             ClientStationsRepository clientStationsRepository, EventStoreService eventStoreService,
             D2CWcfManager d2CWcfManager)
@@ -68,7 +68,7 @@ namespace Iit.Fibertest.DataCenterCore
                 Message message = queue.EndReceive(asyncResult.AsyncResult);
 
                 ProcessMessage(message);
-           
+
             }
             catch (Exception e)
             {
@@ -94,19 +94,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             if (measurementWithSor != null)
             {
-                var sorData =  SorData.FromBytes(measurementWithSor.SorBytes);
-                var accidents = sorData.GetAccidents();
-                _logFile.AppendLine($"Trace state in measurement {measurementWithSor.Measurement.TraceState}");
-                var maxState = accidents.Count == 0 ? FiberState.Ok : accidents.Max(a => a.AccidentSeriousness);
-                _logFile.AppendLine($"{accidents.Count} accidents found. Max state is {maxState}");
-
-                var cmd = new ShowMonitoringResult()
-                {
-                    TraceId = measurementWithSor.Measurement.TraceId,
-                    TraceState = measurementWithSor.Measurement.TraceState,
-                    Accidents = accidents,
-                };
-                await _eventStoreService.SendCommand(cmd, "system", "OnServer");
+                await PutMonitoringResultOnMap(measurementWithSor);
 
                 await SendMoniresultToClients(measurementWithSor);
 
@@ -116,6 +104,23 @@ namespace Iit.Fibertest.DataCenterCore
 
                 }
             }
+        }
+
+        private async Task<string> PutMonitoringResultOnMap(MeasurementWithSor measurementWithSor)
+        {
+            var sorData = SorData.FromBytes(measurementWithSor.SorBytes);
+            var accidents = sorData.GetAccidents();
+            _logFile.AppendLine($"Trace state in measurement {measurementWithSor.Measurement.TraceState}");
+            var maxState = accidents.Count == 0 ? FiberState.Ok : accidents.Max(a => a.AccidentSeriousness);
+            _logFile.AppendLine($"{accidents.Count} accidents found. Max state is {maxState}");
+
+            var cmd = new ShowMonitoringResult()
+            {
+                TraceId = measurementWithSor.Measurement.TraceId,
+                TraceState = measurementWithSor.Measurement.TraceState,
+                Accidents = accidents,
+            };
+            return await _eventStoreService.SendCommand(cmd, "system", "OnServer");
         }
 
         private async Task<int> SendMoniresultToClients(MeasurementWithSor measurementWithSor)

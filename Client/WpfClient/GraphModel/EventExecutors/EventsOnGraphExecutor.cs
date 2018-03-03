@@ -9,15 +9,18 @@ namespace Iit.Fibertest.Client
         private readonly FiberEventsOnGraphExecutor _fiberEventsOnGraphExecutor;
         private readonly TraceEventsOnGraphExecutor _traceEventsOnGraphExecutor;
         private readonly RtuEventsOnGraphExecutor _rtuEventsOnGraphExecutor;
+        private readonly AccidentEventsOnGraphExecutor _accidentEventsOnGraphExecutor;
 
         public EventsOnGraphExecutor(NodeEventsOnGraphExecutor nodeEventsOnGraphExecutor, FiberEventsOnGraphExecutor fiberEventsOnGraphExecutor,
-            EquipmentEventsOnGraphExecutor equipmentsExtor, TraceEventsOnGraphExecutor traceEventsOnGraphExecutor, RtuEventsOnGraphExecutor rtuEventsOnGraphExecutor)
+            EquipmentEventsOnGraphExecutor equipmentsExtor, TraceEventsOnGraphExecutor traceEventsOnGraphExecutor, 
+            RtuEventsOnGraphExecutor rtuEventsOnGraphExecutor, AccidentEventsOnGraphExecutor accidentEventsOnGraphExecutor)
         {
             _nodeEventsOnGraphExecutor = nodeEventsOnGraphExecutor;
             _equipmentsExtor = equipmentsExtor;
             _fiberEventsOnGraphExecutor = fiberEventsOnGraphExecutor;
             _traceEventsOnGraphExecutor = traceEventsOnGraphExecutor;
             _rtuEventsOnGraphExecutor = rtuEventsOnGraphExecutor;
+            _accidentEventsOnGraphExecutor = accidentEventsOnGraphExecutor;
         }
 
         public void Apply(object e)
@@ -43,7 +46,7 @@ namespace Iit.Fibertest.Client
                 case TraceAttached evnt: _traceEventsOnGraphExecutor.AttachTrace(evnt); return;
                 case TraceDetached evnt: _traceEventsOnGraphExecutor.DetachTrace(evnt); return;
 
-                case MonitoringResultShown evnt: _traceEventsOnGraphExecutor.ShowMonitoringResult(evnt); return;
+                case MonitoringResultShown evnt: _accidentEventsOnGraphExecutor.ShowMonitoringResult(evnt); return;
 
                 case RtuAtGpsLocationAdded evnt: _rtuEventsOnGraphExecutor.AddRtuAtGpsLocation(evnt); return;
                 case RtuUpdated evnt: _rtuEventsOnGraphExecutor. UpdateRtu(evnt); return;

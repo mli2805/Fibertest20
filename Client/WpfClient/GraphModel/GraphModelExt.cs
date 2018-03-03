@@ -25,5 +25,22 @@ namespace Iit.Fibertest.Client
             nodes.AddRange(model.Fibers.Where(f => f.Node2.Id == nodeId).Select(f => f.Node1));
             return nodes;
         }
+
+        public static void CleanAccidentPlacesOnTrace(this GraphReadModel model, TraceVm traceVm)
+        {
+            var nodeVms = model.Nodes.Where(n => n.AccidentOnTraceVmId == traceVm.Id).ToList();
+            foreach (var nodeVm in nodeVms)
+            {
+                var equipmentVm = model.Equipments.FirstOrDefault(e => e.Node == nodeVm);
+                if (equipmentVm != null)
+                    model.Equipments.Remove(equipmentVm);
+                model.Nodes.Remove(nodeVm);
+            }
+
+            foreach (var fiberVm in model.Fibers)
+            {
+                fiberVm.CleanBadSegment(traceVm.Id);
+            }
+        }
     }
 }
