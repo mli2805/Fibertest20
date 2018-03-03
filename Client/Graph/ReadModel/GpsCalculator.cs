@@ -5,6 +5,16 @@ namespace Iit.Fibertest.Graph
 {
     public static class GpsCalculator
     {
+        public static int GpsInSorFormat(double degrees)
+        {
+            int d = (int)degrees;
+            double m = (degrees - d) * 60;
+            int mi = (int)m;
+            double s = (m - mi) * 60;
+            double ss = s * 100;
+            return d * 1000000 + mi * 10000 + (int)ss;
+        }
+
         public static double GetDistanceBetweenPointLatLng(PointLatLng p1, PointLatLng p2)
         {
             return GetDistanceBetweenPointsInDegrees(p1.Lat, p1.Lng, p2.Lat, p2.Lng);

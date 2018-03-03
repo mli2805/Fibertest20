@@ -11,7 +11,7 @@ namespace Iit.Fibertest.Client
     {
         public string Degrees
         {
-            get { return _degrees; }
+            get => _degrees;
             set
             {
                 if (value == _degrees) return;
@@ -22,7 +22,7 @@ namespace Iit.Fibertest.Client
 
         public string Minutes
         {
-            get { return _minutes; }
+            get => _minutes;
             set
             {
                 if (value == _minutes) return;
@@ -33,7 +33,7 @@ namespace Iit.Fibertest.Client
 
         public string Seconds
         {
-            get { return _seconds; }
+            get => _seconds;
             set
             {
                 if (value == _seconds) return;
@@ -46,7 +46,7 @@ namespace Iit.Fibertest.Client
 
         public Visibility DegreesModeVisibility
         {
-            get { return _degreesModeVisibility; }
+            get => _degreesModeVisibility;
             set
             {
                 if (value == _degreesModeVisibility) return;
@@ -57,7 +57,7 @@ namespace Iit.Fibertest.Client
 
         public Visibility DegreesAndMinutesModeVisibility
         {
-            get { return _degreesAndMinutesModeVisibility; }
+            get => _degreesAndMinutesModeVisibility;
             set
             {
                 if (value == _degreesAndMinutesModeVisibility) return;
@@ -68,7 +68,7 @@ namespace Iit.Fibertest.Client
 
         public Visibility DegreesMinutesAndSecondsModeVisibility
         {
-            get { return _degreesMinutesAndSecondsModeVisibility; }
+            get => _degreesMinutesAndSecondsModeVisibility;
             set
             {
                 if (value == _degreesMinutesAndSecondsModeVisibility) return;
@@ -81,7 +81,7 @@ namespace Iit.Fibertest.Client
         private GpsInputMode _currentGpsInputMode;
         public GpsInputMode CurrentGpsInputMode
         {
-            get { return _currentGpsInputMode; }
+            get => _currentGpsInputMode;
             set
             {
                 var flag = IsChanged();

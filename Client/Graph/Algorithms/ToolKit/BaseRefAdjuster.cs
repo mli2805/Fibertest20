@@ -56,8 +56,12 @@ namespace Iit.Fibertest.Graph.Algorithms
 
                 landmarks[i].Comment = landmarkTitle; // utf8, TODO reflect.exe should understand this
                 landmarks[i].Code = equipments[i - 1].Type.ToLandmarkCode();
+
+                landmarks[i].GpsLatitude = GpsCalculator.GpsInSorFormat(nodes[i].Latitude);
+                landmarks[i].GpsLongitude = GpsCalculator.GpsInSorFormat(nodes[i].Longitude);
             }
         }
+
 
     }
 }
