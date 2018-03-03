@@ -112,33 +112,33 @@ namespace Iit.Fibertest.Client
                 }
             }
 
-            if (e.Key == Key.Z)
-            {
-                if (IsInDistanceMeasurementMode)
-                {
-                    var markerPosition = FromLocalToLatLng(GetPointFromPosition(Mouse.GetPosition(this)));
-                    var marker = new GMapMarker(Guid.NewGuid(), markerPosition, false);
-
-                    if (StartNode == null)
-                    {
-                        DistanceMarkers = new List<GMapMarker>();
-                        Distances = new List<int>();
-                    }
-                    else
-                    {
-                        var routeMarker = new GMapRoute(FiberUnderCreation, StartNode.Id, marker.Id, Brushes.Blue, 2,
-                            new List<PointLatLng>() { StartNode.Position, markerPosition });
-                        Markers.Add(routeMarker);
-                        DistanceMarkers.Add(routeMarker);
-
-                        Distances.Add((int)GpsCalculator.GetDistanceBetweenPointLatLng(StartNode.Position, markerPosition));
-                    }
-
-                    Markers.Add(marker);
-                    DistanceMarkers.Add(marker);
-                    StartNode = marker;
-                }
-            }
+//            if (e.Key == Key.Z)
+//            {
+//                if (IsInDistanceMeasurementMode)
+//                {
+//                    var markerPosition = FromLocalToLatLng(GetPointFromPosition(Mouse.GetPosition(this)));
+//                    var marker = new GMapMarker(Guid.NewGuid(), markerPosition, false);
+//
+//                    if (StartNode == null)
+//                    {
+//                        DistanceMarkers = new List<GMapMarker>();
+//                        Distances = new List<int>();
+//                    }
+//                    else
+//                    {
+//                        var routeMarker = new GMapRoute(FiberUnderCreation, StartNode.Id, marker.Id, Brushes.Blue, 2,
+//                            new List<PointLatLng>() { StartNode.Position, markerPosition });
+//                        Markers.Add(routeMarker);
+//                        DistanceMarkers.Add(routeMarker);
+//
+//                        Distances.Add((int)GpsCalculator.GetDistanceBetweenPointLatLng(StartNode.Position, markerPosition));
+//                    }
+//
+//                    Markers.Add(marker);
+//                    DistanceMarkers.Add(marker);
+//                    StartNode = marker;
+//                }
+//            }
 
             base.OnKeyDown(e);
         }
@@ -155,10 +155,42 @@ namespace Iit.Fibertest.Client
                 else
                     Markers.Remove(Markers.Single(m => m.Id == DistanceFiberUnderCreation));
 
-                var endMarkerPosition = FromLocalToLatLng(GetPointFromPosition(e.GetPosition(this)));
+                var mousePoint = e.GetPosition(this);
+                mousePoint.X = mousePoint.X - 1;
+                mousePoint.Y = mousePoint.Y - 1;
+                var endMarkerPosition = FromLocalToLatLng(GetPointFromPosition(mousePoint));
                 Markers.Add(new GMapRoute(DistanceFiberUnderCreation, StartNode.Id, Guid.Empty, Brushes.Black, 1,
                     new List<PointLatLng>() { StartNode.Position, endMarkerPosition }));
                 LastDistance = (int)GpsCalculator.GetDistanceBetweenPointLatLng(StartNode.Position, endMarkerPosition);
+            }
+        }
+
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
+            if (IsInDistanceMeasurementMode)
+            {
+                var markerPosition = FromLocalToLatLng(GetPointFromPosition(Mouse.GetPosition(this)));
+                var marker = new GMapMarker(Guid.NewGuid(), markerPosition, false);
+
+                if (StartNode == null)
+                {
+                    DistanceMarkers = new List<GMapMarker>();
+                    Distances = new List<int>();
+                }
+                else
+                {
+                    var routeMarker = new GMapRoute(FiberUnderCreation, StartNode.Id, marker.Id, Brushes.Blue, 2,
+                        new List<PointLatLng>() { StartNode.Position, markerPosition });
+                    Markers.Add(routeMarker);
+                    DistanceMarkers.Add(routeMarker);
+
+                    Distances.Add((int)GpsCalculator.GetDistanceBetweenPointLatLng(StartNode.Position, markerPosition));
+                }
+
+                Markers.Add(marker);
+                DistanceMarkers.Add(marker);
+                StartNode = marker;
             }
         }
 
