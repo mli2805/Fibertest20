@@ -81,12 +81,14 @@ namespace Iit.Fibertest.Client
 
         private void AssignBitmapImageTo(Image destination)
         {
-            destination.Width = Type == EquipmentType.Rtu ? 40 : 8;
-            destination.Height = Type == EquipmentType.Rtu ? 28 : 8;
+            destination.Width = Type == EquipmentType.Rtu ? 40 : Type == EquipmentType.AccidentPlace ? 24 : 8;
+            destination.Height = Type == EquipmentType.Rtu ? 28 : Type == EquipmentType.AccidentPlace ? 24 : 8;
             
             destination.Source = EquipmentTypeExt.GetPictogramBitmapImage(Type, FiberState.Ok);
             destination.ContextMenu = ContextMenu;
         }
+
+
 
         void MarkerControl_Loaded(object sender, RoutedEventArgs e)
         {

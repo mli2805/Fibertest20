@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Windows;
 using GMap.NET.WindowsPresentation;
+using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Client
 {
@@ -41,7 +42,7 @@ namespace Iit.Fibertest.Client
                 var nodeVm = (NodeVm)newItem;
                 nodeVm.PropertyChanged += NodeVm_PropertyChanged;
                 var marker = new GMapMarker(nodeVm.Id, nodeVm.Position, false);
-                marker.ZIndex = 2;
+                marker.ZIndex = nodeVm.Type == EquipmentType.AccidentPlace ? -2 : 2;
                 var equipmentType = nodeVm.Type;
                 var markerControl = new MarkerControl(this, marker, equipmentType, nodeVm.Title, GraphReadModel.GlobalScope);
                 marker.Shape = markerControl;

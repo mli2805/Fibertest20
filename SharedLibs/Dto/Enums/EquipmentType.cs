@@ -4,7 +4,6 @@
     {
         Error = -1,
 
-        AccidentPlace = 50,
 
         AdjustmentPoint = 100,
 
@@ -19,5 +18,6 @@
         Terminal = 406,
 
         Rtu = 500,
+        AccidentPlace = 501,
     }
 }

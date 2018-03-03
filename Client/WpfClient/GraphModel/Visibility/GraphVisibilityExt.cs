@@ -39,6 +39,7 @@ namespace Iit.Fibertest.Client
                 case EquipmentType.Cross:
                 case EquipmentType.Well:
                 case EquipmentType.Terminal: return GraphVisibilityLevel.Equipments;
+                case EquipmentType.AccidentPlace: 
                 case EquipmentType.Rtu: return GraphVisibilityLevel.OnlyRtu;
                 default: return GraphVisibilityLevel.AllDetails;
             }

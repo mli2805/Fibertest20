@@ -18,7 +18,7 @@ namespace Iit.Fibertest.Client
         {
             if (Type == EquipmentType.Rtu)
                 OpenRtuContextMenu();
-            else
+            else if (Type != EquipmentType.AccidentPlace)
                 OpenNodeContextMenu();
             e.Handled = true;
         }
@@ -115,7 +115,6 @@ namespace Iit.Fibertest.Client
         void MarkerControl_MouseLeave(object sender, MouseEventArgs e)
         {
             GMapMarker.ZIndex -= 10000;
-            //            Cursor = Cursors.Arrow;
             Cursor = _cursorBeforeEnter;
             if (!string.IsNullOrEmpty(Title))
                 _popup.IsOpen = false;
@@ -123,6 +122,7 @@ namespace Iit.Fibertest.Client
 
         void MarkerControl_MouseEnter(object sender, MouseEventArgs e)
         {
+            if (EqType == EquipmentType.AccidentPlace) return;
             GMapMarker.ZIndex += 10000;
             _cursorBeforeEnter = Cursor;
             Cursor = Cursors.Hand;
