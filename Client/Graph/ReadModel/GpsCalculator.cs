@@ -11,8 +11,9 @@ namespace Iit.Fibertest.Graph
             double m = (degrees - d) * 60;
             int mi = (int)m;
             double s = (m - mi) * 60;
-            double ss = s * 100;
-            return d * 1000000 + mi * 10000 + (int)ss;
+            int ss = (int)(s * 100);
+            if (s * 100 - ss >= 0.5) ss++;
+            return d * 1000000 + mi * 10000 + ss;
         }
 
         public static double GetDistanceBetweenPointLatLng(PointLatLng p1, PointLatLng p2)
