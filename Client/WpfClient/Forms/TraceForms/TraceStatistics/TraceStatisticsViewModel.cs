@@ -122,13 +122,15 @@ namespace Iit.Fibertest.Client
 
         public void ShowBaseReflectogram()
         {
-            _reflectogramManager.SetTempFileName(TraceTitle, SelectedBaseRef.BaseRefTypeString, SelectedBaseRef.AssignedAt);
+            // do not use localized base ref type!
+            _reflectogramManager.SetTempFileName(TraceTitle, SelectedBaseRef.BaseRefType.ToString(), SelectedBaseRef.AssignedAt);
             _reflectogramManager.ShowBaseReflectogram(SelectedBaseRef.BaseRefId);
         }
 
         public void SaveBaseReflectogramAs()
         {
-            _reflectogramManager.SetTempFileName(TraceTitle, SelectedBaseRef.BaseRefTypeString, SelectedBaseRef.AssignedAt);
+            // do not use localized base ref type!
+            _reflectogramManager.SetTempFileName(TraceTitle, SelectedBaseRef.BaseRefType.ToString(), SelectedBaseRef.AssignedAt);
             _reflectogramManager.SaveBaseReflectogramAs(SelectedBaseRef.BaseRefId);
         }
 
