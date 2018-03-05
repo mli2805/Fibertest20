@@ -77,18 +77,32 @@ namespace Iit.Fibertest.Graph.Algorithms
             return accidentInOldEvent;
         }
 
-        private static AccidentOnTrace BuildAccidentAsNewEvent(this OtdrDataKnownBlocks sorData, RftsEvent rftsEvent, int i, RftsLevelType level)
+        private static AccidentOnTrace BuildAccidentAsNewEvent(this OtdrDataKnownBlocks sorData, RftsEvent rftsEvent, int keyEventIndex, RftsLevelType level)
         {
             var baseSorData = sorData.GetBase();
 
+            var leftLandmarkIndex = sorData.GetLandmarkIndexForKeyEventIndex(keyEventIndex-1);
+            while (sorData.LinkParameters.LandmarkBlocks[leftLandmarkIndex + 1].Location < sorData.KeyEvents.KeyEvents[keyEventIndex].EventPropagationTime)
+            { // to exclude landmarks without events (empty nodes)
+                leftLandmarkIndex++;
+            }
+
+            // if new event is not a Critical but FiberBreak => there are no events after Break, and in Landmarks there are no event numbers, so take them from Base
+            // in base keyEventIndex was the first after break
+            var rightLandmarkIndex = baseSorData.GetLandmarkIndexForKeyEventIndex(keyEventIndex);
+            while (baseSorData.LinkParameters.LandmarkBlocks[rightLandmarkIndex - 1].Location > sorData.KeyEvents.KeyEvents[keyEventIndex].EventPropagationTime)
+            { // to exclude landmarks without events (empty nodes)
+                rightLandmarkIndex--;
+            }
+
             var accidentAsNewEvent = new AccidentAsNewEvent()
             {
-                RftsEventNumber = i+1, // i - index, i+1 number
-                LeftNodeKm = sorData.KeyEventDistanceKm(i - 1),
-                LeftLandmarkIndex = sorData.GetLandmarkIndexForKeyEvent(i),
-                AccidentDistanceKm = sorData.KeyEventDistanceKm(i),
-                RightNodeKm = baseSorData.KeyEventDistanceKm(i), // if FiberBreak happens there are no events after Break, so take them from Base
-                RightLandmarkIndex = baseSorData.GetLandmarkIndexForKeyEvent(i + 1),
+                RftsEventNumber = keyEventIndex+1, // keyEventIndex - index, keyEventIndex+1 number
+                LeftLandmarkIndex = leftLandmarkIndex,
+                LeftNodeKm = sorData.LandmarkDistanceKm(leftLandmarkIndex),
+                AccidentDistanceKm = sorData.KeyEventDistanceKm(keyEventIndex),
+                RightLandmarkIndex = rightLandmarkIndex, // if FiberBreak happens there are no events after Break, so take them from Base
+                RightNodeKm = sorData.LandmarkDistanceKm(rightLandmarkIndex),
 
                 AccidentSeriousness = (rftsEvent.EventTypes & RftsEventTypes.IsFiberBreak) != 0 ? FiberState.FiberBreak : level.ConvertToFiberState(),
                 OpticalTypeOfAccident = GetOpticalTypeOfAccident(rftsEvent),
@@ -125,8 +139,9 @@ namespace Iit.Fibertest.Graph.Algorithms
             }
         }
 
-        private static int GetLandmarkIndexForKeyEvent(this OtdrDataKnownBlocks sorData, int keyEventNumber)
+        private static int GetLandmarkIndexForKeyEventIndex(this OtdrDataKnownBlocks sorData, int keyEventIndex)
         {
+            var keyEventNumber = keyEventIndex + 1;
             for (int i = 0; i < sorData.LinkParameters.LandmarksCount; i++)
             {
                 if (sorData.LinkParameters.LandmarkBlocks[i].RelatedEventNumber == keyEventNumber)

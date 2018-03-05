@@ -519,13 +519,13 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModels\FiberWithNodesAddViewModel.cs" />
-    <Compile Include="ViewModels\FiberUpdateViewModel.cs" />
+    <Compile Include="Forms\FiberForms\FiberUpdate\FiberUpdateViewModel.cs" />
     <Compile Include="ViewModels\Primitive\RadioButtonModel.cs" />
     <Compile Include="Forms\RtuForms\RtuUpdate\RtuUpdateViewModel.cs" />
     <Compile Include="Views\FiberWithNodesAddView.xaml.cs">
       <DependentUpon>FiberWithNodesAddView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\FiberUpdateView.xaml.cs">
+    <Compile Include="Forms\FiberForms\FiberUpdate\FiberUpdateView.xaml.cs">
       <DependentUpon>FiberUpdateView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\RtuForms\RtuUpdate\RtuUpdateView.xaml.cs">
@@ -720,7 +720,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\FiberUpdateView.xaml">
+    <Page Include="Forms\FiberForms\FiberUpdate\FiberUpdateView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

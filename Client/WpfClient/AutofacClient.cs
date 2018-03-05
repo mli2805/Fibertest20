@@ -157,6 +157,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<LandmarkViewModel>();
             builder.RegisterType<LandmarksViewModel>();
             builder.RegisterType<NodeUpdateViewModel>();
+            builder.RegisterType<FiberUpdateViewModel>();
             builder.RegisterType<EquipmentInfoViewModel>();
             builder.RegisterType<CableReserveInfoViewModel>();
 

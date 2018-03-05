@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Requests;
@@ -11,13 +12,15 @@ namespace Iit.Fibertest.Client
 {
     public class GrmFiberRequests
     {
+        private readonly ILifetimeScope _globalScope;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly ReadModel _readModel;
         private readonly IWindowManager _windowManager;
 
 
-        public GrmFiberRequests(IWcfServiceForClient c2DWcfManager, ReadModel readModel, IWindowManager windowManager)
+        public GrmFiberRequests(ILifetimeScope globalScope, IWcfServiceForClient c2DWcfManager, ReadModel readModel, IWindowManager windowManager)
         {
+            _globalScope = globalScope;
             _c2DWcfManager = c2DWcfManager;
             _readModel = readModel;
             _windowManager = windowManager;
@@ -54,7 +57,8 @@ namespace Iit.Fibertest.Client
 
         private UpdateFiber PrepareCommand(RequestUpdateFiber request)
         {
-            var vm = new FiberUpdateViewModel(request.Id, _readModel);
+            var vm = _globalScope.Resolve<FiberUpdateViewModel>();
+            vm.Initialize(request.Id);
             _windowManager.ShowDialogWithAssignedOwner(vm);
 
             return vm.Command;

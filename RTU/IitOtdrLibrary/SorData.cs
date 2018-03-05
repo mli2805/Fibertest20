@@ -83,6 +83,11 @@ namespace Iit.Fibertest.IitOtdrLibrary
             return sorData.KeyEvents.KeyEvents[eventIndex].EventPropagationTime * GetOwtToKmCoeff(sorData);
         }
 
+        public static double LandmarkDistanceKm(this OtdrDataKnownBlocks sorData, int landmarkIndex)
+        {
+            return sorData.LinkParameters.LandmarkBlocks[landmarkIndex].Location * GetOwtToKmCoeff(sorData);
+        }
+
         public static double GetOwtToKmCoeff(this OtdrDataKnownBlocks sorData)
         {
             return LightSpeed / sorData.FixedParameters.RefractionIndex / 10;

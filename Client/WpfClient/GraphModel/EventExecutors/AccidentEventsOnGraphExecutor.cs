@@ -56,7 +56,10 @@ namespace Iit.Fibertest.Client
         private void ShowInNode(AccidentInOldEvent accidentInOldEvent, TraceVm traceVm)
         {
             var nodeId = traceVm.Nodes[accidentInOldEvent.BrokenLandmarkIndex];
-            var nodeVm = _model.Nodes.FirstOrDefault(n => n.Id == nodeId);
+//            var nodeVm = _model.Nodes.FirstOrDefault(n => n.Id == nodeId);
+
+            var nodeVm = _model.GetNodeByLandmarkIndex(traceVm, accidentInOldEvent.BrokenLandmarkIndex);
+
             if (nodeVm == null) return;
 
             AddAccidentNode(nodeVm.Position, traceVm.Id);
@@ -82,9 +85,14 @@ namespace Iit.Fibertest.Client
 
         private void ShowBadSegment(AccidentInOldEvent accidentInOldEvent, TraceVm traceVm)
         {
-            var leftNodeId = traceVm.Nodes[accidentInOldEvent.BrokenLandmarkIndex - 1];
-            var rightNodeId = traceVm.Nodes[accidentInOldEvent.BrokenLandmarkIndex];
-            var fiberVm = _model.GetFiberByNodes(leftNodeId, rightNodeId);
+//            var leftNodeId = traceVm.Nodes[accidentInOldEvent.BrokenLandmarkIndex - 1];
+//            var rightNodeId = traceVm.Nodes[accidentInOldEvent.BrokenLandmarkIndex];
+//            var fiberVm = _model.GetFiberByNodes(leftNodeId, rightNodeId);
+
+            var fiberVm = _model.GetFiberByLandmarkIndexes(traceVm, accidentInOldEvent.BrokenLandmarkIndex - 1,
+                accidentInOldEvent.BrokenLandmarkIndex);
+
+
             fiberVm.AddBadSegment(traceVm.Id);
         }
 

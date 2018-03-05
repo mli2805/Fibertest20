@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using Caliburn.Micro;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
@@ -10,8 +11,8 @@ namespace Iit.Fibertest.Client
 {
     public class FiberUpdateViewModel : Screen, IDataErrorInfo
     {
-        private readonly ReadModel _readModel;
-        private Fiber _fiber;
+        private readonly GraphReadModel _graphReadModel;
+        private FiberVm _fiberVm;
         private string _userInputedLength;
 
         public string NodeAtitle { get; set; }
@@ -36,22 +37,33 @@ namespace Iit.Fibertest.Client
         public UpdateFiber Command { get; set; }
 
        
-        public FiberUpdateViewModel(Guid fiberId, ReadModel readModel)
+        public FiberUpdateViewModel(GraphReadModel graphReadModel)
         {
-            _readModel = readModel;
-            _fiber = readModel.Fibers.Single(f => f.Id == fiberId);
-            Initialize();
+            _graphReadModel = graphReadModel;
         }
 
-        private void Initialize()
+        public void Initialize(Guid fiberId)
         {
-            var n1 = _readModel.Nodes.Single(n => n.Id == _fiber.Node1);
-            var n2 = _readModel.Nodes.Single(n => n.Id == _fiber.Node2);
+            _fiberVm = _graphReadModel.Fibers.Single(f => f.Id == fiberId);
+
+            var n1 = GetNotAdjustmentPointEdgeOfFiber(_fiberVm, _fiberVm.Node1);
+            var n2 = GetNotAdjustmentPointEdgeOfFiber(_fiberVm, _fiberVm.Node2);
+
             NodeAtitle = n1.Title;
             NodeBtitle = n2.Title;
-            GpsLength = $@"{GpsCalculator.GetDistanceBetweenPointsInDegrees(n1.Latitude, n1.Longitude, n2.Latitude, n2.Longitude):#,##0}";
+            GpsLength = $@"{GpsCalculator.GetDistanceBetweenPointLatLng(n1.Position, n2.Position):#,##0}";
 //            OpticalLength = _fiber.OpticalLength; // потом из базовых брать
-            UserInputedLength = _fiber.UserInputedLength.ToString(CultureInfo.InvariantCulture);
+            UserInputedLength = _fiberVm.UserInputedLength.ToString(CultureInfo.InvariantCulture);
+        }
+
+        public NodeVm GetNotAdjustmentPointEdgeOfFiber(FiberVm fX, NodeVm n1)
+        {
+            while (n1.Type == EquipmentType.AdjustmentPoint)
+            {
+                fX = _graphReadModel.GetOtherFiberOfAdjustmentPoint(n1, fX.Id);
+                n1 = fX.Node1.Id == n1.Id ? fX.Node2 : fX.Node1;
+            }
+            return n1;
         }
 
         protected override void OnViewLoaded(object view)
@@ -61,7 +73,8 @@ namespace Iit.Fibertest.Client
 
         public void Save()
         {
-            Command = new UpdateFiber {Id = _fiber.Id, UserInputedLength = int.Parse(_userInputedLength)};
+
+            Command = new UpdateFiber {Id = _fiberVm.Id, UserInputedLength = int.Parse(_userInputedLength)};
             TryClose();
         }
 

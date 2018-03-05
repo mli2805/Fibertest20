@@ -33,8 +33,7 @@ namespace Iit.Fibertest.Client
 
         private PointLatLng? GetAccidentGps(AccidentAsNewEvent accident, TraceVm traceVm)
         {
-            var fiberVm = _model.GetFiberByNodes(traceVm.Nodes[accident.LeftLandmarkIndex],
-                traceVm.Nodes[accident.RightLandmarkIndex]);
+            var fiberVm = _model.GetFiberByLandmarkIndexes(traceVm, accident.LeftLandmarkIndex, accident.RightLandmarkIndex);
             if (fiberVm == null) return null;
             var gpsDistanceM = GetGpsDistanceBetweenNeighbours(accident, traceVm, out NodeVm leftNodeVm, out NodeVm rightNodeVm);
             if (leftNodeVm == null || rightNodeVm == null) return null;
