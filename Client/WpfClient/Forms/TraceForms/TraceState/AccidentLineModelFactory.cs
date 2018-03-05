@@ -53,7 +53,7 @@ namespace Iit.Fibertest.Client
             model.Bottom2 = nodeCoors;
 
             model.Scheme = accidentInOldEvent.AccidentSeriousness == FiberState.FiberBreak
-                ? new Uri("pack://application:,,,/Resources/AccidentSchemes/AccidentInLastNode.png")
+                ? new Uri("pack://application:,,,/Resources/AccidentSchemes/FiberBrokenInNode.png")
                 : isLastNode
                     ? new Uri("pack://application:,,,/Resources/AccidentSchemes/AccidentInLastNode.png")
                     : new Uri("pack://application:,,,/Resources/AccidentSchemes/AccidentInNode.png");
@@ -110,8 +110,8 @@ namespace Iit.Fibertest.Client
             model.TopLeft = leftNodeTitle;
             model.TopRight = rightNodeTitle;
 
-            model.Bottom1 = $@"{accidentInOldEvent.PreviousLandmarkDistanceKm:0.000} {Resources.SID_km}";
-            model.Bottom3 = $@"{accidentInOldEvent.AccidentDistanceKm:0.000} {Resources.SID_km}";
+            model.Bottom0 = $@"{accidentInOldEvent.PreviousLandmarkDistanceKm:0.000} {Resources.SID_km}";
+            model.Bottom4 = $@"{accidentInOldEvent.AccidentDistanceKm:0.000} {Resources.SID_km}";
 
             model.Scheme = new Uri("pack://application:,,,/Resources/AccidentSchemes/BadSegment.png");
             return model;
