@@ -112,10 +112,10 @@
 		<value>2.0</value>
 	</resheader>
 	<resheader name="reader">
-		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
 	<resheader name="writer">
-		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
 	<data name="SID_CableReserve" xml:space="preserve">
     <value>Запас кабеля</value>
@@ -756,7 +756,7 @@
     <value>Параметры</value>
   </data>
 	<data name="SID_Landmarks_of_trace__0_" xml:space="preserve">
-    <value>Ориентиры трассы {0}</value>
+    <value>Ориентиры трассы {0}:</value>
   </data>
 	<data name="SID_Equipment" xml:space="preserve">
     <value>Оборудование</value>
@@ -1052,622 +1052,631 @@ on port {0}: charon {1} ip {2} has {3} ports</value>
     <value>Проверка соединения с RTU {0}: Отвечает = {1}</value>
   </data>
 	<data name="SID_WcfServiceForClient_creation_error_" xml:space="preserve">
-		<value>Ошибка создания WcfServiceForClient</value>
-	</data>
+    <value>Ошибка создания WcfServiceForClient</value>
+  </data>
 	<data name="SID_Service_alive" xml:space="preserve">
-		<value>Служба запущена, но устройство не инициализировано.</value>
-	</data>
+    <value>Служба запущена, но устройство не инициализировано.</value>
+  </data>
 	<data name="SID_Ping_does_not_pass_" xml:space="preserve">
-		<value>Пинг не проходит. Состояние службы не известно.</value>
-	</data>
+    <value>Пинг не проходит. Состояние службы не известно.</value>
+  </data>
 	<data name="SID_Rtu_initialized" xml:space="preserve">
-		<value>Служба запущена и инициализирована успешно.</value>
-	</data>
+    <value>Служба запущена и инициализирована успешно.</value>
+  </data>
 	<data name="SID____Ping_passed__OK" xml:space="preserve">
-		<value>Служба не доступна.  Пинг проходит.</value>
-	</data>
+    <value>Служба не доступна.  Пинг проходит.</value>
+  </data>
 	<data name="SID_Cannot_deliver_command_to_RTU__0_" xml:space="preserve">
-		<value>Не могу доставить команду на RTU {0}</value>
-	</data>
+    <value>Не могу доставить команду на RTU {0}</value>
+  </data>
 	<data name="SID_Command_was_delivered_to_RTU__0__but_RTU_ignored_it__RTU_is_busy_" xml:space="preserve">
-		<value>Команда была доставлена на RTU {0} но RTU отклонил ее (RTU занят)</value>
-	</data>
+    <value>Команда была доставлена на RTU {0} но RTU отклонил ее (RTU занят)</value>
+  </data>
 	<data name="SID_" xml:space="preserve">
-		<value>RTU инициализировани, серийный номер = {0}</value>
-	</data>
+    <value>RTU инициализировани, серийный номер = {0}</value>
+  </data>
 	<data name="SID_Base_ref_assigned_successfully___0_" xml:space="preserve">
-		<value>Базовая задана успешно: {0}</value>
-	</data>
+    <value>Базовая задана успешно: {0}</value>
+  </data>
 	<data name="SID_Monitoring_settings_applied_successfully___0_" xml:space="preserve">
-		<value>Настройки мониторинга применены успешно: {0}</value>
-	</data>
+    <value>Настройки мониторинга применены успешно: {0}</value>
+  </data>
 	<data name="SID_Test_RTU_communication_functions" xml:space="preserve">
-		<value>Проверка функций управления RTU</value>
-	</data>
+    <value>Проверка функций управления RTU</value>
+  </data>
 	<data name="SID_Connection_check" xml:space="preserve">
-		<value>Проверка соединения</value>
-	</data>
+    <value>Проверка соединения</value>
+  </data>
 	<data name="SID_Connection_established__RTU_is_Ok_" xml:space="preserve">
-		<value>Соединение установлено, RTU в норме</value>
-	</data>
+    <value>Соединение установлено, RTU в норме</value>
+  </data>
 	<data name="SID_Connection_established_Rtu_is_initializing_now" xml:space="preserve">
-		<value>Соединение установлено,
+    <value>Соединение установлено,
 RTU инициализируется в данный момент!</value>
-	</data>
+  </data>
 	<data name="SID_Cant_establish_connection_" xml:space="preserve">
-		<value>Невозможно установить соединение!</value>
-	</data>
+    <value>Невозможно установить соединение!</value>
+  </data>
 	<data name="SID_Ping_passed_" xml:space="preserve">
-		<value>Пинг прошел.</value>
-	</data>
+    <value>Пинг прошел.</value>
+  </data>
 	<data name="SID_Ping_failed" xml:space="preserve">
-		<value> Пинг не прошел!</value>
-	</data>
+    <value> Пинг не прошел!</value>
+  </data>
 	<data name="SID_Request_is_sent" xml:space="preserve">
-		<value>Запрос послан</value>
-	</data>
+    <value>Запрос послан</value>
+  </data>
 	<data name="SID_Connection_established_successfully_" xml:space="preserve">
-		<value>Соединение установлено успешно!</value>
-	</data>
+    <value>Соединение установлено успешно!</value>
+  </data>
 	<data name="SID_RTU_connected_successfully_" xml:space="preserve">
-		<value>Соединение с RTU установлено успешно!</value>
-	</data>
+    <value>Соединение с RTU установлено успешно!</value>
+  </data>
 	<data name="SID_Can_t_connect_RTU___0_" xml:space="preserve">
-		<value>Невозможно установить соединение с RTU, {0}</value>
-	</data>
+    <value>Невозможно установить соединение с RTU, {0}</value>
+  </data>
 	<data name="SID_Can_t_connect_RTU" xml:space="preserve">
-		<value>Невозможно установить соединение с RTU</value>
-	</data>
+    <value>Невозможно установить соединение с RTU</value>
+  </data>
 	<data name="SID_Title_should_be_set_" xml:space="preserve">
-		<value>Название должно быть задано!</value>
-	</data>
+    <value>Название должно быть задано!</value>
+  </data>
 	<data name="SID_Can_t_establish_connection_with_server_" xml:space="preserve">
-		<value>Нет соединения с сервером!</value>
-	</data>
+    <value>Нет соединения с сервером!</value>
+  </data>
 	<data name="SID_Can_t_establish_connection_with_RTU___0_Press_Test_before_Initialization_" xml:space="preserve">
-		<value>Нет соединения с RTU! {0}Нажмите Тест перед инициализацией.</value>
-	</data>
+    <value>Нет соединения с RTU! {0}Нажмите Тест перед инициализацией.</value>
+  </data>
 	<data name="SID_Can_t_establish_connection_with_RTU_" xml:space="preserve">
-		<value>Нет соединения с RTU!</value>
-	</data>
+    <value>Нет соединения с RTU!</value>
+  </data>
 	<data name="SID_Command_is_transmitted_to_RTU___0_Confirmation_is_waited_" xml:space="preserve">
-		<value>Команда подана на RTU. {0}Ожидаем результат.</value>
-	</data>
+    <value>Команда подана на RTU. {0}Ожидаем результат.</value>
+  </data>
 	<data name="SID_RTU_Manager_software_version" xml:space="preserve">
-		<value>Версия ПО RTU менеджера</value>
-	</data>
+    <value>Версия ПО RTU менеджера</value>
+  </data>
 	<data name="SID_Client_registraion_is_performing" xml:space="preserve">
-		<value>Выполняется регистрация клиента</value>
-	</data>
+    <value>Выполняется регистрация клиента</value>
+  </data>
 	<data name="SID_Wrong_user_name_or_password_" xml:space="preserve">
-		<value>Неверное имя пользователя или пароль!</value>
-	</data>
+    <value>Неверное имя пользователя или пароль!</value>
+  </data>
 	<data name="SID_Establishing_connection___" xml:space="preserve">
-		<value>Устанавливаем соединение...</value>
-	</data>
+    <value>Устанавливаем соединение...</value>
+  </data>
 	<data name="SID_RTU_connection_established_successfully_" xml:space="preserve">
-		<value>Соединение с RTU установлено</value>
-	</data>
+    <value>Соединение с RTU установлено</value>
+  </data>
 	<data name="SID_Cannot_establish_connection_with_RTU_" xml:space="preserve">
-		<value>Невозможно установить соединение с RTU!</value>
-	</data>
+    <value>Невозможно установить соединение с RTU!</value>
+  </data>
 	<data name="SID_RTU_initialized_successfully_" xml:space="preserve">
-		<value>RTU инициализирован успешно!</value>
-	</data>
+    <value>RTU инициализирован успешно!</value>
+  </data>
 	<data name="SID_RTU_initialization_failed_" xml:space="preserve">
-		<value>Инициализация RTU не удалась!</value>
-	</data>
+    <value>Инициализация RTU не удалась!</value>
+  </data>
 	<data name="SID_RTU_initialization_error_" xml:space="preserve">
-		<value>Ошибка инициализации RTU!</value>
-	</data>
+    <value>Ошибка инициализации RTU!</value>
+  </data>
 	<data name="SID_Cannot_find_dll_file_" xml:space="preserve">
-		<value>Не найден dll файл!</value>
-	</data>
+    <value>Не найден dll файл!</value>
+  </data>
 	<data name="SID_Cannot_initialize_dll_" xml:space="preserve">
-		<value>Не удалось проинициализировать измерительную dll!</value>
-	</data>
+    <value>Не удалось проинициализировать измерительную dll!</value>
+  </data>
 	<data name="SID_Cannot_establish_connection_with_DataCenter_" xml:space="preserve">
-		<value>Не удалось установить соединение с ДатаЦентром!</value>
-	</data>
+    <value>Не удалось установить соединение с ДатаЦентром!</value>
+  </data>
 	<data name="SID_RTU_is_turned_into_manual_mode" xml:space="preserve">
-		<value>RTU переведен в ручной режим</value>
-	</data>
+    <value>RTU переведен в ручной режим</value>
+  </data>
 	<data name="SID_Cannot_turn_RTU_into_manual_mode" xml:space="preserve">
-		<value>Не удалось перевести RTU в ручной режим</value>
-	</data>
+    <value>Не удалось перевести RTU в ручной режим</value>
+  </data>
 	<data name="SID_RTU_is_turned_into_automatic_mode" xml:space="preserve">
-		<value>RTU переведен в автоматический режим</value>
-	</data>
+    <value>RTU переведен в автоматический режим</value>
+  </data>
 	<data name="SID_Cannot_turn_RTU_into_automatic_mode" xml:space="preserve">
-		<value>Не удалось перевести RTU в автоматический режим</value>
-	</data>
+    <value>Не удалось перевести RTU в автоматический режим</value>
+  </data>
 	<data name="SID_Command_is_processing___" xml:space="preserve">
-		<value>Обработка команды...</value>
-	</data>
+    <value>Обработка команды...</value>
+  </data>
 	<data name="SID_Error_during_Client_Datacenter_connection" xml:space="preserve">
-		<value>Ошибка во время соединения Клиент-Датацентр</value>
-	</data>
+    <value>Ошибка во время соединения Клиент-Датацентр</value>
+  </data>
 	<data name="SID_Cannot_establish_connection_with_RTU" xml:space="preserve">
-		<value>Невозможно установить соединение с RTU</value>
-	</data>
+    <value>Невозможно установить соединение с RTU</value>
+  </data>
 	<data name="SID_Error_during_Datacenter_Rtu_connection" xml:space="preserve">
-		<value>Ошибка во время соединения Датацентр-RTU</value>
-	</data>
+    <value>Ошибка во время соединения Датацентр-RTU</value>
+  </data>
 	<data name="SID_Database_error_" xml:space="preserve">
-		<value>Ошибка базы данных!</value>
-	</data>
+    <value>Ошибка базы данных!</value>
+  </data>
 	<data name="SID_Base_ref_s__are_saved_successfully_" xml:space="preserve">
-		<value>Базовая/ые сохранены успешно</value>
-	</data>
+    <value>Базовая/ые сохранены успешно</value>
+  </data>
 	<data name="SID_Monitoring_settings_are_applied_successfully_" xml:space="preserve">
-		<value>Настройки мониторинга применены успешно.</value>
-	</data>
+    <value>Настройки мониторинга применены успешно.</value>
+  </data>
 	<data name="SID_User_with_the_same_name_is_registered_on_another_PC" xml:space="preserve">
-		<value>Пользователь с таким именем подключился за другим PC</value>
-	</data>
+    <value>Пользователь с таким именем подключился за другим PC</value>
+  </data>
 	<data name="SID_Unknown_return_code" xml:space="preserve">
-		<value>Неизвестный код ошибки</value>
-	</data>
+    <value>Неизвестный код ошибки</value>
+  </data>
 	<data name="SID_No_such_user_or_wrong_password_" xml:space="preserve">
-		<value>Нет такого пользователя или неверный пароль</value>
-	</data>
+    <value>Нет такого пользователя или неверный пароль</value>
+  </data>
 	<data name="SID_Network_events" xml:space="preserve">
-		<value>Сетевые события RTU</value>
-	</data>
+    <value>Сетевые события RTU</value>
+  </data>
 	<data name="SID_Optical_events" xml:space="preserve">
-		<value>Оптические события</value>
-	</data>
+    <value>Оптические события</value>
+  </data>
 	<data name="SID_Event_timestamp" xml:space="preserve">
-		<value>Время регистрации события</value>
-	</data>
+    <value>Время регистрации события</value>
+  </data>
 	<data name="SID_Event_status" xml:space="preserve">
-		<value>Статус события</value>
-	</data>
+    <value>Статус события</value>
+  </data>
 	<data name="SID_Status_assignment_time" xml:space="preserve">
-		<value>Время изменения статуса</value>
-	</data>
+    <value>Время изменения статуса</value>
+  </data>
 	<data name="SID_Status_changed_by" xml:space="preserve">
-		<value>Статус изменен пользователем</value>
-	</data>
+    <value>Статус изменен пользователем</value>
+  </data>
 	<data name="SID_Number" xml:space="preserve">
-		<value>№</value>
-	</data>
+    <value>№</value>
+  </data>
 	<data name="SID_Not_in_trace" xml:space="preserve">
-		<value>Не в трассе</value>
-	</data>
+    <value>Не в трассе</value>
+  </data>
 	<data name="SID_Not_joined" xml:space="preserve">
-		<value>Не присоединен</value>
-	</data>
+    <value>Не присоединен</value>
+  </data>
 	<data name="SID_Distace_measurement" xml:space="preserve">
-		<value>Измерение расстояния</value>
-	</data>
+    <value>Измерение расстояния</value>
+  </data>
 	<data name="SID_Not_checked" xml:space="preserve">
-		<value>Не отмечен</value>
-	</data>
+    <value>Не отмечен</value>
+  </data>
 	<data name="SID_Suspicion" xml:space="preserve">
-		<value>Подозрение</value>
-	</data>
+    <value>Подозрение</value>
+  </data>
 	<data name="SID_User_s_threshold" xml:space="preserve">
-		<value>Пользовательский порог</value>
-	</data>
+    <value>Пользовательский порог</value>
+  </data>
 	<data name="SID_No_fiber" xml:space="preserve">
-		<value>Нет волокна</value>
-	</data>
+    <value>Нет волокна</value>
+  </data>
 	<data name="SID_Highlighted" xml:space="preserve">
-		<value>Подсвечен</value>
-	</data>
+    <value>Подсвечен</value>
+  </data>
 	<data name="SID_Planned" xml:space="preserve">
-		<value>Плановое</value>
-	</data>
+    <value>Плановое</value>
+  </data>
 	<data name="SID_Not_confirmed" xml:space="preserve">
-		<value>Не подтверждено</value>
-	</data>
+    <value>Не подтверждено</value>
+  </data>
 	<data name="SID_Unprocessed" xml:space="preserve">
-		<value>Не обработано</value>
-	</data>
+    <value>Не обработано</value>
+  </data>
 	<data name="SID_Suspended" xml:space="preserve">
-		<value>Отложено</value>
-	</data>
+    <value>Отложено</value>
+  </data>
 	<data name="SID_Confirmed" xml:space="preserve">
-		<value>Подтверждено</value>
-	</data>
+    <value>Подтверждено</value>
+  </data>
 	<data name="SID_Second" xml:space="preserve">
-		<value>Второй</value>
-	</data>
+    <value>Второй</value>
+  </data>
 	<data name="SID_Base_ref_type" xml:space="preserve">
-		<value>Тип базовой</value>
-	</data>
+    <value>Тип базовой</value>
+  </data>
 	<data name="SID_Assigned_at" xml:space="preserve">
-		<value>Задано</value>
-	</data>
+    <value>Задано</value>
+  </data>
 	<data name="SID_Assigned_by" xml:space="preserve">
-		<value>Пользователь</value>
-	</data>
+    <value>Пользователь</value>
+  </data>
 	<data name="SID_Recieved_at" xml:space="preserve">
-		<value>Получено</value>
-	</data>
+    <value>Получено</value>
+  </data>
 	<data name="SID_Trace__0__statistics" xml:space="preserve">
-		<value>Статистика трассы {0}</value>
-	</data>
+    <value>Статистика трассы {0}</value>
+  </data>
 	<data name="SID_Reflectogram_Id" xml:space="preserve">
-		<value>ID рефлектограммы</value>
-	</data>
+    <value>ID рефлектограммы</value>
+  </data>
 	<data name="SID_Event_Id" xml:space="preserve">
-		<value>ID события</value>
-	</data>
+    <value>ID события</value>
+  </data>
 	<data name="SID_Accidents_place" xml:space="preserve">
-		<value>Место аварии</value>
-	</data>
+    <value>Место аварии</value>
+  </data>
 	<data name="SID_Rfts_Events" xml:space="preserve">
-		<value>RFTS События</value>
-	</data>
+    <value>RFTS События</value>
+  </data>
 	<data name="SID_Export_to_kml" xml:space="preserve">
-		<value>Выгрузить в kml</value>
-	</data>
+    <value>Выгрузить в kml</value>
+  </data>
 	<data name="SID_Report" xml:space="preserve">
-		<value>Отчет</value>
-	</data>
+    <value>Отчет</value>
+  </data>
 	<data name="SID_Info" xml:space="preserve">
-		<value>Инфо</value>
-	</data>
+    <value>Инфо</value>
+  </data>
 	<data name="SID_Accidents" xml:space="preserve">
-		<value>Аварии</value>
-	</data>
+    <value>Аварии</value>
+  </data>
 	<data name="SID_Distance" xml:space="preserve">
-		<value>Расстояние</value>
-	</data>
+    <value>Расстояние</value>
+  </data>
 	<data name="SID_Left_node" xml:space="preserve">
-		<value>Узел слева</value>
-	</data>
+    <value>Узел слева</value>
+  </data>
 	<data name="SID_Dist_to_left" xml:space="preserve">
-		<value>Расст. до левого</value>
-	</data>
+    <value>Расст. до левого</value>
+  </data>
 	<data name="SID_Right_node" xml:space="preserve">
-		<value>Узел справа</value>
-	</data>
+    <value>Узел справа</value>
+  </data>
 	<data name="SID_Dist_to_right" xml:space="preserve">
-		<value>Расст. до правого</value>
-	</data>
+    <value>Расст. до правого</value>
+  </data>
 	<data name="SID_Optical_event" xml:space="preserve">
-		<value>Оптические событие</value>
-	</data>
+    <value>Оптические событие</value>
+  </data>
 	<data name="SID_Status" xml:space="preserve">
-		<value>Статус</value>
-	</data>
+    <value>Статус</value>
+  </data>
 	<data name="SID_Show_reflectogram" xml:space="preserve">
-		<value>Показать рефлектограмму</value>
-	</data>
+    <value>Показать рефлектограмму</value>
+  </data>
 	<data name="SID_Show_ref_and_base" xml:space="preserve">
-		<value>Показать рефлектограмму + базовую</value>
-	</data>
+    <value>Показать рефлектограмму + базовую</value>
+  </data>
 	<data name="SID_Save_reflectogram_as" xml:space="preserve">
-		<value>Сохранить рефлектограмму как</value>
-	</data>
+    <value>Сохранить рефлектограмму как</value>
+  </data>
 	<data name="SID_Save_ref_and_base_as" xml:space="preserve">
-		<value>Сохранить рефлектограмму + базовую как</value>
-	</data>
+    <value>Сохранить рефлектограмму + базовую как</value>
+  </data>
 	<data name="SID_Trace_state_Event_status" xml:space="preserve">
-		<value>Состояние трассы / Статус события</value>
-	</data>
+    <value>Состояние трассы / Статус события</value>
+  </data>
 	<data name="SID_Cannot_send_base_refs_to_RTU" xml:space="preserve">
-		<value>Невозможно переслать базовые рефлектограммы на RTU</value>
-	</data>
+    <value>Невозможно переслать базовые рефлектограммы на RTU</value>
+  </data>
 	<data name="SID_Bop" xml:space="preserve">
-		<value>БОП</value>
-	</data>
+    <value>БОП</value>
+  </data>
 	<data name="SID_Traces_state" xml:space="preserve">
-		<value>Состояние трасс</value>
-	</data>
+    <value>Состояние трасс</value>
+  </data>
 	<data name="SID_Bop_count" xml:space="preserve">
-		<value>Количество БОП</value>
-	</data>
+    <value>Количество БОП</value>
+  </data>
 	<data name="SID_Trace_count" xml:space="preserve">
-		<value>Количество трасс</value>
-	</data>
+    <value>Количество трасс</value>
+  </data>
 	<data name="SID_Timestamp" xml:space="preserve">
-		<value>Измерено</value>
-	</data>
+    <value>Измерено</value>
+  </data>
 	<data name="SID_Unknown" xml:space="preserve">
-		<value>Неизвестно</value>
-	</data>
+    <value>Неизвестно</value>
+  </data>
 	<data name="SID_None" xml:space="preserve">
-		<value>Нет</value>
-	</data>
+    <value>Нет</value>
+  </data>
 	<data name="SID_Available" xml:space="preserve">
-		<value>Доступен</value>
-	</data>
+    <value>Доступен</value>
+  </data>
 	<data name="SID_Not_available" xml:space="preserve">
-		<value>Не доступен</value>
-	</data>
+    <value>Не доступен</value>
+  </data>
 	<data name="SID_Broken" xml:space="preserve">
-		<value>Авария</value>
-	</data>
+    <value>Авария</value>
+  </data>
 	<data name="SID_State_of_RTU" xml:space="preserve">
-		<value>Состояние RTU</value>
-	</data>
+    <value>Состояние RTU</value>
+  </data>
 	<data name="SID_Measurement_interrupted" xml:space="preserve">
-		<value>Измерение прервано</value>
-	</data>
+    <value>Измерение прервано</value>
+  </data>
 	<data name="SID_Measurement_s_result_analysis__port__0____trace___1__" xml:space="preserve">
-		<value>Анализ результатов измерения (порт {0}), трасса "{1}"</value>
-	</data>
+    <value>Анализ результатов измерения (порт {0}), трасса "{1}"</value>
+  </data>
 	<data name="SID_Measurement_on_port__0___trace___1__" xml:space="preserve">
-		<value>Измерение порт {0}, трасса "{1}"</value>
-	</data>
+    <value>Измерение порт {0}, трасса "{1}"</value>
+  </data>
 	<data name="SID_Toggling_to_the_port__0_" xml:space="preserve">
-		<value>Переключение в порт {0}</value>
-	</data>
+    <value>Переключение в порт {0}</value>
+  </data>
 	<data name="SID_Measurement_termination_timestamp" xml:space="preserve">
-		<value>Время окончания измерения</value>
-	</data>
+    <value>Время окончания измерения</value>
+  </data>
 	<data name="SID_State_on__0_" xml:space="preserve">
-		<value>Состояние на {0}</value>
-	</data>
+    <value>Состояние на {0}</value>
+  </data>
 	<data name="SID__not_attached_" xml:space="preserve">
-		<value>&lt;не подключена&gt;</value>
-	</data>
+    <value>&lt;не подключена&gt;</value>
+  </data>
 	<data name="SID_No_measurement" xml:space="preserve">
-		<value>Нет измерения</value>
-	</data>
+    <value>Нет измерения</value>
+  </data>
 	<data name="SID___Client_s_address__0_" xml:space="preserve">
-		<value>Адрес клиента {0}</value>
-	</data>
+    <value>Адрес клиента {0}</value>
+  </data>
 	<data name="SID_Status_of_optical_event" xml:space="preserve">
-		<value>Статус оптического события</value>
-	</data>
+    <value>Статус оптического события</value>
+  </data>
 	<data name="SID_Current_accidents" xml:space="preserve">
-		<value>Текущие аварии</value>
-	</data>
+    <value>Текущие аварии</value>
+  </data>
 	<data name="SID_All_optical_events" xml:space="preserve">
-		<value>Все оптические события</value>
-	</data>
+    <value>Все оптические события</value>
+  </data>
 	<data name="SID_All_network_events" xml:space="preserve">
-		<value>Все сетевые события</value>
-	</data>
+    <value>Все сетевые события</value>
+  </data>
 	<data name="SID_Network_events_Bop" xml:space="preserve">
-		<value>Сетевые события БОП</value>
-	</data>
+    <value>Сетевые события БОП</value>
+  </data>
 	<data name="SID_No_traces_selected_for_monitoring_" xml:space="preserve">
-		<value>Нет трасс выбранных для мониторинга!</value>
-	</data>
+    <value>Нет трасс выбранных для мониторинга!</value>
+  </data>
 	<data name="SID_Select_RTU" xml:space="preserve">
-		<value>Выберите RTU</value>
-	</data>
+    <value>Выберите RTU</value>
+  </data>
 	<data name="SID_RTU_is_being_initialized___" xml:space="preserve">
-		<value>Идет инициализация RTU...</value>
-	</data>
+    <value>Идет инициализация RTU...</value>
+  </data>
 	<data name="SID_Trace_definition" xml:space="preserve">
-		<value>Определение трассы</value>
-	</data>
+    <value>Определение трассы</value>
+  </data>
 	<data name="SID_File_read_error__0__1_" xml:space="preserve">
-		<value>Ошибка чттения файла!{0}{1}</value>
-	</data>
+    <value>Ошибка чттения файла!{0}{1}</value>
+  </data>
 	<data name="SID_Invalid_parameter___Wave_length__0_" xml:space="preserve">
-		<value>Неверный параметр : Длина волны {0}</value>
-	</data>
+    <value>Неверный параметр : Длина волны {0}</value>
+  </data>
 	<data name="SID_PreciseF" xml:space="preserve">
-		<value>Точная</value>
-	</data>
+    <value>Точная</value>
+  </data>
 	<data name="SID_FastF" xml:space="preserve">
-		<value>Быстрая</value>
-	</data>
+    <value>Быстрая</value>
+  </data>
 	<data name="SID_SecondF" xml:space="preserve">
-		<value>Вторая</value>
-	</data>
+    <value>Вторая</value>
+  </data>
 	<data name="SID_There_are_no_selected_row_" xml:space="preserve">
-		<value>Нет выбранной строки</value>
-	</data>
+    <value>Нет выбранной строки</value>
+  </data>
 	<data name="SID_Trace_length_on_map_is__0__km" xml:space="preserve">
-		<value>Длина трассы на карте {0} км</value>
-	</data>
+    <value>Длина трассы на карте {0} км</value>
+  </data>
 	<data name="SID_Optical_length_is__0__km" xml:space="preserve">
-		<value>Оптическая длина {0} км</value>
-	</data>
+    <value>Оптическая длина {0} км</value>
+  </data>
 	<data name="SID_Confirmation" xml:space="preserve">
-		<value>Подтверждение</value>
-	</data>
+    <value>Подтверждение</value>
+  </data>
 	<data name="SID_Long_operation__Removing_trace_s_measurements____Please_wait_" xml:space="preserve">
-		<value>Длительная операция: Удаление измерений по трассе... Пожалуйста, подождите.</value>
-	</data>
+    <value>Длительная операция: Удаление измерений по трассе... Пожалуйста, подождите.</value>
+  </data>
 	<data name="SID_Attention_" xml:space="preserve">
-		<value>Внимание!</value>
-	</data>
+    <value>Внимание!</value>
+  </data>
 	<data name="SID_All_measurements_for_trace" xml:space="preserve">
-		<value>Все измерения по трассе</value>
-	</data>
+    <value>Все измерения по трассе</value>
+  </data>
 	<data name="SID_will_be_removed" xml:space="preserve">
-		<value>будут удалены!</value>
-	</data>
+    <value>будут удалены!</value>
+  </data>
 	<data name="SID_Are_you_sure_" xml:space="preserve">
-		<value>Вы уверены?</value>
-	</data>
+    <value>Вы уверены?</value>
+  </data>
 	<data name="SID_Assign_base_reflectogram_" xml:space="preserve">
-		<value>Назначить базовую?</value>
-	</data>
+    <value>Назначить базовую?</value>
+  </data>
 	<data name="SID__base_" xml:space="preserve">
-		<value> базовая:</value>
-	</data>
+    <value> базовая:</value>
+  </data>
 	<data name="SID_Message" xml:space="preserve">
-		<value>Сообщение</value>
-	</data>
+    <value>Сообщение</value>
+  </data>
 	<data name="SID_Measurement_parameters_are_not_compatible_with_this_RTU" xml:space="preserve">
-		<value>Параметры измерения несовместимы с данным RTU</value>
-	</data>
+    <value>Параметры измерения несовместимы с данным RTU</value>
+  </data>
 	<data name="SID__0__base_is_not_compatible_with_trace" xml:space="preserve">
-		<value>{0} базовая не совместима с трасой</value>
-	</data>
+    <value>{0} базовая не совместима с трасой</value>
+  </data>
 	<data name="SID_Landmarks_count_in_reflectogram_is__0_" xml:space="preserve">
-		<value>Количество ориентиров на рефлектограмме {0}</value>
-	</data>
+    <value>Количество ориентиров на рефлектограмме: {0}</value>
+  </data>
 	<data name="SID__while" xml:space="preserve">
-		<value>тогда как</value>
-	</data>
+    <value>тогда как</value>
+  </data>
 	<data name="SID_Trace_s_node_count_is__0_" xml:space="preserve">
-		<value>Узлов в трассе {0}</value>
-	</data>
+    <value>Узлов в трассе: {0}</value>
+  </data>
 	<data name="SID_Trace_s_equipment_count_is__0_" xml:space="preserve">
-		<value>Оборудования на трассе {0}</value>
-	</data>
+    <value>Оборудования на трассе: {0}</value>
+  </data>
 	<data name="SID_Without_equipment" xml:space="preserve">
-		<value>Без оборудования</value>
-	</data>
+    <value>Без оборудования</value>
+  </data>
 	<data name="SID_Equipment__including_RTU" xml:space="preserve">
-		<value>Оборудование, включая RTU</value>
-	</data>
+    <value>Оборудование, включая RTU</value>
+  </data>
 	<data name="SID_Node_without_equipment" xml:space="preserve">
-		<value>Узел без оборудования</value>
-	</data>
+    <value>Узел без оборудования</value>
+  </data>
 	<data name="SID_OTDR_initialization_error_" xml:space="preserve">
-		<value>Ошибка инициализации OTDR!</value>
-	</data>
+    <value>Ошибка инициализации OTDR!</value>
+  </data>
 	<data name="SID_Next" xml:space="preserve">
-		<value>Далее</value>
-	</data>
+    <value>Далее</value>
+  </data>
 	<data name="SID_Measurement_time_" xml:space="preserve">
-		<value>Время измерения:</value>
-	</data>
+    <value>Время измерения:</value>
+  </data>
 	<data name="SID_Measure" xml:space="preserve">
-		<value>Измерить</value>
-	</data>
+    <value>Измерить</value>
+  </data>
 	<data name="SID_Precise_monitoring_out_of_turn" xml:space="preserve">
-		<value>Точный мониторинг вне очереди</value>
-	</data>
+    <value>Точный мониторинг вне очереди</value>
+  </data>
 	<data name="SID_Precise_monitoring_in_progress_" xml:space="preserve">
-		<value>Проводим точный мониторинг</value>
-	</data>
+    <value>Проводим точный мониторинг</value>
+  </data>
 	<data name="SID_Trace____0___" xml:space="preserve">
-		<value>Трасса &lt;&lt;{0}&gt;&gt;</value>
-	</data>
+    <value>Трасса &lt;&lt;{0}&gt;&gt;</value>
+  </data>
 	<data name="SID_Measurement_time_accordingly_to_base_ref_is__0_" xml:space="preserve">
-		<value>Время измерения в соответствии с базовой {0}</value>
-	</data>
+    <value>Время измерения в соответствии с базовой {0}</value>
+  </data>
 	<data name="SID_Sending_command__Wait_please___" xml:space="preserve">
-		<value>Отправляем команду. Пожалуйста, подождите...</value>
-	</data>
+    <value>Отправляем команду. Пожалуйста, подождите...</value>
+  </data>
 	<data name="SID_Interrupting_out_of_turn_monitoring__Wait_please___" xml:space="preserve">
-		<value>Останавливаем внеочередное измерение. Пожалуйста, подождите...</value>
-	</data>
+    <value>Останавливаем внеочередное измерение. Пожалуйста, подождите...</value>
+  </data>
 	<data name="SID_Interrupting_Measurement__Client___Wait_please___" xml:space="preserve">
-		<value>Останавливаем измерение (Client). Пожалуйста. подождите...</value>
-	</data>
+    <value>Останавливаем измерение (Client). Пожалуйста. подождите...</value>
+  </data>
 	<data name="SID_Measurement__Client__in_progress__Please_wait___" xml:space="preserve">
-		<value>Проводим измерение (Client). Пожалуйста подождите...</value>
-	</data>
+    <value>Проводим измерение (Client). Пожалуйста подождите...</value>
+  </data>
 	<data name="SID_m" xml:space="preserve">
-		<value>м</value>
-	</data>
+    <value>м</value>
+  </data>
 	<data name="SID_Do_not_set_landmark_on_reflectogram" xml:space="preserve">
-		<value>* Не ставить ориентир на рефлектограмме</value>
-	</data>
+    <value>* Не ставить ориентир на рефлектограмме</value>
+  </data>
 	<data name="SID_With_cable_reserve_to_the_left_m" xml:space="preserve">
-		<value>С запасом кабеля слева, м</value>
-	</data>
+    <value>С запасом кабеля слева, м</value>
+  </data>
 	<data name="SID_To_the_right_m" xml:space="preserve">
-		<value>справа, м</value>
-	</data>
+    <value>справа, м</value>
+  </data>
 	<data name="SID_There_are_no_thresholds_for_comparison" xml:space="preserve">
-		<value>Пороги для сравнения не заданы</value>
-	</data>
+    <value>Пороги для сравнения не заданы</value>
+  </data>
 	<data name="SID_Unplug_trace" xml:space="preserve">
-		<value>Отключить  трассу</value>
-	</data>
+    <value>Отключить  трассу</value>
+  </data>
 	<data name="SID_Add_cable_reserve" xml:space="preserve">
-		<value>Добавить запас кабеля</value>
-	</data>
+    <value>Добавить запас кабеля</value>
+  </data>
 	<data name="SID_In_node_are_placed_" xml:space="preserve">
-		<value>В узле размещены:</value>
-	</data>
+    <value>В узле размещены:</value>
+  </data>
 	<data name="SID_Cable_reserve_could_not_be_more_than__0__m" xml:space="preserve">
-		<value>Запас кабеля не может быть более {0} м</value>
-	</data>
+    <value>Запас кабеля не может быть более {0} м</value>
+  </data>
 	<data name="SID_Trace_components_selection" xml:space="preserve">
-		<value>Выбор компонентов трассы</value>
-	</data>
+    <value>Выбор компонентов трассы</value>
+  </data>
 	<data name="SID_Trace_title_contains_forbidden_symbols" xml:space="preserve">
-		<value>Название трассы содержит недопустимые символы</value>
-	</data>
+    <value>Название трассы содержит недопустимые символы</value>
+  </data>
 	<data name="SID_Remove_adjustment_point" xml:space="preserve">
-		<value>Удалить точку привязки</value>
-	</data>
+    <value>Удалить точку привязки</value>
+  </data>
 	<data name="SID_Only_RTU" xml:space="preserve">
-		<value>Только RTU</value>
-	</data>
+    <value>Только RTU</value>
+  </data>
 	<data name="SID_RTU_and_traces" xml:space="preserve">
-		<value>RTU и трассы</value>
-	</data>
+    <value>RTU и трассы</value>
+  </data>
 	<data name="SID_New_responsibility_zone_creation" xml:space="preserve">
-		<value>Создание зоны ответственности</value>
-	</data>
+    <value>Создание зоны ответственности</value>
+  </data>
 	<data name="SID_Update_responsibility_zone" xml:space="preserve">
-		<value>Изменение зоны ответственности</value>
-	</data>
+    <value>Изменение зоны ответственности</value>
+  </data>
 	<data name="SID_New_user_creation" xml:space="preserve">
-		<value>Создание нового пользователя</value>
-	</data>
+    <value>Создание нового пользователя</value>
+  </data>
 	<data name="SID_Update_user_info" xml:space="preserve">
-		<value>Изменение данных пользователя</value>
-	</data>
+    <value>Изменение данных пользователя</value>
+  </data>
 	<data name="SID_Change_password" xml:space="preserve">
-		<value>Изменить пароль</value>
-	</data>
+    <value>Изменить пароль</value>
+  </data>
 	<data name="SID_Input_current_password" xml:space="preserve">
-		<value>Введите текущий пароль</value>
-	</data>
+    <value>Введите текущий пароль</value>
+  </data>
 	<data name="SID_New_password" xml:space="preserve">
-		<value>Новый пароль</value>
-	</data>
+    <value>Новый пароль</value>
+  </data>
 	<data name="SID_Wrong_password" xml:space="preserve">
-		<value>Неверный пароль</value>
-	</data>
+    <value>Неверный пароль</value>
+  </data>
 	<data name="SID_Next_step" xml:space="preserve">
-		<value>Следующий шаг</value>
-	</data>
+    <value>Следующий шаг</value>
+  </data>
 	<data name="SID_Step_by_step_trace_defining" xml:space="preserve">
-		<value>Пошаговое определение трассы</value>
-	</data>
+    <value>Пошаговое определение трассы</value>
+  </data>
 	<data name="SID____previous_" xml:space="preserve">
-		<value>  (предыдущий)</value>
-	</data>
+    <value>  (предыдущий)</value>
+  </data>
 	<data name="SID_Accept" xml:space="preserve">
-		<value>Принять</value>
-	</data>
+    <value>Принять</value>
+  </data>
 	<data name="SID_Cancel_step" xml:space="preserve">
-		<value>Отменить шаг</value>
-	</data>
+    <value>Отменить шаг</value>
+  </data>
 	<data name="SID_Step_forward" xml:space="preserve">
-		<value>Шаг вперед</value>
-	</data>
+    <value>Шаг вперед</value>
+  </data>
 	<data name="SID_Step_backward" xml:space="preserve">
-		<value>Шаг назад</value>
-	</data>
+    <value>Шаг назад</value>
+  </data>
 	<data name="SID_Semiautomatic_mode" xml:space="preserve">
-		<value>Полуавтоматический режим</value>
-	</data>
+    <value>Полуавтоматический режим</value>
+  </data>
 	<data name="SID_Distance_measurement_mode" xml:space="preserve">
-		<value>Режим измерения расстояния</value>
-	</data>
+    <value>Режим измерения расстояния</value>
+  </data>
 	<data name="SID_L_m" xml:space="preserve">
-		<value>Л, м</value>
-	</data>
+    <value>Л, м</value>
+  </data>
 	<data name="SID_R_m" xml:space="preserve">
-		<value>П, м</value>
-	</data>
+    <value>П, м</value>
+  </data>
 	<data name="SID_Turn_alarm_off" xml:space="preserve">
-		<value>Выключить сигнализацию</value>
-	</data>
+    <value>Выключить сигнализацию</value>
+  </data>
 	<data name="SID_km" xml:space="preserve">
-		<value>км</value>
-	</data>
+    <value>км</value>
+  </data>
 	<data name="SID_between_nodes" xml:space="preserve">
-		<value>между узлами</value>
-	</data>
+    <value>между узлами</value>
+  </data>
 	<data name="SID_and" xml:space="preserve">
-		<value>и</value>
-	</data>
+    <value>и</value>
+  </data>
 	<data name="SID_in_the_node" xml:space="preserve">
-		<value>в узле</value>
-	</data>
+    <value>в узле</value>
+  </data>
 	<data name="SID_Accidents_count___0_" xml:space="preserve">
-		<value>Количество неисправностей: {0}</value>
+    <value>Количество неисправностей: {0}</value>
+  </data>
+	<data name="SID_Trace_s_equipment_count__excluding_Cable_reserve__is__0_" xml:space="preserve">
+    <value>Количество оборудования на трассе (без учета "Запас кабеля"): {0}</value>
+  </data>
+	<data name="SID_Refractive_index" xml:space="preserve">
+		<value>Показатель преломления - RI:</value>
+	</data>
+	<data name="SID_Distance_range" xml:space="preserve">
+		<value>Диапазон расстояний - Lmax:</value>
 	</data>
 </root>

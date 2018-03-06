@@ -41,10 +41,15 @@ namespace Iit.Fibertest.Client
 
         private string BuildErrorStrings(int landmarksCount, int nodesCount, int equipmentsCount)
         {
-            return  string.Format(Resources.SID_Landmarks_count_in_reflectogram_is__0_, landmarksCount) + Environment.NewLine +
-                Environment.NewLine +
-                string.Format(Resources.SID_Trace_s_node_count_is__0_, nodesCount) + Environment.NewLine +
-                string.Format(Resources.SID_Trace_s_equipment_count_is__0_, equipmentsCount);
+//            return  string.Format(Resources.SID_Landmarks_count_in_reflectogram_is__0_, landmarksCount) + Environment.NewLine +
+//                Environment.NewLine +
+//                string.Format(Resources.SID_Trace_s_node_count_is__0_, nodesCount) + Environment.NewLine +
+//                string.Format(Resources.SID_Trace_s_equipment_count_is__0_, equipmentsCount);
+
+            return string.Format(Resources.SID_Landmarks_count_in_reflectogram_is__0_, landmarksCount) + Environment.NewLine +
+                   string.Format(Resources.SID_Trace_s_equipment_count__excluding_Cable_reserve__is__0_, equipmentsCount) + Environment.NewLine +
+                   Environment.NewLine +
+                   string.Format(Resources.SID_Trace_s_node_count_is__0_, nodesCount);
         }
 
         private void ShowError(string errorStrings, Trace trace, string baseName)

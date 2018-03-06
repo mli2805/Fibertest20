@@ -1359,11 +1359,11 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Distance range - Lmax:.
+        ///   Looks up a localized string similar to Distance range.
         /// </summary>
         public static string SID_Distance_range {
             get {
-                return ResourceManager.GetString("SID_Distance range", resourceCulture);
+                return ResourceManager.GetString("SID_Distance_range", resourceCulture);
             }
         }
         
@@ -2097,7 +2097,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Landmarks count in reflectogram is {0}.
+        ///   Looks up a localized string similar to Landmarks count in reflectogram is: {0}.
         /// </summary>
         public static string SID_Landmarks_count_in_reflectogram_is__0_ {
             get {
@@ -2106,7 +2106,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Landmarks of trace {0}.
+        ///   Looks up a localized string similar to Landmarks of trace {0}:.
         /// </summary>
         public static string SID_Landmarks_of_trace__0_ {
             get {
@@ -3313,11 +3313,11 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Refractive index:.
+        ///   Looks up a localized string similar to Refractive index.
         /// </summary>
         public static string SID_Refractive_index {
             get {
-                return ResourceManager.GetString("SID_Refractive index", resourceCulture);
+                return ResourceManager.GetString("SID_Refractive_index", resourceCulture);
             }
         }
         
@@ -3480,15 +3480,6 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_RTU_connected_successfully_ {
             get {
                 return ResourceManager.GetString("SID_RTU_connected_successfully_", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to RTU {0} connection checked: Alive = {1}.
-        /// </summary>
-        public static string SID_Rtu_connection_checked_Alive {
-            get {
-                return ResourceManager.GetString("SID_Rtu_connection checked_Alive", resourceCulture);
             }
         }
         
@@ -4331,7 +4322,16 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Trace&apos;s equipment count is {0}.
+        ///   Looks up a localized string similar to Trace&apos;s equipment count (excluding Cable reserve) is: {0}.
+        /// </summary>
+        public static string SID_Trace_s_equipment_count__excluding_Cable_reserve__is__0_ {
+            get {
+                return ResourceManager.GetString("SID_Trace_s_equipment_count__excluding_Cable_reserve__is__0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trace&apos;s equipment count is: {0}.
         /// </summary>
         public static string SID_Trace_s_equipment_count_is__0_ {
             get {
@@ -4340,7 +4340,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Trace&apos;s node count is {0}.
+        ///   Looks up a localized string similar to Trace&apos;s node count is: {0}.
         /// </summary>
         public static string SID_Trace_s_node_count_is__0_ {
             get {

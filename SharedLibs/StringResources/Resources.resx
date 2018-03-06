@@ -704,12 +704,6 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_Backscattered_Coefficient" xml:space="preserve">
     <value>Backscattered Coefficient:</value>
   </data>
-	<data name="SID_Refractive index" xml:space="preserve">
-    <value>Refractive index:</value>
-  </data>
-	<data name="SID_Distance range" xml:space="preserve">
-    <value>Distance range - Lmax:</value>
-  </data>
 	<data name="SID_Resolution" xml:space="preserve">
     <value>Resolution - dL:</value>
   </data>
@@ -765,7 +759,7 @@ If chosen trace use some equipment in this node it will be replaced</value>
     <value>Parameters</value>
   </data>
 	<data name="SID_Landmarks_of_trace__0_" xml:space="preserve">
-    <value>Landmarks of trace {0}</value>
+    <value>Landmarks of trace {0}:</value>
   </data>
 	<data name="SID_Equipment" xml:space="preserve">
     <value>Equipment</value>
@@ -1047,9 +1041,6 @@ on port {0}: charon {1} ip {2} has {3} ports</value>
   </data>
 	<data name="SID_Cannot_find_Reflect_exe" xml:space="preserve">
     <value>Cannot find Reflect.exe</value>
-  </data>
-	<data name="SID_Rtu_connection checked_Alive" xml:space="preserve">
-    <value>RTU {0} connection checked: Alive = {1}</value>
   </data>
 	<data name="SID_WcfServiceForClient_creation_error_" xml:space="preserve">
     <value>WcfServiceForClient creation error!</value>
@@ -1497,16 +1488,16 @@ RTU is initializing right now!</value>
     <value>{0} base is not compatible with trace</value>
   </data>
 	<data name="SID_Landmarks_count_in_reflectogram_is__0_" xml:space="preserve">
-    <value>Landmarks count in reflectogram is {0}</value>
+    <value>Landmarks count in reflectogram is: {0}</value>
   </data>
 	<data name="SID__while" xml:space="preserve">
     <value>while</value>
   </data>
 	<data name="SID_Trace_s_node_count_is__0_" xml:space="preserve">
-    <value>Trace's node count is {0}</value>
+    <value>Trace's node count is: {0}</value>
   </data>
 	<data name="SID_Trace_s_equipment_count_is__0_" xml:space="preserve">
-    <value>Trace's equipment count is {0}</value>
+    <value>Trace's equipment count is: {0}</value>
   </data>
 	<data name="SID_Without_equipment" xml:space="preserve">
     <value>Without equipment</value>
@@ -1669,5 +1660,14 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID_Accidents_count___0_" xml:space="preserve">
     <value>Accidents count: {0}</value>
+  </data>
+	<data name="SID_Trace_s_equipment_count__excluding_Cable_reserve__is__0_" xml:space="preserve">
+    <value>Trace's equipment count (excluding Cable reserve) is: {0}</value>
+  </data>
+	<data name="SID_Refractive_index" xml:space="preserve">
+    <value>Refractive index</value>
+  </data>
+	<data name="SID_Distance_range" xml:space="preserve">
+    <value>Distance range</value>
   </data>
 </root>
