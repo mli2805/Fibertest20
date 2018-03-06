@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iit.Fibertest.DatabaseLibrary
 {
@@ -22,6 +23,13 @@ namespace Iit.Fibertest.DatabaseLibrary
             {
                 using (var dbContext = new FtDbContext(_settings.Options))
                 {
+                    var rtuStation = await dbContext.RtuStations.FirstOrDefaultAsync(r => r.RtuGuid == measurement.RtuId);
+                    if (rtuStation == null)
+                    {
+                        _logFile.AppendLine($"Unknown RTU ({measurement.RtuId.First6()}) sent monitoring result. Ignored.");
+                        return null;
+                    }
+
                     var sorFile = new SorFile() { SorBytes = sorBytes };
                     dbContext.SorFiles.Add(sorFile);
                     await dbContext.SaveChangesAsync();

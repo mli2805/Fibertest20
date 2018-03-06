@@ -65,31 +65,38 @@ namespace Iit.Fibertest.Client
         public static List<Guid> CollectEquipment(this GraphReadModel model, List<Guid> nodes)
         {
             var equipments = new List<Guid> { model.ReadModel.Rtus.First(r => r.NodeId == nodes[0]).Id };
-            var traceContentChoiceViewModel = model.GlobalScope.Resolve<TraceContentChoiceViewModel>();
             foreach (var nodeId in nodes.Skip(1))
             {
-                var nodeVm = model.Nodes.First(n => n.Id == nodeId);
-                if (nodeVm.Type != EquipmentType.AdjustmentPoint)
-                    nodeVm.IsHighlighted = true;
-                var allEquipmentInNode = model.ReadModel.Equipments.Where(e => e.NodeId == nodeId).ToList();
-                if (allEquipmentInNode.Count == 1 && allEquipmentInNode[0].Type == EquipmentType.AdjustmentPoint)
-                {
-                    equipments.Add(allEquipmentInNode[0].Id);
-                    continue;
-                }
-                var node = model.ReadModel.Nodes.First(n => n.Id == nodeId);
-
-                traceContentChoiceViewModel.Initialize(allEquipmentInNode, node, nodeId == nodes.Last());
-                model.WindowManager.ShowDialogWithAssignedOwner(traceContentChoiceViewModel);
-                model.ExtinguishNode();
-
-                if (!traceContentChoiceViewModel.ShouldWeContinue) // user left the process
+                var equipmentId = model.ChooseEquipmentForNode(nodeId, nodeId == nodes.Last());
+                if (equipmentId == Guid.Empty)
                     return null;
-
-                var selectedEquipmentGuid = traceContentChoiceViewModel.GetSelectedEquipmentGuid();
-                equipments.Add(selectedEquipmentGuid);
+                equipments.Add(equipmentId);
             }
             return equipments;
+        }
+
+        public static Guid ChooseEquipmentForNode(this GraphReadModel model, Guid nodeId, bool isLastNode)
+        {
+            var nodeVm = model.Nodes.First(n => n.Id == nodeId);
+            var allEquipmentInNode = model.ReadModel.Equipments.Where(e => e.NodeId == nodeId).ToList();
+            if (allEquipmentInNode.Count == 1 &&
+                (allEquipmentInNode[0].Type == EquipmentType.AdjustmentPoint || !string.IsNullOrEmpty(nodeVm.Title)))
+            {
+                return allEquipmentInNode[0].Id;
+            }
+
+            var node = model.ReadModel.Nodes.First(n => n.Id == nodeId);
+            nodeVm.IsHighlighted = true;
+            var traceContentChoiceViewModel = model.GlobalScope.Resolve<TraceContentChoiceViewModel>();
+            traceContentChoiceViewModel.Initialize(allEquipmentInNode, node, isLastNode);
+            model.WindowManager.ShowDialogWithAssignedOwner(traceContentChoiceViewModel);
+            model.ExtinguishNode();
+            if (!traceContentChoiceViewModel.ShouldWeContinue) // user left the process
+                return Guid.Empty;
+
+            var selectedEquipmentGuid = traceContentChoiceViewModel.GetSelectedEquipmentGuid();
+            return selectedEquipmentGuid;
+
         }
 
     }
