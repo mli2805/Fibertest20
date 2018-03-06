@@ -4,8 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="WcfView" Height="300" Width="300">
+        Height="300" Width="300" WindowStartupLocation="CenterScreen"
+        >
     <StackPanel>
+        <DockPanel>
+            <Button DockPanel.Dock="Right" Name="SaveAddress" Content="Save address" Margin="5" Width="100"/>
+            <TextBox Text="{Binding ServerAddress}" Margin="5"/>
+        </DockPanel>
         <Button Name="Register" Content="Register" Margin="5"/>
+        <Button Name="SendHeartbeat" Content="Send heartbeat" Margin="5"/>
+        <Button Name="GetEvents" Content="Get events" Margin="5"/>
     </StackPanel>
 </Window>

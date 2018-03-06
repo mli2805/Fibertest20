@@ -35,5 +35,11 @@ namespace DirectRtuClient
             IWindowManager windowManager = new WindowManager();
             windowManager.ShowWindow(vm);
         }
+        public void WcfView()
+        {
+            var vm = new WcfViewModel(_iniFile35, _rtuLogger);
+            IWindowManager windowManager = new WindowManager();
+            windowManager.ShowWindow(vm);
+        }
     }
 }
