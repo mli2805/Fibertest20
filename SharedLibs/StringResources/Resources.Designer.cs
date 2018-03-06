@@ -1224,6 +1224,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Data is loading, please wait....
+        /// </summary>
+        public static string SID_Data_is_loading {
+            get {
+                return ResourceManager.GetString("SID_Data_is_loading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Database error!.
         /// </summary>
         public static string SID_Database_error_ {

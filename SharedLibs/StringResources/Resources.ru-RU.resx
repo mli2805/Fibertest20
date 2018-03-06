@@ -1679,4 +1679,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Distance_range" xml:space="preserve">
 		<value>Диапазон расстояний - Lmax:</value>
 	</data>
+	<data name="SID_Data_is_loading" xml:space="preserve">
+		<value>Загрузка данных, пожалуйста подождите...</value>
+	</data>
 </root>

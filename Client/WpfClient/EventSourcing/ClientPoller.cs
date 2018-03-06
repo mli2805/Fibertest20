@@ -45,13 +45,12 @@ namespace Iit.Fibertest.Client
             _pollingRate = iniFile.Read(IniSection.General, IniKey.ClientPollingRateMs, 500);
         }
 
-
-        public void LoadEventSourcingCache(string serverAddress, Guid graphDbVersionId)
+     
+        public async Task<int> LoadEventSourcingCache()
         {
-            ((LocalDbManager)_localDbManager).Initialize(serverAddress, graphDbVersionId);
-            var jsonsInCache = _localDbManager.LoadEvents();
+            var jsonsInCache = await _localDbManager.LoadEvents();
             ApplyEventSourcingEvents(jsonsInCache);
-            _logFile.AppendLine($@"{CurrentEventNumber} events found in cache");
+            return CurrentEventNumber;
         }
 
         public async Task LoadEventSourcingDb()
@@ -60,13 +59,14 @@ namespace Iit.Fibertest.Client
             do
             {
                 events = await _wcfConnection.GetEvents(CurrentEventNumber);
-                _localDbManager.SaveEvents(events);
+                await _localDbManager.SaveEvents(events);
                 ApplyEventSourcingEvents(events);
             }
             while (events.Length != 0);
             _logFile.AppendLine($@"{CurrentEventNumber} events found in Db");
         }
 
+      
 
         public void Start()
         {
@@ -92,7 +92,7 @@ namespace Iit.Fibertest.Client
                 return 0;
             }
 
-            _localDbManager.SaveEvents(events); // sync
+            await _localDbManager.SaveEvents(events); 
             _dispatcherProvider.GetDispatcher().Invoke(() => ApplyEventSourcingEvents(events)); // sync, GUI thread
             return events.Length;
         }

@@ -94,13 +94,13 @@ namespace Iit.Fibertest.DataCenterCore
 
             if (measurementWithSor != null)
             {
-                await PutMonitoringResultOnMap(measurementWithSor);
 
                 await SendMoniresultToClients(measurementWithSor);
 
                 // TODO snmp, email, sms
                 if (measurementWithSor.Measurement.EventStatus > EventStatus.JustMeasurementNotAnEvent)
                 {
+                    await PutMonitoringResultOnMap(measurementWithSor);
 
                 }
             }

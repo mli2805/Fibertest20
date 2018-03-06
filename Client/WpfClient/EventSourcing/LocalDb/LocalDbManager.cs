@@ -3,6 +3,7 @@ using System.Data;
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Client
@@ -27,7 +28,7 @@ namespace Iit.Fibertest.Client
             _connectionString = $@"Data Source={_filename}; Version=3;";
         }
 
-        public void SaveEvents(string[] jsons)
+        public async Task SaveEvents(string[] jsons)
         {
             try
             {
@@ -37,7 +38,7 @@ namespace Iit.Fibertest.Client
                     {
                         dbContext.EsEvents.Add(new EsEvent() { Json = json });
                     }
-                    dbContext.SaveChanges();
+                    await dbContext.SaveChangesAsync();
                 }
             }
             catch (Exception e)
@@ -47,16 +48,23 @@ namespace Iit.Fibertest.Client
         }
 
 
-        public string[] LoadEvents()
+        public async Task<string[]> LoadEvents()
         {
             try
             {
                 CreateIfNeeded();
-                using (var dbContext = new LocalDbSqliteContext(_connectionString))
+
+                // SQLite do not work asynchronously (event though there is a ToArrayAsync function)
+                // https://stackoverflow.com/questions/42982444/entity-framework-core-sqlite-async-requests-are-actually-synchronous
+
+                return await Task.Factory.StartNew(() =>
                 {
-                    var jsons = dbContext.EsEvents.Select(j => j.Json).ToArray();
-                    return jsons;
-                }
+                    using (var dataContext = new LocalDbSqliteContext(_connectionString))
+                    {
+                        return dataContext.EsEvents.Select(j => j.Json).ToArray();
+                    }
+                });
+
             }
             catch (Exception e)
             {

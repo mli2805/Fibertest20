@@ -1670,4 +1670,7 @@ RTU is initializing right now!</value>
 	<data name="SID_Distance_range" xml:space="preserve">
     <value>Distance range</value>
   </data>
+	<data name="SID_Data_is_loading" xml:space="preserve">
+    <value>Data is loading, please wait...</value>
+  </data>
 </root>

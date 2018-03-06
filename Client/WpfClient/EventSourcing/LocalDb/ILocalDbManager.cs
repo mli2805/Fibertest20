@@ -1,9 +1,11 @@
+using System.Threading.Tasks;
+
 namespace Iit.Fibertest.Client
 {
     public interface ILocalDbManager
     {
-        void SaveEvents(string[] events);
-        string[] LoadEvents();
+        Task SaveEvents(string[] events);
+        Task<string[]> LoadEvents();
 
     }
 }

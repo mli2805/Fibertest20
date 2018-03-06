@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
@@ -22,6 +23,7 @@ namespace Iit.Fibertest.Client
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly CurrentUser _currentUser;
+        private readonly ILifetimeScope _globalScope;
         private readonly IWcfServiceForClient _c2DWcfManager;
 
         public GraphReadModel GraphReadModel { get; set; }
@@ -33,7 +35,7 @@ namespace Iit.Fibertest.Client
         public NetworkEventsDoubleViewModel NetworkEventsDoubleViewModel { get; }
         public BopNetworkEventsDoubleViewModel BopNetworkEventsDoubleViewModel { get; }
 
-        public ShellViewModel(IniFile iniFile, IMyLog logFile, CurrentUser currentUser, IClientWcfServiceHost host,
+        public ShellViewModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile, CurrentUser currentUser, IClientWcfServiceHost host,
             GraphReadModel graphReadModel, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager,
             LoginViewModel loginViewModel, ClientHeartbeat clientHeartbeat, ClientPoller clientPoller,
             MainMenuViewModel mainMenuViewModel, TreeOfRtuViewModel treeOfRtuViewModel,
@@ -51,6 +53,7 @@ namespace Iit.Fibertest.Client
             OpticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
             NetworkEventsDoubleViewModel = networkEventsDoubleViewModel;
             BopNetworkEventsDoubleViewModel = bopNetworkEventsDoubleViewModel;
+            _globalScope = globalScope;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
             _loginViewModel = loginViewModel;
@@ -70,9 +73,10 @@ namespace Iit.Fibertest.Client
         public override void CanClose(Action<bool> callback)
         {
             base.CanClose(callback);
-            Task.Factory.StartNew(() => {
+            Task.Factory.StartNew(() =>
+            {
                 _clientPollerCts.Cancel();
-                 _c2DWcfManager?.UnregisterClientAsync(new UnRegisterClientDto());
+                _c2DWcfManager?.UnregisterClientAsync(new UnRegisterClientDto());
                 _logFile.AppendLine(@"Client application finished!");
             });
         }
@@ -93,38 +97,46 @@ namespace Iit.Fibertest.Client
 
         protected override async void OnViewLoaded(object view)
         {
-
             ((App)Application.Current).ShutdownMode = ShutdownMode.OnExplicitShutdown;
             _logFile.AssignFile(@"Client.log");
 
             _logFile.AppendLine(@"Client application started!");
+            TabulatorViewModel.SelectedTabIndex = 3;
             var isAuthenticationSuccessfull = _windowManager.ShowDialog(_loginViewModel);
             ((App)Application.Current).ShutdownMode = ShutdownMode.OnMainWindowClose;
             if (isAuthenticationSuccessfull == true)
             {
-                MainMenuViewModel.Initialize(_currentUser);
-                var da = _iniFile.ReadDoubleAddress(11840);
-                _server = da.Main.GetAddress();
+                using (_globalScope.Resolve<IWaitCursor>())
+                {
+                    TabulatorViewModel.SelectedTabIndex = 4;
+                    MainMenuViewModel.Initialize(_currentUser);
+                    var da = _iniFile.ReadDoubleAddress(11840);
+                    _server = da.Main.GetAddress();
+                    var localDbManager = (LocalDbManager)_globalScope.Resolve<ILocalDbManager>();
+                    localDbManager.Initialize(_server, _loginViewModel.GraphDbVersionOnServer);
 
-                // graph MUST be read before optical/network events
-                await InitializeAndRunClientPoller(_loginViewModel.GraphDbVersionOnServer);
+                    // graph MUST be read before optical/network events
+                    await RunClientPoller();
 
-                _opticalEventsProvider.LetsGetStarted();
-                _networkEventsProvider.LetsGetStarted();
-                _bopNetworkEventsProvider.LetsGetStarted();
-                _clientHeartbeat.Start();
+                    _opticalEventsProvider.LetsGetStarted();
+                    _networkEventsProvider.LetsGetStarted();
+                    _bopNetworkEventsProvider.LetsGetStarted();
+                    _clientHeartbeat.Start();
 
-                IsEnabled = true;
-                DisplayName = $@"Fibertest v2.0 {_currentUser.UserName} as {_currentUser.Role.ToString()} [{_currentUser.ZoneTitle}]";
+                    IsEnabled = true;
+                    DisplayName = $@"Fibertest v2.0 {_currentUser.UserName} as {_currentUser.Role.ToString()} [{_currentUser.ZoneTitle}]";
+                    TabulatorViewModel.SelectedTabIndex = 3;
+                }
             }
 
             else
                 TryClose();
         }
 
-        private async Task InitializeAndRunClientPoller(Guid graphDbVersionOnServer)
+        private async Task RunClientPoller()
         {
-            _clientPoller.LoadEventSourcingCache(_server, graphDbVersionOnServer);
+            var events = await _clientPoller.LoadEventSourcingCache();
+            _logFile.AppendLine($@"{events} events found in cache");
             await _clientPoller.LoadEventSourcingDb();
 
             _clientPoller.CancellationToken = _clientPollerCts.Token;

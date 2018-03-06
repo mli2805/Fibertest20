@@ -71,6 +71,7 @@ namespace Iit.Fibertest.Client
         }
 
         private Visibility _mapVisibility;
+
         public Visibility MapVisibility
         {
             get => _mapVisibility;
@@ -78,6 +79,18 @@ namespace Iit.Fibertest.Client
             {
                 if (value == _mapVisibility) return;
                 _mapVisibility = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        private Visibility _messageVisibility;
+        public Visibility MessageVisibility
+        {
+            get { return _messageVisibility; }
+            set
+            {
+                if (value == _messageVisibility) return;
+                _messageVisibility = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -131,24 +144,35 @@ namespace Iit.Fibertest.Client
                     NetworkEventsVisibility = Visibility.Collapsed;
                     BopNetworkEventsVisibility = Visibility.Collapsed;
                     MapVisibility = Visibility.Collapsed;
+                    MessageVisibility = Visibility.Collapsed;
                     break;
                 case 1:
                     OpticalEventsVisibility = Visibility.Collapsed;
                     NetworkEventsVisibility = Visibility.Visible;
                     BopNetworkEventsVisibility = Visibility.Collapsed;
                     MapVisibility = Visibility.Collapsed;
+                    MessageVisibility = Visibility.Collapsed;
                     break;
                 case 2:
                     OpticalEventsVisibility = Visibility.Collapsed;
                     NetworkEventsVisibility = Visibility.Collapsed;
                     BopNetworkEventsVisibility = Visibility.Visible;
                     MapVisibility = Visibility.Collapsed;
+                    MessageVisibility = Visibility.Collapsed;
                     break;
                 case 3:
                     OpticalEventsVisibility = Visibility.Collapsed;
                     NetworkEventsVisibility = Visibility.Collapsed;
                     BopNetworkEventsVisibility = Visibility.Collapsed;
                     MapVisibility = Visibility.Visible;
+                    MessageVisibility = Visibility.Collapsed;
+                    break;
+                case 4:
+                    OpticalEventsVisibility = Visibility.Collapsed;
+                    NetworkEventsVisibility = Visibility.Collapsed;
+                    BopNetworkEventsVisibility = Visibility.Collapsed;
+                    MapVisibility = Visibility.Collapsed;
+                    MessageVisibility = Visibility.Visible;
                     break;
             }
         }

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using GMap.NET;
@@ -20,35 +18,7 @@ namespace Iit.Fibertest.Client
     [Localizable(false)]
     public class Map : GMapControl, INotifyPropertyChanged
     {
-        #region Debug
-#if DEBUG
-        public long ElapsedMilliseconds;
-        DateTime _start;
-        DateTime _end;
-        int _delta;
-
-        private int _counter;
-        readonly Typeface _tf = new Typeface("GenericSansSerif");
-        readonly FlowDirection fd = new FlowDirection();
-
-        /// <summary>
-        /// any custom drawing here
-        /// </summary>
-        /// <param name="drawingContext"></param>
-        protected override void OnRender(DrawingContext drawingContext)
-        {
-            _start = DateTime.Now;
-
-            base.OnRender(drawingContext);
-
-            _end = DateTime.Now;
-            _delta = (int)(_end - _start).TotalMilliseconds;
-
-            var text = new FormattedText(string.Format(CultureInfo.InvariantCulture, "{0:0.0}", Zoom) + "z, " + MapProvider + ", refresh: " + _counter++ + ", load: " + ElapsedMilliseconds + "ms, render: " + _delta + "ms", CultureInfo.InvariantCulture, fd, _tf, 20, Brushes.Blue);
-            drawingContext.DrawText(text, new Point(text.Height, text.Height));
-        }
-#endif
-        #endregion
+       
 
         #region Current mouse coordinates
         public GpsInputMode CurrentGpsInputMode { get; set; } = GpsInputMode.DegreesMinutesAndSeconds;
@@ -112,33 +82,33 @@ namespace Iit.Fibertest.Client
                 }
             }
 
-//            if (e.Key == Key.Z)
-//            {
-//                if (IsInDistanceMeasurementMode)
-//                {
-//                    var markerPosition = FromLocalToLatLng(GetPointFromPosition(Mouse.GetPosition(this)));
-//                    var marker = new GMapMarker(Guid.NewGuid(), markerPosition, false);
-//
-//                    if (StartNode == null)
-//                    {
-//                        DistanceMarkers = new List<GMapMarker>();
-//                        Distances = new List<int>();
-//                    }
-//                    else
-//                    {
-//                        var routeMarker = new GMapRoute(FiberUnderCreation, StartNode.Id, marker.Id, Brushes.Blue, 2,
-//                            new List<PointLatLng>() { StartNode.Position, markerPosition });
-//                        Markers.Add(routeMarker);
-//                        DistanceMarkers.Add(routeMarker);
-//
-//                        Distances.Add((int)GpsCalculator.GetDistanceBetweenPointLatLng(StartNode.Position, markerPosition));
-//                    }
-//
-//                    Markers.Add(marker);
-//                    DistanceMarkers.Add(marker);
-//                    StartNode = marker;
-//                }
-//            }
+            //            if (e.Key == Key.Z)
+            //            {
+            //                if (IsInDistanceMeasurementMode)
+            //                {
+            //                    var markerPosition = FromLocalToLatLng(GetPointFromPosition(Mouse.GetPosition(this)));
+            //                    var marker = new GMapMarker(Guid.NewGuid(), markerPosition, false);
+            //
+            //                    if (StartNode == null)
+            //                    {
+            //                        DistanceMarkers = new List<GMapMarker>();
+            //                        Distances = new List<int>();
+            //                    }
+            //                    else
+            //                    {
+            //                        var routeMarker = new GMapRoute(FiberUnderCreation, StartNode.Id, marker.Id, Brushes.Blue, 2,
+            //                            new List<PointLatLng>() { StartNode.Position, markerPosition });
+            //                        Markers.Add(routeMarker);
+            //                        DistanceMarkers.Add(routeMarker);
+            //
+            //                        Distances.Add((int)GpsCalculator.GetDistanceBetweenPointLatLng(StartNode.Position, markerPosition));
+            //                    }
+            //
+            //                    Markers.Add(marker);
+            //                    DistanceMarkers.Add(marker);
+            //                    StartNode = marker;
+            //                }
+            //            }
 
             base.OnKeyDown(e);
         }

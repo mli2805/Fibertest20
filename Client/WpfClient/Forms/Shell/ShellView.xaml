@@ -29,6 +29,21 @@
             <DockPanel Grid.Column="2">
                 <client:TabulatorView DockPanel.Dock="Top" DataContext="{Binding TabulatorViewModel}"/>
                 <client:CommonStatusBarView DockPanel.Dock="Bottom" DataContext="{Binding CommonStatusBarViewModel}"/>
+                <DockPanel Visibility="{Binding TabulatorViewModel.MessageVisibility}">
+                    <TextBlock Name="Tb" Text="{x:Static stringResources:Resources.SID_Data_is_loading}" Margin="130,240,0,0" Foreground="Blue" FontSize="24">
+<!--                        <TextBlock.Triggers>-->
+<!--                            <EventTrigger RoutedEvent="TextBlock.Loaded">-->
+<!--                                <EventTrigger.Actions>-->
+<!--                                    <BeginStoryboard>-->
+<!--                                        <Storyboard BeginTime="00:00:00" RepeatBehavior="Forever" Storyboard.TargetName="Tb" Storyboard.TargetProperty="(Foreground).(SolidColorBrush.Color)">-->
+<!--                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" AutoReverse="True" Duration="0:0:1" RepeatBehavior="Forever" />-->
+<!--                                        </Storyboard>-->
+<!--                                    </BeginStoryboard>-->
+<!--                                </EventTrigger.Actions>-->
+<!--                            </EventTrigger>-->
+<!--                        </TextBlock.Triggers>-->
+                    </TextBlock>
+                </DockPanel>
                 <DockPanel Visibility="{Binding TabulatorViewModel.OpticalEventsVisibility}">
                     <client:OpticalEventsDoubleView DataContext="{Binding OpticalEventsDoubleViewModel}"/>
                 </DockPanel>
@@ -41,6 +56,7 @@
                 <DockPanel Visibility="{Binding TabulatorViewModel.MapVisibility}">
                     <client:MapUserControl DataContext="{Binding GraphReadModel}" Margin="3,0,3,3"/>
                 </DockPanel>
+
             </DockPanel>
         </Grid>
 

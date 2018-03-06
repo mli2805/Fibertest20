@@ -55,9 +55,6 @@ namespace Iit.Fibertest.Client
 
         private void ShowInNode(AccidentInOldEvent accidentInOldEvent, TraceVm traceVm)
         {
-            var nodeId = traceVm.Nodes[accidentInOldEvent.BrokenLandmarkIndex];
-//            var nodeVm = _model.Nodes.FirstOrDefault(n => n.Id == nodeId);
-
             var nodeVm = _model.GetNodeByLandmarkIndex(traceVm, accidentInOldEvent.BrokenLandmarkIndex);
 
             if (nodeVm == null) return;
