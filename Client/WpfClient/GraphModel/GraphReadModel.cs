@@ -14,6 +14,7 @@ namespace Iit.Fibertest.Client
     {
         public Map MainMap { get; set; }
 
+        public CurrentGpsInputMode CurrentGpsInputMode { get; }
         public CommonStatusBarViewModel CommonStatusBarViewModel { get; }
         public GrmNodeRequests GrmNodeRequests { get; }
         public GrmEquipmentRequests GrmEquipmentRequests { get; }
@@ -47,7 +48,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public GraphReadModel(ILifetimeScope globalScope, IniFile iniFile,   
+        public GraphReadModel(ILifetimeScope globalScope, IniFile iniFile, CurrentGpsInputMode currentGpsInputMode,  
             CommonStatusBarViewModel commonStatusBarViewModel,
             GrmNodeRequests grmNodeRequests, GrmEquipmentRequests grmEquipmentRequests, 
             GrmFiberRequests grmFiberRequests, GrmFiberWithNodesRequest grmFiberWithNodesRequest,
@@ -55,6 +56,7 @@ namespace Iit.Fibertest.Client
             
             IWindowManager windowManager, ReadModel readModel)
         {
+            CurrentGpsInputMode = currentGpsInputMode;
             CommonStatusBarViewModel = commonStatusBarViewModel;
             GrmNodeRequests = grmNodeRequests;
             GrmEquipmentRequests = grmEquipmentRequests;
@@ -77,6 +79,8 @@ namespace Iit.Fibertest.Client
             if (!Enum.TryParse(levelString, out GraphVisibilityLevel level))
                 level = GraphVisibilityLevel.AllDetails;
             SetGraphVisibility(level);
+
+          //  MainMap.Initialize(currentGpsInputMode);
         }
 
         public void SetGraphVisibility(GraphVisibilityLevel level)

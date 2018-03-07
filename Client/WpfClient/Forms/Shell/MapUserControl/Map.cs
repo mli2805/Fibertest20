@@ -21,7 +21,7 @@ namespace Iit.Fibertest.Client
        
 
         #region Current mouse coordinates
-        public GpsInputMode CurrentGpsInputMode { get; set; } = GpsInputMode.DegreesMinutesAndSeconds;
+        public CurrentGpsInputMode CurrentGpsInputMode { get; set; }
 
         private PointLatLng _mouseCurrentCoors;
         public PointLatLng MouseCurrentCoors
@@ -37,7 +37,7 @@ namespace Iit.Fibertest.Client
         }
 
         public string MouseCurrentCoorsString =>
-            _mouseCurrentCoors.ToDetailedString(CurrentGpsInputMode);
+            _mouseCurrentCoors.ToDetailedString(CurrentGpsInputMode.Mode);
         #endregion
 
         #region Distance measurement properties
@@ -62,6 +62,11 @@ namespace Iit.Fibertest.Client
 
         public string MeasuredDistance => IsInDistanceMeasurementMode ? $"{_lastDistance} m  / {Distances.Sum() + _lastDistance} m" : "";
         #endregion
+
+        public void Initialize(CurrentGpsInputMode currentGpsInputMode)
+        {
+            CurrentGpsInputMode = currentGpsInputMode;
+        }
 
         protected override void OnKeyDown(KeyEventArgs e)
         {

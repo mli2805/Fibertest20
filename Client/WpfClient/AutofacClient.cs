@@ -17,6 +17,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<GraphGpsCalculator>().SingleInstance();
 
             builder.RegisterType<CurrentUser>().SingleInstance();
+            builder.RegisterType<CurrentGpsInputMode>().SingleInstance();
             builder.RegisterType<WindowManager>().As<IWindowManager>().SingleInstance();
 
             builder.RegisterType<LocalDbManager>().As<ILocalDbManager>().SingleInstance();

@@ -43,6 +43,7 @@ namespace Iit.Fibertest.Client
                 return;
             var graph = (GraphReadModel)e.NewValue;
             graph.MainMap = MainMap;
+            MainMap.CurrentGpsInputMode = GraphReadModel.CurrentGpsInputMode;
 
             graph.Nodes.CollectionChanged += NodesCollectionChanged;
             graph.Fibers.CollectionChanged += FibersCollectionChanged;

@@ -64,6 +64,7 @@ namespace Iit.Fibertest.WcfConnections
                 _c2DClient = new MyClient<IWcfServiceForClient>(
                     CreateDefaultNetTcpBinding(_iniFile),
                     new EndpointAddress(new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"WcfServiceForClient"))));
+
                 return _c2DClient.ChannelFactory.CreateChannel();
             }
             catch (Exception e)
@@ -177,7 +178,10 @@ namespace Iit.Fibertest.WcfConnections
             {
                 var tcpConnection = tcpClient.BeginConnect(netAddress.GetAddress(), netAddress.Port, null, null);
                 if (tcpConnection.AsyncWaitHandle.WaitOne(openTimeout))
+                {
+                    tcpClient.Close();
                     return true;
+                }
             }
             catch (Exception e)
             {

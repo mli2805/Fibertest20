@@ -19,7 +19,7 @@ namespace Iit.Fibertest.Graph.Algorithms
             if (level != null && (level.Results & MonitoringResults.IsFailed) != 0)
                 foreach (var accidentOnTrace in sorData.GetAccidentsForLevel(level))
                 {
-                    if (result.All(a => a.RftsEventNumber != accidentOnTrace.RftsEventNumber))
+                    if (result.All(a => a.BrokenRftsEventNumber != accidentOnTrace.BrokenRftsEventNumber))
                         result.Add(accidentOnTrace);
                 }
 
@@ -27,7 +27,7 @@ namespace Iit.Fibertest.Graph.Algorithms
             if (level != null && (level.Results & MonitoringResults.IsFailed) != 0)
                 foreach (var accidentOnTrace in sorData.GetAccidentsForLevel(level))
                 {
-                    if (result.All(a => a.RftsEventNumber != accidentOnTrace.RftsEventNumber))
+                    if (result.All(a => a.BrokenRftsEventNumber != accidentOnTrace.BrokenRftsEventNumber))
                         result.Add(accidentOnTrace);
                 }
 
@@ -35,7 +35,7 @@ namespace Iit.Fibertest.Graph.Algorithms
             if (level != null && (level.Results & MonitoringResults.IsFailed) != 0)
                 foreach (var accidentOnTrace in sorData.GetAccidentsForLevel(level))
                 {
-                    if (result.All(a => a.RftsEventNumber != accidentOnTrace.RftsEventNumber))
+                    if (result.All(a => a.BrokenRftsEventNumber != accidentOnTrace.BrokenRftsEventNumber))
                         result.Add(accidentOnTrace);
                 }
 
@@ -61,18 +61,20 @@ namespace Iit.Fibertest.Graph.Algorithms
 
         private static AccidentOnTrace BuildAccidentInOldEvent(this OtdrDataKnownBlocks sorData, RftsEvent rftsEvent, int i, int newEventsFound, RftsLevelType level)
         {
+            var brokenLandmarkIndex = sorData.GetLandmarkIndexForKeyEventIndex(i);
+            var previousLandmark = sorData.LinkParameters.LandmarkBlocks[brokenLandmarkIndex - 1];
+
             var accidentInOldEvent = new AccidentInOldEvent
             {
-                RftsEventNumber = i+1, // i - index, i+1 number
+                BrokenRftsEventNumber = i+1, // i - index, i+1 number
 
-                BrokenLandmarkIndex = i - newEventsFound,
+                BrokenLandmarkIndex = brokenLandmarkIndex,
                 AccidentDistanceKm = sorData.KeyEventDistanceKm(i),
-                PreviousLandmarkDistanceKm = sorData.KeyEventDistanceKm(i-1),
+                PreviousLandmarkDistanceKm = sorData.OwtToLenKm(previousLandmark.Location),
 
                 AccidentSeriousness = (rftsEvent.EventTypes & RftsEventTypes.IsFiberBreak) != 0 ? FiberState.FiberBreak : level.ConvertToFiberState(),
                 OpticalTypeOfAccident = GetOpticalTypeOfAccident(rftsEvent),
             };
-
 
             return accidentInOldEvent;
         }
@@ -97,7 +99,7 @@ namespace Iit.Fibertest.Graph.Algorithms
 
             var accidentAsNewEvent = new AccidentAsNewEvent()
             {
-                RftsEventNumber = keyEventIndex+1, // keyEventIndex - index, keyEventIndex+1 number
+                BrokenRftsEventNumber = keyEventIndex+1, // keyEventIndex - index, keyEventIndex+1 number
                 LeftLandmarkIndex = leftLandmarkIndex,
                 LeftNodeKm = sorData.LandmarkDistanceKm(leftLandmarkIndex),
                 AccidentDistanceKm = sorData.KeyEventDistanceKm(keyEventIndex),

@@ -9,7 +9,7 @@
              d:DesignHeight="240" d:DesignWidth="400" d:DataContext="{d:DesignInstance client:GpsInputViewModel}"
              cal:Bind.ModelWithoutContext="{Binding .}">
     <StackPanel>
-        <ComboBox ItemsSource="{Binding GpsInputModes}" SelectedItem="{Binding SelectedGpsInputMode, Mode=TwoWay}" Width="150" Height="25" Margin="5"/>
+        <ComboBox ItemsSource="{Binding GpsInputModes}" SelectedItem="{Binding SelectedGpsInputModeComboItem, Mode=TwoWay}" Width="150" Height="25" Margin="5"/>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,0">
             <TextBlock Text="Широта" VerticalAlignment="Center" Margin="5" ToolTip="-90..90"/>
             <client:OneCoorView Margin="5" DataContext="{Binding OneCoorViewModelLatitude}"/>

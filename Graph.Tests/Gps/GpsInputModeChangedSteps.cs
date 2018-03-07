@@ -52,7 +52,7 @@ namespace Graph.Tests
         [When(@"Пользователь выбирает формат градусы")]
         public void WhenПользовательВыбираетФорматГрадусы()
         {
-            _rtuUpdateViewModel.GpsInputViewModel.SelectedGpsInputMode =
+            _rtuUpdateViewModel.GpsInputViewModel.SelectedGpsInputModeComboItem =
                 _rtuUpdateViewModel.GpsInputViewModel.GpsInputModes.First(i => i.Mode == GpsInputMode.Degrees);
         }
 
@@ -66,7 +66,7 @@ namespace Graph.Tests
         [When(@"Пользователь выбирает формат градусы-минуты-секунды")]
         public void WhenПользовательВыбираетФорматГрадусы_Минуты_Секунды()
         {
-            _rtuUpdateViewModel.GpsInputViewModel.SelectedGpsInputMode =
+            _rtuUpdateViewModel.GpsInputViewModel.SelectedGpsInputModeComboItem =
                 _rtuUpdateViewModel.GpsInputViewModel.GpsInputModes.First(
                     i => i.Mode == GpsInputMode.DegreesMinutesAndSeconds);
         }
