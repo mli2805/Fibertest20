@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using GMap.NET;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -17,36 +19,30 @@ namespace Iit.Fibertest.Client
             _logFile = logFile;
         }
 
-        public PointLatLng? GetAccidentGps(AccidentOnTrace accident, TraceVm traceVm)
+        public PointLatLng? GetAccidentGps(AccidentOnTrace accident)
         {
             if (accident is AccidentAsNewEvent accidentAsNewEvent)
-                return GetAccidentGps(accidentAsNewEvent, traceVm);
+                return GetAccidentGps(accidentAsNewEvent);
 
             if (accident is AccidentInOldEvent accidentInOldEvent)
             {
-                var nodeVm = _model.Nodes.FirstOrDefault(n => n.Id == traceVm.Nodes[accidentInOldEvent.BrokenLandmarkIndex]);
+                var withoutPoints = _model.GetTraceNodesExcludingAdjustmentPoints(accident.TraceId);
+                var nodeVm = _model.Nodes.FirstOrDefault(n => n.Id == withoutPoints[accidentInOldEvent.BrokenLandmarkIndex]);
                 return nodeVm?.Position;
             }
 
             return null;
         }
 
-        private PointLatLng? GetAccidentGps(AccidentAsNewEvent accident, TraceVm traceVm)
+        private PointLatLng? GetAccidentGps(AccidentAsNewEvent accident)
         {
-            var fiberVm = _model.GetFiberByLandmarkIndexes(traceVm, accident.LeftLandmarkIndex, accident.RightLandmarkIndex);
-            if (fiberVm == null) return null;
-            var gpsDistanceM = GetGpsDistanceBetweenNeighbours(accident, traceVm, out NodeVm leftNodeVm, out NodeVm rightNodeVm);
-            if (leftNodeVm == null || rightNodeVm == null) return null;
+            var distances = GetGpsDistancesOfSegmentsBetweenLandmarks(accident, out NodeVm leftNodeVm, out NodeVm rightNodeVm);
+            var distanceBetweenTwoNodesOnGraphM = distances.Sum();
+            GetCableReserves(accident, out double leftReserveM, out double rightReserveM);
 
-            double distanceBetweenTwoNodesOnGraphM = fiberVm.UserInputedLength != 0
-                ? fiberVm.UserInputedLength
-                : gpsDistanceM;
-
-            var leftReserveM = GetLeftCableReserves(accident, traceVm);
-            var rightReserveM = GetRightCableReserves(accident, traceVm);
-            var fullDistanceBetweenTwoEquipmentsOnGraphM = distanceBetweenTwoNodesOnGraphM + leftReserveM + rightReserveM;
             var opticalLengthM = (accident.RightNodeKm - accident.LeftNodeKm) * 1000;
-            var coeff = opticalLengthM / fullDistanceBetweenTwoEquipmentsOnGraphM;
+            var coeff = opticalLengthM / (distanceBetweenTwoNodesOnGraphM + leftReserveM + rightReserveM);
+
 
             var distanceToAccidentOnGraphM = (accident.AccidentDistanceKm - accident.LeftNodeKm) * 1000 / coeff;
 
@@ -56,6 +52,8 @@ namespace Iit.Fibertest.Client
             if (distanceToAccidentOnGraphM > leftReserveM + distanceBetweenTwoNodesOnGraphM)
                 return rightNodeVm.Position;
 
+
+
             var partOfSegmentUptoAccidentPlace
                 = (distanceToAccidentOnGraphM - leftReserveM) / gpsDistanceM;
 
@@ -64,51 +62,55 @@ namespace Iit.Fibertest.Client
             return new PointLatLng(latBreak, lngBreak);
         }
 
-        private double GetLeftCableReserves(AccidentAsNewEvent accident, TraceVm traceVm)
+        private void GetCableReserves(AccidentAsNewEvent accident, out double leftReserveM, out double rightReserveM)
         {
-            var leftEquipmentVm = _model.Equipments.FirstOrDefault(e => e.Id == traceVm.Equipments[accident.LeftLandmarkIndex]);
-            if (leftEquipmentVm == null)
+            var equipmentsWithoutPoints = _model.GetTraceEquipmentsExcludingAdjustmentPoints(accident.TraceId);
+            leftReserveM = GetCableReserve(equipmentsWithoutPoints, accident.LeftLandmarkIndex, true);
+            rightReserveM = GetCableReserve(equipmentsWithoutPoints, accident.LeftLandmarkIndex, false);
+        }
+        private double GetCableReserve(List<Guid> equipmentsWithoutPoints, int landmarkIndex, bool isLeftLandmark)
+        {
+            var equipmentVm = _model.Equipments.FirstOrDefault(e => e.Id == equipmentsWithoutPoints[landmarkIndex]);
+            if (equipmentVm == null)
             {
-                _logFile.AppendLine($@"Equipment {traceVm.Equipments[accident.LeftLandmarkIndex].First6()} not found");
+                _logFile.AppendLine($@"Equipment {equipmentsWithoutPoints[landmarkIndex].First6()} not found");
                 return 0;
             }
-            return leftEquipmentVm.Type == EquipmentType.CableReserve
-                ? leftEquipmentVm.CableReserveLeft / 2
-                : leftEquipmentVm.CableReserveRight;
+
+            if (equipmentVm.Type == EquipmentType.CableReserve) return (double)equipmentVm.CableReserveLeft / 2;
+            return isLeftLandmark ? equipmentVm.CableReserveRight : equipmentVm.CableReserveLeft;
         }
 
-        private double GetRightCableReserves(AccidentAsNewEvent accident, TraceVm traceVm)
+        private List<double> GetGpsDistancesOfSegmentsBetweenLandmarks(AccidentAsNewEvent accident, out NodeVm leftNodeVm, out NodeVm rightNodeVm)
         {
-            var rightEquipmentVm = _model.Equipments.FirstOrDefault(e => e.Id == traceVm.Equipments[accident.RightLandmarkIndex]);
-            if (rightEquipmentVm == null)
-            {
-                _logFile.AppendLine($@"Equipment {traceVm.Equipments[accident.RightLandmarkIndex].First6()} not found");
-                return 0;
-            }
-            return rightEquipmentVm.Type == EquipmentType.CableReserve
-                ? rightEquipmentVm.CableReserveLeft / 2
-                : rightEquipmentVm.CableReserveLeft;
-        }
+            var withoutPoints = _model.GetTraceNodesExcludingAdjustmentPoints(accident.TraceId);
+            leftNodeVm = _model.Nodes.FirstOrDefault(n => n.Id == withoutPoints[accident.LeftLandmarkIndex]);
+            rightNodeVm = _model.Nodes.FirstOrDefault(n => n.Id == withoutPoints[accident.RightLandmarkIndex]);
 
-        private double GetGpsDistanceBetweenNeighbours(AccidentAsNewEvent accident, TraceVm traceVm, out NodeVm leftNodeVm, out NodeVm rightNodeVm)
-        {
-            rightNodeVm = null;
-
-            leftNodeVm = _model.Nodes.FirstOrDefault(n => n.Id == traceVm.Nodes[accident.LeftLandmarkIndex]);
             if (leftNodeVm == null)
             {
-                _logFile.AppendLine($@"NodeVm {traceVm.Nodes[accident.LeftLandmarkIndex].First6()} not found");
-                return 0;
+                _logFile.AppendLine($@"NodeVm {withoutPoints[accident.LeftLandmarkIndex].First6()} not found");
+                return null;
             }
-
-            rightNodeVm = _model.Nodes.FirstOrDefault(n => n.Id == traceVm.Nodes[accident.RightLandmarkIndex]);
             if (rightNodeVm == null)
             {
-                _logFile.AppendLine($@"NodeVm {traceVm.Nodes[accident.RightLandmarkIndex].First6()} not found");
-                return 0;
+                _logFile.AppendLine($@"NodeVm {withoutPoints[accident.RightLandmarkIndex].First6()} not found");
+                return null;
             }
 
-            return GpsCalculator.GetDistanceBetweenPointLatLng(leftNodeVm.Position, rightNodeVm.Position);
+            var traceVm = _model.Traces.First(t => t.Id == accident.TraceId);
+            var indexOfLeft = traceVm.Nodes.IndexOf(leftNodeVm.Id);
+            var indexOfRight = traceVm.Nodes.IndexOf(rightNodeVm.Id);
+            var result = new List<double>();
+            var fromNodeVm = leftNodeVm;
+            for (int i = indexOfLeft + 1; i < indexOfRight; i++)
+            {
+                var toNodeVm = _model.Nodes.First(n => n.Id == traceVm.Nodes[i]);
+                result.Add(GpsCalculator.GetDistanceBetweenPointLatLng(fromNodeVm.Position, toNodeVm.Position));
+                fromNodeVm = toNodeVm;
+            }
+            result.Add(GpsCalculator.GetDistanceBetweenPointLatLng(fromNodeVm.Position, rightNodeVm.Position));
+            return result;
         }
     }
 }

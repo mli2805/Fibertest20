@@ -65,12 +65,12 @@ namespace Iit.Fibertest.Client
             if (sorBytes == null) return null;
             var sorData = SorData.FromBytes(sorBytes);
             var accidents = sorData.GetAccidents();
-            var trace = _readModel.Traces.First(t => t.Id == traceId);
 
             var lines = new List<AccidentLineModel>();
             for (var i = 0; i < accidents.Count; i++)
             {
-                lines.Add(_accidentLineModelFactory.Create(accidents[i], trace, i+1));
+                accidents[i].TraceId = traceId;
+                lines.Add(_accidentLineModelFactory.Create(accidents[i], i+1));
             }
 
             return lines;

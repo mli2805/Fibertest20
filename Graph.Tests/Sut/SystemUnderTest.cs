@@ -49,6 +49,7 @@ namespace Graph.Tests
             GraphReadModel = Container.Resolve<GraphReadModel>();
             TreeOfRtuModel = Container.Resolve<TreeOfRtuModel>();
             TreeOfRtuViewModel = Container.Resolve<TreeOfRtuViewModel>();
+            
 
             var ev = Container.Resolve<EventStoreService>();
             ev.Init();

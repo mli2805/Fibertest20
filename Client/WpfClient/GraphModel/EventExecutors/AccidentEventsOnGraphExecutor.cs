@@ -47,7 +47,7 @@ namespace Iit.Fibertest.Client
 
         private void ShowBetweenNodes(AccidentAsNewEvent accidentAsNewEvent, TraceVm traceVm)
         {
-            var accidentGps = _accidentPlaceLocator.GetAccidentGps(accidentAsNewEvent, traceVm);
+            var accidentGps = _accidentPlaceLocator.GetAccidentGps(accidentAsNewEvent);
             if (accidentGps == null) return;
 
            AddAccidentNode((PointLatLng)accidentGps, traceVm.Id);

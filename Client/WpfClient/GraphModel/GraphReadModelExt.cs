@@ -5,7 +5,7 @@ using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Client
 {
-    public static class GraphModelExt
+    public static class GraphReadModelExt
     {
         public static IEnumerable<FiberVm> GetFibersByNodes(this GraphReadModel model, List<Guid> nodes)
         {
@@ -64,9 +64,37 @@ namespace Iit.Fibertest.Client
 
         public static List<NodeVm> GetNeighbours(this GraphReadModel model, Guid nodeId)
         {
-            var nodes = model.Fibers.Where(f => f.Node1.Id == nodeId).Select(f=>f.Node2).ToList();
+            var nodes = model.Fibers.Where(f => f.Node1.Id == nodeId).Select(f => f.Node2).ToList();
             nodes.AddRange(model.Fibers.Where(f => f.Node2.Id == nodeId).Select(f => f.Node1));
             return nodes;
+        }
+
+        public static List<Guid> GetTraceNodesExcludingAdjustmentPoints(this GraphReadModel model, Guid traceId)
+        {
+            var traceVm = model.Traces.FirstOrDefault(t => t.Id == traceId);
+            if (traceVm == null) return null;
+            var result = new List<Guid>();
+            foreach (var nodeId in traceVm.Nodes)
+            {
+                var nodeVm = model.Nodes.FirstOrDefault(n => n.Id == nodeId);
+                if (nodeVm != null && nodeVm.Type != EquipmentType.AdjustmentPoint)
+                    result.Add(nodeId);
+            }
+            return result;
+        }
+
+        public static List<Guid> GetTraceEquipmentsExcludingAdjustmentPoints(this GraphReadModel model, Guid traceId)
+        {
+            var traceVm = model.Traces.FirstOrDefault(t => t.Id == traceId);
+            if (traceVm == null) return null;
+            var result = new List<Guid>();
+            foreach (var equipmentId in traceVm.Equipments)
+            {
+                var equipmentVm = model.Equipments.FirstOrDefault(e => e.Id == equipmentId);
+                if (equipmentVm != null && equipmentVm.Type != EquipmentType.AdjustmentPoint)
+                    result.Add(equipmentId);
+            }
+            return result;
         }
 
         public static void CleanAccidentPlacesOnTrace(this GraphReadModel model, TraceVm traceVm)
