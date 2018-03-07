@@ -83,10 +83,8 @@ namespace Iit.Fibertest.Client
             return result;
         }
 
-        public static List<Guid> GetTraceEquipmentsExcludingAdjustmentPoints(this GraphReadModel model, Guid traceId)
+        public static List<Guid> GetTraceEquipmentsExcludingAdjustmentPoints(this GraphReadModel model, TraceVm traceVm)
         {
-            var traceVm = model.Traces.FirstOrDefault(t => t.Id == traceId);
-            if (traceVm == null) return null;
             var result = new List<Guid>();
             foreach (var equipmentId in traceVm.Equipments)
             {

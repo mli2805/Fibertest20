@@ -34,15 +34,16 @@ namespace Iit.Fibertest.Client
             return null;
         }
 
-        private PointLatLng? GetAccidentGps(AccidentAsNewEvent accident)
+        private PointLatLng GetAccidentGps(AccidentAsNewEvent accident)
         {
-            var distances = GetGpsDistancesOfSegmentsBetweenLandmarks(accident, out NodeVm leftNodeVm, out NodeVm rightNodeVm);
+            var traceVm = _model.Traces.First(t => t.Id == accident.TraceId);
+
+            var distances = GetGpsDistancesOfSegmentsBetweenLandmarks(accident, traceVm, out NodeVm leftNodeVm, out NodeVm rightNodeVm);
+            GetCableReserves(accident, traceVm, out double leftReserveM, out double rightReserveM);
             var distanceBetweenTwoNodesOnGraphM = distances.Sum();
-            GetCableReserves(accident, out double leftReserveM, out double rightReserveM);
 
             var opticalLengthM = (accident.RightNodeKm - accident.LeftNodeKm) * 1000;
             var coeff = opticalLengthM / (distanceBetweenTwoNodesOnGraphM + leftReserveM + rightReserveM);
-
 
             var distanceToAccidentOnGraphM = (accident.AccidentDistanceKm - accident.LeftNodeKm) * 1000 / coeff;
 
@@ -52,22 +53,36 @@ namespace Iit.Fibertest.Client
             if (distanceToAccidentOnGraphM > leftReserveM + distanceBetweenTwoNodesOnGraphM)
                 return rightNodeVm.Position;
 
+            var segmentIndex = -1;
+            var distancesSum = leftReserveM;
+            while (distancesSum < distanceToAccidentOnGraphM)
+            {
+                segmentIndex++;
+                distancesSum = distancesSum + distances[segmentIndex];
+            }
 
+            return GetPointOnBrokenSegment(traceVm, 
+                (distances[segmentIndex] - (distancesSum - distanceToAccidentOnGraphM)) / distances[segmentIndex], 
+                traceVm.Nodes.IndexOf(leftNodeVm.Id) + segmentIndex);
+        }
 
-            var partOfSegmentUptoAccidentPlace
-                = (distanceToAccidentOnGraphM - leftReserveM) / gpsDistanceM;
+        private PointLatLng GetPointOnBrokenSegment(TraceVm traceVm, double procentOfSegmentUptoAccident, int leftNodeIndex)
+        {
+            var leftNode = _model.Nodes.First(n => n.Id == traceVm.Nodes[leftNodeIndex]);
+            var rightNode = _model.Nodes.First(n => n.Id == traceVm.Nodes[leftNodeIndex + 1]);
 
-            var latBreak = leftNodeVm.Position.Lat + (rightNodeVm.Position.Lat - leftNodeVm.Position.Lat) * partOfSegmentUptoAccidentPlace;
-            var lngBreak = leftNodeVm.Position.Lng + (rightNodeVm.Position.Lng - leftNodeVm.Position.Lng) * partOfSegmentUptoAccidentPlace;
+            var latBreak = leftNode.Position.Lat + (rightNode.Position.Lat - leftNode.Position.Lat) * procentOfSegmentUptoAccident;
+            var lngBreak = leftNode.Position.Lng + (rightNode.Position.Lng - leftNode.Position.Lng) * procentOfSegmentUptoAccident;
             return new PointLatLng(latBreak, lngBreak);
         }
 
-        private void GetCableReserves(AccidentAsNewEvent accident, out double leftReserveM, out double rightReserveM)
+        private void GetCableReserves(AccidentAsNewEvent accident, TraceVm traceVm, out double leftReserveM, out double rightReserveM)
         {
-            var equipmentsWithoutPoints = _model.GetTraceEquipmentsExcludingAdjustmentPoints(accident.TraceId);
+            var equipmentsWithoutPoints = _model.GetTraceEquipmentsExcludingAdjustmentPoints(traceVm);
             leftReserveM = GetCableReserve(equipmentsWithoutPoints, accident.LeftLandmarkIndex, true);
             rightReserveM = GetCableReserve(equipmentsWithoutPoints, accident.LeftLandmarkIndex, false);
         }
+
         private double GetCableReserve(List<Guid> equipmentsWithoutPoints, int landmarkIndex, bool isLeftLandmark)
         {
             var equipmentVm = _model.Equipments.FirstOrDefault(e => e.Id == equipmentsWithoutPoints[landmarkIndex]);
@@ -81,7 +96,7 @@ namespace Iit.Fibertest.Client
             return isLeftLandmark ? equipmentVm.CableReserveRight : equipmentVm.CableReserveLeft;
         }
 
-        private List<double> GetGpsDistancesOfSegmentsBetweenLandmarks(AccidentAsNewEvent accident, out NodeVm leftNodeVm, out NodeVm rightNodeVm)
+        private List<double> GetGpsDistancesOfSegmentsBetweenLandmarks(AccidentAsNewEvent accident, TraceVm traceVm, out NodeVm leftNodeVm, out NodeVm rightNodeVm)
         {
             var withoutPoints = _model.GetTraceNodesExcludingAdjustmentPoints(accident.TraceId);
             leftNodeVm = _model.Nodes.FirstOrDefault(n => n.Id == withoutPoints[accident.LeftLandmarkIndex]);
@@ -98,7 +113,6 @@ namespace Iit.Fibertest.Client
                 return null;
             }
 
-            var traceVm = _model.Traces.First(t => t.Id == accident.TraceId);
             var indexOfLeft = traceVm.Nodes.IndexOf(leftNodeVm.Id);
             var indexOfRight = traceVm.Nodes.IndexOf(rightNodeVm.Id);
             var result = new List<double>();
