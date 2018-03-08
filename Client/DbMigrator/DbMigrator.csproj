@@ -84,6 +84,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileStringTraceParser.cs" />
+    <Compile Include="Graph.cs" />
+    <Compile Include="FileStringParser.cs" />
     <Compile Include="Migrator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

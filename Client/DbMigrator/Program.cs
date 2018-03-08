@@ -6,11 +6,10 @@ namespace Iit.Fibertest.DbMigrator
     {
         static void Main()
         {
-            //Db db = new Db(new LoggerConfiguration().WriteTo.Console().CreateLogger());
-            //db.Events.Clear();
-            //new Migrator(db).Go();
-
-            //db.Save();
+            var graph = new Graph();
+            var fileStringParser = new FileStringParser(graph);
+            var fileStringTraceParser = new FileStringTraceParser(graph);
+            new Migrator(graph, fileStringParser,fileStringTraceParser).Go();
 
             Console.WriteLine("Done.");
             Console.ReadLine();
