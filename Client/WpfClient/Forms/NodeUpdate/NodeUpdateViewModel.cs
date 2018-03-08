@@ -20,6 +20,7 @@ namespace Iit.Fibertest.Client
         private readonly ReadModel _readModel;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly CurrentGpsInputMode _currentGpsInputMode;
         private Node _originalNode;
         private PointLatLng _nodeCoors;
 
@@ -34,20 +35,21 @@ namespace Iit.Fibertest.Client
                 NotifyOfPropertyChange();
             }
         }
-        public List<GpsInputModeComboItem> GpsInputModes { get; set; } =
+        public List<GpsInputModeComboItem> GpsInputModeComboItems { get; set; } =
             (from mode in Enum.GetValues(typeof(GpsInputMode)).OfType<GpsInputMode>()
              select new GpsInputModeComboItem(mode)).ToList();
 
-        private GpsInputModeComboItem _selectedGpsInputMode;
-        public GpsInputModeComboItem SelectedGpsInputMode
+        private GpsInputModeComboItem _selectedGpsInputModeComboItem;
+        public GpsInputModeComboItem SelectedGpsInputModeComboItem
         {
-            get => _selectedGpsInputMode;
+            get => _selectedGpsInputModeComboItem;
             set
             {
-                if (Equals(value, _selectedGpsInputMode)) return;
-                _selectedGpsInputMode = value;
+                if (Equals(value, _selectedGpsInputModeComboItem)) return;
+                _selectedGpsInputModeComboItem = value;
                 NotifyOfPropertyChange();
-                Coors = _nodeCoors.ToDetailedString(_selectedGpsInputMode.Mode);
+                Coors = _nodeCoors.ToDetailedString(_selectedGpsInputModeComboItem.Mode);
+                _currentGpsInputMode.Mode = _selectedGpsInputModeComboItem.Mode;
             }
         }
 
@@ -119,13 +121,15 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public NodeUpdateViewModel(ILifetimeScope globalScope, ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager)
+        public NodeUpdateViewModel(ILifetimeScope globalScope, ReadModel readModel, IWindowManager windowManager,
+            IWcfServiceForClient c2DWcfManager, CurrentGpsInputMode currentGpsInputMode)
         {
             _globalScope = globalScope;
             _readModel = readModel;
             _readModel.PropertyChanged += _readModel_PropertyChanged;
             _windowManager = windowManager;
             _c2DWcfManager = c2DWcfManager;
+            _currentGpsInputMode = currentGpsInputMode;
         }
 
         public void Initialize(Guid nodeId)
@@ -133,7 +137,8 @@ namespace Iit.Fibertest.Client
             _originalNode = _readModel.Nodes.First(n => n.Id == nodeId);
             _nodeCoors = new PointLatLng() { Lat = _originalNode.Latitude, Lng = _originalNode.Longitude };
             Title = _originalNode.Title;
-            SelectedGpsInputMode = GpsInputModes.First();
+            _selectedGpsInputModeComboItem = GpsInputModeComboItems.First(i => i.Mode == _currentGpsInputMode.Mode);
+            Coors = _nodeCoors.ToDetailedString(_selectedGpsInputModeComboItem.Mode);
             Comment = _originalNode.Comment;
 
             TracesInNode = _readModel.Traces.Where(t => t.Nodes.Contains(nodeId)).ToList();
@@ -184,7 +189,7 @@ namespace Iit.Fibertest.Client
             if (cmd is UpdateEquipment equipment)
                 LaunchUpdateEquipmentView(equipment.Id);
             else if (cmd is RemoveEquipment)
-                RemoveEquipment((RemoveEquipment) cmd);
+                RemoveEquipment((RemoveEquipment)cmd);
             else
                 await AddEquipmentIntoNode((bool)cmd);
         }

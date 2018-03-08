@@ -38,15 +38,18 @@ namespace Graph.Tests
         {
              _rtuUpdateViewModel = _sut.Container.Resolve<RtuUpdateViewModel>();
             _rtuUpdateViewModel.Initialize(_rtuId);
+            _rtuUpdateViewModel.GpsInputViewModel.SelectedGpsInputModeComboItem =
+                _rtuUpdateViewModel.GpsInputViewModel.GpsInputModes.First(i =>
+                    i.Mode == GpsInputMode.DegreesAndMinutes);
         }
 
         [Then(@"Координаты должны быть ""(.*)"" ""(.*)""  ""(.*)"" ""(.*)""")]
-        public void ThenКоординатыДолжныБыть(string p0, string p1, string p2, string p3)
+        public void ThenКоординатыДолжныБыть(double p0, double p1, double p2, double p3)
         {
-            _rtuUpdateViewModel.GpsInputViewModel.OneCoorViewModelLatitude.Degrees.Should().Be(p0);
-            _rtuUpdateViewModel.GpsInputViewModel.OneCoorViewModelLatitude.Minutes.Should().Be(p1);
-            _rtuUpdateViewModel.GpsInputViewModel.OneCoorViewModelLongitude.Degrees.Should().Be(p2);
-            _rtuUpdateViewModel.GpsInputViewModel.OneCoorViewModelLongitude.Minutes.Should().Be(p3);
+            double.Parse(_rtuUpdateViewModel.GpsInputViewModel.OneCoorViewModelLatitude.Degrees).Should().BeApproximately(p0, 0.1F);
+            double.Parse(_rtuUpdateViewModel.GpsInputViewModel.OneCoorViewModelLatitude.Minutes).Should().BeApproximately(p1, 0.00019F);
+            double.Parse(_rtuUpdateViewModel.GpsInputViewModel.OneCoorViewModelLongitude.Degrees).Should().BeApproximately(p2, 0.1F);
+            double.Parse(_rtuUpdateViewModel.GpsInputViewModel.OneCoorViewModelLongitude.Minutes).Should().BeApproximately(p3, 0.00019F);
         }
 
         [When(@"Пользователь выбирает формат градусы")]
@@ -57,10 +60,10 @@ namespace Graph.Tests
         }
 
         [Then(@"Координаты в таком формате должны быть ""(.*)"" ""(.*)""")]
-        public void ThenКоординатыВТакомФорматеДолжныБыть(string p0, string p1)
+        public void ThenКоординатыВТакомФорматеДолжныБыть(double p0, double p1)
         {
-            _rtuUpdateViewModel.GpsInputViewModel.OneCoorViewModelLatitude.Degrees.Should().Be(p0);
-            _rtuUpdateViewModel.GpsInputViewModel.OneCoorViewModelLongitude.Degrees.Should().Be(p1);
+            double.Parse(_rtuUpdateViewModel.GpsInputViewModel.OneCoorViewModelLatitude.Degrees).Should().BeApproximately(p0, 0.0000019F);
+            double.Parse(_rtuUpdateViewModel.GpsInputViewModel.OneCoorViewModelLongitude.Degrees).Should().BeApproximately(p1, 0.0000019F);
         }
 
         [When(@"Пользователь выбирает формат градусы-минуты-секунды")]
@@ -72,14 +75,14 @@ namespace Graph.Tests
         }
 
         [Then(@"Координаты должны быть ""(.*)"" ""(.*)"" ""(.*)"" ""(.*)"" ""(.*)"" ""(.*)""")]
-        public void ThenКоординатыДолжныБыть(string p0, string p1, string p2, string p3, string p4, string p5)
+        public void ThenКоординатыДолжныБыть(double p0, double p1, double p2, double p3, double p4, double p5)
         {
-            _rtuUpdateViewModel.GpsInputViewModel.OneCoorViewModelLatitude.Degrees.Should().Be(p0);
-            _rtuUpdateViewModel.GpsInputViewModel.OneCoorViewModelLatitude.Minutes.Should().Be(p1);
-            _rtuUpdateViewModel.GpsInputViewModel.OneCoorViewModelLatitude.Seconds.Should().Be(p2);
-            _rtuUpdateViewModel.GpsInputViewModel.OneCoorViewModelLongitude.Degrees.Should().Be(p3);
-            _rtuUpdateViewModel.GpsInputViewModel.OneCoorViewModelLongitude.Minutes.Should().Be(p4);
-            _rtuUpdateViewModel.GpsInputViewModel.OneCoorViewModelLongitude.Seconds.Should().Be(p5);
+            double.Parse(_rtuUpdateViewModel.GpsInputViewModel.OneCoorViewModelLatitude.Degrees).Should().BeApproximately(p0, 0.1F);
+            double.Parse(_rtuUpdateViewModel.GpsInputViewModel.OneCoorViewModelLatitude.Minutes).Should().BeApproximately(p1, 0.1F);
+            double.Parse(_rtuUpdateViewModel.GpsInputViewModel.OneCoorViewModelLatitude.Seconds).Should().BeApproximately(p2, 0.019F);
+            double.Parse(_rtuUpdateViewModel.GpsInputViewModel.OneCoorViewModelLongitude.Degrees).Should().BeApproximately(p3, 0.1F);
+            double.Parse(_rtuUpdateViewModel.GpsInputViewModel.OneCoorViewModelLongitude.Minutes).Should().BeApproximately(p4, 0.1F);
+            double.Parse(_rtuUpdateViewModel.GpsInputViewModel.OneCoorViewModelLongitude.Seconds).Should().BeApproximately(p5, 0.019F);
         }
 
         [When(@"Пользователь изменяет координаты а затем нажимает Отменить изменения")]
