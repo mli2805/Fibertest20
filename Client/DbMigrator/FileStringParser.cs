@@ -18,7 +18,7 @@ namespace Iit.Fibertest.DbMigrator
             var nodeId1 = int.Parse(parts[1]);
             var nodeId2 = int.Parse(parts[2]);
 
-            var evnt = new FiberAdded()
+            var evnt = new AddFiber()
             {
                 Id = Guid.NewGuid(),
                 Node1 = _graph.NodesDictionary[nodeId1],
@@ -37,14 +37,14 @@ namespace Iit.Fibertest.DbMigrator
             if (type == EquipmentType.Rtu)
             {
                 var rtuGuid = Guid.NewGuid();
-                _graph.Db.Add(new RtuAtGpsLocationAdded()
+                _graph.Db.Add(new AddRtuAtGpsLocation()
                 {
                     Id = rtuGuid,
                     NodeId = nodeGuid,
                     Latitude = double.Parse(parts[3]),
                     Longitude = double.Parse(parts[4]),
                 });
-                _graph.Db.Add(new RtuUpdated()
+                _graph.Db.Add(new UpdateRtu()
                 {
                     Id = rtuGuid,
                     Title = parts[5].Trim(),
@@ -54,7 +54,7 @@ namespace Iit.Fibertest.DbMigrator
             }
             else
             {
-                _graph.Db.Add(new EquipmentAtGpsLocationAdded()
+                _graph.Db.Add(new AddEquipmentAtGpsLocation()
                 {
                     NodeId = nodeGuid,
                     Type = EquipmentType.EmptyNode,
@@ -63,7 +63,7 @@ namespace Iit.Fibertest.DbMigrator
                     Latitude = double.Parse(parts[3]),
                     Longitude = double.Parse(parts[4]),
                 });
-                _graph.Db.Add(new NodeUpdated()
+                _graph.Db.Add(new UpdateNode()
                 {
                     Id = nodeGuid,
                     Title = parts[5].Trim(),
@@ -79,7 +79,7 @@ namespace Iit.Fibertest.DbMigrator
             var nodeGuid = _graph.NodesDictionary[nodeId];
             var rtuGuid = _graph.NodeToRtuDictionary[nodeGuid];
 
-            _graph.Db.Add(new RtuInitialized()
+            _graph.Db.Add(new InitializeRtu()
             {
                 Id = rtuGuid,
                 OwnPortCount = int.Parse(parts[2]),
@@ -100,7 +100,7 @@ namespace Iit.Fibertest.DbMigrator
             var nodeId = int.Parse(parts[2]);
             var type = OldEquipmentTypeConvertor(int.Parse(parts[3]));
 
-            var evnt = new EquipmentIntoNodeAdded()
+            var evnt = new AddEquipmentIntoNode()
             {
                 Id = equipmentGuid,
                 NodeId = _graph.NodesDictionary[nodeId],
@@ -117,14 +117,13 @@ namespace Iit.Fibertest.DbMigrator
             var nodeGuid = _graph.NodesDictionary[nodeId];
             var rtuGuid = _graph.NodeToRtuDictionary[nodeGuid];
 
-            _graph.Db.Add(new OtauAttached()
+            _graph.Db.Add(new AttachOtau()
             {
                 Id = Guid.NewGuid(),
                 RtuId = rtuGuid,
                 NetAddress = new NetAddress() { Ip4Address = parts[3], Port = int.Parse(parts[4]), IsAddressSetAsIp = true },
-                Serial = int.Parse(parts[5]),
+                Serial = parts[5],
                 PortCount = int.Parse(parts[6]),
-                FirstPortNumber = int.Parse(parts[7]),
                 MasterPort = int.Parse(parts[8]),
             });
         }
@@ -136,6 +135,7 @@ namespace Iit.Fibertest.DbMigrator
                 case 2: return EquipmentType.Closure;
                 case 3: return EquipmentType.Cross;
                 case 4: return EquipmentType.Rtu;
+                case 5: return EquipmentType.Other;
                 case 6: return EquipmentType.Terminal;
             }
 

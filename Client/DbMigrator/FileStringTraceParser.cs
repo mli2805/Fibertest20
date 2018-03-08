@@ -16,12 +16,12 @@ namespace Iit.Fibertest.DbMigrator
 
         public void ParseTrace(string[] parts)
         {
-            var traceId = Int32.Parse(parts[1]);
+            var traceId = int.Parse(parts[1]);
             var traceGuid = Guid.NewGuid();
             _graph.TracesDictionary.Add(traceId, traceGuid);
 
             _graph.TraceEventsUnderConstruction.Add(
-                new TraceAdded()
+                new AddTrace()
                 {
                     Id = traceGuid,
                     Title = parts[3],
@@ -29,10 +29,10 @@ namespace Iit.Fibertest.DbMigrator
                 });
 
 
-            var port = Int32.Parse(parts[2]);
+            var port = int.Parse(parts[2]);
             if (port != -1)
                 _graph.TraceEventsUnderConstruction.Add(
-                    new TraceAttached()
+                    new AttachTrace()
                     {
                         TraceId = traceGuid,
                         OtauPortDto = new OtauPortDto() { OpticalPort = port }
@@ -41,28 +41,28 @@ namespace Iit.Fibertest.DbMigrator
 
         public void ParseTraceNodes(string[] parts)
         {
-            var traceId = Int32.Parse(parts[1]);
-            var evnt = (TraceAdded)_graph.TraceEventsUnderConstruction.First(e => e is TraceAdded && ((TraceAdded)e).Id == _graph.TracesDictionary[traceId]);
+            var traceId = int.Parse(parts[1]);
+            var evnt = (AddTrace)_graph.TraceEventsUnderConstruction.First(e => e is AddTrace && ((AddTrace)e).Id == _graph.TracesDictionary[traceId]);
             for (int i = 2; i < parts.Length; i++)
             {
                 if (parts[i] == "")
                     continue;
-                evnt.Nodes.Add(_graph.NodesDictionary[Int32.Parse(parts[i])]);
+                evnt.Nodes.Add(_graph.NodesDictionary[int.Parse(parts[i])]);
             }
         }
 
         public void ParseTraceEquipments(string[] parts)
         {
-            var traceId = Int32.Parse(parts[1]);
-            var evnt = (TraceAdded)_graph.TraceEventsUnderConstruction.First(e => e is TraceAdded && ((TraceAdded)e).Id == _graph.TracesDictionary[traceId]);
-            var rtuGuid = _graph.NodeToRtuDictionary[_graph.NodesDictionary[Int32.Parse(parts[2])]];
+            var traceId = int.Parse(parts[1]);
+            var evnt = (AddTrace)_graph.TraceEventsUnderConstruction.First(e => e is AddTrace && ((AddTrace)e).Id == _graph.TracesDictionary[traceId]);
+            var rtuGuid = _graph.NodeToRtuDictionary[_graph.NodesDictionary[int.Parse(parts[2])]];
             evnt.RtuId = rtuGuid;
             evnt.Equipments.Add(rtuGuid);
             for (int i = 3; i < parts.Length; i++)
             {
                 if (parts[i] == "")
                     continue;
-                var equipmentId = Int32.Parse(parts[i]);
+                var equipmentId = int.Parse(parts[i]);
                 evnt.Equipments.Add(equipmentId == -1 ? Guid.Empty : _graph.EquipmentsDictionary[equipmentId]);
             }
         }

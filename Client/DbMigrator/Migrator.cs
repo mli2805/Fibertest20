@@ -1,19 +1,30 @@
 ﻿using System.IO;
 using System.Text;
+using Iit.Fibertest.Dto;
+using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.DbMigrator
 {
     public class Migrator
     {
+        private readonly IniFile _iniFile;
+        private readonly LogFile _logFile;
         private readonly Graph _graph;
         private readonly FileStringParser _fileStringParser;
         private readonly FileStringTraceParser _fileStringTraceParser;
 
-        public Migrator(Graph graph, FileStringParser fileStringParser, FileStringTraceParser fileStringTraceParser)
+
+
+        public Migrator(IniFile iniFile, LogFile logFile, Graph graph, 
+            FileStringParser fileStringParser, FileStringTraceParser fileStringTraceParser)
         {
+            _iniFile = iniFile;
+            _logFile = logFile;
             _graph = graph;
             _fileStringParser = fileStringParser;
             _fileStringTraceParser = fileStringTraceParser;
+
         }
 
         public void Go()
@@ -26,6 +37,7 @@ namespace Iit.Fibertest.DbMigrator
 
             Encoding win1251 = Encoding.GetEncoding("Windows-1251");
             string[] lines = File.ReadAllLines(@"..\db\export.txt", win1251);
+            _logFile.AppendLine($"Export.txt contains {lines.Length} lines");
 
            FirstPass(lines);
 
@@ -35,12 +47,41 @@ namespace Iit.Fibertest.DbMigrator
             _graph.TraceEventsUnderConstruction.ForEach(e => _graph.Db.Add(e));
 
             System.Threading.Thread.CurrentThread.CurrentCulture = memory;
+
+
+            SendCommands();
+        }
+
+        private void SendCommands()
+        {
+            _logFile.EmptyLine();
+            _logFile.AppendLine($"{_graph.Db.Count} commands prepared. Sending...");
+
+            var c2DWcfManager = new C2DWcfManager(_iniFile, _logFile);
+            DoubleAddress serverAddress = _iniFile.ReadDoubleAddress((int) TcpPorts.ServerListenToClient);
+            NetAddress clientAddress = _iniFile.Read(IniSection.ClientLocalAddress, (int) TcpPorts.ClientListenTo);
+            c2DWcfManager.SetServerAddresses(serverAddress, @"migrator", clientAddress.Ip4Address);
+            for (var i = 0; i < _graph.Db.Count; i++)
+            {
+                var command = _graph.Db[i];
+                var result = c2DWcfManager.SendCommandAsObj(command).Result;
+                if (!string.IsNullOrEmpty(result))
+                    _logFile.AppendLine(result);
+
+
+                if (i % 100 == 0)
+                    _logFile.AppendLine($"{i} commands sent");
+            }
         }
 
         private void FirstPass(string[] lines)
         {
-            foreach (var line in lines)
+            _logFile.EmptyLine();
+            _logFile.AppendLine("First pass");
+
+            for (var i = 0; i < lines.Length; i++)
             {
+                var line = lines[i];
                 var logLineParts = line.Split('|');
                 if (logLineParts.Length == 1)
                     continue;
@@ -63,13 +104,20 @@ namespace Iit.Fibertest.DbMigrator
                         _fileStringParser.ParseCharon(parts);
                         break;
                 }
+
+                if (i % 2000 == 0)
+                    _logFile.AppendLine($"{i} lines processed");
             }
         }
 
         private void SecondPass(string[] lines)
         {
-            foreach (var line in lines)
+            _logFile.EmptyLine();
+            _logFile.AppendLine("Second pass");
+
+            for (var i = 0; i < lines.Length; i++)
             {
+                var line = lines[i];
                 var logLineParts = line.Split('|');
                 if (logLineParts.Length == 1)
                     continue;
@@ -86,6 +134,9 @@ namespace Iit.Fibertest.DbMigrator
                         _fileStringTraceParser.ParseTraceEquipments(parts);
                         break;
                 }
+
+                if (i % 2000 == 0)
+                    _logFile.AppendLine($"{i} lines processed");
             }
         }
       

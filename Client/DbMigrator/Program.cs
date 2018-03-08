@@ -1,4 +1,5 @@
 ﻿using System;
+using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.DbMigrator
 {
@@ -6,10 +7,15 @@ namespace Iit.Fibertest.DbMigrator
     {
         static void Main()
         {
+            var iniFile = new IniFile();
+            iniFile.AssignFile("migrator.ini");
+            var logFile = new LogFile(iniFile);
+            logFile.AssignFile("migrator.log");
+
             var graph = new Graph();
             var fileStringParser = new FileStringParser(graph);
             var fileStringTraceParser = new FileStringTraceParser(graph);
-            new Migrator(graph, fileStringParser,fileStringTraceParser).Go();
+            new Migrator(iniFile, logFile, graph, fileStringParser,fileStringTraceParser).Go();
 
             Console.WriteLine("Done.");
             Console.ReadLine();
