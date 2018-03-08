@@ -725,7 +725,7 @@
 	<data name="SID_Fiber_type_wavelength" xml:space="preserve">
     <value>Тип лазера - Длина волны</value>
   </data>
-	<data name="SID_Distance range" xml:space="preserve">
+	<data name="SID_Distance_range" xml:space="preserve">
     <value>Диапазон расстояний - LMax:</value>
   </data>
 	<data name="SID_Total_fiber_loss" xml:space="preserve">

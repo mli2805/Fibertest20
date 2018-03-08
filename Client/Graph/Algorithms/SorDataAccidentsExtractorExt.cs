@@ -61,7 +61,7 @@ namespace Iit.Fibertest.Graph.Algorithms
 
         private static AccidentOnTrace BuildAccidentInOldEvent(this OtdrDataKnownBlocks sorData, RftsEvent rftsEvent, int i, int newEventsFound, RftsLevelType level)
         {
-            var brokenLandmarkIndex = sorData.GetLandmarkIndexForKeyEventIndex(i);
+            var brokenLandmarkIndex = sorData.GetLandmarkIndexForKeyEventIndex(i + newEventsFound);
             var previousLandmark = sorData.LinkParameters.LandmarkBlocks[brokenLandmarkIndex - 1];
 
             var accidentInOldEvent = new AccidentInOldEvent
