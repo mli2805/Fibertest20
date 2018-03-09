@@ -62,7 +62,7 @@ namespace Graph.Tests
         [Then(@"Те ее отрезки что не входят в присоединенную трассу меняют цвет")]
         public void ThenТеЕеОтрезкиЧтоНеВходятВПрисоединеннуюТрассуМеняютЦвет()
         {
-            foreach (var fiberVm in _sut.GraphReadModel.Fibers)
+            foreach (var fiberVm in _sut.GraphReadModel.Data.Fibers)
             {
                 if (fiberVm.States.ContainsKey(_traceId1))
                     fiberVm.State.Should().Be(FiberState.Unknown);
@@ -74,7 +74,7 @@ namespace Graph.Tests
         [Then(@"Те ее отрезки что не входят в присоединенную трассу удаляются")]
         public void ThenТеЕеОтрезкиЧтоНеВходятВПрисоединеннуюТрассуУдаляются()
         {
-            _sut.GraphReadModel.Fibers.All(f => f.State == FiberState.Unknown).Should().BeTrue();
+            _sut.GraphReadModel.Data.Fibers.All(f => f.State == FiberState.Unknown).Should().BeTrue();
         }
     }
 }

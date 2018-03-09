@@ -27,7 +27,7 @@ namespace Iit.Fibertest.Client
         public void Initialize(Guid rtuNodeId)
         {
             Steps = new ObservableCollection<StepModel>();
-            var rtu = _graphReadModel.Rtus.First(r => r.Node.Id == rtuNodeId);
+            var rtu = _graphReadModel.Data.Rtus.First(r => r.Node.Id == rtuNodeId);
             _graphReadModel.MainMap.Position = rtu.Node.Position;
             Steps.Add(new StepModel() { NodeId = rtu.Node.Id, Title = rtu.Title });
         }
@@ -46,7 +46,7 @@ namespace Iit.Fibertest.Client
         {
             if (Steps.Count == 1) return;
             Guid backwardNodeId = Steps[Steps.Count - 2].NodeId;
-            JustStep(_graphReadModel.Nodes.First(n=>n.Id == backwardNodeId));
+            JustStep(_graphReadModel.Data.Nodes.First(n=>n.Id == backwardNodeId));
         }
 
         public bool StepForward()
@@ -94,7 +94,7 @@ namespace Iit.Fibertest.Client
         public void CancelStep()
         {
             Steps.Remove(Steps.Last());
-            _graphReadModel.MainMap.Position = _graphReadModel.Nodes.First(n => n.Id == Steps.Last().NodeId).Position;
+            _graphReadModel.MainMap.Position = _graphReadModel.Data.Nodes.First(n => n.Id == Steps.Last().NodeId).Position;
         }
 
         public void Accept()

@@ -46,7 +46,7 @@ namespace Graph.Tests
         {
             _sut.ReadModel.Rtus.FirstOrDefault(r => r.Id == _rtu.Id).Should().BeNull();
             _sut.TreeOfRtuViewModel.TreeOfRtuModel.Tree.FirstOrDefault(r => r.Id == _rtu.Id).Should().BeNull();
-            _sut.GraphReadModel.Rtus.FirstOrDefault(r => r.Id == _rtu.Id).Should().BeNull();
+            _sut.GraphReadModel.Data.Rtus.FirstOrDefault(r => r.Id == _rtu.Id).Should().BeNull();
         }
 
         [Then(@"Узел под РТУ и присоединенные к нему отрезки удаляются")]

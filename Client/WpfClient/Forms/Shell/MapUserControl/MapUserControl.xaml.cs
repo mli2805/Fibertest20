@@ -45,13 +45,13 @@ namespace Iit.Fibertest.Client
             graph.MainMap = MainMap;
             MainMap.CurrentGpsInputMode = GraphReadModel.CurrentGpsInputMode;
 
-            graph.Nodes.CollectionChanged += NodesCollectionChanged;
-            graph.Fibers.CollectionChanged += FibersCollectionChanged;
+            graph.Data.Nodes.CollectionChanged += NodesCollectionChanged;
+            graph.Data.Fibers.CollectionChanged += FibersCollectionChanged;
 
             graph.PropertyChanged += Graph_PropertyChanged;
 
-            ApplyAddedNodes(graph.Nodes);
-            ApplyAddedFibers(graph.Fibers);
+            ApplyAddedNodes(graph.Data.Nodes);
+            ApplyAddedFibers(graph.Data.Fibers);
         }
 
         private void Graph_PropertyChanged(object sender, PropertyChangedEventArgs e)

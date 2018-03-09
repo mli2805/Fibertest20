@@ -23,7 +23,7 @@ namespace Graph.Tests
         {
             _sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation(){Type = EquipmentType.EmptyNode}).Wait();
             _sut.Poller.EventSourcingTick().Wait();
-            var nodeId = _sut.GraphReadModel.Nodes.Last().Id;
+            var nodeId = _sut.GraphReadModel.Data.Nodes.Last().Id;
             _nodeUpdateViewModel = _sut.Container.Resolve<NodeUpdateViewModel>();
             _nodeUpdateViewModel.Initialize(nodeId);
             _nodeUpdateViewModel.Title = title;
@@ -91,7 +91,7 @@ namespace Graph.Tests
         [Then(@"Сохраняется название узла (.*)")]
         public void ThenСохраняетсяНазваниеУзла(string title)
         {
-            _sut.GraphReadModel.Nodes.First(n => n.Id == _saidNodeId).Title.Should().Be(title);
+            _sut.GraphReadModel.Data.Nodes.First(n => n.Id == _saidNodeId).Title.Should().Be(title);
         }
 
         [Given(@"Пользователь ввел комментарий к узлу (.*)")]
@@ -105,7 +105,7 @@ namespace Graph.Tests
         [Then(@"Сохраняется комментарий узла (.*)")]
         public void ThenСохраняетсяКомментарийУзла(string comment)
         {
-            _sut.GraphReadModel.Nodes.First(n => n.Id == _saidNodeId).Comment.Should().Be(comment);
+            _sut.GraphReadModel.Data.Nodes.First(n => n.Id == _saidNodeId).Comment.Should().Be(comment);
         }
 
         [When(@"Пользователь открыл окно редактирования и что-то изменив нажал Отменить")]

@@ -20,7 +20,7 @@ namespace Iit.Fibertest.Client
         {
             IMapper mapper = new MapperConfiguration(cfg => cfg.AddProfile<MappingEventToVm>()).CreateMapper();
             var traceVm = mapper.Map<TraceVm>(evnt);
-            _model.Traces.Add(traceVm);
+            _model.Data.Traces.Add(traceVm);
 
             ApplyTraceStateToFibers(traceVm);
         }
@@ -33,42 +33,42 @@ namespace Iit.Fibertest.Client
 
         private FiberVm GetFiberBetweenNodes(Guid node1, Guid node2)
         {
-            return _model.Fibers.First(
+            return _model.Data.Fibers.First(
                 f => f.Node1.Id == node1 && f.Node2.Id == node2 ||
                      f.Node1.Id == node2 && f.Node2.Id == node1);
         }
 
         public void CleanTrace(TraceCleaned evnt)
         {
-            var traceVm = _model.Traces.First(t => t.Id == evnt.Id);
+            var traceVm = _model.Data.Traces.First(t => t.Id == evnt.Id);
             GetTraceFibersByNodes(traceVm.Nodes).ToList().ForEach(f => f.RemoveState(evnt.Id));
-            _model.Traces.Remove(traceVm);
+            _model.Data.Traces.Remove(traceVm);
         }
 
         public void RemoveTrace(TraceRemoved evnt)
         {
-            var traceVm = _model.Traces.First(t => t.Id == evnt.Id);
+            var traceVm = _model.Data.Traces.First(t => t.Id == evnt.Id);
             var traceFibers = GetTraceFibersByNodes(traceVm.Nodes).ToList();
             foreach (var fiberVm in traceFibers)
             {
                 fiberVm.RemoveState(evnt.Id);
                 if (fiberVm.State == FiberState.NotInTrace)
-                    _model.Fibers.Remove(fiberVm);
+                    _model.Data.Fibers.Remove(fiberVm);
             }
             foreach (var nodeId in traceVm.Nodes)
             {
-                if (_model.Rtus.Any(r => r.Node.Id == nodeId) ||
-                    _model.Fibers.Any(f => f.Node1.Id == nodeId || f.Node2.Id == nodeId))
+                if (_model.Data.Rtus.Any(r => r.Node.Id == nodeId) ||
+                    _model.Data.Fibers.Any(f => f.Node1.Id == nodeId || f.Node2.Id == nodeId))
                     continue;
-                var nodeVm = _model.Nodes.First(n => n.Id == nodeId);
-                _model.Nodes.Remove(nodeVm);
+                var nodeVm = _model.Data.Nodes.First(n => n.Id == nodeId);
+                _model.Data.Nodes.Remove(nodeVm);
             }
-            _model.Traces.Remove(traceVm);
+            _model.Data.Traces.Remove(traceVm);
         }
 
         public void AttachTrace(TraceAttached evnt)
         {
-            var traceVm = _model.Traces.First(t => t.Id == evnt.TraceId);
+            var traceVm = _model.Data.Traces.First(t => t.Id == evnt.TraceId);
             traceVm.State = FiberState.Unknown;
             traceVm.Port = evnt.OtauPortDto.OpticalPort;
             ApplyTraceStateToFibers(traceVm);
@@ -76,7 +76,7 @@ namespace Iit.Fibertest.Client
 
         public void DetachTrace(TraceDetached evnt)
         {
-            var traceVm = _model.Traces.First(t => t.Id == evnt.TraceId);
+            var traceVm = _model.Data.Traces.First(t => t.Id == evnt.TraceId);
             traceVm.State = FiberState.NotJoined;
             traceVm.Port = 0;
             ApplyTraceStateToFibers(traceVm);

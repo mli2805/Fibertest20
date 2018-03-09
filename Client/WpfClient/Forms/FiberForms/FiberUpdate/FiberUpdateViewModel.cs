@@ -44,7 +44,7 @@ namespace Iit.Fibertest.Client
 
         public void Initialize(Guid fiberId)
         {
-            _fiberVm = _graphReadModel.Fibers.Single(f => f.Id == fiberId);
+            _fiberVm = _graphReadModel.Data.Fibers.Single(f => f.Id == fiberId);
 
             var n1 = GetNotAdjustmentPointEdgeOfFiber(_fiberVm, _fiberVm.Node1);
             var n2 = GetNotAdjustmentPointEdgeOfFiber(_fiberVm, _fiberVm.Node2);

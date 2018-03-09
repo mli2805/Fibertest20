@@ -77,7 +77,7 @@ namespace Iit.Fibertest.Client
 
         public static Guid ChooseEquipmentForNode(this GraphReadModel model, Guid nodeId, bool isLastNode)
         {
-            var nodeVm = model.Nodes.First(n => n.Id == nodeId);
+            var nodeVm = model.Data.Nodes.First(n => n.Id == nodeId);
             var allEquipmentInNode = model.ReadModel.Equipments.Where(e => e.NodeId == nodeId).ToList();
             if (allEquipmentInNode.Count == 1 &&
                 (allEquipmentInNode[0].Type == EquipmentType.AdjustmentPoint || !string.IsNullOrEmpty(nodeVm.Title)))

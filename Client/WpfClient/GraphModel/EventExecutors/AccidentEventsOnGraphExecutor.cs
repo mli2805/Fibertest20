@@ -19,7 +19,7 @@ namespace Iit.Fibertest.Client
 
         public void ShowMonitoringResult(MonitoringResultShown evnt)
         {
-            var traceVm = _model.Traces.First(t => t.Id == evnt.TraceId);
+            var traceVm = _model.Data.Traces.First(t => t.Id == evnt.TraceId);
             traceVm.State = evnt.TraceState;
             _model.ChangeTraceColor(evnt.TraceId, traceVm.Nodes, traceVm.State);
 
@@ -71,13 +71,13 @@ namespace Iit.Fibertest.Client
                 Type = EquipmentType.AccidentPlace,
                 AccidentOnTraceVmId = traceId,
             };
-            _model.Equipments.Add(new EquipmentVm()
+            _model.Data.Equipments.Add(new EquipmentVm()
             {
                 Id = Guid.NewGuid(),
                 Node = accidentNode,
                 Type = EquipmentType.AccidentPlace
             });
-            _model.Nodes.Add(accidentNode);
+            _model.Data.Nodes.Add(accidentNode);
         }
 
         private void ShowBadSegment(AccidentInOldEvent accidentInOldEvent, TraceVm traceVm)

@@ -14,17 +14,17 @@ namespace Iit.Fibertest.Client
 
         public void AddFiber(FiberAdded evnt)
         {
-            _model.Fibers.Add(new FiberVm()
+            _model.Data.Fibers.Add(new FiberVm()
             {
                 Id = evnt.Id,
-                Node1 = _model.Nodes.First(m => m.Id == evnt.Node1),
-                Node2 = _model.Nodes.First(m => m.Id == evnt.Node2),
+                Node1 = _model.Data.Nodes.First(m => m.Id == evnt.Node1),
+                Node2 = _model.Data.Nodes.First(m => m.Id == evnt.Node2),
             });
         }
 
         public void RemoveFiber(FiberRemoved evnt)
         {
-            _model.Fibers.Remove(_model.Fibers.First(f => f.Id == evnt.Id));
+            _model.Data.Fibers.Remove(_model.Data.Fibers.First(f => f.Id == evnt.Id));
         }
     }
 }

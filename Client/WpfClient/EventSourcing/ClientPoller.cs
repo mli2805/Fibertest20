@@ -45,10 +45,11 @@ namespace Iit.Fibertest.Client
             _pollingRate = iniFile.Read(IniSection.General, IniKey.ClientPollingRateMs, 500);
         }
 
-     
+
         public async Task<int> LoadEventSourcingCache()
         {
             var jsonsInCache = await _localDbManager.LoadEvents();
+            _logFile.AppendLine($@"There are {jsonsInCache.Length} events in cache. Applying...");
             ApplyEventSourcingEvents(jsonsInCache);
             return CurrentEventNumber;
         }
@@ -66,7 +67,7 @@ namespace Iit.Fibertest.Client
             _logFile.AppendLine($@"{CurrentEventNumber} events found in Db");
         }
 
-      
+
 
         public void Start()
         {
@@ -92,7 +93,7 @@ namespace Iit.Fibertest.Client
                 return 0;
             }
 
-            await _localDbManager.SaveEvents(events); 
+            await _localDbManager.SaveEvents(events);
             _dispatcherProvider.GetDispatcher().Invoke(() => ApplyEventSourcingEvents(events)); // sync, GUI thread
             return events.Length;
         }

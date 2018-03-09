@@ -50,7 +50,7 @@ namespace Iit.Fibertest.Client
         {
             if (parameter == null)
                 return false;
-            var fiberVm = GraphReadModel.Fibers.FirstOrDefault(f => f.Id == ((GMapRoute)parameter).Id);
+            var fiberVm = GraphReadModel.Data.Fibers.FirstOrDefault(f => f.Id == ((GMapRoute)parameter).Id);
             if (fiberVm == null) return false;
             return fiberVm.State == FiberState.NotInTrace;
         }

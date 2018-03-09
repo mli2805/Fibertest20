@@ -21,7 +21,7 @@ namespace Iit.Fibertest.Client
 
         public AccidentLineModel Create(AccidentOnTrace accidentOnTrace, int number)
         {
-            var traceVm = _graphReadModel.Traces.FirstOrDefault(t => t.Id == accidentOnTrace.TraceId);
+            var traceVm = _graphReadModel.Data.Traces.FirstOrDefault(t => t.Id == accidentOnTrace.TraceId);
             switch (accidentOnTrace)
             {
                 case AccidentAsNewEvent accidentAsNewEvent:
@@ -43,7 +43,7 @@ namespace Iit.Fibertest.Client
                 _graphReadModel.GetTraceNodesExcludingAdjustmentPoints(accidentInOldEvent.TraceId);
             var nodeId = nodesExcludingAdjustmentPoints[accidentInOldEvent.BrokenLandmarkIndex];
             var isLastNode = accidentInOldEvent.BrokenLandmarkIndex == nodesExcludingAdjustmentPoints.Count - 1;
-            var nodeVm = _graphReadModel.Nodes.FirstOrDefault(n => n.Id == nodeId);
+            var nodeVm = _graphReadModel.Data.Nodes.FirstOrDefault(n => n.Id == nodeId);
             var nodeTitle = nodeVm?.Title;
             var nodeCoors = nodeVm?.Position.ToDetailedString(_currentGpsInputMode.Mode);
 
@@ -70,11 +70,11 @@ namespace Iit.Fibertest.Client
             var nodesExcludingAdjustmentPoints =
                 _graphReadModel.GetTraceNodesExcludingAdjustmentPoints(accidentAsNewEvent.TraceId);
             var leftNodeId = nodesExcludingAdjustmentPoints[accidentAsNewEvent.LeftLandmarkIndex];
-            var leftNodeVm = _graphReadModel.Nodes.FirstOrDefault(n => n.Id == leftNodeId);
+            var leftNodeVm = _graphReadModel.Data.Nodes.FirstOrDefault(n => n.Id == leftNodeId);
             var leftNodeTitle = leftNodeVm?.Title;
 
             var rightNodeId = nodesExcludingAdjustmentPoints[accidentAsNewEvent.RightLandmarkIndex];
-            var rightNodeVm = _graphReadModel.Nodes.FirstOrDefault(n => n.Id == rightNodeId);
+            var rightNodeVm = _graphReadModel.Data.Nodes.FirstOrDefault(n => n.Id == rightNodeId);
             var rightNodeTitle = rightNodeVm?.Title;
 
             var accidentGps = _accidentPlaceLocator.GetAccidentGps(accidentAsNewEvent);
@@ -103,11 +103,11 @@ namespace Iit.Fibertest.Client
         private AccidentLineModel CreateBadSegment(AccidentInOldEvent accidentInOldEvent, TraceVm trace, int number)
         {
             var leftNodeId = trace.Nodes[accidentInOldEvent.BrokenLandmarkIndex - 1];
-            var leftNodeVm = _graphReadModel.Nodes.FirstOrDefault(n => n.Id == leftNodeId);
+            var leftNodeVm = _graphReadModel.Data.Nodes.FirstOrDefault(n => n.Id == leftNodeId);
             var leftNodeTitle = leftNodeVm?.Title;
 
             var rightNodeId = trace.Nodes[accidentInOldEvent.BrokenLandmarkIndex];
-            var rightNodeVm = _graphReadModel.Nodes.FirstOrDefault(n => n.Id == rightNodeId);
+            var rightNodeVm = _graphReadModel.Data.Nodes.FirstOrDefault(n => n.Id == rightNodeId);
             var rightNodeTitle = rightNodeVm?.Title;
 
             var model = new AccidentLineModel();
