@@ -11,6 +11,7 @@
         Host,
         IsAddressIp,
         TcpPort,
+        MySqlTcpPort,
 
         // General
         Version,

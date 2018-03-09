@@ -47,6 +47,7 @@ namespace Iit.Fibertest.DataCenterService
             var tid = Thread.CurrentThread.ManagedThreadId;
             _logFile.AppendLine($"Windows service started. Process {pid}, thread {tid}");
 
+            _serverSettings.Init();
             using (var dbContext = new FtDbContext(_serverSettings.Options))
             {
                 dbContext.Database.EnsureCreated();

@@ -7,7 +7,14 @@ namespace Graph.Tests
 {
     public sealed class FakeEventStoreInitializer : IEventStoreInitializer
     {
-        public IStoreEvents Init(IMyLog logFile)
+        private readonly IMyLog _logFile;
+
+        public FakeEventStoreInitializer(IMyLog logFile)
+        {
+            _logFile = logFile;
+        }
+
+        public IStoreEvents Init()
         {
             try
             {
@@ -16,12 +23,12 @@ namespace Graph.Tests
                     .InitializeStorageEngine()
                     .Build();
 
-                logFile.AppendLine(@"EventStoreService initialized successfully");
+                _logFile.AppendLine(@"EventStoreService initialized successfully");
                 return storeEvents;
             }
             catch (Exception e)
             {
-                logFile.AppendLine(e.Message);
+                _logFile.AppendLine(e.Message);
                 return null;
             }
         }

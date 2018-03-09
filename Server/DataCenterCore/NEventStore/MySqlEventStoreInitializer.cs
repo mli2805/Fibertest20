@@ -9,29 +9,41 @@ namespace Iit.Fibertest.DataCenterCore
 {
     public sealed class MySqlEventStoreInitializer : IEventStoreInitializer
     {
-        public IStoreEvents Init(IMyLog logFile)
+        private readonly IniFile _iniFile;
+        private readonly IMyLog _logFile;
+
+        private int _mysqlTcpPort;
+
+        public MySqlEventStoreInitializer(IniFile iniFile, IMyLog logFile)
         {
-            CreateDatabaseIfNotExists(logFile);
+            _iniFile = iniFile;
+            _logFile = logFile;
+        }
+
+        public IStoreEvents Init()
+        {
+            _mysqlTcpPort = _iniFile.Read(IniSection.General, IniKey.MySqlTcpPort, 3306);
+            CreateDatabaseIfNotExists();
             try
             {
                 var eventStore = Wireup.Init()
-                    .UsingSqlPersistence("Ft20graphMySql", "MySql.Data.MySqlClient", "server=localhost;user id=root;password=root;database=ft20graph")
+                    .UsingSqlPersistence("Ft20graphMySql", "MySql.Data.MySqlClient", $"server=localhost;port={_mysqlTcpPort};user id=root;password=root;database=ft20graph")
                     .WithDialect(new MySqlDialect())
                     .InitializeStorageEngine()
                     .Build();
 
-                logFile.AppendLine(@"EventStoreService initialized successfully");
+                _logFile.AppendLine(@"EventStoreService initialized successfully");
                 return eventStore;
 
             }
             catch (Exception e)
             {
-                logFile.AppendLine("MySqlEventStoreInitializer exception : " + e.Message);
+                _logFile.AppendLine("MySqlEventStoreInitializer exception : " + e.Message);
                 return null;
             }
         }
 
-        private void CreateDatabaseIfNotExists(IMyLog logFile)
+        private void CreateDatabaseIfNotExists()
         {
             try
             {
@@ -44,7 +56,7 @@ namespace Iit.Fibertest.DataCenterCore
             }
             catch (Exception e)
             {
-                logFile.AppendLine(e.Message);
+                _logFile.AppendLine(e.Message);
                 throw;
             }
         }

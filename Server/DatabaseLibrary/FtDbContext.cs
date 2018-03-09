@@ -1,4 +1,5 @@
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.UtilsLib;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iit.Fibertest.DatabaseLibrary
@@ -20,18 +21,33 @@ namespace Iit.Fibertest.DatabaseLibrary
 
     public interface ISettings
     {
+        void Init();
         DbContextOptions<FtDbContext> Options { get; }
 
     }
     public class ServerSettings : ISettings
     {
-        private string MySqlConnectionString => "server=localhost;user id=root;password=root;database=ft20efcore";
+        private readonly IniFile _iniFile;
+        private int _mysqlTcpPort;
+
+        public ServerSettings(IniFile iniFile)
+        {
+            _iniFile = iniFile;
+        }
+
+        public void Init()
+        {
+            _mysqlTcpPort = _iniFile.Read(IniSection.General, IniKey.MySqlTcpPort, 3306);
+        }
+
+        private string MySqlConnectionString => $"server=localhost;port={_mysqlTcpPort};user id=root;password=root;database=ft20efcore";
 
         public DbContextOptions<FtDbContext> Options =>
             new DbContextOptionsBuilder<FtDbContext>().UseMySql(MySqlConnectionString).Options;
     }
     public class TestSettings : ISettings
     {
+        public void Init() { }
         public DbContextOptions<FtDbContext> Options => new DbContextOptionsBuilder<FtDbContext>()
             .UseInMemoryDatabase(databaseName: "Test_database")
             .Options;

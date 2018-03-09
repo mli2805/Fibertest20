@@ -39,7 +39,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public void Init()
         {
-            _storeEvents = _eventStoreInitializer.Init(_logFile);
+            _storeEvents = _eventStoreInitializer.Init();
             var eventStream = _storeEvents.OpenStream(AggregateId);
 
             if (!AssignGraphDbVersion(eventStream)) return;
