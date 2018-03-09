@@ -47,7 +47,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             try
             {
-                MySqlConnection connection = new MySqlConnection("server=localhost;user id=root;password=root;");
+                MySqlConnection connection = new MySqlConnection($"server=localhost;port={_mysqlTcpPort};user id=root;password=root;");
                 MySqlCommand command = new MySqlCommand("create database if not exists ft20graph;", connection);
                 connection.Open();
                 command.ExecuteNonQuery();
