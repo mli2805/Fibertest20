@@ -31,7 +31,7 @@ namespace GMap.NET.WindowsPresentation
 
         public ContextMenu ContextMenu { get; set; }
         
-        public GMapRoute(Guid id, Guid leftId, Guid rightId, Brush color, double thickness, IEnumerable<PointLatLng> points)
+        public GMapRoute(Guid id, Guid leftId, Guid rightId, Brush color, double thickness, IEnumerable<PointLatLng> points, GMapControl map)
         {
             Id = id;
             LeftId = leftId;
@@ -39,7 +39,7 @@ namespace GMap.NET.WindowsPresentation
             Color = color;
             StrokeThickness = thickness;
             Points.AddRange(points);
-            RegenerateShape(null);
+            RegenerateShape(map);
         }
 
         public override void Clear()

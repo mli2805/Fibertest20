@@ -135,7 +135,7 @@ namespace Iit.Fibertest.Client
                 mousePoint.Y = mousePoint.Y - 1;
                 var endMarkerPosition = FromLocalToLatLng(GetPointFromPosition(mousePoint));
                 Markers.Add(new GMapRoute(DistanceFiberUnderCreation, StartNode.Id, Guid.Empty, Brushes.Black, 1,
-                    new List<PointLatLng>() { StartNode.Position, endMarkerPosition }));
+                    new List<PointLatLng>() { StartNode.Position, endMarkerPosition }, this));
                 LastDistance = (int)GpsCalculator.GetDistanceBetweenPointLatLng(StartNode.Position, endMarkerPosition);
             }
         }
@@ -156,7 +156,7 @@ namespace Iit.Fibertest.Client
                 else
                 {
                     var routeMarker = new GMapRoute(FiberUnderCreation, StartNode.Id, marker.Id, Brushes.Blue, 2,
-                        new List<PointLatLng>() { StartNode.Position, markerPosition });
+                        new List<PointLatLng>() { StartNode.Position, markerPosition }, this);
                     Markers.Add(routeMarker);
                     DistanceMarkers.Add(routeMarker);
 

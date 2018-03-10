@@ -1570,6 +1570,8 @@
 
             if (MouseWheelZoomEnabled && (IsMouseDirectlyOver || IgnoreMarkerOnMouseWheel) && !Core.IsDragging)
             {
+                Cursor = Cursors.Wait;
+
                 System.Windows.Point p = e.GetPosition(this);
                 if (MapScaleTransform != null)
                     p = MapScaleTransform.Inverse.Transform(p);
@@ -1620,6 +1622,7 @@
                 }
 
                 Core.MouseWheelZooming = false;
+                Cursor = cursorBefore;
             }
         }
 
@@ -1781,7 +1784,7 @@
                 mousePoint.X = mousePoint.X - 1;
                 mousePoint.Y = mousePoint.Y - 1;
                 Markers.Add(new GMapRoute(FiberUnderCreation, StartNode.Id, Guid.Empty, Brushes.Black, 1,
-                    new List<PointLatLng>() { StartNode.Position, FromLocalToLatLng(GetPointFromPosition(mousePoint)) }));
+                    new List<PointLatLng>() { StartNode.Position, FromLocalToLatLng(GetPointFromPosition(mousePoint)) }, this));
                 return;
             }
 

@@ -52,12 +52,12 @@ namespace Iit.Fibertest.Client
         {
             var route = new GMapRoute(fiberVm.Id, fiberVm.Node1.Id, fiberVm.Node2.Id,
                 fiberVm.State.GetBrush(isForeground: true),
-                fiberVm.IsBadSegment ? 4 : 2, new List<PointLatLng>() { fiberVm.Node1.Position, fiberVm.Node2.Position });
+                fiberVm.IsBadSegment ? 4 : 2, new List<PointLatLng>() { fiberVm.Node1.Position, fiberVm.Node2.Position }, MainMap);
             route.PropertyChanged += Route_PropertyChanged;
-            MainMap.Markers.Add(route);
             route.Shape.Visibility = GraphReadModel.SelectedGraphVisibilityItem.Level >= GraphVisibilityLevel.RtuAndTraces
                 ? Visibility.Visible
                 : Visibility.Hidden;
+            MainMap.Markers.Add(route);
         }
 
         private void FiberVm_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
