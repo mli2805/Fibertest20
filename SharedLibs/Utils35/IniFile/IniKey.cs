@@ -11,7 +11,6 @@
         Host,
         IsAddressIp,
         TcpPort,
-        MySqlTcpPort,
 
         // General
         Version,
@@ -64,6 +63,10 @@
         ReceiveTimeout,
         SendTimeout,
         PingTimeoutMs,
+
+        //MySql
+        MySqlTcpPort,
+        MySqlDbSchemePostfix,
 
         // Map
         Zoom,

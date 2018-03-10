@@ -29,6 +29,7 @@ namespace Iit.Fibertest.DatabaseLibrary
     {
         private readonly IniFile _iniFile;
         private int _mysqlTcpPort;
+        private string _measurementsScheme;
 
         public ServerSettings(IniFile iniFile)
         {
@@ -37,10 +38,12 @@ namespace Iit.Fibertest.DatabaseLibrary
 
         public void Init()
         {
-            _mysqlTcpPort = _iniFile.Read(IniSection.General, IniKey.MySqlTcpPort, 3306);
+            _mysqlTcpPort = _iniFile.Read(IniSection.MySql, IniKey.MySqlTcpPort, 3306);
+            var postfix = _iniFile.Read(IniSection.MySql, IniKey.MySqlDbSchemePostfix, "");
+            _measurementsScheme = "ft20efcore" + postfix;
         }
 
-        private string MySqlConnectionString => $"server=localhost;port={_mysqlTcpPort};user id=root;password=root;database=ft20efcore";
+        private string MySqlConnectionString => $"server=localhost;port={_mysqlTcpPort};user id=root;password=root;database={_measurementsScheme}";
 
         public DbContextOptions<FtDbContext> Options =>
             new DbContextOptionsBuilder<FtDbContext>().UseMySql(MySqlConnectionString).Options;
