@@ -47,17 +47,22 @@ namespace Iit.Fibertest.DbMigrator
         public void ParseTraceEquipments(string[] parts)
         {
             var traceId = int.Parse(parts[1]);
-            var evnt = (AddTrace)_graph.TraceEventsUnderConstruction.First(e => e is AddTrace && ((AddTrace)e).Id == _graph.TracesDictionary[traceId]);
+            var cmd = (AddTrace)_graph.TraceEventsUnderConstruction.First(e => e is AddTrace && ((AddTrace)e).Id == _graph.TracesDictionary[traceId]);
             var rtuGuid = _graph.NodeToRtuDictionary[_graph.NodesDictionary[int.Parse(parts[2])]];
-            evnt.RtuId = rtuGuid;
-            evnt.Equipments.Add(rtuGuid);
+            cmd.RtuId = rtuGuid;
+            cmd.Equipments.Add(rtuGuid);
             for (int i = 3; i < parts.Length; i++)
             {
                 if (parts[i] == "")
                     continue;
                 var equipmentId = int.Parse(parts[i]);
-                evnt.Equipments.Add(equipmentId == -1 ? Guid.Empty : _graph.EquipmentsDictionary[equipmentId]);
+                var equipmetnGuid = equipmentId == -1 
+                    ? GetEmptyNodeEquipmentGuid(cmd)
+                    : _graph.EquipmentsDictionary[equipmentId];
+                cmd.Equipments.Add(equipmetnGuid);
             }
+
+
 
             var traceGuid = _graph.TracesDictionary[traceId];
             var port = _graph.TracePorts[traceGuid];
@@ -76,8 +81,15 @@ namespace Iit.Fibertest.DbMigrator
                             OpticalPort = port,
                             IsPortOnMainCharon = true
                         }
-                    });}
+                    });
+            }
         }
 
+        private Guid GetEmptyNodeEquipmentGuid(AddTrace cmd)
+        {
+            var index = cmd.Equipments.Count;
+            var nodeGuid = cmd.Nodes[index];
+            return _graph.EmptyNodes[nodeGuid];
+        }
     }
 }

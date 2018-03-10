@@ -15,6 +15,7 @@ namespace Iit.Fibertest.DbMigrator
 
         public readonly List<InitializeRtu> RtuCommands = new List<InitializeRtu>();
         public readonly Dictionary<Guid, int> TracePorts = new Dictionary<Guid, int>();
+        public readonly Dictionary<Guid, Guid> EmptyNodes = new Dictionary<Guid, Guid>(); // nodeGuid ; emptyNodeEquipmentGuid
         public readonly List<object> TraceEventsUnderConstruction = new List<object>();
     }
 }
