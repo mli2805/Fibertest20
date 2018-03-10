@@ -67,9 +67,7 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<string> SendCommandAsObj(object cmd)
         {
-            var serializedCmd = JsonConvert.SerializeObject(cmd, cmd.GetType(), JsonSerializerSettings);
-            _logFile.AppendLine(serializedCmd);
-            return await SendCommand(serializedCmd, _username, _clientIp);
+            return await SendCommand(JsonConvert.SerializeObject(cmd, cmd.GetType(), JsonSerializerSettings), _username, _clientIp);
         }
 
         public async Task<string> SendCommand(string serializedCmd, string username, string clientIp)
