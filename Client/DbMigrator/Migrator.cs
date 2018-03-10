@@ -46,11 +46,11 @@ namespace Iit.Fibertest.DbMigrator
             // second pass - all nodes and equipment loaded, now we can process traces
             SecondPass(lines);
 
-            _graph.TraceEventsUnderConstruction.ForEach(e => _graph.Db.Add(e));
+            _graph.TraceEventsUnderConstruction.ForEach(e => _graph.Commands.Add(e));
 
             System.Threading.Thread.CurrentThread.CurrentCulture = memory;
 
-            _logFile.AppendLine($"{_graph.Db.Count} commands prepared");
+            _logFile.AppendLine($"{_graph.Commands.Count} commands prepared");
 
             SendCommands();
 
@@ -60,7 +60,7 @@ namespace Iit.Fibertest.DbMigrator
         private void SendCommands()
         {
             Console.WriteLine();
-            Console.WriteLine($"{DateTime.Now}   {_graph.Db.Count} commands prepared. Sending...");
+            Console.WriteLine($"{DateTime.Now}   {_graph.Commands.Count} commands prepared. Sending...");
 
             var c2DWcfManager = new C2DWcfManager(_iniFile, _logFile);
             DoubleAddress serverAddress = _iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
@@ -69,9 +69,9 @@ namespace Iit.Fibertest.DbMigrator
            
 
             var list = new List<object>();
-            for (var i = 0; i < _graph.Db.Count; i++)
+            for (var i = 0; i < _graph.Commands.Count; i++)
             {
-                list.Add(_graph.Db[i]);
+                list.Add(_graph.Commands[i]);
                 if (list.Count == 100) // no more please, max size of wcf operation could be exceeded, anyway check the log if are some errors
                 {
                     c2DWcfManager.SendCommandsAsObjs(list).Wait();

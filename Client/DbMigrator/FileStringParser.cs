@@ -24,7 +24,7 @@ namespace Iit.Fibertest.DbMigrator
                 Node1 = _graph.NodesDictionary[nodeId1],
                 Node2 = _graph.NodesDictionary[nodeId2]
             };
-            _graph.Db.Add(evnt);
+            _graph.Commands.Add(evnt);
         }
 
         public void ParseNode(string[] parts)
@@ -37,14 +37,14 @@ namespace Iit.Fibertest.DbMigrator
             if (type == EquipmentType.Rtu)
             {
                 var rtuGuid = Guid.NewGuid();
-                _graph.Db.Add(new AddRtuAtGpsLocation()
+                _graph.Commands.Add(new AddRtuAtGpsLocation()
                 {
                     Id = rtuGuid,
                     NodeId = nodeGuid,
                     Latitude = double.Parse(parts[3]),
                     Longitude = double.Parse(parts[4]),
                 });
-                _graph.Db.Add(new UpdateRtu()
+                _graph.Commands.Add(new UpdateRtu()
                 {
                     Id = rtuGuid,
                     Title = parts[5].Trim(),
@@ -54,7 +54,7 @@ namespace Iit.Fibertest.DbMigrator
             }
             else
             {
-                _graph.Db.Add(new AddEquipmentAtGpsLocation()
+                _graph.Commands.Add(new AddEquipmentAtGpsLocation()
                 {
                     NodeId = nodeGuid,
                     Type = EquipmentType.EmptyNode,
@@ -63,7 +63,7 @@ namespace Iit.Fibertest.DbMigrator
                     Latitude = double.Parse(parts[3]),
                     Longitude = double.Parse(parts[4]),
                 });
-                _graph.Db.Add(new UpdateNode()
+                _graph.Commands.Add(new UpdateNode()
                 {
                     Id = nodeGuid,
                     Title = parts[5].Trim(),
@@ -79,16 +79,23 @@ namespace Iit.Fibertest.DbMigrator
             var nodeGuid = _graph.NodesDictionary[nodeId];
             var rtuGuid = _graph.NodeToRtuDictionary[nodeGuid];
 
-            _graph.Db.Add(new InitializeRtu()
+            var initializeRtu = new InitializeRtu()
             {
                 Id = rtuGuid,
                 OwnPortCount = int.Parse(parts[2]),
                 FullPortCount = int.Parse(parts[2]), // FullPortCount will be increased by OtauAttached event if happened
                 Serial = int.Parse(parts[4]).ToString(),
                 MainChannel = new NetAddress() { Ip4Address = parts[5], Port = int.Parse(parts[6]) },
-                OtauNetAddress = new NetAddress() { Ip4Address = parts[7], Port = int.Parse(parts[8]) },
+                OtauNetAddress = new NetAddress()
+                {
+                    Ip4Address = parts[5] == parts[7] ? "192.168.88.101" : parts[7],
+                    Port = 23 // main charon always 23
+                },
                 ReserveChannel = new NetAddress() { Ip4Address = parts[9], Port = int.Parse(parts[10]) },
-            });
+            };
+
+            _graph.Commands.Add(initializeRtu);
+            _graph.RtuCommands.Add(initializeRtu);
         }
 
         public void ParseEquipments(string[] parts)
@@ -108,7 +115,7 @@ namespace Iit.Fibertest.DbMigrator
                 Title = parts[4].Trim(),
                 Comment = parts[5].Trim(),
             };
-            _graph.Db.Add(evnt);
+            _graph.Commands.Add(evnt);
         }
 
         public void ParseCharon(string[] parts)
@@ -117,7 +124,7 @@ namespace Iit.Fibertest.DbMigrator
             var nodeGuid = _graph.NodesDictionary[nodeId];
             var rtuGuid = _graph.NodeToRtuDictionary[nodeGuid];
 
-            _graph.Db.Add(new AttachOtau()
+            _graph.Commands.Add(new AttachOtau()
             {
                 Id = Guid.NewGuid(),
                 RtuId = rtuGuid,

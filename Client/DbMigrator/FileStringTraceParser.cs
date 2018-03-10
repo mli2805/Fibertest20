@@ -28,15 +28,8 @@ namespace Iit.Fibertest.DbMigrator
                     Comment = parts[4],
                 });
 
-
             var port = int.Parse(parts[2]);
-            if (port != -1)
-                _graph.TraceEventsUnderConstruction.Add(
-                    new AttachTrace()
-                    {
-                        TraceId = traceGuid,
-                        OtauPortDto = new OtauPortDto() { OpticalPort = port }
-                    });
+            _graph.TracePorts.Add(traceGuid, port);
         }
 
         public void ParseTraceNodes(string[] parts)
@@ -65,6 +58,25 @@ namespace Iit.Fibertest.DbMigrator
                 var equipmentId = int.Parse(parts[i]);
                 evnt.Equipments.Add(equipmentId == -1 ? Guid.Empty : _graph.EquipmentsDictionary[equipmentId]);
             }
+
+            var traceGuid = _graph.TracesDictionary[traceId];
+            var port = _graph.TracePorts[traceGuid];
+            if (port != -1)
+            {
+                var rtu = _graph.RtuCommands.First(c => c.Id == rtuGuid);
+
+                _graph.TraceEventsUnderConstruction.Add(
+                    new AttachTrace()
+                    {
+                        TraceId = traceGuid,
+                        OtauPortDto = new OtauPortDto()
+                        {
+                            OtauIp = rtu.OtauNetAddress.Ip4Address,
+                            OtauTcpPort = rtu.OtauNetAddress.Port,
+                            OpticalPort = port,
+                            IsPortOnMainCharon = true
+                        }
+                    });}
         }
 
     }
