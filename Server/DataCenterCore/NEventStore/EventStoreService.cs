@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
@@ -83,6 +84,18 @@ namespace Iit.Fibertest.DataCenterCore
             return null;
         }
 
+        // especially for Migrator.exe
+        public Task<int> SendCommands(List<object> cmds, string username, string clientIp)
+        {
+            foreach (var cmd in cmds)
+            {
+                _aggregate.AsDynamic().When(cmd);
+            }
+
+            StoreEventsInDb(username, clientIp);
+            return Task.FromResult(cmds.Count);
+        }
+
         public Task<string> SendCommand(object cmd, string username, string clientIp)
         {
             // ilya: can pass user id\role as an argument to When to check permissions
@@ -91,22 +104,30 @@ namespace Iit.Fibertest.DataCenterCore
                                                                    // WriteModel applies event and returns whether event was applied successfully
 
             if (result == null)                                   // if command was valid and applied successfully it should be persisted
-            {
-                var eventStream = _storeEvents.OpenStream(AggregateId);
-                foreach (var e in _writeModel.EventsWaitingForCommit)   // takes already applied event from WriteModel's list
-                {
-                    var msg = new EventMessage();
-                    msg.Headers.Add("Timestamp", DateTime.Now);
-                    msg.Headers.Add("Username", username);
-                    msg.Headers.Add("ClientIp", clientIp);
-                    msg.Headers.Add("VersionId", GraphDbVersionId);
-                    msg.Body = e;
-                    eventStream.Add(msg);   // and stores this event in BD
-                }
-                _writeModel.Commit();                                     // now cleans WriteModel's list
-                eventStream.CommitChanges(Guid.NewGuid());
-            }
+                StoreEventsInDb(username, clientIp);
             return Task.FromResult(result);
+        }
+
+        private void StoreEventsInDb(string username, string clientIp)
+        {
+            var eventStream = _storeEvents.OpenStream(AggregateId);
+            foreach (var e in _writeModel.EventsWaitingForCommit)   // takes already applied event(s) from WriteModel's list
+            {
+                eventStream.Add(WrapEvent(e, username, clientIp));   // and stores this event in BD
+            }
+            _writeModel.Commit();                                     // now cleans WriteModel's list
+            eventStream.CommitChanges(Guid.NewGuid());
+        }
+
+        private EventMessage WrapEvent(object e, string username, string clientIp)
+        {
+            var msg = new EventMessage();
+            msg.Headers.Add("Timestamp", DateTime.Now);
+            msg.Headers.Add("Username", username);
+            msg.Headers.Add("ClientIp", clientIp);
+            msg.Headers.Add("VersionId", GraphDbVersionId);
+            msg.Body = e;
+            return msg;
         }
 
         public string[] GetEvents(int revision)

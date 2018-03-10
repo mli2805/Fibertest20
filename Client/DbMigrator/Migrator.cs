@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
@@ -16,7 +18,7 @@ namespace Iit.Fibertest.DbMigrator
 
 
 
-        public Migrator(IniFile iniFile, LogFile logFile, Graph graph, 
+        public Migrator(IniFile iniFile, LogFile logFile, Graph graph,
             FileStringParser fileStringParser, FileStringTraceParser fileStringTraceParser)
         {
             _iniFile = iniFile;
@@ -39,45 +41,54 @@ namespace Iit.Fibertest.DbMigrator
             string[] lines = File.ReadAllLines(@"..\db\export.txt", win1251);
             _logFile.AppendLine($"Export.txt contains {lines.Length} lines");
 
-           FirstPass(lines);
+            FirstPass(lines);
 
             // second pass - all nodes and equipment loaded, now we can process traces
-           SecondPass(lines);
+            SecondPass(lines);
 
             _graph.TraceEventsUnderConstruction.ForEach(e => _graph.Db.Add(e));
 
             System.Threading.Thread.CurrentThread.CurrentCulture = memory;
 
+            _logFile.AppendLine($"{_graph.Db.Count} commands prepared");
 
             SendCommands();
+
+            _logFile.AppendLine($"Commands are sent");
         }
 
         private void SendCommands()
         {
-            _logFile.EmptyLine();
-            _logFile.AppendLine($"{_graph.Db.Count} commands prepared. Sending...");
+            Console.WriteLine();
+            Console.WriteLine($"{DateTime.Now}   {_graph.Db.Count} commands prepared. Sending...");
 
             var c2DWcfManager = new C2DWcfManager(_iniFile, _logFile);
-            DoubleAddress serverAddress = _iniFile.ReadDoubleAddress((int) TcpPorts.ServerListenToClient);
-            NetAddress clientAddress = _iniFile.Read(IniSection.ClientLocalAddress, (int) TcpPorts.ClientListenTo);
+            DoubleAddress serverAddress = _iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
+            NetAddress clientAddress = _iniFile.Read(IniSection.ClientLocalAddress, (int)TcpPorts.ClientListenTo);
             c2DWcfManager.SetServerAddresses(serverAddress, @"migrator", clientAddress.Ip4Address);
+           
+
+            var list = new List<object>();
             for (var i = 0; i < _graph.Db.Count; i++)
             {
-                var command = _graph.Db[i];
-                var result = c2DWcfManager.SendCommandAsObj(command).Result;
-                if (!string.IsNullOrEmpty(result))
-                    _logFile.AppendLine(result);
+                list.Add(_graph.Db[i]);
+                if (list.Count == 100) // no more please, max size of wcf operation could be exceeded, anyway check the log if are some errors
+                {
+                    c2DWcfManager.SendCommandsAsObjs(list).Wait();
+                    list = new List<object>();
+                    Console.WriteLine($"{DateTime.Now}   {i+1} commands sent");
+                }
 
-
-                if (i % 100 == 0)
-                    _logFile.AppendLine($"{i} commands sent");
             }
+            if (list.Count > 0)
+                c2DWcfManager.SendCommandsAsObjs(list).Wait();
+
         }
 
         private void FirstPass(string[] lines)
         {
-            _logFile.EmptyLine();
-            _logFile.AppendLine("First pass");
+            Console.WriteLine();
+            Console.WriteLine($"{DateTime.Now}   First pass");
 
             for (var i = 0; i < lines.Length; i++)
             {
@@ -106,14 +117,14 @@ namespace Iit.Fibertest.DbMigrator
                 }
 
                 if (i % 2000 == 0)
-                    _logFile.AppendLine($"{i} lines processed");
+                    Console.WriteLine($"{DateTime.Now}   {i} lines processed");
             }
         }
 
         private void SecondPass(string[] lines)
         {
-            _logFile.EmptyLine();
-            _logFile.AppendLine("Second pass");
+            Console.WriteLine();
+            Console.WriteLine($"{DateTime.Now}   Second pass");
 
             for (var i = 0; i < lines.Length; i++)
             {
@@ -136,9 +147,9 @@ namespace Iit.Fibertest.DbMigrator
                 }
 
                 if (i % 2000 == 0)
-                    _logFile.AppendLine($"{i} lines processed");
+                    Console.WriteLine($"{DateTime.Now}   {i} lines processed");
             }
         }
-      
+
     }
 }

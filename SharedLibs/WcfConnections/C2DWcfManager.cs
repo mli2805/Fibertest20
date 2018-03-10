@@ -37,9 +37,39 @@ namespace Iit.Fibertest.WcfConnections
             _clientIp = clientIp;
         }
 
+        public async Task<int> SendCommandsAsObjs(List<object> cmds)
+        {
+            var list = new List<string>();
+            foreach (var cmd in cmds)
+            {
+                list.Add(JsonConvert.SerializeObject(cmd, cmd.GetType(), JsonSerializerSettings));
+            }
+
+            return await SendCommands(list, _username, _clientIp);
+        }
+
+        public async Task<int> SendCommands(List<string> jsons, string username, string clientIp)
+        {
+            var wcfConnection = _wcfFactory.CreateC2DConnection();
+            if (wcfConnection == null)
+                return -1;
+
+            try
+            {
+                return await wcfConnection.SendCommands(jsons, username, clientIp);
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+                return -1;
+            }
+        }
+
         public async Task<string> SendCommandAsObj(object cmd)
         {
-            return await SendCommand(JsonConvert.SerializeObject(cmd, cmd.GetType(), JsonSerializerSettings), _username, _clientIp);
+            var serializedCmd = JsonConvert.SerializeObject(cmd, cmd.GetType(), JsonSerializerSettings);
+            _logFile.AppendLine(serializedCmd);
+            return await SendCommand(serializedCmd, _username, _clientIp);
         }
 
         public async Task<string> SendCommand(string serializedCmd, string username, string clientIp)

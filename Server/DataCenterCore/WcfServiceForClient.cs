@@ -56,6 +56,14 @@ namespace Iit.Fibertest.DataCenterCore
             _measurementChangerIntermediary = measurementChangerIntermediary;
         }
 
+        public async Task<int> SendCommands(List<string> jsons, string username, string clientIp) // especially for Migrator.exe
+        {
+            var cmds = jsons.Select(json => JsonConvert.DeserializeObject(json, JsonSerializerSettings)).ToList();
+
+            await _eventStoreService.SendCommands(cmds, username, clientIp);
+            return jsons.Count;
+        }
+
         public async Task<string> SendCommandAsObj(object cmd)
         {
             // during the tests "client" invokes not the C2DWcfManager's method to communicate by network
