@@ -186,6 +186,7 @@
     </ApplicationDefinition>
     <Compile Include="ClientHeartbeat.cs" />
     <Compile Include="CurrentUser.cs" />
+    <Compile Include="EventSourcing\ReadyEventsLoader.cs" />
     <Compile Include="Forms\AdministrativeForms\ChangePasswordView.xaml.cs">
       <DependentUpon>ChangePasswordView.xaml</DependentUpon>
     </Compile>

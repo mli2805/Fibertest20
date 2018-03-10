@@ -16,6 +16,7 @@ namespace Iit.Fibertest.Client
         private readonly IWindowManager _windowManager;
         private readonly LoginViewModel _loginViewModel;
         private readonly ClientHeartbeat _clientHeartbeat;
+        private readonly ReadyEventsLoader _readyEventsLoader;
         private readonly ClientPoller _clientPoller;
         private readonly OpticalEventsProvider _opticalEventsProvider;
         private readonly NetworkEventsProvider _networkEventsProvider;
@@ -37,7 +38,7 @@ namespace Iit.Fibertest.Client
 
         public ShellViewModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile, CurrentUser currentUser, IClientWcfServiceHost host,
             GraphReadModel graphReadModel, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager,
-            LoginViewModel loginViewModel, ClientHeartbeat clientHeartbeat, ClientPoller clientPoller,
+            LoginViewModel loginViewModel, ClientHeartbeat clientHeartbeat, ReadyEventsLoader readyEventsLoader, ClientPoller clientPoller,
             MainMenuViewModel mainMenuViewModel, TreeOfRtuViewModel treeOfRtuViewModel,
             TabulatorViewModel tabulatorViewModel, CommonStatusBarViewModel commonStatusBarViewModel,
             OpticalEventsProvider opticalEventsProvider, OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
@@ -59,6 +60,7 @@ namespace Iit.Fibertest.Client
             _loginViewModel = loginViewModel;
             _bopNetworkEventsProvider = bopNetworkEventsProvider;
             _clientHeartbeat = clientHeartbeat;
+            _readyEventsLoader = readyEventsLoader;
             _clientPoller = clientPoller;
             _opticalEventsProvider = opticalEventsProvider;
             _networkEventsProvider = networkEventsProvider;
@@ -112,11 +114,12 @@ namespace Iit.Fibertest.Client
                     MainMenuViewModel.Initialize(_currentUser);
                     var da = _iniFile.ReadDoubleAddress(11840);
                     _server = da.Main.GetAddress();
+
                     var localDbManager = (LocalDbManager)_globalScope.Resolve<ILocalDbManager>();
                     localDbManager.Initialize(_server, _loginViewModel.GraphDbVersionOnServer);
-
-                    // graph MUST be read before optical/network events
-                    await RunClientPoller();
+                    _clientPoller.CurrentEventNumber = await _readyEventsLoader.Load();
+                    _clientPoller.CancellationToken = _clientPollerCts.Token;
+                    _clientPoller.Start();
 
                     _opticalEventsProvider.LetsGetStarted();
                     _networkEventsProvider.LetsGetStarted();
@@ -131,16 +134,6 @@ namespace Iit.Fibertest.Client
 
             else
                 TryClose();
-        }
-
-        private async Task RunClientPoller()
-        {
-            var events = await _clientPoller.LoadEventSourcingCache();
-            _logFile.AppendLine($@"{events} events found in cache");
-            await _clientPoller.LoadEventSourcingDb();
-
-            _clientPoller.CancellationToken = _clientPollerCts.Token;
-            _clientPoller.Start();
         }
     }
 }

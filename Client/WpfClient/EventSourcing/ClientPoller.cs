@@ -28,7 +28,7 @@ namespace Iit.Fibertest.Client
         private readonly int _pollingRate;
         public CancellationToken CancellationToken { get; set; }
 
-        public int CurrentEventNumber { get; private set; }
+        public int CurrentEventNumber { get; set; }
 
         public ClientPoller(IWcfServiceForClient wcfConnection, IDispatcherProvider dispatcherProvider,
             ReadModel readModel, TreeOfRtuModel treeOfRtuModel, EventsOnGraphExecutor eventsOnGraphExecutor, EventsOnModelExecutor eventsOnModelExecutor,
@@ -44,30 +44,6 @@ namespace Iit.Fibertest.Client
             _localDbManager = localDbManager;
             _pollingRate = iniFile.Read(IniSection.General, IniKey.ClientPollingRateMs, 500);
         }
-
-
-        public async Task<int> LoadEventSourcingCache()
-        {
-            var jsonsInCache = await _localDbManager.LoadEvents();
-            _logFile.AppendLine($@"There are {jsonsInCache.Length} events in cache. Applying...");
-            ApplyEventSourcingEvents(jsonsInCache);
-            return CurrentEventNumber;
-        }
-
-        public async Task LoadEventSourcingDb()
-        {
-            string[] events;
-            do
-            {
-                events = await _wcfConnection.GetEvents(CurrentEventNumber);
-                await _localDbManager.SaveEvents(events);
-                ApplyEventSourcingEvents(events);
-            }
-            while (events.Length != 0);
-            _logFile.AppendLine($@"{CurrentEventNumber} events found in Db");
-        }
-
-
 
         public void Start()
         {
@@ -111,7 +87,7 @@ namespace Iit.Fibertest.Client
                     _eventsOnModelExecutor.Apply(evnt);
                     _treeOfRtuModel.AsDynamic().Apply(evnt);
 
-                    // some forms refresh their view because they have sent command previously and are waiting event's coming
+                    // some forms refresh their view because they have sent command previously and are waiting event's arrival
                     _readModel.NotifyOfPropertyChange(nameof(_readModel.JustForNotification));
 
                     // otherwise I should do this in almost all operations of applying events in tree
