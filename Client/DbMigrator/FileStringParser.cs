@@ -55,24 +55,26 @@ namespace Iit.Fibertest.DbMigrator
             else
             {
                 var emptyNodeEquipmentGuid = Guid.NewGuid();
-                _graph.Commands.Add(new AddEquipmentAtGpsLocation()
+                _graph.Commands.Add(new AddEquipmentAtGpsLocationWithNodeTitle()
                 {
                     NodeId = nodeGuid,
                     Type = EquipmentType.EmptyNode,
-                    // RequestedEquipmentId = Guid.NewGuid(),
+                    RequestedEquipmentId = Guid.NewGuid(),
                     EmptyNodeEquipmentId = emptyNodeEquipmentGuid,
                     Latitude = double.Parse(parts[3]),
                     Longitude = double.Parse(parts[4]),
+                    Title = parts[5].Trim(),
+                    Comment = parts[6].Trim(),
                 });
 
                 _graph.EmptyNodes.Add(nodeGuid, emptyNodeEquipmentGuid);
 
-                _graph.Commands.Add(new UpdateNode()
-                {
-                    Id = nodeGuid,
-                    Title = parts[5].Trim(),
-                    Comment = parts[6].Trim(),
-                });
+//                _graph.Commands.Add(new UpdateNode()
+//                {
+//                    Id = nodeGuid,
+//                    Title = parts[5].Trim(),
+//                    Comment = parts[6].Trim(),
+//                });
             }
 
         }

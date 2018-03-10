@@ -170,6 +170,11 @@ namespace Iit.Fibertest.Graph
             return WriteModel.Add(_mapper.Map<EquipmentAtGpsLocationAdded>(cmd));
         }
 
+        public string When(AddEquipmentAtGpsLocationWithNodeTitle cmd)
+        {
+            return WriteModel.Add(_mapper.Map<EquipmentAtGpsLocationWithNodeTitleAdded>(cmd));
+        }
+
         public string When(UpdateEquipment cmd)
         {
             return WriteModel.Add(_mapper.Map<EquipmentUpdated>(cmd));

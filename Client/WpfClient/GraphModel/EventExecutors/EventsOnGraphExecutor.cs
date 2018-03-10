@@ -36,6 +36,7 @@ namespace Iit.Fibertest.Client
                 case FiberRemoved evnt: _fiberEventsOnGraphExecutor.RemoveFiber(evnt); return;
 
                 case EquipmentAtGpsLocationAdded evnt: _equipmentsExtor.AddEquipmentAtGpsLocation(evnt); return;
+                case EquipmentAtGpsLocationWithNodeTitleAdded evnt: _equipmentsExtor.AddEquipmentAtGpsLocationWithNodeTitle(evnt); return;
                 case EquipmentIntoNodeAdded evnt: _equipmentsExtor.AddEquipmentIntoNode(evnt); return;
                 case EquipmentUpdated evnt: _equipmentsExtor.UpdateEquipment(evnt); return;
                 case EquipmentRemoved evnt: _equipmentsExtor.RemoveEquipment(evnt); return;

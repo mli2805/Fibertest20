@@ -41,6 +41,7 @@
 
                 case EquipmentIntoNodeAdded evnt: return _equipmentEventsOnModelExecutor.AddEquipmentIntoNode(evnt); 
                 case EquipmentAtGpsLocationAdded evnt: return _equipmentEventsOnModelExecutor.AddEquipmentAtGpsLocation(evnt); 
+                case EquipmentAtGpsLocationWithNodeTitleAdded evnt: return _equipmentEventsOnModelExecutor.AddEquipmentAtGpsLocationWithNodeTitle(evnt); 
                 case EquipmentUpdated evnt: return _equipmentEventsOnModelExecutor.UpdateEquipment(evnt); 
                 case EquipmentRemoved evnt: return _equipmentEventsOnModelExecutor.RemoveEquipment(evnt); 
 

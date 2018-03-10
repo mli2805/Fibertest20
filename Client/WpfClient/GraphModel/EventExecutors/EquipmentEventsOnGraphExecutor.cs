@@ -31,7 +31,26 @@ namespace Iit.Fibertest.Client
             };
             _model.Data.Nodes.Add(nodeVm);
 
-            _model.Data.Equipments.Add(new EquipmentVm() { Id = evnt.RequestedEquipmentId, Node = nodeVm, Type = evnt.Type });
+            if (evnt.RequestedEquipmentId != Guid.Empty)
+                _model.Data.Equipments.Add(new EquipmentVm() { Id = evnt.RequestedEquipmentId, Node = nodeVm, Type = evnt.Type });
+            if (evnt.EmptyNodeEquipmentId != Guid.Empty)
+                _model.Data.Equipments.Add(new EquipmentVm() { Id = evnt.EmptyNodeEquipmentId, Node = nodeVm, Type = EquipmentType.EmptyNode });
+        }
+
+        public void AddEquipmentAtGpsLocationWithNodeTitle(EquipmentAtGpsLocationWithNodeTitleAdded evnt)
+        {
+            var nodeVm = new NodeVm()
+            {
+                Id = evnt.NodeId,
+                State = FiberState.Ok,
+                Type = evnt.Type,
+                Position = new PointLatLng(evnt.Latitude, evnt.Longitude),
+                Title = evnt.Title,
+            };
+            _model.Data.Nodes.Add(nodeVm);
+
+            if (evnt.RequestedEquipmentId != Guid.Empty)
+                _model.Data.Equipments.Add(new EquipmentVm() { Id = evnt.RequestedEquipmentId, Node = nodeVm, Type = evnt.Type });
             if (evnt.EmptyNodeEquipmentId != Guid.Empty)
                 _model.Data.Equipments.Add(new EquipmentVm() { Id = evnt.EmptyNodeEquipmentId, Node = nodeVm, Type = EquipmentType.EmptyNode });
         }

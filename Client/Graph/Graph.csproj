@@ -124,6 +124,7 @@
     <Compile Include="Algorithms\ToolKit\BaseRefRepairman.cs" />
     <Compile Include="Algorithms\ToolKit\TraceModelBuilder.cs" />
     <Compile Include="Algorithms\ToolKit\TraceModelForBaseRef.cs" />
+    <Compile Include="Commands\Equipment\AddEquipmentAtGpsLocationWithNodeTitle.cs" />
     <Compile Include="Commands\JustEchosOfCmdsSentToRtu\ChangeMonitoringSettings.cs" />
     <Compile Include="Commands\JustEchosOfCmdsSentToRtu\ShowMonitoringResult.cs" />
     <Compile Include="Commands\JustEchosOfCmdsSentToRtu\StartMonitoring.cs" />
@@ -139,6 +140,7 @@
     <Compile Include="DomainEntities\Breaks\AccidentInOldEvent.cs" />
     <Compile Include="DomainEntities\Enums\OpticalAccidentType.cs" />
     <Compile Include="DomainEntities\Extensions\UserExt.cs" />
+    <Compile Include="Events\Equipment\EquipmentAtGpsLocationWithNodeTitleAdded.cs" />
     <Compile Include="Events\JustEchosOfCmdsSentToRtu\MonitoringResultShown.cs" />
     <Compile Include="Events\User\UserAdded.cs" />
     <Compile Include="Events\User\UserRemoved.cs" />

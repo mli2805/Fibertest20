@@ -96,7 +96,7 @@ namespace Iit.Fibertest.Graph
             return null;
         }
         #endregion
-        
+
         #region Zone
         public string Apply(ZoneAdded e)
         {
@@ -395,6 +395,17 @@ namespace Iit.Fibertest.Graph
 
             return null;
         }
+        public string Apply(EquipmentAtGpsLocationWithNodeTitleAdded e)
+        {
+            Nodes.Add(new Node() { Id = e.NodeId, Latitude = e.Latitude, Longitude = e.Longitude, Title = e.Title, Comment = e.Comment });
+
+            if (e.RequestedEquipmentId != Guid.Empty)
+                Equipments.Add(new Equipment() { Id = e.RequestedEquipmentId, Type = e.Type, NodeId = e.NodeId });
+            if (e.EmptyNodeEquipmentId != Guid.Empty)
+                Equipments.Add(new Equipment() { Id = e.EmptyNodeEquipmentId, Type = EquipmentType.EmptyNode, NodeId = e.NodeId });
+
+            return null;
+        }
 
         public string Apply(EquipmentUpdated cmd)
         {
@@ -484,7 +495,7 @@ namespace Iit.Fibertest.Graph
             return message;
         }
 
-        
+
         #endregion
 
         #region Trace

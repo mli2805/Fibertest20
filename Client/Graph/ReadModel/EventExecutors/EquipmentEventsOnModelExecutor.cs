@@ -56,6 +56,19 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
+        public string AddEquipmentAtGpsLocationWithNodeTitle(EquipmentAtGpsLocationWithNodeTitleAdded e)
+        {
+            _model.Nodes.Add(new Node() { Id = e.NodeId, Latitude = e.Latitude, Longitude = e.Longitude, Title = e.Title, Comment = e.Comment });
+
+            if (e.RequestedEquipmentId != Guid.Empty)
+                _model.Equipments.Add(new Equipment() { Id = e.RequestedEquipmentId, Type = e.Type, NodeId = e.NodeId });
+
+            if (e.EmptyNodeEquipmentId != Guid.Empty)
+                _model.Equipments.Add(new Equipment() { Id = e.EmptyNodeEquipmentId, Type = EquipmentType.EmptyNode, NodeId = e.NodeId });
+
+            return null;
+        }
+
         public string UpdateEquipment(EquipmentUpdated e)
         {
             var equipment = _model.Equipments.FirstOrDefault(eq => eq.Id == e.Id);
