@@ -43,10 +43,6 @@ namespace Iit.Fibertest.DbMigrator
                     NodeId = nodeGuid,
                     Latitude = double.Parse(parts[3]),
                     Longitude = double.Parse(parts[4]),
-                });
-                _graph.Commands.Add(new UpdateRtu()
-                {
-                    Id = rtuGuid,
                     Title = parts[5].Trim(),
                     Comment = parts[6].Trim(),
                 });
@@ -66,15 +62,7 @@ namespace Iit.Fibertest.DbMigrator
                     Title = parts[5].Trim(),
                     Comment = parts[6].Trim(),
                 });
-
                 _graph.EmptyNodes.Add(nodeGuid, emptyNodeEquipmentGuid);
-
-//                _graph.Commands.Add(new UpdateNode()
-//                {
-//                    Id = nodeGuid,
-//                    Title = parts[5].Trim(),
-//                    Comment = parts[6].Trim(),
-//                });
             }
 
         }

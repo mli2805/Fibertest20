@@ -61,7 +61,8 @@ namespace Iit.Fibertest.Graph
 
         public string AddEquipmentAtGpsLocationWithNodeTitle(EquipmentAtGpsLocationWithNodeTitleAdded e)
         {
-            _model.Nodes.Add(new Node() { Id = e.NodeId, Position = new PointLatLng(e.Latitude, e.Longitude), Title = e.Title, Comment = e.Comment });
+            _model.Nodes.Add(new Node() { Id = e.NodeId, Position = new PointLatLng(e.Latitude, e.Longitude),
+                TypeOfLastAddedEquipment = e.Type, Title = e.Title, Comment = e.Comment });
 
             if (e.RequestedEquipmentId != Guid.Empty)
                 _model.Equipments.Add(new Equipment() { Id = e.RequestedEquipmentId, Type = e.Type, NodeId = e.NodeId });
