@@ -9,12 +9,15 @@ namespace Iit.Fibertest.Client
     public class AccidentLineModelFactory
     {
         private readonly GraphReadModel _graphReadModel;
+        private readonly ReadModel _readModel;
         private readonly AccidentPlaceLocator _accidentPlaceLocator;
         private readonly CurrentGpsInputMode _currentGpsInputMode;
 
-        public AccidentLineModelFactory(GraphReadModel graphReadModel, AccidentPlaceLocator accidentPlaceLocator, CurrentGpsInputMode currentGpsInputMode)
+        public AccidentLineModelFactory(GraphReadModel graphReadModel, ReadModel readModel,
+            AccidentPlaceLocator accidentPlaceLocator, CurrentGpsInputMode currentGpsInputMode)
         {
             _graphReadModel = graphReadModel;
+            _readModel = readModel;
             _accidentPlaceLocator = accidentPlaceLocator;
             _currentGpsInputMode = currentGpsInputMode;
         }
@@ -40,7 +43,7 @@ namespace Iit.Fibertest.Client
         private AccidentLineModel CreateInNode(AccidentInOldEvent accidentInOldEvent, int number)
         {
             var nodesExcludingAdjustmentPoints =
-                _graphReadModel.GetTraceNodesExcludingAdjustmentPoints(accidentInOldEvent.TraceId);
+                _readModel.GetTraceNodesExcludingAdjustmentPoints(accidentInOldEvent.TraceId).ToList();
             var nodeId = nodesExcludingAdjustmentPoints[accidentInOldEvent.BrokenLandmarkIndex];
             var isLastNode = accidentInOldEvent.BrokenLandmarkIndex == nodesExcludingAdjustmentPoints.Count - 1;
             var nodeVm = _graphReadModel.Data.Nodes.FirstOrDefault(n => n.Id == nodeId);
@@ -68,7 +71,7 @@ namespace Iit.Fibertest.Client
         private AccidentLineModel CreateBetweenNodes(AccidentAsNewEvent accidentAsNewEvent, int number)
         {
             var nodesExcludingAdjustmentPoints =
-                _graphReadModel.GetTraceNodesExcludingAdjustmentPoints(accidentAsNewEvent.TraceId);
+                _readModel.GetTraceNodesExcludingAdjustmentPoints(accidentAsNewEvent.TraceId).ToList();
             var leftNodeId = nodesExcludingAdjustmentPoints[accidentAsNewEvent.LeftLandmarkIndex];
             var leftNodeVm = _graphReadModel.Data.Nodes.FirstOrDefault(n => n.Id == leftNodeId);
             var leftNodeTitle = leftNodeVm?.Title;

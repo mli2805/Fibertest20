@@ -12,11 +12,13 @@ namespace Iit.Fibertest.Client
     {
         private readonly GraphReadModel _model;
         private readonly IMyLog _logFile;
+        private readonly ReadModel _readModel;
 
-        public AccidentPlaceLocator(GraphReadModel model, IMyLog logFile)
+        public AccidentPlaceLocator(IMyLog logFile, ReadModel readModel, GraphReadModel model)
         {
             _model = model;
             _logFile = logFile;
+            _readModel = readModel;
         }
 
         public PointLatLng? GetAccidentGps(AccidentOnTrace accident)
@@ -26,7 +28,7 @@ namespace Iit.Fibertest.Client
 
             if (accident is AccidentInOldEvent accidentInOldEvent)
             {
-                var withoutPoints = _model.GetTraceNodesExcludingAdjustmentPoints(accident.TraceId);
+                var withoutPoints = _readModel.GetTraceNodesExcludingAdjustmentPoints(accident.TraceId).ToList();
                 var nodeVm = _model.Data.Nodes.FirstOrDefault(n => n.Id == withoutPoints[accidentInOldEvent.BrokenLandmarkIndex]);
                 return nodeVm?.Position;
             }
@@ -39,7 +41,7 @@ namespace Iit.Fibertest.Client
             var traceVm = _model.Data.Traces.First(t => t.Id == accident.TraceId);
 
             var distances = GetGpsDistancesOfSegmentsBetweenLandmarks(accident, traceVm, out NodeVm leftNodeVm, out NodeVm rightNodeVm);
-            GetCableReserves(accident, traceVm, out double leftReserveM, out double rightReserveM);
+            GetCableReserves(accident, accident.TraceId, out double leftReserveM, out double rightReserveM);
             var distanceBetweenTwoNodesOnGraphM = distances.Sum();
 
             var opticalLengthM = (accident.RightNodeKm - accident.LeftNodeKm) * 1000;
@@ -76,29 +78,23 @@ namespace Iit.Fibertest.Client
             return new PointLatLng(latBreak, lngBreak);
         }
 
-        private void GetCableReserves(AccidentAsNewEvent accident, TraceVm traceVm, out double leftReserveM, out double rightReserveM)
+        private void GetCableReserves(AccidentAsNewEvent accident, Guid traceId, out double leftReserveM, out double rightReserveM)
         {
-            var equipmentsWithoutPoints = _model.GetTraceEquipmentsExcludingAdjustmentPoints(traceVm);
+            var equipmentsWithoutPoints = _readModel.GetTraceEquipmentsExcludingAdjustmentPoints(traceId).ToList();
             leftReserveM = GetCableReserve(equipmentsWithoutPoints, accident.LeftLandmarkIndex, true);
             rightReserveM = GetCableReserve(equipmentsWithoutPoints, accident.LeftLandmarkIndex, false);
         }
 
-        private double GetCableReserve(List<Guid> equipmentsWithoutPoints, int landmarkIndex, bool isLeftLandmark)
+        private double GetCableReserve(List<Equipment> equipmentsWithoutPoints, int landmarkIndex, bool isLeftLandmark)
         {
-            var equipmentVm = _model.Data.Equipments.FirstOrDefault(e => e.Id == equipmentsWithoutPoints[landmarkIndex]);
-            if (equipmentVm == null)
-            {
-                _logFile.AppendLine($@"Equipment {equipmentsWithoutPoints[landmarkIndex].First6()} not found");
-                return 0;
-            }
-
-            if (equipmentVm.Type == EquipmentType.CableReserve) return (double)equipmentVm.CableReserveLeft / 2;
-            return isLeftLandmark ? equipmentVm.CableReserveRight : equipmentVm.CableReserveLeft;
+            var equipment =  equipmentsWithoutPoints[landmarkIndex];
+            if (equipment.Type == EquipmentType.CableReserve) return (double)equipment.CableReserveLeft / 2;
+            return isLeftLandmark ? equipment.CableReserveRight : equipment.CableReserveLeft;
         }
 
         private List<double> GetGpsDistancesOfSegmentsBetweenLandmarks(AccidentAsNewEvent accident, TraceVm traceVm, out NodeVm leftNodeVm, out NodeVm rightNodeVm)
         {
-            var withoutPoints = _model.GetTraceNodesExcludingAdjustmentPoints(accident.TraceId);
+            var withoutPoints = _readModel.GetTraceNodesExcludingAdjustmentPoints(accident.TraceId).ToList();
             leftNodeVm = _model.Data.Nodes.FirstOrDefault(n => n.Id == withoutPoints[accident.LeftLandmarkIndex]);
             rightNodeVm = _model.Data.Nodes.FirstOrDefault(n => n.Id == withoutPoints[accident.RightLandmarkIndex]);
 

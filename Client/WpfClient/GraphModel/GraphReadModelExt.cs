@@ -50,18 +50,7 @@ namespace Iit.Fibertest.Client
                      f.Node1.Id == node2 && f.Node2.Id == node1);
         }
 
-        private static IEnumerable<FiberVm> GetNodeFibers(this GraphReadModel model, NodeVm nodeVm)
-        {
-            foreach (var fiberVm in model.Data.Fibers)
-                if (fiberVm.Node1.Id == nodeVm.Id || fiberVm.Node2.Id == nodeVm.Id) yield return fiberVm;
-        }
-
-        public static FiberVm GetOtherFiberOfAdjustmentPoint(this GraphReadModel model, NodeVm adjustmentPoint,
-            Guid fiberId)
-        {
-            return model.GetNodeFibers(adjustmentPoint).First(f => f.Id != fiberId);
-        }
-
+    
         public static List<NodeVm> GetNeighbours(this GraphReadModel model, Guid nodeId)
         {
             var nodes = model.Data.Fibers.Where(f => f.Node1.Id == nodeId).Select(f => f.Node2).ToList();
@@ -69,40 +58,11 @@ namespace Iit.Fibertest.Client
             return nodes;
         }
 
-        public static List<Guid> GetTraceNodesExcludingAdjustmentPoints(this GraphReadModel model, Guid traceId)
-        {
-            var traceVm = model.Data.Traces.FirstOrDefault(t => t.Id == traceId);
-            if (traceVm == null) return null;
-            var result = new List<Guid>();
-            foreach (var nodeId in traceVm.Nodes)
-            {
-                var nodeVm = model.Data.Nodes.FirstOrDefault(n => n.Id == nodeId);
-                if (nodeVm != null && nodeVm.Type != EquipmentType.AdjustmentPoint)
-                    result.Add(nodeId);
-            }
-            return result;
-        }
-
-        public static List<Guid> GetTraceEquipmentsExcludingAdjustmentPoints(this GraphReadModel model, TraceVm traceVm)
-        {
-            var result = new List<Guid>();
-            foreach (var equipmentId in traceVm.Equipments)
-            {
-                var equipmentVm = model.Data.Equipments.FirstOrDefault(e => e.Id == equipmentId);
-                if (equipmentVm != null && equipmentVm.Type != EquipmentType.AdjustmentPoint)
-                    result.Add(equipmentId);
-            }
-            return result;
-        }
-
         public static void CleanAccidentPlacesOnTrace(this GraphReadModel model, TraceVm traceVm)
         {
             var nodeVms = model.Data.Nodes.Where(n => n.AccidentOnTraceVmId == traceVm.Id).ToList();
             foreach (var nodeVm in nodeVms)
             {
-                var equipmentVm = model.Data.Equipments.FirstOrDefault(e => e.Node == nodeVm);
-                if (equipmentVm != null)
-                    model.Data.Equipments.Remove(equipmentVm);
                 model.Data.Nodes.Remove(nodeVm);
             }
 

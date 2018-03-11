@@ -71,12 +71,12 @@ namespace Iit.Fibertest.Client
                 Type = EquipmentType.AccidentPlace,
                 AccidentOnTraceVmId = traceId,
             };
-            _model.Data.Equipments.Add(new EquipmentVm()
-            {
-                Id = Guid.NewGuid(),
-                Node = accidentNode,
-                Type = EquipmentType.AccidentPlace
-            });
+//            _model.Data.Equipments.Add(new EquipmentVm()
+//            {
+//                Id = Guid.NewGuid(),
+//                Node = accidentNode,
+//                Type = EquipmentType.AccidentPlace
+//            });
             _model.Data.Nodes.Add(accidentNode);
         }
 

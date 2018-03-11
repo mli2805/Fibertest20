@@ -64,7 +64,6 @@ namespace Iit.Fibertest.Client
             IniFile = iniFile;
             Data.Nodes = new ObservableCollection<NodeVm>();
             Data.Fibers = new ObservableCollection<FiberVm>();
-            Data.Equipments = new ObservableCollection<EquipmentVm>();
             Data.Traces = new ObservableCollection<TraceVm>();
 
             GraphVisibilityItems = GraphVisibilityExt.GetComboboxItems();

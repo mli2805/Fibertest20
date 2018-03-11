@@ -52,11 +52,7 @@ namespace Iit.Fibertest.Client
             if (parameter == null)
                 return false;
             var marker = (MarkerControl) parameter;
-            var equipmentVm = marker.Owner.GraphReadModel.Data.Equipments.FirstOrDefault(n => n.Node.Id == marker.GMapMarker.Id);
-            if (equipmentVm == null)
-                return false;
-
-            return equipmentVm.Type != EquipmentType.AdjustmentPoint;
+            return marker.Type != EquipmentType.AdjustmentPoint;
         }
     }
 }

@@ -66,6 +66,18 @@ namespace Iit.Fibertest.Graph
 
         }
 
+        public static IEnumerable<Guid> GetTraceNodesExcludingAdjustmentPoints(this IModel model, Guid traceId)
+        {
+                var trace = model.Traces.First(t => t.Id == traceId);
+                foreach (var nodeId in trace.Nodes)
+                {
+                    var node = model.Nodes.FirstOrDefault(n =>
+                        n.Id == nodeId && n.TypeOfLastAddedEquipment != EquipmentType.AdjustmentPoint);
+                    if (node != null)
+                        yield return node.Id;
+                }
+        }
+
         public static IEnumerable<Equipment> GetTraceEquipments(this IModel model, Trace trace)
         {
             try
@@ -77,7 +89,17 @@ namespace Iit.Fibertest.Graph
                 model.LogFile.AppendLine(e.Message);
                 return null;
             }
+        }
 
+        public static IEnumerable<Equipment> GetTraceEquipmentsExcludingAdjustmentPoints(this IModel model, Guid traceId)
+        {
+            var trace = model.Traces.First(t => t.Id == traceId);
+            foreach (var equipmentId in trace.Equipments)
+            {
+                var equipment = model.Equipments.First(e => e.Id == equipmentId);
+                if (equipment.Type != EquipmentType.AdjustmentPoint)
+                    yield return equipment;
+            }
         }
 
         private static IEnumerable<Fiber> GetNodeFibers(this ReadModel model, Node node)

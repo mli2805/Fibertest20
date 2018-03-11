@@ -31,7 +31,6 @@ namespace Iit.Fibertest.Client
                 GraphVisibilityLevelItem = _model.SelectedGraphVisibilityItem,
             };
             _model.Data.Nodes.Add(nodeVm);
-            _model.Data.Equipments.Add(new EquipmentVm() { Id = evnt.EquipmentId, Type = evnt.InjectionType, Node = nodeVm });
 
             var fiberForDeletion = _model.Data.Fibers.First(f => f.Id == evnt.FiberId);
             AddTwoFibersToNewNode(evnt, fiberForDeletion);
@@ -159,9 +158,6 @@ namespace Iit.Fibertest.Client
                 var neighbourId = fiber.Node1.Id == nodeId ? fiber.Node2.Id : fiber.Node1.Id;
 
                 _model.Data.Fibers.Remove(fiber);
-                var equipmentInNode = _model.Data.Equipments.Where(e => e.Node.Id == nodeId).ToList();
-                foreach (var equipmentVm in equipmentInNode)
-                    _model.Data.Equipments.Remove(equipmentVm);
                 _model.Data.Nodes.Remove(node);
 
                 nodeId = neighbourId;
@@ -171,15 +167,13 @@ namespace Iit.Fibertest.Client
 
         private bool IsAdjustmentPoint(Guid nodeId)
         {
-            return _model.Data.Equipments.FirstOrDefault(e => e.Node.Id == nodeId && e.Type == EquipmentType.AdjustmentPoint) != null;
+            return _model.Data.Nodes.FirstOrDefault(e => e.Id == nodeId && e.Type == EquipmentType.AdjustmentPoint) != null;
         }
 
         public void RemoveNodeWithAllHis(Guid nodeId)
         {
             foreach (var fiberVm in _model.Data.Fibers.Where(f => f.Node1.Id == nodeId || f.Node2.Id == nodeId).ToList())
                 _model.Data.Fibers.Remove(fiberVm);
-            foreach (var equipmentVm in _model.Data.Equipments.Where(e => e.Node.Id == nodeId).ToList())
-                _model.Data.Equipments.Remove(equipmentVm);
 
             var nodeVm = _model.Data.Nodes.FirstOrDefault(n => n.Id == nodeId);
             if (nodeVm != null)

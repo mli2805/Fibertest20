@@ -113,7 +113,8 @@ namespace Iit.Fibertest.Graph
 
             var node = _model.Nodes.First(n => n.Id == equipment.NodeId);
 
-            _model.Equipments.Remove(_model.Equipments.First(eq => eq.Id == e.Id));
+//            _model.Equipments.Remove(_model.Equipments.First(eq => eq.Id == e.Id));
+            _model.Equipments.Remove(equipment);
 
             node.TypeOfLastAddedEquipment = _model.Equipments.Where(p => p.NodeId == node.Id).Max(q => q.Type);
 

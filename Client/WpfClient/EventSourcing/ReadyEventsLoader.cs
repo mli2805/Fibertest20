@@ -21,20 +21,18 @@ namespace Iit.Fibertest.Client
         private readonly ILocalDbManager _localDbManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly ReadModel _readModel;
-        private readonly CurrentUser _currentUser;
         private readonly EventsOnModelExecutor _eventsOnModelExecutor;
         private readonly TreeOfRtuModel _treeOfRtuModel;
         private readonly EventsOnGraphExecutor _eventsOnGraphExecutor;
 
         public ReadyEventsLoader(IMyLog logFile, ILocalDbManager localDbManager, IWcfServiceForClient c2DWcfManager, 
-            ReadModel readModel, CurrentUser currentUser,
+            ReadModel readModel, 
             EventsOnModelExecutor eventsOnModelExecutor, TreeOfRtuModel treeOfRtuModel, EventsOnGraphExecutor eventsOnGraphExecutor)
         {
             _logFile = logFile;
             _localDbManager = localDbManager;
             _c2DWcfManager = c2DWcfManager;
             _readModel = readModel;
-            _currentUser = currentUser;
             _eventsOnModelExecutor = eventsOnModelExecutor;
             _treeOfRtuModel = treeOfRtuModel;
             _eventsOnGraphExecutor = eventsOnGraphExecutor;
