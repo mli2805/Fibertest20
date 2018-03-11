@@ -10,6 +10,9 @@
       <NamedTestSelector>
         <TestName>Graph.Tests.Gps.BreakPlaceFeature.ОпределениеМестаАварии</TestName>
       </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Graph.Tests.Fiber.FiberUpdatedFeature.СохранениеИзмененияПользователемДлиныОтрезка</TestName>
+      </NamedTestSelector>
     </IgnoredTests>
     <PreviouslyBuiltSuccessfully>True</PreviouslyBuiltSuccessfully>
   </Settings>

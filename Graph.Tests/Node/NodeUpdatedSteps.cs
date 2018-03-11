@@ -105,7 +105,7 @@ namespace Graph.Tests
         [Then(@"Сохраняется комментарий узла (.*)")]
         public void ThenСохраняетсяКомментарийУзла(string comment)
         {
-            _sut.GraphReadModel.Data.Nodes.First(n => n.Id == _saidNodeId).Comment.Should().Be(comment);
+            _sut.ReadModel.Nodes.First(n => n.Id == _saidNodeId).Comment.Should().Be(comment);
         }
 
         [When(@"Пользователь открыл окно редактирования и что-то изменив нажал Отменить")]

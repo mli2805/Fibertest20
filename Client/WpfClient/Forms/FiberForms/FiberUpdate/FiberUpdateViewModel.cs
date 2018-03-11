@@ -53,7 +53,9 @@ namespace Iit.Fibertest.Client
             NodeBtitle = n2.Title;
             GpsLength = $@"{GpsCalculator.GetDistanceBetweenPointLatLng(n1.Position, n2.Position):#,##0}";
 //            OpticalLength = _fiber.OpticalLength; // потом из базовых брать
-            UserInputedLength = _fiberVm.UserInputedLength.ToString(CultureInfo.InvariantCulture);
+
+            // refactor to use ReadModel instead of Graph
+            //UserInputedLength = _fiberVm.UserInputedLength.ToString(CultureInfo.InvariantCulture);
         }
 
         public NodeVm GetNotAdjustmentPointEdgeOfFiber(FiberVm fX, NodeVm n1)

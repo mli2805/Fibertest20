@@ -89,7 +89,6 @@ namespace Iit.Fibertest.Client
             if (nodeVm == null)
                 return;
             nodeVm.Title = evnt.Title;
-            nodeVm.Comment = evnt.Comment;
         }
 
         public void RemoveNode(NodeRemoved evnt)

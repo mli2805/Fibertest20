@@ -29,7 +29,6 @@ namespace Iit.Fibertest.Client
                 Type = EquipmentType.Rtu,
                 Position = new PointLatLng(evnt.Latitude, evnt.Longitude),
                 Title = evnt.Title,
-                Comment = evnt.Comment,
             };
             _model.Data.Nodes.Add(nodeVm);
 

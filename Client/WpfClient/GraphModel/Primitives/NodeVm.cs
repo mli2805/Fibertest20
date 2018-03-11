@@ -83,7 +83,6 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public string Comment { get; set; }
 
         public GraphVisibilityLevelItem GraphVisibilityLevelItem
         {

@@ -19,7 +19,7 @@ namespace Iit.Fibertest.Graph
         }
         public string AddRtuAtGpsLocation(RtuAtGpsLocationAdded e)
         {
-            Node node = new Node() { Id = e.NodeId, Latitude = e.Latitude, Longitude = e.Longitude };
+            Node node = new Node() { Id = e.NodeId, Latitude = e.Latitude, Longitude = e.Longitude, TypeOfLastAddedEquipment = EquipmentType.Rtu };
             _model.Nodes.Add(node);
             Rtu rtu = _mapper.Map<Rtu>(e);
             _model.Rtus.Add(rtu);

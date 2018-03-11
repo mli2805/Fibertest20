@@ -22,6 +22,8 @@ namespace Iit.Fibertest.Graph
         }
         public string AddEquipmentIntoNode(EquipmentIntoNodeAdded e)
         {
+            var node = _model.Nodes.First(n => n.Id == e.NodeId);
+            node.TypeOfLastAddedEquipment = e.Type;
             Equipment equipment = _mapper.Map<Equipment>(e);
             _model.Equipments.Add(equipment);
             foreach (var traceId in e.TracesForInsertion)
@@ -41,7 +43,7 @@ namespace Iit.Fibertest.Graph
 
         public string AddEquipmentAtGpsLocation(EquipmentAtGpsLocationAdded e)
         {
-            Node node = new Node() { Id = e.NodeId, Latitude = e.Latitude, Longitude = e.Longitude };
+            Node node = new Node() { Id = e.NodeId, Latitude = e.Latitude, Longitude = e.Longitude, TypeOfLastAddedEquipment = e.Type };
             _model.Nodes.Add(node);
             Equipment equipment = _mapper.Map<Equipment>(e);
             equipment.Id = e.RequestedEquipmentId;
@@ -78,6 +80,8 @@ namespace Iit.Fibertest.Graph
                 _logFile.AppendLine(message);
                 return message;
             }
+            var node = _model.Nodes.First(n => n.Id == equipment.NodeId);
+            node.TypeOfLastAddedEquipment = e.Type;
             _mapper.Map(e, equipment);
             return null;
         }
@@ -106,7 +110,13 @@ namespace Iit.Fibertest.Graph
                 var idx = trace.Equipments.IndexOf(e.Id);
                 trace.Equipments[idx] = emptyEquipment.Id;
             }
+
+            var node = _model.Nodes.First(n => n.Id == equipment.NodeId);
+
             _model.Equipments.Remove(_model.Equipments.First(eq => eq.Id == e.Id));
+
+            node.TypeOfLastAddedEquipment = _model.Equipments.Where(p => p.NodeId == node.Id).Max(q => q.Type);
+
             return null;
         }
     }

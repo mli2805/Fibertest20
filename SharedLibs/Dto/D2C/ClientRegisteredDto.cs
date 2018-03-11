@@ -19,6 +19,9 @@ namespace Iit.Fibertest.Dto
         public Role Role { get; set; }
 
         [DataMember]
+        public Guid ZoneId { get; set; }
+
+        [DataMember]
         public string ZoneTitle { get; set; }
 
         [DataMember]

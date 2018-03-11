@@ -76,6 +76,5 @@ namespace Iit.Fibertest.Client
             NotifyOfPropertyChange(nameof(IsBadSegment));
         }
 
-        public int UserInputedLength { get; set; }
     }
 }

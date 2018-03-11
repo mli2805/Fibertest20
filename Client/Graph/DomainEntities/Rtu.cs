@@ -35,5 +35,7 @@ namespace Iit.Fibertest.Graph
 
         public TreeOfAcceptableMeasParams AcceptableMeasParams { get; set; } = new TreeOfAcceptableMeasParams();
 
+        public Guid ZoneId { get; set; } = Guid.Empty; // Guid.Empty means default zone
+        public bool ShouldBeHidden { get; set; }
     }
 }
