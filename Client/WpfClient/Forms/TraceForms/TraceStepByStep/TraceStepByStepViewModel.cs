@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Caliburn.Micro;
+using GMap.NET;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
@@ -15,21 +17,23 @@ namespace Iit.Fibertest.Client
     public class TraceStepByStepViewModel : Screen
     {
         private readonly GraphReadModel _graphReadModel;
+        private readonly ReadModel _readModel;
         private readonly IWindowManager _windowManager;
         public ObservableCollection<StepModel> Steps { get; set; }
 
-        public TraceStepByStepViewModel(GraphReadModel graphReadModel, IWindowManager windowManager)
+        public TraceStepByStepViewModel(GraphReadModel graphReadModel, ReadModel readModel, IWindowManager windowManager)
         {
             _graphReadModel = graphReadModel;
+            _readModel = readModel;
             _windowManager = windowManager;
         }
 
-        public void Initialize(Guid rtuNodeId)
+        public void Initialize(Guid rtuNodeId, string rtuTitle)
         {
             Steps = new ObservableCollection<StepModel>();
-            var rtu = _graphReadModel.Data.Rtus.First(r => r.Node.Id == rtuNodeId);
-            _graphReadModel.MainMap.Position = rtu.Node.Position;
-            Steps.Add(new StepModel() { NodeId = rtu.Node.Id, Title = rtu.Title });
+            var rtuNode = _readModel.Nodes.First(n => n.Id == rtuNodeId);
+            _graphReadModel.MainMap.Position = new PointLatLng(rtuNode.Latitude, rtuNode.Longitude);
+            Steps.Add(new StepModel() { NodeId = rtuNode.Id, Title = rtuTitle });
         }
 
         protected override void OnViewLoaded(object view)

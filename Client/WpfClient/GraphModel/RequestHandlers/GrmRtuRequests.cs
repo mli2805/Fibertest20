@@ -48,10 +48,10 @@ namespace Iit.Fibertest.Client
             await _c2DWcfManager.SendCommandAsObj(cmd);
         }
 
-        public void DefineTraceStepByStep(Guid rtuNodeId)
+        public void DefineTraceStepByStep(Guid rtuNodeId, string rtuTitle)
         {
             var vm = _globalScope.Resolve<TraceStepByStepViewModel>();
-            vm.Initialize(rtuNodeId);
+            vm.Initialize(rtuNodeId, rtuTitle);
             _windowManager.ShowWindowWithAssignedOwner(vm);
         }
     }

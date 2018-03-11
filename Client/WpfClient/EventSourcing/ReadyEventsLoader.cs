@@ -44,7 +44,7 @@ namespace Iit.Fibertest.Client
         {
             var currentEventNumber = await LoadFromCache();
             currentEventNumber = await LoadFromDb(currentEventNumber);
-            DrawGraphFromReadModel();
+            RenderAllGraph();
             return currentEventNumber;
         }
 
@@ -95,19 +95,6 @@ namespace Iit.Fibertest.Client
         }
 
         // some sort of parsing snapshot
-        private void DrawGraphFromReadModel()
-        {
-            foreach (var rtu in _readModel.Rtus)
-            {
-                if ((_currentUser.ZoneId == Guid.Empty || _currentUser.ZoneId == rtu.ZoneId) && !rtu.ShouldBeHidden)
-                    DrawRtuFromReadModel(rtu.Id);
-            }
-        }
-
-        private void DrawRtuFromReadModel(Guid rtuId)
-        {
-
-        }
 
         private void RenderAllGraph()
         {

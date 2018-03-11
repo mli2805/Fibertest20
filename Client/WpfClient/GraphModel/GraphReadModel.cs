@@ -64,7 +64,6 @@ namespace Iit.Fibertest.Client
             IniFile = iniFile;
             Data.Nodes = new ObservableCollection<NodeVm>();
             Data.Fibers = new ObservableCollection<FiberVm>();
-            Data.Rtus = new ObservableCollection<RtuVm>();
             Data.Equipments = new ObservableCollection<EquipmentVm>();
             Data.Traces = new ObservableCollection<TraceVm>();
 
@@ -85,7 +84,8 @@ namespace Iit.Fibertest.Client
 
         public void PlaceRtuIntoScreenCenter(Guid rtuId)
         {
-            var nodeVm = Data.Rtus.First(r => r.Id == rtuId).Node;
+            var rtu = ReadModel.Rtus.First(r => r.Id == rtuId);
+            var nodeVm = Data.Nodes.First(n => n.Id == rtu.NodeId);
             nodeVm.IsHighlighted = true;
             MainMap.Position = nodeVm.Position;
         }

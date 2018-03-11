@@ -197,8 +197,8 @@ namespace Iit.Fibertest.Client
             if (!(param is RtuLeaf rtuLeaf))
                 return;
 
-            var rtuNodeId = _graphReadModel.Data.Rtus.First(r => r.Id == rtuLeaf.Id).Node.Id;
-            _graphReadModel.GrmRtuRequests.DefineTraceStepByStep(rtuNodeId);
+            var rtuNodeId = _readModel.Rtus.First(r => r.Id == rtuLeaf.Id).NodeId;
+            _graphReadModel.GrmRtuRequests.DefineTraceStepByStep(rtuNodeId, rtuLeaf.Title);
         }
     }
 }

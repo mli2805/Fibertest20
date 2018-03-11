@@ -71,7 +71,6 @@ namespace Graph.Tests
         public void ThenТрассаУдаляемогоRtuНеУдаляютсяНоОчищаются()
         {
             _sut.ReadModel.Traces.FirstOrDefault(t => t.Id == _traceId).Should().BeNull();
-            _sut.GraphReadModel.Data.Traces.FirstOrDefault(t => t.Id == _traceId).Should().BeNull();
 
             _sut.GraphReadModel.Data.Fibers.FirstOrDefault(f => f.Id == _fibers[0]).Should().BeNull();
             _sut.GraphReadModel.Data.Fibers.First(f => f.Id == _fibers[1]).State.Should()
