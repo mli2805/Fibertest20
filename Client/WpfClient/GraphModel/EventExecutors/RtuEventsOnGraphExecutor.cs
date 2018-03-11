@@ -32,19 +32,10 @@ namespace Iit.Fibertest.Client
                 Title = evnt.Title,
             };
             _model.Data.Nodes.Add(nodeVm);
-
-//            var rtuVm = new RtuVm() { Id = evnt.Id, Node = nodeVm, Title = evnt.Title, Comment = evnt.Comment, };
-//            _model.Data.Rtus.Add(rtuVm);
         }
 
         public void UpdateRtu(RtuUpdated evnt)
         {
-//            var rtu = _model.Data.Rtus.FirstOrDefault(r => r.Id == evnt.Id);
-//            if (rtu == null)
-//                return;
-//            rtu.Title = evnt.Title;
-//            rtu.Node.Title = evnt.Title;
-
             var rtu = _readModel.Rtus.First(r => r.Id == evnt.Id);
             var nodeVm = _model.Data.Nodes.FirstOrDefault(n => n.Id == rtu.NodeId);
             if (nodeVm == null) return;
@@ -53,16 +44,8 @@ namespace Iit.Fibertest.Client
 
         public void RemoveRtu(RtuRemoved evnt)
         {
-//            var rtuVm = _model.Data.Rtus.FirstOrDefault(r => r.Id == evnt.Id);
-//            if (rtuVm == null) return;
-//            Guid nodeId = rtuVm.Node.Id;
-            foreach (var t in _model.Data.Traces.Where(t => t.RtuId == evnt.Id).ToList())
-            {
+            foreach (var t in _readModel.Traces.Where(t => t.RtuId == evnt.Id).ToList())
                 _traceEventsOnGraphExecutor.CleanTrace(new TraceCleaned() { Id = t.Id });
-                _model.Data.Traces.Remove(t);
-            }
-//            _model.Data.Rtus.Remove(rtuVm);
-//            _nodeEventsOnGraphExecutor.RemoveNodeWithAllHis(nodeId);
 
             var rtu = _readModel.Rtus.First(r => r.Id == evnt.Id);
             _nodeEventsOnGraphExecutor.RemoveNodeWithAllHis(rtu.NodeId);

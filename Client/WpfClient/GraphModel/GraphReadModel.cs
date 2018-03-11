@@ -64,7 +64,6 @@ namespace Iit.Fibertest.Client
             IniFile = iniFile;
             Data.Nodes = new ObservableCollection<NodeVm>();
             Data.Fibers = new ObservableCollection<FiberVm>();
-            Data.Traces = new ObservableCollection<TraceVm>();
 
             GraphVisibilityItems = GraphVisibilityExt.GetComboboxItems();
             var levelString = iniFile.Read(IniSection.Miscellaneous, IniKey.GraphVisibilityLevel,
@@ -96,11 +95,28 @@ namespace Iit.Fibertest.Client
                 nodeVm.IsHighlighted = false;
         }
 
-        public void ChangeTraceColor(Guid traceId, List<Guid> nodes, FiberState state)
+        public void ChangeTraceColor(Guid traceId, FiberState state)
         {
-            var fibers = this.GetFibersByNodes(nodes);
-            foreach (var fiberVm in fibers)
+            var trace = ReadModel.Traces.FirstOrDefault(t => t.Id == traceId);
+            if (trace == null) return;
+
+            var fibers = ReadModel.GetTraceFibers(trace);
+            foreach (var fiber in fibers)
             {
+                var fiberVm = Data.Fibers.First(f => f.Id == fiber.Id);
+                if (state != FiberState.NotInTrace)
+                    fiberVm.SetState(traceId, state);
+                else
+                    fiberVm.RemoveState(traceId);
+            }
+        }
+
+        public void ChangeFutureTraceColor(Guid traceId, List<Guid> fiberIds, FiberState state)
+        {
+
+            foreach (var fiberId in fiberIds)
+            {
+                var fiberVm = Data.Fibers.First(f => f.Id == fiberId);
                 if (state != FiberState.NotInTrace)
                     fiberVm.SetState(traceId, state);
                 else

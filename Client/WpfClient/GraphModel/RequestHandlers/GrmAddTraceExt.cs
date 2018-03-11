@@ -21,7 +21,8 @@ namespace Iit.Fibertest.Client
                 return;
 
             var traceId = Guid.NewGuid();
-            model.ChangeTraceColor(traceId, traceNodes, FiberState.HighLighted);
+            var fiberIds = model.ReadModel.GetFibersByNodes(traceNodes).ToList();
+            model.ChangeFutureTraceColor(traceId, fiberIds, FiberState.HighLighted);
             try
             {
                 var vm = new MyMessageBoxViewModel(MessageType.Confirmation, Resources.SID_Accept_the_path);
@@ -40,7 +41,7 @@ namespace Iit.Fibertest.Client
             }
             finally
             {
-                model.ChangeTraceColor(traceId, traceNodes, FiberState.NotInTrace);
+                model.ChangeFutureTraceColor(traceId, fiberIds, FiberState.NotInTrace);
             }
         }
 

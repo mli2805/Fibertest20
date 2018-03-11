@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AutoMapper;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 
@@ -10,19 +9,18 @@ namespace Iit.Fibertest.Client
     public class TraceEventsOnGraphExecutor
     {
         private readonly GraphReadModel _model;
+        private readonly ReadModel _readModel;
 
-        public TraceEventsOnGraphExecutor(GraphReadModel model)
+        public TraceEventsOnGraphExecutor(GraphReadModel model, ReadModel readModel)
         {
             _model = model;
+            _readModel = readModel;
         }
 
         public void AddTrace(TraceAdded evnt)
         {
-            IMapper mapper = new MapperConfiguration(cfg => cfg.AddProfile<MappingEventToVm>()).CreateMapper();
-            var traceVm = mapper.Map<TraceVm>(evnt);
-            _model.Data.Traces.Add(traceVm);
-
-            ApplyTraceStateToFibers(traceVm);
+            var fiberIds = _readModel.GetFibersByNodes(evnt.Nodes).ToList();
+            _model.ChangeFutureTraceColor(evnt.Id, fiberIds, FiberState.NotJoined);
         }
 
         private IEnumerable<FiberVm> GetTraceFibersByNodes(List<Guid> nodes)
@@ -40,22 +38,21 @@ namespace Iit.Fibertest.Client
 
         public void CleanTrace(TraceCleaned evnt)
         {
-            var traceVm = _model.Data.Traces.First(t => t.Id == evnt.Id);
-            GetTraceFibersByNodes(traceVm.Nodes).ToList().ForEach(f => f.RemoveState(evnt.Id));
-            _model.Data.Traces.Remove(traceVm);
+            var trace = _readModel.Traces.First(t => t.Id == evnt.Id);
+            GetTraceFibersByNodes(trace.Nodes).ToList().ForEach(f => f.RemoveState(evnt.Id));
         }
 
         public void RemoveTrace(TraceRemoved evnt)
         {
-            var traceVm = _model.Data.Traces.First(t => t.Id == evnt.Id);
-            var traceFibers = GetTraceFibersByNodes(traceVm.Nodes).ToList();
+            var trace = _readModel.Traces.First(t => t.Id == evnt.Id);
+            var traceFibers = GetTraceFibersByNodes(trace.Nodes).ToList();
             foreach (var fiberVm in traceFibers)
             {
                 fiberVm.RemoveState(evnt.Id);
                 if (fiberVm.State == FiberState.NotInTrace)
                     _model.Data.Fibers.Remove(fiberVm);
             }
-            foreach (var nodeId in traceVm.Nodes)
+            foreach (var nodeId in trace.Nodes)
             {
 //                if (_model.Data.Rtus.Any(r => r.Node.Id == nodeId) ||
                    if ( _model.Data.Fibers.Any(f => f.Node1.Id == nodeId || f.Node2.Id == nodeId))
@@ -63,30 +60,26 @@ namespace Iit.Fibertest.Client
                 var nodeVm = _model.Data.Nodes.First(n => n.Id == nodeId);
                 _model.Data.Nodes.Remove(nodeVm);
             }
-            _model.Data.Traces.Remove(traceVm);
         }
 
         public void AttachTrace(TraceAttached evnt)
         {
-            var traceVm = _model.Data.Traces.First(t => t.Id == evnt.TraceId);
-            traceVm.State = FiberState.Unknown;
-            traceVm.Port = evnt.OtauPortDto.OpticalPort;
-            ApplyTraceStateToFibers(traceVm);
+            var trace = _readModel.Traces.First(t => t.Id == evnt.TraceId);
+            ApplyTraceStateToFibers(trace, FiberState.Ok);
         }
 
         public void DetachTrace(TraceDetached evnt)
         {
-            var traceVm = _model.Data.Traces.First(t => t.Id == evnt.TraceId);
-            traceVm.State = FiberState.NotJoined;
-            traceVm.Port = 0;
-            ApplyTraceStateToFibers(traceVm);
-            _model.CleanAccidentPlacesOnTrace(traceVm);
+            var trace = _readModel.Traces.First(t => t.Id == evnt.TraceId);
+            ApplyTraceStateToFibers(trace, FiberState.NotJoined);
+            _model.CleanAccidentPlacesOnTrace(evnt.TraceId);
         }
 
-        private void ApplyTraceStateToFibers(TraceVm traceVm)
+        // events are applied to Graph BEFORE applying to ReadModel, so trace doesn't have new state
+        private void ApplyTraceStateToFibers(Trace trace, FiberState state)
         {
-            foreach (var fiberVm in GetTraceFibersByNodes(traceVm.Nodes))
-                fiberVm.SetState(traceVm.Id, traceVm.State);
+            foreach (var fiberVm in GetTraceFibersByNodes(trace.Nodes))
+                fiberVm.SetState(trace.Id, state);
         }
        
     }

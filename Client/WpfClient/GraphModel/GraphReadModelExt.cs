@@ -13,10 +13,11 @@ namespace Iit.Fibertest.Client
                 yield return GetFiberByNodes(model, nodes[i - 1], nodes[i]);
         }
 
-        public static NodeVm GetNodeByLandmarkIndex(this GraphReadModel model, TraceVm traceVm, int landmarkIndex)
+        public static NodeVm GetNodeByLandmarkIndex(this GraphReadModel model, Guid traceId, int landmarkIndex)
         {
+            var trace = model.ReadModel.Traces.First(t => t.Id == traceId);
             var i = -1;
-            foreach (var nodeId in traceVm.Nodes)
+            foreach (var nodeId in trace.Nodes)
             {
                 var nodeVm = model.Data.Nodes.First(n => n.Id == nodeId);
                 if (nodeVm.Type != EquipmentType.AdjustmentPoint) i++;
@@ -28,11 +29,12 @@ namespace Iit.Fibertest.Client
             return null;
         }
 
-        public static FiberVm GetFiberByLandmarkIndexes(this GraphReadModel model, TraceVm traceVm,
+        public static FiberVm GetFiberByLandmarkIndexes(this GraphReadModel model, Guid traceId,
             int leftLandmarkIndex, int rightLandmarkIndex)
         {
+            var trace = model.ReadModel.Traces.First(t => t.Id == traceId);
             List<Guid> traceNodesWithoutAdjustmentPoints = new List<Guid>();
-            foreach (var nodeId in traceVm.Nodes)
+            foreach (var nodeId in trace.Nodes)
             {
                 var nodeVm = model.Data.Nodes.FirstOrDefault(n => n.Id == nodeId);
                 if (nodeVm != null && nodeVm.Type != EquipmentType.AdjustmentPoint)
@@ -58,9 +60,9 @@ namespace Iit.Fibertest.Client
             return nodes;
         }
 
-        public static void CleanAccidentPlacesOnTrace(this GraphReadModel model, TraceVm traceVm)
+        public static void CleanAccidentPlacesOnTrace(this GraphReadModel model, Guid traceId)
         {
-            var nodeVms = model.Data.Nodes.Where(n => n.AccidentOnTraceVmId == traceVm.Id).ToList();
+            var nodeVms = model.Data.Nodes.Where(n => n.AccidentOnTraceVmId == traceId).ToList();
             foreach (var nodeVm in nodeVms)
             {
                 model.Data.Nodes.Remove(nodeVm);
@@ -68,7 +70,7 @@ namespace Iit.Fibertest.Client
 
             foreach (var fiberVm in model.Data.Fibers)
             {
-                fiberVm.CleanBadSegment(traceVm.Id);
+                fiberVm.CleanBadSegment(traceId);
             }
         }
     }

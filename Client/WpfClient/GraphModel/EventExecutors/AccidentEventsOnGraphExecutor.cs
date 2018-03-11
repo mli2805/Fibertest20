@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using GMap.NET;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -19,47 +18,45 @@ namespace Iit.Fibertest.Client
 
         public void ShowMonitoringResult(MonitoringResultShown evnt)
         {
-            var traceVm = _model.Data.Traces.First(t => t.Id == evnt.TraceId);
-            traceVm.State = evnt.TraceState;
-            _model.ChangeTraceColor(evnt.TraceId, traceVm.Nodes, traceVm.State);
+            _model.ChangeTraceColor(evnt.TraceId, evnt.TraceState);
 
-            _model.CleanAccidentPlacesOnTrace(traceVm); // accidents on trace could change, so old should be cleaned and new drawn
-            if (traceVm.State != FiberState.Ok)
-                evnt.Accidents.ForEach(a => ShowAccidentPlaceOnTrace(a, traceVm));
+            _model.CleanAccidentPlacesOnTrace(evnt.TraceId); // accidents on trace could change, so old should be cleaned and new drawn
+            if (evnt.TraceState != FiberState.Ok)
+                evnt.Accidents.ForEach(a => ShowAccidentPlaceOnTrace(a, evnt.TraceId));
         }
 
-        private void ShowAccidentPlaceOnTrace(AccidentOnTrace accident, TraceVm traceVm)
+        private void ShowAccidentPlaceOnTrace(AccidentOnTrace accident, Guid traceId)
         {
             switch (accident)
             {
                 case AccidentAsNewEvent accidentAsNewEvent:
-                    ShowBetweenNodes(accidentAsNewEvent, traceVm);
+                    ShowBetweenNodes(accidentAsNewEvent, traceId);
                     return;
                 case AccidentInOldEvent accidentInOldEvent:
                     if (accidentInOldEvent.OpticalTypeOfAccident == OpticalAccidentType.LossCoeff)
-                        ShowBadSegment(accidentInOldEvent, traceVm);
+                        ShowBadSegment(accidentInOldEvent, traceId);
                     else
-                        ShowInNode(accidentInOldEvent, traceVm);
+                        ShowInNode(accidentInOldEvent, traceId);
                     return;
                 default: return;
             }
         }
 
-        private void ShowBetweenNodes(AccidentAsNewEvent accidentAsNewEvent, TraceVm traceVm)
+        private void ShowBetweenNodes(AccidentAsNewEvent accidentAsNewEvent, Guid traceId)
         {
             var accidentGps = _accidentPlaceLocator.GetAccidentGps(accidentAsNewEvent);
             if (accidentGps == null) return;
 
-           AddAccidentNode((PointLatLng)accidentGps, traceVm.Id);
+           AddAccidentNode((PointLatLng)accidentGps, traceId);
         }
 
-        private void ShowInNode(AccidentInOldEvent accidentInOldEvent, TraceVm traceVm)
+        private void ShowInNode(AccidentInOldEvent accidentInOldEvent, Guid traceId)
         {
-            var nodeVm = _model.GetNodeByLandmarkIndex(traceVm, accidentInOldEvent.BrokenLandmarkIndex);
+            var nodeVm = _model.GetNodeByLandmarkIndex(traceId, accidentInOldEvent.BrokenLandmarkIndex);
 
             if (nodeVm == null) return;
 
-            AddAccidentNode(nodeVm.Position, traceVm.Id);
+            AddAccidentNode(nodeVm.Position, traceId);
         }
 
         private void AddAccidentNode(PointLatLng accidentGps, Guid traceId)
@@ -80,17 +77,17 @@ namespace Iit.Fibertest.Client
             _model.Data.Nodes.Add(accidentNode);
         }
 
-        private void ShowBadSegment(AccidentInOldEvent accidentInOldEvent, TraceVm traceVm)
+        private void ShowBadSegment(AccidentInOldEvent accidentInOldEvent, Guid traceId)
         {
 //            var leftNodeId = traceVm.Nodes[accidentInOldEvent.BrokenLandmarkIndex - 1];
 //            var rightNodeId = traceVm.Nodes[accidentInOldEvent.BrokenLandmarkIndex];
 //            var fiberVm = _model.GetFiberByNodes(leftNodeId, rightNodeId);
 
-            var fiberVm = _model.GetFiberByLandmarkIndexes(traceVm, accidentInOldEvent.BrokenLandmarkIndex - 1,
+            var fiberVm = _model.GetFiberByLandmarkIndexes(traceId, accidentInOldEvent.BrokenLandmarkIndex - 1,
                 accidentInOldEvent.BrokenLandmarkIndex);
 
 
-            fiberVm.AddBadSegment(traceVm.Id);
+            fiberVm.AddBadSegment(traceId);
         }
 
     }

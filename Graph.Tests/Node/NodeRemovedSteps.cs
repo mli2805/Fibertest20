@@ -96,13 +96,13 @@ namespace Graph.Tests
             _trace.Nodes.Contains(_nodeId).Should().BeFalse();
             _trace.Nodes.Count.Should().Be(_trace.Equipments.Count);
 
-            var traceVm = _sut.GraphReadModel.Data.Traces.First(t => t.Id == _trace.Id);
-            for (int i = 0; i < traceVm.Nodes.Count - 1; i++)
+            var trace = _sut.ReadModel.Traces.First(t => t.Id == _trace.Id);
+            for (int i = 0; i < trace.Nodes.Count - 1; i++)
             {
-                _sut.GraphReadModel.Data.Fibers.FirstOrDefault(
+                _sut.ReadModel.Fibers.FirstOrDefault(
                     f =>
-                        f.Node1.Id == traceVm.Nodes[i] && f.Node2.Id == traceVm.Nodes[i + 1] ||
-                        f.Node1.Id == traceVm.Nodes[i + 1] && f.Node2.Id == traceVm.Nodes[i]).Should().NotBeNull();
+                        f.Node1 == trace.Nodes[i] && f.Node2 == trace.Nodes[i + 1] ||
+                        f.Node1 == trace.Nodes[i + 1] && f.Node2 == trace.Nodes[i]).Should().NotBeNull();
             }
         }
 

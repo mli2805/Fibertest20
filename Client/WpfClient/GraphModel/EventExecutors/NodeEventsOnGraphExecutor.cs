@@ -10,11 +10,13 @@ namespace Iit.Fibertest.Client
     public class NodeEventsOnGraphExecutor
     {
         private readonly GraphReadModel _model;
+        private readonly ReadModel _readModel;
         private readonly IMyLog _logFile;
 
-        public NodeEventsOnGraphExecutor(GraphReadModel model, IMyLog logFile)
+        public NodeEventsOnGraphExecutor(IMyLog logFile, GraphReadModel model, ReadModel readModel)
         {
             _model = model;
+            _readModel = readModel;
             _logFile = logFile;
         }
 
@@ -34,37 +36,10 @@ namespace Iit.Fibertest.Client
 
             var fiberForDeletion = _model.Data.Fibers.First(f => f.Id == evnt.FiberId);
             AddTwoFibersToNewNode(evnt, fiberForDeletion);
-            FixTracesWhichContainedOldFiber(evnt);
             _model.Data.Fibers.Remove(fiberForDeletion);
         }
 
-        private void FixTracesWhichContainedOldFiber(NodeIntoFiberAdded e)
-        {
-            foreach (var trace in _model.Data.Traces)
-            {
-                int idx;
-                while ((idx = GetFiberIndexInTrace(trace, _model.Data.Fibers.First(f => f.Id == e.FiberId))) != -1)
-                {
-                    trace.Nodes.Insert(idx + 1, e.Id);
-                    trace.Equipments.Insert(idx + 1, e.EquipmentId);
-                }
-            }
-        }
-        private int GetFiberIndexInTrace(TraceVm trace, FiberVm fiber)
-        {
-            var idxInTrace1 = trace.Nodes.IndexOf(fiber.Node1.Id);
-            if (idxInTrace1 == -1)
-                return -1;
-            var idxInTrace2 = trace.Nodes.IndexOf(fiber.Node2.Id);
-            if (idxInTrace2 == -1)
-                return -1;
-            if (idxInTrace2 - idxInTrace1 == 1)
-                return idxInTrace1;
-            if (idxInTrace1 - idxInTrace2 == 1)
-                return idxInTrace2;
-            return -1;
-        }
-
+     
         private void AddTwoFibersToNewNode(NodeIntoFiberAdded e, FiberVm oldFiberVm)
         {
             NodeVm node1 = _model.Data.Fibers.First(f => f.Id == e.FiberId).Node1;
@@ -92,8 +67,8 @@ namespace Iit.Fibertest.Client
 
         public void RemoveNode(NodeRemoved evnt)
         {
-            foreach (var traceVm in _model.Data.Traces.Where(t => t.Nodes.Contains(evnt.Id)))
-                ExcludeNodeFromTrace(traceVm, evnt.TraceWithNewFiberForDetourRemovedNode[traceVm.Id], evnt.Id);
+            foreach (var trace in _readModel.Traces.Where(t => t.Nodes.Contains(evnt.Id)))
+                CreateDetourIfAbsent(trace, evnt.TraceWithNewFiberForDetourRemovedNode[trace.Id], trace.Nodes.IndexOf(evnt.Id));
 
             if (evnt.FiberIdToDetourAdjustmentPoint != Guid.Empty)
             {
@@ -106,15 +81,6 @@ namespace Iit.Fibertest.Client
                 RemoveNodeOnEdgeWhereNoTraces(evnt.Id);
             else
                 RemoveNodeWithAllHis(evnt.Id);
-        }
-
-        private void ExcludeNodeFromTrace(TraceVm traceVm, Guid fiberId, Guid nodeId)
-        {
-            var idxInTrace = traceVm.Nodes.IndexOf(nodeId);
-            CreateDetourIfAbsent(traceVm, fiberId, idxInTrace);
-
-            traceVm.Equipments.RemoveAt(idxInTrace);
-            traceVm.Nodes.RemoveAt(idxInTrace);
         }
 
         private void ExcludeAdjustmentPoint(Guid nodeId, Guid detourFiberId)
@@ -180,10 +146,10 @@ namespace Iit.Fibertest.Client
                 _model.Data.Nodes.Remove(nodeVm);
             else _logFile.AppendLine($@"NodeVm {nodeId.First6()} not found");
         }
-        private void CreateDetourIfAbsent(TraceVm traceVm, Guid fiberId, int idxInTrace)
+        private void CreateDetourIfAbsent(Trace trace, Guid fiberId, int idxInTrace)
         {
-            var nodeBefore = traceVm.Nodes[idxInTrace - 1];
-            var nodeAfter = traceVm.Nodes[idxInTrace + 1];
+            var nodeBefore = trace.Nodes[idxInTrace - 1];
+            var nodeAfter = trace.Nodes[idxInTrace + 1];
 
             if (!_model.Data.Fibers.Any(f => f.Node1.Id == nodeBefore && f.Node2.Id == nodeAfter
                                  || f.Node2.Id == nodeBefore && f.Node1.Id == nodeAfter))
@@ -195,7 +161,7 @@ namespace Iit.Fibertest.Client
                     Node2 = _model.Data.Nodes.First(m => m.Id == nodeAfter),
                 };
                 _model.Data.Fibers.Add(fiberVm);
-                fiberVm.SetState(traceVm.Id, traceVm.State);
+                fiberVm.SetState(trace.Id, trace.State);
             }
         }
     }
