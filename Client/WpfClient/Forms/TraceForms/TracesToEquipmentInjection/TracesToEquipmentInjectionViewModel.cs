@@ -7,7 +7,7 @@ using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
-    public class TraceChoiceViewModel : Screen
+    public class TracesToEquipmentInjectionViewModel : Screen
     {
         public string Explanation { get; set; }
         public List<CheckBoxModel> Choices { get; set; } // for binding
@@ -15,7 +15,7 @@ namespace Iit.Fibertest.Client
         public bool IsClosed { get; set; }
 
         private List<Trace> _tracesInNode;
-        public TraceChoiceViewModel(List<Trace> tracesInNode)
+        public TracesToEquipmentInjectionViewModel(List<Trace> tracesInNode)
         {
             _tracesInNode = tracesInNode;
             InitializeChoices();

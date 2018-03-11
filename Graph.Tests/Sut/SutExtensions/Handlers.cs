@@ -75,7 +75,7 @@ namespace Graph.Tests
 
         public static bool TraceChoiceHandler(this SystemUnderTest sut, object model, List<Guid> chosenTraces, Answer answer)
         {
-            if (!(model is TraceChoiceViewModel vm)) return false;
+            if (!(model is TracesToEquipmentInjectionViewModel vm)) return false;
             foreach (var chosenTrace in chosenTraces)
             {
                 foreach (var checkbox in vm.Choices)

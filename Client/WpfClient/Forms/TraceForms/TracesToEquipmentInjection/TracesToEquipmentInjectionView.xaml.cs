@@ -3,9 +3,9 @@
     /// <summary>
     /// Interaction logic for TraceChoiceView.xaml
     /// </summary>
-    public partial class TraceChoiceView
+    public partial class TracesToEquipmentInjectionView
     {
-        public TraceChoiceView()
+        public TracesToEquipmentInjectionView()
         {
             InitializeComponent();
         }

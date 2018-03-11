@@ -155,6 +155,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<ReadyEventsLoader>().SingleInstance();
             builder.RegisterType<ClientPoller>().SingleInstance();
 
+            builder.RegisterType<AddEquipmentIntoNodeBuilder>();
             builder.RegisterType<GpsInputViewModel>();
             builder.RegisterType<LandmarkViewModel>();
             builder.RegisterType<LandmarksViewModel>();

@@ -79,7 +79,7 @@ namespace Graph.Tests
         public void ThenНаФормеВыбораТрассЭтаТрассаНедоступнаДляВыбора()
         {
             var traceList = _sut.ReadModel.Traces.Where(t => t.Equipments.Contains(_oldEquipment.Id)).ToList();
-            var traceChoiceVm = new TraceChoiceViewModel(traceList);
+            var traceChoiceVm = new TracesToEquipmentInjectionViewModel(traceList);
             traceChoiceVm.Choices.First(l => l.Id == _shortTraceId).IsEnabled.Should().BeFalse();
             foreach (var traceChoice in traceChoiceVm.Choices.Where(l => l.Id != _shortTraceId))
             {

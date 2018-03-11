@@ -21,6 +21,7 @@ namespace Iit.Fibertest.Client
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly CurrentGpsInputMode _currentGpsInputMode;
+        private readonly AddEquipmentIntoNodeBuilder _addEquipmentIntoNodeBuilder;
         private Node _originalNode;
         private PointLatLng _nodeCoors;
 
@@ -122,7 +123,7 @@ namespace Iit.Fibertest.Client
         }
 
         public NodeUpdateViewModel(ILifetimeScope globalScope, ReadModel readModel, IWindowManager windowManager,
-            IWcfServiceForClient c2DWcfManager, CurrentGpsInputMode currentGpsInputMode)
+            IWcfServiceForClient c2DWcfManager, CurrentGpsInputMode currentGpsInputMode, AddEquipmentIntoNodeBuilder addEquipmentIntoNodeBuilder)
         {
             _globalScope = globalScope;
             _readModel = readModel;
@@ -130,6 +131,7 @@ namespace Iit.Fibertest.Client
             _windowManager = windowManager;
             _c2DWcfManager = c2DWcfManager;
             _currentGpsInputMode = currentGpsInputMode;
+            _addEquipmentIntoNodeBuilder = addEquipmentIntoNodeBuilder;
         }
 
         public void Initialize(Guid nodeId)
@@ -196,7 +198,7 @@ namespace Iit.Fibertest.Client
 
         public async Task AddEquipmentIntoNode(bool isCableReserveRequested)
         {
-            var cmd = VerboseTasks.BuildAddEquipmentIntoNodeCommand(_originalNode.Id, isCableReserveRequested, _readModel, _windowManager, _globalScope);
+            var cmd = _addEquipmentIntoNodeBuilder.BuildCommand(_originalNode.Id, isCableReserveRequested);
             if (cmd == null)
                 return;
             await _c2DWcfManager.SendCommandAsObj(cmd);

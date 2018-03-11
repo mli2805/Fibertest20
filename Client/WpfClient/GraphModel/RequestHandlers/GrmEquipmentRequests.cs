@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Autofac;
-using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Requests;
@@ -11,17 +9,13 @@ namespace Iit.Fibertest.Client
 {
     public class GrmEquipmentRequests
     {
-        private readonly ILifetimeScope _globalScope;
-        private readonly ReadModel _readModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
-        private readonly IWindowManager _windowManager;
+        private readonly AddEquipmentIntoNodeBuilder _addEquipmentIntoNodeBuilder;
 
-        public GrmEquipmentRequests(ILifetimeScope globalScope, ReadModel readModel, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
+        public GrmEquipmentRequests(IWcfServiceForClient c2DWcfManager, AddEquipmentIntoNodeBuilder addEquipmentIntoNodeBuilder)
         {
-            _globalScope = globalScope;
-            _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
-            _windowManager = windowManager;
+            _addEquipmentIntoNodeBuilder = addEquipmentIntoNodeBuilder;
         }
 
         public async Task AddEquipmentAtGpsLocation(RequestAddEquipmentAtGpsLocation request)
@@ -40,7 +34,10 @@ namespace Iit.Fibertest.Client
 
         public async Task AddEquipmentIntoNode(RequestAddEquipmentIntoNode request)
         {
-            await VerboseTasks.AddEquipmentIntoNodeFullTask(request, _globalScope, _readModel, _windowManager, _c2DWcfManager);
+            var cmd = _addEquipmentIntoNodeBuilder.BuildCommand(request.NodeId, request.IsCableReserveRequested);
+            if (cmd == null)
+                return;
+            await _c2DWcfManager.SendCommandAsObj(cmd);
         }
 
         public async Task UpdateEquipment(UpdateEquipment cmd)
