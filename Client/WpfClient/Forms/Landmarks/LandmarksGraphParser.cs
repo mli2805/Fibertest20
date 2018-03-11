@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GMap.NET;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 
@@ -32,7 +31,7 @@ namespace Iit.Fibertest.Client
                 Number = number,
                 NodeTitle = node.Title,
                 EventNumber = 0,
-                GpsCoors = new PointLatLng(node.Latitude, node.Longitude)
+                GpsCoors = node.Position,
             };
 
             if (number == 0)

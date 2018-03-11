@@ -80,7 +80,7 @@ namespace Iit.Fibertest.Client
 
             var node = _readModel.Nodes.First(n => n.Id == _originalRtu.NodeId);
             GpsInputViewModel = _globalScope.Resolve<GpsInputViewModel>();
-            GpsInputViewModel.Initialize(new PointLatLng(node.Latitude, node.Longitude));
+            GpsInputViewModel.Initialize(node.Position);
 
             Title = _originalRtu.Title;
             Comment = _originalRtu.Comment;
@@ -90,12 +90,12 @@ namespace Iit.Fibertest.Client
         {
             _isInCreationMode = true;
             var nodeId = Guid.NewGuid();
-            _originalNode = new Node() { Id = nodeId, Latitude = request.Latitude, Longitude = request.Longitude };
+            _originalNode = new Node() { Id = nodeId, Position = new PointLatLng(request.Latitude, request.Longitude)};
             RtuId = Guid.NewGuid();
             _originalRtu = new Rtu() { Id = RtuId, NodeId = nodeId };
 
             GpsInputViewModel = _globalScope.Resolve<GpsInputViewModel>();
-            GpsInputViewModel.Initialize(new PointLatLng(_originalNode.Latitude, _originalNode.Longitude));
+            GpsInputViewModel.Initialize(_originalNode.Position);
         }
 
         protected override void OnViewLoaded(object view)

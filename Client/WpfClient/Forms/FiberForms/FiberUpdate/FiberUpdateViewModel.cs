@@ -51,7 +51,7 @@ namespace Iit.Fibertest.Client
 
             NodeAtitle = n1.Title;
             NodeBtitle = n2.Title;
-            GpsLength = $@"{GpsCalculator.GetDistanceBetweenPointsInDegrees(n1.Latitude, n1.Longitude, n2.Latitude, n2.Longitude):#,##0}";
+            GpsLength = $@"{GpsCalculator.GetDistanceBetweenPointLatLng(n1.Position, n2.Position):#,##0}";
 //            OpticalLength = _fiber.OpticalLength; // потом из базовых брать
 
             // refactor to use ReadModel instead of Graph

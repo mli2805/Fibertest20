@@ -24,7 +24,7 @@ namespace Iit.Fibertest.Client
 
         public AccidentLineModel Create(AccidentOnTrace accidentOnTrace, int number)
         {
-            var traceVm = _graphReadModel.Data.Traces.FirstOrDefault(t => t.Id == accidentOnTrace.TraceId);
+            var trace = _readModel.Traces.FirstOrDefault(t => t.Id == accidentOnTrace.TraceId);
             switch (accidentOnTrace)
             {
                 case AccidentAsNewEvent accidentAsNewEvent:
@@ -32,7 +32,7 @@ namespace Iit.Fibertest.Client
 
                 case AccidentInOldEvent accidentInOldEvent:
                     if (accidentInOldEvent.OpticalTypeOfAccident == OpticalAccidentType.LossCoeff)
-                        return CreateBadSegment(accidentInOldEvent, traceVm, number);
+                        return CreateBadSegment(accidentInOldEvent, trace, number);
 
                     return CreateInNode(accidentInOldEvent, number);
 
@@ -103,7 +103,7 @@ namespace Iit.Fibertest.Client
             return model;
         }
 
-        private AccidentLineModel CreateBadSegment(AccidentInOldEvent accidentInOldEvent, TraceVm trace, int number)
+        private AccidentLineModel CreateBadSegment(AccidentInOldEvent accidentInOldEvent, Trace trace, int number)
         {
             var leftNodeId = trace.Nodes[accidentInOldEvent.BrokenLandmarkIndex - 1];
             var leftNodeVm = _graphReadModel.Data.Nodes.FirstOrDefault(n => n.Id == leftNodeId);

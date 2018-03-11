@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using GMap.NET;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
@@ -104,7 +103,7 @@ namespace Iit.Fibertest.Client
                 {
                     Id = node.Id,
                     Title = node.Title,
-                    Position = new PointLatLng(node.Latitude, node.Longitude),
+                    Position = node.Position,
                     Type = node.TypeOfLastAddedEquipment,
                 });
             }

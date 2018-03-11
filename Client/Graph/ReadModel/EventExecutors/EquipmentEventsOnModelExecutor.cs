@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using AutoMapper;
+using GMap.NET;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 
@@ -43,7 +44,7 @@ namespace Iit.Fibertest.Graph
 
         public string AddEquipmentAtGpsLocation(EquipmentAtGpsLocationAdded e)
         {
-            Node node = new Node() { Id = e.NodeId, Latitude = e.Latitude, Longitude = e.Longitude, TypeOfLastAddedEquipment = e.Type };
+            Node node = new Node() { Id = e.NodeId, Position = new PointLatLng(e.Latitude, e.Longitude), TypeOfLastAddedEquipment = e.Type };
             _model.Nodes.Add(node);
             Equipment equipment = _mapper.Map<Equipment>(e);
             equipment.Id = e.RequestedEquipmentId;
@@ -60,7 +61,7 @@ namespace Iit.Fibertest.Graph
 
         public string AddEquipmentAtGpsLocationWithNodeTitle(EquipmentAtGpsLocationWithNodeTitleAdded e)
         {
-            _model.Nodes.Add(new Node() { Id = e.NodeId, Latitude = e.Latitude, Longitude = e.Longitude, Title = e.Title, Comment = e.Comment });
+            _model.Nodes.Add(new Node() { Id = e.NodeId, Position = new PointLatLng(e.Latitude, e.Longitude), Title = e.Title, Comment = e.Comment });
 
             if (e.RequestedEquipmentId != Guid.Empty)
                 _model.Equipments.Add(new Equipment() { Id = e.RequestedEquipmentId, Type = e.Type, NodeId = e.NodeId });

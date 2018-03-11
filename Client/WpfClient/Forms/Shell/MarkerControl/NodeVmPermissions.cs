@@ -34,7 +34,7 @@ namespace Iit.Fibertest.Client
             if (_currentUser.Role > Role.Root || parameter == null)
                 return false;
             var marker = (MarkerControl)parameter;
-            return marker.Owner.GraphReadModel.Data.Traces.All(t => t.Nodes.Last() != marker.GMapMarker.Id);
+            return marker.Owner.GraphReadModel.ReadModel.Traces.All(t => t.Nodes.Last() != marker.GMapMarker.Id);
         }
 
         public bool CanStartAddFiber(object parameter)

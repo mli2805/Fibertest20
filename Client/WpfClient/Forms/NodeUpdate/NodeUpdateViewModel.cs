@@ -135,7 +135,7 @@ namespace Iit.Fibertest.Client
         public void Initialize(Guid nodeId)
         {
             _originalNode = _readModel.Nodes.First(n => n.Id == nodeId);
-            _nodeCoors = new PointLatLng() { Lat = _originalNode.Latitude, Lng = _originalNode.Longitude };
+            _nodeCoors = _originalNode.Position;
             Title = _originalNode.Title;
             _selectedGpsInputModeComboItem = GpsInputModeComboItems.First(i => i.Mode == _currentGpsInputMode.Mode);
             Coors = _nodeCoors.ToDetailedString(_selectedGpsInputModeComboItem.Mode);

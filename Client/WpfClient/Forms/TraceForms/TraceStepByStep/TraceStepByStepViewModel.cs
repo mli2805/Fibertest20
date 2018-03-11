@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Caliburn.Micro;
-using GMap.NET;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
@@ -32,7 +31,7 @@ namespace Iit.Fibertest.Client
         {
             Steps = new ObservableCollection<StepModel>();
             var rtuNode = _readModel.Nodes.First(n => n.Id == rtuNodeId);
-            _graphReadModel.MainMap.Position = new PointLatLng(rtuNode.Latitude, rtuNode.Longitude);
+            _graphReadModel.MainMap.Position = rtuNode.Position;
             Steps.Add(new StepModel() { NodeId = rtuNode.Id, Title = rtuTitle });
         }
 

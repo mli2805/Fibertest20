@@ -22,7 +22,7 @@ namespace Iit.Fibertest.Graph
         }
         public string AddNodeIntoFiber(NodeIntoFiberAdded e)
         {
-            _model.Nodes.Add(new Node() { Id = e.Id, Latitude = e.Position.Lat, Longitude = e.Position.Lng });
+            _model.Nodes.Add(new Node() { Id = e.Id, Position = e.Position });
             _model.Equipments.Add(new Equipment() { Id = e.EquipmentId, Type = e.InjectionType, NodeId = e.Id });
             AddTwoFibersToNewNode(e);
             FixTracesWhichContainedOldFiber(e);

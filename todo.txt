@@ -21,3 +21,4 @@
 	2. Для трасс хранить список волокон
 	3. blahblahViewModel должна использовать ReadModel а не GraphReadModel, как и все остальные формы
 	4. Из GraphReadModel убрать Rtus, Traces, Equipments
+	5. координаты у узла хранить как PointLatLng

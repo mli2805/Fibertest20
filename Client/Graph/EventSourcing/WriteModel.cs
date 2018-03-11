@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using GMap.NET;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph.Algorithms;
 using Iit.Fibertest.UtilsLib;
@@ -122,7 +123,7 @@ namespace Iit.Fibertest.Graph
 
         public string Apply(NodeIntoFiberAdded e)
         {
-            Nodes.Add(new Node() { Id = e.Id, Latitude = e.Position.Lat, Longitude = e.Position.Lng });
+            Nodes.Add(new Node() { Id = e.Id, Position = e.Position });
             Equipments.Add(new Equipment() { Id = e.EquipmentId, Type = e.InjectionType, NodeId = e.Id });
             AddTwoFibersToNewNode(e);
             FixTracesWhichContainedOldFiber(e);
@@ -184,8 +185,7 @@ namespace Iit.Fibertest.Graph
             var node = Nodes.FirstOrDefault(x => x.Id == e.NodeId);
             if (node != null)
             {
-                node.Latitude = e.Latitude;
-                node.Longitude = e.Longitude;
+                node.Position = new PointLatLng(e.Latitude, e.Longitude);
                 return null;
             }
 
@@ -387,7 +387,7 @@ namespace Iit.Fibertest.Graph
 
         public string Apply(EquipmentAtGpsLocationAdded e)
         {
-            Nodes.Add(new Node() { Id = e.NodeId, Latitude = e.Latitude, Longitude = e.Longitude });
+            Nodes.Add(new Node() { Id = e.NodeId, Position = new PointLatLng(e.Latitude, e.Longitude) });
 
             Equipments.Add(new Equipment() { Id = e.RequestedEquipmentId, Type = e.Type, NodeId = e.NodeId });
             if (e.EmptyNodeEquipmentId != Guid.Empty)
@@ -397,7 +397,7 @@ namespace Iit.Fibertest.Graph
         }
         public string Apply(EquipmentAtGpsLocationWithNodeTitleAdded e)
         {
-            Nodes.Add(new Node() { Id = e.NodeId, Latitude = e.Latitude, Longitude = e.Longitude, Title = e.Title, Comment = e.Comment });
+            Nodes.Add(new Node() { Id = e.NodeId, Position = new PointLatLng(e.Latitude, e.Longitude), Title = e.Title, Comment = e.Comment });
 
             if (e.RequestedEquipmentId != Guid.Empty)
                 Equipments.Add(new Equipment() { Id = e.RequestedEquipmentId, Type = e.Type, NodeId = e.NodeId });
@@ -458,7 +458,7 @@ namespace Iit.Fibertest.Graph
         #region Rtu
         public string Apply(RtuAtGpsLocationAdded e)
         {
-            Nodes.Add(new Node() { Id = e.NodeId, Latitude = e.Latitude, Longitude = e.Longitude });
+            Nodes.Add(new Node() { Id = e.NodeId, Position = new PointLatLng(e.Latitude, e.Longitude) });
             Rtus.Add(_mapper.Map<Rtu>(e));
             return null;
         }

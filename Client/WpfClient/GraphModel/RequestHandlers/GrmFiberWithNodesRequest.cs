@@ -92,13 +92,13 @@ namespace Iit.Fibertest.Client
             var startNode = _readModel.Nodes.First(n => n.Id == startId);
             var finishNode = _readModel.Nodes.First(n => n.Id == finishId);
 
-            double deltaLat = (finishNode.Latitude - startNode.Latitude) / (count + 1);
-            double deltaLng = (finishNode.Longitude - startNode.Longitude) / (count + 1);
+            double deltaLat = (finishNode.Position.Lat - startNode.Position.Lat) / (count + 1);
+            double deltaLng = (finishNode.Position.Lng - startNode.Position.Lng) / (count + 1);
 
             for (int i = 0; i < count; i++)
             {
-                double lat = startNode.Latitude + deltaLat * (i + 1);
-                double lng = startNode.Longitude + deltaLng * (i + 1);
+                double lat = startNode.Position.Lat + deltaLat * (i + 1);
+                double lng = startNode.Position.Lng + deltaLng * (i + 1);
 
                 var cmd = new AddEquipmentAtGpsLocation()
                 {

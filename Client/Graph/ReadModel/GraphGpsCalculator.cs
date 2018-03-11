@@ -28,7 +28,7 @@ namespace Iit.Fibertest.Graph
                 var equipment2 = _readModel.Equipments.FirstOrDefault(e => e.Id == trace.Equipments[i+1]);
 
                 result = result + 
-                         GpsCalculator.GetDistanceBetweenPointsInDegrees(node1.Latitude, node1.Longitude, node2.Latitude, node2.Longitude) +
+                         GpsCalculator.GetDistanceBetweenPointLatLng(node1.Position, node2.Position) +
                          GetReserveFromTheLeft(equipment1) + GetReserveFromTheRight(equipment2);
             }
             return result / 1000;
@@ -36,8 +36,7 @@ namespace Iit.Fibertest.Graph
 
         public int CalculateDistanceBetweenNodesMm(Node leftNode, Equipment leftEquipment, Node rightNode, Equipment rightEquipment)
         {
-            var gpsDistance = (int) GpsCalculator.GetDistanceBetweenPointsInDegrees(
-                                        leftNode.Latitude, leftNode.Longitude, rightNode.Latitude, rightNode.Longitude);
+            var gpsDistance = (int) GpsCalculator.GetDistanceBetweenPointLatLng(leftNode.Position, rightNode.Position);
 
             return (int)((gpsDistance + GetReserveFromTheLeft(leftEquipment) + GetReserveFromTheRight(rightEquipment)) * 1000);
         }
