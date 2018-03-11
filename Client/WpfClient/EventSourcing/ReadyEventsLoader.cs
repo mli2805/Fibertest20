@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
@@ -24,11 +23,10 @@ namespace Iit.Fibertest.Client
         private readonly GraphReadModel _graphReadModel;
         private readonly EventsOnModelExecutor _eventsOnModelExecutor;
         private readonly TreeOfRtuModel _treeOfRtuModel;
-        private readonly EventsOnGraphExecutor _eventsOnGraphExecutor;
 
         public ReadyEventsLoader(IMyLog logFile, ILocalDbManager localDbManager, IWcfServiceForClient c2DWcfManager, 
             ReadModel readModel, GraphReadModel graphReadModel,
-            EventsOnModelExecutor eventsOnModelExecutor, TreeOfRtuModel treeOfRtuModel, EventsOnGraphExecutor eventsOnGraphExecutor)
+            EventsOnModelExecutor eventsOnModelExecutor, TreeOfRtuModel treeOfRtuModel)
         {
             _logFile = logFile;
             _localDbManager = localDbManager;
@@ -37,7 +35,6 @@ namespace Iit.Fibertest.Client
             _graphReadModel = graphReadModel;
             _eventsOnModelExecutor = eventsOnModelExecutor;
             _treeOfRtuModel = treeOfRtuModel;
-            _eventsOnGraphExecutor = eventsOnGraphExecutor;
         }
 
         public async Task<int> Load()
