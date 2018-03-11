@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using AutoMapper;
+using GMap.NET;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph.Algorithms;
 using Iit.Fibertest.UtilsLib;
@@ -22,7 +23,7 @@ namespace Iit.Fibertest.Graph
         }
         public string AddNodeIntoFiber(NodeIntoFiberAdded e)
         {
-            _model.Nodes.Add(new Node() { Id = e.Id, Position = e.Position });
+            _model.Nodes.Add(new Node() { Id = e.Id, Position = e.Position, TypeOfLastAddedEquipment = e.InjectionType });
             _model.Equipments.Add(new Equipment() { Id = e.EquipmentId, Type = e.InjectionType, NodeId = e.Id });
             AddTwoFibersToNewNode(e);
             FixTracesWhichContainedOldFiber(e);
@@ -72,14 +73,14 @@ namespace Iit.Fibertest.Graph
 
         public string MoveNode(NodeMoved newLocation)
         {
-            Node oldLocation = _model.Nodes.FirstOrDefault(n => n.Id == newLocation.NodeId);
-            if (oldLocation == null)
+            Node node = _model.Nodes.FirstOrDefault(n => n.Id == newLocation.NodeId);
+            if (node == null)
             {
                 var message = $@"NodeMoved: Node {newLocation.NodeId.First6()} not found";
                 _logFile.AppendLine(message);
                 return message;
             }
-            _mapper.Map(newLocation, oldLocation);
+            node.Position = new PointLatLng(newLocation.Latitude, newLocation.Longitude);
             return null;
         }
 

@@ -394,7 +394,6 @@
     <Compile Include="Forms\Shell\TreeOfRtuControl\FreePorts.cs" />
     <Compile Include="ViewControls\GpsInputControl\GpsInputModeComboItem.cs" />
     <Compile Include="AppBootstrapper.cs" />
-    <Compile Include="Mappings\MappingEventToVm.cs" />
     <Compile Include="ViewControls\NetAddressInputControl\Ip4InputView.xaml.cs">
       <DependentUpon>Ip4InputView.xaml</DependentUpon>
     </Compile>
@@ -503,7 +502,6 @@
     <Compile Include="Forms\Shell\TreeOfRtuControl\TreeOfRtuView.xaml.cs">
       <DependentUpon>TreeOfRtuView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GraphModel\Primitives\EquipmentVm.cs" />
     <Compile Include="GraphModel\Primitives\FiberVm.cs" />
     <Compile Include="GraphModel\GraphReadModel.cs" />
     <Compile Include="Forms\Shell\IShell.cs" />
@@ -535,8 +533,6 @@
     <Compile Include="Forms\RtuForms\RtuUpdate\RtuUpdateView.xaml.cs">
       <DependentUpon>RtuUpdateView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GraphModel\Primitives\RtuVm.cs" />
-    <Compile Include="GraphModel\Primitives\TraceVm.cs" />
     <Compile Include="ViewModels\Primitive\MenuItemVm.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\RtuLeaf\RtuLeaf.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\TraceLeaf\TraceLeaf.cs" />

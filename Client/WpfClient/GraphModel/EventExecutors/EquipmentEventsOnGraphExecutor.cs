@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using AutoMapper;
 using GMap.NET;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -8,7 +7,6 @@ namespace Iit.Fibertest.Client
 {
     public class EquipmentEventsOnGraphExecutor
     {
-        readonly IMapper _mapper = new MapperConfiguration(cfg => cfg.AddProfile<MappingEventToVm>()).CreateMapper();
         private readonly GraphReadModel _model;
         private readonly ReadModel _readModel;
 

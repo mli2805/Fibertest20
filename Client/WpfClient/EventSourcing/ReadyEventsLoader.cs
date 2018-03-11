@@ -20,18 +20,20 @@ namespace Iit.Fibertest.Client
         private readonly ILocalDbManager _localDbManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly ReadModel _readModel;
+        private readonly GraphReadModel _graphReadModel;
         private readonly EventsOnModelExecutor _eventsOnModelExecutor;
         private readonly TreeOfRtuModel _treeOfRtuModel;
         private readonly EventsOnGraphExecutor _eventsOnGraphExecutor;
 
         public ReadyEventsLoader(IMyLog logFile, ILocalDbManager localDbManager, IWcfServiceForClient c2DWcfManager, 
-            ReadModel readModel, 
+            ReadModel readModel, GraphReadModel graphReadModel,
             EventsOnModelExecutor eventsOnModelExecutor, TreeOfRtuModel treeOfRtuModel, EventsOnGraphExecutor eventsOnGraphExecutor)
         {
             _logFile = logFile;
             _localDbManager = localDbManager;
             _c2DWcfManager = c2DWcfManager;
             _readModel = readModel;
+            _graphReadModel = graphReadModel;
             _eventsOnModelExecutor = eventsOnModelExecutor;
             _treeOfRtuModel = treeOfRtuModel;
             _eventsOnGraphExecutor = eventsOnGraphExecutor;
@@ -77,8 +79,8 @@ namespace Iit.Fibertest.Client
                 {
                     _eventsOnModelExecutor.Apply(evnt);
                     _treeOfRtuModel.AsDynamic().Apply(evnt);
-                    //temporary
-                    _eventsOnGraphExecutor.Apply(evnt);
+                    
+                    //_eventsOnGraphExecutor.Apply(evnt);
                 }
                 catch (Exception e)
                 {
@@ -119,6 +121,21 @@ namespace Iit.Fibertest.Client
                     Node2 = nodeVms.First(n=>n.Id == fiber.Node2),
                 });
             }
+
+            foreach (var trace in _readModel.Traces)
+            {
+                var fiberIds = _readModel.GetTraceFibers(trace).Select(f=>f.Id).ToList();
+                foreach (var fiberVm in fiberVms)
+                {
+                    if (fiberIds.Contains(fiberVm.Id))
+                        fiberVm.SetState(trace.Id, trace.State);
+                }
+            }
+
+            foreach (var nodeVm in nodeVms)
+                _graphReadModel.Data.Nodes.Add(nodeVm);
+            foreach (var fiberVm in fiberVms)
+                _graphReadModel.Data.Fibers.Add(fiberVm);
         }
 
     }
