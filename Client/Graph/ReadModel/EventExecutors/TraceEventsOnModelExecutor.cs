@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph.Algorithms;
 using Iit.Fibertest.UtilsLib;
 
@@ -91,6 +92,7 @@ namespace Iit.Fibertest.Graph
             }
             trace.Port = e.OtauPortDto.OpticalPort;
             trace.OtauPort = e.OtauPortDto;
+            trace.State = FiberState.Ok;
             return null;
         }
 
@@ -106,6 +108,7 @@ namespace Iit.Fibertest.Graph
             trace.Port = -1;
             trace.OtauPort = null;
             trace.IsIncludedInMonitoringCycle = false;
+            trace.State = FiberState.NotJoined;
             return null;
         }
     }
