@@ -79,5 +79,16 @@ namespace Iit.Fibertest.Graph
             }
 
         }
+
+        private static IEnumerable<Fiber> GetNodeFibers(this ReadModel model, Node node)
+        {
+            foreach (var fiber in model.Fibers)
+                if (fiber.Node1 == node.Id || fiber.Node2 == node.Id) yield return fiber;
+        }
+
+        public static Fiber GetOtherFiberOfAdjustmentPoint(this ReadModel model, Node adjustmentPoint, Guid fiberId)
+        {
+            return model.GetNodeFibers(adjustmentPoint).First(f => f.Id != fiberId);
+        }
     }
 }

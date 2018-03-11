@@ -11,8 +11,8 @@ namespace Iit.Fibertest.Client
 {
     public class FiberUpdateViewModel : Screen, IDataErrorInfo
     {
-        private readonly GraphReadModel _graphReadModel;
-        private FiberVm _fiberVm;
+        private readonly ReadModel _readModel;
+        private Fiber _fiber;
         private string _userInputedLength;
 
         public string NodeAtitle { get; set; }
@@ -37,36 +37,38 @@ namespace Iit.Fibertest.Client
         public UpdateFiber Command { get; set; }
 
        
-        public FiberUpdateViewModel(GraphReadModel graphReadModel)
+        public FiberUpdateViewModel(ReadModel readModel)
         {
-            _graphReadModel = graphReadModel;
+            _readModel = readModel;
         }
 
         public void Initialize(Guid fiberId)
         {
-            _fiberVm = _graphReadModel.Data.Fibers.Single(f => f.Id == fiberId);
+            _fiber = _readModel.Fibers.Single(f => f.Id == fiberId);
 
-            var n1 = GetNotAdjustmentPointEdgeOfFiber(_fiberVm, _fiberVm.Node1);
-            var n2 = GetNotAdjustmentPointEdgeOfFiber(_fiberVm, _fiberVm.Node2);
+            var n1 = GetNotAdjustmentPointEdgeOfFiber(_fiber, _readModel.Nodes.First(n=>n.Id == _fiber.Node1));
+            var n2 = GetNotAdjustmentPointEdgeOfFiber(_fiber, _readModel.Nodes.First(n=>n.Id == _fiber.Node2));
 
             NodeAtitle = n1.Title;
             NodeBtitle = n2.Title;
-            GpsLength = $@"{GpsCalculator.GetDistanceBetweenPointLatLng(n1.Position, n2.Position):#,##0}";
+            GpsLength = $@"{GpsCalculator.GetDistanceBetweenPointsInDegrees(n1.Latitude, n1.Longitude, n2.Latitude, n2.Longitude):#,##0}";
 //            OpticalLength = _fiber.OpticalLength; // потом из базовых брать
 
             // refactor to use ReadModel instead of Graph
-            //UserInputedLength = _fiberVm.UserInputedLength.ToString(CultureInfo.InvariantCulture);
+            UserInputedLength = _fiber.UserInputedLength.ToString(CultureInfo.InvariantCulture);
         }
 
-        public NodeVm GetNotAdjustmentPointEdgeOfFiber(FiberVm fX, NodeVm n1)
+        private Node GetNotAdjustmentPointEdgeOfFiber(Fiber fX, Node n1)
         {
-            while (n1.Type == EquipmentType.AdjustmentPoint)
+            while (n1.TypeOfLastAddedEquipment == EquipmentType.AdjustmentPoint)
             {
-                fX = _graphReadModel.GetOtherFiberOfAdjustmentPoint(n1, fX.Id);
-                n1 = fX.Node1.Id == n1.Id ? fX.Node2 : fX.Node1;
+                fX = _readModel.GetOtherFiberOfAdjustmentPoint(n1, fX.Id);
+                n1 = _readModel.Nodes.First(n=>n.Id == (fX.Node1 == n1.Id ? fX.Node2 : fX.Node1));
             }
             return n1;
         }
+
+    
 
         protected override void OnViewLoaded(object view)
         {
@@ -76,7 +78,7 @@ namespace Iit.Fibertest.Client
         public void Save()
         {
 
-            Command = new UpdateFiber {Id = _fiberVm.Id, UserInputedLength = int.Parse(_userInputedLength)};
+            Command = new UpdateFiber {Id = _fiber.Id, UserInputedLength = int.Parse(_userInputedLength)};
             TryClose();
         }
 
