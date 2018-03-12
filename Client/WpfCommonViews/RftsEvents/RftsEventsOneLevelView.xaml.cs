@@ -18,8 +18,7 @@ namespace Iit.Fibertest.WpfCommonViews
         private void EventsDataGrid_LoadingRow(object sender, DataGridRowEventArgs e)
         {
             DataGridRow row = e.Row;
-            var rowView = row.Item as DataRowView;
-            if (rowView == null)
+            if (!(row.Item is DataRowView rowView))
                 return;
             var name = (string) rowView.Row.ItemArray[0];
             if (name.StartsWith(@" "))

@@ -65,6 +65,8 @@ namespace Iit.Fibertest.Client
 
         public void LaunchObjectsToZonesView()
         {
+            var vm = _globalScope.Resolve<ObjectsToZonesViewModel>();
+            _windowManager.ShowWindowWithAssignedOwner(vm);
         }
 
         public void LaunchChangePasswordView()

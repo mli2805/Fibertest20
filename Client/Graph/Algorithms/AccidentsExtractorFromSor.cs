@@ -40,9 +40,9 @@ namespace Iit.Fibertest.Graph.Algorithms
         {
             _baseSorData = _sorData.GetBase();
             var levels = _sorData.GetRftsEventsBlockForEveryLevel().ToList();
-
-            // LogBaseAndMeas(levels);
-
+#if DEBUG
+            LogBaseAndMeas(levels);
+#endif
             var result = new List<AccidentOnTrace>();
             var level = levels.FirstOrDefault(l => l.LevelName == RftsLevelType.Critical);
             if (level != null && (level.Results & MonitoringResults.IsFailed) != 0)
@@ -147,7 +147,7 @@ namespace Iit.Fibertest.Graph.Algorithms
             return OpticalAccidentType.None;
         }
 
-        #region Log
+#region Log
         private void LogBaseAndMeas(List<RftsEventsBlock> levels)
         {
             LogLandmarks(_baseSorData);
@@ -205,6 +205,6 @@ namespace Iit.Fibertest.Graph.Algorithms
             if (result == "") result = @" IsMonitored";
             return result;
         }
-        #endregion
+#endregion
     }
 }

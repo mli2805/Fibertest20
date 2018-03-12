@@ -99,6 +99,7 @@ namespace Iit.Fibertest.Client
 
         protected override async void OnViewLoaded(object view)
         {
+            DisplayName = @"Fibertest v2.0";
             ((App)Application.Current).ShutdownMode = ShutdownMode.OnExplicitShutdown;
             _logFile.AssignFile(@"Client.log");
 
