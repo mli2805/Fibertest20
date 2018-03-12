@@ -13,11 +13,13 @@ namespace Iit.Fibertest.Client
     {
         private readonly ReadModel _readModel;
         private readonly AccidentLineModelFactory _accidentLineModelFactory;
+        private readonly AccidentsExtractorFromSor _accidentsExtractorFromSor;
 
-        public TraceStateModelFactory(ReadModel readModel, AccidentLineModelFactory accidentLineModelFactory)
+        public TraceStateModelFactory(ReadModel readModel, AccidentLineModelFactory accidentLineModelFactory, AccidentsExtractorFromSor accidentsExtractorFromSor)
         {
             _readModel = readModel;
             _accidentLineModelFactory = accidentLineModelFactory;
+            _accidentsExtractorFromSor = accidentsExtractorFromSor;
         }
 
         // TraceLeaf
@@ -64,7 +66,8 @@ namespace Iit.Fibertest.Client
         {
             if (sorBytes == null) return null;
             var sorData = SorData.FromBytes(sorBytes);
-            var accidents = sorData.GetAccidents();
+
+            var accidents = _accidentsExtractorFromSor.GetAccidents(sorData);
 
             var lines = new List<AccidentLineModel>();
             for (var i = 0; i < accidents.Count; i++)

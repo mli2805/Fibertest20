@@ -118,7 +118,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Algorithms\SorDataAccidentsExtractorExt.cs" />
+    <Compile Include="Algorithms\RftsLevelTypeExt.cs" />
+    <Compile Include="Algorithms\AccidentsExtractorFromSor.cs" />
+    <Compile Include="Algorithms\SorDataExt.cs" />
     <Compile Include="Algorithms\ToolKit\BaseRefAdjuster.cs" />
     <Compile Include="Algorithms\ToolKit\BaseRefLandmarksTool.cs" />
     <Compile Include="Algorithms\ToolKit\BaseRefRepairman.cs" />

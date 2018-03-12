@@ -63,6 +63,7 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<WcfServiceForClientBootstrapper>().SingleInstance();
             builder.RegisterType<WcfServiceForRtu>().As<IWcfServiceForRtu>().SingleInstance();
             builder.RegisterType<WcfServiceForRtuBootstrapper>().SingleInstance();
+            builder.RegisterType<AccidentsExtractorFromSor>().SingleInstance();
             builder.RegisterType<MsmqHandler>().SingleInstance();
 
             builder.RegisterType<Service1>().As<ServiceBase>().SingleInstance();

@@ -21,11 +21,12 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly ClientStationsRepository _clientStationsRepository;
         private readonly EventStoreService _eventStoreService;
         private readonly D2CWcfManager _d2CWcfManager;
+        private readonly AccidentsExtractorFromSor _accidentsExtractorFromSor;
 
         public MsmqHandler(IniFile iniFile, IMyLog logFile,
             MonitoringResultsRepository monitoringResultsRepository, MeasurementFactory measurementFactory,
             ClientStationsRepository clientStationsRepository, EventStoreService eventStoreService,
-            D2CWcfManager d2CWcfManager)
+            D2CWcfManager d2CWcfManager, AccidentsExtractorFromSor accidentsExtractorFromSor)
         {
             _iniFile = iniFile;
             _logFile = logFile;
@@ -34,6 +35,7 @@ namespace Iit.Fibertest.DataCenterCore
             _clientStationsRepository = clientStationsRepository;
             _eventStoreService = eventStoreService;
             _d2CWcfManager = d2CWcfManager;
+            _accidentsExtractorFromSor = accidentsExtractorFromSor;
         }
 
         public void Start()
@@ -109,7 +111,7 @@ namespace Iit.Fibertest.DataCenterCore
         private async Task<string> PutMonitoringResultOnMap(MeasurementWithSor measurementWithSor)
         {
             var sorData = SorData.FromBytes(measurementWithSor.SorBytes);
-            var accidents = sorData.GetAccidents();
+            var accidents = _accidentsExtractorFromSor.GetAccidents(sorData);
             _logFile.AppendLine($"Trace state in measurement {measurementWithSor.Measurement.TraceState}");
             var maxState = accidents.Count == 0 ? FiberState.Ok : accidents.Max(a => a.AccidentSeriousness);
             _logFile.AppendLine($"{accidents.Count} accidents found. Max state is {maxState}");

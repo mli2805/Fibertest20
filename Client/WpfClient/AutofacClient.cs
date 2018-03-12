@@ -132,6 +132,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<GrmFiberRequests>().SingleInstance();
             builder.RegisterType<GrmRtuRequests>().SingleInstance();
 
+            builder.RegisterType<AccidentsExtractorFromSor>().SingleInstance();
             builder.RegisterType<AccidentPlaceLocator>().SingleInstance();
             builder.RegisterType<NodeEventsOnGraphExecutor>().SingleInstance();
             builder.RegisterType<FiberEventsOnGraphExecutor>().SingleInstance();

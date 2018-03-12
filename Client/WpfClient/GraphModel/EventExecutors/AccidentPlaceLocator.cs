@@ -80,14 +80,16 @@ namespace Iit.Fibertest.Client
 
         private void GetCableReserves(AccidentAsNewEvent accident, Guid traceId, out double leftReserveM, out double rightReserveM)
         {
-            var equipmentsWithoutPoints = _readModel.GetTraceEquipmentsExcludingAdjustmentPoints(traceId).ToList();
-            leftReserveM = GetCableReserve(equipmentsWithoutPoints, accident.LeftLandmarkIndex, true);
-            rightReserveM = GetCableReserve(equipmentsWithoutPoints, accident.LeftLandmarkIndex, false);
+            var equipmentsWithoutPointsAndRtu = _readModel.GetTraceEquipmentsExcludingAdjustmentPoints(traceId).ToList();
+            leftReserveM = GetCableReserve(equipmentsWithoutPointsAndRtu, accident.LeftLandmarkIndex, true);
+            rightReserveM = GetCableReserve(equipmentsWithoutPointsAndRtu, accident.LeftLandmarkIndex, false);
         }
 
-        private double GetCableReserve(List<Equipment> equipmentsWithoutPoints, int landmarkIndex, bool isLeftLandmark)
+        private double GetCableReserve(List<Equipment> equipmentsWithoutPointsAndRtu, int landmarkIndex, bool isLeftLandmark)
         {
-            var equipment =  equipmentsWithoutPoints[landmarkIndex];
+            if (landmarkIndex == 0)
+                return 0; // RTU cannot contain cable reserve
+            var equipment =  equipmentsWithoutPointsAndRtu[landmarkIndex-1];
             if (equipment.Type == EquipmentType.CableReserve) return (double)equipment.CableReserveLeft / 2;
             return isLeftLandmark ? equipment.CableReserveRight : equipment.CableReserveLeft;
         }

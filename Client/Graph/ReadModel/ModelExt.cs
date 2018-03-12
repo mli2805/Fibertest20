@@ -94,7 +94,7 @@ namespace Iit.Fibertest.Graph
         public static IEnumerable<Equipment> GetTraceEquipmentsExcludingAdjustmentPoints(this IModel model, Guid traceId)
         {
             var trace = model.Traces.First(t => t.Id == traceId);
-            foreach (var equipmentId in trace.Equipments)
+            foreach (var equipmentId in trace.Equipments.Skip(1)) // 0 - RTU
             {
                 var equipment = model.Equipments.First(e => e.Id == equipmentId);
                 if (equipment.Type != EquipmentType.AdjustmentPoint)
