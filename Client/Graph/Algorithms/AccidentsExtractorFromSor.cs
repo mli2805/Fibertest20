@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using Iit.Fibertest.Dto;
@@ -23,10 +24,24 @@ namespace Iit.Fibertest.Graph.Algorithms
         public List<AccidentOnTrace> GetAccidents(OtdrDataKnownBlocks sorData)
         {
             _sorData = sorData;
+
+            try
+            {
+                return GetAccidents();
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(@"GetAccidents: " + e.Message);
+                return new List<AccidentOnTrace>();
+            }
+        }
+
+        private List<AccidentOnTrace> GetAccidents()
+        {
             _baseSorData = _sorData.GetBase();
             var levels = _sorData.GetRftsEventsBlockForEveryLevel().ToList();
 
-            LogBaseAndMeas(levels);
+            // LogBaseAndMeas(levels);
 
             var result = new List<AccidentOnTrace>();
             var level = levels.FirstOrDefault(l => l.LevelName == RftsLevelType.Critical);
@@ -178,6 +193,7 @@ namespace Iit.Fibertest.Graph.Algorithms
                 if (dict.ContainsKey("Critical")) line = line + "   " + $"{dict["Critical"][i],13}";
                 _logFile.AppendLine(line);
             }
+            _logFile.AppendLine("");
         }
 
         private string EventStateToString(RftsEventTypes state)

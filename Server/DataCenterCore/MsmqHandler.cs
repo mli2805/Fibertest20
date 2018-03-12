@@ -112,6 +112,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             var sorData = SorData.FromBytes(measurementWithSor.SorBytes);
             var accidents = _accidentsExtractorFromSor.GetAccidents(sorData);
+            
             _logFile.AppendLine($"Trace state in measurement {measurementWithSor.Measurement.TraceState}");
             var maxState = accidents.Count == 0 ? FiberState.Ok : accidents.Max(a => a.AccidentSeriousness);
             _logFile.AppendLine($"{accidents.Count} accidents found. Max state is {maxState}");
