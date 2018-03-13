@@ -1673,4 +1673,13 @@ RTU is initializing right now!</value>
 	<data name="SID_Data_is_loading" xml:space="preserve">
     <value>Data is loading, please wait...</value>
   </data>
+	<data name="SID_Resending_base_refs_to_RTU___" xml:space="preserve">
+    <value>Resending base refs to RTU...</value>
+  </data>
+	<data name="SID_Base_refs_are_sent_to_RTU" xml:space="preserve">
+    <value>Base refs are sent to RTU</value>
+  </data>
+	<data name="SID_Cannot_send_base_ref_to_RTU" xml:space="preserve">
+    <value>Cannot send base ref to RTU</value>
+  </data>
 </root>

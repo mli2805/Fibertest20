@@ -692,6 +692,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Base refs are sent to RTU.
+        /// </summary>
+        public static string SID_Base_refs_are_sent_to_RTU {
+            get {
+                return ResourceManager.GetString("SID_Base_refs_are_sent_to_RTU", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Base refs assignment.
         /// </summary>
         public static string SID_Base_refs_assignment {
@@ -922,6 +931,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Cannot_initialize_dll_ {
             get {
                 return ResourceManager.GetString("SID_Cannot_initialize_dll_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot send base ref to RTU.
+        /// </summary>
+        public static string SID_Cannot_send_base_ref_to_RTU {
+            get {
+                return ResourceManager.GetString("SID_Cannot_send_base_ref_to_RTU", resourceCulture);
             }
         }
         
@@ -3390,6 +3408,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Request_is_sent {
             get {
                 return ResourceManager.GetString("SID_Request_is_sent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resending base refs to RTU....
+        /// </summary>
+        public static string SID_Resending_base_refs_to_RTU___ {
+            get {
+                return ResourceManager.GetString("SID_Resending_base_refs_to_RTU___", resourceCulture);
             }
         }
         

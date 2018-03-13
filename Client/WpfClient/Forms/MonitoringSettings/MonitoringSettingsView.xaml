@@ -7,7 +7,7 @@
         xmlns:monitoringSettings="clr-namespace:Iit.Fibertest.Client.MonitoringSettings"
         mc:Ignorable="d"
         SizeToContent="WidthAndHeight" MinHeight="520" MinWidth="650" WindowStartupLocation="CenterScreen"
-        d:DataContext="{d:DesignInstance monitoringSettings:MonitoringSettingsViewModel}">
+        d:DataContext="{d:DesignInstance monitoringSettings:MonitoringSettingsViewModel}" KeyDown="Window_KeyDown">
     <Window.Resources>
         <monitoringSettings:FrequencyConverter x:Key="FrConverter"/>
     </Window.Resources>

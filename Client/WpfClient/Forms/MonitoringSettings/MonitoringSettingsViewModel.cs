@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -35,7 +36,6 @@ namespace Iit.Fibertest.Client.MonitoringSettings
             Model = new MonitoringSettingsManager(rtuLeaf, readModel).PrepareMonitoringSettingsModel();
             Model.CalculateCycleTime();
             SelectedTabIndex = 0; // strange but it's necessary
-
         }
 
         protected override void OnViewLoaded(object view)
@@ -79,7 +79,6 @@ namespace Iit.Fibertest.Client.MonitoringSettings
             };
             return cmd;
         }
-
 
         private ApplyMonitoringSettingsDto ConvertSettingsToDto()
         {
@@ -125,6 +124,28 @@ namespace Iit.Fibertest.Client.MonitoringSettings
                 FastSave = Model.Frequencies.SelectedFastSaveFreq.GetTimeSpan(),
             };
         }
+
+        public async Task<int> ReSendBaseRefsForAllSelectedTraces()
+        {
+            MessageProp = Resources.SID_Resending_base_refs_to_RTU___;
+
+            var ports = ConvertPorts();
+            foreach (var port in ports)
+            {
+                var resendBaseRefDto = new ReSendBaseRefsDto(){RtuId = Model.RtuId, TraceId = port.TraceId, OtauPortDto = port.OtauPort};
+                var resultDto = await _c2DWcfManager.ReSendBaseRefAsync(resendBaseRefDto);
+                if (resultDto.ReturnCode == ReturnCode.BaseRefAssignedSuccessfully)
+                    MessageProp = Resources.SID_Base_refs_are_sent_to_RTU;
+                else
+                {
+                    MessageProp = Resources.SID_Cannot_send_base_ref_to_RTU;
+                    return -1;
+                }
+            }
+
+            return 0;
+        }
+
         public void Close() { TryClose(); }
     }
 }

@@ -86,35 +86,6 @@ namespace Iit.Fibertest.Client
                     LastDistance = 0;
                 }
             }
-
-            //            if (e.Key == Key.Z)
-            //            {
-            //                if (IsInDistanceMeasurementMode)
-            //                {
-            //                    var markerPosition = FromLocalToLatLng(GetPointFromPosition(Mouse.GetPosition(this)));
-            //                    var marker = new GMapMarker(Guid.NewGuid(), markerPosition, false);
-            //
-            //                    if (StartNode == null)
-            //                    {
-            //                        DistanceMarkers = new List<GMapMarker>();
-            //                        Distances = new List<int>();
-            //                    }
-            //                    else
-            //                    {
-            //                        var routeMarker = new GMapRoute(FiberUnderCreation, StartNode.Id, marker.Id, Brushes.Blue, 2,
-            //                            new List<PointLatLng>() { StartNode.Position, markerPosition });
-            //                        Markers.Add(routeMarker);
-            //                        DistanceMarkers.Add(routeMarker);
-            //
-            //                        Distances.Add((int)GpsCalculator.GetDistanceBetweenPointLatLng(StartNode.Position, markerPosition));
-            //                    }
-            //
-            //                    Markers.Add(marker);
-            //                    DistanceMarkers.Add(marker);
-            //                    StartNode = marker;
-            //                }
-            //            }
-
             base.OnKeyDown(e);
         }
 
