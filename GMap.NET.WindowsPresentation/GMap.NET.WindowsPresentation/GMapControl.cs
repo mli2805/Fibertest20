@@ -1760,14 +1760,11 @@
 
         Cursor cursorBefore = Cursors.Arrow;
 
-
         private void StartDistanceMeasurement()
         {
             StartNode = null;
             var dd = new GMapMarker(Guid.NewGuid(), new PointLatLng(), false);
         }
-
-
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
@@ -1781,8 +1778,6 @@
                     Markers.Remove(Markers.Single(m => m.Id == FiberUnderCreation));
 
                 var mousePoint = e.GetPosition(this);
-                mousePoint.X = mousePoint.X - 1;
-                mousePoint.Y = mousePoint.Y - 1;
                 Markers.Add(new GMapRoute(FiberUnderCreation, StartNode.Id, Guid.Empty, Brushes.Black, 1,
                     new List<PointLatLng>() { StartNode.Position, FromLocalToLatLng(GetPointFromPosition(mousePoint)) }, this));
                 return;
@@ -1836,7 +1831,7 @@
                 if (!(marker is GMapRoute))
                     continue;
                 var fiber = marker as GMapRoute;
-                if (fiber.Id == FiberUnderCreation)
+                if (fiber.Id == FiberUnderCreation || fiber.Id == DistanceFiberUnderCreation)
                     continue;
                 var point1 = Core.FromLatLngToLocal(fiber.Points[0]);
                 var point2 = Core.FromLatLngToLocal(fiber.Points[1]);

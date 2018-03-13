@@ -188,9 +188,9 @@ namespace Iit.Fibertest.Graph.Algorithms
             {
                 var keyEvent = sorData.KeyEvents.KeyEvents[i];
                 var line = $@"Number {i + 1}  owt {keyEvent.EventPropagationTime:D6} ({sorData.KeyEventDistanceKm(i),7:F3} km)";
-                if (dict.ContainsKey("Minor")) line = line + "   " + $"{dict["Minor"][i],13}";
-                if (dict.ContainsKey("Major")) line = line + "   " + $"{dict["Major"][i],13}";
-                if (dict.ContainsKey("Critical")) line = line + "   " + $"{dict["Critical"][i],13}";
+                if (dict.ContainsKey("Minor")) line = line + "   " + $"{dict["Minor"][i],21}";
+                if (dict.ContainsKey("Major")) line = line + "   " + $"{dict["Major"][i],21}";
+                if (dict.ContainsKey("Critical")) line = line + "   " + $"{dict["Critical"][i],21}";
                 _logFile.AppendLine(line);
             }
             _logFile.AppendLine("");
@@ -201,7 +201,7 @@ namespace Iit.Fibertest.Graph.Algorithms
             var result = "";
             if ((state & RftsEventTypes.IsNew) != 0) result = result + @" IsNew";
             if ((state & RftsEventTypes.IsFailed) != 0) result = result + @" IsFailed";
-            if ((state & RftsEventTypes.IsFiberBreak) != 0) result = result + @" IsFiberBread";
+            if ((state & RftsEventTypes.IsFiberBreak) != 0) result = result + @" IsFiberBreak";
             if (result == "") result = @" IsMonitored";
             return result;
         }

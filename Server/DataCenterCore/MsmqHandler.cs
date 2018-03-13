@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Messaging;
 using System.Threading.Tasks;
@@ -98,11 +99,11 @@ namespace Iit.Fibertest.DataCenterCore
             {
 
                 await SendMoniresultToClients(measurementWithSor);
+                await PutMonitoringResultOnMap(measurementWithSor);
 
                 // TODO snmp, email, sms
                 if (measurementWithSor.Measurement.EventStatus > EventStatus.JustMeasurementNotAnEvent)
                 {
-                    await PutMonitoringResultOnMap(measurementWithSor);
 
                 }
             }
@@ -111,8 +112,10 @@ namespace Iit.Fibertest.DataCenterCore
         private async Task<string> PutMonitoringResultOnMap(MeasurementWithSor measurementWithSor)
         {
             var sorData = SorData.FromBytes(measurementWithSor.SorBytes);
+
             var accidents = _accidentsExtractorFromSor.GetAccidents(sorData);
-            
+            accidents.ForEach(a => { a.TraceId = measurementWithSor.Measurement.TraceId;});
+
             _logFile.AppendLine($"Trace state in measurement {measurementWithSor.Measurement.TraceState}");
             var maxState = accidents.Count == 0 ? FiberState.Ok : accidents.Max(a => a.AccidentSeriousness);
             _logFile.AppendLine($"{accidents.Count} accidents found. Max state is {maxState}");
