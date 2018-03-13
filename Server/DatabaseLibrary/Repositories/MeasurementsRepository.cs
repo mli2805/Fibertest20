@@ -134,10 +134,16 @@ namespace Iit.Fibertest.DatabaseLibrary
             {
                 using (var dbContext = new FtDbContext(_settings.Options))
                 {
+                    var result = new MeasurementWithSor();
+
                     var measurement = await dbContext.Measurements.OrderByDescending(m => m.Id).
                                             Where(m => m.TraceId == traceId).FirstOrDefaultAsync();
+                    if (measurement == null)
+                        return result;
+                    result.Measurement = measurement;
                     var sor = await dbContext.SorFiles.FirstOrDefaultAsync(s => s.Id == measurement.SorFileId);
-                    return new MeasurementWithSor(){Measurement = measurement, SorBytes = sor.SorBytes};
+                    result.SorBytes = sor.SorBytes;
+                    return result;
                 }
             }
             catch (Exception e)

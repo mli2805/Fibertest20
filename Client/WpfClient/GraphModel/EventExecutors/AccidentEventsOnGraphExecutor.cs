@@ -21,7 +21,7 @@ namespace Iit.Fibertest.Client
             _model.ChangeTraceColor(evnt.TraceId, evnt.TraceState);
 
             _model.CleanAccidentPlacesOnTrace(evnt.TraceId); // accidents on trace could change, so old should be cleaned and new drawn
-            if (evnt.TraceState != FiberState.Ok)
+            if (evnt.TraceState != FiberState.Ok && evnt.TraceState != FiberState.NoFiber)
                 evnt.Accidents.ForEach(a => ShowAccidentPlaceOnTrace(a, evnt.TraceId));
         }
 

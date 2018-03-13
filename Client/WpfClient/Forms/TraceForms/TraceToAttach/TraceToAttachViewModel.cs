@@ -4,6 +4,8 @@ using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.Graph.Algorithms;
+using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WcfServiceForClientInterface;
 
@@ -14,6 +16,7 @@ namespace Iit.Fibertest.Client
         private readonly ReadModel _readModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly IWindowManager _windowManager;
+        private readonly AccidentsExtractorFromSor _accidentsExtractorFromSor;
         private OtauPortDto _otauPortDto;
         private Trace _selectedTrace;
 
@@ -30,11 +33,13 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public TraceToAttachViewModel(ReadModel readModel, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
+        public TraceToAttachViewModel(ReadModel readModel, IWcfServiceForClient c2DWcfManager,
+            IWindowManager windowManager, AccidentsExtractorFromSor accidentsExtractorFromSor)
         {
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
+            _accidentsExtractorFromSor = accidentsExtractorFromSor;
         }
 
         public void Initialize(Guid rtuId, OtauPortDto otauPortDto)
@@ -64,7 +69,26 @@ namespace Iit.Fibertest.Client
                 return;
             }
 
-            await _c2DWcfManager.SendCommandAsObj(new AttachTrace() {TraceId = SelectedTrace.Id, OtauPortDto = _otauPortDto});
+            var command = new AttachTrace()
+            {
+                TraceId = SelectedTrace.Id,
+                OtauPortDto = _otauPortDto,
+            };
+
+            MeasurementWithSor measurementWithSor = await _c2DWcfManager.GetLastMeasurementForTrace(_selectedTrace.Id);
+            if (measurementWithSor != null && measurementWithSor.Measurement != null)
+            {
+                command.PreviousTraceState = measurementWithSor.Measurement.TraceState;
+                if (measurementWithSor.Measurement.TraceState != FiberState.Ok &&
+                    measurementWithSor.Measurement.TraceState != FiberState.NoFiber)
+                    command.AccidentsInLastMeasurement = _accidentsExtractorFromSor.GetAccidents(SorData.FromBytes(measurementWithSor.SorBytes));
+            }
+            else
+            { // trace has no measurements so far 
+                command.PreviousTraceState = FiberState.Unknown;
+            }
+
+            await _c2DWcfManager.SendCommandAsObj(command);
             TryClose();
         }
 

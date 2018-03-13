@@ -68,23 +68,25 @@ namespace Iit.Fibertest.Client
 
         private int ApplyBatch(string[] events)
         {
-            foreach (var json in events)
+            for (var i = 0; i < events.Length; i++)
             {
-                var msg = (EventMessage)JsonConvert.DeserializeObject(json, JsonSerializerSettings);
+                var json = events[i];
+                var msg = (EventMessage) JsonConvert.DeserializeObject(json, JsonSerializerSettings);
                 var evnt = msg.Body;
 
                 try
                 {
                     _eventsOnModelExecutor.Apply(evnt);
                     _treeOfRtuModel.AsDynamic().Apply(evnt);
-                    
+
                     //_eventsOnGraphExecutor.Apply(evnt);
                 }
                 catch (Exception e)
                 {
                     _logFile.AppendLine(e.Message);
                     var header = @"Timestamp";
-                    _logFile.AppendLine($@"Exception thrown while processing event with timestamp {msg.Headers[header]}");
+                    _logFile.AppendLine(
+                        $@"Exception thrown while processing event with timestamp {msg.Headers[header]}");
                 }
             }
 

@@ -29,8 +29,8 @@ namespace Graph.Tests
             _traceLeaf.Name.ShouldBeEquivalentTo(p0);
             _traceLeaf.PortNumber.ShouldBeEquivalentTo(0);
             _traceLeaf.BaseRefsSet.HasEnoughBaseRefsToPerformMonitoring.Should().BeFalse();
-            _traceLeaf.IconsVisibility.Should().Be(Visibility.Hidden);
             _traceLeaf.BaseRefsSet.MonitoringPictogram.ShouldBeEquivalentTo(@"pack://application:,,,/Resources/LeftPanel/EmptySquare.png");
+            _traceLeaf.TraceStatePictogram.ShouldBeEquivalentTo(@"pack://application:,,,/Resources/LeftPanel/EmptySquare.png");
         }
 
         [When(@"Задаем точную базовую")]

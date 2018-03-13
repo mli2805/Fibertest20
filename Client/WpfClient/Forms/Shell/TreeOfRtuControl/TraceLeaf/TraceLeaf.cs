@@ -24,9 +24,14 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public int LeftMargin => PortNumber < 1 ? 78 : Parent is RtuLeaf ? 53 : 74;
-        public Visibility IconsVisibility => PortNumber > 0 ? Visibility.Visible : Visibility.Hidden;
-        //public Visibility IconsVisibility => Visibility.Visible;
+        public int LeftMargin => PortNumber < 1 
+            ?  53 // not attached 
+            : Parent is RtuLeaf // attached
+                ? 53            // RTU  
+                : 74;           // BOP
+
+//        public Visibility IconsVisibility => PortNumber > 0 ? Visibility.Visible : Visibility.Hidden;
+        public Visibility IconsVisibility => Visibility.Visible;
 
         public override string Name
         {

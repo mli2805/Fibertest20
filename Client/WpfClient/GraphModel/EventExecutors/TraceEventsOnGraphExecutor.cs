@@ -10,11 +10,13 @@ namespace Iit.Fibertest.Client
     {
         private readonly GraphReadModel _model;
         private readonly ReadModel _readModel;
+        private readonly AccidentEventsOnGraphExecutor _accidentEventsOnGraphExecutor;
 
-        public TraceEventsOnGraphExecutor(GraphReadModel model, ReadModel readModel)
+        public TraceEventsOnGraphExecutor(GraphReadModel model, ReadModel readModel, AccidentEventsOnGraphExecutor accidentEventsOnGraphExecutor)
         {
             _model = model;
             _readModel = readModel;
+            _accidentEventsOnGraphExecutor = accidentEventsOnGraphExecutor;
         }
 
         public void AddTrace(TraceAdded evnt)
@@ -64,8 +66,12 @@ namespace Iit.Fibertest.Client
 
         public void AttachTrace(TraceAttached evnt)
         {
-            var trace = _readModel.Traces.First(t => t.Id == evnt.TraceId);
-            ApplyTraceStateToFibers(trace, FiberState.Ok);
+            _accidentEventsOnGraphExecutor.ShowMonitoringResult(new MonitoringResultShown()
+            {
+                TraceId = evnt.TraceId,
+                TraceState = evnt.PreviousTraceState,
+                Accidents = evnt.AccidentsInLastMeasurement,
+            });
         }
 
         public void DetachTrace(TraceDetached evnt)

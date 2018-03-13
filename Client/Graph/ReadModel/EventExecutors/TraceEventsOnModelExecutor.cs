@@ -92,7 +92,7 @@ namespace Iit.Fibertest.Graph
             }
             trace.Port = e.OtauPortDto.OpticalPort;
             trace.OtauPort = e.OtauPortDto;
-            trace.State = FiberState.Ok;
+            trace.State = e.PreviousTraceState;
             return null;
         }
 

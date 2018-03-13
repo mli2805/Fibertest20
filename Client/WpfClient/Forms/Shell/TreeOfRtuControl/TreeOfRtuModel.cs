@@ -107,7 +107,7 @@ namespace Iit.Fibertest.Client
         public void Apply(Measurement measurement)
         {
             var traceLeaf = (TraceLeaf)Tree.GetById(measurement.TraceId);
-            if (traceLeaf == null)
+            if (traceLeaf == null || traceLeaf.TraceState == FiberState.NotJoined)
                 return;
 
             traceLeaf.TraceState = measurement.TraceState != FiberState.Ok && measurement.BaseRefType == BaseRefType.Fast
@@ -119,7 +119,6 @@ namespace Iit.Fibertest.Client
         public void Apply(TraceAdded e)
         {
             var rtuLeaf = (RtuLeaf)Tree.GetById(e.RtuId);
-//            var traceLeaf = new TraceLeaf(_readModel, _windowManager, _c2DWcfManager, rtuLeaf, _traceLeafContextMenuProvider);
             var traceLeaf = _globalScope.Resolve<TraceLeaf>(new NamedParameter(@"parent", rtuLeaf));
 
             traceLeaf.Id = e.Id;
@@ -162,7 +161,7 @@ namespace Iit.Fibertest.Client
 
             var newTraceLeaf = _globalScope.Resolve<TraceLeaf>(new NamedParameter(@"parent", portOwner));
             newTraceLeaf.Id = e.TraceId;
-            newTraceLeaf.TraceState = FiberState.Unknown;
+            newTraceLeaf.TraceState = e.PreviousTraceState;
             newTraceLeaf.Title = traceLeaf.Title;
             newTraceLeaf.Color = Brushes.Black;
             newTraceLeaf.PortNumber = port;
