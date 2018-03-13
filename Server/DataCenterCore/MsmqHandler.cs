@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Linq;
 using System.Messaging;
 using System.Threading.Tasks;
+using Autofac;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -14,6 +14,7 @@ namespace Iit.Fibertest.DataCenterCore
 {
     public class MsmqHandler
     {
+        private readonly ILifetimeScope _globalScope;
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly MonitoringResultsRepository _monitoringResultsRepository;
@@ -21,13 +22,13 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly ClientStationsRepository _clientStationsRepository;
         private readonly EventStoreService _eventStoreService;
         private readonly D2CWcfManager _d2CWcfManager;
-        private readonly AccidentsExtractorFromSor _accidentsExtractorFromSor;
 
-        public MsmqHandler(IniFile iniFile, IMyLog logFile,
+        public MsmqHandler(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile,
             MonitoringResultsRepository monitoringResultsRepository, MeasurementFactory measurementFactory,
             ClientStationsRepository clientStationsRepository, EventStoreService eventStoreService,
-            D2CWcfManager d2CWcfManager, AccidentsExtractorFromSor accidentsExtractorFromSor)
+            D2CWcfManager d2CWcfManager)
         {
+            _globalScope = globalScope;
             _iniFile = iniFile;
             _logFile = logFile;
             _monitoringResultsRepository = monitoringResultsRepository;
@@ -35,7 +36,6 @@ namespace Iit.Fibertest.DataCenterCore
             _clientStationsRepository = clientStationsRepository;
             _eventStoreService = eventStoreService;
             _d2CWcfManager = d2CWcfManager;
-            _accidentsExtractorFromSor = accidentsExtractorFromSor;
         }
 
         public void Start()
@@ -58,7 +58,7 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
-        private void MyReceiveCompleted(object source, ReceiveCompletedEventArgs asyncResult)
+        private async void MyReceiveCompleted(object source, ReceiveCompletedEventArgs asyncResult)
         {
             // Connect to the queue.
             MessageQueue queue = (MessageQueue)source;
@@ -69,7 +69,7 @@ namespace Iit.Fibertest.DataCenterCore
                 // End the asynchronous receive operation.
                 Message message = queue.EndReceive(asyncResult.AsyncResult);
 
-                ProcessMessage(message);
+                await ProcessMessage(message);
 
             }
             catch (Exception e)
@@ -84,13 +84,12 @@ namespace Iit.Fibertest.DataCenterCore
         }
 
 
-        private async void ProcessMessage(Message message)
+        private async Task<int> ProcessMessage(Message message)
         {
             if (!(message.Body is MonitoringResultDto monitoringResultDto))
-                return;
+                return -1;
 
-            _logFile.AppendLine($@"MSMQ message received, RTU {monitoringResultDto.RtuId.First6()}, 
-                        Trace {monitoringResultDto.PortWithTrace.TraceId.First6()} - {monitoringResultDto.TraceState} ({monitoringResultDto.BaseRefType})");
+            _logFile.AppendLine($@"MSMQ message, measure time: {monitoringResultDto.TimeStamp}, RTU {monitoringResultDto.RtuId.First6()}, Trace {monitoringResultDto.PortWithTrace.TraceId.First6()} - {monitoringResultDto.TraceState} ({monitoringResultDto.BaseRefType})");
             var measurementWithSor = await _monitoringResultsRepository.
                 SaveMonitoringResultAsync(monitoringResultDto.SorData, _measurementFactory.Create(monitoringResultDto));
 
@@ -98,26 +97,22 @@ namespace Iit.Fibertest.DataCenterCore
             {
 
                 await SendMoniresultToClients(measurementWithSor);
-                await PutMonitoringResultOnMap(measurementWithSor);
 
                 // TODO snmp, email, sms
                 if (measurementWithSor.Measurement.EventStatus > EventStatus.JustMeasurementNotAnEvent)
                 {
-
+                    await PlaceOpticalEventIntoEventSourcing(measurementWithSor);
                 }
             }
+
+            return 0;
         }
 
-        private async Task<string> PutMonitoringResultOnMap(MeasurementWithSor measurementWithSor)
+        private async Task<string> PlaceOpticalEventIntoEventSourcing(MeasurementWithSor measurementWithSor)
         {
             var sorData = SorData.FromBytes(measurementWithSor.SorBytes);
-
-            var accidents = _accidentsExtractorFromSor.GetAccidents(sorData);
+            var accidents = _globalScope.Resolve<AccidentsExtractorFromSor>().GetAccidents(sorData, true);
             accidents.ForEach(a => { a.TraceId = measurementWithSor.Measurement.TraceId;});
-
-            _logFile.AppendLine($"Trace state in measurement {measurementWithSor.Measurement.TraceState}");
-            var maxState = accidents.Count == 0 ? FiberState.Ok : accidents.Max(a => a.AccidentSeriousness);
-            _logFile.AppendLine($"{accidents.Count} accidents found. Max state is {maxState}");
 
             var cmd = new ShowMonitoringResult()
             {

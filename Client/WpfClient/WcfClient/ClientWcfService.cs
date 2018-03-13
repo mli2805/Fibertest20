@@ -47,7 +47,11 @@ namespace Iit.Fibertest.Client
 
         public Task<int> NotifyAboutMonitoringResult(MeasurementWithSor measurementWithSor)
         {
-            _treeOfRtuModel.Apply(measurementWithSor.Measurement);
+            // Do not apply every event to Tree-ReadModel-Graph
+            // if some Event happens MonitoringResultShown event comes through EventSourcing-ClientPoller
+//          ERROR -  _treeOfRtuModel.Apply(measurementWithSor.Measurement);
+            // this call only to refresh some windows in runtime
+
             _traceStateViewsManager.NotifyAboutMonitoringResult(measurementWithSor);
             _traceStatisticsViewsManager.AddNewMeasurement(measurementWithSor.Measurement);
             _rtuStateViewsManager.NotifyUserMonitoringResult(measurementWithSor.Measurement);
@@ -68,12 +72,16 @@ namespace Iit.Fibertest.Client
                 if (rtuLeaf == null)
                     continue;
 
+
                 // should be evaluate just now, before NetworkEvent applied to Tree
+                // TODO do this on server before sending this notification
                 var changes = IsStateWorseOrBetterThanBefore(rtuLeaf, networkEvent);
                 if (changes == RtuPartStateChanges.NoChanges) // strange case, but...
                     return Task.FromResult(0); 
 
-                _treeOfRtuModel.Apply(networkEvent);
+                // TODO server should generate EventSourcing command
+// ERROR                _treeOfRtuModel.Apply(networkEvent);
+
                 _rtuStateViewsManager.NotifyUserRtuAvailabilityChanged(rtuLeaf, changes);
 
                 _networkEventsDoubleViewModel.Apply(networkEvent);

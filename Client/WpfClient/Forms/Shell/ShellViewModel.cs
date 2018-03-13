@@ -24,6 +24,7 @@ namespace Iit.Fibertest.Client
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly CurrentUser _currentUser;
+        private readonly IClientWcfServiceHost _host;
         private readonly ILifetimeScope _globalScope;
         private readonly IWcfServiceForClient _c2DWcfManager;
 
@@ -67,8 +68,7 @@ namespace Iit.Fibertest.Client
             _iniFile = iniFile;
             _logFile = logFile;
             _currentUser = currentUser;
-
-            host.StartWcfListener();
+            _host = host;
         }
 
 
@@ -125,11 +125,15 @@ namespace Iit.Fibertest.Client
                     _opticalEventsProvider.LetsGetStarted();
                     _networkEventsProvider.LetsGetStarted();
                     _bopNetworkEventsProvider.LetsGetStarted();
+
+                    _host.StartWcfListener();
+
                     _clientHeartbeat.Start();
 
                     IsEnabled = true;
                     DisplayName = $@"Fibertest v2.0 {_currentUser.UserName} as {_currentUser.Role.ToString()} [{_currentUser.ZoneTitle}]";
                     TabulatorViewModel.SelectedTabIndex = 3;
+
                 }
             }
 

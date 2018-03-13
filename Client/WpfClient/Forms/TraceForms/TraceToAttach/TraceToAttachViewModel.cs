@@ -81,7 +81,7 @@ namespace Iit.Fibertest.Client
                 command.PreviousTraceState = measurementWithSor.Measurement.TraceState;
                 if (measurementWithSor.Measurement.TraceState != FiberState.Ok &&
                     measurementWithSor.Measurement.TraceState != FiberState.NoFiber)
-                    command.AccidentsInLastMeasurement = _accidentsExtractorFromSor.GetAccidents(SorData.FromBytes(measurementWithSor.SorBytes));
+                    command.AccidentsInLastMeasurement = _accidentsExtractorFromSor.GetAccidents(SorData.FromBytes(measurementWithSor.SorBytes), false);
             }
             else
             { // trace has no measurements so far 

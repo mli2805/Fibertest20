@@ -403,7 +403,7 @@ namespace DirectRtuClient
             var sorData = SorData.FromBytes(measBytes);
 
             var accidentExtractor = new AccidentsExtractorFromSor(_rtuLogger);
-            var accidents = accidentExtractor.GetAccidents(sorData);
+            var accidents = accidentExtractor.GetAccidents(sorData, false);
             _rtuLogger.AppendLine($@"{accidents.Count} accidents found");
         }
 

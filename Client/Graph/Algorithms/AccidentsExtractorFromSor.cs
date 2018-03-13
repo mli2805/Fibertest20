@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.IitOtdrLibrary;
@@ -15,19 +16,20 @@ namespace Iit.Fibertest.Graph.Algorithms
         private readonly IMyLog _logFile;
         private OtdrDataKnownBlocks _sorData;
         private OtdrDataKnownBlocks _baseSorData;
+        private readonly List<string> _report = new List<string>();
 
         public AccidentsExtractorFromSor(IMyLog logFile)
         {
             _logFile = logFile;
         }
 
-        public List<AccidentOnTrace> GetAccidents(OtdrDataKnownBlocks sorData)
+        public List<AccidentOnTrace> GetAccidents(OtdrDataKnownBlocks sorData, bool isOnServer)
         {
             _sorData = sorData;
 
             try
             {
-                return GetAccidents();
+                return GetAccidents(isOnServer);
             }
             catch (Exception e)
             {
@@ -36,13 +38,13 @@ namespace Iit.Fibertest.Graph.Algorithms
             }
         }
 
-        private List<AccidentOnTrace> GetAccidents()
+        private List<AccidentOnTrace> GetAccidents(bool isOnServer)
         {
             _baseSorData = _sorData.GetBase();
             var levels = _sorData.GetRftsEventsBlockForEveryLevel().ToList();
-#if DEBUG
-            LogBaseAndMeas(levels);
-#endif
+
+            if (!isOnServer) ReportBaseAndMeasEventsParsing(levels);
+
             var result = new List<AccidentOnTrace>();
             var level = levels.FirstOrDefault(l => l.LevelName == RftsLevelType.Critical);
             if (level != null && (level.Results & MonitoringResults.IsFailed) != 0)
@@ -148,31 +150,40 @@ namespace Iit.Fibertest.Graph.Algorithms
         }
 
 #region Log
-        private void LogBaseAndMeas(List<RftsEventsBlock> levels)
+        [Localizable(false)]
+        private void ReportBaseAndMeasEventsParsing(List<RftsEventsBlock> levels)
         {
-            LogLandmarks(_baseSorData);
-            LogKeyAndRftsEvents(_baseSorData, null);
-            LogLandmarks(_sorData);
-            LogKeyAndRftsEvents(_sorData, levels);
+            ReportLandmarks(_baseSorData);
+            ReportKeyAndRftsEvents(_baseSorData, null);
+            ReportLandmarks(_sorData);
+            ReportKeyAndRftsEvents(_sorData, levels);
+
+            var tempFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\Temp\");
+            if (!Directory.Exists(tempFolder))
+                Directory.CreateDirectory(tempFolder);
+            var filename = Guid.NewGuid() + ".txt";
+            var fullFilename = Path.Combine(tempFolder, filename);
+            File.WriteAllLines(fullFilename, _report);
         }
 
         [Localizable(false)]
-        private void LogLandmarks(OtdrDataKnownBlocks sorData)
+        private void ReportLandmarks(OtdrDataKnownBlocks sorData)
         {
-            _logFile.AppendLine("");
-            _logFile.AppendLine("   Landmarks");
+            _report.Add("");
+            _report.Add("   Landmarks");
             for (int i = 0; i < sorData.LinkParameters.LandmarksCount; i++)
             {
                 var lm = sorData.LinkParameters.LandmarkBlocks[i];
                 var line = $"index {i}  owt {lm.Location:D6} ({sorData.OwtToLenKm(lm.Location),7:F3} km)";
                 if (lm.RelatedEventNumber != 0)
                     line = line + $"  related event Number {lm.RelatedEventNumber}";
-                _logFile.AppendLine(line);
+                _report.Add(line);
             }
         }
 
+
         [Localizable(false)]
-        private void LogKeyAndRftsEvents(OtdrDataKnownBlocks sorData, List<RftsEventsBlock> rftsEventsBlocks)
+        private void ReportKeyAndRftsEvents(OtdrDataKnownBlocks sorData, List<RftsEventsBlock> rftsEventsBlocks)
         {
             var dict = new Dictionary<string, List<string>>();
             if (rftsEventsBlocks != null) // base
@@ -182,8 +193,8 @@ namespace Iit.Fibertest.Graph.Algorithms
                     dict.Add(rftsEventsForOneLevel.LevelName.ToString(), list);
                 }
 
-            _logFile.AppendLine("");
-            _logFile.AppendLine("    Events (Minor / Major / Critical)");
+            _report.Add("");
+            _report.Add("    Events (Minor / Major / Critical)");
             for (var i = 0; i < sorData.KeyEvents.KeyEvents.Length; i++)
             {
                 var keyEvent = sorData.KeyEvents.KeyEvents[i];
@@ -191,9 +202,9 @@ namespace Iit.Fibertest.Graph.Algorithms
                 if (dict.ContainsKey("Minor")) line = line + "   " + $"{dict["Minor"][i],21}";
                 if (dict.ContainsKey("Major")) line = line + "   " + $"{dict["Major"][i],21}";
                 if (dict.ContainsKey("Critical")) line = line + "   " + $"{dict["Critical"][i],21}";
-                _logFile.AppendLine(line);
+                _report.Add(line);
             }
-            _logFile.AppendLine("");
+            _report.Add("");
         }
 
         private string EventStateToString(RftsEventTypes state)

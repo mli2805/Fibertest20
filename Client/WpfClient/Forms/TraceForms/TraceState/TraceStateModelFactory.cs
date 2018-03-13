@@ -67,7 +67,7 @@ namespace Iit.Fibertest.Client
             if (sorBytes == null) return null;
             var sorData = SorData.FromBytes(sorBytes);
 
-            var accidents = _accidentsExtractorFromSor.GetAccidents(sorData);
+            var accidents = _accidentsExtractorFromSor.GetAccidents(sorData, false);
 
             var lines = new List<AccidentLineModel>();
             for (var i = 0; i < accidents.Count; i++)

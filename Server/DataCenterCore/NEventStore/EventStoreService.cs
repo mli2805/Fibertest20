@@ -48,7 +48,7 @@ namespace Iit.Fibertest.DataCenterCore
             var events = eventStream.CommittedEvents.Select(x => x.Body).ToList();
             _writeModel.Init(events);
 
-            _logFile.AppendLine("All events from base are applied to WriteModel");
+            _logFile.AppendLine($"{events.Count} events from base are applied to WriteModel");
         }
 
         private bool AssignGraphDbVersion(IEventStream eventStream)

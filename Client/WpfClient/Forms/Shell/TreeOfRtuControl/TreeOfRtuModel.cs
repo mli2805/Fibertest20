@@ -104,15 +104,15 @@ namespace Iit.Fibertest.Client
             rtuLeaf.ReserveChannelState = networkEvent.ReserveChannelState;
         }
 
-        public void Apply(Measurement measurement)
-        {
-            var traceLeaf = (TraceLeaf)Tree.GetById(measurement.TraceId);
-            if (traceLeaf == null || traceLeaf.TraceState == FiberState.NotJoined)
-                return;
+//        public void Apply(Measurement measurement)
+//        {
+//            var traceLeaf = (TraceLeaf)Tree.GetById(measurement.TraceId);
+//            if (traceLeaf == null || traceLeaf.TraceState == FiberState.NotJoined)
+//                return;
 
-            traceLeaf.TraceState = measurement.TraceState != FiberState.Ok && measurement.BaseRefType == BaseRefType.Fast
-                ? FiberState.Suspicion : measurement.TraceState;
-        }
+//            traceLeaf.TraceState = measurement.TraceState != FiberState.Ok && measurement.BaseRefType == BaseRefType.Fast
+//                ? FiberState.Suspicion : measurement.TraceState;
+//        }
         #endregion
 
         #region Trace
