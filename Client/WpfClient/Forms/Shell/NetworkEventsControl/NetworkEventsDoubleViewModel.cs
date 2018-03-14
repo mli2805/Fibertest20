@@ -1,6 +1,6 @@
 ﻿using System.Linq;
+using AutoMapper;
 using Caliburn.Micro;
-using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
@@ -8,6 +8,8 @@ namespace Iit.Fibertest.Client
 {
     public class NetworkEventsDoubleViewModel : PropertyChangedBase
     {
+        private readonly IMapper _mapper = new MapperConfiguration(
+            cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
         private readonly ReadModel _readModel;
        
         public NetworkEventsViewModel ActualNetworkEventsViewModel { get; set; }
@@ -23,23 +25,20 @@ namespace Iit.Fibertest.Client
             _readModel = readModel;
         }
 
-        public void Apply(NetworkEvent networkEvent)
+        public void Apply(NetworkEventAdded evnt)
         {
+            var networkEvent = _mapper.Map<NetworkEvent>(evnt);
             var rtu = _readModel.Rtus.FirstOrDefault(t => t.Id == networkEvent.RtuId);
             if (rtu == null)
                 return;
 
+            AllNetworkEventsViewModel.AddEvent(networkEvent);
             ActualNetworkEventsViewModel.RemoveOldEventForRtuIfExists(networkEvent.RtuId);
 
             if (networkEvent.IsAllRight)
                 return;
 
             ActualNetworkEventsViewModel.AddEvent(networkEvent);
-        }
-
-        public void ApplyToTableAll(NetworkEvent networkEvent)
-        {
-            AllNetworkEventsViewModel.AddEvent(networkEvent);
         }
     }
 }

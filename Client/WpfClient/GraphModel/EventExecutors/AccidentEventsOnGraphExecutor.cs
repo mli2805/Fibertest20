@@ -16,7 +16,7 @@ namespace Iit.Fibertest.Client
             _accidentPlaceLocator = accidentPlaceLocator;
         }
 
-        public void ShowMonitoringResult(MonitoringResultShown evnt)
+        public void ShowMonitoringResult(MeasurementAdded evnt)
         {
             _model.ChangeTraceColor(evnt.TraceId, evnt.TraceState);
 

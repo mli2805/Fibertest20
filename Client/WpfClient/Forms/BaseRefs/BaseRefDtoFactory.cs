@@ -21,7 +21,7 @@ namespace Iit.Fibertest.Client
         {
             return filename != "" 
                 ? GetBaseRefDto(filename, type) 
-                : new BaseRefDto() { Id = Guid.Empty, BaseRefType = type};
+                : new BaseRefDto() { Id = Guid.Empty, BaseRefType = type}; // delete old base ref
         }
 
         private BaseRefDto GetBaseRefDto(string filename, BaseRefType type)
@@ -41,7 +41,7 @@ namespace Iit.Fibertest.Client
                 };
 
             _logFile.AppendLine(str);
-            return new BaseRefDto() { Id = Guid.Empty, BaseRefType = type };
+            return new BaseRefDto() { Id = Guid.NewGuid(), BaseRefType = type };
         }
 
      

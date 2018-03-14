@@ -16,7 +16,7 @@ namespace Iit.Fibertest.Client
         public ObservableCollection<Leaf> Tree { get; set; } = new ObservableCollection<Leaf>();
         public FreePorts FreePorts { get; }
 
-        public string Statistics => 
+        public string Statistics =>
             string.Format(Resources.SID_Tree_statistics, Tree.Count,
                 Tree.Sum(r => ((RtuLeaf)r).ChildrenImpresario.Children.Count(c => c is OtauLeaf)),
                 Tree.PortCount(), Tree.TraceCount(), (double)Tree.TraceCount() / Tree.PortCount() * 100);
@@ -75,7 +75,7 @@ namespace Iit.Fibertest.Client
 
             for (int i = 0; i < otauLeaf.OwnPortCount; i++)
                 otauLeaf.ChildrenImpresario.Children.Add(
-                    _globalScope.Resolve<PortLeaf>(new NamedParameter(@"parent", otauLeaf), new NamedParameter(@"portNumber", i+1)));
+                    _globalScope.Resolve<PortLeaf>(new NamedParameter(@"parent", otauLeaf), new NamedParameter(@"portNumber", i + 1)));
             rtuLeaf.ChildrenImpresario.Children.Remove(rtuLeaf.ChildrenImpresario.Children[e.MasterPort - 1]);
             rtuLeaf.ChildrenImpresario.Children.Insert(e.MasterPort - 1, otauLeaf);
             rtuLeaf.FullPortCount += otauLeaf.OwnPortCount;
@@ -94,25 +94,26 @@ namespace Iit.Fibertest.Client
             portLeaf.Parent = rtuLeaf;
         }
 
-        public void Apply(NetworkEvent networkEvent)
+        public void Apply(NetworkEventAdded e)
         {
-            var rtuLeaf = (RtuLeaf)Tree.GetById(networkEvent.RtuId);
+            var rtuLeaf = (RtuLeaf)Tree.GetById(e.RtuId);
             if (rtuLeaf == null)
                 return;
 
-            rtuLeaf.MainChannelState = networkEvent.MainChannelState;
-            rtuLeaf.ReserveChannelState = networkEvent.ReserveChannelState;
+            rtuLeaf.MainChannelState = e.MainChannelState;
+            rtuLeaf.ReserveChannelState = e.ReserveChannelState;
         }
 
-//        public void Apply(Measurement measurement)
-//        {
-//            var traceLeaf = (TraceLeaf)Tree.GetById(measurement.TraceId);
-//            if (traceLeaf == null || traceLeaf.TraceState == FiberState.NotJoined)
-//                return;
+       
+        public void Apply(MeasurementAdded e)
+        {
+            var traceLeaf = (TraceLeaf)Tree.GetById(e.TraceId);
+            if (traceLeaf == null || traceLeaf.TraceState == FiberState.NotJoined)
+                return;
 
-//            traceLeaf.TraceState = measurement.TraceState != FiberState.Ok && measurement.BaseRefType == BaseRefType.Fast
-//                ? FiberState.Suspicion : measurement.TraceState;
-//        }
+            traceLeaf.TraceState = e.TraceState != FiberState.Ok && e.BaseRefType == BaseRefType.Fast
+                ? FiberState.Suspicion : e.TraceState;
+        }
         #endregion
 
         #region Trace

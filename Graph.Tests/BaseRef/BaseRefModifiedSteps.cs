@@ -39,7 +39,7 @@ namespace Graph.Tests
             var vm = _sut.Container.Resolve<BaseRefsAssignViewModel>();
             vm.Initialize(_trace);
             vm.PreciseBaseFilename = SystemUnderTest.Base1550Lm4YesThresholds;
-            _baseRefs = vm.GetBaseRefChangesList();
+//            _baseRefs = vm.FillinChangedBaseRefs();
 
             SorData.TryGetFromBytes(_baseRefs[0].SorBytes, out var otdrKnownBlocks);
             otdrKnownBlocks.LinkParameters.LandmarkBlocks.Length.Should().Be(4);

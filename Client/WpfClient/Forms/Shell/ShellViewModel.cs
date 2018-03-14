@@ -18,9 +18,6 @@ namespace Iit.Fibertest.Client
         private readonly ClientHeartbeat _clientHeartbeat;
         private readonly ReadyEventsLoader _readyEventsLoader;
         private readonly ClientPoller _clientPoller;
-        private readonly OpticalEventsProvider _opticalEventsProvider;
-        private readonly NetworkEventsProvider _networkEventsProvider;
-        private readonly BopNetworkEventsProvider _bopNetworkEventsProvider;
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly CurrentUser _currentUser;
@@ -42,9 +39,9 @@ namespace Iit.Fibertest.Client
             LoginViewModel loginViewModel, ClientHeartbeat clientHeartbeat, ReadyEventsLoader readyEventsLoader, ClientPoller clientPoller,
             MainMenuViewModel mainMenuViewModel, TreeOfRtuViewModel treeOfRtuViewModel,
             TabulatorViewModel tabulatorViewModel, CommonStatusBarViewModel commonStatusBarViewModel,
-            OpticalEventsProvider opticalEventsProvider, OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
-            NetworkEventsProvider networkEventsProvider, NetworkEventsDoubleViewModel networkEventsDoubleViewModel,
-            BopNetworkEventsProvider bopNetworkEventsProvider, BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel
+             OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
+             NetworkEventsDoubleViewModel networkEventsDoubleViewModel,
+             BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel
         )
         {
             GraphReadModel = graphReadModel;
@@ -59,12 +56,9 @@ namespace Iit.Fibertest.Client
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
             _loginViewModel = loginViewModel;
-            _bopNetworkEventsProvider = bopNetworkEventsProvider;
             _clientHeartbeat = clientHeartbeat;
             _readyEventsLoader = readyEventsLoader;
             _clientPoller = clientPoller;
-            _opticalEventsProvider = opticalEventsProvider;
-            _networkEventsProvider = networkEventsProvider;
             _iniFile = iniFile;
             _logFile = logFile;
             _currentUser = currentUser;
@@ -121,10 +115,6 @@ namespace Iit.Fibertest.Client
                     _clientPoller.CurrentEventNumber = await _readyEventsLoader.Load();
                     _clientPoller.CancellationToken = _clientPollerCts.Token;
                     _clientPoller.Start();
-
-                    _opticalEventsProvider.LetsGetStarted();
-                    _networkEventsProvider.LetsGetStarted();
-                    _bopNetworkEventsProvider.LetsGetStarted();
 
                     _host.StartWcfListener();
 

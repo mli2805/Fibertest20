@@ -26,21 +26,20 @@ namespace Iit.Fibertest.Client
 
             builder.RegisterType<OpticalEventsViewModel>();
             builder.RegisterType<OpticalEventsDoubleViewModel>().SingleInstance();
-            builder.RegisterType<OpticalEventsProvider>().SingleInstance();
+            builder.RegisterType<OpticalEventsExecutor>().SingleInstance();
 
             builder.RegisterType<NetworkEventsViewModel>();
             builder.RegisterType<NetworkEventsDoubleViewModel>().SingleInstance();
-            builder.RegisterType<NetworkEventsProvider>().SingleInstance();
 
             builder.RegisterType<BopNetworkEventsViewModel>();
             builder.RegisterType<BopNetworkEventsDoubleViewModel>().SingleInstance();
-            builder.RegisterType<BopNetworkEventsProvider>().SingleInstance();
 
             builder.RegisterType<TabulatorViewModel>().SingleInstance();
             builder.RegisterType<CommonStatusBarViewModel>().SingleInstance();
 
             builder.RegisterType<RtuStateViewModel>();
             builder.RegisterType<TraceStateViewModel>();
+            builder.RegisterType<BaseRefModelFactory>();
             builder.RegisterType<TraceStatisticsViewModel>();
 
             builder.RegisterType<MainMenuViewModel>().SingleInstance();

@@ -230,7 +230,7 @@ namespace Iit.Fibertest.RtuManagement
                 },
                 BaseRefType = moniResult.BaseRefType,
                 TraceState = moniResult.GetAggregatedResult(),
-                SorData = moniResult.SorBytes
+                SorBytes = moniResult.SorBytes
             };
             return dto;
         }

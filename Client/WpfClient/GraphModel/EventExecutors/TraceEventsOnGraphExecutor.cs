@@ -66,7 +66,7 @@ namespace Iit.Fibertest.Client
 
         public void AttachTrace(TraceAttached evnt)
         {
-            _accidentEventsOnGraphExecutor.ShowMonitoringResult(new MonitoringResultShown()
+            _accidentEventsOnGraphExecutor.ShowMonitoringResult(new MeasurementAdded()
             {
                 TraceId = evnt.TraceId,
                 TraceState = evnt.PreviousTraceState,

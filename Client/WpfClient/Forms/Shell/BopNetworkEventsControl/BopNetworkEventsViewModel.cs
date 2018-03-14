@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Data;
 using Caliburn.Micro;
-using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
@@ -39,7 +38,7 @@ namespace Iit.Fibertest.Client
         {
             Rows.Add(new BopNetworkEventModel()
             {
-                Nomer = bopNetworkEvent.Id,
+                Nomer = 1,
                 EventTimestamp = bopNetworkEvent.EventTimestamp,
                 BopId = bopNetworkEvent.BopId,
                 RtuId = bopNetworkEvent.RtuId,

@@ -23,10 +23,15 @@ namespace Iit.Fibertest.Client
         private readonly GraphReadModel _graphReadModel;
         private readonly EventsOnModelExecutor _eventsOnModelExecutor;
         private readonly TreeOfRtuModel _treeOfRtuModel;
+        private readonly OpticalEventsExecutor _opticalEventsExecutor;
+        private readonly NetworkEventsDoubleViewModel _networkEventsDoubleViewModel;
+        private readonly BopNetworkEventsDoubleViewModel _bopNetworkEventsDoubleViewModel;
 
         public ReadyEventsLoader(IMyLog logFile, ILocalDbManager localDbManager, IWcfServiceForClient c2DWcfManager, 
             ReadModel readModel, GraphReadModel graphReadModel,
-            EventsOnModelExecutor eventsOnModelExecutor, TreeOfRtuModel treeOfRtuModel)
+            EventsOnModelExecutor eventsOnModelExecutor, TreeOfRtuModel treeOfRtuModel,
+            OpticalEventsExecutor opticalEventsExecutor, 
+            NetworkEventsDoubleViewModel networkEventsDoubleViewModel,  BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel)
         {
             _logFile = logFile;
             _localDbManager = localDbManager;
@@ -35,6 +40,9 @@ namespace Iit.Fibertest.Client
             _graphReadModel = graphReadModel;
             _eventsOnModelExecutor = eventsOnModelExecutor;
             _treeOfRtuModel = treeOfRtuModel;
+            _opticalEventsExecutor = opticalEventsExecutor;
+            _networkEventsDoubleViewModel = networkEventsDoubleViewModel;
+            _bopNetworkEventsDoubleViewModel = bopNetworkEventsDoubleViewModel;
         }
 
         public async Task<int> Load()
@@ -78,8 +86,9 @@ namespace Iit.Fibertest.Client
                 {
                     _eventsOnModelExecutor.Apply(evnt);
                     _treeOfRtuModel.AsDynamic().Apply(evnt);
-
-                    //_eventsOnGraphExecutor.Apply(evnt);
+                    _opticalEventsExecutor.Apply(evnt);
+                    if (evnt is NetworkEventAdded ee) _networkEventsDoubleViewModel.Apply(ee);
+                    if (evnt is BopNetworkEventAdded bee) _bopNetworkEventsDoubleViewModel.Apply(bee);
                 }
                 catch (Exception e)
                 {

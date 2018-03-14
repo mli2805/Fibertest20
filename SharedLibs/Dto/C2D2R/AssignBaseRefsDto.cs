@@ -21,5 +21,8 @@ namespace Iit.Fibertest.Dto
 
         [DataMember]
         public List<BaseRefDto> BaseRefs { get; set; }
+
+        [DataMember]
+        public List<int> DeleteOldSorFileIds { get; set; } = new List<int>();
     }
 }

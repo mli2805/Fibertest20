@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Iit.Fibertest.Dto
@@ -17,5 +18,8 @@ namespace Iit.Fibertest.Dto
 
         [DataMember]
         public OtauPortDto OtauPortDto { get; set; } // could be null if trace isn't attached to port yet
+
+        [DataMember]
+        public List<BaseRefDto> BaseRefDtos { get; set; }
     }
 }

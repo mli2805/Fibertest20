@@ -26,6 +26,10 @@ namespace Iit.Fibertest.Graph
         public List<Otau> Otaus { get; } = new List<Otau>();
         public List<User> Users { get; } = new List<User>();
         public List<Zone> Zones { get; } = new List<Zone>();
+        public List<Measurement> Measurements { get; } = new List<Measurement>();
+        public List<NetworkEvent> NetworkEvents { get; } = new List<NetworkEvent>();
+        public List<BopNetworkEvent> BopNetworkEvents { get; } = new List<BopNetworkEvent>();
+        public List<BaseRef> BaseRefs { get; } = new List<BaseRef>();
 
         public WriteModel(IMyLog logFile)
         {
@@ -568,22 +572,24 @@ namespace Iit.Fibertest.Graph
             var trace = Traces.FirstOrDefault(t => t.Id == cmd.TraceId);
             if (trace != null)
             {
-                foreach (var baseRefDto in cmd.BaseRefs)
+                foreach (var baseRefEvSo in cmd.BaseRefs)
                 {
-                    if (baseRefDto.BaseRefType == BaseRefType.Precise)
+                    BaseRefs.Add(baseRefEvSo);
+
+                    if (baseRefEvSo.BaseRefType == BaseRefType.Precise)
                     {
-                        trace.PreciseId = baseRefDto.Id;
-                        trace.PreciseDuration = baseRefDto.Duration;
+                        trace.PreciseId = baseRefEvSo.Id;
+                        trace.PreciseDuration = baseRefEvSo.Duration;
                     }
-                    if (baseRefDto.BaseRefType == BaseRefType.Fast)
+                    if (baseRefEvSo.BaseRefType == BaseRefType.Fast)
                     {
-                        trace.FastId = baseRefDto.Id;
-                        trace.FastDuration = baseRefDto.Duration;
+                        trace.FastId = baseRefEvSo.Id;
+                        trace.FastDuration = baseRefEvSo.Duration;
                     }
-                    if (baseRefDto.BaseRefType == BaseRefType.Additional)
+                    if (baseRefEvSo.BaseRefType == BaseRefType.Additional)
                     {
-                        trace.AdditionalId = baseRefDto.Id;
-                        trace.AdditionalDuration = baseRefDto.Duration;
+                        trace.AdditionalId = baseRefEvSo.Id;
+                        trace.AdditionalDuration = baseRefEvSo.Duration;
                     }
                 }
                 if (!trace.HasEnoughBaseRefsToPerformMonitoring)
@@ -650,9 +656,32 @@ namespace Iit.Fibertest.Graph
             return message;
         }
 
-        public string Apply(MonitoringResultShown e)
+        public string Apply(MeasurementAdded e)
         {
-            // do nothing, this event only in order to draw accidents on Graph
+            Measurements.Add(_mapper.Map<Measurement>(e));
+            return null;
+        }
+
+        public string Apply(MeasurementUpdated e)
+        {
+            var destination = Measurements.First(f => f.SorFileId == e.SorFileId);
+            _mapper.Map(e, destination);
+            return null;
+        }
+
+        public string Apply(NetworkEventAdded e)
+        {
+            var networkEvent = _mapper.Map<NetworkEvent>(e);
+            var rtu = Rtus.First(r => r.Id == e.RtuId);
+            rtu.MainChannelState = e.MainChannelState;
+            rtu.ReserveChannelState = e.ReserveChannelState;
+            NetworkEvents.Add(networkEvent);
+            return null;
+        }
+
+        public string Apply(BopNetworkEventAdded e)
+        {
+            BopNetworkEvents.Add(_mapper.Map<BopNetworkEvent>(e));
             return null;
         }
         #endregion

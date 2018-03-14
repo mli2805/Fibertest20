@@ -12,6 +12,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
 {
     public class MonitoringSettingsViewModel : Screen
     {
+        private readonly ReadModel _readModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
         public MonitoringSettingsModel Model { get; set; }
 
@@ -31,6 +32,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
 
         public MonitoringSettingsViewModel(RtuLeaf rtuLeaf, ReadModel readModel, IWcfServiceForClient c2DWcfManager)
         {
+            _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
 
             Model = new MonitoringSettingsManager(rtuLeaf, readModel).PrepareMonitoringSettingsModel();
@@ -132,7 +134,27 @@ namespace Iit.Fibertest.Client.MonitoringSettings
             var ports = ConvertPorts();
             foreach (var port in ports)
             {
-                var resendBaseRefDto = new ReSendBaseRefsDto(){RtuId = Model.RtuId, TraceId = port.TraceId, OtauPortDto = port.OtauPort};
+                var resendBaseRefDto = new ReSendBaseRefsDto()
+                {
+                    RtuId = Model.RtuId,
+                    TraceId = port.TraceId,
+                    OtauPortDto = port.OtauPort,
+                    BaseRefDtos = new List<BaseRefDto>(),
+                };
+                foreach (var baseRef in _readModel.BaseRefs.Where(b => b.TraceId == port.TraceId))
+                {
+                    resendBaseRefDto.BaseRefDtos.Add(new BaseRefDto()
+                    {
+                        SorFileId = baseRef.SorFileId,
+
+                        Id = baseRef.TraceId,
+                        BaseRefType = baseRef.BaseRefType,
+                        Duration = baseRef.Duration,
+                        SaveTimestamp = baseRef.SaveTimestamp,
+                        UserName = baseRef.UserName,
+                    });
+                }
+
                 var resultDto = await _c2DWcfManager.ReSendBaseRefAsync(resendBaseRefDto);
                 if (resultDto.ReturnCode == ReturnCode.BaseRefAssignedSuccessfully)
                     MessageProp = Resources.SID_Base_refs_are_sent_to_RTU;

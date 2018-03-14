@@ -2,23 +2,31 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Autofac;
+using AutoMapper;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
 {
     public class RtuStateViewsManager
     {
+        private readonly IMapper _mapper = new MapperConfiguration(
+            cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
+
         private readonly ILifetimeScope _globalScope;
         private readonly IWindowManager _windowManager;
         private readonly RtuStateModelFactory _rtuStateModelFactory;
+        private readonly TreeOfRtuModel _treeOfRtuModel;
         private Dictionary<Guid, RtuStateViewModel> LaunchedViews { get; set; } = new Dictionary<Guid, RtuStateViewModel>();
 
-        public RtuStateViewsManager(ILifetimeScope globalScope, IWindowManager windowManager, RtuStateModelFactory rtuStateModelFactory)
+        public RtuStateViewsManager(ILifetimeScope globalScope, IWindowManager windowManager, 
+            RtuStateModelFactory rtuStateModelFactory, TreeOfRtuModel treeOfRtuModel)
         {
             _globalScope = globalScope;
             _windowManager = windowManager;
             _rtuStateModelFactory = rtuStateModelFactory;
+            _treeOfRtuModel = treeOfRtuModel;
         }
 
         // user clicked on RtuLeaf
@@ -28,9 +36,11 @@ namespace Iit.Fibertest.Client
         }
 
         // Server sent network event
-        public void NotifyUserRtuAvailabilityChanged(RtuLeaf rtuLeaf, RtuPartStateChanges changes)
+        public void NotifyUserRtuAvailabilityChanged(NetworkEventAdded networkEventAdded)
         {
-            Show(rtuLeaf, isUserAskedToOpenView: false, changes: changes);
+            var networkEvent = _mapper.Map<NetworkEvent>(networkEventAdded);
+            RtuLeaf rtuLeaf = (RtuLeaf)_treeOfRtuModel.Tree.GetById(networkEvent.RtuId);
+            Show(rtuLeaf, isUserAskedToOpenView: false, changes: networkEventAdded.RtuPartStateChanges);
         }
 
         public void NotifyUserRtuCurrentMonitoringStep(CurrentMonitoringStepDto dto)
@@ -91,6 +101,10 @@ namespace Iit.Fibertest.Client
             LaunchedViews.Add(rtuId, vm);
         }
 
-     
+
+
+               
+
+
     }
 }

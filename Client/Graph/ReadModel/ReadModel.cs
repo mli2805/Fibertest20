@@ -19,6 +19,11 @@ namespace Iit.Fibertest.Graph
         public List<Otau> Otaus { get; } = new List<Otau>();
         public List<User> Users { get; } = new List<User>();
         public List<Zone> Zones { get; } = new List<Zone>();
+        public List<Measurement> Measurements { get; } = new List<Measurement>();
+        public List<NetworkEvent> NetworkEvents { get; } = new List<NetworkEvent>();
+        public List<BopNetworkEvent> BopNetworkEvents { get; } = new List<BopNetworkEvent>();
+        public List<BaseRef> BaseRefs { get; } = new List<BaseRef>();
+
 
         public int JustForNotification { get; set; }
 

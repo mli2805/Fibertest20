@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Graph
 {
@@ -9,7 +8,7 @@ namespace Iit.Fibertest.Graph
     {
         public Guid TraceId { get; set; }
 
-        public List<BaseRefDto> BaseRefs { get; set; } = new List<BaseRefDto>();
+        public List<BaseRef> BaseRefs { get; set; } = new List<BaseRef>();
 
     }
 }

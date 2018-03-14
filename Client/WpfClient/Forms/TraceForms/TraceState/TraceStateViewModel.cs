@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
@@ -115,7 +116,7 @@ namespace Iit.Fibertest.Client
         {
             using (new WaitCursor())
             {
-                var dto = new UpdateMeasurementDto
+                var dto = new UpdateMeasurement
                 {
                     SorFileId = Model.SorFileId,
                     Comment = Model.Comment,
@@ -124,8 +125,8 @@ namespace Iit.Fibertest.Client
                         : Model.EventStatus,
                 };
 
-                var result = await _c2DWcfManager.SaveMeasurementChanges(dto);
-                if (result.ReturnCode != ReturnCode.Ok)
+                var result = await _c2DWcfManager.SendCommandAsObj(dto);
+                if (result != null)
                     _logFile.AppendLine(@"Cannot update measurement!");
               
             }

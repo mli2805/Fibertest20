@@ -34,22 +34,15 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<Aggregate>().SingleInstance();
             builder.RegisterType<EventStoreService>().SingleInstance();
             builder.RegisterType<MeasurementFactory>().SingleInstance();
-            builder.RegisterType<MeasurementsRepository>().SingleInstance();
-            builder.RegisterType<NetworkEventsRepository>().SingleInstance();
-            builder.RegisterType<BopNetworkEventsRepository>().SingleInstance();
             builder.RegisterType<ClientStationsRepository>().SingleInstance();
             builder.RegisterType<RtuStationsRepository>().SingleInstance();
-            builder.RegisterType<BaseRefsRepository>().SingleInstance();
-            builder.RegisterType<BaseRefsRepositoryIntermediary>().SingleInstance();
             builder.RegisterType<GraphGpsCalculator>().SingleInstance();
             builder.RegisterType<TraceModelBuilder>().SingleInstance();
             builder.RegisterType<BaseRefLandmarksTool>().SingleInstance();
             builder.RegisterType<BaseRefRepairman>().SingleInstance();
             builder.RegisterType<BaseRefRepairmanIntermediary>().SingleInstance();
-            builder.RegisterType<MeasurementChangerIntermediary>().SingleInstance();
 
-            builder.RegisterType<MonitoringResultsRepository>().SingleInstance();
-            builder.RegisterType<GraphPostProcessingRepository>().SingleInstance();
+            builder.RegisterType<SorFileRepository>().SingleInstance();
             builder.RegisterType<ClientToRtuTransmitter>().SingleInstance();
 
             builder.RegisterType<D2CWcfManager>().SingleInstance();

@@ -21,3 +21,30 @@
 	2. ƒл€ трасс хранить список волокон
 	3. blahblahViewModel должна использовать ReadModel а не GraphReadModel, как и все остальные формы
 	6.
+
+
+–езультат мониторинга приходит на сервер
+
+-- есть --
+
+ _measurementFactory.Create(monitoringResultDto) - new Measurement()
+ SaveMonitoringResultAsync сохран€ет в 2 таблицы шапку и сорку и возвращает - new MeasurementWithSor()
+  который отсылаетс€ клиентам
+	на это реагируют таблицы оптических событий и формы рту, трассы, граф
+
+ и если это измерение = ивент PlaceOpticalEventIntoEventSourcing - GetAccidents(sorData, true) -
+ кладетс€ команда new ShowMonitoringResult()
+  и клиенты выт€гивают событие  MonitoringResultShown e
+	оп€ть кто-то реагирует, кто-то нет
+
+  -- надо --
+
+  сохран€ем сорку
+  независимо от того ивент или нет парсим сорку  - GetAccidents(sorData, true)
+  формируем команду new ShowMonitoringResult() у которой внутри и пол€ Measurement() и кладем ее в ивентсоурсинг
+  и клиенты выт€гивают событие  MonitoringResultShown e
+   и теперь все таблицы и формы и граф реагируют на это событие
+
+
+јналогично сетевые событи€, событи€ бопов хранить в ивентсоурсинге
+Ѕазовые хранить в ивентсоурсинге, кроме самой сорки

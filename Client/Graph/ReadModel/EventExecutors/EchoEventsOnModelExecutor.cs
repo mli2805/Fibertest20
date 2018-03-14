@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using AutoMapper;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 
@@ -6,7 +7,8 @@ namespace Iit.Fibertest.Graph
 {
     public class EchoEventsOnModelExecutor
     {
-        private readonly IModel _model;
+        private readonly IMapper _mapper = new MapperConfiguration(
+            cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper(); private readonly IModel _model;
         private readonly IMyLog _logFile;
 
         public EchoEventsOnModelExecutor(ReadModel model, IMyLog logFile)
@@ -28,18 +30,21 @@ namespace Iit.Fibertest.Graph
             var preciseBaseRef = e.BaseRefs.FirstOrDefault(b => b.BaseRefType == BaseRefType.Precise);
             if (preciseBaseRef != null)
             {
+                _model.BaseRefs.Add(preciseBaseRef);
                 trace.PreciseId = preciseBaseRef.Id;
                 trace.PreciseDuration = preciseBaseRef.Duration;
             }
             var fastBaseRef = e.BaseRefs.FirstOrDefault(b => b.BaseRefType == BaseRefType.Fast);
             if (fastBaseRef != null)
             {
+                _model.BaseRefs.Add(fastBaseRef);
                 trace.FastId = fastBaseRef.Id;
                 trace.FastDuration = fastBaseRef.Duration;
             }
             var additionalBaseRef = e.BaseRefs.FirstOrDefault(b => b.BaseRefType == BaseRefType.Additional);
             if (additionalBaseRef != null)
             {
+                _model.BaseRefs.Add(additionalBaseRef);
                 trace.AdditionalId = additionalBaseRef.Id;
                 trace.AdditionalDuration = additionalBaseRef.Duration;
             }
@@ -161,9 +166,9 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        public string ShowMonitoringResult(MonitoringResultShown e)
+        public string ShowMonitoringResult(MeasurementAdded e)
         {
-            // do nothing, this event only in order to draw accidents on Graph
+            _model.Measurements.Add(_mapper.Map<Measurement>(e));
             return null;
         }
     }

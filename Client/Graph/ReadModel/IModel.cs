@@ -15,6 +15,10 @@ namespace Iit.Fibertest.Graph
         List<Otau> Otaus { get; }
         List<User> Users { get; }
         List<Zone> Zones { get; }
+        List<Measurement> Measurements { get; }
+        List<NetworkEvent> NetworkEvents { get; }
+        List<BopNetworkEvent> BopNetworkEvents { get; }
+        List<BaseRef> BaseRefs { get; }
 
         string RemoveNodeWithAllHis(System.Guid nodeId);
     }

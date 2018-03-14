@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Autofac;
 using Caliburn.Micro;
-using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.Client
@@ -16,12 +15,13 @@ namespace Iit.Fibertest.Client
         private readonly OutOfTurnPreciseMeasurementViewModel _outOfTurnPreciseMeasurementViewModel;
         private readonly IWindowManager _windowManager;
         private readonly C2DWcfManager _c2DWcfManager;
+        private readonly ReadModel _readModel;
 
         private List<TraceStateViewModel> LaunchedViews { get; } = new List<TraceStateViewModel>();
 
 
         public TraceStateViewsManager(ILifetimeScope globalScope, IWindowManager windowManager,
-            C2DWcfManager c2DWcfManager, TraceStateModelFactory traceStateModelFactory, 
+            C2DWcfManager c2DWcfManager, ReadModel readModel, TraceStateModelFactory traceStateModelFactory, 
             OutOfTurnPreciseMeasurementViewModel outOfTurnPreciseMeasurementViewModel)
         {
             _globalScope = globalScope;
@@ -29,27 +29,19 @@ namespace Iit.Fibertest.Client
             _outOfTurnPreciseMeasurementViewModel = outOfTurnPreciseMeasurementViewModel;
             _windowManager = windowManager;
             _c2DWcfManager = c2DWcfManager;
+            _readModel = readModel;
         }
 
         // User clicked on TraceLeaf - State
-        public async void ShowTraceState(Guid traceId)
+        public void ShowTraceState(Guid traceId)
         {
-            MeasurementWithSor measurementWithSor =  await _c2DWcfManager.GetLastMeasurementForTrace(traceId);
-            if (measurementWithSor == null)
-                return;
-            var traceStateModel = _traceStateModelFactory.CreateModel(measurementWithSor.Measurement, measurementWithSor.SorBytes);
-            Show(traceStateModel, true);
+//            MeasurementWithSor measurementWithSor =  await _c2DWcfManager.GetLastMeasurementForTrace(traceId);
+//            if (measurementWithSor == null)
+//                return;
+//            var traceStateModel = _traceStateModelFactory.CreateModel(measurementWithSor.Measurement, measurementWithSor.SorBytes);
+//            Show(traceStateModel, true);
         }
 
-        // MonitoringResult arrived by WCF
-        public void NotifyAboutMonitoringResult(MeasurementWithSor measurementWithSor)
-        {
-            var traceStateModel = _traceStateModelFactory.CreateModel(measurementWithSor.Measurement, measurementWithSor.SorBytes);
-            Show(traceStateModel, 
-                isLastMeasurementOnThisTrace: true, 
-                isUserAskedToOpenView: false, 
-                isTraceStateChanged: measurementWithSor.Measurement.EventStatus > EventStatus.JustMeasurementNotAnEvent);
-        }
 
         // User clicked on line in TraceStatistics (maybe not on the last line - see parameter)
         public async void ShowTraceState(Measurement measurement, bool isLastMeasurementOnThisTrace)
@@ -58,7 +50,7 @@ namespace Iit.Fibertest.Client
             if (sorBytes == null)
                 return;
 
-            var traceStateModel = _traceStateModelFactory.CreateModel(measurement, sorBytes);
+            var traceStateModel = _traceStateModelFactory.CreateModel(measurement);
             Show(traceStateModel, isLastMeasurementOnThisTrace);
         }
 
@@ -71,14 +63,14 @@ namespace Iit.Fibertest.Client
 
             var traceStateModel = _traceStateModelFactory.CreateModel(opticalEventModel, sorBytes);
             var isLastMeasurementOnThisTrace =
-                await IsOpticalEventIsLastMeasurementForTrace(opticalEventModel.TraceId, opticalEventModel.SorFileId);
+                 IsOpticalEventIsLastMeasurementForTrace(opticalEventModel.TraceId, opticalEventModel.SorFileId);
             Show(traceStateModel, isLastMeasurementOnThisTrace);
         }
 
-        private async Task<bool> IsOpticalEventIsLastMeasurementForTrace(Guid traceId, int opticalEventSorFileId)
+        private bool IsOpticalEventIsLastMeasurementForTrace(Guid traceId, int opticalEventSorFileId)
         {
-            var measurementWithSor = await _c2DWcfManager.GetLastMeasurementForTrace(traceId);
-            return measurementWithSor.Measurement.SorFileId == opticalEventSorFileId;
+            var measurementEvSo = _readModel.Measurements.LastOrDefault(m=>m.TraceId == traceId);
+            return measurementEvSo == null || measurementEvSo.SorFileId == opticalEventSorFileId;
         }
 
         private void Show(TraceStateModel traceStateModel, bool isLastMeasurementOnThisTrace, bool isUserAskedToOpenView = true, bool isTraceStateChanged = false)

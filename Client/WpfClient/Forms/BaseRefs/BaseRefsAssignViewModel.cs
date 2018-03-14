@@ -161,15 +161,16 @@ namespace Iit.Fibertest.Client
 
         public async Task Save()
         {
-            var baseRefs = GetBaseRefChangesList();
-            if (!baseRefs.Any())
-                return;
-
-            if (!_baseRefsChecker.IsBaseRefsAcceptable(baseRefs, _trace))
-                return;
-
             var dto = new AssignBaseRefsDto()
-                { RtuId = _trace.RtuId, TraceId = _trace.Id, OtauPortDto = _trace.OtauPort, BaseRefs = baseRefs };
+                { RtuId = _trace.RtuId, TraceId = _trace.Id, OtauPortDto = _trace.OtauPort, BaseRefs = new List<BaseRefDto>(), DeleteOldSorFileIds = new List<int>()};
+
+            FillinChangedBaseRefs(dto);
+            if (!dto.BaseRefs.Any())
+                return;
+
+            if (!_baseRefsChecker.IsBaseRefsAcceptable(dto.BaseRefs, _trace))
+                return;
+
             var result = await _c2DWcfManager.AssignBaseRefAsync(dto); // send to Db and RTU
             if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
             {
@@ -178,22 +179,37 @@ namespace Iit.Fibertest.Client
                 return;
             }
 
-            var cmd = new AssignBaseRef() { TraceId = _trace.Id, BaseRefs = dto.BaseRefs };
-            await _c2DWcfManager.SendCommandAsObj(cmd); // graph
-
             TryClose();
         }
 
-        public List<BaseRefDto> GetBaseRefChangesList()
+        public void FillinChangedBaseRefs(AssignBaseRefsDto dto)
         {
-            var result = new List<BaseRefDto>();
+            var baseRefs = new List<BaseRefDto>();
             if (IsFilenameChanged(PreciseBaseFilename, _trace.PreciseId))
-                result.Add(_baseRefDtoFactory.Create(PreciseBaseFilename, BaseRefType.Precise));
+            {
+                var baseRefDto = _baseRefDtoFactory.Create(PreciseBaseFilename, BaseRefType.Precise);
+                if (_trace.PreciseId != Guid.Empty)
+                    dto.DeleteOldSorFileIds.Add(_readModel.BaseRefs.First(b=>b.Id == _trace.PreciseId).SorFileId);
+                baseRefs.Add(baseRefDto);
+            }
+
             if (IsFilenameChanged(FastBaseFilename, _trace.FastId))
-                result.Add(_baseRefDtoFactory.Create(FastBaseFilename, BaseRefType.Fast));
+            {
+                var baseRefDto = _baseRefDtoFactory.Create(FastBaseFilename, BaseRefType.Fast);
+                if (_trace.FastId != Guid.Empty)
+                    dto.DeleteOldSorFileIds.Add(_readModel.BaseRefs.First(b => b.Id == _trace.FastId).SorFileId);
+                baseRefs.Add(baseRefDto);
+            }
+
             if (IsFilenameChanged(AdditionalBaseFilename, _trace.AdditionalId))
-                result.Add(_baseRefDtoFactory.Create(AdditionalBaseFilename, BaseRefType.Additional));
-            return result;
+            {
+                var baseRefDto = _baseRefDtoFactory.Create(AdditionalBaseFilename, BaseRefType.Additional);
+                if (_trace.AdditionalId != Guid.Empty)
+                    dto.DeleteOldSorFileIds.Add(_readModel.BaseRefs.First(b => b.Id == _trace.AdditionalId).SorFileId);
+                baseRefs.Add(baseRefDto);
+            }
+
+            dto.BaseRefs = baseRefs;
         }
 
         public void Cancel()

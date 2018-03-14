@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using Iit.Fibertest.Dto;
@@ -279,10 +280,45 @@ namespace Iit.Fibertest.Graph
             return WriteModel.Add(_mapper.Map<MonitoringStopped>(cmd));
         }
 
-        public string When(ShowMonitoringResult cmd)
+        public string When(AddMeasurement cmd)
         {
-            return WriteModel.Add(_mapper.Map<MonitoringResultShown>(cmd));
+            return WriteModel.Add(_mapper.Map<MeasurementAdded>(cmd));
         }
+        public string When(UpdateMeasurement cmd)
+        {
+            return WriteModel.Add(_mapper.Map<MeasurementUpdated>(cmd));
+        }
+
+        public string When(AddNetworkEvent cmd)
+        {
+            var networkEventAdded = _mapper.Map<NetworkEventAdded>(cmd);
+            var rtu = WriteModel.Rtus.First(r => r.Id == networkEventAdded.RtuId);
+            networkEventAdded.RtuPartStateChanges = IsStateWorseOrBetterThanBefore(rtu, networkEventAdded);
+            return WriteModel.Add(networkEventAdded);
+        }
+
+        public string When(AddBopNetworkEvent cmd)
+        {
+            return WriteModel.Add(_mapper.Map<BopNetworkEventAdded>(cmd));
+        }
+
+
+        private RtuPartStateChanges IsStateWorseOrBetterThanBefore(Rtu rtu, NetworkEventAdded networkEvent)
+        {
+            List<WorseOrBetter> parts = new List<WorseOrBetter> {
+                rtu.MainChannelState.BecomeBetterOrWorse(networkEvent.MainChannelState),
+                rtu.ReserveChannelState.BecomeBetterOrWorse(networkEvent.ReserveChannelState),
+            };
+
+            if (parts.Contains(WorseOrBetter.Worse) && parts.Contains(WorseOrBetter.Better))
+                return RtuPartStateChanges.DifferentPartsHaveDifferentChanges;
+            if (parts.Contains(WorseOrBetter.Worse))
+                return RtuPartStateChanges.OnlyWorse;
+            if (parts.Contains(WorseOrBetter.Better))
+                return RtuPartStateChanges.OnlyBetter;
+            return RtuPartStateChanges.NoChanges;
+        }
+
         #endregion
     }
 }

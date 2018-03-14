@@ -138,7 +138,7 @@ namespace Iit.Fibertest.Client
         {
             Rows.Add(new OpticalEventModel()
             {
-                Nomer = measurement.Id,
+                Nomer = measurement.SorFileId,
                 MeasurementTimestamp = measurement.MeasurementTimestamp,
                 EventRegistrationTimestamp = measurement.EventRegistrationTimestamp,
                 RtuId = measurement.RtuId,
@@ -178,13 +178,12 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public void UpdateEvent(MeasurementUpdatedDto dto)
+        public void UpdateEvent(MeasurementUpdated dto)
         {
-            var oldEvent = Rows.FirstOrDefault(l => l.SorFileId == dto.UpdatedMeasurement.SorFileId);
+            var oldEvent = Rows.FirstOrDefault(l => l.SorFileId == dto.SorFileId);
             if (oldEvent != null)
                 Rows.Remove(oldEvent);
 
-            AddEvent(dto.UpdatedMeasurement);
         }
 
         public void ShowReflectogram(int param)
@@ -227,7 +226,7 @@ namespace Iit.Fibertest.Client
                 SelectedRtuFilter = _rtuFilterViewModel.SelectedRow;
         }
 
-        public void ApplyUsersChanges(UpdateMeasurementDto dto)
+        public void ApplyUsersChanges(UpdateMeasurement dto)
         {
             var opticalEventModel = Rows.FirstOrDefault(r => r.SorFileId == dto.SorFileId);
             if (opticalEventModel == null)

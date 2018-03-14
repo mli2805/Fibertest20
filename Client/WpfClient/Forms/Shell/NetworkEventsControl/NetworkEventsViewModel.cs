@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Data;
 using Caliburn.Micro;
-using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
@@ -32,14 +31,14 @@ namespace Iit.Fibertest.Client
             _readModel = readModel;
 
             var view = CollectionViewSource.GetDefaultView(Rows);
-            view.SortDescriptions.Add(new SortDescription(@"Nomer", ListSortDirection.Descending));
+            view.SortDescriptions.Add(new SortDescription(@"EventTimestamp", ListSortDirection.Descending));
         }
 
         public void AddEvent(NetworkEvent networkEvent)
         {
             Rows.Add(new NetworkEventModel()
             {
-                Nomer = networkEvent.Id,
+                Nomer = 1,
                 EventTimestamp = networkEvent.EventTimestamp,
                 RtuId = networkEvent.RtuId,
                 RtuTitle = _readModel.Rtus.FirstOrDefault(r => r.Id == networkEvent.RtuId)?.Title,

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Autofac;
 using Caliburn.Micro;
-using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
 {
@@ -28,7 +28,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public async void Show(Guid traceId)
+        public void Show(Guid traceId)
         {
             ClearClosedViews();
             if (LaunchedViews.TryGetValue(traceId, out var vm))
@@ -38,7 +38,7 @@ namespace Iit.Fibertest.Client
             }
 
             vm = _globalScope.Resolve<TraceStatisticsViewModel>();
-            await vm.Initialize(traceId);
+            vm.Initialize(traceId);
             _windowManager.ShowWindowWithAssignedOwner(vm);
 
             LaunchedViews.Add(traceId, vm);

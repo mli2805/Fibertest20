@@ -220,6 +220,7 @@
     <Compile Include="Forms\Shell\MarkerControl\RtuVmPermissions.cs" />
     <Compile Include="Forms\SpecialMeasurements\ClientMeasurementViewModel.cs" />
     <Compile Include="Forms\TraceForms\TraceState\AccidentLineModelFactory.cs" />
+    <Compile Include="Forms\TraceForms\TraceStatistics\BaseRefForStats.cs" />
     <Compile Include="Forms\TraceForms\TraceStepByStep\StepChoiceView.xaml.cs">
       <DependentUpon>StepChoiceView.xaml</DependentUpon>
     </Compile>
@@ -230,7 +231,7 @@
     <Compile Include="Forms\TraceForms\TraceStepByStep\TraceStepByStepViewModel.cs" />
     <Compile Include="CurrentGpsInputMode.cs" />
     <Compile Include="GraphModel\EventExecutors\AccidentEventsOnGraphExecutor.cs" />
-    <Compile Include="GraphModel\EventExecutors\AccidentPlaceLocator.cs" />
+    <Compile Include="Logic\AccidentPlaceLocator.cs" />
     <Compile Include="GraphModel\EventExecutors\EquipmentEventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\EventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\FiberEventsOnGraphExecutor.cs" />
@@ -260,7 +261,6 @@
       <DependentUpon>BopNetworkEventsDoubleView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\Shell\BopNetworkEventsControl\BopNetworkEventsDoubleViewModel.cs" />
-    <Compile Include="Forms\Shell\BopNetworkEventsControl\BopNetworkEventsProvider.cs" />
     <Compile Include="Forms\Shell\BopNetworkEventsControl\BopNetworkEventsView.xaml.cs">
       <DependentUpon>BopNetworkEventsView.xaml</DependentUpon>
     </Compile>
@@ -276,8 +276,7 @@
       <DependentUpon>NetworkEventsDoubleView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\Shell\NetworkEventsControl\NetworkEventsDoubleViewModel.cs" />
-    <Compile Include="Forms\Shell\NetworkEventsControl\NetworkEventsProvider.cs" />
-    <Compile Include="Forms\Shell\OpticalEventsControl\OpticalEventsProvider.cs" />
+    <Compile Include="Forms\Shell\OpticalEventsControl\OpticalEventsExecutor.cs" />
     <Compile Include="EventSourcing\TestsDispatcherProvider.cs" />
     <Compile Include="EventSourcing\UiDispatcherProvider.cs" />
     <Compile Include="Forms\BaseRefs\BaseRefDtoFactory.cs" />

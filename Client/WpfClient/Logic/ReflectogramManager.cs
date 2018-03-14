@@ -63,9 +63,9 @@ namespace Iit.Fibertest.Client
             SaveInTempFolderAndOpenInReflect(sorbytes);
         }
 
-        public async void ShowBaseReflectogram(Guid baseRefId)
+        public async void ShowBaseReflectogram(int sorFileId)
         {
-            byte[] sorbytes = await GetBaseSorBytes(baseRefId);
+            byte[] sorbytes = await GetSorBytes(sorFileId);
             SaveInTempFolderAndOpenInReflect(sorbytes);
         }
 
@@ -76,9 +76,9 @@ namespace Iit.Fibertest.Client
             SaveAs(shouldBaseRefBeExcluded ? GetRidOfBase(sorbytes) : sorbytes);
         }
 
-        public async void SaveBaseReflectogramAs(Guid baseRefId)
+        public async void SaveBaseReflectogramAs(int sorFileId)
         {
-            byte[] sorbytes = await GetBaseSorBytes(baseRefId);
+            byte[] sorbytes = await GetSorBytes(sorFileId);
             SaveAs(sorbytes);
         }
 
@@ -110,17 +110,6 @@ namespace Iit.Fibertest.Client
             return sorbytes;
         }
        
-        private async Task<byte[]> GetBaseSorBytes(Guid baseRefId)
-        {
-            var sorbytes = await _c2DWcfManager.GetSorBytesOfBase(baseRefId);
-            if (sorbytes == null)
-            {
-                _logFile.AppendLine($@"Cannot get base reflectogram {baseRefId}");
-                return new byte[0];
-            }
-            return sorbytes;
-        }
-
         private byte[] GetRidOfBase(byte[] sorbytes)
         {
             var result = SorData.TryGetFromBytes(sorbytes, out var otdrDataKnownBlocks);

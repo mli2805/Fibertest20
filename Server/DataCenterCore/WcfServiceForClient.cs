@@ -22,13 +22,8 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly ClientStationsRepository _clientStationsRepository;
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
         private readonly RtuStationsRepository _rtuStationsRepository;
-        private readonly MeasurementsRepository _measurementsRepository;
-        private readonly NetworkEventsRepository _networkEventsRepository;
-        private readonly BopNetworkEventsRepository _bopNetworkEventsRepository;
-        private readonly GraphPostProcessingRepository _graphPostProcessingRepository;
-        private readonly BaseRefsRepositoryIntermediary _baseRefsRepositoryIntermediary;
+        private readonly SorFileRepository _sorFileRepository;
         private readonly BaseRefRepairmanIntermediary _baseRefRepairmanIntermediary;
-        private readonly MeasurementChangerIntermediary _measurementChangerIntermediary;
 
         private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
         {
@@ -37,23 +32,17 @@ namespace Iit.Fibertest.DataCenterCore
 
         public WcfServiceForClient(IMyLog logFile, EventStoreService eventStoreService, 
             ClientStationsRepository clientStationsRepository, ClientToRtuTransmitter clientToRtuTransmitter,
-            RtuStationsRepository rtuStationsRepository, MeasurementChangerIntermediary measurementChangerIntermediary,
-            BaseRefsRepositoryIntermediary baseRefsRepositoryIntermediary, BaseRefRepairmanIntermediary baseRefRepairmanIntermediary,
-            MeasurementsRepository measurementsRepository, NetworkEventsRepository networkEventsRepository,
-            BopNetworkEventsRepository bopNetworkEventsRepository, GraphPostProcessingRepository graphPostProcessingRepository)
+            RtuStationsRepository rtuStationsRepository, 
+             BaseRefRepairmanIntermediary baseRefRepairmanIntermediary,
+            SorFileRepository sorFileRepository)
         {
             _logFile = logFile;
             _eventStoreService = eventStoreService;
             _clientStationsRepository = clientStationsRepository;
             _clientToRtuTransmitter = clientToRtuTransmitter;
             _rtuStationsRepository = rtuStationsRepository;
-            _measurementsRepository = measurementsRepository;
-            _networkEventsRepository = networkEventsRepository;
-            _bopNetworkEventsRepository = bopNetworkEventsRepository;
-            _graphPostProcessingRepository = graphPostProcessingRepository;
-            _baseRefsRepositoryIntermediary = baseRefsRepositoryIntermediary;
+            _sorFileRepository = sorFileRepository;
             _baseRefRepairmanIntermediary = baseRefRepairmanIntermediary;
-            _measurementChangerIntermediary = measurementChangerIntermediary;
         }
 
         public async Task<int> SendCommands(List<string> jsons, string username, string clientIp) // especially for Migrator.exe
@@ -85,9 +74,6 @@ namespace Iit.Fibertest.DataCenterCore
             if (cmd is RemoveRtu removeRtu)
                 return await _rtuStationsRepository.RemoveRtuAsync(removeRtu.Id);
 
-            if (cmd is RemoveTrace removeTrace)
-                return await _graphPostProcessingRepository.ProcessTraceRemovedAsync(removeTrace.Id);
-
             #region Base ref amend
             if (cmd is MoveNode moveNode)
                 return await _baseRefRepairmanIntermediary.ProcessNodeMoved(moveNode.NodeId);
@@ -109,58 +95,12 @@ namespace Iit.Fibertest.DataCenterCore
             return await Task.FromResult(_eventStoreService.GetEvents(revision));
         }
 
-        public async Task<MeasurementsList> GetOpticalEvents()
-        {
-            return await _measurementsRepository.GetOpticalEventsAsync();
-        }
-
-        public async Task<NetworkEventsList> GetNetworkEvents()
-        {
-            return await _networkEventsRepository.GetNetworkEventsAsync();
-        }
-
-        public async Task<BopNetworkEventsList> GetBopNetworkEvents()
-        {
-            return await _bopNetworkEventsRepository.GetBopNetworkEventsAsync();
-        }
-
-        public async Task<TraceStatistics> GetTraceStatistics(Guid traceId)
-        {
-            var traceStatistics = await _measurementsRepository.GetTraceMeasurementsAsync(traceId);
-            _logFile.AppendLine($"There {traceStatistics.BaseRefs.Count} base refs and {traceStatistics.Measurements.Count} measurements");
-            return traceStatistics;
-        }
-
-        public Task<byte[]> GetSorBytesOfBase(Guid baseRefId)
-        {
-            return _measurementsRepository.GetSorBytesOfBaseAsync(baseRefId);
-        }
-
         public Task<byte[]> GetSorBytes(int sorFileId)
         {
-            return _measurementsRepository.GetSorBytesAsync(sorFileId);
+            return _sorFileRepository.GetSorBytesAsync(sorFileId);
         }
 
-        public async Task<byte[]> GetSorBytesOfLastTraceMeasurement(Guid traceId)
-        {
-            return await _measurementsRepository.GetSorBytesOfLastTraceMeasurementAsync(traceId);
-        }
-
-        public async Task<MeasurementWithSor> GetLastMeasurementForTrace(Guid traceId)
-        {
-            return await _measurementsRepository.GetLastMeasurementForTraceAsync(traceId);
-        }
-
-        public async Task<MeasurementUpdatedDto> SaveMeasurementChanges(UpdateMeasurementDto dto)
-        {
-            return await _measurementChangerIntermediary.UpdateMeasurementAsync(dto);
-        }
-
-        public async Task<List<BaseRefDto>> GetTraceBaseRefsAsync(Guid traceId)
-        {
-            return await _baseRefsRepositoryIntermediary.GetTraceBaseRefsAsync(traceId);
-        }
-
+      
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {
             var result = await _clientStationsRepository.RegisterClientAsync(dto);
@@ -235,12 +175,35 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto dto)
         {
             _logFile.AppendLine($"Client {dto.ClientId.First6()} sent base ref for trace {dto.TraceId.First6()}");
-            var result = await _baseRefsRepositoryIntermediary.AssignBaseRefAsync(dto);
-            if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
-                return result;
+            foreach (var sorFileId in dto.DeleteOldSorFileIds)
+            {
+                await _sorFileRepository.RemoveSorBytesAsync(sorFileId);
+            }
+            var command = new AssignBaseRef(){TraceId = dto.TraceId, BaseRefs = new List<BaseRef>()};
+            foreach (var baseRefDto in dto.BaseRefs)
+            {
+                var sorFileId = 0;
+                if (baseRefDto.Id != Guid.Empty)  
+                    sorFileId = await _sorFileRepository.SaveSorBytesAsync(baseRefDto.SorBytes);
+
+                var baseRef = new BaseRef()
+                {
+                    TraceId = dto.TraceId,
+
+                    Id = baseRefDto.Id,
+                    BaseRefType = baseRefDto.BaseRefType,
+                    SaveTimestamp = baseRefDto.SaveTimestamp,
+                    Duration =  baseRefDto.Duration,
+                    UserName = baseRefDto.UserName,
+
+                    SorFileId = sorFileId,
+                };
+                command.BaseRefs.Add(baseRef);
+            }
+            await _eventStoreService.SendCommand(command, "system", "OnServer");
 
             if (dto.OtauPortDto == null) // unattached trace
-                return result;
+                return new BaseRefAssignedDto(){ReturnCode = ReturnCode.BaseRefAssignedSuccessfully};
 
             return await _clientToRtuTransmitter.AssignBaseRefAsync(dto);
         }
@@ -252,7 +215,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             _logFile.AppendLine($"Client {dto.ClientId.First6()} asked to re-send base ref for trace {dto.TraceId.First6()}");
 
-            var convertedDto = await _baseRefsRepositoryIntermediary.ConvertReSendToAssign(dto);
+            var convertedDto = await Convert(dto);
 
             if (convertedDto?.BaseRefs == null)
                 return new BaseRefAssignedDto() {ReturnCode = ReturnCode.DbCannotConvertThisReSendToAssign};
@@ -260,6 +223,26 @@ namespace Iit.Fibertest.DataCenterCore
                 return new BaseRefAssignedDto() {ReturnCode = ReturnCode.BaseRefAssignedSuccessfully};
 
             return await _clientToRtuTransmitter.AssignBaseRefAsync(convertedDto);
+        }
+
+        private async Task<AssignBaseRefsDto> Convert(ReSendBaseRefsDto dto)
+        {
+            var result = new AssignBaseRefsDto()
+            {
+                ClientId = dto.ClientId,
+                RtuId = dto.RtuId,
+                TraceId = dto.TraceId,
+                OtauPortDto = dto.OtauPortDto,
+                BaseRefs = new List<BaseRefDto>(),
+            };
+
+            foreach (var baseRefDto in dto.BaseRefDtos)
+            {
+                baseRefDto.SorBytes = await _sorFileRepository.GetSorBytesAsync(baseRefDto.SorFileId);
+                result.BaseRefs.Add(baseRefDto);
+            }
+            
+            return result;
         }
 
         public async Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto)

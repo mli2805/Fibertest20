@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using AutoMapper;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -9,12 +10,13 @@ namespace Iit.Fibertest.Client
 {
     public class OpticalEventsDoubleViewModel : PropertyChangedBase
     {
+        private readonly IMapper _mapper = new MapperConfiguration(
+            cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
+
         private readonly ReadModel _readModel;
 
         public OpticalEventsViewModel AllOpticalEventsViewModel { get; set; }
         public OpticalEventsViewModel ActualOpticalEventsViewModel { get; set; }
-
-    
 
         public OpticalEventsDoubleViewModel(ReadModel readModel,
             OpticalEventsViewModel allOpticalEventsViewModel,
@@ -27,8 +29,10 @@ namespace Iit.Fibertest.Client
             AllOpticalEventsViewModel.TableTitle = Resources.SID_All_optical_events;
         }
 
-        public void Apply(Measurement measurement)
+        public void Apply(MeasurementAdded measurementAdded)
         {
+            var measurement = _mapper.Map<Measurement>(measurementAdded);
+
             var trace = _readModel.Traces.FirstOrDefault(t => t.Id == measurement.TraceId);
             if (trace == null || !trace.IsAttached)
                 return;
@@ -41,7 +45,7 @@ namespace Iit.Fibertest.Client
             ActualOpticalEventsViewModel.AddEvent(measurement);
         }
 
-        public void Apply(MeasurementUpdatedDto dto)
+        public void Apply(MeasurementUpdated dto)
         {
             ActualOpticalEventsViewModel.UpdateEvent(dto);
             AllOpticalEventsViewModel.UpdateEvent(dto);
@@ -52,7 +56,7 @@ namespace Iit.Fibertest.Client
             AllOpticalEventsViewModel.AddEvent(measurement);
         }
 
-        public void ApplyUsersChanges(UpdateMeasurementDto dto)
+        public void ApplyUsersChanges(UpdateMeasurement dto)
         {
             ActualOpticalEventsViewModel.ApplyUsersChanges(dto);
             AllOpticalEventsViewModel.ApplyUsersChanges(dto);
@@ -63,5 +67,6 @@ namespace Iit.Fibertest.Client
             ActualOpticalEventsViewModel.RemoveEventsOfTrace(traceId);
             AllOpticalEventsViewModel.RemoveEventsOfTrace(traceId);
         }
+
     }
 }

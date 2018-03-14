@@ -18,11 +18,12 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public DateTime SaveTimestamp { get; set; }
 
+        [DataMember]
+        public TimeSpan Duration { get; set; }
 
+        [DataMember]
+        public int SorFileId { get; set; }
         [DataMember]
         public byte[] SorBytes { get; set; }
-
-        [DataMember]
-        public TimeSpan Duration { get; set; } 
     }
 }

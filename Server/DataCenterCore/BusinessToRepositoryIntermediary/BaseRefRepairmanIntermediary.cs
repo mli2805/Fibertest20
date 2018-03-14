@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Algorithms;
 
@@ -12,15 +11,13 @@ namespace Iit.Fibertest.DataCenterCore
     {
         private readonly WriteModel _writeModel;
         private readonly BaseRefRepairman _baseRefRepairman;
-        private readonly BaseRefsRepositoryIntermediary _baseRefsRepositoryIntermediary;
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
 
         public BaseRefRepairmanIntermediary(WriteModel writeModel, BaseRefRepairman baseRefRepairman,
-            BaseRefsRepositoryIntermediary baseRefsRepositoryIntermediary, ClientToRtuTransmitter clientToRtuTransmitter)
+             ClientToRtuTransmitter clientToRtuTransmitter)
         {
             _writeModel = writeModel;
             _baseRefRepairman = baseRefRepairman;
-            _baseRefsRepositoryIntermediary = baseRefsRepositoryIntermediary;
             _clientToRtuTransmitter = clientToRtuTransmitter;
         }
 
@@ -70,34 +67,34 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task<string> AmendBaseRefs(List<Trace> traces)
         {
-            foreach (var trace in traces)
-            {
-                var listOfBaseRef = await _baseRefsRepositoryIntermediary.GetTraceBaseRefsAsync(trace.Id);
-                if (listOfBaseRef == null)
-                    return $"Can't get base refs for trace {trace.Id}";
-
-                foreach (var baseRefDto in listOfBaseRef)
-                {
-                    baseRefDto.SorBytes = _baseRefRepairman.Modify(trace, baseRefDto.SorBytes);
-                }
-
-                var dto = new AssignBaseRefsDto()
-                {
-                    TraceId = trace.Id,
-                    RtuId = trace.RtuId,
-                    OtauPortDto = trace.OtauPort,
-                    BaseRefs = listOfBaseRef,
-                };
-
-                var saveResult = await _baseRefsRepositoryIntermediary.AssignBaseRefAsync(dto);
-                if (saveResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
-                    return "Can't save amended reflectogram";
-
-                if (dto.OtauPortDto == null) // unattached trace
-                    return null;
-
-                await _clientToRtuTransmitter.AssignBaseRefAsync(dto);
-            }
+//            foreach (var trace in traces)
+//            {
+//                var listOfBaseRef = await _baseRefsRepositoryIntermediary.GetTraceBaseRefsAsync(trace.Id);
+//                if (listOfBaseRef == null)
+//                    return $"Can't get base refs for trace {trace.Id}";
+//
+//                foreach (var baseRefDto in listOfBaseRef)
+//                {
+//                    baseRefDto.SorBytes = _baseRefRepairman.Modify(trace, baseRefDto.SorBytes);
+//                }
+//
+//                var dto = new AssignBaseRefsDto()
+//                {
+//                    TraceId = trace.Id,
+//                    RtuId = trace.RtuId,
+//                    OtauPortDto = trace.OtauPort,
+//                    BaseRefs = listOfBaseRef,
+//                };
+//
+//                var saveResult = await _baseRefsRepositoryIntermediary.AssignBaseRefAsync(dto);
+//                if (saveResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
+//                    return "Can't save amended reflectogram";
+//
+//                if (dto.OtauPortDto == null) // unattached trace
+//                    return null;
+//
+//                await _clientToRtuTransmitter.AssignBaseRefAsync(dto);
+//            }
 
             return null;
         }

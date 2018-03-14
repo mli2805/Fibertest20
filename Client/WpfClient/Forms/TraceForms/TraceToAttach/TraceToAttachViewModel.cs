@@ -4,8 +4,6 @@ using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.Graph.Algorithms;
-using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WcfServiceForClientInterface;
 
@@ -16,7 +14,6 @@ namespace Iit.Fibertest.Client
         private readonly ReadModel _readModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly IWindowManager _windowManager;
-        private readonly AccidentsExtractorFromSor _accidentsExtractorFromSor;
         private OtauPortDto _otauPortDto;
         private Trace _selectedTrace;
 
@@ -34,12 +31,11 @@ namespace Iit.Fibertest.Client
         }
 
         public TraceToAttachViewModel(ReadModel readModel, IWcfServiceForClient c2DWcfManager,
-            IWindowManager windowManager, AccidentsExtractorFromSor accidentsExtractorFromSor)
+            IWindowManager windowManager)
         {
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
-            _accidentsExtractorFromSor = accidentsExtractorFromSor;
         }
 
         public void Initialize(Guid rtuId, OtauPortDto otauPortDto)
@@ -61,12 +57,31 @@ namespace Iit.Fibertest.Client
                 TraceId = _selectedTrace.Id,
                 RtuId = _selectedTrace.RtuId,
                 OtauPortDto = _otauPortDto,
+                BaseRefDtos = new List<BaseRefDto>(),
             };
-            var result = await _c2DWcfManager.ReSendBaseRefAsync(cmd);
-            if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
+            foreach (var baseRef in _readModel.BaseRefs.Where(b => b.TraceId == _selectedTrace.Id))
             {
-                _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Cannot_send_base_refs_to_RTU));
-                return;
+                cmd.BaseRefDtos.Add(new BaseRefDto()
+                {
+                    SorFileId = baseRef.SorFileId,
+
+                    Id = baseRef.TraceId,
+                    BaseRefType = baseRef.BaseRefType,
+                    Duration = baseRef.Duration,
+                    SaveTimestamp = baseRef.SaveTimestamp,
+                    UserName = baseRef.UserName,
+                });
+            }
+
+            if (cmd.BaseRefDtos.Any())
+            {
+                var result = await _c2DWcfManager.ReSendBaseRefAsync(cmd);
+                if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
+                {
+                    _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error,
+                        Resources.SID_Cannot_send_base_refs_to_RTU));
+                    return;
+                }
             }
 
             var command = new AttachTrace()
@@ -75,13 +90,13 @@ namespace Iit.Fibertest.Client
                 OtauPortDto = _otauPortDto,
             };
 
-            MeasurementWithSor measurementWithSor = await _c2DWcfManager.GetLastMeasurementForTrace(_selectedTrace.Id);
-            if (measurementWithSor != null && measurementWithSor.Measurement != null)
+            Measurement measurement =  _readModel.Measurements.LastOrDefault(m=>m.TraceId == _selectedTrace.Id);
+            if (measurement != null)
             {
-                command.PreviousTraceState = measurementWithSor.Measurement.TraceState;
-                if (measurementWithSor.Measurement.TraceState != FiberState.Ok &&
-                    measurementWithSor.Measurement.TraceState != FiberState.NoFiber)
-                    command.AccidentsInLastMeasurement = _accidentsExtractorFromSor.GetAccidents(SorData.FromBytes(measurementWithSor.SorBytes), false);
+                command.PreviousTraceState = measurement.TraceState;
+                if (measurement.TraceState != FiberState.Ok &&
+                    measurement.TraceState != FiberState.NoFiber)
+                    command.AccidentsInLastMeasurement = measurement.Accidents;
             }
             else
             { // trace has no measurements so far 

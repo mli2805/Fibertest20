@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ServiceModel;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
@@ -23,35 +22,8 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
 
         // C2Database
         [OperationContract]
-        Task<MeasurementsList> GetOpticalEvents();
-
-        [OperationContract]
-        Task<NetworkEventsList> GetNetworkEvents();
-
-        [OperationContract]
-        Task<BopNetworkEventsList> GetBopNetworkEvents();
-
-        [OperationContract]
-        Task<TraceStatistics> GetTraceStatistics(Guid traceId);
-
-        [OperationContract]
-        Task<byte[]> GetSorBytesOfBase(Guid baseRefId);
-
-        [OperationContract]
         Task<byte[]> GetSorBytes(int sorFileId);
-
-        [OperationContract]
-        Task<byte[]> GetSorBytesOfLastTraceMeasurement(Guid traceId);
-
-        [OperationContract]
-        Task<MeasurementWithSor> GetLastMeasurementForTrace(Guid traceId);
-
-        [OperationContract]
-        Task<MeasurementUpdatedDto> SaveMeasurementChanges(UpdateMeasurementDto dto);
-
-        [OperationContract]
-        Task<List<BaseRefDto>> GetTraceBaseRefsAsync(Guid traceId);
-
+      
         // C2D
         [OperationContract]
         Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto);

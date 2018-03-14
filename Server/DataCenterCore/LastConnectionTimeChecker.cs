@@ -4,8 +4,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.DataCenterCore
 {
@@ -13,26 +13,21 @@ namespace Iit.Fibertest.DataCenterCore
     {
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
+        private readonly EventStoreService _eventStoreService;
         private readonly ClientStationsRepository _clientStationsRepository;
         private readonly RtuStationsRepository _rtuStationsRepository;
-        private readonly NetworkEventsRepository _networkEventsRepository;
-        private readonly D2CWcfManager _d2CWcfManager;
         private TimeSpan _checkHeartbeatEvery;
         private TimeSpan _rtuHeartbeatPermittedGap;
         private TimeSpan _clientHeartbeatPermittedGap;
 
-        public LastConnectionTimeChecker(IniFile iniFile, IMyLog logFile,
-            ClientStationsRepository clientStationsRepository,
-            RtuStationsRepository rtuStationsRepository,
-            NetworkEventsRepository networkEventsRepository,
-            D2CWcfManager d2CWcfManager)
+        public LastConnectionTimeChecker(IniFile iniFile, IMyLog logFile, EventStoreService eventStoreService,
+            ClientStationsRepository clientStationsRepository, RtuStationsRepository rtuStationsRepository)
         {
             _iniFile = iniFile;
             _logFile = logFile;
+            _eventStoreService = eventStoreService;
             _clientStationsRepository = clientStationsRepository;
             _rtuStationsRepository = rtuStationsRepository;
-            _networkEventsRepository = networkEventsRepository;
-            _d2CWcfManager = d2CWcfManager;
         }
 
         public void Start()
@@ -63,22 +58,24 @@ namespace Iit.Fibertest.DataCenterCore
             if (networkEvents.Count == 0)
                 return 0;
 
-            await _networkEventsRepository.SaveNetworkEventAsync(networkEvents);
-            await NotifyAboutNetworkEvents(networkEvents);
+            foreach (var networkEvent in networkEvents)
+            {
+                var command = new AddNetworkEvent()
+                {
+                    NetworkEventId = networkEvent.NetworkEventId,
+                    RtuId = networkEvent.RtuId,
+                    EventTimestamp = DateTime.Now,
+                    MainChannelState = networkEvent.MainChannelState,
+                    ReserveChannelState = networkEvent.ReserveChannelState,
+                };
+                await _eventStoreService.SendCommand(command, "system", "OnServer");
+            }
+        
             return 0;
         }
 
 
-        private async Task<int> NotifyAboutNetworkEvents(List<NetworkEvent> networkEvents)
-        {
-            var addresses = await _clientStationsRepository.GetClientsAddresses();
-            if (addresses == null)
-                return 0;
-            _d2CWcfManager.SetClientsAddresses(addresses);
-            return await _d2CWcfManager.NotifyAboutNetworkEvents(networkEvents);
-        }
-
-        public async Task<List<NetworkEvent>> GetNewNetworkEvents(TimeSpan rtuHeartbeatPermittedGap)
+        private async Task<List<NetworkEvent>> GetNewNetworkEvents(TimeSpan rtuHeartbeatPermittedGap)
         {
             DateTime noLaterThan = DateTime.Now - rtuHeartbeatPermittedGap;
             var stations = await _rtuStationsRepository.GetAllRtuStations();

@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.Graph.Algorithms;
-using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
@@ -13,19 +11,17 @@ namespace Iit.Fibertest.Client
     {
         private readonly ReadModel _readModel;
         private readonly AccidentLineModelFactory _accidentLineModelFactory;
-        private readonly AccidentsExtractorFromSor _accidentsExtractorFromSor;
 
-        public TraceStateModelFactory(ReadModel readModel, AccidentLineModelFactory accidentLineModelFactory, AccidentsExtractorFromSor accidentsExtractorFromSor)
+        public TraceStateModelFactory(ReadModel readModel, AccidentLineModelFactory accidentLineModelFactory)
         {
             _readModel = readModel;
             _accidentLineModelFactory = accidentLineModelFactory;
-            _accidentsExtractorFromSor = accidentsExtractorFromSor;
         }
 
         // TraceLeaf
         // Trace statistics
         // Monitoring result notification
-        public TraceStateModel CreateModel(Measurement measurement, byte[] sorBytes)
+        public TraceStateModel CreateModel(Measurement measurement)
         {
             var model = new TraceStateModel
             {
@@ -36,10 +32,10 @@ namespace Iit.Fibertest.Client
                 MeasurementTimestamp = measurement.MeasurementTimestamp,
                 SorFileId = measurement.SorFileId,
                 EventStatus = measurement.EventStatus,
-                Comment = measurement.Comment
+                Comment = measurement.Comment,
             };
             if (model.TraceState != FiberState.Ok)
-                model.Accidents = PrepareAccidents(sorBytes, measurement.TraceId);
+                model.Accidents = PrepareAccidents(measurement.Accidents);
             return model;
         }
 
@@ -57,25 +53,18 @@ namespace Iit.Fibertest.Client
                 EventStatus = opticalEventModel.EventStatus,
                 Comment = opticalEventModel.Comment
             };
-            if (model.TraceState != FiberState.Ok && model.TraceState != FiberState.NoFiber)
-                model.Accidents = PrepareAccidents(sorBytes, opticalEventModel.TraceId);
+//            if (model.TraceState != FiberState.Ok && model.TraceState != FiberState.NoFiber)
+//                model.Accidents = PrepareAccidents(sorBytes, opticalEventModel.TraceId);
             return model;
         }
 
-        private List<AccidentLineModel> PrepareAccidents(byte[] sorBytes, Guid traceId)
+        private List<AccidentLineModel> PrepareAccidents(List<AccidentOnTrace> accidents)
         {
-            if (sorBytes == null) return null;
-            var sorData = SorData.FromBytes(sorBytes);
-
-            var accidents = _accidentsExtractorFromSor.GetAccidents(sorData, false);
-
             var lines = new List<AccidentLineModel>();
             for (var i = 0; i < accidents.Count; i++)
             {
-                accidents[i].TraceId = traceId;
                 lines.Add(_accidentLineModelFactory.Create(accidents[i], i+1));
             }
-
             return lines;
         }
 

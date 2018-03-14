@@ -1,33 +1,35 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Data;
 using Caliburn.Micro;
-using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
-using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
 {
+    public class TraceStatistics
+    {
+        public List<Measurement> Measurements { get; set; }
+
+        public List<BaseRefModel> BaseRefs { get; set; }
+    }
+
     public class TraceStatisticsViewModel : Screen
     {
-        private readonly IMyLog _logFile;
         private readonly ReadModel _readModel;
-        private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly ReflectogramManager _reflectogramManager;
-        private readonly TraceStateViewsManager _traceStateViewsManager;
+        private readonly BaseRefModelFactory _baseRefModelFactory;
         public bool IsOpen { get; private set; }
 
         public string TraceTitle { get; set; }
         public string RtuTitle { get; set; }
         public string PortNumber { get; set; }
 
-        private BaseRefForStats _selectedBaseRef;
-        public BaseRefForStats SelectedBaseRef
+        private BaseRefModel _selectedBaseRef;
+        public BaseRefModel SelectedBaseRef
         {
             get { return _selectedBaseRef; }
             set
@@ -38,7 +40,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public ObservableCollection<BaseRefForStats> BaseRefs { get; set; } = new ObservableCollection<BaseRefForStats>();
+        public ObservableCollection<BaseRefModel> BaseRefs { get; set; } = new ObservableCollection<BaseRefModel>();
 
         public ObservableCollection<MeasurementModel> Rows { get; set; } = new ObservableCollection<MeasurementModel>();
 
@@ -54,20 +56,17 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public TraceStatisticsViewModel(IMyLog logFile, ReadModel readModel, IWcfServiceForClient c2DWcfManager,
-            ReflectogramManager reflectogramManager, TraceStateViewsManager traceStateViewsManager)
+        public TraceStatisticsViewModel(ReadModel readModel, ReflectogramManager reflectogramManager, BaseRefModelFactory baseRefModelFactory)
         {
-            _logFile = logFile;
             _readModel = readModel;
-            _c2DWcfManager = c2DWcfManager;
             _reflectogramManager = reflectogramManager;
-            _traceStateViewsManager = traceStateViewsManager;
+            _baseRefModelFactory = baseRefModelFactory;
 
             var view = CollectionViewSource.GetDefaultView(Rows);
             view.SortDescriptions.Add(new SortDescription(@"Measurement.SorFileId", ListSortDirection.Descending));
         }
 
-        public async Task Initialize(Guid traceId)
+        public void Initialize(Guid traceId)
         {
             var trace = _readModel.Traces.FirstOrDefault(t => t.Id == traceId);
             if (trace == null)
@@ -78,19 +77,14 @@ namespace Iit.Fibertest.Client
                 ? trace.OtauPort.OpticalPort.ToString()
                 : $@"{trace.OtauPort.OtauIp}:{trace.OtauPort.OtauTcpPort}-{trace.OtauPort.OpticalPort}";
 
-            var traceStatistics = await _c2DWcfManager.GetTraceStatistics(traceId);
-            if (traceStatistics == null)
-                return;
-            _logFile.AppendLine($@"There {traceStatistics.BaseRefs.Count} base refs and {traceStatistics.Measurements.Count} measurements");
-
             BaseRefs.Clear();
-            foreach (var baseRef in traceStatistics.BaseRefs)
+            foreach (var baseRef in _readModel.BaseRefs.Where(b => b.TraceId == traceId))
             {
-                BaseRefs.Add(baseRef);   
+                BaseRefs.Add(_baseRefModelFactory.Create(baseRef));   
             }
 
             Rows.Clear();
-            foreach (var measurement in traceStatistics.Measurements)
+            foreach (var measurement in _readModel.Measurements.Where(m=>m.TraceId == traceId).OrderBy(t=>t.MeasurementTimestamp))
                 Rows.Add(new MeasurementModel(measurement));
         }
 
@@ -124,14 +118,14 @@ namespace Iit.Fibertest.Client
         {
             // do not use localized base ref type!
             _reflectogramManager.SetTempFileName(TraceTitle, SelectedBaseRef.BaseRefType.ToString(), SelectedBaseRef.AssignedAt);
-            _reflectogramManager.ShowBaseReflectogram(SelectedBaseRef.BaseRefId);
+            _reflectogramManager.ShowBaseReflectogram(SelectedBaseRef.SorFileId);
         }
 
         public void SaveBaseReflectogramAs()
         {
             // do not use localized base ref type!
             _reflectogramManager.SetTempFileName(TraceTitle, SelectedBaseRef.BaseRefType.ToString(), SelectedBaseRef.AssignedAt);
-            _reflectogramManager.SaveBaseReflectogramAs(SelectedBaseRef.BaseRefId);
+            _reflectogramManager.SaveBaseReflectogramAs(SelectedBaseRef.SorFileId);
         }
 
         public void ShowRftsEvents()
@@ -141,8 +135,8 @@ namespace Iit.Fibertest.Client
 
         public void ShowTraceState()
         {                 
-            var lastRow = Rows.First(); // click on the Row , so Rows collection couldn't be empty
-            _traceStateViewsManager.ShowTraceState(SelectedRow.Measurement, lastRow.Measurement.Id == SelectedRow.Measurement.Id);
+     //       var lastRow = Rows.First(); // click on the Row , so Rows collection couldn't be empty
+     //       _traceStateViewsManager.ShowTraceState(SelectedRow.Measurement, lastRow.Measurement.Id == SelectedRow.Measurement.Id);
         }
 
         public override void CanClose(Action<bool> callback)

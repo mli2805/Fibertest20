@@ -73,14 +73,8 @@ namespace Graph.Tests
             builder.RegisterType<ClientStationsRepository>().SingleInstance();
             builder.RegisterType<RtuStationsRepository>().SingleInstance();
             builder.RegisterType<ClientToRtuTransmitter>().SingleInstance();
-            builder.RegisterType<BaseRefsRepository>().SingleInstance();
-            builder.RegisterType<BaseRefsRepositoryIntermediary>().SingleInstance();
             builder.RegisterType<BaseRefRepairmanIntermediary>().SingleInstance();
-            builder.RegisterType<MeasurementChangerIntermediary>().SingleInstance();
-            builder.RegisterType<MeasurementsRepository>().SingleInstance();
-            builder.RegisterType<NetworkEventsRepository>().SingleInstance();
-            builder.RegisterType<BopNetworkEventsRepository>().SingleInstance();
-            builder.RegisterType<GraphPostProcessingRepository>().SingleInstance();
+            builder.RegisterType<SorFileRepository>().SingleInstance();
             builder.RegisterType<WcfServiceForClient>().As<IWcfServiceForClient>().SingleInstance();
             builder.RegisterType<D2CWcfManager>().SingleInstance();
 

@@ -1,10 +1,13 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
+using Iit.Fibertest.Dto;
 
-namespace Iit.Fibertest.Dto
+namespace Iit.Fibertest.Graph
 {
-    public class Measurement
+    public class AddMeasurement
     {
-        public int Id { get; set; }
+        public int SorFileId { get; set; }
+
         public DateTime MeasurementTimestamp { get; set; }
         public DateTime EventRegistrationTimestamp { get; set; }
         public Guid RtuId { get; set; }
@@ -17,7 +20,6 @@ namespace Iit.Fibertest.Dto
         public string StatusChangedByUser { get; set; }
 
         public string Comment { get; set; }
-
-        public int SorFileId { get; set; }
+        public List<AccidentOnTrace> Accidents { get; set; }
     }
 }

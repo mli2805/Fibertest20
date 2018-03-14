@@ -1,41 +1,32 @@
 ﻿using System;
+using System.Linq;
 using System.Messaging;
 using System.Threading.Tasks;
-using Autofac;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.Graph;
-using Iit.Fibertest.Graph.Algorithms;
-using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.DataCenterCore
 {
     public class MsmqHandler
     {
-        private readonly ILifetimeScope _globalScope;
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
-        private readonly MonitoringResultsRepository _monitoringResultsRepository;
+        private readonly SorFileRepository _sorFileRepository;
+        private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly MeasurementFactory _measurementFactory;
-        private readonly ClientStationsRepository _clientStationsRepository;
         private readonly EventStoreService _eventStoreService;
-        private readonly D2CWcfManager _d2CWcfManager;
 
-        public MsmqHandler(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile,
-            MonitoringResultsRepository monitoringResultsRepository, MeasurementFactory measurementFactory,
-            ClientStationsRepository clientStationsRepository, EventStoreService eventStoreService,
-            D2CWcfManager d2CWcfManager)
+        public MsmqHandler(IniFile iniFile, IMyLog logFile,
+            SorFileRepository sorFileRepository, RtuStationsRepository rtuStationsRepository, MeasurementFactory measurementFactory,
+            EventStoreService eventStoreService)
         {
-            _globalScope = globalScope;
             _iniFile = iniFile;
             _logFile = logFile;
-            _monitoringResultsRepository = monitoringResultsRepository;
+            _sorFileRepository = sorFileRepository;
+            _rtuStationsRepository = rtuStationsRepository;
             _measurementFactory = measurementFactory;
-            _clientStationsRepository = clientStationsRepository;
             _eventStoreService = eventStoreService;
-            _d2CWcfManager = d2CWcfManager;
         }
 
         public void Start()
@@ -89,47 +80,28 @@ namespace Iit.Fibertest.DataCenterCore
             if (!(message.Body is MonitoringResultDto monitoringResultDto))
                 return -1;
 
-            _logFile.AppendLine($@"MSMQ message, measure time: {monitoringResultDto.TimeStamp}, RTU {monitoringResultDto.RtuId.First6()}, Trace {monitoringResultDto.PortWithTrace.TraceId.First6()} - {monitoringResultDto.TraceState} ({monitoringResultDto.BaseRefType})");
-            var measurementWithSor = await _monitoringResultsRepository.
-                SaveMonitoringResultAsync(monitoringResultDto.SorData, _measurementFactory.Create(monitoringResultDto));
-
-            if (measurementWithSor != null)
+            var rtus = await _rtuStationsRepository.GetAllRtuStations();
+            if (rtus.FirstOrDefault(r => r.RtuGuid == monitoringResultDto.RtuId) == null)
             {
-
-                await SendMoniresultToClients(measurementWithSor);
-
-                // TODO snmp, email, sms
-                if (measurementWithSor.Measurement.EventStatus > EventStatus.JustMeasurementNotAnEvent)
-                {
-                    await PlaceOpticalEventIntoEventSourcing(measurementWithSor);
-                }
+                _logFile.AppendLine($"Unknown RTU {monitoringResultDto.RtuId.First6()}");
+                return -1;
             }
 
+            _logFile.AppendLine($@"MSMQ message, measure time: {monitoringResultDto.TimeStamp}, RTU {monitoringResultDto.RtuId.First6()}, Trace {monitoringResultDto.PortWithTrace.TraceId.First6()} - {monitoringResultDto.TraceState} ({monitoringResultDto.BaseRefType})");
+
+            var sorId = await _sorFileRepository.SaveSorBytesAsync(monitoringResultDto.SorBytes);
+            if (sorId == -1) return -1;
+
+            var command = _measurementFactory.CreateCommand(monitoringResultDto, sorId);
+            await _eventStoreService.SendCommand(command, "system", "OnServer");
+
+            // TODO snmp, email, sms
+            if (command.EventStatus > EventStatus.JustMeasurementNotAnEvent)
+            {
+
+            }
             return 0;
         }
 
-        private async Task<string> PlaceOpticalEventIntoEventSourcing(MeasurementWithSor measurementWithSor)
-        {
-            var sorData = SorData.FromBytes(measurementWithSor.SorBytes);
-            var accidents = _globalScope.Resolve<AccidentsExtractorFromSor>().GetAccidents(sorData, true);
-            accidents.ForEach(a => { a.TraceId = measurementWithSor.Measurement.TraceId;});
-
-            var cmd = new ShowMonitoringResult()
-            {
-                TraceId = measurementWithSor.Measurement.TraceId,
-                TraceState = measurementWithSor.Measurement.TraceState,
-                Accidents = accidents,
-            };
-            return await _eventStoreService.SendCommand(cmd, "system", "OnServer");
-        }
-
-        private async Task<int> SendMoniresultToClients(MeasurementWithSor measurementWithSor)
-        {
-            var addresses = await _clientStationsRepository.GetClientsAddresses();
-            if (addresses == null)
-                return 0;
-            _d2CWcfManager.SetClientsAddresses(addresses);
-            return await _d2CWcfManager.NotifyAboutMonitoringResult(measurementWithSor);
-        }
     }
 }

@@ -165,8 +165,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BusinessToRepositoryIntermediary\BaseRefRepairmanIntermediary.cs" />
-    <Compile Include="BusinessToRepositoryIntermediary\BaseRefsRepositoryIntermediary.cs" />
-    <Compile Include="BusinessToRepositoryIntermediary\MeasurementChangerIntermediary.cs" />
     <Compile Include="BusinessToRepositoryIntermediary\MeasurementFactory.cs" />
     <Compile Include="BusinessToRepositoryIntermediary\RtuStationFactory.cs" />
     <Compile Include="ClientToRtuTransmitter.cs" />

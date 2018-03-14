@@ -23,6 +23,6 @@ namespace Iit.Fibertest.Dto
         public FiberState TraceState { get; set; }
 
         [DataMember]
-        public byte[] SorData { get; set; }
+        public byte[] SorBytes { get; set; }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ServiceModel;
+﻿using System.ServiceModel;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 
@@ -13,15 +12,6 @@ namespace Iit.Fibertest.ClientWcfServiceInterface
         // Notifications
         [OperationContract]
         Task<int> NotifyUsersRtuCurrentMonitoringStep(CurrentMonitoringStepDto dto);
-
-        [OperationContract]
-        Task<int> NotifyUsersMeasurementUpdated(MeasurementUpdatedDto dto);
-
-        [OperationContract]
-        Task<int> NotifyAboutMonitoringResult(MeasurementWithSor dto);
-
-        [OperationContract]
-        Task<int> NotifyAboutNetworkEvents(List<NetworkEvent> dto);
 
         [OperationContract]
         Task<int> NotifyAboutMeasurementClientDone(ClientMeasurementDoneDto dto);
