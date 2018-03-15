@@ -36,20 +36,29 @@ namespace Iit.Fibertest.Client
             if (trace == null || !trace.IsAttached)
                 return;
 
-            ActualOpticalEventsViewModel.RemovePreviousEventForTraceIfExists(measurement.TraceId);
-
             AllOpticalEventsViewModel.AddEvent(measurement);
 
-            if (measurement.TraceState == FiberState.Ok)
-                return;
-
-            ActualOpticalEventsViewModel.AddEvent(measurement);
+            ActualOpticalEventsViewModel.RemovePreviousEventForTraceIfExists(measurement.TraceId);
+            if (measurement.TraceState != FiberState.Ok)
+                ActualOpticalEventsViewModel.AddEvent(measurement);
         }
 
         public void UpdateMeasurement(MeasurementUpdated evnt)
         {
             ActualOpticalEventsViewModel.UpdateEvent(evnt);
             AllOpticalEventsViewModel.UpdateEvent(evnt);
+        }
+
+        public void AttachTrace(TraceAttached evnt)
+        {
+            var lastMeasurementOnThisTrace = _readModel.Measurements.LastOrDefault(m => m.TraceId == evnt.TraceId);
+            if (lastMeasurementOnThisTrace != null && lastMeasurementOnThisTrace.TraceState != FiberState.Ok)
+                ActualOpticalEventsViewModel.AddEvent(lastMeasurementOnThisTrace);
+        }
+
+        public void DetachTrace(TraceDetached evnt)
+        {
+            ActualOpticalEventsViewModel.RemovePreviousEventForTraceIfExists(evnt.TraceId);
         }
 
         public void CleanTrace(TraceCleaned evnt)

@@ -109,6 +109,8 @@ namespace Iit.Fibertest.Graph
             trace.OtauPort = null;
             trace.IsIncludedInMonitoringCycle = false;
             trace.State = FiberState.NotJoined;
+
+            _model.CleanAccidentPlacesOnTrace(trace.Id);
             return null;
         }
     }

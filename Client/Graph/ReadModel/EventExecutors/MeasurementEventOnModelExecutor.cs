@@ -32,7 +32,7 @@ namespace Iit.Fibertest.Graph
             foreach (var fiber in _model.GetTraceFibers(trace))
                 fiber.SetState(trace.Id, trace.State);
 
-            CleanAccidentPlacesOnTrace(trace.Id);
+            _model.CleanAccidentPlacesOnTrace(trace.Id);
 
             if (e.TraceState != FiberState.Ok && e.TraceState != FiberState.NoFiber)
                 e.Accidents.ForEach(a => ShowAccidentPlaceOnTrace(a, e.TraceId));
@@ -103,21 +103,7 @@ namespace Iit.Fibertest.Graph
             }
         }
 
-        private void CleanAccidentPlacesOnTrace(Guid traceId)
-        {
-            var nodes = _model.Nodes.Where(n => n.AccidentOnTraceId == traceId).ToList();
-            foreach (var node in nodes)
-            {
-                _model.Nodes.Remove(node);
-            }
-
-            foreach (var fiber in _model.Fibers)
-            {
-                fiber.CleanBadSegment(traceId);
-            }
-        }
-
-
+      
         private Node GetNodeByLandmarkIndex(Guid traceId, int lmIndex)
         {
             var nodesWithoutAdjustmentPoints = _model.GetTraceNodesExcludingAdjustmentPoints(traceId).ToList();
@@ -146,5 +132,24 @@ namespace Iit.Fibertest.Graph
             }
 
         }
+    }
+
+    public static class ModelAccidentExt
+    {
+        public static void CleanAccidentPlacesOnTrace(this IModel model, Guid traceId)
+        {
+            var nodes = model.Nodes.Where(n => n.AccidentOnTraceId == traceId).ToList();
+            foreach (var node in nodes)
+            {
+                model.Nodes.Remove(node);
+            }
+
+            foreach (var fiber in model.Fibers)
+            {
+                fiber.CleanBadSegment(traceId);
+            }
+        }
+
+
     }
 }
