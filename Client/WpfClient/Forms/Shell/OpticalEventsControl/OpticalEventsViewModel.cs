@@ -157,6 +157,7 @@ namespace Iit.Fibertest.Client
                     : "",
 
                 Comment = measurement.Comment,
+                Accidents = measurement.Accidents,
                 SorFileId = measurement.SorFileId,
             });
         }

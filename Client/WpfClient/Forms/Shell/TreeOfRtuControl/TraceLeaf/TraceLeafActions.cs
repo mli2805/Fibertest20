@@ -127,15 +127,10 @@ namespace Iit.Fibertest.Client
 
             if (vm.IsAnswerPositive)
             {
-                //                using (new WaitCursor())
-                //                {
                 _commonStatusBarViewModel.StatusBarMessage2 = Resources.SID_Long_operation__Removing_trace_s_measurements____Please_wait_;
                 var cmd = isRemoval ? new RemoveTrace() { Id = traceId } : (object)new CleanTrace() { Id = traceId };
                 var result = await _c2DWcfManager.SendCommandAsObj(cmd);
                 _commonStatusBarViewModel.StatusBarMessage2 = result ?? "";
-                //                }
-
-                _opticalEventsDoubleViewModel.RemoveEventsOfTrace(traceId);
             }
         }
 

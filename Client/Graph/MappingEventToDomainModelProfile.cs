@@ -34,6 +34,7 @@ namespace Iit.Fibertest.Graph
             CreateMap<UserUpdated, User>();
 
             CreateMap<MeasurementAdded, Measurement>();
+            CreateMap<MeasurementUpdated, Measurement>();
             CreateMap<NetworkEventAdded, NetworkEvent>();
             CreateMap<BopNetworkEventAdded, BopNetworkEvent>();
         }

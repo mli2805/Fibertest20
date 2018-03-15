@@ -44,14 +44,19 @@ namespace Iit.Fibertest.Client
             LaunchedViews.Add(traceId, vm);
         }
 
-        public void AddNewMeasurement(Measurement measurement)
+        public void AddMeasurement(MeasurementAdded evnt)
         {
             ClearClosedViews();
-            var traceId = measurement.TraceId;
+            var traceId = evnt.TraceId;
 
             TraceStatisticsViewModel vm;
             if (LaunchedViews.TryGetValue(traceId, out vm))
-                vm.AddNewMeasurement(measurement);
+                vm.AddNewMeasurement();
+        }
+
+        public void UpdateMeasurement(MeasurementUpdated evnt)
+        {
+
         }
 
     }

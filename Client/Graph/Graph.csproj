@@ -118,12 +118,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithms\AccidentPlaceLocator.cs" />
     <Compile Include="Algorithms\RftsLevelTypeExt.cs" />
     <Compile Include="Algorithms\AccidentsExtractorFromSor.cs" />
     <Compile Include="Algorithms\SorDataExt.cs" />
     <Compile Include="Algorithms\ToolKit\BaseRefAdjuster.cs" />
+    <Compile Include="Algorithms\ToolKit\BaseRefDtoFactory.cs" />
     <Compile Include="Algorithms\ToolKit\BaseRefLandmarksTool.cs" />
-    <Compile Include="Algorithms\ToolKit\BaseRefRepairman.cs" />
     <Compile Include="Algorithms\ToolKit\TraceModelBuilder.cs" />
     <Compile Include="Algorithms\ToolKit\TraceModelForBaseRef.cs" />
     <Compile Include="Commands\Equipment\AddEquipmentAtGpsLocationWithNodeTitle.cs" />
@@ -241,6 +242,7 @@
     <Compile Include="ReadModel\EventExecutors\EquipmentEventsOnModelExecutor.cs" />
     <Compile Include="ReadModel\EventExecutors\EventsOnModelExecutor.cs" />
     <Compile Include="ReadModel\EventExecutors\FiberEventsOnModelExecutor.cs" />
+    <Compile Include="ReadModel\EventExecutors\MeasurementEventOnModelExecutor.cs" />
     <Compile Include="ReadModel\GpsCalculator.cs" />
     <Compile Include="ReadModel\GraphGpsCalculator.cs" />
     <Compile Include="ReadModel\IModel.cs" />

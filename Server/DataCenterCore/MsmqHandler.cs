@@ -87,9 +87,9 @@ namespace Iit.Fibertest.DataCenterCore
                 return -1;
             }
 
-            _logFile.AppendLine($@"MSMQ message, measure time: {monitoringResultDto.TimeStamp}, RTU {monitoringResultDto.RtuId.First6()}, Trace {monitoringResultDto.PortWithTrace.TraceId.First6()} - {monitoringResultDto.TraceState} ({monitoringResultDto.BaseRefType})");
+            _logFile.AppendLine($@"MSMQ message, measure time: {monitoringResultDto.TimeStamp:dd-MM-yyyy hh:mm:ss}, RTU {monitoringResultDto.RtuId.First6()}, Trace {monitoringResultDto.PortWithTrace.TraceId.First6()} - {monitoringResultDto.TraceState} ({monitoringResultDto.BaseRefType})");
 
-            var sorId = await _sorFileRepository.SaveSorBytesAsync(monitoringResultDto.SorBytes);
+            var sorId = await _sorFileRepository.AddSorBytesAsync(monitoringResultDto.SorBytes);
             if (sorId == -1) return -1;
 
             var command = _measurementFactory.CreateCommand(monitoringResultDto, sorId);

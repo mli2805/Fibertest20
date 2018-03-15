@@ -184,7 +184,7 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 var sorFileId = 0;
                 if (baseRefDto.Id != Guid.Empty)  
-                    sorFileId = await _sorFileRepository.SaveSorBytesAsync(baseRefDto.SorBytes);
+                    sorFileId = await _sorFileRepository.AddSorBytesAsync(baseRefDto.SorBytes);
 
                 var baseRef = new BaseRef()
                 {

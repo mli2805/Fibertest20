@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Media;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -41,7 +42,7 @@ namespace Iit.Fibertest.Client
         public string StatusChangedByUser { get; set; }
         public string Comment { get; set; }
 
-
+        public List<AccidentOnTrace> Accidents { get; set; }
         public int SorFileId { get; set; }
 
         private Brush GetBrush()

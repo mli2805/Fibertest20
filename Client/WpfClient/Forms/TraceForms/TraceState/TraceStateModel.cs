@@ -47,8 +47,6 @@ namespace Iit.Fibertest.Client
         public List<AccidentLineModel> Accidents { get; set; } = new List<AccidentLineModel>();
 
        
-        public string SelectedAccidentGpsCoordinates { get; set; }
-
         public Visibility AccidentsPanelVisibility
             => TraceState == FiberState.Ok || TraceState == FiberState.NoFiber ? Visibility.Collapsed : Visibility.Visible;
 

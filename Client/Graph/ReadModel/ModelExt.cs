@@ -36,7 +36,7 @@ namespace Iit.Fibertest.Graph
                 yield return GetFiberByNodes(model, nodes[i - 1], nodes[i]);
         }
 
-        private static Guid GetFiberByNodes(this IModel model, Guid node1, Guid node2)
+        public static Guid GetFiberByNodes(this IModel model, Guid node1, Guid node2)
         {
             return model.Fibers.First(
                 f => f.Node1 == node1 && f.Node2 == node2 ||

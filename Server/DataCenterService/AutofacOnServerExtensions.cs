@@ -39,7 +39,7 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<GraphGpsCalculator>().SingleInstance();
             builder.RegisterType<TraceModelBuilder>().SingleInstance();
             builder.RegisterType<BaseRefLandmarksTool>().SingleInstance();
-            builder.RegisterType<BaseRefRepairman>().SingleInstance();
+            builder.RegisterType<BaseRefDtoFactory>();
             builder.RegisterType<BaseRefRepairmanIntermediary>().SingleInstance();
 
             builder.RegisterType<SorFileRepository>().SingleInstance();

@@ -2,22 +2,33 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Iit.Fibertest.DatabaseLibrary;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Algorithms;
+using Iit.Fibertest.IitOtdrLibrary;
 
 namespace Iit.Fibertest.DataCenterCore
 {
     public class BaseRefRepairmanIntermediary
     {
         private readonly WriteModel _writeModel;
-        private readonly BaseRefRepairman _baseRefRepairman;
+        private readonly SorFileRepository _sorFileRepository;
+        private readonly BaseRefDtoFactory _baseRefDtoFactory;
+        private readonly TraceModelBuilder _traceModelBuilder;
+        private readonly BaseRefLandmarksTool _baseRefLandmarksTool;
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
 
-        public BaseRefRepairmanIntermediary(WriteModel writeModel, BaseRefRepairman baseRefRepairman,
-             ClientToRtuTransmitter clientToRtuTransmitter)
+        public BaseRefRepairmanIntermediary(WriteModel writeModel, 
+            SorFileRepository sorFileRepository, BaseRefDtoFactory baseRefDtoFactory,
+            TraceModelBuilder traceModelBuilder, BaseRefLandmarksTool baseRefLandmarksTool,
+            ClientToRtuTransmitter clientToRtuTransmitter)
         {
             _writeModel = writeModel;
-            _baseRefRepairman = baseRefRepairman;
+            _sorFileRepository = sorFileRepository;
+            _baseRefDtoFactory = baseRefDtoFactory;
+            _traceModelBuilder = traceModelBuilder;
+            _baseRefLandmarksTool = baseRefLandmarksTool;
             _clientToRtuTransmitter = clientToRtuTransmitter;
         }
 
@@ -67,36 +78,71 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task<string> AmendBaseRefs(List<Trace> traces)
         {
-//            foreach (var trace in traces)
-//            {
-//                var listOfBaseRef = await _baseRefsRepositoryIntermediary.GetTraceBaseRefsAsync(trace.Id);
-//                if (listOfBaseRef == null)
-//                    return $"Can't get base refs for trace {trace.Id}";
-//
-//                foreach (var baseRefDto in listOfBaseRef)
-//                {
-//                    baseRefDto.SorBytes = _baseRefRepairman.Modify(trace, baseRefDto.SorBytes);
-//                }
-//
-//                var dto = new AssignBaseRefsDto()
-//                {
-//                    TraceId = trace.Id,
-//                    RtuId = trace.RtuId,
-//                    OtauPortDto = trace.OtauPort,
-//                    BaseRefs = listOfBaseRef,
-//                };
-//
-//                var saveResult = await _baseRefsRepositoryIntermediary.AssignBaseRefAsync(dto);
-//                if (saveResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
-//                    return "Can't save amended reflectogram";
-//
-//                if (dto.OtauPortDto == null) // unattached trace
-//                    return null;
-//
-//                await _clientToRtuTransmitter.AssignBaseRefAsync(dto);
-//            }
+            foreach (var trace in traces)
+            {
+                var listOfBaseRef = await GetBaseRefDtos(trace);
+
+                if (!listOfBaseRef.Any())
+                    return $"Can't get base refs for trace {trace.Id}";
+
+                foreach (var baseRefDto in listOfBaseRef)
+                {
+                    Modify(trace, baseRefDto);
+                    if (await _sorFileRepository.UpdateSorBytesAsync(baseRefDto.SorFileId, baseRefDto.SorBytes) == -1)
+                        return "Can't save amended reflectogram";
+                }
+
+                if (trace.OtauPort == null) // unattached trace
+                    return null;
+
+                var result = await SendAmendedBaseRefsToRtu(trace, listOfBaseRef);
+                if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
+                    return result.ExceptionMessage;
+            }
 
             return null;
+        }
+
+        private async Task<List<BaseRefDto>> GetBaseRefDtos(Trace trace)
+        {
+            var list = new List<BaseRef>
+            {
+                _writeModel.BaseRefs.FirstOrDefault(b => b.Id == trace.PreciseId),
+                _writeModel.BaseRefs.FirstOrDefault(b => b.Id == trace.FastId),
+                _writeModel.BaseRefs.FirstOrDefault(b => b.Id == trace.AdditionalId)
+            };
+
+            var listOfBaseRef = new List<BaseRefDto>();
+
+            foreach (var baseRef in list)
+            {
+                if (baseRef == null) continue;
+                var sorBytes = await _sorFileRepository.GetSorBytesAsync(baseRef.SorFileId);
+                listOfBaseRef.Add(_baseRefDtoFactory.CreateFromBaseRef(baseRef, sorBytes));
+            }
+
+            return listOfBaseRef;
+        }
+
+        private void Modify(Trace trace, BaseRefDto baseRefDto)
+        {
+            var traceModel = _writeModel.GetTraceComponentsByIds(trace);
+            var modelWithDistances = _traceModelBuilder.GetTraceModelWithoutAdjustmentPoints(traceModel);
+            var sorData = SorData.FromBytes(baseRefDto.SorBytes);
+            _baseRefLandmarksTool.SetLandmarksLocation(sorData, modelWithDistances);
+            baseRefDto.SorBytes = sorData.ToBytes();
+        }
+
+        private async Task<BaseRefAssignedDto> SendAmendedBaseRefsToRtu(Trace trace, List<BaseRefDto> baseRefDtos)
+        {
+            var dto = new AssignBaseRefsDto()
+            {
+                TraceId = trace.Id,
+                RtuId = trace.RtuId,
+                OtauPortDto = trace.OtauPort,
+                BaseRefs = baseRefDtos,
+            };
+            return await _clientToRtuTransmitter.AssignBaseRefAsync(dto);
         }
     }
 }

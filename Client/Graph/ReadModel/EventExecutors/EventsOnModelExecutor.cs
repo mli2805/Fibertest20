@@ -10,11 +10,13 @@
         private readonly UserEventsOnModelExecutor _userEventsOnModelExecutor;
         private readonly ZoneEventsOnModelExecutor _zoneEventsOnModelExecutor;
         private readonly EchoEventsOnModelExecutor _echoEventsOnModelExecutor;
+        private readonly MeasurementEventOnModelExecutor _measurementEventOnModelExecutor;
 
         public EventsOnModelExecutor(EquipmentEventsOnModelExecutor equipmentEventsOnModelExecutor, NodeEventsOnModelExecutor nodeEventsOnModelExecutor,
             FiberEventsOnModelExecutor fiberEventsOnModelExecutor, TraceEventsOnModelExecutor traceEventsOnModelExecutor,
             RtuEventsOnModelExecutor rtuEventsOnModelExecutor, UserEventsOnModelExecutor userEventsOnModelExecutor,
-            ZoneEventsOnModelExecutor zoneEventsOnModelExecutor, EchoEventsOnModelExecutor echoEventsOnModelExecutor)
+            ZoneEventsOnModelExecutor zoneEventsOnModelExecutor, EchoEventsOnModelExecutor echoEventsOnModelExecutor,
+            MeasurementEventOnModelExecutor measurementEventOnModelExecutor)
         {
             _equipmentEventsOnModelExecutor = equipmentEventsOnModelExecutor;
             _nodeEventsOnModelExecutor = nodeEventsOnModelExecutor;
@@ -24,6 +26,7 @@
             _userEventsOnModelExecutor = userEventsOnModelExecutor;
             _zoneEventsOnModelExecutor = zoneEventsOnModelExecutor;
             _echoEventsOnModelExecutor = echoEventsOnModelExecutor;
+            _measurementEventOnModelExecutor = measurementEventOnModelExecutor;
         }
 
         public string Apply(object e)
@@ -71,7 +74,9 @@
                 case MonitoringSettingsChanged evnt: return _echoEventsOnModelExecutor.ChangeMonitoringSettings(evnt); 
                 case MonitoringStarted evnt: return _echoEventsOnModelExecutor.StartMonitoring(evnt); 
                 case MonitoringStopped evnt: return _echoEventsOnModelExecutor.StopMonitoring(evnt); 
-                case MeasurementAdded evnt: return _echoEventsOnModelExecutor.ShowMonitoringResult(evnt); 
+
+                case MeasurementAdded evnt: return _measurementEventOnModelExecutor.ShowMonitoringResult(evnt); 
+                case MeasurementUpdated evnt: return _measurementEventOnModelExecutor.UpdateMeasurement(evnt); 
 
                 default: return @"Unknown event";
             }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using AutoMapper;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -29,7 +28,7 @@ namespace Iit.Fibertest.Client
             AllOpticalEventsViewModel.TableTitle = Resources.SID_All_optical_events;
         }
 
-        public void Apply(MeasurementAdded measurementAdded)
+        public void AddMeasurement(MeasurementAdded measurementAdded)
         {
             var measurement = _mapper.Map<Measurement>(measurementAdded);
 
@@ -39,34 +38,31 @@ namespace Iit.Fibertest.Client
 
             ActualOpticalEventsViewModel.RemovePreviousEventForTraceIfExists(measurement.TraceId);
 
+            AllOpticalEventsViewModel.AddEvent(measurement);
+
             if (measurement.TraceState == FiberState.Ok)
                 return;
 
             ActualOpticalEventsViewModel.AddEvent(measurement);
         }
 
-        public void Apply(MeasurementUpdated dto)
+        public void UpdateMeasurement(MeasurementUpdated evnt)
         {
-            ActualOpticalEventsViewModel.UpdateEvent(dto);
-            AllOpticalEventsViewModel.UpdateEvent(dto);
+            ActualOpticalEventsViewModel.UpdateEvent(evnt);
+            AllOpticalEventsViewModel.UpdateEvent(evnt);
         }
 
-        public void ApplyToTableAll(Measurement measurement)
+        public void CleanTrace(TraceCleaned evnt)
         {
-            AllOpticalEventsViewModel.AddEvent(measurement);
+            ActualOpticalEventsViewModel.RemoveEventsOfTrace(evnt.Id);
+            AllOpticalEventsViewModel.RemoveEventsOfTrace(evnt.Id);
         }
 
-        public void ApplyUsersChanges(UpdateMeasurement dto)
+        public void RemoveTrace(TraceRemoved evnt)
         {
-            ActualOpticalEventsViewModel.ApplyUsersChanges(dto);
-            AllOpticalEventsViewModel.ApplyUsersChanges(dto);
+            ActualOpticalEventsViewModel.RemoveEventsOfTrace(evnt.Id);
+            AllOpticalEventsViewModel.RemoveEventsOfTrace(evnt.Id);
         }
-
-        public void RemoveEventsOfTrace(Guid traceId)
-        {
-            ActualOpticalEventsViewModel.RemoveEventsOfTrace(traceId);
-            AllOpticalEventsViewModel.RemoveEventsOfTrace(traceId);
-        }
-
+      
     }
 }

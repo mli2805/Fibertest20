@@ -80,12 +80,12 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<UserEventsOnModelExecutor>().SingleInstance();
             builder.RegisterType<ZoneEventsOnModelExecutor>().SingleInstance();
             builder.RegisterType<EchoEventsOnModelExecutor>().SingleInstance();
+            builder.RegisterType<MeasurementEventOnModelExecutor>().SingleInstance();
             builder.RegisterType<EventsOnModelExecutor>().SingleInstance();
 
             builder.RegisterType<BaseRefsChecker>().SingleInstance();
             builder.RegisterType<TraceModelBuilder>().SingleInstance();
             builder.RegisterType<BaseRefAdjuster>().SingleInstance();
-            builder.RegisterType<BaseRefRepairman>().SingleInstance();
             builder.RegisterType<BaseRefLandmarksTool>().SingleInstance();
             builder.RegisterType<BaseRefMeasParamsChecker>().SingleInstance();
             builder.RegisterType<BaseRefLandmarksChecker>().SingleInstance();

@@ -18,7 +18,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             _logFile = logFile;
         }
 
-        public async Task<int> SaveSorBytesAsync(byte[] sorBytes)
+        public async Task<int> AddSorBytesAsync(byte[] sorBytes)
         {
             try
             {
@@ -33,7 +33,25 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
             catch (Exception e)
             {
-                _logFile.AppendLine("SaveSorBytesAsync: " + e.Message);
+                _logFile.AppendLine("AddSorBytesAsync: " + e.Message);
+                return -1;
+            }
+        }
+
+        public async Task<int> UpdateSorBytesAsync(int sorFileId, byte[] sorBytes)
+        {
+            try
+            {
+                using (var dbContext = new FtDbContext(_settings.Options))
+                {
+                    var record = await dbContext.SorFiles.Where(s => s.Id == sorFileId).FirstOrDefaultAsync();
+                    record.SorBytes = sorBytes;
+                    return await dbContext.SaveChangesAsync();
+                }
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("UpdateSorBytesAsync: " + e.Message);
                 return -1;
             }
         }
@@ -73,7 +91,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
         }
 
-        
+
 
 
     }

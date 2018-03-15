@@ -12,5 +12,7 @@ namespace Iit.Fibertest.Graph
 
         public PointLatLng Position { get; set; }
         public string Comment { get; set; }
+
+        public Guid AccidentOnTraceId { get; set; }
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.Graph.Algorithms;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
@@ -18,6 +19,7 @@ namespace Iit.Fibertest.Client
         private readonly IniFile _iniFile;
         private Trace _trace;
         private readonly ReadModel _readModel;
+        private readonly CurrentUser _currentUser;
 
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly IWindowManager _windowManager;
@@ -97,12 +99,13 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public BaseRefsAssignViewModel(IniFile iniFile, ReadModel readModel,  
+        public BaseRefsAssignViewModel(IniFile iniFile, ReadModel readModel, CurrentUser currentUser, 
             IWcfServiceForClient c2DWcfManager, IWindowManager windowManager, 
             BaseRefDtoFactory baseRefDtoFactory, BaseRefsChecker baseRefsChecker)
         {
             _iniFile = iniFile;
             _readModel = readModel;
+            _currentUser = currentUser;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
             _baseRefDtoFactory = baseRefDtoFactory;
@@ -187,7 +190,7 @@ namespace Iit.Fibertest.Client
             var baseRefs = new List<BaseRefDto>();
             if (IsFilenameChanged(PreciseBaseFilename, _trace.PreciseId))
             {
-                var baseRefDto = _baseRefDtoFactory.Create(PreciseBaseFilename, BaseRefType.Precise);
+                var baseRefDto = _baseRefDtoFactory.CreateFromFile(PreciseBaseFilename, BaseRefType.Precise, _currentUser.UserName);
                 if (_trace.PreciseId != Guid.Empty)
                     dto.DeleteOldSorFileIds.Add(_readModel.BaseRefs.First(b=>b.Id == _trace.PreciseId).SorFileId);
                 baseRefs.Add(baseRefDto);
@@ -195,7 +198,7 @@ namespace Iit.Fibertest.Client
 
             if (IsFilenameChanged(FastBaseFilename, _trace.FastId))
             {
-                var baseRefDto = _baseRefDtoFactory.Create(FastBaseFilename, BaseRefType.Fast);
+                var baseRefDto = _baseRefDtoFactory.CreateFromFile(FastBaseFilename, BaseRefType.Fast, _currentUser.UserName);
                 if (_trace.FastId != Guid.Empty)
                     dto.DeleteOldSorFileIds.Add(_readModel.BaseRefs.First(b => b.Id == _trace.FastId).SorFileId);
                 baseRefs.Add(baseRefDto);
@@ -203,7 +206,7 @@ namespace Iit.Fibertest.Client
 
             if (IsFilenameChanged(AdditionalBaseFilename, _trace.AdditionalId))
             {
-                var baseRefDto = _baseRefDtoFactory.Create(AdditionalBaseFilename, BaseRefType.Additional);
+                var baseRefDto = _baseRefDtoFactory.CreateFromFile(AdditionalBaseFilename, BaseRefType.Additional, _currentUser.UserName);
                 if (_trace.AdditionalId != Guid.Empty)
                     dto.DeleteOldSorFileIds.Add(_readModel.BaseRefs.First(b => b.Id == _trace.AdditionalId).SorFileId);
                 baseRefs.Add(baseRefDto);

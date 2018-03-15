@@ -1,15 +1,14 @@
 ﻿using System.Linq;
-using AutoMapper;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Graph
 {
+ 
     public class EchoEventsOnModelExecutor
     {
-        private readonly IMapper _mapper = new MapperConfiguration(
-            cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper(); private readonly IModel _model;
-        private readonly IMyLog _logFile;
+            private readonly IMyLog _logFile;
+        private readonly IModel _model;
 
         public EchoEventsOnModelExecutor(ReadModel model, IMyLog logFile)
         {
@@ -166,10 +165,6 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        public string ShowMonitoringResult(MeasurementAdded e)
-        {
-            _model.Measurements.Add(_mapper.Map<Measurement>(e));
-            return null;
-        }
+       
     }
 }

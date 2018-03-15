@@ -4,27 +4,25 @@ using Iit.Fibertest.Dto;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.UtilsLib;
 
-namespace Iit.Fibertest.Client
+namespace Iit.Fibertest.Graph.Algorithms
 {
     public class BaseRefDtoFactory
     {
         private readonly IMyLog _logFile;
-        private readonly CurrentUser _currentUser;
 
-        public BaseRefDtoFactory(IMyLog logFile, CurrentUser currentUser)
+        public BaseRefDtoFactory(IMyLog logFile)
         {
             _logFile = logFile;
-            _currentUser = currentUser;
         }
 
-        public BaseRefDto Create(string filename, BaseRefType type)
+        public BaseRefDto CreateFromFile(string filename, BaseRefType type, string username)
         {
             return filename != "" 
-                ? GetBaseRefDto(filename, type) 
+                ? GetIt(filename, type, username) 
                 : new BaseRefDto() { Id = Guid.Empty, BaseRefType = type}; // delete old base ref
         }
 
-        private BaseRefDto GetBaseRefDto(string filename, BaseRefType type)
+        private BaseRefDto GetIt(string filename, BaseRefType type, string username)
         {
             var bytes = File.ReadAllBytes(filename);
 
@@ -34,7 +32,7 @@ namespace Iit.Fibertest.Client
                 {
                     Id = Guid.NewGuid(),
                     BaseRefType = type,
-                    UserName = _currentUser.UserName,
+                    UserName = username,
                     SaveTimestamp = DateTime.Now,
                     SorBytes = bytes,
                     Duration = TimeSpan.FromSeconds((int) otdrDataKnownBlocks.FixedParameters.AveragingTime)
@@ -44,7 +42,20 @@ namespace Iit.Fibertest.Client
             return new BaseRefDto() { Id = Guid.NewGuid(), BaseRefType = type };
         }
 
-     
+        public BaseRefDto CreateFromBaseRef(BaseRef baseRef, byte[] sorBytes)
+        {
+            return new BaseRefDto()
+            {
+                Id = baseRef.Id,
+                BaseRefType = baseRef.BaseRefType,
+                Duration = baseRef.Duration,
+                SaveTimestamp = baseRef.SaveTimestamp,
+                UserName = baseRef.UserName,
+                SorFileId = baseRef.SorFileId,
+
+                SorBytes = sorBytes,
+            };
+        }
 
     }
 }

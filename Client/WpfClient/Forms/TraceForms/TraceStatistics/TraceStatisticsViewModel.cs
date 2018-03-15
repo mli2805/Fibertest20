@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -10,18 +9,14 @@ using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
-    public class TraceStatistics
-    {
-        public List<Measurement> Measurements { get; set; }
-
-        public List<BaseRefModel> BaseRefs { get; set; }
-    }
-
     public class TraceStatisticsViewModel : Screen
     {
         private readonly ReadModel _readModel;
         private readonly ReflectogramManager _reflectogramManager;
+        private readonly TraceStateViewsManager _traceStateViewsManager;
         private readonly BaseRefModelFactory _baseRefModelFactory;
+
+        private Trace _trace;
         public bool IsOpen { get; private set; }
 
         public string TraceTitle { get; set; }
@@ -56,10 +51,12 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public TraceStatisticsViewModel(ReadModel readModel, ReflectogramManager reflectogramManager, BaseRefModelFactory baseRefModelFactory)
+        public TraceStatisticsViewModel(ReadModel readModel, ReflectogramManager reflectogramManager,
+            TraceStateViewsManager traceStateViewsManager, BaseRefModelFactory baseRefModelFactory)
         {
             _readModel = readModel;
             _reflectogramManager = reflectogramManager;
+            _traceStateViewsManager = traceStateViewsManager;
             _baseRefModelFactory = baseRefModelFactory;
 
             var view = CollectionViewSource.GetDefaultView(Rows);
@@ -68,29 +65,30 @@ namespace Iit.Fibertest.Client
 
         public void Initialize(Guid traceId)
         {
-            var trace = _readModel.Traces.FirstOrDefault(t => t.Id == traceId);
-            if (trace == null)
+            _trace = _readModel.Traces.FirstOrDefault(t => t.Id == traceId);
+            if (_trace == null)
                 return;
-            TraceTitle = trace.Title;
-            RtuTitle = _readModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId)?.Title;
-            PortNumber = trace.OtauPort == null ? Resources.SID__not_attached_ : trace.OtauPort.IsPortOnMainCharon
-                ? trace.OtauPort.OpticalPort.ToString()
-                : $@"{trace.OtauPort.OtauIp}:{trace.OtauPort.OtauTcpPort}-{trace.OtauPort.OpticalPort}";
+            TraceTitle = _trace.Title;
+            RtuTitle = _readModel.Rtus.FirstOrDefault(r => r.Id == _trace.RtuId)?.Title;
+            PortNumber = _trace.OtauPort == null ? Resources.SID__not_attached_ : _trace.OtauPort.IsPortOnMainCharon
+                ? _trace.OtauPort.OpticalPort.ToString()
+                : $@"{_trace.OtauPort.OtauIp}:{_trace.OtauPort.OtauTcpPort}-{_trace.OtauPort.OpticalPort}";
 
             BaseRefs.Clear();
             foreach (var baseRef in _readModel.BaseRefs.Where(b => b.TraceId == traceId))
             {
-                BaseRefs.Add(_baseRefModelFactory.Create(baseRef));   
+                BaseRefs.Add(_baseRefModelFactory.Create(baseRef));
             }
 
             Rows.Clear();
-            foreach (var measurement in _readModel.Measurements.Where(m=>m.TraceId == traceId).OrderBy(t=>t.MeasurementTimestamp))
+            foreach (var measurement in _readModel.Measurements.Where(m => m.TraceId == traceId).OrderBy(t => t.MeasurementTimestamp))
                 Rows.Add(new MeasurementModel(measurement));
         }
 
-        public void AddNewMeasurement(Measurement measurement)
+        public void AddNewMeasurement()
         {
-            Rows.Add(new MeasurementModel(measurement));
+            var lastMeasurement = _readModel.Measurements.Last(m => m.TraceId == _trace.Id);
+            Rows.Add(new MeasurementModel(lastMeasurement));
         }
 
         protected override void OnViewLoaded(object view)
@@ -134,9 +132,9 @@ namespace Iit.Fibertest.Client
         }
 
         public void ShowTraceState()
-        {                 
-     //       var lastRow = Rows.First(); // click on the Row , so Rows collection couldn't be empty
-     //       _traceStateViewsManager.ShowTraceState(SelectedRow.Measurement, lastRow.Measurement.Id == SelectedRow.Measurement.Id);
+        {
+            var lastRow = Rows.First(); // click on the Row , so Rows collection couldn't be empty
+            _traceStateViewsManager.ShowTraceState(SelectedRow.Measurement, lastRow.Measurement.SorFileId == SelectedRow.Measurement.SorFileId);
         }
 
         public override void CanClose(Action<bool> callback)

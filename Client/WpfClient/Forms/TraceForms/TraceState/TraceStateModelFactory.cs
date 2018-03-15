@@ -40,7 +40,7 @@ namespace Iit.Fibertest.Client
         }
 
         // Optical events
-        public TraceStateModel CreateModel(OpticalEventModel opticalEventModel, byte[] sorBytes)
+        public TraceStateModel CreateModel(OpticalEventModel opticalEventModel)
         {
             var model = new TraceStateModel
             {
@@ -51,10 +51,9 @@ namespace Iit.Fibertest.Client
                 MeasurementTimestamp = opticalEventModel.MeasurementTimestamp,
                 SorFileId = opticalEventModel.SorFileId,
                 EventStatus = opticalEventModel.EventStatus,
+                Accidents = PrepareAccidents(opticalEventModel.Accidents),
                 Comment = opticalEventModel.Comment
             };
-//            if (model.TraceState != FiberState.Ok && model.TraceState != FiberState.NoFiber)
-//                model.Accidents = PrepareAccidents(sorBytes, opticalEventModel.TraceId);
             return model;
         }
 

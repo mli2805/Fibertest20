@@ -22,6 +22,8 @@ namespace Iit.Fibertest.Client
         private readonly EventsOnGraphExecutor _eventsOnGraphExecutor;
         private readonly EventsOnModelExecutor _eventsOnModelExecutor;
         private readonly OpticalEventsExecutor _opticalEventsExecutor;
+        private readonly TraceStateViewsManager _traceStateViewsManager;
+        private readonly TraceStatisticsViewsManager _traceStatisticsViewsManager;
         private readonly NetworkEventsDoubleViewModel _networkEventsDoubleViewModel;
         private readonly RtuStateViewsManager _rtuStateViewsManager;
         private readonly BopNetworkEventsDoubleViewModel _bopNetworkEventsDoubleViewModel;
@@ -35,8 +37,9 @@ namespace Iit.Fibertest.Client
         public int CurrentEventNumber { get; set; }
 
         public ClientPoller(IWcfServiceForClient wcfConnection, IDispatcherProvider dispatcherProvider,
-            ReadModel readModel, TreeOfRtuModel treeOfRtuModel, EventsOnGraphExecutor eventsOnGraphExecutor, 
+            ReadModel readModel, TreeOfRtuModel treeOfRtuModel, EventsOnGraphExecutor eventsOnGraphExecutor,
             EventsOnModelExecutor eventsOnModelExecutor, OpticalEventsExecutor opticalEventsExecutor,
+            TraceStateViewsManager traceStateViewsManager, TraceStatisticsViewsManager traceStatisticsViewsManager,
             NetworkEventsDoubleViewModel networkEventsDoubleViewModel, RtuStateViewsManager rtuStateViewsManager,
             BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel,
             IMyLog logFile, IniFile iniFile, ILocalDbManager localDbManager)
@@ -47,6 +50,8 @@ namespace Iit.Fibertest.Client
             _eventsOnGraphExecutor = eventsOnGraphExecutor;
             _eventsOnModelExecutor = eventsOnModelExecutor;
             _opticalEventsExecutor = opticalEventsExecutor;
+            _traceStateViewsManager = traceStateViewsManager;
+            _traceStatisticsViewsManager = traceStatisticsViewsManager;
             _networkEventsDoubleViewModel = networkEventsDoubleViewModel;
             _rtuStateViewsManager = rtuStateViewsManager;
             _bopNetworkEventsDoubleViewModel = bopNetworkEventsDoubleViewModel;
@@ -98,12 +103,25 @@ namespace Iit.Fibertest.Client
                     _eventsOnModelExecutor.Apply(evnt);
                     _treeOfRtuModel.AsDynamic().Apply(evnt);
                     _opticalEventsExecutor.Apply(evnt);
+
+                    if (evnt is MeasurementAdded mee)
+                    {
+                        _traceStateViewsManager.AddMeasurement(mee);
+                        _traceStatisticsViewsManager.AddMeasurement(mee);
+                    }
+                    if (evnt is MeasurementUpdated mue)
+                    {
+                        _traceStateViewsManager.UpdateMeasurement(mue);
+                        _traceStatisticsViewsManager.UpdateMeasurement(mue);
+                    }
+
                     if (evnt is NetworkEventAdded ee)
                     {
                         _networkEventsDoubleViewModel.Apply(ee);
                         _rtuStateViewsManager.NotifyUserRtuAvailabilityChanged(ee);
                     }
-                    if (evnt is BopNetworkEventAdded bee) _bopNetworkEventsDoubleViewModel.Apply(bee);
+                    if (evnt is BopNetworkEventAdded bee)
+                        _bopNetworkEventsDoubleViewModel.Apply(bee);
 
                     // some forms refresh their view because they have sent command previously and are waiting event's arrival
                     _readModel.NotifyOfPropertyChange(nameof(_readModel.JustForNotification));
