@@ -39,16 +39,19 @@ namespace Graph.Tests
             var vm = _sut.Container.Resolve<BaseRefsAssignViewModel>();
             vm.Initialize(_trace);
             vm.PreciseBaseFilename = SystemUnderTest.Base1550Lm4YesThresholds;
-//            _baseRefs = vm.FillinChangedBaseRefs();
+            _baseRefs = vm.PrepareDto(_trace).BaseRefs;
 
             SorData.TryGetFromBytes(_baseRefs[0].SorBytes, out var otdrKnownBlocks);
             otdrKnownBlocks.LinkParameters.LandmarkBlocks.Length.Should().Be(4);
             var landmark = otdrKnownBlocks.LinkParameters.LandmarkBlocks[2];
-            _closureLocationOnOriginalBaseRef = landmark.Location;
+            _closureLocationOnOriginalBaseRef = landmark.Location;  // 497035
 
             _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
             var baseRefChecker = _sut.Container.Resolve<BaseRefsChecker>();
             baseRefChecker.IsBaseRefsAcceptable(_baseRefs, _trace).Should().BeTrue();
+
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
+            vm.Save().Wait();
         }
 
         [Then(@"На рефлектограмму добавляются ориентиры соответствующие пустым узлам Но расстояние до ориентиров оборудования не изменяется")]
@@ -102,7 +105,7 @@ namespace Graph.Tests
             otdrKnownBlocks.LinkParameters.LandmarkBlocks.Length.Should().Be(9);
             var landmark = otdrKnownBlocks.LinkParameters.LandmarkBlocks[2];
             landmark.Code.Should().Be(LandmarkCode.Other);
-            landmark.Location.Should().Be(137209);
+            landmark.Location.Should().Be(139293);
 
             otdrKnownBlocks.LinkParameters.LandmarkBlocks[5].Location.Should().Be(_closureLocationOnOriginalBaseRef);
             otdrKnownBlocks.LinkParameters.LandmarkBlocks[6].Location.Should().Be(_emptyNodeToTheRightOfClosureLocation);

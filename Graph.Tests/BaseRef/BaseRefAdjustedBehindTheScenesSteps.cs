@@ -5,6 +5,8 @@ using FluentAssertions;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.IitOtdrLibrary;
+using Iit.Fibertest.WcfServiceForClientInterface;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -27,7 +29,7 @@ namespace Graph.Tests
         {
             _rtu = _sut.SetInitializedRtu();
             _trace = _sut.SetTrace(_rtu.NodeId, @"Trace1");
-            _traceLeaf = (TraceLeaf) _sut.TreeOfRtuModel.Tree.GetById(_trace.Id);
+            _traceLeaf = (TraceLeaf)_sut.TreeOfRtuModel.Tree.GetById(_trace.Id);
             _sut.AssignBaseRef(_traceLeaf, SystemUnderTest.Base1550Lm4YesThresholds, null, null, Answer.Yes);
         }
 
@@ -46,12 +48,14 @@ namespace Graph.Tests
             _assignedBy = line.AssignedBy;
             _assignedAt = line.AssignedAt;
 
-//            var wcf = _sut.Container.Resolve<IWcfServiceForClient>();
-//            var baseRefs = await wcf.GetTraceBaseRefsAsync(_trace.Id);
-//            baseRefs.Count.Should().Be(1);
+            var baseRefs = _sut.ReadModel.BaseRefs.Where(b => b.TraceId == _trace.Id).ToList();
+            baseRefs.Count.Should().Be(1);
 
-//            var otdrDataKnownBlocks = SorData.FromBytes(baseRefs[0].SorBytes);
-//            _closureLocation = otdrDataKnownBlocks.LinkParameters.LandmarkBlocks[3].Location;
+            var wcf = _sut.Container.Resolve<IWcfServiceForClient>();
+            var sorBytes = await wcf.GetSorBytes(baseRefs[0].SorFileId);
+
+            var otdrDataKnownBlocks = SorData.FromBytes(sorBytes);
+            _closureLocation = otdrDataKnownBlocks.LinkParameters.LandmarkBlocks[3].Location;
 
             _vm.TryClose();
         }
@@ -89,12 +93,13 @@ namespace Graph.Tests
         [Then(@"Изменилось положение ориентиров")]
         public async void ThenИзменилосьПоложениеОриентиров()
         {
-//            var wcf = _sut.Container.Resolve<IWcfServiceForClient>();
-//            var baseRefs = await wcf.GetTraceBaseRefsAsync(_trace.Id);
-//            baseRefs.Count.Should().Be(1);
+            var wcf = _sut.Container.Resolve<IWcfServiceForClient>();
+            var baseRefs = _sut.ReadModel.BaseRefs.Where(b => b.TraceId == _trace.Id).ToList();
+            baseRefs.Count.Should().Be(1);
+            var sorBytes = await wcf.GetSorBytes(baseRefs[0].SorFileId);
+            var otdrDataKnownBlocks = SorData.FromBytes(sorBytes);
 
-//            var otdrDataKnownBlocks = SorData.FromBytes(baseRefs[0].SorBytes);
-//            otdrDataKnownBlocks.LinkParameters.LandmarkBlocks[3].Location.Should().NotBe(_closureLocation);
+            otdrDataKnownBlocks.LinkParameters.LandmarkBlocks[3].Location.Should().NotBe(_closureLocation);
         }
     }
 }

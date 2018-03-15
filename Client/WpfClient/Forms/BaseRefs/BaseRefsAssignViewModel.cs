@@ -164,10 +164,7 @@ namespace Iit.Fibertest.Client
 
         public async Task Save()
         {
-            var dto = new AssignBaseRefsDto()
-                { RtuId = _trace.RtuId, TraceId = _trace.Id, OtauPortDto = _trace.OtauPort, BaseRefs = new List<BaseRefDto>(), DeleteOldSorFileIds = new List<int>()};
-
-            FillinChangedBaseRefs(dto);
+            var dto = PrepareDto(_trace);
             if (!dto.BaseRefs.Any())
                 return;
 
@@ -185,34 +182,39 @@ namespace Iit.Fibertest.Client
             TryClose();
         }
 
-        public void FillinChangedBaseRefs(AssignBaseRefsDto dto)
+        public AssignBaseRefsDto PrepareDto(Trace trace)
         {
+            var dto = new AssignBaseRefsDto()
+                { RtuId = trace.RtuId, TraceId = trace.Id, OtauPortDto = trace.OtauPort, BaseRefs = new List<BaseRefDto>(), DeleteOldSorFileIds = new List<int>() };
+
+
             var baseRefs = new List<BaseRefDto>();
-            if (IsFilenameChanged(PreciseBaseFilename, _trace.PreciseId))
+            if (IsFilenameChanged(PreciseBaseFilename, trace.PreciseId))
             {
                 var baseRefDto = _baseRefDtoFactory.CreateFromFile(PreciseBaseFilename, BaseRefType.Precise, _currentUser.UserName);
-                if (_trace.PreciseId != Guid.Empty)
-                    dto.DeleteOldSorFileIds.Add(_readModel.BaseRefs.First(b=>b.Id == _trace.PreciseId).SorFileId);
+                if (trace.PreciseId != Guid.Empty)
+                    dto.DeleteOldSorFileIds.Add(_readModel.BaseRefs.First(b=>b.Id == trace.PreciseId).SorFileId);
                 baseRefs.Add(baseRefDto);
             }
 
-            if (IsFilenameChanged(FastBaseFilename, _trace.FastId))
+            if (IsFilenameChanged(FastBaseFilename, trace.FastId))
             {
                 var baseRefDto = _baseRefDtoFactory.CreateFromFile(FastBaseFilename, BaseRefType.Fast, _currentUser.UserName);
-                if (_trace.FastId != Guid.Empty)
-                    dto.DeleteOldSorFileIds.Add(_readModel.BaseRefs.First(b => b.Id == _trace.FastId).SorFileId);
+                if (trace.FastId != Guid.Empty)
+                    dto.DeleteOldSorFileIds.Add(_readModel.BaseRefs.First(b => b.Id == trace.FastId).SorFileId);
                 baseRefs.Add(baseRefDto);
             }
 
-            if (IsFilenameChanged(AdditionalBaseFilename, _trace.AdditionalId))
+            if (IsFilenameChanged(AdditionalBaseFilename, trace.AdditionalId))
             {
                 var baseRefDto = _baseRefDtoFactory.CreateFromFile(AdditionalBaseFilename, BaseRefType.Additional, _currentUser.UserName);
-                if (_trace.AdditionalId != Guid.Empty)
-                    dto.DeleteOldSorFileIds.Add(_readModel.BaseRefs.First(b => b.Id == _trace.AdditionalId).SorFileId);
+                if (trace.AdditionalId != Guid.Empty)
+                    dto.DeleteOldSorFileIds.Add(_readModel.BaseRefs.First(b => b.Id == trace.AdditionalId).SorFileId);
                 baseRefs.Add(baseRefDto);
             }
 
             dto.BaseRefs = baseRefs;
+            return dto;
         }
 
         public void Cancel()
