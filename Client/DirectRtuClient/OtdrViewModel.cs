@@ -382,11 +382,6 @@ namespace DirectRtuClient
             }
             var buffer = File.ReadAllBytes(ResultFileName);
             var sorData = SorData.FromBytes(buffer);
-            if (sorData.RftsEvents.MonitoringResult == (int)ComparisonReturns.NoFiber)
-            {
-                MessageBox.Show(Resources.SID_No_Fiber_, Resources.SID_Rfts_Events);
-                return;
-            }
             var vm = new RftsEventsViewModel(sorData);
             IWindowManager windowManager = new WindowManager();
             windowManager.ShowDialog(vm);
@@ -405,6 +400,19 @@ namespace DirectRtuClient
             var accidentExtractor = new AccidentsExtractorFromSor(_rtuLogger);
             var accidents = accidentExtractor.GetAccidents(sorData, false);
             _rtuLogger.AppendLine($@"{accidents.Count} accidents found");
+
+//            var path = @"c:\temp\";
+//            for (int i = 0; i < 10; i++)
+//            {
+//                path = path + Guid.NewGuid() + @"\";
+//            }
+//
+//            Directory.CreateDirectory(path);
+//                path = path + @"test.txt";
+//
+//
+//            var text = @"test";
+//            File.WriteAllText(path, text);
         }
 
     }

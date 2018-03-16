@@ -1,4 +1,6 @@
-﻿using Caliburn.Micro;
+﻿using System.Windows;
+using Caliburn.Micro;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 
@@ -6,6 +8,10 @@ namespace Iit.Fibertest.WpfCommonViews
 {
     public class RftsEventsViewModel : Screen
     {
+        private bool _isNoFiber;
+        public Visibility NoFiberLabelVisibility => _isNoFiber ? Visibility.Visible : Visibility.Collapsed;
+        public Visibility RftsEventsTableVisibility => _isNoFiber ? Visibility.Collapsed : Visibility.Visible;
+
         public LevelsContent LevelsContent { get; set; } = new LevelsContent();
         public RftsEventsFooterViewModel FooterViewModel { get; set; }
 
@@ -13,6 +19,9 @@ namespace Iit.Fibertest.WpfCommonViews
 
         public RftsEventsViewModel(OtdrDataKnownBlocks sorData)
         {
+            _isNoFiber = sorData.RftsEvents.MonitoringResult == (int) ComparisonReturns.NoFiber;
+            if (_isNoFiber) return;
+
             var rftsParameters = sorData.RftsParameters;
             for (int i = 0; i < rftsParameters.LevelsCount; i++)
             {

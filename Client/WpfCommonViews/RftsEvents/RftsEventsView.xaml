@@ -12,32 +12,37 @@
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
     </Window.Resources>
     <StackPanel>
-        <TabControl Margin="5" BorderThickness="1" BorderBrush="Black" SelectedIndex="{Binding SelectedIndex}">
-            <TabItem Name="Minor" Visibility="{Binding LevelsContent.IsMinorExists, Converter={StaticResource BoolToVis}}">
-                <TabItem.Header>
-                    <TextBlock Text="{x:Static stringResources:Resources.SID_Minor}" Width="120"/>
-                </TabItem.Header>
-                <wpfCommonViews:RftsEventsOneLevelView DataContext="{Binding LevelsContent.MinorLevelViewModel}"/>
-            </TabItem>
-            <TabItem Name="Major" Visibility="{Binding LevelsContent.IsMajorExists, Converter={StaticResource BoolToVis}}">
-                <TabItem.Header>
-                    <TextBlock Text="{x:Static stringResources:Resources.SID_Major}" Width="120"/>
-                </TabItem.Header>
-                <wpfCommonViews:RftsEventsOneLevelView DataContext="{Binding LevelsContent.MajorLevelViewModel}"/>
-            </TabItem>
-            <TabItem Name="Critical" Visibility="{Binding LevelsContent.IsCriticalExists, Converter={StaticResource BoolToVis}}">
-                <TabItem.Header>
-                    <TextBlock Text="{x:Static stringResources:Resources.SID_Critical}" Width="120"/>
-                </TabItem.Header>
-                <wpfCommonViews:RftsEventsOneLevelView DataContext="{Binding LevelsContent.CriticalLevelViewModel}"/>
-            </TabItem>
-            <TabItem Name="Users" Visibility="{Binding LevelsContent.IsUsersExists, Converter={StaticResource BoolToVis}}">
-                <TabItem.Header>
-                    <TextBlock Text="{x:Static stringResources:Resources.SID_User_s}" Width="120"/>
-                </TabItem.Header>
-                <wpfCommonViews:RftsEventsOneLevelView DataContext="{Binding LevelsContent.UsersLevelViewModel}"/>
-            </TabItem>
-        </TabControl>
-        <wpfCommonViews:RftsEventsFooterView DataContext="{Binding FooterViewModel}"/>
+        <Grid Height="300" Visibility="{Binding NoFiberLabelVisibility}">
+            <TextBlock Text="{x:Static stringResources:Resources.SID_No_fiber}" FontSize="32" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Grid>
+        <StackPanel Visibility="{Binding RftsEventsTableVisibility}">
+            <TabControl Margin="5" BorderThickness="1" BorderBrush="Black" SelectedIndex="{Binding SelectedIndex}">
+                <TabItem Name="Minor" Visibility="{Binding LevelsContent.IsMinorExists, Converter={StaticResource BoolToVis}}">
+                    <TabItem.Header>
+                        <TextBlock Text="{x:Static stringResources:Resources.SID_Minor}" Width="120"/>
+                    </TabItem.Header>
+                    <wpfCommonViews:RftsEventsOneLevelView DataContext="{Binding LevelsContent.MinorLevelViewModel}"/>
+                </TabItem>
+                <TabItem Name="Major" Visibility="{Binding LevelsContent.IsMajorExists, Converter={StaticResource BoolToVis}}">
+                    <TabItem.Header>
+                        <TextBlock Text="{x:Static stringResources:Resources.SID_Major}" Width="120"/>
+                    </TabItem.Header>
+                    <wpfCommonViews:RftsEventsOneLevelView DataContext="{Binding LevelsContent.MajorLevelViewModel}"/>
+                </TabItem>
+                <TabItem Name="Critical" Visibility="{Binding LevelsContent.IsCriticalExists, Converter={StaticResource BoolToVis}}">
+                    <TabItem.Header>
+                        <TextBlock Text="{x:Static stringResources:Resources.SID_Critical}" Width="120"/>
+                    </TabItem.Header>
+                    <wpfCommonViews:RftsEventsOneLevelView DataContext="{Binding LevelsContent.CriticalLevelViewModel}"/>
+                </TabItem>
+                <TabItem Name="Users" Visibility="{Binding LevelsContent.IsUsersExists, Converter={StaticResource BoolToVis}}">
+                    <TabItem.Header>
+                        <TextBlock Text="{x:Static stringResources:Resources.SID_User_s}" Width="120"/>
+                    </TabItem.Header>
+                    <wpfCommonViews:RftsEventsOneLevelView DataContext="{Binding LevelsContent.UsersLevelViewModel}"/>
+                </TabItem>
+            </TabControl>
+            <wpfCommonViews:RftsEventsFooterView DataContext="{Binding FooterViewModel}"/>
+        </StackPanel>
     </StackPanel>
 </Window>
