@@ -1,5 +1,4 @@
-﻿using System;
-using Iit.Fibertest.UtilsLib;
+﻿using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.DbMigrator
 {
@@ -12,13 +11,16 @@ namespace Iit.Fibertest.DbMigrator
             var logFile = new LogFile(iniFile);
             logFile.AssignFile("migrator.log");
 
-            var graph = new Graph();
-            var fileStringParser = new FileStringParser(graph);
-            var fileStringTraceParser = new FileStringTraceParser(graph);
-            new Migrator(iniFile, logFile, graph, fileStringParser,fileStringTraceParser).Go();
+            var fetcher = new Fetcher();
+            fetcher.F();
 
-            Console.WriteLine("Done.");
-            Console.ReadLine();
+//            var graph = new Graph();
+//            var fileStringParser = new FileStringParser(graph);
+//            var fileStringTraceParser = new FileStringTraceParser(graph);
+//            new Migrator(iniFile, logFile, graph, fileStringParser,fileStringTraceParser).Go();
+//
+//            Console.WriteLine("Done.");
+//            Console.ReadLine();
         }
     }
 }
