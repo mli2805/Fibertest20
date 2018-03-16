@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
@@ -123,12 +124,18 @@ namespace Iit.Fibertest.Client
 
             foreach (var fiber in _readModel.Fibers)
             {
-                fiberVms.Add(new FiberVm()
+                var fiberVm = new FiberVm()
                 {
                     Id = fiber.Id,
                     Node1 = nodeVms.First(n=>n.Id == fiber.Node1),
                     Node2 = nodeVms.First(n=>n.Id == fiber.Node2),
-                });
+                    States = new Dictionary<Guid, FiberState>(),
+                    TracesWithExceededLossCoeff = fiber.TracesWithExceededLossCoeff,
+                };
+                foreach (var pair in fiber.States)
+                    fiberVm.States.Add(pair.Key, pair.Value);
+
+                fiberVms.Add(fiberVm);
             }
 
             foreach (var trace in _readModel.Traces)

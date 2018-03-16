@@ -41,12 +41,12 @@ namespace Iit.Fibertest.Client
 
         public void Apply(RtuUpdated e)
         {
-            var rtu = Tree.GetById(e.Id);
+            var rtu = Tree.GetById(e.RtuId);
             rtu.Title = e.Title;
         }
         public void Apply(RtuRemoved e)
         {
-            var rtu = Tree.GetById(e.Id);
+            var rtu = Tree.GetById(e.RtuId);
             RemoveWithAdditionalOtaus(rtu);
         }
 

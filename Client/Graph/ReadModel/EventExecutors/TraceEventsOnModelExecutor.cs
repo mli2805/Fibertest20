@@ -12,13 +12,17 @@ namespace Iit.Fibertest.Graph
     {
         private readonly IMapper _mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
+
         private readonly IModel _model;
         private readonly IMyLog _logFile;
+        private readonly MeasurementEventOnModelExecutor _measurementEventOnModelExecutor;
 
-        public TraceEventsOnModelExecutor(ReadModel model, IMyLog logFile)
+        public TraceEventsOnModelExecutor(ReadModel model, IMyLog logFile, 
+            MeasurementEventOnModelExecutor measurementEventOnModelExecutor)
         {
             _model = model;
             _logFile = logFile;
+            _measurementEventOnModelExecutor = measurementEventOnModelExecutor;
         }
         public string AddTrace(TraceAdded e)
         {
@@ -90,9 +94,16 @@ namespace Iit.Fibertest.Graph
                 _logFile.AppendLine(message);
                 return message;
             }
+
             trace.Port = e.OtauPortDto.OpticalPort;
             trace.OtauPort = e.OtauPortDto;
-            trace.State = e.PreviousTraceState;
+
+            _measurementEventOnModelExecutor.ShowMonitoringResult(new MeasurementAdded()
+            {
+                TraceId = e.TraceId,
+                TraceState = e.PreviousTraceState,
+                Accidents = e.AccidentsInLastMeasurement,
+            });
             return null;
         }
 

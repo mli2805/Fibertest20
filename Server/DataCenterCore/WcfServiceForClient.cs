@@ -72,7 +72,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             // A few commands need post-processing in Db or RTU
             if (cmd is RemoveRtu removeRtu)
-                return await _rtuStationsRepository.RemoveRtuAsync(removeRtu.Id);
+                return await _rtuStationsRepository.RemoveRtuAsync(removeRtu.RtuId);
 
             #region Base ref amend
             if (cmd is MoveNode moveNode)

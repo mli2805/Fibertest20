@@ -56,8 +56,7 @@ namespace Iit.Fibertest.Client
             }
             foreach (var nodeId in trace.Nodes)
             {
-//                if (_model.Data.Rtus.Any(r => r.Node.Id == nodeId) ||
-                   if ( _model.Data.Fibers.Any(f => f.Node1.Id == nodeId || f.Node2.Id == nodeId))
+                if (_model.Data.Fibers.Any(f => f.Node1.Id == nodeId || f.Node2.Id == nodeId))
                     continue;
                 var nodeVm = _model.Data.Nodes.First(n => n.Id == nodeId);
                 _model.Data.Nodes.Remove(nodeVm);
@@ -87,6 +86,6 @@ namespace Iit.Fibertest.Client
             foreach (var fiberVm in GetTraceFibersByNodes(trace.Nodes))
                 fiberVm.SetState(trace.Id, state);
         }
-       
+
     }
 }

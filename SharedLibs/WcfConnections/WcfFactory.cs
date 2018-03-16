@@ -51,7 +51,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-//        private MyClient<IWcfServiceForClient> _c2DClient;
+        private MyClient<IWcfServiceForClient> _c2DClient;
         public IWcfServiceForClient CreateC2DConnection()
         {
             try
@@ -60,18 +60,24 @@ namespace Iit.Fibertest.WcfConnections
                 if (netAddress == null)
                     return null;
 
-                                var myClient = new MyClient<IWcfServiceForClient>(
-//                _c2DClient = new MyClient<IWcfServiceForClient>(
+//                                var myClient = new MyClient<IWcfServiceForClient>(
+                _c2DClient = new MyClient<IWcfServiceForClient>(
                     CreateDefaultNetTcpBinding(_iniFile),
                     new EndpointAddress(new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"WcfServiceForClient"))));
 
-                return myClient.ChannelFactory.CreateChannel();
+//                return myClient.ChannelFactory.CreateChannel();
+                return _c2DClient.ChannelFactory.CreateChannel();
             }
             catch (Exception e)
             {
                 _logFile.AppendLine(e.Message);
                 return null;
             }
+        }
+
+        public void CloseChannel()
+        {
+            _c2DClient.Close();
         }
 
      

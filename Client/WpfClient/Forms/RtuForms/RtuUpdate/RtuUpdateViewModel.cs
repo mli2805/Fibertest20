@@ -133,7 +133,6 @@ namespace Iit.Fibertest.Client
                 IMapper mapper =
                     new MapperConfiguration(cfg => cfg.AddProfile<MappingViewModelToCommand>()).CreateMapper();
                 UpdateRtu cmd = mapper.Map<UpdateRtu>(this);
-                cmd.Id = _originalRtu.Id;
                 await _c2DWcfManager.SendCommandAsObj(cmd);
             }
         }

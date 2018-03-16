@@ -189,7 +189,7 @@ namespace Iit.Fibertest.Client
         public void RemoveRtu(object param)
         {
             if (param is RtuLeaf rtuLeaf)
-                _c2DWcfManager.SendCommandAsObj(new RemoveRtu() { Id = rtuLeaf.Id });
+                _c2DWcfManager.SendCommandAsObj(new RemoveRtu() { RtuId = rtuLeaf.Id });
         }
 
         public void DefineTraceStepByStep(object param)

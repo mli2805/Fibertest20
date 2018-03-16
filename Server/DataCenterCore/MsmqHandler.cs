@@ -93,7 +93,13 @@ namespace Iit.Fibertest.DataCenterCore
             if (sorId == -1) return -1;
 
             var command = _measurementFactory.CreateCommand(monitoringResultDto, sorId);
-            await _eventStoreService.SendCommand(command, "system", "OnServer");
+            var result = await _eventStoreService.SendCommand(command, "system", "OnServer");
+
+            if (result != null) // Unknown trace or something else
+            {
+                await _sorFileRepository.RemoveSorBytesAsync(sorId);
+                return -1;
+            }
 
             // TODO snmp, email, sms
             if (command.EventStatus > EventStatus.JustMeasurementNotAnEvent)

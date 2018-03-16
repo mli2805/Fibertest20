@@ -469,7 +469,7 @@ namespace Iit.Fibertest.Graph
 
         public string Apply(RtuUpdated cmd)
         {
-            var rtu = Rtus.FirstOrDefault(r => r.Id == cmd.Id);
+            var rtu = Rtus.FirstOrDefault(r => r.Id == cmd.RtuId);
             if (rtu != null)
             {
                 rtu.Title = cmd.Title;
@@ -477,14 +477,14 @@ namespace Iit.Fibertest.Graph
                 return null;
             }
 
-            var message = $@"RtuUpdated: RTU {cmd.Id.First6()} not found";
+            var message = $@"RtuUpdated: RTU {cmd.RtuId.First6()} not found";
             LogFile.AppendLine(message);
             return message;
         }
 
         public string Apply(RtuRemoved cmd)
         {
-            var rtu = Rtus.FirstOrDefault(r => r.Id == cmd.Id);
+            var rtu = Rtus.FirstOrDefault(r => r.Id == cmd.RtuId);
             if (rtu != null)
             {
                 var nodeId = rtu.NodeId;
@@ -494,7 +494,7 @@ namespace Iit.Fibertest.Graph
                 return null;
             }
 
-            var message = $@"RtuRemoved: RTU {cmd.Id.First6()} not found";
+            var message = $@"RtuRemoved: RTU {cmd.RtuId.First6()} not found";
             LogFile.AppendLine(message);
             return message;
         }

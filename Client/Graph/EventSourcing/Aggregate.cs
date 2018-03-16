@@ -282,6 +282,8 @@ namespace Iit.Fibertest.Graph
 
         public string When(AddMeasurement cmd)
         {
+            if (WriteModel.Traces.All(t => t.Id != cmd.TraceId))
+                return $@"Unknown trace {cmd.TraceId.First6()}";
             return WriteModel.Add(_mapper.Map<MeasurementAdded>(cmd));
         }
         public string When(UpdateMeasurement cmd)

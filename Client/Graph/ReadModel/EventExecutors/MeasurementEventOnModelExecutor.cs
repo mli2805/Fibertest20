@@ -21,12 +21,17 @@ namespace Iit.Fibertest.Graph
             _accidentPlaceLocator = accidentPlaceLocator;
         }
 
-        public string ShowMonitoringResult(MeasurementAdded e)
+        public string AddMeasurement(MeasurementAdded e)
         {
             _model.Measurements.Add(_mapper.Map<Measurement>(e));
+            ShowMonitoringResult(e);
+            return null;
+        }
 
+        public void ShowMonitoringResult(MeasurementAdded e)
+        {
             var trace = _model.Traces.FirstOrDefault(t => t.Id == e.TraceId);
-            if (trace == null) return null;
+            if (trace == null) return;
 
             trace.State = e.TraceState;
             foreach (var fiber in _model.GetTraceFibers(trace))
@@ -36,7 +41,6 @@ namespace Iit.Fibertest.Graph
 
             if (e.TraceState != FiberState.Ok && e.TraceState != FiberState.NoFiber)
                 e.Accidents.ForEach(a => ShowAccidentPlaceOnTrace(a, e.TraceId));
-            return null;
         }
 
         public string UpdateMeasurement(MeasurementUpdated e)

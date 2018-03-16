@@ -5,6 +5,6 @@ namespace Iit.Fibertest.Graph
     [Serializable]
     public class RtuRemoved
     {
-        public Guid Id { get; set; }
+        public Guid RtuId { get; set; }
     }
 }

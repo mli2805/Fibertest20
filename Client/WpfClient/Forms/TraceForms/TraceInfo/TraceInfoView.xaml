@@ -6,14 +6,15 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         mc:Ignorable="d"
-        Title="TraceInfoView" SizeToContent="Height" Width="350" WindowStartupLocation="CenterScreen"
+        FocusManager.FocusedElement="{Binding ElementName=TraceTitleTextbox}"
+        SizeToContent="Height" Width="350" WindowStartupLocation="CenterScreen"
         d:DataContext="{d:DesignData TraceInfoViewModel}">
     <StackPanel>
         <GroupBox Header="{x:Static stringResources:Resources.SID_Information}" Margin="5">
             <StackPanel Margin="5">
                 <DockPanel>
                     <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_Title}" />
-                    <TextBox Margin="5" 
+                    <TextBox Name="TraceTitleTextbox" Margin="5" TabIndex="0"
                              Text="{Binding Model.Title, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 </DockPanel>
                 <TextBlock Margin="5" Text="{Binding Model.TraceId}" HorizontalAlignment="Right" Foreground="DarkGray"/>
@@ -66,7 +67,7 @@
         </GroupBox>
         <StackPanel Orientation="Horizontal" Margin="15,15">
             <Button Name="Save" Height="25" Width="100" Margin="5" Content="{x:Static stringResources:Resources.SID_Save}" 
-                    IsEnabled="{Binding Model.IsButtonSaveEnabled}"/>
+                    IsEnabled="{Binding Model.IsButtonSaveEnabled}" TabIndex="1" />
             <Button Name="Cancel" Height="25" Width="100" Content="{x:Static stringResources:Resources.SID_Cancel}"/>
         </StackPanel>
 

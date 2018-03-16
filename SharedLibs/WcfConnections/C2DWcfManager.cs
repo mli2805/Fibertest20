@@ -96,6 +96,7 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 var result = await wcfConnection.GetEvents(revision);
+//                _wcfFactory.CloseConnection();
                 return result;
             }
             catch (Exception e)

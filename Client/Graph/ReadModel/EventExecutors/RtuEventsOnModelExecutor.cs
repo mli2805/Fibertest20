@@ -29,10 +29,10 @@ namespace Iit.Fibertest.Graph
 
         public string UpdateRtu(RtuUpdated e)
         {
-            var rtu =  _model.Rtus.FirstOrDefault(r => r.Id == e.Id);
+            var rtu =  _model.Rtus.FirstOrDefault(r => r.Id == e.RtuId);
             if (rtu == null)
             {
-                var message = $@"RtuUpdated: RTU {e.Id.First6()} not found";
+                var message = $@"RtuUpdated: RTU {e.RtuId.First6()} not found";
                 _logFile.AppendLine(message);
                 return message;
             }
@@ -43,10 +43,10 @@ namespace Iit.Fibertest.Graph
 
         public string RemoveRtu(RtuRemoved e)
         {
-            var rtu =  _model.Rtus.FirstOrDefault(r => r.Id == e.Id);
+            var rtu =  _model.Rtus.FirstOrDefault(r => r.Id == e.RtuId);
             if (rtu == null)
             {
-                var message = $@"RtuRemoved: RTU {e.Id.First6()} not found";
+                var message = $@"RtuRemoved: RTU {e.RtuId.First6()} not found";
                 _logFile.AppendLine(message);
                 return message;
             }
