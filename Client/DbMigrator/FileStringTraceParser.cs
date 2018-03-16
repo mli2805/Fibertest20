@@ -80,7 +80,9 @@ namespace Iit.Fibertest.DbMigrator
                             OtauTcpPort = rtu.OtauNetAddress.Port,
                             OpticalPort = port,
                             IsPortOnMainCharon = true
-                        }
+                        },
+                        PreviousTraceState = FiberState.Unknown,
+                        AccidentsInLastMeasurement = null,
                     });
             }
         }

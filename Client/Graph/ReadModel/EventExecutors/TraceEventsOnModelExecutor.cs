@@ -15,14 +15,14 @@ namespace Iit.Fibertest.Graph
 
         private readonly IModel _model;
         private readonly IMyLog _logFile;
-        private readonly MeasurementEventOnModelExecutor _measurementEventOnModelExecutor;
+        private readonly AccidentsOnTraceApplierToReadModel _accidentsOnTraceApplierToReadModel;
 
         public TraceEventsOnModelExecutor(ReadModel model, IMyLog logFile, 
-            MeasurementEventOnModelExecutor measurementEventOnModelExecutor)
+            AccidentsOnTraceApplierToReadModel accidentsOnTraceApplierToReadModel)
         {
             _model = model;
             _logFile = logFile;
-            _measurementEventOnModelExecutor = measurementEventOnModelExecutor;
+            _accidentsOnTraceApplierToReadModel = accidentsOnTraceApplierToReadModel;
         }
         public string AddTrace(TraceAdded e)
         {
@@ -98,7 +98,7 @@ namespace Iit.Fibertest.Graph
             trace.Port = e.OtauPortDto.OpticalPort;
             trace.OtauPort = e.OtauPortDto;
 
-            _measurementEventOnModelExecutor.ShowMonitoringResult(new MeasurementAdded()
+            _accidentsOnTraceApplierToReadModel.ShowMonitoringResult(new MeasurementAdded()
             {
                 TraceId = e.TraceId,
                 TraceState = e.PreviousTraceState,
@@ -121,7 +121,7 @@ namespace Iit.Fibertest.Graph
             trace.IsIncludedInMonitoringCycle = false;
             trace.State = FiberState.NotJoined;
 
-            _model.CleanAccidentPlacesOnTrace(trace.Id);
+            _accidentsOnTraceApplierToReadModel.CleanAccidentPlacesOnTrace(trace.Id);
             return null;
         }
     }
