@@ -133,6 +133,8 @@ namespace Iit.Fibertest.DbMigrator
         {
             switch (oldType)
             {
+                case 0: return EquipmentType.Other; // несколько оборудований в мгтс
+
                 case 2: return EquipmentType.Closure;
                 case 3: return EquipmentType.Cross;
                 case 4: return EquipmentType.Rtu;

@@ -22,6 +22,7 @@
         OtauIp,
         OtauPort,
         LogLevel,
+        OldFibertestServerIp,  // for Migrator only
 
         ClientHeartbeatRate,
         ClientPollingRateMs,

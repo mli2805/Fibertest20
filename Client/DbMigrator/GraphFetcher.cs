@@ -13,13 +13,12 @@ namespace Iit.Fibertest.DbMigrator
         private readonly FileStringParser _fileStringParser;
         private readonly FileStringTraceParser _fileStringTraceParser;
 
-        public GraphFetcher(LogFile logFile, GraphModel graphModel,
-            FileStringParser fileStringParser, FileStringTraceParser fileStringTraceParser)
+        public GraphFetcher(LogFile logFile, GraphModel graphModel)
         {
             _logFile = logFile;
             _graphModel = graphModel;
-            _fileStringParser = fileStringParser;
-            _fileStringTraceParser = fileStringTraceParser;
+            _fileStringParser = new FileStringParser(graphModel);
+            _fileStringTraceParser = new FileStringTraceParser(graphModel);
         }
 
         public void Fetch()

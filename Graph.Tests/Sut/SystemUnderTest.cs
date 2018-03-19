@@ -66,6 +66,7 @@ namespace Graph.Tests
             builder.RegisterType<FakeWaitCursor>().As<IWaitCursor>().SingleInstance();
 
             builder.RegisterType<FakeEventStoreInitializer>().As<IEventStoreInitializer>().SingleInstance();
+            builder.RegisterType<MeasurementFactory>().SingleInstance();
             builder.RegisterType<EventStoreService>().SingleInstance();
 
             builder.RegisterType<TestSettings>().As<ISettings>().SingleInstance();

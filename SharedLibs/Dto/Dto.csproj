@@ -48,8 +48,8 @@
     <Compile Include="C2D2R\DetachOtauDto.cs" />
     <Compile Include="C2D2R\DoClientMeasurementDto.cs" />
     <Compile Include="C2D2R\ReSendBaseRefsDto.cs" />
+    <Compile Include="C2D\AddMeasurementFromOldBase.cs" />
     <Compile Include="C2D\CheckServerConnectionDto.cs" />
-    <Compile Include="C2D\UpdateMeasurementDto.cs" />
     <Compile Include="EnumsIitOtdr\ComparisonReturns.cs" />
     <Compile Include="EnumsIitOtdr\ConnectionTypes.cs" />
     <Compile Include="EnumsIitOtdr\ServiceFunctionCommand.cs" />

@@ -23,6 +23,29 @@ namespace Iit.Fibertest.DataCenterCore
             _writeModel = writeModel;
         }
 
+        public AddMeasurement CreateCommand(AddMeasurementFromOldBase dto, int sorId)
+        {
+            var result = new AddMeasurement
+            {
+                SorFileId = sorId,
+
+                MeasurementTimestamp = dto.MeasurementTimestamp,
+                EventRegistrationTimestamp = DateTime.Now,
+                RtuId = dto.RtuId,
+                TraceId = dto.TraceId,
+                BaseRefType = dto.BaseRefType,
+                TraceState = dto.TraceState,
+
+                EventStatus = EventStatus.JustMeasurementNotAnEvent,
+                StatusChangedTimestamp = DateTime.Now,
+                StatusChangedByUser = "Migrator",
+                Comment = "",
+
+                //Accidents = ExtractAccidents(dto.SorBytes, dto.TraceId)
+            };
+            return result;
+        }
+
         public AddMeasurement CreateCommand(MonitoringResultDto monitoringResultDto, int sorId)
         {
             var result = new AddMeasurement
@@ -41,7 +64,7 @@ namespace Iit.Fibertest.DataCenterCore
                 StatusChangedByUser = "system",
                 Comment = "",
 
-                Accidents = ExtractAccidents(monitoringResultDto)
+                Accidents = ExtractAccidents(monitoringResultDto.SorBytes, monitoringResultDto.PortWithTrace.TraceId)
             };
             return result;
         }
@@ -84,11 +107,11 @@ namespace Iit.Fibertest.DataCenterCore
             return EventStatus.Unprocessed;
         }
 
-        private List<AccidentOnTrace> ExtractAccidents(MonitoringResultDto monitoringResultDto)
+        private List<AccidentOnTrace> ExtractAccidents(byte[] sorBytes, Guid traceId)
         {
-            var sorData = SorData.FromBytes(monitoringResultDto.SorBytes);
+            var sorData = SorData.FromBytes(sorBytes);
             var accidents = _globalScope.Resolve<AccidentsExtractorFromSor>().GetAccidents(sorData, true);
-            accidents.ForEach(a => { a.TraceId = monitoringResultDto.PortWithTrace.TraceId; });
+            accidents.ForEach(a => { a.TraceId = traceId; });
             return accidents;
         }
     }

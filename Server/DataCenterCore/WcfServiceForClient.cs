@@ -16,6 +16,7 @@ namespace Iit.Fibertest.DataCenterCore
     public class WcfServiceForClient : IWcfServiceForClient
     {
         private readonly EventStoreService _eventStoreService;
+        private readonly MeasurementFactory _measurementFactory;
 
         private readonly IMyLog _logFile;
 
@@ -30,7 +31,7 @@ namespace Iit.Fibertest.DataCenterCore
             TypeNameHandling = TypeNameHandling.All
         };
 
-        public WcfServiceForClient(IMyLog logFile, EventStoreService eventStoreService, 
+        public WcfServiceForClient(IMyLog logFile, EventStoreService eventStoreService, MeasurementFactory measurementFactory,
             ClientStationsRepository clientStationsRepository, ClientToRtuTransmitter clientToRtuTransmitter,
             RtuStationsRepository rtuStationsRepository, 
              BaseRefRepairmanIntermediary baseRefRepairmanIntermediary,
@@ -38,6 +39,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             _logFile = logFile;
             _eventStoreService = eventStoreService;
+            _measurementFactory = measurementFactory;
             _clientStationsRepository = clientStationsRepository;
             _clientToRtuTransmitter = clientToRtuTransmitter;
             _rtuStationsRepository = rtuStationsRepository;
@@ -51,6 +53,20 @@ namespace Iit.Fibertest.DataCenterCore
 
             await _eventStoreService.SendCommands(cmds, username, clientIp);
             return jsons.Count;
+        }
+
+        public async Task<int> SendMeas(List<AddMeasurementFromOldBase> list)
+        {
+            foreach (var dto in list)
+            {
+                var sorId = await _sorFileRepository.AddSorBytesAsync(dto.SorBytes);
+                if (sorId == -1) return -1;
+
+                var command = _measurementFactory.CreateCommand(dto, sorId);
+                await _eventStoreService.SendCommand(command, "migrator", "OnServer");
+            }
+          
+            return 0;
         }
 
         public async Task<string> SendCommandAsObj(object cmd)

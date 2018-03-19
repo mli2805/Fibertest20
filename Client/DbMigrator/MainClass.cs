@@ -12,16 +12,19 @@ namespace Iit.Fibertest.DbMigrator
         private readonly LogFile _logFile;
         private readonly GraphModel _graphModel;
         private readonly GraphFetcher _graphFetcher;
-        private readonly SorFetcher _sorFetcher;
+        private readonly TraceBaseFetcher _traceBaseFetcher;
+        private readonly MeasurementsFetcher _measurementsFetcher;
 
         private readonly C2DWcfManager _c2DWcfManager;
-        public MainClass(IniFile iniFile, LogFile logFile, GraphModel graphModel,
-            GraphFetcher graphFetcher, SorFetcher sorFetcher)
+        public MainClass(IniFile iniFile, LogFile logFile)
         {
             _logFile = logFile;
-            _graphModel = graphModel;
-            _graphFetcher = graphFetcher;
-            _sorFetcher = sorFetcher;
+            _graphModel = new GraphModel();
+            _graphFetcher = new GraphFetcher(logFile, _graphModel);
+
+            var oldFibertestServerIp = iniFile.Read(IniSection.General, IniKey.OldFibertestServerIp, "0.0.0.0");
+            _traceBaseFetcher = new TraceBaseFetcher(oldFibertestServerIp); 
+            _measurementsFetcher = new MeasurementsFetcher(oldFibertestServerIp, logFile);
 
             _c2DWcfManager = new C2DWcfManager(iniFile, _logFile);
             DoubleAddress serverAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
@@ -32,20 +35,32 @@ namespace Iit.Fibertest.DbMigrator
         public void Go()
         {
             _graphFetcher.Fetch();
-            SendCommandsExcludingAttachTrace();
+            _logFile.AppendLine("Graph is fetched");
 
+            SendCommandsExcludingAttachTrace();
+            _logFile.AppendLine("Graph is sent");
+
+            TransferBaseRefs();
+            _logFile.AppendLine("Base refs are sent");
+
+            _measurementsFetcher.TransferMeasurements(_graphModel, _c2DWcfManager);
+
+            SendCommandsAttachTrace();
+            _logFile.AppendLine("Migration is terminated");
+        }
+       
+
+        private void TransferBaseRefs()
+        {
             var i = 0;
             foreach (var pair in _graphModel.TracesDictionary)
             {
                 var rtuGuid = _graphModel.AddTraceCommands.First(c => c.Id == pair.Value).RtuId;
-                var assignBaseRefCommand = _sorFetcher.GetAssignBaseRefsDto(pair.Key, pair.Value, rtuGuid);
+                var assignBaseRefCommand = _traceBaseFetcher.GetAssignBaseRefsDto(pair.Key, pair.Value, rtuGuid);
                 _c2DWcfManager.AssignBaseRefAsync(assignBaseRefCommand).Wait();
 
                 Console.WriteLine($"{DateTime.Now}  {++i} assign base ref commands sent");
             }
-
-            SendCommandsAttachTrace();
-            _logFile.AppendLine($"Commands are sent");
         }
 
         private void SendCommandsExcludingAttachTrace()

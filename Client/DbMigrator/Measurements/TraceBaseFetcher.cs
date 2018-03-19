@@ -5,10 +5,10 @@ using MySql.Data.MySqlClient;
 
 namespace Iit.Fibertest.DbMigrator
 {
-    public class SorFetcher
+    public class TraceBaseFetcher
     {
         private readonly MySqlConnection _conn;
-        public SorFetcher(string serverIp)
+        public TraceBaseFetcher(string serverIp)
         {
             string mySqlConnectionString = $"server={serverIp};port=3306;user id=root;password=root;database=fibertest";
             _conn = new MySqlConnection(mySqlConnectionString);
@@ -41,7 +41,7 @@ namespace Iit.Fibertest.DbMigrator
                     Duration = TimeSpan.Zero, // ?
                     BaseRefType = record.BaseRefType,
                     SorFileId = -1, // ?
-                    SorBytes = GetMeasBytes(record.FileId),
+                    SorBytes = SorFetcher.GetMeasBytes(_conn, record.FileId),
                 };
                 result.Add(baseRefDto);
             }
@@ -60,8 +60,6 @@ namespace Iit.Fibertest.DbMigrator
                 var record = new TraceBaseRecord();
                 record.TraceId = (int)reader[1];
                 record.BaseRefType = (int)reader[2] == 1 ? BaseRefType.Precise : BaseRefType.Fast; // уточнить
-//                var str = reader[4].ToString();
-//                record.BaseTimestamp = DateTime.Parse(str);
                 record.BaseTimestamp = (DateTime)reader[4];
                 record.FileId = (int)(uint)reader[5];
 
@@ -70,23 +68,6 @@ namespace Iit.Fibertest.DbMigrator
             reader.Close();
             _conn.Close();
             return records;
-        }
-
-        private byte[] GetMeasBytes(int fileId)
-        {
-            _conn.Open();
-            string cmdString = "select filesize, uncompress(filebin) from measfiles where Id = " + fileId;
-            MySqlCommand cmd = new MySqlCommand(cmdString, _conn);
-
-            MySqlDataReader reader = cmd.ExecuteReader();
-            reader.Read();
-            var filesize = (int)reader[0];
-            var result = new byte[filesize];
-            reader.GetBytes(1, 0, result, 0, filesize);
-
-            reader.Close();
-            _conn.Close();
-            return result;
         }
     }
 }

@@ -109,14 +109,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GraphFetcher.cs" />
-    <Compile Include="SorFetcher.cs" />
+    <Compile Include="Measurements\MeasurementRecord.cs" />
+    <Compile Include="Measurements\MeasurementsFetcher.cs" />
+    <Compile Include="Measurements\SorFetcher.cs" />
+    <Compile Include="Measurements\TraceBaseFetcher.cs" />
     <Compile Include="FileStringTraceParser.cs" />
     <Compile Include="GraphModel.cs" />
     <Compile Include="FileStringParser.cs" />
     <Compile Include="MainClass.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TraceBaseRecord.cs" />
+    <Compile Include="Measurements\TraceBaseRecord.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
