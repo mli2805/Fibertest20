@@ -7,20 +7,20 @@ namespace Iit.Fibertest.DbMigrator
 {
     public class FileStringTraceParser
     {
-        private readonly Graph _graph;
+        private readonly GraphModel _graphModel;
 
-        public FileStringTraceParser(Graph graph)
+        public FileStringTraceParser(GraphModel graphModel)
         {
-            _graph = graph;
+            _graphModel = graphModel;
         }
 
         public void ParseTrace(string[] parts)
         {
             var traceId = int.Parse(parts[1]);
             var traceGuid = Guid.NewGuid();
-            _graph.TracesDictionary.Add(traceId, traceGuid);
+            _graphModel.TracesDictionary.Add(traceId, traceGuid);
 
-            _graph.TraceEventsUnderConstruction.Add(
+            _graphModel.TraceEventsUnderConstruction.Add(
                 new AddTrace()
                 {
                     Id = traceGuid,
@@ -29,26 +29,26 @@ namespace Iit.Fibertest.DbMigrator
                 });
 
             var port = int.Parse(parts[2]);
-            _graph.TracePorts.Add(traceGuid, port);
+            _graphModel.TracePorts.Add(traceGuid, port);
         }
 
         public void ParseTraceNodes(string[] parts)
         {
             var traceId = int.Parse(parts[1]);
-            var evnt = (AddTrace)_graph.TraceEventsUnderConstruction.First(e => e is AddTrace && ((AddTrace)e).Id == _graph.TracesDictionary[traceId]);
+            var evnt = (AddTrace)_graphModel.TraceEventsUnderConstruction.First(e => e is AddTrace && ((AddTrace)e).Id == _graphModel.TracesDictionary[traceId]);
             for (int i = 2; i < parts.Length; i++)
             {
                 if (parts[i] == "")
                     continue;
-                evnt.Nodes.Add(_graph.NodesDictionary[int.Parse(parts[i])]);
+                evnt.Nodes.Add(_graphModel.NodesDictionary[int.Parse(parts[i])]);
             }
         }
 
         public void ParseTraceEquipments(string[] parts)
         {
             var traceId = int.Parse(parts[1]);
-            var cmd = (AddTrace)_graph.TraceEventsUnderConstruction.First(e => e is AddTrace && ((AddTrace)e).Id == _graph.TracesDictionary[traceId]);
-            var rtuGuid = _graph.NodeToRtuDictionary[_graph.NodesDictionary[int.Parse(parts[2])]];
+            var cmd = (AddTrace)_graphModel.TraceEventsUnderConstruction.First(e => e is AddTrace && ((AddTrace)e).Id == _graphModel.TracesDictionary[traceId]);
+            var rtuGuid = _graphModel.NodeToRtuDictionary[_graphModel.NodesDictionary[int.Parse(parts[2])]];
             cmd.RtuId = rtuGuid;
             cmd.Equipments.Add(rtuGuid);
             for (int i = 3; i < parts.Length; i++)
@@ -58,19 +58,17 @@ namespace Iit.Fibertest.DbMigrator
                 var equipmentId = int.Parse(parts[i]);
                 var equipmetnGuid = equipmentId == -1 
                     ? GetEmptyNodeEquipmentGuid(cmd)
-                    : _graph.EquipmentsDictionary[equipmentId];
+                    : _graphModel.EquipmentsDictionary[equipmentId];
                 cmd.Equipments.Add(equipmetnGuid);
             }
 
-
-
-            var traceGuid = _graph.TracesDictionary[traceId];
-            var port = _graph.TracePorts[traceGuid];
+            var traceGuid = _graphModel.TracesDictionary[traceId];
+            var port = _graphModel.TracePorts[traceGuid];
             if (port != -1)
             {
-                var rtu = _graph.RtuCommands.First(c => c.Id == rtuGuid);
+                var rtu = _graphModel.RtuCommands.First(c => c.Id == rtuGuid);
 
-                _graph.TraceEventsUnderConstruction.Add(
+                _graphModel.TraceEventsUnderConstruction.Add(
                     new AttachTrace()
                     {
                         TraceId = traceGuid,
@@ -91,7 +89,7 @@ namespace Iit.Fibertest.DbMigrator
         {
             var index = cmd.Equipments.Count;
             var nodeGuid = cmd.Nodes[index];
-            return _graph.EmptyNodes[nodeGuid];
+            return _graphModel.EmptyNodes[nodeGuid];
         }
     }
 }

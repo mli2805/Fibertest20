@@ -4,7 +4,7 @@ using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.DbMigrator
 {
-    public class Graph
+    public class GraphModel
     {
         public readonly List<object> Commands = new List<object>();
 
@@ -17,5 +17,8 @@ namespace Iit.Fibertest.DbMigrator
         public readonly Dictionary<Guid, int> TracePorts = new Dictionary<Guid, int>();
         public readonly Dictionary<Guid, Guid> EmptyNodes = new Dictionary<Guid, Guid>(); // nodeGuid ; emptyNodeEquipmentGuid
         public readonly List<object> TraceEventsUnderConstruction = new List<object>();
+
+        public readonly List<AddTrace> AddTraceCommands = new List<AddTrace>();
+        public readonly List<AttachTrace> AttachTraceCommands = new List<AttachTrace>();
     }
 }

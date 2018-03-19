@@ -6,11 +6,11 @@ namespace Iit.Fibertest.DbMigrator
 {
     public class FileStringParser
     {
-        private readonly Graph _graph;
+        private readonly GraphModel _graphModel;
 
-        public FileStringParser(Graph graph)
+        public FileStringParser(GraphModel graphModel)
         {
-            _graph = graph;
+            _graphModel = graphModel;
         }
 
         public void ParseFiber(string[] parts)
@@ -21,23 +21,23 @@ namespace Iit.Fibertest.DbMigrator
             var evnt = new AddFiber()
             {
                 Id = Guid.NewGuid(),
-                Node1 = _graph.NodesDictionary[nodeId1],
-                Node2 = _graph.NodesDictionary[nodeId2]
+                Node1 = _graphModel.NodesDictionary[nodeId1],
+                Node2 = _graphModel.NodesDictionary[nodeId2]
             };
-            _graph.Commands.Add(evnt);
+            _graphModel.Commands.Add(evnt);
         }
 
         public void ParseNode(string[] parts)
         {
             var nodeId = int.Parse(parts[1]);
             var nodeGuid = Guid.NewGuid();
-            _graph.NodesDictionary.Add(nodeId, nodeGuid);
+            _graphModel.NodesDictionary.Add(nodeId, nodeGuid);
             var type = OldEquipmentTypeConvertor(int.Parse(parts[2]));
 
             if (type == EquipmentType.Rtu)
             {
                 var rtuGuid = Guid.NewGuid();
-                _graph.Commands.Add(new AddRtuAtGpsLocation()
+                _graphModel.Commands.Add(new AddRtuAtGpsLocation()
                 {
                     Id = rtuGuid,
                     NodeId = nodeGuid,
@@ -46,12 +46,12 @@ namespace Iit.Fibertest.DbMigrator
                     Title = parts[5].Trim(),
                     Comment = parts[6].Trim(),
                 });
-                _graph.NodeToRtuDictionary.Add(nodeGuid, rtuGuid);
+                _graphModel.NodeToRtuDictionary.Add(nodeGuid, rtuGuid);
             }
             else
             {
                 var emptyNodeEquipmentGuid = Guid.NewGuid();
-                _graph.Commands.Add(new AddEquipmentAtGpsLocationWithNodeTitle()
+                _graphModel.Commands.Add(new AddEquipmentAtGpsLocationWithNodeTitle()
                 {
                     NodeId = nodeGuid,
                     Type = EquipmentType.EmptyNode,
@@ -62,7 +62,7 @@ namespace Iit.Fibertest.DbMigrator
                     Title = parts[5].Trim(),
                     Comment = parts[6].Trim(),
                 });
-                _graph.EmptyNodes.Add(nodeGuid, emptyNodeEquipmentGuid);
+                _graphModel.EmptyNodes.Add(nodeGuid, emptyNodeEquipmentGuid);
             }
 
         }
@@ -70,8 +70,8 @@ namespace Iit.Fibertest.DbMigrator
         public void ParseRtu(string[] parts)
         {
             var nodeId = int.Parse(parts[1]);
-            var nodeGuid = _graph.NodesDictionary[nodeId];
-            var rtuGuid = _graph.NodeToRtuDictionary[nodeGuid];
+            var nodeGuid = _graphModel.NodesDictionary[nodeId];
+            var rtuGuid = _graphModel.NodeToRtuDictionary[nodeGuid];
 
             var initializeRtu = new InitializeRtu()
             {
@@ -88,15 +88,15 @@ namespace Iit.Fibertest.DbMigrator
                 ReserveChannel = new NetAddress() { Ip4Address = parts[9], Port = int.Parse(parts[10]) },
             };
 
-            _graph.Commands.Add(initializeRtu);
-            _graph.RtuCommands.Add(initializeRtu);
+            _graphModel.Commands.Add(initializeRtu);
+            _graphModel.RtuCommands.Add(initializeRtu);
         }
 
         public void ParseEquipments(string[] parts)
         {
             var equipmentId = int.Parse(parts[1]);
             var equipmentGuid = Guid.NewGuid();
-            _graph.EquipmentsDictionary.Add(equipmentId, equipmentGuid);
+            _graphModel.EquipmentsDictionary.Add(equipmentId, equipmentGuid);
 
             var nodeId = int.Parse(parts[2]);
             var type = OldEquipmentTypeConvertor(int.Parse(parts[3]));
@@ -104,21 +104,21 @@ namespace Iit.Fibertest.DbMigrator
             var evnt = new AddEquipmentIntoNode()
             {
                 Id = equipmentGuid,
-                NodeId = _graph.NodesDictionary[nodeId],
+                NodeId = _graphModel.NodesDictionary[nodeId],
                 Type = type,
                 Title = parts[4].Trim(),
                 Comment = parts[5].Trim(),
             };
-            _graph.Commands.Add(evnt);
+            _graphModel.Commands.Add(evnt);
         }
 
         public void ParseCharon(string[] parts)
         {
             var nodeId = int.Parse(parts[2]);
-            var nodeGuid = _graph.NodesDictionary[nodeId];
-            var rtuGuid = _graph.NodeToRtuDictionary[nodeGuid];
+            var nodeGuid = _graphModel.NodesDictionary[nodeId];
+            var rtuGuid = _graphModel.NodeToRtuDictionary[nodeGuid];
 
-            _graph.Commands.Add(new AttachOtau()
+            _graphModel.Commands.Add(new AttachOtau()
             {
                 Id = Guid.NewGuid(),
                 RtuId = rtuGuid,

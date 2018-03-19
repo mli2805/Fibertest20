@@ -1,35 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.DbMigrator
 {
-    public class Migrator
+    public class GraphFetcher
     {
-        private readonly IniFile _iniFile;
         private readonly LogFile _logFile;
-        private readonly Graph _graph;
+        private readonly GraphModel _graphModel;
         private readonly FileStringParser _fileStringParser;
         private readonly FileStringTraceParser _fileStringTraceParser;
 
-
-
-        public Migrator(IniFile iniFile, LogFile logFile, Graph graph,
+        public GraphFetcher(LogFile logFile, GraphModel graphModel,
             FileStringParser fileStringParser, FileStringTraceParser fileStringTraceParser)
         {
-            _iniFile = iniFile;
             _logFile = logFile;
-            _graph = graph;
+            _graphModel = graphModel;
             _fileStringParser = fileStringParser;
             _fileStringTraceParser = fileStringTraceParser;
-
         }
 
-        public void Go()
+        public void Fetch()
         {
             System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
             customCulture.NumberFormat.NumberDecimalSeparator = ".";
@@ -42,47 +35,24 @@ namespace Iit.Fibertest.DbMigrator
             _logFile.AppendLine($"Export.txt contains {lines.Length} lines");
 
             FirstPass(lines);
-
             // second pass - all nodes and equipment loaded, now we can process traces
             SecondPass(lines);
 
-            _graph.TraceEventsUnderConstruction.ForEach(e => _graph.Commands.Add(e));
+            foreach (var o in _graphModel.TraceEventsUnderConstruction)
+            {
+                switch (o)
+                {
+                    case AddTrace cmd:
+                        _graphModel.Commands.Add(cmd);
+                        _graphModel.AddTraceCommands.Add(cmd); // copy for easy access
+                        break;
+                    case AttachTrace cmd: _graphModel.AttachTraceCommands.Add(cmd); break;
+                }
+            }
 
             System.Threading.Thread.CurrentThread.CurrentCulture = memory;
 
-            _logFile.AppendLine($"{_graph.Commands.Count} commands prepared");
-
-            SendCommands();
-
-            _logFile.AppendLine($"Commands are sent");
-        }
-
-        private void SendCommands()
-        {
-            Console.WriteLine();
-            Console.WriteLine($"{DateTime.Now}   {_graph.Commands.Count} commands prepared. Sending...");
-
-            var c2DWcfManager = new C2DWcfManager(_iniFile, _logFile);
-            DoubleAddress serverAddress = _iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
-            NetAddress clientAddress = _iniFile.Read(IniSection.ClientLocalAddress, (int)TcpPorts.ClientListenTo);
-            c2DWcfManager.SetServerAddresses(serverAddress, @"migrator", clientAddress.Ip4Address);
-           
-
-            var list = new List<object>();
-            for (var i = 0; i < _graph.Commands.Count; i++)
-            {
-                list.Add(_graph.Commands[i]);
-                if (list.Count == 100) // no more please, max size of wcf operation could be exceeded, anyway check the log if are some errors
-                {
-                    c2DWcfManager.SendCommandsAsObjs(list).Wait();
-                    list = new List<object>();
-                    Console.WriteLine($"{DateTime.Now}   {i+1} commands sent");
-                }
-
-            }
-            if (list.Count > 0)
-                c2DWcfManager.SendCommandsAsObjs(list).Wait();
-
+            _logFile.AppendLine($"{_graphModel.Commands.Count} commands prepared");
         }
 
         private void FirstPass(string[] lines)
@@ -150,6 +120,5 @@ namespace Iit.Fibertest.DbMigrator
                     Console.WriteLine($"{DateTime.Now}   {i} lines processed");
             }
         }
-
     }
 }
