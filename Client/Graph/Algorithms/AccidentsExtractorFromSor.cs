@@ -23,13 +23,13 @@ namespace Iit.Fibertest.Graph.Algorithms
             _logFile = logFile;
         }
 
-        public List<AccidentOnTrace> GetAccidents(OtdrDataKnownBlocks sorData, bool isOnServer)
+        public List<AccidentOnTrace> GetAccidents(OtdrDataKnownBlocks sorData, bool isClient)
         {
             _sorData = sorData;
 
             try
             {
-                return GetAccidents(isOnServer);
+                return GetAccidents(isClient);
             }
             catch (Exception e)
             {
@@ -38,12 +38,12 @@ namespace Iit.Fibertest.Graph.Algorithms
             }
         }
 
-        private List<AccidentOnTrace> GetAccidents(bool isOnServer)
+        private List<AccidentOnTrace> GetAccidents(bool isClient)
         {
             _baseSorData = _sorData.GetBase();
             var levels = _sorData.GetRftsEventsBlockForEveryLevel().ToList();
 
-            if (!isOnServer) ReportBaseAndMeasEventsParsing(levels);
+            if (isClient) ReportBaseAndMeasEventsParsing(levels);
 
             var result = new List<AccidentOnTrace>();
             var level = levels.FirstOrDefault(l => l.LevelName == RftsLevelType.Critical);

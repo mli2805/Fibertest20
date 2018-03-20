@@ -132,6 +132,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Accidents\AccidentsExtractor.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AccidentsExtractor.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Accidents\AccidentsExtractorSteps.cs">
+      <DependentUpon>AccidentsExtractor.feature</DependentUpon>
+    </Compile>
     <Compile Include="BaseRef\BaseRefAdjustedBehindTheScenes.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -242,6 +250,7 @@
     <Compile Include="Sut\Enums\Answer.cs" />
     <Compile Include="Sut\SutExtensions\Handlers.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneBasicTraceRtuEmptyTerminal.cs" />
+    <Compile Include="Sut\SutExtensions\SceneCreators\SceneForAccidentsExtractor.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForBaseRefAdjuster.cs" />
     <Compile Include="Sut\SutExtensions\Tools\OtauAttacher.cs" />
     <Compile Include="Sut\SutExtensions\Tools\BaseRefAssigner.cs" />
@@ -462,6 +471,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Accidents\AccidentsExtractor.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>AccidentsExtractor.feature.cs</LastGenOutput>
+    </None>
     <None Include="BaseRef\BaseRefAdjustedBehindTheScenes.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>BaseRefAdjustedBehindTheScenes.feature.cs</LastGenOutput>
@@ -673,9 +686,13 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Sut\MoniResults\moniresult1.sor" />
+    <Content Include="Sut\MoniResults\moniresult2.sor" />
     <Content Include="Sut\SorFiles\base1550-2lm-3-thresholds.sor" />
     <Content Include="Sut\SorFiles\base1550-2lm-no-thresholds.sor" />
     <Content Include="Sut\SorFiles\base1550-4lm-3-thresholds.sor" />
+    <Content Include="Sut\SorFiles\base1550-4lm-realplace-rough.sor" />
+    <Content Include="Sut\SorFiles\base1550-5-fake-rough.sor" />
     <Content Include="Sut\SorFiles\base1625-3lm.sor" />
     <Content Include="Sut\SorFiles\base1625.sor" />
     <Content Include="Sut\SorFiles\baseRtuCrossTerminal1550.sor" />

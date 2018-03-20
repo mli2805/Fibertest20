@@ -5,6 +5,7 @@ using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.DataCenterCore;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.Graph.Algorithms;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WcfServiceForClientInterface;
@@ -23,6 +24,8 @@ namespace Graph.Tests
         public ClientPoller Poller { get; }
         public FakeWindowManager FakeWindowManager { get; }
         public ShellViewModel ShellVm { get; }
+
+        public AccidentsExtractorFromSor AccidentsExtractorFromSor { get; }
         public int CurrentEventNumber => Poller.CurrentEventNumber;
 
         public const string NewTitleForTest = "New name for old equipment";
@@ -37,6 +40,9 @@ namespace Graph.Tests
         public const string Base1550Lm4YesThresholds = @"..\..\Sut\SorFiles\base1550-4lm-3-thresholds.sor";
         public const string Base1550Lm2YesThresholds = @"..\..\Sut\SorFiles\base1550-2lm-3-thresholds.sor";
 
+        public const string Base1550Lm4RealplaceYesRough = @"..\..\Sut\SorFiles\base1550-4lm-realplace-rough.sor";
+        public const string Base1550Lm5FakeYesRough = @"..\..\Sut\SorFiles\base1550-5lm-fake-rough.sor";
+
         public SystemUnderTest()
         {
             AutofacMess();
@@ -49,6 +55,7 @@ namespace Graph.Tests
             GraphReadModel = Container.Resolve<GraphReadModel>();
             TreeOfRtuModel = Container.Resolve<TreeOfRtuModel>();
             TreeOfRtuViewModel = Container.Resolve<TreeOfRtuViewModel>();
+            AccidentsExtractorFromSor = Container.Resolve<AccidentsExtractorFromSor>();
             
 
             var ev = Container.Resolve<EventStoreService>();

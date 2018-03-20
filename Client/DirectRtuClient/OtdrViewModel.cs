@@ -398,21 +398,8 @@ namespace DirectRtuClient
             var sorData = SorData.FromBytes(measBytes);
 
             var accidentExtractor = new AccidentsExtractorFromSor(_rtuLogger);
-            var accidents = accidentExtractor.GetAccidents(sorData, false);
+            var accidents = accidentExtractor.GetAccidents(sorData, true);
             _rtuLogger.AppendLine($@"{accidents.Count} accidents found");
-
-//            var path = @"c:\temp\";
-//            for (int i = 0; i < 10; i++)
-//            {
-//                path = path + Guid.NewGuid() + @"\";
-//            }
-//
-//            Directory.CreateDirectory(path);
-//                path = path + @"test.txt";
-//
-//
-//            var text = @"test";
-//            File.WriteAllText(path, text);
         }
 
     }
