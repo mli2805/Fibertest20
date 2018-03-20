@@ -62,7 +62,6 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 var command = new AddNetworkEvent()
                 {
-                    NetworkEventId = networkEvent.NetworkEventId,
                     RtuId = networkEvent.RtuId,
                     EventTimestamp = DateTime.Now,
                     MainChannelState = networkEvent.MainChannelState,

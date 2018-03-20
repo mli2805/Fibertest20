@@ -41,7 +41,6 @@ namespace Iit.Fibertest.Graph
         }
         #endregion
 
-
         #region Zone
         public string When(AddZone cmd)
         {
@@ -294,6 +293,8 @@ namespace Iit.Fibertest.Graph
         public string When(AddNetworkEvent cmd)
         {
             var networkEventAdded = _mapper.Map<NetworkEventAdded>(cmd);
+            var lastEventOrdial = WriteModel.NetworkEvents.Any() ?  WriteModel.NetworkEvents.Max(n => n.Ordinal) : 1;
+            networkEventAdded.Ordinal = lastEventOrdial + 1;
             var rtu = WriteModel.Rtus.First(r => r.Id == networkEventAdded.RtuId);
             networkEventAdded.RtuPartStateChanges = IsStateWorseOrBetterThanBefore(rtu, networkEventAdded);
             return WriteModel.Add(networkEventAdded);

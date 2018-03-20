@@ -38,7 +38,7 @@ namespace Iit.Fibertest.Client
         {
             Rows.Add(new NetworkEventModel()
             {
-                Nomer = 1,
+                Ordinal = networkEvent.Ordinal,
                 EventTimestamp = networkEvent.EventTimestamp,
                 RtuId = networkEvent.RtuId,
                 RtuTitle = _readModel.Rtus.FirstOrDefault(r => r.Id == networkEvent.RtuId)?.Title,

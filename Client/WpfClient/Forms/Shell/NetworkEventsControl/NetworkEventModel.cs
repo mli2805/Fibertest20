@@ -8,7 +8,7 @@ namespace Iit.Fibertest.Client
 {
     public class NetworkEventModel
     {
-        public int Nomer { get; set; }
+        public int Ordinal { get; set; }
         public DateTime EventTimestamp { get; set; }
         public string RtuTitle { get; set; }
         public Guid RtuId { get; set; }
