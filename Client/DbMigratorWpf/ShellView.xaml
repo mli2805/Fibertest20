@@ -3,10 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight">
 
-    <StackPanel Width="400">
-        <Button Name="BtnSend"  Content="Send" Width="150" Height="25" Margin=" 5"/>
-        <TextBlock Margin="5" Background="AliceBlue"></TextBlock>
-        <Button Name="BtnClose"  Content="Close" Width="150" Height="25" Margin=" 5"/>
+    <StackPanel Width="300" Margin="0,20">
+        <Button Name="BtnSendRegister"  Content="Send Register" Width="150" Height="25" Margin=" 5"/>
+        <Button Name="BtnSendHeartbeat"  Content="Send Heartbeat" Width="150" Height="25" Margin=" 5"/>
+        <TextBlock Margin="10,5" Background="AliceBlue"></TextBlock>
     </StackPanel>
 
 </Window>
