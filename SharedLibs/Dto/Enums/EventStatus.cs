@@ -20,6 +20,7 @@ namespace Iit.Fibertest.Dto
         {
             switch (eventStatus)
             {
+                    case EventStatus.JustMeasurementNotAnEvent:
                     case EventStatus.EventButNotAnAccident:
                         return "";
                     case EventStatus.Planned:

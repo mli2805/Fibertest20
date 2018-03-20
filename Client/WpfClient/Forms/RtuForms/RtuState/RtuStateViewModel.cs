@@ -10,17 +10,29 @@ namespace Iit.Fibertest.Client
     public class RtuStateViewModel : Screen
     {
         private readonly SoundManager _soundManager;
+        private readonly RtuStateModelFactory _rtuStateModelFactory;
         private bool _isSoundForThisVmInstanceOn;
         private bool _isUserAskedToOpenView;
         private RtuPartStateChanges _changes;
-        
+        private RtuStateModel _model;
+
         public bool IsOpen { get; private set; }
 
-        public RtuStateModel Model { get; set; }
+        public RtuStateModel Model
+        {
+            get { return _model; }
+            set
+            {
+                if (Equals(value, _model)) return;
+                _model = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
-        public RtuStateViewModel(SoundManager soundManager)
+        public RtuStateViewModel(SoundManager soundManager, RtuStateModelFactory rtuStateModelFactory)
         {
             _soundManager = soundManager;
+            _rtuStateModelFactory = rtuStateModelFactory;
         }
 
         public void Initialize(RtuStateModel model, bool isUserAskedToOpenView, RtuPartStateChanges changes)
@@ -49,6 +61,10 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        public void RefreshModel(RtuLeaf rtuLeaf)
+        {
+            Model = _rtuStateModelFactory.Create(rtuLeaf);
+        }
 
         public void MonitoringStarted()
         {
@@ -61,7 +77,7 @@ namespace Iit.Fibertest.Client
             Model.CurrentMeasurementStep = BuildMessage(MonitoringCurrentStep.Idle);
         }
 
-        public void NotifyUserMonitoringResult(Measurement dto)
+        public void NotifyUserMonitoringResult(MeasurementAdded dto)
         {
             var portLineVm = Model.Ports.FirstOrDefault(p => p.TraceId == dto.TraceId);
             if (portLineVm == null)

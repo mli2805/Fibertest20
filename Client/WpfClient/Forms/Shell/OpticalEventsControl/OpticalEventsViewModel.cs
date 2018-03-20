@@ -136,6 +136,8 @@ namespace Iit.Fibertest.Client
 
         public void AddEvent(Measurement measurement)
         {
+            if (measurement.SorFileId == 36)
+                Console.WriteLine();
             Rows.Add(new OpticalEventModel()
             {
                 Nomer = measurement.SorFileId,
@@ -181,6 +183,8 @@ namespace Iit.Fibertest.Client
 
         public void UpdateEvent(MeasurementUpdated dto)
         {
+            if (dto.SorFileId == 36)
+                Console.WriteLine();
             var opticalEventModel = Rows.FirstOrDefault(l => l.SorFileId == dto.SorFileId);
             if (opticalEventModel == null) return;
 
@@ -188,7 +192,7 @@ namespace Iit.Fibertest.Client
 
             opticalEventModel.EventStatus = dto.EventStatus;
             opticalEventModel.StatusChangedByUser = dto.StatusChangedByUser;
-            opticalEventModel.StatusChangedTimestamp = dto.StatusChangedTimestamp.ToString();
+            opticalEventModel.StatusChangedTimestamp = dto.StatusChangedTimestamp.ToString(@"dd-MM-yyyy HH:mm:ss");
             opticalEventModel.Comment = dto.Comment;
 
             Rows.Add(opticalEventModel);

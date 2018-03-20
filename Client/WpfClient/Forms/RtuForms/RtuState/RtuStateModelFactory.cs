@@ -10,12 +10,10 @@ namespace Iit.Fibertest.Client
     public class RtuStateModelFactory
     {
         private readonly ReadModel _readModel;
-        private readonly OpticalEventsViewModel _opticalEventsViewModel;
 
-        public RtuStateModelFactory(ReadModel readModel, OpticalEventsViewModel opticalEventsViewModel)
+        public RtuStateModelFactory(ReadModel readModel)
         {
             _readModel = readModel;
-            _opticalEventsViewModel = opticalEventsViewModel;
         }
 
         public RtuStateModel Create(RtuLeaf rtuLeaf)
@@ -102,7 +100,7 @@ namespace Iit.Fibertest.Client
                 TraceId = traceLeaf.Id,
                 TraceTitle = traceLeaf.Title,
                 TraceState = traceLeaf.TraceState,
-                Timestamp = _opticalEventsViewModel.Rows.LastOrDefault(o => o.TraceId == traceLeaf.Id)?.EventRegistrationTimestamp,
+                Timestamp = _readModel.Measurements.LastOrDefault(m=>m.TraceId == traceLeaf.Id)?.EventRegistrationTimestamp,
             };
         }
     }
