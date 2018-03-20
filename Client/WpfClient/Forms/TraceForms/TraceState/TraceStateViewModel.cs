@@ -14,6 +14,7 @@ namespace Iit.Fibertest.Client
     public class TraceStateViewModel : Screen
     {
         private readonly IMyLog _logFile;
+        private readonly CurrentUser _currentUser;
         private readonly ReflectogramManager _reflectogramManager;
         private readonly SoundManager _soundManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
@@ -28,11 +29,12 @@ namespace Iit.Fibertest.Client
         public List<EventStatusComboItem> StatusRows { get; set; }
         public EventStatusComboItem SelectedEventStatus { get; set; }
 
-        public TraceStateViewModel(IMyLog logFile, ReflectogramManager reflectogramManager, 
+        public TraceStateViewModel(IMyLog logFile, CurrentUser currentUser, ReflectogramManager reflectogramManager, 
             SoundManager soundManager, IWcfServiceForClient c2DWcfManager, 
             TraceStatisticsViewsManager traceStatisticsViewsManager)
         {
             _logFile = logFile;
+            _currentUser = currentUser;
             _reflectogramManager = reflectogramManager;
             _soundManager = soundManager;
             _c2DWcfManager = c2DWcfManager;
@@ -123,6 +125,8 @@ namespace Iit.Fibertest.Client
                     EventStatus = Model.OpticalEventPanelVisibility == Visibility.Visible
                         ? SelectedEventStatus.EventStatus
                         : Model.EventStatus,
+                    StatusChangedTimestamp = DateTime.Now,
+                    StatusChangedByUser = _currentUser.UserName,
                 };
 
                 var result = await _c2DWcfManager.SendCommandAsObj(dto);

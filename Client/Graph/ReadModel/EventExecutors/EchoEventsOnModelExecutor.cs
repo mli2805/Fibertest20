@@ -29,6 +29,10 @@ namespace Iit.Fibertest.Graph
             var preciseBaseRef = e.BaseRefs.FirstOrDefault(b => b.BaseRefType == BaseRefType.Precise);
             if (preciseBaseRef != null)
             {
+                var oldBaseRef = _model.BaseRefs.FirstOrDefault(b =>
+                    b.TraceId == preciseBaseRef.TraceId && b.BaseRefType == preciseBaseRef.BaseRefType);
+                if (oldBaseRef != null)
+                    _model.BaseRefs.Remove(oldBaseRef);
                 _model.BaseRefs.Add(preciseBaseRef);
                 trace.PreciseId = preciseBaseRef.Id;
                 trace.PreciseDuration = preciseBaseRef.Duration;
@@ -36,6 +40,10 @@ namespace Iit.Fibertest.Graph
             var fastBaseRef = e.BaseRefs.FirstOrDefault(b => b.BaseRefType == BaseRefType.Fast);
             if (fastBaseRef != null)
             {
+                var oldBaseRef = _model.BaseRefs.FirstOrDefault(b =>
+                    b.TraceId == fastBaseRef.TraceId && b.BaseRefType == fastBaseRef.BaseRefType);
+                if (oldBaseRef != null)
+                    _model.BaseRefs.Remove(oldBaseRef);
                 _model.BaseRefs.Add(fastBaseRef);
                 trace.FastId = fastBaseRef.Id;
                 trace.FastDuration = fastBaseRef.Duration;
@@ -43,6 +51,10 @@ namespace Iit.Fibertest.Graph
             var additionalBaseRef = e.BaseRefs.FirstOrDefault(b => b.BaseRefType == BaseRefType.Additional);
             if (additionalBaseRef != null)
             {
+                var oldBaseRef = _model.BaseRefs.FirstOrDefault(b =>
+                    b.TraceId == additionalBaseRef.TraceId && b.BaseRefType == additionalBaseRef.BaseRefType);
+                if (oldBaseRef != null)
+                    _model.BaseRefs.Remove(oldBaseRef);
                 _model.BaseRefs.Add(additionalBaseRef);
                 trace.AdditionalId = additionalBaseRef.Id;
                 trace.AdditionalDuration = additionalBaseRef.Duration;

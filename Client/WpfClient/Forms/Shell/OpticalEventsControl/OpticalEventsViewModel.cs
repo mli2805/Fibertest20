@@ -152,8 +152,8 @@ namespace Iit.Fibertest.Client
                 StatusChangedTimestamp = measurement.EventStatus.IsStatusAssignedByUser()
                     ? measurement.StatusChangedTimestamp.ToString(Thread.CurrentThread.CurrentUICulture)
                     : "",
-                StatusChangedByUser = measurement.EventStatus.IsStatusAssignedByUser() 
-                    ? measurement.StatusChangedByUser 
+                StatusChangedByUser = measurement.EventStatus.IsStatusAssignedByUser()
+                    ? measurement.StatusChangedByUser
                     : "",
 
                 Comment = measurement.Comment,
@@ -181,10 +181,17 @@ namespace Iit.Fibertest.Client
 
         public void UpdateEvent(MeasurementUpdated dto)
         {
-            var oldEvent = Rows.FirstOrDefault(l => l.SorFileId == dto.SorFileId);
-            if (oldEvent != null)
-                Rows.Remove(oldEvent);
+            var opticalEventModel = Rows.FirstOrDefault(l => l.SorFileId == dto.SorFileId);
+            if (opticalEventModel == null) return;
 
+            Rows.Remove(opticalEventModel);
+
+            opticalEventModel.EventStatus = dto.EventStatus;
+            opticalEventModel.StatusChangedByUser = dto.StatusChangedByUser;
+            opticalEventModel.StatusChangedTimestamp = dto.StatusChangedTimestamp.ToString();
+            opticalEventModel.Comment = dto.Comment;
+
+            Rows.Add(opticalEventModel);
         }
 
         public void ShowReflectogram(int param)
@@ -241,6 +248,6 @@ namespace Iit.Fibertest.Client
             SelectedRow = opticalEventModel;
         }
 
-    
+
     }
 }
