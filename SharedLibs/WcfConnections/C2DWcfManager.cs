@@ -50,13 +50,16 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<int> SendCommands(List<string> jsons, string username, string clientIp)
         {
-            var wcfConnection = _wcfFactory.CreateC2DConnection();
+            var wcfConnection = _wcfFactory.GetC2DChannelFactory();
             if (wcfConnection == null)
                 return -1;
 
             try
             {
-                return await wcfConnection.SendCommands(jsons, username, clientIp);
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.SendCommands(jsons, username, clientIp);
+                wcfConnection.Close();
+                return result;
             }
             catch (Exception e)
             {
@@ -67,13 +70,16 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<int> SendMeas(List<AddMeasurementFromOldBase> list)
         {
-            var wcfConnection = _wcfFactory.CreateC2DConnection();
+            var wcfConnection = _wcfFactory.GetC2DChannelFactory();
             if (wcfConnection == null)
                 return -1;
 
             try
             {
-                return await wcfConnection.SendMeas(list);
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.SendMeas(list);
+                wcfConnection.Close();
+                return result;
             }
             catch (Exception e)
             {
@@ -89,13 +95,16 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<string> SendCommand(string serializedCmd, string username, string clientIp)
         {
-            var wcfConnection = _wcfFactory.CreateC2DConnection();
+            var wcfConnection = _wcfFactory.GetC2DChannelFactory();
             if (wcfConnection == null)
                 return @"Cannot establish data-center connection.";
 
             try
             {
-                return await wcfConnection.SendCommand(serializedCmd, username, clientIp);
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.SendCommand(serializedCmd, username, clientIp);
+                wcfConnection.Close();
+                return result;
             }
             catch (Exception e)
             {
@@ -106,14 +115,15 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<string[]> GetEvents(int revision)
         {
-            var wcfConnection = _wcfFactory.CreateC2DConnection();
+            var wcfConnection = _wcfFactory.GetC2DChannelFactory();
             if (wcfConnection == null)
                 return null;
 
             try
             {
-                var result = await wcfConnection.GetEvents(revision);
-//                _wcfFactory.CloseConnection();
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.GetEvents(revision);
+                wcfConnection.Close();
                 return result;
             }
             catch (Exception e)
@@ -123,15 +133,18 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public Task<byte[]> GetSorBytes(int sorFileId)
+        public async Task<byte[]> GetSorBytes(int sorFileId)
         {
-            var wcfConnection = _wcfFactory.CreateC2DConnection();
+            var wcfConnection = _wcfFactory.GetC2DChannelFactory();
             if (wcfConnection == null)
                 return null;
 
             try
             {
-                return wcfConnection.GetSorBytes(sorFileId);
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.GetSorBytes(sorFileId);
+                wcfConnection.Close();
+                return result;
             }
             catch (Exception e)
             {
@@ -145,14 +158,17 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {
-            var wcfConnection = _wcfFactory.CreateC2DConnection();
+            var wcfConnection = _wcfFactory.GetC2DChannelFactory();
             if (wcfConnection == null)
                 return new ClientRegisteredDto() { ReturnCode = ReturnCode.C2DWcfConnectionError };
 
             try
             {
                 dto.ClientId = _clientId;
-                return await wcfConnection.RegisterClientAsync(dto);
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.RegisterClientAsync(dto);
+                wcfConnection.Close();
+                return result;
             }
             catch (Exception e)
             {
@@ -161,53 +177,63 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public async Task UnregisterClientAsync(UnRegisterClientDto dto)
+        public async Task<int> UnregisterClientAsync(UnRegisterClientDto dto)
         {
-            var wcfConnection = _wcfFactory?.CreateC2DConnection();
+            var wcfConnection = _wcfFactory?.GetC2DChannelFactory();
             if (wcfConnection == null)
-                return;
+                return -1;
 
             try
             {
                 dto.ClientId = _clientId;
-                await wcfConnection.UnregisterClientAsync(dto);
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.UnregisterClientAsync(dto);
                 _logFile.AppendLine($@"Unregistered on server");
+                wcfConnection.Close();
+                return result;
             }
             catch (Exception e)
             {
                 _logFile.AppendLine(e.Message);
+                return -1;
             }
         }
 
-        public Task<bool> CheckServerConnection(CheckServerConnectionDto dto)
+        public async Task<bool> CheckServerConnection(CheckServerConnectionDto dto)
         {
-            var wcfConnection = _wcfFactory.CreateC2DConnection();
+            var wcfConnection = _wcfFactory.GetC2DChannelFactory();
             if (wcfConnection == null)
-                return TaskEx.FromResult(false);
+                return false;
 
             try
             {
                 dto.ClientId = _clientId;
-                return wcfConnection.CheckServerConnection(dto);
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.CheckServerConnection(dto);
+                wcfConnection.Close();
+                return result;
             }
             catch (Exception e)
             {
                 _logFile.AppendLine(e.Message);
-                return TaskEx.FromResult(false);
+                return false;
             }
         }
 
         public async Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)
         {
             _logFile.AppendLine($@"Checking connection with RTU {dto.NetAddress.ToStringA()}");
-            var c2DChannel = _wcfFactory.CreateC2DConnection();
-            if (c2DChannel == null)
+            var wcfConnection = _wcfFactory.GetC2DChannelFactory();
+            if (wcfConnection == null)
                 return new RtuConnectionCheckedDto() { IsConnectionSuccessfull = false };
 
             try
             {
                 dto.ClientId = _clientId;
-                return await c2DChannel.CheckRtuConnectionAsync(dto);
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.CheckRtuConnectionAsync(dto);
+                wcfConnection.Close();
+                return result;
             }
             catch (Exception e)
             {
@@ -218,15 +244,18 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
-            var c2DChannel = _wcfFactory.CreateC2DConnection();
-            if (c2DChannel == null)
+            var wcfConnection = _wcfFactory.GetC2DChannelFactory();
+            if (wcfConnection == null)
                 return new RtuInitializedDto() { IsInitialized = false, ReturnCode = ReturnCode.C2DWcfConnectionError, ErrorMessage = "Can't establish connection with DataCenter"};
 
             try
             {
                 _logFile.AppendLine($@"Sending command to initialize RTU {dto.RtuId.First6()}");
                 dto.ClientId = _clientId;
-                return await c2DChannel.InitializeRtuAsync(dto);
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.InitializeRtuAsync(dto);
+                wcfConnection.Close();
+                return result;
             }
             catch (Exception e)
             {
@@ -237,15 +266,18 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto)
         {
-            var c2DChannel = _wcfFactory.CreateC2DConnection();
-            if (c2DChannel == null)
+            var wcfConnection = _wcfFactory.GetC2DChannelFactory();
+            if (wcfConnection == null)
                 return new OtauAttachedDto() { IsAttached = false, ReturnCode = ReturnCode.C2DWcfConnectionError, ErrorMessage = "Can't establish connection with DataCenter" };
 
             try
             {
                 _logFile.AppendLine($@"Sending command to attach OTAU {dto.OtauId.First6()}");
                 dto.ClientId = _clientId;
-                return await c2DChannel.AttachOtauAsync(dto);
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.AttachOtauAsync(dto);
+                wcfConnection.Close();
+                return result;
             }
             catch (Exception e)
             {
@@ -256,15 +288,18 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<OtauDetachedDto> DetachOtauAsync(DetachOtauDto dto)
         {
-            var c2DChannel = _wcfFactory.CreateC2DConnection();
-            if (c2DChannel == null)
+            var wcfConnection = _wcfFactory.GetC2DChannelFactory();
+            if (wcfConnection == null)
                 return new OtauDetachedDto() { IsDetached = false, ReturnCode = ReturnCode.C2DWcfConnectionError, ErrorMessage = "Can't establish connection with DataCenter" };
 
             try
             {
                 _logFile.AppendLine($@"Sending command to detach OTAU {dto.OtauId.First6()}");
                 dto.ClientId = _clientId;
-                return await c2DChannel.DetachOtauAsync(dto);
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.DetachOtauAsync(dto);
+                wcfConnection.Close();
+                return result;
             }
             catch (Exception e)
             {
@@ -275,7 +310,7 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<bool> StopMonitoringAsync(StopMonitoringDto dto)
         {
-            var wcfConnection = _wcfFactory.CreateC2DConnection();
+            var wcfConnection = _wcfFactory.GetC2DChannelFactory();
             if (wcfConnection == null)
                 return false;
 
@@ -283,7 +318,10 @@ namespace Iit.Fibertest.WcfConnections
             {
                 _logFile.AppendLine($@"Sending command to stop monitoring on RTU {dto.RtuId.First6()}");
                 dto.ClientId = _clientId;
-                return await wcfConnection.StopMonitoringAsync(dto);
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.StopMonitoringAsync(dto);
+                wcfConnection.Close();
+                return result;
             }
             catch (Exception e)
             {
@@ -294,7 +332,7 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
         {
-            var wcfConnection = _wcfFactory.CreateC2DConnection();
+            var wcfConnection = _wcfFactory.GetC2DChannelFactory();
             if (wcfConnection == null)
                 return new MonitoringSettingsAppliedDto() {ReturnCode = ReturnCode.C2DWcfConnectionError};
 
@@ -302,7 +340,10 @@ namespace Iit.Fibertest.WcfConnections
             {
                 _logFile.AppendLine($@"Sending monitoring settings to RTU {dto.RtuId.First6()}");
                 dto.ClientId = _clientId;
-                return await wcfConnection.ApplyMonitoringSettingsAsync(dto);
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.ApplyMonitoringSettingsAsync(dto);
+                wcfConnection.Close();
+                return result;
             }
             catch (Exception e)
             {
@@ -313,7 +354,7 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto dto)
         {
-            var wcfConnection = _wcfFactory.CreateC2DConnection();
+            var wcfConnection = _wcfFactory.GetC2DChannelFactory();
             if (wcfConnection == null)
                 return new BaseRefAssignedDto() {ReturnCode = ReturnCode.C2DWcfConnectionError};
 
@@ -321,7 +362,10 @@ namespace Iit.Fibertest.WcfConnections
             {
                 _logFile.AppendLine($@"Sending base ref for trace {dto.TraceId.First6()}...");
                 dto.ClientId = _clientId;
-                return await wcfConnection.AssignBaseRefAsync(dto);
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.AssignBaseRefAsync(dto);
+                wcfConnection.Close();
+                return result;
             }
             catch (Exception e)
             {
@@ -332,7 +376,7 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<BaseRefAssignedDto> ReSendBaseRefAsync(ReSendBaseRefsDto dto)
         {
-            var wcfConnection = _wcfFactory.CreateC2DConnection();
+            var wcfConnection = _wcfFactory.GetC2DChannelFactory();
             if (wcfConnection == null)
                 return new BaseRefAssignedDto() { ReturnCode = ReturnCode.C2DWcfConnectionError };
 
@@ -340,7 +384,10 @@ namespace Iit.Fibertest.WcfConnections
             {
                 _logFile.AppendLine($@"Re-Sending base ref to RTU {dto.RtuId.First6()}");
                 dto.ClientId = _clientId;
-                return await wcfConnection.ReSendBaseRefAsync(dto);
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.ReSendBaseRefAsync(dto);
+                wcfConnection.Close();
+                return result;
             }
             catch (Exception e)
             {
@@ -351,7 +398,7 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto)
         {
-            var wcfConnection = _wcfFactory.CreateC2DConnection();
+            var wcfConnection = _wcfFactory.GetC2DChannelFactory();
             if (wcfConnection == null)
                 return new ClientMeasurementStartedDto() { ReturnCode = ReturnCode.C2DWcfConnectionError };
 
@@ -359,7 +406,10 @@ namespace Iit.Fibertest.WcfConnections
             {
                 _logFile.AppendLine($@"Sending command to do client's measurement on RTU {dto.RtuId.First6()}");
                 dto.ClientId = _clientId;
-                return await wcfConnection.DoClientMeasurementAsync(dto);
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.DoClientMeasurementAsync(dto);
+                wcfConnection.Close();
+                return result;
             }
             catch (Exception e)
             {
@@ -370,7 +420,7 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<OutOfTurnMeasurementStartedDto> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto)
         {
-            var wcfConnection = _wcfFactory.CreateC2DConnection();
+            var wcfConnection = _wcfFactory.GetC2DChannelFactory();
             if (wcfConnection == null)
                 return new OutOfTurnMeasurementStartedDto() { ReturnCode = ReturnCode.C2DWcfConnectionError };
 
@@ -378,7 +428,10 @@ namespace Iit.Fibertest.WcfConnections
             {
                 _logFile.AppendLine($@"Sending command to do out of turn precise measurement on RTU {dto.RtuId.First6()}");
                 dto.ClientId = _clientId;
-                return await wcfConnection.DoOutOfTurnPreciseMeasurementAsync(dto);
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.DoOutOfTurnPreciseMeasurementAsync(dto);
+                wcfConnection.Close();
+                return result;
             }
             catch (Exception e)
             {

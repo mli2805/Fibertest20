@@ -33,13 +33,16 @@ namespace Iit.Fibertest.WcfConnections
             }
             foreach (var clientAddress in _addresses)
             {
-                var wcfConnection = new WcfFactory(clientAddress, _iniFile, _logFile).CreateClientConnection();
+                var wcfConnection = new WcfFactory(clientAddress, _iniFile, _logFile).GetClientChannelFactory();
                 if (wcfConnection == null)
                     continue;
 
                 try
                 {
-                    await wcfConnection.NotifyUsersRtuCurrentMonitoringStep(dto);
+                    var channel = wcfConnection.CreateChannel();
+                    var result = await channel.NotifyUsersRtuCurrentMonitoringStep(dto);
+                    wcfConnection.Close();
+                    return result;
                 }
                 catch (Exception e)
                 {
@@ -58,13 +61,16 @@ namespace Iit.Fibertest.WcfConnections
             }
             foreach (var clientAddress in _addresses)
             {
-                var wcfConnection = new WcfFactory(clientAddress, _iniFile, _logFile).CreateClientConnection();
+                var wcfConnection = new WcfFactory(clientAddress, _iniFile, _logFile).GetClientChannelFactory();
                 if (wcfConnection == null)
                     continue;
 
                 try
                 {
-                    await wcfConnection.NotifyAboutMeasurementClientDone(dto);
+                    var channel = wcfConnection.CreateChannel();
+                    var result = await channel.NotifyAboutMeasurementClientDone(dto);
+                    wcfConnection.Close();
+                    return result;
                 }
                 catch (Exception e)
                 {

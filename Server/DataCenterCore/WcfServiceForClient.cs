@@ -111,9 +111,9 @@ namespace Iit.Fibertest.DataCenterCore
             return await Task.FromResult(_eventStoreService.GetEvents(revision));
         }
 
-        public Task<byte[]> GetSorBytes(int sorFileId)
+        public async Task<byte[]> GetSorBytes(int sorFileId)
         {
-            return _sorFileRepository.GetSorBytesAsync(sorFileId);
+            return await _sorFileRepository.GetSorBytesAsync(sorFileId);
         }
 
       
@@ -124,16 +124,18 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
-        public async Task UnregisterClientAsync(UnRegisterClientDto dto)
+        public async Task<int> UnregisterClientAsync(UnRegisterClientDto dto)
         {
-            await _clientStationsRepository.UnregisterClientAsync(dto);
+            var result = await _clientStationsRepository.UnregisterClientAsync(dto);
             _logFile.AppendLine($"Client {dto.ClientId.First6()} exited");
+            return result;
         }
 
-        public Task<bool> CheckServerConnection(CheckServerConnectionDto dto)
+        public async Task<bool> CheckServerConnection(CheckServerConnectionDto dto)
         {
             _logFile.AppendLine($"Client {dto.ClientId.First6()} checked server connection");
-            return Task.FromResult(true);
+            await Task.Delay(1);
+            return true;
         }
 
         public  async Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)

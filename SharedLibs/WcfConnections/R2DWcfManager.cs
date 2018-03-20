@@ -18,13 +18,15 @@ namespace Iit.Fibertest.WcfConnections
 
         public bool SendHeartbeat(RtuChecksChannelDto dto)
         {
-            var wcfConnection = _wcfFactory.CreateR2DConnection(false);
+            var wcfConnection = _wcfFactory.GetR2DChannelFactory(false);
             if (wcfConnection == null)
                 return false;
 
             try
             {
-                wcfConnection.RegisterRtuHeartbeat(dto);
+                var channel = wcfConnection.CreateChannel();
+                channel.RegisterRtuHeartbeat(dto);
+                wcfConnection.Close();
                 return true;
             }
             catch (Exception e)
@@ -36,13 +38,15 @@ namespace Iit.Fibertest.WcfConnections
 
         public void SendCurrentMonitoringStep(CurrentMonitoringStepDto dto)
         {
-            var wcfConnection = _wcfFactory.CreateR2DConnection(false);
+            var wcfConnection = _wcfFactory.GetR2DChannelFactory(false);
             if (wcfConnection == null)
                 return ;
 
             try
             {
-                wcfConnection.NotifyUserCurrentMonitoringStep(dto);
+                var channel = wcfConnection.CreateChannel();
+                channel.NotifyUserCurrentMonitoringStep(dto);
+                wcfConnection.Close();
             }
             catch (Exception e)
             {
@@ -52,13 +56,15 @@ namespace Iit.Fibertest.WcfConnections
 
         public void SendClientMeasurementDone(ClientMeasurementDoneDto dto)
         {
-            var wcfConnection = _wcfFactory.CreateR2DConnection(false);
+            var wcfConnection = _wcfFactory.GetR2DChannelFactory(false);
             if (wcfConnection == null)
                 return;
 
             try
             {
-                wcfConnection.TransmitClientMeasurementResult(dto);
+                var channel = wcfConnection.CreateChannel();
+                channel.TransmitClientMeasurementResult(dto);
+                wcfConnection.Close();
             }
             catch (Exception e)
             {

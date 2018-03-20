@@ -31,7 +31,27 @@ namespace Iit.Fibertest.WcfConnections
             _logFile = logFile;
         }
 
-        public IClientWcfService CreateClientConnection()
+        //        public IClientWcfService CreateClientConnection()
+        //        {
+        //            try
+        //            {
+        //                var netAddress = SelectNetAddressAvailableNow();
+        //                if (netAddress == null)
+        //                    return null;
+        //
+        //                var myClient = new MyClient<IClientWcfService>(
+        //                    CreateDefaultNetTcpBinding(_iniFile), 
+        //                    new EndpointAddress(new Uri(CombineUriString(netAddress.GetAddress(),netAddress.Port, @"ClientWcfService"))));
+        //                return myClient.ChannelFactory.CreateChannel();
+        //            }
+        //            catch (Exception e)
+        //            {
+        //                _logFile.AppendLine(e.Message);
+        //                return null;
+        //            }
+        //        }
+
+        public ChannelFactory<IClientWcfService> GetClientChannelFactory()
         {
             try
             {
@@ -40,9 +60,9 @@ namespace Iit.Fibertest.WcfConnections
                     return null;
 
                 var myClient = new MyClient<IClientWcfService>(
-                    CreateDefaultNetTcpBinding(_iniFile), 
-                    new EndpointAddress(new Uri(CombineUriString(netAddress.GetAddress(),netAddress.Port, @"ClientWcfService"))));
-                return myClient.ChannelFactory.CreateChannel();
+                    CreateDefaultNetTcpBinding(_iniFile),
+                    new EndpointAddress(new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"ClientWcfService"))));
+                return myClient.ChannelFactory;
             }
             catch (Exception e)
             {
@@ -51,8 +71,28 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        private MyClient<IWcfServiceForClient> _c2DClient;
-        public IWcfServiceForClient CreateC2DConnection()
+        //        public IWcfServiceForClient CreateC2DConnection()
+        //        {
+        //            try
+        //            {
+        //                var netAddress = SelectNetAddressAvailableNow();
+        //                if (netAddress == null)
+        //                    return null;
+        //
+        //                var myClient = new MyClient<IWcfServiceForClient>(
+        //                    CreateDefaultNetTcpBinding(_iniFile),
+        //                    new EndpointAddress(new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"WcfServiceForClient"))));
+        //
+        //                return myClient.ChannelFactory.CreateChannel();
+        //            }
+        //            catch (Exception e)
+        //            {
+        //                _logFile.AppendLine(e.Message);
+        //                return null;
+        //            }
+        //        }
+
+        public ChannelFactory<IWcfServiceForClient> GetC2DChannelFactory()
         {
             try
             {
@@ -60,13 +100,11 @@ namespace Iit.Fibertest.WcfConnections
                 if (netAddress == null)
                     return null;
 
-//                                var myClient = new MyClient<IWcfServiceForClient>(
-                _c2DClient = new MyClient<IWcfServiceForClient>(
+                var myClient = new MyClient<IWcfServiceForClient>(
                     CreateDefaultNetTcpBinding(_iniFile),
                     new EndpointAddress(new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"WcfServiceForClient"))));
 
-//                return myClient.ChannelFactory.CreateChannel();
-                return _c2DClient.ChannelFactory.CreateChannel();
+                return myClient.ChannelFactory;
             }
             catch (Exception e)
             {
@@ -75,13 +113,29 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public void CloseChannel()
-        {
-            _c2DClient.Close();
-        }
 
-     
-        public IWcfServiceForRtu CreateR2DConnection(bool shouldWriteToLogProblems = true)
+        //        public IWcfServiceForRtu CreateR2DConnection(bool shouldWriteToLogProblems = true)
+        //        {
+        //            var netAddress = SelectNetAddressAvailableNow(shouldWriteToLogProblems);
+        //            if (netAddress == null)
+        //                return null;
+        //
+        //            try
+        //            {
+        //                var myClient = new MyClient<IWcfServiceForRtu>(
+        //                    CreateDefaultNetTcpBinding(_iniFile),
+        //                    new EndpointAddress(new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"WcfServiceForRtu"))));
+        //                return myClient.ChannelFactory.CreateChannel();
+        //            }
+        //            catch (Exception e)
+        //            {
+        //                _logFile.AppendLine($"Exception while RTU to Server {netAddress.ToStringASpace} connection creating...");
+        //                _logFile.AppendLine(e.Message);
+        //                return null;
+        //            }
+        //        }
+
+        public ChannelFactory<IWcfServiceForRtu> GetR2DChannelFactory(bool shouldWriteToLogProblems = true)
         {
             var netAddress = SelectNetAddressAvailableNow(shouldWriteToLogProblems);
             if (netAddress == null)
@@ -92,7 +146,7 @@ namespace Iit.Fibertest.WcfConnections
                 var myClient = new MyClient<IWcfServiceForRtu>(
                     CreateDefaultNetTcpBinding(_iniFile),
                     new EndpointAddress(new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"WcfServiceForRtu"))));
-                return myClient.ChannelFactory.CreateChannel();
+                return myClient.ChannelFactory;
             }
             catch (Exception e)
             {
@@ -102,7 +156,28 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public IRtuWcfService CreateRtuConnection()
+        //        public IRtuWcfService CreateDuplexRtuConnection(RtuWcfServiceBackward backward)
+        //        {
+        //            try
+        //            {
+        //                var netAddress = SelectNetAddressAvailableNow();
+        //                if (netAddress == null)
+        //                    return null;
+        //
+        //                var myClient = new DuplexChannelFactory<IRtuWcfService>(
+        //                    backward,
+        //                    CreateDefaultNetTcpBinding(_iniFile),
+        //                    new EndpointAddress(new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"RtuWcfService"))));
+        //                return myClient.CreateChannel();
+        //            }
+        //            catch (Exception e)
+        //            {
+        //                _logFile.AppendLine(e.Message);
+        //                return null;
+        //            }
+        //        }
+
+        public ChannelFactory<IRtuWcfService> GetDuplexRtuChannelFactory(RtuWcfServiceBackward backward)
         {
             try
             {
@@ -110,31 +185,11 @@ namespace Iit.Fibertest.WcfConnections
                 if (netAddress == null)
                     return null;
 
-                var myClient = new MyClient<IRtuWcfService>(
-                    CreateDefaultNetTcpBinding(_iniFile),
-                    new EndpointAddress(new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"RtuWcfService"))));
-                return myClient.ChannelFactory.CreateChannel();
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine(e.Message);
-                return null;
-            }
-        }
-
-        public IRtuWcfService CreateDuplexRtuConnection(RtuWcfServiceBackward backward)
-        {
-            try
-            {
-                var netAddress = SelectNetAddressAvailableNow();
-                if (netAddress == null)
-                    return null;
-
-                var myClient = new DuplexChannelFactory<IRtuWcfService>(
+                var factory = new DuplexChannelFactory<IRtuWcfService>(
                     backward,
                     CreateDefaultNetTcpBinding(_iniFile),
                     new EndpointAddress(new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"RtuWcfService"))));
-                return myClient.CreateChannel();
+                return factory;
             }
             catch (Exception e)
             {
@@ -214,10 +269,10 @@ namespace Iit.Fibertest.WcfConnections
             {
                 Security = { Mode = SecurityMode.None },
                 OpenTimeout = TimeSpan.FromSeconds(20),
-                
+
                 ReceiveTimeout = TimeSpan.FromSeconds(iniFile.Read(IniSection.NetTcpBinding, IniKey.ReadTimeout, 60)),
                 SendTimeout = TimeSpan.FromSeconds(iniFile.Read(IniSection.NetTcpBinding, IniKey.SendTimeout, 60)),
-                ReaderQuotas = { MaxArrayLength = 40960000},
+                ReaderQuotas = { MaxArrayLength = 40960000 },
                 MaxBufferSize = 40960000, //4M
                 MaxReceivedMessageSize = 40960000,
             };

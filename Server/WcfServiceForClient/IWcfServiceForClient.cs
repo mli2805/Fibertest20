@@ -32,7 +32,7 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
         Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto);
 
         [OperationContract]
-        Task UnregisterClientAsync(UnRegisterClientDto dto);
+        Task<int> UnregisterClientAsync(UnRegisterClientDto dto);
 
         [OperationContract]
         Task<bool> CheckServerConnection(CheckServerConnectionDto dto);
