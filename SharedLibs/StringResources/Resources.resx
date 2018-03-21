@@ -1682,4 +1682,10 @@ RTU is initializing right now!</value>
 	<data name="SID_Cannot_send_base_ref_to_RTU" xml:space="preserve">
     <value>Cannot send base ref to RTU</value>
   </data>
+	<data name="SID_Can_t_get_base_refs_for_trace__0_" xml:space="preserve">
+    <value>Can't get base refs for trace {0}</value>
+  </data>
+	<data name="SID_Can_t_save_amended_reflectogram" xml:space="preserve">
+    <value>Can't save amended reflectogram</value>
+  </data>
 </root>

@@ -47,9 +47,9 @@ namespace Iit.Fibertest.Client
             return HasPrevilegesAndNotAdjustmentPoint(parameter);
         }
 
-        private static bool HasPrevilegesAndNotAdjustmentPoint(object parameter)
+        private bool HasPrevilegesAndNotAdjustmentPoint(object parameter)
         {
-            if (parameter == null)
+            if (_currentUser.Role > Role.Root || parameter == null)
                 return false;
             var marker = (MarkerControl) parameter;
             return marker.Type != EquipmentType.AdjustmentPoint;

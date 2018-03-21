@@ -59,9 +59,10 @@ namespace Iit.Fibertest.Client
             };
         }
 
-        private bool IsFiberContainedInAnyTraceWithBase(Guid fiberId)
+        public bool IsFiberContainedInAnyTraceWithBase(Guid fiberId)
         {
-            var fiber = _readModel.Fibers.First(f => f.Id == fiberId);
+            var fiber = _readModel.Fibers.FirstOrDefault(f => f.Id == fiberId);
+            if (fiber == null) return false;
             return _readModel.Traces.Where(t => t.HasAnyBaseRef).ToList().Any(trace => Topo.GetFiberIndexInTrace(trace, fiber) != -1);
         }
 

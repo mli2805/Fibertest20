@@ -7,6 +7,7 @@ using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Algorithms;
 using Iit.Fibertest.IitOtdrLibrary;
+using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.DataCenterCore
 {
@@ -34,7 +35,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<string> ProcessNodeMoved(Guid nodeId)
         {
-            var tracesWhichUseThisNode = _writeModel.Traces.Where(t => t.Nodes.Contains(nodeId)).ToList();
+            var tracesWhichUseThisNode = _writeModel.Traces.Where(t => t.Nodes.Contains(nodeId) && t.HasAnyBaseRef).ToList();
             return await AmendBaseRefs(tracesWhichUseThisNode);
         }
 
@@ -48,19 +49,19 @@ namespace Iit.Fibertest.DataCenterCore
             if (node == null)
                 return $"Can't find node {equipment.NodeId}";
 
-            var tracesWhichUseThisNode = _writeModel.Traces.Where(t => t.Nodes.Contains(node.Id)).ToList();
+            var tracesWhichUseThisNode = _writeModel.Traces.Where(t => t.Nodes.Contains(node.Id) && t.HasAnyBaseRef).ToList();
             return await AmendBaseRefs(tracesWhichUseThisNode);
         }
 
         public async Task<string> ProcessUpdateFiber(Guid fiberId)
         {
-            var tracesWhichUseThisFiber = _writeModel.GetTracesPassingFiber(fiberId).ToList();
+            var tracesWhichUseThisFiber = _writeModel.GetTracesPassingFiber(fiberId).Where(t=>t.HasAnyBaseRef).ToList();
             return await AmendBaseRefs(tracesWhichUseThisFiber);
         }
 
         public async Task<string> ProcessAddIntoFiber(Guid nodeId)
         {
-            var tracesWhichUseThisNode = _writeModel.Traces.Where(t => t.Nodes.Contains(nodeId)).ToList();
+            var tracesWhichUseThisNode = _writeModel.Traces.Where(t => t.Nodes.Contains(nodeId) && t.HasAnyBaseRef).ToList();
             return await AmendBaseRefs(tracesWhichUseThisNode);
         }
 
@@ -70,7 +71,7 @@ namespace Iit.Fibertest.DataCenterCore
             foreach (var id in traceIds)
             {
                 var trace = _writeModel.Traces.FirstOrDefault(t => t.Id == id);
-                if (trace != null)
+                if (trace != null && trace.HasAnyBaseRef)
                     tracesWhichUsedThisNode.Add(trace);
             }
             return await AmendBaseRefs(tracesWhichUsedThisNode);
@@ -83,13 +84,13 @@ namespace Iit.Fibertest.DataCenterCore
                 var listOfBaseRef = await GetBaseRefDtos(trace);
 
                 if (!listOfBaseRef.Any())
-                    return $"Can't get base refs for trace {trace.Id}";
+                    return string.Format(Resources.SID_Can_t_get_base_refs_for_trace__0_, trace.Id.First6());
 
                 foreach (var baseRefDto in listOfBaseRef)
                 {
                     Modify(trace, baseRefDto);
                     if (await _sorFileRepository.UpdateSorBytesAsync(baseRefDto.SorFileId, baseRefDto.SorBytes) == -1)
-                        return "Can't save amended reflectogram";
+                        return Resources.SID_Can_t_save_amended_reflectogram;
                 }
 
                 if (trace.OtauPort == null) // unattached trace

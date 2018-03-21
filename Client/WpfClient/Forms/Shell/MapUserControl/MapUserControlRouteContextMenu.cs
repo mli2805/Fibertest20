@@ -16,7 +16,10 @@ namespace Iit.Fibertest.Client
     /// </summary>
     public partial class MapUserControl
     {
-        private bool CanUpdateFiber(object parameter) { return true; }
+        private bool CanUpdateFiber(object parameter)
+        {
+            return GraphReadModel.CurrentUser.Role <= Role.Root && parameter != null;
+        }
 
         private async void AskUpdateFiber(object parameter)
         {
@@ -26,7 +29,10 @@ namespace Iit.Fibertest.Client
 
         private bool CanAddNodeIntoFiber(object parameter)
         {
-            return true;
+            if (GraphReadModel.CurrentUser.Role > Role.Root || parameter == null)
+                return false;
+            var route = (GMapRoute)parameter;
+            return !GraphReadModel.GrmNodeRequests.IsFiberContainedInAnyTraceWithBase(route.Id);
         }
         private async void AskAddNodeIntoFiber(object parameter)
         {
@@ -37,7 +43,7 @@ namespace Iit.Fibertest.Client
 
         private bool CanAddAdjustmentNodeIntoFiber(object parameter)
         {
-            return true;
+            return GraphReadModel.CurrentUser.Role <= Role.Root && parameter != null;
         }
         private async void AskAddAdjustmentNodeIntoFiber(object parameter)
         {
@@ -48,11 +54,10 @@ namespace Iit.Fibertest.Client
 
         private bool CanRemoveFiber(object parameter)
         {
-            if (parameter == null)
+            if (GraphReadModel.CurrentUser.Role > Role.Root || parameter == null)
                 return false;
             var fiberVm = GraphReadModel.Data.Fibers.FirstOrDefault(f => f.Id == ((GMapRoute)parameter).Id);
-            if (fiberVm == null) return false;
-            return fiberVm.State == FiberState.NotInTrace;
+            return fiberVm?.State == FiberState.NotInTrace;
         }
 
         private async void AskRemoveFiber(object parameter)

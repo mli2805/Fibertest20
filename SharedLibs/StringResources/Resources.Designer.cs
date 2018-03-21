@@ -836,11 +836,29 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t get base refs for trace {0}.
+        /// </summary>
+        public static string SID_Can_t_get_base_refs_for_trace__0_ {
+            get {
+                return ResourceManager.GetString("SID_Can_t_get_base_refs_for_trace__0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Can&apos;t get result, see log.
         /// </summary>
         public static string SID_Can_t_get_result__see_log {
             get {
                 return ResourceManager.GetString("SID_Can_t_get_result__see_log", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t save amended reflectogram.
+        /// </summary>
+        public static string SID_Can_t_save_amended_reflectogram {
+            get {
+                return ResourceManager.GetString("SID_Can_t_save_amended_reflectogram", resourceCulture);
             }
         }
         

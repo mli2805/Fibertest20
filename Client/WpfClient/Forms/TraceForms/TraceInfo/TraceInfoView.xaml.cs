@@ -8,6 +8,8 @@
         public TraceInfoView()
         {
             InitializeComponent();
+
+            TraceTitleTextbox.Focus();
         }
     }
 }
