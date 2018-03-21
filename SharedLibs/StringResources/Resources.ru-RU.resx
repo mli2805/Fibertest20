@@ -1565,9 +1565,6 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Unplug_trace" xml:space="preserve">
     <value>Отключить  трассу</value>
   </data>
-	<data name="SID_Add_cable_reserve" xml:space="preserve">
-    <value>Добавить запас кабеля</value>
-  </data>
 	<data name="SID_In_node_are_placed_" xml:space="preserve">
     <value>В узле размещены:</value>
   </data>

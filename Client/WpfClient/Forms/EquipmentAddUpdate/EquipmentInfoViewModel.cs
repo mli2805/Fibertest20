@@ -34,6 +34,7 @@ namespace Iit.Fibertest.Client
             _mode = ViewMode.Add;
             NodeId = nodeId;
             Model.SetSelectedRadioButton(EquipmentType.Cross);
+            Model.IsRightCableReserveEnabled = true;
         }
 
         public void InitializeForUpdate(Equipment equipment)
@@ -48,6 +49,9 @@ namespace Iit.Fibertest.Client
             Model.CableReserveLeft = equipment.CableReserveLeft;
             Model.CableReserveRight = equipment.CableReserveRight;
             Model.Comment = equipment.Comment;
+
+            Model.IsRightCableReserveEnabled = equipment.Type != EquipmentType.Terminal &&
+                                               equipment.Type != EquipmentType.CableReserve;
         }
 
         protected override void OnViewLoaded(object view)

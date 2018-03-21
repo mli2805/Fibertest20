@@ -43,6 +43,8 @@ namespace Iit.Fibertest.Client
         }
 
         private string _comment;
+        private bool _isRightCableReserveEnabled;
+
         public string Comment
         {
             get => _comment;
@@ -54,9 +56,21 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        public bool IsRightCableReserveEnabled
+        {
+            get => _isRightCableReserveEnabled;
+            set
+            {
+                if (value == _isRightCableReserveEnabled) return;
+                _isRightCableReserveEnabled = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public RadioButtonModel Sleeve { get; } = new RadioButtonModel() { Title = Resources.SID_Closure };
         public RadioButtonModel Cross { get; } = new RadioButtonModel() { Title = Resources.SID_Cross };
         public RadioButtonModel Terminal { get; } = new RadioButtonModel() { Title = Resources.SID_Terminal };
+        public RadioButtonModel CableReserve { get; } = new RadioButtonModel() { Title = Resources.SID_CableReserve };
         public RadioButtonModel Other { get; } = new RadioButtonModel() { Title = Resources.SID_Other };
 
         // just for mapping
@@ -64,6 +78,24 @@ namespace Iit.Fibertest.Client
         {
             get => GetSelectedRadioButton();
             set => SetSelectedRadioButton(value);
+        }
+
+        public EquipmentInfoModel()
+        {
+            Sleeve.PropertyChanged += RadioButtonPropertyChanged;
+            Cross.PropertyChanged += RadioButtonPropertyChanged;
+            Terminal.PropertyChanged += RadioButtonPropertyChanged;
+            CableReserve.PropertyChanged += RadioButtonPropertyChanged;
+            Other.PropertyChanged += RadioButtonPropertyChanged;
+        }
+
+        private void RadioButtonPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName != "IsChecked") return;
+            var model = (RadioButtonModel) sender;
+            if (!model.IsChecked) return;
+            IsRightCableReserveEnabled =
+                model.Title != Resources.SID_Terminal && model.Title != Resources.SID_CableReserve;
         }
 
         public EquipmentType GetSelectedRadioButton()
@@ -74,6 +106,8 @@ namespace Iit.Fibertest.Client
                 return EquipmentType.Cross;
             if (Terminal.IsChecked)
                 return EquipmentType.Terminal;
+            if (CableReserve.IsChecked)
+                return EquipmentType.CableReserve;
             if (Other.IsChecked)
                 return EquipmentType.Other;
             return EquipmentType.Error;
@@ -88,6 +122,8 @@ namespace Iit.Fibertest.Client
                 Cross.IsChecked = true;
             else if (type == EquipmentType.Terminal)
                 Terminal.IsChecked = true;
+            else if (type == EquipmentType.CableReserve)
+                CableReserve.IsChecked = true;
             else if (type == EquipmentType.Other)
                 Other.IsChecked = true;
         }
@@ -97,6 +133,7 @@ namespace Iit.Fibertest.Client
             Sleeve.IsChecked = false;
             Cross.IsChecked = false;
             Terminal.IsChecked = false;
+            CableReserve.IsChecked = false;
             Other.IsChecked = false;
         }
     }

@@ -200,10 +200,6 @@
     </Compile>
     <Compile Include="Forms\AdministrativeForms\Zones\ZoneViewModel.cs" />
     <Compile Include="Forms\BaseRefs\BaseRefLandmarksChecker.cs" />
-    <Compile Include="Forms\EquipmentAddUpdate\CableReserveInfoView.xaml.cs">
-      <DependentUpon>CableReserveInfoView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\EquipmentAddUpdate\CableReserveInfoViewModel.cs" />
     <Compile Include="Forms\EquipmentAddUpdate\EquipmentInfoModel.cs" />
     <Compile Include="Forms\EquipmentAddUpdate\ViewMode.cs" />
     <Compile Include="Forms\LoginServer\Server.cs" />
@@ -550,10 +546,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\AdministrativeForms\Zones\ZoneView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Forms\EquipmentAddUpdate\CableReserveInfoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

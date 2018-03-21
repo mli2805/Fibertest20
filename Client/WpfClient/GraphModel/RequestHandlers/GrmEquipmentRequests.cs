@@ -34,7 +34,7 @@ namespace Iit.Fibertest.Client
 
         public async Task AddEquipmentIntoNode(RequestAddEquipmentIntoNode request)
         {
-            var cmd = _addEquipmentIntoNodeBuilder.BuildCommand(request.NodeId, request.IsCableReserveRequested);
+            var cmd = _addEquipmentIntoNodeBuilder.BuildCommand(request.NodeId);
             if (cmd == null)
                 return;
             await _c2DWcfManager.SendCommandAsObj(cmd);

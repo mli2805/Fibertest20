@@ -19,7 +19,7 @@ namespace Iit.Fibertest.Client
             _windowManager = windowManager;
         }
 
-        public AddEquipmentIntoNode BuildCommand(Guid nodeId, bool isCableReserveRequested)
+        public AddEquipmentIntoNode BuildCommand(Guid nodeId)
         {
             var tracesInNode = _readModel.Traces.Where(t => t.Nodes.Contains(nodeId)).ToList();
             TracesToEquipmentInjectionViewModel tracesToEquipmentInjectionVm = null;
@@ -31,25 +31,12 @@ namespace Iit.Fibertest.Client
                     return null;
             }
 
-            AddEquipmentIntoNode command;
-            if (isCableReserveRequested)
-            {
-                var vm = _globalScope.Resolve<CableReserveInfoViewModel>();
-                vm.InitializeForAdd(nodeId);
-                _windowManager.ShowDialogWithAssignedOwner(vm);
-                if (vm.Command == null)
-                    return null;
-                command = (AddEquipmentIntoNode)vm.Command;
-            }
-            else
-            {
-                var vm = _globalScope.Resolve<EquipmentInfoViewModel>();
-                vm.InitializeForAdd(nodeId);
-                _windowManager.ShowDialogWithAssignedOwner(vm);
-                if (vm.Command == null)
-                    return null;
-                command = (AddEquipmentIntoNode)vm.Command;
-            }
+            var vm = _globalScope.Resolve<EquipmentInfoViewModel>();
+            vm.InitializeForAdd(nodeId);
+            _windowManager.ShowDialogWithAssignedOwner(vm);
+            if (vm.Command == null)
+                return null;
+            var command = (AddEquipmentIntoNode)vm.Command;
 
 
             if (tracesToEquipmentInjectionVm != null)
@@ -58,5 +45,5 @@ namespace Iit.Fibertest.Client
         }
     }
 
-   
+
 }

@@ -35,12 +35,6 @@ namespace Iit.Fibertest.Client
             });
             contextMenu.Items.Add(new MenuItem()
             {
-                Header = Resources.SID_Add_cable_reserve,
-                Command = new ContextMenuAction(_nodeVmActions.AskAddCableReserve, _nodeVmPermissions.CanAddCableReserve),
-                CommandParameter = marker
-            });
-            contextMenu.Items.Add(new MenuItem()
-            {
                 Header = Resources.SID_Landmarks,
                 Command = new ContextMenuAction(_nodeVmActions.AskLandmarks, _nodeVmPermissions.CanLandmarks),
                 CommandParameter = marker

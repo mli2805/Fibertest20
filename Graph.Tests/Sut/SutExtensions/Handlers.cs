@@ -113,21 +113,6 @@ namespace Graph.Tests
             return true;
         }
 
-        public static bool CableReserveInfoViewModelHandler(this SystemUnderTest sut, object model, Answer button,
-            int cableReserveM = SystemUnderTest.NewLeftCableReserve)
-        {
-            if (!(model is CableReserveInfoViewModel vm)) return false;
-
-            vm.Title = SystemUnderTest.NewTitleForTest;
-            vm.CableReserveM = cableReserveM;
-            vm.Comment = SystemUnderTest.NewCommentForTest;
-
-            if (button == Answer.Yes)
-                vm.Save();
-            else
-                vm.Cancel();
-            return true;
-        }
 
         public static bool EquipmentInfoViewModelHandler(this SystemUnderTest sut, object model, Answer button, 
             EquipmentType equipmentType = SystemUnderTest.NewTypeForTest, 

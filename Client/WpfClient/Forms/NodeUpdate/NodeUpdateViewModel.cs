@@ -193,12 +193,12 @@ namespace Iit.Fibertest.Client
             else if (cmd is RemoveEquipment)
                 RemoveEquipment((RemoveEquipment)cmd);
             else
-                await AddEquipmentIntoNode((bool)cmd);
+                await AddEquipmentIntoNode();
         }
 
-        public async Task AddEquipmentIntoNode(bool isCableReserveRequested)
+        public async Task AddEquipmentIntoNode()
         {
-            var cmd = _addEquipmentIntoNodeBuilder.BuildCommand(_originalNode.Id, isCableReserveRequested);
+            var cmd = _addEquipmentIntoNodeBuilder.BuildCommand(_originalNode.Id);
             if (cmd == null)
                 return;
             await _c2DWcfManager.SendCommandAsObj(cmd);
@@ -206,34 +206,19 @@ namespace Iit.Fibertest.Client
 
         public async void AddEquipment()
         {
-            await AddEquipmentIntoNode(false);
-        }
-
-        public async void AddCableReserve()
-        {
-            await AddEquipmentIntoNode(true);
+            await AddEquipmentIntoNode();
         }
 
         private async void LaunchUpdateEquipmentView(Guid id)
         {
             var equipment = _readModel.Equipments.First(e => e.Id == id);
-            UpdateEquipment cmd;
-            if (equipment.Type == EquipmentType.CableReserve)
-            {
-                var cableReserveViewModel = _globalScope.Resolve<CableReserveInfoViewModel>();
-                cableReserveViewModel.InitializeForUpdate(equipment);
-                _windowManager.ShowDialogWithAssignedOwner(cableReserveViewModel);
-                if (cableReserveViewModel.Command == null) return;
-                cmd = (UpdateEquipment)cableReserveViewModel.Command;
-            }
-            else
-            {
-                var equipmentViewModel = _globalScope.Resolve<EquipmentInfoViewModel>();
-                equipmentViewModel.InitializeForUpdate(equipment);
-                _windowManager.ShowDialogWithAssignedOwner(equipmentViewModel);
-                if (equipmentViewModel.Command == null) return;
-                cmd = (UpdateEquipment)equipmentViewModel.Command;
-            }
+
+            var equipmentViewModel = _globalScope.Resolve<EquipmentInfoViewModel>();
+            equipmentViewModel.InitializeForUpdate(equipment);
+            _windowManager.ShowDialogWithAssignedOwner(equipmentViewModel);
+            if (equipmentViewModel.Command == null) return;
+            var cmd = (UpdateEquipment)equipmentViewModel.Command;
+
             await _c2DWcfManager.SendCommandAsObj(cmd);
         }
 

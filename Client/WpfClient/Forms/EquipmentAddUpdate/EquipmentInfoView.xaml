@@ -19,12 +19,15 @@
                 <RadioButton Margin="5" GroupName="equipment" IsChecked="{Binding Model.Sleeve.IsChecked, Mode=TwoWay}" Content="{Binding Model.Sleeve.Title}" />
                 <RadioButton Margin="5" GroupName="equipment" IsChecked="{Binding Model.Cross.IsChecked, Mode=TwoWay}" Content="{Binding Model.Cross.Title}" />
                 <RadioButton Margin="5" GroupName="equipment" IsChecked="{Binding Model.Terminal.IsChecked, Mode=TwoWay}" Content="{Binding Model.Terminal.Title}" />
+                <RadioButton Margin="5" GroupName="equipment" IsChecked="{Binding Model.CableReserve.IsChecked, Mode=TwoWay}" Content="{Binding Model.CableReserve.Title}" />
                 <RadioButton Margin="5" GroupName="equipment" IsChecked="{Binding Model.Other.IsChecked, Mode=TwoWay}" Content="{Binding Model.Other.Title}" />
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_With_cable_reserve_to_the_left_m}" />
                     <TextBox Margin="5" Text="{Binding Model.CableReserveLeft}" Width="30"/>
-                    <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_To_the_right_m}"/>
-                    <TextBox Margin="5" Text="{Binding Model.CableReserveRight}" Width="30"/>
+                    <StackPanel Orientation="Horizontal" IsEnabled="{Binding Model.IsRightCableReserveEnabled}">
+                        <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_To_the_right_m}"/>
+                        <TextBox Margin="5" Text="{Binding Model.CableReserveRight}" Width="30" />
+                    </StackPanel>
                 </StackPanel>
             </StackPanel>
         </GroupBox>
