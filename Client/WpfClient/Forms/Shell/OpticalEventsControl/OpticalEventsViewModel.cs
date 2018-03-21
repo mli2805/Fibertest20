@@ -134,10 +134,28 @@ namespace Iit.Fibertest.Client
                 SelectedRtuFilter.RtuId == opticalEventVm.RtuId);
         }
 
+        public void RefreshRowsWithUpdatedRtu(Guid rtuId)
+        {
+            foreach (var opticalEventModel in Rows.Where(m => m.RtuId == rtuId).ToList())
+            {
+                Rows.Remove(opticalEventModel);
+                opticalEventModel.RtuTitle = _readModel.Rtus.FirstOrDefault(r => r.Id == rtuId)?.Title;
+                Rows.Add(opticalEventModel);
+            }
+        }
+
+        public void RefreshRowsWithUpdatedTrace(Guid traceId)
+        {
+            foreach (var opticalEventModel in Rows.Where(m => m.TraceId == traceId).ToList())
+            {
+                Rows.Remove(opticalEventModel);
+                opticalEventModel.TraceTitle = _readModel.Traces.FirstOrDefault(t => t.Id == traceId)?.Title;
+                Rows.Add(opticalEventModel);
+            }
+        }
+
         public void AddEvent(Measurement measurement)
         {
-            if (measurement.SorFileId == 36)
-                Console.WriteLine();
             Rows.Add(new OpticalEventModel()
             {
                 Nomer = measurement.SorFileId,
@@ -183,8 +201,6 @@ namespace Iit.Fibertest.Client
 
         public void UpdateEvent(MeasurementUpdated dto)
         {
-            if (dto.SorFileId == 36)
-                Console.WriteLine();
             var opticalEventModel = Rows.FirstOrDefault(l => l.SorFileId == dto.SorFileId);
             if (opticalEventModel == null) return;
 

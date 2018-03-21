@@ -72,6 +72,18 @@ namespace Iit.Fibertest.Client
             ActualOpticalEventsViewModel.RemoveEventsOfTrace(evnt.Id);
             AllOpticalEventsViewModel.RemoveEventsOfTrace(evnt.Id);
         }
+
+        public void UpdateRtu(RtuUpdated evnt)
+        {
+            ActualOpticalEventsViewModel.RefreshRowsWithUpdatedRtu(evnt.RtuId);
+            AllOpticalEventsViewModel.RefreshRowsWithUpdatedRtu(evnt.RtuId);
+        }
+
+        public void UpdateTrace(TraceUpdated evnt)
+        {
+            ActualOpticalEventsViewModel.RefreshRowsWithUpdatedTrace(evnt.Id);
+            AllOpticalEventsViewModel.RefreshRowsWithUpdatedTrace(evnt.Id);
+        }
       
     }
 }

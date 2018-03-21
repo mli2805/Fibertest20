@@ -28,7 +28,10 @@ namespace Iit.Fibertest.Client
                 case TraceRemoved evnt: _opticalEventsDoubleViewModel.RemoveTrace(evnt); return;
                 case TraceCleaned evnt: _opticalEventsDoubleViewModel.CleanTrace(evnt); return;
 
-                    default: return;
+                case RtuUpdated evnt: _opticalEventsDoubleViewModel.UpdateRtu(evnt); return;
+                case TraceUpdated evnt: _opticalEventsDoubleViewModel.UpdateTrace(evnt); return;
+
+                default: return;
             }
         }
 

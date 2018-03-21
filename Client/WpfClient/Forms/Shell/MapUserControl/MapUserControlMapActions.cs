@@ -51,6 +51,12 @@ namespace Iit.Fibertest.Client
                 MainMap.IsInDistanceMeasurementMode = true;
                 MainMap.StartNode = null;
             }
+            else
+            {
+                MainMap.LeaveDistanceMeasurementMode();
+                MainMap.IsInDistanceMeasurementMode = false;
+                SetBanner("");
+            }
         }
     }
 

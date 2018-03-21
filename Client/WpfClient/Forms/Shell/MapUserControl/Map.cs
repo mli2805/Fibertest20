@@ -73,20 +73,24 @@ namespace Iit.Fibertest.Client
             if (e.Key == Key.Escape)
             {
                 if (IsInDistanceMeasurementMode)
-                {
-                    IsInDistanceMeasurementMode = false;
-                    if (DistanceFiberUnderCreation != Guid.Empty)
-                        Markers.Remove(Markers.Single(m => m.Id == DistanceFiberUnderCreation));
-                    foreach (var marker in DistanceMarkers)
-                    {
-                        Markers.Remove(marker);
-                    }
-                    DistanceFiberUnderCreation = Guid.Empty;
-                    Distances = new List<int>();
-                    LastDistance = 0;
-                }
+                    LeaveDistanceMeasurementMode();
             }
             base.OnKeyDown(e);
+        }
+
+        public void LeaveDistanceMeasurementMode()
+        {
+            IsInDistanceMeasurementMode = false;
+            if (DistanceFiberUnderCreation != Guid.Empty)
+                Markers.Remove(Markers.Single(m => m.Id == DistanceFiberUnderCreation));
+            foreach (var marker in DistanceMarkers)
+            {
+                Markers.Remove(marker);
+            }
+
+            DistanceFiberUnderCreation = Guid.Empty;
+            Distances = new List<int>();
+            LastDistance = 0;
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
