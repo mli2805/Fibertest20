@@ -31,7 +31,6 @@ namespace Iit.Fibertest.Client
 
         public List<GraphVisibilityLevelItem> GraphVisibilityItems { get; set; }
         private GraphVisibilityLevelItem _selectedGraphVisibilityItem;
-
         public GraphVisibilityLevelItem SelectedGraphVisibilityItem
         {
             get => _selectedGraphVisibilityItem;

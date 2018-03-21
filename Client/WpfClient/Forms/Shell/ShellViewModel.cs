@@ -93,19 +93,20 @@ namespace Iit.Fibertest.Client
 
         protected override async void OnViewLoaded(object view)
         {
+            TabulatorViewModel.MessageVisibility = Visibility.Collapsed;
+
             DisplayName = @"Fibertest v2.0";
             ((App)Application.Current).ShutdownMode = ShutdownMode.OnExplicitShutdown;
             _logFile.AssignFile(@"Client.log");
 
             _logFile.AppendLine(@"Client application started!");
-            TabulatorViewModel.SelectedTabIndex = 3;
             var isAuthenticationSuccessfull = _windowManager.ShowDialog(_loginViewModel);
             ((App)Application.Current).ShutdownMode = ShutdownMode.OnMainWindowClose;
             if (isAuthenticationSuccessfull == true)
             {
+                TabulatorViewModel.SelectedTabIndex = 4;
                 using (_globalScope.Resolve<IWaitCursor>())
                 {
-                    TabulatorViewModel.SelectedTabIndex = 4;
                     MainMenuViewModel.Initialize(_currentUser);
                     var da = _iniFile.ReadDoubleAddress(11840);
                     _server = da.Main.GetAddress();
@@ -122,8 +123,7 @@ namespace Iit.Fibertest.Client
 
                     IsEnabled = true;
                     DisplayName = $@"Fibertest v2.0 {_currentUser.UserName} as {_currentUser.Role.ToString()} [{_currentUser.ZoneTitle}]";
-                    TabulatorViewModel.SelectedTabIndex = 3;
-
+                    TabulatorViewModel.SelectedTabIndex = 0; // the same value should be in TabulatorViewModel c-tor !!!
                 }
             }
 

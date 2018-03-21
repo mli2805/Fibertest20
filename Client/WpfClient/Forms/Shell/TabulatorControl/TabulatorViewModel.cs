@@ -17,12 +17,11 @@ namespace Iit.Fibertest.Client
             get => _selectedTabIndex;
             set
             {
-                if (value == _selectedTabIndex) return;
+//                if (value == _selectedTabIndex) return;
                 _selectedTabIndex = value;
                 ChangeTabVisibility();
             }
         }
-
 
         #region Pictograms
 
@@ -37,7 +36,7 @@ namespace Iit.Fibertest.Client
         private Visibility _opticalEventsVisibility;
         public Visibility OpticalEventsVisibility
         {
-            get { return _opticalEventsVisibility; }
+            get => _opticalEventsVisibility;
             set
             {
                 if (value == _opticalEventsVisibility) return;
@@ -49,7 +48,7 @@ namespace Iit.Fibertest.Client
         private Visibility _networkEventsVisibility;
         public Visibility NetworkEventsVisibility
         {
-            get { return _networkEventsVisibility; }
+            get => _networkEventsVisibility;
             set
             {
                 if (value == _networkEventsVisibility) return;
@@ -61,7 +60,7 @@ namespace Iit.Fibertest.Client
         private Visibility _bopNetworkEventsVisibility;
         public Visibility BopNetworkEventsVisibility
         {
-            get { return _bopNetworkEventsVisibility; }
+            get => _bopNetworkEventsVisibility;
             set
             {
                 if (value == _bopNetworkEventsVisibility) return;
@@ -71,7 +70,6 @@ namespace Iit.Fibertest.Client
         }
 
         private Visibility _mapVisibility;
-
         public Visibility MapVisibility
         {
             get => _mapVisibility;
@@ -86,7 +84,7 @@ namespace Iit.Fibertest.Client
         private Visibility _messageVisibility;
         public Visibility MessageVisibility
         {
-            get { return _messageVisibility; }
+            get => _messageVisibility;
             set
             {
                 if (value == _messageVisibility) return;
@@ -107,7 +105,7 @@ namespace Iit.Fibertest.Client
             _networkEventsDoubleViewModel = networkEventsDoubleViewModel;
             _bopNetworkEventsDoubleViewModel = bopNetworkEventsDoubleViewModel;
             SubscribeActualEventsRowChanged();
-            SelectedTabIndex = 3;
+            SelectedTabIndex = 0;
         }
 
         private void SubscribeActualEventsRowChanged()
