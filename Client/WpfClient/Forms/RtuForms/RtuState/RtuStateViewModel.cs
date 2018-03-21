@@ -85,6 +85,7 @@ namespace Iit.Fibertest.Client
 
             portLineVm.TraceState = dto.BaseRefType == BaseRefType.Fast && dto.TraceState != FiberState.Ok? FiberState.Suspicion : dto.TraceState;
             portLineVm.Timestamp = dto.MeasurementTimestamp;
+            portLineVm.LastSorFileId = dto.SorFileId.ToString();
 
             Model.SetWorstTraceStateAsAggregate();
         }

@@ -16,7 +16,7 @@ namespace Iit.Fibertest.Client
         private FiberState _traceState;
         public FiberState TraceState
         {
-            get { return _traceState; }
+            get => _traceState;
             set
             {
                 if (value == _traceState) return;
@@ -29,12 +29,23 @@ namespace Iit.Fibertest.Client
 
         public string TraceStateOnScreen => TraceId == Guid.Empty ? "" : TraceState.ToLocalizedString();
         public Brush TraceStateBrush => TraceState.GetBrush(false);
-        public string LastSorFileId { get; set; } = "";
+
+        private string _lastSorFileId = "";
+        public string LastSorFileId
+        {
+            get => _lastSorFileId;
+            set
+            {
+                if (value == _lastSorFileId) return;
+                _lastSorFileId = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         private DateTime? _timestamp;
         public DateTime? Timestamp
         {
-            get { return _timestamp; }
+            get => _timestamp;
             set
             {
                 if (value.Equals(_timestamp)) return;
