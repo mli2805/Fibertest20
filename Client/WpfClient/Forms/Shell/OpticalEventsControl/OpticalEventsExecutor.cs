@@ -1,3 +1,4 @@
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
@@ -16,7 +17,9 @@ namespace Iit.Fibertest.Client
             switch (e)
             {
                 case MeasurementAdded evnt:
-                    _opticalEventsDoubleViewModel.AddMeasurement(evnt); return;
+                    if (evnt.EventStatus > EventStatus.JustMeasurementNotAnEvent)
+                        _opticalEventsDoubleViewModel.AddMeasurement(evnt);
+                    return;
                 case MeasurementUpdated evnt:
                     _opticalEventsDoubleViewModel.UpdateMeasurement(evnt); return;
 
