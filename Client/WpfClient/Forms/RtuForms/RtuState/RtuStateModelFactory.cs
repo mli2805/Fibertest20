@@ -94,13 +94,15 @@ namespace Iit.Fibertest.Client
 
         private PortLineModel PreparePortLine(TraceLeaf traceLeaf, string mainPort)
         {
+            var lastMeasurement = _readModel.Measurements.LastOrDefault(m=>m.TraceId == traceLeaf.Id);
             return new PortLineModel()
             {
                 Number = mainPort + traceLeaf.PortNumber,
                 TraceId = traceLeaf.Id,
                 TraceTitle = traceLeaf.Title,
                 TraceState = traceLeaf.TraceState,
-                Timestamp = _readModel.Measurements.LastOrDefault(m=>m.TraceId == traceLeaf.Id)?.EventRegistrationTimestamp,
+                Timestamp = lastMeasurement?.EventRegistrationTimestamp,
+                LastSorFileId = lastMeasurement?.SorFileId.ToString(),
             };
         }
     }

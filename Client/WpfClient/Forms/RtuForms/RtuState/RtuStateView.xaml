@@ -116,7 +116,16 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="{x:Static stringResources:Resources.SID_Timestamp}" Width="120">
+                <DataGridTemplateColumn Header="  ID" Width="60" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="{x:Type client:PortLineModel}">
+                            <Border Height="26">
+                                <TextBlock Text="{Binding LastSorFileId}" TextAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="{x:Static stringResources:Resources.SID_Registered}" Width="120">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="{x:Type client:PortLineModel}">
                             <Border Height="26" >

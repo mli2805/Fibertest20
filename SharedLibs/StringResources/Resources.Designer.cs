@@ -305,15 +305,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add cable reserve.
-        /// </summary>
-        public static string SID_Add_cable_reserve {
-            get {
-                return ResourceManager.GetString("SID_Add_cable_reserve", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Add Equipment.
         /// </summary>
         public static string SID_Add_Equipment {
@@ -1908,6 +1899,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ID.
+        /// </summary>
+        public static string SID_ID {
+            get {
+                return ResourceManager.GetString("SID_ID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to In node are placed:.
         /// </summary>
         public static string SID_In_node_are_placed_ {
@@ -3313,15 +3313,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Recieved at.
-        /// </summary>
-        public static string SID_Recieved_at {
-            get {
-                return ResourceManager.GetString("SID_Recieved_at", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Reflectance coefficient, dB.
         /// </summary>
         public static string SID_Reflectance_coefficient__dB {
@@ -3349,20 +3340,20 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reflectogram ID.
-        /// </summary>
-        public static string SID_Reflectogram_Id {
-            get {
-                return ResourceManager.GetString("SID_Reflectogram_Id", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Refractive index.
         /// </summary>
         public static string SID_Refractive_index {
             get {
                 return ResourceManager.GetString("SID_Refractive_index", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Registered.
+        /// </summary>
+        public static string SID_Registered {
+            get {
+                return ResourceManager.GetString("SID_Registered", resourceCulture);
             }
         }
         

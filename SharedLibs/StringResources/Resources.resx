@@ -1274,14 +1274,8 @@ RTU is initializing right now!</value>
 	<data name="SID_Assigned_by" xml:space="preserve">
     <value>User</value>
   </data>
-	<data name="SID_Recieved_at" xml:space="preserve">
-    <value>Recieved at</value>
-  </data>
 	<data name="SID_Trace__0__statistics" xml:space="preserve">
     <value>Trace {0} statistics</value>
-  </data>
-	<data name="SID_Reflectogram_Id" xml:space="preserve">
-    <value>Reflectogram ID</value>
   </data>
 	<data name="SID_Event_Id" xml:space="preserve">
     <value>Event ID</value>
@@ -1392,7 +1386,7 @@ RTU is initializing right now!</value>
     <value>Measurement termination timestamp</value>
   </data>
 	<data name="SID_State_on__0_" xml:space="preserve">
-    <value>State on {0}</value>
+    <value>State on {0} (ID {1})</value>
   </data>
 	<data name="SID__not_attached_" xml:space="preserve">
     <value>&lt;not attached&gt;</value>
@@ -1684,5 +1678,8 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID_Can_t_save_amended_reflectogram" xml:space="preserve">
     <value>Can't save amended reflectogram</value>
+  </data>
+	<data name="SID_Registered" xml:space="preserve">
+    <value>Registered</value>
   </data>
 </root>

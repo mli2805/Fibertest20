@@ -6,7 +6,7 @@
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:cal="http://www.caliburnproject.org"
-        mc:Ignorable="d" Width="600"
+        mc:Ignorable="d" Width="500"
         d:DataContext="{d:DesignInstance client:TraceStatisticsViewModel}">
     <DockPanel>
         <GroupBox Header="Info" DockPanel.Dock="Top" Margin="5" >
@@ -28,7 +28,7 @@
                 <DataGrid ItemsSource="{Binding BaseRefs}" SelectedItem="{Binding SelectedBaseRef}" 
                           AutoGenerateColumns="False" IsReadOnly="True" Margin="0,5">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Base_ref_type}" Binding="{Binding BaseRefTypeString}" Width="80*"/>
+                        <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Base_ref_type}" Binding="{Binding BaseRefTypeString}" Width="90*"/>
                         <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Assigned_at}" Binding="{Binding AssignedAt}" Width="120*"/>
                         <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Assigned_by}" Binding="{Binding AssignedBy}" Width="120*"/>
                     </DataGrid.Columns>
@@ -51,11 +51,11 @@
             <DataGrid ItemsSource="{Binding Rows}" SelectedItem="{Binding SelectedRow, Mode=TwoWay}" 
                       AutoGenerateColumns="False" IsReadOnly="True" Margin="0,5" SelectionMode="Single" CanUserSortColumns="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Reflectogram_Id}" Binding="{Binding Measurement.SorFileId}" Width="90*"/>
-                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Base_ref_type}" Binding="{Binding BaseRefTypeString}" Width="90*"/>
-                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Recieved_at}" Binding="{Binding Measurement.EventRegistrationTimestamp}" Width="110*"/>
+                    <DataGridTextColumn Header="ID" Binding="{Binding Measurement.SorFileId}" Width="60"/>
+                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Base_ref_type}" Binding="{Binding BaseRefTypeString}" Width="90"/>
+                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Registered}" Binding="{Binding Measurement.EventRegistrationTimestamp}" Width="130"/>
                     <DataGridCheckBoxColumn Binding="{Binding IsOpticalEvent, Mode=OneWay}"/>
-                    <DataGridTemplateColumn Width="110*" Header="{x:Static stringResources:Resources.SID_Trace_state}">
+                    <DataGridTemplateColumn Width="120*" Header="{x:Static stringResources:Resources.SID_Trace_state}">
                         <DataGridTemplateColumn.CellStyle>
                             <Style TargetType="DataGridCell">
                                 <Setter Property="Background" Value="{Binding (client:MeasurementModel.TraceStateBrush)}"/>

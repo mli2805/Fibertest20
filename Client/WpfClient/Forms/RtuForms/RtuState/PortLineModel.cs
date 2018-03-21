@@ -29,6 +29,7 @@ namespace Iit.Fibertest.Client
 
         public string TraceStateOnScreen => TraceId == Guid.Empty ? "" : TraceState.ToLocalizedString();
         public Brush TraceStateBrush => TraceState.GetBrush(false);
+        public string LastSorFileId { get; set; } = "";
 
         private DateTime? _timestamp;
         public DateTime? Timestamp

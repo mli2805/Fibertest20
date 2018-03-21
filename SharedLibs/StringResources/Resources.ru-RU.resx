@@ -1277,14 +1277,8 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Assigned_by" xml:space="preserve">
     <value>Пользователь</value>
   </data>
-	<data name="SID_Recieved_at" xml:space="preserve">
-    <value>Получено</value>
-  </data>
 	<data name="SID_Trace__0__statistics" xml:space="preserve">
     <value>Статистика трассы {0}</value>
-  </data>
-	<data name="SID_Reflectogram_Id" xml:space="preserve">
-    <value>ID рефлектограммы</value>
   </data>
 	<data name="SID_Event_Id" xml:space="preserve">
     <value>ID события</value>
@@ -1395,7 +1389,7 @@ RTU инициализируется в данный момент!</value>
     <value>Время окончания измерения</value>
   </data>
 	<data name="SID_State_on__0_" xml:space="preserve">
-    <value>Состояние на {0}</value>
+    <value>Состояние на {0} (ID {1})</value>
   </data>
 	<data name="SID__not_attached_" xml:space="preserve">
     <value>&lt;не подключена&gt;</value>
@@ -1684,5 +1678,8 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Can_t_save_amended_reflectogram" xml:space="preserve">
 		<value>Не удалось сохранить измененную рефлектограмму</value>
+	</data>
+	<data name="SID_Registered" xml:space="preserve">
+		<value>Зарегистрировано</value>
 	</data>
 </root>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Windows.Data;
@@ -208,7 +209,7 @@ namespace Iit.Fibertest.Client
 
             opticalEventModel.EventStatus = dto.EventStatus;
             opticalEventModel.StatusChangedByUser = dto.StatusChangedByUser;
-            opticalEventModel.StatusChangedTimestamp = dto.StatusChangedTimestamp.ToString(@"dd-MM-yyyy HH:mm:ss");
+            opticalEventModel.StatusChangedTimestamp = dto.StatusChangedTimestamp.ToString(CultureInfo.CurrentCulture);
             opticalEventModel.Comment = dto.Comment;
 
             Rows.Add(opticalEventModel);
