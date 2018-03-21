@@ -48,17 +48,14 @@ namespace Iit.Fibertest.Graph.Algorithms
             var result = new List<AccidentOnTrace>();
             var level = levels.FirstOrDefault(l => l.LevelName == RftsLevelType.Critical);
             if (level != null && (level.Results & MonitoringResults.IsFailed) != 0)
-                foreach (var accidentOnTrace in GetAccidentsForLevel(level))
-                {
-                    if (result.All(a => a.BrokenRftsEventNumber != accidentOnTrace.BrokenRftsEventNumber))
+                foreach (var accidentOnTrace in GetAccidentsForLevel(level)) 
                         result.Add(accidentOnTrace);
-                }
 
             level = levels.FirstOrDefault(l => l.LevelName == RftsLevelType.Major);
             if (level != null && (level.Results & MonitoringResults.IsFailed) != 0)
                 foreach (var accidentOnTrace in GetAccidentsForLevel(level))
                 {
-                    if (result.All(a => a.BrokenRftsEventNumber != accidentOnTrace.BrokenRftsEventNumber))
+                    if (result.All(a => a.BrokenRftsEventNumber != accidentOnTrace.BrokenRftsEventNumber)) // check if more serious accident has been found in this event
                         result.Add(accidentOnTrace);
                 }
 
@@ -66,7 +63,7 @@ namespace Iit.Fibertest.Graph.Algorithms
             if (level != null && (level.Results & MonitoringResults.IsFailed) != 0)
                 foreach (var accidentOnTrace in GetAccidentsForLevel(level))
                 {
-                    if (result.All(a => a.BrokenRftsEventNumber != accidentOnTrace.BrokenRftsEventNumber))
+                    if (result.All(a => a.BrokenRftsEventNumber != accidentOnTrace.BrokenRftsEventNumber)) // check if more serious accident has been found in this event
                         result.Add(accidentOnTrace);
                 }
 
@@ -81,7 +78,7 @@ namespace Iit.Fibertest.Graph.Algorithms
 
                 if ((rftsEvent.EventTypes & RftsEventTypes.IsNew) != 0)
                     yield return BuildAccidentAsNewEvent(rftsEvent, i, rftsEventsBlock.LevelName);
-                if ((rftsEvent.EventTypes & RftsEventTypes.IsFailed) != 0)
+                if ((rftsEvent.EventTypes & RftsEventTypes.IsFailed) != 0 || (rftsEvent.EventTypes & RftsEventTypes.IsFiberBreak) != 0)
                     yield return BuildAccidentInOldEvent(rftsEvent, i, rftsEventsBlock.LevelName);
             }
         }

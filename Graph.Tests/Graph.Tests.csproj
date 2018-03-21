@@ -686,8 +686,14 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Sut\MoniResults\moniresult1.sor" />
-    <Content Include="Sut\MoniResults\moniresult2.sor" />
+    <Content Include="Sut\MoniResults\BreakBbetween2and3.sor" />
+    <Content Include="Sut\MoniResults\BreakBnode2-MinorRnode1.sor" />
+    <Content Include="Sut\MoniResults\BreakBnode2.sor" />
+    <Content Include="Sut\MoniResults\CriticalLbetween2and3.sor" />
+    <Content Include="Sut\MoniResults\MajorLnode2-MinorRnode1.sor" />
+    <Content Include="Sut\MoniResults\MinorRnode1.sor" />
+    <Content Include="Sut\MoniResults\NoFiber.sor" />
+    <Content Include="Sut\MoniResults\Ok.sor" />
     <Content Include="Sut\SorFiles\base1550-2lm-3-thresholds.sor" />
     <Content Include="Sut\SorFiles\base1550-2lm-no-thresholds.sor" />
     <Content Include="Sut\SorFiles\base1550-4lm-3-thresholds.sor" />
