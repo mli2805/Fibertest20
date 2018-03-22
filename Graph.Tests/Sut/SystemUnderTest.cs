@@ -34,14 +34,14 @@ namespace Graph.Tests
         public const int NewRightCableReserve = 7;
         public const string NewCommentForTest = "New comment for old equipment";
 
-        public const string Base1625 = @"..\..\Sut\SorFiles\base1625.sor";
-        public const string Base1625Lm3 = @"..\..\Sut\SorFiles\base1625-3lm.sor";
-        public const string Base1550Lm2NoThresholds = @"..\..\Sut\SorFiles\base1550-2lm-no-thresholds.sor";
-        public const string Base1550Lm4YesThresholds = @"..\..\Sut\SorFiles\base1550-4lm-3-thresholds.sor";
-        public const string Base1550Lm2YesThresholds = @"..\..\Sut\SorFiles\base1550-2lm-3-thresholds.sor";
+        public const string Base1625 = @"..\..\Sut\BaseSorFiles\base1625.sor";
+        public const string Base1625Lm3 = @"..\..\Sut\BaseSorFiles\base1625-3lm.sor";
+        public const string Base1550Lm2NoThresholds = @"..\..\Sut\BaseSorFiles\base1550-2lm-no-thresholds.sor";
+        public const string Base1550Lm4YesThresholds = @"..\..\Sut\BaseSorFiles\base1550-4lm-3-thresholds.sor";
+        public const string Base1550Lm2YesThresholds = @"..\..\Sut\BaseSorFiles\base1550-2lm-3-thresholds.sor";
 
-        public const string Base1550Lm4RealplaceYesRough = @"..\..\Sut\SorFiles\base1550-4lm-realplace-rough.sor";
-        public const string Base1550Lm5FakeYesRough = @"..\..\Sut\SorFiles\base1550-5lm-fake-rough.sor";
+        public const string Base1550Lm4RealplaceYesRough = @"..\..\Sut\BaseSorFiles\base1550-4lm-realplace-rough.sor";
+        public const string Base1550Lm5FakeYesRough = @"..\..\Sut\BaseSorFiles\base1550-5lm-fake-rough.sor";
 
         public SystemUnderTest()
         {
