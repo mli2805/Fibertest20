@@ -80,19 +80,25 @@ namespace Iit.Fibertest.DataCenterCore
             if (!(message.Body is MonitoringResultDto monitoringResultDto))
                 return -1;
 
+            return await ProcessMonitoringResult(monitoringResultDto);
+        }
+
+        public async Task<int> ProcessMonitoringResult(MonitoringResultDto dto)
+        {
             var rtus = await _rtuStationsRepository.GetAllRtuStations();
-            if (rtus.FirstOrDefault(r => r.RtuGuid == monitoringResultDto.RtuId) == null)
+            if (rtus.FirstOrDefault(r => r.RtuGuid == dto.RtuId) == null)
             {
-                _logFile.AppendLine($"Unknown RTU {monitoringResultDto.RtuId.First6()}");
+                _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
                 return -1;
             }
 
-            _logFile.AppendLine($@"MSMQ message, measure time: {monitoringResultDto.TimeStamp:dd-MM-yyyy hh:mm:ss}, RTU {monitoringResultDto.RtuId.First6()}, Trace {monitoringResultDto.PortWithTrace.TraceId.First6()} - {monitoringResultDto.TraceState} ({monitoringResultDto.BaseRefType})");
+            _logFile.AppendLine($@"MSMQ message, measure time: {dto.TimeStamp:dd-MM-yyyy hh:mm:ss}, RTU { dto.RtuId.First6() 
+                    }, Trace {dto.PortWithTrace.TraceId.First6()} - {dto.TraceState} ({ dto.BaseRefType })");
 
-            var sorId = await _sorFileRepository.AddSorBytesAsync(monitoringResultDto.SorBytes);
+            var sorId = await _sorFileRepository.AddSorBytesAsync(dto.SorBytes);
             if (sorId == -1) return -1;
 
-            var command = _measurementFactory.CreateCommand(monitoringResultDto, sorId);
+            var command = _measurementFactory.CreateCommand(dto, sorId);
             var result = await _eventStoreService.SendCommand(command, "system", "OnServer");
 
             if (result != null) // Unknown trace or something else
@@ -104,10 +110,9 @@ namespace Iit.Fibertest.DataCenterCore
             // TODO snmp, email, sms
             if (command.EventStatus > EventStatus.JustMeasurementNotAnEvent)
             {
-
             }
+
             return 0;
         }
-
     }
 }

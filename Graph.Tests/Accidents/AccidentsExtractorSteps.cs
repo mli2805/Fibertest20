@@ -30,7 +30,7 @@ namespace Graph.Tests
         [When(@"Пришел (.*)\.sor")]
         public void WhenПришелMoniResult_Sor(string filename)
         {
-            var sorBytes = File.ReadAllBytes($@"..\..\Sut\MoniResults\{filename}.sor");
+            var sorBytes = File.ReadAllBytes($@"..\..\Sut\MoniResults\Trace4Lm\{filename}.sor");
             _sorData = SorData.FromBytes(sorBytes);
         }
 

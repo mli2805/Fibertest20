@@ -26,6 +26,7 @@ namespace Graph.Tests
         public ShellViewModel ShellVm { get; }
 
         public AccidentsExtractorFromSor AccidentsExtractorFromSor { get; }
+        public MsmqHandler MsmqHandler { get; }
         public int CurrentEventNumber => Poller.CurrentEventNumber;
 
         public const string NewTitleForTest = "New name for old equipment";
@@ -56,6 +57,7 @@ namespace Graph.Tests
             TreeOfRtuModel = Container.Resolve<TreeOfRtuModel>();
             TreeOfRtuViewModel = Container.Resolve<TreeOfRtuViewModel>();
             AccidentsExtractorFromSor = Container.Resolve<AccidentsExtractorFromSor>();
+            MsmqHandler = Container.Resolve<MsmqHandler>();
             
 
             var ev = Container.Resolve<EventStoreService>();
@@ -85,6 +87,7 @@ namespace Graph.Tests
             builder.RegisterType<SorFileRepository>().SingleInstance();
             builder.RegisterType<WcfServiceForClient>().As<IWcfServiceForClient>().SingleInstance();
             builder.RegisterType<D2CWcfManager>().SingleInstance();
+            builder.RegisterType<MsmqHandler>().SingleInstance();
 
             builder.RegisterInstance<IMyLog>(new NullLog());
 

@@ -140,6 +140,14 @@
     <Compile Include="Accidents\AccidentsExtractorSteps.cs">
       <DependentUpon>AccidentsExtractor.feature</DependentUpon>
     </Compile>
+    <Compile Include="Accidents\MoniResultComes.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MoniResultComes.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Accidents\MoniResultComesSteps.cs">
+      <DependentUpon>MoniResultComes.feature</DependentUpon>
+    </Compile>
     <Compile Include="BaseRef\BaseRefAdjustedBehindTheScenes.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -475,6 +483,10 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>AccidentsExtractor.feature.cs</LastGenOutput>
     </None>
+    <None Include="Accidents\MoniResultComes.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>MoniResultComes.feature.cs</LastGenOutput>
+    </None>
     <None Include="BaseRef\BaseRefAdjustedBehindTheScenes.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>BaseRefAdjustedBehindTheScenes.feature.cs</LastGenOutput>
@@ -686,14 +698,6 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Sut\MoniResults\BreakBbetween2and3.sor" />
-    <Content Include="Sut\MoniResults\BreakBnode2-MinorRnode1.sor" />
-    <Content Include="Sut\MoniResults\BreakBnode2.sor" />
-    <Content Include="Sut\MoniResults\CriticalLbetween2and3.sor" />
-    <Content Include="Sut\MoniResults\MajorLnode2-MinorRnode1.sor" />
-    <Content Include="Sut\MoniResults\MinorRnode1.sor" />
-    <Content Include="Sut\MoniResults\NoFiber.sor" />
-    <Content Include="Sut\MoniResults\Ok.sor" />
     <Content Include="Sut\BaseSorFiles\base1550-2lm-3-thresholds.sor" />
     <Content Include="Sut\BaseSorFiles\base1550-2lm-no-thresholds.sor" />
     <Content Include="Sut\BaseSorFiles\base1550-4lm-3-thresholds.sor" />
@@ -702,6 +706,15 @@
     <Content Include="Sut\BaseSorFiles\base1625-3lm.sor" />
     <Content Include="Sut\BaseSorFiles\base1625.sor" />
     <Content Include="Sut\BaseSorFiles\baseRtuCrossTerminal1550.sor" />
+    <Content Include="Sut\MoniResults\Trace4Lm\4lm-Ok.sor" />
+    <Content Include="Sut\MoniResults\Trace4Lm\BreakBnode2-MinorRnode1.sor" />
+    <Content Include="Sut\MoniResults\Trace4Lm\BreakBnode2.sor" />
+    <Content Include="Sut\MoniResults\Trace4Lm\MajorLnode2-MinorRnode1.sor" />
+    <Content Include="Sut\MoniResults\Trace4Lm\MinorRnode1.sor" />
+    <Content Include="Sut\MoniResults\Trace4Lm\NoFiber.sor" />
+    <Content Include="Sut\MoniResults\Trace5Lm\BreakBbetween2and3.sor" />
+    <Content Include="Sut\MoniResults\Trace5Lm\CriticalLbetween2and3.sor" />
+    <Content Include="Sut\MoniResults\Trace5Lm\Ok.sor" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
