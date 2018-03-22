@@ -694,14 +694,14 @@
     <Content Include="Sut\MoniResults\MinorRnode1.sor" />
     <Content Include="Sut\MoniResults\NoFiber.sor" />
     <Content Include="Sut\MoniResults\Ok.sor" />
-    <Content Include="Sut\SorFiles\base1550-2lm-3-thresholds.sor" />
-    <Content Include="Sut\SorFiles\base1550-2lm-no-thresholds.sor" />
-    <Content Include="Sut\SorFiles\base1550-4lm-3-thresholds.sor" />
-    <Content Include="Sut\SorFiles\base1550-4lm-realplace-rough.sor" />
-    <Content Include="Sut\SorFiles\base1550-5-fake-rough.sor" />
-    <Content Include="Sut\SorFiles\base1625-3lm.sor" />
-    <Content Include="Sut\SorFiles\base1625.sor" />
-    <Content Include="Sut\SorFiles\baseRtuCrossTerminal1550.sor" />
+    <Content Include="Sut\BaseSorFiles\base1550-2lm-3-thresholds.sor" />
+    <Content Include="Sut\BaseSorFiles\base1550-2lm-no-thresholds.sor" />
+    <Content Include="Sut\BaseSorFiles\base1550-4lm-3-thresholds.sor" />
+    <Content Include="Sut\BaseSorFiles\base1550-4lm-realplace-rough.sor" />
+    <Content Include="Sut\BaseSorFiles\base1550-5-fake-rough.sor" />
+    <Content Include="Sut\BaseSorFiles\base1625-3lm.sor" />
+    <Content Include="Sut\BaseSorFiles\base1625.sor" />
+    <Content Include="Sut\BaseSorFiles\baseRtuCrossTerminal1550.sor" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
