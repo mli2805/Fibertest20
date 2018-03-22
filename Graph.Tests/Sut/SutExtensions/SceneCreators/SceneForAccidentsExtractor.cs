@@ -13,6 +13,13 @@ namespace Graph.Tests
             return trace;
         }
 
+        public static TraceLeaf Attach(this SystemUnderTest sut, Iit.Fibertest.Graph.Trace trace, int portNumber)
+        {
+            var rtuLeaf = (RtuLeaf)sut.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(trace.RtuId);
+            sut.AttachTraceTo(trace.Id, rtuLeaf, portNumber, Answer.Yes);
+            return (TraceLeaf)sut.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(trace.Id);
+        }
+
 
     }
 }

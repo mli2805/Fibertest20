@@ -82,17 +82,37 @@ this.ScenarioSetup(scenarioInfo);
 #line 4
  testRunner.Given("Трасса c 4 ориентирами на мониторинге", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 6
- testRunner.When("Приходит авария", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("Приходит Fast FiberBreak с файлом Trace4lm\\BreakBnode2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 7
- testRunner.Then("Авария отображается", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("Все красное и Крест совпадающий с муфтой", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 9
+ testRunner.When("Приходит Precise FiberBreak с файлом Trace4lm\\BreakBnode2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 10
- testRunner.When("Приходит авария", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 11
- testRunner.Then("Авария отображается", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("Все красное и Крест совпадающий с муфтой", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 12
+ testRunner.When("Приходит Precise Major с файлом Trace4lm\\MajorLnode2-MinorRnode1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 13
- testRunner.When("Приходит OK", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 14
+ testRunner.Then("Все фиолетовое и Кресты совпадающие с проключением и муфтой", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 16
+ testRunner.When("Приходит Precise FiberBreak с файлом Trace4lm\\BreakBnode2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 17
+ testRunner.Then("Все красное и Крест совпадающий с муфтой", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 19
+ testRunner.When("Приходит Precise Ok с файлом Trace4lm\\4lm-Ok", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 20
  testRunner.Then("Отображается что все ОК", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 22
+ testRunner.When("Приходит Precise Major с файлом Trace4lm\\MajorLnode2-MinorRnode1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 23
+ testRunner.Then("Все фиолетовое и Кресты совпадающие с проключением и муфтой", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 25
+ testRunner.When("Отсоединяем трассу от порта", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 26
+ testRunner.Then("Все синее и никаких крестов", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 28
+ testRunner.When("Присоединяем трассу к любому порту", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 30
+ testRunner.Then("Все фиолетовое и Кресты совпадающие с проключением и муфтой", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

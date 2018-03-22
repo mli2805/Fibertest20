@@ -20,7 +20,6 @@ namespace Iit.Fibertest.Client
         private readonly TraceStatisticsViewsManager _traceStatisticsViewsManager;
         private readonly BaseRefsAssignViewModel _baseRefsAssignViewModel;
         private readonly LandmarksViewModel _landmarksViewModel;
-        private readonly OpticalEventsDoubleViewModel _opticalEventsDoubleViewModel;
         private readonly OutOfTurnPreciseMeasurementViewModel _outOfTurnPreciseMeasurementViewModel;
         private readonly CommonStatusBarViewModel _commonStatusBarViewModel;
 
@@ -28,7 +27,7 @@ namespace Iit.Fibertest.Client
             IWindowManager windowManager, IWcfServiceForClient c2DWcfManager,
             TraceStateViewsManager traceStateViewsManager, TraceStatisticsViewsManager traceStatisticsViewsManager,
             BaseRefsAssignViewModel baseRefsAssignViewModel, LandmarksViewModel landmarksViewModel,
-            OpticalEventsDoubleViewModel opticalEventsDoubleViewModel, OutOfTurnPreciseMeasurementViewModel outOfTurnPreciseMeasurementViewModel,
+            OutOfTurnPreciseMeasurementViewModel outOfTurnPreciseMeasurementViewModel,
             CommonStatusBarViewModel commonStatusBarViewModel)
         {
             _globalScope = globalScope;
@@ -39,7 +38,6 @@ namespace Iit.Fibertest.Client
             _traceStatisticsViewsManager = traceStatisticsViewsManager;
             _baseRefsAssignViewModel = baseRefsAssignViewModel;
             _landmarksViewModel = landmarksViewModel;
-            _opticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
             _outOfTurnPreciseMeasurementViewModel = outOfTurnPreciseMeasurementViewModel;
             _commonStatusBarViewModel = commonStatusBarViewModel;
         }
@@ -100,9 +98,7 @@ namespace Iit.Fibertest.Client
             if (!(param is TraceLeaf traceLeaf))
                 return;
 
-            var result = await _c2DWcfManager.SendCommandAsObj(new DetachTrace() { TraceId = traceLeaf.Id });
-            if (result == null)
-                _opticalEventsDoubleViewModel.ActualOpticalEventsViewModel.RemoveEventsOfTrace(traceLeaf.Id);
+            await _c2DWcfManager.SendCommandAsObj(new DetachTrace() { TraceId = traceLeaf.Id });
         }
 
         public async void CleanTrace(object param)

@@ -709,6 +709,7 @@
     <Content Include="Sut\MoniResults\Trace4Lm\4lm-Ok.sor" />
     <Content Include="Sut\MoniResults\Trace4Lm\BreakBnode2-MinorRnode1.sor" />
     <Content Include="Sut\MoniResults\Trace4Lm\BreakBnode2.sor" />
+    <Content Include="Sut\MoniResults\Trace4Lm\CriticalLnode2.sor" />
     <Content Include="Sut\MoniResults\Trace4Lm\MajorLnode2-MinorRnode1.sor" />
     <Content Include="Sut\MoniResults\Trace4Lm\MinorRnode1.sor" />
     <Content Include="Sut\MoniResults\Trace4Lm\NoFiber.sor" />

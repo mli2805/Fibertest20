@@ -28,6 +28,8 @@ namespace Iit.Fibertest.Graph
         {
             Trace trace = _mapper.Map<Trace>(e);
             _model.Traces.Add(trace);
+            for (int i = 1; i < trace.Nodes.Count; i++)
+                GetFiberBetweenNodes(trace.Nodes[i - 1], trace.Nodes[i]).SetState(trace.Id, FiberState.NotJoined);
             return null;
         }
 
@@ -120,6 +122,10 @@ namespace Iit.Fibertest.Graph
             trace.OtauPort = null;
             trace.IsIncludedInMonitoringCycle = false;
             trace.State = FiberState.NotJoined;
+            foreach (var fiber in GetTraceFibersByNodes(trace.Nodes))
+            {
+                fiber.SetState(trace.Id, FiberState.NotJoined);
+            }
 
             _accidentsOnTraceApplierToReadModel.CleanAccidentPlacesOnTrace(trace.Id);
             return null;
