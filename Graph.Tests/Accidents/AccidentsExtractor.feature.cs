@@ -80,22 +80,20 @@ namespace Graph.Tests.Accidents
 #line 4
 this.ScenarioSetup(scenarioInfo);
 #line 5
- testRunner.Given("Включен мониторинг трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 7
  testRunner.When("Пришел BreakBnode2.sor", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 8
+#line 6
  testRunner.Then("Получен список эксидентов для BreakBnode2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 10
+#line 8
  testRunner.When("Пришел BreakBnode2-MinorRnode1.sor", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 11
+#line 9
  testRunner.Then("Получен список эксидентов для BreakBnode2-MinorRnode1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 13
+#line 11
  testRunner.When("Пришел MajorLnode2-MinorRnode1.sor", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 14
+#line 12
  testRunner.Then("Получен список эксидентов для MajorLnode2-MinorRnode1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 16
+#line 14
  testRunner.When("Пришел MinorRnode1.sor", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 17
+#line 15
  testRunner.Then("Получен список эксидентов для MinorRnode1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

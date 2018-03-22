@@ -140,6 +140,14 @@
     <Compile Include="Accidents\AccidentsExtractorSteps.cs">
       <DependentUpon>AccidentsExtractor.feature</DependentUpon>
     </Compile>
+    <Compile Include="Accidents\MoniResultAccidentBetweenNodes.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MoniResultAccidentBetweenNodes.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Accidents\MoniResultAccidentBetweenNodesSteps.cs">
+      <DependentUpon>MoniResultAccidentBetweenNodes.feature</DependentUpon>
+    </Compile>
     <Compile Include="Accidents\MoniResultComes.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -483,6 +491,10 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>AccidentsExtractor.feature.cs</LastGenOutput>
     </None>
+    <None Include="Accidents\MoniResultAccidentBetweenNodes.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>MoniResultAccidentBetweenNodes.feature.cs</LastGenOutput>
+    </None>
     <None Include="Accidents\MoniResultComes.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>MoniResultComes.feature.cs</LastGenOutput>
@@ -702,7 +714,7 @@
     <Content Include="Sut\BaseSorFiles\base1550-2lm-no-thresholds.sor" />
     <Content Include="Sut\BaseSorFiles\base1550-4lm-3-thresholds.sor" />
     <Content Include="Sut\BaseSorFiles\base1550-4lm-realplace-rough.sor" />
-    <Content Include="Sut\BaseSorFiles\base1550-5-fake-rough.sor" />
+    <Content Include="Sut\BaseSorFiles\base1550-5lm-fake-rough.sor" />
     <Content Include="Sut\BaseSorFiles\base1625-3lm.sor" />
     <Content Include="Sut\BaseSorFiles\base1625.sor" />
     <Content Include="Sut\BaseSorFiles\baseRtuCrossTerminal1550.sor" />

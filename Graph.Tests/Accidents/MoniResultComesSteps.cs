@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using TechTalk.SpecFlow;
 
@@ -24,7 +22,7 @@ namespace Graph.Tests
         [Given(@"Трасса c 4 ориентирами на мониторинге")]
         public void GivenТрассаCОриентирамиНаМониторинге()
         {
-            _trace = _sut.SetTraceWithBaseRefs();
+            _trace = _sut.SetTraceWithAccidentInOldNode();
             _sut.GraphReadModel.Data.Nodes.Count.Should().Be(9);
             _sut.ReadModel.Nodes.Count.Should().Be(9);
 
@@ -32,23 +30,12 @@ namespace Graph.Tests
             _closureVm = _sut.GraphReadModel.Data.Nodes.First(n => n.Id == _trace.Nodes[5]);
 
             _trace.State.Should().Be(FiberState.NotJoined);
-            AssertTraceFibersState();
+            _sut.AssertTraceFibersState(_trace);
 
             _traceLeaf = _sut.Attach(_trace, 3);
 
             _trace.State.Should().Be(FiberState.Unknown);
-            AssertTraceFibersState();
-        }
-
-        private void AssertTraceFibersState()
-        {
-            var fibers = _sut.ReadModel.GetTraceFibers(_trace).ToList();
-            foreach (var fiber in fibers)
-            {
-                fiber.States.Contains(new KeyValuePair<Guid, FiberState>(_trace.Id, _trace.State)).Should().Be(true);
-                var fiberVm = _sut.GraphReadModel.Data.Fibers.First(f => f.Id == fiber.Id);
-                fiberVm.States.Contains(new KeyValuePair<Guid, FiberState>(_trace.Id, _trace.State)).Should().Be(true);
-            }
+            _sut.AssertTraceFibersState(_trace);
         }
 
         [When(@"Приходит (.*) (.*) с файлом (.*)")]
@@ -104,7 +91,7 @@ namespace Graph.Tests
             accidentPlaceNode.AccidentOnTraceVmId.Should().Be(_trace.Id);
 
             _trace.State.Should().Be(FiberState.FiberBreak);
-            AssertTraceFibersState();
+            _sut.AssertTraceFibersState(_trace);
 
             accidentPlaceNode.Position.ShouldBeEquivalentTo(_closureVm.Position);
             accidentPlaceNodeVm.Position.ShouldBeEquivalentTo(_closureVm.Position);
@@ -129,7 +116,7 @@ namespace Graph.Tests
             accidentPlaceNode2.AccidentOnTraceId.Should().Be(_trace.Id);
 
             _trace.State.Should().Be(FiberState.Major);
-            AssertTraceFibersState();
+            _sut.AssertTraceFibersState(_trace);
 
             accidentPlaceNodeVm1.Position.ShouldBeEquivalentTo(_closureVm.Position);
             accidentPlaceNodeVm2.Position.ShouldBeEquivalentTo(_crossVm.Position);
@@ -155,7 +142,7 @@ namespace Graph.Tests
             accidentPlaceNode2.AccidentOnTraceId.Should().Be(_trace.Id);
 
             _trace.State.Should().Be(FiberState.Major);
-            AssertTraceFibersState();
+            _sut.AssertTraceFibersState(_trace);
 
             accidentPlaceNodeVm1.Position.ShouldBeEquivalentTo(_closureVm.Position);
             accidentPlaceNodeVm2.Position.ShouldBeEquivalentTo(_crossVm.Position);
@@ -174,7 +161,7 @@ namespace Graph.Tests
             _sut.ReadModel.Nodes.Count(n => n.TypeOfLastAddedEquipment == EquipmentType.AccidentPlace).Should().Be(0);
 
             _trace.State.Should().Be(FiberState.Ok);
-            AssertTraceFibersState();
+            _sut.AssertTraceFibersState(_trace);
         }
 
         [Then(@"Все синее и никаких крестов")]
@@ -187,7 +174,7 @@ namespace Graph.Tests
             _sut.ReadModel.Nodes.Count(n => n.TypeOfLastAddedEquipment == EquipmentType.AccidentPlace).Should().Be(0);
 
             _trace.State.Should().Be(FiberState.NotJoined);
-            AssertTraceFibersState();
+            _sut.AssertTraceFibersState(_trace);
         }
 
 

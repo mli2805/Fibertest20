@@ -24,7 +24,7 @@ namespace Graph.Tests
         [Given(@"Включен мониторинг трассы")]
         public void GivenВключенМониторингТрассы()
         {
-            _sut.SetTraceWithBaseRefs();
+            _sut.SetTraceWithAccidentInOldNode();
         }
 
         [When(@"Пришел (.*)\.sor")]
