@@ -77,6 +77,13 @@ namespace Graph.Tests
             _sut.Poller.EventSourcingTick().Wait();
         }
 
+        [When(@"Добавляем на трассе точки привязки")]
+        public void WhenДобавляемНаТрассеТочкиПривязки()
+        {
+            _sut.AddAdjustmentPoints(_trace);
+        }
+
+
         [When(@"Присоединяем трассу к любому порту")]
         public void WhenПрисоединяемТрассуКЛюбомуПорту()
         {
@@ -119,6 +126,32 @@ namespace Graph.Tests
             var accidentPlaceNode1 = _sut.ReadModel.Nodes[9];
             accidentPlaceNode1.AccidentOnTraceId.Should().Be(_trace.Id);
             var accidentPlaceNode2 = _sut.ReadModel.Nodes[10];
+            accidentPlaceNode2.AccidentOnTraceId.Should().Be(_trace.Id);
+
+            _trace.State.Should().Be(FiberState.Major);
+            AssertTraceFibersState();
+
+            accidentPlaceNodeVm1.Position.ShouldBeEquivalentTo(_closureVm.Position);
+            accidentPlaceNodeVm2.Position.ShouldBeEquivalentTo(_crossVm.Position);
+            accidentPlaceNode1.Position.ShouldBeEquivalentTo(_closureVm.Position);
+            accidentPlaceNode2.Position.ShouldBeEquivalentTo(_crossVm.Position);
+        }
+
+        [Then(@"Снова трасса фиолетовая и Кресты совпадающие с проключением и муфтой")]
+        public void ThenСноваТрассаФиолетоваяИКрестыСовпадающиеСПроключениемИМуфтой()
+        {
+            _sut.GraphReadModel.Data.Nodes.Count.Should().Be(13);
+            _sut.GraphReadModel.Data.Nodes.Count(n => n.Type == EquipmentType.AccidentPlace).Should().Be(2);
+            var accidentPlaceNodeVm1 = _sut.GraphReadModel.Data.Nodes[11];
+            accidentPlaceNodeVm1.AccidentOnTraceVmId.Should().Be(_trace.Id);
+            var accidentPlaceNodeVm2 = _sut.GraphReadModel.Data.Nodes[12];
+            accidentPlaceNodeVm2.AccidentOnTraceVmId.Should().Be(_trace.Id);
+
+            _sut.ReadModel.Nodes.Count.Should().Be(13);
+            _sut.ReadModel.Nodes.Count(n => n.TypeOfLastAddedEquipment == EquipmentType.AccidentPlace).Should().Be(2);
+            var accidentPlaceNode1 = _sut.ReadModel.Nodes[11];
+            accidentPlaceNode1.AccidentOnTraceId.Should().Be(_trace.Id);
+            var accidentPlaceNode2 = _sut.ReadModel.Nodes[12];
             accidentPlaceNode2.AccidentOnTraceId.Should().Be(_trace.Id);
 
             _trace.State.Should().Be(FiberState.Major);

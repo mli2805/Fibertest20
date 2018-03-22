@@ -110,9 +110,11 @@ this.ScenarioSetup(scenarioInfo);
 #line 26
  testRunner.Then("Все синее и никаких крестов", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 28
- testRunner.When("Присоединяем трассу к любому порту", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("Добавляем на трассе точки привязки", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 30
- testRunner.Then("Все фиолетовое и Кресты совпадающие с проключением и муфтой", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("Присоединяем трассу к любому порту", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 32
+ testRunner.Then("Снова трасса фиолетовая и Кресты совпадающие с проключением и муфтой", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
