@@ -47,11 +47,12 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private bool IsChanged()
-        {
-            return _title != _originalRtu.Title
-                   || _comment != _originalRtu.Comment;
-        }
+//        private bool IsChanged()
+//        {
+//            return _title != _originalRtu.Title || _comment != _originalRtu.Comment ||
+//                    !_originalNode.Position.Lat.Equals(GpsInputViewModel.OneCoorViewModelLatitude.StringsToValue()) ||
+//                    !_originalNode.Position.Lng.Equals(GpsInputViewModel.OneCoorViewModelLongitude.StringsToValue());
+//        }
         private bool _isButtonSaveEnabled;
 
         public bool IsButtonSaveEnabled
@@ -128,11 +129,12 @@ namespace Iit.Fibertest.Client
 
         private async Task UpdateRtu()
         {
-            if (IsChanged())
+//            if (IsChanged())
             {
                 IMapper mapper =
                     new MapperConfiguration(cfg => cfg.AddProfile<MappingViewModelToCommand>()).CreateMapper();
                 UpdateRtu cmd = mapper.Map<UpdateRtu>(this);
+                cmd.Position = new PointLatLng(GpsInputViewModel.OneCoorViewModelLatitude.StringsToValue(), GpsInputViewModel.OneCoorViewModelLongitude.StringsToValue());
                 await _c2DWcfManager.SendCommandAsObj(cmd);
             }
         }

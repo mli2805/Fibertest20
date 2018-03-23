@@ -40,6 +40,7 @@ namespace Iit.Fibertest.Client
             var nodeVm = _model.Data.Nodes.FirstOrDefault(n => n.Id == rtu.NodeId);
             if (nodeVm == null) return;
             nodeVm.Title = evnt.Title;
+            nodeVm.Position = evnt.Position;
         }
 
         public void RemoveRtu(RtuRemoved evnt)

@@ -81,38 +81,19 @@ namespace Graph.Tests.Rtu
             this.ScenarioTearDown();
         }
         
-        [Xunit.FactAttribute(DisplayName="Сохранение без изменений")]
-        [Xunit.TraitAttribute("FeatureTitle", "RtuUpdated")]
-        [Xunit.TraitAttribute("Description", "Сохранение без изменений")]
-        public virtual void СохранениеБезИзменений()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Сохранение без изменений", ((string[])(null)));
-#line 7
-this.ScenarioSetup(scenarioInfo);
-#line 3
-this.FeatureBackground();
-#line 8
- testRunner.When("Пользователь открыл окно редактирования первого RTU и ничего не изменив нажал Сох" +
-                    "ранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 9
- testRunner.Then("Команд не подается", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-            this.ScenarioCleanup();
-        }
-        
         [Xunit.FactAttribute(DisplayName="Сохранение изменений")]
         [Xunit.TraitAttribute("FeatureTitle", "RtuUpdated")]
         [Xunit.TraitAttribute("Description", "Сохранение изменений")]
         public virtual void СохранениеИзменений()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Сохранение изменений", ((string[])(null)));
-#line 11
+#line 8
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 12
+#line 9
  testRunner.Given("Пользователь ввел название нового RTU node-node", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 13
+#line 10
  testRunner.Then("Сохраняется название RTU node-node", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -124,13 +105,13 @@ this.FeatureBackground();
         public virtual void СохранениеИзмененийКомментария()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Сохранение изменений комментария", ((string[])(null)));
-#line 15
+#line 12
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 16
+#line 13
  testRunner.Given("Пользователь ввел комментарий к RTU some comment", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 17
+#line 14
  testRunner.Then("Сохраняется комментарий RTU some comment", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -142,13 +123,13 @@ this.FeatureBackground();
         public virtual void СохранениеССуществующимИменемRTU()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Сохранение с существующим именем RTU", ((string[])(null)));
-#line 19
+#line 16
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 20
+#line 17
  testRunner.Given("Пользователь открыл окно нового RTU и ввел название существующего blah-blah", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 21
+#line 18
  testRunner.Then("Кнопка Сохранить заблокирована поле Название подсвечено", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -160,13 +141,13 @@ this.FeatureBackground();
         public virtual void ОтказОтИзмененияRTU()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Отказ от изменения RTU", ((string[])(null)));
-#line 23
+#line 20
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 24
+#line 21
  testRunner.When("Пользователь открыл окно редактирования RTU и что-то изменив нажал Отменить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 25
+#line 22
  testRunner.Then("Команд не подается", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -178,15 +159,15 @@ this.FeatureBackground();
         public virtual void ПустоеНазвание()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Пустое название", ((string[])(null)));
-#line 27
+#line 24
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 28
+#line 25
  testRunner.When("Пользователь открыл окно редактирования нового RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 29
+#line 26
  testRunner.When("Пользователь очищает поле Название", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 30
+#line 27
  testRunner.Then("Кнопка Сохранить становится недоступна", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

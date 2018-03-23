@@ -44,17 +44,6 @@ namespace Graph.Tests
         }
 
 
-        
-
-        [When(@"Пользователь открыл окно редактирования первого RTU и ничего не изменив нажал Сохранить")]
-        public void WhenПользовательОткрылОкноРедактированияRtuиНичегоНеИзменивНажалСохранить()
-        {
-            _cutOff = _sut.CurrentEventNumber;
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuUpdateHandler(model, null, null, Answer.Yes));
-            _sut.GraphReadModel.GrmRtuRequests.UpdateRtu(new RequestUpdateRtu() { Id = _firstRtuId, NodeId = _firstNodeId });
-            _sut.Poller.EventSourcingTick().Wait();
-        }
-
         [Then(@"Команд не подается")]
         public void ThenКомандНеПодается()
         {
@@ -65,7 +54,7 @@ namespace Graph.Tests
         public void GivenTitleWasSetToBlah_Blah(string title)
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuUpdateHandler(model, title, null, Answer.Yes));
-            _sut.GraphReadModel.GrmRtuRequests.UpdateRtu(new RequestUpdateRtu() { Id = _saidRtuId, NodeId = _saidNodeId });
+            _sut.GraphReadModel.GrmRtuRequests.UpdateRtu(new RequestUpdateRtu() { RtuId = _saidRtuId, NodeId = _saidNodeId });
             _sut.Poller.EventSourcingTick().Wait();
         }
 
@@ -82,7 +71,7 @@ namespace Graph.Tests
         {
             _cutOff = _sut.CurrentEventNumber;
             _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuUpdateHandler(model, @"something", @"doesn't matter", Answer.Cancel));
-            _sut.GraphReadModel.GrmRtuRequests.UpdateRtu(new RequestUpdateRtu() { Id = _saidRtuId, NodeId = _saidNodeId });
+            _sut.GraphReadModel.GrmRtuRequests.UpdateRtu(new RequestUpdateRtu() { RtuId = _saidRtuId, NodeId = _saidNodeId });
             _sut.Poller.EventSourcingTick().Wait();
         }
 
@@ -96,7 +85,7 @@ namespace Graph.Tests
         public void GivenПользовательВвелКомментарийКУзлу(string comment)
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuUpdateHandler(model, null, comment, Answer.Yes));
-            _sut.GraphReadModel.GrmRtuRequests.UpdateRtu(new RequestUpdateRtu() { Id = _saidRtuId, NodeId = _saidNodeId });
+            _sut.GraphReadModel.GrmRtuRequests.UpdateRtu(new RequestUpdateRtu() { RtuId = _saidRtuId, NodeId = _saidNodeId });
             _sut.Poller.EventSourcingTick().Wait();
         }
 

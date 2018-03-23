@@ -470,17 +470,20 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        public string Apply(RtuUpdated cmd)
+        public string Apply(RtuUpdated e)
         {
-            var rtu = Rtus.FirstOrDefault(r => r.Id == cmd.RtuId);
+            var rtu = Rtus.FirstOrDefault(r => r.Id == e.RtuId);
             if (rtu != null)
             {
-                rtu.Title = cmd.Title;
-                rtu.Comment = cmd.Comment;
+                rtu.Title = e.Title;
+                rtu.Comment = e.Comment;
+
+                var nodeOfRtu = Nodes.First(n => n.Id == rtu.NodeId);
+                nodeOfRtu.Position = e.Position;
                 return null;
             }
 
-            var message = $@"RtuUpdated: RTU {cmd.RtuId.First6()} not found";
+            var message = $@"RtuUpdated: RTU {e.RtuId.First6()} not found";
             LogFile.AppendLine(message);
             return message;
         }
