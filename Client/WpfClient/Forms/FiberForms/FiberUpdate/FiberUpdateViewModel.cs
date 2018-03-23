@@ -62,7 +62,7 @@ namespace Iit.Fibertest.Client
         {
             while (n1.TypeOfLastAddedEquipment == EquipmentType.AdjustmentPoint)
             {
-                fX = _readModel.GetOtherFiberOfAdjustmentPoint(n1, fX.Id);
+                fX = _readModel.GetAnotherFiberOfAdjustmentPoint(n1, fX.Id);
                 n1 = _readModel.Nodes.First(n=>n.Id == (fX.Node1 == n1.Id ? fX.Node2 : fX.Node1));
             }
             return n1;

@@ -365,7 +365,7 @@ namespace Iit.Fibertest.Graph
             var fiber = Fibers.FirstOrDefault(f => f.Id == e.Id);
             if (fiber != null)
             {
-                Fibers.Remove(fiber);
+                this.RemoveFiberUptoRealNodesNotPoints(fiber);
                 return null;
             }
 
@@ -373,6 +373,9 @@ namespace Iit.Fibertest.Graph
             LogFile.AppendLine(message);
             return message;
         }
+
+       
+
         #endregion
 
         #region Equipment

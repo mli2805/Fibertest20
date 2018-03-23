@@ -102,15 +102,40 @@ namespace Iit.Fibertest.Graph
             }
         }
 
-        private static IEnumerable<Fiber> GetNodeFibers(this ReadModel model, Node node)
+        private static IEnumerable<Fiber> GetNodeFibers(this IModel model, Node node)
         {
             foreach (var fiber in model.Fibers)
                 if (fiber.Node1 == node.Id || fiber.Node2 == node.Id) yield return fiber;
         }
 
-        public static Fiber GetOtherFiberOfAdjustmentPoint(this ReadModel model, Node adjustmentPoint, Guid fiberId)
+        public static Fiber GetAnotherFiberOfAdjustmentPoint(this IModel model, Node adjustmentPoint, Guid fiberId)
         {
             return model.GetNodeFibers(adjustmentPoint).First(f => f.Id != fiberId);
+        }
+
+        public static void RemoveFiberUptoRealNodesNotPoints(this IModel model, Fiber fiber)
+        {
+            var leftNode = model.Nodes.First(n => n.Id == fiber.Node1);
+            while (leftNode.TypeOfLastAddedEquipment == EquipmentType.AdjustmentPoint)
+            {
+                var leftFiber = model.GetAnotherFiberOfAdjustmentPoint(leftNode, fiber.Id);
+                model.Nodes.Remove(leftNode);
+                var nextLeftNodeId = leftFiber.Node1 == leftNode.Id ? leftFiber.Node2 : leftFiber.Node1;
+                model.Fibers.Remove(leftFiber);
+                leftNode = model.Nodes.First(n => n.Id == nextLeftNodeId);
+            }
+
+            var rightNode = model.Nodes.First(n => n.Id == fiber.Node2);
+            while (rightNode.TypeOfLastAddedEquipment == EquipmentType.AdjustmentPoint)
+            {
+                var rightFiber = model.GetAnotherFiberOfAdjustmentPoint(rightNode, fiber.Id);
+                model.Nodes.Remove(rightNode);
+                var nextRightNodeId = rightFiber.Node1 == rightNode.Id ? rightFiber.Node2 : rightFiber.Node1;
+                model.Fibers.Remove(rightFiber);
+                rightNode = model.Nodes.First(n => n.Id == nextRightNodeId);
+            }
+
+            model.Fibers.Remove(fiber);
         }
     }
 }
