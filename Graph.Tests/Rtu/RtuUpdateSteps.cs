@@ -13,8 +13,6 @@ namespace Graph.Tests
     public sealed class RtuUpdateSteps
     {
         private readonly SystemUnderTest _sut = new SystemUnderTest();
-        private Guid _firstRtuId;
-        private Guid _firstNodeId;
         private Guid _saidRtuId;
         private Guid _saidNodeId;
         private int _cutOff; // in scenario with no changes and Save button it's interesting that not only node wasn't changed but command wasn't sent
@@ -26,10 +24,6 @@ namespace Graph.Tests
             _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuUpdateHandler(model, title, @"doesn't matter", Answer.Yes));
             _sut.GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(new RequestAddRtuAtGpsLocation());
             _sut.Poller.EventSourcingTick().Wait();
-            _firstRtuId =_sut.ReadModel.Rtus.Last().Id;
-            _firstNodeId =_sut.ReadModel.Nodes.Last().Id;
-
-          
         }
 
         [Given(@"Добавлен RTU с именем (.*)")]

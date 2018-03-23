@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using FluentAssertions;
-using Iit.Fibertest.Client;
 using Iit.Fibertest.Dto;
 using TechTalk.SpecFlow;
 
@@ -13,7 +12,6 @@ namespace Graph.Tests
     {
         private readonly SystemUnderTest _sut = new SystemUnderTest();
         private Iit.Fibertest.Graph.Trace _trace;
-        private TraceLeaf _traceLeaf;
 
         [Given(@"Трасса с 5 ориентирами на мониторинге")]
         public void GivenТрассаСОриентирамиНаМониторинге()
@@ -25,7 +23,7 @@ namespace Graph.Tests
             _trace.State.Should().Be(FiberState.NotJoined);
             _sut.AssertTraceFibersState(_trace);
 
-            _traceLeaf = _sut.Attach(_trace, 3);
+            _sut.Attach(_trace, 3);
 
             _trace.State.Should().Be(FiberState.Unknown);
             _sut.AssertTraceFibersState(_trace);

@@ -39,7 +39,7 @@ namespace Iit.Fibertest.Client
         public async void Test()
         {
             Result = null;
-            var res = false;
+            bool res;
             using (_globalScope.Resolve<IWaitCursor>())
             {
                 res = await TestConnection();
