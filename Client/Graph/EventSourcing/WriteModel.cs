@@ -374,7 +374,7 @@ namespace Iit.Fibertest.Graph
             return message;
         }
 
-       
+
 
         #endregion
 
@@ -688,6 +688,12 @@ namespace Iit.Fibertest.Graph
         public string Apply(BopNetworkEventAdded e)
         {
             BopNetworkEvents.Add(_mapper.Map<BopNetworkEvent>(e));
+            return null;
+        }
+
+        public string Apply(ResponsibilitiesChanged e)
+        {
+            this.ChangeResponsibilities(e);
             return null;
         }
         #endregion

@@ -4,15 +4,18 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
+        xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
         SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen"
         d:DataContext="{d:DesignInstance client:ObjectsToZonesViewModel}">
     <StackPanel>
-        <DataGrid Name="Datagrid" ItemsSource="{Binding TableForBinding, Mode=TwoWay}" CanUserAddRows="False" 
-              FrozenColumnCount="2" Margin="5" BeginningEdit="Datagrid_BeginningEdit" LoadingRow="Datagrid_LoadingRow"  />
+        <DataGrid Name="MyDatagrid" ItemsSource="{Binding TableForBinding, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" CanUserAddRows="False" 
+              FrozenColumnCount="2" Margin="5" SelectionMode="Single" SelectionUnit="Cell"
+                  BeginningEdit="Datagrid_BeginningEdit" 
+                  LoadingRow="Datagrid_LoadingRow"  IsReadOnly="{Binding IsReadOnly}" CurrentCellChanged="Datagrid_CurrentCellChanged" />
         <StackPanel Margin="5" HorizontalAlignment="Center" Orientation="Horizontal">
-            <Button Content="Save" Name="Save" IsDefault="True" Width="100" Height="20" Margin="5"/>
-            <Button Content="Cancel" Name="Cancel" IsCancel="True" Width="100" Height="20" Margin="5"/>
+            <Button Content="{x:Static stringResources:Resources.SID_Save}" Name="Save" IsDefault="True" Width="100" Height="20" Margin="5" />
+            <Button Content="{x:Static stringResources:Resources.SID_Cancel}" Name="Cancel" IsCancel="True" Width="100" Height="20" Margin="5"/>
         </StackPanel>
     </StackPanel>
 </Window>

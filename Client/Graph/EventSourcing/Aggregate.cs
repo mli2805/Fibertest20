@@ -322,6 +322,12 @@ namespace Iit.Fibertest.Graph
             return RtuPartStateChanges.NoChanges;
         }
 
+
+        public string When(ChangeResponsibilities cmd)
+        {
+            return WriteModel.Add(_mapper.Map<ResponsibilitiesChanged>(cmd));
+        }
+
         #endregion
     }
 }
