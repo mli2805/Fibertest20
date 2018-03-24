@@ -38,6 +38,8 @@ namespace Iit.Fibertest.Graph
             }
             rtu.Title = e.Title;
             rtu.Comment = e.Comment;
+            var nodeOfRtu = _model.Nodes.First(n => n.Id == rtu.NodeId);
+            nodeOfRtu.Position = e.Position;
             return null;
         }
 

@@ -68,6 +68,7 @@
                 case ZoneAdded evnt: return _zoneEventsOnModelExecutor.AddZone(evnt); 
                 case ZoneUpdated evnt: return _zoneEventsOnModelExecutor.UpdateZone(evnt); 
                 case ZoneRemoved evnt: return _zoneEventsOnModelExecutor.RemoveZone(evnt); 
+                case ResponsibilitiesChanged evnt: return _zoneEventsOnModelExecutor.ChangeResponsibilities(evnt); 
 
                 case BaseRefAssigned evnt: return _echoEventsOnModelExecutor.AssignBaseRef(evnt); 
                 case RtuInitialized evnt: return _echoEventsOnModelExecutor.InitializeRtu(evnt); 

@@ -1899,15 +1899,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ID.
-        /// </summary>
-        public static string SID_ID {
-            get {
-                return ResourceManager.GetString("SID_ID", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to In node are placed:.
         /// </summary>
         public static string SID_In_node_are_placed_ {
@@ -3953,7 +3944,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to State on {0}.
+        ///   Looks up a localized string similar to State on {0} (ID {1}).
         /// </summary>
         public static string SID_State_on__0_ {
             get {

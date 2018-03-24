@@ -47,11 +47,6 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private bool IsChanged()
-        {
-            return _title != _originalRtu.Title
-                   || _comment != _originalRtu.Comment;
-        }
         private bool _isButtonSaveEnabled;
 
         public bool IsButtonSaveEnabled
@@ -90,7 +85,7 @@ namespace Iit.Fibertest.Client
         {
             _isInCreationMode = true;
             var nodeId = Guid.NewGuid();
-            _originalNode = new Node() { Id = nodeId, Position = new PointLatLng(request.Latitude, request.Longitude)};
+            _originalNode = new Node() { Id = nodeId, Position = new PointLatLng(request.Latitude, request.Longitude) };
             RtuId = Guid.NewGuid();
             _originalRtu = new Rtu() { Id = RtuId, NodeId = nodeId };
 
@@ -128,13 +123,11 @@ namespace Iit.Fibertest.Client
 
         private async Task UpdateRtu()
         {
-            if (IsChanged())
-            {
-                IMapper mapper =
-                    new MapperConfiguration(cfg => cfg.AddProfile<MappingViewModelToCommand>()).CreateMapper();
-                UpdateRtu cmd = mapper.Map<UpdateRtu>(this);
-                await _c2DWcfManager.SendCommandAsObj(cmd);
-            }
+            IMapper mapper =
+                new MapperConfiguration(cfg => cfg.AddProfile<MappingViewModelToCommand>()).CreateMapper();
+            UpdateRtu cmd = mapper.Map<UpdateRtu>(this);
+            cmd.Position = new PointLatLng(GpsInputViewModel.OneCoorViewModelLatitude.StringsToValue(), GpsInputViewModel.OneCoorViewModelLongitude.StringsToValue());
+            await _c2DWcfManager.SendCommandAsObj(cmd);
         }
 
         public void Cancel()

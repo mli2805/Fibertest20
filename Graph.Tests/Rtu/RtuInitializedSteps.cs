@@ -89,7 +89,7 @@ namespace Graph.Tests
         public void WhenПользовательЗадаетИмяRtu()
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuUpdateHandler(model, @"something", @"doesn't matter", Answer.Yes));
-            _sut.GraphReadModel.GrmRtuRequests.UpdateRtu(new RequestUpdateRtu() { Id = _rtu.Id, NodeId = _rtu.NodeId });
+            _sut.GraphReadModel.GrmRtuRequests.UpdateRtu(new RequestUpdateRtu() { RtuId = _rtu.Id, NodeId = _rtu.NodeId });
             _sut.Poller.EventSourcingTick().Wait();
 
         }

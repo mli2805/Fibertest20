@@ -127,11 +127,13 @@
     <Compile Include="Algorithms\ToolKit\BaseRefLandmarksTool.cs" />
     <Compile Include="Algorithms\ToolKit\TraceModelBuilder.cs" />
     <Compile Include="Algorithms\ToolKit\TraceModelForBaseRef.cs" />
+    <Compile Include="Commands\ChangeResponsibilities.cs" />
     <Compile Include="Commands\Equipment\AddEquipmentAtGpsLocationWithNodeTitle.cs" />
     <Compile Include="Commands\JustEchosOfCmdsSentToRtu\ChangeMonitoringSettings.cs" />
     <Compile Include="Commands\AddMeasurement.cs" />
     <Compile Include="Commands\JustEchosOfCmdsSentToRtu\StartMonitoring.cs" />
     <Compile Include="Commands\JustEchosOfCmdsSentToRtu\StopMonitoring.cs" />
+    <Compile Include="Events\ResponsibilitiesChanged.cs" />
     <Compile Include="Commands\UpdateMeasurement.cs" />
     <Compile Include="Commands\User\AddUser.cs" />
     <Compile Include="Commands\Zone\AddZone.cs" />

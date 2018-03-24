@@ -38,11 +38,13 @@ namespace Iit.Fibertest.Client
 
         public async void Test()
         {
+            Result = null;
+            bool res;
             using (_globalScope.Resolve<IWaitCursor>())
             {
-                Result = null;
-                Result = await TestConnection();
+                res = await TestConnection();
             }
+            Result = res;
         }
 
         public async Task<bool> ExternalTest()
@@ -57,8 +59,10 @@ namespace Iit.Fibertest.Client
         {
             if (_netAddressForConnectionTest.IsRtuAddress)
             {
-                var dto = new CheckRtuConnectionDto() {
-                    NetAddress = (NetAddress) NetAddressInputViewModel.GetNetAddress().Clone() };
+                var dto = new CheckRtuConnectionDto()
+                {
+                    NetAddress = (NetAddress)NetAddressInputViewModel.GetNetAddress().Clone()
+                };
                 var b = await _c2DWcfManager.CheckRtuConnectionAsync(dto);
                 return b.IsConnectionSuccessfull;
             }
@@ -67,9 +71,9 @@ namespace Iit.Fibertest.Client
                 var addressForTesting = new DoubleAddress()
                 {
                     HasReserveAddress = false,
-                    Main = (NetAddress) NetAddressInputViewModel.GetNetAddress().Clone()
+                    Main = (NetAddress)NetAddressInputViewModel.GetNetAddress().Clone()
                 };
-                ((C2DWcfManager) _c2DWcfManager).SetServerAddresses(addressForTesting, "", "");
+                ((C2DWcfManager)_c2DWcfManager).SetServerAddresses(addressForTesting, "", "");
                 return await _c2DWcfManager.CheckServerConnection(new CheckServerConnectionDto());
             }
         }

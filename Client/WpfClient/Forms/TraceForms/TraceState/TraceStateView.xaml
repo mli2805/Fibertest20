@@ -124,6 +124,6 @@
             </DockPanel>
         </GroupBox>
 
-        <Button Name="Close" Content="{x:Static stringResources:Resources.SID_Close}" Width="120" Height="25" Margin="10,5,5,15"/>
+        <Button Name="Close" Content="{x:Static stringResources:Resources.SID_Close}" IsCancel="True" Width="120" Height="25" Margin="10,5,5,15"/>
     </StackPanel>
 </Window>

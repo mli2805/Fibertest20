@@ -32,5 +32,11 @@ namespace Iit.Fibertest.Graph
             _model.Zones.Remove( _model.Zones.First(f => f.ZoneId == e.ZoneId));
             return null;
         }
+
+        public string ChangeResponsibilities(ResponsibilitiesChanged e)
+        {
+            _model.ChangeResponsibilities(e);
+            return null;
+        }
     }
 }

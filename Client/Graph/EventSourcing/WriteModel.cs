@@ -365,7 +365,7 @@ namespace Iit.Fibertest.Graph
             var fiber = Fibers.FirstOrDefault(f => f.Id == e.Id);
             if (fiber != null)
             {
-                Fibers.Remove(fiber);
+                this.RemoveFiberUptoRealNodesNotPoints(fiber);
                 return null;
             }
 
@@ -373,6 +373,9 @@ namespace Iit.Fibertest.Graph
             LogFile.AppendLine(message);
             return message;
         }
+
+
+
         #endregion
 
         #region Equipment
@@ -467,17 +470,20 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        public string Apply(RtuUpdated cmd)
+        public string Apply(RtuUpdated e)
         {
-            var rtu = Rtus.FirstOrDefault(r => r.Id == cmd.RtuId);
+            var rtu = Rtus.FirstOrDefault(r => r.Id == e.RtuId);
             if (rtu != null)
             {
-                rtu.Title = cmd.Title;
-                rtu.Comment = cmd.Comment;
+                rtu.Title = e.Title;
+                rtu.Comment = e.Comment;
+
+                var nodeOfRtu = Nodes.First(n => n.Id == rtu.NodeId);
+                nodeOfRtu.Position = e.Position;
                 return null;
             }
 
-            var message = $@"RtuUpdated: RTU {cmd.RtuId.First6()} not found";
+            var message = $@"RtuUpdated: RTU {e.RtuId.First6()} not found";
             LogFile.AppendLine(message);
             return message;
         }
@@ -682,6 +688,12 @@ namespace Iit.Fibertest.Graph
         public string Apply(BopNetworkEventAdded e)
         {
             BopNetworkEvents.Add(_mapper.Map<BopNetworkEvent>(e));
+            return null;
+        }
+
+        public string Apply(ResponsibilitiesChanged e)
+        {
+            this.ChangeResponsibilities(e);
             return null;
         }
         #endregion

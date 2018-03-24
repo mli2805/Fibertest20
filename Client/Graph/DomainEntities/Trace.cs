@@ -31,6 +31,8 @@ namespace Iit.Fibertest.Graph
         public bool HasEnoughBaseRefsToPerformMonitoring => PreciseId != Guid.Empty && FastId != Guid.Empty;
         public bool IsIncludedInMonitoringCycle { get; set; }
 
+        public List<Guid> ZoneIds { get; set; } = new List<Guid>();
+
         public override string ToString()
         {
             return Title;

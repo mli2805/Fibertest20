@@ -17,7 +17,7 @@ namespace Iit.Fibertest.Graph
             _model = model;
             _logFile = logFile;
         }
-       
+
         public string AddFiber(FiberAdded e)
         {
             _model.Fibers.Add(_mapper.Map<Fiber>(e));
@@ -46,7 +46,7 @@ namespace Iit.Fibertest.Graph
                 _logFile.AppendLine(message);
                 return message;
             }
-            _model.Fibers.Remove(fiber);
+            _model.RemoveFiberUptoRealNodesNotPoints(fiber);
             return null;
         }
     }
