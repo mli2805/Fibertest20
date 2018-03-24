@@ -718,6 +718,7 @@
     <Content Include="Sut\BaseSorFiles\base1625-3lm.sor" />
     <Content Include="Sut\BaseSorFiles\base1625.sor" />
     <Content Include="Sut\BaseSorFiles\baseRtuCrossTerminal1550.sor" />
+    <Content Include="Sut\MoniResults\DoubleMinorNode3.sor" />
     <Content Include="Sut\MoniResults\Trace4Lm\4lm-Ok.sor" />
     <Content Include="Sut\MoniResults\Trace4Lm\BreakBnode2-MinorRnode1.sor" />
     <Content Include="Sut\MoniResults\Trace4Lm\BreakBnode2.sor" />

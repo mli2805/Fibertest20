@@ -52,13 +52,13 @@ namespace Graph.Tests
         [Then(@"Все красное и Крест между муфтой и проключением")]
         public void ThenВсеКрасноеИКрестМеждуМуфтойИПроключением()
         {
-            _sut.GraphReadModel.Data.Nodes.Count.Should().Be(7);
-            _sut.GraphReadModel.Data.Nodes.Count(n => n.Type == EquipmentType.AccidentPlace).Should().Be(2);
+            _sut.GraphReadModel.Data.Nodes.Count.Should().Be(6);
+            _sut.GraphReadModel.Data.Nodes.Count(n => n.Type == EquipmentType.AccidentPlace).Should().Be(1);
             var accidentPlaceNodeVm = _sut.GraphReadModel.Data.Nodes.First(n => n.Type == EquipmentType.AccidentPlace);
             accidentPlaceNodeVm.AccidentOnTraceVmId.Should().Be(_trace.Id);
 
-            _sut.ReadModel.Nodes.Count.Should().Be(7);
-            _sut.ReadModel.Nodes.Count(n => n.TypeOfLastAddedEquipment == EquipmentType.AccidentPlace).Should().Be(2);
+            _sut.ReadModel.Nodes.Count.Should().Be(6);
+            _sut.ReadModel.Nodes.Count(n => n.TypeOfLastAddedEquipment == EquipmentType.AccidentPlace).Should().Be(1);
             var accidentPlaceNode = _sut.GraphReadModel.Data.Nodes.First(n => n.Type == EquipmentType.AccidentPlace);
             accidentPlaceNode.AccidentOnTraceVmId.Should().Be(_trace.Id);
 

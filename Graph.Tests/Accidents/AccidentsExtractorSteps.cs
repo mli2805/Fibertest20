@@ -30,7 +30,7 @@ namespace Graph.Tests
         [When(@"Пришел (.*)\.sor")]
         public void WhenПришелMoniResult_Sor(string filename)
         {
-            var sorBytes = File.ReadAllBytes($@"..\..\Sut\MoniResults\Trace4Lm\{filename}.sor");
+            var sorBytes = File.ReadAllBytes($@"..\..\Sut\MoniResults\{filename}.sor");
             _sorData = SorData.FromBytes(sorBytes);
         }
 
@@ -131,6 +131,12 @@ namespace Graph.Tests
             accident0.ShouldBeEquivalentTo(expectation0, doubleAsserionOptions);
         }
 
+        [Then(@"Получен список эксидентов для DoubleMinorNode3")]
+        public void ThenПолученСписокЭксидентовДляDoubleMinorNode3()
+        {
+            var accidents = _sut.AccidentsExtractorFromSor.GetAccidents(_sorData, false);
+            accidents.Count.Should().Be(2);
+        }
 
     }
 }

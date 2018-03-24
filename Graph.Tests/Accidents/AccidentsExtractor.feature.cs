@@ -80,21 +80,25 @@ namespace Graph.Tests.Accidents
 #line 4
 this.ScenarioSetup(scenarioInfo);
 #line 5
- testRunner.When("Пришел BreakBnode2.sor", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("Пришел Trace4Lm\\BreakBnode2.sor", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 6
  testRunner.Then("Получен список эксидентов для BreakBnode2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 8
- testRunner.When("Пришел BreakBnode2-MinorRnode1.sor", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("Пришел Trace4Lm\\BreakBnode2-MinorRnode1.sor", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 9
  testRunner.Then("Получен список эксидентов для BreakBnode2-MinorRnode1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 11
- testRunner.When("Пришел MajorLnode2-MinorRnode1.sor", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("Пришел Trace4Lm\\MajorLnode2-MinorRnode1.sor", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 12
  testRunner.Then("Получен список эксидентов для MajorLnode2-MinorRnode1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 14
- testRunner.When("Пришел MinorRnode1.sor", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("Пришел Trace4Lm\\MinorRnode1.sor", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 15
  testRunner.Then("Получен список эксидентов для MinorRnode1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 17
+ testRunner.When("Пришел DoubleMinorNode3.sor", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 18
+ testRunner.Then("Получен список эксидентов для DoubleMinorNode3", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

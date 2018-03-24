@@ -41,33 +41,46 @@ namespace Iit.Fibertest.Graph.Algorithms
         private List<AccidentOnTrace> GetAccidents(bool isClient)
         {
             _baseSorData = _sorData.GetBase();
-            var levels = _sorData.GetRftsEventsBlockForEveryLevel().ToList();
+            var rftsEventsBlocks = _sorData.GetRftsEventsBlockForEveryLevel().ToList();
 
-            if (isClient) ReportBaseAndMeasEventsParsing(levels);
+            if (isClient) ReportBaseAndMeasEventsParsing(rftsEventsBlocks);
 
+            var levels = new List<RftsLevelType>() {RftsLevelType.Critical, RftsLevelType.Major, RftsLevelType.Minor};
             var result = new List<AccidentOnTrace>();
-            var level = levels.FirstOrDefault(l => l.LevelName == RftsLevelType.Critical);
-            if (level != null && (level.Results & MonitoringResults.IsFailed) != 0)
-                foreach (var accidentOnTrace in GetAccidentsForLevel(level)) 
-                        result.Add(accidentOnTrace);
 
-            level = levels.FirstOrDefault(l => l.LevelName == RftsLevelType.Major);
-            if (level != null && (level.Results & MonitoringResults.IsFailed) != 0)
-                foreach (var accidentOnTrace in GetAccidentsForLevel(level))
+            foreach (var level in levels)
+            {
+                var rftsBlockForLevel = rftsEventsBlocks.FirstOrDefault(l => l.LevelName == level);
+                if (rftsBlockForLevel != null && (rftsBlockForLevel.Results & MonitoringResults.IsFailed) != 0)
                 {
-                    if (result.All(a => a.BrokenRftsEventNumber != accidentOnTrace.BrokenRftsEventNumber)) // check if more serious accident has been found in this event
-                        result.Add(accidentOnTrace);
+                    foreach (var accidentOnTrace in GetAccidentsForLevel(rftsBlockForLevel))
+                    {
+                        if (!IsDuplicate(result, accidentOnTrace))
+                            result.Add(accidentOnTrace);
+                    }
                 }
-
-            level = levels.FirstOrDefault(l => l.LevelName == RftsLevelType.Minor);
-            if (level != null && (level.Results & MonitoringResults.IsFailed) != 0)
-                foreach (var accidentOnTrace in GetAccidentsForLevel(level))
-                {
-                    if (result.All(a => a.BrokenRftsEventNumber != accidentOnTrace.BrokenRftsEventNumber)) // check if more serious accident has been found in this event
-                        result.Add(accidentOnTrace);
-                }
+            }
 
             return result;
+        }
+
+        private bool IsDuplicate(List<AccidentOnTrace> alreadyFound, AccidentOnTrace accident)
+        {
+            if (alreadyFound.Any(a => a.BrokenRftsEventNumber == accident.BrokenRftsEventNumber &&
+                                a.OpticalTypeOfAccident == OpticalAccidentType.Break))
+                return true;
+
+            if (accident.OpticalTypeOfAccident == OpticalAccidentType.LossCoeff &&
+                alreadyFound.Any(a => a.BrokenRftsEventNumber == accident.BrokenRftsEventNumber &&
+                                a.OpticalTypeOfAccident == OpticalAccidentType.LossCoeff))
+                return true;
+
+            if ((accident.OpticalTypeOfAccident == OpticalAccidentType.Reflectance || accident.OpticalTypeOfAccident == OpticalAccidentType.Loss) &&
+                alreadyFound.Any(a => a.BrokenRftsEventNumber == accident.BrokenRftsEventNumber &&
+                                (a.OpticalTypeOfAccident == OpticalAccidentType.Reflectance || a.OpticalTypeOfAccident == OpticalAccidentType.Loss)))
+                return true;
+
+            return false;
         }
 
         private IEnumerable<AccidentOnTrace> GetAccidentsForLevel(RftsEventsBlock rftsEventsBlock)
@@ -79,7 +92,12 @@ namespace Iit.Fibertest.Graph.Algorithms
                 if ((rftsEvent.EventTypes & RftsEventTypes.IsNew) != 0)
                     yield return BuildAccidentAsNewEvent(rftsEvent, i, rftsEventsBlock.LevelName);
                 if ((rftsEvent.EventTypes & RftsEventTypes.IsFailed) != 0 || (rftsEvent.EventTypes & RftsEventTypes.IsFiberBreak) != 0)
-                    yield return BuildAccidentInOldEvent(rftsEvent, i, rftsEventsBlock.LevelName);
+                    foreach (var opticalAccidentType in GetOpticalTypesOfAccident(rftsEvent))
+                    {
+                        var accident = BuildAccidentInOldEvent(rftsEvent, i, rftsEventsBlock.LevelName);
+                        accident.OpticalTypeOfAccident = opticalAccidentType;
+                        yield return accident;
+                    }
             }
         }
       
@@ -144,6 +162,23 @@ namespace Iit.Fibertest.Graph.Algorithms
             if ((rftsEvent.AttenuationCoefThreshold.Type & ShortDeviationTypes.IsExceeded) != 0)
                 return OpticalAccidentType.LossCoeff;
             return OpticalAccidentType.None;
+        }
+
+        private IEnumerable<OpticalAccidentType> GetOpticalTypesOfAccident(RftsEvent rftsEvent)
+        {
+            if ((rftsEvent.EventTypes & RftsEventTypes.IsFiberBreak) != 0)
+                yield return OpticalAccidentType.Break;
+//            else if ((rftsEvent.EventTypes & RftsEventTypes.IsNew) != 0)
+//                yield return OpticalAccidentType.Loss;
+            else
+            {
+                if ((rftsEvent.ReflectanceThreshold.Type & ShortDeviationTypes.IsExceeded) != 0)
+                    yield return OpticalAccidentType.Reflectance;
+                if ((rftsEvent.AttenuationThreshold.Type & ShortDeviationTypes.IsExceeded) != 0)
+                    yield return OpticalAccidentType.Loss;
+                if ((rftsEvent.AttenuationCoefThreshold.Type & ShortDeviationTypes.IsExceeded) != 0)
+                    yield return OpticalAccidentType.LossCoeff;
+            }
         }
 
 #region Log
