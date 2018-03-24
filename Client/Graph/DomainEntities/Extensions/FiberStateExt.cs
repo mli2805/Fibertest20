@@ -2,6 +2,8 @@
 using System.Windows.Media;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
+using Brush = System.Windows.Media.Brush;
+using Brushes = System.Windows.Media.Brushes;
 
 namespace Iit.Fibertest.Graph
 {
@@ -58,7 +60,8 @@ namespace Iit.Fibertest.Graph
                 case FiberState.Suspicion:
                     return Brushes.Yellow;
                 case FiberState.Minor:
-                    return isForeground ? Brushes.Purple : Brushes.LightPink;
+//                    return isForeground ? Brushes.Purple : Brushes.LightPink;
+                    return new SolidColorBrush(Color.FromArgb(255, 128, 128, 192));
                 case FiberState.Major:
                     return isForeground ? Brushes.Fuchsia :  Brushes.HotPink;
                 case FiberState.User:
