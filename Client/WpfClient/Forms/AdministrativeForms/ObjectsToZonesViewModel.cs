@@ -36,7 +36,8 @@ namespace Iit.Fibertest.Client
             _subjectIds = new List<Guid>();
 
             TableForBinding = new DataTable();
-            TableForBinding.Columns.Add(new DataColumn("Objects") { DataType = typeof(string), Caption = @"Caption", ColumnName = "", ReadOnly = true });
+            TableForBinding.Columns.Add(new DataColumn { DataType = typeof(string), ColumnName = "RTU", ReadOnly = true });
+            TableForBinding.Columns.Add(new DataColumn { DataType = typeof(string), ColumnName = "Trace", ReadOnly = true });
 
             foreach (var zone in _readModel.Zones)
             {
@@ -45,25 +46,21 @@ namespace Iit.Fibertest.Client
 
             foreach (var rtu in _readModel.Rtus)
             {
-                DataRow rtuRow = TableForBinding.NewRow();
-                rtuRow[0] = rtu.Title;
-                for (int i = 1; i < _readModel.Zones.Count; i++)
-                    rtuRow[i + 1] = rtu.ZoneIds.Contains(_readModel.Zones[i].ZoneId);
-              
-                TableForBinding.Rows.Add(rtuRow);
-                _subjects.Add(rtu);
-                _subjectIds.Add(rtu.Id);
+                var flag = true;
 
                 foreach (var trace in _readModel.Traces.Where(t => t.RtuId == rtu.Id))
                 {
                     DataRow traceRow = TableForBinding.NewRow();
-                    traceRow[0] = @"   " + trace.Title;
+                    traceRow[0] = flag ? rtu.Title : "";
+                    traceRow[1] = trace.Title;
                     for (int i = 1; i < _readModel.Zones.Count; i++)
-                        traceRow[i + 1] = trace.ZoneIds.Contains(_readModel.Zones[i].ZoneId);
+                        traceRow[i + 2] = trace.ZoneIds.Contains(_readModel.Zones[i].ZoneId);
 
                     TableForBinding.Rows.Add(traceRow);
                     _subjects.Add(trace);
                     _subjectIds.Add(trace.Id);
+
+                    flag = false;
                 }
             }
         }
@@ -113,9 +110,9 @@ namespace Iit.Fibertest.Client
         private List<Guid> GetChangedZonesForSubject(int row, List<Guid> oldListOfZones)
         {
             var changedZones = new List<Guid>();
-            for (int j = 2; j < _readModel.Zones.Count; j++)
+            for (int j = 1; j < _readModel.Zones.Count; j++)
             {
-                var value = TableForBinding.Rows[row][j];
+                var value = TableForBinding.Rows[row][j+2];
                 var isChecked = (bool) value;
                 var zoneId = _readModel.Zones[j].ZoneId;
 

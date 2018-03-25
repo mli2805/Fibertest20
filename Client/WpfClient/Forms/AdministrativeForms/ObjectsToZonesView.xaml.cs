@@ -1,8 +1,4 @@
-﻿
-using System.Data;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
+﻿using System.Windows.Controls;
 
 namespace Iit.Fibertest.Client
 {
@@ -27,16 +23,16 @@ namespace Iit.Fibertest.Client
 
         private void Datagrid_LoadingRow(object sender, DataGridRowEventArgs e)
         {
-            DataGridRow row = e.Row;
-            if (!(row.Item is DataRowView rowView))
-                return;
-
-            var name = (string)rowView.Row.ItemArray[0];
-            if (!name.StartsWith(@" "))
-            {
-                row.FontWeight = FontWeights.Bold;
-                row.Background = Brushes.LightCyan;
-            }
+//            DataGridRow row = e.Row;
+//            if (!(row.Item is DataRowView rowView))
+//                return;
+//
+//            var name = (string)rowView.Row.ItemArray[0];
+//            if (name != "")
+//            {
+//                row.FontWeight = FontWeights.Bold;
+//                row.Background = Brushes.LightCyan;
+//            }
         }
 
         // возникает когда изменяется, то какая ячейка считается текущей, а не когда значение текущей меняется

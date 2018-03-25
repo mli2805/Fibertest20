@@ -154,6 +154,7 @@ namespace Iit.Fibertest.Client
 
 
             builder.RegisterType<UiDispatcherProvider>().As<IDispatcherProvider>().SingleInstance();
+            builder.RegisterType<GraphRenderer>().SingleInstance();
             builder.RegisterType<ReadyEventsLoader>().SingleInstance();
             builder.RegisterType<ClientPoller>().SingleInstance();
 
