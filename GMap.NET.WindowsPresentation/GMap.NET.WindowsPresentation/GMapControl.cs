@@ -1673,6 +1673,8 @@
         int onMouseUpTimestamp = 0;
 
         public Point ContextMenuPoint { get; set; }
+
+        public new ContextMenu ContextMenu { get;set; }
         protected override void OnMouseUp(MouseButtonEventArgs e)
         {
             base.OnMouseUp(e);
@@ -1689,7 +1691,8 @@
                 }
                 else
                 {
-                    contextMenu = FindResource("MapContextMenu") as ContextMenu;
+//                    contextMenu = FindResource("MapContextMenu") as ContextMenu;
+                    contextMenu = ContextMenu;
                 }
 
                 if (contextMenu == null) return;

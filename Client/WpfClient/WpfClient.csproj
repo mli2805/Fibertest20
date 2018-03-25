@@ -212,6 +212,8 @@
     <Compile Include="Forms\Shell\MarkerControl\HighlightingControl.xaml.cs">
       <DependentUpon>HighlightingControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Shell\MapUserControl\MapActions.cs" />
+    <Compile Include="Forms\Shell\MapUserControl\MapContextMenuProvider.cs" />
     <Compile Include="Forms\Shell\MarkerControl\RtuVmActions.cs" />
     <Compile Include="Forms\Shell\MarkerControl\RtuVmContextMenuProvider.cs" />
     <Compile Include="Forms\Shell\MarkerControl\RtuVmPermissions.cs" />
@@ -465,7 +467,6 @@
     <Compile Include="Mappings\MappingViewModelToCommand.cs" />
     <Compile Include="Forms\Shell\MapUserControl\MapUserControlApplyFibersToRoutes.cs" />
     <Compile Include="Forms\Shell\MapUserControl\MapUserControlApplyNodesToMarkers.cs" />
-    <Compile Include="Forms\Shell\MapUserControl\MapUserControlMapActions.cs" />
     <Compile Include="Forms\Shell\MapUserControl\MapUserControlRouteContextMenu.cs" />
     <Compile Include="Forms\Shell\MarkerControl\MarkerControl.xaml.cs">
       <DependentUpon>MarkerControl.xaml</DependentUpon>

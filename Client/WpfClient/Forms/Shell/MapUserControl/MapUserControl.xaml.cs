@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
+using Autofac;
 using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsPresentation;
@@ -113,6 +114,9 @@ namespace Iit.Fibertest.Client
             var lat = GraphReadModel.IniFile.Read(IniSection.Map, IniKey.CenterLatitude, 53.856);
             var lng = GraphReadModel.IniFile.Read(IniSection.Map, IniKey.CenterLongitude, 27.49);
             MainMap.Position = new PointLatLng(lat, lng);
+
+            MainMap.ContextMenu =
+                GraphReadModel.GlobalScope.Resolve<MapContextMenuProvider>().GetMapContextMenu();
         }
 
         private void UserControl_KeyDown(object sender, KeyEventArgs e)
@@ -126,8 +130,6 @@ namespace Iit.Fibertest.Client
                     MainMap.StartNode = null;
                 }
             }
-
-        
         }
 
         private void UserControl_PreviewKeyDown(object sender, KeyEventArgs e)

@@ -184,6 +184,8 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<RtuVmActions>().SingleInstance();
             builder.RegisterType<RtuVmPermissions>().SingleInstance();
             builder.RegisterType<RtuVmContextMenuProvider>().SingleInstance();
+            builder.RegisterType<MapActions>().SingleInstance();
+            builder.RegisterType<MapContextMenuProvider>().SingleInstance();
 
         }
     }
