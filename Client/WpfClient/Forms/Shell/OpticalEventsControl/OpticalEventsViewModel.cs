@@ -29,7 +29,7 @@ namespace Iit.Fibertest.Client
 
         public OpticalEventModel SelectedRow
         {
-            get { return _selectedRow; }
+            get => _selectedRow;
             set
             {
                 if (Equals(value, _selectedRow)) return;
@@ -42,7 +42,7 @@ namespace Iit.Fibertest.Client
 
         public TraceStateFilter SelectedTraceStateFilter
         {
-            get { return _selectedTraceStateFilter; }
+            get => _selectedTraceStateFilter;
             set
             {
                 if (Equals(value, _selectedTraceStateFilter)) return;
@@ -55,11 +55,12 @@ namespace Iit.Fibertest.Client
         private RtuGuidFilter _selectedRtuFilter;
         public RtuGuidFilter SelectedRtuFilter
         {
-            get { return _selectedRtuFilter; }
+            get => _selectedRtuFilter;
             set
             {
                 if (Equals(value, _selectedRtuFilter)) return;
                 _selectedRtuFilter = value;
+                RtuFilterNow = _selectedRtuFilter.ToString();
                 var view = CollectionViewSource.GetDefaultView(Rows);
                 view.Refresh();
             }
@@ -69,13 +70,25 @@ namespace Iit.Fibertest.Client
 
         public EventStatusFilter SelectedEventStatusFilter
         {
-            get { return _selectedEventStatusFilter; }
+            get => _selectedEventStatusFilter;
             set
             {
                 if (Equals(value, _selectedEventStatusFilter)) return;
                 _selectedEventStatusFilter = value;
                 var view = CollectionViewSource.GetDefaultView(Rows);
                 view.Refresh();
+            }
+        }
+
+        private string _rtuFilterNow = @"no filter";
+        public string RtuFilterNow
+        {
+            get => _rtuFilterNow;
+            set
+            {
+                if (value == _rtuFilterNow) return;
+                _rtuFilterNow = value;
+                NotifyOfPropertyChange();
             }
         }
 
@@ -135,6 +148,8 @@ namespace Iit.Fibertest.Client
                     (SelectedRtuFilter.IsOn == false ||
                 SelectedRtuFilter.RtuId == opticalEventVm.RtuId);
         }
+
+
 
         public void RefreshRowsWithUpdatedRtu(Guid rtuId)
         {

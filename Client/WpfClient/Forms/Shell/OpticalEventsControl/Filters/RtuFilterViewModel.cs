@@ -23,6 +23,8 @@ namespace Iit.Fibertest.Client
             }
         }
 
+
+
         public RtuFilterViewModel(ReadModel readModel)
         {
             _readModel = readModel;
