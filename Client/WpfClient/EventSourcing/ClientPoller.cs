@@ -104,6 +104,7 @@ namespace Iit.Fibertest.Client
                     _eventsOnModelExecutor.Apply(evnt);
                     _treeOfRtuModel.AsDynamic().Apply(evnt);
                     _opticalEventsExecutor.Apply(evnt);
+                    _networkEventsDoubleViewModel.Apply(evnt);
                     _rtuStateViewsManager.Apply(evnt);
 
                     if (evnt is MeasurementAdded mee)
@@ -116,19 +117,11 @@ namespace Iit.Fibertest.Client
                         _traceStateViewsManager.UpdateMeasurement(mue);
                         _traceStatisticsViewsManager.UpdateMeasurement(mue);
                     }
+                    // TODO both forms should react TraceUpdated (Title)
 
-                    if (evnt is NetworkEventAdded ee)
-                    {
-                        _networkEventsDoubleViewModel.Apply(ee);
-                    }
+
                     if (evnt is BopNetworkEventAdded bee)
                         _bopNetworkEventsDoubleViewModel.Apply(bee);
-
-                    if (evnt is TraceAttached aee)
-                        _rtuStateViewsManager.NotifyUserTraceChanged(aee.TraceId);
-
-                    if (evnt is TraceDetached dee)
-                        _rtuStateViewsManager.NotifyUserTraceChanged(dee.TraceId);
 
                     // some forms refresh their view because they have sent command previously and are waiting event's arrival
                     _readModel.NotifyOfPropertyChange(nameof(_readModel.JustForNotification));

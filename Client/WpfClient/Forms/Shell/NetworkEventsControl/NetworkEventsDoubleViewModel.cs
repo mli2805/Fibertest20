@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using AutoMapper;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
@@ -11,11 +12,11 @@ namespace Iit.Fibertest.Client
         private readonly IMapper _mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
         private readonly ReadModel _readModel;
-       
+
         public NetworkEventsViewModel ActualNetworkEventsViewModel { get; set; }
         public NetworkEventsViewModel AllNetworkEventsViewModel { get; set; }
 
-        public NetworkEventsDoubleViewModel(ReadModel readModel, 
+        public NetworkEventsDoubleViewModel(ReadModel readModel,
             NetworkEventsViewModel actualNetworkEventsViewModel, NetworkEventsViewModel allNetworkEventsViewModel)
         {
             ActualNetworkEventsViewModel = actualNetworkEventsViewModel;
@@ -25,9 +26,19 @@ namespace Iit.Fibertest.Client
             _readModel = readModel;
         }
 
-        public void Apply(NetworkEventAdded evnt)
+        public void Apply(object evnt)
         {
-            var networkEvent = _mapper.Map<NetworkEvent>(evnt);
+            switch (evnt)
+            {
+                case NetworkEventAdded e: NotifyUserRtuAvailabilityChanged(e); return;
+                case RtuUpdated e: NotifyUserRtuUpdated(e.RtuId); return;
+                default: return;
+            }
+        }
+
+        private void NotifyUserRtuAvailabilityChanged(NetworkEventAdded networkEventAdded)
+        {
+            var networkEvent = _mapper.Map<NetworkEvent>(networkEventAdded);
             var rtu = _readModel.Rtus.FirstOrDefault(t => t.Id == networkEvent.RtuId);
             if (rtu == null)
                 return;
@@ -40,5 +51,12 @@ namespace Iit.Fibertest.Client
 
             ActualNetworkEventsViewModel.AddEvent(networkEvent);
         }
+
+        private void NotifyUserRtuUpdated(Guid rtuId)
+        {
+            ActualNetworkEventsViewModel.RefreshRowsWithUpdatedRtu(rtuId);
+            AllNetworkEventsViewModel.RefreshRowsWithUpdatedRtu(rtuId);
+        }
+
     }
 }

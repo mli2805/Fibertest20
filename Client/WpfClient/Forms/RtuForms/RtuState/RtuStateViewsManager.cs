@@ -44,6 +44,7 @@ namespace Iit.Fibertest.Client
                 case TraceAttached e: NotifyUserTraceChanged(e.TraceId); return;
                 case TraceDetached e: NotifyUserTraceChanged(e.TraceId); return;
                 case TraceUpdated e: NotifyUserTraceChanged(e.Id); return;
+                case RtuUpdated e: NotifyUserRtuUpdated(e.RtuId); return;
                 default: return;
             }
         }
@@ -92,6 +93,13 @@ namespace Iit.Fibertest.Client
                 vm.RefreshModel(rtuLeaf);
         }
 
+        private void NotifyUserRtuUpdated(Guid rtuId)
+        {
+            var rtuLeaf = (RtuLeaf)_treeOfRtuModel.Tree.GetById(rtuId);
+            if (LaunchedViews.TryGetValue(rtuId, out var vm))
+                vm.RefreshModel(rtuLeaf);
+        }
+
         private void ClearClosedViews()
         {
             var closed = (from pair in LaunchedViews where !pair.Value.IsOpen select pair.Key).ToList();
@@ -121,11 +129,6 @@ namespace Iit.Fibertest.Client
 
             LaunchedViews.Add(rtuId, vm);
         }
-
-
-
-
-
 
     }
 }
