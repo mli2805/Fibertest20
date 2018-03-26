@@ -63,6 +63,7 @@ namespace Iit.Fibertest.Client
 
         public void Start()
         {
+            _logFile.AppendLine(@"Polling started");
             _pollerThread = new Thread(DoPolling) { IsBackground = true };
             _pollerThread.Start();
         }

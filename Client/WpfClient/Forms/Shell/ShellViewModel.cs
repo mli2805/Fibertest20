@@ -115,9 +115,9 @@ namespace Iit.Fibertest.Client
                     localDbManager.Initialize(_server, _loginViewModel.GraphDbVersionOnServer);
                     _clientPoller.CurrentEventNumber = await _readyEventsLoader.Load();
                     _clientPoller.CancellationToken = _clientPollerCts.Token;
-                    _clientPoller.Start();
+                    _clientPoller.Start(); // graph events including monitoring results events
 
-                    _host.StartWcfListener();
+                    _host.StartWcfListener(); // Accepts only monitoring step messages and out of turn measurements results
 
                     _clientHeartbeat.Start();
 

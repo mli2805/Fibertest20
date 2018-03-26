@@ -49,6 +49,7 @@ namespace Iit.Fibertest.Client
             currentEventNumber = await LoadFromDb(currentEventNumber);
             // some sort of parsing snapshot
             _graphRenderer.Do();
+            _logFile.AppendLine(@"Rendering finished");
             return currentEventNumber;
         }
 
