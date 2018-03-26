@@ -943,6 +943,7 @@
     <Resource Include="Resources\AccidentSchemes\BadSegment.png" />
     <Resource Include="Resources\AccidentSchemes\FiberBrokenBetweenNodes.png" />
     <Resource Include="Resources\AccidentSchemes\FiberBrokenInNode.png" />
+    <Resource Include="Resources\LeftPanel\MinorSquare.png" />
     <Content Include="Resources\Sounds\Accident.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -61,7 +61,7 @@ namespace Iit.Fibertest.Graph
                     return Brushes.Yellow;
                 case FiberState.Minor:
 //                    return isForeground ? Brushes.Purple : Brushes.LightPink;
-                    return new SolidColorBrush(Color.FromArgb(255, 128, 128, 192));
+                    return isForeground ?  new SolidColorBrush(Color.FromArgb(255, 164, 128, 224)) : new SolidColorBrush(Color.FromArgb(255, 128, 128, 192));
                 case FiberState.Major:
                     return isForeground ? Brushes.Fuchsia :  Brushes.HotPink;
                 case FiberState.User:
@@ -89,7 +89,7 @@ namespace Iit.Fibertest.Graph
                 case FiberState.Suspicion:
                     return new Uri("pack://application:,,,/Resources/LeftPanel/YellowSquare.png");
                 case FiberState.Minor:
-                    return new Uri("pack://application:,,,/Resources/LeftPanel/PurpleSquare.png");
+                    return new Uri("pack://application:,,,/Resources/LeftPanel/MinorSquare.png");
                 case FiberState.Major:
                     return new Uri("pack://application:,,,/Resources/LeftPanel/FuchsiaSquare.png");
                 case FiberState.User:
