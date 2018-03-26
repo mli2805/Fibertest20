@@ -33,7 +33,8 @@ namespace Iit.Fibertest.Client
         // при нажатом Ctrl левая кнопка таскает данный маркер
         private void MarkerControl_PreviewMouseMove(object sender, MouseEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed && IsMouseCaptured && (Keyboard.Modifiers & ModifierKeys.Control) != 0)
+            if (e.LeftButton == MouseButtonState.Pressed && IsMouseCaptured && 
+                (Keyboard.Modifiers & ModifierKeys.Control) != 0 && Owner.GraphReadModel.CurrentUser.Role <= Role.Root)
             {
                 _popup.IsOpen = false;
                 DragMarkerWithItsFibers(e);
