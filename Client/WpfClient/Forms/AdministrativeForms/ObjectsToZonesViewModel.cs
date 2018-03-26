@@ -27,28 +27,36 @@ namespace Iit.Fibertest.Client
             _c2DWcfManager = c2DWcfManager;
             IsReadOnly = currentUser.Role > Role.Root;
 
-            Initialize();
+            PrepareTableAndLists();
+            FillInTableAndLists();
         }
 
-        private void Initialize()
+        private void PrepareTableAndLists()
         {
             _subjects = new List<object>();
             _subjectIds = new List<Guid>();
 
             TableForBinding = new DataTable();
-            TableForBinding.Columns.Add(new DataColumn { DataType = typeof(string), ColumnName = "RTU", ReadOnly = true });
-            TableForBinding.Columns.Add(new DataColumn { DataType = typeof(string), ColumnName = "Trace", ReadOnly = true });
+            TableForBinding.Columns.Add(new DataColumn {DataType = typeof(string), ColumnName = "RTU", ReadOnly = true});
+            TableForBinding.Columns.Add(new DataColumn {DataType = typeof(string), ColumnName = "Trace", ReadOnly = true});
 
             foreach (var zone in _readModel.Zones)
             {
-                TableForBinding.Columns.Add(new DataColumn(zone.Title) { DataType = typeof(bool), ReadOnly = zone.IsDefaultZone });
+                TableForBinding.Columns.Add(new DataColumn(zone.Title)
+                {
+                    DataType = typeof(bool),
+                    ReadOnly = zone.IsDefaultZone
+                });
             }
+        }
 
+        private void FillInTableAndLists()
+        {
             foreach (var rtu in _readModel.Rtus)
             {
                 var flag = true;
 
-                foreach (var trace in _readModel.Traces.Where(t => t.RtuId == rtu.Id))
+                foreach (var trace in _readModel.Traces.Where(t => t.RtuId == rtu.Id && t.OtauPort != null))
                 {
                     DataRow traceRow = TableForBinding.NewRow();
                     traceRow[0] = flag ? rtu.Title : "";
@@ -70,27 +78,7 @@ namespace Iit.Fibertest.Client
             DisplayName = Resources.SID_Responsibility_zones_settings;
         }
 
-        public void OnCellValueChanged(int column, int row)
-        {
-            if (_subjects[row] is Rtu) // assign the same value to all traces of this RTU
-            {
-                var temp = row + 1;
-                if (temp >= _subjects.Count) return;
-
-                while (_subjects[temp] is Trace)
-                {
-                    var o = TableForBinding.Rows[row][column];
-                    TableForBinding.Rows[temp][column] = !(bool)o;
-                    temp++;
-                }
-            }
-
-            if (_subjects[row] is Trace)
-            {
-
-            }
-        }
-
+     
         private ChangeResponsibilities PrepareCommand()
         {
             var command = new ChangeResponsibilities(){ResponsibilitiesDictionary = new Dictionary<Guid, List<Guid>>()};
