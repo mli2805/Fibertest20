@@ -1685,4 +1685,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_More" xml:space="preserve">
 		<value>Далее</value>
 	</data>
+	<data name="SID_Waiting_for_data" xml:space="preserve">
+		<value>Ожидание данных</value>
+	</data>
 </root>

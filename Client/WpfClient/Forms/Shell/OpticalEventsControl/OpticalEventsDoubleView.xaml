@@ -7,7 +7,7 @@
              mc:Ignorable="d" d:DataContext="{d:DesignInstance client:OpticalEventsDoubleViewModel}">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="500*"/>
+            <RowDefinition Height="200*"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="500*"/>
         </Grid.RowDefinitions>

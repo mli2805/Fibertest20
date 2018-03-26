@@ -1971,7 +1971,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Input current password.
+        ///   Looks up a localized string similar to Input your current password.
         /// </summary>
         public static string SID_Input_current_password {
             get {
@@ -4660,6 +4660,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Wait__please___ {
             get {
                 return ResourceManager.GetString("SID_Wait__please___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Waiting for data.
+        /// </summary>
+        public static string SID_Waiting_for_data {
+            get {
+                return ResourceManager.GetString("SID_Waiting_for_data", resourceCulture);
             }
         }
         

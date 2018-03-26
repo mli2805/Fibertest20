@@ -1685,4 +1685,7 @@ RTU is initializing right now!</value>
 	<data name="SID_More" xml:space="preserve">
     <value>More</value>
   </data>
+	<data name="SID_Waiting_for_data" xml:space="preserve">
+    <value>Waiting for data</value>
+  </data>
 </root>

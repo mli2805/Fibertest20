@@ -49,7 +49,7 @@ namespace Iit.Fibertest.Client
                     ? RtuPartState.Broken
                     : RtuPartState.Ok;
 
-            rtuStateVm.CurrentMeasurementStep = rtuLeaf.MonitoringState == MonitoringState.Off ? Resources.SID_No_measurement : Resources.SID_Unknown;
+            rtuStateVm.CurrentMeasurementStep = rtuLeaf.MonitoringState == MonitoringState.Off ? Resources.SID_No_measurement : Resources.SID_Waiting_for_data;
             return rtuStateVm;
         }
 
