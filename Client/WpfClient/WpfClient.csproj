@@ -937,7 +937,6 @@
     <Resource Include="Resources\AdjustmentPoint\AdjustmentPointOk.png" />
     <Resource Include="Resources\OnMap\NodeSelection.png" />
     <Resource Include="Resources\OnMap\NodeHighlighting.png" />
-    <Resource Include="Resources\OnMap\AccidentPlace.png" />
     <Resource Include="Resources\AccidentSchemes\AccidentBetweenNodes.png" />
     <Resource Include="Resources\AccidentSchemes\AccidentInLastNode.png" />
     <Resource Include="Resources\AccidentSchemes\AccidentInNode.png" />
@@ -945,6 +944,9 @@
     <Resource Include="Resources\AccidentSchemes\FiberBrokenBetweenNodes.png" />
     <Resource Include="Resources\AccidentSchemes\FiberBrokenInNode.png" />
     <Resource Include="Resources\LeftPanel\MinorSquare.png" />
+    <Resource Include="Resources\OnMap\CriticalAccidentPlace.png" />
+    <Resource Include="Resources\OnMap\MajorAccidentPlace.png" />
+    <Resource Include="Resources\OnMap\MinorAccidentPlace.png" />
     <Content Include="Resources\Sounds\Accident.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

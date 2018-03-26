@@ -48,7 +48,7 @@ namespace Iit.Fibertest.Client
             var accidentGps = _accidentPlaceLocator.GetAccidentGps(accidentAsNewEvent);
             if (accidentGps == null) return;
 
-           AddAccidentNode((PointLatLng)accidentGps, traceId);
+           AddAccidentNode((PointLatLng)accidentGps, traceId, accidentAsNewEvent.AccidentSeriousness);
         }
 
         private void ShowInNode(AccidentInOldEvent accidentInOldEvent, Guid traceId)
@@ -57,10 +57,10 @@ namespace Iit.Fibertest.Client
 
             if (nodeVm == null) return;
 
-            AddAccidentNode(nodeVm.Position, traceId);
+            AddAccidentNode(nodeVm.Position, traceId, accidentInOldEvent.AccidentSeriousness);
         }
 
-        private void AddAccidentNode(PointLatLng accidentGps, Guid traceId)
+        private void AddAccidentNode(PointLatLng accidentGps, Guid traceId, FiberState state)
         {
             var accidentNode = new NodeVm()
             {
@@ -68,6 +68,7 @@ namespace Iit.Fibertest.Client
                 Position = accidentGps,
                 Type = EquipmentType.AccidentPlace,
                 AccidentOnTraceVmId = traceId,
+                State = state,
             };
             _model.Data.Nodes.Add(accidentNode);
         }
@@ -76,7 +77,6 @@ namespace Iit.Fibertest.Client
         {
             var fiberVm = _model.GetFiberByLandmarkIndexes(traceId, accidentInOldEvent.BrokenLandmarkIndex - 1,
                 accidentInOldEvent.BrokenLandmarkIndex);
-
 
             fiberVm.AddBadSegment(traceId);
         }

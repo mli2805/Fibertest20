@@ -44,7 +44,7 @@ namespace Iit.Fibertest.Client
                 var marker = new GMapMarker(nodeVm.Id, nodeVm.Position, false);
                 marker.ZIndex = nodeVm.Type == EquipmentType.AccidentPlace ? -2 : 2;
                 var equipmentType = nodeVm.Type;
-                var markerControl = new MarkerControl(this, marker, equipmentType, nodeVm.Title, GraphReadModel.GlobalScope);
+                var markerControl = new MarkerControl(this, marker, equipmentType, nodeVm.State, nodeVm.Title, GraphReadModel.GlobalScope);
                 marker.Shape = markerControl;
                 marker.Shape.Visibility =
                     GraphReadModel.SelectedGraphVisibilityItem.Level >= ((MarkerControl)marker.Shape).EqType.GetEnabledVisibilityLevel()

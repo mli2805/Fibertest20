@@ -68,7 +68,7 @@ namespace Iit.Fibertest.Graph.Algorithms
             var accidentGps = _accidentPlaceLocator.GetAccidentGps(accidentAsNewEvent);
             if (accidentGps == null) return;
 
-            AddAccidentNode((PointLatLng)accidentGps, traceId);
+            AddAccidentNode((PointLatLng)accidentGps, traceId, accidentAsNewEvent.AccidentSeriousness);
         }
 
         private void ShowInNode(AccidentInOldEvent accidentInOldEvent, Guid traceId)
@@ -77,10 +77,10 @@ namespace Iit.Fibertest.Graph.Algorithms
 
             if (node == null) return;
 
-            AddAccidentNode(node.Position, traceId);
+            AddAccidentNode(node.Position, traceId, accidentInOldEvent.AccidentSeriousness);
         }
 
-        private void AddAccidentNode(PointLatLng accidentGps, Guid traceId)
+        private void AddAccidentNode(PointLatLng accidentGps, Guid traceId, FiberState state)
         {
             var accidentNode = new Node()
             {
@@ -88,6 +88,7 @@ namespace Iit.Fibertest.Graph.Algorithms
                 Position = accidentGps,
                 TypeOfLastAddedEquipment = EquipmentType.AccidentPlace,
                 AccidentOnTraceId = traceId,
+                State = state,
             };
             _model.Nodes.Add(accidentNode);
         }

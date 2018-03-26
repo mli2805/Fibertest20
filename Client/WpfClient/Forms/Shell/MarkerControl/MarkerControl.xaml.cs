@@ -29,6 +29,8 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        public FiberState State { get; }
+
         public string Title
         {
             get => _title;
@@ -46,7 +48,7 @@ namespace Iit.Fibertest.Client
 
         public new ContextMenu ContextMenu { get; set; }
 
-        public MarkerControl(MapUserControl owner, GMapMarker gMapMarker, EquipmentType type, string title, ILifetimeScope globalScope)
+        public MarkerControl(MapUserControl owner, GMapMarker gMapMarker, EquipmentType type, FiberState state, string title, ILifetimeScope globalScope)
         {
             InitializeComponent();
             Owner = owner;
@@ -54,6 +56,7 @@ namespace Iit.Fibertest.Client
             GMapMarker = gMapMarker;
             _globalScope = globalScope;
             Type = type;
+            State = state;
             Title = title;
 
             Subscribe();
@@ -84,7 +87,7 @@ namespace Iit.Fibertest.Client
             destination.Width = Type == EquipmentType.Rtu ? 40 : Type == EquipmentType.AccidentPlace ? 24 : 8;
             destination.Height = Type == EquipmentType.Rtu ? 28 : Type == EquipmentType.AccidentPlace ? 24 : 8;
             
-            destination.Source = EquipmentTypeExt.GetPictogramBitmapImage(Type, FiberState.Ok);
+            destination.Source = EquipmentTypeExt.GetNodePictogram(Type, State);
             destination.ContextMenu = ContextMenu;
         }
 

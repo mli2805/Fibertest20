@@ -8,16 +8,31 @@ namespace Iit.Fibertest.Graph
 {
     public static class EquipmentTypeExt
     {
-        public static BitmapImage GetPictogramBitmapImage(EquipmentType type, FiberState state)
+        public static BitmapImage GetNodePictogram(EquipmentType type, FiberState state)
         {
-            if (type == EquipmentType.AccidentPlace)
-                return new BitmapImage(new Uri($@"pack://application:,,,/Resources/OnMap/AccidentPlace.png"));
+            return type == EquipmentType.AccidentPlace ?
+                GetAccidentPictogramImage(state) :
+                GetOkNodePictogramBitmapImage(type);
+        }
 
-
-            string stateName = state.ToString();
+        private static BitmapImage GetOkNodePictogramBitmapImage(EquipmentType type)
+        {
+            string stateName = FiberState.Ok.ToString();
             string typeName = type.ToString();
             var path = $@"pack://application:,,,/Resources/{typeName}/{typeName}{stateName}.png";
             return new BitmapImage(new Uri(path));
+        }
+
+        private static BitmapImage GetAccidentPictogramImage(FiberState state)
+        {
+            string stateName;
+            switch (state)
+            {
+                case FiberState.Minor: stateName = @"Minor"; break;
+                case FiberState.Major: stateName = @"Major"; break;
+                default: stateName = @"Critical"; break;
+            }
+            return new BitmapImage(new Uri($@"pack://application:,,,/Resources/OnMap/{stateName}AccidentPlace.png"));
         }
 
         public static string ToLocalizedString(this EquipmentType type)

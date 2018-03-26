@@ -88,6 +88,7 @@ namespace Iit.Fibertest.Client
                 Position = node.Position,
                 Type = node.TypeOfLastAddedEquipment,
                 AccidentOnTraceVmId = node.AccidentOnTraceId,
+                State = node.State,
             };
         }
         private FiberVm Map(Fiber fiber)
