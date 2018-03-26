@@ -1596,7 +1596,7 @@ RTU инициализируется в данный момент!</value>
     <value>Изменить пароль</value>
   </data>
 	<data name="SID_Input_current_password" xml:space="preserve">
-    <value>Введите текущий пароль</value>
+    <value>Введите ваш текущий пароль</value>
   </data>
 	<data name="SID_New_password" xml:space="preserve">
     <value>Новый пароль</value>
@@ -1681,5 +1681,8 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Registered" xml:space="preserve">
 		<value>Зарегистрировано</value>
+	</data>
+	<data name="SID_More" xml:space="preserve">
+		<value>Далее</value>
 	</data>
 </root>

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
@@ -13,7 +14,7 @@ namespace Iit.Fibertest.Client
         private string _inputPassword;
         public string InputPassword
         {
-            get { return _inputPassword; }
+            get => _inputPassword;
             set
             {
                 if (value == _inputPassword) return;
@@ -75,10 +76,35 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        private Visibility _newPasswordBlockVisibility = Visibility.Collapsed;
+        public Visibility NewPasswordBlockVisibility
+        {
+            get => _newPasswordBlockVisibility;
+            set
+            {
+                if (value == _newPasswordBlockVisibility) return;
+                _newPasswordBlockVisibility = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        private bool _isNewPasswordFocused;
+        public bool IsNewPasswordFocused
+        {
+            get => _isNewPasswordFocused;
+            set
+            {
+                if (value == _isNewPasswordFocused) return;
+                _isNewPasswordFocused = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         private string _explanation;
+
         public string Explanation
         {
-            get { return _explanation; }
+            get => _explanation;
             set
             {
                 if (value == _explanation) return;
@@ -106,6 +132,8 @@ namespace Iit.Fibertest.Client
         {
             IsChangePasswordEnabled = UserExt.FlipFlop(_user.EncodedPassword) == InputPassword;
             Explanation = IsChangePasswordEnabled ? "" : Resources.SID_Wrong_password;
+            NewPasswordBlockVisibility = IsChangePasswordEnabled ? Visibility.Visible : Visibility.Collapsed;
+            IsNewPasswordFocused = IsChangePasswordEnabled;
             IsButtonSaveEnabled = false;
         }
 

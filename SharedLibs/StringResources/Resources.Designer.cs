@@ -2520,6 +2520,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to More.
+        /// </summary>
+        public static string SID_More {
+            get {
+                return ResourceManager.GetString("SID_More", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} graph events loaded successfully.
         /// </summary>
         public static string SID_N_graph_events_loaded_successfully {

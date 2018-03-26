@@ -203,6 +203,7 @@
     <Compile Include="Forms\BaseRefs\BaseRefLandmarksChecker.cs" />
     <Compile Include="Forms\EquipmentAddUpdate\EquipmentInfoModel.cs" />
     <Compile Include="Forms\EquipmentAddUpdate\ViewMode.cs" />
+    <Compile Include="Forms\WpfTricks\FocusExtension.cs" />
     <Compile Include="Forms\LoginServer\Server.cs" />
     <Compile Include="Forms\LoginServer\ServersConnectView.xaml.cs">
       <DependentUpon>ServersConnectView.xaml</DependentUpon>
@@ -379,14 +380,14 @@
     <Compile Include="EventSourcing\LocalDb\SQLiteProviderInvariantName.cs" />
     <Compile Include="Logic\ReflectogramManager.cs" />
     <Compile Include="Forms\TraceForms\TraceState\TraceStateViewsManager.cs" />
-    <Compile Include="Logic\WaitCursor.cs" />
+    <Compile Include="Forms\WpfTricks\WaitCursor.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\RtuLeaf\RtuLeafActions.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\RtuLeaf\RtuLeafActionsPermissions.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\RtuLeaf\RtuLeafContextMenuProvider.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\TraceLeaf\TraceLeafActions.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\TraceLeaf\TraceLeafActionsPermissions.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\TraceLeaf\TraceLeafContextMenuProvider.cs" />
-    <Compile Include="Logic\PasswordHelper.cs" />
+    <Compile Include="Forms\WpfTricks\PasswordHelper.cs" />
     <Compile Include="Forms\AdministrativeForms\Users\UserMappings.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\ChildrenImpresario.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\IPortOwner.cs" />

@@ -1593,7 +1593,7 @@ RTU is initializing right now!</value>
     <value>Change password</value>
   </data>
 	<data name="SID_Input_current_password" xml:space="preserve">
-    <value>Input current password</value>
+    <value>Input your current password</value>
   </data>
 	<data name="SID_New_password" xml:space="preserve">
     <value>New password</value>
@@ -1681,5 +1681,8 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID_Registered" xml:space="preserve">
     <value>Registered</value>
+  </data>
+	<data name="SID_More" xml:space="preserve">
+    <value>More</value>
   </data>
 </root>
