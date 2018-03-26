@@ -2817,6 +2817,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Not important.
+        /// </summary>
+        public static string SID_Not_important {
+            get {
+                return ResourceManager.GetString("SID_Not_important", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not in trace.
         /// </summary>
         public static string SID_Not_in_trace {

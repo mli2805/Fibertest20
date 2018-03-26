@@ -30,9 +30,19 @@ namespace Iit.Fibertest.Client
                     ? Brushes.Yellow
                     : TraceState.GetBrush(isForeground: true);
 
-        public string TraceStateOnScreen => BaseRefType == BaseRefType.Fast && TraceState != FiberState.Ok
-            ? FiberState.Suspicion.ToLocalizedString()
-            : TraceState.ToLocalizedString();
+        private string PrepareTraceStateOnScreen ()
+        {
+            if (TraceState == FiberState.Ok) return @"OK";
+            if (BaseRefType == BaseRefType.Fast)
+            {
+                return TraceState != FiberState.NoFiber
+                    ? FiberState.Suspicion.ToLocalizedString()
+                    : $@"{FiberState.Suspicion.ToLocalizedString()}  ({FiberState.NoFiber.ToLocalizedString()})";
+            }
+            return TraceState.ToLocalizedString();
+        }
+
+        public string TraceStateOnScreen => PrepareTraceStateOnScreen();
 
         public EventStatus EventStatus { get; set; } = EventStatus.EventButNotAnAccident;
         public string Comment { get; set; }

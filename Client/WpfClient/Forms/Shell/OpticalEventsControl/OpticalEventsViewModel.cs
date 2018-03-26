@@ -119,6 +119,7 @@ namespace Iit.Fibertest.Client
             EventStatusFilters.Add(new EventStatusFilter(EventStatus.NotConfirmed));
             EventStatusFilters.Add(new EventStatusFilter(EventStatus.Planned));
             EventStatusFilters.Add(new EventStatusFilter(EventStatus.Suspended));
+            EventStatusFilters.Add(new EventStatusFilter(EventStatus.NotImportant));
             EventStatusFilters.Add(new EventStatusFilter(EventStatus.Unprocessed));
 
             SelectedEventStatusFilter = EventStatusFilters.First();

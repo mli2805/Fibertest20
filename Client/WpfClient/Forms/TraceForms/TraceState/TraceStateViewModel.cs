@@ -78,7 +78,8 @@ namespace Iit.Fibertest.Client
                 new EventStatusComboItem() {EventStatus = EventStatus.NotConfirmed},
                 new EventStatusComboItem() {EventStatus = EventStatus.Planned},
                 new EventStatusComboItem() {EventStatus = EventStatus.Suspended},
-                new EventStatusComboItem() {EventStatus = EventStatus.Unprocessed}
+                new EventStatusComboItem() {EventStatus = EventStatus.NotImportant},
+                new EventStatusComboItem() {EventStatus = EventStatus.Unprocessed},
             };
 
             SelectedEventStatus = StatusRows.FirstOrDefault(r => r.EventStatus == Model.EventStatus);
