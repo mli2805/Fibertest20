@@ -30,7 +30,6 @@ namespace Iit.Fibertest.Client
                 ? 53            // RTU  
                 : 74;           // BOP
 
-//        public Visibility IconsVisibility => PortNumber > 0 ? Visibility.Visible : Visibility.Hidden;
         public Visibility IconsVisibility => Visibility.Visible;
 
         public override string Name

@@ -79,6 +79,10 @@ namespace Iit.Fibertest.Client
         }
 
      
+        /// <summary>
+        /// Command contains only CHANGES in responsibilities
+        /// </summary>
+        /// <returns></returns>
         private ChangeResponsibilities PrepareCommand()
         {
             var command = new ChangeResponsibilities(){ResponsibilitiesDictionary = new Dictionary<Guid, List<Guid>>()};

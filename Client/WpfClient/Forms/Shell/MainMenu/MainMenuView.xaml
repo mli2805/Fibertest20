@@ -14,6 +14,7 @@
                          cal:Message.Attach="LaunchResponsibilityZonesView" IsEnabled="{Binding IsZonesEnabled}"/>
                 <MenuItem Header="{x:Static stringResources:Resources.SID_Users}" cal:Message.Attach="LaunchUserListView()"/>
                 <MenuItem Header="{x:Static stringResources:Resources.SID_Responsibility_zones_settings}" cal:Message.Attach="LaunchObjectsToZonesView"/>
+                <MenuItem Header="RTU - Zones" cal:Message.Attach="LaunchRtuToZones"/>
                 <MenuItem Header="{x:Static stringResources:Resources.SID_Change_password}" cal:Message.Attach="LaunchChangePasswordView"/>
             </MenuItem>
         </Menu>

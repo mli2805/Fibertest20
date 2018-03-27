@@ -123,7 +123,7 @@ namespace Iit.Fibertest.Client
 
         public bool CanMeasurementClientAction(object param)
         {
-            if (_currentUser.Role >= Role.Operator)
+            if (_currentUser.Role > Role.Operator)
                 return false;
 
             var parent = GetParent(param);
@@ -136,7 +136,7 @@ namespace Iit.Fibertest.Client
 
         public bool CanMeasurementRftsReflectAction(object param)
         {
-            if (_currentUser.Role >= Role.Operator)
+            if (_currentUser.Role > Role.Operator)
                 return false;
 
             var parent = GetParent(param);

@@ -76,5 +76,12 @@ namespace Iit.Fibertest.Client
             vm.Initialize(user);
             _windowManager.ShowWindowWithAssignedOwner(vm);
         }
+
+        public void LaunchRtuToZones()
+        {
+//            var vm = _globalScope.Resolve<RtuToZonesViewModel>();
+            var vm = _globalScope.Resolve<IdealZonesViewModel>();
+            _windowManager.ShowDialogWithAssignedOwner(vm);
+        }
     }
 }

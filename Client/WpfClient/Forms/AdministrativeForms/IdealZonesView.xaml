@@ -1,0 +1,34 @@
+﻿<Window x:Class="Iit.Fibertest.Client.IdealZonesView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:client="clr-namespace:Iit.Fibertest.Client"
+        mc:Ignorable="d"
+        Title="IdealZonesView" Height="450" Width="800" d:DataContext="{d:DesignData IdealZonesViewModel}">
+    <DockPanel>
+        <DataGrid ItemsSource="{Binding Rows, Mode=TwoWay}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding ObjectTitle}" IsReadOnly="True"/>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="{x:Type client:ObjectToZonesModel}">
+                            <Border>
+                                <CheckBox IsChecked="{Binding IsRtu}" />
+                            </Border>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>  
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="{x:Type client:ObjectToZonesModel}">
+                            <Border>
+                                <CheckBox IsChecked="{Binding Zones[0]}" />
+                            </Border>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</Window>

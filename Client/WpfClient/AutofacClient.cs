@@ -52,6 +52,8 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<ZoneViewModel>();
             builder.RegisterType<ZonesViewModel>();
             builder.RegisterType<ObjectsToZonesViewModel>();
+            builder.RegisterType<RtuToZonesViewModel>();
+            builder.RegisterType<IdealZonesViewModel>();
             builder.RegisterType<ChangePasswordViewModel>();
             builder.RegisterType<ClientWcfService>().SingleInstance();
             builder.RegisterType<ClientWcfServiceHost>().As<IClientWcfServiceHost>().SingleInstance();
