@@ -7,9 +7,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_solution Items", "_solutio
 	ProjectSection(SolutionItems) = preProject
 		..\.gitattributes = ..\.gitattributes
 		..\.gitignore = ..\.gitignore
-		Graph - Map.txt = Graph - Map.txt
-		Links.txt = Links.txt
-		todo.txt = todo.txt
+		Auxiliary Files\Texts\Graph - Map.txt = Auxiliary Files\Texts\Graph - Map.txt
+		Auxiliary Files\Texts\How should it  be.txt = Auxiliary Files\Texts\How should it  be.txt
+		Auxiliary Files\Texts\Links.txt = Auxiliary Files\Texts\Links.txt
+		Auxiliary Files\Texts\todo.txt = Auxiliary Files\Texts\todo.txt
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GMap.NET.Core", "GMap.NET.Core\GMap.NET.Core.csproj", "{D0C39D9D-BED0-418B-9A5E-713176CAF40C}"
