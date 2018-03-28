@@ -12,7 +12,7 @@ namespace Iit.Fibertest.Client
             get => _isChecked;
             set
             {
-                if (value == _isChecked) return;
+//                if (value == _isChecked) return;
                 _isChecked = value;
                 NotifyOfPropertyChange();
             }

@@ -68,7 +68,8 @@ namespace Iit.Fibertest.Client
             var cellTempate = new DataTemplate {DataType = typeof(ObjectToZonesModel)};
             FrameworkElementFactory borderFactory = new FrameworkElementFactory(typeof(Border));
             FrameworkElementFactory isZoneIncluded = new FrameworkElementFactory(typeof(CheckBox));
-            isZoneIncluded.SetBinding(ToggleButton.IsCheckedProperty, new Binding($@"IsInZones[{index}].IsChecked"));
+            var binding = new Binding($@"IsInZones[{index}].IsChecked") {Mode = BindingMode.TwoWay};
+            isZoneIncluded.SetBinding(ToggleButton.IsCheckedProperty, binding);
             var margin = new Thickness(62, 0, 0, 0);
             isZoneIncluded.SetValue(MarginProperty, margin);
             isZoneIncluded.SetValue(TagProperty, index);
@@ -103,23 +104,23 @@ namespace Iit.Fibertest.Client
         {
             var checkBox = (CheckBox)sender;
             var column = (int)checkBox.Tag;
+
+            _vm.SelectedRow.IsInZones[column].IsChecked = checkBox.IsChecked == true; // can't make binding work that way
+
             if (_vm.SelectedRow.IsRtu)
             {
-                var rtu = _vm.ReadModel.Rtus.First(r => r.Id == _vm.SelectedRow.RtuId);
                 // change this zone for all rtu's traces
-                foreach (var lineModel in _vm.Rows.Where(l => !l.IsRtu && l.RtuId == rtu.Id))
+                foreach (var lineModel in _vm.Rows.Where(l => !l.IsRtu && l.RtuId == _vm.SelectedRow.RtuId))
                 {
                     lineModel.IsInZones[column].IsChecked = checkBox.IsChecked == true;
                 }
             }
             else
             {
-                var trace = _vm.ReadModel.Traces.First(t => t.Id == _vm.SelectedRow.TraceId);
                 // if Trace checked RTU should be checked too
                 if (checkBox.IsChecked == true)
                 {
-                    var rtu = _vm.ReadModel.Rtus.First(r => r.Id == trace.RtuId);
-                    var rtuLine = _vm.Rows.First(l => l.RtuId == rtu.Id);
+                    var rtuLine = _vm.Rows.First(l => l.IsRtu && l.RtuId == _vm.SelectedRow.RtuId);
                     rtuLine.IsInZones[column].IsChecked = true;
                 }
             }

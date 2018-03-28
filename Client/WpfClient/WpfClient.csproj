@@ -192,8 +192,8 @@
       <DependentUpon>ChangePasswordView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\AdministrativeForms\ChangePasswordViewModel.cs" />
-    <Compile Include="Forms\AdministrativeForms\ObjectsAsTreeToZonesViewModel.cs" />
-    <Compile Include="Forms\AdministrativeForms\ObjectToZonesModel.cs" />
+    <Compile Include="Forms\AdministrativeForms\ObjectsToZones\ObjectsAsTreeToZonesViewModel.cs" />
+    <Compile Include="Forms\AdministrativeForms\ObjectsToZones\ObjectToZonesModel.cs" />
     <Compile Include="Forms\AdministrativeForms\Zones\ZoneView.xaml.cs">
       <DependentUpon>ZoneView.xaml</DependentUpon>
     </Compile>
@@ -201,7 +201,7 @@
     <Compile Include="Forms\BaseRefs\BaseRefLandmarksChecker.cs" />
     <Compile Include="Forms\EquipmentAddUpdate\EquipmentInfoModel.cs" />
     <Compile Include="Forms\EquipmentAddUpdate\ViewMode.cs" />
-    <Compile Include="Forms\AdministrativeForms\ObjectsAsTreeToZonesView.xaml.cs">
+    <Compile Include="Forms\AdministrativeForms\ObjectsToZones\ObjectsAsTreeToZonesView.xaml.cs">
       <DependentUpon>ObjectsAsTreeToZonesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\WpfTricks\FocusExtension.cs" />
@@ -553,7 +553,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\AdministrativeForms\ObjectsAsTreeToZonesView.xaml">
+    <Page Include="Forms\AdministrativeForms\ObjectsToZones\ObjectsAsTreeToZonesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
