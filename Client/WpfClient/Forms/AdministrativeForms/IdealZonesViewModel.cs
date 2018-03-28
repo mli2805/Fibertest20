@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
@@ -9,24 +8,6 @@ using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
 {
-    public class ObjectToZonesModel
-    {
-        public string ObjectTitle { get; set; }
-        public Guid ObjectId { get; set; }
-        public bool IsRtu { get; set; }
-
-        public bool[] Zones { get; set; }
-
-
-        public ObjectToZonesModel(int maxZonesCount)
-        {
-            Zones = new bool[maxZonesCount];
-        }
-    }
-
-
-
-
     public class IdealZonesViewModel : Screen
     {
         private int MaxZoneCount = 12;

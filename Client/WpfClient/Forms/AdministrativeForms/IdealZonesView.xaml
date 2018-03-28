@@ -4,9 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
+        xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
         Title="IdealZonesView" Height="450" SizeToContent="Width" d:DataContext="{d:DesignData IdealZonesViewModel}">
+ 
     <DockPanel Margin="5">
+        <StackPanel DockPanel.Dock="Bottom" Margin="5" HorizontalAlignment="Center" Orientation="Horizontal">
+            <Button Content="{x:Static stringResources:Resources.SID_Save}" Name="Save" IsDefault="True" Width="100" Height="20" Margin="5" />
+            <Button Content="{x:Static stringResources:Resources.SID_Cancel}" Name="Cancel" IsCancel="True" Width="100" Height="20" Margin="5"/>
+        </StackPanel>
         <DataGrid ItemsSource="{Binding Rows, Mode=TwoWay}" SelectedItem="{Binding SelectedRow, Mode=TwoWay}"
                   AutoGenerateColumns="False" LoadingRow="DataGrid_LoadingRow" Margin="5"
                   SelectionMode="Single">

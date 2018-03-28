@@ -65,7 +65,8 @@ namespace Iit.Fibertest.Client
 
         public void LaunchObjectsToZonesView()
         {
-            var vm = _globalScope.Resolve<ObjectsToZonesViewModel>();
+//            var vm = _globalScope.Resolve<ObjectsToZonesViewModel>();
+            var vm = _globalScope.Resolve<ObjectsAsTreeToZonesViewModel>();
             _windowManager.ShowWindowWithAssignedOwner(vm);
         }
 

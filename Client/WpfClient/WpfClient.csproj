@@ -196,10 +196,12 @@
       <DependentUpon>IdealZonesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\AdministrativeForms\IdealZonesViewModel.cs" />
+    <Compile Include="Forms\AdministrativeForms\ObjectsAsTreeToZonesViewModel.cs" />
     <Compile Include="Forms\AdministrativeForms\ObjectsToZonesView.xaml.cs">
       <DependentUpon>ObjectsToZonesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\AdministrativeForms\ObjectsToZonesViewModel.cs" />
+    <Compile Include="Forms\AdministrativeForms\ObjectToZonesModel.cs" />
     <Compile Include="Forms\AdministrativeForms\RtuToZonesView.xaml.cs">
       <DependentUpon>RtuToZonesView.xaml</DependentUpon>
     </Compile>
@@ -211,6 +213,9 @@
     <Compile Include="Forms\BaseRefs\BaseRefLandmarksChecker.cs" />
     <Compile Include="Forms\EquipmentAddUpdate\EquipmentInfoModel.cs" />
     <Compile Include="Forms\EquipmentAddUpdate\ViewMode.cs" />
+    <Compile Include="Forms\AdministrativeForms\ObjectsAsTreeToZonesView.xaml.cs">
+      <DependentUpon>ObjectsAsTreeToZonesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Forms\WpfTricks\FocusExtension.cs" />
     <Compile Include="Forms\LoginServer\Server.cs" />
     <Compile Include="Forms\LoginServer\ServersConnectView.xaml.cs">
@@ -569,6 +574,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\LoginServer\ServersConnectView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\AdministrativeForms\ObjectsAsTreeToZonesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
