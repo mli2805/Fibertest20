@@ -5,25 +5,49 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         mc:Ignorable="d"
-        Title="IdealZonesView" Height="450" Width="800" d:DataContext="{d:DesignData IdealZonesViewModel}">
-    <DockPanel>
-        <DataGrid ItemsSource="{Binding Rows, Mode=TwoWay}" AutoGenerateColumns="False">
+        Title="IdealZonesView" Height="450" SizeToContent="Width" d:DataContext="{d:DesignData IdealZonesViewModel}">
+    <DockPanel Margin="5">
+        <DataGrid ItemsSource="{Binding Rows, Mode=TwoWay}" SelectedItem="{Binding SelectedRow, Mode=TwoWay}"
+                  AutoGenerateColumns="False" LoadingRow="DataGrid_LoadingRow" Margin="5"
+                  SelectionMode="Single">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding ObjectTitle}" IsReadOnly="True"/>
-                <DataGridTemplateColumn>
+                <DataGridTextColumn Header="Title" Width="200" Binding="{Binding ObjectTitle}" IsReadOnly="True"/>
+
+                <DataGridTemplateColumn Header="Default zone" Width="100" Visibility="{Binding ZonesVisibility[0]}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="{x:Type client:ObjectToZonesModel}">
                             <Border>
-                                <CheckBox IsChecked="{Binding IsRtu}" />
+                                <CheckBox IsChecked="{Binding Zones[0]}" Click="CheckBox_Click" Tag="0" />
                             </Border>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>  
-                <DataGridTemplateColumn>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Zone 1" Width="100" Visibility="{Binding ZonesVisibility[1]}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="{x:Type client:ObjectToZonesModel}">
                             <Border>
-                                <CheckBox IsChecked="{Binding Zones[0]}" />
+                                <CheckBox IsChecked="{Binding Zones[1]}" Click="CheckBox_Click" Tag="1" />
+                            </Border>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Zone 2" Width="100"  Visibility="{Binding ZonesVisibility[2]}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="{x:Type client:ObjectToZonesModel}">
+                            <Border>
+                                <CheckBox IsChecked="{Binding Zones[2]}" Click="CheckBox_Click" Tag="2" />
+                            </Border>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Zone 3" Width="100"  Visibility="Collapsed">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="{x:Type client:ObjectToZonesModel}">
+                            <Border>
+                                <CheckBox IsChecked="{Binding Zones[3]}" Click="CheckBox_Click" Tag="3" />
                             </Border>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
