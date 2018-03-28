@@ -3484,6 +3484,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Responsibility zones subjects.
+        /// </summary>
+        public static string SID_Responsibility_zones_subjects {
+            get {
+                return ResourceManager.GetString("SID_Responsibility_zones_subjects", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to RFTS Events.
         /// </summary>
         public static string SID_Rfts_Events {
@@ -4048,6 +4057,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Stop_command_is_sent {
             get {
                 return ResourceManager.GetString("SID_Stop_command_is_sent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subject.
+        /// </summary>
+        public static string SID_Subject {
+            get {
+                return ResourceManager.GetString("SID_Subject", resourceCulture);
             }
         }
         

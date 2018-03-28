@@ -23,6 +23,7 @@ namespace Iit.Fibertest.Graph
             Node node = new Node() { Id = e.NodeId, Position = new PointLatLng(e.Latitude, e.Longitude), TypeOfLastAddedEquipment = EquipmentType.Rtu, Title = e.Title };
             _model.Nodes.Add(node);
             Rtu rtu = _mapper.Map<Rtu>(e);
+            rtu.ZoneIds.Add(_model.Zones.First(z=>z.IsDefaultZone).ZoneId);
             _model.Rtus.Add(rtu);
             return null;
         }

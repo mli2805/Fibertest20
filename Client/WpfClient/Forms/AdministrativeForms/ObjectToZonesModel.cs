@@ -9,7 +9,7 @@ namespace Iit.Fibertest.Client
         private bool _isChecked;
         public bool IsChecked
         {
-            get { return _isChecked; }
+            get => _isChecked;
             set
             {
                 if (value == _isChecked) return;
@@ -20,14 +20,15 @@ namespace Iit.Fibertest.Client
     }
     public class ObjectToZonesModel : PropertyChangedBase
     {
-        public string ObjectTitle { get; set; }
-        public Guid ObjectId { get; set; }
+        public string SubjectTitle { get; set; }
+        public Guid RtuId { get; set; }
+        public Guid TraceId { get; set; }
 
         private bool _isRtu;
 
         public bool IsRtu
         {
-            get { return _isRtu; }
+            get => _isRtu;
             set
             {
                 if (value == _isRtu) return;
@@ -36,12 +37,10 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public bool[] Zones { get; set; }
-
         private List<BoolWithNotification> _isInZones = new List<BoolWithNotification>();
         public List<BoolWithNotification> IsInZones
         {
-            get { return _isInZones; }
+            get => _isInZones;
             set
             {
                 if (Equals(value, _isInZones)) return;
@@ -50,14 +49,5 @@ namespace Iit.Fibertest.Client
             }
         }
 
-
-        public ObjectToZonesModel()
-        {
-        }
-
-        public ObjectToZonesModel(int maxZonesCount)
-        {
-            Zones = new bool[maxZonesCount];
-        }
     }
 }

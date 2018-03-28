@@ -5,12 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
-        Title="ObjectsAsTreeToZonesView" Height="450" SizeToContent="Width" Activated="Window_Activated">
+        Top="400" Left="250" Height="450" SizeToContent="Width" Activated="Window_Activated">
     <DockPanel Margin="5">
         <StackPanel DockPanel.Dock="Bottom" Margin="5" HorizontalAlignment="Center" Orientation="Horizontal">
             <Button Content="{x:Static stringResources:Resources.SID_Save}" Name="Save" IsDefault="True" Width="100" Height="20" Margin="5" />
             <Button Content="{x:Static stringResources:Resources.SID_Cancel}" Name="Cancel" IsCancel="True" Width="100" Height="20" Margin="5"/>
         </StackPanel>
-        <DataGrid Name="MainDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" Margin="5" SelectionMode="Single" LoadingRow="MainDataGrid_LoadingRow"/>
+        <DataGrid Name="MainDataGrid" AutoGenerateColumns="False" Margin="5" 
+                  CanUserAddRows="False" CanUserSortColumns="False" CanUserReorderColumns="False"
+                  CanUserDeleteRows="False" CanUserResizeColumns="False"
+                  FrozenColumnCount="2" SelectionMode="Single" LoadingRow="MainDataGrid_LoadingRow"/>
     </DockPanel>
 </Window>

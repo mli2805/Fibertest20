@@ -27,6 +27,7 @@ namespace Iit.Fibertest.Graph
         public string AddTrace(TraceAdded e)
         {
             Trace trace = _mapper.Map<Trace>(e);
+            trace.ZoneIds.Add(_model.Zones.First(z=>z.IsDefaultZone).ZoneId);
             _model.Traces.Add(trace);
             for (int i = 1; i < trace.Nodes.Count; i++)
                 GetFiberBetweenNodes(trace.Nodes[i - 1], trace.Nodes[i]).SetState(trace.Id, FiberState.NotJoined);
