@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -38,14 +36,6 @@ namespace Iit.Fibertest.Client
             };
             mainDataGrid.Columns.Add(columntTitle);
 
-            var columnFigna = new DataGridTextColumn()
-            {
-                Header = "Figna",
-                Width = 100,
-                Binding = new Binding("IsRtu")
-            };
-            mainDataGrid.Columns.Add(columnFigna);
-
             var index = 0;
 
             foreach (var zone in ReadModel.Zones)
@@ -55,10 +45,10 @@ namespace Iit.Fibertest.Client
                 FrameworkElementFactory borderFactory = new FrameworkElementFactory(typeof(Border));
 
                 FrameworkElementFactory isZoneIncluded = new FrameworkElementFactory(typeof(CheckBox));
-                isZoneIncluded.SetBinding(System.Windows.Controls.Primitives.ToggleButton.IsCheckedProperty, new Binding($@"IsInZones[{index}].IsChecked"));
+                isZoneIncluded.SetBinding(ToggleButton.IsCheckedProperty, new Binding($@"IsInZones[{index}].IsChecked"));
                 isZoneIncluded.SetValue(FrameworkElement.TagProperty, index);
 
-                isZoneIncluded.AddHandler(CheckBox.ClickEvent, (RoutedEventHandler) CheckBoxClicked);
+                isZoneIncluded.AddHandler(ButtonBase.ClickEvent, (RoutedEventHandler) CheckBoxClicked);
 
                 borderFactory.AppendChild(isZoneIncluded);
                 cellTempate.VisualTree = borderFactory;

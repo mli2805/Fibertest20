@@ -1,5 +1,6 @@
-﻿using System.Windows.Controls;
-using System.Windows.Data;
+﻿using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Iit.Fibertest.Client
 {
@@ -18,8 +19,23 @@ namespace Iit.Fibertest.Client
         {
             // Yes, DataContext is set now!
             if (DataContext == null) return;
-            var vm = (ObjectsAsTreeToZonesViewModel) DataContext;
+            var vm = (ObjectsAsTreeToZonesViewModel)DataContext;
             vm.ConstructDataGrid(MainDataGrid);
         }
+
+        private void MainDataGrid_LoadingRow(object sender, DataGridRowEventArgs e)
+        {
+            DataGridRow row = e.Row;
+            if (!(row.Item is ObjectToZonesModel lineModel))
+                return;
+
+            if (!lineModel.ObjectTitle.StartsWith(@"  "))
+            {
+                row.FontWeight = FontWeights.Bold;
+                row.Background = Brushes.LightCyan;
+            }
+        }
+
+       
     }
 }

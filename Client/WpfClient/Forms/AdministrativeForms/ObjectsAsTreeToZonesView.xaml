@@ -11,6 +11,6 @@
             <Button Content="{x:Static stringResources:Resources.SID_Save}" Name="Save" IsDefault="True" Width="100" Height="20" Margin="5" />
             <Button Content="{x:Static stringResources:Resources.SID_Cancel}" Name="Cancel" IsCancel="True" Width="100" Height="20" Margin="5"/>
         </StackPanel>
-        <DataGrid Name="MainDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" Margin="5" SelectionMode="Single"/>
+        <DataGrid Name="MainDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" Margin="5" SelectionMode="Single" LoadingRow="MainDataGrid_LoadingRow"/>
     </DockPanel>
 </Window>

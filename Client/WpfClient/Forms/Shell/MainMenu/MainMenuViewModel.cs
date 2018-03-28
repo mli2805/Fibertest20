@@ -65,7 +65,6 @@ namespace Iit.Fibertest.Client
 
         public void LaunchObjectsToZonesView()
         {
-//            var vm = _globalScope.Resolve<ObjectsToZonesViewModel>();
             var vm = _globalScope.Resolve<ObjectsAsTreeToZonesViewModel>();
             _windowManager.ShowWindowWithAssignedOwner(vm);
         }
@@ -78,11 +77,5 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowWindowWithAssignedOwner(vm);
         }
 
-        public void LaunchRtuToZones()
-        {
-//            var vm = _globalScope.Resolve<RtuToZonesViewModel>();
-            var vm = _globalScope.Resolve<IdealZonesViewModel>();
-            _windowManager.ShowDialogWithAssignedOwner(vm);
-        }
     }
 }
